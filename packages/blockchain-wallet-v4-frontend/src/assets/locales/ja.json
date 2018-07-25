@@ -285,7 +285,6 @@
   "components.alerts.pbkdf2_update_success":
     "PBKDF2インテレーションが正常に変更されました。",
   "components.alerts.private_key_incorrect": "無効な秘密鍵",
-  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success":
     "ビットコインキャッシュの支払いを受信しました。",
   "components.alerts.receive_btc_success":
@@ -445,14 +444,59 @@
   "formhelper.requiredssn": "有効なSSNを入力してください",
   "formhelper.requireduszipcode": "有効な郵便番号を入力してください",
   "formhelper.samepasswordascurrent": "現在のパスワードと同一です",
+  "identityverification.personal.continue": null,
+  "identityverification.personal.dateofbirth": null,
+  "identityverification.personal.edit": null,
+  "identityverification.personal.editemail": null,
+  "identityverification.personal.editmobile": null,
+  "identityverification.personal.email.code": null,
+  "identityverification.personal.email.confirm": null,
+  "identityverification.personal.email.didntreceive": null,
+  "identityverification.personal.email.error": null,
+  "identityverification.personal.email.header": null,
+  "identityverification.personal.email.number": null,
+  "identityverification.personal.email.subheader": null,
+  "identityverification.personal.faq.whycollect.answer": null,
+  "identityverification.personal.faq.whycollect.question": null,
+  "identityverification.personal.firstname": null,
+  "identityverification.personal.header": null,
+  "identityverification.personal.lastname": null,
+  "identityverification.personal.mobile.entercode": null,
+  "identityverification.personal.mobile.entermobilenumber": null,
+  "identityverification.personal.mobile.header": null,
+  "identityverification.personal.mobile.sendmycode": null,
+  "identityverification.personal.mobile.subheader": null,
+  "identityverification.personal.sms.didntreceive": null,
+  "identityverification.personal.sms.error": null,
+  "identityverification.personal.subheader": null,
+  "identityverification.personal.verifiedemail": null,
+  "identityverification.personal.verifiedmobile": null,
   "layouts.public.footer.about": "詳細",
   "layouts.public.footer.blog": "ブログ",
   "layouts.public.footer.explorer": "データ",
   "layouts.public.footer.support": "サポート",
   "layouts.wallet.header.logout.signout": "サインアウト",
+  "layouts.wallet.header.whatsnew.whatsnew.desc10":
+    "2017年8月1日以前にウォレットにビットコイン保有されていた方は、ブロックチェーンウォレットのビットコインキャッシュにアクセス可能になりました。",
+  "layouts.wallet.header.whatsnew.whatsnew.desc11":
+    "ビットコインキャッシュのアドレスがCashAddrのフォーマットに対応するようになりました",
+  "layouts.wallet.header.whatsnew.whatsnew.desc7":
+    "ビットコインをブロックチェーンウォレットから直接販売可能になりました！",
+  "layouts.wallet.header.whatsnew.whatsnew.desc8":
+    "ブロックチェーンウォレットからイーサを送受信できるようになりました。",
+  "layouts.wallet.header.whatsnew.whatsnew.desc9":
+    "ビットコインウォレットからビットコイン、イーサ、ビットコインキャッシュを直接交換することができます",
   "layouts.wallet.header.whatsnew.whatsnew.empty": "?? すべて完了しています！",
+  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore": "さらに詳しく",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "当社のチームは常に新しい機能に取り組んでいますが、改善点がございましたら、<a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>こちら<a/>からお知らせください。",
+  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "さらに詳しく",
+  "layouts.wallet.header.whatsnew.whatsnew.title10": "ビットコインキャッシュ",
+  "layouts.wallet.header.whatsnew.whatsnew.title11":
+    "新しいビットコインキャッシュアドレスのフォーマット",
+  "layouts.wallet.header.whatsnew.whatsnew.title7": "ビットコインを売る",
+  "layouts.wallet.header.whatsnew.whatsnew.title8": "イーサの送受信",
+  "layouts.wallet.header.whatsnew.whatsnew.title9": "交換資産",
   "layouts.wallet.menuleft.footer.about": "詳細",
   "layouts.wallet.menuleft.footer.privacypolicy": "プライバシーポリシー",
   "layouts.wallet.menuleft.footer.termsofservice": "ToS",
@@ -469,6 +513,7 @@
     "ビットコインキャッシュ",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "ビットコイン",
   "layouts.wallet.menuleft.navigation.transactions.ether": "イーサ",
+  "layouts.wallet.menutop.bank": "Be your own bank.",
   "layouts.wallet.menutop.request": "リクエスト",
   "layouts.wallet.menutop.send": "送信",
   "layouts.wallet.trayright.faq": "よくある質問",
@@ -502,6 +547,8 @@
   "modals.coinifytradedetails.kyc.identityverification.header":
     "ビットコインの購入・販売",
   "modals.coinifytradedetails.trade.close": "閉じる",
+  "modals.confirm.button": null,
+  "modals.confirm.button.cancel": null,
   "modals.deleteaddresslabel.cancel": "キャンセル",
   "modals.disable2fa.disable": "無効にする",
   "modals.disable2fa.sure": "...を無効にしてよろしいですか？",
@@ -555,6 +602,9 @@
   "modals.exchangedetails.title.inprogress": "交換が進行中です",
   "modals.exchangedetails.title.refunded": "取引が返金されました",
   "modals.exchangedetails.title.success": "交換が完了しました",
+  "modals.identityverification.steps.address": null,
+  "modals.identityverification.steps.personal": null,
+  "modals.identityverification.steps.verify": null,
   "modals.importbtcaddress.button": "インポート",
   "modals.importbtcaddress.generated_in_wallet":
     "<span>このウォレット</span>で生成された既存のアドレス",
@@ -571,6 +621,10 @@
     "このウォレットで生成されたアドレスは、インポートしないでください。",
   "modals.importbtcaddress.importtype": "インポートの対象を指定してください。",
   "modals.importbtcaddress.title": "既存のビットコインアドレスをインポート",
+  "modals.jumioprompt.body1": null,
+  "modals.jumioprompt.close": null,
+  "modals.jumioprompt.dothat": null,
+  "modals.jumioprompt.header": null,
   "modals.mobilelogin.cancel": "キャンセル",
   "modals.mobilelogin.explain":
     "これらのステップに従い、デバイスでウェブウォレットにログインしてください",
@@ -886,6 +940,7 @@
   "orderdetails.date": "日付が初期化されました",
   "orderdetails.footnote":
     "*ご注意: ご利用されている銀行の送金ポリシーによっては、送金後、口座に資金が反映されるまで１～２日かかります。 ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "注文詳細",
   "orderdetails.payoutdetails": "支払金詳細",
   "orderdetails.recurring.amount": "金額:",
@@ -997,6 +1052,13 @@
     "申し訳ございません。取引で何らかの問題が発生しました:",
   "scenes.buysell.sfox.orderreview.checkboxtext":
     "SFOX社に末尾が{account}の接続銀行口座からの引き落としとSFOX {ToS}の順守を許可します。",
+  "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.pending": null,
   "scenes.buysell.sfoxcheckout.cyo.helper1.answer":
     "SFOXによる売買の取引の実行には、取引料金がかかります。特に売り取引では、SFOXに販売する金額を送信するために、ネットワークのマイナーに支払う追加取引手数料がかかります。",
   "scenes.buysell.sfoxcheckout.cyo.helper1.question": "手数料とは？",
@@ -2146,6 +2208,8 @@
     "当社はビットコインリンク管理が有効になっているか検出できません。",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "すでに有効になっている場合、変化はありません。",
+  "scenes.settings.preferences.explain":
+    "ウォレットのエクスペリエンスをカスタマイズ。",
   "scenes.settings.preferences.localcurrency.error.description":
     "地域通貨を選択してください。",
   "scenes.settings.preferences.localcurrency.error.title": "地域通貨",
@@ -2464,6 +2528,7 @@
   "sfoxexchangedata.verify.hidessn": "SSNを非表示にする",
   "sfoxexchangedata.verify.identity.error":
     "残念ながら、本人確認で問題が発生しました。 {clickHere}して、最初からやり直してください。",
+  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "姓",
   "sfoxexchangedata.verify.partner.header": "非表示の詳細",
   "sfoxexchangedata.verify.partner.header1": "お客様について把握させてください",

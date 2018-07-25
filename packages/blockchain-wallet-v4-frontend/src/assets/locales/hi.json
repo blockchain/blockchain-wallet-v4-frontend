@@ -281,7 +281,6 @@
   "components.alerts.pbkdf2_update_success":
     "PBKDF2 पुनरावृत्तियों को सफलतापूर्वक बदला गया",
   "components.alerts.private_key_incorrect": "अमान्य निजी कुंजी।",
-  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success":
     "आपको एक बिटकॉइन नकद भुगतान प्राप्त हुआ है।",
   "components.alerts.receive_btc_success":
@@ -442,15 +441,60 @@
   "formhelper.requiredssn": "वैध SSN होना चाहिए",
   "formhelper.requireduszipcode": "वैध अमरीकी ज़िपकोड होना चाहिए",
   "formhelper.samepasswordascurrent": "पासवर्ड वर्तमान पासवर्ड जैसा ही है",
+  "identityverification.personal.continue": null,
+  "identityverification.personal.dateofbirth": null,
+  "identityverification.personal.edit": null,
+  "identityverification.personal.editemail": null,
+  "identityverification.personal.editmobile": null,
+  "identityverification.personal.email.code": null,
+  "identityverification.personal.email.confirm": null,
+  "identityverification.personal.email.didntreceive": null,
+  "identityverification.personal.email.error": null,
+  "identityverification.personal.email.header": null,
+  "identityverification.personal.email.number": null,
+  "identityverification.personal.email.subheader": null,
+  "identityverification.personal.faq.whycollect.answer": null,
+  "identityverification.personal.faq.whycollect.question": null,
+  "identityverification.personal.firstname": null,
+  "identityverification.personal.header": null,
+  "identityverification.personal.lastname": null,
+  "identityverification.personal.mobile.entercode": null,
+  "identityverification.personal.mobile.entermobilenumber": null,
+  "identityverification.personal.mobile.header": null,
+  "identityverification.personal.mobile.sendmycode": null,
+  "identityverification.personal.mobile.subheader": null,
+  "identityverification.personal.sms.didntreceive": null,
+  "identityverification.personal.sms.error": null,
+  "identityverification.personal.subheader": null,
+  "identityverification.personal.verifiedemail": null,
+  "identityverification.personal.verifiedmobile": null,
   "layouts.public.footer.about": "परिचय",
   "layouts.public.footer.blog": "ब्लॉग",
   "layouts.public.footer.explorer": "डेटा",
   "layouts.public.footer.support": "समर्थन",
   "layouts.wallet.header.logout.signout": "साइन आउट",
+  "layouts.wallet.header.whatsnew.whatsnew.desc10":
+    "यदि 1 अगस्त 2017 से पहले आपके वॉलेट में बिटकॉइन थे, तो अब आप अपने ब्लॉकचेन वॉलेट में बिटकॉइन कैश को एक्सेस कर सकते हैं।",
+  "layouts.wallet.header.whatsnew.whatsnew.desc11":
+    "बिटकॉइन कैश पते अब CashAddr प्रारूप का अनुपालन करते हैं।",
+  "layouts.wallet.header.whatsnew.whatsnew.desc7":
+    "अब आप बिटकॉइन को सीधे अपने ब्लॉकचेन वॉलेट से बेच सकते हैं!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc8":
+    "अब आप अपने ब्लॉकचेन वॉलेट से ईथर भेज और प्राप्त कर सकते हैं!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc9":
+    "आप अपने ब्लॉकचेन वॉलेट से बिटकॉइन, ईथर, और बिटकॉइन कैश सीधे एक्सचेंज कर सकते हैं",
   "layouts.wallet.header.whatsnew.whatsnew.empty":
     "?? आप पूरी तरह से कब्जे में हैं!",
+  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore": "अधिक जानें",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "हमारी टीम सदैव नई सुविधाओं पर काम करती रहती है, लेकिन यदि हम किसी चीज में सुधार कर सकते हैं तो कृपया हमें उसके बारे में <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>यहाँ<a/> बताएं।",
+  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "अधिक जानें",
+  "layouts.wallet.header.whatsnew.whatsnew.title10": "बिटकॉइन कैश",
+  "layouts.wallet.header.whatsnew.whatsnew.title11":
+    "नया बिटकॉइन कैश पता प्रारूप",
+  "layouts.wallet.header.whatsnew.whatsnew.title7": "बिटकॉइन बेचें",
+  "layouts.wallet.header.whatsnew.whatsnew.title8": "ईथर भेजें और प्राप्त करें",
+  "layouts.wallet.header.whatsnew.whatsnew.title9": "आस्तियों को एक्सचेंज करें",
   "layouts.wallet.menuleft.footer.about": "परिचय",
   "layouts.wallet.menuleft.footer.privacypolicy": "गोपनीयता नीति",
   "layouts.wallet.menuleft.footer.termsofservice": "ToS",
@@ -466,6 +510,7 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "बिटकॉइन कैश",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "बिटकॉइन",
   "layouts.wallet.menuleft.navigation.transactions.ether": "ईथर",
+  "layouts.wallet.menutop.bank": "खुद अपना बैंक बनें।",
   "layouts.wallet.menutop.request": "अनुरोध करें",
   "layouts.wallet.menutop.send": "भेजें",
   "layouts.wallet.trayright.faq": "अक्सर पूछे जाने वाले प्रश्न",
@@ -500,6 +545,8 @@
   "modals.coinifytradedetails.kyc.identityverification.header":
     "बिटकॉइन खरादें और बेचें",
   "modals.coinifytradedetails.trade.close": "बंद करें",
+  "modals.confirm.button": null,
+  "modals.confirm.button.cancel": null,
   "modals.deleteaddresslabel.cancel": "रद्द करें",
   "modals.disable2fa.disable": "अक्षम करें",
   "modals.disable2fa.sure": "क्या आप वाकई इसे अक्षम करना चाहते हैं",
@@ -554,6 +601,9 @@
   "modals.exchangedetails.title.inprogress": "एक्सचेंज प्रगति में है",
   "modals.exchangedetails.title.refunded": "व्यापार को रीफंड किया गया",
   "modals.exchangedetails.title.success": "एक्सचेंज पूरा हो गया",
+  "modals.identityverification.steps.address": null,
+  "modals.identityverification.steps.personal": null,
+  "modals.identityverification.steps.verify": null,
   "modals.importbtcaddress.button": "आयात करें",
   "modals.importbtcaddress.generated_in_wallet":
     "<span>इस वॉलेट</span> में उत्पन्न मौजूदा पता।",
@@ -571,6 +621,10 @@
     "इस वॉलेट द्वारा उत्पन्न पते इंपोर्ट नहीं किए जा सकते।",
   "modals.importbtcaddress.importtype": "आप क्या इंपोर्ट करना चाहते हैं?",
   "modals.importbtcaddress.title": "मौजूदा बिटकॉइन पता इंपोर्ट करें",
+  "modals.jumioprompt.body1": null,
+  "modals.jumioprompt.close": null,
+  "modals.jumioprompt.dothat": null,
+  "modals.jumioprompt.header": null,
   "modals.mobilelogin.cancel": "रद्द करें",
   "modals.mobilelogin.explain":
     "अपनी मोबाइल डिवाइस का उपयोग करके अपने वेब वॉलेट में लॉगिन करने के लिए इन चरणों का अनुसरण करें",
@@ -888,6 +942,7 @@
   "orderdetails.date": "आरंभ करने की तारीख",
   "orderdetails.footnote":
     "*कृपया ध्यान दें: आपके बैंक की अंतरण नीतियों के आधार पर, आपको अंतरण से 1-2 दिनों के भीतर आपके खाते में धनराशि दिखाई देगी। ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "ऑर्डर का विवरण",
   "orderdetails.payoutdetails": "भुगतान का विवरण",
   "orderdetails.recurring.amount": "राशि:",
@@ -1002,6 +1057,13 @@
     "क्षमा करें, आपके व्यापार के साथ कुछ गलत हो गया:",
   "scenes.buysell.sfox.orderreview.checkboxtext":
     "मैं SFOX, Inc. को {account} में समाप्त होने वाले मेरे लिंक किए गए बैंक खाते को डेबिट करने के लिए प्राधिकृत करता हूँ और SFOX [ToS] का अनुपालन करता हूँ।",
+  "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.pending": null,
   "scenes.buysell.sfoxcheckout.cyo.helper1.answer":
     "SFOX द्वारा किसी खरीद या बिक्री का व्यापार निष्पादित करने के लिए उसे व्यापार करने का शुल्क अदा करना आवश्यक है। बिक्री के व्यापारों के लिए विशिष्ट तौर पर, एक अतिरिक्त लेनदेन शुल्क है जो नेटवर्क माइनरों को जाता है ताकि वे आपके द्वारा बेची जा रही राशि को SFOX को भेज सकें।",
   "scenes.buysell.sfoxcheckout.cyo.helper1.question": "शुल्क कितना है?",
@@ -2171,6 +2233,7 @@
     "हम पता नहीं लगा सकते कि बिटकॉइन की हैंडलिंग लिंक सक्षम किए गए हैं या नहीं।",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "यदि वे पहले से ही सक्षम हैं, तो कुछ नहीं होगा।",
+  "scenes.settings.preferences.explain": "अपने वॉलेट अनुभव को अनुकूलित करें।",
   "scenes.settings.preferences.localcurrency.error.description":
     "अपनी स्थानीय करेंसी चुनें।",
   "scenes.settings.preferences.localcurrency.error.title": "स्थानीय करेंसी",
@@ -2487,6 +2550,7 @@
   "sfoxexchangedata.verify.hidessn": "SSN छिपाएं",
   "sfoxexchangedata.verify.identity.error":
     "दुर्भाग्य से आपकी पहचान का सत्यापन करने में एक समस्या हुई। फिर से शुरू करने के लिए {clickHere}।",
+  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "अंतिम नाम",
   "sfoxexchangedata.verify.partner.header": "छिपे हुए विवरण",
   "sfoxexchangedata.verify.partner.header1": "हमें आपके बारे में बताएं",

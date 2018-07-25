@@ -279,7 +279,6 @@
   "components.alerts.pbkdf2_update_success":
     "เปลี่ยนการวนซ้ำ PBKDF2 เรียบร้อยแล้ว",
   "components.alerts.private_key_incorrect": "คีย์ส่วนตัวไม่ถูกต้อง",
-  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success": "คุณได้รับการชำระเงิน bitcoin cash",
   "components.alerts.receive_btc_success": "คุณได้รับการชำระเงิน bitcoin",
   "components.alerts.receive_eth_success": "คุณได้รับการชำระเงิน ether",
@@ -432,14 +431,60 @@
   "formhelper.requiredssn": "ต้องเป็น SSN ที่ถูกต้อง",
   "formhelper.requireduszipcode": "ต้องเป็นรหัสไปรษณีย์สหรัฐฯ ที่ถูกต้อง",
   "formhelper.samepasswordascurrent": "รหัสผ่านเหมือนกับปัจจุบัน",
+  "identityverification.personal.continue": null,
+  "identityverification.personal.dateofbirth": null,
+  "identityverification.personal.edit": null,
+  "identityverification.personal.editemail": null,
+  "identityverification.personal.editmobile": null,
+  "identityverification.personal.email.code": null,
+  "identityverification.personal.email.confirm": null,
+  "identityverification.personal.email.didntreceive": null,
+  "identityverification.personal.email.error": null,
+  "identityverification.personal.email.header": null,
+  "identityverification.personal.email.number": null,
+  "identityverification.personal.email.subheader": null,
+  "identityverification.personal.faq.whycollect.answer": null,
+  "identityverification.personal.faq.whycollect.question": null,
+  "identityverification.personal.firstname": null,
+  "identityverification.personal.header": null,
+  "identityverification.personal.lastname": null,
+  "identityverification.personal.mobile.entercode": null,
+  "identityverification.personal.mobile.entermobilenumber": null,
+  "identityverification.personal.mobile.header": null,
+  "identityverification.personal.mobile.sendmycode": null,
+  "identityverification.personal.mobile.subheader": null,
+  "identityverification.personal.sms.didntreceive": null,
+  "identityverification.personal.sms.error": null,
+  "identityverification.personal.subheader": null,
+  "identityverification.personal.verifiedemail": null,
+  "identityverification.personal.verifiedmobile": null,
   "layouts.public.footer.about": "เกี่ยวกับ",
   "layouts.public.footer.blog": "บล็อก",
   "layouts.public.footer.explorer": "ข้อมูล",
   "layouts.public.footer.support": "สนับสนุน",
   "layouts.wallet.header.logout.signout": "ออกจากระบบ",
+  "layouts.wallet.header.whatsnew.whatsnew.desc10":
+    "หากคุณมี bitcoin ในกระเป๋าเงินของคุณก่อน 1 สิงหาคม 2017 ในตอนนี้ คุณสามารถเข้าถึง Bitcoin Cash ในกระเป๋าเงิน Blockchain ของคุณได้",
+  "layouts.wallet.header.whatsnew.whatsnew.desc11":
+    "ในตอนนี้ที่อยู่ Bitcoin Cash จะอยู่ในรูปแบบ CashAddr",
+  "layouts.wallet.header.whatsnew.whatsnew.desc7":
+    "ในตอนนี้ คุณสามารถขาย bitcoin ได้โดยตรงจากกระเป๋าเงิน Blockchain ของคุณ!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc8":
+    "ในตอนนี้ คุณสามารถส่งและรับ ether ได้จากกระเป๋าเงิน Blockchain ของคุณ!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc9":
+    "คุณสามารถแลกเปลี่ยนระหว่าง bitcoin, ether และ bitcoin cash ได้โดยตรงจากกระเป๋าเงิน Blockchain ของคุณ",
   "layouts.wallet.header.whatsnew.whatsnew.empty": "?? เรียบร้อยหมดแล้ว!",
+  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore":
+    "เรียนรู้เพิ่มเติม",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "ทีมงานของเราทำงานกับฟีเจอร์ใหม่เสมอ แต่หากมีสิ่งใดที่เราสามารถปรับปรุง โปรดบอกให้เรารู้ได้<a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>ที่นี่<a/>",
+  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "เรียนรู้เพิ่มเติม",
+  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
+  "layouts.wallet.header.whatsnew.whatsnew.title11":
+    "รูปแบบที่อยู่ Bitcoin Cash ใหม่",
+  "layouts.wallet.header.whatsnew.whatsnew.title7": "ขาย Bitcoin",
+  "layouts.wallet.header.whatsnew.whatsnew.title8": "ส่ง & รับ Ether",
+  "layouts.wallet.header.whatsnew.whatsnew.title9": "แลกเปลี่ยนสินทรัพย์",
   "layouts.wallet.menuleft.footer.about": "เกี่ยวกับ",
   "layouts.wallet.menuleft.footer.privacypolicy": "นโยบายความเป็นส่วนตัว",
   "layouts.wallet.menuleft.footer.termsofservice": "ToS",
@@ -455,6 +500,7 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
+  "layouts.wallet.menutop.bank": "เป็นธนาคารของตัวคุณเอง",
   "layouts.wallet.menutop.request": "ร้องขอ",
   "layouts.wallet.menutop.send": "ส่ง",
   "layouts.wallet.trayright.faq": "คำถามที่พบบ่อย",
@@ -490,6 +536,8 @@
   "modals.coinifytradedetails.kyc.identityverification.header":
     "ซื้อ & ขาย Bitcoin",
   "modals.coinifytradedetails.trade.close": "ปิด",
+  "modals.confirm.button": null,
+  "modals.confirm.button.cancel": null,
   "modals.deleteaddresslabel.cancel": "ยกเลิก",
   "modals.disable2fa.disable": "ปิดใช้งาน",
   "modals.disable2fa.sure": "คุณแน่ใจหรือไม่ว่าคุณต้องการปิดใช้งาน",
@@ -543,6 +591,9 @@
   "modals.exchangedetails.title.inprogress": "กำลังดำเนินการการแลกเปลี่ยน",
   "modals.exchangedetails.title.refunded": "คืนเงินการเทรดแล้ว",
   "modals.exchangedetails.title.success": "การแลกเปลี่ยนเสร็จสิ้นแล้ว",
+  "modals.identityverification.steps.address": null,
+  "modals.identityverification.steps.personal": null,
+  "modals.identityverification.steps.verify": null,
   "modals.importbtcaddress.button": "นำเข้า",
   "modals.importbtcaddress.generated_in_wallet":
     "มีการสร้างที่อยู่ที่มีอยู่แล้วใน<span>กระเป๋าเงินนี้</span>",
@@ -560,6 +611,10 @@
     "ไม่ควรนำเข้าที่อยู่ที่สร้างโดยกระเป๋าเงินนี้",
   "modals.importbtcaddress.importtype": "คุณต้องการนำเข้าอะไร?",
   "modals.importbtcaddress.title": "นำเข้าที่อยู่ Bitcoin ที่มีอยู่เดิม",
+  "modals.jumioprompt.body1": null,
+  "modals.jumioprompt.close": null,
+  "modals.jumioprompt.dothat": null,
+  "modals.jumioprompt.header": null,
   "modals.mobilelogin.cancel": "ยกเลิก",
   "modals.mobilelogin.explain":
     "ทำตามขั้นตอนต่อไปนี้เพื่อเข้าสู่ระบบกระเป๋าเงินของคุณด้วยอุปกรณ์มือถือของคุณ",
@@ -876,6 +931,7 @@
   "orderdetails.date": "วันที่เริ่มต้น",
   "orderdetails.footnote":
     "*โปรดทราบ: คุณจะเห็นเงินในบัญชีของคุณภายใน 1-2 วันนับจากวันที่โอน ทั้งนี้ขึ้นอยู่กับนโยบายการโอนเงินของธนาคารของคุณ ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "รายละเอียดคำสั่ง",
   "orderdetails.payoutdetails": "รายละเอียดการจ่าย",
   "orderdetails.recurring.amount": "จำนวน:",
@@ -989,6 +1045,13 @@
     "ขออภัย มีบางอย่างผิดพลาดในการเทรดของคุณ:",
   "scenes.buysell.sfox.orderreview.checkboxtext":
     "ข้าพเจ้าอนุญาตให้ SFOX, Inc. หักเงินจากบัญชีธนาคารที่ฉันเชื่อมโยงซึ่งลงท้ายด้วย {account} และปฏิบัติตาม {ToS} ของ SFOX",
+  "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.pending": null,
   "scenes.buysell.sfoxcheckout.cyo.helper1.answer":
     "มีค่าธรรมเนียมการเทรดที่ต้องจ่ายให้กับ SFOX เพื่อทำการเทรดเพื่อซื้อหรือขาย โดยเฉพาะอย่างยิ่งสำหรับการเทรดเพื่อขาย จะมีค่าธรรมเนียมธุรกรรมเพิ่มเติมที่จ่ายให้กับผู้ทำเหมืองในเครือข่ายเพื่อส่งจำนวนเงินที่คุณกำลังขายไปให้กับ SFOX",
   "scenes.buysell.sfoxcheckout.cyo.helper1.question": "ค่าธรรมเนียมคืออะไร?",
@@ -2151,6 +2214,8 @@
     "เราไม่สามารถตรวจพบได้ว่าลิงก์ bitcoin ได้รับการเปิดใช้งานหรือไม่",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "หากมันได้รับการเปิดใช้งานแล้ว จะไม่มีอะไรเกิดขึ้น",
+  "scenes.settings.preferences.explain":
+    "ปรับแต่งประสบการณ์การใช้งานกระเป๋าเงินของคุณ",
   "scenes.settings.preferences.localcurrency.error.description":
     "เลือกสกุลเงินในประเทศของคุณ",
   "scenes.settings.preferences.localcurrency.error.title": "สกุลเงินในประเทศ",
@@ -2467,6 +2532,7 @@
   "sfoxexchangedata.verify.hidessn": "ซ่อน SSN",
   "sfoxexchangedata.verify.identity.error":
     "โชคไม่ดีที่มีปัญหาในการยืนยันตัวตนของคุณ {clickHere} เพื่อเริ่มใหม่",
+  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "นามสกุล",
   "sfoxexchangedata.verify.partner.header": "รายละเอียดที่ซ่อนไว้",
   "sfoxexchangedata.verify.partner.header1": "มารู้จักคุณกันหน่อย",

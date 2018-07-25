@@ -300,7 +300,6 @@
   "components.alerts.pbkdf2_update_success":
     "Επιτυχής μεταβολή επαναλήψεων PBKDF2",
   "components.alerts.private_key_incorrect": "Μη Έγκυρο Ιδιωτικό Κλειδί.",
-  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success": "Λάβατε μια πληρωμή bitcoin cash.",
   "components.alerts.receive_btc_success": "Λάβατε μια πληρωμή bitcoin.",
   "components.alerts.receive_eth_success": "Λάβατε μια πληρωμή ether.",
@@ -475,14 +474,61 @@
     "Πρέπει να είναι έγκυρος ταχυδρομικός κώδικας",
   "formhelper.samepasswordascurrent":
     "Ο κωδικός πρόσβασης είναι ο ίδιος με τον τρέχοντα",
+  "identityverification.personal.continue": null,
+  "identityverification.personal.dateofbirth": null,
+  "identityverification.personal.edit": null,
+  "identityverification.personal.editemail": null,
+  "identityverification.personal.editmobile": null,
+  "identityverification.personal.email.code": null,
+  "identityverification.personal.email.confirm": null,
+  "identityverification.personal.email.didntreceive": null,
+  "identityverification.personal.email.error": null,
+  "identityverification.personal.email.header": null,
+  "identityverification.personal.email.number": null,
+  "identityverification.personal.email.subheader": null,
+  "identityverification.personal.faq.whycollect.answer": null,
+  "identityverification.personal.faq.whycollect.question": null,
+  "identityverification.personal.firstname": null,
+  "identityverification.personal.header": null,
+  "identityverification.personal.lastname": null,
+  "identityverification.personal.mobile.entercode": null,
+  "identityverification.personal.mobile.entermobilenumber": null,
+  "identityverification.personal.mobile.header": null,
+  "identityverification.personal.mobile.sendmycode": null,
+  "identityverification.personal.mobile.subheader": null,
+  "identityverification.personal.sms.didntreceive": null,
+  "identityverification.personal.sms.error": null,
+  "identityverification.personal.subheader": null,
+  "identityverification.personal.verifiedemail": null,
+  "identityverification.personal.verifiedmobile": null,
   "layouts.public.footer.about": "Σχετικά",
   "layouts.public.footer.blog": "Ιστολόγιο",
   "layouts.public.footer.explorer": "Δεδομένα",
   "layouts.public.footer.support": "Υποστήριξη",
   "layouts.wallet.header.logout.signout": "Αποσύνδεση",
+  "layouts.wallet.header.whatsnew.whatsnew.desc10":
+    "Εάν είχατε bitcoin στο πορτοφόλι σας πριν την 1η Αυγούστου 2017, μπορείτε τώρα να έχετε πρόσβαση σε Bitcoin Cash στο Blockchain πορτοφόλι σας.",
+  "layouts.wallet.header.whatsnew.whatsnew.desc11":
+    "Οι διευθύνσεις Bitcoin Cash ακολουθούν τώρα τη διάταξη CashAddr.",
+  "layouts.wallet.header.whatsnew.whatsnew.desc7":
+    "Μπορείτε τώρα να πωλήσετε bitcoin από το Blockchain πορτοφόλι σας!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc8":
+    "Μπορείτε τώρα να στείλετε και να λάβετε ether από το Blockchain πορτοφόλι σας!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc9":
+    "Μπορείτε να κάνετε ανταλλαγές μεταξύ bitcoin, ether και bitcoin cash απευθείας από το Blockchain πορτοφόλι σας",
   "layouts.wallet.header.whatsnew.whatsnew.empty": ";; Αυτό ήταν!",
+  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore":
+    "Μάθετε Περισσότερα",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Η ομάδα μας εργάζεται συνεχώς πάνω σε νέες λειτουργίες, εάν υπάρχει κάτι που μπορούμε να βελτιώσουμε, παρακαλούμε ενημερώστε μας <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>εδώ<a/>.",
+  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Μάθετε Περισσότερα",
+  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
+  "layouts.wallet.header.whatsnew.whatsnew.title11":
+    "Νέα Διάταξη Διεύθυνσης Bitcoin Cash",
+  "layouts.wallet.header.whatsnew.whatsnew.title7": "Πώληση Bitcoin",
+  "layouts.wallet.header.whatsnew.whatsnew.title8": "Αποστολή & Λήψη Ether",
+  "layouts.wallet.header.whatsnew.whatsnew.title9":
+    "Ανταλλαγή Περιουσιακών Στοιχείων",
   "layouts.wallet.menuleft.footer.about": "Σχετικά",
   "layouts.wallet.menuleft.footer.privacypolicy": "Πολιτική Απορρήτου",
   "layouts.wallet.menuleft.footer.termsofservice": "Όροι Χρήσης",
@@ -498,6 +544,7 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
+  "layouts.wallet.menutop.bank": "Γίνετε η τράπεζά σας.",
   "layouts.wallet.menutop.request": "Αίτημα",
   "layouts.wallet.menutop.send": "Αποστολή",
   "layouts.wallet.trayright.faq": "Συχνές Ερωτήσεις",
@@ -533,6 +580,8 @@
   "modals.coinifytradedetails.kyc.identityverification.header":
     "Αγορά & Πώληση Bitcoin",
   "modals.coinifytradedetails.trade.close": "Κλείσιμο",
+  "modals.confirm.button": null,
+  "modals.confirm.button.cancel": null,
   "modals.deleteaddresslabel.cancel": "Ακύρωση",
   "modals.disable2fa.disable": "Απενεργοποίηση",
   "modals.disable2fa.sure": "Σίγουρα θέλετε να απενεργοποιήσετε την",
@@ -587,6 +636,9 @@
   "modals.exchangedetails.title.inprogress": "Ανταλλαγή σε Εξέλιξη",
   "modals.exchangedetails.title.refunded": "Ποσό Συναλλαγής Επεστράφη",
   "modals.exchangedetails.title.success": "Ολοκλήρωση Ανταλλαγής",
+  "modals.identityverification.steps.address": null,
+  "modals.identityverification.steps.personal": null,
+  "modals.identityverification.steps.verify": null,
   "modals.importbtcaddress.button": "Εισαγωγή",
   "modals.importbtcaddress.generated_in_wallet":
     "Υπάρχουσα διεύθυνση που δημιουργήθηκε σε <span>αυτό το πορτοφόλι</span>.",
@@ -604,6 +656,10 @@
     "Οι διευθύνσεις που δημιουργήθηκαν από αυτό το πορτοφόλι δεν πρέπει να εισάγονται.",
   "modals.importbtcaddress.importtype": "Τι θέλετε να κάνετε εισαγωγή;",
   "modals.importbtcaddress.title": "Εισαγωγή Υπάρχουσας Διεύθυνσης Bitcoin",
+  "modals.jumioprompt.body1": null,
+  "modals.jumioprompt.close": null,
+  "modals.jumioprompt.dothat": null,
+  "modals.jumioprompt.header": null,
   "modals.mobilelogin.cancel": "Ακύρωση",
   "modals.mobilelogin.explain":
     "Ακολουθήστε αυτά τα βήματα για σύνδεση στο διαδικτυακό σας πορτοφόλι χρησιμοποιώντας τη συσκευή του κινητού σας",
@@ -934,6 +990,7 @@
   "orderdetails.date": "Αρχικοποίηση Ημερομηνίας",
   "orderdetails.footnote":
     "*Παρακαλούμε σημειώστε: ανάλογα με την πολιτική εμβασμάτων της τράπεζάς σας, θα δείτε τα κεφάλαια να εμφανίζονται στον λογαριασμό σας μέσα σε 1-2 ημέρες από τη μεταφορά. ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "Λεπτομέρειες Εντολής",
   "orderdetails.payoutdetails": "Λεπτομέρειες Πληρωμής",
   "orderdetails.recurring.amount": "Ποσό:",
@@ -1053,6 +1110,13 @@
     "Λυπούμαστε, κάτι πήγε στραβά με τη συναλλαγή σας:",
   "scenes.buysell.sfox.orderreview.checkboxtext":
     "Εξουσιοδοτώ την SFOX, Inc. να χρεώνει τη συνδεδεμένη κάρτα μου που τελειώνει σε {account} και συμμορφώνομαι με τους {ToS} της SFOX.",
+  "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.pending": null,
   "scenes.buysell.sfoxcheckout.cyo.helper1.answer":
     "Υπάρχει μια αμοιβή συναλλαγής που απαιτεί το SFOX για την εκτέλεση μιας συναλλαγής αγοράς ή πώλησης. Ιδιαίτερα για τις συναλλαγές πώλησης, υπάρχει μια επιπλέον αμοιβή συναλλαγής που πηγαίνει στα σημεία εξόρυξης προκειμένου να στείλουν το ποσό που πουλάτε στο SFOX.",
   "scenes.buysell.sfoxcheckout.cyo.helper1.question": "Τι αφορούν οι αμοιβές;",
@@ -2251,6 +2315,8 @@
     "Δεν μπορούμε να διακρίνουμε αν έχει ενεργοποιηθεί ή όχι ο χειρισμός συνδέσμων bitcoin.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Εάν έχει ήδη ενεργοποιηθεί, δεν θα συμβεί τίποτα.",
+  "scenes.settings.preferences.explain":
+    "Προσαρμόστε την εμπειρία του πορτοφολιού σας.",
   "scenes.settings.preferences.localcurrency.error.description":
     "Επιλέξτε το τοπικό σας νόμισμα.",
   "scenes.settings.preferences.localcurrency.error.title": "Τοπικό Νόμισμα",
@@ -2578,6 +2644,7 @@
   "sfoxexchangedata.verify.hidessn": "Απόκρυψη Αριθμού Κοινωνικής Ασφάλισης",
   "sfoxexchangedata.verify.identity.error":
     "Δυστυχώς, υπήρξε κάποιο πρόβλημα με την επαλήθευση της ταυτότητάς σας. {clickHere} για να ξεκινήσετε πάλι από την αρχή.",
+  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Επώνυμο",
   "sfoxexchangedata.verify.partner.header": "Οι Κρυμμένες Λεπτομέρειες",
   "sfoxexchangedata.verify.partner.header1": "Ας Γνωριστούμε",

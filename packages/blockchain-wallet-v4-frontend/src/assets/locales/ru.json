@@ -296,7 +296,6 @@
     "Вы толлько что получили платеж Ethereum",
   "components.alerts.pbkdf2_update_success": "Обновление PBKDF2 прошло успешно",
   "components.alerts.private_key_incorrect": "Неправильный закрытый ключ.",
-  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success": "Вы получили платеж в bitcoin cash.",
   "components.alerts.receive_btc_success": "Вы получили платеж в биткойнах.",
   "components.alerts.receive_eth_success": "Вы получили платеж в эфирах.",
@@ -461,14 +460,60 @@
   "formhelper.requireduszipcode":
     "Необходим действительный почтовый индекс США",
   "formhelper.samepasswordascurrent": "Пароль такой же, как и нынешний",
+  "identityverification.personal.continue": null,
+  "identityverification.personal.dateofbirth": null,
+  "identityverification.personal.edit": null,
+  "identityverification.personal.editemail": null,
+  "identityverification.personal.editmobile": null,
+  "identityverification.personal.email.code": null,
+  "identityverification.personal.email.confirm": null,
+  "identityverification.personal.email.didntreceive": null,
+  "identityverification.personal.email.error": null,
+  "identityverification.personal.email.header": null,
+  "identityverification.personal.email.number": null,
+  "identityverification.personal.email.subheader": null,
+  "identityverification.personal.faq.whycollect.answer": null,
+  "identityverification.personal.faq.whycollect.question": null,
+  "identityverification.personal.firstname": null,
+  "identityverification.personal.header": null,
+  "identityverification.personal.lastname": null,
+  "identityverification.personal.mobile.entercode": null,
+  "identityverification.personal.mobile.entermobilenumber": null,
+  "identityverification.personal.mobile.header": null,
+  "identityverification.personal.mobile.sendmycode": null,
+  "identityverification.personal.mobile.subheader": null,
+  "identityverification.personal.sms.didntreceive": null,
+  "identityverification.personal.sms.error": null,
+  "identityverification.personal.subheader": null,
+  "identityverification.personal.verifiedemail": null,
+  "identityverification.personal.verifiedmobile": null,
   "layouts.public.footer.about": "О системе",
   "layouts.public.footer.blog": "Блог",
   "layouts.public.footer.explorer": "Данные",
   "layouts.public.footer.support": "Поддержка",
   "layouts.wallet.header.logout.signout": "Выйти",
+  "layouts.wallet.header.whatsnew.whatsnew.desc10":
+    "Если у вас в кошельке были биткойны до 1 августа 2017 года, теперь вы можете получить доступ к Bitcoin Cash в кошельке Blockchain.",
+  "layouts.wallet.header.whatsnew.whatsnew.desc11":
+    "Адреса Bitcoin Cash теперь представлены в формате CashAddr.",
+  "layouts.wallet.header.whatsnew.whatsnew.desc7":
+    "Теперь вы можете продавать биткойны непосредственно из кошелька Blockchain!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc8":
+    "Теперь вы можете отправлять и получать эфиры непосредственно из вашего кошелька Blockchain!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc9":
+    "Вы можете обменивать биткойны, эфиры и bitcoin cash непосредственно из вашего кошелька Blockchain",
   "layouts.wallet.header.whatsnew.whatsnew.empty": "?? У вас все получилось!",
+  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore": "Подробнее",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Наша команда постоянно работает над новыми функциями, но если есть что-то, что мы можем улучшить, сообщите нам об этом <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>здесь<a/>.",
+  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Подробнее",
+  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
+  "layouts.wallet.header.whatsnew.whatsnew.title11":
+    "Новый формат адреса Bitcoin Cash",
+  "layouts.wallet.header.whatsnew.whatsnew.title7": "Продать биткойны",
+  "layouts.wallet.header.whatsnew.whatsnew.title8":
+    "Отправка и получение эфиров",
+  "layouts.wallet.header.whatsnew.whatsnew.title9": "Обменные активы",
   "layouts.wallet.menuleft.footer.about": "О системе",
   "layouts.wallet.menuleft.footer.privacypolicy": "Политика конфиденциальности",
   "layouts.wallet.menuleft.footer.termsofservice":
@@ -486,6 +531,7 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Биткойн",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Эфир",
+  "layouts.wallet.menutop.bank": "Будьте своим собственным банком.",
   "layouts.wallet.menutop.request": "Получить",
   "layouts.wallet.menutop.send": "Отправить",
   "layouts.wallet.trayright.faq": "Часто задаваемые вопросы",
@@ -521,6 +567,8 @@
   "modals.coinifytradedetails.kyc.identityverification.header":
     "Покупка и продажа биткойнов",
   "modals.coinifytradedetails.trade.close": "Закрыть",
+  "modals.confirm.button": null,
+  "modals.confirm.button.cancel": null,
   "modals.deleteaddresslabel.cancel": "Отмена",
   "modals.disable2fa.disable": "Деактивировать",
   "modals.disable2fa.sure": "Вы действительно хотите деактивировать",
@@ -573,6 +621,9 @@
   "modals.exchangedetails.title.inprogress": "Обмен в процессе",
   "modals.exchangedetails.title.refunded": "Сделка рефинансирована",
   "modals.exchangedetails.title.success": "Обмен завершен",
+  "modals.identityverification.steps.address": null,
+  "modals.identityverification.steps.personal": null,
+  "modals.identityverification.steps.verify": null,
   "modals.importbtcaddress.button": "Импортировать",
   "modals.importbtcaddress.generated_in_wallet":
     "Существующий адрес сгенерирован <span>в этом кошельке</span>.",
@@ -590,6 +641,10 @@
     "Адреса, сгенерированные данным кошельком, не должны импортироваться.",
   "modals.importbtcaddress.importtype": "Что вы хотите импортировать?",
   "modals.importbtcaddress.title": "Импортировать существующий адрес Bitcoin",
+  "modals.jumioprompt.body1": null,
+  "modals.jumioprompt.close": null,
+  "modals.jumioprompt.dothat": null,
+  "modals.jumioprompt.header": null,
   "modals.mobilelogin.cancel": "Отмена",
   "modals.mobilelogin.explain":
     "Выполните следующие действия для входа в свой веб-кошелек с помощью мобильного устройства",
@@ -914,6 +969,7 @@
   "orderdetails.date": "Дата инициализации",
   "orderdetails.footnote":
     "*Обратите внимание: в зависимости от политики трансферов вашего банка вы увидите средства на вашем счете в течение 1-2 дней после перевода. ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "Детали распоряжения",
   "orderdetails.payoutdetails": "Реквизиты платежа",
   "orderdetails.recurring.amount": "Сумма:",
@@ -1031,6 +1087,13 @@
     "Извините, с вашей сделкой что-то пошло не так:",
   "scenes.buysell.sfox.orderreview.checkboxtext":
     "Я разрешаю SFOX, Inc. дебетовать мой привязанный банковский счет, заканчивающийся на {account}, в соответствии с правилами обслуживания SFOX {ToS}.",
+  "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.pending": null,
   "scenes.buysell.sfoxcheckout.cyo.helper1.answer":
     "Существует торговый сбор, который SFOX требует при осуществлении сделок покупки или продажи. В частности, для сделок продажи взимается дополнительная комиссия за транзакцию, которая поступает сетевым майнерам для отправки суммы, которую вы продаете SFOX.",
   "scenes.buysell.sfoxcheckout.cyo.helper1.question": "Что такое комиссия?",
@@ -2222,6 +2285,7 @@
     "Мы не можем определить, активирована ли обработка ссылок bitcoin.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Если она уже активирована, ничего не произойдет.",
+  "scenes.settings.preferences.explain": "Настройка интерфейса кошелька.",
   "scenes.settings.preferences.localcurrency.error.description":
     "Выберите местную валюту.",
   "scenes.settings.preferences.localcurrency.error.title": "Местная валюта",
@@ -2552,6 +2616,7 @@
   "sfoxexchangedata.verify.hidessn": "Скрыть SSN",
   "sfoxexchangedata.verify.identity.error":
     "К сожалению, в ходе проверки вашей идентичности возникла проблема. {clickHere}, чтобы начать заново.",
+  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Фамилия",
   "sfoxexchangedata.verify.partner.header": "Скрытые детали",
   "sfoxexchangedata.verify.partner.header1": "Давайте познакомимся с вами",

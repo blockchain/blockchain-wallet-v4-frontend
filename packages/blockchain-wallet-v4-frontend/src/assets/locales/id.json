@@ -284,7 +284,6 @@
     "Anda baru saja menerima pembayaran Ethereum",
   "components.alerts.pbkdf2_update_success": "Iterasi PBKDF2 berhasil diubah",
   "components.alerts.private_key_incorrect": "Kunci Pribadi Tidak Valid.",
-  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success":
     "Anda telah menerima pembayaran bitcoin cash.",
   "components.alerts.receive_btc_success":
@@ -446,14 +445,60 @@
   "formhelper.requireduszipcode": "Harus Kode ZIP AS yang valid",
   "formhelper.samepasswordascurrent":
     "Kata sandi sama dengan kata sandi saat ini",
+  "identityverification.personal.continue": null,
+  "identityverification.personal.dateofbirth": null,
+  "identityverification.personal.edit": null,
+  "identityverification.personal.editemail": null,
+  "identityverification.personal.editmobile": null,
+  "identityverification.personal.email.code": null,
+  "identityverification.personal.email.confirm": null,
+  "identityverification.personal.email.didntreceive": null,
+  "identityverification.personal.email.error": null,
+  "identityverification.personal.email.header": null,
+  "identityverification.personal.email.number": null,
+  "identityverification.personal.email.subheader": null,
+  "identityverification.personal.faq.whycollect.answer": null,
+  "identityverification.personal.faq.whycollect.question": null,
+  "identityverification.personal.firstname": null,
+  "identityverification.personal.header": null,
+  "identityverification.personal.lastname": null,
+  "identityverification.personal.mobile.entercode": null,
+  "identityverification.personal.mobile.entermobilenumber": null,
+  "identityverification.personal.mobile.header": null,
+  "identityverification.personal.mobile.sendmycode": null,
+  "identityverification.personal.mobile.subheader": null,
+  "identityverification.personal.sms.didntreceive": null,
+  "identityverification.personal.sms.error": null,
+  "identityverification.personal.subheader": null,
+  "identityverification.personal.verifiedemail": null,
+  "identityverification.personal.verifiedmobile": null,
   "layouts.public.footer.about": "Tentang",
   "layouts.public.footer.blog": "Blog",
   "layouts.public.footer.explorer": "Data",
   "layouts.public.footer.support": "Dukungan",
   "layouts.wallet.header.logout.signout": "Keluar",
+  "layouts.wallet.header.whatsnew.whatsnew.desc10":
+    "Jika Anda memiliki bitcoin di dompet Anda sebelum 1 Agustus 2017, Anda kini dapat mengakses Bitcoin Cash di dompet Blockchain Anda.",
+  "layouts.wallet.header.whatsnew.whatsnew.desc11":
+    "Alamat Bitcoin Cash kini mengikuti format CashAddr.",
+  "layouts.wallet.header.whatsnew.whatsnew.desc7":
+    "Anda kini dapat menjual bitcoin langsung dari dompet Blockchain Anda!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc8":
+    "Anda kini dapat mengirim dan menerima ether dari dompet Blockchain Anda!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc9":
+    "Anda dapat melakukan pertukaran antara bitcoin, ether, dan bitcoin cash langsung dari dompet Blockchain Anda",
   "layouts.wallet.header.whatsnew.whatsnew.empty": "?? Anda sudah selesai!",
+  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore":
+    "Ketahui Selengkapnya",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Tim kami selalu mengerjakan fitur-fitur baru, tetapi jika ada sesuatu yang perlu kami tingkatkan, silakan beri tahu kami <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>di sini<a/>.",
+  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Ketahui Selengkapnya",
+  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
+  "layouts.wallet.header.whatsnew.whatsnew.title11":
+    "Format Alamat Bitcoin Cash Baru",
+  "layouts.wallet.header.whatsnew.whatsnew.title7": "Jual Bitcoin",
+  "layouts.wallet.header.whatsnew.whatsnew.title8": "Kirim & Terima Ether",
+  "layouts.wallet.header.whatsnew.whatsnew.title9": "Tukarkan Aset",
   "layouts.wallet.menuleft.footer.about": "Tentang",
   "layouts.wallet.menuleft.footer.privacypolicy": "Kebijakan Privasi",
   "layouts.wallet.menuleft.footer.termsofservice": "KL",
@@ -469,6 +514,7 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
+  "layouts.wallet.menutop.bank": "Jadilah bank Anda sendiri.",
   "layouts.wallet.menutop.request": "Permintaan",
   "layouts.wallet.menutop.send": "Kirim",
   "layouts.wallet.trayright.faq": "Pertanyaan Umum",
@@ -503,6 +549,8 @@
   "modals.coinifytradedetails.kyc.identityverification.header":
     "Jual beli bitcoin",
   "modals.coinifytradedetails.trade.close": "Tutup",
+  "modals.confirm.button": null,
+  "modals.confirm.button.cancel": null,
   "modals.deleteaddresslabel.cancel": "Batalkan",
   "modals.disable2fa.disable": "Nonaktifkan",
   "modals.disable2fa.sure": "Anda yakin ingin menonaktifkan",
@@ -557,6 +605,9 @@
   "modals.exchangedetails.title.inprogress": "Pertukaran dalam Proses",
   "modals.exchangedetails.title.refunded": "Dana dikembalikan",
   "modals.exchangedetails.title.success": "Pertukaran Selesai",
+  "modals.identityverification.steps.address": null,
+  "modals.identityverification.steps.personal": null,
+  "modals.identityverification.steps.verify": null,
   "modals.importbtcaddress.button": "Impor",
   "modals.importbtcaddress.generated_in_wallet":
     "Alamat yang sudah ada yang dibuat <span>di dompet ini</span>.",
@@ -574,6 +625,10 @@
     "Alamat yang dibuat oleh dompet ini tidak boleh diimpor.",
   "modals.importbtcaddress.importtype": "Apa yang ingin Anda impor?",
   "modals.importbtcaddress.title": "Impor Alamat Bitcoin yang Ada",
+  "modals.jumioprompt.body1": null,
+  "modals.jumioprompt.close": null,
+  "modals.jumioprompt.dothat": null,
+  "modals.jumioprompt.header": null,
   "modals.mobilelogin.cancel": "Batalkan",
   "modals.mobilelogin.explain":
     "Ikuti langkah-langkah ini untuk masuk ke dompet web Anda menggunakan perangkat seluler",
@@ -893,6 +948,7 @@
   "orderdetails.date": "Tanggal Dimulai",
   "orderdetails.footnote":
     "*Harap perhatikan: tergantung pada kebijakan transfer bank Anda, dana ini akan tercermin di rekening Anda dalam waktu 1-2 hari sejak tanggal transfer. ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "Perincian Order",
   "orderdetails.payoutdetails": "Perincian Pembayaran",
   "orderdetails.recurring.amount": "Jumlah:",
@@ -1005,6 +1061,13 @@
     "Maaf, terjadi kesalahan dengan perdagangan Anda:",
   "scenes.buysell.sfox.orderreview.checkboxtext":
     "Saya mengotorisasikan SFOX, Inc. untuk mendebitkan rekening bank saya yang telah terhubung dan berakhiran {account} sesuai dengan {ToS} SFOX.",
+  "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.pending": null,
   "scenes.buysell.sfoxcheckout.cyo.helper1.answer":
     "Terdapat biaya perdagangan yang dibutuhkan SFOX untuk melaksanakan transaksi penjualan atau pembelian. Khusus untuk transaksi penjualan, terdapat biaya transaksi tambahan yang dibayarkan ke penambang jaringan untuk mengirimkan jumlah yang Anda jual ke SFOX.",
   "scenes.buysell.sfoxcheckout.cyo.helper1.question": "Apa saja biayanya?",
@@ -2191,6 +2254,7 @@
     "Kami tidak dapat mendeteksi apakah penanganan tautan bitcoin telah diaktifkan atau tidak.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Jika memang telah diaktifkan, tak ada yang akan terjadi.",
+  "scenes.settings.preferences.explain": "Sesuaikan pengalaman dompet Anda.",
   "scenes.settings.preferences.localcurrency.error.description":
     "Pilih mata uang lokal Anda.",
   "scenes.settings.preferences.localcurrency.error.title": "Mata Uang Lokal",
@@ -2516,6 +2580,7 @@
   "sfoxexchangedata.verify.hidessn": "Sembunyikan SSN",
   "sfoxexchangedata.verify.identity.error":
     "Sayangnya terdapat masalah saat memverifikasikan identitas Anda. {clickHere} untuk mengulang dari awal.",
+  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Nama Belakang",
   "sfoxexchangedata.verify.partner.header": "Perincian Tersembunyi",
   "sfoxexchangedata.verify.partner.header1": "Perkenalkan Diri Anda",

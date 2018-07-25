@@ -11,9 +11,12 @@ import {
   OrderDetailsRow
 } from 'components/BuySell/OrderDetails'
 import FundingSource from 'components/BuySell/FundingSource'
-import { PartnerHeader, PartnerSubHeader } from 'components/BuySell/Signup'
+import {
+  PartnerHeader,
+  PartnerSubHeader
+} from 'components/IdentityVerification'
 import { StepTransition } from 'components/Utilities/Stepper'
-import Helper from 'components/BuySell/FAQ'
+import renderFaq from 'components/FaqDropdown'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import ReviewForm from './orderReviewForm'
 
@@ -32,7 +35,7 @@ const ToolTipWrapper = styled.div`
   }
 `
 
-const faqList = [
+const faqQuestions = [
   {
     question: (
       <FormattedMessage
@@ -76,10 +79,14 @@ const faqList = [
     )
   }
 ]
-const faqListHelper = () =>
-  faqList.map(el => <Helper question={el.question} answer={el.answer} />)
 
-export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
+export const OrderDetails = ({
+  quoteR,
+  account,
+  onRefreshQuote,
+  profile,
+  type
+}) => (
   <ExchangeCheckoutWrapper>
     <PartnerHeader size='32px' weight={600} style={spacing('mb-10')}>
       <FormattedMessage
@@ -201,6 +208,17 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
             .getOrElse('~')}
         </Text>
       </OrderDetailsRow>
+      <OrderDetailsRow>
+        <Text size='13px' weight={300}>
+          <FormattedMessage
+            id='orderdetails.fundsdelivery'
+            defaultMessage='Estimated Delivery of Funds'
+          />
+        </Text>
+        <Text size='13px' weight={300}>
+          {reviewOrder.renderDate(profile, type)}
+        </Text>
+      </OrderDetailsRow>
     </OrderDetailsTable>
     {quoteR
       .map(quote => (
@@ -242,6 +260,6 @@ export const OrderSubmit = ({
         account={account}
       />
     )}
-    {faqListHelper()}
+    {renderFaq(faqQuestions)}
   </Fragment>
 )

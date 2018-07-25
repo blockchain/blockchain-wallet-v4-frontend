@@ -294,7 +294,6 @@
   "components.alerts.pbkdf2_update_success":
     "PBKDF2 итерациите са променени успешно",
   "components.alerts.private_key_incorrect": "Невалиден личен ключ.",
-  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success": "Получихте bitcoin cash плащане.",
   "components.alerts.receive_btc_success": "Получихте bitcoin плащане.",
   "components.alerts.receive_eth_success": "Получихте ether плащане.",
@@ -462,14 +461,60 @@
   "formhelper.requiredssn": "Трябва да е валиден SSN",
   "formhelper.requireduszipcode": "Трябва да е валиден пощенски код в САЩ",
   "formhelper.samepasswordascurrent": "Паролата е същата като текущата",
+  "identityverification.personal.continue": null,
+  "identityverification.personal.dateofbirth": null,
+  "identityverification.personal.edit": null,
+  "identityverification.personal.editemail": null,
+  "identityverification.personal.editmobile": null,
+  "identityverification.personal.email.code": null,
+  "identityverification.personal.email.confirm": null,
+  "identityverification.personal.email.didntreceive": null,
+  "identityverification.personal.email.error": null,
+  "identityverification.personal.email.header": null,
+  "identityverification.personal.email.number": null,
+  "identityverification.personal.email.subheader": null,
+  "identityverification.personal.faq.whycollect.answer": null,
+  "identityverification.personal.faq.whycollect.question": null,
+  "identityverification.personal.firstname": null,
+  "identityverification.personal.header": null,
+  "identityverification.personal.lastname": null,
+  "identityverification.personal.mobile.entercode": null,
+  "identityverification.personal.mobile.entermobilenumber": null,
+  "identityverification.personal.mobile.header": null,
+  "identityverification.personal.mobile.sendmycode": null,
+  "identityverification.personal.mobile.subheader": null,
+  "identityverification.personal.sms.didntreceive": null,
+  "identityverification.personal.sms.error": null,
+  "identityverification.personal.subheader": null,
+  "identityverification.personal.verifiedemail": null,
+  "identityverification.personal.verifiedmobile": null,
   "layouts.public.footer.about": "За нас",
   "layouts.public.footer.blog": "Блог",
   "layouts.public.footer.explorer": "Данни",
   "layouts.public.footer.support": "Поддръжка",
   "layouts.wallet.header.logout.signout": "Изход",
+  "layouts.wallet.header.whatsnew.whatsnew.desc10":
+    "Ако сте имали bitcoin в портфейла си преди 1 август 2017, сега можете да влизате в Bitcoin Cash от Вашия портфейл в Blockchain.",
+  "layouts.wallet.header.whatsnew.whatsnew.desc11":
+    "Адресите за Bitcoin Cash вече следват формата CashAddr.",
+  "layouts.wallet.header.whatsnew.whatsnew.desc7":
+    "Вече можете да продавате bitcoin директно от Вашия Blockchain портфейл!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc8":
+    "Вече можете да изпращане и получавате ether от Вашия Blockchain портфейл!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc9":
+    "Можете да обменяте bitcoin, ether и bitcoin cash директно от Вашия Blockchain портфейл!",
   "layouts.wallet.header.whatsnew.whatsnew.empty": "?? Всичко е готово!",
+  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore": "Научете повече",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Нашият екип постоянно разработва нови функции, но ако има нещо, което можем да подобрим, моля, пишете ни за него <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>тук<a/>.",
+  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Научете повече",
+  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
+  "layouts.wallet.header.whatsnew.whatsnew.title11":
+    "Нов формат на адреса за Bitcoin Cash",
+  "layouts.wallet.header.whatsnew.whatsnew.title7": "Продавайте Bitcoin",
+  "layouts.wallet.header.whatsnew.whatsnew.title8":
+    "Продавайте и получавайте Ether",
+  "layouts.wallet.header.whatsnew.whatsnew.title9": "Обменяйте активи",
   "layouts.wallet.menuleft.footer.about": "За нас",
   "layouts.wallet.menuleft.footer.privacypolicy": "Политика на поверителност",
   "layouts.wallet.menuleft.footer.termsofservice": "Условия за ползване",
@@ -486,6 +531,7 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
+  "layouts.wallet.menutop.bank": "Бъдете своя собствена банка.",
   "layouts.wallet.menutop.request": "Заявка",
   "layouts.wallet.menutop.send": "Изпрати",
   "layouts.wallet.trayright.faq": "Често задавани въпроси",
@@ -521,6 +567,8 @@
   "modals.coinifytradedetails.kyc.identityverification.header":
     "Купувайте и продавайте Bitcoin",
   "modals.coinifytradedetails.trade.close": "Затвори",
+  "modals.confirm.button": null,
+  "modals.confirm.button.cancel": null,
   "modals.deleteaddresslabel.cancel": "Отказ",
   "modals.disable2fa.disable": "Деактивирай",
   "modals.disable2fa.sure": "Сигурни ли сте, че желаете да деактивирате",
@@ -576,6 +624,9 @@
   "modals.exchangedetails.title.refunded":
     "Средствата по трейда са възстановени",
   "modals.exchangedetails.title.success": "Обменът е завършен",
+  "modals.identityverification.steps.address": null,
+  "modals.identityverification.steps.personal": null,
+  "modals.identityverification.steps.verify": null,
   "modals.importbtcaddress.button": "Импортиране",
   "modals.importbtcaddress.generated_in_wallet":
     "Съществуващият адрес е генериран в <span>този портфейл</span>.",
@@ -593,6 +644,10 @@
     "Генерираните адреси от този портфейл не трябва да се импортират.",
   "modals.importbtcaddress.importtype": "Какво искате да импортирате?",
   "modals.importbtcaddress.title": "Импортирай съществуващ Bitcoin адрес",
+  "modals.jumioprompt.body1": null,
+  "modals.jumioprompt.close": null,
+  "modals.jumioprompt.dothat": null,
+  "modals.jumioprompt.header": null,
   "modals.mobilelogin.cancel": "Отказ",
   "modals.mobilelogin.explain":
     "Следвайте тези стъпки, за да влезете във Вашия уебпортфейл от Вашето мобилно устройство",
@@ -921,6 +976,7 @@
   "orderdetails.date": "Дата на инициализиране",
   "orderdetails.footnote":
     "*Моля, имайте предвид: в зависимост от политиките за извършване на преводи на Вашата банка ще видите средствата отразени по банковата Ви сметка в рамките на 1 – 2 дни. ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "Детайли на поръчката",
   "orderdetails.payoutdetails": "Детайли за изплащането",
   "orderdetails.recurring.amount": "Количество:",
@@ -1038,6 +1094,13 @@
     "Съжаляваме, с Вашия трейд възникна грешка:",
   "scenes.buysell.sfox.orderreview.checkboxtext":
     "Упълномощавам SFOX, Inc. да дебитира свързаната ми банкова сметка, завършваща на {account}, и приемам {ToS} на SFOX.",
+  "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.pending": null,
   "scenes.buysell.sfoxcheckout.cyo.helper1.answer":
     "Има такса за търговия, която SFOX изисква за извършването на трейд за купуване или продаване. За продажните трейдове има и допълнителна такса за превод, която отива при копачите от мрежата, за да се изпрати до SFOX количеството, което продавате.",
   "scenes.buysell.sfoxcheckout.cyo.helper1.question": "Какви са таксите?",
@@ -2220,6 +2283,8 @@
     "Не можем да установим дали манипулирането на bitcoin линкове е активирано.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Ако вече е активирано, нищо няма да се случи.",
+  "scenes.settings.preferences.explain":
+    "Персонализирайте работата с Вашия портфейл.",
   "scenes.settings.preferences.localcurrency.error.description":
     "Изберете местната си валута.",
   "scenes.settings.preferences.localcurrency.error.title": "Местна валута",
@@ -2548,6 +2613,7 @@
   "sfoxexchangedata.verify.hidessn": "Скрий SSN",
   "sfoxexchangedata.verify.identity.error":
     "За съжаление възникна проблем с потвърждаването на самоличността Ви. {clickHere} за започване отново.",
+  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Фамилия",
   "sfoxexchangedata.verify.partner.header": "Скритите детайли",
   "sfoxexchangedata.verify.partner.header1": "Нека Ви опознаем",

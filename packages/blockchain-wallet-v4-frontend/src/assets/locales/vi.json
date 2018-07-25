@@ -278,7 +278,6 @@
   "components.alerts.pbkdf2_update_success":
     "Thay đổi lặp lại PBKDF2 thành công",
   "components.alerts.private_key_incorrect": "Khóa Riêng Không hợp lệ.",
-  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success":
     "Bạn đã nhận được một thanh toán bitcoin cash.",
   "components.alerts.receive_btc_success":
@@ -443,15 +442,60 @@
   "formhelper.requiredssn": "Phải là SSN hợp lệ",
   "formhelper.requireduszipcode": "Phải là Mã bưu chính Hoa Kỳ hợp lệ",
   "formhelper.samepasswordascurrent": "Mật khẩu giống như hiện tại",
+  "identityverification.personal.continue": null,
+  "identityverification.personal.dateofbirth": null,
+  "identityverification.personal.edit": null,
+  "identityverification.personal.editemail": null,
+  "identityverification.personal.editmobile": null,
+  "identityverification.personal.email.code": null,
+  "identityverification.personal.email.confirm": null,
+  "identityverification.personal.email.didntreceive": null,
+  "identityverification.personal.email.error": null,
+  "identityverification.personal.email.header": null,
+  "identityverification.personal.email.number": null,
+  "identityverification.personal.email.subheader": null,
+  "identityverification.personal.faq.whycollect.answer": null,
+  "identityverification.personal.faq.whycollect.question": null,
+  "identityverification.personal.firstname": null,
+  "identityverification.personal.header": null,
+  "identityverification.personal.lastname": null,
+  "identityverification.personal.mobile.entercode": null,
+  "identityverification.personal.mobile.entermobilenumber": null,
+  "identityverification.personal.mobile.header": null,
+  "identityverification.personal.mobile.sendmycode": null,
+  "identityverification.personal.mobile.subheader": null,
+  "identityverification.personal.sms.didntreceive": null,
+  "identityverification.personal.sms.error": null,
+  "identityverification.personal.subheader": null,
+  "identityverification.personal.verifiedemail": null,
+  "identityverification.personal.verifiedmobile": null,
   "layouts.public.footer.about": "Tìm hiểu về",
   "layouts.public.footer.blog": "Blog",
   "layouts.public.footer.explorer": "Dữ liệu",
   "layouts.public.footer.support": "Hỗ trợ",
   "layouts.wallet.header.logout.signout": "Đăng xuất",
+  "layouts.wallet.header.whatsnew.whatsnew.desc10":
+    "Nếu bạn có bitcoin trong ví của mình trước ngày 1 tháng 8 năm 2017, giờ đây bạn có thể truy cập Bitcoin Cash trong ví Blockchain của mình.",
+  "layouts.wallet.header.whatsnew.whatsnew.desc11":
+    "Địa chỉ Bitcoin Cash giờ đây tuân theo định dạng CashAddr.",
+  "layouts.wallet.header.whatsnew.whatsnew.desc7":
+    "Giờ đây bạn có thể bán bitcoin trực tiếp từ ví Blockchain của bạn!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc8":
+    "Giờ đây bạn có thể gửi và nhận ether từ ví Blockchain của bạn!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc9":
+    "Bạn có thể chuyển đổi bitcoin, ether và bitcoin cash trực tiếp từ ví Blockchain của mình",
   "layouts.wallet.header.whatsnew.whatsnew.empty":
     "?? Bạn đã cập nhật thông tin đầy đủ!",
+  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore": "Tìm hiểu thêm",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Đội ngũ của chúng tôi luôn làm việc để phát triển các tính năng mới, nhưng nếu có điều gì đó cần cải thiện, hãy cho chúng tôi biết <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>tại đây<a/>.",
+  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Tìm hiểu thêm",
+  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
+  "layouts.wallet.header.whatsnew.whatsnew.title11":
+    "Định dạng Địa chỉ Bitcoin Cash Mới",
+  "layouts.wallet.header.whatsnew.whatsnew.title7": "Bán Bitcoin",
+  "layouts.wallet.header.whatsnew.whatsnew.title8": "Gửi & Nhận Ether",
+  "layouts.wallet.header.whatsnew.whatsnew.title9": "Tài sản Chuyển đổi",
   "layouts.wallet.menuleft.footer.about": "Tìm hiểu về",
   "layouts.wallet.menuleft.footer.privacypolicy": "Chính sách Bảo mật",
   "layouts.wallet.menuleft.footer.termsofservice": "Điều khoản Dịch vụ",
@@ -467,6 +511,7 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
+  "layouts.wallet.menutop.bank": "Hãy là ngân hàng của riêng bạn.",
   "layouts.wallet.menutop.request": "Yêu cầu",
   "layouts.wallet.menutop.send": "Gửi",
   "layouts.wallet.trayright.faq": "Những câu hỏi thường gặp",
@@ -502,6 +547,8 @@
   "modals.coinifytradedetails.kyc.identityverification.header":
     "Mua & Bán Bitcoin",
   "modals.coinifytradedetails.trade.close": "Đóng",
+  "modals.confirm.button": null,
+  "modals.confirm.button.cancel": null,
   "modals.deleteaddresslabel.cancel": "Hủy bỏ",
   "modals.disable2fa.disable": "Tắt",
   "modals.disable2fa.sure": "Bạn có chắc chắn muốn tắt",
@@ -556,6 +603,9 @@
   "modals.exchangedetails.title.inprogress": "Đang tiến hành Chuyển đổi",
   "modals.exchangedetails.title.refunded": "Giao dịch Đã được Hoàn tiền",
   "modals.exchangedetails.title.success": "Chuyển đổi Hoàn tất",
+  "modals.identityverification.steps.address": null,
+  "modals.identityverification.steps.personal": null,
+  "modals.identityverification.steps.verify": null,
   "modals.importbtcaddress.button": "Nhập",
   "modals.importbtcaddress.generated_in_wallet":
     "Địa chỉ hiện tại được tạo trong <span>ví này</span>.",
@@ -573,6 +623,10 @@
     "Không được nhập địa chỉ được tạo bởi ví này.",
   "modals.importbtcaddress.importtype": "Bạn muốn nhập gì?",
   "modals.importbtcaddress.title": "Nhập Địa chỉ Bitcoin Hiện tại",
+  "modals.jumioprompt.body1": null,
+  "modals.jumioprompt.close": null,
+  "modals.jumioprompt.dothat": null,
+  "modals.jumioprompt.header": null,
   "modals.mobilelogin.cancel": "Hủy bỏ",
   "modals.mobilelogin.explain":
     "Làm theo các bước sau để đăng nhập vào ví trên web bằng thiết bị di động của bạn",
@@ -892,6 +946,7 @@
   "orderdetails.date": "Ngày khởi tạo",
   "orderdetails.footnote":
     "*Xin lưu ý: tùy thuộc vào chính sách chuyển khoản của ngân hàng, bạn sẽ thấy số tiền được thể hiện trên tài khoản của mình trong vòng 1-2 ngày kể từ khi chuyển khoản. ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "Chi tiết Đặt lệnh",
   "orderdetails.payoutdetails": "Chi tiết Thanh toán",
   "orderdetails.recurring.amount": "Số tiền:",
@@ -1004,6 +1059,13 @@
     "Rất tiếc, đã xảy ra sự cố với giao dịch của bạn:",
   "scenes.buysell.sfox.orderreview.checkboxtext":
     "Tôi cấp quyền cho Tập đoàn SFOX ghi nợ tài khoản ngân hàng được liên kết của tôi có các số cuối là {account} và tuân thủ {ToS} của SFOX.",
+  "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.pending": null,
   "scenes.buysell.sfoxcheckout.cyo.helper1.answer":
     "SFOX yêu cầu một khoản phí giao dịch để thực hiện giao dịch mua hoặc bán. Đối với các giao dịch bán cụ thể, có một khoản phí giao dịch bổ sung được chuyển đến các thợ đào trong mạng lưới để gửi số tiền bạn đang bán cho SFOX.",
   "scenes.buysell.sfoxcheckout.cyo.helper1.question": "Các phí này là gì?",
@@ -2172,6 +2234,7 @@
     "Chúng tôi không thể phát hiện liệu các liên kết bitcoin đã được bật hay chưa.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Nếu đã được bật, sẽ không có gì xảy ra.",
+  "scenes.settings.preferences.explain": "Tùy chỉnh trải nghiệm ví của bạn.",
   "scenes.settings.preferences.localcurrency.error.description":
     "Lựa chọn nội tệ của bạn.",
   "scenes.settings.preferences.localcurrency.error.title": "Nội tệ",
@@ -2493,6 +2556,7 @@
   "sfoxexchangedata.verify.hidessn": "Ẩn SSN",
   "sfoxexchangedata.verify.identity.error":
     "Rất tiếc, đã xảy ra sự cố trong quá trình xác minh danh tính của bạn. {clickHere} để bắt đầu lại.",
+  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Họ",
   "sfoxexchangedata.verify.partner.header": "Các Chi tiết Ẩn",
   "sfoxexchangedata.verify.partner.header1": "Tìm Hiểu Bạn",

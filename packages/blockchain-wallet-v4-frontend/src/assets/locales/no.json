@@ -290,7 +290,6 @@
     "Du har nettopp mottatt en betaling med Ethereum",
   "components.alerts.pbkdf2_update_success": "PBKDF2-iterasjoner ble endret",
   "components.alerts.private_key_incorrect": "Ugyldig privat nøkkel.",
-  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success":
     "Du har mottatt en betaling i Bitcoin Cash.",
   "components.alerts.receive_btc_success":
@@ -452,14 +451,59 @@
   "formhelper.requireduszipcode": "Må være et gyldig postnummer",
   "formhelper.samepasswordascurrent":
     "Passordet er ikke det samme som det gjeldende",
+  "identityverification.personal.continue": null,
+  "identityverification.personal.dateofbirth": null,
+  "identityverification.personal.edit": null,
+  "identityverification.personal.editemail": null,
+  "identityverification.personal.editmobile": null,
+  "identityverification.personal.email.code": null,
+  "identityverification.personal.email.confirm": null,
+  "identityverification.personal.email.didntreceive": null,
+  "identityverification.personal.email.error": null,
+  "identityverification.personal.email.header": null,
+  "identityverification.personal.email.number": null,
+  "identityverification.personal.email.subheader": null,
+  "identityverification.personal.faq.whycollect.answer": null,
+  "identityverification.personal.faq.whycollect.question": null,
+  "identityverification.personal.firstname": null,
+  "identityverification.personal.header": null,
+  "identityverification.personal.lastname": null,
+  "identityverification.personal.mobile.entercode": null,
+  "identityverification.personal.mobile.entermobilenumber": null,
+  "identityverification.personal.mobile.header": null,
+  "identityverification.personal.mobile.sendmycode": null,
+  "identityverification.personal.mobile.subheader": null,
+  "identityverification.personal.sms.didntreceive": null,
+  "identityverification.personal.sms.error": null,
+  "identityverification.personal.subheader": null,
+  "identityverification.personal.verifiedemail": null,
+  "identityverification.personal.verifiedmobile": null,
   "layouts.public.footer.about": "Om",
   "layouts.public.footer.blog": "Blogg",
   "layouts.public.footer.explorer": "Data",
   "layouts.public.footer.support": "Kundestøtte",
   "layouts.wallet.header.logout.signout": "Logg av",
+  "layouts.wallet.header.whatsnew.whatsnew.desc10":
+    "Hvis du hadde Bitcoin i lommeboken din før 1 april 2017, kan du nå få tilgang til Bitcoin Cash i Blockchain-lommeboken din.",
+  "layouts.wallet.header.whatsnew.whatsnew.desc11":
+    "Bitcoin Cash adresserer nå følgende CashAddr-format.",
+  "layouts.wallet.header.whatsnew.whatsnew.desc7":
+    "Du kan nå selge Bitcoin fra Blockchain-lommeboken din!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc8":
+    "Du kan nå sende og motta Ether fra Blockchain-lommeboken din!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc9":
+    "Du kan nå veksle Bitcoin, Ether og Bitcoin Cash direkte fra Blockchain-lommeboken din",
   "layouts.wallet.header.whatsnew.whatsnew.empty": "?? Du er nå oppdatert!",
+  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore": "Lær mer",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Teamet vårt jobber alltid med nye funksjoner, men du må gjerne gi oss beskjed <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>her<a/> hvis det er noe vi kan forbedre.",
+  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Lær mer",
+  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
+  "layouts.wallet.header.whatsnew.whatsnew.title11":
+    "Nytt format for Bitcoin Cash-adressen",
+  "layouts.wallet.header.whatsnew.whatsnew.title7": "Selg Bitcoin",
+  "layouts.wallet.header.whatsnew.whatsnew.title8": "Send og motta Ether",
+  "layouts.wallet.header.whatsnew.whatsnew.title9": "Veksle valuta",
   "layouts.wallet.menuleft.footer.about": "Om",
   "layouts.wallet.menuleft.footer.privacypolicy": "Personvernerklæring",
   "layouts.wallet.menuleft.footer.termsofservice": "Bruksvilkår",
@@ -475,6 +519,7 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
+  "layouts.wallet.menutop.bank": "Vær din egen bank.",
   "layouts.wallet.menutop.request": "Forespørsel",
   "layouts.wallet.menutop.send": "Send",
   "layouts.wallet.trayright.faq": "Ofte stilte spørsmål",
@@ -510,6 +555,8 @@
   "modals.coinifytradedetails.kyc.identityverification.header":
     "Kjøp og selg Bitcoin",
   "modals.coinifytradedetails.trade.close": "Lukk",
+  "modals.confirm.button": null,
+  "modals.confirm.button.cancel": null,
   "modals.deleteaddresslabel.cancel": "Avbryt",
   "modals.disable2fa.disable": "Deaktiver",
   "modals.disable2fa.sure": "Er du sikker på at du vil deaktivere",
@@ -563,6 +610,9 @@
   "modals.exchangedetails.title.inprogress": "Veksling pågår",
   "modals.exchangedetails.title.refunded": "Handel refundert",
   "modals.exchangedetails.title.success": "Veksling fullført",
+  "modals.identityverification.steps.address": null,
+  "modals.identityverification.steps.personal": null,
+  "modals.identityverification.steps.verify": null,
   "modals.importbtcaddress.button": "Importer",
   "modals.importbtcaddress.generated_in_wallet":
     "Eksisterende adresse generert i <span>denne lommeboken</span>.",
@@ -580,6 +630,10 @@
     "Adresser generert av denne lommeboken må ikke importeres.",
   "modals.importbtcaddress.importtype": "Hva vil du importere?",
   "modals.importbtcaddress.title": "Importer eksisterende Bitcoin-adresse",
+  "modals.jumioprompt.body1": null,
+  "modals.jumioprompt.close": null,
+  "modals.jumioprompt.dothat": null,
+  "modals.jumioprompt.header": null,
   "modals.mobilelogin.cancel": "Avbryt",
   "modals.mobilelogin.explain":
     "Følg disse trinnene for å logge på nettlommeboken med mobilenheten din",
@@ -899,6 +953,7 @@
   "orderdetails.date": "Dato initialisert",
   "orderdetails.footnote":
     "*Merk: Avhengig av overføringsbetingelsene i banken din, kan det hende midlene vises i banken din innen 1–2 dager etter overføringen. ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "Ordre detaljer",
   "orderdetails.payoutdetails": "Utbetalingsdetaljer",
   "orderdetails.recurring.amount": "Beløp:",
@@ -1013,6 +1068,13 @@
     "Beklager, noe gitt galt med handelen din:",
   "scenes.buysell.sfox.orderreview.checkboxtext":
     "Jeg gir SFOX, Inc. autorisasjon til å debitere den tilknyttede bankkontoen min som slutter på {account} og godtar SFOX {ToS}.",
+  "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.pending": null,
   "scenes.buysell.sfoxcheckout.cyo.helper1.answer":
     "Det er et handelsgebyr som SFOX krever for å gjennomføre et kjøp eller salg. For akkurat salg finnes det et ekstra transaksjonsgebyr som går til nettverkets minere for å sende beløpet du selger til SFOX.",
   "scenes.buysell.sfoxcheckout.cyo.helper1.question": "Hva er gebyrene?",
@@ -2175,6 +2237,7 @@
     "Vi kan ikke oppdage om håndtering av bitcoin-koblinger har blitt aktivert.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Hvis det allerede er aktivert, skjer ingenting.",
+  "scenes.settings.preferences.explain": "Tilpass lommebokopplevelsen din.",
   "scenes.settings.preferences.localcurrency.error.description":
     "Velg din lokale valuta.",
   "scenes.settings.preferences.localcurrency.error.title": "Lokal valuta",
@@ -2497,6 +2560,7 @@
   "sfoxexchangedata.verify.hidessn": "Skjul SSN",
   "sfoxexchangedata.verify.identity.error":
     "Dessverre oppstod det et problem med å bekrefte identiteten din. {clickHere} for å starte på nytt.",
+  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Etternavn",
   "sfoxexchangedata.verify.partner.header": "De skjulte opplysningene",
   "sfoxexchangedata.verify.partner.header1": "La oss bli kjent med deg",

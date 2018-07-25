@@ -21,6 +21,7 @@ import googlePlayBadge from './img/google-play-badge.png'
 import halfBitcoin from './img/half-bitcoin.svg'
 import halfBitcoincash from './img/half-bitcoincash.svg'
 import halfEther from './img/half-ether.svg'
+import identityVerification from './img/identity-verification.svg'
 import landingPageBannerOverlay from './img/landing-page-banner-overlay.jpg'
 import landingPageBannerSmOverlay from './img/landing-page-banner-sm-overlay.jpg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
@@ -33,6 +34,7 @@ import smartphone from './img/smartphone.png'
 import sfoxLogo from './img/sfox-logo.png'
 import sophisticated from './img/sophisticated.svg'
 import v4Welcome from './img/v4-welcome.jpg'
+import verifyIdentity from './img/verify-identity.svg'
 import walletV3Backup from './img/wallet-v3-backup.jpg'
 import walletV3FundManagement from './img/wallet-v3-fund-management.jpg'
 import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
@@ -63,6 +65,7 @@ export default {
   'half-bitcoin': halfBitcoin,
   'half-bitcoincash': halfBitcoincash,
   'half-ether': halfEther,
+  'identity-verification': identityVerification,
   'landing-page-banner-overlay': landingPageBannerOverlay,
   'landing-page-banner-sm-overlay': landingPageBannerSmOverlay,
   'micro-deposits-whole': microDepositsWhole,
@@ -75,6 +78,7 @@ export default {
   smartphone: smartphone,
   sophisticated: sophisticated,
   'v4-welcome': v4Welcome,
+  'verify-identity': verifyIdentity,
   'wallet-v3-backup': walletV3Backup,
   'wallet-v3-fund-management': walletV3FundManagement,
   'wallet-v3-new-design': walletV3NewDesign,

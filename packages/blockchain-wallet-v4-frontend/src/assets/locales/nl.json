@@ -292,7 +292,6 @@
   "components.alerts.pbkdf2_update_success":
     "PBKDF2-iteraties zijn succesvol gewijzigd",
   "components.alerts.private_key_incorrect": "Ongeldige privésleutel.",
-  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success":
     "U hebt een Bitcoin Cash-betaling ontvangen.",
   "components.alerts.receive_btc_success":
@@ -467,14 +466,61 @@
   "formhelper.requireduszipcode": "Moet een geldige Amerikaanse postcode zijn",
   "formhelper.samepasswordascurrent":
     "Wachtwoord is hetzelfde als het huidige wachtwoord",
+  "identityverification.personal.continue": null,
+  "identityverification.personal.dateofbirth": null,
+  "identityverification.personal.edit": null,
+  "identityverification.personal.editemail": null,
+  "identityverification.personal.editmobile": null,
+  "identityverification.personal.email.code": null,
+  "identityverification.personal.email.confirm": null,
+  "identityverification.personal.email.didntreceive": null,
+  "identityverification.personal.email.error": null,
+  "identityverification.personal.email.header": null,
+  "identityverification.personal.email.number": null,
+  "identityverification.personal.email.subheader": null,
+  "identityverification.personal.faq.whycollect.answer": null,
+  "identityverification.personal.faq.whycollect.question": null,
+  "identityverification.personal.firstname": null,
+  "identityverification.personal.header": null,
+  "identityverification.personal.lastname": null,
+  "identityverification.personal.mobile.entercode": null,
+  "identityverification.personal.mobile.entermobilenumber": null,
+  "identityverification.personal.mobile.header": null,
+  "identityverification.personal.mobile.sendmycode": null,
+  "identityverification.personal.mobile.subheader": null,
+  "identityverification.personal.sms.didntreceive": null,
+  "identityverification.personal.sms.error": null,
+  "identityverification.personal.subheader": null,
+  "identityverification.personal.verifiedemail": null,
+  "identityverification.personal.verifiedmobile": null,
   "layouts.public.footer.about": "Over",
   "layouts.public.footer.blog": "Blog",
   "layouts.public.footer.explorer": "Gegevens",
   "layouts.public.footer.support": "Ondersteuning",
   "layouts.wallet.header.logout.signout": "Afmelden",
+  "layouts.wallet.header.whatsnew.whatsnew.desc10":
+    "Als u voor 1 augustus 2017 bitcoins in uw portemonnee had, kunt u nu via uw Blockchain-portemonnee toegang tot Bitcoin Cash krijgen.",
+  "layouts.wallet.header.whatsnew.whatsnew.desc11":
+    "Bitcoin Cash-adressen volgen nu het CashAddr-formaat.",
+  "layouts.wallet.header.whatsnew.whatsnew.desc7":
+    "Nu kunt u bitcoins rechtstreeks vanuit uw blockchain-portemonnee verkopen!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc8":
+    "Nu kunt u ether via uw blockchain-portemonnee verzenden en ontvangen!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc9":
+    "U kunt rechtstreeks vanuit uw Blockchain-portemonnee bitcoin, ether en Bitcoin Cash uitwisselen.",
   "layouts.wallet.header.whatsnew.whatsnew.empty": "?? U bent helemaal bij!",
+  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore":
+    "Kom meer te weten",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Ons team werkt voortdurend aan nieuwe functies, maar als er iets is wat we kunnen verbeteren, kun je ons dat <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>hier<a/> laten weten.",
+  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Kom meer te weten",
+  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
+  "layouts.wallet.header.whatsnew.whatsnew.title11":
+    "Nieuw adresformaat Bitcoin Cash",
+  "layouts.wallet.header.whatsnew.whatsnew.title7": "Bitcoins verkopen",
+  "layouts.wallet.header.whatsnew.whatsnew.title8":
+    "Ether verzenden en ontvangen",
+  "layouts.wallet.header.whatsnew.whatsnew.title9": "Activa uitwisselen",
   "layouts.wallet.menuleft.footer.about": "Over",
   "layouts.wallet.menuleft.footer.privacypolicy": "Privacybeleid",
   "layouts.wallet.menuleft.footer.termsofservice": "ToS",
@@ -490,6 +536,7 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoins",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
+  "layouts.wallet.menutop.bank": "Wees uw eigen bank.",
   "layouts.wallet.menutop.request": "Verzoek",
   "layouts.wallet.menutop.send": "Verzenden",
   "layouts.wallet.trayright.faq": "Veelgestelde vragen",
@@ -525,6 +572,8 @@
   "modals.coinifytradedetails.kyc.identityverification.header":
     "Bitcoins kopen en verkopen",
   "modals.coinifytradedetails.trade.close": "Sluiten",
+  "modals.confirm.button": null,
+  "modals.confirm.button.cancel": null,
   "modals.deleteaddresslabel.cancel": "Annuleren",
   "modals.disable2fa.disable": "Uitschakelen",
   "modals.disable2fa.sure": "Weet u zeker het volgende wilt uitschakelen",
@@ -579,6 +628,9 @@
   "modals.exchangedetails.title.inprogress": "Uitwisseling in behandeling.",
   "modals.exchangedetails.title.refunded": "Transactie is terugbetaald",
   "modals.exchangedetails.title.success": "Uitwisseling is voltooid.",
+  "modals.identityverification.steps.address": null,
+  "modals.identityverification.steps.personal": null,
+  "modals.identityverification.steps.verify": null,
   "modals.importbtcaddress.button": "Importeren",
   "modals.importbtcaddress.generated_in_wallet":
     "Bestaand adres is binnen <span>deze portemonnee</span> gegenereerd.",
@@ -596,6 +648,10 @@
     "Adressen die door deze portemonnee worden gegenereerd, dienen niet geïmporteerd te worden.",
   "modals.importbtcaddress.importtype": "Wat wilt u importeren?",
   "modals.importbtcaddress.title": "Bestaand Bitcoin-adres importeren",
+  "modals.jumioprompt.body1": null,
+  "modals.jumioprompt.close": null,
+  "modals.jumioprompt.dothat": null,
+  "modals.jumioprompt.header": null,
   "modals.mobilelogin.cancel": "Annuleren",
   "modals.mobilelogin.explain":
     "Volg deze stappen om met uw mobiele apparaat op uw Web Wallet in te loggen",
@@ -923,6 +979,7 @@
   "orderdetails.date": "Datum geïnitialiseerd",
   "orderdetails.footnote":
     "*Let op: afhankelijk van het overboekingsbeleid van uw bank, zal het tegoed binnen 1-2 dagen na de overschrijving op uw account worden weergegeven. ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "Orderdetails",
   "orderdetails.payoutdetails": "Details uitbetaling",
   "orderdetails.recurring.amount": "Bedrag:",
@@ -1037,6 +1094,13 @@
     "Sorry, er is iets misgegaan met uw transactie:",
   "scenes.buysell.sfox.orderreview.checkboxtext":
     "Ik machtig SFOX, Inc. om een bedrag via mijn gekoppelde bankrekening die eindigt op {account} in rekening te brengen en ik ga akkoord met de {ToS} van SFOX.",
+  "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.pending": null,
   "scenes.buysell.sfoxcheckout.cyo.helper1.answer":
     "Er zijn transactiekosten van toepassing die SFOX in rekening brengt om een koop- of verkooptransactie uit te voeren. Voor verkooptransacties zijn er extra transactiekosten van toepassing die naar 'netwerk-miners' gaan om het bedrag dat u aan SFOX verkoopt te verzenden.",
   "scenes.buysell.sfoxcheckout.cyo.helper1.question": "Wat zijn de kosten?",
@@ -2221,6 +2285,8 @@
     "We kunnen niet ontdekken of het hanteren van Bitcoin-links is ingeschakeld.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Als het al is ingeschakeld, gebeurt er niets.",
+  "scenes.settings.preferences.explain":
+    "Maak het gebruik van uw portemonnee op maat.",
   "scenes.settings.preferences.localcurrency.error.description":
     "Kies uw plaatselijke valuta.",
   "scenes.settings.preferences.localcurrency.error.title":
@@ -2553,6 +2619,7 @@
   "sfoxexchangedata.verify.hidessn": "SSN verbergen",
   "sfoxexchangedata.verify.identity.error":
     "Helaas was er een probleem met het verifiëren van uw identiteit. {clickHere} om opnieuw te beginnen.",
+  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Achternaam",
   "sfoxexchangedata.verify.partner.header": "De kleine lettertjes",
   "sfoxexchangedata.verify.partner.header1": "Laten we u leren kennen",
