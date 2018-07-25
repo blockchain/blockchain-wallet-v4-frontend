@@ -10,7 +10,8 @@ import {
   ModalBody,
   ModalFooter,
   Text,
-  Tooltip
+  TooltipIcon,
+  TooltipHost
 } from 'blockchain-info-components'
 import ExchangeTimeline from 'components/ExchangeTimeline'
 
@@ -163,12 +164,9 @@ const ExchangeDetails = props => {
                   defaultMessage='Exchange rate'
                 />
               </Text>
-              <Tooltip>
-                <FormattedMessage
-                  id='modals.exchangedetails.exchangetooltip'
-                  defaultMessage='This rate may change depending on the market price at the time of your transaction.'
-                />
-              </Tooltip>
+              <TooltipHost id='exchangedetails.exchangetooltip'>
+                <TooltipIcon name='question-in-circle' />
+              </TooltipHost>
             </TableCell>
             <TableCell>
               <Text size='13px' weight={300} uppercase>
@@ -184,12 +182,9 @@ const ExchangeDetails = props => {
                   defaultMessage='Transaction fee'
                 />
               </Text>
-              <Tooltip>
-                <FormattedMessage
-                  id='modals.exchangedetails.feetooltip'
-                  defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.'
-                />
-              </Tooltip>
+              <TooltipHost id='exchangedetails.feetooltip'>
+                <TooltipIcon name='question-in-circle' />
+              </TooltipHost>
             </TableCell>
             <TableCell>
               <Text size='13px' weight={300} uppercase>
