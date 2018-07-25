@@ -24,30 +24,28 @@ const notChange = io => !io.change
 
 const Addresses = props => {
   const { from, to, outputs, inputs, coin } = props
-  const outputTooltip =  !equals(coin, 'ETH') ? (filter(hasLabel, filter(notChange, outputs))
-    .map(
-      (output, index) =>
-        equals(coin, 'BCH')
-          ? utils.bch.toCashAddr(output.address, true)
-          : output.address
-    )
-    .join('\n<br />\n')
-  ) : (
-    undefined
-  )
+  const outputTooltip = !equals(coin, 'ETH')
+    ? filter(hasLabel, filter(notChange, outputs))
+        .map(
+          (output, index) =>
+            equals(coin, 'BCH')
+              ? utils.bch.toCashAddr(output.address, true)
+              : output.address
+        )
+        .join('\n<br />\n')
+    : undefined
 
-  const inputTooltip = !equals(coin, 'ETH') ? (inputs
-    .map(
-      (input, index) =>
-        input.label &&
-        (equals(coin, 'BCH')
-          ? utils.bch.toCashAddr(input.address, true)
-          : input.address)
-    )
-    .join('\n<br />\n')
-  ) : (
-    undefined
-  )
+  const inputTooltip = !equals(coin, 'ETH')
+    ? inputs
+        .map(
+          (input, index) =>
+            input.label &&
+            (equals(coin, 'BCH')
+              ? utils.bch.toCashAddr(input.address, true)
+              : input.address)
+        )
+        .join('\n<br />\n')
+    : undefined
 
   return (
     <Wrapper>

@@ -1,6 +1,12 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import { Text, Icon, Link, TooltipIcon, TooltipHost } from 'blockchain-info-components'
+import {
+  Text,
+  Icon,
+  Link,
+  TooltipIcon,
+  TooltipHost
+} from 'blockchain-info-components'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'

@@ -441,7 +441,7 @@ const FaqContent = [
           <FaqDescription>
             <FormattedMessage
               id='scenes.faq.group.noexchange.answer1'
-              defaultMessage='We partner with exchanges across the world to make buying and selling digital assets easier for you. If you’re located in select states across the US or SEPA, you can get started now by creating an account with one of our partners.'
+              defaultMessage='We partner with exchanges across the world to make buying and selling digital assets easier for you. If you’re located in select states across the US or SEPA, you can get started now by creating an account with one of our partners. Otherwise, keep an eye on our Twitter, Facebook, and blog to find out when we bring buy and sell to your area!'
             />
           </FaqDescription>
         )
@@ -780,12 +780,12 @@ const FaqContent = [
           <FaqDescription>
             <FormattedMessage
               id='scenes.faq.group.walletfunctionality.answer12.one'
-              defaultMessage='Since bitcoin cash is a fork of the bitcoin block chain, its address format previously looked nearly identical to that of bitcoin, which was very confusing to those using it. Now, when you want to send or receive bitcoin cash, you can immediately identify that you’re using the correct address thanks to the added prefix that looks like this: bitcoincash:qpm2qsznhks23z7629mms6s4cwef74vcwvy22gdx6a.'
+              defaultMessage='Since bitcoin cash is a fork of the bitcoin block chain, its address format previously looked nearly identical to that of bitcoin, which was very confusing to those using it. Now, when you want to send or receive bitcoin cash, you can immediately identify that you’re using the correct address thanks to the added prefix that looks like this: ’bitcoincash:’ in front of your bch address.'
             />
             <span>&nbsp;</span>
             <FormattedMessage
               id='scenes.faq.group.walletfunctionality.answer12.two'
-              defaultMessage='Although you can technically still transact to and from legacy BCH addresses, we strongly recommend adopting this new format to eliminate confusion. '
+              defaultMessage='Although you can technically still transact to and from legacy BCH addresses, we strongly recommend adopting this new format to eliminate confusion.'
             />
           </FaqDescription>
         )
