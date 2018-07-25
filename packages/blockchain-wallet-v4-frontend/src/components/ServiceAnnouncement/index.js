@@ -8,21 +8,21 @@ import { getData } from './selectors'
 import Announcement from './template.js'
 
 class ServiceAnnouncement extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.handleDismiss = this.handleDismiss.bind(this)
     this.toggleCollapse = this.toggleCollapse.bind(this)
   }
 
-  handleDismiss(id) {
+  handleDismiss (id) {
     this.props.cacheActions.announcementDismissed(id)
   }
 
-  toggleCollapse(id) {
+  toggleCollapse (id) {
     this.props.cacheActions.announcementToggled(id, !this.props.data.collapsed)
   }
 
-  render() {
+  render () {
     const { alertArea, data } = this.props
     return data &&
       (data.visible ||

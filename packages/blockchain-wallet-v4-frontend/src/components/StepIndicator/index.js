@@ -84,7 +84,7 @@ const StepIndicator = props => {
 
   return (
     <Wrapper flexEnd={flexEnd}>
-      <Logo name="blue-logo" height="50px" />
+      <Logo name='blue-logo' height='50px' />
       <Steps width={width}>
         {steps.map(s => (
           <Step minWidth={minWidth} maxWidth={maxWidth}>

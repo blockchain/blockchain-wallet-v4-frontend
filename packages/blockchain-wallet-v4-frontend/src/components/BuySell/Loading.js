@@ -12,7 +12,7 @@ const Container = styled.div`
 
 const Loading = () => (
   <Container>
-    <HeartbeatLoader color="brand-primary" width="75px" height="75px" />
+    <HeartbeatLoader color='brand-primary' width='75px' height='75px' />
   </Container>
 )
 

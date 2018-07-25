@@ -9,14 +9,14 @@ import { path } from 'ramda'
 import { getData } from './selectors'
 
 class CreateContainer extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       editVerifiedEmail: false,
       editVerifiedMobile: false
     }
   }
-  componentDidMount() {
+  componentDidMount () {
     if (this.props.emailVerified && this.props.smsVerified) {
       this.props.updateUI({ create: 'create_account' })
     } else if (this.props.emailVerified) {
@@ -24,7 +24,7 @@ class CreateContainer extends Component {
     } else this.props.updateUI({ create: 'enter_email_code' })
   }
 
-  render() {
+  render () {
     return (
       <Create
         countryCode={this.props.data.countryCode}

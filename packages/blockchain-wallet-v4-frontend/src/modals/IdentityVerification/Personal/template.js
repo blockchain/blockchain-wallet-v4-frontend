@@ -91,14 +91,14 @@ const faqQuestions = [
   {
     question: (
       <FormattedMessage
-        id="identityverification.personal.faq.whycollect.question"
-        defaultMessage="Why do you need this information?"
+        id='identityverification.personal.faq.whycollect.question'
+        defaultMessage='Why do you need this information?'
       />
     ),
     answer: (
       <FormattedMessage
-        id="identityverification.personal.faq.whycollect.answer"
-        defaultMessage="To comply with government regulated anti-money laundering legislation, we need to obtain additional information in order to verify your identity."
+        id='identityverification.personal.faq.whycollect.answer'
+        defaultMessage='To comply with government regulated anti-money laundering legislation, we need to obtain additional information in order to verify your identity.'
       />
     )
   }
@@ -122,40 +122,40 @@ const Personal = ({
       <InputWrapper>
         <PartnerHeader>
           <FormattedMessage
-            id="identityverification.personal.header"
-            defaultMessage="Personal Details"
+            id='identityverification.personal.header'
+            defaultMessage='Personal Details'
           />
         </PartnerHeader>
         <PartnerSubHeader>
           <FormattedMessage
-            id="identityverification.personal.subheader"
+            id='identityverification.personal.subheader'
             defaultMessage="There's so much we'd love to know about you, but we only need a few things."
           />
         </PartnerSubHeader>
         <FormContainer>
           <PersonalFormGroup inline>
             <FormItem>
-              <Text size="14px" weight={400} style={{ marginBottom: '5px' }}>
+              <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
                 <FormattedMessage
-                  id="identityverification.personal.firstname"
-                  defaultMessage="First Name"
+                  id='identityverification.personal.firstname'
+                  defaultMessage='First Name'
                 />
               </Text>
               <Field
-                name="firstName"
+                name='firstName'
                 validate={[required]}
                 component={TextBox}
               />
             </FormItem>
             <FormItem>
-              <Text size="14px" weight={400} style={{ marginBottom: '5px' }}>
+              <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
                 <FormattedMessage
-                  id="identityverification.personal.lastname"
-                  defaultMessage="Last Name"
+                  id='identityverification.personal.lastname'
+                  defaultMessage='Last Name'
                 />
               </Text>
               <Field
-                name="lastName"
+                name='lastName'
                 validate={[required]}
                 component={TextBox}
               />
@@ -163,44 +163,44 @@ const Personal = ({
           </PersonalFormGroup>
           <FormGroup>
             <FormItem>
-              <Text size="14px" weight={400} style={{ marginBottom: '5px' }}>
+              <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
                 <FormattedMessage
-                  id="identityverification.personal.dateofbirth"
-                  defaultMessage="Your Birthday (MM/DD/YYYY)"
+                  id='identityverification.personal.dateofbirth'
+                  defaultMessage='Your Birthday (MM/DD/YYYY)'
                 />
               </Text>
               <Field
-                name="dob"
+                name='dob'
                 validate={[requiredDOB, ageOverEighteen]}
                 component={TextBox}
-                placeholder="01/01/1991"
+                placeholder='01/01/1991'
                 normalize={normalizeDateOfBirth}
               />
             </FormItem>
           </FormGroup>
           <FormGroup>
             <FormItem>
-              <Text size="14px" style={spacing('mb-10')}>
+              <Text size='14px' style={spacing('mb-10')}>
                 <FormattedMessage
-                  id="identityverification.personal.verifiedemail"
-                  defaultMessage="Verified Email Address"
+                  id='identityverification.personal.verifiedemail'
+                  defaultMessage='Verified Email Address'
                 />
               </Text>
               <VerifiedContainer>
-                <Field name="email" component={TextBox} disabled />
+                <Field name='email' component={TextBox} disabled />
 
-                <EditLink onClick={editEmail} size="14px" weight={300}>
+                <EditLink onClick={editEmail} size='14px' weight={300}>
                   <MediaContextConsumer>
                     {({ tablet }) =>
                       tablet ? (
                         <FormattedMessage
-                          id="identityverification.personal.edit"
-                          defaultMessage="edit"
+                          id='identityverification.personal.edit'
+                          defaultMessage='edit'
                         />
                       ) : (
                         <FormattedMessage
-                          id="identityverification.personal.editemail"
-                          defaultMessage="edit email"
+                          id='identityverification.personal.editemail'
+                          defaultMessage='edit email'
                         />
                       )
                     }
@@ -209,9 +209,9 @@ const Personal = ({
                 <IconContainer>
                   {emailVerified ? (
                     <Icon
-                      name="checkmark-in-circle-filled"
-                      color="success"
-                      size="20px"
+                      name='checkmark-in-circle-filled'
+                      color='success'
+                      size='20px'
                     />
                   ) : null}
                 </IconContainer>
@@ -220,31 +220,31 @@ const Personal = ({
           </FormGroup>
           <FormGroup>
             <FormItem>
-              <Text size="14px" style={spacing('mb-10')}>
+              <Text size='14px' style={spacing('mb-10')}>
                 <FormattedMessage
-                  id="identityverification.personal.verifiedmobile"
-                  defaultMessage="Verified Phone Number"
+                  id='identityverification.personal.verifiedmobile'
+                  defaultMessage='Verified Phone Number'
                 />
               </Text>
               <VerifiedContainer>
                 <Field
-                  name="smsNumber"
+                  name='smsNumber'
                   countryCode={countryCode}
                   component={PhoneNumberBox}
                   disabled
                 />
-                <EditLink onClick={editSms} size="14px" weight={300}>
+                <EditLink onClick={editSms} size='14px' weight={300}>
                   <MediaContextConsumer>
                     {({ tablet }) =>
                       tablet ? (
                         <FormattedMessage
-                          id="identityverification.personal.edit"
-                          defaultMessage="edit"
+                          id='identityverification.personal.edit'
+                          defaultMessage='edit'
                         />
                       ) : (
                         <FormattedMessage
-                          id="identityverification.personal.editmobile"
-                          defaultMessage="edit mobile"
+                          id='identityverification.personal.editmobile'
+                          defaultMessage='edit mobile'
                         />
                       )
                     }
@@ -253,9 +253,9 @@ const Personal = ({
                 <IconContainer>
                   {smsVerified ? (
                     <Icon
-                      name="checkmark-in-circle-filled"
-                      color="success"
-                      size="20px"
+                      name='checkmark-in-circle-filled'
+                      color='success'
+                      size='20px'
                     />
                   ) : null}
                 </IconContainer>
@@ -269,8 +269,8 @@ const Personal = ({
       <ColRightInner>
         <Button
           uppercase
-          nature="primary"
-          type="submit"
+          nature='primary'
+          type='submit'
           fullwidth
           disabled={
             invalid ||
@@ -284,11 +284,11 @@ const Personal = ({
         >
           {!formBusy ? (
             <FormattedMessage
-              id="identityverification.personal.continue"
-              defaultMessage="Continue"
+              id='identityverification.personal.continue'
+              defaultMessage='Continue'
             />
           ) : (
-            <HeartbeatLoader height="20px" width="20px" color="white" />
+            <HeartbeatLoader height='20px' width='20px' color='white' />
           )}
         </Button>
         {renderFaq(faqQuestions)}

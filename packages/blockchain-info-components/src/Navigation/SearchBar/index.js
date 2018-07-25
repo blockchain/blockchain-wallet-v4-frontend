@@ -103,9 +103,9 @@ const TextField = styled.input`
 const SearchBar = props => {
   return (
     <TextField
-      name="search"
-      placeholder="block, hash, transaction, etc..."
-      type="text"
+      name='search'
+      placeholder='block, hash, transaction, etc...'
+      type='text'
     />
   )
 }

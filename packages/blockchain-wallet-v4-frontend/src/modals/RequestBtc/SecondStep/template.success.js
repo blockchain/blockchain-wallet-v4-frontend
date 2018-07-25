@@ -47,64 +47,64 @@ const SecondStep = props => {
   return (
     <Fragment>
       <Form onSubmit={handleSubmit}>
-        <SubHeader size="14px" weight={300}>
+        <SubHeader size='14px' weight={300}>
           <FormattedMessage
-            id="modals.requestbitcoin.secondstep.explain"
-            defaultMessage="Send the link below to your friend or contact and they will be able to send bitcoin directly to your wallet."
+            id='modals.requestbitcoin.secondstep.explain'
+            defaultMessage='Send the link below to your friend or contact and they will be able to send bitcoin directly to your wallet.'
           />
         </SubHeader>
-        <Text size="14px" weight={500}>
+        <Text size='14px' weight={500}>
           <FormattedMessage
-            id="modals.requestbitcoin.secondstep.payment"
-            defaultMessage="Payment Request:"
+            id='modals.requestbitcoin.secondstep.payment'
+            defaultMessage='Payment Request:'
           />
         </Text>
         <Container>
-          <CoinDisplay size="28px" weight={500} color="received" coin="BTC">
+          <CoinDisplay size='28px' weight={500} color='received' coin='BTC'>
             {satoshis}
           </CoinDisplay>
-          <FiatDisplay size="20px" weight={300} color="received" coin="BTC">
+          <FiatDisplay size='20px' weight={300} color='received' coin='BTC'>
             {satoshis}
           </FiatDisplay>
-          <Text size="16px">
+          <Text size='16px'>
             <FormattedMessage
-              id="modals.requestbitcoin.secondstep.message"
-              defaultMessage="For &quot;{message}&quot;"
+              id='modals.requestbitcoin.secondstep.message'
+              defaultMessage='For &quot;{message}&quot;'
               values={{ message: message }}
             />
           </Text>
           <LinkContainer>
-            <Text size="12px" weight={300}>
+            <Text size='12px' weight={300}>
               {link}
             </Text>
           </LinkContainer>
         </Container>
         <CopyToClipBoard text={link}>
           <Button
-            type="submit"
+            type='submit'
             nature={active ? 'copy' : 'primary'}
             fullwidth
             uppercase
           >
             {active ? (
               <FormattedMessage
-                id="modals.requestbitcoin.secondstep.copied"
-                defaultMessage="Copied!"
+                id='modals.requestbitcoin.secondstep.copied'
+                defaultMessage='Copied!'
               />
             ) : (
               <FormattedMessage
-                id="modals.requestbitcoin.secondstep.copy"
-                defaultMessage="Copy link"
+                id='modals.requestbitcoin.secondstep.copy'
+                defaultMessage='Copy link'
               />
             )}
           </Button>
         </CopyToClipBoard>
       </Form>
       <Footer>
-        <Link onClick={previousStep} size="13px" weight={300}>
+        <Link onClick={previousStep} size='13px' weight={300}>
           <FormattedMessage
-            id="scenes.requestbitcoin.secondstep.back"
-            defaultMessage="Go Back"
+            id='scenes.requestbitcoin.secondstep.back'
+            defaultMessage='Go Back'
           />
         </Link>
       </Footer>

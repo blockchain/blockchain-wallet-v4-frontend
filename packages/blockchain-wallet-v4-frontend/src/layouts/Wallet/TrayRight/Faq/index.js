@@ -9,7 +9,7 @@ import { selectors } from 'data'
 import Faq from './template.js'
 
 class FaqContainer extends React.PureComponent {
-  render() {
+  render () {
     const { data, canTrade, handleTrayRightToggle } = this.props
     const { search } = data
 

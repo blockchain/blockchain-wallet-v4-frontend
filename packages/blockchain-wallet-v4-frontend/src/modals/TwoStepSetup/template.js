@@ -63,94 +63,94 @@ const TwoStepSetup = props => {
   } = rest
 
   return authType !== 0 ? (
-    <Modal size="large" position={position} total={total}>
+    <Modal size='large' position={position} total={total}>
       <ModalHeader onClose={closeAll}>
         <FormattedMessage
-          id="modals.twostepsetup.title1"
-          defaultMessage="Disable Two Factor Verification"
+          id='modals.twostepsetup.title1'
+          defaultMessage='Disable Two Factor Verification'
         />
       </ModalHeader>
       <ModalBody>
-        <Text size="14px" weight={300}>
+        <Text size='14px' weight={300}>
           <FormattedMessage
-            id="modals.twostepsetup"
-            defaultMessage="Are you sure to disable two factor authentication ?"
+            id='modals.twostepsetup'
+            defaultMessage='Are you sure to disable two factor authentication ?'
           />
         </Text>
       </ModalBody>
-      <ModalFooter align="spaced">
-        <Link size="13px" weight={300} onClick={close}>
+      <ModalFooter align='spaced'>
+        <Link size='13px' weight={300} onClick={close}>
           <FormattedMessage
-            id="modals.twostepsetup.cancel"
-            defaultMessage="Cancel"
+            id='modals.twostepsetup.cancel'
+            defaultMessage='Cancel'
           />
         </Link>
-        <Button nature="logout" onClick={handleDisable}>
+        <Button nature='logout' onClick={handleDisable}>
           <FormattedMessage
-            id="modals.twostepsetup.disable"
-            defaultMessage="Disable"
+            id='modals.twostepsetup.disable'
+            defaultMessage='Disable'
           />
         </Button>
       </ModalFooter>
     </Modal>
   ) : (
-    <Modal size="large" position={position} total={total}>
+    <Modal size='large' position={position} total={total}>
       <ModalHeader onClose={closeAll}>
         <FormattedMessage
-          id="modals.twostepsetup.title2"
-          defaultMessage="Enable Two-Step Verification"
+          id='modals.twostepsetup.title2'
+          defaultMessage='Enable Two-Step Verification'
         />
       </ModalHeader>
       <ModalBody>
         <TextGroup>
-          <Text size="14px" weight={300}>
+          <Text size='14px' weight={300}>
             <FormattedMessage
-              id="modals.twostepsetup.explain"
-              defaultMessage="Protect your wallet from unauthorized access by enabling 2-step Setup."
+              id='modals.twostepsetup.explain'
+              defaultMessage='Protect your wallet from unauthorized access by enabling 2-step Setup.'
             />
           </Text>
-          <Text size="14px" weight={300}>
+          <Text size='14px' weight={300}>
             <FormattedMessage
-              id="modals.twostepsetup.explain2"
-              defaultMessage="You can choose to use a free app or your mobile phone number to secure your wallet."
+              id='modals.twostepsetup.explain2'
+              defaultMessage='You can choose to use a free app or your mobile phone number to secure your wallet.'
             />
           </Text>
         </TextGroup>
         <Wrapper>
           <Container onClick={handleGoogleAuthenticator}>
-            <Image name="google-authenticator" height="100px" />
-            <Text size="14px" weight={300}>
+            <Image name='google-authenticator' height='100px' />
+            <Text size='14px' weight={300}>
               <FormattedMessage
-                id="modals.twostepsetup.usegoogle"
-                defaultMessage="Google Authenticator"
+                id='modals.twostepsetup.usegoogle'
+                defaultMessage='Google Authenticator'
               />
             </Text>
           </Container>
           <Container onClick={handleYubico}>
-            <Image name="yubikey" height="100px" />
-            <Text size="14px" weight={300}>
+            <Image name='yubikey' height='100px' />
+            <Text size='14px' weight={300}>
               <FormattedMessage
-                id="modals.twostepsetup.useyubikey"
-                defaultMessage="Yubikey"
+                id='modals.twostepsetup.useyubikey'
+                defaultMessage='Yubikey'
               />
             </Text>
           </Container>
           <Container onClick={handleMobile}>
-            <Image name="smartphone" height="100px" />
-            <Text size="14px" weight={300}>
+            <Image name='smartphone' height='100px' />
+            <Text size='14px' weight={300}>
               <FormattedMessage
-                id="modals.twostepsetup.usemobile"
-                defaultMessage="Mobile number"
+                id='modals.twostepsetup.usemobile'
+                defaultMessage='Mobile number'
               />
             </Text>
           </Container>
         </Wrapper>
       </ModalBody>
       <ModalFooter>
-        <Link size="13px" weight={300} onClick={close}>
+        <Link size='13px' weight={300} onClick={close}>
           <FormattedMessage
-            id="modals.twostepsetup.cancel"
-            defaultMessage="Cancel"
+            id='modals.twostepsetup.cancel'
+            defaultMessage='Cancel'
           />
         </Link>
       </ModalFooter>

@@ -66,87 +66,87 @@ const Success = props => {
   return (
     <div>
       <Row>
-        <Text size="16px" weight={500}>
+        <Text size='16px' weight={500}>
           <FormattedMessage
-            id="modals.sendbtc.secondstep.from"
-            defaultMessage="From:"
+            id='modals.sendbtc.secondstep.from'
+            defaultMessage='From:'
           />
         </Text>
-        <Text size="16px" weight={300}>
+        <Text size='16px' weight={300}>
           {fromAddress}
         </Text>
       </Row>
       <Row>
-        <Text size="16px" weight={500}>
+        <Text size='16px' weight={500}>
           <FormattedMessage
-            id="modals.sendbtc.secondstep.to"
-            defaultMessage="To:"
+            id='modals.sendbtc.secondstep.to'
+            defaultMessage='To:'
           />
         </Text>
-        <Text size="16px" weight={300}>
+        <Text size='16px' weight={300}>
           {toAddress}
         </Text>
       </Row>
       {description && (
         <Row>
-          <Text size="16px" weight={500}>
+          <Text size='16px' weight={500}>
             <FormattedMessage
-              id="modals.sendbtc.secondstep.note"
-              defaultMessage="Note:"
+              id='modals.sendbtc.secondstep.note'
+              defaultMessage='Note:'
             />
           </Text>
-          <Text size="16px" weight={300}>
+          <Text size='16px' weight={300}>
             {description}
           </Text>
         </Row>
       )}
       <Row>
-        <Text size="16px" weight={500}>
+        <Text size='16px' weight={500}>
           <FormattedMessage
-            id="modals.sendbtc.secondstep.payment"
-            defaultMessage="Payment:"
+            id='modals.sendbtc.secondstep.payment'
+            defaultMessage='Payment:'
           />
         </Text>
-        <Text size="16px" weight={300}>
+        <Text size='16px' weight={300}>
           <ComboDisplay coin={coin}>{amount}</ComboDisplay>
         </Text>
       </Row>
       <Row>
-        <Text size="16px" weight={500}>
+        <Text size='16px' weight={500}>
           <FormattedMessage
-            id="modals.sendbtc.secondstep.fee"
-            defaultMessage="Fee:"
+            id='modals.sendbtc.secondstep.fee'
+            defaultMessage='Fee:'
           />
         </Text>
-        <Text size="16px" weight={300}>
+        <Text size='16px' weight={300}>
           <ComboDisplay coin={coin}>{fee}</ComboDisplay>
         </Text>
       </Row>
       <Summary>
-        <Text size="16px" weight={300} color="sent">
+        <Text size='16px' weight={300} color='sent'>
           <FormattedMessage
-            id="modals.sendbtc.secontstep.total"
-            defaultMessage="Total"
+            id='modals.sendbtc.secontstep.total'
+            defaultMessage='Total'
           />
         </Text>
-        <CoinDisplay coin={coin} size="30px" weight={600} color="sent">
+        <CoinDisplay coin={coin} size='30px' weight={600} color='sent'>
           {total}
         </CoinDisplay>
-        <FiatDisplay coin={coin} size="20px" weight={300} color="sent">
+        <FiatDisplay coin={coin} size='20px' weight={300} color='sent'>
           {total}
         </FiatDisplay>
       </Summary>
       <Footer>
-        <Button onClick={handleSubmit} nature="primary" fullwidth uppercase>
+        <Button onClick={handleSubmit} nature='primary' fullwidth uppercase>
           <FormattedMessage
-            id="modals.sendbtc.secondstep.send"
-            defaultMessage="Send Bitcoin"
+            id='modals.sendbtc.secondstep.send'
+            defaultMessage='Send Bitcoin'
           />
         </Button>
-        <Link onClick={handleBack} size="13px" weight={300}>
+        <Link onClick={handleBack} size='13px' weight={300}>
           <FormattedMessage
-            id="scenes.sendbtc.secondstep.back"
-            defaultMessage="Go back"
+            id='scenes.sendbtc.secondstep.back'
+            defaultMessage='Go back'
           />
         </Link>
       </Footer>

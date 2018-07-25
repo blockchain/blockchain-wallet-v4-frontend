@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 `
 
 class VerifyEmailToken extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       token: decodeURIComponent(
@@ -29,11 +29,11 @@ class VerifyEmailToken extends React.PureComponent {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.miscActions.verifyEmailToken(this.state.token)
   }
 
-  render() {
+  render () {
     const { data } = this.props
 
     let VerifyEmailStatus = data.cata({

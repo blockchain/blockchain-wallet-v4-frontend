@@ -5,7 +5,7 @@ import Template from './template'
 import { getData } from './selectors'
 
 class WalletLanguageContainer extends React.PureComponent {
-  render() {
+  render () {
     const { data } = this.props
 
     return <Template language={data.locale} />

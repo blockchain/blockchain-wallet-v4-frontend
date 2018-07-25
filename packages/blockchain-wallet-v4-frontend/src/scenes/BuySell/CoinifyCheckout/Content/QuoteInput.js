@@ -12,11 +12,11 @@ import { getQuoteInputData } from './selectors'
 import Loading from 'components/BuySell/Loading'
 
 class QuoteInput extends Component {
-  componentDidMount() {
+  componentDidMount () {
     this.props.actions.initializeCheckoutForm(this.props.type)
   }
 
-  render() {
+  render () {
     const {
       data,
       changeTab,

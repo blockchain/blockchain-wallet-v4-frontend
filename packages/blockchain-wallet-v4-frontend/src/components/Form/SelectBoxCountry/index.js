@@ -15,7 +15,7 @@ class SelectBoxCountry extends React.PureComponent {
     blackList: null
   }
 
-  render() {
+  render () {
     const { whiteList, blackList, ...rest } = this.props
     const elements = [
       { group: '', items: applyWhiteBlackList(whiteList, blackList)(countries) }
@@ -25,8 +25,8 @@ class SelectBoxCountry extends React.PureComponent {
       <SelectBox
         label={
           <FormattedMessage
-            id="components.selectboxcountry.label"
-            defaultMessage="Select country"
+            id='components.selectboxcountry.label'
+            defaultMessage='Select country'
           />
         }
         elements={elements}

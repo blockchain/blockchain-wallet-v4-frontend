@@ -74,10 +74,10 @@ const Content = styled.div`
 const Success = props => (
   <Wrapper>
     <Header>
-      <Text uppercase size="24px" weight={300} color="brand-primary">
+      <Text uppercase size='24px' weight={300} color='brand-primary'>
         <FormattedMessage
-          id="scenes.home.activitylist.title"
-          defaultMessage="Recent Activity"
+          id='scenes.home.activitylist.title'
+          defaultMessage='Recent Activity'
         />
       </Text>
     </Header>

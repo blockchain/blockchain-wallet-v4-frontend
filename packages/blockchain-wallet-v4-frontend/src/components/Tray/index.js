@@ -57,12 +57,12 @@ const TrayModal = styled(Modal)`
 `
 
 class Tray extends React.PureComponent {
-  handleClickOutside() {
+  handleClickOutside () {
     this.props.onClose()
     // TODO: may need to check something about the modal stack here
   }
 
-  render() {
+  render () {
     const { children, ...rest } = this.props
     return (
       <Transition in={this.props.in} timeout={0}>

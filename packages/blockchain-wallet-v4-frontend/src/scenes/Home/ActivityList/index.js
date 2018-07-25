@@ -9,25 +9,25 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class ActivityListContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.handleLink = this.handleLink.bind(this)
     this.handleRequest = this.handleRequest.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.actions.initialized()
   }
 
-  handleRequest() {
+  handleRequest () {
     this.props.modalActions.showModal('RequestBitcoin')
   }
 
-  handleLink(path) {
+  handleLink (path) {
     this.props.routerActions.push(path)
   }
 
-  render() {
+  render () {
     const { data, canBuy } = this.props
     const partner = canBuy.cata({
       Success: val => val,

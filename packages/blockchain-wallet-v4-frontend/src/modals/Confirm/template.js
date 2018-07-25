@@ -47,7 +47,7 @@ const ConfirmTemplate = ({
   handleCancel,
   handleSubmit
 }) => (
-  <Modal size="large" position={position} total={total}>
+  <Modal size='large' position={position} total={total}>
     <Form onSubmit={handleSubmit}>
       <Wrapper>
         <ModalHeader onClose={close}>{selectTitle(title)}</ModalHeader>
@@ -57,9 +57,9 @@ const ConfirmTemplate = ({
             {selectMessage(message)}
           </Text>
         </ModalBody>
-        <ModalFooter align="right">
+        <ModalFooter align='right'>
           <Cancel onClick={close}>{selectCancel(cancel)}</Cancel>
-          <Button type="submit" nature="primary" capitalize>
+          <Button type='submit' nature='primary' capitalize>
             {selectConfirm(confirm)}
           </Button>
         </ModalFooter>

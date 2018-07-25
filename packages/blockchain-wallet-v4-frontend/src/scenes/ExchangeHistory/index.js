@@ -9,11 +9,11 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class ExchangeHistoryContainer extends React.PureComponent {
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.props.actions.destroyed()
   }
 
-  render() {
+  render () {
     return this.props.data.cata({
       Success: value => <Success trades={value} />,
       Failure: message => <Error>{message}</Error>,

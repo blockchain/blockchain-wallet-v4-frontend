@@ -67,54 +67,54 @@ const Register = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size="24px" weight={300} capitalize>
+        <Text size='24px' weight={300} capitalize>
           <FormattedMessage
-            id="scenes.register.create"
-            defaultMessage="Create your Wallet"
+            id='scenes.register.create'
+            defaultMessage='Create your Wallet'
           />
         </Text>
         <TextGroup inline>
-          <Text size="13px" weight={300}>
-            <FormattedMessage id="scenes.register.or" defaultMessage="or" />
+          <Text size='13px' weight={300}>
+            <FormattedMessage id='scenes.register.or' defaultMessage='or' />
           </Text>
-          <LinkContainer to="/login">
-            <Link size="13px" weight={300}>
+          <LinkContainer to='/login'>
+            <Link size='13px' weight={300}>
               <FormattedMessage
-                id="scenes.register.login"
-                defaultMessage="Login"
+                id='scenes.register.login'
+                defaultMessage='Login'
               />
             </Link>
           </LinkContainer>
         </TextGroup>
       </Header>
-      <Text size="14px" weight={300} altFont>
+      <Text size='14px' weight={300} altFont>
         <FormattedMessage
-          id="scenes.register.explain"
-          defaultMessage="Sign up for a free wallet below"
+          id='scenes.register.explain'
+          defaultMessage='Sign up for a free wallet below'
         />
       </Text>
       <Separator />
       <RegisterForm override onSubmit={handleSubmit}>
         {!isSupportedBrowser && (
           <BrowserWarning>
-            <Banner type="warning">
+            <Banner type='warning'>
               <FormattedMessage
-                id="scenes.register.browserwarning"
-                defaultMessage="Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera "
+                id='scenes.register.browserwarning'
+                defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera '
               />
             </Banner>
           </BrowserWarning>
         )}
         <FormGroup>
           <FormItem>
-            <FormLabel for="email">
+            <FormLabel for='email'>
               <FormattedMessage
-                id="scenes.register.email"
-                defaultMessage="Email"
+                id='scenes.register.email'
+                defaultMessage='Email'
               />
             </FormLabel>
             <Field
-              name="email"
+              name='email'
               autoFocus
               validate={[required, validEmail]}
               component={TextBox}
@@ -124,14 +124,14 @@ const Register = props => {
         </FormGroup>
         <FormGroup>
           <FormItem>
-            <FormLabel for="password">
+            <FormLabel for='password'>
               <FormattedMessage
-                id="scenes.register.password"
-                defaultMessage="Password"
+                id='scenes.register.password'
+                defaultMessage='Password'
               />
             </FormLabel>
             <Field
-              name="password"
+              name='password'
               validate={[required, validStrongPassword]}
               component={PasswordBox}
               score
@@ -141,14 +141,14 @@ const Register = props => {
         </FormGroup>
         <FormGroup>
           <FormItem>
-            <FormLabel for="confirmationPassword">
+            <FormLabel for='confirmationPassword'>
               <FormattedMessage
-                id="scenes.register.confirmpassword"
-                defaultMessage="Confirm Password"
+                id='scenes.register.confirmpassword'
+                defaultMessage='Confirm Password'
               />
             </FormLabel>
             <Field
-              name="confirmationPassword"
+              name='confirmationPassword'
               validate={[required, validatePasswordConfirmation]}
               component={PasswordBox}
               disabled={!isSupportedBrowser}
@@ -158,7 +158,7 @@ const Register = props => {
         <FormGroup>
           <FormItem>
             <Field
-              name="terms"
+              name='terms'
               validate={[checkboxShouldBeChecked]}
               component={CheckBox}
               disabled={!isSupportedBrowser}
@@ -169,18 +169,18 @@ const Register = props => {
         </FormGroup>
         <FormGroup>
           <Button
-            type="submit"
-            nature="primary"
+            type='submit'
+            nature='primary'
             fullwidth
             uppercase
             disabled={busy || invalid}
           >
             {busy ? (
-              <HeartbeatLoader height="20px" width="20px" color="white" />
+              <HeartbeatLoader height='20px' width='20px' color='white' />
             ) : (
               <FormattedMessage
-                id="scenes.register.submit"
-                defaultMessage="Continue"
+                id='scenes.register.submit'
+                defaultMessage='Continue'
               />
             )}
           </Button>

@@ -158,7 +158,7 @@ const SelectInput = props => {
   return (
     <SelectBoxInput
       onKeyDown={e => onKeyDown(e, items.length - 1, items[hovered])}
-      tabIndex="0"
+      tabIndex='0'
     >
       {!expanded || !searchEnabled ? (
         <Display
@@ -183,7 +183,7 @@ const SelectInput = props => {
           onChange={handleChange}
         />
       )}
-      {showArrow && <Arrow name="down-arrow" size={props.arrowSize} />}
+      {showArrow && <Arrow name='down-arrow' size={props.arrowSize} />}
       <List expanded={expanded}>
         {items.map(
           (item, index) =>

@@ -30,10 +30,10 @@ const FaqIcon = props => {
   return (
     <FaqLink onClick={handleClick} highlighted={highlighted}>
       <Icon
-        id="faq-icon"
-        name="question-in-circle-filled"
-        size="18px"
-        color="white"
+        id='faq-icon'
+        name='question-in-circle-filled'
+        size='18px'
+        color='white'
         cursor
       />
     </FaqLink>

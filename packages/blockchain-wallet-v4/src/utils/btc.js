@@ -130,7 +130,7 @@ export const detectPrivateKeyFormat = key => {
   return null
 }
 
-const parseMiniKey = function(miniKey) {
+const parseMiniKey = function (miniKey) {
   const check = crypto.sha256(miniKey + '?')
   if (check[0] !== 0x00) {
     throw new Error('Invalid mini key')
@@ -138,7 +138,7 @@ const parseMiniKey = function(miniKey) {
   return crypto.sha256(miniKey)
 }
 
-export const privateKeyStringToKey = function(
+export const privateKeyStringToKey = function (
   value,
   format,
   network = networks.bitcoin,
@@ -209,7 +209,7 @@ export const calculateBalanceSatoshi = (coins, feePerByte) => {
   return { balance, fee, effectiveBalance }
 }
 
-export const isKey = function(bitcoinKey) {
+export const isKey = function (bitcoinKey) {
   return bitcoinKey instanceof ECPair
 }
 

@@ -132,23 +132,23 @@ const FirstStep = props => {
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'15px'}>
         <FormItem width={'40%'}>
-          <FormLabel for="coin">
+          <FormLabel for='coin'>
             <FormattedMessage
-              id="modals.sendbtc.firststep.coin"
-              defaultMessage="Currency:"
+              id='modals.sendbtc.firststep.coin'
+              defaultMessage='Currency:'
             />
           </FormLabel>
-          <Field name="coin" component={SelectBoxCoin} validate={[required]} />
+          <Field name='coin' component={SelectBoxCoin} validate={[required]} />
         </FormItem>
         <FormItem width={'60%'}>
-          <FormLabel for="from">
+          <FormLabel for='from'>
             <FormattedMessage
-              id="modals.sendbtc.firststep.from"
-              defaultMessage="From:"
+              id='modals.sendbtc.firststep.from'
+              defaultMessage='From:'
             />
           </FormLabel>
           <Field
-            name="from"
+            name='from'
             component={SelectBoxBitcoinAddresses}
             validate={[required]}
             includeAll={false}
@@ -156,8 +156,8 @@ const FirstStep = props => {
           {watchOnly && (
             <Row>
               <Field
-                name="priv"
-                placeholder="Please enter your private key..."
+                name='priv'
+                placeholder='Please enter your private key...'
                 component={TextBox}
                 validate={[
                   required,
@@ -167,24 +167,24 @@ const FirstStep = props => {
                 autoFocus
                 errorBottom
               />
-              <QRCodeCapture scanType="btcPriv" border={['top', 'bottom']} />
+              <QRCodeCapture scanType='btcPriv' border={['top', 'bottom']} />
             </Row>
           )}
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>
-          <FormLabel for="to">
+          <FormLabel for='to'>
             <FormattedMessage
-              id="modals.sendbtc.firststep.to"
-              defaultMessage="To:"
+              id='modals.sendbtc.firststep.to'
+              defaultMessage='To:'
             />
           </FormLabel>
           <Row>
             {toToggled &&
               !destination && (
                 <Field
-                  name="to"
+                  name='to'
                   component={SelectBoxBitcoinAddresses}
                   opened
                   onFocus={() => handleToToggle()}
@@ -197,7 +197,7 @@ const FirstStep = props => {
             {toToggled &&
               destination && (
                 <Field
-                  name="to"
+                  name='to'
                   component={SelectBoxBitcoinAddresses}
                   onFocus={() => handleToToggle()}
                   includeAll={false}
@@ -209,8 +209,8 @@ const FirstStep = props => {
               )}
             {!toToggled && (
               <Field
-                name="to"
-                placeholder="Paste or scan an address, or select a destination"
+                name='to'
+                placeholder='Paste or scan an address, or select a destination'
                 component={TextBox}
                 validate={[required, validBitcoinAddress]}
                 autoFocus
@@ -218,7 +218,7 @@ const FirstStep = props => {
             )}
             {(!toToggled || destination) && (
               <QRCodeCapture
-                scanType="btcAddress"
+                scanType='btcAddress'
                 border={
                   enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']
                 }
@@ -227,7 +227,7 @@ const FirstStep = props => {
             {enableToggle &&
               (!toToggled || destination) && (
                 <AddressButton onClick={() => handleToToggle(true)}>
-                  <Icon name="down-arrow" size="10px" cursor />
+                  <Icon name='down-arrow' size='10px' cursor />
                 </AddressButton>
               )}
           </Row>
@@ -235,14 +235,14 @@ const FirstStep = props => {
       </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>
-          <FormLabel for="amount">
+          <FormLabel for='amount'>
             <FormattedMessage
-              id="modals.sendbtc.firststep.amount"
-              defaultMessage="Enter Amount:"
+              id='modals.sendbtc.firststep.amount'
+              defaultMessage='Enter Amount:'
             />
           </FormLabel>
           <Field
-            name="amount"
+            name='amount'
             component={FiatConvertor}
             validate={[
               required,
@@ -251,7 +251,7 @@ const FirstStep = props => {
               minimumAmount,
               maximumAmount
             ]}
-            coin="BTC"
+            coin='BTC'
           />
         </FormItem>
       </FormGroup>
@@ -259,18 +259,18 @@ const FirstStep = props => {
         <FormItem>
           <FormLabel>
             <FormattedMessage
-              id="modals.sendbtc.firststep.description"
-              defaultMessage="Description: "
+              id='modals.sendbtc.firststep.description'
+              defaultMessage='Description: '
             />
             <Tooltip>
               <FormattedMessage
-                id="modals.sendbtc.firststep.sharetooltip"
-                defaultMessage="Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you."
+                id='modals.sendbtc.firststep.sharetooltip'
+                defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
               />
             </Tooltip>
           </FormLabel>
           <Field
-            name="description"
+            name='description'
             component={TextAreaDebounced}
             placeholder="What's this transaction for?"
             rows={3}
@@ -282,13 +282,13 @@ const FirstStep = props => {
           <FeeFormContainer toggled={feePerByteToggled}>
             <FeeFormLabel>
               <FormattedMessage
-                id="modals.sendbtc.firststep.fee"
-                defaultMessage="Transaction fee:"
+                id='modals.sendbtc.firststep.fee'
+                defaultMessage='Transaction fee:'
               />
               <span>&nbsp;</span>
               {!feePerByteToggled && (
                 <Field
-                  name="feePerByte"
+                  name='feePerByte'
                   component={SelectBox}
                   elements={feePerByteElements}
                 />
@@ -304,7 +304,7 @@ const FirstStep = props => {
             {feePerByteToggled && (
               <FeePerByteContainer>
                 <Field
-                  name="feePerByte"
+                  name='feePerByte'
                   component={NumberBoxDebounced}
                   validate={[required, minimumOneSatoshi]}
                   warn={[minimumFeePerByte, maximumFeePerByte]}
@@ -316,55 +316,55 @@ const FirstStep = props => {
           </FeeFormContainer>
         </ColLeft>
         <ColRight>
-          <ComboDisplay size="14px" coin="BTC">
+          <ComboDisplay size='14px' coin='BTC'>
             {totalFee}
           </ComboDisplay>
           <Link
-            size="13px"
+            size='13px'
             weight={300}
             capitalize
             onClick={handleFeePerByteToggle}
           >
             {feePerByteToggled ? (
               <FormattedMessage
-                id="modals.sendbtc.firststep.cancel"
-                defaultMessage="Cancel"
+                id='modals.sendbtc.firststep.cancel'
+                defaultMessage='Cancel'
               />
             ) : (
               <FormattedMessage
-                id="modals.sendbtc.firststep.edit"
-                defaultMessage="Customize fee"
+                id='modals.sendbtc.firststep.edit'
+                defaultMessage='Customize fee'
               />
             )}
           </Link>
         </ColRight>
       </FeeFormGroup>
       <FormGroup margin={'15px'}>
-        <Text size="13px" weight={300}>
+        <Text size='13px' weight={300}>
           {!isPriorityFeePerByte && (
             <FormattedMessage
-              id="modals.sendbtc.firststep.estimated"
-              defaultMessage="Estimated confirmation time 1+ hour"
+              id='modals.sendbtc.firststep.estimated'
+              defaultMessage='Estimated confirmation time 1+ hour'
             />
           )}
           {isPriorityFeePerByte && (
             <FormattedMessage
-              id="modals.sendbtc.firststep.estimated2"
-              defaultMessage="Estimated confirmation time 0-60 minutes"
+              id='modals.sendbtc.firststep.estimated2'
+              defaultMessage='Estimated confirmation time 0-60 minutes'
             />
           )}
         </Text>
       </FormGroup>
       <FormGroup>
         <Button
-          type="submit"
-          nature="primary"
+          type='submit'
+          nature='primary'
           uppercase
           disabled={submitting || invalid || pristine}
         >
           <FormattedMessage
-            id="modals.sendbtc.firststep.continue"
-            defaultMessage="Continue"
+            id='modals.sendbtc.firststep.continue'
+            defaultMessage='Continue'
           />
         </Button>
       </FormGroup>

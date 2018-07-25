@@ -68,18 +68,18 @@ const MobileLogin = props => {
   const { handleScan, handleError } = rest
 
   return (
-    <Modal size="large" position={position} total={total}>
+    <Modal size='large' position={position} total={total}>
       <ModalHeader onClose={closeAll}>
         <FormattedMessage
-          id="modals.mobilelogin.title"
-          defaultMessage="Mobile login"
+          id='modals.mobilelogin.title'
+          defaultMessage='Mobile login'
         />
       </ModalHeader>
       <ModalBody>
-        <Text size="14px" weight={300}>
+        <Text size='14px' weight={300}>
           <FormattedMessage
-            id="modals.mobilelogin.explain"
-            defaultMessage="Follow these steps to log into your web wallet using your mobile device"
+            id='modals.mobilelogin.explain'
+            defaultMessage='Follow these steps to log into your web wallet using your mobile device'
           />
         </Text>
         <Container>
@@ -87,34 +87,34 @@ const MobileLogin = props => {
             <QRReader onScan={handleScan} onError={handleError} />
           </QRCodeContainer>
           <InstructionsContainer>
-            <Text size="16px" weight={400} color="brand-primary">
+            <Text size='16px' weight={400} color='brand-primary'>
               <FormattedMessage
-                id="modals.mobilelogin.login"
-                defaultMessage="Logging in with Mobile"
+                id='modals.mobilelogin.login'
+                defaultMessage='Logging in with Mobile'
               />
             </Text>
             <InstructionList>
               <Instruction>
                 <FormattedMessage
-                  id="modals.mobilelogin.openapp"
-                  defaultMessage="Open the Blockchain app on your mobile device "
+                  id='modals.mobilelogin.openapp'
+                  defaultMessage='Open the Blockchain app on your mobile device '
                 />
               </Instruction>
               <Instruction>
                 <FormattedMessage
-                  id="modals.mobilelogin.tapweb"
+                  id='modals.mobilelogin.tapweb'
                   defaultMessage="Select 'Log in to Web Wallet' from your wallet's side menu"
                 />
               </Instruction>
               <Instruction>
                 <FormattedMessage
-                  id="modals.mobilelogin.showqr"
+                  id='modals.mobilelogin.showqr'
                   defaultMessage="Select 'Show QR Code'"
                 />
               </Instruction>
               <Instruction>
                 <FormattedMessage
-                  id="modals.mobilelogin.scan"
+                  id='modals.mobilelogin.scan'
                   defaultMessage="Using your computer's camera, scan the QR code that appears"
                 />
               </Instruction>
@@ -122,15 +122,15 @@ const MobileLogin = props => {
           </InstructionsContainer>
         </Container>
         <BadgesContainer>
-          <Badge type="applestore" />
-          <Badge type="googleplay" />
+          <Badge type='applestore' />
+          <Badge type='googleplay' />
         </BadgesContainer>
       </ModalBody>
       <ModalFooter>
-        <Link size="13px" weight={300} onClick={close}>
+        <Link size='13px' weight={300} onClick={close}>
           <FormattedMessage
-            id="modals.mobilelogin.cancel"
-            defaultMessage="Cancel"
+            id='modals.mobilelogin.cancel'
+            defaultMessage='Cancel'
           />
         </Link>
       </ModalFooter>

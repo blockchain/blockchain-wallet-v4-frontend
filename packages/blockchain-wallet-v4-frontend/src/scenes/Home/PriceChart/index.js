@@ -47,10 +47,10 @@ const TitleText = styled(Text)`
 const PriceChart = () => (
   <Wrapper>
     <TitleRow>
-      <TitleText color="brand-primary" uppercase>
+      <TitleText color='brand-primary' uppercase>
         <FormattedMessage
-          id="scenes.home.pricechart"
-          defaultMessage="Price chart"
+          id='scenes.home.pricechart'
+          defaultMessage='Price chart'
         />
       </TitleText>
       <TimeFilters />

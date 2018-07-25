@@ -71,12 +71,12 @@ const aboveMinAmount = (value, allValues, props) =>
   value < props.limits.min ? 'min' : undefined
 
 class ExchangeCheckout extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {}
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     const { base, quote } = nextProps
 
     if (quote && !equals(this.props.quote, quote)) {
@@ -101,7 +101,7 @@ class ExchangeCheckout extends React.PureComponent {
     }
   }
 
-  setMax() {
+  setMax () {
     const { crypto, fiat, fiatLimits, type } = this.props
     let field = fiatLimits ? 'fiat' : 'crypto'
     let baseCurrency = fiatLimits ? fiat : crypto
@@ -119,7 +119,7 @@ class ExchangeCheckout extends React.PureComponent {
     })
   }
 
-  render() {
+  render () {
     const { rate } = this.state
     const {
       accounts,
@@ -148,8 +148,8 @@ class ExchangeCheckout extends React.PureComponent {
           <LabelWrapper>
             <Label>
               <FormattedMessage
-                id="scenes.buysell.exchangecheckout.enteramount"
-                defaultMessage="Enter Amount:"
+                id='scenes.buysell.exchangecheckout.enteramount'
+                defaultMessage='Enter Amount:'
               />
             </Label>
             {rate &&
@@ -160,7 +160,7 @@ class ExchangeCheckout extends React.PureComponent {
                   </Amount>
                   <Tooltip>
                     <FormattedMessage
-                      id="scenes.buysell.exchangecheckout.rate"
+                      id='scenes.buysell.exchangecheckout.rate'
                       defaultMessage="The rate offered by your region's exchange partner. May include fees."
                     />
                   </Tooltip>
@@ -168,10 +168,10 @@ class ExchangeCheckout extends React.PureComponent {
               )}
             {minError && (
               <Rate>
-                <Text size="12px" color={'error'} weight={300}>
+                <Text size='12px' color={'error'} weight={300}>
                   <FormattedMessage
-                    id="scenes.buysell.exchangecheckout.enteramount.details"
-                    defaultMessage="Please enter an amount greater than {min} {curr}."
+                    id='scenes.buysell.exchangecheckout.enteramount.details'
+                    defaultMessage='Please enter an amount greater than {min} {curr}.'
                     values={{
                       min: limits.min,
                       curr: this.props.fiatLimits ? fiat : crypto
@@ -182,9 +182,9 @@ class ExchangeCheckout extends React.PureComponent {
             )}
           </LabelWrapper>
           <CheckoutInput inline>
-            <FormItem width="50%">
+            <FormItem width='50%'>
               <Field
-                name="fiat"
+                name='fiat'
                 hideErrors
                 component={NumberBox}
                 validate={[belowMaxAmount, aboveMinAmount, required]}
@@ -197,9 +197,9 @@ class ExchangeCheckout extends React.PureComponent {
                 }
               />
             </FormItem>
-            <FormItem width="50%">
+            <FormItem width='50%'>
               <Field
-                name="crypto"
+                name='crypto'
                 hideErrors
                 component={NumberBox}
                 validate={[required]}
@@ -214,7 +214,7 @@ class ExchangeCheckout extends React.PureComponent {
             </FormItem>
           </CheckoutInput>
           <ReasonMessage onClick={this.setMax.bind(this)}>
-            <Text size="12px" weight={300} color={maxError ? 'error' : ''}>
+            <Text size='12px' weight={300} color={maxError ? 'error' : ''}>
               {reasonMsg}
             </Text>
           </ReasonMessage>
@@ -223,16 +223,16 @@ class ExchangeCheckout extends React.PureComponent {
           )}
           {accounts && accounts.length > 0 ? (
             <AccountsContainer>
-              <Text size="14px" weight={300} style={{ 'margin-bottom': '5px' }}>
+              <Text size='14px' weight={300} style={{ 'margin-bottom': '5px' }}>
                 <FormattedMessage
-                  id="scenes.buysell.exchangecheckout.synced"
-                  defaultMessage="Synced Bank Account:"
+                  id='scenes.buysell.exchangecheckout.synced'
+                  defaultMessage='Synced Bank Account:'
                 />
               </Text>
               {accounts.map(account => {
                 return (
                   <Account>
-                    <Icon size="24px" name="bank" />
+                    <Icon size='24px' name='bank' />
                     <AccountDetails>
                       <span>
                         {account.accountType} ({account.routingNumber})
@@ -244,7 +244,7 @@ class ExchangeCheckout extends React.PureComponent {
               })}
             </AccountsContainer>
           ) : null}
-          <Button type="submit" nature="primary" fullwidth>
+          <Button type='submit' nature='primary' fullwidth>
             {continueButton}
           </Button>
         </Form>

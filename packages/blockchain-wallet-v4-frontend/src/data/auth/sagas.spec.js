@@ -718,7 +718,7 @@ describe('authSagas', () => {
         }
         return expectSaga(reset2fa, { payload })
           .provide({
-            call(effect, next) {
+            call (effect, next) {
               if (effect.fn === coreSagas.wallet.resetWallet2fa) {
                 throw guidNotFound2faError
               }

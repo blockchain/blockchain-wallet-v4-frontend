@@ -62,7 +62,7 @@ const ColumnRight = styled(Column)`
 `
 
 class Home extends React.PureComponent {
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     if (
       !Remote.Success.is(prevProps.buySellKv) &&
       Remote.Success.is(this.props.buySellKv)
@@ -79,7 +79,7 @@ class Home extends React.PureComponent {
     }
   }
 
-  render() {
+  render () {
     const { buySellKv, canTrade } = this.props
 
     const renderSfoxBanner = kvStore => {
