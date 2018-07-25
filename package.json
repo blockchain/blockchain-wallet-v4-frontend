@@ -33,13 +33,14 @@
     }
   },
   "lint-staged": {
-    "style": {
+    "linters": {
       "*.{js,json}": [
         "prettier --write",
         "eslint --fix",
         "git add"
       ]
     },
+    "concurrent": false,
     "ignore": [
       "**/package.json"
     ]
