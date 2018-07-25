@@ -300,6 +300,7 @@
   "components.alerts.pbkdf2_update_success":
     "Επιτυχής μεταβολή επαναλήψεων PBKDF2",
   "components.alerts.private_key_incorrect": "Μη Έγκυρο Ιδιωτικό Κλειδί.",
+  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success": "Λάβατε μια πληρωμή bitcoin cash.",
   "components.alerts.receive_btc_success": "Λάβατε μια πληρωμή bitcoin.",
   "components.alerts.receive_eth_success": "Λάβατε μια πληρωμή ether.",
@@ -767,8 +768,7 @@
   "modals.requestbch.scan_tooltip":
     "Ζητήστε από τον αποστολέα να σαρώσει αυτόν τον κωδικό QR στο Bitcoin Cash πορτοφόλι του",
   "modals.requestbch.share": "Αντιγραφή & Κοινοποίηση Διεύθυνσης: ",
-  "modals.requestbch.share_ooltip":
-    "Κοινοποιήστε αυτή τη διεύθυνση με άλλους και θα μπορούν να σας στείλουν Bitcoin Cash απευθείας στο πορτοφόλι σας. Η διεύθυνσή σας αλλάζει με κάθε πληρωμή.",
+  "modals.requestbch.share_tooltip": null,
   "modals.requestbch.title": "Αίτημα Bitcoin Cash",
   "modals.requestbitcoin.firststep.amount": "Εισαγωγή Ποσού:",
   "modals.requestbitcoin.firststep.description": "Περιγραφή:",
@@ -1016,6 +1016,7 @@
   "orderdetails.date": "Αρχικοποίηση Ημερομηνίας",
   "orderdetails.footnote":
     "*Παρακαλούμε σημειώστε: ανάλογα με την πολιτική εμβασμάτων της τράπεζάς σας, θα δείτε τα κεφάλαια να εμφανίζονται στον λογαριασμό σας μέσα σε 1-2 ημέρες από τη μεταφορά. ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "Λεπτομέρειες Εντολής",
   "orderdetails.payoutdetails": "Λεπτομέρειες Πληρωμής",
   "orderdetails.recurring.amount": "Ποσό:",
@@ -1138,6 +1139,7 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,

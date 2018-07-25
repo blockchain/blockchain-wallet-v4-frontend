@@ -294,6 +294,7 @@
     "Du fick precis en Ethereum-betalning",
   "components.alerts.pbkdf2_update_success": "PBKDF2-iterationer har ändrats",
   "components.alerts.private_key_incorrect": "Felaktig privat nyckel.",
+  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success":
     "Du har fått en Bitcoin Cash-betalning..",
   "components.alerts.receive_btc_success": "Du har fått en bitcoin-betalning.",
@@ -750,8 +751,7 @@
   "modals.requestbch.scan_tooltip":
     "Be avsändaren att skanna den här QR-koden med deras Bitcoin Cash-plånbok",
   "modals.requestbch.share": "Kopiera och dela adressen: ",
-  "modals.requestbch.share_ooltip":
-    "Dela den här adressen med andra så att de kan skicka Bitcoin Cash direkt till din plånbok. Din adress ändras efter varje betalning.",
+  "modals.requestbch.share_tooltip": null,
   "modals.requestbch.title": "Begär Bitcoin Cash",
   "modals.requestbitcoin.firststep.amount": "Ange belopp:",
   "modals.requestbitcoin.firststep.description": "Beskrivning:",
@@ -992,6 +992,7 @@
   "orderdetails.date": "Startdatum",
   "orderdetails.footnote":
     "*Observera: beroende på din banks överföringspolicyer kommer pengarna att finnas på ditt konto inom 1-2 dagar. ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "Beställningsuppgifter",
   "orderdetails.payoutdetails": "Utbetalningsuppgifter",
   "orderdetails.recurring.amount": "Belopp:",
@@ -1111,6 +1112,7 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,
