@@ -74,9 +74,9 @@ const Tooltip = props => {
     <StyledTip
       id={id}
       delayHide={250}
-      effect="solid"
-      type="light"
-      border="true"
+      effect='solid'
+      type='light'
+      border='true'
       {...rest}
     >
       {children}
