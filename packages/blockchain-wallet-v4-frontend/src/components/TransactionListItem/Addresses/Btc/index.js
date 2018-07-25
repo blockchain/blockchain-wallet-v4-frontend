@@ -27,8 +27,8 @@ const BtcAddresses = props => {
     .map((output, index) => output.address)
     .join('\n<br />\n')
 
-  const inputTooltip = inputs
-    .map((input, index) => input.label && input.address)
+  const inputTooltip = filter(hasLabel, inputs)
+    .map((input, index) => input.address)
     .join('\n<br />\n')
 
   return (

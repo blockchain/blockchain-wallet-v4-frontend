@@ -32,11 +32,10 @@ const BchAddresses = props => {
     )
     .join('\n<br />\n')
 
-  const inputTooltip = inputs
+  const inputTooltip = filter(hasLabel, inputs)
     .map(
       (input, index) =>
-        input.label &&
-        (utils.bch.toCashAddr(input.address, true) || input.address)
+        utils.bch.toCashAddr(input.address, true) || input.address
     )
     .join('\n<br />\n')
 
