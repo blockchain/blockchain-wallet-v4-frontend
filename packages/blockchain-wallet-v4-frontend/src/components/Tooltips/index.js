@@ -46,7 +46,7 @@ class Tooltips extends React.PureComponent {
         <Tooltip id='reqBchQR'>
           <FormattedMessage
             id='modals.requestbch.scan_tooltip'
-            defaultMessage='Ask the sender to scan this QR code with their Bitcoin cash wallet'
+            defaultMessage='Ask the sender to scan this QR code with their bitcoin cash wallet'
           />
         </Tooltip>
         <Tooltip id='reqBitcoinShare'>
