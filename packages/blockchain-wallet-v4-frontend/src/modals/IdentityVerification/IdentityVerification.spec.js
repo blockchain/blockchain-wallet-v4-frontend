@@ -9,6 +9,7 @@ import { MODAL_NAME } from 'data/components/identityVerification/model'
 import { coreReducers, paths, coreSagasFactory } from 'blockchain-wallet-v4/src'
 import identityVerificationReducer from 'data/components/identityVerification/reducers'
 import modalsReducer from 'data/modals/reducers'
+import profileReducer from 'data/modules/profile/reducers'
 import identityVerificationSaga from 'data/components/identityVerification/sagaRegister'
 import securityCenterSagas from 'data/modules/securityCenter/sagaRegister'
 import settingsSagas from 'data/modules/settings/sagaRegister'
@@ -45,6 +46,7 @@ describe('IdentityVerification Modal', () => {
     components: combineReducers({
       identityVerification: identityVerificationReducer
     }),
+    profile: profileReducer,
     [paths.settingsPath]: coreReducers.settings
   }
   const sagas = [
@@ -241,6 +243,10 @@ describe('IdentityVerification Modal', () => {
           .find('Field[name="firstName"]')
           .find('input')
           .simulate('change', { target: { value: 'User' } })
+        wrapper
+          .find('Field[name="terms"]')
+          .find('input')
+          .simulate('change', { target: { value: true } })
         jest.runAllTimers()
         wrapper.update()
         expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
@@ -263,6 +269,10 @@ describe('IdentityVerification Modal', () => {
           .find('Field[name="firstName"]')
           .find('input')
           .simulate('change', { target: { value: 'User' } })
+        wrapper
+          .find('Field[name="terms"]')
+          .find('input')
+          .simulate('change', { target: { value: true } })
         jest.runAllTimers()
         wrapper.update()
         expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(

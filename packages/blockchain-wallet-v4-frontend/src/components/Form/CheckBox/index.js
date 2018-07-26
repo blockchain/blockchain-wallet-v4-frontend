@@ -31,7 +31,7 @@ const CheckBox = ({ children, ...field }) => {
 
   return (
     <Wrapper>
-      <Container>
+      <Container className='Container'>
         <CheckBoxInput
           {...field.input}
           disabled={field.disabled}

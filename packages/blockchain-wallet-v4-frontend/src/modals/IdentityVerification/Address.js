@@ -7,11 +7,7 @@ import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { getAddressData } from './selectors'
-import {
-  required,
-  requiredZipCode,
-  termsCheckBoxChecked
-} from 'services/FormHelper'
+import { required, requiredZipCode } from 'services/FormHelper'
 import { ADDRESS_FORM } from 'data/components/identityVerification/model'
 import media from 'services/ResponsiveService'
 import { Button, Text, HeartbeatLoader } from 'blockchain-info-components'
@@ -20,8 +16,7 @@ import {
   FormItem,
   TextBox,
   SelectBoxRegion,
-  SelectBoxCountry,
-  CheckBox
+  SelectBoxCountry
 } from 'components/Form'
 import { countryHasStates } from 'components/Form/SelectBoxRegion'
 import {
@@ -34,7 +29,6 @@ import {
   ColRightInner
 } from 'components/IdentityVerification'
 import renderFaq from 'components/FaqDropdown'
-import Terms from 'components/Terms'
 
 const FormContainer = styled.div`
   margin-top: 25px;
@@ -191,19 +185,6 @@ const Address = ({
                 validate={[required]}
                 component={SelectBoxCountry}
               />
-            </FormItem>
-          </FormGroup>
-          <FormGroup>
-            <FormItem>
-              <Field
-                name='terms'
-                validate={[termsCheckBoxChecked]}
-                component={CheckBox}
-              >
-                <Text size='12px' weight={300}>
-                  <Terms />
-                </Text>
-              </Field>
             </FormItem>
           </FormGroup>
         </FormContainer>

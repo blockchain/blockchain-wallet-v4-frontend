@@ -3,12 +3,14 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
+import moment from 'moment'
 
 import {
   required,
   requiredDOB,
   ageOverEighteen,
-  normalizeDateOfBirth
+  normalizeDateOfBirth,
+  termsCheckBoxChecked
 } from 'services/FormHelper'
 import { PERSONAL_FORM } from 'data/components/identityVerification/model'
 import media from 'services/ResponsiveService'
@@ -26,7 +28,8 @@ import {
   FormItem,
   TextBox,
   PhoneNumberBox,
-  DateBoxDebounced
+  DateBoxDebounced,
+  CheckBox
 } from 'components/Form'
 import {
   Form,
@@ -38,7 +41,7 @@ import {
   ColRightInner
 } from 'components/IdentityVerification'
 import renderFaq from 'components/FaqDropdown'
-import moment from 'moment'
+import Terms from 'components/Terms'
 
 const FormContainer = styled.div`
   margin-top: 25px;
@@ -92,6 +95,11 @@ const EditLink = styled(Link)`
   ${media.mobile`
     font-size: 12px;
   `};
+`
+const TermsCheckBox = styled(CheckBox)`
+  .Container {
+    height: 100%;
+  }
 `
 const DOBFormat = 'MM/DD/YYYY'
 const momentToDOB = value => value && value.format(DOBFormat)
@@ -278,6 +286,19 @@ const Personal = ({
     </ColLeft>
     <ColRight>
       <ColRightInner>
+        <FormGroup>
+          <FormItem>
+            <Field
+              name='terms'
+              validate={[termsCheckBoxChecked]}
+              component={TermsCheckBox}
+            >
+              <Text size='12px' weight={300}>
+                <Terms />
+              </Text>
+            </Field>
+          </FormItem>
+        </FormGroup>
         <Button
           uppercase
           nature='primary'
