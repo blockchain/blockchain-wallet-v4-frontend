@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import styled, { injectGlobal } from 'styled-components'
 import Cookies from 'universal-cookie'
+import { IntlProvider } from 'react-intl'
 
 import { Image } from '../Images'
 import { Color } from '../Colors'
@@ -255,155 +256,159 @@ class Footer extends PureComponent {
 
   render () {
     return (
-      <GlobalFooter>
-        <Container>
-          <SiteNav>
-            <Column>
-              <h5>Products</h5>
-              <ul>
-                <li>
-                  <Link locale={this.lang} href={'/wallet'}>
-                    Wallet
-                  </Link>
-                </li>
-                <li>
-                  <Link locale={this.lang} href={'/explorer'}>
-                    Explorer
-                  </Link>
-                  <NavBadge>Info</NavBadge>
-                </li>
-                <li>
-                  <Link href='https://bps.blockchain.com/'>
-                    Principal Strategies
-                  </Link>
-                </li>
-                <li>
-                  <Link locale={this.lang} href={'/api'}>
-                    Developers
-                  </Link>
-                </li>
-              </ul>
-            </Column>
+      <IntlProvider>
+        <GlobalFooter>
+          <Container>
+            <SiteNav>
+              <Column>
+                <h5>Products</h5>
+                <ul>
+                  <li>
+                    <Link locale={this.lang} href={'/wallet'}>
+                      Wallet
+                    </Link>
+                  </li>
+                  <li>
+                    <Link locale={this.lang} href={'/explorer'}>
+                      Explorer
+                    </Link>
+                    <NavBadge>Info</NavBadge>
+                  </li>
+                  <li>
+                    <Link href='https://bps.blockchain.com/'>
+                      Principal Strategies
+                    </Link>
+                  </li>
+                  <li>
+                    <Link locale={this.lang} href={'/api'}>
+                      Developers
+                    </Link>
+                  </li>
+                </ul>
+              </Column>
 
-            <Column>
-              <h5>Data</h5>
-              <ul>
-                <li>
-                  <Link locale={this.lang} href={'/markets'}>
-                    Markets
-                  </Link>
-                  <NavBadge>New</NavBadge>
-                </li>
-                <li>
-                  <Link locale={this.lang} href={'/charts'}>
-                    Charts
-                  </Link>
-                </li>
-              </ul>
-            </Column>
+              <Column>
+                <h5>Data</h5>
+                <ul>
+                  <li>
+                    <Link locale={this.lang} href={'/markets'}>
+                      Markets
+                    </Link>
+                    <NavBadge>New</NavBadge>
+                  </li>
+                  <li>
+                    <Link locale={this.lang} href={'/charts'}>
+                      Charts
+                    </Link>
+                  </li>
+                </ul>
+              </Column>
 
-            <Column>
-              <h5>Learn</h5>
-              <ul>
-                <li>
-                  <Link
-                    locale={this.lang}
-                    href={'/learning-portal/bitcoin-faq'}
-                  >
-                    What is Bitcoin
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    locale={this.lang}
-                    href={'/learning-portal/ether-basics'}
-                  >
-                    What is Ethereum
-                  </Link>
-                </li>
-                <li>
-                  <Link locale={this.lang} href={'/learning-portal'}>
-                    Getting Started
-                  </Link>
-                </li>
-                <li>
-                  <Link href='https://blog.blockchain.com'>Blog</Link>
-                </li>
-              </ul>
-            </Column>
+              <Column>
+                <h5>Learn</h5>
+                <ul>
+                  <li>
+                    <Link
+                      locale={this.lang}
+                      href={'/learning-portal/bitcoin-faq'}
+                    >
+                      What is Bitcoin
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      locale={this.lang}
+                      href={'/learning-portal/ether-basics'}
+                    >
+                      What is Ethereum
+                    </Link>
+                  </li>
+                  <li>
+                    <Link locale={this.lang} href={'/learning-portal'}>
+                      Getting Started
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href='https://blog.blockchain.com'>Blog</Link>
+                  </li>
+                </ul>
+              </Column>
 
-            <Column>
-              <h5>Company</h5>
-              <ul>
-                <li>
-                  <Link locale={this.lang} href={'/about'}>
-                    About
-                  </Link>
-                </li>
-                <li>
-                  <Link locale={this.lang} href={'/team'}>
-                    Team
-                  </Link>
-                </li>
-                <li>
-                  <Link locale={this.lang} href={'/careers'}>
-                    Careers
-                  </Link>
-                  <NavBadge>Hiring</NavBadge>
-                </li>
-                <li>
-                  <Link locale={this.lang} href={'/legal'}>
-                    Legal
-                  </Link>
-                </li>
-              </ul>
-            </Column>
+              <Column>
+                <h5>Company</h5>
+                <ul>
+                  <li>
+                    <Link locale={this.lang} href={'/about'}>
+                      About
+                    </Link>
+                  </li>
+                  <li>
+                    <Link locale={this.lang} href={'/team'}>
+                      Team
+                    </Link>
+                  </li>
+                  <li>
+                    <Link locale={this.lang} href={'/careers'}>
+                      Careers
+                    </Link>
+                    <NavBadge>Hiring</NavBadge>
+                  </li>
+                  <li>
+                    <Link locale={this.lang} href={'/legal'}>
+                      Legal
+                    </Link>
+                  </li>
+                </ul>
+              </Column>
 
-            <Column>
-              <h5>Contact Us</h5>
-              <ul>
-                <li>
-                  <Link locale={this.lang} href={'/press'}>
-                    Press
-                  </Link>
-                </li>
-                <li>
-                  <Link href='https://support.blockchain.com'>Support</Link>
-                </li>
-                <li>
-                  <Link href='https://www.blockchain-status.com/'>Status</Link>
-                </li>
-              </ul>
-            </Column>
+              <Column>
+                <h5>Contact Us</h5>
+                <ul>
+                  <li>
+                    <Link locale={this.lang} href={'/press'}>
+                      Press
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href='https://support.blockchain.com'>Support</Link>
+                  </li>
+                  <li>
+                    <Link href='https://www.blockchain-status.com/'>
+                      Status
+                    </Link>
+                  </li>
+                </ul>
+              </Column>
 
-            <Column>
-              <BlueLogo name='blue-logo' height='44px' />
-              <Copyright>
-                © {new Date().getFullYear()} BLOCKCHAIN LUXEMBOURG S.A.
-              </Copyright>
-            </Column>
-          </SiteNav>
-          <LangNav>
-            <Select
-              transparent
-              items={langItems}
-              value={this.lang}
-              onChange={this.handleDropdown}
-            />
-            <SocialLinksWrap>
-              <SocialLinks href='https://twitter.com/blockchain'>
-                <Image name='twitter-white' />
-              </SocialLinks>
-              <SocialLinks href='https://www.linkedin.com/company/blockchain/'>
-                <Image name='linkedin-white' />
-              </SocialLinks>
-              <SocialLinks href='https://www.facebook.com/blockchain/'>
-                <Image name='facebook-white' />
-              </SocialLinks>
-            </SocialLinksWrap>
-          </LangNav>
-        </Container>
-      </GlobalFooter>
+              <Column>
+                <BlueLogo name='blue-logo' height='44px' />
+                <Copyright>
+                  © {new Date().getFullYear()} BLOCKCHAIN LUXEMBOURG S.A.
+                </Copyright>
+              </Column>
+            </SiteNav>
+            <LangNav>
+              <Select
+                transparent
+                items={langItems}
+                value={this.lang}
+                onChange={this.handleDropdown}
+              />
+              <SocialLinksWrap>
+                <SocialLinks href='https://twitter.com/blockchain'>
+                  <Image name='twitter-white' />
+                </SocialLinks>
+                <SocialLinks href='https://www.linkedin.com/company/blockchain/'>
+                  <Image name='linkedin-white' />
+                </SocialLinks>
+                <SocialLinks href='https://www.facebook.com/blockchain/'>
+                  <Image name='facebook-white' />
+                </SocialLinks>
+              </SocialLinksWrap>
+            </LangNav>
+          </Container>
+        </GlobalFooter>
+      </IntlProvider>
     )
   }
 }
