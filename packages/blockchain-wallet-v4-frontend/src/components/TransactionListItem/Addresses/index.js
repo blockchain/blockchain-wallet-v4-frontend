@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { any, equals, filter } from 'ramda'
+import { equals, filter } from 'ramda'
 
-import { Text, TextGroup, Tooltip } from 'blockchain-info-components'
+import { Text, TextGroup, TooltipHost } from 'blockchain-info-components'
 import { utils } from 'blockchain-wallet-v4/src'
 
 const Wrapper = styled.div`
@@ -14,11 +14,40 @@ const Wrapper = styled.div`
   align-items: flex-start;
 `
 
+const Label = styled(Text)`
+  font-size: 13px;
+  font-weight: 300;
+`
+
 const hasLabel = io => io.label
 const notChange = io => !io.change
 
 const Addresses = props => {
   const { from, to, outputs, inputs, coin } = props
+  const outputTooltip =  !equals(coin, 'ETH') ? (filter(hasLabel, filter(notChange, outputs))
+    .map(
+      (output, index) =>
+        equals(coin, 'BCH')
+          ? utils.bch.toCashAddr(output.address, true)
+          : output.address
+    )
+    .join('\n<br />\n')
+  ) : (
+    undefined
+  )
+
+  const inputTooltip = !equals(coin, 'ETH') ? (inputs
+    .map(
+      (input, index) =>
+        input.label &&
+        (equals(coin, 'BCH')
+          ? utils.bch.toCashAddr(input.address, true)
+          : input.address)
+    )
+    .join('\n<br />\n')
+  ) : (
+    undefined
+  )
 
   return (
     <Wrapper>
@@ -29,22 +58,9 @@ const Addresses = props => {
             defaultMessage='To: '
           />
         </Text>
-        <Tooltip
-          width='auto'
-          label={to}
-          hover={outputs && any(hasLabel, filter(notChange, outputs))}
-        >
-          {outputs &&
-            filter(hasLabel, filter(notChange, outputs)).map(
-              (output, index) => (
-                <Text key={index} size='12px' weight={300}>
-                  {equals(coin, 'BCH')
-                    ? utils.bch.toCashAddr(output.address, true)
-                    : output.address}
-                </Text>
-              )
-            )}
-        </Tooltip>
+        <TooltipHost tip={outputTooltip} id='addr'>
+          <Label>{to}</Label>
+        </TooltipHost>
       </TextGroup>
       <TextGroup inline>
         <Text size='13px' weight={500}>
@@ -53,23 +69,9 @@ const Addresses = props => {
             defaultMessage='From: '
           />
         </Text>
-        <Tooltip
-          width='auto'
-          label={from}
-          hover={inputs && inputs.some(hasLabel)}
-        >
-          {inputs &&
-            inputs.map(
-              (input, index) =>
-                input.label && (
-                  <Text key={index} size='12px' weight={300}>
-                    {equals(coin, 'BCH')
-                      ? utils.bch.toCashAddr(input.address, true)
-                      : input.address}
-                  </Text>
-                )
-            )}
-        </Tooltip>
+        <TooltipHost tip={inputTooltip} id='addr'>
+          <Label>{from}</Label>
+        </TooltipHost>
       </TextGroup>
     </Wrapper>
   )

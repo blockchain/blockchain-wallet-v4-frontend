@@ -12,6 +12,7 @@ exports[`PhoneNumberBox renders correctly 1`] = `
     defaultCountry="us"
     defaultValue=""
     format={true}
+    onPhoneNumberBlur={[Function]}
     onPhoneNumberChange={[Function]}
     placeholder="555-555-5555"
     preferredCountries={

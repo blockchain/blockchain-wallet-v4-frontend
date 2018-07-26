@@ -7,9 +7,9 @@ import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as actions from '../../actions'
 import * as sfoxActions from './actions.js'
 import * as selectors from '../../selectors.js'
-import sfoxSagas, { logLocation } from './sagas'
+import sfoxSagas, { logLocation, missingJumioToken } from './sagas'
 import * as C from 'services/AlertService'
-import { promptForSecondPassword } from 'services/SagaService'
+import { promptForSecondPassword, confirm } from 'services/SagaService'
 import settings from 'config'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
@@ -22,6 +22,13 @@ describe('sfoxSagas', () => {
 
   const tradeReceiveAddress = '1FVKW4rp5rN23dqFVk2tYGY4niAXMB8eZC'
   const secondPassword = 'secondPassword'
+  const mockAccounts = Remote.of([{ id: 1 }])
+  const mockJumioStatus = { success: true, status: 'DONE' }
+  const mockJumioToken = { id: '123abc', token: 'token123abc' }
+  const mockProfile = Remote.of({
+    fetchJumioStatus: () => mockJumioStatus,
+    fetchJumioToken: () => mockJumioToken
+  })
   const mockSellTrade = {
     sendAmount: 100,
     receiveAddress: tradeReceiveAddress,
@@ -345,7 +352,7 @@ describe('sfoxSagas', () => {
     it('should go to funding if no required docs', () => {
       const profile = { data: { verificationStatus: { required_docs: [] } } }
 
-      saga.next(profile).put(sfoxActions.nextStep('funding'))
+      saga.next(profile).put(sfoxActions.nextStep('jumio'))
     })
     it('should handle errors', () => {
       const error = new Error()
@@ -412,12 +419,12 @@ describe('sfoxSagas', () => {
     })
   })
 
-  describe('sfox checkForProfileFailure', () => {
-    const { checkForProfileFailure } = sfoxSagas({
+  describe('sfox checkProfileStatus', () => {
+    const { checkProfileStatus } = sfoxSagas({
       coreSagas
     })
 
-    const saga = testSaga(checkForProfileFailure)
+    const saga = testSaga(checkProfileStatus)
 
     it('should select the profile', () => {
       saga.next().select(selectors.core.data.sfox.getProfile)
@@ -571,6 +578,119 @@ describe('sfoxSagas', () => {
             actions.logs.logErrorMessage(logLocation, 'submitSellQuote', error)
           )
       })
+    })
+  })
+
+  describe('sfox initializeJumio', () => {
+    const { initializeJumio, fetchJumioStatus } = sfoxSagas({ coreSagas })
+
+    const saga = testSaga(initializeJumio)
+
+    it('should call fetchJumioStatus saga', () => {
+      saga.next().call(fetchJumioStatus)
+    })
+
+    it('should select bank accounts', () => {
+      saga.next(missingJumioToken).select(selectors.core.data.sfox.getAccounts)
+    })
+
+    it('should prompt the user to confirm their id verification if missing_token and accounts', () => {
+      saga.next(mockAccounts).call(confirm, {
+        title: 'verify_identity_title',
+        image: 'identity-verification',
+        message: 'verify_identity_msg',
+        confirm: 'confirm_verify_identity',
+        cancel: 'cancel_verify_identity'
+      })
+    })
+
+    it('should trigger SfoxExchangeData modal on jumio step', () => {
+      saga
+        .next(true)
+        .put(actions.modals.showModal('SfoxExchangeData', { step: 'jumio' }))
+    })
+  })
+
+  describe('sfox completeJumio', () => {
+    const { completeJumio, fetchJumioStatus } = sfoxSagas({ coreSagas })
+
+    const saga = testSaga(completeJumio)
+
+    it('should select jumio token from kvStore', () => {
+      saga.next().select(selectors.core.kvStore.buySell.getSfoxJumio)
+    })
+    it('should select bank accounts from sfox', () => {
+      saga
+        .next(Remote.of(mockJumioToken))
+        .select(selectors.core.data.sfox.getAccounts)
+    })
+    it('should go to next step, funding', () => {
+      saga.next(mockAccounts).put(actions.modals.closeAllModals())
+    })
+    it('should fetchJumioStatus', () => {
+      saga.next().call(fetchJumioStatus)
+    })
+    it('should set the jumio token in kvStore', () => {
+      const completedToken = mockJumioToken
+      saga
+        .next()
+        .put(actions.core.kvStore.buySell.sfoxSetJumioToken(completedToken))
+    })
+  })
+
+  describe('sfox fetchJumioStatus', () => {
+    const { fetchJumioStatus } = sfoxSagas({ coreSagas })
+
+    const saga = testSaga(fetchJumioStatus)
+
+    it('should set jumioStatus to loading', () => {
+      saga.next().put(sfoxActions.fetchJumioStatusLoading())
+    })
+    it('should select the users sfox profile', () => {
+      saga.next().select(selectors.core.data.sfox.getProfile)
+    })
+    it('should select jumio token from kvStore', () => {
+      saga.next(mockProfile).select(selectors.core.kvStore.buySell.getSfoxJumio)
+    })
+    it('should fetchJumioStatus from sfox', () => {
+      const profile = mockProfile.getOrElse({})
+      const token = mockJumioToken
+      saga
+        .next(Remote.of(mockJumioToken))
+        .apply(profile, profile.fetchJumioStatus, [token.id])
+    })
+    it('should put successful status', () => {
+      saga
+        .next(mockJumioStatus)
+        .put(sfoxActions.fetchJumioStatusSuccess(mockJumioStatus))
+    })
+  })
+
+  describe('sfox fetchJumioToken', () => {
+    const { fetchJumioToken, fetchJumioStatus } = sfoxSagas({ coreSagas })
+
+    const saga = testSaga(fetchJumioToken)
+
+    it('should set jumioToken to loading', () => {
+      saga.next().put(sfoxActions.fetchJumioTokenLoading())
+    })
+    it('should select the users sfox profile', () => {
+      saga.next().select(selectors.core.data.sfox.getProfile)
+    })
+    it('should fetchJumioToken from sfox', () => {
+      const profile = mockProfile.getOrElse({})
+      saga.next(mockProfile).apply(profile, profile.fetchJumioToken)
+    })
+    it('should set jumio token to kvStore', () => {
+      saga
+        .next(mockJumioToken)
+        .put(actions.core.kvStore.buySell.sfoxSetJumioToken(mockJumioToken))
+    })
+    it('should set jumioToken to success', () => {
+      saga.next().put(sfoxActions.fetchJumioTokenSuccess(mockJumioToken))
+    })
+    it('should refresh jumioStatus', () => {
+      saga.next().call(fetchJumioStatus)
     })
   })
 })

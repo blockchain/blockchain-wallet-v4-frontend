@@ -62,7 +62,11 @@
     },
     "transformIgnorePatterns": [
       "node_modules/(?!(blockchain-info-components|blockchain-wallet-v4)/)"
-    ]
+    ],
+    "moduleNameMapper": {
+      "\\.(pdf|jpg|jpeg|png|gif|eot|otf|svg|ttf|woff|woff2)$": "<rootDir>/src/__mocks__/fileMock.js",
+      "\\.(css|scss)$": "<rootDir>/../../node_modules/identity-obj-proxy"
+    }
   },
   "dependencies": {
     "awesome-phonenumber": "2.2.5",
@@ -70,8 +74,6 @@
     "bignumber.js": "5.0.0",
     "bip21": "2.0.2",
     "bip39": "2.3.1",
-    "bitcoin-coinify-client": "0.7.6",
-    "bitcoin-sfox-client": "0.4.0",
     "bitcoinforksjs-lib": "git://github.com/blockchain/bitcoinjs-lib.git#opt-in-bitcoincash-sighash",
     "bitcoinjs-lib": "3.1.1",
     "blockchain-info-components": "0.0.26",
@@ -79,6 +81,7 @@
     "bowser": "1.9.3",
     "browser-locale": "1.0.3",
     "connected-react-router": "4.3.0",
+    "country-region-data": "^1.4.4",
     "data.either": "1.5.1",
     "data.maybe": "1.2.2",
     "es6-promise": "4.1.0",
@@ -88,6 +91,7 @@
     "lodash.debounce": "4.0.8",
     "matchmedia-polyfill": "0.3.1",
     "moment": "2.22.2",
+    "postal-codes-js": "^1.0.0",
     "prop-types": "15.6.1",
     "qrcode.react": "0.8.0",
     "ramda": "0.25.0",
@@ -105,6 +109,7 @@
     "react-redux": "5.0.7",
     "react-router-bootstrap": "0.24.4",
     "react-router-dom": "4.1.1",
+    "react-tooltip": "^3.6.1",
     "react-transition-group": "2.2.1",
     "react-webcam": "0.5.0",
     "read-blob": "1.1.0",

@@ -11,19 +11,27 @@ import sagas from './sagas'
 import reducers from '../reducers'
 
 const bchFetchData = {
-  addresses: [{
-    address: 'qryjvc08ml7ep6dvexffrcuy9g9zz084jcgltg35xs'
-  }],
+  addresses: [
+    {
+      address: 'qryjvc08ml7ep6dvexffrcuy9g9zz084jcgltg35xs'
+    }
+  ],
   wallet: {},
   info: {
     latest_block: {}
   },
-  txs: [{
-    id: 1,
-    time: 1601590000
-  }]
+  txs: [
+    {
+      id: 1,
+      time: 1601590000
+    }
+  ]
 }
-const transactionHistory = { address: 'qryjvc08ml7ep6dvexffrcuy9g9zz084jcgltg35xs', sent: {}, received: {} }
+const transactionHistory = {
+  address: 'qryjvc08ml7ep6dvexffrcuy9g9zz084jcgltg35xs',
+  sent: {},
+  received: {}
+}
 const feeData = { fee: 1239 }
 const rateData = { rate: 5213 }
 const fiatAtTime = { value: 33 }
@@ -37,7 +45,7 @@ const api = {
 }
 
 describe('bch data sagas', () => {
-  const dataBchSagas = sagas({api})
+  const dataBchSagas = sagas({ api })
 
   describe('fetchData', () => {
     const mockContext = 'qryjvc08ml7ep6dvexffrcuy9g9zz084jcgltg35xs'
@@ -54,17 +62,16 @@ describe('bch data sagas', () => {
     })
 
     it('should select wallet', () => {
-      saga.next()
-        .select(selectors.kvStore.bch.getContext)
+      saga.next().select(selectors.kvStore.bch.getContext)
     })
 
     it('should get data from api', () => {
-      saga.next(mockContext)
-        .call(api.fetchBchData, mockContext, { n: 1 })
+      saga.next(mockContext).call(api.fetchBchData, mockContext, { n: 1 })
     })
 
     it('should dispatch success action', () => {
-      saga.next(bchFetchData)
+      saga
+        .next(bchFetchData)
         .put(A.fetchDataSuccess(bchData))
         .next()
         .isDone()
@@ -73,7 +80,8 @@ describe('bch data sagas', () => {
     it('should handle errors', () => {
       const error = { message: 'failed to fetch data' }
 
-      saga.restart()
+      saga
+        .restart()
         .next()
         .throw(error)
         .put(A.fetchDataFailure(error.message))
@@ -85,13 +93,13 @@ describe('bch data sagas', () => {
       it('should add bch data to the state', () => {
         return expectSaga(dataBchSagas.fetchData)
           .withReducer(reducers)
-          .provide([
-            [select(selectors.kvStore.bch.getContext), mockContext]
-          ])
+          .provide([[select(selectors.kvStore.bch.getContext), mockContext]])
           .run()
-          .then((result) => {
+          .then(result => {
             expect(result.storeState.bch).toMatchObject({
-              addresses: Remote.Success(indexBy(prop('address'), prop('addresses', bchFetchData))),
+              addresses: Remote.Success(
+                indexBy(prop('address'), prop('addresses', bchFetchData))
+              ),
               info: Remote.Success(bchFetchData.wallet),
               latest_block: Remote.Success(bchFetchData.info.latest_block)
             })
@@ -112,13 +120,18 @@ describe('bch data sagas', () => {
     })
 
     it('should dispatch success with data', () => {
-      saga.next(feeData).put(A.fetchFeeSuccess(feeData)).next().isDone()
+      saga
+        .next(feeData)
+        .put(A.fetchFeeSuccess(feeData))
+        .next()
+        .isDone()
     })
 
     it('should handle errors', () => {
       const error = { message: 'failed to fetch fee' }
 
-      saga.restart()
+      saga
+        .restart()
         .next()
         .throw(error)
         .put(A.fetchFeeFailure(error.message))
@@ -131,7 +144,7 @@ describe('bch data sagas', () => {
         return expectSaga(dataBchSagas.fetchFee)
           .withReducer(reducers)
           .run()
-          .then((result) => {
+          .then(result => {
             expect(result.storeState.bch).toMatchObject({
               fee: Remote.Success(feeData)
             })
@@ -162,7 +175,8 @@ describe('bch data sagas', () => {
     it('should handle errors', () => {
       const error = { message: 'failed to fetch rates' }
 
-      saga.restart()
+      saga
+        .restart()
         .next()
         .throw(error)
         .put(A.fetchRatesFailure(error.message))
@@ -175,7 +189,7 @@ describe('bch data sagas', () => {
         return expectSaga(dataBchSagas.fetchRates)
           .withReducer(reducers)
           .run()
-          .then((result) => {
+          .then(result => {
             expect(result.storeState.bch).toMatchObject({
               rates: Remote.Success(rateData)
             })
@@ -189,30 +203,29 @@ describe('bch data sagas', () => {
     const action = {}
 
     it('should fetch tx', () => {
-      saga.next()
-        .take(AT.FETCH_BCH_TRANSACTIONS)
+      saga.next().take(AT.FETCH_BCH_TRANSACTIONS)
     })
 
     it('should call fetchTransactions', () => {
-      saga.next(action)
-        .call(dataBchSagas.fetchTransactions, action)
+      saga.next(action).call(dataBchSagas.fetchTransactions, action)
     })
 
     // Try again
     it('should fetch tx again', () => {
-      saga.next()
-        .take(AT.FETCH_BCH_TRANSACTIONS)
+      saga.next().take(AT.FETCH_BCH_TRANSACTIONS)
     })
 
     it('should call fetchTransactions again', () => {
-      saga.next(action)
-        .call(dataBchSagas.fetchTransactions, action)
+      saga.next(action).call(dataBchSagas.fetchTransactions, action)
     })
   })
 
   describe('fetchTransactions', () => {
     const mockContext = 'qryjvc08ml7ep6dvexffrcuy9g9zz084jcgltg35xs'
-    const payload = { address: 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme', reset: false }
+    const payload = {
+      address: 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme',
+      reset: false
+    }
     const saga = testSaga(dataBchSagas.fetchTransactions, { payload })
     const page = Remote.of([{ id: 1 }, { id: 2 }, { id: 3 }])
     const blankPage = Remote.of([])
@@ -220,29 +233,31 @@ describe('bch data sagas', () => {
     const conditional = 'conditional'
 
     it('should get transactions', () => {
-      saga.next()
-        .select(S.getTransactions)
+      saga.next().select(S.getTransactions)
 
       saga.save(conditional)
     })
 
     it('should put loading state', () => {
-      saga.next(pages)
-        .put(A.fetchTransactionsLoading(payload.reset))
+      saga.next(pages).put(A.fetchTransactionsLoading(payload.reset))
     })
 
     it('should select context', () => {
-      saga.next()
-        .select(selectors.wallet.getWalletContext)
+      saga.next().select(selectors.wallet.getWalletContext)
     })
 
     it('should call fetchBchData', () => {
-      saga.next(mockContext)
-        .call(api.fetchBchData, mockContext, { n: 10, onlyShow: payload.address, offset: 10 })
+      saga.next(mockContext).call(api.fetchBchData, mockContext, {
+        n: 10,
+        onlyShow: payload.address,
+        offset: 10
+      })
     })
 
     it('should dispatch success with data', () => {
-      saga.next(bchFetchData).put(A.fetchTransactionsSuccess(bchFetchData.txs, payload.reset))
+      saga
+        .next(bchFetchData)
+        .put(A.fetchTransactionsSuccess(bchFetchData.txs, payload.reset))
     })
 
     it('should finish', () => {
@@ -251,7 +266,8 @@ describe('bch data sagas', () => {
 
     it('should break if reset is false and no last page', () => {
       saga.restore(conditional)
-      saga.next([blankPage])
+      saga
+        .next([blankPage])
         .next()
         .isDone()
     })
@@ -259,7 +275,8 @@ describe('bch data sagas', () => {
     it('should handle errors', () => {
       const error = { message: 'failed to fetch txs' }
 
-      saga.restart()
+      saga
+        .restart()
         .next()
         .throw(error)
         .put(A.fetchTransactionsFailure(error.message))
@@ -269,14 +286,19 @@ describe('bch data sagas', () => {
 
     describe('state change', () => {
       it('should add transaction data to the state', () => {
-        return expectSaga(dataBchSagas.fetchTransactions, { payload: { address: 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme', reset: true } })
+        return expectSaga(dataBchSagas.fetchTransactions, {
+          payload: {
+            address: 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme',
+            reset: true
+          }
+        })
           .withReducer(reducers)
           .provide([
             [select(selectors.wallet.getWalletContext), mockContext],
             [select(S.getTransactions), pages]
           ])
           .run()
-          .then((result) => {
+          .then(result => {
             expect(result.storeState.bch).toMatchObject({
               transactions: [Remote.Success(bchFetchData.txs)]
             })
@@ -284,8 +306,13 @@ describe('bch data sagas', () => {
       })
 
       it('should append transaction data to the state if reset is false', () => {
-        const initTx = [Remote.Success({id: 2}), Remote.Success({id: 3})]
-        return expectSaga(dataBchSagas.fetchTransactions, { payload: { address: 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme', reset: false } })
+        const initTx = [Remote.Success({ id: 2 }), Remote.Success({ id: 3 })]
+        return expectSaga(dataBchSagas.fetchTransactions, {
+          payload: {
+            address: 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme',
+            reset: false
+          }
+        })
           .withReducer(reducers)
           .withState({
             bch: {
@@ -297,9 +324,11 @@ describe('bch data sagas', () => {
             [select(S.getTransactions), pages]
           ])
           .run()
-          .then((result) => {
+          .then(result => {
             expect(result.storeState.bch).toMatchObject({
-              transactions: append(Remote.Success(bchFetchData.txs), [Remote.Success(initTx)])
+              transactions: append(Remote.Success(bchFetchData.txs), [
+                Remote.Success(initTx)
+              ])
             })
           })
       })
@@ -307,43 +336,66 @@ describe('bch data sagas', () => {
   })
 
   describe('fetchTransactionHistory', () => {
-    const payload = { address: 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme', start: '01/01/2018', end: '01/06/2018' }
+    const payload = {
+      address: 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme',
+      start: '01/01/2018',
+      end: '01/06/2018'
+    }
     const saga = testSaga(dataBchSagas.fetchTransactionHistory, { payload })
     const currency = Remote.of('EUR')
     const beforeGettingHistory = 'beforeGettingHistory'
 
     it('should put loading state', () => {
-      saga.next()
-        .put(A.fetchTransactionHistoryLoading())
+      saga.next().put(A.fetchTransactionHistoryLoading())
     })
 
     it('should get currency', () => {
-      saga.next()
-        .select(selectors.settings.getCurrency)
+      saga.next().select(selectors.settings.getCurrency)
     })
 
     it('should get transaction data with address if possible', () => {
       saga.save(beforeGettingHistory)
-      saga.next(currency)
-        .call(api.getTransactionHistory, 'BCH', payload.address, currency.getOrElse('USD'), payload.start, payload.end)
+      saga
+        .next(currency)
+        .call(
+          api.getTransactionHistory,
+          'BCH',
+          payload.address,
+          currency.getOrElse('USD'),
+          payload.start,
+          payload.end
+        )
     })
 
     it('should dispatch success with data', () => {
-      saga.next(transactionHistory)
+      saga
+        .next(transactionHistory)
         .put(A.fetchTransactionHistorySuccess(transactionHistory))
     })
 
     const payloadNoAddr = { start: '01/01/2018', end: '01/06/2018' }
-    const mockContext = ['qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme', 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme']
+    const mockContext = [
+      'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme',
+      'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme'
+    ]
     const active = mockContext.join('|')
 
     it('should get transaction data with context if no address present', () => {
-      return expectSaga(dataBchSagas.fetchTransactionHistory, { payload: payloadNoAddr })
+      return expectSaga(dataBchSagas.fetchTransactionHistory, {
+        payload: payloadNoAddr
+      })
         .provide([
           [select(selectors.settings.getCurrency), currency],
           [select(selectors.wallet.getWalletContext), mockContext]
         ])
-        .call(api.getTransactionHistory, 'BCH', active, currency.getOrElse('USD'), payload.start, payload.end)
+        .call(
+          api.getTransactionHistory,
+          'BCH',
+          active,
+          currency.getOrElse('USD'),
+          payload.start,
+          payload.end
+        )
         .put(A.fetchTransactionHistorySuccess(transactionHistory))
         .run()
     })
@@ -351,7 +403,8 @@ describe('bch data sagas', () => {
     it('should handle errors', () => {
       const error = { message: 'invalid address' }
 
-      saga.restart()
+      saga
+        .restart()
         .next()
         .throw(error)
         .put(A.fetchTransactionHistoryFailure(error.message))
@@ -363,11 +416,9 @@ describe('bch data sagas', () => {
       it('should add transactionHistory data to the state', () => {
         return expectSaga(dataBchSagas.fetchTransactionHistory, { payload })
           .withReducer(reducers)
-          .provide([
-            [select(selectors.settings.getCurrency), Remote.of('USD')]
-          ])
+          .provide([[select(selectors.settings.getCurrency), Remote.of('USD')]])
           .run()
-          .then((result) => {
+          .then(result => {
             expect(result.storeState.bch).toMatchObject({
               transaction_history: Remote.Success(transactionHistory)
             })
@@ -375,14 +426,16 @@ describe('bch data sagas', () => {
       })
 
       it('should add transactionHistory data to the state using context if no address', () => {
-        return expectSaga(dataBchSagas.fetchTransactionHistory, { payload: payloadNoAddr })
+        return expectSaga(dataBchSagas.fetchTransactionHistory, {
+          payload: payloadNoAddr
+        })
           .withReducer(reducers)
           .provide([
             [select(selectors.settings.getCurrency), Remote.of('USD')],
             [select(selectors.wallet.getWalletContext), mockContext]
           ])
           .run()
-          .then((result) => {
+          .then(result => {
             expect(result.storeState.bch).toMatchObject({
               transaction_history: Remote.Success(transactionHistory)
             })

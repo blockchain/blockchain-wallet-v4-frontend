@@ -263,6 +263,7 @@ module.exports = {
         ? []
         : [
             "img-src 'self' data: blob:",
+            "script-src 'self' 'unsafe-eval'",
             "style-src 'self' 'unsafe-inline'",
             `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${
               envConfig.ROOT_URL
@@ -270,15 +271,11 @@ module.exports = {
             `child-src ${iSignThisDomain} ${
               envConfig.WALLET_HELPER_DOMAIN
             } blob:`,
-            // 'unsafe-eval' is only used by webpack for development. It should not
-            // be present on production!
-            "script-src 'self' 'unsafe-eval'",
-            // 'ws://localhost:8080' is only used by webpack for development and
-            // should not be present on production.
             [
               'connect-src',
               "'self'",
               'ws://localhost:8080',
+              'wss://localhost:8080',
               envConfig.WEB_SOCKET_URL,
               envConfig.WEB_SOCKET_URL.replace('/inv', '/eth/inv'),
               envConfig.WEB_SOCKET_URL.replace('/inv', '/bch/inv'),

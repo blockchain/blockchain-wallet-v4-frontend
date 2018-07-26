@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.0.0-beta1.6",
+  "version": "4.1.0",
   "license": "ISC",
   "private": true,
   "author": {
@@ -33,13 +33,16 @@
     }
   },
   "lint-staged": {
-    "*.{js,json}": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.js": [
-      "eslint --fix",
-      "git add"
+    "linters": {
+      "*.{js,json}": [
+        "prettier --write",
+        "eslint --fix",
+        "git add"
+      ]
+    },
+    "concurrent": false,
+    "ignore": [
+      "**/package.json"
     ]
   },
   "scripts": {
@@ -78,6 +81,7 @@
     "start:testnet": "yarn workspace blockchain-wallet-v4-frontend start:testnet",
     "storybook:build": "yarn workspace blockchain-info-components storybook:build",
     "storybook:serve": "yarn workspace blockchain-info-components storybook:serve",
+    "storybook:deploy": "yarn workspace blockchain-info-components storybook:build && yarn workspace blockchain-info-components storybook:deploy",
     "test": "cross-env yarn wsrun test:build --fast-exit && yarn wsrun test",
     "test:components": "yarn workspace blockchain-info-components test",
     "test:components:debug": "yarn workspace blockchain-info-components test:debug",
@@ -100,6 +104,7 @@
     "@storybook/cli": "^4.0.0-alpha.8",
     "@storybook/react": "^4.0.0-alpha.8",
     "@svgr/webpack": "^2.0.0",
+    "@storybook/storybook-deployer": "^2.3.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "7.2.3",

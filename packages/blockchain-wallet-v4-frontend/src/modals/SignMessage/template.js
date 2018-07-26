@@ -6,7 +6,8 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  Tooltip
+  TooltipHost,
+  TooltipIcon
 } from 'blockchain-info-components'
 
 const SignMessage = props => (
@@ -16,12 +17,9 @@ const SignMessage = props => (
         id='modals.signmessage.title'
         defaultMessage='Sign Message'
       />
-      <Tooltip>
-        <FormattedMessage
-          id='modals.signmessage.label'
-          defaultMessage="By signing a message, you can prove that you own this bitcoin address. You can verify signed messages by clicking on 'More Actions' > 'Verify Message'."
-        />
-      </Tooltip>
+      <TooltipHost id='signmessage.label.tooltip'>
+        <TooltipIcon name='question-in-circle' />
+      </TooltipHost>
     </ModalHeader>
     <ModalBody>{props.children}</ModalBody>
   </Modal>

@@ -7,6 +7,7 @@ import EthBalance from './EthBalance'
 import BchBalance from './BchBalance'
 import BtcWatchOnlyBalance from './BtcWatchOnlyBalance'
 import BchWatchOnlyBalance from './BchWatchOnlyBalance'
+import SfoxPendingBalance from './SfoxPendingBalance'
 
 import { FormattedMessage } from 'react-intl'
 import { ComponentDropdown, Text } from 'blockchain-info-components'
@@ -152,6 +153,7 @@ const getBalanceMessage = path => {
 
 const getSubBalances = props => (
   <SubItems>
+    <SfoxPendingBalance />
     <BtcWatchOnlyBalance />
     <BchWatchOnlyBalance />
   </SubItems>

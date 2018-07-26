@@ -17,7 +17,7 @@ import {
   PartnerSubHeader,
   ColRight,
   ColRightInner
-} from 'components/BuySell/Signup'
+} from 'components/IdentityVerification'
 import { TextBox } from 'components/Form'
 
 const CancelWrapper = styled.div`

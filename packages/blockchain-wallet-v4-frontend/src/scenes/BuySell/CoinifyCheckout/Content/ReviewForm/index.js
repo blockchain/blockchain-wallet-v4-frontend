@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4/src'
 
-import { CancelWrapper, CenteredWrapper } from 'components/BuySell/Signup'
+import { CancelWrapper, CenteredWrapper } from 'components/IdentityVerification'
 import { CheckBox } from 'components/Form'
 import { StepTransition } from 'components/Utilities/Stepper'
 import { required } from 'services/FormHelper'

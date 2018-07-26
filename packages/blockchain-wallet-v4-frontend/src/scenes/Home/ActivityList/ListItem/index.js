@@ -2,8 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { FormattedMessage } from 'react-intl'
-import { Icon, SkeletonCircle, Text, Tooltip } from 'blockchain-info-components'
+import {
+  Icon,
+  SkeletonCircle,
+  Text,
+  TooltipHost
+} from 'blockchain-info-components'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 const Container = styled.div`
@@ -65,16 +69,10 @@ const RecentActivityText = styled(Text)`
   }
 `
 
-const WatchOnly = styled.span`
-  z-index: 11;
-  margin-left: 5px;
-  text-transform: none;
-  > div > div {
-    z-index: 7;
-    &:first-child {
-      padding: 2px 4px;
-    }
-  }
+const Label = styled(Text)`
+  display: inline-flex;
+  position: relative;
+  margin-left: 9px;
 `
 
 const selectIcon = type => {
@@ -111,20 +109,11 @@ const ActivityListItem = props => (
       <RecentActivityText capitalize color={selectColor(props.action)}>
         {props.action} {props.coin}
         {props.watchOnly && (
-          <WatchOnly>
-            <Tooltip
-              width='200px'
-              label={
-                <SkeletonCircle bgColor='gray-2' width='10px' height='10px' />
-              }
-              hover
-            >
-              <FormattedMessage
-                id='scenes.home.activitylist.watchonly'
-                defaultMessage='This transaction involves a watch only address.'
-              />
-            </Tooltip>
-          </WatchOnly>
+          <Label>
+            <TooltipHost id='activityFeedWatchOnly'>
+              <SkeletonCircle bgColor='gray-2' width='10px' height='10px' />
+            </TooltipHost>
+          </Label>
         )}
       </RecentActivityText>
       <RecentActivityText>{props.timeFormatted}</RecentActivityText>
