@@ -23,8 +23,6 @@ import halfBitcoin from './img/half-bitcoin.svg'
 import halfBitcoincash from './img/half-bitcoincash.svg'
 import halfEther from './img/half-ether.svg'
 import identityVerification from './img/identity-verification.svg'
-import landingPageBannerOverlay from './img/landing-page-banner-overlay.jpg'
-import landingPageBannerSmOverlay from './img/landing-page-banner-sm-overlay.jpg'
 import linkedinWhite from './img/linkedin-white.svg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
 import printer from './img/printer.svg'
@@ -71,8 +69,6 @@ export default {
   'half-bitcoincash': halfBitcoincash,
   'half-ether': halfEther,
   'identity-verification': identityVerification,
-  'landing-page-banner-overlay': landingPageBannerOverlay,
-  'landing-page-banner-sm-overlay': landingPageBannerSmOverlay,
   'linkedin-white': linkedinWhite,
   'micro-deposits-whole': microDepositsWhole,
   printer: printer,
