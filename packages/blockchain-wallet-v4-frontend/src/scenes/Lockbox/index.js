@@ -11,7 +11,6 @@ class LockboxContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = {
-      connected: false,
       connecting: false,
       deviceInfo: {},
       error: false
@@ -36,7 +35,7 @@ class LockboxContainer extends React.PureComponent {
   async deriveXpubs () {}
 
   launchCarbonSetup () {
-    this.props.modalActions.showModal('SetupCarbon')
+    this.props.modalActions.showModal('LockboxSetup')
   }
 
   render () {

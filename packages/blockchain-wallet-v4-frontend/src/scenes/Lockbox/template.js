@@ -28,7 +28,6 @@ const Lockbox = props => {
     deviceInfo,
     deriveXpubs,
     launchCarbonSetup,
-    connected,
     connecting,
     error
   } = props
@@ -52,16 +51,9 @@ const Lockbox = props => {
         </Text>
       </div>
       <Buttons>
-        <Button nature='secondary'>
+        <Button nature='primary' onClick={launchCarbonSetup}>
           <FormattedMessage
-            id='scenes.lockbox.welcome.buycarbon'
-            defaultMessage='Buy a Carbon'
-          />
-        </Button>
-        <Button nature='primary'>
-          <FormattedMessage
-            id='scenes.lockbox.welcome.getstarted'
-            onClick={launchCarbonSetup}
+            id='scenes.lockbox.welcome.setupcarbon'
             defaultMessage='Setup Carbon'
           />
         </Button>
@@ -87,20 +79,28 @@ const Lockbox = props => {
         </div>
       )}
 
-      {connected &&
-        deviceInfo && (
-          <div style={{ marginTop: '25px' }}>
-            <div>publicKey: {deviceInfo.publicKey}</div>
-            <div>bitcoinAddress: {deviceInfo.bitcoinAddress}</div>
-            <div>chainCode: {deviceInfo.chainCode}</div>
+      {deviceInfo.publicKey && (
+        <div style={{ marginTop: '25px' }}>
+          <Text size='18px' weight={300}>
+            Carbon BTC Information:
+          </Text>
+          <Text size='12px' weight={300}>
+            publicKey: {deviceInfo.publicKey}
+          </Text>
+          <Text size='12px' weight={300}>
+            bitcoinAddress: {deviceInfo.bitcoinAddress}
+          </Text>
+          <Text size='12px' weight={300}>
+            chainCode: {deviceInfo.chainCode}
+          </Text>
 
-            <div style={{ marginTop: '25px' }}>
-              <Button nature='primary' onClick={deriveXpubs}>
-                Derive xpubs
-              </Button>
-            </div>
+          <div style={{ marginTop: '25px' }}>
+            <Button nature='primary' onClick={deriveXpubs}>
+              Derive xpubs
+            </Button>
           </div>
-        )}
+        </div>
+      )}
 
       {error && (
         <div style={{ marginTop: '25px' }}>
