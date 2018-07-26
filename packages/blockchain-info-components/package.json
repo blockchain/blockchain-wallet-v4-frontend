@@ -1,6 +1,6 @@
 {
   "name": "blockchain-info-components",
-  "version": "0.0.4",
+  "version": "0.0.30",
   "description": "A shared UI components library for blockchain.info applications.",
   "license": "ISC",
   "author": {
@@ -14,7 +14,7 @@
     "ci:coverage:components": "yarn coverage --runInBand",
     "coverage": "cross-env ./../../node_modules/.bin/jest --coverage",
     "deploy-storybook": "storybook-to-ghpages",
-    "publish": "cross-env rimraf lib && babel --out-dir lib --ignore spec.js --copy-files src",
+    "publish": "rm -rf lib && babel --out-dir lib --ignore spec.js --copy-files src",
     "storybook:build": "build-storybook",
     "storybook:serve": "start-storybook -p 6006",
     "storybook:deploy": "yarn deploy-storybook --existing-output-dir=./storybook-static",
@@ -61,7 +61,9 @@
     "ramda": "0.25.0",
     "react": "16.4.0",
     "react-datetime": "2.14.0",
+    "react-intl": "2.4.0",
     "react-onclickoutside": "6.7.1",
-    "styled-components": "3.3.2"
+    "styled-components": "3.3.2",
+    "universal-cookie": "^2.2.0"
   }
 }
