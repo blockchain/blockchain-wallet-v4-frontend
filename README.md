@@ -18,7 +18,7 @@ This repo contains the three codebases/packages listed below.
 
 
 ## Local Development
-1. Ensure Node version >= 10.2 and npm version >= 6 are installed
+1. Ensure Node version >= 10.2 and NPM version >= 6 are installed
 2. Run the following command to install necessary global packages: `npm install -g yarn babel-cli rimraf cross-env`
 3. Install, link and hoist packages: `yarn`
 4. Start the application in development mode: `yarn start`
@@ -27,7 +27,7 @@ This repo contains the three codebases/packages listed below.
 If you require the application to run locally over HTTPS, follow the instructions [here](./config/ssl/ssl.md).
 
 ### Windows Support
-To ensure proper support for Windows, please take the following actions before running the above setup isntructions.
+To ensure proper support for Windows, please take the following actions before running the above setup instructions.
 1. Open a Powershell window with rights elevated to an Administrator.
 2. Run `npm install -g windows-build-tools`. This will install Python 2.7 and Visual C++ Build Tools which are required to compile some native Node modules.
 3. Ensure Python has been added to your environment variables by opening a cmd prompt and typing `python`. If you get a `CommandNotFoundException` message, add the folder `%USERPROFILE%\.windows-build-tools\python27` to your environment variables.
@@ -59,7 +59,7 @@ Notes:
 
 ## Code Quality
 ### Linting
-We follow the rules outlined by the [Javascript Standard Style](https://standardjs.com/rules.html) as well as a few React specfic rules.
+We follow the rules outlined by the [Javascript Standard Style](https://standardjs.com/rules.html) as well as a few React specific rules.
 
 Code linting is handled by [ESLint](https://eslint.org/). The following commands are available:
  * `yarn lint` Lints all packages
@@ -132,7 +132,7 @@ Depending upon which coverage report was ran, the results can be found in the fo
 Simply open the `index.html` file in your browser to view.
 
 ### Bundle Reports
-To visualize and interact with the treemap of the production code bundles files:
+To visualize and interact with the tree of the production code bundles files:
  * `yarn analyze`
 Once completed, a browser will automatically open with the results.
 

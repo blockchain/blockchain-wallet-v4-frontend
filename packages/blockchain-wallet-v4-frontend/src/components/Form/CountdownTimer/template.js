@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { FormattedMessage } from 'react-intl'
-import { Text, Tooltip } from 'blockchain-info-components'
+import { Text, TooltipHost, Icon, Tooltip } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -27,18 +27,21 @@ const CountdownTimer = props => (
       />
     </Text>
     {!props.hideTooltip ? (
-      <Tooltip>
-        <FormattedMessage
-          id='scenes.exchange.secondstep.expiry.tooltip1'
-          defaultMessage='This rate will expire after {time}.'
-          values={{ time: props.tooltipExpiryTime }}
-        />
-        <FormattedMessage
-          id='scenes.exchange.secondstep.expiry.tooltip2'
-          defaultMessage='If that happens please restart your trade.'
-        />
-      </Tooltip>
+      <TooltipHost id='CountdownTimer.tooltip'>
+        <Icon name='question-in-circle' />
+      </TooltipHost>
     ) : null}
+    <Tooltip id='CountdownTimer.tooltip'>
+      <FormattedMessage
+        id='scenes.exchange.secondstep.expiry.tooltip1'
+        defaultMessage='This rate will expire after {time}.'
+        values={{ time: props.tooltipExpiryTime }}
+      />
+      <FormattedMessage
+        id='scenes.exchange.secondstep.expiry.tooltip2'
+        defaultMessage='If that happens please restart your trade.'
+      />
+    </Tooltip>
   </Wrapper>
 )
 
