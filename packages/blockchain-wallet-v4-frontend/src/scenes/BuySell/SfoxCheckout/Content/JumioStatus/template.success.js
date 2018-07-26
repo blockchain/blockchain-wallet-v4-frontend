@@ -49,15 +49,15 @@ export const Success = ({
       <ProfileStatus>
         <Text weight={300} size={'14px'}>
           <FormattedMessage
-            id="scenes.buysell.sfoxcheckout.content.jumio.buylimit"
-            defaultMessage="Buy Limit: {buyLimit}"
+            id='scenes.buysell.sfoxcheckout.content.jumio.buylimit'
+            defaultMessage='Buy Limit: {buyLimit}'
             values={{ buyLimit: '$' + profile.limits.buy }}
           />
         </Text>
         <Text weight={300} size={'14px'}>
           <FormattedMessage
-            id="scenes.buysell.sfoxcheckout.content.jumio.selllimit"
-            defaultMessage="Sell Limit: {sellLimit}"
+            id='scenes.buysell.sfoxcheckout.content.jumio.selllimit'
+            defaultMessage='Sell Limit: {sellLimit}'
             values={{ sellLimit: '$' + profile.limits.sell }}
           />
         </Text>
@@ -69,22 +69,22 @@ export const Success = ({
       case 'DONE':
         return (
           <FormattedMessage
-            id="scenes.buysell.sfoxcheckout.content.jumio.title.completed"
-            defaultMessage="Success! Identity Verification Complete"
+            id='scenes.buysell.sfoxcheckout.content.jumio.title.completed'
+            defaultMessage='Success! Identity Verification Complete'
           />
         )
       case 'PENDING':
         return (
           <FormattedMessage
-            id="scenes.buysell.sfoxcheckout.content.jumio.title.pending"
-            defaultMessage="Identity Verification Pending"
+            id='scenes.buysell.sfoxcheckout.content.jumio.title.pending'
+            defaultMessage='Identity Verification Pending'
           />
         )
       case 'FAILED':
         return (
           <FormattedMessage
-            id="scenes.buysell.sfoxcheckout.content.jumio.title.failed"
-            defaultMessage="Identity Verification Failed"
+            id='scenes.buysell.sfoxcheckout.content.jumio.title.failed'
+            defaultMessage='Identity Verification Failed'
           />
         )
     }
@@ -94,20 +94,20 @@ export const Success = ({
       case 'PENDING':
         return completed ? (
           <FormattedMessage
-            id="scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio"
+            id='scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio'
             defaultMessage="You're almost there! The uploaded information is being reviewed. This should just take a few minutes."
           />
         ) : (
           <FormattedMessage
-            id="scenes.buysell.sfoxcheckout.content.jumio.body.pending"
-            defaultMessage="Your identity verification is incomplete. Please continue to follow the steps to complete the process."
+            id='scenes.buysell.sfoxcheckout.content.jumio.body.pending'
+            defaultMessage='Your identity verification is incomplete. Please continue to follow the steps to complete the process.'
           />
         )
       case 'FAILED':
         return (
           <FormattedMessage
-            id="scenes.buysell.sfoxcheckout.content.jumio.body.failed"
-            defaultMessage="The system has failed to verify your identity. Contact support@sfox.com for more information."
+            id='scenes.buysell.sfoxcheckout.content.jumio.body.failed'
+            defaultMessage='The system has failed to verify your identity. Contact support@sfox.com for more information.'
           />
         )
     }
@@ -121,24 +121,24 @@ export const Success = ({
         return completed ? (
           <Link onClick={handleRefresh}>
             <FormattedMessage
-              id="scenes.buysell.sfoxcheckout.content.jumio.button.refresh"
-              defaultMessage="Refresh Status"
+              id='scenes.buysell.sfoxcheckout.content.jumio.button.refresh'
+              defaultMessage='Refresh Status'
             />
           </Link>
         ) : (
-          <Button onClick={handleOpen} nature="light" uppercase>
+          <Button onClick={handleOpen} nature='light' uppercase>
             <FormattedMessage
-              id="scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification"
-              defaultMessage="Complete Verification"
+              id='scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification'
+              defaultMessage='Complete Verification'
             />
           </Button>
         )
       case 'FAILED':
         return (
-          <Button onClick={handleOpen} nature="light" uppercase>
+          <Button onClick={handleOpen} nature='light' uppercase>
             <FormattedMessage
-              id="scenes.buysell.sfoxcheckout.content.jumio.button.tryagain"
-              defaultMessage="Try Again"
+              id='scenes.buysell.sfoxcheckout.content.jumio.button.tryagain'
+              defaultMessage='Try Again'
             />
           </Button>
         )

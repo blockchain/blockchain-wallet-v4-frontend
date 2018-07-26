@@ -8,26 +8,26 @@ import { Success } from './template.success'
 import { Loading } from './template.loading'
 
 class JumioStatusContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.onOpen = this.onOpen.bind(this)
     this.onRefresh = this.onRefresh.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.sfoxActions.initializeJumio()
   }
 
-  onOpen() {
+  onOpen () {
     this.props.sfoxActions.nextStep('jumio')
     this.props.modalActions.showModal('SfoxExchangeData', { step: 'jumio' })
   }
 
-  onRefresh() {
+  onRefresh () {
     this.props.sfoxActions.fetchJumioStatus()
   }
 
-  render() {
+  render () {
     return this.props.data.cata({
       Success: value => (
         <Success
