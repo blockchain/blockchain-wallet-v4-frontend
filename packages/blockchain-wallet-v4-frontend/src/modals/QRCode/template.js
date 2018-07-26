@@ -40,7 +40,7 @@ const QRCode = props => {
         <FormattedMessage id='modals.qrcode.title' defaultMessage='Request' />
       </ModalHeader>
       <ModalBody>
-        <Text size='14px' weight={500} capitalize>
+        <Text size='14px' weight={500}>
           <FormattedMessage
             id='modals.qrcode.scan'
             defaultMessage='Scan QR Code'
