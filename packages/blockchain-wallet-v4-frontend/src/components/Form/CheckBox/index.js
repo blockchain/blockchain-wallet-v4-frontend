@@ -25,12 +25,12 @@ const getErrorState = meta => {
   return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
-const CheckBox = ({ children, ...field }) => {
+const CheckBox = ({ children, className, ...field }) => {
   const errorState = getErrorState(field.meta)
   const checked = field.input.value || false
 
   return (
-    <Wrapper>
+    <Wrapper className={className}>
       <Container className='Container'>
         <CheckBoxInput
           {...field.input}

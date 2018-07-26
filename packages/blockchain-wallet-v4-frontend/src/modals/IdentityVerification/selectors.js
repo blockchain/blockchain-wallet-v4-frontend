@@ -2,13 +2,13 @@ import { compose, path } from 'ramda'
 import { formValueSelector } from 'redux-form'
 import { selectors } from 'data'
 import { ADDRESS_FORM, STEPS } from 'data/components/identityVerification/model'
-import { ACTIVATION_STATES, KYC_STATES } from 'data/modules/profile/model'
+import { USER_ACTIVATION_STATES, KYC_STATES } from 'data/modules/profile/model'
 
 const deriveStep = ({ activationState, kycState }) => {
-  if (activationState === ACTIVATION_STATES.NONE) return STEPS.personal
-  if (activationState === ACTIVATION_STATES.CREATED) return STEPS.address
+  if (activationState === USER_ACTIVATION_STATES.NONE) return STEPS.personal
+  if (activationState === USER_ACTIVATION_STATES.CREATED) return STEPS.address
   if (
-    activationState === ACTIVATION_STATES.ACTIVE &&
+    activationState === USER_ACTIVATION_STATES.ACTIVE &&
     kycState === KYC_STATES.NONE
   )
     return STEPS.verify

@@ -1,4 +1,4 @@
-export const ACTIVATION_STATES = {
+export const USER_ACTIVATION_STATES = {
   NONE: 'NONE',
   CREATED: 'CREATED',
   ACTIVE: 'ACTIVE',

@@ -202,6 +202,15 @@ const Navigation = props => {
                 />
               </SubMenuItem>
             </LinkContainer>
+            <LinkContainer to='/settings/profile' activeClassName='active'>
+              <SubMenuItem>
+                <FormattedMessage
+                  id='layouts.wallet.menuleft.navigation.profile'
+                  defaultMessage='Profile'
+                  smaller
+                />
+              </SubMenuItem>
+            </LinkContainer>
             <LinkContainer to='/settings/preferences' activeClassName='active'>
               <SubMenuItem>
                 <FormattedMessage

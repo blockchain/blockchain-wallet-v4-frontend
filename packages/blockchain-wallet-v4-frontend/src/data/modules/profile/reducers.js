@@ -1,10 +1,10 @@
 import { merge, assoc } from 'ramda'
 import * as AT from './actionTypes'
-import { KYC_STATES, ACTIVATION_STATES } from './model'
+import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
 
 const INITIAL_STATE = {
   userData: {
-    state: ACTIVATION_STATES.NONE,
+    state: USER_ACTIVATION_STATES.NONE,
     kycState: KYC_STATES.NONE
   }
 }

@@ -28,6 +28,7 @@ import Addresses from './Settings/Addresses/Btc'
 import BchAddresses from './Settings/Addresses/Bch'
 import BtcManageAddresses from './Settings/Addresses/Btc/ManageAddresses'
 import Info from './Settings/Info'
+import Profile from './Settings/Profile'
 import Preferences from './Settings/Preferences'
 import BitcoinTransactions from './Transactions/Btc'
 import EtherTransactions from './Transactions/Eth'
@@ -88,6 +89,7 @@ class App extends React.PureComponent {
                     path='/security-center'
                     component={SecurityCenter}
                   />
+                  <WalletLayout path='/settings/profile' component={Profile} />
                   <WalletLayout
                     path='/settings/preferences'
                     component={Preferences}

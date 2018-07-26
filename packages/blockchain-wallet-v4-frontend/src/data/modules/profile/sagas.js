@@ -2,7 +2,7 @@ import { put, select, call } from 'redux-saga/effects'
 
 import * as A from './actions'
 import * as S from './selectors'
-import { ACTIVATION_STATES } from './model'
+import { USER_ACTIVATION_STATES } from './model'
 
 export const logLocation = 'modules/profile/sagas'
 
@@ -12,7 +12,9 @@ export default ({ api }) => {
   const createUser = function*({ payload }) {
     const { data } = payload
     const { id } = yield call(api.createUser, data)
-    yield put(A.setUserData({ ...data, id, state: ACTIVATION_STATES.CREATED }))
+    yield put(
+      A.setUserData({ ...data, id, state: USER_ACTIVATION_STATES.CREATED })
+    )
   }
 
   const updateUser = function*({ payload }) {
