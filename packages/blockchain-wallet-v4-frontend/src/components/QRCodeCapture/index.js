@@ -66,6 +66,8 @@ class QRCodeCaptureContainer extends React.PureComponent {
           this.props.updateUI({ btcAddress: { toggled: false } })
           return
         }
+
+        throw Error('invalid_btc_addr')
       } catch (e) {
         this.props.alertActions.displayError(C.BTC_ADDRESS_INVALID)
         this.props.updateUI({ btcAddress: { toggled: false } })
