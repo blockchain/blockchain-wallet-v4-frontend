@@ -9,6 +9,7 @@ import {
   FormItem,
   TextBox
 } from 'components/Form'
+import QRCodeCapture from 'components/QRCodeCapture'
 import {
   optional,
   validBitcoinAddress,
@@ -20,6 +21,13 @@ import { Banner } from 'blockchain-info-components'
 const Label = styled.label`
   font-size: 12px;
   margin-bottom: 5px;
+`
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 `
 
 const validBitcoinPrivateKeyOptional = optional(validBitcoinPrivateKey)
@@ -59,11 +67,20 @@ class ImportExternalBitcoinAddress extends React.PureComponent {
                 defaultMessage='Enter Private Key'
               />
             </Label>
-            <Field
-              name='priv'
-              validate={[validBitcoinPrivateKeyOptional]}
-              component={TextBox}
-            />
+            <Row>
+              <Field
+                name='priv'
+                validate={[validBitcoinPrivateKeyOptional]}
+                onChange={this.props.handleChange}
+                component={TextBox}
+              />
+              <QRCodeCapture
+                scanType='btcPriv'
+                form='importBtcAddress'
+                callback={this.props.updateAddress}
+                border={['top', 'bottom', 'right']}
+              />
+            </Row>
           </FormItem>
           <FormItem style={spacing('mt-10')} width={'50%'}>
             <Label for='wallets'>
