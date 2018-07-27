@@ -1,6 +1,12 @@
 import { curry, path } from 'ramda'
 import { dataPath } from '../../paths'
 
+import * as wallet from '../../wallet/selectors'
+// import { getBtcLockboxAccounts } from '../../kvStore/lockbox/selectors'
+
+// TODO: get and merge lockbox accounts
+export const getContext = wallet.getContext
+
 export const getAddresses = path([dataPath, 'bitcoin', 'addresses'])
 
 export const getFee = path([dataPath, 'bitcoin', 'fee'])

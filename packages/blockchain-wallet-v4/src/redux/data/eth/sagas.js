@@ -11,7 +11,7 @@ export default ({ api }) => {
   const fetchData = function*(action) {
     try {
       yield put(A.fetchDataLoading())
-      const contextR = yield select(kvStoreSelectors.getContext)
+      const contextR = yield select(S.getContext)
       const context = contextR.getOrFail('ethereum_context')
       const data = yield call(api.getEthereumData, context)
       const latestBlock = yield call(api.getEthereumLatestBlock)
