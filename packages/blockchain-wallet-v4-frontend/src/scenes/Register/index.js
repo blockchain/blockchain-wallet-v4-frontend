@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
+import zxcvbn from 'zxcvbn'
 
 import Register from './template.js'
 import { actions, selectors } from 'data'
@@ -18,7 +19,7 @@ class RegisterContainer extends React.PureComponent {
   }
 
   render () {
-    const { data } = this.props
+    const { data, passwordStrength } = this.props
     let busy = data.cata({
       Success: () => false,
       Failure: () => false,
@@ -26,7 +27,17 @@ class RegisterContainer extends React.PureComponent {
       NotAsked: () => false
     })
 
-    return <Register onSubmit={this.onSubmit} busy={busy} />
+    return (
+      <Register
+        onSubmit={this.onSubmit}
+        busy={busy}
+        cracktime={
+          passwordStrength.crack_times_display
+            .offline_slow_hashing_1e4_per_second
+        }
+        guesses={Math.round(passwordStrength.guesses_log10)}
+      />
+    )
   }
 }
 
@@ -34,7 +45,10 @@ const mapStateToProps = state => ({
   data: selectors.auth.getRegistering(state),
   language: selectors.preferences.getLanguage(state),
   email: formValueSelector('register')(state, 'email'),
-  password: formValueSelector('register')(state, 'password')
+  password: formValueSelector('register')(state, 'password'),
+  passwordStrength: zxcvbn(
+    formValueSelector('register')(state, 'password') || ''
+  )
 })
 
 const mapDispatchToProps = dispatch => ({

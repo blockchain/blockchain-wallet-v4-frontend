@@ -62,7 +62,7 @@ const checkboxShouldBeChecked = value =>
   value ? undefined : 'You must agree to the terms and conditions'
 
 const Register = props => {
-  const { handleSubmit, busy, invalid } = props
+  const { handleSubmit, busy, invalid, cracktime, guesses } = props
 
   return (
     <Wrapper>
@@ -138,6 +138,17 @@ const Register = props => {
               disabled={!isSupportedBrowser}
             />
           </FormItem>
+          <Text size='13px' weight={300}>
+            <FormattedMessage
+              id='formhelper.passwordcracktime'
+              defaultMessage='Your password would take {cracktime} to crack with {guessPrefix}{guesses} guesses.'
+              values={{
+                cracktime: cracktime,
+                guesses: <sup>{guesses > 1 && guesses}</sup>,
+                guessPrefix: guesses > 0 ? '~10' : '<10'
+              }}
+            />
+          </Text>
         </FormGroup>
         <FormGroup>
           <FormItem>
