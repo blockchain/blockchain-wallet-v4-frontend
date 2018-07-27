@@ -2,10 +2,18 @@ import React from 'react'
 import styled from 'styled-components'
 
 import media from 'services/ResponsiveService'
+
+import KYCBanner from 'components/IdentityVerification/KYCBanner'
 import Shapeshift from './Shapeshift'
 import Info from './Info'
 
-const Wrapper = styled.section`
+const Wrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`
+
+const Container = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -53,12 +61,15 @@ const ColumnRight = styled(Column)`
 `
 const Exchange = () => (
   <Wrapper>
-    <ColumnLeft>
-      <Shapeshift />
-    </ColumnLeft>
-    <ColumnRight>
-      <Info />
-    </ColumnRight>
+    <KYCBanner outsideOfProfile={true} />
+    <Container>
+      <ColumnLeft>
+        <Shapeshift />
+      </ColumnLeft>
+      <ColumnRight>
+        <Info />
+      </ColumnRight>
+    </Container>
   </Wrapper>
 )
 

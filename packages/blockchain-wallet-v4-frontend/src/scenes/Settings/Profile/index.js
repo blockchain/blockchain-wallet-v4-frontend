@@ -11,28 +11,35 @@ import { MODAL_NAME as KYC_MODAL } from 'data/components/identityVerification/mo
 import { getData } from './selectors'
 
 import IdentityVerification from './IdentityVerification'
+import KYCBanner from 'components/IdentityVerification/KYCBanner'
 
 const Wrapper = styled.section`
+  width: 100%;
+`
+const Container = styled.div`
   padding: 30px;
   width: 100%;
   box-sizing: border-box;
 `
 
-export const Profile = ({ kycState, modalActions }) => {
+export const Profile = ({ kycState, modalActions, canTrade }) => {
   return (
     <Wrapper>
-      <IdentityVerification
-        kycState={kycState}
-        verifyIdentity={modalActions.showModal.bind(null, KYC_MODAL)}
-        contactSupport={() => {}}
-        getStarted={() => {}}
-      />
+      <KYCBanner />
+      <Container>
+        <IdentityVerification
+          kycState={kycState}
+          verifyIdentity={modalActions.showModal.bind(null, KYC_MODAL)}
+          canTrade={canTrade}
+        />
+      </Container>
     </Wrapper>
   )
 }
 
 Profile.propTypes = {
-  kycState: PropTypes.oneOf(values(KYC_STATES)).isRequired
+  kycState: PropTypes.oneOf(values(KYC_STATES)).isRequired,
+  canTrade: PropTypes.bool.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({

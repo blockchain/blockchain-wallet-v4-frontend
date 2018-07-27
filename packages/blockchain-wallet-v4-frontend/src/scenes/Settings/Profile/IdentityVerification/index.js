@@ -14,6 +14,7 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
+import { LinkContainer } from 'react-router-bootstrap'
 
 const SolidBgBanner = styled(Banner)`
   background: ${props => props.theme[props.color]};
@@ -22,12 +23,7 @@ const SolidBgBanner = styled(Banner)`
     color: ${props => props.theme.white};
   }
 `
-const IdentityVerification = ({
-  kycState,
-  verifyIdentity,
-  contactSupport,
-  getStarted
-}) => {
+const IdentityVerification = ({ kycState, canTrade, verifyIdentity }) => {
   const banners = {
     [KYC_STATES.NONE]: (
       <SolidBgBanner color='sent'>
@@ -125,22 +121,17 @@ const IdentityVerification = ({
         />
       </Button>
     ),
-    [KYC_STATES.PENDING]: (
-      <Button nature='primary' onClick={contactSupport}>
-        <FormattedMessage
-          id='scenes.profile.identityverification.buttons.contactsupport'
-          defaultMessage='Contact Support'
-        />
-      </Button>
-    ),
+    [KYC_STATES.PENDING]: null,
     [KYC_STATES.REJECTED]: null,
     [KYC_STATES.VERIFIED]: (
-      <Button nature='primary' onClick={getStarted}>
-        <FormattedMessage
-          id='scenes.profile.identityverification.button.getstarted'
-          defaultMessage='Get Started'
-        />
-      </Button>
+      <LinkContainer to={canTrade ? '/buy-sell' : '/exchange'}>
+        <Button nature='primary'>
+          <FormattedMessage
+            id='scenes.profile.identityverification.button.getstarted'
+            defaultMessage='Get Started'
+          />
+        </Button>
+      </LinkContainer>
     )
   }
 
