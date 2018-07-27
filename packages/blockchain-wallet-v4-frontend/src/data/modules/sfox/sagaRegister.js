@@ -17,6 +17,7 @@ export default ({ coreSagas }) => {
     yield takeLatest(AT.HANDLE_MODAL_CLOSE, sfoxSagas.checkProfileStatus)
     yield takeLatest(AT.SFOX_INITIALIZE_PAYMENT, sfoxSagas.initializePayment)
     yield takeLatest(AT.INITIALIZE_JUMIO, sfoxSagas.initializeJumio)
+    yield takeLatest(AT.FETCH_JUMIO_STATUS, sfoxSagas.fetchJumioStatus)
     yield takeLatest(AT.FETCH_JUMIO_TOKEN, sfoxSagas.fetchJumioToken)
     yield takeLatest(AT.COMPLETE_JUMIO, sfoxSagas.completeJumio)
   }
