@@ -1,7 +1,6 @@
 import { mapObjIndexed, any, equals, identity, values, sequence } from 'ramda'
 import Task from 'data.task'
 
-// import { Wallet, KVStoreEntry } from '../../types'
 import * as A from './actions'
 import * as T from './actionTypes'
 import * as C from './config'
@@ -18,9 +17,7 @@ const kvStoreMiddleware = ({
   const nextKVStore = store.getState()[kvStorePath]
   const isAuth = isAuthenticated(store.getState())
   const hasChanged = (value, key) =>
-    prevKVStore[key] !== nextKVStore[key] &&
-    // Remote.Success.is(prevKVStore[key]) &&
-    Remote.Success.is(nextKVStore[key]) // this is to avoid detecting loading/notasked to success changes
+    prevKVStore[key] !== nextKVStore[key] && Remote.Success.is(nextKVStore[key]) // this is to avoid detecting loading/notasked to success changes
   const changes = mapObjIndexed(hasChanged, nextKVStore)
 
   switch (true) {

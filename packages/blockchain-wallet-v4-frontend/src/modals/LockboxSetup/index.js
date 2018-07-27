@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import modalEnhancer from 'providers/ModalEnhancer'
 import LockboxSetup from './template'
 import FirstStep from './FirstStep'
-import SecondStep from './SecondStep'
 
 class LockboxSetupContainer extends React.PureComponent {
   render () {
@@ -14,7 +13,7 @@ class LockboxSetupContainer extends React.PureComponent {
     return (
       <LockboxSetup position={position} total={total} closeAll={closeAll}>
         {step === 1 && <FirstStep />}
-        {step === 2 && <SecondStep />}
+        {/* {step === 2 && <SecondStep />} */}
       </LockboxSetup>
     )
   }
