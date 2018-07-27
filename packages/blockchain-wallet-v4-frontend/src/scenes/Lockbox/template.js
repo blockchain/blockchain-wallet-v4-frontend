@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Text, Button } from 'blockchain-info-components'
+import { Text, Button, FlatLoader } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -14,15 +14,23 @@ const Wrapper = styled.div`
 `
 
 const Buttons = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   margin-top: 25px;
 `
 
 const Lockbox = props => {
-  const { getBtcAddress, btcInfo, deriveXpubs } = props
+  const {
+    getBtcAddress,
+    deviceInfo,
+    deriveXpubs,
+    launchCarbonSetup,
+    connecting,
+    error
+  } = props
 
   return (
     <Wrapper>
@@ -43,35 +51,65 @@ const Lockbox = props => {
         </Text>
       </div>
       <Buttons>
-        <Button nature='secondary'>
+        <Button nature='primary' onClick={launchCarbonSetup}>
           <FormattedMessage
-            id='scenes.lockbox.welcome.buycarbon'
-            defaultMessage='Buy a Carbon'
+            id='scenes.lockbox.welcome.setupcarbon'
+            defaultMessage='Setup Carbon'
           />
         </Button>
-        <Button
-          nature='primary'
-          style={{ marginLeft: '15px' }}
-          onClick={getBtcAddress}
-        >
+        <Button nature='secondary' onClick={getBtcAddress}>
           <FormattedMessage
             id='scenes.lockbox.welcome.linkcarbon'
-            defaultMessage='Link My Carbon'
+            defaultMessage='Show Carbon Info'
           />
         </Button>
       </Buttons>
 
-      {btcInfo && (
+      {connecting && (
         <div style={{ marginTop: '25px' }}>
-          <div>publicKey: {btcInfo.publicKey}</div>
-          <div>bitcoinAddress: {btcInfo.bitcoinAddress}</div>
-          <div>chainCode: {btcInfo.chainCode}</div>
+          <Text size='14px' weight={300}>
+            Attempting to contact device. Please plug in device and enter BTC
+            app now.
+          </Text>
+          <FlatLoader
+            style={{ marginTop: '15px' }}
+            width='100px'
+            height='22px'
+          />
+        </div>
+      )}
+
+      {deviceInfo.publicKey && (
+        <div style={{ marginTop: '25px' }}>
+          <Text size='18px' weight={300}>
+            Carbon BTC Information:
+          </Text>
+          <Text size='12px' weight={300}>
+            publicKey: {deviceInfo.publicKey}
+          </Text>
+          <Text size='12px' weight={300}>
+            bitcoinAddress: {deviceInfo.bitcoinAddress}
+          </Text>
+          <Text size='12px' weight={300}>
+            chainCode: {deviceInfo.chainCode}
+          </Text>
 
           <div style={{ marginTop: '25px' }}>
             <Button nature='primary' onClick={deriveXpubs}>
               Derive xpubs
             </Button>
           </div>
+        </div>
+      )}
+
+      {error && (
+        <div style={{ marginTop: '25px' }}>
+          <Text size='18px' weight={300}>
+            Error Contacting Device:
+          </Text>
+          <Text size='14px' weight={300}>
+            {error.name}: {error.message}
+          </Text>
         </div>
       )}
     </Wrapper>

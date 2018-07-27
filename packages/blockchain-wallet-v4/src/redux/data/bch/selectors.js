@@ -1,5 +1,32 @@
-import { curry, path } from 'ramda'
+import { concat, curry, filter, keysIn, map, not, path, prop } from 'ramda'
+
 import { dataPath } from '../../paths'
+import { getAccounts } from '../../kvStore/bch/selectors'
+// import { getBchLockboxAccounts } from '../../kvStore/lockbox/selectors'
+import { createDeepEqualSelector } from '../../../utils'
+import * as walletSelectors from '../../wallet/selectors'
+
+// TODO: get and merge lockbox accounts
+export const getContext = createDeepEqualSelector(
+  [
+    walletSelectors.getHDAccounts,
+    walletSelectors.getActiveAddresses,
+    getAccounts
+  ],
+  (btcHDAccounts, activeAddresses, metadataAccountsR) => {
+    const transform = metadataAccounts => {
+      const activeAccounts = filter(account => {
+        const index = prop('index', account)
+        const metadataAccount = metadataAccounts[index]
+        return not(prop('archived', metadataAccount))
+      }, btcHDAccounts)
+      return map(prop('xpub'), activeAccounts)
+    }
+    const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
+    const addresses = keysIn(activeAddresses)
+    return concat(activeAccounts, addresses)
+  }
+)
 
 export const getAddresses = path([dataPath, 'bch', 'addresses'])
 
