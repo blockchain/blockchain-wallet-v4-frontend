@@ -37,6 +37,10 @@ class QRCodeCaptureContainer extends React.PureComponent {
         return this.props.updateUI({
           btcPriv: { toggled: !this.props.ui.btcPriv.toggled }
         })
+      case 'btcPrivOrAddress':
+        return this.props.updateUI({
+          btcPrivOrAddress: { toggled: !this.props.ui.btcPrivOrAddress.toggled }
+        })
     }
   }
 
@@ -128,31 +132,68 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
+  handleScanBtcPrivOrAddress (data) {
+    try {
+      const { address } = bip21.decode(data)
+      if (utils.bitcoin.isValidBitcoinAddress(address)) {
+        this.props.formActions.change(
+          this.props.form || 'importBtcAddress',
+          'addrOrPriv',
+          address
+        )
+        this.props.formActions.touch(
+          this.props.form || 'importBtcAddress',
+          'addrOrPriv'
+        )
+        this.props.updateUI({ btcPrivOrAddress: { toggled: false } })
+      } else {
+        this.props.alertActions.displayError(
+          C.BTC_ADDRESS_AND_PRIVATE_KEY_INVALID
+        )
+        this.props.updateUI({ btcPrivOrAddress: { toggled: false } })
+      }
+    } catch (e) {
+      if (
+        utils.bitcoin.isValidBitcoinPrivateKey(data) ||
+        utils.bitcoin.isValidBitcoinAddress(data)
+      ) {
+        this.props.formActions.change(
+          this.props.form || 'importBtcAddress',
+          'addrOrPriv',
+          data
+        )
+        this.props.formActions.touch(
+          this.props.form || 'importBtcAddress',
+          'addrOrPriv'
+        )
+        this.props.updateUI({ btcPrivOrAddress: { toggled: false } })
+      } else {
+        this.props.alertActions.displayError(
+          C.BTC_ADDRESS_AND_PRIVATE_KEY_INVALID
+        )
+        this.props.updateUI({ btcPrivOrAddress: { toggled: false } })
+      }
+    }
+  }
+
   handleScan (data) {
     if (!isNil(data) && !isEmpty(data)) {
       switch (this.props.scanType) {
         case 'btcAddress':
           this.handleScanBtcAddress(data)
-          this.runCallback(data)
           return
         case 'ethAddress':
           this.handleScanEthAddress(data)
-          this.runCallback(data)
           return
         case 'bchAddress':
           this.handleScanBchAddress(data)
-          this.runCallback(data)
           return
         case 'btcPriv':
           this.handleScanBtcPriv(data)
-          this.runCallback(data)
+          return
+        case 'btcPrivOrAddress':
+          this.handleScanBtcPrivOrAddress(data)
       }
-    }
-  }
-
-  runCallback (data) {
-    if (this.props.callback) {
-      this.props.callback(data)
     }
   }
 
@@ -174,6 +215,8 @@ class QRCodeCaptureContainer extends React.PureComponent {
           return ui.bchAddress.toggled
         case 'btcPriv':
           return ui.btcPriv.toggled
+        case 'btcPrivOrAddress':
+          return ui.btcPrivOrAddress.toggled
       }
     }
     const toggled = getTypeToggled(scanType)
@@ -208,7 +251,8 @@ const enhance = compose(
       btcAddress: { toggled: false },
       ethAddress: { toggled: false },
       bchAddress: { toggled: false },
-      btcPriv: { toggled: false }
+      btcPriv: { toggled: false },
+      btcPrivOrAddress: { toggled: false }
     }
   }),
   connect(
@@ -222,7 +266,8 @@ QRCodeCaptureContainer.defaultProps = {
     'btcAddress',
     'ethAddress',
     'bchAddress',
-    'btcPriv'
+    'btcPriv',
+    'btcPrivOrAddress'
   ])
 }
 

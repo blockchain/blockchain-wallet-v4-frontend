@@ -50,7 +50,7 @@ class ImportBtcAddressContainer extends React.PureComponent {
         submitting={submitting}
         invalid={invalid}
         close={close}
-        priv={priv}
+        priv={utils.bitcoin.isValidBitcoinPrivateKey(priv)}
         handleChange={this.handleChange}
         updateAddress={this.updateAddress}
         onSubmit={() => actions.importBtcAddressSubmitClicked()}
