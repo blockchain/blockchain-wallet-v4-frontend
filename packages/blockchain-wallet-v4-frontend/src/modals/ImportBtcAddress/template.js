@@ -40,8 +40,6 @@ const ImportBtcAddress = props => {
     isAddressInternal,
     isAddressExternal,
     priv,
-    updateAddress,
-    handleChange,
     handleSubmit
   } = props
 
@@ -91,13 +89,7 @@ const ImportBtcAddress = props => {
               </Field>
             </RadioContainer>
             {isAddressInternal && <ImportInternalBtcAddress />}
-            {isAddressExternal && (
-              <ImportExternalBtcAddress
-                priv={priv}
-                updateAddress={updateAddress}
-                handleChange={handleChange}
-              />
-            )}
+            {isAddressExternal && <ImportExternalBtcAddress priv={priv} />}
           </ModalBody>
           {isAddressExternal && (
             <ModalFooter align='right'>

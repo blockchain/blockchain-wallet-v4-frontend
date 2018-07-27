@@ -9,27 +9,6 @@ import { getData } from './selectors'
 import { utils } from 'blockchain-wallet-v4/src'
 
 class ImportBtcAddressContainer extends React.PureComponent {
-  constructor () {
-    super()
-
-    this.updateAddress = this.updateAddress.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-  }
-
-  updateAddress (value) {
-    if (value && utils.bitcoin.isValidBitcoinPrivateKey(value)) {
-      const format = utils.bitcoin.detectPrivateKeyFormat(value)
-      const key = utils.bitcoin.privateKeyStringToKey(value, format)
-      const address = key.getAddress()
-      this.props.formActions.change('importBtcAddress', 'address', address)
-    }
-  }
-
-  handleChange (e) {
-    const value = e.target.value
-    this.updateAddress(value)
-  }
-
   render () {
     const {
       position,
@@ -51,8 +30,6 @@ class ImportBtcAddressContainer extends React.PureComponent {
         invalid={invalid}
         close={close}
         priv={utils.bitcoin.isValidBitcoinPrivateKey(priv)}
-        handleChange={this.handleChange}
-        updateAddress={this.updateAddress}
         onSubmit={() => actions.importBtcAddressSubmitClicked()}
       />
     )

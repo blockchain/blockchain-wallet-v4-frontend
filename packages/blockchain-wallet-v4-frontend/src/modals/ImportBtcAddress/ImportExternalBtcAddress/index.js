@@ -49,7 +49,6 @@ class ImportExternalBitcoinAddress extends React.PureComponent {
               <Field
                 name='addrOrPriv'
                 validate={[validBitcoinAddressOrPrivateKey, required]}
-                onChange={this.props.handleChange}
                 component={TextBox}
               />
               <QRCodeCapture
