@@ -24,7 +24,8 @@ const Buttons = styled.div`
 
 const Lockbox = props => {
   const {
-    getBtcAddress,
+    xpubInfo,
+    getDeviceInfo,
     deviceInfo,
     deriveXpubs,
     launchCarbonSetup,
@@ -57,7 +58,7 @@ const Lockbox = props => {
             defaultMessage='Setup Carbon'
           />
         </Button>
-        <Button nature='secondary' onClick={getBtcAddress}>
+        <Button nature='secondary' onClick={getDeviceInfo}>
           <FormattedMessage
             id='scenes.lockbox.welcome.linkcarbon'
             defaultMessage='Show Carbon Info'
@@ -79,26 +80,76 @@ const Lockbox = props => {
         </div>
       )}
 
-      {deviceInfo.publicKey && (
+      {deviceInfo.btc && (
         <div style={{ marginTop: '25px' }}>
           <Text size='18px' weight={300}>
             Carbon BTC Information:
           </Text>
           <Text size='12px' weight={300}>
-            publicKey: {deviceInfo.publicKey}
+            publicKey: {deviceInfo.btc.publicKey}
           </Text>
           <Text size='12px' weight={300}>
-            bitcoinAddress: {deviceInfo.bitcoinAddress}
+            bitcoinAddress: {deviceInfo.btc.bitcoinAddress}
           </Text>
           <Text size='12px' weight={300}>
-            chainCode: {deviceInfo.chainCode}
+            chainCode: {deviceInfo.btc.chainCode}
           </Text>
+        </div>
+      )}
 
-          <div style={{ marginTop: '25px' }}>
-            <Button nature='primary' onClick={deriveXpubs}>
-              Derive xpubs
-            </Button>
-          </div>
+      {deviceInfo.eth && (
+        <div style={{ marginTop: '25px' }}>
+          <Text size='18px' weight={300}>
+            Carbon ETH Information:
+          </Text>
+          <Text size='12px' weight={300}>
+            publicKey: {deviceInfo.eth.publicKey}
+          </Text>
+          <Text size='12px' weight={300}>
+            bitcoinAddress: {deviceInfo.eth.bitcoinAddress}
+          </Text>
+          <Text size='12px' weight={300}>
+            chainCode: {deviceInfo.eth.chainCode}
+          </Text>
+        </div>
+      )}
+
+      {(deviceInfo.btc || deviceInfo.eth) && (
+        <div style={{ marginTop: '25px' }}>
+          <Button nature='primary' onClick={deriveXpubs}>
+            Derive xpubs
+          </Button>
+        </div>
+      )}
+
+      {xpubInfo && (
+        <div style={{ marginTop: '25px' }}>
+          <Text size='18px' weight={300}>
+            Carbon xpub Information:
+          </Text>
+          <Text size='12px' weight={300}>
+            BTC: {xpubInfo.btc.xpub}
+          </Text>
+          <Text size='12px' weight={300}>
+            ETH: {xpubInfo.eth.xpub}
+          </Text>
+        </div>
+      )}
+
+      {xpubInfo && (
+        <div style={{ marginTop: '25px' }}>
+          <Text size='18px' weight={500} uppercase>
+            These addresses should match above addresses returned from ledger.
+            Otherwise we are deriving them incorrectly! Verify eth on
+            https://iancoleman.io/bip39/ by entering your mnemonic, changing
+            coin to eth, and using bip44 derivation path.
+          </Text>
+          <Text size='12px' weight={300}>
+            BTC: {xpubInfo.btc.addr}
+          </Text>
+          <Text size='12px' weight={300}>
+            ETH: {xpubInfo.eth.addr}
+          </Text>
         </div>
       )}
 
