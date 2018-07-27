@@ -2,10 +2,11 @@ import { concat, curry, filter, keysIn, map, not, path, prop } from 'ramda'
 
 import { dataPath } from '../../paths'
 import { getAccounts } from '../../kvStore/bch/selectors'
+// import { getBchLockboxAccounts } from '../../kvStore/lockbox/selectors'
 import { createDeepEqualSelector } from '../../../utils'
 import * as walletSelectors from '../../wallet/selectors'
 
-// TODO: get Lockbox data
+// TODO: get and merge lockbox accounts
 export const getContext = createDeepEqualSelector(
   [
     walletSelectors.getHDAccounts,

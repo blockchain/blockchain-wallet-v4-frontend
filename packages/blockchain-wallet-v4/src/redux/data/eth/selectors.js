@@ -1,6 +1,12 @@
 import { head, path, prop } from 'ramda'
 import { dataPath } from '../../paths'
 
+// import { getEthLockboxAccounts } from '../../kvStore/lockbox/selectors'
+import * as kvStoreSelectors from '../../kvStore/eth/selectors'
+
+// TODO: get and merge lockbox accounts
+export const getContext = kvStoreSelectors.getContext
+
 export const getAddresses = path([dataPath, 'ethereum', 'addresses'])
 
 export const getFee = path([dataPath, 'ethereum', 'fee'])

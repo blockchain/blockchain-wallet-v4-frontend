@@ -9,7 +9,7 @@ export default ({ api }) => {
   const fetchData = function*() {
     try {
       yield put(A.fetchDataLoading())
-      const context = yield select(selectors.wallet.getContext)
+      const context = yield select(S.getContext)
       const data = yield call(api.fetchBlockchainData, context, { n: 1 })
       const bitcoinData = {
         addresses: indexBy(prop('address'), prop('addresses', data)),
