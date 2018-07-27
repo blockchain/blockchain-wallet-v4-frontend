@@ -9,23 +9,34 @@
   },
   "main": "index.js",
   "scripts": {
-    "analyze": "cross-env-shell ANALYZE=true NODE_ENV=production webpack-cli --config webpack.config.js",
-    "build:dev": "cross-env-shell NODE_ENV=development webpack-cli --config webpack.config.js --progress --colors",
-    "build:prod": "cross-env-shell NODE_ENV=production webpack-cli --config webpack.config.js --progress --colors",
-    "build:staging": "cross-env-shell NODE_ENV=staging webpack-cli --config webpack.config.js --progress --colors",
-    "build:testnet": "cross-env-shell NODE_ENV=testnet webpack-cli --config webpack.config.js --progress --colors",
+    "analyze":
+      "cross-env-shell ANALYZE=true NODE_ENV=production webpack-cli --config webpack.config.js",
+    "build:dev":
+      "cross-env-shell NODE_ENV=development webpack-cli --config webpack.config.js --progress --colors",
+    "build:prod":
+      "cross-env-shell NODE_ENV=production webpack-cli --config webpack.config.js --progress --colors",
+    "build:staging":
+      "cross-env-shell NODE_ENV=staging webpack-cli --config webpack.config.js --progress --colors",
+    "build:testnet":
+      "cross-env-shell NODE_ENV=testnet webpack-cli --config webpack.config.js --progress --colors",
     "ci:coverage:frontend": "yarn coverage --runInBand",
     "ci:test:frontend": "yarn test --runInBand",
-    "ci:compile": "cross-env-shell NODE_ENV=production CI_BUILD=true webpack-cli --config webpack.config.js --display-error-details",
+    "ci:compile":
+      "cross-env-shell NODE_ENV=production CI_BUILD=true webpack-cli --config webpack.config.js --display-error-details",
     "coverage": "cross-env ./../../node_modules/.bin/jest --coverage",
     "link:resolved:paths": "ln -sf $(pwd)/src/** ./node_modules",
-    "start:dev": "cross-env-shell NODE_ENV=development webpack-dev-server --config webpack.config.js --progress --colors --watch --devtool cheap-module-source-map",
-    "start:prod": "cross-env-shell NODE_ENV=production webpack-dev-server --config webpack.config.js --progress --colors --watch --devtool cheap-module-source-map",
-    "start:staging": "cross-env-shell NODE_ENV=staging webpack-dev-server --config webpack.config.js --progress --colors --watch --devtool cheap-module-source-map",
-    "start:testnet": "cross-env-shell NODE_ENV=testnet webpack-dev-server --config webpack.config.js --progress --colors --watch --devtool cheap-module-source-map",
+    "start:dev":
+      "cross-env-shell NODE_ENV=development webpack-dev-server --config webpack.config.js --progress --colors --watch --devtool cheap-module-source-map",
+    "start:prod":
+      "cross-env-shell NODE_ENV=production webpack-dev-server --config webpack.config.js --progress --colors --watch --devtool cheap-module-source-map",
+    "start:staging":
+      "cross-env-shell NODE_ENV=staging webpack-dev-server --config webpack.config.js --progress --colors --watch --devtool cheap-module-source-map",
+    "start:testnet":
+      "cross-env-shell NODE_ENV=testnet webpack-dev-server --config webpack.config.js --progress --colors --watch --devtool cheap-module-source-map",
     "test": "cross-env ./../../node_modules/.bin/jest",
     "test:build": "echo 'No precomplilation required for tests to execute.'",
-    "test:debug": "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
+    "test:debug":
+      "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll",
     "manage:translations": "babel-node ./translationRunner.js"
   },
@@ -44,11 +55,9 @@
       "!src/data/sagaRegister.js",
       "!src/data/selectors.js"
     ],
-    "coverageDirectory": "<rootDir>/../../coverage/blockchain-wallet-v4-frontend",
-    "coverageReporters": [
-      "json",
-      "html"
-    ],
+    "coverageDirectory":
+      "<rootDir>/../../coverage/blockchain-wallet-v4-frontend",
+    "coverageReporters": ["json", "html"],
     "setupFiles": [
       "<rootDir>/../../config/jest/jest.shim.js",
       "<rootDir>/../../config/jest/jest.config.js"
@@ -64,7 +73,8 @@
       "node_modules/(?!(blockchain-info-components|blockchain-wallet-v4)/)"
     ],
     "moduleNameMapper": {
-      "\\.(pdf|jpg|jpeg|png|gif|eot|otf|svg|ttf|woff|woff2)$": "<rootDir>/src/__mocks__/fileMock.js",
+      "\\.(pdf|jpg|jpeg|png|gif|eot|otf|svg|ttf|woff|woff2)$":
+        "<rootDir>/src/__mocks__/fileMock.js",
       "\\.(css|scss)$": "<rootDir>/../../node_modules/identity-obj-proxy"
     }
   },
@@ -74,9 +84,10 @@
     "bignumber.js": "5.0.0",
     "bip21": "2.0.2",
     "bip39": "2.3.1",
-    "bitcoinforksjs-lib": "git://github.com/blockchain/bitcoinjs-lib.git#opt-in-bitcoincash-sighash",
+    "bitcoinforksjs-lib":
+      "git://github.com/blockchain/bitcoinjs-lib.git#opt-in-bitcoincash-sighash",
     "bitcoinjs-lib": "3.1.1",
-    "blockchain-info-components": "0.0.26",
+    "blockchain-info-components": "0.0.31",
     "blockchain-wallet-v4": "1.0.1",
     "bowser": "1.9.3",
     "browser-locale": "1.0.3",
