@@ -62,7 +62,7 @@ describe('bch data sagas', () => {
     })
 
     it('should select wallet', () => {
-      saga.next().select(selectors.kvStore.bch.getContext)
+      saga.next().select(S.getContext)
     })
 
     it('should get data from api', () => {
@@ -93,7 +93,7 @@ describe('bch data sagas', () => {
       it('should add bch data to the state', () => {
         return expectSaga(dataBchSagas.fetchData)
           .withReducer(reducers)
-          .provide([[select(selectors.kvStore.bch.getContext), mockContext]])
+          .provide([[select(S.getContext), mockContext]])
           .run()
           .then(result => {
             expect(result.storeState.bch).toMatchObject({
