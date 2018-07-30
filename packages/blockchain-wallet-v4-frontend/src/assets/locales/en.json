@@ -747,7 +747,7 @@
   "modals.requestbch.or": "Or",
   "modals.requestbch.scan": "Scan QR Code:",
   "modals.requestbch.scan_tooltip":
-    "Ask the sender to scan this QR code with their Bitcoin cash wallet",
+    "Ask the sender to scan this QR code with their bitcoin cash wallet",
   "modals.requestbch.share": "Copy & Share Address:",
   "modals.requestbch.share_ooltip":
     "Share this address with others, and they can send you Bitcoin Cash directly to your wallet. Your address changes with every payment.",
