@@ -1,6 +1,7 @@
 import * as identityVerification from './identityVerification/selectors'
 import * as exchange from './exchange/selectors'
 import * as layoutWallet from './layoutWallet/selectors'
+import * as lockbox from './lockbox/selectors'
 import * as manageAddresses from './manageAddresses/selectors'
 import * as onfido from './onfido/selectors'
 import * as priceChart from './priceChart/selectors'
@@ -14,6 +15,7 @@ export {
   identityVerification,
   exchange,
   layoutWallet,
+  lockbox,
   manageAddresses,
   onfido,
   priceChart,

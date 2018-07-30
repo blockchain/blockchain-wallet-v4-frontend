@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import identityVerification from './identityVerification/reducers'
 import exchange from './exchange/reducers'
+import lockbox from './lockbox/reducers'
 import layoutWallet from './layoutWallet/reducers'
 import manageAddresses from './manageAddresses/reducers'
 import onfido from './onfido/reducers'
@@ -14,6 +15,7 @@ export default combineReducers({
   identityVerification,
   exchange,
   layoutWallet,
+  lockbox,
   manageAddresses,
   onfido,
   priceChart,
