@@ -140,6 +140,9 @@ export default ({ coreSagas }) => {
       yield put(
         actions.form.change('buySellTabStatus', 'status', 'order_history')
       )
+      if (trade.speedupAvailable) {
+        yield call(confirmPhoneCall, trade)
+      }
       yield put(modalActions.showModal('SfoxTradeDetails', { trade }))
     } catch (e) {
       yield put(A.sfoxFailure(e))
@@ -262,6 +265,27 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const confirmPhoneCall = function*(trade) {
+    const smsNumberR = yield select(selectors.core.settings.getSmsNumber)
+    const smsNumber = smsNumberR.getOrElse(null)
+    try {
+      const confirmed = yield call(confirm, {
+        title: CC.PHONE_CALL_TITLE,
+        message: CC.PHONE_CALL_MSG,
+        confirm: CC.CONFIRM_PHONE_CALL,
+        cancel: CC.CANCEL_PHONE_CALL,
+        messageValues: { smsNumber }
+      })
+      if (confirmed !== 'canceled') {
+        const profileR = yield select(selectors.core.data.sfox.getProfile)
+        const profile = profileR.getOrElse({})
+        yield apply(profile, profile.submitPhoneCallOptIn, [trade])
+      }
+    } catch (e) {
+      actions.logs.logErrorMessage(logLocation, 'confirmPhoneCall', e)
+    }
+  }
+
   const initializeJumio = function*() {
     try {
       const status = yield call(fetchJumioStatus)
@@ -276,7 +300,7 @@ export default ({ coreSagas }) => {
           confirm: CC.CONFIRM_VERIFY_IDENTITY,
           cancel: CC.CANCEL_VERIFY_IDENTITY
         })
-        if (confirmed) {
+        if (confirmed !== 'canceled') {
           yield put(
             modalActions.showModal('SfoxExchangeData', { step: 'jumio' })
           )
