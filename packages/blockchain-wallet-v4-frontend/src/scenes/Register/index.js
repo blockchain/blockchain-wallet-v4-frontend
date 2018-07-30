@@ -19,13 +19,14 @@ class RegisterContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, passwordStrength } = this.props
+    const { data, passwordStrength, password } = this.props
     let busy = data.cata({
       Success: () => false,
       Failure: () => false,
       Loading: () => true,
       NotAsked: () => false
     })
+    const passwordLength = (password && password.length) || 0
 
     return (
       <Register
@@ -35,7 +36,8 @@ class RegisterContainer extends React.PureComponent {
           passwordStrength.crack_times_display
             .offline_slow_hashing_1e4_per_second
         }
-        guesses={Math.round(passwordStrength.guesses_log10)}
+        showTip={passwordStrength.score < 4}
+        passwordLength={passwordLength}
       />
     )
   }
