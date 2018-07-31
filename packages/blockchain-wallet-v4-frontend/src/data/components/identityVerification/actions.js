@@ -29,8 +29,8 @@ export const setSupportedCountries = countries => ({
   type: AT.SET_SUPPORTED_COUNTRIES,
   payload: { countries }
 })
-export const setAddresses = addresses => ({
-  type: AT.SET_ADDRESSES,
+export const setPossibleAddresses = addresses => ({
+  type: AT.SET_POSSIBLE_ADDRESSES,
   payload: { addresses }
 })
 
@@ -39,4 +39,11 @@ export const saveAddress = () => ({ type: AT.SAVE_ADDRESS })
 export const fetchSupportedCountries = () => ({
   type: AT.FETCH_SUPPORTED_COUNTRIES
 })
-export const findAddressesByZipcode = () => ({ type: AT.FIND_ADDRESSES })
+export const fetchPossibleAddresses = (postCode, countryCode) => ({
+  type: AT.FETCH_POSSIBLE_ADDRESSES,
+  payload: { postCode, countryCode }
+})
+export const selectAddress = address => ({
+  type: AT.SELECT_ADDRESS,
+  payload: { address }
+})

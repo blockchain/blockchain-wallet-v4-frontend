@@ -1,7 +1,6 @@
 import { compose, path } from 'ramda'
-import { formValueSelector } from 'redux-form'
 import { selectors } from 'data'
-import { ADDRESS_FORM, STEPS } from 'data/components/identityVerification/model'
+import { STEPS } from 'data/components/identityVerification/model'
 import { USER_ACTIVATION_STATES, KYC_STATES } from 'data/modules/profile/model'
 
 const deriveStep = ({ activationState, kycState }) => {
@@ -26,12 +25,4 @@ export const getData = state => ({
       kycState: selectors.modules.profile.getUserKYCState(state)
     })
   )(state)
-})
-
-const addressFormSelector = formValueSelector(ADDRESS_FORM)
-export const getAddressData = state => ({
-  initialValues: {
-    countryCode: selectors.core.settings.getCountryCode(state).getOrElse(null)
-  },
-  countryCode: addressFormSelector(state, 'countryCode')
 })

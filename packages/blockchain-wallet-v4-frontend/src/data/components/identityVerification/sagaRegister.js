@@ -13,8 +13,9 @@ export default ({ api }) => {
     resendSmsCode,
     savePersonalData,
     saveAddress,
+    selectAddress,
     fetchSupportedCountries,
-    findAddressesByZipcode
+    fetchPossibleAddresses
   } = sagas({ api })
 
   return function*() {
@@ -28,6 +29,7 @@ export default ({ api }) => {
     yield takeLatest(AT.SAVE_PERSONAL_DATA, savePersonalData)
     yield takeLatest(AT.SAVE_ADDRESS, saveAddress)
     yield takeLatest(AT.FETCH_SUPPORTED_COUNTRIES, fetchSupportedCountries)
-    yield takeLatest(AT.FIND_ADDRESSES, findAddressesByZipcode)
+    yield takeLatest(AT.FETCH_POSSIBLE_ADDRESSES, fetchPossibleAddresses)
+    yield takeLatest(AT.SELECT_ADDRESS, selectAddress)
   }
 }

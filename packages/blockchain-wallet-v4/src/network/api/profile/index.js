@@ -1,4 +1,4 @@
-export default ({ apiUrl, post, put }) => {
+export default ({ nabuUrl, post, patch }) => {
   const createUser = userData =>
     // post({
     //   url: apiUrl,
@@ -8,10 +8,10 @@ export default ({ apiUrl, post, put }) => {
     Promise.resolve({ id: '1234', state: 'CREATED', kycState: 'NONE' })
 
   const updateUser = (userId, userData) =>
-    // put({
+    // patch({
     //   url: apiUrl,
     //   endPoint: '/users/${userId}',
-    //   data: { applicantId }
+    //   data: { ...userData }
     // })
     Promise.resolve(userData)
 

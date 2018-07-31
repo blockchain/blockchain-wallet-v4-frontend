@@ -1,40 +1,18 @@
-export default ({ apiUrl, get, post }) => {
+export default ({ nabuUrl, get, post }) => {
   const getSupportedCountries = () =>
-    // get({
-    //   url: apiUrl,
-    //   endPoint: '/kyc/config/countries'
-    // })
-    Promise.resolve([
-      {
-        UK: 'United Kingdom'
-      },
-      {
-        US: 'United States'
-      }
-    ])
+    get({
+      url: nabuUrl,
+      endPoint: '/countries',
+      data: { filter: 'eea' }
+    })
 
-  const getAddressesByZipcode = postcode =>
-    // get({
-    //   url: apiUrl,
-    //   endPoint: `/addresses/find`
-    //   data: { postcode }
-    // })
-    Promise.resolve([
-      {
-        city: 'London',
-        line1: '41 Great Street',
-        line2: '42 Car Court',
-        country: 'United Kingdom',
-        postCode: 'E145AB'
-      },
-      {
-        city: 'London',
-        line1: '41 Great Street',
-        line2: '42 Car Court',
-        country: 'United Kingdom',
-        postCode: 'E145AB'
-      }
-    ])
+  const fetchKycAddresses = (filter, cancelToken) =>
+    get({
+      url: nabuUrl,
+      endPoint: `/addresses/find`,
+      data: { ...filter },
+      cancelToken
+    })
 
   const fetchOnfidoSDKKey = () =>
     // get({
@@ -57,7 +35,7 @@ export default ({ apiUrl, get, post }) => {
 
   return {
     getSupportedCountries,
-    getAddressesByZipcode,
+    fetchKycAddresses,
     fetchOnfidoSDKKey,
     syncOnfido
   }

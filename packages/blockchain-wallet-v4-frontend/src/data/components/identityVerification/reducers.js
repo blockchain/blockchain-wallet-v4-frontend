@@ -8,7 +8,7 @@ const INITIAL_STATE = {
   smsStep: Remote.Loading,
   formBusy: false,
   supportedCountries: Remote.NotAsked,
-  adresses: Remote.NotAsked
+  possibleAdresses: []
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -30,8 +30,8 @@ export default (state = INITIAL_STATE, action) => {
     case AT.SET_SUPPORTED_COUNTRIES: {
       return assoc('supportedCountries', payload.countries, state)
     }
-    case AT.SET_ADDRESSES: {
-      return assoc('adresses', payload.addresses, state)
+    case AT.SET_POSSIBLE_ADDRESSES: {
+      return assoc('possibleAddresses', payload.addresses, state)
     }
     default:
       return state

@@ -28,3 +28,15 @@ export const getPersonalData = state => ({
   emailVerified: selectors.core.settings.getEmailVerified(state).getOrElse(0),
   smsVerified: selectors.core.settings.getSmsVerified(state).getOrElse(0)
 })
+
+export const getSupportedCountries = path([
+  'components',
+  'identityVerification',
+  'supportedCountries'
+])
+
+export const getPossibleAddresses = path([
+  'components',
+  'identityVerification',
+  'possibleAddresses'
+])
