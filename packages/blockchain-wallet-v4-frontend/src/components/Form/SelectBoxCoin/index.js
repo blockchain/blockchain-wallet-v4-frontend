@@ -31,16 +31,14 @@ const renderItem = props => {
       {value === 'BTC' && (
         <Icon name='bitcoin-in-circle' size='14px' weight={300} />
       )}
-      {value === 'BCH' && (
-        <Icon name='bitcoin-cash' size='14px' weight={300} />
-      )}
+      {value === 'BCH' && <Icon name='bitcoin-cash' size='14px' weight={300} />}
       {value === 'ETH' && (
         <Icon name='ethereum-filled' size='14px' weight={300} />
       )}
       <Text size='13px' weight={300} cursor='pointer'>
         {text}
       </Text>
-  </HeaderWrapper>
+    </HeaderWrapper>
   )
 }
 
@@ -51,16 +49,14 @@ const renderDisplay = (props, children) => {
       {value === 'BTC' && (
         <Icon name='bitcoin-in-circle' size='14px' weight={300} />
       )}
-      {value === 'BCH' && (
-        <Icon name='bitcoin-cash' size='14px' weight={300} />
-      )}
+      {value === 'BCH' && <Icon name='bitcoin-cash' size='14px' weight={300} />}
       {value === 'ETH' && (
         <Icon name='ethereum-filled' size='14px' weight={300} />
       )}
       <Text size='13px' weight={300} cursor='pointer'>
         {children}
       </Text>
-  </HeaderWrapper>
+    </HeaderWrapper>
   )
 }
 

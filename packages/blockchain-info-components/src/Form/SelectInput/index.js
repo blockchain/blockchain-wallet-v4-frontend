@@ -32,7 +32,14 @@ class SelectInputContainer extends React.PureComponent {
 
   render () {
     const { search, value, expanded } = this.state
-    const { elements, label, searchEnabled, disabled, grouped, ...rest } = this.props
+    const {
+      elements,
+      label,
+      searchEnabled,
+      disabled,
+      grouped,
+      ...rest
+    } = this.props
     const items = elements[0].items
 
     return (

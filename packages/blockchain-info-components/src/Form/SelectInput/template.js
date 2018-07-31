@@ -12,21 +12,29 @@ const StyledSelect = styled(Select)`
   font-size: ${props => (props.fontSize === 'small' ? '12px' : '14px')};
 `
 
-const Option = (props) => {
+const Option = props => {
   const itemProps = assoc('text', props.label, props)
   return (
     <components.Option {...props}>
-      {props.selectProps.templateItem ? props.selectProps.templateItem(itemProps) : props.children}
+      {props.selectProps.templateItem
+        ? props.selectProps.templateItem(itemProps)
+        : props.children}
     </components.Option>
   )
 }
 
 const ValueContainer = ({ children, ...props }) => {
   console.log(props)
-  const displayProps = assoc('text', path(['selectProps', 'value', 'label'], props), assoc('value', path(['selectProps', 'value', 'value'], props), props))
+  const displayProps = assoc(
+    'text',
+    path(['selectProps', 'value', 'label'], props),
+    assoc('value', path(['selectProps', 'value', 'value'], props), props)
+  )
   return (
     <components.ValueContainer {...props}>
-      {props.selectProps.templateDisplay ? props.selectProps.templateDisplay(displayProps,children) : children}
+      {props.selectProps.templateDisplay
+        ? props.selectProps.templateDisplay(displayProps, children)
+        : children}
     </components.ValueContainer>
   )
 }

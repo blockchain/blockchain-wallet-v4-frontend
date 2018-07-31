@@ -66,9 +66,7 @@ const renderDisplay = (props, children) => {
       {value.coin === 'BCH' && (
         <Icon name='bitcoin-cash' size='14px' weight={300} />
       )}
-      {value.coin === 'BTC' && (
-        <Icon name='bitcoin' size='14px' weight={300} />
-      )}
+      {value.coin === 'BTC' && <Icon name='bitcoin' size='14px' weight={300} />}
       {value.coin === 'ETH' && (
         <Icon name='ethereum' size='14px' weight={300} />
       )}
