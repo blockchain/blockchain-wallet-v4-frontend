@@ -8,10 +8,9 @@ import {
   Button,
   HeartbeatLoader,
   Icon,
-  Link,
-  Text,
-  TextGroup,
-  Tooltip
+  TooltipIcon,
+  TooltipHost,
+  Text
 } from 'blockchain-info-components'
 import { Form, NumberBoxDebounced } from 'components/Form'
 import MinimumAmountLink from './MinimumAmountLink'
@@ -180,26 +179,10 @@ const Success = props => {
               id='scenes.exchange.shapeshift.firststep.amount'
               defaultMessage='Enter amount:'
             />
+            <TooltipHost id='firststep.tooltip'>
+              <TooltipIcon name='question-in-circle' />
+            </TooltipHost>
           </Text>
-          <Tooltip>
-            <TextGroup inline>
-              <FormattedMessage
-                id='scenes.exchange.shapeshift.firststep.tooltip'
-                defaultMessage='This quote may change depending on the market price at the time of your transaction.'
-              />
-              <Link
-                size='12px'
-                weight={300}
-                href='https://info.shapeshift.io/about'
-                target='_blank'
-              >
-                <FormattedMessage
-                  id='scenes.exchange.shapeshift.firststep.tooltip2'
-                  defaultMessage='Learn more'
-                />
-              </Link>
-            </TextGroup>
-          </Tooltip>
         </Row>
         <Row height='80px'>
           <Cell>

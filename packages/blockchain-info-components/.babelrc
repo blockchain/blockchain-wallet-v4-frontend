@@ -5,5 +5,8 @@
     }
   },
   "presets": ["es2015", "react", "stage-0"],
-  "plugins": ["babel-plugin-styled-components"]
+  "plugins": [
+    "babel-plugin-styled-components",
+    ["inline-react-svg", { "ignorePattern": "(?<!component.)svg" }]
+  ]
 }
