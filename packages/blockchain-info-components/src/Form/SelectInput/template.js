@@ -4,8 +4,6 @@ import styled from 'styled-components'
 import Select, { components } from 'react-select'
 import { equals, filter, head, assoc, path } from 'ramda'
 
-import { Icon } from '../../Icons'
-
 const StyledSelect = styled(Select)`
   font-family: 'Montserrat', sans-serif;
   font-weight: 300;
@@ -24,7 +22,6 @@ const Option = props => {
 }
 
 const ValueContainer = ({ children, ...props }) => {
-  console.log(props)
   const displayProps = assoc(
     'text',
     path(['selectProps', 'value', 'label'], props),
@@ -48,12 +45,8 @@ const SelectInput = props => {
     searchEnabled,
     handleChange,
     templateDisplay,
-    templateHeader,
-    templateItem,
-    fontSize,
-    grouped
+    templateItem
   } = props
-  console.log(items)
   const options = items.map(item => ({ value: item.value, label: item.text }))
   const defaultValue = head(filter(x => equals(x.value, defaultItem), options))
 

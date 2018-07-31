@@ -59,7 +59,6 @@ const Text = styled.span`
 `
 
 const renderDisplay = (props, children) => {
-  console.log(props)
   const { value, ...rest } = props
   return (
     <DisplayWrapper {...rest}>
