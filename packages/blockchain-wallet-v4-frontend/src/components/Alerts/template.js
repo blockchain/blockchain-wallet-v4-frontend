@@ -925,6 +925,13 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage='Invalid Private Key.'
         />
       )
+    case C.BTC_ADDRESS_AND_PRIVATE_KEY_INVALID:
+      return (
+        <FormattedMessage
+          id='components.alerts.address_and_private_key_incorrect'
+          defaultMessage='Not a valid Bitcoin Private Key or Address.'
+        />
+      )
     default:
       return (
         message || (

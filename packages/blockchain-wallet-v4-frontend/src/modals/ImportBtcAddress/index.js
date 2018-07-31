@@ -6,6 +6,7 @@ import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import ImportBtcAddress from './template.js'
 import { getData } from './selectors'
+import { utils } from 'blockchain-wallet-v4/src'
 
 class ImportBtcAddressContainer extends React.PureComponent {
   render () {
@@ -28,7 +29,7 @@ class ImportBtcAddressContainer extends React.PureComponent {
         submitting={submitting}
         invalid={invalid}
         close={close}
-        priv={priv}
+        priv={utils.bitcoin.isValidBitcoinPrivateKey(priv)}
         onSubmit={() => actions.importBtcAddressSubmitClicked()}
       />
     )
@@ -38,7 +39,8 @@ class ImportBtcAddressContainer extends React.PureComponent {
 const mapStateToProps = getData
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.importBtcAddress, dispatch)
+  actions: bindActionCreators(actions.components.importBtcAddress, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const enhance = compose(
