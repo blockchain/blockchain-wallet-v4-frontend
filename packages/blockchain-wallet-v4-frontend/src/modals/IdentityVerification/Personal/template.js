@@ -9,8 +9,7 @@ import {
   required,
   requiredDOB,
   ageOverEighteen,
-  normalizeDateOfBirth,
-  termsCheckBoxChecked
+  normalizeDateOfBirth
 } from 'services/FormHelper'
 import { PERSONAL_FORM } from 'data/components/identityVerification/model'
 import media from 'services/ResponsiveService'
@@ -28,8 +27,7 @@ import {
   FormItem,
   TextBox,
   PhoneNumberBox,
-  DateBoxDebounced,
-  CheckBox
+  DateBoxDebounced
 } from 'components/Form'
 import {
   Form,
@@ -95,11 +93,6 @@ const EditLink = styled(Link)`
   ${media.mobile`
     font-size: 12px;
   `};
-`
-const TermsCheckBox = styled(CheckBox)`
-  .Container {
-    height: 100%;
-  }
 `
 const DOBFormat = 'MM/DD/YYYY'
 const momentToDOB = value => value && value.format(DOBFormat)
@@ -288,15 +281,9 @@ const Personal = ({
       <ColRightInner>
         <FormGroup>
           <FormItem>
-            <Field
-              name='terms'
-              validate={[termsCheckBoxChecked]}
-              component={TermsCheckBox}
-            >
-              <Text size='12px' weight={300}>
-                <Terms />
-              </Text>
-            </Field>
+            <Text size='12px' weight={300}>
+              <Terms />
+            </Text>
           </FormItem>
         </FormGroup>
         <Button
