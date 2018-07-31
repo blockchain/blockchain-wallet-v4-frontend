@@ -6,6 +6,7 @@ export default ({ api, coreSagas }) => {
   const lockboxSagas = sagas({ api, coreSagas })
 
   return function*() {
+    yield takeLatest(AT.INITIALIZE_CONNECT, lockboxSagas.initializeConnect)
     yield takeLatest(AT.DERIVE_CARBON_XPUBS, lockboxSagas.deriveCarbonXpubs)
   }
 }
