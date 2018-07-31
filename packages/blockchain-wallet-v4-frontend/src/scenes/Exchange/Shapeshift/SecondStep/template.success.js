@@ -8,7 +8,8 @@ import {
   Link,
   Text,
   TextGroup,
-  Tooltip
+  TooltipIcon,
+  TooltipHost
 } from 'blockchain-info-components'
 import { CheckBox, CountdownTimer, Form } from 'components/Form'
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -181,12 +182,9 @@ const Success = props => {
                     defaultMessage='Transaction fee'
                   />
                 </Text>
-                <Tooltip>
-                  <FormattedMessage
-                    id='scenes.exchange.shapeshift.secondstep.txfeeexplanation'
-                    defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.'
-                  />
-                </Tooltip>
+                <TooltipHost id='secondstep.txfeeexplanation'>
+                  <TooltipIcon name='question-in-circle' />
+                </TooltipHost>
               </TableCell>
               <TableCell>
                 <CoinDisplay coin={sourceCoin} size='13px' weight={300}>
@@ -218,12 +216,9 @@ const Success = props => {
                     defaultMessage='Exchange rate'
                   />
                 </Text>
-                <Tooltip>
-                  <FormattedMessage
-                    id='scenes.exchange.shapeshift.secondstep.ratetooltip'
-                    defaultMessage='This rate may change depending on the market price at the time of your transaction.'
-                  />
-                </Tooltip>
+                <TooltipHost id='secondstep.ratetooltip'>
+                  <TooltipIcon name='question-in-circle' />
+                </TooltipHost>
               </TableCell>
               <TableCell>
                 <Text size='13px' weight={300}>
@@ -239,12 +234,9 @@ const Success = props => {
                     defaultMessage='Network transaction fee'
                   />
                 </Text>
-                <Tooltip>
-                  <FormattedMessage
-                    id='scenes.exchange.shapeshift.secondstep.networkfeetooltip'
-                    defaultMessage='ShapeShift will use this fee to send the incoming exchange funds to your wallet.'
-                  />
-                </Tooltip>
+                <TooltipHost id='secondstep.networkfeetooltip'>
+                  <TooltipIcon name='question-in-circle' />
+                </TooltipHost>
               </TableCell>
               <TableCell>
                 <Text

@@ -9,7 +9,8 @@ import {
   TableHeader,
   TableRow,
   TableCell,
-  Tooltip
+  TooltipIcon,
+  TooltipHost
 } from 'blockchain-info-components'
 
 const UsedTable = ({ children }) => (
@@ -41,12 +42,9 @@ const UsedTable = ({ children }) => (
             defaultMessage='Balance'
           />
         </Text>
-        <Tooltip width={'auto'} left={'-120px'}>
-          <FormattedMessage
-            id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.tooltip'
-            defaultMessage='When you send bitcoin, your Blockchain wallet automatically selects addresses to spend from. That is why the current balance of an address can be different from the total received value.'
-          />
-        </Tooltip>
+        <TooltipHost id='settingsBtcUsedBalace'>
+          <TooltipIcon name='question-in-circle' />
+        </TooltipHost>
       </TableCell>
     </TableHeader>
     {children}

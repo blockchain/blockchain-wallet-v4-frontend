@@ -19,7 +19,7 @@ class SettingsContainer extends React.PureComponent {
   componentWillMount () {
     if (!isEmpty(this.props.currentWhitelist)) {
       this.props.formActions.initialize('settingIPWhitelist', {
-        IPWhitelist: this.props.currentWhitelist.data
+        IPWhitelist: this.props.currentWhitelist.data || ''
       })
     }
   }
