@@ -19,14 +19,6 @@ export default ({ api }) => {
     )
   }
 
-  const fetchBuySell = function*() {
-    const typeId = derivationMap[BUYSELL]
-    const mxpriv = yield select(getMetadataXpriv)
-    const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
-    const newkv = yield callTask(api.fetchKVStore(kv))
-    yield put(A.setBuySell(newkv))
-  }
-
   const createBuysell = function*(kv) {
     const newBuysellEntry = {
       sfox: {
@@ -61,7 +53,6 @@ export default ({ api }) => {
   }
 
   return {
-    fetchBuySell,
     fetchMetadataBuySell
   }
 }

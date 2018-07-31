@@ -14,6 +14,7 @@ export default ({ api, coreSagas }) => {
       async function getDeviceInfo () {
         try {
           const transport = await Transport.create()
+          // Should we let the user open any app?
           const lockbox = new Btc(transport)
           // get public key and chaincode for btc and eth paths
           // btc bip44 path is m/44'/0'/0'/0
