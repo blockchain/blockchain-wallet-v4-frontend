@@ -41,11 +41,6 @@ const ItemWrapper = styled.div`
   box-sizing: border-box;
   cursor: pointer;
   min-width: 0;
-
-  &:hover {
-    color: ${props => props.theme['gray-4']};
-    background-color: ${props => props.theme['gray-1']};
-  }
 `
 const Text = styled.span`
   position: relative;
@@ -63,20 +58,24 @@ const Text = styled.span`
   text-overflow: ellipsis;
 `
 
-const renderDisplay = item => (
-  <DisplayWrapper>
-    {prop('value', item) === 'BCH' && (
-      <Icon name='bitcoin-cash' size='14px' weight={300} />
-    )}
-    {prop('value', item) === 'BTC' && (
-      <Icon name='bitcoin' size='14px' weight={300} />
-    )}
-    {prop('value', item) === 'ETH' && (
-      <Icon name='ethereum' size='14px' weight={300} />
-    )}
-    <Text>{item.text}</Text>
-  </DisplayWrapper>
-)
+const renderDisplay = (props, children) => {
+  console.log(props)
+  const { value, ...rest } = props
+  return (
+    <DisplayWrapper {...rest}>
+      {value.coin === 'BCH' && (
+        <Icon name='bitcoin-cash' size='14px' weight={300} />
+      )}
+      {value.coin === 'BTC' && (
+        <Icon name='bitcoin' size='14px' weight={300} />
+      )}
+      {value.coin === 'ETH' && (
+        <Icon name='ethereum' size='14px' weight={300} />
+      )}
+      <Text>{children}</Text>
+    </DisplayWrapper>
+  )
+}
 const renderHeader = item => (
   <HeaderWrapper>
     {prop('text', item) === 'Bitcoin' && (
@@ -127,6 +126,7 @@ const SelectBoxExchange = props =>
       templateDisplay={renderDisplay}
       templateHeader={renderHeader}
       templateItem={renderItem}
+      grouped
     />
   )
 
