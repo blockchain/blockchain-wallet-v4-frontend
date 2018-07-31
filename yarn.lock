@@ -3060,19 +3060,6 @@ bitcoinjs-message@2.0.0:
     secp256k1 "^3.0.1"
     varuint-bitcoin "^1.0.1"
 
-blockchain-info-components@0.0.26:
-  version "0.0.26"
-  resolved "https://registry.npmjs.org/blockchain-info-components/-/blockchain-info-components-0.0.26.tgz#d57baa4140fa98269b1cef356f16d9af0a2e3929"
-  dependencies:
-    polished "1.9.0"
-    prop-types "15.6.1"
-    ramda "0.25.0"
-    react "16.4.0"
-    react-datetime "2.14.0"
-    react-intl "2.4.0"
-    react-onclickoutside "6.7.1"
-    styled-components "3.3.2"
-
 bluebird@^3.4.6, bluebird@^3.5.1:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.1.tgz#d9551f9de98f1fcda1e683d17ee91a0602ee2eb9"
