@@ -47,7 +47,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   const getWalletNUsers = () =>
     get({
       url: apiUrl,
-      ignoreKey: true,
+      ignoreQueryParams: true,
       endPoint: '/charts/my-wallet-n-users?cors=true'
     })
 
