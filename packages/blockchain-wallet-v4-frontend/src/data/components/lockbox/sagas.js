@@ -1,10 +1,12 @@
-import { call, put, take } from 'redux-saga/effects'
+import { call, put, take, select } from 'redux-saga/effects'
 import { eventChannel, END } from 'redux-saga'
-import * as actions from '../../actions'
+import { actions, selectors } from 'data'
 import * as A from './actions'
+import * as S from './selectors'
 
 import Btc from '@ledgerhq/hw-app-btc'
 import Transport from '@ledgerhq/hw-transport-u2f'
+import { getDeviceID } from 'services/LockboxService'
 
 export default ({ api, coreSagas }) => {
   const logLocation = 'components/lockbox/sagas'
@@ -40,32 +42,68 @@ export default ({ api, coreSagas }) => {
       const chan = yield call(deviceInfoChannel)
       try {
         while (true) {
-          let { btcResult, ethResult } = yield take(chan)
+          const { btcResult, ethResult } = yield take(chan)
           yield put(A.deviceInfoSuccess({ btcResult, ethResult }))
-          // TODO:: check if xpub is stored in metadata
-          // if it is check if user has confirmed backup
-          // if it is not, save it and ask for backup
         }
       } finally {
         chan.close()
       }
     } catch (e) {
       yield put(A.deviceInfoFailure(e))
-      actions.logs.logErrorMessage(logLocation, 'initializeConnect', e)
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'initializeConnect', e)
+      )
     }
   }
 
-  const deriveCarbonXpubs = function*() {
+  const deriveConnectStep = function*() {
     try {
+      const deviceInfoR = yield select(S.getDeviceInfo)
+      const deviceInfo = deviceInfoR.getOrFail('missing_device')
+      const deviceID = getDeviceID(deviceInfo)
+
+      const deviceR = yield select(
+        selectors.core.kvStore.lockbox.getDevice,
+        deviceID
+      )
+
+      const device = deviceR.getOrElse(null)
+
+      if (!device) {
+        yield put(A.setConnectStep('label'))
+      } else if (!device.confirmed) {
+        yield put(A.setConnectStep('confirm-recovery'))
+      } else {
+        yield put(actions.modals.closeAll)
+      }
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, 'deriveCarbonXpubs', e)
+        actions.logs.logErrorMessage(logLocation, 'deriveConnectStep', e)
+      )
+    }
+  }
+
+  const addDevice = function*(action) {
+    try {
+      yield put(A.addDeviceLoading())
+      const deviceInfoR = yield select(S.getDeviceInfo)
+      const deviceInfo = deviceInfoR.getOrFail('missing_device')
+      const deviceID = getDeviceID(deviceInfo)
+      yield put(
+        actions.core.kvStore.lockbox.addDeviceLockbox(deviceID, 'My Lockbox 1')
+      )
+      yield put(A.addDeviceSuccess())
+    } catch (e) {
+      yield put(A.addDeviceFailure(e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'deriveConnectStep', e)
       )
     }
   }
 
   return {
-    deriveCarbonXpubs,
-    initializeConnect
+    initializeConnect,
+    deriveConnectStep,
+    addDevice
   }
 }

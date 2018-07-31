@@ -1,5 +1,8 @@
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
+import { mapped, over } from 'ramda-lens'
+import { assocPath, compose } from 'ramda'
+import { KVStoreEntry } from '../../../types'
 
 const INITIAL_STATE = Remote.NotAsked
 
@@ -16,6 +19,15 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_METADATA_LOCKBOX_FAILURE: {
       return Remote.Failure(payload)
+    }
+    case AT.ADD_DEVICE_LOCKBOX: {
+      const { deviceID, label } = payload
+      const valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
+      let setLabel = assocPath(['devices', deviceID], { label })
+      return over(valueLens, setLabel, state)
     }
     default:
       return state

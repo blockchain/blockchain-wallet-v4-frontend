@@ -7,7 +7,19 @@ export const setConnectStep = step => ({
 
 export const initializeConnect = () => ({ type: AT.INITIALIZE_CONNECT })
 export const deviceInfoLoading = () => ({ type: AT.DEVICE_INFO_LOADING })
-export const deviceInfoSuccess = () => ({ type: AT.DEVICE_INFO_SUCCESS })
-export const deviceInfoFailure = () => ({ type: AT.DEVICE_INFO_FAILURE })
+export const deviceInfoSuccess = payload => ({
+  type: AT.DEVICE_INFO_SUCCESS,
+  payload
+})
+export const deviceInfoFailure = payload => ({
+  type: AT.DEVICE_INFO_FAILURE,
+  payload
+})
 
-export const derviveCarbonXpubs = () => ({ type: AT.DERIVE_CARBON_XPUBS })
+export const addDevice = payload => ({
+  type: AT.ADD_DEVICE,
+  payload
+})
+export const addDeviceLoading = () => ({ type: AT.ADD_DEVICE_LOADING })
+export const addDeviceSuccess = () => ({ type: AT.ADD_DEVICE_SUCCESS })
+export const addDeviceFailure = () => ({ type: AT.ADD_DEVICE_FAILURE })

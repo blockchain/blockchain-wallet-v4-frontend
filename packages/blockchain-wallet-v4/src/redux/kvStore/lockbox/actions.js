@@ -18,3 +18,7 @@ export const createMetadataLockbox = data => ({
   type: AT.CREATE_METADATA_LOCKBOX,
   payload: data
 })
+export const addDeviceLockbox = (deviceID, label) => ({
+  type: AT.ADD_DEVICE_LOCKBOX,
+  payload: { deviceID, label }
+})

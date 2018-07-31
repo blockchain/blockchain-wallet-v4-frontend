@@ -22,7 +22,7 @@ export default ({ api }) => {
 
   const createLockbox = function*(kv) {
     const newLockboxEntry = {
-      devices: []
+      devices: {}
     }
     const newkv = set(KVStoreEntry.value, newLockboxEntry, kv)
     yield put(A.createMetadataLockbox(newkv))

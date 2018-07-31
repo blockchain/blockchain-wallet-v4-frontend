@@ -8,6 +8,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import LockboxSetup from './template'
 import OptionsStep from './OptionsStep'
 import ConnectStep from './ConnectStep'
+import LabelStep from './LabelStep'
 
 class LockboxSetupContainer extends React.PureComponent {
   render () {
@@ -19,6 +20,7 @@ class LockboxSetupContainer extends React.PureComponent {
           <OptionsStep handleStep={lockboxActions.setConnectStep} />
         )}
         {step === 'connect' && <ConnectStep />}
+        {step === 'label' && <LabelStep />}
       </LockboxSetup>
     )
   }
