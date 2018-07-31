@@ -41,6 +41,9 @@ export default ({ api, coreSagas }) => {
         while (true) {
           let { btcResult, ethResult } = yield take(chan)
           yield put(A.deviceInfoSuccess({ btcResult, ethResult }))
+          // TODO:: check if xpub is stored in metadata
+          // if it is check if user has confirmed backup
+          // if it is not, save it and ask for backup
         }
       } finally {
         chan.close()
