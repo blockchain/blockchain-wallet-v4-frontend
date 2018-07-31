@@ -68,7 +68,7 @@ const BtcBalance = props => {
             />
           </WalletLink>
         )
-      ) : gte(ethBalance, 0) || gt(bchBalance, 0) ? (
+      ) : (gt(ethBalance, 0) || gt(bchBalance, 0)) && !gt(btcBalance, 0) ? (
         <WalletLink to='/exchange' size='10px' weight={300}>
           <FormattedMessage
             id='scenes.home.balanceschart.getstarted'
