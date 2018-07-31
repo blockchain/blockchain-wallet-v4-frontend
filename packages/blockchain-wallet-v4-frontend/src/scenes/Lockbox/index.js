@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Btc from '@ledgerhq/hw-app-btc'
 import Transport from '@ledgerhq/hw-transport-u2f'
+
 // MOVE ALL OF THIS
 // ----------------
 import { fromPublicKey } from 'bip32'
@@ -15,6 +16,7 @@ import EthUtil from 'ethereumjs-util'
 
 import { actions } from 'data'
 import Lockbox from './template.js'
+import { getData } from './selectors'
 
 // MOVE ALL OF THIS
 // ----------------
@@ -104,11 +106,15 @@ class LockboxContainer extends React.PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  data: getData(state)
+})
+
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(LockboxContainer)

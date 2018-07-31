@@ -3,7 +3,12 @@ import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
   connecting: false,
-  deviceInfo: {}
+  deviceInfo: {},
+  xpubs: {
+    bch: '1111',
+    btc: '22222',
+    eth: '333333'
+  }
 }
 
 export default (state = INITIAL_STATE, action) => {
