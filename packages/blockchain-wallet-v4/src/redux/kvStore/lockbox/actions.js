@@ -18,9 +18,9 @@ export const createMetadataLockbox = data => ({
   type: AT.CREATE_METADATA_LOCKBOX,
   payload: data
 })
-export const addDeviceLockbox = (deviceID, label) => ({
+export const addDeviceLockbox = (deviceID, deviceName) => ({
   type: AT.ADD_DEVICE_LOCKBOX,
-  payload: { deviceID, label }
+  payload: { deviceID, deviceName }
 })
 export const saveDeviceLockbox = (deviceID, accounts) => ({
   type: AT.SAVE_DEVICE_LOCKBOX,

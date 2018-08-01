@@ -21,12 +21,12 @@ export default (state = INITIAL_STATE, action) => {
       return Remote.Failure(payload)
     }
     case AT.ADD_DEVICE_LOCKBOX: {
-      const { deviceID, label } = payload
+      const { deviceID, deviceName } = payload
       const valueLens = compose(
         mapped,
         KVStoreEntry.value
       )
-      let setLabel = assocPath(['devices', deviceID], { label })
+      let setLabel = assocPath(['devices', deviceID], { deviceName })
       return over(valueLens, setLabel, state)
     }
     case AT.SAVE_DEVICE_LOCKBOX: {
