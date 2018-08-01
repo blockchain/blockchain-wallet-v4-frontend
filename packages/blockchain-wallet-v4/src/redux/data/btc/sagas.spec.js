@@ -61,7 +61,7 @@ describe('bitcoin data sagas', () => {
     })
 
     it('should select wallet', () => {
-      saga.next().select(selectors.wallet.getContext)
+      saga.next().select(S.getContext)
     })
 
     it('should get data from api', () => {
@@ -94,7 +94,7 @@ describe('bitcoin data sagas', () => {
       it('should add bitcoin data to the state', () => {
         return expectSaga(dataBtcSagas.fetchData)
           .withReducer(reducers)
-          .provide([[select(selectors.wallet.getContext), mockContext]])
+          .provide([[select(S.getContext), mockContext]])
           .run()
           .then(result => {
             expect(result.storeState.bitcoin).toMatchObject({

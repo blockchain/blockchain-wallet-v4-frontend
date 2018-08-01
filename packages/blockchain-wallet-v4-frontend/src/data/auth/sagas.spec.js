@@ -388,6 +388,10 @@ describe('authSagas', () => {
       saga.next().call(coreSagas.kvStore.bch.fetchMetadataBch)
     })
 
+    it('should fetch lockbox metadata', () => {
+      saga.next().call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
+    })
+
     it('should redirect to home route', () => {
       saga.next().put(actions.router.push('/home'))
     })
