@@ -14,7 +14,10 @@ export default ({ coreSagas }) => {
     yield takeLatest(AT.SUBMIT_MICRO_DEPOSITS, sfoxSagas.submitMicroDeposits)
     yield takeLatest(AT.SUBMIT_QUOTE, sfoxSagas.submitQuote)
     yield takeLatest(AT.SUBMIT_SELL_QUOTE, sfoxSagas.submitSellQuote)
-    yield takeLatest(AT.HANDLE_MODAL_CLOSE, sfoxSagas.checkForProfileFailure)
+    yield takeLatest(AT.HANDLE_MODAL_CLOSE, sfoxSagas.checkProfileStatus)
     yield takeLatest(AT.SFOX_INITIALIZE_PAYMENT, sfoxSagas.initializePayment)
+    yield takeLatest(AT.INITIALIZE_JUMIO, sfoxSagas.initializeJumio)
+    yield takeLatest(AT.FETCH_JUMIO_TOKEN, sfoxSagas.fetchJumioToken)
+    yield takeLatest(AT.COMPLETE_JUMIO, sfoxSagas.completeJumio)
   }
 }

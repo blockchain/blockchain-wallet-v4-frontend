@@ -1,4 +1,5 @@
 import React from 'react'
+import moment from 'moment'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
@@ -12,7 +13,8 @@ import {
   ModalBody,
   Text,
   Button,
-  Tooltip
+  TooltipIcon,
+  TooltipHost
 } from 'blockchain-info-components'
 import {
   OrderDetailsTable,
@@ -67,12 +69,10 @@ const renderTotal = trade => {
 
 class SfoxTradeDetails extends React.PureComponent {
   render () {
-    const headerStatus = statusHelper(this.props.trade.state)
-    const bodyStatus = bodyStatusHelper(
-      this.props.trade.state,
-      this.props.trade.isBuy
-    )
     const { account, trade } = this.props
+    const { expectedDelivery, feeAmount, id, isBuy, state } = trade
+    const headerStatus = statusHelper(state)
+    const bodyStatus = bodyStatusHelper(state, isBuy, expectedDelivery)
 
     return (
       <Modal
@@ -82,7 +82,7 @@ class SfoxTradeDetails extends React.PureComponent {
       >
         <ModalHeader onClose={this.props.close}>
           <Text color={headerStatus.color}>
-            {trade.isBuy ? `Buy Order` : 'Sell Order'} {headerStatus.text}
+            {isBuy ? `Buy Order` : 'Sell Order'} {headerStatus.text}
           </Text>
         </ModalHeader>
         <ModalBody>
@@ -93,11 +93,11 @@ class SfoxTradeDetails extends React.PureComponent {
             <FormattedMessage
               id='sfoxtradedetails.orderdetails.tradeid'
               defaultMessage='Your order ID is: SFX-{id}'
-              values={{ id: trade.id }}
+              values={{ id }}
             />
           </Text>
           <Text style={spacing('mt-20')} size='14px' weight={400}>
-            {trade.isBuy ? (
+            {isBuy ? (
               <FormattedMessage
                 id='sfoxtradedetails.orderdetails.method'
                 defaultMessage='Payment Method'
@@ -115,7 +115,7 @@ class SfoxTradeDetails extends React.PureComponent {
           </MethodContainer>
           <OrderDetailsTable style={spacing('mt-10')}>
             <OrderDetailsRow>
-              {trade.isBuy ? (
+              {isBuy ? (
                 <Text size='13px' weight={300}>
                   <FormattedMessage
                     id='orderdetails.amounttopurchase'
@@ -141,20 +141,15 @@ class SfoxTradeDetails extends React.PureComponent {
                     id='orderdetails.tradingfee'
                     defaultMessage='Trading Fee'
                   />
+                  <TooltipHost id='tradingfee.tooltip'>
+                    <TooltipIcon name='question-in-circle' />
+                  </TooltipHost>
                 </Text>
-                <Tooltip>
-                  <FormattedMessage
-                    id='orderdetails.tradingfee.tooltip'
-                    defaultMessage='The fee charged to execute a trade through SFOX.'
-                  />
-                </Tooltip>
               </ToolTipWrapper>
-              <Text size='13px' weight={300}>{`$${trade.feeAmount.toFixed(
-                2
-              )}`}</Text>
+              <Text size='13px' weight={300}>{`$${feeAmount.toFixed(2)}`}</Text>
             </OrderDetailsRow>
             <OrderDetailsRow>
-              {trade.isBuy ? (
+              {isBuy ? (
                 <Text size='13px' weight={300}>
                   <FormattedMessage
                     id='orderdetails.totalcost'
@@ -173,6 +168,19 @@ class SfoxTradeDetails extends React.PureComponent {
                 {renderTotal(trade)}
               </Text>
             </OrderDetailsRow>
+            {expectedDelivery && (
+              <OrderDetailsRow>
+                <Text size='13px' weight={300}>
+                  <FormattedMessage
+                    id='orderdetails.fundsdelivery'
+                    defaultMessage='Estimated Delivery of Funds'
+                  />
+                </Text>
+                <Text size='13px' weight={300}>
+                  {moment(expectedDelivery).format('dddd, MMMM Do YYYY')}
+                </Text>
+              </OrderDetailsRow>
+            )}
           </OrderDetailsTable>
           <ButtonRow>
             <Button width='100px' onClick={this.props.close} nature='primary'>

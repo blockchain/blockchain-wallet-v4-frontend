@@ -7,7 +7,9 @@ const INITIAL_STATE = {
   sfoxBusy: Remote.NotAsked,
   qaSellAddress: null,
   siftScienceEnabled: false,
-  payment: Remote.NotAsked
+  payment: Remote.NotAsked,
+  jumioToken: Remote.NotAsked,
+  jumioStatus: Remote.NotAsked
 }
 
 describe('sfox reducers', () => {

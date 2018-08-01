@@ -1,55 +1,21 @@
 import React from 'react'
-import onClickOutside from 'react-onclickoutside'
-import Tooltip from './template.js'
-import { Icon } from '../Icons'
 
-class TooltipContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = { displayed: false }
-    this.handleClick = this.handleClick.bind(this)
-    this.handleMouseEnter = this.handleMouseEnter.bind(this)
-    this.handleMouseLeave = this.handleMouseLeave.bind(this)
-  }
+import Tooltip from './template'
+export { default as TooltipHost } from './TooltipHost'
+export { default as TooltipIcon } from './TooltipIcon'
 
-  handleClick () {
-    this.setState({ displayed: !this.state.displayed })
-  }
+/**
+ * In use, add as few tooltip containers as possible (they can be easily reused).
+ * To give a component a tooltip, wrap it in a TooltipHost and make the id of the host match the id of the tooltip.
+ * Consult docs for further use https://github.com/wwayne/react-tooltip#react-tooltip
+ *
+ * TODO:
+ * Add Proptypes
+ * Default prop values in './template'
+ */
 
-  handleMouseEnter () {
-    this.props.hover && this.setState({ displayed: true })
-  }
-
-  handleMouseLeave () {
-    this.props.hover && this.setState({ displayed: false })
-  }
-
-  handleClickOutside () {
-    this.setState({ displayed: false })
-  }
-
+export default class TooltipContainer extends React.PureComponent {
   render () {
-    const icon = this.state.displayed ? (
-      <Icon name='close-in-circle' />
-    ) : (
-      <Icon name='question-in-circle' />
-    )
-
-    return (
-      <Tooltip
-        icon={icon}
-        width={this.props.width}
-        left={this.props.left}
-        label={this.props.label}
-        displayed={this.state.displayed}
-        handleClick={this.handleClick}
-        handleMouseEnter={this.handleMouseEnter}
-        handleMouseLeave={this.handleMouseLeave}
-      >
-        {this.props.children}
-      </Tooltip>
-    )
+    return <Tooltip {...this.props}>{this.props.children}</Tooltip>
   }
 }
-
-export default onClickOutside(TooltipContainer)
