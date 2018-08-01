@@ -15,5 +15,8 @@ export const getLockboxBtc = state =>
     map(d => path([d, 'btc'], devices), keys(devices))
   )
 
-export const getLockboxBtcContext = state =>
-  getLockboxBtc(state).map(btc => map(path(['xpub']), btc.accounts))
+export const getLockboxBtcContext = state => {
+  return getLockboxBtc(state).map(
+    map(btc => map(a => path(['xpub'], a), path(['accounts'], btc)))
+  )
+}

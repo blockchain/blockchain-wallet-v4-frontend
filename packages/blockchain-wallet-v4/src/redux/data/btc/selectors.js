@@ -1,4 +1,4 @@
-import { concat, curry, path } from 'ramda'
+import { concat, curry, path, flatten } from 'ramda'
 import { dataPath } from '../../paths'
 import * as wallet from '../../wallet/selectors'
 import { createDeepEqualSelector } from '../../../utils'
@@ -7,9 +7,7 @@ import { getLockboxBtcContext } from '../../kvStore/lockbox/selectors'
 export const getContext = createDeepEqualSelector(
   [wallet.getContext, getLockboxBtcContext],
   (walletContext, lockboxContextR) => {
-    const transform = lockboxAccounts => {
-      console.log(lockboxAccounts)
-    }
+    const transform = lockboxContext => flatten(lockboxContext)
     const lockboxContext = lockboxContextR.map(transform).getOrElse([])
     return concat(walletContext, lockboxContext)
   }
