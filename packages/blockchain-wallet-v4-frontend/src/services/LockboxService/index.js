@@ -13,10 +13,10 @@ export const generateMDEntry = deviceInfo => {
     const { btc, eth } = deviceInfo
     const btcXpub = publicKeyChainCodeToBip32(btc.publicKey, btc.chainCode)
     const ethXpub = publicKeyChainCodeToBip32(eth.publicKey, eth.chainCode)
-    
+
     return {
-      btc: { accounts: btcAccount(btcXpub) },
-      eth: { accounts: ethAccount(ethXpub) }
+      btc: { accounts: [btcAccount(btcXpub)] },
+      eth: { accounts: [ethAccount(ethXpub)] }
     }
   } catch (e) {
     throw new Error(deviceInfoErr)
