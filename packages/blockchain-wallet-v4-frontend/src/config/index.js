@@ -1,7 +1,7 @@
 import Bitcoin from 'bitcoinjs-lib'
 import BitcoinCash from 'bitcoinforksjs-lib'
 
-const isTestnet = true
+const isTestnet = false
 
 export default {
   WALLET_DATA_PATH: 'wallet.data',

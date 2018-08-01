@@ -2,13 +2,15 @@ import Config from './index'
 
 jest.mock('bitcoinjs-lib', () => ({
   networks: {
-    bitcoin: 'MOCK_BTC'
+    bitcoin: 'MOCK_BTC',
+    testnet: 'MOCK_TESTNET_BTC'
   }
 }))
 
 jest.mock('bitcoinforksjs-lib', () => ({
   networks: {
-    bitcoin: 'MOCK_BCH'
+    bitcoin: 'MOCK_BCH',
+    testnet: 'MOCK_TESTNET_BCH'
   }
 }))
 
