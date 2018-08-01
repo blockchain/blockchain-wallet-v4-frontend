@@ -70,7 +70,7 @@ export default ({ api, coreSagas }) => {
       const device = deviceR.getOrElse(null)
 
       if (!device) {
-        yield put(A.setConnectStep('label'))
+        yield put(A.setConnectStep('name-device'))
       } else if (!device.confirmed) {
         yield put(A.setConnectStep('confirm-recovery'))
       } else {

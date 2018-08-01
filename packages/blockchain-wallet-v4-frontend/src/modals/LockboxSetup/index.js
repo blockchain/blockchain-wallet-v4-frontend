@@ -21,7 +21,7 @@ class LockboxSetupContainer extends React.PureComponent {
           <OptionsStep handleStep={lockboxActions.setConnectStep} />
         )}
         {step === 'connect' && <ConnectStep />}
-        {step === 'label' && <NameDeviceStep />}
+        {step === 'name-device' && <NameDeviceStep />}
         {step === 'confirm-recovery' && <ConfirmRecoveryStep />}
       </LockboxSetup>
     )
