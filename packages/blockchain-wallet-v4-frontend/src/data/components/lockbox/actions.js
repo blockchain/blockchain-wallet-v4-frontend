@@ -16,9 +16,9 @@ export const deviceInfoFailure = payload => ({
   payload
 })
 
-export const addDevice = payload => ({
+export const addDevice = deviceName => ({
   type: AT.ADD_DEVICE,
-  payload
+  payload: { deviceName }
 })
 export const addDeviceLoading = () => ({ type: AT.ADD_DEVICE_LOADING })
 export const addDeviceSuccess = () => ({ type: AT.ADD_DEVICE_SUCCESS })
