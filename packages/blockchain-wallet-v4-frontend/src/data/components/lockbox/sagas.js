@@ -7,6 +7,7 @@ import * as S from './selectors'
 import Btc from '@ledgerhq/hw-app-btc'
 import Transport from '@ledgerhq/hw-transport-u2f'
 import { getDeviceID } from 'services/LockboxService'
+import { publicKeyChainCodeToBip32 } from 'blockchain-wallet-v4/src/utils/btc'
 
 export default ({ api, coreSagas }) => {
   const logLocation = 'components/lockbox/sagas'
@@ -20,11 +21,11 @@ export default ({ api, coreSagas }) => {
           const lockbox = new Btc(transport)
           // get public key and chaincode for btc and eth paths
           // btc bip44 path is m/44'/0'/0'/0
-          const btcResult = await lockbox.getWalletPublicKey("44'/0'/0'/0'")
+          const btc = await lockbox.getWalletPublicKey("44'/0'/0'/0'")
           // eth bip44 path is m/44'/60'/0'/0
-          const ethResult = await lockbox.getWalletPublicKey("44'/60'/0'/0")
+          const eth = await lockbox.getWalletPublicKey("44'/60'/0'/0")
           // TODO:: BCH
-          emitter({ btcResult, ethResult })
+          emitter({ btc, eth })
           emitter(END)
         } catch (e) {
           throw new Error(e)
@@ -42,8 +43,8 @@ export default ({ api, coreSagas }) => {
       const chan = yield call(deviceInfoChannel)
       try {
         while (true) {
-          const { btcResult, ethResult } = yield take(chan)
-          yield put(A.deviceInfoSuccess({ btcResult, ethResult }))
+          const { btc, eth } = yield take(chan)
+          yield put(A.deviceInfoSuccess({ btc, eth }))
         }
       } finally {
         chan.close()
@@ -83,7 +84,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const addDevice = function*(action) {
+  const addDevice = function*() {
     try {
       yield put(A.addDeviceLoading())
       const deviceInfoR = yield select(S.getDeviceInfo)
@@ -93,17 +94,39 @@ export default ({ api, coreSagas }) => {
         actions.core.kvStore.lockbox.addDeviceLockbox(deviceID, 'My Lockbox 1')
       )
       yield put(A.addDeviceSuccess())
+      yield put(A.setConnectStep('confirm-recovery'))
     } catch (e) {
       yield put(A.addDeviceFailure(e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'addDevice', e))
+    }
+  }
+
+  const saveDevice = function*() {
+    try {
+      yield put(A.saveDeviceLoading())
+      const deviceInfoR = yield select(S.getDeviceInfo)
+      const deviceInfo = deviceInfoR.getOrFail('missing_device')
+      const deviceID = getDeviceID(deviceInfo)
+      const { btc, eth } = deviceInfo
+      const btcXpub = publicKeyChainCodeToBip32(btc.publicKey, btc.chainCode)
+      const ethXpub = publicKeyChainCodeToBip32(eth.publicKey, eth.chainCode)
       yield put(
-        actions.logs.logErrorMessage(logLocation, 'deriveConnectStep', e)
+        actions.core.kvStore.lockbox.saveDeviceLockbox(deviceID, {
+          btc: { accounts: { xpub: btcXpub } },
+          eth: { accounts: { xpub: ethXpub } }
+        })
       )
+      yield put(A.saveDeviceSuccess())
+    } catch (e) {
+      yield put(A.saveDeviceFailure(e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'saveDevice', e))
     }
   }
 
   return {
     initializeConnect,
     deriveConnectStep,
+    saveDevice,
     addDevice
   }
 }

@@ -6,8 +6,8 @@ export const getXpubHash = xpub =>
 
 export const getDeviceID = deviceInfo => {
   try {
-    const { btcResult } = deviceInfo
-    const { publicKey, chainCode } = btcResult
+    const { btc } = deviceInfo
+    const { publicKey, chainCode } = btc
     const xpub = publicKeyChainCodeToBip32(publicKey, chainCode)
     return getXpubHash(xpub)
   } catch (e) {

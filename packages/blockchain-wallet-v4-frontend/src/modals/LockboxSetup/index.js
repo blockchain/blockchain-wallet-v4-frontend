@@ -9,6 +9,7 @@ import LockboxSetup from './template'
 import OptionsStep from './OptionsStep'
 import ConnectStep from './ConnectStep'
 import LabelStep from './LabelStep'
+import ConfirmRecoveryStep from './ConfirmRecoveryStep'
 
 class LockboxSetupContainer extends React.PureComponent {
   render () {
@@ -21,6 +22,7 @@ class LockboxSetupContainer extends React.PureComponent {
         )}
         {step === 'connect' && <ConnectStep />}
         {step === 'label' && <LabelStep />}
+        {step === 'confirm-recovery' && <ConfirmRecoveryStep />}
       </LockboxSetup>
     )
   }

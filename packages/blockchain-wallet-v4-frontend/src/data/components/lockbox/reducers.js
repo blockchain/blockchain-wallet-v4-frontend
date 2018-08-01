@@ -3,7 +3,6 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
-  connecting: false,
   step: 'options',
   deviceInfo: Remote.NotAsked
 }
@@ -23,9 +22,6 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.DEVICE_INFO_FAILURE: {
       return assoc('deviceInfo', Remote.Failure(payload), state)
-    }
-    case AT.SET_CARBON_XPUBS: {
-      return assoc('xpubs', payload.xpubs, state)
     }
     default:
       return state

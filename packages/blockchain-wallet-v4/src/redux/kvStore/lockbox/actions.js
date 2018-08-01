@@ -22,3 +22,7 @@ export const addDeviceLockbox = (deviceID, label) => ({
   type: AT.ADD_DEVICE_LOCKBOX,
   payload: { deviceID, label }
 })
+export const saveDeviceLockbox = (deviceID, accounts) => ({
+  type: AT.SAVE_DEVICE_LOCKBOX,
+  payload: { deviceID, accounts }
+})

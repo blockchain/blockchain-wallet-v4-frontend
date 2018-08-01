@@ -29,6 +29,15 @@ export default (state = INITIAL_STATE, action) => {
       let setLabel = assocPath(['devices', deviceID], { label })
       return over(valueLens, setLabel, state)
     }
+    case AT.SAVE_DEVICE_LOCKBOX: {
+      const { deviceID, accounts } = payload
+      const valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
+      let setAccounts = assocPath(['devices', deviceID], accounts)
+      return over(valueLens, setAccounts, state)
+    }
     default:
       return state
   }

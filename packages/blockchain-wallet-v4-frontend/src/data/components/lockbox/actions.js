@@ -22,4 +22,18 @@ export const addDevice = payload => ({
 })
 export const addDeviceLoading = () => ({ type: AT.ADD_DEVICE_LOADING })
 export const addDeviceSuccess = () => ({ type: AT.ADD_DEVICE_SUCCESS })
-export const addDeviceFailure = () => ({ type: AT.ADD_DEVICE_FAILURE })
+export const addDeviceFailure = payload => ({
+  type: AT.ADD_DEVICE_FAILURE,
+  payload
+})
+
+export const saveDevice = payload => ({
+  type: AT.SAVE_DEVICE,
+  payload
+})
+export const saveDeviceLoading = () => ({ type: AT.SAVE_DEVICE_LOADING })
+export const saveDeviceSuccess = () => ({ type: AT.SAVE_DEVICE_SUCCESS })
+export const saveDeviceFailure = payload => ({
+  type: AT.SAVE_DEVICE_FAILURE,
+  payload
+})
