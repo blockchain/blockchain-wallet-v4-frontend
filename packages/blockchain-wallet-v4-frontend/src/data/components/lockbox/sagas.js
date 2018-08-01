@@ -83,14 +83,16 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const addDevice = function*() {
+  const addDevice = function*(action) {
     try {
+      const { deviceName } = action.payload
+
       yield put(A.addDeviceLoading())
       const deviceInfoR = yield select(S.getDeviceInfo)
       const deviceInfo = deviceInfoR.getOrFail('missing_device')
       const deviceID = getDeviceID(deviceInfo)
       yield put(
-        actions.core.kvStore.lockbox.addDeviceLockbox(deviceID, 'My Lockbox 1')
+        actions.core.kvStore.lockbox.addDeviceLockbox(deviceID, deviceName)
       )
       yield put(A.addDeviceSuccess())
       yield put(A.setConnectStep('confirm-recovery'))
