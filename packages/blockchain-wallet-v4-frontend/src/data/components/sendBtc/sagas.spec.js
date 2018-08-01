@@ -107,7 +107,7 @@ describe('sendBtc sagas', () => {
       saga.next()
       expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
-        network: settings.NETWORK_BITCOIN
+        network: settings.NETWORK_BTC
       })
       expect(paymentMock.init).toHaveBeenCalledTimes(1)
     })
@@ -256,7 +256,7 @@ describe('sendBtc sagas', () => {
       expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
         payment: paymentMock,
-        network: settings.NETWORK_BITCOIN
+        network: settings.NETWORK_BTC
       })
     })
 
@@ -318,7 +318,7 @@ describe('sendBtc sagas', () => {
       expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
         payment: paymentMock,
-        network: settings.NETWORK_BITCOIN
+        network: settings.NETWORK_BTC
       })
     })
 

@@ -10,7 +10,7 @@ export const getData = state => {
   ).data
   const defaultIndex = selectors.core.wallet.getDefaultAccountIndex(state)
   const nextAddress = selectors.core.common.btc.getNextAvailableReceiveAddress(
-    settings.NETWORK_BITCOIN,
+    settings.NETWORK_BTC,
     defaultIndex,
     state
   )

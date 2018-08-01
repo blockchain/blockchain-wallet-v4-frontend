@@ -68,12 +68,12 @@ export default ({ coreSagas }) => {
       const state = yield select()
       const defaultIdx = selectors.core.wallet.getDefaultAccountIndex(state)
       const receiveR = selectors.core.common.btc.getNextAvailableReceiveAddress(
-        settings.NETWORK_BITCOIN,
+        settings.NETWORK_BTC,
         defaultIdx,
         state
       )
       const receiveIdxR = selectors.core.common.btc.getNextAvailableReceiveIndex(
-        settings.NETWORK_BITCOIN,
+        settings.NETWORK_BTC,
         defaultIdx,
         state
       )
@@ -172,7 +172,7 @@ export default ({ coreSagas }) => {
           selectors.core.wallet.getDefaultAccountIndex
         )
         const payment = yield coreSagas.payment.btc
-          .create({ network: settings.NETWORK_BITCOIN })
+          .create({ network: settings.NETWORK_BTC })
           .chain()
           .init()
           .fee('priority')
@@ -518,7 +518,7 @@ export default ({ coreSagas }) => {
     try {
       yield put(A.coinifySellBtcPaymentUpdatedLoading())
       let payment = coreSagas.payment.btc.create({
-        network: settings.NETWORK_BITCOIN
+        network: settings.NETWORK_BTC
       })
       payment = yield payment.init()
       const defaultIndex = yield select(

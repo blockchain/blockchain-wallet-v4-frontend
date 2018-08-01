@@ -22,7 +22,7 @@ export default ({ api }) => {
 
     while (i <= receiveIndex.data) {
       addrs.push(
-        Types.HDAccount.getReceiveAddress(account, i, settings.NETWORK_BITCOIN)
+        Types.HDAccount.getReceiveAddress(account, i, settings.NETWORK_BTC)
       )
       i++
     }
@@ -84,7 +84,7 @@ export default ({ api }) => {
         address: Types.HDAccount.getReceiveAddress(
           account,
           la.index,
-          settings.NETWORK_BITCOIN
+          settings.NETWORK_BTC
         ),
         index: la.index,
         label: la.label
@@ -151,7 +151,7 @@ export default ({ api }) => {
         address: Types.HDAccount.getReceiveAddress(
           account,
           la.index,
-          settings.NETWORK_BITCOIN
+          settings.NETWORK_BTC
         ),
         index: la.index,
         label: la.label

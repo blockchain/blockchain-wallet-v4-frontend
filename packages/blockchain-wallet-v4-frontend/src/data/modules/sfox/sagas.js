@@ -159,12 +159,12 @@ export default ({ coreSagas }) => {
       const state = yield select()
       const defaultIdx = selectors.core.wallet.getDefaultAccountIndex(state)
       const receiveR = selectors.core.common.btc.getNextAvailableReceiveAddress(
-        settings.NETWORK_BITCOIN,
+        settings.NETWORK_BTC,
         defaultIdx,
         state
       )
       const receiveIdxR = selectors.core.common.btc.getNextAvailableReceiveIndex(
-        settings.NETWORK_BITCOIN,
+        settings.NETWORK_BTC,
         defaultIdx,
         state
       )
@@ -190,7 +190,7 @@ export default ({ coreSagas }) => {
       let p = path(['sfoxSignup', 'payment'], state)
       let payment = yield coreSagas.payment.btc.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_BITCOIN
+        network: settings.NETWORK_BTC
       })
 
       payment = yield payment.amount(parseInt(trade.sendAmount))
@@ -251,7 +251,7 @@ export default ({ coreSagas }) => {
     try {
       yield put(A.sfoxSellBtcPaymentUpdatedLoading())
       let payment = coreSagas.payment.btc.create({
-        network: settings.NETWORK_BITCOIN
+        network: settings.NETWORK_BTC
       })
       payment = yield payment.init()
       const defaultIndex = yield select(

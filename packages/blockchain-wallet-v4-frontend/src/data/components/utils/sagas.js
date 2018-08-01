@@ -35,7 +35,7 @@ export const selectReceiveAddress = function*(source) {
   }
   if (equals('BTC', coin) && is(Number, address)) {
     const btcReceiveAddress = selectors.core.common.btc.getNextAvailableReceiveAddress(
-      settings.NETWORK_BITCOIN,
+      settings.NETWORK_BTC,
       address,
       appState
     )

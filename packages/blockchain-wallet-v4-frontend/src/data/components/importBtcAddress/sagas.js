@@ -37,7 +37,7 @@ export default ({ api, coreSagas }) => {
     if (utils.checks.isPositiveInteger(index) && priv) {
       try {
         yield coreSagas.payment.btc
-          .create({ network: settings.NETWORK_BITCOIN })
+          .create({ network: settings.NETWORK_BTC })
           .chain()
           .init()
           .from(priv)

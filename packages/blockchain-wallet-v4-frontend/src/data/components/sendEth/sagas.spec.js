@@ -91,7 +91,7 @@ describe('sendEth sagas', () => {
       saga.next()
       expect(coreSagas.payment.eth.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.eth.create).toHaveBeenCalledWith({
-        network: settings.NETWORK_ETHEREUM
+        network: settings.NETWORK_ETH
       })
       expect(paymentMock.init).toHaveBeenCalledTimes(1)
     })
@@ -208,7 +208,7 @@ describe('sendEth sagas', () => {
       expect(coreSagas.payment.eth.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.eth.create).toHaveBeenCalledWith({
         payment: paymentMock,
-        network: settings.NETWORK_ETHEREUM
+        network: settings.NETWORK_ETH
       })
     })
 
@@ -270,7 +270,7 @@ describe('sendEth sagas', () => {
       expect(coreSagas.payment.eth.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.eth.create).toHaveBeenCalledWith({
         payment: paymentMock,
-        network: settings.NETWORK_ETHEREUM
+        network: settings.NETWORK_ETH
       })
     })
 

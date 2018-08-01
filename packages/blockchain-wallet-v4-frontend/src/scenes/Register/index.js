@@ -15,7 +15,7 @@ class RegisterContainer extends React.PureComponent {
   }
 
   onSubmit () {
-    const network = settings.NETWORK_BITCOIN
+    const network = settings.NETWORK_BTC
     const { email, password, language } = this.props
     this.props.authActions.register(email, password, language, network)
   }

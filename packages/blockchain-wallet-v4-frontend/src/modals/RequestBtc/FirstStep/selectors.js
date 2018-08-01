@@ -29,13 +29,13 @@ const extractAccountIdx = value =>
 export const getData = state => {
   const getReceive = index =>
     selectors.core.common.btc.getNextAvailableReceiveAddress(
-      settings.NETWORK_BITCOIN,
+      settings.NETWORK_BTC,
       index,
       state
     )
   const getReceiveIdx = index =>
     selectors.core.common.btc.getNextAvailableReceiveIndex(
-      settings.NETWORK_BITCOIN,
+      settings.NETWORK_BTC,
       index,
       state
     )

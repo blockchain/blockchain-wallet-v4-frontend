@@ -20,7 +20,7 @@ export default ({ coreSagas }) => {
       const { to, description, amount, feeType } = action.payload
       yield put(A.sendBtcPaymentUpdatedLoading())
       let payment = coreSagas.payment.btc.create({
-        network: settings.NETWORK_BITCOIN
+        network: settings.NETWORK_BTC
       })
       payment = yield payment.init()
       const accountsR = yield select(
@@ -64,7 +64,7 @@ export default ({ coreSagas }) => {
       yield put(A.sendBtcPaymentUpdatedLoading())
       let payment = coreSagas.payment.btc.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_BITCOIN
+        network: settings.NETWORK_BTC
       })
       payment = yield payment.build()
       yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
@@ -85,7 +85,7 @@ export default ({ coreSagas }) => {
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.btc.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_BITCOIN
+        network: settings.NETWORK_BTC
       })
 
       switch (field) {
@@ -266,7 +266,7 @@ export default ({ coreSagas }) => {
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.btc.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_BITCOIN
+        network: settings.NETWORK_BTC
       })
       const password = yield call(promptForSecondPassword)
       yield put(actions.modals.closeAllModals())

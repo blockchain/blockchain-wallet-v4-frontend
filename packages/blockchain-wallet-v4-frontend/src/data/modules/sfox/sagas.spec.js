@@ -490,7 +490,7 @@ describe('sfoxSagas', () => {
       expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
         payment: state.sfoxSignup.payment.getOrElse({}),
-        network: settings.NETWORK_BITCOIN
+        network: settings.NETWORK_BTC
       })
     })
 
