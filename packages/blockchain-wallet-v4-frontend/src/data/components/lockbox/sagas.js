@@ -6,8 +6,7 @@ import * as S from './selectors'
 
 import Btc from '@ledgerhq/hw-app-btc'
 import Transport from '@ledgerhq/hw-transport-u2f'
-import { getDeviceID } from 'services/LockboxService'
-import { publicKeyChainCodeToBip32 } from 'blockchain-wallet-v4/src/utils/btc'
+import { getDeviceID, generateMDEntry } from 'services/LockboxService'
 
 export default ({ api, coreSagas }) => {
   const logLocation = 'components/lockbox/sagas'
@@ -107,14 +106,9 @@ export default ({ api, coreSagas }) => {
       const deviceInfoR = yield select(S.getDeviceInfo)
       const deviceInfo = deviceInfoR.getOrFail('missing_device')
       const deviceID = getDeviceID(deviceInfo)
-      const { btc, eth } = deviceInfo
-      const btcXpub = publicKeyChainCodeToBip32(btc.publicKey, btc.chainCode)
-      const ethXpub = publicKeyChainCodeToBip32(eth.publicKey, eth.chainCode)
+      const mdEntry = generateMDEntry(deviceInfo)
       yield put(
-        actions.core.kvStore.lockbox.saveDeviceLockbox(deviceID, {
-          btc: { accounts: { xpub: btcXpub } },
-          eth: { accounts: { xpub: ethXpub } }
-        })
+        actions.core.kvStore.lockbox.saveDeviceLockbox(deviceID, mdEntry)
       )
       yield put(A.saveDeviceSuccess())
     } catch (e) {
