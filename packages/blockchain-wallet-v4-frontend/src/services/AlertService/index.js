@@ -124,3 +124,5 @@ export const BTC_ADDRESS_INVALID = 'btc_address_invalid'
 export const BCH_ADDRESS_INVALID = 'bch_address_invalid'
 export const ETH_ADDRESS_INVALID = 'eth_address_invalid'
 export const PRIVATE_KEY_INVALID = 'private_key_invalid'
+export const BTC_ADDRESS_AND_PRIVATE_KEY_INVALID =
+  'btc_address_and_private_key_invalid'

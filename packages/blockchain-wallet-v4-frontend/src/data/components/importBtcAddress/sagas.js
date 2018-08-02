@@ -12,10 +12,24 @@ export default ({ api, coreSagas }) => {
 
   const importBtcAddressSubmitClicked = function*() {
     const appState = yield select(identity)
-    const address = formValueSelector('importBtcAddress')(appState, 'address')
-    const priv = formValueSelector('importBtcAddress')(appState, 'priv')
-    const to = formValueSelector('importBtcAddress')(appState, 'to')
-    yield call(importLegacyAddress, address, priv, null, null, to)
+    const value = formValueSelector('importBtcAddress')(appState, 'addrOrPriv')
+
+    // private key handling
+    if (value && utils.bitcoin.isValidBitcoinPrivateKey(value)) {
+      const to = formValueSelector('importBtcAddress')(appState, 'to')
+      const format = utils.bitcoin.detectPrivateKeyFormat(value)
+      const key = utils.bitcoin.privateKeyStringToKey(value, format)
+      const address = key.getAddress()
+      const priv = value
+      yield call(importLegacyAddress, address, priv, null, null, to)
+      return
+    }
+
+    // address handling (watch-only)
+    if (value && utils.bitcoin.isValidBitcoinAddress(value)) {
+      const address = value
+      yield call(importLegacyAddress, address, null, null, null, null)
+    }
   }
 
   const sweepImportedToAccount = function*(priv, to, password) {
