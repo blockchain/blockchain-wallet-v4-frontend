@@ -102,6 +102,18 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const deleteDevice = function*(action) {
+    try {
+      const { deviceID } = action.payload
+      yield put(A.deleteDeviceLoading())
+      yield put(actions.core.kvStore.lockbox.deleteDeviceLockbox(deviceID))
+      yield put(A.deleteDeviceSuccess())
+    } catch (e) {
+      yield put(A.deleteDeviceFailure(e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'deleteDevice', e))
+    }
+  }
+
   const saveDevice = function*() {
     try {
       yield put(A.saveDeviceLoading())
@@ -124,6 +136,7 @@ export default ({ api, coreSagas }) => {
     initializeConnect,
     deriveConnectStep,
     saveDevice,
-    addDevice
+    addDevice,
+    deleteDevice
   }
 }

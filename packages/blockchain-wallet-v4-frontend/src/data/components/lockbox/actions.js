@@ -37,3 +37,14 @@ export const saveDeviceFailure = payload => ({
   type: AT.SAVE_DEVICE_FAILURE,
   payload
 })
+
+export const deleteDevice = deviceID => ({
+  type: AT.DELETE_DEVICE,
+  payload: { deviceID }
+})
+export const deleteDeviceLoading = () => ({ type: AT.DELETE_DEVICE_LOADING })
+export const deleteDeviceSuccess = () => ({ type: AT.DELETE_DEVICE_SUCCESS })
+export const deleteDeviceFailure = payload => ({
+  type: AT.DELETE_DEVICE_FAILURE,
+  payload
+})

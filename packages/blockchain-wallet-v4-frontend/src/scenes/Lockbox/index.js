@@ -1,6 +1,7 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { keysIn } from 'ramda'
 
 import { actions } from 'data'
 import Lockbox from './template.js'
@@ -15,10 +16,17 @@ class LockboxContainer extends React.PureComponent {
       error: false
     }
     this.launchCarbonSetup = this.launchCarbonSetup.bind(this)
+    this.deleteDevice = this.deleteDevice.bind(this)
   }
 
   launchCarbonSetup () {
     this.props.modalActions.showModal('LockboxSetup')
+  }
+
+  deleteDevice () {
+    // TODO: clean up
+    const data = this.props.data.getOrElse({})
+    this.props.lockboxActions.deleteDevice(keysIn(data.devices)[0])
   }
 
   render () {
@@ -30,6 +38,7 @@ class LockboxContainer extends React.PureComponent {
     })
     return (
       <Lockbox
+        deleteDevice={this.deleteDevice}
         launchCarbonSetup={this.launchCarbonSetup}
         balances={balances}
         devices={devices}
@@ -44,7 +53,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
 export default connect(

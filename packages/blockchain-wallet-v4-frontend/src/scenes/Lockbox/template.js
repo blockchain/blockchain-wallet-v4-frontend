@@ -24,7 +24,7 @@ const Buttons = styled.div`
 `
 
 const Lockbox = props => {
-  const { launchCarbonSetup, balances, devices } = props
+  const { launchCarbonSetup, balances, devices, deleteDevice } = props
 
   return (
     <Wrapper>
@@ -67,6 +67,12 @@ const Lockbox = props => {
           >
             {JSON.stringify(devices)}
           </pre>
+          <Button nature='sent' onClick={deleteDevice}>
+            <FormattedMessage
+              id='scenes.lockbox.welcome.deletedevice'
+              defaultMessage='Delete Device'
+            />
+          </Button>
         </React.Fragment>
       )}
 

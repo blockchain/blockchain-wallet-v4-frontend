@@ -22,7 +22,7 @@ import postalCodes from 'postal-codes-js/generated/postal-codes-alpha2'
 import zxcvbn from 'zxcvbn'
 import { utils } from 'blockchain-wallet-v4/src'
 import * as M from './validationMessages'
-import { concat, path, takeWhile, prop } from 'ramda'
+import { concat, path, takeWhile, equals, prop } from 'ramda'
 
 const required = value => (value ? undefined : <M.RequiredMessage />)
 
@@ -134,6 +134,10 @@ const requiredDOB = value =>
 const requiredUsZipcode = value =>
   isUsZipcode(value) ? undefined : <M.RequiredUSZipCodeMessage />
 
+const requiredPhrase = requiredPhrase => value => {
+  return equals(value, requiredPhrase) ? undefined : <M.RequiredPhraseMessage />
+}
+
 const requiredZipCode = (value, allVals) => {
   const { countryCode } = allVals
   // If country does not have a postal code format it's not required
@@ -183,6 +187,7 @@ export {
   requiredNumber,
   requiredSSN,
   requiredUsZipcode,
+  requiredPhrase,
   requiredZipCode,
   validNumber,
   validEmail,
