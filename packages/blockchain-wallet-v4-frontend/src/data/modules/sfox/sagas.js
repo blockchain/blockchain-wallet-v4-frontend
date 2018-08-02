@@ -122,10 +122,6 @@ export default ({ coreSagas }) => {
     try {
       yield put(A.sfoxLoading())
       const nextAddressData = yield call(prepareAddress)
-      const phoneCallRequestSentR = yield select(
-        selectors.core.kvStore.buySell.getSfoxPhoneCall
-      )
-      const phoneCallRequestSent = phoneCallRequestSentR.getOrElse(false)
       const trade = yield call(
         coreSagas.data.sfox.handleTrade,
         action.payload,
@@ -141,12 +137,16 @@ export default ({ coreSagas }) => {
       }
       yield put(A.sfoxSuccess())
       yield put(A.enableSiftScience())
-      yield put(
-        actions.form.change('buySellTabStatus', 'status', 'order_history')
+      const phoneCallRequestSentR = yield select(
+        selectors.core.kvStore.buySell.getSfoxPhoneCall
       )
+      const phoneCallRequestSent = phoneCallRequestSentR.getOrElse(true)
       if (trade.speedupAvailable && !phoneCallRequestSent) {
         yield call(confirmPhoneCall, trade)
       }
+      yield put(
+        actions.form.change('buySellTabStatus', 'status', 'order_history')
+      )
       yield put(modalActions.showModal('SfoxTradeDetails', { trade }))
     } catch (e) {
       yield put(A.sfoxFailure(e))
