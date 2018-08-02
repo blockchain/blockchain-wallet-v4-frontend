@@ -281,6 +281,7 @@
   "components.alerts.pbkdf2_update_success":
     "PBKDF2 yinelemeleri başarılı bir şekilde değiştirildi",
   "components.alerts.private_key_incorrect": "Geçersiz Özel Anahtar.",
+  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success": "Bir bitcoin cash ödemesi aldın.",
   "components.alerts.receive_btc_success": "Bir bitcoin ödemesi aldın.",
   "components.alerts.receive_eth_success": "Bir ether ödemesi aldın.",
@@ -727,8 +728,7 @@
   "modals.requestbch.scan_tooltip":
     "Gönderenden bu QR kodu Bitcoin cash cüzdanıyla taramasını iste",
   "modals.requestbch.share": "Adresi Kopyala ve Paylaş: ",
-  "modals.requestbch.share_ooltip":
-    "Bu adresi başkalarıyla paylaş ve onlar da doğrudan senin cüzdanına Bitcoin Cash gönderebilsin. Adresin her ödemeyle değişir.",
+  "modals.requestbch.share_tooltip": null,
   "modals.requestbch.title": "Bitcoin Cash İste",
   "modals.requestbitcoin.firststep.amount": "Tutar Gir:",
   "modals.requestbitcoin.firststep.description": "Açıklama:",
@@ -969,6 +969,7 @@
   "orderdetails.date": "Tarih Başlatıldı",
   "orderdetails.footnote":
     "*Lütfen dikkat: bankanın transfer politikalarına bağlı olarak para transferden itibaren 1-2 gün içinde hesabına yansıtılacaktır. ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "Emir Bilgileri",
   "orderdetails.payoutdetails": "Ödeme Bilgileri",
   "orderdetails.recurring.amount": "Tutar:",
@@ -1084,6 +1085,7 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,
