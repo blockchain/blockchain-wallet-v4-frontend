@@ -110,6 +110,7 @@ export default ({ api, coreSagas }) => {
         askSecondPasswordEnhancer
       )
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
+      yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
       yield put(actions.router.push('/home'))
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.loginSuccess())

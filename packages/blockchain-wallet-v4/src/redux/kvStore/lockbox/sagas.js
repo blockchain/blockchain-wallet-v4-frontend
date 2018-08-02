@@ -1,5 +1,7 @@
 import { call, put, select } from 'redux-saga/effects'
-import { compose } from 'ramda'
+import { compose, isNil, isEmpty } from 'ramda'
+import { set } from 'ramda-lens'
+
 import * as A from './actions'
 import { KVStoreEntry } from '../../../types'
 import { derivationMap, LOCKBOX } from '../config'
@@ -18,11 +20,12 @@ export default ({ api }) => {
     )
   }
 
-  const createMetadataLockbox = function*() {
-    // TODO
-    // yield call(delay, 1000)
-    // const typeId = derivationMap[LOCKBOX]
-    // yield put(A.createMetadataLockbox({}))
+  const createLockbox = function*(kv) {
+    const newLockboxEntry = {
+      devices: {}
+    }
+    const newkv = set(KVStoreEntry.value, newLockboxEntry, kv)
+    yield put(A.createMetadataLockbox(newkv))
   }
 
   const fetchMetadataLockbox = function*() {
@@ -33,7 +36,11 @@ export default ({ api }) => {
       yield put(A.fetchMetadataLockboxLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
       yield put(A.fetchMetadataLockboxSuccess(newkv))
-      return -1
+      if (isNil(newkv.value) || isEmpty(newkv.value)) {
+        yield call(createLockbox, newkv)
+      } else {
+        yield put(A.fetchMetadataLockboxSuccess(newkv))
+      }
     } catch (e) {
       yield put(A.fetchMetadataLockboxFailure(e.message))
       return -1
@@ -41,7 +48,6 @@ export default ({ api }) => {
   }
 
   return {
-    fetchMetadataLockbox,
-    createMetadataLockbox
+    fetchMetadataLockbox
   }
 }

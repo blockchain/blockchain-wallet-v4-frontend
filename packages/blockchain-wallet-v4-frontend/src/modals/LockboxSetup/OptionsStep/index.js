@@ -3,13 +3,13 @@ import { connect } from 'react-redux'
 
 import Template from './template'
 
-class FirstStep extends React.PureComponent {
+class OptionsStep extends React.PureComponent {
   render () {
-    return <Template />
+    return <Template {...this.props} />
   }
 }
 
 export default connect(
   null,
   null
-)(FirstStep)
+)(OptionsStep)

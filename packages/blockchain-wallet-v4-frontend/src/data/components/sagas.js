@@ -6,6 +6,7 @@ import exchange from './exchange/sagas'
 import exchangeHistory from './exchangeHistory/sagas'
 import identityVerification from './identityVerification/sagas'
 import importBtcAddress from './importBtcAddress/sagas'
+import lockbox from './lockbox/sagas'
 import login from './login/sagas'
 import manageAddresses from './manageAddresses/sagas'
 import onfido from './onfido/sagas'
@@ -30,6 +31,7 @@ export default ({ api, coreSagas, options }) => ({
   identityVerification: identityVerification({ api, coreSagas }),
   onfido: onfido({ api, coreSagas }),
   importBtcAddress: importBtcAddress({ api, coreSagas }),
+  lockbox: lockbox({ api, coreSagas }),
   login: login(),
   manageAddresses: manageAddresses({ api, coreSagas }),
   priceChart: priceChart({ coreSagas }),

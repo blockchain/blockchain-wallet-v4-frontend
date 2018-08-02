@@ -12,11 +12,16 @@ const Row = styled.div`
   margin: 15px;
 `
 
-const FirstStep = props => {
+const OptionsStep = props => {
+  const { handleStep } = props
   return (
     <React.Fragment>
       <Row>
-        <Button nature='primary' fullwidth>
+        <Button
+          nature='primary'
+          fullwidth
+          onClick={() => handleStep('connect')}
+        >
           <FormattedMessage
             id='modals.lockboxsetup.firststep.link'
             defaultMessage='Link a new device'
@@ -43,4 +48,4 @@ const FirstStep = props => {
   )
 }
 
-export default FirstStep
+export default OptionsStep
