@@ -91,7 +91,10 @@ class ConfirmRecoveryStep extends React.PureComponent {
             style={{ marginTop: '25px' }}
             fullwidth
             nature='primary'
-            onClick={() => this.props.lockboxActions.saveDevice()}
+            onClick={() => {
+              this.props.lockboxActions.saveDevice()
+              this.props.modalActions.closeModal()
+            }}
           >
             <FormattedMessage
               id='modals.lockboxsetup.confirmrecovery.step3.yes'

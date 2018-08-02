@@ -113,6 +113,7 @@ export default ({ api, coreSagas }) => {
         actions.core.kvStore.lockbox.saveDeviceLockbox(deviceID, mdEntry)
       )
       yield put(A.saveDeviceSuccess())
+      yield put(actions.core.data.bitcoin.fetchData())
     } catch (e) {
       yield put(A.saveDeviceFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'saveDevice', e))

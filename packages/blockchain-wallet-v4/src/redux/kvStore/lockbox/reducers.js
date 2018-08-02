@@ -35,7 +35,7 @@ export default (state = INITIAL_STATE, action) => {
         mapped,
         KVStoreEntry.value
       )
-      let setAccounts = assocPath(['devices', deviceID], accounts)
+      let setAccounts = assocPath(['devices', deviceID, 'accounts'], accounts)
       return over(valueLens, setAccounts, state)
     }
     default:

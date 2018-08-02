@@ -10,13 +10,15 @@ export const getDevices = state =>
 export const getDevice = (state, deviceID) =>
   getDevices(state).map(path(deviceID))
 
-export const getLockboxBtc = state =>
+export const getAccounts = state =>
   getDevices(state).map(devices =>
-    map(d => path([d, 'btc'], devices), keys(devices))
+    map(d => path([d, 'accounts'], devices), keys(devices))
   )
 
+export const getLockboxBtc = state => getAccounts(state).map(map(path(['btc'])))
+
 export const getLockboxBtcAccounts = state =>
-  getLockboxBtc(state).map(btcs => map(btc => path(['accounts'], btc), btcs))
+  getLockboxBtc(state).map(map(path(['accounts'])))
 
 export const getLockboxBtcContext = state => {
   return getLockboxBtcAccounts(state).map(accounts => {
