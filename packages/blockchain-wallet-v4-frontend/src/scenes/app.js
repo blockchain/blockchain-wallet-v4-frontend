@@ -52,7 +52,7 @@ class App extends React.PureComponent {
                   <PublicLayout path='/help' component={Help} />
                   <PublicLayout path='/recover' component={Recover} />
                   <PublicLayout path='/reminder' component={Reminder} />
-                  <PublicLayout path='/reset-22fa' component={Reset2FA} />
+                  <PublicLayout path='/reset-2fa' component={Reset2FA} />
                   <PublicLayout
                     path='/reset-two-factor'
                     component={Reset2FAToken}
