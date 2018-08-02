@@ -122,6 +122,10 @@ export default ({ coreSagas }) => {
     try {
       yield put(A.sfoxLoading())
       const nextAddressData = yield call(prepareAddress)
+      const phoneCallRequestSentR = yield select(
+        selectors.core.kvStore.buySell.getSfoxPhoneCall
+      )
+      const phoneCallRequestSent = phoneCallRequestSentR.getOrElse(false)
       const trade = yield call(
         coreSagas.data.sfox.handleTrade,
         action.payload,
@@ -140,7 +144,7 @@ export default ({ coreSagas }) => {
       yield put(
         actions.form.change('buySellTabStatus', 'status', 'order_history')
       )
-      if (trade.speedupAvailable) {
+      if (trade.speedupAvailable && !phoneCallRequestSent) {
         yield call(confirmPhoneCall, trade)
       }
       yield put(modalActions.showModal('SfoxTradeDetails', { trade }))
@@ -277,6 +281,7 @@ export default ({ coreSagas }) => {
         messageValues: { smsNumber }
       })
       if (confirmed !== 'canceled') {
+        yield put(actions.core.kvStore.buySell.sfoxSetPhoneCall(true))
         const profileR = yield select(selectors.core.data.sfox.getProfile)
         const profile = profileR.getOrElse({})
         yield apply(profile, profile.submitPhoneCallOptIn, [trade])
