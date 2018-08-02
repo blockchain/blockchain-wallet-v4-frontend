@@ -280,7 +280,7 @@ export default ({ coreSagas }) => {
         cancel: CC.CANCEL_PHONE_CALL,
         messageValues: { smsNumber }
       })
-      if (confirmed !== 'canceled') {
+      if (confirmed) {
         yield put(actions.core.kvStore.buySell.sfoxSetPhoneCall(true))
         const profileR = yield select(selectors.core.data.sfox.getProfile)
         const profile = profileR.getOrElse({})
@@ -305,7 +305,7 @@ export default ({ coreSagas }) => {
           confirm: CC.CONFIRM_VERIFY_IDENTITY,
           cancel: CC.CANCEL_VERIFY_IDENTITY
         })
-        if (confirmed !== 'canceled') {
+        if (confirmed) {
           yield put(
             modalActions.showModal('SfoxExchangeData', { step: 'jumio' })
           )
