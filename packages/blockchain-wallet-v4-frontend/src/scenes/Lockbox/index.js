@@ -50,9 +50,9 @@ class LockboxContainer extends React.PureComponent {
       const lockbox = new Btc(transport)
       // get public key and chaincode for btc and eth paths
       // btc bip44 path is m/44'/0'/0'/0
-      const btcResult = await lockbox.getWalletPublicKey("44'/0'/0'/0'")
+      const btcResult = await lockbox.getWalletPublicKey("44'/0'/0'")
       // eth bip44 path is m/44'/60'/0'/0
-      const ethResult = await lockbox.getWalletPublicKey("44'/60'/0'/0")
+      const ethResult = await lockbox.getWalletPublicKey("44'/60'/0'")
       this.setState({
         deviceInfo: {
           btc: btcResult,
@@ -71,7 +71,10 @@ class LockboxContainer extends React.PureComponent {
     const { btc, eth } = deviceInfo
 
     const btcXpub = getXpub(btc.publicKey, btc.chainCode)
-    const btcAddr = HDNode.fromBase58(btcXpub).getAddress()
+    const btcAddr = HDNode.fromBase58(btcXpub)
+      .derive(0)
+      .derive(0)
+      .getAddress()
 
     const ethXpub = getXpub(eth.publicKey, eth.chainCode)
     const ethPublic = EthHd.fromExtendedKey(ethXpub)
