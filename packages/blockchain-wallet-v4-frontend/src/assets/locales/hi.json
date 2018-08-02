@@ -281,6 +281,7 @@
   "components.alerts.pbkdf2_update_success":
     "PBKDF2 पुनरावृत्तियों को सफलतापूर्वक बदला गया",
   "components.alerts.private_key_incorrect": "अमान्य निजी कुंजी।",
+  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success":
     "आपको एक बिटकॉइन नकद भुगतान प्राप्त हुआ है।",
   "components.alerts.receive_btc_success":
@@ -728,8 +729,7 @@
   "modals.requestbch.scan_tooltip":
     "प्रेषक से इस क्यूआर कोड को उनके बिटकॉइन कैश वॉलेट से स्कैन करने को कहें",
   "modals.requestbch.share": "पता कॉपी और साझा करें: ",
-  "modals.requestbch.share_ooltip":
-    "इस पते को अन्य लोगों के साथ साझा करें, ताकि वे आपको सीधे आपके बिटकॉइन वॉलेट में बिटकॉइन कैश भेज सकें। आपका पता प्रत्येक भुगतान के साथ बदलता है।",
+  "modals.requestbch.share_tooltip": null,
   "modals.requestbch.title": "बिटकॉइन कैश के लिए अनुरोध करें",
   "modals.requestbitcoin.firststep.amount": "राशि दर्ज करें:",
   "modals.requestbitcoin.firststep.description": "वर्णन:",
@@ -968,6 +968,7 @@
   "orderdetails.date": "आरंभ करने की तारीख",
   "orderdetails.footnote":
     "*कृपया ध्यान दें: आपके बैंक की अंतरण नीतियों के आधार पर, आपको अंतरण से 1-2 दिनों के भीतर आपके खाते में धनराशि दिखाई देगी। ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "ऑर्डर का विवरण",
   "orderdetails.payoutdetails": "भुगतान का विवरण",
   "orderdetails.recurring.amount": "राशि:",
@@ -1085,6 +1086,7 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,

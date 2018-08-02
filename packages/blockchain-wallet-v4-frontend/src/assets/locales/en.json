@@ -287,6 +287,8 @@
   "components.alerts.pbkdf2_update_success":
     "PBKDF2 iterations changed successfully",
   "components.alerts.private_key_incorrect": "Invalid Private Key.",
+  "components.alerts.qr_scanner_not_allowed":
+    "Please enable camera to use this feature",
   "components.alerts.receive_bch_success":
     "You have received a bitcoin cash payment.",
   "components.alerts.receive_btc_success":
@@ -300,7 +302,7 @@
   "components.alerts.rename_bch_wallet_success": "BCH wallet name updated",
   "components.alerts.rename_btc_wallet_success": "BTC wallet name updated",
   "components.alerts.reset_twofa_info":
-    "Reset 2-step authentication has been successfully submitted.",
+    "Reset 2-factor authentication has been successfully submitted.",
   "components.alerts.restore_error": "Error restoring your wallet",
   "components.alerts.restore_success":
     "Your wallet has been successfully restored",
@@ -749,7 +751,7 @@
   "modals.requestbch.scan_tooltip":
     "Ask the sender to scan this QR code with their bitcoin cash wallet",
   "modals.requestbch.share": "Copy & Share Address:",
-  "modals.requestbch.share_ooltip":
+  "modals.requestbch.share_tooltip":
     "Share this address with others, and they can send you Bitcoin Cash directly to your wallet. Your address changes with every payment.",
   "modals.requestbch.title": "Request Bitcoin Cash",
   "modals.requestbitcoin.firststep.amount": "Enter Amount:",
@@ -990,6 +992,7 @@
   "orderdetails.date": "Date Initialized",
   "orderdetails.footnote":
     "*Please note: depending on your bank’s tranfers policies, you will see the funds reflected in your account within 1-2 days from the transfer.",
+  "orderdetails.fundsdelivery": "Estimated Delivery of Funds",
   "orderdetails.orderdetails": "Order Details",
   "orderdetails.payoutdetails": "Payout Details",
   "orderdetails.recurring.amount": "Amount:",
@@ -1110,6 +1113,8 @@
     "It looks like you tried to verify your identity but never finished.",
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio":
     "You're almost there! The uploaded information is being reviewed. This should just take a few minutes.",
+  "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification":
+    "Complete Verification",
   "scenes.buysell.sfoxcheckout.content.jumio.button.failed": "Try Again",
   "scenes.buysell.sfoxcheckout.content.jumio.button.pending":
     "Complete Verification",
@@ -1474,7 +1479,7 @@
   "scenes.faq.group.walletfunctionality.answer11.two":
     "Blockchain has our own bitcoin specific block explorer that launched in August 2011, and was created as a way for anyone to study bitcoin transactions, along with a variety of helpful charts and statistics about activity on the network.",
   "scenes.faq.group.walletfunctionality.answer12.one":
-    "Since bitcoin cash is a fork of the bitcoin block chain, its address format previously looked nearly identical to that of bitcoin, which was very confusing to those using it. Now, when you want to send or receive bitcoin cash, you can immediately identify that you’re using the correct address thanks to the added prefix that looks like this: bitcoincash:qpm2qsznhks23z7629mms6s4cwef74vcwvy22gdx6a.",
+    "Since bitcoin cash is a fork of the bitcoin block chain, its address format previously looked nearly identical to that of bitcoin, which was very confusing to those using it. Now, when you want to send or receive bitcoin cash, you can immediately identify that you’re using the correct address thanks to the added prefix that looks like this: ’bitcoincash:’ in front of your bch address.",
   "scenes.faq.group.walletfunctionality.answer12.two":
     "Although you can technically still transact to and from legacy BCH addresses, we strongly recommend adopting this new format to eliminate confusion.",
   "scenes.faq.group.walletfunctionality.answer2.one":

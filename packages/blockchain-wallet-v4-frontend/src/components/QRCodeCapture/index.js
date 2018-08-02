@@ -199,7 +199,11 @@ class QRCodeCaptureContainer extends React.PureComponent {
 
   handleError (error) {
     if (!isNil(error) && !isEmpty(error)) {
-      this.props.alertActions.displayError(error)
+      if (error.name === 'NotAllowedError') {
+        this.props.alertActions.displayError(C.QR_SCANNER_NOT_ALLOWED)
+      } else {
+        this.props.alertActions.displayError(error.message)
+      }
     }
   }
 
