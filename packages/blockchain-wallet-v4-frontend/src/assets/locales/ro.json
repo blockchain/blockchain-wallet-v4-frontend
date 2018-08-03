@@ -297,6 +297,7 @@
   "components.alerts.pbkdf2_update_success":
     "Iterațiile PBKDF2 au fot schimbate",
   "components.alerts.private_key_incorrect": "Cheia privată nevalidă.",
+  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success":
     "Ați primit o plata în bitcoin cash.",
   "components.alerts.receive_btc_success": "Ați primit o plata în bitcoin.",
@@ -759,8 +760,7 @@
   "modals.requestbch.scan_tooltip":
     "Cereți expeditorului să scaneze acest cod QR cu portofelul său bitcoin",
   "modals.requestbch.share": "Copiere și partajare adresă: ",
-  "modals.requestbch.share_ooltip":
-    "Partajați această adresă cu alte persoane pentru a vă putea trimite bitcoin cash direct în portofel. Adresa se schimbă cu fiecare plată.",
+  "modals.requestbch.share_tooltip": null,
   "modals.requestbch.title": "Solicitare Bitcoin Cash",
   "modals.requestbitcoin.firststep.amount": "Introduceți suma:",
   "modals.requestbitcoin.firststep.description": "Descriere:",
@@ -1009,6 +1009,7 @@
   "orderdetails.date": "Data inițializării",
   "orderdetails.footnote":
     "*Vă rugăm să rețineți: în funcție de politicile băncii dvs. privind transferurile, veți vedea fondurile reflectate în contul dvs. în termen de 1-2 zile de la transfer. ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "Detaliile comenzii",
   "orderdetails.payoutdetails": "Detaliile plății",
   "orderdetails.recurring.amount": "Suma:",
@@ -1125,6 +1126,7 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,

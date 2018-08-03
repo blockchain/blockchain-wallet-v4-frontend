@@ -279,6 +279,7 @@
   "components.alerts.pbkdf2_update_success":
     "เปลี่ยนการวนซ้ำ PBKDF2 เรียบร้อยแล้ว",
   "components.alerts.private_key_incorrect": "คีย์ส่วนตัวไม่ถูกต้อง",
+  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success": "คุณได้รับการชำระเงิน bitcoin cash",
   "components.alerts.receive_btc_success": "คุณได้รับการชำระเงิน bitcoin",
   "components.alerts.receive_eth_success": "คุณได้รับการชำระเงิน ether",
@@ -718,8 +719,7 @@
   "modals.requestbch.scan_tooltip":
     "ขอให้ผู้ส่งสแกนรหัส QR นี้กับกระเป๋าเงิน Bitcoin cash ของเขา",
   "modals.requestbch.share": "คัดลอก & แชร์ที่อยู่: ",
-  "modals.requestbch.share_ooltip":
-    "แชร์ที่อยู่นี้กับผู้อื่น แล้วเขาจะสามารถส่ง Bitcoin Cash มายังกระเป๋าเงินของคุณได้โดยตรง ที่อยู่ของคุณจะเปลี่ยนไปในทุกการชำระเงิน",
+  "modals.requestbch.share_tooltip": null,
   "modals.requestbch.title": "ร้องขอ Bitcoin Cash",
   "modals.requestbitcoin.firststep.amount": "กรอกจำนวน:",
   "modals.requestbitcoin.firststep.description": "คำอธิบาย:",
@@ -957,6 +957,7 @@
   "orderdetails.date": "วันที่เริ่มต้น",
   "orderdetails.footnote":
     "*โปรดทราบ: คุณจะเห็นเงินในบัญชีของคุณภายใน 1-2 วันนับจากวันที่โอน ทั้งนี้ขึ้นอยู่กับนโยบายการโอนเงินของธนาคารของคุณ ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "รายละเอียดคำสั่ง",
   "orderdetails.payoutdetails": "รายละเอียดการจ่าย",
   "orderdetails.recurring.amount": "จำนวน:",
@@ -1073,6 +1074,7 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,

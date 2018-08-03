@@ -296,6 +296,7 @@
     "Вы толлько что получили платеж Ethereum",
   "components.alerts.pbkdf2_update_success": "Обновление PBKDF2 прошло успешно",
   "components.alerts.private_key_incorrect": "Неправильный закрытый ключ.",
+  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success": "Вы получили платеж в bitcoin cash.",
   "components.alerts.receive_btc_success": "Вы получили платеж в биткойнах.",
   "components.alerts.receive_eth_success": "Вы получили платеж в эфирах.",
@@ -751,8 +752,7 @@
   "modals.requestbch.scan_tooltip":
     "Попросите отправителя отсканировать этот QR-код с помощью его/ее кошелька Bitcoin Сash",
   "modals.requestbch.share": "Скопировать и опубликовать адрес: ",
-  "modals.requestbch.share_ooltip":
-    "Поделитесь этим адресом с другими, и они смогут отправлять вам Bitcoin Cash непосредственно в ваш кошелек. Ваш адрес будет меняться с каждым платежом",
+  "modals.requestbch.share_tooltip": null,
   "modals.requestbch.title": "Запросить Bitcoin Cash",
   "modals.requestbitcoin.firststep.amount": "Ввести сумму:",
   "modals.requestbitcoin.firststep.description": "Описание:",
@@ -995,6 +995,7 @@
   "orderdetails.date": "Дата инициализации",
   "orderdetails.footnote":
     "*Обратите внимание: в зависимости от политики трансферов вашего банка вы увидите средства на вашем счете в течение 1-2 дней после перевода. ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "Детали распоряжения",
   "orderdetails.payoutdetails": "Реквизиты платежа",
   "orderdetails.recurring.amount": "Сумма:",
@@ -1115,6 +1116,7 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,

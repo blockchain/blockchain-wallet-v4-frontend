@@ -19,6 +19,7 @@ const Link = styled(Text)`
   font-size: 14px;
   font-weight: 300;
   cursor: pointer;
+  margin-top: 10px;
   text-decoration: underline;
   color: ${props => props.theme['brand-secondary']};
 `
@@ -33,11 +34,17 @@ const ProfileStatus = styled.div`
   margin-top: 10px;
 `
 
-export const Success = ({ jumioStatus, profile, onClick }) => {
-  const { status, completed } = jumioStatus
+export const Success = ({
+  jumioStatus,
+  jumioToken,
+  profile,
+  handleOpen,
+  handleRefresh
+}) => {
+  const { status } = jumioStatus
+  const { completed } = jumioToken
 
   const profileStatusHelper = () => {
-    let minutesInADay = 1440
     return (
       <ProfileStatus>
         <Text weight={300} size={'14px'}>
@@ -52,18 +59,6 @@ export const Success = ({ jumioStatus, profile, onClick }) => {
             id='scenes.buysell.sfoxcheckout.content.jumio.selllimit'
             defaultMessage='Sell Limit: {sellLimit}'
             values={{ sellLimit: '$' + profile.limits.sell }}
-          />
-        </Text>
-        <Text weight={300} size={'14px'}>
-          <FormattedMessage
-            id='scenes.buysell.sfoxcheckout.content.jumio.profile'
-            defaultMessage='Your purchases will be available in your Blockchain wallet in {buyProcessingTime} days. Your sell trades will take {sellProcessingTime} days to process into your bank account.'
-            values={{
-              buyProcessingTime:
-                profile.processingTimes.usd.buy / minutesInADay,
-              sellProcessingTime:
-                profile.processingTimes.usd.sell / minutesInADay
-            }}
           />
         </Text>
       </ProfileStatus>
@@ -124,23 +119,23 @@ export const Success = ({ jumioStatus, profile, onClick }) => {
         return null
       case 'PENDING':
         return completed ? (
-          <Link>
+          <Link onClick={handleRefresh}>
             <FormattedMessage
               id='scenes.buysell.sfoxcheckout.content.jumio.button.refresh'
               defaultMessage='Refresh Status'
             />
           </Link>
         ) : (
-          <Button onClick={onClick} nature='light' uppercase>
+          <Button onClick={handleOpen} nature='light' uppercase>
             <FormattedMessage
-              id='scenes.buysell.sfoxcheckout.content.jumio.button.tryagain'
-              defaultMessage='Try Again'
+              id='scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification'
+              defaultMessage='Complete Verification'
             />
           </Button>
         )
       case 'FAILED':
         return (
-          <Button onClick={onClick} nature='light' uppercase>
+          <Button onClick={handleOpen} nature='light' uppercase>
             <FormattedMessage
               id='scenes.buysell.sfoxcheckout.content.jumio.button.tryagain'
               defaultMessage='Try Again'

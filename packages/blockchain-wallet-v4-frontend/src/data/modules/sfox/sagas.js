@@ -137,6 +137,13 @@ export default ({ coreSagas }) => {
       }
       yield put(A.sfoxSuccess())
       yield put(A.enableSiftScience())
+      const phoneCallRequestSentR = yield select(
+        selectors.core.kvStore.buySell.getSfoxPhoneCall
+      )
+      const phoneCallRequestSent = phoneCallRequestSentR.getOrElse(true)
+      if (trade.speedupAvailable && !phoneCallRequestSent) {
+        yield call(confirmPhoneCall, trade)
+      }
       yield put(
         actions.form.change('buySellTabStatus', 'status', 'order_history')
       )
@@ -259,6 +266,28 @@ export default ({ coreSagas }) => {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'initializePayment', e)
       )
+    }
+  }
+
+  const confirmPhoneCall = function*(trade) {
+    const smsNumberR = yield select(selectors.core.settings.getSmsNumber)
+    const smsNumber = smsNumberR.getOrElse(null)
+    try {
+      const confirmed = yield call(confirm, {
+        title: CC.PHONE_CALL_TITLE,
+        message: CC.PHONE_CALL_MSG,
+        confirm: CC.CONFIRM_PHONE_CALL,
+        cancel: CC.CANCEL_PHONE_CALL,
+        messageValues: { smsNumber }
+      })
+      if (confirmed) {
+        yield put(actions.core.kvStore.buySell.sfoxSetPhoneCall(true))
+        const profileR = yield select(selectors.core.data.sfox.getProfile)
+        const profile = profileR.getOrElse({})
+        yield apply(profile, profile.submitPhoneCallOptIn, [trade])
+      }
+    } catch (e) {
+      actions.logs.logErrorMessage(logLocation, 'confirmPhoneCall', e)
     }
   }
 
