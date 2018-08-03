@@ -1149,23 +1149,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Exchange",
-        "id": "scenes.exchange.menutop.exchange"
-      },
-      {
-        "defaultMessage": "Order History",
-        "id": "scenes.exchange.menutop.history"
-      },
-      {
-        "defaultMessage": "Powered by",
-        "id": "scenes.exchange.menutop.poweredby"
-      }
-    ],
-    "path": "src/layouts/Exchange/MenuTop/index.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Data",
         "id": "layouts.public.footer.explorer"
       },

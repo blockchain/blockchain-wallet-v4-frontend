@@ -86,15 +86,15 @@ describe('App Store Config', () => {
     expect(Socket.mock.calls.length).toEqual(3)
     expect(Socket.mock.calls[0][0]).toEqual({
       options: fakeWalletOptions,
-      socketType: ''
+      url: `${fakeWalletOptions.domains.webSocket}/inv`
     })
     expect(Socket.mock.calls[1][0]).toEqual({
       options: fakeWalletOptions,
-      socketType: '/bch'
+      url: `${fakeWalletOptions.domains.webSocket}/bch/inv`
     })
     expect(Socket.mock.calls[2][0]).toEqual({
       options: fakeWalletOptions,
-      socketType: '/eth'
+      url: `${fakeWalletOptions.domains.webSocket}/eth/inv`
     })
     // build api
     expect(createWalletApi.mock.calls.length).toBe(1)

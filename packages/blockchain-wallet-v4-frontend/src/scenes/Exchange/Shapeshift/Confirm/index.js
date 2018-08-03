@@ -29,12 +29,9 @@ class SecondStepContainer extends React.Component {
           targetFee={value.targetFee}
           targetLabel={value.targetLabel}
           expiration={value.expiration}
-          handleSubmit={e => {
-            e.preventDefault()
-            actions.secondStepSubmitClicked()
-          }}
-          handleCancel={() => actions.secondStepCancelClicked()}
-          handleExpiry={() => actions.secondStepOrderExpired()}
+          onSubmit={actions.secondStepSubmitClicked}
+          handleCancel={actions.secondStepCancelClicked}
+          handleExpiry={actions.secondStepOrderExpired}
         />
       ),
       Failure: message => <Error>{message}</Error>,

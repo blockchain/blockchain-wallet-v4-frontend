@@ -48,9 +48,18 @@ const configureStore = () => {
     .then(res => res.json())
     .then(options => {
       const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
-      const btcSocket = new Socket({ options, socketType: '' })
-      const bchSocket = new Socket({ options, socketType: '/bch' })
-      const ethSocket = new Socket({ options, socketType: '/eth' })
+      const btcSocket = new Socket({
+        options,
+        url: `${options.domains.webSocket}/inv`
+      })
+      const bchSocket = new Socket({
+        options,
+        url: `${options.domains.webSocket}/bch/inv`
+      })
+      const ethSocket = new Socket({
+        options,
+        url: `${options.domains.webSocket}/eth/inv`
+      })
       const api = createWalletApi({ options, apiKey })
 
       const store = createStore(

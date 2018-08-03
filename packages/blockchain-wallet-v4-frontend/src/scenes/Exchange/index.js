@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 import media from 'services/ResponsiveService'
@@ -6,6 +7,9 @@ import media from 'services/ResponsiveService'
 import KYCBanner from 'components/IdentityVerification/KYCBanner'
 import Shapeshift from './Shapeshift'
 import Info from './Info'
+import Exchange from './ExchangeContainer'
+
+import { getData } from './selectors'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -59,18 +63,27 @@ const ColumnRight = styled(Column)`
     width: 40%;
   }
 `
-const Exchange = () => (
+const ExchangeScene = ({ useShapeShift }) => (
   <Wrapper>
-    <KYCBanner outsideOfProfile={true} />
-    <Container>
-      <ColumnLeft>
-        <Shapeshift />
-      </ColumnLeft>
-      <ColumnRight>
-        <Info />
-      </ColumnRight>
-    </Container>
+    {useShapeShift && (
+      <Container>
+        <ColumnLeft>
+          <Shapeshift />
+        </ColumnLeft>
+        <ColumnRight>
+          <Info />
+        </ColumnRight>
+      </Container>
+    )}
+    {!useShapeShift && <KYCBanner outsideOfProfile={true} />}
+    {!useShapeShift && (
+      <Container>
+        <Column>
+          <Exchange />
+        </Column>
+      </Container>
+    )}
   </Wrapper>
 )
 
-export default Exchange
+export default connect(getData)(ExchangeScene)

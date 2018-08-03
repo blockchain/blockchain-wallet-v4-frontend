@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import { getRemotePropType, getElementsPropType } from 'utils/proptypes'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -9,21 +11,17 @@ import Success from './template.success'
 import DataError from 'components/DataError'
 
 class FirstStepContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.handleRefresh = this.handleRefresh.bind(this)
-  }
-
   componentDidMount () {
     this.props.actions.firstStepInitialized()
   }
 
-  handleRefresh () {
+  handleRefresh = () => {
     this.props.actions.firstStepInitialized()
   }
 
   render () {
-    return this.props.data.cata({
+    const { actions, data } = this.props
+    return data.cata({
       Success: value => (
         <Success
           elements={value.elements}
@@ -36,10 +34,10 @@ class FirstStepContainer extends React.Component {
           currency={value.currency}
           sourceCoin={value.sourceCoin}
           targetCoin={value.targetCoin}
-          handleMaximum={() => this.props.actions.firstStepMaximumClicked()}
-          handleMinimum={() => this.props.actions.firstStepMinimumClicked()}
-          onSubmit={() => this.props.actions.firstStepSubmitClicked()}
-          handleSwap={() => this.props.actions.firstStepSwapClicked()}
+          handleMaximum={actions.firstStepMaximumClicked}
+          handleMinimum={actions.firstStepMinimumClicked}
+          onSubmit={actions.firstStepSubmitClicked}
+          handleSwap={actions.firstStepSwapClicked}
         />
       ),
       Failure: message => (
@@ -49,6 +47,31 @@ class FirstStepContainer extends React.Component {
       NotAsked: () => <Loading />
     })
   }
+}
+
+const AccountPropType = PropTypes.shape({
+  address: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  archived: PropTypes.bool.isRequired,
+  balance: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  label: PropTypes.string.isRequired,
+  coin: PropTypes.string.isRequired
+})
+
+FirstStepContainer.propTypes = {
+  data: getRemotePropType(
+    PropTypes.shape({
+      elements: getElementsPropType(AccountPropType).isRequired,
+      formError: PropTypes.string,
+      hasOneAccount: PropTypes.bool.isRequired,
+      disabled: PropTypes.bool.isRequired,
+      sourceCoin: PropTypes.string.isRequired,
+      targetCoin: PropTypes.string.isRequired,
+      initialValues: PropTypes.shape({
+        source: AccountPropType.isRequired,
+        target: AccountPropType.isRequired
+      }).isRequired
+    })
+  )
 }
 
 const mapStateToProps = state => ({

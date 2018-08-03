@@ -32,7 +32,7 @@ export default ({ options, apiKey } = {}) => {
     ...profile({ nabuUrl, patch: http.patch, post: http.post }),
     ...sfox(),
     ...settings({ rootUrl, apiUrl, get, post }),
-    ...shapeShift({ shapeShiftApiKey }),
+    ...shapeShift({ shapeShiftApiKey, ...http }),
     ...wallet({ rootUrl, apiUrl, get, post })
   }
 }

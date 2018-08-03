@@ -1,21 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
 import { EXCHANGE_STEPS } from 'data/components/exchange/model'
 
-import StateRegistration from './StateRegistration'
 import ExchangeForm from '../ExchangeForm'
-import Confirm from './Confirm'
 import ExchangeResults from '../ExchangeResults'
+import { getData } from './selectors'
 
-const Shapeshift = props => {
-  switch (props.step) {
-    case EXCHANGE_STEPS.STATE_REGISTRATION:
-      return <StateRegistration />
+const ExchangeContainer = ({ step }) => {
+  switch (step) {
     case EXCHANGE_STEPS.EXCHANGE_FORM:
       return <ExchangeForm />
-    case EXCHANGE_STEPS.CONFIRM:
-      return <Confirm />
     case EXCHANGE_STEPS.EXCHANGE_RESULT:
       return <ExchangeResults />
     default:
@@ -23,8 +19,8 @@ const Shapeshift = props => {
   }
 }
 
-Shapeshift.propTypes = {
-  step: PropTypes.number.isRequired
+ExchangeContainer.propTypes = {
+  step: PropTypes.string.isRequired
 }
 
-export default Shapeshift
+export default connect(getData)(ExchangeContainer)

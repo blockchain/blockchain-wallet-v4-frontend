@@ -243,10 +243,6 @@ describe('IdentityVerification Modal', () => {
           .find('Field[name="firstName"]')
           .find('input')
           .simulate('change', { target: { value: 'User' } })
-        wrapper
-          .find('Field[name="terms"]')
-          .find('input')
-          .simulate('change', { target: { value: true } })
         jest.runAllTimers()
         wrapper.update()
         expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
@@ -269,10 +265,6 @@ describe('IdentityVerification Modal', () => {
           .find('Field[name="firstName"]')
           .find('input')
           .simulate('change', { target: { value: 'User' } })
-        wrapper
-          .find('Field[name="terms"]')
-          .find('input')
-          .simulate('change', { target: { value: true } })
         jest.runAllTimers()
         wrapper.update()
         expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(

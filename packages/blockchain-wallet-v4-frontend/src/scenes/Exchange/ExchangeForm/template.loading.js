@@ -32,7 +32,7 @@ const Cell = styled.div`
   height: 100%;
 `
 
-const Loading = props => (
+const Loading = () => (
   <Wrapper>
     <Row justify='flex-end'>
       <Text size='12px' weight={300}>
