@@ -109,11 +109,11 @@ export default ({ api, coreSagas }) => {
       yield put(A.deleteDeviceLoading())
       yield put(actions.core.kvStore.lockbox.deleteDeviceLockbox(deviceID))
       yield put(A.deleteDeviceSuccess())
-      yield put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
+      yield put(actions.alerts.displaySuccess(C.LOCKBOX_DELETE_SUCCESS))
     } catch (e) {
       yield put(A.deleteDeviceFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'deleteDevice', e))
-      yield put(actions.alerts.displayError(C.SEND_BTC_ERROR))
+      yield put(actions.alerts.displayError(C.LOCKBOX_DELETE_ERROR))
     }
   }
 
