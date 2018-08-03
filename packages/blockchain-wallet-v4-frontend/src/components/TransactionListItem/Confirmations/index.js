@@ -4,7 +4,13 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { toString } from 'ramda'
 
-import { Icon, Link, Text, TooltipHost, Tooltip } from 'blockchain-info-components'
+import {
+  Icon,
+  Link,
+  Text,
+  TooltipHost,
+  Tooltip
+} from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;

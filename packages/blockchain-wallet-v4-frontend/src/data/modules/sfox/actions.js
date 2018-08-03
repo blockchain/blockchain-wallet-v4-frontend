@@ -62,6 +62,8 @@ export const sfoxSellBtcPaymentUpdatedFailure = err => ({
 
 export const initializeJumio = () => ({ type: AT.INITIALIZE_JUMIO })
 export const completeJumio = () => ({ type: AT.COMPLETE_JUMIO })
+
+export const fetchJumioStatus = () => ({ type: AT.FETCH_JUMIO_STATUS })
 export const fetchJumioStatusLoading = () => ({
   type: AT.FETCH_JUMIO_STATUS_LOADING
 })

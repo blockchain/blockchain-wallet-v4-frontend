@@ -300,6 +300,7 @@
   "components.alerts.pbkdf2_update_success":
     "PBKDF2 ponovitve uspešno spremenjene",
   "components.alerts.private_key_incorrect": "Neveljaven zasebni ključ.",
+  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success": "Prejeli ste bitcoin cash plačilo.",
   "components.alerts.receive_btc_success": "Prejeli ste bitcoin plačilo.",
   "components.alerts.receive_eth_success": "Prejeli ste ether plačilo.",
@@ -754,8 +755,7 @@
   "modals.requestbch.scan_tooltip":
     "Pošiljatelja prosite, naj s svojo Bitcoin cash denarnico optično prebere to QR kodo",
   "modals.requestbch.share": "Kopirajte in delite naslov: ",
-  "modals.requestbch.share_ooltip":
-    "Delite ta naslov z drugimi in Bitcoin Cash lahko pošljejo neposredno na vašo denarnico. Vaš naslov se spremeni z vsakim plačilom.",
+  "modals.requestbch.share_tooltip": null,
   "modals.requestbch.title": "Zahtevaj Bitcoin Cash",
   "modals.requestbitcoin.firststep.amount": "Vnesite vsoto:",
   "modals.requestbitcoin.firststep.description": "Opis:",
@@ -999,6 +999,7 @@
   "orderdetails.date": "Datum inicializacije",
   "orderdetails.footnote":
     "*Prosimo, upoštevajte: glede na politike vaše banke o nakazilih boste sredstva na svojem računu videli v 1-2 dneh od nakazila. ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "Podatki o naročilu",
   "orderdetails.payoutdetails": "Podatki za izplačilo",
   "orderdetails.recurring.amount": "Vsota:",
@@ -1115,6 +1116,7 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,

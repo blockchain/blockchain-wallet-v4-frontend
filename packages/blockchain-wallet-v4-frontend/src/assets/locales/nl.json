@@ -292,6 +292,7 @@
   "components.alerts.pbkdf2_update_success":
     "PBKDF2-iteraties zijn succesvol gewijzigd",
   "components.alerts.private_key_incorrect": "Ongeldige privésleutel.",
+  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success":
     "U hebt een Bitcoin Cash-betaling ontvangen.",
   "components.alerts.receive_btc_success":
@@ -757,8 +758,7 @@
   "modals.requestbch.scan_tooltip":
     "Vraag de afzender om deze QR-code met zijn/haar bitcoin-portemonnee te scannen.",
   "modals.requestbch.share": "Adres kopiëren en delen: ",
-  "modals.requestbch.share_ooltip":
-    "Als u dit adres met anderen deelt, kunnen zij rechtstreeks Bitcoin Cash naar uw portemonnee verzenden. Uw adres verandert bij elke betaling.",
+  "modals.requestbch.share_tooltip": null,
   "modals.requestbch.title": "Bitcoin Cash aanvragen",
   "modals.requestbitcoin.firststep.amount": "Bedrag invoeren:",
   "modals.requestbitcoin.firststep.description": "Beschrijving:",
@@ -1005,6 +1005,7 @@
   "orderdetails.date": "Datum geïnitialiseerd",
   "orderdetails.footnote":
     "*Let op: afhankelijk van het overboekingsbeleid van uw bank, zal het tegoed binnen 1-2 dagen na de overschrijving op uw account worden weergegeven. ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "Orderdetails",
   "orderdetails.payoutdetails": "Details uitbetaling",
   "orderdetails.recurring.amount": "Bedrag:",
@@ -1122,6 +1123,7 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,
