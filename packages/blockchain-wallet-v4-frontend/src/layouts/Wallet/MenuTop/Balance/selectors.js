@@ -3,7 +3,6 @@ import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { Remote } from 'blockchain-wallet-v4/src'
 
-// TODO:: Move lockbox to different balance selector and it's own component
 export const getBtcBalance = createDeepEqualSelector(
   [
     selectors.core.wallet.getSpendableContext,

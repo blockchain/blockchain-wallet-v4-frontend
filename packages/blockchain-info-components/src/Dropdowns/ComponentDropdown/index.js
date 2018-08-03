@@ -55,7 +55,7 @@ class ComponentDropdown extends React.PureComponent {
 ComponentDropdown.defaultProps = {
   color: 'brand-secondary',
   opened: false,
-  uppercase: true,
+  uppercase: false,
   down: false
 }
 

@@ -2,12 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 
 import TotalBalance from './TotalBalance'
-import BtcBalance from './BtcBalance'
-import EthBalance from './EthBalance'
-import BchBalance from './BchBalance'
-import BtcWatchOnlyBalance from './BtcWatchOnlyBalance'
-import BchWatchOnlyBalance from './BchWatchOnlyBalance'
-import SfoxPendingBalance from './SfoxPendingBalance'
+import WalletBalance from './WalletBalance'
+import BtcBalance from './WalletBalance/BtcBalance'
+import BchBalance from './WalletBalance/BchBalance'
+import EthBalance from './WalletBalance/EthBalance'
 
 import { FormattedMessage } from 'react-intl'
 import { ComponentDropdown, Text } from 'blockchain-info-components'
@@ -33,30 +31,9 @@ const BalanceText = styled(Text)`
 const BalanceDropdown = styled.div`
   margin-top: 4px;
   > div > ul {
-    top: -6px;
     right: 0px;
     padding: 0;
-    padding-top: 5px;
     position: absolute;
-    > li {
-      padding: 0px 6px;
-      text-align: right;
-      background: ${props => props.theme['white']};
-      &:first-child {
-        margin-bottom: 3px;
-        padding-right: 12px;
-        background: white;
-        > div > span:first-child {
-          color: ${props => `${props.theme['gray-5']}`};
-        }
-      }
-      &:last-child {
-        padding-bottom: 2px;
-      }
-    }
-  }
-  > div > div > div > div > span:first-child {
-    color: ${props => `${props.theme['gray-5']}`};
   }
   > div > div > span:last-child {
     top: 1px;
@@ -66,55 +43,21 @@ const BalanceDropdown = styled.div`
     position: relative;
   }
 `
-const SubItems = styled.div`
-  display: flex;
-  position: relative;
-  align-items: flex-end;
-  flex-direction: column;
-  > div:first-child {
-    margin-top: 12px;
-    &:before {
-      content: '';
-      left: 0;
-      top: 3px;
-      height: 1px;
-      width: 100%;
-      position: absolute;
-      background-color: ${props => props.theme['gray-1']};
-    }
-  }
-`
 
 const getComponentOrder = path => {
+  return [<WalletBalance />]
+}
+
+const getSelectedComponent = path => {
   switch (path) {
     case '/btc/transactions':
-      return [
-        <BtcBalance large />,
-        <EthBalance />,
-        <BchBalance />,
-        <TotalBalance />
-      ]
+      return <BtcBalance large />
     case '/eth/transactions':
-      return [
-        <EthBalance large />,
-        <BtcBalance />,
-        <BchBalance />,
-        <TotalBalance />
-      ]
+      return <EthBalance large />
     case '/bch/transactions':
-      return [
-        <BchBalance large />,
-        <BtcBalance />,
-        <EthBalance />,
-        <TotalBalance />
-      ]
+      return <BchBalance large />
     default:
-      return [
-        <TotalBalance large />,
-        <BtcBalance />,
-        <EthBalance />,
-        <BchBalance />
-      ]
+      return <TotalBalance large />
   }
 }
 
@@ -151,14 +94,6 @@ const getBalanceMessage = path => {
   }
 }
 
-const getSubBalances = props => (
-  <SubItems>
-    <SfoxPendingBalance />
-    <BtcWatchOnlyBalance />
-    <BchWatchOnlyBalance />
-  </SubItems>
-)
-
 const Success = props => (
   <Wrapper>
     <BalanceText weight={300}>{getBalanceMessage(props.path)}</BalanceText>
@@ -167,8 +102,8 @@ const Success = props => (
         down
         forceSelected
         color={'gray-5'}
-        selectedComponent={getComponentOrder(props.path)[0]}
-        components={getComponentOrder(props.path).concat(getSubBalances())}
+        selectedComponent={getSelectedComponent(props.path)}
+        components={getComponentOrder(props.path)}
         callback={() => {}}
       />
     </BalanceDropdown>

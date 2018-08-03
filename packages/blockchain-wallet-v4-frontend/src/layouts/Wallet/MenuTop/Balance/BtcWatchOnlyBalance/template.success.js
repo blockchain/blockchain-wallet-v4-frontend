@@ -1,30 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { LinkContainer } from 'react-router-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import { Banner, Text } from 'blockchain-info-components'
-
-const Wrapper = styled.div`
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-  padding-left: 5px;
-  margin-bottom: 10px;
-  padding-right: ${props => (props.large ? '15px' : '25px')};
-  > div:last-child {
-    margin-left: 10px;
-    > div {
-      color: ${props => props.theme['gray-3']};
-    }
-  }
-`
+import { CoinBalanceWrapper } from 'components/Balances'
 
 const Success = props => {
   return props.balance === 0 ? null : (
     <LinkContainer to='/btc/transactions'>
-      <Wrapper>
+      <CoinBalanceWrapper>
         <Text size='10px' weight={300}>
           BTC
         </Text>
@@ -40,7 +25,7 @@ const Success = props => {
             />
           </Text>
         </Banner>
-      </Wrapper>
+      </CoinBalanceWrapper>
     </LinkContainer>
   )
 }
