@@ -1,18 +1,33 @@
 import React from 'react'
-import { Wrapper, Header } from 'components/Balances'
 
 import BtcBalance from './BtcBalance'
 import EthBalance from './EthBalance'
 import BchBalance from './BchBalance'
 import { FormattedMessage } from 'react-intl'
+import { Button, Text } from 'blockchain-info-components'
+import { Wrapper, Header } from 'components/Balances'
 
-const Success = props => (
+const Template = props => (
   <Wrapper>
     <Header>
-      <FormattedMessage
-        id='layouts.wallet.menutop.balance.walletbalance.wallet'
-        defaultMessage='Wallet'
-      />
+      <Text size='14px'>
+        <FormattedMessage
+          id='layouts.wallet.menutop.balance.walletbalance.wallet'
+          defaultMessage='Wallet'
+        />
+      </Text>
+      {props.currency && (
+        <Button
+          small
+          width={'auto'}
+          height={'auto'}
+          size='11px'
+          padding='3px'
+          nature='empty'
+        >
+          {props.currency}
+        </Button>
+      )}
     </Header>
     <BtcBalance />
     <EthBalance />
@@ -20,4 +35,4 @@ const Success = props => (
   </Wrapper>
 )
 
-export default Success
+export default Template

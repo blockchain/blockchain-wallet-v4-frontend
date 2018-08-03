@@ -6,26 +6,26 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { CoinBalanceWrapper } from 'components/Balances'
 
 const Success = props => {
-  const { balance } = props
+  const { balance, large } = props
 
   return (
     <LinkContainer to='/btc/transactions'>
-      <CoinBalanceWrapper>
+      <CoinBalanceWrapper large={large}>
         <CoinDisplay
           coin='BTC'
           cursor='pointer'
-          size={'12px'}
           mobileSize='14px'
-          weight={300}
+          size={large ? '20px' : '12px'}
+          weight={large ? 200 : 300}
         >
           {balance}
         </CoinDisplay>
         <FiatDisplay
           coin='BTC'
           cursor='pointer'
-          size={'12px'}
           mobileSize='14px'
-          weight={300}
+          size={large ? '20px' : '12px'}
+          weight={large ? 200 : 300}
         >
           {balance}
         </FiatDisplay>

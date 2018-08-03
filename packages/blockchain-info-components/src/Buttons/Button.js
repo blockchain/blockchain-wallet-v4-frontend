@@ -28,7 +28,7 @@ const BaseButton = styled.button.attrs({
   text-transform: ${props =>
     props.uppercase ? 'uppercase' : props.capitalize ? 'capitalize' : 'none'};
   font-family: 'Montserrat', Helvetica, sans-serif;
-  font-size: 14px;
+  font-size: ${props => (props.size ? props.size : '14px')};
   font-weight: ${props => (props.bold ? '700' : '300')};
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   opacity: ${props => (props.disabled ? 0.5 : 1)};
@@ -54,7 +54,7 @@ const BaseButton = styled.button.attrs({
   }
 `
 
-const selectColor = (nature, disabled) => {
+const selectColor = (nature, disabled, small) => {
   if (disabled) {
     return {
       color: 'white',
@@ -66,7 +66,7 @@ const selectColor = (nature, disabled) => {
   switch (nature) {
     case 'empty':
       return {
-        color: 'gray-6',
+        color: small ? 'brand-secondary' : 'gray-6',
         backgroundColor: 'white',
         borderColor: 'gray-2'
       }
@@ -132,8 +132,12 @@ const selectColor = (nature, disabled) => {
 }
 
 const Button = props => {
-  const { children, nature, disabled, ...rest } = props
-  const { color, backgroundColor, borderColor } = selectColor(nature, disabled)
+  const { children, nature, disabled, small, ...rest } = props
+  const { color, backgroundColor, borderColor } = selectColor(
+    nature,
+    disabled,
+    small
+  )
 
   return (
     <BaseButton
@@ -166,6 +170,7 @@ Button.propTypes = {
   disabled: PropTypes.bool,
   rounded: PropTypes.bool,
   bold: PropTypes.bool,
+  small: PropTypes.bool,
   uppercase: PropTypes.bool,
   capitalize: PropTypes.bool,
   width: PropTypes.string,
@@ -177,6 +182,7 @@ Button.defaultProps = {
   nature: 'empty',
   fullwidth: false,
   disabled: false,
+  small: false,
   rounded: false,
   bold: false,
   uppercase: false,

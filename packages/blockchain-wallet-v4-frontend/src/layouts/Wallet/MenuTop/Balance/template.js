@@ -102,6 +102,7 @@ const Success = props => (
         down
         forceSelected
         color={'gray-5'}
+        toggleOnCallback={false}
         selectedComponent={getSelectedComponent(props.path)}
         components={getComponentOrder(props.path)}
         callback={() => {}}

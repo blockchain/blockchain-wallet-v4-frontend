@@ -6,12 +6,14 @@ import Template from './template'
 
 class Balance extends React.PureComponent {
   render () {
-    return <Template path={this.props.path} />
+    const { settings } = this.props
+    const { currency } = settings.getOrElse({})
+    return <Template currency={currency} />
   }
 }
 
 const mapStateToProps = state => ({
-  path: selectors.router.getPathname(state)
+  settings: selectors.core.settings.getSettings(state)
 })
 
 export default connect(mapStateToProps)(Balance)

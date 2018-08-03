@@ -26,8 +26,10 @@ class ComponentDropdown extends React.PureComponent {
   }
 
   handleCallback (item) {
+    const { toggled } = this.state
+    const { toggleOnCallback } = this.props
     this.setState({
-      toggled: false,
+      toggled: toggleOnCallback ? false : toggled,
       selectedComponent: this.props.forceSelected
         ? this.props.selectedComponent
         : item
@@ -54,13 +56,15 @@ class ComponentDropdown extends React.PureComponent {
 
 ComponentDropdown.defaultProps = {
   color: 'brand-secondary',
-  opened: false,
+  toggleOnCallback: true,
   uppercase: false,
+  opened: false,
   down: false
 }
 
 ComponentDropdown.propTypes = {
   callback: PropTypes.func.isRequired,
+  toggleOnCallback: PropTypes.bool,
   opened: PropTypes.bool,
   color: PropTypes.oneOf(keysIn(Palette())),
   uppercase: PropTypes.bool,
