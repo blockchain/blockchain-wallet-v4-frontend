@@ -2,6 +2,7 @@ import { call, put, take, select } from 'redux-saga/effects'
 import { eventChannel, END } from 'redux-saga'
 import { actions, selectors } from 'data'
 import * as A from './actions'
+import * as C from 'services/AlertService'
 import * as S from './selectors'
 
 import Btc from '@ledgerhq/hw-app-btc'
@@ -108,9 +109,11 @@ export default ({ api, coreSagas }) => {
       yield put(A.deleteDeviceLoading())
       yield put(actions.core.kvStore.lockbox.deleteDeviceLockbox(deviceID))
       yield put(A.deleteDeviceSuccess())
+      yield put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
     } catch (e) {
       yield put(A.deleteDeviceFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'deleteDevice', e))
+      yield put(actions.alerts.displayError(C.SEND_BTC_ERROR))
     }
   }
 

@@ -536,6 +536,14 @@
       {
         "defaultMessage": "An error has occurred.",
         "id": "components.alerts.unknown_error"
+      },
+      {
+        "defaultMessage": "Lockbox successfully removed.",
+        "id": "components.alerts.lockbox_delete_success"
+      },
+      {
+        "defaultMessage": "Failed to remove Lockbox.",
+        "id": "components.alerts.lockbox_delete_error"
       }
     ],
     "path": "src/components/Alerts/template.json"
