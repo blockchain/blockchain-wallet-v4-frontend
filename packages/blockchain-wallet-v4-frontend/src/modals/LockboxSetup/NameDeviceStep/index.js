@@ -18,11 +18,15 @@ class NameDeviceStepContainer extends React.PureComponent {
   }
 
   render () {
+    const { deviceNames } = this.props
+
     return (
       <NameDeviceStep
-        {...this.props}
         onSubmit={this.onSubmit}
-        initialValues={{ newDeviceName: 'My Lockbox 1' }}
+        initialValues={{
+          newDeviceName: `My Lockbox ${deviceNames.length + 1}`
+        }}
+        {...this.props}
       />
     )
   }
