@@ -6,10 +6,11 @@ import { actions, selectors } from 'data'
 
 import modalEnhancer from 'providers/ModalEnhancer'
 import LockboxSetup from './template'
-import OptionsStep from './OptionsStep'
-import ConnectStep from './ConnectStep'
+import SetupTypeStep from './SetupTypeStep'
+import ConnectDeviceStep from './ConnectDeviceStep'
 import NameDeviceStep from './NameDeviceStep'
 import ConfirmRecoveryStep from './ConfirmRecoveryStep'
+import SaveAccountsStep from './SaveAccountsStep'
 
 class LockboxSetupContainer extends React.PureComponent {
   render () {
@@ -17,12 +18,13 @@ class LockboxSetupContainer extends React.PureComponent {
     const { lockboxActions } = rest
     return (
       <LockboxSetup position={position} total={total} closeAll={closeAll}>
-        {step === 'options' && (
-          <OptionsStep handleStep={lockboxActions.setConnectStep} />
+        {step === 'setup-type' && (
+          <SetupTypeStep handleStep={lockboxActions.setConnectStep} />
         )}
-        {step === 'connect' && <ConnectStep />}
+        {step === 'connect' && <ConnectDeviceStep />}
         {step === 'name-device' && <NameDeviceStep />}
         {step === 'confirm-recovery' && <ConfirmRecoveryStep />}
+        {step === 'save-accounts' && <SaveAccountsStep />}
       </LockboxSetup>
     )
   }

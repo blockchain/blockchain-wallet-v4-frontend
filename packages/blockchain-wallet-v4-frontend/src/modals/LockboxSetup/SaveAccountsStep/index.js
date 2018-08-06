@@ -1,28 +1,29 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
+import { formValueSelector } from 'redux-form'
 
-import { required } from 'services/FormHelper'
-import { Button, Text } from 'blockchain-info-components'
-import { Form, FormItem, TextBox } from 'components/Form'
+import ConfirmRecoveryStep from './template'
+
 import Stepper, { StepView, StepTransition } from 'components/Utilities/Stepper'
+import { actions } from 'data'
+import { Button, Text } from 'blockchain-info-components'
 
-const ConfirmRecoveryStep = props => {
-  const { handleSubmit } = props
-
-  const validateRequiredPhrase = value => {
-    return value === 'COMPLETE' ? (
-      undefined
-    ) : (
-      <FormattedMessage
-        id='modals.lockboxsetup.confirmrecovery.step2.incorrectphrase'
-        defaultMessage='Incorrect phrase'
-      />
-    )
+class ConfirmRecoveryStepContainer extends React.PureComponent {
+  constructor (props) {
+    super(props)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
-  return (
-    <Form onSubmit={handleSubmit}>
+  onSubmit () {
+    this.props.lockboxActions.storeDeviceBackupFlag(true)
+  }
+
+  render () {
+    return <ConfirmRecoveryStep onSubmit={this.onSubmit} />
+
+    return (
       <Stepper key='LockboxConfirmRecoveryStep' initialStep={0}>
         <StepView step={0}>
           <Text size='16px' weight={400}>
@@ -63,30 +64,37 @@ const ConfirmRecoveryStep = props => {
               defaultMessage='This cannot be recovered at a later date. Type COMPLETE to confirm that you have written down your backup phrase.'
             />
           </Text>
-          <FormItem style={{ marginTop: '10px' }}>
-            <Field
-              name='confirm'
-              validate={[required, validateRequiredPhrase]}
-              component={TextBox}
-            />
-          </FormItem>
-          <Button
-            style={{ marginTop: '25px' }}
+          <StepTransition
+            next
+            Component={Button}
             fullwidth
-            type='submit'
             nature='primary'
+            style={{ marginTop: '25px' }}
           >
             <FormattedMessage
               id='modals.lockboxsetup.confirmrecovery.step2.confirm'
               defaultMessage='Continue'
             />
-          </Button>
+          </StepTransition>
         </StepView>
       </Stepper>
-    </Form>
-  )
+    )
+  }
 }
 
-export default reduxForm({ form: 'lockboxConfirmRecovery' })(
-  ConfirmRecoveryStep
-)
+const mapStateToProps = state => ({
+  storePublicKeys: formValueSelector('lockboxConfirmRecovery')(
+    state,
+    'storePublicKeys'
+  )
+})
+
+const mapDispatchToProps = dispatch => ({
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ConfirmRecoveryStepContainer)

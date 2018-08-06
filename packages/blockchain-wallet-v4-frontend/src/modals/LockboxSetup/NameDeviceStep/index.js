@@ -14,7 +14,7 @@ class NameDeviceStepContainer extends React.PureComponent {
   }
 
   onSubmit () {
-    this.props.lockboxActions.addDevice(this.props.newDeviceName)
+    this.props.lockboxActions.storeDeviceName(this.props.newDeviceName)
   }
 
   render () {

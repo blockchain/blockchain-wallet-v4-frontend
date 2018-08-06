@@ -70,6 +70,7 @@ export default ({ api, coreSagas }) => {
 
       const device = deviceR.getOrElse(null)
 
+      // TODO: make this great again
       if (!device) {
         yield put(A.setConnectStep('name-device'))
       } else if (!device.confirmed) {
@@ -84,22 +85,67 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const addDevice = function*(action) {
+  const storeDeviceName = function*(action) {
     try {
       const { deviceName } = action.payload
 
-      yield put(A.addDeviceLoading())
+      yield put(A.storeDeviceNameLoading())
       const deviceInfoR = yield select(S.getDeviceInfo)
       const deviceInfo = deviceInfoR.getOrFail('missing_device')
       const deviceID = getDeviceID(deviceInfo)
       yield put(
-        actions.core.kvStore.lockbox.addDeviceLockbox(deviceID, deviceName)
+        actions.core.kvStore.lockbox.storeDeviceName(deviceID, deviceName)
       )
-      yield put(A.addDeviceSuccess())
+      yield put(A.storeDeviceNameSuccess())
       yield put(A.setConnectStep('confirm-recovery'))
     } catch (e) {
-      yield put(A.addDeviceFailure(e))
-      yield put(actions.logs.logErrorMessage(logLocation, 'addDevice', e))
+      yield put(A.storeDeviceNameFailure(e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'storeDeviceName', e))
+    }
+  }
+
+  const storeDeviceBackupFlag = function*(action) {
+    try {
+      const { backupConfirmed } = action.payload
+
+      yield put(A.storeDeviceBackupFlagLoading())
+      const deviceInfoR = yield select(S.getDeviceInfo)
+      const deviceInfo = deviceInfoR.getOrFail('missing_device')
+      const deviceID = getDeviceID(deviceInfo)
+      yield put(
+        actions.core.kvStore.lockbox.storeDeviceBackupFlag(
+          deviceID,
+          backupConfirmed
+        )
+      )
+      yield put(A.storeDeviceBackupFlagSuccess())
+      yield put(A.setConnectStep('save-accounts'))
+    } catch (e) {
+      yield put(A.storeDeviceBackupFlagFailure(e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'storeDeviceBackupFlag', e)
+      )
+    }
+  }
+
+  const storeDeviceAccounts = function*() {
+    try {
+      yield put(A.storeDeviceAccountsLoading())
+      const deviceInfoR = yield select(S.getDeviceInfo)
+      const deviceInfo = deviceInfoR.getOrFail('missing_device')
+      const deviceID = getDeviceID(deviceInfo)
+      const mdEntry = generateMDEntry(deviceInfo)
+      yield put(
+        actions.core.kvStore.lockbox.storeDeviceAccounts(deviceID, mdEntry)
+      )
+      yield put(A.storeDeviceAccountsSuccess())
+      yield put(actions.core.data.bitcoin.fetchData())
+      yield put(A.setConnectStep('setup-type'))
+    } catch (e) {
+      yield put(A.storeDeviceAccountsFailure(e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'storeDeviceAccounts', e)
+      )
     }
   }
 
@@ -117,29 +163,12 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const saveDevice = function*() {
-    try {
-      yield put(A.saveDeviceLoading())
-      const deviceInfoR = yield select(S.getDeviceInfo)
-      const deviceInfo = deviceInfoR.getOrFail('missing_device')
-      const deviceID = getDeviceID(deviceInfo)
-      const mdEntry = generateMDEntry(deviceInfo)
-      yield put(
-        actions.core.kvStore.lockbox.saveDeviceLockbox(deviceID, mdEntry)
-      )
-      yield put(A.saveDeviceSuccess())
-      yield put(actions.core.data.bitcoin.fetchData())
-    } catch (e) {
-      yield put(A.saveDeviceFailure(e))
-      yield put(actions.logs.logErrorMessage(logLocation, 'saveDevice', e))
-    }
-  }
-
   return {
     initializeConnect,
     deriveConnectStep,
-    saveDevice,
-    addDevice,
+    storeDeviceAccounts,
+    storeDeviceBackupFlag,
+    storeDeviceName,
     deleteDevice
   }
 }

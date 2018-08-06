@@ -20,16 +20,25 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_METADATA_LOCKBOX_FAILURE: {
       return Remote.Failure(payload)
     }
-    case AT.ADD_DEVICE_LOCKBOX: {
+    case AT.STORE_DEVICE_NAME: {
       const { deviceID, deviceName } = payload
       const valueLens = compose(
         mapped,
         KVStoreEntry.value
       )
-      let setLabel = assocPath(['devices', deviceID], { deviceName })
-      return over(valueLens, setLabel, state)
+      let setDeviceName = assocPath(['devices', deviceID], { deviceName })
+      return over(valueLens, setDeviceName, state)
     }
-    case AT.SAVE_DEVICE_LOCKBOX: {
+    case AT.STORE_DEVICE_BACKUP_FLAG: {
+      const { deviceID, backupConfirmed } = payload
+      const valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
+      let setBackupFlag = assocPath(['devices', deviceID], { backupConfirmed })
+      return over(valueLens, setBackupFlag, state)
+    }
+    case AT.STORE_DEVICE_ACCOUNTS: {
       const { deviceID, accounts } = payload
       const valueLens = compose(
         mapped,

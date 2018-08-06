@@ -30,14 +30,14 @@ const Label = styled(Text)`
   margin-bottom: 5px;
 `
 
-const NameDeviceStep = props => {
-  const { handleSubmit, invalid, deviceNames } = props
+const requireUnique = (value, allValues, { deviceNames }) => {
+  return any(equals(value))(deviceNames)
+    ? 'Device name is already taken.'
+    : undefined
+}
 
-  const requireUnique = value => {
-    return any(equals(value))(deviceNames)
-      ? 'Device name is already taken.'
-      : undefined
-  }
+const NameDeviceStep = props => {
+  const { handleSubmit, invalid } = props
 
   return (
     <Form onSubmit={handleSubmit}>
