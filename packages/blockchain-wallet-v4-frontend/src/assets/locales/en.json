@@ -404,7 +404,7 @@
   "components.selectboxcountry.label": "Select country",
   "components.selectboxregion.placeholder.region": "Select region",
   "components.selectboxregion.placeholder.state": "Select state",
-  "components.selectboxstate.label": "Select country",
+  "components.selectboxstate.label": "Select state",
   "components.selectboxtheme.complement": "Complement",
   "components.selectboxtheme.default": "Default",
   "components.selectboxtheme.grayscale": "Grayscale",
