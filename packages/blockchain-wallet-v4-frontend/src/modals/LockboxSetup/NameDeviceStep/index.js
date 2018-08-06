@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions } from 'data'
+import { getDeviceNames } from './selectors'
 
 import NameDeviceStep from './template'
 import { formValueSelector } from 'redux-form'
@@ -13,16 +14,23 @@ class NameDeviceStepContainer extends React.PureComponent {
   }
 
   onSubmit () {
-    this.props.lockboxActions.addDevice(this.props.deviceName)
+    this.props.lockboxActions.addDevice(this.props.newDeviceName)
   }
 
   render () {
-    return <NameDeviceStep onSubmit={this.onSubmit} />
+    return (
+      <NameDeviceStep
+        {...this.props}
+        onSubmit={this.onSubmit}
+        initialValues={{ newDeviceName: 'My Lockbox 1' }}
+      />
+    )
   }
 }
 
 const mapStateToProps = state => ({
-  deviceName: formValueSelector('lockboxNameDevice')(state, 'deviceName')
+  newDeviceName: formValueSelector('lockboxNameDevice')(state, 'newDeviceName'),
+  deviceNames: getDeviceNames(state)
 })
 
 const mapDispatchToProps = dispatch => ({
