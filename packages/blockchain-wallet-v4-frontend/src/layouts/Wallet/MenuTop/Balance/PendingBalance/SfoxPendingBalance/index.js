@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { getData } from './selectors'
+import { getData } from '../selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 

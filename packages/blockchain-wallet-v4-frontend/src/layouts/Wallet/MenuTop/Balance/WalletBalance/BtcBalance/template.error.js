@@ -6,8 +6,6 @@ import { Link } from 'blockchain-info-components'
 const Wrapper = styled.div`
   display: flex;
   box-sizing: border-box;
-  justify-content: flex-end;
-  padding-right: 25px;
 `
 const ErrorLink = styled(Link)`
   text-decoration: underline;

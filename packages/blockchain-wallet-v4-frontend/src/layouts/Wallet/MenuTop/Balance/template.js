@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import TotalBalance from './TotalBalance'
 import WalletBalance from './WalletBalance'
+import PendingBalance from './PendingBalance'
 import WatchOnlyBalance from './WatchOnlyBalance'
 import BtcBalance from './WalletBalance/BtcBalance'
 import BchBalance from './WalletBalance/BchBalance'
@@ -35,6 +36,10 @@ const BalanceDropdown = styled.div`
     right: 0px;
     padding: 0;
     position: absolute;
+    // Balance List Items (DropdownItem)
+    > li:not(:first-child) > div {
+      border-top: 1px solid ${props => props.theme['gray-1']};
+    }
   }
   > div > div > span:last-child {
     top: 1px;
@@ -46,7 +51,7 @@ const BalanceDropdown = styled.div`
 `
 
 const getComponentOrder = path => {
-  return [<WalletBalance />, <WatchOnlyBalance />]
+  return [<WalletBalance />, <PendingBalance />, <WatchOnlyBalance />]
 }
 
 const getSelectedComponent = path => {

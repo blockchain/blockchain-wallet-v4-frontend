@@ -1,7 +1,6 @@
 import React from 'react'
 
-import BtcWatchOnlyBalance from './BtcWatchOnlyBalance'
-import BchWatchOnlyBalance from './BchWatchOnlyBalance'
+import SfoxPendingBalance from './SfoxPendingBalance'
 import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
 import { Wrapper, Header } from 'components/Balances'
@@ -11,13 +10,12 @@ const Template = props => (
     <Header>
       <Text size='14px'>
         <FormattedMessage
-          id='layouts.wallet.menutop.balance.walletbalance.nonspendable'
-          defaultMessage='Non-Spendable'
+          id='layouts.wallet.menutop.balance.walletbalance.pending'
+          defaultMessage='Pending'
         />
       </Text>
     </Header>
-    <BtcWatchOnlyBalance />
-    <BchWatchOnlyBalance />
+    <SfoxPendingBalance />
   </Wrapper>
 )
 
