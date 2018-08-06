@@ -6,5 +6,5 @@ export const getDeviceNames = state => {
     .getDevices(state)
     .getOrElse({})
 
-  return map(d => path([d, 'x'], deviceList), keys(deviceList))
+  return map(d => path([d, 'deviceName'], deviceList), keys(deviceList))
 }

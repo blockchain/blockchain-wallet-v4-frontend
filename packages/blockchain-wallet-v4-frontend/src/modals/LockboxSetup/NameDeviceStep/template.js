@@ -6,7 +6,7 @@ import { Button, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
-import { any } from 'ramda'
+import { any, equals } from 'ramda'
 
 const Row = styled.div`
   display: flex;
@@ -34,9 +34,9 @@ const NameDeviceStep = props => {
   const { handleSubmit, invalid, deviceNames } = props
 
   const requireUnique = value => {
-    return any(deviceNames === value)
-      ? undefined
-      : 'Device name is already taken.'
+    return any(equals(value))(deviceNames)
+      ? 'Device name is already taken.'
+      : undefined
   }
 
   return (

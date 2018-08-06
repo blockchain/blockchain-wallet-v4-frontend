@@ -10,6 +10,11 @@ class LockboxDashboardContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.deleteDevice = this.deleteDevice.bind(this)
+    this.addDevice = this.addDevice.bind(this)
+  }
+
+  addDevice () {
+    this.props.modalActions.showModal('LockboxSetup')
   }
 
   deleteDevice () {
@@ -22,6 +27,7 @@ class LockboxDashboardContainer extends React.PureComponent {
     const deviceId = keysIn(this.props.devices)[0]
     return (
       <Dashboard
+        addDevice={this.addDevice}
         deleteDevice={this.deleteDevice}
         deviceId={deviceId}
         deviceName={devices[deviceId].deviceName}
@@ -31,7 +37,8 @@ class LockboxDashboardContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
+  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(
