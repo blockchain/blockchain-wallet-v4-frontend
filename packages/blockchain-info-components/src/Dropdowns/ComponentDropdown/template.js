@@ -58,7 +58,6 @@ const DropdownList = styled.ul`
 const DropdownItem = styled.li`
   color: ${props => props.theme['gray-5']};
   cursor: pointer;
-  padding: 10px;
   font-family: 'Montserrat', Helvetica, sans-serif;
   font-size: 14px;
   font-weight: 300;

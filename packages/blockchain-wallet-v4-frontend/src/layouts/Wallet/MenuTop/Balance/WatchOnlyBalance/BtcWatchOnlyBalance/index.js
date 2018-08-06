@@ -8,7 +8,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class BchWatchOnlyBalance extends React.PureComponent {
+class BtcWatchOnlyBalance extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleRefresh = this.handleRefresh.bind(this)
@@ -23,10 +23,10 @@ class BchWatchOnlyBalance extends React.PureComponent {
   }
 
   render () {
-    const { data, large } = this.props
+    const { data } = this.props
 
     return data.cata({
-      Success: value => <Success balance={value} large={large} />,
+      Success: value => <Success balance={value} />,
       Failure: message => <Error onRefresh={this.handleRefresh} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -39,10 +39,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.core.data.bch, dispatch)
+  actions: bindActionCreators(actions.core.data.bitcoin, dispatch)
 })
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(BchWatchOnlyBalance)
+)(BtcWatchOnlyBalance)

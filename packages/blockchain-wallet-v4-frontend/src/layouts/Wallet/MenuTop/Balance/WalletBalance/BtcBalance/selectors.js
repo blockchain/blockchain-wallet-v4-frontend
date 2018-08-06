@@ -1,3 +1,3 @@
-import { getBtcBalance } from '../../selectors'
+import { getBtcBalance } from '../selectors'
 
 export const getData = getBtcBalance

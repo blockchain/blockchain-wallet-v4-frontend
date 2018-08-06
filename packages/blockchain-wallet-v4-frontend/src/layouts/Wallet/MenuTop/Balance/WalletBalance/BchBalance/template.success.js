@@ -1,36 +1,20 @@
 import React from 'react'
+import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import CoinDisplay from 'components/Display/CoinDisplay'
-import FiatDisplay from 'components/Display/FiatDisplay'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { CoinBalanceWrapper } from 'components/Balances'
+
+const Wrapper = styled.div``
 
 const Success = props => {
   const { balance, large } = props
 
   return (
     <LinkContainer to='/bch/transactions'>
-      <CoinBalanceWrapper large={large}>
-        <CoinDisplay
-          coin='BCH'
-          cursor='pointer'
-          mobileSize='14px'
-          size={large ? '20px' : '12px'}
-          weight={large ? 200 : 300}
-        >
-          {balance}
-        </CoinDisplay>
-        <FiatDisplay
-          coin='BCH'
-          cursor='pointer'
-          mobileSize='14px'
-          size={large ? '20px' : '12px'}
-          weight={large ? 200 : 300}
-        >
-          {balance}
-        </FiatDisplay>
-      </CoinBalanceWrapper>
+      <Wrapper>
+        <CoinBalanceWrapper coin='BCH' balance={balance} large={large} />
+      </Wrapper>
     </LinkContainer>
   )
 }

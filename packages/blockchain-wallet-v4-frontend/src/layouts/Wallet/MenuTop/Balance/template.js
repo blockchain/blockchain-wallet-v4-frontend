@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import TotalBalance from './TotalBalance'
 import WalletBalance from './WalletBalance'
+import WatchOnlyBalance from './WatchOnlyBalance'
 import BtcBalance from './WalletBalance/BtcBalance'
 import BchBalance from './WalletBalance/BchBalance'
 import EthBalance from './WalletBalance/EthBalance'
@@ -45,7 +46,7 @@ const BalanceDropdown = styled.div`
 `
 
 const getComponentOrder = path => {
-  return [<WalletBalance />]
+  return [<WalletBalance />, <WatchOnlyBalance />]
 }
 
 const getSelectedComponent = path => {

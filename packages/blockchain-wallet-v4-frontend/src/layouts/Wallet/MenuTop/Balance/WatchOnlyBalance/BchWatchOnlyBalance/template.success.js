@@ -5,14 +5,14 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { CoinBalanceWrapper } from 'components/Balances'
 
 const Success = props => {
-  const { balance, large } = props
+  const { balance } = props
 
   const Wrapper = styled.div``
 
   return (
-    <LinkContainer to='/eth/transactions'>
+    <LinkContainer to='/bch/transactions'>
       <Wrapper>
-        <CoinBalanceWrapper coin='ETH' balance={balance} large={large} />
+        <CoinBalanceWrapper coin='BCH' balance={balance} />
       </Wrapper>
     </LinkContainer>
   )

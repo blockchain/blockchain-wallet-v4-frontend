@@ -23,7 +23,8 @@ const Template = props => (
           height={'auto'}
           size='11px'
           padding='3px'
-          nature='empty'
+          onClick={props.toggleCoinDisplayed}
+          nature={props.coinDisplayed ? 'empty' : 'primary'}
         >
           {props.currency}
         </Button>
