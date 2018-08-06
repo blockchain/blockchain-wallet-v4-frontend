@@ -49,11 +49,12 @@ const SelectInput = props => {
   } = props
   const options = items.map(item => ({ value: item.value, label: item.text }))
   const defaultValue = head(filter(x => equals(x.value, defaultItem), options))
-
+  // Give StyledSelect component isClearable prop
   return (
     <StyledSelect
       components={{ Option, ValueContainer }}
       options={options}
+      isClearable
       isSearchable={searchEnabled}
       value={defaultValue}
       templateItem={templateItem}
