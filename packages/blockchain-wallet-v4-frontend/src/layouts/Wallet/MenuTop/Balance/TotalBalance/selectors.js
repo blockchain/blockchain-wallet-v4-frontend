@@ -1,4 +1,4 @@
-import { add, lift, reduce } from 'ramda'
+import { add, concat, lift, reduce } from 'ramda'
 import { selectors } from 'data'
 import { Remote, Exchange } from 'blockchain-wallet-v4/src'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
@@ -6,12 +6,23 @@ import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 export const getBtcBalance = state =>
   createDeepEqualSelector(
-    [selectors.core.wallet.getSpendableContext],
-    context => {
+    [
+      selectors.core.wallet.getSpendableContext,
+      selectors.core.kvStore.lockbox.getLockboxBtcContext
+    ],
+    (walletContext, lockboxBtcContextR) => {
       const getBalance = address =>
         selectors.core.data.bitcoin.getFinalBalance(address, state)
-      const balancesR = context.map(x => getBalance(x).getOrElse(0))
-      return Remote.of(reduce(add, 0, balancesR))
+      const transform = (walletContext, lockboxContext) => {
+        return concat(walletContext, lockboxContext).map(x =>
+          getBalance(x).getOrElse(0)
+        )
+      }
+      const balancesR = lift(transform)(
+        Remote.of(walletContext),
+        lockboxBtcContextR
+      )
+      return balancesR.map(reduce(add, 0))
     }
   )(state)
 
