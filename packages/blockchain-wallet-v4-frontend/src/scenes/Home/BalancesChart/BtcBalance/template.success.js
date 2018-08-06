@@ -60,7 +60,7 @@ const BtcBalance = props => {
         )}
       </CoinBalance>
       {partner ? (
-        gt(0, btcBalance) && (
+        gte(0, btcBalance) && (
           <WalletLink to='/buy-sell' size='10px' weight={300}>
             <FormattedMessage
               id='scenes.home.balanceschart.buybtc'
@@ -68,7 +68,7 @@ const BtcBalance = props => {
             />
           </WalletLink>
         )
-      ) : gt(ethBalance, 0) || gt(bchBalance, 0) ? (
+      ) : (gt(ethBalance, 0) || gt(bchBalance, 0)) && !gt(btcBalance, 0) ? (
         <WalletLink to='/exchange' size='10px' weight={300}>
           <FormattedMessage
             id='scenes.home.balanceschart.getstarted'
@@ -76,7 +76,7 @@ const BtcBalance = props => {
           />
         </WalletLink>
       ) : (
-        gt(0, btcBalance) && (
+        gte(0, btcBalance) && (
           <Link
             size='10px'
             weight={300}
