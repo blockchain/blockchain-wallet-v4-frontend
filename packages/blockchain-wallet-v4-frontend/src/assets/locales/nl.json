@@ -173,6 +173,7 @@
   "coinifysignup.acceptterms.helper1.answer":
     "Coinify is een handelsplatform waar we mee samenwerken om u binnen uw Blockchain-portemonnee een probleemloze koop- en verkoopervaring te bieden.",
   "coinifysignup.acceptterms.helper1.question": "Wat is Coinify?",
+  "components.alerts.address_and_private_key_incorrect": null,
   "components.alerts.address_delete_error": "Kan adreslabel niet verwijderen.",
   "components.alerts.address_delete_success": "Adres is succesvol verwijderd.",
   "components.alerts.address_does_not_exist_error":
@@ -255,6 +256,8 @@
     "IP-whitelist is succesvol bijgewerkt",
   "components.alerts.language_update_error": "Kan taal niet bijwerken",
   "components.alerts.language_update_success": "Taal is succesvol bijgewerkt.",
+  "components.alerts.lockbox_delete_error": null,
+  "components.alerts.lockbox_delete_success": null,
   "components.alerts.logginglevel_update_error":
     "Niveau van logboekregistratie kan niet worden bijgewerkt",
   "components.alerts.logginglevel_update_success":
@@ -444,6 +447,7 @@
   "formhelper.ageovereighteen": "Moet 18 jaar of ouder zijn",
   "formhelper.incorrectpassword": "Onjuist wachtwoord",
   "formhelper.invalidbitcoinaddress": "Ongeldig bitcoin-adres",
+  "formhelper.invalidbitcoinaddressandkey": null,
   "formhelper.invalidbitcoincashaddress": "Ongeldig Bitcoin Cash-adres",
   "formhelper.invalidbitcoinprivatekey": "Ongeldige bitcoin-privésleutel",
   "formhelper.invalidemail": "Ongeldig e-mailadres",
@@ -461,10 +465,13 @@
     "Land niet beschikbaar voor kopen en verkopen",
   "formhelper.partnerstatewhitelist":
     "Staat niet beschikbaar voor kopen en verkopen",
+  "formhelper.passwordcracktime": null,
   "formhelper.passwordsdonotmatch": "Wachtwoorden komen niet overeen",
+  "formhelper.passwordsuggest": null,
   "formhelper.required": "Vereist",
   "formhelper.requireddob": "Moet een geldige datum zijn",
   "formhelper.requirednumber": "Ongeldig nummer",
+  "formhelper.requiredphrase": null,
   "formhelper.requiredssn": "Moet een geldige SSN zijn",
   "formhelper.requireduszipcode": "Moet een geldige Amerikaanse postcode zijn",
   "formhelper.requiredzipcode": null,
@@ -519,29 +526,9 @@
   "layouts.public.footer.explorer": "Gegevens",
   "layouts.public.footer.support": "Ondersteuning",
   "layouts.wallet.header.logout.signout": "Afmelden",
-  "layouts.wallet.header.whatsnew.whatsnew.desc10":
-    "Als u voor 1 augustus 2017 bitcoins in uw portemonnee had, kunt u nu via uw Blockchain-portemonnee toegang tot Bitcoin Cash krijgen.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc11":
-    "Bitcoin Cash-adressen volgen nu het CashAddr-formaat.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc7":
-    "Nu kunt u bitcoins rechtstreeks vanuit uw blockchain-portemonnee verkopen!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc8":
-    "Nu kunt u ether via uw blockchain-portemonnee verzenden en ontvangen!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc9":
-    "U kunt rechtstreeks vanuit uw Blockchain-portemonnee bitcoin, ether en Bitcoin Cash uitwisselen.",
   "layouts.wallet.header.whatsnew.whatsnew.empty": "?? U bent helemaal bij!",
-  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore":
-    "Kom meer te weten",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Ons team werkt voortdurend aan nieuwe functies, maar als er iets is wat we kunnen verbeteren, kun je ons dat <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>hier<a/> laten weten.",
-  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Kom meer te weten",
-  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title11":
-    "Nieuw adresformaat Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title7": "Bitcoins verkopen",
-  "layouts.wallet.header.whatsnew.whatsnew.title8":
-    "Ether verzenden en ontvangen",
-  "layouts.wallet.header.whatsnew.whatsnew.title9": "Activa uitwisselen",
   "layouts.wallet.menuleft.footer.about": "Over",
   "layouts.wallet.menuleft.footer.privacypolicy": "Privacybeleid",
   "layouts.wallet.menuleft.footer.termsofservice": "ToS",
@@ -550,6 +537,7 @@
   "layouts.wallet.menuleft.navigation.dashboard": "Dashboard",
   "layouts.wallet.menuleft.navigation.exchange": "Uitwisselen",
   "layouts.wallet.menuleft.navigation.general": "Algemeen",
+  "layouts.wallet.menuleft.navigation.lockbox": null,
   "layouts.wallet.menuleft.navigation.preferences": "Voorkeuren",
   "layouts.wallet.menuleft.navigation.securitycenter": "Beveiligingscentrum",
   "layouts.wallet.menuleft.navigation.settings": "Instellingen",
@@ -557,7 +545,6 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoins",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
-  "layouts.wallet.menutop.bank": "Wees uw eigen bank.",
   "layouts.wallet.menutop.request": "Verzoek",
   "layouts.wallet.menutop.send": "Verzenden",
   "layouts.wallet.trayright.faq": "Veelgestelde vragen",
@@ -595,11 +582,17 @@
   "modals.coinifytradedetails.trade.close": "Sluiten",
   "modals.confirm.button": null,
   "modals.confirm.button.cancel": null,
+  "modals.confirm.cancel.phone_call": null,
   "modals.confirm.cancel.verify_identity": null,
+  "modals.confirm.confirm.phone_call": null,
   "modals.confirm.confirm.verify_identity": null,
   "modals.confirm.message": null,
+  "modals.confirm.message.phone_call": null,
+  "modals.confirm.message.phone_call_1": null,
+  "modals.confirm.message.phone_call_2": null,
   "modals.confirm.message.verify_identity": null,
   "modals.confirm.title": null,
+  "modals.confirm.title.phone_call": null,
   "modals.confirm.title.verify_identity": null,
   "modals.deleteaddresslabel.cancel": "Annuleren",
   "modals.disable2fa.disable": "Uitschakelen",
@@ -665,20 +658,33 @@
     "Bestaand adres is buiten <span>deze portemonnee</span> gegenereerd.",
   "modals.importbtcaddress.importexternalbitcoinaddress.advanced.message":
     "Dit is geavanceerde functionaliteit en wordt alleen voor gevorderde gebruikers aanbevolen.",
-  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoinaddress":
-    "Bitcoin-adres",
-  "modals.importbtcaddress.importexternalbitcoinaddress.prvkey":
-    "Privésleutel invoeren",
+  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoineither": null,
   "modals.importbtcaddress.importexternalbitcoinaddress.transfer":
     "Tegoeden naar een bestaande portemonnee overschrijven (optioneel)",
   "modals.importbtcaddress.importinternalbitcoinaddress.warning":
     "Adressen die door deze portemonnee worden gegenereerd, dienen niet geïmporteerd te worden.",
   "modals.importbtcaddress.importtype": "Wat wilt u importeren?",
   "modals.importbtcaddress.title": "Bestaand Bitcoin-adres importeren",
-  "modals.jumioprompt.body1": null,
-  "modals.jumioprompt.close": null,
-  "modals.jumioprompt.dothat": null,
-  "modals.jumioprompt.header": null,
+  "modals.lockboxsetup.confirmrecovery.step1.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step1.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step1.title": null,
+  "modals.lockboxsetup.confirmrecovery.step2.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step2.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step2.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.no": null,
+  "modals.lockboxsetup.confirmrecovery.step3.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step3.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.yes": null,
+  "modals.lockboxsetup.connectstep.connectdevice": null,
+  "modals.lockboxsetup.connectstep.connected": null,
+  "modals.lockboxsetup.connectstep.error": null,
+  "modals.lockboxsetup.firststep.buy": null,
+  "modals.lockboxsetup.firststep.link": null,
+  "modals.lockboxsetup.firststep.restore": null,
+  "modals.lockboxsetup.labelstep.continue": null,
+  "modals.lockboxsetup.labelstep.devicename": null,
+  "modals.lockboxsetup.labelstep.plugindevice": null,
+  "modals.lockboxsetup.title": null,
   "modals.mobilelogin.cancel": "Annuleren",
   "modals.mobilelogin.explain":
     "Volg deze stappen om met uw mobiele apparaat op uw Web Wallet in te loggen",
@@ -745,6 +751,7 @@
   "modals.recoveryphrase.secondstep.nextfourwords": "Volgende 4 woorden",
   "modals.recoveryphrase.secondstep.number": "Woord {number}",
   "modals.recoveryphrase.secondstep.prevfourwords": null,
+  "modals.recoveryphrase.secondstep.returnReviewPhrase": null,
   "modals.recoveryphrase.secondstep.tip": "Schrijf het op",
   "modals.recoveryphrase.secondstep.title": "Back-up van herstelregel maken",
   "modals.recoveryphrase.thirdstep.back": "Terug",
@@ -1124,12 +1131,9 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
   "scenes.buysell.sfoxcheckout.content.jumio.buylimit": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.profile": null,
   "scenes.buysell.sfoxcheckout.content.jumio.selllimit": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.completed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
@@ -1741,6 +1745,10 @@
     "Het is GEEN bitcoin-adres om tegoeden te verzenden of te ontvangen.",
   "scenes.info.walletid.title": "Portemonnee-ID",
   "scenes.info.walletid.warning": "Deel uw Portemonnee-ID niet met anderen.",
+  "scenes.lockbox.welcome.deletedevice": null,
+  "scenes.lockbox.welcome.getstarted": null,
+  "scenes.lockbox.welcome.subtitle": null,
+  "scenes.lockbox.welcome.title": null,
   "scenes.login.browserwarning":
     "Uw browser wordt niet ondersteund. Werk deze bij naar tenminste Chrome 45, Firefox 45, Safari 8, Internet Explorer 11 of Opera",
   "scenes.login.clickhere": "klik hier.",
@@ -1939,8 +1947,6 @@
     "We hebben een verificatiecode verzonden naar",
   "scenes.security.email.yourverifiedemailaddress":
     "Uw geverifieerde e-mailadres wordt gebruikt om inlogcodes te verzenden wanneer verdachte of ongebruikelijke activiteit wordt gedetecteerd, om u te herinneren aan uw portemonnee-ID en om betalingswaarschuwingen te verzenden wanneer u tegoeden ontvangt.",
-  "scenes.security.passwordhint.notstored": null,
-  "scenes.security.passwordhint.stored": null,
   "scenes.security.tor.allowed": "Toegestaan",
   "scenes.security.tor.blocked": "Geblokkeerd",
   "scenes.security.twostepsetup.sms":
@@ -2115,9 +2121,6 @@
   "scenes.securitysettings.apiaccess.description2": "om te beginnen.",
   "scenes.securitysettings.apiaccess.getstarted": "hier",
   "scenes.securitysettings.apiaccess.title": "API-toegang",
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.change": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.save": null,
   "scenes.securitysettings.basicsecurity.recoveryphrase.description":
     "Uw back-upregel bevat alle privésleutels binnen uw portemonnee. Schrijf deze 12 woorden in de juiste volgorde op en bewaar deze offline en op een veilige plek. Deze zin geeft u (of een ander persoon die over deze zin beschikt) de mogelijkheid om uw portemonnee te herstellen en weer toegang tot uw tegoeden te krijgen. ",
   "scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase":
@@ -2311,9 +2314,6 @@
   "scenes.settings.manage_addresses.edit_name": "Naam bewerken",
   "scenes.settings.manage_addresses.make_default": "Als standaard instellen",
   "scenes.settings.manage_addresses.show_xpub": "xPub tonen",
-  "scenes.settings.passwordhint.description1": null,
-  "scenes.settings.passwordhint.description2": null,
-  "scenes.settings.passwordhint.title": null,
   "scenes.settings.preferences.autologout.updateform.minutes": null,
   "scenes.settings.preferences.bitcoinlinkhandling.description":
     "Schakel dit in om uw Blockchain-portemonnee in staat te stellen om betaallinks in de webbrowser te gebruiken.",
@@ -2326,8 +2326,6 @@
     "We kunnen niet ontdekken of het hanteren van Bitcoin-links is ingeschakeld.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Als het al is ingeschakeld, gebeurt er niets.",
-  "scenes.settings.preferences.explain":
-    "Maak het gebruik van uw portemonnee op maat.",
   "scenes.settings.preferences.localcurrency.error.description":
     "Kies uw plaatselijke valuta.",
   "scenes.settings.preferences.localcurrency.error.title":
@@ -2661,7 +2659,6 @@
   "sfoxexchangedata.verify.hidessn": "SSN verbergen",
   "sfoxexchangedata.verify.identity.error":
     "Helaas was er een probleem met het verifiëren van uw identiteit. {clickHere} om opnieuw te beginnen.",
-  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Achternaam",
   "sfoxexchangedata.verify.partner.header": "De kleine lettertjes",
   "sfoxexchangedata.verify.partner.header1": "Laten we u leren kennen",

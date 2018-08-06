@@ -170,6 +170,7 @@
   "coinifysignup.acceptterms.helper1.answer":
     "Coinify е платформа за търговия, с която си партнираме, за да Ви осигурим хармонично изживяване при купуването и продаването от Вашия портфейл в Blockchain.",
   "coinifysignup.acceptterms.helper1.question": "Какво е Coinify?",
+  "components.alerts.address_and_private_key_incorrect": null,
   "components.alerts.address_delete_error": "Неуспешно изтриване на адреса.",
   "components.alerts.address_delete_success": "Адресът е изтрит успешно.",
   "components.alerts.address_does_not_exist_error":
@@ -254,6 +255,8 @@
     "Списъкът с разрешени IP адреси е успешно обновен",
   "components.alerts.language_update_error": "Неуспешно обновяване на езика",
   "components.alerts.language_update_success": "Езикът е успешно обновен.",
+  "components.alerts.lockbox_delete_error": null,
+  "components.alerts.lockbox_delete_success": null,
   "components.alerts.logginglevel_update_error":
     "Неуспешно обновяване на нивото за вход",
   "components.alerts.logginglevel_update_success":
@@ -440,6 +443,7 @@
   "formhelper.ageovereighteen": "Трябва да имате навършени 18 г.",
   "formhelper.incorrectpassword": "Неправилна парола",
   "formhelper.invalidbitcoinaddress": "Невалиден Bitcoin адрес",
+  "formhelper.invalidbitcoinaddressandkey": null,
   "formhelper.invalidbitcoincashaddress": "Невалиден Bitcoin cash адрес",
   "formhelper.invalidbitcoinprivatekey": "Невалиден Bitcoin личен ключ",
   "formhelper.invalidemail": "Невалиден имейл адрес",
@@ -457,10 +461,13 @@
     "Държавата не е налична за покупки и продажби",
   "formhelper.partnerstatewhitelist":
     "Щатът не е наличен за покупки и продажби",
+  "formhelper.passwordcracktime": null,
   "formhelper.passwordsdonotmatch": "Паролите не съвпадат",
+  "formhelper.passwordsuggest": null,
   "formhelper.required": "Задължително",
   "formhelper.requireddob": "Трябва да е валидна дата",
   "formhelper.requirednumber": "Невалиден номер",
+  "formhelper.requiredphrase": null,
   "formhelper.requiredssn": "Трябва да е валиден SSN",
   "formhelper.requireduszipcode": "Трябва да е валиден пощенски код в САЩ",
   "formhelper.requiredzipcode": null,
@@ -514,28 +521,9 @@
   "layouts.public.footer.explorer": "Данни",
   "layouts.public.footer.support": "Поддръжка",
   "layouts.wallet.header.logout.signout": "Изход",
-  "layouts.wallet.header.whatsnew.whatsnew.desc10":
-    "Ако сте имали bitcoin в портфейла си преди 1 август 2017, сега можете да влизате в Bitcoin Cash от Вашия портфейл в Blockchain.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc11":
-    "Адресите за Bitcoin Cash вече следват формата CashAddr.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc7":
-    "Вече можете да продавате bitcoin директно от Вашия Blockchain портфейл!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc8":
-    "Вече можете да изпращане и получавате ether от Вашия Blockchain портфейл!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc9":
-    "Можете да обменяте bitcoin, ether и bitcoin cash директно от Вашия Blockchain портфейл!",
   "layouts.wallet.header.whatsnew.whatsnew.empty": "?? Всичко е готово!",
-  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore": "Научете повече",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Нашият екип постоянно разработва нови функции, но ако има нещо, което можем да подобрим, моля, пишете ни за него <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>тук<a/>.",
-  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Научете повече",
-  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title11":
-    "Нов формат на адреса за Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title7": "Продавайте Bitcoin",
-  "layouts.wallet.header.whatsnew.whatsnew.title8":
-    "Продавайте и получавайте Ether",
-  "layouts.wallet.header.whatsnew.whatsnew.title9": "Обменяйте активи",
   "layouts.wallet.menuleft.footer.about": "За нас",
   "layouts.wallet.menuleft.footer.privacypolicy": "Политика на поверителност",
   "layouts.wallet.menuleft.footer.termsofservice": "Условия за ползване",
@@ -545,6 +533,7 @@
   "layouts.wallet.menuleft.navigation.dashboard": "Контролно табло",
   "layouts.wallet.menuleft.navigation.exchange": "Обмени",
   "layouts.wallet.menuleft.navigation.general": "Общи",
+  "layouts.wallet.menuleft.navigation.lockbox": null,
   "layouts.wallet.menuleft.navigation.preferences": "Предпочитания",
   "layouts.wallet.menuleft.navigation.securitycenter": "Център за сигурност",
   "layouts.wallet.menuleft.navigation.settings": "Настройки",
@@ -552,7 +541,6 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
-  "layouts.wallet.menutop.bank": "Бъдете своя собствена банка.",
   "layouts.wallet.menutop.request": "Заявка",
   "layouts.wallet.menutop.send": "Изпрати",
   "layouts.wallet.trayright.faq": "Често задавани въпроси",
@@ -590,11 +578,17 @@
   "modals.coinifytradedetails.trade.close": "Затвори",
   "modals.confirm.button": null,
   "modals.confirm.button.cancel": null,
+  "modals.confirm.cancel.phone_call": null,
   "modals.confirm.cancel.verify_identity": null,
+  "modals.confirm.confirm.phone_call": null,
   "modals.confirm.confirm.verify_identity": null,
   "modals.confirm.message": null,
+  "modals.confirm.message.phone_call": null,
+  "modals.confirm.message.phone_call_1": null,
+  "modals.confirm.message.phone_call_2": null,
   "modals.confirm.message.verify_identity": null,
   "modals.confirm.title": null,
+  "modals.confirm.title.phone_call": null,
   "modals.confirm.title.verify_identity": null,
   "modals.deleteaddresslabel.cancel": "Отказ",
   "modals.disable2fa.disable": "Деактивирай",
@@ -661,20 +655,33 @@
     "Съществуващият адрес е генериран <span>извън този портфейл</span>.",
   "modals.importbtcaddress.importexternalbitcoinaddress.advanced.message":
     "Това е разширена функционалност и се препоръчва само за опитни потребители.",
-  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoinaddress":
-    "Bitcoin адрес",
-  "modals.importbtcaddress.importexternalbitcoinaddress.prvkey":
-    "Въведете личен ключ",
+  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoineither": null,
   "modals.importbtcaddress.importexternalbitcoinaddress.transfer":
     "Преведете средства в съществуващ портфейл (като опция)",
   "modals.importbtcaddress.importinternalbitcoinaddress.warning":
     "Генерираните адреси от този портфейл не трябва да се импортират.",
   "modals.importbtcaddress.importtype": "Какво искате да импортирате?",
   "modals.importbtcaddress.title": "Импортирай съществуващ Bitcoin адрес",
-  "modals.jumioprompt.body1": null,
-  "modals.jumioprompt.close": null,
-  "modals.jumioprompt.dothat": null,
-  "modals.jumioprompt.header": null,
+  "modals.lockboxsetup.confirmrecovery.step1.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step1.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step1.title": null,
+  "modals.lockboxsetup.confirmrecovery.step2.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step2.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step2.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.no": null,
+  "modals.lockboxsetup.confirmrecovery.step3.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step3.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.yes": null,
+  "modals.lockboxsetup.connectstep.connectdevice": null,
+  "modals.lockboxsetup.connectstep.connected": null,
+  "modals.lockboxsetup.connectstep.error": null,
+  "modals.lockboxsetup.firststep.buy": null,
+  "modals.lockboxsetup.firststep.link": null,
+  "modals.lockboxsetup.firststep.restore": null,
+  "modals.lockboxsetup.labelstep.continue": null,
+  "modals.lockboxsetup.labelstep.devicename": null,
+  "modals.lockboxsetup.labelstep.plugindevice": null,
+  "modals.lockboxsetup.title": null,
   "modals.mobilelogin.cancel": "Отказ",
   "modals.mobilelogin.explain":
     "Следвайте тези стъпки, за да влезете във Вашия уебпортфейл от Вашето мобилно устройство",
@@ -740,6 +747,7 @@
   "modals.recoveryphrase.secondstep.nextfourwords": "Следващи 4 думи",
   "modals.recoveryphrase.secondstep.number": "Дума {number}",
   "modals.recoveryphrase.secondstep.prevfourwords": null,
+  "modals.recoveryphrase.secondstep.returnReviewPhrase": null,
   "modals.recoveryphrase.secondstep.tip": "Запишете я",
   "modals.recoveryphrase.secondstep.title":
     "Направи резервно копие на фразата за възстановяване",
@@ -1124,12 +1132,9 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
   "scenes.buysell.sfoxcheckout.content.jumio.buylimit": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.profile": null,
   "scenes.buysell.sfoxcheckout.content.jumio.selllimit": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.completed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
@@ -1743,6 +1748,10 @@
   "scenes.info.walletid.title": "ИД на портфейл",
   "scenes.info.walletid.warning":
     "Не споделяйте ИН на Вашия портфейл с други лица.",
+  "scenes.lockbox.welcome.deletedevice": null,
+  "scenes.lockbox.welcome.getstarted": null,
+  "scenes.lockbox.welcome.subtitle": null,
+  "scenes.lockbox.welcome.title": null,
   "scenes.login.browserwarning":
     "Браузърът Ви не се поддържа. Моля, обновете най-малко до Chrome 45, Firefox 45, Safari 8, IE 11 или Opera.",
   "scenes.login.clickhere": "кликнете тук.",
@@ -1938,8 +1947,6 @@
     "Изпратихме код за потвърждение до",
   "scenes.security.email.yourverifiedemailaddress":
     "Вашият потвърден имейл адрес се използва за изпращане на кодове за вход, когато бъде отчетена подозрителна или необичайна дейност, да Ви напомня за ИН на Вашия портфейл и да сигнализираме за плащания, когато получавате средства.",
-  "scenes.security.passwordhint.notstored": null,
-  "scenes.security.passwordhint.stored": null,
   "scenes.security.tor.allowed": "Позволено",
   "scenes.security.tor.blocked": "Блокирано",
   "scenes.security.twostepsetup.sms": "Използвайте кодове, изпратени с SMS",
@@ -2113,9 +2120,6 @@
   "scenes.securitysettings.apiaccess.description2": "за да започнете.",
   "scenes.securitysettings.apiaccess.getstarted": "тук",
   "scenes.securitysettings.apiaccess.title": "Достъп до API",
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.change": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.save": null,
   "scenes.securitysettings.basicsecurity.recoveryphrase.description":
     "Вашата резервна фраза съдържа всички лични ключове от портфейла Ви. Моля, запишете на хартия тези 12 думи в техния ред и ги дръжте офлайн на сигурно място. Тази фраза Ви дава (или на всеки, който я има( начин да възстановите портфейла си и да имате достъп до средствата си. ",
   "scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase":
@@ -2309,9 +2313,6 @@
   "scenes.settings.manage_addresses.edit_name": "Редактирай име",
   "scenes.settings.manage_addresses.make_default": "Направете по подразбиране",
   "scenes.settings.manage_addresses.show_xpub": "Покажи xPub",
-  "scenes.settings.passwordhint.description1": null,
-  "scenes.settings.passwordhint.description2": null,
-  "scenes.settings.passwordhint.title": null,
   "scenes.settings.preferences.autologout.updateform.minutes": null,
   "scenes.settings.preferences.bitcoinlinkhandling.description":
     "Активирайте това, за да позволите на Вашия Blockchain портфейл да манипулира с линкове за плащане на bitcoin в уеббраузъра.",
@@ -2324,8 +2325,6 @@
     "Не можем да установим дали манипулирането на bitcoin линкове е активирано.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Ако вече е активирано, нищо няма да се случи.",
-  "scenes.settings.preferences.explain":
-    "Персонализирайте работата с Вашия портфейл.",
   "scenes.settings.preferences.localcurrency.error.description":
     "Изберете местната си валута.",
   "scenes.settings.preferences.localcurrency.error.title": "Местна валута",
@@ -2655,7 +2654,6 @@
   "sfoxexchangedata.verify.hidessn": "Скрий SSN",
   "sfoxexchangedata.verify.identity.error":
     "За съжаление възникна проблем с потвърждаването на самоличността Ви. {clickHere} за започване отново.",
-  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Фамилия",
   "sfoxexchangedata.verify.partner.header": "Скритите детайли",
   "sfoxexchangedata.verify.partner.header1": "Нека Ви опознаем",

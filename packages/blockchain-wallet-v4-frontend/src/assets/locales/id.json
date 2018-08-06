@@ -170,6 +170,7 @@
   "coinifysignup.acceptterms.helper1.answer":
     "Coinify adalah platform perdagangan yang bermitra dengan kami untuk menghadirkan bagi Anda pengalaman jual beli yang nyaman di dompet Blockchain Anda",
   "coinifysignup.acceptterms.helper1.question": "Apa itu Coinify?",
+  "components.alerts.address_and_private_key_incorrect": null,
   "components.alerts.address_delete_error": "Gagal menghapus label alamat.",
   "components.alerts.address_delete_success": "Alamat berhasil dihapus.",
   "components.alerts.address_does_not_exist_error":
@@ -250,6 +251,8 @@
     "Daftar putih IP berhasil diperbarui",
   "components.alerts.language_update_error": "Gagal memperbarui bahasa",
   "components.alerts.language_update_success": "Bahasa berhasil diperbarui.",
+  "components.alerts.lockbox_delete_error": null,
+  "components.alerts.lockbox_delete_success": null,
   "components.alerts.logginglevel_update_error":
     "Gagal memperbarui tingkat pencatatan log",
   "components.alerts.logginglevel_update_success":
@@ -423,6 +426,7 @@
   "formhelper.ageovereighteen": "Harus berusia 18 tahun atau di atasnya",
   "formhelper.incorrectpassword": "Kata sandi salah",
   "formhelper.invalidbitcoinaddress": "Alamat Bitcoin tidak valid",
+  "formhelper.invalidbitcoinaddressandkey": null,
   "formhelper.invalidbitcoincashaddress": "Alamat Bitcoin Cash tidak valid",
   "formhelper.invalidbitcoinprivatekey": "Kunci Pribadi Bitcoin tidak valid",
   "formhelper.invalidemail": "Alamat surel tidak valid",
@@ -440,10 +444,13 @@
     "Layanan jual beli tidak tersedia di negara ini",
   "formhelper.partnerstatewhitelist":
     "Layanan jual beli tidak tersedia di negara bagian ini",
+  "formhelper.passwordcracktime": null,
   "formhelper.passwordsdonotmatch": "Kata sandi tidak cocok",
+  "formhelper.passwordsuggest": null,
   "formhelper.required": "Diperlukan",
   "formhelper.requireddob": "Harus tanggal yang valid",
   "formhelper.requirednumber": "Nomor tidak valid",
+  "formhelper.requiredphrase": null,
   "formhelper.requiredssn": "Harus SSN yang valid",
   "formhelper.requireduszipcode": "Harus Kode ZIP AS yang valid",
   "formhelper.requiredzipcode": null,
@@ -498,28 +505,9 @@
   "layouts.public.footer.explorer": "Data",
   "layouts.public.footer.support": "Dukungan",
   "layouts.wallet.header.logout.signout": "Keluar",
-  "layouts.wallet.header.whatsnew.whatsnew.desc10":
-    "Jika Anda memiliki bitcoin di dompet Anda sebelum 1 Agustus 2017, Anda kini dapat mengakses Bitcoin Cash di dompet Blockchain Anda.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc11":
-    "Alamat Bitcoin Cash kini mengikuti format CashAddr.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc7":
-    "Anda kini dapat menjual bitcoin langsung dari dompet Blockchain Anda!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc8":
-    "Anda kini dapat mengirim dan menerima ether dari dompet Blockchain Anda!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc9":
-    "Anda dapat melakukan pertukaran antara bitcoin, ether, dan bitcoin cash langsung dari dompet Blockchain Anda",
   "layouts.wallet.header.whatsnew.whatsnew.empty": "?? Anda sudah selesai!",
-  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore":
-    "Ketahui Selengkapnya",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Tim kami selalu mengerjakan fitur-fitur baru, tetapi jika ada sesuatu yang perlu kami tingkatkan, silakan beri tahu kami <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>di sini<a/>.",
-  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Ketahui Selengkapnya",
-  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title11":
-    "Format Alamat Bitcoin Cash Baru",
-  "layouts.wallet.header.whatsnew.whatsnew.title7": "Jual Bitcoin",
-  "layouts.wallet.header.whatsnew.whatsnew.title8": "Kirim & Terima Ether",
-  "layouts.wallet.header.whatsnew.whatsnew.title9": "Tukarkan Aset",
   "layouts.wallet.menuleft.footer.about": "Tentang",
   "layouts.wallet.menuleft.footer.privacypolicy": "Kebijakan Privasi",
   "layouts.wallet.menuleft.footer.termsofservice": "KL",
@@ -528,6 +516,7 @@
   "layouts.wallet.menuleft.navigation.dashboard": "Dasbor",
   "layouts.wallet.menuleft.navigation.exchange": "Tukarkan",
   "layouts.wallet.menuleft.navigation.general": "Umum",
+  "layouts.wallet.menuleft.navigation.lockbox": null,
   "layouts.wallet.menuleft.navigation.preferences": "Preferensi",
   "layouts.wallet.menuleft.navigation.securitycenter": "Pusat keamanan",
   "layouts.wallet.menuleft.navigation.settings": "Pengaturan",
@@ -535,7 +524,6 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
-  "layouts.wallet.menutop.bank": "Jadilah bank Anda sendiri.",
   "layouts.wallet.menutop.request": "Permintaan",
   "layouts.wallet.menutop.send": "Kirim",
   "layouts.wallet.trayright.faq": "Pertanyaan Umum",
@@ -572,11 +560,17 @@
   "modals.coinifytradedetails.trade.close": "Tutup",
   "modals.confirm.button": null,
   "modals.confirm.button.cancel": null,
+  "modals.confirm.cancel.phone_call": null,
   "modals.confirm.cancel.verify_identity": null,
+  "modals.confirm.confirm.phone_call": null,
   "modals.confirm.confirm.verify_identity": null,
   "modals.confirm.message": null,
+  "modals.confirm.message.phone_call": null,
+  "modals.confirm.message.phone_call_1": null,
+  "modals.confirm.message.phone_call_2": null,
   "modals.confirm.message.verify_identity": null,
   "modals.confirm.title": null,
+  "modals.confirm.title.phone_call": null,
   "modals.confirm.title.verify_identity": null,
   "modals.deleteaddresslabel.cancel": "Batalkan",
   "modals.disable2fa.disable": "Nonaktifkan",
@@ -642,20 +636,33 @@
     "Alamat yang sudah ada yang dibuat <span>di luar dompet ini</span>.",
   "modals.importbtcaddress.importexternalbitcoinaddress.advanced.message":
     "Ini adalah fungsionalitas lanjutan dan hanya dianjurkan bagi pengguna tingkat lanjut.",
-  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoinaddress":
-    "Alamat Bitcoin",
-  "modals.importbtcaddress.importexternalbitcoinaddress.prvkey":
-    "Masukkan Kunci Pribadi",
+  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoineither": null,
   "modals.importbtcaddress.importexternalbitcoinaddress.transfer":
     "Transfer dana ke dompet yang sudah ada (opsional)",
   "modals.importbtcaddress.importinternalbitcoinaddress.warning":
     "Alamat yang dibuat oleh dompet ini tidak boleh diimpor.",
   "modals.importbtcaddress.importtype": "Apa yang ingin Anda impor?",
   "modals.importbtcaddress.title": "Impor Alamat Bitcoin yang Ada",
-  "modals.jumioprompt.body1": null,
-  "modals.jumioprompt.close": null,
-  "modals.jumioprompt.dothat": null,
-  "modals.jumioprompt.header": null,
+  "modals.lockboxsetup.confirmrecovery.step1.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step1.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step1.title": null,
+  "modals.lockboxsetup.confirmrecovery.step2.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step2.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step2.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.no": null,
+  "modals.lockboxsetup.confirmrecovery.step3.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step3.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.yes": null,
+  "modals.lockboxsetup.connectstep.connectdevice": null,
+  "modals.lockboxsetup.connectstep.connected": null,
+  "modals.lockboxsetup.connectstep.error": null,
+  "modals.lockboxsetup.firststep.buy": null,
+  "modals.lockboxsetup.firststep.link": null,
+  "modals.lockboxsetup.firststep.restore": null,
+  "modals.lockboxsetup.labelstep.continue": null,
+  "modals.lockboxsetup.labelstep.devicename": null,
+  "modals.lockboxsetup.labelstep.plugindevice": null,
+  "modals.lockboxsetup.title": null,
   "modals.mobilelogin.cancel": "Batalkan",
   "modals.mobilelogin.explain":
     "Ikuti langkah-langkah ini untuk masuk ke dompet web Anda menggunakan perangkat seluler",
@@ -721,6 +728,7 @@
   "modals.recoveryphrase.secondstep.nextfourwords": "4 Kata Berikut",
   "modals.recoveryphrase.secondstep.number": "Kata {number}",
   "modals.recoveryphrase.secondstep.prevfourwords": null,
+  "modals.recoveryphrase.secondstep.returnReviewPhrase": null,
   "modals.recoveryphrase.secondstep.tip": "Tuliskan",
   "modals.recoveryphrase.secondstep.title": "Frasa pemulihan cadangan",
   "modals.recoveryphrase.thirdstep.back": "Kembali",
@@ -1091,12 +1099,9 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
   "scenes.buysell.sfoxcheckout.content.jumio.buylimit": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.profile": null,
   "scenes.buysell.sfoxcheckout.content.jumio.selllimit": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.completed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
@@ -1713,6 +1718,10 @@
   "scenes.info.walletid.title": "ID Dompet",
   "scenes.info.walletid.warning":
     "Jangan bagikan ID Dompet Anda kepada orang lain.",
+  "scenes.lockbox.welcome.deletedevice": null,
+  "scenes.lockbox.welcome.getstarted": null,
+  "scenes.lockbox.welcome.subtitle": null,
+  "scenes.lockbox.welcome.title": null,
   "scenes.login.browserwarning":
     "Peramban Anda tidak didukung. Silakan perbarui ke Chrome 45, Firefox 45, Safari 8, IE 11, atau Opera.",
   "scenes.login.clickhere": "klik di sini.",
@@ -1910,8 +1919,6 @@
     "Kami telah mengirimkan kode verifikasi ke",
   "scenes.security.email.yourverifiedemailaddress":
     "Alamat surel Anda yang diverifikasi digunakan untuk mengirimkan kode masuk saat aktivitas yang mencurigakan atau tidak biasa terdeteksi, untuk mengingatkan Anda tentang ID masuk dompet Anda, dan untuk mengirimkan pemberitahuan pembayaran saat Anda menerima dana.",
-  "scenes.security.passwordhint.notstored": null,
-  "scenes.security.passwordhint.stored": null,
   "scenes.security.tor.allowed": "Diizinkan",
   "scenes.security.tor.blocked": "Diblokir",
   "scenes.security.twostepsetup.sms": "Gunakan kode yang dikirim melalui SMS",
@@ -2083,9 +2090,6 @@
   "scenes.securitysettings.apiaccess.description2": "untuk memulai.",
   "scenes.securitysettings.apiaccess.getstarted": "di sini",
   "scenes.securitysettings.apiaccess.title": "Akses API",
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.change": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.save": null,
   "scenes.securitysettings.basicsecurity.recoveryphrase.description":
     "Frasa cadangan Anda memuat seluruh kunci pribadi di dalam dompet Anda. Mohon tuliskan kedua belas kata ini, secara berurutan, dan simpan secara offline di tempat yang aman. Frasa ini merupakan cara bagi Anda (atau siapa saja yang memilikinya) untuk memulihkan dompet Anda dan mengakses dana di dalamnya. ",
   "scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase":
@@ -2280,9 +2284,6 @@
   "scenes.settings.manage_addresses.edit_name": "Edit Nama",
   "scenes.settings.manage_addresses.make_default": "Buat Default",
   "scenes.settings.manage_addresses.show_xpub": "Tampilkan xPub",
-  "scenes.settings.passwordhint.description1": null,
-  "scenes.settings.passwordhint.description2": null,
-  "scenes.settings.passwordhint.title": null,
   "scenes.settings.preferences.autologout.updateform.minutes": null,
   "scenes.settings.preferences.bitcoinlinkhandling.description":
     "Aktifkan ini agar Dompet Blockchain Anda dapat menangani tautan pembayaran bitcoin di peramban web.",
@@ -2295,7 +2296,6 @@
     "Kami tidak dapat mendeteksi apakah penanganan tautan bitcoin telah diaktifkan atau tidak.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Jika memang telah diaktifkan, tak ada yang akan terjadi.",
-  "scenes.settings.preferences.explain": "Sesuaikan pengalaman dompet Anda.",
   "scenes.settings.preferences.localcurrency.error.description":
     "Pilih mata uang lokal Anda.",
   "scenes.settings.preferences.localcurrency.error.title": "Mata Uang Lokal",
@@ -2622,7 +2622,6 @@
   "sfoxexchangedata.verify.hidessn": "Sembunyikan SSN",
   "sfoxexchangedata.verify.identity.error":
     "Sayangnya terdapat masalah saat memverifikasikan identitas Anda. {clickHere} untuk mengulang dari awal.",
-  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Nama Belakang",
   "sfoxexchangedata.verify.partner.header": "Perincian Tersembunyi",
   "sfoxexchangedata.verify.partner.header1": "Perkenalkan Diri Anda",

@@ -163,6 +163,7 @@
   "coinifysignup.acceptterms.helper1.answer":
     "Coinify, sizlere Blockchain cüzdanında uyumlu bir al ve sat deneyimi getirmek amacıyla ortaklık kurduğumuz bir yatırım platformudur.",
   "coinifysignup.acceptterms.helper1.question": "Coinify nedir?",
+  "components.alerts.address_and_private_key_incorrect": null,
   "components.alerts.address_delete_error":
     "Adres etiketini silme işlemi başarısız oldu.",
   "components.alerts.address_delete_success":
@@ -247,6 +248,8 @@
     "Güvenilir IP listesi başarılı bir şekilde eklendi",
   "components.alerts.language_update_error": "Dil güncellenemedi",
   "components.alerts.language_update_success": "Dil başarıyla güncellendi.",
+  "components.alerts.lockbox_delete_error": null,
+  "components.alerts.lockbox_delete_success": null,
   "components.alerts.logginglevel_update_error": "Günlük düzeyi güncellenemedi",
   "components.alerts.logginglevel_update_success":
     "Günlük düzeyi başarılı bir şekilde güncellendi",
@@ -419,6 +422,7 @@
   "formhelper.ageovereighteen": "18 yaşında veya daha büyük olmalısın",
   "formhelper.incorrectpassword": "Yanlış şifre",
   "formhelper.invalidbitcoinaddress": "Geçersiz Bitcoin adresi",
+  "formhelper.invalidbitcoinaddressandkey": null,
   "formhelper.invalidbitcoincashaddress": "Geçersiz Bitcoin cash adresi",
   "formhelper.invalidbitcoinprivatekey": "Geçersiz Bitcoin Özel Anahtarı",
   "formhelper.invalidemail": "Geçersiz e-posta adresi",
@@ -436,10 +440,13 @@
     "Ülke al ve sat işlemlerine uygun değil",
   "formhelper.partnerstatewhitelist":
     "Eyalet al ve sat işlemlerine uygun değil",
+  "formhelper.passwordcracktime": null,
   "formhelper.passwordsdonotmatch": "Şifreler uyuşmuyor",
+  "formhelper.passwordsuggest": null,
   "formhelper.required": "Gerekli",
   "formhelper.requireddob": "Geçerli bir tarih olmalı",
   "formhelper.requirednumber": "Geçersiz numara",
+  "formhelper.requiredphrase": null,
   "formhelper.requiredssn": "Geçerli bir SGN olmalı",
   "formhelper.requireduszipcode": "Geçerli bir ABD Zip Kodu olmalı",
   "formhelper.requiredzipcode": null,
@@ -493,28 +500,9 @@
   "layouts.public.footer.explorer": "Veri",
   "layouts.public.footer.support": "Destek",
   "layouts.wallet.header.logout.signout": "Oturumu Kapat",
-  "layouts.wallet.header.whatsnew.whatsnew.desc10":
-    "Cüzdanında 1 Ağustos 2017 tarihinde önce bitcoin'in varsa artık Blockchain cüzdanında Bitcoin Cash'e erişim sağlayabilirsin.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc11":
-    "Bitcoin Cash adresleri artık CashAddr formatını takip ediyor.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc7":
-    "Artık doğrudan Blockchain cüzdanından bitcoin satabilirsin!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc8":
-    "Artık Blockchain cüzdanından ether gönderip alabilirsin!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc9":
-    "Doğrudan Blockchain cüzdanından bitcoin, ether ve bitcoin cash takası yapabilirsin",
   "layouts.wallet.header.whatsnew.whatsnew.empty": "?? Tam olarak kaptırdın!",
-  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore":
-    "Daha Fazlasını Öğren",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Ekibimiz her zaman yeni özellikler üzerinde çalışıyor ancak iyileştirebileceğimiz bir şeyler varsa lütfen bize <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>buradan<a/> bildir.",
-  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Daha Fazlasını Öğren",
-  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title11":
-    "Yeni Bitcoin Cash Adresi Formatı",
-  "layouts.wallet.header.whatsnew.whatsnew.title7": "Bitcoin Sat",
-  "layouts.wallet.header.whatsnew.whatsnew.title8": "Ether Gönder ve Al ",
-  "layouts.wallet.header.whatsnew.whatsnew.title9": "Varlıkları Takas Et ",
   "layouts.wallet.menuleft.footer.about": "Hakkında",
   "layouts.wallet.menuleft.footer.privacypolicy": "Gizlilik Politikası",
   "layouts.wallet.menuleft.footer.termsofservice": "Hizmet Şartları",
@@ -523,6 +511,7 @@
   "layouts.wallet.menuleft.navigation.dashboard": "Pano",
   "layouts.wallet.menuleft.navigation.exchange": "Takas",
   "layouts.wallet.menuleft.navigation.general": "Genel",
+  "layouts.wallet.menuleft.navigation.lockbox": null,
   "layouts.wallet.menuleft.navigation.preferences": "Tercihler",
   "layouts.wallet.menuleft.navigation.securitycenter": "Güvenlik merkezi",
   "layouts.wallet.menuleft.navigation.settings": "Ayarlar",
@@ -530,7 +519,6 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
-  "layouts.wallet.menutop.bank": "Kendi bankan ol.",
   "layouts.wallet.menutop.request": "Talep",
   "layouts.wallet.menutop.send": "Gönder",
   "layouts.wallet.trayright.faq": "Sıkça Sorulan Sorular",
@@ -567,11 +555,17 @@
   "modals.coinifytradedetails.trade.close": "Kapat",
   "modals.confirm.button": null,
   "modals.confirm.button.cancel": null,
+  "modals.confirm.cancel.phone_call": null,
   "modals.confirm.cancel.verify_identity": null,
+  "modals.confirm.confirm.phone_call": null,
   "modals.confirm.confirm.verify_identity": null,
   "modals.confirm.message": null,
+  "modals.confirm.message.phone_call": null,
+  "modals.confirm.message.phone_call_1": null,
+  "modals.confirm.message.phone_call_2": null,
   "modals.confirm.message.verify_identity": null,
   "modals.confirm.title": null,
+  "modals.confirm.title.phone_call": null,
   "modals.confirm.title.verify_identity": null,
   "modals.deleteaddresslabel.cancel": "İptal",
   "modals.disable2fa.disable": "Devre Dışı Bırak",
@@ -637,20 +631,33 @@
     "Mevcut adres <span>bu cüzdanın dışında</span> oluşturuldu.",
   "modals.importbtcaddress.importexternalbitcoinaddress.advanced.message":
     "Bu, ileri düzey bir özellik olup sadece ileri düzey kullanıcılar için önerilir.",
-  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoinaddress":
-    "Bitcoin Adresi",
-  "modals.importbtcaddress.importexternalbitcoinaddress.prvkey":
-    "Özel Anahtar Gir",
+  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoineither": null,
   "modals.importbtcaddress.importexternalbitcoinaddress.transfer":
     "Parayı mevcut bir cüzdana transfer et (isteğe bağlı)",
   "modals.importbtcaddress.importinternalbitcoinaddress.warning":
     "Bu cüzdanla oluşturulan adresler içe aktarılmamalıdır.",
   "modals.importbtcaddress.importtype": "Neyi içe aktarmak istiyorsun?",
   "modals.importbtcaddress.title": "Mevcut Bitcoin Adresini İçe Aktar",
-  "modals.jumioprompt.body1": null,
-  "modals.jumioprompt.close": null,
-  "modals.jumioprompt.dothat": null,
-  "modals.jumioprompt.header": null,
+  "modals.lockboxsetup.confirmrecovery.step1.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step1.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step1.title": null,
+  "modals.lockboxsetup.confirmrecovery.step2.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step2.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step2.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.no": null,
+  "modals.lockboxsetup.confirmrecovery.step3.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step3.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.yes": null,
+  "modals.lockboxsetup.connectstep.connectdevice": null,
+  "modals.lockboxsetup.connectstep.connected": null,
+  "modals.lockboxsetup.connectstep.error": null,
+  "modals.lockboxsetup.firststep.buy": null,
+  "modals.lockboxsetup.firststep.link": null,
+  "modals.lockboxsetup.firststep.restore": null,
+  "modals.lockboxsetup.labelstep.continue": null,
+  "modals.lockboxsetup.labelstep.devicename": null,
+  "modals.lockboxsetup.labelstep.plugindevice": null,
+  "modals.lockboxsetup.title": null,
   "modals.mobilelogin.cancel": "İptal",
   "modals.mobilelogin.explain":
     "Mobil cihazını kullanarak web cüzdanında oturum açmak için bu adımları izle",
@@ -715,6 +722,7 @@
   "modals.recoveryphrase.secondstep.nextfourwords": "Sonraki 4 Sözcük",
   "modals.recoveryphrase.secondstep.number": "Sözcük {number}",
   "modals.recoveryphrase.secondstep.prevfourwords": null,
+  "modals.recoveryphrase.secondstep.returnReviewPhrase": null,
   "modals.recoveryphrase.secondstep.tip": "Yaz",
   "modals.recoveryphrase.secondstep.title": "Yedek kurtarma parolası",
   "modals.recoveryphrase.thirdstep.back": "Geri",
@@ -1086,12 +1094,9 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
   "scenes.buysell.sfoxcheckout.content.jumio.buylimit": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.profile": null,
   "scenes.buysell.sfoxcheckout.content.jumio.selllimit": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.completed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
@@ -1692,6 +1697,10 @@
     "Göndermeye ve almaya yönelik bir bitcoin adresi DEĞİLDİR.",
   "scenes.info.walletid.title": "Cüzdan Kimliği",
   "scenes.info.walletid.warning": "Cüzdan Kimliğini başkalarıyla paylaşma.",
+  "scenes.lockbox.welcome.deletedevice": null,
+  "scenes.lockbox.welcome.getstarted": null,
+  "scenes.lockbox.welcome.subtitle": null,
+  "scenes.lockbox.welcome.title": null,
   "scenes.login.browserwarning":
     "Tarayıcın desteklenmiyor. Lütfen en az Chrome 45, Firefox 45, Safari 8, IE 11 veya Opera'ya güncelle.",
   "scenes.login.clickhere": "buraya tıkla.",
@@ -1884,8 +1893,6 @@
     "Şuraya doğrulama kodu gönderdik:",
   "scenes.security.email.yourverifiedemailaddress":
     "Doğrulanan e-posta adresin şüpheli veya olağan dışı aktivite algılandığında sana oturum açma kodu göndermek, cüzdan oturum kimliğini hatırlatmak ve para aldığında sana ödeme uyarıları göndermek için kullanılır.",
-  "scenes.security.passwordhint.notstored": null,
-  "scenes.security.passwordhint.stored": null,
   "scenes.security.tor.allowed": "İzin Verildi",
   "scenes.security.tor.blocked": "Engellendi",
   "scenes.security.twostepsetup.sms": "SMS ile gönderilen kodları kullan",
@@ -2055,9 +2062,6 @@
   "scenes.securitysettings.apiaccess.description2": "adımları izle.",
   "scenes.securitysettings.apiaccess.getstarted": "buraya",
   "scenes.securitysettings.apiaccess.title": "API Erişimi",
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.change": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.save": null,
   "scenes.securitysettings.basicsecurity.recoveryphrase.description":
     "Yedek parolan cüzdanındaki tüm özel anahtarları içerir. Lütfen bu 12 sözcüğü sırayla yaz ve onları çevrimdışı güvenli bir yerde sakla. Bu parola sana (veya buna sahip olan kişiye) cüzdanını sıfırlamanın ve parana erişim sağlamanın bir yolunu sunar. ",
   "scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase":
@@ -2249,9 +2253,6 @@
   "scenes.settings.manage_addresses.edit_name": "İsmi Düzenle",
   "scenes.settings.manage_addresses.make_default": "Varsayılan Yap",
   "scenes.settings.manage_addresses.show_xpub": "xPub Göster",
-  "scenes.settings.passwordhint.description1": null,
-  "scenes.settings.passwordhint.description2": null,
-  "scenes.settings.passwordhint.title": null,
   "scenes.settings.preferences.autologout.updateform.minutes": null,
   "scenes.settings.preferences.bitcoinlinkhandling.description":
     "Blockchain Cüzdanının Web tarayıcısındaki bitcoin ödeme bağlantılarını işlemesine izin vermek için bunu etkinleştir.",
@@ -2264,7 +2265,6 @@
     "Bitcoin bağlantılarının etkinleştirilip etkinleştirilmediğini tespit edemiyoruz.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Zaten etkinleştirilmişse, hiçbir şey olmayacak.",
-  "scenes.settings.preferences.explain": "Cüzdan deneyimini kişiselleştir",
   "scenes.settings.preferences.localcurrency.error.description":
     "Yerel para birimini seç",
   "scenes.settings.preferences.localcurrency.error.title": "Yerel Para Birimi",
@@ -2585,7 +2585,6 @@
   "sfoxexchangedata.verify.hidessn": "SGN'yi Gizle",
   "sfoxexchangedata.verify.identity.error":
     "Ne yazık ki kimliğin doğrulanırken bir sorun oldu. Baştan başlamak için {clickHere}.",
-  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Soyadı",
   "sfoxexchangedata.verify.partner.header": "Gizli Bilgiler",
   "sfoxexchangedata.verify.partner.header1": "Seni Tanıyalım",
