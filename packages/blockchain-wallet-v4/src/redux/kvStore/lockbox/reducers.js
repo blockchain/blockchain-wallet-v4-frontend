@@ -50,8 +50,6 @@ export default (state = INITIAL_STATE, action) => {
         mapped,
         KVStoreEntry.value
       )
-      console.log('JERE')
-      console.info(deviceID, mdAccountsEntry)
       let setAccounts = assocPath(
         ['devices', deviceID, 'accounts'],
         mdAccountsEntry
