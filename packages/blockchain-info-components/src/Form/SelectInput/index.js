@@ -22,11 +22,15 @@ class SelectInputContainer extends React.PureComponent {
   }
 
   handleChange (item) {
+    // when cleared
+    // if item value is null, clear values
+    // otherwise, set state to chosen value
+    const value = item === null ? '' : item.value
     this.setState({
-      value: item.value
+      value
     })
     if (this.props.onChange) {
-      this.props.onChange(item.value)
+      this.props.onChange(value)
     }
   }
 
