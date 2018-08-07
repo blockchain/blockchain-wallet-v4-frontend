@@ -1,3 +1,3 @@
-import { getBtcLockboxBalance } from '../selectors'
+import { getLockboxBtcBalance } from '../selectors'
 
-export const getData = getBtcLockboxBalance
+export const getData = getLockboxBtcBalance

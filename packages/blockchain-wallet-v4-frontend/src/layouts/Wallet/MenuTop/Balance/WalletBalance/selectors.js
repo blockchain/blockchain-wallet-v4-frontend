@@ -30,4 +30,15 @@ export const getBchBalance = createDeepEqualSelector(
   }
 )
 
-export const getEthBalance = selectors.core.data.ethereum.getBalance
+export const getEthBalance = createDeepEqualSelector(
+  [
+    selectors.core.kvStore.ethereum.getContext,
+    selectors.core.data.ethereum.getAddresses
+  ],
+  (context, addressesR) => {
+    const contextToBalances = (context, balances) =>
+      context.map(a => pathOr(0, [a, 'balance'], balances))
+    const balancesR = lift(contextToBalances)(Remote.of(context), addressesR)
+    return balancesR.map(b => b.getOrElse(0))
+  }
+)
