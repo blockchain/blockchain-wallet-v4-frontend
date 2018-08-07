@@ -7,19 +7,19 @@ import { Button, Text } from 'blockchain-info-components'
 import { Form, FormItem, TextBox } from 'components/Form'
 import Stepper, { StepView, StepTransition } from 'components/Utilities/Stepper'
 
-const ConfirmRecoveryStep = props => {
-  const { handleSubmit } = props
+const validateRequiredPhrase = value => {
+  return value === 'COMPLETE' ? (
+    undefined
+  ) : (
+    <FormattedMessage
+      id='modals.lockboxsetup.confirmrecovery.step2.incorrectphrase'
+      defaultMessage='Incorrect phrase entered.'
+    />
+  )
+}
 
-  const validateRequiredPhrase = value => {
-    return value === 'COMPLETE' ? (
-      undefined
-    ) : (
-      <FormattedMessage
-        id='modals.lockboxsetup.confirmrecovery.step2.incorrectphrase'
-        defaultMessage='Incorrect phrase'
-      />
-    )
-  }
+const ConfirmRecoveryStep = props => {
+  const { handleSubmit, invalid } = props
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -72,6 +72,7 @@ const ConfirmRecoveryStep = props => {
           </FormItem>
           <Button
             style={{ marginTop: '25px' }}
+            disabled={invalid}
             fullwidth
             type='submit'
             nature='primary'
