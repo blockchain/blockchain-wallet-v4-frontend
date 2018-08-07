@@ -20,10 +20,8 @@ export default ({ api, coreSagas }) => {
           // Should we let the user open any app?
           const lockbox = new Btc(transport)
           // get public key and chaincode for btc and eth paths
-          // btc bip44 path is m/44'/0'/0'/0
           const btc = await lockbox.getWalletPublicKey("44'/0'/0'")
-          // eth bip44 path is m/44'/60'/0'/0
-          const eth = await lockbox.getWalletPublicKey("44'/60'/0'")
+          const eth = await lockbox.getWalletPublicKey("44'/60'/0'/0/0")
           // TODO:: BCH
           emitter({ btc, eth })
           emitter(END)

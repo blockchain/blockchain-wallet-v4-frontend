@@ -4,7 +4,6 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
-import * as kvStoreSelectors from '../../kvStore/eth/selectors'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
@@ -91,11 +90,13 @@ describe('ethereum data sagas', () => {
     })
 
     it('should select wallet', () => {
-      saga.next().select(kvStoreSelectors.getContext)
+      saga.next().select(S.getContext)
     })
 
     it('should get data from api', () => {
-      saga.next(mockContext).call(api.getEthereumData, mockContext.getOrFail())
+      saga
+        .next(mockContext.getOrFail())
+        .call(api.getEthereumData, mockContext.getOrFail())
     })
 
     it('should retrieve latest_block info', () => {
@@ -126,7 +127,7 @@ describe('ethereum data sagas', () => {
       it('should add ethereum data to the state', () => {
         return expectSaga(dataEthereumSagas.fetchData)
           .withReducer(reducers)
-          .provide([[select(kvStoreSelectors.getContext), mockContext]])
+          .provide([[select(S.getContext), mockContext]])
           .run()
           .then(result => {
             expect(result.storeState.ethereum).toMatchObject({

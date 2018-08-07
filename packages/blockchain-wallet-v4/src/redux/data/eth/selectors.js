@@ -1,11 +1,17 @@
-import { head, path, prop } from 'ramda'
+import { concat, head, path, prop } from 'ramda'
 import { dataPath } from '../../paths'
-
-// import { getEthLockboxAccounts } from '../../kvStore/lockbox/selectors'
+import { createDeepEqualSelector } from '../../../utils'
+import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
 import * as kvStoreSelectors from '../../kvStore/eth/selectors'
 
-// TODO: get and merge lockbox accounts
-export const getContext = kvStoreSelectors.getContext
+export const getContext = createDeepEqualSelector(
+  [kvStoreSelectors.getContext, getLockboxEthContext],
+  (walletContextR, lockboxContextR) => {
+    const walletContext = walletContextR.map(x => x).getOrElse([])
+    const lockboxContext = lockboxContextR.map(x => x).getOrElse([])
+    return concat([walletContext], lockboxContext)
+  }
+)
 
 export const getAddresses = path([dataPath, 'ethereum', 'addresses'])
 

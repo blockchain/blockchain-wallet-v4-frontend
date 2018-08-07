@@ -16,8 +16,7 @@ export default ({ api, ethSocket }) => {
       yield take(
         actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
       )
-      const contextR = yield select(selectors.core.kvStore.ethereum.getContext)
-      const context = contextR.getOrFail('invalid_context_eth')
+      const context = yield select(selectors.core.data.ethereum.getContext)
       yield call(send, JSON.stringify({ op: ACCOUNT_SUB, account: context }))
     } catch (e) {
       yield put(
@@ -49,10 +48,7 @@ export default ({ api, ethSocket }) => {
             }
           }
           // Updates data
-          const contextR = yield select(
-            selectors.core.kvStore.ethereum.getContext
-          )
-          const context = contextR.getOrFail('invalid_context_eth')
+          const context = yield select(selectors.core.data.ethereum.getContext)
           yield put(actions.core.data.ethereum.fetchData(context))
           break
         case BLOCK_SUB:

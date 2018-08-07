@@ -25,3 +25,14 @@ export const getLockboxBtcContext = state => {
     return accounts ? flatten(accounts).map(a => path(['xpub'], a)) : []
   })
 }
+
+export const getLockboxEth = state => getAccounts(state).map(map(path(['eth'])))
+
+export const getLockboxEthAccounts = state =>
+  getLockboxEth(state).map(map(path(['accounts'])))
+
+export const getLockboxEthContext = state => {
+  return getLockboxEthAccounts(state).map(accounts => {
+    return accounts ? flatten(accounts).map(a => path(['addr'], a)) : []
+  })
+}

@@ -9,7 +9,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     get({
       url: apiUrl,
       endPoint: `/eth/account/${
-        Array.isArray(context) ? context.join() : context
+        Array.isArray(context) ? context.join(',') : context
       }/balance`
     })
 
@@ -17,7 +17,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     get({
       url: apiUrl,
       endPoint: `/eth/account/${
-        Array.isArray(context) ? context.join() : context
+        Array.isArray(context) ? context.join(',') : context
       }`
     })
 
