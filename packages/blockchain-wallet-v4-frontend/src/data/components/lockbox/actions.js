@@ -2,7 +2,7 @@ import * as AT from './actionTypes'
 
 // CONNECTIONS
 export const initializeConnect = () => ({ type: AT.INITIALIZE_CONNECT })
-export const setConnectStep = step => ({
+export const changeDeviceSetupStep = step => ({
   type: AT.SET_CONNECT_STEP,
   payload: { step }
 })
