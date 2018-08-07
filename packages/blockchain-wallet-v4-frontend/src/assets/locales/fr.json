@@ -304,6 +304,7 @@
   "components.alerts.pbkdf2_update_success":
     "Les itérations PBKDF2 ont été modifiées",
   "components.alerts.private_key_incorrect": "Clé privée non valide.",
+  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success":
     "Vous avez reçu un paiement en bitcoins cash.",
   "components.alerts.receive_btc_success":
@@ -776,8 +777,7 @@
   "modals.requestbch.scan_tooltip":
     "Demandez à l'expéditeur de scanner ce code QR avec son portefeuille Bitcoin cash",
   "modals.requestbch.share": "Copier et partager l'adresse : ",
-  "modals.requestbch.share_ooltip":
-    "Partagez cette adresse avec d'autres personnes pour qu'elles puissent vous envoyer du Bitcoin Cash directement dans votre portefeuille. Votre adresse change à chaque paiement.",
+  "modals.requestbch.share_tooltip": null,
   "modals.requestbch.title": "Demander du Bitcoin Cash",
   "modals.requestbitcoin.firststep.amount": "Saisir le montant :",
   "modals.requestbitcoin.firststep.description": "Description :",
@@ -1023,6 +1023,7 @@
   "orderdetails.date": "Date de début",
   "orderdetails.footnote":
     "* Veuillez noter : en fonction des règles de votre banque en matière de virements, vos fonds seront crédités sur votre compte dans les 1 à 2 jours suivant le virement. ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "Informations commande",
   "orderdetails.payoutdetails": "Informations de paiement",
   "orderdetails.recurring.amount": "Montant :",
@@ -1141,6 +1142,7 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,

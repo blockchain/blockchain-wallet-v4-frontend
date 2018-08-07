@@ -237,6 +237,7 @@
   "components.alerts.payment_received_eth": "您刚收到一笔以太坊付款",
   "components.alerts.pbkdf2_update_success": "PBKDF2迭代修改成功",
   "components.alerts.private_key_incorrect": "无效的私钥。",
+  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success": "您收到一笔比特现金付款。",
   "components.alerts.receive_btc_success": "您收到一笔比特币付款。",
   "components.alerts.receive_eth_success": "您收到一笔以太币付款。",
@@ -637,8 +638,7 @@
   "modals.requestbch.scan_tooltip":
     "请求发送者使用他们的比特现金钱包扫描此二维码。",
   "modals.requestbch.share": "复制并分享地址： ",
-  "modals.requestbch.share_ooltip":
-    "将此地址分享给他人，他们可以将比特现金直接发送到您的钱包。每次支付时，您的地址都会变化。",
+  "modals.requestbch.share_tooltip": null,
   "modals.requestbch.title": "请求比特现金",
   "modals.requestbitcoin.firststep.amount": "输入金额：",
   "modals.requestbitcoin.firststep.description": "描述：",
@@ -870,6 +870,7 @@
   "orderdetails.date": "初始化的日期",
   "orderdetails.footnote":
     "*请注意：转账1-2天内，您将会看到资金反映在您的账户中，这取决于您的银行的转账政策。 ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "订单详情",
   "orderdetails.payoutdetails": "付款详情",
   "orderdetails.recurring.amount": "金额：",
@@ -976,6 +977,7 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,

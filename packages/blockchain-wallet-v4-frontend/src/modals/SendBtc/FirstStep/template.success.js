@@ -9,7 +9,14 @@ import {
   validBitcoinAddress,
   validBitcoinPrivateKey
 } from 'services/FormHelper'
-import { Button, Icon, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import {
+  Button,
+  Icon,
+  Link,
+  Text,
+  TooltipHost,
+  TooltipIcon
+} from 'blockchain-info-components'
 import {
   FiatConvertor,
   Form,

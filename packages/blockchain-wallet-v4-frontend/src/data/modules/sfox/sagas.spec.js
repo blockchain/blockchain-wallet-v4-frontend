@@ -187,9 +187,13 @@ describe('sfoxSagas', () => {
       saga.next().put(sfoxActions.enableSiftScience())
     })
 
+    it('should select the phoneCallRequestSent status', () => {
+      saga.next().select(selectors.core.kvStore.buySell.getSfoxPhoneCall)
+    })
+
     it('should change the tab', () => {
       saga
-        .next()
+        .next(Remote.of(true))
         .put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
     })
 

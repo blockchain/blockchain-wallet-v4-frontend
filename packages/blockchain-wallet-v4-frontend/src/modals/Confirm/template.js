@@ -44,6 +44,7 @@ const ConfirmTemplate = ({
   title,
   image,
   message,
+  messageValues,
   handleCancel,
   handleSubmit
 }) => (
@@ -54,7 +55,7 @@ const ConfirmTemplate = ({
         <ModalBody>
           {image && <ModalImage name={image} />}
           <Text size={'16px'} weight={300}>
-            {selectMessage(message)}
+            {selectMessage(message, messageValues)}
           </Text>
         </ModalBody>
         <ModalFooter align='right'>
