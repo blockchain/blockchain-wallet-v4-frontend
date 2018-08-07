@@ -7,17 +7,37 @@ import { Text, Button } from 'blockchain-info-components'
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   padding: 30px;
   box-sizing: border-box;
 `
 
 const Lockbox = props => {
-  const { deviceId, deviceName, deleteDevice } = props
+  const { addDevice, deviceId, deviceName, deleteDevice } = props
   return (
     <Wrapper>
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          marginBottom: '10px'
+        }}
+      >
+        <Button nature='primary' onClick={addDevice}>
+          <FormattedMessage
+            id='scenes.lockbox.welcome.addanotherdevice'
+            defaultMessage='Add Another Device'
+          />
+        </Button>
+      </div>
+      <div
+        style={{
+          padding: '10px',
+          borderTop: '1px solid grey',
+          borderBottom: '1px solid grey'
+        }}
+      >
         <Text size='18px' weight={400}>
           Device ID:<Text size='14px' weight={300}>
             {deviceId}
@@ -28,13 +48,13 @@ const Lockbox = props => {
             {deviceName}
           </Text>
         </Text>
+        <Button nature='sent' onClick={deleteDevice}>
+          <FormattedMessage
+            id='scenes.lockbox.welcome.deletedevice'
+            defaultMessage='Delete Device'
+          />
+        </Button>
       </div>
-      <Button nature='sent' onClick={deleteDevice}>
-        <FormattedMessage
-          id='scenes.lockbox.welcome.deletedevice'
-          defaultMessage='Delete Device'
-        />
-      </Button>
     </Wrapper>
   )
 }

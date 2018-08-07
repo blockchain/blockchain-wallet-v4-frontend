@@ -2,24 +2,23 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
 import ConfirmRecoveryStep from './template'
+import { actions } from 'data'
 
 class ConfirmRecoveryStepContainer extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.onSubmit = this.onSubmit.bind(this)
+    this.handleStorageChoice = this.handleStorageChoice.bind(this)
   }
 
-  onSubmit () {
-    this.props.lockboxActions.storeDeviceBackupFlag()
+  handleStorageChoice (storeXpubs) {
+    this.props.lockboxActions.storeDeviceAccounts(storeXpubs)
   }
 
   render () {
-    return <ConfirmRecoveryStep onSubmit={this.onSubmit} />
+    return <ConfirmRecoveryStep handleStorageChoice={this.handleStorageChoice} />
   }
 }
-
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)

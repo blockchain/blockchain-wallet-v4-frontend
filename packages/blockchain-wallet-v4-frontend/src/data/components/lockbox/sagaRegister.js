@@ -8,8 +8,12 @@ export default ({ api, coreSagas }) => {
   return function*() {
     yield takeLatest(AT.DEVICE_INFO_SUCCESS, lockboxSagas.deriveConnectStep)
     yield takeLatest(AT.INITIALIZE_CONNECT, lockboxSagas.initializeConnect)
-    yield takeLatest(AT.SAVE_DEVICE, lockboxSagas.saveDevice)
-    yield takeLatest(AT.ADD_DEVICE, lockboxSagas.addDevice)
+    yield takeLatest(AT.STORE_DEVICE_NAME, lockboxSagas.storeDeviceName)
+    yield takeLatest(
+      AT.STORE_DEVICE_BACKUP_FLAG,
+      lockboxSagas.storeDeviceBackupFlag
+    )
+    yield takeLatest(AT.STORE_DEVICE_ACCOUNTS, lockboxSagas.storeDeviceAccounts)
     yield takeLatest(AT.DELETE_DEVICE, lockboxSagas.deleteDevice)
   }
 }

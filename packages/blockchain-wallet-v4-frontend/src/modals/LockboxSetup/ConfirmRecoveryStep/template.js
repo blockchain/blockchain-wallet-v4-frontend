@@ -7,19 +7,19 @@ import { Button, Text } from 'blockchain-info-components'
 import { Form, FormItem, TextBox } from 'components/Form'
 import Stepper, { StepView, StepTransition } from 'components/Utilities/Stepper'
 
+const validateRequiredPhrase = value => {
+  return value === 'COMPLETE' ? (
+    undefined
+  ) : (
+    <FormattedMessage
+      id='modals.lockboxsetup.confirmrecovery.step2.incorrectphrase'
+      defaultMessage='Incorrect phrase entered.'
+    />
+  )
+}
+
 const ConfirmRecoveryStep = props => {
   const { handleSubmit, invalid } = props
-
-  const validateRequiredPhrase = value => {
-    return value === 'COMPLETE' ? (
-      undefined
-    ) : (
-      <FormattedMessage
-        id='modals.lockboxsetup.confirmrecovery.step2.incorrectphrase'
-        defaultMessage='Incorrect phrase'
-      />
-    )
-  }
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -70,53 +70,16 @@ const ConfirmRecoveryStep = props => {
               component={TextBox}
             />
           </FormItem>
-          <StepTransition
-            next
-            Component={Button}
-            fullwidth
-            disabled={invalid}
-            nature='primary'
+          <Button
             style={{ marginTop: '25px' }}
+            disabled={invalid}
+            fullwidth
+            type='submit'
+            nature='primary'
           >
             <FormattedMessage
               id='modals.lockboxsetup.confirmrecovery.step2.confirm'
               defaultMessage='Continue'
-            />
-          </StepTransition>
-        </StepView>
-        <StepView step={2}>
-          <Text size='16px' weight={400}>
-            <FormattedMessage
-              id='modals.lockboxsetup.confirmrecovery.step3.title'
-              defaultMessage='Do you want to save you public keys?'
-            />
-          </Text>
-          <Text size='13px' weight={300} style={{ marginTop: '10px' }}>
-            <FormattedMessage
-              id='modals.lockboxsetup.confirmrecovery.step3.subtitle'
-              defaultMessage='Storing your public key will allow you to view your Lockbox balances and receive funds without plugging in your Carbon.'
-            />
-          </Text>
-          <Button
-            style={{ marginTop: '25px' }}
-            fullwidth
-            type='submit'
-            nature='primary'
-          >
-            <FormattedMessage
-              id='modals.lockboxsetup.confirmrecovery.step3.yes'
-              defaultMessage='Yes, I want to see my balance always'
-            />
-          </Button>
-          <Button
-            style={{ marginTop: '5px' }}
-            fullwidth
-            type='submit'
-            nature='sent'
-          >
-            <FormattedMessage
-              id='modals.lockboxsetup.confirmrecovery.step3.no'
-              defaultMessage='No thank you'
             />
           </Button>
         </StepView>

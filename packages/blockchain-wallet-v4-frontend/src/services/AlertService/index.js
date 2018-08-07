@@ -126,5 +126,6 @@ export const ETH_ADDRESS_INVALID = 'eth_address_invalid'
 export const PRIVATE_KEY_INVALID = 'private_key_invalid'
 export const BTC_ADDRESS_AND_PRIVATE_KEY_INVALID =
   'btc_address_and_private_key_invalid'
+export const LOCKBOX_SETUP_SUCCESS = 'lockbox_setup_success'
 export const LOCKBOX_DELETE_SUCCESS = 'lockbox_delete_success'
 export const LOCKBOX_DELETE_ERROR = 'lockbox_delete_error'

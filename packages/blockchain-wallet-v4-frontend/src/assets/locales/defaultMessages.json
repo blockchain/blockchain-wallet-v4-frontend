@@ -538,16 +538,20 @@
         "id": "components.alerts.address_and_private_key_incorrect"
       },
       {
-        "defaultMessage": "An error has occurred.",
-        "id": "components.alerts.unknown_error"
+        "defaultMessage": "Lockbox successfully added.",
+        "id": "components.alerts.lockbox_setup_success"
       },
       {
-        "defaultMessage": "Lockbox successfully removed.",
+        "defaultMessage": "Lockbox successfully deleted.",
         "id": "components.alerts.lockbox_delete_success"
       },
       {
         "defaultMessage": "Failed to remove Lockbox.",
         "id": "components.alerts.lockbox_delete_error"
+      },
+      {
+        "defaultMessage": "An error has occurred.",
+        "id": "components.alerts.unknown_error"
       }
     ],
     "path": "src/components/Alerts/template.json"
@@ -3244,29 +3248,16 @@
       {
         "defaultMessage": "Continue",
         "id": "modals.lockboxsetup.confirmrecovery.step2.confirm"
-      },
-      {
-        "defaultMessage": "Do you want to save you public keys?",
-        "id": "modals.lockboxsetup.confirmrecovery.step3.title"
-      },
-      {
-        "defaultMessage":
-          "Storing your public key will allow you to view your Lockbox balances and receive funds without plugging in your Carbon.",
-        "id": "modals.lockboxsetup.confirmrecovery.step3.subtitle"
-      },
-      {
-        "defaultMessage": "Yes, I want to see my balance always",
-        "id": "modals.lockboxsetup.confirmrecovery.step3.yes"
-      },
-      {
-        "defaultMessage": "No thank you",
-        "id": "modals.lockboxsetup.confirmrecovery.step3.no"
       }
     ],
     "path": "src/modals/LockboxSetup/ConfirmRecoveryStep/index.json"
   },
   {
     "descriptors": [
+      {
+        "defaultMessage": "Incorrect phrase",
+        "id": "modals.lockboxsetup.confirmrecovery.step2.incorrectphrase"
+      },
       {
         "defaultMessage": "Have you saved your 24 word recovery phrase?",
         "id": "modals.lockboxsetup.confirmrecovery.step1.title"
@@ -3292,26 +3283,38 @@
       {
         "defaultMessage": "Continue",
         "id": "modals.lockboxsetup.confirmrecovery.step2.confirm"
-      },
-      {
-        "defaultMessage": "Do you want to save you public keys?",
-        "id": "modals.lockboxsetup.confirmrecovery.step3.title"
-      },
-      {
-        "defaultMessage":
-          "Storing your public key will allow you to view your Lockbox balances and receive funds without plugging in your Carbon.",
-        "id": "modals.lockboxsetup.confirmrecovery.step3.subtitle"
-      },
-      {
-        "defaultMessage": "Yes, I want to see my balance always",
-        "id": "modals.lockboxsetup.confirmrecovery.step3.yes"
-      },
-      {
-        "defaultMessage": "No thank you",
-        "id": "modals.lockboxsetup.confirmrecovery.step3.no"
       }
     ],
     "path": "src/modals/LockboxSetup/ConfirmRecoveryStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage":
+          "Unable to connect to your device. Please make sure your device is connected and the bitcoin app is open!",
+        "id": "modals.lockboxsetup.connectstep.error"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/ConnectDeviceStep/template.failure.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage":
+          "Please unlock your device and open your bitcoin app to continue.",
+        "id": "modals.lockboxsetup.connectstep.connectdevice"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/ConnectDeviceStep/template.loading.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Device connected successfully!",
+        "id": "modals.lockboxsetup.connectstep.connected"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/ConnectDeviceStep/template.success.json"
   },
   {
     "descriptors": [
@@ -3381,8 +3384,8 @@
     "descriptors": [
       {
         "defaultMessage":
-          "Connection to device established. Please name your Lockbox.",
-        "id": "modals.lockboxsetup.labelstep.plugindevice"
+          "Please name your Lockbox. The device can be renamed later.",
+        "id": "modals.lockboxsetup.labelstep.nameintro"
       },
       {
         "defaultMessage": "Device Name",
@@ -3411,6 +3414,59 @@
       }
     ],
     "path": "src/modals/LockboxSetup/OptionsStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Have you saved your 24 word recovery phrase?",
+        "id": "modals.lockboxsetup.confirmrecovery.step1.title"
+      },
+      {
+        "defaultMessage":
+          "This is your only backup for your Carbon. The 12 word backup phrase for your Blockchain wallet DOES NOT cover the funds in your Lockbox.",
+        "id": "modals.lockboxsetup.confirmrecovery.step1.subtitle"
+      },
+      {
+        "defaultMessage": "Yes, I saved my passphrase",
+        "id": "modals.lockboxsetup.confirmrecovery.step1.confirm"
+      },
+      {
+        "defaultMessage": "Please confirm that you saved your backup phrase.",
+        "id": "modals.lockboxsetup.confirmrecovery.step2.title"
+      },
+      {
+        "defaultMessage":
+          "This cannot be recovered at a later date. Type COMPLETE to confirm that you have written down your backup phrase.",
+        "id": "modals.lockboxsetup.confirmrecovery.step2.subtitle"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.lockboxsetup.confirmrecovery.step2.confirm"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/SaveAccountsStep/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Do you want to save you public keys?",
+        "id": "modals.lockboxsetup.confirmrecovery.step3.title"
+      },
+      {
+        "defaultMessage":
+          "Storing your public key will allow you to view your Lockbox balances and receive funds without plugging in your Carbon.",
+        "id": "modals.lockboxsetup.confirmrecovery.step3.subtitle"
+      },
+      {
+        "defaultMessage": "Yes, I want to see my balance always",
+        "id": "modals.lockboxsetup.confirmrecovery.step3.yes"
+      },
+      {
+        "defaultMessage": "No thank you",
+        "id": "modals.lockboxsetup.confirmrecovery.step3.no"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/SaveAccountsStep/template.json"
   },
   {
     "descriptors": [
@@ -3448,6 +3504,23 @@
       }
     ],
     "path": "src/modals/LockboxSetup/SecondStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Link a new device",
+        "id": "modals.lockboxsetup.firststep.link"
+      },
+      {
+        "defaultMessage": "Restore an existing device",
+        "id": "modals.lockboxsetup.firststep.restore"
+      },
+      {
+        "defaultMessage": "Buy a new Carbon",
+        "id": "modals.lockboxsetup.firststep.buy"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/SetupTypeStep/template.json"
   },
   {
     "descriptors": [
@@ -7216,6 +7289,10 @@
   },
   {
     "descriptors": [
+      {
+        "defaultMessage": "Add Another Device",
+        "id": "scenes.lockbox.welcome.addanotherdevice"
+      },
       {
         "defaultMessage": "Delete Device",
         "id": "scenes.lockbox.welcome.deletedevice"

@@ -271,6 +271,7 @@
     "Lingua aggiornata correttamente.",
   "components.alerts.lockbox_delete_error": null,
   "components.alerts.lockbox_delete_success": null,
+  "components.alerts.lockbox_setup_success": null,
   "components.alerts.logginglevel_update_error":
     "Aggiornamento del livello di registrazione fallito",
   "components.alerts.logginglevel_update_success":
@@ -684,6 +685,7 @@
   "modals.lockboxsetup.confirmrecovery.step1.subtitle": null,
   "modals.lockboxsetup.confirmrecovery.step1.title": null,
   "modals.lockboxsetup.confirmrecovery.step2.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step2.incorrectphrase": null,
   "modals.lockboxsetup.confirmrecovery.step2.subtitle": null,
   "modals.lockboxsetup.confirmrecovery.step2.title": null,
   "modals.lockboxsetup.confirmrecovery.step3.no": null,
@@ -698,6 +700,7 @@
   "modals.lockboxsetup.firststep.restore": null,
   "modals.lockboxsetup.labelstep.continue": null,
   "modals.lockboxsetup.labelstep.devicename": null,
+  "modals.lockboxsetup.labelstep.nameintro": null,
   "modals.lockboxsetup.labelstep.plugindevice": null,
   "modals.lockboxsetup.title": null,
   "modals.mobilelogin.cancel": "Annulli",
@@ -1775,6 +1778,7 @@
     "NON è un indirizzo bitcoin per l'invio o la ricezione.",
   "scenes.info.walletid.title": "ID portafoglio",
   "scenes.info.walletid.warning": "Non condivida l'ID Portafoglio con altri.",
+  "scenes.lockbox.welcome.addanotherdevice": null,
   "scenes.lockbox.welcome.deletedevice": null,
   "scenes.lockbox.welcome.getstarted": null,
   "scenes.lockbox.welcome.subtitle": null,

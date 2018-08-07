@@ -257,6 +257,7 @@
     "Language has been successfully updated.",
   "components.alerts.lockbox_delete_error": "Failed to remove Lockbox.",
   "components.alerts.lockbox_delete_success": "Lockbox successfully removed.",
+  "components.alerts.lockbox_setup_success": "Lockbox successfully added.",
   "components.alerts.logginglevel_update_error":
     "Failed to update logging level",
   "components.alerts.logginglevel_update_success":
@@ -676,6 +677,8 @@
   "modals.lockboxsetup.confirmrecovery.step1.title":
     "Have you saved your 24 word recovery phrase?",
   "modals.lockboxsetup.confirmrecovery.step2.confirm": "Continue",
+  "modals.lockboxsetup.confirmrecovery.step2.incorrectphrase":
+    "Incorrect phrase",
   "modals.lockboxsetup.confirmrecovery.step2.subtitle":
     "This cannot be recovered at a later date. Type COMPLETE to confirm that you have written down your backup phrase.",
   "modals.lockboxsetup.confirmrecovery.step2.title":
@@ -697,6 +700,8 @@
   "modals.lockboxsetup.firststep.restore": "Restore an existing device",
   "modals.lockboxsetup.labelstep.continue": "Continue",
   "modals.lockboxsetup.labelstep.devicename": "Device Name",
+  "modals.lockboxsetup.labelstep.nameintro":
+    "Please name your Lockbox. The device can be renamed later.",
   "modals.lockboxsetup.labelstep.plugindevice":
     "Connection to device established. Please name your Lockbox.",
   "modals.lockboxsetup.title": "Get started with your Lockbox",
@@ -1746,6 +1751,7 @@
     "It is NOT a bitcoin address for sending or receiving.",
   "scenes.info.walletid.title": "Wallet ID",
   "scenes.info.walletid.warning": "Do not share your Wallet ID with others.",
+  "scenes.lockbox.welcome.addanotherdevice": "Add Another Device",
   "scenes.lockbox.welcome.deletedevice": "Delete Device",
   "scenes.lockbox.welcome.getstarted": "Get Started",
   "scenes.lockbox.welcome.subtitle":

@@ -17,9 +17,9 @@ class LockboxContainer extends React.PureComponent {
         ) : (
           <Setup />
         ),
-      Loading: () => ({}),
-      NotAsked: () => ({}),
-      Failure: () => ({})
+      Loading: () => null,
+      NotAsked: () => null,
+      Failure: () => null
     })
   }
 }

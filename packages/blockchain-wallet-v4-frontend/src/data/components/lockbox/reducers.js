@@ -3,7 +3,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
-  step: 'options',
+  step: 'setup-type',
   deviceInfo: Remote.NotAsked
 }
 
