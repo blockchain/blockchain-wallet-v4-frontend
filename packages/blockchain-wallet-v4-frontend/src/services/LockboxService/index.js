@@ -8,15 +8,19 @@ const deviceInfoErr = 'Device Info Required'
 export const getXpubHash = xpub =>
   crypto.sha256(crypto.sha256(xpub).toString('hex')).toString('hex')
 
-export const generateAccountsMDEntry = deviceInfo => {
+export const generateAccountsMDEntry = (deviceInfo, deviceName) => {
   try {
-    const { btc, eth } = deviceInfo
+    const { btc, bch, eth } = deviceInfo
     const btcXpub = publicKeyChainCodeToBip32(btc.publicKey, btc.chainCode)
+    const bchXpub = publicKeyChainCodeToBip32(bch.publicKey, bch.chainCode)
     const ethXpub = publicKeyChainCodeToBip32(eth.publicKey, eth.chainCode)
 
     return {
-      btc: { accounts: [btcAccount(btcXpub)] },
-      eth: { accounts: [ethAccount(ethXpub)] }
+      btc: { accounts: [btcAccount(btcXpub, deviceName + ' Bitcoin Wallet')] },
+      bch: {
+        accounts: [btcAccount(bchXpub, deviceName + ' Bitcoin Cash Wallet')]
+      },
+      eth: { accounts: [ethAccount(ethXpub, deviceName + ' Ethereum Wallet')] }
     }
   } catch (e) {
     throw new Error(deviceInfoErr)
@@ -34,12 +38,11 @@ export const getDeviceID = deviceInfo => {
   }
 }
 
-export const ethAccount = xpub => ({
-  label: 'My Ether Lockbox Wallet',
+export const ethAccount = (xpub, label) => ({
+  label: label,
   archived: false,
   correct: true,
   addr: deriveAddressFromXpub(xpub)
 })
 
-export const btcAccount = xpub =>
-  Types.HDAccount.js('My Bitcoin Lockbox Wallet', null, xpub)
+export const btcAccount = (xpub, label) => Types.HDAccount.js(label, null, xpub)
