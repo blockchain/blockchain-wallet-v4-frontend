@@ -69,11 +69,11 @@ export default ({ api, coreSagas }) => {
       const device = deviceR.getOrElse(null)
 
       if (!device) {
-        yield put(A.setConnectStep('name-device'))
+        yield put(A.changeDeviceSetupStep('name-device'))
       } else if (!device.backupConfirmed) {
-        yield put(A.setConnectStep('confirm-recovery'))
+        yield put(A.changeDeviceSetupStep('confirm-recovery'))
       } else {
-        yield put(actions.modals.closeModal())
+        yield put(A.changeDeviceSetupStep('duplicate-device'))
       }
     } catch (e) {
       yield put(
@@ -94,7 +94,7 @@ export default ({ api, coreSagas }) => {
         actions.core.kvStore.lockbox.storeDeviceName(deviceID, deviceName)
       )
       yield put(A.storeDeviceNameSuccess())
-      yield put(A.setConnectStep('confirm-recovery'))
+      yield put(A.changeDeviceSetupStep('confirm-recovery'))
     } catch (e) {
       yield put(A.storeDeviceNameFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'storeDeviceName', e))
@@ -109,7 +109,7 @@ export default ({ api, coreSagas }) => {
       const deviceID = getDeviceID(deviceInfo)
       yield put(actions.core.kvStore.lockbox.storeDeviceBackupFlag(deviceID))
       yield put(A.storeDeviceBackupFlagSuccess())
-      yield put(A.setConnectStep('save-accounts'))
+      yield put(A.changeDeviceSetupStep('save-accounts'))
     } catch (e) {
       yield put(A.storeDeviceBackupFlagFailure(e))
       yield put(
@@ -147,7 +147,7 @@ export default ({ api, coreSagas }) => {
       yield put(A.storeDeviceAccountsSuccess())
       yield put(actions.alerts.displaySuccess(C.LOCKBOX_SETUP_SUCCESS))
       yield put(actions.core.data.bitcoin.fetchData())
-      yield put(A.setConnectStep('setup-type'))
+      yield put(A.changeDeviceSetupStep('setup-type'))
     } catch (e) {
       yield put(A.storeDeviceAccountsFailure(e))
       yield put(

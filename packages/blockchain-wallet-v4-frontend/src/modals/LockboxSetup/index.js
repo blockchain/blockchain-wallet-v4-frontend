@@ -11,6 +11,7 @@ import ConnectDeviceStep from './ConnectDeviceStep'
 import NameDeviceStep from './NameDeviceStep'
 import ConfirmRecoveryStep from './ConfirmRecoveryStep'
 import SaveAccountsStep from './SaveAccountsStep'
+import DuplicateDeviceStep from './DuplicateDeviceStep'
 
 class LockboxSetupContainer extends React.PureComponent {
   render () {
@@ -19,9 +20,10 @@ class LockboxSetupContainer extends React.PureComponent {
     return (
       <LockboxSetup position={position} total={total} closeAll={closeAll}>
         {step === 'setup-type' && (
-          <SetupTypeStep handleStep={lockboxActions.setConnectStep} />
+          <SetupTypeStep handleStep={lockboxActions.changeDeviceSetupStep} />
         )}
         {step === 'connect' && <ConnectDeviceStep />}
+        {step === 'duplicate-device' && <DuplicateDeviceStep />}
         {step === 'name-device' && <NameDeviceStep />}
         {step === 'confirm-recovery' && <ConfirmRecoveryStep />}
         {step === 'save-accounts' && <SaveAccountsStep />}
