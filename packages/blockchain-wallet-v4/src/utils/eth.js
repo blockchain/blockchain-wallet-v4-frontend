@@ -50,9 +50,8 @@ export const privateKeyToAddress = pk =>
 export const deriveAddress = (mnemonic, index) =>
   privateKeyToAddress(getPrivateKey(mnemonic, index))
 
-export const deriveAddressFromXpub = (xpub, path) => {
+export const deriveAddressFromXpub = xpub => {
   const ethPublic = EthHd.fromExtendedKey(xpub)
-    .derivePath(path)
     .getWallet()
     .getPublicKey()
   return EthUtil.toChecksumAddress(

@@ -38,7 +38,7 @@ export const ethAccount = xpub => ({
   label: 'My Ether Lockbox Wallet',
   archived: false,
   correct: true,
-  addr: deriveAddressFromXpub(xpub, '0/0')
+  addr: deriveAddressFromXpub(xpub)
 })
 
 export const btcAccount = xpub =>
