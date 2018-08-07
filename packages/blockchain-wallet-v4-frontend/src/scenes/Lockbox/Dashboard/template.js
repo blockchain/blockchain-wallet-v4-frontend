@@ -40,20 +40,32 @@ const Lockbox = props => {
         const device = devices[id]
         return (
           <Device>
-            <h3>{device.deviceName}</h3>
-            <div>ID: {deviceIdList[i]}</div>
+            <h3 style={{ fontSize: '20px' }}>
+              {device.deviceName}{' '}
+              <span style={{ fontSize: '15px' }}>({deviceIdList[i]})</span>
+            </h3>
             {!device.accounts ? (
               <div>Accounts not stored.</div>
             ) : (
               <div>
                 <div>
-                  BTC Account Label: {device.accounts.btc.accounts[0].label}
+                  <b>BTC Label</b>: {device.accounts.btc.accounts[0].label}
                 </div>
-                <div>BTC Xpub: {device.accounts.btc.accounts[0].xpub}</div>
                 <div>
-                  ETH Account Label: {device.accounts.eth.accounts[0].label}
+                  <b>BTC Xpub</b>: {device.accounts.btc.accounts[0].xpub}
                 </div>
-                <div>ETH Address: {device.accounts.eth.accounts[0].addr}</div>
+                <div>
+                  <b>BCH Label</b>: {device.accounts.bch.accounts[0].label}
+                </div>
+                <div>
+                  <b>BCH Xpub</b>: {device.accounts.bch.accounts[0].xpub}
+                </div>
+                <div>
+                  <b>ETH Label</b>: {device.accounts.eth.accounts[0].label}
+                </div>
+                <div>
+                  <b>ETH Address</b>: {device.accounts.eth.accounts[0].addr}
+                </div>
               </div>
             )}
 
