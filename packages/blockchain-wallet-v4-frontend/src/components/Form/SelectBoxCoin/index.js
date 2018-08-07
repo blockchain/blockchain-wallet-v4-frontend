@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import SelectBox from '../SelectBox'
 import { Icon, Text } from 'blockchain-info-components'
-import { prop } from 'ramda'
+// import { prop } from 'ramda'
 
 const HeaderWrapper = styled.div`
   display: flex;

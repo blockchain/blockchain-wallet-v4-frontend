@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import onClickOutside from 'react-onclickoutside'
-import { equals, head, isEmpty, isNil, contains, toUpper, filter } from 'ramda'
+import { equals } from 'ramda'
 
 import SelectInput from './template.js'
 
@@ -25,7 +24,7 @@ class SelectInputContainer extends React.PureComponent {
     // when cleared
     // if item value is null, clear values
     // otherwise, set state to chosen value
-    const value = item === null ? '' : item.value
+    const value = item === null ? undefined : item.value
     this.setState({
       value
     })
@@ -35,7 +34,6 @@ class SelectInputContainer extends React.PureComponent {
   }
 
   render () {
-    const { search, value, expanded } = this.state
     const {
       elements,
       label,
