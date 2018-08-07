@@ -24,9 +24,9 @@ const ImportedAddressesSettingHeader = SettingHeader.extend`
 
 const WarningWrapper = styled.div`
   display: flex;
-  align-items: center;
   .warning-icon {
-    margin-right: 4px;
+    margin-right: 7px;
+    float: left;
   }
 `
 const ClickableText = styled(Text)`
@@ -100,7 +100,7 @@ const Success = ({
         <WarningWrapper>
           <Icon
             name='alert-filled'
-            size='22px'
+            size='20px'
             className={'warning-icon'}
             color='brand-yellow'
           />

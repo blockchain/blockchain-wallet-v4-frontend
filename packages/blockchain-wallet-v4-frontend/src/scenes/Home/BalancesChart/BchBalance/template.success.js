@@ -68,7 +68,7 @@ const BchBalance = props => {
           />
         </WalletLink>
       ) : (
-        gt(0, bchBalance) && (
+        gte(0, bchBalance) && (
           <Link
             size='10px'
             weight={300}
