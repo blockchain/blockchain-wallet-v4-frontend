@@ -1,41 +1,26 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { keysIn } from 'ramda'
 
 import { actions } from 'data'
-import Lockbox from './template.js'
+import Setup from './Setup'
+import Dashboard from './Dashboard'
 import { getData } from './selectors'
 
 class LockboxContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = {
-      connecting: false,
-      deviceInfo: {},
-      error: false
-    }
-    this.launchCarbonSetup = this.launchCarbonSetup.bind(this)
-  }
-
-  launchCarbonSetup () {
-    this.props.modalActions.showModal('LockboxSetup')
-  }
-
   render () {
-    const { devices, balances } = this.props.data.cata({
-      Success: val => val,
+    return this.props.data.cata({
+      Success: value =>
+        keysIn(value.devices).length ? (
+          <Dashboard devices={value.devices} balances={value.balances} />
+        ) : (
+          <Setup />
+        ),
       Loading: () => ({}),
       NotAsked: () => ({}),
       Failure: () => ({})
     })
-    return (
-      <Lockbox
-        launchCarbonSetup={this.launchCarbonSetup}
-        balances={balances}
-        devices={devices}
-        {...this.state}
-      />
-    )
   }
 }
 
@@ -44,7 +29,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
 export default connect(

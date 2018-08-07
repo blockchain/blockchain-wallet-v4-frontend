@@ -165,6 +165,7 @@
   "coinifysignup.acceptterms.helper1.answer":
     "Coinify เป็นแพลตฟอร์มการเทรดที่เราเข้าร่วมพันธมิตรด้วยเพื่อนำเสนอประสบการณ์ในการซื้อ & ขายในกระเป๋าเงิน Blockchain ของคุณอย่างเป็นอันหนึ่งอันเดียวกัน",
   "coinifysignup.acceptterms.helper1.question": "Coinify คืออะไร?",
+  "components.alerts.address_and_private_key_incorrect": null,
   "components.alerts.address_delete_error": "การลบป้ายที่อยู่ล้มเหลว",
   "components.alerts.address_delete_success": "ลบที่อยู่เรียบร้อยแล้ว",
   "components.alerts.address_does_not_exist_error":
@@ -245,6 +246,8 @@
     "อัปเดตรายการอนุญาต IP เรียบร้อยแล้ว",
   "components.alerts.language_update_error": "การอัปเดตภาษาล้มเหลว",
   "components.alerts.language_update_success": "อัปเดตภาษาเรียบร้อยแล้ว",
+  "components.alerts.lockbox_delete_error": null,
+  "components.alerts.lockbox_delete_success": null,
   "components.alerts.logginglevel_update_error":
     "การอัปเดตระดับการบันทึกล้มเหลว",
   "components.alerts.logginglevel_update_success":
@@ -412,6 +415,7 @@
   "formhelper.ageovereighteen": "ต้องอายุ 18 ปีหรือมากกว่านั้น",
   "formhelper.incorrectpassword": "รหัสผ่านไม่ถูกต้อง",
   "formhelper.invalidbitcoinaddress": "ที่อยู่ Bitcoin ไม่ถูกต้อง",
+  "formhelper.invalidbitcoinaddressandkey": null,
   "formhelper.invalidbitcoincashaddress": "ที่อยู่ Bitcoin cash ไม่ถูกต้อง",
   "formhelper.invalidbitcoinprivatekey": "คีย์ส่วนตัว Bitcoin ไม่ถูกต้อง",
   "formhelper.invalidemail": "ที่อยู่อีเมลไม่ถูกต้อง",
@@ -427,10 +431,13 @@
   "formhelper.invalidwalletidentifier": "ตัวระบุกระเป๋าเงินไม่ถูกต้อง",
   "formhelper.partnercountrywhitelist": "ไม่สามารถซื้อ & ขายในประเทศนี้ได้",
   "formhelper.partnerstatewhitelist": "ไม่สามารถซื้อ & ขายในรัฐนี้ได้",
+  "formhelper.passwordcracktime": null,
   "formhelper.passwordsdonotmatch": "รหัสผ่านไม่ตรงกัน",
+  "formhelper.passwordsuggest": null,
   "formhelper.required": "ต้องมี",
   "formhelper.requireddob": "ต้องเป็นวันที่ที่ถูกต้อง",
   "formhelper.requirednumber": "หมายเลขไม่ถูกต้อง",
+  "formhelper.requiredphrase": null,
   "formhelper.requiredssn": "ต้องเป็น SSN ที่ถูกต้อง",
   "formhelper.requireduszipcode": "ต้องเป็นรหัสไปรษณีย์สหรัฐฯ ที่ถูกต้อง",
   "formhelper.requiredzipcode": null,
@@ -484,28 +491,9 @@
   "layouts.public.footer.explorer": "ข้อมูล",
   "layouts.public.footer.support": "สนับสนุน",
   "layouts.wallet.header.logout.signout": "ออกจากระบบ",
-  "layouts.wallet.header.whatsnew.whatsnew.desc10":
-    "หากคุณมี bitcoin ในกระเป๋าเงินของคุณก่อน 1 สิงหาคม 2017 ในตอนนี้ คุณสามารถเข้าถึง Bitcoin Cash ในกระเป๋าเงิน Blockchain ของคุณได้",
-  "layouts.wallet.header.whatsnew.whatsnew.desc11":
-    "ในตอนนี้ที่อยู่ Bitcoin Cash จะอยู่ในรูปแบบ CashAddr",
-  "layouts.wallet.header.whatsnew.whatsnew.desc7":
-    "ในตอนนี้ คุณสามารถขาย bitcoin ได้โดยตรงจากกระเป๋าเงิน Blockchain ของคุณ!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc8":
-    "ในตอนนี้ คุณสามารถส่งและรับ ether ได้จากกระเป๋าเงิน Blockchain ของคุณ!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc9":
-    "คุณสามารถแลกเปลี่ยนระหว่าง bitcoin, ether และ bitcoin cash ได้โดยตรงจากกระเป๋าเงิน Blockchain ของคุณ",
   "layouts.wallet.header.whatsnew.whatsnew.empty": "?? เรียบร้อยหมดแล้ว!",
-  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore":
-    "เรียนรู้เพิ่มเติม",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "ทีมงานของเราทำงานกับฟีเจอร์ใหม่เสมอ แต่หากมีสิ่งใดที่เราสามารถปรับปรุง โปรดบอกให้เรารู้ได้<a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>ที่นี่<a/>",
-  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "เรียนรู้เพิ่มเติม",
-  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title11":
-    "รูปแบบที่อยู่ Bitcoin Cash ใหม่",
-  "layouts.wallet.header.whatsnew.whatsnew.title7": "ขาย Bitcoin",
-  "layouts.wallet.header.whatsnew.whatsnew.title8": "ส่ง & รับ Ether",
-  "layouts.wallet.header.whatsnew.whatsnew.title9": "แลกเปลี่ยนสินทรัพย์",
   "layouts.wallet.menuleft.footer.about": "เกี่ยวกับ",
   "layouts.wallet.menuleft.footer.privacypolicy": "นโยบายความเป็นส่วนตัว",
   "layouts.wallet.menuleft.footer.termsofservice": "ToS",
@@ -514,6 +502,7 @@
   "layouts.wallet.menuleft.navigation.dashboard": "แดชบอร์ด",
   "layouts.wallet.menuleft.navigation.exchange": "แลกเปลี่ยน",
   "layouts.wallet.menuleft.navigation.general": "ทั่วไป",
+  "layouts.wallet.menuleft.navigation.lockbox": null,
   "layouts.wallet.menuleft.navigation.preferences": "การตั้งค่า",
   "layouts.wallet.menuleft.navigation.securitycenter": "ศูนย์ความปลอดภัย",
   "layouts.wallet.menuleft.navigation.settings": "การตั้งค่า",
@@ -521,7 +510,6 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
-  "layouts.wallet.menutop.bank": "เป็นธนาคารของตัวคุณเอง",
   "layouts.wallet.menutop.request": "ร้องขอ",
   "layouts.wallet.menutop.send": "ส่ง",
   "layouts.wallet.trayright.faq": "คำถามที่พบบ่อย",
@@ -559,11 +547,17 @@
   "modals.coinifytradedetails.trade.close": "ปิด",
   "modals.confirm.button": null,
   "modals.confirm.button.cancel": null,
+  "modals.confirm.cancel.phone_call": null,
   "modals.confirm.cancel.verify_identity": null,
+  "modals.confirm.confirm.phone_call": null,
   "modals.confirm.confirm.verify_identity": null,
   "modals.confirm.message": null,
+  "modals.confirm.message.phone_call": null,
+  "modals.confirm.message.phone_call_1": null,
+  "modals.confirm.message.phone_call_2": null,
   "modals.confirm.message.verify_identity": null,
   "modals.confirm.title": null,
+  "modals.confirm.title.phone_call": null,
   "modals.confirm.title.verify_identity": null,
   "modals.deleteaddresslabel.cancel": "ยกเลิก",
   "modals.disable2fa.disable": "ปิดใช้งาน",
@@ -628,20 +622,33 @@
     "มีการสร้างที่อยู่ที่มีอยู่แล้ว<span>นอกกระเป๋าเงินนี้</span>",
   "modals.importbtcaddress.importexternalbitcoinaddress.advanced.message":
     "มันเป็นการทำงานขั้นสูงและแนะนำสำหรับผู้ใช้ขั้นสูงเท่านั้น",
-  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoinaddress":
-    "ที่อยู่ Bitcoin",
-  "modals.importbtcaddress.importexternalbitcoinaddress.prvkey":
-    "กรอกคีย์ส่วนตัว",
+  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoineither": null,
   "modals.importbtcaddress.importexternalbitcoinaddress.transfer":
     "โอนเงินทุนไปยังกระเป๋าเงินที่มีอยู่ (หากมี)",
   "modals.importbtcaddress.importinternalbitcoinaddress.warning":
     "ไม่ควรนำเข้าที่อยู่ที่สร้างโดยกระเป๋าเงินนี้",
   "modals.importbtcaddress.importtype": "คุณต้องการนำเข้าอะไร?",
   "modals.importbtcaddress.title": "นำเข้าที่อยู่ Bitcoin ที่มีอยู่เดิม",
-  "modals.jumioprompt.body1": null,
-  "modals.jumioprompt.close": null,
-  "modals.jumioprompt.dothat": null,
-  "modals.jumioprompt.header": null,
+  "modals.lockboxsetup.confirmrecovery.step1.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step1.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step1.title": null,
+  "modals.lockboxsetup.confirmrecovery.step2.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step2.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step2.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.no": null,
+  "modals.lockboxsetup.confirmrecovery.step3.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step3.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.yes": null,
+  "modals.lockboxsetup.connectstep.connectdevice": null,
+  "modals.lockboxsetup.connectstep.connected": null,
+  "modals.lockboxsetup.connectstep.error": null,
+  "modals.lockboxsetup.firststep.buy": null,
+  "modals.lockboxsetup.firststep.link": null,
+  "modals.lockboxsetup.firststep.restore": null,
+  "modals.lockboxsetup.labelstep.continue": null,
+  "modals.lockboxsetup.labelstep.devicename": null,
+  "modals.lockboxsetup.labelstep.plugindevice": null,
+  "modals.lockboxsetup.title": null,
   "modals.mobilelogin.cancel": "ยกเลิก",
   "modals.mobilelogin.explain":
     "ทำตามขั้นตอนต่อไปนี้เพื่อเข้าสู่ระบบกระเป๋าเงินของคุณด้วยอุปกรณ์มือถือของคุณ",
@@ -705,6 +712,7 @@
   "modals.recoveryphrase.secondstep.nextfourwords": "4 คำถัดไป",
   "modals.recoveryphrase.secondstep.number": "คำ {number}",
   "modals.recoveryphrase.secondstep.prevfourwords": null,
+  "modals.recoveryphrase.secondstep.returnReviewPhrase": null,
   "modals.recoveryphrase.secondstep.tip": "จดไว้",
   "modals.recoveryphrase.secondstep.title":
     "สำรองข้อมูลให้กับวลีเพื่อการกู้คืน",
@@ -1075,12 +1083,9 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
   "scenes.buysell.sfoxcheckout.content.jumio.buylimit": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.profile": null,
   "scenes.buysell.sfoxcheckout.content.jumio.selllimit": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.completed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
@@ -1684,6 +1689,10 @@
   "scenes.info.walletid.title": "ID กระเป๋าเงิน",
   "scenes.info.walletid.warning":
     "อย่าแบ่งปัน ID กระเป๋าเงินของคุณให้กับผู้อื่น",
+  "scenes.lockbox.welcome.deletedevice": null,
+  "scenes.lockbox.welcome.getstarted": null,
+  "scenes.lockbox.welcome.subtitle": null,
+  "scenes.lockbox.welcome.title": null,
   "scenes.login.browserwarning":
     "ไม่รองรับเบราว์เซอร์ของคุณ โปรดอัปเดตเป็น Chrome 45, Firefox 45, Safari 8, IE 11 หรือ Opera เป็นอย่างน้อย",
   "scenes.login.clickhere": "คลิกที่นี่",
@@ -1874,8 +1883,6 @@
   "scenes.security.email.verify.wehavesentcode": "เราได้ส่งรหัสยืนยันไปยัง",
   "scenes.security.email.yourverifiedemailaddress":
     "จะมีการใช้ที่อยู่อีเมลของคุณที่ได้รับการยืนยันเพื่อส่งรหัสล็อกอินเมื่อตรวจพบกิจกรรมที่ผิดปกติหรือน่าสงสัย เพื่อเตือนคุณถึง ID ล็อกอินกระเป๋าเงินของคุณ และเพื่อส่งการแจ้งเตือนการชำระเงินเมื่อคุณได้รับเงิน",
-  "scenes.security.passwordhint.notstored": null,
-  "scenes.security.passwordhint.stored": null,
   "scenes.security.tor.allowed": "อนุญาตแล้ว",
   "scenes.security.tor.blocked": "บล็อกแล้ว",
   "scenes.security.twostepsetup.sms": "ใช้รหัสที่ส่งผ่าน SMS",
@@ -2044,9 +2051,6 @@
   "scenes.securitysettings.apiaccess.description2": "เพื่อเริ่มต้น",
   "scenes.securitysettings.apiaccess.getstarted": "ที่นี่",
   "scenes.securitysettings.apiaccess.title": "การเข้าถึง API",
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.change": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.save": null,
   "scenes.securitysettings.basicsecurity.recoveryphrase.description":
     "วลีสำรองของคุณประกอบไปด้วยคีย์ส่วนตัวทั้งหมดในกระเป๋าเงินของคุณ โปรดจด 12 คำเหล่านี้ลงไปตามลำดับและเก็บรักษาให้ปลอดภัยในทางออฟไลน์ วลีนี้จะมอบวิธีการกู้คืนกระเป๋าเงินของคุณและการเข้าถึงเงินทุนให้กับคุณ (และทุกคนที่มีวลีนี้) ",
   "scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase":
@@ -2240,9 +2244,6 @@
   "scenes.settings.manage_addresses.edit_name": "แก้ไขชื่อ",
   "scenes.settings.manage_addresses.make_default": "ทำให้เป็นค่าเริ่มต้น",
   "scenes.settings.manage_addresses.show_xpub": "แสดง xPub",
-  "scenes.settings.passwordhint.description1": null,
-  "scenes.settings.passwordhint.description2": null,
-  "scenes.settings.passwordhint.title": null,
   "scenes.settings.preferences.autologout.updateform.minutes": null,
   "scenes.settings.preferences.bitcoinlinkhandling.description":
     "เปิดการใช้งานสิ่งนี้เพื่อให้กระเป๋าเงิน Blockchain ของคุณจัดการลิงก์การชำระเงิน bitcoin",
@@ -2255,8 +2256,6 @@
     "เราไม่สามารถตรวจพบได้ว่าลิงก์ bitcoin ได้รับการเปิดใช้งานหรือไม่",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "หากมันได้รับการเปิดใช้งานแล้ว จะไม่มีอะไรเกิดขึ้น",
-  "scenes.settings.preferences.explain":
-    "ปรับแต่งประสบการณ์การใช้งานกระเป๋าเงินของคุณ",
   "scenes.settings.preferences.localcurrency.error.description":
     "เลือกสกุลเงินในประเทศของคุณ",
   "scenes.settings.preferences.localcurrency.error.title": "สกุลเงินในประเทศ",
@@ -2574,7 +2573,6 @@
   "sfoxexchangedata.verify.hidessn": "ซ่อน SSN",
   "sfoxexchangedata.verify.identity.error":
     "โชคไม่ดีที่มีปัญหาในการยืนยันตัวตนของคุณ {clickHere} เพื่อเริ่มใหม่",
-  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "นามสกุล",
   "sfoxexchangedata.verify.partner.header": "รายละเอียดที่ซ่อนไว้",
   "sfoxexchangedata.verify.partner.header1": "มารู้จักคุณกันหน่อย",

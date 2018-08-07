@@ -164,6 +164,7 @@
   "coinifysignup.acceptterms.helper1.answer":
     "Coinify là một nền tảng giao dịch mà chúng tôi đã hợp tác để mang đến cho bạn trải nghiệm mua và bán hài hòa trong ví Blockchain của bạn",
   "coinifysignup.acceptterms.helper1.question": "Coinify là gì?",
+  "components.alerts.address_and_private_key_incorrect": null,
   "components.alerts.address_delete_error": "Không thể xóa nhãn địa chỉ.",
   "components.alerts.address_delete_success": "Xóa địa chỉ thành công.",
   "components.alerts.address_does_not_exist_error":
@@ -246,6 +247,8 @@
     "Danh sách cho phép IP đã được cập nhật thành công",
   "components.alerts.language_update_error": "Không thể cập nhật ngôn ngữ",
   "components.alerts.language_update_success": "Cập nhật ngôn ngữ thành công.",
+  "components.alerts.lockbox_delete_error": null,
+  "components.alerts.lockbox_delete_success": null,
   "components.alerts.logginglevel_update_error":
     "Không thể cập nhật mức ghi nhật ký",
   "components.alerts.logginglevel_update_success":
@@ -421,6 +424,7 @@
   "formhelper.ageovereighteen": "Phải trên 18 tuổi",
   "formhelper.incorrectpassword": "Mật khẩu không đúng",
   "formhelper.invalidbitcoinaddress": "Địa chỉ Bitcoin không hợp lệ",
+  "formhelper.invalidbitcoinaddressandkey": null,
   "formhelper.invalidbitcoincashaddress": "Địa chỉ Bitcoin cash không hợp lệ",
   "formhelper.invalidbitcoinprivatekey": "Khóa Riêng Bitcoin không hợp lệ",
   "formhelper.invalidemail": "Địa chỉ email không hợp lệ",
@@ -438,10 +442,13 @@
     "Quốc gia không nằm trong danh sách mua & bán",
   "formhelper.partnerstatewhitelist":
     "Tiểu bang không nằm trong danh sách mua & bán",
+  "formhelper.passwordcracktime": null,
   "formhelper.passwordsdonotmatch": "Mật khẩu không khớp",
+  "formhelper.passwordsuggest": null,
   "formhelper.required": "Cần thiết",
   "formhelper.requireddob": "Phải là ngày hợp lệ",
   "formhelper.requirednumber": "Số điện thoại không hợp lệ",
+  "formhelper.requiredphrase": null,
   "formhelper.requiredssn": "Phải là SSN hợp lệ",
   "formhelper.requireduszipcode": "Phải là Mã bưu chính Hoa Kỳ hợp lệ",
   "formhelper.requiredzipcode": null,
@@ -495,28 +502,10 @@
   "layouts.public.footer.explorer": "Dữ liệu",
   "layouts.public.footer.support": "Hỗ trợ",
   "layouts.wallet.header.logout.signout": "Đăng xuất",
-  "layouts.wallet.header.whatsnew.whatsnew.desc10":
-    "Nếu bạn có bitcoin trong ví của mình trước ngày 1 tháng 8 năm 2017, giờ đây bạn có thể truy cập Bitcoin Cash trong ví Blockchain của mình.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc11":
-    "Địa chỉ Bitcoin Cash giờ đây tuân theo định dạng CashAddr.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc7":
-    "Giờ đây bạn có thể bán bitcoin trực tiếp từ ví Blockchain của bạn!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc8":
-    "Giờ đây bạn có thể gửi và nhận ether từ ví Blockchain của bạn!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc9":
-    "Bạn có thể chuyển đổi bitcoin, ether và bitcoin cash trực tiếp từ ví Blockchain của mình",
   "layouts.wallet.header.whatsnew.whatsnew.empty":
     "?? Bạn đã cập nhật thông tin đầy đủ!",
-  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore": "Tìm hiểu thêm",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Đội ngũ của chúng tôi luôn làm việc để phát triển các tính năng mới, nhưng nếu có điều gì đó cần cải thiện, hãy cho chúng tôi biết <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>tại đây<a/>.",
-  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Tìm hiểu thêm",
-  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title11":
-    "Định dạng Địa chỉ Bitcoin Cash Mới",
-  "layouts.wallet.header.whatsnew.whatsnew.title7": "Bán Bitcoin",
-  "layouts.wallet.header.whatsnew.whatsnew.title8": "Gửi & Nhận Ether",
-  "layouts.wallet.header.whatsnew.whatsnew.title9": "Tài sản Chuyển đổi",
   "layouts.wallet.menuleft.footer.about": "Tìm hiểu về",
   "layouts.wallet.menuleft.footer.privacypolicy": "Chính sách Bảo mật",
   "layouts.wallet.menuleft.footer.termsofservice": "Điều khoản Dịch vụ",
@@ -525,6 +514,7 @@
   "layouts.wallet.menuleft.navigation.dashboard": "Bảng điều khiển",
   "layouts.wallet.menuleft.navigation.exchange": "Chuyển đổi",
   "layouts.wallet.menuleft.navigation.general": "Chung",
+  "layouts.wallet.menuleft.navigation.lockbox": null,
   "layouts.wallet.menuleft.navigation.preferences": "Ưu tiên",
   "layouts.wallet.menuleft.navigation.securitycenter": "Trung tâm bảo mật",
   "layouts.wallet.menuleft.navigation.settings": "Cài đặt",
@@ -532,7 +522,6 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
-  "layouts.wallet.menutop.bank": "Hãy là ngân hàng của riêng bạn.",
   "layouts.wallet.menutop.request": "Yêu cầu",
   "layouts.wallet.menutop.send": "Gửi",
   "layouts.wallet.trayright.faq": "Những câu hỏi thường gặp",
@@ -570,11 +559,17 @@
   "modals.coinifytradedetails.trade.close": "Đóng",
   "modals.confirm.button": null,
   "modals.confirm.button.cancel": null,
+  "modals.confirm.cancel.phone_call": null,
   "modals.confirm.cancel.verify_identity": null,
+  "modals.confirm.confirm.phone_call": null,
   "modals.confirm.confirm.verify_identity": null,
   "modals.confirm.message": null,
+  "modals.confirm.message.phone_call": null,
+  "modals.confirm.message.phone_call_1": null,
+  "modals.confirm.message.phone_call_2": null,
   "modals.confirm.message.verify_identity": null,
   "modals.confirm.title": null,
+  "modals.confirm.title.phone_call": null,
   "modals.confirm.title.verify_identity": null,
   "modals.deleteaddresslabel.cancel": "Hủy bỏ",
   "modals.disable2fa.disable": "Tắt",
@@ -640,20 +635,33 @@
     "Địa chỉ hiện tại được tạo <span>bên ngoài ví này</span>.",
   "modals.importbtcaddress.importexternalbitcoinaddress.advanced.message":
     "Đây là chức năng nâng cao và chỉ được đề xuất cho người dùng nâng cao.",
-  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoinaddress":
-    "Địa chỉ Bitcoin",
-  "modals.importbtcaddress.importexternalbitcoinaddress.prvkey":
-    "Nhập Khóa Riêng",
+  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoineither": null,
   "modals.importbtcaddress.importexternalbitcoinaddress.transfer":
     "Chuyển tiền vào ví tiền hiện tại (tùy chọn)",
   "modals.importbtcaddress.importinternalbitcoinaddress.warning":
     "Không được nhập địa chỉ được tạo bởi ví này.",
   "modals.importbtcaddress.importtype": "Bạn muốn nhập gì?",
   "modals.importbtcaddress.title": "Nhập Địa chỉ Bitcoin Hiện tại",
-  "modals.jumioprompt.body1": null,
-  "modals.jumioprompt.close": null,
-  "modals.jumioprompt.dothat": null,
-  "modals.jumioprompt.header": null,
+  "modals.lockboxsetup.confirmrecovery.step1.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step1.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step1.title": null,
+  "modals.lockboxsetup.confirmrecovery.step2.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step2.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step2.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.no": null,
+  "modals.lockboxsetup.confirmrecovery.step3.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step3.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.yes": null,
+  "modals.lockboxsetup.connectstep.connectdevice": null,
+  "modals.lockboxsetup.connectstep.connected": null,
+  "modals.lockboxsetup.connectstep.error": null,
+  "modals.lockboxsetup.firststep.buy": null,
+  "modals.lockboxsetup.firststep.link": null,
+  "modals.lockboxsetup.firststep.restore": null,
+  "modals.lockboxsetup.labelstep.continue": null,
+  "modals.lockboxsetup.labelstep.devicename": null,
+  "modals.lockboxsetup.labelstep.plugindevice": null,
+  "modals.lockboxsetup.title": null,
   "modals.mobilelogin.cancel": "Hủy bỏ",
   "modals.mobilelogin.explain":
     "Làm theo các bước sau để đăng nhập vào ví trên web bằng thiết bị di động của bạn",
@@ -719,6 +727,7 @@
   "modals.recoveryphrase.secondstep.nextfourwords": "4 từ tiếp theo",
   "modals.recoveryphrase.secondstep.number": "Từ {number}",
   "modals.recoveryphrase.secondstep.prevfourwords": null,
+  "modals.recoveryphrase.secondstep.returnReviewPhrase": null,
   "modals.recoveryphrase.secondstep.tip": "Viết lại bằng tay",
   "modals.recoveryphrase.secondstep.title": "Sao lưu nhóm từ khôi phục",
   "modals.recoveryphrase.thirdstep.back": "Trở lại",
@@ -1089,12 +1098,9 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
   "scenes.buysell.sfoxcheckout.content.jumio.buylimit": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.profile": null,
   "scenes.buysell.sfoxcheckout.content.jumio.selllimit": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.completed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
@@ -1705,6 +1711,10 @@
     "Nó KHÔNG phải là địa chỉ bitcoin để gửi hoặc nhận.",
   "scenes.info.walletid.title": "ID Ví",
   "scenes.info.walletid.warning": "Không chia sẻ ID Ví của bạn với người khác.",
+  "scenes.lockbox.welcome.deletedevice": null,
+  "scenes.lockbox.welcome.getstarted": null,
+  "scenes.lockbox.welcome.subtitle": null,
+  "scenes.lockbox.welcome.title": null,
   "scenes.login.browserwarning":
     "Trình duyệt của bạn không được hỗ trợ. Vui lòng cập nhật ít nhất là Chrome 45, Firefox 45, Safari 8, IE 11 hoặc Opera.",
   "scenes.login.clickhere": "nhấn vào đây.",
@@ -1897,8 +1907,6 @@
     "Chúng tôi đã gửi mã xác minh đến",
   "scenes.security.email.yourverifiedemailaddress":
     "Địa chỉ email đã xác minh của bạn được sử dụng để gửi mã đăng nhập khi phát hiện hoạt động đáng ngờ hoặc bất thường, nhắc bạn về ID đăng nhập ví và gửi thông báo thanh toán khi bạn nhận tiền.",
-  "scenes.security.passwordhint.notstored": null,
-  "scenes.security.passwordhint.stored": null,
   "scenes.security.tor.allowed": "Đã cho phép",
   "scenes.security.tor.blocked": "Đã chặn",
   "scenes.security.twostepsetup.sms": "Sử dụng mã được gửi qua tin nhắn SMS",
@@ -2065,9 +2073,6 @@
   "scenes.securitysettings.apiaccess.description2": "để bắt đầu.",
   "scenes.securitysettings.apiaccess.getstarted": "tại đây",
   "scenes.securitysettings.apiaccess.title": "Truy cập API",
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.change": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.save": null,
   "scenes.securitysettings.basicsecurity.recoveryphrase.description":
     "Nhóm từ sao lưu chứa tất cả các khóa riêng trong ví của bạn. Vui lòng viết lại 12 từ này theo đúng thứ tự và lưu trữ chúng ngoại tuyến ở một nơi an toàn. Nhóm từ này cung cấp cho bạn (hoặc bất kỳ ai sở hữu nó) cách để khôi phục ví và truy cập vào các khoản tiền của bạn. ",
   "scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase":
@@ -2260,9 +2265,6 @@
   "scenes.settings.manage_addresses.make_default": "Làm mặc định",
   "scenes.settings.manage_addresses.show_xpub":
     "Hiện khóa chung mở rộng (xPub)",
-  "scenes.settings.passwordhint.description1": null,
-  "scenes.settings.passwordhint.description2": null,
-  "scenes.settings.passwordhint.title": null,
   "scenes.settings.preferences.autologout.updateform.minutes": null,
   "scenes.settings.preferences.bitcoinlinkhandling.description":
     "Kích hoạt để cho phép Ví Blockchain của bạn xử lý các liên kết thanh toán bitcoin trong trình duyệt.",
@@ -2275,7 +2277,6 @@
     "Chúng tôi không thể phát hiện liệu các liên kết bitcoin đã được bật hay chưa.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Nếu đã được bật, sẽ không có gì xảy ra.",
-  "scenes.settings.preferences.explain": "Tùy chỉnh trải nghiệm ví của bạn.",
   "scenes.settings.preferences.localcurrency.error.description":
     "Lựa chọn nội tệ của bạn.",
   "scenes.settings.preferences.localcurrency.error.title": "Nội tệ",
@@ -2598,7 +2599,6 @@
   "sfoxexchangedata.verify.hidessn": "Ẩn SSN",
   "sfoxexchangedata.verify.identity.error":
     "Rất tiếc, đã xảy ra sự cố trong quá trình xác minh danh tính của bạn. {clickHere} để bắt đầu lại.",
-  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Họ",
   "sfoxexchangedata.verify.partner.header": "Các Chi tiết Ẩn",
   "sfoxexchangedata.verify.partner.header1": "Tìm Hiểu Bạn",

@@ -2,6 +2,7 @@ import { call, put, take, select } from 'redux-saga/effects'
 import { eventChannel, END } from 'redux-saga'
 import { actions, selectors } from 'data'
 import * as A from './actions'
+import * as C from 'services/AlertService'
 import * as S from './selectors'
 
 import Btc from '@ledgerhq/hw-app-btc'
@@ -102,6 +103,20 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const deleteDevice = function*(action) {
+    try {
+      const { deviceID } = action.payload
+      yield put(A.deleteDeviceLoading())
+      yield put(actions.core.kvStore.lockbox.deleteDeviceLockbox(deviceID))
+      yield put(A.deleteDeviceSuccess())
+      yield put(actions.alerts.displaySuccess(C.LOCKBOX_DELETE_SUCCESS))
+    } catch (e) {
+      yield put(A.deleteDeviceFailure(e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'deleteDevice', e))
+      yield put(actions.alerts.displayError(C.LOCKBOX_DELETE_ERROR))
+    }
+  }
+
   const saveDevice = function*() {
     try {
       yield put(A.saveDeviceLoading())
@@ -124,6 +139,7 @@ export default ({ api, coreSagas }) => {
     initializeConnect,
     deriveConnectStep,
     saveDevice,
-    addDevice
+    addDevice,
+    deleteDevice
   }
 }

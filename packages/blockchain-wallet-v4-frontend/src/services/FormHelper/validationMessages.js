@@ -136,6 +136,12 @@ export const RequiredNumberMessage = () => (
     defaultMessage='Invalid number'
   />
 )
+export const RequiredPhraseMessage = () => (
+  <FormattedMessage
+    id='formhelper.requiredphrase'
+    defaultMessage='Incorrect phrase'
+  />
+)
 export const RequiredSSNMessage = () => (
   <FormattedMessage
     id='formhelper.requiredssn'

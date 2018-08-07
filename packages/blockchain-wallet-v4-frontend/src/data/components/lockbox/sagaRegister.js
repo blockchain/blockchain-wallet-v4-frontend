@@ -10,5 +10,6 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.INITIALIZE_CONNECT, lockboxSagas.initializeConnect)
     yield takeLatest(AT.SAVE_DEVICE, lockboxSagas.saveDevice)
     yield takeLatest(AT.ADD_DEVICE, lockboxSagas.addDevice)
+    yield takeLatest(AT.DELETE_DEVICE, lockboxSagas.deleteDevice)
   }
 }

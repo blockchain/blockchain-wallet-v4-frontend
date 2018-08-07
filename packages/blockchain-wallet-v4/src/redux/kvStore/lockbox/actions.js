@@ -26,3 +26,8 @@ export const saveDeviceLockbox = (deviceID, accounts) => ({
   type: AT.SAVE_DEVICE_LOCKBOX,
   payload: { deviceID, accounts }
 })
+
+export const deleteDeviceLockbox = deviceID => ({
+  type: AT.DELETE_DEVICE_LOCKBOX,
+  payload: { deviceID }
+})
