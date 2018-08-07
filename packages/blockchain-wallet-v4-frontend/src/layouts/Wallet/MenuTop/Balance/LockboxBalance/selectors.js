@@ -16,6 +16,20 @@ export const getLockboxBtcBalance = createDeepEqualSelector(
   }
 )
 
+export const getLockboxBchBalance = createDeepEqualSelector(
+  [
+    selectors.core.kvStore.lockbox.getLockboxBchContext,
+    selectors.core.data.bch.getAddresses
+  ],
+  (lockboxBtcContextR, addressesR) => {
+    const contextToBalances = (lockboxContext, balances) => {
+      return lockboxContext.map(a => pathOr(0, [a, 'final_balance'], balances))
+    }
+    const balancesR = lift(contextToBalances)(lockboxBtcContextR, addressesR)
+    return balancesR.map(reduce(add, 0))
+  }
+)
+
 export const getLockboxEthBalance = createDeepEqualSelector(
   [
     selectors.core.kvStore.lockbox.getLockboxEthContext,

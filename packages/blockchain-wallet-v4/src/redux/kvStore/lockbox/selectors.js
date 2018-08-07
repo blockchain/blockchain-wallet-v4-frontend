@@ -7,9 +7,8 @@ export const getMetadata = path([kvStorePath, LOCKBOX])
 export const getDevices = state =>
   getMetadata(state).map(path(['value', 'devices']))
 
-export const getDevice = (state, deviceID) => {
-  return getDevices(state).map(prop(deviceID))
-}
+export const getDevice = (state, deviceID) =>
+  getDevices(state).map(prop(deviceID))
 
 export const getAccounts = state =>
   getDevices(state).map(devices =>
@@ -23,6 +22,17 @@ export const getLockboxBtcAccounts = state =>
 
 export const getLockboxBtcContext = state => {
   return getLockboxBtcAccounts(state).map(accounts => {
+    return accounts ? flatten(accounts).map(a => path(['xpub'], a)) : []
+  })
+}
+
+export const getLockboxBch = state => getAccounts(state).map(map(path(['bch'])))
+
+export const getLockboxBchAccounts = state =>
+  getLockboxBch(state).map(map(path(['accounts'])))
+
+export const getLockboxBchContext = state => {
+  return getLockboxBchAccounts(state).map(accounts => {
     return accounts ? flatten(accounts).map(a => path(['xpub'], a)) : []
   })
 }
