@@ -5,14 +5,19 @@ import { createHashHistory } from 'history'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import appConfig from 'config'
 import { coreMiddleware } from 'blockchain-wallet-v4/src'
-import { createWalletApi, Socket } from 'blockchain-wallet-v4/src/network'
+import {
+  createWalletApi,
+  Socket,
+  ApiSocket
+} from 'blockchain-wallet-v4/src/network'
 import { serializer } from 'blockchain-wallet-v4/src/types'
 import { rootSaga, rootReducer, selectors } from 'data'
 import {
   autoDisconnection,
   webSocketBch,
   webSocketBtc,
-  webSocketEth
+  webSocketEth,
+  webSocketRates
 } from '../middleware'
 
 const devToolsConfig = {
@@ -60,6 +65,11 @@ const configureStore = () => {
         options,
         url: `${options.domains.webSocket}/eth/inv`
       })
+      const ratesSocket = new ApiSocket({
+        options,
+        url: `${options.domains.apiWebSocket}/nabu-app/markets/quotes`,
+        maxReconnects: 3
+      })
       const api = createWalletApi({ options, apiKey })
 
       const store = createStore(
@@ -72,6 +82,7 @@ const configureStore = () => {
             webSocketBtc(btcSocket),
             webSocketBch(bchSocket),
             webSocketEth(ethSocket),
+            webSocketRates(ratesSocket),
             coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
             autoDisconnection()
           ),
@@ -84,6 +95,7 @@ const configureStore = () => {
         bchSocket,
         btcSocket,
         ethSocket,
+        ratesSocket,
         options
       })
 

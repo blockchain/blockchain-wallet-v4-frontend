@@ -369,6 +369,10 @@ describe('authSagas', () => {
       saga.next().put(actions.middleware.webSocket.eth.startSocket())
     })
 
+    it('should put action to start rates socket', () => {
+      saga.next().put(actions.middleware.webSocket.rates.startSocket())
+    })
+
     it('should fetch root', () => {
       saga
         .next()
@@ -980,6 +984,7 @@ describe('authSagas', () => {
         .put(actions.middleware.webSocket.bch.stopSocket())
         .put(actions.middleware.webSocket.btc.stopSocket())
         .put(actions.middleware.webSocket.eth.stopSocket())
+        .put(actions.middleware.webSocket.rates.stopSocket())
         .put(actions.router.push('/logout'))
         .run()
     })
@@ -992,6 +997,7 @@ describe('authSagas', () => {
         .put(actions.middleware.webSocket.bch.stopSocket())
         .put(actions.middleware.webSocket.btc.stopSocket())
         .put(actions.middleware.webSocket.eth.stopSocket())
+        .put(actions.middleware.webSocket.rates.stopSocket())
         .run()
         .then(() => {
           expect(pushStateSpy).toHaveBeenCalledTimes(1)

@@ -1,6 +1,7 @@
 import bitcoin from './btc'
 import delegate from './delegate'
 import ethereum from './eth'
+import rates from './rates'
 import bch from './bch'
 import kvStore from './kvStore'
 import kyc from './kyc'
@@ -33,6 +34,7 @@ export default ({ options, apiKey } = {}) => {
     ...sfox(),
     ...settings({ rootUrl, apiUrl, get, post }),
     ...shapeShift({ shapeShiftApiKey, ...http }),
+    ...rates({ nabuUrl, get: http.get }),
     ...wallet({ rootUrl, apiUrl, get, post })
   }
 }
