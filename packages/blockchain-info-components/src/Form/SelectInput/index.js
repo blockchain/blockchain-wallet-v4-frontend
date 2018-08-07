@@ -21,9 +21,6 @@ class SelectInputContainer extends React.PureComponent {
   }
 
   handleChange (item) {
-    // when cleared
-    // if item value is null, clear values
-    // otherwise, set state to chosen value
     const value = item === null ? undefined : item.value
     this.setState({
       value
