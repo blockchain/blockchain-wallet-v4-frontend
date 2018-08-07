@@ -49,9 +49,9 @@ export const storeDeviceBackupFlagFailure = payload => ({
   payload
 })
 
-export const storeDeviceAccounts = payload => ({
+export const storeDeviceAccounts = storeXpubs => ({
   type: AT.STORE_DEVICE_ACCOUNTS,
-  payload
+  payload: { storeXpubs }
 })
 export const storeDeviceAccountsLoading = () => ({
   type: AT.STORE_DEVICE_ACCOUNTS_LOADING

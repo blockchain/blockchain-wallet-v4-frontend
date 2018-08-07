@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Button, Text } from 'blockchain-info-components'
 
 const ConfirmRecoveryStep = props => {
-  const { handleSubmit } = props
+  const { handleStorageChoice } = props
 
   return (
     <div>
@@ -25,6 +25,7 @@ const ConfirmRecoveryStep = props => {
         fullwidth
         type='submit'
         nature='primary'
+        onClick={() => { handleStorageChoice(true) }}
       >
         <FormattedMessage
           id='modals.lockboxsetup.confirmrecovery.step3.yes'
@@ -36,6 +37,7 @@ const ConfirmRecoveryStep = props => {
         fullwidth
         type='submit'
         nature='sent'
+        onClick={() => { handleStorageChoice(false) }}
       >
         <FormattedMessage
           id='modals.lockboxsetup.confirmrecovery.step3.no'

@@ -28,14 +28,14 @@ export const storeDeviceName = (deviceID, deviceName) => ({
   payload: { deviceID, deviceName }
 })
 
-export const storeDeviceBackupFlag = (deviceID, backupConfirmed) => ({
+export const storeDeviceBackupFlag = (deviceID) => ({
   type: AT.STORE_DEVICE_BACKUP_FLAG,
-  payload: { deviceID, backupConfirmed }
+  payload: { deviceID }
 })
 
-export const storeDeviceAccounts = (deviceID, accounts) => ({
+export const storeDeviceAccounts = (deviceID, mdAccountsEntry) => ({
   type: AT.STORE_DEVICE_ACCOUNTS,
-  payload: { deviceID, accounts }
+  payload: { deviceID, mdAccountsEntry }
 })
 
 // DELETE

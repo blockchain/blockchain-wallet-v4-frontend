@@ -7,7 +7,7 @@ import * as S from './selectors'
 
 import Btc from '@ledgerhq/hw-app-btc'
 import Transport from '@ledgerhq/hw-transport-u2f'
-import { getDeviceID, generateMDEntry } from 'services/LockboxService'
+import { getDeviceID, generateAccountsMDEntry } from 'services/LockboxService'
 
 export default ({ api, coreSagas }) => {
   const logLocation = 'components/lockbox/sagas'
@@ -70,13 +70,12 @@ export default ({ api, coreSagas }) => {
 
       const device = deviceR.getOrElse(null)
 
-      // TODO: make this great again
       if (!device) {
         yield put(A.setConnectStep('name-device'))
-      } else if (!device.confirmed) {
+      } else if (!device.backupConfirmed) {
         yield put(A.setConnectStep('confirm-recovery'))
       } else {
-        yield put(actions.modals.closeAll)
+        yield put(actions.modals.closeModal())
       }
     } catch (e) {
       yield put(
@@ -104,19 +103,14 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const storeDeviceBackupFlag = function*(action) {
+  const storeDeviceBackupFlag = function*() {
     try {
-      const { backupConfirmed } = action.payload
-
       yield put(A.storeDeviceBackupFlagLoading())
       const deviceInfoR = yield select(S.getDeviceInfo)
       const deviceInfo = deviceInfoR.getOrFail('missing_device')
       const deviceID = getDeviceID(deviceInfo)
       yield put(
-        actions.core.kvStore.lockbox.storeDeviceBackupFlag(
-          deviceID,
-          backupConfirmed
-        )
+        actions.core.kvStore.lockbox.storeDeviceBackupFlag(deviceID, true)
       )
       yield put(A.storeDeviceBackupFlagSuccess())
       yield put(A.setConnectStep('save-accounts'))
@@ -128,17 +122,24 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const storeDeviceAccounts = function*() {
+  const storeDeviceAccounts = function*(action) {
     try {
+      const { storeXpubs } = action.payload
       yield put(A.storeDeviceAccountsLoading())
-      const deviceInfoR = yield select(S.getDeviceInfo)
-      const deviceInfo = deviceInfoR.getOrFail('missing_device')
-      const deviceID = getDeviceID(deviceInfo)
-      const mdEntry = generateMDEntry(deviceInfo)
-      yield put(
-        actions.core.kvStore.lockbox.storeDeviceAccounts(deviceID, mdEntry)
-      )
+
+      if (storeXpubs) {
+        const deviceInfoR = yield select(S.getDeviceInfo)
+        const deviceInfo = deviceInfoR.getOrFail('missing_device')
+        const deviceID = getDeviceID(deviceInfo)
+        const mdAccountsEntry = generateAccountsMDEntry(deviceInfo)
+        console.info(mdAccountsEntry)
+        yield put(
+          actions.core.kvStore.lockbox.storeDeviceAccounts(deviceID, mdAccountsEntry)
+        )
+      }
+      yield put(actions.modals.closeModal())
       yield put(A.storeDeviceAccountsSuccess())
+      yield put(actions.alerts.displaySuccess(C.LOCKBOX_SETUP_SUCCESS))
       yield put(actions.core.data.bitcoin.fetchData())
       yield put(A.setConnectStep('setup-type'))
     } catch (e) {

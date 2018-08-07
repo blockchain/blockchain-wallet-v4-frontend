@@ -12,7 +12,7 @@ class ConfirmRecoveryStepContainer extends React.PureComponent {
   }
 
   onSubmit () {
-    this.props.lockboxActions.storeDeviceBackupFlag(true)
+    this.props.lockboxActions.storeDeviceBackupFlag()
   }
 
   render () {
