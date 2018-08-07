@@ -26,16 +26,22 @@ export default (state = INITIAL_STATE, action) => {
         mapped,
         KVStoreEntry.value
       )
-      let setDeviceName = assocPath(['devices', deviceID, 'deviceName'], deviceName)
+      let setDeviceName = assocPath(
+        ['devices', deviceID, 'deviceName'],
+        deviceName
+      )
       return over(valueLens, setDeviceName, state)
     }
     case AT.STORE_DEVICE_BACKUP_FLAG: {
-      const { deviceID, backupConfirmed } = payload
+      const { deviceID } = payload
       const valueLens = compose(
         mapped,
         KVStoreEntry.value
       )
-      let setBackupFlag = assocPath(['devices', deviceID, 'backupConfirmed'], backupConfirmed)
+      let setBackupFlag = assocPath(
+        ['devices', deviceID, 'backupConfirmed'],
+        true
+      )
       return over(valueLens, setBackupFlag, state)
     }
     case AT.STORE_DEVICE_ACCOUNTS: {
@@ -44,7 +50,12 @@ export default (state = INITIAL_STATE, action) => {
         mapped,
         KVStoreEntry.value
       )
-      let setAccounts = assocPath(['devices', deviceID, 'accounts'], mdAccountsEntry)
+      console.log('JERE')
+      console.info(deviceID, mdAccountsEntry)
+      let setAccounts = assocPath(
+        ['devices', deviceID, 'accounts'],
+        mdAccountsEntry
+      )
       return over(valueLens, setAccounts, state)
     }
     case AT.DELETE_DEVICE_LOCKBOX: {

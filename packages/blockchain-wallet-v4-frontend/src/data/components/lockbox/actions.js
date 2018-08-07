@@ -34,9 +34,8 @@ export const storeDeviceNameFailure = payload => ({
   payload
 })
 
-export const storeDeviceBackupFlag = backupConfirmed => ({
-  type: AT.STORE_DEVICE_BACKUP_FLAG,
-  payload: { backupConfirmed }
+export const storeDeviceBackupFlag = () => ({
+  type: AT.STORE_DEVICE_BACKUP_FLAG
 })
 export const storeDeviceBackupFlagLoading = () => ({
   type: AT.STORE_DEVICE_BACKUP_FLAG_LOADING

@@ -109,9 +109,7 @@ export default ({ api, coreSagas }) => {
       const deviceInfoR = yield select(S.getDeviceInfo)
       const deviceInfo = deviceInfoR.getOrFail('missing_device')
       const deviceID = getDeviceID(deviceInfo)
-      yield put(
-        actions.core.kvStore.lockbox.storeDeviceBackupFlag(deviceID, true)
-      )
+      yield put(actions.core.kvStore.lockbox.storeDeviceBackupFlag(deviceID))
       yield put(A.storeDeviceBackupFlagSuccess())
       yield put(A.setConnectStep('save-accounts'))
     } catch (e) {
@@ -132,9 +130,11 @@ export default ({ api, coreSagas }) => {
         const deviceInfo = deviceInfoR.getOrFail('missing_device')
         const deviceID = getDeviceID(deviceInfo)
         const mdAccountsEntry = generateAccountsMDEntry(deviceInfo)
-        console.info(mdAccountsEntry)
         yield put(
-          actions.core.kvStore.lockbox.storeDeviceAccounts(deviceID, mdAccountsEntry)
+          actions.core.kvStore.lockbox.storeDeviceAccounts(
+            deviceID,
+            mdAccountsEntry
+          )
         )
       }
       yield put(actions.modals.closeModal())
