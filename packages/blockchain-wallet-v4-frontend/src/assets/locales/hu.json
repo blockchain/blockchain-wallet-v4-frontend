@@ -172,6 +172,7 @@
   "coinifysignup.acceptterms.helper1.answer":
     "A Coinify egy olyan kereskedési platform, amellyel partnerséget kötöttünk, hogy harmonikus vételi és eladási élményben legyen része Blockchain-tárcájában",
   "coinifysignup.acceptterms.helper1.question": "Mi a Coinify?",
+  "components.alerts.address_and_private_key_incorrect": null,
   "components.alerts.address_delete_error":
     "A cím címkéjének törlése sikertelen.",
   "components.alerts.address_delete_success": "Cím sikeresen törölve.",
@@ -256,6 +257,9 @@
   "components.alerts.language_update_error": "Nyelv aktualizálása sikertelen",
   "components.alerts.language_update_success":
     "A Nyelv sikeresen aktualizálásra került.",
+  "components.alerts.lockbox_delete_error": null,
+  "components.alerts.lockbox_delete_success": null,
+  "components.alerts.lockbox_setup_success": null,
   "components.alerts.logginglevel_update_error":
     "Naplózási szint aktualizálása sikertelen",
   "components.alerts.logginglevel_update_success":
@@ -435,6 +439,7 @@
   "formhelper.ageovereighteen": "Legalább 18 évesnek kell lennie",
   "formhelper.incorrectpassword": "Helytelen jelszó",
   "formhelper.invalidbitcoinaddress": "Érvénytelen Bitcoin-cím",
+  "formhelper.invalidbitcoinaddressandkey": null,
   "formhelper.invalidbitcoincashaddress": "Érvénytelen Bitcoin Cash-cím",
   "formhelper.invalidbitcoinprivatekey": "Érvénytelen Bitcoin-privát kulcs",
   "formhelper.invalidemail": "Érvénytelen e-mail-cím",
@@ -452,10 +457,13 @@
     "Az ország nem elérhető vételre és eladásra",
   "formhelper.partnerstatewhitelist":
     "Az állam nem elérhető vételre és eladásra",
+  "formhelper.passwordcracktime": null,
   "formhelper.passwordsdonotmatch": "A jelszavak nem egyeznek",
+  "formhelper.passwordsuggest": null,
   "formhelper.required": "Kötelező",
   "formhelper.requireddob": "Érvényes dátumnak kell lennie",
   "formhelper.requirednumber": "Érvénytelen szám",
+  "formhelper.requiredphrase": null,
   "formhelper.requiredssn": "Érvényes SSN-nek kell lennie",
   "formhelper.requireduszipcode":
     "Érvényes amerikai egyesült államokbeli irányítószámnak kell lennie",
@@ -511,27 +519,9 @@
   "layouts.public.footer.explorer": "Adatok",
   "layouts.public.footer.support": "Ügyfélszolgálat",
   "layouts.wallet.header.logout.signout": "Kijelentkezés",
-  "layouts.wallet.header.whatsnew.whatsnew.desc10":
-    "Ha volt bitcoinja tárcájában 2017. augusztus 1. előtt, mostantól hozzáfér a Bitcoin Cash-hez Blockchain-tárcájában.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc11":
-    "A Bitcoin Cash-címek most már követik a CashAddr-formátumot.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc7":
-    "Mostantól közvetlenül is értékesíthet bitcoint Blockchain-tárcájából!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc8":
-    "Mostantól küldhet és fogadhat ethert Blockchain-tárcájából!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc9":
-    "Válthat bitcoin, ether és bitcoin cash között közvetlenül Blockchain-tárcájából",
   "layouts.wallet.header.whatsnew.whatsnew.empty": "?? Elkészült!",
-  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore": "Bővebben",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Csapatunk folyamatosan új funkciókon dolgozik, de ha van valami olyan dolog, amin Ön szerint javíthatnánk, kérjük, mondja el nekünk <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>itt<a/>.",
-  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Bővebben",
-  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title11":
-    "Új Bitcoin Cash-címformátum",
-  "layouts.wallet.header.whatsnew.whatsnew.title7": "Bitcoin ealdása",
-  "layouts.wallet.header.whatsnew.whatsnew.title8": "Ether küldése és fogadása",
-  "layouts.wallet.header.whatsnew.whatsnew.title9": "Devizaeszköz",
   "layouts.wallet.menuleft.footer.about": "Bemutatkozás",
   "layouts.wallet.menuleft.footer.privacypolicy": "Adatvédelmi irányelv",
   "layouts.wallet.menuleft.footer.termsofservice": "Felhasználási feltételek",
@@ -541,6 +531,7 @@
   "layouts.wallet.menuleft.navigation.dashboard": "Irányítópult",
   "layouts.wallet.menuleft.navigation.exchange": "Átváltás",
   "layouts.wallet.menuleft.navigation.general": "Általános",
+  "layouts.wallet.menuleft.navigation.lockbox": null,
   "layouts.wallet.menuleft.navigation.preferences": "Preferenciák",
   "layouts.wallet.menuleft.navigation.securitycenter": "Biztonsági központ",
   "layouts.wallet.menuleft.navigation.settings": "Beállítások",
@@ -548,7 +539,6 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
-  "layouts.wallet.menutop.bank": "Legyen a saját bankja!",
   "layouts.wallet.menutop.request": "Kérelmezés",
   "layouts.wallet.menutop.send": "Küldés",
   "layouts.wallet.trayright.faq": "Gyakran ismételt kérdések",
@@ -586,11 +576,17 @@
   "modals.coinifytradedetails.trade.close": "Bezár",
   "modals.confirm.button": null,
   "modals.confirm.button.cancel": null,
+  "modals.confirm.cancel.phone_call": null,
   "modals.confirm.cancel.verify_identity": null,
+  "modals.confirm.confirm.phone_call": null,
   "modals.confirm.confirm.verify_identity": null,
   "modals.confirm.message": null,
+  "modals.confirm.message.phone_call": null,
+  "modals.confirm.message.phone_call_1": null,
+  "modals.confirm.message.phone_call_2": null,
   "modals.confirm.message.verify_identity": null,
   "modals.confirm.title": null,
+  "modals.confirm.title.phone_call": null,
   "modals.confirm.title.verify_identity": null,
   "modals.deleteaddresslabel.cancel": "Mégse",
   "modals.disable2fa.disable": "Letiltás",
@@ -655,20 +651,35 @@
     "Meglévő cím generálva a <span>tárcán</span> kívül.",
   "modals.importbtcaddress.importexternalbitcoinaddress.advanced.message":
     "Ez egy haladó funkció és kizárólag haladó felhasználók számára ajánlott.",
-  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoinaddress":
-    "Bitcoin-cím",
-  "modals.importbtcaddress.importexternalbitcoinaddress.prvkey":
-    "Privát kulcs megadása",
+  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoineither": null,
   "modals.importbtcaddress.importexternalbitcoinaddress.transfer":
     "Pénzösszegek átutalása egy meglévő tárcához (opcionális)",
   "modals.importbtcaddress.importinternalbitcoinaddress.warning":
     "A tárca által generált címek nem importálhatók.",
   "modals.importbtcaddress.importtype": "Mit szeretne importálni?",
   "modals.importbtcaddress.title": "Meglévő Bitcoin-cím importálása",
-  "modals.jumioprompt.body1": null,
-  "modals.jumioprompt.close": null,
-  "modals.jumioprompt.dothat": null,
-  "modals.jumioprompt.header": null,
+  "modals.lockboxsetup.confirmrecovery.step1.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step1.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step1.title": null,
+  "modals.lockboxsetup.confirmrecovery.step2.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step2.incorrectphrase": null,
+  "modals.lockboxsetup.confirmrecovery.step2.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step2.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.no": null,
+  "modals.lockboxsetup.confirmrecovery.step3.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step3.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.yes": null,
+  "modals.lockboxsetup.connectstep.connectdevice": null,
+  "modals.lockboxsetup.connectstep.connected": null,
+  "modals.lockboxsetup.connectstep.error": null,
+  "modals.lockboxsetup.firststep.buy": null,
+  "modals.lockboxsetup.firststep.link": null,
+  "modals.lockboxsetup.firststep.restore": null,
+  "modals.lockboxsetup.labelstep.continue": null,
+  "modals.lockboxsetup.labelstep.devicename": null,
+  "modals.lockboxsetup.labelstep.nameintro": null,
+  "modals.lockboxsetup.labelstep.plugindevice": null,
+  "modals.lockboxsetup.title": null,
   "modals.mobilelogin.cancel": "Mégse",
   "modals.mobilelogin.explain":
     "Kövesse ezeket a lépéseket a webtárcába való bejelentkezéshez mobileszközén",
@@ -734,6 +745,7 @@
   "modals.recoveryphrase.secondstep.nextfourwords": "Következő 4 szó",
   "modals.recoveryphrase.secondstep.number": "Szó {number}",
   "modals.recoveryphrase.secondstep.prevfourwords": null,
+  "modals.recoveryphrase.secondstep.returnReviewPhrase": null,
   "modals.recoveryphrase.secondstep.tip": "Írja le",
   "modals.recoveryphrase.secondstep.title": "Biztonsági helyreállítási mondat",
   "modals.recoveryphrase.thirdstep.back": "Vissza",
@@ -1107,12 +1119,9 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
   "scenes.buysell.sfoxcheckout.content.jumio.buylimit": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.profile": null,
   "scenes.buysell.sfoxcheckout.content.jumio.selllimit": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.completed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
@@ -1725,6 +1734,11 @@
     "Ez egy nem olyan Bitcoin-cím, amely alkalmas küldésre és fogadásra.",
   "scenes.info.walletid.title": "Tárcaazonosító",
   "scenes.info.walletid.warning": "Ne ossza meg másokkal tárcaazonosítóját.",
+  "scenes.lockbox.welcome.addanotherdevice": null,
+  "scenes.lockbox.welcome.deletedevice": null,
+  "scenes.lockbox.welcome.getstarted": null,
+  "scenes.lockbox.welcome.subtitle": null,
+  "scenes.lockbox.welcome.title": null,
   "scenes.login.browserwarning":
     "Böngészője nem támogatott. Kérjük, frissítsen legalább Chrome 45-re, Firefox 45-re, Safari 8-ra, IE 11-re vagy Operára.",
   "scenes.login.clickhere": "kattintson ide.",
@@ -1922,8 +1936,6 @@
     "Elküldtünk egy hitelesítő kódot a következő címre:",
   "scenes.security.email.yourverifiedemailaddress":
     "Hitelesített e-mail-címét arra használjuk, hogy bejelentkezési kódot küldjünk Önnek, ha gyanús vagy szokatlan tevékenységet észlelünk, emlékeztessük Önt tárcaazonosítójára, valamint fizetési értesítéseket küldjünk Önnek pénzösszegek fogadásakor.",
-  "scenes.security.passwordhint.notstored": null,
-  "scenes.security.passwordhint.stored": null,
   "scenes.security.tor.allowed": "Engedélyezve",
   "scenes.security.tor.blocked": "Letiltva",
   "scenes.security.twostepsetup.sms": "SMS-ben küldött kódok használata",
@@ -2091,9 +2103,6 @@
   "scenes.securitysettings.apiaccess.description2": "a kezdéshez.",
   "scenes.securitysettings.apiaccess.getstarted": "itt",
   "scenes.securitysettings.apiaccess.title": "API-hozzáférés",
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.change": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.save": null,
   "scenes.securitysettings.basicsecurity.recoveryphrase.description":
     "Helyreállítási mondata tartalmazza a tárcájában megtalálható összes privát kulcsot. Kérjük, jegyezze fel ezt a 12 szót sorrendben és tárolja egy biztonságos helyen offline. Ezzel a mondattal Ön (vagy bárki más, akinek a birtokában van) helyreállíthatja tárcáját és hozzáférhet pénzösszegeihez. ",
   "scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase":
@@ -2289,9 +2298,6 @@
   "scenes.settings.manage_addresses.make_default":
     "Beállítás alapértelmezettként",
   "scenes.settings.manage_addresses.show_xpub": "xPub megjelenítése",
-  "scenes.settings.passwordhint.description1": null,
-  "scenes.settings.passwordhint.description2": null,
-  "scenes.settings.passwordhint.title": null,
   "scenes.settings.preferences.autologout.updateform.minutes": null,
   "scenes.settings.preferences.bitcoinlinkhandling.description":
     "Annak érdekében, hogy Blockchain-tárcája kezelje Bitcoin-fizetéseit böngészőjében, engedélyezze ezt.",
@@ -2304,7 +2310,6 @@
     "Be tudjuk azonosítani, hogy a Bitcoin-hivatkozások kezelése engedélyezésre került-e.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Ha már engedélyezve van, semmi nem fog történni.",
-  "scenes.settings.preferences.explain": "Szabja testre tárcaélményét!",
   "scenes.settings.preferences.localcurrency.error.description":
     "Válassza ki helyi pénznemét.",
   "scenes.settings.preferences.localcurrency.error.title": "Helyi pénznem",
@@ -2631,7 +2636,6 @@
   "sfoxexchangedata.verify.hidessn": "SSN elrejtése",
   "sfoxexchangedata.verify.identity.error":
     "Sajnos, hiba lépett fel személyazonosságának hitelesítése során. {clickHere} az újrakezdéshez.",
-  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Vezetéknév",
   "sfoxexchangedata.verify.partner.header": "A rejtett részletek",
   "sfoxexchangedata.verify.partner.header1": "Ismerkedjünk meg Önnel",

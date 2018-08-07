@@ -8,7 +8,7 @@ const deviceInfoErr = 'Device Info Required'
 export const getXpubHash = xpub =>
   crypto.sha256(crypto.sha256(xpub).toString('hex')).toString('hex')
 
-export const generateMDEntry = deviceInfo => {
+export const generateAccountsMDEntry = deviceInfo => {
   try {
     const { btc, eth } = deviceInfo
     const btcXpub = publicKeyChainCodeToBip32(btc.publicKey, btc.chainCode)

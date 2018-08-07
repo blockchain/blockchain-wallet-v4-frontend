@@ -6,6 +6,7 @@ import { Button, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
+import { any, equals } from 'ramda'
 
 const Row = styled.div`
   display: flex;
@@ -21,13 +22,19 @@ const Row = styled.div`
     width: 100%;
   }
   &:first-child {
-    padding-top: 0px;
+    padding-top: 0;
   }
 `
 const Label = styled(Text)`
   display: block;
   margin-bottom: 5px;
 `
+
+const requireUnique = (value, allValues, { deviceNames }) => {
+  return any(equals(value))(deviceNames)
+    ? 'Device name is already taken.'
+    : undefined
+}
 
 const NameDeviceStep = props => {
   const { handleSubmit, invalid } = props
@@ -37,8 +44,8 @@ const NameDeviceStep = props => {
       <Row>
         <Text size='14px' weight={300}>
           <FormattedMessage
-            id='modals.lockboxsetup.labelstep.plugindevice'
-            defaultMessage='Connection to device established. Please name your Lockbox.'
+            id='modals.lockboxsetup.labelstep.nameintro'
+            defaultMessage='Please name your Lockbox. The device can be renamed later.'
           />
         </Text>
       </Row>
@@ -51,9 +58,9 @@ const NameDeviceStep = props => {
             />
           </Label>
           <Field
-            name='deviceName'
-            defaultValue={'My Lockbox 1'}
-            validate={[required]}
+            name='newDeviceName'
+            autoFocus
+            validate={[required, requireUnique]}
             component={TextBox}
           />
         </FormItem>

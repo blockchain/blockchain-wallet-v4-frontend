@@ -939,6 +939,27 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage='Not a valid Bitcoin Private Key or Address.'
         />
       )
+    case C.LOCKBOX_SETUP_SUCCESS:
+      return (
+        <FormattedMessage
+          id='components.alerts.lockbox_setup_success'
+          defaultMessage='Lockbox successfully added.'
+        />
+      )
+    case C.LOCKBOX_DELETE_SUCCESS:
+      return (
+        <FormattedMessage
+          id='components.alerts.lockbox_delete_success'
+          defaultMessage='Lockbox successfully deleted.'
+        />
+      )
+    case C.LOCKBOX_DELETE_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.lockbox_delete_error'
+          defaultMessage='Failed to remove Lockbox.'
+        />
+      )
     default:
       return (
         message || (

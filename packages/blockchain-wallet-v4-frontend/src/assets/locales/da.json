@@ -168,6 +168,7 @@
   "coinifysignup.acceptterms.helper1.answer":
     "Coinify er en handelsplatform, som vi er gået sammen med om at give dig en harmonisk købs- og salgsoplevelse i din Blockchain-tegnebog",
   "coinifysignup.acceptterms.helper1.question": "Hvad er Coinify?",
+  "components.alerts.address_and_private_key_incorrect": null,
   "components.alerts.address_delete_error":
     "Sletning af adressemærke mislykkedes.",
   "components.alerts.address_delete_success": "Adresse slettet.",
@@ -255,6 +256,9 @@
   "components.alerts.language_update_error":
     "Det mislykkedes at opdatere sprog",
   "components.alerts.language_update_success": "Sprog er blevet opdateret",
+  "components.alerts.lockbox_delete_error": null,
+  "components.alerts.lockbox_delete_success": null,
+  "components.alerts.lockbox_setup_success": null,
   "components.alerts.logginglevel_update_error":
     "Det mislykkedes at opdatere loggingniveau",
   "components.alerts.logginglevel_update_success":
@@ -438,6 +442,7 @@
   "formhelper.ageovereighteen": "Skal være 18 eller ældre",
   "formhelper.incorrectpassword": "Forkert adgangskode",
   "formhelper.invalidbitcoinaddress": "Ugyldig bitcoin-adresse",
+  "formhelper.invalidbitcoinaddressandkey": null,
   "formhelper.invalidbitcoincashaddress": "Ugyldig bitcoin cash-adresse",
   "formhelper.invalidbitcoinprivatekey": "Ugyldig bitcoin privat nøgle",
   "formhelper.invalidemail": "Ugyldig e-mailadresse",
@@ -454,10 +459,13 @@
   "formhelper.partnercountrywhitelist":
     "Land ikke til rådighed for køb og salg",
   "formhelper.partnerstatewhitelist": "Stat ikke til rådighed for køb og salg",
+  "formhelper.passwordcracktime": null,
   "formhelper.passwordsdonotmatch": "Adgangskoder matcher ikke",
+  "formhelper.passwordsuggest": null,
   "formhelper.required": "Påkrævet",
   "formhelper.requireddob": "Skal være en gyldig dato",
   "formhelper.requirednumber": "Ugyldigt nummer",
+  "formhelper.requiredphrase": null,
   "formhelper.requiredssn": "Skal være gyldig SSN",
   "formhelper.requireduszipcode":
     "Skal være et gyldigt US-amerikansk postnummer",
@@ -513,28 +521,9 @@
   "layouts.public.footer.explorer": "Data",
   "layouts.public.footer.support": "Support",
   "layouts.wallet.header.logout.signout": "Log ud",
-  "layouts.wallet.header.whatsnew.whatsnew.desc10":
-    "Hvis du havde bitcoin i din tegnebog før den 1. august 2017, kan du nu få adgang til Bitcoin Cash i din Blockchain-tegnebog.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc11":
-    "Bitcoin Cash-adresser følger nu CashAddr-formatet.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc7":
-    "Du kan nu sælge bitcoin direkte fra din Blockchain-tegnebog!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc8":
-    "Du kan nu sende og modtage ether fra din Blockchain-tegnebog!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc9":
-    "Du kan veksle mellem bitcoin, ether, og bitcoin cash direkte fra din Blockchain-tegnebog",
   "layouts.wallet.header.whatsnew.whatsnew.empty": "?? Du er helt optaget!",
-  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore":
-    "Find ud af mere",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Vores team arbejder altid på nye funktioner, men hvis der er noget, som vi kan forbedre, kan du fortælle os om det <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>her<a/>.",
-  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Find ud af mere",
-  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title11":
-    "Nyt Bitcoin Cash-adresseformat",
-  "layouts.wallet.header.whatsnew.whatsnew.title7": "Sælg bitcoin",
-  "layouts.wallet.header.whatsnew.whatsnew.title8": "Send og modtag ether",
-  "layouts.wallet.header.whatsnew.whatsnew.title9": "Veksl aktiver",
   "layouts.wallet.menuleft.footer.about": "Om",
   "layouts.wallet.menuleft.footer.privacypolicy": "Fortrolighedspolitik",
   "layouts.wallet.menuleft.footer.termsofservice": "ToS",
@@ -543,6 +532,7 @@
   "layouts.wallet.menuleft.navigation.dashboard": "Instrumentbræt",
   "layouts.wallet.menuleft.navigation.exchange": "Veksl",
   "layouts.wallet.menuleft.navigation.general": "Generel",
+  "layouts.wallet.menuleft.navigation.lockbox": null,
   "layouts.wallet.menuleft.navigation.preferences": "Præferencer",
   "layouts.wallet.menuleft.navigation.securitycenter": "Sikkerhedscenter",
   "layouts.wallet.menuleft.navigation.settings": "Indstillinger",
@@ -550,7 +540,6 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
-  "layouts.wallet.menutop.bank": "Vær din egen bank.",
   "layouts.wallet.menutop.request": "Forespørgsel",
   "layouts.wallet.menutop.send": "Send",
   "layouts.wallet.trayright.faq": "Ofte stillede spørgsmål",
@@ -588,11 +577,17 @@
   "modals.coinifytradedetails.trade.close": "Luk",
   "modals.confirm.button": null,
   "modals.confirm.button.cancel": null,
+  "modals.confirm.cancel.phone_call": null,
   "modals.confirm.cancel.verify_identity": null,
+  "modals.confirm.confirm.phone_call": null,
   "modals.confirm.confirm.verify_identity": null,
   "modals.confirm.message": null,
+  "modals.confirm.message.phone_call": null,
+  "modals.confirm.message.phone_call_1": null,
+  "modals.confirm.message.phone_call_2": null,
   "modals.confirm.message.verify_identity": null,
   "modals.confirm.title": null,
+  "modals.confirm.title.phone_call": null,
   "modals.confirm.title.verify_identity": null,
   "modals.deleteaddresslabel.cancel": "Annuller",
   "modals.disable2fa.disable": "Deaktiver",
@@ -658,20 +653,35 @@
     "Eksisterende adresse genereret <span>udenfor denne tegnebog</span>.",
   "modals.importbtcaddress.importexternalbitcoinaddress.advanced.message":
     "Dette er en avanceret funktion og anbefales kun til avancerede brugere.",
-  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoinaddress":
-    "Bitcoin-adresse",
-  "modals.importbtcaddress.importexternalbitcoinaddress.prvkey":
-    "Indtast privat nøgle",
+  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoineither": null,
   "modals.importbtcaddress.importexternalbitcoinaddress.transfer":
     "Overfør midler til en eksisterende tegnebog (valgfrit)",
   "modals.importbtcaddress.importinternalbitcoinaddress.warning":
     "Adresser genereret af denne tegnebog bør ikke importeres.",
   "modals.importbtcaddress.importtype": "Hvad ønsker du at importere?",
   "modals.importbtcaddress.title": "Importer eksisterende bitcoin-adresse",
-  "modals.jumioprompt.body1": null,
-  "modals.jumioprompt.close": null,
-  "modals.jumioprompt.dothat": null,
-  "modals.jumioprompt.header": null,
+  "modals.lockboxsetup.confirmrecovery.step1.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step1.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step1.title": null,
+  "modals.lockboxsetup.confirmrecovery.step2.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step2.incorrectphrase": null,
+  "modals.lockboxsetup.confirmrecovery.step2.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step2.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.no": null,
+  "modals.lockboxsetup.confirmrecovery.step3.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step3.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.yes": null,
+  "modals.lockboxsetup.connectstep.connectdevice": null,
+  "modals.lockboxsetup.connectstep.connected": null,
+  "modals.lockboxsetup.connectstep.error": null,
+  "modals.lockboxsetup.firststep.buy": null,
+  "modals.lockboxsetup.firststep.link": null,
+  "modals.lockboxsetup.firststep.restore": null,
+  "modals.lockboxsetup.labelstep.continue": null,
+  "modals.lockboxsetup.labelstep.devicename": null,
+  "modals.lockboxsetup.labelstep.nameintro": null,
+  "modals.lockboxsetup.labelstep.plugindevice": null,
+  "modals.lockboxsetup.title": null,
   "modals.mobilelogin.cancel": "Annuller",
   "modals.mobilelogin.explain":
     "Følg disse trin for at logge ind på din web-tegnebog ved hjælp af din mobile enhed",
@@ -736,6 +746,7 @@
   "modals.recoveryphrase.secondstep.nextfourwords": "Næste 4 ord",
   "modals.recoveryphrase.secondstep.number": "Ord {number}",
   "modals.recoveryphrase.secondstep.prevfourwords": null,
+  "modals.recoveryphrase.secondstep.returnReviewPhrase": null,
   "modals.recoveryphrase.secondstep.tip": "Skriv det ned",
   "modals.recoveryphrase.secondstep.title":
     "Lav backup af din gendannelsesfrase",
@@ -1111,12 +1122,9 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
   "scenes.buysell.sfoxcheckout.content.jumio.buylimit": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.profile": null,
   "scenes.buysell.sfoxcheckout.content.jumio.selllimit": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.completed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
@@ -1720,6 +1728,11 @@
     "Det er IKKE en bitcoin-adresse til at sende eller modtage.",
   "scenes.info.walletid.title": "Tegnebogs-ID",
   "scenes.info.walletid.warning": "Del ikke din tegnebogs ID med andre.",
+  "scenes.lockbox.welcome.addanotherdevice": null,
+  "scenes.lockbox.welcome.deletedevice": null,
+  "scenes.lockbox.welcome.getstarted": null,
+  "scenes.lockbox.welcome.subtitle": null,
+  "scenes.lockbox.welcome.title": null,
   "scenes.login.browserwarning":
     "Din browser understøttes ikke. Opdater mindst Chrome 45, Firefox 45, Safari 8, IE 11 eller Opera.",
   "scenes.login.clickhere": "klik her.",
@@ -1913,8 +1926,6 @@
     "Vi har sendt en bekræftelseskode til",
   "scenes.security.email.yourverifiedemailaddress":
     "Din bekræftede e-mailadresse bruges til at sende login-koder, når der opdages mistænkelige eller usædvanlige aktiviteter, for at minde dig om din tegnebogs login-ID og til at sende betalingsmeddelelser, når du modtager midler.",
-  "scenes.security.passwordhint.notstored": null,
-  "scenes.security.passwordhint.stored": null,
   "scenes.security.tor.allowed": "Tilladt",
   "scenes.security.tor.blocked": "Blokeret",
   "scenes.security.twostepsetup.sms": "Brug koder sendt via SMS",
@@ -2080,9 +2091,6 @@
   "scenes.securitysettings.apiaccess.description2": "for at begynde.",
   "scenes.securitysettings.apiaccess.getstarted": "her",
   "scenes.securitysettings.apiaccess.title": "API-adgang",
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.change": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.save": null,
   "scenes.securitysettings.basicsecurity.recoveryphrase.description":
     "Din backup-frase indeholder alle de private nøgler i din tegnebog. Skriv disse 12 ord ned i rækkefølge og gem dem et sikkert sted offline. Denne frase giver dig (og alle, der har den) en måde til at gendanne din tegnebog og få adgang til dine midler. ",
   "scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase":
@@ -2275,9 +2283,6 @@
   "scenes.settings.manage_addresses.edit_name": "Redigér navn",
   "scenes.settings.manage_addresses.make_default": "Lav standard",
   "scenes.settings.manage_addresses.show_xpub": "Vis xPub",
-  "scenes.settings.passwordhint.description1": null,
-  "scenes.settings.passwordhint.description2": null,
-  "scenes.settings.passwordhint.title": null,
   "scenes.settings.preferences.autologout.updateform.minutes": null,
   "scenes.settings.preferences.bitcoinlinkhandling.description":
     "Aktiver dette for at tillade at din Blockchain-tegnebog håndterer bitcoin-betalingslinks i web-browseren.",
@@ -2290,7 +2295,6 @@
     "Vi kan ikke se, om håndteringen af bitcoin-links er blevet aktiveret eller ej.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Hvis den allerede er blevet aktiveret, sker der ingen ting.",
-  "scenes.settings.preferences.explain": "Tilpas din tegnebogs-oplevelse.",
   "scenes.settings.preferences.localcurrency.error.description":
     "Vælg din lokale valuta.",
   "scenes.settings.preferences.localcurrency.error.title": "Lokal valuta",
@@ -2613,7 +2617,6 @@
   "sfoxexchangedata.verify.hidessn": "Skjul SSN",
   "sfoxexchangedata.verify.identity.error":
     "Der var desværre et problem med at verificere din identitet. {clickHere} for at begynde forfra.",
-  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Efternavn",
   "sfoxexchangedata.verify.partner.header": "De skjulte oplysninger",
   "sfoxexchangedata.verify.partner.header1": "Lad os lære dig at kende",

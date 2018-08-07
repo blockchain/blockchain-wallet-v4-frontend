@@ -172,6 +172,7 @@
   "coinifysignup.acceptterms.helper1.answer":
     "Coinify este o platformă de tranzacționare cu care am inițiat un parteneriat pentru a vă oferi o experiență armonioasă de cumpărare și vânzare folosind portofelul dvs. Blockchain",
   "coinifysignup.acceptterms.helper1.question": "Ce este Coinify?",
+  "components.alerts.address_and_private_key_incorrect": null,
   "components.alerts.address_delete_error":
     "Eroare la ștergerea etichetei cu adresa.",
   "components.alerts.address_delete_success": "Adresa a fost ștearsă.",
@@ -257,6 +258,9 @@
     "Lista albă de IP-uri a fost actualizată",
   "components.alerts.language_update_error": "Eroare la actualizarea limbii",
   "components.alerts.language_update_success": "Limba a fost actualizată.",
+  "components.alerts.lockbox_delete_error": null,
+  "components.alerts.lockbox_delete_success": null,
+  "components.alerts.lockbox_setup_success": null,
   "components.alerts.logginglevel_update_error":
     "Eroare la actualizarea nivelului de conectare",
   "components.alerts.logginglevel_update_success":
@@ -439,6 +443,7 @@
   "formhelper.ageovereighteen": "Trebuie să aveți cel puțin 18 ani",
   "formhelper.incorrectpassword": "Parolă incorectă",
   "formhelper.invalidbitcoinaddress": "Adresă Bitcoin nevalidă",
+  "formhelper.invalidbitcoinaddressandkey": null,
   "formhelper.invalidbitcoincashaddress": "Adresă Bitcoin cash nevalidă",
   "formhelper.invalidbitcoinprivatekey": "Cheie privată Bitcoin nevalidă",
   "formhelper.invalidemail": "Adresă de e-mail nevalidă",
@@ -457,10 +462,13 @@
     "Țara nu este disponibilă pentru cumpărare și vânzare",
   "formhelper.partnerstatewhitelist":
     "Statul nu este disponibil pentru cumpărare și vânzare",
+  "formhelper.passwordcracktime": null,
   "formhelper.passwordsdonotmatch": "Parolele nu se potrivesc",
+  "formhelper.passwordsuggest": null,
   "formhelper.required": "Necesar(ă)",
   "formhelper.requireddob": "Trebuie să fie o dată validă",
   "formhelper.requirednumber": "Număr incorect",
+  "formhelper.requiredphrase": null,
   "formhelper.requiredssn": "Trebuie să fie un număr social (SSN) valid",
   "formhelper.requireduszipcode":
     "Trebuie să fie un cod poștal valid din Statele Unite",
@@ -515,30 +523,10 @@
   "layouts.public.footer.explorer": "Date",
   "layouts.public.footer.support": "Asistență",
   "layouts.wallet.header.logout.signout": "Deconectare",
-  "layouts.wallet.header.whatsnew.whatsnew.desc10":
-    "Dacă aveați monede bitcoin în portofel înainte de 1 august 2017, puteți accesa acum Bitcoin Cash în portofelul Blockchain.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc11":
-    "Adresele Bitcoin Cash urmează acum formatul CashAddr.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc7":
-    "Acum puteți să vindeți monede bitcoin direct din portofelul Blockchain!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc8":
-    "Acum puteți trimite și primi monede ether din portofelul Blockchain!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc9":
-    "Puteți efectua schimburi între bitcoin, ether și bitcoin cash direct din portofelul Blockchain",
   "layouts.wallet.header.whatsnew.whatsnew.empty":
     "?? Sunteți la curent cu tot!",
-  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore":
-    "Aflați mai multe",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Echipa noastră lucrează întotdeauna la noi funcții, dar dacă există ceva ce putem îmbunătăți, vă rugăm să ne spuneți <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>aici<a/>.",
-  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Aflați mai multe",
-  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title11":
-    "Format nou pentru adresa de Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title7": "Vindeți Bitcoin",
-  "layouts.wallet.header.whatsnew.whatsnew.title8":
-    "Trimiteți și primiți Ether",
-  "layouts.wallet.header.whatsnew.whatsnew.title9": "Schimbați active",
   "layouts.wallet.menuleft.footer.about": "Despre",
   "layouts.wallet.menuleft.footer.privacypolicy":
     "Politica de confidențialitate",
@@ -549,6 +537,7 @@
   "layouts.wallet.menuleft.navigation.dashboard": "Tabloul de bord",
   "layouts.wallet.menuleft.navigation.exchange": "Schimb",
   "layouts.wallet.menuleft.navigation.general": "General",
+  "layouts.wallet.menuleft.navigation.lockbox": null,
   "layouts.wallet.menuleft.navigation.preferences": "Preferințe",
   "layouts.wallet.menuleft.navigation.securitycenter": "Centru de securitate",
   "layouts.wallet.menuleft.navigation.settings": "Setări",
@@ -556,7 +545,6 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bicoin cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
-  "layouts.wallet.menutop.bank": "Fiți propria dvs. bancă",
   "layouts.wallet.menutop.request": "Cerere",
   "layouts.wallet.menutop.send": "Trimitere",
   "layouts.wallet.trayright.faq": "Întrebări frecvente",
@@ -594,11 +582,17 @@
   "modals.coinifytradedetails.trade.close": "Închidere",
   "modals.confirm.button": null,
   "modals.confirm.button.cancel": null,
+  "modals.confirm.cancel.phone_call": null,
   "modals.confirm.cancel.verify_identity": null,
+  "modals.confirm.confirm.phone_call": null,
   "modals.confirm.confirm.verify_identity": null,
   "modals.confirm.message": null,
+  "modals.confirm.message.phone_call": null,
+  "modals.confirm.message.phone_call_1": null,
+  "modals.confirm.message.phone_call_2": null,
   "modals.confirm.message.verify_identity": null,
   "modals.confirm.title": null,
+  "modals.confirm.title.phone_call": null,
   "modals.confirm.title.verify_identity": null,
   "modals.deleteaddresslabel.cancel": "Anulare",
   "modals.disable2fa.disable": "Dezactivare",
@@ -664,20 +658,35 @@
     "Adresa existentă generată în <span>afara acestui portofel</span>.",
   "modals.importbtcaddress.importexternalbitcoinaddress.advanced.message":
     "Aceasta este o funcționalitate avansată și este sugerată numai pentru utilizatorii avansați.",
-  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoinaddress":
-    "Adresă Bitcoin",
-  "modals.importbtcaddress.importexternalbitcoinaddress.prvkey":
-    "Introduceți cheia privată",
+  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoineither": null,
   "modals.importbtcaddress.importexternalbitcoinaddress.transfer":
     "Transferați fonduri către un portofel existent (opțional)",
   "modals.importbtcaddress.importinternalbitcoinaddress.warning":
     "Adresele generate de acest portofel nu trebuie importate.",
   "modals.importbtcaddress.importtype": "Ce doriți să importați?",
   "modals.importbtcaddress.title": "Importați adresa Bitcoin existentă",
-  "modals.jumioprompt.body1": null,
-  "modals.jumioprompt.close": null,
-  "modals.jumioprompt.dothat": null,
-  "modals.jumioprompt.header": null,
+  "modals.lockboxsetup.confirmrecovery.step1.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step1.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step1.title": null,
+  "modals.lockboxsetup.confirmrecovery.step2.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step2.incorrectphrase": null,
+  "modals.lockboxsetup.confirmrecovery.step2.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step2.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.no": null,
+  "modals.lockboxsetup.confirmrecovery.step3.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step3.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.yes": null,
+  "modals.lockboxsetup.connectstep.connectdevice": null,
+  "modals.lockboxsetup.connectstep.connected": null,
+  "modals.lockboxsetup.connectstep.error": null,
+  "modals.lockboxsetup.firststep.buy": null,
+  "modals.lockboxsetup.firststep.link": null,
+  "modals.lockboxsetup.firststep.restore": null,
+  "modals.lockboxsetup.labelstep.continue": null,
+  "modals.lockboxsetup.labelstep.devicename": null,
+  "modals.lockboxsetup.labelstep.nameintro": null,
+  "modals.lockboxsetup.labelstep.plugindevice": null,
+  "modals.lockboxsetup.title": null,
   "modals.mobilelogin.cancel": "Anulare",
   "modals.mobilelogin.explain":
     "Urmați acești pași pentru a vă conecta la portofelul web utilizând dispozitivul mobil",
@@ -745,6 +754,7 @@
   "modals.recoveryphrase.secondstep.nextfourwords": "Următoarele 2 cuvinte",
   "modals.recoveryphrase.secondstep.number": "Cuvântul {number}",
   "modals.recoveryphrase.secondstep.prevfourwords": null,
+  "modals.recoveryphrase.secondstep.returnReviewPhrase": null,
   "modals.recoveryphrase.secondstep.tip": "Notați-l",
   "modals.recoveryphrase.secondstep.title":
     "Creați o copie de rezervă a frazei de recuperare",
@@ -1127,12 +1137,9 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
   "scenes.buysell.sfoxcheckout.content.jumio.buylimit": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.profile": null,
   "scenes.buysell.sfoxcheckout.content.jumio.selllimit": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.completed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
@@ -1747,6 +1754,11 @@
     "Nu este o adresă de tip bitcoin pentru trimitere sau primire.",
   "scenes.info.walletid.title": "ID de portofel",
   "scenes.info.walletid.warning": "Nu spuneți nimănui ID-ul dvs. de portofel.",
+  "scenes.lockbox.welcome.addanotherdevice": null,
+  "scenes.lockbox.welcome.deletedevice": null,
+  "scenes.lockbox.welcome.getstarted": null,
+  "scenes.lockbox.welcome.subtitle": null,
+  "scenes.lockbox.welcome.title": null,
   "scenes.login.browserwarning":
     "Browserul dvs. nu este acceptat. Actualizați la cel puțin Chrome 45, Firefox 45, Safari 8, IE 11 sau Opera.",
   "scenes.login.clickhere": "faceți clic aici.",
@@ -1943,8 +1955,6 @@
     "Am trimis un cod de verificare la",
   "scenes.security.email.yourverifiedemailaddress":
     "Adresa dvs. de e-mail verificată este utilizată pentru a vă trimite coduri de conectare atunci când se detectează o activitate suspectă sau neobișnuită, pentru a vă reaminti ID-ul de autentificare la portofelul dvs. și pentru a vă trimite alerte de plată atunci când primiți fonduri.",
-  "scenes.security.passwordhint.notstored": null,
-  "scenes.security.passwordhint.stored": null,
   "scenes.security.tor.allowed": "Permis",
   "scenes.security.tor.blocked": "Blocat",
   "scenes.security.twostepsetup.sms": "Utilizați coduri trimise prin SMS",
@@ -2115,9 +2125,6 @@
   "scenes.securitysettings.apiaccess.description2": "pentru a începe.",
   "scenes.securitysettings.apiaccess.getstarted": "aici",
   "scenes.securitysettings.apiaccess.title": "Acces API",
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.change": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.save": null,
   "scenes.securitysettings.basicsecurity.recoveryphrase.description":
     "Fraza de recuperare conține toate cheile private din portofel. Vă rugăm să scrieți aceste 12 cuvinte în ordine și să le păstrați undeva în siguranță offline. Această frază vă oferă (sau oricui o deține) posibilitatea de a restabili accesul la portofel și de a accesa fondurile. ",
   "scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase":
@@ -2312,9 +2319,6 @@
   "scenes.settings.manage_addresses.make_default":
     "Setează ca opțiune implicită",
   "scenes.settings.manage_addresses.show_xpub": "Afișează xPub",
-  "scenes.settings.passwordhint.description1": null,
-  "scenes.settings.passwordhint.description2": null,
-  "scenes.settings.passwordhint.title": null,
   "scenes.settings.preferences.autologout.updateform.minutes": null,
   "scenes.settings.preferences.bitcoinlinkhandling.description":
     "Activați această opțiune pentru a permite portofelului Blockchain să gestioneze link-urile de plată în browserul web.",
@@ -2327,8 +2331,6 @@
     "Nu putem detecta dacă a fost activată sau nu gestionarea link-urilor bitcoin.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Dacă a fost deja activată, nu se va întâmpla nimic.",
-  "scenes.settings.preferences.explain":
-    "Personalizați-vă experiența lucrului cu portofelul.",
   "scenes.settings.preferences.localcurrency.error.description":
     "Selectați moneda locală.",
   "scenes.settings.preferences.localcurrency.error.title": "Moneda locală",
@@ -2654,7 +2656,6 @@
   "sfoxexchangedata.verify.hidessn": "Ascundere SSN",
   "sfoxexchangedata.verify.identity.error":
     "Din păcat nu vă putem verifica identitatea. {clickHere} pentru a o lua de la capăt.",
-  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Prenume",
   "sfoxexchangedata.verify.partner.header": "Detaliile ascunse",
   "sfoxexchangedata.verify.partner.header1": "Sa vă cunoaștem",

@@ -167,6 +167,7 @@
   "coinifysignup.acceptterms.helper1.answer":
     "Coinify är en handelsplattform som vi samarbetar med för att erbjuda en harmonisk upplevelse när du köper och säljer från din Blockchain-plånbok",
   "coinifysignup.acceptterms.helper1.question": "Vad är Coinify?",
+  "components.alerts.address_and_private_key_incorrect": null,
   "components.alerts.address_delete_error":
     "Adressetiketten kunde inte tas bort.",
   "components.alerts.address_delete_success": "Adressen togs bort.",
@@ -255,6 +256,9 @@
   "components.alerts.language_update_error":
     "Det gick inte att uppdatera språket",
   "components.alerts.language_update_success": "Språket har uppdaterats",
+  "components.alerts.lockbox_delete_error": null,
+  "components.alerts.lockbox_delete_success": null,
+  "components.alerts.lockbox_setup_success": null,
   "components.alerts.logginglevel_update_error":
     "Det gick inte att uppdatera loggningsnivån",
   "components.alerts.logginglevel_update_success":
@@ -440,6 +444,7 @@
   "formhelper.ageovereighteen": "Måste vara minst 18 år",
   "formhelper.incorrectpassword": "Fel lösenord",
   "formhelper.invalidbitcoinaddress": "Ogiltig Bitcoin-adress",
+  "formhelper.invalidbitcoinaddressandkey": null,
   "formhelper.invalidbitcoincashaddress": "Ogiltig Bitcoin Cash-adress",
   "formhelper.invalidbitcoinprivatekey": "Ogiltig privat nycken för Bitcoin",
   "formhelper.invalidemail": "Ogiltig e-postadress",
@@ -458,10 +463,13 @@
     "Köp och sälj är inte tillgängligt i detta land",
   "formhelper.partnerstatewhitelist":
     "Köp och sälj är inte tillgängligt i denna stat",
+  "formhelper.passwordcracktime": null,
   "formhelper.passwordsdonotmatch": "Lösenorden överensstämmer inte",
+  "formhelper.passwordsuggest": null,
   "formhelper.required": "Krävs",
   "formhelper.requireddob": "Datumet måste vara giltigt",
   "formhelper.requirednumber": "Ogiltigt nummer",
+  "formhelper.requiredphrase": null,
   "formhelper.requiredssn": "Personnumret måste vara giltigt",
   "formhelper.requireduszipcode": "Måste vara en giltig amerikansk ZIP-kod",
   "formhelper.requiredzipcode": null,
@@ -516,27 +524,9 @@
   "layouts.public.footer.explorer": "Data",
   "layouts.public.footer.support": "Support",
   "layouts.wallet.header.logout.signout": "Logga ut",
-  "layouts.wallet.header.whatsnew.whatsnew.desc10":
-    "Om du hade bitcoin i din plånbok före den 1 augusti 2017 kan du nu komma åt dina bitcoin cash i din Blockchain-plånbok.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc11":
-    "Bitcoin Cash-adresser följer nu CashAddr-formatet.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc7":
-    "Du kan nu sälja dina bitcoin direkt från din Blockchain-plånbok!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc8":
-    "Du kan nu skicka och ta emot ether från din Blockchain-plånbok!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc9":
-    "Du kan växla mellan bitcoin, ether och bitcoin cash direkt från din Blockchain-plånbok",
   "layouts.wallet.header.whatsnew.whatsnew.empty": "?? Du är nu klar!",
-  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore": "Läs mer",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Vårt team jobbar alltid på nya funktioner, men om det finns något som du tycker att vi kan förbättra kan du informera oss <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>här<a/>.",
-  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Läs mer",
-  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title11":
-    "Nytt Bitcoin Cash-adressformat",
-  "layouts.wallet.header.whatsnew.whatsnew.title7": "Sälj Bitcoin",
-  "layouts.wallet.header.whatsnew.whatsnew.title8": "Skicka och ta emot ether",
-  "layouts.wallet.header.whatsnew.whatsnew.title9": "Växla tillgångar",
   "layouts.wallet.menuleft.footer.about": "Om oss",
   "layouts.wallet.menuleft.footer.privacypolicy": "Sekretesspolicy",
   "layouts.wallet.menuleft.footer.termsofservice": "Användarvillkor",
@@ -545,6 +535,7 @@
   "layouts.wallet.menuleft.navigation.dashboard": "Instrumentpanel",
   "layouts.wallet.menuleft.navigation.exchange": "Växla",
   "layouts.wallet.menuleft.navigation.general": "Allmänt",
+  "layouts.wallet.menuleft.navigation.lockbox": null,
   "layouts.wallet.menuleft.navigation.preferences": "Egenskaper",
   "layouts.wallet.menuleft.navigation.securitycenter": "Säkerhetscenter",
   "layouts.wallet.menuleft.navigation.settings": "Inställningar",
@@ -552,7 +543,6 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
-  "layouts.wallet.menutop.bank": "Var din egen bank.",
   "layouts.wallet.menutop.request": "Begär",
   "layouts.wallet.menutop.send": "Skicka",
   "layouts.wallet.trayright.faq": "Vanliga frågor och svar",
@@ -590,11 +580,17 @@
   "modals.coinifytradedetails.trade.close": "Stäng",
   "modals.confirm.button": null,
   "modals.confirm.button.cancel": null,
+  "modals.confirm.cancel.phone_call": null,
   "modals.confirm.cancel.verify_identity": null,
+  "modals.confirm.confirm.phone_call": null,
   "modals.confirm.confirm.verify_identity": null,
   "modals.confirm.message": null,
+  "modals.confirm.message.phone_call": null,
+  "modals.confirm.message.phone_call_1": null,
+  "modals.confirm.message.phone_call_2": null,
   "modals.confirm.message.verify_identity": null,
   "modals.confirm.title": null,
+  "modals.confirm.title.phone_call": null,
   "modals.confirm.title.verify_identity": null,
   "modals.deleteaddresslabel.cancel": "Avbryt",
   "modals.disable2fa.disable": "Inaktivera",
@@ -658,20 +654,35 @@
     "Befintlig adress skapad <span>utanför den här plånboken</span>.",
   "modals.importbtcaddress.importexternalbitcoinaddress.advanced.message":
     "Det här är en avancerad funktion och rekommenderas endast för avancerade användare.",
-  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoinaddress":
-    "Bitcoin-adress",
-  "modals.importbtcaddress.importexternalbitcoinaddress.prvkey":
-    "Ange privat nyckel",
+  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoineither": null,
   "modals.importbtcaddress.importexternalbitcoinaddress.transfer":
     "Skicka pengar till en befintlig adress (valfritt)",
   "modals.importbtcaddress.importinternalbitcoinaddress.warning":
     "Adresser som skapas av den här plånboken bör inte importeras.",
   "modals.importbtcaddress.importtype": "Vad vill du importera?",
   "modals.importbtcaddress.title": "Importera befintlig Bitcoin-adress",
-  "modals.jumioprompt.body1": null,
-  "modals.jumioprompt.close": null,
-  "modals.jumioprompt.dothat": null,
-  "modals.jumioprompt.header": null,
+  "modals.lockboxsetup.confirmrecovery.step1.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step1.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step1.title": null,
+  "modals.lockboxsetup.confirmrecovery.step2.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step2.incorrectphrase": null,
+  "modals.lockboxsetup.confirmrecovery.step2.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step2.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.no": null,
+  "modals.lockboxsetup.confirmrecovery.step3.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step3.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.yes": null,
+  "modals.lockboxsetup.connectstep.connectdevice": null,
+  "modals.lockboxsetup.connectstep.connected": null,
+  "modals.lockboxsetup.connectstep.error": null,
+  "modals.lockboxsetup.firststep.buy": null,
+  "modals.lockboxsetup.firststep.link": null,
+  "modals.lockboxsetup.firststep.restore": null,
+  "modals.lockboxsetup.labelstep.continue": null,
+  "modals.lockboxsetup.labelstep.devicename": null,
+  "modals.lockboxsetup.labelstep.nameintro": null,
+  "modals.lockboxsetup.labelstep.plugindevice": null,
+  "modals.lockboxsetup.title": null,
   "modals.mobilelogin.cancel": "Avbryt",
   "modals.mobilelogin.explain":
     "Följ dessa steg för att logga in till din webbplånbok med en mobil enhet",
@@ -737,6 +748,7 @@
   "modals.recoveryphrase.secondstep.nextfourwords": "Nästa 4 ord",
   "modals.recoveryphrase.secondstep.number": "Ord {number}",
   "modals.recoveryphrase.secondstep.prevfourwords": null,
+  "modals.recoveryphrase.secondstep.returnReviewPhrase": null,
   "modals.recoveryphrase.secondstep.tip": "Skriv ner det",
   "modals.recoveryphrase.secondstep.title":
     "Återställningsfras för säkerhetskopiering",
@@ -1113,12 +1125,9 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
   "scenes.buysell.sfoxcheckout.content.jumio.buylimit": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.profile": null,
   "scenes.buysell.sfoxcheckout.content.jumio.selllimit": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.completed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
@@ -1724,6 +1733,11 @@
     "Det är INTE en Bitcoinadress som du kan skicka till eller ta emot från.",
   "scenes.info.walletid.title": "Plånboks-id",
   "scenes.info.walletid.warning": "Dela inte ditt plånboks-id med någon annan.",
+  "scenes.lockbox.welcome.addanotherdevice": null,
+  "scenes.lockbox.welcome.deletedevice": null,
+  "scenes.lockbox.welcome.getstarted": null,
+  "scenes.lockbox.welcome.subtitle": null,
+  "scenes.lockbox.welcome.title": null,
   "scenes.login.browserwarning":
     "Din webbläsare stöds inte. Uppdatera till Chrome 45, Firefox 45, Safari 8, IE 11 eller Opera.",
   "scenes.login.clickhere": "klicka här.",
@@ -1916,8 +1930,6 @@
     "Vi har skickat en verifieringskod till",
   "scenes.security.email.yourverifiedemailaddress":
     "Din verifierade e-postadress används för att skicka inloggningskoder när misstänkt eller ovanlig aktivitet upptäcks, för att påminna dig om ditt inloggnings-id till din plånbok och för att skicka betalningsaviseringar när du får pengar.",
-  "scenes.security.passwordhint.notstored": null,
-  "scenes.security.passwordhint.stored": null,
   "scenes.security.tor.allowed": "Tillåten",
   "scenes.security.tor.blocked": "Blockerad",
   "scenes.security.twostepsetup.sms": "Använd koder skickade via sms",
@@ -2085,9 +2097,6 @@
   "scenes.securitysettings.apiaccess.description2": "för att komma igång.",
   "scenes.securitysettings.apiaccess.getstarted": "här",
   "scenes.securitysettings.apiaccess.title": "API-tillgång",
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.change": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.save": null,
   "scenes.securitysettings.basicsecurity.recoveryphrase.description":
     "Din säkerhetsfras innehåller alla privata nycklar i din plånbok. Skriv ner de här 12 order och lagra dem på en säker plats offline. Den här frasen gör det möjligt för dig (eller vem som helst som har frasen) att återställa din plånbok och komma åt dina pengar. ",
   "scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase":
@@ -2278,9 +2287,6 @@
   "scenes.settings.manage_addresses.edit_name": "Redigera namn",
   "scenes.settings.manage_addresses.make_default": "Gör till standard",
   "scenes.settings.manage_addresses.show_xpub": "Visa xPub",
-  "scenes.settings.passwordhint.description1": null,
-  "scenes.settings.passwordhint.description2": null,
-  "scenes.settings.passwordhint.title": null,
   "scenes.settings.preferences.autologout.updateform.minutes": null,
   "scenes.settings.preferences.bitcoinlinkhandling.description":
     "Aktivera detta för att tillåta att Blockchain-plånboken hanterar Bitcoin-betalningslänkar i webbläsaren.",
@@ -2293,7 +2299,6 @@
     "Vi kan inte kontrollera om hantering av Bitcoin-länkar är aktiverat eller inte.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Ingenting kommer att hända om det redan är aktiverat.",
-  "scenes.settings.preferences.explain": "Anpassa din plånboksupplevelse.",
   "scenes.settings.preferences.localcurrency.error.description":
     "Välj din lokala valuta",
   "scenes.settings.preferences.localcurrency.error.title": "Lokal valuta",
@@ -2613,7 +2618,6 @@
   "sfoxexchangedata.verify.hidessn": "Göm personnummer",
   "sfoxexchangedata.verify.identity.error":
     "Tyvärr uppstod ett problem när din identitet verifierades. {clickHere} för att starta om.",
-  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Efternamn",
   "sfoxexchangedata.verify.partner.header": "De gömda uppgifterna",
   "sfoxexchangedata.verify.partner.header1": "Låt oss lära känna dig",

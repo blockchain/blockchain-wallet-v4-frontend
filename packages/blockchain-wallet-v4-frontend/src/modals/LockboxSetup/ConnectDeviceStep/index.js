@@ -8,7 +8,7 @@ import Loading from './template.loading'
 import Failure from './template.failure'
 import Success from './template.success'
 
-class OptionsStep extends React.PureComponent {
+class ConnectDeviceStep extends React.PureComponent {
   componentDidMount () {
     this.props.lockboxActions.initializeConnect()
   }
@@ -35,4 +35,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(OptionsStep)
+)(ConnectDeviceStep)

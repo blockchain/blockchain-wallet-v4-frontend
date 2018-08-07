@@ -173,6 +173,7 @@
   "coinifysignup.acceptterms.helper1.answer":
     "Η Coinify είναι μια πλατφόρμα συναλλαγών με την οποία συνεργαζόμαστε για να σας παρέχουμε μια αρμονική εμπειρία αγοράς & πώλησης στο Blockchain πορτοφόλι σας",
   "coinifysignup.acceptterms.helper1.question": "Τι είναι Coinify;",
+  "components.alerts.address_and_private_key_incorrect": null,
   "components.alerts.address_delete_error":
     "Αποτυχία διαγραφής της επιγραφής διεύθυνσης.",
   "components.alerts.address_delete_success":
@@ -263,6 +264,9 @@
   "components.alerts.language_update_error": "Αποτυχία ενημέρωσης γλώσσας",
   "components.alerts.language_update_success":
     "Η γλώσσα ενημερώθηκε με επιτυχία",
+  "components.alerts.lockbox_delete_error": null,
+  "components.alerts.lockbox_delete_success": null,
+  "components.alerts.lockbox_setup_success": null,
   "components.alerts.logginglevel_update_error":
     "Αποτυχία ενημέρωσης επιπέδου σύνδεσης",
   "components.alerts.logginglevel_update_success":
@@ -449,6 +453,7 @@
   "formhelper.ageovereighteen": "Πρέπει να είναι πάνω από 18 η μεγαλύτερο",
   "formhelper.incorrectpassword": "Λανθασμένος Κωδικός Πρόσβασης",
   "formhelper.invalidbitcoinaddress": "Μη έγκυρη διεύθυνση Bitcoin",
+  "formhelper.invalidbitcoinaddressandkey": null,
   "formhelper.invalidbitcoincashaddress": "Μη έγκυρη διεύθυνση Bitcoin Cash",
   "formhelper.invalidbitcoinprivatekey": "Μη έγκυρο Ιδιωτικό Κλειδί Bitcoin",
   "formhelper.invalidemail": "Μη έγκυρη διεύθυνση email",
@@ -467,10 +472,13 @@
     "Η χώρα δεν είναι διαθέσιμη για αγορά & πώληση",
   "formhelper.partnerstatewhitelist":
     "Η πολιτεία δεν είναι διαθέσιμη για αγορά & πώληση",
+  "formhelper.passwordcracktime": null,
   "formhelper.passwordsdonotmatch": "Οι κωδικοί πρόσβασης δεν ταιριάζουν",
+  "formhelper.passwordsuggest": null,
   "formhelper.required": "Απαιτείται",
   "formhelper.requireddob": "Πρέπει να είναι μια έγκυρη ημερομηνία",
   "formhelper.requirednumber": "Μη έγκυρος αριθμός",
+  "formhelper.requiredphrase": null,
   "formhelper.requiredssn":
     "Πρέπει να είναι έγκυρος Αριθμός Κοινωνικής Ασφάλισης",
   "formhelper.requireduszipcode":
@@ -527,29 +535,9 @@
   "layouts.public.footer.explorer": "Δεδομένα",
   "layouts.public.footer.support": "Υποστήριξη",
   "layouts.wallet.header.logout.signout": "Αποσύνδεση",
-  "layouts.wallet.header.whatsnew.whatsnew.desc10":
-    "Εάν είχατε bitcoin στο πορτοφόλι σας πριν την 1η Αυγούστου 2017, μπορείτε τώρα να έχετε πρόσβαση σε Bitcoin Cash στο Blockchain πορτοφόλι σας.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc11":
-    "Οι διευθύνσεις Bitcoin Cash ακολουθούν τώρα τη διάταξη CashAddr.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc7":
-    "Μπορείτε τώρα να πωλήσετε bitcoin από το Blockchain πορτοφόλι σας!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc8":
-    "Μπορείτε τώρα να στείλετε και να λάβετε ether από το Blockchain πορτοφόλι σας!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc9":
-    "Μπορείτε να κάνετε ανταλλαγές μεταξύ bitcoin, ether και bitcoin cash απευθείας από το Blockchain πορτοφόλι σας",
   "layouts.wallet.header.whatsnew.whatsnew.empty": ";; Αυτό ήταν!",
-  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore":
-    "Μάθετε Περισσότερα",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Η ομάδα μας εργάζεται συνεχώς πάνω σε νέες λειτουργίες, εάν υπάρχει κάτι που μπορούμε να βελτιώσουμε, παρακαλούμε ενημερώστε μας <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>εδώ<a/>.",
-  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Μάθετε Περισσότερα",
-  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title11":
-    "Νέα Διάταξη Διεύθυνσης Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title7": "Πώληση Bitcoin",
-  "layouts.wallet.header.whatsnew.whatsnew.title8": "Αποστολή & Λήψη Ether",
-  "layouts.wallet.header.whatsnew.whatsnew.title9":
-    "Ανταλλαγή Περιουσιακών Στοιχείων",
   "layouts.wallet.menuleft.footer.about": "Σχετικά",
   "layouts.wallet.menuleft.footer.privacypolicy": "Πολιτική Απορρήτου",
   "layouts.wallet.menuleft.footer.termsofservice": "Όροι Χρήσης",
@@ -558,6 +546,7 @@
   "layouts.wallet.menuleft.navigation.dashboard": "Πίνακας Ελέγχου",
   "layouts.wallet.menuleft.navigation.exchange": "Ανταλλαγή",
   "layouts.wallet.menuleft.navigation.general": "Γενικά",
+  "layouts.wallet.menuleft.navigation.lockbox": null,
   "layouts.wallet.menuleft.navigation.preferences": "Προτιμήσεις",
   "layouts.wallet.menuleft.navigation.securitycenter": "Κέντρο ασφάλειας",
   "layouts.wallet.menuleft.navigation.settings": "Ρυθμίσεις",
@@ -565,7 +554,6 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
-  "layouts.wallet.menutop.bank": "Γίνετε η τράπεζά σας.",
   "layouts.wallet.menutop.request": "Αίτημα",
   "layouts.wallet.menutop.send": "Αποστολή",
   "layouts.wallet.trayright.faq": "Συχνές Ερωτήσεις",
@@ -603,11 +591,17 @@
   "modals.coinifytradedetails.trade.close": "Κλείσιμο",
   "modals.confirm.button": null,
   "modals.confirm.button.cancel": null,
+  "modals.confirm.cancel.phone_call": null,
   "modals.confirm.cancel.verify_identity": null,
+  "modals.confirm.confirm.phone_call": null,
   "modals.confirm.confirm.verify_identity": null,
   "modals.confirm.message": null,
+  "modals.confirm.message.phone_call": null,
+  "modals.confirm.message.phone_call_1": null,
+  "modals.confirm.message.phone_call_2": null,
   "modals.confirm.message.verify_identity": null,
   "modals.confirm.title": null,
+  "modals.confirm.title.phone_call": null,
   "modals.confirm.title.verify_identity": null,
   "modals.deleteaddresslabel.cancel": "Ακύρωση",
   "modals.disable2fa.disable": "Απενεργοποίηση",
@@ -673,20 +667,35 @@
     "Υπάρχουσα διεύθυνση που δημιουργήθηκε <span>εκτός αυτού του πορτοφολιού</span>.",
   "modals.importbtcaddress.importexternalbitcoinaddress.advanced.message":
     "Αυτή είναι μια προχωρημένη λειτουργικότητα και προτείνεται μόνο για προχωρημένους χρήστες.",
-  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoinaddress":
-    "Διεύθυνση Bitcoin",
-  "modals.importbtcaddress.importexternalbitcoinaddress.prvkey":
-    "Εισαγωγή Ιδιωτικού Κλειδιού",
+  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoineither": null,
   "modals.importbtcaddress.importexternalbitcoinaddress.transfer":
     "Μεταφορά κεφαλαίων σε υπάρχον πορτοφόλι (προαιρετικό)",
   "modals.importbtcaddress.importinternalbitcoinaddress.warning":
     "Οι διευθύνσεις που δημιουργήθηκαν από αυτό το πορτοφόλι δεν πρέπει να εισάγονται.",
   "modals.importbtcaddress.importtype": "Τι θέλετε να κάνετε εισαγωγή;",
   "modals.importbtcaddress.title": "Εισαγωγή Υπάρχουσας Διεύθυνσης Bitcoin",
-  "modals.jumioprompt.body1": null,
-  "modals.jumioprompt.close": null,
-  "modals.jumioprompt.dothat": null,
-  "modals.jumioprompt.header": null,
+  "modals.lockboxsetup.confirmrecovery.step1.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step1.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step1.title": null,
+  "modals.lockboxsetup.confirmrecovery.step2.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step2.incorrectphrase": null,
+  "modals.lockboxsetup.confirmrecovery.step2.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step2.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.no": null,
+  "modals.lockboxsetup.confirmrecovery.step3.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step3.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.yes": null,
+  "modals.lockboxsetup.connectstep.connectdevice": null,
+  "modals.lockboxsetup.connectstep.connected": null,
+  "modals.lockboxsetup.connectstep.error": null,
+  "modals.lockboxsetup.firststep.buy": null,
+  "modals.lockboxsetup.firststep.link": null,
+  "modals.lockboxsetup.firststep.restore": null,
+  "modals.lockboxsetup.labelstep.continue": null,
+  "modals.lockboxsetup.labelstep.devicename": null,
+  "modals.lockboxsetup.labelstep.nameintro": null,
+  "modals.lockboxsetup.labelstep.plugindevice": null,
+  "modals.lockboxsetup.title": null,
   "modals.mobilelogin.cancel": "Ακύρωση",
   "modals.mobilelogin.explain":
     "Ακολουθήστε αυτά τα βήματα για σύνδεση στο διαδικτυακό σας πορτοφόλι χρησιμοποιώντας τη συσκευή του κινητού σας",
@@ -754,6 +763,7 @@
   "modals.recoveryphrase.secondstep.nextfourwords": "Επόμενες 4 Λέξεις",
   "modals.recoveryphrase.secondstep.number": "Λέξη {number}",
   "modals.recoveryphrase.secondstep.prevfourwords": null,
+  "modals.recoveryphrase.secondstep.returnReviewPhrase": null,
   "modals.recoveryphrase.secondstep.tip": "Σημειώστε την σε χαρτί",
   "modals.recoveryphrase.secondstep.title":
     "Φράση ανάκτησης αντιγράφου ασφαλείας",
@@ -1140,12 +1150,9 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
   "scenes.buysell.sfoxcheckout.content.jumio.buylimit": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.profile": null,
   "scenes.buysell.sfoxcheckout.content.jumio.selllimit": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.completed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
@@ -1771,6 +1778,11 @@
   "scenes.info.walletid.title": "Αναγνωριστικό Πορτοφολιού",
   "scenes.info.walletid.warning":
     "Μην κοινοποιείτε σε άλλους το Αναγνωριστικό του Πορτοφολιού σας.",
+  "scenes.lockbox.welcome.addanotherdevice": null,
+  "scenes.lockbox.welcome.deletedevice": null,
+  "scenes.lockbox.welcome.getstarted": null,
+  "scenes.lockbox.welcome.subtitle": null,
+  "scenes.lockbox.welcome.title": null,
   "scenes.login.browserwarning":
     "Το πρόγραμμα περιήγησης δεν υποστηρίζεται. Παρακαλούμε κάντε ενημέρωση σε τουλάχιστον Chrome 45, Firefox 45, Safari 8, IE 11 ή Opera.",
   "scenes.login.clickhere": "πατήστε εδώ.",
@@ -1969,8 +1981,6 @@
     "Στείλαμε έναν κωδικό επαλήθευσης στο",
   "scenes.security.email.yourverifiedemailaddress":
     "Η επαληθευμένη διεύθυνση email χρησιμοποιείται για την αποστολή κωδικών σύνδεσης όταν ανιχνευτεί ύποπτη ή ασυνήθιστη δραστηριότητα, για υπενθύμιση του αναγνωριστικού σύνδεσης του πορτοφολιού σας και για αποστολή ειδοποιήσεων πληρωμής όταν λαμβάνετε κεφάλαια.",
-  "scenes.security.passwordhint.notstored": null,
-  "scenes.security.passwordhint.stored": null,
   "scenes.security.tor.allowed": "Επιτρέπεται",
   "scenes.security.tor.blocked": "Αποκλεισμένο",
   "scenes.security.twostepsetup.sms": "Χρήση κωδικών που εστάλησαν μέσω SMS",
@@ -2142,9 +2152,6 @@
   "scenes.securitysettings.apiaccess.description2": "για να ξεκινήσετε.",
   "scenes.securitysettings.apiaccess.getstarted": "εδώ",
   "scenes.securitysettings.apiaccess.title": "Πρόσβαση API",
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.change": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.save": null,
   "scenes.securitysettings.basicsecurity.recoveryphrase.description":
     "Η φράση αντιγράφου ασφαλείας περιέχει όλα τα ιδιωτικά κλειδιά στο πορτοφόλι σας. Παρακαλούμε σημειώστε αυτές τις 12 λέξεις και κρατήστε τες κάπου με ασφάλεια εκτός σύνδεσης. Αυτή η φράση σάς παρέχει (ή σε όποιον την έχει) έναν τρόπο για ανάκτηση του πορτοφολιού σας και πρόσβαση στα κεφάλαιά σας. ",
   "scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase":
@@ -2341,9 +2348,6 @@
   "scenes.settings.manage_addresses.edit_name": "Επεξεργασία Ονόματος",
   "scenes.settings.manage_addresses.make_default": "Ορισμός ως Προεπιλογή",
   "scenes.settings.manage_addresses.show_xpub": "Εμφάνιση xPub",
-  "scenes.settings.passwordhint.description1": null,
-  "scenes.settings.passwordhint.description2": null,
-  "scenes.settings.passwordhint.title": null,
   "scenes.settings.preferences.autologout.updateform.minutes": null,
   "scenes.settings.preferences.bitcoinlinkhandling.description":
     "Ενεργοποιήστε το για να επιτρέψετε στο Blockchain Πορτοφόλι σας να χειρίζεται τους συνδέσμους πληρωμής bitcoin στο πρόγραμμα περιήγησης.",
@@ -2356,8 +2360,6 @@
     "Δεν μπορούμε να διακρίνουμε αν έχει ενεργοποιηθεί ή όχι ο χειρισμός συνδέσμων bitcoin.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Εάν έχει ήδη ενεργοποιηθεί, δεν θα συμβεί τίποτα.",
-  "scenes.settings.preferences.explain":
-    "Προσαρμόστε την εμπειρία του πορτοφολιού σας.",
   "scenes.settings.preferences.localcurrency.error.description":
     "Επιλέξτε το τοπικό σας νόμισμα.",
   "scenes.settings.preferences.localcurrency.error.title": "Τοπικό Νόμισμα",
@@ -2686,7 +2688,6 @@
   "sfoxexchangedata.verify.hidessn": "Απόκρυψη Αριθμού Κοινωνικής Ασφάλισης",
   "sfoxexchangedata.verify.identity.error":
     "Δυστυχώς, υπήρξε κάποιο πρόβλημα με την επαλήθευση της ταυτότητάς σας. {clickHere} για να ξεκινήσετε πάλι από την αρχή.",
-  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Επώνυμο",
   "sfoxexchangedata.verify.partner.header": "Οι Κρυμμένες Λεπτομέρειες",
   "sfoxexchangedata.verify.partner.header1": "Ας Γνωριστούμε",

@@ -24,10 +24,11 @@ const Label = styled.label`
   margin-bottom: 5px;
 `
 
-const unique = (value, allValues, { wallets }) =>
-  map(prop('label'), wallets).indexOf(value) > -1
+const unique = (value, allValues, { wallets }) => {
+  return map(prop('label'), wallets).indexOf(value) > -1
     ? 'Wallet name is already taken.'
     : undefined
+}
 
 const AddBitcoinWallet = props => {
   const { position, close, submitting, invalid, handleSubmit } = props

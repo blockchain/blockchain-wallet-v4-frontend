@@ -173,6 +173,7 @@
   "coinifysignup.acceptterms.helper1.answer":
     "Coinify je platforma za trgovanje, s katero smo vzpostavili partnerstvo, da vam zagotovimo skladno izkušnjo pri kupovanju in prodaji prek vaše Blockchain denarnice",
   "coinifysignup.acceptterms.helper1.question": "Kaj je Coinify?",
+  "components.alerts.address_and_private_key_incorrect": null,
   "components.alerts.address_delete_error":
     "Oznake naslova ni bilo mogoče izbrisati.",
   "components.alerts.address_delete_success": "Naslov uspešno izbrisan.",
@@ -260,6 +261,9 @@
   "components.alerts.language_update_error": "Jezika ni bilo mogoče posodobiti",
   "components.alerts.language_update_success":
     "Jezik je bil uspešno posodobljen.",
+  "components.alerts.lockbox_delete_error": null,
+  "components.alerts.lockbox_delete_success": null,
+  "components.alerts.lockbox_setup_success": null,
   "components.alerts.logginglevel_update_error":
     "Nivoja beleženja ni bilo mogoče posodobiti",
   "components.alerts.logginglevel_update_success":
@@ -443,6 +447,7 @@
   "formhelper.ageovereighteen": "Mora biti starejši od 18 let",
   "formhelper.incorrectpassword": "Nepravilno geslo",
   "formhelper.invalidbitcoinaddress": "Neveljaven Bitcoin naslov",
+  "formhelper.invalidbitcoinaddressandkey": null,
   "formhelper.invalidbitcoincashaddress": "Neveljaven Bitcoin cash naslov",
   "formhelper.invalidbitcoinprivatekey": "Neveljaven Bitcoin zasebni ključ",
   "formhelper.invalidemail": "Neveljaven e-poštni naslov",
@@ -460,10 +465,13 @@
     "Država ni na voljo za nakup in prodajo",
   "formhelper.partnerstatewhitelist":
     "Zvezna država ni na voljo za nakup in prodajo",
+  "formhelper.passwordcracktime": null,
   "formhelper.passwordsdonotmatch": "Gesli se ne ujemata",
+  "formhelper.passwordsuggest": null,
   "formhelper.required": "Zahtevano",
   "formhelper.requireddob": "Mora biti veljavni datum",
   "formhelper.requirednumber": "Neveljavna številka",
+  "formhelper.requiredphrase": null,
   "formhelper.requiredssn":
     "Mora biti veljavna številka socialnega zavarovanja",
   "formhelper.requireduszipcode": "Mora biti veljavna poštna številka iz ZDA",
@@ -518,27 +526,9 @@
   "layouts.public.footer.explorer": "Podatki",
   "layouts.public.footer.support": "Podpora",
   "layouts.wallet.header.logout.signout": "Odjava",
-  "layouts.wallet.header.whatsnew.whatsnew.desc10":
-    "V primeru, da ste imeli pred 1. avgustom 2017 na svoji denarnici bitcoin, lahko sedaj prek svoje Blockchain denarnice dostopate do valute Bitcoin Cash.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc11":
-    "Bitcoin Cash naslovi sedaj uporabljajo CashAddr obliko.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc7":
-    "Bitcoin lahko sedaj prodajate neposredno prek svoje Blockchain denarnice!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc8":
-    "Ether lahko sedaj pošiljate in prejemate prek svoje Blockchain denarnice!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc9":
-    "Na svoji Blockchain denarnici lahko neposredno menjate med valutami bitcoin, ether in bitcoin cash",
   "layouts.wallet.header.whatsnew.whatsnew.empty": "?? Obveščeni ste o vsem!",
-  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore": "Več o tem",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Naša ekipa vedno dela na novih funkcijah, toda če lahko izboljšamo še kaj vas prosimo, da nas o tem obvestite <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>tukaj<a/>.",
-  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Več o tem",
-  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title11":
-    "Nova oblika Bitcoin Cash naslovov",
-  "layouts.wallet.header.whatsnew.whatsnew.title7": "Prodaj Bitcoin",
-  "layouts.wallet.header.whatsnew.whatsnew.title8": "Pošlji in prejmi Ether",
-  "layouts.wallet.header.whatsnew.whatsnew.title9": "Menjava sredstev",
   "layouts.wallet.menuleft.footer.about": "Več o tem",
   "layouts.wallet.menuleft.footer.privacypolicy":
     "Izjava o varovanju zasebnosti",
@@ -549,6 +539,7 @@
   "layouts.wallet.menuleft.navigation.dashboard": "Nadzorna plošča",
   "layouts.wallet.menuleft.navigation.exchange": "Borza",
   "layouts.wallet.menuleft.navigation.general": "Splošno",
+  "layouts.wallet.menuleft.navigation.lockbox": null,
   "layouts.wallet.menuleft.navigation.preferences": "Preference",
   "layouts.wallet.menuleft.navigation.securitycenter": "Varnostno središče",
   "layouts.wallet.menuleft.navigation.settings": "Nastavitve",
@@ -556,7 +547,6 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
-  "layouts.wallet.menutop.bank": "Bodite svoja lastna banka.",
   "layouts.wallet.menutop.request": "Zahtevaj",
   "layouts.wallet.menutop.send": "Pošlji",
   "layouts.wallet.trayright.faq": "Pogosta vprašanja",
@@ -593,11 +583,17 @@
   "modals.coinifytradedetails.trade.close": "Zapri",
   "modals.confirm.button": null,
   "modals.confirm.button.cancel": null,
+  "modals.confirm.cancel.phone_call": null,
   "modals.confirm.cancel.verify_identity": null,
+  "modals.confirm.confirm.phone_call": null,
   "modals.confirm.confirm.verify_identity": null,
   "modals.confirm.message": null,
+  "modals.confirm.message.phone_call": null,
+  "modals.confirm.message.phone_call_1": null,
+  "modals.confirm.message.phone_call_2": null,
   "modals.confirm.message.verify_identity": null,
   "modals.confirm.title": null,
+  "modals.confirm.title.phone_call": null,
   "modals.confirm.title.verify_identity": null,
   "modals.deleteaddresslabel.cancel": "Prekliči",
   "modals.disable2fa.disable": "Onemogoči",
@@ -662,20 +658,35 @@
     "Obstoječi naslov ustvarjen <span>izven te denarnice</span>.",
   "modals.importbtcaddress.importexternalbitcoinaddress.advanced.message":
     "To je napredna funkcija, ki je priporočena samo za napredne uporabnike.",
-  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoinaddress":
-    "Bitcoin naslov",
-  "modals.importbtcaddress.importexternalbitcoinaddress.prvkey":
-    "Vnesite zasebni ključ",
+  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoineither": null,
   "modals.importbtcaddress.importexternalbitcoinaddress.transfer":
     "Prenos sredstev na obstoječo denarnico (po želji)",
   "modals.importbtcaddress.importinternalbitcoinaddress.warning":
     "Naslovov, ki so ustvarjeni v tej denarnici, ne smete uvoziti.",
   "modals.importbtcaddress.importtype": "Kaj želite uvoziti?",
   "modals.importbtcaddress.title": "Uvozi obstoječi Bitcoin naslov",
-  "modals.jumioprompt.body1": null,
-  "modals.jumioprompt.close": null,
-  "modals.jumioprompt.dothat": null,
-  "modals.jumioprompt.header": null,
+  "modals.lockboxsetup.confirmrecovery.step1.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step1.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step1.title": null,
+  "modals.lockboxsetup.confirmrecovery.step2.confirm": null,
+  "modals.lockboxsetup.confirmrecovery.step2.incorrectphrase": null,
+  "modals.lockboxsetup.confirmrecovery.step2.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step2.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.no": null,
+  "modals.lockboxsetup.confirmrecovery.step3.subtitle": null,
+  "modals.lockboxsetup.confirmrecovery.step3.title": null,
+  "modals.lockboxsetup.confirmrecovery.step3.yes": null,
+  "modals.lockboxsetup.connectstep.connectdevice": null,
+  "modals.lockboxsetup.connectstep.connected": null,
+  "modals.lockboxsetup.connectstep.error": null,
+  "modals.lockboxsetup.firststep.buy": null,
+  "modals.lockboxsetup.firststep.link": null,
+  "modals.lockboxsetup.firststep.restore": null,
+  "modals.lockboxsetup.labelstep.continue": null,
+  "modals.lockboxsetup.labelstep.devicename": null,
+  "modals.lockboxsetup.labelstep.nameintro": null,
+  "modals.lockboxsetup.labelstep.plugindevice": null,
+  "modals.lockboxsetup.title": null,
   "modals.mobilelogin.cancel": "Prekliči",
   "modals.mobilelogin.explain":
     "Sledite tem korakom za prijavo v svojo spletno denarnico prek svoje mobilne naprave",
@@ -741,6 +752,7 @@
   "modals.recoveryphrase.secondstep.nextfourwords": "Naslednje 4 besede",
   "modals.recoveryphrase.secondstep.number": "Beseda {number}",
   "modals.recoveryphrase.secondstep.prevfourwords": null,
+  "modals.recoveryphrase.secondstep.returnReviewPhrase": null,
   "modals.recoveryphrase.secondstep.tip": "Zapišite si",
   "modals.recoveryphrase.secondstep.title":
     "Varnostno kopiranje obnovitvene fraze",
@@ -1117,12 +1129,9 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
   "scenes.buysell.sfoxcheckout.content.jumio.buylimit": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.profile": null,
   "scenes.buysell.sfoxcheckout.content.jumio.selllimit": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.completed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
@@ -1735,6 +1744,11 @@
     "To NI bitcoin naslov za pošiljanje ali prejemanje.",
   "scenes.info.walletid.title": "ID denarnice",
   "scenes.info.walletid.warning": "ID-ja svoje denarnice ne delite z drugimi.",
+  "scenes.lockbox.welcome.addanotherdevice": null,
+  "scenes.lockbox.welcome.deletedevice": null,
+  "scenes.lockbox.welcome.getstarted": null,
+  "scenes.lockbox.welcome.subtitle": null,
+  "scenes.lockbox.welcome.title": null,
   "scenes.login.browserwarning":
     "Vaš brskalnik ni podprt. Prosimo, posodobite na različico vsaj Chrome 45, Firefox 45, Safari 8, IE 11 ali Opera.",
   "scenes.login.clickhere": "kliknite tukaj.",
@@ -1934,8 +1948,6 @@
     "Kodo za potrditev smo poslali na",
   "scenes.security.email.yourverifiedemailaddress":
     "Vaš potrjen e-poštni naslov se uporablja za pošiljanje kod za prijavo, kadar zaznamo sumljive ali nenavadne dejavnosti, da vas opomnimo na ID za prijavo v vašo denarnico, ter za pošiljanje obvestil o plačilih, kadar prejmete sredstva.",
-  "scenes.security.passwordhint.notstored": null,
-  "scenes.security.passwordhint.stored": null,
   "scenes.security.tor.allowed": "Dovoljeno",
   "scenes.security.tor.blocked": "Blokirano",
   "scenes.security.twostepsetup.sms": "Uporabite kode, poslane prek SMS",
@@ -2107,9 +2119,6 @@
   "scenes.securitysettings.apiaccess.description2": "da začnete.",
   "scenes.securitysettings.apiaccess.getstarted": "tukaj",
   "scenes.securitysettings.apiaccess.title": "API dostop",
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.change": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.save": null,
   "scenes.securitysettings.basicsecurity.recoveryphrase.description":
     "Vaša varnostna fraza vsebuje vse zasebne ključe znotraj vaše denarnice. Prosimo, da si teh 12 besed po vrsti zapišete ter jih hranite na varnem mestu v fizični obliki. Ta fraza vam zagotavlja (ter vsem, ki jo imajo) način za obnovitev vaše denarnice in dostop do vaših sredstev. ",
   "scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase":
@@ -2302,9 +2311,6 @@
   "scenes.settings.manage_addresses.edit_name": "Uredi ime",
   "scenes.settings.manage_addresses.make_default": "Nastavi kot privzeto",
   "scenes.settings.manage_addresses.show_xpub": "Prikaži xPub",
-  "scenes.settings.passwordhint.description1": null,
-  "scenes.settings.passwordhint.description2": null,
-  "scenes.settings.passwordhint.title": null,
   "scenes.settings.preferences.autologout.updateform.minutes": null,
   "scenes.settings.preferences.bitcoinlinkhandling.description":
     "Omogočite to funkcijo, da svoji Blockchain denarnici omogočite upravljanje s povezavami za plačilo z bitcoini v spletnem brskalniku.",
@@ -2317,8 +2323,6 @@
     "Ne moremo zaznati, če je bilo upravljanje z bitcoin povezavami omogočeno.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "V primeru, da je bilo že omogočeno, se ne bo zgodilo nič.",
-  "scenes.settings.preferences.explain":
-    "Prilagodite svojo izkušnjo z denarnico.",
   "scenes.settings.preferences.localcurrency.error.description":
     "Izberite svojo lokalno valuto.",
   "scenes.settings.preferences.localcurrency.error.title": "Lokalna valuta",
@@ -2642,7 +2646,6 @@
   "sfoxexchangedata.verify.hidessn": "Skrij SSN",
   "sfoxexchangedata.verify.identity.error":
     "Na žalost je prišlo do težave pri preverjanju vaše identitete. {clickHere}, da začnete znova.",
-  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Priimek",
   "sfoxexchangedata.verify.partner.header": "Skrite podrobnosti",
   "sfoxexchangedata.verify.partner.header1": "Naj vas spoznamo",
