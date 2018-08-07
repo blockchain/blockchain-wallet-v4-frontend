@@ -17,20 +17,19 @@ class LockboxDashboardContainer extends React.PureComponent {
     this.props.modalActions.showModal('LockboxSetup')
   }
 
-  deleteDevice () {
-    // TODO: send better current device context
-    this.props.lockboxActions.deleteDevice(keysIn(this.props.devices)[0])
+  deleteDevice (deviceId) {
+    this.props.lockboxActions.deleteDevice(deviceId)
   }
 
   render () {
     const { devices } = this.props
-    const deviceId = keysIn(this.props.devices)[0]
+
     return (
       <Dashboard
         addDevice={this.addDevice}
         deleteDevice={this.deleteDevice}
-        deviceId={deviceId}
-        deviceName={devices[deviceId].deviceName}
+        deviceIdList={keysIn(devices)}
+        devices={devices}
       />
     )
   }
