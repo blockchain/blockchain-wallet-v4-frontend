@@ -10,6 +10,10 @@ const StyledSelect = styled(Select)`
   font-size: ${props => (props.fontSize === 'small' ? '12px' : '14px')};
 `
 
+const colourStyles = {
+  control: styles => ({ ...styles, backgroundColor: 'white' })
+}
+
 const Option = props => {
   const itemProps = assoc('text', props.label, props)
   return (
@@ -49,12 +53,13 @@ const SelectInput = props => {
   } = props
   const options = items.map(item => ({ value: item.value, label: item.text }))
   const defaultValue = head(filter(x => equals(x.value, defaultItem), options))
-  // Give StyledSelect component isClearable prop
+
   return (
     <StyledSelect
       components={{ Option, ValueContainer }}
       options={options}
-      isClearable={true}
+      isClearable
+      styles={colourStyles}
       isSearchable={searchEnabled}
       value={defaultValue}
       templateItem={templateItem}
