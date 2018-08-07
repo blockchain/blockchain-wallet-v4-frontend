@@ -21,9 +21,9 @@ export default ({ api, coreSagas }) => {
           const lockbox = new Btc(transport)
           // get public key and chaincode for btc and eth paths
           const btc = await lockbox.getWalletPublicKey("44'/0'/0'")
+          const bch = await lockbox.getWalletPublicKey("44'/145'/0'")
           const eth = await lockbox.getWalletPublicKey("44'/60'/0'/0/0")
-          // TODO:: BCH
-          emitter({ btc, eth })
+          emitter({ btc, bch, eth })
           emitter(END)
         } catch (e) {
           throw new Error(e)
@@ -41,8 +41,8 @@ export default ({ api, coreSagas }) => {
       const chan = yield call(deviceInfoChannel)
       try {
         while (true) {
-          const { btc, eth } = yield take(chan)
-          yield put(A.deviceInfoSuccess({ btc, eth }))
+          const { btc, bch, eth } = yield take(chan)
+          yield put(A.deviceInfoSuccess({ btc, bch, eth }))
         }
       } finally {
         chan.close()
@@ -127,7 +127,15 @@ export default ({ api, coreSagas }) => {
         const deviceInfoR = yield select(S.getDeviceInfo)
         const deviceInfo = deviceInfoR.getOrFail('missing_device')
         const deviceID = getDeviceID(deviceInfo)
-        const mdAccountsEntry = generateAccountsMDEntry(deviceInfo)
+        const deviceR = yield select(
+          selectors.core.kvStore.lockbox.getDevice,
+          deviceID
+        )
+        const device = deviceR.getOrFail('device_not_stored')
+        const { deviceName } = device
+
+        const mdAccountsEntry = generateAccountsMDEntry(deviceInfo, deviceName)
+
         yield put(
           actions.core.kvStore.lockbox.storeDeviceAccounts(
             deviceID,
