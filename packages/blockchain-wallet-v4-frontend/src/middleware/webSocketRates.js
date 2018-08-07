@@ -1,7 +1,7 @@
 import { compose } from 'ramda'
 import { actions, actionTypes } from 'data'
 
-const fallbackInterval = 5000
+export const fallbackInterval = 5000
 let fallbackIntervalPID = null
 
 const socket = socket => store => {

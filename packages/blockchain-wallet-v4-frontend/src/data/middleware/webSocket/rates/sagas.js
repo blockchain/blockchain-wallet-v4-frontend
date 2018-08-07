@@ -1,32 +1,17 @@
 import { whereEq, map, isEmpty } from 'ramda'
-import { put, all, call } from 'redux-saga/effects'
+import { put, all, call, select } from 'redux-saga/effects'
+import { selectors, model } from 'data'
 import * as A from './actions'
 
-const isSubscribeSuccess = whereEq({
-  channel: 'quotes',
-  type: 'subscribed',
-  sequenceNumber: 1
-})
-
-const isSubscribeError = whereEq({
-  channel: 'quotes',
-  type: 'error_during_subscription',
-  sequenceNumber: 0
-})
-
-const isUnsubscribeSuccess = whereEq({
-  channel: 'quotes',
-  type: 'unsubscribed',
-  sequenceNumber: 5
-})
-
-const isQuotesMessage = whereEq({
-  channel: 'quotes',
-  type: 'quote',
-  sequenceNumber: 3
-})
-
 export default ({ api, ratesSocket }) => {
+  const isSubscribeSuccess = whereEq(model.rates.SUBSCRIBE_SUCCESS_MESSAGE)
+
+  const isSubscribeError = whereEq(model.rates.SUBSCRIBE_ERROR_MESSAGE)
+
+  const isUnsubscribeSuccess = whereEq(model.rates.UNSUBSCRIBE_SUCCESS_MESSAGE)
+
+  const isQuotesMessage = whereEq(model.rates.QUOTES_MESSAGE)
+
   const send = ratesSocket.send.bind(ratesSocket)
 
   const onOpen = function*() {}
@@ -35,22 +20,23 @@ export default ({ api, ratesSocket }) => {
     if (isSubscribeSuccess(message)) yield put(A.subscribeSuccess(message.pair))
     if (isUnsubscribeSuccess(message))
       yield put(A.unsubscribeSuccess(message.pair))
-    if (isSubscribeError(message)) yield put(A.subscribeError(message.pair))
-    if (isQuotesMessage(message)) yield put(A.updateRates(message))
+    if (isSubscribeError(message))
+      yield put(A.subscribeError(message.pair, null))
+    if (isQuotesMessage(message))
+      yield put(A.updateQuote(message.pair, message.quote))
   }
 
   const restFallback = function*() {
-    // const pairs = yield select(selectors.modules.rates.getActiveRates)
-    const pairs = ['BTC-ETH']
+    const pairs = yield select(selectors.modules.rates.getActivePairs)
     if (!isEmpty(pairs)) yield all(map(fetchRate, pairs))
   }
 
   const fetchRate = function*(pair) {
     try {
-      const rate = yield call(api.fetchRates, pair)
-      yield put(A.updateRates(rate))
+      const quote = yield call(api.fetchRates, pair)
+      yield put(A.updateQuote(pair, quote))
     } catch (e) {
-      yield put(A.subscribeError(pair))
+      yield put(A.subscribeError(pair, e))
     }
   }
 
@@ -58,26 +44,12 @@ export default ({ api, ratesSocket }) => {
 
   const openChannelForPairs = function ({ payload }) {
     const { pairs } = payload
-    send({
-      channel: 'quotes',
-      operation: 'subscribe',
-      params: {
-        type: 'pairs',
-        pairs
-      }
-    })
+    send(model.rates.getPairSubscribeMessage(pairs))
   }
 
   const closeChannelForPairs = function ({ payload }) {
     const { pairs } = payload
-    send({
-      channel: 'quotes',
-      operation: 'UNSUBSCRIBE',
-      params: {
-        type: 'pairs',
-        pairs
-      }
-    })
+    send(model.rates.getPairUnsubscribeMessage(pairs))
   }
 
   return {

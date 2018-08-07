@@ -12,6 +12,7 @@ import logsReducer from './logs/reducers'
 import modalsReducer from './modals/reducers.js'
 import preferencesReducer from './preferences/reducers.js'
 import profileReducer from './modules/profile/reducers.js'
+import ratesReducer from './modules/rates/reducers.js'
 import scrollReducer from './scroll/reducers.js'
 import sessionReducer from './session/reducers.js'
 import wizardReducer from './wizard/reducers.js'
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   logs: logsReducer,
   preferences: preferencesReducer,
   profile: profileReducer,
+  rates: ratesReducer,
   cache: cacheReducer,
   scroll: scrollReducer,
   session: sessionReducer,
