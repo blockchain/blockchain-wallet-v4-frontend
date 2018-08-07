@@ -54,7 +54,7 @@ const SelectInput = props => {
     <StyledSelect
       components={{ Option, ValueContainer }}
       options={options}
-      isClearable
+      isClearable={true}
       isSearchable={searchEnabled}
       value={defaultValue}
       templateItem={templateItem}
