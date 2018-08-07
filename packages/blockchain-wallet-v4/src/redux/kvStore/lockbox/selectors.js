@@ -1,4 +1,4 @@
-import { keys, path, map, flatten } from 'ramda'
+import { keys, path, prop, map, flatten } from 'ramda'
 import { kvStorePath } from '../../paths'
 import { LOCKBOX } from '../config'
 
@@ -7,8 +7,9 @@ export const getMetadata = path([kvStorePath, LOCKBOX])
 export const getDevices = state =>
   getMetadata(state).map(path(['value', 'devices']))
 
-export const getDevice = (state, deviceID) =>
-  getDevices(state).map(path(deviceID))
+export const getDevice = (state, deviceID) => {
+  return getDevices(state).map(prop(deviceID))
+}
 
 export const getAccounts = state =>
   getDevices(state).map(devices =>
