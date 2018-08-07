@@ -1,5 +1,5 @@
 import { whereEq, identity, compose, prop } from 'ramda'
-import { noop } from 'utils/functional'
+import { noop } from '../utils/functional'
 
 const HEARTBEAT_CODES = {
   CONNECTED: 1,
