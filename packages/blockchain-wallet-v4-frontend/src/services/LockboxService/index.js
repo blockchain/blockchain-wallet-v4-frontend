@@ -8,7 +8,7 @@ const deviceInfoErr = 'Device Info Required'
 export const getXpubHash = xpub =>
   crypto.sha256(crypto.sha256(xpub).toString('hex')).toString('hex')
 
-export const generateAccountsMDEntry = (deviceInfo, deviceName) => {
+export const generateAccountsMDEntry = deviceInfo => {
   try {
     const { btc, bch, eth } = deviceInfo
     const btcXpub = publicKeyChainCodeToBip32(btc.publicKey, btc.chainCode)
@@ -16,11 +16,9 @@ export const generateAccountsMDEntry = (deviceInfo, deviceName) => {
     const ethXpub = publicKeyChainCodeToBip32(eth.publicKey, eth.chainCode)
 
     return {
-      btc: { accounts: [btcAccount(btcXpub, deviceName + ' Bitcoin Wallet')] },
-      bch: {
-        accounts: [btcAccount(bchXpub, deviceName + ' Bitcoin Cash Wallet')]
-      },
-      eth: { accounts: [ethAccount(ethXpub, deviceName + ' Ethereum Wallet')] }
+      btc: { accounts: [btcAccount(btcXpub, 'Bitcoin Wallet')] },
+      bch: { accounts: [btcAccount(bchXpub, 'Bitcoin Cash Wallet')] },
+      eth: { accounts: [ethAccount(ethXpub, 'Ethereum Wallet')] }
     }
   } catch (e) {
     throw new Error(deviceInfoErr)

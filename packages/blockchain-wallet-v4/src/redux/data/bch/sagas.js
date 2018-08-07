@@ -10,6 +10,7 @@ export default ({ api }) => {
     try {
       yield put(A.fetchDataLoading())
       const context = yield select(S.getContext)
+      console.log(context)
       const data = yield call(api.fetchBchData, context, { n: 1 })
       const bchData = {
         addresses: indexBy(prop('address'), prop('addresses', data)),

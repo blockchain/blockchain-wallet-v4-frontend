@@ -2,6 +2,7 @@ import React from 'react'
 
 import BtcLockboxBalance from './BtcLockboxBalance'
 import EthLockboxBalance from './EthLockboxBalance'
+import BchLockboxBalance from './BchLockboxBalance'
 import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
 import { Wrapper, Header } from 'components/Balances'
@@ -18,6 +19,7 @@ const Template = props => (
     </Header>
     <BtcLockboxBalance />
     <EthLockboxBalance />
+    <BchLockboxBalance />
   </Wrapper>
 )
 

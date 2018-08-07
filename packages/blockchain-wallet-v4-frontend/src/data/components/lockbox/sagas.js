@@ -127,15 +127,7 @@ export default ({ api, coreSagas }) => {
         const deviceInfoR = yield select(S.getDeviceInfo)
         const deviceInfo = deviceInfoR.getOrFail('missing_device')
         const deviceID = getDeviceID(deviceInfo)
-        const deviceR = yield select(
-          selectors.core.kvStore.lockbox.getDevice,
-          deviceID
-        )
-        const device = deviceR.getOrFail('device_not_stored')
-        const { deviceName } = device
-
-        const mdAccountsEntry = generateAccountsMDEntry(deviceInfo, deviceName)
-
+        const mdAccountsEntry = generateAccountsMDEntry(deviceInfo)
         yield put(
           actions.core.kvStore.lockbox.storeDeviceAccounts(
             deviceID,
