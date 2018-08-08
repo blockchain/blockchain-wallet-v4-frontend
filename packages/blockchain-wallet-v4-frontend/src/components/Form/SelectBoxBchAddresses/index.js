@@ -4,11 +4,11 @@ import { concat } from 'ramda'
 import PropTypes from 'prop-types'
 
 import { getData } from './selectors'
-import SelectBoxBitcoin from './template'
+import SelectBoxBCH from './template'
 
-class SelectBoxBitcoinAddresses extends React.PureComponent {
-  getLabel (coin) {
-    return this.props.optional ? 'N/A' : `All Bitcoin Wallets`
+class SelectBoxBCHAddresses extends React.PureComponent {
+  getLabel () {
+    return this.props.optional ? 'N/A' : `All Bitcoin Cash Wallets`
   }
   concatAll (coin) {
     return concat([
@@ -28,11 +28,7 @@ class SelectBoxBitcoinAddresses extends React.PureComponent {
         ]
         const elements = includeAll ? this.concatAll(coin)(wallets) : wallets
         return (
-          <SelectBoxBitcoin
-            label={this.getLabel()}
-            elements={elements}
-            {...rest}
-          />
+          <SelectBoxBCH label={this.getLabel()} elements={elements} {...rest} />
         )
       },
       Failure: message => <div>{message}</div>,
@@ -42,11 +38,11 @@ class SelectBoxBitcoinAddresses extends React.PureComponent {
   }
 }
 
-SelectBoxBitcoinAddresses.propTypes = {
+SelectBoxBCHAddresses.propTypes = {
   includeAll: PropTypes.bool
 }
 
-SelectBoxBitcoinAddresses.defaultProps = {
+SelectBoxBCHAddresses.defaultProps = {
   includeAll: true
 }
 
@@ -54,4 +50,4 @@ const mapStateToProps = (state, ownProps) => ({
   data: getData(state, ownProps)
 })
 
-export default connect(mapStateToProps)(SelectBoxBitcoinAddresses)
+export default connect(mapStateToProps)(SelectBoxBCHAddresses)
