@@ -293,10 +293,9 @@ export const newHDWallet = curry((mnemonic, password, wallet) => {
 })
 
 // newHDAccount :: String -> String? -> Wallet -> Task Error Wallet
-export const newHDAccount = curry((label, password, wallet, network) => {
+export const newHDAccount = curry((label, password, network, wallet) => {
   let hdWallet = HDWalletList.selectHDWallet(selectHdWallets(wallet))
   let index = hdWallet.accounts.size
-
   let appendAccount = curry((w, account) => {
     let accountsLens = compose(
       hdWallets,

@@ -80,7 +80,7 @@ export default ({ api, networks }) => {
     let wrapper = yield select(S.getWrapper)
     let nextWrapper = Wrapper.traverseWallet(
       Task.of,
-      Wallet.newHDAccount(label, password, networks.bitcoin),
+      Wallet.newHDAccount(label, password, networks.btc),
       wrapper
     )
     yield call(runTask, nextWrapper, A.wallet.setWrapper)

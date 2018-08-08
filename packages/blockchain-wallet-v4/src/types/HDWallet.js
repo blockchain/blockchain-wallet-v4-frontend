@@ -86,7 +86,7 @@ export const deriveAccountNodeAtIndex = (seedHex, index, network) => {
 
 export const generateAccount = curry((index, label, network, seedHex) => {
   let node = deriveAccountNodeAtIndex(seedHex, index, network)
-  return HDAccount.fromJS(HDAccount.js(label, node, network))
+  return HDAccount.fromJS(HDAccount.js(label, node, null, network))
 })
 
 // encrypt :: Number -> String -> String -> HDWallet -> Task Error HDWallet
