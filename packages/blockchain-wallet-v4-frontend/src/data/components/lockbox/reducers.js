@@ -20,10 +20,11 @@ export default (state = INITIAL_STATE, action) => {
       return assocPath(['newDeviceSetup', 'deviceID'], payload.deviceID, state)
     }
     case AT.SET_NEW_DEVICE_NAME: {
-      return assocPath(['newDeviceSetup', 'deviceName'], payload.deviceName, state)
-    }
-    case AT.SET_NEW_DEVICE_ACCOUNTS: {
-      return assocPath(['newDeviceSetup', 'device', 'accounts'], payload.accounts, state)
+      return assocPath(
+        ['newDeviceSetup', 'deviceName'],
+        payload.deviceName,
+        state
+      )
     }
     case AT.DEVICE_INFO_LOADING: {
       return assoc('connectedDevice', Remote.Loading, state)
