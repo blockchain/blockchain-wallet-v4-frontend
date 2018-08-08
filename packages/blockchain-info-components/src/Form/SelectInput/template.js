@@ -11,7 +11,12 @@ const StyledSelect = styled(Select)`
 `
 
 const colourStyles = {
-  control: styles => ({ ...styles, backgroundColor: 'white' })
+  control: styles => ({
+    ...styles,
+    backgroundColor: 'white',
+    cursor: 'pointer',
+    borderRadius: 0
+  })
 }
 
 const Option = props => {
