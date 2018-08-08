@@ -11,10 +11,12 @@ import settings from './settings'
 import shapeShift from './shapeShift'
 import sfox from './sfox'
 import wallet from './wallet'
+import fetchService from './fetch'
 import httpService from './http'
 
 export default ({ options, apiKey } = {}) => {
-  const { get, post, patch } = httpService({ apiKey })
+  const { get, post } = fetchService({ apiKey })
+  const http = httpService({ apiKey })
   const apiUrl = options.domains.api
   const nabuUrl = `${apiUrl}/nabu-app`
   const rootUrl = options.domains.root
@@ -26,9 +28,9 @@ export default ({ options, apiKey } = {}) => {
     ...ethereum({ rootUrl, apiUrl, get, post }),
     ...bch({ rootUrl, apiUrl, get, post }),
     ...kvStore({ apiUrl }),
-    ...kyc({ nabuUrl, get, post }),
+    ...kyc({ nabuUrl, get: http.get, post: http.post }),
     ...misc({ rootUrl, apiUrl, get, post }),
-    ...profile({ nabuUrl, patch, post }),
+    ...profile({ nabuUrl, patch: http.patch, post: http.post }),
     ...sfox(),
     ...settings({ rootUrl, apiUrl, get, post }),
     ...shapeShift({ shapeShiftApiKey, ...http }),

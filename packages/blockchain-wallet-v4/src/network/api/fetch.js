@@ -41,7 +41,7 @@ export default ({ apiKey }) => {
     endPoint,
     data,
     sessionToken,
-    ignoreQueryParams,
+    ignoreKey,
     contentType = 'application/x-www-form-urlencoded'
   }) => {
     const defaultHeaders = { 'Content-Type': contentType }
@@ -69,7 +69,7 @@ export default ({ apiKey }) => {
           }
 
     const finalUrl =
-      method === 'GET' && !ignoreQueryParams
+      method === 'GET' && !ignoreKey
         ? `${url}${endPoint}?${formEncodedData}`
         : `${url}${endPoint}`
 
@@ -79,21 +79,14 @@ export default ({ apiKey }) => {
   }
 
   // Get request
-  const get = ({
-    url,
-    endPoint,
-    data,
-    sessionToken,
-    ignoreQueryParams,
-    contentType
-  }) =>
+  const get = ({ url, endPoint, data, sessionToken, ignoreKey, contentType }) =>
     request({
       method: 'GET',
       url,
       endPoint,
       data,
       sessionToken,
-      ignoreQueryParams,
+      ignoreKey,
       contentType
     })
 
