@@ -50,7 +50,11 @@ export default ({ api, coreSagas }) => {
     } catch (e) {
       yield put(A.deviceInfoFailure(e))
       yield put(
-        actions.logs.logErrorMessage(logLocation, 'initializeDeviceConnection', e)
+        actions.logs.logErrorMessage(
+          logLocation,
+          'initializeDeviceConnection',
+          e
+        )
       )
     }
   }
@@ -82,11 +86,17 @@ export default ({ api, coreSagas }) => {
       yield put(A.saveNewDeviceKvStoreLoading())
       const deviceInfoR = yield select(S.getConnectedDevice)
       const deviceInfo = deviceInfoR.getOrFail('missing_device')
-      // derive device accounts
+      // derive device accounts and other information
       const mdAccountsEntry = generateAccountsMDEntry(deviceInfo)
+      const deviceId = yield select(S.getNewDeviceSetupId)
+      const deviceName = yield select(S.getNewDeviceSetupName)
       // store device in kvStore
       yield put(
-        actions.core.kvStore.lockbox.saveNewDevice(S.getNewDeviceSetupId, S.getNewDeviceSetupName, mdAccountsEntry)
+        actions.core.kvStore.lockbox.createNewDeviceEntry(
+          deviceId,
+          deviceName,
+          mdAccountsEntry
+        )
       )
       yield put(A.saveNewDeviceKvStoreSuccess())
       yield put(actions.modals.closeModal())
@@ -97,6 +107,7 @@ export default ({ api, coreSagas }) => {
       yield put(A.changeDeviceSetupStep('setup-type'))
     } catch (e) {
       yield put(A.saveNewDeviceKvStoreFailure(e))
+      yield put(actions.alerts.displaySuccess(C.LOCKBOX_SETUP_ERROR))
       yield put(actions.logs.logErrorMessage(logLocation, 'storeDeviceName', e))
     }
   }
