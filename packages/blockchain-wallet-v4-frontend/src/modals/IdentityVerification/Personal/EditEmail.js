@@ -7,10 +7,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, Form, reduxForm } from 'redux-form'
 
-import {
-  EMAIL_STEPS,
-  EMAIL_FORM
-} from 'data/components/identityVerification/model'
+import { model } from 'data'
 import { getEmailData } from './selectors'
 import { required, validEmail } from 'services/FormHelper'
 import media from 'services/ResponsiveService'
@@ -40,6 +37,8 @@ const EditEmailForm = styled(Form)`
     flex-direction: column;
   `};
 `
+
+const { EMAIL_STEPS, EMAIL_FORM } = model.components.identityVerification
 
 const emailHelper = ({ emailVerifiedError, resendCode, editEmail }) => {
   if (emailVerifiedError) {
