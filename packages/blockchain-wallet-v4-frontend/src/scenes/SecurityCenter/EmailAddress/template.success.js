@@ -149,7 +149,7 @@ const EmailAddress = props => {
                 id='scenes.security.email.verifieddescription'
                 defaultMessage='You’ve verified '
               />
-              {email}
+              <span>&nbsp;{email}</span>
               <FormattedMessage
                 id='scenes.security.email.verifieddescription2'
                 defaultMessage='. Select ‘Change Email’ to modify this existing address. '

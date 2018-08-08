@@ -23,6 +23,7 @@ class MobileNumberVerifyContainer extends React.PureComponent {
 
   handleResend () {
     this.props.settingsActions.updateMobile(this.props.mobileNumber)
+    
   }
 
   handleChange () {

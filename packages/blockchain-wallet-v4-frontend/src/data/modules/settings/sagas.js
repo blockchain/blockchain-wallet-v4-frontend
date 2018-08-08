@@ -81,6 +81,7 @@ export default ({ coreSagas }) => {
   const updateMobile = function*(action) {
     try {
       yield call(coreSagas.settings.setMobile, action.payload)
+      
       yield put(actions.alerts.displaySuccess(C.MOBILE_UPDATE_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateMobile', e))
