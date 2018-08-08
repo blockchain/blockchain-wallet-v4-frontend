@@ -7,10 +7,16 @@ export default ({ api, coreSagas }) => {
 
   return function*() {
     yield takeLatest(AT.DEVICE_INFO_SUCCESS, lockboxSagas.deriveConnectStep)
-    yield takeLatest(AT.INITIALIZE_CONNECT, lockboxSagas.initializeConnect)
-    yield takeLatest(AT.STORE_NEW_DEVICE, lockboxSagas.storeNewDevice)
-    yield takeLatest(AT.UPDATE_DEVICE_NAME, lockboxSagas.updateDeviceBalanceDisplay)
-    yield takeLatest(AT.UPDATE_DEVICE_BALANCE_DISPLAY, lockboxSagas.updateDeviceName)
+    yield takeLatest(AT.INITIALIZE_DEVICE_CONNECTION, lockboxSagas.initializeDeviceConnection)
+    yield takeLatest(AT.SAVE_NEW_DEVICE_KVSTORE, lockboxSagas.saveNewDeviceKvStore)
+    yield takeLatest(
+      AT.UPDATE_DEVICE_NAME,
+      lockboxSagas.updateDeviceBalanceDisplay
+    )
+    yield takeLatest(
+      AT.UPDATE_DEVICE_BALANCE_DISPLAY,
+      lockboxSagas.updateDeviceName
+    )
     yield takeLatest(AT.DELETE_DEVICE, lockboxSagas.deleteDevice)
   }
 }

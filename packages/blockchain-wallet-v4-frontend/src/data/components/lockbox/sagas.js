@@ -1,12 +1,13 @@
 import { call, put, take, select } from 'redux-saga/effects'
 import { eventChannel, END } from 'redux-saga'
+import { any, keysIn } from 'ramda'
+import Btc from '@ledgerhq/hw-app-btc'
+import Transport from '@ledgerhq/hw-transport-u2f'
+
 import { actions, selectors } from 'data'
 import * as A from './actions'
 import * as C from 'services/AlertService'
 import * as S from './selectors'
-
-import Btc from '@ledgerhq/hw-app-btc'
-import Transport from '@ledgerhq/hw-transport-u2f'
 import { getDeviceID, generateAccountsMDEntry } from 'services/LockboxService'
 
 export default ({ api, coreSagas }) => {
@@ -17,7 +18,6 @@ export default ({ api, coreSagas }) => {
       async function getDeviceInfo () {
         try {
           const transport = await Transport.create()
-          // Should we let the user open any app?
           const lockbox = new Btc(transport)
           // get public key and chaincode for btc and eth paths
           const btc = await lockbox.getWalletPublicKey("44'/0'/0'")
@@ -35,7 +35,7 @@ export default ({ api, coreSagas }) => {
     })
   }
 
-  const initializeConnect = function*() {
+  const initializeDeviceConnection = function*() {
     try {
       yield put(A.deviceInfoLoading())
       const chan = yield call(deviceInfoChannel)
@@ -50,30 +50,25 @@ export default ({ api, coreSagas }) => {
     } catch (e) {
       yield put(A.deviceInfoFailure(e))
       yield put(
-        actions.logs.logErrorMessage(logLocation, 'initializeConnect', e)
+        actions.logs.logErrorMessage(logLocation, 'initializeDeviceConnection', e)
       )
     }
   }
 
   const deriveConnectStep = function*() {
     try {
-      const deviceInfoR = yield select(S.getDeviceInfo)
+      const deviceInfoR = yield select(S.getConnectedDevice)
       const deviceInfo = deviceInfoR.getOrFail('missing_device')
-      const deviceID = getDeviceID(deviceInfo)
+      const newDeviceID = getDeviceID(deviceInfo)
+      const devicesR = yield select(selectors.core.kvStore.lockbox.getDevices)
+      const storedDevices = devicesR.getOrElse({})
 
-      const deviceR = yield select(
-        selectors.core.kvStore.lockbox.getDevice,
-        deviceID
-      )
-
-      const device = deviceR.getOrElse(null)
-
-      if (!device) {
-        yield put(A.changeDeviceSetupStep('name-device'))
-      } else if (!device.backupConfirmed) {
-        yield put(A.changeDeviceSetupStep('confirm-recovery'))
-      } else {
+      // check if device has already been added
+      if (any(newDeviceID)(keysIn(storedDevices))) {
         yield put(A.changeDeviceSetupStep('duplicate-device'))
+      } else {
+        yield put(A.setNewDeviceID(newDeviceID))
+        yield put(A.changeDeviceSetupStep('name-device'))
       }
     } catch (e) {
       yield put(
@@ -82,84 +77,51 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const storeNewDevice = function*(action) {
+  const saveNewDeviceKvStore = function*() {
     try {
-      const { deviceName } = action.payload
-
-      yield put(A.storeNewDeviceLoading())
-      const deviceInfoR = yield select(S.getDeviceInfo)
+      yield put(A.saveNewDeviceKvStoreLoading())
+      const deviceInfoR = yield select(S.getConnectedDevice)
       const deviceInfo = deviceInfoR.getOrFail('missing_device')
-      const deviceID = getDeviceID(deviceInfo)
+      // derive device accounts
+      const mdAccountsEntry = generateAccountsMDEntry(deviceInfo)
+      // store device in kvStore
       yield put(
-        actions.core.kvStore.lockbox.storeDeviceName(deviceID, deviceName)
+        actions.core.kvStore.lockbox.saveNewDevice(S.getNewDeviceSetupId, S.getNewDeviceSetupName, mdAccountsEntry)
       )
-      yield put(A.storeNewDeviceSuccess())
-      yield put(A.changeDeviceSetupStep('confirm-recovery'))
+      yield put(A.saveNewDeviceKvStoreSuccess())
+      yield put(actions.modals.closeModal())
+      yield put(actions.alerts.displaySuccess(C.LOCKBOX_SETUP_SUCCESS))
+      yield put(actions.core.data.bitcoin.fetchData())
+      // reset new device setup to step 1
+      // do we want to clear out previous new device data?
+      yield put(A.changeDeviceSetupStep('setup-type'))
     } catch (e) {
-      yield put(A.storeNewDeviceFailure(e))
+      yield put(A.saveNewDeviceKvStoreFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'storeDeviceName', e))
     }
-
-    // const storeDeviceBackupFlag = function*() {
-    //   try {
-    //     yield put(A.storeDeviceBackupFlagLoading())
-    //     const deviceInfoR = yield select(S.getDeviceInfo)
-    //     const deviceInfo = deviceInfoR.getOrFail('missing_device')
-    //     const deviceID = getDeviceID(deviceInfo)
-    //     yield put(actions.core.kvStore.lockbox.storeDeviceBackupFlag(deviceID))
-    //     yield put(A.storeDeviceBackupFlagSuccess())
-    //     yield put(A.changeDeviceSetupStep('save-accounts'))
-    //   } catch (e) {
-    //     yield put(A.storeDeviceBackupFlagFailure(e))
-    //     yield put(
-    //       actions.logs.logErrorMessage(logLocation, 'storeDeviceBackupFlag', e)
-    //     )
-    //   }
-    // }
-    //
-    // const storeDeviceAccounts = function*(action) {
-    //   try {
-    //     const { storeXpubs } = action.payload
-    //     yield put(A.storeDeviceAccountsLoading())
-    //
-    //     if (storeXpubs) {
-    //       const deviceInfoR = yield select(S.getDeviceInfo)
-    //       const deviceInfo = deviceInfoR.getOrFail('missing_device')
-    //       const deviceID = getDeviceID(deviceInfo)
-    //       const mdAccountsEntry = generateAccountsMDEntry(deviceInfo)
-    //       yield put(
-    //         actions.core.kvStore.lockbox.storeDeviceAccounts(
-    //           deviceID,
-    //           mdAccountsEntry
-    //         )
-    //       )
-    //     }
-    //     yield put(actions.modals.closeModal())
-    //     yield put(A.storeDeviceAccountsSuccess())
-    //     yield put(actions.alerts.displaySuccess(C.LOCKBOX_SETUP_SUCCESS))
-    //     yield put(actions.core.data.bitcoin.fetchData())
-    //     yield put(A.changeDeviceSetupStep('setup-type'))
-    //   } catch (e) {
-    //     yield put(A.storeDeviceAccountsFailure(e))
-    //     yield put(
-    //       actions.logs.logErrorMessage(logLocation, 'storeDeviceAccounts', e)
-    //     )
-    //   }
-    // }
   }
 
   const updateDeviceBalanceDisplay = function*(action) {
     try {
       const { deviceID, showBalances } = action.payload
       yield put(A.updateDeviceBalanceDisplayLoading())
-      yield put(actions.core.kvStore.lockbox.updateDeviceBalanceDisplay(deviceID, showBalances))
+      yield put(
+        actions.core.kvStore.lockbox.updateDeviceBalanceDisplay(
+          deviceID,
+          showBalances
+        )
+      )
       yield put(A.updateDeviceBalanceDisplaySuccess())
       yield put(actions.alerts.displaySuccess(C.LOCKBOX_UPDATE_SUCCESS))
     } catch (e) {
       yield put(A.updateDeviceBalanceDisplayFailure())
       yield put(actions.alerts.displaySuccess(C.LOCKBOX_UPDATE_ERROR))
       yield put(
-        actions.logs.logErrorMessage(logLocation, 'updateDeviceBalanceDisplay', e)
+        actions.logs.logErrorMessage(
+          logLocation,
+          'updateDeviceBalanceDisplay',
+          e
+        )
       )
     }
   }
@@ -176,7 +138,9 @@ export default ({ api, coreSagas }) => {
     } catch (e) {
       yield put(A.updateDeviceNameFailure())
       yield put(actions.alerts.displaySuccess(C.LOCKBOX_UPDATE_ERROR))
-      yield put(actions.logs.logErrorMessage(logLocation, 'updateDeviceName', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'updateDeviceName', e)
+      )
     }
   }
 
@@ -195,9 +159,9 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
-    initializeConnect,
+    initializeDeviceConnection,
     deriveConnectStep,
-    storeNewDevice,
+    saveNewDeviceKvStore,
     updateDeviceName,
     updateDeviceBalanceDisplay,
     deleteDevice
