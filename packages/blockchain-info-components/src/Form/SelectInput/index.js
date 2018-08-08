@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { equals } from 'ramda'
+import { equals, prop } from 'ramda'
 
 import SelectInput from './template.js'
 
@@ -21,7 +21,8 @@ class SelectInputContainer extends React.PureComponent {
   }
 
   handleChange (item) {
-    const value = item === null ? undefined : item.value
+    const value = prop('value', item)
+
     this.setState({
       value
     })
