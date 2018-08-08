@@ -542,6 +542,18 @@
         "id": "components.alerts.lockbox_setup_success"
       },
       {
+        "defaultMessage": "Failed to setup Lockbox.",
+        "id": "components.alerts.lockbox_setup_error"
+      },
+      {
+        "defaultMessage": "Lockbox settings successfully updated.",
+        "id": "components.alerts.lockbox_update_success"
+      },
+      {
+        "defaultMessage": "Failed to update Lockbox settings.",
+        "id": "components.alerts.lockbox_update_error"
+      },
+      {
         "defaultMessage": "Lockbox successfully deleted.",
         "id": "components.alerts.lockbox_delete_success"
       },
@@ -1518,6 +1530,54 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path":
+      "src/layouts/Wallet/MenuTop/Balance/LockboxBalance/BchLockboxBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path":
+      "src/layouts/Wallet/MenuTop/Balance/LockboxBalance/BtcLockboxBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path":
+      "src/layouts/Wallet/MenuTop/Balance/LockboxBalance/EthLockboxBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Lockbox",
+        "id": "layouts.wallet.menutop.balance.walletbalance.Lockbox"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/LockboxBalance/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Pending",
+        "id": "layouts.wallet.menutop.balance.walletbalance.pending"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/PendingBalance/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Pending Balance",
         "id": "scenes.wallet.menutop.balance.sfoxpendingbalance"
       }
@@ -1555,6 +1615,74 @@
     ],
     "path":
       "src/layouts/Wallet/MenuTop/Balance/TotalBalance/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path":
+      "src/layouts/Wallet/MenuTop/Balance/WalletBalance/BchBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path":
+      "src/layouts/Wallet/MenuTop/Balance/WalletBalance/BtcBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path":
+      "src/layouts/Wallet/MenuTop/Balance/WalletBalance/EthBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Wallet",
+        "id": "layouts.wallet.menutop.balance.walletbalance.wallet"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/WalletBalance/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path":
+      "src/layouts/Wallet/MenuTop/Balance/WatchOnlyBalance/BchWatchOnlyBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path":
+      "src/layouts/Wallet/MenuTop/Balance/WatchOnlyBalance/BtcWatchOnlyBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Non-Spendable",
+        "id": "layouts.wallet.menutop.balance.walletbalance.nonspendable"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/WatchOnlyBalance/template.json"
   },
   {
     "descriptors": [
@@ -3255,24 +3383,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Incorrect phrase",
+        "defaultMessage": "Incorrect phrase entered.",
         "id": "modals.lockboxsetup.confirmrecovery.step2.incorrectphrase"
       },
       {
-        "defaultMessage": "Have you saved your 24 word recovery phrase?",
-        "id": "modals.lockboxsetup.confirmrecovery.step1.title"
-      },
-      {
         "defaultMessage":
-          "This is your only backup for your Carbon. The 12 word backup phrase for your Blockchain wallet DOES NOT cover the funds in your Lockbox.",
-        "id": "modals.lockboxsetup.confirmrecovery.step1.subtitle"
-      },
-      {
-        "defaultMessage": "Yes, I saved my passphrase",
-        "id": "modals.lockboxsetup.confirmrecovery.step1.confirm"
-      },
-      {
-        "defaultMessage": "Please confirm that you saved your backup phrase.",
+          "Please confirm that you have saved your backup phrase.",
         "id": "modals.lockboxsetup.confirmrecovery.step2.title"
       },
       {
@@ -3344,6 +3460,24 @@
       }
     ],
     "path": "src/modals/LockboxSetup/ConnectStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Whoops!",
+        "id": "modals.lockboxsetup.duplicatedevice.title"
+      },
+      {
+        "defaultMessage":
+          "This device has already been associated with your Blockchain Wallet. Please connect a new device and restart this process.",
+        "id": "modals.lockboxsetup.duplicatedevice.subtitle"
+      },
+      {
+        "defaultMessage": "OK",
+        "id": "modals.lockboxsetup.duplicatedevice.continue"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/DuplicateDeviceStep/template.json"
   },
   {
     "descriptors": [
@@ -7321,7 +7455,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Hardware Secured Digital Assets",
+        "defaultMessage": "Hardware secured digital assets",
         "id": "scenes.lockbox.welcome.title"
       },
       {
@@ -7330,8 +7464,8 @@
         "id": "scenes.lockbox.welcome.subtitle"
       },
       {
-        "defaultMessage": "Get Started",
-        "id": "scenes.lockbox.welcome.getstarted"
+        "defaultMessage": "Setup Carbon",
+        "id": "scenes.lockbox.welcome.setupcarbon"
       }
     ],
     "path": "src/scenes/Lockbox/template.json"
