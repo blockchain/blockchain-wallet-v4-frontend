@@ -7,6 +7,22 @@ export const changeDeviceSetupStep = step => ({
   payload: { step }
 })
 
+// CREATE
+export const storeNewDevice = deviceName => ({
+  type: AT.STORE_NEW_DEVICE,
+  payload: { deviceName }
+})
+export const storeNewDeviceLoading = () => ({
+  type: AT.STORE_NEW_DEVICE_LOADING
+})
+export const storeNewDeviceSuccess = () => ({
+  type: AT.STORE_NEW_DEVICE_SUCCESS
+})
+export const storeNewDeviceFailure = payload => ({
+  type: AT.STORE_NEW_DEVICE_FAILURE,
+  payload
+})
+
 // FETCH
 export const deviceInfoLoading = () => ({ type: AT.DEVICE_INFO_LOADING })
 export const deviceInfoSuccess = payload => ({
@@ -19,47 +35,33 @@ export const deviceInfoFailure = payload => ({
 })
 
 // UPDATE
-export const storeDeviceName = deviceName => ({
-  type: AT.STORE_DEVICE_NAME,
-  payload: { deviceName }
+export const updateDeviceName = (deviceID, deviceName) => ({
+  type: AT.UPDATE_DEVICE_NAME,
+  payload: { deviceID, deviceName }
 })
-export const storeDeviceNameLoading = () => ({
-  type: AT.STORE_DEVICE_NAME_LOADING
+export const updateDeviceNameLoading = () => ({
+  type: AT.UPDATE_DEVICE_NAME_LOADING
 })
-export const storeDeviceNameSuccess = () => ({
-  type: AT.STORE_DEVICE_NAME_SUCCESS
+export const updateDeviceNameSuccess = () => ({
+  type: AT.UPDATE_DEVICE_NAME_SUCCESS
 })
-export const storeDeviceNameFailure = payload => ({
-  type: AT.STORE_DEVICE_NAME_FAILURE,
+export const updateDeviceNameFailure = payload => ({
+  type: AT.UPDATE_DEVICE_NAME_FAILURE,
   payload
 })
 
-export const storeDeviceBackupFlag = () => ({
-  type: AT.STORE_DEVICE_BACKUP_FLAG
+export const updateDeviceBalanceDisplay = (deviceID, showBalances) => ({
+  type: AT.UPDATE_DEVICE_BALANCE_DISPLAY,
+  payload: { deviceID, showBalances }
 })
-export const storeDeviceBackupFlagLoading = () => ({
-  type: AT.STORE_DEVICE_BACKUP_FLAG_LOADING
+export const updateDeviceBalanceDisplayLoading = () => ({
+  type: AT.UPDATE_DEVICE_BALANCE_DISPLAY_LOADING
 })
-export const storeDeviceBackupFlagSuccess = () => ({
-  type: AT.STORE_DEVICE_BACKUP_FLAG_SUCCESS
+export const updateDeviceBalanceDisplaySuccess = () => ({
+  type: AT.UPDATE_DEVICE_BALANCE_DISPLAY_SUCCESS
 })
-export const storeDeviceBackupFlagFailure = payload => ({
-  type: AT.STORE_DEVICE_BACKUP_FLAG_FAILURE,
-  payload
-})
-
-export const storeDeviceAccounts = storeXpubs => ({
-  type: AT.STORE_DEVICE_ACCOUNTS,
-  payload: { storeXpubs }
-})
-export const storeDeviceAccountsLoading = () => ({
-  type: AT.STORE_DEVICE_ACCOUNTS_LOADING
-})
-export const storeDeviceAccountsSuccess = () => ({
-  type: AT.STORE_DEVICE_ACCOUNTS_SUCCESS
-})
-export const storeDeviceAccountsFailure = payload => ({
-  type: AT.STORE_DEVICE_ACCOUNTS_FAILURE,
+export const updateDeviceBalanceDisplayFailure = payload => ({
+  type: AT.UPDATE_DEVICE_BALANCE_DISPLAY_FAILURE,
   payload
 })
 
