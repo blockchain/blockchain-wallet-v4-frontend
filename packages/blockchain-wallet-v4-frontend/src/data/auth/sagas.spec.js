@@ -139,7 +139,7 @@ describe('authSagas', () => {
         it('should display info that authorization is required', () => {
           const message = 'error'
           saga
-            .throw({ authorization_required: message })
+            .throw(JSON.stringify({ authorization_required: message }))
             .put(actions.alerts.displayInfo(C.AUTHORIZATION_REQUIRED_INFO))
         })
 
@@ -213,7 +213,7 @@ describe('authSagas', () => {
         it('should trigger login failure', () => {
           const message = 'error'
           saga
-            .throw({ initial_error: message })
+            .throw(JSON.stringify({ initial_error: message }))
             .put(actions.auth.loginFailure(message))
             .next()
             .isDone()
