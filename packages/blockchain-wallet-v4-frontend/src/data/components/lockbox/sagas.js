@@ -1,6 +1,6 @@
 import { call, put, take, select } from 'redux-saga/effects'
 import { eventChannel, END } from 'redux-saga'
-import { any, keysIn } from 'ramda'
+import { contains, keysIn } from 'ramda'
 import Btc from '@ledgerhq/hw-app-btc'
 import Transport from '@ledgerhq/hw-transport-u2f'
 
@@ -68,7 +68,7 @@ export default ({ api, coreSagas }) => {
       const storedDevices = devicesR.getOrElse({})
 
       // check if device has already been added
-      if (any(newDeviceID)(keysIn(storedDevices))) {
+      if (contains(newDeviceID)(keysIn(storedDevices))) {
         yield put(A.changeDeviceSetupStep('duplicate-device'))
       } else {
         yield put(A.setNewDeviceID(newDeviceID))
