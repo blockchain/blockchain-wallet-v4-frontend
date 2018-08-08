@@ -57,6 +57,7 @@ export const MOBILE_LOGIN_ERROR_QRCODE_EXPIRED =
 export const MOBILE_LOGIN_SCAN_ERROR = 'mobile_login_scan_error'
 export const MOBILE_UPDATE_ERROR = 'mobile_update_error'
 export const MOBILE_UPDATE_SUCCESS = 'mobile_update_success'
+export const MOBILE_RESEND_SUCCESS = 'mobile_resend_success'
 export const MOBILE_VERIFY_ERROR = 'mobile_verify_error'
 export const MOBILE_VERIFY_SUCCESS = 'mobile_verify_success'
 export const NEW_ADDRESS_GENERATE_ERROR = 'new_address_generate_error'

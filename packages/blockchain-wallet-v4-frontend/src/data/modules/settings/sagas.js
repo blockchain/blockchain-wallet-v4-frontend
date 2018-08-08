@@ -81,10 +81,19 @@ export default ({ coreSagas }) => {
   const updateMobile = function*(action) {
     try {
       yield call(coreSagas.settings.setMobile, action.payload)
-      
       yield put(actions.alerts.displaySuccess(C.MOBILE_UPDATE_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateMobile', e))
+      yield put(actions.alerts.displayError(C.MOBILE_UPDATE_ERROR))
+    }
+  }
+
+  const resendMobile = function*(action) {
+    try {
+      yield call(coreSagas.settings.setMobile, action.payload)
+      yield put(actions.alerts.displaySuccess(C.MOBILE_RESEND_SUCCESS))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'resendMobile', e))
       yield put(actions.alerts.displayError(C.MOBILE_UPDATE_ERROR))
     }
   }
@@ -319,6 +328,7 @@ export default ({ coreSagas }) => {
     showBackupRecovery,
     showGoogleAuthenticatorSecretUrl,
     updateMobile,
+    resendMobile,
     verifyMobile,
     updateLanguage,
     updateCurrency,
