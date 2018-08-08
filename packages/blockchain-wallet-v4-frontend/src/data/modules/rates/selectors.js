@@ -8,7 +8,7 @@ const isActive = ({ refs }) => refs > 0
 export const getActivePairs = compose(
   keysIn,
   pickBy(isActive),
-  path(['rates'])
+  path(['rates', 'pairs'])
 )
 
 const quoteToRate = (quote, volume) => {
@@ -37,5 +37,10 @@ const quoteToRate = (quote, volume) => {
 }
 
 export const getPairRate = curry((pair, volume, state) =>
-  lift(quoteToRate)(path(['rates', pair, 'quote'], state), Remote.of(volume))
+  lift(quoteToRate)(
+    path(['rates', 'pairs', pair, 'quote'], state),
+    Remote.of(volume)
+  )
 )
+
+export const getAvailablePairs = path(['rates', 'availablePairs'])

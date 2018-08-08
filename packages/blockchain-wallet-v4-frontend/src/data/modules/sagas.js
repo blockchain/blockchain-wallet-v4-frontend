@@ -11,7 +11,7 @@ export default ({ coreSagas, api }) => ({
   addressesBch: addressesBch({ coreSagas }),
   coinify: coinify({ coreSagas }),
   profile: profile({ api }),
-  rates: rates(),
+  rates: rates({ api }),
   settings: settings({ coreSagas }),
   securityCenter: securityCenter({ coreSagas }),
   transferEth: transferEth({ coreSagas }),

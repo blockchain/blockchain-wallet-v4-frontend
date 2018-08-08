@@ -99,7 +99,8 @@ const ShapeshiftIcon = styled(Icon)`
 `
 
 const Success = ({
-  elements,
+  fromElements,
+  toElements,
   disabled,
   hasOneAccount,
   currency,
@@ -144,7 +145,7 @@ const Success = ({
           <Field
             name='source'
             component={SelectBox}
-            elements={elements}
+            elements={fromElements}
             hasOneAccount={hasOneAccount}
             disabled={disabled}
           />
@@ -164,7 +165,7 @@ const Success = ({
           <Field
             name='target'
             component={SelectBox}
-            elements={elements}
+            elements={toElements}
             hasOneAccount={hasOneAccount}
             disabled={disabled}
           />

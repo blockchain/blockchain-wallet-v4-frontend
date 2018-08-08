@@ -85,7 +85,7 @@ const api = {
 
 api.fetchRates.mockReturnValue(stubQuote)
 
-const sagas = [ratesSagas(), ratesSocketSagas({ api, ratesSocket })]
+const sagas = [ratesSagas({ api }), ratesSocketSagas({ api, ratesSocket })]
 
 const middlewares = [webSocketRates(ratesSocket)]
 
@@ -149,16 +149,16 @@ describe('rates service', () => {
     })
 
     it('should increase refs count', () => {
-      expect(store.getState().rates[ratesPair].refs).toEqual(1)
+      expect(store.getState().rates.pairs[ratesPair].refs).toEqual(1)
       store.dispatch(actions.modules.rates.subscribeToRates([ratesPair]))
-      expect(store.getState().rates[ratesPair].refs).toEqual(2)
+      expect(store.getState().rates.pairs[ratesPair].refs).toEqual(2)
     })
 
     it('should dencrease refs count', () => {
       store.dispatch(actions.modules.rates.subscribeToRates([ratesPair]))
-      expect(store.getState().rates[ratesPair].refs).toEqual(2)
+      expect(store.getState().rates.pairs[ratesPair].refs).toEqual(2)
       store.dispatch(actions.modules.rates.unsubscribeFromRates([ratesPair]))
-      expect(store.getState().rates[ratesPair].refs).toEqual(1)
+      expect(store.getState().rates.pairs[ratesPair].refs).toEqual(1)
     })
   })
 
@@ -230,7 +230,7 @@ describe('rates service', () => {
         ...model.rates.UNSUBSCRIBE_SUCCESS_MESSAGE,
         pair: ratesPair
       })
-      expect(store.getState().rates).toEqual({})
+      expect(store.getState().rates.pairs).toEqual({})
     })
   })
 

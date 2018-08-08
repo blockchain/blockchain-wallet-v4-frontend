@@ -13,7 +13,7 @@ export default ({ coreSagas, api }) =>
     yield fork(addressesBch({ coreSagas }))
     yield fork(coinify({ coreSagas }))
     yield fork(profile({ api }))
-    yield fork(rates())
+    yield fork(rates({ api }))
     yield fork(settings({ coreSagas }))
     yield fork(securityCenter({ coreSagas }))
     yield fork(transferEth({ coreSagas }))

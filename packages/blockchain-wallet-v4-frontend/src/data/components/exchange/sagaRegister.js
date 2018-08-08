@@ -5,7 +5,12 @@ import * as S from './selectors'
 import exchangeSagas from './exchange.sagas'
 import shapeshiftSagas from './shapeshift.sagas'
 
-const registerExchangeSagas = function*(exchange) {}
+const registerExchangeSagas = function*(exchange) {
+  yield takeLatest(
+    AT.EXCHANGE_FIRST_STEP_INITIALIZED,
+    exchange.exchangeFormInitialized
+  )
+}
 
 const registerShapeshiftSagas = function*(shapeshift) {
   yield takeLatest(

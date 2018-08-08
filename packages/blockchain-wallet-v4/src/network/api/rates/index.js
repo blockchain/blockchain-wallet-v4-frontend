@@ -7,7 +7,15 @@ export default ({ nabuUrl, get }) => {
       ignoreQueryParams: true
     })
 
+  const fetchAvailablePairs = () =>
+    get({
+      url: nabuUrl,
+      endPoint: `/markets/quotes/pairs`,
+      ignoreQueryParams: true
+    })
+
   return {
-    fetchRates
+    fetchRates,
+    fetchAvailablePairs
   }
 }

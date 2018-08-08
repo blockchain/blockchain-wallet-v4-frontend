@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getRemotePropType, getElementsPropType } from 'utils/proptypes'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
+import { getRemotePropType, getElementsPropType } from 'utils/proptypes'
 import { actions } from 'data'
 import { getData } from './selectors'
+
 import Loading from './template.loading'
 import Success from './template.success'
 import DataError from 'components/DataError'
@@ -24,16 +25,7 @@ class FirstStepContainer extends React.Component {
     return data.cata({
       Success: value => (
         <Success
-          elements={value.elements}
-          initialValues={value.initialValues}
-          hasOneAccount={value.hasOneAccount}
-          disabled={value.disabled}
-          minimum={value.minimum}
-          maximum={value.maximum}
-          formError={value.formError}
-          currency={value.currency}
-          sourceCoin={value.sourceCoin}
-          targetCoin={value.targetCoin}
+          {...value}
           handleMaximum={actions.firstStepMaximumClicked}
           handleMinimum={actions.firstStepMinimumClicked}
           onSubmit={actions.firstStepSubmitClicked}
@@ -60,7 +52,8 @@ const AccountPropType = PropTypes.shape({
 FirstStepContainer.propTypes = {
   data: getRemotePropType(
     PropTypes.shape({
-      elements: getElementsPropType(AccountPropType).isRequired,
+      fromElements: getElementsPropType(AccountPropType).isRequired,
+      toElements: getElementsPropType(AccountPropType).isRequired,
       formError: PropTypes.string,
       hasOneAccount: PropTypes.bool.isRequired,
       disabled: PropTypes.bool.isRequired,
@@ -71,7 +64,7 @@ FirstStepContainer.propTypes = {
         target: AccountPropType.isRequired
       }).isRequired
     })
-  )
+  ).isRequired
 }
 
 const mapStateToProps = state => ({

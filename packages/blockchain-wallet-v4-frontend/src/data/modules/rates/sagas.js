@@ -4,7 +4,7 @@ import { actions } from 'data'
 import * as S from './selectors'
 import * as A from './actions'
 
-export default () => {
+export default ({ api }) => {
   const subscribeToRates = function*({ payload }) {
     const { pairs } = payload
     const prevSubscriptions = yield select(S.getActivePairs)
@@ -39,8 +39,19 @@ export default () => {
     )(prevSubscriptions, currentSubscriptions)
   }
 
+  const fetchAvailablePairs = function*() {
+    try {
+      yield put(A.availablePairsLoading())
+      const { pairs } = yield api.fetchAvailablePairs()
+      yield put(A.availablePairsSuccess(pairs))
+    } catch (e) {
+      yield put(A.availablePairsError(e))
+    }
+  }
+
   return {
     subscribeToRates,
-    unsubscribeFromRates
+    unsubscribeFromRates,
+    fetchAvailablePairs
   }
 }
