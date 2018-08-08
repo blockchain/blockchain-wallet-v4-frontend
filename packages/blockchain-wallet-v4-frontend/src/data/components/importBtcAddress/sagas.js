@@ -4,10 +4,9 @@ import { formValueSelector } from 'redux-form'
 import * as actions from '../../actions'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword, promptForInput } from 'services/SagaService'
-import settings from 'config'
 import { utils } from 'blockchain-wallet-v4/src'
 
-export default ({ api, coreSagas }) => {
+export default ({ api, coreSagas, networks }) => {
   const logLocation = 'components/importBtcAddress/sagas'
 
   const importBtcAddressSubmitClicked = function*() {
@@ -37,7 +36,7 @@ export default ({ api, coreSagas }) => {
     if (utils.checks.isPositiveInteger(index) && priv) {
       try {
         yield coreSagas.payment.btc
-          .create({ network: settings.NETWORK_BTC })
+          .create({ network: networks.btc })
           .chain()
           .init()
           .from(priv)

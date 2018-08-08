@@ -13,7 +13,6 @@ import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import sendBtcSagas, { logLocation } from './sagas'
 import { promptForSecondPassword } from 'services/SagaService'
-import settings from 'config'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const api = {
@@ -21,6 +20,7 @@ const api = {
   deauthorizeBrowser: jest.fn()
 }
 const coreSagas = coreSagasFactory({ api })
+const networks = { btc: 'bitcoin' }
 
 describe('sendBtc sagas', () => {
   // Mocking Math.random() to have identical popup ids for action testing
@@ -45,7 +45,7 @@ describe('sendBtc sagas', () => {
     initialized,
     firstStepSubmitClicked,
     secondStepSubmitClicked
-  } = sendBtcSagas({ api, coreSagas })
+  } = sendBtcSagas({ api, coreSagas, networks })
 
   const feeType = 'regular'
   const feePerByte = 1
@@ -107,7 +107,7 @@ describe('sendBtc sagas', () => {
       saga.next()
       expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
-        network: settings.NETWORK_BTC
+        network: networks.btc
       })
       expect(paymentMock.init).toHaveBeenCalledTimes(1)
     })
@@ -256,7 +256,7 @@ describe('sendBtc sagas', () => {
       expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
         payment: paymentMock,
-        network: settings.NETWORK_BTC
+        network: networks.btc
       })
     })
 
@@ -318,7 +318,7 @@ describe('sendBtc sagas', () => {
       expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
         payment: paymentMock,
-        network: settings.NETWORK_BTC
+        network: networks.btc
       })
     })
 

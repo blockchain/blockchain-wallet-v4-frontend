@@ -5,11 +5,10 @@ import * as C from 'services/AlertService'
 import * as A from './actions'
 import * as actions from '../../actions'
 import { selectors } from '../../index'
-import settings from 'config'
 import { Types } from 'blockchain-wallet-v4/src'
 import { promptForInput } from 'services/SagaService'
 
-export default ({ api }) => {
+export default ({ api, networks }) => {
   const logLocation = 'components/manageAddresses/sagas'
 
   const toggleUsedAddresses = function*() {
@@ -19,11 +18,8 @@ export default ({ api }) => {
   const deriveAddresses = function (account, receiveIndex) {
     let i = 0
     let addrs = []
-
     while (i <= receiveIndex.data) {
-      addrs.push(
-        Types.HDAccount.getReceiveAddress(account, i, settings.NETWORK_BTC)
-      )
+      addrs.push(Types.HDAccount.getReceiveAddress(account, i, networks.btc))
       i++
     }
 
@@ -84,7 +80,7 @@ export default ({ api }) => {
         address: Types.HDAccount.getReceiveAddress(
           account,
           la.index,
-          settings.NETWORK_BTC
+          networks.btc
         ),
         index: la.index,
         label: la.label
@@ -151,7 +147,7 @@ export default ({ api }) => {
         address: Types.HDAccount.getReceiveAddress(
           account,
           la.index,
-          settings.NETWORK_BTC
+          networks.btc
         ),
         index: la.index,
         label: la.label

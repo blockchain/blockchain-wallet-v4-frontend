@@ -21,7 +21,6 @@ describe('application config constants', () => {
     expect(Config.WALLET_SETTINGS_PATH).toEqual('wallet.settings')
     expect(Config.WALLET_OPTIONS_PATH).toEqual('wallet.options')
     expect(Config.WALLET_KVSTORE_PATH).toEqual('wallet.kvstore')
-    expect(Config.NETWORK_BTC).toEqual('MOCK_BTC')
     expect(Config.NETWORK_ETH).toEqual(1)
     expect(Config.NETWORK_BCH).toEqual('MOCK_BCH')
   })

@@ -293,7 +293,7 @@ export const newHDWallet = curry((mnemonic, password, wallet) => {
 })
 
 // newHDAccount :: String -> String? -> Wallet -> Task Error Wallet
-export const newHDAccount = curry((label, password, wallet) => {
+export const newHDAccount = curry((label, password, wallet, network) => {
   let hdWallet = HDWalletList.selectHDWallet(selectHdWallets(wallet))
   let index = hdWallet.accounts.size
 
@@ -312,7 +312,7 @@ export const newHDAccount = curry((label, password, wallet) => {
     flip(crypto.decryptSecPass),
     hdWallet.seedHex
   )
-    .map(HDWallet.generateAccount(index, label))
+    .map(HDWallet.generateAccount(index, label, network))
     .chain(applyCipher(wallet, password, HDAccount.encrypt))
     .map(appendAccount(wallet))
 })

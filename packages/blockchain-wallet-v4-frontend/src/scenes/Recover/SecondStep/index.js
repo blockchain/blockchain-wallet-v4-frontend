@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
-import settings from 'config'
 import Recover from './template.js'
 import { actions, selectors } from 'data'
 
@@ -14,9 +13,8 @@ class RecoverContainer extends React.PureComponent {
   }
 
   onSubmit () {
-    const network = settings.NETWORK_BTC
     const { mnemonic, email, password, language } = this.props
-    this.props.authActions.restore(mnemonic, email, password, language, network)
+    this.props.authActions.restore(mnemonic, email, password, language)
   }
 
   render () {

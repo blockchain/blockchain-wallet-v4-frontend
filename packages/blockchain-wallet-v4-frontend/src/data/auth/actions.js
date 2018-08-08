@@ -20,9 +20,9 @@ export const mobileLogin = data => ({
   type: AT.MOBILE_LOGIN,
   payload: { data }
 })
-export const register = (email, password, language, network) => ({
+export const register = (email, password, language) => ({
   type: AT.REGISTER,
-  payload: { email, password, language, network }
+  payload: { email, password, language }
 })
 export const registerLoading = () => ({ type: AT.REGISTER_LOADING })
 export const registerSuccess = () => ({ type: AT.REGISTER_SUCCESS })

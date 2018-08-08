@@ -5,13 +5,13 @@ import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as actions from '../../actions'
 import * as coinifyActions from './actions.js'
 import * as selectors from '../../selectors.js'
-import settings from 'config'
 import coinifySagas, { logLocation, sellDescription } from './sagas'
 import * as C from 'services/AlertService'
 import { merge } from 'ramda'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const coreSagas = coreSagasFactory()
+const networks = { btc: 'bitcoin' }
 
 describe('coinifySagas', () => {
   beforeAll(() => {
@@ -75,7 +75,8 @@ describe('coinifySagas', () => {
 
   describe('coinify signup', () => {
     let { coinifySignup } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const data = {
@@ -135,7 +136,8 @@ describe('coinifySagas', () => {
 
   describe('triggerKYC', () => {
     let { triggerKYC } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     let saga = testSaga(triggerKYC)
@@ -160,7 +162,8 @@ describe('coinifySagas', () => {
 
   describe('fromISX', () => {
     let { fromISX } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const action = {
@@ -204,7 +207,8 @@ describe('coinifySagas', () => {
 
   describe('openKYC', () => {
     let { openKYC } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const data = {
@@ -249,7 +253,8 @@ describe('coinifySagas', () => {
 
   describe('openKYC - empty payload', () => {
     let { openKYC, triggerKYC } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const data = {
@@ -269,7 +274,8 @@ describe('coinifySagas', () => {
 
   describe('finishTrade', () => {
     let { finishTrade } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const data = {
@@ -309,7 +315,8 @@ describe('coinifySagas', () => {
 
   describe('finishTrade with bank', () => {
     let { finishTrade } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const data = {
       payload: { state: 'awaiting_transfer_in', medium: 'bank' }
@@ -336,7 +343,8 @@ describe('coinifySagas', () => {
 
   describe('coinify buy', () => {
     const { buy, prepareAddress } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const quoteId = '12345'
     const quoteCurrency = 'EUR'
@@ -398,7 +406,8 @@ describe('coinifySagas', () => {
 
   describe('coinify prepareAddress', () => {
     const { prepareAddress } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const saga = testSaga(prepareAddress)
@@ -421,7 +430,8 @@ describe('coinifySagas', () => {
 
   describe('initialized buy', () => {
     let { initialized } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const action = {
       payload: {
@@ -478,7 +488,8 @@ describe('coinifySagas', () => {
 
   describe('initialized sell', () => {
     let { initialized } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const action = {
       payload: {
@@ -515,7 +526,8 @@ describe('coinifySagas', () => {
 
   describe('handle currency change', () => {
     let { handleChange } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const action = {
       payload: 'GBP',
@@ -572,7 +584,8 @@ describe('coinifySagas', () => {
 
   describe('handle fiat (leftVal) change - Buy', () => {
     let { handleChange } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const action = {
       payload: 100,
@@ -644,7 +657,8 @@ describe('coinifySagas', () => {
 
   describe('handle crypto (rightVal) change - Buy', () => {
     let { handleChange } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const action = {
       payload: 100,
@@ -714,7 +728,8 @@ describe('coinifySagas', () => {
 
   describe('handle fiat (leftVal) change - Sell', () => {
     let { handleChange } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const action = {
       payload: 100,
@@ -787,7 +802,8 @@ describe('coinifySagas', () => {
 
   describe('handle crypto (rightVal) change - Sell', () => {
     let { handleChange } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const action = {
       payload: 0.000005,
@@ -856,7 +872,8 @@ describe('coinifySagas', () => {
 
   describe('cancelISX', () => {
     let { cancelISX } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     let saga = testSaga(cancelISX)
@@ -906,7 +923,8 @@ describe('coinifySagas', () => {
 
   describe('cancelTrade', () => {
     let { cancelTrade } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const data = {
       payload: {
@@ -950,7 +968,8 @@ describe('coinifySagas', () => {
 
   describe('cancelSubscription', () => {
     let { cancelSubscription } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const data = {
       payload: {
@@ -996,7 +1015,8 @@ describe('coinifySagas', () => {
 
   describe('deleteBankAccount', () => {
     let { deleteBankAccount } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const payload = {
       id: 1
@@ -1042,7 +1062,8 @@ describe('coinifySagas', () => {
 
   describe('checkoutCardMax', () => {
     let { checkoutCardMax } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const action = {
       payload: {
@@ -1082,7 +1103,8 @@ describe('coinifySagas', () => {
 
   describe('sell', () => {
     let { sell } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     let saga = testSaga(sell)
@@ -1117,7 +1139,7 @@ describe('coinifySagas', () => {
       expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
         payment: state.coinify.payment.getOrElse({}),
-        network: settings.NETWORK
+        network: networks.btc
       })
     })
 

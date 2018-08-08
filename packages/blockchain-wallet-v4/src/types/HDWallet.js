@@ -84,8 +84,8 @@ export const deriveAccountNodeAtIndex = (seedHex, index, network) => {
     .deriveHardened(index)
 }
 
-export const generateAccount = curry((index, label, seedHex) => {
-  let node = deriveAccountNodeAtIndex(seedHex, index, Bitcoin.networks.bitcoin)
+export const generateAccount = curry((index, label, network, seedHex) => {
+  let node = deriveAccountNodeAtIndex(seedHex, index, network)
   return HDAccount.fromJS(HDAccount.js(label, node))
 })
 

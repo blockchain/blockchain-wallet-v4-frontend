@@ -30,7 +30,7 @@ import { generateMnemonic } from '../../walletCrypto'
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export default ({ api }) => {
+export default ({ api, networks }) => {
   const runTask = function*(task, setActionCreator) {
     let result = yield call(
       compose(
@@ -80,14 +80,14 @@ export default ({ api }) => {
     let wrapper = yield select(S.getWrapper)
     let nextWrapper = Wrapper.traverseWallet(
       Task.of,
-      Wallet.newHDAccount(label, password),
+      Wallet.newHDAccount(label, password, networks.bitcoin),
       wrapper
     )
     yield call(runTask, nextWrapper, A.wallet.setWrapper)
     yield refetchContextData()
   }
 
-  const createWalletSaga = function*({ password, email, language, network }) {
+  const createWalletSaga = function*({ password, email, language }) {
     const mnemonic = yield call(generateMnemonic, api)
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
     const wrapper = Wrapper.createNew(
@@ -98,7 +98,7 @@ export default ({ api }) => {
       language,
       undefined,
       undefined,
-      network
+      networks.btc
     )
     yield call(api.createWallet, email, wrapper)
     yield put(A.wallet.refreshWrapper(wrapper))
@@ -176,15 +176,9 @@ export default ({ api }) => {
     }
   }
 
-  const restoreWalletSaga = function*({
-    mnemonic,
-    email,
-    password,
-    language,
-    network
-  }) {
+  const restoreWalletSaga = function*({ mnemonic, email, password, language }) {
     const seed = BIP39.mnemonicToSeed(mnemonic)
-    const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, network)
+    const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, networks.btc)
     const node = masterNode.deriveHardened(44).deriveHardened(0)
     const nAccounts = yield call(findUsedAccounts, {
       batch: 10,

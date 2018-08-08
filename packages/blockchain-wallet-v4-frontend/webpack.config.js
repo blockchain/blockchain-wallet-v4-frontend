@@ -61,9 +61,9 @@ if (!isCiBuild) {
 }
 
 // SSL detection
-sslEnabled =
-  fs.existsSync(PATHS.sslConfig + 'key.pem') &&
-  fs.existsSync(PATHS.sslConfig + 'cert.pem')
+// sslEnabled =
+//   fs.existsSync(PATHS.sslConfig + 'key.pem') &&
+//   fs.existsSync(PATHS.sslConfig + 'cert.pem')
 console.log(chalk.cyan('SSL Enabled: ') + chalk.blue(sslEnabled))
 
 module.exports = {

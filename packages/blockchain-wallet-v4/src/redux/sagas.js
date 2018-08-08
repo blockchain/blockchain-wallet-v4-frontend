@@ -5,10 +5,10 @@ import walletOptions from './walletOptions/sagas'
 import kvStore from './kvStore/sagas'
 import payment from './payment/sagas'
 
-export default ({ api }) => ({
+export default ({ api, networks }) => ({
   data: data({ api }),
   settings: settings({ api }),
-  wallet: wallet({ api }),
+  wallet: wallet({ api, networks }),
   walletOptions: walletOptions({ api }),
   kvStore: kvStore({ api }),
   payment: payment({ api })
