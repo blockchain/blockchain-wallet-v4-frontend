@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { compose } from 'ramda'
 
 import { getRemotePropType, getElementsPropType } from 'utils/proptypes'
 import { actions } from 'data'
@@ -10,6 +11,8 @@ import { getData } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 import DataError from 'components/DataError'
+
+const extarctFieldValue = (_, value) => value
 
 class FirstStepContainer extends React.Component {
   componentDidMount () {
@@ -30,6 +33,15 @@ class FirstStepContainer extends React.Component {
           handleMinimum={actions.firstStepMinimumClicked}
           onSubmit={actions.firstStepSubmitClicked}
           handleSwap={actions.firstStepSwapClicked}
+          handleSourceChange={compose(
+            actions.changeSource,
+            extarctFieldValue
+          )}
+          handleTargetChange={compose(
+            actions.changeTarget,
+            extarctFieldValue
+          )}
+          handleSetFixedField={actions.setFixedField}
         />
       ),
       Failure: message => (

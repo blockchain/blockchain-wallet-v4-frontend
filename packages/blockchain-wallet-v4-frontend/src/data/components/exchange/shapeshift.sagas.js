@@ -34,7 +34,7 @@ import { selectReceiveAddress } from '../utils/sagas'
 import utils from './sagas.utils'
 
 export default ({ api, coreSagas, options }) => {
-  const logLocation = 'components/exchange/sagas'
+  const logLocation = 'components/exchange/sagas/shapeshift'
   const {
     calculateEffectiveBalance,
     createPayment,

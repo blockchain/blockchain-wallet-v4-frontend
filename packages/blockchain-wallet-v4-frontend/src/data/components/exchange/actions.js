@@ -78,3 +78,11 @@ export const thirdStepCloseClicked = () => ({
 export const usStateRegistered = () => ({
   type: AT.EXCHANGE_US_STATE_REGISTERED
 })
+export const changeSource = source => ({
+  type: AT.CHANGE_SOURCE,
+  pyaload: { source }
+})
+export const changeTarget = target => ({
+  type: AT.CHANGE_TARGET,
+  pyaload: { target }
+})
