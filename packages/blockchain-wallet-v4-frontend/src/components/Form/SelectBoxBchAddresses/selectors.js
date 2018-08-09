@@ -10,7 +10,8 @@ import {
   not,
   path,
   prop,
-  sequence
+  sequence,
+  reduce
 } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
@@ -59,8 +60,12 @@ export const getData = (state, ownProps) => {
         .map(toDropdown),
       excludeImported
         ? Remote.of([])
-        : lift(formatImportedAddressesData)(relevantAddresses)
-    ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
+        : lift(formatImportedAddressesData)(relevantAddresses),
+      selectors.core.common.bch
+        .getLockboxBchBalances(state)
+        .map(excluded)
+        .map(toDropdown)
+    ]).map(([b1, b2, b3]) => ({ data: reduce(concat, [], [b1, b2, b3]) }))
   }
 
   return getAddressesData()

@@ -18,6 +18,7 @@ import {
   split,
   values,
   sequence,
+  flatten,
   lift
 } from 'ramda'
 import {
@@ -29,6 +30,7 @@ import {
 } from '../../data/btc/selectors.js'
 import { getAddressLabel, getMetadata } from '../../kvStore/btc/selectors'
 import { getBuySellTxHashMatch } from '../../kvStore/buySell/selectors'
+import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
 import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
 import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
@@ -102,6 +104,20 @@ const flattenAccount = acc => ({
 export const getAccountsBalances = state =>
   map(map(flattenAccount), getHDAccounts(state))
 
+export const getLockboxBtcBalances = state => {
+  const digest = (addresses, account) => {
+    return {
+      coin: 'BTC',
+      label: account.label,
+      balance: path([account.xpub, 'final_balance'], addresses),
+      address: account.xpub
+    }
+  }
+  return map(
+    lift(digest)(getAddresses(state)),
+    getLockboxBtcAccounts(state).map(flatten)
+  )
+}
 // getActiveAccountsBalances :: state => Remote([])
 export const getActiveAccountsBalances = state =>
   map(map(flattenAccount), getActiveHDAccounts(state))

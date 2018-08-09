@@ -1,10 +1,11 @@
-import { lift, map, path, prop } from 'ramda'
+import { lift, map, path, prop, flatten } from 'ramda'
 import {
   getAddresses,
   getTransactions,
   getHeight
 } from '../../data/eth/selectors.js'
 import { getAccounts } from '../../kvStore/eth/selectors.js'
+import { getLockboxEthAccounts } from '../../kvStore/lockbox/selectors.js'
 import * as transactions from '../../../transactions'
 import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
 
@@ -18,6 +19,19 @@ export const getAccountBalances = state => {
     address: account.addr
   })
   return map(lift(digest)(getAddresses(state)), getAccounts(state))
+}
+
+export const getLockboxEthBalances = state => {
+  const digest = (addresses, account) => ({
+    coin: 'ETH',
+    label: account.label,
+    balance: path([account.addr, 'balance'], addresses),
+    address: account.addr
+  })
+  return map(
+    lift(digest)(getAddresses(state)),
+    getLockboxEthAccounts(state).map(flatten)
+  )
 }
 
 export const getAccountsInfo = state => {

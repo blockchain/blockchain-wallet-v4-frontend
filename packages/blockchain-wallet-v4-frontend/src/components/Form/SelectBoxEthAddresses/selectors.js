@@ -3,7 +3,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 
 export const getData = (state, ownProps) => {
-  const { exclude = [] } = ownProps
+  const { exclude = [], excludeLockbox } = ownProps
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ text: x.label, value: x }))
 
@@ -13,7 +13,12 @@ export const getData = (state, ownProps) => {
         .getAccountBalances(state)
         .map(excluded)
         .map(toDropdown),
-      Remote.of([])
+      excludeLockbox
+        ? Remote.of([])
+        : selectors.core.common.eth
+            .getLockboxEthBalances(state)
+            .map(excluded)
+            .map(toDropdown)
     ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
   }
 
