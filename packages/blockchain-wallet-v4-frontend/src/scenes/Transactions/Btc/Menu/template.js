@@ -96,11 +96,7 @@ const Menu = props => {
         <Controls>
           {accounts.length > 1 && (
             <Addresses>
-              <Field
-                name='source'
-                component={SelectBoxBitcoinAddresses}
-                props={{ coin: 'BTC' }}
-              />
+              <Field name='source' component={SelectBoxBitcoinAddresses} />
             </Addresses>
           )}
           <Status>

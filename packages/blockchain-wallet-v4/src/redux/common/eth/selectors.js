@@ -5,8 +5,10 @@ import {
   getHeight
 } from '../../data/eth/selectors.js'
 import { getAccounts } from '../../kvStore/eth/selectors.js'
+import { getLockboxEthAccounts } from '../../kvStore/lockbox/selectors.js'
 import * as transactions from '../../../transactions'
 import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
+import Remote from '../../../remote'
 
 const transformTx = transactions.ethereum.transformTx
 
@@ -18,6 +20,17 @@ export const getAccountBalances = state => {
     address: account.addr
   })
   return map(lift(digest)(getAddresses(state)), getAccounts(state))
+}
+
+export const getLockboxEthBalances = state => {
+  const digest = (addresses, account) => ({
+    coin: 'ETH',
+    label: account.label,
+    balance: path([account.addr, 'balance'], addresses),
+    address: account.addr
+  })
+  const balances = Remote.of(getAddresses(state).getOrElse([]))
+  return map(lift(digest)(balances), getLockboxEthAccounts(state))
 }
 
 export const getAccountsInfo = state => {

@@ -4,11 +4,11 @@ import { concat } from 'ramda'
 import PropTypes from 'prop-types'
 
 import { getData } from './selectors'
-import SelectBoxBitcoin from './template'
+import SelectBoxEther from './template'
 
-class SelectBoxBitcoinAddresses extends React.PureComponent {
+class SelectBoxEtherAddresses extends React.PureComponent {
   getLabel () {
-    return this.props.optional ? 'N/A' : `All Bitcoin Wallets`
+    return this.props.optional ? 'N/A' : `All Ether Wallets`
   }
   concatAll () {
     return concat([
@@ -28,7 +28,7 @@ class SelectBoxBitcoinAddresses extends React.PureComponent {
         ]
         const elements = includeAll ? this.concatAll()(wallets) : wallets
         return (
-          <SelectBoxBitcoin
+          <SelectBoxEther
             label={this.getLabel()}
             elements={elements}
             {...rest}
@@ -42,11 +42,11 @@ class SelectBoxBitcoinAddresses extends React.PureComponent {
   }
 }
 
-SelectBoxBitcoinAddresses.propTypes = {
+SelectBoxEtherAddresses.propTypes = {
   includeAll: PropTypes.bool
 }
 
-SelectBoxBitcoinAddresses.defaultProps = {
+SelectBoxEtherAddresses.defaultProps = {
   includeAll: true
 }
 
@@ -54,4 +54,4 @@ const mapStateToProps = (state, ownProps) => ({
   data: getData(state, ownProps)
 })
 
-export default connect(mapStateToProps)(SelectBoxBitcoinAddresses)
+export default connect(mapStateToProps)(SelectBoxEtherAddresses)

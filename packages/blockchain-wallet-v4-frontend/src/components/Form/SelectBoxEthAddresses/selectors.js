@@ -1,28 +1,25 @@
-import { concat, filter, map, sequence, reduce } from 'ramda'
+import { concat, filter, map, sequence } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 
 export const getData = (state, ownProps) => {
-  const { exclude = [], excludeImported, excludeLockbox } = ownProps
+  const { exclude = [], excludeLockbox } = ownProps
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ text: x.label, value: x }))
 
   const getAddressesData = () => {
     return sequence(Remote.of, [
-      selectors.core.common.btc
-        .getActiveAccountsBalances(state)
+      selectors.core.common.eth
+        .getAccountBalances(state)
         .map(excluded)
         .map(toDropdown),
-      excludeImported
-        ? Remote.of([])
-        : selectors.core.common.btc.getAddressesBalances(state).map(toDropdown),
       excludeLockbox
         ? Remote.of([])
-        : selectors.core.common.btc
-            .getLockboxBtcBalances(state)
+        : selectors.core.common.eth
+            .getLockboxEthBalances(state)
             .map(excluded)
             .map(toDropdown)
-    ]).map(([b1, b2, b3]) => ({ data: reduce(concat, [], [b1, b2, b3]) }))
+    ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
   }
 
   return getAddressesData()

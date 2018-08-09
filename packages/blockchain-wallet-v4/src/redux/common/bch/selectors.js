@@ -25,11 +25,23 @@ import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
 import { getAccountsList, getBchTxNote } from '../../kvStore/bch/selectors.js'
+import { getLockboxBchAccounts } from '../../kvStore/lockbox/selectors'
 import { toCashAddr } from '../../../utils/bch'
 import { isValidBitcoinAddress } from '../../../utils/btc'
 import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
 
 const transformTx = transactions.bitcoin.transformTx
+
+export const getLockboxBchBalances = state => {
+  const digest = (addresses, account) => ({
+    coin: 'BCH',
+    label: account.label,
+    balance: path([account.xpub, 'final_balance'], addresses),
+    address: account.xpub
+  })
+  const balances = Remote.of(getAddresses(state).getOrElse([]))
+  return map(lift(digest)(balances), getLockboxBchAccounts(state))
+}
 
 // getActiveHDAccounts :: state -> Remote ([hdacountsWithInfo])
 export const getActiveHDAccounts = state => {

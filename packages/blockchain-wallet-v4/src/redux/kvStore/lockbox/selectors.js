@@ -18,32 +18,38 @@ export const getAccounts = state =>
 export const getLockboxBtc = state => getAccounts(state).map(map(path(['btc'])))
 
 export const getLockboxBtcAccounts = state =>
-  getLockboxBtc(state).map(map(path(['accounts'])))
+  getLockboxBtc(state)
+    .map(map(path(['accounts'])))
+    .map(flatten)
 
 export const getLockboxBtcContext = state => {
   return getLockboxBtcAccounts(state).map(accounts => {
-    return accounts ? flatten(accounts).map(a => path(['xpub'], a)) : []
+    return accounts ? accounts.map(a => path(['xpub'], a)) : []
   })
 }
 
 export const getLockboxBch = state => getAccounts(state).map(map(path(['bch'])))
 
 export const getLockboxBchAccounts = state =>
-  getLockboxBch(state).map(map(path(['accounts'])))
+  getLockboxBch(state)
+    .map(map(path(['accounts'])))
+    .map(flatten)
 
 export const getLockboxBchContext = state => {
   return getLockboxBchAccounts(state).map(accounts => {
-    return accounts ? flatten(accounts).map(a => path(['xpub'], a)) : []
+    return accounts ? accounts.map(a => path(['xpub'], a)) : []
   })
 }
 
 export const getLockboxEth = state => getAccounts(state).map(map(path(['eth'])))
 
 export const getLockboxEthAccounts = state =>
-  getLockboxEth(state).map(map(path(['accounts'])))
+  getLockboxEth(state)
+    .map(map(path(['accounts'])))
+    .map(flatten)
 
 export const getLockboxEthContext = state => {
   return getLockboxEthAccounts(state).map(accounts => {
-    return accounts ? flatten(accounts).map(a => path(['addr'], a)) : []
+    return accounts ? accounts.map(a => path(['addr'], a)) : []
   })
 }

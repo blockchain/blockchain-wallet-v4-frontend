@@ -17,7 +17,7 @@ import {
   FormGroup,
   FormItem,
   FormLabel,
-  SelectBoxBitcoinAddresses,
+  SelectBoxBCHAddresses,
   SelectBoxCoin,
   TextBox,
   TextAreaDebounced
@@ -88,11 +88,10 @@ const FirstStep = props => {
           </FormLabel>
           <Field
             name='from'
-            component={SelectBoxBitcoinAddresses}
+            component={SelectBoxBCHAddresses}
             includeAll={false}
             excludeWatchOnly
             validate={[required]}
-            coin='BCH'
           />
         </FormItem>
       </FormGroup>
@@ -109,28 +108,26 @@ const FirstStep = props => {
               !destination && (
                 <Field
                   name='to'
-                  component={SelectBoxBitcoinAddresses}
+                  component={SelectBoxBCHAddresses}
                   opened
                   onFocus={() => handleToToggle()}
                   includeAll={false}
                   validate={[required]}
                   exclude={[from.label]}
                   hideErrors
-                  coin='BCH'
                 />
               )}
             {toToggled &&
               destination && (
                 <Field
                   name='to'
-                  component={SelectBoxBitcoinAddresses}
+                  component={SelectBoxBCHAddresses}
                   onFocus={() => handleToToggle()}
                   includeAll={false}
                   validate={[required]}
                   exclude={[from.label]}
                   hideArrow
                   hideErrors
-                  coin='BCH'
                 />
               )}
             {!toToggled && (
