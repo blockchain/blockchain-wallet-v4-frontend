@@ -931,7 +931,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Select country",
+        "defaultMessage": "Select state",
         "id": "components.selectboxstate.label"
       }
     ],
