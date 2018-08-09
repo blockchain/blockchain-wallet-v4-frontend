@@ -946,6 +946,27 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage='Lockbox successfully added.'
         />
       )
+    case C.LOCKBOX_SETUP_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.lockbox_setup_error'
+          defaultMessage='Failed to setup Lockbox.'
+        />
+      )
+    case C.LOCKBOX_UPDATE_SUCCESS:
+      return (
+        <FormattedMessage
+          id='components.alerts.lockbox_update_success'
+          defaultMessage='Lockbox settings successfully updated.'
+        />
+      )
+    case C.LOCKBOX_UPDATE_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.lockbox_update_error'
+          defaultMessage='Failed to update Lockbox settings.'
+        />
+      )
     case C.LOCKBOX_DELETE_SUCCESS:
       return (
         <FormattedMessage

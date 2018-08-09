@@ -1,3 +1,3 @@
 import { selectors } from 'data'
 
-export const getData = selectors.components.lockbox.getDeviceInfo
+export const getData = selectors.components.lockbox.getConnectedDevice

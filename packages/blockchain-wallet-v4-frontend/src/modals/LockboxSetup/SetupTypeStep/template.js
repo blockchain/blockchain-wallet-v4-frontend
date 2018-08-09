@@ -13,14 +13,14 @@ const Row = styled.div`
 `
 
 const OptionsStep = props => {
-  const { handleStep } = props
+  const { handleStepChange } = props
   return (
     <React.Fragment>
       <Row>
         <Button
           nature='primary'
           fullwidth
-          onClick={() => handleStep('connect')}
+          onClick={() => handleStepChange()}
         >
           <FormattedMessage
             id='modals.lockboxsetup.firststep.link'

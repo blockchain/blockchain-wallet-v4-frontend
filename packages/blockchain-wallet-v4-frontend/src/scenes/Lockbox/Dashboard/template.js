@@ -41,7 +41,7 @@ const Lockbox = props => {
         return (
           <Device>
             <h3 style={{ fontSize: '20px' }}>
-              {device.deviceName}{' '}
+              {device.name}{' '}
               <span style={{ fontSize: '15px' }}>({deviceIdList[i]})</span>
             </h3>
             {!device.accounts ? (

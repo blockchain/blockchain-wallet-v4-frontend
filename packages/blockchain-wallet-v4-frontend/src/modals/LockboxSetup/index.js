@@ -10,37 +10,33 @@ import SetupTypeStep from './SetupTypeStep'
 import ConnectDeviceStep from './ConnectDeviceStep'
 import NameDeviceStep from './NameDeviceStep'
 import ConfirmRecoveryStep from './ConfirmRecoveryStep'
-import SaveAccountsStep from './SaveAccountsStep'
 import DuplicateDeviceStep from './DuplicateDeviceStep'
 
 class LockboxSetupContainer extends React.PureComponent {
   render () {
-    const { step, position, total, closeAll, ...rest } = this.props
-    const { lockboxActions } = rest
+    const { currentStep, position, total, closeAll } = this.props
+
     return (
       <LockboxSetup position={position} total={total} closeAll={closeAll}>
-        {step === 'setup-type' && (
-          <SetupTypeStep handleStep={lockboxActions.changeDeviceSetupStep} />
-        )}
-        {step === 'connect' && <ConnectDeviceStep />}
-        {step === 'duplicate-device' && <DuplicateDeviceStep />}
-        {step === 'name-device' && <NameDeviceStep />}
-        {step === 'confirm-recovery' && <ConfirmRecoveryStep />}
-        {step === 'save-accounts' && <SaveAccountsStep />}
+        {currentStep === 'setup-type' && <SetupTypeStep />}
+        {currentStep === 'connect' && <ConnectDeviceStep />}
+        {currentStep === 'duplicate-device' && <DuplicateDeviceStep />}
+        {currentStep === 'name-device' && <NameDeviceStep />}
+        {currentStep === 'confirm-recovery' && <ConfirmRecoveryStep />}
       </LockboxSetup>
     )
   }
 }
 
 LockboxSetupContainer.propTypes = {
-  step: PropTypes.string.isRequired,
+  currentStep: PropTypes.string.isRequired,
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   closeAll: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-  step: selectors.components.lockbox.getStep(state)
+  currentStep: selectors.components.lockbox.getNewDeviceSetupStep(state)
 })
 
 const mapDispatchToProps = dispatch => ({
