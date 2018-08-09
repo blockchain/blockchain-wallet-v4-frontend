@@ -12,7 +12,6 @@ import {
   values,
   sequence,
   lift,
-  flatten,
   indexOf
 } from 'ramda'
 import {
@@ -34,18 +33,13 @@ import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
 const transformTx = transactions.bitcoin.transformTx
 
 export const getLockboxBchBalances = state => {
-  const digest = (addresses, account) => {
-    return {
-      coin: 'BCH',
-      label: account.label,
-      balance: path([account.xpub, 'final_balance'], addresses),
-      address: account.xpub
-    }
-  }
-  return map(
-    lift(digest)(getAddresses(state)),
-    getLockboxBchAccounts(state).map(flatten)
-  )
+  const digest = (addresses, account) => ({
+    coin: 'BCH',
+    label: account.label,
+    balance: path([account.xpub, 'final_balance'], addresses),
+    address: account.xpub
+  })
+  return map(lift(digest)(getAddresses(state)), getLockboxBchAccounts(state))
 }
 
 // getActiveHDAccounts :: state -> Remote ([hdacountsWithInfo])

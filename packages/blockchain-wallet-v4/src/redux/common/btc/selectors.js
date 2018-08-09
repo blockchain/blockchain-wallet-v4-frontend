@@ -18,7 +18,6 @@ import {
   split,
   values,
   sequence,
-  flatten,
   lift
 } from 'ramda'
 import {
@@ -105,18 +104,13 @@ export const getAccountsBalances = state =>
   map(map(flattenAccount), getHDAccounts(state))
 
 export const getLockboxBtcBalances = state => {
-  const digest = (addresses, account) => {
-    return {
-      coin: 'BTC',
-      label: account.label,
-      balance: path([account.xpub, 'final_balance'], addresses),
-      address: account.xpub
-    }
-  }
-  return map(
-    lift(digest)(getAddresses(state)),
-    getLockboxBtcAccounts(state).map(flatten)
-  )
+  const digest = (addresses, account) => ({
+    coin: 'BTC',
+    label: account.label,
+    balance: path([account.xpub, 'final_balance'], addresses),
+    address: account.xpub
+  })
+  return map(lift(digest)(getAddresses(state)), getLockboxBtcAccounts(state))
 }
 // getActiveAccountsBalances :: state => Remote([])
 export const getActiveAccountsBalances = state =>

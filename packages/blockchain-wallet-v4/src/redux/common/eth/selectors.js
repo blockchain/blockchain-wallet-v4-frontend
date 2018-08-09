@@ -1,4 +1,4 @@
-import { lift, map, path, prop, flatten } from 'ramda'
+import { lift, map, path, prop } from 'ramda'
 import {
   getAddresses,
   getTransactions,
@@ -28,10 +28,7 @@ export const getLockboxEthBalances = state => {
     balance: path([account.addr, 'balance'], addresses),
     address: account.addr
   })
-  return map(
-    lift(digest)(getAddresses(state)),
-    getLockboxEthAccounts(state).map(flatten)
-  )
+  return map(lift(digest)(getAddresses(state)), getLockboxEthAccounts(state))
 }
 
 export const getAccountsInfo = state => {
