@@ -3,7 +3,7 @@ import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
 
-import { getData } from './selectors'
+import { getData, getInitialValues } from './selectors'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { actions } from 'data'
 import Loading from './template.loading'
@@ -95,9 +95,7 @@ class RequestEtherContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  initialValues: {
-    coin: 'ETH'
-  },
+  initialValues: getInitialValues(state),
   data: getData(state),
   coin: formValueSelector('requestEther')(state, 'coin')
 })

@@ -18,7 +18,8 @@ import {
   FormGroup,
   FormItem,
   FormLabel,
-  SelectBoxCoin
+  SelectBoxCoin,
+  SelectBoxEtherAddresses
 } from 'components/Form'
 import CopyClipboard from 'components/CopyClipboard'
 
@@ -37,9 +38,6 @@ const QRCodeContainer = styled.div`
   margin-top: 5px;
   width: 100%;
 `
-const CoinSelector = styled(FormGroup)`
-  width: 50%;
-`
 const ScanMessage = styled.div`
   padding-bottom: 20px;
 `
@@ -49,7 +47,7 @@ const RequestEther = props => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <CoinSelector margin={'20px'}>
+      <FormGroup inline margin={'20px'}>
         <FormItem>
           <FormLabel for='coin'>
             <FormattedMessage
@@ -59,7 +57,21 @@ const RequestEther = props => {
           </FormLabel>
           <Field name='coin' component={SelectBoxCoin} validate={[required]} />
         </FormItem>
-      </CoinSelector>
+        <FormItem>
+          <FormLabel for='to'>
+            <FormattedMessage
+              id='modals.requestbitcoin.firststep.to'
+              defaultMessage='Receive to:'
+            />
+          </FormLabel>
+          <Field
+            name='to'
+            component={SelectBoxEtherAddresses}
+            includeAll={false}
+            validate={[required]}
+          />
+        </FormItem>
+      </FormGroup>
       <FormGroup>
         <FormItem>
           <FormLabel>

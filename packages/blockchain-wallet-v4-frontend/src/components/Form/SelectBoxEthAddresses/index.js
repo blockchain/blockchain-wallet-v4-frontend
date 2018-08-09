@@ -7,7 +7,7 @@ import { getData } from './selectors'
 import SelectBoxEther from './template'
 
 class SelectBoxEtherAddresses extends React.PureComponent {
-  getLabel (coin) {
+  getLabel () {
     return this.props.optional ? 'N/A' : `All Ether Wallets`
   }
   concatAll () {
@@ -16,7 +16,7 @@ class SelectBoxEtherAddresses extends React.PureComponent {
     ])
   }
   render () {
-    const { data, coin, includeAll, ...rest } = this.props
+    const { data, includeAll, ...rest } = this.props
 
     return data.cata({
       Success: value => {
