@@ -10,7 +10,7 @@ import Success from './template.success'
 
 class ConnectDeviceStep extends React.PureComponent {
   componentDidMount () {
-    this.props.lockboxActions.initializeConnect()
+    this.props.lockboxActions.initializeDeviceConnection()
   }
 
   render () {

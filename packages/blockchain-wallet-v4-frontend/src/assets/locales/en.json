@@ -257,7 +257,12 @@
     "Language has been successfully updated.",
   "components.alerts.lockbox_delete_error": "Failed to remove Lockbox.",
   "components.alerts.lockbox_delete_success": "Lockbox successfully removed.",
+  "components.alerts.lockbox_setup_error": "Failed to setup Lockbox.",
   "components.alerts.lockbox_setup_success": "Lockbox successfully added.",
+  "components.alerts.lockbox_update_error":
+    "Failed to update Lockbox settings.",
+  "components.alerts.lockbox_update_success":
+    "Lockbox settings successfully updated.",
   "components.alerts.logginglevel_update_error":
     "Failed to update logging level",
   "components.alerts.logginglevel_update_success":
@@ -546,6 +551,10 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
+  "layouts.wallet.menutop.balance.walletbalance.Lockbox": "Lockbox",
+  "layouts.wallet.menutop.balance.walletbalance.nonspendable": "Non-Spendable",
+  "layouts.wallet.menutop.balance.walletbalance.pending": "Pending",
+  "layouts.wallet.menutop.balance.walletbalance.wallet": "Wallet",
   "layouts.wallet.menutop.request": "Request",
   "layouts.wallet.menutop.send": "Send",
   "layouts.wallet.trayright.faq": "Frequently Asked Questions",
@@ -695,6 +704,10 @@
   "modals.lockboxsetup.connectstep.connected": "Device connected successfully!",
   "modals.lockboxsetup.connectstep.error":
     "Unable to connect to your device. Please make sure your device is connected and the bitcoin app is open!",
+  "modals.lockboxsetup.duplicatedevice.continue": "OK",
+  "modals.lockboxsetup.duplicatedevice.subtitle":
+    "This device has already been associated with your Blockchain Wallet. Please connect a new device and restart this process.",
+  "modals.lockboxsetup.duplicatedevice.title": "Whoops!",
   "modals.lockboxsetup.firststep.buy": "Buy a new Carbon",
   "modals.lockboxsetup.firststep.link": "Link a new device",
   "modals.lockboxsetup.firststep.restore": "Restore an existing device",
@@ -1754,6 +1767,7 @@
   "scenes.lockbox.welcome.addanotherdevice": "Add Another Device",
   "scenes.lockbox.welcome.deletedevice": "Delete Device",
   "scenes.lockbox.welcome.getstarted": "Get Started",
+  "scenes.lockbox.welcome.setupcarbon": "Setup Carbon",
   "scenes.lockbox.welcome.subtitle":
     "Lockbox works with Carbon to give your digital assets an additional layer of security. Unlock your Lockbox by linking your Carbon, or buy one today.",
   "scenes.lockbox.welcome.title": "Hardware Secured Digital Assets",

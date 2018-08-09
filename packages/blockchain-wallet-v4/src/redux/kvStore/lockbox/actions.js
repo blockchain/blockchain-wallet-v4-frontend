@@ -5,6 +5,10 @@ export const createMetadataLockbox = data => ({
   type: AT.CREATE_METADATA_LOCKBOX,
   payload: data
 })
+export const createNewDeviceEntry = (deviceID, deviceName, accounts) => ({
+  type: AT.CREATE_NEW_DEVICE_ENTRY,
+  payload: { deviceID, deviceName, accounts }
+})
 
 // FETCH
 export const fetchMetadataLockbox = () => ({
@@ -23,19 +27,13 @@ export const fetchMetadataLockboxFailure = error => ({
 })
 
 // UPDATE
-export const storeDeviceName = (deviceID, deviceName) => ({
-  type: AT.STORE_DEVICE_NAME,
+export const updateDeviceBalanceDisplay = (deviceID, showBalances) => ({
+  type: AT.UPDATE_DEVICE_BALANCE_DISPLAY,
+  payload: { deviceID, showBalances }
+})
+export const updateDeviceName = (deviceID, deviceName) => ({
+  type: AT.UPDATE_DEVICE_NAME,
   payload: { deviceID, deviceName }
-})
-
-export const storeDeviceBackupFlag = (deviceID) => ({
-  type: AT.STORE_DEVICE_BACKUP_FLAG,
-  payload: { deviceID }
-})
-
-export const storeDeviceAccounts = (deviceID, mdAccountsEntry) => ({
-  type: AT.STORE_DEVICE_ACCOUNTS,
-  payload: { deviceID, mdAccountsEntry }
 })
 
 // DELETE
