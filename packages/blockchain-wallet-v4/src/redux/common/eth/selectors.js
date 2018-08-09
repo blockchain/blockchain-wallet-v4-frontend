@@ -8,6 +8,7 @@ import { getAccounts } from '../../kvStore/eth/selectors.js'
 import { getLockboxEthAccounts } from '../../kvStore/lockbox/selectors.js'
 import * as transactions from '../../../transactions'
 import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
+import Remote from '../../../remote'
 
 const transformTx = transactions.ethereum.transformTx
 
@@ -28,7 +29,8 @@ export const getLockboxEthBalances = state => {
     balance: path([account.addr, 'balance'], addresses),
     address: account.addr
   })
-  return map(lift(digest)(getAddresses(state)), getLockboxEthAccounts(state))
+  const balances = Remote.of(getAddresses(state).getOrElse([]))
+  return map(lift(digest)(balances), getLockboxEthAccounts(state))
 }
 
 export const getAccountsInfo = state => {

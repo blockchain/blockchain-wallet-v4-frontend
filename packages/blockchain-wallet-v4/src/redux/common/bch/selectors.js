@@ -39,7 +39,8 @@ export const getLockboxBchBalances = state => {
     balance: path([account.xpub, 'final_balance'], addresses),
     address: account.xpub
   })
-  return map(lift(digest)(getAddresses(state)), getLockboxBchAccounts(state))
+  const balances = Remote.of(getAddresses(state).getOrElse([]))
+  return map(lift(digest)(balances), getLockboxBchAccounts(state))
 }
 
 // getActiveHDAccounts :: state -> Remote ([hdacountsWithInfo])
