@@ -448,13 +448,6 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage='Mobile number has been successfully updated. Verification SMS has been sent.'
         />
       )
-    case C.MOBILE_RESEND_SUCCESS:
-      return (
-        <FormattedMessage
-          id='components.alerts.mobile_resend_success'
-          defaultMessage='Verification SMS has been sent.'
-        />
-      )
     case C.MOBILE_VERIFY_ERROR:
       return (
         <FormattedMessage

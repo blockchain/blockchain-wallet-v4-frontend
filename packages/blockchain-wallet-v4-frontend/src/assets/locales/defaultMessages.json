@@ -661,6 +661,10 @@
       {
         "defaultMessage": "Received",
         "id": "scenes.buysell.orderhistory.list.received"
+      },
+      {
+        "defaultMessage": "To Be Received",
+        "id": "scenes.buysell.orderhistory.list.tobereceived"
       }
     ],
     "path": "src/components/BuySell/OrderHistoryTable/index.json"

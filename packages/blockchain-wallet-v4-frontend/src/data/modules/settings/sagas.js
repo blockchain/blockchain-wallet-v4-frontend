@@ -91,7 +91,7 @@ export default ({ coreSagas }) => {
   const resendMobile = function*(action) {
     try {
       yield call(coreSagas.settings.setMobile, action.payload)
-      yield put(actions.alerts.displaySuccess(C.MOBILE_RESEND_SUCCESS))
+      yield put(actions.alerts.displaySuccess(C.SMS_RESEND_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'resendMobile', e))
       yield put(actions.alerts.displayError(C.MOBILE_UPDATE_ERROR))
