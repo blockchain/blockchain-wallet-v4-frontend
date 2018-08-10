@@ -75,13 +75,12 @@ const LockboxStatus = styled.div`
   margin-right: 5px;
   height: 15px;
   width: 15px;
-  background-color: ${props => (props.color ? props.color : 'red')};
+  background-color: ${props => (props.color ? props.color : 'grey')};
   border-radius: 50%;
 `
 
 const Navigation = props => {
-  const { settingsOpened, canTrade, connectionStatus } = props
-  console.info(connectionStatus)
+  const { settingsOpened, canTrade, lockboxStatus } = props
 
   return (
     <Wrapper>
@@ -149,7 +148,7 @@ const Navigation = props => {
               smaller
               uppercase
             />
-            <LockboxStatus color={connectionStatus} />
+            <LockboxStatus color={lockboxStatus} />
           </MenuItem>
         </LinkContainer>
         <Separator />

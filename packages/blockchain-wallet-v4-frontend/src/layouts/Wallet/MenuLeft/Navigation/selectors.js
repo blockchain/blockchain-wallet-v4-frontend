@@ -4,10 +4,14 @@ import { createDeepEqualSelector } from 'services/ReselectHelper'
 export const getData = createDeepEqualSelector(
   [
     selectors.components.layoutWallet.getSettingsOpened,
+    selectors.components.lockbox.getConnectionStatus,
     selectors.exchange.getCanTrade
   ],
-  (settingsOpened, canTradeR) => {
+  (settingsOpened, lockboxStatusR, canTradeR) => {
+    const lockboxStatus = lockboxStatusR.getOrElse(null)
     const canTrade = canTradeR.getOrElse(false)
-    return { settingsOpened, canTrade }
+
+    console.info(lockboxStatus)
+    return { settingsOpened, lockboxStatus, canTrade }
   }
 )

@@ -17,11 +17,11 @@ export default ({ api, coreSagas }) => {
     return eventChannel(emitter => {
       async function getDeviceInfo () {
         try {
-          
+
           const transport = await Transport.create()
-          
+
           const lockbox = new Btc(transport)
-          
+
           // get public key and chaincode for btc and eth paths
           const btc = await lockbox.getWalletPublicKey("44'/0'/0'")
           const bch = await lockbox.getWalletPublicKey("44'/145'/0'")
@@ -158,6 +158,15 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const updateConnectionStatus = function*(action) {
+    try {
+      const { status } = action.payload
+      yield put(A.updateConnectionStatus(status))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateConnectionStatus', e))
+    }
+  }
+
   const deleteDevice = function*(action) {
     try {
       const { deviceID } = action.payload
@@ -173,11 +182,12 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
-    initializeDeviceConnection,
+    deleteDevice,
     deriveConnectStep,
+    initializeDeviceConnection,
     saveNewDeviceKvStore,
+    updateConnectionStatus,
     updateDeviceName,
-    updateDeviceBalanceDisplay,
-    deleteDevice
+    updateDeviceBalanceDisplay
   }
 }

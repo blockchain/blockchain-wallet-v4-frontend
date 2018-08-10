@@ -1,4 +1,4 @@
-import { assoc, assocPath } from 'ramda'
+import { assocPath } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import * as AT from './actionTypes'
 
@@ -6,7 +6,10 @@ const INITIAL_STATE = {
   newDeviceSetup: {
     currentStep: 'setup-type'
   },
-  connectedDevice: Remote.NotAsked
+  connection: {
+    status: Remote.NotAsked,
+    device: Remote.NotAsked
+  }
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -27,13 +30,16 @@ export default (state = INITIAL_STATE, action) => {
       )
     }
     case AT.DEVICE_INFO_LOADING: {
-      return assoc('connectedDevice', Remote.Loading, state)
+      return assocPath(['connection', 'device'], Remote.Loading, state)
     }
     case AT.DEVICE_INFO_SUCCESS: {
-      return assoc('connectedDevice', Remote.Success(payload), state)
+      return assocPath(['connection', 'device'], Remote.Success(payload), state)
     }
     case AT.DEVICE_INFO_FAILURE: {
-      return assoc('connectedDevice', Remote.Failure(payload), state)
+      return assocPath(['connection', 'device'], Remote.Failure(payload), state)
+    }
+    case AT.UPDATE_CONNECTION_STATUS: {
+      return assocPath(['connection', 'status'], Remote.Success(payload), state)
     }
     default:
       return state

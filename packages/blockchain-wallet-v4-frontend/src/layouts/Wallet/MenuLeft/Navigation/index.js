@@ -9,11 +9,11 @@ import Navigation from './template.js'
 
 class NavigationContainer extends React.PureComponent {
   render () {
-    const { canTrade, settingsOpened } = this.props.data
+    const { canTrade, lockboxStatus, settingsOpened } = this.props.data
 
     return (
       <Navigation
-        connectionStatus={'grey'}
+        lockboxStatus={lockboxStatus}
         canTrade={canTrade}
         settingsOpened={settingsOpened}
       />
