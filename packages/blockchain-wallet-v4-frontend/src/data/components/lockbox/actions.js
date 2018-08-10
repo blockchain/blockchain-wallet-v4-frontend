@@ -1,8 +1,13 @@
 import * as AT from './actionTypes'
 
 // CONNECTIONS
-export const initializeDeviceConnection = () => ({ type: AT.INITIALIZE_DEVICE_CONNECTION })
-export const updateConnectionStatus = status => ({ type: AT.UPDATE_CONNECTION_STATUS, payload: { status } })
+export const initializeDeviceConnection = () => ({
+  type: AT.INITIALIZE_DEVICE_CONNECTION
+})
+export const pollForConnectionStatus = status => ({
+  type: AT.POLL_FOR_CONNECTION_STATUS,
+  payload: { status }
+})
 
 // CREATE
 export const changeDeviceSetupStep = step => ({

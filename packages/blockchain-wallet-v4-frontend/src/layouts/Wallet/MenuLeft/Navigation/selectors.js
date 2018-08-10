@@ -1,17 +1,17 @@
+import { keysIn } from 'ramda'
 import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 export const getData = createDeepEqualSelector(
   [
     selectors.components.layoutWallet.getSettingsOpened,
-    selectors.components.lockbox.getConnectionStatus,
+    selectors.core.kvStore.lockbox.getDevices,
     selectors.exchange.getCanTrade
   ],
-  (settingsOpened, lockboxStatusR, canTradeR) => {
-    const lockboxStatus = lockboxStatusR.getOrElse(null)
+  (settingsOpened, lockboxDevicesR, canTradeR) => {
+    const devicesStored = !!keysIn(lockboxDevicesR.getOrElse({})).length
     const canTrade = canTradeR.getOrElse(false)
 
-    console.info(lockboxStatus)
-    return { settingsOpened, lockboxStatus, canTrade }
+    return { settingsOpened, devicesStored, canTrade }
   }
 )

@@ -52,6 +52,21 @@ const languageInitSaga = function*() {
   }
 }
 
+const devicePoll = function*() {
+  try {
+
+    const lang = tryParseLanguageFromUrl()
+    if (lang.language) {
+      yield put(actions.preferences.setLanguage(lang.language, false))
+      if (lang.cultureCode) {
+        yield put(actions.preferences.setCulture(lang.cultureCode))
+      }
+    }
+  } catch (e) {
+    yield put(actions.logs.logErrorMessage(logLocation, 'languageInitSaga', e))
+  }
+}
+
 export default function*({ api, bchSocket, btcSocket, ethSocket, options }) {
   const coreSagas = coreSagasFactory({ api })
 

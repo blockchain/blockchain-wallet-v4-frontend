@@ -17,7 +17,6 @@ export default ({ api, coreSagas }) => {
     return eventChannel(emitter => {
       async function getDeviceInfo () {
         try {
-
           const transport = await Transport.create()
 
           const lockbox = new Btc(transport)
@@ -158,12 +157,14 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const updateConnectionStatus = function*(action) {
+  const pollForConnectionStatus = function*(action) {
     try {
       const { status } = action.payload
-      yield put(A.updateConnectionStatus(status))
+      yield put(console.log('YOOOOOOOOO'))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'updateConnectionStatus', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'pollForConnectionStatus', e)
+      )
     }
   }
 
@@ -186,7 +187,7 @@ export default ({ api, coreSagas }) => {
     deriveConnectStep,
     initializeDeviceConnection,
     saveNewDeviceKvStore,
-    updateConnectionStatus,
+    pollForConnectionStatus,
     updateDeviceName,
     updateDeviceBalanceDisplay
   }
