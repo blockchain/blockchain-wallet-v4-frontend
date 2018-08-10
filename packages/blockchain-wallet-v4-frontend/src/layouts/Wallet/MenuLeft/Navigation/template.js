@@ -71,18 +71,20 @@ const SubMenuItem = styled.li`
   }
 `
 
+const LockboxStatus = styled.div`
+  margin-right: 5px;
+  height: 15px;
+  width: 15px;
+  background-color: ${props => (props.color ? props.color : 'red')};
+  border-radius: 50%;
+`
+
 const Navigation = props => {
-  const {
-    menuOpened,
-    settingsOpened,
-    handleCloseMenu,
-    canTrade,
-    pathname,
-    ...rest
-  } = props
+  const { settingsOpened, canTrade, connectionStatus } = props
+  console.info(connectionStatus)
 
   return (
-    <Wrapper {...rest}>
+    <Wrapper>
       <Menu>
         <LinkContainer to='/home' activeClassName='active'>
           <MenuItem>
@@ -147,6 +149,7 @@ const Navigation = props => {
               smaller
               uppercase
             />
+            <LockboxStatus color={connectionStatus} />
           </MenuItem>
         </LinkContainer>
         <Separator />
@@ -238,11 +241,9 @@ const Navigation = props => {
 }
 
 Navigation.propTypes = {
-  menuOpened: PropTypes.bool.isRequired,
-  settingsOpened: PropTypes.bool.isRequired,
   canTrade: PropTypes.bool.isRequired,
-  pathname: PropTypes.string.isRequired,
-  handleCloseMenu: PropTypes.func.isRequired
+  connectionStatus: PropTypes.string.isRequired,
+  settingsOpened: PropTypes.bool.isRequired
 }
 
 export default Navigation

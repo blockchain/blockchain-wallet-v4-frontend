@@ -9,21 +9,21 @@ import Navigation from './template.js'
 
 class NavigationContainer extends React.PureComponent {
   render () {
+    const { canTrade, settingsOpened } = this.props.data
+
     return (
       <Navigation
-        canTrade={this.props.canTrade}
-        settingsOpened={this.props.settingsOpened}
-        menuOpened={this.props.menuOpened}
-        pathname={this.props.pathname}
-        handleCloseMenu={() =>
-          this.props.actions.layoutWalletMenuCloseClicked()
-        }
+        connectionStatus={'grey'}
+        canTrade={canTrade}
+        settingsOpened={settingsOpened}
       />
     )
   }
 }
 
-const mapStateToProps = state => getData(state)
+const mapStateToProps = state => ({
+  data: getData(state)
+})
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.layoutWallet, dispatch)

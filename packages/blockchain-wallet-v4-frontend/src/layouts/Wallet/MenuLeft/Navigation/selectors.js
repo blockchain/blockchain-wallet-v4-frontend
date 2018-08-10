@@ -3,13 +3,11 @@ import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 export const getData = createDeepEqualSelector(
   [
-    selectors.components.layoutWallet.getMenuOpened,
     selectors.components.layoutWallet.getSettingsOpened,
-    selectors.exchange.getCanTrade,
-    selectors.router.getPathname
+    selectors.exchange.getCanTrade
   ],
-  (menuOpened, settingsOpened, canTradeR, pathname) => {
+  (settingsOpened, canTradeR) => {
     const canTrade = canTradeR.getOrElse(false)
-    return { menuOpened, settingsOpened, canTrade, pathname }
+    return { settingsOpened, canTrade }
   }
 )

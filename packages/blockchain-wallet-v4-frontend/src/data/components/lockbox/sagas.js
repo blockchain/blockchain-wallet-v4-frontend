@@ -17,8 +17,11 @@ export default ({ api, coreSagas }) => {
     return eventChannel(emitter => {
       async function getDeviceInfo () {
         try {
+          
           const transport = await Transport.create()
+          
           const lockbox = new Btc(transport)
+          
           // get public key and chaincode for btc and eth paths
           const btc = await lockbox.getWalletPublicKey("44'/0'/0'")
           const bch = await lockbox.getWalletPublicKey("44'/145'/0'")
