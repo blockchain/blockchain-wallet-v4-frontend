@@ -4,16 +4,17 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { equals, keys } from 'ramda'
 
-import {
-  PERSONAL_STEPS,
-  EMAIL_STEPS,
-  SMS_STEPS
-} from 'data/components/identityVerification/model'
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { getData } from './selectors'
 import Personal from './template'
 import EditEmail from './EditEmail'
 import EditSmsNumber from './EditSmsNumber'
+
+const {
+  PERSONAL_STEPS,
+  EMAIL_STEPS,
+  SMS_STEPS
+} = model.components.identityVerification
 
 class PersonalContainer extends React.PureComponent {
   componentDidMount () {

@@ -76,6 +76,14 @@ export default (state = INITIAL_STATE, action) => {
       const setJumio = compose(assocPath(['sfox', 'jumio'], payload))
       return over(valueLens, setJumio, state)
     }
+    case AT.SFOX_SET_PHONE_CALL: {
+      const valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
+      const setPhoneCall = compose(assocPath(['sfox', 'phone_call'], payload))
+      return over(valueLens, setPhoneCall, state)
+    }
     case AT.COINIFY_SET_PROFILE_BUYSELL: {
       const valueLens = compose(
         mapped,

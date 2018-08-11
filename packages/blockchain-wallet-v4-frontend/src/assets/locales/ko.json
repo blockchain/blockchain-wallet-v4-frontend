@@ -283,6 +283,7 @@
   "components.alerts.pbkdf2_update_success":
     "PBKDF2 반복이 성공적으로 변경되었습니다",
   "components.alerts.private_key_incorrect": "유효하지 않은 프라이빗 키.",
+  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success": "비트코인 캐시 지불을 받으셨습니다.",
   "components.alerts.receive_btc_success": "비트코인 지불을 받으셨습니다.",
   "components.alerts.receive_eth_success": "에테르 지불을 받으셨습니다.",
@@ -720,8 +721,7 @@
   "modals.requestbch.scan_tooltip":
     "송금인에게 자기 비트코인 캐시 지갑으로 이 QR 코드를 스캔하라고 하세요.",
   "modals.requestbch.share": "주소 복사 및 공유: ",
-  "modals.requestbch.share_ooltip":
-    "이 주소를 남과 공유하면 남이 직접 귀하 지갑으로 비트코인 캐시를 보낼 수 있습니다. 주소는 매 결제마다 달라집니다.",
+  "modals.requestbch.share_tooltip": null,
   "modals.requestbch.title": "비트코인 캐시 요청",
   "modals.requestbitcoin.firststep.amount": "금액 입력:",
   "modals.requestbitcoin.firststep.description": "설명:",
@@ -956,6 +956,7 @@
   "orderdetails.date": "시작 날짜",
   "orderdetails.footnote":
     "*참고: 귀하가 이용하는 은행 이체 정책에 따라 이체 1-2일 내로 계좌에 자금이 반영된 것을 확인할 수 있습니다. ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "주문 상세 사항",
   "orderdetails.payoutdetails": "지불금 상세 사항",
   "orderdetails.recurring.amount": "금액:",
@@ -1065,6 +1066,7 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,

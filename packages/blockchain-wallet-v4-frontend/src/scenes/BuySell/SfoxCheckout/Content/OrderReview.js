@@ -1,6 +1,12 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import { Text, Icon, Link, TooltipIcon, TooltipHost } from 'blockchain-info-components'
+import {
+  Text,
+  Icon,
+  Link,
+  TooltipIcon,
+  TooltipHost
+} from 'blockchain-info-components'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'
@@ -80,13 +86,7 @@ const faqQuestions = [
   }
 ]
 
-export const OrderDetails = ({
-  quoteR,
-  account,
-  onRefreshQuote,
-  profile,
-  type
-}) => (
+export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
   <ExchangeCheckoutWrapper>
     <PartnerHeader size='32px' weight={600} style={spacing('mb-10')}>
       <FormattedMessage
@@ -213,7 +213,7 @@ export const OrderDetails = ({
           />
         </Text>
         <Text size='13px' weight={300}>
-          {reviewOrder.renderDate(profile, type)}
+          {quoteR.map(quote => reviewOrder.renderDate(quote)).getOrElse('~')}
         </Text>
       </OrderDetailsRow>
     </OrderDetailsTable>

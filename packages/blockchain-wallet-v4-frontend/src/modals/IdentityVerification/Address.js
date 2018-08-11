@@ -6,9 +6,9 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { model } from 'data'
 import { getAddressData } from './selectors'
 import { required, requiredZipCode } from 'services/FormHelper'
-import { ADDRESS_FORM } from 'data/components/identityVerification/model'
 import media from 'services/ResponsiveService'
 import { Button, Text, HeartbeatLoader } from 'blockchain-info-components'
 import {
@@ -53,6 +53,8 @@ const AddressFormGroup = styled(FormGroup)`
     }
   `};
 `
+
+const { ADDRESS_FORM } = model.components.identityVerification
 
 const faqQuestions = [
   {

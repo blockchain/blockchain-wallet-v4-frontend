@@ -283,6 +283,10 @@
         "id": "components.alerts.pbkdf2_update_success"
       },
       {
+        "defaultMessage": "Please enable camera to use this feature",
+        "id": "components.alerts.qr_scanner_not_allowed"
+      },
+      {
         "defaultMessage": "You have received a bitcoin cash payment.",
         "id": "components.alerts.receive_bch_success"
       },
@@ -316,7 +320,7 @@
       },
       {
         "defaultMessage":
-          "Reset 2-step authentication has been successfully submitted.",
+          "Reset two-factor authentication has been successfully submitted.",
         "id": "components.alerts.reset_twofa_info"
       },
       {
@@ -522,7 +526,7 @@
         "id": "components.alerts.bch_address_incorrect"
       },
       {
-        "defaultMessage": "Invalid Ethereum Address.",
+        "defaultMessage": "Invalid Ether Address.",
         "id": "components.alerts.eth_address_incorrect"
       },
       {
@@ -927,7 +931,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Select country",
+        "defaultMessage": "Select state",
         "id": "components.selectboxstate.label"
       }
     ],
@@ -1016,6 +1020,134 @@
       }
     ],
     "path": "src/components/Terms/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage":
+          "This is an estimated quote. The original quote for this trade expired. The exact amount of bitcoin received depends on when the payment is received.",
+        "id": "scenes.buysell.coinify.isx.expiredtooltip"
+      },
+      {
+        "defaultMessage":
+          "Recurring orders will be placed automatically on a regular basis from your linked credit card.",
+        "id": "orderdetails.recurring.tooltip"
+      },
+      {
+        "defaultMessage":
+          "This rate may change depending on the market price at the time of your transaction.",
+        "id": "modals.exchangedetails.exchangetooltip"
+      },
+      {
+        "defaultMessage":
+          "This fee is used to send the outgoing exchange funds to ShapeShift.",
+        "id": "modals.exchangedetails.feetooltip"
+      },
+      {
+        "defaultMessage":
+          "Ask the sender to scan this QR code with their bitcoin wallet.",
+        "id": "modals.qrcode.tooltip"
+      },
+      {
+        "defaultMessage":
+          "Share this address with others, and they can send you Bitcoin Cash directly to your wallet. Your address changes with every payment.",
+        "id": "modals.requestbch.share_tooltip"
+      },
+      {
+        "defaultMessage":
+          "Ask the sender to scan this QR code with their Bitcoin cash wallet",
+        "id": "modals.requestbch.scan_tooltip"
+      },
+      {
+        "defaultMessage":
+          "Share this address with others, and they can send you BTC directly to your wallet. Your address changes with every payment. You can also create a request by attaching an amount below.",
+        "id": "modals.requestbitcoin.firststep.sharetooltip"
+      },
+      {
+        "defaultMessage":
+          "Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.",
+        "id": "modals.requestether.sharetooltip"
+      },
+      {
+        "defaultMessage":
+          "Ask the sender to scan this QR code with their ether wallet",
+        "id": "modals.requestether.scan_tooltip"
+      },
+      {
+        "defaultMessage":
+          "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
+        "id": "modals.sendBch.firststep.share_tooltip"
+      },
+      {
+        "defaultMessage":
+          "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
+        "id": "modals.sendether.firststep.sharetooltip"
+      },
+      {
+        "defaultMessage": "The fee charged to execute a trade through SFOX.",
+        "id": "orderdetails.tradingfee.tooltip"
+      },
+      {
+        "defaultMessage":
+          "The rate offered by your region's exchange partner. May include fees.",
+        "id": "scenes.buysell.exchangecheckout.rate"
+      },
+      {
+        "defaultMessage":
+          "This quote may change depending on the market price at the time of your transaction.",
+        "id": "scenes.exchange.shapeshift.firststep.tooltip"
+      },
+      {
+        "defaultMessage": "Learn more",
+        "id": "scenes.exchange.shapeshift.firststep.tooltip2"
+      },
+      {
+        "defaultMessage":
+          "This fee is used to send the outgoing exchange funds to ShapeShift.",
+        "id": "scenes.exchange.shapeshift.secondstep.txfeeexplanation"
+      },
+      {
+        "defaultMessage":
+          "This rate may change depending on the market price at the time of your transaction.",
+        "id": "scenes.exchange.shapeshift.secondstep.ratetooltip"
+      },
+      {
+        "defaultMessage":
+          "ShapeShift will use this fee to send the incoming exchange funds to your wallet.",
+        "id": "scenes.exchange.shapeshift.secondstep.networkfeetooltip"
+      },
+      {
+        "defaultMessage":
+          "This rate may change depending on the market price at the time of your transaction.",
+        "id": "modals.exchange.shapeshift.exchangetooltip"
+      },
+      {
+        "defaultMessage":
+          "This fee is used to send the incoming exchange funds from ShapeShift.",
+        "id": "modals.exchange.shapeshift.feetooltip"
+      },
+      {
+        "defaultMessage": "This transaction involves a watch only address.",
+        "id": "scenes.home.activitylist.watchonly"
+      },
+      {
+        "defaultMessage":
+          "When you send bitcoin, your Blockchain wallet automatically selects addresses to spend from. That is why the current balance of an address can be different from the total received value.",
+        "id":
+          "scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.tooltip"
+      },
+      {
+        "defaultMessage":
+          "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
+        "id": "modals.sendbtc.firststep.sharetooltip"
+      },
+      {
+        "defaultMessage":
+          "By signing a message, you can prove that you own this bitcoin address. You can verify signed messages by clicking on 'More Actions' > 'Verify Message'.",
+        "id": "modals.signmessage.label"
+      }
+    ],
+    "path": "src/components/Tooltips/index.json"
   },
   {
     "descriptors": [
@@ -1640,7 +1772,7 @@
       },
       {
         "defaultMessage":
-          "We partner with exchanges across the world to make buying and selling digital assets easier for you. If you’re located in select states across the US or SEPA, you can get started now by creating an account with one of our partners.",
+          "We partner with exchanges across the world to make buying and selling digital assets easier for you. If you’re located in select states across the US or SEPA, you can get started now by creating an account with one of our partners. Otherwise, keep an eye on our Twitter, Facebook, and blog to find out when we bring buy and sell to your area!",
         "id": "scenes.faq.group.noexchange.answer1"
       },
       {
@@ -1860,7 +1992,7 @@
       },
       {
         "defaultMessage":
-          "Since bitcoin cash is a fork of the bitcoin block chain, its address format previously looked nearly identical to that of bitcoin, which was very confusing to those using it. Now, when you want to send or receive bitcoin cash, you can immediately identify that you’re using the correct address thanks to the added prefix that looks like this: bitcoincash:qpm2qsznhks23z7629mms6s4cwef74vcwvy22gdx6a.",
+          "Since bitcoin cash is a fork of the bitcoin block chain, its address format previously looked nearly identical to that of bitcoin, which was very confusing to those using it. Now, when you want to send or receive bitcoin cash, you can immediately identify that you’re using the correct address thanks to the added prefix that looks like this: ’bitcoincash:’ in front of your bch address.",
         "id": "scenes.faq.group.walletfunctionality.answer12.one"
       },
       {
@@ -2459,11 +2591,6 @@
         "id": "scenes.buysell.coinify.isx.quoteexpiredfiat"
       },
       {
-        "defaultMessage":
-          "This is an estimated quote. The original quote for this trade expired. The exact amount of bitcoin received depends on when the payment is received.",
-        "id": "scenes.buysell.coinify.isx.expiredtooltip"
-      },
-      {
         "defaultMessage": "Finish later",
         "id": "scenes.buysell.coinify.isx.finishlater"
       },
@@ -2597,11 +2724,6 @@
       {
         "defaultMessage": "This is a Recurring Order",
         "id": "orderdetails.recurring.thisisrecurring"
-      },
-      {
-        "defaultMessage":
-          "Recurring orders will be placed automatically on a regular basis from your linked credit card.",
-        "id": "orderdetails.recurring.tooltip"
       },
       {
         "defaultMessage": "Amount:",
@@ -2853,18 +2975,8 @@
         "id": "modals.exchangedetails.exchangerate"
       },
       {
-        "defaultMessage":
-          "This rate may change depending on the market price at the time of your transaction.",
-        "id": "modals.exchangedetails.exchangetooltip"
-      },
-      {
         "defaultMessage": "Transaction fee",
         "id": "modals.exchangedetails.fee"
-      },
-      {
-        "defaultMessage":
-          "This fee is used to send the outgoing exchange funds to ShapeShift.",
-        "id": "modals.exchangedetails.feetooltip"
       },
       {
         "defaultMessage": "Order ID",
@@ -3337,11 +3449,6 @@
         "id": "modals.qrcode.scan"
       },
       {
-        "defaultMessage":
-          "Ask the sender to scan this QR code with their bitcoin wallet.",
-        "id": "modals.qrcode.tooltip"
-      },
-      {
         "defaultMessage": "Go back",
         "id": "modals.qrcode.back"
       }
@@ -3492,22 +3599,12 @@
         "id": "modals.requestbch.share"
       },
       {
-        "defaultMessage":
-          "Share this address with others, and they can send you Bitcoin Cash directly to your wallet. Your address changes with every payment.",
-        "id": "modals.requestbch.share_ooltip"
-      },
-      {
         "defaultMessage": "Or",
         "id": "modals.requestbch.or"
       },
       {
         "defaultMessage": "Scan QR Code:",
         "id": "modals.requestbch.scan"
-      },
-      {
-        "defaultMessage":
-          "Ask the sender to scan this QR code with their bitcoin cash wallet",
-        "id": "modals.requestbch.scan_tooltip"
       },
       {
         "defaultMessage": "Done",
@@ -3621,11 +3718,6 @@
         "id": "modals.requestbitcoin.firststep.share"
       },
       {
-        "defaultMessage":
-          "Share this address with others, and they can send you BTC directly to your wallet. Your address changes with every payment. You can also create a request by attaching an amount below.",
-        "id": "modals.requestbitcoin.firststep.sharetooltip"
-      },
-      {
         "defaultMessage": "QR Code",
         "id": "modals.requestbitcoin.firststep.qrcode"
       },
@@ -3734,22 +3826,12 @@
         "id": "modals.requestether.share"
       },
       {
-        "defaultMessage":
-          "Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.",
-        "id": "modals.requestether.sharetooltip"
-      },
-      {
         "defaultMessage": "Or",
         "id": "modals.requestether.or"
       },
       {
         "defaultMessage": "Scan QR Code:",
         "id": "modals.requestether.scan"
-      },
-      {
-        "defaultMessage":
-          "Ask the sender to scan this QR code with their ether wallet",
-        "id": "modals.requestether.scan_tooltip"
       },
       {
         "defaultMessage": "Done",
@@ -3853,11 +3935,6 @@
       {
         "defaultMessage": "Description:",
         "id": "modals.sendBch.firststep.description"
-      },
-      {
-        "defaultMessage":
-          "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
-        "id": "modals.sendBch.firststep.share_tooltip"
       },
       {
         "defaultMessage": "Transaction fee:",
@@ -4233,11 +4310,6 @@
         "id": "modals.sendbtc.firststep.description"
       },
       {
-        "defaultMessage":
-          "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
-        "id": "modals.sendbtc.firststep.sharetooltip"
-      },
-      {
         "defaultMessage": "Transaction fee:",
         "id": "modals.sendbtc.firststep.fee"
       },
@@ -4383,11 +4455,6 @@
       {
         "defaultMessage": "Description:",
         "id": "modals.sendether.firststep.description"
-      },
-      {
-        "defaultMessage":
-          "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
-        "id": "modals.sendether.firststep.sharetooltip"
       },
       {
         "defaultMessage": "Transaction Fee :",
@@ -5238,16 +5305,16 @@
         "id": "orderdetails.tradingfee"
       },
       {
-        "defaultMessage": "The fee charged to execute a trade through SFOX.",
-        "id": "orderdetails.tradingfee.tooltip"
-      },
-      {
         "defaultMessage": "Total Cost",
         "id": "orderdetails.totalcost"
       },
       {
         "defaultMessage": "Total to be Received",
         "id": "orderdetails.totaltobereceived"
+      },
+      {
+        "defaultMessage": "Estimated Delivery of Funds",
+        "id": "orderdetails.fundsdelivery"
       },
       {
         "defaultMessage": "Close",
@@ -5435,11 +5502,6 @@
       {
         "defaultMessage": "Sign Message",
         "id": "modals.signmessage.title"
-      },
-      {
-        "defaultMessage":
-          "By signing a message, you can prove that you own this bitcoin address. You can verify signed messages by clicking on 'More Actions' > 'Verify Message'.",
-        "id": "modals.signmessage.label"
       }
     ],
     "path": "src/modals/SignMessage/template.json"
@@ -6263,11 +6325,6 @@
         "id": "scenes.buysell.exchangecheckout.enteramount"
       },
       {
-        "defaultMessage":
-          "The rate offered by your region's exchange partner. May include fees.",
-        "id": "scenes.buysell.exchangecheckout.rate"
-      },
-      {
         "defaultMessage": "Please enter an amount greater than {min} {curr}.",
         "id": "scenes.buysell.exchangecheckout.enteramount.details"
       },
@@ -6356,6 +6413,11 @@
       {
         "defaultMessage": "Refresh Status",
         "id": "scenes.buysell.sfoxcheckout.content.jumio.button.refresh"
+      },
+      {
+        "defaultMessage": "Complete Verification",
+        "id":
+          "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification"
       },
       {
         "defaultMessage": "Try Again",
@@ -6453,16 +6515,16 @@
         "id": "orderdetails.tradingfee"
       },
       {
-        "defaultMessage": "The fee charged to execute a trade through SFOX.",
-        "id": "orderdetails.tradingfee.tooltip"
-      },
-      {
         "defaultMessage": "Total Cost",
         "id": "orderdetails.totalcost"
       },
       {
         "defaultMessage": "Total to be Received",
         "id": "orderdetails.totaltobereceived"
+      },
+      {
+        "defaultMessage": "Estimated Delivery of Funds",
+        "id": "orderdetails.fundsdelivery"
       },
       {
         "defaultMessage": "Try again",
@@ -6668,15 +6730,6 @@
         "id": "scenes.exchange.shapeshift.firststep.amount"
       },
       {
-        "defaultMessage":
-          "This quote may change depending on the market price at the time of your transaction.",
-        "id": "scenes.exchange.shapeshift.firststep.tooltip"
-      },
-      {
-        "defaultMessage": "Learn more",
-        "id": "scenes.exchange.shapeshift.firststep.tooltip2"
-      },
-      {
         "defaultMessage": "Use",
         "id": "scenes.exchangebox.firststep.use1"
       },
@@ -6772,11 +6825,6 @@
         "id": "scenes.exchange.shapeshift.secondstep.txfee"
       },
       {
-        "defaultMessage":
-          "This fee is used to send the outgoing exchange funds to ShapeShift.",
-        "id": "scenes.exchange.shapeshift.secondstep.txfeeexplanation"
-      },
-      {
         "defaultMessage": "Total {sourceCoin} leaving the wallet",
         "id": "scenes.exchange.shapeshift.secondstep.leaving"
       },
@@ -6785,18 +6833,8 @@
         "id": "scenes.exchange.shapeshift.secondstep.rate"
       },
       {
-        "defaultMessage":
-          "This rate may change depending on the market price at the time of your transaction.",
-        "id": "scenes.exchange.shapeshift.secondstep.ratetooltip"
-      },
-      {
         "defaultMessage": "Network transaction fee",
         "id": "scenes.exchange.shapeshift.secondstep.networkfee"
-      },
-      {
-        "defaultMessage":
-          "ShapeShift will use this fee to send the incoming exchange funds to your wallet.",
-        "id": "scenes.exchange.shapeshift.secondstep.networkfeetooltip"
       },
       {
         "defaultMessage": "{coin} to be received",
@@ -6898,18 +6936,8 @@
         "id": "modals.exchange.shapeshift.exchangerate"
       },
       {
-        "defaultMessage":
-          "This rate may change depending on the market price at the time of your transaction.",
-        "id": "modals.exchange.shapeshift.exchangetooltip"
-      },
-      {
         "defaultMessage": "Transaction fee",
         "id": "modals.exchange.shapeshift.fee"
-      },
-      {
-        "defaultMessage":
-          "This fee is used to send the incoming exchange funds from ShapeShift.",
-        "id": "modals.exchange.shapeshift.feetooltip"
       },
       {
         "defaultMessage": "Order ID",
@@ -9335,12 +9363,6 @@
       },
       {
         "defaultMessage":
-          "When you send bitcoin, your Blockchain wallet automatically selects addresses to spend from. That is why the current balance of an address can be different from the total received value.",
-        "id":
-          "scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.tooltip"
-      },
-      {
-        "defaultMessage":
           "Previously used addresses are helpful for debugging purposes and viewing associated balances. For privacy reasons, we do not recommend re-using these addresses. Change addresses are not included here.",
         "id":
           "scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.message"
@@ -10704,7 +10726,7 @@
       },
       {
         "defaultMessage":
-          "Your buy trade has been initiated. You will receive your bitcoin in 3-5 business days.",
+          "Your buy trade has been initiated. You will receive your funds on {date}.",
         "id":
           "scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.buy.processing"
       },
@@ -10726,7 +10748,7 @@
       },
       {
         "defaultMessage":
-          "Your sell trade has been initiated. You will receive your funds in 3-5 business days.",
+          "Your sell trade has been initiated. You will receive your funds on {date}.",
         "id":
           "scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.sell.processing"
       },

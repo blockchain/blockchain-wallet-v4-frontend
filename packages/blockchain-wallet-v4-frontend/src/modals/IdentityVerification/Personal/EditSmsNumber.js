@@ -7,10 +7,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, Form, reduxForm } from 'redux-form'
 
-import {
-  SMS_STEPS,
-  SMS_NUMBER_FORM
-} from 'data/components/identityVerification/model'
+import { model } from 'data'
 import { getSmsData } from './selectors'
 import { required, validMobileNumber } from 'services/FormHelper'
 import media from 'services/ResponsiveService'
@@ -43,6 +40,8 @@ const EditSmsNumberForm = styled(Form)`
     flex-direction: column;
   `};
 `
+
+const { SMS_STEPS, SMS_NUMBER_FORM } = model.components.identityVerification
 
 const smsHelper = ({ mobileVerifiedError, resendCode, editSmsNumber }) => {
   if (mobileVerifiedError) {
