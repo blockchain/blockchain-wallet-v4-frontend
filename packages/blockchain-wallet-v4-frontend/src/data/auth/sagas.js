@@ -114,6 +114,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.router.push('/home'))
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.loginSuccess())
+      yield put(actions.modules.profile.signIn())
       yield put(actions.auth.startLogoutTimer())
       // store guid in cache for future logins
       const guid = yield select(selectors.core.wallet.getGuid)
@@ -416,6 +417,7 @@ export default ({ api, coreSagas }) => {
     const isEmailVerified = yield select(
       selectors.core.settings.getEmailVerified
     )
+    yield put(actions.modules.profile.clearSession())
     yield put(actions.middleware.webSocket.bch.stopSocket())
     yield put(actions.middleware.webSocket.btc.stopSocket())
     yield put(actions.middleware.webSocket.eth.stopSocket())

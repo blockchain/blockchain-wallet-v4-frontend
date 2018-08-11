@@ -10,7 +10,7 @@ import sfox from './sfox/sagas'
 export default ({ coreSagas, api }) => ({
   addressesBch: addressesBch({ coreSagas }),
   coinify: coinify({ coreSagas }),
-  profile: profile({ api }),
+  profile: profile({ api, coreSagas }),
   rates: rates({ api }),
   settings: settings({ coreSagas }),
   securityCenter: securityCenter({ coreSagas }),

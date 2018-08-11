@@ -12,7 +12,7 @@ export default ({ coreSagas, api }) =>
   function*() {
     yield fork(addressesBch({ coreSagas }))
     yield fork(coinify({ coreSagas }))
-    yield fork(profile({ api }))
+    yield fork(profile({ api, coreSagas }))
     yield fork(rates({ api }))
     yield fork(settings({ coreSagas }))
     yield fork(securityCenter({ coreSagas }))

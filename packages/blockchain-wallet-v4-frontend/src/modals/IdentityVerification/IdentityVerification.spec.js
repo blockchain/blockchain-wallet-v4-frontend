@@ -171,32 +171,6 @@ describe('IdentityVerification Modal', () => {
         wrapper.update()
       })
 
-      it('should navigate to email edit form on edit email button click', () => {
-        wrapper
-          .find('Field[name="email"]')
-          .closest('template__VerifiedContainer')
-          .find('template__EditLink')
-          .prop('onClick')()
-        wrapper.update()
-        expect(wrapper.find(EditEmail)).toHaveLength(1)
-        expect(wrapper.find('Field[name="email"]')).toHaveLength(1)
-      })
-
-      it('should show current email after navigation', () => {
-        wrapper
-          .find('Field[name="email"]')
-          .closest('template__VerifiedContainer')
-          .find('template__EditLink')
-          .prop('onClick')()
-        wrapper.update()
-        expect(
-          wrapper
-            .find('Field[name="email"]')
-            .find('input')
-            .prop('value')
-        ).toBe(stubMail)
-      })
-
       it('should navigate to sms number edit form on edit mobile button click', () => {
         wrapper
           .find('Field[name="smsNumber"]')

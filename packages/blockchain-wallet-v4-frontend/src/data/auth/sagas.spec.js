@@ -404,6 +404,10 @@ describe('authSagas', () => {
       saga.next().put(actions.auth.loginSuccess())
     })
 
+    it('should trigger signin action', () => {
+      saga.next().put(actions.modules.profile.signIn())
+    })
+
     it('should start logout timer', () => {
       saga.next().put(actions.auth.startLogoutTimer())
     })
@@ -981,6 +985,7 @@ describe('authSagas', () => {
         .provide([
           [select(selectors.core.settings.getEmailVerified), Remote.of(true)]
         ])
+        .put(actions.modules.profile.clearSession())
         .put(actions.middleware.webSocket.bch.stopSocket())
         .put(actions.middleware.webSocket.btc.stopSocket())
         .put(actions.middleware.webSocket.eth.stopSocket())
@@ -994,6 +999,7 @@ describe('authSagas', () => {
         .provide([
           [select(selectors.core.settings.getEmailVerified), Remote.of(false)]
         ])
+        .put(actions.modules.profile.clearSession())
         .put(actions.middleware.webSocket.bch.stopSocket())
         .put(actions.middleware.webSocket.btc.stopSocket())
         .put(actions.middleware.webSocket.eth.stopSocket())

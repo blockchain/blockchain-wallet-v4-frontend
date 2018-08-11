@@ -16,3 +16,5 @@ const isCountrySupported = countryCode => contains(countryCode, eeaCountryCodes)
 
 export const userFlowSupported = state =>
   selectors.core.settings.getCountryCode(state).map(isCountrySupported)
+
+export const getApiToken = path(['profile', 'apiToken'])

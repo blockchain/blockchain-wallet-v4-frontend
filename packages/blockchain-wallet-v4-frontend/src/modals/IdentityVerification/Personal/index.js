@@ -16,6 +16,10 @@ import EditEmail from './EditEmail'
 import EditSmsNumber from './EditSmsNumber'
 
 class PersonalContainer extends React.PureComponent {
+  state = {
+    activeField: null
+  }
+
   componentDidMount () {
     const { personalData, actions } = this.props
     if (personalData.email && !personalData.emailVerified) {
@@ -34,6 +38,10 @@ class PersonalContainer extends React.PureComponent {
     }
   }
 
+  setActiveField = fieldName => {
+    this.setState({ activeField: fieldName })
+  }
+
   render () {
     const {
       personalData,
@@ -44,6 +52,7 @@ class PersonalContainer extends React.PureComponent {
       handleSubmit
     } = this.props
     const { email, smsNumber } = personalData
+    const { activeField } = this.state
 
     if (step === PERSONAL_STEPS.email) {
       return (
@@ -82,6 +91,8 @@ class PersonalContainer extends React.PureComponent {
           countryCode={countryCode}
           editEmail={actions.setPersonalStep.bind(null, PERSONAL_STEPS.email)}
           editSms={actions.setPersonalStep.bind(null, PERSONAL_STEPS.smsNumber)}
+          activeField={activeField}
+          setActiveField={this.setActiveField}
         />
       )
     }

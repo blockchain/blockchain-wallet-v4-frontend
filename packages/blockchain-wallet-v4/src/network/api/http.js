@@ -28,19 +28,20 @@ export default ({ apiKey }) => {
   }
 
   const request = ({
-    method,
-    url,
-    endPoint,
-    data,
-    sessionToken,
+    cancelToken,
     contentType = 'application/x-www-form-urlencoded',
-    cancelToken
+    data,
+    endPoint,
+    headers,
+    method,
+    sessionToken,
+    url
   }) =>
     axios({
       url: `${url}${endPoint}`,
       method,
       data: encodeData(data, contentType),
-      headers: getHeaders(sessionToken, contentType),
+      headers: merge(getHeaders(sessionToken, contentType), headers),
       cancelToken
     })
       .catch(error => {
