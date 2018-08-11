@@ -20,9 +20,9 @@ export default ({ api }) => {
   }
 
   const createUserCredentials = function*(kv) {
-    const userId = ''
+    const user_id = ''
     const token = ''
-    const newkv = set(KVStoreEntry.value, { userId, token }, kv)
+    const newkv = set(KVStoreEntry.value, { user_id, token }, kv)
     yield put(A.createMetadataUserCredentials(newkv))
   }
 

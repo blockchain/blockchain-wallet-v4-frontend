@@ -22,13 +22,13 @@ export default (state = INITIAL_STATE, action) => {
       return Remote.Failure(payload)
     }
     case AT.SET_USER_ID: {
-      const { userId } = payload
+      const { user_id } = payload
       return over(
         compose(
           mapped,
           KVStoreEntry.value
         ),
-        assoc('userId', userId),
+        assoc('user_id', user_id),
         state
       )
     }

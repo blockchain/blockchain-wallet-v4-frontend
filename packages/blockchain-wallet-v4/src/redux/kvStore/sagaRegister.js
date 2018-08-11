@@ -7,6 +7,7 @@ import btc from './btc/sagaRegister'
 import shapeShift from './shapeShift/sagaRegister'
 import buySell from './buySell/sagaRegister'
 import contacts from './contacts/sagaRegister'
+import userCredentials from './userCredentials/sagaRegister'
 
 export default ({ api }) =>
   function*() {
@@ -17,4 +18,5 @@ export default ({ api }) =>
     yield fork(shapeShift({ api }))
     yield fork(buySell({ api }))
     yield fork(contacts({ api }))
+    yield fork(userCredentials({ api }))
   }

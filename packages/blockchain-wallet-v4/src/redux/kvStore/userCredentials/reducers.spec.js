@@ -9,10 +9,10 @@ const INITIAL_STATE = Remote.NotAsked
 
 describe('kvStore userCredentials reducers', () => {
   const typeId = derivationMap[USER_CREDENTIALS]
-  const userId = '3d448ad7-0e2c-4b65-91b0-c149892e243c'
+  const user_id = '3d448ad7-0e2c-4b65-91b0-c149892e243c'
   const token = 'd753109e-23jd-42bd-82f1-cc904702asdfkjf'
 
-  const userCredentialsObject = { userId, token }
+  const userCredentialsObject = { user_id, token }
 
   const userCredentialsMetadata = set(
     KVStoreEntry.value,
@@ -61,7 +61,7 @@ describe('kvStore userCredentials reducers', () => {
     const expectedState = Remote.Success(
       set(
         KVStoreEntry.value,
-        { token, userId: newUserId },
+        { token, user_id: newUserId },
         KVStoreEntry.createEmpty(typeId)
       )
     )
@@ -76,7 +76,7 @@ describe('kvStore userCredentials reducers', () => {
     const expectedState = Remote.Success(
       set(
         KVStoreEntry.value,
-        { token: newToken, userId },
+        { token: newToken, user_id },
         KVStoreEntry.createEmpty(typeId)
       )
     )

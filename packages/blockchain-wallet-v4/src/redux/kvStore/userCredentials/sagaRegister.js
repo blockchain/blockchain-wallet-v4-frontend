@@ -8,7 +8,7 @@ export default ({ api }) => {
   return function*() {
     yield takeLatest(
       AT.FETCH_METADATA_USER_CREDENTIALS,
-      kvStoreUserCredentialsSagas.fetchMetadataWhatsnew
+      kvStoreUserCredentialsSagas.fetchMetadataUserCredentials
     )
   }
 }

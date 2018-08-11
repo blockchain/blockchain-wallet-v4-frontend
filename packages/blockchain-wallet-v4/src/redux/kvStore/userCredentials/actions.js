@@ -19,9 +19,9 @@ export const createMetadataUserCredentials = data => ({
   payload: data
 })
 
-export const setUserId = userId => ({
+export const setUserId = user_id => ({
   type: AT.SET_USER_ID,
-  payload: { userId }
+  payload: { user_id }
 })
 export const setUserToken = token => ({
   type: AT.SET_USER_TOKEN,

@@ -5,6 +5,7 @@ import ethereum from './eth/sagas'
 import shapeShift from './shapeShift/sagas'
 import buySell from './buySell/sagas'
 import contacts from './contacts/sagas'
+import userCredentials from './userCredentials/sagas'
 import root from './root/sagas'
 
 export default ({ api }) => ({
@@ -15,5 +16,6 @@ export default ({ api }) => ({
   shapeShift: shapeShift({ api }),
   buySell: buySell({ api }),
   contacts: contacts({ api }),
-  btc: btc({ api })
+  btc: btc({ api }),
+  userCredentials: userCredentials({ api })
 })

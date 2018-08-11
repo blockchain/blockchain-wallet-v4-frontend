@@ -2,11 +2,11 @@ import Remote from '../../../remote'
 import * as selectors from './selectors'
 
 describe('kvstore userCredentials selectors', () => {
-  const userId = '3d448ad7-0e2c-4b65-91b0-c149892e243c'
+  const user_id = '3d448ad7-0e2c-4b65-91b0-c149892e243c'
   const token = 'd753109e-23jd-42bd-82f1-cc904702asdfkjf'
 
   const userCredentialsMetadata = {
-    value: { userId, token }
+    value: { user_id, token }
   }
 
   const successState = {
@@ -20,8 +20,8 @@ describe('kvstore userCredentials selectors', () => {
     expect(selectors.getMetadata(successState)).toEqual(expectedResult)
   })
 
-  it('getUserId should return success of userId', () => {
-    const expectedResult = Remote.Success(userId)
+  it('getUserId should return success of user_id', () => {
+    const expectedResult = Remote.Success(user_id)
     expect(selectors.getUserId(successState)).toEqual(expectedResult)
   })
 
