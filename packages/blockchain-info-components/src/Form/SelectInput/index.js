@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { equals, prop } from 'ramda'
+import { equals, prop, contains, toUpper } from 'ramda'
 
 import SelectInput from './template.js'
 
@@ -8,9 +8,10 @@ class SelectInputContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = {
-      value: this.props.value
+      value: this.props.value,
+      search: ''
     }
-
+    this.transform = this.transform.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
 
@@ -30,6 +31,23 @@ class SelectInputContainer extends React.PureComponent {
       this.props.onChange(value)
     }
   }
+  transform (elements, search) {
+    let items = []
+    elements.map(element => {
+      if (!search && element.group !== '') {
+        items.push({ text: element.group })
+      }
+      element.items.map(item => {
+        if (
+          !search ||
+          (search && contains(toUpper(search), toUpper(item.text)))
+        ) {
+          items.push({ text: item.text, value: item.value })
+        }
+      })
+    })
+    return items
+  }
 
   render () {
     const {
@@ -40,7 +58,8 @@ class SelectInputContainer extends React.PureComponent {
       grouped,
       ...rest
     } = this.props
-    const items = elements[0].items
+    const { search } = this.state
+    const items = this.transform(elements, search)
 
     return (
       <SelectInput
