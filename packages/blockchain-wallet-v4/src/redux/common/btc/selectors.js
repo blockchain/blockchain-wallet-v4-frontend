@@ -29,7 +29,10 @@ import {
 } from '../../data/btc/selectors.js'
 import { getAddressLabel, getMetadata } from '../../kvStore/btc/selectors'
 import { getBuySellTxHashMatch } from '../../kvStore/buySell/selectors'
-import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
+import {
+  getLockboxBtcAccounts,
+  getLockboxBtcAccount
+} from '../../kvStore/lockbox/selectors'
 import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
 import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
@@ -108,7 +111,7 @@ export const getLockboxBtcBalances = state => {
     coin: 'BTC',
     label: account.label,
     balance: path([account.xpub, 'final_balance'], addresses),
-    address: account.xpub
+    xpub: account.xpub
   })
   const balances = Remote.of(getAddresses(state).getOrElse([]))
   return map(lift(digest)(balances), getLockboxBtcAccounts(state))
@@ -255,3 +258,32 @@ export const getNextAvailableReceiveAddress = curry(
     )
   }
 )
+
+export const getNextAvailableReceiveIndexLockbox = curry(
+  (network, xpub, state) => {
+    const index = getReceiveIndex(xpub)(state)
+    // TODO(salome): implement btc address labels for lockbox.
+    // const labels = getLockboxBtcAddressLabels(state).getOrElse([])
+    // const maxLabel = labels.maxBy(label => label.index)
+    // const maxLabelIndex = maxLabel ? maxLabel.index : -1
+    // return index.map(x => max(x - 1, maxLabelIndex) + 1)
+    return index
+  }
+)
+
+export const getNextAvailableReceiveAddressLockbox = curry(
+  (network, xpub, state) => {
+    const receiveIndex = getNextAvailableReceiveIndexLockbox(
+      network,
+      xpub,
+      state
+    )
+    return receiveIndex.map(x => getAddressLockbox(network, xpub, x, state))
+  }
+)
+
+const getAddressLockbox = curry((network, xpub, index, state) => {
+  const account = getLockboxBtcAccount(state, xpub)
+  const hdAccount = HDAccount.fromJS(account.getOrElse({}), 0)
+  return HDAccount.getAddress(hdAccount, `M/0/${index}`, network)
+})

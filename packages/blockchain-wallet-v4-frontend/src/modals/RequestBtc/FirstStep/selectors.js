@@ -4,48 +4,75 @@ import settings from 'config'
 import { selectors } from 'data'
 import { Remote } from 'blockchain-wallet-v4/src'
 
-// extractAddress :: (Int -> Remote(String)) -> Int -> Remote(String)
-const extractAddress = (selectorFunction, value) =>
+const extractAddress = (softwareWalletSelector, lockboxSelector, value) =>
   value
     ? value.address
       ? Remote.of(value.address)
-      : selectorFunction(value.index)
+      : value.index !== undefined
+        ? softwareWalletSelector(value.index)
+        : lockboxSelector(value.xpub)
     : Remote.NotAsked
 
-const extractAddressIdx = (selectorFunction, value) =>
+const extractAddressIdx = (softwareWalletSelector, lockboxSelector, value) =>
   value
     ? value.address
       ? Remote.of(value.address)
-      : selectorFunction(value.index)
+      : value.index !== undefined
+        ? softwareWalletSelector(value.index)
+        : lockboxSelector(value.xpub)
     : Remote.NotAsked
 
 const extractAccountIdx = value =>
   value
     ? value.address
       ? Remote.of(value.address)
-      : Remote.of(value.index)
+      : value.index !== undefined
+        ? Remote.of(value.index)
+        : Remote.of(value.xpub)
     : Remote.NotAsked
 
 export const getData = state => {
-  const getReceive = index =>
+  const getReceiveSoftware = index =>
     selectors.core.common.btc.getNextAvailableReceiveAddress(
       settings.NETWORK_BITCOIN,
       index,
       state
     )
-  const getReceiveIdx = index =>
+  const getReceiveIdxSoftware = index =>
     selectors.core.common.btc.getNextAvailableReceiveIndex(
       settings.NETWORK_BITCOIN,
       index,
       state
     )
+  const getReceiveLockbox = xpub =>
+    selectors.core.common.btc.getNextAvailableReceiveAddressLockbox(
+      settings.NETWORK_BITCOIN,
+      xpub,
+      state
+    )
+  const getReceiveIdxLockbox = xpub =>
+    selectors.core.common.btc.getNextAvailableReceiveIndexLockbox(
+      settings.NETWORK_BITCOIN,
+      xpub,
+      state
+    )
+
   const message = formValueSelector('requestBitcoin')(state, 'message')
   const amount = formValueSelector('requestBitcoin')(state, 'amount')
   const coin = formValueSelector('requestBitcoin')(state, 'coin')
   const to = formValueSelector('requestBitcoin')(state, 'to')
   const accountIdxR = extractAccountIdx(to)
-  const receiveAddressR = extractAddress(getReceive, to)
-  const receiveAddressIdxR = extractAddressIdx(getReceiveIdx, to)
+  const receiveAddressIdxR = extractAddressIdx(
+    getReceiveIdxSoftware,
+    getReceiveIdxLockbox,
+    to
+  )
+  const receiveAddressR = extractAddress(
+    getReceiveSoftware,
+    getReceiveLockbox,
+    to
+  )
+
   const transform = (receiveAddress, accountIdx, addressIdx) => ({
     coin,
     receiveAddress,

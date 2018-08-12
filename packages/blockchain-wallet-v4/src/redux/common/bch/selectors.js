@@ -25,7 +25,10 @@ import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
 import { getAccountsList, getBchTxNote } from '../../kvStore/bch/selectors.js'
-import { getLockboxBchAccounts } from '../../kvStore/lockbox/selectors'
+import {
+  getLockboxBchAccounts,
+  getLockboxBchAccount
+} from '../../kvStore/lockbox/selectors'
 import { toCashAddr } from '../../../utils/bch'
 import { isValidBitcoinAddress } from '../../../utils/btc'
 import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
@@ -37,7 +40,7 @@ export const getLockboxBchBalances = state => {
     coin: 'BCH',
     label: account.label,
     balance: path([account.xpub, 'final_balance'], addresses),
-    address: account.xpub
+    xpub: account.xpub
   })
   const balances = Remote.of(getAddresses(state).getOrElse([]))
   return map(lift(digest)(balances), getLockboxBchAccounts(state))
@@ -251,3 +254,14 @@ export const getNextAvailableReceiveAddress = curry(
     )
   }
 )
+export const getNextAvailableReceiveAddressLockbox = curry(
+  (network, xpub, state) => {
+    const index = getReceiveIndex(xpub)(state)
+    return index.map(x => getAddressLockbox(network, xpub, x, state))
+  }
+)
+const getAddressLockbox = curry((network, xpub, index, state) => {
+  const account = getLockboxBchAccount(state, xpub)
+  const hdAccount = HDAccount.fromJS(account.getOrFail(), 0)
+  return HDAccount.getAddress(hdAccount, `M/0/${index}`, network)
+})

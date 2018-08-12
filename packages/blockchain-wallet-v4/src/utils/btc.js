@@ -245,12 +245,14 @@ export const getWifAddress = (key, compressed = true) => {
 
 export const txHexToHashHex = txHex => Transaction.fromHex(txHex).getId()
 
-export const publicKeyChainCodeToBip32 = (publicKey, chainCode) => {
+export const publicKeyChainCodeToBip32 = data => {
+  const { publicKey, chainCode } = data
   const compressedPublicKey = compressPublicKey(Buffer.from(publicKey, 'hex'))
   const bip32 = fromPublicKey(
     compressedPublicKey,
     Buffer.from(chainCode, 'hex')
   )
+
   return bip32.toBase58()
 }
 

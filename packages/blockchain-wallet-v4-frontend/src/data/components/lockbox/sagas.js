@@ -23,7 +23,14 @@ export default ({ api, coreSagas }) => {
           const btc = await lockbox.getWalletPublicKey("44'/0'/0'")
           const bch = await lockbox.getWalletPublicKey("44'/145'/0'")
           const eth = await lockbox.getWalletPublicKey("44'/60'/0'/0/0")
-          emitter({ btc, bch, eth })
+
+          const receiveAccount = await lockbox.getWalletPublicKey(
+            "44'/0'/0'/0'"
+          )
+          const changeAccount = await lockbox.getWalletPublicKey("44'/0'/0'/1'")
+          const cacheInfo = { receiveAccount, changeAccount }
+
+          emitter({ btc, bch, eth, cacheInfo })
           emitter(END)
         } catch (e) {
           throw new Error(e)
@@ -41,8 +48,8 @@ export default ({ api, coreSagas }) => {
       const chan = yield call(deviceInfoChannel)
       try {
         while (true) {
-          const { btc, bch, eth } = yield take(chan)
-          yield put(A.deviceInfoSuccess({ btc, bch, eth }))
+          const { btc, bch, eth, cacheInfo } = yield take(chan)
+          yield put(A.deviceInfoSuccess({ btc, bch, eth, cacheInfo }))
         }
       } finally {
         chan.close()

@@ -1,4 +1,4 @@
-import { keys, path, prop, map, flatten } from 'ramda'
+import { keys, path, prop, map, flatten, filter, head } from 'ramda'
 import { kvStorePath } from '../../paths'
 import { LOCKBOX } from '../config'
 
@@ -28,6 +28,11 @@ export const getLockboxBtcContext = state => {
   })
 }
 
+export const getLockboxBtcAccount = (state, xpub) =>
+  getLockboxBtcAccounts(state)
+    .map(filter(x => x.xpub === xpub))
+    .map(head)
+
 export const getLockboxBch = state => getAccounts(state).map(map(path(['bch'])))
 
 export const getLockboxBchAccounts = state =>
@@ -40,6 +45,11 @@ export const getLockboxBchContext = state => {
     return accounts ? accounts.map(a => path(['xpub'], a)) : []
   })
 }
+
+export const getLockboxBchAccount = (state, xpub) =>
+  getLockboxBchAccounts(state)
+    .map(filter(x => x.xpub === xpub))
+    .map(head)
 
 export const getLockboxEth = state => getAccounts(state).map(map(path(['eth'])))
 

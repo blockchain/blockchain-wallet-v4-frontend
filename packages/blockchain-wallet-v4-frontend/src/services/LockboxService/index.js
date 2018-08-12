@@ -10,14 +10,19 @@ export const getXpubHash = xpub =>
 
 export const generateAccountsMDEntry = deviceInfo => {
   try {
-    const { btc, bch, eth } = deviceInfo
-    const btcXpub = publicKeyChainCodeToBip32(btc.publicKey, btc.chainCode)
-    const bchXpub = publicKeyChainCodeToBip32(bch.publicKey, bch.chainCode)
-    const ethXpub = publicKeyChainCodeToBip32(eth.publicKey, eth.chainCode)
+    const { btc, bch, eth, cacheInfo } = deviceInfo
+    const btcXpub = publicKeyChainCodeToBip32(btc)
+    const bchXpub = publicKeyChainCodeToBip32(bch)
+    const ethXpub = publicKeyChainCodeToBip32(eth)
+
+    const receiveAccount = publicKeyChainCodeToBip32(cacheInfo.receiveAccount)
+    const changeAccount = publicKeyChainCodeToBip32(cacheInfo.changeAccount)
+
+    const cache = { receiveAccount, changeAccount }
 
     return {
-      btc: { accounts: [btcAccount(btcXpub, 'Bitcoin Wallet')] },
-      bch: { accounts: [btcAccount(bchXpub, 'Bitcoin Cash Wallet')] },
+      btc: { accounts: [btcAccount(btcXpub, 'Bitcoin Wallet', cache)] },
+      bch: { accounts: [btcAccount(bchXpub, 'Bitcoin Cash Wallet', cache)] },
       eth: { accounts: [ethAccount(ethXpub, 'Ethereum Wallet')] }
     }
   } catch (e) {
@@ -28,8 +33,7 @@ export const generateAccountsMDEntry = deviceInfo => {
 export const getDeviceID = deviceInfo => {
   try {
     const { btc } = deviceInfo
-    const { publicKey, chainCode } = btc
-    const xpub = publicKeyChainCodeToBip32(publicKey, chainCode)
+    const xpub = publicKeyChainCodeToBip32(btc)
     return getXpubHash(xpub)
   } catch (e) {
     throw new Error(deviceInfoErr)
@@ -43,4 +47,5 @@ export const ethAccount = (xpub, label) => ({
   addr: deriveAddressFromXpub(xpub)
 })
 
-export const btcAccount = (xpub, label) => Types.HDAccount.js(label, null, xpub)
+export const btcAccount = (xpub, label, cache) =>
+  Types.HDAccount.js(label, null, xpub, cache)
