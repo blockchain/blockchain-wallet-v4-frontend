@@ -260,7 +260,7 @@ export const getNextAvailableReceiveAddressLockbox = curry(
     return index.map(x => getAddressLockbox(network, xpub, x, state))
   }
 )
-const getAddressLockbox = curry((network, xpub, index, state) => {
+export const getAddressLockbox = curry((network, xpub, index, state) => {
   const account = getLockboxBchAccount(state, xpub)
   const hdAccount = HDAccount.fromJS(account.getOrFail(), 0)
   return HDAccount.getAddress(hdAccount, `M/0/${index}`, network)

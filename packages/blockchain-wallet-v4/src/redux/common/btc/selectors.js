@@ -282,7 +282,7 @@ export const getNextAvailableReceiveAddressLockbox = curry(
   }
 )
 
-const getAddressLockbox = curry((network, xpub, index, state) => {
+export const getAddressLockbox = curry((network, xpub, index, state) => {
   const account = getLockboxBtcAccount(state, xpub)
   const hdAccount = HDAccount.fromJS(account.getOrElse({}), 0)
   return HDAccount.getAddress(hdAccount, `M/0/${index}`, network)
