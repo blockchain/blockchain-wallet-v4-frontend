@@ -902,6 +902,15 @@
         "id": "components.selectboxbitcoin.watchonly"
       }
     ],
+    "path": "src/components/Form/SelectBoxBchAddresses/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Non-Spendable",
+        "id": "components.selectboxbitcoin.watchonly"
+      }
+    ],
     "path": "src/components/Form/SelectBoxBtcAddresses/template.json"
   },
   {
@@ -912,6 +921,15 @@
       }
     ],
     "path": "src/components/Form/SelectBoxCountry/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Non-Spendable",
+        "id": "components.selectboxbitcoin.watchonly"
+      }
+    ],
+    "path": "src/components/Form/SelectBoxEthAddresses/template.json"
   },
   {
     "descriptors": [
@@ -4073,6 +4091,10 @@
       {
         "defaultMessage": "Currency:",
         "id": "modals.requestether.coin"
+      },
+      {
+        "defaultMessage": "Receive to:",
+        "id": "modals.requestbitcoin.firststep.to"
       },
       {
         "defaultMessage": "Copy & Share Address:",

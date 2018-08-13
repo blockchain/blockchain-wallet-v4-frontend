@@ -172,7 +172,6 @@ export default ({ api, coreSagas }) => {
     let { guid, sharedKey, password, code, mobileLogin } = action.payload
     const safeParse = Either.try(JSON.parse)
     let session = yield select(selectors.session.getSession, guid)
-
     try {
       if (!session) {
         session = yield call(api.obtainSessionToken)
@@ -193,8 +192,15 @@ export default ({ api, coreSagas }) => {
 
       if (authRequired.isRight && authRequired.value) {
         // auth errors (polling)
-        yield put(actions.alerts.displayInfo(C.AUTHORIZATION_REQUIRED_INFO))
+        const authRequiredAlert = yield put(
+          actions.alerts.displayInfo(
+            C.AUTHORIZATION_REQUIRED_INFO,
+            undefined,
+            true
+          )
+        )
         const authorized = yield call(pollingSession, session)
+        yield put(actions.alerts.dismissAlert(authRequiredAlert.payload.id))
         if (authorized) {
           try {
             yield call(coreSagas.wallet.fetchWalletSaga, {

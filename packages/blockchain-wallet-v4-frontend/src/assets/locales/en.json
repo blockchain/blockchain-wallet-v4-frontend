@@ -256,7 +256,7 @@
   "components.alerts.language_update_success":
     "Language has been successfully updated.",
   "components.alerts.lockbox_delete_error": "Failed to remove Lockbox.",
-  "components.alerts.lockbox_delete_success": "Lockbox successfully removed.",
+  "components.alerts.lockbox_delete_success": "Lockbox successfully deleted.",
   "components.alerts.lockbox_setup_error": "Failed to setup Lockbox.",
   "components.alerts.lockbox_setup_success": "Lockbox successfully added.",
   "components.alerts.lockbox_update_error":
@@ -414,7 +414,7 @@
   "components.selectboxcountry.label": "Select country",
   "components.selectboxregion.placeholder.region": "Select region",
   "components.selectboxregion.placeholder.state": "Select state",
-  "components.selectboxstate.label": "Select country",
+  "components.selectboxstate.label": "Select state",
   "components.selectboxtheme.complement": "Complement",
   "components.selectboxtheme.default": "Default",
   "components.selectboxtheme.grayscale": "Grayscale",
@@ -687,7 +687,7 @@
     "Have you saved your 24 word recovery phrase?",
   "modals.lockboxsetup.confirmrecovery.step2.confirm": "Continue",
   "modals.lockboxsetup.confirmrecovery.step2.incorrectphrase":
-    "Incorrect phrase",
+    "Incorrect phrase entered.",
   "modals.lockboxsetup.confirmrecovery.step2.subtitle":
     "This cannot be recovered at a later date. Type COMPLETE to confirm that you have written down your backup phrase.",
   "modals.lockboxsetup.confirmrecovery.step2.title":
@@ -1770,7 +1770,7 @@
   "scenes.lockbox.welcome.setupcarbon": "Setup Carbon",
   "scenes.lockbox.welcome.subtitle":
     "Lockbox works with Carbon to give your digital assets an additional layer of security. Unlock your Lockbox by linking your Carbon, or buy one today.",
-  "scenes.lockbox.welcome.title": "Hardware Secured Digital Assets",
+  "scenes.lockbox.welcome.title": "Hardware secured digital assets",
   "scenes.login.browserwarning":
     "Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.",
   "scenes.login.clickhere": "click here.",
