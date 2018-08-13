@@ -61,7 +61,7 @@ const EthBalance = props => {
           />
         </WalletLink>
       ) : (
-        gt(0, ethBalance) && (
+        gte(0, ethBalance) && (
           <Link
             size='10px'
             weight={300}

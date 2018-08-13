@@ -137,6 +137,13 @@ export default ({ coreSagas }) => {
       }
       yield put(A.sfoxSuccess())
       yield put(A.enableSiftScience())
+      const phoneCallRequestSentR = yield select(
+        selectors.core.kvStore.buySell.getSfoxPhoneCall
+      )
+      const phoneCallRequestSent = phoneCallRequestSentR.getOrElse(true)
+      if (trade.speedupAvailable && !phoneCallRequestSent) {
+        yield call(confirmPhoneCall, trade)
+      }
       yield put(
         actions.form.change('buySellTabStatus', 'status', 'order_history')
       )
@@ -262,13 +269,35 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const confirmPhoneCall = function*(trade) {
+    const smsNumberR = yield select(selectors.core.settings.getSmsNumber)
+    const smsNumber = smsNumberR.getOrElse(null)
+    try {
+      const confirmed = yield call(confirm, {
+        title: CC.PHONE_CALL_TITLE,
+        message: CC.PHONE_CALL_MSG,
+        confirm: CC.CONFIRM_PHONE_CALL,
+        cancel: CC.CANCEL_PHONE_CALL,
+        messageValues: { smsNumber }
+      })
+      if (confirmed) {
+        yield put(actions.core.kvStore.buySell.sfoxSetPhoneCall(true))
+        const profileR = yield select(selectors.core.data.sfox.getProfile)
+        const profile = profileR.getOrElse({})
+        yield apply(profile, profile.submitPhoneCallOptIn, [trade])
+      }
+    } catch (e) {
+      actions.logs.logErrorMessage(logLocation, 'confirmPhoneCall', e)
+    }
+  }
+
   const initializeJumio = function*() {
     try {
       const status = yield call(fetchJumioStatus)
       const accountsR = yield select(selectors.core.data.sfox.getAccounts)
       const accounts = accountsR.getOrElse([])
       // If user has not set up jumio and they have bank accounts
-      if (status === missingJumioToken && accounts.length) {
+      if (!status && accounts.length) {
         const confirmed = yield call(confirm, {
           title: CC.VERIFY_IDENTITY_TITLE,
           image: 'identity-verification',
@@ -316,9 +345,14 @@ export default ({ coreSagas }) => {
       const tokenR = yield select(selectors.core.kvStore.buySell.getSfoxJumio)
       const token = tokenR.getOrFail()
       const profile = profileR.getOrElse({})
-      if (!token) return missingJumioToken
-      const status = yield apply(profile, profile.fetchJumioStatus, [token.id])
-      yield put(A.fetchJumioStatusSuccess(status))
+      if (!token) {
+        throw new Error(missingJumioToken)
+      } else {
+        const status = yield apply(profile, profile.fetchJumioStatus, [
+          token.id
+        ])
+        yield put(A.fetchJumioStatusSuccess(status))
+      }
     } catch (e) {
       yield put(A.fetchJumioStatusFailure(e))
     }

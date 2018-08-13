@@ -1,5 +1,4 @@
 import React from 'react'
-import { isNil } from 'ramda'
 import styled from 'styled-components'
 import { Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
@@ -9,11 +8,8 @@ import {
   FormItem,
   TextBox
 } from 'components/Form'
-import {
-  optional,
-  validBitcoinAddress,
-  validBitcoinPrivateKey
-} from 'services/FormHelper'
+import QRCodeCapture from 'components/QRCodeCapture'
+import { required, validBitcoinAddressOrPrivateKey } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
 import { Banner } from 'blockchain-info-components'
 
@@ -21,8 +17,13 @@ const Label = styled.label`
   font-size: 12px;
   margin-bottom: 5px;
 `
-
-const validBitcoinPrivateKeyOptional = optional(validBitcoinPrivateKey)
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`
 
 class ImportExternalBitcoinAddress extends React.PureComponent {
   render () {
@@ -37,33 +38,24 @@ class ImportExternalBitcoinAddress extends React.PureComponent {
           </Banner>
         </div>
         <FormGroup>
-          <FormItem>
-            <Label for='from'>
-              <FormattedMessage
-                id='modals.importbtcaddress.importexternalbitcoinaddress.bitcoinaddress'
-                defaultMessage='Bitcoin Address'
-              />
-            </Label>
-            <Field
-              name='address'
-              validate={[validBitcoinAddress]}
-              component={TextBox}
-            />
-          </FormItem>
-        </FormGroup>
-        <FormGroup>
           <FormItem width={'100%'}>
-            <Label for='private-key'>
+            <Label for='addrOrPriv'>
               <FormattedMessage
-                id='modals.importbtcaddress.importexternalbitcoinaddress.prvkey'
-                defaultMessage='Enter Private Key'
+                id='modals.importbtcaddress.importexternalbitcoinaddress.bitcoineither'
+                defaultMessage='Enter Bitcoin address or private key'
               />
             </Label>
-            <Field
-              name='priv'
-              validate={[validBitcoinPrivateKeyOptional]}
-              component={TextBox}
-            />
+            <Row>
+              <Field
+                name='addrOrPriv'
+                validate={[validBitcoinAddressOrPrivateKey, required]}
+                component={TextBox}
+              />
+              <QRCodeCapture
+                scanType='btcPrivOrAddress'
+                border={['top', 'bottom', 'right']}
+              />
+            </Row>
           </FormItem>
           <FormItem style={spacing('mt-10')} width={'50%'}>
             <Label for='wallets'>
@@ -77,7 +69,7 @@ class ImportExternalBitcoinAddress extends React.PureComponent {
               component={SelectBoxBitcoinAddresses}
               optional
               excludeImported
-              disabled={isNil(this.props.priv)}
+              disabled={!this.props.priv}
             />
           </FormItem>
         </FormGroup>

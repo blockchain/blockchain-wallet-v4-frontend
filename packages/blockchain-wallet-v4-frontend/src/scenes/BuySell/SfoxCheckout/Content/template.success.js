@@ -183,7 +183,6 @@ const Success = props => {
                 quoteR={buyQuoteR}
                 account={accounts[0]}
                 onRefreshQuote={refreshBuyQuote}
-                profile={profile}
                 type={'buy'}
               />
             </CheckoutWrapper>
@@ -232,7 +231,6 @@ const Success = props => {
                 quoteR={sellQuoteR}
                 account={accounts[0]}
                 onRefreshQuote={refreshSellQuote}
-                profile={profile}
                 type={'sell'}
               />
             </CheckoutWrapper>
@@ -269,6 +267,7 @@ const Success = props => {
             </Text>
             <OrderHistoryTable
               trades={filter(isPending, trades)}
+              pending
               conversion={conversion}
               handleDetailsClick={trade =>
                 showModal('SfoxTradeDetails', { trade })

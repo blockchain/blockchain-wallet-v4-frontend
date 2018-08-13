@@ -420,6 +420,17 @@
   "components.form.tabmenutransactionstatus.received": "Recebido",
   "components.form.tabmenutransactionstatus.sent": "Enviado",
   "components.form.tabmenutransactionstatus.transferred": "Transferido",
+  "components.identityverification.popup.button.checkstatus": null,
+  "components.identityverification.popup.button.getstarted": null,
+  "components.identityverification.popup.button.verify": null,
+  "components.identityverification.popup.header.inreview": null,
+  "components.identityverification.popup.header.underreview": null,
+  "components.identityverification.popup.header.unverified": null,
+  "components.identityverification.popup.header.verified": null,
+  "components.identityverification.popup.note.inreview": null,
+  "components.identityverification.popup.note.underreview": null,
+  "components.identityverification.popup.note.unverified": null,
+  "components.identityverification.popup.note.verified": null,
   "components.qrreader.warning": "Seu navegador não tem suporte a webcam.",
   "components.selectboxbitcoin.watchonly": "Indisponível para gasto",
   "components.selectboxcountry.label": "Selecione o país",
@@ -446,6 +457,7 @@
   "formhelper.ageovereighteen": "Deve ser maior de 18 anos",
   "formhelper.incorrectpassword": "Senha incorreta",
   "formhelper.invalidbitcoinaddress": "Endereço Bitcoin inválido.",
+  "formhelper.invalidbitcoinaddressandkey": null,
   "formhelper.invalidbitcoincashaddress": "Endereço inválido de Bitcoin Cash",
   "formhelper.invalidbitcoinprivatekey": "Chave privada inválida de Bitcoin",
   "formhelper.invalidemail": "Endereço de e-mail inválido",
@@ -480,6 +492,7 @@
   "identityverification.address.faq.whycollect.question": null,
   "identityverification.address.header": null,
   "identityverification.address.region": null,
+  "identityverification.address.selectaddress": null,
   "identityverification.address.state": null,
   "identityverification.address.subheader": null,
   "identityverification.address.zipcode": null,
@@ -520,28 +533,10 @@
   "layouts.public.footer.explorer": "Dados",
   "layouts.public.footer.support": "Suporte",
   "layouts.wallet.header.logout.signout": "Sair",
-  "layouts.wallet.header.whatsnew.whatsnew.desc10":
-    "Se você tinha Bitcoin em sua carteira antes de 1º de agosto de 2017, agora pode acessar Bitcoin Cash em sua carteira Blockchain.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc11":
-    "Os endereços de Bitcoin Cash agora seguem o formato CashAddr.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc7":
-    "Agora você pode vender Bitcoin diretamente da sua carteira Blockchain!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc8":
-    "Agora você pode enviar e receber Ether da sua carteira Blockchain!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc9":
-    "Você pode converter entre Bitcoin, Ether e Bitcoin Cash diretamente da sua carteira Blockchain",
   "layouts.wallet.header.whatsnew.whatsnew.empty":
     "?? Você está com tudo em dia!",
-  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore": "Saiba Mais",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Nossa equipe está sempre trabalhando em novos recursos, mas se houver algo que pudermos melhorar, avise-nos <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>aqui<a/>.",
-  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Saiba Mais",
-  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title11":
-    "Novo formato de endereço para Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title7": "Vender bitcoins",
-  "layouts.wallet.header.whatsnew.whatsnew.title8": "Vender e receber Ether",
-  "layouts.wallet.header.whatsnew.whatsnew.title9": "Converter Ativos",
   "layouts.wallet.menuleft.footer.about": "Sobre",
   "layouts.wallet.menuleft.footer.privacypolicy": "Política de Privacidade",
   "layouts.wallet.menuleft.footer.termsofservice": "ToS",
@@ -551,13 +546,13 @@
   "layouts.wallet.menuleft.navigation.exchange": "Converter",
   "layouts.wallet.menuleft.navigation.general": "Geral",
   "layouts.wallet.menuleft.navigation.preferences": "Preferências",
+  "layouts.wallet.menuleft.navigation.profile": null,
   "layouts.wallet.menuleft.navigation.securitycenter": "Central de segurança",
   "layouts.wallet.menuleft.navigation.settings": "Configurações",
   "layouts.wallet.menuleft.navigation.transactions": "Transações",
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
-  "layouts.wallet.menutop.bank": "Seja o seu próprio banco.",
   "layouts.wallet.menutop.request": "Solicitar",
   "layouts.wallet.menutop.send": "Enviar",
   "layouts.wallet.trayright.faq": "Perguntas Frequentes",
@@ -676,10 +671,6 @@
     "Os endereços gerados por esta carteira não devem ser importados.",
   "modals.importbtcaddress.importtype": "O que você deseja importar?",
   "modals.importbtcaddress.title": "Importar Endereço Bitcoin Existente",
-  "modals.jumioprompt.body1": null,
-  "modals.jumioprompt.close": null,
-  "modals.jumioprompt.dothat": null,
-  "modals.jumioprompt.header": null,
   "modals.mobilelogin.cancel": "Cancelar",
   "modals.mobilelogin.explain":
     "Siga estas etapas para entrar em sua carteira web usando seu dispositivo móvel",
@@ -758,8 +749,7 @@
   "modals.requestbch.scan_tooltip":
     "Peça ao remetente que escaneie este código QR com a carteira de Bitcoin Cash dele",
   "modals.requestbch.share": "Copiar e compartilhar endereço: ",
-  "modals.requestbch.share_ooltip":
-    "Compartilhe este endereço com outras pessoas para que elas possam lhe enviar Bitcoin Cash diretamente para a sua carteira. Você terá um novo endereço para cada pagamento.",
+  "modals.requestbch.share_tooltip": null,
   "modals.requestbch.title": "Solicitar Bitcoin Cash",
   "modals.requestbitcoin.firststep.amount": "Insira o valor:",
   "modals.requestbitcoin.firststep.description": "Descrição:",
@@ -1005,6 +995,7 @@
   "orderdetails.date": "Data de inicialização",
   "orderdetails.footnote":
     "*Atenção: dependendo das políticas de transferências do seu banco, você verá os fundos em sua conta no prazo de 1 a 2 dias após a transferência. ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "Dados da ordem",
   "orderdetails.payoutdetails": "Dados do pagamento",
   "orderdetails.recurring.amount": "Valor:",
@@ -1121,8 +1112,6 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
   "scenes.buysell.sfoxcheckout.content.jumio.buylimit": null,
@@ -1810,6 +1799,17 @@
   "scenes.priceindexseries.timefilters.month": "Mês",
   "scenes.priceindexseries.timefilters.week": "Semana",
   "scenes.priceindexseries.timefilters.year": "Ano",
+  "scenes.profile.identityverification.banner.inreview": null,
+  "scenes.profile.identityverification.banner.underreview": null,
+  "scenes.profile.identityverification.banner.unverified": null,
+  "scenes.profile.identityverification.banner.verified": null,
+  "scenes.profile.identityverification.button.getstarted": null,
+  "scenes.profile.identityverification.buttons.verify": null,
+  "scenes.profile.identityverification.note.inreview": null,
+  "scenes.profile.identityverification.note.underreview": null,
+  "scenes.profile.identityverification.note.unverified": null,
+  "scenes.profile.identityverification.note.verified": null,
+  "scenes.profile.identityverification.title": null,
   "scenes.recover.firststep.back": "Voltar",
   "scenes.recover.firststep.continue": "Continuar",
   "scenes.recover.firststep.explain":
@@ -1940,8 +1940,6 @@
     "Enviamos um código de verificação para",
   "scenes.security.email.yourverifiedemailaddress":
     "Seu endereço de e-mail verificado será usado para enviar códigos de login quando for detectada uma atividade suspeita ou fora no habitual, lembrar-lhe do seu ID de login da carteira e enviar alertas de pagamento quando você receber fundos.",
-  "scenes.security.passwordhint.notstored": null,
-  "scenes.security.passwordhint.stored": null,
   "scenes.security.tor.allowed": "Permitido",
   "scenes.security.tor.blocked": "Bloqueado",
   "scenes.security.twostepsetup.sms": "Usar códigos enviados por SMS",
@@ -2111,9 +2109,6 @@
   "scenes.securitysettings.apiaccess.description2": "para começar.",
   "scenes.securitysettings.apiaccess.getstarted": "aqui",
   "scenes.securitysettings.apiaccess.title": "Acesso à API",
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.change": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.save": null,
   "scenes.securitysettings.basicsecurity.recoveryphrase.description":
     "Sua frase de backup contém todas as chaves privadas dentro da sua carteira. Anote essas 12 palavras em sequência e guarde-as num local seguro off-line. Essa frase dá a você (e a qualquer pessoa que a tiver) uma maneira de restaurar a sua carteira e acessar os seus fundos. ",
   "scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase":
@@ -2308,9 +2303,6 @@
   "scenes.settings.manage_addresses.edit_name": "Editar Nome",
   "scenes.settings.manage_addresses.make_default": "Tornar Padrão",
   "scenes.settings.manage_addresses.show_xpub": "Mostrar xPub",
-  "scenes.settings.passwordhint.description1": null,
-  "scenes.settings.passwordhint.description2": null,
-  "scenes.settings.passwordhint.title": null,
   "scenes.settings.preferences.autologout.updateform.minutes": null,
   "scenes.settings.preferences.bitcoinlinkhandling.description":
     "Ative para permitir que sua Carteira Blockchain gerencie links de pagamentos em bitcoin no navegador.",
@@ -2323,8 +2315,6 @@
     "Não conseguimos detectar se a manipulação de links bitcoin foi ativada.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Se já foi ativada, nada mudará.",
-  "scenes.settings.preferences.explain":
-    "Personalize sua experiência de carteira.",
   "scenes.settings.preferences.localcurrency.error.description":
     "Selecione a moeda local.",
   "scenes.settings.preferences.localcurrency.error.title": "Moeda local",
@@ -2653,7 +2643,6 @@
   "sfoxexchangedata.verify.hidessn": "Ocultar CPF",
   "sfoxexchangedata.verify.identity.error":
     "Infelizmente ocorreu um problema com a verificação da sua identidade. {clickHere} para recomeçar.",
-  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Sobrenome",
   "sfoxexchangedata.verify.partner.header": "Os detalhes ocultos",
   "sfoxexchangedata.verify.partner.header1": "Vamos te conhecer",

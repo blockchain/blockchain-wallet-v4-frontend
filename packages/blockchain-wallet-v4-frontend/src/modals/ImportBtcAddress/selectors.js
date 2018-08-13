@@ -5,7 +5,7 @@ export const getData = state => {
     state,
     'address-type'
   )
-  const priv = formValueSelector('importBtcAddress')(state, 'priv')
+  const priv = formValueSelector('importBtcAddress')(state, 'addrOrPriv')
 
   return {
     priv,

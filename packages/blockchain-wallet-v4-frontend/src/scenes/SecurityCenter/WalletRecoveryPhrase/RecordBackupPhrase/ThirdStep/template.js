@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm, Field } from 'redux-form'
 
+import { spacing } from 'services/StyleService'
 import { Button, Link, Text } from 'blockchain-info-components'
 import { Form, TextBox } from 'components/Form'
 import { required } from 'services/FormHelper'
@@ -27,7 +28,7 @@ const Container = styled.div`
 `
 const Buttons = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   margin: 15px 0;
@@ -92,10 +93,19 @@ const ThirdStep = props => {
           ))}
         </Container>
         <Buttons>
+          <Button onClick={previousStep} nature='empty'>
+            <Text weight={300} cursor='pointer'>
+              <FormattedMessage
+                id='modals.recoveryphrase.secondstep.returnReviewPhrase'
+                defaultMessage='Review backup phrase'
+              />
+            </Text>
+          </Button>
           <Button
             type='submit'
             nature='primary'
             disabled={submitting || invalid}
+            style={spacing('ml-15')}
           >
             <FormattedMessage
               id='scenes.securitycenter.walletrecoveryphrase.thirdstep.confirm'

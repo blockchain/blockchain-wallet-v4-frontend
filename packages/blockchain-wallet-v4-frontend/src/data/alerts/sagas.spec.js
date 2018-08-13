@@ -14,5 +14,9 @@ describe('Alert Sagas', () => {
       expect(gen.next().value).toEqual(put(actions.dismissAlert(id)))
       expect(gen.next().done).toEqual(true)
     })
+    it('should not dismiss if persisted', () => {
+      let gen = sagas.handleTimer({ payload: { id: 123, persist: true } })
+      expect(gen.next().done).toEqual(true)
+    })
   })
 })
