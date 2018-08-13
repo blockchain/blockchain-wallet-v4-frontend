@@ -22,12 +22,6 @@ class SelectInputContainer extends React.PureComponent {
     this.handleKeyDown = this.handleKeyDown.bind(this)
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (!equals(this.props.value, nextProps.value)) {
-      this.setState({ value: nextProps.value })
-    }
-  }
-
   handleClick (item) {
     this.setState({ value: item.value, expanded: false, search: '' })
     if (this.props.onChange) {
