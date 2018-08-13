@@ -296,7 +296,7 @@ export default ({ coreSagas, networks }) => {
       const accountsR = yield select(selectors.core.data.sfox.getAccounts)
       const accounts = accountsR.getOrElse([])
       // If user has not set up jumio and they have bank accounts
-      if (status === missingJumioToken && accounts.length) {
+      if (!status && accounts.length) {
         const confirmed = yield call(confirm, {
           title: CC.VERIFY_IDENTITY_TITLE,
           image: 'identity-verification',
@@ -344,9 +344,14 @@ export default ({ coreSagas, networks }) => {
       const tokenR = yield select(selectors.core.kvStore.buySell.getSfoxJumio)
       const token = tokenR.getOrFail()
       const profile = profileR.getOrElse({})
-      if (!token) return missingJumioToken
-      const status = yield apply(profile, profile.fetchJumioStatus, [token.id])
-      yield put(A.fetchJumioStatusSuccess(status))
+      if (!token) {
+        throw new Error(missingJumioToken)
+      } else {
+        const status = yield apply(profile, profile.fetchJumioStatus, [
+          token.id
+        ])
+        yield put(A.fetchJumioStatusSuccess(status))
+      }
     } catch (e) {
       yield put(A.fetchJumioStatusFailure(e))
     }
