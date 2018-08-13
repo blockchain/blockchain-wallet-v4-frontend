@@ -300,7 +300,6 @@
   "components.alerts.pbkdf2_update_success":
     "PBKDF2 ponovitve uspešno spremenjene",
   "components.alerts.private_key_incorrect": "Neveljaven zasebni ključ.",
-  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success": "Prejeli ste bitcoin cash plačilo.",
   "components.alerts.receive_btc_success": "Prejeli ste bitcoin plačilo.",
   "components.alerts.receive_eth_success": "Prejeli ste ether plačilo.",
@@ -416,6 +415,17 @@
   "components.form.tabmenutransactionstatus.received": "Prejeto",
   "components.form.tabmenutransactionstatus.sent": "Poslano",
   "components.form.tabmenutransactionstatus.transferred": "Preneseno",
+  "components.identityverification.popup.button.checkstatus": null,
+  "components.identityverification.popup.button.getstarted": null,
+  "components.identityverification.popup.button.verify": null,
+  "components.identityverification.popup.header.inreview": null,
+  "components.identityverification.popup.header.underreview": null,
+  "components.identityverification.popup.header.unverified": null,
+  "components.identityverification.popup.header.verified": null,
+  "components.identityverification.popup.note.inreview": null,
+  "components.identityverification.popup.note.underreview": null,
+  "components.identityverification.popup.note.unverified": null,
+  "components.identityverification.popup.note.verified": null,
   "components.qrreader.warning":
     "Vaš brskalnik nima podpore za spletno kamero.",
   "components.selectboxbitcoin.watchonly": "Ni mogoče zapraviti",
@@ -469,6 +479,7 @@
   "formhelper.requireduszipcode": "Mora biti veljavna poštna številka iz ZDA",
   "formhelper.requiredzipcode": null,
   "formhelper.samepasswordascurrent": "Geslo je enako kot trenutno",
+  "formhelper.unacceptedterms": null,
   "identityverification.address.address": null,
   "identityverification.address.address2": null,
   "identityverification.address.city": null,
@@ -478,6 +489,7 @@
   "identityverification.address.faq.whycollect.question": null,
   "identityverification.address.header": null,
   "identityverification.address.region": null,
+  "identityverification.address.selectaddress": null,
   "identityverification.address.state": null,
   "identityverification.address.subheader": null,
   "identityverification.address.zipcode": null,
@@ -518,27 +530,9 @@
   "layouts.public.footer.explorer": "Podatki",
   "layouts.public.footer.support": "Podpora",
   "layouts.wallet.header.logout.signout": "Odjava",
-  "layouts.wallet.header.whatsnew.whatsnew.desc10":
-    "V primeru, da ste imeli pred 1. avgustom 2017 na svoji denarnici bitcoin, lahko sedaj prek svoje Blockchain denarnice dostopate do valute Bitcoin Cash.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc11":
-    "Bitcoin Cash naslovi sedaj uporabljajo CashAddr obliko.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc7":
-    "Bitcoin lahko sedaj prodajate neposredno prek svoje Blockchain denarnice!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc8":
-    "Ether lahko sedaj pošiljate in prejemate prek svoje Blockchain denarnice!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc9":
-    "Na svoji Blockchain denarnici lahko neposredno menjate med valutami bitcoin, ether in bitcoin cash",
   "layouts.wallet.header.whatsnew.whatsnew.empty": "?? Obveščeni ste o vsem!",
-  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore": "Več o tem",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Naša ekipa vedno dela na novih funkcijah, toda če lahko izboljšamo še kaj vas prosimo, da nas o tem obvestite <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>tukaj<a/>.",
-  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Več o tem",
-  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title11":
-    "Nova oblika Bitcoin Cash naslovov",
-  "layouts.wallet.header.whatsnew.whatsnew.title7": "Prodaj Bitcoin",
-  "layouts.wallet.header.whatsnew.whatsnew.title8": "Pošlji in prejmi Ether",
-  "layouts.wallet.header.whatsnew.whatsnew.title9": "Menjava sredstev",
   "layouts.wallet.menuleft.footer.about": "Več o tem",
   "layouts.wallet.menuleft.footer.privacypolicy":
     "Izjava o varovanju zasebnosti",
@@ -550,13 +544,13 @@
   "layouts.wallet.menuleft.navigation.exchange": "Borza",
   "layouts.wallet.menuleft.navigation.general": "Splošno",
   "layouts.wallet.menuleft.navigation.preferences": "Preference",
+  "layouts.wallet.menuleft.navigation.profile": null,
   "layouts.wallet.menuleft.navigation.securitycenter": "Varnostno središče",
   "layouts.wallet.menuleft.navigation.settings": "Nastavitve",
   "layouts.wallet.menuleft.navigation.transactions": "Transakcije",
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
-  "layouts.wallet.menutop.bank": "Bodite svoja lastna banka.",
   "layouts.wallet.menutop.request": "Zahtevaj",
   "layouts.wallet.menutop.send": "Pošlji",
   "layouts.wallet.trayright.faq": "Pogosta vprašanja",
@@ -672,10 +666,6 @@
     "Naslovov, ki so ustvarjeni v tej denarnici, ne smete uvoziti.",
   "modals.importbtcaddress.importtype": "Kaj želite uvoziti?",
   "modals.importbtcaddress.title": "Uvozi obstoječi Bitcoin naslov",
-  "modals.jumioprompt.body1": null,
-  "modals.jumioprompt.close": null,
-  "modals.jumioprompt.dothat": null,
-  "modals.jumioprompt.header": null,
   "modals.mobilelogin.cancel": "Prekliči",
   "modals.mobilelogin.explain":
     "Sledite tem korakom za prijavo v svojo spletno denarnico prek svoje mobilne naprave",
@@ -1116,9 +1106,6 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
   "scenes.buysell.sfoxcheckout.content.jumio.buylimit": null,
@@ -1800,6 +1787,17 @@
   "scenes.priceindexseries.timefilters.month": "Mesec",
   "scenes.priceindexseries.timefilters.week": "Teden",
   "scenes.priceindexseries.timefilters.year": "Leto",
+  "scenes.profile.identityverification.banner.inreview": null,
+  "scenes.profile.identityverification.banner.underreview": null,
+  "scenes.profile.identityverification.banner.unverified": null,
+  "scenes.profile.identityverification.banner.verified": null,
+  "scenes.profile.identityverification.button.getstarted": null,
+  "scenes.profile.identityverification.buttons.verify": null,
+  "scenes.profile.identityverification.note.inreview": null,
+  "scenes.profile.identityverification.note.underreview": null,
+  "scenes.profile.identityverification.note.unverified": null,
+  "scenes.profile.identityverification.note.verified": null,
+  "scenes.profile.identityverification.title": null,
   "scenes.recover.firststep.back": "Nazaj",
   "scenes.recover.firststep.continue": "Nadaljuj",
   "scenes.recover.firststep.explain":
@@ -1934,8 +1932,6 @@
     "Kodo za potrditev smo poslali na",
   "scenes.security.email.yourverifiedemailaddress":
     "Vaš potrjen e-poštni naslov se uporablja za pošiljanje kod za prijavo, kadar zaznamo sumljive ali nenavadne dejavnosti, da vas opomnimo na ID za prijavo v vašo denarnico, ter za pošiljanje obvestil o plačilih, kadar prejmete sredstva.",
-  "scenes.security.passwordhint.notstored": null,
-  "scenes.security.passwordhint.stored": null,
   "scenes.security.tor.allowed": "Dovoljeno",
   "scenes.security.tor.blocked": "Blokirano",
   "scenes.security.twostepsetup.sms": "Uporabite kode, poslane prek SMS",
@@ -2107,9 +2103,6 @@
   "scenes.securitysettings.apiaccess.description2": "da začnete.",
   "scenes.securitysettings.apiaccess.getstarted": "tukaj",
   "scenes.securitysettings.apiaccess.title": "API dostop",
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.change": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.save": null,
   "scenes.securitysettings.basicsecurity.recoveryphrase.description":
     "Vaša varnostna fraza vsebuje vse zasebne ključe znotraj vaše denarnice. Prosimo, da si teh 12 besed po vrsti zapišete ter jih hranite na varnem mestu v fizični obliki. Ta fraza vam zagotavlja (ter vsem, ki jo imajo) način za obnovitev vaše denarnice in dostop do vaših sredstev. ",
   "scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase":
@@ -2302,9 +2295,6 @@
   "scenes.settings.manage_addresses.edit_name": "Uredi ime",
   "scenes.settings.manage_addresses.make_default": "Nastavi kot privzeto",
   "scenes.settings.manage_addresses.show_xpub": "Prikaži xPub",
-  "scenes.settings.passwordhint.description1": null,
-  "scenes.settings.passwordhint.description2": null,
-  "scenes.settings.passwordhint.title": null,
   "scenes.settings.preferences.autologout.updateform.minutes": null,
   "scenes.settings.preferences.bitcoinlinkhandling.description":
     "Omogočite to funkcijo, da svoji Blockchain denarnici omogočite upravljanje s povezavami za plačilo z bitcoini v spletnem brskalniku.",
@@ -2317,8 +2307,6 @@
     "Ne moremo zaznati, če je bilo upravljanje z bitcoin povezavami omogočeno.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "V primeru, da je bilo že omogočeno, se ne bo zgodilo nič.",
-  "scenes.settings.preferences.explain":
-    "Prilagodite svojo izkušnjo z denarnico.",
   "scenes.settings.preferences.localcurrency.error.description":
     "Izberite svojo lokalno valuto.",
   "scenes.settings.preferences.localcurrency.error.title": "Lokalna valuta",
@@ -2642,7 +2630,6 @@
   "sfoxexchangedata.verify.hidessn": "Skrij SSN",
   "sfoxexchangedata.verify.identity.error":
     "Na žalost je prišlo do težave pri preverjanju vaše identitete. {clickHere}, da začnete znova.",
-  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Priimek",
   "sfoxexchangedata.verify.partner.header": "Skrite podrobnosti",
   "sfoxexchangedata.verify.partner.header1": "Naj vas spoznamo",
