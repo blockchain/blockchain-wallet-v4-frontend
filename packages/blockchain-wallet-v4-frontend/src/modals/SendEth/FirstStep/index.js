@@ -9,6 +9,16 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class FirstStep extends React.PureComponent {
+  constructor (props) {
+    super(props)
+    this.handleToToggle = this.handleToToggle.bind(this)
+  }
+
+  handleToToggle (val) {
+    this.props.formActions.touch('sendEth', 'to')
+    this.props.actions.sendEthFirstStepToToggled(val)
+  }
+
   render () {
     return this.props.data.cata({
       Success: value => (
@@ -17,6 +27,10 @@ class FirstStep extends React.PureComponent {
           isContract={value.isContract}
           unconfirmedTx={value.unconfirmedTx}
           effectiveBalance={value.effectiveBalance}
+          toToggled={value.toToggled}
+          handleToToggle={this.handleToToggle}
+          destination={value.destination}
+          enableToggle={value.enableToggle}
           onSubmit={() => this.props.actions.sendEthFirstStepSubmitClicked()}
         />
       ),
@@ -32,7 +46,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.sendEth, dispatch)
+  actions: bindActionCreators(actions.components.sendEth, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 export default connect(

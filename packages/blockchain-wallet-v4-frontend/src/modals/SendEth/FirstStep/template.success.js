@@ -8,6 +8,7 @@ import { required, validEtherAddress } from 'services/FormHelper'
 import {
   Button,
   Text,
+  Icon,
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
@@ -18,6 +19,7 @@ import {
   FormItem,
   FormLabel,
   SelectBoxCoin,
+  SelectBoxEtherAddresses,
   TextBox,
   TextAreaDebounced
 } from 'components/Form'
@@ -32,7 +34,20 @@ const Row = styled.div`
   align-items: center;
   width: 100%;
 `
+const AddressButton = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  border: 1px solid ${props => props.theme['gray-2']};
 
+  &:hover {
+    background-color: ${props => props.theme['gray-1']};
+  }
+`
 const FirstStep = props => {
   const {
     pristine,
@@ -41,6 +56,10 @@ const FirstStep = props => {
     fee,
     handleSubmit,
     unconfirmedTx,
+    destination,
+    toToggled,
+    enableToggle,
+    handleToToggle,
     isContract
   } = props
   return (
@@ -65,19 +84,46 @@ const FirstStep = props => {
             />
           </FormLabel>
           <Row>
-            <Field
-              disabled={unconfirmedTx}
-              name='to'
-              placeholder='Paste or scan an address'
-              component={TextBox}
-              validate={[required, validEtherAddress]}
-            />
-            {!unconfirmedTx && (
-              <QRCodeCapture
-                scanType='ethAddress'
-                border={['top', 'bottom', 'right']}
+            {toToggled && (
+              <Field
+                name='to'
+                component={SelectBoxEtherAddresses}
+                disabled={unconfirmedTx}
+                opened
+                onFocus={() => handleToToggle()}
+                includeAll={false}
+                // exclude={[from.label]}
+                validate={[required]}
+                hideErrors
               />
             )}
+            {!toToggled && (
+              <Field
+                name='to'
+                placeholder='Paste or scan an address, or select a destination'
+                disabled={unconfirmedTx}
+                component={TextBox}
+                validate={[required, validEtherAddress]}
+                autoFocus
+              />
+            )}
+            {(!toToggled || destination) &&
+              !unconfirmedTx && (
+                <QRCodeCapture
+                  scanType='ethAddress'
+                  border={
+                    enableToggle
+                      ? ['top', 'bottom']
+                      : ['top', 'bottom', 'right']
+                  }
+                />
+              )}
+            {enableToggle &&
+              (!toToggled || destination) && (
+                <AddressButton onClick={() => handleToToggle(true)}>
+                  <Icon name='down-arrow' size='10px' cursor />
+                </AddressButton>
+              )}
           </Row>
           {unconfirmedTx && (
             <Text color='error' size='12px' weight={300}>
@@ -169,6 +215,8 @@ FirstStep.propTypes = {
   fee: PropTypes.string.isRequired,
   effectiveBalance: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  toToggled: PropTypes.bool.isRequired,
+  handleToToggle: PropTypes.func.isRequired,
   unconfirmedTx: PropTypes.bool
 }
 
