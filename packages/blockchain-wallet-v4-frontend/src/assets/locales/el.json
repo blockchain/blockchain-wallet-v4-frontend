@@ -459,6 +459,7 @@
   "formhelper.ageovereighteen": "Πρέπει να είναι πάνω από 18 η μεγαλύτερο",
   "formhelper.incorrectpassword": "Λανθασμένος Κωδικός Πρόσβασης",
   "formhelper.invalidbitcoinaddress": "Μη έγκυρη διεύθυνση Bitcoin",
+  "formhelper.invalidbitcoinaddressandkey": null,
   "formhelper.invalidbitcoincashaddress": "Μη έγκυρη διεύθυνση Bitcoin Cash",
   "formhelper.invalidbitcoinprivatekey": "Μη έγκυρο Ιδιωτικό Κλειδί Bitcoin",
   "formhelper.invalidemail": "Μη έγκυρη διεύθυνση email",
@@ -488,7 +489,6 @@
   "formhelper.requiredzipcode": null,
   "formhelper.samepasswordascurrent":
     "Ο κωδικός πρόσβασης είναι ο ίδιος με τον τρέχοντα",
-  "formhelper.unacceptedterms": null,
   "identityverification.address.address": null,
   "identityverification.address.address2": null,
   "identityverification.address.city": null,

@@ -468,6 +468,7 @@
   "formhelper.ageovereighteen": "Deve avere almeno 18 anni",
   "formhelper.incorrectpassword": "Password non corretta",
   "formhelper.invalidbitcoinaddress": "Indirizzo Bitcoin non valido",
+  "formhelper.invalidbitcoinaddressandkey": null,
   "formhelper.invalidbitcoincashaddress":
     "Indirizzo Bitcoin in contanti non valido",
   "formhelper.invalidbitcoinprivatekey": "Chiave privata bitcoin non valida",
@@ -495,7 +496,6 @@
   "formhelper.requiredzipcode": null,
   "formhelper.samepasswordascurrent":
     "La password corrisponde a quella attuale",
-  "formhelper.unacceptedterms": null,
   "identityverification.address.address": null,
   "identityverification.address.address2": null,
   "identityverification.address.city": null,

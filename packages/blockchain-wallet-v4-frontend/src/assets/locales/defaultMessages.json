@@ -657,10 +657,6 @@
       {
         "defaultMessage": "Received",
         "id": "scenes.buysell.orderhistory.list.received"
-      },
-      {
-        "defaultMessage": "To Be Received",
-        "id": "scenes.buysell.orderhistory.list.tobereceived"
       }
     ],
     "path": "src/components/BuySell/OrderHistoryTable/index.json"
@@ -922,7 +918,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Select country",
+        "defaultMessage": "Select state",
         "id": "components.selectboxstate.label"
       }
     ],
@@ -2899,6 +2895,61 @@
       }
     ],
     "path": "src/modals/ExchangeDetails/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Why do you need this information?",
+        "id": "identityverification.address.faq.whycollect.question"
+      },
+      {
+        "defaultMessage":
+          "To comply with government regulated anti-money laundering legislation, we need to obtain additional information in order to verify your identity.",
+        "id": "identityverification.address.faq.whycollect.answer"
+      },
+      {
+        "defaultMessage": "Address Details",
+        "id": "identityverification.address.header"
+      },
+      {
+        "defaultMessage":
+          "There's so much we'd love to know about you, but we only need a few things.",
+        "id": "identityverification.address.subheader"
+      },
+      {
+        "defaultMessage": "Address",
+        "id": "identityverification.address.address"
+      },
+      {
+        "defaultMessage": "Address 2",
+        "id": "identityverification.address.address2"
+      },
+      {
+        "defaultMessage": "City",
+        "id": "identityverification.address.city"
+      },
+      {
+        "defaultMessage": "State",
+        "id": "identityverification.address.state"
+      },
+      {
+        "defaultMessage": "Region",
+        "id": "identityverification.address.region"
+      },
+      {
+        "defaultMessage": "Zip Code",
+        "id": "identityverification.address.zipcode"
+      },
+      {
+        "defaultMessage": "Country",
+        "id": "identityverification.address.country"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "identityverification.address.continue"
+      }
+    ],
+    "path": "src/modals/IdentityVerification/Address.json"
   },
   {
     "descriptors": [
@@ -9685,6 +9736,10 @@
         "id": "formhelper.invalidbitcoinprivatekey"
       },
       {
+        "defaultMessage": "Not a valid Bitcoin address or private key",
+        "id": "formhelper.invalidbitcoinaddressandkey"
+      },
+      {
         "defaultMessage": "Invalid Email Code",
         "id": "formhelper.invalidemailcode"
       },
@@ -9767,10 +9822,6 @@
       {
         "defaultMessage": "Invalid zipcode",
         "id": "formhelper.requiredzipcode"
-      },
-      {
-        "defaultMessage": "You must agree to the terms and conditions",
-        "id": "formhelper.unacceptedterms"
       }
     ],
     "path": "src/services/FormHelper/validationMessages.json"

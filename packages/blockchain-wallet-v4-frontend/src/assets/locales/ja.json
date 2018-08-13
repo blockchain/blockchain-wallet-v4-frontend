@@ -434,6 +434,7 @@
   "formhelper.ageovereighteen": "18歳以上である必要があります",
   "formhelper.incorrectpassword": "間違ったパスワード",
   "formhelper.invalidbitcoinaddress": "無効なビットコインアドレス",
+  "formhelper.invalidbitcoinaddressandkey": null,
   "formhelper.invalidbitcoincashaddress":
     "無効なビットコインキャッシュアドレス",
   "formhelper.invalidbitcoinprivatekey": "無効なビットコイン秘密鍵",
@@ -458,7 +459,6 @@
   "formhelper.requireduszipcode": "有効な郵便番号を入力してください",
   "formhelper.requiredzipcode": null,
   "formhelper.samepasswordascurrent": "現在のパスワードと同一です",
-  "formhelper.unacceptedterms": null,
   "identityverification.address.address": null,
   "identityverification.address.address2": null,
   "identityverification.address.city": null,
