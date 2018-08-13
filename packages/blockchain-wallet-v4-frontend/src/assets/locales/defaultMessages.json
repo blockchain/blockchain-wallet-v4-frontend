@@ -283,6 +283,10 @@
         "id": "components.alerts.pbkdf2_update_success"
       },
       {
+        "defaultMessage": "Please enable camera to use this feature",
+        "id": "components.alerts.qr_scanner_not_allowed"
+      },
+      {
         "defaultMessage": "You have received a bitcoin cash payment.",
         "id": "components.alerts.receive_bch_success"
       },
@@ -316,7 +320,7 @@
       },
       {
         "defaultMessage":
-          "Reset 2-step authentication has been successfully submitted.",
+          "Reset two-factor authentication has been successfully submitted.",
         "id": "components.alerts.reset_twofa_info"
       },
       {
@@ -522,12 +526,40 @@
         "id": "components.alerts.bch_address_incorrect"
       },
       {
-        "defaultMessage": "Invalid Ethereum Address.",
+        "defaultMessage": "Invalid Ether Address.",
         "id": "components.alerts.eth_address_incorrect"
       },
       {
         "defaultMessage": "Invalid Private Key.",
         "id": "components.alerts.private_key_incorrect"
+      },
+      {
+        "defaultMessage": "Not a valid Bitcoin Private Key or Address.",
+        "id": "components.alerts.address_and_private_key_incorrect"
+      },
+      {
+        "defaultMessage": "Lockbox successfully added.",
+        "id": "components.alerts.lockbox_setup_success"
+      },
+      {
+        "defaultMessage": "Failed to setup Lockbox.",
+        "id": "components.alerts.lockbox_setup_error"
+      },
+      {
+        "defaultMessage": "Lockbox settings successfully updated.",
+        "id": "components.alerts.lockbox_update_success"
+      },
+      {
+        "defaultMessage": "Failed to update Lockbox settings.",
+        "id": "components.alerts.lockbox_update_error"
+      },
+      {
+        "defaultMessage": "Lockbox successfully deleted.",
+        "id": "components.alerts.lockbox_delete_success"
+      },
+      {
+        "defaultMessage": "Failed to remove Lockbox.",
+        "id": "components.alerts.lockbox_delete_error"
       },
       {
         "defaultMessage": "An error has occurred.",
@@ -870,6 +902,15 @@
         "id": "components.selectboxbitcoin.watchonly"
       }
     ],
+    "path": "src/components/Form/SelectBoxBchAddresses/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Non-Spendable",
+        "id": "components.selectboxbitcoin.watchonly"
+      }
+    ],
     "path": "src/components/Form/SelectBoxBtcAddresses/template.json"
   },
   {
@@ -880,6 +921,15 @@
       }
     ],
     "path": "src/components/Form/SelectBoxCountry/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Non-Spendable",
+        "id": "components.selectboxbitcoin.watchonly"
+      }
+    ],
+    "path": "src/components/Form/SelectBoxEthAddresses/template.json"
   },
   {
     "descriptors": [
@@ -918,7 +968,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Select state",
+        "defaultMessage": "Select country",
         "id": "components.selectboxstate.label"
       }
     ],
@@ -965,59 +1015,6 @@
       }
     ],
     "path": "src/components/Form/TabMenuTransactionStatus/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "You're Almost There",
-        "id": "components.identityverification.popup.header.unverified"
-      },
-      {
-        "defaultMessage": "Account In Review",
-        "id": "components.identityverification.popup.header.inreview"
-      },
-      {
-        "defaultMessage": "Verification Under Review {icon}",
-        "id": "components.identityverification.popup.header.underreview"
-      },
-      {
-        "defaultMessage": "Verification Completed",
-        "id": "components.identityverification.popup.header.verified"
-      },
-      {
-        "defaultMessage":
-          "Complete your profile and identity verification to start buying and selling. Don’t worry, we only need a couple more details.",
-        "id": "components.identityverification.popup.note.unverified"
-      },
-      {
-        "defaultMessage":
-          "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to buy cryptocurrency,",
-        "id": "components.identityverification.popup.note.inreview"
-      },
-      {
-        "defaultMessage":
-          "We had some trouble verifying your account with the documents provided. Our Support team will contact you shortly to help you with the verification process.",
-        "id": "components.identityverification.popup.note.underreview"
-      },
-      {
-        "defaultMessage":
-          "Good news – your account is verified. You can now buy, sell, and exchange cryptocurrency at any time.",
-        "id": "components.identityverification.popup.note.verified"
-      },
-      {
-        "defaultMessage": "Verify My Identity",
-        "id": "components.identityverification.popup.button.verify"
-      },
-      {
-        "defaultMessage": "Check Your Application Status",
-        "id": "components.identityverification.popup.button.checkstatus"
-      },
-      {
-        "defaultMessage": "Get Started",
-        "id": "components.identityverification.popup.button.getstarted"
-      }
-    ],
-    "path": "src/components/IdentityVerification/KYCBanner/index.json"
   },
   {
     "descriptors": [
@@ -1095,7 +1092,7 @@
       },
       {
         "defaultMessage":
-          "Ask the sender to scan this QR code with their Bitcoin cash wallet",
+          "Ask the sender to scan this QR code with their bitcoin cash wallet",
         "id": "modals.requestbch.scan_tooltip"
       },
       {
@@ -1188,6 +1185,45 @@
       }
     ],
     "path": "src/components/Tooltips/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "To:",
+        "id": "components.transactionlistitem.addresses.to"
+      },
+      {
+        "defaultMessage": "From:",
+        "id": "components.transactionlistitem.addresses.from"
+      }
+    ],
+    "path": "src/components/TransactionListItem/Addresses/Bch/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "To:",
+        "id": "components.transactionlistitem.addresses.to"
+      },
+      {
+        "defaultMessage": "From:",
+        "id": "components.transactionlistitem.addresses.from"
+      }
+    ],
+    "path": "src/components/TransactionListItem/Addresses/Btc/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "To:",
+        "id": "components.transactionlistitem.addresses.to"
+      },
+      {
+        "defaultMessage": "From:",
+        "id": "components.transactionlistitem.addresses.from"
+      }
+    ],
+    "path": "src/components/TransactionListItem/Addresses/Eth/index.json"
   },
   {
     "descriptors": [
@@ -1395,6 +1431,10 @@
         "id": "layouts.wallet.menuleft.navigation.transactions.bch"
       },
       {
+        "defaultMessage": "Lockbox",
+        "id": "layouts.wallet.menuleft.navigation.lockbox"
+      },
+      {
         "defaultMessage": "Buy & sell bitcoin",
         "id": "layouts.wallet.menuleft.navigation.buybitcoin"
       },
@@ -1413,10 +1453,6 @@
       {
         "defaultMessage": "General",
         "id": "layouts.wallet.menuleft.navigation.general"
-      },
-      {
-        "defaultMessage": "Profile",
-        "id": "layouts.wallet.menuleft.navigation.profile"
       },
       {
         "defaultMessage": "Preferences",
@@ -1512,6 +1548,54 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path":
+      "src/layouts/Wallet/MenuTop/Balance/LockboxBalance/BchLockboxBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path":
+      "src/layouts/Wallet/MenuTop/Balance/LockboxBalance/BtcLockboxBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path":
+      "src/layouts/Wallet/MenuTop/Balance/LockboxBalance/EthLockboxBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Lockbox",
+        "id": "layouts.wallet.menutop.balance.walletbalance.Lockbox"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/LockboxBalance/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Pending",
+        "id": "layouts.wallet.menutop.balance.walletbalance.pending"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/PendingBalance/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Pending Balance",
         "id": "scenes.wallet.menutop.balance.sfoxpendingbalance"
       }
@@ -1549,6 +1633,74 @@
     ],
     "path":
       "src/layouts/Wallet/MenuTop/Balance/TotalBalance/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path":
+      "src/layouts/Wallet/MenuTop/Balance/WalletBalance/BchBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path":
+      "src/layouts/Wallet/MenuTop/Balance/WalletBalance/BtcBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path":
+      "src/layouts/Wallet/MenuTop/Balance/WalletBalance/EthBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Wallet",
+        "id": "layouts.wallet.menutop.balance.walletbalance.wallet"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/WalletBalance/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path":
+      "src/layouts/Wallet/MenuTop/Balance/WatchOnlyBalance/BchWatchOnlyBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path":
+      "src/layouts/Wallet/MenuTop/Balance/WatchOnlyBalance/BtcWatchOnlyBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Non-Spendable",
+        "id": "layouts.wallet.menutop.balance.walletbalance.nonspendable"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/WatchOnlyBalance/template.json"
   },
   {
     "descriptors": [
@@ -1797,7 +1949,7 @@
       },
       {
         "defaultMessage":
-          "We partner with exchanges across the world to make buying and selling digital assets easier for you. If you’re located in select states across the US or SEPA, you can get started now by creating an account with one of our partners.",
+          "We partner with exchanges across the world to make buying and selling digital assets easier for you. If you’re located in select states across the US or SEPA, you can get started now by creating an account with one of our partners. Otherwise, keep an eye on our Twitter, Facebook, and blog to find out when we bring buy and sell to your area!",
         "id": "scenes.faq.group.noexchange.answer1"
       },
       {
@@ -2017,7 +2169,7 @@
       },
       {
         "defaultMessage":
-          "Since bitcoin cash is a fork of the bitcoin block chain, its address format previously looked nearly identical to that of bitcoin, which was very confusing to those using it. Now, when you want to send or receive bitcoin cash, you can immediately identify that you’re using the correct address thanks to the added prefix that looks like this: bitcoincash:qpm2qsznhks23z7629mms6s4cwef74vcwvy22gdx6a.",
+          "Since bitcoin cash is a fork of the bitcoin block chain, its address format previously looked nearly identical to that of bitcoin, which was very confusing to those using it. Now, when you want to send or receive bitcoin cash, you can immediately identify that you’re using the correct address thanks to the added prefix that looks like this: ’bitcoincash:’ in front of your bch address.",
         "id": "scenes.faq.group.walletfunctionality.answer12.one"
       },
       {
@@ -2755,6 +2907,10 @@
         "id": "modals.confirm.title.verify_identity"
       },
       {
+        "defaultMessage": "Trade In Progress",
+        "id": "modals.confirm.title.phone_call"
+      },
+      {
         "defaultMessage": "Confirm",
         "id": "modals.confirm.title"
       },
@@ -2762,6 +2918,20 @@
         "defaultMessage":
           "Verifying your identity will raise your buy and sell limits, allowing you to trade higher amounts. It will also speed up waiting times for trades. It only takes a few minutes to go through the process.",
         "id": "modals.confirm.message.verify_identity"
+      },
+      {
+        "defaultMessage": "Would you like to speed up the process?",
+        "id": "modals.confirm.message.phone_call"
+      },
+      {
+        "defaultMessage":
+          "You can receive your funds in only 3 business days by a quick and painless phone call to verify your identity.",
+        "id": "modals.confirm.message.phone_call_1"
+      },
+      {
+        "defaultMessage":
+          "If this sounds good to you, you will receive a call within the next 24 hours to <b>{smsNumber}</b>.",
+        "id": "modals.confirm.message.phone_call_2"
       },
       {
         "defaultMessage": "Please confirm.",
@@ -2772,12 +2942,20 @@
         "id": "modals.confirm.cancel.verify_identity"
       },
       {
+        "defaultMessage": "No, Thanks",
+        "id": "modals.confirm.cancel.phone_call"
+      },
+      {
         "defaultMessage": "Cancel",
         "id": "modals.confirm.button.cancel"
       },
       {
         "defaultMessage": "Verify My Identity",
         "id": "modals.confirm.confirm.verify_identity"
+      },
+      {
+        "defaultMessage": "Give Me A Call",
+        "id": "modals.confirm.confirm.phone_call"
       },
       {
         "defaultMessage": "OK",
@@ -2950,69 +3128,6 @@
       }
     ],
     "path": "src/modals/IdentityVerification/Address.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Why do you need this information?",
-        "id": "identityverification.address.faq.whycollect.question"
-      },
-      {
-        "defaultMessage":
-          "To comply with government regulated anti-money laundering legislation, we need to obtain additional information in order to verify your identity.",
-        "id": "identityverification.address.faq.whycollect.answer"
-      },
-      {
-        "defaultMessage": "Address Details",
-        "id": "identityverification.address.header"
-      },
-      {
-        "defaultMessage":
-          "There's so much we'd love to know about you, but we only need a few things.",
-        "id": "identityverification.address.subheader"
-      },
-      {
-        "defaultMessage": "Country",
-        "id": "identityverification.address.country"
-      },
-      {
-        "defaultMessage": "Select country",
-        "id": "components.selectboxcountry.label"
-      },
-      {
-        "defaultMessage": "Zip Code",
-        "id": "identityverification.address.zipcode"
-      },
-      {
-        "defaultMessage": "Select Address",
-        "id": "identityverification.address.selectaddress"
-      },
-      {
-        "defaultMessage": "Address",
-        "id": "identityverification.address.address"
-      },
-      {
-        "defaultMessage": "Address 2",
-        "id": "identityverification.address.address2"
-      },
-      {
-        "defaultMessage": "City",
-        "id": "identityverification.address.city"
-      },
-      {
-        "defaultMessage": "State",
-        "id": "identityverification.address.state"
-      },
-      {
-        "defaultMessage": "Region",
-        "id": "identityverification.address.region"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "identityverification.address.continue"
-      }
-    ],
-    "path": "src/modals/IdentityVerification/Address/template.json"
   },
   {
     "descriptors": [
@@ -3204,13 +3319,9 @@
           "modals.importbtcaddress.importexternalbitcoinaddress.advanced.message"
       },
       {
-        "defaultMessage": "Bitcoin Address",
+        "defaultMessage": "Enter Bitcoin address or private key",
         "id":
-          "modals.importbtcaddress.importexternalbitcoinaddress.bitcoinaddress"
-      },
-      {
-        "defaultMessage": "Enter Private Key",
-        "id": "modals.importbtcaddress.importexternalbitcoinaddress.prvkey"
+          "modals.importbtcaddress.importexternalbitcoinaddress.bitcoineither"
       },
       {
         "defaultMessage": "Transfer funds to an existing wallet (optional)",
@@ -3255,6 +3366,322 @@
       }
     ],
     "path": "src/modals/ImportBtcAddress/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Have you saved your 24 word recovery phrase?",
+        "id": "modals.lockboxsetup.confirmrecovery.step1.title"
+      },
+      {
+        "defaultMessage":
+          "This is your only backup for your Carbon. The 12 word backup phrase for your Blockchain wallet DOES NOT cover the funds in your Lockbox.",
+        "id": "modals.lockboxsetup.confirmrecovery.step1.subtitle"
+      },
+      {
+        "defaultMessage": "Yes, I saved my passphrase",
+        "id": "modals.lockboxsetup.confirmrecovery.step1.confirm"
+      },
+      {
+        "defaultMessage": "Please confirm that you saved your backup phrase.",
+        "id": "modals.lockboxsetup.confirmrecovery.step2.title"
+      },
+      {
+        "defaultMessage":
+          "This cannot be recovered at a later date. Type COMPLETE to confirm that you have written down your backup phrase.",
+        "id": "modals.lockboxsetup.confirmrecovery.step2.subtitle"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.lockboxsetup.confirmrecovery.step2.confirm"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/ConfirmRecoveryStep/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Incorrect phrase entered.",
+        "id": "modals.lockboxsetup.confirmrecovery.step2.incorrectphrase"
+      },
+      {
+        "defaultMessage":
+          "Please confirm that you have saved your backup phrase.",
+        "id": "modals.lockboxsetup.confirmrecovery.step2.title"
+      },
+      {
+        "defaultMessage":
+          "This cannot be recovered at a later date. Type COMPLETE to confirm that you have written down your backup phrase.",
+        "id": "modals.lockboxsetup.confirmrecovery.step2.subtitle"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.lockboxsetup.confirmrecovery.step2.confirm"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/ConfirmRecoveryStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage":
+          "Unable to connect to your device. Please make sure your device is connected and the bitcoin app is open!",
+        "id": "modals.lockboxsetup.connectstep.error"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/ConnectDeviceStep/template.failure.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage":
+          "Please unlock your device and open your bitcoin app to continue.",
+        "id": "modals.lockboxsetup.connectstep.connectdevice"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/ConnectDeviceStep/template.loading.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Device connected successfully!",
+        "id": "modals.lockboxsetup.connectstep.connected"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/ConnectDeviceStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage":
+          "Unable to connect to your device. Please make sure your device is connected and the bitcoin app is open!",
+        "id": "modals.lockboxsetup.connectstep.error"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/ConnectStep/template.failure.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage":
+          "Please unlock your device and open your bitcoin app to continue.",
+        "id": "modals.lockboxsetup.connectstep.connectdevice"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/ConnectStep/template.loading.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Device connected successfully!",
+        "id": "modals.lockboxsetup.connectstep.connected"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/ConnectStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Whoops!",
+        "id": "modals.lockboxsetup.duplicatedevice.title"
+      },
+      {
+        "defaultMessage":
+          "This device has already been associated with your Blockchain Wallet. Please connect a new device and restart this process.",
+        "id": "modals.lockboxsetup.duplicatedevice.subtitle"
+      },
+      {
+        "defaultMessage": "OK",
+        "id": "modals.lockboxsetup.duplicatedevice.continue"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/DuplicateDeviceStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Link a new device",
+        "id": "modals.lockboxsetup.firststep.link"
+      },
+      {
+        "defaultMessage": "Restore an existing device",
+        "id": "modals.lockboxsetup.firststep.restore"
+      },
+      {
+        "defaultMessage": "Buy a new Carbon",
+        "id": "modals.lockboxsetup.firststep.buy"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/FirstStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage":
+          "Connection to device established. Please name your Lockbox.",
+        "id": "modals.lockboxsetup.labelstep.plugindevice"
+      },
+      {
+        "defaultMessage": "Device Name",
+        "id": "modals.lockboxsetup.labelstep.devicename"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.lockboxsetup.labelstep.continue"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/LabelStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage":
+          "Please name your Lockbox. The device can be renamed later.",
+        "id": "modals.lockboxsetup.labelstep.nameintro"
+      },
+      {
+        "defaultMessage": "Device Name",
+        "id": "modals.lockboxsetup.labelstep.devicename"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.lockboxsetup.labelstep.continue"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/NameDeviceStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Link a new device",
+        "id": "modals.lockboxsetup.firststep.link"
+      },
+      {
+        "defaultMessage": "Restore an existing device",
+        "id": "modals.lockboxsetup.firststep.restore"
+      },
+      {
+        "defaultMessage": "Buy a new Carbon",
+        "id": "modals.lockboxsetup.firststep.buy"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/OptionsStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Have you saved your 24 word recovery phrase?",
+        "id": "modals.lockboxsetup.confirmrecovery.step1.title"
+      },
+      {
+        "defaultMessage":
+          "This is your only backup for your Carbon. The 12 word backup phrase for your Blockchain wallet DOES NOT cover the funds in your Lockbox.",
+        "id": "modals.lockboxsetup.confirmrecovery.step1.subtitle"
+      },
+      {
+        "defaultMessage": "Yes, I saved my passphrase",
+        "id": "modals.lockboxsetup.confirmrecovery.step1.confirm"
+      },
+      {
+        "defaultMessage": "Please confirm that you saved your backup phrase.",
+        "id": "modals.lockboxsetup.confirmrecovery.step2.title"
+      },
+      {
+        "defaultMessage":
+          "This cannot be recovered at a later date. Type COMPLETE to confirm that you have written down your backup phrase.",
+        "id": "modals.lockboxsetup.confirmrecovery.step2.subtitle"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.lockboxsetup.confirmrecovery.step2.confirm"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/SaveAccountsStep/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Do you want to save you public keys?",
+        "id": "modals.lockboxsetup.confirmrecovery.step3.title"
+      },
+      {
+        "defaultMessage":
+          "Storing your public key will allow you to view your Lockbox balances and receive funds without plugging in your Carbon.",
+        "id": "modals.lockboxsetup.confirmrecovery.step3.subtitle"
+      },
+      {
+        "defaultMessage": "Yes, I want to see my balance always",
+        "id": "modals.lockboxsetup.confirmrecovery.step3.yes"
+      },
+      {
+        "defaultMessage": "No thank you",
+        "id": "modals.lockboxsetup.confirmrecovery.step3.no"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/SaveAccountsStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "From:",
+        "id": "modals.sendeth.secondstep.from"
+      },
+      {
+        "defaultMessage": "To:",
+        "id": "modals.sendeth.secondstep.to"
+      },
+      {
+        "defaultMessage": "Note:",
+        "id": "modals.sendeth.secondstep.note"
+      },
+      {
+        "defaultMessage": "Payment:",
+        "id": "modals.sendeth.secondstep.payment"
+      },
+      {
+        "defaultMessage": "Fee:",
+        "id": "modals.sendeth.secondstep.fee"
+      },
+      {
+        "defaultMessage": "Total",
+        "id": "modals.sendeth.secondstep.total"
+      },
+      {
+        "defaultMessage": "Send Ether",
+        "id": "modals.sendeth.secondstep.send"
+      },
+      {
+        "defaultMessage": "Go Back",
+        "id": "modals.sendeth.sendconfirm.back"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/SecondStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Link a new device",
+        "id": "modals.lockboxsetup.firststep.link"
+      },
+      {
+        "defaultMessage": "Restore an existing device",
+        "id": "modals.lockboxsetup.firststep.restore"
+      },
+      {
+        "defaultMessage": "Buy a new Carbon",
+        "id": "modals.lockboxsetup.firststep.buy"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/SetupTypeStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Get started with your Lockbox",
+        "id": "modals.lockboxsetup.title"
+      }
+    ],
+    "path": "src/modals/LockboxSetup/template.json"
   },
   {
     "descriptors": [
@@ -3664,6 +4091,10 @@
       {
         "defaultMessage": "Currency:",
         "id": "modals.requestether.coin"
+      },
+      {
+        "defaultMessage": "Receive to:",
+        "id": "modals.requestbitcoin.firststep.to"
       },
       {
         "defaultMessage": "Copy & Share Address:",
@@ -5817,11 +6248,6 @@
         "id": "scenes.buysell.sfoxcheckout.content.jumio.selllimit"
       },
       {
-        "defaultMessage":
-          "Your purchases will be available in your Blockchain wallet in {buyProcessingTime} days. Your sell trades will take {sellProcessingTime} days to process into your bank account.",
-        "id": "scenes.buysell.sfoxcheckout.content.jumio.profile"
-      },
-      {
         "defaultMessage": "Success! Identity Verification Complete",
         "id": "scenes.buysell.sfoxcheckout.content.jumio.title.completed"
       },
@@ -5852,6 +6278,11 @@
       {
         "defaultMessage": "Refresh Status",
         "id": "scenes.buysell.sfoxcheckout.content.jumio.button.refresh"
+      },
+      {
+        "defaultMessage": "Complete Verification",
+        "id":
+          "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification"
       },
       {
         "defaultMessage": "Try Again",
@@ -6571,6 +7002,15 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "This transaction involves a watch only address.",
+        "id": "scenes.home.activitylist.watchonly"
+      }
+    ],
+    "path": "src/scenes/Home/ActivityList/ListItem/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Recent Activity",
         "id": "scenes.home.activitylist.title"
       }
@@ -7006,6 +7446,55 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Add Another Device",
+        "id": "scenes.lockbox.welcome.addanotherdevice"
+      },
+      {
+        "defaultMessage": "Delete Device",
+        "id": "scenes.lockbox.welcome.deletedevice"
+      }
+    ],
+    "path": "src/scenes/Lockbox/Dashboard/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Hardware Secured Digital Assets",
+        "id": "scenes.lockbox.welcome.title"
+      },
+      {
+        "defaultMessage":
+          "Lockbox works with Carbon to give your digital assets an additional layer of security. Unlock your Lockbox by linking your Carbon, or buy one today.",
+        "id": "scenes.lockbox.welcome.subtitle"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "scenes.lockbox.welcome.getstarted"
+      }
+    ],
+    "path": "src/scenes/Lockbox/Setup/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Hardware secured digital assets",
+        "id": "scenes.lockbox.welcome.title"
+      },
+      {
+        "defaultMessage":
+          "Lockbox works with Carbon to give your digital assets an additional layer of security. Unlock your Lockbox by linking your Carbon, or buy one today.",
+        "id": "scenes.lockbox.welcome.subtitle"
+      },
+      {
+        "defaultMessage": "Setup Carbon",
+        "id": "scenes.lockbox.welcome.setupcarbon"
+      }
+    ],
+    "path": "src/scenes/Lockbox/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Welcome back!",
         "id": "scenes.login.welcome"
       },
@@ -7222,6 +7711,14 @@
       {
         "defaultMessage": "Password",
         "id": "scenes.register.password"
+      },
+      {
+        "defaultMessage": "Your password would take {cracktime} to crack.",
+        "id": "formhelper.passwordcracktime"
+      },
+      {
+        "defaultMessage": "Try adding a few more characters.",
+        "id": "formhelper.passwordsuggest"
       },
       {
         "defaultMessage": "Confirm Password",
@@ -8372,6 +8869,10 @@
           "scenes.securitycenter.walletrecoveryphrase.thirdstep.reviewPhrase"
       },
       {
+        "defaultMessage": "Review backup phrase",
+        "id": "modals.recoveryphrase.secondstep.returnReviewPhrase"
+      },
+      {
         "defaultMessage": "Confirm",
         "id": "scenes.securitycenter.walletrecoveryphrase.thirdstep.confirm"
       }
@@ -9180,59 +9681,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Unverified",
-        "id": "scenes.profile.identityverification.banner.unverified"
-      },
-      {
-        "defaultMessage": "In Review",
-        "id": "scenes.profile.identityverification.banner.inreview"
-      },
-      {
-        "defaultMessage": "Under Review",
-        "id": "scenes.profile.identityverification.banner.underreview"
-      },
-      {
-        "defaultMessage": "Verified",
-        "id": "scenes.profile.identityverification.banner.verified"
-      },
-      {
-        "defaultMessage":
-          "Complete our verification process to begin buying and selling cryptocurrency – all within your Blockchain wallet.",
-        "id": "scenes.profile.identityverification.note.unverified"
-      },
-      {
-        "defaultMessage":
-          "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to buy cryptocurrency.\n {note} In some cases it can take up to 2 hours to get verified.",
-        "id": "scenes.profile.identityverification.note.inreview"
-      },
-      {
-        "defaultMessage":
-          "We had some trouble verifying your account with the documents provided. Our Support team will contact you shortly to help you with the verification process.",
-        "id": "scenes.profile.identityverification.note.underreview"
-      },
-      {
-        "defaultMessage":
-          "Good news – your account is verified. You can now buy, sell, and exchange cryptocurrency at any time.",
-        "id": "scenes.profile.identityverification.note.verified"
-      },
-      {
-        "defaultMessage": "Verify My Identity",
-        "id": "scenes.profile.identityverification.buttons.verify"
-      },
-      {
-        "defaultMessage": "Get Started",
-        "id": "scenes.profile.identityverification.button.getstarted"
-      },
-      {
-        "defaultMessage": "Identity Verification",
-        "id": "scenes.profile.identityverification.title"
-      }
-    ],
-    "path": "src/scenes/Settings/Profile/IdentityVerification/index.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Welcome to",
         "id":
           "scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.welcome"
@@ -9810,6 +10258,10 @@
       {
         "defaultMessage": "Invalid number",
         "id": "formhelper.requirednumber"
+      },
+      {
+        "defaultMessage": "Incorrect phrase",
+        "id": "formhelper.requiredphrase"
       },
       {
         "defaultMessage": "Must be valid SSN",

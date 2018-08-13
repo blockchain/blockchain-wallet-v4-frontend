@@ -172,6 +172,8 @@
   "coinifysignup.acceptterms.helper1.answer":
     "Coinify is a trading platform we’ve partnered with to bring you a harmonious buy & sell experience in your Blockchain wallet",
   "coinifysignup.acceptterms.helper1.question": "What is Coinify?",
+  "components.alerts.address_and_private_key_incorrect":
+    "Not a valid Bitcoin Private Key or Address.",
   "components.alerts.address_delete_error": "Failed to delete address label.",
   "components.alerts.address_delete_success": "Address deleted successfully.",
   "components.alerts.address_does_not_exist_error":
@@ -253,6 +255,14 @@
   "components.alerts.language_update_error": "Failed to update language",
   "components.alerts.language_update_success":
     "Language has been successfully updated.",
+  "components.alerts.lockbox_delete_error": "Failed to remove Lockbox.",
+  "components.alerts.lockbox_delete_success": "Lockbox successfully deleted.",
+  "components.alerts.lockbox_setup_error": "Failed to setup Lockbox.",
+  "components.alerts.lockbox_setup_success": "Lockbox successfully added.",
+  "components.alerts.lockbox_update_error":
+    "Failed to update Lockbox settings.",
+  "components.alerts.lockbox_update_success":
+    "Lockbox settings successfully updated.",
   "components.alerts.logginglevel_update_error":
     "Failed to update logging level",
   "components.alerts.logginglevel_update_success":
@@ -287,6 +297,8 @@
   "components.alerts.pbkdf2_update_success":
     "PBKDF2 iterations changed successfully",
   "components.alerts.private_key_incorrect": "Invalid Private Key.",
+  "components.alerts.qr_scanner_not_allowed":
+    "Please enable camera to use this feature",
   "components.alerts.receive_bch_success":
     "You have received a bitcoin cash payment.",
   "components.alerts.receive_btc_success":
@@ -397,25 +409,6 @@
   "components.form.tabmenutransactionstatus.received": "Received",
   "components.form.tabmenutransactionstatus.sent": "Sent",
   "components.form.tabmenutransactionstatus.transferred": "Transferred",
-  "components.identityverification.popup.button.checkstatus":
-    "Check Your Application Status",
-  "components.identityverification.popup.button.getstarted": "Get Started",
-  "components.identityverification.popup.button.verify": "Verify My Identity",
-  "components.identityverification.popup.header.inreview": "Account In Review",
-  "components.identityverification.popup.header.underreview":
-    "Verification Under Review {icon}",
-  "components.identityverification.popup.header.unverified":
-    "You're Almost There",
-  "components.identityverification.popup.header.verified":
-    "Verification Completed",
-  "components.identityverification.popup.note.inreview":
-    "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to buy cryptocurrency,",
-  "components.identityverification.popup.note.underreview":
-    "We had some trouble verifying your account with the documents provided. Our Support team will contact you shortly to help you with the verification process.",
-  "components.identityverification.popup.note.unverified":
-    "Complete your profile and identity verification to start buying and selling. Don’t worry, we only need a couple more details.",
-  "components.identityverification.popup.note.verified":
-    "Good news – your account is verified. You can now buy, sell, and exchange cryptocurrency at any time.",
   "components.qrreader.warning": "Your browser does not have webcam support.",
   "components.selectboxbitcoin.watchonly": "Non-Spendable",
   "components.selectboxcountry.label": "Select country",
@@ -460,10 +453,14 @@
   "formhelper.invalidwalletidentifier": "Invalid wallet identifier",
   "formhelper.partnercountrywhitelist": "Country not available for buy & sell",
   "formhelper.partnerstatewhitelist": "State not available for buy & sell",
+  "formhelper.passwordcracktime":
+    "Your password would take {cracktime} to crack.",
   "formhelper.passwordsdonotmatch": "Passwords do not match",
+  "formhelper.passwordsuggest": "Try adding a few more characters.",
   "formhelper.required": "Required",
   "formhelper.requireddob": "Must be a valid date",
   "formhelper.requirednumber": "Invalid number",
+  "formhelper.requiredphrase": "Incorrect phrase",
   "formhelper.requiredssn": "Must be valid SSN",
   "formhelper.requireduszipcode": "Must be a valid US Zipcode",
   "formhelper.requiredzipcode": "Invalid zipcode",
@@ -479,7 +476,6 @@
     "Why do you need this information?",
   "identityverification.address.header": "Address Details",
   "identityverification.address.region": "Region",
-  "identityverification.address.selectaddress": "Select Address",
   "identityverification.address.state": "State",
   "identityverification.address.subheader":
     "There's so much we'd love to know about you, but we only need a few things.",
@@ -547,14 +543,18 @@
   "layouts.wallet.menuleft.navigation.dashboard": "Dashboard",
   "layouts.wallet.menuleft.navigation.exchange": "Exchange",
   "layouts.wallet.menuleft.navigation.general": "General",
+  "layouts.wallet.menuleft.navigation.lockbox": "Lockbox",
   "layouts.wallet.menuleft.navigation.preferences": "Preferences",
-  "layouts.wallet.menuleft.navigation.profile": "Profile",
   "layouts.wallet.menuleft.navigation.securitycenter": "Security center",
   "layouts.wallet.menuleft.navigation.settings": "Settings",
   "layouts.wallet.menuleft.navigation.transactions": "Transactions",
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
+  "layouts.wallet.menutop.balance.walletbalance.Lockbox": "Lockbox",
+  "layouts.wallet.menutop.balance.walletbalance.nonspendable": "Non-Spendable",
+  "layouts.wallet.menutop.balance.walletbalance.pending": "Pending",
+  "layouts.wallet.menutop.balance.walletbalance.wallet": "Wallet",
   "layouts.wallet.menutop.request": "Request",
   "layouts.wallet.menutop.send": "Send",
   "layouts.wallet.trayright.faq": "Frequently Asked Questions",
@@ -591,12 +591,21 @@
   "modals.coinifytradedetails.trade.close": "Close",
   "modals.confirm.button": "OK",
   "modals.confirm.button.cancel": "Cancel",
+  "modals.confirm.cancel.phone_call": "No, Thanks",
   "modals.confirm.cancel.verify_identity": "I'll Do This Later",
+  "modals.confirm.confirm.phone_call": "Give Me A Call",
   "modals.confirm.confirm.verify_identity": "Verify My Identity",
   "modals.confirm.message": "Please confirm.",
+  "modals.confirm.message.phone_call":
+    "Would you like to speed up the process?",
+  "modals.confirm.message.phone_call_1":
+    "You can receive your funds in only 3 business days by a quick and painless phone call to verify your identity.",
+  "modals.confirm.message.phone_call_2":
+    "If this sounds good to you, you will receive a call within the next 24 hours to <b>{smsNumber}</b>.",
   "modals.confirm.message.verify_identity":
     "Verifying your identity will raise your buy and sell limits, allowing you to trade higher amounts. It will also speed up waiting times for trades. It only takes a few minutes to go through the process.",
   "modals.confirm.title": "Confirm",
+  "modals.confirm.title.phone_call": "Trade In Progress",
   "modals.confirm.title.verify_identity": "Verify Your Identity",
   "modals.deleteaddresslabel.cancel": "Cancel",
   "modals.disable2fa.disable": "Disable",
@@ -662,16 +671,53 @@
     "Existing address generated <span>outside this wallet</span>.",
   "modals.importbtcaddress.importexternalbitcoinaddress.advanced.message":
     "This is advanced functionality and only suggested for advanced users.",
-  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoinaddress":
-    "Bitcoin Address",
-  "modals.importbtcaddress.importexternalbitcoinaddress.prvkey":
-    "Enter Private Key",
+  "modals.importbtcaddress.importexternalbitcoinaddress.bitcoineither":
+    "Enter Bitcoin address or private key",
   "modals.importbtcaddress.importexternalbitcoinaddress.transfer":
     "Transfer funds to an existing wallet (optional)",
   "modals.importbtcaddress.importinternalbitcoinaddress.warning":
     "Addresses generated by this wallet should not be imported.",
   "modals.importbtcaddress.importtype": "What do you want to import?",
   "modals.importbtcaddress.title": "Import Existing Bitcoin Address",
+  "modals.lockboxsetup.confirmrecovery.step1.confirm":
+    "Yes, I saved my passphrase",
+  "modals.lockboxsetup.confirmrecovery.step1.subtitle":
+    "This is your only backup for your Carbon. The 12 word backup phrase for your Blockchain wallet DOES NOT cover the funds in your Lockbox.",
+  "modals.lockboxsetup.confirmrecovery.step1.title":
+    "Have you saved your 24 word recovery phrase?",
+  "modals.lockboxsetup.confirmrecovery.step2.confirm": "Continue",
+  "modals.lockboxsetup.confirmrecovery.step2.incorrectphrase":
+    "Incorrect phrase entered.",
+  "modals.lockboxsetup.confirmrecovery.step2.subtitle":
+    "This cannot be recovered at a later date. Type COMPLETE to confirm that you have written down your backup phrase.",
+  "modals.lockboxsetup.confirmrecovery.step2.title":
+    "Please confirm that you saved your backup phrase.",
+  "modals.lockboxsetup.confirmrecovery.step3.no": "No thank you",
+  "modals.lockboxsetup.confirmrecovery.step3.subtitle":
+    "Storing your public key will allow you to view your Lockbox balances and receive funds without plugging in your Carbon.",
+  "modals.lockboxsetup.confirmrecovery.step3.title":
+    "Do you want to save you public keys?",
+  "modals.lockboxsetup.confirmrecovery.step3.yes":
+    "Yes, I want to see my balance always",
+  "modals.lockboxsetup.connectstep.connectdevice":
+    "Please unlock your device and open your bitcoin app to continue.",
+  "modals.lockboxsetup.connectstep.connected": "Device connected successfully!",
+  "modals.lockboxsetup.connectstep.error":
+    "Unable to connect to your device. Please make sure your device is connected and the bitcoin app is open!",
+  "modals.lockboxsetup.duplicatedevice.continue": "OK",
+  "modals.lockboxsetup.duplicatedevice.subtitle":
+    "This device has already been associated with your Blockchain Wallet. Please connect a new device and restart this process.",
+  "modals.lockboxsetup.duplicatedevice.title": "Whoops!",
+  "modals.lockboxsetup.firststep.buy": "Buy a new Carbon",
+  "modals.lockboxsetup.firststep.link": "Link a new device",
+  "modals.lockboxsetup.firststep.restore": "Restore an existing device",
+  "modals.lockboxsetup.labelstep.continue": "Continue",
+  "modals.lockboxsetup.labelstep.devicename": "Device Name",
+  "modals.lockboxsetup.labelstep.nameintro":
+    "Please name your Lockbox. The device can be renamed later.",
+  "modals.lockboxsetup.labelstep.plugindevice":
+    "Connection to device established. Please name your Lockbox.",
+  "modals.lockboxsetup.title": "Get started with your Lockbox",
   "modals.mobilelogin.cancel": "Cancel",
   "modals.mobilelogin.explain":
     "Follow these steps to log into your web wallet using your mobile device",
@@ -735,6 +781,7 @@
   "modals.recoveryphrase.secondstep.nextfourwords": "Next 4 Words",
   "modals.recoveryphrase.secondstep.number": "Word {number}",
   "modals.recoveryphrase.secondstep.prevfourwords": "Previous 4 Words",
+  "modals.recoveryphrase.secondstep.returnReviewPhrase": "Review backup phrase",
   "modals.recoveryphrase.secondstep.tip": "Write it down",
   "modals.recoveryphrase.secondstep.title": "Backup recovery phrase",
   "modals.recoveryphrase.thirdstep.back": "Back",
@@ -1110,11 +1157,11 @@
     "It looks like you tried to verify your identity but never finished.",
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio":
     "You're almost there! The uploaded information is being reviewed. This should just take a few minutes.",
+  "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification":
+    "Complete Verification",
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": "Refresh Status",
   "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": "Try Again",
   "scenes.buysell.sfoxcheckout.content.jumio.buylimit": "Buy Limit: {buyLimit}",
-  "scenes.buysell.sfoxcheckout.content.jumio.profile":
-    "Your purchases will be available in your Blockchain wallet in {buyProcessingTime} days. Your sell trades will take {sellProcessingTime} days to process into your bank account.",
   "scenes.buysell.sfoxcheckout.content.jumio.selllimit":
     "Sell Limit: {sellLimit}",
   "scenes.buysell.sfoxcheckout.content.jumio.title.completed":
@@ -1717,6 +1764,13 @@
     "It is NOT a bitcoin address for sending or receiving.",
   "scenes.info.walletid.title": "Wallet ID",
   "scenes.info.walletid.warning": "Do not share your Wallet ID with others.",
+  "scenes.lockbox.welcome.addanotherdevice": "Add Another Device",
+  "scenes.lockbox.welcome.deletedevice": "Delete Device",
+  "scenes.lockbox.welcome.getstarted": "Get Started",
+  "scenes.lockbox.welcome.setupcarbon": "Setup Carbon",
+  "scenes.lockbox.welcome.subtitle":
+    "Lockbox works with Carbon to give your digital assets an additional layer of security. Unlock your Lockbox by linking your Carbon, or buy one today.",
+  "scenes.lockbox.welcome.title": "Hardware secured digital assets",
   "scenes.login.browserwarning":
     "Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.",
   "scenes.login.clickhere": "click here.",
@@ -1782,21 +1836,6 @@
   "scenes.priceindexseries.timefilters.month": "Month",
   "scenes.priceindexseries.timefilters.week": "Week",
   "scenes.priceindexseries.timefilters.year": "Year",
-  "scenes.profile.identityverification.banner.inreview": "In Review",
-  "scenes.profile.identityverification.banner.underreview": "Under Review",
-  "scenes.profile.identityverification.banner.unverified": "Unverified",
-  "scenes.profile.identityverification.banner.verified": "Verified",
-  "scenes.profile.identityverification.button.getstarted": "Get Started",
-  "scenes.profile.identityverification.buttons.verify": "Verify My Identity",
-  "scenes.profile.identityverification.note.inreview":
-    "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to buy cryptocurrency.\n {note} In some cases it can take up to 2 hours to get verified.",
-  "scenes.profile.identityverification.note.underreview":
-    "We had some trouble verifying your account with the documents provided. Our Support team will contact you shortly to help you with the verification process.",
-  "scenes.profile.identityverification.note.unverified":
-    "Complete our verification process to begin buying and selling cryptocurrency – all within your Blockchain wallet.",
-  "scenes.profile.identityverification.note.verified":
-    "Good news – your account is verified. You can now buy, sell, and exchange cryptocurrency at any time.",
-  "scenes.profile.identityverification.title": "Identity Verification",
   "scenes.recover.firststep.back": "Go Back",
   "scenes.recover.firststep.continue": "Continue",
   "scenes.recover.firststep.explain": "Recover funds from your lost wallet",
