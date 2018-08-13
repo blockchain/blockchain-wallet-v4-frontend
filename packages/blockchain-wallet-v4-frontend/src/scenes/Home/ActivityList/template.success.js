@@ -21,11 +21,6 @@ const Wrapper = styled.div`
   @media (max-height: 800px), (max-width: 992px) {
     height: 300px;
     display: block;
-    overflow: scroll;
-    -ms-overflow-style: none;
-    &::-webkit-scrollbar {
-      width: 0 !important;
-    }
   }
   @media (max-height: 800px) {
     margin-bottom: 30px;
@@ -41,9 +36,9 @@ const Header = styled.div`
 `
 const Content = styled.div`
   width: 100%;
-  height: calc(100% - ${headerHeight});
+  height: calc(100% - ${headerHeight} - 10px);
   overflow-y: auto;
-  padding-top: 10px;
+  margin-top: 10px;
 
   > div:first-child {
     border-left: none;
