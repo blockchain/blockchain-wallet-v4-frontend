@@ -304,7 +304,6 @@
   "components.alerts.pbkdf2_update_success":
     "Iteraciones de PBKDF2 modificadas correctamente",
   "components.alerts.private_key_incorrect": "Clave privada no válida.",
-  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success":
     "Ha recibido un pago de Bitcoin Cash.",
   "components.alerts.receive_btc_success": "Ha recibido un pago de Bitcoin.",
@@ -425,6 +424,17 @@
   "components.form.tabmenutransactionstatus.received": "Recibidas",
   "components.form.tabmenutransactionstatus.sent": "Enviadas",
   "components.form.tabmenutransactionstatus.transferred": "Transferidas",
+  "components.identityverification.popup.button.checkstatus": null,
+  "components.identityverification.popup.button.getstarted": null,
+  "components.identityverification.popup.button.verify": null,
+  "components.identityverification.popup.header.inreview": null,
+  "components.identityverification.popup.header.underreview": null,
+  "components.identityverification.popup.header.unverified": null,
+  "components.identityverification.popup.header.verified": null,
+  "components.identityverification.popup.note.inreview": null,
+  "components.identityverification.popup.note.underreview": null,
+  "components.identityverification.popup.note.unverified": null,
+  "components.identityverification.popup.note.verified": null,
   "components.qrreader.warning":
     "Su navegador no es compatible con cámaras web.",
   "components.selectboxbitcoin.watchonly": "No utilizable",
@@ -477,6 +487,7 @@
   "formhelper.requireduszipcode": "Debe ser un código postal válido",
   "formhelper.requiredzipcode": null,
   "formhelper.samepasswordascurrent": "La contraseña es la misma que la actual",
+  "formhelper.unacceptedterms": null,
   "identityverification.address.address": null,
   "identityverification.address.address2": null,
   "identityverification.address.city": null,
@@ -486,6 +497,7 @@
   "identityverification.address.faq.whycollect.question": null,
   "identityverification.address.header": null,
   "identityverification.address.region": null,
+  "identityverification.address.selectaddress": null,
   "identityverification.address.state": null,
   "identityverification.address.subheader": null,
   "identityverification.address.zipcode": null,
@@ -526,28 +538,9 @@
   "layouts.public.footer.explorer": "Datos",
   "layouts.public.footer.support": "Asistencia",
   "layouts.wallet.header.logout.signout": "Cerrar sesión",
-  "layouts.wallet.header.whatsnew.whatsnew.desc10":
-    "Si tenía Bitcoin en su billetera antes del 1 de agosto de 2017, ya puede acceder a Bitcoin Cash en su billetera de Blockchain.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc11":
-    "Ahora las direcciones Bitcoin Cash siguen el formato CashAddr.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc7":
-    "¡Ya puede vender directamente Bitcoin desde su billetera de Blockchain!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc8":
-    "¡Ya puede enviar y recibir Ether desde su billetera de Blockchain!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc9":
-    "Puede intercambiar Bitcoin, Ether y Bitcoin Cash directamente desde su billetera de Blockchain",
   "layouts.wallet.header.whatsnew.whatsnew.empty": "?? ¡Ya está al día!",
-  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore":
-    "Más información",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Nuestro equipo no para de trabajar en nuevas funciones, pero si hay algo que podamos mejorar, le rogamos que nos lo comunique <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>aquí<a/>.",
-  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Más información",
-  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title11":
-    "Nuevo formato de dirección de Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title7": "Vender Bitcoin",
-  "layouts.wallet.header.whatsnew.whatsnew.title8": "Enviar y Recibir Ether",
-  "layouts.wallet.header.whatsnew.whatsnew.title9": "Intercambio de activos",
   "layouts.wallet.menuleft.footer.about": "Acerca de",
   "layouts.wallet.menuleft.footer.privacypolicy": "Política de privacidad",
   "layouts.wallet.menuleft.footer.termsofservice": "TdS",
@@ -557,13 +550,13 @@
   "layouts.wallet.menuleft.navigation.exchange": "Intercambio",
   "layouts.wallet.menuleft.navigation.general": "General",
   "layouts.wallet.menuleft.navigation.preferences": "Preferencias",
+  "layouts.wallet.menuleft.navigation.profile": null,
   "layouts.wallet.menuleft.navigation.securitycenter": "Centro de seguridad",
   "layouts.wallet.menuleft.navigation.settings": "Configuración",
   "layouts.wallet.menuleft.navigation.transactions": "Transacciones",
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
-  "layouts.wallet.menutop.bank": "Sea su propio banco.",
   "layouts.wallet.menutop.request": "Solicitar",
   "layouts.wallet.menutop.send": "Enviar",
   "layouts.wallet.trayright.faq": "Preguntas frecuentes",
@@ -681,10 +674,6 @@
     "Las direcciones generadas por esta billetera no deben importarse.",
   "modals.importbtcaddress.importtype": "¿Qué desea importar?",
   "modals.importbtcaddress.title": "Importar dirección de Bitcoin existente",
-  "modals.jumioprompt.body1": null,
-  "modals.jumioprompt.close": null,
-  "modals.jumioprompt.dothat": null,
-  "modals.jumioprompt.header": null,
   "modals.mobilelogin.cancel": "Cancelar",
   "modals.mobilelogin.explain":
     "Siga estos pasos para iniciar sesión en su billetera web con un dispositivo móvil",
@@ -1133,9 +1122,6 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
   "scenes.buysell.sfoxcheckout.content.jumio.buylimit": null,
@@ -1830,6 +1816,17 @@
   "scenes.priceindexseries.timefilters.month": "Mes",
   "scenes.priceindexseries.timefilters.week": "Semana",
   "scenes.priceindexseries.timefilters.year": "Año",
+  "scenes.profile.identityverification.banner.inreview": null,
+  "scenes.profile.identityverification.banner.underreview": null,
+  "scenes.profile.identityverification.banner.unverified": null,
+  "scenes.profile.identityverification.banner.verified": null,
+  "scenes.profile.identityverification.button.getstarted": null,
+  "scenes.profile.identityverification.buttons.verify": null,
+  "scenes.profile.identityverification.note.inreview": null,
+  "scenes.profile.identityverification.note.underreview": null,
+  "scenes.profile.identityverification.note.unverified": null,
+  "scenes.profile.identityverification.note.verified": null,
+  "scenes.profile.identityverification.title": null,
   "scenes.recover.firststep.back": "Volver",
   "scenes.recover.firststep.continue": "Continuar",
   "scenes.recover.firststep.explain":
@@ -1965,8 +1962,6 @@
     "Hemos enviado un código de verificación a",
   "scenes.security.email.yourverifiedemailaddress":
     "Su dirección de correo electrónico verificada se utiliza para enviarle códigos de inicio de sesión cuando se detecta actividad sospechosa o inusual, para recordarle su ID de inicio de sesión en su billetera y para enviarle avisos de pago de Bitcoin cuando reciba fondos.",
-  "scenes.security.passwordhint.notstored": null,
-  "scenes.security.passwordhint.stored": null,
   "scenes.security.tor.allowed": "Permitido",
   "scenes.security.tor.blocked": "Bloqueado",
   "scenes.security.twostepsetup.sms": "Utilizar códigos enviados por SMS",
@@ -2140,9 +2135,6 @@
   "scenes.securitysettings.apiaccess.description2": "para empezar.",
   "scenes.securitysettings.apiaccess.getstarted": "aquí",
   "scenes.securitysettings.apiaccess.title": "Acceso API",
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.change": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.save": null,
   "scenes.securitysettings.basicsecurity.recoveryphrase.description":
     "Su frase de recuperación contiene todas las claves privadas de su billetera. Por favor, anote en orden estas 12 palabras. Guarde la frase en un sitio seguro. No la almacene en un dispositivo conectado a internet. Con esta frase, usted (o a cualquiera que la tenga) puede recuperar su billetera y acceder a sus fondos. ",
   "scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase":
@@ -2339,9 +2331,6 @@
   "scenes.settings.manage_addresses.make_default":
     "Establecer como predeterminada",
   "scenes.settings.manage_addresses.show_xpub": "Mostrar xPub",
-  "scenes.settings.passwordhint.description1": null,
-  "scenes.settings.passwordhint.description2": null,
-  "scenes.settings.passwordhint.title": null,
   "scenes.settings.preferences.autologout.updateform.minutes": null,
   "scenes.settings.preferences.bitcoinlinkhandling.description":
     "Habilite esta opción para permitir que su billetera de Blockchain gestione enlaces de pago de Bitcoin en el navegador web.",
@@ -2354,8 +2343,6 @@
     "No podemos detectar si la gestión de enlaces de Bitcoin está habilitada.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Si ya está habilitada, no ocurrirá nada.",
-  "scenes.settings.preferences.explain":
-    "Personalice su experiencia de billetera.",
   "scenes.settings.preferences.localcurrency.error.description":
     "Seleccione su moneda local.",
   "scenes.settings.preferences.localcurrency.error.title": "Moneda local",
@@ -2687,7 +2674,6 @@
   "sfoxexchangedata.verify.hidessn": "Ocultar NSS",
   "sfoxexchangedata.verify.identity.error":
     "Lamentablemente, ha ocurrido un problema al verificar su identidad. {clickHere} para empezar de nuevo.",
-  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Apellidos",
   "sfoxexchangedata.verify.partner.header": "Los datos ocultos",
   "sfoxexchangedata.verify.partner.header1": "Déjenos conocerle",
