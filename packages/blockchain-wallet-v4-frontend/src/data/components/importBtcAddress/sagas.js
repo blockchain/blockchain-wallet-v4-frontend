@@ -25,7 +25,7 @@ export default ({ api, coreSagas, networks }) => {
     }
 
     // address handling (watch-only)
-    if (value && utils.bitcoin.isValidBitcoinAddress(value)) {
+    if (value && utils.bitcoin.isValidBitcoinAddress(value, networks.btc)) {
       const address = value
       yield call(importLegacyAddress, address, null, null, null, null)
     }
