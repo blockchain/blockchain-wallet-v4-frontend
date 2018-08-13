@@ -1084,6 +1084,7 @@
   "scenes.buysell.orderhistory.list.date": "Date",
   "scenes.buysell.orderhistory.list.exchanged": "Exchanged",
   "scenes.buysell.orderhistory.list.received": "Received",
+  "scenes.buysell.orderhistory.list.tobereceived": "To Be Received",
   "scenes.buysell.orderhistory.list.status": "Status",
   "scenes.buysell.orderhistory.recurring.cancelorder": "Cancel Recurring Order",
   "scenes.buysell.orderhistory.recurring.date": "Date",

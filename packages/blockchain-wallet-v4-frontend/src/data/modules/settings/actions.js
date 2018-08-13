@@ -26,6 +26,10 @@ export const updateMobile = mobile => ({
   type: AT.UPDATE_MOBILE,
   payload: { mobile }
 })
+export const resendMobile = mobile => ({
+  type: AT.RESEND_MOBILE,
+  payload: { mobile }
+})
 export const verifyMobileFailure = () => ({ type: AT.VERIFY_MOBILE_FAILURE })
 export const clearMobileFailure = () => ({ type: AT.CLEAR_MOBILE_FAILURE })
 
