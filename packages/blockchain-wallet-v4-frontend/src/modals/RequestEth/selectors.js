@@ -8,7 +8,7 @@ const extractAddress = addr => prop('addr', head(addr))
 export const getData = state => {
   const to = formValueSelector('requestEther')(state, 'to')
   return (
-    Remote.of(prop('address', to)) ||
+    (to && Remote.of(prop('address', to))) ||
     selectors.core.kvStore.ethereum.getAccounts(state).map(extractAddress)
   )
 }
