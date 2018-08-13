@@ -448,6 +448,7 @@
   "formhelper.ageovereighteen": "Skal være 18 eller ældre",
   "formhelper.incorrectpassword": "Forkert adgangskode",
   "formhelper.invalidbitcoinaddress": "Ugyldig bitcoin-adresse",
+  "formhelper.invalidbitcoinaddressandkey": null,
   "formhelper.invalidbitcoincashaddress": "Ugyldig bitcoin cash-adresse",
   "formhelper.invalidbitcoinprivatekey": "Ugyldig bitcoin privat nøgle",
   "formhelper.invalidemail": "Ugyldig e-mailadresse",
@@ -474,7 +475,6 @@
   "formhelper.requiredzipcode": null,
   "formhelper.samepasswordascurrent":
     "Adgangskoden er den samme som den nuværende",
-  "formhelper.unacceptedterms": null,
   "identityverification.address.address": null,
   "identityverification.address.address2": null,
   "identityverification.address.city": null,

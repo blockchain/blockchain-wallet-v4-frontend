@@ -446,6 +446,7 @@
   "formhelper.ageovereighteen": "Возраст должен быть не менее 18 лет",
   "formhelper.incorrectpassword": "Неправильный пароль",
   "formhelper.invalidbitcoinaddress": "Недействительный адрес Bitcoin",
+  "formhelper.invalidbitcoinaddressandkey": null,
   "formhelper.invalidbitcoincashaddress": "Недействительный адрес Bitcoin Сash",
   "formhelper.invalidbitcoinprivatekey":
     "Недействительный закрытый ключ Bitcoin",
@@ -474,7 +475,6 @@
     "Необходим действительный почтовый индекс США",
   "formhelper.requiredzipcode": null,
   "formhelper.samepasswordascurrent": "Пароль такой же, как и нынешний",
-  "formhelper.unacceptedterms": null,
   "identityverification.address.address": null,
   "identityverification.address.address2": null,
   "identityverification.address.city": null,
