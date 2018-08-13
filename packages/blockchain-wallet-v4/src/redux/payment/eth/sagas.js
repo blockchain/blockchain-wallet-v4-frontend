@@ -12,6 +12,7 @@ import {
   isValidAddress,
   convertGweiToWei
 } from '../../../utils/eth'
+import { TO } from '../btc/utils'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -38,6 +39,13 @@ export default ({ api }) => {
       case 'LEGACY':
         return 1
     }
+  }
+  const calculateTo = destination => {
+    if (!destination.type) {
+      return { address: destination, type: TO.ADDRESS }
+    }
+
+    return destination
   }
   // ///////////////////////////////////////////////////////////////////////////
   function create ({ network, payment } = { network: undefined, payment: {} }) {
@@ -85,12 +93,13 @@ export default ({ api }) => {
       },
 
       *to (destination) {
-        if (!EthUtil.isValidAddress(destination)) {
+        let to = calculateTo(destination)
+        if (!EthUtil.isValidAddress(to.address)) {
           throw new Error('Invalid address')
         }
-        const isContract = yield call(api.checkContract, destination)
+        const isContract = yield call(api.checkContract, to.address)
         return makePayment(
-          merge(p, { to: destination, isContract: isContract.contract })
+          merge(p, { to: to, isContract: isContract.contract })
         )
       },
 
@@ -123,7 +132,7 @@ export default ({ api }) => {
       *build () {
         const from = prop('from', p)
         const index = yield call(selectIndex, from)
-        const to = prop('to', p)
+        const to = path(['to', 'address'], p)
         const amount = prop('amount', p)
         const gasPrice = convertGweiToWei(path(['fees', 'regular'], p))
         const gasLimit = path(['fees', 'gasLimit'], p)
