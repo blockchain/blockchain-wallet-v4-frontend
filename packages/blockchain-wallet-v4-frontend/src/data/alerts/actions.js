@@ -5,17 +5,19 @@ const generateId = () =>
     .toString(36)
     .substr(2, 10)
 
-const display = (nature, message, data) => ({
+const display = (nature, message, data, persist) => ({
   type: ALERTS_SHOW,
-  payload: { id: generateId(), nature, message, data }
+  payload: { id: generateId(), nature, message, data, persist }
 })
 
-export const displayInfo = (message, data) => display('info', message, data)
+export const displayInfo = (message, data, persist) =>
+  display('info', message, data, persist)
 
-export const displaySuccess = (message, data) =>
-  display('success', message, data)
+export const displaySuccess = (message, data, persist) =>
+  display('success', message, data, persist)
 
-export const displayError = (message, data) => display('error', message, data)
+export const displayError = (message, data, persist) =>
+  display('error', message, data, persist)
 
 export const clearAlerts = () => ({ type: ALERTS_CLEAR })
 
