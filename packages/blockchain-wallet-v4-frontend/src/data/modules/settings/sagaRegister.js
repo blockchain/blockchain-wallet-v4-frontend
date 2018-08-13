@@ -17,6 +17,7 @@ export default ({ coreSagas }) => {
       settingsSagas.showGoogleAuthenticatorSecretUrl
     )
     yield takeLatest(AT.UPDATE_MOBILE, settingsSagas.updateMobile)
+    yield takeLatest(AT.RESEND_MOBILE, settingsSagas.resendMobile)
     yield takeLatest(AT.VERIFY_MOBILE, settingsSagas.verifyMobile)
     yield takeLatest(AT.UPDATE_LANGUAGE, settingsSagas.updateLanguage)
     yield takeLatest(AT.UPDATE_CURRENCY, settingsSagas.updateCurrency)
