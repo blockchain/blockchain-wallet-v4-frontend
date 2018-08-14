@@ -26,6 +26,7 @@ const getErrorState = ({ touched, invalid }) => {
 const TextBox = field => {
   const {
     autoComplete,
+    className,
     meta,
     input,
     disabled,
@@ -39,7 +40,7 @@ const TextBox = field => {
   const errorState = getErrorState(meta)
 
   return (
-    <Container>
+    <Container className={className}>
       <TextInput
         {...input}
         autoComplete={autoComplete}

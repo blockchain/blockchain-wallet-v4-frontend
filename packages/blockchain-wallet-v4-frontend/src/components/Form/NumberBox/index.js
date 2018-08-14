@@ -27,7 +27,7 @@ const NumberBox = field => {
   const errorState = getErrorState(field.meta)
 
   return (
-    <Container>
+    <Container className={field.className}>
       <NumberInput
         {...field.input}
         errorState={errorState}

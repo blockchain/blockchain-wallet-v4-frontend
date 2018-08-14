@@ -207,8 +207,21 @@ describe('IdentityVerification Modal', () => {
       it('should enable continue if all fields are filled', () => {
         wrapper
           .find('Field[name="dob"]')
-          .find('input')
-          .simulate('change', { target: { value: '11/11/1999' } })
+          .find('input[name="date"]')
+          .simulate('change', {
+            target: { value: `11` }
+          })
+        wrapper
+          .find('Field[name="dob"]')
+          .find('SelectBox')
+          .prop('input')
+          .onChange('11')
+        wrapper
+          .find('Field[name="dob"]')
+          .find('input[name="year"]')
+          .simulate('change', {
+            target: { value: '1999' }
+          })
         wrapper
           .find('Field[name="lastName"]')
           .find('input')
@@ -227,9 +240,19 @@ describe('IdentityVerification Modal', () => {
       it('should validate age to be over 18', () => {
         wrapper
           .find('Field[name="dob"]')
-          .find('input')
+          .find('input[name="date"]')
           .simulate('change', {
-            target: { value: `11/11/${new Date().getFullYear() - 17}` }
+            target: { value: `11` }
+          })
+        wrapper
+          .find('Field[name="dob"]')
+          .find('SelectInputContainer')
+          .prop('onChange')('11')
+        wrapper
+          .find('Field[name="dob"]')
+          .find('input[name="year"]')
+          .simulate('change', {
+            target: { value: new Date().getFullYear() - 17 }
           })
         wrapper
           .find('Field[name="lastName"]')

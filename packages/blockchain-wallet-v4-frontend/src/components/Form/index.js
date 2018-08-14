@@ -4,6 +4,7 @@ import CodeInputBoxes from './CodeInputBoxes'
 import CountdownTimer from './CountdownTimer'
 import DateBox from './DateBox'
 import DateBoxDebounced from './DateBoxDebounced'
+import DateInputBox from './DateInputBox'
 import FaqMessage from './FaqMessage'
 import FiatConvertor from './FiatConvertor'
 import FooterShadowWrapper from './FooterShadowWrapper'
@@ -42,6 +43,7 @@ export {
   CountdownTimer,
   DateBox,
   DateBoxDebounced,
+  DateInputBox,
   FaqMessage,
   FiatConvertor,
   FooterShadowWrapper,

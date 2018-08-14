@@ -78,6 +78,9 @@ class SelectInputContainer extends React.PureComponent {
   }
 
   handleClickOutside () {
+    if (this.props.onBlur) {
+      this.props.onBlur()
+    }
     this.setState({ expanded: false, search: '' })
   }
 

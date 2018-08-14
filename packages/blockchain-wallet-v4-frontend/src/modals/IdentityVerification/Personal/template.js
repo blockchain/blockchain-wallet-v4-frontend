@@ -3,14 +3,8 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
-import moment from 'moment'
 
-import {
-  required,
-  requiredDOB,
-  ageOverEighteen,
-  normalizeDateOfBirth
-} from 'services/FormHelper'
+import { required, requiredDOB, ageOverEighteen } from 'services/FormHelper'
 import { PERSONAL_FORM } from 'data/components/identityVerification/model'
 import media from 'services/ResponsiveService'
 import { spacing } from 'services/StyleService'
@@ -27,7 +21,7 @@ import {
   FormItem,
   TextBox,
   PhoneNumberBox,
-  DateBoxDebounced,
+  DateInputBox,
   FaqMessage,
   FooterShadowWrapper
 } from 'components/Form'
@@ -116,9 +110,16 @@ const TermsText = styled(Text)`
   font-size: 12px;
 `
 
-const DOBFormat = 'MM/DD/YYYY'
-const momentToDOB = value => value && value.format(DOBFormat)
-const DOBToMoment = value => moment(value, DOBFormat)
+const objectToDOB = ({ date = '', month = '', year = '' }) =>
+  `${month}/${date}/${year}`
+const DOBToObject = (value = '') => {
+  const [month = '', date = '', year = ''] = value.split('/')
+  return {
+    date,
+    month,
+    year
+  }
+}
 
 const Personal = ({
   invalid,
@@ -129,7 +130,6 @@ const Personal = ({
   countryCode,
   emailVerified,
   smsVerified,
-  editEmail,
   editSms,
   activeField,
   setActiveField
@@ -190,11 +190,10 @@ const Personal = ({
                 <Field
                   name='dob'
                   validate={[requiredDOB, ageOverEighteen]}
-                  component={DateBoxDebounced}
+                  component={DateInputBox}
                   fullwidth={true}
-                  parse={momentToDOB}
-                  format={DOBToMoment}
-                  normalize={normalizeDateOfBirth}
+                  parse={objectToDOB}
+                  format={DOBToObject}
                   onFocus={setActiveField.bind(null, 'dob')}
                   onBlur={setActiveField.bind(null, null)}
                 />
