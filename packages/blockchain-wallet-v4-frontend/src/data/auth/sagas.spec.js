@@ -140,14 +140,24 @@ describe('authSagas', () => {
           const message = 'error'
           saga
             .throw(JSON.stringify({ authorization_required: message }))
-            .put(actions.alerts.displayInfo(C.AUTHORIZATION_REQUIRED_INFO))
+            .put(
+              actions.alerts.displayInfo(
+                C.AUTHORIZATION_REQUIRED_INFO,
+                undefined,
+                true
+              )
+            )
         })
 
         it('should poll for session', () => {
           saga
-            .next()
+            .next({ payload: { id: 'id' } })
             .call(pollingSession, sessionIdStub)
             .save(beforeAuth)
+        })
+
+        it('should dismiss auth required alert', () => {
+          saga.next().put(actions.alerts.dismissAlert('id'))
         })
 
         it('should show session error if not authorized', () => {
@@ -160,10 +170,12 @@ describe('authSagas', () => {
 
         describe('authorized flow', () => {
           const before2FAError = 'before2FAError'
+
           it('should fetch wallet', () => {
             saga
               .restore(beforeAuth)
               .next(true)
+              .next()
               .call(coreSagas.wallet.fetchWalletSaga, {
                 guid,
                 password,
@@ -171,12 +183,12 @@ describe('authSagas', () => {
               })
           })
 
-          it('should call logine routine', () => {
+          it('should call login routine', () => {
             const { mobileLogin } = payload
             saga.next().call(loginRoutineSaga, mobileLogin)
           })
 
-          it('should follow 2FA low on auth error', () => {
+          it('should follow 2FA flow on auth error', () => {
             const authType = 1
             saga
               .save(before2FAError)

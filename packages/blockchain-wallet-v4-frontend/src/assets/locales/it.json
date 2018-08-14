@@ -309,7 +309,6 @@
   "components.alerts.pbkdf2_update_success":
     "Iterazioni PBKDF2 modificate correttamente",
   "components.alerts.private_key_incorrect": "Chiave privata non valida.",
-  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success":
     "Ha appena ricevuto un pagamento bitcoin cash.",
   "components.alerts.receive_btc_success":
@@ -432,6 +431,17 @@
   "components.form.tabmenutransactionstatus.received": "Ricevuto",
   "components.form.tabmenutransactionstatus.sent": "Inviato",
   "components.form.tabmenutransactionstatus.transferred": "Trasferito",
+  "components.identityverification.popup.button.checkstatus": null,
+  "components.identityverification.popup.button.getstarted": null,
+  "components.identityverification.popup.button.verify": null,
+  "components.identityverification.popup.header.inreview": null,
+  "components.identityverification.popup.header.underreview": null,
+  "components.identityverification.popup.header.unverified": null,
+  "components.identityverification.popup.header.verified": null,
+  "components.identityverification.popup.note.inreview": null,
+  "components.identityverification.popup.note.underreview": null,
+  "components.identityverification.popup.note.unverified": null,
+  "components.identityverification.popup.note.verified": null,
   "components.qrreader.warning": "Il suo browser non supporta la webcam.",
   "components.selectboxbitcoin.watchonly": "Non spendibile",
   "components.selectboxcountry.label": "Selezioni la nazione",
@@ -458,6 +468,7 @@
   "formhelper.ageovereighteen": "Deve avere almeno 18 anni",
   "formhelper.incorrectpassword": "Password non corretta",
   "formhelper.invalidbitcoinaddress": "Indirizzo Bitcoin non valido",
+  "formhelper.invalidbitcoinaddressandkey": null,
   "formhelper.invalidbitcoincashaddress":
     "Indirizzo Bitcoin in contanti non valido",
   "formhelper.invalidbitcoinprivatekey": "Chiave privata bitcoin non valida",
@@ -494,6 +505,7 @@
   "identityverification.address.faq.whycollect.question": null,
   "identityverification.address.header": null,
   "identityverification.address.region": null,
+  "identityverification.address.selectaddress": null,
   "identityverification.address.state": null,
   "identityverification.address.subheader": null,
   "identityverification.address.zipcode": null,
@@ -534,27 +546,9 @@
   "layouts.public.footer.explorer": "Dati",
   "layouts.public.footer.support": "Assistenza",
   "layouts.wallet.header.logout.signout": "Esca",
-  "layouts.wallet.header.whatsnew.whatsnew.desc10":
-    "Se, prima del 1° agosto 2017, possedeva bitcoin nel suo portafoglio, adesso può accedere a Bitcoin Cash nel suo portafogli Blockchain.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc11":
-    "Gli indirizzi Bitcoin Cash ora seguono i formati CashAddr.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc7":
-    "Adesso può vendere bitcoin direttamente dal suo portafoglio Blockchain!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc8":
-    "Adesso può inviare e ricevere ether dal suo portafoglio Blockchain!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc9":
-    "Può cambiare tra loro bitcoin, ether e bitcoin cash direttamente dal suo portafoglio Blockchain",
   "layouts.wallet.header.whatsnew.whatsnew.empty": "?? Ne è rimasto catturato!",
-  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore": "Scopra di più",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Il nostro team è sempre al lavoro su nuove funzioni, se c'è qualcosa che possiamo migliorare scriva <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>here<a/> per farcelo sapere.",
-  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Scopra di più",
-  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title11":
-    "Nuovo formato di indirizzi per Bitcoin Cash ",
-  "layouts.wallet.header.whatsnew.whatsnew.title7": "Venda bitcoin",
-  "layouts.wallet.header.whatsnew.whatsnew.title8": "Invii e riceva Ether",
-  "layouts.wallet.header.whatsnew.whatsnew.title9": "Cambi le risorse",
   "layouts.wallet.menuleft.footer.about": "Informazioni",
   "layouts.wallet.menuleft.footer.privacypolicy": "Informativa sulla privacy",
   "layouts.wallet.menuleft.footer.termsofservice": "TdS",
@@ -564,13 +558,13 @@
   "layouts.wallet.menuleft.navigation.exchange": "Cambio",
   "layouts.wallet.menuleft.navigation.general": "Generale",
   "layouts.wallet.menuleft.navigation.preferences": "Preferenze",
+  "layouts.wallet.menuleft.navigation.profile": null,
   "layouts.wallet.menuleft.navigation.securitycenter": "Centro di sicurezza",
   "layouts.wallet.menuleft.navigation.settings": "Impostazioni",
   "layouts.wallet.menuleft.navigation.transactions": "Transazioni",
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
-  "layouts.wallet.menutop.bank": "Diventi la sua banca personale.",
   "layouts.wallet.menutop.request": "Richiedi",
   "layouts.wallet.menutop.send": "Invii",
   "layouts.wallet.trayright.faq": "Domande fatte frequentemente",
@@ -688,10 +682,6 @@
     "Gli indirizzi generati da questo portafogli non possono essere importati.",
   "modals.importbtcaddress.importtype": "Che cosa vuole importare?",
   "modals.importbtcaddress.title": "Importi indirizzi bitcoin esistenti",
-  "modals.jumioprompt.body1": null,
-  "modals.jumioprompt.close": null,
-  "modals.jumioprompt.dothat": null,
-  "modals.jumioprompt.header": null,
   "modals.mobilelogin.cancel": "Annulli",
   "modals.mobilelogin.explain":
     "Segua questi passi per accedere al suo portafogli web tramite il suo dispositivo mobile",
@@ -1138,9 +1128,6 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
   "scenes.buysell.sfoxcheckout.content.jumio.buylimit": null,
@@ -1835,6 +1822,17 @@
   "scenes.priceindexseries.timefilters.month": "Mese",
   "scenes.priceindexseries.timefilters.week": "Settimana",
   "scenes.priceindexseries.timefilters.year": "Anno",
+  "scenes.profile.identityverification.banner.inreview": null,
+  "scenes.profile.identityverification.banner.underreview": null,
+  "scenes.profile.identityverification.banner.unverified": null,
+  "scenes.profile.identityverification.banner.verified": null,
+  "scenes.profile.identityverification.button.getstarted": null,
+  "scenes.profile.identityverification.buttons.verify": null,
+  "scenes.profile.identityverification.note.inreview": null,
+  "scenes.profile.identityverification.note.underreview": null,
+  "scenes.profile.identityverification.note.unverified": null,
+  "scenes.profile.identityverification.note.verified": null,
+  "scenes.profile.identityverification.title": null,
   "scenes.recover.firststep.back": "Torni indietro",
   "scenes.recover.firststep.continue": "Continui",
   "scenes.recover.firststep.explain":
@@ -1967,8 +1965,6 @@
     "Abbiamo inviato il codice di verifica a ",
   "scenes.security.email.yourverifiedemailaddress":
     "Il suo indirizzo email verificato viene utilizzato per inviare codici di accesso quando viene rilevata un'attività sospetta o insolita, per ricordarle il suo ID di accesso al portafoglio e per inviare avvisi di pagamento quando riceve fondi.",
-  "scenes.security.passwordhint.notstored": null,
-  "scenes.security.passwordhint.stored": null,
   "scenes.security.tor.allowed": "Autorizzato",
   "scenes.security.tor.blocked": "Bloccato",
   "scenes.security.twostepsetup.sms": "Usi i codici inviati tramite SMS",
@@ -2138,9 +2134,6 @@
   "scenes.securitysettings.apiaccess.description2": "per cominciare.",
   "scenes.securitysettings.apiaccess.getstarted": "qui",
   "scenes.securitysettings.apiaccess.title": "Accesso API",
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.change": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.save": null,
   "scenes.securitysettings.basicsecurity.recoveryphrase.description":
     "La frase di backup contiene tutte le chiavi private nel portafoglio. Si prega di annotare queste 12 parole, in ordine, e tenerle in un posto sicuro offline. Questa frase offre a lei (o a chiunque la abbia) un modo per ripristinare il suo portafoglio e accedere ai suoi fondi. ",
   "scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase":
@@ -2336,9 +2329,6 @@
   "scenes.settings.manage_addresses.edit_name": "Modifichi il nome",
   "scenes.settings.manage_addresses.make_default": "Renda predefinito",
   "scenes.settings.manage_addresses.show_xpub": "Mostrare xPub",
-  "scenes.settings.passwordhint.description1": null,
-  "scenes.settings.passwordhint.description2": null,
-  "scenes.settings.passwordhint.title": null,
   "scenes.settings.preferences.autologout.updateform.minutes": null,
   "scenes.settings.preferences.bitcoinlinkhandling.description":
     "Abiliti questa funzione per consentire al suo Portafoglio Blockchain di gestire i collegamenti del pagamento in bitcoin nel suo browser web.",
@@ -2351,8 +2341,6 @@
     "Non riusciamo a rilevare se i collegamenti bitcoin siano stati abilitati.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Se sono già stati abilitati, non succederà nulla.",
-  "scenes.settings.preferences.explain":
-    "Personalizzi la sua esperienza di titolare di un portafoglio.",
   "scenes.settings.preferences.localcurrency.error.description":
     "Selezioni la sua valuta locale.",
   "scenes.settings.preferences.localcurrency.error.title": "Valuta locale",
@@ -2678,7 +2666,6 @@
   "sfoxexchangedata.verify.hidessn": "Nascondi SSN",
   "sfoxexchangedata.verify.identity.error":
     "Sfortunatamente, c'è stato un problema nel verificare la sua identità. {clickHere} per ricominciare.",
-  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Cognome",
   "sfoxexchangedata.verify.partner.header": "I dettagli nascosti",
   "sfoxexchangedata.verify.partner.header1": "Impariamo a conoscerla",

@@ -1,7 +1,7 @@
 import { compose, path } from 'ramda'
-import { selectors } from 'data'
-import { STEPS } from 'data/components/identityVerification/model'
-import { USER_ACTIVATION_STATES, KYC_STATES } from 'data/modules/profile/model'
+import { selectors, model } from 'data'
+const { STEPS } = model.components.identityVerification
+const { USER_ACTIVATION_STATES, KYC_STATES } = model.profile
 
 const deriveStep = ({ activationState, kycState }) => {
   if (activationState === USER_ACTIVATION_STATES.NONE) return STEPS.personal

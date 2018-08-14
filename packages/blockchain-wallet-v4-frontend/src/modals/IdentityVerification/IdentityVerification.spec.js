@@ -4,8 +4,7 @@ import { mount } from 'enzyme'
 import { combineReducers } from 'redux'
 import { last } from 'ramda'
 
-import { actions, actionTypes } from 'data'
-import { MODAL_NAME } from 'data/components/identityVerification/model'
+import { actions, actionTypes, model } from 'data'
 import { coreReducers, paths, coreSagasFactory } from 'blockchain-wallet-v4/src'
 import identityVerificationReducer from 'data/components/identityVerification/reducers'
 import modalsReducer from 'data/modals/reducers'
@@ -21,6 +20,8 @@ import EditEmail from './Personal/EditEmail'
 import EditSmsNumber from './Personal/EditSmsNumber'
 import Tray from 'components/Tray'
 import { ModalHeader } from 'blockchain-info-components'
+
+const { MODAL_NAME } = model.components.identityVerification
 
 const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 

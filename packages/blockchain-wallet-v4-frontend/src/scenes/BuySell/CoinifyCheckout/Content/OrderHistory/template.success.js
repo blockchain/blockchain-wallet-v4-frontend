@@ -78,6 +78,7 @@ const OrderHistory = props => {
             </Text>
             <OrderHistoryTable
               trades={pendingTrades}
+              pending
               conversion={conversion}
               handleFinishTrade={trade => finishTrade(trade)}
               handleDetailsClick={trade =>

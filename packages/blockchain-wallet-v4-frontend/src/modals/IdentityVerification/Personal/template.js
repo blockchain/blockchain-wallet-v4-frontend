@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { required, requiredDOB, ageOverEighteen } from 'services/FormHelper'
-import { PERSONAL_FORM } from 'data/components/identityVerification/model'
+import { model } from 'data'
 import media from 'services/ResponsiveService'
 import { spacing } from 'services/StyleService'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
@@ -109,7 +109,7 @@ const TermsText = styled(Text)`
   font-weight: 300px;
   font-size: 12px;
 `
-
+const { PERSONAL_FORM } = model.components.identityVerification
 const objectToDOB = ({ date = '', month = '', year = '' }) =>
   `${month}/${date}/${year}`
 const DOBToObject = (value = '') => {
