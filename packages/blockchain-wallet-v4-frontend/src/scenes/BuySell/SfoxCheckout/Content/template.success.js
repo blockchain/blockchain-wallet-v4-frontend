@@ -267,6 +267,7 @@ const Success = props => {
             </Text>
             <OrderHistoryTable
               trades={filter(isPending, trades)}
+              pending
               conversion={conversion}
               handleDetailsClick={trade =>
                 showModal('SfoxTradeDetails', { trade })
