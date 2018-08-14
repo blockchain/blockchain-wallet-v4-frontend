@@ -670,23 +670,29 @@
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/@emotion/utils/-/utils-0.7.1.tgz#e44e596d03c9f16ba3b127ad333a8a072bcb5a0a"
 
-"@ledgerhq/hw-app-btc@^4.20.0":
-  version "4.20.0"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-app-btc/-/hw-app-btc-4.20.0.tgz#116f841932c199c3a286563831154207a5aa656f"
+"@ledgerhq/hw-app-btc@^4.21.0":
+  version "4.21.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-app-btc/-/hw-app-btc-4.21.0.tgz#4f94571bb3d63cd785e31a7e1f77ce597c344516"
   dependencies:
-    "@ledgerhq/hw-transport" "^4.19.0"
+    "@ledgerhq/hw-transport" "^4.21.0"
     create-hash "^1.1.3"
 
-"@ledgerhq/hw-transport-u2f@^4.20.0":
-  version "4.20.0"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport-u2f/-/hw-transport-u2f-4.20.0.tgz#4118ace4dce55e0630db6c69972d8a88c87ed674"
+"@ledgerhq/hw-app-eth@^4.21.0":
+  version "4.21.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-app-eth/-/hw-app-eth-4.21.0.tgz#2d8bfbe5f09b92e8d6951ae685036d9d5aea96ff"
   dependencies:
-    "@ledgerhq/hw-transport" "^4.19.0"
+    "@ledgerhq/hw-transport" "^4.21.0"
+
+"@ledgerhq/hw-transport-u2f@^4.13.0":
+  version "4.21.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport-u2f/-/hw-transport-u2f-4.21.0.tgz#85695d7e853a5c21af7e7dcb0ce3919f2b65cdd9"
+  dependencies:
+    "@ledgerhq/hw-transport" "^4.21.0"
     u2f-api "0.2.7"
 
-"@ledgerhq/hw-transport@^4.19.0":
-  version "4.19.0"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport/-/hw-transport-4.19.0.tgz#19a804aee1bfc4abac1dc9a2a7a582e79273f991"
+"@ledgerhq/hw-transport@^4.21.0":
+  version "4.21.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport/-/hw-transport-4.21.0.tgz#50f85cfe115ba3f9d5bf94755c701e927175794f"
   dependencies:
     events "^2.0.0"
 
@@ -2977,7 +2983,7 @@ bip21@2.0.2:
 
 bip32@1.0.2:
   version "1.0.2"
-  resolved "https://registry.npmjs.org/bip32/-/bip32-1.0.2.tgz#982e2ad2cae6fc6a2f53dda3e6c3be9364674b28"
+  resolved "https://registry.yarnpkg.com/bip32/-/bip32-1.0.2.tgz#982e2ad2cae6fc6a2f53dda3e6c3be9364674b28"
   dependencies:
     bs58check "^2.1.1"
     create-hash "^1.2.0"
@@ -3325,7 +3331,7 @@ bs58check@^1.0.8:
 
 bs58check@^2.1.1:
   version "2.1.2"
-  resolved "https://registry.npmjs.org/bs58check/-/bs58check-2.1.2.tgz#53b018291228d82a5aa08e7d796fdafda54aebfc"
+  resolved "https://registry.yarnpkg.com/bs58check/-/bs58check-2.1.2.tgz#53b018291228d82a5aa08e7d796fdafda54aebfc"
   dependencies:
     bs58 "^4.0.0"
     create-hash "^1.1.0"
@@ -4800,9 +4806,21 @@ elegant-spinner@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/elegant-spinner/-/elegant-spinner-1.0.1.tgz#db043521c95d7e303fd8f345bedc3349cfb0729e"
 
-elliptic@^6.0.0, elliptic@^6.2.3, elliptic@^6.4.0:
+elliptic@^6.0.0, elliptic@^6.2.3:
   version "6.4.0"
   resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.4.0.tgz#cac9af8762c85836187003c8dfe193e5e2eae5df"
+  dependencies:
+    bn.js "^4.4.0"
+    brorand "^1.0.1"
+    hash.js "^1.0.0"
+    hmac-drbg "^1.0.0"
+    inherits "^2.0.1"
+    minimalistic-assert "^1.0.0"
+    minimalistic-crypto-utils "^1.0.0"
+
+elliptic@^6.4.0:
+  version "6.4.1"
+  resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.4.1.tgz#c2d0b7776911b86722c632c3c06c60f2f819939a"
   dependencies:
     bn.js "^4.4.0"
     brorand "^1.0.1"
@@ -11969,7 +11987,7 @@ timers-browserify@^2.0.4:
 
 tiny-secp256k1@^1.0.0:
   version "1.0.0"
-  resolved "https://registry.npmjs.org/tiny-secp256k1/-/tiny-secp256k1-1.0.0.tgz#4a7fc0e83617058ce70f5e7926788d93ebcaf854"
+  resolved "https://registry.yarnpkg.com/tiny-secp256k1/-/tiny-secp256k1-1.0.0.tgz#4a7fc0e83617058ce70f5e7926788d93ebcaf854"
   dependencies:
     bindings "^1.3.0"
     bn.js "^4.11.8"

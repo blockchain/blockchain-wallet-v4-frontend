@@ -2,6 +2,7 @@ import { call, put, take, select } from 'redux-saga/effects'
 import { eventChannel, END } from 'redux-saga'
 import { contains, keysIn } from 'ramda'
 import Btc from '@ledgerhq/hw-app-btc'
+import Eth from '@ledgerhq/hw-app-eth'
 import Transport from '@ledgerhq/hw-transport-u2f'
 
 import { actions, selectors } from 'data'
@@ -105,7 +106,6 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displaySuccess(C.LOCKBOX_SETUP_SUCCESS))
       yield put(actions.core.data.bitcoin.fetchData())
       // reset new device setup to step 1
-      // do we want to clear out previous new device data?
       yield put(A.changeDeviceSetupStep('setup-type'))
     } catch (e) {
       yield put(A.saveNewDeviceKvStoreFailure(e))
@@ -157,17 +157,6 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const pollForConnectionStatus = function*(action) {
-    try {
-      const { status } = action.payload
-      yield put(console.log('YOOOOOOOOO'))
-    } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'pollForConnectionStatus', e)
-      )
-    }
-  }
-
   const deleteDevice = function*(action) {
     try {
       const { deviceID } = action.payload
@@ -179,6 +168,133 @@ export default ({ api, coreSagas }) => {
       yield put(A.deleteDeviceFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'deleteDevice', e))
       yield put(actions.alerts.displayError(C.LOCKBOX_DELETE_ERROR))
+    }
+  }
+
+  // const pingForDevice = async function(transport) {
+  //   debugger
+  //   const test = transport.open()
+  //   transport.send(Buffer.alloc(0), 100000, false, Buffer.alloc(1))
+  //     .then((success) => {
+  //       console.info('EXCHANGE SUCCESS', success)
+  //     }, (error) => {
+  //       console.info('EXCHANGE FAILURE', error)
+  //     })
+    // try {
+    //   await attemptExchange(
+    //     Buffer.alloc(0),
+    //     openTimeout,
+    //     false,
+    //     Buffer.alloc(1)
+    //   );
+    // } catch (e) {
+    //   const isU2FError = typeof e.metaData === "object";
+    //   debugger
+    // }
+  // }
+
+  const getFirmwareInfo = async function(transport) {
+    return new Promise((success, failure) => {
+      const APDUS = {
+        GET_FIRMWARE: [0xe0, 0x01, 0x00, 0x00],
+      }
+      transport.send(...APDUS.GET_FIRMWARE).then((res) => {
+        const byteArray = [...res]
+        const data = byteArray.slice(0, byteArray.length - 2)
+        const targetIdStr = Buffer.from(data.slice(0, 4))
+        const targetId = targetIdStr.readUIntBE(0, 4)
+        const seVersionLength = data[4]
+        const seVersion = Buffer.from(data.slice(5, 5 + seVersionLength)).toString()
+        const flagsLength = data[5 + seVersionLength]
+        const flags = Buffer.from(
+          data.slice(5 + seVersionLength + 1, 5 + seVersionLength + 1 + flagsLength),
+        ).toString()
+
+        const mcuVersionLength = data[5 + seVersionLength + 1 + flagsLength]
+        let mcuVersion = Buffer.from(
+          data.slice(
+            7 + seVersionLength + flagsLength,
+            7 + seVersionLength + flagsLength + mcuVersionLength,
+          ),
+        )
+        if (mcuVersion[mcuVersion.length - 1] === 0) {
+          mcuVersion = mcuVersion.slice(0, mcuVersion.length - 1)
+        }
+        mcuVersion = mcuVersion.toString()
+
+        if (!seVersionLength) {
+          success({
+            targetId,
+            seVersion: '0.0.0',
+            flags: '',
+            mcuVersion: '',
+          })
+        }
+        success({ targetId, seVersion, flags, mcuVersion })
+      }, (error) => {
+        // TODO: loop for more pings...?
+        failure(error)
+      })
+    })
+  }
+
+  const createDeviceListener = function () {
+    console.log('start: createDeviceListener')
+    return eventChannel(emitter => {
+      async function startTransportListener () {
+        try {
+          console.info('start: startTransportListener')
+          const transport = await openTransport()
+          transport.setDebugMode((s) => {
+            return console.info('CUSTOM LOGGER: ', s)
+          })
+          transport.setScrambleKey('B0L0S')
+          transport.setExchangeTimeout(15000)
+          console.info('transport:', transport)
+          // await pingForDevice(transport)
+          const firmwareInfo = await getFirmwareInfo(transport)
+          console.info('firmwareInfo:', firmwareInfo)
+          emitter(END)
+        } catch (e) {
+          throw new Error(e)
+        }
+      }
+
+      startTransportListener()
+      return () => {}
+    })
+  }
+
+  function openTransport() {
+    return new Promise((success, failure) => {
+      Transport.open().then((transport) => {
+        console.log('transport opened')
+        console.info(transport)
+        success(transport)
+      }, (e) => {
+        failure(e)
+      })
+    })
+  }
+
+  const pollForConnectionStatus = function*() {
+    try {
+      console.log('start: pollForConnectionStatus')
+      const listenerChannel = yield call(createDeviceListener)
+      console.info('listenerChannel open')
+      try {
+        while (true) {
+          const channelEnd = yield take(listenerChannel)
+          console.info(channelEnd)
+        }
+      } finally {
+        console.info('listenerChannel close')
+        listenerChannel.close()
+      }
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'pollForConnectionStatus', e)
+      )
     }
   }
 

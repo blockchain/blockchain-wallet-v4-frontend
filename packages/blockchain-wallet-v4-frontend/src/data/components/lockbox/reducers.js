@@ -19,6 +19,9 @@ export default (state = INITIAL_STATE, action) => {
     case AT.SET_CONNECT_STEP: {
       return assocPath(['newDeviceSetup', 'currentStep'], payload.step, state)
     }
+    case AT.SET_CONNECTION_STATUS: {
+      return assocPath(['connection', 'status'], Remote.Success(payload), state)
+    }
     case AT.SET_NEW_DEVICE_ID: {
       return assocPath(['newDeviceSetup', 'deviceID'], payload.deviceID, state)
     }
@@ -37,9 +40,6 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.DEVICE_INFO_FAILURE: {
       return assocPath(['connection', 'device'], Remote.Failure(payload), state)
-    }
-    case AT.UPDATE_CONNECTION_STATUS: {
-      return assocPath(['connection', 'status'], Remote.Success(payload), state)
     }
     default:
       return state

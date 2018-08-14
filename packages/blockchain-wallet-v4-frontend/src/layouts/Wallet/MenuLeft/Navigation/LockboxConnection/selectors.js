@@ -1,11 +1,9 @@
 import { selectors } from 'data'
-import { lift, pathOr } from 'ramda'
+import { lift } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 export const getData = createDeepEqualSelector(
-  [
-    selectors.components.lockbox.getConnectionStatus
-  ],
+  [selectors.components.lockbox.getConnectionStatus],
   (connectionStatusR) => {
     console.log('runnninin')
     const transform = (status) => {

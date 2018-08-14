@@ -4,9 +4,8 @@ import * as AT from './actionTypes'
 export const initializeDeviceConnection = () => ({
   type: AT.INITIALIZE_DEVICE_CONNECTION
 })
-export const pollForConnectionStatus = status => ({
-  type: AT.POLL_FOR_CONNECTION_STATUS,
-  payload: { status }
+export const pollForConnectionStatus = () => ({
+  type: AT.POLL_FOR_CONNECTION_STATUS
 })
 
 // CREATE
