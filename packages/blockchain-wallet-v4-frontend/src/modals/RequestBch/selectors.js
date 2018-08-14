@@ -7,24 +7,24 @@ import { Remote, utils } from 'blockchain-wallet-v4/src'
 const { isCashAddr, toCashAddr } = utils.bch
 
 // extractAddress :: (Int -> Remote(String)) -> Int -> Remote(String)
-const extractAddress = (softwareWalletSelector, lockboxSelector, value) => {
+const extractAddress = (walletSelector, lockboxSelector, value) => {
   return value
     ? value.address
       ? Remote.of(value.address)
       : value.index !== undefined
-        ? softwareWalletSelector(value.index)
+        ? walletSelector(value.index)
         : lockboxSelector(value.xpub)
     : Remote.Loading
 }
 
 export const getData = state => {
-  const getReceiveSoftware = index =>
+  const getReceiveAddressWallet = index =>
     selectors.core.common.bch.getNextAvailableReceiveAddress(
       settings.NETWORK_BCH,
       index,
       state
     )
-  const getReceiveLockbox = index =>
+  const getReceiveAddressLockbox = index =>
     selectors.core.common.bch.getNextAvailableReceiveAddressLockbox(
       settings.NETWORK_BCH,
       index,
@@ -35,8 +35,8 @@ export const getData = state => {
 
   const initialValuesR = getInitialValues(state)
   const receiveAddressR = extractAddress(
-    getReceiveSoftware,
-    getReceiveLockbox,
+    getReceiveAddressWallet,
+    getReceiveAddressLockbox,
     to
   ).map(
     address =>

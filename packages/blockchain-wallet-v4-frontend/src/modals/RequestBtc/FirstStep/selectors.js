@@ -4,21 +4,21 @@ import settings from 'config'
 import { selectors } from 'data'
 import { Remote } from 'blockchain-wallet-v4/src'
 
-const extractAddress = (softwareWalletSelector, lockboxSelector, value) =>
+const extractAddress = (walletSelector, lockboxSelector, value) =>
   value
     ? value.address
       ? Remote.of(value.address)
       : value.index !== undefined
-        ? softwareWalletSelector(value.index)
+        ? walletSelector(value.index)
         : lockboxSelector(value.xpub)
     : Remote.NotAsked
 
-const extractAddressIdx = (softwareWalletSelector, lockboxSelector, value) =>
+const extractAddressIdx = (walletSelector, lockboxSelector, value) =>
   value
     ? value.address
       ? Remote.of(value.address)
       : value.index !== undefined
-        ? softwareWalletSelector(value.index)
+        ? walletSelector(value.index)
         : lockboxSelector(value.xpub)
     : Remote.NotAsked
 
@@ -32,7 +32,7 @@ const extractAccountIdx = value =>
     : Remote.NotAsked
 
 export const getData = state => {
-  const getReceiveSoftware = index =>
+  const getReceiveAddressWallet = index =>
     selectors.core.common.btc.getNextAvailableReceiveAddress(
       settings.NETWORK_BITCOIN,
       index,
@@ -44,7 +44,7 @@ export const getData = state => {
       index,
       state
     )
-  const getReceiveLockbox = xpub =>
+  const getReceiveAddressLockbox = xpub =>
     selectors.core.common.btc.getNextAvailableReceiveAddressLockbox(
       settings.NETWORK_BITCOIN,
       xpub,
@@ -68,8 +68,8 @@ export const getData = state => {
     to
   )
   const receiveAddressR = extractAddress(
-    getReceiveSoftware,
-    getReceiveLockbox,
+    getReceiveAddressWallet,
+    getReceiveAddressLockbox,
     to
   )
 

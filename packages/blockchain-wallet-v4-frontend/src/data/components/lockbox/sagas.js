@@ -42,8 +42,8 @@ export default ({ api, coreSagas }) => {
       const chan = yield call(deviceInfoChannel)
       try {
         while (true) {
-          const { btc, bch, eth, cacheInfo } = yield take(chan)
-          yield put(A.deviceInfoSuccess({ btc, bch, eth, cacheInfo }))
+          const { btc, bch, eth } = yield take(chan)
+          yield put(A.deviceInfoSuccess({ btc, bch, eth }))
         }
       } finally {
         chan.close()

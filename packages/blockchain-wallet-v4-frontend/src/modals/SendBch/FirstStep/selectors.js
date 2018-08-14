@@ -9,7 +9,7 @@ export const getData = state => {
     selectors.core.kvStore.lockbox.getDevices(state).getOrElse({})
   )
   const bchAccountsLength = length(
-    selectors.core.kvStore.lockbox.getAccounts(state).getOrElse([])
+    selectors.core.kvStore.bch.getAccounts(state).getOrElse([])
   )
 
   const enableToggle = bchAccountsLength > 1 || lockboxEnabled
