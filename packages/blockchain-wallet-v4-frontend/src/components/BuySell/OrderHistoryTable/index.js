@@ -20,6 +20,7 @@ class OrderHistoryTable extends React.PureComponent {
       status,
       cancelTradeId,
       canTrade,
+      pending,
       partner
     } = this.props
 
@@ -58,10 +59,17 @@ class OrderHistoryTable extends React.PureComponent {
           </TableCell>
           <TableCell width='20%' mobileWidth='35%'>
             <Text size='13px' weight={500} capitalize>
-              <FormattedMessage
-                id='scenes.buysell.orderhistory.list.received'
-                defaultMessage='Received'
-              />
+              {pending ? (
+                <FormattedMessage
+                  id='scenes.buysell.orderhistory.list.tobereceived'
+                  defaultMessage='To Be Received'
+                />
+              ) : (
+                <FormattedMessage
+                  id='scenes.buysell.orderhistory.list.received'
+                  defaultMessage='Received'
+                />
+              )}
             </Text>
           </TableCell>
         </TableHeader>
