@@ -21,12 +21,12 @@ class RequestBchContainer extends React.PureComponent {
     this.handleRefresh = this.handleRefresh.bind(this)
   }
 
-  componentWillMount () {
+  componentDidMount () {
     this.init()
   }
 
-  componentWillReceiveProps (nextProps) {
-    nextProps.data.map(x => {
+  componentDidUpdate (prevProps) {
+    prevProps.data.map(x => {
       if (equals(prop('coin', x), 'ETH')) {
         this.props.modalActions.closeAllModals()
         this.props.modalActions.showModal('RequestEther')

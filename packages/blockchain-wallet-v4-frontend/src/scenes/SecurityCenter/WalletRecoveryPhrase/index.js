@@ -18,8 +18,8 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
     this.state = {}
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.recoveryPhrase && this.props.recoveryPhrase === undefined) {
+  componentDidUpdate (prevProps) {
+    if (prevProps.recoveryPhrase && this.props.recoveryPhrase === undefined) {
       this.props.updateUI({ nextStepToggled: true })
       this.props.handleEnable()
     }

@@ -16,11 +16,11 @@ class ConfirmContainer extends Component {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.data.data && this.props.data.data) {
+  componentDidUpdate (prevProps) {
+    if (prevProps.data.data && this.props.data.data) {
       // so it doesn't complain when hot reloading
       if (
-        nextProps.data.data.quote.baseAmount !==
+        prevProps.data.data.quote.baseAmount !==
         this.props.data.data.quote.baseAmount
       ) {
         this.props.updateUI({ editing: false })
