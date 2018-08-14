@@ -6,8 +6,7 @@ import { connect } from 'react-redux'
 import { keys } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
-import { actions } from 'data'
-import { STEPS, MODAL_NAME } from 'data/components/identityVerification/model'
+import { actions, model } from 'data'
 import { getData } from './selectors'
 import modalEnhancer from 'providers/ModalEnhancer'
 import media from 'services/ResponsiveService'
@@ -25,6 +24,8 @@ const HeaderWrapper = styled.div`
     flex-direction: column;
   `};
 `
+
+const { STEPS, MODAL_NAME } = model.components.identityVerification
 
 const stepMap = {
   [STEPS.personal]: (

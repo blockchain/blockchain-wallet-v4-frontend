@@ -73,7 +73,7 @@ class VerifyMobile extends Component {
 
   resendCode () {
     this.props.updateUI({ smsCodeResent: true })
-    this.props.settingsActions.updateMobile(this.props.mobileNumber)
+    this.props.settingsActions.resendMobile(this.props.mobileNumber)
   }
 
   onSubmit (e) {

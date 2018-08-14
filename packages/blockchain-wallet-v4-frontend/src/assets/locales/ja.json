@@ -285,7 +285,6 @@
   "components.alerts.pbkdf2_update_success":
     "PBKDF2インテレーションが正常に変更されました。",
   "components.alerts.private_key_incorrect": "無効な秘密鍵",
-  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success":
     "ビットコインキャッシュの支払いを受信しました。",
   "components.alerts.receive_btc_success":
@@ -399,6 +398,17 @@
   "components.form.tabmenutransactionstatus.received": "受信済み",
   "components.form.tabmenutransactionstatus.sent": "送信済み",
   "components.form.tabmenutransactionstatus.transferred": "転送済み",
+  "components.identityverification.popup.button.checkstatus": null,
+  "components.identityverification.popup.button.getstarted": null,
+  "components.identityverification.popup.button.verify": null,
+  "components.identityverification.popup.header.inreview": null,
+  "components.identityverification.popup.header.underreview": null,
+  "components.identityverification.popup.header.unverified": null,
+  "components.identityverification.popup.header.verified": null,
+  "components.identityverification.popup.note.inreview": null,
+  "components.identityverification.popup.note.underreview": null,
+  "components.identityverification.popup.note.unverified": null,
+  "components.identityverification.popup.note.verified": null,
   "components.qrreader.warning": "ブラウザにウェブカムのサポートがありません。",
   "components.selectboxbitcoin.watchonly": "支出不能",
   "components.selectboxcountry.label": "国を選択",
@@ -424,6 +434,7 @@
   "formhelper.ageovereighteen": "18歳以上である必要があります",
   "formhelper.incorrectpassword": "間違ったパスワード",
   "formhelper.invalidbitcoinaddress": "無効なビットコインアドレス",
+  "formhelper.invalidbitcoinaddressandkey": null,
   "formhelper.invalidbitcoincashaddress":
     "無効なビットコインキャッシュアドレス",
   "formhelper.invalidbitcoinprivatekey": "無効なビットコイン秘密鍵",
@@ -457,6 +468,7 @@
   "identityverification.address.faq.whycollect.question": null,
   "identityverification.address.header": null,
   "identityverification.address.region": null,
+  "identityverification.address.selectaddress": null,
   "identityverification.address.state": null,
   "identityverification.address.subheader": null,
   "identityverification.address.zipcode": null,
@@ -497,27 +509,9 @@
   "layouts.public.footer.explorer": "データ",
   "layouts.public.footer.support": "サポート",
   "layouts.wallet.header.logout.signout": "サインアウト",
-  "layouts.wallet.header.whatsnew.whatsnew.desc10":
-    "2017年8月1日以前にウォレットにビットコイン保有されていた方は、ブロックチェーンウォレットのビットコインキャッシュにアクセス可能になりました。",
-  "layouts.wallet.header.whatsnew.whatsnew.desc11":
-    "ビットコインキャッシュのアドレスがCashAddrのフォーマットに対応するようになりました",
-  "layouts.wallet.header.whatsnew.whatsnew.desc7":
-    "ビットコインをブロックチェーンウォレットから直接販売可能になりました！",
-  "layouts.wallet.header.whatsnew.whatsnew.desc8":
-    "ブロックチェーンウォレットからイーサを送受信できるようになりました。",
-  "layouts.wallet.header.whatsnew.whatsnew.desc9":
-    "ビットコインウォレットからビットコイン、イーサ、ビットコインキャッシュを直接交換することができます",
   "layouts.wallet.header.whatsnew.whatsnew.empty": "?? すべて完了しています！",
-  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore": "さらに詳しく",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "当社のチームは常に新しい機能に取り組んでいますが、改善点がございましたら、<a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>こちら<a/>からお知らせください。",
-  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "さらに詳しく",
-  "layouts.wallet.header.whatsnew.whatsnew.title10": "ビットコインキャッシュ",
-  "layouts.wallet.header.whatsnew.whatsnew.title11":
-    "新しいビットコインキャッシュアドレスのフォーマット",
-  "layouts.wallet.header.whatsnew.whatsnew.title7": "ビットコインを売る",
-  "layouts.wallet.header.whatsnew.whatsnew.title8": "イーサの送受信",
-  "layouts.wallet.header.whatsnew.whatsnew.title9": "交換資産",
   "layouts.wallet.menuleft.footer.about": "詳細",
   "layouts.wallet.menuleft.footer.privacypolicy": "プライバシーポリシー",
   "layouts.wallet.menuleft.footer.termsofservice": "ToS",
@@ -527,6 +521,7 @@
   "layouts.wallet.menuleft.navigation.exchange": "交換",
   "layouts.wallet.menuleft.navigation.general": "全般",
   "layouts.wallet.menuleft.navigation.preferences": "環境設定",
+  "layouts.wallet.menuleft.navigation.profile": null,
   "layouts.wallet.menuleft.navigation.securitycenter": "セキュリティーセンター",
   "layouts.wallet.menuleft.navigation.settings": "設定",
   "layouts.wallet.menuleft.navigation.transactions": "取引",
@@ -534,7 +529,6 @@
     "ビットコインキャッシュ",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "ビットコイン",
   "layouts.wallet.menuleft.navigation.transactions.ether": "イーサ",
-  "layouts.wallet.menutop.bank": "Be your own bank.",
   "layouts.wallet.menutop.request": "リクエスト",
   "layouts.wallet.menutop.send": "送信",
   "layouts.wallet.trayright.faq": "よくある質問",
@@ -648,10 +642,6 @@
     "このウォレットで生成されたアドレスは、インポートしないでください。",
   "modals.importbtcaddress.importtype": "インポートの対象を指定してください。",
   "modals.importbtcaddress.title": "既存のビットコインアドレスをインポート",
-  "modals.jumioprompt.body1": null,
-  "modals.jumioprompt.close": null,
-  "modals.jumioprompt.dothat": null,
-  "modals.jumioprompt.header": null,
   "modals.mobilelogin.cancel": "キャンセル",
   "modals.mobilelogin.explain":
     "これらのステップに従い、デバイスでウェブウォレットにログインしてください",
@@ -1081,9 +1071,6 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
   "scenes.buysell.sfoxcheckout.content.jumio.buylimit": null,
@@ -1742,6 +1729,17 @@
   "scenes.priceindexseries.timefilters.month": "月",
   "scenes.priceindexseries.timefilters.week": "週",
   "scenes.priceindexseries.timefilters.year": "年",
+  "scenes.profile.identityverification.banner.inreview": null,
+  "scenes.profile.identityverification.banner.underreview": null,
+  "scenes.profile.identityverification.banner.unverified": null,
+  "scenes.profile.identityverification.banner.verified": null,
+  "scenes.profile.identityverification.button.getstarted": null,
+  "scenes.profile.identityverification.buttons.verify": null,
+  "scenes.profile.identityverification.note.inreview": null,
+  "scenes.profile.identityverification.note.underreview": null,
+  "scenes.profile.identityverification.note.unverified": null,
+  "scenes.profile.identityverification.note.verified": null,
+  "scenes.profile.identityverification.title": null,
   "scenes.recover.firststep.back": "戻る",
   "scenes.recover.firststep.continue": "続行",
   "scenes.recover.firststep.explain": "紛失したウォレットから資金を回収",
@@ -1870,8 +1868,6 @@
     "認証コードが以下に送信されました",
   "scenes.security.email.yourverifiedemailaddress":
     "認証済みのEメールアドレスは、不審な活動、異常な活動が検知された際のログインコードの送信、ウォレットのログインIDの通知、資金を受信する際の支払いアラートの送信に使用されます。",
-  "scenes.security.passwordhint.notstored": null,
-  "scenes.security.passwordhint.stored": null,
   "scenes.security.tor.allowed": "許可済み",
   "scenes.security.tor.blocked": "ブロック済み",
   "scenes.security.twostepsetup.sms": "SMSを介して送信されたコードを使用",
@@ -2038,9 +2034,6 @@
   "scenes.securitysettings.apiaccess.description2": "開始するために。",
   "scenes.securitysettings.apiaccess.getstarted": "こちら",
   "scenes.securitysettings.apiaccess.title": "APIアクセス",
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.change": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.save": null,
   "scenes.securitysettings.basicsecurity.recoveryphrase.description":
     "バックアップフレーズには、ウォレット内のすべての秘密鍵が含まれています。これらの12単語を順々に書き留め、安全なオフラインの場所に保管してください。このフレーズにより、お客様（または、そのフレーズを保有している人）は、ウォレットが回復し、資金にアクセスできるようになります。 ",
   "scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase":
@@ -2234,9 +2227,6 @@
   "scenes.settings.manage_addresses.edit_name": "名前を編集",
   "scenes.settings.manage_addresses.make_default": "既定にする",
   "scenes.settings.manage_addresses.show_xpub": "xPubを表示",
-  "scenes.settings.passwordhint.description1": null,
-  "scenes.settings.passwordhint.description2": null,
-  "scenes.settings.passwordhint.title": null,
   "scenes.settings.preferences.autologout.updateform.minutes": null,
   "scenes.settings.preferences.bitcoinlinkhandling.description":
     "これを有効にすると、ブロックチェーンウォレットがビットコイン決済リンクをウェブブラウザから管理できるようになります。",
@@ -2249,8 +2239,6 @@
     "当社はビットコインリンク管理が有効になっているか検出できません。",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "すでに有効になっている場合、変化はありません。",
-  "scenes.settings.preferences.explain":
-    "ウォレットのエクスペリエンスをカスタマイズ。",
   "scenes.settings.preferences.localcurrency.error.description":
     "地域通貨を選択してください。",
   "scenes.settings.preferences.localcurrency.error.title": "地域通貨",
@@ -2570,7 +2558,6 @@
   "sfoxexchangedata.verify.hidessn": "SSNを非表示にする",
   "sfoxexchangedata.verify.identity.error":
     "残念ながら、本人確認で問題が発生しました。 {clickHere}して、最初からやり直してください。",
-  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "姓",
   "sfoxexchangedata.verify.partner.header": "非表示の詳細",
   "sfoxexchangedata.verify.partner.header1": "お客様について把握させてください",
