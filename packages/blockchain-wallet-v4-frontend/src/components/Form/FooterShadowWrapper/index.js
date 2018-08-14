@@ -17,7 +17,7 @@ const WhiteSpace = styled.div`
   background: ${props => props.theme['white']};
   z-index: 2;
   flex: 1;
-  min-height: 64px;
+  min-height: 8px;
 `
 const Footer = styled.div`
   padding: 32px 0 32px 0;

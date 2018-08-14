@@ -35,6 +35,7 @@ import Terms from 'components/Terms'
 
 const FormContainer = styled.div`
   margin-top: 25px;
+  margin-bottom: 64px;
 `
 const PersonalForm = styled(Form)`
   height: 100%;
