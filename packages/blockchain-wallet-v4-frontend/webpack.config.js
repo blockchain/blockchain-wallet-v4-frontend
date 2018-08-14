@@ -61,9 +61,9 @@ if (!isCiBuild) {
 }
 
 // SSL detection
-sslEnabled =
-  fs.existsSync(PATHS.sslConfig + 'key.pem') &&
-  fs.existsSync(PATHS.sslConfig + 'cert.pem')
+// sslEnabled =
+//   fs.existsSync(PATHS.sslConfig + 'key.pem') &&
+//   fs.existsSync(PATHS.sslConfig + 'cert.pem')
 console.log(chalk.cyan('SSL Enabled: ') + chalk.blue(sslEnabled))
 
 module.exports = {
@@ -136,7 +136,8 @@ module.exports = {
     new CleanWebpackPlugin([PATHS.dist, PATHS.lib], { allowExternal: true }),
     new CaseSensitivePathsPlugin(),
     new Webpack.DefinePlugin({
-      APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version)
+      APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version),
+      NETWORK_TYPE: JSON.stringify(envConfig.NETWORK_TYPE)
     }),
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',

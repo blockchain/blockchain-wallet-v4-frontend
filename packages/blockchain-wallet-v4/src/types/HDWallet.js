@@ -84,9 +84,9 @@ export const deriveAccountNodeAtIndex = (seedHex, index, network) => {
     .deriveHardened(index)
 }
 
-export const generateAccount = curry((index, label, seedHex) => {
-  let node = deriveAccountNodeAtIndex(seedHex, index, Bitcoin.networks.bitcoin)
-  return HDAccount.fromJS(HDAccount.js(label, node))
+export const generateAccount = curry((index, label, network, seedHex) => {
+  let node = deriveAccountNodeAtIndex(seedHex, index, network)
+  return HDAccount.fromJS(HDAccount.js(label, node, null, network))
 })
 
 // encrypt :: Number -> String -> String -> HDWallet -> Task Error HDWallet
@@ -145,7 +145,7 @@ export const js = (label, mnemonic, xpub, nAccounts, network) => {
     : undefined
   const node = i => (mnemonic ? parentNode.deriveHardened(i) : undefined)
   const account = i =>
-    HDAccount.js(`${label}${i > 0 ? ` ${i + 1}` : ''}`, node(i), xpub)
+    HDAccount.js(`${label}${i > 0 ? ` ${i + 1}` : ''}`, node(i), xpub, network)
   return {
     seed_hex: seedHex,
     passphrase: '',

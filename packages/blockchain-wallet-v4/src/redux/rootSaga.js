@@ -5,7 +5,7 @@ import walletOptions from './walletOptions/sagaRegister'
 import settings from './settings/sagaRegister'
 import wallet from './wallet/sagaRegister'
 
-export default ({ api, options }) =>
+export default ({ api, networks, options }) =>
   function*() {
     yield all([
       fork(data({ api, options })),

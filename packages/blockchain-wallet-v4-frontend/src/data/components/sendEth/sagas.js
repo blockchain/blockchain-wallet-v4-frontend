@@ -20,7 +20,7 @@ export default ({ coreSagas }) => {
       const type = path(['payload', 'type'], action)
       yield put(A.sendEthPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.eth.create({
-        network: settings.NETWORK_ETHEREUM
+        network: settings.NETWORK_ETH
       })
       payment = yield payment.init()
       payment =
@@ -47,7 +47,7 @@ export default ({ coreSagas }) => {
       yield put(A.sendEthPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.eth.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_ETHEREUM
+        network: settings.NETWORK_ETH
       })
       payment = yield payment.build()
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
@@ -67,7 +67,7 @@ export default ({ coreSagas }) => {
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.eth.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_ETHEREUM
+        network: settings.NETWORK_ETH
       })
 
       switch (field) {
@@ -142,7 +142,7 @@ export default ({ coreSagas }) => {
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.eth.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_ETHEREUM
+        network: settings.NETWORK_ETH
       })
       const password = yield call(promptForSecondPassword)
       yield put(actions.modals.closeAllModals())
