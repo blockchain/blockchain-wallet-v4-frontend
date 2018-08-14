@@ -38,7 +38,7 @@ export const getData = state => {
       index,
       state
     )
-  const getReceiveIdxSoftware = index =>
+  const getReceiveIdxWallet = index =>
     selectors.core.common.btc.getNextAvailableReceiveIndex(
       settings.NETWORK_BITCOIN,
       index,
@@ -63,7 +63,7 @@ export const getData = state => {
   const to = formValueSelector('requestBitcoin')(state, 'to')
   const accountIdxR = extractAccountIdx(to)
   const receiveAddressIdxR = extractAddressIdx(
-    getReceiveIdxSoftware,
+    getReceiveIdxWallet,
     getReceiveIdxLockbox,
     to
   )
