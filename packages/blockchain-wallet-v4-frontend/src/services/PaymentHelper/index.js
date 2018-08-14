@@ -1,5 +1,5 @@
 import { selectors } from 'data'
-import { curry } from 'ramda'
+import { curry, prop } from 'ramda'
 import { utils } from 'blockchain-wallet-v4/src'
 
 export const btcToLabel = curry((payment, state) => {
@@ -12,6 +12,11 @@ export const btcToLabel = curry((payment, state) => {
         target.address
       )
       return label || target.address
+    case 'TO.LOCKBOX':
+      return selectors.core.kvStore.lockbox
+        .getLockboxBtcAccount(state, target.xpub)
+        .map(prop('label'))
+        .getOrElse(target.address)
     default:
       return target.address
   }
@@ -46,6 +51,11 @@ export const bchToLabel = curry((payment, state) => {
     case 'TO.ACCOUNT':
       return selectors.core.kvStore.bch
         .getAccountLabel(state)(target.accountIndex)
+        .getOrElse(target.address)
+    case 'TO.LOCKBOX':
+      return selectors.core.kvStore.lockbox
+        .getLockboxBchAccount(state, target.xpub)
+        .map(prop('label'))
         .getOrElse(target.address)
     default:
       return target.address

@@ -58,7 +58,8 @@ export const reviver = jsObject => {
   return new Cache(jsObject)
 }
 
-export const js = node => {
+export const js = (node, xpub) => {
+  node = node || xpub ? Bitcoin.HDNode.fromBase58(xpub) : null
   const receiveAccount = node
     ? node
         .derive(0)

@@ -1,14 +1,18 @@
-import { length, prop, path } from 'ramda'
+import { length, prop, path, isEmpty } from 'ramda'
 import { selectors } from 'data'
 import { formValueSelector } from 'redux-form'
 
 export const getData = state => {
   const toToggled = selectors.components.sendBch.getToToggled(state)
   const paymentR = selectors.components.sendBch.getPayment(state)
+  const lockboxEnabled = !isEmpty(
+    selectors.core.kvStore.lockbox.getDevices(state).getOrElse({})
+  )
   const bchAccountsLength = length(
     selectors.core.kvStore.bch.getAccounts(state).getOrElse([])
   )
-  const enableToggle = bchAccountsLength > 1
+
+  const enableToggle = bchAccountsLength > 1 || lockboxEnabled
 
   const transform = payment => {
     const minFeePerByte = path(['fees', 'limit', 'min'], payment)

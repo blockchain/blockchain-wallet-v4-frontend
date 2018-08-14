@@ -13,6 +13,7 @@ import * as Coin from '../../../coinSelection/coin'
 import { Wallet, HDAccount, Address } from '../../../types'
 import { isPositiveInteger } from '../../../utils/checks'
 import { isValidBitcoinAddress, getWifAddress } from '../../../utils/btc'
+import { isCashAddr } from '../../../utils/bch'
 import * as S from '../../selectors'
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -35,7 +36,8 @@ export const FROM = {
   ACCOUNT: 'FROM.ACCOUNT',
   LEGACY: 'FROM.LEGACY',
   WATCH_ONLY: 'FROM.WATCH_ONLY',
-  EXTERNAL: 'FROM.EXTERNAL'
+  EXTERNAL: 'FROM.EXTERNAL',
+  LOCKBOX: 'FROM.LOCKBOX'
 }
 
 // fromLegacy :: String -> Object
@@ -119,7 +121,8 @@ export const fromPrivateKey = (network, wallet, key) => {
 // To
 export const TO = {
   ACCOUNT: 'TO.ACCOUNT',
-  ADDRESS: 'TO.ADDRESS'
+  ADDRESS: 'TO.ADDRESS',
+  LOCKBOX: 'TO.LOCKBOX'
 }
 
 // toOutputAddress :: String -> Object
@@ -131,6 +134,13 @@ export const toOutputAccount = (address, accountIndex, addressIndex) => ({
   address,
   accountIndex,
   addressIndex
+})
+
+export const toLockboxAccount = (address, addressIndex, xpub) => ({
+  type: TO.LOCKBOX,
+  address,
+  addressIndex,
+  xpub
 })
 
 // toOutputAccount :: Network -> ReduxState -> String|Integer -> Object
@@ -147,8 +157,36 @@ export const toOutput = curry((coin, network, state, addressOrIndex) => {
     )
     let address = HDAccount.getReceiveAddress(account, receiveIndex, network)
     return toOutputAccount(address, addressOrIndex, receiveIndex)
-  } else {
+  } else if (
+    isValidBitcoinAddress(addressOrIndex) ||
+    isCashAddr(addressOrIndex)
+  ) {
     return toOutputAddress(addressOrIndex)
+  } else {
+    let receiveIndexR =
+      coin === 'BTC'
+        ? S.data.bitcoin.getReceiveIndex(addressOrIndex, state)
+        : S.data.bch.getReceiveIndex(addressOrIndex, state)
+
+    let receiveIndex = receiveIndexR.getOrFail(
+      new Error('missing_receive_address')
+    )
+
+    let address =
+      coin === 'BTC'
+        ? S.common.btc.getAddressLockbox(
+            network,
+            addressOrIndex,
+            receiveIndex,
+            state
+          )
+        : S.common.bch.getAddressLockbox(
+            network,
+            addressOrIndex,
+            receiveIndex,
+            state
+          )
+    return toLockboxAccount(address, receiveIndex, addressOrIndex)
   }
 })
 

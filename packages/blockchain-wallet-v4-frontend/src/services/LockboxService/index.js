@@ -11,9 +11,9 @@ export const getXpubHash = xpub =>
 export const generateAccountsMDEntry = deviceInfo => {
   try {
     const { btc, bch, eth } = deviceInfo
-    const btcXpub = publicKeyChainCodeToBip32(btc.publicKey, btc.chainCode)
-    const bchXpub = publicKeyChainCodeToBip32(bch.publicKey, bch.chainCode)
-    const ethXpub = publicKeyChainCodeToBip32(eth.publicKey, eth.chainCode)
+    const btcXpub = publicKeyChainCodeToBip32(btc)
+    const bchXpub = publicKeyChainCodeToBip32(bch)
+    const ethXpub = publicKeyChainCodeToBip32(eth)
 
     return {
       btc: { accounts: [btcAccount(btcXpub, 'Bitcoin Wallet')] },
@@ -28,8 +28,7 @@ export const generateAccountsMDEntry = deviceInfo => {
 export const getDeviceID = deviceInfo => {
   try {
     const { btc } = deviceInfo
-    const { publicKey, chainCode } = btc
-    const xpub = publicKeyChainCodeToBip32(publicKey, chainCode)
+    const xpub = publicKeyChainCodeToBip32(btc)
     return getXpubHash(xpub)
   } catch (e) {
     throw new Error(deviceInfoErr)
