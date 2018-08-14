@@ -5,9 +5,12 @@ import EthUtil from 'ethereumjs-util'
 import * as S from '../../selectors'
 import { isValidIndex } from './utils'
 import { eth } from '../../../signer'
-import { isString, isPositiveInteger } from '../../../utils/checks'
 import {
-  calculateFee,
+  isString,
+  isPositiveInteger,
+  isPositiveNumber
+} from '../../../utils/checks'
+import {
   calculateEffectiveBalance,
   isValidAddress,
   convertGweiToWei
@@ -40,6 +43,18 @@ export default ({ api }) => {
     }
   }
   // ///////////////////////////////////////////////////////////////////////////
+  const calculateFee = function (fee, fees) {
+    if (isPositiveNumber(fee)) {
+      return fee
+    }
+
+    if (['regular', 'priority'].indexOf(fee) > -1) {
+      return fees[fee]
+    }
+
+    throw new Error('no_fee_set')
+  }
+
   function create ({ network, payment } = { network: undefined, payment: {} }) {
     const makePayment = p => ({
       value () {
@@ -120,6 +135,21 @@ export default ({ api }) => {
         return makePayment(merge(p, { from, effectiveBalance }))
       },
 
+      *fee (value) {
+        let fee = yield call(calculateFee, value, p.fees)
+
+        const accountR = yield select(S.kvStore.ethereum.getDefaultAddress)
+        const account = accountR.getOrFail('missing_default_from')
+        const data = yield call(api.getEthereumBalances, account)
+        const balance = path([account, 'balance'], data)
+
+        let effectiveBalance = yield call(calculateEffectiveBalance, {
+          balance,
+          fee
+        })
+        return makePayment(merge(p, { fee, effectiveBalance }))
+      },
+
       *build () {
         const from = prop('from', p)
         const index = yield call(selectIndex, from)
@@ -196,6 +226,7 @@ export default ({ api }) => {
           to: address => chain(gen, payment => payment.to(address)),
           amount: amount => chain(gen, payment => payment.amount(amount)),
           from: origin => chain(gen, payment => payment.from(origin)),
+          fee: value => chain(gen, payment => payment.fee(value)),
           build: () => chain(gen, payment => payment.build()),
           sign: password => chain(gen, payment => payment.sign(password)),
           publish: () => chain(gen, payment => payment.publish()),
