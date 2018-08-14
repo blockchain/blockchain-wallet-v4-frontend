@@ -35,19 +35,19 @@ export class ExchangeDelegate {
   }
 
   email () {
-    return this._state.settingsPath.data.email
+    return this._state.settingsPath.map(prop('email')).getOrElse('')
   }
 
   mobile () {
-    return this._state.settingsPath.data.sms_number
+    return this._state.settingsPath.map(prop('sms_number')).getOrElse('')
   }
 
   isEmailVerified () {
-    return this._state.settingsPath.data.email_verified
+    return this._state.settingsPath.map(prop('email_verified')).getOrElse(0)
   }
 
   isMobileVerified () {
-    return this._state.settingsPath.data.sms_verified
+    return this._state.settingsPath.map(prop('sms_verified')).getOrElse(0)
   }
 
   getToken (partner, options) {
