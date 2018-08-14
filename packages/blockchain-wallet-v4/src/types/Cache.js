@@ -58,22 +58,19 @@ export const reviver = jsObject => {
   return new Cache(jsObject)
 }
 
-export const js = (node, cache) => {
+export const js = (node, xpub) => {
+  node = node || xpub ? Bitcoin.HDNode.fromBase58(xpub) : null
   const receiveAccount = node
     ? node
         .derive(0)
         .neutered()
         .toBase58()
-    : cache
-      ? cache.receiveAccount
-      : ''
+    : ''
   const changeAccount = node
     ? node
         .derive(1)
         .neutered()
         .toBase58()
-    : cache
-      ? cache.changeAccount
-      : ''
+    : ''
   return { receiveAccount, changeAccount }
 }

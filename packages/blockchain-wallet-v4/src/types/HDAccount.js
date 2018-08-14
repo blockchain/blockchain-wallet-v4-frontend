@@ -121,13 +121,13 @@ export const reviver = jsObject => {
   return new HDAccount(jsObject)
 }
 
-export const js = (label, node, xpub, cache) => ({
+export const js = (label, node, xpub) => ({
   label: label,
   archived: false,
   xpriv: node ? node.toBase58() : '',
   xpub: node ? node.neutered().toBase58() : xpub,
   address_labels: [],
-  cache: node ? Cache.js(node, null) : Cache.js(null, cache)
+  cache: node ? Cache.js(node, null) : Cache.js(null, xpub)
 })
 
 // encrypt :: Number -> String -> String -> Account -> Task Error Account

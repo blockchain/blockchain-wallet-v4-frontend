@@ -10,19 +10,14 @@ export const getXpubHash = xpub =>
 
 export const generateAccountsMDEntry = deviceInfo => {
   try {
-    const { btc, bch, eth, cacheInfo } = deviceInfo
+    const { btc, bch, eth } = deviceInfo
     const btcXpub = publicKeyChainCodeToBip32(btc)
     const bchXpub = publicKeyChainCodeToBip32(bch)
     const ethXpub = publicKeyChainCodeToBip32(eth)
 
-    const receiveAccount = publicKeyChainCodeToBip32(cacheInfo.receiveAccount)
-    const changeAccount = publicKeyChainCodeToBip32(cacheInfo.changeAccount)
-
-    const cache = { receiveAccount, changeAccount }
-
     return {
-      btc: { accounts: [btcAccount(btcXpub, 'Bitcoin Wallet', cache)] },
-      bch: { accounts: [btcAccount(bchXpub, 'Bitcoin Cash Wallet', cache)] },
+      btc: { accounts: [btcAccount(btcXpub, 'Bitcoin Wallet')] },
+      bch: { accounts: [btcAccount(bchXpub, 'Bitcoin Cash Wallet')] },
       eth: { accounts: [ethAccount(ethXpub, 'Ethereum Wallet')] }
     }
   } catch (e) {
@@ -47,5 +42,4 @@ export const ethAccount = (xpub, label) => ({
   addr: deriveAddressFromXpub(xpub)
 })
 
-export const btcAccount = (xpub, label, cache) =>
-  Types.HDAccount.js(label, null, xpub, cache)
+export const btcAccount = (xpub, label) => Types.HDAccount.js(label, null, xpub)
