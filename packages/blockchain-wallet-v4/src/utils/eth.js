@@ -66,6 +66,7 @@ export const calculateEffectiveBalance = (balance, fee) => {
   const feeB = new BigNumber(fee)
   const effectiveBalanceB = balanceB.sub(feeB)
   const zeroB = new BigNumber('0')
+  console.log('calc eff bal', effectiveBalanceB.lessThan(zeroB) ? zeroB.toString() : effectiveBalanceB.toString())
   return effectiveBalanceB.lessThan(zeroB)
     ? zeroB.toString()
     : effectiveBalanceB.toString()

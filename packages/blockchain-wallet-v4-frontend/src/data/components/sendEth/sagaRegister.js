@@ -22,5 +22,13 @@ export default ({ coreSagas }) => {
       sendEthSagas.secondStepSubmitClicked
     )
     yield takeLatest(actionTypes.CHANGE, sendEthSagas.formChanged)
+    yield takeLatest(
+      AT.SEND_ETH_FIRST_STEP_REGULAR_FEE_CLICKED,
+      sendEthSagas.regularFeeClicked
+    )
+    yield takeLatest(
+      AT.SEND_ETH_FIRST_STEP_PRIORITY_FEE_CLICKED,
+      sendEthSagas.priorityFeeClicked
+    )
   }
 }

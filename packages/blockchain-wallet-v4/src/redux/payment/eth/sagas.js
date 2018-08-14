@@ -7,13 +7,13 @@ import { isValidIndex } from './utils'
 import { eth } from '../../../signer'
 import {
   isString,
-  isPositiveInteger,
-  isPositiveNumber
+  isPositiveInteger
 } from '../../../utils/checks'
 import {
   calculateEffectiveBalance,
   isValidAddress,
-  convertGweiToWei
+  convertGweiToWei,
+  calculateFee
 } from '../../../utils/eth'
 
 const taskToPromise = t =>
@@ -43,17 +43,6 @@ export default ({ api }) => {
     }
   }
   // ///////////////////////////////////////////////////////////////////////////
-  const calculateFee = function (fee, fees) {
-    if (isPositiveNumber(fee)) {
-      return fee
-    }
-
-    if (['regular', 'priority'].indexOf(fee) > -1) {
-      return fees[fee]
-    }
-
-    throw new Error('no_fee_set')
-  }
 
   function create ({ network, payment } = { network: undefined, payment: {} }) {
     const makePayment = p => ({
@@ -65,6 +54,7 @@ export default ({ api }) => {
         const fees = yield call(api.getEthereumFee)
         const gasPrice = prop('regular', fees)
         const gasLimit = prop('gasLimit', fees)
+        console.log('init payment', p, fees)
         const fee = calculateFee(gasPrice, gasLimit)
 
         const latestTxR = yield select(S.kvStore.ethereum.getLatestTx)
@@ -136,17 +126,19 @@ export default ({ api }) => {
       },
 
       *fee (value) {
-        let fee = yield call(calculateFee, value, p.fees)
-
+        // value is in gwei
+        const customGasPrice = value
+        const gasLimit = path(['fees', 'gasLimit'], p)
+        let fee = yield call(calculateFee, customGasPrice, gasLimit) // need to pass gas price and gas limit
         const accountR = yield select(S.kvStore.ethereum.getDefaultAddress)
         const account = accountR.getOrFail('missing_default_from')
         const data = yield call(api.getEthereumBalances, account)
         const balance = path([account, 'balance'], data)
-
-        let effectiveBalance = yield call(calculateEffectiveBalance, {
+        let effectiveBalance = calculateEffectiveBalance(
           balance,
-          fee
-        })
+          value
+        )
+        console.log('CORE ETH PAYMENT', p, fee, effectiveBalance)
         return makePayment(merge(p, { fee, effectiveBalance }))
       },
 

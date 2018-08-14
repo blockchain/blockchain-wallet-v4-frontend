@@ -99,6 +99,9 @@ export default ({ coreSagas }) => {
         case 'description':
           payment = yield payment.description(payload)
           break
+        case 'fee':
+          payment = yield payment.fee(parseInt(payload))
+          break
       }
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
@@ -178,12 +181,40 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const regularFeeClicked = function * () {
+    try {
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const regularFee = path(['fees', 'regular'], payment)
+      yield put(change('sendEth', 'fee', regularFee))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'regularFeeClicked', e)
+      )
+    }
+  }
+
+  const priorityFeeClicked = function * () {
+    try {
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const priorityFee = path(['fees', 'priority'], payment)
+      yield put(change('sendEth', 'fee', priorityFee))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'priorityFeeClicked', e)
+      )
+    }
+  }
+
   return {
     initialized,
     destroyed,
     firstStepSubmitClicked,
     maximumAmountClicked,
     secondStepSubmitClicked,
-    formChanged
+    formChanged,
+    regularFeeClicked,
+    priorityFeeClicked
   }
 }

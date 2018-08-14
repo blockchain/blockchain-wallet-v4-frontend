@@ -24,3 +24,9 @@ export const sendEthSecondStepCancelClicked = () => ({
 export const sendEthFirstStepFeeToggled = () => ({
   type: AT.SEND_ETH_FIRST_STEP_FEE_TOGGLED
 })
+export const sendEthFirstStepRegularFeeClicked = () => ({
+  type: AT.SEND_ETH_FIRST_STEP_REGULAR_FEE_CLICKED
+})
+export const sendEthFirstStepPriorityFeeClicked = () => ({
+  type: AT.SEND_ETH_FIRST_STEP_PRIORITY_FEE_CLICKED
+})

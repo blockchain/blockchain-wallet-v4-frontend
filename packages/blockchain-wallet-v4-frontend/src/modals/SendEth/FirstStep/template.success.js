@@ -3,13 +3,14 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-
+import media from 'services/ResponsiveService'
 import { required, validEtherAddress } from 'services/FormHelper'
 import {
   Button,
   Text,
   TooltipHost,
-  TooltipIcon
+  TooltipIcon,
+  Link
 } from 'blockchain-info-components'
 import {
   FiatConvertor,
@@ -17,6 +18,8 @@ import {
   FormGroup,
   FormItem,
   FormLabel,
+  NumberBoxDebounced,
+  SelectBox,
   SelectBoxCoin,
   TextBox,
   TextAreaDebounced
@@ -24,6 +27,8 @@ import {
 import { invalidAmount, insufficientFunds, maximumAmount } from './validation'
 import QRCodeCapture from 'components/QRCodeCapture'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import RegularFeeLink from './RegularFeeLink'
+import PriorityFeeLink from './PriorityFeeLink'
 
 const Row = styled.div`
   display: flex;
@@ -31,6 +36,52 @@ const Row = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+`
+const FeeFormContainer = styled.div`
+  display: flex;
+  flex-direction: ${props => (props.toggled ? 'column' : 'row')};
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+`
+const ColLeft = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 50%;
+  ${media.mobile`
+    width: 100%;
+  `};
+`
+const ColRight = styled(ColLeft)`
+  align-items: flex-end;
+`
+const FeeFormGroup = styled(FormGroup)`
+  ${media.mobile`
+    flex-direction: column;
+  `};
+`
+const FeeFormLabel = styled(FormLabel)`
+  width: 100%;
+  display: flex;
+  white-space: nowrap;
+  > div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+`
+const FeeOptionsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+`
+const FeePerByteContainer = styled.div`
+  width: 100%;
+  margin-bottom: 10px;
 `
 
 const FirstStep = props => {
@@ -41,7 +92,12 @@ const FirstStep = props => {
     fee,
     handleSubmit,
     unconfirmedTx,
-    isContract
+    isContract,
+    feeToggled,
+    feeElements,
+    regularFee,
+    priorityFee,
+    handleFeeToggle
   } = props
   return (
     <Form onSubmit={handleSubmit}>
@@ -133,7 +189,70 @@ const FirstStep = props => {
           />
         </FormItem>
       </FormGroup>
-      <FormGroup margin={'30px'}>
+      <FeeFormGroup inline margin={'10px'}>
+        <ColLeft>
+          <FeeFormContainer toggled={feeToggled}>
+            <FeeFormLabel>
+              <FormattedMessage
+                id='modals.sendether.firststep.fee'
+                defaultMessage='Transaction fee (Gas Price):'
+              />
+              <span>&nbsp;</span>
+              {!feeToggled && (
+                <Field
+                  name='fee'
+                  component={SelectBox}
+                  elements={feeElements}
+                />
+              )}
+              {feeToggled && (
+                <FeeOptionsContainer>
+                  <RegularFeeLink fee={regularFee} />
+                  <span>&nbsp;</span>
+                  <PriorityFeeLink fee={priorityFee} />
+                </FeeOptionsContainer>
+              )}
+            </FeeFormLabel>
+            {feeToggled && (
+              <FeePerByteContainer>
+                <Field
+                  name='fee'
+                  component={NumberBoxDebounced}
+                  validate={[required]}
+                  // warn={[minimumFeePerByte, maximumFeePerByte]}
+                  errorBottom
+                  errorLeft
+                  unit='Gwei'
+                />
+              </FeePerByteContainer>
+            )}
+          </FeeFormContainer>
+        </ColLeft>
+        <ColRight>
+          <ComboDisplay size='14px' coin='ETH'>
+            {fee}
+          </ComboDisplay>
+          <Link
+            size='13px'
+            weight={300}
+            capitalize
+            onClick={handleFeeToggle}
+          >
+            {feeToggled ? (
+              <FormattedMessage
+                id='modals.sendether.firststep.cancel'
+                defaultMessage='Cancel'
+              />
+            ) : (
+              <FormattedMessage
+                id='modals.sendether.firststep.edit'
+                defaultMessage='Customize fee'
+              />
+            )}
+          </Link>
+        </ColRight>
+      </FeeFormGroup>
+      {/* <FormGroup margin={'30px'}>
         <FormItem>
           <FormLabel>
             <FormattedMessage
@@ -145,7 +264,7 @@ const FirstStep = props => {
             {fee}
           </ComboDisplay>
         </FormItem>
-      </FormGroup>
+      </FormGroup> */}
       <FormGroup>
         <Button
           type='submit'
