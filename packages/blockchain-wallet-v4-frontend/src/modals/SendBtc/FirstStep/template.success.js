@@ -314,6 +314,7 @@ const FirstStep = props => {
                   warn={[minimumFeePerByte, maximumFeePerByte]}
                   errorBottom
                   errorLeft
+                  unit='sat/byte'
                 />
               </FeePerByteContainer>
             )}

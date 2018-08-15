@@ -125,20 +125,18 @@ export default ({ api }) => {
         return makePayment(merge(p, { from, effectiveBalance }))
       },
 
-      *fee (value) {
-        // value is in gwei
+      * fee (value) { // value is in gwei
         const customGasPrice = value
         const gasLimit = path(['fees', 'gasLimit'], p)
-        let fee = yield call(calculateFee, customGasPrice, gasLimit) // need to pass gas price and gas limit
+        const fee = calculateFee(customGasPrice, gasLimit)
         const accountR = yield select(S.kvStore.ethereum.getDefaultAddress)
         const account = accountR.getOrFail('missing_default_from')
         const data = yield call(api.getEthereumBalances, account)
         const balance = path([account, 'balance'], data)
-        let effectiveBalance = calculateEffectiveBalance(
+        let effectiveBalance = calculateEffectiveBalance( // balance + fee need to be in wei
           balance,
-          value
+          fee
         )
-        console.log('CORE ETH PAYMENT', p, fee, effectiveBalance)
         return makePayment(merge(p, { fee, effectiveBalance }))
       },
 

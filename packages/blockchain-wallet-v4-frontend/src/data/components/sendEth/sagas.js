@@ -27,7 +27,12 @@ export default ({ coreSagas }) => {
         from && type
           ? yield payment.from(action.payload.from, action.payload.type)
           : yield payment.from()
-      const initialValues = { coin: 'ETH' }
+      const defaultFee = path(
+        ['fees', 'regular'],
+        payment.value()
+      )
+      payment = yield payment.fee(defaultFee)
+      const initialValues = { coin: 'ETH', fee: defaultFee }
       yield put(initialize('sendEth', initialValues))
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
@@ -102,6 +107,11 @@ export default ({ coreSagas }) => {
         case 'fee':
           payment = yield payment.fee(parseInt(payload))
           break
+      }
+      try {
+        payment = yield payment.build()
+      } catch (e) {
+        yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
       }
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {

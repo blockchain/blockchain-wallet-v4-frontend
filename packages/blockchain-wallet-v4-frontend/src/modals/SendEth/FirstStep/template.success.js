@@ -24,7 +24,7 @@ import {
   TextBox,
   TextAreaDebounced
 } from 'components/Form'
-import { invalidAmount, insufficientFunds, maximumAmount } from './validation'
+import { invalidAmount, insufficientFunds, maximumAmount, shouldError, shouldWarn } from './validation'
 import QRCodeCapture from 'components/QRCodeCapture'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import RegularFeeLink from './RegularFeeLink'
@@ -99,6 +99,7 @@ const FirstStep = props => {
     priorityFee,
     handleFeeToggle
   } = props
+
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'15px'}>
@@ -166,7 +167,7 @@ const FirstStep = props => {
             disabled={unconfirmedTx}
             component={FiatConvertor}
             coin='ETH'
-            validate={[invalidAmount, insufficientFunds, maximumAmount]}
+            validate={[required, invalidAmount, insufficientFunds, maximumAmount]}
           />
         </FormItem>
       </FormGroup>
@@ -252,19 +253,6 @@ const FirstStep = props => {
           </Link>
         </ColRight>
       </FeeFormGroup>
-      {/* <FormGroup margin={'30px'}>
-        <FormItem>
-          <FormLabel>
-            <FormattedMessage
-              id='modals.sendether.firststep.fee'
-              defaultMessage='Transaction Fee :'
-            />
-          </FormLabel>
-          <ComboDisplay size='14px' coin='ETH'>
-            {fee}
-          </ComboDisplay>
-        </FormItem>
-      </FormGroup> */}
       <FormGroup>
         <Button
           type='submit'
@@ -291,6 +279,10 @@ FirstStep.propTypes = {
   unconfirmedTx: PropTypes.bool
 }
 
-export default reduxForm({ form: 'sendEth', destroyOnUnmount: false })(
+export default reduxForm({
+  form: 'sendEth',
+  shouldError,
+  shouldWarn,
+  destroyOnUnmount: false })(
   FirstStep
 )
