@@ -67,7 +67,7 @@ const configureStore = () => {
       })
       const ratesSocket = new ApiSocket({
         options,
-        url: `${options.domains.apiWebSocket}/nabu-app/markets/quotes`,
+        url: `${options.domains.webSocket}/nabu-app/markets/quotes`,
         maxReconnects: 3
       })
       const api = createWalletApi({ options, apiKey })
