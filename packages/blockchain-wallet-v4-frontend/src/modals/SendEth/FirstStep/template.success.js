@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import media from 'services/ResponsiveService'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { required, validEtherAddress } from 'services/FormHelper'
 import {
   Button,
@@ -105,7 +106,8 @@ const FirstStep = props => {
     feeElements,
     regularFee,
     priorityFee,
-    handleFeeToggle
+    handleFeeToggle,
+    balanceStatus
   } = props
 
   return (
@@ -227,8 +229,8 @@ const FirstStep = props => {
                 <Field
                   name='fee'
                   component={NumberBoxDebounced}
-                  validate={[required]}
-                  warn={[minimumFee, maximumFee]}
+                  validate={[required, minimumFee]}
+                  warn={[maximumFee]}
                   errorBottom
                   errorLeft
                   unit='Gwei'
@@ -266,7 +268,7 @@ const FirstStep = props => {
           type='submit'
           nature='primary'
           uppercase
-          disabled={pristine || submitting || invalid || isContract}
+          disabled={pristine || submitting || invalid || isContract || Remote.Loading.is(balanceStatus)}
         >
           <FormattedMessage
             id='modals.sendether.firststep.continue'

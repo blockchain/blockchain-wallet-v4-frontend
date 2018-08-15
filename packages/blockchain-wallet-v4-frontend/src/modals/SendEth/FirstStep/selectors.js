@@ -7,14 +7,16 @@ import { createDeepEqualSelector } from 'services/ReselectHelper'
 export const getData = createDeepEqualSelector(
   [
     selectors.components.sendEth.getPayment,
-    selectors.components.sendEth.getFeeToggled
+    selectors.components.sendEth.getFeeToggled,
+    selectors.core.data.ethereum.getLegacyBalance
   ],
-  (
-    paymentR,
-    feeToggled
-  ) => {
+  (paymentR, feeToggled, balanceR) => {
     const transform = payment => {
-      const effectiveBalance = propOr('0', 'effectiveBalance', payment)
+      const effectiveBalance = propOr(
+        '0',
+        'effectiveBalance',
+        payment
+      )
       const unconfirmedTx = prop('unconfirmedTx', payment)
       const isContract = prop('isContract', payment)
       const fee = propOr('0', 'fee', payment)
@@ -58,7 +60,8 @@ export const getData = createDeepEqualSelector(
         priorityFee,
         minFee,
         maxFee,
-        feeElements
+        feeElements,
+        balanceStatus: balanceR
       }
     }
     return paymentR.map(transform)

@@ -1,8 +1,9 @@
-import { call, select } from 'redux-saga/effects'
+import { call, select, put } from 'redux-saga/effects'
 import { isNil, merge, prop, path, identity } from 'ramda'
 import EthUtil from 'ethereumjs-util'
 
 import * as S from '../../selectors'
+import * as A from '../../actions'
 import { isValidIndex } from './utils'
 import { eth } from '../../../signer'
 import {
@@ -130,8 +131,10 @@ export default ({ api }) => {
         const fee = calculateFee(feeInGwei, gasLimit)
         const accountR = yield select(S.kvStore.ethereum.getDefaultAddress)
         const account = accountR.getOrFail('missing_default_from')
+        yield put(A.data.ethereum.fetchLegacyBalanceLoading())
         const data = yield call(api.getEthereumBalances, account)
         const balance = path([account, 'balance'], data)
+        yield put(A.data.ethereum.fetchLegacyBalanceSuccess(balance))
         let effectiveBalance = calculateEffectiveBalance( // balance + fee need to be in wei
           balance,
           fee
