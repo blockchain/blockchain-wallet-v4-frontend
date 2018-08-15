@@ -43,20 +43,26 @@ export const toCashAddr = (address, displayOnly) => {
   const pubKeyHash = 0
   const scriptHash = 5
   const cashAddrPrefix = 'bitcoincash'
-  const { version, hash } = Bitcoin.address.fromBase58Check(address)
-  switch (version) {
-    case pubKeyHash:
-      return formatAddr(
-        cashaddress.encode(cashAddrPrefix, 'pubkeyhash', hash),
-        displayOnly
-      )
-    case scriptHash:
-      return formatAddr(
-        cashaddress.encode(cashAddrPrefix, 'scripthash', hash),
-        displayOnly
-      )
-    default:
-      throw new Error('toBitcoinCash: Address type not supported')
+
+  try {
+    const { version, hash } = Bitcoin.address.fromBase58Check(address)
+
+    switch (version) {
+      case pubKeyHash:
+        return formatAddr(
+          cashaddress.encode(cashAddrPrefix, 'pubkeyhash', hash),
+          displayOnly
+        )
+      case scriptHash:
+        return formatAddr(
+          cashaddress.encode(cashAddrPrefix, 'scripthash', hash),
+          displayOnly
+        )
+      default:
+        throw new Error('toBitcoinCash: Address type not supported')
+    }
+  } catch (e) {
+    return undefined
   }
 }
 
