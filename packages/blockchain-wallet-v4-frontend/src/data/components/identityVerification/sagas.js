@@ -59,8 +59,12 @@ export default ({ api, coreSagas }) => {
   }
 
   const resendEmailCode = function*() {
-    const email = (yield select(selectors.core.settings.getEmail)).getOrElse('')
-    yield put(actions.modules.securityCenter.sendConfirmationCodeEmail(email))
+    const email = yield select(selectors.core.settings.getEmail)
+    yield put(
+      actions.modules.securityCenter.sendConfirmationCodeEmail(
+        email.getOrElse('')
+      )
+    )
   }
 
   const updateSmsNumber = function*() {
@@ -79,10 +83,8 @@ export default ({ api, coreSagas }) => {
   }
 
   const resendSmsCode = function*() {
-    const smsNumber = (yield select(
-      selectors.core.settings.getSmsNumber
-    )).getOrElse('')
-    yield put(actions.modules.settings.updateMobile(smsNumber))
+    const smsNumber = yield select(selectors.core.settings.getSmsNumber)
+    yield put(actions.modules.settings.updateMobile(smsNumber.getOrElse('')))
   }
 
   return {

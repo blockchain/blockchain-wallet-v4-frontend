@@ -269,7 +269,7 @@ VerifyEmail.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  oldEmail: selectors.core.settings.getEmail(state).data,
+  oldEmail: selectors.core.settings.getEmail(state).getOrElse(''),
   emailCode: formValueSelector('sfoxCreate')(state, 'emailCode'),
   emailAddress: formValueSelector('sfoxCreate')(state, 'emailAddress')
 })

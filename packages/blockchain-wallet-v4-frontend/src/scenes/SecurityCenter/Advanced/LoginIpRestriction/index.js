@@ -12,12 +12,12 @@ class LoginIpRestrictionContainer extends React.PureComponent {
   }
 
   handleClick () {
-    this.props.settingsActions.updateIpLockOn(Number(!this.props.ipLockOn.data))
+    this.props.settingsActions.updateIpLockOn(Number(!this.props.ipLockOn))
   }
 
   render () {
     const { ui, ...rest } = this.props
-    const ipLockOn = this.props.ipLockOn.data === 1
+    const ipLockOn = this.props.ipLockOn === 1
 
     return (
       <LoginIpRestriction
@@ -30,7 +30,7 @@ class LoginIpRestrictionContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  ipLockOn: selectors.core.settings.getIpLockOn(state)
+  ipLockOn: selectors.core.settings.getIpLockOn(state).getOrElse(0)
 })
 
 const mapDispatchToProps = dispatch => ({

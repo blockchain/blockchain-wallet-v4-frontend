@@ -12,7 +12,8 @@ const configPath = (partner, key) => [
 
 export const sfoxService = {
   refresh: (value, delegate, options) => {
-    let sfox = new SFOX(value.data.value.sfox, delegate)
+    const metadata = value.getOrFail('No metadata')
+    const sfox = new SFOX(metadata.value.sfox, delegate)
     sfox.api.apiKey = path(configPath('sfox', 'apiKey'), options)
     sfox.api.production = path(configPath('sfox', 'production'), options)
     return sfox
@@ -21,7 +22,8 @@ export const sfoxService = {
 
 export const coinifyService = {
   refresh: (value, delegate, options) => {
-    let coinify = new COINIFY(value.data.value.coinify, delegate)
+    const metadata = value.getOrFail('No metadata')
+    const coinify = new COINIFY(metadata.value.coinify, delegate)
     coinify.partnerId = path(configPath('coinify', 'partnerId'), options)
     coinify.api.sandbox = !path(configPath('coinify', 'production'), options)
     return coinify
