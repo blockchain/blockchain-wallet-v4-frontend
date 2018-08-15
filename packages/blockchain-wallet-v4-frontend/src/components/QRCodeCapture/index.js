@@ -52,8 +52,8 @@ class QRCodeCaptureContainer extends React.PureComponent {
       const fiat = Exchange.convertBitcoinToFiat({
         value: amount,
         fromUnit: 'BTC',
-        toCurrency: currency.data,
-        rates: btcRates.data
+        toCurrency: currency,
+        rates: btcRates
       }).value
 
       this.props.formActions.change('sendBtc', 'to', address)
@@ -238,8 +238,10 @@ class QRCodeCaptureContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  currency: selectors.core.settings.getCurrency(state),
-  btcRates: selectors.core.data.bitcoin.getRates(state)
+  currency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
+  btcRates: selectors.core.data.bitcoin
+    .getRates(state)
+    .getOrFail('Could not find btc rates')
 })
 
 const mapDispatchToProps = dispatch => ({

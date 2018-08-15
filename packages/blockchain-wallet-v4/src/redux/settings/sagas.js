@@ -280,10 +280,10 @@ export default ({ api }) => {
     const typesState = []
     const emailVerified = yield select(selectors.settings.getEmailVerified)
     const smsVerified = yield select(selectors.settings.getSmsVerified)
-    if (prop('email', types) && emailVerified.data) {
+    if (prop('email', types) && emailVerified.getOrElse(0)) {
       typesState.push(1)
     }
-    if (prop('mobile', types) && smsVerified.data) {
+    if (prop('mobile', types) && smsVerified.getOrElse(0)) {
       typesState.push(32)
     }
     const guid = yield select(wS.getGuid)
