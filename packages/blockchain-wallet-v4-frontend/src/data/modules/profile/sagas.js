@@ -29,7 +29,7 @@ export default ({ api, coreSagas }) => {
         selectors.core.kvStore.userCredentials.getUserId
       )).getOrElse(null)
       const lifetimeToken = (yield select(
-        selectors.core.kvStore.userCredentials.getUserToken
+        selectors.core.kvStore.userCredentials.getLifetimeToken
       )).getOrElse(null)
       if (!userId || !lifetimeToken) return
 
@@ -84,7 +84,7 @@ export default ({ api, coreSagas }) => {
       .map(ifElse(isEmpty, () => call(generateUserId, email, guid), identity))
       .getOrFail(new Error(userIdError))
     const lifetimeTokenR = yield select(
-      selectors.core.kvStore.userCredentials.getUserToken
+      selectors.core.kvStore.userCredentials.getLifetimeToken
     )
     const lifetimeToken = yield lifetimeTokenR
       .map(
@@ -128,7 +128,7 @@ export default ({ api, coreSagas }) => {
         guid
       )
       yield put(
-        actions.core.kvStore.userCredentials.setUserToken(lifetimeToken)
+        actions.core.kvStore.userCredentials.setLifetimeToken(lifetimeToken)
       )
       return lifetimeToken
     } catch (e) {

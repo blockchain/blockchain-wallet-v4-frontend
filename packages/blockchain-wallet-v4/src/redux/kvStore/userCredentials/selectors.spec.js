@@ -25,9 +25,9 @@ describe('kvstore userCredentials selectors', () => {
     expect(selectors.getUserId(successState)).toEqual(expectedResult)
   })
 
-  it('getUserToken should return success of token', () => {
+  it('getLifetimeToken should return success of token', () => {
     const expectedResult = Remote.Success(token)
-    expect(selectors.getUserToken(successState)).toEqual(expectedResult)
+    expect(selectors.getLifetimeToken(successState)).toEqual(expectedResult)
   })
 
   const loadingState = {
@@ -46,9 +46,9 @@ describe('kvstore userCredentials selectors', () => {
     expect(selectors.getUserId(loadingState)).toEqual(expectedResult)
   })
 
-  it('getUserToken should return loading in loading state', () => {
+  it('getLifetimeToken should return loading in loading state', () => {
     const expectedResult = Remote.Loading
-    expect(selectors.getUserToken(loadingState)).toEqual(expectedResult)
+    expect(selectors.getLifetimeToken(loadingState)).toEqual(expectedResult)
   })
 
   const failureState = {
@@ -67,8 +67,8 @@ describe('kvstore userCredentials selectors', () => {
     expect(selectors.getUserId(failureState)).toEqual(expectedResult)
   })
 
-  it('getUserToken should return failure in failure state', () => {
+  it('getLifetimeToken should return failure in failure state', () => {
     const expectedResult = Remote.Failure('Error in userCredentials metadata')
-    expect(selectors.getUserToken(failureState)).toEqual(expectedResult)
+    expect(selectors.getLifetimeToken(failureState)).toEqual(expectedResult)
   })
 })

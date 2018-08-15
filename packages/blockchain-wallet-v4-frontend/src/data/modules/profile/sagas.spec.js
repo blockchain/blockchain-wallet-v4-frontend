@@ -46,7 +46,7 @@ const stubbedSignin = expectSaga(signIn).provide([
     Remote.of(stubUserId)
   ],
   [
-    select(selectors.core.kvStore.userCredentials.getUserToken),
+    select(selectors.core.kvStore.userCredentials.getLifetimeToken),
     Remote.of(stubLifetimeToken)
   ],
   [call.fn(startSession), jest.fn()]
@@ -61,7 +61,7 @@ const stubbedGenerateAuthCredentials = expectSaga(
     Remote.of(stubUserId)
   ],
   [
-    select(selectors.core.kvStore.userCredentials.getUserToken),
+    select(selectors.core.kvStore.userCredentials.getLifetimeToken),
     Remote.of(stubLifetimeToken)
   ],
   [call.fn(startSession), jest.fn()]
@@ -86,7 +86,7 @@ describe('signin saga', () => {
       .select(selectors.core.settings.getEmail)
       .select(selectors.core.wallet.getGuid)
       .select(selectors.core.kvStore.userCredentials.getUserId)
-      .select(selectors.core.kvStore.userCredentials.getUserToken)
+      .select(selectors.core.kvStore.userCredentials.getLifetimeToken)
       .run())
 
   it('should not start session if they userId or lifetime token is not set', async () => {
@@ -99,7 +99,7 @@ describe('signin saga', () => {
           Remote.of('')
         ],
         [
-          select(selectors.core.kvStore.userCredentials.getUserToken),
+          select(selectors.core.kvStore.userCredentials.getLifetimeToken),
           Remote.of(stubLifetimeToken)
         ]
       ])
@@ -114,7 +114,7 @@ describe('signin saga', () => {
           Remote.of(stubEmail)
         ],
         [
-          select(selectors.core.kvStore.userCredentials.getUserToken),
+          select(selectors.core.kvStore.userCredentials.getLifetimeToken),
           Remote.of('')
         ]
       ])
@@ -146,7 +146,7 @@ describe('generate auth credentials saga', () => {
       .select(selectors.core.settings.getEmail)
       .select(selectors.core.wallet.getGuid)
       .select(selectors.core.kvStore.userCredentials.getUserId)
-      .select(selectors.core.kvStore.userCredentials.getUserToken)
+      .select(selectors.core.kvStore.userCredentials.getLifetimeToken)
       .call(startSession, stubUserId, stubLifetimeToken, stubEmail, stubGuid)
       .dispatch({ type: AT.SET_API_TOKEN, payload: { token: stubApiToken } })
       .run())
@@ -163,7 +163,7 @@ describe('generate auth credentials saga', () => {
           Remote.Success('')
         ],
         [
-          select(selectors.core.kvStore.userCredentials.getUserToken),
+          select(selectors.core.kvStore.userCredentials.getLifetimeToken),
           Remote.Success('')
         ],
         [call.fn(startSession), jest.fn()]

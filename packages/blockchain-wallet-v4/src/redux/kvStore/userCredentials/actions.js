@@ -23,7 +23,7 @@ export const setUserId = user_id => ({
   type: AT.SET_USER_ID,
   payload: { user_id }
 })
-export const setUserToken = token => ({
-  type: AT.SET_USER_TOKEN,
+export const setLifetimeToken = token => ({
+  type: AT.SET_LIFETIME_TOKEN,
   payload: { token }
 })

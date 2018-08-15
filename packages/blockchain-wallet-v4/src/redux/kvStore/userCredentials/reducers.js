@@ -32,14 +32,14 @@ export default (state = INITIAL_STATE, action) => {
         state
       )
     }
-    case AT.SET_USER_TOKEN: {
+    case AT.SET_LIFETIME_TOKEN: {
       const { token } = payload
       return over(
         compose(
           mapped,
           KVStoreEntry.value
         ),
-        assoc('token', token),
+        assoc('lifetime_token', token),
         state
       )
     }
