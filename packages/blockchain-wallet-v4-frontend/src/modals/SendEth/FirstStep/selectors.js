@@ -18,6 +18,7 @@ export const getData = createDeepEqualSelector(
       const isContract = prop('isContract', payment)
       const fee = propOr('0', 'fee', payment)
       const destination = prop('to', formValues)
+      const from = prop('from', formValues)
 
       return {
         effectiveBalance,
@@ -26,7 +27,8 @@ export const getData = createDeepEqualSelector(
         toToggled,
         enableToggle,
         destination,
-        fee
+        fee,
+        from
       }
     }
     return paymentR.map(transform)

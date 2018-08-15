@@ -47,6 +47,21 @@ export default ({ api }) => {
 
     return destination
   }
+
+  const calculateSignature = function*(network, password, raw) {
+    switch (raw.fromType) {
+      case 'ACCOUNT': {
+        const appState = yield select(identity)
+        const mnemonicT = S.wallet.getMnemonic(appState, password)
+        const mnemonic = yield call(() => taskToPromise(mnemonicT))
+        const sign = data => taskToPromise(eth.sign(network, mnemonic, data))
+        return yield call(sign, raw)
+      }
+      case 'LOCKBOX': {
+        return yield call(eth.signLockbox, network, raw)
+      }
+    }
+  }
   // ///////////////////////////////////////////////////////////////////////////
   function create ({ network, payment } = { network: undefined, payment: {} }) {
     const makePayment = p => ({
@@ -130,13 +145,15 @@ export default ({ api }) => {
       },
 
       *build () {
-        const from = prop('from', p)
-        const index = yield call(selectIndex, from)
+        const fromData = prop('from', p)
+        const index = yield call(selectIndex, fromData)
         const to = path(['to', 'address'], p)
         const amount = prop('amount', p)
         const gasPrice = convertGweiToWei(path(['fees', 'regular'], p))
         const gasLimit = path(['fees', 'gasLimit'], p)
-        const nonce = prop('nonce', from)
+        const nonce = prop('nonce', fromData)
+        const from = prop('address', fromData)
+        const fromType = prop('type', fromData)
         if (isNil(from)) throw new Error('missing_from')
         if (!isValidIndex(index)) throw new Error('invalid_index')
         if (isNil(to)) throw new Error('missing_to')
@@ -148,17 +165,27 @@ export default ({ api }) => {
         // if (!isPositiveInteger(gasLimit)) throw new Error('invalid_gaslimit')
         if (isNil(nonce)) throw new Error('missing_nonce')
         if (!isPositiveInteger(nonce)) throw new Error('invalid_nonce')
-        const raw = { index, to, amount, gasPrice, gasLimit, nonce }
+        const raw = {
+          index,
+          to,
+          amount,
+          gasPrice,
+          gasLimit,
+          nonce,
+          from,
+          fromType
+        }
         return makePayment(merge(p, { raw }))
       },
 
       *sign (password) {
         try {
-          const appState = yield select(identity)
-          const mnemonicT = S.wallet.getMnemonic(appState, password)
-          const mnemonic = yield call(() => taskToPromise(mnemonicT))
-          const sign = data => taskToPromise(eth.sign(network, mnemonic, data))
-          const signed = yield call(sign, p.raw)
+          const signed = yield call(
+            calculateSignature,
+            network,
+            password,
+            p.raw
+          )
           return makePayment(merge(p, { signed }))
         } catch (e) {
           throw new Error('missing_mnemonic')

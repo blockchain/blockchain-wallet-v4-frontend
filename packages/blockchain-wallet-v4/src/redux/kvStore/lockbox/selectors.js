@@ -58,6 +58,11 @@ export const getLockboxEthAccounts = state =>
     .map(map(path(['accounts'])))
     .map(flatten)
 
+export const getLockboxEthAccount = (state, address) =>
+  getLockboxEthAccounts(state)
+    .map(filter(x => x.addr === address))
+    .map(head)
+
 export const getLockboxEthContext = state => {
   return getLockboxEthAccounts(state).map(accounts => {
     return accounts ? accounts.map(a => path(['addr'], a)) : []

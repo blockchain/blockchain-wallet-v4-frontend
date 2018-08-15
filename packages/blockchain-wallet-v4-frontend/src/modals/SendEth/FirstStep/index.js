@@ -24,6 +24,7 @@ class FirstStep extends React.PureComponent {
       Success: value => (
         <Success
           fee={value.fee}
+          from={value.from}
           isContract={value.isContract}
           unconfirmedTx={value.unconfirmedTx}
           effectiveBalance={value.effectiveBalance}

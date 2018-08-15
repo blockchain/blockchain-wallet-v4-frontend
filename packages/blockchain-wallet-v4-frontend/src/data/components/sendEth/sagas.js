@@ -84,6 +84,11 @@ export default ({ coreSagas }) => {
             }
           }
           break
+        case 'from':
+          const source = prop('address', payload)
+          const fromType = prop('type', payload)
+          payment = yield payment.from(source, fromType)
+          break
         case 'to':
           payment = yield payment.to(payload)
           break

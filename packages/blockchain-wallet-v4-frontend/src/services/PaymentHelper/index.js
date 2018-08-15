@@ -96,6 +96,11 @@ export const ethFromLabel = curry((payment, state) => {
       return selectors.core.kvStore.ethereum
         .getAccountLabel(state, from.address)
         .getOrElse(from.address)
+    case 'LOCKBOX':
+      return selectors.core.kvStore.lockbox
+        .getLockboxEthAccount(state, from.address)
+        .map(prop('label'))
+        .getOrElse(from.address)
     default:
       return from.address
   }

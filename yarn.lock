@@ -657,6 +657,12 @@
     "@ledgerhq/hw-transport" "^4.21.0"
     create-hash "^1.1.3"
 
+"@ledgerhq/hw-app-eth@^4.20.0":
+  version "4.21.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-app-eth/-/hw-app-eth-4.21.0.tgz#2d8bfbe5f09b92e8d6951ae685036d9d5aea96ff"
+  dependencies:
+    "@ledgerhq/hw-transport" "^4.21.0"
+
 "@ledgerhq/hw-transport-u2f@^4.20.0":
   version "4.21.0"
   resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport-u2f/-/hw-transport-u2f-4.21.0.tgz#85695d7e853a5c21af7e7dcb0ce3919f2b65cdd9"
