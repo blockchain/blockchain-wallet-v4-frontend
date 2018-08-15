@@ -39,14 +39,22 @@ export const promptForInput = function*({ title, secret, initial = '' }) {
   }
 }
 
-export const confirm = function*({ title, message, image, confirm, cancel }) {
+export const confirm = function*({
+  title,
+  message,
+  image,
+  confirm,
+  cancel,
+  messageValues
+}) {
   yield put(
     actions.modals.showModal('Confirm', {
       title,
       message,
       image,
       confirm,
-      cancel
+      cancel,
+      messageValues
     })
   )
   let { response, canceled } = yield race({
