@@ -35,9 +35,6 @@ class RequestBchContainer extends React.PureComponent {
         this.props.modalActions.showModal('RequestBitcoin')
       }
     })
-  }
-
-  componentDidUpdate (prevProps) {
     if (
       !Remote.Success.is(prevProps.initialValues) &&
       Remote.Success.is(this.props.initialValues)

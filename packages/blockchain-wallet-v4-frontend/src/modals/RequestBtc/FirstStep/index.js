@@ -33,9 +33,6 @@ class FirstStepContainer extends React.PureComponent {
         this.props.modalActions.showModal('RequestBch')
       }
     })
-  }
-
-  componentDidUpdate (prevProps) {
     if (
       !Remote.Success.is(prevProps.initialValues) &&
       Remote.Success.is(this.props.initialValues)
