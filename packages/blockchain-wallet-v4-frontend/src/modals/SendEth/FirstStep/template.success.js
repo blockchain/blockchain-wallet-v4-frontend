@@ -24,7 +24,15 @@ import {
   TextBox,
   TextAreaDebounced
 } from 'components/Form'
-import { invalidAmount, insufficientFunds, maximumAmount, shouldError, shouldWarn } from './validation'
+import {
+  invalidAmount,
+  insufficientFunds,
+  maximumAmount,
+  shouldError,
+  shouldWarn,
+  minimumFee,
+  maximumFee
+} from './validation'
 import QRCodeCapture from 'components/QRCodeCapture'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import RegularFeeLink from './RegularFeeLink'
@@ -220,7 +228,7 @@ const FirstStep = props => {
                   name='fee'
                   component={NumberBoxDebounced}
                   validate={[required]}
-                  // warn={[minimumFeePerByte, maximumFeePerByte]}
+                  warn={[minimumFee, maximumFee]}
                   errorBottom
                   errorLeft
                   unit='Gwei'

@@ -108,11 +108,7 @@ export default ({ coreSagas }) => {
           payment = yield payment.fee(parseInt(payload))
           break
       }
-      try {
-        payment = yield payment.build()
-      } catch (e) {
-        yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
-      }
+
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
@@ -217,11 +213,39 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const minimumFeeClicked = function * () {
+    try {
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const minFee = path(['fees', 'limits', 'min'], payment)
+      yield put(change('sendEth', 'fee', minFee))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'minimumFeeClicked', e)
+      )
+    }
+  }
+
+  const maximumFeeClicked = function * () {
+    try {
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const maxFee = path(['fees', 'limits', 'max'], payment)
+      yield put(change('sendEth', 'fee', maxFee))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'maximumFeeClicked', e)
+      )
+    }
+  }
+
   return {
     initialized,
     destroyed,
     firstStepSubmitClicked,
     maximumAmountClicked,
+    maximumFeeClicked,
+    minimumFeeClicked,
     secondStepSubmitClicked,
     formChanged,
     regularFeeClicked,

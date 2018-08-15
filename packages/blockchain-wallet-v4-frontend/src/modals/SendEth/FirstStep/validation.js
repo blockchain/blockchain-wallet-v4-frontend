@@ -5,7 +5,9 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import {
   MaximumAmountMessage,
   InsufficientFundsMessage,
-  InvalidAmountMessage
+  InvalidAmountMessage,
+  MinimumFeeMessage,
+  MaximumFeeMessage
 } from './validationMessages'
 
 export const insufficientFunds = (value, allValues, props) => {
@@ -42,6 +44,20 @@ export const maximumAmount = (value, allValues, props) => {
       <MaximumAmountMessage />
     )
 }
+
+export const minimumFee = (value, allValues, props) =>
+  value && parseInt(value) >= props.minFee ? (
+    undefined
+  ) : (
+    <MinimumFeeMessage />
+  )
+
+export const maximumFee = (value, allValues, props) =>
+  value && parseInt(value) <= props.maxFee ? (
+    undefined
+  ) : (
+    <MaximumFeeMessage />
+  )
 
 export const shouldError = ({
   values,

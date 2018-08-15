@@ -54,7 +54,6 @@ export default ({ api }) => {
         const fees = yield call(api.getEthereumFee)
         const gasPrice = prop('regular', fees)
         const gasLimit = prop('gasLimit', fees)
-        console.log('init payment', p, fees)
         const fee = calculateFee(gasPrice, gasLimit)
 
         const latestTxR = yield select(S.kvStore.ethereum.getLatestTx)
@@ -126,9 +125,9 @@ export default ({ api }) => {
       },
 
       * fee (value) { // value is in gwei
-        const customGasPrice = value
+        const feeInGwei = value
         const gasLimit = path(['fees', 'gasLimit'], p)
-        const fee = calculateFee(customGasPrice, gasLimit)
+        const fee = calculateFee(feeInGwei, gasLimit)
         const accountR = yield select(S.kvStore.ethereum.getDefaultAddress)
         const account = accountR.getOrFail('missing_default_from')
         const data = yield call(api.getEthereumBalances, account)
@@ -137,7 +136,7 @@ export default ({ api }) => {
           balance,
           fee
         )
-        return makePayment(merge(p, { fee, effectiveBalance }))
+        return makePayment(merge(p, { feeInGwei, fee, effectiveBalance }))
       },
 
       *build () {
@@ -145,7 +144,7 @@ export default ({ api }) => {
         const index = yield call(selectIndex, from)
         const to = prop('to', p)
         const amount = prop('amount', p)
-        const gasPrice = convertGweiToWei(path(['fees', 'regular'], p))
+        const gasPrice = convertGweiToWei(prop('feeInGwei', p))
         const gasLimit = path(['fees', 'gasLimit'], p)
         const nonce = prop('nonce', from)
         if (isNil(from)) throw new Error('missing_from')
