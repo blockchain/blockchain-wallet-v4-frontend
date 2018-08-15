@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import media from 'services/ResponsiveService'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { required, validEtherAddress } from 'services/FormHelper'
 import {
@@ -34,64 +32,20 @@ import {
   minimumFee,
   maximumFee
 } from './validation'
+import {
+  Row,
+  ColLeft,
+  ColRight,
+  FeeFormContainer,
+  FeeFormGroup,
+  FeeFormLabel,
+  FeeOptionsContainer,
+  FeePerByteContainer
+} from 'components/Send'
 import QRCodeCapture from 'components/QRCodeCapture'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import RegularFeeLink from './RegularFeeLink'
 import PriorityFeeLink from './PriorityFeeLink'
-
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-`
-const FeeFormContainer = styled.div`
-  display: flex;
-  flex-direction: ${props => (props.toggled ? 'column' : 'row')};
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-`
-const ColLeft = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  width: 50%;
-  ${media.mobile`
-    width: 100%;
-  `};
-`
-const ColRight = styled(ColLeft)`
-  align-items: flex-end;
-`
-const FeeFormGroup = styled(FormGroup)`
-  ${media.mobile`
-    flex-direction: column;
-  `};
-`
-const FeeFormLabel = styled(FormLabel)`
-  width: 100%;
-  display: flex;
-  white-space: nowrap;
-  > div {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-`
-const FeeOptionsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-`
-const FeePerByteContainer = styled.div`
-  width: 100%;
-  margin-bottom: 10px;
-`
 
 const FirstStep = props => {
   const {
