@@ -15,3 +15,6 @@ export const signIn = () => ({
 export const clearSession = () => ({
   type: AT.CLEAR_SESSION
 })
+export const generateAuthCredentials = () => ({
+  type: AT.GENERATE_AUTH_CREDENTIALS
+})

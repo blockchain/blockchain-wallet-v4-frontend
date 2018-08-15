@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { keys } from 'ramda'
+import { keys, filter } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
 import { actions, model } from 'data'
@@ -14,7 +14,7 @@ import { ModalHeader, ModalBody } from 'blockchain-info-components'
 import Tray, { duration } from 'components/Tray'
 import StepIndicator from 'components/StepIndicator'
 import Personal from './Personal'
-import Address from './Address'
+import VerifyMobile from './VerifyMobile'
 import Verify from './Verify'
 
 const HeaderWrapper = styled.div`
@@ -34,10 +34,10 @@ const stepMap = {
       defaultMessage='Personal'
     />
   ),
-  [STEPS.address]: (
+  [STEPS.mobile]: (
     <FormattedMessage
-      id='modals.identityverification.steps.address'
-      defaultMessage='Address'
+      id='modals.identityverification.steps.mobile'
+      defaultMessage='Phone'
     />
   ),
   [STEPS.verify]: (
@@ -47,6 +47,8 @@ const stepMap = {
     />
   )
 }
+
+const filterSteps = smsVerified => step => step !== STEPS.mobile || smsVerified
 
 class IdentityVerification extends React.PureComponent {
   state = { show: false }
@@ -64,8 +66,11 @@ class IdentityVerification extends React.PureComponent {
 
   getStepComponent = step => {
     const { actions, modalActions, position, total } = this.props
-    if (step === STEPS.address)
-      return <Address handleSubmit={actions.saveAddress} />
+    if (step === STEPS.personal)
+      return <Personal handleSubmit={actions.savePersonalData} />
+
+    if (step === STEPS.mobile)
+      return <VerifyMobile handleSubmit={actions.verifySmsNumber} />
 
     if (step === STEPS.verify)
       return (
@@ -76,14 +81,11 @@ class IdentityVerification extends React.PureComponent {
           })}
         />
       )
-
-    if (step === STEPS.personal)
-      return <Personal handleSubmit={actions.savePersonalData} />
   }
 
   render () {
     const { show } = this.state
-    const { step, position, total } = this.props
+    const { step, position, total, smsVerified } = this.props
 
     return (
       <Tray
@@ -101,7 +103,7 @@ class IdentityVerification extends React.PureComponent {
               flexEnd
               maxWidth='135px'
               step={step}
-              stepMap={stepMap}
+              stepMap={filter(filterSteps(smsVerified), stepMap)}
             />
           </HeaderWrapper>
         </ModalHeader>

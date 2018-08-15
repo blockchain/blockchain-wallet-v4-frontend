@@ -2,19 +2,43 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { equals, keys } from 'ramda'
+import { map, find, propEq } from 'ramda'
 
 import { actions, model } from 'data'
 import { getData } from './selectors'
-import Personal from './template'
-import EditEmail from './EditEmail'
-import EditSmsNumber from './EditSmsNumber'
+import { Remote } from 'blockchain-wallet-v4'
 
-const {
-  PERSONAL_STEPS,
-  EMAIL_STEPS,
-  SMS_STEPS
-} = model.components.identityVerification
+import Personal from './template'
+import Loading from './template.loading'
+import DataError from 'components/DataError'
+
+const getCountryElements = countries => [
+  {
+    group: '',
+    items: map(
+      country => ({
+        value: country,
+        text: country.name
+      }),
+      countries
+    )
+  }
+]
+
+const getAddressElements = addresses => [
+  {
+    group: '',
+    items: map(address => {
+      const { line1, line2, postCode, city, state } = address
+      return {
+        value: address,
+        text: `${line1} ${line2} ${postCode}, ${city}, ${state}`
+      }
+    }, addresses)
+  }
+]
+
+const { AddressPropType } = model.profile
 
 class PersonalContainer extends React.PureComponent {
   state = {
@@ -22,101 +46,86 @@ class PersonalContainer extends React.PureComponent {
   }
 
   componentDidMount () {
-    const { personalData, actions } = this.props
-    if (personalData.email && !personalData.emailVerified) {
-      actions.resendEmailCode()
-    }
-    if (personalData.smsNumber && !personalData.smsVerified)
-      actions.resendSmsCode()
-    actions.updatePersonalStep(personalData)
-  }
-
-  componentDidUpdate (prevProps) {
-    const { personalData, actions } = this.props
-    if (!equals(personalData, prevProps.personalData)) {
-      actions.updatePersonalStep(personalData)
-      actions.setFormBusy(false)
-    }
+    this.props.actions.fetchSupportedCountries()
   }
 
   setActiveField = fieldName => {
     this.setState({ activeField: fieldName })
   }
 
+  fetchPossibleAddresses = (_, postCode) => {
+    const { countryCode, actions } = this.props
+
+    actions.fetchPossibleAddresses(postCode, countryCode)
+  }
+
+  selectAddress = (_, address) => {
+    this.props.actions.selectAddress(address)
+  }
+
   render () {
     const {
-      personalData,
-      step,
-      formBusy,
+      supportedCountries,
+      initialCountryCode,
       countryCode,
-      actions,
+      possibleAddresses,
+      address,
+      addressRefetchVisible,
       handleSubmit
     } = this.props
-    const { email, smsNumber } = personalData
     const { activeField } = this.state
 
-    if (step === PERSONAL_STEPS.email) {
-      return (
-        <EditEmail
-          initialValues={{ email }}
-          email={email}
-          editEmail={actions.setEmailStep.bind(null, EMAIL_STEPS.edit)}
-          updateEmail={actions.updateEmail}
-          verifyEmail={actions.verifyEmail}
-          resendCode={actions.resendEmailCode}
-          formBusy={formBusy}
-        />
-      )
-    }
-
-    if (step === PERSONAL_STEPS.smsNumber) {
-      return (
-        <EditSmsNumber
-          initialValues={{ smsNumber }}
-          smsNumber={smsNumber}
-          editSmsNumber={actions.setSmsStep.bind(null, SMS_STEPS.edit)}
-          updateSmsNumber={actions.updateSmsNumber}
-          verifySmsNumber={actions.verifySmsNumber}
-          resendCode={actions.resendSmsCode}
-          formBusy={formBusy}
-        />
-      )
-    }
-
-    if (step === PERSONAL_STEPS.personal) {
-      return (
+    return supportedCountries.cata({
+      Success: supportedCountries => (
         <Personal
-          {...personalData}
-          onSubmit={handleSubmit}
-          initialValues={{ email, smsNumber }}
+          initialValues={{
+            country: find(
+              propEq('code', initialCountryCode),
+              supportedCountries
+            )
+          }}
           countryCode={countryCode}
-          editEmail={actions.setPersonalStep.bind(null, PERSONAL_STEPS.email)}
-          editSms={actions.setPersonalStep.bind(null, PERSONAL_STEPS.smsNumber)}
+          supportedCountries={getCountryElements(supportedCountries)}
+          possibleAddresses={getAddressElements(possibleAddresses)}
+          address={address}
+          addressRefetchVisible={addressRefetchVisible}
           activeField={activeField}
           setActiveField={this.setActiveField}
+          onAddressSelect={this.selectAddress}
+          onPostCodeChange={this.fetchPossibleAddresses}
+          onSubmit={handleSubmit}
         />
-      )
-    }
-
-    return ''
+      ),
+      NotAsked: () => <Loading />,
+      Loading: () => <Loading />,
+      Failure: () => <DataError onClick={actions.fetchSupportedCountries} />
+    })
   }
 }
 
 PersonalContainer.propTypes = {
-  personalData: PropTypes.shape({
-    email: PropTypes.string.isRequired,
-    smsNumber: PropTypes.string.isRequired,
-    emailVerified: PropTypes.number.isRequired,
-    smsVerified: PropTypes.number.isRequired
-  }),
-  countryCode: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  step: PropTypes.oneOf(keys(PERSONAL_STEPS)).isRequired,
-  formBusy: PropTypes.bool.isRequired
+  formBusy: PropTypes.bool.isRequired,
+  initialCountryCode: PropTypes.string,
+  supportedCountries: PropTypes.instanceOf(Remote).isRequired,
+  possibleAddresses: PropTypes.arrayOf(AddressPropType),
+  countryCode: PropTypes.string,
+  address: AddressPropType,
+  addressRefetchVisible: PropTypes.bool.isRequired
+}
+
+PersonalContainer.defaultProps = {
+  initialCountryCode: '',
+  possibleAddresses: [],
+  countryCode: '',
+  address: null
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.identityVerification, dispatch)
+  actions: bindActionCreators(
+    { ...actions.components.identityVerification, ...actions.modules.profile },
+    dispatch
+  )
 })
 
 export default connect(

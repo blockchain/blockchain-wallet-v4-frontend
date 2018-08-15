@@ -18,3 +18,5 @@ export const userFlowSupported = state =>
   selectors.core.settings.getCountryCode(state).map(isCountrySupported)
 
 export const getApiToken = path(['profile', 'apiToken'])
+
+export const isAuthenticated = state => getApiToken(state).map(prop('isActive'))

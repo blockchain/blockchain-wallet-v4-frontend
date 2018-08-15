@@ -4,7 +4,7 @@ export default ({ nabuUrl, post, patch }) => {
       url: nabuUrl,
       contentType: 'application/json',
       data: { email, walletGuid },
-      endPoint: '/users',
+      endPoint: '/internal/users',
       headers: { Authorization: 'Basic' }
     })
 
@@ -12,9 +12,9 @@ export default ({ nabuUrl, post, patch }) => {
     post({
       url: nabuUrl,
       contentType: 'application/json',
-      endPoint: `/auth?userId=${userId}`,
-      useApiToken: true,
+      endPoint: `/internal/auth?userId=${userId}`,
       headers: {
+        Authorization: 'Basic',
         'X-WALLET-GUID': walletGuid,
         'X-WALLET-EMAIL': email
       }
@@ -26,9 +26,12 @@ export default ({ nabuUrl, post, patch }) => {
       contentType: 'application/json',
       endPoint: `/auth?userId=${userId}`,
       headers: {
+        'X-DEVICE-ID': 'deviceId',
+        'x-client-type': 'WEB',
+        'x-app-version': '6.11.1',
         'X-WALLET-GUID': walletGuid,
         'X-WALLET-EMAIL': email,
-        Authorizarion: `Bearer ${lifetimeToken}`
+        Authorization: `Bearer ${lifetimeToken}`
       }
     })
 

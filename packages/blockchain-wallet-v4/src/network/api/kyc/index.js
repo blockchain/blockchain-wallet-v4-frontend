@@ -3,7 +3,7 @@ export default ({ nabuUrl, get, post }) => {
     get({
       url: nabuUrl,
       endPoint: '/countries',
-      data: { filter: 'eea' }
+      data: { region: 'eea' }
     })
 
   const fetchKycAddresses = (filter, cancelToken) =>

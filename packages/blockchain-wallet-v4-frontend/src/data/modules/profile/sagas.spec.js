@@ -1,13 +1,12 @@
 import { expectSaga } from 'redux-saga-test-plan'
-import { take, call } from 'redux-saga-test-plan/matchers'
+import { call } from 'redux-saga-test-plan/matchers'
 import { select } from 'redux-saga/effects'
-import { flushPromises } from 'utils/test.utils'
 
 import { selectors } from 'data'
 import * as AT from './actionTypes'
+import * as S from './selectors'
 import sagas from './sagas'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
-import moment from 'moment'
 
 jest.useFakeTimers()
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
@@ -25,13 +24,13 @@ const {
   createUser,
   generateUserId,
   generateLifetimeToken,
+  generateAuthCredentials,
   startSession
 } = sagas({
   api,
   coreSagas
 })
 
-const expireTimeout = 100000
 const stubGuid = 'fa0c3130-0b7d-46cf-9d76-4b8208e298e5'
 const stubEmail = 'user@mail.com'
 const stubUserId = '3d448ad7-0e2c-4b65-91b0-c149892e243c'
@@ -49,11 +48,12 @@ const stubbedSignin = expectSaga(signIn).provide([
   [
     select(selectors.core.kvStore.userCredentials.getUserToken),
     Remote.of(stubLifetimeToken)
-  ]
+  ],
+  [call.fn(startSession), jest.fn()]
 ])
-const stubbedCreateUser = expectSaga(createUser, {
-  payload: { data: stubUserData }
-}).provide([
+const stubbedGenerateAuthCredentials = expectSaga(
+  generateAuthCredentials
+).provide([
   [select(selectors.core.wallet.getGuid), stubGuid],
   [select(selectors.core.settings.getEmail), Remote.of(stubEmail)],
   [
@@ -64,9 +64,12 @@ const stubbedCreateUser = expectSaga(createUser, {
     select(selectors.core.kvStore.userCredentials.getUserToken),
     Remote.of(stubLifetimeToken)
   ],
-  [call.fn(startSession), jest.fn()],
-  [take(AT.SET_API_TOKEN), { payload: { token: stubApiToken } }]
+  [call.fn(startSession), jest.fn()]
 ])
+
+const stubbedCreateUser = expectSaga(createUser, {
+  payload: { data: stubUserData }
+}).provide([[select(S.getApiToken), stubApiToken]])
 
 describe('signin saga', () => {
   beforeEach(() => {
@@ -118,41 +121,6 @@ describe('signin saga', () => {
       .not.call(startSession)
       .run()
   })
-
-  it('should fetch session and set sessionToken', () =>
-    stubbedSignin
-      .call(startSession, stubUserId, stubLifetimeToken, stubEmail, stubGuid)
-      .run()
-      .then(() => {
-        expect(api.generateSession).toHaveBeenCalledTimes(1)
-        expect(api.generateSession).toHaveBeenCalledWith(
-          stubUserId,
-          stubLifetimeToken,
-          stubEmail,
-          stubGuid
-        )
-      }))
-
-  it('should renew session after it expires', () => {
-    api.generateSession.mockReturnValue({
-      token: stubApiToken,
-      expiresAt: moment()
-        .add(expireTimeout, 'ms')
-        .format()
-    })
-    stubbedSignin.run()
-    return (
-      flushPromises()
-        .then(() => {
-          expect(api.generateSession).toHaveBeenCalledTimes(1)
-          jest.advanceTimersByTime(expireTimeout)
-        })
-        // .then(flushPromises)
-        .then(() => {
-          expect(api.generateSession).toHaveBeenCalledTimes(2)
-        })
-    )
-  })
 })
 
 describe('create user saga', () => {
@@ -162,18 +130,31 @@ describe('create user saga', () => {
     api.createUser.mockClear()
   })
 
-  it('should select guid from wallet, email form settings, user id and lifetime token from kvStore', () =>
+  it('should select api token and call createUserApi', () =>
     stubbedCreateUser
+      .select(S.getApiToken)
+      .run()
+      .then(() => {
+        expect(api.createUser).toHaveBeenCalledTimes(1)
+        expect(api.createUser).toHaveBeenCalledWith(stubUserData, stubApiToken)
+      }))
+})
+
+describe('generate auth credentials saga', () => {
+  it('should select guid from wallet, email form settings, user id and lifetime token from kvStore and call startSession', () =>
+    stubbedGenerateAuthCredentials
       .select(selectors.core.settings.getEmail)
       .select(selectors.core.wallet.getGuid)
       .select(selectors.core.kvStore.userCredentials.getUserId)
       .select(selectors.core.kvStore.userCredentials.getUserToken)
+      .call(startSession, stubUserId, stubLifetimeToken, stubEmail, stubGuid)
       .dispatch({ type: AT.SET_API_TOKEN, payload: { token: stubApiToken } })
       .run())
 
   it('should generate userId and lifetime token if they are not set in kvStore', () => {
     api.generateUserId.mockReturnValueOnce({ userId: stubUserId })
-    return expectSaga(createUser, { payload: { data: stubUserData } })
+    api.generateLifetimeToken.mockReturnValueOnce({ token: stubLifetimeToken })
+    return expectSaga(generateAuthCredentials)
       .provide([
         [select(selectors.core.wallet.getGuid), stubGuid],
         [select(selectors.core.settings.getEmail), Remote.of(stubEmail)],
@@ -184,10 +165,12 @@ describe('create user saga', () => {
         [
           select(selectors.core.kvStore.userCredentials.getUserToken),
           Remote.Success('')
-        ]
+        ],
+        [call.fn(startSession), jest.fn()]
       ])
       .call(generateUserId, stubEmail, stubGuid)
       .call(generateLifetimeToken, stubUserId, stubEmail, stubGuid)
+      .call(startSession, stubUserId, stubLifetimeToken, stubEmail, stubGuid)
       .run()
       .then(() => {
         expect(api.generateUserId).toHaveBeenCalledTimes(1)
@@ -200,13 +183,4 @@ describe('create user saga', () => {
         )
       })
   })
-
-  it('should call createUserApi', () =>
-    stubbedCreateUser
-      .dispatch({ type: AT.SET_API_TOKEN, payload: { token: stubApiToken } })
-      .run()
-      .then(() => {
-        expect(api.createUser).toHaveBeenCalledTimes(1)
-        expect(api.createUser).toHaveBeenCalledWith(stubUserData, stubApiToken)
-      }))
 })

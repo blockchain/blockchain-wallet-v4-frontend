@@ -1,38 +1,26 @@
-import PhoneNumber from 'awesome-phonenumber'
-import { selectors } from 'data'
-import { path, lift } from 'ramda'
+import { formValueSelector } from 'redux-form'
+import { selectors, model } from 'data'
+import { prop } from 'ramda'
 
 const {
-  getPersonalData,
-  getPersonalStep,
-  getSmsStep,
-  getEmailStep,
-  getFormBusy
+  getSupportedCountries,
+  getPossibleAddresses,
+  isAddressRefetchVisible
 } = selectors.components.identityVerification
+const { getApiToken } = selectors.modules.profile
+
+const { PERSONAL_FORM } = model.components.identityVerification
+
+const personalFormSelector = formValueSelector(PERSONAL_FORM)
 
 export const getData = state => ({
-  personalData: getPersonalData(state),
-  step: getPersonalStep(state).getOrElse(null),
-  countryCode: getCountryCode(state).getOrElse('US'),
-  formBusy: getFormBusy(state)
+  addressRefetchVisible:
+    isAddressRefetchVisible(state) || getApiToken(state).error,
+  initialCountryCode: selectors.core.settings
+    .getCountryCode(state)
+    .getOrElse(null),
+  possibleAddresses: getPossibleAddresses(state),
+  countryCode: prop('code', personalFormSelector(state, 'country')),
+  address: personalFormSelector(state, 'address'),
+  supportedCountries: getSupportedCountries(state)
 })
-
-export const getEmailData = state => ({
-  step: getEmailStep(state).getOrElse(null),
-  emailVerifiedError: path(['securityCenter', 'emailVerifiedError'], state)
-})
-
-export const getSmsData = state => ({
-  step: getSmsStep(state).getOrElse(null),
-  mobileVerifiedError: path(['securityCenter', 'mobileVerifiedError'], state),
-  countryCode: getCountryCode(state)
-})
-
-const determineCountryCode = (currentNumber, defaultCode) =>
-  currentNumber ? PhoneNumber(currentNumber).getRegionCode() : defaultCode
-
-const getCountryCode = state =>
-  lift(determineCountryCode)(
-    selectors.core.settings.getSmsNumber(state),
-    selectors.core.settings.getCountryCode(state)
-  )

@@ -61,7 +61,7 @@ class DateInputBox extends React.PureComponent {
     isActive: false
   }
 
-  onBlur = () => {
+  onBlur = from => {
     this.setState({ isActive: false })
     requestAnimationFrame(() => {
       // If one of the other DateInputBox's field has been focused
@@ -112,7 +112,7 @@ class DateInputBox extends React.PureComponent {
             input={{
               name: 'month',
               value: input.value.month,
-              onBlur: this.onBlur,
+              onBlur: this.onBlur.bind(this, 'month'),
               onChange: this.onMonthChange,
               onFocus: this.onFocus
             }}
@@ -127,7 +127,7 @@ class DateInputBox extends React.PureComponent {
               input={{
                 name: 'date',
                 value: input.value.date,
-                onBlur: this.onBlur,
+                onBlur: this.onBlur.bind(this, 'date'),
                 onChange: this.onDateChange,
                 onFocus: this.onFocus
               }}
@@ -141,7 +141,7 @@ class DateInputBox extends React.PureComponent {
               input={{
                 name: 'year',
                 value: input.value.year,
-                onBlur: this.onBlur,
+                onBlur: this.onBlur.bind(this, 'year'),
                 onChange: this.onYearChange,
                 onFocus: this.onFocus
               }}

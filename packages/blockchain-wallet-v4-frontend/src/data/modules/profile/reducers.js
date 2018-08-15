@@ -19,7 +19,7 @@ export default (state = INITIAL_STATE, action) => {
     case AT.SET_USER_DATA:
       return assoc('userData', merge(state.userData, payload.userData), state)
     case AT.SET_API_TOKEN:
-      return assoc('apiToken', Remote.Success(payload.token), state)
+      return assoc('apiToken', payload.token, state)
     default:
       return state
   }

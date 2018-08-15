@@ -27,5 +27,6 @@ export const AddressPropType = PropTypes.shape({
 export const CountryPropType = PropTypes.shape({
   code: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  regions: PropTypes.array
+  regions: PropTypes.arrayOf(PropTypes.string),
+  scopes: PropTypes.arrayOf(PropTypes.string)
 })

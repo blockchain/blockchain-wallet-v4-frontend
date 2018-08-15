@@ -29,7 +29,7 @@ export default ({ api, coreSagas, options }) =>
     yield fork(ethTransactions({ api, coreSagas }))
     yield fork(exchange({ api, coreSagas, options }))
     yield fork(exchangeHistory({ api, coreSagas }))
-    yield fork(identityVerification({ api }))
+    yield fork(identityVerification({ api, coreSagas }))
     yield fork(importBtcAddress({ api, coreSagas }))
     yield fork(login())
     yield fork(manageAddresses({ api, coreSagas }))

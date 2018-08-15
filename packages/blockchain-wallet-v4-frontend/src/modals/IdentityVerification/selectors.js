@@ -1,28 +1,27 @@
-import { compose, path } from 'ramda'
+import { path } from 'ramda'
 import { selectors, model } from 'data'
 const { STEPS } = model.components.identityVerification
-const { USER_ACTIVATION_STATES, KYC_STATES } = model.profile
+const { USER_ACTIVATION_STATES } = model.profile
 
-const deriveStep = ({ activationState, kycState }) => {
-  if (activationState === USER_ACTIVATION_STATES.NONE) return STEPS.personal
-  if (activationState === USER_ACTIVATION_STATES.CREATED) return STEPS.address
-  if (
-    activationState === USER_ACTIVATION_STATES.ACTIVE &&
-    kycState === KYC_STATES.NONE
-  )
-    return STEPS.verify
-  return null
+const deriveStep = ({ activationState, smsVerified }) => {
+  if (activationState === USER_ACTIVATION_STATES.ACTIVE) {
+    if (smsVerified) return STEPS.verify
+    return STEPS.mobile
+  }
+  return STEPS.personal
 }
-export const getData = state => ({
-  helperDomain: path(
-    ['walletOptionsPath', 'data', 'domains', 'walletHelper'],
+
+export const getData = state => {
+  const smsVerified = selectors.core.settings.getSmsVerified(state).getOrElse(0)
+  const activationState = selectors.modules.profile.getUserActivationState(
     state
-  ),
-  step: compose(
-    deriveStep,
-    state => ({
-      activationState: selectors.modules.profile.getUserActivationState(state),
-      kycState: selectors.modules.profile.getUserKYCState(state)
-    })
-  )(state)
-})
+  )
+  return {
+    helperDomain: path(
+      ['walletOptionsPath', 'data', 'domains', 'walletHelper'],
+      state
+    ),
+    smsVerified,
+    step: deriveStep({ activationState, smsVerified })
+  }
+}

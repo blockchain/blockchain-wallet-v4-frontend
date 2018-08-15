@@ -3,39 +3,36 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
+import { replace } from 'ramda'
 
 import { required, requiredDOB, ageOverEighteen } from 'services/FormHelper'
 import { model } from 'data'
 import media from 'services/ResponsiveService'
-import { spacing } from 'services/StyleService'
-import { MediaContextConsumer } from 'providers/MatchMediaProvider'
+import { getElementsPropType } from 'utils/proptypes'
+
+import { Button, Text, HeartbeatLoader } from 'blockchain-info-components'
 import {
-  Link,
-  Icon,
-  Button,
-  Text,
-  HeartbeatLoader
-} from 'blockchain-info-components'
-import {
+  DateInputBox,
+  FaqMessage,
+  FooterShadowWrapper,
   FormGroup,
   FormItem,
   TextBox,
-  PhoneNumberBox,
-  DateInputBox,
-  FaqMessage,
-  FooterShadowWrapper
+  SelectBox
 } from 'components/Form'
 import {
   Form,
   InputWrapper,
   PartnerHeader,
-  PartnerSubHeader
+  PartnerSubHeader,
+  EmailHelper
 } from 'components/IdentityVerification'
 import Terms from 'components/Terms'
+import { countryHasStates } from 'components/Form/SelectBoxRegion'
 
 const FormContainer = styled.div`
   margin-top: 25px;
-  margin-bottom: 64px;
+  margin-bottom: 138px;
 `
 const PersonalForm = styled(Form)`
   height: 100%;
@@ -69,36 +66,6 @@ const FaqFormGroup = styled(FormGroup)`
 const FaqFormItem = styled(FormItem)`
   width: 60%;
 `
-const VerifiedContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  > div:first-child {
-    width: 100%;
-  }
-
-  input {
-    border: solid 1px #cccccc;
-    background-color: #fff !important;
-  }
-`
-const IconContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: 10px;
-  ${media.mobile`
-    align-items: flex-start;
-  `};
-`
-const EditLink = styled(Link)`
-  font-size: 12px;
-  position: absolute;
-  right: 40px;
-  ${media.mobile`
-    font-size: 12px;
-  `};
-`
 const Footer = styled.div`
   width: 60%;
   display: flex;
@@ -110,13 +77,16 @@ const TermsText = styled(Text)`
   font-weight: 300px;
   font-size: 12px;
 `
+const addTrailingZero = string => (string.length >= 2 ? string : `0${string}`)
+const removeTrailingZero = replace(/^0/, '')
+const { AddressPropType, CountryPropType } = model.profile
 const { PERSONAL_FORM } = model.components.identityVerification
 const objectToDOB = ({ date = '', month = '', year = '' }) =>
-  `${month}/${date}/${year}`
+  `${year}-${month}-${addTrailingZero(date)}`
 const DOBToObject = (value = '') => {
-  const [month = '', date = '', year = ''] = value.split('/')
+  const [year = '', month = '', date = ''] = value.split('-')
   return {
-    date,
+    date: removeTrailingZero(date),
     month,
     year
   }
@@ -125,15 +95,16 @@ const DOBToObject = (value = '') => {
 const Personal = ({
   invalid,
   submitting,
-  handleSubmit,
-  email,
-  smsNumber,
+  address,
+  addressRefetchVisible,
+  supportedCountries,
+  possibleAddresses,
   countryCode,
-  emailVerified,
-  smsVerified,
-  editSms,
   activeField,
-  setActiveField
+  setActiveField,
+  onAddressSelect,
+  onPostCodeChange,
+  handleSubmit
 }) => (
   <PersonalForm onSubmit={handleSubmit}>
     <FooterShadowWrapper
@@ -210,56 +181,204 @@ const Personal = ({
                   text={
                     <FormattedMessage
                       id='identityverification.personal.faq.dateofbirth.text'
-                      defaultMessage='We try and prefill your address so you dont have to fill out all the fields'
+                      defaultMessage='Users must be at least 18 years old to trade crypto'
                     />
                   }
                 />
               )}
             </FaqFormGroup>
-            <FaqFormGroup>
+            <FormGroup>
               <FaqFormItem>
-                <Text size='14px' style={spacing('mb-10')}>
+                <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
-                    id='identityverification.personal.verifiedmobile'
-                    defaultMessage='Verified Phone Number'
+                    id='identityverification.personal.country'
+                    defaultMessage='Country'
                   />
                 </Text>
-                <VerifiedContainer>
-                  <Field
-                    name='smsNumber'
-                    countryCode={countryCode}
-                    component={PhoneNumberBox}
-                    disabled
-                  />
-                  <EditLink onClick={editSms} size='14px' weight={300}>
-                    <MediaContextConsumer>
-                      {({ tablet }) =>
-                        tablet ? (
-                          <FormattedMessage
-                            id='identityverification.personal.edit'
-                            defaultMessage='edit'
-                          />
-                        ) : (
-                          <FormattedMessage
-                            id='identityverification.personal.editmobile'
-                            defaultMessage='edit mobile'
-                          />
-                        )
-                      }
-                    </MediaContextConsumer>
-                  </EditLink>
-                  <IconContainer>
-                    {smsVerified ? (
-                      <Icon
-                        name='checkmark-in-circle-filled'
-                        color='success'
-                        size='20px'
-                      />
-                    ) : null}
-                  </IconContainer>
-                </VerifiedContainer>
+                <Field
+                  name='country'
+                  validate={[required]}
+                  elements={supportedCountries}
+                  component={SelectBox}
+                  label={
+                    <FormattedMessage
+                      id='components.selectboxcountry.label'
+                      defaultMessage='Select country'
+                    />
+                  }
+                />
               </FaqFormItem>
-            </FaqFormGroup>
+            </FormGroup>
+            {countryCode && (
+              <FaqFormGroup>
+                <FaqFormItem>
+                  <Text
+                    size='14px'
+                    weight={400}
+                    style={{ marginBottom: '5px' }}
+                  >
+                    <FormattedMessage
+                      id='identityverification.personal.zipcode'
+                      defaultMessage='Zip Code'
+                    />
+                  </Text>
+                  <Field
+                    name='postCode'
+                    onChange={onPostCodeChange}
+                    errorBottom
+                    validate={[required]}
+                    component={TextBox}
+                    onFocus={setActiveField.bind(null, 'postCode')}
+                    onBlur={setActiveField.bind(null, null)}
+                  />
+                </FaqFormItem>
+                {activeField === 'postCode' && (
+                  <FaqFormMessage
+                    title={
+                      <FormattedMessage
+                        id='identityverification.personal.faq.postcode.title'
+                        defaultMessage='Address search'
+                      />
+                    }
+                    text={
+                      <FormattedMessage
+                        id='identityverification.personal.faq.postcode.text'
+                        defaultMessage='We try and prefill your address so you don’t have to fill out all the fields'
+                      />
+                    }
+                  />
+                )}
+              </FaqFormGroup>
+            )}
+            {countryCode &&
+              addressRefetchVisible && (
+                <EmailHelper error={true}>
+                  <FormattedMessage
+                    id='identityverification.personal.addressrefetch'
+                    defaultMessage='Ooops, address lookup failed. {retry}'
+                    values={{
+                      retry: <a onClick={onPostCodeChange}>Try again?</a>
+                    }}
+                  />
+                </EmailHelper>
+              )}
+            {Boolean(possibleAddresses[0].items.length) && (
+              <FormGroup>
+                <FaqFormItem>
+                  <Text
+                    size='14px'
+                    weight={400}
+                    style={{ marginBottom: '5px' }}
+                  >
+                    <FormattedMessage
+                      id='identityverification.personal.selectaddress'
+                      defaultMessage='Select Address'
+                    />
+                  </Text>
+                  <Field
+                    name='address'
+                    elements={possibleAddresses}
+                    onChange={onAddressSelect}
+                    component={SelectBox}
+                    label={
+                      <FormattedMessage
+                        id='identityverification.personal.selectaddress'
+                        defaultMessage='Select Address'
+                      />
+                    }
+                  />
+                </FaqFormItem>
+              </FormGroup>
+            )}
+            {address && (
+              <div>
+                <FormGroup>
+                  <FaqFormItem>
+                    <Text
+                      size='14px'
+                      weight={400}
+                      style={{ marginBottom: '5px' }}
+                    >
+                      <FormattedMessage
+                        id='identityverification.personal.address'
+                        defaultMessage='Address'
+                      />
+                    </Text>
+                    <Field
+                      name='line1'
+                      validate={[required]}
+                      component={TextBox}
+                      placeholder='Street Address'
+                    />
+                  </FaqFormItem>
+                </FormGroup>
+                <FormGroup>
+                  <FaqFormItem>
+                    <Text
+                      size='14px'
+                      weight={400}
+                      style={{ marginBottom: '5px' }}
+                    >
+                      <FormattedMessage
+                        id='identityverification.personal.address2'
+                        defaultMessage='Address 2'
+                      />
+                    </Text>
+                    <Field
+                      name='line2'
+                      component={TextBox}
+                      placeholder='Apartment, unit, floor, etc..'
+                    />
+                  </FaqFormItem>
+                </FormGroup>
+                <FormGroup>
+                  <FaqFormItem>
+                    <Text
+                      size='14px'
+                      weight={400}
+                      style={{ marginBottom: '5px' }}
+                    >
+                      <FormattedMessage
+                        id='identityverification.personal.city'
+                        defaultMessage='City'
+                      />
+                    </Text>
+                    <Field
+                      name='city'
+                      validate={[required]}
+                      component={TextBox}
+                    />
+                  </FaqFormItem>
+                </FormGroup>
+                <PersonalFormGroup inline>
+                  <FaqFormItem>
+                    <Text
+                      size='14px'
+                      weight={400}
+                      style={{ marginBottom: '5px' }}
+                    >
+                      {countryHasStates(countryCode) ? (
+                        <FormattedMessage
+                          id='identityverification.personal.state'
+                          defaultMessage='State'
+                        />
+                      ) : (
+                        <FormattedMessage
+                          id='identityverification.personal.region'
+                          defaultMessage='Region'
+                        />
+                      )}
+                    </Text>
+                    <Field
+                      name='state'
+                      validate={[required]}
+                      countryCode={countryCode}
+                      component={TextBox}
+                    />
+                  </FaqFormItem>
+                </PersonalFormGroup>
+              </div>
+            )}
           </FormContainer>
         </InputWrapper>
       }
@@ -272,14 +391,7 @@ const Personal = ({
             uppercase
             nature='primary'
             type='submit'
-            disabled={
-              invalid ||
-              submitting ||
-              !smsNumber ||
-              !email ||
-              !smsVerified ||
-              !emailVerified
-            }
+            disabled={invalid || submitting}
           >
             {!submitting ? (
               <FormattedMessage
@@ -297,14 +409,16 @@ const Personal = ({
 )
 
 Personal.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  editEmail: PropTypes.func.isRequired,
-  editSmsNumber: PropTypes.func.isRequired,
-  email: PropTypes.string.isRequired,
-  smsNumber: PropTypes.string.isRequired,
-  emailVerified: PropTypes.number.isRequired,
-  smsVerified: PropTypes.number.isRequired,
-  countryCode: PropTypes.object.isRequired
+  address: PropTypes.string,
+  addressRefetchVisible: PropTypes.bool.isRequired,
+  supportedCountries: getElementsPropType(CountryPropType),
+  possibleAddresses: getElementsPropType(AddressPropType),
+  countryCode: PropTypes.string.isRequired,
+  activeField: PropTypes.string,
+  setActiveField: PropTypes.func.isRequired,
+  onAddressSelect: PropTypes.func.isRequired,
+  onPostCodeChange: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired
 }
 
 export default reduxForm({
