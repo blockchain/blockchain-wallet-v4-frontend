@@ -56,8 +56,11 @@ class UploadContainer extends Component {
   }
 
   submitForUpload () {
+    const { verificationStatus } = this.props.data.getOrElse({})
+    if (!verificationStatus) return
+
     const file = this.state.file || this.state.photo
-    const idType = this.props.data.data.verificationStatus.required_docs[0]
+    const idType = verificationStatus.required_docs[0]
     this.props.sfoxFrontendActions.upload({ file, idType })
     this.resetUpload() // TODO replace with setting to busy and show loader
   }
