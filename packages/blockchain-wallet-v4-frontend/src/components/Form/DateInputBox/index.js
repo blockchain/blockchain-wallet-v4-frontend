@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import moment from 'moment'
 import { FormattedMessage, injectIntl } from 'react-intl'
 
+import media from 'services/ResponsiveService'
+
 import { Text } from 'blockchain-info-components'
 import SelectBox from '../SelectBox'
 import NumberBox from '../NumberBox'
@@ -14,20 +16,30 @@ const Container = styled.div`
   justify-content: flex-end;
   align-items: space-between;
   width: 100%;
-  height: 40px;
 `
 const RowWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  ${media.mobile`
+    flex-direction: column;
+  `};
 `
 const SelectBoxMonth = styled(SelectBox)`
   width: 50%;
   margin-right: 15px;
+  ${media.mobile`
+    margin: 0;
+    width: 100%;
+  `};
 `
 const InputsWrapper = styled.div`
   width: 50%;
   display: flex;
   flex-direction: row;
+  ${media.mobile`
+    width: 100%;
+    margin-top: 15px;
+  `};
 `
 const DateNumberBox = styled(NumberBox)`
   width: 50%;
@@ -38,7 +50,7 @@ const DateNumberBox = styled(NumberBox)`
 const Error = styled(Text)`
   position: absolute;
   display: block;
-  top: -18px;
+  top: ${props => (props.errorBottom ? '40px' : '-20px')};
   right: 0;
   height: 15px;
 `
