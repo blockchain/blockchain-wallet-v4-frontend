@@ -58,37 +58,38 @@ const Text = styled.span`
   text-overflow: ellipsis;
 `
 
-const renderDisplay = (props, children) => {
-  const { value, ...rest } = props
-  return (
-    <DisplayWrapper {...rest}>
-      {value.coin === 'BCH' && (
-        <Icon name='bitcoin-cash' size='14px' weight={300} />
-      )}
-      {value.coin === 'BTC' && <Icon name='bitcoin' size='14px' weight={300} />}
-      {value.coin === 'ETH' && (
-        <Icon name='ethereum' size='14px' weight={300} />
-      )}
-      <Text>{children}</Text>
-    </DisplayWrapper>
-  )
-}
-const renderHeader = item => (
-  <HeaderWrapper>
-    {prop('text', item) === 'Bitcoin' && (
-      <Icon name='bitcoin-in-circle' size='14px' weight={300} />
-    )}
-    {prop('text', item) === 'Bitcoin Cash' && (
+const renderDisplay = item => (
+  <DisplayWrapper>
+    {prop('value', item) === 'BCH' && (
       <Icon name='bitcoin-cash' size='14px' weight={300} />
     )}
-    {prop('text', item) === 'Ether' && (
-      <Icon name='ethereum-filled' size='14px' weight={300} />
+    {prop('value', item) === 'BTC' && (
+      <Icon name='bitcoin' size='14px' weight={300} />
     )}
-    <Separator align='right'>
-      <Text uppercase>{item.text}</Text>
-    </Separator>
-  </HeaderWrapper>
+    {prop('value', item) === 'ETH' && (
+      <Icon name='ethereum' size='14px' weight={300} />
+    )}
+    <Text>{item.text}</Text>
+  </DisplayWrapper>
 )
+const renderHeader = item => {
+  return (
+    <HeaderWrapper>
+      {prop('text', item) === 'Bitcoin' && (
+        <Icon name='bitcoin-in-circle' size='14px' weight={300} />
+      )}
+      {prop('text', item) === 'Bitcoin Cash' && (
+        <Icon name='bitcoin-cash' size='14px' weight={300} />
+      )}
+      {prop('text', item) === 'Ether' && (
+        <Icon name='ethereum-filled' size='14px' weight={300} />
+      )}
+      <Separator align='right'>
+        <Text uppercase>{item.text}</Text>
+      </Separator>
+    </HeaderWrapper>
+  )
+}
 const renderItem = item => (
   <ItemWrapper>
     <Text>{item.text}</Text>
@@ -110,8 +111,8 @@ const renderItemWithIcon = item => (
   </ItemWrapper>
 )
 
-const SelectBoxExchange = props =>
-  props.hasOneAccount ? (
+const SelectBoxExchange = props => {
+  return props.hasOneAccount ? (
     <SelectBox
       {...props}
       templateDisplay={renderDisplay}
@@ -120,11 +121,12 @@ const SelectBoxExchange = props =>
   ) : (
     <SelectBox
       {...props}
-      templateDisplay={renderDisplay}
+      templateDisplay={renderHeader}
       templateHeader={renderHeader}
       templateItem={renderItem}
       grouped
     />
   )
+}
 
 export default SelectBoxExchange

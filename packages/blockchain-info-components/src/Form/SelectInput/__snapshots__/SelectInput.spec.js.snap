@@ -8,6 +8,7 @@ exports[`SelectInput component default renders correctly 1`] = `
       "ValueContainer": [Function],
     }
   }
+  isClearable={true}
   options={
     Array [
       Object {
@@ -15,6 +16,11 @@ exports[`SelectInput component default renders correctly 1`] = `
         "value": "value",
       },
     ]
+  }
+  styles={
+    Object {
+      "control": [Function],
+    }
   }
 />
 `;
