@@ -31,7 +31,7 @@ const Settings = props => {
 
   return (
     <SettingWrapper>
-      <Text>{currentWhitelist.data}</Text>
+      <Text>{currentWhitelist}</Text>
       {!updateToggled && (
         <Button nature='primary' onClick={handleToggle}>
           <FormattedMessage
