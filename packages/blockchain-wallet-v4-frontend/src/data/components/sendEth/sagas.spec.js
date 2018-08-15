@@ -49,7 +49,6 @@ describe('sendEth sagas', () => {
     secondStepSubmitClicked
   } = sendEthSagas({ api, coreSagas })
 
-  const value = {}
   const paymentMock = {
     value: jest.fn(),
     init: jest.fn(() => paymentMock),
@@ -57,6 +56,7 @@ describe('sendEth sagas', () => {
     amount: jest.fn(() => paymentMock),
     from: jest.fn(() => paymentMock),
     fee: jest.fn(() => paymentMock),
+    fees: { regular: 10 },
     build: jest.fn(() => paymentMock),
     buildSweep: jest.fn(() => paymentMock),
     sign: jest.fn(() => paymentMock),
@@ -64,6 +64,7 @@ describe('sendEth sagas', () => {
     description: jest.fn(() => paymentMock),
     chain: jest.fn()
   }
+  const value = paymentMock
   paymentMock.value.mockReturnValue(value)
 
   coreSagas.payment.eth.create.mockImplementation(() => {
@@ -78,7 +79,8 @@ describe('sendEth sagas', () => {
     const saga = testSaga(initialized, { payload })
 
     const initialValues = {
-      coin: 'ETH'
+      coin: 'ETH',
+      fee: 10
     }
 
     const beforeEnd = 'beforeEnd'
@@ -123,6 +125,12 @@ describe('sendEth sagas', () => {
           expect(paymentMock.from).toHaveBeenCalledTimes(1)
           expect(paymentMock.from).toHaveBeenCalledWith()
         })
+    })
+
+    it('should update the fee', () => {
+      saga.next(paymentMock)
+
+      expect(paymentMock.fee).toHaveBeenCalled()
     })
 
     it('should initializr form with correct initial values', () => {
@@ -171,7 +179,8 @@ describe('sendEth sagas', () => {
           resultingState.form.sendEth.values
         )
         expect(resultingState.form.sendEth.initial).toEqual({
-          coin: 'ETH'
+          coin: 'ETH',
+          fee: 10
         })
       })
 
