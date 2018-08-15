@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { prop, not } from 'ramda'
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import MobileNumberVerify from './template.js'
@@ -14,10 +13,6 @@ class MobileNumberVerifyContainer extends React.PureComponent {
     this.onSubmit = this.onSubmit.bind(this)
     this.handleResend = this.handleResend.bind(this)
     this.handleChange = this.handleChange.bind(this)
-  }
-
-  componentDidUpdate (prevProps) {
-    if (not(prop('smsVerified', prevProps)) && prop('smsVerified', this.props)) this.props.modalActions.closeAllModals()
   }
 
   onSubmit () {
