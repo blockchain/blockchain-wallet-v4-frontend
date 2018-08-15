@@ -104,7 +104,10 @@ export default ({ coreSagas }) => {
           break
         case 'from':
           yield put(A.sendBtcFirstStepToToggled(false))
-          const source = prop('address', payload) || prop('index', payload)
+          const source =
+            prop('address', payload) ||
+            prop('index', payload) ||
+            prop('xpub', payload)
           if (!prop('watchOnly', payload)) {
             payment = yield payment.from(source)
           }

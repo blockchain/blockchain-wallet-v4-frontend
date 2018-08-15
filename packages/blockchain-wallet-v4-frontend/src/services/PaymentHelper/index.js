@@ -33,6 +33,11 @@ export const btcFromLabel = curry((payment, state) => {
         payment.from[0]
       )
       return label || payment.from[0]
+    case 'FROM.LOCKBOX':
+      return selectors.core.kvStore.lockbox
+        .getLockboxBtcAccount(state, payment.from[0])
+        .map(prop('label'))
+        .getOrElse(payment.from[0])
     case 'FROM.WATCH_ONLY':
     case 'FROM.EXTERNAL':
     default:
@@ -74,6 +79,11 @@ export const bchFromLabel = curry((payment, state) => {
       return utils.bch.toCashAddr(payment.from[0], true)
     case 'FROM.EXTERNAL':
       return utils.bch.toCashAddr(payment.from[0], true)
+    case 'FROM.LOCKBOX':
+      return selectors.core.kvStore.lockbox
+        .getLockboxBchAccount(state, payment.from[0])
+        .map(prop('label'))
+        .getOrElse(payment.from[0])
     default:
       return payment.from[0]
   }

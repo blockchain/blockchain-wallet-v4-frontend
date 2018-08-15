@@ -94,6 +94,26 @@ export const fromAccount = (network, state, index, coin) => {
   }
 }
 
+export const fromLockbox = (network, state, xpub, coin) => {
+  const account = equals(coin, 'BTC')
+    ? S.kvStore.lockbox.getLockboxBtcAccount(state, xpub)
+    : S.kvStore.lockbox.getLockboxBchAccount(state, xpub)
+  let hdAccount = HDAccount.fromJS(account.getOrFail(), 0)
+
+  let changeIndex = equals(coin, 'BTC')
+    ? S.data.bitcoin.getChangeIndex(xpub, state)
+    : S.data.bch.getChangeIndex(xpub, state)
+  let changeAddress = changeIndex
+    .map(index => HDAccount.getChangeAddress(hdAccount, index, network))
+    .getOrFail('missing_change_address')
+
+  return {
+    fromType: FROM.LOCKBOX,
+    from: [xpub],
+    change: changeAddress
+  }
+}
+
 // fromPrivateKey :: Network -> Wallet -> ECKey -> Object
 export const fromPrivateKey = (network, wallet, key) => {
   let c = getWifAddress(key, true)
@@ -201,6 +221,8 @@ export const toCoin = curry((network, fromData, input) => {
       return Coin.fromJS(assoc('path', path, input), network)
     case FROM.LEGACY:
       return Coin.fromJS(input, network)
+    case FROM.LOCKBOX:
+      return Coin.fromJS(assoc('path', input.xpub.path, input), network)
     case FROM.WATCH_ONLY:
       return Coin.fromJS(assoc('priv', fromData.wifKeys[0], input), network)
     case FROM.EXTERNAL:

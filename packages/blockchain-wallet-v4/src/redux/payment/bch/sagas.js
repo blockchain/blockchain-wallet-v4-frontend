@@ -9,7 +9,8 @@ import * as Coin from '../../../coinSelection/coin'
 import {
   isValidBitcoinAddress,
   privateKeyStringToKey,
-  detectPrivateKeyFormat
+  detectPrivateKeyFormat,
+  isValidXpub
 } from '../../../utils/btc'
 import { isCashAddr, fromCashAddr } from '../../../utils/bch'
 import { futurizeP } from 'futurize'
@@ -26,7 +27,8 @@ import {
   fromLegacy,
   fromLegacyList,
   fromAccount,
-  fromPrivateKey
+  fromPrivateKey,
+  fromLockbox
 } from '../btc/utils'
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -134,6 +136,10 @@ export default ({ api }) => {
       // TODO :: privateKeyStringToKey maybe should be BitcoinCash specific?
       let key = privateKeyStringToKey(origin, pkFormat, network)
       return fromPrivateKey(network, wallet, key)
+    }
+
+    if (isValidXpub(origin)) {
+      return fromLockbox(network, appState, origin, 'BCH')
     }
 
     throw new Error('no_origin_set')
