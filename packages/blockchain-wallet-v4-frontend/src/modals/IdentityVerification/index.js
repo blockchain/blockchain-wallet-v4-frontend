@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { keys, filter } from 'ramda'
+import { keys, pickBy } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
 import { actions, model } from 'data'
@@ -23,6 +23,15 @@ const HeaderWrapper = styled.div`
   ${media.mobile`
     flex-direction: column;
   `};
+`
+
+const StepHeader = styled(ModalHeader)`
+  > div {
+    width: 100%;
+    > div {
+      width: 100%;
+    }
+  }
 `
 
 const { STEPS, MODAL_NAME } = model.components.identityVerification
@@ -48,7 +57,8 @@ const stepMap = {
   )
 }
 
-const filterSteps = smsVerified => step => step !== STEPS.mobile || smsVerified
+const filterSteps = smsVerified => (stepText, step) =>
+  step !== STEPS.mobile || !smsVerified
 
 class IdentityVerification extends React.PureComponent {
   state = { show: false }
@@ -95,18 +105,18 @@ class IdentityVerification extends React.PureComponent {
         total={total}
         onClose={this.handleClose}
       >
-        <ModalHeader tray paddingHorizontal='15%' onClose={this.handleClose}>
+        <StepHeader tray paddingHorizontal='15%' onClose={this.handleClose}>
           <HeaderWrapper>
             <StepIndicator
               adjuster={0.1667}
               barFullWidth
               flexEnd
-              maxWidth='135px'
+              maxWidth='none'
               step={step}
-              stepMap={filter(filterSteps(smsVerified), stepMap)}
+              stepMap={pickBy(filterSteps(smsVerified), stepMap)}
             />
           </HeaderWrapper>
-        </ModalHeader>
+        </StepHeader>
         <ModalBody>{this.getStepComponent(step)}</ModalBody>
       </Tray>
     )
