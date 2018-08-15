@@ -76,7 +76,7 @@
         "countries": "*",
         "states": "*",
         "config": {
-          "network": "testnet"
+          "network": "bitcoin"
         },
         "announcements": {}
       },

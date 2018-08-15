@@ -10,6 +10,6 @@ export default ({ api, networks }) => ({
   settings: settings({ api }),
   wallet: wallet({ api, networks }),
   walletOptions: walletOptions({ api }),
-  kvStore: kvStore({ api }),
+  kvStore: kvStore({ api, networks }),
   payment: payment({ api })
 })

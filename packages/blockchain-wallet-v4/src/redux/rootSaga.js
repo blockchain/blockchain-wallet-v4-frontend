@@ -9,7 +9,7 @@ export default ({ api, networks, options }) =>
   function*() {
     yield all([
       fork(data({ api, options })),
-      fork(kvStore({ api })),
+      fork(kvStore({ api, networks })),
       fork(walletOptions({ api, options })),
       fork(settings({ api })),
       fork(wallet({ api }))
