@@ -5,6 +5,8 @@ import * as Coin from '../coinSelection/coin.js'
 // import { isFromAccount } from '../coinSelection'
 import { fromCashAddr, isCashAddr } from '../utils/bch'
 import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
+import Transport from '@ledgerhq/hw-transport-u2f'
+import Btc from '@ledgerhq/hw-app-btc'
 
 export const signSelection = curry((network, selection) => {
   const hashType =
@@ -72,3 +74,39 @@ export const signWithWIF = curry((network, selection) =>
     wifToKeys(network)
   )(selection)
 )
+
+export const signWithLedger = function*(selection, api) {
+  const transport = yield Transport.create()
+  const BTC = new Btc(transport)
+  let inputs = []
+  let paths = []
+  for (let i in selection.inputs) {
+    const coin = selection.inputs[i]
+    const txHex = yield api.getRawTx(coin.txHash)
+    inputs.push([BTC.splitTransaction(txHex), coin.index])
+    paths.push("44'/0'/0'" + coin.path.split('M')[1])
+  }
+
+  const intToHex = i => {
+    const hex = i.toString(16)
+    return hex.length > 1 ? hex : '0' + hex
+  }
+
+  let outputs = intToHex(selection.outputs.length)
+  selection.outputs.map(coin => {
+    let amount = Buffer.alloc(8)
+    amount.writeUInt32LE(coin.value)
+    outputs +=
+      amount.toString('hex') +
+      intToHex(coin.script.length) +
+      coin.script.toString('hex')
+  })
+
+  const txHex = yield BTC.createPaymentTransactionNew(
+    inputs,
+    paths,
+    undefined,
+    outputs
+  )
+  return { txHex }
+}

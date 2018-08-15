@@ -258,6 +258,8 @@ export default ({ api }) => {
       case FROM.WATCH_ONLY:
       case FROM.EXTERNAL:
         return bch.signWithWIF(network, selection)
+      case FROM.LOCKBOX:
+        return yield call(bch.signWithLedger, selection, api)
       default:
         throw new Error('unknown_from')
     }

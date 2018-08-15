@@ -49,11 +49,22 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       data: { tx: txHex, format: 'plain' }
     })
 
+  const getRawTx = txHex =>
+    get({
+      url: rootUrl,
+      endPoint: '/rawtx/' + txHex,
+      data: {
+        format: 'hex',
+        cors: 'true'
+      }
+    })
+
   return {
     fetchBchData,
     getBchFee,
     getBchTicker,
     getBchUnspents,
+    getRawTx,
     pushBchTx
   }
 }
