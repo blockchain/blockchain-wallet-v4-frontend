@@ -63,7 +63,6 @@ const SelectInput = props => {
     <StyledSelect
       components={{ Option, ValueContainer }}
       options={options}
-      isClearable
       styles={colourStyles}
       isSearchable={searchEnabled}
       value={defaultValue}
@@ -87,7 +86,6 @@ SelectInput.propTypes = {
   handleChange: PropTypes.func,
   handleClick: PropTypes.func,
   handleFocus: PropTypes.func,
-  templateHeader: PropTypes.func,
   templateItem: PropTypes.func,
   fontSize: PropTypes.string
 }
