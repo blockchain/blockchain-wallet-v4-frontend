@@ -60,12 +60,12 @@ class LoginContainer extends React.PureComponent {
       handleSmsResend: this.handleSmsResend
     }
 
-    return lastGuid ? (
-      <Login
-        {...this.props}
-        initialValues={{ guid: lastGuid }}
-        {...loginProps}
-      />
+    const path =
+      this.props.location.pathname && this.props.location.pathname.split('/')[2]
+    const guid = path || lastGuid
+
+    return guid ? (
+      <Login {...this.props} initialValues={{ guid }} {...loginProps} />
     ) : (
       <Login {...this.props} {...loginProps} />
     )
