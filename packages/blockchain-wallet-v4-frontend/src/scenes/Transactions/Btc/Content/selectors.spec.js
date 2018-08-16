@@ -3,7 +3,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 
 describe('Btc Transactions selectors', () => {
   describe('getData', () => {
-    it('should be tested', () => {
+    it('should return the correct transaction(s)', () => {
       var mockParams = {
         form: {
           btcTransactions: {
