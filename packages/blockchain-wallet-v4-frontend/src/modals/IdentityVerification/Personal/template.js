@@ -438,7 +438,7 @@ const Personal = ({
 )
 
 Personal.propTypes = {
-  address: PropTypes.string,
+  address: AddressPropType,
   addressRefetchVisible: PropTypes.bool.isRequired,
   supportedCountries: getElementsPropType(CountryPropType),
   possibleAddresses: getElementsPropType(AddressPropType),
