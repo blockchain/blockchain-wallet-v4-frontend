@@ -7,7 +7,6 @@ import { Remote } from 'blockchain-wallet-v4'
 import { selectors, actions } from 'data'
 import * as A from './actions'
 import * as S from './selectors'
-import { USER_ACTIVATION_STATES } from './model'
 
 export const logLocation = 'modules/profile/sagas'
 export const userIdError = 'Failed to generate user id'
@@ -109,17 +108,6 @@ export default ({ api, coreSagas }) => {
     yield call(startSession, userId, lifetimeToken, email, guid)
   }
 
-  const createUser = function*({ payload }) {
-    try {
-      const { data } = payload
-      const token = yield select(S.getApiToken)
-      const { id } = yield call(api.createUser, data, token)
-      yield put(
-        A.setUserData({ ...data, id, state: USER_ACTIVATION_STATES.CREATED })
-      )
-    } catch (e) {}
-  }
-
   const generateUserId = function*(email, guid) {
     try {
       const { userId } = yield call(api.generateUserId, email, guid)
@@ -149,11 +137,28 @@ export default ({ api, coreSagas }) => {
 
   const updateUser = function*({ payload }) {
     const { data } = payload
-    const { id, ...userData } = yield select(S.getUserData)
-    const apiToken = (yield select(S.getApiToken)).getOrElse(null)
+    const { id, address, mobile, mobileVerified, ...userData } = yield select(
+      S.getUserData
+    )
     const updatedData = { ...userData, ...data }
-    yield call(api.updateUser, id, updatedData, apiToken)
-    yield put(A.setUserData({ id, ...updatedData }))
+    yield call(api.updateUser, updatedData)
+    yield put(
+      A.setUserData({ id, address, mobile, mobileVerified, ...updatedData })
+    )
+  }
+
+  const updateUserAddress = function*({ payload }) {
+    const { address } = payload
+    yield call(api.updateUserAddress, address)
+    const userData = yield select(S.getUserData)
+    yield put(A.setUserData({ ...userData, address }))
+  }
+
+  const updateUserMobile = function*({ payload }) {
+    const { mobile } = payload
+    yield call(api.updateUserMobile, mobile)
+    const userData = yield select(S.getUserData)
+    yield put(A.setUserData({ ...userData, mobile }))
   }
 
   return {
@@ -163,7 +168,8 @@ export default ({ api, coreSagas }) => {
     generateLifetimeToken,
     generateAuthCredentials,
     startSession,
-    createUser,
-    updateUser
+    updateUser,
+    updateUserAddress,
+    updateUserMobile
   }
 }

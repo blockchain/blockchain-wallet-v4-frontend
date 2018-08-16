@@ -19,7 +19,11 @@ export const noCountryCodeError = 'Country code is not provided'
 export const noPostCodeError = 'Post code is not provided'
 
 export default ({ api, coreSagas }) => {
-  const { createUser, generateAuthCredentials } = profileSagas({
+  const {
+    updateUser,
+    updateUserAddress,
+    generateAuthCredentials
+  } = profileSagas({
     api,
     coreSagas
   })
@@ -53,9 +57,29 @@ export default ({ api, coreSagas }) => {
 
   const savePersonalData = function*() {
     try {
-      const data = yield select(selectors.form.getFormValues(PERSONAL_FORM))
+      const {
+        firstName,
+        lastName,
+        dob,
+        line1,
+        line2,
+        city,
+        country,
+        state,
+        postCode
+      } = yield select(selectors.form.getFormValues(PERSONAL_FORM))
+      const personalData = { firstName, lastName, dob }
+      const address = {
+        line1,
+        line2,
+        city,
+        country: country.name,
+        state,
+        postCode
+      }
       yield put(actions.form.startSubmit(PERSONAL_FORM))
-      yield call(createUser, { payload: { data } })
+      yield call(updateUser, { payload: { data: personalData } })
+      yield call(updateUserAddress, { payload: { address } })
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
     } catch (e) {
       yield put(actions.form.stopSubmit(PERSONAL_FORM, e))

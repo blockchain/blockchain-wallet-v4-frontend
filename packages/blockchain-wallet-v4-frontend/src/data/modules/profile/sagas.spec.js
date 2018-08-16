@@ -16,12 +16,16 @@ const api = {
   generateUserId: jest.fn(),
   generateLifetimeToken: jest.fn(),
   generateSession: jest.fn(),
-  createUser: jest.fn(() => ({ id: 'id' }))
+  updateUser: jest.fn(),
+  updateUserAddress: jest.fn(),
+  updateUserMobile: jest.fn()
 }
 
 const {
   signIn,
-  createUser,
+  updateUser,
+  updateUserAddress,
+  updateUserMobile,
   generateUserId,
   generateLifetimeToken,
   generateAuthCredentials,
@@ -37,7 +41,21 @@ const stubUserId = '3d448ad7-0e2c-4b65-91b0-c149892e243c'
 const stubLifetimeToken = 'de6263f9-5029-412c-9fd5-8dc139cb9549'
 const stubApiToken =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJyZXRhaWwtY29yZSIsImV4cCI6MTUzNDA0NTg2MywiaWF0IjoxNTM0MDAyNjYzLCJ1c2VySUQiOiIzZDQ0OGFkNy0wZTJjLTRiNjUtOTFiMC1jMTQ5ODkyZTI0M2MiLCJqdGkiOiJkMGIyMDc3My03NDg3LTRhM2EtOWE1MC0zYmEzNzBlZWU4NjkifQ.O24d8dozP4KjNFMHPYaBNMISvQZXC3gPhSCXDIP-Eok'
-const stubUserData = {}
+const stubAddress = {
+  city: 'London',
+  line1: 'Flat 2, 42 Great Street',
+  line2: '',
+  country: 'United Kingdom',
+  state: 'England',
+  postCode: 'E145AB'
+}
+const stubMobile = '+447799674746'
+const stubUserData = {
+  firstName: 'The',
+  lastName: 'User',
+  dob: '1999-11-31',
+  address: stubAddress
+}
 const stubbedSignin = expectSaga(signIn).provide([
   [select(selectors.core.wallet.getGuid), stubGuid],
   [select(selectors.core.settings.getEmail), Remote.of(stubEmail)],
@@ -66,10 +84,6 @@ const stubbedGenerateAuthCredentials = expectSaga(
   ],
   [call.fn(startSession), jest.fn()]
 ])
-
-const stubbedCreateUser = expectSaga(createUser, {
-  payload: { data: stubUserData }
-}).provide([[select(S.getApiToken), stubApiToken]])
 
 describe('signin saga', () => {
   beforeEach(() => {
@@ -123,20 +137,54 @@ describe('signin saga', () => {
   })
 })
 
-describe('create user saga', () => {
+describe('update user saga', () => {
   beforeEach(() => {
-    api.generateUserId.mockClear()
-    api.generateLifetimeToken.mockClear()
-    api.createUser.mockClear()
+    api.updateUser.mockClear()
   })
 
-  it('should select api token and call createUserApi', () =>
-    stubbedCreateUser
-      .select(S.getApiToken)
+  it('should call updateUserApi', () =>
+    expectSaga(updateUser, {
+      payload: { data: stubUserData }
+    })
+      .provide([[select(S.getUserData), stubUserData]])
       .run()
       .then(() => {
-        expect(api.createUser).toHaveBeenCalledTimes(1)
-        expect(api.createUser).toHaveBeenCalledWith(stubUserData, stubApiToken)
+        expect(api.updateUser).toHaveBeenCalledTimes(1)
+        expect(api.updateUser).toHaveBeenCalledWith(stubUserData)
+      }))
+})
+
+describe('update user address saga', () => {
+  beforeEach(() => {
+    api.updateUserAddress.mockClear()
+  })
+
+  it('should call updateUserAddressApi', () =>
+    expectSaga(updateUserAddress, {
+      payload: { address: stubAddress }
+    })
+      .provide([[select(S.getUserData), stubUserData]])
+      .run()
+      .then(() => {
+        expect(api.updateUserAddress).toHaveBeenCalledTimes(1)
+        expect(api.updateUserAddress).toHaveBeenCalledWith(stubAddress)
+      }))
+})
+
+describe('update user mobile saga', () => {
+  beforeEach(() => {
+    api.updateUserMobile.mockClear()
+  })
+
+  it('should call updateUserAddressApi', () =>
+    expectSaga(updateUserMobile, {
+      payload: { mobile: stubMobile }
+    })
+      .provide([[select(S.getUserData), stubUserData]])
+      .run()
+      .then(() => {
+        expect(api.updateUserMobile).toHaveBeenCalledTimes(1)
+        expect(api.updateUserMobile).toHaveBeenCalledWith(stubMobile)
       }))
 })
 

@@ -35,18 +35,36 @@ export default ({ nabuUrl, post, authorizedPut }) => {
       }
     })
 
-  const updateUser = (userData, sessionToken) =>
+  const updateUser = userData =>
     authorizedPut({
       url: nabuUrl,
-      endPoint: '/users',
-      data: { ...userData },
-      sessionToken
+      contentType: 'application/json',
+      endPoint: '/users/current',
+      data: { ...userData }
+    })
+
+  const updateUserAddress = address =>
+    authorizedPut({
+      url: nabuUrl,
+      contentType: 'application/json',
+      endPoint: '/users/current/address',
+      data: { address }
+    })
+
+  const updateUserMobile = (mobile, mobileVerified) =>
+    authorizedPut({
+      url: nabuUrl,
+      contentType: 'application/json',
+      endPoint: '/users/current/mobile',
+      data: { mobile, mobileVerified }
     })
 
   return {
     generateUserId,
     generateLifetimeToken,
     generateSession,
-    updateUser
+    updateUser,
+    updateUserAddress,
+    updateUserMobile
   }
 }
