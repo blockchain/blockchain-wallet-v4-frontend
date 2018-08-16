@@ -57,14 +57,13 @@ if (!isCiBuild) {
     console.log(
       chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL)
     )
+    // SSL detection
+    sslEnabled =
+      fs.existsSync(PATHS.sslConfig + 'key.pem') &&
+      fs.existsSync(PATHS.sslConfig + 'cert.pem')
+    console.log(chalk.cyan('SSL Enabled: ') + chalk.blue(sslEnabled))
   }
 }
-
-// SSL detection
-// sslEnabled =
-//   fs.existsSync(PATHS.sslConfig + 'key.pem') &&
-//   fs.existsSync(PATHS.sslConfig + 'cert.pem')
-console.log(chalk.cyan('SSL Enabled: ') + chalk.blue(sslEnabled))
 
 module.exports = {
   mode: isCiBuild ? 'production' : 'development',
