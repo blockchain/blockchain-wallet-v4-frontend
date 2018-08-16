@@ -108,6 +108,7 @@ const Personal = ({
   countryCode,
   activeField,
   setActiveField,
+  onCountrySelect,
   onAddressSelect,
   onPostCodeChange,
   handleSubmit
@@ -226,6 +227,7 @@ const Personal = ({
                       validate={[required]}
                       elements={supportedCountries}
                       component={SelectBox}
+                      onChange={onCountrySelect}
                       label={
                         <FormattedMessage
                           id='components.selectboxcountry.label'

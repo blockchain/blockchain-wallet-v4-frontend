@@ -39,6 +39,7 @@ const getAddressElements = addresses => [
 ]
 
 const { AddressPropType } = model.profile
+const { PERSONAL_FORM } = model.components.identityVerification
 
 class PersonalContainer extends React.PureComponent {
   state = {
@@ -53,9 +54,10 @@ class PersonalContainer extends React.PureComponent {
     this.setState({ activeField: fieldName })
   }
 
-  fetchPossibleAddresses = (_, postCode) => {
-    const { countryCode, actions } = this.props
+  onPostCodeChange = (_, postCode) => {
+    const { countryCode, actions, formActions } = this.props
 
+    formActions.touch(PERSONAL_FORM, 'postCode')
     actions.fetchPossibleAddresses(postCode, countryCode)
   }
 
@@ -71,6 +73,7 @@ class PersonalContainer extends React.PureComponent {
       possibleAddresses,
       address,
       addressRefetchVisible,
+      actions,
       handleSubmit
     } = this.props
     const { activeField } = this.state
@@ -92,7 +95,8 @@ class PersonalContainer extends React.PureComponent {
           activeField={activeField}
           setActiveField={this.setActiveField}
           onAddressSelect={this.selectAddress}
-          onPostCodeChange={this.fetchPossibleAddresses}
+          onCountrySelect={actions.setPossibleAddresses.bind(null, [])}
+          onPostCodeChange={this.onPostCodeChange}
           onSubmit={handleSubmit}
         />
       ),
@@ -125,7 +129,8 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(
     { ...actions.components.identityVerification, ...actions.modules.profile },
     dispatch
-  )
+  ),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 export default connect(
