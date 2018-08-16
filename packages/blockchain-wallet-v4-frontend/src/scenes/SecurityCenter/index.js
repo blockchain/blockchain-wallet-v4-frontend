@@ -35,8 +35,8 @@ class SecurityCenterContainer extends React.PureComponent {
   determineProgress () {
     const { authType, emailVerified, isMnemonicVerified } = this.props
     let progress = 0
-    if (authType.data > 0) progress++
-    if (emailVerified.data > 0) progress++
+    if (authType.getOrElse(0) > 0) progress++
+    if (emailVerified.getOrElse(0) > 0) progress++
     if (isMnemonicVerified) progress++
     return progress
   }

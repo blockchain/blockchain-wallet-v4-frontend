@@ -127,10 +127,9 @@ const Payment = props => {
     handlePrefillCardMax
   } = props
   const { limits, level, kyc } = value
-  const quoteData = path(['data'], quote)
   const kycState = path(['state'], kyc)
-  const cardDisabled = isCardDisabled(quoteData, limits)
-  const bankDisabled = isBankDisabled(quoteData, limits, kycState)
+  const cardDisabled = isCardDisabled(quote, limits)
+  const bankDisabled = isBankDisabled(quote, limits, kycState)
   if (bankDisabled && medium !== 'card') handlePaymentClick('card')
   const prefillCardMax = limits => handlePrefillCardMax(limits)
 
@@ -156,7 +155,7 @@ const Payment = props => {
           </InputWrapper>
           <PaymentWrapper>
             {bankOptionHelper(
-              quoteData,
+              quote,
               limits,
               isChecked('bank'),
               handlePaymentClick,
@@ -166,7 +165,7 @@ const Payment = props => {
               level
             )}
             {cardOptionHelper(
-              quoteData,
+              quote,
               limits,
               isChecked('card'),
               handlePaymentClick,

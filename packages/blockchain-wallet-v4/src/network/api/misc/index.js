@@ -1,4 +1,4 @@
-import { toUpper } from 'ramda'
+import { toUpper, equals } from 'ramda'
 
 export default ({ rootUrl, apiUrl, get, post }) => {
   const getCaptchaImage = (timestamp, sessionToken) =>
@@ -10,17 +10,13 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     })
 
   const getTransactionHistory = (coin, active, currency, start, end) => {
-    return coin === 'BCH'
-      ? get({
-          url: apiUrl,
-          endPoint: '/bch/v2/export-history',
-          data: { active, currency: toUpper(currency), start, end }
-        })
-      : post({
-          url: rootUrl,
-          endPoint: '/v2/export-history',
-          data: { active, currency: toUpper(currency), start, end }
-        })
+    const isBCH = equals(coin, 'BCH')
+    const endpoint = '/v2/export-history'
+    return post({
+      url: isBCH ? apiUrl : rootUrl,
+      endPoint: isBCH ? '/bch' + endpoint : endpoint,
+      data: { active, currency: toUpper(currency), start, end }
+    })
   }
 
   const getLogs = (guid, sharedKey) =>

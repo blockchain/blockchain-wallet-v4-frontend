@@ -213,8 +213,9 @@ export default ({ api, options }) => {
     const { idType, file } = data.payload
     try {
       const sfox = yield call(getSfox)
-      const profile = yield select(S.getProfile)
-      const sfoxUrl = yield apply(profile.data, profile.data.getSignedURL, [
+      const profileR = yield select(S.getProfile)
+      const profile = profileR.getOrFail('No Profile found')
+      const sfoxUrl = yield apply(profile, profile.getSignedURL, [
         idType,
         file.name
       ])
@@ -245,8 +246,9 @@ export default ({ api, options }) => {
   const verifyMicroDeposits = function*(data) {
     const { amount1, amount2 } = data.payload
     try {
-      const accounts = yield select(S.getAccounts)
-      const response = yield apply(accounts.data[0], accounts.data[0].verify, [
+      const accountsR = yield select(S.getAccounts)
+      const accounts = accountsR.getOrElse([])
+      const response = yield apply(accounts[0], accounts[0].verify, [
         amount1,
         amount2
       ])
@@ -261,11 +263,10 @@ export default ({ api, options }) => {
   const handleTrade = function*(quote, addressData) {
     try {
       yield put(A.handleTradeLoading())
-      const accounts = yield select(S.getAccounts)
+      const accountsR = yield select(S.getAccounts)
+      const accounts = accountsR.getOrElse([])
       const methods = yield apply(quote, quote.getPaymentMediums)
-      const trade = yield apply(methods.ach, methods.ach.buy, [
-        accounts.data[0]
-      ])
+      const trade = yield apply(methods.ach, methods.ach.buy, [accounts[0]])
       yield put(A.handleTradeSuccess(trade))
       yield put(A.fetchProfile())
       yield put(A.fetchTrades())
@@ -306,11 +307,10 @@ export default ({ api, options }) => {
   const handleSellTrade = function*(quote) {
     try {
       yield put(A.handleTradeLoading())
-      const accounts = yield select(S.getAccounts)
+      const accountsR = yield select(S.getAccounts)
+      const accounts = accountsR.getOrElse([])
       const methods = yield apply(quote, quote.getPaymentMediums)
-      const trade = yield apply(methods.ach, methods.ach.sell, [
-        accounts.data[0]
-      ])
+      const trade = yield apply(methods.ach, methods.ach.sell, [accounts[0]])
       yield put(A.handleTradeSuccess(trade))
       yield put(A.fetchProfile())
       yield put(A.fetchTrades())

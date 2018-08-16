@@ -197,7 +197,9 @@ class SfoxTradeDetails extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  account: selectors.core.data.sfox.getAccounts(state).data
+  account: selectors.core.data.sfox
+    .getAccounts(state)
+    .getOrFail('No sfox accounts found')
 })
 
 const mapDispatchToProps = dispatch => ({
