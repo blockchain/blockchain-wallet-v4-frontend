@@ -1,5 +1,5 @@
 import { delay } from 'redux-saga'
-import { put, select, call, fork, cancel } from 'redux-saga/effects'
+import { put, select, call, fork, cancel, spawn } from 'redux-saga/effects'
 import moment from 'moment'
 import { ifElse, isEmpty, identity } from 'ramda'
 
@@ -14,9 +14,8 @@ export const userIdError = 'Failed to generate user id'
 export const lifetimeTokenError = 'Failed to generate lifetime token'
 export const authRetryDelay = 5000
 
+let renewTask = null
 export default ({ api, coreSagas }) => {
-  let renewTask = null
-
   const signIn = function*() {
     try {
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail(
@@ -39,35 +38,47 @@ export default ({ api, coreSagas }) => {
 
   const startSession = function*(userId, lifetimeToken, email, guid) {
     yield put(A.setApiToken(Remote.Loading))
-    renewTask = yield fork(renewSession, userId, lifetimeToken, email, guid)
+    renewTask = yield fork(renewSession, userId, lifetimeToken, email, guid, 0)
+  }
+
+  const renewSession = function*(
+    userId,
+    lifetimeToken,
+    email,
+    guid,
+    renewIn = 0
+  ) {
+    try {
+      yield delay(renewIn)
+      const { token: apiToken, expiresAt } = yield call(
+        api.generateSession,
+        userId,
+        lifetimeToken,
+        email,
+        guid
+      )
+      yield put(A.setApiToken(Remote.of(apiToken)))
+      const expiresIn = moment(expiresAt)
+        .subtract(5, 's')
+        .diff(moment())
+      yield spawn(renewSession, userId, lifetimeToken, email, guid, expiresIn)
+    } catch (e) {
+      yield put(A.setApiToken(Remote.Failure(e)))
+      yield spawn(
+        renewSession,
+        userId,
+        lifetimeToken,
+        email,
+        guid,
+        authRetryDelay
+      )
+    }
   }
 
   const clearSession = function*() {
     yield cancel(renewTask)
     renewTask = null
     yield put(A.setApiToken(Remote.NotAsked))
-  }
-
-  const renewSession = function*(userId, lifetimeToken, email, guid) {
-    while (true) {
-      try {
-        const { token: apiToken, expiresAt } = yield call(
-          api.generateSession,
-          userId,
-          lifetimeToken,
-          email,
-          guid
-        )
-        yield put(A.setApiToken(Remote.of(apiToken)))
-        const expiresIn = moment(expiresAt)
-          .subtract(5, 's')
-          .diff(moment())
-        yield delay(expiresIn)
-      } catch (e) {
-        yield put(A.setApiToken(Remote.Failure(e)))
-        yield delay(authRetryDelay)
-      }
-    }
   }
 
   const generateAuthCredentials = function*() {
