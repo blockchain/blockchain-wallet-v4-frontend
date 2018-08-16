@@ -1,13 +1,13 @@
-export default ({ nabuUrl, get, post }) => {
+export default ({ nabuUrl, get, authorizedGet, authorizedPost }) => {
   const getSupportedCountries = () =>
     get({
       url: nabuUrl,
       endPoint: '/countries',
-      data: { region: 'eea' }
+      data: { scope: 'kyc' }
     })
 
   const fetchKycAddresses = (filter, cancelToken) =>
-    get({
+    authorizedGet({
       url: nabuUrl,
       endPoint: `/addresses/find`,
       data: { ...filter },
@@ -15,22 +15,16 @@ export default ({ nabuUrl, get, post }) => {
     })
 
   const fetchOnfidoSDKKey = () =>
-    // get({
-    //   url: apiUrl,
-    //   endPoint: '/kyc/credentials/ONFIDO'
-    // })
-    Promise.resolve({
-      key: ''
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/kyc/credentials/ONFIDO'
     })
 
   const syncOnfido = applicantId =>
-    // post({
-    //   url: apiUrl,
-    //   endPoint: '/kyc/verification',
-    //   data: { applicantId }
-    // })
-    Promise.resolve({
-      applicantId: '4ad8273f-e028-4d4c-b258-0349eb88308c'
+    authorizedPost({
+      url: nabuUrl,
+      endPoint: '/kyc/verification',
+      data: { applicantId }
     })
 
   return {

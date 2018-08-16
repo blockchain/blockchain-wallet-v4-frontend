@@ -20,3 +20,9 @@ export const userFlowSupported = state =>
 export const getApiToken = path(['profile', 'apiToken'])
 
 export const isAuthenticated = state => getApiToken(state).map(prop('isActive'))
+
+export const getAuthCredentials = state => ({
+  token: getApiToken(state).getOrElse(''),
+  email: selectors.core.settings.getEmail(state).getOrElse(''),
+  guid: selectors.core.wallet.getGuid(state)
+})

@@ -1,4 +1,4 @@
-export default ({ nabuUrl, post, patch }) => {
+export default ({ nabuUrl, post, authorizedPut }) => {
   const generateUserId = (email, walletGuid) =>
     post({
       url: nabuUrl,
@@ -35,26 +35,15 @@ export default ({ nabuUrl, post, patch }) => {
       }
     })
 
-  const createUser = (userData, sessionToken) =>
-    // post({
-    //   url: apiUrl,
-    //   endPoint: '/users'
-    //   data: { ...userData },
-    //   sessionToken
-    // })
-    Promise.resolve({ id: '1234', state: 'CREATED', kycState: 'NONE' })
-
-  const updateUser = (userId, userData, sessionToken) =>
-    // patch({
-    //   url: apiUrl,
-    //   endPoint: '/users/${userId}',
-    //   data: { ...userData }
-    //   sessionToken
-    // })
-    Promise.resolve(userData)
+  const updateUser = (userData, sessionToken) =>
+    authorizedPut({
+      url: nabuUrl,
+      endPoint: '/users',
+      data: { ...userData },
+      sessionToken
+    })
 
   return {
-    createUser,
     generateUserId,
     generateLifetimeToken,
     generateSession,

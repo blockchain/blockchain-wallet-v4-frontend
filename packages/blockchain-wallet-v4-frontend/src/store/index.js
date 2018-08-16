@@ -70,7 +70,9 @@ const configureStore = () => {
         url: `${options.domains.webSocket}/nabu-app/markets/quotes`,
         maxReconnects: 3
       })
-      const api = createWalletApi({ options, apiKey })
+      const getAuthCredentials = () =>
+        selectors.modules.profile.getAuthCredentials(store.getState())
+      const api = createWalletApi({ options, apiKey, getAuthCredentials })
 
       const store = createStore(
         connectRouter(history)(rootReducer),

@@ -13,10 +13,12 @@ import sfox from './sfox'
 import wallet from './wallet'
 import fetchService from './fetch'
 import httpService from './http'
+import apiAuthorize from './apiAuthorize'
 
-export default ({ options, apiKey } = {}) => {
+export default ({ options, apiKey, getAuthCredentials } = {}) => {
   const { get, post } = fetchService({ apiKey })
   const http = httpService({ apiKey })
+  const authorizedHttp = apiAuthorize(http, getAuthCredentials)
   const apiUrl = options.domains.api
   const nabuUrl = `${apiUrl}/nabu-app`
   const rootUrl = options.domains.root
@@ -28,9 +30,14 @@ export default ({ options, apiKey } = {}) => {
     ...ethereum({ rootUrl, apiUrl, get, post }),
     ...bch({ rootUrl, apiUrl, get, post }),
     ...kvStore({ apiUrl }),
-    ...kyc({ nabuUrl, get: http.get, post: http.post }),
+    ...kyc({
+      nabuUrl,
+      get: http.get,
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post
+    }),
     ...misc({ rootUrl, apiUrl, get, post }),
-    ...profile({ nabuUrl, patch: http.patch, post: http.post }),
+    ...profile({ nabuUrl, authorizedPut: authorizedHttp.put, post: http.post }),
     ...sfox(),
     ...settings({ rootUrl, apiUrl, get, post }),
     ...shapeShift({ shapeShiftApiKey, ...http }),

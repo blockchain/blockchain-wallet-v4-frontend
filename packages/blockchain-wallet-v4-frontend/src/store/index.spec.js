@@ -109,7 +109,7 @@ describe('App Store Config', () => {
     })
     // build api
     expect(createWalletApi.mock.calls.length).toBe(1)
-    expect(createWalletApi.mock.calls[0][0]).toEqual({
+    expect(createWalletApi.mock.calls[0][0]).toMatchObject({
       options: fakeWalletOptions,
       apiKey: apiKey
     })
