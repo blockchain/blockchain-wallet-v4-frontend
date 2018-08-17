@@ -200,7 +200,8 @@
     "redux-saga-test-plan": "3.7.0",
     "rimraf": "2.6.2",
     "standard": "11.0.1",
-    "style-loader": "0.22.1",
+    "style-loader":
+      "git://github.com/webpack-contrib/style-loader.git#fc24512b395a8a3fd4074d88cd3f7b195f0bcef2",
     "thread-loader": "1.2.0",
     "uglifyjs-webpack-plugin": "1.3.0",
     "webpack": "4.16.5",
