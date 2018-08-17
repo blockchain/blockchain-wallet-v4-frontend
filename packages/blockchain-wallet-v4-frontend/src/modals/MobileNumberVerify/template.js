@@ -17,7 +17,7 @@ import { Form, TextBox } from 'components/Form'
 import { required } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
 
-const Code = styled.div`
+export const Code = styled.div`
   width: 60%;
   & > :first-child {
     flex-basis: 200px;
