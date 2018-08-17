@@ -224,6 +224,10 @@ module.exports = {
           comRoot: envConfig.COM_ROOT
         }
 
+        if (process.env.NODE_ENV === 'testnet') {
+          mockWalletOptions.platforms.web.bitcoin.config.network = 'testnet'
+        }
+
         res.json(mockWalletOptions)
       })
 

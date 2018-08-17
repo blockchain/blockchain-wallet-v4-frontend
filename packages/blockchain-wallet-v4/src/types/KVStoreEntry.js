@@ -133,9 +133,9 @@ export const magic = curry((payload, prevMagic, network) => {
   return BitcoinMessage.magicHash(msg, network.messagePrefix)
 })
 
-export const verify = curry((address, signature, hash, network) =>
-  BitcoinMessage.verify(hash, address, signature, { network })
-)
+export const verify = curry((address, signature, hash, network) => {
+  return BitcoinMessage.verify(hash, address, signature, network.messagePrefix)
+})
 
 // sign :: keyPair -> msg -> Buffer
 export const sign = curry((keyPair, msg) =>
