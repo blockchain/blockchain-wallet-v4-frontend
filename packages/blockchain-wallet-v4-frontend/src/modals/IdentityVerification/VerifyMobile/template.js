@@ -99,7 +99,6 @@ const VerifyMobile = ({
   editSmsNumber,
   updateSmsNumber,
   resendCode,
-  setActiveField,
   handleSubmit
 }) => (
   <PersonalForm onSubmit={handleSubmit}>
@@ -140,8 +139,6 @@ const VerifyMobile = ({
                       validate={[required, validMobileNumber]}
                       countryCode={countryCode}
                       onChange={editSmsNumber}
-                      onFocus={setActiveField.bind(null, 'smsNumber')}
-                      onBlur={setActiveField.bind(null, null)}
                       errorBottom
                     />
                   </FaqFormItem>
@@ -196,8 +193,6 @@ const VerifyMobile = ({
                         name='code'
                         component={TextBox}
                         validate={[required]}
-                        onFocus={setActiveField.bind(null, 'code')}
-                        onBlur={setActiveField.bind(null, null)}
                         errorBottom
                       />
                       <EmailHelper error={mobileVerifiedError}>

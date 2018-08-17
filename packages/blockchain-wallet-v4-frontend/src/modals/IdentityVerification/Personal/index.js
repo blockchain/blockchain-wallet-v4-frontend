@@ -42,16 +42,8 @@ const { AddressPropType } = model.profile
 const { PERSONAL_FORM } = model.components.identityVerification
 
 class PersonalContainer extends React.PureComponent {
-  state = {
-    activeField: null
-  }
-
   componentDidMount () {
     this.props.actions.fetchSupportedCountries()
-  }
-
-  setActiveField = fieldName => {
-    this.setState({ activeField: fieldName })
   }
 
   onPostCodeChange = (_, postCode) => {
@@ -72,11 +64,11 @@ class PersonalContainer extends React.PureComponent {
       countryCode,
       possibleAddresses,
       address,
+      activeField,
       addressRefetchVisible,
       actions,
       handleSubmit
     } = this.props
-    const { activeField } = this.state
 
     return supportedCountries.cata({
       Success: supportedCountries => (
@@ -93,7 +85,6 @@ class PersonalContainer extends React.PureComponent {
           address={address}
           addressRefetchVisible={addressRefetchVisible}
           activeField={activeField}
-          setActiveField={this.setActiveField}
           onAddressSelect={this.selectAddress}
           onCountrySelect={actions.setPossibleAddresses.bind(null, [])}
           onPostCodeChange={this.onPostCodeChange}

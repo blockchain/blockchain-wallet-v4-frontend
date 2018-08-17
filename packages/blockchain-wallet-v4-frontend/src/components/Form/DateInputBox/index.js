@@ -73,7 +73,7 @@ class DateInputBox extends React.PureComponent {
     isActive: false
   }
 
-  onBlur = from => {
+  onBlur = () => {
     this.setState({ isActive: false })
     requestAnimationFrame(() => {
       // If one of the other DateInputBox's field has been focused

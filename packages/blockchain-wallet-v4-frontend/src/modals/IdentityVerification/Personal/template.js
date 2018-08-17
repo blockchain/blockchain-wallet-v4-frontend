@@ -107,7 +107,6 @@ const Personal = ({
   possibleAddresses,
   countryCode,
   activeField,
-  setActiveField,
   onCountrySelect,
   onAddressSelect,
   onPostCodeChange,
@@ -188,8 +187,6 @@ const Personal = ({
                       errorBottom
                       parse={objectToDOB}
                       format={DOBToObject}
-                      onFocus={setActiveField.bind(null, 'dob')}
-                      onBlur={setActiveField.bind(null, null)}
                     />
                   </FaqFormItem>
                   {activeField === 'dob' &&
@@ -256,8 +253,6 @@ const Personal = ({
                         errorBottom
                         validate={[required]}
                         component={TextBox}
-                        onFocus={setActiveField.bind(null, 'postCode')}
-                        onBlur={setActiveField.bind(null, null)}
                       />
                     </FaqFormItem>
                     {activeField === 'postCode' && (
@@ -446,7 +441,6 @@ Personal.propTypes = {
   possibleAddresses: getElementsPropType(AddressPropType),
   countryCode: PropTypes.string.isRequired,
   activeField: PropTypes.string,
-  setActiveField: PropTypes.func.isRequired,
   onAddressSelect: PropTypes.func.isRequired,
   onPostCodeChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired
