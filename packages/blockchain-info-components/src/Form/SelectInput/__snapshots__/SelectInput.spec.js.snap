@@ -4,6 +4,9 @@ exports[`SelectInput component default renders correctly 1`] = `
 <Styled(StateManager)
   components={
     Object {
+      "Control": [Function],
+      "DropdownIndicator": [Function],
+      "IndicatorSeparator": [Function],
       "Option": [Function],
       "ValueContainer": [Function],
     }

@@ -46,6 +46,13 @@ const ValueContainer = ({ children, ...props }) => {
   )
 }
 
+const Control = props => {
+  return props.selectProps.hideFocusedControl &&
+    props.selectProps.menuIsOpen ? null : (
+    <components.Control {...props} />
+  )
+}
+
 const DropdownIndicator = props => {
   return props.selectProps.hideIndicator ? null : (
     <components.DropdownIndicator {...props} />
@@ -67,6 +74,7 @@ const SelectInput = props => {
     searchEnabled,
     templateItem,
     templateDisplay,
+    hideFocusedControl,
     hideIndicator,
     handleChange,
     menuIsOpen,
@@ -89,9 +97,11 @@ const SelectInput = props => {
       components={{
         Option,
         ValueContainer,
+        Control,
         DropdownIndicator,
         IndicatorSeparator
       }}
+      hideFocusedControl={hideFocusedControl}
       hideIndicator={hideIndicator}
       placeholder={defaultDisplay}
       isSearchable={searchEnabled}
