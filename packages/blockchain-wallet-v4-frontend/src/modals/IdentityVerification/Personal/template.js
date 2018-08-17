@@ -374,7 +374,7 @@ const Personal = ({
                         />
                       </FaqFormItem>
                     </FormGroup>
-                    <PersonalFormGroup inline>
+                    <FormGroup>
                       <FaqFormItem>
                         <Text
                           size='14px'
@@ -400,7 +400,7 @@ const Personal = ({
                           component={TextBox}
                         />
                       </FaqFormItem>
-                    </PersonalFormGroup>
+                    </FormGroup>
                   </div>
                 )}
               </FormContainer>
