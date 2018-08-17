@@ -8,6 +8,7 @@ import {
   promptForSecondPassword
 } from 'services/SagaService'
 import { Types, utils } from 'blockchain-wallet-v4/src'
+import { contains, toLower, prop, head } from 'ramda'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -100,7 +101,10 @@ export default ({ coreSagas }) => {
 
   const verifyMobile = function*(action) {
     try {
-      yield call(coreSagas.settings.setMobileVerified, action.payload)
+      const response = yield call(coreSagas.settings.setMobileVerified, action.payload)
+      const modals = yield select(selectors.modals.getModals)
+
+      if (contains('successfully', toLower(response)) && prop('type', head(modals)) !== 'SfoxExchangeData') yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess(C.MOBILE_VERIFY_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'verifyMobile', e))
