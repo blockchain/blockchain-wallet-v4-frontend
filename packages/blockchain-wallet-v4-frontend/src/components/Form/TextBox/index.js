@@ -33,6 +33,7 @@ const TextBox = field => {
     center,
     errorBottom,
     noLastPass,
+    autoFocus,
     borderRightNone
   } = field
   const { initial, active, touched, error, warning } = meta
@@ -42,6 +43,7 @@ const TextBox = field => {
     <Container>
       <TextInput
         {...input}
+        autoFocus={autoFocus}
         autoComplete={autoComplete}
         borderRightNone={borderRightNone}
         active={active}
