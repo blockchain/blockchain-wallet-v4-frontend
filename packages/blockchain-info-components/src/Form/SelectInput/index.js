@@ -31,6 +31,7 @@ class SelectInputContainer extends React.PureComponent {
       this.props.onChange(value)
     }
   }
+
   transform (elements, search) {
     let items = []
     elements.map(element => {
@@ -54,6 +55,7 @@ class SelectInputContainer extends React.PureComponent {
       elements,
       label,
       searchEnabled,
+      components,
       disabled,
       grouped,
       ...rest
@@ -65,8 +67,8 @@ class SelectInputContainer extends React.PureComponent {
       <SelectInput
         items={items}
         disabled={disabled}
-        defaultItem={this.state.value}
         defaultDisplay={label}
+        defaultItem={this.state.value}
         handleChange={this.handleChange}
         searchEnabled={this.props.searchEnabled}
         grouped={grouped}
@@ -94,10 +96,8 @@ SelectInputContainer.propTypes = {
     PropTypes.object
   ]).isRequired,
   onChange: PropTypes.func,
-  onBlur: PropTypes.func,
   onFocus: PropTypes.func,
-  templateDisplay: PropTypes.func,
-  templateItem: PropTypes.func
+  onBlur: PropTypes.func
 }
 
 SelectInputContainer.defaultProps = {

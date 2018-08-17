@@ -53,8 +53,6 @@ const SelectInput = props => {
     defaultDisplay,
     searchEnabled,
     handleChange,
-    templateDisplay,
-    templateItem,
     grouped
   } = props
   const options = grouped
@@ -67,16 +65,14 @@ const SelectInput = props => {
 
   return (
     <StyledSelect
-      components={{ Option, ValueContainer }}
       options={options}
       styles={colourStyles}
       isSearchable={searchEnabled}
-      value={defaultValue}
-      templateItem={templateItem}
-      templateDisplay={templateDisplay}
-      onChange={handleChange}
+      components={{ Option, ValueContainer }}
       placeholder={defaultDisplay}
+      onChange={handleChange}
       isDisabled={disabled}
+      value={defaultValue}
     />
   )
 }

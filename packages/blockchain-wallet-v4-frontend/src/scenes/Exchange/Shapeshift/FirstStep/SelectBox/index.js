@@ -4,7 +4,6 @@ import { path, prop } from 'ramda'
 
 import { Icon } from 'blockchain-info-components'
 import { SelectBox } from 'components/Form'
-import { components } from 'react-select'
 
 const DisplayWrapper = styled.div`
   display: flex;
@@ -82,14 +81,6 @@ const renderItemWithIcon = item => (
   </ItemWrapper>
 )
 
-const Group = props => {
-  return (
-    <div style={{ marginTop: '10px' }}>
-      <components.Group {...props} />
-    </div>
-  )
-}
-
 const SelectBoxExchange = props => {
   return props.hasOneAccount ? (
     <SelectBox
@@ -98,12 +89,7 @@ const SelectBoxExchange = props => {
       templateItem={renderItemWithIcon}
     />
   ) : (
-    <SelectBox
-      {...props}
-      templateItem={renderItem}
-      components={{ Group }}
-      grouped
-    />
+    <SelectBox {...props} templateItem={renderItem} grouped />
   )
 }
 

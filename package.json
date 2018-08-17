@@ -121,9 +121,6 @@
     "manage:translations":
       "yarn workspace blockchain-wallet-v4-frontend manage:translations"
   },
-  "dependencies": {
-    "react-select": "^2.0.0"
-  },
   "devDependencies": {
     "@storybook/addon-actions": "^4.0.0-alpha.8",
     "@storybook/addon-info": "^4.0.0-alpha.8",
