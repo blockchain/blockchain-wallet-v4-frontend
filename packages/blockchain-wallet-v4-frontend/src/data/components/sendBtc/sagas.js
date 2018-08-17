@@ -102,7 +102,6 @@ export default ({ coreSagas, networks }) => {
           }
           break
         case 'from':
-          yield put(A.sendBtcFirstStepToToggled(false))
           const source = prop('address', payload) || prop('index', payload)
           if (!prop('watchOnly', payload)) {
             payment = yield payment.from(source)
