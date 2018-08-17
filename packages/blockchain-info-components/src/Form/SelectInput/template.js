@@ -5,16 +5,17 @@ import Select, { components } from 'react-select'
 import { equals, flatten, filter, head, assoc, path } from 'ramda'
 
 const StyledSelect = styled(Select)`
-  font-family: 'Montserrat', sans-serif;
   font-weight: 300;
+  font-family: 'Montserrat', sans-serif;
   font-size: ${props => (props.fontSize === 'small' ? '12px' : '14px')};
 `
 
-const colourStyles = {
+const customStyles = {
   control: styles => ({
     ...styles,
     backgroundColor: 'white',
     cursor: 'pointer',
+    minHeight: '40px',
     borderRadius: 0
   })
 }
@@ -45,6 +46,18 @@ const ValueContainer = ({ children, ...props }) => {
   )
 }
 
+const DropdownIndicator = props => {
+  return props.selectProps.hideIndicator ? null : (
+    <components.DropdownIndicator {...props} />
+  )
+}
+
+const IndicatorSeparator = props => {
+  return props.selectProps.hideIndicator ? null : (
+    <components.IndicatorSeparator {...props} />
+  )
+}
+
 const SelectInput = props => {
   const {
     items,
@@ -52,7 +65,11 @@ const SelectInput = props => {
     defaultItem,
     defaultDisplay,
     searchEnabled,
+    templateItem,
+    templateDisplay,
+    hideIndicator,
     handleChange,
+    menuIsOpen,
     grouped
   } = props
   const options = grouped
@@ -66,11 +83,20 @@ const SelectInput = props => {
   return (
     <StyledSelect
       options={options}
-      styles={colourStyles}
-      isSearchable={searchEnabled}
-      components={{ Option, ValueContainer }}
+      styles={customStyles}
+      templateItem={templateItem}
+      templateDisplay={templateDisplay}
+      components={{
+        Option,
+        ValueContainer,
+        DropdownIndicator,
+        IndicatorSeparator
+      }}
+      hideIndicator={hideIndicator}
       placeholder={defaultDisplay}
+      isSearchable={searchEnabled}
       onChange={handleChange}
+      menuIsOpen={menuIsOpen}
       isDisabled={disabled}
       value={defaultValue}
     />

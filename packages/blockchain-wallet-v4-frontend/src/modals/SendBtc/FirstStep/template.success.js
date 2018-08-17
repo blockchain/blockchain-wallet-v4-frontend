@@ -193,7 +193,7 @@ const FirstStep = props => {
                 <Field
                   name='to'
                   component={SelectBoxBitcoinAddresses}
-                  opened
+                  menuIsOpen
                   onFocus={() => handleToToggle()}
                   includeAll={false}
                   exclude={[from.label]}
@@ -206,11 +206,11 @@ const FirstStep = props => {
                 <Field
                   name='to'
                   component={SelectBoxBitcoinAddresses}
-                  onFocus={() => handleToToggle()}
+                  onClick={() => handleToToggle()}
                   includeAll={false}
                   validate={[required]}
                   exclude={[from.label]}
-                  hideArrow
+                  hideIndicator
                   hideErrors
                 />
               )}
