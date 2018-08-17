@@ -1,4 +1,4 @@
-export default ({ nabuUrl, post, authorizedPut }) => {
+export default ({ nabuUrl, post, authorizedPut, authorizedGet }) => {
   const generateUserId = (email, walletGuid) =>
     post({
       url: nabuUrl,
@@ -35,6 +35,13 @@ export default ({ nabuUrl, post, authorizedPut }) => {
       }
     })
 
+  const getUser = () =>
+    authorizedGet({
+      url: nabuUrl,
+      contentType: 'application/json',
+      endPoint: '/users/current'
+    })
+
   const updateUser = userData =>
     authorizedPut({
       url: nabuUrl,
@@ -63,6 +70,7 @@ export default ({ nabuUrl, post, authorizedPut }) => {
     generateUserId,
     generateLifetimeToken,
     generateSession,
+    getUser,
     updateUser,
     updateUserAddress,
     updateUserMobile

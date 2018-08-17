@@ -67,6 +67,7 @@ class IdentityVerification extends React.PureComponent {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
+    this.props.actions.initializeStep()
   }
 
   handleClose = () => {
@@ -80,7 +81,12 @@ class IdentityVerification extends React.PureComponent {
       return <Personal handleSubmit={actions.savePersonalData} />
 
     if (step === STEPS.mobile)
-      return <VerifyMobile handleSubmit={actions.verifySmsNumber} />
+      return (
+        <VerifyMobile
+          handleSubmit={actions.verifySmsNumber}
+          onBack={actions.setVerificationStep.bind(null, STEPS.personal)}
+        />
+      )
 
     if (step === STEPS.verify)
       return (
@@ -89,6 +95,7 @@ class IdentityVerification extends React.PureComponent {
             position: position + 1,
             total: total + 1
           })}
+          onBack={actions.setVerificationStep.bind(null, STEPS.mobile)}
         />
       )
   }

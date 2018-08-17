@@ -4,6 +4,7 @@ import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
   addressRefetchVisible: false,
+  verificationStep: null,
   smsStep: Remote.Loading,
   supportedCountries: Remote.NotAsked,
   possibleAdresses: []
@@ -13,6 +14,9 @@ export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
+    case AT.SET_VERIFICATION_STEP: {
+      return assoc('verificationStep', payload.step, state)
+    }
     case AT.SET_SMS_STEP: {
       return assoc('smsStep', Remote.of(payload.step), state)
     }

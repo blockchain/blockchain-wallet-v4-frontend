@@ -24,7 +24,6 @@ import {
   PartnerSubHeader,
   EmailHelper
 } from 'components/IdentityVerification'
-import Terms from 'components/Terms'
 
 const FormContainer = styled.div`
   margin-top: 25px;
@@ -99,7 +98,8 @@ const VerifyMobile = ({
   editSmsNumber,
   updateSmsNumber,
   resendCode,
-  handleSubmit
+  handleSubmit,
+  onBack
 }) => (
   <PersonalForm onSubmit={handleSubmit}>
     <FooterShadowWrapper
@@ -201,24 +201,24 @@ const VerifyMobile = ({
                           resendCode
                         })}
                       </EmailHelper>
-                      {activeField === 'code' &&
-                        !mobile && (
-                          <FaqFormMessage
-                            title={
-                              <FormattedMessage
-                                id='identityverification.mobile.faq.code.title'
-                                defaultMessage='We sent you a text message'
-                              />
-                            }
-                            text={
-                              <FormattedMessage
-                                id='identityverification.mobile.faq.code.text'
-                                defaultMessage='Your verification code is on its way. Once you receive it, please enter it.'
-                              />
-                            }
-                          />
-                        )}
                     </FaqFormItem>
+                    {activeField === 'code' &&
+                      !mobile && (
+                        <FaqFormMessage
+                          title={
+                            <FormattedMessage
+                              id='identityverification.mobile.faq.code.title'
+                              defaultMessage='We sent you a text message'
+                            />
+                          }
+                          text={
+                            <FormattedMessage
+                              id='identityverification.mobile.faq.code.text'
+                              defaultMessage='Your verification code is on its way. Once you receive it, please enter it.'
+                            />
+                          }
+                        />
+                      )}
                   </FaqFormGroup>
                 )}
               </FormContainer>
@@ -229,7 +229,17 @@ const VerifyMobile = ({
       footer={
         <Footer>
           <TermsText>
-            <Terms company='blockchain-kyc' />
+            <Button
+              uppercase
+              nature='transferred'
+              onClick={onBack}
+              disabled={submitting}
+            >
+              <FormattedMessage
+                id='identityverification.personal.back'
+                defaultMessage='Back'
+              />
+            </Button>
           </TermsText>
           <Button
             uppercase

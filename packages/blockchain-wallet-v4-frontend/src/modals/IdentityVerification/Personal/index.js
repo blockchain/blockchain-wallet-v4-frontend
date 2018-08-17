@@ -67,6 +67,7 @@ class PersonalContainer extends React.PureComponent {
       activeField,
       addressRefetchVisible,
       actions,
+      userData,
       handleSubmit
     } = this.props
 
@@ -74,10 +75,10 @@ class PersonalContainer extends React.PureComponent {
       Success: supportedCountries => (
         <Personal
           initialValues={{
-            country: find(
-              propEq('code', initialCountryCode),
-              supportedCountries
-            )
+            ...userData,
+            country:
+              find(propEq('name', userData.country), supportedCountries) ||
+              find(propEq('code', initialCountryCode), supportedCountries)
           }}
           countryCode={countryCode}
           supportedCountries={getCountryElements(supportedCountries)}

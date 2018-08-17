@@ -37,7 +37,12 @@ export default ({ options, apiKey, getAuthCredentials } = {}) => {
       authorizedPost: authorizedHttp.post
     }),
     ...misc({ rootUrl, apiUrl, get, post }),
-    ...profile({ nabuUrl, authorizedPut: authorizedHttp.put, post: http.post }),
+    ...profile({
+      nabuUrl,
+      authorizedPut: authorizedHttp.put,
+      authorizedGet: authorizedHttp.get,
+      post: http.post
+    }),
     ...sfox(),
     ...settings({ rootUrl, apiUrl, get, post }),
     ...shapeShift({ shapeShiftApiKey, ...http }),

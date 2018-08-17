@@ -1,5 +1,9 @@
 import * as AT from './actionTypes'
 
+export const initializeStep = () => ({
+  type: AT.INITIALIZE_STEP
+})
+
 export const setVerificationStep = step => ({
   type: AT.SET_VERIFICATION_STEP,
   payload: { step }

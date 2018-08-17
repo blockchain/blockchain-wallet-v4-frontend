@@ -2,7 +2,7 @@ import { put, select, call } from 'redux-saga/effects'
 import { isEmpty } from 'ramda'
 
 import { callLatest } from 'utils/effects'
-import { actions, selectors } from 'data'
+import { actions, selectors, model } from 'data'
 import profileSagas, {
   userIdError,
   lifetimeTokenError
@@ -10,7 +10,7 @@ import profileSagas, {
 import { Remote } from 'blockchain-wallet-v4/src'
 
 import * as A from './actions'
-import { SMS_STEPS, SMS_NUMBER_FORM, PERSONAL_FORM } from './model'
+import { STEPS, SMS_STEPS, SMS_NUMBER_FORM, PERSONAL_FORM } from './model'
 
 export const logLocation = 'components/identityVerification/sagas'
 
@@ -19,6 +19,7 @@ export const noCountryCodeError = 'Country code is not provided'
 export const noPostCodeError = 'Post code is not provided'
 
 export default ({ api, coreSagas }) => {
+  const { USER_ACTIVATION_STATES } = model.profile
   const {
     updateUser,
     updateUserAddress,
@@ -27,6 +28,18 @@ export default ({ api, coreSagas }) => {
     api,
     coreSagas
   })
+
+  const initializeStep = function*() {
+    const activationState = yield select(
+      selectors.modules.profile.getUserActivationState
+    )
+    if (activationState === USER_ACTIVATION_STATES.NONE)
+      return yield put(A.setVerificationStep(STEPS.personal))
+    if (activationState === USER_ACTIVATION_STATES.CREATED)
+      return yield put(A.setVerificationStep(STEPS.mobile))
+    if (activationState === USER_ACTIVATION_STATES.ACTIVE)
+      return yield put(A.setVerificationStep(STEPS.verify))
+  }
 
   const updateSmsStep = ({ smsNumber, smsVerified }) => {
     if (smsNumber && !smsVerified) return SMS_STEPS.verify
@@ -81,6 +94,7 @@ export default ({ api, coreSagas }) => {
       yield call(updateUser, { payload: { data: personalData } })
       yield call(updateUserAddress, { payload: { address } })
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
+      yield put(A.setVerificationStep(STEPS.mobile))
     } catch (e) {
       yield put(actions.form.stopSubmit(PERSONAL_FORM, e))
       yield put(
@@ -172,6 +186,7 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
+    initializeStep,
     fetchSupportedCountries,
     fetchPossibleAddresses,
     resendSmsCode,

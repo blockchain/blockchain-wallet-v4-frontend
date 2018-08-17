@@ -1,6 +1,10 @@
 import { path } from 'ramda'
 
-export const getStep = path(['components', 'identityVerification', 'step'])
+export const getVerificationStep = path([
+  'components',
+  'identityVerification',
+  'verificationStep'
+])
 export const getSmsStep = path([
   'components',
   'identityVerification',

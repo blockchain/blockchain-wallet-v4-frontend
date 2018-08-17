@@ -25,7 +25,8 @@ class VerifyMobileContainer extends React.PureComponent {
       mobileVerifiedError,
       countryCode,
       actions,
-      handleSubmit
+      handleSubmit,
+      onBack
     } = this.props
 
     return (
@@ -40,6 +41,7 @@ class VerifyMobileContainer extends React.PureComponent {
         updateSmsNumber={actions.updateSmsNumber}
         resendCode={actions.resendSmsCode}
         onSubmit={handleSubmit}
+        onBack={onBack}
       />
     )
   }

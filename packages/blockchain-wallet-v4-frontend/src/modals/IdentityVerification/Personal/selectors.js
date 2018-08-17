@@ -1,5 +1,5 @@
 import { formValueSelector } from 'redux-form'
-import { prop } from 'ramda'
+import { compose, prop } from 'ramda'
 
 import { selectors, model } from 'data'
 
@@ -8,12 +8,25 @@ const {
   getPossibleAddresses,
   isAddressRefetchVisible
 } = selectors.components.identityVerification
-const { getApiToken } = selectors.modules.profile
+const { getApiToken, getUserData } = selectors.modules.profile
 
 const { PERSONAL_FORM } = model.components.identityVerification
 
 const formValSelector = formValueSelector(PERSONAL_FORM)
 const activeFieldSelector = selectors.form.getActiveField(PERSONAL_FORM)
+
+const formatUserData = ({
+  state,
+  kycState,
+  id,
+  address,
+  mobile,
+  ...userData
+}) => ({
+  ...userData,
+  address,
+  ...address
+})
 
 export const getData = state => ({
   addressRefetchVisible:
@@ -25,5 +38,9 @@ export const getData = state => ({
   countryCode: prop('code', formValSelector(state, 'country')),
   address: formValSelector(state, 'address'),
   supportedCountries: getSupportedCountries(state),
-  activeField: activeFieldSelector(state)
+  activeField: activeFieldSelector(state),
+  userData: compose(
+    formatUserData,
+    getUserData
+  )(state)
 })

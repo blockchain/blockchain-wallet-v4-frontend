@@ -32,6 +32,8 @@ export default ({ api, coreSagas }) => {
       if (!userId || !lifetimeToken) return
 
       yield call(startSession, userId, lifetimeToken, email, guid)
+      const user = yield call(api.getUser)
+      yield put(A.setUserData(user))
     } catch (e) {}
   }
 
@@ -137,28 +139,33 @@ export default ({ api, coreSagas }) => {
 
   const updateUser = function*({ payload }) {
     const { data } = payload
-    const { id, address, mobile, mobileVerified, ...userData } = yield select(
-      S.getUserData
-    )
+    const {
+      id,
+      address,
+      mobile,
+      mobileVerified,
+      state,
+      kycState,
+      ...userData
+    } = yield select(S.getUserData)
     const updatedData = { ...userData, ...data }
     yield call(api.updateUser, updatedData)
-    yield put(
-      A.setUserData({ id, address, mobile, mobileVerified, ...updatedData })
-    )
+    const user = yield call(api.getUser)
+    yield put(A.setUserData(user))
   }
 
   const updateUserAddress = function*({ payload }) {
     const { address } = payload
     yield call(api.updateUserAddress, address)
-    const userData = yield select(S.getUserData)
-    yield put(A.setUserData({ ...userData, address }))
+    const user = yield call(api.getUser)
+    yield put(A.setUserData(user))
   }
 
   const updateUserMobile = function*({ payload }) {
     const { mobile } = payload
     yield call(api.updateUserMobile, mobile)
-    const userData = yield select(S.getUserData)
-    yield put(A.setUserData({ ...userData, mobile }))
+    const user = yield call(api.getUser)
+    yield put(A.setUserData(user))
   }
 
   return {
