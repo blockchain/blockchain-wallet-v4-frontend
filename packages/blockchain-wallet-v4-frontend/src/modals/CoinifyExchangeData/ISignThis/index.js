@@ -108,10 +108,9 @@ class ISignThisContainer extends Component {
     }
 
     var e = document.getElementById('isx-iframe')
-    const iSignThisDomain = path(
-      ['platforms', 'web', 'coinify', 'config', 'iSignThisDomain'],
-      this.props.walletOptions.data
-    )
+    const iSignThisDomain = this.props.walletOptions
+      .map(path(['platforms', 'web', 'coinify', 'config', 'iSignThisDomain']))
+      .getOrElse(null)
 
     var _isx = {
       transactionId: '',
@@ -254,7 +253,7 @@ class ISignThisContainer extends Component {
 
   render () {
     const { options, iSignThisId, coinifyActions, trade, quoteR } = this.props
-    const walletOpts = options || this.props.walletOptions.data
+    const walletOpts = options || this.props.walletOptions.getOrElse(null)
     const iSignThisDomain = path(
       ['platforms', 'web', 'coinify', 'config', 'iSignThisDomain'],
       walletOpts

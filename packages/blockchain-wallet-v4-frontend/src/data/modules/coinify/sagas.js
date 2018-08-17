@@ -167,7 +167,8 @@ export default ({ coreSagas }) => {
         yield put(actions.form.initialize('coinifyCheckoutBuy', initialValues))
       } else {
         yield put(actions.form.initialize('coinifyCheckoutSell', initialValues))
-        const limits = yield select(selectors.core.data.coinify.getLimits)
+        const limitsR = yield select(selectors.core.data.coinify.getLimits)
+        const limits = limitsR.getOrElse(undefined)
         const defaultIndex = yield select(
           selectors.core.wallet.getDefaultAccountIndex
         )
@@ -180,7 +181,7 @@ export default ({ coreSagas }) => {
           .done()
         const effectiveBalance = prop('effectiveBalance', payment.value())
         const isMinOverEffectiveMax = service.isMinOverEffectiveMax(
-          limits.getOrElse(undefined),
+          limits,
           effectiveBalance,
           currency
         )
@@ -219,7 +220,8 @@ export default ({ coreSagas }) => {
       yield put(A.coinifyCheckoutBusyOn())
       if (!payload) return null
 
-      const limits = yield select(selectors.core.data.coinify.getLimits)
+      const limitsR = yield select(selectors.core.data.coinify.getLimits)
+      const limits = limitsR.getOrElse(undefined)
       const values = yield select(selectors.form.getFormValues(form))
       const type = form === 'coinifyCheckoutBuy' ? 'buy' : 'sell'
       const isSell = type === 'sell'
@@ -230,7 +232,7 @@ export default ({ coreSagas }) => {
           if (!isSell) {
             const leftLimitsError = service.getLimitsError(
               payload,
-              limits.data,
+              limits,
               values.currency,
               type
             )
@@ -261,7 +263,7 @@ export default ({ coreSagas }) => {
             )
             const overEffectiveMaxError = service.getOverEffectiveMaxError(
               amount,
-              limits.data,
+              limits,
               values.currency,
               effectiveBalance
             )
@@ -270,7 +272,7 @@ export default ({ coreSagas }) => {
             } else {
               const leftLimitsError = service.getLimitsError(
                 btcAmt,
-                limits.data,
+                limits,
                 values.currency,
                 type
               )
@@ -299,7 +301,7 @@ export default ({ coreSagas }) => {
             )
             const overEffectiveMaxError = service.getOverEffectiveMaxError(
               payload * 1e8,
-              limits.data,
+              limits,
               values.currency,
               effectiveBalance
             )
@@ -310,7 +312,7 @@ export default ({ coreSagas }) => {
 
             const rightLimitsError = service.getLimitsError(
               payload,
-              limits.data,
+              limits,
               values.currency,
               type
             )
@@ -335,7 +337,7 @@ export default ({ coreSagas }) => {
           const amt = isSell ? payload : fiatAmount
           const rightLimitsError = service.getLimitsError(
             amt,
-            limits.data,
+            limits,
             values.currency,
             type
           )
@@ -378,13 +380,14 @@ export default ({ coreSagas }) => {
     const status = action.payload
     try {
       const modals = yield select(selectors.modals.getModals)
-      const trade = yield select(selectors.core.data.coinify.getTrade)
+      const tradeR = yield select(selectors.core.data.coinify.getTrade)
+      const trade = tradeR.getOrFail('No trade found')
 
       if (path(['type'], head(modals)) === 'CoinifyExchangeData') {
         yield put(A.coinifySignupComplete())
         yield call(delay, 500)
         yield put(actions.modals.closeAllModals())
-      } else if (trade.data.constructor.name !== 'Trade') {
+      } else if (trade.constructor.name !== 'Trade') {
         yield put(actions.form.change('buySellTabStatus', 'status', 'buy'))
       } else {
         yield put(
@@ -394,7 +397,7 @@ export default ({ coreSagas }) => {
       yield put(A.coinifyNextCheckoutStep('checkout'))
       yield put(
         actions.modals.showModal('CoinifyTradeDetails', {
-          trade: trade.data,
+          trade: trade,
           status: status
         })
       )
@@ -475,11 +478,12 @@ export default ({ coreSagas }) => {
 
   const cancelISX = function*() {
     const modals = yield select(selectors.modals.getModals)
-    const trade = yield select(selectors.core.data.coinify.getTrade)
+    const tradeR = yield select(selectors.core.data.coinify.getTrade)
+    const trade = tradeR.getOrFail('No trade found')
 
     if (path(['type'], head(modals)) === 'CoinifyExchangeData') {
       yield put(actions.modals.closeAllModals())
-    } else if (trade.data.state === 'awaiting_transfer_in') {
+    } else if (trade.state === 'awaiting_transfer_in') {
       yield put(
         actions.form.change('buySellTabStatus', 'status', 'order_history')
       )

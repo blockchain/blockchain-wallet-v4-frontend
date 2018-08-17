@@ -149,7 +149,7 @@ const EmailAddress = props => {
                 id='scenes.security.email.verifieddescription'
                 defaultMessage='You’ve verified '
               />
-              {email}
+              <span>&nbsp;{email}</span>
               <FormattedMessage
                 id='scenes.security.email.verifieddescription2'
                 defaultMessage='. Select ‘Change Email’ to modify this existing address. '
@@ -168,7 +168,7 @@ const EmailAddress = props => {
             id='scenes.security.email.unverifieddescription'
             defaultMessage='We have sent a verification email to '
           />
-          {email}
+          <span>&nbsp;{email}</span>
           <FormattedMessage
             id='scenes.security.email.unverifieddescription2'
             defaultMessage='. Please enter the code you’ve received to your email in order to complete the verification process. We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.'

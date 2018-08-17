@@ -7,7 +7,6 @@ import { getData, getQuote } from './selectors'
 import Success from './template.success'
 import { path } from 'ramda'
 import Loading from 'components/BuySell/Loading'
-import { Remote } from 'blockchain-wallet-v4/src'
 import Failure from 'components/BuySell/Failure'
 
 class PaymentContainer extends Component {
@@ -21,9 +20,8 @@ class PaymentContainer extends Component {
   }
 
   componentDidMount () {
-    if (Remote.Success.is(this.props.quote)) {
-      this.props.coinifyDataActions.getPaymentMediums(this.props.quote.data)
-    }
+    const quote = this.props.quote
+    if (quote) this.props.coinifyDataActions.getPaymentMediums(quote)
   }
 
   componentWillUnmount () {
@@ -78,7 +76,7 @@ PaymentContainer.propTypes = {
 
 const mapStateToProps = state => ({
   data: getData(state),
-  quote: getQuote(state),
+  quote: getQuote(state).getOrElse(null),
   coinifyBusy: path(['coinify', 'coinifyBusy'], state)
 })
 

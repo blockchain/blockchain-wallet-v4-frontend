@@ -268,7 +268,7 @@ module.exports = {
             "style-src 'self' 'unsafe-inline'",
             `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${
               envConfig.ROOT_URL
-            } http://localhost:8080`,
+            } https://localhost:8080 http://localhost:8080`,
             `child-src ${iSignThisDomain} ${
               envConfig.WALLET_HELPER_DOMAIN
             } blob:`,

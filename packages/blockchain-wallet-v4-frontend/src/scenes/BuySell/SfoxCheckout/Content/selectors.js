@@ -5,9 +5,9 @@ import { selectors } from 'data'
 export const getData = state => {
   const profile = selectors.core.data.sfox.getProfile(state)
   const accounts = selectors.core.data.sfox.getAccounts(state)
-  const verificationStatus = selectors.core.data.sfox.getVerificationStatus(
-    state
-  ).data
+  const verificationStatus = selectors.core.data.sfox
+    .getVerificationStatus(state)
+    .getOrElse(undefined)
   const defaultIndex = selectors.core.wallet.getDefaultAccountIndex(state)
   const nextAddress = selectors.core.common.btc.getNextAvailableReceiveAddress(
     settings.NETWORK_BITCOIN,

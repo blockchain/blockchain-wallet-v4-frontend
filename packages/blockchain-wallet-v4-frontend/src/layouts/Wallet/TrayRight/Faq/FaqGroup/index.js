@@ -11,7 +11,7 @@ const Wrapper = styled.div`
 `
 
 const GroupTitle = styled(Text)`
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   padding-bottom: 4px;
 `

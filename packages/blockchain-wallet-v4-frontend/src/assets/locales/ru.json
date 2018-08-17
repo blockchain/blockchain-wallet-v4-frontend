@@ -296,7 +296,6 @@
     "Вы толлько что получили платеж Ethereum",
   "components.alerts.pbkdf2_update_success": "Обновление PBKDF2 прошло успешно",
   "components.alerts.private_key_incorrect": "Неправильный закрытый ключ.",
-  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success": "Вы получили платеж в bitcoin cash.",
   "components.alerts.receive_btc_success": "Вы получили платеж в биткойнах.",
   "components.alerts.receive_eth_success": "Вы получили платеж в эфирах.",
@@ -410,6 +409,17 @@
   "components.form.tabmenutransactionstatus.received": "Получено",
   "components.form.tabmenutransactionstatus.sent": "Отправлено",
   "components.form.tabmenutransactionstatus.transferred": "Переведено",
+  "components.identityverification.popup.button.checkstatus": null,
+  "components.identityverification.popup.button.getstarted": null,
+  "components.identityverification.popup.button.verify": null,
+  "components.identityverification.popup.header.inreview": null,
+  "components.identityverification.popup.header.underreview": null,
+  "components.identityverification.popup.header.unverified": null,
+  "components.identityverification.popup.header.verified": null,
+  "components.identityverification.popup.note.inreview": null,
+  "components.identityverification.popup.note.underreview": null,
+  "components.identityverification.popup.note.unverified": null,
+  "components.identityverification.popup.note.verified": null,
   "components.qrreader.warning": "Ваш браузер не поддерживает веб-камеру.",
   "components.selectboxbitcoin.watchonly": "Не подлежит расходованию",
   "components.selectboxcountry.label": "Выбрать страну",
@@ -436,6 +446,7 @@
   "formhelper.ageovereighteen": "Возраст должен быть не менее 18 лет",
   "formhelper.incorrectpassword": "Неправильный пароль",
   "formhelper.invalidbitcoinaddress": "Недействительный адрес Bitcoin",
+  "formhelper.invalidbitcoinaddressandkey": null,
   "formhelper.invalidbitcoincashaddress": "Недействительный адрес Bitcoin Сash",
   "formhelper.invalidbitcoinprivatekey":
     "Недействительный закрытый ключ Bitcoin",
@@ -473,6 +484,7 @@
   "identityverification.address.faq.whycollect.question": null,
   "identityverification.address.header": null,
   "identityverification.address.region": null,
+  "identityverification.address.selectaddress": null,
   "identityverification.address.state": null,
   "identityverification.address.subheader": null,
   "identityverification.address.zipcode": null,
@@ -513,28 +525,9 @@
   "layouts.public.footer.explorer": "Данные",
   "layouts.public.footer.support": "Поддержка",
   "layouts.wallet.header.logout.signout": "Выйти",
-  "layouts.wallet.header.whatsnew.whatsnew.desc10":
-    "Если у вас в кошельке были биткойны до 1 августа 2017 года, теперь вы можете получить доступ к Bitcoin Cash в кошельке Blockchain.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc11":
-    "Адреса Bitcoin Cash теперь представлены в формате CashAddr.",
-  "layouts.wallet.header.whatsnew.whatsnew.desc7":
-    "Теперь вы можете продавать биткойны непосредственно из кошелька Blockchain!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc8":
-    "Теперь вы можете отправлять и получать эфиры непосредственно из вашего кошелька Blockchain!",
-  "layouts.wallet.header.whatsnew.whatsnew.desc9":
-    "Вы можете обменивать биткойны, эфиры и bitcoin cash непосредственно из вашего кошелька Blockchain",
   "layouts.wallet.header.whatsnew.whatsnew.empty": "?? У вас все получилось!",
-  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore": "Подробнее",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Наша команда постоянно работает над новыми функциями, но если есть что-то, что мы можем улучшить, сообщите нам об этом <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>здесь<a/>.",
-  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Подробнее",
-  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title11":
-    "Новый формат адреса Bitcoin Cash",
-  "layouts.wallet.header.whatsnew.whatsnew.title7": "Продать биткойны",
-  "layouts.wallet.header.whatsnew.whatsnew.title8":
-    "Отправка и получение эфиров",
-  "layouts.wallet.header.whatsnew.whatsnew.title9": "Обменные активы",
   "layouts.wallet.menuleft.footer.about": "О системе",
   "layouts.wallet.menuleft.footer.privacypolicy": "Политика конфиденциальности",
   "layouts.wallet.menuleft.footer.termsofservice":
@@ -546,13 +539,13 @@
   "layouts.wallet.menuleft.navigation.exchange": "Обмен",
   "layouts.wallet.menuleft.navigation.general": "Общее",
   "layouts.wallet.menuleft.navigation.preferences": "Предпочтениях",
+  "layouts.wallet.menuleft.navigation.profile": null,
   "layouts.wallet.menuleft.navigation.securitycenter": "Центр безопасности",
   "layouts.wallet.menuleft.navigation.settings": "Настройки",
   "layouts.wallet.menuleft.navigation.transactions": "Транзакции",
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Биткойн",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Эфир",
-  "layouts.wallet.menutop.bank": "Будьте своим собственным банком.",
   "layouts.wallet.menutop.request": "Получить",
   "layouts.wallet.menutop.send": "Отправить",
   "layouts.wallet.trayright.faq": "Часто задаваемые вопросы",
@@ -668,10 +661,6 @@
     "Адреса, сгенерированные данным кошельком, не должны импортироваться.",
   "modals.importbtcaddress.importtype": "Что вы хотите импортировать?",
   "modals.importbtcaddress.title": "Импортировать существующий адрес Bitcoin",
-  "modals.jumioprompt.body1": null,
-  "modals.jumioprompt.close": null,
-  "modals.jumioprompt.dothat": null,
-  "modals.jumioprompt.header": null,
   "modals.mobilelogin.cancel": "Отмена",
   "modals.mobilelogin.explain":
     "Выполните следующие действия для входа в свой веб-кошелек с помощью мобильного устройства",
@@ -1116,9 +1105,6 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
-  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
   "scenes.buysell.sfoxcheckout.content.jumio.buylimit": null,
@@ -1802,6 +1788,17 @@
   "scenes.priceindexseries.timefilters.month": "Месяц",
   "scenes.priceindexseries.timefilters.week": "Неделя",
   "scenes.priceindexseries.timefilters.year": "Год",
+  "scenes.profile.identityverification.banner.inreview": null,
+  "scenes.profile.identityverification.banner.underreview": null,
+  "scenes.profile.identityverification.banner.unverified": null,
+  "scenes.profile.identityverification.banner.verified": null,
+  "scenes.profile.identityverification.button.getstarted": null,
+  "scenes.profile.identityverification.buttons.verify": null,
+  "scenes.profile.identityverification.note.inreview": null,
+  "scenes.profile.identityverification.note.underreview": null,
+  "scenes.profile.identityverification.note.unverified": null,
+  "scenes.profile.identityverification.note.verified": null,
+  "scenes.profile.identityverification.title": null,
   "scenes.recover.firststep.back": "Вернуться",
   "scenes.recover.firststep.continue": "Продолжить",
   "scenes.recover.firststep.explain":
@@ -1937,8 +1934,6 @@
     "Мы отправили верификационный код на",
   "scenes.security.email.yourverifiedemailaddress":
     "Ваш подтвержденный электронный адрес используется для отправки кодов входа в систему, при подозрительной или необычной активности, для напоминания ID для доступа к кошельку и отправления сообщений о поступлении средств на счет. Мы не будем использовать ваш электронный адрес в маркетинговых целях.",
-  "scenes.security.passwordhint.notstored": null,
-  "scenes.security.passwordhint.stored": null,
   "scenes.security.tor.allowed": "Разрешен",
   "scenes.security.tor.blocked": "Заблокирован",
   "scenes.security.twostepsetup.sms":
@@ -2112,9 +2107,6 @@
   "scenes.securitysettings.apiaccess.description2": "чтобы начать.",
   "scenes.securitysettings.apiaccess.getstarted": "здесь,",
   "scenes.securitysettings.apiaccess.title": "Доступ к API",
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.change": null,
-  "scenes.securitysettings.basicsecurity.passwordhint.settings.save": null,
   "scenes.securitysettings.basicsecurity.recoveryphrase.description":
     "Ваша фраза для восстановления доступа содержит все закрытые ключи вашего кошелька. Запишите эти 12 слов по порядку и храните их оффлайн в безопасном месте. Эта фраза позволяет вам (или тому, кто ее имеет) восстанавливать кошелек и осуществлять доступ к вашим средствам. ",
   "scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase":
@@ -2311,9 +2303,6 @@
   "scenes.settings.manage_addresses.make_default":
     "Сделать настройкой по умолчанию",
   "scenes.settings.manage_addresses.show_xpub": "Показать xPub",
-  "scenes.settings.passwordhint.description1": null,
-  "scenes.settings.passwordhint.description2": null,
-  "scenes.settings.passwordhint.title": null,
   "scenes.settings.preferences.autologout.updateform.minutes": null,
   "scenes.settings.preferences.bitcoinlinkhandling.description":
     "Активируйте, чтобы позволить вашему кошельку Blockchain обработать ссылки платежей bitcoin в браузере.",
@@ -2326,7 +2315,6 @@
     "Мы не можем определить, активирована ли обработка ссылок bitcoin.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Если она уже активирована, ничего не произойдет.",
-  "scenes.settings.preferences.explain": "Настройка интерфейса кошелька.",
   "scenes.settings.preferences.localcurrency.error.description":
     "Выберите местную валюту.",
   "scenes.settings.preferences.localcurrency.error.title": "Местная валюта",
@@ -2658,7 +2646,6 @@
   "sfoxexchangedata.verify.hidessn": "Скрыть SSN",
   "sfoxexchangedata.verify.identity.error":
     "К сожалению, в ходе проверки вашей идентичности возникла проблема. {clickHere}, чтобы начать заново.",
-  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Фамилия",
   "sfoxexchangedata.verify.partner.header": "Скрытые детали",
   "sfoxexchangedata.verify.partner.header1": "Давайте познакомимся с вами",
