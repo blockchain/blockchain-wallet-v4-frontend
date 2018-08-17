@@ -215,15 +215,17 @@ const FirstStep = props => {
                 enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']
               }
             />
-            {enableToggle && !toToggled ? (
-              <AddressButton onClick={() => handleToToggle()}>
-                <Icon name='down-arrow' size='11px' cursor />
-              </AddressButton>
-            ) : (
-              <AddressButton onClick={() => handleToToggle()}>
-                <Icon name='pencil' size='13px' cursor />
-              </AddressButton>
-            )}
+            {enableToggle ? (
+              !toToggled ? (
+                <AddressButton onClick={() => handleToToggle()}>
+                  <Icon name='down-arrow' size='11px' cursor />
+                </AddressButton>
+              ) : (
+                <AddressButton onClick={() => handleToToggle()}>
+                  <Icon name='pencil' size='13px' cursor />
+                </AddressButton>
+              )
+            ) : null}
           </Row>
         </FormItem>
       </FormGroup>
