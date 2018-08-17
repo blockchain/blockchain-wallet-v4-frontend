@@ -12,10 +12,17 @@ import VerifyMobile from './template'
 const { SMS_STEPS } = model.components.identityVerification
 
 class VerifyMobileContainer extends React.PureComponent {
+  state = {
+    activeField: null
+  }
+
   componentDidMount () {
-    const { smsNumber, actions } = this.props
-    if (smsNumber) actions.resendSmsCode()
+    const { actions } = this.props
     actions.updateSmsStep()
+  }
+
+  setActiveField = fieldName => {
+    this.setState({ activeField: fieldName })
   }
 
   render () {
@@ -27,17 +34,20 @@ class VerifyMobileContainer extends React.PureComponent {
       actions,
       handleSubmit
     } = this.props
+    const { activeField } = this.state
 
     return (
       <VerifyMobile
         initialValues={{ smsNumber }}
         smsNumber={smsNumber}
+        activeField={activeField}
         step={step}
         countryCode={countryCode}
         mobileVerifiedError={mobileVerifiedError}
         editSmsNumber={actions.setSmsStep.bind(null, SMS_STEPS.edit)}
         updateSmsNumber={actions.updateSmsNumber}
         resendCode={actions.resendSmsCode}
+        setActiveField={this.setActiveField}
         onSubmit={handleSubmit}
       />
     )
