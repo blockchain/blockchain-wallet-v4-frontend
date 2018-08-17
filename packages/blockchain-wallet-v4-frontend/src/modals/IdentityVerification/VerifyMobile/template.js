@@ -196,6 +196,8 @@ const VerifyMobile = ({
                         name='code'
                         component={TextBox}
                         validate={[required]}
+                        onFocus={setActiveField.bind(null, 'code')}
+                        onBlur={setActiveField.bind(null, null)}
                         errorBottom
                       />
                       <EmailHelper error={mobileVerifiedError}>
@@ -204,6 +206,23 @@ const VerifyMobile = ({
                           resendCode
                         })}
                       </EmailHelper>
+                      {activeField === 'code' &&
+                        !mobile && (
+                          <FaqFormMessage
+                            title={
+                              <FormattedMessage
+                                id='identityverification.mobile.faq.code.title'
+                                defaultMessage='We sent you a text message'
+                              />
+                            }
+                            text={
+                              <FormattedMessage
+                                id='identityverification.mobile.faq.code.text'
+                                defaultMessage='Your verification code is on its way. Once you receive it, please enter it.'
+                              />
+                            }
+                          />
+                        )}
                     </FaqFormItem>
                   </FaqFormGroup>
                 )}
