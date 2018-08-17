@@ -40,8 +40,13 @@ export const canTrade = (settings, options, buySell, type) => {
   switch (match) {
     case 'sfox':
       return (
-        (type ? invited['sfox' + type] : invited.sfoxBuy || invited.sfoxSell) &&
-        'sfox'
+        (type
+          ? type === 'Buy'
+            ? // check sfoxBuyV4 to avoid conflict with v3
+              // which also checks invited.sfoxBuy
+              invited['sfoxBuyV4']
+            : invited['sfoxSell']
+          : invited.sfoxBuyV4 || invited.sfoxSell) && 'sfox'
       )
     case 'coinify':
       return (
