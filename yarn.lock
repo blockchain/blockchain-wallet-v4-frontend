@@ -10338,9 +10338,9 @@ react-textarea-autosize@^6.1.0:
   dependencies:
     prop-types "^15.6.0"
 
-react-tooltip@^3.6.1:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-3.6.1.tgz#2ca993baa50d7e0271b8d13c6024445a883842eb"
+"react-tooltip@git://github.com/plondon/react-tooltip.git#93bfe390a52ae9df882c21bf420e6c345f38db02":
+  version "0.0.0-semantic-release"
+  resolved "git://github.com/plondon/react-tooltip.git#93bfe390a52ae9df882c21bf420e6c345f38db02"
   dependencies:
     classnames "^2.2.5"
     prop-types "^15.6.0"
@@ -11776,6 +11776,13 @@ strip-json-comments@~2.0.1:
 style-loader@^0.21.0:
   version "0.21.0"
   resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-0.21.0.tgz#68c52e5eb2afc9ca92b6274be277ee59aea3a852"
+  dependencies:
+    loader-utils "^1.1.0"
+    schema-utils "^0.4.5"
+
+"style-loader@git://github.com/webpack-contrib/style-loader.git#fc24512b395a8a3fd4074d88cd3f7b195f0bcef2":
+  version "0.21.0"
+  resolved "git://github.com/webpack-contrib/style-loader.git#fc24512b395a8a3fd4074d88cd3f7b195f0bcef2"
   dependencies:
     loader-utils "^1.1.0"
     schema-utils "^0.4.5"
