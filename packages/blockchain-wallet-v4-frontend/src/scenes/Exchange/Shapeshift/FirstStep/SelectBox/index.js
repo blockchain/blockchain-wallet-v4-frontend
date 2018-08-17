@@ -2,8 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { path, prop } from 'ramda'
 
-import { Icon, Separator } from 'blockchain-info-components'
+import { Icon } from 'blockchain-info-components'
 import { SelectBox } from 'components/Form'
+import { components } from 'react-select'
 
 const DisplayWrapper = styled.div`
   display: flex;
@@ -15,19 +16,6 @@ const DisplayWrapper = styled.div`
   padding: 5px;
   box-sizing: border-box;
   cursor: pointer;
-  min-width: 0;
-`
-
-const HeaderWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  padding: 5px;
-  box-sizing: border-box;
-  cursor: not-allowed;
   min-width: 0;
 `
 const ItemWrapper = styled.div`
@@ -72,24 +60,7 @@ const renderDisplay = item => (
     <Text>{item.text}</Text>
   </DisplayWrapper>
 )
-const renderHeader = item => {
-  return (
-    <HeaderWrapper>
-      {prop('text', item) === 'Bitcoin' && (
-        <Icon name='bitcoin-in-circle' size='14px' weight={300} />
-      )}
-      {prop('text', item) === 'Bitcoin Cash' && (
-        <Icon name='bitcoin-cash' size='14px' weight={300} />
-      )}
-      {prop('text', item) === 'Ether' && (
-        <Icon name='ethereum-filled' size='14px' weight={300} />
-      )}
-      <Separator align='right'>
-        <Text uppercase>{item.text}</Text>
-      </Separator>
-    </HeaderWrapper>
-  )
-}
+
 const renderItem = item => (
   <ItemWrapper>
     <Text>{item.text}</Text>
@@ -111,6 +82,14 @@ const renderItemWithIcon = item => (
   </ItemWrapper>
 )
 
+const Group = props => {
+  return (
+    <div style={{ marginTop: '10px' }}>
+      <components.Group {...props} />
+    </div>
+  )
+}
+
 const SelectBoxExchange = props => {
   return props.hasOneAccount ? (
     <SelectBox
@@ -121,9 +100,8 @@ const SelectBoxExchange = props => {
   ) : (
     <SelectBox
       {...props}
-      templateDisplay={renderHeader}
-      templateHeader={renderHeader}
       templateItem={renderItem}
+      components={{ Group }}
       grouped
     />
   )

@@ -59,7 +59,7 @@ class SelectInputContainer extends React.PureComponent {
       ...rest
     } = this.props
     const { search } = this.state
-    const items = this.transform(elements, search)
+    const items = grouped ? elements : this.transform(elements, search)
 
     return (
       <SelectInput
@@ -97,7 +97,6 @@ SelectInputContainer.propTypes = {
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,
   templateDisplay: PropTypes.func,
-  templateHeader: PropTypes.func,
   templateItem: PropTypes.func
 }
 

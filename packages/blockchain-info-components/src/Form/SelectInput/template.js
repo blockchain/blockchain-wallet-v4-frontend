@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Select, { components } from 'react-select'
-import { equals, filter, head, assoc, path } from 'ramda'
+import { equals, flatten, filter, head, assoc, path } from 'ramda'
 
 const StyledSelect = styled(Select)`
   font-family: 'Montserrat', sans-serif;
@@ -54,10 +54,16 @@ const SelectInput = props => {
     searchEnabled,
     handleChange,
     templateDisplay,
-    templateItem
+    templateItem,
+    grouped
   } = props
-  const options = items.map(item => ({ value: item.value, label: item.text }))
-  const defaultValue = head(filter(x => equals(x.value, defaultItem), options))
+  const options = grouped
+    ? items
+    : items.map(item => ({ value: item.value, label: item.text }))
+  const groupedOptions = grouped && flatten(options.map(o => o.options))
+  const defaultValue = grouped
+    ? head(filter(x => equals(x.value, defaultItem), groupedOptions))
+    : head(filter(x => equals(x.value, defaultItem), options))
 
   return (
     <StyledSelect
