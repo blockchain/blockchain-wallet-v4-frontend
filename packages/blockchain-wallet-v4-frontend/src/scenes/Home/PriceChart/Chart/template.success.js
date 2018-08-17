@@ -14,6 +14,13 @@ const Wrapper = styled.div`
     }
     .highcharts-axis-labels {
       text {
+        font-size: 11px;
+        fill: ${props => props.theme['gray-5']} !important;
+      }
+    }
+    .highcharts-tooltip {
+      text {
+        font-size: 12px;
         fill: ${props => props.theme['gray-5']} !important;
       }
     }
