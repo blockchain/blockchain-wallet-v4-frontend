@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.1.8",
+  "version": "4.1.10",
   "license": "ISC",
   "private": true,
   "author": {
@@ -189,7 +189,8 @@
     "redux-saga-test-plan": "^3.6.0",
     "rimraf": "^2.6.2",
     "standard": "^11.0.1",
-    "style-loader": "^0.21.0",
+    "style-loader":
+      "git://github.com/webpack-contrib/style-loader.git#fc24512b395a8a3fd4074d88cd3f7b195f0bcef2",
     "thread-loader": "^1.1.5",
     "uglifyjs-webpack-plugin": "^1.2.4",
     "webpack": "^4.12.0",
