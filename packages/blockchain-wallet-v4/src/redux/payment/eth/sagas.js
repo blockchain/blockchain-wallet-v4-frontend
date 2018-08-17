@@ -43,6 +43,16 @@ export default ({ api }) => {
         return 1
     }
   }
+
+  const getBalance = function * () {
+    yield put(A.data.ethereum.fetchLegacyBalanceLoading())
+    const accountR = yield select(S.kvStore.ethereum.getDefaultAddress)
+    const account = accountR.getOrFail('missing_default_from')
+    const data = yield call(api.getEthereumBalances, account)
+    const balance = path([account, 'balance'], data)
+    yield put(A.data.ethereum.fetchLegacyBalanceSuccess(balance))
+    return balance
+  }
   // ///////////////////////////////////////////////////////////////////////////
 
   function create ({ network, payment } = { network: undefined, payment: {} }) {
@@ -129,12 +139,7 @@ export default ({ api }) => {
         const feeInGwei = value
         const gasLimit = path(['fees', 'gasLimit'], p)
         const fee = calculateFee(feeInGwei, gasLimit)
-        const accountR = yield select(S.kvStore.ethereum.getDefaultAddress)
-        const account = accountR.getOrFail('missing_default_from')
-        yield put(A.data.ethereum.fetchLegacyBalanceLoading())
-        const data = yield call(api.getEthereumBalances, account)
-        const balance = path([account, 'balance'], data)
-        yield put(A.data.ethereum.fetchLegacyBalanceSuccess(balance))
+        const balance = yield call(getBalance)
         let effectiveBalance = calculateEffectiveBalance( // balance + fee need to be in wei
           balance,
           fee
