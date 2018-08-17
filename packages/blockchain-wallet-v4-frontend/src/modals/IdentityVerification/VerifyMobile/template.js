@@ -29,7 +29,7 @@ const FormContainer = styled.div`
   margin-top: 25px;
   margin-bottom: 198px;
 `
-const PersonalForm = styled(Form)`
+const VerifyMobileForm = styled(Form)`
   height: 100%;
 `
 const FaqFormGroup = styled(FormGroup)`
@@ -46,11 +46,6 @@ const Footer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-`
-const TermsText = styled(Text)`
-  width: 50%;
-  font-weight: 300px;
-  font-size: 12px;
 `
 const ButtonFormItem = styled(FaqFormItem)`
   display: flex;
@@ -101,7 +96,7 @@ const VerifyMobile = ({
   handleSubmit,
   onBack
 }) => (
-  <PersonalForm onSubmit={handleSubmit}>
+  <VerifyMobileForm onSubmit={handleSubmit}>
     <FooterShadowWrapper
       fields={
         <MediaContextConsumer>
@@ -228,19 +223,17 @@ const VerifyMobile = ({
       }
       footer={
         <Footer>
-          <TermsText>
-            <Button
-              uppercase
-              nature='transferred'
-              onClick={onBack}
-              disabled={submitting}
-            >
-              <FormattedMessage
-                id='identityverification.personal.back'
-                defaultMessage='Back'
-              />
-            </Button>
-          </TermsText>
+          <Button
+            uppercase
+            nature='transferred'
+            onClick={onBack}
+            disabled={submitting}
+          >
+            <FormattedMessage
+              id='identityverification.personal.back'
+              defaultMessage='Back'
+            />
+          </Button>
           <Button
             uppercase
             nature='primary'
@@ -259,7 +252,7 @@ const VerifyMobile = ({
         </Footer>
       }
     />
-  </PersonalForm>
+  </VerifyMobileForm>
 )
 
 VerifyMobile.propTypes = {
