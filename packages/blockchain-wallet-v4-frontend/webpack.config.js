@@ -135,7 +135,8 @@ module.exports = {
     new CleanWebpackPlugin([PATHS.dist, PATHS.lib], { allowExternal: true }),
     new CaseSensitivePathsPlugin(),
     new Webpack.DefinePlugin({
-      APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version)
+      APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version),
+      NETWORK_TYPE: JSON.stringify(envConfig.NETWORK_TYPE)
     }),
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
@@ -221,6 +222,10 @@ module.exports = {
           walletHelper: envConfig.WALLET_HELPER_DOMAIN,
           comWalletApp: envConfig.COM_WALLET_APP,
           comRoot: envConfig.COM_ROOT
+        }
+
+        if (process.env.NODE_ENV === 'testnet') {
+          mockWalletOptions.platforms.web.bitcoin.config.network = 'testnet'
         }
 
         res.json(mockWalletOptions)
