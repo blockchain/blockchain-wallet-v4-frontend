@@ -1,8 +1,8 @@
-import { put, select, call } from 'redux-saga/effects'
+import { put, select, call, take } from 'redux-saga/effects'
 import { isEmpty } from 'ramda'
 
 import { callLatest } from 'utils/effects'
-import { actions, selectors, model } from 'data'
+import { actions, selectors, model, actionTypes } from 'data'
 import profileSagas, {
   userIdError,
   lifetimeTokenError
@@ -23,6 +23,7 @@ export default ({ api, coreSagas }) => {
   const {
     updateUser,
     updateUserAddress,
+    updateUserMobile,
     generateAuthCredentials
   } = profileSagas({
     api,
@@ -53,12 +54,19 @@ export default ({ api, coreSagas }) => {
     yield put(actions.form.startSubmit(SMS_NUMBER_FORM))
     yield put(actions.modules.settings.updateMobile(smsNumber))
     yield put(A.setSmsStep(SMS_STEPS.verify))
+    yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
   }
 
   const verifySmsNumber = function*() {
     yield put(actions.form.startSubmit(SMS_NUMBER_FORM))
-    const { code } = yield select(selectors.form.getFormValues(SMS_NUMBER_FORM))
+    const { code, smsNumber } = yield select(
+      selectors.form.getFormValues(SMS_NUMBER_FORM)
+    )
     yield put(actions.modules.settings.verifyMobile(code))
+    yield take(actionTypes.core.settings.SET_MOBILE_VERIFIED)
+    yield call(updateUserMobile, { payload: { mobile: smsNumber } })
+    yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
+    yield put(A.setVerificationStep(STEPS.verify))
   }
 
   const resendSmsCode = function*() {
