@@ -45,7 +45,9 @@ const Error = styled(Text)`
 
 class PhoneNumberBox extends React.Component {
   componentDidMount () {
-    this.tel.onfocus = this.props.input.onFocus
+    if (this.tel) {
+      this.tel.onfocus = this.props.input.onFocus
+    }
   }
 
   changeHandler = (status, value, countryData, number, id) => {

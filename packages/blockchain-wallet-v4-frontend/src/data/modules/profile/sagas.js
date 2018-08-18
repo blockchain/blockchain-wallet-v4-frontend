@@ -170,15 +170,11 @@ export default ({ api, coreSagas }) => {
 
   const updateUserMobile = function*({ payload }) {
     const { mobile } = payload
-    const mobileVerified = true
-    const {
-      mobile: prevMobile,
-      mobileVerified: prevMobileVerified
-    } = yield select(S.getUserData)
+    const { mobile: prevMobile } = yield select(S.getUserData)
 
-    if (prevMobile === mobile && mobileVerified === prevMobileVerified) return
+    if (prevMobile === mobile) return
 
-    yield call(api.updateUserMobile, mobile, mobileVerified)
+    yield call(api.updateUserMobile, mobile)
     const user = yield call(api.getUser)
     yield put(A.setUserData(user))
   }

@@ -58,12 +58,12 @@ export default ({ nabuUrl, post, authorizedPut, authorizedGet }) => {
       data: { address }
     })
 
-  const updateUserMobile = (mobile, mobileVerified) =>
+  const updateUserMobile = mobile =>
     authorizedPut({
       url: nabuUrl,
       contentType: 'application/json',
       endPoint: '/users/current/mobile',
-      data: { mobile, mobileVerified }
+      data: { mobile }
     })
 
   return {

@@ -16,6 +16,7 @@ const api = {
   generateUserId: jest.fn(),
   generateLifetimeToken: jest.fn(),
   generateSession: jest.fn(),
+  getUser: jest.fn(),
   updateUser: jest.fn(),
   updateUserAddress: jest.fn(),
   updateUserMobile: jest.fn()
@@ -54,8 +55,18 @@ const stubUserData = {
   firstName: 'The',
   lastName: 'User',
   dob: '1999-11-31',
-  address: stubAddress
+  address: stubAddress,
+  mobile: stubMobile
 }
+const newAddress = {
+  city: 'London',
+  line1: 'Flat 2, 42 Great Street',
+  line2: '',
+  country: 'United Kingdom',
+  state: 'England',
+  postCode: 'E145AX'
+}
+const newMobile = '+447799674749'
 const stubbedSignin = expectSaga(signIn).provide([
   [select(selectors.core.wallet.getGuid), stubGuid],
   [select(selectors.core.settings.getEmail), Remote.of(stubEmail)],
@@ -161,13 +172,23 @@ describe('update user address saga', () => {
 
   it('should call updateUserAddressApi', () =>
     expectSaga(updateUserAddress, {
-      payload: { address: stubAddress }
+      payload: { address: newAddress }
     })
       .provide([[select(S.getUserData), stubUserData]])
       .run()
       .then(() => {
         expect(api.updateUserAddress).toHaveBeenCalledTimes(1)
-        expect(api.updateUserAddress).toHaveBeenCalledWith(stubAddress)
+        expect(api.updateUserAddress).toHaveBeenCalledWith(newAddress)
+      }))
+
+  it("should not update address if it didn't change", () =>
+    expectSaga(updateUserAddress, {
+      payload: { address: stubAddress }
+    })
+      .provide([[select(S.getUserData), stubUserData]])
+      .run()
+      .then(() => {
+        expect(api.updateUserAddress).toHaveBeenCalledTimes(0)
       }))
 })
 
@@ -176,15 +197,25 @@ describe('update user mobile saga', () => {
     api.updateUserMobile.mockClear()
   })
 
-  it('should call updateUserAddressApi', () =>
+  it('should call updateUserAddressMobile', () =>
+    expectSaga(updateUserMobile, {
+      payload: { mobile: newMobile }
+    })
+      .provide([[select(S.getUserData), stubUserData]])
+      .run()
+      .then(() => {
+        expect(api.updateUserMobile).toHaveBeenCalledTimes(1)
+        expect(api.updateUserMobile).toHaveBeenCalledWith(newMobile)
+      }))
+
+  it("should not update mobile if it didn't change", () =>
     expectSaga(updateUserMobile, {
       payload: { mobile: stubMobile }
     })
       .provide([[select(S.getUserData), stubUserData]])
       .run()
       .then(() => {
-        expect(api.updateUserMobile).toHaveBeenCalledTimes(1)
-        expect(api.updateUserMobile).toHaveBeenCalledWith(stubMobile)
+        expect(api.updateUserMobile).toHaveBeenCalledTimes(0)
       }))
 })
 
