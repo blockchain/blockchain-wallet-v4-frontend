@@ -1,7 +1,7 @@
 import { delay } from 'redux-saga'
 import { put, select, call, fork, cancel, spawn } from 'redux-saga/effects'
 import moment from 'moment'
-import { ifElse, isEmpty, identity } from 'ramda'
+import { ifElse, isEmpty, identity, equals } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4'
 import { selectors, actions } from 'data'
@@ -149,6 +149,9 @@ export default ({ api, coreSagas }) => {
       ...userData
     } = yield select(S.getUserData)
     const updatedData = { ...userData, ...data }
+
+    if (equals(updatedData, userData)) return
+
     yield call(api.updateUser, updatedData)
     const user = yield call(api.getUser)
     yield put(A.setUserData(user))
@@ -156,6 +159,10 @@ export default ({ api, coreSagas }) => {
 
   const updateUserAddress = function*({ payload }) {
     const { address } = payload
+    const { address: prevAddress } = yield select(S.getUserData)
+
+    if (equals(address, prevAddress)) return
+
     yield call(api.updateUserAddress, address)
     const user = yield call(api.getUser)
     yield put(A.setUserData(user))
@@ -163,7 +170,15 @@ export default ({ api, coreSagas }) => {
 
   const updateUserMobile = function*({ payload }) {
     const { mobile } = payload
-    yield call(api.updateUserMobile, mobile)
+    const mobileVerified = true
+    const {
+      mobile: prevMobile,
+      mobileVerified: prevMobileVerified
+    } = yield select(S.getUserData)
+
+    if (prevMobile === mobile && mobileVerified === prevMobileVerified) return
+
+    yield call(api.updateUserMobile, mobile, mobileVerified)
     const user = yield call(api.getUser)
     yield put(A.setUserData(user))
   }
