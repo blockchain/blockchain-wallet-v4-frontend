@@ -1,35 +1,24 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { actions, selectors } from 'data'
-import Template from './template'
+import { getData } from './selectors'
 
-class Balance extends React.PureComponent {
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
+
+class WalletBalance extends React.PureComponent {
   render () {
-    const { settings, coinDisplayed } = this.props
-    const { preferencesActions } = this.props
-    const { currency } = settings.getOrElse({})
-
-    return (
-      <Template
-        currency={currency}
-        coinDisplayed={coinDisplayed}
-        toggleCoinDisplayed={preferencesActions.toggleCoinDisplayed}
-      />
-    )
+    return this.props.data.cata({
+      Success: value => <Success totalBalance={value.totalBalance} />,
+      Failure: msg => <Error>{msg}</Error>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
 
 const mapStateToProps = state => ({
-  settings: selectors.core.settings.getSettings(state),
-  coinDisplayed: selectors.preferences.getCoinDisplayed(state)
+  data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
-  preferencesActions: bindActionCreators(actions.preferences, dispatch)
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Balance)
+export default connect(mapStateToProps)(WalletBalance)
