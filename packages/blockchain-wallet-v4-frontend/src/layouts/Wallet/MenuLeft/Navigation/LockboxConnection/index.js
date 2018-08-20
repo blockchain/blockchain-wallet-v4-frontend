@@ -6,9 +6,9 @@ import styled from 'styled-components'
 import { actions, selectors } from 'data'
 
 const StatusIcon = styled.div`
-  margin-right: 5px;
-  height: 15px;
-  width: 15px;
+  margin-left: 100px;
+  height: 16px;
+  width: 16px;
   background-color: ${props => (props.color ? props.color : 'grey')};
   border-radius: 50%;
 `
@@ -20,9 +20,7 @@ class LockboxStatus extends React.PureComponent {
 
   render () {
     return this.props.data.cata({
-      Success: value => (
-        <StatusIcon color={'green'}>{JSON.stringify(value.status)}</StatusIcon>
-      ),
+      Success: () => <StatusIcon color={'green'} />,
       Failure: () => <StatusIcon />,
       Loading: () => <StatusIcon />,
       NotAsked: () => <StatusIcon />
