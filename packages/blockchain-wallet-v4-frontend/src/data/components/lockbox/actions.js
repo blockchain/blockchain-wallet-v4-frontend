@@ -1,8 +1,8 @@
 import * as AT from './actionTypes'
 
 // CONNECTIONS
-export const initializeDeviceConnection = () => ({
-  type: AT.INITIALIZE_DEVICE_CONNECTION
+export const initializeNewDeviceSetup = () => ({
+  type: AT.INITIALIZE_NEW_DEVICE_SETUP
 })
 export const pollForConnectionStatus = requestedApp => ({
   type: AT.POLL_FOR_CONNECTION_STATUS,
@@ -19,22 +19,23 @@ export const pollForConnectionStatusFailure = payload => ({
   type: AT.POLL_FOR_CONNECTION_STATUS_FAILURE,
   payload
 })
+export const storeTransportObject = transport => ({
+  type: AT.STORE_TRANSPORT_OBJECT,
+  payload: { transport }
+})
 
 // CREATE
 export const changeDeviceSetupStep = step => ({
   type: AT.SET_CONNECT_STEP,
   payload: { step }
 })
-export const setNewDeviceID = deviceID => ({
-  type: AT.SET_NEW_DEVICE_ID,
-  payload: { deviceID }
+export const setNewDeviceInfo = deviceInfo => ({
+  type: AT.SET_NEW_DEVICE_INFO,
+  payload: { deviceInfo }
 })
-export const setNewDeviceName = deviceName => ({
-  type: AT.SET_NEW_DEVICE_NAME,
+export const saveNewDeviceKvStore = deviceName => ({
+  type: AT.SAVE_NEW_DEVICE_KVSTORE,
   payload: { deviceName }
-})
-export const saveNewDeviceKvStore = () => ({
-  type: AT.SAVE_NEW_DEVICE_KVSTORE
 })
 export const saveNewDeviceKvStoreLoading = () => ({
   type: AT.SAVE_NEW_DEVICE_KVSTORE_LOADING

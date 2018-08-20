@@ -8,8 +8,8 @@ export default ({ api, coreSagas }) => {
   return function*() {
     yield takeLatest(AT.DEVICE_INFO_SUCCESS, lockboxSagas.deriveConnectStep)
     yield takeLatest(
-      AT.INITIALIZE_DEVICE_CONNECTION,
-      lockboxSagas.initializeDeviceConnection
+      AT.INITIALIZE_NEW_DEVICE_SETUP,
+      lockboxSagas.initializeNewDeviceSetup
     )
     yield takeLatest(
       AT.SAVE_NEW_DEVICE_KVSTORE,

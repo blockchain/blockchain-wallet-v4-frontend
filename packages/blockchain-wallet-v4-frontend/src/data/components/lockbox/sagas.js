@@ -1,5 +1,4 @@
-import { call, put, take, select } from 'redux-saga/effects'
-import { eventChannel, END } from 'redux-saga'
+import { call, put, select } from 'redux-saga/effects'
 import { contains, keysIn } from 'ramda'
 import Btc from '@ledgerhq/hw-app-btc'
 import Transport from '@ledgerhq/hw-transport-u2f'
@@ -12,55 +11,6 @@ import * as LockboxService from 'services/LockboxService'
 
 export default ({ api, coreSagas }) => {
   const logLocation = 'components/lockbox/sagas'
-
-  const deviceInfoChannel = function () {
-    return eventChannel(emitter => {
-      async function getDeviceInfo () {
-        try {
-          const transport = await Transport.create()
-
-          const lockbox = new Btc(transport)
-
-          // get public key and chaincode for btc and eth paths
-          const btc = await lockbox.getWalletPublicKey("44'/0'/0'")
-          const bch = await lockbox.getWalletPublicKey("44'/145'/0'")
-          const eth = await lockbox.getWalletPublicKey("44'/60'/0'/0/0")
-
-          emitter({ btc, bch, eth })
-          emitter(END)
-        } catch (e) {
-          throw new Error(e)
-        }
-      }
-
-      getDeviceInfo()
-      return () => {}
-    })
-  }
-
-  const initializeDeviceConnection = function*() {
-    try {
-      yield put(A.deviceInfoLoading())
-      const chan = yield call(deviceInfoChannel)
-      try {
-        while (true) {
-          const { btc, bch, eth } = yield take(chan)
-          yield put(A.deviceInfoSuccess({ btc, bch, eth }))
-        }
-      } finally {
-        chan.close()
-      }
-    } catch (e) {
-      yield put(A.deviceInfoFailure(e))
-      yield put(
-        actions.logs.logErrorMessage(
-          logLocation,
-          'initializeDeviceConnection',
-          e
-        )
-      )
-    }
-  }
 
   const deriveConnectStep = function*() {
     try {
@@ -84,19 +34,19 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const saveNewDeviceKvStore = function*() {
+  const saveNewDeviceKvStore = function*(action) {
     try {
+      const { deviceName } = action.payload
       yield put(A.saveNewDeviceKvStoreLoading())
-      const deviceInfoR = yield select(S.getConnectedDevice)
-      const deviceInfo = deviceInfoR.getOrFail('missing_device')
-      // derive device accounts and other information
-      const mdAccountsEntry = LockboxService.generateAccountsMDEntry(deviceInfo)
-      const deviceId = yield select(S.getNewDeviceSetupId)
-      const deviceName = yield select(S.getNewDeviceSetupName)
+      const newDeviceR = yield select(S.getNewDeviceInfo)
+      const newDevice = newDeviceR.getOrFail('missing_device')
+      const mdAccountsEntry = LockboxService.generateAccountsMDEntry(
+        newDevice.info
+      )
       // store device in kvStore
       yield put(
         actions.core.kvStore.lockbox.createNewDeviceEntry(
-          deviceId,
+          newDevice.id,
           deviceName,
           mdAccountsEntry
         )
@@ -217,8 +167,8 @@ export default ({ api, coreSagas }) => {
       async function startTransportListener () {
         try {
           const transport = await openTransport()
-          // TODO: what is appropriate length to listen for?
-          transport.setExchangeTimeout(30000)
+          // TODO: probably need to do this with a setTimeout or something
+          transport.setExchangeTimeout(1500000) // 25 minutes
           // TODO: these event listeners dont seem to work
           // transport.on('disconnect', evt => {
           //   console.info('DISCONNECTION NOTICE', evt)
@@ -238,8 +188,10 @@ export default ({ api, coreSagas }) => {
               LockboxService.SCRAMBLEKEYS.LEDGER.DASHBOARD
             )
           }
-          const ping = await pingDevice(transport)
-          resolve(ping)
+          await pingDevice(transport)
+
+          // connection detected
+          resolve(transport)
         } catch (error) {
           reject(error)
         }
@@ -252,8 +204,12 @@ export default ({ api, coreSagas }) => {
     try {
       const { requestedApp } = action.payload
       yield put(A.pollForConnectionStatusLoading())
-      const deviceConnection = yield call(createDeviceConnection, requestedApp)
-      yield put(A.pollForConnectionStatusSuccess(deviceConnection))
+      const transportConnection = yield call(
+        createDeviceConnection,
+        requestedApp
+      )
+      yield put(A.storeTransportObject(transportConnection))
+      yield put(A.pollForConnectionStatusSuccess(true))
     } catch (e) {
       yield put(A.pollForConnectionStatusFailure())
       yield put(
@@ -262,10 +218,45 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const initializeNewDeviceSetup = function*() {
+    try {
+      yield call(pollForConnectionStatus, {
+        payload: { requestedApp: 'DASHBOARD' }
+      })
+      yield put(A.changeDeviceSetupStep('open-btc-app'))
+      yield call(pollForConnectionStatus, { payload: { requestedApp: 'BTC' } })
+      const transport = yield select(S.getTransportObject)
+      const btcTransport = new Btc(transport)
+      const newDeviceInfo = yield call(
+        LockboxService.derviveDeviceInfo,
+        btcTransport
+      )
+      const newDeviceId = yield call(
+        LockboxService.deriveDeviceID,
+        newDeviceInfo.btc
+      )
+      yield put(A.setNewDeviceInfo({ id: newDeviceId, info: newDeviceInfo }))
+      const storedDevicesR = yield select(
+        selectors.core.kvStore.lockbox.getDevices
+      )
+      const storedDevices = storedDevicesR.getOrElse({})
+      // check if device has already been added
+      if (contains(newDeviceId)(keysIn(storedDevices))) {
+        yield put(A.changeDeviceSetupStep('duplicate-device'))
+      } else {
+        yield put(A.changeDeviceSetupStep('name-device'))
+      }
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'initializeNewDeviceSetup', e)
+      )
+    }
+  }
+
   return {
     deleteDevice,
     deriveConnectStep,
-    initializeDeviceConnection,
+    initializeNewDeviceSetup,
     saveNewDeviceKvStore,
     pollForConnectionStatus,
     updateDeviceName,

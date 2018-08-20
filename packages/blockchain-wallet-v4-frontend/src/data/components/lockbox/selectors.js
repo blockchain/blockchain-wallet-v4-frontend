@@ -7,20 +7,20 @@ export const getNewDeviceSetupStep = path([
   'newDeviceSetup',
   'currentStep'
 ])
-export const getNewDeviceSetupId = path([
+export const getNewDeviceInfo = path([
   'components',
   'lockbox',
   'newDeviceSetup',
-  'deviceID'
-])
-export const getNewDeviceSetupName = path([
-  'components',
-  'lockbox',
-  'newDeviceSetup',
-  'deviceName'
+  'device'
 ])
 
 // Device Connections
+export const getTransportObject = path([
+  'components',
+  'lockbox',
+  'connection',
+  'transport'
+])
 export const getConnectedDevice = path([
   'components',
   'lockbox',
