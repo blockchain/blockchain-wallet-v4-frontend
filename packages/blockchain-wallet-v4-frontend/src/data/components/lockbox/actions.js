@@ -8,6 +8,17 @@ export const pollForConnectionStatus = requestedApp => ({
   type: AT.POLL_FOR_CONNECTION_STATUS,
   payload: { requestedApp }
 })
+export const pollForConnectionStatusLoading = () => ({
+  type: AT.POLL_FOR_CONNECTION_STATUS_LOADING
+})
+export const pollForConnectionStatusSuccess = payload => ({
+  type: AT.POLL_FOR_CONNECTION_STATUS_SUCCESS,
+  payload
+})
+export const pollForConnectionStatusFailure = payload => ({
+  type: AT.POLL_FOR_CONNECTION_STATUS_FAILURE,
+  payload
+})
 
 // CREATE
 export const changeDeviceSetupStep = step => ({

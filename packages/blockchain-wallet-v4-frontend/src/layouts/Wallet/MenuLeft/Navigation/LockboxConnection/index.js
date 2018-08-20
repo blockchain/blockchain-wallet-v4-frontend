@@ -20,7 +20,9 @@ class LockboxStatus extends React.PureComponent {
 
   render () {
     return this.props.data.cata({
-      Success: value => <StatusIcon color={value.color}>{JSON.stringify(value.status)}</StatusIcon>,
+      Success: value => (
+        <StatusIcon color={'green'}>{JSON.stringify(value.status)}</StatusIcon>
+      ),
       Failure: () => <StatusIcon />,
       Loading: () => <StatusIcon />,
       NotAsked: () => <StatusIcon />
@@ -36,4 +38,7 @@ const mapDispatchToProps = dispatch => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(LockboxStatus)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LockboxStatus)

@@ -2,7 +2,6 @@ import { call, put, take, select } from 'redux-saga/effects'
 import { eventChannel, END } from 'redux-saga'
 import { contains, keysIn } from 'ramda'
 import Btc from '@ledgerhq/hw-app-btc'
-import Eth from '@ledgerhq/hw-app-eth'
 import Transport from '@ledgerhq/hw-transport-u2f'
 
 import { actions, selectors } from 'data'
@@ -90,7 +89,7 @@ export default ({ api, coreSagas }) => {
       const deviceInfoR = yield select(S.getConnectedDevice)
       const deviceInfo = deviceInfoR.getOrFail('missing_device')
       // derive device accounts and other information
-      const mdAccountsEntry = lockboxService.generateAccountsMDEntry(deviceInfo)
+      const mdAccountsEntry = LockboxService.generateAccountsMDEntry(deviceInfo)
       const deviceId = yield select(S.getNewDeviceSetupId)
       const deviceName = yield select(S.getNewDeviceSetupName)
       // store device in kvStore
@@ -171,41 +170,46 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const pingForDevice = async function(transport) {
-    return new Promise((success, failure) => {
-      transport.send(...APDUS.NO_OP)
-        .then((res) => success(res))
-    })
-  }
-
-  const getFirmwareInfo = async function(transport) {
-    return new Promise((success, failure) => {
-      transport.send(...APDUS.GET_FIRMWARE).then((res) => {
-        success(computeDeviceFirmware(res))
-      }, (error) => {
-        // TODO: loop for more pings...?
-        failure(error)
-      })
-    })
-  }
+  // const getFirmwareInfo = async function (transport) {
+  //   return new Promise((resolve, reject) => {
+  //     transport.send(...APDUS.GET_FIRMWARE).then(
+  //       res => {
+  //         resolve(LockboxService.computeDeviceFirmware(res))
+  //       },
+  //       error => {
+  //         reject(error)
+  //       }
+  //     )
+  //   })
+  // }
 
   const createDeviceConnection = function (requestedApp) {
-    return new Promise((success, failure) => {
-      function openTransport() {
-        return new Promise((success, failure) => {
-          Transport.open().then((transport) => {
-            console.log('transport opened')
-            console.info(transport)
-            success(transport)
-          }, (e) => {
-            failure(e)
-          })
+    return new Promise((resolve, reject) => {
+      function openTransport () {
+        return new Promise((resolve, reject) => {
+          Transport.open().then(
+            transport => {
+              resolve(transport)
+            },
+            error => {
+              reject(error)
+            }
+          )
         })
       }
 
-      function pingDevice(transport) {
-        return new Promise((success, failure) => {
-          transport.send(...LockboxService.APDUS.NO_OP).finally(() => { success('device detected') })
+      function pingDevice (transport) {
+        return new Promise(resolve => {
+          // TODO: has to be a better way to to this... :(
+          transport.send(...LockboxService.APDUS.NO_OP).then(
+            () => {
+              // since we are sending no_op command, this is always going to fail
+              // but a response, means a device is connected...
+            },
+            () => {
+              resolve('connected')
+            }
+          )
         })
       }
 
@@ -215,36 +219,42 @@ export default ({ api, coreSagas }) => {
           // TODO: what is appropriate length to listen for?
           transport.setExchangeTimeout(30000)
           // TODO: these event listeners dont seem to work
-          transport.on("disconnect", (evt) => {
-            console.info('DISCONNECTION NOTICE', evt)
-          })
-          transport.on("connect", (evt) => {
-            console.info('CONNECTION NOTICE', evt)
-          })
+          // transport.on('disconnect', evt => {
+          //   console.info('DISCONNECTION NOTICE', evt)
+          // })
+          // transport.on('connect', evt => {
+          //   console.info('CONNECTION NOTICE', evt)
+          // })
 
           // TODO: need to account for blockchain devices
-          // default to dashboard connection
-          transport.setScrambleKey(LockboxService.SCRAMBLEKEYS.LEDGER.DASHBOARD)
-          if (requestedApp) transport.setScrambleKey(LockboxService.SCRAMBLEKEYS.LEDGER[requestedApp])
+          if (requestedApp) {
+            transport.setScrambleKey(
+              LockboxService.SCRAMBLEKEYS.LEDGER[requestedApp]
+            )
+          } else {
+            // default to dashboard connection
+            transport.setScrambleKey(
+              LockboxService.SCRAMBLEKEYS.LEDGER.DASHBOARD
+            )
+          }
           const ping = await pingDevice(transport)
-          success(ping)
+          resolve(ping)
         } catch (error) {
-          failure(error)
+          reject(error)
         }
       }
-      startTransportListener(success, failure)
+      startTransportListener(resolve, reject)
     })
   }
 
   const pollForConnectionStatus = function*(action) {
     try {
       const { requestedApp } = action.payload
-      // yield put(A.polling())
+      yield put(A.pollForConnectionStatusLoading())
       const deviceConnection = yield call(createDeviceConnection, requestedApp)
-      console.info(deviceConnection)
-      // yield put(A.pollingDone())
+      yield put(A.pollForConnectionStatusSuccess(deviceConnection))
     } catch (e) {
-      // yield put(A.pollFail)
+      yield put(A.pollForConnectionStatusFailure())
       yield put(
         actions.logs.logErrorMessage(logLocation, 'pollForConnectionStatus', e)
       )
