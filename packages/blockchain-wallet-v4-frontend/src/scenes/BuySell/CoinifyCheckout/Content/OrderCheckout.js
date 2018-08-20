@@ -11,6 +11,7 @@ import {
   checkoutButtonLimitsHelper,
   getRateFromQuote
 } from 'services/CoinifyService'
+import RecurringBuyCheckout from './Recurring'
 
 const OrderCheckout = ({
   changeTab,
@@ -95,58 +96,37 @@ const OrderCheckout = ({
       </StepTransition>
     ) : null
 
-  return (
-    <ExchangeCheckoutWrapper>
+  return <ExchangeCheckoutWrapper>
+    <Text style={spacing('ml-10')} size='16px' weight={600}>
+      {wantToHelper()}
+    </Text>
+    <MethodContainer>
+      <Icon name='bitcoin-in-circle-filled' color='bitcoin-orange' size='30px' />
+      <div style={{ ...flex('col'), ...spacing('ml-20') }}>
+        <Text size='14px' weight={300} uppercase>
+          Bitcoin
+        </Text>
+        <Text size='12px' weight={300}>
+          {'@ '}
+          {rateHelper()}
+        </Text>
+      </div>
+    </MethodContainer>
+    {reason.indexOf('has_remaining') > -1 ? <Fragment>
       <Text style={spacing('ml-10')} size='16px' weight={600}>
-        {wantToHelper()}
+        <FormattedMessage id='scenes.buysell.coinifycheckout.content.ordercheckout.amount' defaultMessage='Amount' />
       </Text>
-      <MethodContainer>
-        <Icon
-          name='bitcoin-in-circle-filled'
-          color='bitcoin-orange'
-          size='30px'
-        />
-        <div style={{ ...flex('col'), ...spacing('ml-20') }}>
-          <Text size='14px' weight={300} uppercase>
-            Bitcoin
-          </Text>
-          <Text size='12px' weight={300}>
-            {'@ '}
-            {rateHelper()}
-          </Text>
-        </div>
-      </MethodContainer>
-      {reason.indexOf('has_remaining') > -1 ? (
-        <Fragment>
-          <Text style={spacing('ml-10')} size='16px' weight={600}>
-            <FormattedMessage
-              id='scenes.buysell.coinifycheckout.content.ordercheckout.amount'
-              defaultMessage='Amount'
-            />
-          </Text>
-          <div style={spacing('mt-10')}>
-            <QuoteInput
-              changeTab={changeTab}
-              quoteR={quoteR}
-              initialQuoteId={quoteR.map(quote => quote.id).getOrElse(null)}
-              debounce={500}
-              spec={quoteInputSpec}
-              onFetchQuote={onFetchQuote}
-              disabled={disableInputs}
-              limits={limits}
-              type={type}
-              defaultCurrency={defaultCurrency}
-              symbol={symbol}
-              setMax={setMax}
-              setMin={setMin}
-              increaseLimit={increaseLimit}
-            />
-          </div>
-        </Fragment>
-      ) : null}
-      {submitButtonHelper()}
-    </ExchangeCheckoutWrapper>
-  )
+      <div style={spacing('mt-10')}>
+        <QuoteInput changeTab={changeTab} quoteR={quoteR} initialQuoteId={quoteR
+          .map(quote => quote.id)
+          .getOrElse(
+            null
+          )} debounce={500} spec={quoteInputSpec} onFetchQuote={onFetchQuote} disabled={disableInputs} limits={limits} type={type} defaultCurrency={defaultCurrency} symbol={symbol} setMax={setMax} setMin={setMin} increaseLimit={increaseLimit} />
+      </div>
+    </Fragment> : null}
+    <RecurringBuyCheckout />
+    {submitButtonHelper()}
+  </ExchangeCheckoutWrapper>
 }
 
 export default OrderCheckout
