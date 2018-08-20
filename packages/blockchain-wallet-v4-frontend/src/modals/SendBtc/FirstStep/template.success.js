@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
@@ -42,79 +41,21 @@ import {
   minimumOneSatoshi,
   invalidAmount
 } from './validation'
+import {
+  Row,
+  ColLeft,
+  ColRight,
+  AddressButton,
+  FeeFormContainer,
+  FeeFormGroup,
+  FeeFormLabel,
+  FeeOptionsContainer,
+  FeePerByteContainer
+} from 'components/Send'
 import QRCodeCapture from 'components/QRCodeCapture'
 import RegularFeeLink from './RegularFeeLink'
 import PriorityFeeLink from './PriorityFeeLink'
 import ComboDisplay from 'components/Display/ComboDisplay'
-import media from 'services/ResponsiveService'
-
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-`
-const ColLeft = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  width: 50%;
-  ${media.mobile`
-    width: 100%;
-  `};
-`
-const ColRight = styled(ColLeft)`
-  align-items: flex-end;
-`
-const AddressButton = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  box-sizing: border-box;
-  border: 1px solid ${props => props.theme['gray-2']};
-
-  &:hover {
-    background-color: ${props => props.theme['gray-1']};
-  }
-`
-const FeeFormContainer = styled.div`
-  display: flex;
-  flex-direction: ${props => (props.toggled ? 'column' : 'row')};
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-`
-const FeeFormGroup = styled(FormGroup)`
-  ${media.mobile`
-    flex-direction: column;
-  `};
-`
-const FeeFormLabel = styled(FormLabel)`
-  width: 100%;
-  display: flex;
-  white-space: nowrap;
-  > div {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-`
-const FeeOptionsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-`
-const FeePerByteContainer = styled.div`
-  width: 100%;
-  margin-bottom: 10px;
-`
 
 const FirstStep = props => {
   const { invalid, submitting, pristine, ...rest } = props
@@ -303,6 +244,7 @@ const FirstStep = props => {
                   warn={[minimumFeePerByte, maximumFeePerByte]}
                   errorBottom
                   errorLeft
+                  unit='sat/byte'
                 />
               </FeePerByteContainer>
             )}
