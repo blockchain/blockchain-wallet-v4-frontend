@@ -137,7 +137,7 @@ const FiatConvertor = props => {
     reason,
     cryptoMax
   } = props
-  const { currency, unit } = props.data.data
+  const { currency, unit } = props.data.getOrFail('No data provided')
   const errorState = getErrorState(meta)
   const disabledReason = disabled()
 
