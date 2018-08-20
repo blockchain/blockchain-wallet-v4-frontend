@@ -24,7 +24,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   const getEthereumFee = () =>
     get({
       url: apiUrl,
-      endPoint: '/mempool/fees/eth'
+      endPoint: '/eth/fees'
     })
 
   const getEthereumLatestBlock = () =>

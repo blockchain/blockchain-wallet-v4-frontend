@@ -3,8 +3,6 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import MaximumAmountLink from './MaximumAmountLink'
-import MaximumFeeLink from './MaximumFeeLink'
-import MinimumFeeLink from './MinimumFeeLink'
 
 const Wrapper = styled.div`
   display: flex;
@@ -39,24 +37,4 @@ export const InsufficientFundsMessage = () => (
     id='modals.sendeth.insufficientfundsmessage'
     defaultMessage='Insufficient funds'
   />
-)
-
-export const MaximumFeeMessage = () => (
-  <Wrapper>
-    <FormattedMessage
-      id='modals.sendeth.maximumfeemessage'
-      defaultMessage='Unnecessarily high fee.'
-    />
-    <span>&nbsp;</span>
-    <MaximumFeeLink />
-  </Wrapper>
-)
-export const MinimumFeeMessage = () => (
-  <Wrapper>
-    <FormattedMessage
-      id='modals.sendeth.minimumfeemessage'
-      defaultMessage='Low fee not recommended. Use'
-    />
-    <MinimumFeeLink />
-  </Wrapper>
 )
