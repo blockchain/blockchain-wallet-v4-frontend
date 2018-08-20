@@ -27,7 +27,12 @@ export default ({ coreSagas }) => {
         from && type
           ? yield payment.from(action.payload.from, action.payload.type)
           : yield payment.from()
-      const initialValues = { coin: 'ETH' }
+      const defaultFee = path(
+        ['fees', 'regular'],
+        payment.value()
+      )
+      payment = yield payment.fee(defaultFee)
+      const initialValues = { coin: 'ETH', fee: defaultFee }
       yield put(initialize('sendEth', initialValues))
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
@@ -99,7 +104,11 @@ export default ({ coreSagas }) => {
         case 'description':
           payment = yield payment.description(payload)
           break
+        case 'fee':
+          payment = yield payment.fee(parseInt(payload))
+          break
       }
+
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
@@ -178,12 +187,68 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const regularFeeClicked = function * () {
+    try {
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const regularFee = path(['fees', 'regular'], payment)
+      yield put(change('sendEth', 'fee', regularFee))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'regularFeeClicked', e)
+      )
+    }
+  }
+
+  const priorityFeeClicked = function * () {
+    try {
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const priorityFee = path(['fees', 'priority'], payment)
+      yield put(change('sendEth', 'fee', priorityFee))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'priorityFeeClicked', e)
+      )
+    }
+  }
+
+  const minimumFeeClicked = function * () {
+    try {
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const minFee = path(['fees', 'limits', 'min'], payment)
+      yield put(change('sendEth', 'fee', minFee))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'minimumFeeClicked', e)
+      )
+    }
+  }
+
+  const maximumFeeClicked = function * () {
+    try {
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const maxFee = path(['fees', 'limits', 'max'], payment)
+      yield put(change('sendEth', 'fee', maxFee))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'maximumFeeClicked', e)
+      )
+    }
+  }
+
   return {
     initialized,
     destroyed,
     firstStepSubmitClicked,
     maximumAmountClicked,
+    maximumFeeClicked,
+    minimumFeeClicked,
     secondStepSubmitClicked,
-    formChanged
+    formChanged,
+    regularFeeClicked,
+    priorityFeeClicked
   }
 }
