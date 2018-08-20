@@ -67,8 +67,12 @@ class IdentityVerification extends React.PureComponent {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
-    this.props.actions.initializeStep()
+    const { actions, smsVerified } = this.props
+    actions.initializeStep()
+    this.steps = pickBy(filterSteps(smsVerified), stepMap)
   }
+
+  steps = {}
 
   handleClose = () => {
     this.setState({ show: false })
@@ -95,14 +99,18 @@ class IdentityVerification extends React.PureComponent {
             position: position + 1,
             total: total + 1
           })}
-          onBack={actions.setVerificationStep.bind(null, STEPS.mobile)}
+          onBack={
+            this.steps.mobile
+              ? actions.setVerificationStep.bind(null, STEPS.mobile)
+              : actions.setVerificationStep.bind(null, STEPS.personal)
+          }
         />
       )
   }
 
   render () {
     const { show } = this.state
-    const { step, position, total, smsVerified } = this.props
+    const { step, position, total } = this.props
 
     return (
       <Tray
@@ -120,7 +128,7 @@ class IdentityVerification extends React.PureComponent {
               flexEnd
               maxWidth='none'
               step={step}
-              stepMap={pickBy(filterSteps(smsVerified), stepMap)}
+              stepMap={this.steps}
             />
           </HeaderWrapper>
         </StepHeader>
