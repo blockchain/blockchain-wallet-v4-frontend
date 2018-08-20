@@ -101,7 +101,9 @@ export default ({ coreSagas }) => {
         case 'to':
           const target = is(String, payload)
             ? payload
-            : prop('address', payload) || prop('index', payload)
+            : prop('address', payload) ||
+              prop('index', payload) ||
+              prop('xpub', payload)
           payment = yield payment.to(target)
           break
         case 'amount':

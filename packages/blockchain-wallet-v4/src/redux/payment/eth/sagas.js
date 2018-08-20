@@ -1,17 +1,19 @@
-import { call, select } from 'redux-saga/effects'
+import { call, select, put } from 'redux-saga/effects'
 import { isNil, merge, prop, path, identity } from 'ramda'
 import EthUtil from 'ethereumjs-util'
 
 import * as S from '../../selectors'
+import * as A from '../../actions'
 import { isValidIndex } from './utils'
 import { eth } from '../../../signer'
 import { isString, isPositiveInteger } from '../../../utils/checks'
 import {
-  calculateFee,
   calculateEffectiveBalance,
   isValidAddress,
-  convertGweiToWei
+  convertGweiToWei,
+  calculateFee
 } from '../../../utils/eth'
+import { TO } from '../btc/utils'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -39,7 +41,26 @@ export default ({ api }) => {
         return 1
     }
   }
+
+  const calculateTo = destination => {
+    if (!destination.type) {
+      return { address: destination, type: TO.ADDRESS }
+    }
+
+    return destination
+  }
+
+  const getBalance = function*() {
+    yield put(A.data.ethereum.fetchLegacyBalanceLoading())
+    const accountR = yield select(S.kvStore.ethereum.getDefaultAddress)
+    const account = accountR.getOrFail('missing_default_from')
+    const data = yield call(api.getEthereumBalances, account)
+    const balance = path([account, 'balance'], data)
+    yield put(A.data.ethereum.fetchLegacyBalanceSuccess(balance))
+    return balance
+  }
   // ///////////////////////////////////////////////////////////////////////////
+
   function create ({ network, payment } = { network: undefined, payment: {} }) {
     const makePayment = p => ({
       value () {
@@ -85,12 +106,13 @@ export default ({ api }) => {
       },
 
       *to (destination) {
-        if (!EthUtil.isValidAddress(destination)) {
+        let to = calculateTo(destination)
+        if (!EthUtil.isValidAddress(to.address)) {
           throw new Error('Invalid address')
         }
-        const isContract = yield call(api.checkContract, destination)
+        const isContract = yield call(api.checkContract, to.address)
         return makePayment(
-          merge(p, { to: destination, isContract: isContract.contract })
+          merge(p, { to: to, isContract: isContract.contract })
         )
       },
 
@@ -120,12 +142,26 @@ export default ({ api }) => {
         return makePayment(merge(p, { from, effectiveBalance }))
       },
 
+      *fee (value) {
+        // value is in gwei
+        const feeInGwei = value
+        const gasLimit = path(['fees', 'gasLimit'], p)
+        const fee = calculateFee(feeInGwei, gasLimit)
+        const balance = yield call(getBalance)
+        let effectiveBalance = calculateEffectiveBalance(
+          // balance + fee need to be in wei
+          balance,
+          fee
+        )
+        return makePayment(merge(p, { feeInGwei, fee, effectiveBalance }))
+      },
+
       *build () {
         const from = prop('from', p)
         const index = yield call(selectIndex, from)
-        const to = prop('to', p)
+        const to = path(['to', 'address'], p)
         const amount = prop('amount', p)
-        const gasPrice = convertGweiToWei(path(['fees', 'regular'], p))
+        const gasPrice = convertGweiToWei(prop('feeInGwei', p))
         const gasLimit = path(['fees', 'gasLimit'], p)
         const nonce = prop('nonce', from)
         if (isNil(from)) throw new Error('missing_from')
@@ -196,6 +232,7 @@ export default ({ api }) => {
           to: address => chain(gen, payment => payment.to(address)),
           amount: amount => chain(gen, payment => payment.amount(amount)),
           from: origin => chain(gen, payment => payment.from(origin)),
+          fee: value => chain(gen, payment => payment.fee(value)),
           build: () => chain(gen, payment => payment.build()),
           sign: password => chain(gen, payment => payment.sign(password)),
           publish: () => chain(gen, payment => payment.publish()),

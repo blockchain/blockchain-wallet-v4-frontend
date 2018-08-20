@@ -11,10 +11,10 @@ import BigNumber from 'bignumber.js'
 import * as Exchange from '../exchange'
 import Either from 'data.either'
 
-export const isValidBitcoinAddress = value => {
+export const isValidBitcoinAddress = (value, network) => {
   try {
     const addr = address.fromBase58Check(value)
-    const n = networks.bitcoin
+    const n = network
     return or(
       equals(addr.version, n.pubKeyHash),
       equals(addr.version, n.scriptHash)
@@ -245,12 +245,14 @@ export const getWifAddress = (key, compressed = true) => {
 
 export const txHexToHashHex = txHex => Transaction.fromHex(txHex).getId()
 
-export const publicKeyChainCodeToBip32 = (publicKey, chainCode) => {
+export const publicKeyChainCodeToBip32 = data => {
+  const { publicKey, chainCode } = data
   const compressedPublicKey = compressPublicKey(Buffer.from(publicKey, 'hex'))
   const bip32 = fromPublicKey(
     compressedPublicKey,
     Buffer.from(chainCode, 'hex')
   )
+
   return bip32.toBase58()
 }
 

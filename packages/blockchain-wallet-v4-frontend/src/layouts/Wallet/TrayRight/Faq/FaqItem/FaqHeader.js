@@ -15,6 +15,7 @@ const Wrapper = styled.div`
   font-size: 14px;
   font-family: 'Montserrat', Helvetica, sans-serif;
   cursor: pointer;
+  color: ${props => props.theme['gray-5']};
 `
 
 const Toggler = styled(Icon)`

@@ -1,19 +1,21 @@
 import bch from './bch/sagas'
 import btc from './btc/sagas'
-import ethereum from './eth/sagas'
-import shapeShift from './shapeShift/sagas'
-import buySell from './buySell/sagas'
-import contacts from './contacts/sagas'
-import lockbox from './lockbox/sagas'
+import eth from './eth/sagas'
 import root from './root/sagas'
+import lockbox from './lockbox/sagas'
+import buySell from './buySell/sagas'
+import whatsNew from './whatsNew/sagas'
+import contacts from './contacts/sagas'
+import shapeShift from './shapeShift/sagas'
 
-export default ({ api }) => ({
-  root: root({ api }),
-  bch: bch({ api }),
-  ethereum: ethereum({ api }),
-  shapeShift: shapeShift({ api }),
-  buySell: buySell({ api }),
-  contacts: contacts({ api }),
-  btc: btc({ api }),
-  lockbox: lockbox({ api })
+export default ({ api, networks }) => ({
+  bch: bch({ api, networks }),
+  btc: btc({ api, networks }),
+  ethereum: eth({ api, networks }),
+  root: root({ api, networks }),
+  lockbox: lockbox({ api, networks }),
+  buySell: buySell({ api, networks }),
+  whatsNew: whatsNew({ api, networks }),
+  contacts: contacts({ api, networks }),
+  shapeShift: shapeShift({ api, networks })
 })

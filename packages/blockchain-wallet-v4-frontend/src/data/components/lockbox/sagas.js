@@ -25,6 +25,7 @@ export default ({ api, coreSagas }) => {
           const btc = await lockbox.getWalletPublicKey("44'/0'/0'")
           const bch = await lockbox.getWalletPublicKey("44'/145'/0'")
           const eth = await lockbox.getWalletPublicKey("44'/60'/0'/0/0")
+
           emitter({ btc, bch, eth })
           emitter(END)
         } catch (e) {

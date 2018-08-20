@@ -11,7 +11,7 @@ import sfox from './sfox'
 import wallet from './wallet'
 import fetchService from './fetch'
 
-export default ({ options, apiKey } = {}) => {
+export default ({ options, networks, apiKey } = {}) => {
   const { get, post } = fetchService({ apiKey })
   const apiUrl = options.domains.api
   const rootUrl = options.domains.root
@@ -22,7 +22,7 @@ export default ({ options, apiKey } = {}) => {
     ...delegate({ rootUrl, apiUrl, get, post }),
     ...ethereum({ rootUrl, apiUrl, get, post }),
     ...bch({ rootUrl, apiUrl, get, post }),
-    ...kvStore({ apiUrl }),
+    ...kvStore({ apiUrl, networks }),
     ...misc({ rootUrl, apiUrl, get, post }),
     ...onfido({ rootUrl, get, post }),
     ...sfox({ rootUrl }),

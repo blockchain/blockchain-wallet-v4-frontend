@@ -4,7 +4,6 @@ import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
-import settings from 'config'
 import { initialize, change } from 'redux-form'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
@@ -14,13 +13,13 @@ const DUST = 546
 const DUST_BTC = '0.00000546'
 export const logLocation = 'components/sendBtc/sagas'
 
-export default ({ coreSagas }) => {
+export default ({ coreSagas, networks }) => {
   const initialized = function*(action) {
     try {
       const { to, description, amount, feeType } = action.payload
       yield put(A.sendBtcPaymentUpdatedLoading())
       let payment = coreSagas.payment.btc.create({
-        network: settings.NETWORK_BITCOIN
+        network: networks.btc
       })
       payment = yield payment.init()
       const accountsR = yield select(
@@ -64,7 +63,7 @@ export default ({ coreSagas }) => {
       yield put(A.sendBtcPaymentUpdatedLoading())
       let payment = coreSagas.payment.btc.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_BITCOIN
+        network: networks.btc
       })
       payment = yield payment.build()
       yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
@@ -85,7 +84,7 @@ export default ({ coreSagas }) => {
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.btc.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_BITCOIN
+        network: networks.btc
       })
 
       switch (field) {
@@ -103,7 +102,6 @@ export default ({ coreSagas }) => {
           }
           break
         case 'from':
-          yield put(A.sendBtcFirstStepToToggled(false))
           const source = prop('address', payload) || prop('index', payload)
           if (!prop('watchOnly', payload)) {
             payment = yield payment.from(source)
@@ -116,7 +114,9 @@ export default ({ coreSagas }) => {
         case 'to':
           const target = is(String, payload)
             ? payload
-            : prop('address', payload) || prop('index', payload)
+            : prop('address', payload) ||
+              prop('index', payload) ||
+              prop('xpub', payload)
           payment = yield payment.to(target)
           break
         case 'amount':
@@ -266,7 +266,7 @@ export default ({ coreSagas }) => {
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.btc.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_BITCOIN
+        network: networks.btc
       })
       const password = yield call(promptForSecondPassword)
       yield put(actions.modals.closeAllModals())

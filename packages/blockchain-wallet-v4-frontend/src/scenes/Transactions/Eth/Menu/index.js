@@ -18,7 +18,7 @@ class MenuContainer extends React.Component {
 
   render () {
     const { legacyAccountAddress } = this.props
-    const hasLegacyAccount = !isNil(legacyAccountAddress.data)
+    const hasLegacyAccount = !isNil(legacyAccountAddress)
 
     return (
       <Menu
@@ -30,7 +30,7 @@ class MenuContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  legacyAccountAddress: getLegacyAccountAddress(state)
+  legacyAccountAddress: getLegacyAccountAddress(state).getOrElse(null)
 })
 
 const mapDispatchToProps = dispatch => ({

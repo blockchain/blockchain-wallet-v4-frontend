@@ -21,9 +21,11 @@ export const getData = (state, ownProps) => {
         : selectors.core.common.btc
             .getLockboxBtcBalances(state)
             .map(excluded)
-            .map(toDropdown)
+            .map(toDropdown),
+      excludeImported
+        ? Remote.of([])
+        : selectors.core.common.btc.getAddressesBalances(state).map(toDropdown)
     ]).map(([b1, b2, b3]) => ({ data: reduce(concat, [], [b1, b2, b3]) }))
   }
-
   return getAddressesData()
 }
