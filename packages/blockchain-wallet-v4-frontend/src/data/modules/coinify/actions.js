@@ -116,6 +116,19 @@ export const coinifySellBtcPaymentUpdatedFailure = err => ({
   payload: err
 })
 
+// RECURRING BUY
 export const coinifyRecurringCheckoutInitialize = () => ({
   type: AT.COINIFY_RECURRING_BUY_CHECKOUT_INITIALIZE
+})
+export const isRecurringTrade = payload => ({
+  type: AT.COINIFY_IS_RECURRING_TRADE,
+  payload
+})
+export const setRecurringTradeFrequency = payload => ({
+  type: AT.COINIFY_SET_RECURRING_TRADE_FREQUENCY,
+  payload
+})
+export const setRecurringTradeEndTime = payload => ({
+  type: AT.COINIFY_SET_RECURRING_TRADE_END_TIME,
+  payload
 })

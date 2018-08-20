@@ -1,5 +1,5 @@
 import * as AT from './actionTypes'
-import { assoc } from 'ramda'
+import { assoc, assocPath } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 const INITIAL_STATE = {
@@ -9,7 +9,9 @@ const INITIAL_STATE = {
   step: null,
   checkoutStep: 'checkout',
   signupComplete: null,
-  payment: Remote.NotAsked
+  payment: Remote.NotAsked,
+  subscription: false,
+  subscriptionData: { frequency: 'weekly', endTime: null }
 }
 
 const coinify = (state = INITIAL_STATE, action) => {
@@ -72,6 +74,15 @@ const coinify = (state = INITIAL_STATE, action) => {
     }
     case AT.COINIFY_SELL_BTC_PAYMENT_UPDATED_FAILURE: {
       return assoc('payment', Remote.Failure(payload), state)
+    }
+    case AT.COINIFY_IS_RECURRING_TRADE: {
+      return assoc('subscription', payload, state)
+    }
+    case AT.COINIFY_SET_RECURRING_TRADE_FREQUENCY: {
+      return assocPath(['subscriptionData', 'frequency'], payload, state)
+    }
+    case AT.COINIFY_SET_RECURRING_TRADE_END_TIME: {
+      return assocPath(['subscriptionData', 'endTime'], payload, state)
     }
     default:
       return state

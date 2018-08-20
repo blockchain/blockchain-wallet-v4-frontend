@@ -8,6 +8,7 @@ import * as C from 'services/AlertService'
 import * as service from 'services/CoinifyService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { initialize } from 'redux-form'
+import moment from 'moment'
 export const sellDescription = `Exchange Trade CNY-`
 export const logLocation = 'modules/coinify/sagas'
 
@@ -37,7 +38,7 @@ export default ({ coreSagas, networks }) => {
   const buy = function*(payload) {
     try {
       const nextAddressData = yield call(prepareAddress)
-      const buyTrade = yield call(
+      const buyTrade = yield call( // TODO: include subscription data here in call to core buy
         coreSagas.data.coinify.buy,
         payload,
         nextAddressData
@@ -57,6 +58,7 @@ export default ({ coreSagas, networks }) => {
         yield put(A.coinifyNextCheckoutStep('isx'))
       }
       yield put(A.coinifyNotAsked())
+      // TODO: reset subscription state here
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'buy', e))
     }
@@ -544,6 +546,33 @@ export default ({ coreSagas, networks }) => {
     yield put(initialize('coinifyRecurringCheckout', initialValues))
   }
 
+  const handleRecurringFormChange = function * (action) {
+    try {
+      const form = path(['meta', 'form'], action)
+      if (!equals(form, 'coinifyRecurringCheckout')) return
+      const field = path(['meta', 'field'], action)
+      const payload = prop('payload', action)
+      console.log('recurring form change', form, field, payload)
+
+      switch (field) {
+        case 'recurring':
+          yield put(A.isRecurringTrade(payload))
+          break
+        case 'frequency':
+          yield put(A.setRecurringTradeFrequency(payload))
+          break
+        case 'duration':
+          const date = moment(payload).toISOString()
+          yield put(A.setRecurringTradeEndTime(date))
+          break
+      }
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'handleRecurringFormChange', e)
+      )
+    }
+  }
+
   return {
     buy,
     cancelISX,
@@ -556,6 +585,7 @@ export default ({ coreSagas, networks }) => {
     finishTrade,
     fromISX,
     handleChange,
+    handleRecurringFormChange,
     initialized,
     initializePayment,
     openKYC,
