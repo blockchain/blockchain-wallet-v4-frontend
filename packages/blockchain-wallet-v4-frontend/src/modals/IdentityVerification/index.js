@@ -95,10 +95,15 @@ class IdentityVerification extends React.PureComponent {
     if (step === STEPS.verify)
       return (
         <Verify
-          handleSubmit={modalActions.showModal.bind(null, 'Onfido', {
-            position: position + 1,
-            total: total + 1
-          })}
+          handleSubmit={modalActions.showModal.bind(
+            null,
+            'Onfido',
+            {
+              position: position + 1,
+              total: total + 1
+            },
+            {}
+          )}
           onBack={
             this.steps.mobile
               ? actions.setVerificationStep.bind(null, STEPS.mobile)

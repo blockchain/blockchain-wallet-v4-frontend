@@ -101,16 +101,16 @@ class PersonalContainer extends React.PureComponent {
 
 PersonalContainer.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  formBusy: PropTypes.bool.isRequired,
   initialCountryCode: PropTypes.string,
   supportedCountries: PropTypes.instanceOf(Remote).isRequired,
   possibleAddresses: PropTypes.arrayOf(AddressPropType),
   countryCode: PropTypes.string,
   address: AddressPropType,
-  addressRefetchVisible: PropTypes.bool.isRequired
+  addressRefetchVisible: PropTypes.bool
 }
 
 PersonalContainer.defaultProps = {
+  addressRefetchVisible: false,
   initialCountryCode: '',
   possibleAddresses: [],
   countryCode: '',

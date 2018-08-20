@@ -8,7 +8,6 @@ import media from 'services/ResponsiveService'
 import { Button, Image } from 'blockchain-info-components'
 import { FooterShadowWrapper } from 'components/Form'
 import {
-  Form,
   ColLeft,
   ColRight,
   InputWrapper,
@@ -17,7 +16,7 @@ import {
   ColRightInner
 } from 'components/IdentityVerification'
 
-const VerifyMobileForm = styled(Form)`
+const VerifyMobileForm = styled.div`
   height: 100%;
 `
 const Footer = styled.div`
@@ -45,7 +44,7 @@ const DocumentsWrapper = styled.div`
 `
 
 const Verify = ({ handleSubmit, onBack }) => (
-  <VerifyMobileForm onSubmit={handleSubmit}>
+  <VerifyMobileForm>
     <FooterShadowWrapper
       fields={
         <VerifyWrapper>
@@ -94,7 +93,7 @@ const Verify = ({ handleSubmit, onBack }) => (
               defaultMessage='Back'
             />
           </Button>
-          <Button uppercase nature='primary' type='submit'>
+          <Button uppercase nature='primary' onClick={handleSubmit}>
             <FormattedMessage
               id='identityverification.personal.continue'
               defaultMessage='Continue'
