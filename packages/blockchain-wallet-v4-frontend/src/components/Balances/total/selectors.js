@@ -102,7 +102,7 @@ export const getEthBalanceInfo = createDeepEqualSelector(
   }
 )
 
-export const getData = createDeepEqualSelector(
+export const getTotalBalance = createDeepEqualSelector(
   [
     getBchBalanceInfo,
     getBtcBalanceInfo,
