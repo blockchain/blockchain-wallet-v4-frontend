@@ -9,31 +9,9 @@ import * as C from 'services/AlertService'
 import * as S from './selectors'
 import * as LockboxService from 'services/LockboxService'
 
+const logLocation = 'components/lockbox/sagas'
+
 export default ({ api, coreSagas }) => {
-  const logLocation = 'components/lockbox/sagas'
-
-  const deriveConnectStep = function*() {
-    try {
-      const deviceInfoR = yield select(S.getConnectedDevice)
-      const deviceInfo = deviceInfoR.getOrFail('missing_device')
-      const newDeviceID = LockboxService.getDeviceID(deviceInfo)
-      const devicesR = yield select(selectors.core.kvStore.lockbox.getDevices)
-      const storedDevices = devicesR.getOrElse({})
-
-      // check if device has already been added
-      if (contains(newDeviceID)(keysIn(storedDevices))) {
-        yield put(A.changeDeviceSetupStep('duplicate-device'))
-      } else {
-        yield put(A.setNewDeviceID(newDeviceID))
-        yield put(A.changeDeviceSetupStep('name-device'))
-      }
-    } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'deriveConnectStep', e)
-      )
-    }
-  }
-
   const saveNewDeviceKvStore = function*(action) {
     try {
       const { deviceName } = action.payload
@@ -57,6 +35,10 @@ export default ({ api, coreSagas }) => {
       yield put(actions.core.data.bitcoin.fetchData())
       // reset new device setup to step 1
       yield put(A.changeDeviceSetupStep('setup-type'))
+      // TODO: there is a better way to do this
+      yield call(pollForConnectionStatus, {
+        payload: { requestedApp: 'BTC' }
+      })
     } catch (e) {
       yield put(A.saveNewDeviceKvStoreFailure(e))
       yield put(actions.alerts.displaySuccess(C.LOCKBOX_SETUP_ERROR))
@@ -177,8 +159,8 @@ export default ({ api, coreSagas }) => {
           //   console.info('CONNECTION NOTICE', evt)
           // })
 
-          // TODO: need to account for blockchain devices
           if (requestedApp) {
+            // TODO: need to account for blockchain devices
             transport.setScrambleKey(
               LockboxService.SCRAMBLEKEYS.LEDGER[requestedApp]
             )
@@ -255,7 +237,6 @@ export default ({ api, coreSagas }) => {
 
   return {
     deleteDevice,
-    deriveConnectStep,
     initializeNewDeviceSetup,
     saveNewDeviceKvStore,
     pollForConnectionStatus,

@@ -39,15 +39,6 @@ export default (state = INITIAL_STATE, action) => {
         state
       )
     }
-    case AT.DEVICE_INFO_LOADING: {
-      return assocPath(['connection', 'device'], Remote.Loading, state)
-    }
-    case AT.DEVICE_INFO_SUCCESS: {
-      return assocPath(['connection', 'device'], Remote.Success(payload), state)
-    }
-    case AT.DEVICE_INFO_FAILURE: {
-      return assocPath(['connection', 'device'], Remote.Failure(payload), state)
-    }
     default:
       return state
   }

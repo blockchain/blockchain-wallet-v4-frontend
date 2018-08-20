@@ -6,7 +6,6 @@ export default ({ api, coreSagas }) => {
   const lockboxSagas = sagas({ api, coreSagas })
 
   return function*() {
-    yield takeLatest(AT.DEVICE_INFO_SUCCESS, lockboxSagas.deriveConnectStep)
     yield takeLatest(
       AT.INITIALIZE_NEW_DEVICE_SETUP,
       lockboxSagas.initializeNewDeviceSetup

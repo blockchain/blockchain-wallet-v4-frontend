@@ -3,11 +3,6 @@ import { publicKeyChainCodeToBip32 } from 'blockchain-wallet-v4/src/utils/btc'
 import { deriveAddressFromXpub } from 'blockchain-wallet-v4/src/utils/eth'
 import { Types } from 'blockchain-wallet-v4/src'
 
-const deviceInfoErr = 'Device Info Required'
-
-export const getXpubHash = xpub =>
-  crypto.sha256(crypto.sha256(xpub).toString('hex')).toString('hex')
-
 export const derviveDeviceInfo = async btcTransport => {
   const btc = await btcTransport.getWalletPublicKey("44'/0'/0'")
   const bch = await btcTransport.getWalletPublicKey("44'/145'/0'")
@@ -29,7 +24,7 @@ export const generateAccountsMDEntry = deviceInfo => {
       eth: { accounts: [ethAccount(ethXpub, 'Ethereum Wallet')] }
     }
   } catch (e) {
-    throw new Error(deviceInfoErr)
+    throw new Error('Device Info Required')
   }
 }
 
@@ -38,7 +33,7 @@ export const deriveDeviceID = btcXpub => {
     const xpub = publicKeyChainCodeToBip32(btcXpub)
     return crypto.sha256(crypto.sha256(xpub).toString('hex')).toString('hex')
   } catch (e) {
-    throw new Error(deviceInfoErr)
+    throw new Error('BTC Device Info Required')
   }
 }
 

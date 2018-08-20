@@ -48,17 +48,6 @@ export const saveNewDeviceKvStoreFailure = payload => ({
   payload
 })
 
-// FETCH
-export const deviceInfoLoading = () => ({ type: AT.DEVICE_INFO_LOADING })
-export const deviceInfoSuccess = payload => ({
-  type: AT.DEVICE_INFO_SUCCESS,
-  payload
-})
-export const deviceInfoFailure = payload => ({
-  type: AT.DEVICE_INFO_FAILURE,
-  payload
-})
-
 // UPDATE
 export const updateDeviceName = (deviceID, deviceName) => ({
   type: AT.UPDATE_DEVICE_NAME,
