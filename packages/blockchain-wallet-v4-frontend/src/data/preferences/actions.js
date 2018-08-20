@@ -30,3 +30,8 @@ export const setBitcoinCashWelcome = displayed => ({
 })
 
 export const hideKycCompleted = () => ({ type: AT.HIDE_KYC_COMPLETED })
+
+export const setBalancesChartTab = payload => ({
+  type: AT.SET_BALANCES_CHART_TAB,
+  payload
+})

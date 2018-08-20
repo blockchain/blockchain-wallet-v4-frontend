@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
+import Tabs from './Tabs'
 import TotalBalance from './TotalBalance'
 import WalletBalance from './WalletBalance'
 import LockboxBalance from './LockboxBalance'
@@ -21,18 +20,14 @@ const Wrapper = styled.div`
   }
 `
 
-const BalancesChart = () => {
+const BalancesChart = props => {
+  const { currentTab } = props
   return (
     <Wrapper>
-      <Text uppercase color='brand-primary' weight={300} size='24px'>
-        <FormattedMessage
-          id='scenes.home.balanceschart.balances'
-          defaultMessage='Balances'
-        />
-      </Text>
-      <TotalBalance />
-      <WalletBalance />
-      <LockboxBalance />
+      <Tabs />
+      {currentTab === 'total' && <TotalBalance />}
+      {currentTab === 'wallet' && <WalletBalance />}
+      {currentTab === 'lockbox' && <LockboxBalance />}
     </Wrapper>
   )
 }
