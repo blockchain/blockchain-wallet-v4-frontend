@@ -104,7 +104,7 @@ export class ExchangeDelegate {
       const defaultIndex = getDefaultAccountIndex(this.state)
       receiveAddress = btc
         .getNextAvailableReceiveAddress(
-          Bitcoin.networks.bitcoin.NETWORK_BITCOIN,
+          Bitcoin.networks.bitcoin.NETWORK_BTC,
           defaultIndex,
           this.state
         )

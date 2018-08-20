@@ -22,7 +22,7 @@ import {
 } from './services'
 import { selectRates } from '../utils/sagas'
 
-export default ({ api, coreSagas, options }) => {
+export default ({ api, coreSagas, networks, options }) => {
   const logLocation = 'components/exchange/sagas.utils'
 
   const calculateEffectiveBalance = function*(source) {
@@ -41,7 +41,7 @@ export default ({ api, coreSagas, options }) => {
         break
       case 'BTC':
         payment = yield coreSagas.payment.btc
-          .create({ network: settings.NETWORK_BITCOIN })
+          .create({ network: networks.btc })
           .chain()
           .init()
           .fee('priority')
@@ -50,7 +50,7 @@ export default ({ api, coreSagas, options }) => {
         break
       case 'ETH':
         payment = yield coreSagas.payment.eth
-          .create({ network: settings.NETWORK_ETHEREUM })
+          .create({ network: settings.NETWORK_ETH })
           .chain()
           .init()
           .from(address)
@@ -82,7 +82,7 @@ export default ({ api, coreSagas, options }) => {
         break
       case 'BTC':
         payment = coreSagas.payment.btc
-          .create({ network: settings.NETWORK_BITCOIN })
+          .create({ network: networks.btc })
           .chain()
           .init()
           .fee('priority')
@@ -90,7 +90,7 @@ export default ({ api, coreSagas, options }) => {
         break
       case 'ETH':
         payment = coreSagas.payment.eth
-          .create({ network: settings.NETWORK_ETHEREUM })
+          .create({ network: settings.NETWORK_ETH })
           .chain()
           .init()
           .amount(amount)
@@ -126,12 +126,12 @@ export default ({ api, coreSagas, options }) => {
       case 'BTC':
         return coreSagas.payment.btc.create({
           payment,
-          network: settings.NETWORK_BITCOIN
+          network: networks.btc
         })
       case 'ETH':
         return coreSagas.payment.eth.create({
           payment,
-          network: settings.NETWORK_ETHEREUM
+          network: settings.NETWORK_ETH
         })
       default:
         throw new Error('Could not resume payment.')
