@@ -21,3 +21,18 @@ export const sendEthSecondStepSubmitClicked = () => ({
 export const sendEthSecondStepCancelClicked = () => ({
   type: AT.SEND_ETH_SECOND_STEP_CANCEL_CLICKED
 })
+export const sendEthFirstStepFeeToggled = () => ({
+  type: AT.SEND_ETH_FIRST_STEP_FEE_TOGGLED
+})
+export const sendEthFirstStepRegularFeeClicked = () => ({
+  type: AT.SEND_ETH_FIRST_STEP_REGULAR_FEE_CLICKED
+})
+export const sendEthFirstStepPriorityFeeClicked = () => ({
+  type: AT.SEND_ETH_FIRST_STEP_PRIORITY_FEE_CLICKED
+})
+export const sendEthFirstStepMinimumFeeClicked = () => ({
+  type: AT.SEND_ETH_FIRST_STEP_MINIMUM_FEE_CLICKED
+})
+export const sendEthFirstStepMaximumFeeClicked = () => ({
+  type: AT.SEND_ETH_FIRST_STEP_MAXIMUM_FEE_CLICKED
+})
