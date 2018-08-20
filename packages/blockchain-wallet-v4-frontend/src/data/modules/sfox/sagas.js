@@ -350,7 +350,8 @@ export default ({ coreSagas, networks }) => {
         const status = yield apply(profile, profile.fetchJumioStatus, [
           token.id
         ])
-        yield put(A.fetchJumioStatusSuccess(status))
+        const success = yield put(A.fetchJumioStatusSuccess(status))
+        return prop('payload', success)
       }
     } catch (e) {
       yield put(A.fetchJumioStatusFailure(e))
