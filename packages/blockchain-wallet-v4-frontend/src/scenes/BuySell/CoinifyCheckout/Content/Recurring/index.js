@@ -2,29 +2,32 @@ import React from 'react'
 import { RecurringBuyCheckout } from './template'
 import { getData } from './selectors'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { actions } from 'data'
 
 class CoinifyRecurringBuy extends React.Component {
+  componentDidMount () {
+    this.props.coinifyActions.coinifyRecurringCheckoutInitialize()
+  }
   render () {
-    const { frequency, frequencyElements, showRecurring } = this.props
+    const { frequency, frequencyElements, showRecurring, duration } = this.props
 
     return <RecurringBuyCheckout
       frequency={frequency}
       frequencyElements={frequencyElements}
       showRecurring={showRecurring}
+      duration={duration}
     />
   }
 }
 
 const mapStateToProps = state => getData(state)
 
-// const mapDispatchToProps = dispatch => ({
-//   modalActions: bindActionCreators(actions.modals, dispatch),
-//   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
-//   formActions: bindActionCreators(actions.form, dispatch),
-//   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
-// })
+const mapDispatchToProps = dispatch => ({
+  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
+})
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(CoinifyRecurringBuy)

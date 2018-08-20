@@ -29,5 +29,6 @@ export default ({ coreSagas, networks }) => {
       AT.COINIFY_INITIALIZE_PAYMENT,
       coinifySagas.initializePayment
     )
+    yield takeLatest(AT.COINIFY_RECURRING_BUY_CHECKOUT_INITIALIZE, coinifySagas.recurringCheckoutInitialized)
   }
 }

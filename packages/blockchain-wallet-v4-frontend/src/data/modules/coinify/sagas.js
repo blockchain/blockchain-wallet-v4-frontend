@@ -7,7 +7,7 @@ import * as selectors from '../../selectors.js'
 import * as C from 'services/AlertService'
 import * as service from 'services/CoinifyService'
 import { promptForSecondPassword } from 'services/SagaService'
-
+import { initialize } from 'redux-form'
 export const sellDescription = `Exchange Trade CNY-`
 export const logLocation = 'modules/coinify/sagas'
 
@@ -539,6 +539,11 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
+  const recurringCheckoutInitialized = function * () {
+    const initialValues = { frequency: 'weekly', duration: null }
+    yield put(initialize('coinifyRecurringCheckout', initialValues))
+  }
+
   return {
     buy,
     cancelISX,
@@ -555,6 +560,7 @@ export default ({ coreSagas, networks }) => {
     initializePayment,
     openKYC,
     prepareAddress,
+    recurringCheckoutInitialized,
     sell,
     triggerKYC
   }

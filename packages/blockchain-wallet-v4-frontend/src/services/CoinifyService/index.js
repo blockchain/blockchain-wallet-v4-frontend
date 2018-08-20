@@ -739,7 +739,7 @@ export const recurringTimeHelper = sub => {
   ]
 
   const getTimespan = sub => {
-    const freq = toLower(prop('frequency', sub))
+    const freq = prop('frequency', sub) && toLower(prop('frequency', sub))
     const date = new Date()
 
     switch (freq) {

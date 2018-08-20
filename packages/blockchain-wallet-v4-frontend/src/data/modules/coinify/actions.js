@@ -115,3 +115,7 @@ export const coinifySellBtcPaymentUpdatedFailure = err => ({
   type: AT.COINIFY_SELL_BTC_PAYMENT_UPDATED_FAILURE,
   payload: err
 })
+
+export const coinifyRecurringCheckoutInitialize = () => ({
+  type: AT.COINIFY_RECURRING_BUY_CHECKOUT_INITIALIZE
+})

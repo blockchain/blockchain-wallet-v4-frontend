@@ -4,12 +4,12 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Field, reduxForm } from 'redux-form'
-import { equals, gt, not, prop } from 'ramda'
+import { not, is } from 'ramda'
 
-import { Icon, Link, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, CheckBox, SelectBox, DateBoxDebounced } from 'components/Form'
-import { required } from 'services/FormHelper'
 import moment from 'services/MomentHelper'
+import { recurringTimeHelper } from 'services/CoinifyService'
 
 const RecurringWrapper = styled.div`
   position: relative;
@@ -41,6 +41,8 @@ const isValidStartDate = current => {
 
 const RecurringCheckout = props => {
   console.log('recurring template', props)
+
+  const { frequency, duration, frequencyElements } = props
   return <RecurringWrapper>
     <TermsWrapper>
       <Field name='recurring' component={CheckBox} hideErrors />
@@ -55,22 +57,22 @@ const RecurringCheckout = props => {
         ? <FieldsContainer>
           <Form>
             <FormGroup inline>
-              <FormItem width='50%'>
+              <FormItem width='150px'>
                 <Text size='13px' weight={400}>
                   <FormattedMessage id='scenes.buysell.coinify.recurring.frequency' defaultMessage='Frequency:' />
                 </Text>
                 <Field
                   name='frequency'
                   component={SelectBox}
-                  elements={props.frequencyElements}
+                  elements={frequencyElements}
                 />
               </FormItem>
               <FrequencyText size='13px' weight={300}>
-                <FormattedMessage id='scenes.buysell.coinify.recurring.frequencymessage' defaultMessage='Today and every Monday' />
+                <FormattedMessage id='scenes.buysell.coinify.recurring.frequencymessage' defaultMessage='Today and every {freq}' values={{ freq: recurringTimeHelper({ frequency: frequency }) }} />
               </FrequencyText>
             </FormGroup>
             <FormGroup inline>
-              <FormItem width='50%'>
+              <FormItem width='150px'>
                 <Text size='13px' weight={400}>
                   <FormattedMessage id='scenes.buysell.coinify.recurring.duration' defaultMessage='Duration:' />
                 </Text>
@@ -79,10 +81,15 @@ const RecurringCheckout = props => {
                   component={DateBoxDebounced}
                   // validate={[required, validStartDate]}
                   isValidDate={isValidStartDate}
+                  defaultValue='Until you cancel'
                 />
               </FormItem>
               <FrequencyText size='13px' weight={300}>
-                <FormattedMessage id='scenes.buysell.coinify.recurring.test' defaultMessage='You can cancel anytime' />
+                {
+                  duration && not(is(String, duration))
+                    ? <FormattedMessage id='scenes.buysell.coinify.recurring.repeatuntil' defaultMessage='This order will repeat until {endTime}' values={{ endTime: duration.format('DD MMM YYYY') }} />
+                    : <FormattedMessage id='scenes.buysell.coinify.recurring.cancelanytime' defaultMessage='You can cancel anytime' />
+                }
               </FrequencyText>
             </FormGroup>
           </Form>
@@ -93,6 +100,6 @@ const RecurringCheckout = props => {
 }
 
 export const RecurringBuyCheckout = reduxForm({
-  form: 'coinifyRecurring',
+  form: 'coinifyRecurringCheckout',
   destroyOnUnmount: false
 })(RecurringCheckout)

@@ -29,13 +29,8 @@ const frequencyElements = [
 ]
 
 export const getData = state => ({
-  showRecurring: formValueSelector('coinifyRecurring')(state, 'recurring'),
-  frequency: formValueSelector('coinifyRecurring')(state, 'frequency'),
+  showRecurring: formValueSelector('coinifyRecurringCheckout')(state, 'recurring'),
+  frequency: formValueSelector('coinifyRecurringCheckout')(state, 'frequency'),
+  duration: formValueSelector('coinifyRecurringCheckout')(state, 'duration'),
   frequencyElements
-  // defaultCurrency: getCurrency(state),
-  // checkoutBusy: path(['coinify', 'checkoutBusy'], state),
-  // paymentMedium: path(['coinify', 'medium'], state),
-  // step: path(['coinify', 'checkoutStep'], state),
-  // coinifyBusy: path(['coinify', 'coinifyBusy'], state),
-  // canTrade: selectors.core.data.coinify.canTrade(state).getOrElse(false)
 })
