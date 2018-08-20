@@ -105,34 +105,19 @@ const FirstStep = props => {
             />
           </FormLabel>
           <Row>
-            {toToggled &&
-              !destination && (
-                <Field
-                  name='to'
-                  component={SelectBoxBitcoinAddresses}
-                  opened
-                  onFocus={() => handleToToggle()}
-                  includeAll={false}
-                  validate={[required]}
-                  exclude={[from.label]}
-                  hideErrors
-                  coin='BCH'
-                />
-              )}
-            {toToggled &&
-              destination && (
-                <Field
-                  name='to'
-                  component={SelectBoxBitcoinAddresses}
-                  onFocus={() => handleToToggle()}
-                  includeAll={false}
-                  validate={[required]}
-                  exclude={[from.label]}
-                  hideArrow
-                  hideErrors
-                  coin='BCH'
-                />
-              )}
+            {toToggled && (
+              <Field
+                name='to'
+                coin='BCH'
+                component={SelectBoxBitcoinAddresses}
+                menuIsOpen={!destination}
+                exclude={[from.label]}
+                validate={[required]}
+                includeAll={false}
+                hideIndicator
+                hideErrors
+              />
+            )}
             {!toToggled && (
               <Field
                 name='to'
@@ -142,20 +127,23 @@ const FirstStep = props => {
                 autoFocus
               />
             )}
-            {(!toToggled || destination) && (
-              <QRCodeCapture
-                scanType='bchAddress'
-                border={
-                  enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']
-                }
-              />
-            )}
-            {enableToggle &&
-              (!toToggled || destination) && (
-                <AddressButton onClick={() => handleToToggle(true)}>
-                  <Icon name='down-arrow' size='10px' cursor />
+            <QRCodeCapture
+              scanType='bchAddress'
+              border={
+                enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']
+              }
+            />
+            {enableToggle ? (
+              !toToggled ? (
+                <AddressButton onClick={() => handleToToggle()}>
+                  <Icon name='down-arrow' size='11px' cursor />
                 </AddressButton>
-              )}
+              ) : (
+                <AddressButton onClick={() => handleToToggle()}>
+                  <Icon name='pencil' size='13px' cursor />
+                </AddressButton>
+              )
+            ) : null}
           </Row>
         </FormItem>
       </FormGroup>

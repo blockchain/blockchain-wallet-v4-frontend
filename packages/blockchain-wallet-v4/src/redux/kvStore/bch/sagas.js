@@ -22,7 +22,7 @@ import { getHDAccounts } from '../../wallet/selectors'
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export default ({ api }) => {
+export default ({ api, networks }) => {
   const callTask = function*(task) {
     return yield call(
       compose(
@@ -55,7 +55,7 @@ export default ({ api }) => {
     try {
       const typeId = derivationMap[BCH]
       const mxpriv = yield select(getMetadataXpriv)
-      const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
+      const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId, networks.btc)
       yield put(A.fetchMetadataBchLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
       const hdAccounts = yield select(getHDAccounts)

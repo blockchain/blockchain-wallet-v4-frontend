@@ -15,8 +15,8 @@ export default ({ coreSagas }) => {
     const fiat = Exchange.convertBitcoinToFiat({
       value: amount,
       fromUnit: 'BTC',
-      toCurrency: currency.data,
-      rates: btcRates.data
+      toCurrency: currency.getOrElse(null),
+      rates: btcRates.getOrElse(null)
     }).value
     // Goal work
     yield put(
