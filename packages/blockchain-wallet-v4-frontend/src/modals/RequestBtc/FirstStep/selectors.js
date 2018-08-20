@@ -71,3 +71,11 @@ export const getInitialValues = state => {
   )
   return defaultElementR.map(to => ({ to, coin: 'BTC' }))
 }
+
+export const getImportedAddresses = state => {
+  const balances = selectors.core.common.btc.getAddressesBalances(state)
+  const isWatchOnly = a => {
+    if (equals(prop('watchOnly', a), true)) return prop('address', a)
+  }
+  return map(isWatchOnly, balances.getOrElse([]))
+}
