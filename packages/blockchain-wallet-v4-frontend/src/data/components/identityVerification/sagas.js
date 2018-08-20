@@ -65,6 +65,13 @@ export default ({ api, coreSagas }) => {
     yield put(actions.modules.settings.verifyMobile(code))
     yield take(actionTypes.core.settings.SET_MOBILE_VERIFIED)
     yield call(updateUserMobile, { payload: { mobile: smsNumber } })
+    const { mobileVerified } = yield select(
+      selectors.modules.profile.getUserData
+    )
+    if (!mobileVerified) {
+      actions.modules.settings.verifyMobileFailure()
+      return actions.form.stopSubmit(SMS_NUMBER_FORM)
+    }
     yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
     yield put(A.setVerificationStep(STEPS.verify))
   }
@@ -101,8 +108,22 @@ export default ({ api, coreSagas }) => {
       yield put(actions.form.startSubmit(PERSONAL_FORM))
       yield call(updateUser, { payload: { data: personalData } })
       yield call(updateUserAddress, { payload: { address } })
+      const smsVerified = (yield select(
+        selectors.core.settings.getSmsVerified
+      )).getOrElse(0)
+
+      if (!smsVerified) {
+        yield put(actions.form.stopSubmit(PERSONAL_FORM))
+        return yield put(A.setVerificationStep(STEPS.mobile))
+      }
+
+      // Skipping mobile verification step
+      const mobile = (yield select(
+        selectors.core.settings.getSmsNumber
+      )).getOrElse('')
+      yield call(updateUserMobile, { payload: { mobile } })
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
-      yield put(A.setVerificationStep(STEPS.mobile))
+      yield put(A.setVerificationStep(STEPS.verify))
     } catch (e) {
       yield put(actions.form.stopSubmit(PERSONAL_FORM, e))
       yield put(
