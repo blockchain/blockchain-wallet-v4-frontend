@@ -5,6 +5,7 @@ import { formValueSelector } from 'redux-form'
 
 import Login from './template.js'
 import { actions, selectors } from 'data'
+import { isGuid } from '../../services/ValidationHelper'
 
 class LoginContainer extends React.PureComponent {
   constructor (props) {
@@ -62,7 +63,7 @@ class LoginContainer extends React.PureComponent {
 
     const path =
       this.props.location.pathname && this.props.location.pathname.split('/')[2]
-    const guid = path || lastGuid
+    const guid = (isGuid(path) && path) || lastGuid
 
     return guid ? (
       <Login {...this.props} initialValues={{ guid }} {...loginProps} />
