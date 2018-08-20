@@ -250,13 +250,14 @@ export default ({ api, options }) => {
     }
   }
 
-  const buy = function*(data, addressData) {
+  const buy = function*(data, addressData, subscriptionData) {
     const { quote, medium } = data.payload
     try {
+      console.log('CORE BUY', subscriptionData)
       yield put(A.handleTradeLoading())
       const mediums = yield apply(quote, quote.getPaymentMediums)
       const accounts = yield apply(mediums[medium], mediums[medium].getAccounts)
-      const buyResult = yield apply(accounts[0], accounts[0].buy, []) // TODO: will need to pass in subscription here for recurring buy (... accounts[0].buy, [<sub>])
+      const buyResult = yield apply(accounts[0], accounts[0].buy, [subscriptionData]) // TODO: will need to pass in subscription here for recurring buy (... accounts[0].buy, [<sub>])
       yield put(A.handleTradeSuccess(buyResult))
       const coinifyObj = yield call(getCoinify)
       yield put(A.fetchTrades(coinifyObj))

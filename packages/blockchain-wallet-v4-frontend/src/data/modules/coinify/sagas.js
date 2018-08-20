@@ -37,11 +37,14 @@ export default ({ coreSagas, networks }) => {
 
   const buy = function*(payload) {
     try {
+      const state = yield select()
+      const subscriptionData = path(['coinify', 'subscription'], state) ? path(['coinify', 'subscriptionData'], state) : null
       const nextAddressData = yield call(prepareAddress)
-      const buyTrade = yield call( // TODO: include subscription data here in call to core buy
+      const buyTrade = yield call(
         coreSagas.data.coinify.buy,
         payload,
-        nextAddressData
+        nextAddressData,
+        subscriptionData
       )
 
       if (!buyTrade) {
@@ -58,7 +61,7 @@ export default ({ coreSagas, networks }) => {
         yield put(A.coinifyNextCheckoutStep('isx'))
       }
       yield put(A.coinifyNotAsked())
-      // TODO: reset subscription state here
+      yield put(A.coinifyResetRecurringBuy())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'buy', e))
     }
@@ -552,7 +555,6 @@ export default ({ coreSagas, networks }) => {
       if (!equals(form, 'coinifyRecurringCheckout')) return
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      console.log('recurring form change', form, field, payload)
 
       switch (field) {
         case 'recurring':

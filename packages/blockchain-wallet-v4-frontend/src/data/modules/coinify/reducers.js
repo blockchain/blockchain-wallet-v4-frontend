@@ -1,5 +1,5 @@
 import * as AT from './actionTypes'
-import { assoc, assocPath } from 'ramda'
+import { assoc, assocPath, mergeAll } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 const INITIAL_STATE = {
@@ -83,6 +83,9 @@ const coinify = (state = INITIAL_STATE, action) => {
     }
     case AT.COINIFY_SET_RECURRING_TRADE_END_TIME: {
       return assocPath(['subscriptionData', 'endTime'], payload, state)
+    }
+    case AT.COINIFY_RESET_RECURRING_BUY: {
+      return mergeAll([state, { subscription: INITIAL_STATE.subscription }, { subscriptionData: INITIAL_STATE.subscriptionData }], state)
     }
     default:
       return state

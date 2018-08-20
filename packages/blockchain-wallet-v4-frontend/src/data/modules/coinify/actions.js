@@ -132,3 +132,6 @@ export const setRecurringTradeEndTime = payload => ({
   type: AT.COINIFY_SET_RECURRING_TRADE_END_TIME,
   payload
 })
+export const coinifyResetRecurringBuy = () => ({
+  type: AT.COINIFY_RESET_RECURRING_BUY
+})
