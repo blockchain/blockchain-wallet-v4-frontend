@@ -36,6 +36,41 @@ export const getDeviceID = deviceInfo => {
   }
 }
 
+export const computeDeviceFirmware = (res) => {
+  const byteArray = [...res]
+  const data = byteArray.slice(0, byteArray.length - 2)
+  const targetIdStr = Buffer.from(data.slice(0, 4))
+  const targetId = targetIdStr.readUIntBE(0, 4)
+  const seVersionLength = data[4]
+  const seVersion = Buffer.from(data.slice(5, 5 + seVersionLength)).toString()
+  const flagsLength = data[5 + seVersionLength]
+  const flags = Buffer.from(
+    data.slice(5 + seVersionLength + 1, 5 + seVersionLength + 1 + flagsLength),
+  ).toString()
+
+  const mcuVersionLength = data[5 + seVersionLength + 1 + flagsLength]
+  let mcuVersion = Buffer.from(
+    data.slice(
+      7 + seVersionLength + flagsLength,
+      7 + seVersionLength + flagsLength + mcuVersionLength,
+    ),
+  )
+  if (mcuVersion[mcuVersion.length - 1] === 0) {
+    mcuVersion = mcuVersion.slice(0, mcuVersion.length - 1)
+  }
+  mcuVersion = mcuVersion.toString()
+
+  if (!seVersionLength) {
+    return {
+      targetId,
+      seVersion: '0.0.0',
+      flags: '',
+      mcuVersion: '',
+    }
+  }
+  return { targetId, seVersion, flags, mcuVersion }
+}
+
 export const ethAccount = (xpub, label) => ({
   label: label,
   archived: false,
@@ -44,3 +79,23 @@ export const ethAccount = (xpub, label) => ({
 })
 
 export const btcAccount = (xpub, label) => Types.HDAccount.js(label, null, xpub)
+
+export const APDUS = {
+  GET_FIRMWARE: [0xe0, 0x01, 0x00, 0x00],
+  NO_OP: [0x00, 0x00, 0x00, 0x00]
+}
+
+export const SCRAMBLEKEYS = {
+  BLOCKCHAIN: {
+    BCH: 'blockchain-bch',
+    BTC: 'blockchain-btc',
+    DASHBOARD: 'blockchain',
+    ETH: 'blockchain-eth'
+  },
+  LEDGER: {
+    BCH: 'BTC', // Not sure if this is correct
+    BTC: 'BTC',
+    DASHBOARD: 'B0L0S',
+    ETH: 'w0w'
+  }
+}

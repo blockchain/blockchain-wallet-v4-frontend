@@ -15,7 +15,7 @@ const StatusIcon = styled.div`
 
 class LockboxStatus extends React.PureComponent {
   componentDidMount () {
-    this.props.lockboxActions.pollForConnectionStatus()
+    this.props.lockboxActions.pollForConnectionStatus('DASHBOARD')
   }
 
   render () {

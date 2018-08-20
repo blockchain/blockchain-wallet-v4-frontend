@@ -9,7 +9,7 @@ import { actions, selectors } from 'data'
 import * as A from './actions'
 import * as C from 'services/AlertService'
 import * as S from './selectors'
-import { getDeviceID, generateAccountsMDEntry } from 'services/LockboxService'
+import * as LockboxService from 'services/LockboxService'
 
 export default ({ api, coreSagas }) => {
   const logLocation = 'components/lockbox/sagas'
@@ -66,7 +66,7 @@ export default ({ api, coreSagas }) => {
     try {
       const deviceInfoR = yield select(S.getConnectedDevice)
       const deviceInfo = deviceInfoR.getOrFail('missing_device')
-      const newDeviceID = getDeviceID(deviceInfo)
+      const newDeviceID = LockboxService.getDeviceID(deviceInfo)
       const devicesR = yield select(selectors.core.kvStore.lockbox.getDevices)
       const storedDevices = devicesR.getOrElse({})
 
@@ -90,7 +90,7 @@ export default ({ api, coreSagas }) => {
       const deviceInfoR = yield select(S.getConnectedDevice)
       const deviceInfo = deviceInfoR.getOrFail('missing_device')
       // derive device accounts and other information
-      const mdAccountsEntry = generateAccountsMDEntry(deviceInfo)
+      const mdAccountsEntry = lockboxService.generateAccountsMDEntry(deviceInfo)
       const deviceId = yield select(S.getNewDeviceSetupId)
       const deviceName = yield select(S.getNewDeviceSetupName)
       // store device in kvStore
@@ -171,66 +171,17 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  // const pingForDevice = async function(transport) {
-  //   debugger
-  //   const test = transport.open()
-  //   transport.send(Buffer.alloc(0), 100000, false, Buffer.alloc(1))
-  //     .then((success) => {
-  //       console.info('EXCHANGE SUCCESS', success)
-  //     }, (error) => {
-  //       console.info('EXCHANGE FAILURE', error)
-  //     })
-    // try {
-    //   await attemptExchange(
-    //     Buffer.alloc(0),
-    //     openTimeout,
-    //     false,
-    //     Buffer.alloc(1)
-    //   );
-    // } catch (e) {
-    //   const isU2FError = typeof e.metaData === "object";
-    //   debugger
-    // }
-  // }
+  const pingForDevice = async function(transport) {
+    return new Promise((success, failure) => {
+      transport.send(...APDUS.NO_OP)
+        .then((res) => success(res))
+    })
+  }
 
   const getFirmwareInfo = async function(transport) {
     return new Promise((success, failure) => {
-      const APDUS = {
-        GET_FIRMWARE: [0xe0, 0x01, 0x00, 0x00],
-      }
       transport.send(...APDUS.GET_FIRMWARE).then((res) => {
-        const byteArray = [...res]
-        const data = byteArray.slice(0, byteArray.length - 2)
-        const targetIdStr = Buffer.from(data.slice(0, 4))
-        const targetId = targetIdStr.readUIntBE(0, 4)
-        const seVersionLength = data[4]
-        const seVersion = Buffer.from(data.slice(5, 5 + seVersionLength)).toString()
-        const flagsLength = data[5 + seVersionLength]
-        const flags = Buffer.from(
-          data.slice(5 + seVersionLength + 1, 5 + seVersionLength + 1 + flagsLength),
-        ).toString()
-
-        const mcuVersionLength = data[5 + seVersionLength + 1 + flagsLength]
-        let mcuVersion = Buffer.from(
-          data.slice(
-            7 + seVersionLength + flagsLength,
-            7 + seVersionLength + flagsLength + mcuVersionLength,
-          ),
-        )
-        if (mcuVersion[mcuVersion.length - 1] === 0) {
-          mcuVersion = mcuVersion.slice(0, mcuVersion.length - 1)
-        }
-        mcuVersion = mcuVersion.toString()
-
-        if (!seVersionLength) {
-          success({
-            targetId,
-            seVersion: '0.0.0',
-            flags: '',
-            mcuVersion: '',
-          })
-        }
-        success({ targetId, seVersion, flags, mcuVersion })
+        success(computeDeviceFirmware(res))
       }, (error) => {
         // TODO: loop for more pings...?
         failure(error)
@@ -238,60 +189,62 @@ export default ({ api, coreSagas }) => {
     })
   }
 
-  const createDeviceListener = function () {
-    console.log('start: createDeviceListener')
-    return eventChannel(emitter => {
+  const createDeviceConnection = function (requestedApp) {
+    return new Promise((success, failure) => {
+      function openTransport() {
+        return new Promise((success, failure) => {
+          Transport.open().then((transport) => {
+            console.log('transport opened')
+            console.info(transport)
+            success(transport)
+          }, (e) => {
+            failure(e)
+          })
+        })
+      }
+
+      function pingDevice(transport) {
+        return new Promise((success, failure) => {
+          transport.send(...LockboxService.APDUS.NO_OP).finally(() => { success('device detected') })
+        })
+      }
+
       async function startTransportListener () {
         try {
-          console.info('start: startTransportListener')
           const transport = await openTransport()
-          transport.setDebugMode((s) => {
-            return console.info('CUSTOM LOGGER: ', s)
+          // TODO: what is appropriate length to listen for?
+          transport.setExchangeTimeout(30000)
+          // TODO: these event listeners dont seem to work
+          transport.on("disconnect", (evt) => {
+            console.info('DISCONNECTION NOTICE', evt)
           })
-          transport.setScrambleKey('B0L0S')
-          transport.setExchangeTimeout(15000)
-          console.info('transport:', transport)
-          // await pingForDevice(transport)
-          const firmwareInfo = await getFirmwareInfo(transport)
-          console.info('firmwareInfo:', firmwareInfo)
-          emitter(END)
-        } catch (e) {
-          throw new Error(e)
+          transport.on("connect", (evt) => {
+            console.info('CONNECTION NOTICE', evt)
+          })
+
+          // TODO: need to account for blockchain devices
+          // default to dashboard connection
+          transport.setScrambleKey(LockboxService.SCRAMBLEKEYS.LEDGER.DASHBOARD)
+          if (requestedApp) transport.setScrambleKey(LockboxService.SCRAMBLEKEYS.LEDGER[requestedApp])
+          const ping = await pingDevice(transport)
+          success(ping)
+        } catch (error) {
+          failure(error)
         }
       }
-
-      startTransportListener()
-      return () => {}
+      startTransportListener(success, failure)
     })
   }
 
-  function openTransport() {
-    return new Promise((success, failure) => {
-      Transport.open().then((transport) => {
-        console.log('transport opened')
-        console.info(transport)
-        success(transport)
-      }, (e) => {
-        failure(e)
-      })
-    })
-  }
-
-  const pollForConnectionStatus = function*() {
+  const pollForConnectionStatus = function*(action) {
     try {
-      console.log('start: pollForConnectionStatus')
-      const listenerChannel = yield call(createDeviceListener)
-      console.info('listenerChannel open')
-      try {
-        while (true) {
-          const channelEnd = yield take(listenerChannel)
-          console.info(channelEnd)
-        }
-      } finally {
-        console.info('listenerChannel close')
-        listenerChannel.close()
-      }
+      const { requestedApp } = action.payload
+      // yield put(A.polling())
+      const deviceConnection = yield call(createDeviceConnection, requestedApp)
+      console.info(deviceConnection)
+      // yield put(A.pollingDone())
     } catch (e) {
+      // yield put(A.pollFail)
       yield put(
         actions.logs.logErrorMessage(logLocation, 'pollForConnectionStatus', e)
       )
