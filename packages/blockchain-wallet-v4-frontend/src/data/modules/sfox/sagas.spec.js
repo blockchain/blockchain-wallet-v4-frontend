@@ -10,10 +10,10 @@ import * as selectors from '../../selectors.js'
 import sfoxSagas, { logLocation } from './sagas'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword, confirm } from 'services/SagaService'
-import settings from 'config'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const coreSagas = coreSagasFactory()
+const networks = { btc: 'bitcoin' }
 
 describe('sfoxSagas', () => {
   beforeAll(() => {
@@ -63,7 +63,8 @@ describe('sfoxSagas', () => {
 
   describe('sfox signup', () => {
     let { sfoxSignup } = sfoxSagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     let saga = testSaga(sfoxSignup)
 
@@ -110,7 +111,8 @@ describe('sfoxSagas', () => {
 
   describe('sfox set bank', () => {
     let { setBank } = sfoxSagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     it('should call core setBankAccount and display success', () => {
@@ -140,7 +142,8 @@ describe('sfoxSagas', () => {
 
   describe('sfox handle quote', () => {
     const { submitQuote, prepareAddress } = sfoxSagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const quoteId = '12345'
     const quoteCurrency = 'USD'
@@ -218,7 +221,8 @@ describe('sfoxSagas', () => {
 
   describe('sfox setProfile', () => {
     const { setProfile } = sfoxSagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const firstName = 'satoshi'
@@ -284,7 +288,8 @@ describe('sfoxSagas', () => {
 
   describe('sfox submitMicroDeposits', () => {
     const { submitMicroDeposits } = sfoxSagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const deposit1 = '.02'
@@ -340,7 +345,8 @@ describe('sfoxSagas', () => {
 
   describe('sfox upload', () => {
     const { upload } = sfoxSagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const data = {}
@@ -373,7 +379,8 @@ describe('sfoxSagas', () => {
 
   describe('sfox setBankManually', () => {
     const { setBankManually } = sfoxSagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const action = {
@@ -425,7 +432,8 @@ describe('sfoxSagas', () => {
 
   describe('sfox checkProfileStatus', () => {
     const { checkProfileStatus } = sfoxSagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const saga = testSaga(checkProfileStatus)
@@ -447,7 +455,8 @@ describe('sfoxSagas', () => {
 
   describe('sfox submitSellQuote', () => {
     const { submitSellQuote } = sfoxSagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const action = {
@@ -490,7 +499,7 @@ describe('sfoxSagas', () => {
       expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
         payment: state.sfoxSignup.payment.getOrElse({}),
-        network: settings.NETWORK_BITCOIN
+        network: networks.btc
       })
     })
 
@@ -586,7 +595,10 @@ describe('sfoxSagas', () => {
   })
 
   describe('sfox initializeJumio', () => {
-    const { initializeJumio, fetchJumioStatus } = sfoxSagas({ coreSagas })
+    const { initializeJumio, fetchJumioStatus } = sfoxSagas({
+      coreSagas,
+      networks
+    })
 
     const saga = testSaga(initializeJumio)
 
@@ -616,7 +628,10 @@ describe('sfoxSagas', () => {
   })
 
   describe('sfox completeJumio', () => {
-    const { completeJumio, fetchJumioStatus } = sfoxSagas({ coreSagas })
+    const { completeJumio, fetchJumioStatus } = sfoxSagas({
+      coreSagas,
+      networks
+    })
 
     const saga = testSaga(completeJumio)
 
@@ -643,7 +658,7 @@ describe('sfoxSagas', () => {
   })
 
   describe('sfox fetchJumioStatus', () => {
-    const { fetchJumioStatus } = sfoxSagas({ coreSagas })
+    const { fetchJumioStatus } = sfoxSagas({ coreSagas, networks })
 
     const saga = testSaga(fetchJumioStatus)
 
@@ -668,10 +683,16 @@ describe('sfoxSagas', () => {
         .next(mockJumioStatus)
         .put(sfoxActions.fetchJumioStatusSuccess(mockJumioStatus))
     })
+    it('should return success payload', () => {
+      saga.next().isDone()
+    })
   })
 
   describe('sfox fetchJumioToken', () => {
-    const { fetchJumioToken, fetchJumioStatus } = sfoxSagas({ coreSagas })
+    const { fetchJumioToken, fetchJumioStatus } = sfoxSagas({
+      coreSagas,
+      networks
+    })
 
     const saga = testSaga(fetchJumioToken)
 

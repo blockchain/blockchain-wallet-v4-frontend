@@ -42,6 +42,8 @@ const taskToPromise = t =>
       .chain().fee(myFee).amount(myAmount).done()
 */
 
+const fallbackFees = { limits: { min: 2, max: 16 }, regular: 5, priority: 11 }
+
 export default ({ api }) => {
   const pushBitcoinTx = futurizeP(Task)(api.pushBitcoinTx)
   const getWalletUnspent = (network, fromData) =>
@@ -257,7 +259,12 @@ export default ({ api }) => {
       },
 
       *init () {
-        let fees = yield call(api.getBitcoinFee)
+        let fees
+        try {
+          fees = yield call(api.getBitcoinFee)
+        } catch (e) {
+          fees = fallbackFees
+        }
         return makePayment(merge(p, { fees }))
       },
 

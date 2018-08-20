@@ -11,10 +11,10 @@ import BigNumber from 'bignumber.js'
 import * as Exchange from '../exchange'
 import Either from 'data.either'
 
-export const isValidBitcoinAddress = value => {
+export const isValidBitcoinAddress = (value, network) => {
   try {
     const addr = address.fromBase58Check(value)
-    const n = networks.bitcoin
+    const n = network
     return or(
       equals(addr.version, n.pubKeyHash),
       equals(addr.version, n.scriptHash)

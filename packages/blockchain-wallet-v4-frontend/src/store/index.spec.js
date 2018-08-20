@@ -4,7 +4,6 @@ import * as CoreSrc from 'blockchain-wallet-v4/src'
 import * as Middleware from '../middleware'
 import { createWalletApi, Socket } from 'blockchain-wallet-v4/src/network'
 import { persistStore, autoRehydrate } from 'redux-persist'
-
 // setup mocks
 jest.mock('redux-saga', () => () => {
   return {
@@ -45,7 +44,35 @@ jest.mock('config', () => {
 describe('App Store Config', () => {
   let apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
   let fakeWalletOptions = {
-    domains: { webSocket: 'MOCK_SOCKET', root: 'MOCK_ROOT' }
+    domains: { webSocket: 'MOCK_SOCKET', root: 'MOCK_ROOT' },
+    platforms: {
+      web: {
+        bitcoin: {
+          config: { network: 'bitcoin' }
+        },
+        ethereum: {
+          config: { network: 1 }
+        }
+      }
+    }
+  }
+  let mockNetworks = {
+    bch: {
+      bech32: 'bc',
+      bip32: { private: 76066276, public: 76067358 },
+      messagePrefix: '\u0018Bitcoin Signed Message:\n',
+      pubKeyHash: 0,
+      scriptHash: 5,
+      wif: 128
+    },
+    btc: {
+      bip32: { private: 76066276, public: 76067358 },
+      messagePrefix: '\u0018Bitcoin Signed Message:\n',
+      pubKeyHash: 0,
+      scriptHash: 5,
+      wif: 128
+    },
+    eth: 1
   }
   let createStoreSpy,
     applyMiddlewareSpy,
@@ -100,6 +127,7 @@ describe('App Store Config', () => {
     expect(createWalletApi.mock.calls.length).toBe(1)
     expect(createWalletApi.mock.calls[0][0]).toEqual({
       options: fakeWalletOptions,
+      networks: mockNetworks,
       apiKey: apiKey
     })
     // middleware registration

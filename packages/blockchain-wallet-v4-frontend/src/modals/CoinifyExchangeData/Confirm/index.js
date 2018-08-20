@@ -17,12 +17,11 @@ class ConfirmContainer extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.data.data && this.props.data.data) {
+    const data = this.props.data.getOrElse(false)
+    const nextData = nextProps.data.getOrElse(false)
+    if (data && nextData) {
       // so it doesn't complain when hot reloading
-      if (
-        nextProps.data.data.quote.baseAmount !==
-        this.props.data.data.quote.baseAmount
-      ) {
+      if (data.quote.baseAmount !== nextData.quote.baseAmount) {
         this.props.updateUI({ editing: false })
       }
     }
@@ -30,8 +29,10 @@ class ConfirmContainer extends Component {
 
   onSubmit () {
     const medium = this.props.medium
+    const data = this.props.data.getOrElse(false)
+    if (!data) return
     if (this.props.ui.editing) {
-      const { baseCurrency, quoteCurrency } = this.props.data.data.quote
+      const { baseCurrency, quoteCurrency } = data.quote
       const amt = +this.props.editingAmount * 100
       this.props.coinifyDataActions.fetchQuoteAndMediums({
         amt,
@@ -41,7 +42,7 @@ class ConfirmContainer extends Component {
         type: 'buy'
       })
     } else {
-      const quote = this.props.data.data.quote
+      const quote = data.quote
       this.props.coinifyActions.initiateBuy({ quote, medium })
     }
   }

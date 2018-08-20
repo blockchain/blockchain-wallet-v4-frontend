@@ -356,8 +356,8 @@ AcceptTerms.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  email: selectors.core.settings.getEmail(state).data,
-  smsNumber: selectors.core.settings.getSmsNumber(state).data,
+  email: selectors.core.settings.getEmail(state).getOrElse(''),
+  smsNumber: selectors.core.settings.getSmsNumber(state).getOrElse(0),
   sfoxSignupStatus: path(['sfoxSignup', 'sfoxBusy'], state)
 })
 
