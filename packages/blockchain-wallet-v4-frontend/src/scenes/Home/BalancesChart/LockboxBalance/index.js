@@ -1,11 +1,10 @@
 import React from 'react'
-
 import Template from './template'
 
-class BalancesChartContainer extends React.PureComponent {
+class Balance extends React.PureComponent {
   render () {
     return <Template />
   }
 }
 
-export default BalancesChartContainer
+export default Balance
