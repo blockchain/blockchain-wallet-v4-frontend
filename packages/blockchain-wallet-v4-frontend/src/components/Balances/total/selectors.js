@@ -28,12 +28,23 @@ export const getBtcBalance = state =>
 
 export const getBchBalance = state =>
   createDeepEqualSelector(
-    [selectors.core.kvStore.bch.getSpendableContext],
-    context => {
+    [
+      selectors.core.kvStore.bch.getSpendableContext,
+      selectors.core.kvStore.lockbox.getLockboxBchContext
+    ],
+    (walletContext, lockboxBchContextR) => {
       const getBalance = address =>
         selectors.core.data.bch.getFinalBalance(address, state)
-      const balancesR = context.map(x => getBalance(x).getOrElse(0))
-      return Remote.of(reduce(add, 0, balancesR))
+      const transform = (walletContext, lockboxContext) => {
+        return concat(walletContext, lockboxContext).map(x =>
+          getBalance(x).getOrElse(0)
+        )
+      }
+      const balancesR = lift(transform)(
+        Remote.of(walletContext),
+        lockboxBchContextR
+      )
+      return balancesR.map(reduce(add, 0))
     }
   )(state)
 
