@@ -75,3 +75,32 @@ export const CoinBalanceWrapper = props => {
     </CoinBalanceSwitchable>
   )
 }
+
+export const HomeBalanceTable = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`
+
+export const HomeBalanceRow = styled.div`
+  flex: 1;
+  padding: 10px 20px;
+  @media (min-width: 768px) {
+    padding: 15px 30px;
+  }
+  border-bottom: 1px solid ${props => props.theme['gray-1']};
+`
+
+export const HomeBalanceHeaderTitle = styled(Text)`
+  font-size: 20px;
+  font-weight: 200;
+  text-transform: uppercase;
+  color: ${props => props.theme['brand-primary']};
+`
+
+export const HomeBalanceAmount = styled(Text)`
+  font-size: 28px;
+  font-weight: 200;
+  margin-top: 10px;
+  color: ${props => props.theme['brand-primary']};
+`

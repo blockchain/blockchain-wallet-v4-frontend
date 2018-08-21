@@ -4,23 +4,33 @@ import BtcLockboxBalance from './BtcLockboxBalance'
 import EthLockboxBalance from './EthLockboxBalance'
 import BchLockboxBalance from './BchLockboxBalance'
 import { FormattedMessage } from 'react-intl'
-import { Text } from 'blockchain-info-components'
-import { Wrapper, Header } from 'components/Balances'
+import {
+  HomeBalanceRow,
+  HomeBalanceTable,
+  HomeBalanceAmount,
+  HomeBalanceHeaderTitle
+} from 'components/Balances'
 
 const Success = props => (
-  <Wrapper>
-    <Header>
-      <Text size='14px'>
+  <HomeBalanceTable>
+    <HomeBalanceRow>
+      <HomeBalanceHeaderTitle>
         <FormattedMessage
-          id='layouts.wallet.menutop.balance.walletbalance.lockbox'
-          defaultMessage='Lockbox'
+          id='layouts.wallet.menutop.balance.walletbalance.lockboxbalance'
+          defaultMessage='Lockbox Balance'
         />
-      </Text>
-    </Header>
-    {props.totalBalance}
-    <BtcLockboxBalance />
-    <BchLockboxBalance />
-    <EthLockboxBalance />
-  </Wrapper>
+      </HomeBalanceHeaderTitle>
+      <HomeBalanceAmount>{props.totalBalance}</HomeBalanceAmount>
+    </HomeBalanceRow>
+    <HomeBalanceRow>
+      <BtcLockboxBalance />
+    </HomeBalanceRow>
+    <HomeBalanceRow>
+      <BchLockboxBalance />
+    </HomeBalanceRow>
+    <HomeBalanceRow>
+      <EthLockboxBalance />
+    </HomeBalanceRow>
+  </HomeBalanceTable>
 )
 export default Success

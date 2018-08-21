@@ -12,8 +12,8 @@ const Success = props => (
     <Header>
       <Text size='14px'>
         <FormattedMessage
-          id='layouts.wallet.menutop.balance.walletbalance.total'
-          defaultMessage='Total'
+          id='layouts.wallet.menutop.balance.walletbalance.totalbalance'
+          defaultMessage='Total Balance'
         />
       </Text>
     </Header>
