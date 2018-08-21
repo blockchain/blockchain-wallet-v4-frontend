@@ -105,7 +105,7 @@ export default ({ api, coreSagas }) => {
   const initializeNewDeviceSetup = function*() {
     try {
       // once dashboard is detected, user has completed setup steps on device
-      yield call(_pollForConnectionStatus, 'DASHBOARD', 1500000) // 25 min timeout
+      yield call(_pollForConnectionStatus, 'DASHBOARD', 1500000) // 25 min timeout  1500000
       yield put(A.changeDeviceSetupStep('open-btc-app'))
       yield call(_pollForConnectionStatus, 'BTC')
       const transport = yield select(S.getTransportObject)
@@ -144,28 +144,42 @@ export default ({ api, coreSagas }) => {
 
   // opens Transport and sends NO_OP cmd until response is received (success)
   // or timeout is hit (reject)
-  const _createDeviceConnection = function (app, timeout) {
-    return new Promise((resolve, reject) => {
-      async function startTransportListener () {
-        try {
-          const transport = await LockboxService.openTransport(app, timeout)
-          // TODO: wrap in setTimeout for rejections
-          await LockboxService.sendNoOpCmd(transport)
-          resolve(transport) // connection detected
-        } catch (error) {
-          reject(error)
-        }
-      }
-      startTransportListener()
-    })
-  }
+  // const _createAndPollDeviceConnection = function*(app, timeout) {
+  //   try {
+  //     const transport = yield call(LockboxService.openTransport(app, timeout))
+  //     yield put(A.storeTransportObject(transport))
+  //     // TODO: wrap in setTimeout for rejections
+  //     return yield call(LockboxService.sendNoOpCmd(transport))
+  //     // resolve(transport) // connection detected
+  //   } catch (error) {
+  //     // reject(error)
+  //   }
+  // }
 
   // creates transport listener for specified app
   const _pollForConnectionStatus = function*(app, timeout) {
+    // opens Transport and sends NO_OP cmd until response is received (success)
+    // or timeout is hit (reject)
+    const createDeviceConnection = (app, timeout) => {
+      return new Promise((resolve, reject) => {
+        async function startTransportListener () {
+          try {
+            const transport = await LockboxService.openTransport(app, timeout)
+            // TODO: wrap in setTimeout for rejections
+            await LockboxService.sendNoOpCmd(transport)
+            resolve(transport) // connection detected
+          } catch (error) {
+            reject(error)
+          }
+        }
+        startTransportListener()
+      })
+    }
+
     try {
       yield put(A.pollForConnectionStatusLoading())
       const transportConnection = yield call(
-        _createDeviceConnection,
+        createDeviceConnection,
         app,
         timeout
       )

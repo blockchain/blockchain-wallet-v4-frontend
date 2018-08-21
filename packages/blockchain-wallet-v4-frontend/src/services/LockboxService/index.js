@@ -39,41 +39,6 @@ export const deriveDeviceID = btcXpub => {
   }
 }
 
-export const computeDeviceFirmware = res => {
-  const byteArray = [...res]
-  const data = byteArray.slice(0, byteArray.length - 2)
-  const targetIdStr = Buffer.from(data.slice(0, 4))
-  const targetId = targetIdStr.readUIntBE(0, 4)
-  const seVersionLength = data[4]
-  const seVersion = Buffer.from(data.slice(5, 5 + seVersionLength)).toString()
-  const flagsLength = data[5 + seVersionLength]
-  const flags = Buffer.from(
-    data.slice(5 + seVersionLength + 1, 5 + seVersionLength + 1 + flagsLength)
-  ).toString()
-
-  const mcuVersionLength = data[5 + seVersionLength + 1 + flagsLength]
-  let mcuVersion = Buffer.from(
-    data.slice(
-      7 + seVersionLength + flagsLength,
-      7 + seVersionLength + flagsLength + mcuVersionLength
-    )
-  )
-  if (mcuVersion[mcuVersion.length - 1] === 0) {
-    mcuVersion = mcuVersion.slice(0, mcuVersion.length - 1)
-  }
-  mcuVersion = mcuVersion.toString()
-
-  if (!seVersionLength) {
-    return {
-      targetId,
-      seVersion: '0.0.0',
-      flags: '',
-      mcuVersion: ''
-    }
-  }
-  return { targetId, seVersion, flags, mcuVersion }
-}
-
 export const ethAccount = (xpub, label) => ({
   label: label,
   archived: false,
@@ -88,7 +53,6 @@ export const openTransport = (app, timeout) => {
   return new Promise((resolve, reject) => {
     Transport.open().then(
       transport => {
-        // TODO: probably need to do this with a setTimeout or something
         transport.setExchangeTimeout(timeout || 60000) // 1 minute
         // TODO: need to account for blockchain devices
         transport.setScrambleKey(SCRAMBLEKEYS.LEDGER[app])
@@ -120,7 +84,43 @@ export const getDeviceFirmwareInfo = transport => {
   return new Promise((resolve, reject) => {
     transport.send(...APDUS.GET_FIRMWARE).then(
       res => {
-        resolve(computeDeviceFirmware(res))
+        const byteArray = [...res]
+        const data = byteArray.slice(0, byteArray.length - 2)
+        const targetIdStr = Buffer.from(data.slice(0, 4))
+        const targetId = targetIdStr.readUIntBE(0, 4)
+        const seVersionLength = data[4]
+        const seVersion = Buffer.from(
+          data.slice(5, 5 + seVersionLength)
+        ).toString()
+        const flagsLength = data[5 + seVersionLength]
+        const flags = Buffer.from(
+          data.slice(
+            5 + seVersionLength + 1,
+            5 + seVersionLength + 1 + flagsLength
+          )
+        ).toString()
+
+        const mcuVersionLength = data[5 + seVersionLength + 1 + flagsLength]
+        let mcuVersion = Buffer.from(
+          data.slice(
+            7 + seVersionLength + flagsLength,
+            7 + seVersionLength + flagsLength + mcuVersionLength
+          )
+        )
+        if (mcuVersion[mcuVersion.length - 1] === 0) {
+          mcuVersion = mcuVersion.slice(0, mcuVersion.length - 1)
+        }
+        mcuVersion = mcuVersion.toString()
+
+        if (!seVersionLength) {
+          resolve({
+            targetId,
+            seVersion: '0.0.0',
+            flags: '',
+            mcuVersion: ''
+          })
+        }
+        resolve({ targetId, seVersion, flags, mcuVersion })
       },
       error => {
         reject(error)
