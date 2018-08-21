@@ -41,5 +41,6 @@ export const getData = state => ({
   paymentMedium: path(['coinify', 'medium'], state),
   step: path(['coinify', 'checkoutStep'], state),
   coinifyBusy: path(['coinify', 'coinifyBusy'], state),
-  canTrade: selectors.core.data.coinify.canTrade(state).getOrElse(false)
+  canTrade: selectors.core.data.coinify.canTrade(state).getOrElse(false),
+  isRecurring: path(['coinify', 'subscription'], state)
 })
