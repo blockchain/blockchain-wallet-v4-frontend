@@ -63,7 +63,7 @@ export default ({ apiUrl, networks }) => {
     }
 
     return request('PUT', kv.address, body).map(res => {
-      let magicHash = KV.magic(encPayloadBuffer, kv.magicHash)
+      let magicHash = KV.magic(encPayloadBuffer, kv.magicHash, networks.btc)
       return set(KV.magicHash, magicHash, kv)
     })
   }
