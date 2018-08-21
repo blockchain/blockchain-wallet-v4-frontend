@@ -6,7 +6,6 @@ exports[`FooterShadowWrapper renders correctly 1`] = `
 >
   <FooterShadowWrapper__Fields>
     <div />
-    <FooterShadowWrapper__WhiteSpace />
   </FooterShadowWrapper__Fields>
   <FooterShadowWrapper__Footer>
     <div />
