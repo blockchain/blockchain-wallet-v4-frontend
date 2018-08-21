@@ -32,31 +32,32 @@ export const isValidAddressOrIndex = curry((wallet, candidate) =>
 
 // /////////////////////////////////////////////////////////////////////////////
 // From
-export const FROM = {
-  ACCOUNT: 'FROM.ACCOUNT',
-  LEGACY: 'FROM.LEGACY',
-  WATCH_ONLY: 'FROM.WATCH_ONLY',
-  EXTERNAL: 'FROM.EXTERNAL',
-  LOCKBOX: 'FROM.LOCKBOX'
+export const ADDRESS_TYPES = {
+  ACCOUNT: 'ACCOUNT',
+  LEGACY: 'LEGACY',
+  WATCH_ONLY: 'WATCH_ONLY',
+  EXTERNAL: 'EXTERNAL',
+  LOCKBOX: 'LOCKBOX',
+  ADDRESS: 'ADDRESS'
 }
 
 // fromLegacy :: String -> Object
 export const fromLegacy = address => ({
-  fromType: FROM.LEGACY,
+  fromType: ADDRESS_TYPES.LEGACY,
   from: [address],
   change: address
 })
 
 // fromLegacyList :: [String] -> Object
 export const fromLegacyList = addresses => ({
-  fromType: FROM.LEGACY,
+  fromType: ADDRESS_TYPES.LEGACY,
   from: addresses,
   change: addresses[0]
 })
 
 // fromWatchOnly :: String -> String -> Object
 export const fromWatchOnly = (address, wif) => ({
-  fromType: FROM.WATCH_ONLY,
+  fromType: ADDRESS_TYPES.WATCH_ONLY,
   from: [address],
   change: address,
   wifKeys: [wif]
@@ -64,7 +65,7 @@ export const fromWatchOnly = (address, wif) => ({
 
 // fromExternal :: String -> String -> String -> String -> Object
 export const fromExternal = (addrComp, addrUncomp, wifComp, wifUncomp) => ({
-  fromType: FROM.EXTERNAL,
+  fromType: ADDRESS_TYPES.EXTERNAL,
   from: [addrComp, addrUncomp],
   change: addrComp,
   wifKeys: compose(
@@ -87,7 +88,7 @@ export const fromAccount = (network, state, index, coin) => {
     .getOrFail('missing_change_address')
 
   return {
-    fromType: FROM.ACCOUNT,
+    fromType: ADDRESS_TYPES.ACCOUNT,
     from: [account.xpub],
     change: changeAddress,
     fromAccountIdx: index
@@ -108,7 +109,7 @@ export const fromLockbox = (network, state, xpub, coin) => {
     .getOrFail('missing_change_address')
 
   return {
-    fromType: FROM.LOCKBOX,
+    fromType: ADDRESS_TYPES.LOCKBOX,
     from: [xpub],
     change: changeAddress
   }
@@ -137,27 +138,22 @@ export const fromPrivateKey = (network, wallet, key) => {
   return fromExternal(c.address, u.address, c.wif, u.wif)
 }
 
-// /////////////////////////////////////////////////////////////////////////////
-// To
-export const TO = {
-  ACCOUNT: 'TO.ACCOUNT',
-  ADDRESS: 'TO.ADDRESS',
-  LOCKBOX: 'TO.LOCKBOX'
-}
-
 // toOutputAddress :: String -> Object
-export const toOutputAddress = address => ({ type: TO.ADDRESS, address })
+export const toOutputAddress = address => ({
+  type: ADDRESS_TYPES.ADDRESS,
+  address
+})
 
 // toOutputAccount :: String -> Integer -> Integer -> Object
 export const toOutputAccount = (address, accountIndex, addressIndex) => ({
-  type: TO.ACCOUNT,
+  type: ADDRESS_TYPES.ACCOUNT,
   address,
   accountIndex,
   addressIndex
 })
 
 export const toLockboxAccount = (address, addressIndex, xpub) => ({
-  type: TO.LOCKBOX,
+  type: ADDRESS_TYPES.LOCKBOX,
   address,
   addressIndex,
   xpub
@@ -214,18 +210,18 @@ export const toOutput = curry((coin, network, state, addressOrIndex) => {
 // prepare Unspent Coins
 export const toCoin = curry((network, fromData, input) => {
   switch (fromData.fromType) {
-    case FROM.ACCOUNT:
+    case ADDRESS_TYPES.ACCOUNT:
       let path = input.xpub
         ? `${fromData.fromAccountIdx}${drop(1, input.xpub.path)}`
         : undefined
       return Coin.fromJS(assoc('path', path, input), network)
-    case FROM.LEGACY:
+    case ADDRESS_TYPES.LEGACY:
       return Coin.fromJS(input, network)
-    case FROM.LOCKBOX:
+    case ADDRESS_TYPES.LOCKBOX:
       return Coin.fromJS(assoc('path', input.xpub.path, input), network)
-    case FROM.WATCH_ONLY:
+    case ADDRESS_TYPES.WATCH_ONLY:
       return Coin.fromJS(assoc('priv', fromData.wifKeys[0], input), network)
-    case FROM.EXTERNAL:
+    case ADDRESS_TYPES.EXTERNAL:
       let coin = Coin.fromJS(input, network)
       let address = Coin.selectAddress(coin)
       return set(Coin.priv, fromData.wifKeys[address], coin)

@@ -262,8 +262,3 @@ export const compressPublicKey = publicKey => {
   prefixBuffer[0] = prefix
   return Buffer.concat([prefixBuffer, publicKey.slice(1, 1 + 32)])
 }
-
-export const isValidXpub = xpub => {
-  // TODO implement
-  return true
-}
