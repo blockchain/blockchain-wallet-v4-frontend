@@ -46,7 +46,7 @@ class CoinifyBuyContainer extends React.Component {
       canTrade,
       ...rest
     } = this.props
-    const { step, checkoutBusy, coinifyBusy, subscriptions, trades, isRecurring } = rest
+    const { step, checkoutBusy, coinifyBusy, subscriptions, trades, isRecurring, countryCode } = rest
     const { fetchQuote, refreshBuyQuote } = coinifyDataActions
     const { showModal } = modalActions
     const { coinifyNotAsked, openKYC, coinifyNextCheckoutStep } = coinifyActions
@@ -65,30 +65,25 @@ class CoinifyBuyContainer extends React.Component {
           value={value}
           showModal={showModal}
           buyQuoteR={buyQuoteR}
-          fetchBuyQuote={quote =>
-            fetchQuote({ quote, nextAddress: value.nextAddress })
-          }
           refreshQuote={refreshBuyQuote}
           currency={currency}
           checkoutBusy={checkoutBusy}
-          setMax={amt =>
-            formActions.change('coinifyCheckoutBuy', 'leftVal', amt)
-          }
-          setMin={amt =>
-            formActions.change('coinifyCheckoutBuy', 'leftVal', amt)
-          }
           paymentMedium={paymentMedium}
           initiateBuy={this.startBuy}
           step={step}
           busy={busy}
-          clearTradeError={() => coinifyNotAsked()}
           trade={trade}
-          handleKycAction={kyc => openKYC(kyc)}
-          changeTab={tab => change('buySellTabStatus', 'status', tab)}
-          coinifyNextCheckoutStep={step => coinifyNextCheckoutStep(step)}
           canTrade={canTrade}
           subscriptions={subscriptions}
           trades={trades}
+          countryCode={countryCode}
+          clearTradeError={() => coinifyNotAsked()}
+          handleKycAction={kyc => openKYC(kyc)}
+          coinifyNextCheckoutStep={step => coinifyNextCheckoutStep(step)}
+          fetchBuyQuote={quote => fetchQuote({ quote, nextAddress: value.nextAddress })}
+          setMax={amt => formActions.change('coinifyCheckoutBuy', 'leftVal', amt)}
+          setMin={amt => formActions.change('coinifyCheckoutBuy', 'leftVal', amt)}
+          changeTab={tab => change('buySellTabStatus', 'status', tab)}
           onOrderCheckoutSubmit={() => isRecurring ? showModal('CoinifyRecurringBuyConfirm') : null}
         />
       ),

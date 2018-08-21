@@ -56,7 +56,8 @@ const CoinifyBuy = props => {
     canTrade,
     subscriptions,
     trades,
-    onOrderCheckoutSubmit
+    onOrderCheckoutSubmit,
+    countryCode
   } = props
 
   const profile = Remote.of(prop('profile', value)).getOrElse({
@@ -90,6 +91,7 @@ const CoinifyBuy = props => {
                 setMin={setMin}
                 increaseLimit={handleKycAction}
                 onOrderCheckoutSubmit={onOrderCheckoutSubmit}
+                countryCode={countryCode}
               />
             </LeftContainer>
             <RightContainer>

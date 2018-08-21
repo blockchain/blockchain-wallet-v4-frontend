@@ -21,8 +21,9 @@ export const getCanMakeRecurringTrade = state => {
   // check cc trades
   const isCardTrade = t => prop('medium', t) === 'card'
   const ccTrades = filter(isCardTrade, trades)
-  if (length(ccTrades) < 3) return false
+  if (length(ccTrades) < 3) return 'needs_trades'
 
   // check KYC level
+  if (level.name < 2) return 'needs_kyc'
   return true
 }

@@ -14,22 +14,23 @@ import {
 import RecurringBuyCheckout from './Recurring'
 
 const OrderCheckout = ({
-  changeTab,
-  quoteR,
   account,
-  onFetchQuote,
-  reason,
-  limits,
-  checkoutError,
-  type,
-  defaultCurrency,
-  symbol,
-  checkoutBusy,
   busy,
+  changeTab,
+  checkoutBusy,
+  checkoutError,
+  countryCode,
+  defaultCurrency,
+  increaseLimit,
+  limits,
+  onFetchQuote,
+  onOrderCheckoutSubmit,
+  quoteR,
+  reason,
   setMax,
   setMin,
-  increaseLimit,
-  onOrderCheckoutSubmit
+  symbol,
+  type
 }) => {
   const quoteInputSpec = {
     method: type, // buy or sell
@@ -124,7 +125,11 @@ const OrderCheckout = ({
           )} debounce={500} spec={quoteInputSpec} onFetchQuote={onFetchQuote} disabled={disableInputs} limits={limits} type={type} defaultCurrency={defaultCurrency} symbol={symbol} setMax={setMax} setMin={setMin} increaseLimit={increaseLimit} />
       </div>
     </Fragment> : null}
-    <RecurringBuyCheckout />
+    {
+      countryCode === 'GB'
+        ? null
+        : <RecurringBuyCheckout />
+    }
     {submitButtonHelper()}
   </ExchangeCheckoutWrapper>
 }
