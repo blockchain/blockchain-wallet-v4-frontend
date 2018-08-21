@@ -80,6 +80,7 @@ const RecurringCheckout = props => {
                   name='duration'
                   component={DateBoxDebounced}
                   // validate={[required, validStartDate]}
+                  disableOnClickOutside={false}
                   isValidDate={isValidStartDate}
                   defaultValue='Until you cancel'
                 />

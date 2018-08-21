@@ -89,6 +89,10 @@ class CoinifyBuyContainer extends React.Component {
           canTrade={canTrade}
           subscriptions={subscriptions}
           trades={trades}
+          onOrderCheckoutSubmit={() => {
+            console.log('on order checkout submit')
+            // showModal('')
+          }}
         />
       ),
       Failure: e => <Failure error={e} />,
