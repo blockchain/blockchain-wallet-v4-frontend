@@ -33,7 +33,7 @@ import {
 import { selectReceiveAddress } from '../utils/sagas'
 import utils from './sagas.utils'
 
-export default ({ api, coreSagas, options }) => {
+export default ({ api, coreSagas, networks, options }) => {
   const logLocation = 'components/exchange/sagas/shapeshift'
   const {
     calculateEffectiveBalance,
@@ -241,8 +241,12 @@ export default ({ api, coreSagas, options }) => {
       const sourceAddress = prop('address', source)
       const targetAddress = prop('address', target)
       const amount = prop('sourceAmount', form)
-      const returnAddress = yield call(selectReceiveAddress, source)
-      const withdrawalAddress = yield call(selectReceiveAddress, target)
+      const returnAddress = yield call(selectReceiveAddress, source, networks)
+      const withdrawalAddress = yield call(
+        selectReceiveAddress,
+        target,
+        networks
+      )
       // Shapeshift order
       const pair = getPairFromCoin(sourceCoin, targetCoin)
       const orderData = yield call(

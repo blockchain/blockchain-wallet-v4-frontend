@@ -40,19 +40,20 @@ const getFromCurrencies = getAvailableCurrencies(head)
 const getToCurrencies = getAvailableCurrencies(last)
 
 const getBtcGroup = btcAccounts => ({
-  group: 'Bitcoin',
-  items: btcAccounts.map(format)
+  label: 'Bitcoin',
+  options: btcAccounts.map(formatGroup)
 })
 const getBchGroup = bchAccounts => ({
-  group: 'Bitcoin Cash',
-  items: bchAccounts.map(format)
+  label: 'Bitcoin Cash',
+  options: bchAccounts.map(formatGroup)
 })
 const getEthGroup = ethAccounts => ({
-  group: 'Ether',
-  items: ethAccounts.map(format)
+  label: 'Ether',
+  options: ethAccounts.map(formatGroup)
 })
 
 export const format = acc => ({ text: prop('label', acc), value: acc })
+export const formatGroup = acc => ({ label: prop('label', acc), value: acc })
 
 export const formatDefault = curry((coin, acc) => ({ text: coin, value: acc }))
 

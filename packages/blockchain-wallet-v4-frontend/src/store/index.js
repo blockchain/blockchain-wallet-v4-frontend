@@ -20,6 +20,9 @@ import {
   webSocketRates
 } from '../middleware'
 
+import Bitcoin from 'bitcoinjs-lib'
+import BitcoinCash from 'bitcoinforksjs-lib'
+
 const devToolsConfig = {
   maxAge: 1000,
   serialize: serializer,
@@ -72,7 +75,17 @@ const configureStore = () => {
       })
       const getAuthCredentials = () =>
         selectors.modules.profile.getAuthCredentials(store.getState())
-      const api = createWalletApi({ options, apiKey, getAuthCredentials })
+      const networks = {
+        btc: Bitcoin.networks[options.platforms.web.bitcoin.config.network],
+        bch: BitcoinCash.networks[options.platforms.web.bitcoin.config.network],
+        eth: options.platforms.web.ethereum.config.network
+      }
+      const api = createWalletApi({
+        options,
+        apiKey,
+        getAuthCredentials,
+        networks
+      })
 
       const store = createStore(
         connectRouter(history)(rootReducer),
@@ -98,6 +111,7 @@ const configureStore = () => {
         btcSocket,
         ethSocket,
         ratesSocket,
+        networks,
         options
       })
 

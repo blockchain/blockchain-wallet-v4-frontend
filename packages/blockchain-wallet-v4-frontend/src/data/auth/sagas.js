@@ -429,7 +429,7 @@ export default ({ api, coreSagas }) => {
     yield put(actions.middleware.webSocket.eth.stopSocket())
     yield put(actions.middleware.webSocket.rates.stopSocket())
     // only show browser de-auth page to accounts with verified email
-    isEmailVerified.data
+    isEmailVerified.getOrElse(0)
       ? yield put(actions.router.push('/logout'))
       : yield logoutClearReduxStore()
   }

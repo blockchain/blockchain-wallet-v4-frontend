@@ -59,7 +59,7 @@ describe('getHDAccountAddressPromises', () => {
     expect(getReceiveAddress).toHaveBeenCalledTimes(addressLookaheadCount)
     expect(getReceiveAddress.mock.calls).toEqual(
       map(
-        index => [account, index, networks.bitcoin.NETWORK_BITCOIN],
+        index => [account, index, networks.bitcoin.NETWORK_BTC],
         range(receiveIndex, receiveIndex + addressLookaheadCount)
       )
     )
@@ -67,7 +67,7 @@ describe('getHDAccountAddressPromises', () => {
 
   it('should return array of Promises resolving with getReceiveAddress values', async () => {
     const expectedResult = map(
-      index => mockDerivation(account, index, networks.bitcoin.NETWORK_BITCOIN),
+      index => mockDerivation(account, index, networks.bitcoin.NETWORK_BTC),
       range(receiveIndex, receiveIndex + addressLookaheadCount)
     )
 

@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { path, prop } from 'ramda'
 
-import { Icon, Separator } from 'blockchain-info-components'
+import { Icon } from 'blockchain-info-components'
 import { SelectBox } from 'components/Form'
 
 const DisplayWrapper = styled.div`
@@ -17,19 +17,6 @@ const DisplayWrapper = styled.div`
   cursor: pointer;
   min-width: 0;
 `
-
-const HeaderWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  padding: 5px;
-  box-sizing: border-box;
-  cursor: not-allowed;
-  min-width: 0;
-`
 const ItemWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -41,11 +28,6 @@ const ItemWrapper = styled.div`
   box-sizing: border-box;
   cursor: pointer;
   min-width: 0;
-
-  &:hover {
-    color: ${props => props.theme['gray-4']};
-    background-color: ${props => props.theme['gray-1']};
-  }
 `
 const Text = styled.span`
   position: relative;
@@ -77,22 +59,7 @@ const renderDisplay = item => (
     <Text>{item.text}</Text>
   </DisplayWrapper>
 )
-const renderHeader = item => (
-  <HeaderWrapper>
-    {prop('text', item) === 'Bitcoin' && (
-      <Icon name='bitcoin-in-circle' size='14px' weight={300} />
-    )}
-    {prop('text', item) === 'Bitcoin Cash' && (
-      <Icon name='bitcoin-cash' size='14px' weight={300} />
-    )}
-    {prop('text', item) === 'Ether' && (
-      <Icon name='ethereum-filled' size='14px' weight={300} />
-    )}
-    <Separator align='right'>
-      <Text uppercase>{item.text}</Text>
-    </Separator>
-  </HeaderWrapper>
-)
+
 const renderItem = item => (
   <ItemWrapper>
     <Text>{item.text}</Text>
@@ -114,20 +81,16 @@ const renderItemWithIcon = item => (
   </ItemWrapper>
 )
 
-const SelectBoxExchange = props =>
-  props.hasOneAccount ? (
+const SelectBoxExchange = props => {
+  return props.hasOneAccount ? (
     <SelectBox
       {...props}
       templateDisplay={renderDisplay}
       templateItem={renderItemWithIcon}
     />
   ) : (
-    <SelectBox
-      {...props}
-      templateDisplay={renderDisplay}
-      templateHeader={renderHeader}
-      templateItem={renderItem}
-    />
+    <SelectBox {...props} templateItem={renderItem} grouped />
   )
+}
 
 export default SelectBoxExchange

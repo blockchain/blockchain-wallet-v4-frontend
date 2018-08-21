@@ -59,7 +59,7 @@ export const _transformTx = curry(
       hash: tx.hash,
       to: getLabel(tx.to, state),
       from: getLabel(tx.from, state),
-      description: getEthereumTxNote(state, tx.hash).data || '',
+      description: getEthereumTxNote(state, tx.hash).getOrElse(''),
       partnerLabel: getPartnerLabel && getPartnerLabel(tx.hash),
       confirmations: getConfirmations(tx.blockNumber, latestBlock),
       timeFormatted: getTime(tx),

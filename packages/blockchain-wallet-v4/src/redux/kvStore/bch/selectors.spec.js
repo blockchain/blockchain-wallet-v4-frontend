@@ -1,6 +1,7 @@
-import { assocPath } from 'ramda'
+import { assocPath, merge } from 'ramda'
 import Remote from '../../../remote'
 import * as selectors from './selectors'
+import { createMockState, walletV3, walletV3WithLegacy } from '../../../../data'
 
 describe('kvstore bch selectors', () => {
   const accounts = [
@@ -24,6 +25,47 @@ describe('kvstore bch selectors', () => {
       bch: Remote.Success(bchMetadata)
     }
   }
+
+  const mockState = merge(createMockState(walletV3), successState)
+  const mockStateLegacy = merge(
+    createMockState(walletV3WithLegacy),
+    successState
+  )
+
+  describe('getContext', () => {
+    it('should return the context', () => {
+      let context = selectors.getContext(mockState)
+      expect(context).toEqual([
+        'xpub6CaQke7DZA2WPRTKy954mx52b1duxkXoPbeB1teNEMzR7oLsg2XoCnUwMbK8WDvKJYfuvWxfeH2f7HdoyGDEZs7Kj11AuQiKeJhLBd2GciM'
+      ])
+    })
+
+    it('should return context with legacy and watch-only addresses', () => {
+      let context = selectors.getContext(mockStateLegacy)
+      expect(context).toEqual([
+        'xpub6CaQke7DZA2WPRTKy954mx52b1duxkXoPbeB1teNEMzR7oLsg2XoCnUwMbK8WDvKJYfuvWxfeH2f7HdoyGDEZs7Kj11AuQiKeJhLBd2GciM',
+        '1EGW5YZs4EXExhLiCVvRXTRVmfLjs69bZc',
+        '12BeccoHhdZ5DtoZbuphji1FbQEgNNhy3P'
+      ])
+    })
+  })
+
+  describe('getSpendableContext', () => {
+    it('should return the context', () => {
+      let context = selectors.getSpendableContext(mockState)
+      expect(context).toEqual([
+        'xpub6CaQke7DZA2WPRTKy954mx52b1duxkXoPbeB1teNEMzR7oLsg2XoCnUwMbK8WDvKJYfuvWxfeH2f7HdoyGDEZs7Kj11AuQiKeJhLBd2GciM'
+      ])
+    })
+
+    it('should return context with legacy addresses', () => {
+      let context = selectors.getSpendableContext(mockStateLegacy)
+      expect(context).toEqual([
+        'xpub6CaQke7DZA2WPRTKy954mx52b1duxkXoPbeB1teNEMzR7oLsg2XoCnUwMbK8WDvKJYfuvWxfeH2f7HdoyGDEZs7Kj11AuQiKeJhLBd2GciM',
+        '1EGW5YZs4EXExhLiCVvRXTRVmfLjs69bZc'
+      ])
+    })
+  })
 
   it('getMetadata should return success of metadata', () => {
     const expectedResult = Remote.Success(bchMetadata)

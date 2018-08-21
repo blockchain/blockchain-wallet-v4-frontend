@@ -83,8 +83,8 @@ const validEtherAddress = value =>
     <M.InvalidEtherAddressMessage />
   )
 
-const validBitcoinAddress = value =>
-  utils.bitcoin.isValidBitcoinAddress(value) ? (
+const validBitcoinAddress = (value, allValues) =>
+  utils.bitcoin.isValidBitcoinAddress(value, allValues.from.network) ? (
     undefined
   ) : (
     <M.InvalidBitcoinAddressMessage />

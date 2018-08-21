@@ -15,7 +15,7 @@ import fetchService from './fetch'
 import httpService from './http'
 import apiAuthorize from './apiAuthorize'
 
-export default ({ options, apiKey, getAuthCredentials } = {}) => {
+export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
   const { get, post } = fetchService({ apiKey })
   const http = httpService({ apiKey })
   const authorizedHttp = apiAuthorize(http, getAuthCredentials)
@@ -29,7 +29,7 @@ export default ({ options, apiKey, getAuthCredentials } = {}) => {
     ...delegate({ rootUrl, apiUrl, get, post }),
     ...ethereum({ rootUrl, apiUrl, get, post }),
     ...bch({ rootUrl, apiUrl, get, post }),
-    ...kvStore({ apiUrl }),
+    ...kvStore({ apiUrl, networks }),
     ...kyc({
       nabuUrl,
       get: http.get,

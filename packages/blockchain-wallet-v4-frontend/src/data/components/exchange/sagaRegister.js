@@ -48,8 +48,8 @@ const registerShapeshiftSagas = function*(shapeshift) {
   yield takeEvery(actionTypes.CHANGE, shapeshift.change)
 }
 
-export default ({ api, coreSagas, options }) => {
-  const shapeshift = shapeshiftSagas({ api, coreSagas, options })
+export default ({ api, coreSagas, options, networks }) => {
+  const shapeshift = shapeshiftSagas({ api, coreSagas, options, networks })
   const exchange = exchangeSagas({ api, coreSagas, options })
 
   return function*() {

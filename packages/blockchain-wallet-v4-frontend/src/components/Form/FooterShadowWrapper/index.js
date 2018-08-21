@@ -12,12 +12,7 @@ const Fields = styled.div`
   flex-direction: column;
   overflow: auto;
   flex: 1;
-`
-const WhiteSpace = styled.div`
-  background: ${props => props.theme['white']};
-  z-index: 2;
-  flex: 1;
-  min-height: 8px;
+  padding-left: 4px;
 `
 const Footer = styled.div`
   padding: 32px 0 32px 0;
@@ -29,10 +24,7 @@ const Footer = styled.div`
 
 const FooterShadowWrapper = ({ fields, footer, ...rest }) => (
   <Container {...rest}>
-    <Fields>
-      {fields}
-      <WhiteSpace />
-    </Fields>
+    <Fields>{fields}</Fields>
     <Footer>{footer}</Footer>
   </Container>
 )

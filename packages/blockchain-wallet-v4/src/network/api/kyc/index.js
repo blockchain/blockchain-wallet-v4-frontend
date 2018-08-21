@@ -17,7 +17,10 @@ export default ({ nabuUrl, get, authorizedGet, authorizedPost }) => {
   const fetchOnfidoSDKKey = () =>
     authorizedGet({
       url: nabuUrl,
-      endPoint: '/kyc/credentials/ONFIDO'
+      endPoint: '/kyc/credentials/ONFIDO',
+      headers: {
+        'x-client-type': 'WEB'
+      }
     })
 
   const syncOnfido = applicantId =>

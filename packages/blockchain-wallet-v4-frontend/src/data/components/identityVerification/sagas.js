@@ -77,10 +77,8 @@ export default ({ api, coreSagas }) => {
   }
 
   const resendSmsCode = function*() {
-    const smsNumber = (yield select(
-      selectors.core.settings.getSmsNumber
-    )).getOrElse('')
-    yield put(actions.modules.settings.updateMobile(smsNumber))
+    const smsNumber = yield select(selectors.core.settings.getSmsNumber)
+    yield put(actions.modules.settings.updateMobile(smsNumber.getOrElse('')))
   }
 
   const savePersonalData = function*() {
