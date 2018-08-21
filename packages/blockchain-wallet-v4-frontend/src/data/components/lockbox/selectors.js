@@ -27,9 +27,9 @@ export const getConnectedDevice = path([
   'connection',
   'device'
 ])
-export const getConnectionStatus = path([
-  'components',
-  'lockbox',
-  'connection',
-  'status'
-])
+// export const getConnectionStatus = path([
+//   'components',
+//   'lockbox',
+//   'connection',
+//   'status'
+// ])
