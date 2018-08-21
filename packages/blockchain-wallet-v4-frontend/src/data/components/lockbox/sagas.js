@@ -11,6 +11,7 @@ import * as LockboxService from 'services/LockboxService'
 const logLocation = 'components/lockbox/sagas'
 
 export default ({ api, coreSagas }) => {
+  // saves new device to KvStore
   const saveNewDeviceKvStore = function*(action) {
     try {
       const { deviceName } = action.payload
@@ -66,6 +67,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  // renames a device in KvStore
   const updateDeviceName = function*(action) {
     try {
       const { deviceID, deviceName } = action.payload
@@ -84,6 +86,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  // deletes a device from KvStore
   const deleteDevice = function*(action) {
     try {
       const { deviceID } = action.payload
@@ -96,19 +99,6 @@ export default ({ api, coreSagas }) => {
       yield put(actions.logs.logErrorMessage(logLocation, 'deleteDevice', e))
       yield put(actions.alerts.displayError(C.LOCKBOX_DELETE_ERROR))
     }
-  }
-
-  const getDeviceFirmwareInfo = async function (transport) {
-    return new Promise((resolve, reject) => {
-      transport.send(...LockboxService.APDUS.GET_FIRMWARE).then(
-        res => {
-          resolve(LockboxService.computeDeviceFirmware(res))
-        },
-        error => {
-          reject(error)
-        }
-      )
-    })
   }
 
   // new device setup saga
@@ -191,7 +181,6 @@ export default ({ api, coreSagas }) => {
 
   return {
     deleteDevice,
-    getDeviceFirmwareInfo,
     initializeNewDeviceSetup,
     saveNewDeviceKvStore,
     updateDeviceName,

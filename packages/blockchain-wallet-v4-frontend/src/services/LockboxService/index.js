@@ -115,6 +115,20 @@ export const sendNoOpCmd = transport => {
   })
 }
 
+// gets firmware information about device
+export const getDeviceFirmwareInfo = transport => {
+  return new Promise((resolve, reject) => {
+    transport.send(...APDUS.GET_FIRMWARE).then(
+      res => {
+        resolve(computeDeviceFirmware(res))
+      },
+      error => {
+        reject(error)
+      }
+    )
+  })
+}
+
 export const APDUS = {
   GET_FIRMWARE: [0xe0, 0x01, 0x00, 0x00],
   NO_OP: [0x00, 0x00, 0x00, 0x00]
