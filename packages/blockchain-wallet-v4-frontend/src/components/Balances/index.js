@@ -88,11 +88,13 @@ export const HomeBalanceRow = styled.div`
   padding: 10px 20px;
   flex-direction: column;
   justify-content: center;
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
   &:first-child {
     flex: 1;
     display: block;
     padding: 15px 30px;
+  }
+  &:not(:last-child) {
+    border-bottom: 1px solid ${props => props.theme['gray-1']};
   }
   @media (min-width: 768px) {
     padding: 15px 30px;
@@ -114,6 +116,8 @@ export const HomeBalanceAmount = styled(Text)`
 `
 
 export const HomeCoinBalanceCell = props => {
+  const coinColor = props.coin.toLowerCase()
+
   const Wrapper = styled.div`
     display: flex;
     align-items: center;
@@ -123,35 +127,51 @@ export const HomeCoinBalanceCell = props => {
     display: flex;
     align-items: center;
   `
-  const CoinName = styled(Text)``
-  const CoinIcon = styled(Icon)``
+  const CoinName = styled(Text)`
+    font-size: 16px;
+    font-weight: 300;
+  `
+  const CoinIcon = styled(Icon)`
+    font-size: 24px;
+    margin-right: 10px;
+  `
+  const Amount = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    > div:last-child {
+      margin-top: 5px;
+    }
+  `
 
   return (
     <Wrapper>
       <Coin>
-        <CoinIcon name={props.coinIcon} />
-        <CoinName>{props.coinName}</CoinName>
+        <CoinIcon color={coinColor} name={props.coinIcon} />
+        <CoinName color={coinColor}>{props.coinName}</CoinName>
       </Coin>
-      <div>
+      <Amount>
         <CoinDisplay
           coin={props.coin}
+          size='14px'
           cursor='pointer'
           mobileSize='14px'
-          size='20px'
-          weight={200}
+          color='brand-primary'
+          weight={300}
         >
           {props.balance}
         </CoinDisplay>
         <FiatDisplay
           coin={props.coin}
+          size='14px'
           cursor='pointer'
           mobileSize='14px'
-          size='20px'
-          weight={200}
+          color='gray-3'
+          weight={300}
         >
           {props.balance}
         </FiatDisplay>
-      </div>
+      </Amount>
     </Wrapper>
   )
 }
