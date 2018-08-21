@@ -53,13 +53,13 @@ export default ({ api }) => {
       .then(map(toCoin(network, fromData)))
 
   // ///////////////////////////////////////////////////////////////////////////
-  const calculateTo = function*(destinations, network) {
+  const calculateTo = function*(destinations, type, network) {
     const appState = yield select(identity)
     const wallet = S.wallet.getWallet(appState)
 
     // if address or account index
     if (isValidAddressOrIndex(destinations)) {
-      return [toOutput('BCH', network, appState, destinations)]
+      return [toOutput('BCH', network, appState, destinations, type)]
     }
 
     // if non-empty array of addresses or account indexes
@@ -116,7 +116,7 @@ export default ({ api }) => {
         }
         return fromLegacy(origin)
       case ADDRESS_TYPES.LOCKBOX:
-        return fromLockbox(network, appState, origin, 'BTC')
+        return fromLockbox(network, appState, origin, 'BCH')
       default:
         const pkformat = detectPrivateKeyFormat(origin)
         if (pkformat != null) {
@@ -279,15 +279,20 @@ export default ({ api }) => {
       },
 
       *from (origins, type) {
-        let fromData = yield call(calculateFrom, origins, network)
         try {
+          let fromData = yield call(calculateFrom, origins, type, network)
+          console.log(fromData)
           let coins = yield call(getWalletUnspent, network, fromData)
+          console.log(coins)
           let effectiveBalance = yield call(calculateEffectiveBalance, {
             coins,
             fee: p.fee
           })
-          return makePayment(merge(p, { ...fromData, coins, effectiveBalance }))
+          console.log(fromData, coins, effectiveBalance)
+          return makePayment(merge(p, { ...fromData, coins }))
         } catch (e) {
+          console.log(e)
+          let fromData = yield call(calculateFrom, origins, type, network)
           return makePayment(
             merge(p, { ...fromData, coins: [], effectiveBalance: 0 })
           )

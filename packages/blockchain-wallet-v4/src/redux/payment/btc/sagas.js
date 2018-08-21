@@ -58,7 +58,7 @@ export default ({ api }) => {
 
     // if address or account index
     if (isValidAddressOrIndex(destinations)) {
-      return [toOutput('BTC', network, appState, destinations)]
+      return [toOutput('BTC', network, appState, destinations, type)]
     }
 
     // if non-empty array of addresses or account indexes

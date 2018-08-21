@@ -11,9 +11,7 @@ import {
 } from 'ramda'
 import * as Coin from '../../../coinSelection/coin'
 import { Wallet, HDAccount, Address } from '../../../types'
-import { isPositiveInteger } from '../../../utils/checks'
 import { isValidBitcoinAddress, getWifAddress } from '../../../utils/btc'
-import { isCashAddr } from '../../../utils/bch'
 import * as S from '../../selectors'
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -160,49 +158,48 @@ export const toLockboxAccount = (address, addressIndex, xpub) => ({
 })
 
 // toOutputAccount :: Network -> ReduxState -> String|Integer -> Object
-export const toOutput = curry((coin, network, state, addressOrIndex) => {
+export const toOutput = curry((coin, network, state, addressOrIndex, type) => {
   let wallet = S.wallet.getWallet(state)
-  if (isPositiveInteger(addressOrIndex)) {
-    let account = Wallet.getAccount(addressOrIndex, wallet).get() // throw if nothing
-    let receiveIndexR =
-      coin === 'BTC'
-        ? S.data.bitcoin.getReceiveIndex(account.xpub, state)
-        : S.data.bch.getReceiveIndex(account.xpub, state)
-    let receiveIndex = receiveIndexR.getOrFail(
-      new Error('missing_receive_address')
-    )
-    let address = HDAccount.getReceiveAddress(account, receiveIndex, network)
-    return toOutputAccount(address, addressOrIndex, receiveIndex)
-  } else if (
-    isValidBitcoinAddress(addressOrIndex) ||
-    isCashAddr(addressOrIndex)
-  ) {
-    return toOutputAddress(addressOrIndex)
-  } else {
-    let receiveIndexR =
-      coin === 'BTC'
-        ? S.data.bitcoin.getReceiveIndex(addressOrIndex, state)
-        : S.data.bch.getReceiveIndex(addressOrIndex, state)
+  switch (type) {
+    case ADDRESS_TYPES.ACCOUNT:
+      let account = Wallet.getAccount(addressOrIndex, wallet).get() // throw if nothing
+      let receiveIndexR =
+        coin === 'BTC'
+          ? S.data.bitcoin.getReceiveIndex(account.xpub, state)
+          : S.data.bch.getReceiveIndex(account.xpub, state)
+      let receiveIndex = receiveIndexR.getOrFail(
+        new Error('missing_receive_address')
+      )
+      let address = HDAccount.getReceiveAddress(account, receiveIndex, network)
+      return toOutputAccount(address, addressOrIndex, receiveIndex)
+    case ADDRESS_TYPES.LOCKBOX: {
+      let receiveIndexR =
+        coin === 'BTC'
+          ? S.data.bitcoin.getReceiveIndex(addressOrIndex, state)
+          : S.data.bch.getReceiveIndex(addressOrIndex, state)
 
-    let receiveIndex = receiveIndexR.getOrFail(
-      new Error('missing_receive_address')
-    )
+      let receiveIndex = receiveIndexR.getOrFail(
+        new Error('missing_receive_address')
+      )
 
-    let address =
-      coin === 'BTC'
-        ? S.common.btc.getAddressLockbox(
-            network,
-            addressOrIndex,
-            receiveIndex,
-            state
-          )
-        : S.common.bch.getAddressLockbox(
-            network,
-            addressOrIndex,
-            receiveIndex,
-            state
-          )
-    return toLockboxAccount(address, receiveIndex, addressOrIndex)
+      let address =
+        coin === 'BTC'
+          ? S.common.btc.getAddressLockbox(
+              network,
+              addressOrIndex,
+              receiveIndex,
+              state
+            )
+          : S.common.bch.getAddressLockbox(
+              network,
+              addressOrIndex,
+              receiveIndex,
+              state
+            )
+      return toLockboxAccount(address, receiveIndex, addressOrIndex)
+    }
+    default:
+      return toOutputAddress(addressOrIndex)
   }
 })
 
