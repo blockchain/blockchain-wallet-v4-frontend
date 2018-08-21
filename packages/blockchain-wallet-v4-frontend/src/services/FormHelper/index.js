@@ -80,15 +80,17 @@ const validEtherAddress = value =>
     <M.InvalidEtherAddressMessage />
   )
 
-const validBitcoinAddress = (value, allValues) =>
-  utils.bitcoin.isValidBitcoinAddress(value, allValues.from.network) ? (
+const validBitcoinAddress = (value, allValues) => {
+  return utils.bitcoin.isValidBitcoinAddress(value, allValues.from.network) ? (
     undefined
   ) : (
     <M.InvalidBitcoinAddressMessage />
   )
+}
 
-const validBitcoinCashAddress = value =>
-  utils.bitcoin.isValidBitcoinAddress(value) || utils.bch.isCashAddr(value) ? (
+const validBitcoinCashAddress = (value, allValues) =>
+  utils.bitcoin.isValidBitcoinAddress(value, allValues.from.network) ||
+  utils.bch.isCashAddr(value) ? (
     undefined
   ) : (
     <M.InvalidBitcoinCashAddressMessage />

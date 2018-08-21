@@ -32,6 +32,7 @@ import { getBuySellTxHashMatch } from '../../kvStore/buySell/selectors'
 import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
 import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
+import Bitcoin from 'bitcoinjs-lib'
 import Remote from '../../../remote'
 
 const transformTx = transactions.bitcoin.transformTx
@@ -96,7 +97,12 @@ const flattenAccount = acc => ({
   balance: path(['info', 'final_balance'], acc),
   xpub: prop('xpub', acc),
   index: prop('index', acc),
+  // v3 accounts did not expose .network from account
+  // v4 before 4.3.x did not set network on account
+  // fallback to Bitcoin.networks.bitcoin
   network: prop('network', acc)
+    ? prop('network', acc)
+    : Bitcoin.networks.bitcoin
 })
 
 // getAccountsBalances :: state => Remote([])

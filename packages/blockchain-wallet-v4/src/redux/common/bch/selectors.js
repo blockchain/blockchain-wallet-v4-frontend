@@ -23,6 +23,7 @@ import {
 } from '../../data/bch/selectors.js'
 import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
+import Bitcoin from 'bitcoinjs-lib'
 import Remote from '../../../remote'
 import { getAccountsList, getBchTxNote } from '../../kvStore/bch/selectors.js'
 import { toCashAddr } from '../../../utils/bch'
@@ -80,20 +81,26 @@ export const getActiveAddresses = state => {
   return sequence(Remote.of, objectOfRemotes)
 }
 
-const digestAddress = x => ({
+const digestAddress = acc => ({
   coin: 'BCH',
-  label: prop('label', x) ? prop('label', x) : prop('addr', x),
-  balance: path(['info', 'final_balance'], x),
-  address: prop('addr', x)
+  label: prop('label', acc) ? prop('label', acc) : prop('addr', acc),
+  balance: path(['info', 'final_balance'], acc),
+  address: prop('addr', acc)
 })
 
-const digestAccount = x => ({
+const digestAccount = acc => ({
   coin: 'BCH',
-  label: prop('label', x) ? prop('label', x) : prop('xpub', x),
-  balance: path(['info', 'final_balance'], x),
-  archived: prop('archived', x),
-  xpub: prop('xpub', x),
-  index: prop('index', x)
+  label: prop('label', acc) ? prop('label', acc) : prop('xpub', acc),
+  balance: path(['info', 'final_balance'], acc),
+  archived: prop('archived', acc),
+  xpub: prop('xpub', acc),
+  index: prop('index', acc),
+  // v3 accounts did not expose .network from account
+  // v4 before 4.3.x did not set network on account
+  // fallback to Bitcoin.networks.bitcoin
+  network: prop('network', acc)
+    ? prop('network', acc)
+    : Bitcoin.networks.bitcoin
 })
 
 export const getAccountsBalances = state =>
