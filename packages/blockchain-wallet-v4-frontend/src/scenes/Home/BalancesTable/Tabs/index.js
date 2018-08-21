@@ -65,7 +65,7 @@ class TabsContainer extends React.PureComponent {
   }
 
   handleClick (tab) {
-    this.props.preferencesActions.setBalancesChartTab(tab)
+    this.props.preferencesActions.setBalancesTableTab(tab)
   }
 
   render () {

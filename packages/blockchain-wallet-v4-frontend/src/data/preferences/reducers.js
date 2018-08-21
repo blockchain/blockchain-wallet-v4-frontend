@@ -7,7 +7,7 @@ const INITIAL_STATE = {
   culture: 'en-GB',
   theme: 'default',
   coinDisplayed: true,
-  balancesChart: 'total',
+  balancesTable: 'total',
   showKycCompleted: true,
   showEtherWelcome: true,
   showBackupReminder: true,
@@ -49,7 +49,7 @@ const preferences = (state = INITIAL_STATE, action) => {
       return assoc('showBitcoinCashWelcome', displayed, state)
     }
     case AT.SET_BALANCES_CHART_TAB: {
-      return assoc('balancesChart', payload, state)
+      return assoc('balancesTable', payload, state)
     }
     case priceChartActionTypes.PRICE_CHART_COIN_CLICKED: {
       const { coin } = payload

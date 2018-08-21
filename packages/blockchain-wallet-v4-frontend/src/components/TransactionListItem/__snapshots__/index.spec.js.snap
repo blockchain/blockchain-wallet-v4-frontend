@@ -45,7 +45,7 @@ exports[`ListItemContainer renders correctly 1`] = `
     preferencesActions={
       Object {
         "hideKycCompleted": [Function],
-        "setBalancesChartTab": [Function],
+        "setBalancesTableTab": [Function],
         "setBitcoinCashWelcome": [Function],
         "setBitcoinWelcome": [Function],
         "setCulture": [Function],

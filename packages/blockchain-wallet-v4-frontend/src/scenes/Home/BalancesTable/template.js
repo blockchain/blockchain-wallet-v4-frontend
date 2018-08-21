@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   }
 `
 
-const BalancesChart = props => {
+const BalancesTable = props => {
   const { currentTab } = props
   return (
     <Wrapper>
@@ -30,4 +30,4 @@ const BalancesChart = props => {
   )
 }
 
-export default BalancesChart
+export default BalancesTable
