@@ -1,12 +1,13 @@
-import { Wrapper } from '../../types'
 import * as selectors from './selectors'
-import { walletV1, walletV2, walletV3 } from '../../../data'
+import {
+  createMockState,
+  walletV1,
+  walletV2,
+  walletV3,
+  walletV3WithLegacy
+} from '../../../data'
 
 describe('selectors.core.wallet', () => {
-  let createMockState = wallet => ({
-    walletPath: Wrapper.fromJS({ wallet })
-  })
-
   describe('isHdWallet', () => {
     it('should return true for a v3 wallet', () => {
       let mockState = createMockState(walletV3)
@@ -24,6 +25,22 @@ describe('selectors.core.wallet', () => {
       let mockState = createMockState(walletV1)
       let isHdWallet = selectors.isHdWallet(mockState)
       expect(isHdWallet).toEqual(false)
+    })
+  })
+
+  describe('getSpendableAddrContext', () => {
+    it('should return empty if there is no spendable context', () => {
+      let mockState = createMockState(walletV3)
+      let spendableAddrContext = selectors.getSpendableAddrContext(mockState)
+      expect(spendableAddrContext).toEqual([])
+    })
+
+    it('should return the spendable context', () => {
+      let mockState = createMockState(walletV3WithLegacy)
+      let spendableAddrContext = selectors.getSpendableAddrContext(mockState)
+      expect(spendableAddrContext).toEqual([
+        '1EGW5YZs4EXExhLiCVvRXTRVmfLjs69bZc'
+      ])
     })
   })
 })

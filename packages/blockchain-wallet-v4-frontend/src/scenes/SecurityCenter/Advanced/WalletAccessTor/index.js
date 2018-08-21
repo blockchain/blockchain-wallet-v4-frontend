@@ -13,12 +13,12 @@ class WalletAccessTorContainer extends React.PureComponent {
 
   handleClick () {
     this.props.settingsActions.updateBlockTorIps(
-      Number(!this.props.blockTorIps.data)
+      Number(!this.props.blockTorIps)
     )
   }
 
   render () {
-    const blockingTor = this.props.blockTorIps.data
+    const blockingTor = this.props.blockTorIps
 
     return (
       <WalletAccessTor
@@ -31,7 +31,7 @@ class WalletAccessTorContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  blockTorIps: selectors.core.settings.getBlockTorIps(state)
+  blockTorIps: selectors.core.settings.getBlockTorIps(state).getOrElse(0)
 })
 
 const mapDispatchToProps = dispatch => ({

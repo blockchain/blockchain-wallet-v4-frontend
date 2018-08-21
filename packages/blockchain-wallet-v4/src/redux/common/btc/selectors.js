@@ -101,7 +101,8 @@ const flattenAccount = acc => ({
   balance: path(['info', 'final_balance'], acc),
   xpub: prop('xpub', acc),
   index: prop('index', acc),
-  type: ADDRESS_TYPES.ACCOUNT
+  type: ADDRESS_TYPES.ACCOUNT,
+  network: prop('network', acc)
 })
 
 // getAccountsBalances :: state => Remote([])

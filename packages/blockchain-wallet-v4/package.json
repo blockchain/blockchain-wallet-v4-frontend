@@ -94,8 +94,5 @@
     "scryptsy": "2.0.0",
     "seedrandom": "2.4.3",
     "unorm": "1.4.1"
-  },
-  "watch": {
-    "compile": "src/**/*.js"
   }
 }

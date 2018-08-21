@@ -1,7 +1,6 @@
 import {
   concat,
   curry,
-  keysIn,
   filter,
   not,
   lift,
@@ -30,7 +29,7 @@ export const getAccountsList = state => {
 export const getSpendableContext = createDeepEqualSelector(
   [
     walletSelectors.getHDAccounts,
-    walletSelectors.getSpendableContext,
+    walletSelectors.getSpendableAddrContext,
     getAccounts
   ],
   (btcHDAccounts, spendableAddresses, metadataAccountsR) => {
@@ -43,8 +42,7 @@ export const getSpendableContext = createDeepEqualSelector(
       return map(prop('xpub'), activeAccounts)
     }
     const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
-    const addresses = keysIn(spendableAddresses)
-    return concat(activeAccounts, addresses)
+    return concat(activeAccounts, spendableAddresses)
   }
 )
 

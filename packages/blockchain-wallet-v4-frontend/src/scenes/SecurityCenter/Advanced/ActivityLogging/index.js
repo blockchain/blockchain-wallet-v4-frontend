@@ -13,13 +13,13 @@ class ActivityLoggingContainer extends React.PureComponent {
 
   handleClick () {
     this.props.settingsActions.updateLoggingLevel(
-      Number(!this.props.activityLoggingEnabled.data)
+      Number(!this.props.activityLoggingEnabled)
     )
   }
 
   render () {
     const { activityLoggingEnabled, ...rest } = this.props
-    const loggingEnabled = activityLoggingEnabled.data
+    const loggingEnabled = activityLoggingEnabled
 
     return (
       <ActivityLogging
@@ -32,7 +32,9 @@ class ActivityLoggingContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  activityLoggingEnabled: selectors.core.settings.getLoggingLevel(state)
+  activityLoggingEnabled: selectors.core.settings
+    .getLoggingLevel(state)
+    .getOrElse(0)
 })
 const mapDispatchToProps = dispatch => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)

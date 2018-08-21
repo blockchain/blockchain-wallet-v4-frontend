@@ -12,7 +12,7 @@ export default ({ coreSagas }) => {
       let p = yield select(selectors.getPayment)
       let payment = coreSagas.payment.eth.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_ETHEREUM
+        network: settings.NETWORK_ETH
       })
       payment = yield payment.to(to)
       const password = yield call(promptForSecondPassword)

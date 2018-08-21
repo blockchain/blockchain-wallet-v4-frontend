@@ -90,7 +90,9 @@ export const fromJS = (x, i) => {
   const accountCons = a => {
     const xpub = selectXpub(a)
     const node =
-      isEmpty(xpub) || isNil(xpub) ? null : Bitcoin.HDNode.fromBase58(xpub) // TODO :: network
+      isEmpty(xpub) || isNil(xpub)
+        ? null
+        : Bitcoin.HDNode.fromBase58(xpub, x.network)
     const cacheCons = c =>
       c || isNil(node) ? Cache.fromJS(c) : Cache.fromJS(Cache.js(node))
     return compose(
@@ -121,12 +123,13 @@ export const reviver = jsObject => {
   return new HDAccount(jsObject)
 }
 
-export const js = (label, node, xpub) => ({
+export const js = (label, node, xpub, network) => ({
   label: label,
   archived: false,
   xpriv: node ? node.toBase58() : '',
   xpub: node ? node.neutered().toBase58() : xpub,
   address_labels: [],
+  network: network,
   cache: node ? Cache.js(node, null) : Cache.js(null, xpub)
 })
 

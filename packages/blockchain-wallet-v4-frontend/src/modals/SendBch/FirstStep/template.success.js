@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
@@ -29,29 +28,8 @@ import {
   maximumAmount,
   invalidAmount
 } from './validation'
+import { Row, AddressButton } from 'components/Send'
 import QRCodeCapture from 'components/QRCodeCapture'
-
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-`
-const AddressButton = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  box-sizing: border-box;
-  border: 1px solid ${props => props.theme['gray-2']};
-
-  &:hover {
-    background-color: ${props => props.theme['gray-1']};
-  }
-`
 
 const FirstStep = props => {
   const {
@@ -104,32 +82,19 @@ const FirstStep = props => {
             />
           </FormLabel>
           <Row>
-            {toToggled &&
-              !destination && (
-                <Field
-                  name='to'
-                  component={SelectBoxBCHAddresses}
-                  opened
-                  onFocus={() => handleToToggle()}
-                  includeAll={false}
-                  validate={[required]}
-                  exclude={[from.label]}
-                  hideErrors
-                />
-              )}
-            {toToggled &&
-              destination && (
-                <Field
-                  name='to'
-                  component={SelectBoxBCHAddresses}
-                  onFocus={() => handleToToggle()}
-                  includeAll={false}
-                  validate={[required]}
-                  exclude={[from.label]}
-                  hideArrow
-                  hideErrors
-                />
-              )}
+            {toToggled && (
+              <Field
+                name='to'
+                coin='BCH'
+                component={SelectBoxBCHAddresses}
+                menuIsOpen={!destination}
+                exclude={[from.label]}
+                validate={[required]}
+                includeAll={false}
+                hideIndicator
+                hideErrors
+              />
+            )}
             {!toToggled && (
               <Field
                 name='to'
@@ -139,20 +104,23 @@ const FirstStep = props => {
                 autoFocus
               />
             )}
-            {(!toToggled || destination) && (
-              <QRCodeCapture
-                scanType='bchAddress'
-                border={
-                  enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']
-                }
-              />
-            )}
-            {enableToggle &&
-              (!toToggled || destination) && (
-                <AddressButton onClick={() => handleToToggle(true)}>
-                  <Icon name='down-arrow' size='10px' cursor />
+            <QRCodeCapture
+              scanType='bchAddress'
+              border={
+                enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']
+              }
+            />
+            {enableToggle ? (
+              !toToggled ? (
+                <AddressButton onClick={() => handleToToggle()}>
+                  <Icon name='down-arrow' size='11px' cursor />
                 </AddressButton>
-              )}
+              ) : (
+                <AddressButton onClick={() => handleToToggle()}>
+                  <Icon name='pencil' size='13px' cursor />
+                </AddressButton>
+              )
+            ) : null}
           </Row>
         </FormItem>
       </FormGroup>
