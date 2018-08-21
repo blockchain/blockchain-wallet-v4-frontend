@@ -1,19 +1,23 @@
 import React from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 import { LinkContainer } from 'react-router-bootstrap'
-
-import { CoinBalanceWrapper } from 'components/Balances'
-
-const Wrapper = styled.div``
+import { HomeCoinBalanceCell } from 'components/Balances'
 
 const Success = props => {
-  const { balance, large } = props
+  const { balance } = props
+
+  const Wrapper = styled.div``
 
   return (
     <LinkContainer to='/bch/transactions'>
       <Wrapper>
-        <CoinBalanceWrapper coin='BCH' balance={balance} large={large} />
+        <HomeCoinBalanceCell
+          coin='BCH'
+          coinName='Bitcoin Cash'
+          coinIcon='bitcoin-cash'
+          balance={balance}
+        />
       </Wrapper>
     </LinkContainer>
   )

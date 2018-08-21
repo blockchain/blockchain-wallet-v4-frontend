@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { LinkContainer } from 'react-router-bootstrap'
-import { CoinBalanceWrapper } from 'components/Balances'
+import { HomeCoinBalanceCell } from 'components/Balances'
 
 const Success = props => {
   const { balance } = props
@@ -12,7 +12,12 @@ const Success = props => {
   return (
     <LinkContainer to='/lockbox'>
       <Wrapper>
-        <CoinBalanceWrapper coin='BCH' balance={balance} />
+        <HomeCoinBalanceCell
+          coin='BCH'
+          coinName='Bitcoin Cash'
+          coinIcon='bitcoin-cash'
+          balance={balance}
+        />
       </Wrapper>
     </LinkContainer>
   )

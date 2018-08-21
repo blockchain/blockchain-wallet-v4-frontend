@@ -17,11 +17,7 @@ const OptionsStep = props => {
   return (
     <React.Fragment>
       <Row>
-        <Button
-          nature='primary'
-          fullwidth
-          onClick={() => handleStepChange()}
-        >
+        <Button nature='primary' fullwidth onClick={() => handleStepChange()}>
           <FormattedMessage
             id='modals.lockboxsetup.firststep.link'
             defaultMessage='Link a new device'

@@ -2,17 +2,22 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { LinkContainer } from 'react-router-bootstrap'
-import { CoinBalanceWrapper } from 'components/Balances'
+import { HomeCoinBalanceCell } from 'components/Balances'
 
 const Success = props => {
-  const { balance, large } = props
+  const { balance } = props
 
   const Wrapper = styled.div``
 
   return (
     <LinkContainer to='/eth/transactions'>
       <Wrapper>
-        <CoinBalanceWrapper coin='ETH' balance={balance} large={large} />
+        <HomeCoinBalanceCell
+          coin='ETH'
+          coinName='Ether'
+          coinIcon='ethereum-filled'
+          balance={balance}
+        />
       </Wrapper>
     </LinkContainer>
   )

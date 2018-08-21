@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Text } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
@@ -83,12 +83,20 @@ export const HomeBalanceTable = styled.div`
 `
 
 export const HomeBalanceRow = styled.div`
-  flex: 1;
+  flex: auto;
+  display: flex;
   padding: 10px 20px;
+  flex-direction: column;
+  justify-content: center;
+  border-bottom: 1px solid ${props => props.theme['gray-1']};
+  &:first-child {
+    flex: 1;
+    display: block;
+    padding: 15px 30px;
+  }
   @media (min-width: 768px) {
     padding: 15px 30px;
   }
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 
 export const HomeBalanceHeaderTitle = styled(Text)`
@@ -104,3 +112,46 @@ export const HomeBalanceAmount = styled(Text)`
   margin-top: 10px;
   color: ${props => props.theme['brand-primary']};
 `
+
+export const HomeCoinBalanceCell = props => {
+  const Wrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  `
+  const Coin = styled.div`
+    display: flex;
+    align-items: center;
+  `
+  const CoinName = styled(Text)``
+  const CoinIcon = styled(Icon)``
+
+  return (
+    <Wrapper>
+      <Coin>
+        <CoinIcon name={props.coinIcon} />
+        <CoinName>{props.coinName}</CoinName>
+      </Coin>
+      <div>
+        <CoinDisplay
+          coin={props.coin}
+          cursor='pointer'
+          mobileSize='14px'
+          size='20px'
+          weight={200}
+        >
+          {props.balance}
+        </CoinDisplay>
+        <FiatDisplay
+          coin={props.coin}
+          cursor='pointer'
+          mobileSize='14px'
+          size='20px'
+          weight={200}
+        >
+          {props.balance}
+        </FiatDisplay>
+      </div>
+    </Wrapper>
+  )
+}
