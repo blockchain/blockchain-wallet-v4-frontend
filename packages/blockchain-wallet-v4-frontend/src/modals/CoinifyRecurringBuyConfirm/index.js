@@ -6,7 +6,8 @@ import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { Modal, ModalHeader, ModalBody, Text, Button } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import { getData, getCanMakeRecurringTrade } from './selectors'
+import { getCanMakeRecurringTrade, getNumberOfTradesAway } from './selectors'
+import { prop } from 'ramda'
 
 const ButtonRow = styled.div`
   display: flex;
@@ -16,25 +17,51 @@ const ButtonRow = styled.div`
 `
 class CoinifyRecurringBuyConfirm extends React.PureComponent {
   render () {
-    const { close } = this.props
+    const { close, canMakeRecurringTrade, numberOfTradesAway } = this.props
+
+    const textHelper = () => {
+      switch (canMakeRecurringTrade) {
+        case 'needs_kyc_trades':
+          return {
+            header: <FormattedMessage id='modals.coinifyrecurringbuyconfirm.header.needskyctrades' defaultMessage='Verify Your Identity and Complete 3 Orders' />,
+            body: <FormattedMessage id='modals.coinifyrecurringbuyconfirm.body.needskyctrades' defaultMessage='To unlock the Recurring Buy feature, verify your identity and complete 3 credit card orders.' />,
+            button: <FormattedMessage id='modals.coinifyrecurringbuyconfirm.button.needskyctrades' defaultMessage='Verify My Identity' />
+          }
+        case 'needs_kyc':
+          return {
+            header: <FormattedMessage id='modals.coinifyrecurringbuyconfirm.header.needskyc' defaultMessage='Verify Your Identity' />,
+            body: <FormattedMessage id='modals.coinifyrecurringbuyconfirm.body.needskyc' defaultMessage='To set up a recurring order, you first need to verify your identity.' />,
+            button: <FormattedMessage id='modals.coinifyrecurringbuyconfirm.button.needskyc' defaultMessage='Verify My Identity' />
+          }
+        case 'needs_trades':
+          return {
+            header: <FormattedMessage id='modals.coinifyrecurringbuyconfirm.header.needstrades' defaultMessage='Complete 3 Orders' />,
+            body: <FormattedMessage id='modals.coinifyrecurringbuyconfirm.body.needstrades' defaultMessage='To unlock the recurring buy feature, start by completing 3 credit card orders. You are only {numOfTrades} away.' values={{ numOfTrades: numberOfTradesAway }} />,
+            button: <FormattedMessage id='modals.coinifyrecurringbuyconfirm.button.needstrades' defaultMessage='Create an Order' />
+          }
+        default:
+          return <FormattedMessage id='modals.coinifyrecurringbuyconfirm.header.setup' defaultMessage="You're About to Set Up A Recurring Order" />
+      }
+    }
+
     return (
       <Modal>
         <Fragment>
           <ModalHeader onClose={close}>
             <Text>
-              <FormattedMessage
-                id='modals.coinifyrecurringbuyconfirm.header'
-                defaultMessage="You're About to Set Up A Recurring Order"
-              />
+              {prop('title', textHelper())}
             </Text>
           </ModalHeader>
           <ModalBody>
             <ButtonRow>
               <Button width='100px' onClick={close} nature='primary'>
                 <FormattedMessage
-                  id='modals.coinifytradedetails.kyc.close'
-                  defaultMessage='Close'
+                  id='modals.coinifyrecurringbuyconfirm.goback'
+                  defaultMessage='Go Back'
                 />
+              </Button>
+              <Button>
+                {prop('button', textHelper())}
               </Button>
             </ButtonRow>
           </ModalBody>
@@ -45,7 +72,7 @@ class CoinifyRecurringBuyConfirm extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  data: getData(state),
+  numberOfTradesAway: getNumberOfTradesAway(state),
   canMakeRecurringTrade: getCanMakeRecurringTrade(state),
   subscriptions: selectors.core.data.coinify
     .getSubscriptions(state)

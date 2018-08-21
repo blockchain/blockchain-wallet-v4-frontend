@@ -1,29 +1,32 @@
 import { selectors } from 'data'
-import { lift, filter, prop, length } from 'ramda'
+import { filter, prop, length } from 'ramda'
 
-export const getData = state => {
+const isCardTrade = t =>
+  prop('medium', t) === 'card' && prop('state', t) === 'completed'
+
+export const getNumberOfTradesAway = state => {
   const trades = selectors.core.data.coinify.getTrades(state).getOrElse([])
-  const level = selectors.core.data.coinify.getLevel(state).getOrElse()
-  // console.log('getData', trades, level)
-  return lift(trades, level => ({ trades, level }))(trades, level)
+  const ccTrades = filter(isCardTrade, trades)
+  return 3 - length(ccTrades)
 }
 
 export const getCanMakeRecurringTrade = state => {
   const countryCode = selectors.core.settings.getCountryCode(state).getOrElse('GB')
   const trades = selectors.core.data.coinify.getTrades(state).getOrElse([])
   const level = selectors.core.data.coinify.getLevel(state).getOrElse()
-  console.log('recurring modal selectors', trades, level, countryCode)
-  // TODO: check for country === GB, 3 or more trades with CC, completed KYC
+
+  const ccTrades = filter(isCardTrade, trades)
+  const needsTrades = length(ccTrades) < 3
+
+  const needsKyc = level.name < 2
+  console.log('recurring modal selectors', needsKyc, needsTrades, trades, level, countryCode)
+
+  if (needsTrades && needsKyc) return 'needs_kyc_trades'
+  if (needsKyc) return 'needs_kyc'
+  if (needsTrades) return 'needs_trades'
 
   // check country
   if (countryCode === 'GB') return false
 
-  // check cc trades
-  const isCardTrade = t => prop('medium', t) === 'card'
-  const ccTrades = filter(isCardTrade, trades)
-  if (length(ccTrades) < 3) return 'needs_trades'
-
-  // check KYC level
-  if (level.name < 2) return 'needs_kyc'
   return true
 }
