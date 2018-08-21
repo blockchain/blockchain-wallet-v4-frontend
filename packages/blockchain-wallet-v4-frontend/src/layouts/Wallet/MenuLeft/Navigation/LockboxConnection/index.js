@@ -13,9 +13,10 @@ const StatusIcon = styled.div`
   border-radius: 50%;
 `
 
+// TODO: refactor for device polling or delete this all
 class LockboxStatus extends React.PureComponent {
   componentDidMount () {
-    this.props.lockboxActions.pollForConnectionStatus('DASHBOARD')
+    // this.props.lockboxActions.pollForConnectionStatus('DASHBOARD')
   }
 
   render () {

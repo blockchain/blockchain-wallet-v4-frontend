@@ -1,3 +1,5 @@
+import Transport from '@ledgerhq/hw-transport-u2f'
+
 import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
 import { publicKeyChainCodeToBip32 } from 'blockchain-wallet-v4/src/utils/btc'
 import { deriveAddressFromXpub } from 'blockchain-wallet-v4/src/utils/eth'
@@ -81,6 +83,38 @@ export const ethAccount = (xpub, label) => ({
 
 export const btcAccount = (xpub, label) => Types.HDAccount.js(label, null, xpub)
 
+// opens and returns a Transport with requested configuration
+export const openTransport = (app, timeout) => {
+  return new Promise((resolve, reject) => {
+    Transport.open().then(
+      transport => {
+        // TODO: probably need to do this with a setTimeout or something
+        transport.setExchangeTimeout(timeout || 60000) // 1 minute
+        // TODO: need to account for blockchain devices
+        transport.setScrambleKey(SCRAMBLEKEYS.LEDGER[app])
+        resolve(transport)
+      },
+      error => {
+        reject(error)
+      }
+    )
+  })
+}
+
+// sends generic NO_OP cmd that any opened app will respond to
+export const sendNoOpCmd = transport => {
+  return new Promise(resolve => {
+    // since we are sending no_op command, this is always going to fail
+    // but a response, means a device is connected...
+    transport.send(...APDUS.NO_OP).then(
+      () => {},
+      () => {
+        resolve('connected')
+      }
+    )
+  })
+}
+
 export const APDUS = {
   GET_FIRMWARE: [0xe0, 0x01, 0x00, 0x00],
   NO_OP: [0x00, 0x00, 0x00, 0x00]
@@ -94,7 +128,7 @@ export const SCRAMBLEKEYS = {
     ETH: 'blockchain-eth'
   },
   LEDGER: {
-    BCH: 'BTC', // Not sure if this is correct
+    BCH: 'BTC',
     BTC: 'BTC',
     DASHBOARD: 'B0L0S',
     ETH: 'w0w'

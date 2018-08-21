@@ -1,7 +1,6 @@
 import { call, put, select } from 'redux-saga/effects'
 import { contains, keysIn } from 'ramda'
 import Btc from '@ledgerhq/hw-app-btc'
-import Transport from '@ledgerhq/hw-transport-u2f'
 
 import { actions, selectors } from 'data'
 import * as A from './actions'
@@ -35,10 +34,6 @@ export default ({ api, coreSagas }) => {
       yield put(actions.core.data.bitcoin.fetchData())
       // reset new device setup to step 1
       yield put(A.changeDeviceSetupStep('setup-type'))
-      // TODO: there is a better way to do this
-      yield call(pollForConnectionStatus, {
-        payload: { requestedApp: 'BTC' }
-      })
     } catch (e) {
       yield put(A.saveNewDeviceKvStoreFailure(e))
       yield put(actions.alerts.displaySuccess(C.LOCKBOX_SETUP_ERROR))
@@ -103,116 +98,34 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  // const getFirmwareInfo = async function (transport) {
-  //   return new Promise((resolve, reject) => {
-  //     transport.send(...APDUS.GET_FIRMWARE).then(
-  //       res => {
-  //         resolve(LockboxService.computeDeviceFirmware(res))
-  //       },
-  //       error => {
-  //         reject(error)
-  //       }
-  //     )
-  //   })
-  // }
-
-  const createDeviceConnection = function (requestedApp) {
+  const getDeviceFirmwareInfo = async function (transport) {
     return new Promise((resolve, reject) => {
-      function openTransport () {
-        return new Promise((resolve, reject) => {
-          Transport.open().then(
-            transport => {
-              resolve(transport)
-            },
-            error => {
-              reject(error)
-            }
-          )
-        })
-      }
-
-      function pingDevice (transport) {
-        return new Promise(resolve => {
-          // TODO: has to be a better way to to this... :(
-          transport.send(...LockboxService.APDUS.NO_OP).then(
-            () => {
-              // since we are sending no_op command, this is always going to fail
-              // but a response, means a device is connected...
-            },
-            () => {
-              resolve('connected')
-            }
-          )
-        })
-      }
-
-      async function startTransportListener () {
-        try {
-          const transport = await openTransport()
-          // TODO: probably need to do this with a setTimeout or something
-          transport.setExchangeTimeout(1500000) // 25 minutes
-          // TODO: these event listeners dont seem to work
-          // transport.on('disconnect', evt => {
-          //   console.info('DISCONNECTION NOTICE', evt)
-          // })
-          // transport.on('connect', evt => {
-          //   console.info('CONNECTION NOTICE', evt)
-          // })
-
-          if (requestedApp) {
-            // TODO: need to account for blockchain devices
-            transport.setScrambleKey(
-              LockboxService.SCRAMBLEKEYS.LEDGER[requestedApp]
-            )
-          } else {
-            // default to dashboard connection
-            transport.setScrambleKey(
-              LockboxService.SCRAMBLEKEYS.LEDGER.DASHBOARD
-            )
-          }
-          await pingDevice(transport)
-
-          // connection detected
-          resolve(transport)
-        } catch (error) {
+      transport.send(...LockboxService.APDUS.GET_FIRMWARE).then(
+        res => {
+          resolve(LockboxService.computeDeviceFirmware(res))
+        },
+        error => {
           reject(error)
         }
-      }
-      startTransportListener(resolve, reject)
+      )
     })
   }
 
-  const pollForConnectionStatus = function*(action) {
-    try {
-      const { requestedApp } = action.payload
-      yield put(A.pollForConnectionStatusLoading())
-      const transportConnection = yield call(
-        createDeviceConnection,
-        requestedApp
-      )
-      yield put(A.storeTransportObject(transportConnection))
-      yield put(A.pollForConnectionStatusSuccess(true))
-    } catch (e) {
-      yield put(A.pollForConnectionStatusFailure())
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'pollForConnectionStatus', e)
-      )
-    }
-  }
-
+  // new device setup saga
   const initializeNewDeviceSetup = function*() {
     try {
-      yield call(pollForConnectionStatus, {
-        payload: { requestedApp: 'DASHBOARD' }
-      })
+      // once dashboard is detected, user has completed setup steps on device
+      yield call(_pollForConnectionStatus, 'DASHBOARD', 1500000) // 25 min timeout
       yield put(A.changeDeviceSetupStep('open-btc-app'))
-      yield call(pollForConnectionStatus, { payload: { requestedApp: 'BTC' } })
+      yield call(_pollForConnectionStatus, 'BTC')
       const transport = yield select(S.getTransportObject)
       const btcTransport = new Btc(transport)
+      // derive device info such as chaincodes and xpubs
       const newDeviceInfo = yield call(
         LockboxService.derviveDeviceInfo,
         btcTransport
       )
+      // derive a unique deviceId hashed from btc xpub
       const newDeviceId = yield call(
         LockboxService.deriveDeviceID,
         newDeviceInfo.btc
@@ -235,11 +148,52 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  //
+  // PRIVATE SAGAS
+  //
+
+  // opens Transport and sends NO_OP cmd until response is received (success)
+  // or timeout is hit (reject)
+  const _createDeviceConnection = function (app, timeout) {
+    return new Promise((resolve, reject) => {
+      async function startTransportListener () {
+        try {
+          const transport = await LockboxService.openTransport(app, timeout)
+          // TODO: wrap in setTimeout for rejections
+          await LockboxService.sendNoOpCmd(transport)
+          resolve(transport) // connection detected
+        } catch (error) {
+          reject(error)
+        }
+      }
+      startTransportListener()
+    })
+  }
+
+  // creates transport listener for specified app
+  const _pollForConnectionStatus = function*(app, timeout) {
+    try {
+      yield put(A.pollForConnectionStatusLoading())
+      const transportConnection = yield call(
+        _createDeviceConnection,
+        app,
+        timeout
+      )
+      yield put(A.storeTransportObject(transportConnection))
+      yield put(A.pollForConnectionStatusSuccess(true))
+    } catch (e) {
+      yield put(A.pollForConnectionStatusFailure())
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'pollForConnectionStatus', e)
+      )
+    }
+  }
+
   return {
     deleteDevice,
+    getDeviceFirmwareInfo,
     initializeNewDeviceSetup,
     saveNewDeviceKvStore,
-    pollForConnectionStatus,
     updateDeviceName,
     updateDeviceBalanceDisplay
   }

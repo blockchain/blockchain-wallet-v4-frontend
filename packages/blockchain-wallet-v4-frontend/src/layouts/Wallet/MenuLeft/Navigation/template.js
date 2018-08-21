@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 
-import LockboxConnection from './LockboxConnection'
+// import LockboxConnection from './LockboxConnection'
 import SecurityGauge from './SecurityGauge'
 import { Icon, Separator, Text } from 'blockchain-info-components'
 
@@ -73,7 +73,7 @@ const SubMenuItem = styled.li`
 `
 
 const Navigation = props => {
-  const { settingsOpened, canTrade, devicesStored } = props
+  const { settingsOpened, canTrade } = props
 
   return (
     <Wrapper>
@@ -141,7 +141,7 @@ const Navigation = props => {
               smaller
               uppercase
             />
-            { devicesStored ? <LockboxConnection /> : null }
+            {/* { devicesStored ? <LockboxConnection /> : null } */}
           </MenuItem>
         </LinkContainer>
         <Separator />
