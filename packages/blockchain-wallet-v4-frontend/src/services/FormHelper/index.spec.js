@@ -156,9 +156,13 @@ describe('FormHelper', () => {
   describe('validBitcoinAddress()', () => {
     it('returns undefined if valid bitcoin addr is given', () => {
       expect(
-        FormHelper.validBitcoinAddress('1cKtTucHyhVrg8zRzMg7KJrvsYbxeX2eP', {
-          from: { network: networks.bitcoin }
-        })
+        FormHelper.validBitcoinAddress(
+          '1cKtTucHyhVrg8zRzMg7KJrvsYbxeX2eP',
+          null,
+          {
+            network: networks.bitcoin
+          }
+        )
       ).toBeUndefined()
     })
   })
@@ -198,7 +202,8 @@ describe('FormHelper', () => {
       expect(
         FormHelper.validBitcoinCashAddress(
           'NOTVALIDqqrrt6920wp5zndraya69eltes4tzswn2svhxgqh5a',
-          { from: networks.bitcoin }
+          null,
+          { network: networks.bitcoin }
         )
       ).toEqual(<M.InvalidBitcoinCashAddressMessage />)
     })
@@ -207,7 +212,8 @@ describe('FormHelper', () => {
       expect(
         FormHelper.validBitcoinCashAddress(
           'qqrrt6920wp5zndraya69eltes4tzswn2svhxgqh5a',
-          { from: networks.bitcoin }
+          null,
+          { network: networks.bitcoin }
         )
       ).toBeUndefined()
     })
