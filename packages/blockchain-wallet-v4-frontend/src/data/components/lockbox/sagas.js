@@ -1,4 +1,4 @@
-import { call, put, select } from 'redux-saga/effects'
+import { call, put, race, select } from 'redux-saga/effects'
 import { contains, keysIn } from 'ramda'
 import Btc from '@ledgerhq/hw-app-btc'
 
@@ -105,15 +105,29 @@ export default ({ api, coreSagas }) => {
   // new device setup saga
   const initializeNewDeviceSetup = function*() {
     try {
-      // TODO: since this is a new device, we need to poll for both Ledger and Blockchain devices
-      // TODO: then store which connection responded (i.e. the device_type) in KvStore
-      const dashboardTransport = yield call(
-        LockboxService.pollForAppConnection,
-        'LEDGER',
-        'DASHBOARD',
-        1500000 // 25 min timeout for setup
-      )
-      yield put(A.storeTransportObject(dashboardTransport))
+      // 25 min timeout for setup
+      const setupTimeout = 1500000
+      // poll for both Ledger and Blockchain type devices
+      const dashboardTransport = yield race({
+        LEDGER: yield call(
+          LockboxService.pollForAppConnection,
+          'LEDGER',
+          'DASHBOARD',
+          setupTimeout
+        ),
+        BLOCKCHAIN: call(
+          LockboxService.pollForAppConnection,
+          'BLOCKCHAIN',
+          'DASHBOARD',
+          setupTimeout
+        )
+      })
+
+      const deviceType = keysIn(dashboardTransport)[0]
+
+      yield put(A.storeTransportObject(dashboardTransport[deviceType]))
+      yield put(A.storeNewDeviceType(deviceType))
+
       // dashboard detected, user has completed setup steps on device
       yield put(A.changeDeviceSetupStep('open-btc-app'))
       const btcTransport = yield call(
