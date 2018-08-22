@@ -102,7 +102,7 @@ export default ({ api }) => {
     }
 
     // Single bitcoin address (they must be legacy addresses)
-    if (isValidBitcoinAddress(origin)) {
+    if (isValidBitcoinAddress(origin, network)) {
       return fromLegacy(origin)
     }
 
