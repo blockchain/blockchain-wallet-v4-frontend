@@ -124,10 +124,7 @@ export default ({ api, coreSagas }) => {
       })
 
       const deviceType = keysIn(dashboardTransport)[0]
-
       yield put(A.storeTransportObject(dashboardTransport[deviceType]))
-      yield put(A.storeNewDeviceType(deviceType))
-
       // dashboard detected, user has completed setup steps on device
       yield put(A.changeDeviceSetupStep('open-btc-app'))
       const btcTransport = yield call(
@@ -147,12 +144,11 @@ export default ({ api, coreSagas }) => {
         LockboxService.deriveDeviceID,
         newDeviceInfo.btc
       )
-      // TODO: dont hardcode device type to LEDGER
       yield put(
         A.setNewDeviceInfo({
           id: newDeviceId,
           info: newDeviceInfo,
-          type: 'LEDGER'
+          type: deviceType
         })
       )
       const storedDevicesR = yield select(

@@ -23,15 +23,6 @@ export default (state = INITIAL_STATE, action) => {
     case AT.STORE_TRANSPORT_OBJECT: {
       return assocPath(['connection', 'transport'], payload.transport, state)
     }
-    case AT.POLL_FOR_CONNECTION_STATUS_LOADING: {
-      return assocPath(['connection', 'status'], Remote.Loading, state)
-    }
-    case AT.POLL_FOR_CONNECTION_STATUS_SUCCESS: {
-      return assocPath(['connection', 'status'], Remote.Success(payload), state)
-    }
-    case AT.POLL_FOR_CONNECTION_STATUS_FAILURE: {
-      return assocPath(['connection', 'status'], Remote.Failure(payload), state)
-    }
     case AT.SET_NEW_DEVICE_INFO: {
       return assocPath(
         ['newDeviceSetup', 'device'],
