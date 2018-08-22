@@ -23,7 +23,6 @@ import {
 } from '../../data/bch/selectors.js'
 import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
-import Bitcoin from 'bitcoinjs-lib'
 import Remote from '../../../remote'
 import { getAccountsList, getBchTxNote } from '../../kvStore/bch/selectors.js'
 import { toCashAddr } from '../../../utils/bch'
@@ -94,13 +93,7 @@ const digestAccount = acc => ({
   balance: path(['info', 'final_balance'], acc),
   archived: prop('archived', acc),
   xpub: prop('xpub', acc),
-  index: prop('index', acc),
-  // v3 accounts did not expose .network from account
-  // v4 before 4.3.x did not set network on account
-  // fallback to Bitcoin.networks.bitcoin
-  network: prop('network', acc)
-    ? prop('network', acc)
-    : Bitcoin.networks.bitcoin
+  index: prop('index', acc)
 })
 
 export const getAccountsBalances = state =>

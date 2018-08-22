@@ -123,13 +123,12 @@ export const reviver = jsObject => {
   return new HDAccount(jsObject)
 }
 
-export const js = (label, node, xpub, network) => ({
+export const js = (label, node, xpub) => ({
   label: label,
   archived: false,
   xpriv: node ? node.toBase58() : '',
   xpub: node ? node.neutered().toBase58() : xpub,
   address_labels: [],
-  network: network,
   cache: Cache.js(node)
 })
 

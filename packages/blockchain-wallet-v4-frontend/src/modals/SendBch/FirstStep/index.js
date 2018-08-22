@@ -26,6 +26,7 @@ class FirstStep extends React.Component {
       Success: value => (
         <Success
           from={value.from}
+          network={value.network}
           toToggled={value.toToggled}
           destination={value.destination}
           enableToggle={value.enableToggle}

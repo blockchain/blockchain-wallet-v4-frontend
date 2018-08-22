@@ -14,9 +14,12 @@ import {
 } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
+import Bitcoin from 'bitcoinjs-lib'
 
 export const getData = (state, ownProps) => {
   const { coin, exclude = [], excludeImported, excludeWatchOnly } = ownProps
+  const networkR = selectors.core.walletOptions.getBtcNetwork(state)
+  const network = networkR.getOrElse('bitcoin')
   const isActive = filter(x => !x.archived)
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ text: x.label, value: x }))
@@ -33,7 +36,8 @@ export const getData = (state, ownProps) => {
         ),
       a => assocPath(['value', 'coin'], coin, a),
       a => assocPath(['value', 'address'], prop('addr', addressData), a),
-      a => assoc('value', prop('info', addressData), a)
+      a => assoc('value', prop('info', addressData), a),
+      a => assoc('network', Bitcoin.networks[network])
     )(formattedAddress)
   }
 
@@ -74,8 +78,8 @@ export const getData = (state, ownProps) => {
           excludeImported
             ? Remote.of([])
             : selectors.core.common.btc
-              .getAddressesBalances(state)
-              .map(toDropdown)
+                .getAddressesBalances(state)
+                .map(toDropdown)
         ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
     }
   }
