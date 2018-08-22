@@ -4,21 +4,6 @@ import * as AT from './actionTypes'
 export const initializeNewDeviceSetup = () => ({
   type: AT.INITIALIZE_NEW_DEVICE_SETUP
 })
-export const pollForConnectionStatus = requestedApp => ({
-  type: AT.POLL_FOR_CONNECTION_STATUS,
-  payload: { requestedApp }
-})
-export const pollForConnectionStatusLoading = () => ({
-  type: AT.POLL_FOR_CONNECTION_STATUS_LOADING
-})
-export const pollForConnectionStatusSuccess = payload => ({
-  type: AT.POLL_FOR_CONNECTION_STATUS_SUCCESS,
-  payload
-})
-export const pollForConnectionStatusFailure = payload => ({
-  type: AT.POLL_FOR_CONNECTION_STATUS_FAILURE,
-  payload
-})
 export const storeTransportObject = transport => ({
   type: AT.STORE_TRANSPORT_OBJECT,
   payload: { transport }

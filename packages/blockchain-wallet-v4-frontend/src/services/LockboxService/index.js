@@ -48,41 +48,10 @@ export const ethAccount = (xpub, label) => ({
 
 export const btcAccount = (xpub, label) => Types.HDAccount.js(label, null, xpub)
 
-// opens and returns a Transport with requested configuration
-export const openTransport = (app, timeout) => {
-  return new Promise((resolve, reject) => {
-    Transport.open().then(
-      transport => {
-        transport.setExchangeTimeout(timeout || 60000) // 1 minute
-        // TODO: need to account for blockchain devices
-        transport.setScrambleKey(SCRAMBLEKEYS.LEDGER[app])
-        resolve(transport)
-      },
-      error => {
-        reject(error)
-      }
-    )
-  })
-}
-
-// sends generic NO_OP cmd that any opened app will respond to
-export const sendNoOpCmd = transport => {
-  return new Promise(resolve => {
-    // since we are sending no_op command, this is always going to fail
-    // but a response, means a device is connected...
-    transport.send(...APDUS.NO_OP).then(
-      () => {},
-      () => {
-        resolve('connected')
-      }
-    )
-  })
-}
-
 // gets firmware information about device
 export const getDeviceFirmwareInfo = transport => {
   return new Promise((resolve, reject) => {
-    transport.send(...APDUS.GET_FIRMWARE).then(
+    transport.send(...CONSTS.APDUS.GET_FIRMWARE).then(
       res => {
         const byteArray = [...res]
         const data = byteArray.slice(0, byteArray.length - 2)
@@ -129,22 +98,60 @@ export const getDeviceFirmwareInfo = transport => {
   })
 }
 
-export const APDUS = {
-  GET_FIRMWARE: [0xe0, 0x01, 0x00, 0x00],
-  NO_OP: [0x00, 0x00, 0x00, 0x00]
+/**
+ * Polls for a given application to open on the device
+ * @async
+ * @param {String} deviceType - Either 'LEDGER' or 'BLOCKCHAIN'
+ * @param {String} app - The app to connect to (BTC, DASHBOARD, etc)
+ * @param {Number} timeout - Length of time in ms to wait for a connection
+ * @returns {Promise<Transport>} Returns a connected Transport or Error
+ */
+export const pollForAppConnection = (deviceType, app, timeout) => {
+  return new Promise((resolve, reject) => {
+    // create transport
+    // TODO: wrap all of this in setTimeout for rejections
+    Transport.open().then(
+      transport => {
+        // configure transport
+        transport.setExchangeTimeout(timeout || 60000) // 1 minute
+        transport.setScrambleKey(CONSTS.SCRAMBLEKEYS[deviceType][app])
+        // send NO_OP cmd until response is received (success) or timeout is hit (reject)
+        transport.send(...CONSTS.APDUS.NO_OP).then(
+          () => {},
+          () => {
+            // since no_op wont be recognized by any app as a valid cmd, this is always going
+            // to fail but a response, means a device is connected and unlocked
+            resolve(transport)
+          }
+        )
+      },
+      error => {
+        reject(error)
+      }
+    )
+  })
 }
 
-export const SCRAMBLEKEYS = {
-  BLOCKCHAIN: {
-    BCH: 'blockchain-bch',
-    BTC: 'blockchain-btc',
-    DASHBOARD: 'blockchain',
-    ETH: 'blockchain-eth'
+//
+// PRIVATE CONSTANTS
+//
+const CONSTS = {
+  APDUS: {
+    GET_FIRMWARE: [0xe0, 0x01, 0x00, 0x00],
+    NO_OP: [0x00, 0x00, 0x00, 0x00]
   },
-  LEDGER: {
-    BCH: 'BTC',
-    BTC: 'BTC',
-    DASHBOARD: 'B0L0S',
-    ETH: 'w0w'
+  SCRAMBLEKEYS: {
+    BLOCKCHAIN: {
+      BCH: 'blockchain-bch',
+      BTC: 'blockchain-btc',
+      DASHBOARD: 'blockchain',
+      ETH: 'blockchain-eth'
+    },
+    LEDGER: {
+      BCH: 'BTC',
+      BTC: 'BTC',
+      DASHBOARD: 'B0L0S',
+      ETH: 'w0w'
+    }
   }
 }

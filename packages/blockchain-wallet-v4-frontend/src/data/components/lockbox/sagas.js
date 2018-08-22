@@ -107,11 +107,20 @@ export default ({ api, coreSagas }) => {
     try {
       // TODO: since this is a new device, we need to poll for both Ledger and Blockchain devices
       // TODO: will need to poll for both and then store which connection responded (i.e. the device_type) in KvStore
-      yield call(_pollForConnectionStatus, 'DASHBOARD', 1500000) // 25 min timeout  1500000
+      yield call(
+        LockboxService.pollForAppConnection,
+        'LEDGER',
+        'DASHBOARD',
+        5000
+      ) // 25 min timeout for setup 1500000
       // dashboard detected, user has completed setup steps on device
       yield put(A.changeDeviceSetupStep('open-btc-app'))
-      yield call(_pollForConnectionStatus, 'BTC')
-      const transport = yield select(S.getTransportObject)
+      const transport = yield call(
+        LockboxService.pollForAppConnection,
+        'LEDGER',
+        'BTC'
+      )
+
       const btcTransport = new Btc(transport)
       // derive device info such as chaincodes and xpubs
       const newDeviceInfo = yield call(
@@ -142,63 +151,9 @@ export default ({ api, coreSagas }) => {
         yield put(A.changeDeviceSetupStep('name-device'))
       }
     } catch (e) {
+      // console.info('CAUGHT ERROR', e)
       yield put(
         actions.logs.logErrorMessage(logLocation, 'initializeNewDeviceSetup', e)
-      )
-    }
-  }
-
-  //
-  // PRIVATE SAGAS
-  //
-
-  // opens Transport and sends NO_OP cmd until response is received (success)
-  // or timeout is hit (reject)
-  // const _createAndPollDeviceConnection = function*(app, timeout) {
-  //   try {
-  //     const transport = yield call(LockboxService.openTransport(app, timeout))
-  //     yield put(A.storeTransportObject(transport))
-  //     // TODO: wrap in setTimeout for rejections
-  //     return yield call(LockboxService.sendNoOpCmd(transport))
-  //     // resolve(transport) // connection detected
-  //   } catch (error) {
-  //     // reject(error)
-  //   }
-  // }
-
-  // creates transport listener for specified app
-  const _pollForConnectionStatus = function*(app, timeout) {
-    // opens Transport and sends NO_OP cmd until response is received (success)
-    // or timeout is hit (reject)
-    const createDeviceConnection = (app, timeout) => {
-      return new Promise((resolve, reject) => {
-        async function startTransportListener () {
-          try {
-            const transport = await LockboxService.openTransport(app, timeout)
-            // TODO: wrap in setTimeout for rejections
-            await LockboxService.sendNoOpCmd(transport)
-            resolve(transport) // connection detected
-          } catch (error) {
-            reject(error)
-          }
-        }
-        startTransportListener()
-      })
-    }
-
-    try {
-      yield put(A.pollForConnectionStatusLoading())
-      const transportConnection = yield call(
-        createDeviceConnection,
-        app,
-        timeout
-      )
-      yield put(A.storeTransportObject(transportConnection))
-      yield put(A.pollForConnectionStatusSuccess(true))
-    } catch (e) {
-      yield put(A.pollForConnectionStatusFailure())
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'pollForConnectionStatus', e)
       )
     }
   }

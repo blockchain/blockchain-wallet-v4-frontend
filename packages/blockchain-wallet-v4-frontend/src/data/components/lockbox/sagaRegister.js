@@ -14,10 +14,6 @@ export default ({ api, coreSagas }) => {
       AT.SAVE_NEW_DEVICE_KVSTORE,
       lockboxSagas.saveNewDeviceKvStore
     )
-    // yield takeLatest(
-    //   AT.POLL_FOR_CONNECTION_STATUS,
-    //   lockboxSagas.pollForConnectionStatus
-    // )
     yield takeLatest(
       AT.UPDATE_DEVICE_NAME,
       lockboxSagas.updateDeviceBalanceDisplay
