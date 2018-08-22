@@ -122,10 +122,10 @@ export default ({ api, coreSagas }) => {
           setupTimeout
         )
       })
-
+      // dashboard detected, user has completed setup steps on device
+      // determine the deviceType based on which channel returned
       const deviceType = keysIn(dashboardTransport)[0]
       yield put(A.storeTransportObject(dashboardTransport[deviceType]))
-      // dashboard detected, user has completed setup steps on device
       yield put(A.changeDeviceSetupStep('open-btc-app'))
       const btcTransport = yield call(
         LockboxService.pollForAppConnection,
