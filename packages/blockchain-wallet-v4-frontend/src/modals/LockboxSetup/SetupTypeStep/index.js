@@ -17,10 +17,7 @@ class SetupTypeStep extends React.PureComponent {
 
   render () {
     return (
-      <Template
-        handleStepChange={this.changeDeviceSetupStep}
-        {...this.props}
-      />
+      <Template handleStepChange={this.changeDeviceSetupStep} {...this.props} />
     )
   }
 }

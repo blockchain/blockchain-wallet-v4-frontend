@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Text } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
@@ -73,5 +73,105 @@ export const CoinBalanceWrapper = props => {
         {props.balance}
       </SwitchableDisplay>
     </CoinBalanceSwitchable>
+  )
+}
+
+export const HomeBalanceTable = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`
+
+export const HomeBalanceRow = styled.div`
+  flex: auto;
+  display: flex;
+  padding: 10px 20px;
+  flex-direction: column;
+  justify-content: center;
+  &:first-child {
+    flex: 1;
+    display: block;
+    padding: 15px 30px;
+  }
+  &:not(:last-child) {
+    border-bottom: 1px solid ${props => props.theme['gray-1']};
+  }
+  @media (min-width: 768px) {
+    padding: 15px 30px;
+  }
+`
+
+export const HomeBalanceHeaderTitle = styled(Text)`
+  font-size: 20px;
+  font-weight: 200;
+  text-transform: uppercase;
+  color: ${props => props.theme['brand-primary']};
+`
+
+export const HomeBalanceAmount = styled(Text)`
+  font-size: 28px;
+  font-weight: 200;
+  margin-top: 10px;
+  color: ${props => props.theme['brand-primary']};
+`
+
+export const HomeCoinBalanceCell = props => {
+  const coinColor = props.coin.toLowerCase()
+
+  const Wrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  `
+  const Coin = styled.div`
+    display: flex;
+    align-items: center;
+  `
+  const CoinName = styled(Text)`
+    font-size: 16px;
+    font-weight: 300;
+  `
+  const CoinIcon = styled(Icon)`
+    font-size: 24px;
+    margin-right: 10px;
+  `
+  const Amount = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    > div:last-child {
+      margin-top: 5px;
+    }
+  `
+
+  return (
+    <Wrapper>
+      <Coin>
+        <CoinIcon color={coinColor} name={props.coinIcon} />
+        <CoinName color={coinColor}>{props.coinName}</CoinName>
+      </Coin>
+      <Amount>
+        <CoinDisplay
+          coin={props.coin}
+          size='14px'
+          cursor='pointer'
+          mobileSize='14px'
+          color='brand-primary'
+          weight={300}
+        >
+          {props.balance}
+        </CoinDisplay>
+        <FiatDisplay
+          coin={props.coin}
+          size='14px'
+          cursor='pointer'
+          mobileSize='14px'
+          color='gray-3'
+          weight={300}
+        >
+          {props.balance}
+        </FiatDisplay>
+      </Amount>
+    </Wrapper>
   )
 }

@@ -75,7 +75,8 @@ const SecondStep = ({
             defaultMessage='Balance'
           />
         </DetailRowText>
-        {':'}&nbsp;
+        {':'}
+        &nbsp;
         <CoinDisplay coin='BTC' size='14px'>
           {balance}
         </CoinDisplay>
@@ -87,7 +88,8 @@ const SecondStep = ({
             defaultMessage='Address'
           />
         </DetailRowText>
-        {':'}&nbsp;
+        {':'}
+        &nbsp;
         <Text size='14px' weight={300}>
           {addr}
         </Text>
@@ -99,7 +101,8 @@ const SecondStep = ({
             defaultMessage='Private Key'
           />
         </DetailRowText>
-        {':'}&nbsp;
+        {':'}
+        &nbsp;
         {utils.bitcoin.formatPrivateKeyString(priv, format, addr).fold(
           error => (
             <Text size='14px' weight={300} color='error'>
@@ -120,7 +123,8 @@ const SecondStep = ({
             defaultMessage='Private Key Format'
           />
         </DetailRowText>
-        {':'}&nbsp;
+        {':'}
+        &nbsp;
         <SelectInput
           label='Export Format'
           value={format}

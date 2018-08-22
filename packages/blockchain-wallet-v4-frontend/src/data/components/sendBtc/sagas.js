@@ -8,6 +8,7 @@ import { initialize, change } from 'redux-form'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange } from 'blockchain-wallet-v4/src'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 const DUST = 546
 const DUST_BTC = '0.00000546'
@@ -33,7 +34,7 @@ export default ({ coreSagas, networks }) => {
         ['fees', feeType || 'regular'],
         payment.value()
       )
-      payment = yield payment.from(defaultIndex)
+      payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
       payment = yield payment.fee(defaultFeePerByte)
       const initialValues = {
         to,
@@ -102,9 +103,23 @@ export default ({ coreSagas, networks }) => {
           }
           break
         case 'from':
-          const source = prop('address', payload) || prop('index', payload)
-          if (!prop('watchOnly', payload)) {
-            payment = yield payment.from(source)
+          yield put(A.sendBtcFirstStepToToggled(false))
+          const fromType = prop('type', payload)
+          if (is(String, payload)) {
+            yield payment.from(payload, fromType)
+            break
+          }
+          switch (fromType) {
+            case ADDRESS_TYPES.ACCOUNT:
+              payment = yield payment.from(payload.index, fromType)
+              break
+            case ADDRESS_TYPES.LOCKBOX:
+              payment = yield payment.from(payload.xpub, fromType)
+              break
+            default:
+              if (!payload.watchOnly) {
+                payment = yield payment.from(payload.address, fromType)
+              }
           }
           break
         case 'priv':
@@ -112,12 +127,17 @@ export default ({ coreSagas, networks }) => {
           payment = yield payment.from(payload)
           break
         case 'to':
-          const target = is(String, payload)
-            ? payload
-            : prop('address', payload) ||
-              prop('index', payload) ||
-              prop('xpub', payload)
-          payment = yield payment.to(target)
+          const toType = prop('type', payload)
+          switch (toType) {
+            case ADDRESS_TYPES.ACCOUNT:
+              payment = yield payment.to(payload.index, toType)
+              break
+            case ADDRESS_TYPES.LOCKBOX:
+              payment = yield payment.to(payload.xpub, toType)
+              break
+            default:
+              payment = yield payment.to(payload.address, toType)
+          }
           break
         case 'amount':
           const btcAmount = prop('coin', payload)
@@ -268,7 +288,10 @@ export default ({ coreSagas, networks }) => {
         payment: p.getOrElse({}),
         network: networks.btc
       })
-      const password = yield call(promptForSecondPassword)
+      let password = null
+      if (p.getOrElse({}).fromType !== ADDRESS_TYPES.LOCKBOX) {
+        password = yield call(promptForSecondPassword)
+      }
       yield put(actions.modals.closeAllModals())
       payment = yield payment.sign(password)
       payment = yield payment.publish()

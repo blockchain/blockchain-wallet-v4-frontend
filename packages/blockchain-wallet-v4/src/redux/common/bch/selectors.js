@@ -32,6 +32,7 @@ import {
 import { toCashAddr } from '../../../utils/bch'
 import { isValidBitcoinAddress } from '../../../utils/btc'
 import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
+import { ADDRESS_TYPES } from '../../payment/btc/utils'
 
 const transformTx = transactions.bitcoin.transformTx
 
@@ -40,7 +41,8 @@ export const getLockboxBchBalances = state => {
     coin: 'BCH',
     label: account.label,
     balance: path([account.xpub, 'final_balance'], addresses),
-    xpub: account.xpub
+    xpub: account.xpub,
+    type: ADDRESS_TYPES.LOCKBOX
   })
   const balances = Remote.of(getAddresses(state).getOrElse([]))
   return map(lift(digest)(balances), getLockboxBchAccounts(state))
@@ -99,7 +101,8 @@ const digestAddress = x => ({
   coin: 'BCH',
   label: prop('label', x) ? prop('label', x) : prop('addr', x),
   balance: path(['info', 'final_balance'], x),
-  address: prop('addr', x)
+  address: prop('addr', x),
+  type: ADDRESS_TYPES.LEGACY
 })
 
 const digestAccount = x => ({
@@ -108,7 +111,8 @@ const digestAccount = x => ({
   balance: path(['info', 'final_balance'], x),
   archived: prop('archived', x),
   xpub: prop('xpub', x),
-  index: prop('index', x)
+  index: prop('index', x),
+  type: ADDRESS_TYPES.ACCOUNT
 })
 
 export const getAccountsBalances = state =>

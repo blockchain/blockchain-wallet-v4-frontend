@@ -1,6 +1,7 @@
 import * as AT from './actionTypes'
 
 // CONNECTIONS
+
 export const initializeNewDeviceSetup = () => ({
   type: AT.INITIALIZE_NEW_DEVICE_SETUP
 })
