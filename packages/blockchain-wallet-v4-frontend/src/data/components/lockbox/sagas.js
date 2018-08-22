@@ -111,7 +111,7 @@ export default ({ api, coreSagas }) => {
         LockboxService.pollForAppConnection,
         'LEDGER',
         'DASHBOARD',
-        5000 // 25 min timeout for setup 1500000
+        1500000 // 25 min timeout for setup
       )
       yield put(A.storeTransportObject(dashboardTransport))
       // dashboard detected, user has completed setup steps on device
@@ -152,7 +152,8 @@ export default ({ api, coreSagas }) => {
         yield put(A.changeDeviceSetupStep('name-device'))
       }
     } catch (e) {
-      // console.info('CAUGHT ERROR', e)
+      // TODO: handle connection timeouts gracefully..
+      window.alert('DEVICE CONNECTION TIMEOUT') // eslint-disable-line
       yield put(
         actions.logs.logErrorMessage(logLocation, 'initializeNewDeviceSetup', e)
       )
