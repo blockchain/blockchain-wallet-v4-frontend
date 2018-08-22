@@ -18,10 +18,6 @@ export default ({ api, coreSagas }) => {
       AT.UPDATE_DEVICE_NAME,
       lockboxSagas.updateDeviceBalanceDisplay
     )
-    yield takeLatest(
-      AT.UPDATE_DEVICE_BALANCE_DISPLAY,
-      lockboxSagas.updateDeviceName
-    )
     yield takeLatest(AT.DELETE_DEVICE, lockboxSagas.deleteDevice)
   }
 }

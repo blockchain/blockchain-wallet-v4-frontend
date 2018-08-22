@@ -1,6 +1,6 @@
 import { path } from 'ramda'
 
-// Device Setup
+// New Device Setup
 export const getNewDeviceSetupStep = path([
   'components',
   'lockbox',

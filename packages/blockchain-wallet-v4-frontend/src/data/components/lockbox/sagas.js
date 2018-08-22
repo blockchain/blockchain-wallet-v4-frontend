@@ -129,7 +129,7 @@ export default ({ api, coreSagas }) => {
       yield put(A.changeDeviceSetupStep('open-btc-app'))
       const btcTransport = yield call(
         LockboxService.pollForAppConnection,
-        'LEDGER',
+        deviceType,
         'BTC'
       )
       yield put(A.storeTransportObject(btcTransport))

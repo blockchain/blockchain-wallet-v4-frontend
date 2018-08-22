@@ -23,7 +23,6 @@ export default (state = INITIAL_STATE, action) => {
       let setNewDevice = assocPath(['devices', deviceID], {
         device_type: deviceType,
         name: deviceName,
-        show_balances: true, // TODO: is this needed? dont hardcode regardless
         accounts: accounts
       })
       return over(valueLens, setNewDevice, state)

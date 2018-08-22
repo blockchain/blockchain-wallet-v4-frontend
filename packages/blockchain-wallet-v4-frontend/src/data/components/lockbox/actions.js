@@ -49,21 +49,6 @@ export const updateDeviceNameFailure = payload => ({
   payload
 })
 
-export const updateDeviceBalanceDisplay = (deviceID, showBalances) => ({
-  type: AT.UPDATE_DEVICE_BALANCE_DISPLAY,
-  payload: { deviceID, showBalances }
-})
-export const updateDeviceBalanceDisplayLoading = () => ({
-  type: AT.UPDATE_DEVICE_BALANCE_DISPLAY_LOADING
-})
-export const updateDeviceBalanceDisplaySuccess = () => ({
-  type: AT.UPDATE_DEVICE_BALANCE_DISPLAY_SUCCESS
-})
-export const updateDeviceBalanceDisplayFailure = payload => ({
-  type: AT.UPDATE_DEVICE_BALANCE_DISPLAY_FAILURE,
-  payload
-})
-
 // DELETE
 export const deleteDevice = deviceID => ({
   type: AT.DELETE_DEVICE,
