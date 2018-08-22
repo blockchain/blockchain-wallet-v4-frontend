@@ -2,6 +2,7 @@ import React from 'react'
 import bip39 from 'bip39'
 import * as FormHelper from './index.js'
 import * as M from './validationMessages'
+import { networks } from 'bitcoinjs-lib'
 
 describe('FormHelper', () => {
   beforeEach(() => {
@@ -155,7 +156,13 @@ describe('FormHelper', () => {
   describe('validBitcoinAddress()', () => {
     it('returns undefined if valid bitcoin addr is given', () => {
       expect(
-        FormHelper.validBitcoinAddress('1cKtTucHyhVrg8zRzMg7KJrvsYbxeX2eP')
+        FormHelper.validBitcoinAddress(
+          '1cKtTucHyhVrg8zRzMg7KJrvsYbxeX2eP',
+          null,
+          {
+            network: networks.bitcoin
+          }
+        )
       ).toBeUndefined()
     })
   })
@@ -194,7 +201,9 @@ describe('FormHelper', () => {
     it('returns correct string if invalid bth addr passed', () => {
       expect(
         FormHelper.validBitcoinCashAddress(
-          'NOTVALIDqqrrt6920wp5zndraya69eltes4tzswn2svhxgqh5a'
+          'NOTVALIDqqrrt6920wp5zndraya69eltes4tzswn2svhxgqh5a',
+          null,
+          { network: networks.bitcoin }
         )
       ).toEqual(<M.InvalidBitcoinCashAddressMessage />)
     })
@@ -202,7 +211,9 @@ describe('FormHelper', () => {
     it('returns undefined if valid bth addr is given', () => {
       expect(
         FormHelper.validBitcoinCashAddress(
-          'qqrrt6920wp5zndraya69eltes4tzswn2svhxgqh5a'
+          'qqrrt6920wp5zndraya69eltes4tzswn2svhxgqh5a',
+          null,
+          { network: networks.bitcoin }
         )
       ).toBeUndefined()
     })

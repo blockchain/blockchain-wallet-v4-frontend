@@ -3,6 +3,7 @@ import { curry, filter, head, length, lift, prop, propEq } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 export const format = acc => ({ text: prop('label', acc), value: acc })
+export const formatGroup = acc => ({ label: prop('label', acc), value: acc })
 
 export const formatDefault = curry((coin, acc) => ({ text: coin, value: acc }))
 
@@ -27,9 +28,9 @@ export const generateGroup = (
     ]
   }
   return [
-    { group: 'Bitcoin', items: btcAccounts.map(format) },
-    { group: 'Bitcoin Cash', items: bchAccounts.map(format) },
-    { group: 'Ether', items: ethAccounts.map(format) }
+    { label: 'Bitcoin', options: btcAccounts.map(formatGroup) },
+    { label: 'Bitcoin Cash', options: bchAccounts.map(formatGroup) },
+    { label: 'Ether', options: ethAccounts.map(formatGroup) }
   ]
 }
 

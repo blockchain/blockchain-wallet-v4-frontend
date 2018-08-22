@@ -15,6 +15,9 @@ import {
   webSocketEth
 } from '../middleware'
 
+import Bitcoin from 'bitcoinjs-lib'
+import BitcoinCash from 'bitcoinforksjs-lib'
+
 const devToolsConfig = {
   maxAge: 1000,
   serialize: serializer,
@@ -51,7 +54,12 @@ const configureStore = () => {
       const btcSocket = new Socket({ options, socketType: '' })
       const bchSocket = new Socket({ options, socketType: '/bch' })
       const ethSocket = new Socket({ options, socketType: '/eth' })
-      const api = createWalletApi({ options, apiKey })
+      const networks = {
+        btc: Bitcoin.networks[options.platforms.web.bitcoin.config.network],
+        bch: BitcoinCash.networks[options.platforms.web.bitcoin.config.network],
+        eth: options.platforms.web.ethereum.config.network
+      }
+      const api = createWalletApi({ options, networks, apiKey })
 
       const store = createStore(
         connectRouter(history)(rootReducer),
@@ -75,6 +83,7 @@ const configureStore = () => {
         bchSocket,
         btcSocket,
         ethSocket,
+        networks,
         options
       })
 
