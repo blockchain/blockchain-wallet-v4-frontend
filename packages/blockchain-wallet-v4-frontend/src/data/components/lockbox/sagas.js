@@ -123,12 +123,12 @@ export default ({ api, coreSagas }) => {
         LockboxService.deriveDeviceID,
         newDeviceInfo.btc
       )
-      // TODO: dont hardcode device type to Ledger
+      // TODO: dont hardcode device type to LEDGER
       yield put(
         A.setNewDeviceInfo({
           id: newDeviceId,
           info: newDeviceInfo,
-          type: 'Ledger'
+          type: 'LEDGER'
         })
       )
       const storedDevicesR = yield select(
