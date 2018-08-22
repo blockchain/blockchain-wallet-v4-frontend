@@ -74,8 +74,8 @@ export const getData = (state, ownProps) => {
           excludeImported
             ? Remote.of([])
             : selectors.core.common.btc
-              .getAddressesBalances(state)
-              .map(toDropdown)
+                .getAddressesBalances(state)
+                .map(toDropdown)
         ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
     }
   }
