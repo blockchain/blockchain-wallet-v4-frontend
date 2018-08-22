@@ -381,10 +381,6 @@ describe('authSagas', () => {
       saga.next().put(actions.middleware.webSocket.eth.startSocket())
     })
 
-    it('should put action to start rates socket', () => {
-      saga.next().put(actions.middleware.webSocket.rates.startSocket())
-    })
-
     it('should fetch root', () => {
       saga
         .next()

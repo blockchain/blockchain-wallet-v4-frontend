@@ -11,6 +11,8 @@ export const messageSocket = message => ({
 export const closeSocket = () => ({ type: AT.CLOSE_SOCKET })
 export const restFallback = () => ({ type: AT.REST_FALLBACK })
 
+export const authenticateSocket = () => ({ type: AT.AUTHENTICATE_SOCKET })
+
 export const openChannelForPair = (pair, volume, fix, fiatCurrency) => ({
   type: AT.OPEN_CHANNEL_FOR_PAIR,
   payload: { pair, volume, fix, fiatCurrency }

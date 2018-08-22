@@ -1,3 +1,9 @@
+export const AUTH_ERROR_MESSAGE = {
+  channel: 'auth',
+  type: 'error',
+  description: 'Can not process auth request, token can not be found'
+}
+
 export const SUBSCRIBE_SUCCESS_MESSAGE = {
   channel: 'conversion',
   type: 'subscribed'
@@ -36,6 +42,15 @@ export const getPairUnsubscribeMessage = pair => ({
   params: {
     type: 'conversionPair',
     pair
+  }
+})
+
+export const getAuthMessage = token => ({
+  channel: 'auth',
+  operation: 'subscribe',
+  params: {
+    type: 'auth',
+    token
   }
 })
 

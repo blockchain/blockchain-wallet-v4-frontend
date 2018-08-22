@@ -32,8 +32,6 @@ export default ({ api, coreSagas }) => {
       if (!userId || !lifetimeToken) return
 
       yield call(startSession, userId, lifetimeToken, email, guid)
-      const user = yield call(api.getUser)
-      yield put(A.setUserData(user))
     } catch (e) {}
   }
 
@@ -59,6 +57,8 @@ export default ({ api, coreSagas }) => {
         guid
       )
       yield put(A.setApiToken(Remote.of(apiToken)))
+      yield call(renewUser)
+      yield call(renewApiSockets)
       const expiresIn = moment(expiresAt)
         .subtract(5, 's')
         .diff(moment())
@@ -74,6 +74,16 @@ export default ({ api, coreSagas }) => {
         authRetryDelay
       )
     }
+  }
+
+  const renewUser = function*() {
+    const user = yield call(api.getUser)
+    yield put(A.setUserData(user))
+  }
+
+  const renewApiSockets = function*() {
+    yield put(actions.middleware.webSocket.rates.stopSocket())
+    yield put(actions.middleware.webSocket.rates.startSocket())
   }
 
   const clearSession = function*() {

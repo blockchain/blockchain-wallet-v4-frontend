@@ -4,8 +4,10 @@ import { createTestStore, getDispatchSpyReducer } from 'utils/testbed'
 import { actions, selectors, model } from 'data'
 import ratesSagas from './sagaRegister'
 import ratesSocketSagas from 'data/middleware/webSocket/rates/sagaRegister'
+import { socketAuthRetryDelay } from 'data/middleware/webSocket/rates/sagas'
 import webSocketRates, { fallbackInterval } from 'middleware/webSocketRates'
 import ratesReducer from './reducers'
+import profileReducer from 'data/modules/profile/reducers'
 import { Remote } from 'blockchain-wallet-v4'
 
 jest.useFakeTimers()
@@ -14,7 +16,8 @@ const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 
 const reducers = {
   spy: spyReducer,
-  rates: ratesReducer
+  rates: ratesReducer,
+  profile: profileReducer
 }
 
 const pair = 'BTC-ETH'
@@ -74,6 +77,9 @@ const sagas = [ratesSagas({ api }), ratesSocketSagas({ api, ratesSocket })]
 
 const middlewares = [webSocketRates(ratesSocket)]
 
+const stubToken =
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJyZXRhaWwtY29yZSIsImV4cCI6MTUzNDgyMTgwNCwiaWF0IjoxNTM0Nzc4NjA0LCJ1c2VySUQiOiJmM2M5YWEyNy1mMDgwLTRiZDQtOTI0ZS1iMWQzOWQ4OWE0OTEiLCJqdGkiOiI4NWZkNmVhNC0yNzI1LTQ5NzUtOTQzOC01Mjg4MDliNTJhYmIifQ.wd_RucCDBc7D6snalfb1piI06J_lOD7rXjJ3z38nc3U'
+
 describe('rates service', () => {
   let store
   beforeEach(() => {
@@ -91,6 +97,21 @@ describe('rates service', () => {
   it('should close ratesSocket on stop', () => {
     store.dispatch(actions.middleware.webSocket.rates.stopSocket())
     expect(ratesSocket.close).toHaveBeenCalledTimes(1)
+  })
+
+  describe('authentication', () => {
+    beforeEach(() => {
+      ratesSocket.send.mockClear()
+      store.dispatch(actions.modules.profile.setApiToken(Remote.of(stubToken)))
+      store.dispatch(actions.middleware.webSocket.rates.authenticateSocket())
+    })
+
+    it('should send authentication message to ratesSocket', () => {
+      expect(ratesSocket.send).toHaveBeenCalledTimes(1)
+      expect(ratesSocket.send).toHaveBeenCalledWith(
+        model.rates.getAuthMessage(stubToken)
+      )
+    })
   })
 
   describe('new subscriptions', () => {
@@ -142,6 +163,7 @@ describe('rates service', () => {
 
   describe('message handling', () => {
     beforeEach(() => {
+      ratesSocket.send.mockClear()
       store.dispatch(actions.modules.rates.subscribeToRate(pair))
     })
 
@@ -163,6 +185,13 @@ describe('rates service', () => {
       expect(
         selectors.modules.rates.getPairRate(pair, store.getState())
       ).toEqual(Remote.of(stubAdvice.currencyRatio))
+    })
+
+    it('should retry authentication after delay', async () => {
+      ratesSocket.triggerMessage(model.rates.AUTH_ERROR_MESSAGE)
+      expect(ratesSocket.send).toHaveBeenCalledTimes(0)
+      await jest.advanceTimersByTime(socketAuthRetryDelay)
+      expect(ratesSocket.send).toHaveBeenCalledTimes(1)
     })
   })
 
