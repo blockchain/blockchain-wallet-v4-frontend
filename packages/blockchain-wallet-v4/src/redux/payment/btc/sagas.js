@@ -90,7 +90,6 @@ export default ({ api }) => {
   }
 
   const calculateFrom = function*(origin, type, network) {
-    console.log(origin, type)
     const appState = yield select(identity)
     const wallet = S.wallet.getWallet(appState)
 
