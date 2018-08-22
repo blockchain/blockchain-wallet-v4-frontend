@@ -14,6 +14,8 @@ export const getAccounts = state =>
   getDevices(state).map(devices =>
     map(d => path([d, 'accounts'], devices), keys(devices))
   )
+export const getDeviceName = (state, deviceId) =>
+  getDevice(state, deviceId).map(prop('name'))
 
 export const getLockboxBtc = state => getAccounts(state).map(map(path(['btc'])))
 

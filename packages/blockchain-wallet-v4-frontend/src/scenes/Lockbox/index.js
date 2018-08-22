@@ -5,7 +5,8 @@ import { keysIn } from 'ramda'
 
 import { actions } from 'data'
 import Setup from './Setup'
-import Dashboard from './Dashboard'
+// import Dashboard from './Dashboard'
+import Settings from './Settings'
 import { getData } from './selectors'
 
 class LockboxContainer extends React.PureComponent {
@@ -13,7 +14,8 @@ class LockboxContainer extends React.PureComponent {
     return this.props.data.cata({
       Success: value =>
         keysIn(value.devices).length ? (
-          <Dashboard devices={value.devices} balances={value.balances} />
+          // <Dashboard devices={value.devices} balances={value.balances} />
+          <Settings deviceId={keysIn(value.devices)[0]} />
         ) : (
           <Setup />
         ),
