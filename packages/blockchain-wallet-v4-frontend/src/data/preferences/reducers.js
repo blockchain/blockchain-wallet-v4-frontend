@@ -3,30 +3,28 @@ import * as AT from './actionTypes'
 import * as priceChartActionTypes from '../components/priceChart/actionTypes'
 
 const INITIAL_STATE = {
-  culture: 'en-GB',
   language: 'en',
+  culture: 'en-GB',
   theme: 'default',
   coinDisplayed: true,
-  showBackupReminder: true,
-  showBuyAlert: true,
-  showBuyBitcoinReminder: { index: 0, when: new Date().getTime() },
+  balancesTable: 'total',
+  showKycCompleted: true,
   showEtherWelcome: true,
+  showBackupReminder: true,
   showBitcoinWelcome: true,
-  showBitcoinCashWelcome: true,
-  showLogoutSurvey: true,
-  showKycCompleted: true
+  showBitcoinCashWelcome: true
 }
 
 const preferences = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
   switch (type) {
-    case AT.SET_CULTURE: {
-      const { culture } = payload
-      return assoc('culture', culture, state)
-    }
     case AT.SET_LANGUAGE: {
       const { language } = payload
       return assoc('language', language, state)
+    }
+    case AT.SET_CULTURE: {
+      const { culture } = payload
+      return assoc('culture', culture, state)
     }
     case AT.SET_THEME: {
       const { theme } = payload
@@ -34,6 +32,9 @@ const preferences = (state = INITIAL_STATE, action) => {
     }
     case AT.TOGGLE_COIN_DISPLAY: {
       return assoc('coinDisplayed', !state.coinDisplayed, state)
+    }
+    case AT.HIDE_KYC_COMPLETED: {
+      return assoc('showKycCompleted', false, state)
     }
     case AT.SET_ETHER_WELCOME: {
       const { displayed } = payload
@@ -47,8 +48,8 @@ const preferences = (state = INITIAL_STATE, action) => {
       const { displayed } = payload
       return assoc('showBitcoinCashWelcome', displayed, state)
     }
-    case AT.HIDE_KYC_COMPLETED: {
-      return assoc('showKycCompleted', false, state)
+    case AT.SET_BALANCES_CHART_TAB: {
+      return assoc('balancesTable', payload, state)
     }
     case priceChartActionTypes.PRICE_CHART_COIN_CLICKED: {
       const { coin } = payload

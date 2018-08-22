@@ -104,7 +104,8 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
       <FormattedMessage
         id='buy.sfoxcheckout.connectedaccount'
         defaultMessage='Your Connected Account'
-      />:
+      />
+      :
     </Text>
     <MethodContainer style={spacing('mt-10')}>
       <Icon style={spacing('ml-15')} name='bank-filled' size='26px' />
