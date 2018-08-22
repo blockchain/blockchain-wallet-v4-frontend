@@ -9,15 +9,9 @@ import Navigation from './template.js'
 
 class NavigationContainer extends React.PureComponent {
   render () {
-    const { canTrade, devicesStored, settingsOpened } = this.props.data
+    const { canTrade, settingsOpened } = this.props.data
 
-    return (
-      <Navigation
-        devicesStored={devicesStored}
-        canTrade={canTrade}
-        settingsOpened={settingsOpened}
-      />
-    )
+    return <Navigation canTrade={canTrade} settingsOpened={settingsOpened} />
   }
 }
 

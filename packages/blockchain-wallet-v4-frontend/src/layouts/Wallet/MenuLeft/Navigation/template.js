@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 
-// import LockboxConnection from './LockboxConnection'
 import SecurityGauge from './SecurityGauge'
 import { Icon, Separator, Text } from 'blockchain-info-components'
 
@@ -141,7 +140,6 @@ const Navigation = props => {
               smaller
               uppercase
             />
-            {/* { devicesStored ? <LockboxConnection /> : null } */}
           </MenuItem>
         </LinkContainer>
         <Separator />
