@@ -19,7 +19,6 @@ export const getCanMakeRecurringTrade = state => {
   const needsTrades = length(ccTrades) < 3
 
   const needsKyc = level.name < 2
-  console.log('recurring modal selectors', needsKyc, needsTrades, trades, level, countryCode)
 
   if (needsTrades && needsKyc) return 'needs_kyc_trades'
   if (needsKyc) return 'needs_kyc'
