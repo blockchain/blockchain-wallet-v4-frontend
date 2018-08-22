@@ -20,7 +20,7 @@ export default ({ api }) => {
     let i = 0
     let addrs = []
 
-    while (i <= receiveIndex.data) {
+    while (i <= receiveIndex) {
       addrs.push(
         Types.HDAccount.getReceiveAddress(account, i, settings.NETWORK_BITCOIN)
       )
@@ -49,7 +49,7 @@ export default ({ api }) => {
       yield put(
         actions.core.wallet.setHdAddressLabel(
           account.index,
-          Math.max(receiveIndex.data, lastLabeledIndex + 1),
+          Math.max(receiveIndex.getOrElse(0), lastLabeledIndex + 1),
           'New Address'
         )
       )
@@ -140,7 +140,11 @@ export default ({ api }) => {
         selectors.core.data.bitcoin.getReceiveIndex(account.xpub)
       )
       // derive previous addresses
-      const derivedAddrs = yield call(deriveAddresses, account, receiveIndex)
+      const derivedAddrs = yield call(
+        deriveAddresses,
+        account,
+        receiveIndex.getOrElse(0)
+      )
       // fetch blockchain data for each address
       const derivedAddrsFull = yield call(api.fetchBlockchainData, derivedAddrs)
       // fetch label indexes and derive those addresses

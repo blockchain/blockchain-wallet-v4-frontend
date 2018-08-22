@@ -104,6 +104,14 @@ const validBitcoinPrivateKey = value =>
     <M.InvalidBitcoinPrivateKeyMessage />
   )
 
+const validBitcoinAddressOrPrivateKey = value =>
+  utils.bitcoin.isValidBitcoinPrivateKey(value) ||
+  utils.bitcoin.isValidBitcoinAddress(value) ? (
+    undefined
+  ) : (
+    <M.InvalidBitcoinAddressAndPrivateKeyMessage />
+  )
+
 const validIban = value => (isValidIBAN(value) ? undefined : 'Invalid IBAN')
 
 const validBIC = value => (isValidBIC(value) ? undefined : 'Invalid BIC')
@@ -191,6 +199,7 @@ export {
   validBitcoinAddress,
   validBitcoinCashAddress,
   validBitcoinPrivateKey,
+  validBitcoinAddressOrPrivateKey,
   validEtherAddress,
   validIban,
   validBIC,

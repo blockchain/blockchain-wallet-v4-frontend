@@ -197,38 +197,40 @@ export const canCancelTrade = trade =>
   equals(prop('state', trade), 'awaiting_transfer_in')
 
 export const checkoutButtonLimitsHelper = (quoteR, limits, type) => {
-  return quoteR.map(q => {
-    const isBaseBtc = equals(prop('baseCurrency', q), 'BTC')
-    if (type === 'sell') {
-      if (isBaseBtc) {
-        return (
-          Math.abs(q.baseAmount / 1e8) > limits.max ||
-          Math.abs(q.baseAmount / 1e8) < limits.min ||
-          Math.abs(q.baseAmount) > limits.effectiveMax
-        )
+  return quoteR
+    .map(q => {
+      const isBaseBtc = equals(prop('baseCurrency', q), 'BTC')
+      if (type === 'sell') {
+        if (isBaseBtc) {
+          return (
+            Math.abs(q.baseAmount / 1e8) > limits.max ||
+            Math.abs(q.baseAmount / 1e8) < limits.min ||
+            Math.abs(q.baseAmount) > limits.effectiveMax
+          )
+        } else {
+          return (
+            Math.abs(q.quoteAmount / 1e8) > limits.max ||
+            Math.abs(q.quoteAmount / 1e8) < limits.min ||
+            Math.abs(q.quoteAmount) > limits.effectiveMax
+          )
+        }
       } else {
-        return (
-          Math.abs(q.quoteAmount / 1e8) > limits.max ||
-          Math.abs(q.quoteAmount / 1e8) < limits.min ||
-          Math.abs(q.quoteAmount) > limits.effectiveMax
-        )
+        if (isBaseBtc) {
+          return (
+            Math.abs(q.quoteAmount) > limits.max ||
+            Math.abs(q.quoteAmount) < limits.min ||
+            Math.abs(q.baseAmount) > limits.effectiveMax
+          )
+        } else {
+          return (
+            Math.abs(q.baseAmount) > limits.max ||
+            Math.abs(q.baseAmount) < limits.min ||
+            Math.abs(q.quoteAmount) > limits.effectiveMax
+          )
+        }
       }
-    } else {
-      if (isBaseBtc) {
-        return (
-          Math.abs(q.quoteAmount) > limits.max ||
-          Math.abs(q.quoteAmount) < limits.min ||
-          Math.abs(q.baseAmount) > limits.effectiveMax
-        )
-      } else {
-        return (
-          Math.abs(q.baseAmount) > limits.max ||
-          Math.abs(q.baseAmount) < limits.min ||
-          Math.abs(q.quoteAmount) > limits.effectiveMax
-        )
-      }
-    }
-  }).data
+    })
+    .getOrElse(null)
 }
 
 export const statusHelper = status => {

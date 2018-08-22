@@ -1,7 +1,8 @@
 import { path } from 'ramda'
 import { formValueSelector } from 'redux-form'
-import { selectors } from 'data'
-import { ADDRESS_FORM } from 'data/components/identityVerification/model'
+import { selectors, model } from 'data'
+
+const { ADDRESS_FORM } = model.components.identityVerification
 
 export const getData = state => ({
   helperDomain: path(

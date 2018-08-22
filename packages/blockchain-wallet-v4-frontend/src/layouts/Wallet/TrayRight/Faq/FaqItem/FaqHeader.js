@@ -12,9 +12,10 @@ const Wrapper = styled.div`
   width: 100%;
   font-weight: 300;
   padding: 5px 0;
-  font-size: 13px;
+  font-size: 14px;
   font-family: 'Montserrat', Helvetica, sans-serif;
   cursor: pointer;
+  color: ${props => props.theme['gray-5']};
 `
 
 const Toggler = styled(Icon)`
