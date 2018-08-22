@@ -42,6 +42,6 @@ export const getData = state => ({
   step: path(['coinify', 'checkoutStep'], state),
   coinifyBusy: path(['coinify', 'coinifyBusy'], state),
   canTrade: selectors.core.data.coinify.canTrade(state).getOrElse(false),
-  isRecurring: path(['coinify', 'subscription'], state),
+  showRecurringModal: path(['coinify', 'showRecurringModal'], state),
   countryCode: selectors.core.settings.getCountryCode(state).getOrElse('GB')
 })

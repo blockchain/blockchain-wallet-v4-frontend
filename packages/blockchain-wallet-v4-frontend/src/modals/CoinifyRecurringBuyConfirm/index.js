@@ -4,10 +4,11 @@ import styled from 'styled-components'
 import { bindActionCreators, compose } from 'redux'
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
-import { Modal, ModalHeader, ModalBody, ModalFooter, Text, Button } from 'blockchain-info-components'
+import { Modal, ModalHeader, ModalBody, ModalFooter, Text, Button, HeartbeatLoader } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import { getCanMakeRecurringTrade, getNumberOfTradesAway } from './selectors'
+import { getCanMakeRecurringTrade, getNumberOfTradesAway, getCoinifyStatus } from './selectors'
 import { prop } from 'ramda'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 const ButtonRow = styled.div`
   display: flex;
@@ -18,8 +19,12 @@ const ButtonRow = styled.div`
   }
 `
 class CoinifyRecurringBuyConfirm extends React.PureComponent {
+  componentWillUnmount () {
+    this.props.coinifyActions.showRecurringModal(false)
+  }
+
   render () {
-    const { close, canMakeRecurringTrade, numberOfTradesAway } = this.props
+    const { close, canMakeRecurringTrade, numberOfTradesAway, status } = this.props
 
     const textHelper = () => {
       switch (canMakeRecurringTrade) {
@@ -50,15 +55,14 @@ class CoinifyRecurringBuyConfirm extends React.PureComponent {
       switch (canMakeRecurringTrade) {
         case 'needs_kyc':
         case 'needs_kyc_trades':
-          // TODO: init new KYC in core
-
-          this.props.modalActions.replaceModal('CoinifyExchangeData', { step: 'isx' })
+          this.props.coinifyActions.startKycFromRecurring()
           break
         case 'needs_trades':
           this.props.close()
           this.props.coinifyActions.coinifyNextCheckoutStep('checkout')
           break
         default:
+          // TODO: dispatch action to set subscription to true to it gets passed to core when user buys
           console.log('can make recurring trade')
       }
     }
@@ -81,7 +85,11 @@ class CoinifyRecurringBuyConfirm extends React.PureComponent {
               <FormattedMessage id='modals.coinifyrecurringbuyconfirm.goback' defaultMessage='Go Back' />
             </Button>
             <Button nature='primary' onClick={() => clickHelper()}>
-              {prop('button', textHelper())}
+              {
+                Remote.Loading.is(status)
+                  ? <HeartbeatLoader height='20px' width='20px' color='white' />
+                  : prop('button', textHelper())
+              }
             </Button>
           </ButtonRow>
         </ModalFooter>
@@ -93,6 +101,7 @@ class CoinifyRecurringBuyConfirm extends React.PureComponent {
 const mapStateToProps = state => ({
   numberOfTradesAway: getNumberOfTradesAway(state),
   canMakeRecurringTrade: getCanMakeRecurringTrade(state),
+  status: getCoinifyStatus(state),
   subscriptions: selectors.core.data.coinify
     .getSubscriptions(state)
     .getOrElse([])
@@ -100,6 +109,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
+  coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
 })
 

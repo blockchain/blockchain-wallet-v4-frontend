@@ -1,5 +1,5 @@
 import { selectors } from 'data'
-import { filter, prop, length } from 'ramda'
+import { filter, prop, length, path } from 'ramda'
 
 const isCardTrade = t =>
   prop('medium', t) === 'card' && prop('state', t) === 'completed'
@@ -29,4 +29,8 @@ export const getCanMakeRecurringTrade = state => {
   if (countryCode === 'GB') return false
 
   return true
+}
+
+export const getCoinifyStatus = state => {
+  return path(['coinify', 'coinifyBusy'], state)
 }

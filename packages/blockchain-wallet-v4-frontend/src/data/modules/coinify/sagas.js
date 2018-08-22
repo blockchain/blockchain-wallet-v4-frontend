@@ -558,7 +558,7 @@ export default ({ coreSagas, networks }) => {
 
       switch (field) {
         case 'recurring':
-          yield put(A.isRecurringTrade(payload))
+          yield put(A.showRecurringModal(payload))
           break
         case 'frequency':
           yield put(A.setRecurringTradeFrequency(payload))
@@ -571,6 +571,19 @@ export default ({ coreSagas, networks }) => {
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'handleRecurringFormChange', e)
+      )
+    }
+  }
+
+  const startKycFromRecurring = function * () {
+    try {
+      yield put(A.coinifyLoading())
+      yield call(coreSagas.data.coinify.triggerKYC)
+      yield put(A.coinifySuccess())
+      yield put(actions.modals.replaceModal('CoinifyExchangeData', { step: 'isx' }))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'startKycFromRecurring', e)
       )
     }
   }
@@ -594,6 +607,7 @@ export default ({ coreSagas, networks }) => {
     prepareAddress,
     recurringCheckoutInitialized,
     sell,
+    startKycFromRecurring,
     triggerKYC
   }
 }

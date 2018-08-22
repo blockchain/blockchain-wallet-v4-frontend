@@ -24,11 +24,12 @@ const OrderCheckout = ({
   increaseLimit,
   limits,
   onFetchQuote,
-  onOrderCheckoutSubmit,
+  openRecurringConfirmModal,
   quoteR,
   reason,
   setMax,
   setMin,
+  showRecurringModal,
   symbol,
   type
 }) => {
@@ -70,32 +71,52 @@ const OrderCheckout = ({
       </Fragment>
     )
 
-  const submitButtonHelper = () =>
-    reason.indexOf('has_remaining') > -1 ? (
-      <StepTransition
-        next
-        Component={Button}
-        onClick={onOrderCheckoutSubmit}
-        style={spacing('mt-45')}
-        nature='primary'
-        fullwidth
-        disabled={
-          checkoutBusy ||
-          Remote.Loading.is(quoteR) ||
-          checkoutError ||
-          limitsHelper(quoteR, limits)
-        }
-      >
-        {Remote.Loading.is(quoteR) ? (
-          <HeartbeatLoader height='20px' width='20px' color='white' />
-        ) : (
-          <FormattedMessage
-            id='scenes.buysell.coinifycheckout.content.ordercheckout.continue'
-            defaultMessage='Continue'
-          />
-        )}
-      </StepTransition>
-    ) : null
+  const submitButtonHelper = () => {
+    const buttonContent = () =>
+      Remote.Loading.is(quoteR)
+        ? <HeartbeatLoader height='20px' width='20px' color='white' />
+        : <FormattedMessage id='scenes.buysell.coinifycheckout.content.ordercheckout.continue' defaultMessage='Continue' />
+
+    if (showRecurringModal) {
+      return (
+        <Button
+          onClick={() => openRecurringConfirmModal()}
+          nature='primary'
+          fullwidth
+          style={spacing('mt-45')}
+          disabled={
+            checkoutBusy ||
+            Remote.Loading.is(quoteR) ||
+            checkoutError ||
+            limitsHelper(quoteR, limits)
+          }
+        >
+          {buttonContent()}
+        </Button>
+      )
+    } else if (reason.indexOf('has_remaining') > -1) {
+      return (
+        (
+          <StepTransition
+            next
+            Component={Button}
+            style={spacing('mt-45')}
+            nature='primary'
+            fullwidth
+            disabled={
+              checkoutBusy ||
+              Remote.Loading.is(quoteR) ||
+              checkoutError ||
+              limitsHelper(quoteR, limits)
+            }
+          >
+            {buttonContent()}
+          </StepTransition>
+        )
+      )
+    }
+    return null
+  }
 
   return <ExchangeCheckoutWrapper>
     <Text style={spacing('ml-10')} size='16px' weight={600}>

@@ -46,7 +46,7 @@ class CoinifyBuyContainer extends React.Component {
       canTrade,
       ...rest
     } = this.props
-    const { step, checkoutBusy, coinifyBusy, subscriptions, trades, isRecurring, countryCode } = rest
+    const { step, checkoutBusy, coinifyBusy, subscriptions, trades, showRecurringModal, countryCode } = rest
     const { fetchQuote, refreshBuyQuote } = coinifyDataActions
     const { showModal } = modalActions
     const { coinifyNotAsked, openKYC, coinifyNextCheckoutStep } = coinifyActions
@@ -84,7 +84,8 @@ class CoinifyBuyContainer extends React.Component {
           setMax={amt => formActions.change('coinifyCheckoutBuy', 'leftVal', amt)}
           setMin={amt => formActions.change('coinifyCheckoutBuy', 'leftVal', amt)}
           changeTab={tab => change('buySellTabStatus', 'status', tab)}
-          onOrderCheckoutSubmit={() => isRecurring ? showModal('CoinifyRecurringBuyConfirm') : null}
+          showRecurringModal={showRecurringModal}
+          openRecurringConfirmModal={() => showRecurringModal ? showModal('CoinifyRecurringBuyConfirm') : null}
         />
       ),
       Failure: e => <Failure error={e} />,

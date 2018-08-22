@@ -36,28 +36,29 @@ const LeftContainer = styled.div``
 
 const CoinifyBuy = props => {
   const {
-    value,
-    fetchBuyQuote,
-    refreshQuote,
+    busy,
     buyQuoteR,
-    clearTradeError,
-    currency,
+    canTrade,
+    changeTab,
     checkoutBusy,
+    clearTradeError,
+    coinifyNextCheckoutStep,
+    countryCode,
+    currency,
+    fetchBuyQuote,
+    handleKycAction,
+    initiateBuy,
+    openRecurringConfirmModal,
+    paymentMedium,
+    refreshQuote,
     setMax,
     setMin,
-    paymentMedium,
-    initiateBuy,
+    showRecurringModal,
     step,
-    busy,
-    trade,
-    handleKycAction,
-    changeTab,
-    coinifyNextCheckoutStep,
-    canTrade,
     subscriptions,
+    trade,
     trades,
-    onOrderCheckoutSubmit,
-    countryCode
+    value
   } = props
 
   const profile = Remote.of(prop('profile', value)).getOrElse({
@@ -90,8 +91,9 @@ const CoinifyBuy = props => {
                 setMax={setMax}
                 setMin={setMin}
                 increaseLimit={handleKycAction}
-                onOrderCheckoutSubmit={onOrderCheckoutSubmit}
                 countryCode={countryCode}
+                showRecurringModal={showRecurringModal}
+                openRecurringConfirmModal={openRecurringConfirmModal}
               />
             </LeftContainer>
             <RightContainer>

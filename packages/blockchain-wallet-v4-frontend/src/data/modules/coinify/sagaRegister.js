@@ -31,5 +31,6 @@ export default ({ coreSagas, networks }) => {
       coinifySagas.initializePayment
     )
     yield takeLatest(AT.COINIFY_RECURRING_BUY_CHECKOUT_INITIALIZE, coinifySagas.recurringCheckoutInitialized)
+    yield takeLatest(AT.START_KYC_FROM_RECURRING, coinifySagas.startKycFromRecurring)
   }
 }

@@ -10,6 +10,7 @@ const INITIAL_STATE = {
   checkoutStep: 'checkout',
   signupComplete: null,
   payment: Remote.NotAsked,
+  showRecurringModal: false,
   subscription: false,
   subscriptionData: { frequency: 'weekly', endTime: null }
 }
@@ -75,8 +76,8 @@ const coinify = (state = INITIAL_STATE, action) => {
     case AT.COINIFY_SELL_BTC_PAYMENT_UPDATED_FAILURE: {
       return assoc('payment', Remote.Failure(payload), state)
     }
-    case AT.COINIFY_IS_RECURRING_TRADE: {
-      return assoc('subscription', payload, state)
+    case AT.COINIFY_SHOW_RECURRING_MODAL: {
+      return assoc('showRecurringModal', payload, state)
     }
     case AT.COINIFY_SET_RECURRING_TRADE_FREQUENCY: {
       return assocPath(['subscriptionData', 'frequency'], payload, state)
