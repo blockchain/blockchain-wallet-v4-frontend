@@ -114,11 +114,11 @@ export default ({ coreSagas, networks }) => {
               payment = yield payment.from(payload.index, fromType)
               break
             case ADDRESS_TYPES.LOCKBOX:
-              yield payment.from(payload.xpub, fromType)
+              payment = yield payment.from(payload.xpub, fromType)
               break
             default:
               if (!payload.watchOnly) {
-                yield payment.from(payload.address, fromType)
+                payment = yield payment.from(payload.address, fromType)
               }
           }
           break

@@ -279,20 +279,15 @@ export default ({ api }) => {
       },
 
       *from (origins, type) {
+        let fromData = yield call(calculateFrom, origins, type, network)
         try {
-          let fromData = yield call(calculateFrom, origins, type, network)
-          console.log(fromData)
           let coins = yield call(getWalletUnspent, network, fromData)
-          console.log(coins)
           let effectiveBalance = yield call(calculateEffectiveBalance, {
             coins,
             fee: p.fee
           })
-          console.log(fromData, coins, effectiveBalance)
-          return makePayment(merge(p, { ...fromData, coins }))
+          return makePayment(merge(p, { ...fromData, coins, effectiveBalance }))
         } catch (e) {
-          console.log(e)
-          let fromData = yield call(calculateFrom, origins, type, network)
           return makePayment(
             merge(p, { ...fromData, coins: [], effectiveBalance: 0 })
           )
