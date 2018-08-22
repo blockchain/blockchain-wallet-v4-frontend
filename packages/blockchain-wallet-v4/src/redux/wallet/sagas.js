@@ -256,7 +256,8 @@ export default ({ api, networks }) => {
     const accounts = Wallet.selectHDAccounts(wallet)
     const receiveAddress = HDAccount.getReceiveAddress(
       accounts.get(payload.accountIdx),
-      payload.addressIdx
+      payload.addressIdx,
+      networks.btc
     )
     yield put(A.kvStore.btc.addAddressLabel(receiveAddress, payload.label))
   }
