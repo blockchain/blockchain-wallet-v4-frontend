@@ -106,26 +106,27 @@ export default ({ api, coreSagas }) => {
   const initializeNewDeviceSetup = function*() {
     try {
       // TODO: since this is a new device, we need to poll for both Ledger and Blockchain devices
-      // TODO: will need to poll for both and then store which connection responded (i.e. the device_type) in KvStore
-      yield call(
+      // TODO: then store which connection responded (i.e. the device_type) in KvStore
+      const dashboardTransport = yield call(
         LockboxService.pollForAppConnection,
         'LEDGER',
         'DASHBOARD',
-        5000
-      ) // 25 min timeout for setup 1500000
+        5000 // 25 min timeout for setup 1500000
+      )
+      yield put(A.storeTransportObject(dashboardTransport))
       // dashboard detected, user has completed setup steps on device
       yield put(A.changeDeviceSetupStep('open-btc-app'))
-      const transport = yield call(
+      const btcTransport = yield call(
         LockboxService.pollForAppConnection,
         'LEDGER',
         'BTC'
       )
-
-      const btcTransport = new Btc(transport)
+      yield put(A.storeTransportObject(btcTransport))
+      const btcConnection = new Btc(btcTransport)
       // derive device info such as chaincodes and xpubs
       const newDeviceInfo = yield call(
         LockboxService.derviveDeviceInfo,
-        btcTransport
+        btcConnection
       )
       // derive a unique deviceId hashed from btc xpub
       const newDeviceId = yield call(
