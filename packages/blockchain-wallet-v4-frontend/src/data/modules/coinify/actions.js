@@ -138,3 +138,6 @@ export const coinifyResetRecurringBuy = () => ({
 export const startKycFromRecurring = () => ({
   type: AT.START_KYC_FROM_RECURRING
 })
+export const handleRecurringModalClose = () => ({
+  type: AT.HANDLE_RECURRING_MODAL_CLOSE
+})

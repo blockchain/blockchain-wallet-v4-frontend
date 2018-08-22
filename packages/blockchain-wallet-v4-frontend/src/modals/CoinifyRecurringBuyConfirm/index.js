@@ -24,7 +24,8 @@ class CoinifyRecurringBuyConfirm extends React.PureComponent {
   }
 
   render () {
-    const { close, canMakeRecurringTrade, numberOfTradesAway, status } = this.props
+    const { canMakeRecurringTrade, numberOfTradesAway, status, coinifyActions } = this.props
+    const { handleRecurringModalClose } = coinifyActions
 
     const textHelper = () => {
       switch (canMakeRecurringTrade) {
@@ -69,7 +70,7 @@ class CoinifyRecurringBuyConfirm extends React.PureComponent {
 
     return <Modal>
       <Fragment>
-        <ModalHeader onClose={close}>
+        <ModalHeader onClose={handleRecurringModalClose}>
           <Text size='18px' weight={500}>
             {prop('header', textHelper())}
           </Text>
@@ -81,7 +82,7 @@ class CoinifyRecurringBuyConfirm extends React.PureComponent {
         </ModalBody>
         <ModalFooter align='right'>
           <ButtonRow>
-            <Button width='100px' onClick={close} nature='empty'>
+            <Button width='100px' onClick={handleRecurringModalClose} nature='empty'>
               <FormattedMessage id='modals.coinifyrecurringbuyconfirm.goback' defaultMessage='Go Back' />
             </Button>
             <Button nature='primary' onClick={() => clickHelper()}>

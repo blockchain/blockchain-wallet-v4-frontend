@@ -40,7 +40,6 @@ const isValidStartDate = current => {
 }
 
 const RecurringCheckout = props => {
-  console.log('recurring template', props)
 
   const { frequency, duration, frequencyElements } = props
   return <RecurringWrapper>

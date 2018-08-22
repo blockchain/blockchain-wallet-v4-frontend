@@ -588,6 +588,18 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
+  const handleRecurringModalClose = function * () {
+    try {
+      yield put(actions.modals.closeModal())
+      yield put(A.showRecurringModal(false))
+      yield put(A.coinifyRecurringCheckoutInitialize())
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'handlRecurringModalClose', e)
+      )
+    }
+  }
+
   return {
     buy,
     cancelISX,
@@ -601,6 +613,7 @@ export default ({ coreSagas, networks }) => {
     fromISX,
     handleChange,
     handleRecurringFormChange,
+    handleRecurringModalClose,
     initialized,
     initializePayment,
     openKYC,
