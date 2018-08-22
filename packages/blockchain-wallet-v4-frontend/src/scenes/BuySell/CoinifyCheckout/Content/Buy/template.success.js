@@ -53,6 +53,7 @@ const CoinifyBuy = props => {
     refreshQuote,
     setMax,
     setMin,
+    showRecurringBuy,
     showRecurringModal,
     step,
     subscriptions,
@@ -80,20 +81,21 @@ const CoinifyBuy = props => {
           <CheckoutWrapper>
             <LeftContainer>
               <OrderCheckout
-                quoteR={buyQuoteR}
-                onFetchQuote={fetchBuyQuote}
-                limits={limits.buy}
-                type={'buy'}
-                reason={'has_remaining'} // placeholder for now - coinify does not require a reason
-                defaultCurrency={defaultCurrency}
-                symbol={symbol}
                 checkoutBusy={checkoutBusy}
+                countryCode={countryCode}
+                defaultCurrency={defaultCurrency}
+                increaseLimit={handleKycAction}
+                limits={limits.buy}
+                onFetchQuote={fetchBuyQuote}
+                openRecurringConfirmModal={openRecurringConfirmModal}
+                quoteR={buyQuoteR}
+                reason={'has_remaining'}
                 setMax={setMax}
                 setMin={setMin}
-                increaseLimit={handleKycAction}
-                countryCode={countryCode}
+                showRecurringBuy={showRecurringBuy}
                 showRecurringModal={showRecurringModal}
-                openRecurringConfirmModal={openRecurringConfirmModal}
+                symbol={symbol}
+                type={'buy'}
               />
             </LeftContainer>
             <RightContainer>

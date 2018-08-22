@@ -29,6 +29,7 @@ const OrderCheckout = ({
   reason,
   setMax,
   setMin,
+  showRecurringBuy,
   showRecurringModal,
   symbol,
   type
@@ -147,9 +148,9 @@ const OrderCheckout = ({
       </div>
     </Fragment> : null}
     {
-      countryCode === 'GB'
-        ? null
-        : <RecurringBuyCheckout />
+      showRecurringBuy
+        ? <RecurringBuyCheckout />
+        : null
     }
     {submitButtonHelper()}
   </ExchangeCheckoutWrapper>

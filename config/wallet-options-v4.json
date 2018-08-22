@@ -142,6 +142,7 @@
           "CH"
         ],
         "states": "*",
+        "showRecurringBuy": true,
         "config": {
           "production": false,
           "availability": true,

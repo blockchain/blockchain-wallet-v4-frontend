@@ -46,7 +46,7 @@ class CoinifyBuyContainer extends React.Component {
       canTrade,
       ...rest
     } = this.props
-    const { step, checkoutBusy, coinifyBusy, subscriptions, trades, showRecurringModal, countryCode } = rest
+    const { step, checkoutBusy, coinifyBusy, subscriptions, trades, showRecurringModal, countryCode, showRecurringBuy } = rest
     const { fetchQuote, refreshBuyQuote } = coinifyDataActions
     const { showModal } = modalActions
     const { coinifyNotAsked, openKYC, coinifyNextCheckoutStep } = coinifyActions
@@ -77,6 +77,7 @@ class CoinifyBuyContainer extends React.Component {
           subscriptions={subscriptions}
           trades={trades}
           countryCode={countryCode}
+          showRecurringBuy={showRecurringBuy}
           clearTradeError={() => coinifyNotAsked()}
           handleKycAction={kyc => openKYC(kyc)}
           coinifyNextCheckoutStep={step => coinifyNextCheckoutStep(step)}
