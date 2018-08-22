@@ -10,7 +10,7 @@ export default ({ api, ratesSocket }) => {
     yield takeEvery(AT.MESSAGE_SOCKET, sagas.onMessage)
     yield takeEvery(AT.CLOSE_SOCKET, sagas.onClose)
     yield takeEvery(AT.REST_FALLBACK, sagas.restFallback)
-    yield takeEvery(AT.OPEN_CHANNEL_FOR_PAIRS, sagas.openChannelForPairs)
-    yield takeEvery(AT.CLOSE_CHANNEL_FOR_PAIRS, sagas.closeChannelForPairs)
+    yield takeEvery(AT.OPEN_CHANNEL_FOR_PAIR, sagas.openChannelForPair)
+    yield takeEvery(AT.CLOSE_CHANNEL_FOR_PAIR, sagas.closeChannelForPair)
   }
 }

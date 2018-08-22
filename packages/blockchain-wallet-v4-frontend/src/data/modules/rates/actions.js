@@ -1,21 +1,17 @@
 import * as AT from './actionTypes'
 
-export const subscribeToRates = pairs => ({
-  type: AT.SUBSCRIBE_TO_RATES,
-  payload: { pairs }
+export const subscribeToRate = (pair, volume, fix, fiatCurrency) => ({
+  type: AT.SUBSCRIBE_TO_RATE,
+  payload: { pair, volume, fix, fiatCurrency }
 })
-export const unsubscribeFromRates = pairs => ({
-  type: AT.UNSUBSCRIBE_FROM_RATES,
-  payload: { pairs }
+export const unsubscribeFromRate = pair => ({
+  type: AT.UNSUBSCRIBE_FROM_RATE,
+  payload: { pair }
 })
 
-export const increasePairRefCount = pair => ({
-  type: AT.INCREASE_REF_COUNT,
-  payload: { pair }
-})
-export const decreasePairRefCount = pair => ({
-  type: AT.DECREASE_REF_COUNT,
-  payload: { pair }
+export const updatePairConfig = (pair, volume, fix, fiatCurrency) => ({
+  type: AT.UPDATE_PAIR_CONFIG,
+  payload: { pair, config: { volume, fix, fiatCurrency } }
 })
 
 export const fetchAvailablePairs = () => ({

@@ -1,16 +1,9 @@
 import { whereEq, identity, compose, prop } from 'ramda'
 import { noop } from '../utils/functional'
 
-const HEARTBEAT_CODES = {
-  CONNECTED: 1,
-  ALIVE: 2,
-  DISCONNECTED: 3
-}
-
 const isHeartbeatMsg = whereEq({
   channel: 'heartbeat',
-  type: 'heartbeat',
-  sequenceNumber: HEARTBEAT_CODES.ALIVE
+  type: 'heartbeat'
 })
 const isServerRebootMsg = whereEq({
   channel: 'server',
@@ -25,7 +18,7 @@ export default class ApiSocket {
     this.maxReconnects = maxReconnects
   }
   rebootTimeout = 5000
-  heartbeatInterval = 5000
+  heartbeatInterval = 6000
   heartbeatIntervalPID = null
   reconnect = null
   reconnectCount = 0
@@ -79,8 +72,8 @@ export default class ApiSocket {
   }
 
   send = message => {
-    if (this.socket && this.socket.readyState === 1) {
-      this.socket.send(message)
+    if (this.isReady()) {
+      this.socket.send(JSON.stringify(message))
     }
   }
 
@@ -121,4 +114,6 @@ export default class ApiSocket {
     this.reconnectCount++
     this.reconnect()
   }
+
+  isReady = () => this.socket && this.socket.readyState === 1
 }

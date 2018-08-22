@@ -10,6 +10,7 @@ const registerExchangeSagas = function*(exchange) {
     AT.EXCHANGE_FIRST_STEP_INITIALIZED,
     exchange.exchangeFormInitialized
   )
+  yield takeLatest(AT.EXCHANGE_FIRST_STEP_SWAP_CLICKED, exchange.swapClicked)
   yield takeLatest(AT.CHANGE_SOURCE, exchange.changeSource)
   yield takeLatest(AT.CHANGE_TARGET, exchange.changeTarget)
 }

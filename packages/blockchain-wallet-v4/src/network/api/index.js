@@ -46,7 +46,7 @@ export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
     ...sfox(),
     ...settings({ rootUrl, apiUrl, get, post }),
     ...shapeShift({ shapeShiftApiKey, ...http }),
-    ...rates({ nabuUrl, get: http.get }),
+    ...rates({ nabuUrl, ...authorizedHttp }),
     ...wallet({ rootUrl, apiUrl, get, post })
   }
 }

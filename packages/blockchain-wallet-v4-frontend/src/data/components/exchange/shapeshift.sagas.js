@@ -32,6 +32,7 @@ import {
 } from './services'
 import { selectReceiveAddress } from '../utils/sagas'
 import utils from './sagas.utils'
+import { EXCHANGE_FORM } from './model'
 
 export default ({ api, coreSagas, networks, options }) => {
   const logLocation = 'components/exchange/sagas/shapeshift'
@@ -46,7 +47,7 @@ export default ({ api, coreSagas, networks, options }) => {
     selectOtherAccount,
     selectLabel,
     resetForm
-  } = utils({ api, coreSagas, options })
+  } = utils({ api, coreSagas, options, networks })
 
   let pollingTradeStatusTask
 
@@ -73,11 +74,11 @@ export default ({ api, coreSagas, networks, options }) => {
 
   const swapClicked = function*() {
     try {
-      const form = yield select(selectors.form.getFormValues('exchange'))
+      const form = yield select(selectors.form.getFormValues(EXCHANGE_FORM))
       const source = prop('source', form)
       const target = prop('target', form)
-      yield put(actions.form.change2('exchange', 'source', target))
-      yield put(actions.form.change2('exchange', 'target', source))
+      yield put(actions.form.change2(EXCHANGE_FORM, 'source', target))
+      yield put(actions.form.change2(EXCHANGE_FORM, 'target', source))
       yield call(resetForm)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'swapClicked', e))
@@ -86,14 +87,18 @@ export default ({ api, coreSagas, networks, options }) => {
 
   const minimumClicked = function*() {
     try {
-      const formValues = yield select(selectors.form.getFormValues('exchange'))
+      const formValues = yield select(
+        selectors.form.getFormValues(EXCHANGE_FORM)
+      )
       const source = prop('source', formValues)
       const target = prop('target', formValues)
       const sourceCoin = prop('coin', source)
       const shapeshiftMinimum = yield call(getShapeshiftMinimum, source, target)
       const minimum = getMinimum(shapeshiftMinimum)
       const minimumValue = convertBaseToStandard(sourceCoin, minimum)
-      yield put(actions.form.change('exchange', 'sourceAmount', minimumValue))
+      yield put(
+        actions.form.change(EXCHANGE_FORM, 'sourceAmount', minimumValue)
+      )
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'minimumClicked', e))
     }
@@ -101,7 +106,7 @@ export default ({ api, coreSagas, networks, options }) => {
 
   const maximumClicked = function*() {
     try {
-      const form = yield select(selectors.form.getFormValues('exchange'))
+      const form = yield select(selectors.form.getFormValues(EXCHANGE_FORM))
       const source = prop('source', form)
       const target = prop('target', form)
       const sourceCoin = prop('coin', source)
@@ -114,7 +119,9 @@ export default ({ api, coreSagas, networks, options }) => {
         regulationLimit
       )
       const maximumValue = convertBaseToStandard(sourceCoin, maximum)
-      yield put(actions.form.change('exchange', 'sourceAmount', maximumValue))
+      yield put(
+        actions.form.change(EXCHANGE_FORM, 'sourceAmount', maximumValue)
+      )
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'maximumClicked', e))
     }
@@ -124,7 +131,7 @@ export default ({ api, coreSagas, networks, options }) => {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
-      if (!equals('exchange', form)) return
+      if (!equals(EXCHANGE_FORM, form)) return
       switch (field) {
         case 'source':
           yield call(changeSource)
@@ -151,27 +158,27 @@ export default ({ api, coreSagas, networks, options }) => {
   }
 
   const changeSource = function*() {
-    const form = yield select(selectors.form.getFormValues('exchange'))
+    const form = yield select(selectors.form.getFormValues(EXCHANGE_FORM))
     const source = prop('source', form)
     const sourceCoin = prop('coin', source)
     const target = prop('target', form)
     const targetCoin = prop('coin', target)
     if (equals(sourceCoin, targetCoin)) {
       const newTarget = yield call(selectOtherAccount, targetCoin)
-      yield put(actions.form.change2('exchange', 'target', newTarget))
+      yield put(actions.form.change2(EXCHANGE_FORM, 'target', newTarget))
     }
     yield call(resetForm)
   }
 
   const changeTarget = function*() {
-    const form = yield select(selectors.form.getFormValues('exchange'))
+    const form = yield select(selectors.form.getFormValues(EXCHANGE_FORM))
     const source = prop('source', form)
     const sourceCoin = prop('coin', source)
     const target = prop('target', form)
     const targetCoin = prop('coin', target)
     if (equals(sourceCoin, targetCoin)) {
       const newSource = yield call(selectOtherAccount, sourceCoin)
-      yield put(actions.form.change2('exchange', 'source', newSource))
+      yield put(actions.form.change2(EXCHANGE_FORM, 'source', newSource))
     }
     yield call(resetForm)
   }
@@ -182,10 +189,10 @@ export default ({ api, coreSagas, networks, options }) => {
       convertValues,
       type
     )
-    yield put(actions.form.change2('exchange', 'sourceAmount', sourceAmount))
-    yield put(actions.form.change2('exchange', 'sourceFiat', sourceFiat))
-    yield put(actions.form.change2('exchange', 'targetAmount', targetAmount))
-    yield put(actions.form.change2('exchange', 'targetFiat', targetFiat))
+    yield put(actions.form.change2(EXCHANGE_FORM, 'sourceAmount', sourceAmount))
+    yield put(actions.form.change2(EXCHANGE_FORM, 'sourceFiat', sourceFiat))
+    yield put(actions.form.change2(EXCHANGE_FORM, 'targetAmount', targetAmount))
+    yield put(actions.form.change2(EXCHANGE_FORM, 'targetFiat', targetFiat))
     yield call(validateForm)
     yield put(A.firstStepEnabled())
   }
@@ -193,7 +200,9 @@ export default ({ api, coreSagas, networks, options }) => {
   const validateForm = function*() {
     try {
       yield put(A.firstStepDisabled())
-      const formValues = yield select(selectors.form.getFormValues('exchange'))
+      const formValues = yield select(
+        selectors.form.getFormValues(EXCHANGE_FORM)
+      )
       const source = prop('source', formValues)
       const target = prop('target', formValues)
       const sourceAmount = prop('sourceAmount', formValues)
@@ -233,7 +242,7 @@ export default ({ api, coreSagas, networks, options }) => {
 
   const firstStepSubmitClicked = function*() {
     try {
-      const form = yield select(selectors.form.getFormValues('exchange'))
+      const form = yield select(selectors.form.getFormValues(EXCHANGE_FORM))
       const source = prop('source', form)
       const target = prop('target', form)
       const sourceCoin = prop('coin', source)
@@ -383,7 +392,7 @@ export default ({ api, coreSagas, networks, options }) => {
         depositAddress
       )
       // Reset form
-      yield put(actions.form.reset('exchange'))
+      yield put(actions.form.reset(EXCHANGE_FORM))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'thirdStepInitialized', e)

@@ -1,42 +1,25 @@
-import { difference, compose, map } from 'ramda'
-import { put, select, all } from 'redux-saga/effects'
+import { put } from 'redux-saga/effects'
 import { actions } from 'data'
-import * as S from './selectors'
 import * as A from './actions'
 
 export default ({ api }) => {
-  const subscribeToRates = function*({ payload }) {
-    const { pairs } = payload
-    const prevSubscriptions = yield select(S.getActivePairs)
+  const subscribeToRate = function*({ payload }) {
+    const { pair, volume, fix, fiatCurrency } = payload
 
-    yield compose(
-      all,
-      map(pair => put(A.increasePairRefCount(pair)))
-    )(pairs)
-    const currentSubscriptions = yield select(S.getActivePairs)
-
-    yield compose(
-      put,
-      actions.middleware.webSocket.rates.openChannelForPairs,
-      difference
-    )(currentSubscriptions, prevSubscriptions)
+    yield put(A.updatePairConfig(pair, volume, fix, fiatCurrency))
+    yield put(
+      actions.middleware.webSocket.rates.openChannelForPair(
+        pair,
+        volume,
+        fix,
+        fiatCurrency
+      )
+    )
   }
 
-  const unsubscribeFromRates = function*({ payload }) {
-    const { pairs } = payload
-    const prevSubscriptions = yield select(S.getActivePairs)
-
-    yield compose(
-      all,
-      map(pair => put(A.decreasePairRefCount(pair)))
-    )(pairs)
-    const currentSubscriptions = yield select(S.getActivePairs)
-
-    yield compose(
-      put,
-      actions.middleware.webSocket.rates.closeChannelForPairs,
-      difference
-    )(prevSubscriptions, currentSubscriptions)
+  const unsubscribeFromRate = function*({ payload }) {
+    const { pair } = payload
+    yield put(actions.middleware.webSocket.rates.closeChannelForPair(pair))
   }
 
   const fetchAvailablePairs = function*() {
@@ -50,8 +33,8 @@ export default ({ api }) => {
   }
 
   return {
-    subscribeToRates,
-    unsubscribeFromRates,
+    subscribeToRate,
+    unsubscribeFromRate,
     fetchAvailablePairs
   }
 }

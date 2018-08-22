@@ -10,9 +10,7 @@ export default ({ api, ratesSocket }) => {
 
   const isUnsubscribeSuccess = whereEq(model.rates.UNSUBSCRIBE_SUCCESS_MESSAGE)
 
-  const isQuotesMessage = whereEq(model.rates.QUOTES_MESSAGE)
-
-  const send = ratesSocket.send.bind(ratesSocket)
+  const isAdviceMessage = whereEq(model.rates.ADVICE_MESSAGE)
 
   const onOpen = function*() {}
 
@@ -22,8 +20,8 @@ export default ({ api, ratesSocket }) => {
       yield put(A.unsubscribeSuccess(message.pair))
     if (isSubscribeError(message))
       yield put(A.subscribeError(message.pair, null))
-    if (isQuotesMessage(message))
-      yield put(A.updateQuote(message.pair, message.quote))
+    if (isAdviceMessage(message))
+      yield put(A.updateAdvice(message.pair, message.currencyRatio))
   }
 
   const restFallback = function*() {
@@ -31,10 +29,10 @@ export default ({ api, ratesSocket }) => {
     if (!isEmpty(pairs)) yield all(map(fetchRate, pairs))
   }
 
-  const fetchRate = function*(pair) {
+  const fetchRate = function*({ pair, config: { volume, fix, fiatCurrency } }) {
     try {
-      const quote = yield call(api.fetchRates, pair)
-      yield put(A.updateQuote(pair, quote))
+      const advice = yield call(api.fetchRates, pair, volume, fix, fiatCurrency)
+      yield put(A.updateAdvice(pair, advice))
     } catch (e) {
       yield put(A.subscribeError(pair, e))
     }
@@ -42,14 +40,20 @@ export default ({ api, ratesSocket }) => {
 
   const onClose = function*(action) {}
 
-  const openChannelForPairs = function ({ payload }) {
-    const { pairs } = payload
-    send(model.rates.getPairSubscribeMessage(pairs))
+  const openChannelForPair = function*({ payload }) {
+    const { pair, volume, fix, fiatCurrency } = payload
+    if (!volume || !fix || !fiatCurrency) return
+    if (ratesSocket.isReady())
+      return ratesSocket.send(
+        model.rates.getPairSubscribeMessage(pair, volume, fix, fiatCurrency)
+      )
+    yield call(fetchRate, { pair, config: { volume, fix, fiatCurrency } })
   }
 
-  const closeChannelForPairs = function ({ payload }) {
-    const { pairs } = payload
-    send(model.rates.getPairUnsubscribeMessage(pairs))
+  const closeChannelForPair = function ({ payload }) {
+    const { pair } = payload
+    if (ratesSocket.isReady())
+      ratesSocket.send(model.rates.getPairUnsubscribeMessage(pair))
   }
 
   return {
@@ -57,7 +61,7 @@ export default ({ api, ratesSocket }) => {
     onMessage,
     onClose,
     restFallback,
-    openChannelForPairs,
-    closeChannelForPairs
+    openChannelForPair,
+    closeChannelForPair
   }
 }

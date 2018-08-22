@@ -64,6 +64,7 @@ const AccountPropType = PropTypes.shape({
 FirstStepContainer.propTypes = {
   data: getRemotePropType(
     PropTypes.shape({
+      availablePairs: PropTypes.arrayOf(PropTypes.string),
       fromElements: getElementsPropType(AccountPropType).isRequired,
       toElements: getElementsPropType(AccountPropType).isRequired,
       formError: PropTypes.string,

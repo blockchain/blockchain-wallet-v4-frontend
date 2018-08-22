@@ -1,41 +1,47 @@
 export const SUBSCRIBE_SUCCESS_MESSAGE = {
-  channel: 'quotes',
-  type: 'subscribed',
-  sequenceNumber: 1
+  channel: 'conversion',
+  type: 'subscribed'
 }
 
 export const SUBSCRIBE_ERROR_MESSAGE = {
-  channel: 'quotes',
-  type: 'error_during_subscription',
-  sequenceNumber: 0
+  channel: 'conversion',
+  type: 'error'
 }
 
 export const UNSUBSCRIBE_SUCCESS_MESSAGE = {
-  channel: 'quotes',
-  type: 'unsubscribed',
-  sequenceNumber: 5
+  channel: 'conversion',
+  type: 'unsubscribed'
 }
 
-export const QUOTES_MESSAGE = {
-  channel: 'quotes',
-  type: 'quote',
-  sequenceNumber: 3
+export const ADVICE_MESSAGE = {
+  channel: 'conversion',
+  type: 'currencyRatio'
 }
 
-export const getPairSubscribeMessage = pairs => ({
-  channel: 'quotes',
+export const getPairSubscribeMessage = (pair, volume, fix, fiatCurrency) => ({
+  channel: 'conversion',
   operation: 'subscribe',
   params: {
-    type: 'pairs',
-    pairs
+    type: 'conversionSpecification',
+    pair,
+    volume,
+    fix,
+    fiatCurrency
   }
 })
 
-export const getPairUnsubscribeMessage = pairs => ({
-  channel: 'quotes',
-  operation: 'UNSUBSCRIBE',
+export const getPairUnsubscribeMessage = pair => ({
+  channel: 'conversion',
+  operation: 'unsubscribe',
   params: {
-    type: 'pairs',
-    pairs
+    type: 'conversionPair',
+    pair
   }
 })
+
+export const FIX_TYPES = {
+  BASE: 'base',
+  COUNTER: 'counter',
+  BASE_IN_FIAT: 'baseInFiat',
+  COUNTER_IN_FIAT: 'counterInFiat'
+}

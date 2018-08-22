@@ -1,46 +1,17 @@
-import { compose, curry, keysIn, path, pickBy, last, lift } from 'ramda'
-import BigNumber from 'bignumber.js'
-
-import { Remote } from 'blockchain-wallet-v4'
-
-const isActive = ({ refs }) => refs > 0
+import { compose, curry, values, path, mapObjIndexed } from 'ramda'
 
 export const getActivePairs = compose(
-  keysIn,
-  pickBy(isActive),
+  values,
+  mapObjIndexed((pair, pairName) => ({ ...pair, pair: pairName })),
   path(['rates', 'pairs'])
 )
 
-const quoteToRate = (quote, volume) => {
-  let totalPrice = new BigNumber(0)
-  let remainingVolume = new BigNumber(volume)
-  for (let askTier of quote.askTiers) {
-    const tierVolume = new BigNumber(askTier.volume)
-    const { price } = askTier
-    if (remainingVolume.lessThan(tierVolume)) {
-      totalPrice = totalPrice.plus(remainingVolume.times(price))
-      remainingVolume = new BigNumber(0)
-      break
-    }
+export const getPairRate = curry((pair, state) =>
+  path(['rates', 'pairs', pair, 'advice'], state)
+)
 
-    totalPrice = totalPrice.plus(tierVolume.times(price))
-    remainingVolume = remainingVolume.minus(tierVolume)
-  }
-
-  if (remainingVolume.greaterThan(0)) {
-    totalPrice = totalPrice.plus(
-      remainingVolume.times(last(quote.askTiers).price)
-    )
-  }
-
-  return totalPrice.dividedBy(volume)
-}
-
-export const getPairRate = curry((pair, volume, state) =>
-  lift(quoteToRate)(
-    path(['rates', 'pairs', pair, 'quote'], state),
-    Remote.of(volume)
-  )
+export const getPairFix = curry((pair, state) =>
+  path(['rates', 'pairs', pair, 'config', 'fix'], state)
 )
 
 export const getAvailablePairs = path(['rates', 'availablePairs'])

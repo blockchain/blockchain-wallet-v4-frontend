@@ -1,8 +1,8 @@
-export default ({ nabuUrl, get }) => {
-  const fetchRates = pair =>
-    get({
+export default ({ nabuUrl, get, post }) => {
+  const fetchRates = (pair, volume, fix, fiatCurrency) =>
+    post({
       url: nabuUrl,
-      endPoint: `/markets/quotes/${pair}`,
+      endPoint: `/markets/quotes/${pair}/convert?volume=${volume}&fix=${fix}&fiatCurrency=${fiatCurrency}`,
       data: { filter: 'eea' },
       ignoreQueryParams: true
     })

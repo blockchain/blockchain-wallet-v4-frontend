@@ -11,13 +11,13 @@ export const messageSocket = message => ({
 export const closeSocket = () => ({ type: AT.CLOSE_SOCKET })
 export const restFallback = () => ({ type: AT.REST_FALLBACK })
 
-export const openChannelForPairs = pairs => ({
-  type: AT.OPEN_CHANNEL_FOR_PAIRS,
-  payload: { pairs }
+export const openChannelForPair = (pair, volume, fix, fiatCurrency) => ({
+  type: AT.OPEN_CHANNEL_FOR_PAIR,
+  payload: { pair, volume, fix, fiatCurrency }
 })
-export const closeChannelForPairs = pairs => ({
-  type: AT.CLOSE_CHANNEL_FOR_PAIRS,
-  payload: { pairs }
+export const closeChannelForPair = pair => ({
+  type: AT.CLOSE_CHANNEL_FOR_PAIR,
+  payload: { pair }
 })
 
 export const subscribeSuccess = pair => ({
@@ -33,7 +33,7 @@ export const subscribeError = (pair, error) => ({
   payload: { pair, error }
 })
 
-export const updateQuote = (pair, quote) => ({
-  type: AT.UPDATE_QUOTE,
-  payload: { pair, quote }
+export const updateAdvice = (pair, advice) => ({
+  type: AT.UPDATE_ADVICE,
+  payload: { pair, advice }
 })
