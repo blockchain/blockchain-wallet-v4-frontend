@@ -9,6 +9,7 @@ import { initialize, change } from 'redux-form'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 export const logLocation = 'components/sendBch/sagas'
 // TODO: Check how to retrieve Bitcoin cash default fee
@@ -30,7 +31,7 @@ export default ({ coreSagas }) => {
       )
       const defaultIndex = defaultIndexR.getOrElse(0)
       const defaultAccountR = accountsR.map(nth(defaultIndex))
-      payment = yield payment.from(defaultIndex)
+      payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
       payment = yield payment.fee(bchDefaultFee)
       const initialValues = {
         coin: 'BCH',
@@ -95,16 +96,34 @@ export default ({ coreSagas }) => {
           break
         case 'from':
           yield put(A.sendBchFirstStepToToggled(false))
-          const source = prop('address', payload) || prop('index', payload)
-          payment = yield payment.from(source)
+          const fromType = prop('type', payload)
+          if (is(String, payload)) {
+            yield payment.from(payload, fromType)
+            break
+          }
+          switch (fromType) {
+            case ADDRESS_TYPES.ACCOUNT:
+              payment = yield payment.from(payload.index, fromType)
+              break
+            case ADDRESS_TYPES.LOCKBOX:
+              payment = yield payment.from(payload.xpub, fromType)
+              break
+            default:
+              payment = yield payment.from(payload.address, fromType)
+          }
           break
         case 'to':
-          const target = is(String, payload)
-            ? payload
-            : prop('address', payload) ||
-              prop('index', payload) ||
-              prop('xpub', payload)
-          payment = yield payment.to(target)
+          const toType = prop('type', payload)
+          switch (toType) {
+            case ADDRESS_TYPES.ACCOUNT:
+              payment = yield payment.to(payload.index, toType)
+              break
+            case ADDRESS_TYPES.LOCKBOX:
+              payment = yield payment.to(payload.xpub, toType)
+              break
+            default:
+              payment = yield payment.to(payload.address, toType)
+          }
           break
         case 'amount':
           const bchAmount = prop('coin', payload)
@@ -174,7 +193,10 @@ export default ({ coreSagas }) => {
         payment: p.getOrElse({}),
         network: settings.NETWORK_BCH
       })
-      const password = yield call(promptForSecondPassword)
+      let password = null
+      if (p.getOrElse({}).fromType !== ADDRESS_TYPES.LOCKBOX) {
+        password = yield call(promptForSecondPassword)
+      }
       yield put(actions.modals.closeAllModals())
       payment = yield payment.sign(password)
       payment = yield payment.publish()

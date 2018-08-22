@@ -13,7 +13,7 @@ import {
   convertGweiToWei,
   calculateFee
 } from '../../../utils/eth'
-import { TO } from '../btc/utils'
+import { ADDRESS_TYPES } from '../btc/utils'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -33,21 +33,36 @@ export default ({ api }) => {
   const selectIndex = function*(from) {
     const appState = yield select(identity)
     switch (prop('type', from)) {
-      case 'ACCOUNT':
+      case ADDRESS_TYPES.ACCOUNT:
         return S.kvStore.ethereum
           .getAccountIndex(appState, prop('address', from))
           .getOrFail('Could not find ether account index')
-      case 'LEGACY':
+      case ADDRESS_TYPES.LEGACY:
         return 1
     }
   }
 
   const calculateTo = destination => {
     if (!destination.type) {
-      return { address: destination, type: TO.ADDRESS }
+      return { address: destination, type: ADDRESS_TYPES.ADDRESS }
     }
 
     return destination
+  }
+
+  const calculateSignature = function*(network, password, raw) {
+    switch (raw.fromType) {
+      case ADDRESS_TYPES.ACCOUNT: {
+        const appState = yield select(identity)
+        const mnemonicT = S.wallet.getMnemonic(appState, password)
+        const mnemonic = yield call(() => taskToPromise(mnemonicT))
+        const sign = data => taskToPromise(eth.sign(network, mnemonic, data))
+        return yield call(sign, raw)
+      }
+      case ADDRESS_TYPES.LOCKBOX: {
+        return yield call(eth.signLockbox, network, raw)
+      }
+    }
   }
 
   const getBalance = function*() {
@@ -135,7 +150,7 @@ export default ({ api }) => {
           prop('fee', p)
         )
         const from = {
-          type: type || 'ACCOUNT',
+          type: type || ADDRESS_TYPES.ACCOUNT,
           address: account,
           nonce
         }
@@ -157,13 +172,15 @@ export default ({ api }) => {
       },
 
       *build () {
-        const from = prop('from', p)
-        const index = yield call(selectIndex, from)
+        const fromData = prop('from', p)
+        const index = yield call(selectIndex, fromData)
         const to = path(['to', 'address'], p)
         const amount = prop('amount', p)
         const gasPrice = convertGweiToWei(prop('feeInGwei', p))
         const gasLimit = path(['fees', 'gasLimit'], p)
-        const nonce = prop('nonce', from)
+        const nonce = prop('nonce', fromData)
+        const from = prop('address', fromData)
+        const fromType = prop('type', fromData)
         if (isNil(from)) throw new Error('missing_from')
         if (!isValidIndex(index)) throw new Error('invalid_index')
         if (isNil(to)) throw new Error('missing_to')
@@ -175,17 +192,27 @@ export default ({ api }) => {
         // if (!isPositiveInteger(gasLimit)) throw new Error('invalid_gaslimit')
         if (isNil(nonce)) throw new Error('missing_nonce')
         if (!isPositiveInteger(nonce)) throw new Error('invalid_nonce')
-        const raw = { index, to, amount, gasPrice, gasLimit, nonce }
+        const raw = {
+          index,
+          to,
+          amount,
+          gasPrice,
+          gasLimit,
+          nonce,
+          from,
+          fromType
+        }
         return makePayment(merge(p, { raw }))
       },
 
       *sign (password) {
         try {
-          const appState = yield select(identity)
-          const mnemonicT = S.wallet.getMnemonic(appState, password)
-          const mnemonic = yield call(() => taskToPromise(mnemonicT))
-          const sign = data => taskToPromise(eth.sign(network, mnemonic, data))
-          const signed = yield call(sign, p.raw)
+          const signed = yield call(
+            calculateSignature,
+            network,
+            password,
+            p.raw
+          )
           return makePayment(merge(p, { signed }))
         } catch (e) {
           throw new Error('missing_mnemonic')

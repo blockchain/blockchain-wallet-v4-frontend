@@ -37,6 +37,7 @@ import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
 import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
+import { ADDRESS_TYPES } from '../../payment/btc/utils'
 
 const transformTx = transactions.bitcoin.transformTx
 
@@ -100,6 +101,7 @@ const flattenAccount = acc => ({
   balance: path(['info', 'final_balance'], acc),
   xpub: prop('xpub', acc),
   index: prop('index', acc),
+  type: ADDRESS_TYPES.ACCOUNT,
   network: prop('network', acc)
 })
 
@@ -112,7 +114,8 @@ export const getLockboxBtcBalances = state => {
     coin: 'BTC',
     label: account.label,
     balance: path([account.xpub, 'final_balance'], addresses),
-    xpub: account.xpub
+    xpub: account.xpub,
+    type: ADDRESS_TYPES.LOCKBOX
   })
   const balances = Remote.of(getAddresses(state).getOrElse([]))
   return map(lift(digest)(balances), getLockboxBtcAccounts(state))
@@ -129,7 +132,8 @@ const flattenAddress = addr => ({
   watchOnly: compose(
     isNil,
     prop('priv')
-  )(addr)
+  )(addr),
+  type: ADDRESS_TYPES.LEGACY
 })
 
 // TODO :: (rename that shit) getAddressesBalances :: state => Remote([])
@@ -162,7 +166,8 @@ export const getAddressesInfo = state => {
   const digest = x => ({
     coin: 'BTC',
     label: prop('label', x) ? prop('label', x) : prop('addr', x),
-    address: prop('addr', x)
+    address: prop('addr', x),
+    type: ADDRESS_TYPES.LEGACY
   })
   return map(digest, legacyAddresses)
 }
