@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { bindActionCreators, compose } from 'redux'
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
-import { Modal, ModalHeader, ModalBody, Text, Button } from 'blockchain-info-components'
+import { Modal, ModalHeader, ModalBody, ModalFooter, Text, Button } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { getCanMakeRecurringTrade, getNumberOfTradesAway } from './selectors'
 import { prop } from 'ramda'
@@ -13,7 +13,9 @@ const ButtonRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  margin-top: 20px;
+  button:last-of-type {
+    margin-left: 15px;
+  }
 `
 class CoinifyRecurringBuyConfirm extends React.PureComponent {
   render () {
@@ -44,30 +46,47 @@ class CoinifyRecurringBuyConfirm extends React.PureComponent {
       }
     }
 
-    return (
-      <Modal>
-        <Fragment>
-          <ModalHeader onClose={close}>
-            <Text>
-              {prop('title', textHelper())}
-            </Text>
-          </ModalHeader>
-          <ModalBody>
-            <ButtonRow>
-              <Button width='100px' onClick={close} nature='primary'>
-                <FormattedMessage
-                  id='modals.coinifyrecurringbuyconfirm.goback'
-                  defaultMessage='Go Back'
-                />
-              </Button>
-              <Button>
-                {prop('button', textHelper())}
-              </Button>
-            </ButtonRow>
-          </ModalBody>
-        </Fragment>
-      </Modal>
-    )
+    const clickHelper = () => {
+      switch (canMakeRecurringTrade) {
+        case 'needs_kyc':
+        case 'needs_kyc_trades':
+          // TODO: init new KYC in core
+
+          this.props.modalActions.replaceModal('CoinifyExchangeData', { step: 'isx' })
+          break
+        case 'needs_trades':
+          this.props.close()
+          this.props.coinifyActions.coinifyNextCheckoutStep('checkout')
+          break
+        default:
+          console.log('can make recurring trade')
+      }
+    }
+
+    return <Modal>
+      <Fragment>
+        <ModalHeader onClose={close}>
+          <Text size='18px' weight={500}>
+            {prop('header', textHelper())}
+          </Text>
+        </ModalHeader>
+        <ModalBody>
+          <Text size='13px' weight={300}>
+            {prop('body', textHelper())}
+          </Text>
+        </ModalBody>
+        <ModalFooter align='right'>
+          <ButtonRow>
+            <Button width='100px' onClick={close} nature='empty'>
+              <FormattedMessage id='modals.coinifyrecurringbuyconfirm.goback' defaultMessage='Go Back' />
+            </Button>
+            <Button nature='primary' onClick={() => clickHelper()}>
+              {prop('button', textHelper())}
+            </Button>
+          </ButtonRow>
+        </ModalFooter>
+      </Fragment>
+    </Modal>
   }
 }
 
