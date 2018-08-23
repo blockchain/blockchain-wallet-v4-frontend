@@ -2,17 +2,20 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { compose } from 'ramda'
+import { compose, tap } from 'ramda'
 
 import { getRemotePropType, getElementsPropType } from 'utils/proptypes'
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { getData } from './selectors'
 
 import Loading from './template.loading'
 import Success from './template.success'
 import DataError from 'components/DataError'
 
-const extarctFieldValue = (_, value) => value
+const extractFieldValue = (_, value) => value
+const preventFormChanges = e => e.preventDefault()
+
+const { EXCHANGE_FORM } = model.components.exchange
 
 class FirstStepContainer extends React.Component {
   componentDidMount () {
@@ -21,6 +24,10 @@ class FirstStepContainer extends React.Component {
 
   handleRefresh = () => {
     this.props.actions.firstStepInitialized()
+  }
+
+  handleChangeFix = fix => {
+    this.props.formActions.change(EXCHANGE_FORM, 'fix', fix)
   }
 
   render () {
@@ -35,13 +42,33 @@ class FirstStepContainer extends React.Component {
           handleSwap={actions.firstStepSwapClicked}
           handleSourceChange={compose(
             actions.changeSource,
-            extarctFieldValue
+            extractFieldValue
           )}
           handleTargetChange={compose(
             actions.changeTarget,
-            extarctFieldValue
+            extractFieldValue
           )}
-          handleSetFixedField={actions.setFixedField}
+          handleSourceAmountChange={compose(
+            actions.changeSourceAmount,
+            extractFieldValue,
+            tap(preventFormChanges)
+          )}
+          handleTargetAmountChange={compose(
+            actions.changeTargeteAmount,
+            extractFieldValue,
+            tap(preventFormChanges)
+          )}
+          handleSourceFiatAmountChange={compose(
+            actions.changeSourceFiatAmount,
+            extractFieldValue,
+            tap(preventFormChanges)
+          )}
+          handleTargetFiatAmountChange={compose(
+            actions.changeTargetFiatAmount,
+            extractFieldValue,
+            tap(preventFormChanges)
+          )}
+          handleSetFixedField={this.handleChangeFix}
         />
       ),
       Failure: message => (
@@ -85,7 +112,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.exchange, dispatch)
+  actions: bindActionCreators(actions.components.exchange, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 export default connect(

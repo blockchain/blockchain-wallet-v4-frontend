@@ -86,3 +86,19 @@ export const changeTarget = target => ({
   type: AT.CHANGE_TARGET,
   pyaload: { target }
 })
+export const changeSourceAmount = sourceAmount => ({
+  type: AT.CHANGE_SOURCE_AMOUNT,
+  payload: { sourceAmount }
+})
+export const changeTargetAmount = targetAmount => ({
+  type: AT.CHANGE_TARGET_AMOUNT,
+  payload: { targetAmount }
+})
+export const changeSourceFiatAmount = sourceFiatAmount => ({
+  type: AT.CHANGE_SOURCE_FIAT_AMOUNT,
+  payload: { sourceFiatAmount }
+})
+export const changeTargetFiatAmount = targetFiatAmount => ({
+  type: AT.CHANGE_TARGET_FIAT_AMOUNT,
+  payload: { targetFiatAmount }
+})

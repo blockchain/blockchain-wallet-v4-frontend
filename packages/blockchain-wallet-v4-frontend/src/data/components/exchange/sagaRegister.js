@@ -13,6 +13,16 @@ const registerExchangeSagas = function*(exchange) {
   yield takeLatest(AT.EXCHANGE_FIRST_STEP_SWAP_CLICKED, exchange.swapClicked)
   yield takeLatest(AT.CHANGE_SOURCE, exchange.changeSource)
   yield takeLatest(AT.CHANGE_TARGET, exchange.changeTarget)
+  yield takeLatest(AT.CHANGE_SOURCE_AMOUNT, exchange.changeSourceAmount)
+  yield takeLatest(AT.CHANGE_TARGET_AMOUNT, exchange.changeTargetAmount)
+  yield takeLatest(
+    AT.CHANGE_SOURCE_FIAT_AMOUNT,
+    exchange.changeSourceFiatAmount
+  )
+  yield takeLatest(
+    AT.CHANGE_TARGET_FIAT_AMOUNT,
+    exchange.changeTargetFiatAmount
+  )
 }
 
 const registerShapeshiftSagas = function*(shapeshift) {

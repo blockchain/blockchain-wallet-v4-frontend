@@ -226,7 +226,8 @@ export const getData = createDeepEqualSelector(
         formError,
         currency,
         sourceCoin,
-        targetCoin
+        targetCoin,
+        useShapeShift
       }
     }
     return lift(transform)(

@@ -110,10 +110,42 @@ export default ({ api, coreSagas, options, networks }) => {
     yield call(changeSubscription)
   }
 
+  const changeSourceAmount = function*({ payload }) {
+    const { sourceAmount } = payload
+    yield put(actions.form.change(EXCHANGE_FORM, 'sourceAmount', sourceAmount))
+    yield call(changeSubscription)
+  }
+
+  const changeTargetAmount = function*({ payload }) {
+    const { targetAmount } = payload
+    yield put(actions.form.change(EXCHANGE_FORM, 'targetAmount', targetAmount))
+    yield call(changeSubscription)
+  }
+
+  const changeSourceFiatAmount = function*({ payload }) {
+    const { sourceFiatAmount } = payload
+    yield put(
+      actions.form.change(EXCHANGE_FORM, 'sourceFiatAmount', sourceFiatAmount)
+    )
+    yield call(changeSubscription)
+  }
+
+  const changeTargetFiatAmount = function*({ payload }) {
+    const { targetFiatAmount } = payload
+    yield put(
+      actions.form.change(EXCHANGE_FORM, 'targetFiatAmount', targetFiatAmount)
+    )
+    yield call(changeSubscription)
+  }
+
   return {
     exchangeFormInitialized,
     changeSource,
     changeTarget,
+    changeSourceAmount,
+    changeTargetAmount,
+    changeSourceFiatAmount,
+    changeTargetFiatAmount,
     swapClicked
   }
 }

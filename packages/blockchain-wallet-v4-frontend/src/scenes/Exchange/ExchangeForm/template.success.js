@@ -28,6 +28,7 @@ import {
 import media from 'services/ResponsiveService'
 
 const { EXCHANGE_FORM, formatPair } = model.components.exchange
+const { BASE, BASE_IN_FIAT, COUNTER, COUNTER_IN_FIAT } = model.rates.FIX_TYPES
 
 const Wrapper = styled.div`
   display: flex;
@@ -111,16 +112,22 @@ const Success = ({
   fromElements,
   toElements,
   disabled,
+  dirty,
   hasOneAccount,
   currency,
   sourceCoin,
   targetCoin,
   formError,
+  useShapeshift,
   handleSwap,
   handleSubmit,
   handleSourceChange,
   handleTargetChange,
-  dirty
+  handleSourceAmountChange,
+  handleTargetAmountChange,
+  handleSourceFiatAmountChange,
+  handleTargetFiatAmountChange,
+  handleSetFixedField
 }) => {
   const swapDisabled = !contains(
     formatPair(targetCoin, sourceCoin),
@@ -161,7 +168,7 @@ const Success = ({
           <Cell>
             <Field
               name='source'
-              onChange={handleSourceChange}
+              onChange={!useShapeshift && handleSourceChange}
               component={SelectBox}
               elements={fromElements}
               hasOneAccount={hasOneAccount}
@@ -183,7 +190,7 @@ const Success = ({
           <Cell>
             <Field
               name='target'
-              onChange={handleTargetChange}
+              onChange={!useShapeshift && handleTargetChange}
               component={SelectBox}
               elements={toElements}
               hasOneAccount={hasOneAccount}
@@ -207,6 +214,8 @@ const Success = ({
             <AmountContainer hasNoBottomBorder>
               <Field
                 name='sourceAmount'
+                onChange={!useShapeshift && handleSourceAmountChange}
+                onFocus={handleSetFixedField.bind(null, BASE)}
                 component={NumberBoxDebounced}
                 disabled={disabled}
                 step='0.00000001'
@@ -216,6 +225,8 @@ const Success = ({
             <AmountContainer>
               <Field
                 name='sourceFiat'
+                onChange={!useShapeshift && handleSourceFiatAmountChange}
+                onFocus={handleSetFixedField.bind(null, BASE_IN_FIAT)}
                 component={NumberBoxDebounced}
                 disabled={disabled}
               />
@@ -233,6 +244,8 @@ const Success = ({
             <AmountContainer hasNoBottomBorder>
               <Field
                 name='targetAmount'
+                onChange={!useShapeshift && handleTargetAmountChange}
+                onFocus={handleSetFixedField.bind(null, COUNTER)}
                 component={NumberBoxDebounced}
                 disabled={disabled}
                 step='0.00000001'
@@ -242,6 +255,8 @@ const Success = ({
             <AmountContainer>
               <Field
                 name='targetFiat'
+                onChange={!useShapeshift && handleTargetFiatAmountChange}
+                onFocus={handleSetFixedField.bind(null, COUNTER_IN_FIAT)}
                 component={NumberBoxDebounced}
                 disabled={disabled}
               />
