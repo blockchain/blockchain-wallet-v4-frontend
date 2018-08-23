@@ -41,7 +41,7 @@ class PaymentContainer extends Component {
   render () {
     const { data, coinifyBusy, coinifyActions } = this.props
     const { openKYC, checkoutCardMax, coinifyNextCheckoutStep } = coinifyActions
-
+    console.log('payment', this.props)
     const busy = coinifyBusy.cata({
       Success: () => false,
       Failure: err => err,
@@ -78,7 +78,8 @@ PaymentContainer.propTypes = {
 const mapStateToProps = state => ({
   data: getData(state),
   quote: getQuote(state).getOrElse(null),
-  coinifyBusy: path(['coinify', 'coinifyBusy'], state)
+  coinifyBusy: path(['coinify', 'coinifyBusy'], state),
+  isSubscriptionTrade: path(['coinify', 'subscription'], state)
 })
 
 const mapDispatchToProps = dispatch => ({

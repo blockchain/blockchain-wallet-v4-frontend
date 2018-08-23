@@ -19,7 +19,7 @@ class CoinifyBuyContainer extends React.Component {
     this.props.coinifyDataActions.fetchTrades()
     this.props.coinifyDataActions.getKyc()
     this.props.coinifyDataActions.fetchSubscriptions()
-    if (this.props.step === 'isx') {
+    if (this.props.step !== 'checkout') {
       this.props.coinifyActions.coinifyNextCheckoutStep('checkout')
     }
   }

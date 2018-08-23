@@ -175,6 +175,7 @@ const Payment = props => {
               isChecked('card'),
               handlePaymentClick,
               cardDisabled,
+              coinifyNextCheckoutStep,
               prefillCardMax
             )}
           </PaymentWrapper>

@@ -5,7 +5,6 @@ import { Field } from 'redux-form'
 import { Text, Icon, Link } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
 import { required } from 'services/FormHelper'
-import { StepTransition } from 'components/Utilities/Stepper'
 import { equals, path, prop } from 'ramda'
 import media from 'services/ResponsiveService'
 
@@ -62,6 +61,7 @@ export const cardOptionHelper = (
   isChecked,
   handlePaymentClick,
   cardDisabled,
+  coinifyNextCheckoutStep,
   prefillCardMax
 ) => {
   const PaymentRadioCard = ({ isChecked, handlePaymentClick }) => (
@@ -137,18 +137,13 @@ export const cardOptionHelper = (
           values={{ currency: currency, amount: amount, limit: limit }}
         />
       </Text>
-      <StepTransition
-        prev
-        Component={Link}
-        size='13px'
-        weight={300}
-        onClick={() => prefillCardMax(limits)}
-      >
+      <Link size='13px' weight={300} onClick={() => coinifyNextCheckoutStep('checkout')}>
         <FormattedMessage
           id='coinifyexchangedata.payment.mediumhelpers.card.usecreditdebit'
           defaultMessage='Use Credit/Debit card'
         />
-      </StepTransition>
+      </Link>
+
     </PaymentOptionContainer>
   )
 

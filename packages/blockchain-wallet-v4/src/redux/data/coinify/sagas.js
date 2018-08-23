@@ -265,7 +265,7 @@ export default ({ api, options }) => {
       // save trade to metadata
       yield put(buySellA.addCoinifyTradeBuySell(buyResult))
 
-      // yield call(labelAddressForBuy, buyResult, addressData) // TODO: will need to add this back, disabled for testnet
+      yield call(labelAddressForBuy, buyResult, addressData)
       return buyResult
     } catch (e) {
       yield put(A.handleTradeFailure(e))
