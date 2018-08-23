@@ -97,21 +97,21 @@ export const getActiveAddresses = state => {
   return sequence(Remote.of, objectOfRemotes)
 }
 
-const digestAddress = x => ({
+const digestAddress = acc => ({
   coin: 'BCH',
-  label: prop('label', x) ? prop('label', x) : prop('addr', x),
-  balance: path(['info', 'final_balance'], x),
-  address: prop('addr', x),
+  label: prop('label', acc) ? prop('label', acc) : prop('addr', acc),
+  balance: path(['info', 'final_balance'], acc),
+  address: prop('addr', acc),
   type: ADDRESS_TYPES.LEGACY
 })
 
-const digestAccount = x => ({
+const digestAccount = acc => ({
   coin: 'BCH',
-  label: prop('label', x) ? prop('label', x) : prop('xpub', x),
-  balance: path(['info', 'final_balance'], x),
-  archived: prop('archived', x),
-  xpub: prop('xpub', x),
-  index: prop('index', x),
+  label: prop('label', acc) ? prop('label', acc) : prop('xpub', acc),
+  balance: path(['info', 'final_balance'], acc),
+  archived: prop('archived', acc),
+  xpub: prop('xpub', acc),
+  index: prop('index', acc),
   type: ADDRESS_TYPES.ACCOUNT
 })
 

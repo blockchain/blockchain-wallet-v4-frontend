@@ -117,7 +117,7 @@ const mapStateToProps = state => ({
   data: getData(state),
   signupStep: path(['coinify', 'signupStep'], state),
   signupComplete: path(['coinify', 'signupComplete'], state),
-  trade: selectors.core.data.coinify.getTrade(state).getOrFail('No trade found')
+  trade: selectors.core.data.coinify.getTrade(state).getOrElse()
 })
 
 const enhance = compose(

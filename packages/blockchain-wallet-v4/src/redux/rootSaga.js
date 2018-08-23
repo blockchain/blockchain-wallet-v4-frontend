@@ -12,6 +12,6 @@ export default ({ api, networks, options }) =>
       fork(kvStore({ api, networks })),
       fork(walletOptions({ api, options })),
       fork(settings({ api })),
-      fork(wallet({ api }))
+      fork(wallet({ api, networks }))
     ])
   }
