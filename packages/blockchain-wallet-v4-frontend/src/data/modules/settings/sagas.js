@@ -101,10 +101,17 @@ export default ({ coreSagas }) => {
 
   const verifyMobile = function*(action) {
     try {
-      const response = yield call(coreSagas.settings.setMobileVerified, action.payload)
+      const response = yield call(
+        coreSagas.settings.setMobileVerified,
+        action.payload
+      )
       const modals = yield select(selectors.modals.getModals)
 
-      if (contains('successfully', toLower(response)) && prop('type', head(modals)) !== 'SfoxExchangeData') yield put(actions.modals.closeAllModals())
+      if (
+        contains('successfully', toLower(response)) &&
+        prop('type', head(modals)) !== 'SfoxExchangeData'
+      )
+        yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess(C.MOBILE_VERIFY_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'verifyMobile', e))

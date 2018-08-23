@@ -86,7 +86,8 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
               />
             </Text>
             <Text size='13px' weight={300}>
-              -{quoteR
+              -
+              {quoteR
                 .map(q => reviewOrder.renderMinerFeeRow(q, medium, type))
                 .getOrElse('~')}{' '}
               BTC

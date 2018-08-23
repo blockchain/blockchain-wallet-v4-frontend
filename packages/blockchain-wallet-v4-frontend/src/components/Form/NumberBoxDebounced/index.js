@@ -139,11 +139,7 @@ class NumberBoxDebounced extends React.Component {
               {meta.warning}
             </Error>
           )}
-        {
-          unit
-            ? <Unit>{unit}</Unit>
-            : null
-        }
+        {unit ? <Unit>{unit}</Unit> : null}
       </Container>
     )
   }
