@@ -1,4 +1,5 @@
 import { contains, equals, isNil, isEmpty } from 'ramda'
+import moment from 'moment'
 
 const emailRegex = new RegExp(
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -112,7 +113,7 @@ const isSSN = val => {
 const isDOB = val => {
   if (val && val.length) {
     const cleaned = val.replace(/[^\d]/g, '')
-    return cleaned.length === 8
+    return cleaned.length === 8 && moment(val).isValid()
   }
   return val
 }
