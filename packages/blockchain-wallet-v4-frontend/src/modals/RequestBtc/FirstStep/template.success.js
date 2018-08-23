@@ -140,18 +140,16 @@ const FirstStep = props => {
             includeAll={false}
             validate={[required]}
           />
-          {
-            contains(receiveAddress, importedAddresses)
-              ? <BannerContainer>
-                <Banner type='warning'>
-                  <FormattedMessage
-                    id='modals.requestbitcoin.firststep.importedwarning'
-                    defaultMessage='You are about to receive to a watch-only address. You can only spend these funds if you have access to the private key.'
-                  />
-                </Banner>
-              </BannerContainer>
-              : null
-          }
+          {contains(receiveAddress, importedAddresses) ? (
+            <BannerContainer>
+              <Banner type='warning'>
+                <FormattedMessage
+                  id='modals.requestbitcoin.firststep.importedwarning'
+                  defaultMessage='You are about to receive to a watch-only address. You can only spend these funds if you have access to the private key.'
+                />
+              </Banner>
+            </BannerContainer>
+          ) : null}
         </FormItem>
       </FormGroup>
       <FormGroup margin={'20px'}>

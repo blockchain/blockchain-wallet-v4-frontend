@@ -20,9 +20,7 @@ export default ({ api, networks }) => {
     let addrs = []
 
     while (i <= receiveIndex) {
-      addrs.push(
-        Types.HDAccount.getReceiveAddress(account, i, networks.btc)
-      )
+      addrs.push(Types.HDAccount.getReceiveAddress(account, i, networks.btc))
       i++
     }
 

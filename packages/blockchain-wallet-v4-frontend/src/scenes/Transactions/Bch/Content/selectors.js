@@ -32,14 +32,16 @@ const filterTransactions = curry((status, criteria, transactions) => {
       path(property)
     )(tx)
   )
-  const searchPredicate = anyPass(map(search(criteria), [
-    ['description'],
-    ['from'],
-    ['to'],
-    ['hash'],
-    ['outputs', 0, 'address'],
-    ['inputs', 0, 'address']
-  ]))
+  const searchPredicate = anyPass(
+    map(search(criteria), [
+      ['description'],
+      ['from'],
+      ['to'],
+      ['hash'],
+      ['outputs', 0, 'address'],
+      ['inputs', 0, 'address']
+    ])
+  )
 
   const fullPredicate = allPass([isOfType(status), searchPredicate])
   return filter(fullPredicate, transactions)

@@ -6,10 +6,7 @@ import * as S from '../../selectors'
 import * as A from '../../actions'
 import { isValidIndex } from './utils'
 import { eth } from '../../../signer'
-import {
-  isString,
-  isPositiveInteger
-} from '../../../utils/checks'
+import { isString, isPositiveInteger } from '../../../utils/checks'
 import {
   calculateEffectiveBalance,
   isValidAddress,
@@ -44,7 +41,7 @@ export default ({ api }) => {
     }
   }
 
-  const getBalance = function * () {
+  const getBalance = function*() {
     yield put(A.data.ethereum.fetchLegacyBalanceLoading())
     const accountR = yield select(S.kvStore.ethereum.getDefaultAddress)
     const account = accountR.getOrFail('missing_default_from')
@@ -135,12 +132,14 @@ export default ({ api }) => {
         return makePayment(merge(p, { from, effectiveBalance }))
       },
 
-      * fee (value) { // value is in gwei
+      *fee (value) {
+        // value is in gwei
         const feeInGwei = value
         const gasLimit = path(['fees', 'gasLimit'], p)
         const fee = calculateFee(feeInGwei, gasLimit)
         const balance = yield call(getBalance)
-        let effectiveBalance = calculateEffectiveBalance( // balance + fee need to be in wei
+        let effectiveBalance = calculateEffectiveBalance(
+          // balance + fee need to be in wei
           balance,
           fee
         )

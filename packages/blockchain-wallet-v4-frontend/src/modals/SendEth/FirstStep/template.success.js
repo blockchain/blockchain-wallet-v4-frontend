@@ -131,7 +131,12 @@ const FirstStep = props => {
             disabled={unconfirmedTx}
             component={FiatConvertor}
             coin='ETH'
-            validate={[required, invalidAmount, insufficientFunds, maximumAmount]}
+            validate={[
+              required,
+              invalidAmount,
+              insufficientFunds,
+              maximumAmount
+            ]}
           />
         </FormItem>
       </FormGroup>
@@ -197,12 +202,7 @@ const FirstStep = props => {
           <ComboDisplay size='14px' coin='ETH'>
             {fee}
           </ComboDisplay>
-          <Link
-            size='13px'
-            weight={300}
-            capitalize
-            onClick={handleFeeToggle}
-          >
+          <Link size='13px' weight={300} capitalize onClick={handleFeeToggle}>
             {feeToggled ? (
               <FormattedMessage
                 id='modals.sendether.firststep.cancel'
@@ -222,7 +222,13 @@ const FirstStep = props => {
           type='submit'
           nature='primary'
           uppercase
-          disabled={pristine || submitting || invalid || isContract || Remote.Loading.is(balanceStatus)}
+          disabled={
+            pristine ||
+            submitting ||
+            invalid ||
+            isContract ||
+            Remote.Loading.is(balanceStatus)
+          }
         >
           <FormattedMessage
             id='modals.sendether.firststep.continue'
@@ -247,6 +253,5 @@ export default reduxForm({
   form: 'sendEth',
   shouldError,
   shouldWarn,
-  destroyOnUnmount: false })(
-  FirstStep
-)
+  destroyOnUnmount: false
+})(FirstStep)

@@ -27,10 +27,7 @@ export default ({ coreSagas }) => {
         from && type
           ? yield payment.from(action.payload.from, action.payload.type)
           : yield payment.from()
-      const defaultFee = path(
-        ['fees', 'regular'],
-        payment.value()
-      )
+      const defaultFee = path(['fees', 'regular'], payment.value())
       payment = yield payment.fee(defaultFee)
       const initialValues = { coin: 'ETH', fee: defaultFee }
       yield put(initialize('sendEth', initialValues))
@@ -187,7 +184,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const regularFeeClicked = function * () {
+  const regularFeeClicked = function*() {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -200,7 +197,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const priorityFeeClicked = function * () {
+  const priorityFeeClicked = function*() {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -213,7 +210,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const minimumFeeClicked = function * () {
+  const minimumFeeClicked = function*() {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -226,7 +223,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const maximumFeeClicked = function * () {
+  const maximumFeeClicked = function*() {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
