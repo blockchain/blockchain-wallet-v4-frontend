@@ -15,6 +15,7 @@ import {
 } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 export const getData = (state, ownProps) => {
   const { coin, exclude = [], excludeImported, excludeWatchOnly } = ownProps
@@ -26,6 +27,7 @@ export const getData = (state, ownProps) => {
     const formattedAddress = {}
     return compose(
       a => assoc('text', prop('addr', addressData), a),
+      a => assocPath(['value', 'type'], ADDRESS_TYPES.LEGACY, a),
       a =>
         assocPath(
           ['value', 'balance'],

@@ -64,6 +64,7 @@ const FirstStep = props => {
     feeToggled,
     enableToggle,
     handleToToggle,
+    from,
     feeElements,
     regularFee,
     priorityFee,
@@ -83,6 +84,20 @@ const FirstStep = props => {
           </FormLabel>
           <Field name='coin' component={SelectBoxCoin} validate={[required]} />
         </FormItem>
+        <FormItem width={'60%'}>
+          <FormLabel for='from'>
+            <FormattedMessage
+              id='modals.sendEther.firststep.from'
+              defaultMessage='From:'
+            />
+          </FormLabel>
+          <Field
+            name='from'
+            component={SelectBoxEtherAddresses}
+            includeAll={false}
+            validate={[required]}
+          />
+        </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>
@@ -101,7 +116,7 @@ const FirstStep = props => {
                 opened
                 onFocus={() => handleToToggle()}
                 includeAll={false}
-                // exclude={[from.label]}
+                exclude={[from.label]}
                 validate={[required]}
                 hideErrors
               />
