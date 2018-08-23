@@ -226,6 +226,9 @@ module.exports = {
 
         if (process.env.NODE_ENV === 'testnet') {
           mockWalletOptions.platforms.web.bitcoin.config.network = 'testnet'
+          mockWalletOptions.platforms.web.coinify.config.partnerId = 35
+          mockWalletOptions.platforms.web.sfox.config.apiKey =
+            '6fbfb80536564af8bbedb7e3be4ec439'
         }
 
         res.json(mockWalletOptions)
@@ -269,6 +272,7 @@ module.exports = {
             "img-src 'self' data: blob:",
             // 'unsafe-inline' can only be used in dev. production builds remove
             // this rule and use nonce generated from the server instead.
+            "script-src 'self' 'unsafe-inline'",
             "style-src 'self' 'unsafe-inline'",
             `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${
               envConfig.ROOT_URL

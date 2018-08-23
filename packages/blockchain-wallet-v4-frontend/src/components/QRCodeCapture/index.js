@@ -64,10 +64,8 @@ class QRCodeCaptureContainer extends React.PureComponent {
       })
       this.props.updateUI({ btcAddress: { toggled: false } })
     } catch (e) {
-      const { btcNetwork } = this.props
-      const network = btcNetwork.getOrElse('bitcoin')
       try {
-        if (utils.bitcoin.isValidBitcoinAddress(data, network)) {
+        if (utils.bitcoin.isValidBitcoinAddress(data, this.props.network)) {
           this.props.formActions.change('sendBtc', 'to', data)
           this.props.updateUI({ btcAddress: { toggled: false } })
           return
@@ -92,8 +90,6 @@ class QRCodeCaptureContainer extends React.PureComponent {
       this.props.updateUI({ bchAddress: { toggled: false } })
     } catch (e) {
       try {
-        const { btcNetwork } = this.props
-        const network = btcNetwork.getOrElse('bitcoin')
         // try qruaxzyr4wcxyuxg2qnteajhgnq2nsmzccuc6d4r5u
         if (utils.bch.isCashAddr(data)) {
           this.props.formActions.change('sendBch', 'to', data)
@@ -101,7 +97,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
           return
         }
         // try legacy addr
-        if (utils.bitcoin.isValidBitcoinAddress(data, network)) {
+        if (utils.bitcoin.isValidBitcoinAddress(data, this.props.network)) {
           this.props.formActions.change('sendBch', 'to', data)
           this.props.updateUI({ bchAddress: { toggled: false } })
           return
@@ -126,7 +122,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
   }
 
   handleScanBtcPriv (data) {
-    if (utils.bitcoin.isValidBitcoinPrivateKey(data)) {
+    if (utils.bitcoin.isValidBitcoinPrivateKey(data, this.props.network)) {
       this.props.formActions.change(this.props.form || 'sendBtc', 'priv', data)
       this.props.formActions.touch(this.props.form || 'sendBtc', 'priv')
       this.props.updateUI({ btcPriv: { toggled: false } })
@@ -139,9 +135,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
   handleScanBtcPrivOrAddress (data) {
     try {
       const { address } = bip21.decode(data)
-      const { btcNetwork } = this.props
-      const network = btcNetwork.getOrElse('bitcoin')
-      if (utils.bitcoin.isValidBitcoinAddress(address, network)) {
+      if (utils.bitcoin.isValidBitcoinAddress(address, this.props.network)) {
         this.props.formActions.change(
           this.props.form || 'importBtcAddress',
           'addrOrPriv',
@@ -159,11 +153,9 @@ class QRCodeCaptureContainer extends React.PureComponent {
         this.props.updateUI({ btcPrivOrAddress: { toggled: false } })
       }
     } catch (e) {
-      const { btcNetwork } = this.props
-      const network = btcNetwork.getOrElse('bitcoin')
       if (
-        utils.bitcoin.isValidBitcoinPrivateKey(data, network) ||
-        utils.bitcoin.isValidBitcoinAddress(data, network)
+        utils.bitcoin.isValidBitcoinPrivateKey(data, this.props.network) ||
+        utils.bitcoin.isValidBitcoinAddress(data, this.props.network)
       ) {
         this.props.formActions.change(
           this.props.form || 'importBtcAddress',
@@ -249,8 +241,7 @@ const mapStateToProps = state => ({
   currency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
   btcRates: selectors.core.data.bitcoin
     .getRates(state)
-    .getOrFail('Could not find btc rates'),
-  btcNetwork: selectors.core.walletOptions.getBtcNetwork(state)
+    .getOrFail('Could not find btc rates')
 })
 
 const mapDispatchToProps = dispatch => ({

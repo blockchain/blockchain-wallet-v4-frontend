@@ -14,7 +14,7 @@ import Either from 'data.either'
 export const isValidBitcoinAddress = (value, network) => {
   try {
     const addr = address.fromBase58Check(value)
-    const n = network
+    const n = network || networks.bitcoin
     return or(
       equals(addr.version, n.pubKeyHash),
       equals(addr.version, n.scriptHash)
@@ -23,7 +23,6 @@ export const isValidBitcoinAddress = (value, network) => {
     try {
       const decoded = decode(value)
 
-      // TODO how do we know which network we are on here?
       if (decoded.prefix !== 'bc') {
         return false
       }

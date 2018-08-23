@@ -12,7 +12,7 @@ const Container = styled.div`
 const JumioFrame = styled.iframe.attrs({
   allow: 'camera'
 })`
-  width: 80%;
+  width: 100%;
   height: 450px;
   border-width: 1px;
   border-style: solid;
