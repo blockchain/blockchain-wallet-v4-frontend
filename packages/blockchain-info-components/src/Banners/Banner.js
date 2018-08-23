@@ -59,7 +59,13 @@ const Banner = props => {
   const { color, uppercase, icon } = style
 
   return (
-    <Container color={color} width={width} inline={inline} label={label}>
+    <Container
+      className={props.className}
+      color={color}
+      width={width}
+      inline={inline}
+      label={label}
+    >
       {icon && <Icon name={icon} size='18px' weight={700} color={color} />}
       <BannerContent
         size='12px'

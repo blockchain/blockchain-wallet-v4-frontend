@@ -2,6 +2,7 @@
 
 exports[`SelectInput component default renders correctly 1`] = `
 <Styled(StateManager)
+  borderColor="gray-2"
   components={
     Object {
       "Control": [Function],
