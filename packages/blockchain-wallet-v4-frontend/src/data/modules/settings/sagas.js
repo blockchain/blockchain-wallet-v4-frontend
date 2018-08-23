@@ -8,6 +8,7 @@ import {
   promptForSecondPassword
 } from 'services/SagaService'
 import { Types, utils } from 'blockchain-wallet-v4/src'
+import { contains, toLower, prop, head } from 'ramda'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -88,9 +89,29 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const resendMobile = function*(action) {
+    try {
+      yield call(coreSagas.settings.setMobile, action.payload)
+      yield put(actions.alerts.displaySuccess(C.SMS_RESEND_SUCCESS))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'resendMobile', e))
+      yield put(actions.alerts.displayError(C.MOBILE_UPDATE_ERROR))
+    }
+  }
+
   const verifyMobile = function*(action) {
     try {
-      yield call(coreSagas.settings.setMobileVerified, action.payload)
+      const response = yield call(
+        coreSagas.settings.setMobileVerified,
+        action.payload
+      )
+      const modals = yield select(selectors.modals.getModals)
+
+      if (
+        contains('successfully', toLower(response)) &&
+        prop('type', head(modals)) !== 'SfoxExchangeData'
+      )
+        yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess(C.MOBILE_VERIFY_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'verifyMobile', e))
@@ -318,6 +339,7 @@ export default ({ coreSagas }) => {
     showBackupRecovery,
     showGoogleAuthenticatorSecretUrl,
     updateMobile,
+    resendMobile,
     verifyMobile,
     updateLanguage,
     updateCurrency,

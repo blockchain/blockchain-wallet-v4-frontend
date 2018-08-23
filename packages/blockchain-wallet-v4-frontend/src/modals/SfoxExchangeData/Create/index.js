@@ -49,15 +49,15 @@ class CreateContainer extends Component {
 
 CreateContainer.propTypes = {
   ui: PropTypes.object,
-  updateUI: PropTypes.function,
+  updateUI: PropTypes.func,
   smsVerified: PropTypes.number.isRequired,
   emailVerified: PropTypes.number.isRequired
 }
 
 const mapStateToProps = state => ({
   data: getData(state),
-  smsVerified: selectors.core.settings.getSmsVerified(state).data,
-  emailVerified: selectors.core.settings.getEmailVerified(state).data,
+  smsVerified: selectors.core.settings.getSmsVerified(state).getOrElse(0),
+  emailVerified: selectors.core.settings.getEmailVerified(state).getOrElse(0),
   emailVerifiedError: path(['securityCenter', 'emailVerifiedError'], state),
   mobileVerifiedError: path(['securityCenter', 'mobileVerifiedError'], state)
 })

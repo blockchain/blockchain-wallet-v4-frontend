@@ -18,6 +18,12 @@ const Wrapper = styled.div`
         fill: ${props => props.theme['gray-5']} !important;
       }
     }
+    .highcharts-tooltip {
+      text {
+        font-size: 12px;
+        fill: ${props => props.theme['gray-5']} !important;
+      }
+    }
     .highcharts-series {
       path:first-child {
         font-size: 12px;

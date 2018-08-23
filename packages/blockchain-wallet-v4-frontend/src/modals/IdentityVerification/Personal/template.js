@@ -4,13 +4,13 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { model } from 'data'
 import {
   required,
   requiredDOB,
   ageOverEighteen,
   normalizeDateOfBirth
 } from 'services/FormHelper'
-import { PERSONAL_FORM } from 'data/components/identityVerification/model'
 import media from 'services/ResponsiveService'
 import { spacing } from 'services/StyleService'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
@@ -86,6 +86,8 @@ const EditLink = styled(Link)`
     font-size: 12px;
   `};
 `
+
+const { PERSONAL_FORM } = model.components.identityVerification
 
 const faqQuestions = [
   {

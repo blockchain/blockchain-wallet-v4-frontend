@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
-
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import MobileNumberVerify from './template.js'
 
@@ -18,11 +17,10 @@ class MobileNumberVerifyContainer extends React.PureComponent {
 
   onSubmit () {
     this.props.settingsActions.verifyMobile(this.props.code)
-    this.props.modalActions.closeAllModals()
   }
 
   handleResend () {
-    this.props.settingsActions.updateMobile(this.props.mobileNumber)
+    this.props.settingsActions.resendMobile(this.props.mobileNumber)
   }
 
   handleChange () {
@@ -47,7 +45,8 @@ MobileNumberVerifyContainer.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  code: formValueSelector('mobileNumberVerify')(state, 'code')
+  code: formValueSelector('mobileNumberVerify')(state, 'code'),
+  smsVerified: selectors.core.settings.getSmsVerified(state).getOrElse()
 })
 
 const mapDispatchToProps = dispatch => ({

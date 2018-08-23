@@ -22,6 +22,11 @@ const defaultDomains = {
   comRoot: 'https://blockchain.com'
 }
 
+injectGlobal`
+  html, body, #app, #app > div {padding: 0; margin: 0; height: 100%;}
+  body {overflow: hidden;}
+`
+
 const Wrapper = styled.div`
   background-color: ${props => props.theme['brand-primary']};
   height: auto;

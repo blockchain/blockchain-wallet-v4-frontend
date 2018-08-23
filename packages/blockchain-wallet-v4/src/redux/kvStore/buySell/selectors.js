@@ -13,6 +13,9 @@ export const getSfoxUser = state =>
 export const getSfoxJumio = state =>
   getMetadata(state).map(path(['value', 'sfox', 'jumio']))
 
+export const getSfoxPhoneCall = state =>
+  getMetadata(state).map(path(['value', 'sfox', 'phone_call']))
+
 export const getCoinifyTrades = state =>
   getMetadata(state).map(path(['value', 'coinify', 'trades']))
 

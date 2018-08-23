@@ -4,7 +4,8 @@ import { Remote } from 'blockchain-wallet-v4/src'
 
 const INITIAL_STATE = {
   step: 1,
-  payment: Remote.NotAsked
+  payment: Remote.NotAsked,
+  feeToggled: false
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -23,6 +24,9 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.SEND_ETH_SECOND_STEP_CANCEL_CLICKED: {
       return assoc('step', 1, state)
+    }
+    case AT.SEND_ETH_FIRST_STEP_FEE_TOGGLED: {
+      return assoc('feeToggled', !state.feeToggled, state)
     }
     default:
       return state

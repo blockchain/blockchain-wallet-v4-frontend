@@ -5,7 +5,6 @@ import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
 import * as modalActions from '../../modals/actions'
 import * as modalSelectors from '../../modals/selectors'
-import settings from 'config'
 import * as C from 'services/AlertService'
 import * as CC from 'services/ConfirmService'
 import { promptForSecondPassword, confirm } from 'services/SagaService'
@@ -16,7 +15,7 @@ export const sellDescription = `Exchange Trade SFX-`
 export const logLocation = 'modules/sfox/sagas'
 export const missingJumioToken = 'missing_jumio_token'
 
-export default ({ coreSagas }) => {
+export default ({ coreSagas, networks }) => {
   const setBankManually = function*(action) {
     try {
       yield put(A.sfoxLoading())
@@ -137,6 +136,13 @@ export default ({ coreSagas }) => {
       }
       yield put(A.sfoxSuccess())
       yield put(A.enableSiftScience())
+      const phoneCallRequestSentR = yield select(
+        selectors.core.kvStore.buySell.getSfoxPhoneCall
+      )
+      const phoneCallRequestSent = phoneCallRequestSentR.getOrElse(true)
+      if (trade.speedupAvailable && !phoneCallRequestSent) {
+        yield call(confirmPhoneCall, trade)
+      }
       yield put(
         actions.form.change('buySellTabStatus', 'status', 'order_history')
       )
@@ -152,12 +158,12 @@ export default ({ coreSagas }) => {
       const state = yield select()
       const defaultIdx = selectors.core.wallet.getDefaultAccountIndex(state)
       const receiveR = selectors.core.common.btc.getNextAvailableReceiveAddress(
-        settings.NETWORK_BITCOIN,
+        networks.btc,
         defaultIdx,
         state
       )
       const receiveIdxR = selectors.core.common.btc.getNextAvailableReceiveIndex(
-        settings.NETWORK_BITCOIN,
+        networks.btc,
         defaultIdx,
         state
       )
@@ -183,7 +189,7 @@ export default ({ coreSagas }) => {
       let p = path(['sfoxSignup', 'payment'], state)
       let payment = yield coreSagas.payment.btc.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_BITCOIN
+        network: networks.btc
       })
 
       payment = yield payment.amount(parseInt(trade.sendAmount))
@@ -244,7 +250,7 @@ export default ({ coreSagas }) => {
     try {
       yield put(A.sfoxSellBtcPaymentUpdatedLoading())
       let payment = coreSagas.payment.btc.create({
-        network: settings.NETWORK_BITCOIN
+        network: networks.btc
       })
       payment = yield payment.init()
       const defaultIndex = yield select(
@@ -262,13 +268,35 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const confirmPhoneCall = function*(trade) {
+    const smsNumberR = yield select(selectors.core.settings.getSmsNumber)
+    const smsNumber = smsNumberR.getOrElse(null)
+    try {
+      const confirmed = yield call(confirm, {
+        title: CC.PHONE_CALL_TITLE,
+        message: CC.PHONE_CALL_MSG,
+        confirm: CC.CONFIRM_PHONE_CALL,
+        cancel: CC.CANCEL_PHONE_CALL,
+        messageValues: { smsNumber }
+      })
+      if (confirmed) {
+        yield put(actions.core.kvStore.buySell.sfoxSetPhoneCall(true))
+        const profileR = yield select(selectors.core.data.sfox.getProfile)
+        const profile = profileR.getOrElse({})
+        yield apply(profile, profile.submitPhoneCallOptIn, [trade])
+      }
+    } catch (e) {
+      actions.logs.logErrorMessage(logLocation, 'confirmPhoneCall', e)
+    }
+  }
+
   const initializeJumio = function*() {
     try {
       const status = yield call(fetchJumioStatus)
       const accountsR = yield select(selectors.core.data.sfox.getAccounts)
       const accounts = accountsR.getOrElse([])
       // If user has not set up jumio and they have bank accounts
-      if (status === missingJumioToken && accounts.length) {
+      if (!status && accounts.length) {
         const confirmed = yield call(confirm, {
           title: CC.VERIFY_IDENTITY_TITLE,
           image: 'identity-verification',
@@ -316,9 +344,15 @@ export default ({ coreSagas }) => {
       const tokenR = yield select(selectors.core.kvStore.buySell.getSfoxJumio)
       const token = tokenR.getOrFail()
       const profile = profileR.getOrElse({})
-      if (!token) return missingJumioToken
-      const status = yield apply(profile, profile.fetchJumioStatus, [token.id])
-      yield put(A.fetchJumioStatusSuccess(status))
+      if (!token) {
+        throw new Error(missingJumioToken)
+      } else {
+        const status = yield apply(profile, profile.fetchJumioStatus, [
+          token.id
+        ])
+        const success = yield put(A.fetchJumioStatusSuccess(status))
+        return prop('payload', success)
+      }
     } catch (e) {
       yield put(A.fetchJumioStatusFailure(e))
     }

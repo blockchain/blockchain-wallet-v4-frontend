@@ -222,11 +222,7 @@ export const reviewOrder = {
       } else return `$${(+q.baseAmount - +q.feeAmount).toFixed(2)}`
     }
   },
-  renderDate (p, type) {
-    let minutesInADay = 1440
-    let waitingDays = p.processingTimes.usd[type] / minutesInADay
-    return moment()
-      .add(waitingDays, 'days')
-      .format('dddd, MMMM Do YYYY')
+  renderDate (q) {
+    return moment(q.expectedDelivery).format('dddd, MMMM Do YYYY')
   }
 }

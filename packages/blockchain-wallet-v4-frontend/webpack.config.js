@@ -57,14 +57,13 @@ if (!isCiBuild) {
     console.log(
       chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL)
     )
+    // SSL detection
+    sslEnabled =
+      fs.existsSync(PATHS.sslConfig + 'key.pem') &&
+      fs.existsSync(PATHS.sslConfig + 'cert.pem')
+    console.log(chalk.cyan('SSL Enabled: ') + chalk.blue(sslEnabled))
   }
 }
-
-// SSL detection
-sslEnabled =
-  fs.existsSync(PATHS.sslConfig + 'key.pem') &&
-  fs.existsSync(PATHS.sslConfig + 'cert.pem')
-console.log(chalk.cyan('SSL Enabled: ') + chalk.blue(sslEnabled))
 
 module.exports = {
   mode: isCiBuild ? 'production' : 'development',
@@ -136,7 +135,8 @@ module.exports = {
     new CleanWebpackPlugin([PATHS.dist, PATHS.lib], { allowExternal: true }),
     new CaseSensitivePathsPlugin(),
     new Webpack.DefinePlugin({
-      APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version)
+      APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version),
+      NETWORK_TYPE: JSON.stringify(envConfig.NETWORK_TYPE)
     }),
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
@@ -224,6 +224,13 @@ module.exports = {
           comRoot: envConfig.COM_ROOT
         }
 
+        if (process.env.NODE_ENV === 'testnet') {
+          mockWalletOptions.platforms.web.bitcoin.config.network = 'testnet'
+          mockWalletOptions.platforms.web.coinify.config.partnerId = 35
+          mockWalletOptions.platforms.web.sfox.config.apiKey =
+            '6fbfb80536564af8bbedb7e3be4ec439'
+        }
+
         res.json(mockWalletOptions)
       })
 
@@ -263,7 +270,8 @@ module.exports = {
         ? []
         : [
             "img-src 'self' data: blob:",
-            // 'unsafe-inline' can only be used in dev. production builds remove this and use nonce from server instead
+            // 'unsafe-inline' can only be used in dev. production builds remove
+            // this rule and use nonce generated from the server instead.
             "script-src 'self' 'unsafe-inline'",
             "style-src 'self' 'unsafe-inline'",
             `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${
@@ -272,6 +280,9 @@ module.exports = {
             `child-src ${iSignThisDomain} ${
               envConfig.WALLET_HELPER_DOMAIN
             } blob:`,
+            "script-src 'self'",
+            // 'ws://localhost:8080' is only used by webpack for development and
+            // should not be present on production.,
             [
               'connect-src',
               "'self'",
