@@ -2,8 +2,8 @@ import { takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import sagas from './sagas'
 
-export default ({ api, coreSagas }) => {
-  const importBtcAddressSagas = sagas({ api, coreSagas })
+export default ({ api, coreSagas, networks }) => {
+  const importBtcAddressSagas = sagas({ api, coreSagas, networks })
 
   return function*() {
     yield takeLatest(

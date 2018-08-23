@@ -683,6 +683,9 @@ describe('sfoxSagas', () => {
         .next(mockJumioStatus)
         .put(sfoxActions.fetchJumioStatusSuccess(mockJumioStatus))
     })
+    it('should return success payload', () => {
+      saga.next().isDone()
+    })
   })
 
   describe('sfox fetchJumioToken', () => {
