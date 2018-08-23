@@ -270,9 +270,9 @@ module.exports = {
         ? []
         : [
             "img-src 'self' data: blob:",
+            "script-src 'self'",
             // 'unsafe-inline' can only be used in dev. production builds remove
             // this rule and use nonce generated from the server instead.
-            "script-src 'self' 'unsafe-inline'",
             "style-src 'self' 'unsafe-inline'",
             `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${
               envConfig.ROOT_URL
@@ -280,9 +280,6 @@ module.exports = {
             `child-src ${iSignThisDomain} ${
               envConfig.WALLET_HELPER_DOMAIN
             } blob:`,
-            "script-src 'self'",
-            // 'ws://localhost:8080' is only used by webpack for development and
-            // should not be present on production.,
             [
               'connect-src',
               "'self'",

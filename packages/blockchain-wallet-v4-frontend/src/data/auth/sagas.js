@@ -426,11 +426,16 @@ export default ({ api, coreSagas }) => {
     const isEmailVerified = yield select(
       selectors.core.settings.getEmailVerified
     )
-    yield put(actions.modules.profile.clearSession())
+    const userFlowSupported = (yield select(
+      selectors.modules.profile.userFlowSupported
+    )).getOrElse(false)
+    if (userFlowSupported) {
+      yield put(actions.modules.profile.clearSession())
+      yield put(actions.middleware.webSocket.rates.stopSocket())
+    }
     yield put(actions.middleware.webSocket.bch.stopSocket())
     yield put(actions.middleware.webSocket.btc.stopSocket())
     yield put(actions.middleware.webSocket.eth.stopSocket())
-    yield put(actions.middleware.webSocket.rates.stopSocket())
     // only show browser de-auth page to accounts with verified email
     isEmailVerified.getOrElse(0)
       ? yield put(actions.router.push('/logout'))
