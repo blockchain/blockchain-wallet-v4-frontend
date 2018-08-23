@@ -51,7 +51,7 @@ const KYCNotification = props => {
                   id='scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.sell'
                   defaultMessage='While your identity gets verified, you can sell up to '
                 />
-                {sellMax} BTC.
+                &nbsp;{sellMax} BTC.
               </Fragment>
             ) : (
               <Fragment>
@@ -59,7 +59,7 @@ const KYCNotification = props => {
                   id='scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.buy'
                   defaultMessage='While your identity gets verified, you can buy up to '
                 />
-                {symbol}
+                &nbsp;{symbol}
                 {limits.max}.
               </Fragment>
             )}
