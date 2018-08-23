@@ -18,13 +18,13 @@ const RestoreLockboxDevice = props => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.lockbox.settings.exportxpub.title'
+            id='scenes.lockbox.settings.restorelockboxdevice.title'
             defaultMessage='Restore Lockbox Device'
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.lockbox.settings.exportxpub.description'
+            id='scenes.lockbox.settings.restorelockboxdevice.description'
             defaultMessage='Get step by step instructions to restore your device in our user guide'
           />
         </SettingDescription>
@@ -32,8 +32,8 @@ const RestoreLockboxDevice = props => {
       <SettingComponent>
         <Button nature='primary' onClick={onClick}>
           <FormattedMessage
-            id='scenes.lockbox.settings.exportxpub.delete'
-            defaultMessage='TEMP'
+            id='scenes.lockbox.settings.restorelockboxdevice.restore'
+            defaultMessage='ICON'
           />
         </Button>
       </SettingComponent>

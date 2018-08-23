@@ -18,13 +18,13 @@ const FirmwareUpdate = props => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.lockbox.settings.exportxpub.title'
+            id='scenes.lockbox.settings.firmwareupdate.title'
             defaultMessage='Firmware Update'
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.lockbox.settings.exportxpub.description'
+            id='scenes.lockbox.settings.firmwareupdate.description'
             defaultMessage='Version 1.3 includes bug fixes blah blah'
           />
         </SettingDescription>
@@ -32,7 +32,7 @@ const FirmwareUpdate = props => {
       <SettingComponent>
         <Button nature='primary' onClick={onClick}>
           <FormattedMessage
-            id='scenes.lockbox.settings.exportxpub.delete'
+            id='scenes.lockbox.settings.firmwareupdate.update'
             defaultMessage='Update'
           />
         </Button>

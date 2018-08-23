@@ -18,13 +18,13 @@ const SetupNewDevice = props => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.lockbox.settings.exportxpub.title'
+            id='scenes.lockbox.settings.setupnewdevice.title'
             defaultMessage='Setup New Device'
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.lockbox.settings.exportxpub.description'
+            id='scenes.lockbox.settings.setupnewdevice.description'
             defaultMessage='Get step by step instructions in our setup guide'
           />
         </SettingDescription>
@@ -32,8 +32,8 @@ const SetupNewDevice = props => {
       <SettingComponent>
         <Button nature='primary' onClick={onClick}>
           <FormattedMessage
-            id='scenes.lockbox.settings.exportxpub.delete'
-            defaultMessage='TEMP'
+            id='scenes.lockbox.settings.setupnewdevice.setup'
+            defaultMessage='ICON'
           />
         </Button>
       </SettingComponent>
