@@ -17,7 +17,6 @@ import {
   PartnerHeader,
   PartnerSubHeader
 } from 'components/IdentityVerification'
-import { StepTransition } from 'components/Utilities/Stepper'
 import ReviewForm from './ReviewForm'
 
 const ExchangeRateWrapper = styled.div`
@@ -273,7 +272,7 @@ const sellQuestions = [
   }
 ]
 export const OrderSubmit = props => {
-  const { busy, clearTradeError, onSubmit, quoteR, type } = props
+  const { busy, clearTradeError, onSubmit, quoteR, type, coinifyNextCheckoutStep } = props
   const questions =
     type === 'sell' ? sellQuestions.concat(faqQuestions) : faqQuestions
   return (
@@ -288,13 +287,13 @@ export const OrderSubmit = props => {
             {busy.error_description}
           </Text>
           <span>
-            <StepTransition restart Component={Link} weight={300} size='13px'>
+            <Link weight={300} size='13px' onClick={() => coinifyNextCheckoutStep('checkout')}>
               <FormattedMessage id='try_again' defaultMessage='Try again' />
-            </StepTransition>
+            </Link>
           </span>
         </div>
       ) : (
-        <ReviewForm busy={busy} onSubmit={onSubmit} quoteR={quoteR} />
+        <ReviewForm busy={busy} onSubmit={onSubmit} quoteR={quoteR} coinifyNextCheckoutStep={coinifyNextCheckoutStep} />
       )}
       {renderFaq(questions)}
     </Fragment>

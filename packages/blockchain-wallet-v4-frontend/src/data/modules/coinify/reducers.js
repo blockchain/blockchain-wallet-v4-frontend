@@ -79,6 +79,9 @@ const coinify = (state = INITIAL_STATE, action) => {
     case AT.COINIFY_SHOW_RECURRING_MODAL: {
       return assoc('showRecurringModal', payload, state)
     }
+    case AT.COINIFY_IS_RECURRING_TRADE: {
+      return assoc('subscription', payload, state)
+    }
     case AT.COINIFY_SET_RECURRING_TRADE_FREQUENCY: {
       return assocPath(['subscriptionData', 'frequency'], payload, state)
     }

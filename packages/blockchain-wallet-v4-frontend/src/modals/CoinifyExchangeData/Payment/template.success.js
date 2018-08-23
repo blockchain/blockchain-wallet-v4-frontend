@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { spacing } from 'services/StyleService'
 import renderFaq from 'components/FaqDropdown'
-import { StepTransition } from 'components/Utilities/Stepper'
 import { equals, path } from 'ramda'
 
 import { Button, HeartbeatLoader, Link } from 'blockchain-info-components'
@@ -119,6 +118,7 @@ const Payment = props => {
   const {
     value,
     busy,
+    coinifyNextCheckoutStep,
     handlePaymentClick,
     medium,
     triggerKyc,
@@ -134,6 +134,11 @@ const Payment = props => {
   const prefillCardMax = limits => handlePrefillCardMax(limits)
 
   const isChecked = type => medium === type
+
+  const onClickHelper = () => {
+    if (path(['name'], level) < 2 && medium === 'bank') triggerKyc()
+    else coinifyNextCheckoutStep('summary')
+  }
 
   return (
     <PaymentForm>
@@ -178,34 +183,22 @@ const Payment = props => {
       <PaymentColRight>
         <PaymentColRightInner>
           <ButtonContainer>
-            {path(['name'], level) < 2 && medium === 'bank' ? (
-              <Button
-                nature='primary'
-                fullwidth
-                onClick={triggerKyc}
-                disabled={!medium || busy}
-              >
-                {busyHelper(busy)}
-              </Button>
-            ) : (
-              <StepTransition
-                next
-                Component={Button}
-                nature='primary'
-                fullwidth
-                disabled={!medium || busy}
-              >
-                {busyHelper(busy)}
-              </StepTransition>
-            )}
+            <Button
+              nature='primary'
+              fullwidth
+              onClick={() => onClickHelper()}
+              disabled={!medium || busy}
+            >
+              {busyHelper(busy)}
+            </Button>
           </ButtonContainer>
           <CancelWrapper>
-            <StepTransition prev Component={Link}>
+            <Link onClick={() => coinifyNextCheckoutStep('checkout')}>
               <FormattedMessage
                 id='coinifyexchangedata.payment.cancel'
                 defaultMessage='Cancel'
               />
-            </StepTransition>
+            </Link>
           </CancelWrapper>
           <FaqWrapper>{renderFaq(faqQuestions)}</FaqWrapper>
         </PaymentColRightInner>

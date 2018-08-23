@@ -146,7 +146,7 @@
         "config": {
           "production": false,
           "availability": true,
-          "partnerId": 24,
+          "partnerId": 35,
           "iSignThisDomain": "https://stage-verify.isignthis.com",
           "surveyLinks": [
             "https://blockchain.co1.qualtrics.com/SE/?SID=SV_8pupOEQPGkXx8Kp",

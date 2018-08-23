@@ -7,7 +7,6 @@ import { Remote } from 'blockchain-wallet-v4/src'
 
 import { CancelWrapper, CenteredWrapper } from 'components/IdentityVerification'
 import { CheckBox } from 'components/Form'
-import { StepTransition } from 'components/Utilities/Stepper'
 import { required } from 'services/FormHelper'
 
 const OrderSubmitForm = styled.form`
@@ -22,7 +21,7 @@ const TermsLabel = styled.label`
 `
 
 const ReviewForm = props => {
-  const { invalid, submitting, busy, onSubmit, quoteR } = props
+  const { invalid, submitting, busy, onSubmit, quoteR, coinifyNextCheckoutStep } = props
 
   return (
     <OrderSubmitForm>
@@ -57,9 +56,9 @@ const ReviewForm = props => {
         </Button>
       </CenteredWrapper>
       <CancelWrapper>
-        <StepTransition restart Component={Link}>
+        <Link onClick={() => coinifyNextCheckoutStep('checkout')}>
           <FormattedMessage id='cancel' defaultMessage='Cancel' />
-        </StepTransition>
+        </Link>
       </CancelWrapper>
     </OrderSubmitForm>
   )

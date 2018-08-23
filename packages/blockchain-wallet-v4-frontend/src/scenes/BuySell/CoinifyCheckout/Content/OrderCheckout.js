@@ -4,7 +4,6 @@ import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'
 import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { StepTransition } from 'components/Utilities/Stepper'
 import QuoteInput from './QuoteInput'
 import { MethodContainer } from 'components/BuySell/styled.js'
 import {
@@ -19,6 +18,7 @@ const OrderCheckout = ({
   changeTab,
   checkoutBusy,
   checkoutError,
+  coinifyNextCheckoutStep,
   countryCode,
   defaultCurrency,
   increaseLimit,
@@ -78,45 +78,21 @@ const OrderCheckout = ({
         ? <HeartbeatLoader height='20px' width='20px' color='white' />
         : <FormattedMessage id='scenes.buysell.coinifycheckout.content.ordercheckout.continue' defaultMessage='Continue' />
 
-    if (showRecurringModal) {
-      return (
-        <Button
-          onClick={() => openRecurringConfirmModal()}
-          nature='primary'
-          fullwidth
-          style={spacing('mt-45')}
-          disabled={
-            checkoutBusy ||
-            Remote.Loading.is(quoteR) ||
-            checkoutError ||
-            limitsHelper(quoteR, limits)
-          }
-        >
-          {buttonContent()}
-        </Button>
-      )
-    } else if (reason.indexOf('has_remaining') > -1) {
-      return (
-        (
-          <StepTransition
-            next
-            Component={Button}
-            style={spacing('mt-45')}
-            nature='primary'
-            fullwidth
-            disabled={
-              checkoutBusy ||
-              Remote.Loading.is(quoteR) ||
-              checkoutError ||
-              limitsHelper(quoteR, limits)
-            }
-          >
-            {buttonContent()}
-          </StepTransition>
-        )
-      )
-    }
-    return null
+    return (
+      <Button
+        onClick={() => showRecurringModal ? openRecurringConfirmModal() : coinifyNextCheckoutStep('payment')}
+        nature='primary'
+        fullwidth
+        style={spacing('mt-45')}
+        disabled={
+          checkoutBusy ||
+          Remote.Loading.is(quoteR) ||
+          checkoutError ||
+          limitsHelper(quoteR, limits)}
+      >
+        {buttonContent()}
+      </Button>
+    )
   }
 
   return <ExchangeCheckoutWrapper>

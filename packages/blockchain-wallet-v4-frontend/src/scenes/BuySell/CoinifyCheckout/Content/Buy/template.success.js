@@ -1,13 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import { contains, path, prop } from 'ramda'
+import { contains, path, prop, equals } from 'ramda'
 
 import { Button } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import * as service from 'services/CoinifyService'
-import Stepper, { StepView } from 'components/Utilities/Stepper'
 import OrderCheckout from '../OrderCheckout'
 import { OrderDetails, OrderSubmit } from '../OrderReview'
 import Payment from 'modals/CoinifyExchangeData/Payment'
@@ -74,82 +73,80 @@ const CoinifyBuy = props => {
 
   const limits = service.getLimits(profile._limits, defaultCurrency)
 
-  if (step === 'checkout') {
+  if (equals(step, 'checkout')) {
     return (
-      <Stepper initialStep={0}>
-        <StepView step={0}>
-          <CheckoutWrapper>
-            <LeftContainer>
-              <OrderCheckout
-                checkoutBusy={checkoutBusy}
-                countryCode={countryCode}
-                defaultCurrency={defaultCurrency}
-                increaseLimit={handleKycAction}
-                limits={limits.buy}
-                onFetchQuote={fetchBuyQuote}
-                openRecurringConfirmModal={openRecurringConfirmModal}
-                quoteR={buyQuoteR}
-                reason={'has_remaining'}
-                setMax={setMax}
-                setMin={setMin}
-                showRecurringBuy={showRecurringBuy}
-                showRecurringModal={showRecurringModal}
-                symbol={symbol}
-                type={'buy'}
-              />
-            </LeftContainer>
-            <RightContainer>
-              {activeSubscriptions.length > 0 ? (
-                <NextSubscription
-                  subscriptions={subscriptions}
-                  trades={trades.filter(t => t.tradeSubscriptionId)}
-                  manageOrder={() => changeTab('order_history')}
-                />
-              ) : null}
-              {path(['state'], kyc) ? (
-                <KYCNotification
-                  kyc={kyc}
-                  limits={limits.buy}
-                  symbol={symbol}
-                  onTrigger={kyc => handleKycAction(kyc)}
-                  canTrade={canTrade}
-                />
-              ) : null}
-            </RightContainer>
-          </CheckoutWrapper>
-        </StepView>
-        <StepView step={1}>
-          <Payment />
-        </StepView>
-        <StepView step={2}>
-          <CheckoutWrapper>
-            <OrderDetails
-              quoteR={buyQuoteR}
-              onRefreshQuote={refreshQuote}
-              type={'buy'}
-              medium={paymentMedium}
+      <CheckoutWrapper>
+        <LeftContainer>
+          <OrderCheckout
+            checkoutBusy={checkoutBusy}
+            coinifyNextCheckoutStep={coinifyNextCheckoutStep}
+            countryCode={countryCode}
+            defaultCurrency={defaultCurrency}
+            increaseLimit={handleKycAction}
+            limits={limits.buy}
+            onFetchQuote={fetchBuyQuote}
+            openRecurringConfirmModal={openRecurringConfirmModal}
+            quoteR={buyQuoteR}
+            reason={'has_remaining'}
+            setMax={setMax}
+            setMin={setMin}
+            showRecurringBuy={showRecurringBuy}
+            showRecurringModal={showRecurringModal}
+            symbol={symbol}
+            type={'buy'}
+          />
+        </LeftContainer>
+        <RightContainer>
+          {activeSubscriptions.length > 0 ? (
+            <NextSubscription
+              subscriptions={subscriptions}
+              trades={trades.filter(t => t.tradeSubscriptionId)}
+              manageOrder={() => changeTab('order_history')}
             />
-            <OrderSubmitWrapper>
-              <OrderSubmit
-                quoteR={buyQuoteR}
-                onSubmit={initiateBuy}
-                busy={busy}
-                type={'buy'}
-                clearTradeError={clearTradeError}
-              />
-            </OrderSubmitWrapper>
-          </CheckoutWrapper>
-        </StepView>
-      </Stepper>
+          ) : null}
+          {path(['state'], kyc) ? (
+            <KYCNotification
+              kyc={kyc}
+              limits={limits.buy}
+              symbol={symbol}
+              onTrigger={kyc => handleKycAction(kyc)}
+              canTrade={canTrade}
+            />
+          ) : null}
+        </RightContainer>
+      </CheckoutWrapper>
     )
-  } else if (step === 'isx') {
+  } else if (equals(step, 'payment')) {
+    return <Payment />
+  } else if (equals(step, 'isx')) {
     return (
       <ISignThis
         iSignThisId={path(['iSignThisID'], trade)}
         options={props.options}
       />
     )
-  } else if (step === 'bankTransferDetails') {
+  } else if (equals(step, 'summary')) {
+    return (
+      <CheckoutWrapper>
+        <OrderDetails
+          quoteR={buyQuoteR}
+          onRefreshQuote={refreshQuote}
+          type={'buy'}
+          medium={paymentMedium}
+        />
+        <OrderSubmitWrapper>
+          <OrderSubmit
+            quoteR={buyQuoteR}
+            onSubmit={initiateBuy}
+            busy={busy}
+            type={'buy'}
+            clearTradeError={clearTradeError}
+            coinifyNextCheckoutStep={coinifyNextCheckoutStep}
+          />
+        </OrderSubmitWrapper>
+      </CheckoutWrapper>
+    )
+  } else if (equals(step, 'bankTranferDetails')) {
     return (
       <CheckoutWrapper>
         <BankTransferDetails trade={trade} />

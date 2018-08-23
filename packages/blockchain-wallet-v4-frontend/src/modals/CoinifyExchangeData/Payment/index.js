@@ -40,7 +40,7 @@ class PaymentContainer extends Component {
 
   render () {
     const { data, coinifyBusy, coinifyActions } = this.props
-    const { openKYC, checkoutCardMax } = coinifyActions
+    const { openKYC, checkoutCardMax, coinifyNextCheckoutStep } = coinifyActions
 
     const busy = coinifyBusy.cata({
       Success: () => false,
@@ -60,6 +60,7 @@ class PaymentContainer extends Component {
           triggerKyc={this.triggerKyc}
           busy={busy}
           openPendingKyc={openKYC}
+          coinifyNextCheckoutStep={coinifyNextCheckoutStep}
           handlePrefillCardMax={limits => checkoutCardMax(limits)}
         />
       ),

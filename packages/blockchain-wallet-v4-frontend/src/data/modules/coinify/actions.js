@@ -141,3 +141,6 @@ export const startKycFromRecurring = () => ({
 export const handleRecurringModalClose = () => ({
   type: AT.HANDLE_RECURRING_MODAL_CLOSE
 })
+export const setIsRecurringTrade = payload => ({
+  type: AT.COINIFY_IS_RECURRING_TRADE
+})

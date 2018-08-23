@@ -34,8 +34,8 @@ const checkboxShouldBeChecked = value =>
   value ? undefined : 'You must agree to the terms and conditions to create a recurring order'
 
 const CoinifyRecurringBuyConfirm = props => {
-  const { canMakeRecurringTrade, numberOfTradesAway, status, coinifyActions, invalid } = props
-  const { handleRecurringModalClose } = coinifyActions
+  const { canMakeRecurringTrade, numberOfTradesAway, status, coinifyActions, invalid, close } = props
+  const { handleRecurringModalClose, setIsRecurringTrade, coinifyNextCheckoutStep, startKycFromRecurring } = coinifyActions
 
   const textHelper = () => {
     switch (canMakeRecurringTrade) {
@@ -54,7 +54,7 @@ const CoinifyRecurringBuyConfirm = props => {
       case 'needs_trades':
         return {
           header: <FormattedMessage id='modals.coinifyrecurringbuyconfirm.header.needstrades' defaultMessage='Complete 3 Orders' />,
-          body: <FormattedMessage id='modals.coinifyrecurringbuyconfirm.body.needstrades' defaultMessage='To unlock the recurring buy feature, start by completing 3 credit card orders. You are only {numOfTrades} away.' values={{ numOfTrades: numberOfTradesAway }} />,
+          body: <FormattedMessage id='modals.coinifyrecurringbuyconfirm.body.needstrades' defaultMessage='To unlock the recurring buy feature, start by completing 3 credit card orders. You are only {numOfTrades} {orders} away.' values={{ numOfTrades: numberOfTradesAway, orders: numberOfTradesAway > 1 ? 'orders' : 'order' }} />,
           button: <FormattedMessage id='modals.coinifyrecurringbuyconfirm.button.needstrades' defaultMessage='Create an Order' />
         }
       default:
@@ -70,15 +70,15 @@ const CoinifyRecurringBuyConfirm = props => {
     switch (canMakeRecurringTrade) {
       case 'needs_kyc':
       case 'needs_kyc_trades':
-        this.props.coinifyActions.startKycFromRecurring()
+        startKycFromRecurring()
         break
       case 'needs_trades':
-        this.props.close()
-        this.props.coinifyActions.coinifyNextCheckoutStep('checkout')
+        handleRecurringModalClose()
         break
       default:
-        // TODO: dispatch action to set subscription to true to it gets passed to core when user buys
-        console.log('can make recurring trade')
+        close()
+        coinifyNextCheckoutStep('payment')
+        setIsRecurringTrade(true)
     }
   }
 
