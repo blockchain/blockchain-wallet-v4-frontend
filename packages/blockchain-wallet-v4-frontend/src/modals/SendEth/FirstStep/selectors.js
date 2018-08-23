@@ -8,7 +8,7 @@ export const getData = createDeepEqualSelector(
   [
     selectors.components.sendEth.getPayment,
     selectors.components.sendEth.getFeeToggled,
-    selectors.core.data.ethereum.getLegacyBalance
+    selectors.core.data.ethereum.getCurrentBalance
   ],
   (paymentR, feeToggled, balanceR) => {
     const transform = payment => {

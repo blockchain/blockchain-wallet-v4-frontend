@@ -42,12 +42,12 @@ export default ({ api }) => {
   }
 
   const getBalance = function*() {
-    yield put(A.data.ethereum.fetchLegacyBalanceLoading())
+    yield put(A.data.ethereum.fetchCurrentBalanceLoading())
     const accountR = yield select(S.kvStore.ethereum.getDefaultAddress)
     const account = accountR.getOrFail('missing_default_from')
     const data = yield call(api.getEthereumBalances, account)
     const balance = path([account, 'balance'], data)
-    yield put(A.data.ethereum.fetchLegacyBalanceSuccess(balance))
+    yield put(A.data.ethereum.fetchCurrentBalanceSuccess(balance))
     return balance
   }
   // ///////////////////////////////////////////////////////////////////////////
