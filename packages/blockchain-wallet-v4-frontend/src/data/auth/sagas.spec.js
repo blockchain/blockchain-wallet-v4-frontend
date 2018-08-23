@@ -350,6 +350,7 @@ describe('authSagas', () => {
     const firstLogin = false
     const saga = testSaga(loginRoutineSaga, mobileLogin, firstLogin)
     const beforeHdCheck = 'beforeHdCheck'
+    const beforeUserFlowCheck = 'beforeUserFlowCheck'
 
     it('should check if wallet is an hd wallet', () => {
       saga
@@ -404,16 +405,30 @@ describe('authSagas', () => {
       saga.next().put(actions.router.push('/home'))
     })
 
+    it('should fetch settings', () => {
+      saga.next().call(coreSagas.settings.fetchSettings)
+    })
+
+    it('should check if user flow is supported', () => {
+      saga
+        .next()
+        .select(selectors.modules.profile.userFlowSupported)
+        .save(beforeUserFlowCheck)
+    })
+
+    it('should trigger signin action if user flow is supported', () => {
+      saga
+        .next(Remote.of(true))
+        .put(actions.modules.profile.signIn())
+        .restore(beforeUserFlowCheck)
+    })
+
     it('should call upgrade address labels saga', () => {
-      saga.next().call(upgradeAddressLabelsSaga)
+      saga.next(Remote.of(false)).call(upgradeAddressLabelsSaga)
     })
 
     it('should trigger login success action', () => {
       saga.next().put(actions.auth.loginSuccess())
-    })
-
-    it('should trigger signin action', () => {
-      saga.next().put(actions.modules.profile.signIn())
     })
 
     it('should start logout timer', () => {

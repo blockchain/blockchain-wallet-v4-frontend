@@ -95,7 +95,7 @@ export default ({ api, coreSagas }) => {
   const loginRoutineSaga = function*(mobileLogin, firstLogin) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
-      let isHdWallet = yield select(selectors.core.wallet.isHdWallet)
+      const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
       if (!isHdWallet) {
         yield call(upgradeWalletSaga)
       }
@@ -111,9 +111,13 @@ export default ({ api, coreSagas }) => {
       )
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield put(actions.router.push('/home'))
+      yield call(coreSagas.settings.fetchSettings)
+      const userFlowSupported = (yield select(
+        selectors.modules.profile.userFlowSupported
+      )).getOrElse(false)
+      if (userFlowSupported) yield put(actions.modules.profile.signIn())
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.loginSuccess())
-      yield put(actions.modules.profile.signIn())
       yield put(actions.auth.startLogoutTimer())
       // store guid in cache for future logins
       const guid = yield select(selectors.core.wallet.getGuid)
