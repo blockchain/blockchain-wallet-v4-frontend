@@ -4,8 +4,7 @@ import { isEmpty } from 'ramda'
 import { callLatest } from 'utils/effects'
 import { actions, selectors, model, actionTypes } from 'data'
 import profileSagas, {
-  userIdError,
-  lifetimeTokenError
+  authCredentialsGenerationError
 } from 'data/modules/profile/sagas'
 import { Remote } from 'blockchain-wallet-v4/src'
 
@@ -21,10 +20,10 @@ export const noPostCodeError = 'Post code is not provided'
 export default ({ api, coreSagas }) => {
   const { USER_ACTIVATION_STATES } = model.profile
   const {
+    createUser,
     updateUser,
     updateUserAddress,
-    updateUserMobile,
-    generateAuthCredentials
+    syncUserWithWallet
   } = profileSagas({
     api,
     coreSagas
@@ -59,12 +58,10 @@ export default ({ api, coreSagas }) => {
 
   const verifySmsNumber = function*() {
     yield put(actions.form.startSubmit(SMS_NUMBER_FORM))
-    const { code, smsNumber } = yield select(
-      selectors.form.getFormValues(SMS_NUMBER_FORM)
-    )
+    const { code } = yield select(selectors.form.getFormValues(SMS_NUMBER_FORM))
     yield put(actions.modules.settings.verifyMobile(code))
     yield take(actionTypes.core.settings.SET_MOBILE_VERIFIED)
-    yield call(updateUserMobile, { payload: { mobile: smsNumber } })
+    yield call(syncUserWithWallet)
     const { mobileVerified } = yield select(
       selectors.modules.profile.getUserData
     )
@@ -116,10 +113,7 @@ export default ({ api, coreSagas }) => {
       }
 
       // Skipping mobile verification step
-      const mobile = (yield select(
-        selectors.core.settings.getSmsNumber
-      )).getOrElse('')
-      yield call(updateUserMobile, { payload: { mobile } })
+      yield call(syncUserWithWallet)
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
       yield put(A.setVerificationStep(STEPS.verify))
     } catch (e) {
@@ -156,7 +150,7 @@ export default ({ api, coreSagas }) => {
       yield put(A.setAddressRefetchVisible(false))
       yield put(actions.form.startSubmit(PERSONAL_FORM))
       yield put(A.setPossibleAddresses([]))
-      yield call(generateAuthCredentials)
+      yield call(createUser)
       const addresses = yield callLatest(api.fetchKycAddresses, {
         postCode,
         countryCode
@@ -165,7 +159,7 @@ export default ({ api, coreSagas }) => {
       yield put(A.setPossibleAddresses(addresses))
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
     } catch (e) {
-      if (e.message === userIdError || e.message === lifetimeTokenError) {
+      if (e.message === authCredentialsGenerationError) {
         yield put(actions.form.stopSubmit(PERSONAL_FORM))
         yield put(A.setAddressRefetchVisible(true))
       }

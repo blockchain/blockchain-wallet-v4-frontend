@@ -3,6 +3,7 @@ import { call } from 'redux-saga-test-plan/matchers'
 import { select } from 'redux-saga/effects'
 
 import { selectors } from 'data'
+import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import sagas from './sagas'
@@ -13,23 +14,25 @@ jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const coreSagas = coreSagasFactory()
 
 const api = {
+  generateRetailToken: jest.fn(),
+  createUser: jest.fn(),
   generateUserId: jest.fn(),
   generateLifetimeToken: jest.fn(),
   generateSession: jest.fn(),
   getUser: jest.fn(),
   updateUser: jest.fn(),
   updateUserAddress: jest.fn(),
-  updateUserMobile: jest.fn()
+  syncUserWithWallet: jest.fn()
 }
 
 const {
   signIn,
   updateUser,
   updateUserAddress,
-  updateUserMobile,
-  generateUserId,
-  generateLifetimeToken,
+  createUser,
+  generateRetailToken,
   generateAuthCredentials,
+  syncUserWithWallet,
   startSession
 } = sagas({
   api,
@@ -38,8 +41,11 @@ const {
 
 const stubGuid = 'fa0c3130-0b7d-46cf-9d76-4b8208e298e5'
 const stubEmail = 'user@mail.com'
+const stubSharedKey = 'de6263f9-5029-412c-9fd5-8dc139cb9547'
 const stubUserId = '3d448ad7-0e2c-4b65-91b0-c149892e243c'
 const stubLifetimeToken = 'de6263f9-5029-412c-9fd5-8dc139cb9549'
+const stubRetailToken =
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJyZXRhaWwtY29yZSIsImV4cCI6MTUzNDA0NTg2MywiaWF0IjoxNTM0MDAyNjYzLCJ1c2VySUQiOiIzZDQ0OGFkNy0wZTJjLTRiNjUtOTFiMC1jMTQ5ODkyZTI0M2MiLCJqdGkiOiJkMGIyMDc3My03NDg3LTRhM2EtOWE1MC0zYmEzNzBlZWU4NjkifQ.O24d8dozP4KjNFMHPYaBNMISvQZXC3gPhSCXDIP-Eox'
 const stubApiToken =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJyZXRhaWwtY29yZSIsImV4cCI6MTUzNDA0NTg2MywiaWF0IjoxNTM0MDAyNjYzLCJ1c2VySUQiOiIzZDQ0OGFkNy0wZTJjLTRiNjUtOTFiMC1jMTQ5ODkyZTI0M2MiLCJqdGkiOiJkMGIyMDc3My03NDg3LTRhM2EtOWE1MC0zYmEzNzBlZWU4NjkifQ.O24d8dozP4KjNFMHPYaBNMISvQZXC3gPhSCXDIP-Eok'
 const stubAddress = {
@@ -66,7 +72,6 @@ const newAddress = {
   state: 'England',
   postCode: 'E145AX'
 }
-const newMobile = '+447799674749'
 const stubbedSignin = expectSaga(signIn).provide([
   [select(selectors.core.wallet.getGuid), stubGuid],
   [select(selectors.core.settings.getEmail), Remote.of(stubEmail)],
@@ -80,9 +85,7 @@ const stubbedSignin = expectSaga(signIn).provide([
   ],
   [call.fn(startSession), jest.fn()]
 ])
-const stubbedGenerateAuthCredentials = expectSaga(
-  generateAuthCredentials
-).provide([
+const stubbedCreateUser = expectSaga(createUser).provide([
   [select(selectors.core.wallet.getGuid), stubGuid],
   [select(selectors.core.settings.getEmail), Remote.of(stubEmail)],
   [
@@ -192,36 +195,9 @@ describe('update user address saga', () => {
       }))
 })
 
-describe('update user mobile saga', () => {
-  beforeEach(() => {
-    api.updateUserMobile.mockClear()
-  })
-
-  it('should call updateUserAddressMobile', () =>
-    expectSaga(updateUserMobile, {
-      payload: { mobile: newMobile }
-    })
-      .provide([[select(S.getUserData), stubUserData]])
-      .run()
-      .then(() => {
-        expect(api.updateUserMobile).toHaveBeenCalledTimes(1)
-        expect(api.updateUserMobile).toHaveBeenCalledWith(newMobile)
-      }))
-
-  it("should not update mobile if it didn't change", () =>
-    expectSaga(updateUserMobile, {
-      payload: { mobile: stubMobile }
-    })
-      .provide([[select(S.getUserData), stubUserData]])
-      .run()
-      .then(() => {
-        expect(api.updateUserMobile).toHaveBeenCalledTimes(0)
-      }))
-})
-
-describe('generate auth credentials saga', () => {
+describe('create user credentials saga', () => {
   it('should select guid from wallet, email form settings, user id and lifetime token from kvStore and call startSession', () =>
-    stubbedGenerateAuthCredentials
+    stubbedCreateUser
       .select(selectors.core.settings.getEmail)
       .select(selectors.core.wallet.getGuid)
       .select(selectors.core.kvStore.userCredentials.getUserId)
@@ -231,35 +207,54 @@ describe('generate auth credentials saga', () => {
       .run())
 
   it('should generate userId and lifetime token if they are not set in kvStore', () => {
-    api.generateUserId.mockReturnValueOnce({ userId: stubUserId })
-    api.generateLifetimeToken.mockReturnValueOnce({ token: stubLifetimeToken })
-    return expectSaga(generateAuthCredentials)
+    api.generateRetailToken.mockReturnValueOnce({ token: stubRetailToken })
+    api.createUser.mockReturnValueOnce({
+      userId: stubUserId,
+      lifetimeToken: stubLifetimeToken
+    })
+    return expectSaga(createUser)
       .provide([
         [select(selectors.core.wallet.getGuid), stubGuid],
+        [select(selectors.core.wallet.getSharedKey), stubSharedKey],
         [select(selectors.core.settings.getEmail), Remote.of(stubEmail)],
         [
           select(selectors.core.kvStore.userCredentials.getUserId),
-          Remote.Success('')
+          Remote.of('')
         ],
         [
           select(selectors.core.kvStore.userCredentials.getLifetimeToken),
-          Remote.Success('')
+          Remote.of('')
         ],
         [call.fn(startSession), jest.fn()]
       ])
-      .call(generateUserId, stubEmail, stubGuid)
-      .call(generateLifetimeToken, stubUserId, stubEmail, stubGuid)
+      .call(generateAuthCredentials)
+      .call(generateRetailToken)
+      .select(selectors.core.wallet.getSharedKey)
       .call(startSession, stubUserId, stubLifetimeToken, stubEmail, stubGuid)
       .run()
       .then(() => {
-        expect(api.generateUserId).toHaveBeenCalledTimes(1)
-        expect(api.generateUserId).toHaveBeenCalledWith(stubEmail, stubGuid)
-        expect(api.generateLifetimeToken).toHaveBeenCalledTimes(1)
-        expect(api.generateLifetimeToken).toHaveBeenCalledWith(
-          stubUserId,
-          stubEmail,
-          stubGuid
+        expect(api.generateRetailToken).toHaveBeenCalledTimes(1)
+        expect(api.generateRetailToken).toHaveBeenCalledWith(
+          stubGuid,
+          stubSharedKey
         )
+        expect(api.createUser).toHaveBeenCalledTimes(1)
+        expect(api.createUser).toHaveBeenCalledWith(stubRetailToken)
+      })
+  })
+})
+
+describe('sync user with wallet saga', () => {
+  it('should generate retail token sync user with it and update user data', () => {
+    api.syncUserWithWallet.mockReturnValueOnce(stubUserData)
+    expectSaga(syncUserWithWallet)
+      .provide([[call.fn(generateRetailToken), stubRetailToken]])
+      .call(generateRetailToken)
+      .put(A.setUserData(stubUserData))
+      .run()
+      .then(() => {
+        expect(api.syncUserWithWallet).toHaveBeenCalledTimes(1)
+        expect(api.syncUserWithWallet).toHaveBeenCalledWith(stubRetailToken)
       })
   })
 })
