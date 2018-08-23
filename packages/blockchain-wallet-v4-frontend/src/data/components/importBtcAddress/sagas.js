@@ -14,7 +14,7 @@ export default ({ api, coreSagas, networks }) => {
     const value = formValueSelector('importBtcAddress')(appState, 'addrOrPriv')
 
     // private key handling
-    if (value && utils.bitcoin.isValidBitcoinPrivateKey(value)) {
+    if (value && utils.bitcoin.isValidBitcoinPrivateKey(value, networks.btc)) {
       const to = formValueSelector('importBtcAddress')(appState, 'to')
       const format = utils.bitcoin.detectPrivateKeyFormat(value)
       const key = utils.bitcoin.privateKeyStringToKey(value, format)
