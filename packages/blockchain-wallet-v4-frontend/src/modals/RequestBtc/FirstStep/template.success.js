@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-
+import { contains } from 'ramda'
 import { required } from 'services/FormHelper'
 import { invalidAmountMin, invalidAmountMax } from './validation'
 import {
@@ -11,7 +11,8 @@ import {
   Separator,
   Text,
   TooltipIcon,
-  TooltipHost
+  TooltipHost,
+  Banner
 } from 'blockchain-info-components'
 import {
   FiatConvertor,
@@ -45,6 +46,9 @@ const QRText = styled(Text)`
 const CoinSelector = styled(FormGroup)`
   width: 50%;
 `
+const BannerContainer = styled.div`
+  margin-top: 5px;
+`
 
 const FirstStep = props => {
   const {
@@ -52,7 +56,8 @@ const FirstStep = props => {
     invalid,
     handleSubmit,
     handleClickQRCode,
-    receiveAddress
+    receiveAddress,
+    importedAddresses
   } = props
 
   return (
@@ -135,6 +140,18 @@ const FirstStep = props => {
             includeAll={false}
             validate={[required]}
           />
+          {
+            contains(receiveAddress, importedAddresses)
+              ? <BannerContainer>
+                <Banner type='warning'>
+                  <FormattedMessage
+                    id='modals.requestbitcoin.firststep.importedwarning'
+                    defaultMessage='You are about to receive to a watch-only address. You can only spend these funds if you have access to the private key.'
+                  />
+                </Banner>
+              </BannerContainer>
+              : null
+          }
         </FormItem>
       </FormGroup>
       <FormGroup margin={'20px'}>

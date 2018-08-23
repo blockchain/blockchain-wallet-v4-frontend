@@ -22,6 +22,15 @@ const Error = styled(Text)`
   left: ${props => (props.errorLeft ? '-2px' : 'auto')};
   top: ${props => (props.errorBottom ? '40px' : '-20px')};
 `
+const Unit = styled(Text)`
+  padding: 0 15px;
+  font-size: 12px;
+  font-weight: 300;
+  position: absolute;
+  color: ${props => props.theme['gray-4']};
+  right: 0px;
+  bottom: 30%;
+`
 const getErrorState = meta => {
   return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
@@ -88,6 +97,7 @@ class NumberBoxDebounced extends React.Component {
       errorLeft,
       meta,
       placeholder,
+      unit,
       ...rest
     } = this.props
     const errorState = getErrorState(meta)
@@ -129,6 +139,11 @@ class NumberBoxDebounced extends React.Component {
               {meta.warning}
             </Error>
           )}
+        {
+          unit
+            ? <Unit>{unit}</Unit>
+            : null
+        }
       </Container>
     )
   }

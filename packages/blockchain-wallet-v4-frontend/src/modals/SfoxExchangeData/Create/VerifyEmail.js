@@ -216,6 +216,7 @@ class VerifyEmail extends Component {
                 <Field
                   name='emailAddress'
                   component={TextBox}
+                  errorBottom
                   validate={[required]}
                 />
                 <Button

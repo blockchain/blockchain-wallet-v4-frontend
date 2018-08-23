@@ -3,8 +3,8 @@ import * as AT from './actionTypes'
 import { actionTypes } from 'redux-form'
 import sagas from './sagas'
 
-export default ({ coreSagas }) => {
-  const sendBtcSagas = sagas({ coreSagas })
+export default ({ coreSagas, networks }) => {
+  const sendBtcSagas = sagas({ coreSagas, networks })
 
   return function*() {
     yield takeLatest(AT.SEND_BTC_INITIALIZED, sendBtcSagas.initialized)
