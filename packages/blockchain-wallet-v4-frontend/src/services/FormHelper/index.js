@@ -29,6 +29,9 @@ const required = value => (value ? undefined : <M.RequiredMessage />)
 const optional = validator => value =>
   value === undefined || value === '' ? undefined : validator(value)
 
+const termsCheckBoxChecked = value =>
+  value ? undefined : <M.UnacceptedTermsMessage />
+
 const validNumber = value =>
   isNumeric(value) ? undefined : <M.InvalidNumberMessage />
 
@@ -80,15 +83,17 @@ const validEtherAddress = value =>
     <M.InvalidEtherAddressMessage />
   )
 
-const validBitcoinAddress = (value, allValues) =>
-  utils.bitcoin.isValidBitcoinAddress(value, allValues.from.network) ? (
+const validBitcoinAddress = (value, allValues, props) => {
+  return utils.bitcoin.isValidBitcoinAddress(value, props.network) ? (
     undefined
   ) : (
     <M.InvalidBitcoinAddressMessage />
   )
+}
 
-const validBitcoinCashAddress = value =>
-  utils.bitcoin.isValidBitcoinAddress(value) || utils.bch.isCashAddr(value) ? (
+const validBitcoinCashAddress = (value, allValues, props) =>
+  utils.bitcoin.isValidBitcoinAddress(value, props.network) ||
+  utils.bch.isCashAddr(value) ? (
     undefined
   ) : (
     <M.InvalidBitcoinCashAddressMessage />
@@ -104,9 +109,9 @@ const validBitcoinPrivateKey = value =>
     <M.InvalidBitcoinPrivateKeyMessage />
   )
 
-const validBitcoinAddressOrPrivateKey = value =>
+const validBitcoinAddressOrPrivateKey = (value, allValues, props) =>
   utils.bitcoin.isValidBitcoinPrivateKey(value) ||
-  utils.bitcoin.isValidBitcoinAddress(value) ? (
+  utils.bitcoin.isValidBitcoinAddress(value, props.network) ? (
     undefined
   ) : (
     <M.InvalidBitcoinAddressAndPrivateKeyMessage />
@@ -184,6 +189,7 @@ export {
   requiredSSN,
   requiredUsZipcode,
   requiredZipCode,
+  termsCheckBoxChecked,
   validNumber,
   validEmail,
   validEmailCode,

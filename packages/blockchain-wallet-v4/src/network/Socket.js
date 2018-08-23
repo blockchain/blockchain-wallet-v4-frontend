@@ -28,58 +28,43 @@ if (WebSocket) {
 let toArrayFormat = a => (Array.isArray(a) ? a : [a])
 
 class Socket {
-  constructor ({ options = {}, socketType }) {
-    this.wsUrl = options.domains.webSocket.replace('/inv', socketType + '/inv')
+  constructor ({ options = {}, url }) {
+    this.wsUrl = url
     this.headers = { Origin: options.domains.root }
-    this.pingInterval = 30000
-    this.pingIntervalPID = null
-    this.pingTimeout = 5000
-    this.pingTimeoutPID = null
-    this.reconnect = null
   }
+  pingInterval = 30000
+  pingIntervalPID = null
+  pingTimeout = 5000
+  pingTimeoutPID = null
+  reconnect = null
+  reconnectCount = 0
 
-  connect (onOpen = identity, onMessage = identity, onClose = identity) {
+  connect (
+    onOpen = identity,
+    onMessage = identity,
+    onClose = identity,
+    onError = identity
+  ) {
     if (!this.socket || this.socket.readyState === 3) {
       try {
-        this.pingIntervalPID = setInterval(
-          this.ping.bind(this),
-          this.pingInterval
-        )
+        this.pingIntervalPID = setInterval(this.ping, this.pingInterval)
         this.socket = new WS(this.wsUrl, [], { headers: this.headers })
         this.socket.on('open', onOpen)
         this.socket.on(
           'message',
           compose(
             onMessage,
-            this.onPong.bind(this),
-            this.extractMessage.bind(this)
+            this.onPong,
+            this.extractMessage
           )
         )
         this.socket.on('close', onClose)
+        this.socket.on('error', onError)
         this.reconnect = this.connect.bind(this, onOpen, onMessage, onClose)
       } catch (e) {
         console.error('Failed to connect to websocket', e)
       }
     }
-  }
-
-  ping () {
-    this.send(Socket.pingMessage())
-    let close = this.close.bind(this)
-    this.pingTimeoutPID = setTimeout(
-      compose(
-        this.reconnect,
-        close
-      ),
-      this.pingTimeout
-    )
-  }
-
-  onPong (msg) {
-    if (propEq('op', 'pong')) {
-      clearTimeout(this.pingTimeoutPID)
-    }
-    return msg
   }
 
   extractMessage (msg) {
@@ -89,17 +74,41 @@ class Socket {
     )(msg)
   }
 
-  close () {
-    if (this.socket) this.socket.close()
-    this.socket = null
-    clearInterval(this.pingIntervalPID)
-    clearTimeout(this.pingTimeoutPID)
-  }
-
   send (message) {
     if (this.socket && this.socket.readyState === 1) {
       this.socket.send(message)
     }
+  }
+
+  ping = () => {
+    this.send(Socket.pingMessage())
+    this.pingTimeoutPID = setTimeout(
+      compose(
+        this.reconnect,
+        this.close
+      ),
+      this.pingTimeout
+    )
+  }
+
+  onPong = msg => {
+    if (propEq('op', 'pong')) {
+      clearTimeout(this.pingTimeoutPID)
+    }
+    return msg
+  }
+
+  close = () => {
+    if (this.socket) {
+      this.socket.close()
+      this.socket.off('open')
+      this.socket.off('message')
+      this.socket.off('close')
+      this.socket.off('error')
+    }
+    this.socket = null
+    clearInterval(this.pingIntervalPID)
+    clearTimeout(this.pingTimeoutPID)
   }
 
   static walletSubMessage (guid) {

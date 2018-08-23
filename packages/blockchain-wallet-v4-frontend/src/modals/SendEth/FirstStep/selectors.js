@@ -12,11 +12,7 @@ export const getData = createDeepEqualSelector(
   ],
   (paymentR, feeToggled, balanceR) => {
     const transform = payment => {
-      const effectiveBalance = propOr(
-        '0',
-        'effectiveBalance',
-        payment
-      )
+      const effectiveBalance = propOr('0', 'effectiveBalance', payment)
       const unconfirmedTx = prop('unconfirmedTx', payment)
       const isContract = prop('isContract', payment)
       const fee = propOr('0', 'fee', payment)

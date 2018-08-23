@@ -1,6 +1,7 @@
 import { assoc, merge } from 'ramda'
 import * as AT from './actionTypes'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { EXCHANGE_STEPS } from './model'
 
 const INITIAL_STATE = {
   step: 1,
@@ -34,7 +35,7 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('error', payload, state)
     }
     case AT.EXCHANGE_FIRST_STEP_SUBMIT_CLICKED: {
-      return assoc('step', 2, state)
+      return assoc('step', EXCHANGE_STEPS.CONFIRM, state)
     }
     case AT.EXCHANGE_SECOND_STEP_INITIALIZED: {
       return assoc('secondStep', Remote.Loading, state)
@@ -50,7 +51,10 @@ export default (state = INITIAL_STATE, action) => {
       return INITIAL_STATE
     }
     case AT.EXCHANGE_SECOND_STEP_PAYMENT_SENT: {
-      return merge(state, { step: 3, payment: payload })
+      return merge(state, {
+        step: EXCHANGE_STEPS.EXCHANGE_RESULT,
+        payment: payload
+      })
     }
     case AT.EXCHANGE_SECOND_STEP_GOBACK:
     case AT.EXCHANGE_DESTROYED:

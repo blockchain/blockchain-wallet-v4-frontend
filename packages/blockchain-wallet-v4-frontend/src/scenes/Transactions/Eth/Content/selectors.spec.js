@@ -7,7 +7,8 @@ describe('Eth Transactions selectors', () => {
       var mockParams = {
         form: {
           ethTransactions: {
-            search: '0xc92b73e4cccaf5b44b2ce0e4133d44b6df120a533cdacddb7014513c9abe05cd',
+            search:
+              '0xc92b73e4cccaf5b44b2ce0e4133d44b6df120a533cdacddb7014513c9abe05cd',
             status: ''
           }
         },

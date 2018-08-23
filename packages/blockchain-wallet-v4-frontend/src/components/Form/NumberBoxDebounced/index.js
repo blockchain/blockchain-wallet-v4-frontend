@@ -22,7 +22,7 @@ const Error = styled(Text)`
   left: ${props => (props.errorLeft ? '-2px' : 'auto')};
   top: ${props => (props.errorBottom ? '40px' : '-20px')};
 `
-const Unit = styled.span`
+const Unit = styled(Text)`
   padding: 0 15px;
   font-size: 12px;
   font-weight: 300;
@@ -139,11 +139,7 @@ class NumberBoxDebounced extends React.Component {
               {meta.warning}
             </Error>
           )}
-        {
-          unit
-            ? <Unit>{unit}</Unit>
-            : null
-        }
+        {unit ? <Unit>{unit}</Unit> : null}
       </Container>
     )
   }

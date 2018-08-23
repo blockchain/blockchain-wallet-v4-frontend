@@ -7,6 +7,7 @@ export const ETHEREUM = 'ethereum'
 export const SHAPESHIFT = 'shapeshift'
 export const BCH = 'bch'
 export const BTC = 'btc'
+export const USER_CREDENTIALS = 'userCredentials'
 
 export const derivationMap = {
   [ROOT]: -1,
@@ -17,5 +18,6 @@ export const derivationMap = {
   [ETHEREUM]: 5,
   [SHAPESHIFT]: 6,
   [BCH]: 7,
-  [BTC]: 8
+  [BTC]: 8,
+  [USER_CREDENTIALS]: 10
 }

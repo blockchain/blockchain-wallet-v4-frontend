@@ -11,11 +11,7 @@ import {
 } from './validationMessages'
 
 export const insufficientFunds = (value, allValues, props) => {
-  return props.effectiveBalance > 0 ? (
-    undefined
-  ) : (
-    <InsufficientFundsMessage />
-  )
+  return props.effectiveBalance > 0 ? undefined : <InsufficientFundsMessage />
 }
 
 export const invalidAmount = (value, allValues, props) => {
@@ -39,25 +35,17 @@ export const maximumAmount = (value, allValues, props) => {
   return new BigNumber(valueEth).lessThanOrEqualTo(
     new BigNumber(effectiveBalanceEth || 0)
   ) ? (
-      undefined
-    ) : (
-      <MaximumAmountMessage />
-    )
+    undefined
+  ) : (
+    <MaximumAmountMessage />
+  )
 }
 
 export const minimumFee = (value, allValues, props) =>
-  value && parseInt(value) >= props.minFee ? (
-    undefined
-  ) : (
-    <MinimumFeeMessage />
-  )
+  value && parseInt(value) >= props.minFee ? undefined : <MinimumFeeMessage />
 
 export const maximumFee = (value, allValues, props) =>
-  value && parseInt(value) <= props.maxFee ? (
-    undefined
-  ) : (
-    <MaximumFeeMessage />
-  )
+  value && parseInt(value) <= props.maxFee ? undefined : <MaximumFeeMessage />
 
 export const shouldError = ({
   values,

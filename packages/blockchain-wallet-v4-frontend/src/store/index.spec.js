@@ -2,7 +2,11 @@ import configureStore from './index'
 import * as Redux from 'redux'
 import * as CoreSrc from 'blockchain-wallet-v4/src'
 import * as Middleware from '../middleware'
-import { createWalletApi, Socket } from 'blockchain-wallet-v4/src/network'
+import {
+  createWalletApi,
+  ApiSocket,
+  Socket
+} from 'blockchain-wallet-v4/src/network'
 import { persistStore, autoRehydrate } from 'redux-persist'
 // setup mocks
 jest.mock('redux-saga', () => () => {
@@ -30,6 +34,7 @@ jest.mock('connected-react-router', () => {
 jest.mock('blockchain-wallet-v4/src/network', () => {
   return {
     Socket: jest.fn().mockImplementation(() => 'FAKE_SOCKET'),
+    ApiSocket: jest.fn().mockImplementation(() => 'FAKE_API_SOCKET'),
     createWalletApi: jest.fn().mockImplementation(() => 'FAKE_WALLET_API')
   }
 })
@@ -113,19 +118,25 @@ describe('App Store Config', () => {
     expect(Socket.mock.calls.length).toEqual(3)
     expect(Socket.mock.calls[0][0]).toEqual({
       options: fakeWalletOptions,
-      socketType: ''
+      url: `${fakeWalletOptions.domains.webSocket}/inv`
     })
     expect(Socket.mock.calls[1][0]).toEqual({
       options: fakeWalletOptions,
-      socketType: '/bch'
+      url: `${fakeWalletOptions.domains.webSocket}/bch/inv`
     })
     expect(Socket.mock.calls[2][0]).toEqual({
       options: fakeWalletOptions,
-      socketType: '/eth'
+      url: `${fakeWalletOptions.domains.webSocket}/eth/inv`
+    })
+    expect(ApiSocket).toHaveBeenCalledTimes(1)
+    expect(ApiSocket).toHaveBeenCalledWith({
+      options: fakeWalletOptions,
+      url: `${fakeWalletOptions.domains.webSocket}/nabu-app/markets/quotes`,
+      maxReconnects: 3
     })
     // build api
     expect(createWalletApi.mock.calls.length).toBe(1)
-    expect(createWalletApi.mock.calls[0][0]).toEqual({
+    expect(createWalletApi.mock.calls[0][0]).toMatchObject({
       options: fakeWalletOptions,
       networks: mockNetworks,
       apiKey: apiKey
