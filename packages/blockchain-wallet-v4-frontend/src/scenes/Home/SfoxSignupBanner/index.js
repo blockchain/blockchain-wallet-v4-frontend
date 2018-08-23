@@ -2,7 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-
+import { path, prop } from 'ramda'
 import { getData } from './selectors'
 import SfoxSignupBanner from './template.js'
 import { determineStep } from 'services/SfoxService'
@@ -24,10 +24,15 @@ class SfoxSignupBannerContainer extends React.PureComponent {
   }
 
   renderStepper (sfoxData) {
+    const jumioId = path(['jumio', 'id'], prop('sfoxKvData', this.props))
+    const jumioStatus = path(['jumio', 'completed'], prop('sfoxKvData', this.props))
+
     const step = determineStep(
       sfoxData.sfoxProfile,
       sfoxData.verificationStatus,
-      sfoxData.sfoxAccounts
+      sfoxData.sfoxAccounts,
+      jumioId,
+      jumioStatus
     )
     const steps = { account: 1, verify: 2, upload: 3, funding: 4 }
     const currentStep = steps[step] || 0
