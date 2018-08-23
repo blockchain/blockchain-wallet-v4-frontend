@@ -2,7 +2,7 @@ export default () => {
   const uploadVerificationDocument = (url, file) =>
     fetch(url, {
       method: 'PUT',
-      data: file,
+      body: file,
       headers: new Headers({
         'Content-Type': 'application/octet-stream'
       })
