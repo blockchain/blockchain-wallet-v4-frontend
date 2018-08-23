@@ -10,31 +10,30 @@ import {
 
 import { Button } from 'blockchain-info-components'
 
-const DeviceStatus = props => {
-  const { deleteDevice, deviceName } = props
+const ExportXPub = props => {
+  const { onClick } = props
 
   return (
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.lockbox.settings.devicestatus.title'
-            defaultMessage='Device Status'
+            id='scenes.lockbox.settings.exportxpub.title'
+            defaultMessage='Export xPub'
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.lockbox.settings.devicestatus.description'
-            defaultMessage='{deviceName} is paired to your Blockchain web wallet'
-            values={{ deviceName }}
+            id='scenes.lockbox.settings.exportxpub.description'
+            defaultMessage='This copy tells you what this means'
           />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button nature='primary' onClick={deleteDevice}>
+        <Button nature='primary' onClick={onClick}>
           <FormattedMessage
-            id='scenes.lockbox.settings.devicestatus.delete'
-            defaultMessage='Delete'
+            id='scenes.lockbox.settings.exportxpub.delete'
+            defaultMessage='Export'
           />
         </Button>
       </SettingComponent>
@@ -42,4 +41,4 @@ const DeviceStatus = props => {
   )
 }
 
-export default DeviceStatus
+export default ExportXPub

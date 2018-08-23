@@ -10,14 +10,16 @@ import Settings from './template.js'
 class SettingsContainer extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.onSubmit = this.onSubmit.bind(this, this.props.deviceId)
+    this.onSubmit = this.onSubmit.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
     this.handleCancel = this.handleToggle.bind(this)
   }
 
-  onSubmit (deviceId) {
-    const deviceName = this.props.deviceName
-    this.props.lockboxActions.updateDeviceName(deviceId, deviceName)
+  onSubmit () {
+    this.props.lockboxActions.updateDeviceName(
+      this.props.deviceId,
+      this.props.deviceName
+    )
     this.handleToggle()
   }
 

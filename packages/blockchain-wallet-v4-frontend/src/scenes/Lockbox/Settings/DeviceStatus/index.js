@@ -8,11 +8,11 @@ import DeviceStatus from './template.js'
 class DeviceStatusContainer extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.deleteDevice = this.deleteDevice.bind(this, props.deviceId)
+    this.deleteDevice = this.deleteDevice.bind(this)
   }
 
-  deleteDevice (deviceId) {
-    this.props.lockboxActions.deleteDevice(deviceId)
+  deleteDevice () {
+    this.props.lockboxActions.deleteDevice(this.props.deviceId)
   }
 
   render () {
