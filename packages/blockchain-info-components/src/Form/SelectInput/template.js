@@ -8,6 +8,22 @@ const StyledSelect = styled(Select)`
   font-weight: 300;
   font-family: 'Montserrat', sans-serif;
   font-size: ${props => (props.fontSize === 'small' ? '12px' : '14px')};
+
+  .control {
+    box-shadow: none;
+    border: 1px solid ${props => props.theme[props.borderColor]};
+    &:hover {
+      border: 1px solid ${props => props.theme[props.borderColor]};
+    }
+    &:active {
+      border: 1px solid ${props => props.theme[props.borderColor]};
+      box-shadow: none;
+    }
+    &:disabled {
+      cursor: not-allowed;
+      background-color: ${props => props.theme['gray-1']};
+    }
+  }
 `
 
 const customStyles = {
@@ -49,7 +65,7 @@ const ValueContainer = ({ children, ...props }) => {
 const Control = props => {
   return props.selectProps.hideFocusedControl &&
     props.selectProps.menuIsOpen ? null : (
-    <components.Control {...props} />
+    <components.Control {...props} className='control' />
   )
 }
 
@@ -65,9 +81,23 @@ const IndicatorSeparator = props => {
   )
 }
 
+const selectBorderColor = state => {
+  switch (state) {
+    case 'initial':
+      return 'gray-2'
+    case 'invalid':
+      return 'error'
+    case 'valid':
+      return 'success'
+    default:
+      return 'gray-2'
+  }
+}
+
 const SelectInput = props => {
   const {
     items,
+    className,
     disabled,
     defaultItem,
     defaultDisplay,
@@ -77,6 +107,9 @@ const SelectInput = props => {
     hideFocusedControl,
     hideIndicator,
     handleChange,
+    onFocus,
+    onBlur,
+    errorState,
     menuIsOpen,
     grouped
   } = props
@@ -87,10 +120,13 @@ const SelectInput = props => {
   const defaultValue = grouped
     ? head(filter(x => equals(x.value, defaultItem), groupedOptions))
     : head(filter(x => equals(x.value, defaultItem), options))
+  const borderColor = selectBorderColor(errorState)
 
   return (
     <StyledSelect
+      className={className}
       options={options}
+      borderColor={borderColor}
       styles={customStyles}
       templateItem={templateItem}
       templateDisplay={templateDisplay}
@@ -106,6 +142,8 @@ const SelectInput = props => {
       placeholder={defaultDisplay}
       isSearchable={searchEnabled}
       onChange={handleChange}
+      onFocus={onFocus}
+      onBlur={onBlur}
       menuIsOpen={menuIsOpen}
       isDisabled={disabled}
       value={defaultValue}
@@ -120,10 +158,11 @@ SelectInput.propTypes = {
   searchEnabled: PropTypes.bool,
   opened: PropTypes.bool,
   disabled: PropTypes.bool,
-  handleBlur: PropTypes.func,
+  errorState: PropTypes.string,
   handleChange: PropTypes.func,
   handleClick: PropTypes.func,
-  handleFocus: PropTypes.func,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
   templateItem: PropTypes.func,
   fontSize: PropTypes.string
 }

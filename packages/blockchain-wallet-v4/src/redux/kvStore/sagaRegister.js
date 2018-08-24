@@ -8,6 +8,7 @@ import shapeShift from './shapeShift/sagaRegister'
 import buySell from './buySell/sagaRegister'
 import contacts from './contacts/sagaRegister'
 import lockbox from './lockbox/sagaRegister'
+import userCredentials from './userCredentials/sagaRegister'
 
 export default ({ api, networks }) =>
   function*() {
@@ -19,4 +20,5 @@ export default ({ api, networks }) =>
     yield fork(buySell({ api, networks }))
     yield fork(contacts({ api, networks }))
     yield fork(lockbox({ api, networks }))
+    yield fork(userCredentials({ api, networks }))
   }

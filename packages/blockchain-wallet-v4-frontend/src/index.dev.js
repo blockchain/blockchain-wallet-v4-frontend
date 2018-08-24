@@ -30,6 +30,8 @@ const renderApp = (Component, store, history) => {
 }
 
 const renderError = e => {
+  // eslint-disable-next-line no-console
+  console.error(e)
   ReactDOM.render(<Error />, document.getElementById('app'))
 }
 

@@ -161,3 +161,10 @@ export const InvalidZipCodeMessage = () => (
     defaultMessage='Invalid zipcode'
   />
 )
+
+export const UnacceptedTermsMessage = () => (
+  <FormattedMessage
+    id='formhelper.unacceptedterms'
+    defaultMessage='You must agree to the terms and conditions'
+  />
+)
