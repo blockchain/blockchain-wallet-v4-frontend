@@ -100,22 +100,18 @@ export default ({ api, coreSagas }) => {
   }
 
   const generateAuthCredentials = function*() {
-    try {
-      const retailToken = yield call(generateRetailToken)
-      const { userId, token: lifetimeToken } = yield call(
-        api.createUser,
-        retailToken
+    const retailToken = yield call(generateRetailToken)
+    const { userId, token: lifetimeToken } = yield call(
+      api.createUser,
+      retailToken
+    )
+    yield put(
+      actions.core.kvStore.userCredentials.setUserCredentials(
+        userId,
+        lifetimeToken
       )
-      yield put(
-        actions.core.kvStore.userCredentials.setUserCredentials(
-          userId,
-          lifetimeToken
-        )
-      )
-      return { userId, lifetimeToken }
-    } catch (e) {
-      throw new Error(authCredentialsGenerationError)
-    }
+    )
+    return { userId, lifetimeToken }
   }
 
   const createUser = function*() {

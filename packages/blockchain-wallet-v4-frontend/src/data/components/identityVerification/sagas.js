@@ -3,9 +3,7 @@ import { isEmpty } from 'ramda'
 
 import { callLatest } from 'utils/effects'
 import { actions, selectors, model } from 'data'
-import profileSagas, {
-  authCredentialsGenerationError
-} from 'data/modules/profile/sagas'
+import profileSagas from 'data/modules/profile/sagas'
 import { Remote } from 'blockchain-wallet-v4/src'
 import * as C from 'services/AlertService'
 
@@ -20,6 +18,9 @@ export const noPostCodeError = 'Post code is not provided'
 export const invalidNumberError = 'Failed to update mobile number'
 export const mobileVerifiedError = 'Failed to verify mobile number'
 export const failedResendError = 'Failed to resend the code'
+export const userExistsError = 'User already exists'
+export const getUserExistsError = email =>
+  `User with email ${email} already exists`
 
 export default ({ api, coreSagas }) => {
   const { USER_ACTIVATION_STATES } = model.profile
@@ -184,9 +185,17 @@ export default ({ api, coreSagas }) => {
       yield put(A.setPossibleAddresses(addresses))
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
     } catch (e) {
-      if (e.message === authCredentialsGenerationError) {
-        yield put(actions.form.stopSubmit(PERSONAL_FORM))
-        yield put(A.setAddressRefetchVisible(true))
+      if (e.description === userExistsError) {
+        // TODO: show a better error explaining that user with
+        // target email already exists
+        const email = (yield select(
+          selectors.core.settings.getEmail
+        )).getOrFail()
+        return yield put(
+          actions.form.stopSubmit(PERSONAL_FORM, {
+            postCode: getUserExistsError(email)
+          })
+        )
       }
 
       if (e.description === noCountryCodeError) {
@@ -212,10 +221,13 @@ export default ({ api, coreSagas }) => {
         )
       }
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
-      actions.logs.logErrorMessage(
-        logLocation,
-        'fetchPossibleAddresses',
-        `Error fetching addresses: ${e}`
+      yield put(A.setAddressRefetchVisible(true))
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'fetchPossibleAddresses',
+          `Error fetching addresses: ${e}`
+        )
       )
     }
   }
