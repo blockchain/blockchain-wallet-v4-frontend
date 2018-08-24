@@ -15,11 +15,21 @@ export default ({ api, coreSagas, networks }) => {
 
     // private key handling
     if (value && utils.bitcoin.isValidBitcoinPrivateKey(value, networks.btc)) {
+      let address
       const to = formValueSelector('importBtcAddress')(appState, 'to')
       const format = utils.bitcoin.detectPrivateKeyFormat(value)
-      const key = utils.bitcoin.privateKeyStringToKey(value, format)
-      const address = key.getAddress()
       const priv = value
+      try {
+        const key = utils.bitcoin.privateKeyStringToKey(value, format)
+        address = key.getAddress()
+      } catch (error) {
+        yield put(
+          actions.logs.logErrorMessage(
+            `${logLocation} importBtcAddressSubmitClicked`,
+            error
+          )
+        )
+      }
       yield call(importLegacyAddress, address, priv, null, null, to)
       return
     }
