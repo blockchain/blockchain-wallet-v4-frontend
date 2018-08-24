@@ -1,7 +1,6 @@
 import { call, select, put } from 'redux-saga/effects'
-import { identity, prop } from 'ramda'
-import { formValueSelector } from 'redux-form'
-import * as actions from '../../actions'
+import { prop } from 'ramda'
+import { actions, selectors } from 'data'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword, promptForInput } from 'services/SagaService'
 import { utils } from 'blockchain-wallet-v4/src'
@@ -10,15 +9,14 @@ export default ({ api, coreSagas, networks }) => {
   const logLocation = 'components/importBtcAddress/sagas'
 
   const importBtcAddressSubmitClicked = function*() {
-    const appState = yield select(identity)
-    const value = formValueSelector('importBtcAddress')(appState, 'addrOrPriv')
+    const form = yield select(selectors.form.getFormValues('importBtcAddress'))
+    const value = prop('addrOrPriv', form)
+    const to = prop('to', form)
 
     // private key handling
     if (value && utils.bitcoin.isValidBitcoinPrivateKey(value, networks.btc)) {
       let address
-      const to = formValueSelector('importBtcAddress')(appState, 'to')
       const format = utils.bitcoin.detectPrivateKeyFormat(value)
-      const priv = value
       try {
         const key = utils.bitcoin.privateKeyStringToKey(value, format)
         address = key.getAddress()
@@ -30,14 +28,13 @@ export default ({ api, coreSagas, networks }) => {
           )
         )
       }
-      yield call(importLegacyAddress, address, priv, null, null, to)
+      yield call(importLegacyAddress, address, value, null, null, to)
       return
     }
 
     // address handling (watch-only)
     if (value && utils.bitcoin.isValidBitcoinAddress(value, networks.btc)) {
-      const address = value
-      yield call(importLegacyAddress, address, null, null, null, null)
+      yield call(importLegacyAddress, value, null, null, null, null)
     }
   }
 
