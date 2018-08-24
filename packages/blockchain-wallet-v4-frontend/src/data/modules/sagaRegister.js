@@ -14,7 +14,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(coinify({ coreSagas, networks }))
     yield fork(profile({ api, coreSagas }))
     yield fork(rates({ api }))
-    yield fork(settings({ coreSagas }))
+    yield fork(settings({ api, coreSagas }))
     yield fork(securityCenter({ coreSagas }))
     yield fork(transferEth({ coreSagas }))
     yield fork(sfox({ coreSagas, networks }))

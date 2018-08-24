@@ -1,4 +1,5 @@
 import { put, call, select } from 'redux-saga/effects'
+import profileSagas from 'data/modules/profile/sagas'
 import * as actions from '../../actions.js'
 import * as selectors from '../../selectors.js'
 import * as C from 'services/AlertService'
@@ -16,8 +17,13 @@ const taskToPromise = t =>
 export const ipRestrictionError =
   'You must add at least 1 ip address to the whitelist'
 
-export default ({ coreSagas }) => {
-  const logLocation = 'modules/settings/sagas'
+export const logLocation = 'modules/settings/sagas'
+
+export default ({ api, coreSagas }) => {
+  const { syncUserWithWallet } = profileSagas({
+    api,
+    coreSagas
+  })
 
   const initSettingsInfo = function*() {
     try {
@@ -82,6 +88,10 @@ export default ({ coreSagas }) => {
   const updateMobile = function*(action) {
     try {
       yield call(coreSagas.settings.setMobile, action.payload)
+      const userFlowSupported = (yield select(
+        selectors.modules.profile.userFlowSupported
+      )).getOrElse(false)
+      if (userFlowSupported) yield call(syncUserWithWallet)
       yield put(actions.alerts.displaySuccess(C.MOBILE_UPDATE_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateMobile', e))
@@ -112,6 +122,10 @@ export default ({ coreSagas }) => {
         prop('type', head(modals)) !== 'SfoxExchangeData'
       )
         yield put(actions.modals.closeAllModals())
+      const userFlowSupported = (yield select(
+        selectors.modules.profile.userFlowSupported
+      )).getOrElse(false)
+      if (userFlowSupported) yield call(syncUserWithWallet)
       yield put(actions.alerts.displaySuccess(C.MOBILE_VERIFY_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'verifyMobile', e))
