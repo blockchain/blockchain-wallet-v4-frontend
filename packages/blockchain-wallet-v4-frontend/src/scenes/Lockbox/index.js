@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { actions } from 'data'
 
 class LockboxContainer extends React.PureComponent {
-  componentWillMount() {
+  componentWillMount () {
     this.props.lockboxActions.determineLockboxRoute()
   }
 

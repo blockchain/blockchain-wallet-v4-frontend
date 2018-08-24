@@ -20,7 +20,9 @@ export default ({ api, coreSagas }) => {
         ? yield put(actions.router.push('/lockbox/dashboard'))
         : yield put(actions.router.push('/lockbox/onboard'))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'determineLockboxRoute', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'determineLockboxRoute', e)
+      )
     }
   }
   // saves new device to KvStore
