@@ -1,6 +1,7 @@
 import React from 'react'
 import moment from 'moment'
 import { FormattedMessage } from 'react-intl'
+import { prop, length, head } from 'ramda'
 
 export const isVerified = verificationStatus => {
   const { level } = verificationStatus
@@ -15,16 +16,11 @@ const isActiveAccount = accounts => {
 }
 
 export const determineStep = (profile, verificationStatus, accounts, jumioToken, jumioCompleted) => {
-  if (!profile) {
-    return 'account'
-  } else {
-    if (verificationStatus.level === 'unverified') return 'verify'
-    if (verificationStatus.level === 'needs_documents') return 'upload'
-    if (jumioToken && !jumioCompleted) return 'upload'
-    else if (!accounts.length || accounts[0]['status'] === 'pending') {
-      return 'funding'
-    } else return 'verified'
-  }
+  if (!profile) return 'account'
+  if (prop('level', verificationStatus) === 'unverified') return 'verify'
+  if (prop('level', verificationStatus) === 'needs_documents' || (jumioToken && !jumioCompleted)) return 'upload'
+  if (!length(accounts) || prop('status', head(accounts)) === 'pending') return 'funding'
+  return 'verified'
 }
 
 export const determineReason = (

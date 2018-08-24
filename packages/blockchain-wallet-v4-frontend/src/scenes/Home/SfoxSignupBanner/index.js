@@ -24,8 +24,8 @@ class SfoxSignupBannerContainer extends React.PureComponent {
   }
 
   renderStepper (sfoxData) {
-    const jumioId = path(['jumio', 'id'], prop('sfoxKvData', this.props))
-    const jumioStatus = path(['jumio', 'completed'], prop('sfoxKvData', this.props))
+    const jumioId = path(['sfoxKvData', 'jumio', 'id'], this.props)
+    const jumioStatus = path(['sfoxKvData', 'jumio', 'completed'], this.props)
 
     const step = determineStep(
       sfoxData.sfoxProfile,
