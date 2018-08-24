@@ -5,18 +5,18 @@ import { connect } from 'react-redux'
 import { actions } from 'data'
 import Setup from './template.js'
 
-class LockboxSetupContainer extends React.PureComponent {
+class OnboardContainer extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.launchCarbonSetup = this.launchCarbonSetup.bind(this)
+    this.launchLockboxSetup = this.launchLockboxSetup.bind(this)
   }
 
-  launchCarbonSetup () {
+  launchLockboxSetup () {
     this.props.modalActions.showModal('LockboxSetup')
   }
 
   render () {
-    return <Setup launchCarbonSetup={this.launchCarbonSetup} />
+    return <Setup launchLockboxSetup={this.launchLockboxSetup} />
   }
 }
 
@@ -27,4 +27,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   null,
   mapDispatchToProps
-)(LockboxSetupContainer)
+)(OnboardContainer)

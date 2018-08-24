@@ -11,6 +11,18 @@ import * as LockboxService from 'services/LockboxService'
 const logLocation = 'components/lockbox/sagas'
 
 export default ({ api, coreSagas }) => {
+  // determines if lockbox is setup and routes app accordingly
+  const determineLockboxRoute = function*() {
+    try {
+      const devicesR = yield select(selectors.core.kvStore.lockbox.getDevices)
+      const devices = devicesR.getOrElse({})
+      keysIn(devices).length
+        ? yield put(actions.router.push('/lockbox/dashboard'))
+        : yield put(actions.router.push('/lockbox/onboard'))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'determineLockboxRoute', e))
+    }
+  }
   // saves new device to KvStore
   const saveNewDeviceKvStore = function*(action) {
     try {
@@ -172,6 +184,7 @@ export default ({ api, coreSagas }) => {
 
   return {
     deleteDevice,
+    determineLockboxRoute,
     initializeNewDeviceSetup,
     saveNewDeviceKvStore,
     updateDeviceName,

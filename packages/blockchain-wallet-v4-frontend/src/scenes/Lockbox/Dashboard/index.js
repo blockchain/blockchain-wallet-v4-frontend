@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 import { actions } from 'data'
+import { getData } from './selectors'
 import Content from './Content'
 import Header from './Header'
 
@@ -22,12 +23,14 @@ class LockboxDashboardContainer extends React.PureComponent {
     )
   }
 }
-
+const mapStateToProps = state => ({
+  device: getData(state)
+})
 const mapDispatchToProps = dispatch => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(LockboxDashboardContainer)

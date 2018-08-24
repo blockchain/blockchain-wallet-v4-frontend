@@ -7,12 +7,16 @@ export default ({ api, coreSagas }) => {
 
   return function*() {
     yield takeLatest(
-      AT.SAVE_NEW_DEVICE_KVSTORE,
-      lockboxSagas.saveNewDeviceKvStore
-    )
-    yield takeLatest(
       AT.INITIALIZE_NEW_DEVICE_SETUP,
       lockboxSagas.initializeNewDeviceSetup
+    )
+    yield takeLatest(
+      AT.DETERMINE_LOCKBOX_ROUTE,
+      lockboxSagas.determineLockboxRoute
+    )
+    yield takeLatest(
+      AT.SAVE_NEW_DEVICE_KVSTORE,
+      lockboxSagas.saveNewDeviceKvStore
     )
     yield takeLatest(
       AT.SAVE_NEW_DEVICE_KVSTORE,

@@ -1,7 +1,9 @@
 import * as AT from './actionTypes'
 
+export const determineLockboxRoute = () => ({
+  type: AT.DETERMINE_LOCKBOX_ROUTE
+})
 // CONNECTIONS
-
 export const initializeNewDeviceSetup = () => ({
   type: AT.INITIALIZE_NEW_DEVICE_SETUP
 })
