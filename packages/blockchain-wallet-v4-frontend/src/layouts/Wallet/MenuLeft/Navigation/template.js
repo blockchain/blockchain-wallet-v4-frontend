@@ -72,10 +72,18 @@ const SubMenuItem = styled.li`
 `
 
 const Navigation = props => {
-  const { settingsOpened, canTrade } = props
+  const {
+    menuOpened,
+    settingsOpened,
+    handleCloseMenu,
+    canTrade,
+    userFlowSupported,
+    pathname,
+    ...rest
+  } = props
 
   return (
-    <Wrapper>
+    <Wrapper {...rest}>
       <Menu>
         <LinkContainer to='/home' activeClassName='active'>
           <MenuItem>
@@ -205,6 +213,17 @@ const Navigation = props => {
                 />
               </SubMenuItem>
             </LinkContainer>
+            {userFlowSupported && (
+              <LinkContainer to='/settings/profile' activeClassName='active'>
+                <SubMenuItem>
+                  <FormattedMessage
+                    id='layouts.wallet.menuleft.navigation.profile'
+                    defaultMessage='Profile'
+                    smaller
+                  />
+                </SubMenuItem>
+              </LinkContainer>
+            )}
             <LinkContainer to='/settings/preferences' activeClassName='active'>
               <SubMenuItem>
                 <FormattedMessage
@@ -231,9 +250,11 @@ const Navigation = props => {
 }
 
 Navigation.propTypes = {
+  menuOpened: PropTypes.bool.isRequired,
+  settingsOpened: PropTypes.bool.isRequired,
   canTrade: PropTypes.bool.isRequired,
-  connectionStatus: PropTypes.string.isRequired,
-  settingsOpened: PropTypes.bool.isRequired
+  pathname: PropTypes.string.isRequired,
+  handleCloseMenu: PropTypes.func.isRequired
 }
 
 export default Navigation

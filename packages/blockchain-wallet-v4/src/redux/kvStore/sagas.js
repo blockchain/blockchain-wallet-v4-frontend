@@ -6,6 +6,7 @@ import lockbox from './lockbox/sagas'
 import buySell from './buySell/sagas'
 import whatsNew from './whatsNew/sagas'
 import contacts from './contacts/sagas'
+import userCredentials from './userCredentials/sagas'
 import shapeShift from './shapeShift/sagas'
 
 export default ({ api, networks }) => ({
@@ -17,5 +18,6 @@ export default ({ api, networks }) => ({
   buySell: buySell({ api, networks }),
   whatsNew: whatsNew({ api, networks }),
   contacts: contacts({ api, networks }),
-  shapeShift: shapeShift({ api, networks })
+  shapeShift: shapeShift({ api, networks }),
+  userCredentials: userCredentials({ api, networks })
 })

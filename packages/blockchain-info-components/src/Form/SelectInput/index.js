@@ -5,14 +5,9 @@ import { equals, prop, contains, toUpper } from 'ramda'
 import SelectInput from './template.js'
 
 class SelectInputContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = {
-      value: this.props.value,
-      search: ''
-    }
-    this.transform = this.transform.bind(this)
-    this.handleChange = this.handleChange.bind(this)
+  state = {
+    value: this.props.value,
+    search: ''
   }
 
   componentWillReceiveProps (nextProps) {
@@ -21,7 +16,7 @@ class SelectInputContainer extends React.PureComponent {
     }
   }
 
-  handleChange (item) {
+  handleChange = item => {
     const value = prop('value', item)
 
     this.setState({
@@ -32,7 +27,7 @@ class SelectInputContainer extends React.PureComponent {
     }
   }
 
-  transform (elements, search) {
+  transform = (elements, search) => {
     let items = []
     elements.map(element => {
       if (!search && element.group !== '') {
@@ -48,6 +43,11 @@ class SelectInputContainer extends React.PureComponent {
       })
     })
     return items
+  }
+
+  onBlur = () => {
+    const { onBlur, value } = this.props
+    return onBlur(value)
   }
 
   render () {
@@ -73,6 +73,7 @@ class SelectInputContainer extends React.PureComponent {
         searchEnabled={this.props.searchEnabled}
         grouped={grouped}
         {...rest}
+        onBlur={this.onBlur}
       />
     )
   }

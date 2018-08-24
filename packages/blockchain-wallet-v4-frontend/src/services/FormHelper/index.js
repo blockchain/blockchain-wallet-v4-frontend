@@ -29,6 +29,9 @@ const required = value => (value ? undefined : <M.RequiredMessage />)
 const optional = validator => value =>
   value === undefined || value === '' ? undefined : validator(value)
 
+const termsCheckBoxChecked = value =>
+  value ? undefined : <M.UnacceptedTermsMessage />
+
 const validNumber = value =>
   isNumeric(value) ? undefined : <M.InvalidNumberMessage />
 
@@ -191,6 +194,7 @@ export {
   requiredUsZipcode,
   requiredPhrase,
   requiredZipCode,
+  termsCheckBoxChecked,
   validNumber,
   validEmail,
   validEmailCode,

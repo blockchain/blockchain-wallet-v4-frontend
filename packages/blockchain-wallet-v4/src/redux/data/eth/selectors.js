@@ -21,6 +21,8 @@ export const getInfo = path([dataPath, 'ethereum', 'info'])
 
 export const getLatestBlock = path([dataPath, 'ethereum', 'latest_block'])
 
+export const getCurrentBalance = path([dataPath, 'ethereum', 'current_balance'])
+
 export const getLegacyBalance = path([dataPath, 'ethereum', 'legacy_balance'])
 
 export const getRates = path([dataPath, 'ethereum', 'rates'])

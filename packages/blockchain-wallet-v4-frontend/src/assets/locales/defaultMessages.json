@@ -1315,6 +1315,15 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Your transaction will be complete after it has {minConfirmations} confirmations.",
+        "id": "scenes.transactions.content.list.listitem.transactionunconfirmed"
+      }
+    ],
+    "path": "src/components/TxFeedTooltips/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Exchange",
         "id": "scenes.exchange.menutop.exchange"
       },
@@ -1327,7 +1336,7 @@
         "id": "scenes.exchange.menutop.poweredby"
       }
     ],
-    "path": "src/layouts/Exchange/MenuTop/index.json"
+    "path": "src/scenes/Exchange/MenuTop/index.json"
   },
   {
     "descriptors": [

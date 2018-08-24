@@ -2,18 +2,7 @@ export const MODAL_NAME = 'IdentityVerification'
 
 export const STEPS = {
   personal: 'personal',
-  address: 'address',
-  verify: 'verify'
-}
-
-export const PERSONAL_STEPS = {
-  personal: 'personal',
-  email: 'email',
-  smsNumber: 'smsNumber'
-}
-
-export const EMAIL_STEPS = {
-  edit: 'edit',
+  mobile: 'mobile',
   verify: 'verify'
 }
 

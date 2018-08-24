@@ -24,8 +24,7 @@
                   "en": ""
                 },
                 "body": {
-                  "en":
-                    "To make way for our new and exciting products coming this year, we’re saying hello to our new home. blockchain.info will soon be changing URLs as it's combined with our company site, blockchain.com."
+                  "en": "To make way for our new and exciting products coming this year, we’re saying hello to our new home. blockchain.info will soon be changing URLs as it's combined with our company site, blockchain.com."
                 }
               }
             ],
@@ -33,8 +32,7 @@
               "title": {
                 "en": "Read more about what to expect."
               },
-              "link":
-                "https://blog.blockchain.com/2018/06/19/blockchain-infos-moving-domains/"
+              "link": "https://blog.blockchain.com/2018/06/19/blockchain-infos-moving-domains/"
             }
           },
           "wallet": {
@@ -50,8 +48,7 @@
                   "en": ""
                 },
                 "body": {
-                  "en":
-                    "We’re updating our Privacy Policy and Cookie Policy to make it easier for you to understand the limited information we collect and why we collect it. We thrive on collecting the least amount of data on our users. Please review our updated policies."
+                  "en": "We’re updating our Privacy Policy and Cookie Policy to make it easier for you to understand the limited information we collect and why we collect it. We thrive on collecting the least amount of data on our users. Please review our updated policies."
                 }
               }
             ],
@@ -272,8 +269,7 @@
           "WV"
         ],
         "config": {
-          "apiKey":
-            "b7a7c320c19ea3a8e276c8921bc3ff79ec064d2cd9d98ab969acc648246b4be5ab2379af704c5d3a3021c0ddf82b3e479590718847c1301e1a85331d2d2a8370",
+          "apiKey": "b7a7c320c19ea3a8e276c8921bc3ff79ec064d2cd9d98ab969acc648246b4be5ab2379af704c5d3a3021c0ddf82b3e479590718847c1301e1a85331d2d2a8370",
           "upperLimit": 750,
           "surveyLinks": [
             "https://blockchain.co1.qualtrics.com/jfe/form/SV_1MuVnVEtWhiVIQl",
@@ -308,7 +304,7 @@
     "root": "https://blockchain.info",
     "comRoot": "https://blockchain.com",
     "api": "https://api.blockchain.info",
-    "webSocket": "wss://ws.blockchain.info/inv",
+    "webSocket": "wss://ws.blockchain.info",
     "comWalletApp": "https://login.blockchain.com",
     "walletHelper": "https://wallet-helper.blockchain.info"
   }

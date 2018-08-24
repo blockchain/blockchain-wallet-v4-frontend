@@ -11,11 +11,11 @@ import TrayRight from './TrayRight'
 import Page from './Page'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
-import BtcMenu from '../../scenes/Transactions/Btc/Menu'
-import BchMenu from '../../scenes/Transactions/Bch/Menu'
-import EthMenu from '../../scenes/Transactions/Eth/Menu'
-import AddrMenu from '../../scenes/Settings/Addresses/Menu'
-import ExchangeMenu from '../Exchange'
+import BtcMenu from 'scenes/Transactions/Btc/Menu'
+import BchMenu from 'scenes/Transactions/Bch/Menu'
+import EthMenu from 'scenes/Transactions/Eth/Menu'
+import AddrMenu from 'scenes/Settings/Addresses/Menu'
+import ExchangeMenu from 'scenes/Exchange/Menu'
 
 import media from 'services/ResponsiveService'
 
