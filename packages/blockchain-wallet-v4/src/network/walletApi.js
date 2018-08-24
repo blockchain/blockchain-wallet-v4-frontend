@@ -20,9 +20,9 @@ import { futurizeP } from 'futurize'
 import createApi from './api'
 import * as Coin from '../coinSelection/coin.js'
 
-const createWalletApi = ({ options, apiKey } = {}, returnType) => {
+const createWalletApi = ({ options, apiKey, networks } = {}, returnType) => {
   // ////////////////////////////////////////////////////////////////
-  const ApiPromise = createApi({ options, apiKey })
+  const ApiPromise = createApi({ options, apiKey, networks })
   const eitherToTask = e => e.fold(Task.rejected, Task.of)
   const taskToPromise = t =>
     new Promise((resolve, reject) => t.fork(reject, resolve))

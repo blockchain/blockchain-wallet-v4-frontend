@@ -99,18 +99,24 @@ export class ExchangeDelegate {
       .map(path(['platforms', 'web', this.partner, 'config', 'production']))
       .getOrFail(`Missing ${this.partner} production flag in walletOptions`)
 
+    const defaultIndex = getDefaultAccountIndex(this.state)
     let receiveAddress
     if (isProd) {
-      const defaultIndex = getDefaultAccountIndex(this.state)
       receiveAddress = btc
         .getNextAvailableReceiveAddress(
-          Bitcoin.networks.bitcoin.NETWORK_BITCOIN,
+          Bitcoin.networks.bitcoin,
           defaultIndex,
           this.state
         )
         .getOrElse()
     } else {
-      receiveAddress = '2N7FwMpgyXQA85SaVXumm3UZowq2VKChehP' // testnet address used on staging
+      receiveAddress = btc
+        .getNextAvailableReceiveAddress(
+          Bitcoin.networks.testnet,
+          defaultIndex,
+          this.state
+        )
+        .getOrElse()
     }
 
     return {

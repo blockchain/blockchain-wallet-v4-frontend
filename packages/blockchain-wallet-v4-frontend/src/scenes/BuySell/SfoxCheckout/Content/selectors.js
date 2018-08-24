@@ -1,16 +1,18 @@
 import { lift, path } from 'ramda'
-import settings from 'config'
 import { selectors } from 'data'
+import Bitcoin from 'bitcoinjs-lib'
 
 export const getData = state => {
   const profile = selectors.core.data.sfox.getProfile(state)
   const accounts = selectors.core.data.sfox.getAccounts(state)
+  const networkR = selectors.core.walletOptions.getBtcNetwork(state)
+  const network = networkR.getOrElse('bitcoin')
   const verificationStatus = selectors.core.data.sfox
     .getVerificationStatus(state)
     .getOrElse(undefined)
   const defaultIndex = selectors.core.wallet.getDefaultAccountIndex(state)
   const nextAddress = selectors.core.common.btc.getNextAvailableReceiveAddress(
-    settings.NETWORK_BITCOIN,
+    Bitcoin.networks[network],
     defaultIndex,
     state
   )

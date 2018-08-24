@@ -90,7 +90,9 @@ export const fromJS = (x, i) => {
   const accountCons = a => {
     const xpub = selectXpub(a)
     const node =
-      isEmpty(xpub) || isNil(xpub) ? null : Bitcoin.HDNode.fromBase58(xpub) // TODO :: network
+      isEmpty(xpub) || isNil(xpub)
+        ? null
+        : Bitcoin.HDNode.fromBase58(xpub, x.network)
     const cacheCons = c =>
       c || isNil(node) ? Cache.fromJS(c) : Cache.fromJS(Cache.js(node))
     return compose(

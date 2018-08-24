@@ -5,11 +5,17 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import {
   MaximumAmountMessage,
   InsufficientFundsMessage,
-  InvalidAmountMessage
+  InvalidAmountMessage,
+  MinimumFeeMessage,
+  MaximumFeeMessage
 } from './validationMessages'
 
 export const insufficientFunds = (value, allValues, props) => {
-  return props.effectiveBalance > 0 ? undefined : <InsufficientFundsMessage />
+  return props.effectiveBalance > 0 ? (
+    undefined
+  ) : (
+    <InsufficientFundsMessage />
+  )
 }
 
 export const invalidAmount = (value, allValues, props) => {
@@ -33,8 +39,56 @@ export const maximumAmount = (value, allValues, props) => {
   return new BigNumber(valueEth).lessThanOrEqualTo(
     new BigNumber(effectiveBalanceEth || 0)
   ) ? (
+      undefined
+    ) : (
+      <MaximumAmountMessage />
+    )
+}
+
+export const minimumFee = (value, allValues, props) =>
+  value && parseInt(value) >= props.minFee ? (
     undefined
   ) : (
-    <MaximumAmountMessage />
+    <MinimumFeeMessage />
+  )
+
+export const maximumFee = (value, allValues, props) =>
+  value && parseInt(value) <= props.maxFee ? (
+    undefined
+  ) : (
+    <MaximumFeeMessage />
+  )
+
+export const shouldError = ({
+  values,
+  nextProps,
+  props,
+  initialRender,
+  structure
+}) => {
+  if (initialRender) {
+    return true
+  }
+  return (
+    initialRender ||
+    !structure.deepEqual(values, nextProps.values) ||
+    props.effectiveBalance !== nextProps.effectiveBalance
+  )
+}
+
+export const shouldWarn = ({
+  values,
+  nextProps,
+  props,
+  initialRender,
+  structure
+}) => {
+  if (initialRender) {
+    return true
+  }
+  return (
+    initialRender ||
+    !structure.deepEqual(values, nextProps.values) ||
+    props.effectiveBalance !== nextProps.effectiveBalance
   )
 }
