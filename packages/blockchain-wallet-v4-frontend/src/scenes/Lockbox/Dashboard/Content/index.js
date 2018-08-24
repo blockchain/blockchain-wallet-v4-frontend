@@ -21,7 +21,7 @@ class ContentContainer extends React.PureComponent {
   }
 
   render () {
-    const { devices, balances } = this.props
+    const { devices } = this.props
 
     return (
       <Content

@@ -12,20 +12,19 @@ const Wrapper = styled.div`
 `
 class LockboxDashboardContainer extends React.PureComponent {
   render () {
-    const { devices, balances } = this.props
+    const { device } = this.props
 
     return (
       <Wrapper>
-        <Header deviceName={'Andrews Lockbox'} />
-        <Content devices={devices} />
+        <Header deviceName={device.name} />
+        <Content device={device} />
       </Wrapper>
     )
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
 export default connect(

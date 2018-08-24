@@ -14,7 +14,7 @@ class LockboxContainer extends React.PureComponent {
     return this.props.data.cata({
       Success: value =>
         keysIn(value.devices).length ? (
-          <Dashboard devices={value.devices} balances={value.balances} />
+          <Dashboard device={value.devices[keysIn(value.devices)[0]]} />
         ) : (
           <Setup />
         ),
