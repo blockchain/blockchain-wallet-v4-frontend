@@ -87,8 +87,11 @@ export default ({ api, coreSagas }) => {
   }
 
   const clearSession = function*() {
-    yield cancel(renewTask)
-    renewTask = null
+    if (renewTask !== null) {
+      yield cancel(renewTask)
+      renewTask = null
+    }
+
     yield put(A.setApiToken(Remote.NotAsked))
   }
 

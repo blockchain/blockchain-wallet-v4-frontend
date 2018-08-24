@@ -1003,16 +1003,43 @@ describe('authSagas', () => {
       coreSagas
     })
 
+    it('should stop rates scoket if user flow is supported', () => {
+      return expectSaga(logout)
+        .provide([
+          [select(selectors.core.settings.getEmailVerified), Remote.of(true)],
+          [select(selectors.modules.profile.userFlowSupported), Remote.of(true)]
+        ])
+        .put(actions.modules.profile.clearSession())
+        .put(actions.middleware.webSocket.rates.stopSocket())
+        .run()
+    })
+
+    it('should not stop rates scoket if user flow is supported', () => {
+      return expectSaga(logout)
+        .provide([
+          [select(selectors.core.settings.getEmailVerified), Remote.of(true)],
+          [
+            select(selectors.modules.profile.userFlowSupported),
+            Remote.of(false)
+          ]
+        ])
+        .not.put(actions.modules.profile.clearSession())
+        .not.put(actions.middleware.webSocket.rates.stopSocket())
+        .run()
+    })
+
     it('should stop sockets and redirect to logout if email is verified', () => {
       return expectSaga(logout)
         .provide([
-          [select(selectors.core.settings.getEmailVerified), Remote.of(true)]
+          [select(selectors.core.settings.getEmailVerified), Remote.of(true)],
+          [
+            select(selectors.modules.profile.userFlowSupported),
+            Remote.of(false)
+          ]
         ])
-        .put(actions.modules.profile.clearSession())
         .put(actions.middleware.webSocket.bch.stopSocket())
         .put(actions.middleware.webSocket.btc.stopSocket())
         .put(actions.middleware.webSocket.eth.stopSocket())
-        .put(actions.middleware.webSocket.rates.stopSocket())
         .put(actions.router.push('/logout'))
         .run()
     })
@@ -1020,13 +1047,15 @@ describe('authSagas', () => {
     it('should stop sockets and clear redux store if email is not verified', async () => {
       return expectSaga(logout)
         .provide([
-          [select(selectors.core.settings.getEmailVerified), Remote.of(false)]
+          [select(selectors.core.settings.getEmailVerified), Remote.of(false)],
+          [
+            select(selectors.modules.profile.userFlowSupported),
+            Remote.of(false)
+          ]
         ])
-        .put(actions.modules.profile.clearSession())
         .put(actions.middleware.webSocket.bch.stopSocket())
         .put(actions.middleware.webSocket.btc.stopSocket())
         .put(actions.middleware.webSocket.eth.stopSocket())
-        .put(actions.middleware.webSocket.rates.stopSocket())
         .run()
         .then(() => {
           expect(pushStateSpy).toHaveBeenCalledTimes(1)
