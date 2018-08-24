@@ -1,50 +1,33 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 
-const Wrapper = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
   width: 100%;
-  padding: 10px 30px;
-  box-sizing: border-box;
-  font-size: 24px;
+`
+const TitleBar = styled.div`
+  width: 100%;
+  padding: 10px 0;
   background-color: ${props => props.theme['white-blue']};
   border-bottom: 1px solid ${props => props.theme['gray-1']};
-
-  @media (min-width: 1200px) {
-    flex-direction: row;
-    justify-content: space-between;
-  }
 `
-const ColumnLeft = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 100%;
-
-  @media (min-width: 1200px) {
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: auto;
-  }
-`
-const ColumnRight = styled.div`
-  position: relative;
+const TitleBarWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
+  margin: 0 30px;
+`
+const CurrencyList = styled.div`
+  display: flex;
   width: 100%;
-  @media (min-width: 1200px) {
-    width: auto;
-  }
+  padding: 16px 0;
+  justify-content: space-around;
+  border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 const SettingsIcon = styled(Icon)`
   &:hover {
@@ -59,20 +42,25 @@ const Menu = props => {
   }
 
   return (
-    <Wrapper>
-      <ColumnLeft>
-        <Text size='24px' weight={300}>
-          {deviceName}
-        </Text>
-      </ColumnLeft>
-      <ColumnRight>
-        <SettingsIcon
-          name='settings-filled'
-          size={'24px'}
-          onClick={openSettings}
-        />
-      </ColumnRight>
-    </Wrapper>
+    <Container>
+      <TitleBar>
+        <TitleBarWrapper>
+          <Text size='24px' weight={400}>
+            {deviceName}
+          </Text>
+          <SettingsIcon
+            name='settings-filled'
+            size={'24px'}
+            onClick={openSettings}
+          />
+        </TitleBarWrapper>
+      </TitleBar>
+      <CurrencyList>
+        <Button>BTC</Button>
+        <Button>BCH</Button>
+        <Button>ETH</Button>
+      </CurrencyList>
+    </Container>
   )
 }
 
