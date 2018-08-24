@@ -210,7 +210,7 @@ describe('create user credentials saga', () => {
     api.generateRetailToken.mockReturnValueOnce({ token: stubRetailToken })
     api.createUser.mockReturnValueOnce({
       userId: stubUserId,
-      lifetimeToken: stubLifetimeToken
+      token: stubLifetimeToken
     })
     return expectSaga(createUser)
       .provide([

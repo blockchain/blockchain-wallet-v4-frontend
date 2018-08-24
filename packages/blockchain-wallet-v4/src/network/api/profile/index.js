@@ -19,7 +19,7 @@ export default ({
   const createUser = retailToken =>
     post({
       url: nabuUrl,
-      endPoint: '/user',
+      endPoint: '/users',
       contentType: 'application/json',
       data: { jwt: retailToken }
     })
@@ -66,6 +66,7 @@ export default ({
     authorizedPut({
       url: nabuUrl,
       endPoint: '/users/current/walletInfo',
+      contentType: 'application/json',
       data: { jwt: retailToken }
     })
   }

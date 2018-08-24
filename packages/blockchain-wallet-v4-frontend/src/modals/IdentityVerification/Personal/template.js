@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
-import { replace } from 'ramda'
+import { replace, defaultTo } from 'ramda'
 
 import { required, requiredDOB, ageOverEighteen } from 'services/FormHelper'
 import { model } from 'data'
@@ -89,8 +89,8 @@ const { AddressPropType, CountryPropType } = model.profile
 const { PERSONAL_FORM } = model.components.identityVerification
 const objectToDOB = ({ date = '', month = '', year = '' }) =>
   `${year}-${month}-${addTrailingZero(date)}`
-const DOBToObject = (value = '') => {
-  const [year = '', month = '', date = ''] = value.split('-')
+const DOBToObject = value => {
+  const [year = '', month = '', date = ''] = defaultTo('', value).split('-')
   return {
     date: removeTrailingZero(date),
     month,
@@ -448,8 +448,5 @@ Personal.propTypes = {
 
 export default reduxForm({
   form: PERSONAL_FORM,
-  destroyOnUnmount: false,
-  enableReinitialize: true,
-  keepDirtyOnReinitialize: true,
-  updateUnregisteredFields: true
+  destroyOnUnmount: false
 })(Personal)
