@@ -1,4 +1,8 @@
 import { path } from 'ramda'
+import { selectors } from 'data'
+
+export const useShapeShift = state =>
+  !selectors.modules.profile.userFlowSupported(state).getOrElse(false)
 
 export const getStep = path(['components', 'exchange', 'step'])
 export const getPayment = path(['components', 'exchange', 'payment'])

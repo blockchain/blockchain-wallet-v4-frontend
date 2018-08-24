@@ -17,6 +17,7 @@ const Wrapper = styled.div`
 
 const Steps = styled.div`
   position: relative;
+  flex: 1;
   padding-bottom: 15px;
   display: inline-flex;
   flex-direction: row;
@@ -29,7 +30,7 @@ const Steps = styled.div`
     bottom: -8px;
     position: absolute;
     transition: width 0.3s, height 0.3s;
-    width: ${props => Math.max(props.width * 100)}%;
+    width: ${props => props.width * 100}%;
     background: ${props => props.theme['brand-primary']};
   }
   @media (max-width: 480px) {
@@ -42,7 +43,7 @@ const Steps = styled.div`
       left: -8px;
       width: 8px;
       bottom: initial;
-      height: ${props => props.width}%;
+      height: ${props => props.width * 100}%;
       background: ${props => props.theme['brand-primary']};
     }
   }
@@ -52,6 +53,7 @@ const Step = styled.span`
   font-size: 14px;
   min-width: ${props => props.minWidth || '70px'};
   max-width: ${props => props.maxWidth || '70px'};
+  width: calc(100% / ${props => props.totalSteps});
   margin-left: 50px;
   margin-right: 50px;
   overflow: hidden;
@@ -76,18 +78,20 @@ const Logo = styled(Image)`
 
 const StepIndicator = props => {
   const { step, stepMap, minWidth, maxWidth, flexEnd } = props
-  const isEven = n => n % 2 === 0
   const steps = Object.keys(stepMap)
   const index = steps.indexOf(step) + 1
-  const adjuster = isEven(steps.length) ? 0.5 / steps.length : 0
-  const width = index / steps.length - adjuster
+  const width = (index - 0.5) / steps.length
 
   return (
     <Wrapper flexEnd={flexEnd}>
       <Logo name='blue-logo' height='50px' />
       <Steps width={width}>
         {steps.map(s => (
-          <Step minWidth={minWidth} maxWidth={maxWidth}>
+          <Step
+            minWidth={minWidth}
+            maxWidth={maxWidth}
+            totalSteps={steps.length}
+          >
             {stepMap[s]}
           </Step>
         ))}

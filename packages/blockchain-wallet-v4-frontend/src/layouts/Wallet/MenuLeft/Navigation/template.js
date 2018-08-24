@@ -77,6 +77,7 @@ const Navigation = props => {
     settingsOpened,
     handleCloseMenu,
     canTrade,
+    userFlowSupported,
     pathname,
     ...rest
   } = props
@@ -212,6 +213,17 @@ const Navigation = props => {
                 />
               </SubMenuItem>
             </LinkContainer>
+            {userFlowSupported && (
+              <LinkContainer to='/settings/profile' activeClassName='active'>
+                <SubMenuItem>
+                  <FormattedMessage
+                    id='layouts.wallet.menuleft.navigation.profile'
+                    defaultMessage='Profile'
+                    smaller
+                  />
+                </SubMenuItem>
+              </LinkContainer>
+            )}
             <LinkContainer to='/settings/preferences' activeClassName='active'>
               <SubMenuItem>
                 <FormattedMessage

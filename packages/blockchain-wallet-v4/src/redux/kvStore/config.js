@@ -7,6 +7,7 @@ export const LOCKBOX = 'lockbox'
 export const ROOT = 'root'
 export const SHAPESHIFT = 'shapeshift'
 export const WHATSNEW = 'whatsNew'
+export const USER_CREDENTIALS = 'userCredentials'
 
 export const derivationMap = {
   [ROOT]: -1,
@@ -17,5 +18,6 @@ export const derivationMap = {
   [SHAPESHIFT]: 6,
   [BCH]: 7,
   [BTC]: 8,
-  [LOCKBOX]: 9
+  [LOCKBOX]: 9,
+  [USER_CREDENTIALS]: 10
 }
