@@ -1,36 +1,24 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { keysIn } from 'ramda'
+import styled from 'styled-components'
 
 import { actions } from 'data'
-import Dashboard from './template.js'
+import Content from './Content'
+import Header from './Header'
 
+const Wrapper = styled.div`
+  width: 100%;
+`
 class LockboxDashboardContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.deleteDevice = this.deleteDevice.bind(this)
-    this.addDevice = this.addDevice.bind(this)
-  }
-
-  addDevice () {
-    this.props.modalActions.showModal('LockboxSetup')
-  }
-
-  deleteDevice (deviceId) {
-    this.props.lockboxActions.deleteDevice(deviceId)
-  }
-
   render () {
-    const { devices } = this.props
+    const { devices, balances } = this.props
 
     return (
-      <Dashboard
-        addDevice={this.addDevice}
-        deleteDevice={this.deleteDevice}
-        deviceIdList={keysIn(devices)}
-        devices={devices}
-      />
+      <Wrapper>
+        <Header deviceName={'Andrews Lockbox'} />
+        <Content devices={devices} />
+      </Wrapper>
     )
   }
 }

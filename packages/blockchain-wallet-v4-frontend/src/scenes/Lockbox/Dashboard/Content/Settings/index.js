@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
-import DeviceName from './DeviceName'
-import DeviceStatus from './DeviceStatus'
-import ExportXPub from './ExportXPub'
-import SetupNewDevice from './SetupNewDevice'
-import RestoreLockboxDevice from './RestoreLockboxDevice'
-import FirmwareUpdate from './FIrmwareUpdate'
+import DeviceName from './DeviceName/index'
+import DeviceStatus from './DeviceStatus/index'
+import ExportXPub from './ExportXPub/index'
+import SetupNewDevice from './SetupNewDevice/index'
+import RestoreLockboxDevice from './RestoreLockboxDevice/index'
+import FirmwareUpdate from './FIrmwareUpdate/index'
 
 const AdvancedContainer = styled.div`
   margin-top: 0 !important;

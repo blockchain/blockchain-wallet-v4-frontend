@@ -8,7 +8,7 @@ import {
   SettingSummary
 } from 'components/Setting'
 
-import Settings from './Settings'
+import Settings from './Settings/index'
 
 const RenameDevice = props => {
   const { deviceName, deviceId } = props
