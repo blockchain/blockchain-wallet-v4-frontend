@@ -23,8 +23,8 @@ class SelectInputContainer extends React.PureComponent {
   }
 
   componentDidUpdate (prevProps) {	
-    if (!equals(this.props.value, prevProps.value)) {	
-      this.setState({ value: prevProps.value })	
+    if (!equals(this.props.value, this.state.value)) {	
+      this.setState({ value: this.props.value })	
     }	
   }
 
