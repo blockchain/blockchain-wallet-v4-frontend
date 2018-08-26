@@ -22,8 +22,7 @@ import {
 } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
-const { EXCHANGE_FORM } = model.components.exchange
-const { BASE_IN_FIAT } = model.rates.FIX_TYPES
+const { SHAPESHIFT_PAIRS, EXCHANGE_FORM } = model.components.exchange
 
 const currenciesOrder = ['BTC', 'BCH', 'ETH']
 
@@ -167,8 +166,7 @@ export const getData = createDeepEqualSelector(
     selectors.core.settings.getCurrency,
     selectors.components.exchange.getFirstStepEnabled,
     selectors.components.exchange.getError,
-    selectors.form.getFormValues(EXCHANGE_FORM),
-    selectors.modules.rates.getAvailablePairs
+    selectors.form.getFormValues(EXCHANGE_FORM)
   ],
   (
     btcAccountsR,
@@ -177,12 +175,10 @@ export const getData = createDeepEqualSelector(
     currencyR,
     enabled,
     formError,
-    formValues,
-    availablePairsR
+    formValues
   ) => {
     const sourceCoin = path(['source', 'coin'], formValues) || 'BTC'
     const targetCoin = path(['target', 'coin'], formValues) || 'ETH'
-    const fix = prop('fix', formValues) || BASE_IN_FIAT
 
     const transform = (
       btcAccounts,
@@ -210,8 +206,7 @@ export const getData = createDeepEqualSelector(
       const toElements = generateActiveGroups(getToCurrencies(availablePairs))
       const initialValues = {
         source: defaultBtcAccount,
-        target: defaultEthAccount,
-        fix: BASE_IN_FIAT
+        target: defaultEthAccount
       }
 
       return {
@@ -224,7 +219,6 @@ export const getData = createDeepEqualSelector(
         formError,
         currency,
         sourceCoin,
-        fix,
         targetCoin
       }
     }
@@ -233,7 +227,7 @@ export const getData = createDeepEqualSelector(
       bchAccountsR,
       ethAccountsR,
       currencyR,
-      availablePairsR
+      SHAPESHIFT_PAIRS
     )
   }
 )
