@@ -85,5 +85,8 @@ export const getAccountLabel = curry((state, index) =>
   getAccounts(state).map(path([index, 'label']))
 )
 
+export const getBchTxNotes = state =>
+  getMetadata(state).map(path(['value', 'tx_notes']))
+
 export const getBchTxNote = (state, txHash) =>
   getMetadata(state).map(path(['value', 'tx_notes', txHash]))
