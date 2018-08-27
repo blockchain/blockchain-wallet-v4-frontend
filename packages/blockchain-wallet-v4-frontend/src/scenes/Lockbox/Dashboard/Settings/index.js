@@ -14,15 +14,16 @@ const Wrapper = styled.div`
 
 export default class LockboxSettings extends PureComponent {
   render () {
-    const { deviceId } = this.props
+    const { device } = this.props
+
     return (
       <Wrapper>
-        <DeviceName deviceId={deviceId} />
-        <DeviceStatus deviceId={deviceId} />
-        <ExportXPub deviceId={deviceId} />
+        <DeviceName deviceId={device.id} />
+        <DeviceStatus deviceId={device.id} />
+        <ExportXPub deviceId={device.id} />
         <SetupNewDevice />
         <RestoreLockboxDevice />
-        <FirmwareUpdate deviceId={deviceId} />
+        <FirmwareUpdate deviceId={device.id} />
       </Wrapper>
     )
   }

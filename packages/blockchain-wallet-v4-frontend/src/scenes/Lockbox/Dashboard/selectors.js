@@ -6,7 +6,10 @@ export const getData = createDeepEqualSelector(
   [selectors.core.kvStore.lockbox.getDevices],
   devicesKvStoreR => {
     const transform = devicesKvStore => {
-      return devicesKvStore[keysIn(devicesKvStore)[0]]
+      const deviceInfo = devicesKvStore[keysIn(devicesKvStore)[0]]
+      deviceInfo.id = keysIn(devicesKvStore)[0]
+
+      return deviceInfo
     }
     return lift(transform)(devicesKvStoreR)
   }
