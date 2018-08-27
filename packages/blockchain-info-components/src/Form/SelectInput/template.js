@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Select, { components } from 'react-select'
 import { equals, flatten, filter, head, assoc, path } from 'ramda'
+import { transparentize } from 'polished'
+import { Color } from '../../Colors'
 
 const StyledSelect = styled(Select)`
   font-weight: 300;
@@ -26,15 +28,35 @@ const StyledSelect = styled(Select)`
   }
 `
 
-const customStyles = {
+const customStyles = theme => ({
   control: styles => ({
     ...styles,
-    backgroundColor: 'white',
+    backgroundColor: Color('white', theme),
+    color: Color('gray-5', theme),
     cursor: 'pointer',
     minHeight: '40px',
     borderRadius: 0
+  }),
+  option: (styles, { data, isDisabled, isFocused, isSelected }) => ({
+    ...styles,
+    cursor: 'pointer',
+    color: isSelected ? Color('white', theme) : Color('gray-5', theme),
+    backgroundColor: isSelected
+      ? Color('brand-secondary', theme)
+      : isFocused
+        ? transparentize(0.9, Color('brand-secondary', theme))
+        : Color('white', theme),
+    ':hover': {
+      backgroundColor: isSelected
+        ? Color('brand-secondary', theme)
+        : transparentize(0.9, Color('brand-secondary', theme))
+    },
+    // NOTE: For Text component
+    '*': {
+      color: isSelected ? Color('white', theme) : Color('gray-5', theme)
+    }
   })
-}
+})
 
 const Option = props => {
   const itemProps = assoc('text', props.label, props)
@@ -107,11 +129,12 @@ const SelectInput = props => {
     hideFocusedControl,
     hideIndicator,
     handleChange,
-    onFocus,
-    onBlur,
     errorState,
     menuIsOpen,
-    grouped
+    onFocus,
+    grouped,
+    onBlur,
+    theme
   } = props
   const options = grouped
     ? items
@@ -127,7 +150,7 @@ const SelectInput = props => {
       className={className}
       options={options}
       borderColor={borderColor}
-      styles={customStyles}
+      styles={customStyles(theme)}
       templateItem={templateItem}
       templateDisplay={templateDisplay}
       components={{

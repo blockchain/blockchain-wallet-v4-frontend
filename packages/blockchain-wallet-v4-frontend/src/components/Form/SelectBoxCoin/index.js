@@ -34,7 +34,7 @@ const renderItem = props => {
       {value === 'ETH' && (
         <Icon name='ethereum-filled' size='14px' weight={300} />
       )}
-      <Text size='13px' weight={300} cursor='pointer'>
+      <Text size='14px' weight={300} cursor='pointer'>
         {text}
       </Text>
     </HeaderWrapper>

@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
-
+import { selectors } from 'data'
 import { SelectInput } from 'blockchain-info-components'
 
 const Container = styled.div`
@@ -36,6 +37,10 @@ const SelectBox = props => {
     </Container>
   )
 }
+
+const mapStateToProps = state => ({
+  theme: selectors.preferences.getTheme(state)
+})
 
 SelectBox.propTypes = {
   input: PropTypes.shape({
@@ -72,4 +77,4 @@ SelectBox.propTypes = {
   opened: PropTypes.bool
 }
 
-export default SelectBox
+export default connect(mapStateToProps)(SelectBox)
