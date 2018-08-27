@@ -29,7 +29,7 @@ export const Profile = ({ kycState, modalActions, canTrade }) => {
       <Container>
         <IdentityVerification
           kycState={kycState}
-          verifyIdentity={modalActions.showModal.bind(null, KYC_MODAL)}
+          verifyIdentity={modalActions.showModal.bind(null, KYC_MODAL, {}, {})}
           canTrade={canTrade}
         />
       </Container>

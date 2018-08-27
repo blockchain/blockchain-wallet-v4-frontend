@@ -1,13 +1,11 @@
-import { put, select, call, take } from 'redux-saga/effects'
+import { put, select, call } from 'redux-saga/effects'
 import { isEmpty } from 'ramda'
 
 import { callLatest } from 'utils/effects'
-import { actions, selectors, model, actionTypes } from 'data'
-import profileSagas, {
-  userIdError,
-  lifetimeTokenError
-} from 'data/modules/profile/sagas'
+import { actions, selectors, model } from 'data'
+import profileSagas from 'data/modules/profile/sagas'
 import { Remote } from 'blockchain-wallet-v4/src'
+import * as C from 'services/AlertService'
 
 import * as A from './actions'
 import { STEPS, SMS_STEPS, SMS_NUMBER_FORM, PERSONAL_FORM } from './model'
@@ -17,14 +15,20 @@ export const logLocation = 'components/identityVerification/sagas'
 export const failedToFetchAddressesError = 'Invalid zipcode'
 export const noCountryCodeError = 'Country code is not provided'
 export const noPostCodeError = 'Post code is not provided'
+export const invalidNumberError = 'Failed to update mobile number'
+export const mobileVerifiedError = 'Failed to verify mobile number'
+export const failedResendError = 'Failed to resend the code'
+export const userExistsError = 'User already exists'
+export const getUserExistsError = email =>
+  `User with email ${email} already exists`
 
 export default ({ api, coreSagas }) => {
   const { USER_ACTIVATION_STATES } = model.profile
   const {
+    createUser,
     updateUser,
     updateUserAddress,
-    updateUserMobile,
-    generateAuthCredentials
+    syncUserWithWallet
   } = profileSagas({
     api,
     coreSagas
@@ -48,37 +52,56 @@ export default ({ api, coreSagas }) => {
   }
 
   const updateSmsNumber = function*() {
-    const { smsNumber } = yield select(
-      selectors.form.getFormValues(SMS_NUMBER_FORM)
-    )
-    yield put(actions.form.startSubmit(SMS_NUMBER_FORM))
-    yield put(actions.modules.settings.updateMobile(smsNumber))
-    yield put(A.setSmsStep(SMS_STEPS.verify))
-    yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
+    try {
+      const { smsNumber } = yield select(
+        selectors.form.getFormValues(SMS_NUMBER_FORM)
+      )
+      yield put(actions.form.startSubmit(SMS_NUMBER_FORM))
+      yield call(coreSagas.settings.setMobile, { mobile: smsNumber })
+      yield put(A.setSmsStep(SMS_STEPS.verify))
+      yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
+    } catch (e) {
+      yield put(
+        actions.form.stopSubmit(SMS_NUMBER_FORM, {
+          smsNumber: invalidNumberError
+        })
+      )
+    }
   }
 
   const verifySmsNumber = function*() {
-    yield put(actions.form.startSubmit(SMS_NUMBER_FORM))
-    const { code, smsNumber } = yield select(
-      selectors.form.getFormValues(SMS_NUMBER_FORM)
-    )
-    yield put(actions.modules.settings.verifyMobile(code))
-    yield take(actionTypes.core.settings.SET_MOBILE_VERIFIED)
-    yield call(updateUserMobile, { payload: { mobile: smsNumber } })
-    const { mobileVerified } = yield select(
-      selectors.modules.profile.getUserData
-    )
-    if (!mobileVerified) {
-      actions.modules.settings.verifyMobileFailure()
-      return actions.form.stopSubmit(SMS_NUMBER_FORM)
+    try {
+      yield put(actions.form.startSubmit(SMS_NUMBER_FORM))
+      const { code } = yield select(
+        selectors.form.getFormValues(SMS_NUMBER_FORM)
+      )
+      yield call(coreSagas.settings.setMobileVerified, { code })
+      yield call(syncUserWithWallet)
+      yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
+      yield put(A.setVerificationStep(STEPS.verify))
+    } catch (e) {
+      yield put(
+        actions.form.stopSubmit(SMS_NUMBER_FORM, { mobileVerifiedError })
+      )
     }
-    yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
-    yield put(A.setVerificationStep(STEPS.verify))
   }
 
   const resendSmsCode = function*() {
-    const smsNumber = yield select(selectors.core.settings.getSmsNumber)
-    yield put(actions.modules.settings.updateMobile(smsNumber.getOrElse('')))
+    try {
+      yield put(actions.form.startSubmit(SMS_NUMBER_FORM))
+      const smsNumber = (yield select(
+        selectors.core.settings.getSmsNumber
+      )).getOrFail()
+      yield call(coreSagas.settings.setMobile, { mobile: smsNumber })
+      yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
+      yield put(actions.alerts.displaySuccess(C.SMS_RESEND_SUCCESS))
+    } catch (e) {
+      yield put(
+        actions.form.stopSubmit(SMS_NUMBER_FORM, {
+          code: failedResendError
+        })
+      )
+    }
   }
 
   const savePersonalData = function*() {
@@ -116,10 +139,7 @@ export default ({ api, coreSagas }) => {
       }
 
       // Skipping mobile verification step
-      const mobile = (yield select(
-        selectors.core.settings.getSmsNumber
-      )).getOrElse('')
-      yield call(updateUserMobile, { payload: { mobile } })
+      yield call(syncUserWithWallet)
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
       yield put(A.setVerificationStep(STEPS.verify))
     } catch (e) {
@@ -156,7 +176,7 @@ export default ({ api, coreSagas }) => {
       yield put(A.setAddressRefetchVisible(false))
       yield put(actions.form.startSubmit(PERSONAL_FORM))
       yield put(A.setPossibleAddresses([]))
-      yield call(generateAuthCredentials)
+      yield call(createUser)
       const addresses = yield callLatest(api.fetchKycAddresses, {
         postCode,
         countryCode
@@ -165,9 +185,17 @@ export default ({ api, coreSagas }) => {
       yield put(A.setPossibleAddresses(addresses))
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
     } catch (e) {
-      if (e.message === userIdError || e.message === lifetimeTokenError) {
-        yield put(actions.form.stopSubmit(PERSONAL_FORM))
-        yield put(A.setAddressRefetchVisible(true))
+      if (e.description === userExistsError) {
+        // TODO: show a better error explaining that user with
+        // target email already exists
+        const email = (yield select(
+          selectors.core.settings.getEmail
+        )).getOrFail()
+        return yield put(
+          actions.form.stopSubmit(PERSONAL_FORM, {
+            postCode: getUserExistsError(email)
+          })
+        )
       }
 
       if (e.description === noCountryCodeError) {
@@ -193,10 +221,13 @@ export default ({ api, coreSagas }) => {
         )
       }
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
-      actions.logs.logErrorMessage(
-        logLocation,
-        'fetchPossibleAddresses',
-        `Error fetching addresses: ${e}`
+      yield put(A.setAddressRefetchVisible(true))
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'fetchPossibleAddresses',
+          `Error fetching addresses: ${e}`
+        )
       )
     }
   }

@@ -38,9 +38,11 @@ export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
     }),
     ...misc({ rootUrl, apiUrl, get, post }),
     ...profile({
+      rootUrl,
       nabuUrl,
       authorizedPut: authorizedHttp.put,
       authorizedGet: authorizedHttp.get,
+      get: http.get,
       post: http.post
     }),
     ...sfox(),

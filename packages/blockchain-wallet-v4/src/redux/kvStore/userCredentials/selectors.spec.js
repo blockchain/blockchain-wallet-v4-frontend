@@ -3,10 +3,10 @@ import * as selectors from './selectors'
 
 describe('kvstore userCredentials selectors', () => {
   const user_id = '3d448ad7-0e2c-4b65-91b0-c149892e243c'
-  const token = 'd753109e-23jd-42bd-82f1-cc904702asdfkjf'
+  const lifetime_token = 'd753109e-23jd-42bd-82f1-cc904702asdfkjf'
 
   const userCredentialsMetadata = {
-    value: { user_id, token }
+    value: { user_id, lifetime_token }
   }
 
   const successState = {
@@ -25,8 +25,8 @@ describe('kvstore userCredentials selectors', () => {
     expect(selectors.getUserId(successState)).toEqual(expectedResult)
   })
 
-  it('getLifetimeToken should return success of token', () => {
-    const expectedResult = Remote.Success(token)
+  it('getLifetimeToken should return success of lifetime_token', () => {
+    const expectedResult = Remote.Success(lifetime_token)
     expect(selectors.getLifetimeToken(successState)).toEqual(expectedResult)
   })
 
