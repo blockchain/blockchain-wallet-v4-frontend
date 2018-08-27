@@ -15,14 +15,14 @@ export default (state = INITIAL_STATE, action) => {
       return Remote.Success(payload)
     }
     case AT.CREATE_NEW_DEVICE_ENTRY: {
-      const { deviceID, deviceName, accounts } = payload
+      const { deviceID, deviceType, deviceName, accounts } = payload
       const valueLens = compose(
         mapped,
         KVStoreEntry.value
       )
       let setNewDevice = assocPath(['devices', deviceID], {
+        device_type: deviceType,
         name: deviceName,
-        showBalances: true,
         accounts: accounts
       })
       return over(valueLens, setNewDevice, state)

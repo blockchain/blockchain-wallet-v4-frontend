@@ -14,8 +14,7 @@ class NameDeviceStepContainer extends React.PureComponent {
   }
 
   onSubmit () {
-    this.props.lockboxActions.setNewDeviceName(this.props.newDeviceName)
-    this.props.lockboxActions.changeDeviceSetupStep('confirm-recovery')
+    this.props.lockboxActions.saveNewDeviceKvStore(this.props.newDeviceName)
   }
 
   render () {

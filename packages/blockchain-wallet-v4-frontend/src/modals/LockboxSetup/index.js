@@ -9,7 +9,7 @@ import LockboxSetup from './template'
 import SetupTypeStep from './SetupTypeStep'
 import ConnectDeviceStep from './ConnectDeviceStep'
 import NameDeviceStep from './NameDeviceStep'
-import ConfirmRecoveryStep from './ConfirmRecoveryStep'
+import OpenBtcAppStep from './OpenBtcAppStep'
 import DuplicateDeviceStep from './DuplicateDeviceStep'
 
 class LockboxSetupContainer extends React.PureComponent {
@@ -22,7 +22,7 @@ class LockboxSetupContainer extends React.PureComponent {
         {currentStep === 'connect' && <ConnectDeviceStep />}
         {currentStep === 'duplicate-device' && <DuplicateDeviceStep />}
         {currentStep === 'name-device' && <NameDeviceStep />}
-        {currentStep === 'confirm-recovery' && <ConfirmRecoveryStep />}
+        {currentStep === 'open-btc-app' && <OpenBtcAppStep />}
       </LockboxSetup>
     )
   }

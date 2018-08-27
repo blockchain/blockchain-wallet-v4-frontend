@@ -16,8 +16,7 @@
     "build:testnet": "cross-env-shell NODE_ENV=testnet webpack-cli --config webpack.config.js --progress --colors",
     "ci:coverage:frontend": "yarn coverage --runInBand",
     "ci:test:frontend": "yarn test --runInBand",
-    "ci:compile":
-      "cross-env-shell NODE_ENV=production CI_BUILD=true webpack-cli --config webpack.config.js --display-error-details",
+    "ci:compile": "cross-env-shell NODE_ENV=production CI_BUILD=true webpack-cli --config webpack.config.js --display-error-details",
     "coverage": "cross-env ./../../node_modules/.bin/jest --coverage",
     "link:resolved:paths": "ln -sf $(pwd)/src/** ./node_modules && ln -sf $(pwd)/../../packages/** ./node_modules",
     "start:dev": "cross-env-shell NODE_ENV=development webpack-dev-server --config webpack.config.js --progress --colors --watch --devtool cheap-module-source-map",
@@ -26,8 +25,7 @@
     "start:testnet": "cross-env-shell NODE_ENV=testnet webpack-dev-server --config webpack.config.js --progress --colors --watch --devtool cheap-module-source-map",
     "test": "cross-env ./../../node_modules/.bin/jest",
     "test:build": "echo 'No precomplilation required for tests to execute.'",
-    "test:debug":
-      "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
+    "test:debug": "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll",
     "manage:translations": "babel-node ./translationRunner.js"
   },
@@ -70,16 +68,15 @@
     }
   },
   "dependencies": {
-    "@ledgerhq/hw-app-btc": "^4.20.0",
-    "@ledgerhq/hw-app-eth": "^4.20.0",
-    "@ledgerhq/hw-transport-u2f": "^4.20.0",
+    "@ledgerhq/hw-app-btc": "4.21.0",
+    "@ledgerhq/hw-app-eth": "4.21.0",
+    "@ledgerhq/hw-transport-u2f": "4.21.0",
     "awesome-phonenumber": "2.2.5",
     "base-64": "0.1.0",
     "bignumber.js": "5.0.0",
     "bip21": "2.0.2",
     "bip39": "2.3.1",
-    "bitcoinforksjs-lib":
-      "git://github.com/blockchain/bitcoinjs-lib.git#opt-in-bitcoincash-sighash",
+    "bitcoinforksjs-lib": "git://github.com/blockchain/bitcoinjs-lib.git#opt-in-bitcoincash-sighash",
     "bitcoinjs-lib": "3.1.1",
     "blockchain-info-components": "0.0.31",
     "blockchain-wallet-v4": "1.0.1",

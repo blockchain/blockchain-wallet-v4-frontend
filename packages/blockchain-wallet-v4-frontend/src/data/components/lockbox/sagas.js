@@ -1,100 +1,45 @@
-import { call, put, take, select } from 'redux-saga/effects'
-import { eventChannel, END } from 'redux-saga'
+import { call, put, race, select } from 'redux-saga/effects'
 import { contains, keysIn } from 'ramda'
 import Btc from '@ledgerhq/hw-app-btc'
-import Transport from '@ledgerhq/hw-transport-u2f'
 
 import { actions, selectors } from 'data'
 import * as A from './actions'
 import * as C from 'services/AlertService'
 import * as S from './selectors'
-import { getDeviceID, generateAccountsMDEntry } from 'services/LockboxService'
+import * as LockboxService from 'services/LockboxService'
+
+const logLocation = 'components/lockbox/sagas'
 
 export default ({ api, coreSagas }) => {
-  const logLocation = 'components/lockbox/sagas'
-
-  const deviceInfoChannel = function () {
-    return eventChannel(emitter => {
-      async function getDeviceInfo () {
-        try {
-          const transport = await Transport.create()
-          const lockbox = new Btc(transport)
-          // get public key and chaincode for btc and eth paths
-          const btc = await lockbox.getWalletPublicKey("44'/0'/0'")
-          const bch = await lockbox.getWalletPublicKey("44'/145'/0'")
-          const eth = await lockbox.getWalletPublicKey("44'/60'/0'/0/0")
-
-          emitter({ btc, bch, eth })
-          emitter(END)
-        } catch (e) {
-          throw new Error(e)
-        }
-      }
-
-      getDeviceInfo()
-      return () => {}
-    })
-  }
-
-  const initializeDeviceConnection = function*() {
+  // determines if lockbox is setup and routes app accordingly
+  const determineLockboxRoute = function*() {
     try {
-      yield put(A.deviceInfoLoading())
-      const chan = yield call(deviceInfoChannel)
-      try {
-        while (true) {
-          const { btc, bch, eth } = yield take(chan)
-          yield put(A.deviceInfoSuccess({ btc, bch, eth }))
-        }
-      } finally {
-        chan.close()
-      }
-    } catch (e) {
-      yield put(A.deviceInfoFailure(e))
-      yield put(
-        actions.logs.logErrorMessage(
-          logLocation,
-          'initializeDeviceConnection',
-          e
-        )
-      )
-    }
-  }
-
-  const deriveConnectStep = function*() {
-    try {
-      const deviceInfoR = yield select(S.getConnectedDevice)
-      const deviceInfo = deviceInfoR.getOrFail('missing_device')
-      const newDeviceID = getDeviceID(deviceInfo)
       const devicesR = yield select(selectors.core.kvStore.lockbox.getDevices)
-      const storedDevices = devicesR.getOrElse({})
-
-      // check if device has already been added
-      if (contains(newDeviceID)(keysIn(storedDevices))) {
-        yield put(A.changeDeviceSetupStep('duplicate-device'))
-      } else {
-        yield put(A.setNewDeviceID(newDeviceID))
-        yield put(A.changeDeviceSetupStep('name-device'))
-      }
+      const devices = devicesR.getOrElse({})
+      keysIn(devices).length
+        ? yield put(actions.router.push('/lockbox/transactions'))
+        : yield put(actions.router.push('/lockbox/onboard'))
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, 'deriveConnectStep', e)
+        actions.logs.logErrorMessage(logLocation, 'determineLockboxRoute', e)
       )
     }
   }
-
-  const saveNewDeviceKvStore = function*() {
+  // saves new device to KvStore
+  const saveNewDeviceKvStore = function*(action) {
     try {
+      const { deviceName } = action.payload
       yield put(A.saveNewDeviceKvStoreLoading())
-      const deviceInfoR = yield select(S.getConnectedDevice)
-      const deviceInfo = deviceInfoR.getOrFail('missing_device')
-      // derive device accounts and other information
-      const mdAccountsEntry = generateAccountsMDEntry(deviceInfo)
-      const deviceId = yield select(S.getNewDeviceSetupId)
-      const deviceName = yield select(S.getNewDeviceSetupName)
+      const newDeviceR = yield select(S.getNewDeviceInfo)
+      const newDevice = newDeviceR.getOrFail('missing_device')
+      const mdAccountsEntry = LockboxService.generateAccountsMDEntry(
+        newDevice.info
+      )
       // store device in kvStore
       yield put(
         actions.core.kvStore.lockbox.createNewDeviceEntry(
-          deviceId,
+          newDevice.id,
+          newDevice.type,
           deviceName,
           mdAccountsEntry
         )
@@ -104,7 +49,6 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displaySuccess(C.LOCKBOX_SETUP_SUCCESS))
       yield put(actions.core.data.bitcoin.fetchData())
       // reset new device setup to step 1
-      // do we want to clear out previous new device data?
       yield put(A.changeDeviceSetupStep('setup-type'))
     } catch (e) {
       yield put(A.saveNewDeviceKvStoreFailure(e))
@@ -138,6 +82,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  // renames a device in KvStore
   const updateDeviceName = function*(action) {
     try {
       const { deviceID, deviceName } = action.payload
@@ -156,6 +101,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  // deletes a device from KvStore
   const deleteDevice = function*(action) {
     try {
       const { deviceID } = action.payload
@@ -170,12 +116,80 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  // new device setup saga
+  const initializeNewDeviceSetup = function*() {
+    try {
+      // 25 min timeout for setup
+      const setupTimeout = 1500000
+      // poll for both Ledger and Blockchain type devices
+      const dashboardTransport = yield race({
+        LEDGER: yield call(
+          LockboxService.pollForAppConnection,
+          'LEDGER',
+          'DASHBOARD',
+          setupTimeout
+        ),
+        BLOCKCHAIN: call(
+          LockboxService.pollForAppConnection,
+          'BLOCKCHAIN',
+          'DASHBOARD',
+          setupTimeout
+        )
+      })
+      // dashboard detected, user has completed setup steps on device
+      // determine the deviceType based on which channel returned
+      const deviceType = keysIn(dashboardTransport)[0]
+      yield put(A.storeTransportObject(dashboardTransport[deviceType]))
+      yield put(A.changeDeviceSetupStep('open-btc-app'))
+      const btcTransport = yield call(
+        LockboxService.pollForAppConnection,
+        deviceType,
+        'BTC'
+      )
+      yield put(A.storeTransportObject(btcTransport))
+      const btcConnection = new Btc(btcTransport)
+      // derive device info such as chaincodes and xpubs
+      const newDeviceInfo = yield call(
+        LockboxService.derviveDeviceInfo,
+        btcConnection
+      )
+      // derive a unique deviceId hashed from btc xpub
+      const newDeviceId = yield call(
+        LockboxService.deriveDeviceID,
+        newDeviceInfo.btc
+      )
+      yield put(
+        A.setNewDeviceInfo({
+          id: newDeviceId,
+          info: newDeviceInfo,
+          type: deviceType
+        })
+      )
+      const storedDevicesR = yield select(
+        selectors.core.kvStore.lockbox.getDevices
+      )
+      const storedDevices = storedDevicesR.getOrElse({})
+      // check if device has already been added
+      if (contains(newDeviceId)(keysIn(storedDevices))) {
+        yield put(A.changeDeviceSetupStep('duplicate-device'))
+      } else {
+        yield put(A.changeDeviceSetupStep('name-device'))
+      }
+    } catch (e) {
+      // TODO: handle connection timeouts gracefully..
+      window.alert('DEVICE CONNECTION TIMEOUT') // eslint-disable-line
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'initializeNewDeviceSetup', e)
+      )
+    }
+  }
+
   return {
-    initializeDeviceConnection,
-    deriveConnectStep,
+    deleteDevice,
+    determineLockboxRoute,
+    initializeNewDeviceSetup,
     saveNewDeviceKvStore,
     updateDeviceName,
-    updateDeviceBalanceDisplay,
-    deleteDevice
+    updateDeviceBalanceDisplay
   }
 }

@@ -1,25 +1,29 @@
 import { path } from 'ramda'
 
+// New Device Setup
 export const getNewDeviceSetupStep = path([
   'components',
   'lockbox',
   'newDeviceSetup',
   'currentStep'
 ])
-export const getNewDeviceSetupId = path([
+export const getNewDeviceInfo = path([
   'components',
   'lockbox',
   'newDeviceSetup',
-  'deviceID'
+  'device'
 ])
-export const getNewDeviceSetupName = path([
+
+// Device Connections
+export const getTransportObject = path([
   'components',
   'lockbox',
-  'newDeviceSetup',
-  'deviceName'
+  'connection',
+  'transport'
 ])
 export const getConnectedDevice = path([
   'components',
   'lockbox',
-  'connectedDevice'
+  'connection',
+  'device'
 ])

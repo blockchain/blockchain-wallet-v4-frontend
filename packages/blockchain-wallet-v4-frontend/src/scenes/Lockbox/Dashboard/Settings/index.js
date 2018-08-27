@@ -8,22 +8,23 @@ import SetupNewDevice from './SetupNewDevice'
 import RestoreLockboxDevice from './RestoreLockboxDevice'
 import FirmwareUpdate from './FIrmwareUpdate'
 
-const AdvancedContainer = styled.div`
-  margin-top: 0 !important;
+const Wrapper = styled.div`
+  width: 100%;
 `
 
 export default class LockboxSettings extends PureComponent {
   render () {
-    const { deviceId } = this.props
+    const { device } = this.props
+
     return (
-      <AdvancedContainer>
-        <DeviceName deviceId={deviceId} />
-        <DeviceStatus deviceId={deviceId} />
-        <ExportXPub deviceId={deviceId} />
+      <Wrapper>
+        <DeviceName deviceId={device.id} />
+        <DeviceStatus deviceId={device.id} />
+        <ExportXPub deviceId={device.id} />
         <SetupNewDevice />
         <RestoreLockboxDevice />
-        <FirmwareUpdate deviceId={deviceId} />
-      </AdvancedContainer>
+        <FirmwareUpdate deviceId={device.id} />
+      </Wrapper>
     )
   }
 }

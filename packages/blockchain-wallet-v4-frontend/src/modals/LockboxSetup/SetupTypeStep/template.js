@@ -36,7 +36,7 @@ const OptionsStep = props => {
         <Button nature='primary' fullwidth>
           <FormattedMessage
             id='modals.lockboxsetup.firststep.buy'
-            defaultMessage='Buy a new Carbon'
+            defaultMessage='Buy a new Lockbox'
           />
         </Button>
       </Row>
