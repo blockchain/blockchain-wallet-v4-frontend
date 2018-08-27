@@ -6,8 +6,8 @@ import { withRouter } from 'react-router-dom'
 
 import { actions } from 'data'
 import { getData } from './selectors'
-import Transactions from './Content/Transactions'
-import Settings from './Content/Settings'
+import Transactions from './Transactions'
+import Settings from './Settings'
 import Header from './Header'
 
 const Wrapper = styled.div`
