@@ -6,6 +6,8 @@ import {
   head,
   path,
   reverse,
+  sortBy,
+  prop,
   contains
 } from 'ramda'
 import { SHAPESHIFT } from '../config'
@@ -18,6 +20,7 @@ export const getTrades = state =>
   getMetadata(state).map(
     compose(
       reverse,
+      sortBy(prop('timestamp')),
       path(['value', 'trades'])
     )
   )

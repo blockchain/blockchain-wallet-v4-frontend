@@ -6,5 +6,16 @@ import * as contacts from './contacts/actions'
 import * as root from './root/actions'
 import * as bch from './bch/actions'
 import * as btc from './btc/actions'
+import * as userCredentials from './userCredentials/actions'
 
-export { root, whatsNew, ethereum, shapeShift, buySell, contacts, bch, btc }
+export {
+  root,
+  whatsNew,
+  ethereum,
+  shapeShift,
+  buySell,
+  contacts,
+  bch,
+  btc,
+  userCredentials
+}

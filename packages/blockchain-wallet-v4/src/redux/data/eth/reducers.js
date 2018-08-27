@@ -16,6 +16,7 @@ const INITIAL_STATE = {
   fee: Remote.NotAsked,
   info: Remote.NotAsked,
   latest_block: Remote.NotAsked,
+  current_balance: Remote.NotAsked,
   legacy_balance: Remote.NotAsked,
   rates: Remote.NotAsked,
   transactions: []
@@ -26,27 +27,15 @@ export default (state = INITIAL_STATE, action) => {
 
   switch (type) {
     case AT.FETCH_ETHEREUM_DATA_LOADING: {
-      const newState = {
-        addresses: Remote.Loading,
-        info: Remote.Loading,
-        latest_block: Remote.Loading
-      }
+      const newState = { addresses: Remote.Loading, info: Remote.Loading, latest_block: Remote.Loading }
       return merge(state, newState)
     }
     case AT.FETCH_ETHEREUM_DATA_SUCCESS: {
-      const newState = {
-        addresses: Remote.Success(prop('addresses', payload)),
-        info: Remote.Success(prop('info', payload)),
-        latest_block: Remote.Success(prop('latest_block', payload))
-      }
+      const newState = { addresses: Remote.Success(prop('addresses', payload)), info: Remote.Success(prop('info', payload)), latest_block: Remote.Success(prop('latest_block', payload)) }
       return merge(state, newState)
     }
     case AT.FETCH_ETHEREUM_DATA_FAILURE: {
-      const newState = {
-        addresses: Remote.Failure(prop('addresses', payload)),
-        info: Remote.Failure(prop('info', payload)),
-        latest_block: Remote.Failure(prop('latest_block', payload))
-      }
+      const newState = { addresses: Remote.Failure(prop('addresses', payload)), info: Remote.Failure(prop('info', payload)), latest_block: Remote.Failure(prop('latest_block', payload)) }
       return merge(state, newState)
     }
     case AT.FETCH_ETHEREUM_FEE_LOADING: {
@@ -77,6 +66,16 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_ETHEREUM_LEGACY_BALANCE_FAILURE: {
       return assoc('legacy_balance', Remote.Failure(payload), state)
     }
+    case AT.FETCH_ETHEREUM_CURRENT_BALANCE_LOADING: {
+      return assoc('current_balance', Remote.Loading, state)
+    }
+    case AT.FETCH_ETHEREUM_CURRENT_BALANCE_SUCCESS: {
+      const { balance } = payload
+      return assoc('current_balance', Remote.Success(balance), state)
+    }
+    case AT.FETCH_ETHEREUM_CURRENT_BALANCE_FAILURE: {
+      return assoc('current_balance', Remote.Failure(payload), state)
+    }
     case AT.FETCH_ETHEREUM_RATES_LOADING: {
       return assoc('rates', Remote.Loading, state)
     }
@@ -88,22 +87,11 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_ETHEREUM_TRANSACTIONS_LOADING: {
       const { reset } = payload
-      return reset
-        ? assoc('transactions', [Remote.Loading], state)
-        : over(lensProp('transactions'), append(Remote.Loading), state)
+      return reset ? assoc('transactions', [Remote.Loading], state) : over(lensProp('transactions'), append(Remote.Loading), state)
     }
     case AT.FETCH_ETHEREUM_TRANSACTIONS_SUCCESS: {
       const { transactions, reset } = payload
-      return reset
-        ? assoc('transactions', [Remote.Success(transactions)], state)
-        : over(
-            lensProp('transactions'),
-            compose(
-              append(Remote.Success(transactions)),
-              dropLast(1)
-            ),
-            state
-          )
+      return reset ? assoc('transactions', [Remote.Success(transactions)], state) : over(lensProp('transactions'), compose( append(Remote.Success(transactions)), dropLast(1) ), state)
     }
     case AT.FETCH_ETHEREUM_TRANSACTIONS_FAILURE: {
       return assoc('transactions', [Remote.Failure(payload)], state)

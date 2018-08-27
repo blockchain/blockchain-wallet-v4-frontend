@@ -9,30 +9,21 @@
   },
   "main": "index.js",
   "scripts": {
-    "analyze":
-      "cross-env-shell ANALYZE=true NODE_ENV=production webpack-cli --config webpack.config.js",
-    "build:dev":
-      "cross-env-shell NODE_ENV=development webpack-cli --config webpack.config.js --progress --colors",
-    "build:prod":
-      "cross-env-shell NODE_ENV=production webpack-cli --config webpack.config.js --progress --colors",
-    "build:staging":
-      "cross-env-shell NODE_ENV=staging webpack-cli --config webpack.config.js --progress --colors",
-    "build:testnet":
-      "cross-env-shell NODE_ENV=testnet webpack-cli --config webpack.config.js --progress --colors",
+    "analyze": "cross-env-shell ANALYZE=true NODE_ENV=production CI_BUILD=true webpack-cli --config webpack.config.js",
+    "build:dev": "cross-env-shell NODE_ENV=development webpack-cli --config webpack.config.js --progress --colors",
+    "build:prod": "cross-env-shell NODE_ENV=production webpack-cli --config webpack.config.js --progress --colors",
+    "build:staging": "cross-env-shell NODE_ENV=staging webpack-cli --config webpack.config.js --progress --colors",
+    "build:testnet": "cross-env-shell NODE_ENV=testnet webpack-cli --config webpack.config.js --progress --colors",
     "ci:coverage:frontend": "yarn coverage --runInBand",
     "ci:test:frontend": "yarn test --runInBand",
     "ci:compile":
       "cross-env-shell NODE_ENV=production CI_BUILD=true webpack-cli --config webpack.config.js --display-error-details",
     "coverage": "cross-env ./../../node_modules/.bin/jest --coverage",
-    "link:resolved:paths": "ln -sf $(pwd)/src/** ./node_modules",
-    "start:dev":
-      "cross-env-shell NODE_ENV=development webpack-dev-server --config webpack.config.js --progress --colors --watch --devtool cheap-module-source-map",
-    "start:prod":
-      "cross-env-shell NODE_ENV=production webpack-dev-server --config webpack.config.js --progress --colors --watch --devtool cheap-module-source-map",
-    "start:staging":
-      "cross-env-shell NODE_ENV=staging webpack-dev-server --config webpack.config.js --progress --colors --watch --devtool cheap-module-source-map",
-    "start:testnet":
-      "cross-env-shell NODE_ENV=testnet webpack-dev-server --config webpack.config.js --progress --colors --watch --devtool cheap-module-source-map",
+    "link:resolved:paths": "ln -sf $(pwd)/src/** ./node_modules && ln -sf $(pwd)/../../packages/** ./node_modules",
+    "start:dev": "cross-env-shell NODE_ENV=development webpack-dev-server --config webpack.config.js --progress --colors --watch --devtool cheap-module-source-map",
+    "start:prod": "cross-env-shell NODE_ENV=production webpack-dev-server --config webpack.config.js --progress --colors --watch --devtool cheap-module-source-map",
+    "start:staging": "cross-env-shell NODE_ENV=staging webpack-dev-server --config webpack.config.js --progress --colors --watch --devtool cheap-module-source-map",
+    "start:testnet": "cross-env-shell NODE_ENV=testnet webpack-dev-server --config webpack.config.js --progress --colors --watch --devtool cheap-module-source-map",
     "test": "cross-env ./../../node_modules/.bin/jest",
     "test:build": "echo 'No precomplilation required for tests to execute.'",
     "test:debug":
@@ -120,7 +111,7 @@
     "react-redux": "5.0.7",
     "react-router-bootstrap": "0.24.4",
     "react-router-dom": "4.1.1",
-    "react-tooltip": "^3.6.1",
+    "react-tooltip": "git://github.com/plondon/react-tooltip.git#93bfe390a52ae9df882c21bf420e6c345f38db02",
     "react-transition-group": "2.2.1",
     "react-webcam": "0.5.0",
     "read-blob": "1.1.0",

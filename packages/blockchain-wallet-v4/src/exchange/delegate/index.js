@@ -35,19 +35,19 @@ export class ExchangeDelegate {
   }
 
   email () {
-    return this._state.settingsPath.data.email
+    return this._state.settingsPath.map(prop('email')).getOrElse('')
   }
 
   mobile () {
-    return this._state.settingsPath.data.sms_number
+    return this._state.settingsPath.map(prop('sms_number')).getOrElse('')
   }
 
   isEmailVerified () {
-    return this._state.settingsPath.data.email_verified
+    return this._state.settingsPath.map(prop('email_verified')).getOrElse(0)
   }
 
   isMobileVerified () {
-    return this._state.settingsPath.data.sms_verified
+    return this._state.settingsPath.map(prop('sms_verified')).getOrElse(0)
   }
 
   getToken (partner, options) {
@@ -95,23 +95,18 @@ export class ExchangeDelegate {
   }
 
   reserveReceiveAddress () {
-    const isProd = prop('walletOptionsPath', this.state)
-      .map(path(['platforms', 'web', this.partner, 'config', 'production']))
-      .getOrFail(`Missing ${this.partner} production flag in walletOptions`)
+    const network = prop('walletOptionsPath', this.state)
+      .map(path(['platforms', 'web', 'bitcoin', 'config', 'network']))
+      .getOrElse('bitcoin')
 
-    let receiveAddress
-    if (isProd) {
-      const defaultIndex = getDefaultAccountIndex(this.state)
-      receiveAddress = btc
-        .getNextAvailableReceiveAddress(
-          Bitcoin.networks.bitcoin.NETWORK_BITCOIN,
-          defaultIndex,
-          this.state
-        )
-        .getOrElse()
-    } else {
-      receiveAddress = '2N7FwMpgyXQA85SaVXumm3UZowq2VKChehP' // testnet address used on staging
-    }
+    const defaultIndex = getDefaultAccountIndex(this.state)
+    let receiveAddress = btc
+      .getNextAvailableReceiveAddress(
+        Bitcoin.networks[network],
+        defaultIndex,
+        this.state
+      )
+      .getOrElse()
 
     return {
       receiveAddress,

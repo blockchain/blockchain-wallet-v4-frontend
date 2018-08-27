@@ -23,7 +23,7 @@ class SettingsContainer extends React.PureComponent {
     }
     if (!isEmpty(this.props.currentWhitelist)) {
       this.props.formActions.initialize('settingIPWhitelist', {
-        IPWhitelist: this.props.currentWhitelist.data || ''
+        IPWhitelist: this.props.currentWhitelist
       })
     }
   }
@@ -55,7 +55,7 @@ class SettingsContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  currentWhitelist: selectors.core.settings.getIpLock(state),
+  currentWhitelist: selectors.core.settings.getIpLock(state).getOrElse(''),
   IPWhitelist: formValueSelector('settingIPWhitelist')(state, 'IPWhitelist')
 })
 

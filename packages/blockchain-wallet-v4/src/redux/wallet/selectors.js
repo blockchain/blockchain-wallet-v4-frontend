@@ -37,6 +37,11 @@ export const getSpendableContext = compose(
   Wallet.selectSpendableContext,
   getWallet
 )
+export const getSpendableAddrContext = compose(
+  ImtoJS,
+  Wallet.selectSpendableAddrContext,
+  getWallet
+)
 export const getUnspendableContext = compose(
   ImtoJS,
   Wallet.selectUnspendableContext,

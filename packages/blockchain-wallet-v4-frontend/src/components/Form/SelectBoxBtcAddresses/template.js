@@ -21,10 +21,6 @@ const ItemWrapper = styled.div`
   & > * {
     margin-left: 5px;
   }
-  &:hover {
-    color: ${props => props.theme['gray-4']};
-    background-color: ${props => props.theme['gray-1']};
-  }
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
     width: 0 !important;

@@ -5,35 +5,33 @@ import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as actions from '../../actions'
 import * as coinifyActions from './actions.js'
 import * as selectors from '../../selectors.js'
-import settings from 'config'
 import coinifySagas, { logLocation, sellDescription } from './sagas'
 import * as C from 'services/AlertService'
 import { merge } from 'ramda'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const coreSagas = coreSagasFactory()
+const networks = { btc: 'bitcoin' }
 
 describe('coinifySagas', () => {
   beforeAll(() => {
     Math.random = () => 0.5
   })
 
-  const mockedLimits = {
-    data: {
-      bank: {
-        inRemaining: { EUR: 150, USD: 150, GBP: 150, DKK: 150 },
-        minimumInAmounts: { EUR: 0, USD: 0, GBP: 0, DKK: 0 }
-      },
-      card: {
-        inRemaining: { EUR: 150, USD: 150, GBP: 150, DKK: 150 },
-        minimumInAmounts: { EUR: 0, USD: 0, GBP: 0, DKK: 0 }
-      },
-      blockchain: {
-        inRemaining: { BTC: 0.5 },
-        minimumInAmounts: { BTC: 0.0001 }
-      }
+  const mockedLimits = Remote.of({
+    bank: {
+      inRemaining: { EUR: 150, USD: 150, GBP: 150, DKK: 150 },
+      minimumInAmounts: { EUR: 0, USD: 0, GBP: 0, DKK: 0 }
+    },
+    card: {
+      inRemaining: { EUR: 150, USD: 150, GBP: 150, DKK: 150 },
+      minimumInAmounts: { EUR: 0, USD: 0, GBP: 0, DKK: 0 }
+    },
+    blockchain: {
+      inRemaining: { BTC: 0.5 },
+      minimumInAmounts: { BTC: 0.0001 }
     }
-  }
+  })
   const tradeReceiveAddress = '1FVKW4rp5rN23dqFVk2tYGY4niAXMB8eZC'
   const secondPassword = 'secondPassword'
   const mockSellTrade = {
@@ -75,7 +73,8 @@ describe('coinifySagas', () => {
 
   describe('coinify signup', () => {
     let { coinifySignup } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const data = {
@@ -135,7 +134,8 @@ describe('coinifySagas', () => {
 
   describe('triggerKYC', () => {
     let { triggerKYC } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     let saga = testSaga(triggerKYC)
@@ -160,7 +160,8 @@ describe('coinifySagas', () => {
 
   describe('fromISX', () => {
     let { fromISX } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const action = {
@@ -171,15 +172,19 @@ describe('coinifySagas', () => {
 
     it('should call signupComplete if modal type is CoinifyExchangeData', () => {
       const modals = [{ type: 'CoinifyExchangeData' }]
+      const trade = Remote.of({})
       return expectSaga(fromISX, action)
-        .provide([[select(selectors.modals.getModals), modals]])
+        .provide([
+          [select(selectors.modals.getModals), modals],
+          [select(selectors.core.data.coinify.getTrade), trade]
+        ])
         .put(coinifyActions.coinifySignupComplete())
         .run()
     })
 
     it('should change the form if constructor is not Trade', () => {
       const modals = [{ type: 'other' }]
-      const trade = { data: { constructor: { name: 'ISX' } } }
+      const trade = Remote.of({ constructor: { name: 'ISX' } })
       return expectSaga(fromISX, action)
         .provide([
           [select(selectors.modals.getModals), modals],
@@ -191,7 +196,7 @@ describe('coinifySagas', () => {
 
     it('should change the form to order history', () => {
       const modals = [{ type: 'other' }]
-      const trade = { data: { constructor: { name: 'Trade' } } }
+      const trade = Remote.of({ constructor: { name: 'Trade' } })
       return expectSaga(fromISX, action)
         .provide([
           [select(selectors.modals.getModals), modals],
@@ -204,7 +209,8 @@ describe('coinifySagas', () => {
 
   describe('openKYC', () => {
     let { openKYC } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const data = {
@@ -249,7 +255,8 @@ describe('coinifySagas', () => {
 
   describe('openKYC - empty payload', () => {
     let { openKYC, triggerKYC } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const data = {
@@ -269,7 +276,8 @@ describe('coinifySagas', () => {
 
   describe('finishTrade', () => {
     let { finishTrade } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const data = {
@@ -309,7 +317,8 @@ describe('coinifySagas', () => {
 
   describe('finishTrade with bank', () => {
     let { finishTrade } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const data = {
       payload: { state: 'awaiting_transfer_in', medium: 'bank' }
@@ -336,7 +345,8 @@ describe('coinifySagas', () => {
 
   describe('coinify buy', () => {
     const { buy, prepareAddress } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const quoteId = '12345'
     const quoteCurrency = 'EUR'
@@ -398,7 +408,8 @@ describe('coinifySagas', () => {
 
   describe('coinify prepareAddress', () => {
     const { prepareAddress } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const saga = testSaga(prepareAddress)
@@ -421,7 +432,8 @@ describe('coinifySagas', () => {
 
   describe('initialized buy', () => {
     let { initialized } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const action = {
       payload: {
@@ -478,7 +490,8 @@ describe('coinifySagas', () => {
 
   describe('initialized sell', () => {
     let { initialized } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const action = {
       payload: {
@@ -509,13 +522,16 @@ describe('coinifySagas', () => {
     })
 
     it('should get the default account index', () => {
-      saga.next().select(selectors.core.wallet.getDefaultAccountIndex)
+      saga
+        .next(Remote.of({}))
+        .select(selectors.core.wallet.getDefaultAccountIndex)
     })
   })
 
   describe('handle currency change', () => {
     let { handleChange } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const action = {
       payload: 'GBP',
@@ -572,7 +588,8 @@ describe('coinifySagas', () => {
 
   describe('handle fiat (leftVal) change - Buy', () => {
     let { handleChange } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const action = {
       payload: 100,
@@ -644,7 +661,8 @@ describe('coinifySagas', () => {
 
   describe('handle crypto (rightVal) change - Buy', () => {
     let { handleChange } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const action = {
       payload: 100,
@@ -714,7 +732,8 @@ describe('coinifySagas', () => {
 
   describe('handle fiat (leftVal) change - Sell', () => {
     let { handleChange } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const action = {
       payload: 100,
@@ -787,7 +806,8 @@ describe('coinifySagas', () => {
 
   describe('handle crypto (rightVal) change - Sell', () => {
     let { handleChange } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const action = {
       payload: 0.000005,
@@ -856,7 +876,8 @@ describe('coinifySagas', () => {
 
   describe('cancelISX', () => {
     let { cancelISX } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     let saga = testSaga(cancelISX)
@@ -871,12 +892,12 @@ describe('coinifySagas', () => {
     })
 
     it('should close the modal if modal is CoinifyExchangeData', () => {
-      const trade = { data: { state: 'awaiting_transfer_in' } }
+      const trade = Remote.of({ state: 'awaiting_transfer_in' })
       saga.next(trade).put(actions.modals.closeAllModals())
     })
 
     it('should go to order history if trade state is awaiting_transfer_in', () => {
-      const trade = { data: { state: 'awaiting_transfer_in' } }
+      const trade = Remote.of({ state: 'awaiting_transfer_in' })
       const modals = []
       saga
         .restart()
@@ -891,7 +912,7 @@ describe('coinifySagas', () => {
     })
 
     it('should go to checkout if trade state is not awaiting_transfer_in', () => {
-      const trade = { data: { state: 'processing' } }
+      const trade = Remote.of({ state: 'processing' })
       const modals = []
       saga
         .restart()
@@ -906,7 +927,8 @@ describe('coinifySagas', () => {
 
   describe('cancelTrade', () => {
     let { cancelTrade } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const data = {
       payload: {
@@ -950,7 +972,8 @@ describe('coinifySagas', () => {
 
   describe('cancelSubscription', () => {
     let { cancelSubscription } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const data = {
       payload: {
@@ -996,7 +1019,8 @@ describe('coinifySagas', () => {
 
   describe('deleteBankAccount', () => {
     let { deleteBankAccount } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const payload = {
       id: 1
@@ -1017,7 +1041,7 @@ describe('coinifySagas', () => {
     })
 
     it('should call the core to get mediums and accounts', () => {
-      const quote = { data: { amount: 100 } }
+      const quote = Remote.of({ amount: 100 })
       saga
         .next(quote)
         .put(actions.core.data.coinify.getMediumsWithBankAccounts(quote.data))
@@ -1042,7 +1066,8 @@ describe('coinifySagas', () => {
 
   describe('checkoutCardMax', () => {
     let { checkoutCardMax } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const action = {
       payload: {
@@ -1082,7 +1107,8 @@ describe('coinifySagas', () => {
 
   describe('sell', () => {
     let { sell } = coinifySagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     let saga = testSaga(sell)
@@ -1117,7 +1143,7 @@ describe('coinifySagas', () => {
       expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
         payment: state.coinify.payment.getOrElse({}),
-        network: settings.NETWORK
+        network: networks.btc
       })
     })
 
