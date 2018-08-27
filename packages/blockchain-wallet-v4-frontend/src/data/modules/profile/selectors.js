@@ -18,10 +18,9 @@ export const isCountrySupported = countryCode =>
 
 export const invitedToKyc = state =>
   selectors.core.settings.getInvitations(state).map(prop('kyc'))
-export const countrySupportsKyc = () => Remote.of(true)
-// compose(
-//   isCountrySupported,
-//   selectors.core.settings.getCountryCode
+export const countrySupportsKyc = state => Remote.of(true)
+// Remote.of(selectors.core.settings.getCountryCode(state)).map(
+//   isCountrySupported
 // )
 export const userFlowSupported = converge(lift(and), [
   invitedToKyc,
