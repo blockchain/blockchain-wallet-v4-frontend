@@ -10,6 +10,7 @@ export default ({ api, coreSagas }) => {
       AT.INITIALIZE_NEW_DEVICE_SETUP,
       lockboxSagas.initializeNewDeviceSetup
     )
+    yield takeLatest(AT.INITIALIZE_DASHBOARD, lockboxSagas.initializeDashboard)
     yield takeLatest(
       AT.DETERMINE_LOCKBOX_ROUTE,
       lockboxSagas.determineLockboxRoute

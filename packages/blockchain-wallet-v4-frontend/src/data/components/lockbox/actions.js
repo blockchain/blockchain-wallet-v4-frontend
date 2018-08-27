@@ -63,3 +63,6 @@ export const deleteDeviceFailure = payload => ({
   type: AT.DELETE_DEVICE_FAILURE,
   payload
 })
+
+// DASHBOARD
+export const initializeDashboard = () => ({ type: AT.INITIALIZE_DASHBOARD })

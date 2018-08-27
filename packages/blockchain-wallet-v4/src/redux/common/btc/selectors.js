@@ -172,6 +172,8 @@ export const getAddressesInfo = state => {
   return map(digest, legacyAddresses)
 }
 
+// @phil
+// TODO: make this reusable
 // getWalletTransactions :: state -> [Page]
 export const getWalletTransactions = state => {
   // Page == Remote ([Tx])

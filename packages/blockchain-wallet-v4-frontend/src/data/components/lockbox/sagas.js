@@ -184,9 +184,14 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const initializeDashboard = function*() {
+    yield put(actions.core.data.lockbox.fetchBtcTransactions())
+  }
+
   return {
     deleteDevice,
     determineLockboxRoute,
+    initializeDashboard,
     initializeNewDeviceSetup,
     saveNewDeviceKvStore,
     updateDeviceName,

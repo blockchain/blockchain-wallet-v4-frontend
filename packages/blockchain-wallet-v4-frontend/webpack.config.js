@@ -234,7 +234,7 @@ module.exports = {
         res.json(mockWalletOptions)
       })
 
-      // TODO:: DEPRECATE
+      // TODO: DEPRECATE
       // This is to locally test transferring cookies from transfer_stored_values.html
       app.get('/Resources/transfer_stored_values.html', function(req, res) {
         res.sendFile(
