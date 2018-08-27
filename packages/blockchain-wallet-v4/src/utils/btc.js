@@ -10,10 +10,10 @@ import BigNumber from 'bignumber.js'
 import * as Exchange from '../exchange'
 import Either from 'data.either'
 
-export const isValidBitcoinAddress = value => {
+export const isValidBitcoinAddress = (value, network) => {
   try {
     const addr = address.fromBase58Check(value)
-    const n = networks.bitcoin
+    const n = network || networks.bitcoin
     return or(
       equals(addr.version, n.pubKeyHash),
       equals(addr.version, n.scriptHash)
@@ -22,7 +22,6 @@ export const isValidBitcoinAddress = value => {
     try {
       const decoded = decode(value)
 
-      // TODO how do we know which network we are on here?
       if (decoded.prefix !== 'bc') {
         return false
       }
@@ -145,7 +144,7 @@ export const privateKeyStringToKey = function (
   addr
 ) {
   if (format === 'sipa' || format === 'compsipa') {
-    return ECPair.fromWIF(value, networks.bitcoin)
+    return ECPair.fromWIF(value, network)
   } else {
     let keyBuffer = null
 
@@ -193,10 +192,13 @@ export const formatPrivateKeyString = (keyString, format, addr) => {
   })
 }
 
-export const isValidBitcoinPrivateKey = value => {
+export const isValidBitcoinPrivateKey = (value, network) => {
   try {
     let format = detectPrivateKeyFormat(value)
-    return format === 'bip38' || privateKeyStringToKey(value, format) != null
+    return (
+      format === 'bip38' ||
+      privateKeyStringToKey(value, format, network) != null
+    )
   } catch (e) {
     return false
   }
