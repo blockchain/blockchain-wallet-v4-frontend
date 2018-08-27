@@ -17,7 +17,7 @@ export default ({ api, coreSagas }) => {
       const devicesR = yield select(selectors.core.kvStore.lockbox.getDevices)
       const devices = devicesR.getOrElse({})
       keysIn(devices).length
-        ? yield put(actions.router.push('/lockbox/dashboard'))
+        ? yield put(actions.router.push('/lockbox/transactions'))
         : yield put(actions.router.push('/lockbox/onboard'))
     } catch (e) {
       yield put(

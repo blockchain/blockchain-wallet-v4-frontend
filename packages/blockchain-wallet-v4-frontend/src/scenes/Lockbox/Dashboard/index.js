@@ -1,11 +1,13 @@
 import React from 'react'
-import { bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { withRouter } from 'react-router-dom'
 
 import { actions } from 'data'
 import { getData } from './selectors'
-import Content from './Content'
+import Transactions from './Content/Transactions'
+import Settings from './Content/Settings'
 import Header from './Header'
 
 const Wrapper = styled.div`
@@ -13,24 +15,38 @@ const Wrapper = styled.div`
 `
 class LockboxDashboardContainer extends React.PureComponent {
   render () {
-    const { device } = this.props
+    const { location } = this.props
 
-    return (
-      <Wrapper>
-        <Header deviceName={device.name} />
-        <Content device={device} />
-      </Wrapper>
-    )
+    return this.props.data.cata({
+      Success: device => {
+        return (
+          <Wrapper>
+            <Header deviceName={device.name}/>
+            {location.pathname === '/lockbox/settings' && <Settings />}
+            {location.pathname === '/lockbox/transactions' && <Transactions />}
+          </Wrapper>
+        )
+      },
+      Failure: () => null,
+      Loading: () => null,
+      NotAsked: () => null
+    })
   }
 }
+
 const mapStateToProps = state => ({
-  device: getData(state)
+  data: getData(state)
 })
 const mapDispatchToProps = dispatch => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LockboxDashboardContainer)
+const enhance = compose(
+  withRouter,
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)
+
+export default enhance(LockboxDashboardContainer)

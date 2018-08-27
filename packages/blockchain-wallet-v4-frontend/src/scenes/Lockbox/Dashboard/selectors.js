@@ -1,25 +1,15 @@
 import { selectors } from 'data'
-import { lift, pathOr } from 'ramda'
+import { lift, keysIn } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
-export const getData = () => {
-  return {
-    name: 'yo',
-    accounts: {}
+export const getData = createDeepEqualSelector(
+  [
+    selectors.core.kvStore.lockbox.getDevices
+  ],
+  (devicesKvStoreR) => {
+    const transform = (devicesKvStore) => {
+      return devicesKvStore[keysIn(devicesKvStore)[0]]
+    }
+    return lift(transform)(devicesKvStoreR)
   }
-}
-// export const getData = createDeepEqualSelector(
-//   [
-//     selectors.components.lockbox.getConnectedDevice,
-//     selectors.core.kvStore.lockbox.getDevices
-//   ],
-//   (connectedDeviceR, devicesKvStoreR) => {
-//     const transform = (connectedDevice, devicesKvStore) => {
-//       return {
-//         name: 'yo',
-//         accounts: {}
-//       }
-//     }
-//     return lift(transform)(connectedDeviceR, devicesKvStoreR)
-//   }
-// )
+)

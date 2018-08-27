@@ -36,54 +36,6 @@ const Lockbox = props => {
           />
         </Button>
       </div>
-      {/* {deviceIdList.map((id, i) => { */}
-      {/* const device = devices[id] */}
-      {/* return ( */}
-      {/* <Device> */}
-      {/* <h3 style={{ fontSize: '20px' }}> */}
-      {/* {device.name}{' '} */}
-      {/* <span style={{ fontSize: '15px' }}>({deviceIdList[i]})</span> */}
-      {/* </h3> */}
-      {/* {!device.accounts ? ( */}
-      {/* <div>Accounts not stored.</div> */}
-      {/* ) : ( */}
-      {/* <div> */}
-      {/* <div> */}
-      {/* <b>BTC Label</b>: {device.accounts.btc.accounts[0].label} */}
-      {/* </div> */}
-      {/* <div> */}
-      {/* <b>BTC Xpub</b>: {device.accounts.btc.accounts[0].xpub} */}
-      {/* </div> */}
-      {/* <div> */}
-      {/* <b>BCH Label</b>: {device.accounts.bch.accounts[0].label} */}
-      {/* </div> */}
-      {/* <div> */}
-      {/* <b>BCH Xpub</b>: {device.accounts.bch.accounts[0].xpub} */}
-      {/* </div> */}
-      {/* <div> */}
-      {/* <b>ETH Label</b>: {device.accounts.eth.accounts[0].label} */}
-      {/* </div> */}
-      {/* <div> */}
-      {/* <b>ETH Address</b>: {device.accounts.eth.accounts[0].addr} */}
-      {/* </div> */}
-      {/* </div> */}
-      {/* )} */}
-
-      {/* <Button */}
-      {/* nature='sent' */}
-      {/* style={{ marginTop: '10px' }} */}
-      {/* onClick={() => { */}
-      {/* deleteDevice(deviceIdList[i]) */}
-      {/* }} */}
-      {/* > */}
-      {/* <FormattedMessage */}
-      {/* id='scenes.lockbox.welcome.deletedevice' */}
-      {/* defaultMessage='Delete Device' */}
-      {/* /> */}
-      {/* </Button> */}
-      {/* </Device> */}
-      {/* ) */}
-      {/* })} */}
     </Wrapper>
   )
 }

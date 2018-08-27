@@ -1,16 +1,28 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
+import styled from 'styled-components'
 import { actions } from 'data'
+import { FlatLoader } from 'blockchain-info-components'
 
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 30px;
+  width: 100%;
+`
 class LockboxContainer extends React.PureComponent {
   componentWillMount () {
     this.props.lockboxActions.determineLockboxRoute()
   }
 
   render () {
-    return null
+    return (
+      <Wrapper>
+        <FlatLoader width='150px' height='20px' />
+      </Wrapper>
+    )
   }
 }
 

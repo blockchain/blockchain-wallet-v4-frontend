@@ -24,11 +24,7 @@ class ContentContainer extends React.PureComponent {
     const { devices } = this.props
 
     return (
-      <Content
-        devices={devices}
-        deleteDevice={this.deleteDevice}
-        addDevice={this.addDevice}
-      />
+      <h1>Content</h1>
     )
   }
 }

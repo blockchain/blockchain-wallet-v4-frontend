@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { LinkContainer } from 'react-router-bootstrap'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 
@@ -37,9 +38,6 @@ const SettingsIcon = styled(Icon)`
 
 const Menu = props => {
   const { deviceName } = props
-  const openSettings = () => {
-    window.alert('settings')
-  }
 
   return (
     <Container>
@@ -48,18 +46,18 @@ const Menu = props => {
           <Text size='24px' weight={400}>
             {deviceName}
           </Text>
-          <SettingsIcon
-            name='settings-filled'
-            size={'24px'}
-            onClick={openSettings}
-          />
+          <LinkContainer to='/lockbox/settings'>
+            <SettingsIcon name='settings-filled' size={'24px'} />
+          </LinkContainer>
         </TitleBarWrapper>
       </TitleBar>
-      <CurrencyList>
-        <Button>BTC</Button>
-        <Button>BCH</Button>
-        <Button>ETH</Button>
-      </CurrencyList>
+      <LinkContainer to='/lockbox/transactions'>
+        <CurrencyList>
+          <Button>BTC</Button>
+          <Button>BCH</Button>
+          <Button>ETH</Button>
+        </CurrencyList>
+      </LinkContainer>
     </Container>
   )
 }
