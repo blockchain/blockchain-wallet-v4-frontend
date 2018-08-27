@@ -36,8 +36,8 @@ export const getBtcData = createSelector(
         'value_then',
         'value_now',
         'exchange_rate_then',
-        'note',
-        'tx'
+        'tx',
+        'note'
       ]
       const transformedData = map(
         d => [
@@ -128,7 +128,7 @@ const assocBTCNotes = curry((wallet, transactions) => {
 const assocBCHNotes = curry((notes, transactions) => {
   return transactions.map(transaction => {
     const hash = prop('tx', transaction)
-    const note = notes[hash]
+    const note = notes && notes[hash]
     return note ? assoc('note', note, transaction) : transaction
   })
 })
