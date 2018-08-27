@@ -8,12 +8,6 @@ import OpenBtcAppStep from './template'
 class OpenBtcAppStepContainer extends React.PureComponent {
   render () {
     return <OpenBtcAppStep />
-    // return data.cata({
-    //   Success: value => <OpenBtcAppStep />,
-    //   Loading: () => <OpenBtcAppStep />,
-    //   Failure: () => <OpenBtcAppStep />,
-    //   NotAsked: () => <OpenBtcAppStep />
-    // })
   }
 }
 

@@ -5,7 +5,7 @@ import { actions } from 'data'
 
 import Template from './template'
 
-class ConnectDeviceStep extends React.PureComponent {
+class ConnectDeviceStepContainer extends React.PureComponent {
   componentDidMount () {
     this.props.lockboxActions.initializeNewDeviceSetup()
   }
@@ -22,4 +22,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   null,
   mapDispatchToProps
-)(ConnectDeviceStep)
+)(ConnectDeviceStepContainer)
