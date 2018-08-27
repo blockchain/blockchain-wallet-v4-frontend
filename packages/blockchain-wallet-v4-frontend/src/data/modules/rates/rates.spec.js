@@ -165,6 +165,9 @@ describe('rates service', () => {
     beforeEach(() => {
       ratesSocket.send.mockClear()
       store.dispatch(actions.modules.rates.subscribeToRate(pair))
+      store.dispatch(
+        actions.modules.rates.updatePairConfig(pair, volume, fix, fiatCurrency)
+      )
     })
 
     it('should set pair rate to loading upon subscription success message', () => {
@@ -177,7 +180,7 @@ describe('rates service', () => {
       ).toEqual(Remote.Loading)
     })
 
-    it('should set pair rate to success upon advice message', () => {
+    it('should set pair rate to success upon advice message if fix and volume match', () => {
       ratesSocket.triggerMessage({
         ...model.rates.ADVICE_MESSAGE,
         ...stubAdvice
@@ -185,6 +188,28 @@ describe('rates service', () => {
       expect(
         selectors.modules.rates.getPairRate(pair, store.getState())
       ).toEqual(Remote.of(stubAdvice.currencyRatio))
+    })
+
+    it('should set pair rate to success upon advice message if fix does not match', () => {
+      ratesSocket.triggerMessage({
+        ...model.rates.ADVICE_MESSAGE,
+        ...stubAdvice,
+        fix: 'base'
+      })
+      expect(
+        selectors.modules.rates.getPairRate(pair, store.getState())
+      ).toEqual(Remote.NotAsked)
+    })
+
+    it('should set pair rate to success upon advice message if volume does not match', () => {
+      ratesSocket.triggerMessage({
+        ...model.rates.ADVICE_MESSAGE,
+        ...stubAdvice,
+        volume: volume + 1
+      })
+      expect(
+        selectors.modules.rates.getPairRate(pair, store.getState())
+      ).toEqual(Remote.NotAsked)
     })
 
     it('should retry authentication after delay', async () => {

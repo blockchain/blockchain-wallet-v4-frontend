@@ -34,8 +34,3 @@ export const subscribeError = (pair, error) => ({
   type: AT.SUBSCRIBE_ERROR,
   payload: { pair, error }
 })
-
-export const updateAdvice = (pair, advice) => ({
-  type: AT.UPDATE_ADVICE,
-  payload: { pair, advice }
-})

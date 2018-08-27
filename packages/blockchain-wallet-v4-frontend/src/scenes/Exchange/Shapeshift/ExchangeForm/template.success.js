@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import { isEmpty, contains } from 'ramda'
+import { isEmpty } from 'ramda'
 
 import { model } from 'data'
 
@@ -27,7 +27,7 @@ import {
 } from './validationMessages'
 import media from 'services/ResponsiveService'
 
-const { EXCHANGE_FORM, formatPair } = model.components.exchange
+const { EXCHANGE_FORM } = model.components.exchange
 
 const Wrapper = styled.div`
   display: flex;
@@ -107,7 +107,6 @@ const ShapeshiftIcon = styled(Icon)`
 `
 
 const Success = ({
-  availablePairs,
   fromElements,
   toElements,
   disabled,
@@ -117,23 +116,9 @@ const Success = ({
   sourceCoin,
   targetCoin,
   formError,
-  useShapeshift,
   handleSwap,
-  handleSubmit,
-  handleSourceChange,
-  handleTargetChange,
-  handleSourceAmountChange,
-  handleTargetAmountChange,
-  handleSourceFiatAmountChange,
-  handleTargetFiatAmountChange,
-  swapBaseAndCounter,
-  swapCoinAndFiat
+  handleSubmit
 }) => {
-  const swapDisabled = !contains(
-    formatPair(targetCoin, sourceCoin),
-    availablePairs
-  )
-
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit}>
@@ -168,7 +153,6 @@ const Success = ({
           <Cell>
             <Field
               name='source'
-              onChange={!useShapeshift && handleSourceChange}
               component={SelectBox}
               elements={fromElements}
               hasOneAccount={hasOneAccount}
@@ -181,16 +165,12 @@ const Success = ({
               size='28px'
               weight={500}
               cursor
-              disabled={swapDisabled}
-              onClick={() => {
-                if (!disabled && !swapDisabled) handleSwap()
-              }}
+              onClick={handleSwap}
             />
           </Cell>
           <Cell>
             <Field
               name='target'
-              onChange={!useShapeshift && handleTargetChange}
               component={SelectBox}
               elements={toElements}
               hasOneAccount={hasOneAccount}
@@ -214,7 +194,6 @@ const Success = ({
             <AmountContainer hasNoBottomBorder>
               <Field
                 name='sourceAmount'
-                onChange={!useShapeshift && handleSourceAmountChange}
                 component={NumberBoxDebounced}
                 disabled={disabled}
                 step='0.00000001'
@@ -224,7 +203,6 @@ const Success = ({
             <AmountContainer>
               <Field
                 name='sourceFiat'
-                onChange={!useShapeshift && handleSourceFiatAmountChange}
                 component={NumberBoxDebounced}
                 disabled={disabled}
               />
@@ -242,7 +220,6 @@ const Success = ({
             <AmountContainer hasNoBottomBorder>
               <Field
                 name='targetAmount'
-                onChange={!useShapeshift && handleTargetAmountChange}
                 component={NumberBoxDebounced}
                 disabled={disabled}
                 step='0.00000001'
@@ -252,7 +229,6 @@ const Success = ({
             <AmountContainer>
               <Field
                 name='targetFiat'
-                onChange={!useShapeshift && handleTargetFiatAmountChange}
                 component={NumberBoxDebounced}
                 disabled={disabled}
               />

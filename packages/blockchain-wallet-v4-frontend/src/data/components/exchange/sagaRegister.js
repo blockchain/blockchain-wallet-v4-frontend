@@ -1,4 +1,4 @@
-import { actionTypes } from 'redux-form'
+import { actionTypes as formActionTypes } from 'redux-form'
 import { takeEvery, takeLatest, select, call } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import * as S from './selectors'
@@ -56,7 +56,7 @@ const registerShapeshiftSagas = function*(shapeshift) {
     shapeshift.usStateRegistered
   )
   yield takeLatest(AT.EXCHANGE_DESTROYED, shapeshift.destroyed)
-  yield takeEvery(actionTypes.CHANGE, shapeshift.change)
+  yield takeEvery(formActionTypes.CHANGE, shapeshift.change)
 }
 
 export default ({ api, coreSagas, options, networks }) => {

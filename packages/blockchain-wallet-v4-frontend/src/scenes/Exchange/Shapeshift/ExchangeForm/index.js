@@ -2,21 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { compose, tap, is, cond, always } from 'ramda'
 
 import { getRemotePropType, getElementsPropType } from 'utils/proptypes'
-import { actions, model } from 'data'
+import { actions } from 'data'
 import { getData } from './selectors'
 
 import Loading from './template.loading'
 import Success from './template.success'
 import DataError from 'components/DataError'
-
-const extractFieldValue = (_, value) => value
-const preventFormChanges = e => e.preventDefault()
-
-const { EXCHANGE_FORM } = model.components.exchange
-const { BASE, COUNTER, BASE_IN_FIAT, COUNTER_IN_FIAT } = model.rates.FIX_TYPES
 
 class FirstStepContainer extends React.Component {
   componentDidMount () {
@@ -25,30 +18,6 @@ class FirstStepContainer extends React.Component {
 
   handleRefresh = () => {
     this.props.actions.firstStepInitialized()
-  }
-
-  handleChangeFix = fix => {}
-
-  swapCoinAndFiat = () => {
-    const fix = cond([
-      [is(BASE), always(BASE_IN_FIAT)],
-      [is(BASE_IN_FIAT), always(BASE)],
-      [is(COUNTER), always(COUNTER_IN_FIAT)],
-      [is(COUNTER_IN_FIAT), always(COUNTER)]
-    ])(this.props.fix)
-
-    this.props.formActions.change(EXCHANGE_FORM, 'fix', fix)
-  }
-
-  swapBaseAndCounter = () => {
-    const fix = cond([
-      [is(BASE), always(COUNTER)],
-      [is(COUNTER), always(BASE)],
-      [is(BASE_IN_FIAT), always(COUNTER_IN_FIAT)],
-      [is(COUNTER_IN_FIAT), always(BASE_IN_FIAT)]
-    ])(this.props.fix)
-
-    this.props.formActions.change(EXCHANGE_FORM, 'fix', fix)
   }
 
   render () {
@@ -61,36 +30,6 @@ class FirstStepContainer extends React.Component {
           handleMinimum={actions.firstStepMinimumClicked}
           onSubmit={actions.firstStepSubmitClicked}
           handleSwap={actions.firstStepSwapClicked}
-          handleSourceChange={compose(
-            actions.changeSource,
-            extractFieldValue
-          )}
-          handleTargetChange={compose(
-            actions.changeTarget,
-            extractFieldValue
-          )}
-          handleSourceAmountChange={compose(
-            actions.changeSourceAmount,
-            extractFieldValue,
-            tap(preventFormChanges)
-          )}
-          handleTargetAmountChange={compose(
-            actions.changeTargeteAmount,
-            extractFieldValue,
-            tap(preventFormChanges)
-          )}
-          handleSourceFiatAmountChange={compose(
-            actions.changeSourceFiatAmount,
-            extractFieldValue,
-            tap(preventFormChanges)
-          )}
-          handleTargetFiatAmountChange={compose(
-            actions.changeTargetFiatAmount,
-            extractFieldValue,
-            tap(preventFormChanges)
-          )}
-          swapBaseAndCounter={this.swapBaseAndCounter}
-          swapCoinAndFiat={this.swapCoinAndFiat}
         />
       ),
       Failure: message => (

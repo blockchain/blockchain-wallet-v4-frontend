@@ -1,6 +1,6 @@
 import { assoc, assocPath, dissocPath, lensProp, propOr, set } from 'ramda'
 
-import * as SAT from 'data/middleware/webSocket/rates/actionTypes'
+import * as socketActionTypes from 'data/middleware/webSocket/rates/actionTypes'
 import * as AT from './actionTypes'
 import { FIX_TYPES } from './model'
 import { Remote } from 'blockchain-wallet-v4'
@@ -37,16 +37,16 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('availablePairs', Remote.Failure(payload.error), state)
     case AT.UPDATE_PAIR_CONFIG:
       return setPairProp(configLens, payload.config, payload.pair, state)
-    case SAT.SUBSCRIBE_SUCCESS:
-      return setPairProp(adviceLens, Remote.Loading, payload.pair, state)
-    case SAT.UPDATE_ADVICE:
+    case AT.SET_PAIR_ADVICE:
       return setPairProp(
         adviceLens,
         Remote.Success(payload.advice),
         payload.pair,
         state
       )
-    case SAT.SUBSCRIBE_ERROR:
+    case socketActionTypes.SUBSCRIBE_SUCCESS:
+      return setPairProp(adviceLens, Remote.Loading, payload.pair, state)
+    case socketActionTypes.SUBSCRIBE_ERROR:
       return setPairProp(
         adviceLens,
         Remote.Failure(payload.error),
