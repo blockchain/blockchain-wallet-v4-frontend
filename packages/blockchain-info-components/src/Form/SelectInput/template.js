@@ -12,11 +12,28 @@ const StyledSelect = styled(Select)`
   .control {
     box-shadow: none;
     border: 1px solid ${props => props.theme[props.borderColor]};
+    border-left: ${props => props.asideTextInput && 'none'};
+    > div:first-of-type {
+      > div {
+        right: ${props => props.asideTextInput && '0px'};
+      }
+      > div + div {
+        position: ${props => props.asideTextInput && 'absolute'};
+        right: ${props => props.asideTextInput && '30px'};
+      }
+    }
+    > div:last-of-type {
+      > span {
+        display: ${props => props.asideTextInput && 'none'};
+      }
+    }
     &:hover {
       border: 1px solid ${props => props.theme[props.borderColor]};
+      border-left: ${props => props.asideTextInput && 'none'};
     }
     &:active {
       border: 1px solid ${props => props.theme[props.borderColor]};
+      border-left: ${props => props.asideTextInput && 'none'};
       box-shadow: none;
     }
     &:disabled {
@@ -111,7 +128,8 @@ const SelectInput = props => {
     onBlur,
     errorState,
     menuIsOpen,
-    grouped
+    grouped,
+    asideTextInput
   } = props
   const options = grouped
     ? items
@@ -147,6 +165,7 @@ const SelectInput = props => {
       menuIsOpen={menuIsOpen}
       isDisabled={disabled}
       value={defaultValue}
+      asideTextInput={asideTextInput}
     />
   )
 }
