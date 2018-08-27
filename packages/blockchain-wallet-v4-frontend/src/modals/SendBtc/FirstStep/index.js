@@ -33,7 +33,6 @@ class FirstStep extends React.Component {
           from={value.from}
           network={value.network}
           watchOnly={value.watchOnly}
-          addressMatchesPriv={value.addressMatchesPriv}
           enableToggle={value.enableToggle}
           toToggled={value.toToggled}
           destination={value.destination}
