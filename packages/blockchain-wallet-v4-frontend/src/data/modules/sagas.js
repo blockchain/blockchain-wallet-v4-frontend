@@ -12,7 +12,7 @@ export default ({ coreSagas, api }) => ({
   coinify: coinify({ coreSagas }),
   profile: profile({ api, coreSagas }),
   rates: rates({ api }),
-  settings: settings({ coreSagas }),
+  settings: settings({ api, coreSagas }),
   securityCenter: securityCenter({ coreSagas }),
   transferEth: transferEth({ coreSagas }),
   sfox: sfox({ coreSagas })

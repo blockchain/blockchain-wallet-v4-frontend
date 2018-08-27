@@ -95,29 +95,18 @@ export class ExchangeDelegate {
   }
 
   reserveReceiveAddress () {
-    const isProd = prop('walletOptionsPath', this.state)
-      .map(path(['platforms', 'web', this.partner, 'config', 'production']))
-      .getOrFail(`Missing ${this.partner} production flag in walletOptions`)
+    const network = prop('walletOptionsPath', this.state)
+      .map(path(['platforms', 'web', 'bitcoin', 'config', 'network']))
+      .getOrElse('bitcoin')
 
     const defaultIndex = getDefaultAccountIndex(this.state)
-    let receiveAddress
-    if (isProd) {
-      receiveAddress = btc
-        .getNextAvailableReceiveAddress(
-          Bitcoin.networks.bitcoin,
-          defaultIndex,
-          this.state
-        )
-        .getOrElse()
-    } else {
-      receiveAddress = btc
-        .getNextAvailableReceiveAddress(
-          Bitcoin.networks.testnet,
-          defaultIndex,
-          this.state
-        )
-        .getOrElse()
-    }
+    let receiveAddress = btc
+      .getNextAvailableReceiveAddress(
+        Bitcoin.networks[network],
+        defaultIndex,
+        this.state
+      )
+      .getOrElse()
 
     return {
       receiveAddress,

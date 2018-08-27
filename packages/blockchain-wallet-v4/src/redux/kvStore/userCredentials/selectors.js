@@ -7,4 +7,4 @@ export const getMetadata = path([kvStorePath, USER_CREDENTIALS])
 export const getUserId = state =>
   getMetadata(state).map(path(['value', 'user_id']))
 export const getLifetimeToken = state =>
-  getMetadata(state).map(path(['value', 'token']))
+  getMetadata(state).map(path(['value', 'lifetime_token']))

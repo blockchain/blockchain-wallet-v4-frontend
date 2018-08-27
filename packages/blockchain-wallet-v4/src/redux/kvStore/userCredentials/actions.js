@@ -19,11 +19,7 @@ export const createMetadataUserCredentials = data => ({
   payload: data
 })
 
-export const setUserId = user_id => ({
-  type: AT.SET_USER_ID,
-  payload: { user_id }
-})
-export const setLifetimeToken = token => ({
-  type: AT.SET_LIFETIME_TOKEN,
-  payload: { token }
+export const setUserCredentials = (user_id, lifetime_token) => ({
+  type: AT.SET_USER_CREDENTIALS,
+  payload: { user_id, lifetime_token }
 })
