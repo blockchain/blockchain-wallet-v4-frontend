@@ -2,7 +2,7 @@ import { whereEq, map, isEmpty, values } from 'ramda'
 import { put, all, call, select } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 
-import { selectors, model } from 'data'
+import { selectors, model, actions } from 'data'
 import * as A from './actions'
 
 export const socketAuthRetryDelay = 5000
@@ -38,8 +38,16 @@ export default ({ api, ratesSocket }) => {
       yield put(A.unsubscribeSuccess(message.pair))
     if (isSubscribeError(message))
       yield put(A.subscribeError(message.pair, null))
-    if (isAdviceMessage(message))
-      yield put(A.updateAdvice(message.pair, message.currencyRatio))
+    if (isAdviceMessage(message)) {
+      yield put(
+        actions.modules.rates.updateAdvice(
+          message.pair,
+          message.fix,
+          message.volume,
+          message.currencyRatio
+        )
+      )
+    }
   }
 
   const restFallback = function*() {
@@ -57,7 +65,7 @@ export default ({ api, ratesSocket }) => {
   const fetchRate = function*({ pair, config: { volume, fix, fiatCurrency } }) {
     try {
       const advice = yield call(api.fetchRates, pair, volume, fix, fiatCurrency)
-      yield put(A.updateAdvice(pair, advice))
+      yield put(actions.modules.rates.updateAdvice(pair, fix, volume, advice))
     } catch (e) {
       yield put(A.subscribeError(pair, e))
     }

@@ -1,4 +1,4 @@
-import { compose, curry, values, path, mapObjIndexed } from 'ramda'
+import { compose, curry, values, path, prop, mapObjIndexed } from 'ramda'
 
 export const getActivePairs = compose(
   values,
@@ -6,12 +6,25 @@ export const getActivePairs = compose(
   path(['rates', 'pairs'])
 )
 
-export const getPairRate = curry((pair, state) =>
-  path(['rates', 'pairs', pair, 'advice'], state)
-)
+const getPair = curry((pair, state) => path(['rates', 'pairs', pair], state))
 
-export const getPairFix = curry((pair, state) =>
-  path(['rates', 'pairs', pair, 'config', 'fix'], state)
+export const getPairRate = curry(
+  compose(
+    prop('advice'),
+    getPair
+  )
+)
+export const getPairConfig = curry(
+  compose(
+    prop('config'),
+    getPair
+  )
+)
+export const getPairFix = curry(
+  compose(
+    prop('fix'),
+    getPairConfig
+  )
 )
 
 export const getAvailablePairs = path(['rates', 'availablePairs'])
