@@ -61,7 +61,7 @@ export default ({ api }) => {
       }
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
       yield put(A.fetchTransactionsLoading(reset))
-      const context = yield select(selectors.wallet.getWalletContext)
+      const context = yield select(selectors.data.bitcoin.getContext)
       const data = yield call(api.fetchBlockchainData, context, {
         n: TX_PER_PAGE,
         onlyShow: address,
