@@ -12,6 +12,7 @@ import EditTxDescription from './EditTxDescription'
 import ExchangeDetails from './ExchangeDetails'
 import IdentityVerification from './IdentityVerification'
 import ImportBtcAddress from './ImportBtcAddress'
+import LockboxFirmware from './LockboxFirmware'
 import LockboxSetup from './LockboxSetup'
 import MobileNumberChange from './MobileNumberChange'
 import MobileNumberVerify from './MobileNumberVerify'
@@ -59,6 +60,7 @@ const Modals = props => (
     <ExchangeDetails />
     <IdentityVerification />
     <ImportBtcAddress />
+    <LockboxFirmware />
     <LockboxSetup />
     <MobileNumberChange />
     <MobileNumberVerify />

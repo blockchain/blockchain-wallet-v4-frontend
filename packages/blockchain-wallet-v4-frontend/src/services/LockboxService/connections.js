@@ -1,6 +1,16 @@
 import Transport from '@ledgerhq/hw-transport-u2f'
+import Btc from '@ledgerhq/hw-app-btc'
+
 import constants from './constants'
 
+/**
+ * Creates and returns a new BTC app connection
+ * @param {Transport<Btc>} btcTransport - Transport with BTC as scrambleKey
+ * @returns {Btc} Returns a BTC connection
+ */
+const createBtcConnection = btcTransport => {
+  return new Btc(btcTransport)
+}
 /**
  * Polls for a given application to open on the device
  * @async
@@ -48,5 +58,6 @@ const pollForAppConnection = (deviceType, app, timeout = 30000) => {
 }
 
 export default {
+  createBtcConnection,
   pollForAppConnection
 }

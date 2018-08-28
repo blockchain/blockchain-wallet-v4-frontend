@@ -1,12 +1,11 @@
 import { call, put, race, select } from 'redux-saga/effects'
 import { contains, keysIn } from 'ramda'
-import Btc from '@ledgerhq/hw-app-btc'
 
 import { actions, selectors } from 'data'
 import * as A from './actions'
 import * as C from 'services/AlertService'
 import * as S from './selectors'
-import * as LockboxService from 'services/LockboxService'
+import LockboxService from 'services/LockboxService'
 
 const logLocation = 'components/lockbox/sagas'
 
@@ -33,7 +32,7 @@ export default ({ api, coreSagas }) => {
       yield put(A.saveNewDeviceKvStoreLoading())
       const newDeviceR = yield select(S.getNewDeviceInfo)
       const newDevice = newDeviceR.getOrFail('missing_device')
-      const mdAccountsEntry = LockboxService.generateAccountsMDEntry(
+      const mdAccountsEntry = LockboxService.accounts.generateAccountsMDEntry(
         newDevice.info
       )
       // store device in kvStore
@@ -127,13 +126,13 @@ export default ({ api, coreSagas }) => {
       // poll for both Ledger and Blockchain type devices
       const dashboardTransport = yield race({
         ledger: yield call(
-          LockboxService.pollForAppConnection,
+          LockboxService.connections.pollForAppConnection,
           'ledger',
           'DASHBOARD',
           setupTimeout
         ),
         blockchain: call(
-          LockboxService.pollForAppConnection,
+          LockboxService.connections.pollForAppConnection,
           'blockchain',
           'DASHBOARD',
           setupTimeout
@@ -145,20 +144,22 @@ export default ({ api, coreSagas }) => {
       yield put(A.storeTransportObject(dashboardTransport[deviceType]))
       yield put(A.changeDeviceSetupStep('open-btc-app'))
       const btcTransport = yield call(
-        LockboxService.pollForAppConnection,
+        LockboxService.connections.pollForAppConnection,
         deviceType,
         'BTC'
       )
       yield put(A.storeTransportObject(btcTransport))
-      const btcConnection = new Btc(btcTransport)
+      const btcConnection = LockboxService.connections.createBtcConnection(
+        btcTransport
+      )
       // derive device info such as chaincodes and xpubs
       const newDeviceInfo = yield call(
-        LockboxService.derviveDeviceInfo,
+        LockboxService.accounts.deriveDeviceInfo,
         btcConnection
       )
       // derive a unique deviceId hashed from btc xpub
       const newDeviceId = yield call(
-        LockboxService.deriveDeviceID,
+        LockboxService.accounts.deriveDeviceId,
         newDeviceInfo.btc
       )
       yield put(

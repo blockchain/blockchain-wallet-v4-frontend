@@ -11,8 +11,8 @@ class UpdateDeviceContainer extends React.PureComponent {
     this.onClick = this.onClick.bind(this, props.deviceId)
   }
 
-  onClick (deviceId) {
-    // TODO implement
+  onClick () {
+    this.props.modalActions.showModal('LockboxFirmware')
   }
 
   render () {
@@ -21,7 +21,7 @@ class UpdateDeviceContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(
