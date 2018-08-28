@@ -82,8 +82,8 @@ class ExchangeCheckout extends React.PureComponent {
     this.state = {}
   }
 
-  componentWillReceiveProps (nextProps) {
-    const { base, quote } = nextProps
+  componentDidUpdate (prevProps) {
+    const { base, quote } = prevProps
 
     if (quote && !equals(this.props.quote, quote)) {
       if (base === 'fiat') {

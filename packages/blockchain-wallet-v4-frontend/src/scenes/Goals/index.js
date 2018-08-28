@@ -14,7 +14,7 @@ class ActionsContainer extends React.PureComponent {
     this.state = { error: '' }
   }
 
-  componentWillMount () {
+  componentDidMount () {
     const { payload } = this.props.match.params
     try {
       if (startsWith('bitcoin', payload)) {

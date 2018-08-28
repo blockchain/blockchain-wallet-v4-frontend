@@ -50,7 +50,7 @@ describe('ExchangeService', () => {
   describe('canTrade()', () => {
     it('returns "sfox" if user is invited and in region', () => {
       const buySell = { value: { sfox: {}, coinify: {} } }
-      const settings = { invited: { sfoxBuyV4: true }, country_code: 'US' }
+      const settings = { invited: { sfoxBuy: true }, country_code: 'US' }
       expect(ExchangeService.canTrade(settings, options, buySell, 'Buy')).toBe(
         'sfox'
       )

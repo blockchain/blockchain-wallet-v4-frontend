@@ -39,7 +39,7 @@ const MoreOptions = () => (
 )
 
 class UnusedAddressesContainer extends React.PureComponent {
-  componentWillMount () {
+  componentDidMount () {
     this.props.componentActions.fetchUnusedAddresses(this.props.walletIndex)
   }
 

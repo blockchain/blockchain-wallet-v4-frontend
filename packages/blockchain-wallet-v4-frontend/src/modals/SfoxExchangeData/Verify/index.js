@@ -54,10 +54,10 @@ class VerifyContainer extends Component {
     this.state = { viewSSN: false }
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentDidUpdate (prevProps) {
     if (
-      !equals(this.props.verificationError, nextProps.verificationError) &&
-      nextProps.verificationError
+      !equals(this.props.verificationError, prevProps.verificationError) &&
+      prevProps.verificationError
     ) {
       this.props.updateUI({ busy: false })
     }
