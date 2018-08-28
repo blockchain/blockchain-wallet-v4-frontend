@@ -14,6 +14,7 @@ import {
   ButtonGroup,
   Text
 } from 'blockchain-info-components'
+import { SubmitButton } from 'components/Exchange'
 import { Form, NumberBoxDebounced } from 'components/Form'
 import SelectBox from './SelectBox'
 import {
@@ -86,11 +87,6 @@ const MinMaxButtonGroup = styled(ButtonGroup)`
   > * {
     color: ${props => props.theme['brand-primary']};
   }
-`
-const SubmitButton = styled(Button)`
-  margin-left: 30px;
-  margin-right: 30px;
-  width: calc(100% - 60px);
 `
 const AmountNumberBox = styled(NumberBoxDebounced)`
   height: 86px;
