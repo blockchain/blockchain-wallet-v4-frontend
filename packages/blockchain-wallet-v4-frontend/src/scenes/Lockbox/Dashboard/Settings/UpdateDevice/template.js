@@ -10,7 +10,7 @@ import {
 
 import { Button } from 'blockchain-info-components'
 
-const FirmwareUpdate = props => {
+const UpdateDevice = props => {
   const { onClick } = props
 
   return (
@@ -18,13 +18,13 @@ const FirmwareUpdate = props => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.lockbox.settings.firmwareupdate.title'
+            id='scenes.lockbox.settings.updatedevice.title'
             defaultMessage='Firmware Update'
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.lockbox.settings.firmwareupdate.description'
+            id='scenes.lockbox.settings.updatedevice.description'
             defaultMessage='Version 1.3 includes bug fixes blah blah'
           />
         </SettingDescription>
@@ -32,8 +32,8 @@ const FirmwareUpdate = props => {
       <SettingComponent>
         <Button nature='primary' onClick={onClick}>
           <FormattedMessage
-            id='scenes.lockbox.settings.firmwareupdate.update'
-            defaultMessage='Update'
+            id='scenes.lockbox.settings.updatedevice.update'
+            defaultMessage='Update Device'
           />
         </Button>
       </SettingComponent>
@@ -41,4 +41,4 @@ const FirmwareUpdate = props => {
   )
 }
 
-export default FirmwareUpdate
+export default UpdateDevice

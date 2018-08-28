@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
-import DeviceName from './DeviceName'
+import RenameDevice from './RenameDevice'
 import RemoveDevice from './RemoveDevice'
 import ExportXPub from './ExportXPub'
-import SetupNewDevice from './SetupNewDevice'
-import RestoreLockboxDevice from './RestoreLockboxDevice'
-import FirmwareUpdate from './FirmwareUpdate'
+import AddDevice from './AddDevice'
+import RestoreDevice from './RestoreDevice'
+import UpdateDevice from './UpdateDevice'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -18,12 +18,12 @@ export default class LockboxSettings extends PureComponent {
 
     return (
       <Wrapper>
-        <DeviceName deviceId={device.id} />
-        <RemoveDevice deviceId={device.id} />
+        <RenameDevice deviceId={device.id} />
         <ExportXPub deviceId={device.id} />
-        <SetupNewDevice />
-        <RestoreLockboxDevice />
-        <FirmwareUpdate deviceId={device.id} />
+        <AddDevice />
+        <RestoreDevice />
+        <UpdateDevice deviceId={device.id} />
+        <RemoveDevice deviceId={device.id} />
       </Wrapper>
     )
   }

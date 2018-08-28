@@ -31,10 +31,10 @@ const DeviceStatus = props => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button nature='primary' onClick={deleteDevice}>
+        <Button nature='sent' onClick={deleteDevice}>
           <FormattedMessage
             id='scenes.lockbox.settings.removedevice.delete'
-            defaultMessage='Remove'
+            defaultMessage='Remove Device'
           />
         </Button>
       </SettingComponent>

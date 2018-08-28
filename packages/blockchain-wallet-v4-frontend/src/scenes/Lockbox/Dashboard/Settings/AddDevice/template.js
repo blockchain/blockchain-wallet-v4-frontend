@@ -10,7 +10,7 @@ import {
 
 import { Button } from 'blockchain-info-components'
 
-const SetupNewDevice = props => {
+const AddDevice = props => {
   const { onClick } = props
 
   return (
@@ -18,13 +18,13 @@ const SetupNewDevice = props => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.lockbox.settings.setupnewdevice.title'
+            id='scenes.lockbox.settings.adddevice.title'
             defaultMessage='Setup New Device'
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.lockbox.settings.setupnewdevice.description'
+            id='scenes.lockbox.settings.adddevice.description'
             defaultMessage='Get step by step instructions in our setup guide'
           />
         </SettingDescription>
@@ -32,7 +32,7 @@ const SetupNewDevice = props => {
       <SettingComponent>
         <Button nature='primary' onClick={onClick}>
           <FormattedMessage
-            id='scenes.lockbox.settings.setupnewdevice.setup'
+            id='scenes.lockbox.settings.adddevice.setup'
             defaultMessage='ICON'
           />
         </Button>
@@ -41,4 +41,4 @@ const SetupNewDevice = props => {
   )
 }
 
-export default SetupNewDevice
+export default AddDevice

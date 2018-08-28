@@ -34,7 +34,7 @@ const Settings = props => {
         <Button nature='primary' onClick={handleToggle}>
           <FormattedMessage
             id='scenes.lockbox.settings.renamedevice.settings.edit'
-            defaultMessage='Edit'
+            defaultMessage='Rename'
           />
         </Button>
       )}
