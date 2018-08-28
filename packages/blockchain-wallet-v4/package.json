@@ -15,7 +15,7 @@
     "compile":
       "babel --presets es2015,stage-2 -d lib/ --ignore spec.js src/ --copy-files",
     "coverage": "cross-env ./../../node_modules/.bin/jest --coverage",
-    "link:resolved:paths": "ln -sf $(pwd)/src/** ./node_modules",
+    "link:resolved:paths": "ln -sf $(pwd)/src/** ./node_modules && ln -sf $(pwd)/../../packages/blockchain-wallet-v4-frontend ./node_modules",
     "start": "babel-node src/index.js",
     "test": "cross-env ./../../node_modules/.bin/jest",
     "test:build": "yarn compile",
@@ -47,6 +47,7 @@
     "testPathIgnorePatterns": ["<rootDir>/lib"]
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "bech32": "1.1.3",
     "big-rational": "0.10.7",
     "bigi": "1.4.2",

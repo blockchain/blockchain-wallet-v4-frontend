@@ -4,6 +4,7 @@ import { applyMiddleware, combineReducers, createStore } from 'redux'
 import { Provider } from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
 import { all, fork } from 'redux-saga/effects'
+import { MemoryRouter } from 'react-router'
 import { map } from 'ramda'
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import ConnectedIntlProvider from 'providers/ConnectedIntlProvider'
@@ -36,18 +37,33 @@ export const createTestStore = (
 
 const messages = configureLocales()
 
-export const TestBed = ({ store, children }) => (
+export const TestBed = ({ store, withRouter, initialRoutes, children }) => (
   <Provider store={store}>
     <ConnectedIntlProvider messages={messages}>
       <ThemeProvider>
-        <MediaContextProvider>{children}</MediaContextProvider>
+        <MediaContextProvider>
+          {withRouter ? (
+            <MemoryRouter initialEntries={initialRoutes}>
+              {children}
+            </MemoryRouter>
+          ) : (
+            children
+          )}
+        </MediaContextProvider>
       </ThemeProvider>
     </ConnectedIntlProvider>
   </Provider>
 )
 
 TestBed.propTypes = {
-  store: PropTypes.any.isRequired
+  store: PropTypes.any.isRequired,
+  withRouter: PropTypes.bool,
+  initialRoutes: PropTypes.array
+}
+
+TestBed.defaultProps = {
+  withRouter: false,
+  initialRoutes: ['/']
 }
 
 export const getDispatchSpyReducer = () => {

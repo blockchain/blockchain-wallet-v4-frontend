@@ -44,6 +44,22 @@ export const fetchLatestBlockFailure = error => ({
   payload: error
 })
 
+// FETCH_ETHEREUM_BALANCE
+export const fetchCurrentBalance = () => ({
+  type: AT.FETCH_ETHEREUM_CURRENT_BALANCE
+})
+export const fetchCurrentBalanceLoading = () => ({
+  type: AT.FETCH_ETHEREUM_CURRENT_BALANCE_LOADING
+})
+export const fetchCurrentBalanceSuccess = balance => ({
+  type: AT.FETCH_ETHEREUM_CURRENT_BALANCE_SUCCESS,
+  payload: { balance }
+})
+export const fetchCurrentBalanceFailure = error => ({
+  type: AT.FETCH_ETHEREUM_CURRENT_BALANCE_FAILURE,
+  payload: error
+})
+
 // FETCH_ETHEREUM_LEGACY_BALANCE
 export const fetchLegacyBalance = () => ({
   type: AT.FETCH_ETHEREUM_LEGACY_BALANCE
