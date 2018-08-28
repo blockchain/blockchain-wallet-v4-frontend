@@ -55,10 +55,10 @@ const RecurringTradeItem = props => {
   return (
     <RecurringTableRow border={border} padding={padding}>
       <StatusContainer>
-        <TableCell width='15%'>
+        <TableCell width='50%'>
           <OrderStatus status={trade.state} isBuy={trade.isBuy} />
         </TableCell>
-        <TableCell width='15%'>
+        <TableCell width='40%'>
           {trade.state === 'awaiting_transfer_in' && trade.medium === 'card' ? (
             <Link
               size='13px'
