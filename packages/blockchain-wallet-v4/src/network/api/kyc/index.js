@@ -26,7 +26,7 @@ export default ({ nabuUrl, get, authorizedGet, authorizedPost }) => {
   const syncOnfido = applicantId =>
     authorizedPost({
       url: nabuUrl,
-      endPoint: '/kyc/verification',
+      endPoint: '/kyc/verifications',
       data: { applicantId }
     })
 
