@@ -30,8 +30,10 @@ class ConfirmContainer extends Component {
 
   onSubmit () {
     const medium = this.props.medium
+    const data = this.props.data.getOrElse(false)
+    if (!data) return
     if (this.props.ui.editing) {
-      const { baseCurrency, quoteCurrency } = this.props.data.data.quote
+      const { baseCurrency, quoteCurrency } = data.quote
       const amt = +this.props.editingAmount * 100
       this.props.coinifyDataActions.fetchQuoteAndMediums({
         amt,
@@ -41,7 +43,7 @@ class ConfirmContainer extends Component {
         type: 'buy'
       })
     } else {
-      const quote = this.props.data.data.quote
+      const quote = data.quote
       this.props.coinifyActions.initiateBuy({ quote, medium })
     }
   }

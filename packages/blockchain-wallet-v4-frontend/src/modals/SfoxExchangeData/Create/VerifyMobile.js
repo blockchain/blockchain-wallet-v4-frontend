@@ -165,6 +165,7 @@ class VerifyMobile extends Component {
                 validate={[required, validMobileNumber]}
                 normalize={normalizePhone}
                 countryCode={countryCode}
+                errorBottom
               />
               {ui.create === 'change_mobile' && (
                 <Button
@@ -228,7 +229,7 @@ class VerifyMobile extends Component {
 const mapStateToProps = state => ({
   mobileNumber: formValueSelector('sfoxCreate')(state, 'mobileNumber'),
   mobileCode: formValueSelector('sfoxCreate')(state, 'mobileCode'),
-  smsNumber: selectors.core.settings.getSmsNumber(state).data,
+  smsNumber: selectors.core.settings.getSmsNumber(state).getOrElse(''),
   countryCode: selectors.core.settings.getCountryCode(state)
 })
 

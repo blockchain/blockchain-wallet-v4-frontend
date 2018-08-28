@@ -10,14 +10,23 @@ import Success from './template.success'
 
 class FirstStep extends React.PureComponent {
   render () {
-    return this.props.data.cata({
+    const { data, actions } = this.props
+    return data.cata({
       Success: value => (
         <Success
           fee={value.fee}
           isContract={value.isContract}
           unconfirmedTx={value.unconfirmedTx}
           effectiveBalance={value.effectiveBalance}
-          onSubmit={() => this.props.actions.sendEthFirstStepSubmitClicked()}
+          onSubmit={() => actions.sendEthFirstStepSubmitClicked()}
+          feeToggled={value.feeToggled}
+          minFee={value.minFee}
+          maxFee={value.maxFee}
+          regularFee={value.regularFee}
+          priorityFee={value.priorityFee}
+          feeElements={value.feeElements}
+          handleFeeToggle={() => actions.sendEthFirstStepFeeToggled()}
+          balanceStatus={value.balanceStatus}
         />
       ),
       Failure: message => <Error>{message}</Error>,

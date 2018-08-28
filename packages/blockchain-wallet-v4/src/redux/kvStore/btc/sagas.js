@@ -11,7 +11,7 @@ import { getWallet } from '../../wallet/selectors'
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export default ({ api }) => {
+export default ({ api, networks }) => {
   const callTask = function*(task) {
     return yield call(
       compose(
@@ -42,7 +42,7 @@ export default ({ api }) => {
 
     const typeId = derivationMap[BTC]
     const mxpriv = yield select(getMetadataXpriv)
-    const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
+    const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId, networks.btc)
     const kvFetched = yield callTask(api.fetchKVStore(kv))
     const newkv = set(KVStoreEntry.value, newBtcEntry, kvFetched)
     yield put(A.createMetadataBtc(newkv))
@@ -64,7 +64,7 @@ export default ({ api }) => {
     try {
       const typeId = derivationMap[BTC]
       const mxpriv = yield select(getMetadataXpriv)
-      const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
+      const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId, networks.btc)
       yield put(A.fetchMetadataBtcLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
       if (isNil(newkv.value) || isEmpty(newkv.value)) {

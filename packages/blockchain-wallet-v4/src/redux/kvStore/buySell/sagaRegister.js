@@ -2,8 +2,8 @@ import { takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import sagas from './sagas'
 
-export default ({ api }) => {
-  const kvStoreBuysellSagas = sagas({ api })
+export default ({ api, networks }) => {
+  const kvStoreBuysellSagas = sagas({ api, networks })
 
   return function*() {
     yield takeLatest(

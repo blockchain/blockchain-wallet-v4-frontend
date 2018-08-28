@@ -19,6 +19,7 @@ const Wrapper = styled.div`
     }
     .highcharts-series {
       path:first-child {
+        font-size: 12px;
         stroke: ${props => props.theme['brand-secondary']} !important;
       }
     }
