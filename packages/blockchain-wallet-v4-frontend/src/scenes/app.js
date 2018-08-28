@@ -17,7 +17,6 @@ import Goals from './Goals'
 import Help from './Help'
 import Home from './Home'
 import Lockbox from './Lockbox'
-import LockboxDashboard from './Lockbox/Dashboard'
 import LockboxOnboard from './Lockbox/Onboard'
 import Login from './Login'
 import Logout from './Logout'
@@ -120,7 +119,6 @@ class App extends React.PureComponent {
                   />
                   <WalletLayout path='/settings/info' component={Info} />
                   <WalletLayout path='/lockbox' component={Lockbox} exact />
-                  <WalletLayout path='/lockbox' component={LockboxDashboard} />
                   <WalletLayout
                     path='/lockbox/onboard'
                     component={LockboxOnboard}

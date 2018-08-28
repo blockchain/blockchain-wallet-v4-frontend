@@ -7,8 +7,8 @@ import Menu from './template.js'
 
 class MenuContainer extends React.PureComponent {
   render () {
-    const { deviceName } = this.props
-    return <Menu deviceName={deviceName} />
+    const { device } = this.props
+    return <Menu deviceName={device.name} />
   }
 }
 
