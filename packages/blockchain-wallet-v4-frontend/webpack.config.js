@@ -221,7 +221,8 @@ module.exports = {
           webSocket: envConfig.WEB_SOCKET_URL,
           walletHelper: envConfig.WALLET_HELPER_DOMAIN,
           comWalletApp: envConfig.COM_WALLET_APP,
-          comRoot: envConfig.COM_ROOT
+          comRoot: envConfig.COM_ROOT,
+          lockbox: 'https://manager.api.live.ledger.com'
         }
 
         if (process.env.NODE_ENV === 'testnet') {

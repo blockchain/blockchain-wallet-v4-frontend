@@ -5,6 +5,7 @@ import rates from './rates'
 import bch from './bch'
 import kvStore from './kvStore'
 import kyc from './kyc'
+import lockbox from './lockbox'
 import misc from './misc'
 import profile from './profile'
 import settings from './settings'
@@ -20,6 +21,8 @@ export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
   const http = httpService({ apiKey })
   const authorizedHttp = apiAuthorize(http, getAuthCredentials)
   const apiUrl = options.domains.api
+  const lockboxUrl = options.domains.lockbox
+  console.info('YO::', lockboxUrl)
   const nabuUrl = `${apiUrl}/nabu-app`
   const rootUrl = options.domains.root
   const shapeShiftApiKey = options.platforms.web.shapeshift.config.apiKey
@@ -36,6 +39,7 @@ export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post
     }),
+    ...lockbox({ lockboxUrl, get, post }),
     ...misc({ rootUrl, apiUrl, get, post }),
     ...profile({
       nabuUrl,
