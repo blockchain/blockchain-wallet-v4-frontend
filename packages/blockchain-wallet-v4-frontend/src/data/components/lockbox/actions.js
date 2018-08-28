@@ -1,8 +1,15 @@
 import * as AT from './actionTypes'
 
+export const determineLockboxRoute = () => ({
+  type: AT.DETERMINE_LOCKBOX_ROUTE
+})
 // CONNECTIONS
-export const initializeDeviceConnection = () => ({
-  type: AT.INITIALIZE_DEVICE_CONNECTION
+export const initializeNewDeviceSetup = () => ({
+  type: AT.INITIALIZE_NEW_DEVICE_SETUP
+})
+export const storeTransportObject = transport => ({
+  type: AT.STORE_TRANSPORT_OBJECT,
+  payload: { transport }
 })
 
 // CREATE
@@ -10,16 +17,13 @@ export const changeDeviceSetupStep = step => ({
   type: AT.SET_CONNECT_STEP,
   payload: { step }
 })
-export const setNewDeviceID = deviceID => ({
-  type: AT.SET_NEW_DEVICE_ID,
-  payload: { deviceID }
+export const setNewDeviceInfo = deviceInfo => ({
+  type: AT.SET_NEW_DEVICE_INFO,
+  payload: { deviceInfo }
 })
-export const setNewDeviceName = deviceName => ({
-  type: AT.SET_NEW_DEVICE_NAME,
+export const saveNewDeviceKvStore = deviceName => ({
+  type: AT.SAVE_NEW_DEVICE_KVSTORE,
   payload: { deviceName }
-})
-export const saveNewDeviceKvStore = () => ({
-  type: AT.SAVE_NEW_DEVICE_KVSTORE
 })
 export const saveNewDeviceKvStoreLoading = () => ({
   type: AT.SAVE_NEW_DEVICE_KVSTORE_LOADING
@@ -29,17 +33,6 @@ export const saveNewDeviceKvStoreSuccess = () => ({
 })
 export const saveNewDeviceKvStoreFailure = payload => ({
   type: AT.SAVE_NEW_DEVICE_KVSTORE_FAILURE,
-  payload
-})
-
-// FETCH
-export const deviceInfoLoading = () => ({ type: AT.DEVICE_INFO_LOADING })
-export const deviceInfoSuccess = payload => ({
-  type: AT.DEVICE_INFO_SUCCESS,
-  payload
-})
-export const deviceInfoFailure = payload => ({
-  type: AT.DEVICE_INFO_FAILURE,
   payload
 })
 
@@ -56,21 +49,6 @@ export const updateDeviceNameSuccess = () => ({
 })
 export const updateDeviceNameFailure = payload => ({
   type: AT.UPDATE_DEVICE_NAME_FAILURE,
-  payload
-})
-
-export const updateDeviceBalanceDisplay = (deviceID, showBalances) => ({
-  type: AT.UPDATE_DEVICE_BALANCE_DISPLAY,
-  payload: { deviceID, showBalances }
-})
-export const updateDeviceBalanceDisplayLoading = () => ({
-  type: AT.UPDATE_DEVICE_BALANCE_DISPLAY_LOADING
-})
-export const updateDeviceBalanceDisplaySuccess = () => ({
-  type: AT.UPDATE_DEVICE_BALANCE_DISPLAY_SUCCESS
-})
-export const updateDeviceBalanceDisplayFailure = payload => ({
-  type: AT.UPDATE_DEVICE_BALANCE_DISPLAY_FAILURE,
   payload
 })
 

@@ -1,41 +1,36 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { keysIn } from 'ramda'
-
+import styled from 'styled-components'
 import { actions } from 'data'
-import Setup from './Setup'
-// import Dashboard from './Dashboard'
-import Settings from './Settings'
-import { getData } from './selectors'
+import { FlatLoader } from 'blockchain-info-components'
 
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 30px;
+  width: 100%;
+`
 class LockboxContainer extends React.PureComponent {
+  componentWillMount () {
+    this.props.lockboxActions.determineLockboxRoute()
+  }
+
   render () {
-    return this.props.data.cata({
-      Success: value =>
-        keysIn(value.devices).length ? (
-          // <Dashboard devices={value.devices} balances={value.balances} />
-          <Settings deviceId={keysIn(value.devices)[0]} />
-        ) : (
-          <Setup />
-        ),
-      Loading: () => null,
-      NotAsked: () => null,
-      Failure: () => null
-    })
+    return (
+      <Wrapper>
+        <FlatLoader width='150px' height='20px' />
+      </Wrapper>
+    )
   }
 }
 
-const mapStateToProps = state => ({
-  data: getData(state)
-})
-
 const mapDispatchToProps = dispatch => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(LockboxContainer)

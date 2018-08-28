@@ -25,8 +25,8 @@ const GetStartedButton = styled(Button)`
   margin-top: 35px;
 `
 
-const Setup = props => {
-  const { launchCarbonSetup } = props
+const Onboard = props => {
+  const { launchLockboxSetup } = props
 
   return (
     <Wrapper>
@@ -47,7 +47,7 @@ const Setup = props => {
             />
           </Text>
         </div>
-        <GetStartedButton nature='primary' onClick={launchCarbonSetup}>
+        <GetStartedButton nature='primary' onClick={launchLockboxSetup}>
           <FormattedMessage
             id='scenes.lockbox.welcome.getstarted'
             defaultMessage='Get Started'
@@ -58,4 +58,4 @@ const Setup = props => {
   )
 }
 
-export default Setup
+export default Onboard
