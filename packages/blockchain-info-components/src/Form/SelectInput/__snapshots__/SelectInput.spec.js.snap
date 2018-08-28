@@ -3,6 +3,7 @@
 exports[`SelectInput component default renders correctly 1`] = `
 <Styled(StateManager)
   borderColor="gray-2"
+  classNamePrefix="bc"
   components={
     Object {
       "Control": [Function],
@@ -19,11 +20,6 @@ exports[`SelectInput component default renders correctly 1`] = `
         "value": "value",
       },
     ]
-  }
-  styles={
-    Object {
-      "control": [Function],
-    }
   }
 />
 `;

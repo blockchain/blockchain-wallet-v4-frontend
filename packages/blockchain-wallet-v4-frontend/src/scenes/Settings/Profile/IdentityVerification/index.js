@@ -86,7 +86,8 @@ const IdentityVerification = ({ kycState, canTrade, verifyIdentity }) => {
           note: (
             <strong>
               <br />
-              <br />Note:
+              <br />
+              Note:
             </strong>
           )
         }}
