@@ -182,6 +182,45 @@ export const bankOptionHelper = (
   kyc,
   level
 ) => {
+  const bankDisabledTextHelper = () => {
+    if (equals(bankDisabled, 'disable_limits')) {
+      return <FormattedMessage
+        id='scenes.buysell.coinifyexchangedata.payment.bank.unavailable_limits'
+        defaultMessage='The quoted amount is more than your current bank limit.'
+      />
+    }
+    if (equals(bankDisabled, 'disable_subscription')) {
+      return <FormattedMessage
+        id='scenes.buysell.coinifyexchangedata.payment.bank.unavailable_subscription'
+        defaultMessage='Bank transfers are unavailable for Recurring Orders. '
+      />
+    }
+    if (equals(bankDisabled, 'disable_kyc')) {
+      return (
+        <Fragment>
+          <FormattedMessage
+            id='scenes.buysell.coinifyexchangedata.payment.bank.unavailable_kyc'
+            defaultMessage='Bank transfers are unavailable until Identity Verification has been finished.'
+          />
+          {equals(path(['state'], kyc), 'pending') ? (
+            <Link
+              size='12px'
+              weight={300}
+              style={spacing('mt-10')}
+              onClick={() => openPendingKyc(kyc)}
+            >
+              <FormattedMessage
+                id='scenes.buysell.coinifyexchangedata.payment.bank.finishkyc'
+                defaultMessage='Finish Identity Verification'
+              />
+              <br />
+            </Link>
+          ) : null}
+        </Fragment>
+      )
+    }
+    return null
+  }
   const PaymentRadioBank = ({ isChecked, handlePaymentClick }) => (
     <PaymentOption
       isChecked={isChecked}
@@ -229,33 +268,7 @@ export const bankOptionHelper = (
           color='gray-2'
           style={spacing('mt-25')}
         >
-          {equals(bankDisabled, 'disable_limits') ? (
-            <FormattedMessage
-              id='scenes.buysell.coinifyexchangedata.payment.bank.unavailable_limits'
-              defaultMessage='The quoted amount is more than your current bank limit.'
-            />
-          ) : (
-            <Fragment>
-              <FormattedMessage
-                id='scenes.buysell.coinifyexchangedata.payment.bank.unavailable_kyc'
-                defaultMessage='Bank transfers are unavailable until Identity Verification has been finished.'
-              />
-              {equals(path(['state'], kyc), 'pending') ? (
-                <Link
-                  size='12px'
-                  weight={300}
-                  style={spacing('mt-10')}
-                  onClick={() => openPendingKyc(kyc)}
-                >
-                  <FormattedMessage
-                    id='scenes.buysell.coinifyexchangedata.payment.bank.finishkyc'
-                    defaultMessage='Finish Identity Verification'
-                  />
-                  <br />
-                </Link>
-              ) : null}
-            </Fragment>
-          )}
+          {bankDisabledTextHelper()}
         </BankDisabledText>
       ) : (
         <Text size='14px' weight={300}>

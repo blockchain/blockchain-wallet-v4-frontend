@@ -22,7 +22,7 @@ const coinify = (state = INITIAL_STATE, action) => {
     case AT.COINIFY_NEXT_STEP: {
       return assoc('signupStep', payload, state)
     }
-    case AT.COINIFY_NEXT_CHECKOUT_STEP: {
+    case AT.COINIFY_SET_CHECKOUT_STEP: {
       return assoc('checkoutStep', payload, state)
     }
     case AT.COINIFY_SIGNUP_FAILURE: {
@@ -89,7 +89,12 @@ const coinify = (state = INITIAL_STATE, action) => {
       return assocPath(['subscriptionData', 'endTime'], payload, state)
     }
     case AT.COINIFY_RESET_RECURRING_BUY: {
-      return mergeAll([state, { subscription: INITIAL_STATE.subscription }, { subscriptionData: INITIAL_STATE.subscriptionData }], state)
+      return mergeAll([
+        state,
+        { showRecurringModal: INITIAL_STATE.showRecurringModal },
+        { subscription: INITIAL_STATE.subscription },
+        { subscriptionData: INITIAL_STATE.subscriptionData }
+      ], state)
     }
     default:
       return state

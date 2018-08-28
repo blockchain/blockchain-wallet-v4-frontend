@@ -16,6 +16,10 @@ export const coinifyNextStep = step => ({
 })
 export const coinifyNextCheckoutStep = step => ({
   type: AT.COINIFY_NEXT_CHECKOUT_STEP,
+  step
+})
+export const coinifySetCheckoutStep = step => ({
+  type: AT.COINIFY_SET_CHECKOUT_STEP,
   payload: step
 })
 

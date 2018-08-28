@@ -39,9 +39,9 @@ class PaymentContainer extends Component {
   }
 
   render () {
-    const { data, coinifyBusy, coinifyActions } = this.props
+    const { data, coinifyBusy, coinifyActions, isSubscriptionTrade } = this.props
     const { openKYC, checkoutCardMax, coinifyNextCheckoutStep } = coinifyActions
-    console.log('payment', this.props)
+
     const busy = coinifyBusy.cata({
       Success: () => false,
       Failure: err => err,
@@ -57,6 +57,7 @@ class PaymentContainer extends Component {
           handlePaymentClick={this.handlePaymentClick}
           medium={this.state.medium}
           quote={this.props.quote}
+          isSubscriptionTrade={isSubscriptionTrade}
           triggerKyc={this.triggerKyc}
           busy={busy}
           openPendingKyc={openKYC}

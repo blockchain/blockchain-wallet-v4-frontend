@@ -600,6 +600,20 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
+  const handleNextCheckoutStep = function * (payload) {
+    try {
+      const { step } = payload
+      if (equals(step, 'checkout')) {
+        yield put(A.coinifyResetRecurringBuy())
+      }
+      yield put(A.coinifySetCheckoutStep(step))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'handleNextCheckoutStep', e)
+      )
+    }
+  }
+
   return {
     buy,
     cancelISX,
@@ -612,6 +626,7 @@ export default ({ coreSagas, networks }) => {
     finishTrade,
     fromISX,
     handleChange,
+    handleNextCheckoutStep,
     handleRecurringFormChange,
     handleRecurringModalClose,
     initialized,

@@ -33,5 +33,6 @@ export default ({ coreSagas, networks }) => {
     yield takeLatest(AT.COINIFY_RECURRING_BUY_CHECKOUT_INITIALIZE, coinifySagas.recurringCheckoutInitialized)
     yield takeLatest(AT.START_KYC_FROM_RECURRING, coinifySagas.startKycFromRecurring)
     yield takeLatest(AT.HANDLE_RECURRING_MODAL_CLOSE, coinifySagas.handleRecurringModalClose)
+    yield takeLatest(AT.COINIFY_NEXT_CHECKOUT_STEP, coinifySagas.handleNextCheckoutStep)
   }
 }

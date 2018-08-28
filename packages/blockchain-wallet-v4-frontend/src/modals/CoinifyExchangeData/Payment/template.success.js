@@ -98,7 +98,7 @@ const isCardDisabled = (q, l) => {
     return Math.abs(q.quoteAmount) > l.card.inRemaining[q.quoteCurrency]
   } else return Math.abs(q.baseAmount) > l.card.inRemaining[q.baseCurrency]
 }
-const isBankDisabled = (q, l, kyc) => {
+const isBankDisabled = (q, l, kyc, subTrade) => {
   const disableForKyc =
     equals(kyc, 'reviewing') ||
     equals(kyc, 'pending') ||
@@ -109,7 +109,9 @@ const isBankDisabled = (q, l, kyc) => {
         path(['bank', 'inRemaining', q.quoteCurrency], l)
       : Math.abs(q.baseAmount) >
         path(['bank', 'inRemaining', q.baseCurrency], l)
+  const disableForSubscription = subTrade
 
+  if (disableForSubscription) return 'disable_subscription'
   if (disableForKyc) return 'disable_kyc'
   if (disableForLimits) return 'disable_limits'
 }
@@ -121,6 +123,7 @@ const Payment = props => {
     coinifyNextCheckoutStep,
     handlePaymentClick,
     medium,
+    isSubscriptionTrade,
     triggerKyc,
     openPendingKyc,
     quote,
@@ -129,7 +132,7 @@ const Payment = props => {
   const { limits, level, kyc } = value
   const kycState = path(['state'], kyc)
   const cardDisabled = isCardDisabled(quote, limits)
-  const bankDisabled = isBankDisabled(quote, limits, kycState)
+  const bankDisabled = isBankDisabled(quote, limits, kycState, isSubscriptionTrade)
   if (bankDisabled && medium !== 'card') handlePaymentClick('card')
   const prefillCardMax = limits => handlePrefillCardMax(limits)
 
