@@ -241,7 +241,7 @@ describe('bitcoin data sagas', () => {
     })
 
     it('should select context', () => {
-      saga.next().select(selectors.wallet.getWalletContext)
+      saga.next().select(S.getContext)
     })
 
     it('should call fetchBlockchainData', () => {
@@ -292,7 +292,7 @@ describe('bitcoin data sagas', () => {
         })
           .withReducer(reducers)
           .provide([
-            [select(selectors.wallet.getWalletContext), mockContext],
+            [select(S.getContext), mockContext],
             [select(S.getTransactions), pages]
           ])
           .run()
@@ -318,7 +318,7 @@ describe('bitcoin data sagas', () => {
             }
           })
           .provide([
-            [select(selectors.wallet.getWalletContext), mockContext],
+            [select(S.getContext), mockContext],
             [select(S.getTransactions), pages]
           ])
           .run()
