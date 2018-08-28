@@ -15,7 +15,6 @@ export default ({ api }) => {
       // }
       // const offset = reset ? 0 : length(pages) * TX_PER_PAGE
       yield put(A.fetchBtcTransactionsLoading(reset))
-      // TODO: get context for current device and kvstore
       const contextR = yield select(getLockboxBtcContext)
       const context = contextR.getOrElse([])
       const data = yield call(api.fetchBlockchainData, context, {

@@ -198,10 +198,6 @@ export const getWalletTransactions = state => {
   const getPartnerLabel = hash => getShapeshiftTxHashMatch(state, hash)
   // transformTx :: wallet -> blockHeight -> Tx
   // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
-  const getLockboxLabel = xpub =>
-    getLockboxBchAccount(state, xpub)
-      .map(prop('label'))
-      .getOrElse(undefined)
 
   const ProcessTxs = (wallet, block, txList) =>
     map(
@@ -210,8 +206,7 @@ export const getWalletTransactions = state => {
         wallet,
         block,
         getDescription,
-        getPartnerLabel,
-        getLockboxLabel
+        getPartnerLabel
       ),
       txList
     )

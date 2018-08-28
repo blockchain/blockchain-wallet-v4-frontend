@@ -50,9 +50,39 @@ const receiveIndex = coin => {
   return parseInt(coin.xpub.path.substr(1).split('/')[2])
 }
 const isCoinBase = inputs => inputs.length === 1 && inputs[0].prev_out == null
+const isAccountList = wallet => HDAccountList.isHDAccountList(wallet)
 
-const tagCoin = curry((wallet, getLockboxLabel, coin) => {
+const tagCoin = curry((wallet, coin) => {
   switch (true) {
+    case isAccount(coin):
+      const account = isAccountList(wallet)
+        ? compose(HDAccountList.selectByXpub(coin.xpub.m))(wallet)
+        : compose(
+            HDAccountList.selectByXpub(coin.xpub.m),
+            HDWallet.selectAccounts,
+            HDWalletList.selectHDWallet,
+            Wallet.selectHdWallets
+          )(wallet)
+      const index = HDAccount.selectIndex(account)
+      return {
+        accountIndex: index,
+        address: coin.addr,
+        amount: coin.value,
+        change: isAccountChange(coin),
+        coinType: accountPath(index, coin),
+        label: HDAccount.selectLabel(account),
+        isWatchOnly: HDAccount.isWatchOnly(account),
+        receiveIndex: receiveIndex(coin) // only if change?
+      }
+    case isAccountList(wallet):
+      return {
+        address: coin.addr,
+        amount: coin.value,
+        change: false,
+        coinType: 'external',
+        label: null,
+        isWatchOnly: false
+      }
     case isLegacy(wallet, coin):
       const address = compose(
         AddressMap.selectAddress(coin.addr),
@@ -65,35 +95,6 @@ const tagCoin = curry((wallet, getLockboxLabel, coin) => {
         coinType: 'legacy',
         label: Address.selectLabel(address),
         isWatchOnly: Address.isWatchOnly(address)
-      }
-    case isAccount(coin):
-      const account = compose(
-        HDAccountList.selectByXpub(coin.xpub.m),
-        HDWallet.selectAccounts,
-        HDWalletList.selectHDWallet,
-        Wallet.selectHdWallets
-      )(wallet)
-      if (account) {
-        const index = HDAccount.selectIndex(account)
-        return {
-          accountIndex: index,
-          address: coin.addr,
-          amount: coin.value,
-          change: isAccountChange(coin),
-          coinType: accountPath(index, coin),
-          label: HDAccount.selectLabel(account),
-          isWatchOnly: HDAccount.isWatchOnly(account),
-          receiveIndex: receiveIndex(coin) // only if change?
-        }
-      }
-
-      return {
-        address: coin.addr,
-        amount: coin.value,
-        change: false,
-        coinType: 'external',
-        label: getLockboxLabel(coin.xpub.m),
-        isWatchOnly: false
       }
     default:
       const bookEntry = compose(
@@ -254,17 +255,16 @@ export const _transformTx = (
   currentBlockHeight,
   getDescription,
   getPartnerLabel,
-  getLockboxLabel,
   tx
 ) => {
   const conf = currentBlockHeight - tx.block_height + 1
   const confirmations = conf > 0 ? conf : 0
   const type = txtype(tx.result, tx.fee)
   const inputTagger = compose(
-    tagCoin(wallet, getLockboxLabel),
+    tagCoin(wallet),
     unpackInput
   )
-  const outputTagger = tagCoin(wallet, getLockboxLabel)
+  const outputTagger = tagCoin(wallet)
   const [oData, outs] = mapAccum(appender(outputTagger), init, prop('out', tx))
   const [inputData, inputs] = ifElse(
     compose(
