@@ -13,6 +13,9 @@ import Header from './Header'
 const Wrapper = styled.div`
   width: 100%;
 `
+const ContentWrapper = styled.div`
+  padding: 0 30px;
+`
 class LockboxDashboardContainer extends React.PureComponent {
   render () {
     const { location } = this.props
@@ -22,12 +25,14 @@ class LockboxDashboardContainer extends React.PureComponent {
         return (
           <Wrapper>
             <Header device={device} />
-            {location.pathname === '/lockbox/settings' && (
-              <Settings device={device} />
-            )}
-            {location.pathname === '/lockbox/dashboard' && (
-              <Transactions device={device} />
-            )}
+            <ContentWrapper>
+              {location.pathname === '/lockbox/settings' && (
+                <Settings device={device} />
+              )}
+              {location.pathname === '/lockbox/dashboard' && (
+                <Transactions device={device} />
+              )}
+            </ContentWrapper>
           </Wrapper>
         )
       },
