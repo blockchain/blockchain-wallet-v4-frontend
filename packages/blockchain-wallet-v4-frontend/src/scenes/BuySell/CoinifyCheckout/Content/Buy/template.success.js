@@ -55,7 +55,9 @@ const CoinifyBuy = props => {
     showRecurringBuy,
     showRecurringModal,
     step,
+    subscription,
     subscriptions,
+    subscriptionData,
     trade,
     trades,
     value
@@ -133,6 +135,8 @@ const CoinifyBuy = props => {
           onRefreshQuote={refreshQuote}
           type={'buy'}
           medium={paymentMedium}
+          subscription={subscription}
+          subscriptionData={subscriptionData}
         />
         <OrderSubmitWrapper>
           <OrderSubmit

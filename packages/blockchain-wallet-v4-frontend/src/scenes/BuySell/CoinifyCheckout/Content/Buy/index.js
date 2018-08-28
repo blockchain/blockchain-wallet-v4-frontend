@@ -44,6 +44,8 @@ class CoinifyBuyContainer extends React.Component {
       trade,
       formActions,
       canTrade,
+      subscription,
+      subscriptionData,
       ...rest
     } = this.props
     const { step, checkoutBusy, coinifyBusy, subscriptions, trades, showRecurringModal, countryCode, showRecurringBuy } = rest
@@ -78,15 +80,27 @@ class CoinifyBuyContainer extends React.Component {
           trades={trades}
           countryCode={countryCode}
           showRecurringBuy={showRecurringBuy}
+          subscription={subscription}
+          subscriptionData={subscriptionData}
           clearTradeError={() => coinifyNotAsked()}
           handleKycAction={kyc => openKYC(kyc)}
           coinifyNextCheckoutStep={step => coinifyNextCheckoutStep(step)}
-          fetchBuyQuote={quote => fetchQuote({ quote, nextAddress: value.nextAddress })}
-          setMax={amt => formActions.change('coinifyCheckoutBuy', 'leftVal', amt)}
-          setMin={amt => formActions.change('coinifyCheckoutBuy', 'leftVal', amt)}
+          fetchBuyQuote={quote =>
+            fetchQuote({ quote, nextAddress: value.nextAddress })
+          }
+          setMax={amt =>
+            formActions.change('coinifyCheckoutBuy', 'leftVal', amt)
+          }
+          setMin={amt =>
+            formActions.change('coinifyCheckoutBuy', 'leftVal', amt)
+          }
           changeTab={tab => change('buySellTabStatus', 'status', tab)}
           showRecurringModal={showRecurringModal}
-          openRecurringConfirmModal={() => showRecurringModal ? showModal('CoinifyRecurringBuyConfirm') : null}
+          openRecurringConfirmModal={() =>
+            showRecurringModal
+              ? showModal('CoinifyRecurringBuyConfirm')
+              : null
+          }
         />
       ),
       Failure: e => <Failure error={e} />,

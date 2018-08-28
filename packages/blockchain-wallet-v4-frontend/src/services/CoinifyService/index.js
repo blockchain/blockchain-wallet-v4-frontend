@@ -165,6 +165,15 @@ export const reviewOrder = {
         totalBase
       )}`
     }
+  },
+  renderRecurringAmount: (q) => {
+    const baseCurr = prop('baseCurrency')
+    const quoteCurr = prop('quoteCurrency')
+    if (reviewOrder.baseBtc(q)) {
+      return `${Currency.formatFiat(Math.abs(prop('quoteAmount', q)))} ${quoteCurr(q)} (+ ${path(['paymentMediums', 'card', 'fee'], q)} ${quoteCurr(q)} Payment Fee)`
+    } else {
+      return `${Currency.formatFiat(Math.abs(prop('baseAmount', q)))} ${baseCurr(q)} (+ ${path(['paymentMediums', 'card', 'fee'], q)} ${baseCurr(q)} Payment Fee)`
+    }
   }
 }
 

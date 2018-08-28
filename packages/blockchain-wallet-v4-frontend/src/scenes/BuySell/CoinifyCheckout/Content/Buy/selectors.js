@@ -54,5 +54,7 @@ export const getData = state => ({
   coinifyBusy: path(['coinify', 'coinifyBusy'], state),
   canTrade: selectors.core.data.coinify.canTrade(state).getOrElse(false),
   showRecurringModal: path(['coinify', 'showRecurringModal'], state),
-  showRecurringBuy: showRecurringBuy(state)
+  showRecurringBuy: showRecurringBuy(state),
+  subscription: path(['coinify', 'subscription'], state),
+  subscriptionData: path(['coinify', 'subscriptionData'], state)
 })
