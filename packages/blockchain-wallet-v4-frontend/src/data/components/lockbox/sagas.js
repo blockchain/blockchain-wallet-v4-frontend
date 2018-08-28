@@ -16,8 +16,9 @@ export default ({ api, coreSagas }) => {
     try {
       const devicesR = yield select(selectors.core.kvStore.lockbox.getDevices)
       const devices = devicesR.getOrElse({})
+
       keysIn(devices).length
-        ? yield put(actions.router.push('/lockbox/transactions'))
+        ? yield put(actions.router.push('/lockbox/dashboard'))
         : yield put(actions.router.push('/lockbox/onboard'))
     } catch (e) {
       yield put(
@@ -46,13 +47,14 @@ export default ({ api, coreSagas }) => {
       )
       yield put(A.saveNewDeviceKvStoreSuccess())
       yield put(actions.modals.closeModal())
-      yield put(actions.alerts.displaySuccess(C.LOCKBOX_SETUP_SUCCESS))
+      yield put(actions.router.push('/lockbox/dashboard'))
       yield put(actions.core.data.bitcoin.fetchData())
       // reset new device setup to step 1
       yield put(A.changeDeviceSetupStep('setup-type'))
+      yield put(actions.alerts.displaySuccess(C.LOCKBOX_SETUP_SUCCESS))
     } catch (e) {
       yield put(A.saveNewDeviceKvStoreFailure(e))
-      yield put(actions.alerts.displaySuccess(C.LOCKBOX_SETUP_ERROR))
+      yield put(actions.alerts.displayError(C.LOCKBOX_SETUP_ERROR))
       yield put(actions.logs.logErrorMessage(logLocation, 'storeDeviceName', e))
     }
   }
@@ -71,7 +73,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displaySuccess(C.LOCKBOX_UPDATE_SUCCESS))
     } catch (e) {
       yield put(A.updateDeviceBalanceDisplayFailure())
-      yield put(actions.alerts.displaySuccess(C.LOCKBOX_UPDATE_ERROR))
+      yield put(actions.alerts.displayError(C.LOCKBOX_UPDATE_ERROR))
       yield put(
         actions.logs.logErrorMessage(
           logLocation,
@@ -94,7 +96,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displaySuccess(C.LOCKBOX_UPDATE_SUCCESS))
     } catch (e) {
       yield put(A.updateDeviceNameFailure())
-      yield put(actions.alerts.displaySuccess(C.LOCKBOX_UPDATE_ERROR))
+      yield put(actions.alerts.displayError(C.LOCKBOX_UPDATE_ERROR))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'updateDeviceName', e)
       )
@@ -107,6 +109,7 @@ export default ({ api, coreSagas }) => {
       const { deviceID } = action.payload
       yield put(A.deleteDeviceLoading())
       yield put(actions.core.kvStore.lockbox.deleteDeviceLockbox(deviceID))
+      yield put(actions.router.push('/lockbox'))
       yield put(A.deleteDeviceSuccess())
       yield put(actions.alerts.displaySuccess(C.LOCKBOX_DELETE_SUCCESS))
     } catch (e) {

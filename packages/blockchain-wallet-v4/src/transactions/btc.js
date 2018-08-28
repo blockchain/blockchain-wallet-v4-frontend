@@ -51,7 +51,7 @@ const receiveIndex = coin => {
 }
 const isCoinBase = inputs => inputs.length === 1 && inputs[0].prev_out == null
 
-const tagCoin = curry((wallet, coin) => {
+const tagCoin = curry((wallet, getLockboxLabel, coin) => {
   switch (true) {
     case isLegacy(wallet, coin):
       const address = compose(
@@ -73,16 +73,27 @@ const tagCoin = curry((wallet, coin) => {
         HDWalletList.selectHDWallet,
         Wallet.selectHdWallets
       )(wallet)
-      const index = HDAccount.selectIndex(account)
+      if (account) {
+        const index = HDAccount.selectIndex(account)
+        return {
+          accountIndex: index,
+          address: coin.addr,
+          amount: coin.value,
+          change: isAccountChange(coin),
+          coinType: accountPath(index, coin),
+          label: HDAccount.selectLabel(account),
+          isWatchOnly: HDAccount.isWatchOnly(account),
+          receiveIndex: receiveIndex(coin) // only if change?
+        }
+      }
+
       return {
-        accountIndex: index,
         address: coin.addr,
         amount: coin.value,
-        change: isAccountChange(coin),
-        coinType: accountPath(index, coin),
-        label: HDAccount.selectLabel(account),
-        isWatchOnly: HDAccount.isWatchOnly(account),
-        receiveIndex: receiveIndex(coin) // only if change?
+        change: false,
+        coinType: 'external',
+        label: getLockboxLabel(coin.xpub.m),
+        isWatchOnly: false
       }
     default:
       const bookEntry = compose(
@@ -243,16 +254,17 @@ export const _transformTx = (
   currentBlockHeight,
   getDescription,
   getPartnerLabel,
+  getLockboxLabel,
   tx
 ) => {
   const conf = currentBlockHeight - tx.block_height + 1
   const confirmations = conf > 0 ? conf : 0
   const type = txtype(tx.result, tx.fee)
   const inputTagger = compose(
-    tagCoin(wallet),
+    tagCoin(wallet, getLockboxLabel),
     unpackInput
   )
-  const outputTagger = tagCoin(wallet)
+  const outputTagger = tagCoin(wallet, getLockboxLabel)
   const [oData, outs] = mapAccum(appender(outputTagger), init, prop('out', tx))
   const [inputData, inputs] = ifElse(
     compose(
@@ -262,6 +274,7 @@ export const _transformTx = (
     always([CoinBaseData(oData.total), [CoinbaseCoin(oData.total)]]),
     t => mapAccum(appender(inputTagger), init, prop('inputs', t))
   )(tx)
+
   const [outputData, outputs] = findLegacyChanges(
     inputs,
     inputData,

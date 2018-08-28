@@ -120,16 +120,21 @@ class App extends React.PureComponent {
                   />
                   <WalletLayout path='/settings/info' component={Info} />
                   <WalletLayout path='/lockbox' component={Lockbox} exact />
-                  <WalletLayout path='/lockbox' component={LockboxDashboard} />
+                  <WalletLayout
+                    path='/lockbox/dashboard'
+                    component={LockboxDashboard}
+                    exact
+                  />
                   <WalletLayout
                     path='/lockbox/onboard'
                     component={LockboxOnboard}
+                    exact
                   />
                   <WalletLayout
-                    path='/lockbox/transactions'
-                    component={Lockbox}
+                    path='/lockbox/settings'
+                    component={LockboxDashboard}
+                    exact
                   />
-                  <WalletLayout path='/lockbox/settings' component={Lockbox} />
                   <Redirect from='/' to='/login' />
                 </Switch>
               </ConnectedRouter>

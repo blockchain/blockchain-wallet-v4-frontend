@@ -27,7 +27,7 @@ import {
   getHeight,
   getTransactions
 } from '../../data/btc/selectors.js'
-import { getAddressLabel, getMetadata } from '../../kvStore/btc/selectors'
+import { getAddressLabel } from '../../kvStore/btc/selectors'
 import { getBuySellTxHashMatch } from '../../kvStore/buySell/selectors'
 import {
   getLockboxBtcAccounts,
@@ -191,8 +191,10 @@ export const getWalletTransactions = state => {
     getShapeshiftTxHashMatch(state, hash) || getBuySellTxHashMatch(state, hash)
 
   const pages = getTransactions(state)
-  // Remote(metadata)
-  getMetadata(state)
+  const getLockboxLabel = xpub =>
+    getLockboxBtcAccount(state, xpub)
+      .map(prop('label'))
+      .getOrElse(undefined)
 
   // transformTx :: wallet -> blockHeight -> Tx
   // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
@@ -203,7 +205,8 @@ export const getWalletTransactions = state => {
         wallet,
         block,
         getDescription,
-        getPartnerLabel
+        getPartnerLabel,
+        getLockboxLabel
       ),
       txList
     )
