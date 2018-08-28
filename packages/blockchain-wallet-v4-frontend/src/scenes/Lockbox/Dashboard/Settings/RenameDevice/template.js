@@ -18,13 +18,13 @@ const RenameDevice = props => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.lockbox.settings.devicename.title'
+            id='scenes.lockbox.settings.renamedevice.title'
             defaultMessage='Device Name'
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.lockbox.settings.devicename.description'
+            id='scenes.lockbox.settings.renamedevice.description'
             defaultMessage='{deviceName}'
             values={{ deviceName }}
           />
