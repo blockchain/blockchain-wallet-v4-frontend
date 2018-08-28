@@ -17,6 +17,7 @@ import Goals from './Goals'
 import Help from './Help'
 import Home from './Home'
 import Lockbox from './Lockbox'
+import LockboxDashboard from './Lockbox/Dashboard'
 import LockboxOnboard from './Lockbox/Onboard'
 import Login from './Login'
 import Logout from './Logout'
@@ -120,14 +121,20 @@ class App extends React.PureComponent {
                   <WalletLayout path='/settings/info' component={Info} />
                   <WalletLayout path='/lockbox' component={Lockbox} exact />
                   <WalletLayout
-                    path='/lockbox/onboard'
-                    component={LockboxOnboard}
+                    path='/lockbox/dashboard'
+                    component={LockboxDashboard}
+                    exact
                   />
                   <WalletLayout
-                    path='/lockbox/transactions'
-                    component={Lockbox}
+                    path='/lockbox/onboard'
+                    component={LockboxOnboard}
+                    exact
                   />
-                  <WalletLayout path='/lockbox/settings' component={Lockbox} />
+                  <WalletLayout
+                    path='/lockbox/settings'
+                    component={LockboxDashboard}
+                    exact
+                  />
                   <Redirect from='/' to='/login' />
                 </Switch>
               </ConnectedRouter>

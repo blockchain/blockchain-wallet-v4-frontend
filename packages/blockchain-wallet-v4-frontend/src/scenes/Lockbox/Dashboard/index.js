@@ -21,11 +21,11 @@ class LockboxDashboardContainer extends React.PureComponent {
       Success: device => {
         return (
           <Wrapper>
-            <Header deviceName={device} />
+            <Header device={device} />
             {location.pathname === '/lockbox/settings' && (
               <Settings device={device} />
             )}
-            {location.pathname === '/lockbox/transactions' && (
+            {location.pathname === '/lockbox/dashboard' && (
               <Transactions device={device} />
             )}
           </Wrapper>

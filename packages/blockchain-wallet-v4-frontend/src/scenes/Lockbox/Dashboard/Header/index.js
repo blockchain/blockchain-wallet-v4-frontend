@@ -3,12 +3,12 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
-import Menu from './template.js'
+import Header from './template.js'
 
-class MenuContainer extends React.PureComponent {
+class HeaderContainer extends React.PureComponent {
   render () {
     const { device } = this.props
-    return <Menu deviceName={device.name} />
+    return <Header deviceName={device.name} />
   }
 }
 
@@ -19,4 +19,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   null,
   mapDispatchToProps
-)(MenuContainer)
+)(HeaderContainer)

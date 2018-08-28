@@ -51,7 +51,7 @@ const Menu = props => {
           </LinkContainer>
         </TitleBarWrapper>
       </TitleBar>
-      <LinkContainer to='/lockbox/transactions'>
+      <LinkContainer to='/lockbox/dashboard'>
         <CurrencyList>
           <Button>BTC</Button>
           <Button>BCH</Button>
