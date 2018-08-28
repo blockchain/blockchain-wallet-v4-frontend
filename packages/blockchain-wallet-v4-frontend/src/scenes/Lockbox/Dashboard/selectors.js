@@ -7,7 +7,7 @@ export const getData = createDeepEqualSelector(
   devicesKvStoreR => {
     const transform = devicesKvStore => {
       const deviceInfo = devicesKvStore[keysIn(devicesKvStore)[0]]
-      deviceInfo.id = keysIn(devicesKvStore)[0]
+      if (deviceInfo) deviceInfo.id = keysIn(devicesKvStore)[0]
 
       return deviceInfo
     }
