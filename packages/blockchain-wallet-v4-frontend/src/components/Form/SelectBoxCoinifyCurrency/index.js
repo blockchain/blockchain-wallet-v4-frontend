@@ -12,6 +12,32 @@ const CustomSelectBox = styled(SelectBox)`
   * {
     border-left: none;
   }
+  .control {
+    border: 1px solid ${props => props.theme['gray-2']};
+    border-left: none;
+    > div:first-of-type {
+      > div {
+        right: 0px;
+      }
+      > div + div {
+        position: absolute;
+        right: 30px;
+      }
+    }
+    > div:last-of-type {
+      > span {
+        display: none;
+      }
+    }
+    &:hover {
+      border: 1px solid ${props => props.theme['gray-2']};
+      border-left: none;
+    }
+    &:active {
+      border: 1px solid ${props => props.theme['gray-2']};
+      border-left: none;
+    }
+  }
 `
 
 class SelectBoxCoinifyCurrency extends React.PureComponent {
@@ -27,6 +53,7 @@ class SelectBoxCoinifyCurrency extends React.PureComponent {
         label=''
         elements={elements}
         borderLeft='none'
+        searchEnabled={false}
         {...rest}
       />
     )
