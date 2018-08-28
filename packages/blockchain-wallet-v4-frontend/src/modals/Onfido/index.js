@@ -77,8 +77,7 @@ class OnfidoContainer extends React.PureComponent {
               Failure: () => <DataError onClick={actions.syncOnfido} />
             }),
           Loading: () => <Loading />,
-          Failure: () => <DataError onClick={actions.syncOnfido} />,
-          // Failure: () => <DataError onClick={actions.fetchOnfidoSDKKey} />,
+          Failure: () => <DataError onClick={actions.fetchOnfidoSDKKey} />,
           NotAsked: () => <Loading />
         })}
       </OnfidoModal>

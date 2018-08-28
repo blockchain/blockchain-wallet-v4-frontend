@@ -27,6 +27,7 @@ export default ({ nabuUrl, get, authorizedGet, authorizedPost }) => {
     authorizedPost({
       url: nabuUrl,
       endPoint: '/kyc/verifications',
+      contentType: 'application/json',
       data: { applicantId }
     })
 

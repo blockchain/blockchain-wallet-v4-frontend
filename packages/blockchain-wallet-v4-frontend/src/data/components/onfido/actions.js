@@ -21,7 +21,7 @@ export const fetchOnfidoSDKKeyError = message => ({
   payload: { message }
 })
 
-export const setOnfidoApplicantId = applicatntId => ({
+export const setOnfidoApplicantId = applicantId => ({
   type: AT.SET_ONFIDO_APPLICANT_ID,
-  payload: { applicatntId }
+  payload: { applicantId }
 })
