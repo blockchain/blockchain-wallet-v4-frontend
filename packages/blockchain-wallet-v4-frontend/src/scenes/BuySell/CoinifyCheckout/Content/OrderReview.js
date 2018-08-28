@@ -32,6 +32,9 @@ const ExchangeRateWrapper = styled.div`
 const RateText = styled(Text)`
   display: flex;
 `
+const CustomCountdownTimer = styled(CountdownTimer)`
+  width: auto;
+`
 
 const rateHelper = quoteR => quoteR.map(getRateFromQuote).getOrElse(`~`)
 
@@ -59,7 +62,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium, subscriptio
           subscription
             ? quoteR
               .map(q => (
-                <CountdownTimer
+                <CustomCountdownTimer
                   expiryDate={q.expiresAt.getTime()}
                   handleExpiry={onRefreshQuote}
                   tooltipExpiryTime='15 minutes'
