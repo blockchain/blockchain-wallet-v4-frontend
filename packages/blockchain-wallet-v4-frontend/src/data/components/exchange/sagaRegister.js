@@ -1,16 +1,11 @@
 import { actionTypes as formActionTypes } from 'redux-form'
-import { takeEvery, takeLatest, select, call } from 'redux-saga/effects'
+import { takeEvery, takeLatest, fork } from 'redux-saga/effects'
 import * as AT from './actionTypes'
-import * as S from './selectors'
 import exchangeSagas from './exchange.sagas'
 import shapeshiftSagas from './shapeshift.sagas'
 
 const registerExchangeSagas = function*(exchange) {
-  yield takeLatest(
-    AT.EXCHANGE_FIRST_STEP_INITIALIZED,
-    exchange.exchangeFormInitialized
-  )
-  yield takeLatest(AT.EXCHANGE_FIRST_STEP_SWAP_CLICKED, exchange.swapClicked)
+  yield takeLatest(AT.INITIALIZE, exchange.exchangeFormInitialized)
   yield takeLatest(AT.CHANGE_SOURCE, exchange.changeSource)
   yield takeLatest(AT.CHANGE_TARGET, exchange.changeTarget)
   yield takeLatest(AT.CHANGE_SOURCE_AMOUNT, exchange.changeSourceAmount)
@@ -61,12 +56,10 @@ const registerShapeshiftSagas = function*(shapeshift) {
 
 export default ({ api, coreSagas, options, networks }) => {
   const shapeshift = shapeshiftSagas({ api, coreSagas, options, networks })
-  const exchange = exchangeSagas({ api, coreSagas, options })
+  const exchange = exchangeSagas({ api, coreSagas, options, networks })
 
   return function*() {
-    const useShapeShift = yield select(S.useShapeShift)
-
-    if (useShapeShift) yield call(registerShapeshiftSagas, shapeshift)
-    else yield call(registerExchangeSagas, exchange)
+    yield fork(registerShapeshiftSagas, shapeshift)
+    yield fork(registerExchangeSagas, exchange)
   }
 }

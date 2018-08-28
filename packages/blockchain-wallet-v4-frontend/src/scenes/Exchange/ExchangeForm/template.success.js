@@ -10,13 +10,11 @@ import {
   Button,
   HeartbeatLoader,
   Icon,
-  TooltipIcon,
   TooltipHost,
+  ButtonGroup,
   Text
 } from 'blockchain-info-components'
 import { Form, NumberBoxDebounced } from 'components/Form'
-import MinimumAmountLink from './MinimumAmountLink'
-import MaximumAmountLink from './MaximumAmountLink'
 import SelectBox from './SelectBox'
 import {
   AboveRegulationLimitMessage,
@@ -25,78 +23,115 @@ import {
   InsufficientAmountMessage,
   InvalidAmountMessage
 } from './validationMessages'
+import Summary from './Summary'
 import media from 'services/ResponsiveService'
 
 const { EXCHANGE_FORM, formatPair } = model.components.exchange
+const { mapFixToFieldName } = model.rates
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  padding: 20px 30px 10px 30px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme['gray-2']};
 
   ${media.mobile`
     border: 0px;
     padding: 0;
+    flex-direction: column;
   `};
+`
+
+const ColumnLeft = styled.div`
+  margin-right: 34px;
+  @media (min-width: 992px) {
+    width: 60%;
+  }
+  ${media.mobile`
+    margin-right: 0;
+  `};
+`
+const ColumnRight = styled.div`
+  @media (min-width: 992px) {
+    width: 40%;
+  }
 `
 const Row = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: ${props => props.justify || 'flex-start'};
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
-  height: ${props => props.height || 'auto'};
-  margin-bottom: ${props => (props.spaced ? '20px' : '5px')};
+  margin-bottom: ${props => (props.spaced ? '70px' : '8px')};
+`
+const AmountRow = styled(Row)`
+  position: relative;
+  margin-left: 10px;
+  margin-right: 10px;
+  width: calc(100% - 20px);
 `
 const Cell = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: ${props => (props.size === 'small' ? 'center' : 'flex-start')};
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
   width: ${props => (props.size === 'small' ? '10%' : '45%')};
   height: 100%;
 `
-const OptionsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-
-  & > * {
-    margin-right: 2px;
+const MinMaxButtonGroup = styled(ButtonGroup)`
+  width: 100%;
+  margin: 0;
+  > * {
+    color: ${props => props.theme['brand-primary']};
   }
 `
-const AmountContainer = styled.div`
+const SubmitButton = styled(Button)`
+  margin-left: 30px;
+  margin-right: 30px;
+  width: calc(100% - 60px);
+`
+const AmountNumberBox = styled(NumberBoxDebounced)`
+  height: 86px;
+  input {
+    position: relative;
+    font-weight: 400;
+    font-size: 72px;
+    line-height: 86px;
+    height: 86px;
+    padding: 0;
+    width: 100%;
+    border: none;
+    text-align: center;
+  }
+`
+const ComplementaryAmountContaier = styled.div`
   position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  ${props => props.hasNoBottomBorder && '& input { border-bottom: none; }'};
+  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 24px;
+  justify-self: center;
+  margin: auto;
+  margin-top: 10px;
 `
 const CurrencyBox = styled(Text)`
-  position: absolute;
-  right: 5px;
-  top: 5px;
+  align-self: flex-start;
+  margin-top: 10px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 30px;
-  height: 30px;
-  font-size: 13px;
-  font-weight: 300;
+  height: 38px;
+  font-size: ${props => (props.coinActive ? '20px' : '32px')};
+  font-weight: 400;
   transform: uppercase;
   background-color: ${props =>
     props.disabled ? props.theme['gray-1'] : props.theme['white']};
 `
 const ShapeshiftIcon = styled(Icon)`
+  margin: auto;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   color: ${props =>
     props.disabled ? props.theme['gray-1'] : props.theme['gray-5']};
@@ -105,30 +140,47 @@ const ShapeshiftIcon = styled(Icon)`
       props.disabled ? props.theme['gray-1'] : props.theme['brand-secondary']};
   }
 `
+const ActiveCurrencyIndicator = styled.div`
+  height: 12px;
+  width: 12px;
+  background-color: ${props =>
+    props.active ? props.theme[props.coin] : props.theme['white']};
+  border-radius: 7px;
+  border: 1px solid;
+  border-color: ${props =>
+    props.active ? props.theme[props.coin] : props.theme['gray-3']};
+  margin-right: 8px;
+`
+const FieldsWrapper = styled.div`
+  padding: 30px;
+  border: 1px solid ${props => props.theme['gray-2']}};
+  margin-bottom: 45px;
+`
 
-const Success = ({
-  availablePairs,
-  fromElements,
-  toElements,
-  disabled,
-  dirty,
-  hasOneAccount,
-  currency,
-  sourceCoin,
-  targetCoin,
-  formError,
-  useShapeshift,
-  handleSwap,
-  handleSubmit,
-  handleSourceChange,
-  handleTargetChange,
-  handleSourceAmountChange,
-  handleTargetAmountChange,
-  handleSourceFiatAmountChange,
-  handleTargetFiatAmountChange,
-  swapBaseAndCounter,
-  swapCoinAndFiat
-}) => {
+const Success = props => {
+  const {
+    availablePairs,
+    fromElements,
+    toElements,
+    disabled,
+    dirty,
+    hasOneAccount,
+    sourceCoin,
+    targetCoin,
+    sourceActive,
+    targetActive,
+    coinActive,
+    complementaryAmount,
+    inputSymbol,
+    complementarySymbol,
+    fix,
+    formError,
+    handleSubmit,
+    handleSourceChange,
+    handleTargetChange,
+    handleAmountChange,
+    swapBaseAndCounter
+  } = props
   const swapDisabled = !contains(
     formatPair(targetCoin, sourceCoin),
     availablePairs
@@ -136,173 +188,144 @@ const Success = ({
 
   return (
     <Wrapper>
-      <Form onSubmit={handleSubmit}>
-        <Row justify='flex-end'>
-          <Text size='12px' weight={300}>
-            <FormattedMessage
-              id='scenes.exchange.shapeshift.firststep.step'
-              defaultMessage='Step 1 of 2'
-            />
-          </Text>
-        </Row>
-        <Row>
-          <Cell>
-            <Text size='14px' weight={400}>
-              <FormattedMessage
-                id='scenes.exchange.shapeshift.firststep.from'
-                defaultMessage='Exchange:'
-              />
-            </Text>
-          </Cell>
-          <Cell size='small' />
-          <Cell>
-            <Text size='14px' weight={400}>
-              <FormattedMessage
-                id='scenes.exchange.shapeshift.firststep.to'
-                defaultMessage='Receive:'
-              />
-            </Text>
-          </Cell>
-        </Row>
-        <Row height='50px' spaced>
-          <Cell>
-            <Field
-              name='source'
-              onChange={!useShapeshift && handleSourceChange}
-              component={SelectBox}
-              elements={fromElements}
-              hasOneAccount={hasOneAccount}
-              disabled={disabled}
-            />
-          </Cell>
-          <Cell size='small'>
-            <ShapeshiftIcon
-              name='shapeshift-switch'
-              size='28px'
-              weight={500}
-              cursor
-              disabled={swapDisabled}
-              onClick={() => {
-                if (!disabled && !swapDisabled) handleSwap()
-              }}
-            />
-          </Cell>
-          <Cell>
-            <Field
-              name='target'
-              onChange={!useShapeshift && handleTargetChange}
-              component={SelectBox}
-              elements={toElements}
-              hasOneAccount={hasOneAccount}
-              disabled={disabled}
-            />
-          </Cell>
-        </Row>
-        <Row justify='space-between'>
-          <Text size='14px' weight={400}>
-            <FormattedMessage
-              id='scenes.exchange.shapeshift.firststep.amount'
-              defaultMessage='Enter amount:'
-            />
-            <TooltipHost id='firststep.tooltip'>
-              <TooltipIcon name='question-in-circle' />
-            </TooltipHost>
-          </Text>
-        </Row>
-        <Row height='80px'>
-          <Cell>
-            <AmountContainer hasNoBottomBorder>
+      <ColumnLeft>
+        <Form onSubmit={handleSubmit}>
+          <FieldsWrapper>
+            <Row>
+              <Cell>
+                <ActiveCurrencyIndicator
+                  active={sourceActive}
+                  coin={sourceCoin.toLowerCase()}
+                />
+                <Text size='14px' weight={400}>
+                  <FormattedMessage
+                    id='scenes.exchange.shapeshift.firststep.from'
+                    defaultMessage='Exchange:'
+                  />
+                </Text>
+              </Cell>
+              <Cell size='small' />
+              <Cell>
+                <ActiveCurrencyIndicator
+                  active={targetActive}
+                  coin={targetCoin.toLowerCase()}
+                />
+                <Text size='14px' weight={400}>
+                  <FormattedMessage
+                    id='scenes.exchange.shapeshift.firststep.to'
+                    defaultMessage='Receive:'
+                  />
+                </Text>
+              </Cell>
+            </Row>
+            <Row height='50px' spaced>
+              <Cell>
+                <Field
+                  name='source'
+                  onChange={handleSourceChange}
+                  component={SelectBox}
+                  elements={fromElements}
+                  hasOneAccount={hasOneAccount}
+                  disabled={disabled}
+                />
+              </Cell>
+              <TooltipHost id='exchange.changeinput'>
+                <Cell size='small'>
+                  <ShapeshiftIcon
+                    name='shapeshift-switch'
+                    size='28px'
+                    weight={500}
+                    cursor
+                    disabled={swapDisabled}
+                    onClick={() => {
+                      if (!disabled && !swapDisabled) swapBaseAndCounter()
+                    }}
+                  />
+                </Cell>
+              </TooltipHost>
+              <Cell>
+                <Field
+                  name='target'
+                  onChange={handleTargetChange}
+                  component={SelectBox}
+                  elements={toElements}
+                  hasOneAccount={hasOneAccount}
+                  disabled={disabled}
+                />
+              </Cell>
+            </Row>
+            <AmountRow>
+              <CurrencyBox>{inputSymbol}</CurrencyBox>
               <Field
-                name='sourceAmount'
-                onChange={!useShapeshift && handleSourceAmountChange}
-                component={NumberBoxDebounced}
+                name={mapFixToFieldName(fix)}
+                onChange={handleAmountChange}
+                component={AmountNumberBox}
                 disabled={disabled}
-                step='0.00000001'
+                step={coinActive ? '0.00000001' : '0.01'}
               />
-              <CurrencyBox disabled={disabled}>{sourceCoin}</CurrencyBox>
-            </AmountContainer>
-            <AmountContainer>
-              <Field
-                name='sourceFiat'
-                onChange={!useShapeshift && handleSourceFiatAmountChange}
-                component={NumberBoxDebounced}
-                disabled={disabled}
-              />
-              <CurrencyBox disabled={disabled}>{currency}</CurrencyBox>
-            </AmountContainer>
-          </Cell>
-          <Cell size='small'>
-            {disabled ? (
-              <HeartbeatLoader width='20px' height='20px' />
-            ) : (
-              <Icon name='right-arrow' size='24px' weight={500} />
+              <CurrencyBox style={{ visibility: 'hidden' }}>
+                {inputSymbol}
+              </CurrencyBox>
+            </AmountRow>
+            <AmountRow>
+              <ComplementaryAmountContaier>
+                {complementaryAmount}
+                &nbsp;
+                {complementarySymbol}
+              </ComplementaryAmountContaier>
+            </AmountRow>
+            {formError && (
+              <Row spaced>
+                {formError === 'minimum' && <MinimumAmountMessage />}
+                {formError === 'maximum' && <MaximumAmountMessage />}
+                {formError === 'insufficient' && <InsufficientAmountMessage />}
+                {formError === 'regulationlimit' && (
+                  <AboveRegulationLimitMessage />
+                )}
+                {formError === 'invalid' && <InvalidAmountMessage />}
+              </Row>
             )}
-          </Cell>
-          <Cell>
-            <AmountContainer hasNoBottomBorder>
-              <Field
-                name='targetAmount'
-                onChange={!useShapeshift && handleTargetAmountChange}
-                component={NumberBoxDebounced}
-                disabled={disabled}
-                step='0.00000001'
-              />
-              <CurrencyBox disabled={disabled}>{targetCoin}</CurrencyBox>
-            </AmountContainer>
-            <AmountContainer>
-              <Field
-                name='targetFiat'
-                onChange={!useShapeshift && handleTargetFiatAmountChange}
-                component={NumberBoxDebounced}
-                disabled={disabled}
-              />
-              <CurrencyBox disabled={disabled}>{currency}</CurrencyBox>
-            </AmountContainer>
-          </Cell>
-        </Row>
-        {formError && (
-          <Row spaced>
-            {formError === 'minimum' && <MinimumAmountMessage />}
-            {formError === 'maximum' && <MaximumAmountMessage />}
-            {formError === 'insufficient' && <InsufficientAmountMessage />}
-            {formError === 'regulationlimit' && <AboveRegulationLimitMessage />}
-            {formError === 'invalid' && <InvalidAmountMessage />}
-          </Row>
-        )}
-        {(!formError || formError === 'initial') && (
-          <Row spaced>
-            <OptionsContainer>
-              <Text weight={300} size='12px'>
-                <FormattedMessage
-                  id='scenes.exchangebox.firststep.use1'
-                  defaultMessage='Use'
-                />
-              </Text>
-              <MinimumAmountLink />
-              <Text weight={300} size='12px'>
-                <FormattedMessage
-                  id='scenes.exchangebox.firststep.use2'
-                  defaultMessage='| Use'
-                />
-              </Text>
-              <MaximumAmountLink />
-            </OptionsContainer>
-          </Row>
-        )}
-        <Row spaced>
-          <Button
+            <Row>
+              <MinMaxButtonGroup>
+                <Button fullwidth>
+                  <FormattedMessage
+                    id='scenes.exchange.exchangeform.min'
+                    defaultMessage='MIN'
+                  />
+                </Button>
+                <Button fullwidth>
+                  <FormattedMessage
+                    id='scenes.exchange.exchangeform.max'
+                    defaultMessage='MAX'
+                  />
+                </Button>
+              </MinMaxButtonGroup>
+            </Row>
+          </FieldsWrapper>
+          <SubmitButton
             type='submit'
             nature='primary'
-            fullwidth
             disabled={!dirty || disabled || (dirty && !isEmpty(formError))}
           >
-            <FormattedMessage
-              id='scenes.exchange.shapeshift.firststep.next'
-              defaultMessage='Next'
-            />
-          </Button>
-        </Row>
-      </Form>
+            {!disabled && (
+              <FormattedMessage
+                id='scenes.exchange.exchangeform.exchange'
+                defaultMessage='Exchange {source} for {target}'
+                values={{
+                  source: sourceCoin,
+                  target: targetCoin
+                }}
+              />
+            )}
+            {disabled && (
+              <HeartbeatLoader height='20px' width='20px' color='white' />
+            )}
+          </SubmitButton>
+        </Form>
+      </ColumnLeft>
+      <ColumnRight>
+        <Summary {...props} />
+      </ColumnRight>
     </Wrapper>
   )
 }

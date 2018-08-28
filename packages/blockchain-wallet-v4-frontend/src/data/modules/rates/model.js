@@ -1,3 +1,5 @@
+import { prop, flip } from 'ramda'
+
 export const AUTH_ERROR_MESSAGE = {
   channel: 'auth',
   type: 'error',
@@ -60,3 +62,10 @@ export const FIX_TYPES = {
   BASE_IN_FIAT: 'baseInFiat',
   COUNTER_IN_FIAT: 'counterInFiat'
 }
+
+export const mapFixToFieldName = flip(prop)({
+  [FIX_TYPES.BASE]: 'sourceAmount',
+  [FIX_TYPES.BASE_IN_FIAT]: 'sourceFiat',
+  [FIX_TYPES.COUNTER]: 'targetAmount',
+  [FIX_TYPES.COUNTER_IN_FIAT]: 'targetFiat'
+})

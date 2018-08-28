@@ -92,6 +92,7 @@ class NumberBoxDebounced extends React.Component {
 
   render () {
     const {
+      className,
       disabled,
       errorBottom,
       errorLeft,
@@ -103,7 +104,7 @@ class NumberBoxDebounced extends React.Component {
     const errorState = getErrorState(meta)
 
     return (
-      <Container>
+      <Container className={className}>
         <NumberInput
           value={this.state.value}
           errorState={errorState}

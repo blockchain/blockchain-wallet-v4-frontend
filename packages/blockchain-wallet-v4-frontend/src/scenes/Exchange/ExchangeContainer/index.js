@@ -20,7 +20,7 @@ const ExchangeContainer = ({ step }) => {
 }
 
 ExchangeContainer.propTypes = {
-  step: PropTypes.string.isRequired
+  step: PropTypes.number.isRequired
 }
 
 export default connect(getData)(ExchangeContainer)

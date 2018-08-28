@@ -20,11 +20,11 @@ const { BASE, COUNTER, BASE_IN_FIAT, COUNTER_IN_FIAT } = model.rates.FIX_TYPES
 
 class FirstStepContainer extends React.Component {
   componentDidMount () {
-    this.props.actions.firstStepInitialized()
+    this.props.actions.initialize()
   }
 
   handleRefresh = () => {
-    this.props.actions.firstStepInitialized()
+    this.props.actions.initialize()
   }
 
   handleChangeFix = fix => {}
@@ -60,7 +60,6 @@ class FirstStepContainer extends React.Component {
           handleMaximum={actions.firstStepMaximumClicked}
           handleMinimum={actions.firstStepMinimumClicked}
           onSubmit={actions.firstStepSubmitClicked}
-          handleSwap={actions.firstStepSwapClicked}
           handleSourceChange={compose(
             actions.changeSource,
             extractFieldValue

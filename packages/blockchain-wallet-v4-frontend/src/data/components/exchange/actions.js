@@ -1,5 +1,6 @@
 import * as AT from './actionTypes'
 
+// ShapeShift Actions
 export const initialized = () => ({ type: AT.EXCHANGE_INITIALIZED })
 export const destroyed = () => ({ type: AT.EXCHANGE_DESTROYED })
 export const paymentUpdated = payment => ({
@@ -77,6 +78,11 @@ export const thirdStepCloseClicked = () => ({
 })
 export const usStateRegistered = () => ({
   type: AT.EXCHANGE_US_STATE_REGISTERED
+})
+
+// Exchange Actions
+export const initialize = () => ({
+  type: AT.INITIALIZE
 })
 export const changeSource = source => ({
   type: AT.CHANGE_SOURCE,

@@ -1,6 +1,8 @@
 import { selectors, model } from 'data'
 import {
+  always,
   compose,
+  contains,
   cond,
   curry,
   equals,
@@ -17,13 +19,15 @@ import {
   propEq,
   split,
   sortBy,
+  T,
   uniq,
   unnest
 } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { currencySymbolMap } from 'services/CoinifyService'
 
 const { EXCHANGE_FORM } = model.components.exchange
-const { BASE_IN_FIAT } = model.rates.FIX_TYPES
+const { BASE, BASE_IN_FIAT, COUNTER, COUNTER_IN_FIAT } = model.rates.FIX_TYPES
 
 const currenciesOrder = ['BTC', 'BCH', 'ETH']
 
@@ -183,6 +187,10 @@ export const getData = createDeepEqualSelector(
     const sourceCoin = path(['source', 'coin'], formValues) || 'BTC'
     const targetCoin = path(['target', 'coin'], formValues) || 'ETH'
     const fix = prop('fix', formValues) || BASE_IN_FIAT
+    const sourceActive = contains(fix, [BASE, BASE_IN_FIAT])
+    const targetActive = contains(fix, [COUNTER, COUNTER_IN_FIAT])
+    const coinActive = contains(fix, [BASE, COUNTER])
+    const fiatActive = contains(fix, [BASE_IN_FIAT, COUNTER_IN_FIAT])
 
     const transform = (
       btcAccounts,
@@ -213,6 +221,16 @@ export const getData = createDeepEqualSelector(
         target: defaultEthAccount,
         fix: BASE_IN_FIAT
       }
+      const inputCurrency = cond([
+        [always(fiatActive), always(currency)],
+        [always(sourceActive), always(sourceCoin)],
+        [T, always(targetCoin)]
+      ])()
+      const complementaryCurrency = cond([
+        [always(coinActive), always(currency)],
+        [always(sourceActive), always(sourceCoin)],
+        [T, always(targetCoin)]
+      ])()
 
       return {
         availablePairs,
@@ -223,9 +241,17 @@ export const getData = createDeepEqualSelector(
         disabled: !enabled,
         formError,
         currency,
+        inputSymbol: currencySymbolMap[inputCurrency],
+        // TODO: add a selector
+        complementaryAmount: 100,
+        complementarySymbol: currencySymbolMap[complementaryCurrency],
         sourceCoin,
-        fix,
-        targetCoin
+        targetCoin,
+        sourceActive,
+        targetActive,
+        coinActive,
+        fiatActive,
+        fix
       }
     }
     return lift(transform)(

@@ -76,7 +76,7 @@ const Tooltip = props => {
       delayHide={250}
       effect='solid'
       type='light'
-      border='true'
+      border={true}
       {...rest}
     >
       {children}

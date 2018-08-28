@@ -5,7 +5,6 @@ import { actions, selectors, model } from 'data'
 import { EXCHANGE_FORM, formatPair } from './model'
 import utils from './sagas.utils'
 
-const logLocation = 'components/exchange/sagas/exchange'
 export default ({ api, coreSagas, options, networks }) => {
   const { BASE, COUNTER, BASE_IN_FIAT, COUNTER_IN_FIAT } = model.rates.FIX_TYPES
   const formValueSelector = selectors.form.getFormValues(EXCHANGE_FORM)
@@ -66,20 +65,6 @@ export default ({ api, coreSagas, options, networks }) => {
         fiatCurrency
       )
     )
-  }
-
-  const swapClicked = function*() {
-    try {
-      const form = yield select(formValueSelector)
-      const { source, target, fix } = form
-      yield put(actions.form.change(EXCHANGE_FORM, 'source', target))
-      yield put(actions.form.change(EXCHANGE_FORM, 'target', source))
-      yield put(actions.form.change(EXCHANGE_FORM, 'fix', swapFix(fix)))
-      yield call(resetForm)
-      yield call(changeSubscription)
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'swapClicked', e))
-    }
   }
 
   const changeSource = function*({ payload }) {
@@ -145,7 +130,6 @@ export default ({ api, coreSagas, options, networks }) => {
     changeSourceAmount,
     changeTargetAmount,
     changeSourceFiatAmount,
-    changeTargetFiatAmount,
-    swapClicked
+    changeTargetFiatAmount
   }
 }
