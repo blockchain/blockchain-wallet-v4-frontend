@@ -18,3 +18,7 @@ export const clearSession = () => ({
 export const generateAuthCredentials = () => ({
   type: AT.GENERATE_AUTH_CREDENTIALS
 })
+
+export const fetchUser = () => ({
+  type: AT.FETCH_USER
+})
