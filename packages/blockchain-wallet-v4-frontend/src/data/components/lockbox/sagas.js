@@ -123,15 +123,15 @@ export default ({ api, coreSagas }) => {
       const setupTimeout = 1500000
       // poll for both Ledger and Blockchain type devices
       const dashboardTransport = yield race({
-        LEDGER: yield call(
+        ledger: yield call(
           LockboxService.pollForAppConnection,
-          'LEDGER',
+          'ledger',
           'DASHBOARD',
           setupTimeout
         ),
-        BLOCKCHAIN: call(
+        blockchain: call(
           LockboxService.pollForAppConnection,
-          'BLOCKCHAIN',
+          'blockchain',
           'DASHBOARD',
           setupTimeout
         )

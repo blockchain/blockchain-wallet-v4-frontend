@@ -46,12 +46,14 @@ export default ({ rootUrl, get, post }) => {
       data: {}
     })
 
-  const getNextMcu = () =>
+  const getNextMcu = bootLoaderVersion =>
     post({
       url: rootUrl,
       endPoint: '/mcu_versions_bootloader',
       contentType: 'application/json',
-      data: {}
+      data: {
+        bootloader_version: bootLoaderVersion
+      }
     })
 
   return {
