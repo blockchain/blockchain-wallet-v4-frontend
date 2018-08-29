@@ -3,8 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
 import { actions } from 'data'
-
-import Pages from './Pages'
+// import Pages from './Pages'
 
 class TransactionsContainer extends React.PureComponent {
   componentDidMount () {
@@ -13,9 +12,8 @@ class TransactionsContainer extends React.PureComponent {
 
   render () {
     const { data } = this.props
-    return data.btcTransactions.map((value, index) => (
-      <Pages key={index} data={value} />
-    ))
+    // TODO: make pages of sorted data
+    return data
   }
 }
 

@@ -17,9 +17,9 @@ const Success = props => {
     <Wrapper>
       {props.transactions.map((transaction, index) => (
         <TransactionListItem
+          coin={props.coin}
           key={transaction.hash}
           transaction={transaction}
-          coin='BTC'
           minConfirmations={3}
         />
       ))}

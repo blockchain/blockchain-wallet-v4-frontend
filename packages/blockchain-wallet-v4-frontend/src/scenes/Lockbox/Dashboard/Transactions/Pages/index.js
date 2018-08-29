@@ -7,9 +7,8 @@ import Success from './template.success'
 class Pages extends React.PureComponent {
   render () {
     const { data } = this.props
-
     return data.cata({
-      Success: value => <Success transactions={value} />,
+      Success: value => <Success transactions={value} coin={this.props.coin} />,
       Failure: () => <DataError onClick={() => this.props.onRefresh()} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
