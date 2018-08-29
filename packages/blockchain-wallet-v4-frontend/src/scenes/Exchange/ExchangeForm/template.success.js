@@ -153,179 +153,187 @@ const FieldsWrapper = styled.div`
   margin-bottom: 45px;
 `
 
-const Success = props => {
-  const {
-    availablePairs,
-    fromElements,
-    toElements,
-    hasOneAccount,
-    disabled,
-    dirty,
-    sourceCoin,
-    targetCoin,
-    sourceActive,
-    targetActive,
-    coinActive,
-    inputField,
-    inputSymbol,
-    complementaryAmount,
-    complementarySymbol,
-    formError,
-    handleSubmit,
-    handleSourceChange,
-    handleTargetChange,
-    handleAmountChange,
-    swapBaseAndCounter
-  } = props
-  const swapDisabled = !contains(
-    formatPair(targetCoin, sourceCoin),
-    availablePairs
-  )
+class Success extends React.Component {
+  componentDidMount () {
+    this.props.handleAmountChange(null, '0')
+  }
 
-  return (
-    <Wrapper>
-      <ColumnLeft>
-        <Form onSubmit={handleSubmit}>
-          <FieldsWrapper>
-            <Row>
-              <Cell>
-                <ActiveCurrencyIndicator
-                  active={sourceActive}
-                  coin={sourceCoin.toLowerCase()}
-                />
-                <Text size='14px' weight={400}>
-                  <FormattedMessage
-                    id='scenes.exchange.shapeshift.firststep.from'
-                    defaultMessage='Exchange:'
+  render () {
+    const {
+      availablePairs,
+      fromElements,
+      toElements,
+      hasOneAccount,
+      disabled,
+      dirty,
+      sourceCoin,
+      targetCoin,
+      sourceActive,
+      targetActive,
+      coinActive,
+      inputField,
+      inputSymbol,
+      complementaryAmount,
+      complementarySymbol,
+      formError,
+      handleSubmit,
+      handleSourceChange,
+      handleTargetChange,
+      handleAmountChange,
+      swapBaseAndCounter
+    } = this.props
+    const swapDisabled = !contains(
+      formatPair(targetCoin, sourceCoin),
+      availablePairs
+    )
+
+    return (
+      <Wrapper>
+        <ColumnLeft>
+          <Form onSubmit={handleSubmit}>
+            <FieldsWrapper>
+              <Row>
+                <Cell>
+                  <ActiveCurrencyIndicator
+                    active={sourceActive}
+                    coin={sourceCoin.toLowerCase()}
                   />
-                </Text>
-              </Cell>
-              <Cell size='small' />
-              <Cell>
-                <ActiveCurrencyIndicator
-                  active={targetActive}
-                  coin={targetCoin.toLowerCase()}
-                />
-                <Text size='14px' weight={400}>
-                  <FormattedMessage
-                    id='scenes.exchange.shapeshift.firststep.to'
-                    defaultMessage='Receive:'
+                  <Text size='14px' weight={400}>
+                    <FormattedMessage
+                      id='scenes.exchange.shapeshift.firststep.from'
+                      defaultMessage='Exchange:'
+                    />
+                  </Text>
+                </Cell>
+                <Cell size='small' />
+                <Cell>
+                  <ActiveCurrencyIndicator
+                    active={targetActive}
+                    coin={targetCoin.toLowerCase()}
                   />
-                </Text>
-              </Cell>
-            </Row>
-            <Row height='50px' spaced>
-              <Cell>
-                <Field
-                  name='source'
-                  onChange={handleSourceChange}
-                  component={SelectBox}
-                  elements={fromElements}
-                  hasOneAccount={hasOneAccount}
-                  disabled={disabled}
-                />
-              </Cell>
-              <TooltipHost id='exchange.changeinput'>
-                <Cell size='small'>
-                  <ShapeshiftIcon
-                    name='shapeshift-switch'
-                    size='28px'
-                    weight={500}
-                    cursor
-                    disabled={swapDisabled}
-                    onClick={() => {
-                      if (!disabled && !swapDisabled) swapBaseAndCounter()
-                    }}
+                  <Text size='14px' weight={400}>
+                    <FormattedMessage
+                      id='scenes.exchange.shapeshift.firststep.to'
+                      defaultMessage='Receive:'
+                    />
+                  </Text>
+                </Cell>
+              </Row>
+              <Row height='50px' spaced>
+                <Cell>
+                  <Field
+                    name='source'
+                    onChange={handleSourceChange}
+                    component={SelectBox}
+                    elements={fromElements}
+                    hasOneAccount={hasOneAccount}
+                    disabled={disabled}
                   />
                 </Cell>
-              </TooltipHost>
-              <Cell>
-                <Field
-                  name='target'
-                  onChange={handleTargetChange}
-                  component={SelectBox}
-                  elements={toElements}
-                  hasOneAccount={hasOneAccount}
-                  disabled={disabled}
-                />
-              </Cell>
-            </Row>
-            <AmountRow>
-              <CurrencyBox>{inputSymbol}</CurrencyBox>
-              <Field
-                name={inputField}
-                onChange={handleAmountChange}
-                component={AmountNumberBox}
-                disabled={disabled}
-                step={coinActive ? '0.00000001' : '0.01'}
-              />
-              <CurrencyBox style={{ visibility: 'hidden' }}>
-                {inputSymbol}
-              </CurrencyBox>
-            </AmountRow>
-            <AmountRow>
-              <ComplementaryAmountContaier>
-                <StringDisplay>
-                  {complementaryAmount.map(
-                    amount => `${amount} ${complementarySymbol}`
-                  )}
-                </StringDisplay>
-              </ComplementaryAmountContaier>
-            </AmountRow>
-            {formError && (
-              <Row spaced>
-                {formError === 'minimum' && <MinimumAmountMessage />}
-                {formError === 'maximum' && <MaximumAmountMessage />}
-                {formError === 'insufficient' && <InsufficientAmountMessage />}
-                {formError === 'regulationlimit' && (
-                  <AboveRegulationLimitMessage />
-                )}
-                {formError === 'invalid' && <InvalidAmountMessage />}
+                <TooltipHost id='exchange.changeinput'>
+                  <Cell size='small'>
+                    <ShapeshiftIcon
+                      name='shapeshift-switch'
+                      size='28px'
+                      weight={500}
+                      cursor
+                      disabled={swapDisabled}
+                      onClick={() => {
+                        if (!disabled && !swapDisabled) swapBaseAndCounter()
+                      }}
+                    />
+                  </Cell>
+                </TooltipHost>
+                <Cell>
+                  <Field
+                    name='target'
+                    onChange={handleTargetChange}
+                    component={SelectBox}
+                    elements={toElements}
+                    hasOneAccount={hasOneAccount}
+                    disabled={disabled}
+                  />
+                </Cell>
               </Row>
-            )}
-            <Row>
-              <MinMaxButtonGroup>
-                <Button fullwidth>
-                  <FormattedMessage
-                    id='scenes.exchange.exchangeform.min'
-                    defaultMessage='MIN'
-                  />
-                </Button>
-                <Button fullwidth>
-                  <FormattedMessage
-                    id='scenes.exchange.exchangeform.max'
-                    defaultMessage='MAX'
-                  />
-                </Button>
-              </MinMaxButtonGroup>
-            </Row>
-          </FieldsWrapper>
-          <SubmitButton
-            type='submit'
-            nature='primary'
-            disabled={!dirty || disabled || (dirty && !isEmpty(formError))}
-          >
-            {!disabled && (
-              <FormattedMessage
-                id='scenes.exchange.exchangeform.exchange'
-                defaultMessage='Exchange {source} for {target}'
-                values={{
-                  source: sourceCoin,
-                  target: targetCoin
-                }}
-              />
-            )}
-            {disabled && (
-              <HeartbeatLoader height='20px' width='20px' color='white' />
-            )}
-          </SubmitButton>
-        </Form>
-      </ColumnLeft>
-      <ColumnRight>
-        <Summary {...props} />
-      </ColumnRight>
-    </Wrapper>
-  )
+              <AmountRow>
+                <CurrencyBox>{inputSymbol}</CurrencyBox>
+                <Field
+                  name={inputField}
+                  onChange={handleAmountChange}
+                  component={AmountNumberBox}
+                  disabled={disabled}
+                  step={coinActive ? '0.00000001' : '0.01'}
+                />
+                <CurrencyBox style={{ visibility: 'hidden' }}>
+                  {inputSymbol}
+                </CurrencyBox>
+              </AmountRow>
+              <AmountRow>
+                <ComplementaryAmountContaier>
+                  <StringDisplay>
+                    {complementaryAmount.map(
+                      amount => `${amount} ${complementarySymbol}`
+                    )}
+                  </StringDisplay>
+                </ComplementaryAmountContaier>
+              </AmountRow>
+              {formError && (
+                <Row spaced>
+                  {formError === 'minimum' && <MinimumAmountMessage />}
+                  {formError === 'maximum' && <MaximumAmountMessage />}
+                  {formError === 'insufficient' && (
+                    <InsufficientAmountMessage />
+                  )}
+                  {formError === 'regulationlimit' && (
+                    <AboveRegulationLimitMessage />
+                  )}
+                  {formError === 'invalid' && <InvalidAmountMessage />}
+                </Row>
+              )}
+              <Row>
+                <MinMaxButtonGroup>
+                  <Button fullwidth>
+                    <FormattedMessage
+                      id='scenes.exchange.exchangeform.min'
+                      defaultMessage='MIN'
+                    />
+                  </Button>
+                  <Button fullwidth>
+                    <FormattedMessage
+                      id='scenes.exchange.exchangeform.max'
+                      defaultMessage='MAX'
+                    />
+                  </Button>
+                </MinMaxButtonGroup>
+              </Row>
+            </FieldsWrapper>
+            <SubmitButton
+              type='submit'
+              nature='primary'
+              disabled={!dirty || disabled || (dirty && !isEmpty(formError))}
+            >
+              {!disabled && (
+                <FormattedMessage
+                  id='scenes.exchange.exchangeform.exchange'
+                  defaultMessage='Exchange {source} for {target}'
+                  values={{
+                    source: sourceCoin,
+                    target: targetCoin
+                  }}
+                />
+              )}
+              {disabled && (
+                <HeartbeatLoader height='20px' width='20px' color='white' />
+              )}
+            </SubmitButton>
+          </Form>
+        </ColumnLeft>
+        <ColumnRight>
+          <Summary {...this.props} />
+        </ColumnRight>
+      </Wrapper>
+    )
+  }
 }
 
 export default reduxForm({

@@ -238,6 +238,7 @@ export const getData = createDeepEqualSelector(
       const initialValues = {
         source: defaultBtcAccount,
         target: defaultEthAccount,
+        sourceFiat: 0,
         fix: BASE_IN_FIAT
       }
       const inputField = mapFixToFieldName(fix)
@@ -275,7 +276,8 @@ export const getData = createDeepEqualSelector(
         sourceActive,
         targetActive,
         coinActive,
-        fiatActive
+        fiatActive,
+        fix
       }
     }
     return lift(transform)(

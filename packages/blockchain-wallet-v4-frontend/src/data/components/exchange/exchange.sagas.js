@@ -6,7 +6,7 @@ import { EXCHANGE_FORM, formatPair } from './model'
 import utils from './sagas.utils'
 
 export default ({ api, coreSagas, options, networks }) => {
-  const { BASE, COUNTER, BASE_IN_FIAT, COUNTER_IN_FIAT } = model.rates.FIX_TYPES
+  const { mapFixToFieldName, swapBaseAndCounter } = model.rates
   const formValueSelector = selectors.form.getFormValues(EXCHANGE_FORM)
   const { selectOtherAccount, resetForm } = utils({
     api,
@@ -14,36 +14,6 @@ export default ({ api, coreSagas, options, networks }) => {
     options,
     networks
   })
-  const swapFix = oldFix => {
-    switch (oldFix) {
-      case BASE:
-        return COUNTER
-      case COUNTER:
-        return BASE
-      case BASE_IN_FIAT:
-        return COUNTER_IN_FIAT
-      case COUNTER_IN_FIAT:
-        return BASE_IN_FIAT
-    }
-  }
-  const getVolumeWithFix = ({
-    sourceAmount,
-    targetAmount,
-    sourceFiat,
-    targetFiat,
-    fix
-  }) => {
-    switch (fix) {
-      case BASE:
-        return sourceAmount
-      case COUNTER:
-        return targetAmount
-      case BASE_IN_FIAT:
-        return sourceFiat
-      case COUNTER_IN_FIAT:
-        return targetFiat
-    }
-  }
 
   const exchangeFormInitialized = function*() {
     yield put(actions.modules.rates.fetchAvailablePairs())
@@ -60,7 +30,7 @@ export default ({ api, coreSagas, options, networks }) => {
     yield put(
       actions.modules.rates.subscribeToRate(
         pair,
-        getVolumeWithFix(form),
+        form[mapFixToFieldName(fix)],
         fix,
         fiatCurrency
       )
@@ -75,7 +45,9 @@ export default ({ api, coreSagas, options, networks }) => {
       const newTarget = yield call(selectOtherAccount, targetCoin)
       const fix = prop('fix', form)
       yield put(actions.form.change(EXCHANGE_FORM, 'target', newTarget))
-      yield put(actions.form.change(EXCHANGE_FORM, 'fix', swapFix(fix)))
+      yield put(
+        actions.form.change(EXCHANGE_FORM, 'fix', swapBaseAndCounter(fix))
+      )
     }
     yield call(resetForm)
     yield call(changeSubscription)
@@ -89,7 +61,9 @@ export default ({ api, coreSagas, options, networks }) => {
       const newSource = yield call(selectOtherAccount, sourceCoin)
       const fix = prop('fix', form)
       yield put(actions.form.change(EXCHANGE_FORM, 'source', newSource))
-      yield put(actions.form.change(EXCHANGE_FORM, 'fix', swapFix(fix)))
+      yield put(
+        actions.form.change(EXCHANGE_FORM, 'fix', swapBaseAndCounter(fix))
+      )
     }
     yield call(resetForm)
     yield call(changeSubscription)
@@ -110,7 +84,7 @@ export default ({ api, coreSagas, options, networks }) => {
   const changeSourceFiatAmount = function*({ payload }) {
     const { sourceFiatAmount } = payload
     yield put(
-      actions.form.change(EXCHANGE_FORM, 'sourceFiatAmount', sourceFiatAmount)
+      actions.form.change(EXCHANGE_FORM, 'sourceFiat', sourceFiatAmount)
     )
     yield call(changeSubscription)
   }
@@ -118,7 +92,7 @@ export default ({ api, coreSagas, options, networks }) => {
   const changeTargetFiatAmount = function*({ payload }) {
     const { targetFiatAmount } = payload
     yield put(
-      actions.form.change(EXCHANGE_FORM, 'targetFiatAmount', targetFiatAmount)
+      actions.form.change(EXCHANGE_FORM, 'targetFiat', targetFiatAmount)
     )
     yield call(changeSubscription)
   }

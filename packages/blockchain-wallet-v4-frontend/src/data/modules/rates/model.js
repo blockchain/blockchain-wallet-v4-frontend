@@ -63,6 +63,8 @@ export const FIX_TYPES = {
   COUNTER_IN_FIAT: 'counterInFiat'
 }
 
+const { BASE, COUNTER, BASE_IN_FIAT, COUNTER_IN_FIAT } = FIX_TYPES
+
 export const getComplementaryField = flip(prop)({
   sourceAmount: 'sourceFiat',
   sourceFiat: 'sourceAmount',
@@ -71,8 +73,22 @@ export const getComplementaryField = flip(prop)({
 })
 
 export const mapFixToFieldName = flip(prop)({
-  [FIX_TYPES.BASE]: 'sourceAmount',
-  [FIX_TYPES.BASE_IN_FIAT]: 'sourceFiat',
-  [FIX_TYPES.COUNTER]: 'targetAmount',
-  [FIX_TYPES.COUNTER_IN_FIAT]: 'targetFiat'
+  [BASE]: 'sourceAmount',
+  [BASE_IN_FIAT]: 'sourceFiat',
+  [COUNTER]: 'targetAmount',
+  [COUNTER_IN_FIAT]: 'targetFiat'
+})
+
+export const swapCoinAndFiat = flip(prop)({
+  [BASE]: BASE_IN_FIAT,
+  [COUNTER]: COUNTER_IN_FIAT,
+  [BASE_IN_FIAT]: BASE,
+  [COUNTER_IN_FIAT]: COUNTER
+})
+
+export const swapBaseAndCounter = flip(prop)({
+  [BASE]: COUNTER,
+  [COUNTER]: BASE,
+  [BASE_IN_FIAT]: COUNTER_IN_FIAT,
+  [COUNTER_IN_FIAT]: BASE_IN_FIAT
 })

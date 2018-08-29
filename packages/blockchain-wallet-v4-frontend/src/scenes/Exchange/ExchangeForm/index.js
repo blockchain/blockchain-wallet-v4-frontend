@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { compose, tap, is, cond, always } from 'ramda'
+import { compose, flip, prop } from 'ramda'
 
 import { getRemotePropType, getElementsPropType } from 'utils/proptypes'
 import { actions, model } from 'data'
@@ -13,10 +13,10 @@ import Success from './template.success'
 import DataError from 'components/DataError'
 
 const extractFieldValue = (_, value) => value
-const preventFormChanges = e => e.preventDefault()
 
 const { EXCHANGE_FORM } = model.components.exchange
-const { BASE, COUNTER, BASE_IN_FIAT, COUNTER_IN_FIAT } = model.rates.FIX_TYPES
+const { swapCoinAndFiat, swapBaseAndCounter, FIX_TYPES } = model.rates
+const { BASE, COUNTER, BASE_IN_FIAT, COUNTER_IN_FIAT } = FIX_TYPES
 
 class FirstStepContainer extends React.Component {
   componentDidMount () {
@@ -27,29 +27,15 @@ class FirstStepContainer extends React.Component {
     this.props.actions.initialize()
   }
 
-  handleChangeFix = fix => {}
+  updateFix = newFix =>
+    this.props.formActions.change(EXCHANGE_FORM, 'fix', newFix)
 
-  swapCoinAndFiat = () => {
-    const fix = cond([
-      [is(BASE), always(BASE_IN_FIAT)],
-      [is(BASE_IN_FIAT), always(BASE)],
-      [is(COUNTER), always(COUNTER_IN_FIAT)],
-      [is(COUNTER_IN_FIAT), always(COUNTER)]
-    ])(this.props.fix)
-
-    this.props.formActions.change(EXCHANGE_FORM, 'fix', fix)
-  }
-
-  swapBaseAndCounter = () => {
-    const fix = cond([
-      [is(BASE), always(COUNTER)],
-      [is(COUNTER), always(BASE)],
-      [is(BASE_IN_FIAT), always(COUNTER_IN_FIAT)],
-      [is(COUNTER_IN_FIAT), always(BASE_IN_FIAT)]
-    ])(this.props.fix)
-
-    this.props.formActions.change(EXCHANGE_FORM, 'fix', fix)
-  }
+  getChangeAmountAction = flip(prop)({
+    [BASE]: this.props.actions.changeSourceAmount,
+    [COUNTER]: this.props.actions.changeTargetAmount,
+    [BASE_IN_FIAT]: this.props.actions.changeSourceFiatAmount,
+    [COUNTER_IN_FIAT]: this.props.actions.changeTargetFiatAmount
+  })
 
   render () {
     const { actions, data } = this.props
@@ -68,28 +54,21 @@ class FirstStepContainer extends React.Component {
             actions.changeTarget,
             extractFieldValue
           )}
-          handleSourceAmountChange={compose(
-            actions.changeSourceAmount,
-            extractFieldValue,
-            tap(preventFormChanges)
+          handleAmountChange={compose(
+            this.getChangeAmountAction(value.fix),
+            (e, value) => {
+              e && e.preventDefault()
+              return value
+            }
           )}
-          handleTargetAmountChange={compose(
-            actions.changeTargeteAmount,
-            extractFieldValue,
-            tap(preventFormChanges)
+          swapBaseAndCounter={compose(
+            this.updateFix,
+            swapBaseAndCounter.bind(null, value.fix)
           )}
-          handleSourceFiatAmountChange={compose(
-            actions.changeSourceFiatAmount,
-            extractFieldValue,
-            tap(preventFormChanges)
+          swapCoinAndFiat={compose(
+            this.updateFix,
+            swapCoinAndFiat.bind(null, value.fix)
           )}
-          handleTargetFiatAmountChange={compose(
-            actions.changeTargetFiatAmount,
-            extractFieldValue,
-            tap(preventFormChanges)
-          )}
-          swapBaseAndCounter={this.swapBaseAndCounter}
-          swapCoinAndFiat={this.swapCoinAndFiat}
         />
       ),
       Failure: message => (
