@@ -4,11 +4,12 @@ import { equals, path, prop } from 'ramda'
 import { actions, selectors, model } from 'data'
 import { EXCHANGE_FORM, formatPair } from './model'
 import utils from './sagas.utils'
+import * as S from './selectors'
 
 export default ({ api, coreSagas, options, networks }) => {
   const { mapFixToFieldName, swapBaseAndCounter } = model.rates
   const formValueSelector = selectors.form.getFormValues(EXCHANGE_FORM)
-  const { selectOtherAccount, resetForm } = utils({
+  const { selectOtherAccount } = utils({
     api,
     coreSagas,
     options,
@@ -37,35 +38,45 @@ export default ({ api, coreSagas, options, networks }) => {
     )
   }
 
+  const swapFieldValue = function*(form) {
+    const { fix, source, target } = form
+    const pair = formatPair(source.coin, target.coin)
+    const oppositeFix = swapBaseAndCounter(fix)
+    const oppositeField = mapFixToFieldName(oppositeFix)
+    const oppositeFieldAmount = (yield select(S.getAmounts(pair)))
+      .map(prop(oppositeField))
+      .getOrElse(0)
+    yield put(actions.form.change(EXCHANGE_FORM, 'fix', oppositeFix))
+    yield put(
+      actions.form.change(EXCHANGE_FORM, oppositeField, oppositeFieldAmount)
+    )
+  }
+
   const changeSource = function*({ payload }) {
     const form = yield select(formValueSelector)
-    const sourceCoin = path(['source', 'coin'], payload)
+    const source = prop('source', payload)
+    const sourceCoin = prop('coin', source)
     const targetCoin = path(['target', 'coin'], form)
+    yield put(actions.form.change(EXCHANGE_FORM, 'source', source))
     if (equals(sourceCoin, targetCoin)) {
       const newTarget = yield call(selectOtherAccount, targetCoin)
-      const fix = prop('fix', form)
       yield put(actions.form.change(EXCHANGE_FORM, 'target', newTarget))
-      yield put(
-        actions.form.change(EXCHANGE_FORM, 'fix', swapBaseAndCounter(fix))
-      )
+      yield call(swapFieldValue, form)
     }
-    yield call(resetForm)
     yield call(changeSubscription)
   }
 
   const changeTarget = function*({ payload }) {
     const form = yield select(formValueSelector)
     const sourceCoin = path(['source', 'coin'], form)
-    const targetCoin = path(['target', 'coin'], payload)
+    const target = prop('target', payload)
+    const targetCoin = prop('coin', target)
+    yield put(actions.form.change(EXCHANGE_FORM, 'target', target))
     if (equals(sourceCoin, targetCoin)) {
       const newSource = yield call(selectOtherAccount, sourceCoin)
-      const fix = prop('fix', form)
       yield put(actions.form.change(EXCHANGE_FORM, 'source', newSource))
-      yield put(
-        actions.form.change(EXCHANGE_FORM, 'fix', swapBaseAndCounter(fix))
-      )
+      yield call(swapFieldValue, form)
     }
-    yield call(resetForm)
     yield call(changeSubscription)
   }
 

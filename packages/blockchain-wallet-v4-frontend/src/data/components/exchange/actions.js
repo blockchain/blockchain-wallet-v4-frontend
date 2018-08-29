@@ -86,11 +86,11 @@ export const initialize = () => ({
 })
 export const changeSource = source => ({
   type: AT.CHANGE_SOURCE,
-  pyaload: { source }
+  payload: { source }
 })
 export const changeTarget = target => ({
   type: AT.CHANGE_TARGET,
-  pyaload: { target }
+  payload: { target }
 })
 export const changeSourceAmount = sourceAmount => ({
   type: AT.CHANGE_SOURCE_AMOUNT,

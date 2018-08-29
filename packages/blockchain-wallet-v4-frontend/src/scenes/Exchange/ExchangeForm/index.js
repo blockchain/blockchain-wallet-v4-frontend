@@ -12,7 +12,10 @@ import Loading from './template.loading'
 import Success from './template.success'
 import DataError from 'components/DataError'
 
-const extractFieldValue = (_, value) => value
+const extractFieldValue = (e, value) => {
+  e && e.preventDefault()
+  return value
+}
 
 const { EXCHANGE_FORM } = model.components.exchange
 const { swapCoinAndFiat, swapBaseAndCounter, FIX_TYPES } = model.rates
@@ -56,10 +59,7 @@ class FirstStepContainer extends React.Component {
           )}
           handleAmountChange={compose(
             this.getChangeAmountAction(value.fix),
-            (e, value) => {
-              e && e.preventDefault()
-              return value
-            }
+            extractFieldValue
           )}
           swapBaseAndCounter={compose(
             this.updateFix,

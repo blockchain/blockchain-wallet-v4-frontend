@@ -1,4 +1,4 @@
-import { whereEq, map, isEmpty, values } from 'ramda'
+import { whereEq, map, isEmpty, isNil, values } from 'ramda'
 import { put, all, call, select } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 
@@ -75,7 +75,7 @@ export default ({ api, ratesSocket }) => {
 
   const openChannelForPair = function*({ payload }) {
     const { pair, volume, fix, fiatCurrency } = payload
-    if (!volume || !fix || !fiatCurrency) return
+    if (isNil(volume) || !fix || !fiatCurrency) return
     if (ratesSocket.isReady()) {
       const message = model.rates.getPairSubscribeMessage(
         pair,

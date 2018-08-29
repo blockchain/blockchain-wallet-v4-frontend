@@ -22,7 +22,7 @@ const adviceToAmount = ({ base, counter }) => ({
   sourceFiat: base.fiat.value,
   targetFiat: counter.fiat.value
 })
-export const getAmounts = curry((state, pair) =>
+export const getAmounts = curry((pair, state) =>
   selectors.modules.rates.getPairAdvice(pair, state).map(adviceToAmount)
 )
 
@@ -32,6 +32,6 @@ const adviceToRate = advice => ({
   sourceToFiatRate: advice.baseToFiatRate,
   targetToFiateRate: advice.counterToFiatRate
 })
-export const getRates = curry((state, pair) =>
+export const getRates = curry((pair, state) =>
   selectors.modules.rates.getPairAdvice(pair, state).map(adviceToRate)
 )

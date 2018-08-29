@@ -163,7 +163,7 @@ const getEthAccounts = createDeepEqualSelector(
 )
 
 const getFormValues = state => {
-  const formValues = selectors.form.getFormValues(EXCHANGE_FORM, state)
+  const formValues = selectors.form.getFormValues(EXCHANGE_FORM)(state)
   return {
     sourceCoin: path(['source', 'coin'], formValues) || 'BTC',
     targetCoin: path(['target', 'coin'], formValues) || 'ETH',
@@ -176,9 +176,9 @@ const getCurrentPair = state => {
   return formatPair(sourceCoin, targetCoin)
 }
 const getCurrentPairAmounts = state =>
-  selectors.components.exchange.getAmounts(state, getCurrentPair(state))
+  selectors.components.exchange.getAmounts(getCurrentPair(state), state)
 const getCurrentPairRates = state =>
-  selectors.components.exchange.getRates(state, getCurrentPair(state))
+  selectors.components.exchange.getRates(getCurrentPair(state), state)
 
 export const getData = createDeepEqualSelector(
   [
