@@ -6,7 +6,10 @@ import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import { initialize, change } from 'redux-form'
 import * as C from 'services/AlertService'
-import { promptForSecondPassword } from 'services/SagaService'
+import {
+  promptForSecondPassword,
+  connectLockboxDevice
+} from 'services/SagaService'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
@@ -291,6 +294,10 @@ export default ({ coreSagas, networks }) => {
       let password = null
       if (p.getOrElse({}).fromType !== ADDRESS_TYPES.LOCKBOX) {
         password = yield call(promptForSecondPassword)
+      } else {
+        // TODO: must pass in deviceID
+        // yield call(connectLockboxDevice,'BTC', deviceId, ?optionalTimeout)
+        yield call(connectLockboxDevice, 'BTC')
       }
       yield put(actions.modals.closeAllModals())
       payment = yield payment.sign(password)

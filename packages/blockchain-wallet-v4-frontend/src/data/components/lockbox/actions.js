@@ -63,3 +63,9 @@ export const deleteDeviceFailure = payload => ({
   type: AT.DELETE_DEVICE_FAILURE,
   payload
 })
+
+export const connectDevice = (app, deviceId, timeout) => ({
+  type: AT.CONNECT_DEVICE,
+  payload: { app, deviceId, timeout }
+})
+export const deviceConnected = () => ({ type: AT.DEVICE_CONNECTED })
