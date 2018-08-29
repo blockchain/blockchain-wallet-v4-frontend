@@ -50,19 +50,18 @@ const receiveIndex = coin => {
   return parseInt(coin.xpub.path.substr(1).split('/')[2])
 }
 const isCoinBase = inputs => inputs.length === 1 && inputs[0].prev_out == null
-const isAccountList = wallet => HDAccountList.isHDAccountList(wallet)
 
-const tagCoin = curry((wallet, coin) => {
+const tagCoin = curry((wallet, accountList, coin) => {
   switch (true) {
     case isAccount(coin):
-      const account = isAccountList(wallet)
-        ? compose(HDAccountList.selectByXpub(coin.xpub.m))(wallet)
-        : compose(
-            HDAccountList.selectByXpub(coin.xpub.m),
-            HDWallet.selectAccounts,
-            HDWalletList.selectHDWallet,
-            Wallet.selectHdWallets
-          )(wallet)
+      const account =
+        compose(
+          HDAccountList.selectByXpub(coin.xpub.m),
+          HDWallet.selectAccounts,
+          HDWalletList.selectHDWallet,
+          Wallet.selectHdWallets
+        )(wallet) ||
+        compose(HDAccountList.selectByXpub(coin.xpub.m))(accountList)
       const index = HDAccount.selectIndex(account)
       return {
         accountIndex: index,
@@ -73,15 +72,6 @@ const tagCoin = curry((wallet, coin) => {
         label: HDAccount.selectLabel(account),
         isWatchOnly: HDAccount.isWatchOnly(account),
         receiveIndex: receiveIndex(coin) // only if change?
-      }
-    case isAccountList(wallet):
-      return {
-        address: coin.addr,
-        amount: coin.value,
-        change: false,
-        coinType: 'external',
-        label: null,
-        isWatchOnly: false
       }
     case isLegacy(wallet, coin):
       const address = compose(
@@ -253,6 +243,7 @@ export const getTime = tx => {
 export const _transformTx = (
   wallet,
   currentBlockHeight,
+  accountList,
   getDescription,
   getPartnerLabel,
   tx
@@ -261,10 +252,10 @@ export const _transformTx = (
   const confirmations = conf > 0 ? conf : 0
   const type = txtype(tx.result, tx.fee)
   const inputTagger = compose(
-    tagCoin(wallet),
+    tagCoin(wallet, HDAccountList.fromJS(accountList)),
     unpackInput
   )
-  const outputTagger = tagCoin(wallet)
+  const outputTagger = tagCoin(wallet, HDAccountList.fromJS(accountList))
   const [oData, outs] = mapAccum(appender(outputTagger), init, prop('out', tx))
   const [inputData, inputs] = ifElse(
     compose(

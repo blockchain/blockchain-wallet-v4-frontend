@@ -1,8 +1,12 @@
-import { createSelector } from 'reselect'
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { selectors } from 'data'
 
-export const getData = createSelector(
-  [selectors.core.data.lockbox.getBtcTransactions],
+export const getData = createDeepEqualSelector(
+  [
+    selectors.core.common.btc.getWalletTransactions,
+    selectors.core.common.bch.getWalletTransactions,
+    selectors.core.common.eth.getWalletTransactions
+  ],
   btcTransactions => {
     // const empty = page => isEmpty(page.data)
     // const search = propOr('', 'search', formValues)

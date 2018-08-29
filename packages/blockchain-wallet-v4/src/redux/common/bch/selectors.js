@@ -192,6 +192,8 @@ export const getWalletTransactions = state => {
   const walletR = Remote.of(walletSelectors.getWallet(state))
   // Remote(blockHeight)
   const blockHeightR = getHeight(state)
+  // Remote(lockboxXpubs)
+  const accountListR = getLockboxBchAccounts(state)
   // [Remote([tx])] == [Page] == Pages
   const getDescription = hash => getBchTxNote(state, hash).getOrElse('')
   const pages = getTransactions(state)
@@ -199,19 +201,20 @@ export const getWalletTransactions = state => {
   // transformTx :: wallet -> blockHeight -> Tx
   // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
 
-  const ProcessTxs = (wallet, block, txList) =>
+  const ProcessTxs = (wallet, block, accountList, txList) =>
     map(
       transformTx.bind(
         undefined,
         wallet,
         block,
+        accountList,
         getDescription,
         getPartnerLabel
       ),
       txList
     )
   // ProcessRemotePage :: Page -> Page
-  const ProcessPage = lift(ProcessTxs)(walletR, blockHeightR)
+  const ProcessPage = lift(ProcessTxs)(walletR, blockHeightR, accountListR)
   const txs = map(ProcessPage, pages)
   return map(
     txListR => lift(addFromToBch)(walletR, getAccountsList(state), txListR),

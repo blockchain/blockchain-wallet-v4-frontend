@@ -188,7 +188,30 @@ export default ({ api, coreSagas }) => {
   }
 
   const initializeDashboard = function*() {
-    yield put(actions.core.data.lockbox.fetchBtcTransactions())
+    const btcContextR = yield select(
+      selectors.core.kvStore.lockbox.getLockboxBtcContext
+    )
+    const bchContextR = yield select(
+      selectors.core.kvStore.lockbox.getLockboxBchContext
+    )
+    const ethContextR = yield select(
+      selectors.core.kvStore.lockbox.getLockboxEthContext
+    )
+    yield put(
+      actions.core.data.bitcoin.fetchTransactions(
+        btcContextR.getOrElse(null),
+        true
+      )
+    )
+    yield put(
+      actions.core.data.ethereum.fetchTransactions(
+        ethContextR.getOrElse(null),
+        true
+      )
+    )
+    yield put(
+      actions.core.data.bch.fetchTransactions(bchContextR.getOrElse(null), true)
+    )
   }
 
   return {

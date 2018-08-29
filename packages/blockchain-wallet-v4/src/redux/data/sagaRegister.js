@@ -5,7 +5,6 @@ import ethereum from './eth/sagaRegister'
 import bch from './bch/sagaRegister'
 import misc from './misc/sagaRegister'
 import sfox from './sfox/sagaRegister'
-import lockbox from './lockbox/sagaRegister'
 import shapeShift from './shapeShift/sagaRegister'
 
 export default ({ api }) =>
@@ -16,6 +15,5 @@ export default ({ api }) =>
     yield fork(bch({ api }))
     yield fork(misc({ api }))
     yield fork(shapeShift({ api }))
-    yield fork(lockbox({ api }))
     yield fork(sfox({ api }))
   }
