@@ -16,6 +16,7 @@ import {
 } from 'blockchain-info-components'
 import { SubmitButton } from 'components/Exchange'
 import { Form, NumberBoxDebounced } from 'components/Form'
+import StringDisplay from 'components/Display/StringDisplay'
 import SelectBox from './SelectBox'
 import {
   AboveRegulationLimitMessage,
@@ -28,7 +29,6 @@ import Summary from './Summary'
 import media from 'services/ResponsiveService'
 
 const { EXCHANGE_FORM, formatPair } = model.components.exchange
-const { mapFixToFieldName } = model.rates
 
 const Wrapper = styled.div`
   display: flex;
@@ -62,7 +62,7 @@ const ColumnRight = styled.div`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: ${props => props.justify || 'flex-start'};
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   margin-bottom: ${props => (props.spaced ? '70px' : '8px')};
@@ -158,18 +158,18 @@ const Success = props => {
     availablePairs,
     fromElements,
     toElements,
+    hasOneAccount,
     disabled,
     dirty,
-    hasOneAccount,
     sourceCoin,
     targetCoin,
     sourceActive,
     targetActive,
     coinActive,
-    complementaryAmount,
+    inputField,
     inputSymbol,
+    complementaryAmount,
     complementarySymbol,
-    fix,
     formError,
     handleSubmit,
     handleSourceChange,
@@ -253,7 +253,7 @@ const Success = props => {
             <AmountRow>
               <CurrencyBox>{inputSymbol}</CurrencyBox>
               <Field
-                name={mapFixToFieldName(fix)}
+                name={inputField}
                 onChange={handleAmountChange}
                 component={AmountNumberBox}
                 disabled={disabled}
@@ -265,9 +265,11 @@ const Success = props => {
             </AmountRow>
             <AmountRow>
               <ComplementaryAmountContaier>
-                {complementaryAmount}
-                &nbsp;
-                {complementarySymbol}
+                <StringDisplay>
+                  {complementaryAmount.map(
+                    amount => `${amount} ${complementarySymbol}`
+                  )}
+                </StringDisplay>
               </ComplementaryAmountContaier>
             </AmountRow>
             {formError && (

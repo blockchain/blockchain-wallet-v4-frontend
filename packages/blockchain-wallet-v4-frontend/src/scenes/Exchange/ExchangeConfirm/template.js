@@ -48,15 +48,12 @@ const FromToIcon = styled(Icon)`
 const Summary = ({
   sourceAmount,
   targetAmount,
-  value,
+  targetFiat,
+  sourceToTargetRate,
   sourceCoin,
   targetCoin,
   currency,
   fee,
-  targetFiat,
-  sourceToTargetRate,
-  sourceToFiatRate,
-  targetToFiateRate,
   submitting,
   handleSubmit
 }) => (
@@ -119,7 +116,7 @@ const Summary = ({
         </ExchangeText>
         <ExchangeText weight={300}>
           ~&nbsp;
-          {value}
+          {targetFiat}
           &nbsp;
           {currency}
         </ExchangeText>

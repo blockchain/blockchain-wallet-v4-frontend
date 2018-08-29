@@ -124,7 +124,7 @@ describe('rates service', () => {
 
     it('should set initial advice for pair upon new subscription', () => {
       expect(
-        selectors.modules.rates.getPairRate(pair, store.getState())
+        selectors.modules.rates.getPairAdvice(pair, store.getState())
       ).toEqual(Remote.NotAsked)
     })
 
@@ -176,7 +176,7 @@ describe('rates service', () => {
         pair
       })
       expect(
-        selectors.modules.rates.getPairRate(pair, store.getState())
+        selectors.modules.rates.getPairAdvice(pair, store.getState())
       ).toEqual(Remote.Loading)
     })
 
@@ -186,7 +186,7 @@ describe('rates service', () => {
         ...stubAdvice
       })
       expect(
-        selectors.modules.rates.getPairRate(pair, store.getState())
+        selectors.modules.rates.getPairAdvice(pair, store.getState())
       ).toEqual(Remote.of(stubAdvice.currencyRatio))
     })
 
@@ -197,7 +197,7 @@ describe('rates service', () => {
         fix: 'base'
       })
       expect(
-        selectors.modules.rates.getPairRate(pair, store.getState())
+        selectors.modules.rates.getPairAdvice(pair, store.getState())
       ).toEqual(Remote.NotAsked)
     })
 
@@ -208,7 +208,7 @@ describe('rates service', () => {
         volume: volume + 1
       })
       expect(
-        selectors.modules.rates.getPairRate(pair, store.getState())
+        selectors.modules.rates.getPairAdvice(pair, store.getState())
       ).toEqual(Remote.NotAsked)
     })
 
@@ -237,7 +237,7 @@ describe('rates service', () => {
     it('should set rates when received response', () => {
       jest.advanceTimersByTime(fallbackInterval)
       expect(
-        selectors.modules.rates.getPairRate(pair, store.getState())
+        selectors.modules.rates.getPairAdvice(pair, store.getState())
       ).toEqual(Remote.of(stubAdvice.currencyRatio))
     })
 
@@ -248,7 +248,7 @@ describe('rates service', () => {
       })
       jest.advanceTimersByTime(fallbackInterval)
       expect(
-        selectors.modules.rates.getPairRate(pair, store.getState())
+        selectors.modules.rates.getPairAdvice(pair, store.getState())
       ).toEqual(Remote.Failure(stubError))
       api.fetchRates.mockReturnValue(stubAdvice.currencyRatio)
     })

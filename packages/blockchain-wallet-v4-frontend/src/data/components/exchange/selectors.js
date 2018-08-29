@@ -1,4 +1,4 @@
-import { path } from 'ramda'
+import { curry, path } from 'ramda'
 import { selectors } from 'data'
 
 export const useShapeShift = state =>
@@ -15,3 +15,23 @@ export const getFirstStepEnabled = path([
 ])
 export const getSecondStep = path(['components', 'exchange', 'secondStep'])
 export const getThirdStep = path(['components', 'exchange', 'thirdStep'])
+
+const adviceToAmount = ({ base, counter }) => ({
+  sourceAmount: base.crypto.value,
+  targetAmount: counter.crypto.value,
+  sourceFiat: base.fiat.value,
+  targetFiat: counter.fiat.value
+})
+export const getAmounts = curry((state, pair) =>
+  selectors.modules.rates.getPairAdvice(pair, state).map(adviceToAmount)
+)
+
+const adviceToRate = advice => ({
+  sourceToTargetRate: advice.baseToCounterRate,
+  targetToSourceRate: advice.counterToBaseRate,
+  sourceToFiatRate: advice.baseToFiatRate,
+  targetToFiateRate: advice.counterToFiatRate
+})
+export const getRates = curry((state, pair) =>
+  selectors.modules.rates.getPairAdvice(pair, state).map(adviceToRate)
+)

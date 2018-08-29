@@ -1,6 +1,5 @@
 import { selectors, model } from 'data'
 import {
-  always,
   compose,
   contains,
   cond,
@@ -19,15 +18,15 @@ import {
   propEq,
   split,
   sortBy,
-  T,
   uniq,
   unnest
 } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { currencySymbolMap } from 'services/CoinifyService'
 
-const { EXCHANGE_FORM } = model.components.exchange
-const { BASE, BASE_IN_FIAT, COUNTER, COUNTER_IN_FIAT } = model.rates.FIX_TYPES
+const { EXCHANGE_FORM, formatPair } = model.components.exchange
+const { getComplementaryField, mapFixToFieldName, FIX_TYPES } = model.rates
+const { BASE, BASE_IN_FIAT, COUNTER, COUNTER_IN_FIAT } = FIX_TYPES
 
 const currenciesOrder = ['BTC', 'BCH', 'ETH']
 
@@ -172,7 +171,9 @@ export const getData = createDeepEqualSelector(
     selectors.components.exchange.getFirstStepEnabled,
     selectors.components.exchange.getError,
     selectors.form.getFormValues(EXCHANGE_FORM),
-    selectors.modules.rates.getAvailablePairs
+    selectors.modules.rates.getAvailablePairs,
+    selectors.components.exchange.getAmounts,
+    selectors.components.exchange.getRates
   ],
   (
     btcAccountsR,
@@ -182,10 +183,16 @@ export const getData = createDeepEqualSelector(
     enabled,
     formError,
     formValues,
-    availablePairsR
+    availablePairsR,
+    getAmounts,
+    getRates
   ) => {
     const sourceCoin = path(['source', 'coin'], formValues) || 'BTC'
     const targetCoin = path(['target', 'coin'], formValues) || 'ETH'
+    const pair = formatPair(sourceCoin, targetCoin)
+    const amountsR = getAmounts(pair)
+    const ratesR = getRates(pair)
+
     const fix = prop('fix', formValues) || BASE_IN_FIAT
     const sourceActive = contains(fix, [BASE, BASE_IN_FIAT])
     const targetActive = contains(fix, [COUNTER, COUNTER_IN_FIAT])
@@ -221,16 +228,16 @@ export const getData = createDeepEqualSelector(
         target: defaultEthAccount,
         fix: BASE_IN_FIAT
       }
-      const inputCurrency = cond([
-        [always(fiatActive), always(currency)],
-        [always(sourceActive), always(sourceCoin)],
-        [T, always(targetCoin)]
-      ])()
-      const complementaryCurrency = cond([
-        [always(coinActive), always(currency)],
-        [always(sourceActive), always(sourceCoin)],
-        [T, always(targetCoin)]
-      ])()
+      const inputField = mapFixToFieldName(fix)
+      const complementaryField = getComplementaryField(inputField)
+      const fieldCoins = {
+        sourceAmount: sourceCoin,
+        sourceFiat: currency,
+        targetAmount: targetCoin,
+        targetFiat: currency
+      }
+      const inputCurrency = prop(inputField, fieldCoins)
+      const complementaryCurrency = prop(complementaryField, fieldCoins)
 
       return {
         availablePairs,
@@ -241,17 +248,22 @@ export const getData = createDeepEqualSelector(
         disabled: !enabled,
         formError,
         currency,
+        inputField,
         inputSymbol: currencySymbolMap[inputCurrency],
-        // TODO: add a selector
-        complementaryAmount: 100,
+        complementaryAmount: amountsR.map(prop(complementaryCurrency)),
         complementarySymbol: currencySymbolMap[complementaryCurrency],
+        sourceAmount: amountsR.map(prop('sourceAmount')),
+        targetAmount: amountsR.map(prop('targetAmount')),
+        targetFiat: amountsR.map(prop('targetFiat')),
+        sourceToTargetRate: ratesR.map(prop('sourceToTargetRate')),
+        sourceToFiatRate: ratesR.map(prop('sourceToFiatRate')),
+        targetToFiateRate: ratesR.map(prop('targetToFiateRate')),
         sourceCoin,
         targetCoin,
         sourceActive,
         targetActive,
         coinActive,
-        fiatActive,
-        fix
+        fiatActive
       }
     }
     return lift(transform)(

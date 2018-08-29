@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
+import StringDisplay from 'components/Display/StringDisplay'
 import { Text } from 'blockchain-info-components'
 import {
   Wrapper,
@@ -40,13 +41,12 @@ const RatesTitle = styled(RatesRow)`
 `
 
 const Summary = ({
-  sourceAmount,
-  targetAmount,
-  value,
   sourceCoin,
   targetCoin,
   currency,
   fee,
+  sourceAmount,
+  targetAmount,
   targetFiat,
   sourceToTargetRate,
   sourceToFiatRate,
@@ -62,28 +62,30 @@ const Summary = ({
     <AmountHeader>
       <FormattedMessage
         id='scenes.exchange.exchangeform.summary.deposit'
-        defaultMessage='Deposit'
+        defaultMessage='Deposit {coin}'
+        values={{
+          coin: sourceCoin
+        }}
       />
-      &nbsp;
-      {sourceCoin}
     </AmountHeader>
     <ExchangeAmount>
-      {sourceAmount}
-      &nbsp;
-      {sourceCoin}
+      <StringDisplay>
+        {sourceAmount.map(amount => `${amount} ${sourceCoin}`)}
+      </StringDisplay>
     </ExchangeAmount>
     <AmountHeader>
       <FormattedMessage
         id='scenes.exchange.exchangeform.summary.receive'
-        defaultMessage='Receive'
+        defaultMessage='Receive {coin}'
+        values={{
+          coin: sourceCoin
+        }}
       />
-      &nbsp;
-      {targetCoin}
     </AmountHeader>
     <ExchangeAmount>
-      {targetAmount}
-      &nbsp;
-      {targetCoin}
+      <StringDisplay>
+        {targetAmount.map(amount => `${amount} ${targetCoin}`)}
+      </StringDisplay>
     </ExchangeAmount>
     <Delimiter />
     <TableRow>
@@ -93,11 +95,7 @@ const Summary = ({
           defaultMessage='Network Fee'
         />
       </ExchangeText>
-      <ExchangeText weight={300}>
-        {fee}
-        &nbsp;
-        {targetCoin}
-      </ExchangeText>
+      <ExchangeText weight={300}>{`${fee} ${targetCoin}`}</ExchangeText>
     </TableRow>
     <TableRow>
       <ExchangeText>
@@ -107,9 +105,9 @@ const Summary = ({
         />
       </ExchangeText>
       <ExchangeText weight={300}>
-        {value}
-        &nbsp;
-        {currency}
+        <StringDisplay>
+          {targetFiat.map(amount => `${amount} ${currency}`)}
+        </StringDisplay>
       </ExchangeText>
     </TableRow>
     <Note>
@@ -126,28 +124,25 @@ const Summary = ({
         />
       </RatesTitle>
       <RatesRow>
-        1&nbsp;
-        {sourceCoin}
-        &nbsp;=&nbsp;
-        {sourceToTargetRate}
-        &nbsp;
-        {targetCoin}
+        <StringDisplay>
+          {sourceToTargetRate.map(
+            rate => `1 ${sourceCoin} = ${rate} ${targetCoin}`
+          )}
+        </StringDisplay>
       </RatesRow>
       <RatesRow>
-        1&nbsp;
-        {sourceCoin}
-        &nbsp;=&nbsp;
-        {sourceToFiatRate}
-        &nbsp;
-        {currency}
+        <StringDisplay>
+          {sourceToFiatRate.map(
+            rate => `1 ${sourceCoin} = ${rate} ${currency}`
+          )}
+        </StringDisplay>
       </RatesRow>
       <RatesRow>
-        1&nbsp;
-        {targetCoin}
-        &nbsp;=&nbsp;
-        {targetToFiateRate}
-        &nbsp;
-        {currency}
+        <StringDisplay>
+          {targetToFiateRate.map(
+            rate => `1 ${targetCoin} = ${rate} ${currency}`
+          )}
+        </StringDisplay>
       </RatesRow>
     </RatesWrapper>
   </Wrapper>
