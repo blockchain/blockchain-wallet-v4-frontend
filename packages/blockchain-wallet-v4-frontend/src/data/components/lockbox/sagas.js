@@ -184,7 +184,34 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const connectDevice = function*(actions) {
+    try {
+      const { app } = actions.payload
+      // TODO check the device id
+      const setupTimeout = 120000
+      // poll for both Ledger and Blockchain type devices
+      const dashboardTransport = yield race({
+        LEDGER: yield call(
+          LockboxService.pollForAppConnection,
+          'LEDGER',
+          'DASHBOARD',
+          setupTimeout
+        ),
+        BLOCKCHAIN: call(
+          LockboxService.pollForAppConnection,
+          'BLOCKCHAIN',
+          'DASHBOARD',
+          setupTimeout
+        )
+      })
+      const deviceType = keysIn(dashboardTransport)[0]
+      yield call(LockboxService.pollForAppConnection, deviceType, app)
+      yield put(A.deviceConnected())
+    } catch (e) {}
+  }
+
   return {
+    connectDevice,
     deleteDevice,
     determineLockboxRoute,
     initializeNewDeviceSetup,

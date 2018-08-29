@@ -23,5 +23,6 @@ export default ({ api, coreSagas }) => {
       lockboxSagas.saveNewDeviceKvStore
     )
     yield takeLatest(AT.DELETE_DEVICE, lockboxSagas.deleteDevice)
+    yield takeLatest(AT.CONNECT_DEVICE, lockboxSagas.connectDevice)
   }
 }
