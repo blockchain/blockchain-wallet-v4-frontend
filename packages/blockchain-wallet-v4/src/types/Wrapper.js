@@ -206,7 +206,8 @@ export const createNew = (
   mnemonic,
   language,
   firstAccountName = 'My Bitcoin Wallet',
-  nAccounts = 1
+  nAccounts = 1,
+  network
 ) =>
   fromJS(
     js(
@@ -217,7 +218,8 @@ export const createNew = (
       mnemonic,
       undefined,
       language,
-      nAccounts
+      nAccounts,
+      network
     )
   )
 

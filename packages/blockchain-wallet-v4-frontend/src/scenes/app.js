@@ -2,6 +2,7 @@ import React from 'react'
 import { Redirect, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
+import { selectors } from 'data'
 
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import ConnectedIntlProvider from 'providers/ConnectedIntlProvider'
@@ -28,6 +29,7 @@ import Addresses from './Settings/Addresses/Btc'
 import BchAddresses from './Settings/Addresses/Bch'
 import BtcManageAddresses from './Settings/Addresses/Btc/ManageAddresses'
 import Info from './Settings/Info'
+import Profile from './Settings/Profile'
 import Preferences from './Settings/Preferences'
 import BitcoinTransactions from './Transactions/Btc'
 import EtherTransactions from './Transactions/Eth'
@@ -36,7 +38,9 @@ import BchTransactions from './Transactions/Bch'
 class App extends React.PureComponent {
   render () {
     const { store, history, messages } = this.props
-
+    const userFlowSupported = selectors.modules.profile
+      .userFlowSupported(store.getState())
+      .getOrElse(false)
     return (
       <Provider store={store}>
         <ConnectedIntlProvider messages={messages}>
@@ -88,6 +92,12 @@ class App extends React.PureComponent {
                     path='/security-center'
                     component={SecurityCenter}
                   />
+                  {userFlowSupported && (
+                    <WalletLayout
+                      path='/settings/profile'
+                      component={Profile}
+                    />
+                  )}
                   <WalletLayout
                     path='/settings/preferences'
                     component={Preferences}

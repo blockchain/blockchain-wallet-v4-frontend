@@ -1,6 +1,6 @@
 import React from 'react'
-import { prop } from 'ramda'
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { path, prop } from 'ramda'
+import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import {
   AddressMatchesPriv,
   MaximumAmountMessage,
@@ -107,5 +107,9 @@ export const shouldWarn = ({
   )
 }
 
-export const isAddressDerivedFromPriv = (value, allValue, props) =>
-  props.addressMatchesPriv ? undefined : <AddressMatchesPriv />
+export const isAddressDerivedFromPriv = (value, allValues, props) => {
+  const format = utils.bitcoin.detectPrivateKeyFormat(value)
+  const address = path(['from', 'address'], allValues)
+  const key = utils.bitcoin.privateKeyStringToKey(value, format, props.network)
+  return key.getAddress() === address ? undefined : <AddressMatchesPriv />
+}

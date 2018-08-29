@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { equals, prop } from 'ramda'
 
 import { actions } from 'data'
-import { getData, getInitialValues } from './selectors'
+import { getData, getInitialValues, getImportedAddresses } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 import DataError from 'components/DataError'
@@ -79,7 +79,7 @@ class FirstStepContainer extends React.PureComponent {
   }
 
   render () {
-    const { data } = this.props
+    const { data, importedAddresses } = this.props
 
     return data.cata({
       Success: value => (
@@ -90,6 +90,7 @@ class FirstStepContainer extends React.PureComponent {
           receiveAddress={value.receiveAddress}
           handleClickQRCode={() => this.handleClickQRCode(value)}
           handleSubmit={this.handleSubmit}
+          importedAddresses={importedAddresses}
         />
       ),
       NotAsked: () => <DataError onClick={this.handleRefresh} />,
@@ -101,7 +102,8 @@ class FirstStepContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   initialValues: getInitialValues(state),
-  data: getData(state)
+  data: getData(state),
+  importedAddresses: getImportedAddresses(state)
 })
 
 const mapDispatchToProps = dispatch => ({
