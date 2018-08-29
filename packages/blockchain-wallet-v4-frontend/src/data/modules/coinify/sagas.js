@@ -1,4 +1,4 @@
-import { put, call, select } from 'redux-saga/effects'
+import { put, call, select, fork } from 'redux-saga/effects'
 import { any, merge, path, prop, equals, head } from 'ramda'
 import { delay } from 'redux-saga'
 import * as A from './actions'
@@ -59,6 +59,7 @@ export default ({ coreSagas, networks }) => {
         yield put(A.coinifyNextCheckoutStep('bankTransferDetails'))
       } else {
         yield put(A.coinifyNextCheckoutStep('isx'))
+        if (prop('tradeSubscriptionId', buyTrade)) yield fork(coreSagas.data.coinify.fetchSubscriptions)
       }
       yield put(A.coinifyNotAsked())
       yield put(A.coinifyResetRecurringBuy())

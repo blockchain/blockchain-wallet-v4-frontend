@@ -3,8 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { any, equals, prop } from 'ramda'
 import moment from 'moment'
-
-import Recurring from './Recurring'
+import RecurringSummary from 'components/BuySell/RecurringSummary'
 import {
   ModalHeader,
   ModalBody,
@@ -158,9 +157,11 @@ const Trade = ({ trade, close, status, subscriptions }) => {
             />
           </Text>
         )}
-        {trade.tradeSubscriptionId ? (
-          <Recurring trade={trade} subscription={subscription} />
-        ) : null}
+        {
+          trade.tradeSubscriptionId
+            ? <RecurringSummary trade={trade} subscription={subscription} />
+            : null
+        }
         <ButtonRow>
           <Button width='100px' onClick={close} nature='primary'>
             <FormattedMessage

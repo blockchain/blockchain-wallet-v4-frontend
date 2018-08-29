@@ -335,12 +335,7 @@ export const bodyStatusHelper = (status, isBuy) => {
         }
       case 'completed':
         return {
-          text: (
-            <FormattedMessage
-              id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.completed'
-              defaultMessage='Your buy trade is complete!'
-            />
-          )
+          text: null
         }
       case 'rejected':
         return {
