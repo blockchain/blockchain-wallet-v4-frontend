@@ -13,7 +13,6 @@ import {
 import RecurringBuyCheckout from './Recurring'
 
 const OrderCheckout = ({
-  account,
   busy,
   changeTab,
   checkoutBusy,

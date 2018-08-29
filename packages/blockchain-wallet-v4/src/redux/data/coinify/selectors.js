@@ -28,6 +28,8 @@ export const getLimits = state => getProfile(state).map(path(['_limits']))
 
 export const getLevel = state => getProfile(state).map(path(['_level']))
 
+export const getTradeSubscriptionsAllowed = state => getProfile(state).map(path(['_tradeSubscriptionsAllowed']))
+
 export const getCurrentLimits = state =>
   getProfile(state).map(path(['currentLimits']))
 

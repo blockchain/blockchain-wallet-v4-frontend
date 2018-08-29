@@ -17,7 +17,8 @@ const RecurringWrapper = styled.div`
 `
 const TermsWrapper = styled.div`
   display: flex;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  margin-top: 20px;
 `
 const TermsLabel = styled.label`
   display: flex;
@@ -40,7 +41,6 @@ const isValidStartDate = current => {
 }
 
 const RecurringCheckout = props => {
-
   const { frequency, duration, frequencyElements } = props
   return <RecurringWrapper>
     <TermsWrapper>
@@ -64,6 +64,7 @@ const RecurringCheckout = props => {
                   name='frequency'
                   component={SelectBox}
                   elements={frequencyElements}
+                  searchEnabled={false}
                 />
               </FormItem>
               <FrequencyText size='13px' weight={300}>

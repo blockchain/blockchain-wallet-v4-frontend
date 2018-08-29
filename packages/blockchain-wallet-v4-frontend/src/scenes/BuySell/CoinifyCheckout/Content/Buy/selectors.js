@@ -1,5 +1,5 @@
 import { formValueSelector } from 'redux-form'
-import { lift, path, equals } from 'ramda'
+import { lift, path, equals, prop, filter } from 'ramda'
 import { selectors } from 'data'
 
 export const getProfileData = state => {
@@ -31,9 +31,18 @@ export const showRecurringBuy = state => {
   const countryCode = selectors.core.settings.getCountryCode(state).getOrElse('GB')
   const options = selectors.core.walletOptions.getOptions(state).getOrElse({})
 
-  // TODO: need something like
-  // if needsKYC is false, needs more trades is false, but coinify profile is still false, hide it
+  const isCardTrade = t =>
+    prop('medium', t) === 'card' && prop('state', t) === 'completed'
 
+  const level = selectors.core.data.coinify.getLevel(state).getOrElse()
+  const trades = selectors.core.data.coinify.getTrades(state).getOrElse([])
+  const ccTrades = filter(isCardTrade, trades)
+
+  const needsTrades = ccTrades < 3
+  const needsKyc = parseInt(prop('name', level)) < 2
+  const tradeSubscriptionsAllowed = selectors.core.data.coinify.getTradeSubscriptionsAllowed(state).getOrElse(false)
+
+  if (!needsKyc && !needsTrades && !tradeSubscriptionsAllowed) return false
   if (countryCode === 'GB' || equals(path(['platforms', 'web', 'coinify', 'showRecurringBuy'], options), false)) return false
   return true
 }
