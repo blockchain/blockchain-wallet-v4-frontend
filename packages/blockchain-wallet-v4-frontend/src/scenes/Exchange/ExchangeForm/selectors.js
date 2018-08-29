@@ -162,6 +162,24 @@ const getEthAccounts = createDeepEqualSelector(
   }
 )
 
+const getFormValues = state => {
+  const formValues = selectors.form.getFormValues(EXCHANGE_FORM, state)
+  return {
+    sourceCoin: path(['source', 'coin'], formValues) || 'BTC',
+    targetCoin: path(['target', 'coin'], formValues) || 'ETH',
+    fix: prop('fix', formValues) || BASE_IN_FIAT
+  }
+}
+
+const getCurrentPair = state => {
+  const { sourceCoin, targetCoin } = getFormValues(state)
+  return formatPair(sourceCoin, targetCoin)
+}
+const getCurrentPairAmounts = state =>
+  selectors.components.exchange.getAmounts(state, getCurrentPair(state))
+const getCurrentPairRates = state =>
+  selectors.components.exchange.getRates(state, getCurrentPair(state))
+
 export const getData = createDeepEqualSelector(
   [
     getBtcAccounts,
@@ -170,10 +188,10 @@ export const getData = createDeepEqualSelector(
     selectors.core.settings.getCurrency,
     selectors.components.exchange.getFirstStepEnabled,
     selectors.components.exchange.getError,
-    selectors.form.getFormValues(EXCHANGE_FORM),
+    getFormValues,
     selectors.modules.rates.getAvailablePairs,
-    selectors.components.exchange.getAmounts,
-    selectors.components.exchange.getRates
+    getCurrentPairAmounts,
+    getCurrentPairRates
   ],
   (
     btcAccountsR,
@@ -184,16 +202,10 @@ export const getData = createDeepEqualSelector(
     formError,
     formValues,
     availablePairsR,
-    getAmounts,
-    getRates
+    amountsR,
+    ratesR
   ) => {
-    const sourceCoin = path(['source', 'coin'], formValues) || 'BTC'
-    const targetCoin = path(['target', 'coin'], formValues) || 'ETH'
-    const pair = formatPair(sourceCoin, targetCoin)
-    const amountsR = getAmounts(pair)
-    const ratesR = getRates(pair)
-
-    const fix = prop('fix', formValues) || BASE_IN_FIAT
+    const { sourceCoin, targetCoin, fix } = formValues
     const sourceActive = contains(fix, [BASE, BASE_IN_FIAT])
     const targetActive = contains(fix, [COUNTER, COUNTER_IN_FIAT])
     const coinActive = contains(fix, [BASE, COUNTER])
@@ -250,7 +262,7 @@ export const getData = createDeepEqualSelector(
         currency,
         inputField,
         inputSymbol: currencySymbolMap[inputCurrency],
-        complementaryAmount: amountsR.map(prop(complementaryCurrency)),
+        complementaryAmount: amountsR.map(prop(complementaryField)),
         complementarySymbol: currencySymbolMap[complementaryCurrency],
         sourceAmount: amountsR.map(prop('sourceAmount')),
         targetAmount: amountsR.map(prop('targetAmount')),

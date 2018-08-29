@@ -19,10 +19,10 @@ const Wrapper = styled.div`
 
 class StringDisplayContainer extends React.PureComponent {
   render () {
-    const { data, ...rest } = this.props
+    const { children, ...rest } = this.props
     return (
       <Wrapper {...rest}>
-        {data.cata({
+        {children.cata({
           Success: value => <Text className='text'>{value}</Text>,
           Failure: message => (
             <Text size='12px' weight={300} color='red' className='error'>
@@ -38,11 +38,11 @@ class StringDisplayContainer extends React.PureComponent {
 }
 
 StringDisplayContainer.propTypes = {
-  data: getRemotePropType(PropTypes.string).isRequired
+  children: getRemotePropType(PropTypes.string).isRequired
 }
 
 StringDisplayContainer.defaultProps = {
-  data: Remote.NotAsked
+  children: Remote.NotAsked
 }
 
 export default StringDisplayContainer

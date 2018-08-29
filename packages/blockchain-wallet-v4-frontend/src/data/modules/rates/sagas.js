@@ -38,7 +38,7 @@ export default ({ api }) => {
     const { fix: currentFix, volume: currentVolume } = yield select(
       S.getPairConfig(pair)
     )
-    if (currentFix === fix && volume === currentVolume)
+    if (currentFix === fix && String(volume) === currentVolume)
       yield put(A.setPairAdvice(pair, advice))
   }
 
