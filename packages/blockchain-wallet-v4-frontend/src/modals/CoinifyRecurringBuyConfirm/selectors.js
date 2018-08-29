@@ -18,7 +18,7 @@ export const getCanMakeRecurringTrade = state => {
   const ccTrades = filter(isCardTrade, trades)
   const needsTrades = length(ccTrades) < 3
 
-  const needsKyc = level.name < 2
+  const needsKyc = prop('name', level) < 2
   if (needsTrades && needsKyc) return 'needs_kyc_trades'
   if (needsKyc) return 'needs_kyc'
   if (needsTrades) return 'needs_trades'

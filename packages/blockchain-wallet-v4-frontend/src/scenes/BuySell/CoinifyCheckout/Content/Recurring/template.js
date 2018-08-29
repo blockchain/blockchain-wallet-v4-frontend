@@ -41,7 +41,7 @@ const isValidStartDate = current => {
 }
 
 const RecurringCheckout = props => {
-  const { frequency, duration, frequencyElements } = props
+  const { frequency, duration, frequencyElements, handleSubmit } = props
   return <RecurringWrapper>
     <TermsWrapper>
       <Field name='recurring' component={CheckBox} hideErrors />
@@ -54,7 +54,7 @@ const RecurringCheckout = props => {
     {
       props.showRecurring
         ? <FieldsContainer>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <FormGroup inline>
               <FormItem width='150px'>
                 <Text size='13px' weight={400}>
@@ -98,6 +98,12 @@ const RecurringCheckout = props => {
         : null
     }
   </RecurringWrapper>
+}
+
+RecurringCheckout.propTypes = {
+  frequency: PropTypes.string.isRequired,
+  duration: PropTypes.object,
+  frequencyElements: PropTypes.array.isRequired
 }
 
 export const RecurringBuyCheckout = reduxForm({

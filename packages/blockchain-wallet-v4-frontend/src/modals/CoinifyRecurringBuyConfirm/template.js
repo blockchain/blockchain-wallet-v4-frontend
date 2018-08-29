@@ -83,7 +83,7 @@ const CoinifyRecurringBuyConfirm = props => {
   }
 
   return (
-    <Modal>
+    <Modal position={props.position} total={props.total}>
       <Fragment>
         <ModalHeader onClose={handleRecurringModalClose}>
           <Text size='18px' weight={500}>
