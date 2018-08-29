@@ -3,9 +3,9 @@ import { actions } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import SetupNewDevice from './template.js'
+import AddDevice from './template.js'
 
-class SetupNewDeviceContainer extends React.PureComponent {
+class AddDeviceContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.onClick = this.onClick.bind(this)
@@ -16,7 +16,7 @@ class SetupNewDeviceContainer extends React.PureComponent {
   }
 
   render () {
-    return <SetupNewDevice onClick={this.onClick} />
+    return <AddDevice onClick={this.onClick} />
   }
 }
 
@@ -27,4 +27,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   null,
   mapDispatchToProps
-)(SetupNewDeviceContainer)
+)(AddDeviceContainer)

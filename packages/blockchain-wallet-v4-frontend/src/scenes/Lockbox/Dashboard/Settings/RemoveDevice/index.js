@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 
 import DeviceStatus from './template.js'
 
-class DeviceStatusContainer extends React.PureComponent {
+class RemoveDeviceContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.deleteDevice = this.deleteDevice.bind(this)
@@ -36,4 +36,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(DeviceStatusContainer)
+)(RemoveDeviceContainer)
