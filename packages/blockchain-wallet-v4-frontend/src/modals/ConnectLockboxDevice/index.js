@@ -6,9 +6,9 @@ import modalEnhancer from 'providers/ModalEnhancer'
 
 import ConnectLockboxDevice from './template'
 
-// TODO: this should probably be a component that isn't inherently a modal?
+// TODO: this should probably be it's own component that isn't inherently a modal
 // that way we could load this component inside existing modals (send modal)
-// or wrap it and load in its own modal
+// of course this modal should still exist and wrap the new component
 class ConnectLockboxDeviceContainer extends React.PureComponent {
   componentDidMount () {
     const { app, deviceId } = this.props

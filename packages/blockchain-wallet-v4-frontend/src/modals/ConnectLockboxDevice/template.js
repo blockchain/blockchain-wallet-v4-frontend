@@ -19,8 +19,22 @@ const LoaderContainer = styled.div`
   margin-top: 25px;
 `
 
+const determineApp = app => {
+  switch (app) {
+    case 'BTC':
+      return 'Bitcoin'
+    case 'BCH':
+      return 'Bitcoin Cash'
+    case 'ETH':
+      return 'Ethereum'
+    default:
+      return 'Dashboard'
+  }
+}
+
 const Loading = props => {
   const { app } = props
+
   return (
     <Modal size='large' position={props.position} total={props.total}>
       <ModalHeader icon='lock' onClose={props.closeAll}>
@@ -41,10 +55,7 @@ const Loading = props => {
             <FormattedMessage
               id='modals.connectlockbox.openapp'
               defaultMessage='2. Open the {appName} application'
-              values={{
-                appName:
-                  (app === 'BTC' && 'Bitcoin') || (app === 'ETH' && 'Ethereum')
-              }}
+              values={{ appName: determineApp(app) }}
             />
           </Text>
           <Text size='14px' weight={300}>
