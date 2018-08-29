@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { prop, path, sortBy, reverse, head } from 'ramda'
 import moment from 'moment'
 import RecurringTradeItem from '../RecurringTrade'
+import RecurringNextTrade from '../RecurringNextTrade'
 import media from 'services/ResponsiveService'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 import { RecurringTableHeader } from '../components'
@@ -87,6 +88,7 @@ class RecurringOrder extends React.Component {
     const sortByCreated = sortBy(prop('createdAt'))
     const sortedTrades = reverse(sortByCreated(matchedTrades))
     const firstTrade = head(sortByCreated(matchedTrades))
+    const mostRecentTrade = head(sortedTrades)
 
     return (
       <Fragment>
@@ -206,6 +208,9 @@ class RecurringOrder extends React.Component {
                 canTrade={canTrade}
               />
             ))}
+            {prop('isActive', subscription) ? (
+              <RecurringNextTrade trade={mostRecentTrade} conversion={conversion} frequency={prop('frequency', subscription)} />
+            ) : null}
             {prop('isActive', subscription) ? (
               <RecurringCancelWrapper>
                 <Button
