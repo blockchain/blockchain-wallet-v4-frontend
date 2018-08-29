@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import {
+  Button,
   FlatLoader,
   Icon,
   Text,
@@ -82,6 +83,8 @@ const ConnectLockboxDevice = props => {
                 size='24px'
                 color='success'
               />
+            ) : connectionStatus.error ? (
+              <Icon name='alert' size='24px' color='error' />
             ) : (
               <FlatLoader width='50px' height='10px' />
             )}
@@ -100,10 +103,28 @@ const ConnectLockboxDevice = props => {
                 size='24px'
                 color='success'
               />
+            ) : connectionStatus.error ? (
+              <Icon name='alert' size='24px' color='error' />
             ) : (
               <FlatLoader width='50px' height='10px' />
             )}
           </Row>
+          {connectionStatus.error && (
+            <Row>
+              <StepInstructions size='14px' weight={300} color={'error'}>
+                <FormattedMessage
+                  id='modals.connectlockbox.failtoconnect'
+                  defaultMessage='Failed to connect to Lockbox device!'
+                />
+              </StepInstructions>
+              <Button onClick={{}} nature='primary'>
+                <FormattedMessage
+                  id='modals.connectlockbox.retry'
+                  defaultMessage='Retry'
+                />
+              </Button>
+            </Row>
+          )}
         </Content>
       </ModalBody>
     </Modal>

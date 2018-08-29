@@ -187,9 +187,9 @@ export default ({ api, coreSagas }) => {
 
   /**
    * Polls for device connection and application to be opened
-   * @param {String} actions.app - Requested application to wait for
-   * @param {String} actions.deviceId - Unique device ID
-   * @param {Number} [actions.timeout] - Length of time in ms to wait for a connection
+   * @param {String} action.app - Requested application to wait for
+   * @param {String} action.deviceId - Unique device ID
+   * @param {Number} [action.timeout] - Length of time in ms to wait for a connection
    * @returns {Action} Yields device connected action
    */
   const pollForDevice = function*(action) {
