@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { actions } from 'data'
-import modalEnhancer from 'providers/ModalEnhancer'
 
+import { actions, selectors } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
 import ConnectLockboxDevice from './template'
 
 // TODO: this should probably be it's own component that isn't inherently a modal
@@ -11,8 +11,8 @@ import ConnectLockboxDevice from './template'
 // of course this modal should still exist and wrap the new component
 class ConnectLockboxDeviceContainer extends React.PureComponent {
   componentDidMount () {
-    const { app, deviceId } = this.props
-    this.props.lockboxActions.connectDevice(app, deviceId)
+    const { appRequested, deviceId } = this.props
+    this.props.lockboxActions.pollForDevice(appRequested, deviceId)
   }
 
   render () {
@@ -21,7 +21,7 @@ class ConnectLockboxDeviceContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  // status: getDeviceNames(state)
+  connectionStatus: selectors.components.lockbox.getConnectionStatus(state)
 })
 
 const mapDispatchToProps = dispatch => ({

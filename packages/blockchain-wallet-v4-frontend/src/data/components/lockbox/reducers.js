@@ -3,12 +3,14 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
+  connection: {
+    deviceId: '',
+    error: null,
+    devicePresent: false,
+    currentApp: ''
+  },
   newDeviceSetup: {
     currentStep: 'setup-type',
-    device: Remote.NotAsked
-  },
-  connection: {
-    status: Remote.NotAsked,
     device: Remote.NotAsked
   }
 }
@@ -20,8 +22,21 @@ export default (state = INITIAL_STATE, action) => {
     case AT.SET_CONNECT_STEP: {
       return assocPath(['newDeviceSetup', 'currentStep'], payload.step, state)
     }
-    case AT.STORE_TRANSPORT_OBJECT: {
-      return assocPath(['connection', 'transport'], payload.transport, state)
+    case AT.SET_DEVICE_PRESENT: {
+      return assocPath(
+        ['connection', 'devicePresent'],
+        payload.devicePresent,
+        state
+      )
+    }
+    case AT.SET_CURRENT_APP: {
+      return assocPath(['connection', 'currentApp'], payload.app, state)
+    }
+    case AT.SET_CONNECTION_ERROR: {
+      return assocPath(['connection', 'error'], payload.error, state)
+    }
+    case AT.SET_CURRENT_DEVICE: {
+      return assocPath(['connection', 'deviceId'], payload.deviceId, state)
     }
     case AT.SET_NEW_DEVICE_INFO: {
       return assocPath(

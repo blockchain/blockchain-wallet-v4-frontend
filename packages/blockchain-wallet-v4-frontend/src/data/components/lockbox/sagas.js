@@ -126,7 +126,7 @@ export default ({ api, coreSagas }) => {
       const setupTimeout = 1500000
       // poll for both Ledger and Blockchain type devices
       const dashboardTransport = yield race({
-        LEDGER: yield call(
+        LEDGER: call(
           LockboxService.pollForAppConnection,
           'LEDGER',
           'DASHBOARD',
@@ -142,14 +142,12 @@ export default ({ api, coreSagas }) => {
       // dashboard detected, user has completed setup steps on device
       // determine the deviceType based on which channel returned
       const deviceType = keysIn(dashboardTransport)[0]
-      yield put(A.storeTransportObject(dashboardTransport[deviceType]))
       yield put(A.changeDeviceSetupStep('open-btc-app'))
       const btcTransport = yield call(
         LockboxService.pollForAppConnection,
         deviceType,
         'BTC'
       )
-      yield put(A.storeTransportObject(btcTransport))
       const btcConnection = new Btc(btcTransport)
       // derive device info such as chaincodes and xpubs
       const newDeviceInfo = yield call(
@@ -193,34 +191,68 @@ export default ({ api, coreSagas }) => {
    * @param {String} actions.deviceId - Unique device ID
    * @param {Number} [actions.timeout] - Length of time in ms to wait for a connection
    * @returns {Action} Yields device connected action
-   * TODO: rename saga and yielded state changes to be more descriptive??
    */
-  const connectDevice = function*(actions) {
+  const pollForDevice = function*(action) {
     try {
-      const { app, deviceId, timeout } = actions.payload
+      const { appRequested, deviceId, timeout } = action.payload
       const storedDevicesR = yield select(
         selectors.core.kvStore.lockbox.getDevices
       )
       const storedDevices = storedDevicesR.getOrElse({})
       const deviceType = storedDevices[deviceId].device_type
-
-      // TODO: this should yield multiple state changes for polling component/modal to use and act against
-      // 1) device is detected
-      // 2) application is opened
-      // 3) possible allow authorization?
-
-      yield call(LockboxService.pollForAppConnection, deviceType, app, timeout)
-      yield put(A.deviceConnected())
+      // poll for device connection on all apps
+      // TODO: create saga race config object programmatically!!
+      const deviceConnection = yield race({
+        DASHBOARD: call(
+          LockboxService.pollForAppConnection,
+          deviceType,
+          LockboxService.CONSTS.SCRAMBLEKEYS[deviceType].DASHBOARD,
+          timeout
+        ),
+        BTC: call(
+          LockboxService.pollForAppConnection,
+          deviceType,
+          LockboxService.CONSTS.SCRAMBLEKEYS[deviceType].BTC,
+          timeout
+        ),
+        BCH: call(
+          LockboxService.pollForAppConnection,
+          deviceType,
+          LockboxService.CONSTS.SCRAMBLEKEYS[deviceType].BCH,
+          timeout
+        ),
+        ETH: call(
+          LockboxService.pollForAppConnection,
+          deviceType,
+          LockboxService.CONSTS.SCRAMBLEKEYS[deviceType].ETH,
+          timeout
+        )
+      })
+      const detectedApp = keysIn(deviceConnection)[0]
+      yield put(A.setDevicePresent(true))
+      yield put(A.setCurrentDevice(deviceId))
+      yield put(A.setCurrentApp(detectedApp))
+      if (detectedApp !== appRequested) {
+        // poll for requested app
+        yield call(
+          LockboxService.pollForAppConnection,
+          deviceType,
+          appRequested,
+          timeout
+        )
+        yield put(A.setCurrentApp(appRequested))
+      }
     } catch (e) {
+      yield put(A.setConnectionError(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'connectDevice', e))
     }
   }
 
   return {
-    connectDevice,
     deleteDevice,
     determineLockboxRoute,
     initializeNewDeviceSetup,
+    pollForDevice,
     saveNewDeviceKvStore,
     updateDeviceName,
     updateDeviceBalanceDisplay

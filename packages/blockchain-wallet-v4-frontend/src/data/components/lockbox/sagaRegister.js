@@ -18,11 +18,7 @@ export default ({ api, coreSagas }) => {
       AT.SAVE_NEW_DEVICE_KVSTORE,
       lockboxSagas.saveNewDeviceKvStore
     )
-    yield takeLatest(
-      AT.SAVE_NEW_DEVICE_KVSTORE,
-      lockboxSagas.saveNewDeviceKvStore
-    )
     yield takeLatest(AT.DELETE_DEVICE, lockboxSagas.deleteDevice)
-    yield takeLatest(AT.CONNECT_DEVICE, lockboxSagas.connectDevice)
+    yield takeLatest(AT.POLL_FOR_DEVICE, lockboxSagas.pollForDevice)
   }
 }

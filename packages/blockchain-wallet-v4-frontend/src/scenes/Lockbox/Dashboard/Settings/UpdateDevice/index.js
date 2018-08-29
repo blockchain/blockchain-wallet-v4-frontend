@@ -13,7 +13,7 @@ class UpdateDeviceContainer extends React.PureComponent {
 
   onStartUpgrade () {
     this.props.modalActions.showModal('ConnectLockboxDevice', {
-      app: 'DASHBOARD',
+      appRequested: 'DASHBOARD',
       deviceId: this.props.deviceId
     })
   }

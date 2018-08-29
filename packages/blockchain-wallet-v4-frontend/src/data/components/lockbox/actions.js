@@ -3,16 +3,33 @@ import * as AT from './actionTypes'
 export const determineLockboxRoute = () => ({
   type: AT.DETERMINE_LOCKBOX_ROUTE
 })
+
 // CONNECTIONS
+export const pollForDevice = (appRequested, deviceId, timeout) => ({
+  type: AT.POLL_FOR_DEVICE,
+  payload: { appRequested, deviceId, timeout }
+})
+export const setCurrentApp = app => ({
+  type: AT.SET_CURRENT_APP,
+  payload: { app }
+})
+export const setConnectionError = error => ({
+  type: AT.SET_CONNECTION_ERROR,
+  payload: { error }
+})
+export const setDevicePresent = devicePresent => ({
+  type: AT.SET_DEVICE_PRESENT,
+  payload: { devicePresent }
+})
+export const setCurrentDevice = deviceId => ({
+  type: AT.SET_CURRENT_DEVICE,
+  payload: { deviceId }
+})
+
+// NEW DEVICE SETUP
 export const initializeNewDeviceSetup = () => ({
   type: AT.INITIALIZE_NEW_DEVICE_SETUP
 })
-export const storeTransportObject = transport => ({
-  type: AT.STORE_TRANSPORT_OBJECT,
-  payload: { transport }
-})
-
-// CREATE
 export const changeDeviceSetupStep = step => ({
   type: AT.SET_CONNECT_STEP,
   payload: { step }
@@ -63,9 +80,3 @@ export const deleteDeviceFailure = payload => ({
   type: AT.DELETE_DEVICE_FAILURE,
   payload
 })
-
-export const connectDevice = (app, deviceId, timeout) => ({
-  type: AT.CONNECT_DEVICE,
-  payload: { app, deviceId, timeout }
-})
-export const deviceConnected = () => ({ type: AT.DEVICE_CONNECTED })

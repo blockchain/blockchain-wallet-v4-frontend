@@ -134,7 +134,6 @@ export const pollForAppConnection = (deviceType, app, timeout = 30000) => {
           // since no_op wont be recognized by any app as a valid cmd, this is always going
           // to fail but a response, means a device is connected and unlocked
           if (!connectionTimedOut) {
-            // TODO: why doesnt transport.close() work...?
             clearTimeout(connectTimeout)
             resolve(transport)
           }
@@ -147,7 +146,7 @@ export const pollForAppConnection = (deviceType, app, timeout = 30000) => {
 //
 // PRIVATE CONSTANTS
 //
-const CONSTS = {
+export const CONSTS = {
   APDUS: {
     GET_FIRMWARE: [0xe0, 0x01, 0x00, 0x00],
     NO_OP: [0x00, 0x00, 0x00, 0x00]

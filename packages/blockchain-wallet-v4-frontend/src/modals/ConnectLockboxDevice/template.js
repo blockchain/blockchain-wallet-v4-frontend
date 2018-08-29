@@ -2,7 +2,13 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { FlatLoader, Text, Modal, ModalBody } from 'blockchain-info-components'
+import {
+  FlatLoader,
+  Icon,
+  Text,
+  Modal,
+  ModalBody
+} from 'blockchain-info-components'
 
 const Header = styled.div`
   width: 100%;
@@ -43,9 +49,8 @@ const determineApp = app => {
   }
 }
 
-const Loading = props => {
-  const { app } = props
-
+const ConnectLockboxDevice = props => {
+  const { appRequested, connectionStatus } = props
   return (
     <Modal size='medium' position={props.position} total={props.total}>
       <ModalBody>
@@ -71,17 +76,33 @@ const Loading = props => {
                 defaultMessage='1. Connect and unlock your Lockbox'
               />
             </StepInstructions>
-            <FlatLoader width='50px' height='10px' />
+            {connectionStatus.devicePresent ? (
+              <Icon
+                name='checkmark-in-circle-filled'
+                size='24px'
+                color='success'
+              />
+            ) : (
+              <FlatLoader width='50px' height='10px' />
+            )}
           </Row>
           <Row>
             <StepInstructions size='14px' weight={300}>
               <FormattedMessage
                 id='modals.connectlockbox.openapp'
                 defaultMessage='2. Navigate to and open the {appName} application on your device'
-                values={{ appName: determineApp(app) }}
+                values={{ appName: determineApp(appRequested) }}
               />
             </StepInstructions>
-            <FlatLoader width='50px' height='10px' />
+            {connectionStatus.currentApp === appRequested ? (
+              <Icon
+                name='checkmark-in-circle-filled'
+                size='24px'
+                color='success'
+              />
+            ) : (
+              <FlatLoader width='50px' height='10px' />
+            )}
           </Row>
         </Content>
       </ModalBody>
@@ -89,4 +110,4 @@ const Loading = props => {
   )
 }
 
-export default Loading
+export default ConnectLockboxDevice
