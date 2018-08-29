@@ -66,3 +66,9 @@ export const deleteDeviceFailure = payload => ({
 
 // DASHBOARD
 export const initializeDashboard = () => ({ type: AT.INITIALIZE_DASHBOARD })
+
+export const connectDevice = (app, deviceId, timeout) => ({
+  type: AT.CONNECT_DEVICE,
+  payload: { app, deviceId, timeout }
+})
+export const deviceConnected = () => ({ type: AT.DEVICE_CONNECTED })

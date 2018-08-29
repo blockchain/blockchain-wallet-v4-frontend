@@ -11,7 +11,7 @@ import {
 import { Button } from 'blockchain-info-components'
 
 const UpdateDevice = props => {
-  const { onClick } = props
+  const { onStartUpgrade } = props
 
   return (
     <SettingContainer>
@@ -30,7 +30,7 @@ const UpdateDevice = props => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button nature='primary' onClick={onClick}>
+        <Button nature='primary' onClick={onStartUpgrade}>
           <FormattedMessage
             id='scenes.lockbox.settings.updatedevice.update'
             defaultMessage='Update Device'
