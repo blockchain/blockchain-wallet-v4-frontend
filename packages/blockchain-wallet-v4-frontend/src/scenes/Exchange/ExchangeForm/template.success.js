@@ -180,7 +180,8 @@ class Success extends React.Component {
       handleSourceChange,
       handleTargetChange,
       handleAmountChange,
-      swapBaseAndCounter
+      swapBaseAndCounter,
+      swapCoinAndFiat
     } = this.props
     const swapDisabled = !contains(
       formatPair(targetCoin, sourceCoin),
@@ -269,6 +270,14 @@ class Success extends React.Component {
                 </CurrencyBox>
               </AmountRow>
               <AmountRow>
+                <Icon
+                  style={{ visibility: 'hidden' }}
+                  name='shapeshift-switch'
+                  size='28px'
+                  weight={500}
+                  cursor
+                  disabled={true}
+                />
                 <ComplementaryAmountContaier>
                   <StringDisplay>
                     {complementaryAmount.map(
@@ -276,6 +285,16 @@ class Success extends React.Component {
                     )}
                   </StringDisplay>
                 </ComplementaryAmountContaier>
+                <Icon
+                  name='shapeshift-switch'
+                  size='28px'
+                  weight={500}
+                  cursor
+                  disabled={swapDisabled}
+                  onClick={() => {
+                    if (!disabled && !swapDisabled) swapCoinAndFiat()
+                  }}
+                />
               </AmountRow>
               {formError && (
                 <Row spaced>
