@@ -17,7 +17,6 @@ const extractFieldValue = (e, value) => {
   return value
 }
 
-const { EXCHANGE_FORM } = model.components.exchange
 const { swapCoinAndFiat, swapBaseAndCounter, FIX_TYPES } = model.rates
 const { BASE, COUNTER, BASE_IN_FIAT, COUNTER_IN_FIAT } = FIX_TYPES
 
@@ -29,9 +28,6 @@ class FirstStepContainer extends React.Component {
   handleRefresh = () => {
     this.props.actions.initialize()
   }
-
-  updateFix = newFix =>
-    this.props.formActions.change(EXCHANGE_FORM, 'fix', newFix)
 
   getChangeAmountAction = flip(prop)({
     [BASE]: this.props.actions.changeSourceAmount,
@@ -62,11 +58,11 @@ class FirstStepContainer extends React.Component {
             extractFieldValue
           )}
           swapBaseAndCounter={compose(
-            this.updateFix,
+            this.props.actions.changeFix,
             swapBaseAndCounter.bind(null, value.fix)
           )}
           swapCoinAndFiat={compose(
-            this.updateFix,
+            this.props.actions.changeFix,
             swapCoinAndFiat.bind(null, value.fix)
           )}
         />

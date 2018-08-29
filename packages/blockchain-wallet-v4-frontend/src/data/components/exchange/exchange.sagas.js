@@ -108,6 +108,20 @@ export default ({ api, coreSagas, options, networks }) => {
     yield call(changeSubscription)
   }
 
+  const changeFix = function*({ payload }) {
+    const form = yield select(formValueSelector)
+    const { fix } = payload
+    const { source, target } = form
+    const pair = formatPair(source.coin, target.coin)
+    const newInputField = mapFixToFieldName(fix)
+    const newInputAmount = (yield select(S.getAmounts(pair)))
+      .map(prop(newInputField))
+      .getOrElse(0)
+    yield put(actions.form.change(EXCHANGE_FORM, 'fix', fix))
+    yield put(actions.form.change(EXCHANGE_FORM, newInputField, newInputAmount))
+    yield call(changeSubscription)
+  }
+
   return {
     exchangeFormInitialized,
     changeSource,
@@ -115,6 +129,7 @@ export default ({ api, coreSagas, options, networks }) => {
     changeSourceAmount,
     changeTargetAmount,
     changeSourceFiatAmount,
-    changeTargetFiatAmount
+    changeTargetFiatAmount,
+    changeFix
   }
 }

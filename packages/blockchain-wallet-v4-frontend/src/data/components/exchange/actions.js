@@ -108,3 +108,7 @@ export const changeTargetFiatAmount = targetFiatAmount => ({
   type: AT.CHANGE_TARGET_FIAT_AMOUNT,
   payload: { targetFiatAmount }
 })
+export const changeFix = fix => ({
+  type: AT.CHANGE_FIX,
+  payload: { fix }
+})
