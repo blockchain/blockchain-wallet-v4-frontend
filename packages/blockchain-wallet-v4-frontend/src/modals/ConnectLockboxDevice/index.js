@@ -20,6 +20,10 @@ class ConnectLockboxDeviceContainer extends React.PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  // status: getDeviceNames(state)
+})
+
 const mapDispatchToProps = dispatch => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
@@ -27,7 +31,7 @@ const mapDispatchToProps = dispatch => ({
 const enhance = compose(
   modalEnhancer('ConnectLockboxDevice'),
   connect(
-    undefined,
+    mapStateToProps,
     mapDispatchToProps
   )
 )

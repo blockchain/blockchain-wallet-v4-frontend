@@ -2,23 +2,34 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import {
-  FlatLoader,
-  TextGroup,
-  Text,
-  Modal,
-  ModalHeader,
-  ModalBody
-} from 'blockchain-info-components'
+import { FlatLoader, Text, Modal, ModalBody } from 'blockchain-info-components'
 
-const LoaderContainer = styled.div`
+const Header = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 4px 0 10px;
+  & > :last-child {
+    margin-top: 6px;
+  }
+`
+const Content = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`
+const Row = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  margin-top: 25px;
+  justify-content: space-between;
+  align-items: center;
+  margin: 12px 0;
 `
-
+const StepInstructions = styled(Text)`
+  max-width: 325px;
+`
 const determineApp = app => {
   switch (app) {
     case 'BTC':
@@ -36,38 +47,43 @@ const Loading = props => {
   const { app } = props
 
   return (
-    <Modal size='large' position={props.position} total={props.total}>
-      <ModalHeader icon='lock' onClose={props.closeAll}>
-        <FormattedMessage
-          id='modals.connectlockbox.title'
-          defaultMessage='Connect your device'
-        />
-      </ModalHeader>
+    <Modal size='medium' position={props.position} total={props.total}>
       <ModalBody>
-        <TextGroup>
-          <Text size='14px' weight={300}>
+        <Header>
+          <Text size='24px' weight={400}>
             <FormattedMessage
-              id='modals.connectlockbox.connectdevice'
-              defaultMessage='1. Connect your lockbox to computer via USB port.'
+              id='modals.connectlockbox.title'
+              defaultMessage='Connect your device'
             />
           </Text>
-          <Text size='14px' weight={300}>
+          <Text size='12px' weight={300}>
             <FormattedMessage
-              id='modals.connectlockbox.openapp'
-              defaultMessage='2. Open the {appName} application'
-              values={{ appName: determineApp(app) }}
+              id='modals.connectlockbox.subtitle'
+              defaultMessage='Follow the steps below to continue'
             />
           </Text>
-          <Text size='14px' weight={300}>
-            <FormattedMessage
-              id='modals.connectlockbox.enablebrowsersupport'
-              defaultMessage='3. Make sure browser support is enabled'
-            />
-          </Text>
-        </TextGroup>
-        <LoaderContainer>
-          <FlatLoader width='150px' height='25px' />
-        </LoaderContainer>
+        </Header>
+        <Content>
+          <Row>
+            <StepInstructions size='14px' weight={300}>
+              <FormattedMessage
+                id='modals.connectlockbox.connectdevice'
+                defaultMessage='1. Connect and unlock your Lockbox'
+              />
+            </StepInstructions>
+            <FlatLoader width='50px' height='10px' />
+          </Row>
+          <Row>
+            <StepInstructions size='14px' weight={300}>
+              <FormattedMessage
+                id='modals.connectlockbox.openapp'
+                defaultMessage='2. Navigate to and open the {appName} application on your device'
+                values={{ appName: determineApp(app) }}
+              />
+            </StepInstructions>
+            <FlatLoader width='50px' height='10px' />
+          </Row>
+        </Content>
       </ModalBody>
     </Modal>
   )
