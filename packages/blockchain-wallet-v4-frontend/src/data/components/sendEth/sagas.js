@@ -163,6 +163,8 @@ export default ({ coreSagas }) => {
       if (p.getOrElse({}).from.type !== ADDRESS_TYPES.LOCKBOX) {
         password = yield call(promptForSecondPassword)
       } else {
+        // TODO: must pass in deviceID
+        // yield call(connectLockboxDevice, 'ETH', deviceId, timeout)
         yield call(connectLockboxDevice, 'ETH')
       }
       yield put(actions.modals.closeAllModals())

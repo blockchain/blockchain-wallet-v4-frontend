@@ -187,30 +187,33 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  /**
+   * Polls for device connection and application to be opened
+   * @param {String} actions.app - Requested application to wait for
+   * @param {String} actions.deviceId - Unique device ID
+   * @param {Number} [actions.timeout] - Length of time in ms to wait for a connection
+   * @returns {Action} Yields device connected action
+   * TODO: rename saga and yielded state changes to be more descriptive??
+   */
   const connectDevice = function*(actions) {
     try {
-      const { app } = actions.payload
-      // TODO check the device id
-      const setupTimeout = 120000
-      // poll for both Ledger and Blockchain type devices
-      const dashboardTransport = yield race({
-        LEDGER: yield call(
-          LockboxService.pollForAppConnection,
-          'LEDGER',
-          'DASHBOARD',
-          setupTimeout
-        ),
-        BLOCKCHAIN: call(
-          LockboxService.pollForAppConnection,
-          'BLOCKCHAIN',
-          'DASHBOARD',
-          setupTimeout
-        )
-      })
-      const deviceType = keysIn(dashboardTransport)[0]
-      yield call(LockboxService.pollForAppConnection, deviceType, app)
+      const { app, deviceId, timeout } = actions.payload
+      const storedDevicesR = yield select(
+        selectors.core.kvStore.lockbox.getDevices
+      )
+      const storedDevices = storedDevicesR.getOrElse({})
+      const deviceType = storedDevices[deviceId].device_type
+
+      // TODO: this should yield multiple state changes for polling component/modal to use and act against
+      // 1) device is detected
+      // 2) application is opened
+      // 3) possible allow authorization?
+
+      yield call(LockboxService.pollForAppConnection, deviceType, app, timeout)
       yield put(A.deviceConnected())
-    } catch (e) {}
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'connectDevice', e))
+    }
   }
 
   return {
