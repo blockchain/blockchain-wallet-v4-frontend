@@ -22,7 +22,7 @@ import {
 } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
-const { SHAPESHIFT_PAIRS, EXCHANGE_FORM } = model.components.exchange
+const { SHAPESHIFT_PAIRS, SHAPESHIFT_FORM } = model.components.exchange
 
 const currenciesOrder = ['BTC', 'BCH', 'ETH']
 
@@ -166,7 +166,7 @@ export const getData = createDeepEqualSelector(
     selectors.core.settings.getCurrency,
     selectors.components.exchange.getFirstStepEnabled,
     selectors.components.exchange.getError,
-    selectors.form.getFormValues(EXCHANGE_FORM)
+    selectors.form.getFormValues(SHAPESHIFT_FORM)
   ],
   (
     btcAccountsR,
