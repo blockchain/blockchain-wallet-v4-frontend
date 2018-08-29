@@ -9,6 +9,9 @@ export const pollForDevice = (appRequested, deviceId, timeout) => ({
   type: AT.POLL_FOR_DEVICE,
   payload: { appRequested, deviceId, timeout }
 })
+export const resetConnectionStatus = () => ({
+  type: AT.RESET_CONNECTION_STATUS
+})
 export const setCurrentApp = app => ({
   type: AT.SET_CURRENT_APP,
   payload: { app }

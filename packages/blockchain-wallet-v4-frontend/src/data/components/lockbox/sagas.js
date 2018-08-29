@@ -195,6 +195,9 @@ export default ({ api, coreSagas }) => {
   const pollForDevice = function*(action) {
     try {
       const { appRequested, deviceId, timeout } = action.payload
+      // reset previous connection status
+      // TODO: maybe have consuming components contain and/or clean up their own connections state?
+      yield put(A.resetConnectionStatus())
       const storedDevicesR = yield select(
         selectors.core.kvStore.lockbox.getDevices
       )
