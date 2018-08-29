@@ -93,11 +93,11 @@ export default ({ api, coreSagas }) => {
       renewUserTask = yield fork(renewUser)
   }
 
-  const renewUser = function*() {
-    yield delay(renewUserDelay)
+  const renewUser = function*(renewIn = 0) {
+    yield delay(renewIn)
     const user = yield call(api.getUser)
     yield put(A.setUserData(user))
-    yield spawn(renewUser)
+    yield spawn(renewUser, renewUserDelay)
   }
 
   const renewApiSockets = function*() {
