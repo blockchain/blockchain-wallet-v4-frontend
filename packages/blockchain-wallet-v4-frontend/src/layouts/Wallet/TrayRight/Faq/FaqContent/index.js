@@ -232,6 +232,45 @@ const FaqContent = [
             />
           </FaqDescription>
         )
+      },
+      {
+        question: (
+          <FormattedMessage
+            id='scenes.faq.group.coinify.recurring.question.one'
+            defaultMessage='What are Recurring Orders?'
+          />
+        ),
+        answer: (
+          <FaqDescription>
+            <FormattedMessage
+              id='scenes.faq.group.coinify.recurring.answer.one'
+              defaultMessage='When you make a bitcoin purchase through our partner, Coinify, you can opt to have this same order be continuously and automatically placed. To create a recurring order, simply check the "Make this a recurring order" checkbox after entering an amount, and choose how often and for how long you would like this order to continue. Pending recurring orders can be managed in the Order section of your Buy & Sell Bitcoin tab.'
+            />
+            <br />
+            <FormattedMessage
+              id='scenes.faq.group.coinify.recurring.answer.one.note'
+              defaultMessage='{boldNote}: this feature is only available after verifying your identity and completing 3 credit card orders within 6 months.'
+              values={{ boldNote: <strong>Note</strong> }}
+            />
+          </FaqDescription>
+        )
+      },
+      {
+        question: (
+          <FormattedMessage
+            id='scenes.faq.group.coinify.recurring.question.two'
+            defaultMessage='How to cancel Recurring Orders?'
+          />
+        ),
+        answer: (
+          <FaqDescription>
+            <FormattedMessage
+              id='scenes.faq.group.coinify.recurring.answer.two'
+              defaultMessage="Recurring orders will be canceled automatically on the date you originally chose or when you reach your limits. If you'd like to manually cancel a recurring order, you can go to {boldBuySell} -> {boldOrders} -> {boldManage} and click {boldCancel}."
+              values={{ boldBuySell: <strong>Buy & Sell</strong>, boldOrders: <strong>Order History</strong>, boldManage: <strong>Manage This Order</strong>, boldCancel: <strong>'Cancel Recurring Order'</strong> }}
+            />
+          </FaqDescription>
+        )
       }
     ]
   },
