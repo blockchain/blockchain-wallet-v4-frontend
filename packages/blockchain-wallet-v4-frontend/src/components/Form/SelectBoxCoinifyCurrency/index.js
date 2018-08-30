@@ -12,7 +12,7 @@ const CustomSelectBox = styled(SelectBox)`
   * {
     border-left: none;
   }
-  .control {
+  .bc__control {
     border: 1px solid ${props => props.theme['gray-2']};
     border-left: none;
     > div:first-of-type {
