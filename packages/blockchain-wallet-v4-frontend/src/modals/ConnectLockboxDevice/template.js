@@ -51,7 +51,8 @@ const determineApp = app => {
 }
 
 const ConnectLockboxDevice = props => {
-  const { appRequested, connectionStatus } = props
+  const { appRequested, connectionStatus, retryConnection } = props
+
   return (
     <Modal size='medium' position={props.position} total={props.total}>
       <ModalBody>
@@ -117,7 +118,7 @@ const ConnectLockboxDevice = props => {
                   defaultMessage='Failed to connect to Lockbox device!'
                 />
               </StepInstructions>
-              <Button onClick={{}} nature='primary'>
+              <Button onClick={retryConnection} nature='primary'>
                 <FormattedMessage
                   id='modals.connectlockbox.retry'
                   defaultMessage='Retry'

@@ -10,13 +10,30 @@ import ConnectLockboxDevice from './template'
 // that way we could load this component inside existing modals (send modal)
 // of course this modal should still exist and wrap the new component
 class ConnectLockboxDeviceContainer extends React.PureComponent {
+  constructor (props) {
+    super(props)
+    this.retryConnection = this.retryConnection.bind(this)
+  }
+
   componentDidMount () {
     const { appRequested, deviceId } = this.props
     this.props.lockboxActions.pollForDevice(appRequested, deviceId)
   }
 
+  retryConnection () {
+    this.props.lockboxActions.pollForDevice(
+      this.props.appRequested,
+      this.props.deviceId
+    )
+  }
+
   render () {
-    return <ConnectLockboxDevice {...this.props} />
+    return (
+      <ConnectLockboxDevice
+        {...this.props}
+        retryConnection={this.retryConnection}
+      />
+    )
   }
 }
 
