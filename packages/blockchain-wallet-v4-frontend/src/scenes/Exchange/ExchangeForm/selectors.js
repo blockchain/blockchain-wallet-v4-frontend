@@ -12,6 +12,7 @@ import {
   length,
   lift,
   map,
+  path,
   prop,
   propEq,
   split,
@@ -21,8 +22,8 @@ import {
 } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
-const { SHAPESHIFT_PAIRS, EXCHANGE_FORM } = model.components.exchange
-const { BASE } = model.rates.FIX_TYPES
+const { EXCHANGE_FORM } = model.components.exchange
+const { BASE_IN_FIAT } = model.rates.FIX_TYPES
 
 const currenciesOrder = ['BTC', 'BCH', 'ETH']
 
@@ -167,7 +168,6 @@ export const getData = createDeepEqualSelector(
     selectors.components.exchange.getFirstStepEnabled,
     selectors.components.exchange.getError,
     selectors.form.getFormValues(EXCHANGE_FORM),
-    selectors.components.exchange.useShapeShift,
     selectors.modules.rates.getAvailablePairs
   ],
   (
@@ -178,13 +178,11 @@ export const getData = createDeepEqualSelector(
     enabled,
     formError,
     formValues,
-    useShapeShift,
     availablePairsR
   ) => {
-    const source = prop('source', formValues)
-    const target = prop('target', formValues)
-    const sourceCoin = prop('coin', source) || 'BTC'
-    const targetCoin = prop('coin', target) || 'ETH'
+    const sourceCoin = path(['source', 'coin'], formValues) || 'BTC'
+    const targetCoin = path(['target', 'coin'], formValues) || 'ETH'
+    const fix = prop('fix', formValues) || BASE_IN_FIAT
 
     const transform = (
       btcAccounts,
@@ -213,7 +211,7 @@ export const getData = createDeepEqualSelector(
       const initialValues = {
         source: defaultBtcAccount,
         target: defaultEthAccount,
-        fix: BASE
+        fix: BASE_IN_FIAT
       }
 
       return {
@@ -226,8 +224,8 @@ export const getData = createDeepEqualSelector(
         formError,
         currency,
         sourceCoin,
-        targetCoin,
-        useShapeShift
+        fix,
+        targetCoin
       }
     }
     return lift(transform)(
@@ -235,7 +233,7 @@ export const getData = createDeepEqualSelector(
       bchAccountsR,
       ethAccountsR,
       currencyR,
-      useShapeShift ? SHAPESHIFT_PAIRS : availablePairsR
+      availablePairsR
     )
   }
 )

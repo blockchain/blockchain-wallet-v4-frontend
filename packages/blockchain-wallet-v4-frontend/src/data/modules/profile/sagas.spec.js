@@ -1,5 +1,5 @@
 import { expectSaga } from 'redux-saga-test-plan'
-import { call } from 'redux-saga-test-plan/matchers'
+import { call, fork } from 'redux-saga-test-plan/matchers'
 import { select } from 'redux-saga/effects'
 
 import { selectors } from 'data'
@@ -7,6 +7,7 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import sagas from './sagas'
+import { USER_ACTIVATION_STATES, KYC_STATES } from './model'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 
 jest.useFakeTimers()
@@ -27,9 +28,11 @@ const api = {
 
 const {
   signIn,
+  fetchUser,
   updateUser,
   updateUserAddress,
   createUser,
+  renewUser,
   generateRetailToken,
   generateAuthCredentials,
   syncUserWithWallet,
@@ -61,8 +64,16 @@ const stubUserData = {
   firstName: 'The',
   lastName: 'User',
   dob: '1999-11-31',
+  state: USER_ACTIVATION_STATES.CREATED,
+  kycState: KYC_STATES.NONE,
   address: stubAddress,
   mobile: stubMobile
+}
+const newUserData = {
+  ...stubUserData,
+  firstName: 'another',
+  state: USER_ACTIVATION_STATES.ACTIVE,
+  kycState: KYC_STATES.VERIFIED
 }
 const newAddress = {
   city: 'London',
@@ -72,6 +83,9 @@ const newAddress = {
   state: 'England',
   postCode: 'E145AX'
 }
+
+api.getUser.mockReturnValue(newUserData)
+
 const stubbedSignin = expectSaga(signIn).provide([
   [select(selectors.core.wallet.getGuid), stubGuid],
   [select(selectors.core.settings.getEmail), Remote.of(stubEmail)],
@@ -151,21 +165,81 @@ describe('signin saga', () => {
   })
 })
 
+describe('fetch user saga', () => {
+  it('should call getUser api and update user data', () =>
+    expectSaga(fetchUser)
+      .provide([[fork.fn(renewUser), jest.fn()]])
+      .not.fork(renewUser)
+      .put(A.setUserData(newUserData))
+      .run()
+      .then(() => {
+        expect(api.getUser).toHaveBeenCalledTimes(1)
+      }))
+  it('should start renewTask if kycState is PENDING', () => {
+    api.getUser.mockReturnValueOnce({
+      ...newUserData,
+      kycState: KYC_STATES.PENDING
+    })
+    return expectSaga(fetchUser)
+      .provide([[fork.fn(renewUser), jest.fn()]])
+      .fork(renewUser)
+      .run()
+  })
+})
+
 describe('update user saga', () => {
   beforeEach(() => {
     api.updateUser.mockClear()
   })
 
-  it('should call updateUserApi', () =>
-    expectSaga(updateUser, {
-      payload: { data: stubUserData }
+  it('should call updateUserApi', () => {
+    const {
+      kycState,
+      state,
+      id,
+      address,
+      mobile,
+      mobileVerified,
+      ...updateData
+    } = newUserData
+    return expectSaga(updateUser, {
+      payload: { data: updateData }
     })
-      .provide([[select(S.getUserData), stubUserData]])
+      .provide([
+        [select(S.getUserData), stubUserData],
+        [call.fn(fetchUser), jest.fn()]
+      ])
+      .call(fetchUser)
       .run()
       .then(() => {
         expect(api.updateUser).toHaveBeenCalledTimes(1)
-        expect(api.updateUser).toHaveBeenCalledWith(stubUserData)
-      }))
+        expect(api.updateUser).toHaveBeenCalledWith(updateData)
+      })
+  })
+
+  it('should not update user if data did not change', () => {
+    const {
+      kycState,
+      state,
+      id,
+      address,
+      mobile,
+      mobileVerified,
+      ...updateData
+    } = stubUserData
+    return expectSaga(updateUser, {
+      payload: { data: updateData }
+    })
+      .provide([
+        [select(S.getUserData), stubUserData],
+        [call.fn(fetchUser), jest.fn()]
+      ])
+      .not.call(fetchUser)
+      .run()
+      .then(() => {
+        expect(api.updateUser).toHaveBeenCalledTimes(0)
+      })
+  })
 })
 
 describe('update user address saga', () => {
@@ -173,22 +247,41 @@ describe('update user address saga', () => {
     api.updateUserAddress.mockClear()
   })
 
-  it('should call updateUserAddressApi', () =>
-    expectSaga(updateUserAddress, {
+  it('should call updateUserAddressApi', () => {
+    const {
+      id,
+      address,
+      mobile,
+      mobileVerified,
+      state,
+      kycState,
+      ...updateData
+    } = stubUserData
+
+    return expectSaga(updateUserAddress, {
       payload: { address: newAddress }
     })
-      .provide([[select(S.getUserData), stubUserData]])
+      .provide([
+        [select(S.getUserData), updateData],
+        [call.fn(fetchUser), jest.fn()]
+      ])
+      .call(fetchUser)
       .run()
       .then(() => {
         expect(api.updateUserAddress).toHaveBeenCalledTimes(1)
         expect(api.updateUserAddress).toHaveBeenCalledWith(newAddress)
-      }))
+      })
+  })
 
   it("should not update address if it didn't change", () =>
     expectSaga(updateUserAddress, {
       payload: { address: stubAddress }
     })
-      .provide([[select(S.getUserData), stubUserData]])
+      .provide([
+        [select(S.getUserData), stubUserData],
+        [call.fn(fetchUser), jest.fn()]
+      ])
+      .not.call(fetchUser)
       .run()
       .then(() => {
         expect(api.updateUserAddress).toHaveBeenCalledTimes(0)

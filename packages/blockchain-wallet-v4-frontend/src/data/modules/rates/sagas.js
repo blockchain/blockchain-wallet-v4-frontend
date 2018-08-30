@@ -1,6 +1,7 @@
-import { put } from 'redux-saga/effects'
+import { put, select } from 'redux-saga/effects'
 import { actions } from 'data'
 import * as A from './actions'
+import * as S from './selectors'
 
 export default ({ api }) => {
   const subscribeToRate = function*({ payload }) {
@@ -32,9 +33,19 @@ export default ({ api }) => {
     }
   }
 
+  const updateAdvice = function*({ payload }) {
+    const { pair, fix, volume, advice } = payload
+    const { fix: currentFix, volume: currentVolume } = yield select(
+      S.getPairConfig(pair)
+    )
+    if (currentFix === fix && volume === currentVolume)
+      yield put(A.setPairAdvice(pair, advice))
+  }
+
   return {
     subscribeToRate,
     unsubscribeFromRate,
-    fetchAvailablePairs
+    fetchAvailablePairs,
+    updateAdvice
   }
 }

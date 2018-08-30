@@ -127,12 +127,6 @@ describe('sendEth sagas', () => {
         })
     })
 
-    it('should update the fee', () => {
-      saga.next(paymentMock)
-
-      expect(paymentMock.fee).toHaveBeenCalled()
-    })
-
     it('should initializr form with correct initial values', () => {
       saga.next(paymentMock).put(initialize('sendEth', initialValues))
     })

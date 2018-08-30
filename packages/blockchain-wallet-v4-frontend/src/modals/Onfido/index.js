@@ -29,7 +29,7 @@ const OnfidoModal = styled(Modal)`
 class OnfidoContainer extends React.PureComponent {
   componentDidMount () {
     this.props.actions.fetchOnfidoSDKKey()
-    window.addEventListener('message', this.handleOnfidoMessage)
+    window.addEventListener('message', this.handleOnfidoMessage, false)
   }
 
   componentWillUnmount () {
@@ -38,11 +38,10 @@ class OnfidoContainer extends React.PureComponent {
 
   handleOnfidoMessage = ({ data, origin }) => {
     const { helperDomain, actions } = this.props
-    if (!data.command) return
+    if (origin !== helperDomain) return
     if (data.from !== 'onfido') return
     if (data.to !== 'IdentityVerification') return
-    if (origin !== helperDomain) return
-    if (data.command !== 'done') return
+    if (data.event !== 'done') return
     actions.syncOnfido()
   }
 
