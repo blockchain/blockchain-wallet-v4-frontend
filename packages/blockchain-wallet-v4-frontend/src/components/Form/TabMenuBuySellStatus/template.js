@@ -34,6 +34,9 @@ const Partner = styled(TextGroup)`
     display: none;
   }
 `
+const CoinifyLogo = styled(Image)`
+  margin-top: 3px;
+`
 
 const TabMenuBuySellStatus = props => {
   const { handleClick, partner, value } = props
@@ -71,12 +74,13 @@ const TabMenuBuySellStatus = props => {
         </TabMenuItem>
       </TabMenu>
       {partner && (
-        <Partner>
+        <Partner inline>
           <Text size='12px' weight={300}>
             <FormattedMessage
               id='scenes.exchange.menutop.poweredby'
               defaultMessage='Powered by'
             />
+            &nbsp;
           </Text>
           {partner === 'sfox' ? (
             <Link href='https://www.sfox.com' target='_blank'>
@@ -84,7 +88,7 @@ const TabMenuBuySellStatus = props => {
             </Link>
           ) : (
             <Link href='https://www.coinify.com' target='_blank'>
-              <Image name='coinify-logo' width='60px' height='25px' />
+              <CoinifyLogo name='coinify-logo' width='60px' height='25px' />
             </Link>
           )}
         </Partner>
