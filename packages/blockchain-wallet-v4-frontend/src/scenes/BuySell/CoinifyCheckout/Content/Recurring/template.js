@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Field, reduxForm } from 'redux-form'
-import { not, is } from 'ramda'
+import { not, is, prop } from 'ramda'
 
 import { Text } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, CheckBox, SelectBox, DateBoxDebounced } from 'components/Form'
@@ -18,7 +18,7 @@ const RecurringWrapper = styled.div`
 const TermsWrapper = styled.div`
   display: flex;
   margin-bottom: 20px;
-  margin-top: 20px;
+  margin-top: ${props => props.level ? '0px' : '20px'};
 `
 const TermsLabel = styled.label`
   display: flex;
@@ -50,10 +50,13 @@ const RecurringCheckout = props => {
     frequency,
     frequencyElements,
     handleSubmit,
+    level,
     showModal
   } = props
+  const isLevelOne = parseInt(prop('name', level)) < 2
+
   return <RecurringWrapper>
-    <TermsWrapper>
+    <TermsWrapper level={isLevelOne}>
       <Field name='recurring' component={CheckBox} hideErrors disabled={disableRecurringCheckbox || !canTrade} checked={showModal} />
       <TermsLabel htmlFor='recurring' disabled={disableRecurringCheckbox || !canTrade}>
         <Text size='13px' weight={400}>

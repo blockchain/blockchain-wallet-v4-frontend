@@ -49,21 +49,21 @@ export const showRecurringBuy = state => {
 
 export const getData = state => ({
   base: getBase(state),
-  data: getProfileData(state),
   buyQuoteR: getQuote(state),
-  trades: getTrades(state),
-  subscriptions: getSubscriptions(state),
-  trade: getTrade(state),
-  errors: getErrors(state),
-  currency: formValueSelector('coinifyCheckoutBuy')(state, 'currency'),
-  defaultCurrency: getCurrency(state),
-  checkoutBusy: path(['coinify', 'checkoutBusy'], state),
-  paymentMedium: path(['coinify', 'medium'], state),
-  step: path(['coinify', 'checkoutStep'], state),
-  coinifyBusy: path(['coinify', 'coinifyBusy'], state),
   canTrade: selectors.core.data.coinify.canTrade(state).getOrElse(false),
+  checkoutBusy: path(['coinify', 'checkoutBusy'], state),
+  coinifyBusy: path(['coinify', 'coinifyBusy'], state),
+  currency: formValueSelector('coinifyCheckoutBuy')(state, 'currency'),
+  data: getProfileData(state),
+  defaultCurrency: getCurrency(state),
+  errors: getErrors(state),
+  paymentMedium: path(['coinify', 'medium'], state),
   showRecurringModal: path(['coinify', 'showRecurringModal'], state),
   showRecurringBuy: showRecurringBuy(state),
+  step: path(['coinify', 'checkoutStep'], state),
   subscription: path(['coinify', 'subscription'], state),
-  subscriptionData: path(['coinify', 'subscriptionData'], state)
+  subscriptions: getSubscriptions(state),
+  subscriptionData: path(['coinify', 'subscriptionData'], state),
+  trade: getTrade(state),
+  trades: getTrades(state)
 })

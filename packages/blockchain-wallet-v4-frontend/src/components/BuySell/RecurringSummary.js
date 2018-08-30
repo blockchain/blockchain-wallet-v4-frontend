@@ -63,17 +63,20 @@ const RecurringSummary = ({ orderReview, quoteR, trade, subscription }) => {
         </TooltipHost>
       </HeaderWrapper>
       <RecurringBox>
-        {
-          orderReview
-            ? <RecurringWarningText weight={300} size='13px'>
-              <FormattedMessage
+        <RecurringWarningText weight={300} size='13px'>
+          {
+            orderReview
+              ? <FormattedMessage
                 id='orderdetails.recurring.setup'
                 defaultMessage='You are about to set up a {frequency} Recurring Order. To cancel a Recurring Order, visit the Order History tab.'
                 values={{ frequency: prop('frequency', head(subscription)) }}
               />
-            </RecurringWarningText>
-            : null
-        }
+              : <FormattedMessage
+                id='orderdetails.recurring.setupcomplete'
+                defaultMessage='A Recurring Order has been set up.'
+              />
+          }
+        </RecurringWarningText>
         <RecurringRow>
           <RecurringKey>
             <Text color='brand-secondary' weight={300} size='13px'>

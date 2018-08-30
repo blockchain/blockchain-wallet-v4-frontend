@@ -37,5 +37,6 @@ export const getData = state => ({
   disableRecurringCheckbox: path(['coinify', 'disableRecurringCheckbox'], state),
   showModal: path(['coinify', 'showRecurringModal'], state),
   canTrade: selectors.core.data.coinify.canTrade(state).getOrElse(false),
+  level: selectors.core.data.coinify.getLevel(state).getOrElse({}),
   frequencyElements
 })

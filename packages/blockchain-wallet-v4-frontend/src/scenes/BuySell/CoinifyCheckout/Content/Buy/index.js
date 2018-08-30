@@ -34,18 +34,19 @@ class CoinifyBuyContainer extends React.Component {
 
   render () {
     const {
-      data,
-      modalActions,
+      buyQuoteR,
+      canTrade,
       coinifyActions,
       coinifyDataActions,
-      buyQuoteR,
       currency,
-      paymentMedium,
-      trade,
+      data,
       formActions,
-      canTrade,
+      level,
+      modalActions,
+      paymentMedium,
       subscription,
       subscriptionData,
+      trade,
       ...rest
     } = this.props
     const { step, checkoutBusy, coinifyBusy, subscriptions, trades, showRecurringModal, countryCode, showRecurringBuy } = rest
@@ -64,27 +65,34 @@ class CoinifyBuyContainer extends React.Component {
     return data.cata({
       Success: value => (
         <Success
-          value={value}
-          showModal={showModal}
-          buyQuoteR={buyQuoteR}
-          refreshQuote={refreshBuyQuote}
-          currency={currency}
-          checkoutBusy={checkoutBusy}
-          paymentMedium={paymentMedium}
-          initiateBuy={this.startBuy}
-          step={step}
           busy={busy}
-          trade={trade}
+          buyQuoteR={buyQuoteR}
           canTrade={canTrade}
-          subscriptions={subscriptions}
-          trades={trades}
+          checkoutBusy={checkoutBusy}
           countryCode={countryCode}
+          currency={currency}
+          initiateBuy={this.startBuy}
+          paymentMedium={paymentMedium}
+          refreshQuote={refreshBuyQuote}
+          step={step}
+          subscriptions={subscriptions}
+          showModal={showModal}
           showRecurringBuy={showRecurringBuy}
+          showRecurringModal={showRecurringModal}
           subscription={subscription}
           subscriptionData={subscriptionData}
-          clearTradeError={() => coinifyNotAsked()}
-          handleKycAction={kyc => openKYC(kyc)}
-          coinifyNextCheckoutStep={step => coinifyNextCheckoutStep(step)}
+          trade={trade}
+          trades={trades}
+          value={value}
+          clearTradeError={() =>
+            coinifyNotAsked()
+          }
+          handleKycAction={kyc =>
+            openKYC(kyc)
+          }
+          coinifyNextCheckoutStep={step =>
+            coinifyNextCheckoutStep(step)
+          }
           fetchBuyQuote={quote =>
             fetchQuote({ quote, nextAddress: value.nextAddress })
           }
@@ -94,8 +102,9 @@ class CoinifyBuyContainer extends React.Component {
           setMin={amt =>
             formActions.change('coinifyCheckoutBuy', 'leftVal', amt)
           }
-          changeTab={tab => change('buySellTabStatus', 'status', tab)}
-          showRecurringModal={showRecurringModal}
+          changeTab={tab =>
+            change('buySellTabStatus', 'status', tab)
+          }
           openRecurringConfirmModal={() =>
             showRecurringModal
               ? showModal('CoinifyRecurringBuyConfirm')
