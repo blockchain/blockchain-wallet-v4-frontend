@@ -29,7 +29,6 @@ export const getErrors = state =>
 
 export const showRecurringBuy = state => {
   const countryCode = selectors.core.settings.getCountryCode(state).getOrElse('GB')
-  const options = selectors.core.walletOptions.getOptions(state).getOrElse({})
 
   const isCardTrade = t =>
     prop('medium', t) === 'card' && prop('state', t) === 'completed'
@@ -43,7 +42,7 @@ export const showRecurringBuy = state => {
   const tradeSubscriptionsAllowed = selectors.core.data.coinify.getTradeSubscriptionsAllowed(state).getOrElse(false)
 
   if (!needsKyc && !needsTrades && !tradeSubscriptionsAllowed) return false
-  if (countryCode === 'GB' || equals(path(['platforms', 'web', 'coinify', 'showRecurringBuy'], options), false)) return false
+  if (countryCode === 'GB') return false
   return true
 }
 

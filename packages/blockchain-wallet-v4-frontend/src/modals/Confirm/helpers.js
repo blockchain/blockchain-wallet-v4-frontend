@@ -19,6 +19,13 @@ export const selectTitle = title => {
           defaultMessage='Trade In Progress'
         />
       )
+    case C.CANCEL_RECURRING_TITLE:
+      return (
+        <FormattedMessage
+          id='modals.confirm.title.cancel_recurring'
+          defaultMessage='Cancel Recurring Order'
+        />
+      )
     default:
       return (
         <FormattedMessage id='modals.confirm.title' defaultMessage='Confirm' />
@@ -60,6 +67,13 @@ export const selectMessage = (message, values) => {
           </Text>
         </Fragment>
       )
+    case C.CANCEL_RECURRING_MSG:
+      return (
+        <FormattedMessage
+          id='modals.confirm.message.cancel_recurring'
+          defaultMessage='Are you sure you want to cancel this recurring order? This cannot be turned back on and if you change your mind, you will have to create a new recurring order.'
+        />
+      )
     default:
       return (
         <FormattedMessage
@@ -86,6 +100,13 @@ export const selectCancel = message => {
           defaultMessage='No, Thanks'
         />
       )
+    case C.CANCEL_RECURRING_CANCEL:
+      return (
+        <FormattedMessage
+          id='modals.confirm.cancel.cancel_recurring'
+          defaultMessage='Go Back'
+        />
+      )
     default:
       return (
         <FormattedMessage
@@ -110,6 +131,13 @@ export const selectConfirm = message => {
         <FormattedMessage
           id='modals.confirm.confirm.phone_call'
           defaultMessage='Give Me A Call'
+        />
+      )
+    case C.CANCEL_RECURRING_CONFIRM:
+      return (
+        <FormattedMessage
+          id='modals.confirm.confirm.cancel_recurring'
+          defaultMessage='Cancel Recurring Order'
         />
       )
     default:

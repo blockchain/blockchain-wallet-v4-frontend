@@ -5,9 +5,10 @@ import * as A from './actions'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
 import * as C from 'services/AlertService'
+import * as CC from 'services/ConfirmService'
 import * as service from 'services/CoinifyService'
-import { promptForSecondPassword } from 'services/SagaService'
-import { initialize, change } from 'redux-form'
+import { promptForSecondPassword, confirm } from 'services/SagaService'
+import { initialize } from 'redux-form'
 import moment from 'moment'
 export const sellDescription = `Exchange Trade CNY-`
 export const logLocation = 'modules/coinify/sagas'
@@ -520,9 +521,18 @@ export default ({ coreSagas, networks }) => {
   const cancelSubscription = function*(data) {
     const id = path(['payload', 'id'], data)
     try {
-      yield put(A.coinifyLoading())
-      yield call(coreSagas.data.coinify.cancelSubscription, { id })
-      yield put(A.coinifySuccess())
+      const confirmed = yield call(confirm, {
+        title: CC.CANCEL_RECURRING_TITLE,
+        image: null,
+        message: CC.CANCEL_RECURRING_MSG,
+        confirm: CC.CANCEL_RECURRING_CONFIRM,
+        cancel: CC.CANCEL_RECURRING_CANCEL
+      })
+      if (confirmed) {
+        yield put(A.coinifyLoading())
+        yield call(coreSagas.data.coinify.cancelSubscription, { id })
+        yield put(A.coinifySuccess())
+      }
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'cancelSubscription', e)
