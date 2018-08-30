@@ -1,7 +1,9 @@
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { selectors } from 'data'
-import { lift, unapply, reduce, concat } from 'ramda'
+import { assoc, lift, unapply, reduce, concat } from 'ramda'
 export const concatAll = unapply(reduce(concat, []))
+
+const assocCoin = (txs, coin) => txs.map(assoc('coin', coin))
 
 export const getData = createDeepEqualSelector(
   [
@@ -11,7 +13,11 @@ export const getData = createDeepEqualSelector(
   ],
   (btcTransactions, bchTransactions, ethTransactions) => {
     const transform = (btcTransactions, bchTransactions, ethTransactions) => {
-      return concatAll(btcTransactions, bchTransactions, ethTransactions)
+      return concatAll(
+        assocCoin(btcTransactions, 'BTC'),
+        assocCoin(bchTransactions, 'BCH'),
+        assocCoin(ethTransactions, 'ETH')
+      )
     }
     return lift(transform)(
       ...concatAll(btcTransactions, bchTransactions, ethTransactions)

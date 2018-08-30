@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import { compose, prop, reverse, sortBy } from 'ramda'
 
 import TransactionListItem from 'components/TransactionListItem'
 
@@ -12,13 +13,18 @@ const Wrapper = styled.div`
   width: 100%;
 `
 
+const sortByTime = compose(
+  reverse,
+  sortBy(prop('time'))
+)
+
 const Success = props => {
   return (
     <Wrapper>
-      {props.transactions.map((transaction, index) => (
+      {sortByTime(props.transactions).map((transaction, index) => (
         <TransactionListItem
-          coin={props.coin}
           key={transaction.hash}
+          coin={transaction.coin}
           transaction={transaction}
           minConfirmations={3}
         />

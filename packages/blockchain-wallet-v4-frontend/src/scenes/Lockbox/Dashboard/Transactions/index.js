@@ -3,7 +3,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
 import { actions } from 'data'
-// import Pages from './Pages'
+import Success from './template.success'
+import Loading from './template.loading'
 
 class TransactionsContainer extends React.PureComponent {
   componentDidMount () {
@@ -12,8 +13,12 @@ class TransactionsContainer extends React.PureComponent {
 
   render () {
     const { data } = this.props
-    // TODO: make pages of sorted data
-    return data
+    return data.cata({
+      Success: val => <Success transactions={val} />,
+      Loading: () => <Loading />,
+      Failure: () => <div>Something went wrong.</div>,
+      NotAsked: () => <div />
+    })
   }
 }
 
