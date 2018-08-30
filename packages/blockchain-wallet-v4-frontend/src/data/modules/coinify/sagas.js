@@ -7,7 +7,7 @@ import * as selectors from '../../selectors.js'
 import * as C from 'services/AlertService'
 import * as service from 'services/CoinifyService'
 import { promptForSecondPassword } from 'services/SagaService'
-import { initialize } from 'redux-form'
+import { initialize, change } from 'redux-form'
 import moment from 'moment'
 export const sellDescription = `Exchange Trade CNY-`
 export const logLocation = 'modules/coinify/sagas'
@@ -296,6 +296,13 @@ export default ({ coreSagas, networks }) => {
             )
           )
           yield put(A.coinifyCheckoutBusyOff())
+          const overCreditCardMax = payload > path(['card', 'inRemaining', values.currency], limits)
+          if (overCreditCardMax) {
+            yield put(A.disableRecurringCheckbox(true))
+            yield put(actions.form.change('coinifyRecurringCheckout', 'recurring', false))
+          } else {
+            yield put(A.disableRecurringCheckbox(false))
+          }
           break
         case 'rightVal':
           if (isSell) {
@@ -560,14 +567,14 @@ export default ({ coreSagas, networks }) => {
       switch (field) {
         case 'recurring':
           yield put(A.showRecurringModal(payload))
-          break
+          return
         case 'frequency':
           yield put(A.setRecurringTradeFrequency(payload))
-          break
+          return
         case 'duration':
           const date = moment(payload).toISOString()
           yield put(A.setRecurringTradeEndTime(date))
-          break
+          return
       }
     } catch (e) {
       yield put(

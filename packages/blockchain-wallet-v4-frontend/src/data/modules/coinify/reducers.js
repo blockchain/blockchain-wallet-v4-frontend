@@ -12,7 +12,8 @@ const INITIAL_STATE = {
   payment: Remote.NotAsked,
   showRecurringModal: false,
   subscription: false,
-  subscriptionData: { frequency: 'weekly', endTime: null }
+  subscriptionData: { frequency: 'weekly', endTime: null },
+  disableRecurringCheckbox: false
 }
 
 const coinify = (state = INITIAL_STATE, action) => {
@@ -95,6 +96,9 @@ const coinify = (state = INITIAL_STATE, action) => {
         { subscription: INITIAL_STATE.subscription },
         { subscriptionData: INITIAL_STATE.subscriptionData }
       ], state)
+    }
+    case AT.DISABLE_RECURRING_CHECKBOX: {
+      return assoc('disableRecurringCheckbox', payload, state)
     }
     default:
       return state

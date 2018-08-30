@@ -1,6 +1,7 @@
 import React from 'react'
 import { formValueSelector } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import { path } from 'ramda'
 
 const frequencyElements = [
   {
@@ -32,5 +33,7 @@ export const getData = state => ({
   showRecurring: formValueSelector('coinifyRecurringCheckout')(state, 'recurring'),
   frequency: formValueSelector('coinifyRecurringCheckout')(state, 'frequency'),
   duration: formValueSelector('coinifyRecurringCheckout')(state, 'duration'),
+  disableRecurringCheckbox: path(['coinify', 'disableRecurringCheckbox'], state),
+  showModal: path(['coinify', 'showRecurringModal'], state),
   frequencyElements
 })

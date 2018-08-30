@@ -10,13 +10,15 @@ class CoinifyRecurringBuy extends React.Component {
     this.props.coinifyActions.coinifyRecurringCheckoutInitialize()
   }
   render () {
-    const { frequency, frequencyElements, showRecurring, duration } = this.props
+    const { frequency, frequencyElements, showRecurring, duration, disableRecurringCheckbox, showModal } = this.props
 
     return <RecurringBuyCheckout
       frequency={frequency}
       frequencyElements={frequencyElements}
       showRecurring={showRecurring}
       duration={duration}
+      disableRecurringCheckbox={disableRecurringCheckbox}
+      showModal={showModal}
     />
   }
 }

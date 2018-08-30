@@ -149,3 +149,7 @@ export const setIsRecurringTrade = payload => ({
   type: AT.COINIFY_IS_RECURRING_TRADE,
   payload
 })
+export const disableRecurringCheckbox = payload => ({
+  type: AT.DISABLE_RECURRING_CHECKBOX,
+  payload
+})

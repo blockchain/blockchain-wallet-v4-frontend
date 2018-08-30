@@ -23,6 +23,8 @@ const TermsWrapper = styled.div`
 const TermsLabel = styled.label`
   display: flex;
   align-items: center;
+  opacity: ${props => props.disabled ? '0.5' : '1'};
+  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
 `
 const FieldsContainer = styled.div`
   display: flex;
@@ -41,18 +43,18 @@ const isValidStartDate = current => {
 }
 
 const RecurringCheckout = props => {
-  const { frequency, duration, frequencyElements, handleSubmit } = props
+  const { frequency, duration, frequencyElements, handleSubmit, disableRecurringCheckbox, showModal } = props
   return <RecurringWrapper>
     <TermsWrapper>
-      <Field name='recurring' component={CheckBox} hideErrors />
-      <TermsLabel htmlFor='recurring'>
+      <Field name='recurring' component={CheckBox} hideErrors disabled={disableRecurringCheckbox} checked={showModal} />
+      <TermsLabel htmlFor='recurring' disabled={disableRecurringCheckbox}>
         <Text size='13px' weight={400}>
           <FormattedMessage id='scenes.buysell.coinify.recurring.makerecurringorder' defaultMessage='Make this a recurring order' />
         </Text>
       </TermsLabel>
     </TermsWrapper>
     {
-      props.showRecurring
+      showModal
         ? <FieldsContainer>
           <Form onSubmit={handleSubmit}>
             <FormGroup inline>
