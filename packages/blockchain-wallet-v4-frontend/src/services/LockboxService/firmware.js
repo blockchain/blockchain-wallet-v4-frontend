@@ -1,4 +1,5 @@
 import constants from './constants'
+
 // gets firmware information about device
 const getDeviceFirmwareInfo = transport => {
   return new Promise((resolve, reject) => {

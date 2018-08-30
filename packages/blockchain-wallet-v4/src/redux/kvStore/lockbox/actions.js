@@ -32,10 +32,6 @@ export const fetchMetadataLockboxFailure = error => ({
 })
 
 // UPDATE
-export const updateDeviceBalanceDisplay = (deviceID, showBalances) => ({
-  type: AT.UPDATE_DEVICE_BALANCE_DISPLAY,
-  payload: { deviceID, showBalances }
-})
 export const updateDeviceName = (deviceID, deviceName) => ({
   type: AT.UPDATE_DEVICE_NAME,
   payload: { deviceID, deviceName }

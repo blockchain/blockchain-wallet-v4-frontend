@@ -5,7 +5,7 @@ import { actions, selectors } from 'data'
 import * as A from './actions'
 import * as C from 'services/AlertService'
 import * as S from './selectors'
-import LockboxService from 'services/LockboxService'
+import * as LockboxService from 'services/LockboxService'
 
 const logLocation = 'components/lockbox/sagas'
 
@@ -58,31 +58,6 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const updateDeviceBalanceDisplay = function*(action) {
-    try {
-      const { deviceID, showBalances } = action.payload
-      yield put(A.updateDeviceBalanceDisplayLoading())
-      yield put(
-        actions.core.kvStore.lockbox.updateDeviceBalanceDisplay(
-          deviceID,
-          showBalances
-        )
-      )
-      yield put(A.updateDeviceBalanceDisplaySuccess())
-      yield put(actions.alerts.displaySuccess(C.LOCKBOX_UPDATE_SUCCESS))
-    } catch (e) {
-      yield put(A.updateDeviceBalanceDisplayFailure())
-      yield put(actions.alerts.displayError(C.LOCKBOX_UPDATE_ERROR))
-      yield put(
-        actions.logs.logErrorMessage(
-          logLocation,
-          'updateDeviceBalanceDisplay',
-          e
-        )
-      )
-    }
-  }
-
   // renames a device in KvStore
   const updateDeviceName = function*(action) {
     try {
@@ -125,9 +100,9 @@ export default ({ api, coreSagas }) => {
       const setupTimeout = 1500000
       // poll for both Ledger and Blockchain type devices
       const dashboardTransport = yield race({
-        LEDGER: call(
-          LockboxService.pollForAppConnection,
-          'LEDGER',
+        ledger: call(
+          LockboxService.connections.pollForAppConnection,
+          'ledger',
           'DASHBOARD',
           setupTimeout
         ),
@@ -138,18 +113,18 @@ export default ({ api, coreSagas }) => {
           setupTimeout
         )
       })
+
       // dashboard detected, user has completed setup steps on device
       // determine the deviceType based on which channel returned
       const deviceType = keysIn(dashboardTransport)[0]
       yield put(A.changeDeviceSetupStep('open-btc-app'))
-      const btcTransport = yield call(
+      const r = yield call(
         LockboxService.connections.pollForAppConnection,
         deviceType,
         'BTC'
       )
-
       const btcConnection = LockboxService.connections.createBtcConnection(
-        btcTransport
+        r.transport
       )
 
       // derive device info such as chaincodes and xpubs
@@ -210,33 +185,33 @@ export default ({ api, coreSagas }) => {
       // TODO: why doesnt programmatically creating race work?
       // let polls = {}
       // forEachObjIndexed((val, key) => {
-      //   polls[key] = call(LockboxService.pollForAppConnection, deviceType, key, timeout)
-      // }, LockboxService.CONSTS.SCRAMBLEKEYS[deviceType])
+      //   polls[key] = call(LockboxService.connections.pollForAppConnection, deviceType, key, timeout)
+      // }, LockboxService.constants.scrambleKeys[deviceType])
       // const deviceConnection = yield race(polls)
 
       // poll for device connection on all apps
       // TODO: this doesnt detect Ethereum app.. :(
       const deviceConnection = yield race({
         DASHBOARD: call(
-          LockboxService.pollForAppConnection,
+          LockboxService.connections.pollForAppConnection,
           deviceType,
           'DASHBOARD',
           timeout
         ),
         BTC: call(
-          LockboxService.pollForAppConnection,
+          LockboxService.connections.pollForAppConnection,
           deviceType,
           'BTC',
           timeout
         ),
         BCH: call(
-          LockboxService.pollForAppConnection,
+          LockboxService.connections.pollForAppConnection,
           deviceType,
           'BCH',
           timeout
         ),
         ETH: call(
-          LockboxService.pollForAppConnection,
+          LockboxService.connections.pollForAppConnection,
           deviceType,
           'ETH',
           timeout
@@ -245,14 +220,14 @@ export default ({ api, coreSagas }) => {
 
       // device/app detected
       const detectedApp = keysIn(deviceConnection)[0]
-      // console.info('DETECTED::', detectedApp)
+      console.info('APP DETECTED::', detectedApp) // eslint-disable-line
       yield put(A.setDevicePresent(true))
       yield put(A.setCurrentDevice(deviceId))
       yield put(A.setCurrentApp(detectedApp))
       if (detectedApp !== appRequested) {
         // poll for requested app
         yield call(
-          LockboxService.pollForAppConnection,
+          LockboxService.connections.pollForAppConnection,
           deviceType,
           appRequested,
           timeout
@@ -271,7 +246,6 @@ export default ({ api, coreSagas }) => {
     initializeNewDeviceSetup,
     pollForDevice,
     saveNewDeviceKvStore,
-    updateDeviceName,
-    updateDeviceBalanceDisplay
+    updateDeviceName
   }
 }
