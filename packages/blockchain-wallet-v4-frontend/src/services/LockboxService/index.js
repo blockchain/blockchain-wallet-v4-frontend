@@ -1,4 +1,4 @@
-import Transport from '@ledgerhq/hw-transport-u2f'
+import TransportU2F from '@ledgerhq/hw-transport-u2f'
 
 import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
 import { publicKeyChainCodeToBip32 } from 'blockchain-wallet-v4/src/utils/btc'
@@ -106,7 +106,7 @@ export const getDeviceFirmwareInfo = transport => {
  * @param {Number} timeout - Length of time in ms to wait for a connection
  * @returns {Promise<Transport>} Returns a connected Transport or Error
  */
-export const pollForAppConnection = (deviceType, app, timeout = 30000) => {
+export function pollForAppConnection (deviceType, app, timeout = 30000) {
   let connectTimeout, connectionTimedOut
   if (!deviceType || !app) throw new Error('Missing required params')
 
@@ -115,27 +115,29 @@ export const pollForAppConnection = (deviceType, app, timeout = 30000) => {
     const cTimeout = timeout + tOffset
 
     // create transport
-    Transport.open().then(transport => {
+    TransportU2F.open().then(transport => {
       // configure transport
       transport.setExchangeTimeout(cTimeout)
       transport.setScrambleKey(CONSTS.SCRAMBLEKEYS[deviceType][app])
+      // console.info('POLL START::', 'deviceType:', deviceType, 'app:', app, 'scrambleKey:', CONSTS.SCRAMBLEKEYS[deviceType][app])
 
       // close transport and reject promise if timeout is reached
       connectTimeout = setTimeout(() => {
         connectionTimedOut = true
-        transport.close()
         reject(new Error(`${cTimeout - tOffset}ms timeout exceeded.`))
       }, cTimeout - tOffset)
 
       // send NO_OP cmd until response is received (success) or timeout is hit (reject)
-      transport.send(...CONSTS.APDUS.NO_OP).then(
+      transport.send(...CONSTS.APDUS.TEST).then(
         () => {},
-        () => {
+        res => {
           // since no_op wont be recognized by any app as a valid cmd, this is always going
           // to fail but a response, means a device is connected and unlocked
+          // console.info('POLL END::', 'deviceType:', deviceType, 'app:', app, 'scrambleKey:', CONSTS.SCRAMBLEKEYS[deviceType][app])
           if (!connectionTimedOut) {
             clearTimeout(connectTimeout)
-            resolve(transport)
+
+            resolve(app)
           }
         }
       )
@@ -149,7 +151,8 @@ export const pollForAppConnection = (deviceType, app, timeout = 30000) => {
 export const CONSTS = {
   APDUS: {
     GET_FIRMWARE: [0xe0, 0x01, 0x00, 0x00],
-    NO_OP: [0x00, 0x00, 0x00, 0x00]
+    NO_OP: [0x00, 0x00, 0x00, 0x00],
+    TEST: [0xe0, 0xc4, 0x00, 0x00]
   },
   SCRAMBLEKEYS: {
     BLOCKCHAIN: {

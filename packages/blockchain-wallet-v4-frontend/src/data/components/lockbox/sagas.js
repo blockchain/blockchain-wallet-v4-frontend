@@ -203,35 +203,46 @@ export default ({ api, coreSagas }) => {
       )
       const storedDevices = storedDevicesR.getOrElse({})
       const deviceType = storedDevices[deviceId].device_type
+
+      // TODO: why doesnt programmatically creating race work?
+      // let polls = {}
+      // forEachObjIndexed((val, key) => {
+      //   polls[key] = call(LockboxService.pollForAppConnection, deviceType, key, timeout)
+      // }, LockboxService.CONSTS.SCRAMBLEKEYS[deviceType])
+      // const deviceConnection = yield race(polls)
+
       // poll for device connection on all apps
-      // TODO: create saga race config object programmatically!!
+      // TODO: this doesnt detect Ethereum app.. :(
       const deviceConnection = yield race({
         DASHBOARD: call(
           LockboxService.pollForAppConnection,
           deviceType,
-          LockboxService.CONSTS.SCRAMBLEKEYS[deviceType].DASHBOARD,
+          'DASHBOARD',
           timeout
         ),
         BTC: call(
           LockboxService.pollForAppConnection,
           deviceType,
-          LockboxService.CONSTS.SCRAMBLEKEYS[deviceType].BTC,
+          'BTC',
           timeout
         ),
         BCH: call(
           LockboxService.pollForAppConnection,
           deviceType,
-          LockboxService.CONSTS.SCRAMBLEKEYS[deviceType].BCH,
+          'BCH',
           timeout
         ),
         ETH: call(
           LockboxService.pollForAppConnection,
           deviceType,
-          LockboxService.CONSTS.SCRAMBLEKEYS[deviceType].ETH,
+          'ETH',
           timeout
         )
       })
+
+      // device/app detected
       const detectedApp = keysIn(deviceConnection)[0]
+      // console.info('DETECTED::', detectedApp)
       yield put(A.setDevicePresent(true))
       yield put(A.setCurrentDevice(deviceId))
       yield put(A.setCurrentApp(detectedApp))
