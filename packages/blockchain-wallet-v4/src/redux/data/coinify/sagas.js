@@ -253,7 +253,6 @@ export default ({ api, options }) => {
   const buy = function*(data, addressData, subscriptionData) {
     const { quote, medium } = data.payload
     try {
-      console.log('CORE BUY', subscriptionData)
       yield put(A.handleTradeLoading())
       const mediums = yield apply(quote, quote.getPaymentMediums)
       const accounts = yield apply(mediums[medium], mediums[medium].getAccounts)
