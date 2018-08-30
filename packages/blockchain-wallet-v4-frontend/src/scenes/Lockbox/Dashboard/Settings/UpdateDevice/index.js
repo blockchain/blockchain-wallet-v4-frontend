@@ -8,19 +8,23 @@ import UpdateDevice from './template.js'
 class UpdateDeviceContainer extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.onClick = this.onClick.bind(this, props.deviceId)
+    this.onStartUpgrade = this.onStartUpgrade.bind(this)
   }
 
-  onClick () {
-    this.props.modalActions.showModal('LockboxFirmware')
+  onStartUpgrade () {
+    this.props.modalActions.showModal('ConnectLockboxDevice', {
+      appRequested: 'DASHBOARD',
+      deviceId: this.props.deviceId
+    })
   }
 
   render () {
-    return <UpdateDevice onClick={this.onClick} />
+    return <UpdateDevice onStartUpgrade={this.onStartUpgrade} />
   }
 }
 
 const mapDispatchToProps = dispatch => ({
+  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

@@ -15,15 +15,4 @@ export const getNewDeviceInfo = path([
 ])
 
 // Device Connections
-export const getTransportObject = path([
-  'components',
-  'lockbox',
-  'connection',
-  'transport'
-])
-export const getConnectedDevice = path([
-  'components',
-  'lockbox',
-  'connection',
-  'device'
-])
+export const getConnectionStatus = path(['components', 'lockbox', 'connection'])
