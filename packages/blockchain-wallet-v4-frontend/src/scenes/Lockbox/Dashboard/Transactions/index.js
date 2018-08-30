@@ -7,14 +7,23 @@ import Success from './template.success'
 import Loading from './template.loading'
 
 class TransactionsContainer extends React.PureComponent {
+  constructor (props) {
+    super(props)
+    this.loadMore = this.loadMore.bind(this)
+  }
+
   componentDidMount () {
     this.props.lockboxActions.initializeDashboard()
+  }
+
+  loadMore () {
+    this.props.lockboxActions.updateTransactionList()
   }
 
   render () {
     const { data } = this.props
     return data.cata({
-      Success: val => <Success transactions={val} />,
+      Success: val => <Success transactions={val} loadMore={this.loadMore} />,
       Loading: () => <Loading />,
       Failure: () => <div>Something went wrong.</div>,
       NotAsked: () => <div />

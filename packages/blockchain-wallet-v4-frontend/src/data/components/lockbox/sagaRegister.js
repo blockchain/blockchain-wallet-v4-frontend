@@ -10,7 +10,10 @@ export default ({ api, coreSagas }) => {
       AT.INITIALIZE_NEW_DEVICE_SETUP,
       lockboxSagas.initializeNewDeviceSetup
     )
-    yield takeLatest(AT.INITIALIZE_DASHBOARD, lockboxSagas.initializeDashboard)
+    yield takeLatest(
+      AT.UPDATE_TRANSACTION_LIST,
+      lockboxSagas.updateTransactionList
+    )
     yield takeLatest(
       AT.DETERMINE_LOCKBOX_ROUTE,
       lockboxSagas.determineLockboxRoute
@@ -25,5 +28,6 @@ export default ({ api, coreSagas }) => {
     )
     yield takeLatest(AT.DELETE_DEVICE, lockboxSagas.deleteDevice)
     yield takeLatest(AT.CONNECT_DEVICE, lockboxSagas.connectDevice)
+    yield takeLatest(AT.INITIALIZE_DASHBOARD, lockboxSagas.initializeDashboard)
   }
 }

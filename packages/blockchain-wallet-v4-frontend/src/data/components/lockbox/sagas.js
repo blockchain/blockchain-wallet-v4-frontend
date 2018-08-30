@@ -213,6 +213,37 @@ export default ({ api, coreSagas }) => {
       actions.core.data.bch.fetchTransactions(bchContextR.getOrElse(null), true)
     )
   }
+
+  const updateTransactionList = function*() {
+    // TODO: onlyShow and filtering
+    const btcContextR = yield select(
+      selectors.core.kvStore.lockbox.getLockboxBtcContext
+    )
+    const bchContextR = yield select(
+      selectors.core.kvStore.lockbox.getLockboxBchContext
+    )
+    const ethContextR = yield select(
+      selectors.core.kvStore.lockbox.getLockboxEthContext
+    )
+    yield put(
+      actions.core.data.bitcoin.fetchTransactions(
+        btcContextR.getOrElse(null),
+        false
+      )
+    )
+    yield put(
+      actions.core.data.ethereum.fetchTransactions(
+        ethContextR.getOrElse(null),
+        false
+      )
+    )
+    yield put(
+      actions.core.data.bch.fetchTransactions(
+        bchContextR.getOrElse(null),
+        false
+      )
+    )
+  }
   /**
    * Polls for device connection and application to be opened
    * @param {String} actions.app - Requested application to wait for
@@ -250,6 +281,7 @@ export default ({ api, coreSagas }) => {
     initializeNewDeviceSetup,
     saveNewDeviceKvStore,
     updateDeviceName,
+    updateTransactionList,
     updateDeviceBalanceDisplay
   }
 }

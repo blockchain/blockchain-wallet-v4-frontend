@@ -29,6 +29,7 @@ const Success = props => {
           minConfirmations={3}
         />
       ))}
+      <div onClick={() => props.loadMore()}>Load More</div>
     </Wrapper>
   )
 }
