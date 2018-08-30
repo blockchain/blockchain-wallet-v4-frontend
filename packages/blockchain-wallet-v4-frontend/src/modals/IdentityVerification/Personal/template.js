@@ -308,7 +308,7 @@ const Personal = ({
                     <EmailHelper error={true}>
                       <FormattedMessage
                         id='identityverification.personal.addressrefetch'
-                        defaultMessage='Ooops, address lookup failed. {retry}'
+                        defaultMessage='Oops, address lookup failed. {retry}'
                         values={{
                           retry: <a onClick={onPostCodeChange}>Try again?</a>
                         }}
