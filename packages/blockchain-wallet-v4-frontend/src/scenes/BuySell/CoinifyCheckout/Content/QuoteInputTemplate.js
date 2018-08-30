@@ -293,13 +293,13 @@ const FiatConvertor = props => {
           )}
           {gt(2, prop('name', level)) &&
           not(equals(prop('state', kyc), 'reviewing')) ? (
-            <a onClick={() => increaseLimit()}>
-              <FormattedMessage
-                id='buysell.quote_input.increase_limits'
-                defaultMessage=' Increase your limit.'
-              />
-            </a>
-          ) : null}
+              <a onClick={() => increaseLimit()}>
+                <FormattedMessage
+                  id='buysell.quote_input.increase_limits'
+                  defaultMessage=' Increase your limit.'
+                />
+              </a>
+            ) : null}
         </LimitsHelper>
       )
     }
@@ -326,6 +326,7 @@ const FiatConvertor = props => {
             component={SelectBoxCoinifyCurrency}
             defaultDisplay={defaultCurrency}
             isSell={isSell}
+            disabled={inputsDisabled}
           />
         </Container>
         <ArrowLeft size='16px' name='left-arrow' />

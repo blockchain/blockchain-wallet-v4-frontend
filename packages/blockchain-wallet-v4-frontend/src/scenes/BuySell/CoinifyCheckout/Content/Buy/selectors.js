@@ -1,5 +1,5 @@
 import { formValueSelector } from 'redux-form'
-import { lift, path, equals, prop, filter } from 'ramda'
+import { lift, path, prop, filter } from 'ramda'
 import { selectors } from 'data'
 
 export const getProfileData = state => {

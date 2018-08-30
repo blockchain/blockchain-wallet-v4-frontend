@@ -43,11 +43,19 @@ const isValidStartDate = current => {
 }
 
 const RecurringCheckout = props => {
-  const { frequency, duration, frequencyElements, handleSubmit, disableRecurringCheckbox, showModal } = props
+  const {
+    canTrade,
+    disableRecurringCheckbox,
+    duration,
+    frequency,
+    frequencyElements,
+    handleSubmit,
+    showModal
+  } = props
   return <RecurringWrapper>
     <TermsWrapper>
-      <Field name='recurring' component={CheckBox} hideErrors disabled={disableRecurringCheckbox} checked={showModal} />
-      <TermsLabel htmlFor='recurring' disabled={disableRecurringCheckbox}>
+      <Field name='recurring' component={CheckBox} hideErrors disabled={disableRecurringCheckbox || !canTrade} checked={showModal} />
+      <TermsLabel htmlFor='recurring' disabled={disableRecurringCheckbox || !canTrade}>
         <Text size='13px' weight={400}>
           <FormattedMessage id='scenes.buysell.coinify.recurring.makerecurringorder' defaultMessage='Make this a recurring order' />
         </Text>
