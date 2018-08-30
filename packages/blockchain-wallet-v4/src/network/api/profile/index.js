@@ -62,14 +62,13 @@ export default ({
       data: { address }
     })
 
-  const syncUserWithWallet = retailToken => {
+  const syncUserWithWallet = retailToken =>
     authorizedPut({
       url: nabuUrl,
       endPoint: '/users/current/walletInfo',
       contentType: 'application/json',
       data: { jwt: retailToken }
     })
-  }
 
   return {
     createUser,

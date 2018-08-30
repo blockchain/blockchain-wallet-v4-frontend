@@ -3,14 +3,20 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Select, { components } from 'react-select'
 import { equals, flatten, filter, head, assoc, path } from 'ramda'
+import { transparentize } from 'polished'
 
 const StyledSelect = styled(Select)`
   font-weight: 300;
   font-family: 'Montserrat', sans-serif;
   font-size: ${props => (props.fontSize === 'small' ? '12px' : '14px')};
 
-  .control {
+  .bc__control {
     box-shadow: none;
+    color: ${props => props.theme['gray-5']};
+    background-color: ${props => props.theme['white']};
+    cursor: pointer;
+    min-height: 40px;
+    border-radius: 0;
     border: 1px solid ${props => props.theme[props.borderColor]};
     &:hover {
       border: 1px solid ${props => props.theme[props.borderColor]};
@@ -24,17 +30,34 @@ const StyledSelect = styled(Select)`
       background-color: ${props => props.theme['gray-1']};
     }
   }
-`
 
-const customStyles = {
-  control: styles => ({
-    ...styles,
-    backgroundColor: 'white',
-    cursor: 'pointer',
-    minHeight: '40px',
-    borderRadius: 0
-  })
-}
+  .bc__option {
+    cursor: pointer;
+    color: ${props => props.theme['gray-5']};
+    background-color: ${props => props.theme['white']};
+    &.bc__option--is-focused {
+      background-color: ${props =>
+        transparentize(0.9, props.theme['brand-secondary'])};
+    }
+    &.bc__option--is-selected {
+      color: ${props => props.theme['white']};
+      background-color: ${props => props.theme['brand-secondary']};
+      &:hover {
+        background-color: ${props => props.theme['brand-secondary']};
+      }
+      * {
+        color: ${props => props.theme['white']};
+      }
+    }
+    :hover: {
+      background-color: ${props =>
+        transparentize(0.9, props.theme['brand-secondary'])};
+    }
+    * {
+      color: ${props => props.theme['gray-5']};
+    }
+  }
+`
 
 const Option = props => {
   const itemProps = assoc('text', props.label, props)
@@ -44,6 +67,13 @@ const Option = props => {
         ? props.selectProps.templateItem(itemProps)
         : props.children}
     </components.Option>
+  )
+}
+
+const Control = props => {
+  return props.selectProps.hideFocusedControl &&
+    props.selectProps.menuIsOpen ? null : (
+    <components.Control {...props} />
   )
 }
 
@@ -59,13 +89,6 @@ const ValueContainer = ({ children, ...props }) => {
         ? props.selectProps.templateDisplay(displayProps, children)
         : children}
     </components.ValueContainer>
-  )
-}
-
-const Control = props => {
-  return props.selectProps.hideFocusedControl &&
-    props.selectProps.menuIsOpen ? null : (
-    <components.Control {...props} className='control' />
   )
 }
 
@@ -107,11 +130,11 @@ const SelectInput = props => {
     hideFocusedControl,
     hideIndicator,
     handleChange,
-    onFocus,
-    onBlur,
     errorState,
     menuIsOpen,
-    grouped
+    onFocus,
+    grouped,
+    onBlur
   } = props
   const options = grouped
     ? items
@@ -125,9 +148,9 @@ const SelectInput = props => {
   return (
     <StyledSelect
       className={className}
+      classNamePrefix='bc'
       options={options}
       borderColor={borderColor}
-      styles={customStyles}
       templateItem={templateItem}
       templateDisplay={templateDisplay}
       components={{

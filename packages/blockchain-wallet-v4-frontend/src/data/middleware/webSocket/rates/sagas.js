@@ -1,9 +1,12 @@
-import { whereEq, map, isEmpty } from 'ramda'
+import { whereEq, map, isEmpty, values } from 'ramda'
 import { put, all, call, select } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { selectors, model } from 'data'
+
+import { selectors, model, actions } from 'data'
 import * as A from './actions'
+
 export const socketAuthRetryDelay = 5000
+const openChannels = {}
 
 export default ({ api, ratesSocket }) => {
   const isAuthError = whereEq(model.rates.AUTH_ERROR_MESSAGE)
@@ -18,6 +21,11 @@ export default ({ api, ratesSocket }) => {
 
   const onOpen = function*() {
     yield call(authenticateSocket)
+    yield call(reopenChannels)
+  }
+
+  const reopenChannels = function () {
+    map(ratesSocket.send.bind(ratesSocket), values(openChannels))
   }
 
   const onMessage = function*({ payload: { message } }) {
@@ -30,8 +38,16 @@ export default ({ api, ratesSocket }) => {
       yield put(A.unsubscribeSuccess(message.pair))
     if (isSubscribeError(message))
       yield put(A.subscribeError(message.pair, null))
-    if (isAdviceMessage(message))
-      yield put(A.updateAdvice(message.pair, message.currencyRatio))
+    if (isAdviceMessage(message)) {
+      yield put(
+        actions.modules.rates.updateAdvice(
+          message.pair,
+          message.fix,
+          message.volume,
+          message.currencyRatio
+        )
+      )
+    }
   }
 
   const restFallback = function*() {
@@ -49,7 +65,7 @@ export default ({ api, ratesSocket }) => {
   const fetchRate = function*({ pair, config: { volume, fix, fiatCurrency } }) {
     try {
       const advice = yield call(api.fetchRates, pair, volume, fix, fiatCurrency)
-      yield put(A.updateAdvice(pair, advice))
+      yield put(actions.modules.rates.updateAdvice(pair, fix, volume, advice))
     } catch (e) {
       yield put(A.subscribeError(pair, e))
     }
@@ -60,15 +76,22 @@ export default ({ api, ratesSocket }) => {
   const openChannelForPair = function*({ payload }) {
     const { pair, volume, fix, fiatCurrency } = payload
     if (!volume || !fix || !fiatCurrency) return
-    if (ratesSocket.isReady())
-      return ratesSocket.send(
-        model.rates.getPairSubscribeMessage(pair, volume, fix, fiatCurrency)
+    if (ratesSocket.isReady()) {
+      const message = model.rates.getPairSubscribeMessage(
+        pair,
+        volume,
+        fix,
+        fiatCurrency
       )
+      openChannels[pair] = message
+      return ratesSocket.send(message)
+    }
     yield call(fetchRate, { pair, config: { volume, fix, fiatCurrency } })
   }
 
   const closeChannelForPair = function ({ payload }) {
     const { pair } = payload
+    delete openChannels[pair]
     if (ratesSocket.isReady())
       ratesSocket.send(model.rates.getPairUnsubscribeMessage(pair))
   }

@@ -9,5 +9,6 @@ export default ({ api }) => {
     yield takeLatest(AT.SUBSCRIBE_TO_RATE, sagas.subscribeToRate)
     yield takeLatest(AT.UNSUBSCRIBE_FROM_RATE, sagas.unsubscribeFromRate)
     yield takeLatest(AT.FETCH_AVAILABLE_PAIRS, sagas.fetchAvailablePairs)
+    yield takeLatest(AT.UPDATE_ADVICE, sagas.updateAdvice)
   }
 }

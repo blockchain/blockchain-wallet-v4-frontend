@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import { EXCHANGE_STEPS } from 'data/components/exchange/model'
 
 import StateRegistration from './StateRegistration'
-import ExchangeForm from '../ExchangeForm'
+import ExchangeForm from './ExchangeForm'
 import Confirm from './Confirm'
-import ExchangeResults from '../ExchangeResults'
+import ExchangeResults from './ExchangeResults'
 
 const Shapeshift = props => {
   switch (props.step) {
