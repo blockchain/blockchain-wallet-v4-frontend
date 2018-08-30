@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, HeartbeatLoader, Icon } from 'blockchain-info-components'
+import { HeartbeatLoader, Icon } from 'blockchain-info-components'
 import {
   Wrapper,
   ExchangeText,
@@ -26,9 +26,24 @@ const ConfirmWrapper = styled(Wrapper)`
     margin-bottopm: 30px;
   }
 `
-const CoinButton = styled(Button)`
+const CoinButton = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
   background-color: ${props => props.theme[props.coin]};
+  border: 1px solid ${props => props.theme[props.coin]};
+  color: ${props => props.theme.white};
+  padding: 10px 15px;
+  border-radius: 3px;
   flex: 1;
+  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1;
+  text-decoration: none;
+  letter-spacing: normal;
 `
 const Row = styled.div`
   width: 100%;
@@ -66,16 +81,12 @@ const Summary = ({
         />
       </Title>
       <Row>
-        <CoinButton coin={sourceCoin}>
-          {sourceAmount}
-          &nbsp;
-          {sourceCoin}
+        <CoinButton coin={sourceCoin.toLowerCase()}>
+          {`${sourceAmount} ${sourceCoin}`}
         </CoinButton>
         <FromToIcon name='right-arrow-filled' />
-        <CoinButton coin={targetAmount}>
-          {targetAmount}
-          &nbsp;
-          {targetAmount}
+        <CoinButton coin={targetCoin.toLowerCase()}>
+          {`${targetAmount} ${targetCoin}`}
         </CoinButton>
       </Row>
       <TableRow>
@@ -86,12 +97,7 @@ const Summary = ({
           />
         </ExchangeText>
         <ExchangeText weight={300}>
-          1&nbsp;
-          {sourceCoin}
-          &nbsp;=&nbsp;
-          {sourceToTargetRate}
-          &nbsp;
-          {targetCoin}
+          {`1 ${sourceCoin} = ${sourceToTargetRate} ${targetCoin}`}
         </ExchangeText>
       </TableRow>
       <TableRow>
@@ -101,11 +107,7 @@ const Summary = ({
             defaultMessage='Network Fee'
           />
         </ExchangeText>
-        <ExchangeText weight={300}>
-          {fee}
-          &nbsp;
-          {targetCoin}
-        </ExchangeText>
+        <ExchangeText weight={300}>{`${fee} ${targetCoin}`}</ExchangeText>
       </TableRow>
       <TableRow>
         <ExchangeText>
@@ -114,12 +116,7 @@ const Summary = ({
             defaultMessage='Total Value'
           />
         </ExchangeText>
-        <ExchangeText weight={300}>
-          ~&nbsp;
-          {targetFiat}
-          &nbsp;
-          {currency}
-        </ExchangeText>
+        <ExchangeText weight={300}>{`~${targetFiat} ${currency}`}</ExchangeText>
       </TableRow>
       <Delimiter />
       <Note>

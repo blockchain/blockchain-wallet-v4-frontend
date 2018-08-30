@@ -23,6 +23,7 @@ import {
 } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { currencySymbolMap } from 'services/CoinifyService'
+import { Remote } from 'blockchain-wallet-v4'
 
 const { EXCHANGE_FORM, formatPair } = model.components.exchange
 const { getComplementaryField, mapFixToFieldName, FIX_TYPES } = model.rates
@@ -186,7 +187,6 @@ export const getData = createDeepEqualSelector(
     getBchAccounts,
     getEthAccounts,
     selectors.core.settings.getCurrency,
-    selectors.components.exchange.getFirstStepEnabled,
     selectors.components.exchange.getError,
     getFormValues,
     selectors.modules.rates.getAvailablePairs,
@@ -198,7 +198,6 @@ export const getData = createDeepEqualSelector(
     bchAccountsR,
     ethAccountsR,
     currencyR,
-    enabled,
     formError,
     formValues,
     availablePairsR,
@@ -258,7 +257,7 @@ export const getData = createDeepEqualSelector(
         toElements,
         initialValues,
         hasOneAccount,
-        disabled: !enabled,
+        disabled: !Remote.Success.is(amountsR),
         formError,
         currency,
         inputField,

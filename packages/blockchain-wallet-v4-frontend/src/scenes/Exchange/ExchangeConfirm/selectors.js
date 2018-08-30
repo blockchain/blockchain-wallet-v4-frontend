@@ -10,8 +10,8 @@ export const getData = state => {
   const sourceCoin = path(['source', 'coin'], formValues) || 'BTC'
   const targetCoin = path(['target', 'coin'], formValues) || 'ETH'
   const pair = formatPair(sourceCoin, targetCoin)
-  const amountsR = getAmounts(state, pair)
-  const ratesR = getRates(state, pair)
+  const amountsR = getAmounts(pair, state)
+  const ratesR = getRates(pair, state)
 
   const transform = (currency, amounts, rates) => ({
     sourceAmount: amounts.sourceAmount,
@@ -23,5 +23,5 @@ export const getData = state => {
     currency
   })
 
-  return lift(transform, currencyR, amountsR, ratesR)
+  return lift(transform)(currencyR, amountsR, ratesR)
 }

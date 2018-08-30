@@ -329,7 +329,11 @@ class Success extends React.Component {
             <SubmitButton
               type='submit'
               nature='primary'
-              disabled={!dirty || disabled || (dirty && !isEmpty(formError))}
+              disabled={
+                !dirty ||
+                disabled ||
+                (dirty && !isEmpty(formError) && formError !== 'initial')
+              }
             >
               {!disabled && (
                 <FormattedMessage
