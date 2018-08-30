@@ -29,6 +29,7 @@ export const getErrors = state =>
 
 export const showRecurringBuy = state => {
   const countryCode = selectors.core.settings.getCountryCode(state).getOrElse('GB')
+  const invitedStatus = selectors.core.settings.getInvited(state).getOrElse({})
 
   const isCardTrade = t =>
     prop('medium', t) === 'card' && prop('state', t) === 'completed'
@@ -43,7 +44,7 @@ export const showRecurringBuy = state => {
 
   if (!needsKyc && !needsTrades && !tradeSubscriptionsAllowed) return false
   if (countryCode === 'GB') return false
-  return true
+  return prop('coinifyRecurringBuy', invitedStatus) // if other checks pass, this should be the final one
 }
 
 export const getData = state => ({
