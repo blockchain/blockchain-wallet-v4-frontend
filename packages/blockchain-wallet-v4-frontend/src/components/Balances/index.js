@@ -175,3 +175,46 @@ export const HomeCoinBalanceCell = props => {
     </Wrapper>
   )
 }
+
+export const CurrencyItem = props => {
+  const Wrapper = styled.div`
+    display: flex;
+    padding: 15px;
+    margin-right: 20px;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 3px;
+    background-color: ${props => props.theme['white-blue']};
+    cursor: pointer;
+    * {
+      cursor: pointer;
+    }
+  `
+  const IconBox = styled.div`
+    padding: 5px;
+    margin-right: 10px;
+    border-radius: 3px;
+    background-color: ${props => props.theme[props.coin]};
+  `
+  const Balance = styled.div`
+    > div:first-child {
+      margin-bottom: 3px;
+    }
+  `
+
+  return (
+    <Wrapper>
+      <IconBox coin={props.coin}>
+        <Icon size='32px' color='white' name={props.icon} />
+      </IconBox>
+      <Balance>
+        <FiatDisplay size='14px' weight={400} coin={props.coin.toUpperCase()}>
+          {props.balance}
+        </FiatDisplay>
+        <CoinDisplay size='13px' weight={200} coin={props.coin.toUpperCase()}>
+          {props.balance}
+        </CoinDisplay>
+      </Balance>
+    </Wrapper>
+  )
+}

@@ -8,7 +8,6 @@ import { actions } from 'data'
 import { getData } from './selectors'
 import Transactions from './Transactions'
 import Settings from './Settings'
-import Header from './Header'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -24,7 +23,6 @@ class LockboxDashboardContainer extends React.PureComponent {
       Success: device => {
         return (
           <Wrapper>
-            <Header device={device} />
             <ContentWrapper>
               {location.pathname === '/lockbox/settings' && (
                 <Settings device={device} />
