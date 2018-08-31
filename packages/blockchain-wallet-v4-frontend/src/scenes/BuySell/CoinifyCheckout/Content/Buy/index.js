@@ -69,6 +69,7 @@ class CoinifyBuyContainer extends React.Component {
           buyQuoteR={buyQuoteR}
           canTrade={canTrade}
           checkoutBusy={checkoutBusy}
+          clearTradeError={coinifyNotAsked}
           countryCode={countryCode}
           currency={currency}
           initiateBuy={this.startBuy}
@@ -84,9 +85,6 @@ class CoinifyBuyContainer extends React.Component {
           trade={trade}
           trades={trades}
           value={value}
-          clearTradeError={() =>
-            coinifyNotAsked()
-          }
           handleKycAction={kyc =>
             openKYC(kyc)
           }

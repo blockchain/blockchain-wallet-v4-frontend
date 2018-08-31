@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { spacing } from 'services/StyleService'
 import renderFaq from 'components/FaqDropdown'
-import { equals, path } from 'ramda'
+import { equals, path, prop } from 'ramda'
 
 import { Button, HeartbeatLoader, Link } from 'blockchain-info-components'
 import {
@@ -139,7 +139,7 @@ const Payment = props => {
   const isChecked = type => medium === type
 
   const onClickHelper = () => {
-    if (path(['name'], level) < 2 && medium === 'bank') triggerKyc()
+    if (prop('name', level) < 2 && medium === 'bank') triggerKyc()
     else coinifyNextCheckoutStep('summary')
   }
 
@@ -190,7 +190,7 @@ const Payment = props => {
             <Button
               nature='primary'
               fullwidth
-              onClick={() => onClickHelper()}
+              onClick={onClickHelper}
               disabled={!medium || busy}
             >
               {busyHelper(busy)}

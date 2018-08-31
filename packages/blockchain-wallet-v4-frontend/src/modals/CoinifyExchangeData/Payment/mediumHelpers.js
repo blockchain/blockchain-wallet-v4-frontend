@@ -202,7 +202,7 @@ export const bankOptionHelper = (
             id='scenes.buysell.coinifyexchangedata.payment.bank.unavailable_kyc'
             defaultMessage='Bank transfers are unavailable until Identity Verification has been finished.'
           />
-          {equals(path(['state'], kyc), 'pending') ? (
+          {equals(prop('state', kyc), 'pending') ? (
             <Link
               size='12px'
               weight={300}

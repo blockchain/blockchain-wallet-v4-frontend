@@ -24,14 +24,14 @@ export const getFiatCurrency = state =>
       : baseCurrency
   })
 
-export const getLimits = state => getProfile(state).map(path(['_limits']))
+export const getLimits = state => getProfile(state).map(prop('_limits'))
 
-export const getLevel = state => getProfile(state).map(path(['_level']))
+export const getLevel = state => getProfile(state).map(prop('_level'))
 
-export const getTradeSubscriptionsAllowed = state => getProfile(state).map(path(['_tradeSubscriptionsAllowed']))
+export const getTradeSubscriptionsAllowed = state => getProfile(state).map(prop('_tradeSubscriptionsAllowed'))
 
 export const getCurrentLimits = state =>
-  getProfile(state).map(path(['currentLimits']))
+  getProfile(state).map(prop('currentLimits'))
 
 export const getKyc = path([dataPath, 'coinify', 'kyc'])
 
@@ -43,10 +43,10 @@ export const getDefaultCurrency = path([
 
 export const getTrade = path([dataPath, 'coinify', 'trade'])
 
-export const canTrade = state => getProfile(state).map(path(['_canTrade']))
+export const canTrade = state => getProfile(state).map(prop('_canTrade'))
 
 export const cannotTradeReason = state =>
-  getProfile(state).map(path(['_cannotTradeReason']))
+  getProfile(state).map(prop('_cannotTradeReason'))
 
 export const getBankAccounts = state =>
   getMediums(state).map(path(['bank', '_accounts']))

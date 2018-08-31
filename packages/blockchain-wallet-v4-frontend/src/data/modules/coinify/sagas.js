@@ -562,12 +562,12 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const recurringCheckoutInitialized = function * () {
+  const recurringCheckoutInitialized = function*() {
     const initialValues = { frequency: 'weekly', duration: null }
     yield put(initialize('coinifyRecurringCheckout', initialValues))
   }
 
-  const handleRecurringFormChange = function * (action) {
+  const handleRecurringFormChange = function*(action) {
     try {
       const form = path(['meta', 'form'], action)
       if (!equals(form, 'coinifyRecurringCheckout')) return
@@ -593,7 +593,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const startKycFromRecurring = function * () {
+  const startKycFromRecurring = function*() {
     try {
       yield put(A.coinifyLoading())
       yield call(coreSagas.data.coinify.triggerKYC)
@@ -606,7 +606,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const handleRecurringModalClose = function * () {
+  const handleRecurringModalClose = function*() {
     try {
       yield put(actions.modals.closeModal())
       yield put(A.showRecurringModal(false))
@@ -618,7 +618,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const handleNextCheckoutStep = function * (payload) {
+  const handleNextCheckoutStep = function*(payload) {
     try {
       const { step } = payload
       if (equals(step, 'checkout')) {

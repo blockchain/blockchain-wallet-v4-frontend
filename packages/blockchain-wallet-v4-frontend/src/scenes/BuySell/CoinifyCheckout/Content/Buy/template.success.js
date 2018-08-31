@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { contains, path, prop, equals } from 'ramda'
+import { contains, prop, equals, isEmpty } from 'ramda'
 
 import { Button } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
@@ -99,14 +99,14 @@ const CoinifyBuy = props => {
           />
         </LeftContainer>
         <RightContainer>
-          {activeSubscriptions.length > 0 ? (
+          {!isEmpty(activeSubscriptions) ? (
             <NextSubscription
               subscriptions={subscriptions}
-              trades={trades.filter(t => t.tradeSubscriptionId)}
+              trades={trades.filter(prop('tradeSubscriptionId'))}
               manageOrder={() => changeTab('order_history')}
             />
           ) : null}
-          {path(['state'], kyc) ? (
+          {prop('state', kyc) ? (
             <KYCNotification
               kyc={kyc}
               limits={limits.buy}
@@ -123,7 +123,7 @@ const CoinifyBuy = props => {
   } else if (equals(step, 'isx')) {
     return (
       <ISignThis
-        iSignThisId={path(['iSignThisID'], trade)}
+        iSignThisId={prop('iSignThisID', trade)}
         options={props.options}
       />
     )
