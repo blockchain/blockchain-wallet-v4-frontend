@@ -95,7 +95,7 @@ const coinify = (state = INITIAL_STATE, action) => {
         { showRecurringModal: INITIAL_STATE.showRecurringModal },
         { subscription: INITIAL_STATE.subscription },
         { subscriptionData: INITIAL_STATE.subscriptionData }
-      ], state)
+      ])
     }
     case AT.DISABLE_RECURRING_CHECKBOX: {
       return assoc('disableRecurringCheckbox', payload, state)
