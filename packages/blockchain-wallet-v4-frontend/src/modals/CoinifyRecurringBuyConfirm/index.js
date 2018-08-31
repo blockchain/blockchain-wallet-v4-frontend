@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
-import { getCanMakeRecurringTrade, getNumberOfTradesAway, getCoinifyStatus } from './selectors'
+import { getCanMakeRecurringTrade, getNumberOfTradesAway, getCoinifyStatus, getKyc } from './selectors'
 import Template from './template'
 
 class CoinifyRecurringBuyConfirmContainer extends React.PureComponent {
@@ -19,7 +19,8 @@ class CoinifyRecurringBuyConfirmContainer extends React.PureComponent {
 const mapStateToProps = state => ({
   numberOfTradesAway: getNumberOfTradesAway(state),
   canMakeRecurringTrade: getCanMakeRecurringTrade(state),
-  status: getCoinifyStatus(state)
+  status: getCoinifyStatus(state),
+  kyc: getKyc(state)
 })
 
 const mapDispatchToProps = dispatch => ({

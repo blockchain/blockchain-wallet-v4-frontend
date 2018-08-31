@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { Modal, ModalHeader, ModalBody, ModalFooter, Text, Button, HeartbeatLoader } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import { prop, equals } from 'ramda'
+import { prop, equals, contains } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { Field, reduxForm } from 'redux-form'
 import { CheckBox } from 'components/Form'
@@ -34,7 +34,7 @@ const checkboxShouldBeChecked = value =>
   value ? undefined : 'You must agree to the terms and conditions to create a recurring order'
 
 const CoinifyRecurringBuyConfirm = props => {
-  const { canMakeRecurringTrade, numberOfTradesAway, status, coinifyActions, invalid, close } = props
+  const { canMakeRecurringTrade, numberOfTradesAway, status, coinifyActions, invalid, close, kyc } = props
   const { handleRecurringModalClose, setIsRecurringTrade, coinifyNextCheckoutStep, startKycFromRecurring } = coinifyActions
 
   const textHelper = () => {
@@ -46,6 +46,16 @@ const CoinifyRecurringBuyConfirm = props => {
           button: <FormattedMessage id='modals.coinifyrecurringbuyconfirm.button.needskyctrades' defaultMessage='Verify My Identity' />
         }
       case 'needs_kyc':
+        if (contains(prop('state', kyc), ['pending', 'reviewing'])) {
+          const header = prop('state', kyc) === 'reviewing'
+            ? <FormattedMessage id='modals.coinifyrecurringbuyconfirm.header.needskyc.reviewing' defaultMessage='Identity Verification In Review' />
+            : <FormattedMessage id='modals.coinifyrecurringbuyconfirm.header.needskyc.pending' defaultMessage='Identity Verification not Complete' />
+          return {
+            header: header,
+            body: <FormattedMessage id='modals.coinifyrecurringbuyconfirm.body.needskyc.reviewing' defaultMessage='Recurring orders will be available after your verification is complete. You can still put single orders through.' />,
+            button: null
+          }
+        }
         return {
           header: <FormattedMessage id='modals.coinifyrecurringbuyconfirm.header.needskyc' defaultMessage='Verify Your Identity' />,
           body: <FormattedMessage id='modals.coinifyrecurringbuyconfirm.body.needskyc' defaultMessage='To set up a recurring order, you first need to verify your identity.' />,
@@ -113,13 +123,15 @@ const CoinifyRecurringBuyConfirm = props => {
             <Button width='100px' onClick={handleRecurringModalClose} nature='empty'>
               <FormattedMessage id='modals.coinifyrecurringbuyconfirm.goback' defaultMessage='Go Back' />
             </Button>
-            <Button nature='primary' onClick={() => clickHelper()} disabled={invalid}>
-              {
-                Remote.Loading.is(status)
-                  ? <HeartbeatLoader height='20px' width='20px' color='white' />
-                  : prop('button', textHelper())
-              }
-            </Button>
+            {
+              prop('button', textHelper()) && <Button nature='primary' onClick={() => clickHelper()} disabled={invalid}>
+                {
+                  Remote.Loading.is(status)
+                    ? <HeartbeatLoader height='20px' width='20px' color='white' />
+                    : prop('button', textHelper())
+                }
+              </Button>
+            }
           </ButtonRow>
         </ModalFooter>
       </Fragment>

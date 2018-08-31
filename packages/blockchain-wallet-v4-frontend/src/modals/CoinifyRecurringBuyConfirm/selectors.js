@@ -32,3 +32,5 @@ export const getCanMakeRecurringTrade = state => {
 export const getCoinifyStatus = state => {
   return path(['coinify', 'coinifyBusy'], state)
 }
+
+export const getKyc = state => selectors.core.data.coinify.getKyc(state).getOrElse({})
