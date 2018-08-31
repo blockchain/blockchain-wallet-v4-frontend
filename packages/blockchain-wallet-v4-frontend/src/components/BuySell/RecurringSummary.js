@@ -14,7 +14,7 @@ import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 const RecurringTradeWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 15px;
+  margin-top: ${props => props.orderReview ? '5px' : '15px'};
 `
 const RecurringBox = styled.div`
   border: 1px solid ${props => props.theme['brand-tertiary']};
@@ -47,36 +47,40 @@ const HeaderWrapper = styled.div`
 const RecurringWarningText = styled(Text)`
   padding: 10px 8px;
 `
+const CustomHost = styled(TooltipHost)`
+  margin-left: 3px;
+`
 
 const RecurringSummary = ({ orderReview, quoteR, trade, subscription }) => {
   return (
-    <RecurringTradeWrapper>
-      <HeaderWrapper>
-        <Text color='brand-secondary' weight={400} size='14px'>
-          <FormattedMessage
-            id='orderdetails.recurring.thisisrecurring'
-            defaultMessage='This is a Recurring Order'
-          />
-        </Text>
-        <TooltipHost id='recurring.tooltip'>
-          <Icon name='question-in-circle' />
-        </TooltipHost>
-      </HeaderWrapper>
+    <RecurringTradeWrapper orderReview>
+      {
+        orderReview
+          ? null
+          : <HeaderWrapper>
+            <Text color='brand-secondary' weight={400} size='14px'>
+              <FormattedMessage
+                id='orderdetails.recurring.thisisrecurring'
+                defaultMessage='This is a Recurring Order'
+              />
+            </Text>
+            <TooltipHost id='recurring.tooltip'>
+              <Icon name='question-in-circle' />
+            </TooltipHost>
+          </HeaderWrapper>
+      }
       <RecurringBox>
-        <RecurringWarningText weight={300} size='13px'>
-          {
-            orderReview
-              ? <FormattedMessage
+        {
+          orderReview
+            ? <RecurringWarningText weight={300} size='13px'>
+              <FormattedMessage
                 id='orderdetails.recurring.setup'
                 defaultMessage='You are about to set up a {frequency} Recurring Order. To cancel a Recurring Order, visit the Order History tab.'
                 values={{ frequency: prop('frequency', head(subscription)) }}
               />
-              : <FormattedMessage
-                id='orderdetails.recurring.setupcomplete'
-                defaultMessage='A Recurring Order has been set up.'
-              />
-          }
-        </RecurringWarningText>
+            </RecurringWarningText>
+            : null
+        }
         <RecurringRow>
           <RecurringKey>
             <Text color='brand-secondary' weight={300} size='13px'>
@@ -89,10 +93,17 @@ const RecurringSummary = ({ orderReview, quoteR, trade, subscription }) => {
           <RecurringValue>
             {
               orderReview
-                ? <Text weight={300} size='13px'>
+                ? <Text weight={300} size='13px' flexRow>
                   {quoteR
                     .map(q => reviewOrder.renderRecurringAmount(q))
                     .getOrElse('~')
+                  }
+                  {
+                    orderReview
+                      ? <CustomHost id='recurring.tooltip'>
+                        <Icon name='question-in-circle' />
+                      </CustomHost>
+                      : null
                   }
                 </Text>
                 : <Text weight={300} size='13px'>

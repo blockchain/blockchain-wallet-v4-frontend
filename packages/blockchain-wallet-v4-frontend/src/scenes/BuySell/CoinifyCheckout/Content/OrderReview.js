@@ -81,6 +81,11 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium, subscriptio
           </Text>
         </RateText>
       </ExchangeRateWrapper>
+      {
+        subscription
+          ? <RecurringSummary orderReview subscription={[subscriptionData]} quoteR={quoteR} />
+          : null
+      }
       <OrderDetailsTable style={spacing('mt-10')}>
         <OrderDetailsRow short noBorderBottom>
           {type === 'buy' ? (
@@ -194,11 +199,6 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium, subscriptio
                 tooltipExpiryTime='15 minutes'
               />
             )).getOrElse(null)
-      }
-      {
-        subscription
-          ? <RecurringSummary orderReview subscription={[subscriptionData]} quoteR={quoteR} />
-          : null
       }
     </BorderBox>
   </Row>
