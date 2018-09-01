@@ -1,4 +1,4 @@
-import { prop, flip } from 'ramda'
+import { prop, lensProp, over, eqBy, flip, contains } from 'ramda'
 
 export const AUTH_ERROR_MESSAGE = {
   channel: 'auth',
@@ -92,3 +92,8 @@ export const swapBaseAndCounter = flip(prop)({
   [BASE_IN_FIAT]: COUNTER_IN_FIAT,
   [COUNTER_IN_FIAT]: BASE_IN_FIAT
 })
+
+export const fixIsFiat = flip(contains)([BASE_IN_FIAT, COUNTER_IN_FIAT])
+
+const volumeLens = lensProp('volume')
+export const configEquals = eqBy(over(volumeLens, Number))

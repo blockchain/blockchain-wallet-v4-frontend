@@ -1,6 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { reduxForm } from 'redux-form'
+
+import { model } from 'data'
 
 import { HeartbeatLoader, Icon } from 'blockchain-info-components'
 import {
@@ -10,11 +13,14 @@ import {
   Delimiter,
   TableRow,
   Note,
-  SubmitButton
+  ExchangeButton,
+  CancelButton
 } from 'components/Exchange'
 
+const { CONFIRM_FORM } = model.components.exchange
+
 const ConfirmWrapper = styled(Wrapper)`
-  margin-bottom: 24px;
+  margin-bottom: 15px;
   ${Title} {
     margin-bottom: 8px;
   }
@@ -24,6 +30,9 @@ const ConfirmWrapper = styled(Wrapper)`
   ${Delimiter} {
     margin-top: 29px;
     margin-bottopm: 30px;
+  }
+  > :last-child {
+    margin-bottom: 0;
   }
 `
 const CoinButton = styled.div`
@@ -60,7 +69,7 @@ const FromToIcon = styled(Icon)`
   font-size: 24px;
 `
 
-const Summary = ({
+const ExchangeConfirm = ({
   sourceAmount,
   targetAmount,
   targetFiat,
@@ -70,9 +79,10 @@ const Summary = ({
   currency,
   fee,
   submitting,
-  handleSubmit
+  handleSubmit,
+  onBack
 }) => (
-  <div>
+  <form onSubmit={handleSubmit}>
     <ConfirmWrapper>
       <Title>
         <FormattedMessage
@@ -126,27 +136,28 @@ const Summary = ({
         />
       </Note>
     </ConfirmWrapper>
-    <SubmitButton
-      type='submit'
-      nature='primary'
-      disabled={submitting}
-      onClick={handleSubmit}
-    >
+    <ExchangeButton type='submit' nature='primary' disabled={submitting}>
       {!submitting && (
         <FormattedMessage
           id='scenes.exchange.confirm.submit'
           defaultMessage='Complete Order'
-          values={{
-            source: sourceCoin,
-            target: targetCoin
-          }}
         />
       )}
       {submitting && (
         <HeartbeatLoader height='20px' width='20px' color='white' />
       )}
-    </SubmitButton>
-  </div>
+    </ExchangeButton>
+    <CancelButton disabled={submitting} onClick={onBack}>
+      {!submitting && (
+        <FormattedMessage
+          id='scenes.exchange.confirm.cancel'
+          defaultMessage='Cancel'
+        />
+      )}
+    </CancelButton>
+  </form>
 )
 
-export default Summary
+export default reduxForm({
+  form: CONFIRM_FORM
+})(ExchangeConfirm)

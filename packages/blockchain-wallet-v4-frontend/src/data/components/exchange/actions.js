@@ -81,6 +81,10 @@ export const usStateRegistered = () => ({
 })
 
 // Exchange Actions
+export const setStep = step => ({
+  type: AT.SET_STEP,
+  payload: { step }
+})
 export const initialize = () => ({
   type: AT.INITIALIZE
 })
@@ -111,4 +115,7 @@ export const changeTargetFiatAmount = targetFiatAmount => ({
 export const changeFix = fix => ({
   type: AT.CHANGE_FIX,
   payload: { fix }
+})
+export const confirmExchange = () => ({
+  type: AT.CONFIRM_EXCHANGE
 })

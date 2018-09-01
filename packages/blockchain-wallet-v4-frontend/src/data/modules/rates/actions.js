@@ -8,9 +8,9 @@ export const unsubscribeFromRate = pair => ({
   type: AT.UNSUBSCRIBE_FROM_RATE,
   payload: { pair }
 })
-export const updateAdvice = (pair, fix, volume, advice) => ({
+export const updateAdvice = (pair, fix, volume, fiatCurrency, advice) => ({
   type: AT.UPDATE_ADVICE,
-  payload: { pair, fix, volume, advice }
+  payload: { pair, fix, volume, fiatCurrency, advice }
 })
 
 export const updatePairConfig = (pair, volume, fix, fiatCurrency) => ({

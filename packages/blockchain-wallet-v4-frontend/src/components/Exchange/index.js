@@ -42,8 +42,13 @@ export const Note = styled(Text)`
   margin-top: 12px;
   margin-bottom: 28px;
 `
-export const SubmitButton = styled(Button)`
+export const ExchangeButton = styled(Button)`
   margin-left: 30px;
   margin-right: 30px;
   width: calc(100% - 60px);
+`
+
+export const CancelButton = styled(ExchangeButton)`
+  border: none;
+  margin-top: 10px;
 `

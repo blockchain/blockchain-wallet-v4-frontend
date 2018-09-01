@@ -19,6 +19,7 @@ const registerExchangeSagas = function*(exchange) {
     exchange.changeTargetFiatAmount
   )
   yield takeLatest(AT.CHANGE_FIX, exchange.changeFix)
+  yield takeLatest(AT.CONFIRM_EXCHANGE, exchange.confirm)
 }
 
 const registerShapeshiftSagas = function*(shapeshift) {

@@ -128,6 +128,14 @@ const isUsZipcode = val => {
 
 const formatPhone = val => val.replace(/[^\d]/g, '')
 
+const cryptoDecimals = 8
+const fiatDecimals = 2
+
+const formatAmount = (val, isFiat) => {
+  const decimals = isFiat ? fiatDecimals : cryptoDecimals
+  return val.replace(new RegExp(`(.*\\..{${decimals}}).*`), ($0, $1) => $1)
+}
+
 export {
   isNumeric,
   isEmail,
@@ -143,5 +151,6 @@ export {
   formatDOB,
   formatUSZipcode,
   isOverEighteen,
-  formatPhone
+  formatPhone,
+  formatAmount
 }

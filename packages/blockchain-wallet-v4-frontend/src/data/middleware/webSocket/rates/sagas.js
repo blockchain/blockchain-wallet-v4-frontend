@@ -44,6 +44,7 @@ export default ({ api, ratesSocket }) => {
           message.pair,
           message.fix,
           message.volume,
+          message.fiatCurrency,
           message.currencyRatio
         )
       )
@@ -64,8 +65,22 @@ export default ({ api, ratesSocket }) => {
 
   const fetchRate = function*({ pair, config: { volume, fix, fiatCurrency } }) {
     try {
-      const advice = yield call(api.fetchRates, pair, volume, fix, fiatCurrency)
-      yield put(actions.modules.rates.updateAdvice(pair, fix, volume, advice))
+      const { ratio } = yield call(
+        api.fetchRates,
+        pair,
+        volume,
+        fix,
+        fiatCurrency
+      )
+      yield put(
+        actions.modules.rates.updateAdvice(
+          pair,
+          fix,
+          volume,
+          fiatCurrency,
+          ratio
+        )
+      )
     } catch (e) {
       yield put(A.subscribeError(pair, e))
     }

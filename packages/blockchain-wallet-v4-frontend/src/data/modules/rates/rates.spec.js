@@ -71,7 +71,7 @@ const api = {
   fetchRates: jest.fn()
 }
 
-api.fetchRates.mockReturnValue(stubAdvice.currencyRatio)
+api.fetchRates.mockReturnValue({ ratio: stubAdvice.currencyRatio })
 
 const sagas = [ratesSagas({ api }), ratesSocketSagas({ api, ratesSocket })]
 
