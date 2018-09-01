@@ -2,11 +2,13 @@ import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { selectors } from 'data'
 import {
   map,
+  pathOr,
   curry,
   flatten,
   filter,
   assoc,
   lift,
+  isEmpty,
   unapply,
   reduce,
   concat,
@@ -16,6 +18,7 @@ import {
   compose,
   contains,
   toUpper,
+  any,
   path
 } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -23,18 +26,22 @@ export const concatAll = unapply(reduce(concat, []))
 
 const assocCoin = (txs, coin) => txs.map(assoc('coin', coin))
 
-const filterTransactions = curry((searchVals, transactions) => {
-  const search = curry((text, property, tx) => {
-    
+const filterTransactions = curry((searches, transactions) => {
+  const search = curry((searches, property, tx) => {
+    const checkSearch = text => {
+      const containText = search => contains(toUpper(search), text)
+      return isEmpty(searches) || any(containText, searches)
+    }
+
     return compose(
-      contains(toUpper(text || '')),
+      checkSearch,
       toUpper,
       String,
       path(property)
     )(tx)
   })
   const searchPredicate = anyPass(
-    map(search(searchVals), [
+    map(search(searches), [
       ['description'],
       ['from'],
       ['to'],
@@ -63,14 +70,20 @@ export const getData = createDeepEqualSelector(
     selectors.core.common.eth.getWalletTransactions,
     selectors.form.getFormValues('lockboxTransactions')
   ],
-  (btcPages, bchPages, ethPages, search) => {
+  (btcPages, bchPages, ethPages, formValues) => {
     const btcTransactions = processPages(btcPages, 'BTC')
     const bchTransactions = processPages(bchPages, 'BCH')
     const ethTransactions = processPages(ethPages, 'ETH')
+    const search = pathOr([], ['search', 'value'], formValues)
+    const searches = search.map(path(['value']))
     const transform = (btcTransactions, bchTransactions, ethTransactions) => {
-      return concatAll(btcTransactions, bchTransactions, ethTransactions).map(
-        filterTransactions(search)
+      const transactions = concatAll(
+        btcTransactions,
+        bchTransactions,
+        ethTransactions
       )
+      const filteredTransactions = filterTransactions(searches)(transactions)
+      return filteredTransactions
     }
     return lift(transform)(btcTransactions, bchTransactions, ethTransactions)
   }
