@@ -6,12 +6,12 @@ import * as S from './selectors'
 import { configEquals } from './model'
 
 export default ({ api }) => {
-  const subscribeToRate = function*({ payload }) {
+  const subscribeToAdvice = function*({ payload }) {
     const { pair, volume, fix, fiatCurrency } = payload
 
     yield put(A.updatePairConfig(pair, volume, fix, fiatCurrency))
     yield put(
-      actions.middleware.webSocket.rates.openChannelForPair(
+      actions.middleware.webSocket.rates.openAdviceChannel(
         pair,
         volume,
         fix,
@@ -20,9 +20,9 @@ export default ({ api }) => {
     )
   }
 
-  const unsubscribeFromRate = function*({ payload }) {
+  const unsubscribeFromAdvice = function*({ payload }) {
     const { pair } = payload
-    yield put(actions.middleware.webSocket.rates.closeChannelForPair(pair))
+    yield put(actions.middleware.webSocket.rates.closeAdviceChannel(pair))
   }
 
   const fetchAvailablePairs = function*() {
@@ -43,8 +43,8 @@ export default ({ api }) => {
   }
 
   return {
-    subscribeToRate,
-    unsubscribeFromRate,
+    subscribeToAdvice,
+    unsubscribeFromAdvice,
     fetchAvailablePairs,
     updateAdvice
   }

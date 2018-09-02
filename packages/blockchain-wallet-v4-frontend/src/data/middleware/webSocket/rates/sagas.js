@@ -53,7 +53,7 @@ export default ({ api, ratesSocket }) => {
 
   const restFallback = function*() {
     const pairs = yield select(selectors.modules.rates.getActivePairs)
-    if (!isEmpty(pairs)) yield all(map(fetchRate, pairs))
+    if (!isEmpty(pairs)) yield all(map(fetchAdvice, pairs))
   }
 
   const authenticateSocket = function*() {
@@ -63,10 +63,13 @@ export default ({ api, ratesSocket }) => {
     ratesSocket.send(model.rates.getAuthMessage(token))
   }
 
-  const fetchRate = function*({ pair, config: { volume, fix, fiatCurrency } }) {
+  const fetchAdvice = function*({
+    pair,
+    config: { volume, fix, fiatCurrency }
+  }) {
     try {
       const { ratio } = yield call(
-        api.fetchRates,
+        api.fetchAdvices,
         pair,
         volume,
         fix,
@@ -88,11 +91,11 @@ export default ({ api, ratesSocket }) => {
 
   const onClose = function*(action) {}
 
-  const openChannelForPair = function*({ payload }) {
+  const openAdviceChannel = function*({ payload }) {
     const { pair, volume, fix, fiatCurrency } = payload
     if (isNil(volume) || !fix || !fiatCurrency) return
     if (ratesSocket.isReady()) {
-      const message = model.rates.getPairSubscribeMessage(
+      const message = model.rates.getAdviceSubscribeMessage(
         pair,
         volume,
         fix,
@@ -101,14 +104,14 @@ export default ({ api, ratesSocket }) => {
       openChannels[pair] = message
       return ratesSocket.send(message)
     }
-    yield call(fetchRate, { pair, config: { volume, fix, fiatCurrency } })
+    yield call(fetchAdvice, { pair, config: { volume, fix, fiatCurrency } })
   }
 
-  const closeChannelForPair = function ({ payload }) {
+  const closeAdviceChannel = function ({ payload }) {
     const { pair } = payload
     delete openChannels[pair]
     if (ratesSocket.isReady())
-      ratesSocket.send(model.rates.getPairUnsubscribeMessage(pair))
+      ratesSocket.send(model.rates.getAdviceUnsubscribeMessage(pair))
   }
 
   return {
@@ -117,7 +120,7 @@ export default ({ api, ratesSocket }) => {
     onMessage,
     onClose,
     restFallback,
-    openChannelForPair,
-    closeChannelForPair
+    openAdviceChannel,
+    closeAdviceChannel
   }
 }

@@ -26,7 +26,7 @@ export const ADVICE_MESSAGE = {
   type: 'currencyRatio'
 }
 
-export const getPairSubscribeMessage = (pair, volume, fix, fiatCurrency) => ({
+export const getAdviceSubscribeMessage = (pair, volume, fix, fiatCurrency) => ({
   channel: 'conversion',
   operation: 'subscribe',
   params: {
@@ -38,7 +38,7 @@ export const getPairSubscribeMessage = (pair, volume, fix, fiatCurrency) => ({
   }
 })
 
-export const getPairUnsubscribeMessage = pair => ({
+export const getAdviceUnsubscribeMessage = pair => ({
   channel: 'conversion',
   operation: 'unsubscribe',
   params: {

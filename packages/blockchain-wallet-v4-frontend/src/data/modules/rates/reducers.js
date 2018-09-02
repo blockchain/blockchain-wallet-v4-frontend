@@ -54,7 +54,7 @@ export default (state = INITIAL_STATE, action) => {
         state
       )
 
-    case AT.UNSUBSCRIBE_FROM_RATE:
+    case AT.UNSUBSCRIBE_FROM_ADVICE:
       return dissocPath(['pairs', payload.pair], state)
     default:
       return state

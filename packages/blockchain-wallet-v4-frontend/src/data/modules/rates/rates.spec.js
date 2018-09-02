@@ -118,7 +118,7 @@ describe('rates service', () => {
     beforeEach(() => {
       ratesSocket.send.mockClear()
       store.dispatch(
-        actions.modules.rates.subscribeToRate(pair, volume, fix, fiatCurrency)
+        actions.modules.rates.subscribeToAdvice(pair, volume, fix, fiatCurrency)
       )
     })
 
@@ -137,22 +137,22 @@ describe('rates service', () => {
     it('should set send subscription socket message upon new subscription', () => {
       expect(ratesSocket.send).toHaveBeenCalledTimes(1)
       expect(ratesSocket.send).toHaveBeenCalledWith(
-        model.rates.getPairSubscribeMessage(pair, volume, fix, fiatCurrency)
+        model.rates.getAdviceSubscribeMessage(pair, volume, fix, fiatCurrency)
       )
     })
   })
 
   describe('unsubscription', () => {
     beforeEach(() => {
-      store.dispatch(actions.modules.rates.subscribeToRate(pair))
+      store.dispatch(actions.modules.rates.subscribeToAdvice(pair))
       ratesSocket.send.mockClear()
-      store.dispatch(actions.modules.rates.unsubscribeFromRate(pair))
+      store.dispatch(actions.modules.rates.unsubscribeFromAdvice(pair))
     })
 
     it('should send unsubscription socket message', () => {
       expect(ratesSocket.send).toHaveBeenCalledTimes(1)
       expect(ratesSocket.send).toHaveBeenCalledWith(
-        model.rates.getPairUnsubscribeMessage(pair)
+        model.rates.getAdviceUnsubscribeMessage(pair)
       )
     })
 
@@ -164,7 +164,7 @@ describe('rates service', () => {
   describe('message handling', () => {
     beforeEach(() => {
       ratesSocket.send.mockClear()
-      store.dispatch(actions.modules.rates.subscribeToRate(pair))
+      store.dispatch(actions.modules.rates.subscribeToAdvice(pair))
       store.dispatch(
         actions.modules.rates.updatePairConfig(pair, volume, fix, fiatCurrency)
       )
@@ -222,7 +222,7 @@ describe('rates service', () => {
 
   describe('fallback', () => {
     beforeEach(() => {
-      store.dispatch(actions.modules.rates.subscribeToRate(pair))
+      store.dispatch(actions.modules.rates.subscribeToAdvice(pair))
       ratesSocket.triggerFallback()
     })
 

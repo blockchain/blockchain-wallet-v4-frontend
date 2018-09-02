@@ -1,11 +1,24 @@
 import * as AT from './actionTypes'
 
-export const subscribeToRate = (pair, volume, fix, fiatCurrency) => ({
-  type: AT.SUBSCRIBE_TO_RATE,
+export const subscribeToRates = pairs => ({
+  type: AT.SUBSCRIBE_TO_RATES,
+  payload: { pairs }
+})
+export const unsubscribeFromRates = pairs => ({
+  type: AT.UNSUBSCRIBE_FROM_RATES,
+  payload: { pairs }
+})
+export const updateRates = (pairs, rates) => ({
+  type: AT.UPDATE_RATES,
+  payload: { pairs, rates }
+})
+
+export const subscribeToAdvice = (pair, volume, fix, fiatCurrency) => ({
+  type: AT.SUBSCRIBE_TO_ADVICE,
   payload: { pair, volume, fix, fiatCurrency }
 })
-export const unsubscribeFromRate = pair => ({
-  type: AT.UNSUBSCRIBE_FROM_RATE,
+export const unsubscribeFromAdvice = pair => ({
+  type: AT.UNSUBSCRIBE_FROM_ADVICE,
   payload: { pair }
 })
 export const updateAdvice = (pair, fix, volume, fiatCurrency, advice) => ({

@@ -13,12 +13,12 @@ export const restFallback = () => ({ type: AT.REST_FALLBACK })
 
 export const authenticateSocket = () => ({ type: AT.AUTHENTICATE_SOCKET })
 
-export const openChannelForPair = (pair, volume, fix, fiatCurrency) => ({
-  type: AT.OPEN_CHANNEL_FOR_PAIR,
+export const openAdviceChannel = (pair, volume, fix, fiatCurrency) => ({
+  type: AT.OPEN_ADVICE_CHANNEL,
   payload: { pair, volume, fix, fiatCurrency }
 })
-export const closeChannelForPair = pair => ({
-  type: AT.CLOSE_CHANNEL_FOR_PAIR,
+export const closeAdviceChannel = pair => ({
+  type: AT.CLOSE_ADVICE_CHANNEL,
   payload: { pair }
 })
 
