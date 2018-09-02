@@ -1,7 +1,8 @@
 import { selectors, model } from 'data'
 import { lift, path } from 'ramda'
 
-const { EXCHANGE_FORM, formatPair } = model.components.exchange
+const { formatPair } = model.rates
+const { EXCHANGE_FORM } = model.components.exchange
 const { getAmounts, getRates } = selectors.components.exchange
 
 export const getData = state => {

@@ -19,5 +19,3 @@ export const SHAPESHIFT_PAIRS = Remote.of([
   'ETH-BTC',
   'ETH-BCH'
 ])
-
-export const formatPair = (source, target) => `${source}-${target}`

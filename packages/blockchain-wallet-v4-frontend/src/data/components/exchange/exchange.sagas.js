@@ -1,15 +1,20 @@
 import { call, put, select } from 'redux-saga/effects'
-import { equals, flip, path, prop } from 'ramda'
+import { equals, flip, keys, path, prop } from 'ramda'
 
 import { actions, selectors, model } from 'data'
-import { EXCHANGE_FORM, CONFIRM_FORM, formatPair } from './model'
+import { EXCHANGE_FORM, CONFIRM_FORM } from './model'
 import utils from './sagas.utils'
 import * as S from './selectors'
 import { promptForSecondPassword } from 'services/SagaService'
 import { selectReceiveAddress } from '../utils/sagas'
 
 export default ({ api, coreSagas, options, networks }) => {
-  const { mapFixToFieldName, swapBaseAndCounter, configEquals } = model.rates
+  const {
+    mapFixToFieldName,
+    swapBaseAndCounter,
+    configEquals,
+    formatPair
+  } = model.rates
   const formValueSelector = selectors.form.getFormValues(EXCHANGE_FORM)
   const { selectOtherAccount, createPayment } = utils({
     api,
@@ -24,12 +29,23 @@ export default ({ api, coreSagas, options, networks }) => {
 
   const changeSubscription = function*() {
     const form = yield select(formValueSelector)
-    const { fix, source, target } = form
-    const pair = formatPair(source.coin, target.coin)
-    const volume = form[mapFixToFieldName(fix)]
+    const { source, target } = form
     const fiatCurrency = (yield select(
       selectors.core.settings.getCurrency
     )).getOrElse(null)
+    yield call(changeAdviceSubscription, form, source, target, fiatCurrency)
+    yield call(changeRatesSubscription, source, target, fiatCurrency)
+  }
+
+  const changeAdviceSubscription = function*(
+    form,
+    source,
+    target,
+    fiatCurrency
+  ) {
+    const { fix } = form
+    const pair = formatPair(source.coin, target.coin)
+    const volume = form[mapFixToFieldName(fix)]
     const currentConfig = yield select(
       selectors.modules.rates.getPairConfig(pair)
     )
@@ -40,6 +56,22 @@ export default ({ api, coreSagas, options, networks }) => {
     yield put(
       actions.modules.rates.subscribeToAdvice(pair, volume, fix, fiatCurrency)
     )
+  }
+
+  const changeRatesSubscription = function*(source, target, fiatCurrency) {
+    const pairs = [
+      formatPair(source.coin, target.coin),
+      formatPair(source.coin, fiatCurrency),
+      formatPair(target.coin, fiatCurrency)
+    ]
+    const currentPairs = (yield select(selectors.modules.rates.getBestRates))
+      .map(keys)
+      .getOrElse([])
+
+    if (equals(pairs, currentPairs)) return
+
+    yield put(actions.modules.rates.unsubscribeFromRates())
+    yield put(actions.modules.rates.subscribeToRates(pairs))
   }
 
   const swapFieldValue = function*(form) {

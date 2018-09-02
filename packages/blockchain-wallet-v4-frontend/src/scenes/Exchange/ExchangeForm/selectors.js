@@ -25,8 +25,13 @@ import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { currencySymbolMap } from 'services/CoinifyService'
 import { Remote } from 'blockchain-wallet-v4'
 
-const { EXCHANGE_FORM, formatPair } = model.components.exchange
-const { getComplementaryField, mapFixToFieldName, FIX_TYPES } = model.rates
+const { EXCHANGE_FORM } = model.components.exchange
+const {
+  getComplementaryField,
+  mapFixToFieldName,
+  formatPair,
+  FIX_TYPES
+} = model.rates
 const { BASE, BASE_IN_FIAT, COUNTER, COUNTER_IN_FIAT } = FIX_TYPES
 
 const currenciesOrder = ['BTC', 'BCH', 'ETH']

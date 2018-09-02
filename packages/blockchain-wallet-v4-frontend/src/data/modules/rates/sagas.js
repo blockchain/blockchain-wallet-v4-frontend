@@ -22,7 +22,18 @@ export default ({ api }) => {
 
   const unsubscribeFromAdvice = function*({ payload }) {
     const { pair } = payload
+
     yield put(actions.middleware.webSocket.rates.closeAdviceChannel(pair))
+  }
+
+  const subscribeToRates = function*({ payload }) {
+    const { pairs } = payload
+
+    yield put(actions.middleware.webSocket.rates.openRatesChannel(pairs))
+  }
+
+  const unsubscribeFromRates = function*() {
+    yield put(actions.middleware.webSocket.rates.closeRatesChannel())
   }
 
   const fetchAvailablePairs = function*() {
@@ -46,6 +57,8 @@ export default ({ api }) => {
     subscribeToAdvice,
     unsubscribeFromAdvice,
     fetchAvailablePairs,
-    updateAdvice
+    updateAdvice,
+    subscribeToRates,
+    unsubscribeFromRates
   }
 }

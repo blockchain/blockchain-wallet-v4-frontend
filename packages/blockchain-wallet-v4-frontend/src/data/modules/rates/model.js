@@ -1,4 +1,7 @@
-import { prop, lensProp, over, eqBy, flip, contains } from 'ramda'
+import { prop, lensProp, over, eqBy, flip, contains, split } from 'ramda'
+
+export const formatPair = (source, target) => `${source}-${target}`
+export const splitPair = split('-')
 
 export const AUTH_ERROR_MESSAGE = {
   channel: 'auth',
@@ -6,17 +9,17 @@ export const AUTH_ERROR_MESSAGE = {
   description: 'Can not process auth request, token can not be found'
 }
 
-export const SUBSCRIBE_SUCCESS_MESSAGE = {
+export const ADVICE_SUBSCRIBE_SUCCESS_MESSAGE = {
   channel: 'conversion',
   type: 'subscribed'
 }
 
-export const SUBSCRIBE_ERROR_MESSAGE = {
+export const ADVICE_SUBSCRIBE_ERROR_MESSAGE = {
   channel: 'conversion',
   type: 'error'
 }
 
-export const UNSUBSCRIBE_SUCCESS_MESSAGE = {
+export const ADVICE_UNSUBSCRIBE_SUCCESS_MESSAGE = {
   channel: 'conversion',
   type: 'unsubscribed'
 }
@@ -25,6 +28,43 @@ export const ADVICE_MESSAGE = {
   channel: 'conversion',
   type: 'currencyRatio'
 }
+
+export const RATES_SUBSCRIBE_SUCCESS_MESSAGE = {
+  channel: 'exchange_rate',
+  type: 'subscribed'
+}
+
+export const RATES_SUBSCRIBE_ERROR_MESSAGE = {
+  channel: 'exchange_rate',
+  type: 'error'
+}
+
+export const RATES_UNSUBSCRIBE_SUCCESS_MESSAGE = {
+  channel: 'exchange_rate',
+  type: 'unsubscribed'
+}
+
+export const RATES_MESSAGE = {
+  channel: 'exchange_rate',
+  type: 'exchangeRate'
+}
+
+export const getRatesSubscribeMessage = pairs => ({
+  channel: 'exchange_rate',
+  operation: 'subscribe',
+  params: {
+    type: 'exchangeRates',
+    pairs
+  }
+})
+
+export const getRatesUnsubscribeMessage = () => ({
+  channel: 'exchange_rate',
+  operation: 'unsubscribe',
+  params: {
+    type: 'allCurrencyPairs'
+  }
+})
 
 export const getAdviceSubscribeMessage = (pair, volume, fix, fiatCurrency) => ({
   channel: 'conversion',

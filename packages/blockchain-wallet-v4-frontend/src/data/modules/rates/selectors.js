@@ -36,4 +36,9 @@ export const getPairFix = curry(
   )
 )
 
+export const getBestRates = path(['rates', 'bestRates'])
+export const getBestRate = curry((pair, state) =>
+  getBestRates(state).map(prop(pair))
+)
+
 export const getAvailablePairs = path(['rates', 'availablePairs'])

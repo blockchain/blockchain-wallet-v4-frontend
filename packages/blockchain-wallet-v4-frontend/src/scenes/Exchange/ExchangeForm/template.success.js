@@ -29,8 +29,8 @@ import {
 } from './validationMessages'
 import Summary from './Summary'
 
-const { EXCHANGE_FORM, formatPair } = model.components.exchange
-const { fixIsFiat } = model.rates
+const { EXCHANGE_FORM } = model.components.exchange
+const { fixIsFiat, formatPair } = model.rates
 
 const Wrapper = styled.div`
   display: flex;

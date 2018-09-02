@@ -13,5 +13,7 @@ export default ({ api, ratesSocket }) => {
     yield takeEvery(AT.AUTHENTICATE_SOCKET, sagas.authenticateSocket)
     yield takeEvery(AT.OPEN_ADVICE_CHANNEL, sagas.openAdviceChannel)
     yield takeEvery(AT.CLOSE_ADVICE_CHANNEL, sagas.closeAdviceChannel)
+    yield takeEvery(AT.OPEN_RATES_CHANNEL, sagas.openRatesChannel)
+    yield takeEvery(AT.CLOSE_RATES_CHANNEL, sagas.closeRatesChannel)
   }
 }

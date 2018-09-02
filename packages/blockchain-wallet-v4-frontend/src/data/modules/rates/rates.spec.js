@@ -1,4 +1,4 @@
-import { path } from 'ramda'
+import { path, prop, groupBy } from 'ramda'
 
 import { createTestStore, getDispatchSpyReducer } from 'utils/testbed'
 import { actions, selectors, model } from 'data'
@@ -21,6 +21,7 @@ const reducers = {
 }
 
 const pair = 'BTC-ETH'
+const pairs = [pair, 'BTC-USD', 'ETH-USD']
 const volume = 100
 const fix = 'counterInFiat'
 const fiatCurrency = 'USD'
@@ -68,10 +69,10 @@ const ratesSocket = {
 jest.spyOn(ratesSocket, 'connect')
 
 const api = {
-  fetchRates: jest.fn()
+  fetchAdvice: jest.fn()
 }
 
-api.fetchRates.mockReturnValue({ ratio: stubAdvice.currencyRatio })
+api.fetchAdvice.mockReturnValue({ ratio: stubAdvice.currencyRatio })
 
 const sagas = [ratesSagas({ api }), ratesSocketSagas({ api, ratesSocket })]
 
@@ -86,7 +87,7 @@ describe('rates service', () => {
     store = createTestStore(reducers, sagas, middlewares)
     store.dispatch(actions.middleware.webSocket.rates.startSocket())
     dispatchSpy.mockClear()
-    api.fetchRates.mockClear()
+    api.fetchAdvice.mockClear()
     jest.clearAllTimers()
   })
 
@@ -114,7 +115,7 @@ describe('rates service', () => {
     })
   })
 
-  describe('new subscriptions', () => {
+  describe('new advice subscriptions', () => {
     beforeEach(() => {
       ratesSocket.send.mockClear()
       store.dispatch(
@@ -140,9 +141,25 @@ describe('rates service', () => {
         model.rates.getAdviceSubscribeMessage(pair, volume, fix, fiatCurrency)
       )
     })
+
+    it('should trigger advice fetch if socket is not ready', () => {
+      ratesSocket.send.mockClear()
+      ratesSocket.isReady.mockReturnValueOnce(false)
+      store.dispatch(
+        actions.modules.rates.subscribeToAdvice(pair, volume, fix, fiatCurrency)
+      )
+      expect(ratesSocket.send).toHaveBeenCalledTimes(0)
+      expect(api.fetchAdvice).toHaveBeenCalledTimes(1)
+      expect(api.fetchAdvice).toHaveBeenCalledWith(
+        pair,
+        volume,
+        fix,
+        fiatCurrency
+      )
+    })
   })
 
-  describe('unsubscription', () => {
+  describe('advice unsubscription', () => {
     beforeEach(() => {
       store.dispatch(actions.modules.rates.subscribeToAdvice(pair))
       ratesSocket.send.mockClear()
@@ -161,6 +178,39 @@ describe('rates service', () => {
     })
   })
 
+  describe('new rates subscriptions', () => {
+    beforeEach(() => {
+      ratesSocket.send.mockClear()
+      store.dispatch(actions.modules.rates.subscribeToRates(pairs))
+    })
+
+    it('should set send subscription socket message upon new subscription', () => {
+      expect(ratesSocket.send).toHaveBeenCalledTimes(1)
+      expect(ratesSocket.send).toHaveBeenCalledWith(
+        model.rates.getRatesSubscribeMessage(pairs)
+      )
+    })
+  })
+
+  describe('rates unsubscription', () => {
+    beforeEach(() => {
+      store.dispatch(actions.modules.rates.subscribeToRates(pairs))
+      ratesSocket.send.mockClear()
+      store.dispatch(actions.modules.rates.unsubscribeFromRates())
+    })
+
+    it('should send unsubscription socket message', () => {
+      expect(ratesSocket.send).toHaveBeenCalledTimes(1)
+      expect(ratesSocket.send).toHaveBeenCalledWith(
+        model.rates.getRatesUnsubscribeMessage()
+      )
+    })
+
+    it('should reset bestRates', () => {
+      expect(store.getState().rates.bestRates).toEqual(Remote.NotAsked)
+    })
+  })
+
   describe('message handling', () => {
     beforeEach(() => {
       ratesSocket.send.mockClear()
@@ -172,7 +222,7 @@ describe('rates service', () => {
 
     it('should set pair rate to loading upon subscription success message', () => {
       ratesSocket.triggerMessage({
-        ...model.rates.SUBSCRIBE_SUCCESS_MESSAGE,
+        ...model.rates.ADVICE_SUBSCRIBE_SUCCESS_MESSAGE,
         pair
       })
       expect(
@@ -212,6 +262,18 @@ describe('rates service', () => {
       ).toEqual(Remote.NotAsked)
     })
 
+    it('should update bestRates upon rates message', () => {
+      const rates = pairs.map(pair => ({ pair, rate: Math.random() }))
+      ratesSocket.triggerMessage({
+        ...model.rates.RATES_MESSAGE,
+        pairs,
+        rates
+      })
+      expect(selectors.modules.rates.getBestRates(store.getState())).toEqual(
+        Remote.Success(groupBy(prop('pair'), rates))
+      )
+    })
+
     it('should retry authentication after delay', async () => {
       ratesSocket.triggerMessage(model.rates.AUTH_ERROR_MESSAGE)
       expect(ratesSocket.send).toHaveBeenCalledTimes(0)
@@ -227,11 +289,11 @@ describe('rates service', () => {
     })
 
     it('should start fetchingRates once per fallbackInterval when falbback is triggered by socket', () => {
-      expect(api.fetchRates).toHaveBeenCalledTimes(0)
+      expect(api.fetchAdvice).toHaveBeenCalledTimes(0)
       jest.advanceTimersByTime(fallbackInterval)
-      expect(api.fetchRates).toHaveBeenCalledTimes(1)
+      expect(api.fetchAdvice).toHaveBeenCalledTimes(1)
       jest.advanceTimersByTime(fallbackInterval)
-      expect(api.fetchRates).toHaveBeenCalledTimes(2)
+      expect(api.fetchAdvice).toHaveBeenCalledTimes(2)
     })
 
     it('should set rates when received response', () => {
@@ -243,14 +305,14 @@ describe('rates service', () => {
 
     it('should set rates error when request fails', () => {
       const stubError = new Error('stubError')
-      api.fetchRates.mockImplementation(() => {
+      api.fetchAdvice.mockImplementation(() => {
         throw stubError
       })
       jest.advanceTimersByTime(fallbackInterval)
       expect(
         selectors.modules.rates.getPairAdvice(pair, store.getState())
       ).toEqual(Remote.Failure(stubError))
-      api.fetchRates.mockReturnValue(stubAdvice.currencyRatio)
+      api.fetchAdvice.mockReturnValue(stubAdvice.currencyRatio)
     })
   })
 })
