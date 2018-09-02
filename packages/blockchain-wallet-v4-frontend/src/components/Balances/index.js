@@ -203,7 +203,7 @@ export const CurrencyItem = props => {
   `
 
   return (
-    <Wrapper>
+    <Wrapper onClick={props.onClick}>
       <IconBox coin={props.coin}>
         <Icon size='32px' color='white' name={props.icon} />
       </IconBox>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { difference, head, pathOr } from 'ramda'
 import CreatableInput from './template'
 
 const components = {
@@ -19,7 +20,16 @@ class CreatableInputContainer extends React.PureComponent {
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleKeyDown = this.handleKeyDown.bind(this)
+    this.handleNewValue = this.handleNewValue.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
+  }
+
+  componentDidUpdate (prevProps) {
+    const prevValue = pathOr([], ['value', 'value'], prevProps)
+    const newValue = pathOr([], ['value', 'value'], this.props)
+    if (head(difference(newValue, prevValue))) {
+      this.handleNewValue(prevValue, newValue)
+    }
   }
 
   handleChange (value, actionMeta) {
@@ -49,6 +59,13 @@ class CreatableInputContainer extends React.PureComponent {
         event.preventDefault()
     }
   }
+
+  handleNewValue (prevValue, newValue) {
+    this.setState({
+      value: [...prevValue, head(difference(newValue, prevValue))]
+    })
+  }
+
   render () {
     const { inputValue, value } = this.state
     return (

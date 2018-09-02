@@ -29,3 +29,5 @@ export const getData = createDeepEqualSelector(
     return lift(transform)(devicesKvStoreR)
   }
 )
+
+export const getFormValues = selectors.form.getFormValues('lockboxTransactions')

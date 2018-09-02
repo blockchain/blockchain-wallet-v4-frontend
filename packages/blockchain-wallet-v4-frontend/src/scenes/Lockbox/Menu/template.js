@@ -57,7 +57,8 @@ const multiValueContainer = props => {
 }
 
 const Menu = props => {
-  const { deviceName, btcBalance, bchBalance, ethBalance } = props
+  const { btcBalance, bchBalance, ethBalance, ...rest } = props
+  const { deviceName, handleCoinSelection } = rest
 
   return (
     <Container>
@@ -73,12 +74,23 @@ const Menu = props => {
       </TitleBar>
       <LinkContainer to='/lockbox/dashboard'>
         <CurrencyList>
-          <CurrencyItem coin='btc' icon='bitcoin-filled' balance={btcBalance} />
-          <CurrencyItem coin='bch' icon='bitcoin-filled' balance={bchBalance} />
+          <CurrencyItem
+            coin='btc'
+            icon='bitcoin-filled'
+            balance={btcBalance}
+            onClick={() => handleCoinSelection('btc')}
+          />
+          <CurrencyItem
+            coin='bch'
+            icon='bitcoin-filled'
+            balance={bchBalance}
+            onClick={() => handleCoinSelection('bch')}
+          />
           <CurrencyItem
             coin='eth'
             icon='ethereum-filled'
             balance={ethBalance}
+            onClick={() => handleCoinSelection('eth')}
           />
         </CurrencyList>
       </LinkContainer>
