@@ -181,59 +181,14 @@ export default ({ api, coreSagas }) => {
       )
       const storedDevices = storedDevicesR.getOrElse({})
       const deviceType = storedDevices[deviceId].device_type
-
-      // TODO: why doesnt programmatically creating race work?
-      // let polls = {}
-      // forEachObjIndexed((val, key) => {
-      //   polls[key] = call(LockboxService.connections.pollForAppConnection, deviceType, key, timeout)
-      // }, LockboxService.constants.scrambleKeys[deviceType])
-      // const deviceConnection = yield race(polls)
-
-      // poll for device connection on all apps
-      // TODO: this doesnt detect Ethereum app.. :(
-      const deviceConnection = yield race({
-        DASHBOARD: call(
-          LockboxService.connections.pollForAppConnection,
-          deviceType,
-          'DASHBOARD',
-          timeout
-        ),
-        BTC: call(
-          LockboxService.connections.pollForAppConnection,
-          deviceType,
-          'BTC',
-          timeout
-        ),
-        BCH: call(
-          LockboxService.connections.pollForAppConnection,
-          deviceType,
-          'BCH',
-          timeout
-        ),
-        ETH: call(
-          LockboxService.connections.pollForAppConnection,
-          deviceType,
-          'ETH',
-          timeout
-        )
-      })
-
-      // device/app detected
-      const detectedApp = keysIn(deviceConnection)[0]
-      console.info('APP DETECTED::', detectedApp) // eslint-disable-line
+      const appConnection = yield LockboxService.connections.pollForAppConnection(
+        deviceType,
+        appRequested,
+        timeout
+      )
       yield put(A.setDevicePresent(true))
       yield put(A.setCurrentDevice(deviceId))
-      yield put(A.setCurrentApp(detectedApp))
-      if (detectedApp !== appRequested) {
-        // poll for requested app
-        yield call(
-          LockboxService.connections.pollForAppConnection,
-          deviceType,
-          appRequested,
-          timeout
-        )
-        yield put(A.setCurrentApp(appRequested))
-      }
+      yield put(A.setCurrentApp(appConnection.app))
     } catch (e) {
       yield put(A.setConnectionError(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'connectDevice', e))

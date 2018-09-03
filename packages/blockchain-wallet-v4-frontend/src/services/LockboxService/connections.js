@@ -1,17 +1,28 @@
 import TransportU2F from '@ledgerhq/hw-transport-u2f'
 import Btc from '@ledgerhq/hw-app-btc'
+import Eth from '@ledgerhq/hw-app-eth'
+import { path } from 'ramda'
 
 import constants from './constants'
-/*eslint-disable*/
 
 /**
  * Creates and returns a new BTC app connection
  * @param {TransportU2F<Btc>} btcTransport - Transport with BTC as scrambleKey
  * @returns {Btc} Returns a BTC connection
  */
-const createBtcConnection = btcTransport => {
+const createBtcBchConnection = btcTransport => {
   return new Btc(btcTransport)
 }
+
+/**
+ * Creates and returns a new BTC app connection
+ * @param {TransportU2F<Eth>} ethTransport - Transport with ETH as scrambleKey
+ * @returns {Eth} Returns a ETH connection
+ */
+const createEthConnection = ethTransport => {
+  return new Eth(ethTransport)
+}
+
 /**
  * Polls for a given application to open on the device
  * @async
@@ -20,67 +31,33 @@ const createBtcConnection = btcTransport => {
  * @param {Number} timeout - Length of time in ms to wait for a connection
  * @returns {Promise<TransportU2F>} Returns a connected Transport or Error
  */
-function pollForAppConnection(deviceType, app, timeout = 30000) {
-  let connectTimeout, connectionTimedOut
+function pollForAppConnection (deviceType, app, timeout = 3000) {
   if (!deviceType || !app) throw new Error('Missing required params')
-
   return new Promise((resolve, reject) => {
-    const tOffset = 3000
-    const cTimeout = timeout + tOffset
-
     // create transport
     TransportU2F.open().then(transport => {
       // configure transport
-      transport.setExchangeTimeout(cTimeout)
+      transport.setExchangeTimeout(timeout)
       transport.setScrambleKey(constants.scrambleKeys[deviceType][app])
-      console.info(
-        'POLL START::',
-        'deviceType:',
-        deviceType,
-        'app:',
-        app,
-        'scrambleKey:',
-        constants.scrambleKeys[deviceType][app]
-      )
-
-      // close transport and reject promise if timeout is reached
-      connectTimeout = setTimeout(() => {
-        connectionTimedOut = true
-        reject(new Error(`${cTimeout - tOffset}ms timeout exceeded.`))
-      }, cTimeout - tOffset)
-
       // send NO_OP cmd until response is received (success) or timeout is hit (reject)
-      transport
-        .send(...constants.apdus.no_op)
-        .then(
-          () => {},
-          () => {
-            // since no_op wont be recognized by any app as a valid cmd, this is always going
-            // to fail but a response, means a device is connected and unlocked
-            console.info(
-              'POLL END::',
-              'deviceType:',
-              deviceType,
-              'app:',
-              app,
-              'scrambleKey:',
-              constants.scrambleKeys[deviceType][app]
-            ) // eslint-disable-line
-            if (!connectionTimedOut) {
-              clearTimeout(connectTimeout)
-              resolve({ app, transport })
-            }
+      transport.send(...constants.apdus.no_op).then(
+        () => {},
+        res => {
+          // since no_op wont be recognized by any app as a valid cmd, this is always going
+          // to fail but a response, means a device is connected and unlocked
+          if (path(res.originalError)) {
+            reject(res.originalError.metaData)
           }
-        )
-        .finally(() => {
-          transport.close()
-        })
+
+          resolve({ app, transport })
+        }
+      )
     })
   })
 }
 
 export default {
-  createBtcConnection,
+  createBtcBchConnection,
+  createEthConnection,
   pollForAppConnection
 }
-/* eslint-enable */
