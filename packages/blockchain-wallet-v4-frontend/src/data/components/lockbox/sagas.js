@@ -39,9 +39,13 @@ export default ({ api, coreSagas }) => {
         appRequested,
         timeout
       )
-      yield put(A.setCurrentDevice(deviceId))
-      yield put(A.setCurrentApp(appConnection.app))
-      yield put(A.setCurrentTransport(appConnection.transport))
+      yield put(
+        A.setConnectionInfo(
+          appConnection.app,
+          deviceId,
+          appConnection.transport
+        )
+      )
     } catch (e) {
       yield put(A.setConnectionError(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'connectDevice', e))

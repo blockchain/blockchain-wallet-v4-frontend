@@ -50,7 +50,7 @@ const StepInstructions = styled(Text)`
 // }
 
 const ConnectLockboxDevice = props => {
-  const { connectionStatus, retryConnection } = props
+  const { connectionInfo, retryConnection } = props
 
   return (
     <React.Fragment>
@@ -77,19 +77,19 @@ const ConnectLockboxDevice = props => {
                 defaultMessage='Connect, unlock and open the Dashboard on your Lockbox'
               />
             </StepInstructions>
-            {connectionStatus.currentApp ? (
+            {connectionInfo.app ? (
               <Icon
                 name='checkmark-in-circle-filled'
                 size='24px'
                 color='success'
               />
-            ) : connectionStatus.error ? (
+            ) : connectionInfo.error ? (
               <Icon name='alert' size='24px' color='error' />
             ) : (
               <FlatLoader width='50px' height='10px' />
             )}
           </Row>
-          {connectionStatus.error && (
+          {connectionInfo.error && (
             <Row>
               <StepInstructions size='14px' weight={300} color={'error'}>
                 <FormattedMessage

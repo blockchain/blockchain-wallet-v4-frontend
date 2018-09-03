@@ -34,7 +34,7 @@ class ConnectLockboxDeviceContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  connectionStatus: selectors.components.lockbox.getCurrentConnection(state)
+  connectionInfo: selectors.components.lockbox.getCurrentConnection(state)
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -17,21 +17,13 @@ export const pollForDeviceApp = (
 export const resetConnectionStatus = () => ({
   type: AT.RESET_CONNECTION_STATUS
 })
-export const setCurrentApp = app => ({
-  type: AT.SET_CURRENT_APP,
-  payload: { app }
+export const setConnectionInfo = (app, deviceId, transport) => ({
+  type: AT.SET_CONNECTION_INFO,
+  payload: { app, deviceId, transport }
 })
 export const setConnectionError = error => ({
   type: AT.SET_CONNECTION_ERROR,
   payload: { error }
-})
-export const setCurrentDevice = deviceId => ({
-  type: AT.SET_CURRENT_DEVICE,
-  payload: { deviceId }
-})
-export const setCurrentTransport = transport => ({
-  type: AT.SET_CURRENT_TRANSPORT,
-  payload: { transport }
 })
 
 // NEW DEVICE SETUP
