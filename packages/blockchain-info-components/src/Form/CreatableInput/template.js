@@ -6,7 +6,6 @@ import CreatableSelect from 'react-select/lib/Creatable'
 const StyledCreatableSelect = styled(CreatableSelect)`
   font-weight: 300;
   font-family: 'Montserrat', sans-serif;
-  font-size: ${props => (props.fontSize === 'small' ? '12px' : '14px')};
 `
 
 const MultiValueContainer = props => {
@@ -22,6 +21,7 @@ const MultiValueContainer = props => {
 const CreatableInput = props => {
   const {
     value,
+    autoFocus,
     inputValue,
     placeholder,
     handleChange,
@@ -36,6 +36,7 @@ const CreatableInput = props => {
       isMulti
       menuIsOpen={false}
       classNamePrefix='bc'
+      autoFocus={autoFocus}
       onChange={handleChange}
       onKeyDown={handleKeyDown}
       onInputChange={handleInputChange}

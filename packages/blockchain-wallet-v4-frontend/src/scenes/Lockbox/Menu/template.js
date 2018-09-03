@@ -5,6 +5,8 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { Icon, Text } from 'blockchain-info-components'
 import { CreatableInputField } from 'components/Form'
 import { CurrencyItem } from 'components/Balances'
+import { FormattedMessage } from 'react-intl'
+import { any, equals, toLower, prop, isEmpty } from 'ramda'
 
 const Container = styled.div`
   width: 100%;
@@ -19,7 +21,7 @@ const TitleBarWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin: 15px 40px;
+  padding: 15px 40px;
 `
 const CurrencyList = styled.div`
   display: flex;
@@ -32,20 +34,38 @@ const SettingsIcon = styled(Icon)`
     cursor: pointer;
   }
 `
-const StyledCreatableInput = styled.div`
+const StyledCreatableInputContainer = styled.div`
+  display: flex;
+  padding: 15px 40px;
+  align-items: center;
+  > div:last-child {
+    width: 100%;
+  }
   .bc__control {
     border: none;
+    cursor: text;
     box-shadow: none;
     background-color: ${props => props.theme['white']};
+  }
+  .bc__multi-value {
+    cursor: auto;
+  }
+  .bc__multi-value__remove {
+    cursor: pointer;
+  }
+  .bc__clear-indicator {
+    display: none;
   }
 `
 const SearchLabel = styled.div`
   display: flex;
-  border-radius: 2px;
-  background-color: ${props => props.theme[props.background]};
+  border-radius: 4px;
+  background-color: ${props =>
+    props.background ? props.theme[toLower(props.background)] : 'initial'};
   > div {
+    font-size: 14px;
     color: ${props =>
-      props.theme[props.background]
+      props.theme[toLower(props.background)]
         ? props.theme['white']
         : props.theme['gray-5']};
   }
@@ -58,7 +78,10 @@ const multiValueContainer = props => {
 
 const Menu = props => {
   const { btcBalance, bchBalance, ethBalance, ...rest } = props
-  const { deviceName, handleCoinSelection } = rest
+  const { deviceName, handleCoinSelection, formValues } = rest
+
+  const isActive = coin =>
+    any(val => equals(toLower(prop('label', val)), toLower(coin)), formValues)
 
   return (
     <Container>
@@ -78,29 +101,42 @@ const Menu = props => {
             coin='btc'
             icon='bitcoin-filled'
             balance={btcBalance}
-            onClick={() => handleCoinSelection('btc')}
+            isActive={isActive('btc')}
+            isInactive={!isEmpty(formValues) && !isActive('btc')}
+            onClick={() => handleCoinSelection('BTC')}
           />
           <CurrencyItem
             coin='bch'
             icon='bitcoin-filled'
             balance={bchBalance}
-            onClick={() => handleCoinSelection('bch')}
+            isActive={isActive('bch')}
+            isInactive={!isEmpty(formValues) && !isActive('bch')}
+            onClick={() => handleCoinSelection('BCH')}
           />
           <CurrencyItem
             coin='eth'
             icon='ethereum-filled'
             balance={ethBalance}
-            onClick={() => handleCoinSelection('eth')}
+            isActive={isActive('eth')}
+            isInactive={!isEmpty(formValues) && !isActive('eth')}
+            onClick={() => handleCoinSelection('ETH')}
           />
         </CurrencyList>
       </LinkContainer>
-      <StyledCreatableInput>
+      <StyledCreatableInputContainer>
+        <Text size='20px' weight={400}>
+          <FormattedMessage
+            id='scenes.lockbox.menu.transactions'
+            defaultMessage='Transactions'
+          />
+        </Text>
         <Field
           name='search'
+          autoFocus
           component={CreatableInputField}
           multiValueContainer={multiValueContainer}
         />
-      </StyledCreatableInput>
+      </StyledCreatableInputContainer>
     </Container>
   )
 }

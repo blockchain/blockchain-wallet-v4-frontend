@@ -39,6 +39,7 @@ class HeaderContainer extends React.PureComponent {
       NotAsked: () => ({}),
       Loading: () => ({})
     })
+    const value = pathOr([], ['search', 'value'], this.props.formValues)
     return (
       <Header
         handleCoinSelection={this.onCoinSelection}
@@ -46,6 +47,7 @@ class HeaderContainer extends React.PureComponent {
         btcBalance={btcBalance}
         bchBalance={bchBalance}
         ethBalance={ethBalance}
+        formValues={value}
       />
     )
   }

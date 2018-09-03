@@ -77,6 +77,7 @@ class CreatableInputContainer extends React.PureComponent {
         handleKeyDown={this.handleKeyDown}
         handleInputChange={this.handleInputChange}
         placeholder={this.props.placeholder || ''}
+        autoFocus={this.props.autoFocus}
         inputValue={inputValue}
         components={components}
         value={value}
