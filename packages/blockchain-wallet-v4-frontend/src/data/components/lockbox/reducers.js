@@ -4,6 +4,7 @@ import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
   connection: {},
+  firmware: {},
   newDeviceSetup: {
     currentStep: 'setup-type',
     device: Remote.NotAsked
@@ -19,13 +20,6 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.SET_CONNECT_STEP: {
       return assocPath(['newDeviceSetup', 'currentStep'], payload.step, state)
-    }
-    case AT.SET_DEVICE_PRESENT: {
-      return assocPath(
-        ['connection', 'devicePresent'],
-        payload.devicePresent,
-        state
-      )
     }
     case AT.SET_CURRENT_APP: {
       return assocPath(['connection', 'currentApp'], payload.app, state)

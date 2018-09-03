@@ -19,6 +19,10 @@ export default ({ api, coreSagas }) => {
       lockboxSagas.saveNewDeviceKvStore
     )
     yield takeLatest(AT.DELETE_DEVICE, lockboxSagas.deleteDevice)
-    yield takeLatest(AT.POLL_FOR_DEVICE, lockboxSagas.pollForDevice)
+    yield takeLatest(AT.POLL_FOR_DEVICE_APP, lockboxSagas.pollForDeviceApp)
+    yield takeLatest(
+      AT.UPDATE_DEVICE_FIRMWARE,
+      lockboxSagas.updateDeviceFirmware
+    )
   }
 }

@@ -8,18 +8,18 @@ import UpdateDevice from './template.js'
 class UpdateDeviceContainer extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.onStartUpgrade = this.onStartUpgrade.bind(this)
+    this.onStartUpdate = this.onStartUpdate.bind(this)
   }
 
-  onStartUpgrade () {
-    this.props.modalActions.showModal('ConnectLockboxDevice', {
-      appRequested: 'DASHBOARD',
+  // TODO: need deviceID logic for when device is not connected
+  onStartUpdate () {
+    this.props.modalActions.showModal('LockboxFirmware', {
       deviceId: this.props.deviceId
     })
   }
 
   render () {
-    return <UpdateDevice onStartUpgrade={this.onStartUpgrade} />
+    return <UpdateDevice onStartUpdate={this.onStartUpdate} />
   }
 }
 

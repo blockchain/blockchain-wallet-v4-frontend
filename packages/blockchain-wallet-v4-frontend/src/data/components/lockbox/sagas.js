@@ -10,6 +10,42 @@ import * as LockboxService from 'services/LockboxService'
 const logLocation = 'components/lockbox/sagas'
 
 export default ({ api, coreSagas }) => {
+  /**
+   * Polls for device application to be opened
+   * @param {String} action.app - Requested application to wait for
+   * @param {String} [action.deviceId] - Optional unique device ID
+   * @param {String} [action.deviceType] - Optional device type (ledger or blockchain)
+   * @param {Number} [action.timeout] - Optional length of time in ms to wait for a connection
+   * @returns {Action} Yields device connected action
+   */
+  const pollForDeviceApp = function*(action) {
+    try {
+      let { appRequested, deviceId, deviceType, timeout } = action.payload
+      // reset previous connection status
+      // TODO: maybe have consuming components contain and/or clean up their own connections state?
+      yield put(A.resetConnectionStatus())
+
+      if (!deviceType) {
+        const storedDevicesR = yield select(
+          selectors.core.kvStore.lockbox.getDevices
+        )
+        const storedDevices = storedDevicesR.getOrElse({})
+        deviceType = storedDevices[deviceId].device_type
+      }
+
+      const appConnection = yield LockboxService.connections.pollForAppConnection(
+        deviceType,
+        appRequested,
+        timeout
+      )
+      yield put(A.setCurrentDevice(deviceId))
+      yield put(A.setCurrentApp(appConnection.app))
+    } catch (e) {
+      yield put(A.setConnectionError(e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'connectDevice', e))
+    }
+  }
+
   // determines if lockbox is setup and routes app accordingly
   const determineLockboxRoute = function*() {
     try {
@@ -25,6 +61,7 @@ export default ({ api, coreSagas }) => {
       )
     }
   }
+
   // saves new device to KvStore
   const saveNewDeviceKvStore = function*(action) {
     try {
@@ -99,32 +136,29 @@ export default ({ api, coreSagas }) => {
       // 25 min timeout for setup
       const setupTimeout = 1500000
       // poll for both Ledger and Blockchain type devices
+      // TODO: pretty sure this race wont work
       const dashboardTransport = yield race({
-        ledger: call(
-          LockboxService.connections.pollForAppConnection,
+        ledger: call(pollForDeviceApp, [
+          'DASHBOARD',
+          null,
           'ledger',
-          'DASHBOARD',
           setupTimeout
-        ),
-        blockchain: call(
-          LockboxService.connections.pollForAppConnection,
+        ]),
+        blockchain: call(pollForDeviceApp, [
+          'DASHBOARD',
+          null,
           'blockchain',
-          'DASHBOARD',
           setupTimeout
-        )
+        ])
       })
 
       // dashboard detected, user has completed setup steps on device
       // determine the deviceType based on which channel returned
       const deviceType = keysIn(dashboardTransport)[0]
       yield put(A.changeDeviceSetupStep('open-btc-app'))
-      const r = yield call(
-        LockboxService.connections.pollForAppConnection,
-        deviceType,
-        'BTC'
-      )
+      const connection = yield call(pollForDeviceApp, ['BTC', null, deviceType])
       const btcConnection = LockboxService.connections.createBtcConnection(
-        r.transport
+        connection.transport
       )
 
       // derive device info such as chaincodes and xpubs
@@ -155,43 +189,22 @@ export default ({ api, coreSagas }) => {
         yield put(A.changeDeviceSetupStep('name-device'))
       }
     } catch (e) {
-      // TODO: handle connection timeouts gracefully..
-      window.alert('DEVICE CONNECTION TIMEOUT') // eslint-disable-line
+      // TODO: more error handling
       yield put(
         actions.logs.logErrorMessage(logLocation, 'initializeNewDeviceSetup', e)
       )
     }
   }
 
-  /**
-   * Polls for device connection and application to be opened
-   * @param {String} action.app - Requested application to wait for
-   * @param {String} action.deviceId - Unique device ID
-   * @param {Number} [action.timeout] - Length of time in ms to wait for a connection
-   * @returns {Action} Yields device connected action
-   */
-  const pollForDevice = function*(action) {
+  // update device firmware saga
+  const updateDeviceFirmware = function*(action) {
     try {
-      const { appRequested, deviceId, timeout } = action.payload
-      // reset previous connection status
-      // TODO: maybe have consuming components contain and/or clean up their own connections state?
-      yield put(A.resetConnectionStatus())
-      const storedDevicesR = yield select(
-        selectors.core.kvStore.lockbox.getDevices
-      )
-      const storedDevices = storedDevicesR.getOrElse({})
-      const deviceType = storedDevices[deviceId].device_type
-      const appConnection = yield LockboxService.connections.pollForAppConnection(
-        deviceType,
-        appRequested,
-        timeout
-      )
-      yield put(A.setDevicePresent(true))
-      yield put(A.setCurrentDevice(deviceId))
-      yield put(A.setCurrentApp(appConnection.app))
+      const { deviceID } = action.payload
+      yield deviceID
     } catch (e) {
-      yield put(A.setConnectionError(e))
-      yield put(actions.logs.logErrorMessage(logLocation, 'connectDevice', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'updateDeviceFirmware', e)
+      )
     }
   }
 
@@ -199,8 +212,9 @@ export default ({ api, coreSagas }) => {
     deleteDevice,
     determineLockboxRoute,
     initializeNewDeviceSetup,
-    pollForDevice,
+    pollForDeviceApp,
     saveNewDeviceKvStore,
+    updateDeviceFirmware,
     updateDeviceName
   }
 }

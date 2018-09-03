@@ -5,8 +5,8 @@ export const determineLockboxRoute = () => ({
 })
 
 // CONNECTIONS
-export const pollForDevice = (appRequested, deviceId, timeout) => ({
-  type: AT.POLL_FOR_DEVICE,
+export const pollForDeviceApp = (appRequested, deviceId, timeout) => ({
+  type: AT.POLL_FOR_DEVICE_APP,
   payload: { appRequested, deviceId, timeout }
 })
 export const resetConnectionStatus = () => ({
@@ -19,10 +19,6 @@ export const setCurrentApp = app => ({
 export const setConnectionError = error => ({
   type: AT.SET_CONNECTION_ERROR,
   payload: { error }
-})
-export const setDevicePresent = devicePresent => ({
-  type: AT.SET_DEVICE_PRESENT,
-  payload: { devicePresent }
 })
 export const setCurrentDevice = deviceId => ({
   type: AT.SET_CURRENT_DEVICE,
@@ -70,6 +66,9 @@ export const updateDeviceNameSuccess = () => ({
 export const updateDeviceNameFailure = payload => ({
   type: AT.UPDATE_DEVICE_NAME_FAILURE,
   payload
+})
+export const updateDeviceFirmware = () => ({
+  type: AT.UPDATE_DEVICE_FIRMWARE
 })
 
 // DELETE
