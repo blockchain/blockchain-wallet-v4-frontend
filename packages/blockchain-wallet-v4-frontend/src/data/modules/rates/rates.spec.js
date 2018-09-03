@@ -1,4 +1,4 @@
-import { path, prop, groupBy } from 'ramda'
+import { path, prop, groupBy, compose, map, head } from 'ramda'
 
 import { createTestStore, getDispatchSpyReducer } from 'utils/testbed'
 import { actions, selectors, model } from 'data'
@@ -173,8 +173,10 @@ describe('rates service', () => {
       )
     })
 
-    it('should remove pair upon unsubscription', () => {
-      expect(store.getState().rates.pairs).toEqual({})
+    it('should set pair to loading upon unsubscription', () => {
+      expect(
+        selectors.modules.rates.getPairAdvice(pair, store.getState())
+      ).toEqual(Remote.Loading)
     })
   })
 
@@ -184,11 +186,12 @@ describe('rates service', () => {
       store.dispatch(actions.modules.rates.subscribeToRates(pairs))
     })
 
-    it('should set send subscription socket message upon new subscription', () => {
-      expect(ratesSocket.send).toHaveBeenCalledTimes(1)
-      expect(ratesSocket.send).toHaveBeenCalledWith(
-        model.rates.getRatesSubscribeMessage(pairs)
-      )
+    it('should unsubscribe and set send subscription socket message upon new subscription', () => {
+      expect(ratesSocket.send).toHaveBeenCalledTimes(2)
+      expect(ratesSocket.send.mock.calls).toEqual([
+        [model.rates.getRatesUnsubscribeMessage()],
+        [model.rates.getRatesSubscribeMessage(pairs)]
+      ])
     })
   })
 
@@ -264,13 +267,17 @@ describe('rates service', () => {
 
     it('should update bestRates upon rates message', () => {
       const rates = pairs.map(pair => ({ pair, rate: Math.random() }))
+      const resultRates = compose(
+        map(head),
+        groupBy(prop('pair'))
+      )(rates)
       ratesSocket.triggerMessage({
         ...model.rates.RATES_MESSAGE,
         pairs,
         rates
       })
       expect(selectors.modules.rates.getBestRates(store.getState())).toEqual(
-        Remote.Success(groupBy(prop('pair'), rates))
+        Remote.Success(resultRates)
       )
     })
 

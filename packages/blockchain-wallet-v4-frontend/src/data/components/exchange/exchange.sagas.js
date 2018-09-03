@@ -72,6 +72,11 @@ export default ({ api, coreSagas, options, networks }) => {
     yield put(actions.modules.rates.subscribeToRates(pairs))
   }
 
+  const unsubscribeFromCurrentAdvice = function*({ source, target }) {
+    const pair = formatPair(source.coin, target.coin)
+    yield put(actions.modules.rates.unsubscribeFromAdvice(pair))
+  }
+
   const swapFieldValue = function*(form) {
     const { fix, source, target } = form
     const pair = formatPair(source.coin, target.coin)
@@ -97,6 +102,7 @@ export default ({ api, coreSagas, options, networks }) => {
       yield put(actions.form.change(EXCHANGE_FORM, 'target', newTarget))
       yield call(swapFieldValue, form)
     }
+    yield call(unsubscribeFromCurrentAdvice, form)
     yield call(changeSubscription)
   }
 
@@ -111,6 +117,7 @@ export default ({ api, coreSagas, options, networks }) => {
       yield put(actions.form.change(EXCHANGE_FORM, 'source', newSource))
       yield call(swapFieldValue, form)
     }
+    yield call(unsubscribeFromCurrentAdvice, form)
     yield call(changeSubscription)
   }
 

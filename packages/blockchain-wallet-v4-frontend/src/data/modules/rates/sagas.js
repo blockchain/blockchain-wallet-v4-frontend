@@ -9,7 +9,6 @@ export default ({ api }) => {
   const subscribeToAdvice = function*({ payload }) {
     const { pair, volume, fix, fiatCurrency } = payload
 
-    yield put(actions.middleware.webSocket.rates.closeAdviceChannel(pair))
     yield put(A.updatePairConfig(pair, volume, fix, fiatCurrency))
     yield put(
       actions.middleware.webSocket.rates.openAdviceChannel(

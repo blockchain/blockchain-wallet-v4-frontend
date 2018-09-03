@@ -2,7 +2,6 @@ import {
   assoc,
   assocPath,
   compose,
-  dissocPath,
   groupBy,
   head,
   lensProp,
@@ -67,8 +66,6 @@ export default (state = INITIAL_STATE, action) => {
         payload.pair,
         state
       )
-    case AT.UNSUBSCRIBE_FROM_ADVICE:
-      return dissocPath(['pairs', payload.pair], state)
     case AT.UPDATE_BEST_RATES: {
       const pairs = compose(
         map(head),

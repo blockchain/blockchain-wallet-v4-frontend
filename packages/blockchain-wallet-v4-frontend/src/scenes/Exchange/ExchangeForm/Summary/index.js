@@ -78,7 +78,7 @@ const Summary = ({
         id='scenes.exchange.exchangeform.summary.receive'
         defaultMessage='Receive {coin}'
         values={{
-          coin: sourceCoin
+          coin: targetCoin
         }}
       />
     </AmountHeader>
