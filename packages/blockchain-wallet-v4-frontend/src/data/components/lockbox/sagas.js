@@ -23,7 +23,6 @@ export default ({ api, coreSagas }) => {
     try {
       let { appRequested, deviceId, deviceType, timeout } = action.payload
       // reset previous connection status
-      // TODO: maybe have consuming components contain and/or clean up their own connections state?
       yield put(A.resetConnectionStatus())
 
       if (!deviceType) {
@@ -91,13 +90,14 @@ export default ({ api, coreSagas }) => {
       yield put(actions.modals.closeModal())
       yield put(actions.router.push('/lockbox/dashboard'))
       yield put(actions.core.data.bitcoin.fetchData())
-      // reset new device setup to step 1
-      yield put(A.changeDeviceSetupStep('setup-type'))
       yield put(actions.alerts.displaySuccess(C.LOCKBOX_SETUP_SUCCESS))
     } catch (e) {
       yield put(A.saveNewDeviceKvStoreFailure(e))
       yield put(actions.alerts.displayError(C.LOCKBOX_SETUP_ERROR))
       yield put(actions.logs.logErrorMessage(logLocation, 'storeDeviceName', e))
+    } finally {
+      // reset new device setup to step 1
+      yield put(A.changeDeviceSetupStep('setup-type'))
     }
   }
 
@@ -164,7 +164,7 @@ export default ({ api, coreSagas }) => {
       yield put(A.changeDeviceSetupStep('open-btc-app'))
 
       yield put(A.pollForDeviceApp('BTC', null, deviceType))
-      yield take(AT.SET_CURRENT_TRANSPORT)
+      yield take(AT.SET_CONNECTION_INFO)
       const { transport } = yield select(S.getCurrentConnection)
       const btcConnection = LockboxService.connections.createBtcConnection(
         transport
@@ -210,13 +210,15 @@ export default ({ api, coreSagas }) => {
     try {
       const { deviceID } = action.payload
       yield put(A.pollForDeviceApp('DASHBOARD', deviceID))
-      yield take(AT.SET_CURRENT_TRANSPORT)
+      yield take(AT.SET_CONNECTION_INFO)
       const { transport } = yield select(S.getCurrentConnection)
-      yield transport
+      yield put(A.changeFirmwareUpdateStep('compare-versions-step'))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'updateDeviceFirmware', e)
       )
+    } finally {
+      // yield put(A.changeFirmwareUpdateStep('device-connect-step'))
     }
   }
 

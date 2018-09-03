@@ -6,7 +6,6 @@ const INITIAL_STATE = {
   connection: {},
   firmware: {},
   newDeviceSetup: {
-    currentStep: 'setup-type',
     device: Remote.NotAsked
   }
 }
@@ -18,8 +17,11 @@ export default (state = INITIAL_STATE, action) => {
     case AT.RESET_CONNECTION_STATUS: {
       return assocPath(['connection'], {}, state)
     }
-    case AT.SET_CONNECT_STEP: {
+    case AT.SET_NEW_DEVICE_SETUP_STEP: {
       return assocPath(['newDeviceSetup', 'currentStep'], payload.step, state)
+    }
+    case AT.SET_FIRMWARE_UPDATE_STEP: {
+      return assocPath(['firmware', 'step'], payload.step, state)
     }
     case AT.SET_CONNECTION_INFO: {
       return assocPath(['connection'], payload, state)

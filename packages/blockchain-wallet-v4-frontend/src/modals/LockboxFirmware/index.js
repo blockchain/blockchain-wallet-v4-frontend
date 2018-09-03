@@ -14,7 +14,9 @@ class LockboxFirmwareContainer extends React.PureComponent {
 
     return (
       <LockboxFirmware position={position} total={total} closeAll={closeAll}>
-        {!currentStep && <OpenDashboardStep deviceId={deviceId} />}
+        {(!currentStep || currentStep === 'device-connect-step') && (
+          <OpenDashboardStep deviceId={deviceId} />
+        )}
         {currentStep === 'compare-versions-step' && (
           <div>Comparing versions</div>
         )}

@@ -24,5 +24,5 @@ export const getFirmwareUpdateStep = path([
   'components',
   'lockbox',
   'firmware',
-  'upgradeStep'
+  'step'
 ])

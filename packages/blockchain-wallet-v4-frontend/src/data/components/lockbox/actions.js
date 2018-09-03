@@ -31,7 +31,7 @@ export const initializeNewDeviceSetup = () => ({
   type: AT.INITIALIZE_NEW_DEVICE_SETUP
 })
 export const changeDeviceSetupStep = step => ({
-  type: AT.SET_CONNECT_STEP,
+  type: AT.SET_NEW_DEVICE_SETUP_STEP,
   payload: { step }
 })
 export const setNewDeviceInfo = deviceInfo => ({
@@ -67,6 +67,10 @@ export const updateDeviceNameSuccess = () => ({
 export const updateDeviceNameFailure = payload => ({
   type: AT.UPDATE_DEVICE_NAME_FAILURE,
   payload
+})
+export const changeFirmwareUpdateStep = step => ({
+  type: AT.SET_FIRMWARE_UPDATE_STEP,
+  payload: { step }
 })
 export const updateDeviceFirmware = deviceID => ({
   type: AT.UPDATE_DEVICE_FIRMWARE,
