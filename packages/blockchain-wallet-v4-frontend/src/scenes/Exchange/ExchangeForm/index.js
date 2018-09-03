@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { compose, flip, prop } from 'ramda'
 
 import { getRemotePropType, getElementsPropType } from 'utils/proptypes'
+import { debounce } from 'utils/helpers'
 import { actions, model } from 'data'
 import { getData } from './selectors'
 
@@ -12,10 +13,7 @@ import Loading from './template.loading'
 import Success from './template.success'
 import DataError from 'components/DataError'
 
-const extractFieldValue = (e, value) => {
-  e && e.preventDefault()
-  return value
-}
+const extractFieldValue = (e, value) => value
 
 const { swapCoinAndFiat, swapBaseAndCounter, FIX_TYPES } = model.rates
 const { BASE, COUNTER, BASE_IN_FIAT, COUNTER_IN_FIAT } = FIX_TYPES
@@ -25,15 +23,26 @@ class FirstStepContainer extends React.Component {
     this.props.actions.initialize()
   }
 
+  debounceTime = 50
+
   handleRefresh = () => {
     this.props.actions.initialize()
   }
 
   getChangeAmountAction = flip(prop)({
-    [BASE]: this.props.actions.changeSourceAmount,
-    [COUNTER]: this.props.actions.changeTargetAmount,
-    [BASE_IN_FIAT]: this.props.actions.changeSourceFiatAmount,
-    [COUNTER_IN_FIAT]: this.props.actions.changeTargetFiatAmount
+    [BASE]: debounce(this.props.actions.changeSourceAmount, this.debounceTime),
+    [COUNTER]: debounce(
+      this.props.actions.changeTargetAmount,
+      this.debounceTime
+    ),
+    [BASE_IN_FIAT]: debounce(
+      this.props.actions.changeSourceFiatAmount,
+      this.debounceTime
+    ),
+    [COUNTER_IN_FIAT]: debounce(
+      this.props.actions.changeTargetFiatAmount,
+      this.debounceTime
+    )
   })
 
   render () {
