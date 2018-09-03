@@ -155,7 +155,7 @@ const FieldsWrapper = styled.div`
   margin-bottom: 45px;
 `
 
-const normalizeAmount = (value, prevValue, allValues) => {
+const normalizeAmount = (value, prevValue, allValues, ...args) => {
   if (isNaN(Number(value))) return prevValue
   return formatAmount(value, fixIsFiat(allValues.fix))
 }
@@ -172,7 +172,6 @@ const Success = props => {
     targetCoin,
     sourceActive,
     targetActive,
-    coinActive,
     inputField,
     inputSymbol,
     complementaryAmount,
@@ -265,7 +264,6 @@ const Success = props => {
                 onChange={handleAmountChange}
                 normalize={normalizeAmount}
                 component={AmountTextBox}
-                step={coinActive ? '0.00000001' : '0.01'}
               />
               <CurrencyBox style={{ visibility: 'hidden' }}>
                 {inputSymbol}

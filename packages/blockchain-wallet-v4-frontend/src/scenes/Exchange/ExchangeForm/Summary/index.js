@@ -50,7 +50,7 @@ const Summary = ({
   targetFiat,
   sourceToTargetRate,
   sourceToFiatRate,
-  targetToFiateRate
+  targetToFiatRate
 }) => (
   <Wrapper>
     <Title>
@@ -139,7 +139,7 @@ const Summary = ({
       </RatesRow>
       <RatesRow>
         <StringDisplay>
-          {targetToFiateRate.map(
+          {targetToFiatRate.map(
             rate => `1 ${targetCoin} = ${rate} ${currency}`
           )}
         </StringDisplay>

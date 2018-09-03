@@ -52,7 +52,6 @@ export default ({ api, coreSagas, options, networks }) => {
 
     if (configEquals(currentConfig, { volume, fix, fiatCurrency })) return
 
-    yield put(actions.modules.rates.unsubscribeFromAdvice(pair))
     yield put(
       actions.modules.rates.subscribeToAdvice(pair, volume, fix, fiatCurrency)
     )
@@ -70,7 +69,6 @@ export default ({ api, coreSagas, options, networks }) => {
 
     if (equals(pairs, currentPairs)) return
 
-    yield put(actions.modules.rates.unsubscribeFromRates())
     yield put(actions.modules.rates.subscribeToRates(pairs))
   }
 

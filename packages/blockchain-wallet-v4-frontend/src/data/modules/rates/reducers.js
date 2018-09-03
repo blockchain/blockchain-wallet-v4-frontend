@@ -1,9 +1,12 @@
 import {
   assoc,
   assocPath,
+  compose,
   dissocPath,
   groupBy,
+  head,
   lensProp,
+  map,
   propOr,
   prop,
   set
@@ -55,7 +58,7 @@ export default (state = INITIAL_STATE, action) => {
         payload.pair,
         state
       )
-    case socketActionTypes.ADVICE_SUBSCRIBE_SUCCESS:
+    case AT.SUBSCRIBE_TO_ADVICE:
       return setPairProp(adviceLens, Remote.Loading, payload.pair, state)
     case socketActionTypes.ADVICE_SUBSCRIBE_ERROR:
       return setPairProp(
@@ -64,19 +67,21 @@ export default (state = INITIAL_STATE, action) => {
         payload.pair,
         state
       )
+    case AT.UNSUBSCRIBE_FROM_ADVICE:
+      return dissocPath(['pairs', payload.pair], state)
     case AT.UPDATE_BEST_RATES: {
-      const pairs = groupBy(prop('pair'), payload.rates)
-
+      const pairs = compose(
+        map(head),
+        groupBy(prop('pair'))
+      )(payload.rates)
       return set(bestRatesLens, Remote.Success(pairs), state)
     }
-    case socketActionTypes.RATES_SUBSCRIBE_SUCCESS:
+    case AT.SUBSCRIBE_TO_RATES:
       return set(bestRatesLens, Remote.Loading, state)
     case socketActionTypes.RATES_SUBSCRIBE_ERROR:
       return set(bestRatesLens, Remote.Failure(payload.error), state)
     case AT.UNSUBSCRIBE_FROM_RATES:
       return set(bestRatesLens, Remote.NotAsked, state)
-    case AT.UNSUBSCRIBE_FROM_ADVICE:
-      return dissocPath(['pairs', payload.pair], state)
     default:
       return state
   }

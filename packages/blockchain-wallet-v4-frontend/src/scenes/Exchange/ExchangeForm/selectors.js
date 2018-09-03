@@ -186,6 +186,43 @@ const getCurrentPairAmounts = state =>
 const getCurrentPairRates = state =>
   selectors.components.exchange.getRates(getCurrentPair(state), state)
 
+const fallbackToNullAmounts = adviceAmountsR =>
+  adviceAmountsR.cata({
+    Success: () => adviceAmountsR,
+    Failure: () => Remote.of(nullAmounts),
+    Loading: () => adviceAmountsR,
+    NotAsked: () => Remote.of(nullAmounts)
+  })
+const nullAmounts = {
+  sourceAmount: 0,
+  targetAmount: 0,
+  sourceFiat: 0,
+  targetFiat: 0
+}
+const fallbackToBestRates = (adviceRatesR, bestRatesR) =>
+  adviceRatesR.cata({
+    Success: () => adviceRatesR,
+    Failure: () => bestRatesR,
+    Loading: () => adviceRatesR,
+    NotAsked: () => bestRatesR
+  })
+const formatBestRates = curry(
+  (sourceCoin, targetCoin, currency, bestRates) => ({
+    sourceToTargetRate: path(
+      [formatPair(sourceCoin, targetCoin), 'price'],
+      bestRates
+    ),
+    sourceToFiatRate: path(
+      [formatPair(sourceCoin, currency), 'price'],
+      bestRates
+    ),
+    targetToFiatRate: path(
+      [formatPair(targetCoin, currency), 'price'],
+      bestRates
+    )
+  })
+)
+
 export const getData = createDeepEqualSelector(
   [
     getBtcAccounts,
@@ -196,7 +233,8 @@ export const getData = createDeepEqualSelector(
     getFormValues,
     selectors.modules.rates.getAvailablePairs,
     getCurrentPairAmounts,
-    getCurrentPairRates
+    getCurrentPairRates,
+    selectors.modules.rates.getBestRates
   ],
   (
     btcAccountsR,
@@ -206,8 +244,9 @@ export const getData = createDeepEqualSelector(
     formError,
     formValues,
     availablePairsR,
-    amountsR,
-    ratesR
+    adviceAmountsR,
+    adviceRatesR,
+    bestRatesR
   ) => {
     const { sourceCoin, targetCoin, fix } = formValues
     const sourceActive = contains(fix, [BASE, BASE_IN_FIAT])
@@ -254,7 +293,12 @@ export const getData = createDeepEqualSelector(
         targetFiat: currency
       }
       const inputCurrency = prop(inputField, fieldCoins)
+      const amountsR = fallbackToNullAmounts(adviceAmountsR)
       const complementaryCurrency = prop(complementaryField, fieldCoins)
+      const ratesR = fallbackToBestRates(
+        adviceRatesR,
+        bestRatesR.map(formatBestRates(sourceCoin, targetCoin, currency))
+      )
 
       return {
         availablePairs,
@@ -274,7 +318,7 @@ export const getData = createDeepEqualSelector(
         targetFiat: amountsR.map(prop('targetFiat')),
         sourceToTargetRate: ratesR.map(prop('sourceToTargetRate')),
         sourceToFiatRate: ratesR.map(prop('sourceToFiatRate')),
-        targetToFiateRate: ratesR.map(prop('targetToFiateRate')),
+        targetToFiatRate: ratesR.map(prop('targetToFiatRate')),
         sourceCoin,
         targetCoin,
         sourceActive,

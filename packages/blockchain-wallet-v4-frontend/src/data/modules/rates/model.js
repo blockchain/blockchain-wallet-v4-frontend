@@ -16,7 +16,7 @@ export const ADVICE_SUBSCRIBE_SUCCESS_MESSAGE = {
 
 export const ADVICE_SUBSCRIBE_ERROR_MESSAGE = {
   channel: 'conversion',
-  type: 'error'
+  type: 'currencyRatioError'
 }
 
 export const ADVICE_UNSUBSCRIBE_SUCCESS_MESSAGE = {

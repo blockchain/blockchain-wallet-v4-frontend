@@ -30,7 +30,7 @@ const adviceToRate = advice => ({
   sourceToTargetRate: advice.baseToCounterRate,
   targetToSourceRate: advice.counterToBaseRate,
   sourceToFiatRate: advice.baseToFiatRate,
-  targetToFiateRate: advice.counterToFiatRate
+  targetToFiatRate: advice.counterToFiatRate
 })
 export const getRates = curry((pair, state) =>
   selectors.modules.rates.getPairAdvice(pair, state).map(adviceToRate)
