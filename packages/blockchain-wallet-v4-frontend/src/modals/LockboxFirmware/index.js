@@ -29,7 +29,6 @@ class LockboxFirmwareContainer extends React.PureComponent {
 }
 
 LockboxFirmwareContainer.propTypes = {
-  currentStep: PropTypes.string.isRequired,
   deviceId: PropTypes.string.isRequired,
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,

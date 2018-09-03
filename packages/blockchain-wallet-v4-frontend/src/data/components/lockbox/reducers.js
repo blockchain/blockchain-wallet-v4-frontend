@@ -22,7 +22,10 @@ export default (state = INITIAL_STATE, action) => {
       return assocPath(['newDeviceSetup', 'currentStep'], payload.step, state)
     }
     case AT.SET_CURRENT_APP: {
-      return assocPath(['connection', 'currentApp'], payload.app, state)
+      return assocPath(['connection', 'app'], payload.app, state)
+    }
+    case AT.SET_CURRENT_TRANSPORT: {
+      return assocPath(['connection', 'transport'], payload.transport, state)
     }
     case AT.SET_CONNECTION_ERROR: {
       return assocPath(['connection', 'error'], payload.error, state)

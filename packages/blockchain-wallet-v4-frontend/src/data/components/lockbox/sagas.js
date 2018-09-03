@@ -1,8 +1,9 @@
-import { call, put, race, select } from 'redux-saga/effects'
+import { call, put, race, take, select } from 'redux-saga/effects'
 import { contains, keysIn } from 'ramda'
 
 import { actions, selectors } from 'data'
 import * as A from './actions'
+import * as AT from './actionTypes'
 import * as C from 'services/AlertService'
 import * as S from './selectors'
 import * as LockboxService from 'services/LockboxService'
@@ -40,6 +41,7 @@ export default ({ api, coreSagas }) => {
       )
       yield put(A.setCurrentDevice(deviceId))
       yield put(A.setCurrentApp(appConnection.app))
+      yield put(A.setCurrentTransport(appConnection.transport))
     } catch (e) {
       yield put(A.setConnectionError(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'connectDevice', e))
@@ -136,7 +138,7 @@ export default ({ api, coreSagas }) => {
       // 25 min timeout for setup
       const setupTimeout = 1500000
       // poll for both Ledger and Blockchain type devices
-      // TODO: pretty sure this race wont work
+      // TODO: YOU BROKE THIS!
       const dashboardTransport = yield race({
         ledger: call(pollForDeviceApp, [
           'DASHBOARD',
@@ -156,9 +158,12 @@ export default ({ api, coreSagas }) => {
       // determine the deviceType based on which channel returned
       const deviceType = keysIn(dashboardTransport)[0]
       yield put(A.changeDeviceSetupStep('open-btc-app'))
-      const connection = yield call(pollForDeviceApp, ['BTC', null, deviceType])
+
+      yield put(A.pollForDeviceApp('BTC', null, deviceType))
+      yield take(AT.SET_CURRENT_TRANSPORT)
+      const { transport } = yield select(S.getCurrentConnection)
       const btcConnection = LockboxService.connections.createBtcConnection(
-        connection.transport
+        transport
       )
 
       // derive device info such as chaincodes and xpubs
@@ -200,7 +205,10 @@ export default ({ api, coreSagas }) => {
   const updateDeviceFirmware = function*(action) {
     try {
       const { deviceID } = action.payload
-      yield deviceID
+      yield put(A.pollForDeviceApp('DASHBOARD', deviceID))
+      yield take(AT.SET_CURRENT_TRANSPORT)
+      const { transport } = yield select(S.getCurrentConnection)
+      yield transport
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'updateDeviceFirmware', e)

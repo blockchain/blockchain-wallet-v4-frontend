@@ -12,15 +12,15 @@ class ConnectLockboxDeviceContainer extends React.PureComponent {
   }
 
   componentDidMount () {
-    const { deviceId } = this.props
-    this.props.lockboxActions.pollForDeviceApp('DASHBOARD', deviceId)
+    this.props.lockboxActions.updateDeviceFirmware(this.props.deviceId)
   }
 
   retryConnection () {
-    this.props.lockboxActions.pollForDeviceApp(
-      this.props.appRequested,
-      this.props.deviceId
-    )
+    // TODO
+    // this.props.lockboxActions.pollForDeviceApp(
+    //   this.props.appRequested,
+    //   this.props.deviceId
+    // )
   }
 
   render () {
@@ -34,7 +34,7 @@ class ConnectLockboxDeviceContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  connectionStatus: selectors.components.lockbox.getConnectionStatus(state)
+  connectionStatus: selectors.components.lockbox.getCurrentConnection(state)
 })
 
 const mapDispatchToProps = dispatch => ({

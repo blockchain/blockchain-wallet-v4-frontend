@@ -1,7 +1,6 @@
 import TransportU2F from '@ledgerhq/hw-transport-u2f'
 import Btc from '@ledgerhq/hw-app-btc'
 import Eth from '@ledgerhq/hw-app-eth'
-import { path } from 'ramda'
 
 import constants from './constants'
 
@@ -45,7 +44,7 @@ function pollForAppConnection (deviceType, app, timeout = 30000) {
         res => {
           // since no_op wont be recognized by any app as a valid cmd, this is always going
           // to fail but a response, means a device is connected and unlocked
-          if (path(res.originalError)) {
+          if (res.originalError) {
             reject(res.originalError.metaData)
           }
 
