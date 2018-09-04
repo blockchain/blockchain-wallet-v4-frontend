@@ -1,8 +1,9 @@
-import { assoc } from 'ramda'
+import { assoc, assocPath, mergeAll } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import reducer from './reducers'
 import * as actions from './actions'
 import * as M from './model'
+import moment from 'moment'
 
 const INITIAL_STATE = {
   checkoutBusy: false,
@@ -130,6 +131,42 @@ describe('coinify reducers', () => {
   it('should handle COINIFY_SIGNUP_COMPLETE', () => {
     const action = actions.coinifySignupComplete()
     const expectedState = assoc('signupComplete', true, INITIAL_STATE)
+    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
+  })
+  it('should handle COINIFY_SHOW_RECURRING_MODAL', () => {
+    const action = actions.showRecurringModal(true)
+    const expectedState = assoc('showRecurringModal', true, INITIAL_STATE)
+    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
+  })
+  it('should handle COINIFY_IS_RECURRING_TRADE', () => {
+    const action = actions.setIsRecurringTrade(true)
+    const expectedState = assoc('subscription', true, INITIAL_STATE)
+    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
+  })
+  it('should handle COINIFY_SET_RECURRING_TRADE_FREQUENCY', () => {
+    const action = actions.setRecurringTradeFrequency('weekly')
+    const expectedState = assocPath(['subscriptionData', 'frequency'], 'weekly', INITIAL_STATE)
+    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
+  })
+  it('should handle COINIFY_SET_RECURRING_TRADE_END_TIME', () => {
+    const time = moment(new Date(1536080134670)).toISOString()
+    const action = actions.setRecurringTradeEndTime(time)
+    const expectedState = assocPath(['subscriptionData', 'endTime'], time, INITIAL_STATE)
+    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
+  })
+  it('should handle COINIFY_RESET_RECURRING_BUY', () => {
+    const action = actions.coinifyResetRecurringBuy()
+    const expectedState = mergeAll([
+      INITIAL_STATE,
+      { showRecurringModal: INITIAL_STATE.showRecurringModal },
+      { subscription: INITIAL_STATE.subscription },
+      { subscriptionData: INITIAL_STATE.subscriptionData }
+    ])
+    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
+  })
+  it('should handle DISABLE_RECURRING_CHECKBOX', () => {
+    const action = actions.disableRecurringCheckbox(true)
+    const expectedState = assoc('disableRecurringCheckbox', true, INITIAL_STATE)
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
   })
 })
