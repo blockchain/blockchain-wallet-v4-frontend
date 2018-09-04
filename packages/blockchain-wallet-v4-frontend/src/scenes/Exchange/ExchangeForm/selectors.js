@@ -1,5 +1,6 @@
 import { selectors, model } from 'data'
 import {
+  append,
   compose,
   contains,
   cond,
@@ -16,9 +17,7 @@ import {
   path,
   prop,
   propEq,
-  split,
   sortBy,
-  uniq,
   unnest
 } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
@@ -30,42 +29,33 @@ const {
   getComplementaryField,
   mapFixToFieldName,
   formatPair,
+  splitPair,
   FIX_TYPES
 } = model.rates
 const { BASE, BASE_IN_FIAT, COUNTER, COUNTER_IN_FIAT } = FIX_TYPES
 
 const currenciesOrder = ['BTC', 'BCH', 'ETH']
 
-const getAvailableCurrencies = chooseCurrency =>
-  compose(
-    sortBy(flip(indexOf)(currenciesOrder)),
-    uniq,
-    map(
-      compose(
-        chooseCurrency,
-        split('-')
-      )
-    )
-  )
-const getFromCurrencies = getAvailableCurrencies(head)
-const getToCurrencies = getAvailableCurrencies(last)
+const getPairedCurrencies = curry(
+  (
+    getComparedCurrency,
+    getResultingCurrency,
+    targetCurrency,
+    availableCurrencies
+  ) =>
+    compose(
+      sortBy(flip(indexOf)(currenciesOrder)),
+      append(targetCurrency),
+      map(getResultingCurrency),
+      filter(pair => getComparedCurrency(pair) === targetCurrency),
+      map(splitPair)
+    )(availableCurrencies)
+)
 
-const getBtcGroup = btcAccounts => ({
-  label: 'Bitcoin',
-  options: btcAccounts.map(formatGroup)
-})
-const getBchGroup = bchAccounts => ({
-  label: 'Bitcoin Cash',
-  options: bchAccounts.map(formatGroup)
-})
-const getEthGroup = ethAccounts => ({
-  label: 'Ether',
-  options: ethAccounts.map(formatGroup)
-})
+const getFromCurrencies = getPairedCurrencies(last, head)
+const getToCurrencies = getPairedCurrencies(head, last)
 
 export const format = acc => ({ text: prop('label', acc), value: acc })
-export const formatGroup = acc => ({ label: prop('label', acc), value: acc })
-
 export const formatDefault = curry((coin, acc) => ({ text: coin, value: acc }))
 
 export const generateGroups = (
@@ -74,29 +64,21 @@ export const generateGroups = (
   ethAccounts,
   hasOneAccount
 ) => availableCurrencies => {
-  if (hasOneAccount) {
-    const accounts = availableCurrencies.map(
-      cond([
-        [equals('BTC'), () => btcAccounts.map(formatDefault('Bitcoin'))],
-        [equals('BCH'), () => bchAccounts.map(formatDefault('Bitcoin Cash'))],
-        [equals('ETH'), () => ethAccounts.map(formatDefault('Ether'))]
-      ])
-    )
-    return [
-      {
-        group: '',
-        items: unnest(accounts)
-      }
-    ]
-  }
-
-  return availableCurrencies.map(
-    cond([
-      [equals('BTC'), () => getBtcGroup(btcAccounts)],
-      [equals('BCH'), () => getBchGroup(bchAccounts)],
-      [equals('ETH'), () => getEthGroup(ethAccounts)]
-    ])
-  )
+  const getOneAccElements = cond([
+    [equals('BTC'), () => btcAccounts.map(formatDefault('Bitcoin'))],
+    [equals('BCH'), () => bchAccounts.map(formatDefault('Bitcoin Cash'))],
+    [equals('ETH'), () => ethAccounts.map(formatDefault('Ether'))]
+  ])
+  const getAccElements = cond([
+    [equals('BTC'), () => btcAccounts.map(format)],
+    [equals('BCH'), () => bchAccounts.map(format)],
+    [equals('ETH'), () => ethAccounts.map(format)]
+  ])
+  const items = compose(
+    unnest,
+    map(hasOneAccount ? getOneAccElements : getAccElements)
+  )(availableCurrencies)
+  return [{ group: '', items }]
 }
 
 const getBchAccounts = createDeepEqualSelector(
@@ -275,9 +257,12 @@ export const getData = createDeepEqualSelector(
         hasOneAccount
       )
       const fromElements = generateActiveGroups(
-        getFromCurrencies(availablePairs)
+        getFromCurrencies(targetCoin, availablePairs)
       )
-      const toElements = generateActiveGroups(getToCurrencies(availablePairs))
+      const toElements = generateActiveGroups(
+        getToCurrencies(sourceCoin, availablePairs)
+      )
+
       const initialValues = {
         source: defaultBtcAccount,
         target: defaultEthAccount,
