@@ -307,7 +307,7 @@ export default ({ api, options }) => {
   const cancelTrade = function*({ trade }) {
     try {
       yield apply(trade, trade.cancel)
-      yield call(fetchTrades)
+      yield put(A.fetchTrades())
       if (prop('tradeSubscriptionId', trade)) {
         yield call(fetchSubscriptions)
       }

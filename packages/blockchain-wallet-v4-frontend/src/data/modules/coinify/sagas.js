@@ -510,10 +510,19 @@ export default ({ coreSagas, networks }) => {
   const cancelTrade = function*(data) {
     const trade = data.payload
     try {
-      yield put(A.setCancelTradeId(trade.id))
-      yield put(A.coinifyLoading())
-      yield call(coreSagas.data.coinify.cancelTrade, { trade })
-      yield put(A.coinifySuccess())
+      const confirmed = yield call(confirm, {
+        title: CC.CANCEL_TRADE_TITLE,
+        image: null,
+        message: CC.CANCEL_TRADE_MSG,
+        confirm: CC.CANCEL_TRADE_CONFIRM,
+        cancel: CC.CANCEL_TRADE_CANCEL
+      })
+      if (confirmed) {
+        yield put(A.setCancelTradeId(trade.id))
+        yield put(A.coinifyLoading())
+        yield call(coreSagas.data.coinify.cancelTrade, { trade })
+        yield put(A.coinifySuccess())
+      }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'cancelTrade', e))
     }

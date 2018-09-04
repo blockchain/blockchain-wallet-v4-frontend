@@ -26,6 +26,13 @@ export const selectTitle = title => {
           defaultMessage='Cancel Recurring Order'
         />
       )
+    case C.CANCEL_TRADE_TITLE:
+      return (
+        <FormattedMessage
+          id='modals.confirm.title.cancel_trade'
+          defaultMessage='Cancel Trade'
+        />
+      )
     default:
       return (
         <FormattedMessage id='modals.confirm.title' defaultMessage='Confirm' />
@@ -74,6 +81,13 @@ export const selectMessage = (message, values) => {
           defaultMessage='Are you sure you want to cancel this recurring order? This cannot be turned back on and if you change your mind, you will have to create a new recurring order.'
         />
       )
+    case C.CANCEL_TRADE_MSG:
+      return (
+        <FormattedMessage
+          id='modals.confirm.message.cancel_trade'
+          defaultMessage='Are you sure you want to cancel this trade?'
+        />
+      )
     default:
       return (
         <FormattedMessage
@@ -100,6 +114,7 @@ export const selectCancel = message => {
           defaultMessage='No, Thanks'
         />
       )
+    case C.CANCEL_TRADE_CANCEL:
     case C.CANCEL_RECURRING_CANCEL:
       return (
         <FormattedMessage
@@ -138,6 +153,13 @@ export const selectConfirm = message => {
         <FormattedMessage
           id='modals.confirm.confirm.cancel_recurring'
           defaultMessage='Cancel Recurring Order'
+        />
+      )
+    case C.CANCEL_TRADE_CONFIRM:
+      return (
+        <FormattedMessage
+          id='modals.confirm.confirm.cancel_trade'
+          defaultMessage='Cancel Trade'
         />
       )
     default:
