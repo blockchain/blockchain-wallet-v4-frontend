@@ -1,6 +1,8 @@
 import { formValueSelector } from 'redux-form'
 import { lift, path, prop, filter } from 'ramda'
-import { selectors } from 'data'
+import { selectors, model } from 'data'
+
+const { CHECKOUT_BUY_FORM } = model.coinify
 
 export const getProfileData = state => {
   const profile = selectors.core.data.coinify.getProfile(state)
@@ -53,7 +55,7 @@ export const getData = state => ({
   canTrade: selectors.core.data.coinify.canTrade(state).getOrElse(false),
   checkoutBusy: path(['coinify', 'checkoutBusy'], state),
   coinifyBusy: path(['coinify', 'coinifyBusy'], state),
-  currency: formValueSelector('coinifyCheckoutBuy')(state, 'currency'),
+  currency: formValueSelector(CHECKOUT_BUY_FORM)(state, 'currency'),
   data: getProfileData(state),
   defaultCurrency: getCurrency(state),
   errors: getErrors(state),

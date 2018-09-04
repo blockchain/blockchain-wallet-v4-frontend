@@ -1,5 +1,5 @@
 import React from 'react'
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { getData } from './selectors'
@@ -7,6 +7,7 @@ import Success from './template.success'
 import Loading from 'components/BuySell/Loading'
 import Failure from 'components/BuySell/Failure'
 
+const { CHECKOUT_BUY_FORM } = model.coinify
 class CoinifyBuyContainer extends React.Component {
   constructor (props) {
     super(props)
@@ -95,10 +96,10 @@ class CoinifyBuyContainer extends React.Component {
             fetchQuote({ quote, nextAddress: value.nextAddress })
           }
           setMax={amt =>
-            formActions.change('coinifyCheckoutBuy', 'leftVal', amt)
+            formActions.change(CHECKOUT_BUY_FORM, 'leftVal', amt)
           }
           setMin={amt =>
-            formActions.change('coinifyCheckoutBuy', 'leftVal', amt)
+            formActions.change(CHECKOUT_BUY_FORM, 'leftVal', amt)
           }
           changeTab={tab =>
             change('buySellTabStatus', 'status', tab)

@@ -8,10 +8,12 @@ import * as selectors from '../../selectors.js'
 import coinifySagas, { logLocation, sellDescription } from './sagas'
 import * as C from 'services/AlertService'
 import { merge } from 'ramda'
-
+import { model } from 'data'
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const coreSagas = coreSagasFactory()
 const networks = { btc: 'bitcoin' }
+
+const { CHECKOUT_BUY_FORM, TRADE_DETAILS_MODAL } = model.coinify
 
 describe('coinifySagas', () => {
   beforeAll(() => {
@@ -336,7 +338,7 @@ describe('coinifySagas', () => {
     it('should open the trade details modal if bank', () => {
       const tradeToFinish = data.payload
       saga.next(tradeToFinish).put(
-        actions.modals.showModal('CoinifyTradeDetails', {
+        actions.modals.showModal(TRADE_DETAILS_MODAL, {
           trade: tradeToFinish
         })
       )
@@ -458,7 +460,7 @@ describe('coinifySagas', () => {
       }
       saga
         .next(Remote.of(level))
-        .put(actions.form.initialize('coinifyCheckoutBuy', initialValues))
+        .put(actions.form.initialize(CHECKOUT_BUY_FORM, initialValues))
     })
 
     it('should fetch a rate quote', () => {
@@ -536,7 +538,7 @@ describe('coinifySagas', () => {
     const action = {
       payload: 'GBP',
       meta: {
-        form: 'coinifyCheckoutBuy',
+        form: CHECKOUT_BUY_FORM,
         field: 'currency'
       }
     }
@@ -571,7 +573,7 @@ describe('coinifySagas', () => {
         .next()
         .put(
           actions.form.initialize(
-            'coinifyCheckoutBuy',
+            CHECKOUT_BUY_FORM,
             merge({ currency: 'GBP' }, { leftVal: '', rightVal: '' })
           )
         )
@@ -594,7 +596,7 @@ describe('coinifySagas', () => {
     const action = {
       payload: 100,
       meta: {
-        form: 'coinifyCheckoutBuy',
+        form: CHECKOUT_BUY_FORM,
         field: 'leftVal'
       }
     }
@@ -641,7 +643,7 @@ describe('coinifySagas', () => {
         .next(leftResult)
         .put(
           actions.form.initialize(
-            'coinifyCheckoutBuy',
+            CHECKOUT_BUY_FORM,
             merge(
               { currency: 'EUR' },
               { rightVal: leftResult.quoteAmount / 1e8 }
@@ -667,7 +669,7 @@ describe('coinifySagas', () => {
     const action = {
       payload: 100,
       meta: {
-        form: 'coinifyCheckoutBuy',
+        form: CHECKOUT_BUY_FORM,
         field: 'rightVal'
       }
     }
@@ -715,7 +717,7 @@ describe('coinifySagas', () => {
         .next(leftResult)
         .put(
           actions.form.initialize(
-            'coinifyCheckoutBuy',
+            CHECKOUT_BUY_FORM,
             merge({ currency: 'EUR' }, { leftVal: 100 })
           )
         )
@@ -1089,7 +1091,7 @@ describe('coinifySagas', () => {
       const level = { currency: 'EUR' }
       saga
         .next(Remote.of(level))
-        .put(actions.form.change('coinifyCheckoutBuy', 'leftVal', 300))
+        .put(actions.form.change(CHECKOUT_BUY_FORM, 'leftVal', 300))
     })
 
     describe('error handling', () => {
@@ -1217,7 +1219,7 @@ describe('coinifySagas', () => {
 
     it('should show the trade details modal', () => {
       saga.next().put(
-        actions.modals.showModal('CoinifyTradeDetails', {
+        actions.modals.showModal(TRADE_DETAILS_MODAL, {
           trade: mockSellTrade
         })
       )

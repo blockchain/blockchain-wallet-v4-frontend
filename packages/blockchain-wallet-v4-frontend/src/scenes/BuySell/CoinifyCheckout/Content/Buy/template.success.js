@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { contains, prop, equals, isEmpty } from 'ramda'
-
+import { model } from 'data'
 import { Button } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 
@@ -15,6 +15,8 @@ import KYCNotification from '../KYCNotification'
 import NextSubscription from '../NextSubscription'
 import BankTransferDetails from 'components/BuySell/BankTransferDetails'
 import media from 'services/ResponsiveService'
+
+const { STEPS } = model.coinify
 
 const CheckoutWrapper = styled.div`
   display: grid;
@@ -75,7 +77,7 @@ const CoinifyBuy = props => {
 
   const limits = service.getLimits(profile._limits, defaultCurrency)
 
-  if (equals(step, 'checkout')) {
+  if (equals(step, STEPS.CHECKOUT)) {
     return (
       <CheckoutWrapper>
         <LeftContainer>
@@ -118,16 +120,16 @@ const CoinifyBuy = props => {
         </RightContainer>
       </CheckoutWrapper>
     )
-  } else if (equals(step, 'payment')) {
+  } else if (equals(step, STEPS.PAYMENT)) {
     return <Payment />
-  } else if (equals(step, 'isx')) {
+  } else if (equals(step, STEPS.ISX)) {
     return (
       <ISignThis
         iSignThisId={prop('iSignThisID', trade)}
         options={props.options}
       />
     )
-  } else if (equals(step, 'summary')) {
+  } else if (equals(step, STEPS.SUMMARY)) {
     return (
       <CheckoutWrapper>
         <OrderDetails
@@ -150,7 +152,7 @@ const CoinifyBuy = props => {
         </OrderSubmitWrapper>
       </CheckoutWrapper>
     )
-  } else if (equals(step, 'bankTranferDetails')) {
+  } else if (equals(step, STEPS.BANK_TRANSFER)) {
     return (
       <CheckoutWrapper>
         <BankTransferDetails trade={trade} />

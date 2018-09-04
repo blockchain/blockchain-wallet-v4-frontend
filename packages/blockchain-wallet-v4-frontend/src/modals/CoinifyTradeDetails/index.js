@@ -1,13 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { actions, selectors } from 'data'
+import { actions, selectors, model } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { Modal } from 'blockchain-info-components'
 
 import BankTransfer from './BankTransfer'
 import Trade from './Trade'
 import Kyc from './Kyc'
+
+const { TRADE_DETAILS_MODAL } = model.coinify
 
 class CoinifyTradeDetails extends React.PureComponent {
   render () {
@@ -56,7 +58,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('CoinifyTradeDetails'),
+  modalEnhancer(TRADE_DETAILS_MODAL),
   connect(
     mapStateToProps,
     mapDispatchToProps

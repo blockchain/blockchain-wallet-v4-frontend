@@ -5,11 +5,13 @@ import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
 import { equals, gt, not, prop } from 'ramda'
-
+import { model } from 'data'
 import { Icon, Link, Text } from 'blockchain-info-components'
 import { SelectBoxCoinifyCurrency, NumberBoxDebounced } from 'components/Form'
 import { getReasonExplanation } from 'services/CoinifyService'
 import media from 'services/ResponsiveService'
+
+const { CHECKOUT_BUY_FORM, CHECKOUT_SELL_FORM } = model.coinify
 
 const Wrapper = styled.div`
   width: 100%;
@@ -355,10 +357,10 @@ FiatConvertor.propTypes = {
 }
 
 export const QuoteInputTemplateBuy = reduxForm({
-  form: 'coinifyCheckoutBuy',
+  form: CHECKOUT_BUY_FORM,
   destroyOnUnmount: false
 })(FiatConvertor)
 export const QuoteInputTemplateSell = reduxForm({
-  form: 'coinifyCheckoutSell',
+  form: CHECKOUT_SELL_FORM,
   destroyOnUnmount: false
 })(FiatConvertor)

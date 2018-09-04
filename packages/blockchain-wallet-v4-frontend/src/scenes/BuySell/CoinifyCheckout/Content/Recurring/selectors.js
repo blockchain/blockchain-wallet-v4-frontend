@@ -2,7 +2,9 @@ import React from 'react'
 import { formValueSelector } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { path } from 'ramda'
-import { selectors } from 'data'
+import { selectors, model } from 'data'
+
+const { RECURRING_CHECKOUT_FORM } = model.coinify
 
 const frequencyElements = [
   {
@@ -31,9 +33,9 @@ const frequencyElements = [
 ]
 
 export const getData = state => ({
-  showRecurring: formValueSelector('coinifyRecurringCheckout')(state, 'recurring'),
-  frequency: formValueSelector('coinifyRecurringCheckout')(state, 'frequency'),
-  duration: formValueSelector('coinifyRecurringCheckout')(state, 'duration'),
+  showRecurring: formValueSelector(RECURRING_CHECKOUT_FORM)(state, 'recurring'),
+  frequency: formValueSelector(RECURRING_CHECKOUT_FORM)(state, 'frequency'),
+  duration: formValueSelector(RECURRING_CHECKOUT_FORM)(state, 'duration'),
   disableRecurringCheckbox: path(['coinify', 'disableRecurringCheckbox'], state),
   showModal: path(['coinify', 'showRecurringModal'], state),
   canTrade: selectors.core.data.coinify.canTrade(state).getOrElse(false),

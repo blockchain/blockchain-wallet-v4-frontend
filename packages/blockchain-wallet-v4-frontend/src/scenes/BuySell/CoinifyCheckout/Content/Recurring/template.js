@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-
+import { model } from 'data'
 import { Field, reduxForm } from 'redux-form'
 import { not, is, prop } from 'ramda'
 
@@ -10,6 +10,8 @@ import { Text } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, CheckBox, SelectBox, DateBoxDebounced } from 'components/Form'
 import moment from 'services/MomentHelper'
 import { recurringTimeHelper } from 'services/CoinifyService'
+
+const { RECURRING_CHECKOUT_FORM } = model.coinify
 
 const RecurringWrapper = styled.div`
   position: relative;
@@ -120,6 +122,6 @@ RecurringCheckout.propTypes = {
 }
 
 export const RecurringBuyCheckout = reduxForm({
-  form: 'coinifyRecurringCheckout',
+  form: RECURRING_CHECKOUT_FORM,
   destroyOnUnmount: false
 })(RecurringCheckout)

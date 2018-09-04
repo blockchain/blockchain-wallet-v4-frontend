@@ -4,10 +4,12 @@ import { FormattedMessage } from 'react-intl'
 import { filter, contains, path, prop } from 'ramda'
 import { Text } from 'blockchain-info-components'
 import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
-
+import { model } from 'data'
 import OrderHistoryTable from 'components/BuySell/OrderHistoryTable'
 import RecurringOrderHistoryTable from './RecurringOrderHistoryTable'
 import EmptyOrderHistoryContainer from 'components/BuySell/EmptyOrderHistory'
+
+const { TRADE_DETAILS_MODAL } = model.coinify
 
 const OrderHistoryWrapper = styled.div`
   width: 100%;
@@ -82,7 +84,7 @@ const OrderHistory = props => {
               conversion={conversion}
               handleFinishTrade={trade => finishTrade(trade)}
               handleDetailsClick={trade =>
-                showModal('CoinifyTradeDetails', { trade })
+                showModal(TRADE_DETAILS_MODAL, { trade })
               }
               handleTradeCancel={cancelTrade}
               status={status}
@@ -105,7 +107,7 @@ const OrderHistory = props => {
               conversion={conversion}
               handleFinishTrade={trade => finishTrade(trade)}
               handleDetailsClick={trade =>
-                showModal('CoinifyTradeDetails', { trade })
+                showModal(TRADE_DETAILS_MODAL, { trade })
               }
               handleTradeCancel={cancelTrade}
               status={status}
@@ -126,7 +128,7 @@ const OrderHistory = props => {
             trades={filter(isCompleted, trades)}
             conversion={conversion}
             handleDetailsClick={trade =>
-              showModal('CoinifyTradeDetails', { trade })
+              showModal(TRADE_DETAILS_MODAL, { trade })
             }
           />
         </OrderHistoryContent>
