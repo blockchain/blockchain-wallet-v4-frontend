@@ -28,10 +28,7 @@ export default ({ nabuUrl, get, authorizedGet, authorizedPost }) => {
       url: nabuUrl,
       endPoint: '/kyc/verifications',
       contentType: 'application/json',
-      data: { applicantId },
-      headers: {
-        'x-client-type': 'WEB'
-      }
+      data: { applicantId }
     })
 
   return {
