@@ -1,6 +1,8 @@
 import constants from './constants'
 
+// TODO
 const getLatestFirmwareInfo = () => {}
+
 // gets firmware information about device
 const getDeviceFirmwareInfo = transport => {
   return new Promise((resolve, reject) => {
@@ -51,7 +53,46 @@ const getDeviceFirmwareInfo = transport => {
   })
 }
 
+const getDeviceInfo = transport => {
+  return new Promise((resolve, reject) => {
+    getDeviceFirmwareInfo(transport).then(
+      res => {
+        const { seVersion } = res
+        const { targetId, mcuVersion, flags } = res
+        const parsedVersion =
+          seVersion.match(
+            /([0-9]+.[0-9])+(.[0-9]+)?((?!-osu)-([a-z]+))?(-osu)?/
+          ) || []
+        const isOSU = typeof parsedVersion[5] !== 'undefined'
+        const providerName = parsedVersion[4] || ''
+        const providerId = constants.providers[providerName]
+        const isBootloader = targetId === 0x01000001
+        const majMin = parsedVersion[1]
+        const patch = parsedVersion[2] || '.0'
+        const fullVersion = `${majMin}${patch}${
+          providerName ? `-${providerName}` : ''
+        }`
+        resolve({
+          targetId,
+          seVersion: majMin + patch,
+          isOSU,
+          mcuVersion,
+          isBootloader,
+          providerName,
+          providerId,
+          flags,
+          fullVersion
+        })
+      },
+      err => {
+        reject(err)
+      }
+    )
+  })
+}
+
 export default {
+  getDeviceInfo,
   getLatestFirmwareInfo,
   getDeviceFirmwareInfo
 }

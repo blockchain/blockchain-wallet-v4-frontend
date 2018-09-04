@@ -274,11 +274,13 @@ export default ({ api, coreSagas }) => {
       yield take(AT.SET_CONNECTION_INFO)
       const { transport } = yield select(S.getCurrentConnection)
       yield put(A.changeFirmwareUpdateStep('compare-versions-step'))
-      const installedFirmwareInfo = yield call(
-        LockboxService.firmware.getDeviceFirmwareInfo,
+      const deviceInfo = yield call(
+        LockboxService.firmware.getDeviceInfo,
         transport
       )
-      yield put(A.setFirmwareInstalledInfo(installedFirmwareInfo))
+      // eslint-disable-next-line
+      console.info(deviceInfo)
+      yield put(A.setFirmwareInstalledInfo(deviceInfo))
       // const firmwaresLatest = yield call(LockboxService.firmware.getLatestFirmwareInfo, firmwaresInstalled)
       // debugger
     } catch (e) {

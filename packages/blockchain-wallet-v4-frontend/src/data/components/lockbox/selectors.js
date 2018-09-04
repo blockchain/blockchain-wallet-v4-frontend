@@ -32,5 +32,5 @@ export const getFirmwareInstalled = path([
   'components',
   'lockbox',
   'firmware',
-  'installed'
+  'info'
 ])
