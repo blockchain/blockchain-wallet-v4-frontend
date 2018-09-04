@@ -326,7 +326,6 @@ const FiatConvertor = props => {
             component={SelectBoxCoinifyCurrency}
             defaultDisplay={defaultCurrency}
             isSell={isSell}
-            asideTextInput
           />
         </Container>
         <ArrowLeft size='16px' name='left-arrow' />

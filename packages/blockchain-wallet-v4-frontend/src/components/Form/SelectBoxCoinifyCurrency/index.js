@@ -15,17 +15,13 @@ const CustomSelectBox = styled(SelectBox)`
   .bc__control {
     border: 1px solid ${props => props.theme['gray-2']};
     border-left: none;
-    > div:first-of-type {
-      > div {
+    > .bc__value-container {
+      > .bc__single-value {
         right: 0px;
       }
-      > div + div {
-        position: absolute;
-        right: 30px;
-      }
     }
-    > div:last-of-type {
-      > span {
+    > .bc__indicators {
+      > .bc__indicator-separator {
         display: none;
       }
     }
