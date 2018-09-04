@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { compose, flip, prop } from 'ramda'
+import { compose, flip, prop, isEmpty } from 'ramda'
 
 import { getRemotePropType, getElementsPropType } from 'utils/proptypes'
 import { debounce } from 'utils/helpers'
@@ -48,34 +48,37 @@ class FirstStepContainer extends React.Component {
   render () {
     const { actions, data } = this.props
     return data.cata({
-      Success: value => (
-        <Success
-          {...value}
-          handleMaximum={actions.firstStepMaximumClicked}
-          handleMinimum={actions.firstStepMinimumClicked}
-          onSubmit={actions.firstStepSubmitClicked}
-          handleSourceChange={compose(
-            actions.changeSource,
-            extractFieldValue
-          )}
-          handleTargetChange={compose(
-            actions.changeTarget,
-            extractFieldValue
-          )}
-          handleAmountChange={compose(
-            this.getChangeAmountAction(value.fix),
-            extractFieldValue
-          )}
-          swapBaseAndCounter={compose(
-            this.props.actions.changeFix,
-            swapBaseAndCounter.bind(null, value.fix)
-          )}
-          swapCoinAndFiat={compose(
-            this.props.actions.changeFix,
-            swapCoinAndFiat.bind(null, value.fix)
-          )}
-        />
-      ),
+      Success: value =>
+        isEmpty(value.availablePairs) ? (
+          <DataError onClick={this.handleRefresh} />
+        ) : (
+          <Success
+            {...value}
+            handleMaximum={actions.firstStepMaximumClicked}
+            handleMinimum={actions.firstStepMinimumClicked}
+            onSubmit={actions.firstStepSubmitClicked}
+            handleSourceChange={compose(
+              actions.changeSource,
+              extractFieldValue
+            )}
+            handleTargetChange={compose(
+              actions.changeTarget,
+              extractFieldValue
+            )}
+            handleAmountChange={compose(
+              this.getChangeAmountAction(value.fix),
+              extractFieldValue
+            )}
+            swapBaseAndCounter={compose(
+              this.props.actions.changeFix,
+              swapBaseAndCounter.bind(null, value.fix)
+            )}
+            swapCoinAndFiat={compose(
+              this.props.actions.changeFix,
+              swapCoinAndFiat.bind(null, value.fix)
+            )}
+          />
+        ),
       Failure: message => (
         <DataError onClick={this.handleRefresh} message={message} />
       ),
