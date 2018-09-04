@@ -78,7 +78,7 @@ const multiValueContainer = props => {
 
 const Menu = props => {
   const { btcBalance, bchBalance, ethBalance, ...rest } = props
-  const { deviceInfo, handleCoinSelection, formValues } = rest
+  const { deviceInfo, handleCoinSelection, formValues, location } = rest
 
   const isActive = coin =>
     any(val => equals(toLower(prop('label', val)), toLower(coin)), formValues)
@@ -127,10 +127,18 @@ const Menu = props => {
       </LinkContainer>
       <StyledCreatableInputContainer>
         <Text size='20px' weight={400}>
-          <FormattedMessage
-            id='scenes.lockbox.menu.transactions'
-            defaultMessage='Transactions'
-          />
+          {location.pathname.includes('/lockbox/dashboard') && (
+            <FormattedMessage
+              id='scenes.lockbox.menu.transactions'
+              defaultMessage='Transactions'
+            />
+          )}
+          {location.pathname.includes('/lockbox/settings') && (
+            <FormattedMessage
+              id='scenes.lockbox.menu.settings'
+              defaultMessage='Settings'
+            />
+          )}
         </Text>
         <Field
           name='search'

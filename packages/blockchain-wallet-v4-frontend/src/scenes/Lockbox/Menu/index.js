@@ -1,7 +1,9 @@
 import React from 'react'
 import { pathOr } from 'ramda'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { compose, bindActionCreators } from 'redux'
+import { withRouter } from 'react-router-dom'
+
 import { actions } from 'data'
 import { getData, getFormValues } from './selectors'
 import LockboxMenu from './template'
@@ -45,6 +47,7 @@ class LockboxMenuContainer extends React.PureComponent {
       <LockboxMenu
         handleCoinSelection={this.onCoinSelection}
         deviceInfo={deviceInfo}
+        location={this.props.location}
         btcBalance={btcBalance}
         bchBalance={bchBalance}
         ethBalance={ethBalance}
@@ -64,7 +67,11 @@ const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LockboxMenuContainer)
+const enhance = compose(
+  withRouter,
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)
+export default enhance(LockboxMenuContainer)
