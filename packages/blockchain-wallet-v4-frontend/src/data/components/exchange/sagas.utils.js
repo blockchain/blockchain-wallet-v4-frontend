@@ -54,6 +54,7 @@ export default ({ api, coreSagas, networks, options }) => {
           .create({ network: settings.NETWORK_ETH })
           .chain()
           .init()
+          .fee('priority')
           .from(address)
           .done()
         break
@@ -94,6 +95,7 @@ export default ({ api, coreSagas, networks, options }) => {
           .create({ network: settings.NETWORK_ETH })
           .chain()
           .init()
+          .fee('priority')
           .amount(amount)
         break
       default:
