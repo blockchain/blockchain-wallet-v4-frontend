@@ -71,8 +71,10 @@ class CoinifyBuyContainer extends React.Component {
           canTrade={canTrade}
           checkoutBusy={checkoutBusy}
           clearTradeError={coinifyNotAsked}
+          coinifyNextCheckoutStep={coinifyNextCheckoutStep}
           countryCode={countryCode}
           currency={currency}
+          handleKycAction={openKYC}
           initiateBuy={this.startBuy}
           paymentMedium={paymentMedium}
           refreshQuote={refreshBuyQuote}
@@ -86,12 +88,6 @@ class CoinifyBuyContainer extends React.Component {
           trade={trade}
           trades={trades}
           value={value}
-          handleKycAction={kyc =>
-            openKYC(kyc)
-          }
-          coinifyNextCheckoutStep={step =>
-            coinifyNextCheckoutStep(step)
-          }
           fetchBuyQuote={quote =>
             fetchQuote({ quote, nextAddress: value.nextAddress })
           }

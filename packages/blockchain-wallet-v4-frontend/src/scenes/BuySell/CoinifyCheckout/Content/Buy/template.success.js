@@ -113,7 +113,7 @@ const CoinifyBuy = props => {
               kyc={kyc}
               limits={limits.buy}
               symbol={symbol}
-              onTrigger={kyc => handleKycAction(kyc)}
+              onTrigger={handleKycAction}
               canTrade={canTrade}
             />
           ) : null}
