@@ -7,6 +7,7 @@ import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import LockboxFirmware from './template'
 import OpenDashboardStep from './OpenDashboardStep'
+import CompareVersionsStep from './CompareVersionsStep'
 
 class LockboxFirmwareContainer extends React.PureComponent {
   render () {
@@ -17,9 +18,7 @@ class LockboxFirmwareContainer extends React.PureComponent {
         {(!currentStep || currentStep === 'device-connect-step') && (
           <OpenDashboardStep deviceId={deviceId} />
         )}
-        {currentStep === 'compare-versions-step' && (
-          <div>Comparing versions</div>
-        )}
+        {currentStep === 'compare-versions-step' && (<CompareVersionsStep />)}
         {currentStep === 'device-up-to-date' && (
           <div>Device is up to date!</div>
         )}

@@ -20,9 +20,13 @@ export default ({ api, coreSagas }) => {
    * @returns {Action} Yields device connected action
    */
   const pollForDeviceApp = function*(action) {
+    let { appRequested, deviceId, deviceType, timeout } = action.payload
+    if (!deviceId && !deviceType) throw new Error('Missing required params')
+
     try {
-      let { appRequested, deviceId, deviceType, timeout } = action.payload
-      // reset previous connection status
+      // close previous transport and reset old connection info
+      const { transport } = yield select(S.getCurrentConnection)
+      if (transport) transport.close()
       yield put(A.resetConnectionStatus())
 
       if (!deviceType) {
@@ -142,7 +146,7 @@ export default ({ api, coreSagas }) => {
       // 25 min timeout for setup
       const setupTimeout = 1500000
       // poll for both Ledger and Blockchain type devices
-      // TODO: YOU BROKE THIS!
+      // TODO: ANDREW BROKE THIS! fix!
       const dashboardTransport = yield race({
         ledger: call(pollForDeviceApp, [
           'DASHBOARD',

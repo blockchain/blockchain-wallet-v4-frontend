@@ -36,18 +36,6 @@ const Row = styled.div`
 const StepInstructions = styled(Text)`
   max-width: 325px;
 `
-// const determineApp = app => {
-//   switch (app) {
-//     case 'BTC':
-//       return 'Bitcoin'
-//     case 'BCH':
-//       return 'Bitcoin Cash'
-//     case 'ETH':
-//       return 'Ethereum'
-//     default:
-//       return 'Dashboard'
-//   }
-// }
 
 const ConnectLockboxDevice = props => {
   const { connectionInfo, retryConnection } = props

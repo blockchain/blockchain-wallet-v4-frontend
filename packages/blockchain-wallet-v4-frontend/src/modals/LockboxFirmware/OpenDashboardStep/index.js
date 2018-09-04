@@ -16,11 +16,7 @@ class ConnectLockboxDeviceContainer extends React.PureComponent {
   }
 
   retryConnection () {
-    // TODO
-    // this.props.lockboxActions.pollForDeviceApp(
-    //   this.props.appRequested,
-    //   this.props.deviceId
-    // )
+    this.props.lockboxActions.pollForDeviceApp('DASHBOARD', this.props.deviceId)
   }
 
   render () {
