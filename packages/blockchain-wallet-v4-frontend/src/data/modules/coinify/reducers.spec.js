@@ -2,15 +2,20 @@ import { assoc } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import reducer from './reducers'
 import * as actions from './actions'
+import * as M from './model'
 
 const INITIAL_STATE = {
   checkoutBusy: false,
   checkoutError: false,
   coinifyBusy: Remote.NotAsked,
   step: null,
-  checkoutStep: 'checkout',
+  checkoutStep: M.STEPS.CHECKOUT,
   signupComplete: null,
-  payment: Remote.NotAsked
+  payment: Remote.NotAsked,
+  showRecurringModal: false,
+  subscription: false,
+  subscriptionData: { frequency: 'weekly', endTime: null },
+  disableRecurringCheckbox: false
 }
 
 const ERROR = 'error'
@@ -27,10 +32,10 @@ describe('coinify reducers', () => {
   })
 
   it('should handle COINIFY_NEXT_CHECKOUT_STEP', () => {
-    const action = actions.coinifyNextCheckoutStep('bankTransferDetails')
+    const action = actions.coinifySetCheckoutStep(M.STEPS.BANK_TRANSFER)
     const expectedState = assoc(
       'checkoutStep',
-      'bankTransferDetails',
+      M.STEPS.BANK_TRANSFER,
       INITIAL_STATE
     )
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)

@@ -210,8 +210,8 @@ describe('CoinifyService', () => {
     })
     it('should return the correct text for completed status', () => {
       const status = CoinifyService.bodyStatusHelper('completed', 'buy')
-      expect(status.text.props.defaultMessage).toEqual(
-        'Your buy trade is complete!'
+      expect(status.text).toEqual(
+        null
       )
     })
     it('should return the correct text for rejected status', () => {

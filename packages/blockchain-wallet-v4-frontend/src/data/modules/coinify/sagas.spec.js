@@ -1,5 +1,5 @@
 import { select } from 'redux-saga/effects'
-import { promptForSecondPassword } from 'services/SagaService'
+import { promptForSecondPassword, confirm } from 'services/SagaService'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as actions from '../../actions'
@@ -369,6 +369,10 @@ describe('coinifySagas', () => {
       accountIndex: 0
     }
 
+    it('should select the state', () => {
+      saga.next().select()
+    })
+
     it('should call prepareAddress', () => {
       saga.next().call(prepareAddress)
     })
@@ -376,7 +380,7 @@ describe('coinifySagas', () => {
     it('should call buy', () => {
       saga
         .next(nextAddressData)
-        .call(coreSagas.data.coinify.buy, payload, nextAddressData)
+        .call(coreSagas.data.coinify.buy, payload, nextAddressData, null)
         .save(beforeResponse)
     })
 
@@ -656,8 +660,10 @@ describe('coinifySagas', () => {
       saga
         .next()
         .put(coinifyActions.coinifyCheckoutBusyOff())
-        .next()
-        .isDone()
+    })
+
+    it('should reenable the recurring checkbox', () => {
+      saga.next().put(coinifyActions.disableRecurringCheckbox(false))
     })
   })
 
@@ -941,8 +947,20 @@ describe('coinifySagas', () => {
     let saga = testSaga(cancelTrade, data)
     let saveToRestore = 'saveToRestore'
 
+    it('should prompt the user if they want to cancel their trade', () => {
+      saga
+        .next()
+        .call(confirm, {
+          title: 'cancel_trade_title',
+          image: null,
+          message: 'cancel_trade_msg',
+          confirm: 'cancel_trade_confirm',
+          cancel: 'cancel_trade_cancel'
+        })
+    })
+
     it('should setCancelTradeId', () => {
-      saga.next().put(coinifyActions.setCancelTradeId(data.payload.id))
+      saga.next(true).put(coinifyActions.setCancelTradeId(data.payload.id))
     })
 
     it('should trigger loading', () => {
@@ -986,9 +1004,21 @@ describe('coinifySagas', () => {
     let saga = testSaga(cancelSubscription, data)
     let saveToRestore = 'saveToRestore'
 
-    it('should trigger loading', () => {
+    it('should prompt the user if they want to cancel their subscription', () => {
       saga
         .next()
+        .call(confirm, {
+          title: 'cancel_recurring_title',
+          image: null,
+          message: 'cancel_recurring_msg',
+          confirm: 'cancel_recurring_confirm',
+          cancel: 'cancel_recurring_cancel'
+        })
+    })
+
+    it('should trigger loading', () => {
+      saga
+        .next(true)
         .put(coinifyActions.coinifyLoading())
         .save(saveToRestore)
     })
