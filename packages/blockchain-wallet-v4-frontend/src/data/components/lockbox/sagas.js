@@ -1,4 +1,4 @@
-import { call, put, race, take, select } from 'redux-saga/effects'
+import { call, put, take, select } from 'redux-saga/effects'
 import { contains, keysIn } from 'ramda'
 
 import { actions, selectors } from 'data'
@@ -14,16 +14,17 @@ export default ({ api, coreSagas }) => {
   /**
    * Polls for device application to be opened
    * @param {String} action.app - Requested application to wait for
-   * @param {String} action.deviceId - Unique device ID
+   * @param {String} [action.deviceId] - Optional unique device ID
    * @param {String} [action.deviceType] - Optional device type (ledger or blockchain)
    * @param {Number} [action.timeout] - Optional length of time in ms to wait for a connection
    * @returns {Action} Yields device connected action
    */
   const pollForDeviceApp = function*(action) {
-    let { appRequested, deviceId, deviceType, timeout } = action.payload
-    if (!deviceId) throw new Error('deviceId required')
-
     try {
+      let { appRequested, deviceId, deviceType, timeout } = action.payload
+      if (!deviceId && !deviceType) {
+        throw new Error('deviceId or deviceType is required')
+      }
       // close previous transport and reset old connection info
       const { transport } = yield select(S.getCurrentConnection)
       if (transport) transport.close()
@@ -143,34 +144,16 @@ export default ({ api, coreSagas }) => {
   // new device setup saga
   const initializeNewDeviceSetup = function*() {
     try {
-      // 25 min timeout for setup
-      const setupTimeout = 1500000
-      // poll for both Ledger and Blockchain type devices
-      // TODO: ANDREW BROKE THIS! fix!
-      const dashboardTransport = yield race({
-        ledger: call(pollForDeviceApp, [
-          'DASHBOARD',
-          null,
-          'ledger',
-          setupTimeout
-        ]),
-        blockchain: call(pollForDeviceApp, [
-          'DASHBOARD',
-          null,
-          'blockchain',
-          setupTimeout
-        ])
-      })
-
-      // dashboard detected, user has completed setup steps on device
-      // determine the deviceType based on which channel returned
-      const deviceType = keysIn(dashboardTransport)[0]
+      const setupTimeout = 1500000 // 25 min timeout for setup
+      // TODO: poll for both Ledger and Blockchain type devices
+      const deviceType = 'ledger'
+      yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType, setupTimeout))
+      yield take(AT.SET_CONNECTION_INFO)
       yield put(A.changeDeviceSetupStep('open-btc-app'))
-
       yield put(A.pollForDeviceApp('BTC', null, deviceType))
       yield take(AT.SET_CONNECTION_INFO)
       const { transport } = yield select(S.getCurrentConnection)
-      const btcConnection = LockboxService.connections.createBtcConnection(
+      const btcConnection = LockboxService.connections.createBtcBchConnection(
         transport
       )
 

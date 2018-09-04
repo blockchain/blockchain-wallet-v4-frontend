@@ -78,7 +78,7 @@ const multiValueContainer = props => {
 
 const Menu = props => {
   const { btcBalance, bchBalance, ethBalance, ...rest } = props
-  const { deviceName, handleCoinSelection, formValues } = rest
+  const { deviceInfo, handleCoinSelection, formValues } = rest
 
   const isActive = coin =>
     any(val => equals(toLower(prop('label', val)), toLower(coin)), formValues)
@@ -87,9 +87,11 @@ const Menu = props => {
     <Container>
       <TitleBar>
         <TitleBarWrapper>
-          <Text size='24px' weight={400}>
-            {deviceName}
-          </Text>
+          {deviceInfo && (
+            <Text size='24px' weight={400}>
+              {deviceInfo.name}
+            </Text>
+          )}
           <LinkContainer to='/lockbox/settings'>
             <SettingsIcon name='settings-filled' size={'24px'} />
           </LinkContainer>

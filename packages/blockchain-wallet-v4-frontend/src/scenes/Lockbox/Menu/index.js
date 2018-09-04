@@ -4,16 +4,17 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 import { getData, getFormValues } from './selectors'
-import Header from './template'
+import LockboxMenu from './template'
 
 const createOption = label => ({
   label,
   value: label
 })
 
-class HeaderContainer extends React.PureComponent {
-  // TODO: @header issue
-  // Move this back to dashboard index page
+class LockboxMenuContainer extends React.PureComponent {
+  // TODO: @lockboxmenu issue and then..
+  // 1) Move this back to dashboard index page
+  // 2) remove hacky name display logic in template
   constructor () {
     super()
     this.onCoinSelection = this.onCoinSelection.bind(this)
@@ -41,9 +42,9 @@ class HeaderContainer extends React.PureComponent {
     })
     const value = pathOr([], ['search', 'value'], this.props.formValues)
     return (
-      <Header
+      <LockboxMenu
         handleCoinSelection={this.onCoinSelection}
-        deviceName={deviceInfo.name}
+        deviceInfo={deviceInfo}
         btcBalance={btcBalance}
         bchBalance={bchBalance}
         ethBalance={ethBalance}
@@ -66,4 +67,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(HeaderContainer)
+)(LockboxMenuContainer)
