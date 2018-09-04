@@ -189,9 +189,11 @@ const Terms = props => {
               defaultMessage='Terms of Service'
             />
           </Link>
-          <span>&nbsp;</span>
-          {`&`}
-          <span>&nbsp;</span>
+          &nbsp;
+          <Text size='12px' weight={300}>
+            &
+          </Text>
+          &nbsp;
           <Link
             href='https://www.blockchain.com/legal/privacy'
             target='_blank'

@@ -108,15 +108,15 @@ export const validBitcoinCashAddress = (value, allValues, props) =>
 export const validEmailCode = value =>
   isAlphaNumeric(value) ? undefined : <M.InvalidEmailCodeMessage />
 
-export const validBitcoinPrivateKey = value =>
-  utils.bitcoin.isValidBitcoinPrivateKey(value) ? (
+export const validBitcoinPrivateKey = (value, allValues, props) =>
+  utils.bitcoin.isValidBitcoinPrivateKey(value, props.network) ? (
     undefined
   ) : (
     <M.InvalidBitcoinPrivateKeyMessage />
   )
 
 export const validBitcoinAddressOrPrivateKey = (value, allValues, props) =>
-  utils.bitcoin.isValidBitcoinPrivateKey(value) ||
+  utils.bitcoin.isValidBitcoinPrivateKey(value, props.network) ||
   utils.bitcoin.isValidBitcoinAddress(value, props.network) ? (
     undefined
   ) : (

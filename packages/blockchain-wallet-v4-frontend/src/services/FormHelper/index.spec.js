@@ -183,7 +183,11 @@ describe('FormHelper', () => {
     it('returns correct string if invalid btc private key passed', () => {
       expect(
         FormHelper.validBitcoinPrivateKey(
-          'NOTVALIDL1fLj9zU3Fp5vbCN88ZQYXJ3Jn3L1fLj9zU3Fp'
+          'NOTVALIDL1fLj9zU3Fp5vbCN88ZQYXJ3Jn3L1fLj9zU3Fp',
+          null,
+          {
+            network: networks.bitcoin
+          }
         )
       ).toEqual(<M.InvalidBitcoinPrivateKeyMessage />)
     })
@@ -191,7 +195,11 @@ describe('FormHelper', () => {
     it('returns undefined if valid btc private key is given', () => {
       expect(
         FormHelper.validBitcoinPrivateKey(
-          'L1fLj9zU3Fp5vbCN88ZQYXJ3Jn3V2XYEWBK3RuG1HEmRZDAYxYZi'
+          'L1fLj9zU3Fp5vbCN88ZQYXJ3Jn3V2XYEWBK3RuG1HEmRZDAYxYZi',
+          null,
+          {
+            network: networks.bitcoin
+          }
         )
       ).toBeUndefined()
     })

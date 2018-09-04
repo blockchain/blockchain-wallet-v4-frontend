@@ -10,7 +10,8 @@ import {
   dissoc,
   isNil,
   split,
-  isEmpty
+  isEmpty,
+  values
 } from 'ramda'
 import { view, over, traverseOf } from 'ramda-lens'
 import * as crypto from '../walletCrypto'
@@ -92,7 +93,7 @@ export const fromJS = (x, i) => {
     const node =
       isEmpty(xpub) || isNil(xpub)
         ? null
-        : Bitcoin.HDNode.fromBase58(xpub, x.network)
+        : Bitcoin.HDNode.fromBase58(xpub, values(Bitcoin.networks))
     const cacheCons = c =>
       c || isNil(node) ? Cache.fromJS(c) : Cache.fromJS(Cache.js(node))
     return compose(
