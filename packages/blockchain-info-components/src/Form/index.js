@@ -1,3 +1,4 @@
+export { default as CreatableInput } from './CreatableInput'
 export { default as CheckBoxInput } from './CheckBoxInput'
 export { default as DateInput } from './DateInput'
 export { default as NativeSelect } from './NativeSelect'

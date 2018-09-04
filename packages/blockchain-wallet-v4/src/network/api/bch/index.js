@@ -15,7 +15,13 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     return post({
       url: apiUrl,
       endPoint: '/bch/multiaddr',
-      data: onlyShow ? merge(data, { onlyShow }) : data
+      data: onlyShow
+        ? merge(data, {
+            onlyShow: (Array.isArray(onlyShow) ? onlyShow : [onlyShow]).join(
+              '|'
+            )
+          })
+        : data
     })
   }
 

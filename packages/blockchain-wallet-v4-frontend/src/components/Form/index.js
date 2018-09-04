@@ -2,6 +2,7 @@ import CaptchaBox from './CaptchaBox'
 import CheckBox from './CheckBox'
 import CodeInputBoxes from './CodeInputBoxes'
 import CountdownTimer from './CountdownTimer'
+import CreatableInputField from './CreatableInputField'
 import DateBox from './DateBox'
 import DateBoxDebounced from './DateBoxDebounced'
 import DateInputBox from './DateInputBox'
@@ -43,6 +44,7 @@ export {
   CheckBox,
   CodeInputBoxes,
   CountdownTimer,
+  CreatableInputField,
   DateBox,
   DateBoxDebounced,
   DateInputBox,

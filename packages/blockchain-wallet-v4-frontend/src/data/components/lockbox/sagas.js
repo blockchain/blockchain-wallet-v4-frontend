@@ -209,6 +209,63 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const initializeDashboard = function*() {
+    const btcContextR = yield select(
+      selectors.core.kvStore.lockbox.getLockboxBtcContext
+    )
+    const bchContextR = yield select(
+      selectors.core.kvStore.lockbox.getLockboxBchContext
+    )
+    const ethContextR = yield select(
+      selectors.core.kvStore.lockbox.getLockboxEthContext
+    )
+    yield put(
+      actions.core.data.bitcoin.fetchTransactions(
+        btcContextR.getOrElse(null),
+        true
+      )
+    )
+    yield put(
+      actions.core.data.ethereum.fetchTransactions(
+        ethContextR.getOrElse(null),
+        true
+      )
+    )
+    yield put(
+      actions.core.data.bch.fetchTransactions(bchContextR.getOrElse(null), true)
+    )
+  }
+
+  const updateTransactionList = function*() {
+    // TODO: onlyShow and filtering
+    const btcContextR = yield select(
+      selectors.core.kvStore.lockbox.getLockboxBtcContext
+    )
+    const bchContextR = yield select(
+      selectors.core.kvStore.lockbox.getLockboxBchContext
+    )
+    const ethContextR = yield select(
+      selectors.core.kvStore.lockbox.getLockboxEthContext
+    )
+    yield put(
+      actions.core.data.bitcoin.fetchTransactions(
+        btcContextR.getOrElse(null),
+        false
+      )
+    )
+    yield put(
+      actions.core.data.ethereum.fetchTransactions(
+        ethContextR.getOrElse(null),
+        false
+      )
+    )
+    yield put(
+      actions.core.data.bch.fetchTransactions(
+        bchContextR.getOrElse(null),
+        false
+      )
+    )
+  }
   // update device firmware saga
   const updateDeviceFirmware = function*(action) {
     try {
@@ -236,10 +293,12 @@ export default ({ api, coreSagas }) => {
   return {
     deleteDevice,
     determineLockboxRoute,
+    initializeDashboard,
     initializeNewDeviceSetup,
     pollForDeviceApp,
     saveNewDeviceKvStore,
     updateDeviceFirmware,
-    updateDeviceName
+    updateDeviceName,
+    updateTransactionList
   }
 }

@@ -30,6 +30,8 @@ export const setConnectionError = error => ({
 export const initializeNewDeviceSetup = () => ({
   type: AT.INITIALIZE_NEW_DEVICE_SETUP
 })
+
+// CREATE
 export const changeDeviceSetupStep = step => ({
   type: AT.SET_NEW_DEVICE_SETUP_STEP,
   payload: { step }
@@ -68,6 +70,8 @@ export const updateDeviceNameFailure = payload => ({
   type: AT.UPDATE_DEVICE_NAME_FAILURE,
   payload
 })
+
+// FIRMWARE
 export const changeFirmwareUpdateStep = step => ({
   type: AT.SET_FIRMWARE_UPDATE_STEP,
   payload: { step }
@@ -91,4 +95,10 @@ export const deleteDeviceSuccess = () => ({ type: AT.DELETE_DEVICE_SUCCESS })
 export const deleteDeviceFailure = payload => ({
   type: AT.DELETE_DEVICE_FAILURE,
   payload
+})
+
+// DASHBOARD
+export const initializeDashboard = () => ({ type: AT.INITIALIZE_DASHBOARD })
+export const updateTransactionList = () => ({
+  type: AT.UPDATE_TRANSACTION_LIST
 })

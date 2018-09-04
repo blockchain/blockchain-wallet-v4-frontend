@@ -242,8 +242,12 @@ describe('bch data sagas', () => {
       saga.next(pages).put(A.fetchTransactionsLoading(payload.reset))
     })
 
-    it('should select context', () => {
-      saga.next().select(S.getContext)
+    it('should select wallet context', () => {
+      saga.next().select(selectors.wallet.getWalletContext)
+    })
+
+    it('should select full context', () => {
+      saga.next(mockContext).select(S.getContext)
     })
 
     it('should call fetchBchData', () => {
@@ -294,6 +298,7 @@ describe('bch data sagas', () => {
         })
           .withReducer(reducers)
           .provide([
+            [select(selectors.wallet.getWalletContext), mockContext],
             [select(S.getContext), mockContext],
             [select(S.getTransactions), pages]
           ])
@@ -320,6 +325,7 @@ describe('bch data sagas', () => {
             }
           })
           .provide([
+            [select(selectors.wallet.getWalletContext), mockContext],
             [select(S.getContext), mockContext],
             [select(S.getTransactions), pages]
           ])
