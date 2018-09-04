@@ -5,12 +5,12 @@ import Eth from '@ledgerhq/hw-app-eth'
 import constants from './constants'
 
 /**
- * Creates and returns a new BTC app connection
- * @param {TransportU2F<Btc>} btcTransport - Transport with BTC as scrambleKey
- * @returns {Btc} Returns a BTC connection
+ * Creates and returns a new BTC/BCH app connection
+ * @param {TransportU2F<Btc>} transport - Transport with BTC/BCH as scrambleKey
+ * @returns {Btc} Returns a BTC/BCH connection
  */
-const createBtcBchConnection = btcTransport => {
-  return new Btc(btcTransport)
+const createBtcBchConnection = transport => {
+  return new Btc(transport)
 }
 
 /**

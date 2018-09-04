@@ -1,15 +1,13 @@
-import { call, select, put } from 'redux-saga/effects'
+import { call, select, put, take } from 'redux-saga/effects'
 import { equals, path, prop, nth, is, identity } from 'ramda'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
+import * as actionTypes from '../../actionTypes'
 import * as selectors from '../../selectors'
 import { initialize, change } from 'redux-form'
 import * as C from 'services/AlertService'
-import {
-  promptForSecondPassword,
-  connectLockboxDevice
-} from 'services/SagaService'
+import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
@@ -295,9 +293,10 @@ export default ({ coreSagas, networks }) => {
       if (p.getOrElse({}).fromType !== ADDRESS_TYPES.LOCKBOX) {
         password = yield call(promptForSecondPassword)
       } else {
-        // TODO: must pass in deviceID
-        // yield call(connectLockboxDevice,'BTC', deviceId, ?optionalTimeout)
-        yield call(connectLockboxDevice, 'BTC')
+        // TODO: must pass in deviceId!!
+        yield put(actions.components.lockbox.pollForDeviceApp('BTC', null))
+        yield take(actionTypes.components.lockbox.SET_CONNECTION_INFO)
+        // BTC app connected
       }
       yield put(actions.modals.closeAllModals())
       payment = yield payment.sign(password)

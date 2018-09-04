@@ -14,14 +14,14 @@ export default ({ api, coreSagas }) => {
   /**
    * Polls for device application to be opened
    * @param {String} action.app - Requested application to wait for
-   * @param {String} [action.deviceId] - Optional unique device ID
+   * @param {String} action.deviceId - Unique device ID
    * @param {String} [action.deviceType] - Optional device type (ledger or blockchain)
    * @param {Number} [action.timeout] - Optional length of time in ms to wait for a connection
    * @returns {Action} Yields device connected action
    */
   const pollForDeviceApp = function*(action) {
     let { appRequested, deviceId, deviceType, timeout } = action.payload
-    if (!deviceId && !deviceType) throw new Error('Missing required params')
+    if (!deviceId) throw new Error('deviceId required')
 
     try {
       // close previous transport and reset old connection info
