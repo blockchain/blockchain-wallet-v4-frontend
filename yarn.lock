@@ -10379,6 +10379,13 @@ react-textarea-autosize@^7.0.4:
   dependencies:
     prop-types "^15.6.0"
 
+react-tooltip@3.8.0:
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-3.8.0.tgz#d56ebc8775b1411e0d37f6eeadf648644107dfcc"
+  dependencies:
+    classnames "^2.2.5"
+    prop-types "^15.6.0"
+
 "react-tooltip@git://github.com/plondon/react-tooltip.git#93bfe390a52ae9df882c21bf420e6c345f38db02":
   version "0.0.0-semantic-release"
   resolved "git://github.com/plondon/react-tooltip.git#93bfe390a52ae9df882c21bf420e6c345f38db02"
