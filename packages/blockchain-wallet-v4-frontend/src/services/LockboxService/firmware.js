@@ -1,5 +1,6 @@
 import constants from './constants'
 
+const getLatestFirmwareInfo = () => {}
 // gets firmware information about device
 const getDeviceFirmwareInfo = transport => {
   return new Promise((resolve, reject) => {
@@ -51,5 +52,6 @@ const getDeviceFirmwareInfo = transport => {
 }
 
 export default {
+  getLatestFirmwareInfo,
   getDeviceFirmwareInfo
 }

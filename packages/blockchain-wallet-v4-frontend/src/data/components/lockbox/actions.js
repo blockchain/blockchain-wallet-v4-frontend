@@ -72,6 +72,10 @@ export const changeFirmwareUpdateStep = step => ({
   type: AT.SET_FIRMWARE_UPDATE_STEP,
   payload: { step }
 })
+export const setFirmwareInstalledInfo = info => ({
+  type: AT.SET_FIRMWARE_INSTALLED_INFO,
+  payload: { info }
+})
 export const updateDeviceFirmware = deviceID => ({
   type: AT.UPDATE_DEVICE_FIRMWARE,
   payload: { deviceID }

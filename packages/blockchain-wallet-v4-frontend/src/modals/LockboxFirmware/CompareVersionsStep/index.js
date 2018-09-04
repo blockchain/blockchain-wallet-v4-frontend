@@ -6,24 +6,14 @@ import { actions, selectors } from 'data'
 import CompareVersions from './template'
 
 class CompareVersionsContainer extends React.PureComponent {
-  // constructor (props) {
-  //   super(props)
-  //   this.retryConnection = this.retryConnection.bind(this)
-  // }
-
-  componentDidMount () {
-    // this.props.lockboxActions.updateDeviceFirmware(this.props.deviceId)
-  }
-
   render () {
-    return (
-      <CompareVersions {...this.props} />
-    )
+    return <CompareVersions {...this.props} />
   }
 }
 
 const mapStateToProps = state => ({
-  connectionInfo: selectors.components.lockbox.getCurrentConnection(state)
+  firmwareInfo: selectors.components.lockbox.getFirmwareInstalled(state),
+  latestFirmware: null
 })
 
 const mapDispatchToProps = dispatch => ({

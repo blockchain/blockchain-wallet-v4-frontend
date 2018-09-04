@@ -217,6 +217,13 @@ export default ({ api, coreSagas }) => {
       yield take(AT.SET_CONNECTION_INFO)
       const { transport } = yield select(S.getCurrentConnection)
       yield put(A.changeFirmwareUpdateStep('compare-versions-step'))
+      const installedFirmwareInfo = yield call(
+        LockboxService.firmware.getDeviceFirmwareInfo,
+        transport
+      )
+      yield put(A.setFirmwareInstalledInfo(installedFirmwareInfo))
+      // const firmwaresLatest = yield call(LockboxService.firmware.getLatestFirmwareInfo, firmwaresInstalled)
+      // debugger
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'updateDeviceFirmware', e)

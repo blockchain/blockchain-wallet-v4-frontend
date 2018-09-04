@@ -23,6 +23,9 @@ export default (state = INITIAL_STATE, action) => {
     case AT.SET_FIRMWARE_UPDATE_STEP: {
       return assocPath(['firmware', 'step'], payload.step, state)
     }
+    case AT.SET_FIRMWARE_INSTALLED_INFO: {
+      return assocPath(['firmware', 'installed'], payload.info, state)
+    }
     case AT.SET_CONNECTION_INFO: {
       return assocPath(['connection'], payload, state)
     }

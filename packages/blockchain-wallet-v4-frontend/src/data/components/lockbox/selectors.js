@@ -20,9 +20,17 @@ export const getCurrentConnection = path([
   'lockbox',
   'connection'
 ])
+
+// Firmware
 export const getFirmwareUpdateStep = path([
   'components',
   'lockbox',
   'firmware',
   'step'
+])
+export const getFirmwareInstalled = path([
+  'components',
+  'lockbox',
+  'firmware',
+  'installed'
 ])
