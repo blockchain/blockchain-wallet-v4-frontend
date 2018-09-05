@@ -306,6 +306,7 @@
     "api": "https://api.blockchain.info",
     "webSocket": "wss://ws.blockchain.info",
     "comWalletApp": "https://login.blockchain.com",
-    "walletHelper": "https://wallet-helper.blockchain.info"
+    "walletHelper": "https://wallet-helper.blockchain.info",
+    "ledger": "https://manager.api.live.ledger.com"
   }
 }

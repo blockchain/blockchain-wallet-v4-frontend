@@ -1,9 +1,9 @@
-import { call, put, race, select } from 'redux-saga/effects'
+import { call, put, take, select } from 'redux-saga/effects'
 import { contains, keysIn } from 'ramda'
-import Btc from '@ledgerhq/hw-app-btc'
 
 import { actions, selectors } from 'data'
 import * as A from './actions'
+import * as AT from './actionTypes'
 import * as C from 'services/AlertService'
 import * as S from './selectors'
 import * as LockboxService from 'services/LockboxService'
@@ -11,6 +11,51 @@ import * as LockboxService from 'services/LockboxService'
 const logLocation = 'components/lockbox/sagas'
 
 export default ({ api, coreSagas }) => {
+  /**
+   * Polls for device application to be opened
+   * @param {String} action.app - Requested application to wait for
+   * @param {String} [action.deviceId] - Optional unique device ID
+   * @param {String} [action.deviceType] - Optional device type (ledger or blockchain)
+   * @param {Number} [action.timeout] - Optional length of time in ms to wait for a connection
+   * @returns {Action} Yields device connected action
+   */
+  const pollForDeviceApp = function*(action) {
+    try {
+      let { appRequested, deviceId, deviceType, timeout } = action.payload
+      if (!deviceId && !deviceType) {
+        throw new Error('deviceId or deviceType is required')
+      }
+      // close previous transport and reset old connection info
+      const { transport } = yield select(S.getCurrentConnection)
+      if (transport) transport.close()
+      yield put(A.resetConnectionStatus())
+
+      if (!deviceType) {
+        const storedDevicesR = yield select(
+          selectors.core.kvStore.lockbox.getDevices
+        )
+        const storedDevices = storedDevicesR.getOrElse({})
+        deviceType = storedDevices[deviceId].device_type
+      }
+
+      const appConnection = yield LockboxService.connections.pollForAppConnection(
+        deviceType,
+        appRequested,
+        timeout
+      )
+      yield put(
+        A.setConnectionInfo(
+          appConnection.app,
+          deviceId,
+          appConnection.transport
+        )
+      )
+    } catch (e) {
+      yield put(A.setConnectionError(e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'connectDevice', e))
+    }
+  }
+
   // determines if lockbox is setup and routes app accordingly
   const determineLockboxRoute = function*() {
     try {
@@ -26,6 +71,7 @@ export default ({ api, coreSagas }) => {
       )
     }
   }
+
   // saves new device to KvStore
   const saveNewDeviceKvStore = function*(action) {
     try {
@@ -33,7 +79,7 @@ export default ({ api, coreSagas }) => {
       yield put(A.saveNewDeviceKvStoreLoading())
       const newDeviceR = yield select(S.getNewDeviceInfo)
       const newDevice = newDeviceR.getOrFail('missing_device')
-      const mdAccountsEntry = LockboxService.generateAccountsMDEntry(
+      const mdAccountsEntry = LockboxService.accounts.generateAccountsMDEntry(
         newDevice.info
       )
       // store device in kvStore
@@ -49,38 +95,14 @@ export default ({ api, coreSagas }) => {
       yield put(actions.modals.closeModal())
       yield put(actions.router.push('/lockbox/dashboard'))
       yield put(actions.core.data.bitcoin.fetchData())
-      // reset new device setup to step 1
-      yield put(A.changeDeviceSetupStep('setup-type'))
       yield put(actions.alerts.displaySuccess(C.LOCKBOX_SETUP_SUCCESS))
     } catch (e) {
       yield put(A.saveNewDeviceKvStoreFailure(e))
       yield put(actions.alerts.displayError(C.LOCKBOX_SETUP_ERROR))
       yield put(actions.logs.logErrorMessage(logLocation, 'storeDeviceName', e))
-    }
-  }
-
-  const updateDeviceBalanceDisplay = function*(action) {
-    try {
-      const { deviceID, showBalances } = action.payload
-      yield put(A.updateDeviceBalanceDisplayLoading())
-      yield put(
-        actions.core.kvStore.lockbox.updateDeviceBalanceDisplay(
-          deviceID,
-          showBalances
-        )
-      )
-      yield put(A.updateDeviceBalanceDisplaySuccess())
-      yield put(actions.alerts.displaySuccess(C.LOCKBOX_UPDATE_SUCCESS))
-    } catch (e) {
-      yield put(A.updateDeviceBalanceDisplayFailure())
-      yield put(actions.alerts.displayError(C.LOCKBOX_UPDATE_ERROR))
-      yield put(
-        actions.logs.logErrorMessage(
-          logLocation,
-          'updateDeviceBalanceDisplay',
-          e
-        )
-      )
+    } finally {
+      // reset new device setup to step 1
+      yield put(A.changeDeviceSetupStep('setup-type'))
     }
   }
 
@@ -122,43 +144,27 @@ export default ({ api, coreSagas }) => {
   // new device setup saga
   const initializeNewDeviceSetup = function*() {
     try {
-      // 25 min timeout for setup
-      const setupTimeout = 1500000
-      // poll for both Ledger and Blockchain type devices
-      const dashboardTransport = yield race({
-        LEDGER: yield call(
-          LockboxService.pollForAppConnection,
-          'LEDGER',
-          'DASHBOARD',
-          setupTimeout
-        ),
-        BLOCKCHAIN: call(
-          LockboxService.pollForAppConnection,
-          'BLOCKCHAIN',
-          'DASHBOARD',
-          setupTimeout
-        )
-      })
-      // dashboard detected, user has completed setup steps on device
-      // determine the deviceType based on which channel returned
-      const deviceType = keysIn(dashboardTransport)[0]
-      yield put(A.storeTransportObject(dashboardTransport[deviceType]))
+      const setupTimeout = 1500000 // 25 min timeout for setup
+      // TODO: poll for both Ledger and Blockchain type devices
+      const deviceType = 'ledger'
+      yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType, setupTimeout))
+      yield take(AT.SET_CONNECTION_INFO)
       yield put(A.changeDeviceSetupStep('open-btc-app'))
-      const btcTransport = yield call(
-        LockboxService.pollForAppConnection,
-        deviceType,
-        'BTC'
+      yield put(A.pollForDeviceApp('BTC', null, deviceType))
+      yield take(AT.SET_CONNECTION_INFO)
+      const { transport } = yield select(S.getCurrentConnection)
+      const btcConnection = LockboxService.connections.createBtcBchConnection(
+        transport
       )
-      yield put(A.storeTransportObject(btcTransport))
-      const btcConnection = new Btc(btcTransport)
+
       // derive device info such as chaincodes and xpubs
       const newDeviceInfo = yield call(
-        LockboxService.derviveDeviceInfo,
+        LockboxService.accounts.deriveDeviceInfo,
         btcConnection
       )
       // derive a unique deviceId hashed from btc xpub
       const newDeviceId = yield call(
-        LockboxService.deriveDeviceID,
+        LockboxService.accounts.deriveDeviceId,
         newDeviceInfo.btc
       )
       yield put(
@@ -179,8 +185,7 @@ export default ({ api, coreSagas }) => {
         yield put(A.changeDeviceSetupStep('name-device'))
       }
     } catch (e) {
-      // TODO: handle connection timeouts gracefully..
-      window.alert('DEVICE CONNECTION TIMEOUT') // eslint-disable-line
+      // TODO: more error handling
       yield put(
         actions.logs.logErrorMessage(logLocation, 'initializeNewDeviceSetup', e)
       )
@@ -244,44 +249,46 @@ export default ({ api, coreSagas }) => {
       )
     )
   }
-  /**
-   * Polls for device connection and application to be opened
-   * @param {String} actions.app - Requested application to wait for
-   * @param {String} actions.deviceId - Unique device ID
-   * @param {Number} [actions.timeout] - Length of time in ms to wait for a connection
-   * @returns {Action} Yields device connected action
-   * TODO: rename saga and yielded state changes to be more descriptive??
-   */
-  const connectDevice = function*(actions) {
+  // update device firmware saga
+  const updateDeviceFirmware = function*(action) {
     try {
-      const { app, deviceId, timeout } = actions.payload
-      const storedDevicesR = yield select(
-        selectors.core.kvStore.lockbox.getDevices
+      const { deviceID } = action.payload
+      yield put(A.pollForDeviceApp('DASHBOARD', deviceID))
+      yield take(AT.SET_CONNECTION_INFO)
+      const { transport } = yield select(S.getCurrentConnection)
+      yield put(A.changeFirmwareUpdateStep('compare-versions-step'))
+      const deviceInfo = yield call(
+        LockboxService.firmware.getDeviceInfo,
+        transport
       )
-      const storedDevices = storedDevicesR.getOrElse({})
-      const deviceType = storedDevices[deviceId].device_type
-
-      // TODO: this should yield multiple state changes for polling component/modal to use and act against
-      // 1) device is detected
-      // 2) application is opened
-      // 3) possible allow authorization?
-
-      yield call(LockboxService.pollForAppConnection, deviceType, app, timeout)
-      yield put(A.deviceConnected())
+      console.info(deviceInfo) // eslint-disable-line
+      yield put(A.setFirmwareInstalledInfo(deviceInfo))
+      const res = yield call(
+        api.getDeviceVersion,
+        deviceInfo.providerId,
+        deviceInfo.targetId
+      )
+      console.info(res) // eslint-disable-line
+      // const firmwaresLatest = yield call(LockboxService.firmware.getLatestFirmwareInfo, firmwaresInstalled)
+      // debugger
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'connectDevice', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'updateDeviceFirmware', e)
+      )
+    } finally {
+      // yield put(A.changeFirmwareUpdateStep('device-connect-step'))
     }
   }
 
   return {
-    connectDevice,
     deleteDevice,
     determineLockboxRoute,
     initializeDashboard,
     initializeNewDeviceSetup,
+    pollForDeviceApp,
     saveNewDeviceKvStore,
+    updateDeviceFirmware,
     updateDeviceName,
-    updateTransactionList,
-    updateDeviceBalanceDisplay
+    updateTransactionList
   }
 }

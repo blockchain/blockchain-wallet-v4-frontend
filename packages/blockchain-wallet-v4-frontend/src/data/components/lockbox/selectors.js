@@ -15,15 +15,22 @@ export const getNewDeviceInfo = path([
 ])
 
 // Device Connections
-export const getTransportObject = path([
+export const getCurrentConnection = path([
   'components',
   'lockbox',
-  'connection',
-  'transport'
+  'connection'
 ])
-export const getConnectedDevice = path([
+
+// Firmware
+export const getFirmwareUpdateStep = path([
   'components',
   'lockbox',
-  'connection',
-  'device'
+  'firmware',
+  'step'
+])
+export const getFirmwareInstalled = path([
+  'components',
+  'lockbox',
+  'firmware',
+  'info'
 ])

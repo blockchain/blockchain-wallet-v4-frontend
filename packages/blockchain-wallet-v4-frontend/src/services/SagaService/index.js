@@ -25,11 +25,6 @@ export const promptForSecondPassword = function*() {
   }
 }
 
-export const connectLockboxDevice = function*(app, deviceId) {
-  yield put(actions.modals.showModal('ConnectLockboxDevice', { app, deviceId }))
-  yield take(actionTypes.components.lockbox.DEVICE_CONNECTED)
-}
-
 export const promptForInput = function*({ title, secret, initial = '' }) {
   yield put(actions.modals.showModal('PromptInput', { title, secret, initial }))
   let { response, canceled } = yield race({

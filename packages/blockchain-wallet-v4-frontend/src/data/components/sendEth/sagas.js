@@ -8,10 +8,7 @@ import * as selectors from '../../selectors'
 import settings from 'config'
 import { initialize, change } from 'redux-form'
 import * as C from 'services/AlertService'
-import {
-  promptForSecondPassword,
-  connectLockboxDevice
-} from 'services/SagaService'
+import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
@@ -163,9 +160,10 @@ export default ({ coreSagas }) => {
       if (p.getOrElse({}).from.type !== ADDRESS_TYPES.LOCKBOX) {
         password = yield call(promptForSecondPassword)
       } else {
-        // TODO: must pass in deviceID
-        // yield call(connectLockboxDevice, 'ETH', deviceId, timeout)
-        yield call(connectLockboxDevice, 'ETH')
+        // TODO: must pass in deviceId!!
+        yield put(actions.components.lockbox.pollForDeviceApp('ETH', null))
+        yield take(actionTypes.components.lockbox.SET_CONNECTION_INFO)
+        // ETH app connected
       }
       yield put(actions.modals.closeAllModals())
       payment = yield payment.sign(password)

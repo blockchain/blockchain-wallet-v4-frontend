@@ -1,19 +1,22 @@
 import React from 'react'
 import { pathOr } from 'ramda'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { compose, bindActionCreators } from 'redux'
+import { withRouter } from 'react-router-dom'
+
 import { actions } from 'data'
 import { getData, getFormValues } from './selectors'
-import Header from './template'
+import LockboxMenu from './template'
 
 const createOption = label => ({
   label,
   value: label
 })
 
-class HeaderContainer extends React.PureComponent {
-  // TODO: @header issue
-  // Move this back to dashboard index page
+class LockboxMenuContainer extends React.PureComponent {
+  // TODO: @lockboxmenu issue and then..
+  // 1) Move this back to dashboard index page
+  // 2) remove hacky name display logic in template
   constructor () {
     super()
     this.onCoinSelection = this.onCoinSelection.bind(this)
@@ -41,9 +44,10 @@ class HeaderContainer extends React.PureComponent {
     })
     const value = pathOr([], ['search', 'value'], this.props.formValues)
     return (
-      <Header
+      <LockboxMenu
         handleCoinSelection={this.onCoinSelection}
-        deviceName={deviceInfo.name}
+        deviceInfo={deviceInfo}
+        location={this.props.location}
         btcBalance={btcBalance}
         bchBalance={bchBalance}
         ethBalance={ethBalance}
@@ -63,7 +67,11 @@ const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(HeaderContainer)
+const enhance = compose(
+  withRouter,
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)
+export default enhance(LockboxMenuContainer)

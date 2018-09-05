@@ -3,18 +3,37 @@ import * as AT from './actionTypes'
 export const determineLockboxRoute = () => ({
   type: AT.DETERMINE_LOCKBOX_ROUTE
 })
+
 // CONNECTIONS
+export const pollForDeviceApp = (
+  appRequested,
+  deviceId,
+  deviceType,
+  timeout
+) => ({
+  type: AT.POLL_FOR_DEVICE_APP,
+  payload: { appRequested, deviceId, deviceType, timeout }
+})
+export const resetConnectionStatus = () => ({
+  type: AT.RESET_CONNECTION_STATUS
+})
+export const setConnectionInfo = (app, deviceId, transport) => ({
+  type: AT.SET_CONNECTION_INFO,
+  payload: { app, deviceId, transport }
+})
+export const setConnectionError = error => ({
+  type: AT.SET_CONNECTION_ERROR,
+  payload: { error }
+})
+
+// NEW DEVICE SETUP
 export const initializeNewDeviceSetup = () => ({
   type: AT.INITIALIZE_NEW_DEVICE_SETUP
-})
-export const storeTransportObject = transport => ({
-  type: AT.STORE_TRANSPORT_OBJECT,
-  payload: { transport }
 })
 
 // CREATE
 export const changeDeviceSetupStep = step => ({
-  type: AT.SET_CONNECT_STEP,
+  type: AT.SET_NEW_DEVICE_SETUP_STEP,
   payload: { step }
 })
 export const setNewDeviceInfo = deviceInfo => ({
@@ -52,6 +71,20 @@ export const updateDeviceNameFailure = payload => ({
   payload
 })
 
+// FIRMWARE
+export const changeFirmwareUpdateStep = step => ({
+  type: AT.SET_FIRMWARE_UPDATE_STEP,
+  payload: { step }
+})
+export const setFirmwareInstalledInfo = info => ({
+  type: AT.SET_FIRMWARE_INSTALLED_INFO,
+  payload: { info }
+})
+export const updateDeviceFirmware = deviceID => ({
+  type: AT.UPDATE_DEVICE_FIRMWARE,
+  payload: { deviceID }
+})
+
 // DELETE
 export const deleteDevice = deviceID => ({
   type: AT.DELETE_DEVICE,
@@ -69,10 +102,3 @@ export const initializeDashboard = () => ({ type: AT.INITIALIZE_DASHBOARD })
 export const updateTransactionList = () => ({
   type: AT.UPDATE_TRANSACTION_LIST
 })
-
-// DEVICE CONNECTION
-export const connectDevice = (app, deviceId, timeout) => ({
-  type: AT.CONNECT_DEVICE,
-  payload: { app, deviceId, timeout }
-})
-export const deviceConnected = () => ({ type: AT.DEVICE_CONNECTED })
