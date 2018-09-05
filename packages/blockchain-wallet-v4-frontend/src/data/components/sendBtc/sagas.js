@@ -289,18 +289,27 @@ export default ({ coreSagas, networks }) => {
         payment: p.getOrElse({}),
         network: networks.btc
       })
-      let password = null
       if (p.getOrElse({}).fromType !== ADDRESS_TYPES.LOCKBOX) {
-        password = yield call(promptForSecondPassword)
+        let password = yield call(promptForSecondPassword)
+        payment = yield payment.sign(password)
       } else {
-        // TODO: must pass in deviceId!!
-        yield put(actions.components.lockbox.pollForDeviceApp('BTC', null))
+        const deviceIdR = yield select(
+          selectors.core.kvStore.lockbox.getDeviceIdFromXpubs,
+          prop('from', p.getOrElse({}))
+        )
+        const deviceId = deviceIdR.getOrFail('missing_device')
+        yield put(A.sendBtcAwaitLockbox(false))
+        yield put(actions.components.lockbox.pollForDeviceApp('BTC', deviceId))
         yield take(actionTypes.components.lockbox.SET_CONNECTION_INFO)
-        // BTC app connected
+        yield put(A.sendBtcAwaitLockbox(true))
+        let connection = yield select(
+          selectors.components.lockbox.getCurrentConnection
+        )
+        let transport = prop('transport', connection)
+        payment = yield payment.sign(null, transport)
       }
-      yield put(actions.modals.closeAllModals())
-      payment = yield payment.sign(password)
       payment = yield payment.publish()
+      yield put(actions.modals.closeAllModals())
       yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
       yield put(actions.core.data.bitcoin.fetchData())
       if (path(['description', 'length'], payment.value())) {

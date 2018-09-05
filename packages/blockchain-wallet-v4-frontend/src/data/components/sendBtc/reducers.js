@@ -5,6 +5,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 const INITIAL_STATE = {
   step: 1,
   toToggled: false,
+  isDeviceReady: false,
   feePerByteToggled: false,
   payment: Remote.NotAsked
 }
@@ -35,6 +36,10 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.SEND_BTC_PAYMENT_UPDATED_FAILURE: {
       return assoc('payment', Remote.Failure(payload), state)
+    }
+    case AT.SEND_BTC_AWAIT_LOCKBOX: {
+      const isDeviceReady = assoc('isDeviceReady', payload, state)
+      return assoc('step', 3, isDeviceReady)
     }
     case AT.SEND_BTC_FIRST_STEP_SUBMIT_CLICKED: {
       return assoc('step', 2, state)
