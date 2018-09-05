@@ -47,6 +47,9 @@ const FaqFormMessage = styled(FaqMessage)`
   right: 0;
   width: 35%;
 `
+const DobFaqFormMessage = styled(FaqFormMessage)`
+  margin-top: 46px;
+`
 const FaqFormGroup = styled(FormGroup)`
   position: relative;
   display: flex;
@@ -212,7 +215,8 @@ const Personal = ({
                       name='dob'
                       validate={[requiredDOB, ageOverEighteen]}
                       component={DateInputBox}
-                      fullwidth={true}
+                      fullwidth
+                      label
                       errorBottom
                       parse={objectToDOB}
                       format={DOBToObject}
@@ -220,7 +224,7 @@ const Personal = ({
                   </FaqFormItem>
                   {activeField === 'dob' &&
                     !mobile && (
-                      <FaqFormMessage
+                      <DobFaqFormMessage
                         title={
                           <FormattedMessage
                             id='identityverification.personal.faq.dateofbirth.title'
