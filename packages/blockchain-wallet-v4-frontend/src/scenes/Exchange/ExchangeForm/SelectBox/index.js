@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { flip, path, prop } from 'ramda'
+import { path } from 'ramda'
 
 import { Icon } from 'blockchain-info-components'
 import { SelectBox } from 'components/Form'
@@ -70,11 +70,7 @@ const ItemIcon = styled(Icon)`
   color: ${props => props.theme[props.color]} !important;
 `
 
-const getIconName = flip(prop)({
-  BCH: 'bitcoin-cash',
-  BTC: 'bitcoin',
-  ETH: 'ethereum'
-})
+const getIconName = coin => `exchange-${coin.toLowerCase()}`
 
 const renderDisplay = (props, children) => {
   const coin = path(['value', 'coin'], props)

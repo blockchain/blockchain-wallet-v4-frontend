@@ -94,7 +94,7 @@ const ExchangeConfirm = ({
         <CoinButton coin={sourceCoin.toLowerCase()}>
           {`${sourceAmount} ${sourceCoin}`}
         </CoinButton>
-        <FromToIcon name='right-arrow-filled' />
+        <FromToIcon name='short-right-arrow' />
         <CoinButton coin={targetCoin.toLowerCase()}>
           {`${targetAmount} ${targetCoin}`}
         </CoinButton>

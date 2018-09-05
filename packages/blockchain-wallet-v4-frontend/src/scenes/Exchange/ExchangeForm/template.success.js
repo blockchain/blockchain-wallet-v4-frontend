@@ -128,11 +128,20 @@ const CurrencyBox = styled(Text)`
   background-color: ${props =>
     props.disabled ? props.theme['gray-1'] : props.theme['white']};
 `
-const ShapeshiftIcon = styled(Icon)`
+const CoinSwapIcon = styled(Icon)`
   margin: auto;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   color: ${props =>
-    props.disabled ? props.theme['gray-1'] : props.theme['gray-5']};
+    props.disabled ? props.theme['gray-1'] : props.theme['gray-6']};
+  &:hover {
+    color: ${props =>
+      props.disabled ? props.theme['gray-1'] : props.theme['brand-secondary']};
+  }
+`
+const CoinFiatSwapIcon = styled(Icon)`
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+  color: ${props =>
+    props.disabled ? props.theme['gray-1'] : props.theme['brand-primary']};
   &:hover {
     color: ${props =>
       props.disabled ? props.theme['gray-1'] : props.theme['brand-secondary']};
@@ -234,8 +243,8 @@ const Success = props => {
               </Cell>
               <TooltipHost id='exchange.changeinput'>
                 <Cell size='small'>
-                  <ShapeshiftIcon
-                    name='shapeshift-switch'
+                  <CoinSwapIcon
+                    name='arrow-switch'
                     size='28px'
                     weight={500}
                     cursor
@@ -270,9 +279,9 @@ const Success = props => {
               </CurrencyBox>
             </AmountRow>
             <AmountRow>
-              <Icon
+              <CoinFiatSwapIcon
                 style={{ visibility: 'hidden' }}
-                name='shapeshift-switch'
+                name='vertical-arrow-switch'
                 size='28px'
                 weight={500}
                 cursor
@@ -285,8 +294,8 @@ const Success = props => {
                   )}
                 </StringDisplay>
               </ComplementaryAmountContaier>
-              <Icon
-                name='shapeshift-switch'
+              <CoinFiatSwapIcon
+                name='vertical-arrow-switch'
                 size='28px'
                 weight={500}
                 cursor
