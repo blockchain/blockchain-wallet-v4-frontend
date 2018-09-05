@@ -2,9 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { compose, tap, is, cond, always } from 'ramda'
+import { compose, flip, prop, isEmpty } from 'ramda'
 
 import { getRemotePropType, getElementsPropType } from 'utils/proptypes'
+import { debounce } from 'utils/helpers'
 import { actions, model } from 'data'
 import { getData } from './selectors'
 
@@ -12,87 +13,72 @@ import Loading from './template.loading'
 import Success from './template.success'
 import DataError from 'components/DataError'
 
-const extractFieldValue = (_, value) => value
-const preventFormChanges = e => e.preventDefault()
+const extractFieldValue = (e, value) => value
 
-const { EXCHANGE_FORM } = model.components.exchange
-const { BASE, COUNTER, BASE_IN_FIAT, COUNTER_IN_FIAT } = model.rates.FIX_TYPES
+const { swapCoinAndFiat, swapBaseAndCounter, FIX_TYPES } = model.rates
+const { BASE, COUNTER, BASE_IN_FIAT, COUNTER_IN_FIAT } = FIX_TYPES
 
 class FirstStepContainer extends React.Component {
   componentDidMount () {
-    this.props.actions.firstStepInitialized()
+    this.props.actions.initialize()
   }
+
+  debounceTime = 50
 
   handleRefresh = () => {
-    this.props.actions.firstStepInitialized()
+    this.props.actions.initialize()
   }
 
-  handleChangeFix = fix => {}
-
-  swapCoinAndFiat = () => {
-    const fix = cond([
-      [is(BASE), always(BASE_IN_FIAT)],
-      [is(BASE_IN_FIAT), always(BASE)],
-      [is(COUNTER), always(COUNTER_IN_FIAT)],
-      [is(COUNTER_IN_FIAT), always(COUNTER)]
-    ])(this.props.fix)
-
-    this.props.formActions.change(EXCHANGE_FORM, 'fix', fix)
-  }
-
-  swapBaseAndCounter = () => {
-    const fix = cond([
-      [is(BASE), always(COUNTER)],
-      [is(COUNTER), always(BASE)],
-      [is(BASE_IN_FIAT), always(COUNTER_IN_FIAT)],
-      [is(COUNTER_IN_FIAT), always(BASE_IN_FIAT)]
-    ])(this.props.fix)
-
-    this.props.formActions.change(EXCHANGE_FORM, 'fix', fix)
-  }
+  getChangeAmountAction = flip(prop)({
+    [BASE]: debounce(this.props.actions.changeSourceAmount, this.debounceTime),
+    [COUNTER]: debounce(
+      this.props.actions.changeTargetAmount,
+      this.debounceTime
+    ),
+    [BASE_IN_FIAT]: debounce(
+      this.props.actions.changeSourceFiatAmount,
+      this.debounceTime
+    ),
+    [COUNTER_IN_FIAT]: debounce(
+      this.props.actions.changeTargetFiatAmount,
+      this.debounceTime
+    )
+  })
 
   render () {
     const { actions, data } = this.props
     return data.cata({
-      Success: value => (
-        <Success
-          {...value}
-          handleMaximum={actions.firstStepMaximumClicked}
-          handleMinimum={actions.firstStepMinimumClicked}
-          onSubmit={actions.firstStepSubmitClicked}
-          handleSwap={actions.firstStepSwapClicked}
-          handleSourceChange={compose(
-            actions.changeSource,
-            extractFieldValue
-          )}
-          handleTargetChange={compose(
-            actions.changeTarget,
-            extractFieldValue
-          )}
-          handleSourceAmountChange={compose(
-            actions.changeSourceAmount,
-            extractFieldValue,
-            tap(preventFormChanges)
-          )}
-          handleTargetAmountChange={compose(
-            actions.changeTargeteAmount,
-            extractFieldValue,
-            tap(preventFormChanges)
-          )}
-          handleSourceFiatAmountChange={compose(
-            actions.changeSourceFiatAmount,
-            extractFieldValue,
-            tap(preventFormChanges)
-          )}
-          handleTargetFiatAmountChange={compose(
-            actions.changeTargetFiatAmount,
-            extractFieldValue,
-            tap(preventFormChanges)
-          )}
-          swapBaseAndCounter={this.swapBaseAndCounter}
-          swapCoinAndFiat={this.swapCoinAndFiat}
-        />
-      ),
+      Success: value =>
+        isEmpty(value.availablePairs) ? (
+          <DataError onClick={this.handleRefresh} />
+        ) : (
+          <Success
+            {...value}
+            handleMaximum={actions.firstStepMaximumClicked}
+            handleMinimum={actions.firstStepMinimumClicked}
+            onSubmit={actions.firstStepSubmitClicked}
+            handleSourceChange={compose(
+              actions.changeSource,
+              extractFieldValue
+            )}
+            handleTargetChange={compose(
+              actions.changeTarget,
+              extractFieldValue
+            )}
+            handleAmountChange={compose(
+              this.getChangeAmountAction(value.fix),
+              extractFieldValue
+            )}
+            swapBaseAndCounter={compose(
+              this.props.actions.changeFix,
+              swapBaseAndCounter.bind(null, value.fix)
+            )}
+            swapCoinAndFiat={compose(
+              this.props.actions.changeFix,
+              swapCoinAndFiat.bind(null, value.fix)
+            )}
+          />
+        ),
       Failure: message => (
         <DataError onClick={this.handleRefresh} message={message} />
       ),

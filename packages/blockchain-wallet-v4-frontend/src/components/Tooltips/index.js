@@ -116,6 +116,12 @@ class Tooltips extends React.PureComponent {
             </Link>
           </TextGroup>
         </Tooltip>
+        <Tooltip id='exchange.changeinput' place='bottom'>
+          <FormattedMessage
+            id='scenes.exchange.changeinput'
+            defaultMessage='Change Input'
+          />
+        </Tooltip>
         <Tooltip id='secondstep.txfeeexplanation'>
           <FormattedMessage
             id='scenes.exchange.shapeshift.secondstep.txfeeexplanation'

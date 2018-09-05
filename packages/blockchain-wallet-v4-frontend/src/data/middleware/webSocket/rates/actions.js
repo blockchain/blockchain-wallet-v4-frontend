@@ -13,24 +13,45 @@ export const restFallback = () => ({ type: AT.REST_FALLBACK })
 
 export const authenticateSocket = () => ({ type: AT.AUTHENTICATE_SOCKET })
 
-export const openChannelForPair = (pair, volume, fix, fiatCurrency) => ({
-  type: AT.OPEN_CHANNEL_FOR_PAIR,
+export const openRatesChannel = pairs => ({
+  type: AT.OPEN_RATES_CHANNEL,
+  payload: { pairs }
+})
+export const closeRatesChannel = () => ({
+  type: AT.CLOSE_RATES_CHANNEL
+})
+
+export const openAdviceChannel = (pair, volume, fix, fiatCurrency) => ({
+  type: AT.OPEN_ADVICE_CHANNEL,
   payload: { pair, volume, fix, fiatCurrency }
 })
-export const closeChannelForPair = pair => ({
-  type: AT.CLOSE_CHANNEL_FOR_PAIR,
+export const closeAdviceChannel = pair => ({
+  type: AT.CLOSE_ADVICE_CHANNEL,
   payload: { pair }
 })
 
-export const subscribeSuccess = pair => ({
-  type: AT.SUBSCRIBE_SUCCESS,
+export const adviceSubscribeSuccess = pair => ({
+  type: AT.ADVICE_SUBSCRIBE_SUCCESS,
   payload: { pair }
 })
-export const unsubscribeSuccess = pair => ({
-  type: AT.UNSUBSCRIBE_SUCCESS,
+export const adviceUnsubscribeSuccess = pair => ({
+  type: AT.ADVICE_UNSUBSCRIBE_SUCCESS,
   payload: { pair }
 })
-export const subscribeError = (pair, error) => ({
-  type: AT.SUBSCRIBE_ERROR,
+export const adviceSubscribeError = (pair, error) => ({
+  type: AT.ADVICE_SUBSCRIBE_ERROR,
   payload: { pair, error }
+})
+
+export const ratesSubscribeSuccess = pairs => ({
+  type: AT.RATES_SUBSCRIBE_SUCCESS,
+  payload: { pairs }
+})
+export const ratesUnsubscribeSuccess = pairs => ({
+  type: AT.RATES_UNSUBSCRIBE_SUCCESS,
+  payload: { pairs }
+})
+export const ratesSubscribeError = (pairs, error) => ({
+  type: AT.RATES_SUBSCRIBE_ERROR,
+  payload: { pairs, error }
 })

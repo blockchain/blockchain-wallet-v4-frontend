@@ -27,7 +27,7 @@ import {
 } from './validationMessages'
 import media from 'services/ResponsiveService'
 
-const { EXCHANGE_FORM } = model.components.exchange
+const { SHAPESHIFT_FORM } = model.components.exchange
 
 const Wrapper = styled.div`
   display: flex;
@@ -284,6 +284,6 @@ const Success = ({
 }
 
 export default reduxForm({
-  form: EXCHANGE_FORM,
+  form: SHAPESHIFT_FORM,
   destroyOnUnmount: false
 })(Success)

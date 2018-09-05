@@ -1,16 +1,16 @@
 import * as AT from './actionTypes'
 
-export const subscribeToRate = (pair, volume, fix, fiatCurrency) => ({
-  type: AT.SUBSCRIBE_TO_RATE,
+export const subscribeToAdvice = (pair, volume, fix, fiatCurrency) => ({
+  type: AT.SUBSCRIBE_TO_ADVICE,
   payload: { pair, volume, fix, fiatCurrency }
 })
-export const unsubscribeFromRate = pair => ({
-  type: AT.UNSUBSCRIBE_FROM_RATE,
+export const unsubscribeFromAdvice = pair => ({
+  type: AT.UNSUBSCRIBE_FROM_ADVICE,
   payload: { pair }
 })
-export const updateAdvice = (pair, fix, volume, advice) => ({
+export const updateAdvice = (pair, fix, volume, fiatCurrency, advice) => ({
   type: AT.UPDATE_ADVICE,
-  payload: { pair, fix, volume, advice }
+  payload: { pair, fix, volume, fiatCurrency, advice }
 })
 
 export const updatePairConfig = (pair, volume, fix, fiatCurrency) => ({
@@ -35,4 +35,17 @@ export const availablePairsSuccess = pairs => ({
 export const availablePairsError = error => ({
   type: AT.AVAILABLE_PAIRS_ERROR,
   payload: { error }
+})
+
+export const subscribeToRates = pairs => ({
+  type: AT.SUBSCRIBE_TO_RATES,
+  payload: { pairs }
+})
+export const unsubscribeFromRates = () => ({
+  type: AT.UNSUBSCRIBE_FROM_RATES
+})
+
+export const updateBestRates = rates => ({
+  type: AT.UPDATE_BEST_RATES,
+  payload: { rates }
 })

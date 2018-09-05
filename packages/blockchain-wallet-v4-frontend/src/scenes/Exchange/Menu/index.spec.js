@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import toJson from 'enzyme-to-json'
-import MenuTop from './index'
+import { MenuTop } from './index'
 
 jest.mock('blockchain-info-components', () => ({ Images: '', TextGroup: '' }))
 

@@ -15,7 +15,9 @@ import modalEnhancer from 'providers/ModalEnhancer'
 
 export const MODAL_NAME = 'Onfido'
 
-const OnfidoIframe = styled.iframe`
+const OnfidoIframe = styled.iframe.attrs({
+  allow: 'camera'
+})`
   width: 100%;
   height: 604px;
   border: none;

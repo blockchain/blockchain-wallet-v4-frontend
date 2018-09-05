@@ -242,7 +242,7 @@ const Navigation = props => {
 Navigation.propTypes = {
   menuOpened: PropTypes.bool.isRequired,
   settingsOpened: PropTypes.bool.isRequired,
-  canTrade: PropTypes.bool.isRequired,
+  canTrade: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
   pathname: PropTypes.string.isRequired,
   handleCloseMenu: PropTypes.func.isRequired
 }

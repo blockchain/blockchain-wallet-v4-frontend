@@ -1,6 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+
+import { getData } from './selectors'
 
 import { LinkContainer } from 'react-router-bootstrap'
 import {
@@ -40,7 +43,7 @@ const Shapeshift = styled(TextGroup)`
   }
 `
 
-const MenuTop = () => (
+export const MenuTop = ({ useShapeShift }) => (
   <Wrapper>
     <TabMenu>
       <LinkContainer to='/exchange' activeClassName='active' exact>
@@ -60,18 +63,20 @@ const MenuTop = () => (
         </TabMenuItem>
       </LinkContainer>
     </TabMenu>
-    <Shapeshift>
-      <Text size='12px' weight={300}>
-        <FormattedMessage
-          id='scenes.exchange.menutop.poweredby'
-          defaultMessage='Powered by'
-        />
-      </Text>
-      <Link href='https://www.shapeshift.io' target='_blank'>
-        <Image name='shapeshiftLogo' width='60px' height='25px' />
-      </Link>
-    </Shapeshift>
+    {useShapeShift && (
+      <Shapeshift>
+        <Text size='12px' weight={300}>
+          <FormattedMessage
+            id='scenes.exchange.menutop.poweredby'
+            defaultMessage='Powered by'
+          />
+        </Text>
+        <Link href='https://www.shapeshift.io' target='_blank'>
+          <Image name='shapeshiftLogo' width='60px' height='25px' />
+        </Link>
+      </Shapeshift>
+    )}
   </Wrapper>
 )
 
-export default MenuTop
+export default connect(getData)(MenuTop)

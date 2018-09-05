@@ -1,4 +1,15 @@
-import { assoc, assocPath, dissocPath, lensProp, propOr, set } from 'ramda'
+import {
+  assoc,
+  assocPath,
+  compose,
+  groupBy,
+  head,
+  lensProp,
+  map,
+  propOr,
+  prop,
+  set
+} from 'ramda'
 
 import * as socketActionTypes from 'data/middleware/webSocket/rates/actionTypes'
 import * as AT from './actionTypes'
@@ -7,7 +18,8 @@ import { Remote } from 'blockchain-wallet-v4'
 
 const INITIAL_STATE = {
   availablePairs: Remote.NotAsked,
-  pairs: {}
+  pairs: {},
+  bestRates: Remote.NotAsked
 }
 const INITIAL_PAIR = {
   config: {
@@ -20,6 +32,7 @@ const INITIAL_PAIR = {
 const getPair = propOr(INITIAL_PAIR)
 const adviceLens = lensProp('advice')
 const configLens = lensProp('config')
+const bestRatesLens = lensProp('bestRates')
 const setPairProp = (lens, fn, pair, state) => {
   const pairValue = set(lens, fn, getPair(pair, state.pairs))
   return assocPath(['pairs', pair], pairValue, state)
@@ -44,18 +57,28 @@ export default (state = INITIAL_STATE, action) => {
         payload.pair,
         state
       )
-    case socketActionTypes.SUBSCRIBE_SUCCESS:
+    case AT.SUBSCRIBE_TO_ADVICE:
       return setPairProp(adviceLens, Remote.Loading, payload.pair, state)
-    case socketActionTypes.SUBSCRIBE_ERROR:
+    case socketActionTypes.ADVICE_SUBSCRIBE_ERROR:
       return setPairProp(
         adviceLens,
         Remote.Failure(payload.error),
         payload.pair,
         state
       )
-
-    case AT.UNSUBSCRIBE_FROM_RATE:
-      return dissocPath(['pairs', payload.pair], state)
+    case AT.UPDATE_BEST_RATES: {
+      const pairs = compose(
+        map(head),
+        groupBy(prop('pair'))
+      )(payload.rates)
+      return set(bestRatesLens, Remote.Success(pairs), state)
+    }
+    case AT.SUBSCRIBE_TO_RATES:
+      return set(bestRatesLens, Remote.Loading, state)
+    case socketActionTypes.RATES_SUBSCRIBE_ERROR:
+      return set(bestRatesLens, Remote.Failure(payload.error), state)
+    case AT.UNSUBSCRIBE_FROM_RATES:
+      return set(bestRatesLens, Remote.NotAsked, state)
     default:
       return state
   }

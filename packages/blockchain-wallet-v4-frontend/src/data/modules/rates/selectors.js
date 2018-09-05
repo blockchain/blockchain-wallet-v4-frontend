@@ -1,4 +1,13 @@
-import { compose, curry, values, path, prop, mapObjIndexed } from 'ramda'
+import {
+  compose,
+  curry,
+  values,
+  path,
+  prop,
+  propOr,
+  mapObjIndexed
+} from 'ramda'
+import { Remote } from 'blockchain-wallet-v4'
 
 export const getActivePairs = compose(
   values,
@@ -8,9 +17,9 @@ export const getActivePairs = compose(
 
 const getPair = curry((pair, state) => path(['rates', 'pairs', pair], state))
 
-export const getPairRate = curry(
+export const getPairAdvice = curry(
   compose(
-    prop('advice'),
+    propOr(Remote.NotAsked, 'advice'),
     getPair
   )
 )
@@ -25,6 +34,11 @@ export const getPairFix = curry(
     prop('fix'),
     getPairConfig
   )
+)
+
+export const getBestRates = path(['rates', 'bestRates'])
+export const getBestRate = curry((pair, state) =>
+  getBestRates(state).map(prop(pair))
 )
 
 export const getAvailablePairs = path(['rates', 'availablePairs'])

@@ -29,6 +29,9 @@ const StyledSelect = styled(Select)`
       cursor: not-allowed;
       background-color: ${props => props.theme['gray-1']};
     }
+    .bc__value-container {
+      overflow: hidden;
+    }
   }
 
   .bc__option {

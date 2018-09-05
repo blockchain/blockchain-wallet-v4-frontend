@@ -6,9 +6,11 @@ export default ({ api }) => {
   const sagas = sagasFactory({ api })
 
   return function*() {
-    yield takeLatest(AT.SUBSCRIBE_TO_RATE, sagas.subscribeToRate)
-    yield takeLatest(AT.UNSUBSCRIBE_FROM_RATE, sagas.unsubscribeFromRate)
+    yield takeLatest(AT.SUBSCRIBE_TO_ADVICE, sagas.subscribeToAdvice)
+    yield takeLatest(AT.UNSUBSCRIBE_FROM_ADVICE, sagas.unsubscribeFromAdvice)
     yield takeLatest(AT.FETCH_AVAILABLE_PAIRS, sagas.fetchAvailablePairs)
     yield takeLatest(AT.UPDATE_ADVICE, sagas.updateAdvice)
+    yield takeLatest(AT.SUBSCRIBE_TO_RATES, sagas.subscribeToRates)
+    yield takeLatest(AT.UNSUBSCRIBE_FROM_RATES, sagas.unsubscribeFromRates)
   }
 }
