@@ -18,6 +18,9 @@ const CustomSelectBox = styled(SelectBox)`
     > .bc__value-container {
       > .bc__single-value {
         right: 0px;
+        font-size: 14px;
+        font-weight: 300;
+        color: ${props => props.theme['gray-4']};
       }
     }
     > .bc__indicators {
@@ -33,6 +36,9 @@ const CustomSelectBox = styled(SelectBox)`
       border: 1px solid ${props => props.theme['gray-2']};
       border-left: none;
     }
+  }
+  .bc__option {
+    color: ${props => props.theme['gray-4']};
   }
 `
 
