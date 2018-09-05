@@ -146,7 +146,7 @@ const CheckForUpdatesStep = props => {
             <Button
               nature='primary'
               fullwidth
-              disabled={firmwares && !firmwares.latest}
+              disabled={!(connection.app && firmwares && firmwares.latest)}
               onClick={continueOrClose}
             >
               <FormattedMessage
