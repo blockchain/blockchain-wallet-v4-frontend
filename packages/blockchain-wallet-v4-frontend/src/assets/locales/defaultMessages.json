@@ -1127,6 +1127,10 @@
         "id": "scenes.exchange.shapeshift.firststep.tooltip2"
       },
       {
+        "defaultMessage": "Change Input",
+        "id": "scenes.exchange.changeinput"
+      },
+      {
         "defaultMessage": "This fee is used to send the outgoing exchange funds to ShapeShift.",
         "id": "scenes.exchange.shapeshift.secondstep.txfeeexplanation"
       },
@@ -2977,6 +2981,14 @@
         "id": "identityverification.personal.lastname"
       },
       {
+        "defaultMessage": "First & Last Name",
+        "id": "identityverification.personal.faq.name.title"
+      },
+      {
+        "defaultMessage": "They should match exactly the details in your government issued ID, passport or driving license.",
+        "id": "identityverification.personal.faq.name.text"
+      },
+      {
         "defaultMessage": "Your Birthday",
         "id": "identityverification.personal.dateofbirth"
       },
@@ -3009,7 +3021,7 @@
         "id": "identityverification.personal.faq.postcode.text"
       },
       {
-        "defaultMessage": "Ooops, address lookup failed. {retry}",
+        "defaultMessage": "Oops, address lookup failed. {retry}",
         "id": "identityverification.personal.addressrefetch"
       },
       {
@@ -3060,10 +3072,6 @@
       {
         "defaultMessage": "Driver’s License",
         "id": "identityverification.verify.driverslicense"
-      },
-      {
-        "defaultMessage": "Identification Card",
-        "id": "identityverification.verify.id"
       },
       {
         "defaultMessage": "Back",
@@ -5967,6 +5975,39 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Confirm Exchange",
+        "id": "scenes.exchange.confirm.title"
+      },
+      {
+        "defaultMessage": "Rate",
+        "id": "scenes.exchange.exchangeform.summary.rates"
+      },
+      {
+        "defaultMessage": "Network Fee",
+        "id": "scenes.exchange.exchangeform.summary.fee"
+      },
+      {
+        "defaultMessage": "Total Value",
+        "id": "scenes.exchange.confirm.value"
+      },
+      {
+        "defaultMessage": "All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.",
+        "id": "scenes.exchange.exchangeform.summary.note"
+      },
+      {
+        "defaultMessage": "Complete Order",
+        "id": "scenes.exchange.confirm.submit"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "scenes.exchange.confirm.cancel"
+      }
+    ],
+    "path": "src/scenes/Exchange/ExchangeConfirm/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "maximum",
         "id": "scenes.exchange.firststep.maximumamountlink.maximum"
       }
@@ -5985,6 +6026,39 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Summary",
+        "id": "scenes.exchange.exchangeform.summary.title"
+      },
+      {
+        "defaultMessage": "Deposit {coin}",
+        "id": "scenes.exchange.exchangeform.summary.deposit"
+      },
+      {
+        "defaultMessage": "Receive {coin}",
+        "id": "scenes.exchange.exchangeform.summary.receive"
+      },
+      {
+        "defaultMessage": "Network Fee",
+        "id": "scenes.exchange.exchangeform.summary.fee"
+      },
+      {
+        "defaultMessage": "~ Total Value",
+        "id": "scenes.exchange.exchangeform.summary.value"
+      },
+      {
+        "defaultMessage": "All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.",
+        "id": "scenes.exchange.exchangeform.summary.note"
+      },
+      {
+        "defaultMessage": "Rates",
+        "id": "scenes.exchange.exchangeform.summary.rates"
+      }
+    ],
+    "path": "src/scenes/Exchange/ExchangeForm/Summary/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Step 1 of 2",
         "id": "scenes.exchange.shapeshift.firststep.step"
       }
@@ -5994,10 +6068,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Step 1 of 2",
-        "id": "scenes.exchange.shapeshift.firststep.step"
-      },
-      {
         "defaultMessage": "Exchange:",
         "id": "scenes.exchange.shapeshift.firststep.from"
       },
@@ -6006,20 +6076,16 @@
         "id": "scenes.exchange.shapeshift.firststep.to"
       },
       {
-        "defaultMessage": "Enter amount:",
-        "id": "scenes.exchange.shapeshift.firststep.amount"
+        "defaultMessage": "MIN",
+        "id": "scenes.exchange.exchangeform.min"
       },
       {
-        "defaultMessage": "Use",
-        "id": "scenes.exchangebox.firststep.use1"
+        "defaultMessage": "MAX",
+        "id": "scenes.exchange.exchangeform.max"
       },
       {
-        "defaultMessage": "| Use",
-        "id": "scenes.exchangebox.firststep.use2"
-      },
-      {
-        "defaultMessage": "Next",
-        "id": "scenes.exchange.shapeshift.firststep.next"
+        "defaultMessage": "Exchange {source} for {target}",
+        "id": "scenes.exchange.exchangeform.exchange"
       }
     ],
     "path": "src/scenes/Exchange/ExchangeForm/template.success.json"
