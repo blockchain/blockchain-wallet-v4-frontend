@@ -12,8 +12,7 @@ class CompareVersionsContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  firmwareInfo: selectors.components.lockbox.getFirmwareInstalled(state),
-  latestFirmware: null
+  firmwares: selectors.components.lockbox.getFirmwareVersions(state)
 })
 
 const mapDispatchToProps = dispatch => ({

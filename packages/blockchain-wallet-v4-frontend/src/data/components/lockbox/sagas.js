@@ -257,20 +257,49 @@ export default ({ api, coreSagas }) => {
       yield take(AT.SET_CONNECTION_INFO)
       const { transport } = yield select(S.getCurrentConnection)
       yield put(A.changeFirmwareUpdateStep('compare-versions-step'))
+      // get base device info
       const deviceInfo = yield call(
         LockboxService.firmware.getDeviceInfo,
         transport
       )
-      console.info(deviceInfo) // eslint-disable-line
       yield put(A.setFirmwareInstalledInfo(deviceInfo))
-      const res = yield call(
-        api.getDeviceVersion,
-        deviceInfo.providerId,
-        deviceInfo.targetId
+
+      // get full device info via api
+      const deviceVersion = yield call(api.getDeviceVersion, {
+        provider: deviceInfo.providerId,
+        target_id: deviceInfo.targetId
+      })
+
+      // get full firmware info via api
+      const seFirmwareVersion = yield call(api.getCurrentFirmware, {
+        device_version: deviceVersion.id,
+        version_name: deviceInfo.fullVersion,
+        provider: deviceInfo.providerId
+      })
+
+      // get next possible firmware info
+      const latestFirmware = yield call(api.getLatestFirmware, {
+        current_se_firmware_final_version: seFirmwareVersion.id,
+        device_version: deviceVersion.id,
+        provider: deviceInfo.providerId
+      })
+
+      yield put(
+        A.setFirmwareLatestInfo({
+          version: seFirmwareVersion.name,
+          deviceOutdated: latestFirmware.result === 'null'
+        })
       )
-      console.info(res) // eslint-disable-line
-      // const firmwaresLatest = yield call(LockboxService.firmware.getLatestFirmwareInfo, firmwaresInstalled)
-      // debugger
+
+      // TODO: blocked until we get some outdated devices...
+      if (latestFirmware.result === 'null') {
+        // device firmware is up to date
+        yield null
+      } else {
+        // device firmware is out of date
+        // lines 56-75 in helpers/devices/getLatestFirmwareForDevice.js
+        yield null
+      }
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'updateDeviceFirmware', e)

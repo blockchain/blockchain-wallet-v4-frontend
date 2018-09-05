@@ -32,7 +32,7 @@ const StepInstructions = styled(Text)`
 `
 
 const CompareVersionsStep = props => {
-  const { firmwareInfo, latestFirmware } = props
+  const { firmwares } = props
 
   return (
     <React.Fragment>
@@ -47,65 +47,33 @@ const CompareVersionsStep = props => {
         </Header>
         <Content>
           <Row>
-            {!firmwareInfo && (
-              <React.Fragment>
-                <StepInstructions size='14px' weight={300}>
-                  <FormattedMessage
-                    id='modals.lockboxfirmware.compareversionsstep.installedtitle'
-                    defaultMessage='Fetching firmware information'
-                  />
-                </StepInstructions>
-                <FlatLoader width='50px' height='10px' />
-              </React.Fragment>
-            )}
-            {firmwareInfo && (
-              <React.Fragment>
-                <StepInstructions size='14px' weight={300}>
-                  <FormattedMessage
-                    id='modals.lockboxfirmware.compareversionsstep.installed'
-                    defaultMessage='Installed Firmwares:'
-                  />
-                </StepInstructions>
-                <div>
-                  <Text size='14px' weight={300}>
-                    MCU Version: {firmwareInfo.mcuVersion}
-                  </Text>
-                  <Text size='14px' weight={300}>
-                    SE Version: {firmwareInfo.seVersion}
-                  </Text>
-                </div>
-              </React.Fragment>
+            <StepInstructions size='14px' weight={300}>
+              <FormattedMessage
+                id='modals.lockboxfirmware.compareversionsstep.installed'
+                defaultMessage='Installed Firmware:'
+              />
+            </StepInstructions>
+            {firmwares.installed ? (
+              <Text size='14px' weight={300}>
+                v{firmwares.installed.seVersion}
+              </Text>
+            ) : (
+              <FlatLoader width='50px' height='10px' />
             )}
           </Row>
           <Row>
-            {!latestFirmware && (
-              <React.Fragment>
-                <StepInstructions size='14px' weight={300}>
-                  <FormattedMessage
-                    id='modals.lockboxfirmware.compareversionsstep.latesttitle'
-                    defaultMessage='Fetching latest firmware information'
-                  />
-                </StepInstructions>
-                <FlatLoader width='50px' height='10px' />
-              </React.Fragment>
-            )}
-            {latestFirmware && (
-              <React.Fragment>
-                <StepInstructions size='14px' weight={300}>
-                  <FormattedMessage
-                    id='modals.lockboxfirmware.compareversionsstep.latest'
-                    defaultMessage='Latest Firmwares:'
-                  />
-                </StepInstructions>
-                <div>
-                  <Text size='14px' weight={300}>
-                    MCU Version:
-                  </Text>
-                  <Text size='14px' weight={300}>
-                    SE Version:
-                  </Text>
-                </div>
-              </React.Fragment>
+            <StepInstructions size='14px' weight={300}>
+              <FormattedMessage
+                id='modals.lockboxfirmware.compareversionsstep.latest'
+                defaultMessage='Latest Firmware:'
+              />
+            </StepInstructions>
+            {firmwares.latest ? (
+              <Text size='14px' weight={300}>
+                v{firmwares.latest.version}
+              </Text>
+            ) : (
+              <FlatLoader width='50px' height='10px' />
             )}
           </Row>
         </Content>
