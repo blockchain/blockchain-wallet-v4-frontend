@@ -21,7 +21,7 @@ export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
   const http = httpService({ apiKey })
   const authorizedHttp = apiAuthorize(http, getAuthCredentials)
   const apiUrl = options.domains.api
-  const nabuUrl = `${apiUrl}/nabu-app`
+  const nabuUrl = `${apiUrl}/nabu-gateway`
   const rootUrl = options.domains.root
   const shapeShiftApiKey = options.platforms.web.shapeshift.config.apiKey
 
