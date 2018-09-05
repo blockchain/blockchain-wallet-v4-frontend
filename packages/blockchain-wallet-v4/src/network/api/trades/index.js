@@ -10,6 +10,7 @@ export default ({ nabuUrl, post }) => {
       url: nabuUrl,
       endPoint: `/trades`,
       data: {
+        pair,
         quantity,
         currency,
         destinationAddress,
