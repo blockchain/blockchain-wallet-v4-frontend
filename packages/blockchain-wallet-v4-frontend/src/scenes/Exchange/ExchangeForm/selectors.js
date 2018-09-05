@@ -230,19 +230,16 @@ export const getData = createDeepEqualSelector(
     adviceRatesR,
     bestRatesR
   ) => {
+    const btcAccounts = btcAccountsR.getOrElse([])
+    const bchAccounts = bchAccountsR.getOrElse([])
+    const ethAccounts = ethAccountsR.getOrElse([])
     const { sourceCoin, targetCoin, fix } = formValues
     const sourceActive = contains(fix, [BASE, BASE_IN_FIAT])
     const targetActive = contains(fix, [COUNTER, COUNTER_IN_FIAT])
     const coinActive = contains(fix, [BASE, COUNTER])
     const fiatActive = contains(fix, [BASE_IN_FIAT, COUNTER_IN_FIAT])
 
-    const transform = (
-      btcAccounts,
-      bchAccounts,
-      ethAccounts,
-      currency,
-      availablePairs
-    ) => {
+    const transform = (currency, availablePairs) => {
       const isActive = propEq('archived', false)
       const activeBtcAccounts = filter(isActive, btcAccounts)
       const activeBchAccounts = filter(isActive, bchAccounts)
@@ -313,12 +310,6 @@ export const getData = createDeepEqualSelector(
         fix
       }
     }
-    return lift(transform)(
-      btcAccountsR,
-      bchAccountsR,
-      ethAccountsR,
-      currencyR,
-      availablePairsR
-    )
+    return lift(transform)(currencyR, availablePairsR)
   }
 )
