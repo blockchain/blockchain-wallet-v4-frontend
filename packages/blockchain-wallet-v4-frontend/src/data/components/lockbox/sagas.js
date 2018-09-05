@@ -265,27 +265,23 @@ export default ({ api, coreSagas }) => {
         transport
       )
       yield put(A.setFirmwareInstalledInfo(deviceInfo))
-
       // get full device info via api
       const deviceVersion = yield call(api.getDeviceVersion, {
         provider: deviceInfo.providerId,
         target_id: deviceInfo.targetId
       })
-
       // get full firmware info via api
       const seFirmwareVersion = yield call(api.getCurrentFirmware, {
         device_version: deviceVersion.id,
         version_name: deviceInfo.fullVersion,
         provider: deviceInfo.providerId
       })
-
       // get next possible firmware info
       const latestFirmware = yield call(api.getLatestFirmware, {
         current_se_firmware_final_version: seFirmwareVersion.id,
         device_version: deviceVersion.id,
         provider: deviceInfo.providerId
       })
-
       yield put(
         A.setFirmwareLatestInfo({
           version: seFirmwareVersion.name,
