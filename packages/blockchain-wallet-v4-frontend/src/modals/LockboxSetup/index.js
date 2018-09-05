@@ -11,6 +11,7 @@ import ConnectDeviceStep from './ConnectDeviceStep'
 import NameDeviceStep from './NameDeviceStep'
 import OpenBtcAppStep from './OpenBtcAppStep'
 import DuplicateDeviceStep from './DuplicateDeviceStep'
+import AuthenticityCheckStep from './AuthenticityCheckStep'
 
 class LockboxSetupContainer extends React.PureComponent {
   render () {
@@ -22,6 +23,7 @@ class LockboxSetupContainer extends React.PureComponent {
         {(!currentStep || currentStep === 'setup-type') && <SetupTypeStep />}
         {currentStep === 'connect' && <ConnectDeviceStep />}
         {currentStep === 'duplicate-device' && <DuplicateDeviceStep />}
+        {currentStep === 'authenticity-check' && <AuthenticityCheckStep />}
         {currentStep === 'name-device' && <NameDeviceStep />}
         {currentStep === 'open-btc-app' && <OpenBtcAppStep />}
       </LockboxSetup>

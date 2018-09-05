@@ -182,7 +182,8 @@ export default ({ api, coreSagas }) => {
       if (contains(newDeviceId)(keysIn(storedDevices))) {
         yield put(A.changeDeviceSetupStep('duplicate-device'))
       } else {
-        yield put(A.changeDeviceSetupStep('name-device'))
+        yield put(A.changeDeviceSetupStep('authenticity-check'))
+        // yield put(A.changeDeviceSetupStep('name-device'))
       }
     } catch (e) {
       // TODO: more error handling
