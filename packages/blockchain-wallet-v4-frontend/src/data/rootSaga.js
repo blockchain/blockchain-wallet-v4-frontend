@@ -52,20 +52,28 @@ const languageInitSaga = function*() {
   }
 }
 
-export default function*({ api, bchSocket, btcSocket, ethSocket, options }) {
-  const coreSagas = coreSagasFactory({ api })
+export default function*({
+  api,
+  bchSocket,
+  btcSocket,
+  ethSocket,
+  ratesSocket,
+  networks,
+  options
+}) {
+  const coreSagas = coreSagasFactory({ api, networks })
 
   yield all([
     call(welcomeSaga),
     fork(alerts),
     fork(auth({ api, coreSagas })),
-    fork(components({ api, coreSagas, options })),
-    fork(modules({ coreSagas })),
+    fork(components({ api, coreSagas, networks, options })),
+    fork(modules({ api, coreSagas, networks })),
     fork(preferences()),
     fork(goals({ coreSagas })),
     fork(wallet({ coreSagas })),
-    fork(middleware({ api, bchSocket, btcSocket, ethSocket })),
-    fork(coreRootSagaFactory({ api, options })),
+    fork(middleware({ api, bchSocket, btcSocket, ethSocket, ratesSocket })),
+    fork(coreRootSagaFactory({ api, networks, options })),
     fork(router()),
     call(languageInitSaga)
   ])

@@ -2,8 +2,8 @@ import { takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import sagas from './sagas'
 
-export default ({ coreSagas }) => {
-  const sfoxSagas = sagas({ coreSagas })
+export default ({ coreSagas, networks }) => {
+  const sfoxSagas = sagas({ coreSagas, networks })
 
   return function*() {
     yield takeLatest(AT.SET_BANK_MANUALLY, sfoxSagas.setBankManually)

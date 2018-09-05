@@ -110,7 +110,7 @@ export const importAddress = (key, createdTime, label, network) => {
   }
 
   switch (true) {
-    case utils.bitcoin.isValidBitcoinAddress(key):
+    case utils.bitcoin.isValidBitcoinAddress(key, network):
       object.addr = key
       object.priv = null
       break
@@ -118,7 +118,7 @@ export const importAddress = (key, createdTime, label, network) => {
       object.addr = key.getAddress()
       object.priv = Base58.encode(key.d.toBuffer(32))
       break
-    case utils.bitcoin.isValidBitcoinPrivateKey(key):
+    case utils.bitcoin.isValidBitcoinPrivateKey(key, network):
       key = ECPair.fromWIF(key, network)
       object.addr = key.getAddress()
       object.priv = Base58.encode(key.d.toBuffer(32))

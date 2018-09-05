@@ -65,7 +65,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
       this.props.updateUI({ btcAddress: { toggled: false } })
     } catch (e) {
       try {
-        if (utils.bitcoin.isValidBitcoinAddress(data)) {
+        if (utils.bitcoin.isValidBitcoinAddress(data, this.props.network)) {
           this.props.formActions.change('sendBtc', 'to', data)
           this.props.updateUI({ btcAddress: { toggled: false } })
           return
@@ -97,7 +97,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
           return
         }
         // try legacy addr
-        if (utils.bitcoin.isValidBitcoinAddress(data)) {
+        if (utils.bitcoin.isValidBitcoinAddress(data, this.props.network)) {
           this.props.formActions.change('sendBch', 'to', data)
           this.props.updateUI({ bchAddress: { toggled: false } })
           return
@@ -122,7 +122,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
   }
 
   handleScanBtcPriv (data) {
-    if (utils.bitcoin.isValidBitcoinPrivateKey(data)) {
+    if (utils.bitcoin.isValidBitcoinPrivateKey(data, this.props.network)) {
       this.props.formActions.change(this.props.form || 'sendBtc', 'priv', data)
       this.props.formActions.touch(this.props.form || 'sendBtc', 'priv')
       this.props.updateUI({ btcPriv: { toggled: false } })
@@ -135,7 +135,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
   handleScanBtcPrivOrAddress (data) {
     try {
       const { address } = bip21.decode(data)
-      if (utils.bitcoin.isValidBitcoinAddress(address)) {
+      if (utils.bitcoin.isValidBitcoinAddress(address, this.props.network)) {
         this.props.formActions.change(
           this.props.form || 'importBtcAddress',
           'addrOrPriv',
@@ -154,8 +154,8 @@ class QRCodeCaptureContainer extends React.PureComponent {
       }
     } catch (e) {
       if (
-        utils.bitcoin.isValidBitcoinPrivateKey(data) ||
-        utils.bitcoin.isValidBitcoinAddress(data)
+        utils.bitcoin.isValidBitcoinPrivateKey(data, this.props.network) ||
+        utils.bitcoin.isValidBitcoinAddress(data, this.props.network)
       ) {
         this.props.formActions.change(
           this.props.form || 'importBtcAddress',

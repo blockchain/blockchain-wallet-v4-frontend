@@ -11,7 +11,7 @@ import { getMnemonic } from '../../wallet/selectors'
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export default ({ api } = {}) => {
+export default ({ api, networks } = {}) => {
   const callTask = function*(task) {
     return yield call(
       compose(
@@ -24,7 +24,7 @@ export default ({ api } = {}) => {
   const fetchEthereum = function*() {
     const typeId = derivationMap[ETHEREUM]
     const mxpriv = yield select(getMetadataXpriv)
-    const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
+    const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId, networks.btc)
     const newkv = yield callTask(api.fetchKVStore(kv))
     yield put(A.setEthereum(newkv))
   }
@@ -69,7 +69,7 @@ export default ({ api } = {}) => {
     try {
       const typeId = derivationMap[ETHEREUM]
       const mxpriv = yield select(getMetadataXpriv)
-      const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
+      const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId, networks.btc)
       yield put(A.fetchMetadataEthereumLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
       if (isNil(newkv.value) || isEmpty(newkv.value)) {

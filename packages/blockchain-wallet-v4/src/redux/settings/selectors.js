@@ -33,3 +33,4 @@ export const getNotificationsOn = state =>
   getSettings(state).map(prop('notifications_on'))
 export const getNotificationsType = state =>
   getSettings(state).map(prop('notifications_type'))
+export const getInvitations = state => getSettings(state).map(prop('invited'))

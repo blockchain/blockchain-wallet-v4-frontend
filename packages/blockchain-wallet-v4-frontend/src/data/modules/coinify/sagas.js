@@ -6,13 +6,12 @@ import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
 import * as C from 'services/AlertService'
 import * as service from 'services/CoinifyService'
-import settings from 'config'
 import { promptForSecondPassword } from 'services/SagaService'
 
 export const sellDescription = `Exchange Trade CNY-`
 export const logLocation = 'modules/coinify/sagas'
 
-export default ({ coreSagas }) => {
+export default ({ coreSagas, networks }) => {
   const coinifySignup = function*(data) {
     const country = data.payload
     try {
@@ -68,12 +67,12 @@ export default ({ coreSagas }) => {
       const state = yield select()
       const defaultIdx = selectors.core.wallet.getDefaultAccountIndex(state)
       const receiveR = selectors.core.common.btc.getNextAvailableReceiveAddress(
-        settings.NETWORK_BITCOIN,
+        networks.btc,
         defaultIdx,
         state
       )
       const receiveIdxR = selectors.core.common.btc.getNextAvailableReceiveIndex(
-        settings.NETWORK_BITCOIN,
+        networks.btc,
         defaultIdx,
         state
       )
@@ -105,7 +104,7 @@ export default ({ coreSagas }) => {
       const p = path(['coinify', 'payment'], state)
       let payment = yield coreSagas.payment.btc.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK
+        network: networks.btc
       })
       payment = yield payment.amount(parseInt(trade.sendAmount))
 
@@ -173,7 +172,7 @@ export default ({ coreSagas }) => {
           selectors.core.wallet.getDefaultAccountIndex
         )
         const payment = yield coreSagas.payment.btc
-          .create({ network: settings.NETWORK_BITCOIN })
+          .create({ network: networks.btc })
           .chain()
           .init()
           .fee('priority')
@@ -522,7 +521,7 @@ export default ({ coreSagas }) => {
     try {
       yield put(A.coinifySellBtcPaymentUpdatedLoading())
       let payment = coreSagas.payment.btc.create({
-        network: settings.NETWORK_BITCOIN
+        network: networks.btc
       })
       payment = yield payment.init()
       const defaultIndex = yield select(

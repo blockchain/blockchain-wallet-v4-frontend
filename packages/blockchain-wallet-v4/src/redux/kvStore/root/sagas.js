@@ -12,7 +12,7 @@ import {
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export default ({ api }) => {
+export default ({ api, networks }) => {
   const callTask = function*(task) {
     return yield call(
       compose(
@@ -29,7 +29,7 @@ export default ({ api }) => {
       const seedHex = BIP39.mnemonicToEntropy(mnemonic)
       const getMetadataNode = compose(
         KVStoreEntry.deriveMetadataNode,
-        KVStoreEntry.getMasterHDNode
+        KVStoreEntry.getMasterHDNode(networks.btc)
       )
       const metadataNode = getMetadataNode(seedHex)
       const metadata = metadataNode.toBase58()
@@ -45,7 +45,12 @@ export default ({ api }) => {
       const sharedKey = yield select(getSharedKey)
       const mainPassword = yield select(getMainPassword)
       yield put(A.fetchMetadataRootLoading())
-      const kv = KVStoreEntry.fromCredentials(guid, sharedKey, mainPassword)
+      const kv = KVStoreEntry.fromCredentials(
+        guid,
+        sharedKey,
+        mainPassword,
+        networks.btc
+      )
       const newkv = yield callTask(api.fetchKVStore(kv))
       yield put(A.fetchMetadataRootSuccess(newkv))
       if (isNil(prop('metadata', newkv.value))) {
