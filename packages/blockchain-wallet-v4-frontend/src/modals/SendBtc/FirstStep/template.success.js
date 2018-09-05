@@ -62,7 +62,6 @@ const FirstStep = props => {
   const {
     from,
     watchOnly,
-    addressMatchesPriv,
     destination,
     toToggled,
     enableToggle,
@@ -115,7 +114,10 @@ const FirstStep = props => {
                 autoFocus
                 errorBottom
               />
-              <QRCodeCapture scanType='btcPriv' border={['top', 'bottom']} />
+              <QRCodeCapture
+                scanType='btcPriv'
+                border={['top', 'bottom', 'right']}
+              />
             </Row>
           )}
         </FormItem>

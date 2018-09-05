@@ -1,7 +1,6 @@
 import { call, select, put } from 'redux-saga/effects'
-import { identity, prop } from 'ramda'
-import { formValueSelector } from 'redux-form'
-import * as actions from '../../actions'
+import { prop } from 'ramda'
+import { actions, selectors } from 'data'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword, promptForInput } from 'services/SagaService'
 import { utils } from 'blockchain-wallet-v4/src'
@@ -10,24 +9,32 @@ export default ({ api, coreSagas, networks }) => {
   const logLocation = 'components/importBtcAddress/sagas'
 
   const importBtcAddressSubmitClicked = function*() {
-    const appState = yield select(identity)
-    const value = formValueSelector('importBtcAddress')(appState, 'addrOrPriv')
+    const form = yield select(selectors.form.getFormValues('importBtcAddress'))
+    const value = prop('addrOrPriv', form)
+    const to = prop('to', form)
 
     // private key handling
-    if (value && utils.bitcoin.isValidBitcoinPrivateKey(value)) {
-      const to = formValueSelector('importBtcAddress')(appState, 'to')
+    if (value && utils.bitcoin.isValidBitcoinPrivateKey(value, networks.btc)) {
+      let address
       const format = utils.bitcoin.detectPrivateKeyFormat(value)
-      const key = utils.bitcoin.privateKeyStringToKey(value, format)
-      const address = key.getAddress()
-      const priv = value
-      yield call(importLegacyAddress, address, priv, null, null, to)
+      try {
+        const key = utils.bitcoin.privateKeyStringToKey(value, format)
+        address = key.getAddress()
+      } catch (error) {
+        yield put(
+          actions.logs.logErrorMessage(
+            `${logLocation} importBtcAddressSubmitClicked`,
+            error
+          )
+        )
+      }
+      yield call(importLegacyAddress, address, value, null, null, to)
       return
     }
 
     // address handling (watch-only)
     if (value && utils.bitcoin.isValidBitcoinAddress(value, networks.btc)) {
-      const address = value
-      yield call(importLegacyAddress, address, null, null, null, null)
+      yield call(importLegacyAddress, value, null, null, null, null)
     }
   }
 

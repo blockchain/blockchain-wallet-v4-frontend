@@ -156,7 +156,6 @@ const IdentityVerification = ({ kycState, canTrade, verifyIdentity }) => {
 IdentityVerification.propTypes = {
   kycState: PropTypes.oneOf(values(KYC_STATES)).isRequired,
   verifyIdentity: PropTypes.func.isRequired,
-  contactSupport: PropTypes.func.isRequired,
   getStarted: PropTypes.func.isRequired
 }
 

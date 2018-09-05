@@ -31,7 +31,6 @@ export default {
   red: '#FF0000',
   black: '#000000',
   halftransparentgrey: 'rgba(0, 0, 0, 0.5)',
-  'bitcoin-orange': '#f69335',
   porcelain: '#F4F6F7',
   textBlack: '#030E26',
   'deep-blue': '#152343',

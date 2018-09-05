@@ -29,7 +29,6 @@ export default ({ coreSagas }) => {
           ? yield payment.from(action.payload.from, action.payload.type)
           : yield payment.from()
       const defaultFee = path(['fees', 'regular'], payment.value())
-      payment = yield payment.fee(defaultFee)
       const initialValues = { coin: 'ETH', fee: defaultFee }
       yield put(initialize('sendEth', initialValues))
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))

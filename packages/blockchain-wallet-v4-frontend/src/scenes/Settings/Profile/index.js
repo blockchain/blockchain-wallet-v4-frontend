@@ -22,14 +22,21 @@ const Container = styled.div`
   box-sizing: border-box;
 `
 
-export const Profile = ({ kycState, modalActions, canTrade }) => {
+export const Profile = ({
+  kycState,
+  modalActions,
+  canTrade,
+  userFlowSupported
+}) => {
+  if (!userFlowSupported) return null
+
   return (
     <Wrapper>
       <KYCBanner />
       <Container>
         <IdentityVerification
           kycState={kycState}
-          verifyIdentity={modalActions.showModal.bind(null, KYC_MODAL)}
+          verifyIdentity={modalActions.showModal.bind(null, KYC_MODAL, {}, {})}
           canTrade={canTrade}
         />
       </Container>
@@ -39,7 +46,8 @@ export const Profile = ({ kycState, modalActions, canTrade }) => {
 
 Profile.propTypes = {
   kycState: PropTypes.oneOf(values(KYC_STATES)).isRequired,
-  canTrade: PropTypes.bool.isRequired
+  canTrade: PropTypes.bool.isRequired,
+  userFlowSupported: PropTypes.bool.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({

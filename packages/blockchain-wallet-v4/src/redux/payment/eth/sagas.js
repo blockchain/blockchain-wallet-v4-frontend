@@ -1,5 +1,5 @@
 import { call, select, put } from 'redux-saga/effects'
-import { isNil, merge, prop, path, identity } from 'ramda'
+import { isNil, merge, prop, path, identity, indexOf } from 'ramda'
 import EthUtil from 'ethereumjs-util'
 
 import * as S from '../../selectors'
@@ -87,6 +87,7 @@ export default ({ api }) => {
         const gasPrice = prop('regular', fees)
         const gasLimit = prop('gasLimit', fees)
         const fee = calculateFee(gasPrice, gasLimit)
+        const feeInGwei = gasPrice
 
         const latestTxR = yield select(S.kvStore.ethereum.getLatestTx)
         const latestTxTimestampR = yield select(
@@ -117,7 +118,7 @@ export default ({ api }) => {
             }
           }
         }
-        return makePayment(merge(p, { fees, fee, unconfirmedTx }))
+        return makePayment(merge(p, { fees, fee, feeInGwei, unconfirmedTx }))
       },
 
       *to (destination) {
@@ -158,8 +159,10 @@ export default ({ api }) => {
       },
 
       *fee (value) {
-        // value is in gwei
-        const feeInGwei = value
+        // value can be in gwei or string ('regular' or 'priority')
+        const fees = prop('fees', p)
+        const feeInGwei =
+          indexOf(value, ['regular', 'priority']) > -1 ? fees[value] : value
         const gasLimit = path(['fees', 'gasLimit'], p)
         const fee = calculateFee(feeInGwei, gasLimit)
         const balance = yield call(getBalance)

@@ -70,7 +70,7 @@ const configureStore = () => {
       })
       const ratesSocket = new ApiSocket({
         options,
-        url: `${options.domains.webSocket}/nabu-app/markets/quotes`,
+        url: `${options.domains.webSocket}/nabu-gateway/markets/quotes`,
         maxReconnects: 3
       })
       const getAuthCredentials = () =>

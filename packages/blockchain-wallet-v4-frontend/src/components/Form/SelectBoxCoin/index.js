@@ -11,7 +11,6 @@ const HeaderWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: 5px;
   box-sizing: border-box;
   text-overflow: ellipsis;
 
@@ -34,7 +33,7 @@ const renderItem = props => {
       {value === 'ETH' && (
         <Icon name='ethereum-filled' size='14px' weight={300} />
       )}
-      <Text size='13px' weight={300} cursor='pointer'>
+      <Text size='14px' weight={300} cursor='pointer'>
         {text}
       </Text>
     </HeaderWrapper>
@@ -52,7 +51,7 @@ const renderDisplay = (props, children) => {
       {value === 'ETH' && (
         <Icon name='ethereum-filled' size='14px' weight={300} />
       )}
-      <Text size='13px' weight={300} cursor='pointer'>
+      <Text size='14px' weight={300} cursor='pointer'>
         {children}
       </Text>
     </HeaderWrapper>

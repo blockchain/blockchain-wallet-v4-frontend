@@ -1046,12 +1046,16 @@
         "id": "privacypolicy"
       },
       {
-        "defaultMessage": "I have read and agreed to the",
-        "id": "scenes.register.registerform.blockchain.read"
+        "defaultMessage": "By hitting continue, I agree to Blockchain’s",
+        "id": "scenes.register.registerform.blockchainkyc.read"
       },
       {
         "defaultMessage": "Terms of Service",
         "id": "scenes.register.registerform.blockchain.terms"
+      },
+      {
+        "defaultMessage": "I have read and agreed to the",
+        "id": "scenes.register.registerform.blockchain.read"
       }
     ],
     "path": "src/components/Terms/index.json"
@@ -1121,6 +1125,10 @@
       {
         "defaultMessage": "Learn more",
         "id": "scenes.exchange.shapeshift.firststep.tooltip2"
+      },
+      {
+        "defaultMessage": "Change Input",
+        "id": "scenes.exchange.changeinput"
       },
       {
         "defaultMessage": "This fee is used to send the outgoing exchange funds to ShapeShift.",
@@ -1315,15 +1323,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Your transaction will be complete after it has {minConfirmations} confirmations.",
-        "id": "scenes.transactions.content.list.listitem.transactionunconfirmed"
-      }
-    ],
-    "path": "src/components/TxFeedTooltips/index.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Exchange",
         "id": "scenes.exchange.menutop.exchange"
       },
@@ -1336,7 +1335,7 @@
         "id": "scenes.exchange.menutop.poweredby"
       }
     ],
-    "path": "src/scenes/Exchange/MenuTop/index.json"
+    "path": "src/layouts/Exchange/MenuTop/index.json"
   },
   {
     "descriptors": [
@@ -1426,6 +1425,10 @@
       {
         "defaultMessage": "General",
         "id": "layouts.wallet.menuleft.navigation.general"
+      },
+      {
+        "defaultMessage": "Profile",
+        "id": "layouts.wallet.menuleft.navigation.profile"
       },
       {
         "defaultMessage": "Preferences",
@@ -2875,8 +2878,8 @@
         "id": "modals.identityverification.steps.personal"
       },
       {
-        "defaultMessage": "Address",
-        "id": "modals.identityverification.steps.address"
+        "defaultMessage": "Phone",
+        "id": "modals.identityverification.steps.mobile"
       },
       {
         "defaultMessage": "Verify",
@@ -2962,14 +2965,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Why do you need this information?",
-        "id": "identityverification.personal.faq.whycollect.question"
-      },
-      {
-        "defaultMessage": "To comply with government regulated anti-money laundering legislation, we need to obtain additional information in order to verify your identity.",
-        "id": "identityverification.personal.faq.whycollect.answer"
-      },
-      {
         "defaultMessage": "Personal Details",
         "id": "identityverification.personal.header"
       },
@@ -2986,28 +2981,72 @@
         "id": "identityverification.personal.lastname"
       },
       {
-        "defaultMessage": "Your Birthday (MM/DD/YYYY)",
+        "defaultMessage": "First & Last Name",
+        "id": "identityverification.personal.faq.name.title"
+      },
+      {
+        "defaultMessage": "They should match exactly the details in your government issued ID, passport or driving license.",
+        "id": "identityverification.personal.faq.name.text"
+      },
+      {
+        "defaultMessage": "Your Birthday",
         "id": "identityverification.personal.dateofbirth"
       },
       {
-        "defaultMessage": "Verified Email Address",
-        "id": "identityverification.personal.verifiedemail"
+        "defaultMessage": "Age requirement",
+        "id": "identityverification.personal.faq.dateofbirth.title"
       },
       {
-        "defaultMessage": "edit",
-        "id": "identityverification.personal.edit"
+        "defaultMessage": "Users must be at least 18 years old to trade crypto",
+        "id": "identityverification.personal.faq.dateofbirth.text"
       },
       {
-        "defaultMessage": "edit email",
-        "id": "identityverification.personal.editemail"
+        "defaultMessage": "Country",
+        "id": "identityverification.personal.country"
       },
       {
-        "defaultMessage": "Verified Phone Number",
-        "id": "identityverification.personal.verifiedmobile"
+        "defaultMessage": "Select country",
+        "id": "components.selectboxcountry.label"
       },
       {
-        "defaultMessage": "edit mobile",
-        "id": "identityverification.personal.editmobile"
+        "defaultMessage": "Zip Code",
+        "id": "identityverification.personal.zipcode"
+      },
+      {
+        "defaultMessage": "Address search",
+        "id": "identityverification.personal.faq.postcode.title"
+      },
+      {
+        "defaultMessage": "We try and prefill your address so you don’t have to fill out all the fields",
+        "id": "identityverification.personal.faq.postcode.text"
+      },
+      {
+        "defaultMessage": "Oops, address lookup failed. {retry}",
+        "id": "identityverification.personal.addressrefetch"
+      },
+      {
+        "defaultMessage": "Select Address",
+        "id": "identityverification.personal.selectaddress"
+      },
+      {
+        "defaultMessage": "Address",
+        "id": "identityverification.personal.address"
+      },
+      {
+        "defaultMessage": "Address 2",
+        "id": "identityverification.personal.address2"
+      },
+      {
+        "defaultMessage": "City",
+        "id": "identityverification.personal.city"
+      },
+      {
+        "defaultMessage": "State",
+        "id": "identityverification.personal.state"
+      },
+      {
+        "defaultMessage": "Region",
+        "id": "identityverification.personal.region"
       },
       {
         "defaultMessage": "Continue",
@@ -3019,24 +3058,28 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Why do you need this information?",
-        "id": "identityverification.verify.faq.whycollect.question"
-      },
-      {
-        "defaultMessage": "To comply with government regulated anti-money laundering legislation, we need to obtain additional information in order to verify your identity.",
-        "id": "identityverification.verify.faq.whycollect.answer"
-      },
-      {
         "defaultMessage": "Verify Your Identity",
         "id": "identityverification.verify.header"
       },
       {
-        "defaultMessage": "Good news – you’re almost done! Just grab your photo ID and mobile phone to complete your verification. This will only take a few minutes.",
-        "id": "identityverification.verify.subheader"
+        "defaultMessage": "Last step! We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.",
+        "id": "identityverification.verify.message"
       },
       {
-        "defaultMessage": "Verify My Identity",
-        "id": "identityverification.verify.verify"
+        "defaultMessage": "Government Issued Passport",
+        "id": "identityverification.verify.passport"
+      },
+      {
+        "defaultMessage": "Driver’s License",
+        "id": "identityverification.verify.driverslicense"
+      },
+      {
+        "defaultMessage": "Back",
+        "id": "identityverification.personal.back"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "identityverification.personal.continue"
       }
     ],
     "path": "src/modals/IdentityVerification/Verify.json"
@@ -3064,12 +3107,32 @@
         "id": "identityverification.personal.mobile.entermobilenumber"
       },
       {
+        "defaultMessage": "Please add your phone",
+        "id": "identityverification.mobile.faq.phone.title"
+      },
+      {
+        "defaultMessage": "We will send you a SMS with verification code.",
+        "id": "identityverification.mobile.faq.phone.text"
+      },
+      {
         "defaultMessage": "Send My Code",
         "id": "identityverification.personal.mobile.sendmycode"
       },
       {
         "defaultMessage": "Verification code",
         "id": "identityverification.personal.mobile.entercode"
+      },
+      {
+        "defaultMessage": "We sent you a text message",
+        "id": "identityverification.mobile.faq.code.title"
+      },
+      {
+        "defaultMessage": "Your verification code is on its way. Once you receive it, please enter it.",
+        "id": "identityverification.mobile.faq.code.text"
+      },
+      {
+        "defaultMessage": "Back",
+        "id": "identityverification.personal.back"
       },
       {
         "defaultMessage": "Continue",
@@ -3961,8 +4024,8 @@
         "id": "modals.sendether.firststep.description"
       },
       {
-        "defaultMessage": "Transaction fee (Gas Price):",
-        "id": "modals.sendether.firststep.fee"
+        "defaultMessage": "Transaction fee:",
+        "id": "modals.sendether.firststep.txfee"
       },
       {
         "defaultMessage": "Cancel",
@@ -5912,6 +5975,39 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Confirm Exchange",
+        "id": "scenes.exchange.confirm.title"
+      },
+      {
+        "defaultMessage": "Rate",
+        "id": "scenes.exchange.exchangeform.summary.rates"
+      },
+      {
+        "defaultMessage": "Network Fee",
+        "id": "scenes.exchange.exchangeform.summary.fee"
+      },
+      {
+        "defaultMessage": "Total Value",
+        "id": "scenes.exchange.confirm.value"
+      },
+      {
+        "defaultMessage": "All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.",
+        "id": "scenes.exchange.exchangeform.summary.note"
+      },
+      {
+        "defaultMessage": "Complete Order",
+        "id": "scenes.exchange.confirm.submit"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "scenes.exchange.confirm.cancel"
+      }
+    ],
+    "path": "src/scenes/Exchange/ExchangeConfirm/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "maximum",
         "id": "scenes.exchange.firststep.maximumamountlink.maximum"
       }
@@ -5930,6 +6026,39 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Summary",
+        "id": "scenes.exchange.exchangeform.summary.title"
+      },
+      {
+        "defaultMessage": "Deposit {coin}",
+        "id": "scenes.exchange.exchangeform.summary.deposit"
+      },
+      {
+        "defaultMessage": "Receive {coin}",
+        "id": "scenes.exchange.exchangeform.summary.receive"
+      },
+      {
+        "defaultMessage": "Network Fee",
+        "id": "scenes.exchange.exchangeform.summary.fee"
+      },
+      {
+        "defaultMessage": "~ Total Value",
+        "id": "scenes.exchange.exchangeform.summary.value"
+      },
+      {
+        "defaultMessage": "All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.",
+        "id": "scenes.exchange.exchangeform.summary.note"
+      },
+      {
+        "defaultMessage": "Rates",
+        "id": "scenes.exchange.exchangeform.summary.rates"
+      }
+    ],
+    "path": "src/scenes/Exchange/ExchangeForm/Summary/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Step 1 of 2",
         "id": "scenes.exchange.shapeshift.firststep.step"
       }
@@ -5939,10 +6068,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Step 1 of 2",
-        "id": "scenes.exchange.shapeshift.firststep.step"
-      },
-      {
         "defaultMessage": "Exchange:",
         "id": "scenes.exchange.shapeshift.firststep.from"
       },
@@ -5951,20 +6076,16 @@
         "id": "scenes.exchange.shapeshift.firststep.to"
       },
       {
-        "defaultMessage": "Enter amount:",
-        "id": "scenes.exchange.shapeshift.firststep.amount"
+        "defaultMessage": "MIN",
+        "id": "scenes.exchange.exchangeform.min"
       },
       {
-        "defaultMessage": "Use",
-        "id": "scenes.exchangebox.firststep.use1"
+        "defaultMessage": "MAX",
+        "id": "scenes.exchange.exchangeform.max"
       },
       {
-        "defaultMessage": "| Use",
-        "id": "scenes.exchangebox.firststep.use2"
-      },
-      {
-        "defaultMessage": "Next",
-        "id": "scenes.exchange.shapeshift.firststep.next"
+        "defaultMessage": "Exchange {source} for {target}",
+        "id": "scenes.exchange.exchangeform.exchange"
       }
     ],
     "path": "src/scenes/Exchange/ExchangeForm/template.success.json"
@@ -6183,6 +6304,156 @@
       }
     ],
     "path": "src/scenes/Exchange/Shapeshift/Confirm/validationMessages.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "maximum",
+        "id": "scenes.exchange.firststep.maximumamountlink.maximum"
+      }
+    ],
+    "path": "src/scenes/Exchange/Shapeshift/ExchangeForm/MaximumAmountLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "minimum",
+        "id": "scenes.exchange.firststep.minimumamountlink.minimum"
+      }
+    ],
+    "path": "src/scenes/Exchange/Shapeshift/ExchangeForm/MinimumAmountLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Step 1 of 2",
+        "id": "scenes.exchange.shapeshift.firststep.step"
+      }
+    ],
+    "path": "src/scenes/Exchange/Shapeshift/ExchangeForm/template.loading.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Step 1 of 2",
+        "id": "scenes.exchange.shapeshift.firststep.step"
+      },
+      {
+        "defaultMessage": "Exchange:",
+        "id": "scenes.exchange.shapeshift.firststep.from"
+      },
+      {
+        "defaultMessage": "Receive:",
+        "id": "scenes.exchange.shapeshift.firststep.to"
+      },
+      {
+        "defaultMessage": "Enter amount:",
+        "id": "scenes.exchange.shapeshift.firststep.amount"
+      },
+      {
+        "defaultMessage": "Use",
+        "id": "scenes.exchangebox.firststep.use1"
+      },
+      {
+        "defaultMessage": "| Use",
+        "id": "scenes.exchangebox.firststep.use2"
+      },
+      {
+        "defaultMessage": "Next",
+        "id": "scenes.exchange.shapeshift.firststep.next"
+      }
+    ],
+    "path": "src/scenes/Exchange/Shapeshift/ExchangeForm/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Please enter an amount less than the limit.",
+        "id": "modals.exchange.abovelimitmessage"
+      },
+      {
+        "defaultMessage": "Not enough funds.",
+        "id": "modals.exchange.maximumamountmessage"
+      },
+      {
+        "defaultMessage": "Use",
+        "id": "modals.exchange.maximumamountmessage2"
+      },
+      {
+        "defaultMessage": "Below minimum amount.",
+        "id": "modals.exchange.minimumamountmessage"
+      },
+      {
+        "defaultMessage": "Use",
+        "id": "modals.exchange.minimumamountmessage2"
+      },
+      {
+        "defaultMessage": "Insufficient funds",
+        "id": "modals.exchange.insufficientamountmessage"
+      },
+      {
+        "defaultMessage": "Invalid amount",
+        "id": "modals.exchange.invalidamountmessage"
+      }
+    ],
+    "path": "src/scenes/Exchange/Shapeshift/ExchangeForm/validationMessages.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Success! Your exchange is complete",
+        "id": "modals.exchange.shapeshift.title.success"
+      },
+      {
+        "defaultMessage": "Exchange In Progress",
+        "id": "modals.exchange.shapeshift.title.inprogress"
+      },
+      {
+        "defaultMessage": "Thanks for placing your trade!",
+        "id": "modals.exchange.shapeshift.explain"
+      },
+      {
+        "defaultMessage": "Exchange trades can take up to two hours, and you can keep track of your trade’s progress in the Order History tab.",
+        "id": "modals.exchange.shapeshift.explain2"
+      },
+      {
+        "defaultMessage": "Your exchange is complete.",
+        "id": "modals.exchange.shapeshift.explain3"
+      },
+      {
+        "defaultMessage": "It may take a few minutes for the funds to show in your balance.",
+        "id": "modals.exchange.shapeshift.explain4"
+      },
+      {
+        "defaultMessage": "Order summary",
+        "id": "modals.exchange.shapeshift.ordersummary"
+      },
+      {
+        "defaultMessage": "{coin} deposited",
+        "id": "modals.exchange.shapeshift.deposited"
+      },
+      {
+        "defaultMessage": "{coin} to be received",
+        "id": "modals.exchange.shapeshift.received"
+      },
+      {
+        "defaultMessage": "Exchange rate",
+        "id": "modals.exchange.shapeshift.exchangerate"
+      },
+      {
+        "defaultMessage": "Transaction fee",
+        "id": "modals.exchange.shapeshift.fee"
+      },
+      {
+        "defaultMessage": "Order ID",
+        "id": "modals.exchange.shapeshift.orderid"
+      },
+      {
+        "defaultMessage": "Close",
+        "id": "modals.exchange.shapeshift.close"
+      }
+    ],
+    "path": "src/scenes/Exchange/Shapeshift/ExchangeResults/template.success.json"
   },
   {
     "descriptors": [
@@ -9614,6 +9885,10 @@
       {
         "defaultMessage": "Invalid zipcode",
         "id": "formhelper.requiredzipcode"
+      },
+      {
+        "defaultMessage": "You must agree to the terms and conditions",
+        "id": "formhelper.unacceptedterms"
       }
     ],
     "path": "src/services/FormHelper/validationMessages.json"

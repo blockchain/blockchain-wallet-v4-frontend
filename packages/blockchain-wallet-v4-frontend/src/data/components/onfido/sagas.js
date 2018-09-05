@@ -24,7 +24,8 @@ export default ({ api }) => {
       yield put(A.syncOnfidoLoading())
       yield call(api.syncOnfido, applicantId)
       yield put(A.syncOnfidoSuccess())
-      yield put(actions.modals.closeModal())
+      yield put(actions.modules.profile.fetchUser())
+      yield put(actions.modals.closeAllModals())
     } catch (error) {
       yield put(A.syncOnfidoError(error))
     }

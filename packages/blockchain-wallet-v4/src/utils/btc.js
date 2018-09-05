@@ -145,7 +145,7 @@ export const privateKeyStringToKey = function (
   addr
 ) {
   if (format === 'sipa' || format === 'compsipa') {
-    return ECPair.fromWIF(value, networks.bitcoin)
+    return ECPair.fromWIF(value, network)
   } else {
     let keyBuffer = null
 
@@ -193,10 +193,13 @@ export const formatPrivateKeyString = (keyString, format, addr) => {
   })
 }
 
-export const isValidBitcoinPrivateKey = value => {
+export const isValidBitcoinPrivateKey = (value, network) => {
   try {
     let format = detectPrivateKeyFormat(value)
-    return format === 'bip38' || privateKeyStringToKey(value, format) != null
+    return (
+      format === 'bip38' ||
+      privateKeyStringToKey(value, format, network) != null
+    )
   } catch (e) {
     return false
   }
