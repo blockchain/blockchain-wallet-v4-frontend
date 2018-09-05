@@ -184,6 +184,7 @@ const Personal = ({
                     activeField === 'lastName') &&
                     !mobile && (
                       <FaqFormMessage
+                        icon='id-card'
                         title={
                           <FormattedMessage
                             id='identityverification.personal.faq.name.title'
@@ -225,6 +226,7 @@ const Personal = ({
                   {activeField === 'dob' &&
                     !mobile && (
                       <DobFaqFormMessage
+                        icon='birthday-cake-light'
                         title={
                           <FormattedMessage
                             id='identityverification.personal.faq.dateofbirth.title'
@@ -290,6 +292,7 @@ const Personal = ({
                     </FaqFormItem>
                     {activeField === 'postCode' && (
                       <FaqFormMessage
+                        icon='map-marker-alt-regular'
                         title={
                           <FormattedMessage
                             id='identityverification.personal.faq.postcode.title'
