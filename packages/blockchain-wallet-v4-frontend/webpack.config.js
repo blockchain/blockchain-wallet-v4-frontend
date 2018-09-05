@@ -226,7 +226,7 @@ module.exports = {
           walletHelper: envConfig.WALLET_HELPER_DOMAIN,
           comWalletApp: envConfig.COM_WALLET_APP,
           comRoot: envConfig.COM_ROOT,
-          ledger: localhostUrl // reverse proxy will forward to ledger
+          ledger: localhostUrl + '/ledger' // will trigger reverse proxy
         }
 
         if (process.env.NODE_ENV === 'testnet') {
@@ -252,12 +252,12 @@ module.exports = {
         res.json(mockWalletOptions)
       })
     },
-    // ledger reverse proxy
     proxy: {
-      '/api/**': {
+      '/ledger': {
         target: envConfig.LEDGER_URL,
         secure: false,
-        changeOrigin: true
+        changeOrigin: true,
+        pathRewrite: { '^/ledger': '' }
       }
     },
     overlay: !isCiBuild && {
