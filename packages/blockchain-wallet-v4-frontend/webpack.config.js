@@ -22,6 +22,7 @@ const PATHS = {
   envConfig: `${__dirname}/../../config/env/`,
   sslConfig: `${__dirname}/../../config/ssl/`
 }
+let localhostUrl = 'http://localhost:8080'
 let envConfig = {}
 let mockWalletOptions
 let iSignThisDomain
@@ -61,6 +62,9 @@ if (!isCiBuild) {
     sslEnabled =
       fs.existsSync(PATHS.sslConfig + 'key.pem') &&
       fs.existsSync(PATHS.sslConfig + 'cert.pem')
+    if (sslEnabled) {
+      localhostUrl = 'https://localhost:8080'
+    }
     console.log(chalk.cyan('SSL Enabled: ') + chalk.blue(sslEnabled))
   }
 }
@@ -222,7 +226,7 @@ module.exports = {
           walletHelper: envConfig.WALLET_HELPER_DOMAIN,
           comWalletApp: envConfig.COM_WALLET_APP,
           comRoot: envConfig.COM_ROOT,
-          lockbox: 'https://manager.api.live.ledger.com'
+          ledger: localhostUrl // reverse proxy will forward to ledger
         }
 
         if (process.env.NODE_ENV === 'testnet') {
@@ -244,23 +248,18 @@ module.exports = {
       })
 
       app.get('/Resources/wallet-options.json', function(req, res) {
-        mockWalletOptions.domains = {
-          comWalletApp: sslEnabled
-            ? 'https://localhost:8080'
-            : 'http://localhost:8080'
-        }
-
+        mockWalletOptions.domains = { comWalletApp: localhostUrl }
         res.json(mockWalletOptions)
       })
     },
-    proxy: [
-      {
-        path: /\/a\/.*/,
-        bypass: function(req, res, proxyOptions) {
-          return '/index.html'
-        }
+    // ledger reverse proxy
+    proxy: {
+      '/api/**': {
+        target: envConfig.LEDGER_URL,
+        secure: false,
+        changeOrigin: true
       }
-    ],
+    },
     overlay: !isCiBuild && {
       warnings: true,
       errors: true
@@ -286,11 +285,11 @@ module.exports = {
               "'self'",
               'wss://localhost:8080',
               'ws://localhost:8080',
-              'wss://localhost:8080',
               envConfig.WEB_SOCKET_URL,
               envConfig.ROOT_URL,
               envConfig.API_DOMAIN,
               envConfig.WALLET_HELPER_DOMAIN,
+              envConfig.LEDGER_URL,
               'https://app-api.coinify.com',
               'https://app-api.sandbox.coinify.com',
               'https://api.sfox.com',

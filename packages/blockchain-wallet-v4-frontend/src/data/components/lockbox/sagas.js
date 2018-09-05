@@ -261,9 +261,14 @@ export default ({ api, coreSagas }) => {
         LockboxService.firmware.getDeviceInfo,
         transport
       )
-      // eslint-disable-next-line
-      console.info(deviceInfo)
+      console.info(deviceInfo) // eslint-disable-line
       yield put(A.setFirmwareInstalledInfo(deviceInfo))
+      const res = yield call(
+        api.getDeviceVersion,
+        deviceInfo.providerId,
+        deviceInfo.targetId
+      )
+      console.info(res) // eslint-disable-line
       // const firmwaresLatest = yield call(LockboxService.firmware.getLatestFirmwareInfo, firmwaresInstalled)
       // debugger
     } catch (e) {

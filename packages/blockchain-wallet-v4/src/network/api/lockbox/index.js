@@ -1,55 +1,55 @@
-export default ({ rootUrl, get, post }) => {
+export default ({ ledgerUrl, get, post }) => {
   const getFinalFirmware = () =>
     get({
-      url: rootUrl,
+      url: ledgerUrl,
       endPoint: '/firmware_final_versions',
       data: {}
     })
 
   const getCurrentFirmware = () =>
     post({
-      url: rootUrl,
+      url: ledgerUrl,
       endPoint: '/get_firmware_version',
       contentType: 'application/json',
       data: {}
     })
 
-  const getDeviceVersion = () =>
+  const getDeviceVersion = (provider, target_id) =>
     post({
-      url: rootUrl,
-      endPoint: '/get_device_version',
+      url: ledgerUrl,
+      endPoint: '/api/get_device_version',
       contentType: 'application/json',
-      data: {}
+      data: { provider, target_id }
     })
 
   const getCurrentOsu = () =>
     post({
-      url: rootUrl,
-      endPoint: '/get_osu_version',
+      url: ledgerUrl,
+      endPoint: '/api/get_osu_version',
       contentType: 'application/json',
       data: {}
     })
 
   const getLatestFirmware = () =>
     post({
-      url: rootUrl,
-      endPoint: '/get_latest_firmware',
+      url: ledgerUrl,
+      endPoint: '/api/get_latest_firmware',
       contentType: 'application/json',
       data: {}
     })
 
   const getMcus = () =>
     get({
-      url: rootUrl,
-      endPoint: '/mcu_versions',
+      url: ledgerUrl,
+      endPoint: '/api/mcu_versions',
       contentType: 'application/json',
       data: {}
     })
 
   const getNextMcu = bootLoaderVersion =>
     post({
-      url: rootUrl,
-      endPoint: '/mcu_versions_bootloader',
+      url: ledgerUrl,
+      endPoint: '/api/mcu_versions_bootloader',
       contentType: 'application/json',
       data: {
         bootloader_version: bootLoaderVersion
