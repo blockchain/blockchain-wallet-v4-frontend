@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
@@ -6,7 +6,7 @@ import { values } from 'ramda'
 import { connect } from 'react-redux'
 
 import { MODAL_NAME as KYC_MODAL } from 'data/components/identityVerification/model'
-import { KYC_STATES } from 'data/modules/profile/model'
+import { KYC_STATES, USER_ACTIVATION_STATES } from 'data/modules/profile/model'
 import { getData } from './selectors'
 import { actions } from 'data'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -51,15 +51,26 @@ const ActionButton = styled(Button)`
   margin-top: 30px;
 `
 
+const SubNote = styled(Text)`
+  margin-top: 30px;
+`
+
 export const KYCBanner = ({
   outsideOfProfile,
   canTrade,
   kycState,
+  userState,
   verifyIdentity
 }) => {
   if (outsideOfProfile && kycState === KYC_STATES.VERIFIED) return null
 
   const headers = {
+    [USER_ACTIVATION_STATES.NOT_CREATED]: (
+      <FormattedMessage
+        id='components.identityverification.popup.header.notcreated'
+        defaultMessage='A better way to Exchange Crypto'
+      />
+    ),
     [KYC_STATES.NONE]: (
       <FormattedMessage
         id='components.identityverification.popup.header.unverified'
@@ -96,6 +107,20 @@ export const KYCBanner = ({
   }
 
   const notes = {
+    [USER_ACTIVATION_STATES.NOT_CREATED]: (
+      <Fragment>
+        <FormattedMessage
+          id='components.identityverification.popup.note.notcreated'
+          defaultMessage="Introducing Blockchain's new and improved crypto exchange function. To begin using this updated feature, please verify your identity. The process only takes a couple of minutes."
+        />
+        <SubNote color='white' size='12px' weight={400}>
+          <FormattedMessage
+            id='components.identityverification.popup.note.personalinfosecure'
+            defaultMessage='Your personal information is secure with us and not shared with any third parties.'
+          />
+        </SubNote>
+      </Fragment>
+    ),
     [KYC_STATES.NONE]: (
       <FormattedMessage
         id='components.identityverification.popup.note.unverified'
@@ -123,6 +148,14 @@ export const KYCBanner = ({
   }
 
   const buttons = {
+    [USER_ACTIVATION_STATES.NOT_CREATED]: (
+      <ActionButton nature='primary' fullwidth onClick={verifyIdentity}>
+        <FormattedMessage
+          id='components.identityverification.popup.button.begin'
+          defaultMessage='Begin Now'
+        />
+      </ActionButton>
+    ),
     [KYC_STATES.NONE]: (
       <ActionButton nature='primary' fullwidth onClick={verifyIdentity}>
         <FormattedMessage
@@ -157,12 +190,12 @@ export const KYCBanner = ({
     <Wrapper>
       <Container>
         <Header size='20px' weight={300} color='white'>
-          {headers[kycState]}
+          {userState === USER_ACTIVATION_STATES.NOT_CREATED ? headers[userState] : headers[kycState]}
         </Header>
         <Content size='14px' weight={300} color='white'>
-          {notes[kycState]}
+          {userState === USER_ACTIVATION_STATES.NOT_CREATED ? notes[userState] : notes[kycState]}
         </Content>
-        {buttons[kycState]}
+        {userState === USER_ACTIVATION_STATES.NOT_CREATED ? buttons[userState] : buttons[kycState]}
       </Container>
     </Wrapper>
   )
@@ -170,6 +203,7 @@ export const KYCBanner = ({
 
 KYCBanner.propTypes = {
   kycState: PropTypes.oneOf(values(KYC_STATES)).isRequired,
+  userState: PropTypes.oneOf(values(USER_ACTIVATION_STATES)).isRequired,
   outsideOfProfile: PropTypes.bool,
   canTrade: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
   verifyIdentity: PropTypes.func.isRequired

@@ -38,7 +38,7 @@ export default ({ api, coreSagas }) => {
     const activationState = yield select(
       selectors.modules.profile.getUserActivationState
     )
-    if (activationState === USER_ACTIVATION_STATES.NONE)
+    if (activationState === USER_ACTIVATION_STATES.NOT_CREATED)
       return yield put(A.setVerificationStep(STEPS.personal))
     if (activationState === USER_ACTIVATION_STATES.CREATED)
       return yield put(A.setVerificationStep(STEPS.mobile))

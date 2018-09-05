@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 
 export const USER_ACTIVATION_STATES = {
-  NONE: 'NONE',
+  NOT_CREATED: 'NOT_CREATED',
   CREATED: 'CREATED',
   ACTIVE: 'ACTIVE',
   BLOCKED: 'BLOCKED'
