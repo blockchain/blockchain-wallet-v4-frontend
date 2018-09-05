@@ -4,9 +4,7 @@ import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
   connection: {},
-  firmware: {
-    versions: {}
-  },
+  firmware: {},
   newDeviceSetup: {
     device: Remote.NotAsked
   }
@@ -34,6 +32,9 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.SET_FIRMWARE_LATEST_INFO: {
       return assocPath(['firmware', 'versions', 'latest'], payload.info, state)
+    }
+    case AT.RESET_FIRMWARE_INFO: {
+      return assocPath(['firmware'], {}, state)
     }
     case AT.SET_CONNECTION_INFO: {
       return assocPath(['connection'], payload, state)

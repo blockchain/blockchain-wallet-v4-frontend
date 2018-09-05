@@ -253,10 +253,12 @@ export default ({ api, coreSagas }) => {
   const updateDeviceFirmware = function*(action) {
     try {
       const { deviceID } = action.payload
+      // clear out previous firmware info
+      yield put(A.resetFirmwareInfo())
+      // poll for device connection
       yield put(A.pollForDeviceApp('DASHBOARD', deviceID))
       yield take(AT.SET_CONNECTION_INFO)
       const { transport } = yield select(S.getCurrentConnection)
-      yield put(A.changeFirmwareUpdateStep('compare-versions-step'))
       // get base device info
       const deviceInfo = yield call(
         LockboxService.firmware.getDeviceInfo,
@@ -287,25 +289,22 @@ export default ({ api, coreSagas }) => {
       yield put(
         A.setFirmwareLatestInfo({
           version: seFirmwareVersion.name,
-          deviceOutdated: latestFirmware.result === 'null'
+          deviceOutdated: latestFirmware.result !== 'null'
         })
       )
 
       // TODO: blocked until we get some outdated devices...
-      if (latestFirmware.result === 'null') {
-        // device firmware is up to date
-        yield null
-      } else {
+      if (latestFirmware.result !== 'null') {
         // device firmware is out of date
         // lines 56-75 in helpers/devices/getLatestFirmwareForDevice.js
-        yield null
+        yield put(A.changeFirmwareUpdateStep('upgrade-firmware-step'))
       }
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'updateDeviceFirmware', e)
       )
     } finally {
-      // yield put(A.changeFirmwareUpdateStep('device-connect-step'))
+      yield put(A.changeFirmwareUpdateStep('check-for-updates-step'))
     }
   }
 

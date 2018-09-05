@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
-import CompareVersions from './template'
+import UpgradeFirmwareStep from './template'
 
-class CompareVersionsContainer extends React.PureComponent {
+class UpgradeFirmwareContainer extends React.PureComponent {
   render () {
-    return <CompareVersions {...this.props} />
+    return <UpgradeFirmwareStep {...this.props} />
   }
 }
 
@@ -22,4 +22,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CompareVersionsContainer)
+)(UpgradeFirmwareContainer)
