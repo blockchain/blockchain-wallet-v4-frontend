@@ -4,6 +4,7 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
+import { fromCashAddr } from '../../../utils/bch'
 
 export default ({ api }) => {
   const fetchData = function*() {
@@ -82,12 +83,13 @@ export default ({ api }) => {
     const { address, start, end } = payload
     try {
       yield put(A.fetchTransactionHistoryLoading())
+      const convertedAddress = fromCashAddr(address)
       const currency = yield select(selectors.settings.getCurrency)
       if (address) {
         const data = yield call(
           api.getTransactionHistory,
           'BCH',
-          address,
+          convertedAddress,
           currency.getOrElse('USD'),
           start,
           end
