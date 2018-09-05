@@ -78,7 +78,7 @@ const SecuritySteps = props => {
         <Wrapper>
           <EmailSection
             success={emailSuccess}
-            radius={emailSuccess && twoFactorSuccess}
+            radius={emailSuccess ? twoFactorSuccess : undefined}
           >
             <Circle>
               {emailSuccess && (
@@ -133,7 +133,7 @@ const SecuritySteps = props => {
           </TwoStepSection>
           <BackupSection
             success={isMnemonicVerified}
-            radius={isMnemonicVerified && twoFactorSuccess}
+            radius={isMnemonicVerified ? twoFactorSuccess : undefined}
           >
             <Circle>
               {isMnemonicVerified && (

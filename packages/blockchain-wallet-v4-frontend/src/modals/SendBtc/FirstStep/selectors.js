@@ -69,7 +69,6 @@ export const getData = createDeepEqualSelector(
         }
       ]
       const watchOnly = prop('watchOnly', from)
-      const addressMatchesPriv = payment.fromType === 'FROM.WATCH_ONLY'
       const network = Bitcoin.networks[networkType]
       const isPriorityFeePerByte = equals(
         parseInt(feePerByte),
@@ -91,8 +90,7 @@ export const getData = createDeepEqualSelector(
         isPriorityFeePerByte,
         destination,
         totalFee,
-        watchOnly,
-        addressMatchesPriv
+        watchOnly
       }
     }
 

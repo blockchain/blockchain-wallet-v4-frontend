@@ -1,30 +1,34 @@
-export default ({ nabuUrl, post, authorizedPut, authorizedGet }) => {
-  const generateUserId = (email, walletGuid) =>
-    post({
-      url: nabuUrl,
-      contentType: 'application/json',
-      data: { email, walletGuid },
-      endPoint: '/internal/users',
-      headers: { Authorization: 'Basic' }
+export default ({
+  rootUrl,
+  nabuUrl,
+  get,
+  post,
+  authorizedPut,
+  authorizedGet
+}) => {
+  const generateRetailToken = (guid, sharedKey) =>
+    get({
+      url: rootUrl,
+      endPoint: '/wallet/signed-retail-token',
+      data: {
+        guid,
+        sharedKey
+      }
     })
 
-  const generateLifetimeToken = (userId, email, walletGuid) =>
+  const createUser = retailToken =>
     post({
       url: nabuUrl,
+      endPoint: '/users',
       contentType: 'application/json',
-      endPoint: `/internal/auth?userId=${userId}`,
-      headers: {
-        Authorization: 'Basic',
-        'X-WALLET-GUID': walletGuid,
-        'X-WALLET-EMAIL': email
-      }
+      data: { jwt: retailToken }
     })
 
   const generateSession = (userId, lifetimeToken, email, walletGuid) =>
     post({
       url: nabuUrl,
-      contentType: 'application/json',
       endPoint: `/auth?userId=${userId}`,
+      contentType: 'application/json',
       headers: {
         'X-DEVICE-ID': 'deviceId',
         'x-client-type': 'WEB',
@@ -45,34 +49,34 @@ export default ({ nabuUrl, post, authorizedPut, authorizedGet }) => {
   const updateUser = userData =>
     authorizedPut({
       url: nabuUrl,
-      contentType: 'application/json',
       endPoint: '/users/current',
+      contentType: 'application/json',
       data: { ...userData }
     })
 
   const updateUserAddress = address =>
     authorizedPut({
       url: nabuUrl,
-      contentType: 'application/json',
       endPoint: '/users/current/address',
+      contentType: 'application/json',
       data: { address }
     })
 
-  const updateUserMobile = mobile =>
+  const syncUserWithWallet = retailToken =>
     authorizedPut({
       url: nabuUrl,
+      endPoint: '/users/current/walletInfo',
       contentType: 'application/json',
-      endPoint: '/users/current/mobile',
-      data: { mobile }
+      data: { jwt: retailToken }
     })
 
   return {
-    generateUserId,
-    generateLifetimeToken,
+    createUser,
+    generateRetailToken,
     generateSession,
     getUser,
     updateUser,
     updateUserAddress,
-    updateUserMobile
+    syncUserWithWallet
   }
 }
