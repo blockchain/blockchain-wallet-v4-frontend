@@ -131,6 +131,7 @@ export default ({ api, coreSagas }) => {
       yield fork(transferEthSaga)
       yield fork(welcomeSaga, firstLogin)
       yield fork(reportStats, mobileLogin)
+      yield fork(reportBalanceStats)
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
       if (!firstLogin) {
         yield put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
@@ -142,6 +143,14 @@ export default ({ api, coreSagas }) => {
       // Redirect to error page instead of notification
       yield put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
     }
+  }
+
+  const reportBalanceStats = function*() {
+    const btcBalanceR = yield select(selectors.core.data.bitcoin.getBalance)
+    const bchBalanceR = yield select(selectors.core.data.bch.getBalance)
+    const ethBalanceR = yield select(selectors.core.data.ethereum.getBalance)
+
+    yield call(api.incrementCurrencyUsageStats, btcBalanceR.getOrElse(0), ethBalanceR.getOrElse(0), bchBalanceR.getOrElse(0))
   }
 
   const reportStats = function*(mobileLogin) {
@@ -478,6 +487,7 @@ export default ({ api, coreSagas }) => {
     reset2fa,
     resendSmsLoginCode,
     restore,
+    reportBalanceStats,
     reportStats,
     setLogoutEventListener,
     transferEthSaga,
