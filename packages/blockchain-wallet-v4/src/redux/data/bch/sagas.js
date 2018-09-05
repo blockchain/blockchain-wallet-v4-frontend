@@ -83,9 +83,9 @@ export default ({ api }) => {
     const { address, start, end } = payload
     try {
       yield put(A.fetchTransactionHistoryLoading())
-      const convertedAddress = fromCashAddr(address)
       const currency = yield select(selectors.settings.getCurrency)
       if (address) {
+        const convertedAddress = fromCashAddr(address)
         const data = yield call(
           api.getTransactionHistory,
           'BCH',

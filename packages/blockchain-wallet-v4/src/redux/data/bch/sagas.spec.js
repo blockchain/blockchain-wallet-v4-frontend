@@ -4,6 +4,7 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
+import { fromCashAddr } from '../../../utils/bch'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
@@ -354,13 +355,14 @@ describe('bch data sagas', () => {
     })
 
     it('should get transaction data with address if possible', () => {
+      let convertedAddress = fromCashAddr(payload.address)
       saga.save(beforeGettingHistory)
       saga
         .next(currency)
         .call(
           api.getTransactionHistory,
           'BCH',
-          payload.address,
+          convertedAddress,
           currency.getOrElse('USD'),
           payload.start,
           payload.end
