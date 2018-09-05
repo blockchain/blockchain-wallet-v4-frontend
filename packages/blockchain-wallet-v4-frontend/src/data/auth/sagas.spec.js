@@ -336,6 +336,7 @@ describe('authSagas', () => {
     const {
       loginRoutineSaga,
       logoutRoutine,
+      reportBalanceStats,
       reportStats,
       setLogoutEventListener,
       transferEthSaga,
@@ -471,6 +472,10 @@ describe('authSagas', () => {
 
     it('should launch reportStats saga', () => {
       saga.next().fork(reportStats, mobileLogin)
+    })
+
+    it('should launch reportBalanceStats saga', () => {
+      saga.next().fork(reportBalanceStats)
     })
 
     it('should start listening for logout event', () => {
