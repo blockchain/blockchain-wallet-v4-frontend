@@ -41,16 +41,6 @@ const FormContainer = styled.div`
 const PersonalForm = styled(Form)`
   height: 100%;
 `
-const PersonalFormGroup = styled(FormGroup)`
-  width: 60%;
-  ${media.mobile`
-    width: 100%;
-    flex-direction: column;
-    div:first-of-type {
-      margin-bottom: 10px;
-    }
-  `};
-`
 const FaqFormMessage = styled(FaqMessage)`
   position: absolute;
   margin-top: 23px;
@@ -67,6 +57,25 @@ const FaqFormItem = styled(FormItem)`
   width: 60%;
   ${media.mobile`
     width: 100%;
+  `};
+`
+const PersonalItem = styled(FaqFormItem)`
+  display: flex;
+  flex-direction: row;
+  ${media.mobile`
+    flex-direction: column;
+  `};
+`
+const PersonalField = styled.div`
+  width: 100%;
+  :first-of-type {
+    margin-right: 15px;
+  }
+  ${media.mobile`
+    :first-of-type {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
   `};
 `
 const Footer = styled.div`
@@ -131,42 +140,62 @@ const Personal = ({
                 />
               </PartnerSubHeader>
               <FormContainer>
-                <PersonalFormGroup inline>
-                  <FaqFormItem>
-                    <Text
-                      size='14px'
-                      weight={400}
-                      style={{ marginBottom: '5px' }}
-                    >
-                      <FormattedMessage
-                        id='identityverification.personal.firstname'
-                        defaultMessage='First Name'
+                <FaqFormGroup>
+                  <PersonalItem>
+                    <PersonalField>
+                      <Text
+                        size='14px'
+                        weight={400}
+                        style={{ marginBottom: '5px' }}
+                      >
+                        <FormattedMessage
+                          id='identityverification.personal.firstname'
+                          defaultMessage='First Name'
+                        />
+                      </Text>
+                      <Field
+                        name='firstName'
+                        validate={[required]}
+                        component={TextBox}
                       />
-                    </Text>
-                    <Field
-                      name='firstName'
-                      validate={[required]}
-                      component={TextBox}
-                    />
-                  </FaqFormItem>
-                  <FaqFormItem>
-                    <Text
-                      size='14px'
-                      weight={400}
-                      style={{ marginBottom: '5px' }}
-                    >
-                      <FormattedMessage
-                        id='identityverification.personal.lastname'
-                        defaultMessage='Last Name'
+                    </PersonalField>
+                    <PersonalField>
+                      <Text
+                        size='14px'
+                        weight={400}
+                        style={{ marginBottom: '5px' }}
+                      >
+                        <FormattedMessage
+                          id='identityverification.personal.lastname'
+                          defaultMessage='Last Name'
+                        />
+                      </Text>
+                      <Field
+                        name='lastName'
+                        validate={[required]}
+                        component={TextBox}
                       />
-                    </Text>
-                    <Field
-                      name='lastName'
-                      validate={[required]}
-                      component={TextBox}
-                    />
-                  </FaqFormItem>
-                </PersonalFormGroup>
+                    </PersonalField>
+                  </PersonalItem>
+                  {(activeField === 'firstName' ||
+                    activeField === 'lastName') &&
+                    !mobile && (
+                      <FaqFormMessage
+                        title={
+                          <FormattedMessage
+                            id='identityverification.personal.faq.name.title'
+                            defaultMessage='First & Last Name'
+                          />
+                        }
+                        text={
+                          <FormattedMessage
+                            id='identityverification.personal.faq.name.text'
+                            defaultMessage='They should match exactly the details in your government issued ID, passport or driving license.'
+                          />
+                        }
+                      />
+                    )}
+                </FaqFormGroup>
                 <FaqFormGroup>
                   <FaqFormItem>
                     <Text
@@ -279,7 +308,7 @@ const Personal = ({
                     <EmailHelper error={true}>
                       <FormattedMessage
                         id='identityverification.personal.addressrefetch'
-                        defaultMessage='Ooops, address lookup failed. {retry}'
+                        defaultMessage='Oops, address lookup failed. {retry}'
                         values={{
                           retry: <a onClick={onPostCodeChange}>Try again?</a>
                         }}

@@ -1,4 +1,5 @@
 export default {
+  'arrow-switch': '\\e97e',
   'bitcoin-cash': '\\e977',
   'alert-filled': '\\e900',
   'bank-filled': '\\e901',
@@ -23,6 +24,9 @@ export default {
   'ethereum-filled': '\\e915',
   'exchange-2-filled': '\\e916',
   'exchange-filled': '\\e917',
+  'exchange-bch': '\\e97b',
+  'exchange-btc': '\\e97c',
+  'exchange-eth': '\\e97d',
   'gears-filled': '\\e918',
   'hamburger-menu': '\\e919',
   'home-filled': '\\e91a',
@@ -48,6 +52,7 @@ export default {
   'send-filled': '\\e92e',
   'settings-filled': '\\e92f',
   'shapeshift-switch': '\\e978',
+  'short-right-arrow': '\\e97f',
   'stack-of-coins-filled': '\\e930',
   'support-filled': '\\e931',
   'transactions-2-filled': '\\e932',
@@ -122,6 +127,7 @@ export default {
   'up-arrow': '\\e953',
   'user-id': '\\e954',
   user: '\\e955',
+  'vertical-arrow-switch': '\\e980',
   wallet: '\\e956',
   'open-in-new-tab': '\\e979'
 }
