@@ -20,6 +20,7 @@ import MobileLogin from './MobileLogin'
 import Onfido from './Onfido'
 import PairingCode from './PairingCode'
 import PromptInput from './PromptInput'
+import PromptLockbox from './PromptLockbox'
 import QRCode from './QRCode'
 import RecoveryPhrase from './RecoveryPhrase'
 import RequestBch from './RequestBch'
@@ -68,6 +69,7 @@ const Modals = props => (
     <Onfido />
     <PairingCode />
     <PromptInput />
+    <PromptLockbox />
     <QRCode />
     <RecoveryPhrase />
     <RequestBch />

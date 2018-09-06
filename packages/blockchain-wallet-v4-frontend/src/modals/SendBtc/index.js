@@ -8,7 +8,6 @@ import { actions, selectors } from 'data'
 import SendBitcoin from './template'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
-import ThirdStep from './ThirdStep'
 
 class SendBitcoinContainer extends React.PureComponent {
   componentDidMount () {
@@ -37,7 +36,6 @@ class SendBitcoinContainer extends React.PureComponent {
           <FirstStep to={to} description={description} amount={amount} />
         )}
         {step === 2 && <SecondStep />}
-        {step === 3 && <ThirdStep />}
       </SendBitcoin>
     )
   }
