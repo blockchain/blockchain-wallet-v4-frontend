@@ -136,8 +136,9 @@ workflows:
             - npm_install
       - coverage_report_to_coveralls:
           requires:
-            - test_core_components
-            - test_frontend
+            - coverage_core
+            - coverage_frontend
+            - coverage_components
 
   test_coverage:
     triggers:
