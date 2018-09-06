@@ -176,6 +176,7 @@ export default ({ api, coreSagas }) => {
   // new device setup saga
   const initializeNewDeviceSetup = function*() {
     try {
+      yield put(A.changeDeviceSetupStep('connect-device'))
       const setupTimeout = 1500000 // 25 min timeout for setup
       // TODO: poll for both Ledger and Blockchain type devices
       const deviceType = 'ledger'
@@ -193,7 +194,6 @@ export default ({ api, coreSagas }) => {
       const btcConnection = LockboxService.connections.createBtcBchConnection(
         transport
       )
-
       // derive device info such as chaincodes and xpubs
       const newDeviceInfo = yield call(
         LockboxService.accounts.deriveDeviceInfo,
@@ -226,8 +226,6 @@ export default ({ api, coreSagas }) => {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'initializeNewDeviceSetup', e)
       )
-    } finally {
-      yield put(A.changeDeviceSetupStep('setup-type'))
     }
   }
 

@@ -41,7 +41,7 @@ class AuthenticityCheckStepContainer extends React.PureComponent {
       Success: resp => (
         <AuthenticityCheckStep>
           <Row>
-            <Text size='14px' weight={400}>
+            <Text size='14px' weight={300}>
               {resp.isAuthentic ? (
                 <FormattedMessage
                   id='modals.lockboxsetup.authenticitycheck.authentic'
@@ -65,7 +65,7 @@ class AuthenticityCheckStepContainer extends React.PureComponent {
       Failure: () => (
         <AuthenticityCheckStep>
           <Row>
-            <Text size='14px' weight={400}>
+            <Text size='14px' weight={300}>
               <FormattedMessage
                 id='modals.lockboxsetup.authenticitycheck.failure'
                 defaultMessage='Failed to authenticate your device. Please contact support.'

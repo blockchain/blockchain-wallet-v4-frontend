@@ -21,7 +21,7 @@ class LockboxSetupContainer extends React.PureComponent {
     return (
       <LockboxSetup position={position} total={total} closeAll={closeAll}>
         {(!currentStep || currentStep === 'setup-type') && <SetupTypeStep />}
-        {currentStep === 'connect' && <ConnectDeviceStep />}
+        {currentStep === 'connect-device' && <ConnectDeviceStep />}
         {currentStep === 'authenticity-check' && (
           <AuthenticityCheckStep closeModal={closeAll} />
         )}
