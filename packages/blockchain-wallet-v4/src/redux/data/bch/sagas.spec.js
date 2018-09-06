@@ -250,7 +250,7 @@ describe('bch data sagas', () => {
     it('should call fetchBchData', () => {
       saga.next(mockContext).call(api.fetchBchData, mockContext, {
         n: 10,
-        onlyShow: payload.address,
+        onlyShow: fromCashAddr(payload.address),
         offset: 10
       })
     })
