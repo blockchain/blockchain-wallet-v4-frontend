@@ -83,6 +83,13 @@ export const setFirmwareInstalledInfo = info => ({
   type: AT.SET_FIRMWARE_INSTALLED_INFO,
   payload: { info }
 })
+export const setFirmwareLatestInfo = info => ({
+  type: AT.SET_FIRMWARE_LATEST_INFO,
+  payload: { info }
+})
+export const resetFirmwareInfo = () => ({
+  type: AT.RESET_FIRMWARE_INFO
+})
 export const updateDeviceFirmware = deviceID => ({
   type: AT.UPDATE_DEVICE_FIRMWARE,
   payload: { deviceID }

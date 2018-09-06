@@ -144,6 +144,7 @@ export default ({ api, coreSagas }) => {
   // new device setup saga
   const initializeNewDeviceSetup = function*() {
     try {
+      yield put(A.changeDeviceSetupStep('connect-device'))
       const setupTimeout = 1500000 // 25 min timeout for setup
       // TODO: poll for both Ledger and Blockchain type devices
       const deviceType = 'ledger'
@@ -253,30 +254,54 @@ export default ({ api, coreSagas }) => {
   const updateDeviceFirmware = function*(action) {
     try {
       const { deviceID } = action.payload
+      // clear out previous firmware info
+      yield put(A.resetFirmwareInfo())
+      // poll for device connection
       yield put(A.pollForDeviceApp('DASHBOARD', deviceID))
       yield take(AT.SET_CONNECTION_INFO)
       const { transport } = yield select(S.getCurrentConnection)
-      yield put(A.changeFirmwareUpdateStep('compare-versions-step'))
+      // get base device info
       const deviceInfo = yield call(
         LockboxService.firmware.getDeviceInfo,
         transport
       )
-      console.info(deviceInfo) // eslint-disable-line
       yield put(A.setFirmwareInstalledInfo(deviceInfo))
-      const res = yield call(
-        api.getDeviceVersion,
-        deviceInfo.providerId,
-        deviceInfo.targetId
+      // get full device info via api
+      const deviceVersion = yield call(api.getDeviceVersion, {
+        provider: deviceInfo.providerId,
+        target_id: deviceInfo.targetId
+      })
+      // get full firmware info via api
+      const seFirmwareVersion = yield call(api.getCurrentFirmware, {
+        device_version: deviceVersion.id,
+        version_name: deviceInfo.fullVersion,
+        provider: deviceInfo.providerId
+      })
+      // get next possible firmware info
+      const latestFirmware = yield call(api.getLatestFirmware, {
+        current_se_firmware_final_version: seFirmwareVersion.id,
+        device_version: deviceVersion.id,
+        provider: deviceInfo.providerId
+      })
+      yield put(
+        A.setFirmwareLatestInfo({
+          version: seFirmwareVersion.name,
+          deviceOutdated: latestFirmware.result !== 'null'
+        })
       )
-      console.info(res) // eslint-disable-line
-      // const firmwaresLatest = yield call(LockboxService.firmware.getLatestFirmwareInfo, firmwaresInstalled)
-      // debugger
+
+      // TODO: blocked until we get some outdated devices...
+      if (latestFirmware.result !== 'null') {
+        // device firmware is out of date
+        // lines 56-75 in helpers/devices/getLatestFirmwareForDevice.js
+        yield put(A.changeFirmwareUpdateStep('upgrade-firmware-step'))
+      }
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'updateDeviceFirmware', e)
       )
     } finally {
-      // yield put(A.changeFirmwareUpdateStep('device-connect-step'))
+      yield put(A.changeFirmwareUpdateStep('check-for-updates-step'))
     }
   }
 

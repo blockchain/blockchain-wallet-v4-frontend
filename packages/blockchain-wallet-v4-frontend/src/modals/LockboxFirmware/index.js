@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { actions, selectors } from 'data'
 
+import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import LockboxFirmware from './template'
-import OpenDashboardStep from './OpenDashboardStep'
-import CompareVersionsStep from './CompareVersionsStep'
+import CheckForUpdatesStep from './CheckForUpdatesStep'
+import UpgradeFirmwareStep from './UpgradeFirmwareStep'
 
 class LockboxFirmwareContainer extends React.PureComponent {
   render () {
@@ -15,15 +15,10 @@ class LockboxFirmwareContainer extends React.PureComponent {
 
     return (
       <LockboxFirmware position={position} total={total} closeAll={closeAll}>
-        {(!currentStep || currentStep === 'device-connect-step') && (
-          <OpenDashboardStep deviceId={deviceId} />
+        {(!currentStep || currentStep === 'check-for-updates-step') && (
+          <CheckForUpdatesStep deviceId={deviceId} />
         )}
-        {currentStep === 'compare-versions-step' && (<CompareVersionsStep />)}
-        {currentStep === 'device-up-to-date' && (
-          <div>Device is up to date!</div>
-        )}
-        {currentStep === 'start-update-step' && <div>Update found</div>}
-        {currentStep === 'firmware-updated-step' && <div>Update Complete</div>}
+        {currentStep === 'upgrade-firmware-step' && <UpgradeFirmwareStep />}
       </LockboxFirmware>
     )
   }
