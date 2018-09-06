@@ -1,4 +1,4 @@
-import { curry, lift, path, prop } from 'ramda'
+import { curry, lift, path, pathOr, prop } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { coreSelectors } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
@@ -18,21 +18,22 @@ export const getFirstStepEnabled = path([
 export const getSecondStep = path(['components', 'exchange', 'secondStep'])
 export const getThirdStep = path(['components', 'exchange', 'thirdStep'])
 
-const adviceToAmount = ({ base, counter }) => ({
-  sourceAmount: base.crypto.value,
-  targetAmount: counter.crypto.value,
-  sourceFiat: base.fiat.value,
-  targetFiat: counter.fiat.value
+const advicePath = pathOr(0)
+const adviceToAmount = advice => ({
+  sourceAmount: advicePath(['base', 'crypto', 'value'], advice),
+  targetAmount: advicePath(['counter', 'crypto', 'value'], advice),
+  sourceFiat: advicePath(['base', 'fiat', 'value'], advice),
+  targetFiat: advicePath(['counter', 'fiat', 'value'], advice)
 })
 export const getAmounts = curry((pair, state) =>
   selectors.modules.rates.getPairAdvice(pair, state).map(adviceToAmount)
 )
 
 const adviceToRate = advice => ({
-  sourceToTargetRate: advice.baseToCounterRate,
-  targetToSourceRate: advice.counterToBaseRate,
-  sourceToFiatRate: advice.baseToFiatRate,
-  targetToFiatRate: advice.counterToFiatRate
+  sourceToTargetRate: advicePath(['baseToCounterRate'], advice),
+  targetToSourceRate: advicePath(['counterToBaseRate'], advice),
+  sourceToFiatRate: advicePath(['baseToFiatRate'], advice),
+  targetToFiatRate: advicePath(['counterToFiatRate'], advice)
 })
 export const getRates = curry((pair, state) =>
   selectors.modules.rates.getPairAdvice(pair, state).map(adviceToRate)
