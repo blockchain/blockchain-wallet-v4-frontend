@@ -1,7 +1,8 @@
-import { keys, path, prop, map, flatten, filter, head } from 'ramda'
+import { any, curry, keys, path, prop, map, flatten, filter, head } from 'ramda'
 import { kvStorePath } from '../../paths'
 import { LOCKBOX } from '../config'
 
+// General
 export const getMetadata = path([kvStorePath, LOCKBOX])
 
 export const getDevices = state =>
@@ -17,6 +18,7 @@ export const getAccounts = state =>
 export const getDeviceName = (state, deviceId) =>
   getDevice(state, deviceId).map(prop('name'))
 
+// BTC
 export const getLockboxBtc = state => getAccounts(state).map(map(path(['btc'])))
 
 export const getLockboxBtcAccounts = state =>
@@ -35,6 +37,21 @@ export const getLockboxBtcAccount = (state, xpub) =>
     .map(filter(x => x.xpub === xpub))
     .map(head)
 
+export const getDeviceIdFromBtcXpubs = (state, xpubs) => {
+  const accountContainsXpubs = account =>
+    any(xpub => xpub === account.xpub, xpubs)
+  const deviceFilter = curry((devices, device) =>
+    any(
+      accountContainsXpubs,
+      path([device, 'accounts', 'btc', 'accounts'])(devices)
+    )
+  )
+  return getDevices(state).map(devices =>
+    filter(deviceFilter(devices), keys(devices))
+  )
+}
+
+// BCH
 export const getLockboxBch = state => getAccounts(state).map(map(path(['bch'])))
 
 export const getLockboxBchAccounts = state =>
@@ -53,6 +70,21 @@ export const getLockboxBchAccount = (state, xpub) =>
     .map(filter(x => x.xpub === xpub))
     .map(head)
 
+export const getDeviceIdFromBchXpubs = (state, xpubs) => {
+  const accountContainsXpubs = account =>
+    any(xpub => xpub === account.xpub, xpubs)
+  const deviceFilter = curry((devices, device) =>
+    any(
+      accountContainsXpubs,
+      path([device, 'accounts', 'bch', 'accounts'])(devices)
+    )
+  )
+  return getDevices(state).map(devices =>
+    filter(deviceFilter(devices), keys(devices))
+  )
+}
+
+// ETH
 export const getLockboxEth = state => getAccounts(state).map(map(path(['eth'])))
 
 export const getLockboxEthAccounts = state =>
@@ -69,4 +101,17 @@ export const getLockboxEthContext = state => {
   return getLockboxEthAccounts(state).map(accounts => {
     return accounts ? accounts.map(a => path(['addr'], a)) : []
   })
+}
+
+export const getDeviceIdFromEthAddr = (state, addr) => {
+  const accountContainsAddr = account => account.addr === addr
+  const deviceFilter = curry((devices, device) =>
+    any(
+      accountContainsAddr,
+      path([device, 'accounts', 'eth', 'accounts'])(devices)
+    )
+  )
+  return getDevices(state).map(devices =>
+    filter(deviceFilter(devices), keys(devices))
+  )
 }

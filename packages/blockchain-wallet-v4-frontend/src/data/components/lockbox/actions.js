@@ -25,6 +25,9 @@ export const setConnectionError = error => ({
   type: AT.SET_CONNECTION_ERROR,
   payload: { error }
 })
+export const setConnectionReady = () => ({
+  type: AT.SET_CONNECTION_READY
+})
 
 // NEW DEVICE SETUP
 export const initializeNewDeviceSetup = () => ({

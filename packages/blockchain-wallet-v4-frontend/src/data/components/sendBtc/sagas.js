@@ -1,13 +1,12 @@
-import { call, select, put, take } from 'redux-saga/effects'
+import { call, select, put } from 'redux-saga/effects'
 import { equals, path, prop, nth, is, identity } from 'ramda'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
-import * as actionTypes from '../../actionTypes'
 import * as selectors from '../../selectors'
 import { initialize, change } from 'redux-form'
 import * as C from 'services/AlertService'
-import { promptForSecondPassword } from 'services/SagaService'
+import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
@@ -289,18 +288,24 @@ export default ({ coreSagas, networks }) => {
         payment: p.getOrElse({}),
         network: networks.btc
       })
-      let password = null
       if (p.getOrElse({}).fromType !== ADDRESS_TYPES.LOCKBOX) {
-        password = yield call(promptForSecondPassword)
+        let password = yield call(promptForSecondPassword)
+        payment = yield payment.sign(password)
       } else {
-        // TODO: must pass in deviceId!!
-        yield put(actions.components.lockbox.pollForDeviceApp('BTC', null))
-        yield take(actionTypes.components.lockbox.SET_CONNECTION_INFO)
-        // BTC app connected
+        const deviceIdR = yield select(
+          selectors.core.kvStore.lockbox.getDeviceIdFromBtcXpubs,
+          prop('from', p.getOrElse({}))
+        )
+        const deviceId = deviceIdR.getOrFail('missing_device')
+        yield call(promptForLockbox, 'BTC', deviceId)
+        let connection = yield select(
+          selectors.components.lockbox.getCurrentConnection
+        )
+        let transport = prop('transport', connection)
+        payment = yield payment.sign(null, transport)
       }
-      yield put(actions.modals.closeAllModals())
-      payment = yield payment.sign(password)
       payment = yield payment.publish()
+      yield put(actions.modals.closeAllModals())
       yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
       yield put(actions.core.data.bitcoin.fetchData())
       if (path(['description', 'length'], payment.value())) {
@@ -318,6 +323,7 @@ export default ({ coreSagas, networks }) => {
         actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e)
       )
       yield put(actions.alerts.displayError(C.SEND_BTC_ERROR))
+      yield put(actions.modals.closeAllModals())
     }
   }
 

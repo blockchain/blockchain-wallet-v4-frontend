@@ -3,7 +3,6 @@ import EthereumTx from 'ethereumjs-tx'
 import * as eth from '../utils/eth'
 import Task from 'data.task'
 import { curry } from 'ramda'
-import TransportU2F from '@ledgerhq/hw-transport-u2f'
 import Eth from '@ledgerhq/hw-app-eth'
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -32,7 +31,7 @@ export const sign = curry((network = 1, mnemonic, data) => {
   return Task.of(rawTx)
 })
 
-export const signLockbox = function*(network = 1, data) {
+export const signWithLockbox = function*(network = 1, transport, data) {
   const { to, amount, nonce, gasPrice, gasLimit } = data
   const txParams = {
     to,
@@ -47,7 +46,6 @@ export const signLockbox = function*(network = 1, data) {
   }
   const tx = new EthereumTx(txParams)
   const rawTx = tx.serialize().toString('hex')
-  const transport = yield TransportU2F.create()
   const eth = new Eth(transport)
   const signature = yield eth.signTransaction("44'/60'/0'/0", rawTx)
   return serialize(network, data, signature)
