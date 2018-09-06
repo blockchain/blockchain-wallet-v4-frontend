@@ -131,7 +131,7 @@ describe('App Store Config', () => {
     expect(ApiSocket).toHaveBeenCalledTimes(1)
     expect(ApiSocket).toHaveBeenCalledWith({
       options: fakeWalletOptions,
-      url: `${fakeWalletOptions.domains.webSocket}/nabu-app/markets/quotes`,
+      url: `${fakeWalletOptions.domains.webSocket}/nabu-gateway/markets/quotes`,
       maxReconnects: 3
     })
     // build api

@@ -4,7 +4,8 @@ import * as AT from './actionTypes'
 
 export const INITIAL_STATE = {
   onfidoSDKKey: Remote.NotAsked,
-  onfidoSyncStatus: Remote.NotAsked
+  onfidoSyncStatus: Remote.NotAsked,
+  applicantId: ''
 }
 
 export default (state = INITIAL_STATE, action) => {

@@ -395,13 +395,13 @@ export default ({ coreSagas, networks }) => {
     try {
       const modals = yield select(selectors.modals.getModals)
       const tradeR = yield select(selectors.core.data.coinify.getTrade)
-      const trade = tradeR.getOrFail('No trade found')
+      const trade = tradeR.getOrElse({})
 
       if (path(['type'], head(modals)) === 'CoinifyExchangeData') {
         yield put(A.coinifySignupComplete())
         yield call(delay, 500)
         yield put(actions.modals.closeAllModals())
-      } else if (trade.constructor.name !== 'Trade') {
+      } else if (path(['constructor', 'name'], trade) !== 'Trade') {
         yield put(actions.form.change('buySellTabStatus', 'status', 'buy'))
       } else {
         yield put(
@@ -493,11 +493,11 @@ export default ({ coreSagas, networks }) => {
   const cancelISX = function*() {
     const modals = yield select(selectors.modals.getModals)
     const tradeR = yield select(selectors.core.data.coinify.getTrade)
-    const trade = tradeR.getOrFail('No trade found')
+    const trade = tradeR.getOrElse({})
 
     if (path(['type'], head(modals)) === 'CoinifyExchangeData') {
       yield put(actions.modals.closeAllModals())
-    } else if (trade.state === 'awaiting_transfer_in') {
+    } else if (prop('state', trade) === 'awaiting_transfer_in') {
       yield put(
         actions.form.change('buySellTabStatus', 'status', 'order_history')
       )

@@ -110,14 +110,14 @@ class CoinifyExchangeData extends React.PureComponent {
 
 CoinifyExchangeData.propTypes = {
   step: PropTypes.oneOf(['account', 'isx', 'confirm', 'order', 'payment']),
-  close: PropTypes.function
+  close: PropTypes.func
 }
 
 const mapStateToProps = state => ({
   data: getData(state),
   signupStep: path(['coinify', 'signupStep'], state),
   signupComplete: path(['coinify', 'signupComplete'], state),
-  trade: selectors.core.data.coinify.getTrade(state).getOrElse()
+  trade: selectors.core.data.coinify.getTrade(state).getOrElse({})
 })
 
 const enhance = compose(

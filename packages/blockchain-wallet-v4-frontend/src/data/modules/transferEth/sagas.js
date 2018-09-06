@@ -5,6 +5,8 @@ import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import settings from 'config'
 
+export const logLocation = 'modules/transferEth/sagas'
+
 export default ({ coreSagas }) => {
   const confirmTransferEth = function*(action) {
     try {
@@ -24,6 +26,9 @@ export default ({ coreSagas }) => {
       yield put(actions.router.push('/eth/transactions'))
       yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
     } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'confirmTransferEth', e)
+      )
       yield put(actions.alerts.displayError(C.SEND_ETH_ERROR))
     }
   }
