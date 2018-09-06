@@ -3,6 +3,7 @@ import * as selectors from '../selectors.js'
 import * as actions from '../actions'
 import * as actionTypes from '../actionTypes'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { path, toLower, test } from 'ramda'
 
 export const logLocation = 'analytics/sagas'
 
@@ -64,7 +65,31 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const logLeftNavClick = function*(payload) {
+    const { event } = payload
+    try {
+      event.persist()
+      const text = toLower(path(['target', 'textContent'], event))
+
+      if (test(/dashboard/, text)) return yield call(api.logClick, 'dashboard')
+      if (test(/^bitcoin$/, text)) return yield call(api.logClick, 'btc')
+      if (test(/ether/, text)) return yield call(api.logClick, 'eth')
+      if (test(/cash/, text)) return yield call(api.logClick, 'bch')
+      if (test(/(buy|sell)/, text)) return yield call(api.logClick, 'buysell')
+      if (test(/exchange/, text)) return yield call(api.logClick, 'exchange')
+      if (test(/security/, text)) return yield call(api.logClick, 'security')
+      if (test(/settings/, text)) return yield call(api.logClick, 'settings')
+      if (test(/general/, text)) return yield call(api.logClick, 'settings_general')
+      if (test(/profile/, text)) return yield call(api.logClick, 'settings_profile')
+      if (test(/preferences/, text)) return yield call(api.logClick, 'settings_preferences')
+      if (test(/wallets/, text)) return yield call(api.logClick, 'settings_wallets')
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'logLeftNavClick', e))
+    }
+  }
+
   return {
+    logLeftNavClick,
     reportBalanceStats
   }
 }

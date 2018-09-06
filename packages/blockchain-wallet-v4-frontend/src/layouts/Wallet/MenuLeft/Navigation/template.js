@@ -73,6 +73,7 @@ const SubMenuItem = styled.li`
 
 const Navigation = props => {
   const {
+    logClick,
     menuOpened,
     settingsOpened,
     handleCloseMenu,
@@ -84,7 +85,7 @@ const Navigation = props => {
 
   return (
     <Wrapper {...rest}>
-      <Menu>
+      <Menu onClick={logClick}>
         <LinkContainer to='/home' activeClassName='active'>
           <MenuItem>
             <Icon name='home' />
