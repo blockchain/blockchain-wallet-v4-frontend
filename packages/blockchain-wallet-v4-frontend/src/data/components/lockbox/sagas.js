@@ -149,10 +149,34 @@ export default ({ api, coreSagas }) => {
       const deviceType = 'ledger'
       yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType, setupTimeout))
       yield take(AT.SET_CONNECTION_INFO)
-      yield put(A.changeDeviceSetupStep('open-btc-app'))
-      yield put(A.pollForDeviceApp('BTC', null, deviceType))
-      yield take(AT.SET_CONNECTION_INFO)
+      // check device authenticity
+      yield put(A.changeDeviceSetupStep('authenticity-check'))
+      yield put(A.setNewDeviceAuthenticityLoading())
       const { transport } = yield select(S.getCurrentConnection)
+      // get base device info
+      const deviceInfo = yield call(
+        LockboxService.firmware.getDeviceInfo,
+        transport
+      )
+      // get full device info via api
+      const deviceVersion = yield call(api.getDeviceVersion, {
+        provider: deviceInfo.providerId,
+        target_id: deviceInfo.targetId
+      })
+      // get full firmware info via api
+      // eslint-disable-next-line
+      const firmware = yield call(api.getCurrentFirmware, {
+        device_version: deviceVersion.id,
+        version_name: deviceInfo.fullVersion,
+        provider: deviceInfo.providerId
+      })
+      // TODO: temp flag device as valid
+      yield put(A.setNewDeviceAuthenticitySuccess(true))
+      // wait for user to continue
+      yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
+      yield put(A.pollForDeviceApp('BTC', null, deviceType))
+      // wait for BTC connection
+      yield take(AT.SET_CONNECTION_INFO)
       const btcConnection = LockboxService.connections.createBtcBchConnection(
         transport
       )
@@ -182,8 +206,7 @@ export default ({ api, coreSagas }) => {
       if (contains(newDeviceId)(keysIn(storedDevices))) {
         yield put(A.changeDeviceSetupStep('duplicate-device'))
       } else {
-        yield put(A.changeDeviceSetupStep('authenticity-check'))
-        // yield put(A.changeDeviceSetupStep('name-device'))
+        yield put(A.changeDeviceSetupStep('name-device'))
       }
     } catch (e) {
       // TODO: more error handling

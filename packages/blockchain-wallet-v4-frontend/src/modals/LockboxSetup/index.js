@@ -22,10 +22,12 @@ class LockboxSetupContainer extends React.PureComponent {
       <LockboxSetup position={position} total={total} closeAll={closeAll}>
         {(!currentStep || currentStep === 'setup-type') && <SetupTypeStep />}
         {currentStep === 'connect' && <ConnectDeviceStep />}
-        {currentStep === 'duplicate-device' && <DuplicateDeviceStep />}
-        {currentStep === 'authenticity-check' && <AuthenticityCheckStep />}
-        {currentStep === 'name-device' && <NameDeviceStep />}
+        {currentStep === 'authenticity-check' && (
+          <AuthenticityCheckStep closeModal={closeAll} />
+        )}
         {currentStep === 'open-btc-app' && <OpenBtcAppStep />}
+        {currentStep === 'duplicate-device' && <DuplicateDeviceStep />}
+        {currentStep === 'name-device' && <NameDeviceStep />}
       </LockboxSetup>
     )
   }

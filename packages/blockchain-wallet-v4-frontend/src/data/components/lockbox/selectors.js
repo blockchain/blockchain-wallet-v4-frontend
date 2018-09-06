@@ -7,6 +7,12 @@ export const getNewDeviceSetupStep = path([
   'newDeviceSetup',
   'currentStep'
 ])
+export const getNewDeviceAuthenticity = path([
+  'components',
+  'lockbox',
+  'newDeviceSetup',
+  'isAuthentic'
+])
 export const getNewDeviceInfo = path([
   'components',
   'lockbox',
