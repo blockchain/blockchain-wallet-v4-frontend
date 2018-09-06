@@ -1,4 +1,4 @@
-import { call, put, select } from 'redux-saga/effects'
+import { call, put, select, all } from 'redux-saga/effects'
 import { equals, flip, keys, path, prop } from 'ramda'
 
 import { actions, selectors, model } from 'data'
@@ -214,6 +214,20 @@ export default ({ api, coreSagas, options, networks }) => {
     }
   }
 
+  const clearSubscriptions = function*() {
+    const pairs = yield select(selectors.modules.rates.getActivePairs)
+    yield all(
+      pairs.map(({ pair }) =>
+        put(actions.modules.rates.unsubscribeFromAdvice(pair))
+      )
+    )
+    yield all(
+      pairs.map(({ pair }) => put(actions.modules.rates.removeAdvice(pair)))
+    )
+    yield put(actions.modules.rates.unsubscribeFromRates())
+    yield put(actions.form.reset(EXCHANGE_FORM))
+  }
+
   return {
     exchangeFormInitialized,
     changeSource,
@@ -223,6 +237,7 @@ export default ({ api, coreSagas, options, networks }) => {
     changeSourceFiatAmount,
     changeTargetFiatAmount,
     changeFix,
-    confirm
+    confirm,
+    clearSubscriptions
   }
 }
