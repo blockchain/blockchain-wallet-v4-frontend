@@ -1311,7 +1311,7 @@ describe('coinifySagas', () => {
       }
       let saga = testSaga(handleRecurringFormChange, action)
 
-      it('should set show modal to true', () => {
+      it('should dispatch an action to set the recurring trade frequency', () => {
         saga.next().put(coinifyActions.setRecurringTradeFrequency(action.payload))
       })
     })

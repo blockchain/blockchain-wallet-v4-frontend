@@ -208,7 +208,7 @@ describe('CoinifyService', () => {
         'Your purchase is currently being processed. Our exchange partner will send a status update your way within 1 business day.'
       )
     })
-    it('should return the correct text for completed status', () => {
+    it('should return null for completed status', () => {
       const status = CoinifyService.bodyStatusHelper('completed', 'buy')
       expect(status.text).toEqual(
         null
