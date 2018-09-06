@@ -10,7 +10,7 @@ import modalsReducer from 'data/modals/reducers'
 import profileReducer from 'data/modules/profile/reducers'
 import { eeaCountryCodes } from 'services/IdentityVerificationService'
 import {
-  getInvitations,
+  getInvited,
   getCountryCode
 } from 'blockchain-wallet-v4/src/redux/settings/selectors'
 import { getCanTrade } from 'data/exchange/selectors'
@@ -26,7 +26,7 @@ const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 jest.mock('data/exchange/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/settings/selectors')
 getCanTrade.mockImplementation(() => Remote.of(true))
-getInvitations.mockImplementation(() => Remote.of({ kyc: true }))
+getInvited.mockImplementation(() => Remote.of({ kyc: true }))
 getCountryCode.mockImplementation(() => head(eeaCountryCodes))
 
 const BuySellStub = () => <div />
@@ -59,7 +59,7 @@ describe('Profile Settings', () => {
 
   describe('user flow not supported', () => {
     it('should render null when not invited', () => {
-      getInvitations.mockImplementationOnce(() => Remote.of({ kyc: false }))
+      getInvited.mockImplementationOnce(() => Remote.of({ kyc: false }))
       wrapper.unmount()
       wrapper.mount()
       expect(wrapper.find(Profile).children().length).toBe(0)

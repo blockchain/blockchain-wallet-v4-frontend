@@ -17,7 +17,7 @@ export const isCountrySupported = countryCode =>
   contains(countryCode, eeaCountryCodes)
 
 export const invitedToKyc = state =>
-  selectors.core.settings.getInvitations(state).map(prop('kyc'))
+  selectors.core.settings.getInvited(state).map(prop('kyc'))
 export const countrySupportsKyc = state => Remote.of(true)
 // Remote.of(selectors.core.settings.getCountryCode(state)).map(
 //   isCountrySupported
