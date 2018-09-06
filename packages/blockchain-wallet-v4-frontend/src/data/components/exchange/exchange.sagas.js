@@ -169,19 +169,24 @@ export default ({ api, coreSagas, options, networks }) => {
       const form = yield select(formValueSelector)
       const { fix, source, target } = form
       const sourceCoin = source.coin
-      const targetCoin = source.coin
+      const targetCoin = target.coin
       const pair = formatPair(sourceCoin, targetCoin)
-      const fieldName = mapFixToFieldName(fix)
-      const volume = form[fieldName]
-      const fiatCurrency = (yield select(
-        selectors.core.settings.getCurrency
+      const amounts = (yield select(S.getAmounts(pair))).getOrFail()
+      const { fiatCurrency } = (yield select(
+        selectors.modules.rates.getPairConfig(pair)
       )).getOrFail()
+      const fieldName = mapFixToFieldName(fix)
+      const coinField = flip(prop)({
+        sourceAmount: 'sourceAmount',
+        targetAmount: 'targetAmount',
+        sourceFiat: 'sourceAmount',
+        targetFiat: 'targetAmount'
+      })(fieldName)
+      const volume = amounts[coinField]
       const currency = flip(prop)({
         sourceAmount: sourceCoin,
-        targetAmount: targetCoin,
-        sourceFiat: fiatCurrency,
-        targetFiat: fiatCurrency
-      })(fieldName)
+        targetAmount: targetCoin
+      })(coinField)
 
       const refundAddress = yield call(selectReceiveAddress, source, networks)
       const destinationAddress = yield call(
