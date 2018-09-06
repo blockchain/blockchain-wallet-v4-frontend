@@ -25,6 +25,10 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.DELETE_DEVICE, lockboxSagas.deleteDevice)
     yield takeLatest(AT.POLL_FOR_DEVICE_APP, lockboxSagas.pollForDeviceApp)
     yield takeLatest(
+      AT.CHECK_DEVICE_AUTHENTICITY,
+      lockboxSagas.checkDeviceAuthenticity
+    )
+    yield takeLatest(
       AT.UPDATE_DEVICE_FIRMWARE,
       lockboxSagas.updateDeviceFirmware
     )

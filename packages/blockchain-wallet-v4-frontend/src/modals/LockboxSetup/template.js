@@ -9,7 +9,7 @@ const LockboxSetup = props => (
     <ModalHeader icon='lock' onClose={props.closeAll}>
       <FormattedMessage
         id='modals.lockboxsetup.title'
-        defaultMessage='Get started with your Lockbox'
+        defaultMessage='Lockbox Setup'
       />
     </ModalHeader>
     <ModalBody>{props.children}</ModalBody>

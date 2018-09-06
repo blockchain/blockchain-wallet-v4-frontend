@@ -39,6 +39,20 @@ export const changeDeviceSetupStep = step => ({
   type: AT.SET_NEW_DEVICE_SETUP_STEP,
   payload: { step }
 })
+export const checkDeviceAuthenticity = () => ({
+  type: AT.CHECK_DEVICE_AUTHENTICITY
+})
+export const checkDeviceAuthenticityLoading = () => ({
+  type: AT.CHECK_DEVICE_AUTHENTICITY_LOADING
+})
+export const checkDeviceAuthenticityFailure = failure => ({
+  type: AT.CHECK_DEVICE_AUTHENTICITY_FAILURE,
+  payload: { failure }
+})
+export const checkDeviceAuthenticitySuccess = isAuthentic => ({
+  type: AT.CHECK_DEVICE_AUTHENTICITY_SUCCESS,
+  payload: { isAuthentic }
+})
 export const setNewDeviceInfo = deviceInfo => ({
   type: AT.SET_NEW_DEVICE_INFO,
   payload: { deviceInfo }

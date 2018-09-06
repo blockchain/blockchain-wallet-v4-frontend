@@ -6,7 +6,8 @@ const INITIAL_STATE = {
   connection: {},
   firmware: {},
   newDeviceSetup: {
-    device: Remote.NotAsked
+    device: Remote.NotAsked,
+    isAuthentic: Remote.NotAsked
   }
 }
 
@@ -19,6 +20,23 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.SET_NEW_DEVICE_SETUP_STEP: {
       return assocPath(['newDeviceSetup', 'currentStep'], payload.step, state)
+    }
+    case AT.CHECK_DEVICE_AUTHENTICITY_LOADING: {
+      return assocPath(['newDeviceSetup', 'isAuthentic'], Remote.Loading, state)
+    }
+    case AT.CHECK_DEVICE_AUTHENTICITY_FAILURE: {
+      return assocPath(
+        ['newDeviceSetup', 'isAuthentic'],
+        Remote.Failure(payload),
+        state
+      )
+    }
+    case AT.CHECK_DEVICE_AUTHENTICITY_SUCCESS: {
+      return assocPath(
+        ['newDeviceSetup', 'isAuthentic'],
+        Remote.Success(payload),
+        state
+      )
     }
     case AT.SET_FIRMWARE_UPDATE_STEP: {
       return assocPath(['firmware', 'step'], payload.step, state)

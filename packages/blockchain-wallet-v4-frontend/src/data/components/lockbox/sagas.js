@@ -56,6 +56,42 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  // determines if lockbox is authentic
+  const checkDeviceAuthenticity = function*() {
+    try {
+      yield put(A.checkDeviceAuthenticityLoading())
+      const { transport } = yield select(S.getCurrentConnection)
+      // get base device info
+      const deviceInfo = yield call(
+        LockboxService.firmware.getDeviceInfo,
+        transport
+      )
+      // get full device info via api
+      const deviceVersion = yield call(api.getDeviceVersion, {
+        provider: deviceInfo.providerId,
+        target_id: deviceInfo.targetId
+      })
+      // get full firmware info via api
+      const firmware = yield call(api.getCurrentFirmware, {
+        device_version: deviceVersion.id,
+        version_name: deviceInfo.fullVersion,
+        provider: deviceInfo.providerId
+      })
+      // open socket and check if device is authentic
+      const isDeviceAuthentic = yield call(
+        LockboxService.firmware.checkDeviceAuthenticity,
+        transport,
+        firmware.perso
+      )
+      yield put(A.checkDeviceAuthenticitySuccess(isDeviceAuthentic))
+    } catch (e) {
+      yield put(A.checkDeviceAuthenticityFailure(e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'checkDeviceAuthenticity', e)
+      )
+    }
+  }
+
   // determines if lockbox is setup and routes app accordingly
   const determineLockboxRoute = function*() {
     try {
@@ -150,15 +186,18 @@ export default ({ api, coreSagas }) => {
       const deviceType = 'ledger'
       yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType, setupTimeout))
       yield take(AT.SET_CONNECTION_INFO)
-      yield put(A.changeDeviceSetupStep('open-btc-app'))
+      // check device authenticity
+      yield put(A.changeDeviceSetupStep('authenticity-check'))
+      yield put(A.checkDeviceAuthenticity())
+      yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
+      // wait for BTC connection
       yield put(A.pollForDeviceApp('BTC', null, deviceType))
       yield take(AT.SET_CONNECTION_INFO)
       const { transport } = yield select(S.getCurrentConnection)
       const btcConnection = LockboxService.connections.createBtcBchConnection(
         transport
       )
-
-      // derive device info such as chaincodes and xpubs
+      // derive device info (chaincodes and xpubs)
       const newDeviceInfo = yield call(
         LockboxService.accounts.deriveDeviceInfo,
         btcConnection
@@ -186,7 +225,7 @@ export default ({ api, coreSagas }) => {
         yield put(A.changeDeviceSetupStep('name-device'))
       }
     } catch (e) {
-      // TODO: more error handling
+      // TODO: better error handling, display error, close modal
       yield put(
         actions.logs.logErrorMessage(logLocation, 'initializeNewDeviceSetup', e)
       )
@@ -250,6 +289,7 @@ export default ({ api, coreSagas }) => {
       )
     )
   }
+
   // update device firmware saga
   const updateDeviceFirmware = function*(action) {
     try {
@@ -306,6 +346,7 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
+    checkDeviceAuthenticity,
     deleteDevice,
     determineLockboxRoute,
     initializeDashboard,
