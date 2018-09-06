@@ -56,6 +56,38 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  // determines if lockbox is authentic
+  const checkDeviceAuthenticity = function*() {
+    try {
+      yield put(A.checkDeviceAuthenticityLoading())
+      const { transport } = yield select(S.getCurrentConnection)
+      // get base device info
+      const deviceInfo = yield call(
+        LockboxService.firmware.getDeviceInfo,
+        transport
+      )
+      // get full device info via api
+      const deviceVersion = yield call(api.getDeviceVersion, {
+        provider: deviceInfo.providerId,
+        target_id: deviceInfo.targetId
+      })
+      // get full firmware info via api
+      // eslint-disable-next-line
+      const firmware = yield call(api.getCurrentFirmware, {
+        device_version: deviceVersion.id,
+        version_name: deviceInfo.fullVersion,
+        provider: deviceInfo.providerId
+      })
+      // TODO: temp flag device as valid
+      yield put(A.checkDeviceAuthenticitySuccess(true))
+    } catch (e) {
+      yield put(A.checkDeviceAuthenticityFailure(e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'checkDeviceAuthenticity', e)
+      )
+    }
+  }
+
   // determines if lockbox is setup and routes app accordingly
   const determineLockboxRoute = function*() {
     try {
@@ -151,32 +183,13 @@ export default ({ api, coreSagas }) => {
       yield take(AT.SET_CONNECTION_INFO)
       // check device authenticity
       yield put(A.changeDeviceSetupStep('authenticity-check'))
-      yield put(A.setNewDeviceAuthenticityLoading())
-      const { transport } = yield select(S.getCurrentConnection)
-      // get base device info
-      const deviceInfo = yield call(
-        LockboxService.firmware.getDeviceInfo,
-        transport
-      )
-      // get full device info via api
-      const deviceVersion = yield call(api.getDeviceVersion, {
-        provider: deviceInfo.providerId,
-        target_id: deviceInfo.targetId
-      })
-      // get full firmware info via api
-      // eslint-disable-next-line
-      const firmware = yield call(api.getCurrentFirmware, {
-        device_version: deviceVersion.id,
-        version_name: deviceInfo.fullVersion,
-        provider: deviceInfo.providerId
-      })
-      // TODO: temp flag device as valid
-      yield put(A.setNewDeviceAuthenticitySuccess(true))
+      yield put(A.checkDeviceAuthenticity())
       // wait for user to continue
       yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
-      yield put(A.pollForDeviceApp('BTC', null, deviceType))
       // wait for BTC connection
+      yield put(A.pollForDeviceApp('BTC', null, deviceType))
       yield take(AT.SET_CONNECTION_INFO)
+      const { transport } = yield select(S.getCurrentConnection)
       const btcConnection = LockboxService.connections.createBtcBchConnection(
         transport
       )
@@ -209,10 +222,12 @@ export default ({ api, coreSagas }) => {
         yield put(A.changeDeviceSetupStep('name-device'))
       }
     } catch (e) {
-      // TODO: more error handling
+      // TODO: better error handling, display error, close modal
       yield put(
         actions.logs.logErrorMessage(logLocation, 'initializeNewDeviceSetup', e)
       )
+    } finally {
+      yield put(A.changeDeviceSetupStep('setup-type'))
     }
   }
 
@@ -273,6 +288,7 @@ export default ({ api, coreSagas }) => {
       )
     )
   }
+
   // update device firmware saga
   const updateDeviceFirmware = function*(action) {
     try {
@@ -329,6 +345,7 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
+    checkDeviceAuthenticity,
     deleteDevice,
     determineLockboxRoute,
     initializeDashboard,

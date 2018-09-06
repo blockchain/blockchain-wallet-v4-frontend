@@ -21,17 +21,17 @@ export default (state = INITIAL_STATE, action) => {
     case AT.SET_NEW_DEVICE_SETUP_STEP: {
       return assocPath(['newDeviceSetup', 'currentStep'], payload.step, state)
     }
-    case AT.SET_NEW_DEVICE_AUTHENTICITY_LOADING: {
+    case AT.CHECK_DEVICE_AUTHENTICITY_LOADING: {
       return assocPath(['newDeviceSetup', 'isAuthentic'], Remote.Loading, state)
     }
-    case AT.SET_NEW_DEVICE_AUTHENTICITY_FAILURE: {
+    case AT.CHECK_DEVICE_AUTHENTICITY_FAILURE: {
       return assocPath(
         ['newDeviceSetup', 'isAuthentic'],
         Remote.Failure(payload),
         state
       )
     }
-    case AT.SET_NEW_DEVICE_AUTHENTICITY_SUCCESS: {
+    case AT.CHECK_DEVICE_AUTHENTICITY_SUCCESS: {
       return assocPath(
         ['newDeviceSetup', 'isAuthentic'],
         Remote.Success(payload),
