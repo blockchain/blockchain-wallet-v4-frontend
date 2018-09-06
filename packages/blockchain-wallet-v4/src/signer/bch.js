@@ -5,7 +5,6 @@ import * as Coin from '../coinSelection/coin.js'
 // import { isFromAccount } from '../coinSelection'
 import { fromCashAddr, isCashAddr } from '../utils/bch'
 import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
-import Transport from '@ledgerhq/hw-transport-u2f'
 import Btc from '@ledgerhq/hw-app-btc'
 
 export const signSelection = curry((network, selection) => {
@@ -75,8 +74,7 @@ export const signWithWIF = curry((network, selection) =>
   )(selection)
 )
 
-export const signWithLedger = function*(selection, api) {
-  const transport = yield Transport.create()
+export const signWithLedger = function*(selection, transport, api) {
   const BTC = new Btc(transport)
   let inputs = []
   let paths = []

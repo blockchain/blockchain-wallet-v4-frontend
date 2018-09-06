@@ -50,7 +50,7 @@ export default ({ api }) => {
     return destination
   }
 
-  const calculateSignature = function*(network, password, raw) {
+  const calculateSignature = function*(network, password, transport, raw) {
     switch (raw.fromType) {
       case ADDRESS_TYPES.ACCOUNT: {
         const appState = yield select(identity)
@@ -60,7 +60,7 @@ export default ({ api }) => {
         return yield call(sign, raw)
       }
       case ADDRESS_TYPES.LOCKBOX: {
-        return yield call(eth.signLockbox, network, raw)
+        return yield call(eth.signWithLockbox, network, transport, raw)
       }
     }
   }
@@ -208,12 +208,13 @@ export default ({ api }) => {
         return makePayment(merge(p, { raw }))
       },
 
-      *sign (password) {
+      *sign (password, transport) {
         try {
           const signed = yield call(
             calculateSignature,
             network,
             password,
+            transport,
             p.raw
           )
           return makePayment(merge(p, { signed }))

@@ -63,8 +63,3 @@ export const sendBtcSecondStepSubmitClicked = () => ({
 export const sendBtcSecondStepCancelClicked = () => ({
   type: AT.SEND_BTC_SECOND_STEP_CANCEL_CLICKED
 })
-
-export const sendBtcAwaitLockbox = val => ({
-  type: AT.SEND_BTC_AWAIT_LOCKBOX,
-  payload: val
-})

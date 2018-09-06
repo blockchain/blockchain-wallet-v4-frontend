@@ -8,7 +8,7 @@ import * as selectors from '../../selectors'
 import settings from 'config'
 import { initialize, change } from 'redux-form'
 import * as C from 'services/AlertService'
-import { promptForSecondPassword } from 'services/SagaService'
+import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
@@ -155,18 +155,24 @@ export default ({ coreSagas }) => {
         payment: p.getOrElse({}),
         network: settings.NETWORK_ETH
       })
-      let password = null
       if (p.getOrElse({}).from.type !== ADDRESS_TYPES.LOCKBOX) {
-        password = yield call(promptForSecondPassword)
+        let password = yield call(promptForSecondPassword)
+        payment = yield payment.sign(password)
       } else {
-        // TODO: must pass in deviceId!!
-        yield put(actions.components.lockbox.pollForDeviceApp('ETH', null))
-        yield take(actionTypes.components.lockbox.SET_CONNECTION_INFO)
-        // ETH app connected
+        const deviceIdR = yield select(
+          selectors.core.kvStore.lockbox.getDeviceIdFromEthAddr,
+          path(['from', 'address'], p.getOrElse({}))
+        )
+        const deviceId = deviceIdR.getOrFail('missing_device')
+        yield call(promptForLockbox, 'ETH', deviceId)
+        let connection = yield select(
+          selectors.components.lockbox.getCurrentConnection
+        )
+        let transport = prop('transport', connection)
+        payment = yield payment.sign(null, transport)
       }
-      yield put(actions.modals.closeAllModals())
-      payment = yield payment.sign(password)
       payment = yield payment.publish()
+      yield put(actions.modals.closeAllModals())
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
       yield put(
         actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now())

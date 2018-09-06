@@ -293,7 +293,7 @@ export default ({ coreSagas, networks }) => {
         payment = yield payment.sign(password)
       } else {
         const deviceIdR = yield select(
-          selectors.core.kvStore.lockbox.getDeviceIdFromXpubs,
+          selectors.core.kvStore.lockbox.getDeviceIdFromBtcXpubs,
           prop('from', p.getOrElse({}))
         )
         const deviceId = deviceIdR.getOrFail('missing_device')

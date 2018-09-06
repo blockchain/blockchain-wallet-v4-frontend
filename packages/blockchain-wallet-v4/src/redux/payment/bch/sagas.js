@@ -224,7 +224,13 @@ export default ({ api }) => {
   }
 
   // ///////////////////////////////////////////////////////////////////////////
-  const calculateSignature = function*(network, password, fromType, selection) {
+  const calculateSignature = function*(
+    network,
+    password,
+    transport,
+    fromType,
+    selection
+  ) {
     if (!selection) {
       throw new Error('missing_selection')
     }
@@ -242,7 +248,7 @@ export default ({ api }) => {
       case ADDRESS_TYPES.EXTERNAL:
         return bch.signWithWIF(network, selection)
       case ADDRESS_TYPES.LOCKBOX:
-        return yield call(bch.signWithLedger, selection, api)
+        return yield call(bch.signWithLedger, selection, transport, api)
       default:
         throw new Error('unknown_from')
     }
@@ -313,11 +319,12 @@ export default ({ api }) => {
         return makePayment(merge(p, { selection }))
       },
 
-      *sign (password) {
+      *sign (password, transport) {
         let signed = yield call(
           calculateSignature,
           network,
           password,
+          transport,
           p.fromType,
           p.selection
         )
