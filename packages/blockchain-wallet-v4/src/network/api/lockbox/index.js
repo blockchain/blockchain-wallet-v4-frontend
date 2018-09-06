@@ -2,38 +2,38 @@ export default ({ ledgerUrl, get, post }) => {
   const getFinalFirmware = () =>
     get({
       url: ledgerUrl,
-      endPoint: '/firmware_final_versions',
+      endPoint: '/api/firmware_final_versions',
       data: {}
     })
 
-  const getCurrentFirmware = () =>
-    post({
-      url: ledgerUrl,
-      endPoint: '/get_firmware_version',
-      contentType: 'application/json',
-      data: {}
-    })
-
-  const getDeviceVersion = (provider, target_id) =>
+  const getDeviceVersion = req =>
     post({
       url: ledgerUrl,
       endPoint: '/api/get_device_version',
       contentType: 'application/json',
-      data: { provider, target_id }
+      data: req
+    })
+
+  const getCurrentFirmware = req =>
+    post({
+      url: ledgerUrl,
+      endPoint: '/api/get_firmware_version',
+      contentType: 'application/json',
+      data: req
+    })
+
+  const getLatestFirmware = req =>
+    post({
+      url: ledgerUrl,
+      endPoint: '/api/get_latest_firmware',
+      contentType: 'application/json',
+      data: req
     })
 
   const getCurrentOsu = () =>
     post({
       url: ledgerUrl,
       endPoint: '/api/get_osu_version',
-      contentType: 'application/json',
-      data: {}
-    })
-
-  const getLatestFirmware = () =>
-    post({
-      url: ledgerUrl,
-      endPoint: '/api/get_latest_firmware',
       contentType: 'application/json',
       data: {}
     })

@@ -11,7 +11,7 @@ import {
 import { Button } from 'blockchain-info-components'
 
 const UpdateDevice = props => {
-  const { onStartUpdate } = props
+  const { onCheckForUpdates } = props
 
   return (
     <SettingContainer>
@@ -25,15 +25,15 @@ const UpdateDevice = props => {
         <SettingDescription>
           <FormattedMessage
             id='scenes.lockbox.settings.updatedevice.description'
-            defaultMessage='Version 1.3 includes bug fixes blah blah'
+            defaultMessage='Check for firmware updates for your device'
           />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button nature='primary' onClick={onStartUpdate}>
+        <Button nature='primary' onClick={onCheckForUpdates}>
           <FormattedMessage
-            id='scenes.lockbox.settings.updatedevice.update'
-            defaultMessage='Update Device'
+            id='scenes.lockbox.settings.updatedevice.checkforupdates'
+            defaultMessage='Check For Updates'
           />
         </Button>
       </SettingComponent>

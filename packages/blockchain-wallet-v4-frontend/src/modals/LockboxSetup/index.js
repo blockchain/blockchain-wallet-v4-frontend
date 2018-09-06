@@ -16,6 +16,7 @@ class LockboxSetupContainer extends React.PureComponent {
   render () {
     const { currentStep, position, total, closeAll } = this.props
 
+    // TODO: need to block closing of modal during entire setup
     return (
       <LockboxSetup position={position} total={total} closeAll={closeAll}>
         {(!currentStep || currentStep === 'setup-type') && <SetupTypeStep />}

@@ -28,9 +28,9 @@ export const getFirmwareUpdateStep = path([
   'firmware',
   'step'
 ])
-export const getFirmwareInstalled = path([
+export const getFirmwareVersions = path([
   'components',
   'lockbox',
   'firmware',
-  'info'
+  'versions'
 ])

@@ -8,18 +8,19 @@ import UpdateDevice from './template.js'
 class UpdateDeviceContainer extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.onStartUpdate = this.onStartUpdate.bind(this)
+    this.onCheckForUpdates = this.onCheckForUpdates.bind(this)
   }
 
+  // TODO: need to block closing of modal or at least disable onclickoutside
   // TODO: need deviceID logic for when device is not connected
-  onStartUpdate () {
+  onCheckForUpdates () {
     this.props.modalActions.showModal('LockboxFirmware', {
       deviceId: this.props.deviceId
     })
   }
 
   render () {
-    return <UpdateDevice onStartUpdate={this.onStartUpdate} />
+    return <UpdateDevice onCheckForUpdates={this.onCheckForUpdates} />
   }
 }
 
