@@ -185,7 +185,6 @@ export default ({ api, coreSagas }) => {
       // check device authenticity
       yield put(A.changeDeviceSetupStep('authenticity-check'))
       yield put(A.checkDeviceAuthenticity())
-      // wait for user to continue
       yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
       // wait for BTC connection
       yield put(A.pollForDeviceApp('BTC', null, deviceType))
@@ -194,7 +193,7 @@ export default ({ api, coreSagas }) => {
       const btcConnection = LockboxService.connections.createBtcBchConnection(
         transport
       )
-      // derive device info such as chaincodes and xpubs
+      // derive device info (chaincodes and xpubs)
       const newDeviceInfo = yield call(
         LockboxService.accounts.deriveDeviceInfo,
         btcConnection
