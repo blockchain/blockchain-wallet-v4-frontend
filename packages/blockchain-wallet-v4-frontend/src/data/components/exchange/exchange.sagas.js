@@ -9,14 +9,9 @@ import { promptForSecondPassword } from 'services/SagaService'
 import { selectReceiveAddress } from '../utils/sagas'
 
 export default ({ api, coreSagas, options, networks }) => {
-  const {
-    mapFixToFieldName,
-    swapBaseAndCounter,
-    configEquals,
-    formatPair
-  } = model.rates
+  const { mapFixToFieldName, configEquals, formatPair } = model.rates
   const formValueSelector = selectors.form.getFormValues(EXCHANGE_FORM)
-  const { selectOtherAccount, createPayment } = utils({
+  const { getDefaultAccount, createPayment } = utils({
     api,
     coreSagas,
     options,
@@ -77,30 +72,16 @@ export default ({ api, coreSagas, options, networks }) => {
     yield put(actions.modules.rates.unsubscribeFromAdvice(pair))
   }
 
-  const swapFieldValue = function*(form) {
-    const { fix, source, target } = form
-    const pair = formatPair(source.coin, target.coin)
-    const oppositeFix = swapBaseAndCounter(fix)
-    const oppositeField = mapFixToFieldName(oppositeFix)
-    const oppositeFieldAmount = (yield select(S.getAmounts(pair)))
-      .map(prop(oppositeField))
-      .getOrElse(0)
-    yield put(actions.form.change(EXCHANGE_FORM, 'fix', oppositeFix))
-    yield put(
-      actions.form.change(EXCHANGE_FORM, oppositeField, oppositeFieldAmount)
-    )
-  }
-
   const changeSource = function*({ payload }) {
     const form = yield select(formValueSelector)
     const source = prop('source', payload)
     const sourceCoin = prop('coin', source)
     const targetCoin = path(['target', 'coin'], form)
+    const prevSoureCoin = path(['source', 'coin'], form)
     yield put(actions.form.change(EXCHANGE_FORM, 'source', source))
     if (equals(sourceCoin, targetCoin)) {
-      const newTarget = yield call(selectOtherAccount, targetCoin)
+      const newTarget = yield call(getDefaultAccount, prevSoureCoin)
       yield put(actions.form.change(EXCHANGE_FORM, 'target', newTarget))
-      yield call(swapFieldValue, form)
     }
     yield call(unsubscribeFromCurrentAdvice, form)
     yield call(changeSubscription)
@@ -111,11 +92,11 @@ export default ({ api, coreSagas, options, networks }) => {
     const sourceCoin = path(['source', 'coin'], form)
     const target = prop('target', payload)
     const targetCoin = prop('coin', target)
+    const prevTargetCoin = path(['target', 'coin'], form)
     yield put(actions.form.change(EXCHANGE_FORM, 'target', target))
     if (equals(sourceCoin, targetCoin)) {
-      const newSource = yield call(selectOtherAccount, sourceCoin)
+      const newSource = yield call(getDefaultAccount, prevTargetCoin)
       yield put(actions.form.change(EXCHANGE_FORM, 'source', newSource))
-      yield call(swapFieldValue, form)
     }
     yield call(unsubscribeFromCurrentAdvice, form)
     yield call(changeSubscription)
