@@ -89,80 +89,11 @@ export const generateGroups = (
   )
 }
 
-const getBchAccounts = createDeepEqualSelector(
-  [
-    selectors.core.wallet.getHDAccounts,
-    selectors.core.data.bch.getAddresses,
-    selectors.core.kvStore.bch.getAccounts
-  ],
-  (bchAccounts, bchDataR, bchMetadataR) => {
-    const transform = (bchData, bchMetadata) =>
-      bchAccounts.map(acc => {
-        const index = prop('index', acc)
-        const data = prop(prop('xpub', acc), bchData)
-        const metadata = bchMetadata[index]
-
-        return {
-          archived: prop('archived', metadata),
-          coin: 'BCH',
-          label: prop('label', metadata) || prop('xpub', acc),
-          address: index,
-          balance: prop('final_balance', data)
-        }
-      })
-
-    return lift(transform)(bchDataR, bchMetadataR)
-  }
-)
-
-const getBtcAccounts = createDeepEqualSelector(
-  [
-    selectors.core.wallet.getHDAccounts,
-    selectors.core.data.bitcoin.getAddresses
-  ],
-  (btcAccounts, btcDataR) => {
-    const transform = btcData => {
-      return btcAccounts.map(acc => ({
-        archived: prop('archived', acc),
-        coin: 'BTC',
-        label: prop('label', acc) || prop('xpub', acc),
-        address: prop('index', acc),
-        balance: prop('final_balance', prop(prop('xpub', acc), btcData))
-      }))
-    }
-
-    return lift(transform)(btcDataR)
-  }
-)
-
-const getEthAccounts = createDeepEqualSelector(
-  [
-    selectors.core.data.ethereum.getAddresses,
-    selectors.core.kvStore.ethereum.getAccounts
-  ],
-  (ethDataR, ethMetadataR) => {
-    const transform = (ethData, ethMetadata) =>
-      ethMetadata.map(acc => {
-        const data = prop(prop('addr', acc), ethData)
-
-        return {
-          archived: prop('archived', acc),
-          coin: 'ETH',
-          label: prop('label', acc) || prop('addr', acc),
-          address: prop('addr', acc),
-          balance: prop('balance', data)
-        }
-      })
-
-    return lift(transform)(ethDataR, ethMetadataR)
-  }
-)
-
 export const getData = createDeepEqualSelector(
   [
-    getBtcAccounts,
-    getBchAccounts,
-    getEthAccounts,
+    selectors.components.exchange.getBtcAccounts,
+    selectors.components.exchange.getBchAccounts,
+    selectors.components.exchange.getEthAccounts,
     selectors.core.settings.getCurrency,
     selectors.components.exchange.getFirstStepEnabled,
     selectors.components.exchange.getError,

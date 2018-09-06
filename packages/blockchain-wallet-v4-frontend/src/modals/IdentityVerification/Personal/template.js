@@ -47,6 +47,9 @@ const FaqFormMessage = styled(FaqMessage)`
   right: 0;
   width: 35%;
 `
+const DobFaqFormMessage = styled(FaqFormMessage)`
+  margin-top: 46px;
+`
 const FaqFormGroup = styled(FormGroup)`
   position: relative;
   display: flex;
@@ -181,6 +184,7 @@ const Personal = ({
                     activeField === 'lastName') &&
                     !mobile && (
                       <FaqFormMessage
+                        icon='id-card'
                         title={
                           <FormattedMessage
                             id='identityverification.personal.faq.name.title'
@@ -212,7 +216,8 @@ const Personal = ({
                       name='dob'
                       validate={[requiredDOB, ageOverEighteen]}
                       component={DateInputBox}
-                      fullwidth={true}
+                      fullwidth
+                      label
                       errorBottom
                       parse={objectToDOB}
                       format={DOBToObject}
@@ -220,7 +225,8 @@ const Personal = ({
                   </FaqFormItem>
                   {activeField === 'dob' &&
                     !mobile && (
-                      <FaqFormMessage
+                      <DobFaqFormMessage
+                        icon='birthday-cake-light'
                         title={
                           <FormattedMessage
                             id='identityverification.personal.faq.dateofbirth.title'
@@ -286,6 +292,7 @@ const Personal = ({
                     </FaqFormItem>
                     {activeField === 'postCode' && (
                       <FaqFormMessage
+                        icon='map-marker-alt-regular'
                         title={
                           <FormattedMessage
                             id='identityverification.personal.faq.postcode.title'
