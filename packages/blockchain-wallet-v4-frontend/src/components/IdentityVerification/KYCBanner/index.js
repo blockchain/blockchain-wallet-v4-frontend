@@ -171,7 +171,7 @@ export const KYCBanner = ({
 KYCBanner.propTypes = {
   kycState: PropTypes.oneOf(values(KYC_STATES)).isRequired,
   outsideOfProfile: PropTypes.bool,
-  canTrade: PropTypes.bool.isRequired,
+  canTrade: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
   verifyIdentity: PropTypes.func.isRequired
 }
 

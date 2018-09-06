@@ -6,12 +6,15 @@ import { EXCHANGE_STEPS } from 'data/components/exchange/model'
 
 import ExchangeForm from '../ExchangeForm'
 import ExchangeResults from '../ExchangeResults'
+import ExchangeConfirm from '../ExchangeConfirm'
 import { getData } from './selectors'
 
 const ExchangeContainer = ({ step }) => {
   switch (step) {
     case EXCHANGE_STEPS.EXCHANGE_FORM:
       return <ExchangeForm />
+    case EXCHANGE_STEPS.CONFIRM:
+      return <ExchangeConfirm />
     case EXCHANGE_STEPS.EXCHANGE_RESULT:
       return <ExchangeResults />
     default:
@@ -20,7 +23,7 @@ const ExchangeContainer = ({ step }) => {
 }
 
 ExchangeContainer.propTypes = {
-  step: PropTypes.string.isRequired
+  step: PropTypes.number.isRequired
 }
 
 export default connect(getData)(ExchangeContainer)

@@ -37,7 +37,7 @@ const DocumentsWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   margin-top: 48px;
-  height: 125px;
+  height: 95px;
   font-size: 18px;
   line-height: 25px;
   font-weight: 600;
@@ -70,10 +70,6 @@ const Verify = ({ handleSubmit, onBack }) => (
                 <FormattedMessage
                   id='identityverification.verify.driverslicense'
                   defaultMessage='Driver’s License'
-                />
-                <FormattedMessage
-                  id='identityverification.verify.id'
-                  defaultMessage='Identification Card'
                 />
               </DocumentsWrapper>
             </InputWrapper>

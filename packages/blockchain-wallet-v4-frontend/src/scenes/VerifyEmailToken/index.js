@@ -24,7 +24,7 @@ class VerifyEmailToken extends React.PureComponent {
     super(props)
     this.state = {
       token: decodeURIComponent(
-        props.location.pathname.split('/verify-email-token/')[1]
+        props.location.pathname.split('/verify-email/')[1]
       )
     }
   }

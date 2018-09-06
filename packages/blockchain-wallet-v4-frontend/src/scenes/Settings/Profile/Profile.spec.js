@@ -1,13 +1,18 @@
 import React from 'react'
 import { TestBed, getDispatchSpyReducer, createTestStore } from 'utils/testbed'
 import { mount } from 'enzyme'
-import { last, path } from 'ramda'
+import { head, last, path } from 'ramda'
 
 import { actions } from 'data'
 import { MODAL_NAME as IV_MODAL } from 'data/components/identityVerification/model'
 import { KYC_STATES } from 'data/modules/profile/model'
 import modalsReducer from 'data/modals/reducers'
 import profileReducer from 'data/modules/profile/reducers'
+import { eeaCountryCodes } from 'services/IdentityVerificationService'
+import {
+  getInvitations,
+  getCountryCode
+} from 'blockchain-wallet-v4/src/redux/settings/selectors'
 import { getCanTrade } from 'data/exchange/selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import KYCBanner from 'components/IdentityVerification/KYCBanner'
@@ -19,7 +24,10 @@ import { Route, Switch } from 'react-router-dom'
 const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 
 jest.mock('data/exchange/selectors')
+jest.mock('blockchain-wallet-v4/src/redux/settings/selectors')
 getCanTrade.mockImplementation(() => Remote.of(true))
+getInvitations.mockImplementation(() => Remote.of({ kyc: true }))
+getCountryCode.mockImplementation(() => head(eeaCountryCodes))
 
 const BuySellStub = () => <div />
 const ExchangeStub = () => <div />
@@ -47,6 +55,22 @@ describe('Profile Settings', () => {
         </Switch>
       </TestBed>
     )
+  })
+
+  describe('user flow not supported', () => {
+    it('should render null when not invited', () => {
+      getInvitations.mockImplementationOnce(() => Remote.of({ kyc: false }))
+      wrapper.unmount()
+      wrapper.mount()
+      expect(wrapper.find(Profile).children().length).toBe(0)
+    })
+
+    // it('should render null when not country is not supported', () => {
+    //   getCountryCode.mockImplementationOnce(() => '')
+    //   wrapper.unmount()
+    //   wrapper.mount()
+    //   expect(wrapper.find(Profile).children().length).toBe(0)
+    // })
   })
 
   describe('default state', () => {
