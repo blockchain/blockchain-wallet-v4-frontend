@@ -49,3 +49,8 @@ export const updateBestRates = rates => ({
   type: AT.UPDATE_BEST_RATES,
   payload: { rates }
 })
+
+export const removeAdvice = pair => ({
+  type: AT.REMOVE_ADVICE,
+  payload: { pair }
+})
