@@ -12,7 +12,7 @@ class SetupTypeStep extends React.PureComponent {
   }
 
   changeDeviceSetupStep () {
-    this.props.lockboxActions.changeDeviceSetupStep('connect')
+    this.props.lockboxActions.changeDeviceSetupStep('connect-device')
   }
 
   render () {

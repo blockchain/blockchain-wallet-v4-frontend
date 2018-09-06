@@ -1,8 +1,11 @@
 import constants from './constants'
 
-// TODO
-const getLatestFirmwareInfo = () => {}
-
+// checks if device is authentic
+const checkDeviceAuthenticity = (transport, perso) => {
+  // TODO: implement web socket and check authenticity
+  
+  return Promise.resolve(true)
+}
 // gets firmware information about device
 const getDeviceFirmwareInfo = transport => {
   return new Promise((resolve, reject) => {
@@ -53,6 +56,7 @@ const getDeviceFirmwareInfo = transport => {
   })
 }
 
+// derives full device information from api response
 const getDeviceInfo = transport => {
   return new Promise((resolve, reject) => {
     getDeviceFirmwareInfo(transport).then(
@@ -92,7 +96,7 @@ const getDeviceInfo = transport => {
 }
 
 export default {
+  checkDeviceAuthenticity,
   getDeviceInfo,
-  getLatestFirmwareInfo,
   getDeviceFirmwareInfo
 }

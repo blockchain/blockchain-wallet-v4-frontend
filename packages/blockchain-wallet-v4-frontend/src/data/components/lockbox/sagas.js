@@ -72,14 +72,18 @@ export default ({ api, coreSagas }) => {
         target_id: deviceInfo.targetId
       })
       // get full firmware info via api
-      // eslint-disable-next-line
       const firmware = yield call(api.getCurrentFirmware, {
         device_version: deviceVersion.id,
         version_name: deviceInfo.fullVersion,
         provider: deviceInfo.providerId
       })
-      // TODO: temp flag device as valid
-      yield put(A.checkDeviceAuthenticitySuccess(true))
+      // open socket and check if device is authentic
+      const isDeviceAuthentic = yield call(
+        LockboxService.firmware.checkDeviceAuthenticity,
+        transport,
+        firmware.perso
+      )
+      yield put(A.checkDeviceAuthenticitySuccess(isDeviceAuthentic))
     } catch (e) {
       yield put(A.checkDeviceAuthenticityFailure(e))
       yield put(
