@@ -58,6 +58,7 @@ if (!isCiBuild) {
     console.log(
       chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL)
     )
+
     // SSL detection
     sslEnabled =
       fs.existsSync(PATHS.sslConfig + 'key.pem') &&
@@ -274,9 +275,8 @@ module.exports = {
             // 'unsafe-inline' can only be used in dev. production builds remove
             // this rule and use nonce generated from the server instead.
             "style-src 'self' 'unsafe-inline'",
-            `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${
-              envConfig.ROOT_URL
-            } https://localhost:8080 http://localhost:8080`,
+            `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} 
+            ${envConfig.ROOT_URL} https://localhost:8080 http://localhost:8080`,
             `child-src ${iSignThisDomain} ${
               envConfig.WALLET_HELPER_DOMAIN
             } blob:`,
@@ -290,6 +290,7 @@ module.exports = {
               envConfig.API_DOMAIN,
               envConfig.WALLET_HELPER_DOMAIN,
               envConfig.LEDGER_URL,
+              envConfig.LEDGER_SOCKET_URL,
               'https://app-api.coinify.com',
               'https://app-api.sandbox.coinify.com',
               'https://api.sfox.com',
