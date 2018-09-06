@@ -88,7 +88,17 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const logClick = function*(payload) {
+    const { name } = payload
+    try {
+      yield call(api.logClick, name)
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'logClick', e))
+    }
+  }
+
   return {
+    logClick,
     logLeftNavClick,
     reportBalanceStats
   }

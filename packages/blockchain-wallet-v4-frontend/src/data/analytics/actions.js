@@ -7,3 +7,7 @@ export const logLeftNavClick = (event) => ({
   type: AT.LOG_LEFT_NAV_CLICK,
   event
 })
+export const logClick = (name) => ({
+  type: AT.LOG_CLICK,
+  name
+})
