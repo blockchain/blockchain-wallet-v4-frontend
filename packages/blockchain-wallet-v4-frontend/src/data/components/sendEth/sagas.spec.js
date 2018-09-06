@@ -277,12 +277,8 @@ describe('sendEth sagas', () => {
       })
     })
 
-    it('should put action to close all modals', () => {
-      saga.next(secondPassword).put(actions.modals.closeAllModals())
-    })
-
     it('should sign payment with second passowrd', () => {
-      saga.next()
+      saga.next(secondPassword)
       expect(paymentMock.sign).toHaveBeenCalledTimes(1)
       expect(paymentMock.sign).toHaveBeenCalledWith(secondPassword)
     })
@@ -290,6 +286,10 @@ describe('sendEth sagas', () => {
     it('should publish payment', () => {
       saga.next(paymentMock)
       expect(paymentMock.publish).toHaveBeenCalledTimes(1)
+    })
+
+    it('should put action to close all modals', () => {
+      saga.next(paymentMock).put(actions.modals.closeAllModals())
     })
 
     it('should put eth payment updated success action', () => {

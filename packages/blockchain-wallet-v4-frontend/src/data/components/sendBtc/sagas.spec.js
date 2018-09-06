@@ -322,12 +322,8 @@ describe('sendBtc sagas', () => {
       })
     })
 
-    it('should put action to close all modals', () => {
-      saga.next(secondPassword).put(actions.modals.closeAllModals())
-    })
-
     it('should sign payment with second passowrd', () => {
-      saga.next()
+      saga.next(secondPassword)
       expect(paymentMock.sign).toHaveBeenCalledTimes(1)
       expect(paymentMock.sign).toHaveBeenCalledWith(secondPassword)
     })
@@ -335,6 +331,10 @@ describe('sendBtc sagas', () => {
     it('should publish payment', () => {
       saga.next(paymentMock)
       expect(paymentMock.publish).toHaveBeenCalledTimes(1)
+    })
+
+    it('should put action to close all modals', () => {
+      saga.next(paymentMock).put(actions.modals.closeAllModals())
     })
 
     it('should put btc payment updated success action', () => {
@@ -379,10 +379,12 @@ describe('sendBtc sagas', () => {
           )
       })
 
-      it('should display success message', () => {
+      it('should display error message', () => {
         saga
           .next()
           .put(actions.alerts.displayError(C.SEND_BTC_ERROR))
+          .next()
+          .put(actions.modals.closeAllModals())
           .next()
           .isDone()
       })
