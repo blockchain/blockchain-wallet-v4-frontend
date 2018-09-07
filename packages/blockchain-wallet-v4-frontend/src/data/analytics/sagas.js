@@ -3,18 +3,18 @@ import * as selectors from '../selectors.js'
 import * as actions from '../actions'
 import * as actionTypes from '../actionTypes'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { path, toLower, test } from 'ramda'
+import { path, toLower, test, pathOr } from 'ramda'
 
 export const logLocation = 'analytics/sagas'
+export const balancePath = ['payload', 'info', 'final_balance']
 
 export default ({ api, coreSagas }) => {
   const getEthBalance = function*() {
     try {
       const ethBalanceR = yield select(selectors.core.data.ethereum.getBalance)
       if (!Remote.Success.is(ethBalanceR)) {
-        yield take(actionTypes.core.data.ethereum.FETCH_ETHEREUM_DATA_SUCCESS)
-        const ethBalanceR = yield select(selectors.core.data.ethereum.getBalance)
-        return ethBalanceR.getOrElse(0)
+        const ethData = yield take(actionTypes.core.data.ethereum.FETCH_ETHEREUM_DATA_SUCCESS)
+        return pathOr(0, balancePath, ethData)
       }
       return ethBalanceR.getOrElse(0)
     } catch (e) {
@@ -26,9 +26,8 @@ export default ({ api, coreSagas }) => {
     try {
       const btcBalanceR = yield select(selectors.core.data.bitcoin.getBalance)
       if (!Remote.Success.is(btcBalanceR)) {
-        yield take(actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_SUCCESS)
-        const btcBalanceR = yield select(selectors.core.data.bitcoin.getBalance)
-        return btcBalanceR.getOrElse(0)
+        const btcData = yield take(actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_SUCCESS)
+        return pathOr(0, balancePath, btcData)
       }
       return btcBalanceR.getOrElse(0)
     } catch (e) {
@@ -40,9 +39,8 @@ export default ({ api, coreSagas }) => {
     try {
       const bchBalanceR = yield select(selectors.core.data.bch.getBalance)
       if (!Remote.Success.is(bchBalanceR)) {
-        yield take(actionTypes.core.data.bch.FETCH_BCH_DATA_SUCCESS)
-        const bchBalanceR = yield select(selectors.core.data.bch.getBalance)
-        return bchBalanceR.getOrElse(0)
+        const bchData = yield take(actionTypes.core.data.bch.FETCH_BCH_DATA_SUCCESS)
+        return pathOr(0, balancePath, bchData)
       }
       return bchBalanceR.getOrElse(0)
     } catch (e) {
