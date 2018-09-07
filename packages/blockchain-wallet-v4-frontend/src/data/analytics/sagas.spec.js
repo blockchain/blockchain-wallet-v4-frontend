@@ -1,10 +1,8 @@
-import { select } from 'redux-saga/effects'
 import { createMockTask } from 'redux-saga/utils'
 import { testSaga } from 'redux-saga-test-plan'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as actions from '../actions'
 import * as actionTypes from '../actionTypes'
-import * as analyticsActions from './actions.js'
 import * as selectors from '../selectors.js'
 import analyticsSagas, { logLocation } from './sagas'
 
