@@ -118,7 +118,7 @@ const selectColor = (nature, disabled, small) => {
       }
     case 'empty-secondary':
       return {
-        color: 'white',
+        color: 'brand-secondary',
         backgroundColor: 'white',
         borderColor: 'brand-secondary'
       }

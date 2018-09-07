@@ -24,6 +24,7 @@ import halfBitcoincash from './img/half-bitcoincash.svg'
 import halfEther from './img/half-ether.svg'
 import identityVerification from './img/identity-verification.svg'
 import linkedinWhite from './img/linkedin-white.svg'
+import lockboxWelcomeSafe from './img/lockbox-welcome-safe.svg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
 import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
@@ -68,6 +69,7 @@ export default {
   'half-bitcoincash': halfBitcoincash,
   'half-ether': halfEther,
   'identity-verification': identityVerification,
+  'lockbox-welcome-safe': lockboxWelcomeSafe,
   'linkedin-white': linkedinWhite,
   'micro-deposits-whole': microDepositsWhole,
   printer: printer,

@@ -2,10 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Text, Button } from 'blockchain-info-components'
+import { Button, Image, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;
+  height: 90%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -14,15 +15,22 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `
 const IntroContainer = styled.div`
-  width: 750px;
   display: flex;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
 `
-const GetStartedButton = styled(Button)`
-  width: 75%;
+const Content = styled.div`
+  width: 300px;
+  margin-left: 75px;
+`
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
   margin-top: 35px;
+  > button:first-child {
+    margin-right: 20px;
+  }
 `
 
 const Onboard = props => {
@@ -31,28 +39,37 @@ const Onboard = props => {
   return (
     <Wrapper>
       <IntroContainer>
-        <div>
+        <Image name='lockbox-welcome-safe' />
+        <Content>
           <Text size='26px' weight={600}>
             <FormattedMessage
               id='scenes.lockbox.welcome.title'
-              defaultMessage='Hardware Secured Digital Assets'
+              defaultMessage='Cover Your Assets'
             />
           </Text>
-        </div>
-        <div style={{ marginTop: '25px' }}>
-          <Text size='14px' weight={300}>
-            <FormattedMessage
-              id='scenes.lockbox.welcome.subtitle'
-              defaultMessage='Lockbox works with Carbon to give your digital assets an additional layer of security. Unlock your Lockbox by linking your Carbon, or buy one today.'
-            />
-          </Text>
-        </div>
-        <GetStartedButton nature='primary' onClick={launchLockboxSetup}>
-          <FormattedMessage
-            id='scenes.lockbox.welcome.getstarted'
-            defaultMessage='Get Started'
-          />
-        </GetStartedButton>
+          <div style={{ marginTop: '25px' }}>
+            <Text size='14px' weight={300}>
+              <FormattedMessage
+                id='scenes.lockbox.welcome.subtitle'
+                defaultMessage='Additional security. Always accessible. Blockchain Lockbox brings you the best of both worlds for your crypto.'
+              />
+            </Text>
+            <ButtonContainer>
+              <Button nature='primary' onClick={launchLockboxSetup}>
+                <FormattedMessage
+                  id='scenes.lockbox.welcome.connect'
+                  defaultMessage='Connect'
+                />
+              </Button>
+              <Button nature='empty-secondary'>
+                <FormattedMessage
+                  id='scenes.lockbox.welcome.purchase'
+                  defaultMessage='Purchase'
+                />
+              </Button>
+            </ButtonContainer>
+          </div>
+        </Content>
       </IntroContainer>
     </Wrapper>
   )
