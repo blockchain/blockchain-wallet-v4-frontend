@@ -26,6 +26,7 @@ import identityVerification from './img/identity-verification.svg'
 import linkLockboxIcon from './img/link-lockbox-icon.svg'
 import linkedinWhite from './img/linkedin-white.svg'
 import lockboxWelcomeSafe from './img/lockbox-welcome-safe.svg'
+import lockboxUsb from './img/lockbox-usb.svg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
 import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
@@ -72,6 +73,7 @@ export default {
   'half-ether': halfEther,
   'identity-verification': identityVerification,
   'lockbox-welcome-safe': lockboxWelcomeSafe,
+  'lockbox-usb': lockboxUsb,
   'link-lockbox-icon': linkLockboxIcon,
   'linkedin-white': linkedinWhite,
   'micro-deposits-whole': microDepositsWhole,

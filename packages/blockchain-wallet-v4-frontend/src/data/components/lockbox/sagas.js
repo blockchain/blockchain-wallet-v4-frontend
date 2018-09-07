@@ -187,7 +187,6 @@ export default ({ api, coreSagas }) => {
       yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType, setupTimeout))
       yield take(AT.SET_CONNECTION_INFO)
       // check device authenticity
-      yield put(A.changeDeviceSetupStep('authenticity-check'))
       yield put(A.checkDeviceAuthenticity())
       yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
       // wait for BTC connection
@@ -222,7 +221,7 @@ export default ({ api, coreSagas }) => {
       if (contains(newDeviceId)(keysIn(storedDevices))) {
         yield put(A.changeDeviceSetupStep('duplicate-device'))
       } else {
-        yield put(A.changeDeviceSetupStep('name-device'))
+        yield put(A.changeDeviceSetupStep('open-btc-app', true))
       }
     } catch (e) {
       // TODO: better error handling, display error, close modal

@@ -11,23 +11,29 @@ import ConnectDeviceStep from './ConnectDeviceStep'
 import NameDeviceStep from './NameDeviceStep'
 import OpenBtcAppStep from './OpenBtcAppStep'
 import DuplicateDeviceStep from './DuplicateDeviceStep'
-import AuthenticityCheckStep from './AuthenticityCheckStep'
 
 class LockboxSetupContainer extends React.PureComponent {
+  componentWillUnmount () {
+    this.props.lockboxActions.changeDeviceSetupStep('setup-type')
+    this.props.lockboxActions.checkDeviceAuthenticityLoading()
+  }
+
   render () {
     const { currentStep, position, total, closeAll } = this.props
+    const { step, done } = currentStep || {}
 
-    // TODO: need to block closing of modal during entire setup
     return (
-      <LockboxSetup position={position} total={total} closeAll={closeAll}>
-        {(!currentStep || currentStep === 'setup-type') && <SetupTypeStep />}
-        {currentStep === 'connect-device' && <ConnectDeviceStep />}
-        {currentStep === 'authenticity-check' && (
-          <AuthenticityCheckStep closeModal={closeAll} />
-        )}
-        {currentStep === 'open-btc-app' && <OpenBtcAppStep />}
-        {currentStep === 'duplicate-device' && <DuplicateDeviceStep />}
-        {currentStep === 'name-device' && <NameDeviceStep />}
+      <LockboxSetup
+        total={total}
+        position={position}
+        closeAll={closeAll}
+        handleClose={this.handleClose}
+      >
+        {(!step || step === 'setup-type') && <SetupTypeStep />}
+        {step === 'connect-device' && <ConnectDeviceStep />}
+        {step === 'open-btc-app' && <OpenBtcAppStep done={done} />}
+        {step === 'duplicate-device' && <DuplicateDeviceStep />}
+        {step === 'name-device' && <NameDeviceStep />}
       </LockboxSetup>
     )
   }

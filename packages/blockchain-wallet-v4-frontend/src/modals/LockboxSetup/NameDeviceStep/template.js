@@ -2,11 +2,29 @@ import React from 'react'
 
 import styled from 'styled-components'
 import { required } from 'services/FormHelper'
-import { Button, Text } from 'blockchain-info-components'
+import { Button, Image, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
 import { any, equals } from 'ramda'
+
+const Wrapper = styled.div`
+  padding: 20px;
+`
+
+const Title = styled.div`
+  text-align: center;
+  margin-bottom: 20px;
+`
+
+const Content = styled.div`
+  margin-bottom: 10px;
+`
+
+const ImageContainer = styled.div`
+  text-align: center;
+  margin-bottom: 20px;
+`
 
 const Row = styled.div`
   display: flex;
@@ -14,20 +32,6 @@ const Row = styled.div`
   justify-content: flex-start;
   align-items: center;
   padding: 10px 0;
-
-  & > * {
-    width: 150px;
-  }
-  & > :last-child {
-    width: 100%;
-  }
-  &:first-child {
-    padding-top: 0;
-  }
-`
-const Label = styled(Text)`
-  display: block;
-  margin-bottom: 5px;
 `
 
 const requireUnique = (value, allValues, { deviceNames }) => {
@@ -40,42 +44,47 @@ const NameDeviceStep = props => {
   const { handleSubmit, invalid } = props
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Row>
-        <Text size='14px' weight={300}>
+    <Wrapper>
+      <Title>
+        <Text>
           <FormattedMessage
-            id='modals.lockboxsetup.labelstep.nameintro'
-            defaultMessage='Please name your Lockbox. The device can be renamed later.'
+            id='modals.lockboxsetup.labelstep.title'
+            defaultMessage='Name Your Lockbox'
           />
         </Text>
-      </Row>
-      <Row>
-        <FormItem>
-          <Label for='deviceName' weight={400}>
-            <FormattedMessage
-              id='modals.lockboxsetup.labelstep.devicename'
-              defaultMessage='Device Name'
-            />
-          </Label>
-          <Field
-            name='newDeviceName'
-            autoFocus
-            validate={[required, requireUnique]}
-            component={TextBox}
+      </Title>
+      <Content>
+        <ImageContainer>
+          <Image width='100px' name='lockbox-usb' />
+        </ImageContainer>
+        <Text size='14px' weight={300}>
+          <FormattedMessage
+            id='modals.lockboxsetup.labelstep.body'
+            defaultMessage='Personally, we like the name Lockbox but you should name your device something that’s a little more you.'
           />
-        </FormItem>
-      </Row>
-      <Row>
+        </Text>
+      </Content>
+      <Form onSubmit={handleSubmit}>
+        <Row>
+          <FormItem>
+            <Field
+              name='newDeviceName'
+              autoFocus
+              validate={[required, requireUnique]}
+              component={TextBox}
+            />
+          </FormItem>
+        </Row>
         <FormGroup>
-          <Button type='submit' nature='primary' uppercase disabled={invalid}>
+          <Button type='submit' nature='primary' disabled={invalid}>
             <FormattedMessage
-              id='modals.lockboxsetup.labelstep.continue'
-              defaultMessage='Continue'
+              id='modals.lockboxsetup.labelstep.finish'
+              defaultMessage='Finish Set Up'
             />
           </Button>
         </FormGroup>
-      </Row>
-    </Form>
+      </Form>
+    </Wrapper>
   )
 }
 

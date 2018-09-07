@@ -6,8 +6,22 @@ import { actions } from 'data'
 import OpenBtcAppStep from './template'
 
 class OpenBtcAppStepContainer extends React.PureComponent {
+  constructor (props) {
+    super(props)
+    this.changeDeviceSetupStep = this.changeDeviceSetupStep.bind(this)
+  }
+
+  changeDeviceSetupStep () {
+    this.props.lockboxActions.changeDeviceSetupStep('name-device')
+  }
+
   render () {
-    return <OpenBtcAppStep />
+    return (
+      <OpenBtcAppStep
+        isReady={this.props.done}
+        handleStepChange={this.changeDeviceSetupStep}
+      />
+    )
   }
 }
 
