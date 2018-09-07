@@ -20,27 +20,39 @@ export default ({ api, coreSagas, options, networks }) => {
 
   const exchangeFormInitialized = function*() {
     yield put(actions.modules.rates.fetchAvailablePairs())
+    const { source, target } = yield select(formValueSelector)
+    const fiatCurrency = (yield select(
+      selectors.core.settings.getCurrency
+    )).getOrElse(null)
+    yield call(changeRatesSubscription, source, target, fiatCurrency)
   }
 
   const changeSubscription = function*() {
     const form = yield select(formValueSelector)
-    const { source, target } = form
+    const { source, target, fix } = form
+    const volume = form[mapFixToFieldName(fix)]
     const fiatCurrency = (yield select(
       selectors.core.settings.getCurrency
     )).getOrElse(null)
-    yield call(changeAdviceSubscription, form, source, target, fiatCurrency)
+    yield call(
+      changeAdviceSubscription,
+      volume,
+      fix,
+      source,
+      target,
+      fiatCurrency
+    )
     yield call(changeRatesSubscription, source, target, fiatCurrency)
   }
 
   const changeAdviceSubscription = function*(
-    form,
+    volume,
+    fix,
     source,
     target,
     fiatCurrency
   ) {
-    const { fix } = form
     const pair = formatPair(source.coin, target.coin)
-    const volume = form[mapFixToFieldName(fix)]
     const currentConfig = yield select(
       selectors.modules.rates.getPairConfig(pair)
     )

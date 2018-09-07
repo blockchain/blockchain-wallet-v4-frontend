@@ -16,7 +16,6 @@ import {
   map,
   path,
   prop,
-  propEq,
   sortBy,
   unnest
 } from 'ramda'
@@ -136,18 +135,28 @@ const formatBestRates = curry(
   })
 )
 
+const {
+  canUseExchange,
+  getError,
+  getActiveBtcAccounts,
+  getActiveBchAccounts,
+  getActiveEthAccounts
+} = selectors.components.exchange
+
+export { canUseExchange }
 export const getData = createDeepEqualSelector(
   [
-    selectors.components.exchange.getBtcAccounts,
-    selectors.components.exchange.getBchAccounts,
-    selectors.components.exchange.getEthAccounts,
+    getActiveBtcAccounts,
+    getActiveBchAccounts,
+    getActiveEthAccounts,
     selectors.core.settings.getCurrency,
-    selectors.components.exchange.getError,
+    getError,
     getFormValues,
     selectors.modules.rates.getAvailablePairs,
     getCurrentPairAmounts,
     getCurrentPairRates,
-    selectors.modules.rates.getBestRates
+    selectors.modules.rates.getBestRates,
+    canUseExchange
   ],
   (
     btcAccountsR,
@@ -159,11 +168,14 @@ export const getData = createDeepEqualSelector(
     availablePairsR,
     adviceAmountsR,
     adviceRatesR,
-    bestRatesR
+    bestRatesR,
+    canUseExchange
   ) => {
-    const btcAccounts = btcAccountsR.getOrElse([])
-    const bchAccounts = bchAccountsR.getOrElse([])
-    const ethAccounts = ethAccountsR.getOrElse([])
+    if (!canUseExchange) return Remote.Loading
+
+    const activeBtcAccounts = btcAccountsR.getOrElse([])
+    const activeBchAccounts = bchAccountsR.getOrElse([])
+    const activeEthAccounts = ethAccountsR.getOrElse([])
     const { sourceCoin, targetCoin, fix } = formValues
     const sourceActive = contains(fix, [BASE, BASE_IN_FIAT])
     const targetActive = contains(fix, [COUNTER, COUNTER_IN_FIAT])
@@ -171,10 +183,6 @@ export const getData = createDeepEqualSelector(
     const fiatActive = contains(fix, [BASE_IN_FIAT, COUNTER_IN_FIAT])
 
     const transform = (currency, availablePairs) => {
-      const isActive = propEq('archived', false)
-      const activeBtcAccounts = filter(isActive, btcAccounts)
-      const activeBchAccounts = filter(isActive, bchAccounts)
-      const activeEthAccounts = filter(isActive, ethAccounts)
       const defaultBtcAccount = head(activeBtcAccounts)
       const defaultEthAccount = head(activeEthAccounts)
       const hasOneAccount = length(activeBtcAccounts) === 1
@@ -214,6 +222,7 @@ export const getData = createDeepEqualSelector(
       )
 
       return {
+        canUseExchange: true,
         availablePairs,
         fromElements,
         toElements,
