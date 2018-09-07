@@ -182,7 +182,6 @@ const VerifyMobile = ({
                         <FormattedMessage
                           id='identityverification.personal.mobile.entercode'
                           defaultMessage='Verification code'
-                          values={{ smsNumber }}
                         />
                       </Text>
                       <Field
