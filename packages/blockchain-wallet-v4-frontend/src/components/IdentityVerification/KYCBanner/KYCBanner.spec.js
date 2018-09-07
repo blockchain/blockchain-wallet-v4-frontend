@@ -5,7 +5,7 @@ import { last, path } from 'ramda'
 
 import { actions } from 'data'
 import { MODAL_NAME as IV_MODAL } from 'data/components/identityVerification/model'
-import { KYC_STATES } from 'data/modules/profile/model'
+import { KYC_STATES, USER_ACTIVATION_STATES } from 'data/modules/profile/model'
 import modalsReducer from 'data/modals/reducers'
 import profileReducer from 'data/modules/profile/reducers'
 import { getCanTrade } from 'data/exchange/selectors'
@@ -70,7 +70,7 @@ describe('Profile Settings', () => {
     describe('KYC_STATE: PENDING', () => {
       beforeEach(() => {
         store.dispatch(
-          actions.modules.profile.setUserData({ kycState: KYC_STATES.PENDING })
+          actions.modules.profile.setUserData({ state: USER_ACTIVATION_STATES.CREATED, kycState: KYC_STATES.PENDING })
         )
         wrapper.unmount().mount()
       })
@@ -83,7 +83,7 @@ describe('Profile Settings', () => {
     describe('KYC_STATE: VERIFIED', () => {
       beforeEach(() => {
         store.dispatch(
-          actions.modules.profile.setUserData({ kycState: KYC_STATES.VERIFIED })
+          actions.modules.profile.setUserData({ state: USER_ACTIVATION_STATES.ACTIVE, kycState: KYC_STATES.VERIFIED })
         )
         wrapper.update()
       })
@@ -123,7 +123,7 @@ describe('Profile Settings', () => {
     describe('KYC_STATE: PENDING', () => {
       beforeEach(() => {
         store.dispatch(
-          actions.modules.profile.setUserData({ kycState: KYC_STATES.PENDING })
+          actions.modules.profile.setUserData({ state: USER_ACTIVATION_STATES.CREATED, kycState: KYC_STATES.PENDING })
         )
         wrapper.update()
       })
