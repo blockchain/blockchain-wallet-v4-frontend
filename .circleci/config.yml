@@ -136,13 +136,15 @@ workflows:
             - npm_install
       - coverage_core:
           requires:
-            - test_core_components
-      - coverage_frontend:
-          requires:
-            - test_frontend
-      - coverage_report_to_coveralls:
+            - npm_install
+      - coverage_components:
           requires:
             - coverage_core
+      - coverage_frontend:
+          requires:
+            - coverage_components
+      - coverage_report_to_coveralls:
+          requires:
             - coverage_frontend
 
   test_coverage:
