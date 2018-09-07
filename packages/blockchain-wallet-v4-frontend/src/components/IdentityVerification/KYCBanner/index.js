@@ -54,6 +54,7 @@ const ActionButton = styled(Button)`
 const SubNote = styled(Text)`
   margin-top: 30px;
 `
+export const NEW_USER = 'NEW_USER'
 
 export const KYCBanner = ({
   outsideOfProfile,
@@ -65,7 +66,7 @@ export const KYCBanner = ({
   if (outsideOfProfile && kycState === KYC_STATES.VERIFIED) return null
 
   const headers = {
-    [USER_ACTIVATION_STATES.NOT_CREATED]: (
+    NEW_USER: (
       <FormattedMessage
         id='components.identityverification.popup.header.notcreated'
         defaultMessage='A better way to Exchange Crypto'
@@ -107,7 +108,7 @@ export const KYCBanner = ({
   }
 
   const notes = {
-    [USER_ACTIVATION_STATES.NOT_CREATED]: (
+    NEW_USER: (
       <Fragment>
         <FormattedMessage
           id='components.identityverification.popup.note.notcreated'
@@ -148,7 +149,7 @@ export const KYCBanner = ({
   }
 
   const buttons = {
-    [USER_ACTIVATION_STATES.NOT_CREATED]: (
+    NEW_USER: (
       <ActionButton nature='primary' fullwidth onClick={verifyIdentity}>
         <FormattedMessage
           id='components.identityverification.popup.button.begin'
@@ -190,12 +191,12 @@ export const KYCBanner = ({
     <Wrapper>
       <Container>
         <Header size='20px' weight={300} color='white'>
-          {userState === USER_ACTIVATION_STATES.NOT_CREATED ? headers[userState] : headers[kycState]}
+          {userState === USER_ACTIVATION_STATES.NONE ? headers[NEW_USER] : headers[kycState]}
         </Header>
         <Content size='14px' weight={300} color='white'>
-          {userState === USER_ACTIVATION_STATES.NOT_CREATED ? notes[userState] : notes[kycState]}
+          {userState === USER_ACTIVATION_STATES.NONE ? notes[NEW_USER] : notes[kycState]}
         </Content>
-        {userState === USER_ACTIVATION_STATES.NOT_CREATED ? buttons[userState] : buttons[kycState]}
+        {userState === USER_ACTIVATION_STATES.NONE ? buttons[NEW_USER] : buttons[kycState]}
       </Container>
     </Wrapper>
   )

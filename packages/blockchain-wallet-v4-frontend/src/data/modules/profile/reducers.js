@@ -6,7 +6,7 @@ import { Remote } from 'blockchain-wallet-v4'
 
 const INITIAL_STATE = {
   userData: {
-    state: USER_ACTIVATION_STATES.NOT_CREATED,
+    state: USER_ACTIVATION_STATES.NONE,
     kycState: KYC_STATES.NONE
   },
   apiToken: Remote.NotAsked
