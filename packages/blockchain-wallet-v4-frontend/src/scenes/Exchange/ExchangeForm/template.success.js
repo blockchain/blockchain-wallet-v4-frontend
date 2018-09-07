@@ -316,17 +316,15 @@ const Success = props => {
                 }}
               />
             </AmountRow>
-            {formError && (
-              <Row spaced>
-                {formError === 'minimum' && <MinimumAmountMessage />}
-                {formError === 'maximum' && <MaximumAmountMessage />}
-                {formError === 'insufficient' && <InsufficientAmountMessage />}
-                {formError === 'regulationlimit' && (
-                  <AboveRegulationLimitMessage />
-                )}
-                {formError === 'invalid' && <InvalidAmountMessage />}
-              </Row>
-            )}
+            <Row spaced>
+              {formError === 'minimum' && <MinimumAmountMessage />}
+              {formError === 'maximum' && <MaximumAmountMessage />}
+              {formError === 'insufficient' && <InsufficientAmountMessage />}
+              {formError === 'regulationlimit' && (
+                <AboveRegulationLimitMessage />
+              )}
+              {formError === 'invalid' && <InvalidAmountMessage />}
+            </Row>
             <Row>
               <MinMaxButtonGroup>
                 <Button fullwidth>
