@@ -101,7 +101,7 @@ workflows:
             - npm_install
       - test:
           requires:
-            npm_install
+            - npm_install
       - coverage:
           requires:
             - test
