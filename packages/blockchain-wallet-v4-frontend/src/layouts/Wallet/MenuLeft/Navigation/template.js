@@ -86,6 +86,7 @@ const Navigation = props => {
   return (
     <Wrapper {...rest}>
       <Menu onClick={logClick}>
+        {/* If updating navigation item names dont forget to update analytics saga */}
         <LinkContainer to='/home' activeClassName='active'>
           <MenuItem>
             <Icon name='home' />
