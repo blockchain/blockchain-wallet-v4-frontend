@@ -35,7 +35,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     get({
       url: rootUrl,
       endPoint: '/event',
-      data: { name: `wallet_click_${name}` }
+      data: { name: `wallet_web_click_${name}` }
     })
 
   return {
