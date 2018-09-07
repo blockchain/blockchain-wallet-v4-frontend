@@ -1407,20 +1407,8 @@
         "id": "layouts.wallet.menuleft.navigation.transactions.bch"
       },
       {
-        "defaultMessage": "Buy & sell bitcoin",
-        "id": "layouts.wallet.menuleft.navigation.buybitcoin"
-      },
-      {
         "defaultMessage": "Exchange",
         "id": "layouts.wallet.menuleft.navigation.exchange"
-      },
-      {
-        "defaultMessage": "Security center",
-        "id": "layouts.wallet.menuleft.navigation.securitycenter"
-      },
-      {
-        "defaultMessage": "Settings",
-        "id": "layouts.wallet.menuleft.navigation.settings"
       },
       {
         "defaultMessage": "General",
