@@ -18,7 +18,7 @@ export default ({ api, coreSagas }) => {
       }
       return ethBalanceR.getOrElse(0)
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'getEthbalance', e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'getEthBalance', e))
     }
   }
 
@@ -96,6 +96,9 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
+    getEthBalance,
+    getBtcBalance,
+    getBchBalance,
     logClick,
     logLeftNavClick,
     reportBalanceStats
