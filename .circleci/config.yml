@@ -68,7 +68,7 @@ jobs:
       - *attach_workspace
       - run:
           name: Test Code
-          command: yarn ci:test:core:components && yarn ci:test:frontend
+          command: yarn ci:test:build && yarn ci:test:core:components && yarn ci:test:frontend
   coverage:
     <<: *container_config
     steps:
