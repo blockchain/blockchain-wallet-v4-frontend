@@ -11,7 +11,7 @@ class WhatsNewIconContainer extends React.PureComponent {
     return (
       <WhatsNewIcon
         highlighted={this.props.highlighted}
-        handleClick={() => this.props.actions.layoutWalletWhatsnewClicked()}
+        handleClick={() => { this.props.actions.layoutWalletWhatsnewClicked(); this.props.analytics.logClick('whatsnew') }}
       />
     )
   }
@@ -20,7 +20,8 @@ class WhatsNewIconContainer extends React.PureComponent {
 const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.layoutWallet, dispatch)
+  actions: bindActionCreators(actions.components.layoutWallet, dispatch),
+  analytics: bindActionCreators(actions.analytics, dispatch)
 })
 
 export default connect(

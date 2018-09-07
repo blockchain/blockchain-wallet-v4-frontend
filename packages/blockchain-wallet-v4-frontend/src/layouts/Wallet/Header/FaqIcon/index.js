@@ -11,7 +11,7 @@ class FaqIconContainer extends React.PureComponent {
     return (
       <FaqIcon
         highlighted={this.props.highlighted}
-        handleClick={() => this.props.actions.layoutWalletFaqClicked()}
+        handleClick={() => { this.props.actions.layoutWalletFaqClicked(); this.props.analytics.logClick('faq') }}
       />
     )
   }
@@ -20,7 +20,8 @@ class FaqIconContainer extends React.PureComponent {
 const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.layoutWallet, dispatch)
+  actions: bindActionCreators(actions.components.layoutWallet, dispatch),
+  analytics: bindActionCreators(actions.analytics, dispatch)
 })
 
 export default connect(
