@@ -2,45 +2,81 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button } from 'blockchain-info-components'
+import { Button, Image, Text } from 'blockchain-info-components'
 
-const Row = styled.div`
+const Wrapper = styled.div`
+  padding: 20px;
+`
+
+const Title = styled.div`
+  text-align: center;
+  margin-bottom: 40px;
+`
+
+const Content = styled.div`
   display: flex;
-  flex-direction: row;
+  justify-content: center;
+`
+
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 15px;
+  &:first-child {
+    margin-right: 40px;
+  }
+`
+
+const ImageContainer = styled.div`
+  height: 72px;
+  margin-bottom: 40px;
+`
+const StyledButton = styled(Button)`
+  width: 200px;
 `
 
 const OptionsStep = props => {
   const { handleStepChange } = props
   return (
-    <React.Fragment>
-      <Row>
-        <Button nature='primary' fullwidth onClick={() => handleStepChange()}>
+    <Wrapper>
+      <Title>
+        <Text size='16px'>
           <FormattedMessage
-            id='modals.lockboxsetup.firststep.link'
-            defaultMessage='Link a new device'
+            id='modals.lockboxsetup.setuptypestep.connect'
+            defaultMessage='Connect Your Lockbox'
           />
-        </Button>
-      </Row>
-      <Row>
-        <Button nature='primary' fullwidth>
-          <FormattedMessage
-            id='modals.lockboxsetup.firststep.restore'
-            defaultMessage='Restore an existing device'
-          />
-        </Button>
-      </Row>
-      <Row>
-        <Button nature='primary' fullwidth>
-          <FormattedMessage
-            id='modals.lockboxsetup.firststep.buy'
-            defaultMessage='Buy a new Lockbox'
-          />
-        </Button>
-      </Row>
-    </React.Fragment>
+        </Text>
+      </Title>
+      <Content>
+        <Column>
+          <ImageContainer>
+            <Image name='link-lockbox-icon' />
+          </ImageContainer>
+          <StyledButton
+            nature='primary'
+            fullwidth
+            onClick={() => handleStepChange()}
+          >
+            <FormattedMessage
+              id='modals.lockboxsetup.firststep.link'
+              defaultMessage='Link your new device'
+            />
+          </StyledButton>
+        </Column>
+        <Column>
+          <ImageContainer>
+            <Image name='restore-lockbox-icon' />
+          </ImageContainer>
+          <StyledButton nature='primary' fullwidth>
+            <FormattedMessage
+              id='modals.lockboxsetup.firststep.restore'
+              defaultMessage='Restore your device'
+            />
+          </StyledButton>
+        </Column>
+      </Content>
+    </Wrapper>
   )
 }
 

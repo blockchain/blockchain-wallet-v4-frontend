@@ -1,17 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
 
-import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
+import { Modal, ModalBody } from 'blockchain-info-components'
 
 const LockboxSetup = props => (
   <Modal size='large' position={props.position} total={props.total}>
-    <ModalHeader icon='lock' onClose={props.closeAll}>
-      <FormattedMessage
-        id='modals.lockboxsetup.title'
-        defaultMessage='Lockbox Setup'
-      />
-    </ModalHeader>
     <ModalBody>{props.children}</ModalBody>
   </Modal>
 )
