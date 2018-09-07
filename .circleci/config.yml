@@ -134,20 +134,12 @@ workflows:
       - test_frontend:
           requires:
             - npm_install
+      - test_coverage:
+          requres:
+            - npm_install
 
   test_coverage:
-    triggers:
-      - schedule:
-          cron: "0 0 * * *"
-          filters:
-            branches:
-              only:
-                - development
     jobs:
-      - pull_code
-      - npm_install:
-          requires:
-            - pull_code
       - coverage_core:
           requires:
             - npm_install
