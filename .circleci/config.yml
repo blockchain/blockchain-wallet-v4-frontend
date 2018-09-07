@@ -75,7 +75,7 @@ jobs:
       - *attach_workspace
       - run:
           name: Code Coverage
-          command: ci:test:build && yarn ci:coverage:components && yarn ci:coverage:core && yarn ci:coverage:frontend
+          command: yarn ci:test:build && yarn ci:coverage:components && yarn ci:coverage:core && yarn ci:coverage:frontend
       - persist_to_workspace:
           root: /home/circleci
           paths:
