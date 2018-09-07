@@ -14,6 +14,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { Button, Text, Icon } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
+  min-height: 210px;
   position: relative;
   display: flex;
   width: 100%;
