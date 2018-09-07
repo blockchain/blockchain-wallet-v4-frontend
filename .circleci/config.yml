@@ -62,49 +62,20 @@ jobs:
       - run:
           name: Lint Code
           command: yarn lint
-  test_core_components:
+  test:
     <<: *container_config
     steps:
       - *attach_workspace
       - run:
-          name: Test Code (Core & Components)
-          command: yarn ci:test:core:components
-  test_frontend:
+          name: Test Code
+          command: yarn test
+  coverage:
     <<: *container_config
     steps:
       - *attach_workspace
       - run:
-          name: Test Code (Frontend)
-          command: yarn ci:test:build && yarn ci:test:frontend
-  coverage_core:
-    <<: *container_config
-    steps:
-      - *attach_workspace
-      - run:
-          name: Code Coverage (Core)
-          command: yarn ci:test:build && yarn ci:coverage:core
-      - persist_to_workspace:
-          root: /home/circleci
-          paths:
-            - blockchain-wallet-v4-frontend
-  coverage_components:
-      <<: *container_config
-      steps:
-        - *attach_workspace
-        - run:
-            name: Code Coverage (Components)
-            command: yarn ci:coverage:components
-        - persist_to_workspace:
-            root: /home/circleci
-            paths:
-              - blockchain-wallet-v4-frontend
-  coverage_frontend:
-    <<: *container_config
-    steps:
-      - *attach_workspace
-      - run:
-          name: Code Coverage (Frontend)
-          command: yarn ci:coverage:frontend
+          name: Code Coverage
+          command: yarn coverage
       - persist_to_workspace:
           root: /home/circleci
           paths:
@@ -128,47 +99,12 @@ workflows:
       - lint:
           requires:
             - npm_install
-      - test_core_components:
+      - test:
           requires:
-            - npm_install
-      - test_frontend:
+            npm_install
+      - coverage:
           requires:
-            - npm_install
-      - coverage_core:
-          requires:
-            - npm_install
-      - coverage_components:
-          requires:
-            - coverage_core
-      - coverage_frontend:
-          requires:
-            - coverage_components
+            - test
       - coverage_report_to_coveralls:
           requires:
-            - coverage_frontend
-
-  test_coverage:
-    triggers:
-      - schedule:
-          cron: "0 0 * * *"
-          filters:
-            branches:
-              only:
-                - development
-    jobs:
-      - pull_code
-      - npm_install:
-          requires:
-            - pull_code
-      - coverage_core:
-          requires:
-            - npm_install
-      - coverage_components:
-          requires:
-            - coverage_core
-      - coverage_frontend:
-          requires:
-            - coverage_components
-      - coverage_report_to_coveralls:
-          requires:
-            - coverage_frontend
+            - coverage
