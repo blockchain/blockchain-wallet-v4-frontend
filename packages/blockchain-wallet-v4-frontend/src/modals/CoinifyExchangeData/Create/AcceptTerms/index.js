@@ -18,7 +18,7 @@ class AcceptTermsContainer extends Component {
   }
 
   componentDidUpdate (prevProps) {
-    if (prevProps.signupError||this.state.busy) {
+    if (prevProps.signupError && this.state.busy) {
       this.setState({ busy: false })
       this.props.updateUI({ uniqueEmail: false })
     }

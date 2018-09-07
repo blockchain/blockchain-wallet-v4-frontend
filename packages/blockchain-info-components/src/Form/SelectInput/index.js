@@ -22,7 +22,7 @@ class SelectInputContainer extends React.PureComponent {
     this.handleKeyDown = this.handleKeyDown.bind(this)
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate () {
     /* eslint-disable */
     if (!equals(this.props.value, this.state.value)) {
       this.setState(
