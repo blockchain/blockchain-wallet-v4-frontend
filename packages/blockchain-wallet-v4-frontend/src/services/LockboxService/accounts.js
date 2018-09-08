@@ -20,7 +20,7 @@ const deriveDeviceId = btcXpub => {
   }
 }
 
-const generateAccountsMDEntry = deviceInfo => {
+const generateAccountsMDEntry = (deviceInfo, deviceName) => {
   try {
     const { btc, bch, eth } = deviceInfo
     const btcXpub = publicKeyChainCodeToBip32(btc)
@@ -28,9 +28,9 @@ const generateAccountsMDEntry = deviceInfo => {
     const ethXpub = publicKeyChainCodeToBip32(eth)
 
     return {
-      btc: { accounts: [btcAccount(btcXpub, 'Bitcoin Wallet')] },
-      bch: { accounts: [btcAccount(bchXpub, 'Bitcoin Cash Wallet')] },
-      eth: { accounts: [ethAccount(ethXpub, 'Ethereum Wallet')] }
+      btc: { accounts: [btcAccount(btcXpub, deviceName + ' - BTC Wallet')] },
+      bch: { accounts: [btcAccount(bchXpub, deviceName + ' - BCH Wallet')] },
+      eth: { accounts: [ethAccount(ethXpub, deviceName + ' - ETH Wallet')] }
     }
   } catch (e) {
     throw new Error('Device Info Required')
