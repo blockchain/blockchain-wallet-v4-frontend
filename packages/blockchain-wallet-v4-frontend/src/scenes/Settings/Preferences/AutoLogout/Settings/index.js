@@ -14,7 +14,7 @@ class SettingContainer extends React.PureComponent {
     this.handleToggle = this.handleToggle.bind(this)
   }
 
-  componentWillMount () {
+  componentDidMount () {
     const { logoutTime } = this.props
     this.props.formActions.initialize('settingAutoLogoutTime', {
       autoLogoutTime: logoutTime
