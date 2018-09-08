@@ -201,34 +201,37 @@ const TransactionListItem = props => {
               </React.Fragment>
             )}
           </DetailsColumn>
-          <DetailsColumn>
-            <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
-              <FormattedMessage
-                id='components.txlistitem.sentfrom'
-                defaultMessage='Sent From'
-              />
-            </Text>
-            {prop('inputs', transaction).map(input => (
-              <Text size='14px' weight={300}>
-                {input.address}
-              </Text>
-            ))}
-            <Text
-              size='14px'
-              weight={400}
-              style={{ marginBottom: '5px', marginTop: '15px' }}
-            >
-              <FormattedMessage
-                id='components.txlistitem.receivedby'
-                defaultMessage='Received By'
-              />
-            </Text>
-            {prop('outputs', transaction).map(output => (
-              <Text size='14px' weight={300}>
-                {output.address}
-              </Text>
-            ))}
-          </DetailsColumn>
+          {prop('inputs', transaction) &&
+            prop('outputs', transaction) && (
+              <DetailsColumn>
+                <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+                  <FormattedMessage
+                    id='components.txlistitem.sentfrom'
+                    defaultMessage='Sent From'
+                  />
+                </Text>
+                {prop('inputs', transaction).map(input => (
+                  <Text size='14px' weight={300}>
+                    {input.address}
+                  </Text>
+                ))}
+                <Text
+                  size='14px'
+                  weight={400}
+                  style={{ marginBottom: '5px', marginTop: '15px' }}
+                >
+                  <FormattedMessage
+                    id='components.txlistitem.receivedby'
+                    defaultMessage='Received By'
+                  />
+                </Text>
+                {prop('outputs', transaction).map(output => (
+                  <Text size='14px' weight={300}>
+                    {output.address}
+                  </Text>
+                ))}
+              </DetailsColumn>
+            )}
           <DetailsColumn>
             <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
               <FormattedMessage

@@ -27,7 +27,6 @@ const Success = props => {
           coin={transaction.coin}
           currency={props.currency}
           transaction={transaction}
-          minConfirmations={3}
         />
       ))}
       <div onClick={() => props.loadMore()}>Load More</div>
