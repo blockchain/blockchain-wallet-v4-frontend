@@ -61,6 +61,8 @@ const SearchLabel = styled.div`
         : props.theme['gray-5']};
   }
 `
+const CurrencyListContainer = styled.div``
+
 const multiValueContainer = props => {
   return (
     <SearchLabel background={props.data.value}>{props.children}</SearchLabel>
@@ -79,7 +81,9 @@ const Menu = props => {
         </TitleBarWrapper>
       </TitleBar>
       <LinkContainer to='/lockbox/dashboard'>
-        <CurrencyList deviceInfo={deviceInfo} />
+        <CurrencyListContainer>
+          <CurrencyList deviceInfo={deviceInfo} />
+        </CurrencyListContainer>
       </LinkContainer>
       {deviceInfo && (
         <StyledCreatableInputContainer>
