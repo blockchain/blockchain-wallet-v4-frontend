@@ -1,7 +1,7 @@
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
 import { mapped, over } from 'ramda-lens'
-import { append, assocPath, compose, dissocPath, lensProp } from 'ramda'
+import { assoc, append, compose, lensProp, reject, propEq, map } from 'ramda'
 import { KVStoreEntry } from '../../../types'
 
 const INITIAL_STATE = Remote.NotAsked
@@ -38,31 +38,36 @@ export default (state = INITIAL_STATE, action) => {
       const { deviceID, deviceName } = payload
       const valueLens = compose(
         mapped,
-        KVStoreEntry.value
+        KVStoreEntry.value,
+        lensProp('devices')
       )
-      let setDeviceName = assocPath(['devices', deviceID, 'name'], deviceName)
-      return over(valueLens, setDeviceName, state)
+      let isDevice = propEq('device_id', deviceID)
+      let assocDeviceName = assoc('device_name', deviceName)
+      let setDeviceName = d => (isDevice(d) ? assocDeviceName(d) : d)
+      return over(valueLens, map(setDeviceName), state)
     }
-    case AT.UPDATE_DEVICE_BALANCE_DISPLAY: {
-      const { deviceID, showBalances } = payload
-      const valueLens = compose(
-        mapped,
-        KVStoreEntry.value
-      )
-      let setShowBalances = assocPath(
-        ['devices', deviceID, 'showBalances'],
-        showBalances
-      )
-      return over(valueLens, setShowBalances, state)
-    }
+    // TODO: update balance display
+    // case AT.UPDATE_DEVICE_BALANCE_DISPLAY: {
+    //   const { deviceID, showBalances } = payload
+    //   const valueLens = compose(
+    //     mapped,
+    //     KVStoreEntry.value
+    //   )
+    //   let setShowBalances = assocPath(
+    //     ['devices', deviceID, 'showBalances'],
+    //     showBalances
+    //   )
+    //   return over(valueLens, setShowBalances, state)
+    // }
     // DELETE
     case AT.DELETE_DEVICE_LOCKBOX: {
       const { deviceID } = payload
       const valueLens = compose(
         mapped,
-        KVStoreEntry.value
+        KVStoreEntry.value,
+        lensProp('devices')
       )
-      let removeAccount = dissocPath(['devices', deviceID])
+      let removeAccount = reject(propEq('device_id', deviceID))
       return over(valueLens, removeAccount, state)
     }
     default:

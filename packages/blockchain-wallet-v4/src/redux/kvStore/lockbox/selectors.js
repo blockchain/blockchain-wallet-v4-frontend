@@ -1,4 +1,16 @@
-import { any, curry, keys, path, prop, map, flatten, filter, head } from 'ramda'
+import {
+  any,
+  find,
+  curry,
+  keys,
+  path,
+  prop,
+  propEq,
+  map,
+  flatten,
+  filter,
+  head
+} from 'ramda'
 import { kvStorePath } from '../../paths'
 import { LOCKBOX } from '../config'
 
@@ -9,17 +21,13 @@ export const getDevices = state =>
   getMetadata(state).map(path(['value', 'devices']))
 
 export const getDevice = (state, deviceID) =>
-  getDevices(state).map(prop(deviceID))
+  getDevices(state).map(find(propEq('device_id', deviceID)))
 
-export const getAccounts = state =>
-  getDevices(state).map(devices =>
-    map(d => path([d, 'accounts'], devices), keys(devices))
-  )
 export const getDeviceName = (state, deviceId) =>
-  getDevice(state, deviceId).map(prop('name'))
+  getDevice(state, deviceId).map(prop('device_name'))
 
 // BTC
-export const getLockboxBtc = state => getAccounts(state).map(map(path(['btc'])))
+export const getLockboxBtc = state => getDevices(state).map(map(path(['btc'])))
 
 export const getLockboxBtcAccounts = state =>
   getLockboxBtc(state)
@@ -52,7 +60,7 @@ export const getDeviceIdFromBtcXpubs = (state, xpubs) => {
 }
 
 // BCH
-export const getLockboxBch = state => getAccounts(state).map(map(path(['bch'])))
+export const getLockboxBch = state => getDevices(state).map(map(path(['bch'])))
 
 export const getLockboxBchAccounts = state =>
   getLockboxBch(state)
@@ -85,7 +93,7 @@ export const getDeviceIdFromBchXpubs = (state, xpubs) => {
 }
 
 // ETH
-export const getLockboxEth = state => getAccounts(state).map(map(path(['eth'])))
+export const getLockboxEth = state => getDevices(state).map(map(path(['eth'])))
 
 export const getLockboxEthAccounts = state =>
   getLockboxEth(state)

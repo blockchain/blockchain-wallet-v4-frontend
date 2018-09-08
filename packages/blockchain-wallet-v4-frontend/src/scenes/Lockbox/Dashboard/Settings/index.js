@@ -13,12 +13,12 @@ export default class LockboxSettings extends PureComponent {
 
     return (
       <React.Fragment>
-        <RenameDevice deviceId={device.id} />
-        <ExportXPub deviceId={device.id} />
+        <RenameDevice deviceId={device.device_id} />
+        <ExportXPub deviceId={device.device_id} />
         <AddDevice />
         <RestoreDevice />
-        <UpdateDevice deviceId={device.id} />
-        <RemoveDevice deviceId={device.id} />
+        <UpdateDevice deviceId={device.device_id} />
+        <RemoveDevice deviceId={device.device_id} />
       </React.Fragment>
     )
   }
