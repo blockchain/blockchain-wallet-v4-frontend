@@ -1293,23 +1293,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Sent",
-        "id": "scenes.transactions.bitcoin.content.list.listitem.status.sent"
-      },
-      {
-        "defaultMessage": "Received",
-        "id": "scenes.transactions.bitcoin.content.list.listitem.status.received"
-      },
-      {
-        "defaultMessage": "Transferred",
-        "id": "scenes.transactions.bitcoin.content.list.listitem.status.transferred"
-      }
-    ],
-    "path": "src/components/TransactionListItem/Status/index.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Non-Spendable",
         "id": "components.txlistitem.watchonly"
       },

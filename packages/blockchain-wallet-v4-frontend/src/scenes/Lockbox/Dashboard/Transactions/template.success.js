@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { compose, prop, reverse, sortBy } from 'ramda'
 
-import TransactionListItem from 'components/TransactionListItem'
+import TransactionListItem2 from 'components/TransactionListItem2'
 
 const Wrapper = styled.div`
   display: flex;
@@ -22,9 +22,10 @@ const Success = props => {
   return (
     <Wrapper>
       {sortByTime(props.transactions).map((transaction, index) => (
-        <TransactionListItem
+        <TransactionListItem2
           key={transaction.hash}
           coin={transaction.coin}
+          currency={props.currency}
           transaction={transaction}
           minConfirmations={3}
         />

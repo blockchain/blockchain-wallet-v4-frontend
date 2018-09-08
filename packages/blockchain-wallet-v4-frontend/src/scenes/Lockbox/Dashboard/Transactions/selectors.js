@@ -65,26 +65,40 @@ const processPages = (pages, coinType) => {
 
 export const getData = createDeepEqualSelector(
   [
+    selectors.core.settings.getCurrency,
     selectors.core.common.btc.getWalletTransactions,
     selectors.core.common.bch.getWalletTransactions,
     selectors.core.common.eth.getWalletTransactions,
     selectors.form.getFormValues('lockboxTransactions')
   ],
-  (btcPages, bchPages, ethPages, formValues) => {
+  (currencyR, btcPages, bchPages, ethPages, formValues) => {
     const btcTransactions = processPages(btcPages, 'BTC')
     const bchTransactions = processPages(bchPages, 'BCH')
     const ethTransactions = processPages(ethPages, 'ETH')
     const search = pathOr([], ['search', 'value'], formValues)
     const searches = search.map(path(['value']))
-    const transform = (btcTransactions, bchTransactions, ethTransactions) => {
+    const transform = (
+      currency,
+      btcTransactions,
+      bchTransactions,
+      ethTransactions
+    ) => {
       const transactions = concatAll(
         btcTransactions,
         bchTransactions,
         ethTransactions
       )
       const filteredTransactions = filterTransactions(searches)(transactions)
-      return filteredTransactions
+      return {
+        currency,
+        filteredTransactions
+      }
     }
-    return lift(transform)(btcTransactions, bchTransactions, ethTransactions)
+    return lift(transform)(
+      currencyR,
+      btcTransactions,
+      bchTransactions,
+      ethTransactions
+    )
   }
 )

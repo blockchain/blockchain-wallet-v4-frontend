@@ -25,10 +25,11 @@ const CoinDisplay = props => {
     weight,
     color,
     cursor,
-    mobileSize
+    mobileSize,
+    ...rest
   } = props
   return (
-    <Wrapper>
+    <Wrapper {...rest}>
       {showIcon &&
         coin === 'BTC' && (
           <Icon name='bitcoin' size={size} weight={weight} color={color} />

@@ -23,7 +23,13 @@ class TransactionsContainer extends React.PureComponent {
   render () {
     const { data } = this.props
     return data.cata({
-      Success: val => <Success transactions={val} loadMore={this.loadMore} />,
+      Success: val => (
+        <Success
+          currency={val.currency}
+          loadMore={this.loadMore}
+          transactions={val.filteredTransactions}
+        />
+      ),
       Loading: () => <Loading />,
       Failure: () => <div>Something went wrong.</div>,
       NotAsked: () => <div />

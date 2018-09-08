@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   width: 100%;
 `
 const ContentWrapper = styled.div`
-  padding: 0 30px;
+  padding: 0 15px;
 `
 class LockboxDashboardContainer extends React.PureComponent {
   render () {
