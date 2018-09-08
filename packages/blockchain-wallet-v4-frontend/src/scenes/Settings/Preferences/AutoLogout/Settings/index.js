@@ -19,6 +19,7 @@ class SettingContainer extends React.PureComponent {
     this.props.formActions.initialize('settingAutoLogoutTime', {
       autoLogoutTime: logoutTime
     })
+    this.props.uiActions.toggleAutoLogout()
     this.props.updateUI({ updateToggled: false })
   }
 
@@ -58,7 +59,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
+  settingsActions: bindActionCreators(actions.modules.settings, dispatch),
+  uiActions: bindActionCreators(actions.preferences, dispatch)
 })
 
 const enhance = compose(
