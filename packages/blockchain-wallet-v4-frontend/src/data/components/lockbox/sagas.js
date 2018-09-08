@@ -1,5 +1,5 @@
 import { call, put, take, select } from 'redux-saga/effects'
-import { contains, keysIn, prop } from 'ramda'
+import { contains, keysIn } from 'ramda'
 
 import { actions, selectors } from 'data'
 import * as A from './actions'
@@ -115,19 +115,13 @@ export default ({ api, coreSagas }) => {
       yield put(A.saveNewDeviceKvStoreLoading())
       const newDeviceR = yield select(S.getNewDeviceInfo)
       const newDevice = newDeviceR.getOrFail('missing_device')
-      const deviceInfo = prop('info', newDevice)
       const mdAccountsEntry = LockboxService.accounts.generateAccountsMDEntry(
-        deviceInfo,
+        newDevice,
         deviceName
       )
       // store device in kvStore
       yield put(
-        actions.core.kvStore.lockbox.createNewDeviceEntry(
-          newDevice.id,
-          newDevice.type,
-          deviceName,
-          mdAccountsEntry
-        )
+        actions.core.kvStore.lockbox.createNewDeviceEntry(mdAccountsEntry)
       )
       yield put(A.saveNewDeviceKvStoreSuccess())
       yield put(actions.modals.closeModal())

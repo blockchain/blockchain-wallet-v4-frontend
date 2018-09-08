@@ -19,8 +19,7 @@ class NameDeviceStepContainer extends React.PureComponent {
 
   render () {
     const { deviceNames } = this.props
-    const deviceIndex =
-      deviceNames.length > 0 ? ' ' + deviceNames.length + 1 : ''
+    const deviceIndex = deviceNames.length > 0 ? ` ${deviceNames.length}` : ''
 
     return (
       <NameDeviceStep

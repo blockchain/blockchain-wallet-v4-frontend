@@ -2,6 +2,7 @@ import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
 import { publicKeyChainCodeToBip32 } from 'blockchain-wallet-v4/src/utils/btc'
 import { deriveAddressFromXpub } from 'blockchain-wallet-v4/src/utils/eth'
 import { Types } from 'blockchain-wallet-v4/src'
+import { prop } from 'ramda'
 
 const deriveDeviceInfo = async btcTransport => {
   const btc = await btcTransport.getWalletPublicKey("44'/0'/0'")
@@ -20,7 +21,13 @@ const deriveDeviceId = btcXpub => {
   }
 }
 
-const generateAccountsMDEntry = (deviceInfo, deviceName) => {
+const generateAccountsMDEntry = (newDevice, deviceName) => {
+  /* eslint-disable */
+  const device_id = prop('id', newDevice)
+  const device_type = prop('type', newDevice)
+  /* eslint-enable */
+  const deviceInfo = prop('info', newDevice)
+
   try {
     const { btc, bch, eth } = deviceInfo
     const btcXpub = publicKeyChainCodeToBip32(btc)
@@ -28,12 +35,14 @@ const generateAccountsMDEntry = (deviceInfo, deviceName) => {
     const ethXpub = publicKeyChainCodeToBip32(eth)
 
     return {
+      device_id,
+      device_type,
       btc: { accounts: [btcAccount(btcXpub, deviceName + ' - BTC Wallet')] },
       bch: { accounts: [btcAccount(bchXpub, deviceName + ' - BCH Wallet')] },
       eth: { accounts: [ethAccount(ethXpub, deviceName + ' - ETH Wallet')] }
     }
   } catch (e) {
-    throw new Error('Device Info Required')
+    throw new Error('mising_device_info')
   }
 }
 

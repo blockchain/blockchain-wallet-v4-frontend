@@ -1,7 +1,7 @@
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
 import { mapped, over } from 'ramda-lens'
-import { assocPath, compose, dissocPath } from 'ramda'
+import { append, assocPath, compose, dissocPath, lensProp } from 'ramda'
 import { KVStoreEntry } from '../../../types'
 
 const INITIAL_STATE = Remote.NotAsked
@@ -15,17 +15,13 @@ export default (state = INITIAL_STATE, action) => {
       return Remote.Success(payload)
     }
     case AT.CREATE_NEW_DEVICE_ENTRY: {
-      const { deviceID, deviceType, deviceName, accounts } = payload
+      const { deviceEntry } = payload
       const valueLens = compose(
         mapped,
-        KVStoreEntry.value
+        KVStoreEntry.value,
+        lensProp('devices')
       )
-      let setNewDevice = assocPath(['devices', deviceID], {
-        device_type: deviceType,
-        name: deviceName,
-        accounts: accounts
-      })
-      return over(valueLens, setNewDevice, state)
+      return over(valueLens, append(deviceEntry), state)
     }
     // FETCH
     case AT.FETCH_METADATA_LOCKBOX_LOADING: {

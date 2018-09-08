@@ -5,14 +5,9 @@ export const createMetadataLockbox = data => ({
   type: AT.CREATE_METADATA_LOCKBOX,
   payload: data
 })
-export const createNewDeviceEntry = (
-  deviceID,
-  deviceType,
-  deviceName,
-  accounts
-) => ({
+export const createNewDeviceEntry = deviceEntry => ({
   type: AT.CREATE_NEW_DEVICE_ENTRY,
-  payload: { deviceID, deviceType, deviceName, accounts }
+  payload: { deviceEntry }
 })
 
 // FETCH
