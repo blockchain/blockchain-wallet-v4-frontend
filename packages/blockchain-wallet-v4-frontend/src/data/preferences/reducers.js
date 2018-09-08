@@ -15,7 +15,7 @@ const INITIAL_STATE = {
   showBitcoinCashWelcome: true,
   showLogoutSurvey: true,
   showKycCompleted: true,
-  updateToggled: false
+  updateToggled: true
 }
 
 const preferences = (state = INITIAL_STATE, action) => {
@@ -52,7 +52,7 @@ const preferences = (state = INITIAL_STATE, action) => {
       return assoc('showKycCompleted', false, state)
     }
     case AT.TOGGLE_AUTO_LOGOUT: {
-      return state
+      return assoc('updateToggled', !state.updateToggled, state)
     }
     case priceChartActionTypes.PRICE_CHART_COIN_CLICKED: {
       const { coin } = payload
