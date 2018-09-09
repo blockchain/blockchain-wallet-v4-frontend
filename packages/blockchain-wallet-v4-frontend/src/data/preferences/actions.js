@@ -34,3 +34,7 @@ export const hideKycCompleted = () => ({ type: AT.HIDE_KYC_COMPLETED })
 export const toggleAutoLogout = () => ({
   type: AT.TOGGLE_AUTO_LOGOUT
 })
+
+export const warningDisplayed = () => ({
+  type: AT.WARNING_DISPLAYED
+})
