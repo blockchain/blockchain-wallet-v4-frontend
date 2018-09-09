@@ -13,12 +13,9 @@ class SelectInputContainer extends React.PureComponent {
   componentDidUpdate (prevProps) {
     /* eslint-disable */
     if (!equals(this.props.value, prevProps.value)) {
-      this.setState(
-        {
-          value:
-            this.props.value
-        }
-      )
+      this.setState({
+        value: this.props.value
+      })
     }
     /* eslint-enable */
   }

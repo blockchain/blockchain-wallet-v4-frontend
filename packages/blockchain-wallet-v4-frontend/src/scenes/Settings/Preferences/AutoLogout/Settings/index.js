@@ -13,11 +13,7 @@ class SettingContainer extends React.PureComponent {
     this.handleToggle = this.handleToggle.bind(this)
   }
 
-<<<<<<< HEAD
   getDerivedStateFromProps () {
-=======
-  componentDidMount () {
->>>>>>> development
     const { logoutTime } = this.props
     this.props.formActions.initialize('settingAutoLogoutTime', {
       autoLogoutTime: logoutTime

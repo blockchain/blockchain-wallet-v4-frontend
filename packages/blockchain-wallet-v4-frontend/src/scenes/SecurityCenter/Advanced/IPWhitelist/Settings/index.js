@@ -16,7 +16,6 @@ class SettingsContainer extends React.PureComponent {
     this.handleToggle = this.handleToggle.bind(this)
   }
 
-
   componentDidMount (prevProps) {
     if (!equals(this.props.currentWhitelist, prevProps.currentWhitelist)) {
       this.props.updateUI({ updateToggled: false })
