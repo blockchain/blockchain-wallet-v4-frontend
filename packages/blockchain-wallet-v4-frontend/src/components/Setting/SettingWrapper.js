@@ -9,10 +9,6 @@ const SettingWrapper = styled.div`
   @media (min-width: 992px) {
     align-items: flex-end;
   }
-
-  & > * {
-    margin-bottom: 10px;
-  }
 `
 
 export default SettingWrapper

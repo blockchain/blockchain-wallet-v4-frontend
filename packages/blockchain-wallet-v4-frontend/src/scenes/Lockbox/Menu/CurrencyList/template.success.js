@@ -6,7 +6,7 @@ import { any, equals, toLower, prop, isEmpty } from 'ramda'
 const CurrencyList = styled.div`
   display: flex;
   width: 100%;
-  padding: 20px 40px;
+  padding: 20px 30px;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 

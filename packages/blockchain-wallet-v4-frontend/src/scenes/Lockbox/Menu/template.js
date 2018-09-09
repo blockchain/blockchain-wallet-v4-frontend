@@ -23,11 +23,11 @@ const TitleBarWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 40px;
+  padding: 15px 30px;
 `
 const StyledCreatableInputContainer = styled.div`
   display: flex;
-  padding: 15px 40px;
+  padding: 15px 30px;
   align-items: center;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
   > div:last-child {
