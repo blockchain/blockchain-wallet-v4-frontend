@@ -8,7 +8,7 @@
       "jsx": true
     }
   },
-  "plugins": ["babel", "react", "jest"],
+  "plugins": ["babel", "react", "jest", "json"],
   "env": {
     "browser": true,
     "jest": true,

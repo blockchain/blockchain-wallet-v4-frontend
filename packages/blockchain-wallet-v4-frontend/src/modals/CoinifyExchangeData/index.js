@@ -67,9 +67,7 @@ class CoinifyExchangeData extends React.PureComponent {
         return <Create country={this.props.country} />
       case 'isx':
         return (
-          <ISignThis
-            iSignThisId={path(['iSignThisID'], this.props.trade.data)}
-          />
+          <ISignThis iSignThisId={path(['iSignThisID'], this.props.trade)} />
         )
       case 'confirm':
         return <Confirm />
@@ -112,26 +110,19 @@ class CoinifyExchangeData extends React.PureComponent {
 
 CoinifyExchangeData.propTypes = {
   step: PropTypes.oneOf(['account', 'isx', 'confirm', 'order', 'payment']),
-  close: PropTypes.function
+  close: PropTypes.func
 }
 
 const mapStateToProps = state => ({
   data: getData(state),
   signupStep: path(['coinify', 'signupStep'], state),
   signupComplete: path(['coinify', 'signupComplete'], state),
-  trade: selectors.core.data.coinify.getTrade(state)
-})
-
-const mapDispatchToProps = dispatch => ({
-  // coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch)
+  trade: selectors.core.data.coinify.getTrade(state).getOrElse({})
 })
 
 const enhance = compose(
   modalEnhancer('CoinifyExchangeData'),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps)
 )
 
 export default enhance(CoinifyExchangeData)

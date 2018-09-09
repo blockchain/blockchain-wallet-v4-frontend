@@ -58,7 +58,7 @@ export const getContext = createDeepEqualSelector(
 export const getSpendableContext = createDeepEqualSelector(
   [
     walletSelectors.getHDAccounts,
-    walletSelectors.getSpendableContext,
+    walletSelectors.getSpendableAddrContext,
     getAccounts
   ],
   (btcHDAccounts, spendableAddresses, metadataAccountsR) => {
@@ -71,8 +71,7 @@ export const getSpendableContext = createDeepEqualSelector(
       return map(prop('xpub'), activeAccounts)
     }
     const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
-    const addresses = keysIn(spendableAddresses)
-    return concat(activeAccounts, addresses)
+    return concat(activeAccounts, spendableAddresses)
   }
 )
 
@@ -85,6 +84,9 @@ export const getDefaultAccountIndex = state =>
 export const getAccountLabel = curry((state, index) =>
   getAccounts(state).map(path([index, 'label']))
 )
+
+export const getBchTxNotes = state =>
+  getMetadata(state).map(path(['value', 'tx_notes']))
 
 export const getBchTxNote = (state, txHash) =>
   getMetadata(state).map(path(['value', 'tx_notes', txHash]))

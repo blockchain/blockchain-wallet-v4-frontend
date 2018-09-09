@@ -13,7 +13,7 @@ const extendedReducer = (state, action) => {
   switch (type) {
     case AT.CHANGE2: {
       const { form, field, value } = payload
-      return assocPath([form, 'values', field], value, state)
+      return assocPath([...form.split('.'), 'values', field], value, state)
     }
     default:
       return state

@@ -20,14 +20,15 @@ export default ({ coreSagas }) => {
       const type = path(['payload', 'type'], action)
       yield put(A.sendEthPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.eth.create({
-        network: settings.NETWORK_ETHEREUM
+        network: settings.NETWORK_ETH
       })
       payment = yield payment.init()
       payment =
         from && type
           ? yield payment.from(action.payload.from, action.payload.type)
           : yield payment.from()
-      const initialValues = { coin: 'ETH' }
+      const defaultFee = path(['fees', 'regular'], payment.value())
+      const initialValues = { coin: 'ETH', fee: defaultFee }
       yield put(initialize('sendEth', initialValues))
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
@@ -47,7 +48,7 @@ export default ({ coreSagas }) => {
       yield put(A.sendEthPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.eth.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_ETHEREUM
+        network: settings.NETWORK_ETH
       })
       payment = yield payment.build()
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
@@ -67,7 +68,7 @@ export default ({ coreSagas }) => {
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.eth.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_ETHEREUM
+        network: settings.NETWORK_ETH
       })
 
       switch (field) {
@@ -99,7 +100,11 @@ export default ({ coreSagas }) => {
         case 'description':
           payment = yield payment.description(payload)
           break
+        case 'fee':
+          payment = yield payment.fee(parseInt(payload))
+          break
       }
+
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
@@ -142,7 +147,7 @@ export default ({ coreSagas }) => {
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.eth.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_ETHEREUM
+        network: settings.NETWORK_ETH
       })
       const password = yield call(promptForSecondPassword)
       yield put(actions.modals.closeAllModals())
@@ -178,12 +183,68 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const regularFeeClicked = function*() {
+    try {
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const regularFee = path(['fees', 'regular'], payment)
+      yield put(change('sendEth', 'fee', regularFee))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'regularFeeClicked', e)
+      )
+    }
+  }
+
+  const priorityFeeClicked = function*() {
+    try {
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const priorityFee = path(['fees', 'priority'], payment)
+      yield put(change('sendEth', 'fee', priorityFee))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'priorityFeeClicked', e)
+      )
+    }
+  }
+
+  const minimumFeeClicked = function*() {
+    try {
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const minFee = path(['fees', 'limits', 'min'], payment)
+      yield put(change('sendEth', 'fee', minFee))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'minimumFeeClicked', e)
+      )
+    }
+  }
+
+  const maximumFeeClicked = function*() {
+    try {
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const maxFee = path(['fees', 'limits', 'max'], payment)
+      yield put(change('sendEth', 'fee', maxFee))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'maximumFeeClicked', e)
+      )
+    }
+  }
+
   return {
     initialized,
     destroyed,
     firstStepSubmitClicked,
     maximumAmountClicked,
+    maximumFeeClicked,
+    minimumFeeClicked,
     secondStepSubmitClicked,
-    formChanged
+    formChanged,
+    regularFeeClicked,
+    priorityFeeClicked
   }
 }

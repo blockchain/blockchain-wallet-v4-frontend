@@ -2,8 +2,8 @@ import { takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import sagas from './sagas'
 
-export default ({ coreSagas }) => {
-  const settingsSagas = sagas({ coreSagas })
+export default ({ api, coreSagas }) => {
+  const settingsSagas = sagas({ api, coreSagas })
 
   return function*() {
     yield takeLatest(AT.INIT_SETTINGS_INFO, settingsSagas.initSettingsInfo)
@@ -17,6 +17,7 @@ export default ({ coreSagas }) => {
       settingsSagas.showGoogleAuthenticatorSecretUrl
     )
     yield takeLatest(AT.UPDATE_MOBILE, settingsSagas.updateMobile)
+    yield takeLatest(AT.RESEND_MOBILE, settingsSagas.resendMobile)
     yield takeLatest(AT.VERIFY_MOBILE, settingsSagas.verifyMobile)
     yield takeLatest(AT.UPDATE_LANGUAGE, settingsSagas.updateLanguage)
     yield takeLatest(AT.UPDATE_CURRENCY, settingsSagas.updateCurrency)

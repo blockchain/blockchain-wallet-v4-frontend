@@ -3,11 +3,10 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { keys } from 'ramda'
+import { keys, pickBy } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
-import { actions } from 'data'
-import { STEPS, MODAL_NAME } from 'data/components/identityVerification/model'
+import { actions, model } from 'data'
 import { getData } from './selectors'
 import modalEnhancer from 'providers/ModalEnhancer'
 import media from 'services/ResponsiveService'
@@ -15,7 +14,7 @@ import { ModalHeader, ModalBody } from 'blockchain-info-components'
 import Tray, { duration } from 'components/Tray'
 import StepIndicator from 'components/StepIndicator'
 import Personal from './Personal'
-import Address from './Address'
+import VerifyMobile from './VerifyMobile'
 import Verify from './Verify'
 
 const HeaderWrapper = styled.div`
@@ -26,6 +25,17 @@ const HeaderWrapper = styled.div`
   `};
 `
 
+const StepHeader = styled(ModalHeader)`
+  > div {
+    width: 100%;
+    > div {
+      width: 100%;
+    }
+  }
+`
+
+const { STEPS, MODAL_NAME } = model.components.identityVerification
+
 const stepMap = {
   [STEPS.personal]: (
     <FormattedMessage
@@ -33,10 +43,10 @@ const stepMap = {
       defaultMessage='Personal'
     />
   ),
-  [STEPS.address]: (
+  [STEPS.mobile]: (
     <FormattedMessage
-      id='modals.identityverification.steps.address'
-      defaultMessage='Address'
+      id='modals.identityverification.steps.mobile'
+      defaultMessage='Phone'
     />
   ),
   [STEPS.verify]: (
@@ -47,6 +57,9 @@ const stepMap = {
   )
 }
 
+const filterSteps = smsVerified => (stepText, step) =>
+  step !== STEPS.mobile || !smsVerified
+
 class IdentityVerification extends React.PureComponent {
   state = { show: false }
 
@@ -54,7 +67,12 @@ class IdentityVerification extends React.PureComponent {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
+    const { actions, smsVerified } = this.props
+    actions.initializeStep()
+    this.steps = pickBy(filterSteps(smsVerified), stepMap)
   }
+
+  steps = {}
 
   handleClose = () => {
     this.setState({ show: false })
@@ -63,28 +81,36 @@ class IdentityVerification extends React.PureComponent {
 
   getStepComponent = step => {
     const { actions, modalActions, position, total } = this.props
-    if (step === STEPS.address)
+    if (step === STEPS.personal)
+      return <Personal handleSubmit={actions.savePersonalData} />
+
+    if (step === STEPS.mobile)
       return (
-        <Address
-          handleSubmit={actions.setVertificationStep.bind(null, STEPS.verify)}
+        <VerifyMobile
+          handleSubmit={actions.verifySmsNumber}
+          onBack={actions.setVerificationStep.bind(null, STEPS.personal)}
         />
       )
 
     if (step === STEPS.verify)
       return (
         <Verify
-          handleSubmit={modalActions.showModal.bind(null, 'Onfido', {
-            position: position + 1,
-            total: total + 1
-          })}
+          handleSubmit={modalActions.showModal.bind(
+            null,
+            'Onfido',
+            {
+              position: position + 1,
+              total: total + 1
+            },
+            {}
+          )}
+          onBack={
+            this.steps.mobile
+              ? actions.setVerificationStep.bind(null, STEPS.mobile)
+              : actions.setVerificationStep.bind(null, STEPS.personal)
+          }
         />
       )
-
-    return (
-      <Personal
-        handleSubmit={actions.setVertificationStep.bind(null, STEPS.address)}
-      />
-    )
   }
 
   render () {
@@ -99,19 +125,18 @@ class IdentityVerification extends React.PureComponent {
         total={total}
         onClose={this.handleClose}
       >
-        <ModalHeader tray paddingHorizontal='15%' onClose={this.handleClose}>
+        <StepHeader tray paddingHorizontal='15%' onClose={this.handleClose}>
           <HeaderWrapper>
             <StepIndicator
               adjuster={0.1667}
               barFullWidth
               flexEnd
-              minWidth='135px'
-              maxWidth='135px'
+              maxWidth='none'
               step={step}
-              stepMap={stepMap}
+              stepMap={this.steps}
             />
           </HeaderWrapper>
-        </ModalHeader>
+        </StepHeader>
         <ModalBody>{this.getStepComponent(step)}</ModalBody>
       </Tray>
     )

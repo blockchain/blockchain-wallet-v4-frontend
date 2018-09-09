@@ -84,7 +84,10 @@ class Home extends React.PureComponent {
 
     const renderSfoxBanner = kvStore => {
       const sfoxKvData = path(['value', 'sfox'], kvStore)
-      if (sfoxKvData.trades.length || canTrade.getOrElse('') !== 'sfox') {
+      if (
+        path(['trades', 'length'], sfoxKvData) ||
+        canTrade.getOrElse('') !== 'sfox'
+      ) {
         return null
       } else {
         return <SfoxSignupBanner sfoxKvData={sfoxKvData} />
