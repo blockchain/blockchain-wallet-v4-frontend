@@ -45,17 +45,19 @@ export const SubMenu = styled.ul`
   padding: 5px 10px;
   margin-left: 10px;
   margin-top: -15px;
-  margin-bottom: 30px;
+  margin-bottom: 5px;
 `
 export const SubMenuItem = styled.li`
   padding: 5px 0;
   box-sizing: border-box;
   text-transform: none;
+  font-weight: 300;
+  font-size: 13px;
   cursor: pointer;
 
   &.active {
     & > * {
-      color: ${props => props.theme['brand-secondary']};
+      color: ${props => props.theme['marketing-primary']};
     }
   }
 `
