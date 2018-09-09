@@ -21,7 +21,7 @@ import {
   NumberBoxDebounced,
   SelectBox,
   SelectBoxCoin,
-  SelectBoxEtherAddresses,
+  SelectBoxEthAddresses,
   TextBox,
   TextAreaDebounced
 } from 'components/Form'
@@ -93,7 +93,7 @@ const FirstStep = props => {
           </FormLabel>
           <Field
             name='from'
-            component={SelectBoxEtherAddresses}
+            component={SelectBoxEthAddresses}
             includeAll={false}
             validate={[required]}
           />
@@ -111,13 +111,12 @@ const FirstStep = props => {
             {toToggled && (
               <Field
                 name='to'
-                component={SelectBoxEtherAddresses}
-                disabled={unconfirmedTx}
-                opened
-                onFocus={() => handleToToggle()}
-                includeAll={false}
+                component={SelectBoxEthAddresses}
+                menuIsOpen={!destination}
                 exclude={[from.label]}
                 validate={[required]}
+                includeAll={false}
+                hideIndicator
                 hideErrors
               />
             )}
@@ -125,29 +124,28 @@ const FirstStep = props => {
               <Field
                 name='to'
                 placeholder='Paste or scan an address, or select a destination'
-                disabled={unconfirmedTx}
                 component={TextBox}
                 validate={[required, validEtherAddress]}
                 autoFocus
               />
             )}
-            {(!toToggled || destination) &&
-              !unconfirmedTx && (
-                <QRCodeCapture
-                  scanType='ethAddress'
-                  border={
-                    enableToggle
-                      ? ['top', 'bottom']
-                      : ['top', 'bottom', 'right']
-                  }
-                />
-              )}
-            {enableToggle &&
-              (!toToggled || destination) && (
-                <AddressButton onClick={() => handleToToggle(true)}>
-                  <Icon name='down-arrow' size='10px' cursor />
+            <QRCodeCapture
+              scanType='ethAddress'
+              border={
+                enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']
+              }
+            />
+            {enableToggle ? (
+              !toToggled ? (
+                <AddressButton onClick={() => handleToToggle()}>
+                  <Icon name='down-arrow' size='11px' cursor />
                 </AddressButton>
-              )}
+              ) : (
+                <AddressButton onClick={() => handleToToggle()}>
+                  <Icon name='pencil' size='13px' cursor />
+                </AddressButton>
+              )
+            ) : null}
           </Row>
           {unconfirmedTx && (
             <Text color='error' size='12px' weight={300}>

@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { getData } from './selectors'
 import SelectBoxBitcoin from './template'
 
-class SelectBoxBitcoinAddresses extends React.PureComponent {
+class SelectBoxBtcAddresses extends React.PureComponent {
   render () {
     const { data, ...rest } = this.props
 
@@ -20,11 +20,11 @@ class SelectBoxBitcoinAddresses extends React.PureComponent {
   }
 }
 
-SelectBoxBitcoinAddresses.propTypes = {
+SelectBoxBtcAddresses.propTypes = {
   includeAll: PropTypes.bool
 }
 
-SelectBoxBitcoinAddresses.defaultProps = {
+SelectBoxBtcAddresses.defaultProps = {
   includeAll: true
 }
 
@@ -32,4 +32,4 @@ const mapStateToProps = (state, ownProps) => ({
   data: getData(state, ownProps)
 })
 
-export default connect(mapStateToProps)(SelectBoxBitcoinAddresses)
+export default connect(mapStateToProps)(SelectBoxBtcAddresses)

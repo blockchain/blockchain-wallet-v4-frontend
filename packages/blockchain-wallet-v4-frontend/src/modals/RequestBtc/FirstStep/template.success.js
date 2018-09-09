@@ -20,7 +20,7 @@ import {
   FormGroup,
   FormItem,
   FormLabel,
-  SelectBoxBitcoinAddresses,
+  SelectBoxBtcAddresses,
   TextArea,
   SelectBoxCoin
 } from 'components/Form'
@@ -136,7 +136,7 @@ const FirstStep = props => {
           </FormLabel>
           <Field
             name='to'
-            component={SelectBoxBitcoinAddresses}
+            component={SelectBoxBtcAddresses}
             includeAll={false}
             validate={[required]}
           />

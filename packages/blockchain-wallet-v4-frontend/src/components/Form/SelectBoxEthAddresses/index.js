@@ -3,15 +3,15 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { getData } from './selectors'
-import SelectBoxEther from './template'
+import SelectBoxEth from './template'
 
-class SelectBoxEtherAddresses extends React.PureComponent {
+class SelectBoxEthAddresses extends React.PureComponent {
   render () {
     const { data, includeAll, ...rest } = this.props
 
     return data.cata({
       Success: value => {
-        return <SelectBoxEther elements={value.data} {...rest} />
+        return <SelectBoxEth elements={value.data} {...rest} />
       },
       Failure: message => <div>{message}</div>,
       Loading: () => <div />,
@@ -20,11 +20,11 @@ class SelectBoxEtherAddresses extends React.PureComponent {
   }
 }
 
-SelectBoxEtherAddresses.propTypes = {
+SelectBoxEthAddresses.propTypes = {
   includeAll: PropTypes.bool
 }
 
-SelectBoxEtherAddresses.defaultProps = {
+SelectBoxEthAddresses.defaultProps = {
   includeAll: true
 }
 
@@ -32,4 +32,4 @@ const mapStateToProps = (state, ownProps) => ({
   data: getData(state, ownProps)
 })
 
-export default connect(mapStateToProps)(SelectBoxEtherAddresses)
+export default connect(mapStateToProps)(SelectBoxEthAddresses)

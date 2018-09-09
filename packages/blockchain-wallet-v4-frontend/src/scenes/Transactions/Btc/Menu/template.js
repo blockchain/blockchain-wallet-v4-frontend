@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { Icon } from 'blockchain-info-components'
 import {
-  SelectBoxBitcoinAddresses,
+  SelectBoxBtcAddresses,
   TextBox,
   TabMenuTransactionStatus
 } from 'components/Form'
@@ -96,7 +96,7 @@ const Menu = props => {
         <Controls>
           {accounts.length > 1 && (
             <Addresses>
-              <Field name='source' component={SelectBoxBitcoinAddresses} />
+              <Field name='source' component={SelectBoxBtcAddresses} />
             </Addresses>
           )}
           <Status>
