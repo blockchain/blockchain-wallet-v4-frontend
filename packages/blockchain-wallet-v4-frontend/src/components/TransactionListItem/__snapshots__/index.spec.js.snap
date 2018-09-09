@@ -53,6 +53,7 @@ exports[`ListItemContainer renders correctly 1`] = `
         "setTheme": [Function],
         "toggleAutoLogout": [Function],
         "toggleCoinDisplayed": [Function],
+        "warningDisplayed": [Function],
       }
     }
     store={
