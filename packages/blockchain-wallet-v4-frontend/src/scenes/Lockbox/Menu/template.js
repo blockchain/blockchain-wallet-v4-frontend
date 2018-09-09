@@ -29,6 +29,7 @@ const StyledCreatableInputContainer = styled.div`
   display: flex;
   padding: 15px 40px;
   align-items: center;
+  border-bottom: 1px solid ${props => props.theme['gray-1']};
   > div:last-child {
     width: 100%;
   }

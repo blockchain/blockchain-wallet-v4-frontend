@@ -19,6 +19,7 @@ import {
   contains,
   toUpper,
   any,
+  all,
   path
 } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -60,7 +61,13 @@ const processPages = (pages, coinType) => {
   const allPages = map(ProcessPage, pages)
   const isLoading = Remote.Loading.is(last(allPages))
   const displayPages = isLoading ? dropLast(1, allPages) : allPages
-  return Remote.of(flatten(displayPages.map(page => page.getOrElse([]))))
+  const pagesR = Remote.of(
+    flatten(displayPages.map(page => page.getOrElse([])))
+  )
+  return {
+    isLoading,
+    pagesR
+  }
 }
 
 export const getData = createDeepEqualSelector(
@@ -72,9 +79,19 @@ export const getData = createDeepEqualSelector(
     selectors.form.getFormValues('lockboxTransactions')
   ],
   (currencyR, btcPages, bchPages, ethPages, formValues) => {
-    const btcTransactions = processPages(btcPages, 'BTC')
-    const bchTransactions = processPages(bchPages, 'BCH')
-    const ethTransactions = processPages(ethPages, 'ETH')
+    const { isLoading: btcIsLoading, pagesR: btcTransactions } = processPages(
+      btcPages,
+      'BTC'
+    )
+    const { isLoading: bchIsLoading, pagesR: bchTransactions } = processPages(
+      bchPages,
+      'BCH'
+    )
+    const { isLoading: ethIsLoading, pagesR: ethTransactions } = processPages(
+      ethPages,
+      'ETH'
+    )
+    const isLoading = all(x => !!x, [btcIsLoading, bchIsLoading, ethIsLoading])
     const search = pathOr([], ['search', 'value'], formValues)
     const searches = search.map(path(['value']))
     const transform = (
@@ -91,6 +108,7 @@ export const getData = createDeepEqualSelector(
       const filteredTransactions = filterTransactions(searches)(transactions)
       return {
         currency,
+        isLoading,
         filteredTransactions
       }
     }
