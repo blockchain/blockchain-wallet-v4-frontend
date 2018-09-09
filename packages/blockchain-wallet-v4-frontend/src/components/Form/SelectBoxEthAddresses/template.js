@@ -21,10 +21,6 @@ const ItemWrapper = styled.div`
   & > * {
     margin-left: 5px;
   }
-  &:hover {
-    color: ${props => props.theme['gray-4']};
-    background-color: ${props => props.theme['gray-1']};
-  }
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
     width: 0 !important;
@@ -36,21 +32,22 @@ const BalanceContainer = styled.div`
   flex-direction: row;
   white-space: nowrap;
 `
+
 const renderItem = item => {
   return (
     <ItemWrapper>
-      <Text weight={300} size='12px'>
+      <Text weight={300} size='14px'>
         {item.text}
       </Text>
       {has('balance', prop('value', item)) && (
         <BalanceContainer>
-          <Text weight={300} size='12px'>
+          <Text weight={300} size='14px'>
             (
           </Text>
-          <SwitchableDisplay weight={300} size='12px' coin={item.value.coin}>
+          <SwitchableDisplay weight={300} size='14px' coin={item.value.coin}>
             {item.value.balance}
           </SwitchableDisplay>
-          <Text weight={300} size='12px'>
+          <Text weight={300} size='14px'>
             )
           </Text>
         </BalanceContainer>
@@ -67,4 +64,6 @@ const renderItem = item => {
   )
 }
 
-export default props => <SelectBox {...props} templateItem={renderItem} />
+export default props => (
+  <SelectBox {...props} templateItem={renderItem} grouped />
+)

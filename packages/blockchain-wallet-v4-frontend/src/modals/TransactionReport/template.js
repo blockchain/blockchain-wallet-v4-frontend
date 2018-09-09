@@ -95,6 +95,7 @@ const FirstStep = props => {
             <Row margin='30px'>
               <Field
                 name='from'
+                coin={coin}
                 component={
                   coin === 'BTC'
                     ? SelectBoxBitcoinAddresses

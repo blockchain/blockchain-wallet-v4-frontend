@@ -66,6 +66,7 @@ const FirstStep = props => {
           </FormLabel>
           <Field
             name='from'
+            coin='BCH'
             component={SelectBoxBCHAddresses}
             includeAll={false}
             excludeWatchOnly
