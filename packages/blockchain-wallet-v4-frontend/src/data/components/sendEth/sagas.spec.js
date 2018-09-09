@@ -8,6 +8,7 @@ import * as A from './actions'
 import * as S from './selectors'
 import * as C from 'services/AlertService'
 import * as actions from '../../actions'
+import * as selectors from '../../selectors'
 import * as actionTypes from '../../actionTypes'
 import sendEthSagas, { logLocation } from './sagas'
 import { promptForSecondPassword } from 'services/SagaService'
@@ -71,14 +72,16 @@ describe('sendEth sagas', () => {
     return paymentMock
   })
 
-  describe('eth send form intialize', () => {
+  describe('eth send form initialize', () => {
     const from = 'fromethaddress'
     const type = 'ACCOUNT'
     const payload = { from, type }
 
     const saga = testSaga(initialized, { payload })
+    const mockAccount = Remote.of([{ addr: '0x123' }])
 
     const initialValues = {
+      from: { addr: '0x123' },
       coin: 'ETH',
       fee: 10
     }
@@ -127,8 +130,14 @@ describe('sendEth sagas', () => {
         })
     })
 
-    it('should initializr form with correct initial values', () => {
-      saga.next(paymentMock).put(initialize('sendEth', initialValues))
+    it('should select default account', () => {
+      saga
+        .next(paymentMock)
+        .select(selectors.core.common.eth.getAccountBalances)
+    })
+
+    it('should initialize form with correct initial values', () => {
+      saga.next(mockAccount).put(initialize('sendEth', initialValues))
     })
 
     it('should trigger eth payment updated success action', () => {
@@ -173,6 +182,7 @@ describe('sendEth sagas', () => {
           resultingState.form.sendEth.values
         )
         expect(resultingState.form.sendEth.initial).toEqual({
+          from: {},
           coin: 'ETH',
           fee: 10
         })
