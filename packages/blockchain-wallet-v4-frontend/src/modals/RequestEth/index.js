@@ -21,12 +21,13 @@ class RequestEtherContainer extends React.PureComponent {
     this.handleRefresh = this.handleRefresh.bind(this)
   }
 
-  componentWillMount () {
+  componentDidMount () {
     this.init()
   }
 
-  componentWillReceiveProps (nextProps) {
-    const { coin } = nextProps
+  componentDidUpdate (prevProps) {
+    const { coin } = prevProps
+
     if (coin === 'BTC') {
       this.props.modalActions.closeAllModals()
       this.props.modalActions.showModal('RequestBitcoin')
@@ -34,9 +35,6 @@ class RequestEtherContainer extends React.PureComponent {
       this.props.modalActions.closeAllModals()
       this.props.modalActions.showModal('RequestBch')
     }
-  }
-
-  componentDidUpdate (prevProps) {
     if (
       !Remote.Success.is(prevProps.initialValues) &&
       Remote.Success.is(this.props.initialValues)

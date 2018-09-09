@@ -9,7 +9,7 @@ import SecondStep from './SecondStep'
 import { actions } from '../../data'
 
 class RecoverContainer extends React.PureComponent {
-  componentWillMount () {
+  componentDidMount () {
     this.props.resetStep()
   }
 

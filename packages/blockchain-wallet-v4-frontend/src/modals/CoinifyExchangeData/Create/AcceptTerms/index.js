@@ -17,8 +17,8 @@ class AcceptTermsContainer extends Component {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.signupError) {
+  componentDidUpdate (prevProps) {
+    if (prevProps.signupError) {
       this.setState({ busy: false })
       this.props.updateUI({ uniqueEmail: false })
     }
