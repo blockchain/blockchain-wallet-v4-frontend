@@ -1,8 +1,6 @@
 import {
   any,
   find,
-  curry,
-  keys,
   path,
   prop,
   propEq,
@@ -45,18 +43,14 @@ export const getLockboxBtcAccount = (state, xpub) =>
     .map(filter(x => x.xpub === xpub))
     .map(head)
 
-export const getDeviceIdFromBtcXpubs = (state, xpubs) => {
+export const getDeviceFromBtcXpubs = (state, xpubs) => {
   const accountContainsXpubs = account =>
     any(xpub => xpub === account.xpub, xpubs)
-  const deviceFilter = curry((devices, device) =>
-    any(
-      accountContainsXpubs,
-      path([device, 'accounts', 'btc', 'accounts'])(devices)
-    )
-  )
-  return getDevices(state).map(devices =>
-    filter(deviceFilter(devices), keys(devices))
-  )
+  const deviceFilter = device =>
+    any(accountContainsXpubs, path(['btc', 'accounts'], device))
+  return getDevices(state)
+    .map(filter(deviceFilter))
+    .map(head)
 }
 
 // BCH
@@ -78,18 +72,14 @@ export const getLockboxBchAccount = (state, xpub) =>
     .map(filter(x => x.xpub === xpub))
     .map(head)
 
-export const getDeviceIdFromBchXpubs = (state, xpubs) => {
+export const getDeviceFromBchXpubs = (state, xpubs) => {
   const accountContainsXpubs = account =>
     any(xpub => xpub === account.xpub, xpubs)
-  const deviceFilter = curry((devices, device) =>
-    any(
-      accountContainsXpubs,
-      path([device, 'accounts', 'bch', 'accounts'])(devices)
-    )
-  )
-  return getDevices(state).map(devices =>
-    filter(deviceFilter(devices), keys(devices))
-  )
+  const deviceFilter = device =>
+    any(accountContainsXpubs, path(['bch', 'accounts'], device))
+  return getDevices(state)
+    .map(filter(deviceFilter))
+    .map(head)
 }
 
 // ETH
@@ -111,15 +101,11 @@ export const getLockboxEthContext = state => {
   })
 }
 
-export const getDeviceIdFromEthAddr = (state, addr) => {
+export const getDeviceFromEthAddr = (state, addr) => {
   const accountContainsAddr = account => account.addr === addr
-  const deviceFilter = curry((devices, device) =>
-    any(
-      accountContainsAddr,
-      path([device, 'accounts', 'eth', 'accounts'])(devices)
-    )
-  )
-  return getDevices(state).map(devices =>
-    filter(deviceFilter(devices), keys(devices))
-  )
+  const deviceFilter = device =>
+    any(accountContainsAddr, path(['eth', 'accounts'], device))
+  return getDevices(state)
+    .map(filter(deviceFilter))
+    .map(head)
 }

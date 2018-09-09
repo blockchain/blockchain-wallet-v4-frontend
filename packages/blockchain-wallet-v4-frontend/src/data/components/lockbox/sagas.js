@@ -1,5 +1,5 @@
 import { call, put, take, select } from 'redux-saga/effects'
-import { contains, keysIn } from 'ramda'
+import { contains, keysIn, prop } from 'ramda'
 
 import { actions, selectors } from 'data'
 import * as A from './actions'
@@ -31,11 +31,12 @@ export default ({ api, coreSagas }) => {
       yield put(A.resetConnectionStatus())
 
       if (!deviceType) {
-        const storedDevicesR = yield select(
-          selectors.core.kvStore.lockbox.getDevices
+        const deviceR = yield select(
+          selectors.core.kvStore.lockbox.getDevice,
+          deviceId
         )
-        const storedDevices = storedDevicesR.getOrElse({})
-        deviceType = storedDevices[deviceId].device_type
+        const device = deviceR.getOrElse({})
+        deviceType = prop('device_type', device)
       }
 
       const appConnection = yield LockboxService.connections.pollForAppConnection(

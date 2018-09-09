@@ -64,4 +64,6 @@ const renderItem = item => {
   )
 }
 
-export default props => <SelectBox {...props} templateItem={renderItem} />
+export default props => (
+  <SelectBox {...props} templateItem={renderItem} grouped />
+)

@@ -159,12 +159,12 @@ export default ({ coreSagas }) => {
         let password = yield call(promptForSecondPassword)
         payment = yield payment.sign(password)
       } else {
-        const deviceIdR = yield select(
-          selectors.core.kvStore.lockbox.getDeviceIdFromEthAddr,
+        const deviceR = yield select(
+          selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
           path(['from', 'address'], p.getOrElse({}))
         )
-        const deviceId = deviceIdR.getOrFail('missing_device')
-        yield call(promptForLockbox, 'ETH', deviceId)
+        const device = deviceR.getOrFail('missing_device')
+        yield call(promptForLockbox, 'ETH', prop('device_id', device))
         let connection = yield select(
           selectors.components.lockbox.getCurrentConnection
         )
