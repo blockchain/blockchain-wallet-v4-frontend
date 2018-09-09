@@ -136,7 +136,8 @@ export default ({ coreSagas, networks }) => {
               payment = yield payment.to(payload.xpub, toType)
               break
             default:
-              payment = yield payment.to(payload.address, toType)
+              const address = prop('address', payload) || payload
+              payment = yield payment.to(address, toType)
           }
           break
         case 'amount':
