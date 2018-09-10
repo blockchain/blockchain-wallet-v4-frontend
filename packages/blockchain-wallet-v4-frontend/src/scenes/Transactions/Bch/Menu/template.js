@@ -95,7 +95,12 @@ const Menu = props => {
         <Controls>
           {accounts.length > 1 && (
             <Addresses>
-              <Field name='source' component={SelectBoxBCHAddresses} />
+              <Field
+                name='source'
+                coin='BCH'
+                excludeLockbox
+                component={SelectBoxBCHAddresses}
+              />
             </Addresses>
           )}
           <Status>

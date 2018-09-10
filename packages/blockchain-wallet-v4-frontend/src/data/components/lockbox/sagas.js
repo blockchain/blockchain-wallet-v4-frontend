@@ -1,5 +1,5 @@
 import { call, put, take, select } from 'redux-saga/effects'
-import { contains, keysIn } from 'ramda'
+import { contains, keysIn, prop } from 'ramda'
 
 import { actions, selectors } from 'data'
 import * as A from './actions'
@@ -31,11 +31,12 @@ export default ({ api, coreSagas }) => {
       yield put(A.resetConnectionStatus())
 
       if (!deviceType) {
-        const storedDevicesR = yield select(
-          selectors.core.kvStore.lockbox.getDevices
+        const deviceR = yield select(
+          selectors.core.kvStore.lockbox.getDevice,
+          deviceId
         )
-        const storedDevices = storedDevicesR.getOrElse({})
-        deviceType = storedDevices[deviceId].device_type
+        const device = deviceR.getOrElse({})
+        deviceType = prop('device_type', device)
       }
 
       const appConnection = yield LockboxService.connections.pollForAppConnection(
@@ -116,16 +117,12 @@ export default ({ api, coreSagas }) => {
       const newDeviceR = yield select(S.getNewDeviceInfo)
       const newDevice = newDeviceR.getOrFail('missing_device')
       const mdAccountsEntry = LockboxService.accounts.generateAccountsMDEntry(
-        newDevice.info
+        newDevice,
+        deviceName
       )
       // store device in kvStore
       yield put(
-        actions.core.kvStore.lockbox.createNewDeviceEntry(
-          newDevice.id,
-          newDevice.type,
-          deviceName,
-          mdAccountsEntry
-        )
+        actions.core.kvStore.lockbox.createNewDeviceEntry(mdAccountsEntry)
       )
       yield put(A.saveNewDeviceKvStoreSuccess())
       yield put(actions.modals.closeModal())
@@ -187,7 +184,6 @@ export default ({ api, coreSagas }) => {
       yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType, setupTimeout))
       yield take(AT.SET_CONNECTION_INFO)
       // check device authenticity
-      yield put(A.changeDeviceSetupStep('authenticity-check'))
       yield put(A.checkDeviceAuthenticity())
       yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
       // wait for BTC connection
@@ -222,7 +218,7 @@ export default ({ api, coreSagas }) => {
       if (contains(newDeviceId)(keysIn(storedDevices))) {
         yield put(A.changeDeviceSetupStep('duplicate-device'))
       } else {
-        yield put(A.changeDeviceSetupStep('name-device'))
+        yield put(A.changeDeviceSetupStep('open-btc-app', true))
       }
     } catch (e) {
       // TODO: better error handling, display error, close modal

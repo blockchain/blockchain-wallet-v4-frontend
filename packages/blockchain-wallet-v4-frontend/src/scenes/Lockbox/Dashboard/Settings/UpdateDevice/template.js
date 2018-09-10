@@ -30,10 +30,10 @@ const UpdateDevice = props => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button nature='primary' onClick={onCheckForUpdates}>
+        <Button nature='empty' onClick={onCheckForUpdates}>
           <FormattedMessage
             id='scenes.lockbox.settings.updatedevice.checkforupdates'
-            defaultMessage='Check For Updates'
+            defaultMessage='check for update'
           />
         </Button>
       </SettingComponent>

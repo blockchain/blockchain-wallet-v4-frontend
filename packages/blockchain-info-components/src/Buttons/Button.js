@@ -38,7 +38,6 @@ const BaseButton = styled.button.attrs({
   border-style: solid;
   border-width: ${props => (props.rounded ? '2px' : '1px')};
   border-color: ${props => props.theme[props.borderColor]};
-  opacity: ${props => (props.disabled ? 0.5 : 1)};
 
   &:hover {
     border-color: ${props =>
@@ -55,14 +54,6 @@ const BaseButton = styled.button.attrs({
 `
 
 const selectColor = (nature, disabled, small) => {
-  if (disabled) {
-    return {
-      color: 'white',
-      backgroundColor: 'brand-secondary',
-      borderColor: 'brand-secondary'
-    }
-  }
-
   switch (nature) {
     case 'empty':
       return {
@@ -88,7 +79,7 @@ const selectColor = (nature, disabled, small) => {
         backgroundColor: 'brand-primary',
         borderColor: 'brand-primary'
       }
-    case 'copy':
+    case 'success':
       return {
         color: 'white',
         backgroundColor: 'success',
@@ -116,9 +107,16 @@ const selectColor = (nature, disabled, small) => {
         backgroundColor: 'gray-6',
         borderColor: 'gray-6'
       }
-    case 'empty-secondary':
+    case 'gray': {
       return {
         color: 'white',
+        backgroundColor: 'gray-4',
+        borderColor: 'gray-4'
+      }
+    }
+    case 'empty-secondary':
+      return {
+        color: 'brand-secondary',
         backgroundColor: 'white',
         borderColor: 'brand-secondary'
       }
@@ -133,11 +131,7 @@ const selectColor = (nature, disabled, small) => {
 
 const Button = props => {
   const { children, nature, disabled, small, ...rest } = props
-  const { color, backgroundColor, borderColor } = selectColor(
-    nature,
-    disabled,
-    small
-  )
+  const { color, backgroundColor, borderColor } = selectColor(nature, small)
 
   return (
     <BaseButton

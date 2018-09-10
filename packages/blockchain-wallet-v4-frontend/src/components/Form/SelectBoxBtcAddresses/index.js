@@ -1,39 +1,17 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { concat } from 'ramda'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
 import { getData } from './selectors'
 import SelectBoxBitcoin from './template'
 
-class SelectBoxBitcoinAddresses extends React.PureComponent {
-  getLabel () {
-    return this.props.optional ? 'N/A' : `All Bitcoin Wallets`
-  }
-  concatAll () {
-    return concat([
-      { group: '', items: [{ value: 'all', text: this.getLabel() }] }
-    ])
-  }
+class SelectBoxBtcAddresses extends React.PureComponent {
   render () {
-    const { data, includeAll, ...rest } = this.props
+    const { data, ...rest } = this.props
 
     return data.cata({
       Success: value => {
-        const wallets = [
-          {
-            group: '',
-            items: value.data
-          }
-        ]
-        const elements = includeAll ? this.concatAll()(wallets) : wallets
-        return (
-          <SelectBoxBitcoin
-            label={this.getLabel()}
-            elements={elements}
-            {...rest}
-          />
-        )
+        return <SelectBoxBitcoin elements={value.data} {...rest} />
       },
       Failure: message => <div>{message}</div>,
       Loading: () => <div />,
@@ -42,11 +20,11 @@ class SelectBoxBitcoinAddresses extends React.PureComponent {
   }
 }
 
-SelectBoxBitcoinAddresses.propTypes = {
+SelectBoxBtcAddresses.propTypes = {
   includeAll: PropTypes.bool
 }
 
-SelectBoxBitcoinAddresses.defaultProps = {
+SelectBoxBtcAddresses.defaultProps = {
   includeAll: true
 }
 
@@ -54,4 +32,4 @@ const mapStateToProps = (state, ownProps) => ({
   data: getData(state, ownProps)
 })
 
-export default connect(mapStateToProps)(SelectBoxBitcoinAddresses)
+export default connect(mapStateToProps)(SelectBoxBtcAddresses)

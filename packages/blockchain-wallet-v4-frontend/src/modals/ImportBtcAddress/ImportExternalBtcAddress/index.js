@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import {
-  SelectBoxBitcoinAddresses,
+  SelectBoxBtcAddresses,
   FormGroup,
   FormItem,
   TextBox
@@ -66,7 +66,7 @@ class ImportExternalBitcoinAddress extends React.PureComponent {
             </Label>
             <Field
               name='to'
-              component={SelectBoxBitcoinAddresses}
+              component={SelectBoxBtcAddresses}
               optional
               excludeImported
               disabled={!this.props.priv}

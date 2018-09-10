@@ -122,7 +122,8 @@ export default ({ coreSagas }) => {
               payment = yield payment.to(payload.xpub, toType)
               break
             default:
-              payment = yield payment.to(payload.address, toType)
+              const address = prop('address', payload) || payload
+              payment = yield payment.to(address, toType)
           }
           break
         case 'amount':
@@ -198,12 +199,12 @@ export default ({ coreSagas }) => {
         password = yield call(promptForSecondPassword)
         payment = yield payment.sign(password)
       } else {
-        const deviceIdR = yield select(
-          selectors.core.kvStore.lockbox.getDeviceIdFromBchXpubs,
+        const deviceR = yield select(
+          selectors.core.kvStore.lockbox.getDeviceFromBchXpubs,
           prop('from', p.getOrElse({}))
         )
-        const deviceId = deviceIdR.getOrFail('missing_device')
-        yield call(promptForLockbox, 'BCH', deviceId)
+        const device = deviceR.getOrFail('missing_device')
+        yield call(promptForLockbox, 'BCH', prop('device_id', device))
         let connection = yield select(
           selectors.components.lockbox.getCurrentConnection
         )

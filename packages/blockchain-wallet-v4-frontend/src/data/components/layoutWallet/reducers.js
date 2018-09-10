@@ -27,7 +27,7 @@ export default (state = INITIAL_STATE, action) => {
     }
     case '@@router/LOCATION_CHANGE': {
       const pathname = path(['location', 'pathname'], payload)
-      const settingsOpened = pathname && pathname.indexOf('/settings') > -1
+      const settingsOpened = pathname && pathname.split('/')[1] === 'settings'
       const shouldOpenSettings = !state.settingsOpened && settingsOpened
       return merge(state, {
         trayOpened: false,

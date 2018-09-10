@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import TotalBalance from './TotalBalance'
 import WalletBalance from './WalletBalance'
 import LockboxBalance from './LockboxBalance'
+import LockboxTotalBalance from './LockboxBalance/TotalBalance'
 import PendingBalance from './PendingBalance'
 import WatchOnlyBalance from './WatchOnlyBalance'
 import BtcBalance from './WalletBalance/BtcBalance'
@@ -68,6 +69,9 @@ const getSelectedComponent = path => {
       return <EthBalance large />
     case '/bch/transactions':
       return <BchBalance large />
+    case '/lockbox/dashboard':
+    case '/lockbox/settings':
+      return <LockboxTotalBalance />
     default:
       return <TotalBalance large />
   }
@@ -94,6 +98,14 @@ const getBalanceMessage = path => {
         <FormattedMessage
           id='scenes.wallet.menutop.balance.bchbalance'
           defaultMessage='Bitcoin Cash Balance'
+        />
+      )
+    case '/lockbox/dashboard':
+    case '/lockbox/settings':
+      return (
+        <FormattedMessage
+          id='scenes.wallet.menutop.balance.lockboxbalance'
+          defaultMessage='Lockbox Balance'
         />
       )
     default:

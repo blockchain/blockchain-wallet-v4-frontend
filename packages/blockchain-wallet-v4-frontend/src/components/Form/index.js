@@ -21,9 +21,9 @@ import PhoneNumberBox from './PhoneNumberBox'
 import RadioButton from './RadioButton'
 import SelectBoxBankAccountType from './SelectBoxBankAccountType'
 import SelectBox from './SelectBox'
-import SelectBoxBitcoinAddresses from './SelectBoxBtcAddresses'
+import SelectBoxBtcAddresses from './SelectBoxBtcAddresses'
 import SelectBoxBCHAddresses from './SelectBoxBchAddresses'
-import SelectBoxEtherAddresses from './SelectBoxEthAddresses'
+import SelectBoxEthAddresses from './SelectBoxEthAddresses'
 import SelectBoxCoin from './SelectBoxCoin'
 import SelectBoxCoinifyCurrency from './SelectBoxCoinifyCurrency'
 import SelectBoxCountry from './SelectBoxCountry'
@@ -63,9 +63,9 @@ export {
   RadioButton,
   SelectBoxBankAccountType,
   SelectBox,
-  SelectBoxBitcoinAddresses,
+  SelectBoxBtcAddresses,
   SelectBoxBCHAddresses,
-  SelectBoxEtherAddresses,
+  SelectBoxEthAddresses,
   SelectBoxCoin,
   SelectBoxCoinifyCurrency,
   SelectBoxCountry,

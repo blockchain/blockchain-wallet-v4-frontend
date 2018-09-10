@@ -19,21 +19,21 @@ const ExportXPub = props => {
         <SettingHeader>
           <FormattedMessage
             id='scenes.lockbox.settings.exportxpub.title'
-            defaultMessage='Export xPub'
+            defaultMessage='Show xPub'
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
             id='scenes.lockbox.settings.exportxpub.description'
-            defaultMessage='This copy tells you what this means'
+            defaultMessage='Reveal the Extended Public Key of your lockbox. (Advanced)'
           />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button nature='primary' onClick={onClick}>
+        <Button nature='empty' onClick={onClick}>
           <FormattedMessage
             id='scenes.lockbox.settings.exportxpub.delete'
-            defaultMessage='Export'
+            defaultMessage='show'
           />
         </Button>
       </SettingComponent>

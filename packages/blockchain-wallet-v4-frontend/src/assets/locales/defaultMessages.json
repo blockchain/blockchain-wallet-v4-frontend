@@ -1293,23 +1293,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Sent",
-        "id": "scenes.transactions.bitcoin.content.list.listitem.status.sent"
-      },
-      {
-        "defaultMessage": "Received",
-        "id": "scenes.transactions.bitcoin.content.list.listitem.status.received"
-      },
-      {
-        "defaultMessage": "Transferred",
-        "id": "scenes.transactions.bitcoin.content.list.listitem.status.transferred"
-      }
-    ],
-    "path": "src/components/TransactionListItem/Status/index.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Non-Spendable",
         "id": "components.txlistitem.watchonly"
       },
@@ -1407,20 +1390,8 @@
         "id": "layouts.wallet.menuleft.navigation.transactions.bch"
       },
       {
-        "defaultMessage": "Buy & sell bitcoin",
-        "id": "layouts.wallet.menuleft.navigation.buybitcoin"
-      },
-      {
         "defaultMessage": "Exchange",
         "id": "layouts.wallet.menuleft.navigation.exchange"
-      },
-      {
-        "defaultMessage": "Security center",
-        "id": "layouts.wallet.menuleft.navigation.securitycenter"
-      },
-      {
-        "defaultMessage": "Settings",
-        "id": "layouts.wallet.menuleft.navigation.settings"
       },
       {
         "defaultMessage": "General",

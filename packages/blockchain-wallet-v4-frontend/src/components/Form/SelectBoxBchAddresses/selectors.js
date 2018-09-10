@@ -1,5 +1,6 @@
 import {
   assoc,
+  curry,
   assocPath,
   compose,
   concat,
@@ -18,15 +19,22 @@ import { selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 export const getData = (state, ownProps) => {
-  const { coin, exclude = [], excludeImported, excludeWatchOnly } = ownProps
+  const {
+    coin,
+    exclude = [],
+    excludeImported,
+    excludeWatchOnly,
+    excludeLockbox
+  } = ownProps
   const isActive = filter(x => !x.archived)
   const excluded = filter(x => !exclude.includes(x.label))
-  const toDropdown = map(x => ({ text: x.label, value: x }))
+  const toDropdown = map(x => ({ label: x.label, value: x }))
+  const toGroup = curry((label, options) => [{ label, options }])
 
   const formatAddress = addressData => {
     const formattedAddress = {}
     return compose(
-      a => assoc('text', prop('addr', addressData), a),
+      a => assoc('label', prop('addr', addressData), a),
       a => assocPath(['value', 'type'], ADDRESS_TYPES.LEGACY, a),
       a =>
         assocPath(
@@ -59,14 +67,20 @@ export const getData = (state, ownProps) => {
         .getAccountsBalances(state)
         .map(isActive)
         .map(excluded)
-        .map(toDropdown),
+        .map(toDropdown)
+        .map(toGroup('Wallet')),
       excludeImported
         ? Remote.of([])
-        : lift(formatImportedAddressesData)(relevantAddresses),
-      selectors.core.common.bch
-        .getLockboxBchBalances(state)
-        .map(excluded)
-        .map(toDropdown)
+        : lift(formatImportedAddressesData)(relevantAddresses).map(
+            toGroup('Imported Addresses')
+          ),
+      excludeLockbox
+        ? Remote.of([])
+        : selectors.core.common.bch
+            .getLockboxBchBalances(state)
+            .map(excluded)
+            .map(toDropdown)
+            .map(toGroup('Lockbox'))
     ]).map(([b1, b2, b3]) => ({ data: reduce(concat, [], [b1, b2, b3]) }))
   }
 

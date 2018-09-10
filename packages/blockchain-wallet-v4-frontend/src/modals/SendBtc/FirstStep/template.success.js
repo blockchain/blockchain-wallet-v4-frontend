@@ -23,7 +23,7 @@ import {
   FormItem,
   FormLabel,
   NumberBoxDebounced,
-  SelectBoxBitcoinAddresses,
+  SelectBoxBtcAddresses,
   SelectBoxCoin,
   SelectBox,
   TextBox,
@@ -96,7 +96,7 @@ const FirstStep = props => {
           </FormLabel>
           <Field
             name='from'
-            component={SelectBoxBitcoinAddresses}
+            component={SelectBoxBtcAddresses}
             validate={[required]}
             includeAll={false}
           />
@@ -134,7 +134,7 @@ const FirstStep = props => {
             {toToggled && (
               <Field
                 name='to'
-                component={SelectBoxBitcoinAddresses}
+                component={SelectBoxBtcAddresses}
                 menuIsOpen={!destination}
                 exclude={[from.label]}
                 validate={[required]}

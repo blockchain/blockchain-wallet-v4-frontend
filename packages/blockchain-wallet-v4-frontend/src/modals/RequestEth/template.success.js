@@ -19,7 +19,7 @@ import {
   FormItem,
   FormLabel,
   SelectBoxCoin,
-  SelectBoxEtherAddresses
+  SelectBoxEthAddresses
 } from 'components/Form'
 import CopyClipboard from 'components/CopyClipboard'
 
@@ -66,7 +66,7 @@ const RequestEther = props => {
           </FormLabel>
           <Field
             name='to'
-            component={SelectBoxEtherAddresses}
+            component={SelectBoxEthAddresses}
             includeAll={false}
             validate={[required]}
           />

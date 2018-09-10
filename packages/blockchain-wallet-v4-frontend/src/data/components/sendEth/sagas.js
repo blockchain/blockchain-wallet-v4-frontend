@@ -1,5 +1,5 @@
 import { call, select, put, take } from 'redux-saga/effects'
-import { equals, identity, path, prop } from 'ramda'
+import { equals, identity, path, prop, head } from 'ramda'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
@@ -29,7 +29,15 @@ export default ({ coreSagas }) => {
           ? yield payment.from(action.payload.from, action.payload.type)
           : yield payment.from()
       const defaultFee = path(['fees', 'regular'], payment.value())
-      const initialValues = { coin: 'ETH', fee: defaultFee }
+      const ethAccountR = yield select(
+        selectors.core.common.eth.getAccountBalances
+      )
+      const defaultAccountR = ethAccountR.map(head)
+      const initialValues = {
+        coin: 'ETH',
+        fee: defaultFee,
+        from: defaultAccountR.getOrElse({})
+      }
       yield put(initialize('sendEth', initialValues))
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
@@ -159,12 +167,12 @@ export default ({ coreSagas }) => {
         let password = yield call(promptForSecondPassword)
         payment = yield payment.sign(password)
       } else {
-        const deviceIdR = yield select(
-          selectors.core.kvStore.lockbox.getDeviceIdFromEthAddr,
+        const deviceR = yield select(
+          selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
           path(['from', 'address'], p.getOrElse({}))
         )
-        const deviceId = deviceIdR.getOrFail('missing_device')
-        yield call(promptForLockbox, 'ETH', deviceId)
+        const device = deviceR.getOrFail('missing_device')
+        yield call(promptForLockbox, 'ETH', prop('device_id', device))
         let connection = yield select(
           selectors.components.lockbox.getCurrentConnection
         )

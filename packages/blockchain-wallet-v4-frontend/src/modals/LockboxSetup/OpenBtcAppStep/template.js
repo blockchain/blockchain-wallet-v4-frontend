@@ -2,37 +2,70 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Text, TextGroup, FlatLoader } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 
-const LoaderContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin-top: 25px;
+const Wrapper = styled.div`
+  padding: 20px;
+`
+
+const Title = styled.div`
+  text-align: center;
+  margin-bottom: 40px;
+`
+
+const Content = styled.div`
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+`
+
+const ButtonContainer = styled.div`
+  margin-top: 30px;
 `
 
 const OpenBtcAppStep = props => {
+  const { isReady } = props
+
   return (
-    <React.Fragment>
-      <TextGroup>
-        <Text size='18px' weight={500}>
+    <Wrapper>
+      <Title>
+        <Text>
           <FormattedMessage
             id='modals.lockboxsetup.openbtcappstep.title'
-            defaultMessage='Sync Your Device With Your Wallet'
+            defaultMessage='Your Blockchain Lockbox + Blockchain Wallet'
           />
         </Text>
-        <Text size='14px' weight={300}>
+      </Title>
+      <Content>
+        <Text size='16px' weight={300}>
           <FormattedMessage
             id='modals.lockboxsetup.openbtcappstep.explanation'
-            defaultMessage='Open the Bitcoin application to complete the synchronization with your web wallet.'
+            defaultMessage="Select 'Bitcoin' on your device to connect your Lockbox with your wallet"
           />
         </Text>
-      </TextGroup>
-      <LoaderContainer>
-        <FlatLoader width='150px' height='25px' />
-      </LoaderContainer>
-    </React.Fragment>
+      </Content>
+      <ButtonContainer>
+        {isReady ? (
+          <Button
+            nature='success'
+            onClick={() => props.handleStepChange()}
+            fullwidth
+          >
+            <FormattedMessage
+              id='modals.lockboxsetup.openbtcappstep.success'
+              defaultMessage='Success! Click to Continue'
+            />
+          </Button>
+        ) : (
+          <Button nature='gray' disabled fullwidth>
+            <FormattedMessage
+              id='modals.lockboxsetup.openbtcappstep.loading'
+              defaultMessage='Open Your Bitcoin App'
+            />
+          </Button>
+        )}
+      </ButtonContainer>
+    </Wrapper>
   )
 }
 

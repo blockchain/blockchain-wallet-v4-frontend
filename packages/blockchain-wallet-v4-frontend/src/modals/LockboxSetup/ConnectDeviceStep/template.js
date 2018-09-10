@@ -1,45 +1,111 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 
-import { FlatLoader, TextGroup, Text } from 'blockchain-info-components'
+import { Button, TextGroup, Text } from 'blockchain-info-components'
 
-const LoaderContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin-top: 25px;
+const Wrapper = styled.div`
+  padding: 20px;
 `
 
-const Loading = props => {
+const Title = styled.div`
+  text-align: center;
+  margin-bottom: 40px;
+`
+
+const StepText = styled(Text)`
+  margin-bottom: 20px;
+  .number {
+    font-size: 20px;
+    font-weight: 400;
+    margin-right: 10px;
+    color: ${props => props.theme['brand-secondary']};
+  }
+`
+
+const ButtonContainer = styled.div`
+  margin-top: 30px;
+`
+
+const ConnectDeviceStep = props => {
+  const { isLoading, isSuccess } = props.authenticity
+
+  const isReady = !isLoading && isSuccess
+  const isFailure = !isLoading && !isSuccess
+
   return (
-    <React.Fragment>
+    <Wrapper>
+      <Title>
+        <Text>
+          <FormattedMessage
+            id='modals.lockboxsetup.setuptypestep.connect'
+            defaultMessage='Connect Your Lockbox'
+          />
+        </Text>
+      </Title>
       <TextGroup>
-        <Text size='14px' weight={300}>
-          <FormattedMessage
+        <StepText size='16px' weight={300}>
+          <FormattedHTMLMessage
             id='modals.lockboxsetup.connectdevice.step1'
-            defaultMessage='1. Connect your lockbox to computer via USB port.'
+            defaultMessage='<span class=&quot;number&quot;>1.</span> Insert your Lockbox into your computer'
           />
-        </Text>
-        <Text size='14px' weight={300}>
-          <FormattedMessage
+        </StepText>
+        <StepText size='16px' weight={300}>
+          <FormattedHTMLMessage
             id='modals.lockboxsetup.connectdevice.step2'
-            defaultMessage='2. Press both buttons on your device to begin setup.'
+            defaultMessage='<span class=&quot;number&quot;>2.</span> Press both buttons on your Lockbox to begin'
           />
-        </Text>
-        <Text size='14px' weight={300}>
-          <FormattedMessage
+        </StepText>
+        <StepText size='16px' weight={300}>
+          <FormattedHTMLMessage
             id='modals.lockboxsetup.connectdevice.step3'
-            defaultMessage='3. Setup your pin and complete your backup phrase process.'
+            defaultMessage='<span class=&quot;number&quot;>3.</span> Set your pin'
           />
-        </Text>
+        </StepText>
+        <StepText size='16px' weight={300}>
+          <FormattedHTMLMessage
+            id='modals.lockboxsetup.connectdevice.step4'
+            defaultMessage='<span class=&quot;number&quot;>4.</span> Complete backup phrase process'
+          />
+        </StepText>
       </TextGroup>
-      <LoaderContainer>
-        <FlatLoader width='150px' height='25px' />
-      </LoaderContainer>
-    </React.Fragment>
+      <ButtonContainer>
+        {isReady ? (
+          <Button
+            nature='success'
+            onClick={() => props.handleStepChange()}
+            fullwidth
+          >
+            <FormattedMessage
+              id='modals.lockboxsetup.connectdevice.success'
+              defaultMessage='Success! Click to Continue'
+            />
+          </Button>
+        ) : isFailure ? (
+          <Button nature='gray' disabled fullwidth>
+            <FormattedMessage
+              id='modals.lockboxsetup.connectdevice.failure'
+              defaultMessage='Error Authenticating Device. Contact Support'
+            />
+          </Button>
+        ) : (
+          <Button nature='gray' disabled={!isReady} fullwidth>
+            {isLoading ? (
+              <FormattedMessage
+                id='modals.lockboxsetup.connectdevice.connect'
+                defaultMessage='Connect Your Lockbox'
+              />
+            ) : (
+              <FormattedMessage
+                id='modals.lockboxsetup.connectdevice.loading'
+                defaultMessage='Checking Device Authenticity'
+              />
+            )}
+          </Button>
+        )}
+      </ButtonContainer>
+    </Wrapper>
   )
 }
 
-export default Loading
+export default ConnectDeviceStep

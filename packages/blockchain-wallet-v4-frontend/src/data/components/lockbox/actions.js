@@ -35,9 +35,9 @@ export const initializeNewDeviceSetup = () => ({
 })
 
 // CREATE
-export const changeDeviceSetupStep = step => ({
+export const changeDeviceSetupStep = (step, done) => ({
   type: AT.SET_NEW_DEVICE_SETUP_STEP,
-  payload: { step }
+  payload: { step, done }
 })
 export const checkDeviceAuthenticity = () => ({
   type: AT.CHECK_DEVICE_AUTHENTICITY

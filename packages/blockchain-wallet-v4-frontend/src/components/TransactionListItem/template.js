@@ -3,8 +3,10 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import moment from 'moment'
-import { Banner, Button, Text } from 'blockchain-info-components'
-import SwitchableDisplay from 'components/Display/SwitchableDisplay'
+import { Banner, Text } from 'blockchain-info-components'
+import FiatDisplay from 'components/Display/FiatDisplay'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import ComboDisplay from 'components/Display/ComboDisplay'
 import { FormattedMessage } from 'react-intl'
 import Addresses from './Addresses'
 import Description from './Description'
@@ -23,92 +25,74 @@ const TransactionRowContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
+  box-shadow: none;
+  padding: 25px 25px 0px 25px;
   box-sizing: border-box;
-  border-bottom: 1px solid ${props => props.theme['gray-2']};
-  padding: 15px 30px;
-  ${media.mobile`
-    padding: 10px;
-  `};
+  transition: box-shadow 0.3s;
+  &.active {
+    box-shadow: 0px 5px 30px 0px rgba(0, 0, 0, 0.1);
+  }
 `
 const TransactionRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   width: 100%;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 25px;
+  border-bottom: 1px solid ${props => props.theme['gray-1']};
+`
+const DetailsRow = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 25px 0px;
+`
+const DetailsColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 33.333%;
+  &:last-child {
+    align-items: flex-end;
+  }
 `
 const StatusColumn = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 15%;
+  width: 33.333%;
   ${media.mobile`
-    width: 28%;
+    width: 50%;
   `};
 `
 const BannerWrapper = styled.div`
   margin-top: 5px;
 `
-const DetailsColumn = styled.div`
+const AddressesColumn = styled.div`
   display: none;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   white-space: nowrap;
-  width: 35%;
+  width: 33.333%;
 
   @media (min-width: 992px) {
     display: flex;
-  }
-`
-const ConfirmationColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 20%;
-
-  @media (min-width: 1200px) {
-    width: 15%;
   }
 `
 const AmountColumn = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  width: 20%;
+  width: 33.333%;
   min-width: 200px;
+  align-items: flex-end;
   ${media.mobile`
-    min-width: 170px;
-  `};
-`
-const TransactionValues = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  margin-top: 8px;
-
-  @media (min-width: 1200px) {
-    width: auto;
-  }
-`
-const ToggleButton = styled(Button)`
-  align-self: flex-end;
-  ${media.mobile`
-    min-width: 120px;
-  `};
-`
-const FeeWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  width: 100%;
-  > *:first-child {
-    margin-right: 3px;
-  }
-  ${media.mobile`
-    flex-direction: column;
-    align-items: flex-end;
+    min-width: 50%;
   `};
 `
 
@@ -119,22 +103,22 @@ const dateHelper = (time, isMobile) =>
 
 const TransactionListItem = props => {
   const {
-    handleCoinToggle,
-    transaction,
-    handleEditDescription,
     coin,
-    minConfirmations,
-    buysellPartner
+    currency,
+    isToggled,
+    transaction,
+    buysellPartner,
+    ...rest
   } = props
-
+  const { handleToggle, handleEditDescription } = rest
   return (
-    <TransactionRowContainer>
-      <TransactionRow>
+    <TransactionRowContainer className={isToggled ? 'active' : ''}>
+      <TransactionRow onClick={() => handleToggle()}>
         <StatusColumn>
-          <Status type={transaction.type} />
+          <Status type={transaction.type} coin={coin} />
           <MediaContextConsumer>
             {({ mobile }) => (
-              <Text size='13px' weight={300}>
+              <Text size='14px' weight={300}>
                 {dateHelper(prop('time', transaction) * 1000, mobile)}
               </Text>
             )}
@@ -157,7 +141,7 @@ const TransactionListItem = props => {
             />
           ) : null}
         </StatusColumn>
-        <DetailsColumn>
+        <AddressesColumn>
           <Addresses
             to={transaction.to}
             from={transaction.from}
@@ -165,65 +149,127 @@ const TransactionListItem = props => {
             outputs={transaction.outputs}
             coin={coin}
           />
-          <Description
-            value={transaction.description}
-            handleEditDescription={handleEditDescription}
-          />
-        </DetailsColumn>
-        <ConfirmationColumn>
-          <Confirmations
-            coin={coin}
-            confirmations={transaction.confirmations}
-            minConfirmations={minConfirmations}
-            hash={transaction.hash}
-          />
-        </ConfirmationColumn>
+        </AddressesColumn>
         <AmountColumn>
-          <ToggleButton nature={transaction.type} onClick={handleCoinToggle}>
-            <SwitchableDisplay
-              mobileSize='12px'
-              coin={coin}
-              size='16px'
-              weight={300}
-              color='white'
-              cursor='pointer'
-            >
-              {transaction.amount}
-            </SwitchableDisplay>
-          </ToggleButton>
-          <TransactionValues>
-            {coin === 'BTC' && (
-              <FiatAtTime
-                amount={transaction.amount}
-                hash={transaction.hash}
-                time={transaction.time}
-                type={transaction.type}
-              />
-            )}
-            {transaction.type !== 'received' && (
-              <FeeWrapper>
-                <Text size='12px' weight={300}>
-                  <FormattedMessage
-                    id='scenes.transactions.bitcoin.content.pages.listitem.fee.label'
-                    defaultMessage='Transaction Fee: '
-                  />
-                </Text>
-                <SwitchableDisplay coin={coin} size='12px' weight={200}>
-                  {transaction.fee}
-                </SwitchableDisplay>
-              </FeeWrapper>
-            )}
-          </TransactionValues>
+          <FiatDisplay
+            coin={coin}
+            size='14px'
+            weight={400}
+            style={{ marginBottom: '5px' }}
+          >
+            {transaction.amount}
+          </FiatDisplay>
+          <CoinDisplay coin={coin} size='14px' weight={300}>
+            {transaction.amount}
+          </CoinDisplay>
         </AmountColumn>
       </TransactionRow>
+      {isToggled && (
+        <DetailsRow>
+          <DetailsColumn>
+            <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+              <FormattedMessage
+                id='components.txlistitem.description'
+                defaultMessage='Description'
+              />
+            </Text>
+            <Description
+              value={transaction.description}
+              handleEditDescription={handleEditDescription}
+            />
+            {coin === 'BTC' && (
+              <React.Fragment>
+                <Text
+                  size='14px'
+                  capitalize
+                  weight={400}
+                  style={{ marginBottom: '5px', marginTop: '15px' }}
+                >
+                  <FormattedMessage
+                    id='components.txlistitem.valueattime'
+                    defaultMessage='Value When {type}'
+                    values={{ type: transaction.type }}
+                  />
+                </Text>
+                <FiatAtTime
+                  amount={transaction.amount}
+                  hash={transaction.hash}
+                  time={transaction.time}
+                  type={transaction.type}
+                  currency={currency}
+                />
+              </React.Fragment>
+            )}
+          </DetailsColumn>
+          {prop('inputs', transaction) &&
+            prop('outputs', transaction) && (
+              <DetailsColumn>
+                <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+                  <FormattedMessage
+                    id='components.txlistitem.sentfrom'
+                    defaultMessage='Sent From'
+                  />
+                </Text>
+                {prop('inputs', transaction).map(input => (
+                  <Text size='14px' weight={300}>
+                    {input.address}
+                  </Text>
+                ))}
+                <Text
+                  size='14px'
+                  weight={400}
+                  style={{ marginBottom: '5px', marginTop: '15px' }}
+                >
+                  <FormattedMessage
+                    id='components.txlistitem.receivedby'
+                    defaultMessage='Received By'
+                  />
+                </Text>
+                {prop('outputs', transaction).map(output => (
+                  <Text size='14px' weight={300}>
+                    {output.address}
+                  </Text>
+                ))}
+              </DetailsColumn>
+            )}
+          <DetailsColumn>
+            <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+              <FormattedMessage
+                id='components.txlistitem.status'
+                defaultMessage='Status'
+              />
+            </Text>
+            <Confirmations
+              coin={coin}
+              hash={transaction.hash}
+              confirmations={transaction.confirmations}
+            />
+            {transaction.type !== 'received' && (
+              <React.Fragment>
+                <Text
+                  size='14px'
+                  weight={400}
+                  style={{ marginBottom: '5px', marginTop: '15px' }}
+                >
+                  <FormattedMessage
+                    id='scenes.transactions.bitcoin.content.pages.listitem.fee.label'
+                    defaultMessage='Transaction Fee'
+                  />
+                </Text>
+                <ComboDisplay coin={coin} size='14px' weight={300}>
+                  {transaction.fee}
+                </ComboDisplay>
+              </React.Fragment>
+            )}
+          </DetailsColumn>
+        </DetailsRow>
+      )}
     </TransactionRowContainer>
   )
 }
 
 TransactionListItem.propTypes = {
   coin: PropTypes.string.isRequired,
-  minConfirmations: PropTypes.number.isRequired,
-  handleCoinToggle: PropTypes.func.isRequired,
   transaction: PropTypes.shape({
     type: PropTypes.string.isRequired,
     amount: PropTypes.number.isRequired,

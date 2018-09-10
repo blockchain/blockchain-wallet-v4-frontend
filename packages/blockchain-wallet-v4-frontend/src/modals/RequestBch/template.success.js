@@ -66,6 +66,7 @@ const RequestBch = props => {
           </FormLabel>
           <Field
             name='to'
+            coin='BCH'
             component={SelectBoxBCHAddresses}
             includeAll={false}
             validate={[required]}

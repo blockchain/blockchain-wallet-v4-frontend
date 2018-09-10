@@ -19,6 +19,7 @@ import {
   contains,
   toUpper,
   any,
+  all,
   path
 } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -60,31 +61,62 @@ const processPages = (pages, coinType) => {
   const allPages = map(ProcessPage, pages)
   const isLoading = Remote.Loading.is(last(allPages))
   const displayPages = isLoading ? dropLast(1, allPages) : allPages
-  return Remote.of(flatten(displayPages.map(page => page.getOrElse([]))))
+  const pagesR = Remote.of(
+    flatten(displayPages.map(page => page.getOrElse([])))
+  )
+  return {
+    isLoading,
+    pagesR
+  }
 }
 
 export const getData = createDeepEqualSelector(
   [
+    selectors.core.settings.getCurrency,
     selectors.core.common.btc.getWalletTransactions,
     selectors.core.common.bch.getWalletTransactions,
     selectors.core.common.eth.getWalletTransactions,
     selectors.form.getFormValues('lockboxTransactions')
   ],
-  (btcPages, bchPages, ethPages, formValues) => {
-    const btcTransactions = processPages(btcPages, 'BTC')
-    const bchTransactions = processPages(bchPages, 'BCH')
-    const ethTransactions = processPages(ethPages, 'ETH')
+  (currencyR, btcPages, bchPages, ethPages, formValues) => {
+    const { isLoading: btcIsLoading, pagesR: btcTransactions } = processPages(
+      btcPages,
+      'BTC'
+    )
+    const { isLoading: bchIsLoading, pagesR: bchTransactions } = processPages(
+      bchPages,
+      'BCH'
+    )
+    const { isLoading: ethIsLoading, pagesR: ethTransactions } = processPages(
+      ethPages,
+      'ETH'
+    )
+    const isLoading = all(x => !!x, [btcIsLoading, bchIsLoading, ethIsLoading])
     const search = pathOr([], ['search', 'value'], formValues)
     const searches = search.map(path(['value']))
-    const transform = (btcTransactions, bchTransactions, ethTransactions) => {
+    const transform = (
+      currency,
+      btcTransactions,
+      bchTransactions,
+      ethTransactions
+    ) => {
       const transactions = concatAll(
         btcTransactions,
         bchTransactions,
         ethTransactions
       )
       const filteredTransactions = filterTransactions(searches)(transactions)
-      return filteredTransactions
+      return {
+        currency,
+        isLoading,
+        filteredTransactions
+      }
     }
-    return lift(transform)(btcTransactions, bchTransactions, ethTransactions)
+    return lift(transform)(
+      currencyR,
+      btcTransactions,
+      bchTransactions,
+      ethTransactions
+    )
   }
 )

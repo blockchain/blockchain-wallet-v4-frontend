@@ -136,7 +136,8 @@ export default ({ coreSagas, networks }) => {
               payment = yield payment.to(payload.xpub, toType)
               break
             default:
-              payment = yield payment.to(payload.address, toType)
+              const address = prop('address', payload) || payload
+              payment = yield payment.to(address, toType)
           }
           break
         case 'amount':
@@ -292,12 +293,12 @@ export default ({ coreSagas, networks }) => {
         let password = yield call(promptForSecondPassword)
         payment = yield payment.sign(password)
       } else {
-        const deviceIdR = yield select(
-          selectors.core.kvStore.lockbox.getDeviceIdFromBtcXpubs,
+        const deviceR = yield select(
+          selectors.core.kvStore.lockbox.getDeviceFromBtcXpubs,
           prop('from', p.getOrElse({}))
         )
-        const deviceId = deviceIdR.getOrFail('missing_device')
-        yield call(promptForLockbox, 'BTC', deviceId)
+        const device = deviceR.getOrFail('missing_device')
+        yield call(promptForLockbox, 'BTC', prop('device_id', device))
         let connection = yield select(
           selectors.components.lockbox.getCurrentConnection
         )
