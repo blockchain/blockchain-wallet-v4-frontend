@@ -52,7 +52,7 @@ const Steps = styled.div`
 const Step = styled.span`
   font-size: 14px;
   min-width: ${props => props.minWidth || '70px'};
-  max-width: ${props => props.maxWidth || '70px'};
+  max-width: ${props => props.maxWidth || '80px'};
   width: calc(100% / ${props => props.totalSteps});
   margin-left: 50px;
   margin-right: 50px;

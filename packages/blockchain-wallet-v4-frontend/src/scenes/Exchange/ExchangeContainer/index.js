@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { EXCHANGE_STEPS } from 'data/components/exchange/model'
 
 import ExchangeForm from '../ExchangeForm'
-import ExchangeResults from '../ExchangeResults'
 import ExchangeConfirm from '../ExchangeConfirm'
 import { getData } from './selectors'
 
@@ -15,8 +14,6 @@ const ExchangeContainer = ({ step }) => {
       return <ExchangeForm />
     case EXCHANGE_STEPS.CONFIRM:
       return <ExchangeConfirm />
-    case EXCHANGE_STEPS.EXCHANGE_RESULT:
-      return <ExchangeResults />
     default:
       return <ExchangeForm />
   }
