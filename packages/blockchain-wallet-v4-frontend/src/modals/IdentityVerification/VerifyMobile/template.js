@@ -140,6 +140,7 @@ const VerifyMobile = ({
                   {activeField === 'smsNumber' &&
                     !mobile && (
                       <FaqFormMessage
+                        icon='phone-regular'
                         title={
                           <FormattedMessage
                             id='identityverification.mobile.faq.phone.title'
@@ -200,6 +201,7 @@ const VerifyMobile = ({
                     {activeField === 'code' &&
                       !mobile && (
                         <FaqFormMessage
+                          icon='comment-alt-regular'
                           title={
                             <FormattedMessage
                               id='identityverification.mobile.faq.code.title'

@@ -2173,6 +2173,15 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Learn More",
+        "id": "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore"
+      }
+    ],
+    "path": "src/layouts/Wallet/TrayRight/WhatsNew/FaqLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "🎉 You're all caught up!",
         "id": "layouts.wallet.header.whatsnew.whatsnew.empty"
       },
@@ -7864,6 +7873,48 @@
       }
     ],
     "path": "src/scenes/SecurityCenter/Advanced/LoginIpRestriction/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Change",
+        "id": "scenes.securitysettings.basicsecurity.passwordhint.settings.change"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel"
+      },
+      {
+        "defaultMessage": "Change",
+        "id": "scenes.securitysettings.basicsecurity.passwordhint.settings.save"
+      }
+    ],
+    "path": "src/scenes/SecurityCenter/Advanced/PasswordHint/Settings/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Password Hint",
+        "id": "scenes.settings.passwordhint.title"
+      },
+      {
+        "defaultMessage": "Hint Stored",
+        "id": "scenes.security.passwordhint.stored"
+      },
+      {
+        "defaultMessage": "Not Stored",
+        "id": "scenes.security.passwordhint.notstored"
+      },
+      {
+        "defaultMessage": "Blockchain cannot reset your password.",
+        "id": "scenes.settings.passwordhint.description1"
+      },
+      {
+        "defaultMessage": "Create a memorable password hint that we can send to your verified email address in case you forget your password.",
+        "id": "scenes.settings.passwordhint.description2"
+      }
+    ],
+    "path": "src/scenes/SecurityCenter/Advanced/PasswordHint/template.json"
   },
   {
     "descriptors": [
