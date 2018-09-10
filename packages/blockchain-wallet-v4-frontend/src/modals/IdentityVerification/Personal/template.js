@@ -112,6 +112,7 @@ const DOBToObject = value => {
     year
   }
 }
+const countryUsesZipcode = code => code === 'US'
 
 const Personal = ({
   invalid,
@@ -280,10 +281,17 @@ const Personal = ({
                         weight={400}
                         style={{ marginBottom: '5px' }}
                       >
-                        <FormattedMessage
-                          id='identityverification.personal.zipcode'
-                          defaultMessage='Zip Code'
-                        />
+                        {countryUsesZipcode(countryCode) ? (
+                          <FormattedMessage
+                            id='identityverification.personal.zipcode'
+                            defaultMessage='Zip Code'
+                          />
+                        ) : (
+                          <FormattedMessage
+                            id='identityverification.personal.postcode'
+                            defaultMessage='Postcode'
+                          />
+                        )}
                       </Text>
                       <Field
                         name='postCode'
