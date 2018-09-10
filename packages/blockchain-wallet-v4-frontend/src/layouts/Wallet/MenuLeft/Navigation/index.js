@@ -9,15 +9,11 @@ import Navigation from './template.js'
 
 class NavigationContainer extends React.PureComponent {
   render () {
+    const { actions, ...props } = this.props
     return (
       <Navigation
-        canTrade={this.props.canTrade}
-        settingsOpened={this.props.settingsOpened}
-        menuOpened={this.props.menuOpened}
-        pathname={this.props.pathname}
-        handleCloseMenu={() =>
-          this.props.actions.layoutWalletMenuCloseClicked()
-        }
+        {...props}
+        handleCloseMenu={actions.layoutWalletMenuCloseClicked}
       />
     )
   }

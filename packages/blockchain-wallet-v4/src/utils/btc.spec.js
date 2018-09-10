@@ -1,4 +1,5 @@
 import * as utils from './btc'
+import { networks } from 'bitcoinjs-lib'
 
 const fromHex = hex => Buffer.from(hex, 'hex')
 
@@ -39,13 +40,13 @@ describe('Bitcoin Utils', () => {
   describe('Address', () => {
     it('Should validate addresses', () => {
       validAddresses
-        .map(utils.isValidBitcoinAddress)
+        .map(addr => utils.isValidBitcoinAddress(addr, networks.bitcoin))
         .forEach(v => expect(v).toEqual(true))
     })
 
     it('Should find checksum errors', () => {
       invalidAddresses
-        .map(utils.isValidBitcoinAddress)
+        .map(addr => utils.isValidBitcoinAddress(addr, networks.bitcoin))
         .forEach(v => expect(v).toEqual(false))
     })
 

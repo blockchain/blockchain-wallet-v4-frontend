@@ -1,5 +1,6 @@
 import * as AT from './actionTypes'
 
+// ShapeShift Actions
 export const initialized = () => ({ type: AT.EXCHANGE_INITIALIZED })
 export const destroyed = () => ({ type: AT.EXCHANGE_DESTROYED })
 export const paymentUpdated = payment => ({
@@ -77,4 +78,44 @@ export const thirdStepCloseClicked = () => ({
 })
 export const usStateRegistered = () => ({
   type: AT.EXCHANGE_US_STATE_REGISTERED
+})
+
+// Exchange Actions
+export const setStep = step => ({
+  type: AT.SET_STEP,
+  payload: { step }
+})
+export const initialize = () => ({
+  type: AT.INITIALIZE
+})
+export const changeSource = source => ({
+  type: AT.CHANGE_SOURCE,
+  payload: { source }
+})
+export const changeTarget = target => ({
+  type: AT.CHANGE_TARGET,
+  payload: { target }
+})
+export const changeSourceAmount = sourceAmount => ({
+  type: AT.CHANGE_SOURCE_AMOUNT,
+  payload: { sourceAmount }
+})
+export const changeTargetAmount = targetAmount => ({
+  type: AT.CHANGE_TARGET_AMOUNT,
+  payload: { targetAmount }
+})
+export const changeSourceFiatAmount = sourceFiatAmount => ({
+  type: AT.CHANGE_SOURCE_FIAT_AMOUNT,
+  payload: { sourceFiatAmount }
+})
+export const changeTargetFiatAmount = targetFiatAmount => ({
+  type: AT.CHANGE_TARGET_FIAT_AMOUNT,
+  payload: { targetFiatAmount }
+})
+export const changeFix = fix => ({
+  type: AT.CHANGE_FIX,
+  payload: { fix }
+})
+export const confirmExchange = () => ({
+  type: AT.CONFIRM_EXCHANGE
 })

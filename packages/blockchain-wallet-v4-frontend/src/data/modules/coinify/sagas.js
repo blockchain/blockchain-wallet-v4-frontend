@@ -6,13 +6,12 @@ import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
 import * as C from 'services/AlertService'
 import * as service from 'services/CoinifyService'
-import settings from 'config'
 import { promptForSecondPassword } from 'services/SagaService'
 
 export const sellDescription = `Exchange Trade CNY-`
 export const logLocation = 'modules/coinify/sagas'
 
-export default ({ coreSagas }) => {
+export default ({ coreSagas, networks }) => {
   const coinifySignup = function*(data) {
     const country = data.payload
     try {
@@ -68,12 +67,12 @@ export default ({ coreSagas }) => {
       const state = yield select()
       const defaultIdx = selectors.core.wallet.getDefaultAccountIndex(state)
       const receiveR = selectors.core.common.btc.getNextAvailableReceiveAddress(
-        settings.NETWORK_BITCOIN,
+        networks.btc,
         defaultIdx,
         state
       )
       const receiveIdxR = selectors.core.common.btc.getNextAvailableReceiveIndex(
-        settings.NETWORK_BITCOIN,
+        networks.btc,
         defaultIdx,
         state
       )
@@ -105,7 +104,7 @@ export default ({ coreSagas }) => {
       const p = path(['coinify', 'payment'], state)
       let payment = yield coreSagas.payment.btc.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK
+        network: networks.btc
       })
       payment = yield payment.amount(parseInt(trade.sendAmount))
 
@@ -173,7 +172,7 @@ export default ({ coreSagas }) => {
           selectors.core.wallet.getDefaultAccountIndex
         )
         const payment = yield coreSagas.payment.btc
-          .create({ network: settings.NETWORK_BITCOIN })
+          .create({ network: networks.btc })
           .chain()
           .init()
           .fee('priority')
@@ -381,13 +380,13 @@ export default ({ coreSagas }) => {
     try {
       const modals = yield select(selectors.modals.getModals)
       const tradeR = yield select(selectors.core.data.coinify.getTrade)
-      const trade = tradeR.getOrFail('No trade found')
+      const trade = tradeR.getOrElse({})
 
       if (path(['type'], head(modals)) === 'CoinifyExchangeData') {
         yield put(A.coinifySignupComplete())
         yield call(delay, 500)
         yield put(actions.modals.closeAllModals())
-      } else if (trade.constructor.name !== 'Trade') {
+      } else if (path(['constructor', 'name'], trade) !== 'Trade') {
         yield put(actions.form.change('buySellTabStatus', 'status', 'buy'))
       } else {
         yield put(
@@ -479,11 +478,11 @@ export default ({ coreSagas }) => {
   const cancelISX = function*() {
     const modals = yield select(selectors.modals.getModals)
     const tradeR = yield select(selectors.core.data.coinify.getTrade)
-    const trade = tradeR.getOrFail('No trade found')
+    const trade = tradeR.getOrElse({})
 
     if (path(['type'], head(modals)) === 'CoinifyExchangeData') {
       yield put(actions.modals.closeAllModals())
-    } else if (trade.state === 'awaiting_transfer_in') {
+    } else if (prop('state', trade) === 'awaiting_transfer_in') {
       yield put(
         actions.form.change('buySellTabStatus', 'status', 'order_history')
       )
@@ -522,7 +521,7 @@ export default ({ coreSagas }) => {
     try {
       yield put(A.coinifySellBtcPaymentUpdatedLoading())
       let payment = coreSagas.payment.btc.create({
-        network: settings.NETWORK_BITCOIN
+        network: networks.btc
       })
       payment = yield payment.init()
       const defaultIndex = yield select(

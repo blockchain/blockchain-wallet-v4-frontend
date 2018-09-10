@@ -5,6 +5,7 @@ import ReactDatetime from 'react-datetime'
 
 const BaseDateInput = styled(ReactDatetime)`
   position: relative;
+  width: ${props => (props.fullwidth ? '100%' : '150px')};
 
   .form-control {
     display: block;
