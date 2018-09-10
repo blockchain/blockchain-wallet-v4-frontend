@@ -77,7 +77,7 @@ class PersonalContainer extends React.PureComponent {
           initialValues={{
             ...userData,
             country:
-              find(propEq('name', userData.country), supportedCountries) ||
+              find(propEq('code', userData.country), supportedCountries) ||
               find(propEq('code', initialCountryCode), supportedCountries)
           }}
           countryCode={countryCode}
