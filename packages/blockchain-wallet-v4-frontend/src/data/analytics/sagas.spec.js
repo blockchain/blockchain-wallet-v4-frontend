@@ -5,6 +5,7 @@ import * as actions from '../actions'
 import * as actionTypes from '../actionTypes'
 import * as selectors from '../selectors.js'
 import analyticsSagas, { logLocation } from './sagas'
+import { LAYOUT_WALLET_HEADER_FAQ_CLICKED, LAYOUT_WALLET_HEADER_WHATSNEW_CLICKED } from '../components/layoutWallet/actionTypes'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const coreSagas = coreSagasFactory()
@@ -356,19 +357,42 @@ describe('analyticsSagas', () => {
   })
 
   describe('logClick', () => {
-    let { logClick } = analyticsSagas({ coreSagas, api })
-    let payload = { name: 'send' }
-    let saga = testSaga(logClick, payload)
+    describe('walletLayout actions FAQ', () => {
+      let { logClick } = analyticsSagas({ coreSagas, api })
+      let payload = { type: LAYOUT_WALLET_HEADER_FAQ_CLICKED }
+      let saga = testSaga(logClick, payload)
 
-    it('should call api.logClick with the name', () => {
-      const { name } = payload
-      saga.next().call(api.logClick, name)
+      it('should call api.logClick with faq', () => {
+        saga.next().call(api.logClick, 'faq')
+      })
     })
+    describe('walletLayout actions WHATSNEW', () => {
+      let { logClick } = analyticsSagas({ coreSagas, api })
+      let payload = { type: LAYOUT_WALLET_HEADER_WHATSNEW_CLICKED }
+      let saga = testSaga(logClick, payload)
+
+      it('should call api.logClick with whatsnew', () => {
+        saga.next().call(api.logClick, 'whatsnew')
+      })
+    })
+    describe('called with a name', () => {
+      let { logClick } = analyticsSagas({ coreSagas, api })
+      let payload = { name: 'send' }
+      let saga = testSaga(logClick, payload)
+
+      it('should call api.logClick with the name', () => {
+        const { name } = payload
+        saga.next().call(api.logClick, name)
+      })
+    })
+    
     describe('error handling', () => {
+      let { logClick } = analyticsSagas({ coreSagas, api })
+      let payload = { type: LAYOUT_WALLET_HEADER_FAQ_CLICKED }
+      let saga = testSaga(logClick, payload)
       const error = new Error('ERROR')
       it('should log an error', () => {
         saga
-          .restart()
           .next()
           .throw(error)
           .put(actions.logs.logErrorMessage(logLocation, 'logClick', error))
