@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { compose, prop, reverse, sortBy } from 'ramda'
 import { Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import TransactionListItem2 from 'components/TransactionListItem2'
+import TransactionListItem from 'components/TransactionListItem'
 import Loading from './template.loading'
 
 const Wrapper = styled.div`
@@ -38,7 +38,7 @@ const Success = props => {
   return (
     <Wrapper>
       {sortByTime(transactions).map((transaction, index) => (
-        <TransactionListItem2
+        <TransactionListItem
           key={transaction.hash}
           coin={transaction.coin}
           currency={props.currency}

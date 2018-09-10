@@ -11,7 +11,6 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  padding-top: 10px;
 `
 const DisplayContainer = styled.div`
   display: flex;
@@ -32,19 +31,20 @@ const EditDescription = props => {
     <Wrapper onClick={handleChange}>
       {value ? (
         <DisplayContainer>
-          <Text size='12px' weight={200}>
+          <Text size='14px' weight={300}>
             {value}
           </Text>
           <PencilIcon name='pencil' color='received' size='14px' cursor />
         </DisplayContainer>
       ) : (
         <DisplayContainer>
-          <Text size='12px' weight={200} cursor='pointer'>
+          <Text size='14px' weight={300} cursor='pointer'>
             <FormattedMessage
               id='components.editdescription.add'
               defaultMessage='Add a description'
             />
           </Text>
+          <PencilIcon name='pencil' color='received' size='14px' cursor />
         </DisplayContainer>
       )}
     </Wrapper>
