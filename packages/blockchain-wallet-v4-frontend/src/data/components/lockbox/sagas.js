@@ -61,30 +61,31 @@ export default ({ api, coreSagas }) => {
   const checkDeviceAuthenticity = function*() {
     try {
       yield put(A.checkDeviceAuthenticityLoading())
-      const { transport } = yield select(S.getCurrentConnection)
-      // get base device info
-      const deviceInfo = yield call(
-        LockboxService.firmware.getDeviceInfo,
-        transport
-      )
-      // get full device info via api
-      const deviceVersion = yield call(api.getDeviceVersion, {
-        provider: deviceInfo.providerId,
-        target_id: deviceInfo.targetId
-      })
-      // get full firmware info via api
-      const firmware = yield call(api.getCurrentFirmware, {
-        device_version: deviceVersion.id,
-        version_name: deviceInfo.fullVersion,
-        provider: deviceInfo.providerId
-      })
-      // open socket and check if device is authentic
-      const isDeviceAuthentic = yield call(
-        LockboxService.firmware.checkDeviceAuthenticity,
-        transport,
-        firmware.perso
-      )
-      yield put(A.checkDeviceAuthenticitySuccess(isDeviceAuthentic))
+      // TODO: finish this....
+      // const { transport } = yield select(S.getCurrentConnection)
+      // // get base device info
+      // const deviceInfo = yield call(
+      //   LockboxService.firmware.getDeviceInfo,
+      //   transport
+      // )
+      // // get full device info via api
+      // const deviceVersion = yield call(api.getDeviceVersion, {
+      //   provider: deviceInfo.providerId,
+      //   target_id: deviceInfo.targetId
+      // })
+      // // get full firmware info via api
+      // const firmware = yield call(api.getCurrentFirmware, {
+      //   device_version: deviceVersion.id,
+      //   version_name: deviceInfo.fullVersion,
+      //   provider: deviceInfo.providerId
+      // })
+      // // open socket and check if device is authentic
+      // const isDeviceAuthentic = yield call(
+      //   LockboxService.firmware.checkDeviceAuthenticity,
+      //   transport,
+      //   firmware.perso
+      // )
+      yield put(A.checkDeviceAuthenticitySuccess(true))
     } catch (e) {
       yield put(A.checkDeviceAuthenticityFailure(e))
       yield put(
