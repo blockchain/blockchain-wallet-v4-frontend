@@ -7,6 +7,7 @@ import { getData } from './selectors'
 import SfoxSignupBanner from './template.js'
 import { determineStep } from 'services/SfoxService'
 import { actions } from 'data'
+import { path } from 'ramda'
 
 class SfoxSignupBannerContainer extends React.PureComponent {
   constructor (props) {
@@ -24,10 +25,14 @@ class SfoxSignupBannerContainer extends React.PureComponent {
   }
 
   renderStepper (sfoxData) {
+    const jumioId = path(['sfoxKvData', 'jumio', 'id'], this.props)
+    const jumioStatus = path(['sfoxKvData', 'jumio', 'completed'], this.props)
     const step = determineStep(
       sfoxData.sfoxProfile,
       sfoxData.verificationStatus,
-      sfoxData.sfoxAccounts
+      sfoxData.sfoxAccounts,
+      jumioId,
+      jumioStatus
     )
     const steps = { account: 1, verify: 2, upload: 3, funding: 4 }
     const currentStep = steps[step] || 0

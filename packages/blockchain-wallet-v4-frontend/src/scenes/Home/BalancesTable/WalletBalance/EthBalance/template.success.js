@@ -15,7 +15,7 @@ const Success = props => {
         <HomeCoinBalanceCell
           coin='ETH'
           coinName='Ether'
-          coinIcon='ethereum-filled'
+          coinIcon='eth'
           balance={balance}
         />
       </Wrapper>

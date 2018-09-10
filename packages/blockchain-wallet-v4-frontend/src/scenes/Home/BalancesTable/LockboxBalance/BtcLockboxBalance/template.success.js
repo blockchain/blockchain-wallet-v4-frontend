@@ -15,7 +15,7 @@ const Success = props => {
         <HomeCoinBalanceCell
           coin='BTC'
           coinName='Bitcoin'
-          coinIcon='bitcoin-in-circle'
+          coinIcon='btc'
           balance={balance}
         />
       </Wrapper>

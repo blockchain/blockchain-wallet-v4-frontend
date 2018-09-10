@@ -38,7 +38,7 @@ const Navigation = props => {
       </LinkContainer>
       <LinkContainer to='/exchange' activeClassName='active'>
         <MenuItem>
-          <Icon name='nav-exchange' />
+          <Icon name='nav-switch' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.exchange'
             defaultMessage='Exchange'
@@ -75,7 +75,7 @@ const Navigation = props => {
       </LinkContainer>
       <LinkContainer to='/bch/transactions' activeClassName='active'>
         <MenuItem>
-          <Icon name='bch-border' />
+          <Icon name='bch-circle' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.transactions.bch'
             defaultMessage='Bitcoin Cash'

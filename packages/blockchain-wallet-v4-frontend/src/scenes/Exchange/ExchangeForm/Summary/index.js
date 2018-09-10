@@ -3,10 +3,10 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import StringDisplay from 'components/Display/StringDisplay'
-import { Text } from 'blockchain-info-components'
 import {
   Wrapper,
   ExchangeText,
+  ExchangeAmount,
   Title,
   AmountHeader,
   Delimiter,
@@ -14,13 +14,6 @@ import {
   Note
 } from 'components/Exchange'
 
-export const ExchangeAmount = styled(Text)`
-  font-weight: 300;
-  font-size: 20px;
-  line-height: 24px;
-  color: ${props => props.theme['brand-primary']};
-  margin-bottom: 24px;
-`
 const RatesWrapper = styled.div`
   padding-top: 17px;
   padding-bottom: 4px;

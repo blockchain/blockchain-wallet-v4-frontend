@@ -21,7 +21,7 @@ const Success = props => {
     <CurrencyList>
       <CurrencyItem
         coin='btc'
-        icon='bitcoin-filled'
+        icon='btc'
         balance={data.btcBalance}
         isActive={isActive('btc')}
         isInactive={!isEmpty(formValues) && !isActive('btc')}
@@ -29,7 +29,7 @@ const Success = props => {
       />
       <CurrencyItem
         coin='bch'
-        icon='bitcoin-filled'
+        icon='bch'
         balance={data.bchBalance}
         isActive={isActive('bch')}
         isInactive={!isEmpty(formValues) && !isActive('bch')}
@@ -37,7 +37,7 @@ const Success = props => {
       />
       <CurrencyItem
         coin='eth'
-        icon='ethereum-filled'
+        icon='eth'
         balance={data.ethBalance}
         isActive={isActive('eth')}
         isInactive={!isEmpty(formValues) && !isActive('eth')}

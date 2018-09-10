@@ -4,6 +4,7 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
+import { fromCashAddr, isCashAddr } from '../../../utils/bch'
 
 export default ({ api }) => {
   const fetchData = function*() {
@@ -61,11 +62,14 @@ export default ({ api }) => {
       }
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
       yield put(A.fetchTransactionsLoading(reset))
+      const convertedAddress = isCashAddr(address)
+        ? fromCashAddr(address)
+        : address
       const walletContext = yield select(selectors.wallet.getWalletContext)
       const context = yield select(S.getContext)
       const data = yield call(api.fetchBchData, context, {
         n: TX_PER_PAGE,
-        onlyShow: address || walletContext.join('|'),
+        onlyShow: convertedAddress || walletContext.join('|'),
         offset
       })
       yield put(
@@ -85,10 +89,11 @@ export default ({ api }) => {
       yield put(A.fetchTransactionHistoryLoading())
       const currency = yield select(selectors.settings.getCurrency)
       if (address) {
+        const convertedAddress = fromCashAddr(address)
         const data = yield call(
           api.getTransactionHistory,
           'BCH',
-          address,
+          convertedAddress,
           currency.getOrElse('USD'),
           start,
           end
