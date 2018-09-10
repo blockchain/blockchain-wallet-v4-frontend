@@ -181,7 +181,7 @@ export const getWalletTransactions = state => {
   // Remote(blockHeight)
   const blockHeightR = getHeight(state)
   // Remote(lockboxXpubs)
-  const accountListR = getLockboxBtcAccounts(state)
+  const accountListR = getLockboxBtcAccounts(state).map(HDAccountList.fromJS)
   // [Remote([tx])] == [Page] == Pages
   const getDescription = (hash, to) =>
     TXNotes.selectNote(hash, Wallet.selectTxNotes(wallet)) ||
