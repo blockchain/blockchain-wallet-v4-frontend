@@ -1,16 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
-import { path } from 'ramda'
+import { pathOr, toLower } from 'ramda'
 
 import { Icon } from 'blockchain-info-components'
 import { SelectBox } from 'components/Form'
 
 const ExchangeSelect = styled(SelectBox)`
   .bc__control {
-    border-radius: 3px;
     border: none;
-    background-color: ${props => props.theme[props.color]};
     :hover {
+      border: none;
+    }
+    :active {
       border: none;
     }
   }
@@ -28,6 +29,9 @@ const ExchangeSelect = styled(SelectBox)`
 `
 
 const DisplayWrapper = styled.div`
+  border-radius: 3px;
+  background-color: ${props => props.theme[props.coin]};
+  min-height: 40px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -72,15 +76,15 @@ const DisplayIcon = styled(Icon)`
 
 const ItemIcon = styled(Icon)`
   font-size: 18px;
-  color: ${props => props.theme[props.color]} !important;
+  color: ${props => props.theme[props.coin]} !important;
 `
 
-const getIconName = coin => `exchange-${coin.toLowerCase()}`
+const getIconName = coin => `exchange-${toLower(coin)}`
 
 const renderDisplay = (props, children) => {
-  const coin = path(['value', 'coin'], props)
+  const coin = pathOr('', ['value', 'coin'], props)
   return (
-    <DisplayWrapper coin={coin} {...props}>
+    <DisplayWrapper className={props.className} coin={toLower(coin)}>
       {<DisplayIcon name={getIconName(coin)} />}
       <Text>{children}</Text>
     </DisplayWrapper>
@@ -88,10 +92,10 @@ const renderDisplay = (props, children) => {
 }
 
 const renderItem = item => {
-  const coin = path(['value', 'coin'], item)
+  const coin = pathOr('', ['value', 'coin'], item)
   return (
     <ItemWrapper>
-      {<ItemIcon color={coin.toLowerCase()} name={getIconName(coin)} />}
+      {<ItemIcon coin={toLower(coin)} name={getIconName(coin)} />}
       <Text>{item.text}</Text>
     </ItemWrapper>
   )
@@ -101,7 +105,6 @@ const SelectBoxExchange = props => (
   <ExchangeSelect
     {...props}
     searchEnabled={false}
-    color={path(['input', 'value', 'coin'], props).toLowerCase()}
     hideIndicator={true}
     templateDisplay={renderDisplay}
     templateItem={renderItem}

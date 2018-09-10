@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import { isEmpty, contains } from 'ramda'
+import { contains } from 'ramda'
 
 import { model } from 'data'
 import media from 'services/ResponsiveService'
@@ -339,7 +339,7 @@ const Success = props => {
             disabled={
               disabled ||
               !dirty ||
-              (dirty && !isEmpty(formError) && formError !== 'initial')
+              (dirty && formError && formError !== 'initial')
             }
           >
             {!disabled && (

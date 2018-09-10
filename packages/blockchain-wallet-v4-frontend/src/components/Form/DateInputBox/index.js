@@ -24,7 +24,13 @@ const RowWrapper = styled.div`
     flex-direction: column;
   `};
 `
-const SelectBoxMonth = styled(SelectBox)`
+const LabelWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-itmes: flex-start;
+  justify-content: flex-start;
+`
+const MonthWrapper = styled(LabelWrapper)`
   width: 50%;
   margin-right: 15px;
   ${media.mobile`
@@ -41,7 +47,7 @@ const InputsWrapper = styled.div`
     margin-top: 15px;
   `};
 `
-const DateNumberBox = styled(NumberBox)`
+const InputWrapper = styled(LabelWrapper)`
   width: 50%;
   & :first-child {
     margin-right: 15px;
@@ -50,7 +56,7 @@ const DateNumberBox = styled(NumberBox)`
 const Error = styled(Text)`
   position: absolute;
   display: block;
-  top: ${props => (props.errorBottom ? '40px' : '-20px')};
+  top: ${props => (props.errorBottom ? 40 : -20) + (props.label ? 23 : 0)}px;
   right: 0;
   height: 15px;
 `
@@ -107,58 +113,88 @@ class DateInputBox extends React.PureComponent {
     })
 
   render () {
-    const { input, meta, errorBottom, intl } = this.props
+    const { input, label, meta, errorBottom, intl } = this.props
     const { error, ...otherMeta } = meta
 
     return (
       <Container>
         <RowWrapper>
-          <SelectBoxMonth
-            label={
-              <FormattedMessage
-                id='components.DateInputBox.placeholder.month'
-                defaultMessage='Month'
-              />
-            }
-            elements={monthElements}
-            input={{
-              name: 'month',
-              value: input.value.month,
-              onBlur: this.onBlur.bind(this, 'month'),
-              onChange: this.onMonthChange,
-              onFocus: this.onFocus
-            }}
-            meta={otherMeta}
-          />
+          <MonthWrapper>
+            {label && (
+              <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+                <FormattedMessage
+                  id='components.DateInputBox.label.month'
+                  defaultMessage='Month'
+                />
+              </Text>
+            )}
+            <SelectBox
+              label={
+                <FormattedMessage
+                  id='components.DateInputBox.placeholder.month'
+                  defaultMessage='Month'
+                />
+              }
+              elements={monthElements}
+              input={{
+                name: 'month',
+                value: input.value.month,
+                onBlur: this.onBlur.bind(this, 'month'),
+                onChange: this.onMonthChange,
+                onFocus: this.onFocus
+              }}
+              meta={otherMeta}
+            />
+          </MonthWrapper>
           <InputsWrapper>
-            <DateNumberBox
-              placeholder={intl.formatMessage({
-                id: 'components.DateInputBox.placeholder.day',
-                defaultMessage: 'Date (DD)'
-              })}
-              input={{
-                name: 'date',
-                value: input.value.date,
-                onBlur: this.onBlur.bind(this, 'date'),
-                onChange: this.onDateChange,
-                onFocus: this.onFocus
-              }}
-              meta={otherMeta}
-            />
-            <DateNumberBox
-              placeholder={intl.formatMessage({
-                id: 'components.DateInputBox.placeholder.year',
-                defaultMessage: 'Year (YYYY)'
-              })}
-              input={{
-                name: 'year',
-                value: input.value.year,
-                onBlur: this.onBlur.bind(this, 'year'),
-                onChange: this.onYearChange,
-                onFocus: this.onFocus
-              }}
-              meta={otherMeta}
-            />
+            <InputWrapper>
+              {label && (
+                <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+                  <FormattedMessage
+                    id='components.DateInputBox.label.date'
+                    defaultMessage='Date'
+                  />
+                </Text>
+              )}
+              <NumberBox
+                placeholder={intl.formatMessage({
+                  id: 'components.DateInputBox.placeholder.day',
+                  defaultMessage: 'Date (DD)'
+                })}
+                input={{
+                  name: 'date',
+                  value: input.value.date,
+                  onBlur: this.onBlur.bind(this, 'date'),
+                  onChange: this.onDateChange,
+                  onFocus: this.onFocus
+                }}
+                meta={otherMeta}
+              />
+            </InputWrapper>
+            <InputWrapper>
+              {label && (
+                <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+                  <FormattedMessage
+                    id='components.DateInputBox.label.year'
+                    defaultMessage='Year'
+                  />
+                </Text>
+              )}
+              <NumberBox
+                placeholder={intl.formatMessage({
+                  id: 'components.DateInputBox.placeholder.year',
+                  defaultMessage: 'Year (YYYY)'
+                })}
+                input={{
+                  name: 'year',
+                  value: input.value.year,
+                  onBlur: this.onBlur.bind(this, 'year'),
+                  onChange: this.onYearChange,
+                  onFocus: this.onFocus
+                }}
+                meta={otherMeta}
+              />
+            </InputWrapper>
           </InputsWrapper>
         </RowWrapper>
 
@@ -169,6 +205,7 @@ class DateInputBox extends React.PureComponent {
               weight={300}
               color='error'
               errorBottom={errorBottom}
+              label={label}
             >
               {meta.error}
             </Error>
