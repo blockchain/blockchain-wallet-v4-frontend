@@ -100,13 +100,14 @@ export default ({ api, ratesSocket }) => {
     config: { volume, fix, fiatCurrency }
   }) {
     try {
-      const { ratio } = yield call(
+      const { error, ratio } = yield call(
         api.fetchAdvice,
         pair,
         volume,
         fix,
         fiatCurrency
       )
+      if (error) throw error
       yield put(
         actions.modules.rates.updateAdvice(
           pair,
