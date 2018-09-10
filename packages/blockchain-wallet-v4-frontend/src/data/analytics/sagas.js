@@ -2,8 +2,9 @@ import { call, select, put, fork, join, take } from 'redux-saga/effects'
 import * as selectors from '../selectors.js'
 import * as actions from '../actions'
 import * as actionTypes from '../actionTypes'
+import { LAYOUT_WALLET_HEADER_FAQ_CLICKED, LAYOUT_WALLET_HEADER_WHATSNEW_CLICKED } from '../components/layoutWallet/actionTypes'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { path, toLower, test, pathOr } from 'ramda'
+import { path, toLower, test, pathOr, equals, prop } from 'ramda'
 
 export const logLocation = 'analytics/sagas'
 export const balancePath = ['payload', 'info', 'final_balance']
@@ -87,8 +88,11 @@ export default ({ api, coreSagas }) => {
   }
 
   const logClick = function*(payload) {
-    const { name } = payload
     try {
+      if (equals(prop('type', payload), LAYOUT_WALLET_HEADER_FAQ_CLICKED)) return yield call(api.logClick, 'faq')
+      if (equals(prop('type', payload), LAYOUT_WALLET_HEADER_WHATSNEW_CLICKED)) return yield call(api.logClick, 'whatsnew')
+
+      const { name } = payload
       yield call(api.logClick, name)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'logClick', e))
