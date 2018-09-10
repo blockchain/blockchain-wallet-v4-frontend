@@ -122,7 +122,7 @@ export default ({ api, coreSagas }) => {
         line1,
         line2,
         city,
-        country: country.name,
+        country: country.code,
         state,
         postCode
       }
