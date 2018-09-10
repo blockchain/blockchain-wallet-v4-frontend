@@ -98,6 +98,7 @@ const Menu = props => {
               <Field
                 name='source'
                 coin='BCH'
+                excludeLockbox
                 component={SelectBoxBCHAddresses}
               />
             </Addresses>

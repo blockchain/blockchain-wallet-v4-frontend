@@ -19,7 +19,13 @@ import { selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 export const getData = (state, ownProps) => {
-  const { coin, exclude = [], excludeImported, excludeWatchOnly } = ownProps
+  const {
+    coin,
+    exclude = [],
+    excludeImported,
+    excludeWatchOnly,
+    excludeLockbox
+  } = ownProps
   const isActive = filter(x => !x.archived)
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ label: x.label, value: x }))
@@ -68,11 +74,13 @@ export const getData = (state, ownProps) => {
         : lift(formatImportedAddressesData)(relevantAddresses).map(
             toGroup('Imported Addresses')
           ),
-      selectors.core.common.bch
-        .getLockboxBchBalances(state)
-        .map(excluded)
-        .map(toDropdown)
-        .map(toGroup('Lockbox'))
+      excludeLockbox
+        ? Remote.of([])
+        : selectors.core.common.bch
+            .getLockboxBchBalances(state)
+            .map(excluded)
+            .map(toDropdown)
+            .map(toGroup('Lockbox'))
     ]).map(([b1, b2, b3]) => ({ data: reduce(concat, [], [b1, b2, b3]) }))
   }
 
