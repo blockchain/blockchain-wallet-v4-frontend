@@ -8,7 +8,7 @@ import {
   SettingSummary
 } from 'components/Setting'
 
-import { Button } from 'blockchain-info-components'
+import { Button, Icon } from 'blockchain-info-components'
 
 const AddDevice = props => {
   const { onClick } = props
@@ -30,11 +30,8 @@ const AddDevice = props => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button nature='primary' onClick={onClick}>
-          <FormattedMessage
-            id='scenes.lockbox.settings.adddevice.setup'
-            defaultMessage='ICON'
-          />
+        <Button nature='empty' onClick={onClick}>
+          <Icon name='open-in-new-tab' size='20px' />
         </Button>
       </SettingComponent>
     </SettingContainer>

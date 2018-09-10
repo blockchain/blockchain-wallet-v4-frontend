@@ -11,9 +11,6 @@ import { SettingForm, SettingWrapper } from 'components/Setting'
 
 const ButtonWrapper = styled(ButtonGroup)`
   margin-top: 5px;
-  & > :first-child {
-    margin-right: 5px;
-  }
 `
 const Input = styled(Field)`
   margin-top: 20px;
@@ -31,10 +28,10 @@ const Settings = props => {
   return (
     <SettingWrapper>
       {!updateToggled && (
-        <Button nature='primary' onClick={handleToggle}>
+        <Button nature='empty' onClick={handleToggle}>
           <FormattedMessage
             id='scenes.lockbox.settings.renamedevice.settings.edit'
-            defaultMessage='Rename'
+            defaultMessage='edit'
           />
         </Button>
       )}

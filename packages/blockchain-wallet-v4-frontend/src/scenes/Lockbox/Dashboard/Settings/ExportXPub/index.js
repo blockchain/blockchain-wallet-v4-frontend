@@ -21,7 +21,6 @@ class ExportXPubContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  // TODO what is xpub?
   xpub: ownProps.deviceId
 })
 
