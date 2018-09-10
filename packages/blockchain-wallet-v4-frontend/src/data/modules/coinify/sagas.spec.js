@@ -1332,6 +1332,20 @@ describe('coinifySagas', () => {
         saga.next().put(coinifyActions.setRecurringTradeEndTime(momentDate))
       })
     })
+    describe('error handling', () => {
+      let { handleRecurringFormChange } = coinifySagas({ coreSagas })
+      let d = new Date(1536080134670)
+      const action = { payload: d, meta: { form: RECURRING_CHECKOUT_FORM, field: 'duration' } }
+      let saga = testSaga(handleRecurringFormChange, action)
+      const error = new Error('ERROR')
+      it('should log the error', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'handleRecurringFormChange', error))
+      })
+    })
   })
 
   describe('startKycFromRecurring', () => {
@@ -1351,6 +1365,18 @@ describe('coinifySagas', () => {
     it('should replace the modal', () => {
       saga.next().put(actions.modals.replaceModal('CoinifyExchangeData', { step: STEPS.ISX }))
     })
+    describe('error handling', () => {
+      let { startKycFromRecurring } = coinifySagas({ coreSagas })
+      let saga = testSaga(startKycFromRecurring)
+      const error = new Error('ERROR')
+      it('should log the error', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'startKycFromRecurring', error))
+      })
+    })
   })
 
   describe('handleRecurringModalClose', () => {
@@ -1366,6 +1392,18 @@ describe('coinifySagas', () => {
     })
     it('should initialize the recurring checkout form', () => {
       saga.next().put(coinifyActions.coinifyRecurringCheckoutInitialize())
+    })
+    describe('error handling', () => {
+      let { handleRecurringModalClose } = coinifySagas({ coreSagas })
+      let saga = testSaga(handleRecurringModalClose)
+      const error = new Error('ERROR')
+      it('should log the error', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'handleRecurringModalClose', error))
+      })
     })
   })
 
@@ -1393,6 +1431,74 @@ describe('coinifySagas', () => {
       })
       it('should go to the step', () => {
         saga.next().put(coinifyActions.coinifySetCheckoutStep(payload.step))
+      })
+    })
+    describe('error handling', () => {
+      let { handleNextCheckoutStep } = coinifySagas({ coreSagas })
+      let payload = { step: 'checkout' }
+      let saga = testSaga(handleNextCheckoutStep, payload)
+      const error = new Error('ERROR')
+      it('should log the error', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'handleNextCheckoutStep', error))
+      })
+    })
+  })
+
+  describe('initializePayment', () => {
+    let { initializePayment } = coinifySagas({ coreSagas, networks })
+
+    let saga = testSaga(initializePayment)
+
+    it('should set loading state', () => {
+      saga.next(paymentMock).put(coinifyActions.coinifySellBtcPaymentUpdatedLoading())
+    })
+
+    it('should create payment', () => {
+      saga.next(paymentMock)
+      expect(coreSagas.payment.btc.create).toHaveBeenCalled()
+      expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
+        network: networks.btc
+      })
+    })
+
+    it('should call init', () => {
+      saga.next(paymentMock)
+      expect(paymentMock.init).toHaveBeenCalled()
+    })
+
+    it('should call value on the payment', () => {
+      saga.next(paymentMock)
+      expect(paymentMock.value).toHaveBeenCalled()
+    })
+
+    it('should update from', () => {
+      saga.next(paymentMock)
+      expect(paymentMock.from).toHaveBeenCalled()
+    })
+    it('should update the fee', () => {
+      saga.next(paymentMock)
+      expect(paymentMock.fee).toHaveBeenCalled()
+    })
+    it('should call payment value', () => {
+      saga.next(paymentMock)      
+      expect(paymentMock.value).toHaveBeenCalled()
+    })
+    describe('error handling', () => {
+      let { initializePayment } = coinifySagas({ coreSagas, networks })
+      let saga = testSaga(initializePayment)
+      const error = new Error('ERROR')
+      it('should update sell payment with the error and log it', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(coinifyActions.coinifySellBtcPaymentUpdatedFailure(error))
+          .next()
+          .put(actions.logs.logErrorMessage(logLocation, 'initializePayment', error))
       })
     })
   })

@@ -623,7 +623,7 @@ export default ({ coreSagas, networks }) => {
       yield put(A.coinifyRecurringCheckoutInitialize())
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, 'handlRecurringModalClose', e)
+        actions.logs.logErrorMessage(logLocation, 'handleRecurringModalClose', e)
       )
     }
   }
