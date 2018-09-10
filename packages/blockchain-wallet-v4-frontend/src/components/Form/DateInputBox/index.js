@@ -22,6 +22,7 @@ const RowWrapper = styled.div`
   flex-direction: row;
   ${media.mobile`
     flex-direction: column;
+    margin-bottom: 0;
   `};
 `
 const LabelWrapper = styled.div`
@@ -44,7 +45,7 @@ const InputsWrapper = styled.div`
   flex-direction: row;
   ${media.mobile`
     width: 100%;
-    margin-top: 15px;
+    margin-top: 24px;
   `};
 `
 const InputWrapper = styled(LabelWrapper)`

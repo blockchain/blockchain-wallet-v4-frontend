@@ -50,7 +50,10 @@ const FaqFormMessage = styled(FaqMessage)`
 const DobFaqFormMessage = styled(FaqFormMessage)`
   margin-top: 46px;
 `
-const FaqFormGroup = styled(FormGroup)`
+const PersonalFormGroup = styled(FormGroup)`
+  margin-bottom: 24px;
+`
+const FaqFormGroup = styled(PersonalFormGroup)`
   position: relative;
   display: flex;
   flex-direction: row;
@@ -77,7 +80,7 @@ const PersonalField = styled.div`
   ${media.mobile`
     :first-of-type {
       margin-right: 0;
-      margin-bottom: 10px;
+      margin-bottom: 24px;
     }
   `};
 `
@@ -242,7 +245,7 @@ const Personal = ({
                       />
                     )}
                 </FaqFormGroup>
-                <FormGroup>
+                <PersonalFormGroup>
                   <FaqFormItem>
                     <Text
                       size='14px'
@@ -268,7 +271,7 @@ const Personal = ({
                       }
                     />
                   </FaqFormItem>
-                </FormGroup>
+                </PersonalFormGroup>
                 {countryCode && (
                   <FaqFormGroup>
                     <FaqFormItem>
@@ -323,7 +326,7 @@ const Personal = ({
                     </EmailHelper>
                   )}
                 {Boolean(possibleAddresses[0].items.length) && (
-                  <FormGroup>
+                  <PersonalFormGroup>
                     <FaqFormItem>
                       <Text
                         size='14px'
@@ -348,11 +351,11 @@ const Personal = ({
                         }
                       />
                     </FaqFormItem>
-                  </FormGroup>
+                  </PersonalFormGroup>
                 )}
                 {address && (
                   <div>
-                    <FormGroup>
+                    <PersonalFormGroup>
                       <FaqFormItem>
                         <Text
                           size='14px'
@@ -371,8 +374,8 @@ const Personal = ({
                           placeholder='Street Address'
                         />
                       </FaqFormItem>
-                    </FormGroup>
-                    <FormGroup>
+                    </PersonalFormGroup>
+                    <PersonalFormGroup>
                       <FaqFormItem>
                         <Text
                           size='14px'
@@ -390,8 +393,8 @@ const Personal = ({
                           placeholder='Apartment, unit, floor, etc..'
                         />
                       </FaqFormItem>
-                    </FormGroup>
-                    <FormGroup>
+                    </PersonalFormGroup>
+                    <PersonalFormGroup>
                       <FaqFormItem>
                         <Text
                           size='14px'
@@ -409,8 +412,8 @@ const Personal = ({
                           component={TextBox}
                         />
                       </FaqFormItem>
-                    </FormGroup>
-                    <FormGroup>
+                    </PersonalFormGroup>
+                    <PersonalFormGroup>
                       <FaqFormItem>
                         <Text
                           size='14px'
@@ -436,7 +439,7 @@ const Personal = ({
                           component={TextBox}
                         />
                       </FaqFormItem>
-                    </FormGroup>
+                    </PersonalFormGroup>
                   </div>
                 )}
               </FormContainer>
