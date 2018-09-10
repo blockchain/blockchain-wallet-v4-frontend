@@ -100,6 +100,19 @@ describe('Profile Settings', () => {
         expect(wrapper.find(ExchangeStub)).toHaveLength(1)
       })
     })
+
+    describe('USER_ACTIVATION_STATES: NONE', () => {
+      beforeEach(() => {
+        store.dispatch(
+          actions.modules.profile.setUserData({ state: USER_ACTIVATION_STATES.NONE, kycState: KYC_STATES.NONE })
+        )
+        wrapper.unmount().mount()
+      })
+
+      it('should have the userState of NONE', () => {
+        expect(wrapper.find(KYCBanner).prop('userState')).toBe(USER_ACTIVATION_STATES.NONE)
+      })
+    })
   })
 
   describe('Outside of profile', () => {
@@ -148,6 +161,19 @@ describe('Profile Settings', () => {
 
       it('should show not show banner outside of profile', () => {
         expect(wrapper.find(KYCBanner).children()).toHaveLength(0)
+      })
+    })
+
+    describe('USER_ACTIVATION_STATES: NONE', () => {
+      beforeEach(() => {
+        store.dispatch(
+          actions.modules.profile.setUserData({ state: USER_ACTIVATION_STATES.NONE, kycState: KYC_STATES.NONE })
+        )
+        wrapper.unmount().mount()
+      })
+
+      it('should have the userState of NONE', () => {
+        expect(wrapper.find(KYCBanner).prop('userState')).toBe(USER_ACTIVATION_STATES.NONE)
       })
     })
   })
