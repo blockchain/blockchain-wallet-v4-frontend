@@ -1,5 +1,5 @@
-import { call, put, select, take, concat } from 'redux-saga/effects'
-import { compose, equals, prop } from 'ramda'
+import { call, put, select, take } from 'redux-saga/effects'
+import { compose, equals, prop, concat } from 'ramda'
 import * as actions from '../../../actions'
 import * as actionTypes from '../../../actionTypes'
 import * as selectors from '../../../selectors'
@@ -12,7 +12,7 @@ export default ({ api, btcSocket }) => {
 
   const onOpen = function*() {
     try {
-      const subscribeInfo = yield select(
+      let subscribeInfo = yield select(
         selectors.core.wallet.getInitialSocketContext
       )
       yield take(

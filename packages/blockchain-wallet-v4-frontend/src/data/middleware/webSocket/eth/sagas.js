@@ -3,7 +3,7 @@ import * as actions from '../../../actions'
 import * as actionTypes from '../../../actionTypes'
 import * as selectors from '../../../selectors'
 import * as T from 'services/AlertService'
-import { equals } from 'ramda'
+import { equals, concat } from 'ramda'
 const ACCOUNT_SUB = 'account_sub'
 const BLOCK_SUB = 'block_sub'
 
@@ -13,10 +13,21 @@ export default ({ api, ethSocket }) => {
   const onOpen = function*() {
     try {
       yield call(send, JSON.stringify({ op: BLOCK_SUB }))
-      yield take(
-        actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
+
+      const walletContext = yield select(
+        selectors.core.data.ethereum.getContext
       )
-      const context = yield select(selectors.core.data.ethereum.getContext)
+
+      yield take(
+        actionTypes.core.kvStore.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS
+      )
+
+      const lockboxContext = yield select(
+        selectors.core.kvStore.lockbox.getLockboxEthContext
+      )
+
+      const context = concat(walletContext, lockboxContext.getOrElse([]))
+
       yield call(send, JSON.stringify({ op: ACCOUNT_SUB, account: context }))
     } catch (e) {
       yield put(

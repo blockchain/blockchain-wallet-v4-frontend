@@ -12,7 +12,7 @@ export default ({ api, bchSocket }) => {
 
   const onOpen = function*() {
     try {
-      const subscribeInfo = yield select(
+      let subscribeInfo = yield select(
         selectors.core.wallet.getInitialSocketContext
       )
       yield take(
