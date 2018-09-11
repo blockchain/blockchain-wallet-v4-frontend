@@ -80,6 +80,7 @@ export default ({ api, coreSagas }) => {
         version_name: deviceInfo.fullVersion,
         provider: deviceInfo.providerId
       })
+      debugger
       const domainsR = yield select(selectors.core.walletOptions.getDomains)
       const domains = domainsR.getOrElse({
         ledgerSocket: 'wss://api.ledgerwallet.com/update'
@@ -95,7 +96,9 @@ export default ({ api, coreSagas }) => {
           perso: firmware.perso
         }
       )
-      yield put(A.checkDeviceAuthenticitySuccess(isDeviceAuthentic))
+      isDeviceAuthentic ?
+        yield put(A.checkDeviceAuthenticitySuccess(isDeviceAuthentic)) :
+        yield put(A.changeDeviceSetupStep('error-step'))
     } catch (e) {
       yield put(A.checkDeviceAuthenticityFailure(e))
       yield put(
@@ -207,6 +210,7 @@ export default ({ api, coreSagas }) => {
       const deviceType = 'ledger'
       yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType, setupTimeout))
       yield take(AT.SET_CONNECTION_INFO)
+      yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
       // check device authenticity
       yield put(A.checkDeviceAuthenticity())
       yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
@@ -240,7 +244,7 @@ export default ({ api, coreSagas }) => {
       const storedDevices = storedDevicesR.getOrElse({})
       // check if device has already been added
       if (contains(newDeviceId)(keysIn(storedDevices))) {
-        yield put(A.changeDeviceSetupStep('duplicate-device'))
+        yield put(A.changeDeviceSetupStep('error-step'))
       } else {
         yield put(A.changeDeviceSetupStep('open-btc-app', true))
       }

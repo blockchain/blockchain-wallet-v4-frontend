@@ -28,10 +28,7 @@ const ButtonContainer = styled.div`
 `
 
 const ConnectDeviceStep = props => {
-  const { isLoading, isSuccess } = props.authenticity
-
-  const isReady = !isLoading && isSuccess
-  const isFailure = !isLoading && !isSuccess
+  const { isConnected } = props
 
   return (
     <Wrapper>
@@ -45,64 +42,54 @@ const ConnectDeviceStep = props => {
       </Title>
       <TextGroup>
         <StepText size='16px' weight={300}>
+          <span className='number'>1. </span>
           <FormattedHTMLMessage
             id='modals.lockboxsetup.connectdevice.step1'
-            defaultMessage='<span class=&quot;number&quot;>1.</span> Insert your Lockbox into your computer'
+            defaultMessage='Insert your Lockbox into your computer'
           />
         </StepText>
         <StepText size='16px' weight={300}>
+          <span className='number'>2. </span>
           <FormattedHTMLMessage
             id='modals.lockboxsetup.connectdevice.step2'
-            defaultMessage='<span class=&quot;number&quot;>2.</span> Press both buttons on your Lockbox to begin'
+            defaultMessage='Press both buttons on your Lockbox to begin'
           />
         </StepText>
         <StepText size='16px' weight={300}>
+          <span className='number'>3. </span>
           <FormattedHTMLMessage
             id='modals.lockboxsetup.connectdevice.step3'
-            defaultMessage='<span class=&quot;number&quot;>3.</span> Set your pin'
+            defaultMessage='Set your pin'
           />
         </StepText>
         <StepText size='16px' weight={300}>
+          <span className='number'>4. </span>
           <FormattedHTMLMessage
             id='modals.lockboxsetup.connectdevice.step4'
-            defaultMessage='<span class=&quot;number&quot;>4.</span> Complete backup phrase process'
+            defaultMessage='Complete backup phrase process'
           />
         </StepText>
       </TextGroup>
       <ButtonContainer>
-        {isReady ? (
-          <Button
-            nature='success'
-            onClick={() => props.handleStepChange()}
-            fullwidth
-          >
-            <FormattedMessage
-              id='modals.lockboxsetup.connectdevice.success'
-              defaultMessage='Success! Click to Continue'
-            />
-          </Button>
-        ) : isFailure ? (
+        { isConnected ? (
+            <Button
+              nature='success'
+              onClick={() => props.handleStepChange()}
+              fullwidth>
+              <FormattedMessage
+                id='modals.lockboxsetup.connectdevice.success'
+                defaultMessage='Success! Click to Continue'
+              />
+            </Button>
+          ) : (
           <Button nature='gray' disabled fullwidth>
             <FormattedMessage
-              id='modals.lockboxsetup.connectdevice.failure'
-              defaultMessage='Error Authenticating Device. Contact Support'
+              id='modals.lockboxsetup.connectdevice.connect'
+              defaultMessage='Connect Your Lockbox'
             />
           </Button>
-        ) : (
-          <Button nature='gray' disabled={!isReady} fullwidth>
-            {isLoading ? (
-              <FormattedMessage
-                id='modals.lockboxsetup.connectdevice.connect'
-                defaultMessage='Connect Your Lockbox'
-              />
-            ) : (
-              <FormattedMessage
-                id='modals.lockboxsetup.connectdevice.loading'
-                defaultMessage='Checking Device Authenticity'
-              />
-            )}
-          </Button>
-        )}
+          )
+        }
       </ButtonContainer>
     </Wrapper>
   )

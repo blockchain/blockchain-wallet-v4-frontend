@@ -2,10 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import DuplicateDeviceStep from './template'
+import ErrorStep from './template'
 import { actions } from 'data'
 
-class DuplicateDeviceStepContainer extends React.PureComponent {
+class ErrorStepContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleContinue = this.handleContinue.bind(this)
@@ -18,7 +18,7 @@ class DuplicateDeviceStepContainer extends React.PureComponent {
   }
 
   render () {
-    return <DuplicateDeviceStep handleContinue={this.handleContinue} />
+    return <ErrorStep handleContinue={this.handleContinue} />
   }
 }
 const mapDispatchToProps = dispatch => ({
@@ -29,4 +29,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   null,
   mapDispatchToProps
-)(DuplicateDeviceStepContainer)
+)(ErrorStepContainer)

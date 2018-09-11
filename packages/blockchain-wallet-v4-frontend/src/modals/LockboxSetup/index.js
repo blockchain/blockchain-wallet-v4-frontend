@@ -8,9 +8,10 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import LockboxSetup from './template'
 import SetupTypeStep from './SetupTypeStep'
 import ConnectDeviceStep from './ConnectDeviceStep'
+import AuthenticityStep from './AuthenticityStep'
 import NameDeviceStep from './NameDeviceStep'
 import OpenBtcAppStep from './OpenBtcAppStep'
-import DuplicateDeviceStep from './DuplicateDeviceStep'
+import ErrorStep from './ErrorStep'
 
 class LockboxSetupContainer extends React.PureComponent {
   componentWillUnmount () {
@@ -21,6 +22,7 @@ class LockboxSetupContainer extends React.PureComponent {
   render () {
     const { currentStep, position, total, closeAll } = this.props
     const { step, done } = currentStep || {}
+    console.info(step)
 
     return (
       <LockboxSetup
@@ -31,9 +33,10 @@ class LockboxSetupContainer extends React.PureComponent {
       >
         {(!step || step === 'setup-type') && <SetupTypeStep />}
         {step === 'connect-device' && <ConnectDeviceStep />}
+        {step === 'auth-check' && <AuthenticityStep />}
         {step === 'open-btc-app' && <OpenBtcAppStep done={done} />}
-        {step === 'duplicate-device' && <DuplicateDeviceStep />}
         {step === 'name-device' && <NameDeviceStep />}
+        {step === 'error-step' && <ErrorStep />}
       </LockboxSetup>
     )
   }

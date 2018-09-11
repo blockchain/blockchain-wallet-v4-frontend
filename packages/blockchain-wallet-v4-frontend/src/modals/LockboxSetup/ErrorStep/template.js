@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 
 import { Button, Text } from 'blockchain-info-components'
 
-const DuplicateDeviceStep = props => {
+const ErrorStep = props => {
   const { handleContinue } = props
 
   return (
@@ -38,4 +38,4 @@ const DuplicateDeviceStep = props => {
   )
 }
 
-export default DuplicateDeviceStep
+export default ErrorStep

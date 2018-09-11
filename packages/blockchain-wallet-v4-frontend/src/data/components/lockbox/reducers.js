@@ -20,6 +20,7 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.SET_NEW_DEVICE_SETUP_STEP: {
       const { step, done } = payload
+      console.info(step)
       return assocPath(['newDeviceSetup', 'currentStep'], { step, done }, state)
     }
     case AT.CHECK_DEVICE_AUTHENTICITY_LOADING: {

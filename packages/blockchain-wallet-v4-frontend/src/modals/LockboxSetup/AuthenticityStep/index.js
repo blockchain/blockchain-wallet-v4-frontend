@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { actions, selectors } from 'data'
 import Template from './template'
 
-class ConnectDeviceStepContainer extends React.PureComponent {
+class AuthenticityStepContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.changeDeviceSetupStep = this.changeDeviceSetupStep.bind(this)
@@ -15,22 +15,25 @@ class ConnectDeviceStepContainer extends React.PureComponent {
   }
 
   changeDeviceSetupStep () {
-    this.props.lockboxActions.changeDeviceSetupStep('auth-check')
+    this.props.lockboxActions.changeDeviceSetupStep('open-btc-app')
   }
 
   render () {
-    const isConnected = this.props.connection.app === 'DASHBOARD'
+    const authenticity = this.props.authenticity.cata({
+      Success: () => ({ isAuthenticating: false }),
+      Failure: () => ({ isAuthenticating: false }),
+      Loading: () => ({ isAuthenticating: true }),
+      NotAsked: () => ({ isAuthenticating: true })
+    })
 
     return (
-      <Template
-      isConnected={isConnected}
-      handleStepChange={this.changeDeviceSetupStep} />
+      <Template authenticity={authenticity} handleStepChange={this.changeDeviceSetupStep} />
     )
   }
 }
 
 const mapStateToProps = state => ({
-  connection: selectors.components.lockbox.getCurrentConnection(state)
+  authenticity: selectors.components.lockbox.getNewDeviceAuthenticity(state)
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -40,4 +43,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ConnectDeviceStepContainer)
+)(AuthenticityStepContainer)
