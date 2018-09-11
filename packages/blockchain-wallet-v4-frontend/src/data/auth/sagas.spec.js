@@ -477,6 +477,10 @@ describe('authSagas', () => {
       saga.next().fork(reportStats, mobileLogin)
     })
 
+    it('should dispatch action for reportBalanceStats', () => {
+      saga.next().put(actions.analytics.reportBalanceStats())
+    })
+
     it('should start listening for logout event', () => {
       saga.next().call(setLogoutEventListener)
     })

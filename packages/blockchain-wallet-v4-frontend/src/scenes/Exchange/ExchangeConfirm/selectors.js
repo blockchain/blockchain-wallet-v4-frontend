@@ -7,7 +7,7 @@ const { getAmounts, getRates } = selectors.components.exchange
 
 export const getData = state => {
   const currencyR = selectors.core.settings.getCurrency(state)
-  const formValues = selectors.form.getFormValues(EXCHANGE_FORM, state)
+  const formValues = selectors.form.getFormValues(EXCHANGE_FORM)(state)
   const sourceCoin = path(['source', 'coin'], formValues) || 'BTC'
   const targetCoin = path(['target', 'coin'], formValues) || 'ETH'
   const pair = formatPair(sourceCoin, targetCoin)
