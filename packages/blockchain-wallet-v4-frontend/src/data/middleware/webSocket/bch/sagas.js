@@ -1,7 +1,8 @@
-import { call, put, select } from 'redux-saga/effects'
-import { compose, equals, prop } from 'ramda'
+import { call, put, select, take } from 'redux-saga/effects'
+import { compose, equals, prop, concat } from 'ramda'
 import * as actions from '../../../actions'
 import * as selectors from '../../../selectors'
+import * as actionTypes from '../../../actionTypes'
 import * as T from 'services/AlertService'
 import { Socket } from 'blockchain-wallet-v4/src/network'
 
@@ -14,6 +15,18 @@ export default ({ api, bchSocket }) => {
       const subscribeInfo = yield select(
         selectors.core.wallet.getInitialSocketContext
       )
+      yield take(
+        actionTypes.core.kvStore.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS
+      )
+      const lockboxXPubs = yield select(
+        selectors.core.kvStore.lockbox.getLockboxBchContext
+      )
+
+      subscribeInfo.xpubs = concat(
+        subscribeInfo.xpubs,
+        lockboxXPubs.getOrElse([])
+      )
+
       yield call(
         compose(
           send,
