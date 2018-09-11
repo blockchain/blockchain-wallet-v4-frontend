@@ -118,6 +118,7 @@ const Personal = ({
   invalid,
   submitting,
   address,
+  postCode,
   addressRefetchVisible,
   supportedCountries,
   possibleAddresses,
@@ -328,7 +329,17 @@ const Personal = ({
                         id='identityverification.personal.addressrefetch'
                         defaultMessage='Oops, address lookup failed. {retry}'
                         values={{
-                          retry: <a onClick={onPostCodeChange}>Try again?</a>
+                          retry: (
+                            <a
+                              onClick={onPostCodeChange.bind(
+                                null,
+                                null,
+                                postCode
+                              )}
+                            >
+                              Try again?
+                            </a>
+                          )
                         }}
                       />
                     </EmailHelper>

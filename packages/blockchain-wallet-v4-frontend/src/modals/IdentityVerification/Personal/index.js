@@ -64,6 +64,7 @@ class PersonalContainer extends React.PureComponent {
       countryCode,
       possibleAddresses,
       address,
+      postCode,
       activeField,
       addressRefetchVisible,
       actions,
@@ -81,6 +82,7 @@ class PersonalContainer extends React.PureComponent {
               find(propEq('code', initialCountryCode), supportedCountries)
           }}
           countryCode={countryCode}
+          postCode={postCode}
           supportedCountries={getCountryElements(supportedCountries)}
           possibleAddresses={getAddressElements(possibleAddresses)}
           address={address}
