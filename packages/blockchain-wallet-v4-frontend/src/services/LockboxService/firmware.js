@@ -8,7 +8,7 @@ import { toPromise } from "rxjs/operators";
 const checkDeviceAuthenticity = (transport, baseUrl, params) => {
   return new Promise(async(resolve, reject) => {
     const url =
-      `${baseUrl}/${constants.socketPaths.authenticity}` +
+      `${baseUrl}${constants.socketPaths.authenticity}` +
       `?${qs.stringify(params)}`
 
     const res = await createDeviceSocket(transport, url).toPromise()

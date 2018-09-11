@@ -25,8 +25,8 @@ export default {
     }
   },
   socketPaths: {
-    authenticity: 'genuine',
-    install: 'install',
-    mcu: 'mcu'
+    authenticity: '/update/genuine',
+    install: '/update/install',
+    mcu: '/update/mcu'
   }
 }

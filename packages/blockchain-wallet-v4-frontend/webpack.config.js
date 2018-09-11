@@ -293,6 +293,7 @@ module.exports = {
               envConfig.WALLET_HELPER_DOMAIN,
               envConfig.LEDGER_URL,
               envConfig.LEDGER_SOCKET_URL,
+              'wss://api.ledgerwallet.com',
               'https://app-api.coinify.com',
               'https://app-api.sandbox.coinify.com',
               'https://api.sfox.com',

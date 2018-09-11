@@ -90,6 +90,7 @@
     "es6-promise": "4.1.0",
     "fast-memoize": "2.4.0",
     "ibantools": "2.0.0",
+    "isomorphic-ws": "^4.0.1",
     "libphonenumber-js": "0.4.40",
     "lodash.debounce": "4.0.8",
     "matchmedia-polyfill": "0.3.1",
@@ -127,6 +128,7 @@
     "rxjs": "^6.3.2",
     "sanitize-html": "1.18.2",
     "styled-components": "3.3.2",
+    "ws": "^6.0.0",
     "zxcvbn": "4.4.2"
   }
 }

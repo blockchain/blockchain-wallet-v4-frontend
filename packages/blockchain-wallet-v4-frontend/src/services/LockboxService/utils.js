@@ -1,4 +1,5 @@
-import { Socket } from 'blockchain-wallet-v4/src/network'
+// import { Socket } from 'blockchain-wallet-v4/src/network'
+import WebSocket from 'isomorphic-ws'
 import { Observable } from 'rxjs'
 
 /**
@@ -11,28 +12,46 @@ export const createDeviceSocket = (transport, url) => {
   return Observable.create(o => {
     let ws, lastMessage
 
-    debugger
     try {
-      ws = new Socket(url)
+      ws = new WebSocket(url)
     } catch (err) {
+      debugger
       o.error(err.message, { url })
       return () => {}
     }
 
-    ws.on('open', () => {
+    ws.onopen = () => {
       console.info('OPENED', { url })
-    })
+    }
 
-    ws.on('error', e => {
+    ws.onerror = (e) => {
+      debugger
       console.info('ERROR', { message: e.message, stack: e.stack })
       o.error(e.message, { url })
-    })
+    }
 
-    ws.on('close', () => {
+    ws.onclose = () => {
       console.info('CLOSE')
       o.next(lastMessage || '')
       o.complete()
-    })
+    }
+
+    ws.onmessage = async (rawMsg) => {
+      try {
+        const msg = JSON.parse(rawMsg)
+        if (!(msg.query in handlers)) {
+          throw new Error(`Cannot handle msg of type ${msg.query}`, {
+            query: msg.query,
+            url,
+          })
+        }
+        console.info('RECEIVE', msg)
+        await handlers[msg.query](msg)
+      } catch (err) {
+        console.info('ERROR', { message: err.message, stack: err.stack })
+        o.error(err)
+      }
+    }
 
     const send = (nonce, response, data) => {
       const msg = {
@@ -90,27 +109,6 @@ export const createDeviceSocket = (transport, url) => {
         throw new Error(msg.data, { url })
       },
     }
-
-    const stackMessage = async rawMsg => {
-      try {
-        const msg = JSON.parse(rawMsg)
-        if (!(msg.query in handlers)) {
-          throw new Error(`Cannot handle msg of type ${msg.query}`, {
-            query: msg.query,
-            url,
-          })
-        }
-        console.info('RECEIVE', msg)
-        await handlers[msg.query](msg)
-      } catch (err) {
-        console.info('ERROR', { message: err.message, stack: err.stack })
-        o.error(err)
-      }
-    }
-
-    ws.on('message', async rawMsg => {
-      stackMessage(rawMsg)
-    })
 
     return () => {
       if (ws.readyState === 1) {
