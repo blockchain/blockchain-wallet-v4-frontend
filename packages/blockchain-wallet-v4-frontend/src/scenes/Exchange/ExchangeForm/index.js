@@ -7,7 +7,7 @@ import { compose, flip, prop, isEmpty } from 'ramda'
 import { getRemotePropType, getElementsPropType } from 'utils/proptypes'
 import { debounce } from 'utils/helpers'
 import { actions, model } from 'data'
-import { getData } from './selectors'
+import { getData, canUseExchange } from './selectors'
 
 import Loading from './template.loading'
 import Success from './template.success'
@@ -20,7 +20,13 @@ const { BASE, COUNTER, BASE_IN_FIAT, COUNTER_IN_FIAT } = FIX_TYPES
 
 class FirstStepContainer extends React.Component {
   componentDidMount () {
-    this.props.actions.initialize()
+    const { canUseExchange, actions } = this.props
+    if (canUseExchange) actions.initialize()
+  }
+
+  componentDidUpdate (prevProps) {
+    const { canUseExchange, actions } = this.props
+    if (!prevProps.canUseExchange && canUseExchange) actions.initialize()
   }
 
   debounceTime = 50
@@ -46,14 +52,15 @@ class FirstStepContainer extends React.Component {
   })
 
   render () {
-    const { actions, data } = this.props
+    const { actions, data, canUseExchange } = this.props
     return data.cata({
       Success: value =>
-        isEmpty(value.availablePairs) ? (
+        canUseExchange && isEmpty(value.availablePairs) ? (
           <DataError onClick={this.handleRefresh} />
         ) : (
           <Success
             {...value}
+            canUseExchange={canUseExchange}
             handleMaximum={actions.firstStepMaximumClicked}
             handleMinimum={actions.firstStepMinimumClicked}
             onSubmit={actions.firstStepSubmitClicked}
@@ -116,6 +123,7 @@ FirstStepContainer.propTypes = {
 }
 
 const mapStateToProps = state => ({
+  canUseExchange: canUseExchange(state),
   data: getData(state)
 })
 

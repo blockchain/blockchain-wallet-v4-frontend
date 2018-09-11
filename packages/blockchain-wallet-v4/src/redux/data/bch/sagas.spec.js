@@ -378,10 +378,7 @@ describe('bch data sagas', () => {
     })
 
     const payloadNoAddr = { start: '01/01/2018', end: '01/06/2018' }
-    const mockContext = [
-      CASH_ADDR_ADDRESS,
-      CASH_ADDR_ADDRESS
-    ]
+    const mockContext = [CASH_ADDR_ADDRESS, CASH_ADDR_ADDRESS]
     const active = mockContext.join('|')
 
     it('should get transaction data with context if no address present', () => {
