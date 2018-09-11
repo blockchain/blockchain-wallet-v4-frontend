@@ -23,5 +23,10 @@ export default {
       DASHBOARD: 'B0L0S',
       ETH: 'w0w'
     }
+  },
+  socketPaths: {
+    authenticity: 'genuine',
+    install: 'install',
+    mcu: 'mcu'
   }
 }

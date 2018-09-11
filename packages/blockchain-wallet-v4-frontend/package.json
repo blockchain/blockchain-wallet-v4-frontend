@@ -97,6 +97,7 @@
     "postal-codes-js": "^1.0.0",
     "prop-types": "15.6.1",
     "qrcode.react": "0.8.0",
+    "qs": "^6.5.2",
     "ramda": "0.25.0",
     "react": "16.4.0",
     "react-animations": "1.0.0",

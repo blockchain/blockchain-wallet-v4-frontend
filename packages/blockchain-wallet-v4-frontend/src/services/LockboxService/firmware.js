@@ -1,9 +1,14 @@
+import qs from 'qs'
+
 import constants from './constants'
 
 // checks if device is authentic
-const checkDeviceAuthenticity = (transport, perso) => {
-  // TODO: implement web socket and check authenticity
+const checkDeviceAuthenticity = (transport, baseUrl, params) => {
+  const url =
+    `${baseUrl}/${constants.socketPaths.authenticity}` +
+    `?${qs.stringify(params)}`
   
+
   return Promise.resolve(true)
 }
 // gets firmware information about device

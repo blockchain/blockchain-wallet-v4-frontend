@@ -61,30 +61,38 @@ export default ({ api, coreSagas }) => {
   const checkDeviceAuthenticity = function*() {
     try {
       yield put(A.checkDeviceAuthenticityLoading())
-      // TODO: finish this....
-      // const { transport } = yield select(S.getCurrentConnection)
-      // // get base device info
-      // const deviceInfo = yield call(
-      //   LockboxService.firmware.getDeviceInfo,
-      //   transport
-      // )
-      // // get full device info via api
-      // const deviceVersion = yield call(api.getDeviceVersion, {
-      //   provider: deviceInfo.providerId,
-      //   target_id: deviceInfo.targetId
-      // })
-      // // get full firmware info via api
-      // const firmware = yield call(api.getCurrentFirmware, {
-      //   device_version: deviceVersion.id,
-      //   version_name: deviceInfo.fullVersion,
-      //   provider: deviceInfo.providerId
-      // })
-      // // open socket and check if device is authentic
-      // const isDeviceAuthentic = yield call(
-      //   LockboxService.firmware.checkDeviceAuthenticity,
-      //   transport,
-      //   firmware.perso
-      // )
+      const { transport } = yield select(S.getCurrentConnection)
+      // get base device info
+      const deviceInfo = yield call(
+        LockboxService.firmware.getDeviceInfo,
+        transport
+      )
+      // get full device info via api
+      const deviceVersion = yield call(api.getDeviceVersion, {
+        provider: deviceInfo.providerId,
+        target_id: deviceInfo.targetId
+      })
+      // get full firmware info via api
+      const firmware = yield call(api.getCurrentFirmware, {
+        device_version: deviceVersion.id,
+        version_name: deviceInfo.fullVersion,
+        provider: deviceInfo.providerId
+      })
+      const domainsR = yield select(selectors.core.walletOptions.getDomains)
+      const domains = domainsR.getOrElse({
+        ledgerSocket: 'wss://api.ledgerwallet.com/update'
+      })
+
+      // open socket and check if device is authentic
+      const isDeviceAuthentic = yield call(
+        LockboxService.firmware.checkDeviceAuthenticity,
+        transport,
+        domains.ledgerSocket,
+        {
+          targetId: deviceInfo.targetId,
+          perso: firmware.perso
+        }
+      )
       yield put(A.checkDeviceAuthenticitySuccess(true))
     } catch (e) {
       yield put(A.checkDeviceAuthenticityFailure(e))
