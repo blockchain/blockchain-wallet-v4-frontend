@@ -252,10 +252,10 @@ export const _transformTx = (
   const confirmations = conf > 0 ? conf : 0
   const type = txtype(tx.result, tx.fee)
   const inputTagger = compose(
-    tagCoin(wallet, HDAccountList.fromJS(accountList)),
+    tagCoin(wallet, accountList),
     unpackInput
   )
-  const outputTagger = tagCoin(wallet, HDAccountList.fromJS(accountList))
+  const outputTagger = tagCoin(wallet, accountList)
   const [oData, outs] = mapAccum(appender(outputTagger), init, prop('out', tx))
   const [inputData, inputs] = ifElse(
     compose(
