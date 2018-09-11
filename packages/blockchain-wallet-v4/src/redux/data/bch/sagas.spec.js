@@ -4,11 +4,14 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
+import { fromCashAddr } from '../../../utils/bch'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import sagas from './sagas'
 import reducers from '../reducers'
+
+const CASH_ADDR_ADDRESS = 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme'
 
 const bchFetchData = {
   addresses: [
@@ -223,7 +226,7 @@ describe('bch data sagas', () => {
   describe('fetchTransactions', () => {
     const mockContext = 'qryjvc08ml7ep6dvexffrcuy9g9zz084jcgltg35xs'
     const payload = {
-      address: 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme',
+      address: CASH_ADDR_ADDRESS,
       reset: false
     }
     const saga = testSaga(dataBchSagas.fetchTransactions, { payload })
@@ -249,7 +252,7 @@ describe('bch data sagas', () => {
     it('should call fetchBchData', () => {
       saga.next(mockContext).call(api.fetchBchData, mockContext, {
         n: 10,
-        onlyShow: payload.address,
+        onlyShow: fromCashAddr(CASH_ADDR_ADDRESS),
         offset: 10
       })
     })
@@ -288,7 +291,7 @@ describe('bch data sagas', () => {
       it('should add transaction data to the state', () => {
         return expectSaga(dataBchSagas.fetchTransactions, {
           payload: {
-            address: 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme',
+            address: CASH_ADDR_ADDRESS,
             reset: true
           }
         })
@@ -309,7 +312,7 @@ describe('bch data sagas', () => {
         const initTx = [Remote.Success({ id: 2 }), Remote.Success({ id: 3 })]
         return expectSaga(dataBchSagas.fetchTransactions, {
           payload: {
-            address: 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme',
+            address: CASH_ADDR_ADDRESS,
             reset: false
           }
         })
@@ -337,7 +340,7 @@ describe('bch data sagas', () => {
 
   describe('fetchTransactionHistory', () => {
     const payload = {
-      address: 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme',
+      address: CASH_ADDR_ADDRESS,
       start: '01/01/2018',
       end: '01/06/2018'
     }
@@ -354,13 +357,14 @@ describe('bch data sagas', () => {
     })
 
     it('should get transaction data with address if possible', () => {
+      let convertedAddress = fromCashAddr(CASH_ADDR_ADDRESS)
       saga.save(beforeGettingHistory)
       saga
         .next(currency)
         .call(
           api.getTransactionHistory,
           'BCH',
-          payload.address,
+          convertedAddress,
           currency.getOrElse('USD'),
           payload.start,
           payload.end
@@ -374,10 +378,7 @@ describe('bch data sagas', () => {
     })
 
     const payloadNoAddr = { start: '01/01/2018', end: '01/06/2018' }
-    const mockContext = [
-      'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme',
-      'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme'
-    ]
+    const mockContext = [CASH_ADDR_ADDRESS, CASH_ADDR_ADDRESS]
     const active = mockContext.join('|')
 
     it('should get transaction data with context if no address present', () => {
