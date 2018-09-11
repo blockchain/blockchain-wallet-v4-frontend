@@ -2,19 +2,20 @@ import React from 'react'
 import { TestBed, getDispatchSpyReducer, createTestStore } from 'utils/testbed'
 import { mount } from 'enzyme'
 import { combineReducers } from 'redux'
-
 import { actions, model } from 'data'
-import { coreReducers, paths, coreSagasFactory } from 'blockchain-wallet-v4/src'
+
+import { coreReducers, paths, coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import identityVerificationReducer from 'data/components/identityVerification/reducers'
 import modalsReducer from 'data/modals/reducers'
 import profileReducer from 'data/modules/profile/reducers'
 import identityVerificationSaga from 'data/components/identityVerification/sagaRegister'
 import securityCenterSagas from 'data/modules/securityCenter/sagaRegister'
 import settingsSagas from 'data/modules/settings/sagaRegister'
-
+import * as actionTypes from 'data/actionTypes'
 import IdentityVerification from './index'
 import Tray from 'components/Tray'
 import { ModalHeader } from 'blockchain-info-components'
+import { last } from 'ramda'
 
 const { MODAL_NAME } = model.components.identityVerification
 
@@ -26,7 +27,8 @@ jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const coreSagas = coreSagasFactory({ api: {} })
 const api = {
   obtainSessionToken: jest.fn(),
-  deauthorizeBrowser: jest.fn()
+  deauthorizeBrowser: jest.fn(),
+  getSupportedCountries: () => Remote.of([{ name: 'France' }, { name: 'Spain' }])
 }
 
 const stubMail = 'mail@mail.com'
@@ -94,84 +96,97 @@ describe('IdentityVerification Modal', () => {
         store.dispatch(actions.core.settings.setEmail(stubMail))
         store.dispatch(actions.core.settings.setEmailVerified())
         store.dispatch(actions.core.settings.setMobile(stubMobile))
-        store.dispatch(actions.core.settings.setMobileVerified())
+        store.dispatch(actions.core.settings.setMobileVerified())        
         wrapper.update()
       })
 
-      // it('should be disabled and not submit by default', () => {
-      //   expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
-      //     true
-      //   )
-      //   wrapper.find('template__PersonalForm').simulate('submit')
-      //   expect(last(dispatchSpy.mock.calls)[0].type).toEqual(
-      //     actionTypes.form.SET_SUBMIT_FAILED
-      //   )
-      // })
+      it('should be disabled and not submit by default', () => {
+        expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
+          true
+        )
+        wrapper.find('template__PersonalForm').simulate('submit')
+        expect(last(dispatchSpy.mock.calls)[0].type).toEqual(
+          actionTypes.form.SET_SUBMIT_FAILED
+        )
+      })
 
-      // it('should enable continue if all fields are filled', () => {
-      //   wrapper
-      //     .find('Field[name="dob"]')
-      //     .find('input[name="date"]')
-      //     .simulate('change', {
-      //       target: { value: `11` }
-      //     })
-      //   wrapper
-      //     .find('Field[name="dob"]')
-      //     .find('SelectBox')
-      //     .prop('input')
-      //     .onChange('11')
-      //   wrapper
-      //     .find('Field[name="dob"]')
-      //     .find('input[name="year"]')
-      //     .simulate('change', {
-      //       target: { value: '1999' }
-      //     })
-      //   wrapper
-      //     .find('Field[name="lastName"]')
-      //     .find('input')
-      //     .simulate('change', { target: { value: 'Beloved' } })
-      //   wrapper
-      //     .find('Field[name="firstName"]')
-      //     .find('input')
-      //     .simulate('change', { target: { value: 'User' } })
-      //   jest.runAllTimers()
-      //   wrapper.update()
-      //   expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
-      //     false
-      //   )
-      // })
+      it('should enable continue if all fields are filled', () => {
+        wrapper
+          .find('Field[name="dob"]')
+          .find('input[name="date"]')
+          .simulate('change', {
+            target: { value: `11` }
+          })
+        wrapper
+          .find('Field[name="dob"]')
+          .find('SelectBox')
+          .prop('input')
+          .onChange('11')
+        wrapper
+          .find('Field[name="dob"]')
+          .find('input[name="year"]')
+          .simulate('change', {
+            target: { value: '1999' }
+          })
+        wrapper
+          .find('Field[name="lastName"]')
+          .find('input')
+          .simulate('change', { target: { value: 'Beloved' } })
+        wrapper
+          .find('Field[name="firstName"]')
+          .find('input')
+          .simulate('change', { target: { value: 'User' } })
+        wrapper
+          .find('Field[name="country"]')
+          .find('SelectBox')
+          .prop('input')
+          .onChange({ code: 'FR' })
+        wrapper.unmount().mount()
+        wrapper
+          .find('Field[name="postCode"]')
+          .find('input[name="postCode"]')
+          .simulate('change', {
+            target: { value: '75002' }
+          })
 
-      // it('should validate age to be over 18', () => {
-      //   wrapper
-      //     .find('Field[name="dob"]')
-      //     .find('input[name="date"]')
-      //     .simulate('change', {
-      //       target: { value: `11` }
-      //     })
-      //   wrapper
-      //     .find('Field[name="dob"]')
-      //     .find('SelectInputContainer')
-      //     .prop('onChange')('11')
-      //   wrapper
-      //     .find('Field[name="dob"]')
-      //     .find('input[name="year"]')
-      //     .simulate('change', {
-      //       target: { value: new Date().getFullYear() - 17 }
-      //     })
-      //   wrapper
-      //     .find('Field[name="lastName"]')
-      //     .find('input')
-      //     .simulate('change', { target: { value: 'Beloved' } })
-      //   wrapper
-      //     .find('Field[name="firstName"]')
-      //     .find('input')
-      //     .simulate('change', { target: { value: 'User' } })
-      //   jest.runAllTimers()
-      //   wrapper.update()
-      //   expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
-      //     true
-      //   )
-      // })
+        jest.runAllTimers()
+        wrapper.update()
+        expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
+          false
+        )
+      })
+
+      it('should validate age to be over 18', () => {
+        wrapper
+          .find('Field[name="dob"]')
+          .find('input[name="date"]')
+          .simulate('change', {
+            target: { value: `11` }
+          })
+        wrapper
+          .find('Field[name="dob"]')
+          .find('SelectInputContainer')
+          .prop('onChange')('11')
+        wrapper
+          .find('Field[name="dob"]')
+          .find('input[name="year"]')
+          .simulate('change', {
+            target: { value: '2005' }
+          })
+        wrapper
+          .find('Field[name="lastName"]')
+          .find('input')
+          .simulate('change', { target: { value: 'Beloved' } })
+        wrapper
+          .find('Field[name="firstName"]')
+          .find('input')
+          .simulate('change', { target: { value: 'User' } })
+        jest.runAllTimers()
+        wrapper.update()
+        expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
+          true
+        )
+      })
     })
   })
 })
