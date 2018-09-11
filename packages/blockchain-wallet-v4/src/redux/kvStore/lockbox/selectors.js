@@ -53,6 +53,11 @@ export const getDeviceFromBtcXpubs = (state, xpubs) => {
     .map(head)
 }
 
+export const getLockboxBtcDefaultAccount = (state, deviceId) =>
+  getDevice(state, deviceId)
+    .map(path(['btc', 'accounts']))
+    .map(head)
+
 // BCH
 export const getLockboxBch = state => getDevices(state).map(map(path(['bch'])))
 
