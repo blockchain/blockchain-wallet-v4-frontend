@@ -710,6 +710,43 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "This is a Recurring Order",
+        "id": "orderdetails.recurring.thisisrecurring"
+      },
+      {
+        "defaultMessage": "You are about to set up a {frequency} Recurring Order. To cancel a Recurring Order, visit the Order History tab.",
+        "id": "orderdetails.recurring.setup"
+      },
+      {
+        "defaultMessage": "Amount:",
+        "id": "orderdetails.recurring.amount"
+      },
+      {
+        "defaultMessage": "Frequency:",
+        "id": "orderdetails.recurring.frequency"
+      },
+      {
+        "defaultMessage": "Today and every {value}",
+        "id": "orderdetails.recurring.frequencybody"
+      },
+      {
+        "defaultMessage": "Duration:",
+        "id": "orderdetails.recurring.duration"
+      },
+      {
+        "defaultMessage": "This order will repeat until {date}",
+        "id": "orderdetails.recurring.duration.endtime"
+      },
+      {
+        "defaultMessage": "Until you cancel or reach your limit, whichever happens first.",
+        "id": "orderdetails.recurring.duration.noendtime"
+      }
+    ],
+    "path": "src/components/BuySell/RecurringSummary.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Copied!",
         "id": "components.copyclipboard.copied"
       },
@@ -869,6 +906,15 @@
         "id": "components.selectboxbitcoin.watchonly"
       }
     ],
+    "path": "src/components/Form/SelectBoxBitcoinAddresses/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Non-Spendable",
+        "id": "components.selectboxbitcoin.watchonly"
+      }
+    ],
     "path": "src/components/Form/SelectBoxBtcAddresses/template.json"
   },
   {
@@ -968,6 +1014,10 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "A better way to Exchange Crypto",
+        "id": "components.identityverification.popup.header.notcreated"
+      },
+      {
         "defaultMessage": "You're Almost There",
         "id": "components.identityverification.popup.header.unverified"
       },
@@ -984,6 +1034,14 @@
         "id": "components.identityverification.popup.header.verified"
       },
       {
+        "defaultMessage": "Introducing Blockchain's new and improved crypto exchange function. To begin using this updated feature, please verify your identity. The process only takes a couple of minutes.",
+        "id": "components.identityverification.popup.note.notcreated"
+      },
+      {
+        "defaultMessage": "Your personal information is secure with us and not shared with any third parties.",
+        "id": "components.identityverification.popup.note.personalinfosecure"
+      },
+      {
         "defaultMessage": "Complete your profile and identity verification to start buying and selling. Don’t worry, we only need a couple more details.",
         "id": "components.identityverification.popup.note.unverified"
       },
@@ -998,6 +1056,10 @@
       {
         "defaultMessage": "Good news – your account is verified. You can now buy, sell, and exchange cryptocurrency at any time.",
         "id": "components.identityverification.popup.note.verified"
+      },
+      {
+        "defaultMessage": "Begin Now",
+        "id": "components.identityverification.popup.button.begin"
       },
       {
         "defaultMessage": "Verify My Identity",
@@ -1125,6 +1187,10 @@
       {
         "defaultMessage": "Learn more",
         "id": "scenes.exchange.shapeshift.firststep.tooltip2"
+      },
+      {
+        "defaultMessage": "Change Input",
+        "id": "scenes.exchange.changeinput"
       },
       {
         "defaultMessage": "This fee is used to send the outgoing exchange funds to ShapeShift.",
@@ -1525,6 +1591,15 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Refresh balance data",
+        "id": "wallet.menutop.balance.refreshall"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/template.failure.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Bitcoin Balance",
         "id": "scenes.wallet.menutop.balance.bitcoinbalance"
       },
@@ -1551,6 +1626,15 @@
       }
     ],
     "path": "src/layouts/Wallet/MenuTop/Balance/TotalBalance/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Be your own bank.",
+        "id": "layouts.wallet.menutop.bank"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/index.json"
   },
   {
     "descriptors": [
@@ -2169,6 +2253,15 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Learn More",
+        "id": "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore"
+      }
+    ],
+    "path": "src/layouts/Wallet/TrayRight/WhatsNew/FaqLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "🎉 You're all caught up!",
         "id": "layouts.wallet.header.whatsnew.whatsnew.empty"
       },
@@ -2178,6 +2271,23 @@
       }
     ],
     "path": "src/layouts/Wallet/TrayRight/WhatsNew/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Add New Bitcoin Wallet",
+        "id": "modals.addbitcoinwallet.title"
+      },
+      {
+        "defaultMessage": "Wallet Name",
+        "id": "modals.addbitcoinwallet.wallet"
+      },
+      {
+        "defaultMessage": "Create New Bitcoin Wallet",
+        "id": "modals.addbitcoinwallet.button"
+      }
+    ],
+    "path": "src/modals/AddBitcoinWallet/template.json"
   },
   {
     "descriptors": [
@@ -2536,6 +2646,132 @@
       }
     ],
     "path": "src/modals/CoinifyExchangeData/Payment/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Verify Your Identity and Complete 3 Orders",
+        "id": "modals.coinifyrecurringbuyconfirm.header.needskyctrades"
+      },
+      {
+        "defaultMessage": "To unlock the Recurring Buy feature, verify your identity and complete 3 credit card orders.",
+        "id": "modals.coinifyrecurringbuyconfirm.body.needskyctrades"
+      },
+      {
+        "defaultMessage": "Verify My Identity",
+        "id": "modals.coinifyrecurringbuyconfirm.button.needskyctrades"
+      },
+      {
+        "defaultMessage": "Verify Your Identity",
+        "id": "modals.coinifyrecurringbuyconfirm.header.needskyc"
+      },
+      {
+        "defaultMessage": "To set up a recurring order, you first need to verify your identity.",
+        "id": "modals.coinifyrecurringbuyconfirm.body.needskyc"
+      },
+      {
+        "defaultMessage": "Verify My Identity",
+        "id": "modals.coinifyrecurringbuyconfirm.button.needskyc"
+      },
+      {
+        "defaultMessage": "Complete 3 Orders",
+        "id": "modals.coinifyrecurringbuyconfirm.header.needstrades"
+      },
+      {
+        "defaultMessage": "To unlock the recurring buy feature, start by completing 3 credit card orders. You are only {numOfTrades} away.",
+        "id": "modals.coinifyrecurringbuyconfirm.body.needstrades"
+      },
+      {
+        "defaultMessage": "Create an Order",
+        "id": "modals.coinifyrecurringbuyconfirm.button.needstrades"
+      },
+      {
+        "defaultMessage": "You're About to Set Up A Recurring Order",
+        "id": "modals.coinifyrecurringbuyconfirm.header.setup"
+      },
+      {
+        "defaultMessage": "By scheduling this recurring order, you agree to and accept that your card will be charged each time a new order is due to be processed according to the amount, currency and frequency settings chosen.",
+        "id": "modals.coinifyrecurringbuyconfirm.body.accept"
+      },
+      {
+        "defaultMessage": "Proceed with My Order",
+        "id": "modals.coinifyrecurringbuyconfirm.button.proceed"
+      },
+      {
+        "defaultMessage": "Go Back",
+        "id": "modals.coinifyrecurringbuyconfirm.goback"
+      }
+    ],
+    "path": "src/modals/CoinifyRecurringBuyConfirm/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Verify Your Identity and Complete 3 Orders",
+        "id": "modals.coinifyrecurringbuyconfirm.header.needskyctrades"
+      },
+      {
+        "defaultMessage": "To unlock the Recurring Buy feature, verify your identity and complete 3 credit card orders.",
+        "id": "modals.coinifyrecurringbuyconfirm.body.needskyctrades"
+      },
+      {
+        "defaultMessage": "Verify My Identity",
+        "id": "modals.coinifyrecurringbuyconfirm.button.needskyctrades"
+      },
+      {
+        "defaultMessage": "Identity Verification In Review",
+        "id": "modals.coinifyrecurringbuyconfirm.header.needskyc.reviewing"
+      },
+      {
+        "defaultMessage": "Identity Verification not Complete",
+        "id": "modals.coinifyrecurringbuyconfirm.header.needskyc.pending"
+      },
+      {
+        "defaultMessage": "Recurring orders will be available after your verification is complete. You can still put single orders through.",
+        "id": "modals.coinifyrecurringbuyconfirm.body.needskyc.reviewing"
+      },
+      {
+        "defaultMessage": "Verify Your Identity",
+        "id": "modals.coinifyrecurringbuyconfirm.header.needskyc"
+      },
+      {
+        "defaultMessage": "To set up a recurring order, you first need to verify your identity.",
+        "id": "modals.coinifyrecurringbuyconfirm.body.needskyc"
+      },
+      {
+        "defaultMessage": "Verify My Identity",
+        "id": "modals.coinifyrecurringbuyconfirm.button.needskyc"
+      },
+      {
+        "defaultMessage": "Complete 3 Orders",
+        "id": "modals.coinifyrecurringbuyconfirm.header.needstrades"
+      },
+      {
+        "defaultMessage": "To unlock the recurring buy feature, start by completing 3 credit card orders. You are only {numOfTrades} {orders} away.",
+        "id": "modals.coinifyrecurringbuyconfirm.body.needstrades"
+      },
+      {
+        "defaultMessage": "Create an Order",
+        "id": "modals.coinifyrecurringbuyconfirm.button.needstrades"
+      },
+      {
+        "defaultMessage": "You're About to Set Up A Recurring Order",
+        "id": "modals.coinifyrecurringbuyconfirm.header.setup"
+      },
+      {
+        "defaultMessage": "By scheduling this recurring order, you agree to and accept that your card will be charged each time a new order is due to be processed according to the amount, currency and frequency settings chosen.",
+        "id": "modals.coinifyrecurringbuyconfirm.body.accept"
+      },
+      {
+        "defaultMessage": "Proceed with My Order",
+        "id": "modals.coinifyrecurringbuyconfirm.button.proceed"
+      },
+      {
+        "defaultMessage": "Go Back",
+        "id": "modals.coinifyrecurringbuyconfirm.goback"
+      }
+    ],
+    "path": "src/modals/CoinifyRecurringBuyConfirm/template.json"
   },
   {
     "descriptors": [
@@ -2924,43 +3160,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "That code doesn't match. {resend} or {changeNumber}.",
-        "id": "identityverification.personal.sms.error"
-      },
-      {
-        "defaultMessage": "Didn't get our text? {resend} or {changeNumber}.",
-        "id": "identityverification.personal.sms.didntreceive"
-      },
-      {
-        "defaultMessage": "What's Your Number?",
-        "id": "identityverification.personal.mobile.header"
-      },
-      {
-        "defaultMessage": "Don't worry, we won't use your number for anything other than sending your code.",
-        "id": "identityverification.personal.mobile.subheader"
-      },
-      {
-        "defaultMessage": "Enter your digits here:",
-        "id": "identityverification.personal.mobile.entermobilenumber"
-      },
-      {
-        "defaultMessage": "Enter the code we just sent to {smsNumber}",
-        "id": "identityverification.personal.mobile.entercode"
-      },
-      {
-        "defaultMessage": "Send My Code",
-        "id": "identityverification.personal.mobile.sendmycode"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "identityverification.personal.continue"
-      }
-    ],
-    "path": "src/modals/IdentityVerification/Personal/EditSmsNumber.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Personal Details",
         "id": "identityverification.personal.header"
       },
@@ -2975,6 +3174,14 @@
       {
         "defaultMessage": "Last Name",
         "id": "identityverification.personal.lastname"
+      },
+      {
+        "defaultMessage": "First & Last Name",
+        "id": "identityverification.personal.faq.name.title"
+      },
+      {
+        "defaultMessage": "They should match exactly the details in your government issued ID, passport or driving license.",
+        "id": "identityverification.personal.faq.name.text"
       },
       {
         "defaultMessage": "Your Birthday",
@@ -3009,7 +3216,7 @@
         "id": "identityverification.personal.faq.postcode.text"
       },
       {
-        "defaultMessage": "Ooops, address lookup failed. {retry}",
+        "defaultMessage": "Oops, address lookup failed. {retry}",
         "id": "identityverification.personal.addressrefetch"
       },
       {
@@ -3060,10 +3267,6 @@
       {
         "defaultMessage": "Driver’s License",
         "id": "identityverification.verify.driverslicense"
-      },
-      {
-        "defaultMessage": "Identification Card",
-        "id": "identityverification.verify.id"
       },
       {
         "defaultMessage": "Back",
@@ -3183,6 +3386,27 @@
       }
     ],
     "path": "src/modals/ImportBtcAddress/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Speed Up Your Bitcoin Purchase",
+        "id": "modals.jumioprompt.header"
+      },
+      {
+        "defaultMessage": "By verifying your identity, your limit will be higher and you will get your bitcoin faster!",
+        "id": "modals.jumioprompt.body1"
+      },
+      {
+        "defaultMessage": "No Thanks",
+        "id": "modals.jumioprompt.close"
+      },
+      {
+        "defaultMessage": "Let's do it!",
+        "id": "modals.jumioprompt.dothat"
+      }
+    ],
+    "path": "src/modals/JumioPrompt/index.json"
   },
   {
     "descriptors": [
@@ -3487,6 +3711,98 @@
         "id": "modals.requestbitcoin.firststep.share"
       },
       {
+        "defaultMessage": "Share this address with others, and they can send you BTC directly to your wallet. Your address changes with every payment. You can also create a request by attaching an amount below.",
+        "id": "modals.requestbitcoin.firststep.sharetooltip"
+      },
+      {
+        "defaultMessage": "QR Code",
+        "id": "modals.requestbitcoin.firststep.qrcode"
+      },
+      {
+        "defaultMessage": "Or",
+        "id": "modals.requestbitcoin.firststep.or"
+      },
+      {
+        "defaultMessage": "Enter Amount:",
+        "id": "modals.requestbitcoin.firststep.amount"
+      },
+      {
+        "defaultMessage": "Receive To:",
+        "id": "modals.requestbitcoin.firststep.to"
+      },
+      {
+        "defaultMessage": "Description:",
+        "id": "modals.requestbitcoin.firststep.description"
+      },
+      {
+        "defaultMessage": "Next",
+        "id": "modals.requestbitcoin.firststep.next"
+      }
+    ],
+    "path": "src/modals/RequestBitcoin/FirstStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Must be greater than 0",
+        "id": "modals.requestbtc.amountnotminmessage"
+      },
+      {
+        "defaultMessage": "Cannot exceed 21,000,000",
+        "id": "modals.requestbtc.amountnotmaxmessage"
+      }
+    ],
+    "path": "src/modals/RequestBitcoin/FirstStep/validationMessages.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Send the link below to your friend or contact and they will be able to send bitcoin directly to your wallet.",
+        "id": "modals.requestbitcoin.secondstep.explain"
+      },
+      {
+        "defaultMessage": "Payment Request:",
+        "id": "modals.requestbitcoin.secondstep.payment"
+      },
+      {
+        "defaultMessage": "For \"{message}\"",
+        "id": "modals.requestbitcoin.secondstep.message"
+      },
+      {
+        "defaultMessage": "Copied!",
+        "id": "modals.requestbitcoin.secondstep.copied"
+      },
+      {
+        "defaultMessage": "Copy link",
+        "id": "modals.requestbitcoin.secondstep.copy"
+      },
+      {
+        "defaultMessage": "Go Back",
+        "id": "scenes.requestbitcoin.secondstep.back"
+      }
+    ],
+    "path": "src/modals/RequestBitcoin/SecondStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Request Bitcoin",
+        "id": "modals.requestbitcoin.title"
+      }
+    ],
+    "path": "src/modals/RequestBitcoin/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Currency:",
+        "id": "modals.sendbitcoin.firststep.coin"
+      },
+      {
+        "defaultMessage": "Copy & Share Address:",
+        "id": "modals.requestbitcoin.firststep.share"
+      },
+      {
         "defaultMessage": "QR Code",
         "id": "modals.requestbitcoin.firststep.qrcode"
       },
@@ -3601,6 +3917,48 @@
       }
     ],
     "path": "src/modals/RequestEth/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Request Ether",
+        "id": "modals.requestether.title"
+      }
+    ],
+    "path": "src/modals/RequestEther/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Currency:",
+        "id": "modals.requestether.coin"
+      },
+      {
+        "defaultMessage": "Copy & Share Address:",
+        "id": "modals.requestether.share"
+      },
+      {
+        "defaultMessage": "Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.",
+        "id": "modals.requestether.sharetooltip"
+      },
+      {
+        "defaultMessage": "Or",
+        "id": "modals.requestether.or"
+      },
+      {
+        "defaultMessage": "Scan QR Code:",
+        "id": "modals.requestether.scan"
+      },
+      {
+        "defaultMessage": "Ask the sender to scan this QR code with their ether wallet",
+        "id": "modals.requestether.scan_tooltip"
+      },
+      {
+        "defaultMessage": "Done",
+        "id": "modals.requestether.done"
+      }
+    ],
+    "path": "src/modals/RequestEther/template.success.json"
   },
   {
     "descriptors": [
@@ -3731,6 +4089,209 @@
       }
     ],
     "path": "src/modals/SendBch/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "maximum",
+        "id": "modals.sendbtc.maximumamountlink.maximum"
+      }
+    ],
+    "path": "src/modals/SendBitcoin/FirstStep/MaximumAmountLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Use our recommended upper limit.",
+        "id": "modals.sendbtc.maximumfeelink.userecupperlimit"
+      }
+    ],
+    "path": "src/modals/SendBitcoin/FirstStep/MaximumFeeLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "minimum",
+        "id": "modals.sendbtc.minimumamountlink.minimum"
+      }
+    ],
+    "path": "src/modals/SendBitcoin/FirstStep/MinimumAmountLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "minimum",
+        "id": "modals.sendbtc.minimumfeelink.minimum"
+      }
+    ],
+    "path": "src/modals/SendBitcoin/FirstStep/MinimumFeeLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Priority: {fee}",
+        "id": "modals.sendbtc.priorityfeelink.priority"
+      }
+    ],
+    "path": "src/modals/SendBitcoin/FirstStep/PriorityFeeLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Reg: {fee},",
+        "id": "modals.sendbtc.regularfeelink.regular"
+      }
+    ],
+    "path": "src/modals/SendBitcoin/FirstStep/RegularFeeLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Regular",
+        "id": "modals.sendbtc.firststep.fee.regular"
+      },
+      {
+        "defaultMessage": "Priority",
+        "id": "modals.sendbtc.firststep.fee.priority"
+      }
+    ],
+    "path": "src/modals/SendBitcoin/FirstStep/selectors.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Currency:",
+        "id": "modals.sendbtc.firststep.coin"
+      },
+      {
+        "defaultMessage": "From:",
+        "id": "modals.sendbtc.firststep.from"
+      },
+      {
+        "defaultMessage": "To:",
+        "id": "modals.sendbtc.firststep.to"
+      },
+      {
+        "defaultMessage": "Enter Amount:",
+        "id": "modals.sendbtc.firststep.amount"
+      },
+      {
+        "defaultMessage": "Description:",
+        "id": "modals.sendbtc.firststep.description"
+      },
+      {
+        "defaultMessage": "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
+        "id": "modals.sendbtc.firststep.sharetooltip"
+      },
+      {
+        "defaultMessage": "Transaction fee:",
+        "id": "modals.sendbtc.firststep.fee"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "modals.sendbtc.firststep.cancel"
+      },
+      {
+        "defaultMessage": "Customize fee",
+        "id": "modals.sendbtc.firststep.edit"
+      },
+      {
+        "defaultMessage": "Estimated confirmation time 1+ hour",
+        "id": "modals.sendbtc.firststep.estimated"
+      },
+      {
+        "defaultMessage": "Estimated confirmation time 0-60 minutes",
+        "id": "modals.sendbtc.firststep.estimated2"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.sendbtc.firststep.continue"
+      }
+    ],
+    "path": "src/modals/SendBitcoin/FirstStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Invalid amount",
+        "id": "modals.sendbtc.amountnotzeromessage"
+      },
+      {
+        "defaultMessage": "Not enough funds. Use",
+        "id": "modals.sendbtc.maximumamountmessage"
+      },
+      {
+        "defaultMessage": "Unnecessarily high fee.",
+        "id": "modals.sendbtc.maximumfeemessage"
+      },
+      {
+        "defaultMessage": "Below minimum amount. Use",
+        "id": "modals.sendbtc.minimumamountmessage"
+      },
+      {
+        "defaultMessage": "Low fee not recommended. Use",
+        "id": "modals.sendbtc.minimumfeemessage"
+      },
+      {
+        "defaultMessage": "Minimum {sat} required",
+        "id": "modals.sendbtc.minimumonesatoshimessage"
+      },
+      {
+        "defaultMessage": "Insufficient funds",
+        "id": "modals.sendbtc.insufficientfundsmessage"
+      },
+      {
+        "defaultMessage": "This private key does not match the watch only address above",
+        "id": "modals.sendbtc.addressprivmismatch"
+      }
+    ],
+    "path": "src/modals/SendBitcoin/FirstStep/validationMessages.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "From:",
+        "id": "modals.sendbtc.secondstep.from"
+      },
+      {
+        "defaultMessage": "To:",
+        "id": "modals.sendbtc.secondstep.to"
+      },
+      {
+        "defaultMessage": "Note:",
+        "id": "modals.sendbtc.secondstep.note"
+      },
+      {
+        "defaultMessage": "Payment:",
+        "id": "modals.sendbtc.secondstep.payment"
+      },
+      {
+        "defaultMessage": "Fee:",
+        "id": "modals.sendbtc.secondstep.fee"
+      },
+      {
+        "defaultMessage": "Total",
+        "id": "modals.sendbtc.secontstep.total"
+      },
+      {
+        "defaultMessage": "Send Bitcoin",
+        "id": "modals.sendbtc.secondstep.send"
+      },
+      {
+        "defaultMessage": "Go back",
+        "id": "scenes.sendbtc.secondstep.back"
+      }
+    ],
+    "path": "src/modals/SendBitcoin/SecondStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Send Bitcoin",
+        "id": "modals.sendbitcoin.title"
+      }
+    ],
+    "path": "src/modals/SendBitcoin/template.json"
   },
   {
     "descriptors": [
@@ -4108,6 +4669,119 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "maximum",
+        "id": "modals.sendeth.maximumamountlink.maximum"
+      }
+    ],
+    "path": "src/modals/SendEther/FirstStep/MaximumAmountLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Currency:",
+        "id": "modals.sendether.firststep.coin"
+      },
+      {
+        "defaultMessage": "To:",
+        "id": "modals.sendether.firststep.to"
+      },
+      {
+        "defaultMessage": "Please wait until your previous transaction confirms.",
+        "id": "modals.sendeth.unconfirmedtransactionmessage"
+      },
+      {
+        "defaultMessage": "Sending to contract addresses is disabled.",
+        "id": "modals.sendeth.contractaddr"
+      },
+      {
+        "defaultMessage": "Enter amount:",
+        "id": "modals.sendether.firststep.amount"
+      },
+      {
+        "defaultMessage": "Description:",
+        "id": "modals.sendether.firststep.description"
+      },
+      {
+        "defaultMessage": "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
+        "id": "modals.sendether.firststep.sharetooltip"
+      },
+      {
+        "defaultMessage": "Transaction Fee :",
+        "id": "modals.sendether.firststep.fee"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.sendether.firststep.continue"
+      }
+    ],
+    "path": "src/modals/SendEther/FirstStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Invalid amount",
+        "id": "modals.sendeth.amountnotzeromessage"
+      },
+      {
+        "defaultMessage": "Not enough funds. Use",
+        "id": "modals.sendeth.maximumamountmessage"
+      },
+      {
+        "defaultMessage": "Insufficient funds",
+        "id": "modals.sendeth.insufficientfundsmessage"
+      }
+    ],
+    "path": "src/modals/SendEther/FirstStep/validationMessages.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "From:",
+        "id": "modals.sendeth.secondstep.from"
+      },
+      {
+        "defaultMessage": "To:",
+        "id": "modals.sendeth.secondstep.to"
+      },
+      {
+        "defaultMessage": "Note:",
+        "id": "modals.sendeth.secondstep.note"
+      },
+      {
+        "defaultMessage": "Payment:",
+        "id": "modals.sendeth.secondstep.payment"
+      },
+      {
+        "defaultMessage": "Fee:",
+        "id": "modals.sendeth.secondstep.fee"
+      },
+      {
+        "defaultMessage": "Total",
+        "id": "modals.sendeth.secondstep.total"
+      },
+      {
+        "defaultMessage": "Send Ether",
+        "id": "modals.sendeth.secondstep.send"
+      },
+      {
+        "defaultMessage": "Go Back",
+        "id": "modals.sendeth.sendconfirm.back"
+      }
+    ],
+    "path": "src/modals/SendEther/SecondStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Send Ether",
+        "id": "modals.sendether.title"
+      }
+    ],
+    "path": "src/modals/SendEther/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "YOU ARE NOW READY TO BUY & SELL",
         "id": "sfoxmicrodeposits.success"
       },
@@ -4325,6 +4999,15 @@
       }
     ],
     "path": "src/modals/SfoxExchangeData/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Start Verification",
+        "id": "sfoxexchangedata.verify.jumio.startverification"
+      }
+    ],
+    "path": "src/modals/SfoxExchangeData/Jumio/template.success.json"
   },
   {
     "descriptors": [
@@ -5334,6 +6017,19 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Next Scheduled",
+        "id": "buysell.orderhistory.recurring.nexttrade.nextscheduled"
+      },
+      {
+        "defaultMessage": "pending",
+        "id": "buysell.orderhistory.recurring.nexttrade.pending"
+      }
+    ],
+    "path": "src/scenes/BuySell/CoinifyCheckout/Content/OrderHistory/RecurringOrderHistoryTable/RecurringNextTrade/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Active",
         "id": "scenes.buysell.orderhistory.recurring.order.active"
       },
@@ -5563,6 +6259,114 @@
       }
     ],
     "path": "src/scenes/BuySell/CoinifyCheckout/Content/QuoteInputTemplate.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Make this a recurring order",
+        "id": "scenes.buysell.coinify.recurring.makerecurringorder"
+      }
+    ],
+    "path": "src/scenes/BuySell/CoinifyCheckout/Content/Recurring/Checkout.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Verify Your Identity and Complete 3 Orders",
+        "id": "modals.coinifyrecurringbuyconfirm.header.needskyctrades"
+      },
+      {
+        "defaultMessage": "To unlock the Recurring Buy feature, verify your identity and complete 3 credit card orders.",
+        "id": "modals.coinifyrecurringbuyconfirm.body.needskyctrades"
+      },
+      {
+        "defaultMessage": "Verify My Identity",
+        "id": "modals.coinifyrecurringbuyconfirm.button.needskyctrades"
+      },
+      {
+        "defaultMessage": "Verify Your Identity",
+        "id": "modals.coinifyrecurringbuyconfirm.header.needskyc"
+      },
+      {
+        "defaultMessage": "To set up a recurring order, you first need to verify your identity.",
+        "id": "modals.coinifyrecurringbuyconfirm.body.needskyc"
+      },
+      {
+        "defaultMessage": "Verify My Identity",
+        "id": "modals.coinifyrecurringbuyconfirm.button.needskyc"
+      },
+      {
+        "defaultMessage": "Complete 3 Orders",
+        "id": "modals.coinifyrecurringbuyconfirm.header.needstrades"
+      },
+      {
+        "defaultMessage": "To unlock the recurring buy feature, start by completing 3 credit card orders. You are only {numOfTrades} away.",
+        "id": "modals.coinifyrecurringbuyconfirm.body.needstrades"
+      },
+      {
+        "defaultMessage": "Create an Order",
+        "id": "modals.coinifyrecurringbuyconfirm.button.needstrades"
+      },
+      {
+        "defaultMessage": "You're About to Set Up A Recurring Order",
+        "id": "modals.coinifyrecurringbuyconfirm.header.setup"
+      },
+      {
+        "defaultMessage": "By scheduling this recurring order, you agree to and accept that your card will be charged each time a new order is due to be processed according to the amount, currency and frequency settings chosen.",
+        "id": "modals.coinifyrecurringbuyconfirm.body.accept"
+      },
+      {
+        "defaultMessage": "Proceed with My Order",
+        "id": "modals.coinifyrecurringbuyconfirm.button.proceed"
+      },
+      {
+        "defaultMessage": "Go Back",
+        "id": "modals.coinifyrecurringbuyconfirm.goback"
+      }
+    ],
+    "path": "src/scenes/BuySell/CoinifyCheckout/Content/Recurring/CoinifyRecurringBuyConfirm/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Weekly",
+        "id": "scenes.buysell.coinify.recurring.weekly"
+      },
+      {
+        "defaultMessage": "Monthly",
+        "id": "scenes.buysell.coinify.recurring.monthly"
+      }
+    ],
+    "path": "src/scenes/BuySell/CoinifyCheckout/Content/Recurring/selectors.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Make this a recurring order",
+        "id": "scenes.buysell.coinify.recurring.makerecurringorder"
+      },
+      {
+        "defaultMessage": "Frequency:",
+        "id": "scenes.buysell.coinify.recurring.frequency"
+      },
+      {
+        "defaultMessage": "Today and every {freq}",
+        "id": "scenes.buysell.coinify.recurring.frequencymessage"
+      },
+      {
+        "defaultMessage": "Duration:",
+        "id": "scenes.buysell.coinify.recurring.duration"
+      },
+      {
+        "defaultMessage": "This order will repeat until {endTime}",
+        "id": "scenes.buysell.coinify.recurring.repeatuntil"
+      },
+      {
+        "defaultMessage": "You can cancel anytime",
+        "id": "scenes.buysell.coinify.recurring.cancelanytime"
+      }
+    ],
+    "path": "src/scenes/BuySell/CoinifyCheckout/Content/Recurring/template.json"
   },
   {
     "descriptors": [
@@ -5967,6 +6771,39 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Confirm Exchange",
+        "id": "scenes.exchange.confirm.title"
+      },
+      {
+        "defaultMessage": "Rate",
+        "id": "scenes.exchange.exchangeform.summary.rates"
+      },
+      {
+        "defaultMessage": "Network Fee",
+        "id": "scenes.exchange.exchangeform.summary.fee"
+      },
+      {
+        "defaultMessage": "Total Value",
+        "id": "scenes.exchange.confirm.value"
+      },
+      {
+        "defaultMessage": "All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.",
+        "id": "scenes.exchange.exchangeform.summary.note"
+      },
+      {
+        "defaultMessage": "Complete Order",
+        "id": "scenes.exchange.confirm.submit"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "scenes.exchange.confirm.cancel"
+      }
+    ],
+    "path": "src/scenes/Exchange/ExchangeConfirm/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "maximum",
         "id": "scenes.exchange.firststep.maximumamountlink.maximum"
       }
@@ -5985,6 +6822,39 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Summary",
+        "id": "scenes.exchange.exchangeform.summary.title"
+      },
+      {
+        "defaultMessage": "Deposit {coin}",
+        "id": "scenes.exchange.exchangeform.summary.deposit"
+      },
+      {
+        "defaultMessage": "Receive {coin}",
+        "id": "scenes.exchange.exchangeform.summary.receive"
+      },
+      {
+        "defaultMessage": "Network Fee",
+        "id": "scenes.exchange.exchangeform.summary.fee"
+      },
+      {
+        "defaultMessage": "~ Total Value",
+        "id": "scenes.exchange.exchangeform.summary.value"
+      },
+      {
+        "defaultMessage": "All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.",
+        "id": "scenes.exchange.exchangeform.summary.note"
+      },
+      {
+        "defaultMessage": "Rates",
+        "id": "scenes.exchange.exchangeform.summary.rates"
+      }
+    ],
+    "path": "src/scenes/Exchange/ExchangeForm/Summary/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Step 1 of 2",
         "id": "scenes.exchange.shapeshift.firststep.step"
       }
@@ -5994,10 +6864,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Step 1 of 2",
-        "id": "scenes.exchange.shapeshift.firststep.step"
-      },
-      {
         "defaultMessage": "Exchange:",
         "id": "scenes.exchange.shapeshift.firststep.from"
       },
@@ -6006,20 +6872,16 @@
         "id": "scenes.exchange.shapeshift.firststep.to"
       },
       {
-        "defaultMessage": "Enter amount:",
-        "id": "scenes.exchange.shapeshift.firststep.amount"
+        "defaultMessage": "MIN",
+        "id": "scenes.exchange.exchangeform.min"
       },
       {
-        "defaultMessage": "Use",
-        "id": "scenes.exchangebox.firststep.use1"
+        "defaultMessage": "MAX",
+        "id": "scenes.exchange.exchangeform.max"
       },
       {
-        "defaultMessage": "| Use",
-        "id": "scenes.exchangebox.firststep.use2"
-      },
-      {
-        "defaultMessage": "Next",
-        "id": "scenes.exchange.shapeshift.firststep.next"
+        "defaultMessage": "Exchange {source} for {target}",
+        "id": "scenes.exchange.exchangeform.exchange"
       }
     ],
     "path": "src/scenes/Exchange/ExchangeForm/template.success.json"
@@ -6851,6 +7713,15 @@
       }
     ],
     "path": "src/scenes/Home/ActivityList/Empty/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "This transaction involves a watch only address.",
+        "id": "scenes.home.activitylist.watchonly"
+      }
+    ],
+    "path": "src/scenes/Home/ActivityList/ListItem/index.json"
   },
   {
     "descriptors": [
@@ -7798,6 +8669,48 @@
       }
     ],
     "path": "src/scenes/SecurityCenter/Advanced/LoginIpRestriction/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Change",
+        "id": "scenes.securitysettings.basicsecurity.passwordhint.settings.change"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel"
+      },
+      {
+        "defaultMessage": "Change",
+        "id": "scenes.securitysettings.basicsecurity.passwordhint.settings.save"
+      }
+    ],
+    "path": "src/scenes/SecurityCenter/Advanced/PasswordHint/Settings/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Password Hint",
+        "id": "scenes.settings.passwordhint.title"
+      },
+      {
+        "defaultMessage": "Hint Stored",
+        "id": "scenes.security.passwordhint.stored"
+      },
+      {
+        "defaultMessage": "Not Stored",
+        "id": "scenes.security.passwordhint.notstored"
+      },
+      {
+        "defaultMessage": "Blockchain cannot reset your password.",
+        "id": "scenes.settings.passwordhint.description1"
+      },
+      {
+        "defaultMessage": "Create a memorable password hint that we can send to your verified email address in case you forget your password.",
+        "id": "scenes.settings.passwordhint.description2"
+      }
+    ],
+    "path": "src/scenes/SecurityCenter/Advanced/PasswordHint/template.json"
   },
   {
     "descriptors": [
@@ -9049,7 +9962,45 @@
         "id": "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2"
       }
     ],
+    "path": "src/scenes/Settings/Preferences/BitcoinLinkHandling/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Bitcoin Link Handling",
+        "id": "scenes.settings.preferences.bitcoinlinkhandling.title"
+      },
+      {
+        "defaultMessage": "Enable this to allow your Blockchain Wallet to handle bitcoin payment links in the web browser.",
+        "id": "scenes.settings.preferences.bitcoinlinkhandling.description"
+      },
+      {
+        "defaultMessage": "This will make your experience more convenient when transacting online.",
+        "id": "scenes.settings.preferences.bitcoinlinkhandling.description2"
+      },
+      {
+        "defaultMessage": "Enable",
+        "id": "scenes.settings.preferences.bitcoinlinkhandling.enable"
+      },
+      {
+        "defaultMessage": "We can't detect whether or not handling of bitcoin links has been enabled.",
+        "id": "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus"
+      },
+      {
+        "defaultMessage": "If it has already been enabled, nothing will happen.",
+        "id": "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2"
+      }
+    ],
     "path": "src/scenes/Settings/Preferences/BtcLinkHandling/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Customize your wallet experience.",
+        "id": "scenes.settings.preferences.explain"
+      }
+    ],
+    "path": "src/scenes/Settings/Preferences/index.json"
   },
   {
     "descriptors": [
@@ -9343,6 +10294,51 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Welcome to",
+        "id": "scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.welcome"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.learnmore"
+      },
+      {
+        "defaultMessage": "What is Bitcoin Cash?",
+        "id": "scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.what"
+      },
+      {
+        "defaultMessage": "Bitcoin Cash is a form of peer-to-peer electronic cash that was created after a fork of the Bitcoin block chain in August 2017.",
+        "id": "scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.currency"
+      },
+      {
+        "defaultMessage": "Bitcoin Cash has since grown to be one of the top cryptocurrencies, along with bitcoin and ether.",
+        "id": "scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.top"
+      },
+      {
+        "defaultMessage": "How do I get Bitcoin Cash?",
+        "id": "scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.why"
+      },
+      {
+        "defaultMessage": "If you had bitcoin in your Blockchain wallet before the fork in August, you already have Bitcoin Cash.",
+        "id": "scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.fork"
+      },
+      {
+        "defaultMessage": "If you’re new to Blockchain, you can get started with Bitcoin Cash by exchanging bitcoin or ether.",
+        "id": "scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.exchange"
+      },
+      {
+        "defaultMessage": "Get started with Bitcoin Cash",
+        "id": "scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.getstarted.exchange"
+      },
+      {
+        "defaultMessage": "Get started with Bitcoin Cash",
+        "id": "scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.getstarted.request"
+      }
+    ],
+    "path": "src/scenes/Transactions/Bch/Content/Empty/BitcoinCashWelcome/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Your transactions",
         "id": "scenes.transactions.bch.content.empty.transactions"
       },
@@ -9360,6 +10356,72 @@
       }
     ],
     "path": "src/scenes/Transactions/Bch/Content/Empty/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Welcome to",
+        "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.welcometo"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.learnmore"
+      },
+      {
+        "defaultMessage": "What is bitcoin?",
+        "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.what"
+      },
+      {
+        "defaultMessage": "Bitcoin is a digital currency, and is used like other assets in exchange for goods and services.",
+        "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.currency"
+      },
+      {
+        "defaultMessage": "Unlike traditional currencies and assets, bitcoin is easily portable, divisible, and irreversible.",
+        "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.transact"
+      },
+      {
+        "defaultMessage": "Why should I use it?",
+        "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.why"
+      },
+      {
+        "defaultMessage": "As a global currency you can send bitcoin to anyone, anywhere in the world without worrying about cross border remittance fees.",
+        "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.fees"
+      },
+      {
+        "defaultMessage": "Get started with bitcoin",
+        "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted.buysell"
+      },
+      {
+        "defaultMessage": "Get started with bitcoin",
+        "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted.exchange"
+      },
+      {
+        "defaultMessage": "Get started with bitcoin",
+        "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted.request"
+      }
+    ],
+    "path": "src/scenes/Transactions/Bitcoin/Content/Empty/BitcoinWelcome/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Your transactions",
+        "id": "scenes.transactions.bitcoin.content.empty.transactions"
+      },
+      {
+        "defaultMessage": "Transactions occur when you receive and send bitcoin.",
+        "id": "scenes.transactions.bitcoin.content.empty.explain"
+      },
+      {
+        "defaultMessage": "Send",
+        "id": "scenes.transactions.bitcoin.content.empty.send"
+      },
+      {
+        "defaultMessage": "Request",
+        "id": "scenes.transactions.bitcoin.content.empty.request"
+      }
+    ],
+    "path": "src/scenes/Transactions/Bitcoin/Content/Empty/template.json"
   },
   {
     "descriptors": [
@@ -9509,6 +10571,89 @@
       }
     ],
     "path": "src/scenes/Transactions/Eth/Menu/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Welcome to",
+        "id": "scenes.transaction.ether.content.empty.etherwelcome.welcome"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "scenes.transaction.ether.content.empty.etherwelcome.learnmore"
+      },
+      {
+        "defaultMessage": "What is ether?",
+        "id": "scenes.transaction.ether.content.empty.etherwelcome.what"
+      },
+      {
+        "defaultMessage": "Ether is a digital currency.",
+        "id": "scenes.transaction.ether.content.empty.etherwelcome.currency"
+      },
+      {
+        "defaultMessage": "Like Bitcoin, it enables people around the world to transact, save, and hedge their way to a better financial future.",
+        "id": "scenes.transaction.ether.content.empty.etherwelcome.transact"
+      },
+      {
+        "defaultMessage": "In addition to sending value, ether also powers the Ethereum platform.",
+        "id": "scenes.transaction.ether.content.empty.etherwelcome.platform"
+      },
+      {
+        "defaultMessage": "Why should I use it?",
+        "id": "scenes.transaction.ether.content.empty.etherwelcome.why"
+      },
+      {
+        "defaultMessage": "As the Ethereum platform grows, more intelligent applications will be built on top of it.",
+        "id": "scenes.transaction.ether.content.empty.etherwelcome.grow"
+      },
+      {
+        "defaultMessage": "We want to give you the opportunity to start using ether now, so you' ll be ready to use these products in the future.",
+        "id": "scenes.transaction.ether.content.empty.etherwelcome.opportunity"
+      },
+      {
+        "defaultMessage": "Get started with ether",
+        "id": "scenes.transaction.ether.content.empty.etherwelcome.getstarted.exchange"
+      },
+      {
+        "defaultMessage": "Get started with ether",
+        "id": "scenes.transaction.ether.content.empty.etherwelcome.getstarted.request"
+      }
+    ],
+    "path": "src/scenes/Transactions/Ether/Content/Empty/EtherWelcome/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Your transactions",
+        "id": "scenes.transactions.ether.content.empty.transactions"
+      },
+      {
+        "defaultMessage": "Transactions occur when you receive and send ether.",
+        "id": "scenes.transactions.ether.content.empty.explain"
+      },
+      {
+        "defaultMessage": "Get ether",
+        "id": "scenes.transactions.ether.content.empty.getether"
+      }
+    ],
+    "path": "src/scenes/Transactions/Ether/Content/Empty/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Private Keys",
+        "id": "scenes.transactions.ether.privatekeys"
+      },
+      {
+        "defaultMessage": "Export Private Key",
+        "id": "scenes.transactions.ether.export.privatekey"
+      },
+      {
+        "defaultMessage": "Export Archived Private Key",
+        "id": "scenes.transactions.ether.export.archived"
+      }
+    ],
+    "path": "src/scenes/Transactions/Ether/Menu/template.json"
   },
   {
     "descriptors": [
