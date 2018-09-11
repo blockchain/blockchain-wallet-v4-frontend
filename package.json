@@ -105,7 +105,8 @@
     "test:frontend:debug": "yarn workspace blockchain-wallet-v4-frontend test:debug",
     "test:frontend:update": "yarn workspace blockchain-wallet-v4-frontend test -- -u",
     "test:frontend:watch": "yarn workspace blockchain-wallet-v4-frontend test:watch",
-    "manage:translations": "yarn workspace blockchain-wallet-v4-frontend manage:translations"
+    "manage:translations": "yarn workspace blockchain-wallet-v4-frontend manage:translations",
+    "release": "release-it"
   },
   "dependencies": {
     "compression":
