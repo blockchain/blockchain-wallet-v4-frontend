@@ -11,7 +11,7 @@ class WhatsNewIconContainer extends React.PureComponent {
     return (
       <WhatsNewIcon
         highlighted={this.props.highlighted}
-        handleClick={() => this.props.actions.layoutWalletWhatsnewClicked()}
+        handleClick={this.props.actions.layoutWalletWhatsnewClicked}
       />
     )
   }

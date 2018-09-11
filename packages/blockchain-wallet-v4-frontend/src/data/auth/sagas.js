@@ -131,6 +131,7 @@ export default ({ api, coreSagas }) => {
       yield fork(transferEthSaga)
       yield fork(welcomeSaga, firstLogin)
       yield fork(reportStats, mobileLogin)
+      yield put(actions.analytics.reportBalanceStats())
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
       if (!firstLogin) {
         yield put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))

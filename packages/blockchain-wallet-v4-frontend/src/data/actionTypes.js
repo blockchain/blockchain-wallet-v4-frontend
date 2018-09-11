@@ -1,5 +1,6 @@
 import { coreActionsTypes as core } from 'blockchain-wallet-v4/src'
 import * as alerts from './alerts/actionTypes'
+import * as analytics from './analytics/actionTypes'
 import * as auth from './auth/actionTypes'
 import * as cache from './cache/actionTypes'
 import * as components from './components/actionTypes'
@@ -15,6 +16,7 @@ import * as session from './session/actionTypes'
 import * as wallet from './wallet/actionTypes'
 
 export {
+  analytics,
   cache,
   core,
   components,
