@@ -9,13 +9,19 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class ExchangeHistoryContainer extends React.PureComponent {
+  componentDidMount () {
+    this.props.actions.fetchNextPage()
+  }
+
   componentWillUnmount () {
-    this.props.actions.destroyed()
+    const { actions, useShapeShift } = this.props
+    actions.destroyed()
+    !useShapeShift && actions.clearTrades()
   }
 
   render () {
     return this.props.data.cata({
-      Success: value => <Success trades={value} />,
+      Success: value => <Success {...value} />,
       Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -23,15 +29,11 @@ class ExchangeHistoryContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  data: getData(state)
-})
-
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchangeHistory, dispatch)
 })
 
 export default connect(
-  mapStateToProps,
+  getData,
   mapDispatchToProps
 )(ExchangeHistoryContainer)

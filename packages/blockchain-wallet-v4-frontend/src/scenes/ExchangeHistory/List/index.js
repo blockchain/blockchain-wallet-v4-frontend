@@ -1,16 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { concat } from 'ramda'
 
 import { actions } from 'data'
 import List from './template'
 
 class ListContainer extends React.PureComponent {
   componentDidMount () {
-    const { complete, incomplete } = this.props
-    const tradesWithDeposit = concat(incomplete, complete)
-    this.props.actions.initialized(tradesWithDeposit)
+    this.props.actions.initialized()
   }
 
   render () {

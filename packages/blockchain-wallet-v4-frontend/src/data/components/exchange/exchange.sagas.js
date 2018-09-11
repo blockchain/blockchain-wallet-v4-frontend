@@ -2,7 +2,7 @@ import { call, put, select, all } from 'redux-saga/effects'
 import { equals, flip, keys, path, prop } from 'ramda'
 
 import { actions, selectors, model } from 'data'
-import { EXCHANGE_FORM, CONFIRM_FORM, RESULTS_MODAL } from './model'
+import { EXCHANGE_FORM, CONFIRM_FORM } from './model'
 import utils from './sagas.utils'
 import * as S from './selectors'
 import { promptForSecondPassword } from 'services/SagaService'
@@ -165,9 +165,6 @@ export default ({ api, coreSagas, options, networks }) => {
       const targetCoin = target.coin
       const pair = formatPair(sourceCoin, targetCoin)
       const amounts = (yield select(S.getAmounts(pair))).getOrFail()
-      const { fiatCurrency } = (yield select(
-        selectors.modules.rates.getPairConfig(pair)
-      )).getOrFail()
       const fieldName = mapFixToFieldName(fix)
       const coinField = flip(prop)({
         sourceAmount: 'sourceAmount',
@@ -187,13 +184,7 @@ export default ({ api, coreSagas, options, networks }) => {
         target,
         networks
       )
-      const {
-        withdrawalAddress,
-        depositAddress,
-        withdrawalQuantity,
-        depositQuantity,
-        quantity
-      } = yield call(
+      const { withdrawalAddress, depositAddress, quantity } = yield call(
         api.executeTrade,
         pair,
         volume,
@@ -211,15 +202,6 @@ export default ({ api, coreSagas, options, networks }) => {
       const password = yield call(promptForSecondPassword)
       payment.sign(password).publish()
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
-      yield put(
-        actions.modals.showModal(RESULTS_MODAL, {
-          sourceCoin,
-          targetCoin,
-          sourceAmount: withdrawalQuantity,
-          targetAmount: depositQuantity,
-          currency: fiatCurrency
-        })
-      )
       yield put(actions.router.push('/exchange/history'))
     } catch (e) {
       yield put(actions.form.stopSubmit(CONFIRM_FORM, e))

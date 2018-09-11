@@ -1,41 +1,51 @@
-import {
-  anyPass,
-  concat,
-  curry,
-  equals,
-  filter,
-  isEmpty,
-  lift,
-  map,
-  prop
-} from 'ramda'
-import { selectors } from 'data'
+import { contains, curry, filter, isEmpty, lift, or, prop } from 'ramda'
+import { selectors, model } from 'data'
 
-const getTradesWithStatus = curry((statuses, trades) =>
-  filter(trade => anyPass(map(equals, statuses))(prop('status', trade)), trades)
+const { COMPLETE_STATES, INCOMPLETE_STATES } = model.components.exchangeHistory
+
+/**
+ * Statuses for shapeshift
+ * States for exchange
+ */
+const getTradesWithStatus = curry((statuses, states, trades) =>
+  filter(
+    trade =>
+      or(
+        contains(prop('status', trade), statuses),
+        contains(prop('state', trade), states)
+      ),
+    trades
+  )
 )
 
 export const getData = state => {
-  const trades = selectors.core.kvStore.shapeShift.getTrades(state)
-  const completedTrades = lift(getTradesWithStatus(['complete', 'resolved']))(
-    trades
-  )
-  const errorTrades = lift(getTradesWithStatus(['error', 'failed']))(trades)
-  const incompleteTrades = lift(
-    getTradesWithStatus(['no_deposits', 'received'])
-  )(trades)
+  const useShapeShift = selectors.components.exchange.useShapeShift(state)
+  const tradesR = useShapeShift
+    ? selectors.core.kvStore.shapeShift.getTrades(state)
+    : selectors.components.exchangeHistory.getTrades(state)
+  const completeTradesR = lift(
+    getTradesWithStatus(
+      ['complete', 'resolved', 'error', 'failed'],
+      COMPLETE_STATES
+    )
+  )(tradesR)
+  const incompleteTradesR = lift(
+    getTradesWithStatus(['no_deposits', 'received'], INCOMPLETE_STATES)
+  )(tradesR)
 
-  const transform = (c, i, e) => {
-    const incomplete = concat(i, e)
-    const showComplete = !isEmpty(c)
+  const transform = (complete, incomplete) => {
+    const showComplete = !isEmpty(complete)
     const showIncomplete = !isEmpty(incomplete)
 
     return {
-      complete: c,
+      complete,
       showComplete,
       incomplete,
       showIncomplete
     }
   }
-  return lift(transform)(completedTrades, incompleteTrades, errorTrades)
+  return {
+    data: lift(transform)(completeTradesR, incompleteTradesR),
+    useShapeShift
+  }
 }
