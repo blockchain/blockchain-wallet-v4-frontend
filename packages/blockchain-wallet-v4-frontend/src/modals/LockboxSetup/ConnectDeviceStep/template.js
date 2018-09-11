@@ -71,25 +71,25 @@ const ConnectDeviceStep = props => {
         </StepText>
       </TextGroup>
       <ButtonContainer>
-        { isConnected ? (
-            <Button
-              nature='success'
-              onClick={() => props.handleStepChange()}
-              fullwidth>
-              <FormattedMessage
-                id='modals.lockboxsetup.connectdevice.success'
-                defaultMessage='Success! Click to Continue'
-              />
-            </Button>
-          ) : (
+        {isConnected ? (
+          <Button
+            nature='success'
+            onClick={() => props.handleStepChange()}
+            fullwidth
+          >
+            <FormattedMessage
+              id='modals.lockboxsetup.connectdevice.success'
+              defaultMessage='Success! Click to Continue'
+            />
+          </Button>
+        ) : (
           <Button nature='gray' disabled fullwidth>
             <FormattedMessage
               id='modals.lockboxsetup.connectdevice.connect'
               defaultMessage='Connect Your Lockbox'
             />
           </Button>
-          )
-        }
+        )}
       </ButtonContainer>
     </Wrapper>
   )

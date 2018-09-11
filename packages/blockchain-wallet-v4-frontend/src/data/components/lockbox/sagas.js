@@ -80,7 +80,7 @@ export default ({ api, coreSagas }) => {
         version_name: deviceInfo.fullVersion,
         provider: deviceInfo.providerId
       })
-      debugger
+      
       const domainsR = yield select(selectors.core.walletOptions.getDomains)
       const domains = domainsR.getOrElse({
         ledgerSocket: 'wss://api.ledgerwallet.com/update'
@@ -96,9 +96,9 @@ export default ({ api, coreSagas }) => {
           perso: firmware.perso
         }
       )
-      isDeviceAuthentic ?
-        yield put(A.checkDeviceAuthenticitySuccess(isDeviceAuthentic)) :
-        yield put(A.changeDeviceSetupStep('error-step'))
+      isDeviceAuthentic
+        ? yield put(A.checkDeviceAuthenticitySuccess(isDeviceAuthentic))
+        : yield put(A.changeDeviceSetupStep('error-step'))
     } catch (e) {
       yield put(A.checkDeviceAuthenticityFailure(e))
       yield put(

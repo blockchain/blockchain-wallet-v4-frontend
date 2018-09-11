@@ -27,7 +27,10 @@ class AuthenticityStepContainer extends React.PureComponent {
     })
 
     return (
-      <Template authenticity={authenticity} handleStepChange={this.changeDeviceSetupStep} />
+      <Template
+        authenticity={authenticity}
+        handleStepChange={this.changeDeviceSetupStep}
+      />
     )
   }
 }

@@ -56,14 +56,15 @@ const AuthenticityStep = props => {
           />
         </StepText>
       </TextGroup>
-      { isAuthenticating ? (
+      {isAuthenticating ? (
         <FlatLoader width='150px' height='20px' />
       ) : (
         <ButtonContainer>
           <Button
             nature='success'
             onClick={() => props.handleStepChange()}
-            fullwidth>
+            fullwidth
+          >
             <FormattedMessage
               id='modals.lockboxsetup.authenticitystep.success'
               defaultMessage='Success! Click to Continue'
