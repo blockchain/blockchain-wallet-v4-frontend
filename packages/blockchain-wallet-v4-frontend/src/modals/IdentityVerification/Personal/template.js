@@ -340,6 +340,7 @@ const Personal = ({
                         elements={possibleAddresses}
                         onChange={onAddressSelect}
                         component={SelectBox}
+                        validate={required}
                         label={
                           <FormattedMessage
                             id='identityverification.personal.selectaddress'
