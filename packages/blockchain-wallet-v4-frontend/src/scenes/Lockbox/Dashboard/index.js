@@ -43,7 +43,7 @@ class LockboxDashboardContainer extends React.PureComponent {
 const mapStateToProps = (state, ownProps) => ({
   data: selectors.core.kvStore.lockbox.getDevice(
     state,
-    ownProps.computedMatch.params.deviceId
+    ownProps.match.params.deviceId
   )
 })
 const mapDispatchToProps = dispatch => ({

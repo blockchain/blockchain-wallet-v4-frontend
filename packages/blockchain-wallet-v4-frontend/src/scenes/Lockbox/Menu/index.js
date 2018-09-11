@@ -3,8 +3,7 @@ import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
 
-import { actions } from 'data'
-import { getData } from './selectors'
+import { actions, selectors } from 'data'
 import LockboxMenu from './template'
 
 class LockboxMenuContainer extends React.PureComponent {
@@ -21,8 +20,11 @@ class LockboxMenuContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  data: getData(state)
+const mapStateToProps = (state, ownProps) => ({
+  data: selectors.core.kvStore.lockbox.getDevice(
+    state,
+    ownProps.match.params.deviceId
+  )
 })
 
 const mapDispatchToProps = dispatch => ({
