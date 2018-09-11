@@ -844,7 +844,19 @@
     "descriptors": [
       {
         "defaultMessage": "Month",
+        "id": "components.DateInputBox.label.month"
+      },
+      {
+        "defaultMessage": "Month",
         "id": "components.DateInputBox.placeholder.month"
+      },
+      {
+        "defaultMessage": "Date",
+        "id": "components.DateInputBox.label.date"
+      },
+      {
+        "defaultMessage": "Year",
+        "id": "components.DateInputBox.label.year"
       }
     ],
     "path": "src/components/Form/DateInputBox/index.json"
@@ -1165,6 +1177,18 @@
       {
         "defaultMessage": "By signing a message, you can prove that you own this bitcoin address. You can verify signed messages by clicking on 'More Actions' > 'Verify Message'.",
         "id": "modals.signmessage.label"
+      },
+      {
+        "defaultMessage": "Frequently Asked Questions",
+        "id": "faq.tooltip.description"
+      },
+      {
+        "defaultMessage": "Refresh",
+        "id": "refresh.tooltip.description"
+      },
+      {
+        "defaultMessage": "What's New",
+        "id": "whatsnew.tooltip.description"
       }
     ],
     "path": "src/components/Tooltips/index.json"
@@ -2830,6 +2854,47 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Awaiting funds",
+        "id": "scenes.exchange.exchangeform.result.title"
+      },
+      {
+        "defaultMessage": "Thanks for placing your trade!",
+        "id": "scenes.exchange.exchangeform.results.thanks"
+      },
+      {
+        "defaultMessage": "Funds will usually reach your wallet within 2 hours and we’ll send you a notification when that happens.",
+        "id": "scenes.exchange.exchangeform.results.timeframe"
+      },
+      {
+        "defaultMessage": "Keep track of your trade’s progress in the Order History tab.",
+        "id": "scenes.exchange.exchangeform.results.history"
+      },
+      {
+        "defaultMessage": "Exchange {coin}",
+        "id": "scenes.exchange.exchangeform.results.exchange"
+      },
+      {
+        "defaultMessage": "Receive {coin}",
+        "id": "scenes.exchange.exchangeform.summary.receive"
+      },
+      {
+        "defaultMessage": "Total Value",
+        "id": "scenes.exchange.exchangeform.results.value"
+      },
+      {
+        "defaultMessage": "Network Fee",
+        "id": "scenes.exchange.exchangeform.summary.fee"
+      },
+      {
+        "defaultMessage": "Close",
+        "id": "modals.exchangedetails.close"
+      }
+    ],
+    "path": "src/modals/ExchangeResults/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Why do you need this information?",
         "id": "identityverification.address.faq.whycollect.question"
       },
@@ -4326,19 +4391,19 @@
     "descriptors": [
       {
         "defaultMessage": "Account",
-        "id": "modals.sfoxexchangedata.steps.account"
+        "id": "modals.sfoxexchangedata.steps.createaccount"
       },
       {
-        "defaultMessage": "Verify",
-        "id": "modals.sfoxexchangedata.steps.verify"
+        "defaultMessage": "Identity",
+        "id": "modals.sfoxexchangedata.steps.verifyidentity"
+      },
+      {
+        "defaultMessage": "Verification",
+        "id": "modals.sfoxexchangedata.steps.uploadidentitydocs"
       },
       {
         "defaultMessage": "Funding",
-        "id": "modals.sfoxexchangedata.steps.funding"
-      },
-      {
-        "defaultMessage": "Submit",
-        "id": "modals.sfoxexchangedata.steps.submit"
+        "id": "modals.sfoxexchangedata.steps.linkbank"
       }
     ],
     "path": "src/modals/SfoxExchangeData/index.json"
@@ -7318,20 +7383,20 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Create Account",
-        "id": "scenes.home.exchangeStepper.sfox.step1"
+        "defaultMessage": "Account",
+        "id": "scenes.home.exchangeStepper.sfox.createaccount"
       },
       {
-        "defaultMessage": "Verify Identity",
-        "id": "scenes.home.exchangeStepper.sfox.step2"
+        "defaultMessage": "Identity",
+        "id": "scenes.home.exchangeStepper.sfox.identity"
       },
       {
-        "defaultMessage": "Upload Documents",
-        "id": "scenes.home.exchangeStepper.sfox.step3"
+        "defaultMessage": "Verification",
+        "id": "scenes.home.exchangeStepper.sfox.verification"
       },
       {
-        "defaultMessage": "Link Bank",
-        "id": "scenes.home.exchangeStepper.sfox.step4"
+        "defaultMessage": "Funding",
+        "id": "scenes.home.exchangeStepper.sfox.funding"
       },
       {
         "defaultMessage": "Complete the following steps to buy & sell bitcoin.",
