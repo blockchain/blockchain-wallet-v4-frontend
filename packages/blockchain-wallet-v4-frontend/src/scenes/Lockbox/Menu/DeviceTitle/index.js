@@ -17,7 +17,7 @@ const DeviceTitle = props => {
       <Text size='24px' weight={400}>
         {deviceInfo.device_name}
       </Text>
-      <LinkContainer to='/lockbox/settings'>
+      <LinkContainer to={`/lockbox/settings/${deviceInfo.device_id}`}>
         <SettingsIcon name='settings-filled' size={'24px'} />
       </LinkContainer>
     </React.Fragment>

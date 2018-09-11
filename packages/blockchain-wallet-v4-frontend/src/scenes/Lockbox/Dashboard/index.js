@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
 
-import { actions } from 'data'
-import { getData } from './selectors'
+import { actions, selectors } from 'data'
 import Transactions from './Transactions'
 import Settings from './Settings'
 
@@ -24,10 +23,10 @@ class LockboxDashboardContainer extends React.PureComponent {
         return (
           <Wrapper>
             <ContentWrapper>
-              {location.pathname === '/lockbox/settings' && (
+              {location.pathname.includes('settings') && (
                 <Settings device={device} />
               )}
-              {location.pathname === '/lockbox/dashboard' && (
+              {location.pathname.includes('dashboard') && (
                 <Transactions device={device} />
               )}
             </ContentWrapper>
@@ -41,8 +40,11 @@ class LockboxDashboardContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  data: getData(state)
+const mapStateToProps = (state, ownProps) => ({
+  data: selectors.core.kvStore.lockbox.getDevice(
+    state,
+    ownProps.computedMatch.params.deviceId
+  )
 })
 const mapDispatchToProps = dispatch => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)

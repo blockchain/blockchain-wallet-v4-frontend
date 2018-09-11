@@ -2,19 +2,26 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Wrapper, MenuItem, Separator } from 'components/MenuLeft'
+import {
+  Wrapper,
+  MenuItem,
+  Separator,
+  SubMenu,
+  SubMenuItem
+} from 'components/MenuLeft'
 import { Icon, Text } from 'blockchain-info-components'
 
 const Navigation = props => {
   const {
     menuOpened,
+    lockboxOpened,
     settingsOpened,
     handleCloseMenu,
     canTrade,
-    userFlowSupported,
     pathname,
+    lockboxDevices,
     ...rest
-  } = props
+  } = props.data
 
   return (
     <Wrapper {...rest}>
@@ -101,6 +108,26 @@ const Navigation = props => {
           />
         </MenuItem>
       </LinkContainer>
+      {lockboxOpened &&
+        lockboxDevices.map(device => {
+          const deviceName = device.device_name
+          return (
+            <SubMenu>
+              <LinkContainer
+                to={`/lockbox/dashboard/${device.device_id}`}
+                activeClassName='active'
+              >
+                <SubMenuItem>
+                  <FormattedMessage
+                    id='layouts.wallet.menuleft.navigation.lockbox.device'
+                    defaultMessage='{deviceName}'
+                    values={{ deviceName }}
+                  />
+                </SubMenuItem>
+              </LinkContainer>
+            </SubMenu>
+          )
+        })}
     </Wrapper>
   )
 }
@@ -108,6 +135,7 @@ const Navigation = props => {
 Navigation.propTypes = {
   menuOpened: PropTypes.bool.isRequired,
   settingsOpened: PropTypes.bool.isRequired,
+  lockboxOpened: PropTypes.bool.isRequired,
   canTrade: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
   pathname: PropTypes.string.isRequired,
   handleCloseMenu: PropTypes.func.isRequired

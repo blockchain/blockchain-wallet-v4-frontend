@@ -112,7 +112,7 @@ class App extends React.PureComponent {
                   <WalletLayout path='/settings/info' component={Info} />
                   <WalletLayout path='/lockbox' component={Lockbox} exact />
                   <WalletLayout
-                    path='/lockbox/dashboard'
+                    path='/lockbox/dashboard/:deviceId'
                     component={LockboxDashboard}
                     exact
                   />
@@ -122,7 +122,7 @@ class App extends React.PureComponent {
                     exact
                   />
                   <WalletLayout
-                    path='/lockbox/settings'
+                    path='/lockbox/settings/:deviceId'
                     component={LockboxDashboard}
                     exact
                   />

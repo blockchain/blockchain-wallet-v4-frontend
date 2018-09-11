@@ -101,7 +101,9 @@ export default ({ api, coreSagas }) => {
       const devices = devicesR.getOrElse({})
 
       keysIn(devices).length
-        ? yield put(actions.router.push('/lockbox/dashboard'))
+        ? yield put(
+            actions.router.push('/lockbox/dashboard/' + devices[0].device_id)
+          )
         : yield put(actions.router.push('/lockbox/onboard'))
     } catch (e) {
       yield put(
