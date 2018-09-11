@@ -13,7 +13,7 @@ const checkDeviceAuthenticity = (transport, baseUrl, params) => {
     const res = await createDeviceSocket(transport, url).toPromise()
 
     if (!res) {
-      reject(new Error('DeviceGenuineSocketEarlyClose'))
+      reject(new Error('device authenticity socket failed'))
     }
     resolve(res === '0000')
   })
