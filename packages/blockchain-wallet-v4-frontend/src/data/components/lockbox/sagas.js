@@ -93,7 +93,7 @@ export default ({ api, coreSagas }) => {
           perso: firmware.perso
         }
       )
-      yield put(A.checkDeviceAuthenticitySuccess(true))
+      yield put(A.checkDeviceAuthenticitySuccess(isDeviceAuthentic))
     } catch (e) {
       yield put(A.checkDeviceAuthenticityFailure(e))
       yield put(

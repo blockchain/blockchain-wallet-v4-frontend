@@ -2,11 +2,10 @@ import qs from 'qs'
 
 import { createDeviceSocket } from './utils'
 import constants from './constants'
-import { toPromise } from "rxjs/operators";
 
 // checks if device is authentic
 const checkDeviceAuthenticity = (transport, baseUrl, params) => {
-  return new Promise(async(resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     const url =
       `${baseUrl}${constants.socketPaths.authenticity}` +
       `?${qs.stringify(params)}`
@@ -14,7 +13,7 @@ const checkDeviceAuthenticity = (transport, baseUrl, params) => {
     const res = await createDeviceSocket(transport, url).toPromise()
 
     if (!res) {
-      reject('DeviceGenuineSocketEarlyClose')
+      reject(new Error('DeviceGenuineSocketEarlyClose'))
     }
     resolve(res === '0000')
   })

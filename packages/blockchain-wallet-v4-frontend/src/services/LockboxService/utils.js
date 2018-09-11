@@ -1,6 +1,9 @@
-// import { Socket } from 'blockchain-wallet-v4/src/network'
 import WebSocket from 'isomorphic-ws'
 import { Observable } from 'rxjs'
+
+/* eslint-disable */
+// TODO: enable eslint after dev complete
+// TODO: use core WebSocket wrapper
 
 /**
  * Creates device socket
@@ -15,7 +18,6 @@ export const createDeviceSocket = (transport, url) => {
     try {
       ws = new WebSocket(url)
     } catch (err) {
-      debugger
       o.error(err.message, { url })
       return () => {}
     }
@@ -24,8 +26,7 @@ export const createDeviceSocket = (transport, url) => {
       console.info('OPENED', { url })
     }
 
-    ws.onerror = (e) => {
-      debugger
+    ws.onerror = e => {
       console.info('ERROR', { message: e.message, stack: e.stack })
       o.error(e.message, { url })
     }
@@ -36,13 +37,13 @@ export const createDeviceSocket = (transport, url) => {
       o.complete()
     }
 
-    ws.onmessage = async (rawMsg) => {
+    ws.onmessage = async rawMsg => {
       try {
-        const msg = JSON.parse(rawMsg)
+        const msg = JSON.parse(rawMsg.data)
         if (!(msg.query in handlers)) {
           throw new Error(`Cannot handle msg of type ${msg.query}`, {
             query: msg.query,
-            url,
+            url
           })
         }
         console.info('RECEIVE', msg)
@@ -57,7 +58,7 @@ export const createDeviceSocket = (transport, url) => {
       const msg = {
         nonce,
         response,
-        data,
+        data
       }
       console.info('SEND', msg)
       const strMsg = JSON.stringify(msg)
@@ -71,14 +72,17 @@ export const createDeviceSocket = (transport, url) => {
         const status = res.slice(res.length - 2)
         const buffer = res.slice(0, res.length - 2)
         const strStatus = status.toString('hex')
-        send(nonce, strStatus === '9000' ? 'success' : 'error', buffer.toString('hex'))
+        send(
+          nonce,
+          strStatus === '9000' ? 'success' : 'error',
+          buffer.toString('hex')
+        )
       },
 
       bulk: async input => {
         const { data, nonce } = input
+        let lastStatus // Execute all apdus and collect last status
 
-        // Execute all apdus and collect last status
-        let lastStatus = null
         for (const apdu of data) {
           const res = await transport.exchange(Buffer.from(apdu, 'hex'))
           lastStatus = res.slice(res.length - 2)
@@ -95,7 +99,7 @@ export const createDeviceSocket = (transport, url) => {
         send(
           nonce,
           strStatus === '9000' ? 'success' : 'error',
-          strStatus === '9000' ? '' : strStatus,
+          strStatus === '9000' ? '' : strStatus
         )
       },
 
@@ -107,7 +111,7 @@ export const createDeviceSocket = (transport, url) => {
       error: msg => {
         console.info('ERROR', { data: msg.data })
         throw new Error(msg.data, { url })
-      },
+      }
     }
 
     return () => {
@@ -118,3 +122,4 @@ export const createDeviceSocket = (transport, url) => {
     }
   })
 }
+/* eslint-enable */
