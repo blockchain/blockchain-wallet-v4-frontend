@@ -6,3 +6,6 @@ export const PHONE_CALL_TITLE = 'phone_call_title'
 export const PHONE_CALL_MSG = 'phone_call_msg'
 export const CONFIRM_PHONE_CALL = 'confirm_phone_call'
 export const CANCEL_PHONE_CALL = 'cancel_phone_call'
+
+export const CONFIRM_DELETE_LOCKBOX_TITLE = 'confirm_delete_lockbox_title'
+export const CONFIRM_DELETE_LOCKBOX_MESSAGE = 'confirm_delete_lockbox_message'
