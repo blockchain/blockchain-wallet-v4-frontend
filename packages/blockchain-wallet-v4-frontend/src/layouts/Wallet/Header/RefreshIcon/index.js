@@ -6,7 +6,7 @@ import { actions } from 'data'
 import Refresh from './template.js'
 
 const RefreshContainer = props => (
-  <Refresh handleRefresh={() => props.actions.refreshClicked()} />
+  <Refresh handleRefresh={props.actions.refreshClicked} />
 )
 
 const mapDispatchToProps = dispatch => ({

@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+import { debounce } from 'utils/helpers'
 
 const Wrapper = styled.div`
   position: relative;
@@ -25,7 +26,7 @@ class PageContainer extends React.Component {
   componentDidMount () {
     ReactDOM.findDOMNode(this.refs.page).addEventListener(
       'scroll',
-      this.debounce(this.updateScroll.bind(this), 1000)
+      debounce(this.updateScroll, 1000)
     )
   }
 
@@ -44,22 +45,11 @@ class PageContainer extends React.Component {
     }
     ReactDOM.findDOMNode(this.refs.page).removeEventListener(
       'scroll',
-      this.debounce(this.updateScroll.bind(this), 1000)
+      debounce(this.updateScroll, 1000)
     )
   }
 
-  debounce (func, wait) {
-    var timeout
-    return function () {
-      clearTimeout(timeout)
-      timeout = setTimeout(function () {
-        timeout = null
-        func.apply(this)
-      }, wait)
-    }
-  }
-
-  updateScroll () {
+  updateScroll = () => {
     const element = ReactDOM.findDOMNode(this)
     const xOffset = element.scrollLeft
     const yOffset = element.scrollTop

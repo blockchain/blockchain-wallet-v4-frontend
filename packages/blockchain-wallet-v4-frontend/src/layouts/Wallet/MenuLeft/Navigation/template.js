@@ -73,6 +73,7 @@ const SubMenuItem = styled.li`
 
 const Navigation = props => {
   const {
+    logClick,
     menuOpened,
     settingsOpened,
     handleCloseMenu,
@@ -84,7 +85,8 @@ const Navigation = props => {
 
   return (
     <Wrapper {...rest}>
-      <Menu>
+      <Menu onClick={logClick}>
+        {/* If updating navigation item names dont forget to update analytics saga */}
         <LinkContainer to='/home' activeClassName='active'>
           <MenuItem>
             <Icon name='home' />
@@ -242,7 +244,7 @@ const Navigation = props => {
 Navigation.propTypes = {
   menuOpened: PropTypes.bool.isRequired,
   settingsOpened: PropTypes.bool.isRequired,
-  canTrade: PropTypes.bool.isRequired,
+  canTrade: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
   pathname: PropTypes.string.isRequired,
   handleCloseMenu: PropTypes.func.isRequired
 }

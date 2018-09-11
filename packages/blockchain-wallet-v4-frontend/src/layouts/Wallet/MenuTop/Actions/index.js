@@ -13,6 +13,7 @@ class ActionsContainer extends React.PureComponent {
   }
 
   handleSend () {
+    this.props.analytics.logClick('send')
     const { pathname } = this.props.router.location
 
     switch (pathname) {
@@ -26,6 +27,7 @@ class ActionsContainer extends React.PureComponent {
   }
 
   handleRequest () {
+    this.props.analytics.logClick('request')
     const { pathname } = this.props.router.location
     switch (pathname) {
       case '/bch/transactions':
@@ -52,7 +54,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  analytics: bindActionCreators(actions.analytics, dispatch)
 })
 
 export default connect(

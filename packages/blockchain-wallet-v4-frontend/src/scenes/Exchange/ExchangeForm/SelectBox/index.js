@@ -1,11 +1,37 @@
 import React from 'react'
 import styled from 'styled-components'
-import { path, prop } from 'ramda'
+import { pathOr, toLower } from 'ramda'
 
 import { Icon } from 'blockchain-info-components'
 import { SelectBox } from 'components/Form'
 
+const ExchangeSelect = styled(SelectBox)`
+  .bc__control {
+    border: none;
+    :hover {
+      border: none;
+    }
+    :active {
+      border: none;
+    }
+  }
+
+  .bc__value-container {
+    padding: 0;
+  }
+  .bc__option {
+    padding: 8px 0;
+  }
+
+  .bc__single-value {
+    color: ${props => props.theme.white};
+  }
+`
+
 const DisplayWrapper = styled.div`
+  border-radius: 3px;
+  background-color: ${props => props.theme[props.coin]};
+  min-height: 40px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -15,7 +41,6 @@ const DisplayWrapper = styled.div`
   padding: 5px;
   box-sizing: border-box;
   cursor: pointer;
-  min-width: 0;
 `
 const ItemWrapper = styled.div`
   display: flex;
@@ -36,7 +61,6 @@ const Text = styled.span`
   font-size: 14px;
   text-transform: ${props => (props.uppercase ? 'uppercase' : 'none')};
   font-style: normal;
-  color: ${props => props.theme['gray-5']};
   cursor: pointer;
   width: 100%;
   padding-left: 5px;
@@ -45,52 +69,46 @@ const Text = styled.span`
   text-overflow: ellipsis;
 `
 
-const renderDisplay = item => (
-  <DisplayWrapper>
-    {prop('value', item) === 'BCH' && (
-      <Icon name='bitcoin-cash' size='14px' weight={300} />
-    )}
-    {prop('value', item) === 'BTC' && (
-      <Icon name='bitcoin' size='14px' weight={300} />
-    )}
-    {prop('value', item) === 'ETH' && (
-      <Icon name='ethereum' size='14px' weight={300} />
-    )}
-    <Text>{item.text}</Text>
-  </DisplayWrapper>
-)
+const DisplayIcon = styled(Icon)`
+  font-size: 24px;
+  color: ${props => props.theme.white};
+`
 
-const renderItem = item => (
-  <ItemWrapper>
-    <Text>{item.text}</Text>
-  </ItemWrapper>
-)
+const ItemIcon = styled(Icon)`
+  font-size: 18px;
+  color: ${props => props.theme[props.coin]} !important;
+`
 
-const renderItemWithIcon = item => (
-  <ItemWrapper>
-    {path(['value', 'coin'], item) === 'BCH' && (
-      <Icon name='bitcoin-cash' size='14px' weight={300} />
-    )}
-    {path(['value', 'coin'], item) === 'BTC' && (
-      <Icon name='bitcoin' size='14px' weight={300} />
-    )}
-    {path(['value', 'coin'], item) === 'ETH' && (
-      <Icon name='ethereum' size='14px' weight={300} />
-    )}
-    <Text>{item.text}</Text>
-  </ItemWrapper>
-)
+const getIconName = coin => `exchange-${toLower(coin)}`
 
-const SelectBoxExchange = props => {
-  return props.hasOneAccount ? (
-    <SelectBox
-      {...props}
-      templateDisplay={renderDisplay}
-      templateItem={renderItemWithIcon}
-    />
-  ) : (
-    <SelectBox {...props} templateItem={renderItem} grouped />
+const renderDisplay = (props, children) => {
+  const coin = pathOr('', ['value', 'coin'], props)
+  return (
+    <DisplayWrapper className={props.className} coin={toLower(coin)}>
+      {<DisplayIcon name={getIconName(coin)} />}
+      <Text>{children}</Text>
+    </DisplayWrapper>
   )
 }
+
+const renderItem = item => {
+  const coin = pathOr('', ['value', 'coin'], item)
+  return (
+    <ItemWrapper>
+      {<ItemIcon coin={toLower(coin)} name={getIconName(coin)} />}
+      <Text>{item.text}</Text>
+    </ItemWrapper>
+  )
+}
+
+const SelectBoxExchange = props => (
+  <ExchangeSelect
+    {...props}
+    searchEnabled={false}
+    hideIndicator={true}
+    templateDisplay={renderDisplay}
+    templateItem={renderItem}
+  />
+)
 
 export default SelectBoxExchange

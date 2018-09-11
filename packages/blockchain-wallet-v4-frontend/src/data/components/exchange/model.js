@@ -8,6 +8,9 @@ export const EXCHANGE_STEPS = {
 }
 
 export const EXCHANGE_FORM = '@EXCHANGE.EXCHANGE_FORM'
+export const CONFIRM_FORM = '@EXCHANGE.CONFIRM_FORM'
+export const SHAPESHIFT_FORM = '@EXCHANGE.SHAPESHIFT_FORM'
+export const RESULTS_MODAL = '@EXCHANGE.RESULTS_MODAL'
 
 export const SHAPESHIFT_PAIRS = Remote.of([
   'BTC-BCH',
@@ -17,5 +20,3 @@ export const SHAPESHIFT_PAIRS = Remote.of([
   'ETH-BTC',
   'ETH-BCH'
 ])
-
-export const formatPair = (source, target) => `${source}-${target}`

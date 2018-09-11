@@ -4,7 +4,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { EXCHANGE_STEPS } from './model'
 
 const INITIAL_STATE = {
-  step: 1,
+  step: EXCHANGE_STEPS.EXCHANGE_FORM,
   secondStep: Remote.NotAsked,
   error: 'initial',
   payment: {},
@@ -60,6 +60,9 @@ export default (state = INITIAL_STATE, action) => {
     case AT.EXCHANGE_DESTROYED:
     case AT.EXCHANGE_THIRD_STEP_CLOSE_CLICKED: {
       return INITIAL_STATE
+    }
+    case AT.SET_STEP: {
+      return EXCHANGE_STEPS.EXCHANGE_FORM
     }
     default:
       return state

@@ -1,5 +1,5 @@
 export default ({ nabuUrl, get, post }) => {
-  const fetchRates = (pair, volume, fix, fiatCurrency) =>
+  const fetchAdvice = (pair, volume, fix, fiatCurrency) =>
     post({
       url: nabuUrl,
       endPoint: `/markets/quotes/${pair}/convert?volume=${volume}&fix=${fix}&fiatCurrency=${fiatCurrency}`,
@@ -15,7 +15,7 @@ export default ({ nabuUrl, get, post }) => {
     })
 
   return {
-    fetchRates,
+    fetchAdvice,
     fetchAvailablePairs
   }
 }
