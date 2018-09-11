@@ -2,6 +2,7 @@ import {
   assoc,
   assocPath,
   compose,
+  dissocPath,
   groupBy,
   head,
   lensProp,
@@ -79,6 +80,8 @@ export default (state = INITIAL_STATE, action) => {
       return set(bestRatesLens, Remote.Failure(payload.error), state)
     case AT.UNSUBSCRIBE_FROM_RATES:
       return set(bestRatesLens, Remote.NotAsked, state)
+    case AT.REMOVE_ADVICE:
+      return dissocPath(['pairs', payload.pair], state)
     default:
       return state
   }

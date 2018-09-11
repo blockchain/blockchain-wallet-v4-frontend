@@ -4,7 +4,6 @@ import {
   cond,
   curry,
   equals,
-  filter,
   flip,
   head,
   indexOf,
@@ -14,7 +13,6 @@ import {
   map,
   path,
   prop,
-  propEq,
   split,
   sortBy,
   uniq,
@@ -91,9 +89,9 @@ export const generateGroups = (
 
 export const getData = createDeepEqualSelector(
   [
-    selectors.components.exchange.getBtcAccounts,
-    selectors.components.exchange.getBchAccounts,
-    selectors.components.exchange.getEthAccounts,
+    selectors.components.exchange.getActiveBtcAccounts,
+    selectors.components.exchange.getActiveBchAccounts,
+    selectors.components.exchange.getActiveEthAccounts,
     selectors.core.settings.getCurrency,
     selectors.components.exchange.getFirstStepEnabled,
     selectors.components.exchange.getError,
@@ -112,16 +110,12 @@ export const getData = createDeepEqualSelector(
     const targetCoin = path(['target', 'coin'], formValues) || 'ETH'
 
     const transform = (
-      btcAccounts,
-      bchAccounts,
-      ethAccounts,
+      activeBtcAccounts,
+      activeBchAccounts,
+      activeEthAccounts,
       currency,
       availablePairs
     ) => {
-      const isActive = propEq('archived', false)
-      const activeBtcAccounts = filter(isActive, btcAccounts)
-      const activeBchAccounts = filter(isActive, bchAccounts)
-      const activeEthAccounts = filter(isActive, ethAccounts)
       const defaultBtcAccount = head(activeBtcAccounts)
       const defaultEthAccount = head(activeEthAccounts)
       const hasOneAccount = length(activeBtcAccounts) === 1

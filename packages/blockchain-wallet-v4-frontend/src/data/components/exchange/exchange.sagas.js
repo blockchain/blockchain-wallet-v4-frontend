@@ -1,4 +1,4 @@
-import { call, put, select } from 'redux-saga/effects'
+import { call, put, select, all } from 'redux-saga/effects'
 import { equals, flip, keys, path, prop } from 'ramda'
 
 import { actions, selectors, model } from 'data'
@@ -20,27 +20,39 @@ export default ({ api, coreSagas, options, networks }) => {
 
   const exchangeFormInitialized = function*() {
     yield put(actions.modules.rates.fetchAvailablePairs())
+    const { source, target } = yield select(formValueSelector)
+    const fiatCurrency = (yield select(
+      selectors.core.settings.getCurrency
+    )).getOrElse(null)
+    yield call(changeRatesSubscription, source, target, fiatCurrency)
   }
 
   const changeSubscription = function*() {
     const form = yield select(formValueSelector)
-    const { source, target } = form
+    const { source, target, fix } = form
+    const volume = form[mapFixToFieldName(fix)]
     const fiatCurrency = (yield select(
       selectors.core.settings.getCurrency
     )).getOrElse(null)
-    yield call(changeAdviceSubscription, form, source, target, fiatCurrency)
+    yield call(
+      changeAdviceSubscription,
+      volume,
+      fix,
+      source,
+      target,
+      fiatCurrency
+    )
     yield call(changeRatesSubscription, source, target, fiatCurrency)
   }
 
   const changeAdviceSubscription = function*(
-    form,
+    volume,
+    fix,
     source,
     target,
     fiatCurrency
   ) {
-    const { fix } = form
     const pair = formatPair(source.coin, target.coin)
-    const volume = form[mapFixToFieldName(fix)]
     const currentConfig = yield select(
       selectors.modules.rates.getPairConfig(pair)
     )
@@ -214,6 +226,20 @@ export default ({ api, coreSagas, options, networks }) => {
     }
   }
 
+  const clearSubscriptions = function*() {
+    const pairs = yield select(selectors.modules.rates.getActivePairs)
+    yield all(
+      pairs.map(({ pair }) =>
+        put(actions.modules.rates.unsubscribeFromAdvice(pair))
+      )
+    )
+    yield all(
+      pairs.map(({ pair }) => put(actions.modules.rates.removeAdvice(pair)))
+    )
+    yield put(actions.modules.rates.unsubscribeFromRates())
+    yield put(actions.form.reset(EXCHANGE_FORM))
+  }
+
   return {
     exchangeFormInitialized,
     changeSource,
@@ -223,6 +249,7 @@ export default ({ api, coreSagas, options, networks }) => {
     changeSourceFiatAmount,
     changeTargetFiatAmount,
     changeFix,
-    confirm
+    confirm,
+    clearSubscriptions
   }
 }

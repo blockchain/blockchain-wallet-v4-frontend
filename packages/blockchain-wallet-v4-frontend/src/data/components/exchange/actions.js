@@ -119,3 +119,6 @@ export const changeFix = fix => ({
 export const confirmExchange = () => ({
   type: AT.CONFIRM_EXCHANGE
 })
+export const clearSubscriptions = () => ({
+  type: AT.CLEAR_SUBSCRIPTIONS
+})

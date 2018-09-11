@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import moment from 'moment'
+import { replace } from 'ramda'
 import { FormattedMessage, injectIntl } from 'react-intl'
 
 import media from 'services/ResponsiveService'
@@ -22,6 +23,7 @@ const RowWrapper = styled.div`
   flex-direction: row;
   ${media.mobile`
     flex-direction: column;
+    margin-bottom: 0;
   `};
 `
 const LabelWrapper = styled.div`
@@ -44,7 +46,7 @@ const InputsWrapper = styled.div`
   flex-direction: row;
   ${media.mobile`
     width: 100%;
-    margin-top: 15px;
+    margin-top: 24px;
   `};
 `
 const InputWrapper = styled(LabelWrapper)`
@@ -73,6 +75,11 @@ const monthElements = [
     })
   }
 ]
+
+const removeExtraDigits = maxDigits =>
+  replace(new RegExp(`(.{${maxDigits}}).*`), ($0, $1) => $1)
+const formatDate = removeExtraDigits(2)
+const formatYear = removeExtraDigits(4)
 
 class DateInputBox extends React.PureComponent {
   state = {
@@ -103,13 +110,13 @@ class DateInputBox extends React.PureComponent {
   onYearChange = e =>
     this.props.input.onChange({
       ...this.props.input.value,
-      year: e.target.value
+      year: formatYear(e.target.value)
     })
 
   onDateChange = e =>
     this.props.input.onChange({
       ...this.props.input.value,
-      date: e.target.value
+      date: formatDate(e.target.value)
     })
 
   render () {
