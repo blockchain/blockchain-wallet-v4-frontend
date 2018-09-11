@@ -1,3 +1,4 @@
+import { path } from 'ramda'
 import * as AT from './actionTypes'
 
 export const reportBalanceStats = () => ({
@@ -5,7 +6,7 @@ export const reportBalanceStats = () => ({
 })
 export const logLeftNavClick = event => ({
   type: AT.LOG_LEFT_NAV_CLICK,
-  event
+  payload: { target: path(['target', 'textContent'], event) }
 })
 export const logClick = name => ({
   type: AT.LOG_CLICK,

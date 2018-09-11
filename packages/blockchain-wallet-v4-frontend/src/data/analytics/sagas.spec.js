@@ -241,7 +241,7 @@ describe('analyticsSagas', () => {
 
   describe('logLeftNavClick', () => {
     let makePayload = name => {
-      return { event: { persist: jest.fn(), target: { textContent: name } } }
+      return { payload: { target: name } }
     }
     describe('Dashboard clicked', () => {
       let { logLeftNavClick } = analyticsSagas({ coreSagas, api })
