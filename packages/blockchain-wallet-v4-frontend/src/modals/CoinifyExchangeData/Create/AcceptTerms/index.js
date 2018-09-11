@@ -17,11 +17,13 @@ class AcceptTermsContainer extends Component {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  componentDidUpdate (prevProps) {
-    if (prevProps.signupError) {
+  componentDidUpdate () {
+    /* eslint-disable */
+    if (this.props.signupError && this.state.busy) {
       this.setState({ busy: false })
       this.props.updateUI({ uniqueEmail: false })
     }
+    /* eslint-enable */
   }
 
   onSubmit () {

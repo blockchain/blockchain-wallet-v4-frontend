@@ -16,6 +16,7 @@ class ActionsContainer extends React.PureComponent {
 
   componentDidMount () {
     const { payload } = this.props.match.params
+    /* eslint-disable */
     try {
       if (startsWith('bitcoin', payload)) {
         // Special case to handle bitcoin bip21 link integration
@@ -36,6 +37,7 @@ class ActionsContainer extends React.PureComponent {
     } catch (e) {
       this.setState({ error: 'invalid_link' })
     }
+    /* eslint-enable */
   }
 
   componentWillUnmount () {

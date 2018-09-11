@@ -84,7 +84,7 @@ class ExchangeCheckout extends React.PureComponent {
 
   componentDidUpdate (prevProps) {
     const { base, quote } = prevProps
-
+    /* eslint-disable */
     if (quote && !equals(this.props.quote, quote)) {
       if (base === 'fiat') {
         this.props.change('crypto', parseFloat(quote.quoteAmount / 1e8))
@@ -105,6 +105,7 @@ class ExchangeCheckout extends React.PureComponent {
         })
       }
     }
+    /* eslint-enable */
   }
 
   setMax () {
