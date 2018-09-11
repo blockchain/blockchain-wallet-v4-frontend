@@ -11,7 +11,14 @@ class ListContainer extends React.PureComponent {
   }
 
   render () {
-    const { complete, incomplete, showComplete, showIncomplete } = this.props
+    const {
+      complete,
+      incomplete,
+      showComplete,
+      showIncomplete,
+      loadingNextPage,
+      onScrollPastFinish
+    } = this.props
 
     return (
       <List
@@ -19,6 +26,8 @@ class ListContainer extends React.PureComponent {
         incomplete={incomplete}
         showComplete={showComplete}
         showIncomplete={showIncomplete}
+        loadingNextPage={loadingNextPage}
+        handleScrollPastFinish={onScrollPastFinish}
       />
     )
   }

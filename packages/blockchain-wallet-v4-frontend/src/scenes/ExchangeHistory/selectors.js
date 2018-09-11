@@ -18,11 +18,15 @@ const getTradesWithStatus = curry((statuses, states, trades) =>
   )
 )
 
+const { exchangeHistory, exchange } = selectors.components
+
 export const getData = state => {
-  const useShapeShift = selectors.components.exchange.useShapeShift(state)
-  const tradesR = useShapeShift
-    ? selectors.core.kvStore.shapeShift.getTrades(state)
-    : selectors.components.exchangeHistory.getTrades(state)
+  const canUseExchange = exchange.canUseExchange(state)
+  const tradesR = canUseExchange
+    ? exchangeHistory.getTrades(state)
+    : selectors.core.kvStore.shapeShift.getTrades(state)
+  const allFetched = exchangeHistory.allFetched(state)
+  const loadingNextPage = exchangeHistory.loadingNextPage(state)
   const completeTradesR = lift(
     getTradesWithStatus(
       ['complete', 'resolved', 'error', 'failed'],
@@ -41,11 +45,13 @@ export const getData = state => {
       complete,
       showComplete,
       incomplete,
-      showIncomplete
+      showIncomplete,
+      loadingNextPage
     }
   }
   return {
     data: lift(transform)(completeTradesR, incompleteTradesR),
-    useShapeShift
+    canUseExchange,
+    canLoadNextPage: !loadingNextPage && !allFetched
   }
 }

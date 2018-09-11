@@ -14,14 +14,23 @@ class ExchangeHistoryContainer extends React.PureComponent {
   }
 
   componentWillUnmount () {
-    const { actions, useShapeShift } = this.props
+    const { actions, canUseExchange } = this.props
     actions.destroyed()
-    !useShapeShift && actions.clearTrades()
+    canUseExchange && actions.clearTrades()
+  }
+
+  onScrollPastFinish = () => {
+    const { actions, canUseExchange, canLoadNextPage } = this.props
+    if (!canUseExchange || !canLoadNextPage) return
+
+    actions.fetchNextPage()
   }
 
   render () {
     return this.props.data.cata({
-      Success: value => <Success {...value} />,
+      Success: value => (
+        <Success {...value} onScrollPastFinish={this.onScrollPastFinish} />
+      ),
       Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />

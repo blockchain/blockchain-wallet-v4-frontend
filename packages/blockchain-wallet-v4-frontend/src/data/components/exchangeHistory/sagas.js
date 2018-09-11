@@ -1,6 +1,16 @@
 import { cancel, call, fork, put, all, select } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { any, concat, equals, identity, isNil, last, path, prop } from 'ramda'
+import {
+  any,
+  concat,
+  equals,
+  identity,
+  isNil,
+  last,
+  map,
+  path,
+  prop
+} from 'ramda'
 import { actions, selectors } from 'data'
 import * as A from './actions'
 import * as S from './selectors'
@@ -9,8 +19,8 @@ import { PER_PAGE } from './model'
 
 export default ({ api, coreSagas }) => {
   const logLocation = 'components/exchangeHistory/sagas'
-  let pollingTradeStatusTask
-  let fetchingTradesTask
+  let pollingTradeStatusTask = null
+  let fetchingTradesTasks = []
 
   const updateTrade = function*(depositAddress) {
     try {
@@ -44,6 +54,7 @@ export default ({ api, coreSagas }) => {
 
   const fetchNextPage = function*() {
     try {
+      yield put(A.fetchTradesLoading())
       const trades = (yield select(S.getTrades)).getOrElse([])
       const lastTradeTime = prop('createdAt', last(trades))
       let nextPageTrades = yield call(api.fetchTrades, PER_PAGE, lastTradeTime)
@@ -86,7 +97,7 @@ export default ({ api, coreSagas }) => {
   const exchangeHistoryInitialized = function*() {
     try {
       const trades = yield select(selectors.core.kvStore.shapeShift.getTrades)
-      fetchingTradesTask = yield all(
+      fetchingTradesTasks = yield all(
         trades.map(trade => fork(fetchTradeData, trade))
       )
     } catch (e) {
@@ -101,9 +112,10 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const exchangeHistoryDestroyed = function*(action) {
+  const exchangeHistoryDestroyed = function*() {
     try {
-      yield cancel(fetchingTradesTask)
+      yield all(map(cancel, fetchingTradesTasks))
+      fetchingTradesTasks = []
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'exchangeHistoryDestroyed', e)
@@ -145,7 +157,10 @@ export default ({ api, coreSagas }) => {
 
   const exchangeHistoryModalDestroyed = function*() {
     try {
-      yield cancel(pollingTradeStatusTask)
+      if (pollingTradeStatusTask) {
+        yield cancel(pollingTradeStatusTask)
+        pollingTradeStatusTask = null
+      }
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(

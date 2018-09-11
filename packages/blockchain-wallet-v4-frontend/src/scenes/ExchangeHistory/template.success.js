@@ -5,7 +5,14 @@ import Empty from './Empty'
 import List from './List'
 
 const Success = props => {
-  const { complete, incomplete, showComplete, showIncomplete } = props
+  const {
+    complete,
+    incomplete,
+    showComplete,
+    showIncomplete,
+    loadingNextPage,
+    onScrollPastFinish
+  } = props
 
   return !showComplete && !showIncomplete ? (
     <Empty />
@@ -15,6 +22,8 @@ const Success = props => {
       incomplete={incomplete}
       showComplete={showComplete}
       showIncomplete={showIncomplete}
+      loadingNextPage={loadingNextPage}
+      onScrollPastFinish={onScrollPastFinish}
     />
   )
 }

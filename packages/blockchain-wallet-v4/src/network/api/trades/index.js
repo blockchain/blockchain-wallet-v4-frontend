@@ -1,4 +1,4 @@
-export default ({ nabuUrl, post }) => {
+export default ({ nabuUrl, post, get }) => {
   const executeTrade = (
     pair,
     quantity,
@@ -20,7 +20,20 @@ export default ({ nabuUrl, post }) => {
       ignoreQueryParams: true
     })
 
+  const fetchTrades = (limit, before = null) => {
+    const data = { limit }
+    if (before) data.before = before
+    return get({
+      url: nabuUrl,
+      endPoint: `/trades`,
+      data,
+      contentType: 'application/json',
+      ignoreQueryParams: true
+    })
+  }
+
   return {
-    executeTrade
+    executeTrade,
+    fetchTrades
   }
 }
