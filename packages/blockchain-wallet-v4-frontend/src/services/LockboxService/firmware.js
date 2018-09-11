@@ -1,16 +1,25 @@
 import qs from 'qs'
 
+import { createDeviceSocket } from './utils'
 import constants from './constants'
+import { toPromise } from "rxjs/operators";
 
 // checks if device is authentic
 const checkDeviceAuthenticity = (transport, baseUrl, params) => {
-  const url =
-    `${baseUrl}/${constants.socketPaths.authenticity}` +
-    `?${qs.stringify(params)}`
-  
+  return new Promise(async(resolve, reject) => {
+    const url =
+      `${baseUrl}/${constants.socketPaths.authenticity}` +
+      `?${qs.stringify(params)}`
 
-  return Promise.resolve(true)
+    const res = await createDeviceSocket(transport, url).toPromise()
+
+    if (!res) {
+      reject('DeviceGenuineSocketEarlyClose')
+    }
+    resolve(res === '0000')
+  })
 }
+
 // gets firmware information about device
 const getDeviceFirmwareInfo = transport => {
   return new Promise((resolve, reject) => {
