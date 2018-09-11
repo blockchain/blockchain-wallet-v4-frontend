@@ -14,7 +14,7 @@ class RequestBitcoinContainer extends React.PureComponent {
     this.setReceiveAddress = this.setReceiveAddress.bind(this)
   }
 
-  componentWillMount () {
+  componentDidMount () {
     this.props.resetStep()
   }
 

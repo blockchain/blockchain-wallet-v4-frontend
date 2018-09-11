@@ -51,7 +51,9 @@ exports[`ListItemContainer renders correctly 1`] = `
         "setEtherWelcome": [Function],
         "setLanguage": [Function],
         "setTheme": [Function],
+        "toggleAutoLogout": [Function],
         "toggleCoinDisplayed": [Function],
+        "warningDisplayed": [Function],
       }
     }
     store={
