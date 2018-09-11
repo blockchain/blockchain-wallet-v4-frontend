@@ -33,6 +33,7 @@ const { EXCHANGE_FORM } = model.components.exchange
 const { fixIsFiat, formatPair } = model.rates
 
 const Wrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -45,6 +46,14 @@ const Wrapper = styled.div`
     padding: 0;
     flex-direction: column;
   `};
+`
+
+const Cover = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background-color: rgba(255, 255, 255, 0.1);
 `
 
 const ColumnLeft = styled.div`
@@ -171,6 +180,7 @@ const normalizeAmount = (value, prevValue, allValues, ...args) => {
 
 const Success = props => {
   const {
+    canUseExchange,
     availablePairs,
     fromElements,
     toElements,
@@ -200,6 +210,7 @@ const Success = props => {
 
   return (
     <Wrapper>
+      {!canUseExchange && <Cover />}
       <ColumnLeft>
         <Form onSubmit={handleSubmit}>
           <FieldsWrapper>
@@ -305,17 +316,15 @@ const Success = props => {
                 }}
               />
             </AmountRow>
-            {formError && (
-              <Row spaced>
-                {formError === 'minimum' && <MinimumAmountMessage />}
-                {formError === 'maximum' && <MaximumAmountMessage />}
-                {formError === 'insufficient' && <InsufficientAmountMessage />}
-                {formError === 'regulationlimit' && (
-                  <AboveRegulationLimitMessage />
-                )}
-                {formError === 'invalid' && <InvalidAmountMessage />}
-              </Row>
-            )}
+            <Row spaced>
+              {formError === 'minimum' && <MinimumAmountMessage />}
+              {formError === 'maximum' && <MaximumAmountMessage />}
+              {formError === 'insufficient' && <InsufficientAmountMessage />}
+              {formError === 'regulationlimit' && (
+                <AboveRegulationLimitMessage />
+              )}
+              {formError === 'invalid' && <InvalidAmountMessage />}
+            </Row>
             <Row>
               <MinMaxButtonGroup>
                 <Button fullwidth>
@@ -367,5 +376,6 @@ const Success = props => {
 
 export default reduxForm({
   form: EXCHANGE_FORM,
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
+  enableReinitialize: true
 })(Success)
