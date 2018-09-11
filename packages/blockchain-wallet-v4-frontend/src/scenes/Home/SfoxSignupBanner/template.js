@@ -123,29 +123,29 @@ const getSfoxStepTitle = step => {
     case 1:
       return (
         <FormattedMessage
-          id='scenes.home.exchangeStepper.sfox.step1'
-          defaultMessage='Create Account'
+          id='scenes.home.exchangeStepper.sfox.createaccount'
+          defaultMessage='Account'
         />
       )
     case 2:
       return (
         <FormattedMessage
-          id='scenes.home.exchangeStepper.sfox.step2'
-          defaultMessage='Verify Identity'
+          id='scenes.home.exchangeStepper.sfox.identity'
+          defaultMessage='Identity'
         />
       )
     case 3:
       return (
         <FormattedMessage
-          id='scenes.home.exchangeStepper.sfox.step3'
-          defaultMessage='Upload Documents'
+          id='scenes.home.exchangeStepper.sfox.verification'
+          defaultMessage='Verification'
         />
       )
     case 4:
       return (
         <FormattedMessage
-          id='scenes.home.exchangeStepper.sfox.step4'
-          defaultMessage='Link Bank'
+          id='scenes.home.exchangeStepper.sfox.funding'
+          defaultMessage='Funding'
         />
       )
     default:

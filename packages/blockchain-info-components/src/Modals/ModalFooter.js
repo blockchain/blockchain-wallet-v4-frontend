@@ -37,10 +37,10 @@ const selectAlignment = align => {
 }
 
 const ModalFooter = props => {
-  const { align, children } = props
+  const { align, children, ...rest } = props
   const alignment = selectAlignment(align)
   return (
-    <Wrapper>
+    <Wrapper {...rest}>
       <Footer alignment={alignment}>{children}</Footer>
     </Wrapper>
   )

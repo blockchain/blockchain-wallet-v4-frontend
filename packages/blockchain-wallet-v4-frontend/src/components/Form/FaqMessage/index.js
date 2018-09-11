@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Text } from 'blockchain-info-components'
+import { Text, Icon } from 'blockchain-info-components'
 
 const Container = styled.div`
   box-sizing: border-box;
@@ -19,23 +19,21 @@ const Message = styled(Text)`
   line-height: 20px;
   font-weight: 300;
 `
-const Bulb = styled(Text)`
+const FaqIcon = styled(Icon)`
   color: ${props => props.theme['brand-primary']};
   font-size: 24px;
-  border: 3px solid ${props => props.theme['brand-primary']};
-  border-radius: 3px;
   display: flex;
   width: 24px;
   justify-content: center;
   height: 24px;
   line-height: 24px;
-  font-weight: 600;
+  font-weight: 400;
   margin-bottom: 16px;
 `
 
-const FaqMessage = ({ title, text, ...rest }) => (
+const FaqMessage = ({ title, text, icon, ...rest }) => (
   <Container {...rest}>
-    <Bulb>?</Bulb>
+    <FaqIcon name={icon} />
     <Title>{title}</Title>
     <Message>{text}</Message>
   </Container>
