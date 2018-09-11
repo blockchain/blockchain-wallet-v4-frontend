@@ -85,7 +85,7 @@ const ConfirmDisable2FA = props => {
           <Text size='12px' weight={200} cursor='pointer' onClick={closeAll}>
             Close
           </Text>
-          <Button nature='logout' onClick={handleContinue}>
+          <Button nature='warning' onClick={handleContinue}>
             <FormattedMessage
               id='modals.disable2fa.disable'
               defaultMessage='Disable'

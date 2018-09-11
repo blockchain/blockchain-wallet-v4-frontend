@@ -38,7 +38,7 @@ const CoinifyDeleteBank = props => {
             defaultMessage='Cancel'
           />
         </Link>
-        <Button onClick={handleSubmit} nature='logout'>
+        <Button onClick={handleSubmit} nature='warning'>
           <FormattedMessage
             id='modals.coinifydeletebank.logout'
             defaultMessage='Delete'
