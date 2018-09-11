@@ -15,11 +15,22 @@ const isActiveAccount = accounts => {
   return accounts[0] && accounts[0].status === 'active'
 }
 
-export const determineStep = (profile, verificationStatus, accounts, jumioToken, jumioCompleted) => {
+export const determineStep = (
+  profile,
+  verificationStatus,
+  accounts,
+  jumioToken,
+  jumioCompleted
+) => {
   if (!profile) return 'account'
   if (prop('level', verificationStatus) === 'unverified') return 'verify'
-  if (prop('level', verificationStatus) === 'needs_documents' || (jumioToken && !jumioCompleted)) return 'upload'
-  if (!length(accounts) || prop('status', head(accounts)) === 'pending') return 'funding'
+  if (
+    prop('level', verificationStatus) === 'needs_documents' ||
+    (jumioToken && !jumioCompleted)
+  )
+    return 'upload'
+  if (!length(accounts) || prop('status', head(accounts)) === 'pending')
+    return 'funding'
   return 'verified'
 }
 

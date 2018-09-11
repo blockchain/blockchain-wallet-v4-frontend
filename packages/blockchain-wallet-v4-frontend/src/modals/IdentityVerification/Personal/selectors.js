@@ -36,6 +36,7 @@ export const getData = state => ({
     .getOrElse(null),
   possibleAddresses: getPossibleAddresses(state),
   countryCode: prop('code', formValSelector(state, 'country')),
+  postCode: formValSelector(state, 'postCode'),
   address: formValSelector(state, 'address'),
   supportedCountries: getSupportedCountries(state),
   activeField: activeFieldSelector(state),

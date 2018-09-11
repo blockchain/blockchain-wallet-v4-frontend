@@ -1,3 +1,4 @@
+import analytics from './analytics'
 import bitcoin from './btc'
 import delegate from './delegate'
 import ethereum from './eth'
@@ -26,6 +27,7 @@ export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
   const shapeShiftApiKey = options.platforms.web.shapeshift.config.apiKey
 
   return {
+    ...analytics({rootUrl, apiUrl, get, post}),
     ...bitcoin({ rootUrl, apiUrl, get, post }),
     ...delegate({ rootUrl, apiUrl, get, post }),
     ...ethereum({ rootUrl, apiUrl, get, post }),
