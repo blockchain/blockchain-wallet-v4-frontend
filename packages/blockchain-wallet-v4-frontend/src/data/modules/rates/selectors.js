@@ -2,6 +2,7 @@ import {
   compose,
   curry,
   values,
+  lift,
   path,
   prop,
   propOr,
@@ -17,10 +18,17 @@ export const getActivePairs = compose(
 
 const getPair = curry((pair, state) => path(['rates', 'pairs', pair], state))
 
+export const getPairQuote = curry(
+  compose(
+    propOr(Remote.NotAsked, 'quote'),
+    getPair
+  )
+)
+
 export const getPairAdvice = curry(
   compose(
-    propOr(Remote.NotAsked, 'advice'),
-    getPair
+    lift(prop('currencyRatio')),
+    getPairQuote
   )
 )
 export const getPairConfig = curry(
