@@ -11,11 +11,13 @@ import { actions } from 'data'
 class WalletRecoveryPhraseContainer extends React.PureComponent {
   constructor (props) {
     super(props)
-
+    this.state = {
+      nextStepToggled: false,
+      descriptionToggled: false
+    }
     this.toggleNextStep = this.toggleNextStep.bind(this)
     this.closeSteps = this.closeSteps.bind(this)
     this.changeDescription = this.changeDescription.bind(this)
-    this.state = {}
   }
 
   componentDidUpdate (prevProps) {
