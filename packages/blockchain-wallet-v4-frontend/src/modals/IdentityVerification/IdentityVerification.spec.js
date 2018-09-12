@@ -209,7 +209,7 @@ fdescribe('IdentityVerification Modal', () => {
             target: { value: POSSIBLE_ADDRESSES[0]['state'] }
           })
         await jest.runAllTimers()
-        flushPromises()
+        await flushPromises()
         wrapper.update()
 
         expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
