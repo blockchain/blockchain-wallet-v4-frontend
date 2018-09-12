@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
-import ui from 'redux-ui'
 import { equals, isEmpty } from 'ramda'
 
 import { actions, selectors } from 'data'
@@ -12,19 +11,24 @@ import Settings from './template.js'
 class SettingsContainer extends React.PureComponent {
   constructor (props) {
     super(props)
+    this.state = {
+      updateToggled: false
+    }
     this.onSubmit = this.onSubmit.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
   }
 
-
-  componentDidMount (prevProps) {
-    if (!equals(this.props.currentWhitelist, prevProps.currentWhitelist)) {
-      this.props.updateUI({ updateToggled: false })
-    }
+  componentWillMount () {
     if (!isEmpty(this.props.currentWhitelist)) {
       this.props.formActions.initialize('settingIPWhitelist', {
         IPWhitelist: this.props.currentWhitelist
       })
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (!equals(this.props.currentWhitelist, nextProps.currentWhitelist)) {
+      this.props.updateUI({ updateToggled: false })
     }
   }
 
@@ -34,16 +38,18 @@ class SettingsContainer extends React.PureComponent {
   }
 
   handleToggle () {
-    this.props.updateUI({ updateToggled: !this.props.ui.updateToggled })
+    this.setState({
+      updateToggled: !this.state.updateToggled
+    })
   }
 
   render () {
-    const { ui, ...rest } = this.props
+    const { ...rest } = this.props
     return (
       <Settings
         {...rest}
         onSubmit={this.onSubmit}
-        updateToggled={ui.updateToggled}
+        updateToggled={this.state.updateToggled}
         handleToggle={this.handleToggle}
         handleCancel={() => {
           this.props.formActions.reset('settingIPWhitelist')
@@ -64,19 +70,11 @@ const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({
-    key: 'Setting_IPWhitelist',
-    state: { updateToggled: false, verifyToggled: false }
-  })
-)
-
 SettingsContainer.propTypes = {
   currentWhitelist: PropTypes.string
 }
 
-export default enhance(SettingsContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SettingsContainer)
