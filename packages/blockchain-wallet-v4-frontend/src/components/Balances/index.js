@@ -11,7 +11,7 @@ export const Wrapper = styled.div`
   cursor: pointer;
   position: relative;
   min-width: 160px;
-  padding: 10px;
+  padding: 15px 20px 0px 20px;
   > div:not(:last-child) {
     margin-bottom: 5px;
   }
@@ -22,6 +22,27 @@ export const Header = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px !important;
+  // Caret icon rotation
+  > span:last-child {
+    transition: transform 0.3s;
+    &.active {
+      transform: rotate(90deg);
+    }
+  }
+`
+
+export const HeaderText = styled(Text)`
+  display: flex;
+  flex-direction: row;
+`
+
+export const BalancesWrapper = styled.div`
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.3s;
+  &.active {
+    max-height: ${props => props.items * 20}px;
+  }
 `
 
 export const CoinBalanceWrapper = props => {

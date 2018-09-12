@@ -12,7 +12,13 @@ const INITIAL_STATE = {
   showEtherWelcome: true,
   showBackupReminder: true,
   showBitcoinWelcome: true,
-  showBitcoinCashWelcome: true
+  showBitcoinCashWelcome: true,
+  totalBalancesDropdown: {
+    wallet: true,
+    lockbox: false,
+    pending: false,
+    watchOnly: false
+  }
 }
 
 const preferences = (state = INITIAL_STATE, action) => {
@@ -50,6 +56,10 @@ const preferences = (state = INITIAL_STATE, action) => {
     }
     case AT.SET_BALANCES_CHART_TAB: {
       return assoc('balancesTable', payload, state)
+    }
+    case AT.SET_TOTAL_BALANCES_DROPDOWN: {
+      const { key, val } = payload
+      return assocPath(['totalBalancesDropdown', key], val, state)
     }
     case priceChartActionTypes.PRICE_CHART_COIN_CLICKED: {
       const { coin } = payload
