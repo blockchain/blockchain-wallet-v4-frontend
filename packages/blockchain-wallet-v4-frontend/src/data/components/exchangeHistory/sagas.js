@@ -1,9 +1,10 @@
-import { cancel, call, fork, join, put, all, select } from 'redux-saga/effects'
+import { cancel, call, fork, put, all, select, spawn } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import {
   any,
   concat,
   compose,
+  contains,
   equals,
   identity,
   indexBy,
@@ -18,12 +19,14 @@ import { actions, selectors } from 'data'
 import * as A from './actions'
 import * as S from './selectors'
 import * as C from 'services/AlertService'
-import { PER_PAGE } from './model'
+import { PER_PAGE, INCOMPLETE_STATES } from './model'
 
 export default ({ api, coreSagas }) => {
   const logLocation = 'components/exchangeHistory/sagas'
-  let pollingTradeStatusTask = null
+  const pollTimeout = 5000
+  let pollingShapeShiftTask = null
   let fetchingTradesTasks = []
+  let pollingExchangeTask = null
 
   const updateTrade = function*(depositAddress) {
     try {
@@ -55,6 +58,48 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const updateExchangeTrade = function*(trade) {
+    try {
+      const id = prop('id', trade)
+      const tradeData = yield call(api.fetchTrade, id)
+      yield put(A.updateTrade(id, tradeData))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'updateExchangeTrade', e)
+      )
+    }
+  }
+
+  const pollExchangeTrades = function*(trades) {
+    try {
+      while (true) {
+        yield all(map(trade => fork(updateExchangeTrade, trade), trades))
+        yield delay(pollTimeout)
+      }
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'pollExchangeTrades', e)
+      )
+    }
+  }
+
+  const initTradePolling = function*(trades) {
+    const incompleteTrades = trades.filter(({ state }) =>
+      contains(state, INCOMPLETE_STATES)
+    )
+    yield call(stopPollingTrades)
+    if (!isEmpty(incompleteTrades)) {
+      pollingExchangeTask = yield spawn(pollExchangeTrades, incompleteTrades)
+    }
+  }
+
+  const stopPollingTrades = function*() {
+    if (pollingExchangeTask) {
+      yield cancel(pollingExchangeTask)
+      pollingExchangeTask = null
+    }
+  }
+
   const fetchNextPage = function*() {
     try {
       yield put(A.fetchTradesLoading())
@@ -68,7 +113,9 @@ export default ({ api, coreSagas }) => {
         yield put(A.allFetched())
         nextPageTrades = concat(nextPageTrades, shapeShiftTrades)
       }
-      yield put(A.fetchTradesSuccess(concat(trades, nextPageTrades)))
+      const newTrades = concat(trades, nextPageTrades)
+      yield call(initTradePolling, newTrades)
+      yield put(A.fetchTradesSuccess(newTrades))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'fetchNextPage', e))
       yield put(A.fetchTradesError(e))
@@ -125,13 +172,10 @@ export default ({ api, coreSagas }) => {
       const trades = (yield select(
         selectors.core.kvStore.shapeShift.getTrades
       )).getOrElse([])
-      fetchingTradesTasks = yield all(
-        trades.map(trade => fork(fetchTradeData, trade))
-      )
+      const updatedTrades = (yield all(
+        trades.map(trade => call(fetchTradeData, trade))
+      )).filter(Boolean)
       if (userFlowSupported) {
-        const updatedTrades = (yield join(...fetchingTradesTasks)).filter(
-          Boolean
-        )
         yield call(updateDisplayedShapeShiftTrades, updatedTrades)
       }
     } catch (e) {
@@ -161,7 +205,7 @@ export default ({ api, coreSagas }) => {
     try {
       while (true) {
         yield call(updateTrade, depositAddress)
-        yield call(delay, 5000)
+        yield call(delay, pollTimeout)
       }
     } catch (e) {
       yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADE_ERROR))
@@ -174,7 +218,7 @@ export default ({ api, coreSagas }) => {
   const exchangeHistoryModalInitialized = function*(action) {
     try {
       const { depositAddress } = action.payload
-      pollingTradeStatusTask = yield fork(
+      pollingShapeShiftTask = yield fork(
         startPollingTradeStatus,
         depositAddress
       )
@@ -191,9 +235,9 @@ export default ({ api, coreSagas }) => {
 
   const exchangeHistoryModalDestroyed = function*() {
     try {
-      if (pollingTradeStatusTask) {
-        yield cancel(pollingTradeStatusTask)
-        pollingTradeStatusTask = null
+      if (pollingShapeShiftTask) {
+        yield cancel(pollingShapeShiftTask)
+        pollingShapeShiftTask = null
       }
     } catch (e) {
       yield put(
@@ -211,6 +255,7 @@ export default ({ api, coreSagas }) => {
     exchangeHistoryDestroyed,
     exchangeHistoryModalInitialized,
     exchangeHistoryModalDestroyed,
-    fetchNextPage
+    fetchNextPage,
+    stopPollingTrades
   }
 }

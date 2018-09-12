@@ -20,12 +20,20 @@ export default ({ nabuUrl, post, get }) => {
       ignoreQueryParams: true
     })
 
+  const fetchTrade = id =>
+    get({
+      url: nabuUrl,
+      endPoint: `/trades/${id}`,
+      contentType: 'application/json',
+      ignoreQueryParams: true
+    })
+
   const fetchTrades = (limit, before = null) => {
     const data = { limit }
     if (before) data.before = before
     return get({
       url: nabuUrl,
-      endPoint: `/trades`,
+      endPoint: '/trades',
       data,
       contentType: 'application/json',
       ignoreQueryParams: true
@@ -34,6 +42,7 @@ export default ({ nabuUrl, post, get }) => {
 
   return {
     executeTrade,
+    fetchTrade,
     fetchTrades
   }
 }

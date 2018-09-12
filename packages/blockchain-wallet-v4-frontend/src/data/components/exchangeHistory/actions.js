@@ -32,3 +32,10 @@ export const allFetched = () => ({
 export const clearTrades = () => ({
   type: AT.CLEAR_TRADES
 })
+export const updateTrade = (id, trade) => ({
+  type: AT.UPDATE_TRADE,
+  payload: { id, trade }
+})
+export const stopPollingTrades = () => ({
+  type: AT.STOP_POLLING_TRADES
+})

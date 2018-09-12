@@ -16,7 +16,10 @@ class ExchangeHistoryContainer extends React.PureComponent {
   componentWillUnmount () {
     const { actions, canUseExchange } = this.props
     actions.destroyed()
-    canUseExchange && actions.clearTrades()
+    if (canUseExchange) {
+      actions.clearTrades()
+      actions.stopPollingTrades()
+    }
   }
 
   onScrollPastFinish = () => {

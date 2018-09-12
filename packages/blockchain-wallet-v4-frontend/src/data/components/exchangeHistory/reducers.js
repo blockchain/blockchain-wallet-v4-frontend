@@ -1,4 +1,4 @@
-import { assoc, compose } from 'ramda'
+import { always, assoc, compose, identity, ifElse, map, propEq } from 'ramda'
 import * as AT from './actionTypes'
 import { Remote } from 'blockchain-wallet-v4/src'
 
@@ -8,6 +8,9 @@ const INITIAL_STATE = {
   error: null,
   trades: Remote.NotAsked
 }
+
+const updateTrade = (id, tradeData) =>
+  map(ifElse(propEq('id', id), always(tradeData), identity))
 
 export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
@@ -31,6 +34,13 @@ export default (state = INITIAL_STATE, action) => {
         assoc('error', payload.error),
         assoc('loadingNextPage', false)
       )(state)
+    }
+    case AT.UPDATE_TRADE: {
+      return assoc(
+        'trades',
+        state.trades.map(updateTrade(payload.id, payload.trade)),
+        state
+      )
     }
     case AT.ALL_FETCHED: {
       return assoc('allFetched', true, state)

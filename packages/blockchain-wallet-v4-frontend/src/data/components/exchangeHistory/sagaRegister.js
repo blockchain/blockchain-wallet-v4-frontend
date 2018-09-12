@@ -23,5 +23,9 @@ export default ({ api, coreSagas }) => {
       exchangeHistorySagas.exchangeHistoryModalDestroyed
     )
     yield takeLatest(AT.FETCH_NEXT_PAGE, exchangeHistorySagas.fetchNextPage)
+    yield takeLatest(
+      AT.STOP_POLLING_TRADES,
+      exchangeHistorySagas.stopPollingTrades
+    )
   }
 }
