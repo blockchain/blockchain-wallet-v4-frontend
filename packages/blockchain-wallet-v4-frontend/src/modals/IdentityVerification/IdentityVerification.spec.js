@@ -74,7 +74,6 @@ getCountryCode.mockImplementation(() => Remote.of('FR'))
 getPossibleAddresses.mockImplementation(() => POSSIBLE_ADDRESSES)
 getSmsStep.mockImplementation(() => Remote.of(SMS_STEPS.edit))
 getSupportedCountries.mockImplementation(() => Remote.Success(SUPPORTED_COUNTRIES))
-getVerificationStep.mockImplementation(() => STEPS.personal)
 
 profileSagas.createUser = jest.fn()
 
@@ -131,6 +130,7 @@ describe('IdentityVerification Modal', () => {
   })
 
   describe('form behaviour', () => {
+    getVerificationStep.mockImplementation(() => STEPS.personal)
     beforeEach(() => {
       store.dispatch(actions.modals.showModal(MODAL_NAME))
       coreSagas.settings.sendConfirmationCodeEmail.mockClear()
@@ -149,6 +149,7 @@ describe('IdentityVerification Modal', () => {
       })
 
       it('should be disabled and not submit by default', () => {
+        debugger
         expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
           true
         )
@@ -265,9 +266,8 @@ describe('IdentityVerification Modal', () => {
   })
 
   describe('mobile verification form', () => {
-    getVerificationStep.mockImplementation(() => STEPS.mobile)
-
     beforeEach(() => {
+      getVerificationStep.mockImplementation(() => STEPS.mobile)
       store.dispatch(actions.modals.showModal(MODAL_NAME))
       coreSagas.settings.sendConfirmationCodeEmail.mockClear()
       // coreSagas.settings.setMobile.mockClear()
