@@ -59,7 +59,7 @@ export default ({ api, ethSocket }) => {
             }
           }
           // Updates data
-          const context = yield select(selectors.core.data.ethereum.getContext)
+          const context = [message.account]
           yield put(actions.core.data.ethereum.fetchData(context))
           break
         case BLOCK_SUB:

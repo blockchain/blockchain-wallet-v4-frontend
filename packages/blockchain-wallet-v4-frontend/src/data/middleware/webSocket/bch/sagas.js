@@ -52,7 +52,7 @@ export default ({ api, bchSocket }) => {
       switch (message.op) {
         case 'utx':
           // Find out if the transaction is sent/received to show a notification
-          const context = yield select(selectors.core.wallet.getContext)
+          const context = yield select(selectors.core.data.bch.getContext)
           const data = yield call(api.fetchBchData, context, {
             n: 50,
             offset: 0
@@ -68,7 +68,7 @@ export default ({ api, bchSocket }) => {
             }
           }
           // Refresh data
-          yield put(actions.core.data.bitcoin.fetchData())
+          yield put(actions.core.data.bch.fetchData())
           // If we are on the transaction page, fetch transactions related to the selected account
           const pathname = yield select(selectors.router.getPathname)
           if (equals(pathname, '/bch/transactions')) {
