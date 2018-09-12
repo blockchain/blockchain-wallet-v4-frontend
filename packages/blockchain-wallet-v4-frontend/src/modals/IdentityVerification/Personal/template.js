@@ -401,6 +401,7 @@ const Personal = ({
                         </Text>
                         <Field
                           name='address'
+                          validate={required}
                           elements={possibleAddresses}
                           onChange={onAddressSelect}
                           templateDisplay={renderAddressDisplay}
