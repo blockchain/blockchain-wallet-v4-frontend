@@ -130,7 +130,9 @@ export default ({ api, coreSagas }) => {
       yield put(A.saveNewDeviceKvStoreSuccess())
       yield put(actions.modals.closeModal())
       yield put(actions.router.push('/lockbox/dashboard'))
+      yield put(actions.core.data.bch.fetchData())
       yield put(actions.core.data.bitcoin.fetchData())
+      yield put(actions.core.data.ethereum.fetchData())
       yield put(actions.alerts.displaySuccess(C.LOCKBOX_SETUP_SUCCESS))
     } catch (e) {
       yield put(A.saveNewDeviceKvStoreFailure(e))
