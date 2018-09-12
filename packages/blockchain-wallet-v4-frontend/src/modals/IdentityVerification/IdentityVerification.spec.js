@@ -18,7 +18,7 @@ import * as actionTypes from 'data/actionTypes'
 import IdentityVerification from './index'
 import Tray from 'components/Tray'
 import { ModalHeader } from 'blockchain-info-components'
-import { last, contains } from 'ramda'
+import { last } from 'ramda'
 import {
   getUserId,
   getLifetimeToken
@@ -68,7 +68,7 @@ profileSagas.createUser = jest.fn()
 const stubMail = 'mail@mail.com'
 const stubMobile = '+1 123 1234567'
 
-fdescribe('IdentityVerification Modal', () => {
+describe('IdentityVerification Modal', () => {
   beforeEach(() => {
     dispatchSpy.mockClear()
   })
