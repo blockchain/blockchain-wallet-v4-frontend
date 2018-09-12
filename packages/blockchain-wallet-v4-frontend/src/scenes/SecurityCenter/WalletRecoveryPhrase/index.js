@@ -5,7 +5,6 @@ import { path } from 'ramda'
 import ui from 'redux-ui'
 import { getData } from './selectors'
 import Success from './template.success'
-
 import { actions } from 'data'
 
 class WalletRecoveryPhraseContainer extends React.PureComponent {
