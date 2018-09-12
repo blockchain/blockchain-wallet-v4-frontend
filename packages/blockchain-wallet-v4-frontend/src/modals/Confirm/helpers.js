@@ -19,6 +19,13 @@ export const selectTitle = title => {
           defaultMessage='Trade In Progress'
         />
       )
+    case C.CONFIRM_DELETE_LOCKBOX_TITLE:
+      return (
+        <FormattedMessage
+          id='modals.confirm.title.lockbox'
+          defaultMessage='Unpair Device'
+        />
+      )
     default:
       return (
         <FormattedMessage id='modals.confirm.title' defaultMessage='Confirm' />
@@ -59,6 +66,13 @@ export const selectMessage = (message, values) => {
             />
           </Text>
         </Fragment>
+      )
+    case C.CONFIRM_DELETE_LOCKBOX_MESSAGE:
+      return (
+        <FormattedMessage
+          id='modals.confirm.message.lockbox'
+          defaultMessage='Are you sure you want to unpair your device? You will lose all balance, transaction, and account data.'
+        />
       )
     default:
       return (

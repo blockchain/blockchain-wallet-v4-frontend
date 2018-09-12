@@ -6,7 +6,9 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as C from 'services/AlertService'
 import * as S from './selectors'
+import * as CC from 'services/ConfirmService'
 import * as LockboxService from 'services/LockboxService'
+import { confirm } from 'services/SagaService'
 
 const logLocation = 'components/lockbox/sagas'
 
@@ -130,7 +132,9 @@ export default ({ api, coreSagas }) => {
       yield put(A.saveNewDeviceKvStoreSuccess())
       yield put(actions.modals.closeModal())
       yield put(actions.router.push('/lockbox/dashboard'))
+      yield put(actions.core.data.bch.fetchData())
       yield put(actions.core.data.bitcoin.fetchData())
+      yield put(actions.core.data.ethereum.fetchData())
       yield put(actions.alerts.displaySuccess(C.LOCKBOX_SETUP_SUCCESS))
     } catch (e) {
       yield put(A.saveNewDeviceKvStoreFailure(e))
@@ -165,15 +169,28 @@ export default ({ api, coreSagas }) => {
   const deleteDevice = function*(action) {
     try {
       const { deviceID } = action.payload
-      yield put(A.deleteDeviceLoading())
-      yield put(actions.core.kvStore.lockbox.deleteDeviceLockbox(deviceID))
-      yield put(actions.router.push('/lockbox'))
-      yield put(A.deleteDeviceSuccess())
-      yield put(actions.alerts.displaySuccess(C.LOCKBOX_DELETE_SUCCESS))
+      const confirmed = yield call(confirm, {
+        title: CC.CONFIRM_DELETE_LOCKBOX_TITLE,
+        message: CC.CONFIRM_DELETE_LOCKBOX_MESSAGE,
+        nature: 'warning'
+      })
+      if (confirmed) {
+        try {
+          yield put(A.deleteDeviceLoading())
+          yield put(actions.core.kvStore.lockbox.deleteDeviceLockbox(deviceID))
+          yield put(actions.router.push('/lockbox'))
+          yield put(A.deleteDeviceSuccess())
+          yield put(actions.alerts.displaySuccess(C.LOCKBOX_DELETE_SUCCESS))
+        } catch (e) {
+          yield put(A.deleteDeviceFailure(e))
+          yield put(actions.alerts.displayError(C.LOCKBOX_DELETE_ERROR))
+          yield put(
+            actions.logs.logErrorMessage(logLocation, 'deleteDevice', e)
+          )
+        }
+      }
     } catch (e) {
-      yield put(A.deleteDeviceFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'deleteDevice', e))
-      yield put(actions.alerts.displayError(C.LOCKBOX_DELETE_ERROR))
     }
   }
 

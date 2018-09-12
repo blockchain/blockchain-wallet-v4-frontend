@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 
 import { TableCell, TableRow, Text, Link } from 'blockchain-info-components'
-import OrderStatus from './OrderStatus'
+import { selectColor, OrderStatus } from 'components/OrderStatus'
 import media from 'services/ResponsiveService'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
@@ -41,10 +41,17 @@ const TradeItem = props => {
       {({ mobile }) => (
         <TableRow>
           <StatusContainer width='30%' mobileWidth='25%'>
-            <TableCell width='30%'>
-              <OrderStatus status={status} size={mobile ? '12px' : '14px'} />
+            <TableCell width='50%'>
+              <Text
+                weight={300}
+                size={mobile ? '12px' : '14px'}
+                capitalize
+                color={selectColor(status)}
+              >
+                <OrderStatus status={status} />
+              </Text>
             </TableCell>
-            <TableCell width='70%'>
+            <TableCell width='50%'>
               <Link
                 size={mobile ? '12px' : '14px'}
                 weight={300}

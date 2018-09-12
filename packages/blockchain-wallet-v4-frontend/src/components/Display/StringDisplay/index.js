@@ -15,6 +15,11 @@ const Wrapper = styled.div`
   align-items: center;
   box-sizing: border-box;
 `
+const Loader = styled(FlatLoader)`
+  width: 50px;
+  height: 14px;
+  margin: 5px 0;
+`
 
 class StringDisplayContainer extends React.PureComponent {
   render () {
@@ -28,8 +33,8 @@ class StringDisplayContainer extends React.PureComponent {
               {message}
             </Text>
           ),
-          Loading: () => <FlatLoader width='50px' height='14px' />,
-          NotAsked: () => <FlatLoader width='50px' height='14px' />
+          Loading: () => <Loader />,
+          NotAsked: () => <Loader />
         })}
       </Wrapper>
     )

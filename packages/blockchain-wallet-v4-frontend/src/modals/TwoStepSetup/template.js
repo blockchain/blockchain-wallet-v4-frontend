@@ -85,7 +85,7 @@ const TwoStepSetup = props => {
             defaultMessage='Cancel'
           />
         </Link>
-        <Button nature='logout' onClick={handleDisable}>
+        <Button nature='warning' onClick={handleDisable}>
           <FormattedMessage
             id='modals.twostepsetup.disable'
             defaultMessage='Disable'

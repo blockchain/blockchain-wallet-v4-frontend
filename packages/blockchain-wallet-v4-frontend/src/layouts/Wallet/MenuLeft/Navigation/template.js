@@ -13,6 +13,7 @@ import { Icon, Text } from 'blockchain-info-components'
 
 const Navigation = props => {
   const {
+    logClick,
     menuOpened,
     lockboxOpened,
     settingsOpened,
@@ -24,7 +25,8 @@ const Navigation = props => {
   } = props.data
 
   return (
-    <Wrapper {...rest}>
+    <Wrapper {...rest} onClick={logClick}>
+      {/* If updating navigation item names dont forget to update analytics saga */}
       <LinkContainer to='/home' activeClassName='active'>
         <MenuItem>
           <Icon name='nav-home' />

@@ -11,7 +11,7 @@ class FaqIconContainer extends React.PureComponent {
     return (
       <FaqIcon
         highlighted={this.props.highlighted}
-        handleClick={() => this.props.actions.layoutWalletFaqClicked()}
+        handleClick={this.props.actions.layoutWalletFaqClicked}
       />
     )
   }

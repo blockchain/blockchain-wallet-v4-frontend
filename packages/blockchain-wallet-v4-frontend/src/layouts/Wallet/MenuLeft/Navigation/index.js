@@ -9,11 +9,12 @@ import Navigation from './template.js'
 
 class NavigationContainer extends React.PureComponent {
   render () {
-    const { actions, ...props } = this.props
+    const { actions, analytics, ...props } = this.props
     return (
       <Navigation
         {...props}
         handleCloseMenu={actions.layoutWalletMenuCloseClicked}
+        logClick={analytics.logLeftNavClick}
       />
     )
   }
@@ -24,7 +25,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.layoutWallet, dispatch)
+  actions: bindActionCreators(actions.components.layoutWallet, dispatch),
+  analytics: bindActionCreators(actions.analytics, dispatch)
 })
 
 const enhance = compose(
