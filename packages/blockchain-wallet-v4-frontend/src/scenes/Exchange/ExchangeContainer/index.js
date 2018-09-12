@@ -1,24 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { EXCHANGE_STEPS } from 'data/components/exchange/model'
+import { actions, model } from 'data'
 
 import ExchangeForm from '../ExchangeForm'
-import ExchangeResults from '../ExchangeResults'
 import ExchangeConfirm from '../ExchangeConfirm'
 import { getData } from './selectors'
 
-const ExchangeContainer = ({ step }) => {
-  switch (step) {
-    case EXCHANGE_STEPS.EXCHANGE_FORM:
-      return <ExchangeForm />
-    case EXCHANGE_STEPS.CONFIRM:
-      return <ExchangeConfirm />
-    case EXCHANGE_STEPS.EXCHANGE_RESULT:
-      return <ExchangeResults />
-    default:
-      return <ExchangeForm />
+const { EXCHANGE_STEPS } = model.components.exchange
+
+class ExchangeContainer extends React.PureComponent {
+  componentWillUnmount () {
+    this.props.actions.clearSubscriptions()
+  }
+
+  render () {
+    const { step } = this.props
+    switch (step) {
+      case EXCHANGE_STEPS.EXCHANGE_FORM:
+        return <ExchangeForm />
+      case EXCHANGE_STEPS.CONFIRM:
+        return <ExchangeConfirm />
+      default:
+        return <ExchangeForm />
+    }
   }
 }
 
@@ -26,4 +33,11 @@ ExchangeContainer.propTypes = {
   step: PropTypes.number.isRequired
 }
 
-export default connect(getData)(ExchangeContainer)
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(actions.components.exchange, dispatch)
+})
+
+export default connect(
+  getData,
+  mapDispatchToProps
+)(ExchangeContainer)

@@ -1,5 +1,5 @@
-import { call, put, select } from 'redux-saga/effects'
-import { equals, flip, keys, path, prop } from 'ramda'
+import { call, put, select, all } from 'redux-saga/effects'
+import { equals, keys, path, prop } from 'ramda'
 
 import { actions, selectors, model } from 'data'
 import { EXCHANGE_FORM, CONFIRM_FORM } from './model'
@@ -8,15 +8,12 @@ import * as S from './selectors'
 import { promptForSecondPassword } from 'services/SagaService'
 import { selectReceiveAddress } from '../utils/sagas'
 
+const noAdviceError = 'No advice present'
+
 export default ({ api, coreSagas, options, networks }) => {
-  const {
-    mapFixToFieldName,
-    swapBaseAndCounter,
-    configEquals,
-    formatPair
-  } = model.rates
+  const { mapFixToFieldName, configEquals, formatPair } = model.rates
   const formValueSelector = selectors.form.getFormValues(EXCHANGE_FORM)
-  const { selectOtherAccount, createPayment } = utils({
+  const { getDefaultAccount, createPayment } = utils({
     api,
     coreSagas,
     options,
@@ -25,27 +22,39 @@ export default ({ api, coreSagas, options, networks }) => {
 
   const exchangeFormInitialized = function*() {
     yield put(actions.modules.rates.fetchAvailablePairs())
+    const { source, target } = yield select(formValueSelector)
+    const fiatCurrency = (yield select(
+      selectors.core.settings.getCurrency
+    )).getOrElse(null)
+    yield call(changeRatesSubscription, source, target, fiatCurrency)
   }
 
   const changeSubscription = function*() {
     const form = yield select(formValueSelector)
-    const { source, target } = form
+    const { source, target, fix } = form
+    const volume = form[mapFixToFieldName(fix)]
     const fiatCurrency = (yield select(
       selectors.core.settings.getCurrency
     )).getOrElse(null)
-    yield call(changeAdviceSubscription, form, source, target, fiatCurrency)
+    yield call(
+      changeAdviceSubscription,
+      volume,
+      fix,
+      source,
+      target,
+      fiatCurrency
+    )
     yield call(changeRatesSubscription, source, target, fiatCurrency)
   }
 
   const changeAdviceSubscription = function*(
-    form,
+    volume,
+    fix,
     source,
     target,
     fiatCurrency
   ) {
-    const { fix } = form
     const pair = formatPair(source.coin, target.coin)
-    const volume = form[mapFixToFieldName(fix)]
     const currentConfig = yield select(
       selectors.modules.rates.getPairConfig(pair)
     )
@@ -77,30 +86,16 @@ export default ({ api, coreSagas, options, networks }) => {
     yield put(actions.modules.rates.unsubscribeFromAdvice(pair))
   }
 
-  const swapFieldValue = function*(form) {
-    const { fix, source, target } = form
-    const pair = formatPair(source.coin, target.coin)
-    const oppositeFix = swapBaseAndCounter(fix)
-    const oppositeField = mapFixToFieldName(oppositeFix)
-    const oppositeFieldAmount = (yield select(S.getAmounts(pair)))
-      .map(prop(oppositeField))
-      .getOrElse(0)
-    yield put(actions.form.change(EXCHANGE_FORM, 'fix', oppositeFix))
-    yield put(
-      actions.form.change(EXCHANGE_FORM, oppositeField, oppositeFieldAmount)
-    )
-  }
-
   const changeSource = function*({ payload }) {
     const form = yield select(formValueSelector)
     const source = prop('source', payload)
     const sourceCoin = prop('coin', source)
     const targetCoin = path(['target', 'coin'], form)
+    const prevSoureCoin = path(['source', 'coin'], form)
     yield put(actions.form.change(EXCHANGE_FORM, 'source', source))
     if (equals(sourceCoin, targetCoin)) {
-      const newTarget = yield call(selectOtherAccount, targetCoin)
+      const newTarget = yield call(getDefaultAccount, prevSoureCoin)
       yield put(actions.form.change(EXCHANGE_FORM, 'target', newTarget))
-      yield call(swapFieldValue, form)
     }
     yield call(unsubscribeFromCurrentAdvice, form)
     yield call(changeSubscription)
@@ -111,11 +106,11 @@ export default ({ api, coreSagas, options, networks }) => {
     const sourceCoin = path(['source', 'coin'], form)
     const target = prop('target', payload)
     const targetCoin = prop('coin', target)
+    const prevTargetCoin = path(['target', 'coin'], form)
     yield put(actions.form.change(EXCHANGE_FORM, 'target', target))
     if (equals(sourceCoin, targetCoin)) {
-      const newSource = yield call(selectOtherAccount, sourceCoin)
+      const newSource = yield call(getDefaultAccount, prevTargetCoin)
       yield put(actions.form.change(EXCHANGE_FORM, 'source', newSource))
-      yield call(swapFieldValue, form)
     }
     yield call(unsubscribeFromCurrentAdvice, form)
     yield call(changeSubscription)
@@ -167,19 +162,13 @@ export default ({ api, coreSagas, options, networks }) => {
     try {
       yield put(actions.form.startSubmit(CONFIRM_FORM))
       const form = yield select(formValueSelector)
-      const { fix, source, target } = form
-      const pair = formatPair(source.coin, target.coin)
-      const fieldName = mapFixToFieldName(fix)
-      const volume = form[fieldName]
-      const fiatCurrency = (yield select(
-        selectors.core.settings.getCurrency
-      )).getOrFail()
-      const currency = flip(prop)({
-        sourceAmount: source.coin,
-        targetAmount: target.coin,
-        sourceFiat: fiatCurrency,
-        targetFiat: fiatCurrency
-      })(fieldName)
+      const { source, target } = form
+      const sourceCoin = source.coin
+      const targetCoin = target.coin
+      const pair = formatPair(sourceCoin, targetCoin)
+      const quote = (yield select(
+        selectors.modules.rates.getPairQuote(pair)
+      )).getOrFail(noAdviceError)
 
       const refundAddress = yield call(selectReceiveAddress, source, networks)
       const destinationAddress = yield call(
@@ -189,9 +178,7 @@ export default ({ api, coreSagas, options, networks }) => {
       )
       const { withdrawalAddress, depositAddress, quantity } = yield call(
         api.executeTrade,
-        pair,
-        volume,
-        currency,
+        quote,
         refundAddress,
         destinationAddress
       )
@@ -205,9 +192,24 @@ export default ({ api, coreSagas, options, networks }) => {
       const password = yield call(promptForSecondPassword)
       payment.sign(password).publish()
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
+      yield put(actions.router.push('/exchange/history'))
     } catch (e) {
       yield put(actions.form.stopSubmit(CONFIRM_FORM, e))
     }
+  }
+
+  const clearSubscriptions = function*() {
+    const pairs = yield select(selectors.modules.rates.getActivePairs)
+    yield all(
+      pairs.map(({ pair }) =>
+        put(actions.modules.rates.unsubscribeFromAdvice(pair))
+      )
+    )
+    yield all(
+      pairs.map(({ pair }) => put(actions.modules.rates.removeAdvice(pair)))
+    )
+    yield put(actions.modules.rates.unsubscribeFromRates())
+    yield put(actions.form.reset(EXCHANGE_FORM))
   }
 
   return {
@@ -219,6 +221,7 @@ export default ({ api, coreSagas, options, networks }) => {
     changeSourceFiatAmount,
     changeTargetFiatAmount,
     changeFix,
-    confirm
+    confirm,
+    clearSubscriptions
   }
 }

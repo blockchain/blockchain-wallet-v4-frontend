@@ -1,5 +1,5 @@
 import { put, select, call } from 'redux-saga/effects'
-import { isEmpty } from 'ramda'
+import { isEmpty, prop } from 'ramda'
 
 import { callLatest } from 'utils/effects'
 import { actions, selectors, model } from 'data'
@@ -122,7 +122,7 @@ export default ({ api, coreSagas }) => {
         line1,
         line2,
         city,
-        country: country.name,
+        country: country.code,
         state,
         postCode
       }
@@ -185,7 +185,10 @@ export default ({ api, coreSagas }) => {
       yield put(A.setPossibleAddresses(addresses))
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
     } catch (e) {
-      if (e.description === userExistsError) {
+      const description = prop('description', e)
+      const message = prop('message', e)
+
+      if (description === userExistsError) {
         // TODO: show a better error explaining that user with
         // target email already exists
         const email = (yield select(
@@ -198,7 +201,7 @@ export default ({ api, coreSagas }) => {
         )
       }
 
-      if (e.description === noCountryCodeError) {
+      if (description === noCountryCodeError) {
         yield put(
           actions.form.stopSubmit(PERSONAL_FORM, {
             country: 'Country code is required'
@@ -206,14 +209,14 @@ export default ({ api, coreSagas }) => {
         )
         return yield put(actions.form.touch(PERSONAL_FORM, 'country'))
       }
-      if (e.description === noPostCodeError) {
+      if (description === noPostCodeError) {
         return yield put(
           actions.form.stopSubmit(PERSONAL_FORM, {
             postCode: 'Required'
           })
         )
       }
-      if (e.message === failedToFetchAddressesError) {
+      if (message === failedToFetchAddressesError) {
         return yield put(
           actions.form.stopSubmit(PERSONAL_FORM, {
             postCode: failedToFetchAddressesError

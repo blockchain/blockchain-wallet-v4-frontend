@@ -1,17 +1,7 @@
 import { call, put, select } from 'redux-saga/effects'
-import {
-  equals,
-  filter,
-  identity,
-  head,
-  lift,
-  path,
-  pathOr,
-  prop,
-  propEq
-} from 'ramda'
-import * as selectors from '../../selectors'
-import * as actions from '../../actions'
+import { equals, identity, head, path, pathOr, prop } from 'ramda'
+import { selectors, actions } from 'data'
+import * as S from './selectors'
 import settings from 'config'
 import {
   getPairFromCoin,
@@ -305,62 +295,19 @@ export default ({ api, coreSagas, networks, options }) => {
     }
   }
 
+  const getDefaultBchAccountValue = function*() {
+    const bchAccounts = yield select(S.getActiveBchAccounts)
+    return head(bchAccounts.getOrFail('Could not get BCH HD accounts.'))
+  }
+
   const getDefaultBtcAccountValue = function*() {
-    const btcAccounts = yield call(getActiveBtcAccounts)
+    const btcAccounts = yield select(S.getActiveBtcAccounts)
     return head(btcAccounts.getOrFail('Could not get BTC HD accounts.'))
   }
 
   const getDefaultEthAccountValue = function*() {
-    const ethAccounts = yield call(getActiveEthAccounts)
+    const ethAccounts = yield select(S.getActiveEthAccounts)
     return head(ethAccounts.getOrFail('Could not get ETH accounts.'))
-  }
-
-  const getActiveBtcAccounts = function*() {
-    const btcAccounts = yield call(getBtcAccounts)
-    return btcAccounts.map(filter(propEq('archived', false)))
-  }
-
-  const getBtcAccounts = function*() {
-    const btcAccounts = yield select(selectors.core.wallet.getHDAccounts)
-    const btcData = yield select(selectors.core.data.bitcoin.getAddresses)
-
-    const transform = btcData => {
-      return btcAccounts.map(acc => ({
-        archived: prop('archived', acc),
-        coin: 'BTC',
-        label: prop('label', acc) || prop('xpub', acc),
-        address: prop('index', acc),
-        balance: prop('final_balance', prop(prop('xpub', acc), btcData))
-      }))
-    }
-
-    return lift(transform)(btcData)
-  }
-
-  const getActiveEthAccounts = function*() {
-    const ethAccounts = yield call(getEthAccounts)
-    return ethAccounts.map(filter(propEq('archived', false)))
-  }
-
-  const getEthAccounts = function*() {
-    const ethData = yield select(selectors.core.data.ethereum.getAddresses)
-    const ethMetadata = yield select(
-      selectors.core.kvStore.ethereum.getAccounts
-    )
-    const transform = (ethData, ethMetadata) =>
-      ethMetadata.map(acc => {
-        const data = prop(prop('addr', acc), ethData)
-
-        return {
-          archived: prop('archived', acc),
-          coin: 'ETH',
-          label: prop('label', acc) || prop('addr', acc),
-          address: prop('addr', acc),
-          balance: prop('balance', data)
-        }
-      })
-
-    return lift(transform)(ethData, ethMetadata)
   }
 
   const selectOtherAccount = function*(coin) {
@@ -368,6 +315,19 @@ export default ({ api, coreSagas, networks, options }) => {
       return yield call(getDefaultEthAccountValue)
     } else {
       return yield call(getDefaultBtcAccountValue)
+    }
+  }
+
+  const getDefaultAccount = function*(coin) {
+    switch (coin) {
+      case 'BCH':
+        return yield call(getDefaultBchAccountValue)
+      case 'BTC':
+        return yield call(getDefaultBtcAccountValue)
+      case 'ETH':
+        return yield call(getDefaultEthAccountValue)
+      default:
+        return yield call(getDefaultBtcAccountValue)
     }
   }
 
@@ -404,14 +364,11 @@ export default ({ api, coreSagas, networks, options }) => {
     calculateEffectiveBalance,
     createPayment,
     resumePayment,
+    getDefaultAccount,
     getShapeshiftMinimum,
     getShapeshiftMaximum,
     getRegulationLimit,
     convertValues,
-    getDefaultBtcAccountValue,
-    getDefaultEthAccountValue,
-    getBtcAccounts,
-    getEthAccounts,
     selectLabel,
     selectOtherAccount,
     resetForm

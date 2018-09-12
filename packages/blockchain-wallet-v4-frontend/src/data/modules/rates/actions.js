@@ -8,18 +8,18 @@ export const unsubscribeFromAdvice = pair => ({
   type: AT.UNSUBSCRIBE_FROM_ADVICE,
   payload: { pair }
 })
-export const updateAdvice = (pair, fix, volume, fiatCurrency, advice) => ({
+export const updateAdvice = quote => ({
   type: AT.UPDATE_ADVICE,
-  payload: { pair, fix, volume, fiatCurrency, advice }
+  payload: { quote }
 })
 
 export const updatePairConfig = (pair, volume, fix, fiatCurrency) => ({
   type: AT.UPDATE_PAIR_CONFIG,
   payload: { pair, config: { volume, fix, fiatCurrency } }
 })
-export const setPairAdvice = (pair, advice) => ({
-  type: AT.SET_PAIR_ADVICE,
-  payload: { pair, advice }
+export const setPairQuote = (pair, quote) => ({
+  type: AT.SET_PAIR_QUOTE,
+  payload: { pair, quote }
 })
 
 export const fetchAvailablePairs = () => ({
@@ -48,4 +48,9 @@ export const unsubscribeFromRates = () => ({
 export const updateBestRates = rates => ({
   type: AT.UPDATE_BEST_RATES,
   payload: { rates }
+})
+
+export const removeAdvice = pair => ({
+  type: AT.REMOVE_ADVICE,
+  payload: { pair }
 })
