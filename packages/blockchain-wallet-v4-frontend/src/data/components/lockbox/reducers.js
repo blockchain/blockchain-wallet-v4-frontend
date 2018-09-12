@@ -19,9 +19,12 @@ export default (state = INITIAL_STATE, action) => {
       return assocPath(['connection'], {}, state)
     }
     case AT.SET_NEW_DEVICE_SETUP_STEP: {
-      const { step, done } = payload
-      console.info(step)
-      return assocPath(['newDeviceSetup', 'currentStep'], { step, done }, state)
+      const { step, done, error } = payload
+      return assocPath(
+        ['newDeviceSetup', 'currentStep'],
+        { step, done, error },
+        state
+      )
     }
     case AT.CHECK_DEVICE_AUTHENTICITY_LOADING: {
       return assocPath(['newDeviceSetup', 'isAuthentic'], Remote.Loading, state)

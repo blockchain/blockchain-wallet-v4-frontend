@@ -80,7 +80,7 @@ export default ({ api, coreSagas }) => {
         version_name: deviceInfo.fullVersion,
         provider: deviceInfo.providerId
       })
-      
+
       const domainsR = yield select(selectors.core.walletOptions.getDomains)
       const domains = domainsR.getOrElse({
         ledgerSocket: 'wss://api.ledgerwallet.com/update'
@@ -98,8 +98,9 @@ export default ({ api, coreSagas }) => {
       )
       isDeviceAuthentic
         ? yield put(A.checkDeviceAuthenticitySuccess(isDeviceAuthentic))
-        : yield put(A.changeDeviceSetupStep('error-step'))
+        : yield put(A.changeDeviceSetupStep('error-step', true, 'authenticity'))
     } catch (e) {
+      yield put(A.changeDeviceSetupStep('error-step', true, 'authenticity'))
       yield put(A.checkDeviceAuthenticityFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'checkDeviceAuthenticity', e)
@@ -244,7 +245,7 @@ export default ({ api, coreSagas }) => {
       const storedDevices = storedDevicesR.getOrElse({})
       // check if device has already been added
       if (contains(newDeviceId)(keysIn(storedDevices))) {
-        yield put(A.changeDeviceSetupStep('error-step'))
+        yield put(A.changeDeviceSetupStep('error-step', true, 'duplicate'))
       } else {
         yield put(A.changeDeviceSetupStep('open-btc-app', true))
       }

@@ -41,7 +41,7 @@ export const createDeviceSocket = (transport, url) => {
       try {
         const msg = JSON.parse(rawMsg.data)
         if (!(msg.query in handlers)) {
-          throw new Error(`Cannot handle msg of type ${msg.query}`, {
+          return new Error(`Cannot handle msg of type ${msg.query}`, {
             query: msg.query,
             url
           })
@@ -91,7 +91,7 @@ export const createDeviceSocket = (transport, url) => {
         }
 
         if (!lastStatus) {
-          throw new Error('DeviceSocketNoBulkStatus')
+          return new Error('DeviceSocketNoBulkStatus')
         }
 
         const strStatus = lastStatus.toString('hex')
@@ -110,7 +110,8 @@ export const createDeviceSocket = (transport, url) => {
 
       error: msg => {
         console.info('ERROR', { data: msg.data })
-        throw new Error(msg.data, { url })
+        ws.close()
+        return new Error(msg.data, { url })
       }
     }
 

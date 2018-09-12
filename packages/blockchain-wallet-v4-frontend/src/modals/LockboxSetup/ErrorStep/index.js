@@ -2,8 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import ErrorStep from './template'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
+import AuthenticityError from './authenticity.template'
+import DuplicateError from './duplicate.template'
 
 class ErrorStepContainer extends React.PureComponent {
   constructor (props) {
@@ -12,21 +13,30 @@ class ErrorStepContainer extends React.PureComponent {
   }
 
   handleContinue () {
-    // reset to initial device add step
-    this.props.lockboxActions.changeDeviceSetupStep('setup-type')
     this.props.modalActions.closeModal()
   }
 
   render () {
-    return <ErrorStep handleContinue={this.handleContinue} />
+    const { step } = this.props
+
+    return step.error === 'authenticity' ? (
+      <AuthenticityError handleContinue={this.handleContinue} />
+    ) : (
+      <DuplicateError handleContinue={this.handleContinue} />
+    )
   }
 }
+
+const mapStateToProps = state => ({
+  step: selectors.components.lockbox.getNewDeviceSetupStep(state)
+})
+
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(ErrorStepContainer)
