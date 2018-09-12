@@ -30,11 +30,11 @@ export const setTxNotesEthereum = (txHash, txNote) => ({
   type: AT.SET_TRANSACTION_NOTE_ETHEREUM,
   payload: { txHash, txNote }
 })
-export const setLatestTxEthereum = txHash => ({
+export const setLatestTxEthereum = (address, txHash) => ({
   type: AT.SET_LATEST_TX_ETHEREUM,
-  payload: txHash
+  payload: { address, txHash }
 })
-export const setLatestTxTimestampEthereum = timestamp => ({
+export const setLatestTxTimestampEthereum = (address, timestamp) => ({
   type: AT.SET_LATEST_TX_TIMESTAMP_ETHEREUM,
-  payload: timestamp
+  payload: { address, timestamp }
 })
