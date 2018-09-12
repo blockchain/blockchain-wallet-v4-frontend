@@ -5,8 +5,8 @@ import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 import { getData } from './selectors'
 import Error from './template.error'
-import Loading from './template.loading'
 import Success from './template.success'
+import { LoadingBalance } from 'components/Balances'
 
 class EthBalance extends React.PureComponent {
   constructor (props) {
@@ -28,8 +28,8 @@ class EthBalance extends React.PureComponent {
     return data.cata({
       Success: value => <Success balance={value} large={large} />,
       Failure: message => <Error onRefresh={this.handleRefresh} />,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      Loading: () => <LoadingBalance large={large} coin='ETH' />,
+      NotAsked: () => <LoadingBalance large={large} coin='ETH' />
     })
   }
 }

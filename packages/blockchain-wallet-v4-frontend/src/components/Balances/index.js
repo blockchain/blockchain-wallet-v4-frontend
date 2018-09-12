@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Icon, Text } from 'blockchain-info-components'
+import { Icon, SkeletonRectangle, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
@@ -44,6 +44,30 @@ export const BalancesWrapper = styled.div`
     max-height: ${props => props.items * 20}px;
   }
 `
+
+export const LoadingBalance = props => {
+  const BalanceSkeleton = styled.div`
+    margin-top: 4px;
+  `
+  const CoinSkeletonWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  `
+
+  return props.large ? (
+    <BalanceSkeleton>
+      <SkeletonRectangle width='170px' height='24px' bgColor='white-blue' />
+    </BalanceSkeleton>
+  ) : (
+    <CoinSkeletonWrapper>
+      <Text size='12px' weight={300}>
+        BTC
+      </Text>
+      <SkeletonRectangle width='40px' height='14px' bgColor='white-blue' />
+    </CoinSkeletonWrapper>
+  )
+}
 
 export const CoinBalanceWrapper = props => {
   const CoinBalanceMain = styled.div`
