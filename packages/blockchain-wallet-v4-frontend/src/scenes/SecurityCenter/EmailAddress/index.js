@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import { actions } from 'data'
-import ui from 'redux-ui'
 import { formValueSelector } from 'redux-form'
 
 import { getData } from './selectors'
@@ -13,6 +12,12 @@ import Success from './template.success'
 class EmailAddressContainer extends React.PureComponent {
   constructor (props) {
     super(props)
+    this.state = {
+      updateToggled: false,
+      verifyToggled: false,
+      changeEmailToggled: false,
+      successToggled: false
+    }
 
     this.handleVerifyClick = this.handleVerifyClick.bind(this)
     this.handleSubmitVerification = this.handleSubmitVerification.bind(this)
@@ -20,16 +25,22 @@ class EmailAddressContainer extends React.PureComponent {
     this.handleChangeEmailView = this.handleChangeEmailView.bind(this)
     this.handleEmailChangeCancel = this.handleEmailChangeCancel.bind(this)
     this.handleEmailChangeSubmit = this.handleEmailChangeSubmit.bind(this)
+    this.handleUpdate = this.handleUpdate.bind(this)
   }
 
   componentDidUpdate (prevProps) {
     const next = this.props.data.getOrElse({})
     const prev = prevProps.data.getOrElse({})
     if (next.verified && !prev.verified) {
-      this.props.updateUI({ successToggled: true })
-      prevProps.updateUI({ successToggled: false, verifyToggled: false })
+      this.handleUpdate()
       prevProps.goBackOnSuccess()
     }
+  }
+  handleUpdate () {
+    this.setState({
+      successToggled: !this.state.successToggled,
+      verifyToggled: !this.state.verifyToggled
+    })
   }
 
   handleVerifyClick () {
@@ -49,17 +60,24 @@ class EmailAddressContainer extends React.PureComponent {
 
   handleChangeEmailView () {
     const { email } = this.props.data.getOrElse({})
-    this.props.updateUI({ changeEmailToggled: true })
+    this.setState({
+      changeEmailToggled: !this.state.changeEmailToggled
+    })
     this.props.formActions.change('securityEmailAddress', 'changeEmail', email)
   }
 
   handleEmailChangeCancel () {
-    this.props.updateUI({ changeEmailToggled: false })
+    this.setState({
+      changeEmailToggled: !this.state.changeEmailToggled
+    })
   }
 
   handleEmailChangeSubmit () {
     this.props.securityCenterActions.updateEmail(this.props.updatedEmail)
-    this.props.updateUI({ changeEmailToggled: false, verifyToggled: true })
+    this.setState({
+      changeEmailToggled: !this.state.changeEmailToggled,
+      verifyToggled: !this.state.verifyToggled
+    })
   }
 
   render () {
@@ -69,6 +87,7 @@ class EmailAddressContainer extends React.PureComponent {
       Success: value => (
         <Success
           {...rest}
+          formState={this.state}
           data={value}
           handleVerifyClick={this.handleVerifyClick}
           handleResend={this.handleResend}
@@ -100,20 +119,7 @@ const mapDispatchToProps = dispatch => ({
   )
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({
-    key: 'Security_EmailAddress',
-    state: {
-      updateToggled: false,
-      verifyToggled: false,
-      changeEmailToggled: false,
-      successToggled: false
-    }
-  })
-)
-
-export default enhance(EmailAddressContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EmailAddressContainer)
