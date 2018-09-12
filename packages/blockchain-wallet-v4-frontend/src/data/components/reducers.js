@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import identityVerification from './identityVerification/reducers'
 import exchange from './exchange/reducers'
+import exchangeHistory from './exchangeHistory/reducers'
 import layoutWallet from './layoutWallet/reducers'
 import manageAddresses from './manageAddresses/reducers'
 import onfido from './onfido/reducers'
@@ -13,6 +14,7 @@ import signMessage from './signMessage/reducers'
 export default combineReducers({
   identityVerification,
   exchange,
+  exchangeHistory,
   layoutWallet,
   manageAddresses,
   onfido,

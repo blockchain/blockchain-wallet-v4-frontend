@@ -14,8 +14,8 @@ const Wrapper = styled.div`
   border-right: 1px solid ${props => props.theme['gray-2']};
 `
 
-const TableRow = ({ children }) => (
-  <Wrapper border padding>
+const TableRow = ({ children, className }) => (
+  <Wrapper border padding className={className}>
     {children}
   </Wrapper>
 )
