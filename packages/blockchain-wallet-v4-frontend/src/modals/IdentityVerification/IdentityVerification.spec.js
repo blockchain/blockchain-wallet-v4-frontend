@@ -3,11 +3,11 @@ import { TestBed, getDispatchSpyReducer, createTestStore } from 'utils/testbed'
 import { flushPromises } from 'utils/test.utils'
 import { mount } from 'enzyme'
 import { combineReducers } from 'redux'
-import { actions, model } from 'data'
+import { actions, model, selectors } from 'data'
 
 import { coreReducers, paths, coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import identityVerificationReducer from 'data/components/identityVerification/reducers'
-import { getPossibleAddresses, getSupportedCountries } from 'data/components/identityVerification/selectors'
+import { getPossibleAddresses, getSupportedCountries, getVerificationStep, getSmsStep } from 'data/components/identityVerification/selectors'
 import modalsReducer from 'data/modals/reducers'
 import profileReducer from 'data/modules/profile/reducers'
 import identityVerificationSaga from 'data/components/identityVerification/sagaRegister'
@@ -23,10 +23,10 @@ import {
   getUserId,
   getLifetimeToken
 } from 'blockchain-wallet-v4/src/redux/kvStore/userCredentials/selectors'
-import { getEmail, getSmsVerified, getCountryCode } from 'blockchain-wallet-v4/src/redux/settings/selectors'
+import { getEmail, getSmsVerified, getCountryCode, getSmsNumber } from 'blockchain-wallet-v4/src/redux/settings/selectors'
 import { getGuid } from 'blockchain-wallet-v4/src/redux/wallet/selectors'
 
-const { MODAL_NAME } = model.components.identityVerification
+const { MODAL_NAME, STEPS, SMS_STEPS } = model.components.identityVerification
 
 const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 
@@ -44,6 +44,18 @@ const POSSIBLE_ADDRESSES = [
 ]
 const SUPPORTED_COUNTRIES = [{ code: 'FR', name: 'France' }]
 
+const MOCK_USER_DATA = {
+  id: '12345abcde',
+  firstName: 'Satoshi',
+  lastName: 'Nakamoto',
+  email: 'btcMaximalist@gmail.com',
+  dob: '1988-12-11',
+  mobile: null,
+  mobileVerified: false,
+  state: 'CREATED',
+  kycState: 'NONE'
+}
+
 const coreSagas = coreSagasFactory({ api: {} })
 const api = {
   obtainSessionToken: jest.fn(),
@@ -55,18 +67,19 @@ const api = {
 getUserId.mockImplementation(() => Remote.of(123))
 getLifetimeToken.mockImplementation(() => Remote.of(456))
 getSmsVerified.mockImplementation(() => Remote.of(0))
+getSmsNumber.mockImplementation(() => Remote.of(''))
 getEmail.mockImplementation(() => Remote.of('email@email.com'))
 getGuid.mockImplementation(() => Remote.of('123-abc-456-def'))
 getCountryCode.mockImplementation(() => Remote.of('FR'))
 getPossibleAddresses.mockImplementation(() => POSSIBLE_ADDRESSES)
+getSmsStep.mockImplementation(() => Remote.of(SMS_STEPS.edit))
 getSupportedCountries.mockImplementation(() => Remote.Success(SUPPORTED_COUNTRIES))
+getVerificationStep.mockImplementation(() => STEPS.personal)
 
 profileSagas.createUser = jest.fn()
-// mock entire createUser saga
-// profilesagas.createuser = jest.fn()
 
 const stubMail = 'mail@mail.com'
-const stubMobile = '+1 123 1234567'
+const STUB_MOBILE = '212555555'
 
 describe('IdentityVerification Modal', () => {
   beforeEach(() => {
@@ -130,8 +143,8 @@ describe('IdentityVerification Modal', () => {
         store.dispatch(actions.core.settings.fetchSettingsSuccess({}))
         store.dispatch(actions.core.settings.setEmail(stubMail))
         store.dispatch(actions.core.settings.setEmailVerified())
-        store.dispatch(actions.core.settings.setMobile(stubMobile))
-        store.dispatch(actions.core.settings.setMobileVerified())     
+        store.dispatch(actions.core.settings.setMobile(STUB_MOBILE))
+        store.dispatch(actions.core.settings.setMobileVerified())
         wrapper.update()
       })
 
@@ -247,6 +260,71 @@ describe('IdentityVerification Modal', () => {
         expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
           true
         )
+      })
+    })
+  })
+
+  fdescribe('mobile verification form', () => {
+    getVerificationStep.mockImplementation(() => STEPS.mobile)
+
+    beforeEach(() => {
+      store.dispatch(actions.modals.showModal(MODAL_NAME))
+      coreSagas.settings.sendConfirmationCodeEmail.mockClear()
+      // coreSagas.settings.setMobile.mockClear()
+      wrapper.update()
+    })
+
+    describe('mobile form', () => {
+      beforeEach(() => {
+        store.dispatch(actions.core.settings.fetchSettingsSuccess({}))
+        // store.dispatch(actions.core.settings.setEmail(stubMail))
+        // store.dispatch(actions.core.settings.setEmailVerified())
+        // store.dispatch(actions.core.settings.setMobile(stubMobile))
+        // store.dispatch(actions.core.settings.setMobileVerified())
+        store.dispatch(actions.modules.profile.setUserData(MOCK_USER_DATA))
+        // store.dispatch(actions.components.identityVerification.setVerificationStep(STEPS.mobile))
+        wrapper.update()
+      })
+
+      it('should be disabled and not submit by default', async () => {
+        expect(wrapper
+          .find('Button[type="submit"]')
+          .prop('disabled')).toBe(true)
+        wrapper.find('form').simulate('submit')
+        expect(last(dispatchSpy.mock.calls)[0].type).toEqual(actionTypes.form.SET_SUBMIT_FAILED)
+      })
+
+      it('should have the "send code" button disabled if sms input is empty', async () => {
+        expect(wrapper
+          .find('Field')
+          .find('PhoneNumberBox')
+          .props()
+          .input
+          .value
+        ).toBe('')
+        expect(wrapper
+          .find('button')
+          .first()
+          .prop('disabled')
+        ).toBe(true)
+      })
+
+      it('should enable the "send code" button when a valid phone number is entered', async () => {
+        wrapper.unmount().mount()
+        wrapper
+          .find('Field[name="smsNumber"]')
+          .find('PhoneNumberBox')
+          .find('.intl-tel-input')
+          .find('input')
+          .simulate('change', { target: { value: STUB_MOBILE } })
+
+        expect(
+          wrapper
+            .find('button')
+            .first()
+            .props()
+            .disabled
+        ).toBe(false)
       })
     })
   })
