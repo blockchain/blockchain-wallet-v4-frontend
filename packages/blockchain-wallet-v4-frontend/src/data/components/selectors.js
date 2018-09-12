@@ -1,5 +1,6 @@
 import * as identityVerification from './identityVerification/selectors'
 import * as exchange from './exchange/selectors'
+import * as exchangeHistory from './exchangeHistory/selectors'
 import * as layoutWallet from './layoutWallet/selectors'
 import * as manageAddresses from './manageAddresses/selectors'
 import * as onfido from './onfido/selectors'
@@ -13,6 +14,7 @@ import * as signMessage from './signMessage/selectors'
 export {
   identityVerification,
   exchange,
+  exchangeHistory,
   layoutWallet,
   manageAddresses,
   onfido,
