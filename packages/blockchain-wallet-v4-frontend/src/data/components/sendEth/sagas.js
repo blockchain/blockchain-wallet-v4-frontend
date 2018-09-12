@@ -163,14 +163,13 @@ export default ({ coreSagas }) => {
         payment: p.getOrElse({}),
         network: settings.NETWORK_ETH
       })
-      const fromAddress = path(['from', 'address'], p.getOrElse({}))
       if (p.getOrElse({}).from.type !== ADDRESS_TYPES.LOCKBOX) {
         let password = yield call(promptForSecondPassword)
         payment = yield payment.sign(password)
       } else {
         const deviceR = yield select(
           selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
-          fromAddress
+          path(['from', 'address'], p.getOrElse({}))
         )
         const device = deviceR.getOrFail('missing_device')
         yield call(promptForLockbox, 'ETH', prop('device_id', device))
@@ -183,6 +182,7 @@ export default ({ coreSagas }) => {
       payment = yield payment.publish()
       yield put(actions.modals.closeAllModals())
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
+      const fromAddress = payment.value().from.address
       yield put(
         actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(
           fromAddress,
