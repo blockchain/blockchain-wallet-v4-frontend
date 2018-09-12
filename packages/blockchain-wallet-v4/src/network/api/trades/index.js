@@ -1,18 +1,10 @@
 export default ({ nabuUrl, post, get }) => {
-  const executeTrade = (
-    pair,
-    quantity,
-    currency,
-    destinationAddress,
-    refundAddress
-  ) =>
+  const executeTrade = (quote, destinationAddress, refundAddress) =>
     post({
       url: nabuUrl,
       endPoint: `/trades`,
       data: {
-        pair,
-        quantity,
-        currency,
+        quote,
         destinationAddress,
         refundAddress
       },
