@@ -1,9 +1,7 @@
-import WebSocket from 'isomorphic-ws'
 import { Observable } from 'rxjs'
 
 /* eslint-disable */
 // TODO: enable eslint after dev complete
-// TODO: use core WebSocket wrapper
 
 /**
  * Creates device socket
