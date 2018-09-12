@@ -182,6 +182,15 @@ const addFromToBch = (wallet, bchAccounts, txList) => {
     txList
   )
 
+  txList.map(tx => {
+    tx.inputs.map(input => {
+      input.address = toCashAddr(input.address, true)
+    })
+    tx.outputs.map(output => {
+      output.address = toCashAddr(output.address, true)
+    })
+  })
+
   return txList
 }
 
