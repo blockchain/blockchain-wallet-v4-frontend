@@ -1,43 +1,52 @@
 import React from 'react'
-import ui from 'redux-ui'
 import SecondStep from './template.js'
 import { compose, values, pickAll } from 'ramda'
 
-const SecondStepContainer = props => {
-  const { ui, updateUI } = props
-  const handleClickPrevious = () => {
-    updateUI({ step: ui.step - 1 })
+class SecondStepContainer extends React.PureComponent {
+  constructor (props) {
+    super(props)
+    this.state = {
+      step: 1
+    }
+    this.handleClickPrevious = this.handleClickPrevious.bind(this)
+    this.handleClickNext = this.handleClickNext.bind(this)
+    this.getWordsAtStep = this.getWordsAtStep.bind(this)
   }
-  const handleClickNext = () => {
-    updateUI({ step: ui.step + 1 })
+  handleClickPrevious () {
+    this.setState({
+      step: this.state - 1
+    })
   }
-
-  const getWordsAtStep = step => {
+  handleClickNext () {
+    this.setState({
+      step: this.state + 1
+    })
+  }
+  getWordsAtStep (step) {
     const pickIndexes = compose(
       values,
       pickAll
     )
     switch (step) {
       case 1:
-        return pickIndexes([0, 1, 2, 3], props.recoveryPhrase)
+        return pickIndexes([0, 1, 2, 3], this.props.recoveryPhrase)
       case 2:
-        return pickIndexes([4, 5, 6, 7], props.recoveryPhrase)
+        return pickIndexes([4, 5, 6, 7], this.props.recoveryPhrase)
       case 3:
-        return pickIndexes([8, 9, 10, 11], props.recoveryPhrase)
+        return pickIndexes([8, 9, 10, 11], this.props.recoveryPhrase)
     }
   }
-
-  return (
-    <SecondStep
-      {...props}
-      step={ui.step}
-      words={getWordsAtStep(ui.step)}
-      handleClickPrevious={handleClickPrevious}
-      handleClickNext={handleClickNext}
-    />
-  )
+  render () {
+    return (
+      <SecondStep
+        {...this.props}
+        step={this.state.step}
+        words={this.getWordsAtStep(this.state.step)}
+        handleClickPrevious={this.handleClickPrevious}
+        handleClickNext={this.handleClickNext}
+      />
+    )
+  }
 }
 
-export default ui({ key: 'RecoveryPhraseMnemonic', state: { step: 1 } })(
-  SecondStepContainer
-)
+export default SecondStepContainer

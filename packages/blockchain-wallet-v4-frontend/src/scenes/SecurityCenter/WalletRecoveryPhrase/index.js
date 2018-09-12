@@ -22,6 +22,8 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
   componentDidUpdate (prevProps) {
     if (prevProps.recoveryPhrase && this.props.recoveryPhrase === undefined) {
       this.props.handleEnable()
+
+      this.handleUpdate()
     }
   }
   handleUpdate () {
@@ -57,6 +59,7 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
     return (
       <Success
         {...rest}
+        formState={this.state}
         data={data}
         toggleNextStep={this.toggleNextStep}
         handleClose={this.closeSteps}
