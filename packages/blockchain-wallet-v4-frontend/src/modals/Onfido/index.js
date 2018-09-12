@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import styled from 'styled-components'
+import { pathEq } from 'ramda'
 
 import { getData } from './selectors'
 import { actions } from 'data'
@@ -44,7 +45,8 @@ class OnfidoContainer extends React.PureComponent {
     if (data.from !== 'onfido') return
     if (data.to !== 'IdentityVerification') return
     if (data.event !== 'done') return
-    actions.syncOnfido()
+    const isSelfie = pathEq(['data', 'face', 'variant'], 'standard', data)
+    actions.syncOnfido(isSelfie)
   }
 
   render () {

@@ -23,13 +23,17 @@ export default ({ nabuUrl, get, authorizedGet, authorizedPost }) => {
       }
     })
 
-  const syncOnfido = applicantId =>
-    authorizedPost({
+  const syncOnfido = (applicantId, isSelfie) => {
+    return authorizedPost({
       url: nabuUrl,
       endPoint: '/kyc/verifications',
       contentType: 'application/json',
-      data: { applicantId }
+      data: { applicantId },
+      headers: {
+        'x-client-type': isSelfie ? 'WEB' : 'APP'
+      }
     })
+  }
 
   return {
     getSupportedCountries,
