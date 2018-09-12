@@ -1087,6 +1087,47 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Complete",
+        "id": "scenes.exchangehistory.list.orderstatus.complete"
+      },
+      {
+        "defaultMessage": "Failed",
+        "id": "scenes.exchangehistory.list.orderstatus.failed"
+      },
+      {
+        "defaultMessage": "Error",
+        "id": "scenes.exchangehistory.list.orderstatus.error"
+      },
+      {
+        "defaultMessage": "Awaiting Funds",
+        "id": "scenes.exchangehistory.list.orderstatus.awaitingfunds"
+      },
+      {
+        "defaultMessage": "In Progress",
+        "id": "scenes.exchangehistory.list.orderstatus.pending"
+      },
+      {
+        "defaultMessage": "Refund In Progress",
+        "id": "scenes.exchangehistory.list.orderstatus.refunding"
+      },
+      {
+        "defaultMessage": "Refunded",
+        "id": "scenes.exchangehistory.list.orderstatus.refunded"
+      },
+      {
+        "defaultMessage": "Expired",
+        "id": "scenes.exchangehistory.list.orderstatus.expired"
+      },
+      {
+        "defaultMessage": "Unknown",
+        "id": "scenes.exchangehistory.list.orderstatus.unknown"
+      }
+    ],
+    "path": "src/components/OrderStatus/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Your browser does not have webcam support.",
         "id": "components.qrreader.warning"
       }
@@ -3266,10 +3307,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Awaiting funds",
-        "id": "scenes.exchange.exchangeform.result.title"
-      },
-      {
         "defaultMessage": "Thanks for placing your trade!",
         "id": "scenes.exchange.exchangeform.results.thanks"
       },
@@ -3450,6 +3487,10 @@
   },
   {
     "descriptors": [
+      {
+        "defaultMessage": "Enter Address Manually",
+        "id": "identityverification.personal.manualaddress"
+      },
       {
         "defaultMessage": "Personal Details",
         "id": "identityverification.personal.header"
