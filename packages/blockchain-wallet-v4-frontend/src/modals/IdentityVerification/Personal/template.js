@@ -101,7 +101,10 @@ const TermsText = styled(Text)`
 const addTrailingZero = string => (string.length >= 2 ? string : `0${string}`)
 const removeTrailingZero = replace(/^0/, '')
 const { AddressPropType, CountryPropType } = model.profile
-const { PERSONAL_FORM } = model.components.identityVerification
+const {
+  PERSONAL_FORM,
+  MANUAL_ADDRESS_ITEM
+} = model.components.identityVerification
 const objectToDOB = ({ date = '', month = '', year = '' }) =>
   `${year}-${month}-${addTrailingZero(date)}`
 const DOBToObject = value => {
@@ -113,6 +116,44 @@ const DOBToObject = value => {
   }
 }
 const countryUsesZipcode = code => code === 'US'
+
+const ManualAddressText = styled(Text)`
+  span {
+    font-weight: 300;
+    font-size: 14px;
+    color: ${props =>
+      props.isSelected
+        ? props.theme['white']
+        : props.theme['brand-secondary']} !important;
+  }
+`
+const renderAddressItem = props => {
+  if (props.text === MANUAL_ADDRESS_ITEM.text)
+    return (
+      <ManualAddressText isSelected={props.isSelected}>
+        <FormattedMessage
+          id='identityverification.personal.manualaddress'
+          defaultMessage='Enter Address Manually'
+        />
+      </ManualAddressText>
+    )
+  return props.text
+}
+
+const renderAddressDisplay = (props, children) => {
+  if (props.text === MANUAL_ADDRESS_ITEM.text) {
+    return (
+      <React.Fragment>
+        <FormattedMessage
+          id='identityverification.personal.manualaddress'
+          defaultMessage='Enter Address Manually'
+        />
+        <div hidden>{children}</div>
+      </React.Fragment>
+    )
+  }
+  return children
+}
 
 const Personal = ({
   invalid,
@@ -344,34 +385,38 @@ const Personal = ({
                       />
                     </EmailHelper>
                   )}
-                {Boolean(possibleAddresses[0].items.length) && (
-                  <PersonalFormGroup>
-                    <FaqFormItem>
-                      <Text
-                        size='14px'
-                        weight={400}
-                        style={{ marginBottom: '5px' }}
-                      >
-                        <FormattedMessage
-                          id='identityverification.personal.selectaddress'
-                          defaultMessage='Select Address'
-                        />
-                      </Text>
-                      <Field
-                        name='address'
-                        elements={possibleAddresses}
-                        onChange={onAddressSelect}
-                        component={SelectBox}
-                        label={
+                {countryCode &&
+                  Boolean(possibleAddresses[0].items.length) && (
+                    <PersonalFormGroup>
+                      <FaqFormItem>
+                        <Text
+                          size='14px'
+                          weight={400}
+                          style={{ marginBottom: '5px' }}
+                        >
                           <FormattedMessage
                             id='identityverification.personal.selectaddress'
                             defaultMessage='Select Address'
                           />
-                        }
-                      />
-                    </FaqFormItem>
-                  </PersonalFormGroup>
-                )}
+                        </Text>
+                        <Field
+                          name='address'
+                          validate={required}
+                          elements={possibleAddresses}
+                          onChange={onAddressSelect}
+                          templateDisplay={renderAddressDisplay}
+                          templateItem={renderAddressItem}
+                          component={SelectBox}
+                          label={
+                            <FormattedMessage
+                              id='identityverification.personal.selectaddress'
+                              defaultMessage='Select Address'
+                            />
+                          }
+                        />
+                      </FaqFormItem>
+                    </PersonalFormGroup>
+                  )}
                 {address && (
                   <div>
                     <PersonalFormGroup>
