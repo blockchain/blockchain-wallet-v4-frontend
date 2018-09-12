@@ -1,41 +1,57 @@
-import {
-  anyPass,
-  concat,
-  curry,
-  equals,
-  filter,
-  isEmpty,
-  lift,
-  map,
-  prop
-} from 'ramda'
-import { selectors } from 'data'
+import { contains, curry, filter, isEmpty, lift, or, prop } from 'ramda'
+import { selectors, model } from 'data'
 
-const getTradesWithStatus = curry((statuses, trades) =>
-  filter(trade => anyPass(map(equals, statuses))(prop('status', trade)), trades)
-)
+const { COMPLETE_STATES, INCOMPLETE_STATES } = model.components.exchangeHistory
 
-export const getData = state => {
-  const trades = selectors.core.kvStore.shapeShift.getTrades(state)
-  const completedTrades = lift(getTradesWithStatus(['complete', 'resolved']))(
+/**
+ * Statuses for shapeshift
+ * States for exchange
+ */
+const getTradesWithStatus = curry((statuses, states, trades) =>
+  filter(
+    trade =>
+      or(
+        contains(prop('status', trade), statuses),
+        contains(prop('state', trade), states)
+      ),
     trades
   )
-  const errorTrades = lift(getTradesWithStatus(['error', 'failed']))(trades)
-  const incompleteTrades = lift(
-    getTradesWithStatus(['no_deposits', 'received'])
-  )(trades)
+)
 
-  const transform = (c, i, e) => {
-    const incomplete = concat(i, e)
-    const showComplete = !isEmpty(c)
+const { exchangeHistory, exchange } = selectors.components
+
+export const getData = state => {
+  const canUseExchange = exchange.canUseExchange(state)
+  const tradesR = canUseExchange
+    ? exchangeHistory.getTrades(state)
+    : selectors.core.kvStore.shapeShift.getTrades(state)
+  const allFetched = exchangeHistory.allFetched(state)
+  const loadingNextPage = exchangeHistory.loadingNextPage(state)
+  const completeTradesR = lift(
+    getTradesWithStatus(
+      ['complete', 'resolved', 'error', 'failed'],
+      COMPLETE_STATES
+    )
+  )(tradesR)
+  const incompleteTradesR = lift(
+    getTradesWithStatus(['no_deposits', 'received'], INCOMPLETE_STATES)
+  )(tradesR)
+
+  const transform = (complete, incomplete) => {
+    const showComplete = !isEmpty(complete)
     const showIncomplete = !isEmpty(incomplete)
 
     return {
-      complete: c,
+      complete,
       showComplete,
       incomplete,
-      showIncomplete
+      showIncomplete,
+      loadingNextPage
     }
   }
-  return lift(transform)(completedTrades, incompleteTrades, errorTrades)
+  return {
+    data: lift(transform)(completeTradesR, incompleteTradesR),
+    canUseExchange,
+    canLoadNextPage: !loadingNextPage && !allFetched
+  }
 }

@@ -50,7 +50,7 @@ const AutoDisconnection = props => {
               defaultMessage='Cancel'
             />
           </Link>
-          <Button type='submit' nature='logout'>
+          <Button type='submit' nature='warning'>
             <FormattedMessage
               id='modals.autodisconnection.logout'
               defaultMessage='Log me out'
