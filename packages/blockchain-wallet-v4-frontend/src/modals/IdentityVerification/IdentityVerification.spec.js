@@ -3,7 +3,7 @@ import { TestBed, getDispatchSpyReducer, createTestStore } from 'utils/testbed'
 import { flushPromises } from 'utils/test.utils'
 import { mount } from 'enzyme'
 import { combineReducers } from 'redux'
-import { actions, model, selectors } from 'data'
+import { actions, model } from 'data'
 
 import { coreReducers, paths, coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import identityVerificationReducer from 'data/components/identityVerification/reducers'
@@ -264,7 +264,7 @@ describe('IdentityVerification Modal', () => {
     })
   })
 
-  fdescribe('mobile verification form', () => {
+  describe('mobile verification form', () => {
     getVerificationStep.mockImplementation(() => STEPS.mobile)
 
     beforeEach(() => {
