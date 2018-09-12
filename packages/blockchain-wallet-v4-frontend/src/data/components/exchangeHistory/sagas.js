@@ -1,10 +1,13 @@
-import { cancel, call, fork, put, all, select } from 'redux-saga/effects'
+import { cancel, call, fork, join, put, all, select } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import {
   any,
   concat,
+  compose,
   equals,
   identity,
+  indexBy,
+  isEmpty,
   isNil,
   last,
   map,
@@ -72,6 +75,22 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const updateDisplayedShapeShiftTrades = function*(updatedShapeShiftTrades) {
+    if (isEmpty(updatedShapeShiftTrades)) return
+    const idPath = path(['quote', 'orderId'])
+    const indexedTrades = indexBy(idPath, updatedShapeShiftTrades)
+    const trades = (yield select(S.getTrades)).getOrElse([])
+    yield compose(
+      put,
+      A.fetchTradesSuccess,
+      map(trade => {
+        const updatedTrade = prop(idPath(trade), indexedTrades)
+        if (updatedTrade) return updatedTrade
+        return trade
+      })
+    )(trades)
+  }
+
   const fetchTradeData = function*(trade) {
     try {
       const depositAddress = path(['quote', 'deposit'], trade)
@@ -87,7 +106,11 @@ export default ({ api, coreSagas }) => {
           coreSagas.kvStore.shapeShift.fetchShapeshiftTrade,
           depositAddress
         )
+        return (yield select(
+          selectors.core.kvStore.shapeShift.getTrade(depositAddress)
+        )).getOrElse(null)
       }
+      return null
     } catch (e) {
       yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADE_ERROR))
       yield put(actions.logs.logErrorMessage(logLocation, 'fetchTradeData', e))
@@ -96,10 +119,21 @@ export default ({ api, coreSagas }) => {
 
   const exchangeHistoryInitialized = function*() {
     try {
-      const trades = yield select(selectors.core.kvStore.shapeShift.getTrades)
+      const userFlowSupported = yield select(
+        selectors.modules.profile.userFlowSupported
+      )
+      const trades = (yield select(
+        selectors.core.kvStore.shapeShift.getTrades
+      )).getOrElse([])
       fetchingTradesTasks = yield all(
         trades.map(trade => fork(fetchTradeData, trade))
       )
+      if (userFlowSupported) {
+        const updatedTrades = (yield join(...fetchingTradesTasks)).filter(
+          Boolean
+        )
+        yield call(updateDisplayedShapeShiftTrades, updatedTrades)
+      }
     } catch (e) {
       yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADES_ERROR))
       yield put(
