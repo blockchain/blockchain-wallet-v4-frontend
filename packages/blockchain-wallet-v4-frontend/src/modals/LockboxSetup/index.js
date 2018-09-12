@@ -16,13 +16,11 @@ import ErrorStep from './ErrorStep'
 class LockboxSetupContainer extends React.PureComponent {
   componentWillUnmount () {
     this.props.lockboxActions.changeDeviceSetupStep('setup-type')
-    this.props.lockboxActions.checkDeviceAuthenticityLoading()
   }
 
   render () {
     const { currentStep, position, total, closeAll } = this.props
     const { step, done } = currentStep || {}
-    console.info(step)
 
     return (
       <LockboxSetup

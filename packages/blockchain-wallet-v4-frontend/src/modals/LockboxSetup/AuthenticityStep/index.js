@@ -10,17 +10,16 @@ class AuthenticityStepContainer extends React.PureComponent {
     this.changeDeviceSetupStep = this.changeDeviceSetupStep.bind(this)
   }
 
-  componentDidMount () {
-    this.props.lockboxActions.initializeNewDeviceSetup()
-  }
-
   changeDeviceSetupStep () {
     this.props.lockboxActions.changeDeviceSetupStep('open-btc-app')
   }
 
   render () {
     const authenticity = this.props.authenticity.cata({
-      Success: () => ({ isAuthenticating: false }),
+      Success: res => ({
+        isAuthenticating: false,
+        isAuthentic: res.isAuthentic
+      }),
       Failure: () => ({ isAuthenticating: false }),
       Loading: () => ({ isAuthenticating: true }),
       NotAsked: () => ({ isAuthenticating: true })
