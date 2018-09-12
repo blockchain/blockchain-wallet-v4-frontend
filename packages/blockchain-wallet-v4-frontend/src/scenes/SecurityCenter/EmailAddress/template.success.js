@@ -94,20 +94,24 @@ const EmailSecuritySummary = styled(SecuritySummary)`
 const EmailAddress = props => {
   const {
     data,
-    ui,
     handleSubmitVerification,
     handleResend,
     invalid,
-    code
+    code,
+    formState
   } = props
   const { email, verified, failed } = data
   const isVerified = verified === 1
 
   const uiHelper = () =>
-    !ui.verifyToggled && !ui.changeEmailToggled && !props.alone
+    !formState.verifyToggled && !formState.changeEmailToggled && !props.alone
 
   const securityHeaderHelper = () => {
-    if (!ui.verifyToggled && !ui.changeEmailToggled && !props.alone) {
+    if (
+      !formState.verifyToggled &&
+      !formState.changeEmailToggled &&
+      !props.alone
+    ) {
       if (isVerified) {
         return (
           <FormattedMessage
@@ -123,7 +127,7 @@ const EmailAddress = props => {
         />
       )
     }
-    if (ui.changeEmailToggled) {
+    if (formState.changeEmailToggled) {
       return (
         <FormattedMessage
           id='scenes.security.email.verifiedemail.change'
@@ -140,7 +144,11 @@ const EmailAddress = props => {
   }
 
   const securityDescriptionHelper = () => {
-    if (!ui.verifyToggled && !ui.changeEmailToggled && !props.alone) {
+    if (
+      !formState.verifyToggled &&
+      !formState.changeEmailToggled &&
+      !props.alone
+    ) {
       if (isVerified) {
         return (
           <React.Fragment>
@@ -182,7 +190,7 @@ const EmailAddress = props => {
         </EmailExplanation>
       )
     }
-    if (ui.changeEmailToggled) {
+    if (formState.changeEmailToggled) {
       return (
         <FormattedMessage
           id='scenes.security.email.yourverifiedemailaddress'
@@ -225,8 +233,13 @@ const EmailAddress = props => {
   }
 
   const renderFields = () => {
-    if (!ui.verifyToggled && !ui.changeEmailToggled && !props.alone) return null
-    else if (ui.changeEmailToggled) {
+    if (
+      !formState.verifyToggled &&
+      !formState.changeEmailToggled &&
+      !props.alone
+    )
+      return null
+    else if (formState.changeEmailToggled) {
       return (
         <ChangeEmailSteps
           handleEmailChangeCancel={props.handleEmailChangeCancel}
@@ -240,7 +253,7 @@ const EmailAddress = props => {
           failed={failed}
           handleSubmitVerification={handleSubmitVerification}
           handleResend={handleResend}
-          success={ui.successToggled}
+          success={formState.successToggled}
           emailCode={code}
         />
       )
@@ -249,7 +262,7 @@ const EmailAddress = props => {
 
   return (
     <GridContainer>
-      <IconAndHeaderContainer success={ui.successToggled}>
+      <IconAndHeaderContainer success={formState.successToggled}>
         <IconContainer>
           <SecurityIcon name='email' enabled={isVerified} />
         </IconContainer>

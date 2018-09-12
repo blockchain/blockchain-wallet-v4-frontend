@@ -16,7 +16,7 @@ class ThirdStepContainer extends React.PureComponent {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  componentWillMount () {
+  componentDidMount () {
     const { updateUI } = this.props
     const randomize = sortBy(prop(0))
     const pair = map(x => [Math.random(), x])

@@ -49,14 +49,14 @@ const BackupButton = styled(Button)`
 `
 
 const WalletRecoveryPhrase = props => {
-  const { ui, recoveryPhrase, changeDescription, data, alone } = props
+  const { formState, recoveryPhrase, changeDescription, data, alone } = props
   const { isMnemonicVerified } = data
 
   const buttonHelper = () => {
     const securityComponent = components => (
       <SecurityComponent>{components}</SecurityComponent>
     )
-    if (!ui.nextStepToggled) {
+    if (!formState.nextStepToggled) {
       if (!alone && isMnemonicVerified) {
         const againBtn = (
           <BackupButton nature='primary' onClick={props.toggleNextStep}>
@@ -89,16 +89,18 @@ const WalletRecoveryPhrase = props => {
             <SecurityIcon name='pencil' enabled={isMnemonicVerified} />
           </IconContainer>
           <SecuritySummary>
-            <SecurityHeader greyOut={isMnemonicVerified && ui.nextStepToggled}>
+            <SecurityHeader
+              greyOut={isMnemonicVerified && formState.nextStepToggled}
+            >
               <FormattedMessage
                 id='scenes.securitysettings.basicsecurity.recoveryphrase.title'
                 defaultMessage='Backup Phrase'
               />
             </SecurityHeader>
             <SecurityDescription
-              greyOut={isMnemonicVerified && ui.nextStepToggled}
+              greyOut={isMnemonicVerified && formState.nextStepToggled}
             >
-              {!ui.descriptionToggled ? (
+              {!formState.descriptionToggled ? (
                 <span>
                   <FormattedMessage
                     id='scenes.securitysettings.basicsecurity.recoveryphrase.description'
@@ -120,7 +122,7 @@ const WalletRecoveryPhrase = props => {
         </IconAndHeaderContainer>
 
         {buttonHelper()}
-        {alone || ui.nextStepToggled ? (
+        {alone || formState.nextStepToggled ? (
           <React.Fragment>
             <div />
             <RecordBackupPhrase

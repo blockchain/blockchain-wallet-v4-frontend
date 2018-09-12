@@ -17,7 +17,7 @@ class GoogleAuthContainer extends React.PureComponent {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  componentWillMount () {
+  componentDidMount () {
     this.props.securityCenterActions.getGoogleAuthenticatorSecretUrl()
   }
 

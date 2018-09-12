@@ -81,7 +81,6 @@ class ExchangeCheckout extends React.PureComponent {
     super(props)
     this.state = {}
   }
-
   componentWillReceiveProps (nextProps) {
     const { base, quote } = nextProps
 

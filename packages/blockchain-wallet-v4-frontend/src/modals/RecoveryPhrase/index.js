@@ -8,7 +8,7 @@ import SecondStep from './SecondStep'
 import ThirdStep from './ThirdStep'
 
 class RecoveryPhraseContainer extends React.PureComponent {
-  componentWillMount () {
+  componentDidMount () {
     this.props.resetStep()
   }
 

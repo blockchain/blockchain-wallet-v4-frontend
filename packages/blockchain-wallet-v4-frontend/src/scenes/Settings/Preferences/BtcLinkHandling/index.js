@@ -1,16 +1,20 @@
 import React from 'react'
-import ui from 'redux-ui'
 
 import BitcoinLinkHandling from './template.js'
 
 class BitcoinLinkHandlingContainer extends React.PureComponent {
   constructor (props) {
     super(props)
+    this.state = {
+      warningDisplayed: false
+    }
     this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick () {
-    this.props.updateUI({ warningDisplayed: true })
+    this.setState({
+      warningDisplayed: !this.state.warningDisplayed
+    })
     // Register bitcoin links
     window.navigator.registerProtocolHandler(
       'bitcoin',
@@ -22,15 +26,11 @@ class BitcoinLinkHandlingContainer extends React.PureComponent {
   render () {
     return (
       <BitcoinLinkHandling
-        warningDisplayed={this.props.ui.warningDisplayed}
+        warningDisplayed={this.state.warningDisplayed}
         handleClick={this.handleClick}
       />
     )
   }
 }
-const enhance = ui({
-  key: 'BitcoinLinkHandling',
-  state: { warningDisplayed: false }
-})
 
-export default enhance(BitcoinLinkHandlingContainer)
+export default BitcoinLinkHandlingContainer

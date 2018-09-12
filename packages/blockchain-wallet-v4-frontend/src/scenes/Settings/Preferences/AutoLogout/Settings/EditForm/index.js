@@ -6,7 +6,7 @@ import { actions, selectors } from 'data'
 import Settings from './template.js'
 
 class EditFormContainer extends React.PureComponent {
-  componentWillMount () {
+  componentDidMount () {
     this.props.formActions.initialize('settingAutoLogoutTime', {
       autoLogoutTime: this.props.logoutTime
     })
