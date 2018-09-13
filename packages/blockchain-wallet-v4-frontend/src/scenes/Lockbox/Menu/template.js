@@ -39,6 +39,10 @@ const StyledCreatableInputContainer = styled.div`
     box-shadow: none;
     background-color: ${props => props.theme['white']};
   }
+  .bc__placeholder {
+    font-size: 13px;
+    font-style: italic;
+  }
   .bc__multi-value {
     cursor: auto;
   }
@@ -107,6 +111,12 @@ const Menu = props => {
             autoFocus
             component={CreatableInputField}
             multiValueContainer={multiValueContainer}
+            placeholder={
+              <FormattedMessage
+                id='scenes.lockbox.menu.transactions.search.placeholder'
+                defaultMessage='Search by coin, address, or description'
+              />
+            }
           />
         </StyledCreatableInputContainer>
       )}
