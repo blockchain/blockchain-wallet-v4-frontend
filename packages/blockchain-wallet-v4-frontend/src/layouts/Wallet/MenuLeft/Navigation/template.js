@@ -111,12 +111,12 @@ const Navigation = props => {
         </MenuItem>
       </LinkContainer>
       {lockboxOpened &&
-        lockboxDevices.map(device => {
+        lockboxDevices.map((device, index) => {
           const deviceName = device.device_name
           return (
             <SubMenu>
               <LinkContainer
-                to={`/lockbox/dashboard/${device.device_id}`}
+                to={`/lockbox/dashboard/${index}`}
                 activeClassName='active'
               >
                 <SubMenuItem>

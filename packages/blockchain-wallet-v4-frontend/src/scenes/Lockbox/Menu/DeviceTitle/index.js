@@ -10,14 +10,14 @@ const SettingsIcon = styled(Icon)`
 `
 
 const DeviceTitle = props => {
-  const { deviceInfo } = props
+  const { deviceInfo, deviceIndex } = props
 
   return deviceInfo ? (
     <React.Fragment>
       <Text size='24px' weight={400}>
         {deviceInfo.device_name}
       </Text>
-      <LinkContainer to={`/lockbox/settings/${deviceInfo.device_id}`}>
+      <LinkContainer to={`/lockbox/settings/${deviceIndex}`}>
         <SettingsIcon name='settings-filled' size={'24px'} />
       </LinkContainer>
     </React.Fragment>

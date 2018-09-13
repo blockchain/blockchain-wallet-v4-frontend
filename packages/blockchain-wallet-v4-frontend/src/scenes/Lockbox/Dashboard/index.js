@@ -18,32 +18,25 @@ class LockboxDashboardContainer extends React.PureComponent {
   render () {
     const { location } = this.props
 
-    return this.props.data.cata({
-      Success: device => {
-        return (
-          <Wrapper>
-            <ContentWrapper>
-              {location.pathname.includes('settings') && (
-                <Settings device={device} />
-              )}
-              {location.pathname.includes('dashboard') && (
-                <Transactions device={device} />
-              )}
-            </ContentWrapper>
-          </Wrapper>
-        )
-      },
-      Failure: () => null,
-      Loading: () => null,
-      NotAsked: () => null
-    })
+    return (
+      <Wrapper>
+        <ContentWrapper>
+          {location.pathname.includes('settings') && (
+            <Settings deviceIndex={this.props.match.params.deviceIndex} />
+          )}
+          {location.pathname.includes('dashboard') && (
+            <Transactions deviceIndex={this.props.match.params.deviceIndex} />
+          )}
+        </ContentWrapper>
+      </Wrapper>
+    )
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
   data: selectors.core.kvStore.lockbox.getDevice(
     state,
-    ownProps.match.params.deviceId
+    ownProps.match.params.deviceIndex
   )
 })
 const mapDispatchToProps = dispatch => ({

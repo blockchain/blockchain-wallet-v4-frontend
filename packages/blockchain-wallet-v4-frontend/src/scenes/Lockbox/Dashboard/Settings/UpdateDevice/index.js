@@ -15,7 +15,7 @@ class UpdateDeviceContainer extends React.PureComponent {
   // TODO: need deviceID logic for when device is not connected
   onCheckForUpdates () {
     this.props.modalActions.showModal('LockboxFirmware', {
-      deviceId: this.props.deviceId
+      deviceIndex: this.props.deviceIndex
     })
   }
 

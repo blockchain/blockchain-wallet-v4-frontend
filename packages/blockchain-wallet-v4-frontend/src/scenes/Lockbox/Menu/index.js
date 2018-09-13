@@ -11,7 +11,11 @@ class LockboxMenuContainer extends React.PureComponent {
     const { data } = this.props
     return data.cata({
       Success: val => (
-        <LockboxMenu deviceInfo={val} location={this.props.location} />
+        <LockboxMenu
+          deviceInfo={val}
+          location={this.props.location}
+          deviceIndex={this.props.match.params.deviceIndex}
+        />
       ),
       Loading: () => <div>Loading</div>,
       Failure: () => <div>Failure</div>,
@@ -23,7 +27,7 @@ class LockboxMenuContainer extends React.PureComponent {
 const mapStateToProps = (state, ownProps) => ({
   data: selectors.core.kvStore.lockbox.getDevice(
     state,
-    ownProps.match.params.deviceId
+    ownProps.match.params.deviceIndex
   )
 })
 
