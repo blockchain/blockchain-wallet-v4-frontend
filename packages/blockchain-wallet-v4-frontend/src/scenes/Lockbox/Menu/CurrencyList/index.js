@@ -24,9 +24,11 @@ class CurrencyListContainer extends React.PureComponent {
   onCoinSelection (newValue) {
     if (!newValue) return
     const value = pathOr([], ['search', 'value'], this.props.formValues)
-    this.props.formActions.change('lockboxTransactions', 'search', {
-      value: [...value, createOption(newValue)]
-    })
+    setTimeout(() => {
+      this.props.formActions.change('lockboxTransactions', 'search', {
+        value: [...value, createOption(newValue)]
+      })
+    }, 1)
   }
 
   onRefresh () {
