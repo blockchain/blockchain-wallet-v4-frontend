@@ -105,7 +105,7 @@ const TipText = styled(Text)`
 `
 
 const TwoStepVerification = props => {
-  const { ui, twoStepChoice, data, editing, success, ...rest } = props
+  const { uiState, twoStepChoice, data, editing, success, ...rest } = props
   const { smsVerified, authType, smsNumber } = data
   const twoFAEnabled = authType > 0
 
@@ -132,7 +132,7 @@ const TwoStepVerification = props => {
   }
 
   const renderDisable = () => {
-    if (ui.verifyToggled) {
+    if (uiState.verifyToggled) {
       if (authType > 0 && authType !== 5) {
         return (
           <React.Fragment>
@@ -271,12 +271,12 @@ const TwoStepVerification = props => {
   }
 
   const renderChoices = () =>
-    !ui.verifyToggled && !props.alone ? null : renderVerificationChoice()
+    !uiState.verifyToggled && !props.alone ? null : renderVerificationChoice()
 
   return (
     <Fragment>
       <SecurityTwoStepContainer>
-        <IconAndHeaderContainer success={ui.success}>
+        <IconAndHeaderContainer success={uiState.success}>
           <IconContainer>
             <SecurityIcon name='lock' enabled={twoFAEnabled} />
           </IconContainer>
@@ -286,7 +286,7 @@ const TwoStepVerification = props => {
           </SecuritySummary>
           {renderDisable()}
         </IconAndHeaderContainer>
-        {!ui.verifyToggled && !props.alone ? (
+        {!uiState.verifyToggled && !props.alone ? (
           <SecurityComponent>
             {!twoFAEnabled ? (
               <TwoStepButton nature='primary' onClick={props.handleClick}>
@@ -312,7 +312,7 @@ const TwoStepVerification = props => {
         )}
         {renderChoices()}
       </SecurityTwoStepContainer>
-      {ui.verifyToggled || props.alone ? (
+      {uiState.verifyToggled || props.alone ? (
         <SecurityTip>
           <Text color='brand-primary' size='12px' weight={500}>
             <FormattedMessage

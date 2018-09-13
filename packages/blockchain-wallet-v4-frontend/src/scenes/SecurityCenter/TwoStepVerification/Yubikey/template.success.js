@@ -58,11 +58,11 @@ const YubikeyInput = styled.input`
 `
 
 const Yubikey = props => {
-  const { ui, handleSubmit, handleInput, value } = props
+  const { uiState, handleSubmit, handleInput, value } = props
 
   return (
     <form onSubmit={handleSubmit}>
-      <AuthenticatorSummary success={ui.successToggled}>
+      <AuthenticatorSummary success={uiState.successToggled}>
         <YubikeyContainer>
           <YubikeyCopy>
             <Text size='14px' weight={200}>

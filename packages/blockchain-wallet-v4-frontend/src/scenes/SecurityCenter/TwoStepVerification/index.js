@@ -1,9 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import { actions } from 'data'
-import ui from 'redux-ui'
-
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
@@ -13,14 +11,23 @@ import { formValueSelector } from 'redux-form'
 class TwoStepVerificationContainer extends React.PureComponent {
   constructor (props) {
     super(props)
+    this.state = {
+      authName: '',
+      pulse: false,
+      verifyToggled: false,
+      editing: false,
+      authMethod: '',
+      success: false
+    }
 
     this.handleClick = this.handleClick.bind(this)
     this.chooseMethod = this.chooseMethod.bind(this)
     this.handleDisableClick = this.handleDisableClick.bind(this)
     this.handleTwoFactorChange = this.handleTwoFactorChange.bind(this)
     this.pulseText = this.pulseText.bind(this)
-
-    this.state = { authName: '', pulse: false }
+    this.handleUpdate = this.handleUpdate.bind(this)
+    this.handleGoBack = this.handleGoBack.bind(this)
+    this.triggerSuccess = this.triggerSuccess.bind(this)
   }
 
   static getDerivedStateFromProps (nextProps, prevState) {
@@ -37,12 +44,19 @@ class TwoStepVerificationContainer extends React.PureComponent {
     const next = this.props.data.getOrElse({})
     const prev = prevProps.data.getOrElse({})
     if (next.authType > 0 && prev.authType === 0) {
-      this.props.updateUI({ editing: true })
+      this.handleUpdate()
     }
+  }
+  handleUpdate () {
+    this.setState({
+      editing: !this.state.editing
+    })
   }
 
   handleClick () {
-    this.props.updateUI({ verifyToggled: true })
+    this.setState({
+      verifyToggled: !this.state.verifyToggled
+    })
     this.props.handleEnable()
   }
 
@@ -57,6 +71,10 @@ class TwoStepVerificationContainer extends React.PureComponent {
         verifyToggled: !this.props.ui.verifyToggled,
         editing: true
       })
+      this.setState({
+        verifyToggled: !this.state.verifyToggled,
+        editing: true
+      })
     }
   }
 
@@ -64,9 +82,13 @@ class TwoStepVerificationContainer extends React.PureComponent {
     const next = this.props.data.getOrElse({})
     if (next.smsVerified && method === 'sms') {
       this.props.securityCenterActions.setVerifiedMobileAsTwoFactor()
-      this.props.updateUI({ verifyToggled: true })
+      this.setState({
+        verifyToggled: true
+      })
     } else {
-      this.props.updateUI({ authMethod: method })
+      this.setState({
+        authMethod: method
+      })
     }
   }
 
@@ -79,7 +101,9 @@ class TwoStepVerificationContainer extends React.PureComponent {
     this.props.modalActions.showModal('ConfirmDisable2FA', {
       authName: this.state.authName
     })
-    this.props.updateUI({ editing: false })
+    this.setState({
+      editing: false
+    })
   }
 
   pulseText () {
@@ -87,6 +111,15 @@ class TwoStepVerificationContainer extends React.PureComponent {
     setTimeout(() => {
       this.setState({ pulse: false })
     }, 500)
+  }
+  handleGoBack () {
+    this.props.setState({ authMethod: '', verifyToggled: false })
+  }
+  triggerSuccess () {
+    this.setState({ success: true })
+    setTimeout(() => {
+      this.setState({ success: false })
+    }, 1500)
   }
 
   render () {
@@ -96,6 +129,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
       Success: value => (
         <Success
           {...rest}
+          uiState={this.state}
           data={value}
           handleClick={this.handleClick}
           chooseMethod={this.chooseMethod}
@@ -104,16 +138,13 @@ class TwoStepVerificationContainer extends React.PureComponent {
           }
           handleDisableClick={this.handleDisableClick}
           handleTwoFactorChange={this.handleTwoFactorChange}
-          twoStepChoice={this.props.ui.authMethod}
+          twoStepChoice={this.state.authMethod}
           authName={this.state.authName}
-          editing={this.props.ui.editing}
+          editing={this.state.editing}
           pulseText={this.pulseText}
           pulse={this.state.pulse}
           triggerSuccess={() => {
-            this.props.updateUI({ success: true })
-            setTimeout(() => {
-              this.props.updateUI({ success: false })
-            }, 1500)
+            this.triggerSuccess()
           }}
         />
       ),
@@ -139,20 +170,7 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({
-    key: 'Security_TwoStep',
-    state: {
-      verifyToggled: false,
-      editing: false,
-      authMethod: '',
-      success: false
-    }
-  })
-)
-
-export default enhance(TwoStepVerificationContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TwoStepVerificationContainer)
