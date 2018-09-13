@@ -227,6 +227,7 @@ module.exports = {
           walletHelper: envConfig.WALLET_HELPER_DOMAIN,
           comWalletApp: envConfig.COM_WALLET_APP,
           comRoot: envConfig.COM_ROOT,
+          ledgerSocket: envConfig.LEDGER_SOCKET_URL,
           ledger: localhostUrl + '/ledger' // will trigger reverse proxy
         }
 
@@ -292,6 +293,7 @@ module.exports = {
               envConfig.WALLET_HELPER_DOMAIN,
               envConfig.LEDGER_URL,
               envConfig.LEDGER_SOCKET_URL,
+              'wss://api.ledgerwallet.com',
               'https://app-api.coinify.com',
               'https://app-api.sandbox.coinify.com',
               'https://api.sfox.com',
