@@ -83,7 +83,7 @@ export default ({ api, coreSagas }) => {
 
       const domainsR = yield select(selectors.core.walletOptions.getDomains)
       const domains = domainsR.getOrElse({
-        ledgerSocket: 'wss://api.ledgerwallet.com/update'
+        ledgerSocket: 'wss://api.ledgerwallet.com'
       })
 
       // open socket and check if device is authentic
