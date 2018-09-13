@@ -14,7 +14,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { Button, Text, Icon } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
-  min-height: 210px;
+  min-height: ${props => props.minHeight};
   position: relative;
   display: flex;
   width: 100%;
@@ -65,6 +65,7 @@ export const KYCBanner = ({
   verifyIdentity
 }) => {
   if (outsideOfProfile && kycState === KYC_STATES.VERIFIED) return null
+  const isUserStateNone = () => userState === USER_ACTIVATION_STATES.NONE
 
   const headers = {
     NEW_USER: (
@@ -189,15 +190,15 @@ export const KYCBanner = ({
     )
   }
   return (
-    <Wrapper>
+    <Wrapper minHeight={isUserStateNone() ? '250px' : '210px'}>
       <Container>
         <Header size='20px' weight={300} color='white'>
-          {userState === USER_ACTIVATION_STATES.NONE ? headers[NEW_USER] : headers[kycState]}
+          {isUserStateNone() ? headers[NEW_USER] : headers[kycState]}
         </Header>
         <Content size='14px' weight={300} color='white'>
-          {userState === USER_ACTIVATION_STATES.NONE ? notes[NEW_USER] : notes[kycState]}
+          {isUserStateNone() ? notes[NEW_USER] : notes[kycState]}
         </Content>
-        {userState === USER_ACTIVATION_STATES.NONE ? buttons[NEW_USER] : buttons[kycState]}
+        {isUserStateNone() ? buttons[NEW_USER] : buttons[kycState]}
       </Container>
     </Wrapper>
   )
