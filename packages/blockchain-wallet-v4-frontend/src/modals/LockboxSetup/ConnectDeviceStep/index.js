@@ -19,11 +19,9 @@ class ConnectDeviceStepContainer extends React.PureComponent {
   }
 
   render () {
-    const isConnected = this.props.connection.app === 'DASHBOARD'
-
     return (
       <Template
-        isConnected={isConnected}
+        isConnected={this.props.connection.app}
         handleStepChange={this.changeDeviceSetupStep}
       />
     )
