@@ -15,7 +15,7 @@ export const sellDescription = `Exchange Trade SFX-`
 export const logLocation = 'modules/sfox/sagas'
 export const missingJumioToken = 'missing_jumio_token'
 
-export default ({ coreSagas, networks }) => {
+export default ({ api, coreSagas, networks }) => {
   const setBankManually = function*(action) {
     try {
       yield put(A.sfoxLoading())
@@ -40,6 +40,7 @@ export default ({ coreSagas, networks }) => {
         yield put(A.sfoxSuccess())
         yield put(A.enableSiftScience())
         yield put(A.nextStep('verify'))
+        yield api.logSfoxAccountCreation()
       } else {
         yield put(A.sfoxNotAsked())
         throw new Error(JSON.parse(profile.error).error)

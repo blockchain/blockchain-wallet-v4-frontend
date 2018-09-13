@@ -59,6 +59,9 @@ export default ({ api, options }) => {
         quoteCurrency
       ])
       yield put(A.fetchQuoteSuccess(quote))
+      baseCurrency === 'BTC'
+        ? yield call(api.logSfoxQuote, 'sfox_quote_buy_btc_usd')
+        : yield call(api.logSfoxQuote, 'sfox_quote_buy_usd_btc')
       yield fork(waitForRefreshQuote, data.payload)
     } catch (e) {
       yield put(A.fetchQuoteFailure(e))
@@ -76,6 +79,9 @@ export default ({ api, options }) => {
         quoteCurrency
       ])
       yield put(A.fetchSellQuoteSuccess(quote))
+      baseCurrency === 'BTC'
+        ? yield call(api.logSfoxQuote, 'sfox_quote_sell_btc_usd')
+        : yield call(api.logSfoxQuote, 'sfox_quote_sell_usd_btc')
       yield fork(waitForRefreshSellQuote, data.payload)
     } catch (e) {
       yield put(A.fetchSellQuoteFailure(e))
