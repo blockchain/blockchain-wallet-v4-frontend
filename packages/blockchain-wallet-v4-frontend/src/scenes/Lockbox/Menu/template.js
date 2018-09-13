@@ -27,6 +27,7 @@ const TitleBarWrapper = styled.div`
 `
 const StyledCreatableInputContainer = styled.div`
   display: flex;
+  min-height: 40px;
   padding: 15px 30px;
   align-items: center;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
@@ -106,18 +107,20 @@ const Menu = props => {
               />
             )}
           </Text>
-          <Field
-            name='search'
-            autoFocus
-            component={CreatableInputField}
-            multiValueContainer={multiValueContainer}
-            placeholder={
-              <FormattedMessage
-                id='scenes.lockbox.menu.transactions.search.placeholder'
-                defaultMessage='Search by coin, address, or description'
-              />
-            }
-          />
+          {location.pathname.includes('/lockbox/dashboard') && (
+            <Field
+              name='search'
+              autoFocus
+              component={CreatableInputField}
+              multiValueContainer={multiValueContainer}
+              placeholder={
+                <FormattedMessage
+                  id='scenes.lockbox.menu.transactions.search.placeholder'
+                  defaultMessage='Search by coin, address, or description'
+                />
+              }
+            />
+          )}
         </StyledCreatableInputContainer>
       )}
     </Container>
