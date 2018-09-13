@@ -18,7 +18,7 @@ import * as actionTypes from 'data/actionTypes'
 import IdentityVerification from './index'
 import Tray from 'components/Tray'
 import { ModalHeader } from 'blockchain-info-components'
-import { last } from 'ramda'
+import { last, values, pickAll, compose, head } from 'ramda'
 import {
   getUserId,
   getLifetimeToken
@@ -149,7 +149,6 @@ describe('IdentityVerification Modal', () => {
       })
 
       it('should be disabled and not submit by default', () => {
-        debugger
         expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
           true
         )
@@ -265,7 +264,7 @@ describe('IdentityVerification Modal', () => {
     })
   })
 
-  describe('mobile verification form', () => {
+  fdescribe('mobile verification form', () => {
     beforeEach(() => {
       getVerificationStep.mockImplementation(() => STEPS.mobile)
       store.dispatch(actions.modals.showModal(MODAL_NAME))
@@ -325,6 +324,39 @@ describe('IdentityVerification Modal', () => {
             .props()
             .disabled
         ).toBe(false)
+      })
+
+      it('should execute the send code flow when button is clicked', async () => {
+        wrapper.unmount().mount()
+        wrapper
+          .find('Field[name="smsNumber"]')
+          .find('PhoneNumberBox')
+          .find('.intl-tel-input')
+          .find('input')
+          .simulate('change', { target: { value: STUB_MOBILE } })
+
+        wrapper
+          .find('button')
+          .first()
+          .simulate('click')
+
+        let pickIndex = compose(values, pickAll)
+        let calls = dispatchSpy.mock.calls
+        expect(head(pickIndex([calls.length - 4], calls)[0]).type).toEqual(
+          actionTypes.components.identityVerification.UPDATE_SMS_NUMBER
+        )
+
+        expect(head(pickIndex([calls.length - 3], calls)[0]).type).toEqual(
+          actionTypes.form.START_SUBMIT
+        )
+
+        expect(head(pickIndex([calls.length - 2], calls)[0]).type).toEqual(
+          actionTypes.components.identityVerification.SET_SMS_STEP
+        )
+
+        expect(last(calls)[0].type).toEqual(
+          actionTypes.form.STOP_SUBMIT
+        )
       })
     })
   })
