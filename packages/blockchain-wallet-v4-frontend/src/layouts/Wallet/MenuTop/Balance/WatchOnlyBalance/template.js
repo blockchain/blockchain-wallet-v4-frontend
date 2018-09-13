@@ -27,7 +27,7 @@ const Template = props => (
         className={props.isActive ? 'active' : ''}
       />
     </Header>
-    <BalancesWrapper items={2} className={props.isActive ? 'active' : ''}>
+    <BalancesWrapper className={props.isActive ? 'active' : ''}>
       <BtcWatchOnlyBalance />
       <BchWatchOnlyBalance />
     </BalancesWrapper>

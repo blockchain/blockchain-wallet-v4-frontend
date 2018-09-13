@@ -6,8 +6,7 @@ import Template from './template'
 
 class CurrencySwitchContainer extends React.PureComponent {
   render () {
-    const { settings, coinDisplayed } = this.props
-    const { preferencesActions } = this.props
+    const { settings, coinDisplayed, preferencesActions } = this.props
     const { currency } = settings.getOrElse({})
 
     return (

@@ -41,7 +41,7 @@ export const BalancesWrapper = styled.div`
   overflow: hidden;
   transition: max-height 0.3s;
   &.active {
-    max-height: ${props => props.items * 20}px;
+    max-height: ${props => React.Children.count(props.children) * 20}px;
   }
 `
 
