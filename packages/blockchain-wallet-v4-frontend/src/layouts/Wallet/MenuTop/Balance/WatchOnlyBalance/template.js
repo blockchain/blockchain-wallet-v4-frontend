@@ -3,21 +3,34 @@ import React from 'react'
 import BtcWatchOnlyBalance from './BtcWatchOnlyBalance'
 import BchWatchOnlyBalance from './BchWatchOnlyBalance'
 import { FormattedMessage } from 'react-intl'
-import { Text } from 'blockchain-info-components'
-import { Wrapper, Header } from 'components/Balances'
+import { Icon } from 'blockchain-info-components'
+import {
+  Wrapper,
+  BalancesWrapper,
+  Header,
+  HeaderText
+} from 'components/Balances'
 
 const Template = props => (
   <Wrapper>
     <Header>
-      <Text size='14px'>
+      <HeaderText size='14px' onClick={props.handleToggle}>
+        <Icon name='forbidden' size='12px' style={{ marginRight: '10px' }} />
         <FormattedMessage
           id='layouts.wallet.menutop.balance.walletbalance.nonspendable'
           defaultMessage='Non-Spendable'
         />
-      </Text>
+      </HeaderText>
+      <Icon
+        name='caret'
+        size='10px'
+        className={props.isActive ? 'active' : ''}
+      />
     </Header>
-    <BtcWatchOnlyBalance />
-    <BchWatchOnlyBalance />
+    <BalancesWrapper className={props.isActive ? 'active' : ''}>
+      <BtcWatchOnlyBalance />
+      <BchWatchOnlyBalance />
+    </BalancesWrapper>
   </Wrapper>
 )
 
