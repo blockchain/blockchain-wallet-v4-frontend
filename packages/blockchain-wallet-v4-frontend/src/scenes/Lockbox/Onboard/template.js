@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Image, Text } from 'blockchain-info-components'
+import { Button, Image, Link, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -34,7 +34,7 @@ const ButtonContainer = styled.div`
 `
 
 const Onboard = props => {
-  const { launchLockboxSetup } = props
+  const { domains, launchLockboxSetup } = props
 
   return (
     <Wrapper>
@@ -61,12 +61,14 @@ const Onboard = props => {
                   defaultMessage='Connect'
                 />
               </Button>
-              <Button nature='empty-secondary'>
-                <FormattedMessage
-                  id='scenes.lockbox.welcome.purchase'
-                  defaultMessage='Purchase'
-                />
-              </Button>
+              <Link href={domains['comRoot'] + '/lockbox'} target='_blank'>
+                <Button nature='empty-secondary'>
+                  <FormattedMessage
+                    id='scenes.lockbox.welcome.purchase'
+                    defaultMessage='Purchase'
+                  />
+                </Button>
+              </Link>
             </ButtonContainer>
           </div>
         </Content>
