@@ -82,7 +82,7 @@ class TabsContainer extends React.PureComponent {
           className={this.props.currentTab === 'wallet' ? 'active' : ''}
           onClick={() => this.handleClick('wallet')}
         >
-          <TabIcon name='wallet-filled' />
+          <TabIcon name='wallet' />
           <TabHeader>Wallet</TabHeader>
         </Tab>
         <Tab
