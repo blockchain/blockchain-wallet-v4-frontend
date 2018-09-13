@@ -182,6 +182,15 @@ const addFromToBch = (wallet, bchAccounts, txList) => {
     txList
   )
 
+  txList.map(tx => {
+    tx.inputs.map(input => {
+      input.address = toCashAddr(input.address, true)
+    })
+    tx.outputs.map(output => {
+      output.address = toCashAddr(output.address, true)
+    })
+  })
+
   return txList
 }
 
@@ -193,7 +202,7 @@ export const getWalletTransactions = state => {
   // Remote(blockHeight)
   const blockHeightR = getHeight(state)
   // Remote(lockboxXpubs)
-  const accountListR = getLockboxBchAccounts(state)
+  const accountListR = getLockboxBchAccounts(state).map(HDAccountList.fromJS)
   // [Remote([tx])] == [Page] == Pages
   const getDescription = hash => getBchTxNote(state, hash).getOrElse('')
   const pages = getTransactions(state)

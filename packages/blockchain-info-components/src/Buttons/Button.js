@@ -99,7 +99,7 @@ const selectColor = (nature, disabled, small) => {
         backgroundColor: 'transferred',
         borderColor: 'transferred'
       }
-    case 'logout':
+    case 'warning':
       return { color: 'white', backgroundColor: 'error', borderColor: 'error' }
     case 'dark':
       return {
@@ -156,7 +156,7 @@ Button.propTypes = {
     'received',
     'sent',
     'transferred',
-    'logout',
+    'warning',
     'dark',
     'empty-secondary'
   ]),

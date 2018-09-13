@@ -53,6 +53,7 @@ export const confirm = function*({
   message,
   image,
   confirm,
+  nature,
   cancel,
   messageValues
 }) {
@@ -62,6 +63,7 @@ export const confirm = function*({
       message,
       image,
       confirm,
+      nature,
       cancel,
       messageValues
     })

@@ -176,6 +176,24 @@ class Tooltips extends React.PureComponent {
             defaultMessage="By signing a message, you can prove that you own this bitcoin address. You can verify signed messages by clicking on 'More Actions' > 'Verify Message'."
           />
         </Tooltip>
+        <Tooltip id='faq.tooltip'>
+          <FormattedMessage
+            id='faq.tooltip.description'
+            defaultMessage='Frequently Asked Questions'
+          />
+        </Tooltip>
+        <Tooltip id='refresh.tooltip'>
+          <FormattedMessage
+            id='refresh.tooltip.description'
+            defaultMessage='Refresh'
+          />
+        </Tooltip>
+        <Tooltip id='whatsnew.tooltip'>
+          <FormattedMessage
+            id='whatsnew.tooltip.description'
+            defaultMessage="What's New"
+          />
+        </Tooltip>
       </div>
     )
   }

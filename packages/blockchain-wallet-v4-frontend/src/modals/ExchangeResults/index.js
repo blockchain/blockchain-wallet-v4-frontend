@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { contains } from 'ramda'
+
 import modalEnhancer from 'providers/ModalEnhancer'
 import { model } from 'data'
 
@@ -12,6 +14,7 @@ import {
   TableRow,
   Note
 } from 'components/Exchange'
+import { OrderStatus } from 'components/OrderStatus'
 import {
   Button,
   Modal,
@@ -26,7 +29,10 @@ const ExchangeResultsFooter = styled(ModalFooter)`
   }
 `
 
+const { RESULTS_MODAL, INCOMPLETE_STATES } = model.components.exchangeHistory
+
 const ExchangeResults = ({
+  status,
   position,
   total,
   close,
@@ -39,29 +45,30 @@ const ExchangeResults = ({
   fee
 }) => (
   <Modal size='small' position={position} total={total}>
-    <ModalHeader>
-      <FormattedMessage
-        id='scenes.exchange.exchangeform.result.title'
-        defaultMessage='Awaiting funds'
-      />
+    <ModalHeader onClose={close}>
+      <OrderStatus status={status} />
     </ModalHeader>
     <ModalBody>
-      <Note>
-        <FormattedMessage
-          id='scenes.exchange.exchangeform.results.thanks'
-          defaultMessage='Thanks for placing your trade!'
-        />
-        <b>
+      {contains(status, INCOMPLETE_STATES) && (
+        <Note>
           <FormattedMessage
-            id='scenes.exchange.exchangeform.results.timeframe'
-            defaultMessage='Funds will usually reach your wallet within 2 hours and we’ll send you a notification when that happens.'
+            id='scenes.exchange.exchangeform.results.thanks'
+            defaultMessage='Thanks for placing your trade!'
           />
-        </b>
-        <FormattedMessage
-          id='scenes.exchange.exchangeform.results.history'
-          defaultMessage='Keep track of your trade’s progress in the Order History tab.'
-        />
-      </Note>
+          &nbsp;
+          <b>
+            <FormattedMessage
+              id='scenes.exchange.exchangeform.results.timeframe'
+              defaultMessage='Funds will usually reach your wallet within 2 hours and we’ll send you a notification when that happens.'
+            />
+          </b>
+          &nbsp;
+          <FormattedMessage
+            id='scenes.exchange.exchangeform.results.history'
+            defaultMessage='Keep track of your trade’s progress in the Order History tab.'
+          />
+        </Note>
+      )}
       <AmountHeader>
         <FormattedMessage
           id='scenes.exchange.exchangeform.results.exchange'
@@ -115,6 +122,4 @@ const ExchangeResults = ({
   </Modal>
 )
 
-export default modalEnhancer(model.components.exchange.RESULTS_MODAL)(
-  ExchangeResults
-)
+export default modalEnhancer(RESULTS_MODAL)(ExchangeResults)

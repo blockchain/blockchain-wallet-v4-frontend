@@ -20,6 +20,7 @@ const registerExchangeSagas = function*(exchange) {
   )
   yield takeLatest(AT.CHANGE_FIX, exchange.changeFix)
   yield takeLatest(AT.CONFIRM_EXCHANGE, exchange.confirm)
+  yield takeLatest(AT.CLEAR_SUBSCRIPTIONS, exchange.clearSubscriptions)
 }
 
 const registerShapeshiftSagas = function*(shapeshift) {
