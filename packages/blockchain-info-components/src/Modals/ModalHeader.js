@@ -44,7 +44,13 @@ const ModalHeader = props => {
         {icon && (
           <HeaderIcon name={icon} size='28px' weight={300} color='gray-5' />
         )}
-        <Text size='20px' weight={300} color='gray-5' capitalize>
+        <Text
+          size='20px'
+          weight={300}
+          color='gray-5'
+          className='headerText'
+          capitalize
+        >
           {children}
         </Text>
       </Header>
