@@ -132,7 +132,7 @@ export const KYCBanner = ({
     [KYC_STATES.PENDING]: (
       <FormattedMessage
         id='components.identityverification.popup.note.inreview'
-        defaultMessage='We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to buy cryptocurrency,'
+        defaultMessage='We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to exchange cryptocurrency,'
       />
     ),
     [KYC_STATES.REJECTED]: (
