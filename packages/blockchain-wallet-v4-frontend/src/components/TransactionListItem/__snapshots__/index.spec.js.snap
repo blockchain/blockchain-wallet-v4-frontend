@@ -50,6 +50,7 @@ exports[`ListItemContainer renders correctly 1`] = `
         "setEtherWelcome": [Function],
         "setLanguage": [Function],
         "setTheme": [Function],
+        "setTotalBalancesDropdown": [Function],
         "toggleCoinDisplayed": [Function],
       }
     }
