@@ -78,6 +78,7 @@ profileSagas.createUser = jest.fn()
 
 const stubMail = 'mail@mail.com'
 const STUB_MOBILE = '212555555'
+const STUB_CODE = '12345'
 
 describe('IdentityVerification Modal', () => {
   beforeEach(() => {
@@ -379,6 +380,29 @@ describe('IdentityVerification Modal', () => {
         wrapper.unmount().mount()
 
         expect(wrapper.find('Field[name="code"]')).toHaveLength(1)
+      })
+
+      it('should enable the continue button when a code is entered', () => {
+        getSmsStep.mockImplementation(() => Remote.of(SMS_STEPS.verify))
+        wrapper
+          .find('Field[name="smsNumber"]')
+          .find('PhoneNumberBox')
+          .find('.intl-tel-input')
+          .find('input')
+          .simulate('change', { target: { value: STUB_MOBILE } })
+        wrapper
+          .find('button')
+          .first()
+          .simulate('click')
+
+        wrapper
+          .find('Field[name="code"]')
+          .find('input[name="code"]')
+          .simulate('change', { target: { value: STUB_CODE } })
+
+        expect(
+          wrapper.find('button').last().props().disabled
+        ).toBe(false)
       })
     })
   })
