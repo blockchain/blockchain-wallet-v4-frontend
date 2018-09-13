@@ -72,7 +72,6 @@ getEmail.mockImplementation(() => Remote.of('email@email.com'))
 getGuid.mockImplementation(() => Remote.of('123-abc-456-def'))
 getCountryCode.mockImplementation(() => Remote.of('FR'))
 getPossibleAddresses.mockImplementation(() => POSSIBLE_ADDRESSES)
-getSmsStep.mockImplementation(() => Remote.of(SMS_STEPS.edit))
 getSupportedCountries.mockImplementation(() => Remote.Success(SUPPORTED_COUNTRIES))
 
 profileSagas.createUser = jest.fn()
@@ -264,8 +263,9 @@ describe('IdentityVerification Modal', () => {
     })
   })
 
-  fdescribe('mobile verification form', () => {
+  describe('mobile verification form', () => {
     beforeEach(() => {
+      getSmsStep.mockImplementation(() => Remote.of(SMS_STEPS.edit))
       getVerificationStep.mockImplementation(() => STEPS.mobile)
       store.dispatch(actions.modals.showModal(MODAL_NAME))
       coreSagas.settings.sendConfirmationCodeEmail.mockClear()
@@ -357,6 +357,28 @@ describe('IdentityVerification Modal', () => {
         expect(last(calls)[0].type).toEqual(
           actionTypes.form.STOP_SUBMIT
         )
+      })
+
+      it('should show the code field', async () => {
+        getSmsStep.mockImplementation(() => Remote.of(SMS_STEPS.verify))
+
+        expect(wrapper.find('Field[name="code"]')).toHaveLength(0)
+
+        wrapper
+          .find('Field[name="smsNumber"]')
+          .find('PhoneNumberBox')
+          .find('.intl-tel-input')
+          .find('input')
+          .simulate('change', { target: { value: STUB_MOBILE } })
+
+        wrapper
+          .find('button')
+          .first()
+          .simulate('click')
+
+        wrapper.unmount().mount()
+
+        expect(wrapper.find('Field[name="code"]')).toHaveLength(1)
       })
     })
   })
