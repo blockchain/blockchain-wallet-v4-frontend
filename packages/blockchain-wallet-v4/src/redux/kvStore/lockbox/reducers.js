@@ -68,7 +68,7 @@ export default (state = INITIAL_STATE, action) => {
         KVStoreEntry.value,
         lensProp('devices')
       )
-      return over(valueLens, remove(deviceIndex), state)
+      return over(valueLens, remove(deviceIndex, 1), state)
     }
     default:
       return state
