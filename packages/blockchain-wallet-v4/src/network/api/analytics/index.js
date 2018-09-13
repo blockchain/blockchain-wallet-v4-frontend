@@ -52,6 +52,13 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       data: { name: type }
     })
 
+  const logSfoxTrade = type =>
+    get({
+      url: rootUrl,
+      endPoint: '/event',
+      data: { name: type }
+    })
+
   return {
     incrementCurrencyUsageStats,
     incrementLoginViaQrStats,
@@ -59,6 +66,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     incrementStat,
     logClick,
     logSfoxAccountCreation,
-    logSfoxQuote
+    logSfoxQuote,
+    logSfoxTrade
   }
 }

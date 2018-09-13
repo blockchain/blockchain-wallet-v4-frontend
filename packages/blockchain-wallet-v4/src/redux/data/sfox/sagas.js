@@ -1,5 +1,5 @@
 import { apply, fork, call, put, select, take } from 'redux-saga/effects'
-import { path, prepend } from 'ramda'
+import { path, prepend, prop } from 'ramda'
 
 import ExchangeDelegate from '../../../exchange/delegate'
 import * as S from './selectors'
@@ -277,6 +277,10 @@ export default ({ api, options }) => {
       yield put(A.fetchProfile())
       yield put(A.fetchTrades())
 
+      prop('baseCurrency', quote) === 'BTC'
+        ? yield call(api.logSfoxTrade, 'sfox_trade_buy_btc_usd_created')
+        : yield call(api.logSfoxTrade, 'sfox_trade_buy_usd_btc_created')
+
       // save trades to metadata
       const kvTrades = yield select(buySellSelectors.getSfoxTrades)
       const newTrades = prepend(trade, kvTrades.getOrElse([]))
@@ -320,6 +324,10 @@ export default ({ api, options }) => {
       yield put(A.handleTradeSuccess(trade))
       yield put(A.fetchProfile())
       yield put(A.fetchTrades())
+
+      prop('baseCurrency', quote) === 'BTC'
+        ? yield call(api.logSfoxTrade, 'sfox_trade_sell_btc_usd_created')
+        : yield call(api.logSfoxTrade, 'sfox_trade_sell_usd_btc_created')
 
       // get current kvstore trades, add new trade and set new trades to metadata
       const kvTrades = yield select(buySellSelectors.getSfoxTrades)
