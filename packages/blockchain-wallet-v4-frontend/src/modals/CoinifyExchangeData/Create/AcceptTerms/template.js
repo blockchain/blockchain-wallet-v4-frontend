@@ -252,7 +252,6 @@ const AcceptTerms = props => {
                   <FormattedMessage
                     id='contactsupport'
                     defaultMessage='contact support.'
-                    values={{ errorDescription: prop('error_description', signupError) }}
                   />
                 </Link>
                 <br />
