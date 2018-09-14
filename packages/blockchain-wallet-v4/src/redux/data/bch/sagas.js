@@ -6,7 +6,8 @@ import * as S from './selectors'
 import * as selectors from '../../selectors'
 import { fromCashAddr, isCashAddr } from '../../../utils/bch'
 
-const convertFromCashAddrIfCashAddr = (addr) => isCashAddr(addr) ? fromCashAddr(addr) : addr
+const convertFromCashAddrIfCashAddr = addr =>
+  isCashAddr(addr) ? fromCashAddr(addr) : addr
 
 export default ({ api }) => {
   const fetchData = function*() {

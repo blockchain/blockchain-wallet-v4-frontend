@@ -11,7 +11,12 @@ import { selectReceiveAddress } from '../utils/sagas'
 const noAdviceError = 'No advice present'
 
 export default ({ api, coreSagas, options, networks }) => {
-  const { mapFixToFieldName, configEquals, formatPair } = model.rates
+  const {
+    mapFixToFieldName,
+    configEquals,
+    formatPair,
+    swapBaseAndCounter
+  } = model.rates
   const formValueSelector = selectors.form.getFormValues(EXCHANGE_FORM)
   const { getDefaultAccount, createPayment } = utils({
     api,
@@ -19,6 +24,29 @@ export default ({ api, coreSagas, options, networks }) => {
     options,
     networks
   })
+
+  const swapFieldValue = function*() {
+    const form = yield select(formValueSelector)
+    const { fix, source, target } = form
+    const pair = formatPair(source.coin, target.coin)
+    const currentField = mapFixToFieldName(fix)
+    const currentFieldAmount = form[currentField]
+    const oppositeFix = swapBaseAndCounter(fix)
+    const oppositeField = mapFixToFieldName(oppositeFix)
+    const oppositeFieldAmount = (yield select(S.getAmounts(pair)))
+      .map(prop(oppositeField))
+      .getOrElse(0)
+    yield put(actions.form.change(EXCHANGE_FORM, 'source', target))
+    yield put(actions.form.change(EXCHANGE_FORM, 'target', source))
+    yield put(
+      actions.form.change(EXCHANGE_FORM, currentField, oppositeFieldAmount)
+    )
+    yield put(
+      actions.form.change(EXCHANGE_FORM, oppositeField, currentFieldAmount)
+    )
+    yield call(unsubscribeFromCurrentAdvice, { source, target })
+    yield call(changeSubscription)
+  }
 
   const exchangeFormInitialized = function*() {
     yield put(actions.modules.rates.fetchAvailablePairs())
@@ -222,6 +250,7 @@ export default ({ api, coreSagas, options, networks }) => {
     changeTargetFiatAmount,
     changeFix,
     confirm,
-    clearSubscriptions
+    clearSubscriptions,
+    swapFieldValue
   }
 }
