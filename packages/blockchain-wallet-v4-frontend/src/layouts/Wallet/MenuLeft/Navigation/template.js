@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -11,18 +12,12 @@ import {
 } from 'components/MenuLeft'
 import { Icon, Text } from 'blockchain-info-components'
 
+const LockboxSubMenu = styled(SubMenu)`
+  width: 100%;
+  margin-left: 40px;
+`
 const Navigation = props => {
-  const {
-    logClick,
-    menuOpened,
-    lockboxOpened,
-    settingsOpened,
-    handleCloseMenu,
-    canTrade,
-    pathname,
-    lockboxDevices,
-    ...rest
-  } = props.data
+  const { logClick, lockboxOpened, lockboxDevices, ...rest } = props.data
 
   return (
     <Wrapper {...rest} onClick={logClick}>
@@ -111,7 +106,7 @@ const Navigation = props => {
         </MenuItem>
       </LinkContainer>
       {lockboxOpened && (
-        <SubMenu>
+        <LockboxSubMenu>
           {lockboxDevices.map((device, index) => {
             const deviceName = device.device_name
             return (
@@ -129,19 +124,14 @@ const Navigation = props => {
               </LinkContainer>
             )
           })}
-        </SubMenu>
+        </LockboxSubMenu>
       )}
     </Wrapper>
   )
 }
 
 Navigation.propTypes = {
-  menuOpened: PropTypes.bool.isRequired,
-  settingsOpened: PropTypes.bool.isRequired,
-  lockboxOpened: PropTypes.bool.isRequired,
-  canTrade: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
-  pathname: PropTypes.string.isRequired,
-  handleCloseMenu: PropTypes.func.isRequired
+  lockboxOpened: PropTypes.bool.isRequired
 }
 
 export default Navigation
