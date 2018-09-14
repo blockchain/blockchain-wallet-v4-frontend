@@ -122,3 +122,6 @@ export const confirmExchange = () => ({
 export const clearSubscriptions = () => ({
   type: AT.CLEAR_SUBSCRIPTIONS
 })
+export const swapBaseAndCounter = () => ({
+  type: AT.SWAP_BASE_AND_COUNTER
+})

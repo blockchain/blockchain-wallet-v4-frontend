@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { contains } from 'ramda'
+import { always, contains, identity, ifElse, equals } from 'ramda'
 
 import modalEnhancer from 'providers/ModalEnhancer'
 import { model } from 'data'
@@ -14,9 +14,10 @@ import {
   TableRow,
   Note
 } from 'components/Exchange'
-import { OrderStatus } from 'components/OrderStatus'
+import { OrderStatus, selectColor, OrderNote } from 'components/OrderStatus'
 import {
   Button,
+  Link,
   Modal,
   ModalHeader,
   ModalBody,
@@ -28,98 +29,275 @@ const ExchangeResultsFooter = styled(ModalFooter)`
     justify-content: center;
   }
 `
+const StatusCircle = styled.div`
+  height: 10px;
+  width: 10px;
+  border-radius: 5px;
+  margin-right: 10px;
+  background-color: ${props => props.theme[props.color]};
+`
 
-const { RESULTS_MODAL, INCOMPLETE_STATES } = model.components.exchangeHistory
+const ResultsHeader = styled(ModalHeader)`
+  .headerText {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: ${props => props.theme[props.color]};
+  }
+`
 
-const ExchangeResults = ({
-  status,
+const OrderRow = styled(AmountHeader)`
+  font-weight: 600;
+  margin-bottom: 24px;
+`
+const StrikeThrough = styled.s`
+  color: ${props => props.theme['brand-tertiary']};
+`
+
+const { RESULTS_MODAL, STATES } = model.components.exchangeHistory
+const {
+  REFUNDED,
+  PENDING_REFUND,
+  PENDING_DEPOSIT,
+  PENDING_EXECUTION,
+  PENDING_WITHDRAWAL,
+  FINISHED_DEPOSIT,
+  FAILED,
+  EXPIRED,
+  FINISHED
+} = STATES
+
+const getSourceMessage = (status, coin) => {
+  switch (status) {
+    case EXPIRED:
+      return (
+        <FormattedMessage
+          id='modals.exchangeresults.exchange'
+          defaultMessage='Exchange {coin}'
+          values={{ coin }}
+        />
+      )
+    case FINISHED:
+      return (
+        <FormattedMessage
+          id='modals.exchangeresults.deposited'
+          defaultMessage='{coin} Deposited'
+          values={{ coin }}
+        />
+      )
+    case REFUNDED:
+    case PENDING_REFUND:
+      return (
+        <FormattedMessage
+          id='modals.exchangeresults.broadcast'
+          defaultMessage='{coin} Broadcast'
+          values={{ coin }}
+        />
+      )
+    default:
+      return (
+        <FormattedMessage
+          id='modals.exchangeresults.exchange'
+          defaultMessage='Exchange {coin}'
+          values={{ coin }}
+        />
+      )
+  }
+}
+
+const getTargetMessage = (status, coin) => {
+  switch (status) {
+    case FINISHED:
+      return (
+        <FormattedMessage
+          id='modals.exchangeresults.received'
+          defaultMessage='{coin} Received'
+          values={{ coin }}
+        />
+      )
+    default:
+      return (
+        <FormattedMessage
+          id='modals.exchangeresults.receive'
+          defaultMessage='Receive {coin}'
+          values={{ coin }}
+        />
+      )
+  }
+}
+
+const getRefundMessage = status => {
+  switch (status) {
+    case REFUNDED:
+      return (
+        <FormattedMessage
+          id='modals.exchangeresults.totalrefunded'
+          defaultMessage='Total refunded'
+        />
+      )
+    default:
+      return (
+        <FormattedMessage
+          id='modals.exchangeresults.totaltoberefunded'
+          defaultMessage='Total to be refunded'
+        />
+      )
+  }
+}
+
+const getButton = (status, close) => {
+  switch (status) {
+    case EXPIRED:
+      return (
+        <Link
+          target='_blank'
+          href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000014686'
+        >
+          <Button nature='primary' size='13px' weight={300}>
+            <FormattedMessage
+              id='modals.exchangedetails.refund'
+              defaultMessage='Request a refund'
+            />
+          </Button>
+        </Link>
+      )
+    default:
+      return (
+        <Button nature='primary' size='13px' weight={300} onClick={close}>
+          <FormattedMessage
+            id='modals.exchangedetails.close'
+            defaultMessage='Close'
+          />
+        </Button>
+      )
+  }
+}
+
+const getTargetAmount = (withdrawalAmount, targetCoin, status) =>
+  contains(status, [FAILED, EXPIRED]) ? (
+    <StrikeThrough>{`${withdrawalAmount} ${targetCoin}`}</StrikeThrough>
+  ) : (
+    `${withdrawalAmount} ${targetCoin}`
+  )
+
+export const ExchangeResults = ({
   position,
   total,
   close,
+  status,
+  id,
   sourceCoin,
   targetCoin,
-  sourceAmount,
-  targetAmount,
+  depositAmount,
+  withdrawalAmount,
   targetFiat,
   currency,
-  fee
-}) => (
-  <Modal size='small' position={position} total={total}>
-    <ModalHeader onClose={close}>
-      <OrderStatus status={status} />
-    </ModalHeader>
-    <ModalBody>
-      {contains(status, INCOMPLETE_STATES) && (
-        <Note>
+  fee,
+  rate,
+  refundAmount
+}) => {
+  const color = ifElse(equals('transferred'), always('brand-yellow'), identity)(
+    selectColor(status)
+  )
+  const headerColor = color === 'error' ? color : 'gray-5'
+  return (
+    <Modal size='small' position={position} total={total}>
+      <ResultsHeader onClose={close} color={headerColor}>
+        <StatusCircle color={color} />
+        <OrderStatus status={status} />
+      </ResultsHeader>
+      <ModalBody>
+        {status !== FINISHED && (
+          <Note>
+            <OrderNote status={status} />
+          </Note>
+        )}
+        <OrderRow>
           <FormattedMessage
-            id='scenes.exchange.exchangeform.results.thanks'
-            defaultMessage='Thanks for placing your trade!'
+            id='modals.exchangeresults.orderid'
+            defaultMessage='Order {id}'
+            values={{ id }}
           />
-          &nbsp;
-          <b>
+        </OrderRow>
+        <AmountHeader>{getSourceMessage(status, sourceCoin)}</AmountHeader>
+        <ExchangeAmount>{`${depositAmount} ${sourceCoin}`}</ExchangeAmount>
+        {!contains(status, [REFUNDED, PENDING_REFUND]) && (
+          <React.Fragment>
+            <AmountHeader>{getTargetMessage(status, sourceCoin)}</AmountHeader>
+            <ExchangeAmount>
+              {getTargetAmount(withdrawalAmount, targetCoin, status)}
+            </ExchangeAmount>
+          </React.Fragment>
+        )}
+        <Delimiter />
+        {contains(status, [
+          FINISHED,
+          PENDING_DEPOSIT,
+          PENDING_EXECUTION,
+          PENDING_WITHDRAWAL,
+          FINISHED_DEPOSIT
+        ]) && (
+          <TableRow>
+            <ExchangeText>
+              <FormattedMessage
+                id='modals.exchangeresults.value'
+                defaultMessage='Total Value'
+              />
+              {status === FINISHED && (
+                <React.Fragment>
+                  &nbsp;
+                  <FormattedMessage
+                    id='modals.exchangeresults.valuenotcie'
+                    defaultMessage='(when exchanged)'
+                  />
+                </React.Fragment>
+              )}
+            </ExchangeText>
+            <ExchangeText weight={300}>{`${
+              status === FINISHED ? '' : '~'
+            } ${targetFiat} ${currency}`}</ExchangeText>
+          </TableRow>
+        )}
+        <TableRow>
+          <ExchangeText>
             <FormattedMessage
-              id='scenes.exchange.exchangeform.results.timeframe'
-              defaultMessage='Funds will usually reach your wallet within 2 hours and we’ll send you a notification when that happens.'
+              id='modals.exchangeresults.fee'
+              defaultMessage='Network Fee'
             />
-          </b>
-          &nbsp;
-          <FormattedMessage
-            id='scenes.exchange.exchangeform.results.history'
-            defaultMessage='Keep track of your trade’s progress in the Order History tab.'
-          />
-        </Note>
-      )}
-      <AmountHeader>
-        <FormattedMessage
-          id='scenes.exchange.exchangeform.results.exchange'
-          defaultMessage='Exchange {coin}'
-          values={{
-            coin: sourceCoin
-          }}
-        />
-      </AmountHeader>
-      <ExchangeAmount>{`${sourceAmount} ${sourceCoin}`}</ExchangeAmount>
-      <AmountHeader>
-        <FormattedMessage
-          id='scenes.exchange.exchangeform.summary.receive'
-          defaultMessage='Receive {coin}'
-          values={{
-            coin: targetCoin
-          }}
-        />
-      </AmountHeader>
-      <ExchangeAmount>{`${targetAmount} ${targetCoin}`}</ExchangeAmount>
-      <Delimiter />
-      <TableRow>
-        <ExchangeText>
-          <FormattedMessage
-            id='scenes.exchange.exchangeform.results.value'
-            defaultMessage='Total Value'
-          />
-        </ExchangeText>
-        <ExchangeText
-          weight={300}
-        >{`~ ${targetFiat} ${currency}`}</ExchangeText>
-      </TableRow>
-      <TableRow>
-        <ExchangeText>
-          <FormattedMessage
-            id='scenes.exchange.exchangeform.summary.fee'
-            defaultMessage='Network Fee'
-          />
-        </ExchangeText>
-        <ExchangeText weight={300}>{`${fee} ${targetCoin}`}</ExchangeText>
-      </TableRow>
-    </ModalBody>
-    <ExchangeResultsFooter>
-      <Button nature='primary' size='13px' weight={300} onClick={close}>
-        <FormattedMessage
-          id='modals.exchangedetails.close'
-          defaultMessage='Close'
-        />
-      </Button>
-    </ExchangeResultsFooter>
-  </Modal>
-)
+          </ExchangeText>
+          <ExchangeText weight={300}>{`${fee} ${targetCoin}`}</ExchangeText>
+        </TableRow>
+        {contains(status, [
+          FINISHED,
+          PENDING_DEPOSIT,
+          PENDING_EXECUTION,
+          PENDING_WITHDRAWAL,
+          FINISHED_DEPOSIT
+        ]) && (
+          <TableRow>
+            <ExchangeText>
+              <FormattedMessage
+                id='modals.exchangeresults.rate'
+                defaultMessage='Exchange rate'
+              />
+            </ExchangeText>
+            <ExchangeText
+              weight={300}
+            >{`1 ${sourceCoin} = ${rate} ${targetCoin}`}</ExchangeText>
+          </TableRow>
+        )}
+        {contains(status, [REFUNDED, PENDING_REFUND]) && (
+          <TableRow>
+            <ExchangeText>{getRefundMessage(status)}</ExchangeText>
+            <ExchangeText weight={300}>{`${
+              status === REFUNDED ? '' : '~'
+            } ${refundAmount}`}</ExchangeText>
+          </TableRow>
+        )}
+      </ModalBody>
+      <ExchangeResultsFooter>{getButton(status, close)}</ExchangeResultsFooter>
+    </Modal>
+  )
+}
 
 export default modalEnhancer(RESULTS_MODAL)(ExchangeResults)

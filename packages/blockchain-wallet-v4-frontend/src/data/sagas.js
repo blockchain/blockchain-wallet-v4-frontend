@@ -7,4 +7,13 @@ import * as preferences from './preferences/sagas'
 import * as router from './router/sagas'
 import * as wallet from './wallet/sagas'
 
-export { analytics, auth, components, middleware, modules, preferences, router, wallet }
+export {
+  analytics,
+  auth,
+  components,
+  middleware,
+  modules,
+  preferences,
+  router,
+  wallet
+}

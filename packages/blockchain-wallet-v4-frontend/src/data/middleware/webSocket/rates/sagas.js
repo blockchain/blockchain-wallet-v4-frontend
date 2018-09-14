@@ -65,7 +65,7 @@ export default ({ api, ratesSocket }) => {
     if (isAdviceUnsubscribeSuccess(message))
       yield put(A.adviceUnsubscribeSuccess(message.pair))
     if (isAdviceMessage(message))
-      yield put(actions.modules.rates.updateAdvice(message))
+      yield put(actions.modules.rates.updateAdvice(message.quote))
     if (isRatesSubscribeSuccess(message))
       yield put(A.ratesSubscribeSuccess(message.pairs))
     if (isRatesSubscribeError(message))
