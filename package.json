@@ -105,7 +105,8 @@
     "test:frontend:debug": "yarn workspace blockchain-wallet-v4-frontend test:debug",
     "test:frontend:update": "yarn workspace blockchain-wallet-v4-frontend test -- -u",
     "test:frontend:watch": "yarn workspace blockchain-wallet-v4-frontend test:watch",
-    "manage:translations": "yarn workspace blockchain-wallet-v4-frontend manage:translations"
+    "manage:translations": "yarn workspace blockchain-wallet-v4-frontend manage:translations",
+    "release": "release-it"
   },
   "dependencies": {
     "compression":
@@ -186,6 +187,7 @@
     "react-test-renderer": "16.4.2",
     "redux-mock-store": "1.5.3",
     "redux-saga-test-plan": "3.7.0",
+    "release-it": "7.6.1",
     "rimraf": "2.6.2",
     "standard": "11.0.1",
     "style-loader": "0.22.1",

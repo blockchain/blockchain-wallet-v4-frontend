@@ -240,7 +240,7 @@ const Personal = ({
                         text={
                           <FormattedMessage
                             id='identityverification.personal.faq.name.text'
-                            defaultMessage='They should match exactly the details in your government issued ID, passport or driving license.'
+                            defaultMessage='They should match exactly the details in your passport or driving license.'
                           />
                         }
                       />
@@ -401,6 +401,7 @@ const Personal = ({
                         </Text>
                         <Field
                           name='address'
+                          validate={required}
                           elements={possibleAddresses}
                           onChange={onAddressSelect}
                           templateDisplay={renderAddressDisplay}

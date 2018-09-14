@@ -90,7 +90,7 @@ const IdentityVerification = ({ kycState, verifyIdentity }) => {
       <FormattedMessage
         id='scenes.profile.identityverification.note.inreview'
         defaultMessage={
-          'We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to buy cryptocurrency.\n {note} In some cases it can take up to 2 hours to get verified.'
+          'We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to exchange cryptocurrency.\n {note} In some cases it can take up to 2 hours to get verified.'
         }
         values={{
           note: (
