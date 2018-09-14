@@ -110,11 +110,11 @@ const Navigation = props => {
           />
         </MenuItem>
       </LinkContainer>
-      {lockboxOpened &&
-        lockboxDevices.map((device, index) => {
-          const deviceName = device.device_name
-          return (
-            <SubMenu>
+      {lockboxOpened && (
+        <SubMenu>
+          {lockboxDevices.map((device, index) => {
+            const deviceName = device.device_name
+            return (
               <LinkContainer
                 to={`/lockbox/dashboard/${index}`}
                 activeClassName='active'
@@ -127,9 +127,10 @@ const Navigation = props => {
                   />
                 </SubMenuItem>
               </LinkContainer>
-            </SubMenu>
-          )
-        })}
+            )
+          })}
+        </SubMenu>
+      )}
     </Wrapper>
   )
 }
