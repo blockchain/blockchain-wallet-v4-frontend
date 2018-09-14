@@ -1,9 +1,10 @@
 import React from 'react'
 import { actions, selectors } from 'data'
 import { connect } from 'react-redux'
-import { formValueSelector } from 'redux-form'
+import { formValueSelector, SubmissionError } from 'redux-form'
 import { bindActionCreators } from 'redux'
 
+import { requireUniqueDeviceName } from 'services/FormHelper'
 import RenameDevice from './template.js'
 
 class RenameDeviceContainer extends React.PureComponent {
@@ -16,11 +17,21 @@ class RenameDeviceContainer extends React.PureComponent {
   }
 
   onSubmit () {
-    this.props.lockboxActions.updateDeviceName(
-      this.props.deviceIndex,
-      this.props.newDeviceName
+    const isNotUnique = requireUniqueDeviceName(
+      this.props.newDeviceName,
+      this.props.usedDeviceNames
     )
-    this.handleToggle()
+    if (isNotUnique) {
+      throw new SubmissionError({
+        newDeviceName: isNotUnique
+      })
+    } else {
+      this.props.lockboxActions.updateDeviceName(
+        this.props.deviceIndex,
+        this.props.newDeviceName
+      )
+      this.handleToggle()
+    }
   }
 
   handleToggle () {

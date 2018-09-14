@@ -1,7 +1,7 @@
 import React from 'react'
 
 import styled from 'styled-components'
-import { required, requireUniqueDeviceName } from 'services/FormHelper'
+import { required } from 'services/FormHelper'
 import { Button, Image, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
@@ -34,8 +34,7 @@ const Row = styled.div`
 `
 
 const NameDeviceStep = props => {
-  const { handleSubmit, invalid, usedDeviceNames } = props
-  const uniqueName = requireUniqueDeviceName(usedDeviceNames)
+  const { handleSubmit, invalid } = props
 
   return (
     <Wrapper>
@@ -64,7 +63,7 @@ const NameDeviceStep = props => {
             <Field
               name='newDeviceName'
               autoFocus
-              validate={[required, uniqueName]}
+              validate={[required]}
               component={TextBox}
               maxLength={30}
             />

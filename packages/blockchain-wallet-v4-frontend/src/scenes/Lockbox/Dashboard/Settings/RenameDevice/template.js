@@ -5,8 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button } from 'blockchain-info-components'
-import { required, requireUniqueDeviceName } from 'services/FormHelper'
-import { SettingForm, SettingWrapper } from 'components/Setting'
+import { required } from 'services/FormHelper'
 import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
 import {
   SettingComponent,
@@ -29,15 +28,12 @@ const ButtonWrapper = styled.div`
 const RenameDevice = props => {
   const {
     deviceName,
-    usedDeviceNames,
-    updateToggled,
+    handleCancel,
     handleToggle,
     handleSubmit,
-    submitting,
     invalid,
-    handleCancel
+    updateToggled
   } = props
-  const uniqueName = requireUniqueDeviceName(usedDeviceNames)
 
   return (
     <SettingContainer>
@@ -72,7 +68,8 @@ const RenameDevice = props => {
                 <Field
                   name='newDeviceName'
                   autoFocus
-                  validate={[required, uniqueName]}
+                  errorBottom
+                  validate={[required]}
                   component={TextBox}
                   maxLength={30}
                 />
@@ -89,7 +86,7 @@ const RenameDevice = props => {
                 type='submit'
                 nature='primary'
                 capitalize
-                disabled={submitting || invalid}
+                disabled={invalid}
               >
                 <FormattedMessage
                   id='scenes.lockbox.settings.renamedevice.settings.save'
@@ -110,4 +107,6 @@ RenameDevice.propTypes = {
   handleSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'RenameDevice' })(RenameDevice)
+export default reduxForm({
+  form: 'RenameDevice'
+})(RenameDevice)

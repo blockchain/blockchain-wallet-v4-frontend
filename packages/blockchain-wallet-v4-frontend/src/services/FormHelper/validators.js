@@ -183,7 +183,7 @@ export const onPartnerStateWhitelist = (value, allValues, props) => {
   )
 }
 
-export const requireUniqueDeviceName = usedDeviceNames => value => {
+export const requireUniqueDeviceName = (value, usedDeviceNames) => {
   return any(equals(value))(usedDeviceNames) ? (
     <M.UniqueDeviceName />
   ) : (

@@ -2,9 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions, selectors } from 'data'
+import { formValueSelector, SubmissionError } from 'redux-form'
 
+import { requireUniqueDeviceName } from 'services/FormHelper'
 import NameDeviceStep from './template'
-import { formValueSelector } from 'redux-form'
 
 class NameDeviceStepContainer extends React.PureComponent {
   constructor (props) {
@@ -13,7 +14,18 @@ class NameDeviceStepContainer extends React.PureComponent {
   }
 
   onSubmit () {
-    this.props.lockboxActions.saveNewDeviceKvStore(this.props.newDeviceName)
+    const isNotUnique = requireUniqueDeviceName(
+      this.props.newDeviceName,
+      this.props.usedDeviceNames
+    )
+
+    if (isNotUnique) {
+      throw new SubmissionError({
+        newDeviceName: isNotUnique
+      })
+    } else {
+      this.props.lockboxActions.saveNewDeviceKvStore(this.props.newDeviceName)
+    }
   }
 
   render () {
