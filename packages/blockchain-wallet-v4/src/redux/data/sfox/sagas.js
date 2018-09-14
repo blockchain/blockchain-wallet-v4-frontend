@@ -268,6 +268,10 @@ export default ({ api, options }) => {
 
   const handleTrade = function*(quote, addressData) {
     try {
+      prop('baseCurrency', quote) === 'BTC'
+        ? yield call(api.logSfoxTrade, 'sfox_trade_buy_btc_usd_created')
+        : yield call(api.logSfoxTrade, 'sfox_trade_buy_usd_btc_created')
+
       yield put(A.handleTradeLoading())
       const accountsR = yield select(S.getAccounts)
       const accounts = accountsR.getOrElse([])
@@ -276,10 +280,6 @@ export default ({ api, options }) => {
       yield put(A.handleTradeSuccess(trade))
       yield put(A.fetchProfile())
       yield put(A.fetchTrades())
-
-      prop('baseCurrency', quote) === 'BTC'
-        ? yield call(api.logSfoxTrade, 'sfox_trade_buy_btc_usd_created')
-        : yield call(api.logSfoxTrade, 'sfox_trade_buy_usd_btc_created')
 
       // save trades to metadata
       const kvTrades = yield select(buySellSelectors.getSfoxTrades)
@@ -316,6 +316,9 @@ export default ({ api, options }) => {
 
   const handleSellTrade = function*(quote) {
     try {
+      prop('baseCurrency', quote) === 'BTC'
+        ? yield call(api.logSfoxTrade, 'sfox_trade_sell_btc_usd_created')
+        : yield call(api.logSfoxTrade, 'sfox_trade_sell_usd_btc_created')
       yield put(A.handleTradeLoading())
       const accountsR = yield select(S.getAccounts)
       const accounts = accountsR.getOrElse([])
@@ -324,10 +327,6 @@ export default ({ api, options }) => {
       yield put(A.handleTradeSuccess(trade))
       yield put(A.fetchProfile())
       yield put(A.fetchTrades())
-
-      prop('baseCurrency', quote) === 'BTC'
-        ? yield call(api.logSfoxTrade, 'sfox_trade_sell_btc_usd_created')
-        : yield call(api.logSfoxTrade, 'sfox_trade_sell_usd_btc_created')
 
       // get current kvstore trades, add new trade and set new trades to metadata
       const kvTrades = yield select(buySellSelectors.getSfoxTrades)
