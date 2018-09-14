@@ -93,7 +93,7 @@ const Menu = props => {
           <DeviceTitle deviceInfo={deviceInfo} deviceIndex={deviceIndex} />
         </TitleBarWrapper>
       </TitleBar>
-      <LinkContainer to='/lockbox/dashboard'>
+      <LinkContainer to={`/lockbox/dashboard/${deviceIndex}`}>
         <CurrencyListContainer>
           <CurrencyList deviceInfo={deviceInfo} />
         </CurrencyListContainer>
