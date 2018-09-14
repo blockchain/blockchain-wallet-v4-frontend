@@ -29,6 +29,8 @@ import {
 import { prop } from 'ramda'
 import media from 'services/ResponsiveService'
 
+export const EMAIL_IN_USE_ERROR = 'email_address_and_partner_id_in_use'
+
 const AcceptTermsContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -200,8 +202,7 @@ const AcceptTerms = props => {
             </Button>
           </ButtonWrapper>
           <ErrorWrapper>
-            {signupError &&
-            prop('error', signupError) === 'email_address_and_partner_id_in_use' ? (
+            {signupError && prop('error', signupError) === EMAIL_IN_USE_ERROR ? (
               <TextGroup inline>
                 <Text size='12px' color='error' weight={300}>
                   <FormattedMessage
@@ -251,8 +252,17 @@ const AcceptTerms = props => {
                   <FormattedMessage
                     id='contactsupport'
                     defaultMessage='contact support.'
+                    values={{ errorDescription: prop('error_description', signupError) }}
                   />
                 </Link>
+                <br />
+                <Text size='12px' color='error' weight={300}>
+                  <FormattedMessage
+                    id='coinifyexchangedata.create.accept.support_error_description'
+                    defaultMessage='Error Description: {errorDescription}'
+                    values={{ errorDescription: prop('error_description', signupError) }}
+                  />
+                </Text>
               </TextGroup>
             ) : null}
           </ErrorWrapper>
