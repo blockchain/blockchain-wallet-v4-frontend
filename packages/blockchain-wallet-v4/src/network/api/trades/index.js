@@ -32,8 +32,17 @@ export default ({ nabuUrl, post, get }) => {
     })
   }
 
+  const fetchLimits = currency =>
+    get({
+      url: nabuUrl,
+      endPoint: `/trades/limits?currency=${currency}`,
+      contentType: 'application/json',
+      ignoreQueryParams: true
+    })
+
   return {
     executeTrade,
+    fetchLimits,
     fetchTrade,
     fetchTrades
   }

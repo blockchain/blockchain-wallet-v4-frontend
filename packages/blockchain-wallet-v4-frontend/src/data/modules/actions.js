@@ -1,5 +1,6 @@
 import * as addressesBch from './addressesBch/actions'
 import * as coinify from './coinify/actions'
+import * as limits from './limits/actions'
 import * as profile from './profile/actions'
 import * as rates from './rates/actions'
 import * as settings from './settings/actions'
@@ -10,6 +11,7 @@ import * as sfox from './sfox/actions'
 export {
   addressesBch,
   coinify,
+  limits,
   profile,
   rates,
   settings,

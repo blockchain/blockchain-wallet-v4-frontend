@@ -1,4 +1,4 @@
-import { put, select } from 'redux-saga/effects'
+import { put, select, call } from 'redux-saga/effects'
 
 import { actions } from 'data'
 import * as A from './actions'
@@ -40,7 +40,7 @@ export default ({ api }) => {
   const fetchAvailablePairs = function*() {
     try {
       yield put(A.availablePairsLoading())
-      const { pairs } = yield api.fetchAvailablePairs()
+      const { pairs } = yield call(api.fetchAvailablePairs)
       yield put(A.availablePairsSuccess(pairs))
     } catch (e) {
       yield put(A.availablePairsError(e))
