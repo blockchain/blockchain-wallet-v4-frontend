@@ -12,6 +12,7 @@ import {
 } from './services'
 import { selectRates } from '../utils/sagas'
 import { SHAPESHIFT_FORM } from './model'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 export default ({ api, coreSagas, networks, options }) => {
   const logLocation = 'components/exchange/sagas.utils'
@@ -27,7 +28,7 @@ export default ({ api, coreSagas, networks, options }) => {
           .chain()
           .init()
           .fee('priority')
-          .from(address)
+          .from(address, ADDRESS_TYPES.ACCOUNT)
           .done()
         break
       case 'BTC':
@@ -36,7 +37,7 @@ export default ({ api, coreSagas, networks, options }) => {
           .chain()
           .init()
           .fee('priority')
-          .from(address)
+          .from(address, ADDRESS_TYPES.ACCOUNT)
           .done()
         break
       case 'ETH':
@@ -45,7 +46,7 @@ export default ({ api, coreSagas, networks, options }) => {
           .chain()
           .init()
           .fee('priority')
-          .from(address)
+          .from(address, ADDRESS_TYPES.ACCOUNT)
           .done()
         break
       default:
@@ -99,7 +100,7 @@ export default ({ api, coreSagas, networks, options }) => {
         throw new Error('Could not create payment.')
     }
     payment = yield payment
-      .from(sourceAddress)
+      .from(sourceAddress, ADDRESS_TYPES.ACCOUNT)
       .to(targetAddress)
       .build()
       .done()
