@@ -26,12 +26,12 @@ export const selectColor = status => {
     case PENDING_EXECUTION:
     case PENDING_WITHDRAWAL:
     case FINISHED_DEPOSIT:
+    case REFUNDED:
+    case PENDING_REFUND:
       return 'transferred'
     case 'error':
     case 'failed':
     case 'resolved':
-    case REFUNDED:
-    case PENDING_REFUND:
     case FAILED:
     case EXPIRED:
       return 'error'
@@ -63,17 +63,11 @@ export const OrderStatus = ({ status }) => {
           defaultMessage='Error'
         />
       )
+    case 'no_deposits':
+    case 'received':
     case PENDING_WITHDRAWAL:
     case FINISHED_DEPOSIT:
     case PENDING_DEPOSIT:
-      return (
-        <FormattedMessage
-          id='scenes.exchangehistory.list.orderstatus.awaitingfunds'
-          defaultMessage='Awaiting Funds'
-        />
-      )
-    case 'no_deposits':
-    case 'received':
     case PENDING_EXECUTION:
       return (
         <FormattedMessage
@@ -110,5 +104,57 @@ export const OrderStatus = ({ status }) => {
           defaultMessage='Unknown'
         />
       )
+  }
+}
+
+export const OrderNote = ({ status }) => {
+  switch (status) {
+    case 'complete':
+    case FINISHED:
+      return ''
+    case 'failed':
+    case FAILED:
+      return (
+        <FormattedMessage
+          id='components.orderstatus.note.failed'
+          defaultMessage='This trade has failed. If any funds have been broadcast from your wallet, they will be returned automatically minus the network fee. Please return to the exchange tab to start a new trade.'
+        />
+      )
+    case 'no_deposits':
+    case 'received':
+    case PENDING_WITHDRAWAL:
+    case FINISHED_DEPOSIT:
+    case PENDING_DEPOSIT:
+    case PENDING_EXECUTION:
+      return (
+        <FormattedMessage
+          id='components.orderstatus.note.pending'
+          defaultMessage='Thanks for placing your trade! Funds will usually reach your wallet within 2 hours and we’ll send you a notification when that happens. Keep track of your trade’s progress in the Order History tab.'
+        />
+      )
+    case PENDING_REFUND:
+      return (
+        <FormattedMessage
+          id='components.orderstatus.note.refunding'
+          defaultMessage='We are now processing a refund for any funds broadcast minus the network fee. Please check your Order History to check the refund status.'
+        />
+      )
+    case 'resolved':
+    case REFUNDED:
+      return (
+        <FormattedMessage
+          id='components.orderstatus.note.refunded'
+          defaultMessage='We have refunded your wallet after the trade failed.  Please return to the exchange tab to start a new trade.'
+        />
+      )
+    case EXPIRED:
+      return (
+        <FormattedMessage
+          id='components.orderstatus.note.expired'
+          defaultMessage='This trade has expired. Any funds broadcast from your wallet will be refunded minus the network fee. Please Contact Support stating your order ID to request a refund.'
+        />
+      )
+    default:
+      return ''
   }
 }
