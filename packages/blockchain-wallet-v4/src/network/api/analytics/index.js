@@ -59,6 +59,13 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       data: { name: type }
     })
 
+  const logSfoxDropoff = step =>
+    get({
+      url: rootUrl,
+      endPoint: '/event',
+      data: { name: `sfox_dropoff_${step}` }
+    })
+
   return {
     incrementCurrencyUsageStats,
     incrementLoginViaQrStats,
@@ -66,6 +73,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     incrementStat,
     logClick,
     logSfoxAccountCreation,
+    logSfoxDropoff,
     logSfoxQuote,
     logSfoxTrade
   }

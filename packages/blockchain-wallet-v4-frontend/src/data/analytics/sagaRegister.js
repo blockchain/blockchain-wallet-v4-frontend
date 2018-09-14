@@ -14,5 +14,6 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.LOG_CLICK, analyticsSagas.logClick)
     yield takeLatest(LAYOUT_WALLET_HEADER_FAQ_CLICKED, analyticsSagas.logClick)
     yield takeLatest(LAYOUT_WALLET_HEADER_WHATSNEW_CLICKED, analyticsSagas.logClick)
+    yield takeLatest(AT.LOG_SFOX_DROPOFF, analyticsSagas.logSfoxDropoff)
   }
 }
