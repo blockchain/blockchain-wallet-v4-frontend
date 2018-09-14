@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
-import { LinkContainer } from 'react-router-bootstrap'
 import { Text } from 'blockchain-info-components'
 import { CreatableInputField } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
@@ -77,40 +76,41 @@ const multiValueContainer = props => {
 
 const Menu = props => {
   const { btcBalance, bchBalance, ethBalance, deviceInfo, ...rest } = props
-  const { location } = rest
+  const { location, formValues } = rest
+  const onDashboard = location.pathname.includes('/lockbox/dashboard')
 
   return (
     <Container>
       <TitleBar>
         <TitleBarWrapper>
-          <DeviceTitle deviceInfo={deviceInfo} />
+          <DeviceTitle deviceInfo={deviceInfo} location={location} />
         </TitleBarWrapper>
       </TitleBar>
-      <LinkContainer to='/lockbox/dashboard'>
+      {onDashboard && (
         <CurrencyListContainer>
-          <CurrencyList deviceInfo={deviceInfo} />
+          <CurrencyList deviceInfo={deviceInfo} formValues={formValues} />
         </CurrencyListContainer>
-      </LinkContainer>
+      )}
       {deviceInfo && (
         <StyledCreatableInputContainer>
           <Text size='20px' weight={400}>
-            {location.pathname.includes('/lockbox/dashboard') && (
+            {onDashboard ? (
               <FormattedMessage
                 id='scenes.lockbox.menu.transactions'
                 defaultMessage='Transactions'
               />
-            )}
-            {location.pathname.includes('/lockbox/settings') && (
+            ) : (
               <FormattedMessage
                 id='scenes.lockbox.menu.settings'
                 defaultMessage='Settings'
               />
             )}
           </Text>
-          {location.pathname.includes('/lockbox/dashboard') && (
+          {onDashboard && (
             <Field
               name='search'
               autoFocus
+              defaultValue={formValues}
               component={CreatableInputField}
               multiValueContainer={multiValueContainer}
               placeholder={
@@ -127,4 +127,7 @@ const Menu = props => {
   )
 }
 
-export default reduxForm({ form: 'lockboxTransactions' })(Menu)
+export default reduxForm({
+  form: 'lockboxTransactions',
+  destroyOnUnmount: false
+})(Menu)

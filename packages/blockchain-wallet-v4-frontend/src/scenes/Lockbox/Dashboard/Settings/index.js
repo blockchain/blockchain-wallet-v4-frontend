@@ -1,7 +1,4 @@
 import React from 'react'
-import { actions } from 'data'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 import RenameDevice from './RenameDevice'
 import RemoveDevice from './RemoveDevice'
@@ -14,11 +11,7 @@ const SettingsContainer = styled.div`
   padding: 0px 15px;
 `
 
-class LockboxSettings extends React.PureComponent {
-  componentDidMount () {
-    this.props.formActions.destroy('lockboxTransactions')
-  }
-
+export default class LockboxSettings extends React.PureComponent {
   render () {
     const { device } = this.props
 
@@ -34,12 +27,3 @@ class LockboxSettings extends React.PureComponent {
     )
   }
 }
-
-const mapDispatchToProps = dispatch => ({
-  formActions: bindActionCreators(actions.form, dispatch)
-})
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(LockboxSettings)

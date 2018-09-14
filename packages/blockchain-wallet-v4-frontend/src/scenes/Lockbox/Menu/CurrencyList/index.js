@@ -1,10 +1,10 @@
 import React from 'react'
-import { pathOr } from 'ramda'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { contains, map, prop } from 'ramda'
 
 import { actions } from 'data'
-import { getData, getFormValues } from './selectors'
+import { getData } from './selectors'
 import Success from './template.success'
 import Loading from './template.loading'
 import Error from './template.error'
@@ -23,12 +23,10 @@ class CurrencyListContainer extends React.PureComponent {
 
   onCoinSelection (newValue) {
     if (!newValue) return
-    const value = pathOr([], ['search', 'value'], this.props.formValues)
-    setTimeout(() => {
-      this.props.formActions.change('lockboxTransactions', 'search', {
-        value: [...value, createOption(newValue)]
-      })
-    }, 1)
+    if (contains(newValue, map(prop('value'), this.props.formValues))) return
+    this.props.formActions.change('lockboxTransactions', 'search', {
+      value: [...this.props.formValues, createOption(newValue)]
+    })
   }
 
   onRefresh () {
@@ -37,13 +35,12 @@ class CurrencyListContainer extends React.PureComponent {
 
   render () {
     const { data, deviceInfo, formValues } = this.props
-    const value = pathOr([], ['search', 'value'], formValues)
     return deviceInfo
       ? data.cata({
           Success: val => (
             <Success
               data={val}
-              formValues={value}
+              formValues={formValues}
               deviceInfo={deviceInfo}
               handleCoinSelection={this.onCoinSelection}
             />
@@ -57,8 +54,7 @@ class CurrencyListContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  data: getData(state),
-  formValues: getFormValues(state)
+  data: getData(state)
 })
 
 const mapDispatchToProps = dispatch => ({

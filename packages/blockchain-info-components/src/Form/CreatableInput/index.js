@@ -1,5 +1,5 @@
 import React from 'react'
-import { difference, head, pathOr } from 'ramda'
+import { difference, head, pathOr, isEmpty } from 'ramda'
 import CreatableInput from './template'
 
 const components = {
@@ -20,15 +20,23 @@ class CreatableInputContainer extends React.PureComponent {
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleKeyDown = this.handleKeyDown.bind(this)
-    this.handleNewValue = this.handleNewValue.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
+  }
+
+  componentDidMount () {
+    if (!isEmpty(this.props.defaultValue)) {
+      // eslint-disable-next-line react/no-did-mount-set-state
+      this.setState({ value: this.props.defaultValue })
+    }
   }
 
   componentDidUpdate (prevProps) {
     const prevValue = pathOr([], ['value', 'value'], prevProps)
     const newValue = pathOr([], ['value', 'value'], this.props)
-    if (head(difference(newValue, prevValue))) {
-      this.handleNewValue(prevValue, newValue)
+    const diff = head(difference(newValue, prevValue))
+    if (diff) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({ value: [...prevValue, diff] })
     }
   }
 
@@ -58,12 +66,6 @@ class CreatableInputContainer extends React.PureComponent {
         }
         event.preventDefault()
     }
-  }
-
-  handleNewValue (prevValue, newValue) {
-    this.setState({
-      value: [...prevValue, head(difference(newValue, prevValue))]
-    })
   }
 
   render () {

@@ -4,16 +4,14 @@ import { compose, bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
 
 import { actions } from 'data'
-import { getData } from './selectors'
+import { getData, getFormValues } from './selectors'
 import LockboxMenu from './template'
 
 class LockboxMenuContainer extends React.PureComponent {
   render () {
-    const { data } = this.props
+    const { data, ...rest } = this.props
     return data.cata({
-      Success: val => (
-        <LockboxMenu deviceInfo={val} location={this.props.location} />
-      ),
+      Success: val => <LockboxMenu deviceInfo={val} {...rest} />,
       Loading: () => <div>Loading</div>,
       Failure: () => <div>Failure</div>,
       NotAsked: () => null
@@ -22,7 +20,8 @@ class LockboxMenuContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  data: getData(state)
+  data: getData(state),
+  formValues: getFormValues(state)
 })
 
 const mapDispatchToProps = dispatch => ({

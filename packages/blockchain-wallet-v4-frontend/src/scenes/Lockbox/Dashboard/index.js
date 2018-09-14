@@ -18,17 +18,17 @@ const ContentWrapper = styled.div`
 class LockboxDashboardContainer extends React.PureComponent {
   render () {
     const { location } = this.props
+    const onDashboard = location.pathname.includes('/lockbox/dashboard')
 
     return this.props.data.cata({
       Success: device => {
         return (
           <Wrapper>
             <ContentWrapper>
-              {location.pathname === '/lockbox/settings' && (
-                <Settings device={device} />
-              )}
-              {location.pathname === '/lockbox/dashboard' && (
+              {onDashboard ? (
                 <Transactions device={device} />
+              ) : (
+                <Settings device={device} />
               )}
             </ContentWrapper>
           </Wrapper>
