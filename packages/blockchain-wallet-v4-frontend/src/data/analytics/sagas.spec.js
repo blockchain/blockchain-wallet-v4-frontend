@@ -12,7 +12,8 @@ const coreSagas = coreSagasFactory()
 
 const api = {
   incrementCurrencyUsageStats: jest.fn(),
-  logClick: jest.fn()
+  logClick: jest.fn(),
+  logSfoxDropoff: jest.fn()
 }
 
 describe('analyticsSagas', () => {
@@ -396,6 +397,29 @@ describe('analyticsSagas', () => {
           .next()
           .throw(error)
           .put(actions.logs.logErrorMessage(logLocation, 'logClick', error))
+      })
+    })
+  })
+
+  describe('logSfoxDropoff', () => {
+    let { logSfoxDropoff } = analyticsSagas({ coreSagas, api })
+    let payload = { step: 'funding' }
+    let saga = testSaga(logSfoxDropoff, payload)
+
+    it('should call api.logSfoxDropoff with the step', () => {
+      saga.next().call(api.logSfoxDropoff, 'funding')
+    })
+
+    describe('error handling', () => {
+      let { logSfoxDropoff } = analyticsSagas({ coreSagas, api })
+      let payload = { step: 'funding' }
+      let saga = testSaga(logSfoxDropoff, payload)
+      const error = new Error('ERROR')
+      it('should log an error', () => {
+        saga
+          .next()
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'logSfoxDropoff', error))
       })
     })
   })
