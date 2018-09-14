@@ -35,13 +35,15 @@ class RenameDeviceContainer extends React.PureComponent {
   }
 
   render () {
-    return <RenameDevice
-      deviceName={this.props.deviceName}
-      onSubmit={this.onSubmit}
-      updateToggled={this.state.updateToggled}
-      handleToggle={this.handleToggle}
-      handleCancel={this.handleCancel}
-    />
+    return (
+      <RenameDevice
+        deviceName={this.props.deviceName}
+        onSubmit={this.onSubmit}
+        updateToggled={this.state.updateToggled}
+        handleToggle={this.handleToggle}
+        handleCancel={this.handleCancel}
+      />
+    )
   }
 }
 

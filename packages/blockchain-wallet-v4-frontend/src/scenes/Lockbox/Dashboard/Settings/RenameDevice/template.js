@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
-import { any, equals} from 'ramda'
+import { any, equals } from 'ramda'
 
 import { Button } from 'blockchain-info-components'
 import { required } from 'services/FormHelper'
