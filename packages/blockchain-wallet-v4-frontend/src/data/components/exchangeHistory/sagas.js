@@ -21,9 +21,9 @@ import * as S from './selectors'
 import * as C from 'services/AlertService'
 import { PER_PAGE, INCOMPLETE_STATES } from './model'
 
+export const pollTimeout = 5000
 export default ({ api, coreSagas }) => {
   const logLocation = 'components/exchangeHistory/sagas'
-  const pollTimeout = 5000
   let pollingShapeShiftTask = null
   let fetchingTradesTasks = []
   let pollingExchangeTask = null

@@ -59,7 +59,6 @@ export const NEW_USER = 'NEW_USER'
 
 export const KYCBanner = ({
   outsideOfProfile,
-  canTrade,
   kycState,
   userState,
   verifyIdentity
@@ -86,10 +85,25 @@ export const KYCBanner = ({
         defaultMessage='Account In Review'
       />
     ),
-    [KYC_STATES.REJECTED]: [
+    [KYC_STATES.UNDER_REVIEW]: [
       <FormattedMessage
         id='components.identityverification.popup.header.underreview'
         defaultMessage='Verification Under Review {icon}'
+        values={{
+          icon: null
+        }}
+      />,
+      <Icon
+        name='alert-filled'
+        size='20px'
+        className='warning-icon'
+        color='white'
+      />
+    ],
+    [KYC_STATES.REJECTED]: [
+      <FormattedMessage
+        id='components.identityverification.popup.header.rejected'
+        defaultMessage='Verification Failed {icon}'
         values={{
           icon: null
         }}
@@ -136,10 +150,16 @@ export const KYCBanner = ({
         defaultMessage='We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to exchange cryptocurrency,'
       />
     ),
-    [KYC_STATES.REJECTED]: (
+    [KYC_STATES.UNDER_REVIEW]: (
       <FormattedMessage
         id='components.identityverification.popup.note.underreview'
         defaultMessage='We had some trouble verifying your account with the documents provided. Our Support team will contact you shortly to help you with the verification process.'
+      />
+    ),
+    [KYC_STATES.REJECTED]: (
+      <FormattedMessage
+        id='components.identityverification.popup.note.rejected'
+        defaultMessage='Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time.'
       />
     ),
     [KYC_STATES.VERIFIED]: (
@@ -177,9 +197,10 @@ export const KYCBanner = ({
         </ActionButton>
       </LinkContainer>
     ),
+    [KYC_STATES.UNDER_REVIEW]: null,
     [KYC_STATES.REJECTED]: null,
     [KYC_STATES.VERIFIED]: (
-      <LinkContainer to={canTrade ? '/buy-sell' : '/exchange'}>
+      <LinkContainer to={'/exchange'}>
         <ActionButton nature='primary'>
           <FormattedMessage
             id='components.identityverification.popup.button.getstarted'

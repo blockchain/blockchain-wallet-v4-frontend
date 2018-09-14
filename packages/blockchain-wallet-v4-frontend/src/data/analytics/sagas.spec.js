@@ -5,7 +5,10 @@ import * as actions from '../actions'
 import * as actionTypes from '../actionTypes'
 import * as selectors from '../selectors.js'
 import analyticsSagas, { logLocation } from './sagas'
-import { LAYOUT_WALLET_HEADER_FAQ_CLICKED, LAYOUT_WALLET_HEADER_WHATSNEW_CLICKED } from '../components/layoutWallet/actionTypes'
+import {
+  LAYOUT_WALLET_HEADER_FAQ_CLICKED,
+  LAYOUT_WALLET_HEADER_WHATSNEW_CLICKED
+} from '../components/layoutWallet/actionTypes'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const coreSagas = coreSagasFactory()
@@ -56,7 +59,14 @@ describe('analyticsSagas', () => {
     })
 
     it('should call api.incrementCurrencyUsageStats', () => {
-      saga.next().call(api.incrementCurrencyUsageStats, btcTask.value, ethTask.value, bchTask.value)
+      saga
+        .next()
+        .call(
+          api.incrementCurrencyUsageStats,
+          btcTask.value,
+          ethTask.value,
+          bchTask.value
+        )
     })
 
     describe('error handling', () => {
@@ -69,16 +79,20 @@ describe('analyticsSagas', () => {
           .restart()
           .next()
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'reportBalanceStats', error))
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'reportBalanceStats',
+              error
+            )
+          )
       })
     })
   })
 
   describe('getEthBalance', () => {
     describe('balance is Loading', () => {
-      let {
-        getEthBalance
-      } = analyticsSagas({ coreSagas, api })
+      let { getEthBalance } = analyticsSagas({ coreSagas, api })
 
       let saga = testSaga(getEthBalance)
       it('should select the eth balance', () => {
@@ -99,9 +113,7 @@ describe('analyticsSagas', () => {
     })
 
     describe('balance is not loading', () => {
-      let {
-        getEthBalance
-      } = analyticsSagas({ coreSagas, api })
+      let { getEthBalance } = analyticsSagas({ coreSagas, api })
 
       let saga = testSaga(getEthBalance)
       it('should select the eth balance', () => {
@@ -121,16 +133,16 @@ describe('analyticsSagas', () => {
           .restart()
           .next()
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'getEthBalance', error))
+          .put(
+            actions.logs.logErrorMessage(logLocation, 'getEthBalance', error)
+          )
       })
     })
   })
 
   describe('getBtcBalance', () => {
     describe('balance is Loading', () => {
-      let {
-        getBtcBalance
-      } = analyticsSagas({ coreSagas, api })
+      let { getBtcBalance } = analyticsSagas({ coreSagas, api })
 
       let saga = testSaga(getBtcBalance)
       it('should select the btc balance', () => {
@@ -151,9 +163,7 @@ describe('analyticsSagas', () => {
     })
 
     describe('balance is not loading', () => {
-      let {
-        getBtcBalance
-      } = analyticsSagas({ coreSagas, api })
+      let { getBtcBalance } = analyticsSagas({ coreSagas, api })
 
       let saga = testSaga(getBtcBalance)
       it('should select the btc balance', () => {
@@ -173,16 +183,16 @@ describe('analyticsSagas', () => {
           .restart()
           .next()
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'getBtcBalance', error))
+          .put(
+            actions.logs.logErrorMessage(logLocation, 'getBtcBalance', error)
+          )
       })
     })
   })
 
   describe('getBchBalance', () => {
     describe('balance is Loading', () => {
-      let {
-        getBchBalance
-      } = analyticsSagas({ coreSagas, api })
+      let { getBchBalance } = analyticsSagas({ coreSagas, api })
 
       let saga = testSaga(getBchBalance)
       it('should select the bch balance', () => {
@@ -203,9 +213,7 @@ describe('analyticsSagas', () => {
     })
 
     describe('balance is not loading', () => {
-      let {
-        getBchBalance
-      } = analyticsSagas({ coreSagas, api })
+      let { getBchBalance } = analyticsSagas({ coreSagas, api })
 
       let saga = testSaga(getBchBalance)
       it('should select the Bch balance', () => {
@@ -225,7 +233,9 @@ describe('analyticsSagas', () => {
           .restart()
           .next()
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'getBchBalance', error))
+          .put(
+            actions.logs.logErrorMessage(logLocation, 'getBchBalance', error)
+          )
       })
     })
   })
@@ -352,7 +362,9 @@ describe('analyticsSagas', () => {
           .restart()
           .next()
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'logLeftNavClick', error))
+          .put(
+            actions.logs.logErrorMessage(logLocation, 'logLeftNavClick', error)
+          )
       })
     })
   })
@@ -386,7 +398,7 @@ describe('analyticsSagas', () => {
         saga.next().call(api.logClick, name)
       })
     })
-    
+
     describe('error handling', () => {
       let { logClick } = analyticsSagas({ coreSagas, api })
       let payload = { type: LAYOUT_WALLET_HEADER_FAQ_CLICKED }
