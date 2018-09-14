@@ -201,7 +201,7 @@ const AcceptTerms = props => {
           </ButtonWrapper>
           <ErrorWrapper>
             {signupError &&
-            prop('error', signupError) === 'email_address_in_use' ? (
+            prop('error', signupError) === 'email_address_and_partner_id_in_use' ? (
               <TextGroup inline>
                 <Text size='12px' color='error' weight={300}>
                   <FormattedMessage
