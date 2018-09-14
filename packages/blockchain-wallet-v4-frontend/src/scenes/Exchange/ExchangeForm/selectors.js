@@ -144,6 +144,8 @@ const {
 } = selectors.components.exchange
 
 export { canUseExchange }
+export const betaFlow = state =>
+  /blockchain/.test(selectors.core.settings.getEmail(state).getOrElse(''))
 export const getData = createDeepEqualSelector(
   [
     getActiveBtcAccounts,
