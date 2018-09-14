@@ -1,22 +1,63 @@
 import React from 'react'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 import { connect } from 'react-redux'
+import { formValueSelector } from 'redux-form'
+import { bindActionCreators } from 'redux'
 
 import RenameDevice from './template.js'
 
 class RenameDeviceContainer extends React.PureComponent {
+  constructor (props) {
+    super(props)
+    this.state = { updateToggled: false }
+    this.onSubmit = this.onSubmit.bind(this)
+    this.handleToggle = this.handleToggle.bind(this)
+    this.handleCancel = this.handleToggle.bind(this)
+  }
+
+  onSubmit () {
+    this.props.lockboxActions.updateDeviceName(
+      this.props.deviceIndex,
+      this.props.newDeviceName
+    )
+    this.handleToggle()
+  }
+
+  handleToggle () {
+    this.setState({
+      updateToggled: !this.state.updateToggled
+    })
+  }
+
+  handleCancel () {
+    this.props.formActions.reset('RenameDevice')
+    this.handleToggle()
+  }
+
   render () {
-    return <RenameDevice {...this.props} />
+    return <RenameDevice
+      deviceName={this.props.deviceName}
+      onSubmit={this.onSubmit}
+      updateToggled={this.state.updateToggled}
+      handleToggle={this.handleToggle}
+      handleCancel={this.handleCancel}
+    />
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
   deviceName: selectors.core.kvStore.lockbox
     .getDeviceName(state, ownProps.deviceIndex)
-    .getOrFail()
+    .getOrFail(),
+  newDeviceName: formValueSelector('RenameDevice')(state, 'newDeviceName')
+})
+
+const mapDispatchToProps = dispatch => ({
+  lockboxActions: bindActionCreators(actions.core.kvStore.lockbox, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(RenameDeviceContainer)

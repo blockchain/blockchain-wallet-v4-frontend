@@ -72,6 +72,7 @@ const NameDeviceStep = props => {
               autoFocus
               validate={[required, requireUnique]}
               component={TextBox}
+              maxLength={30}
             />
           </FormItem>
         </Row>
