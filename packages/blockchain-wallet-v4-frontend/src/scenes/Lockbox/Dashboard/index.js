@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { withRouter } from 'react-router-dom'
 
-import { actions } from 'data'
-import { getData } from './selectors'
+import { actions, selectors } from 'data'
 import Transactions from './Transactions'
 import Settings from './Settings'
 
@@ -19,30 +18,26 @@ class LockboxDashboardContainer extends React.PureComponent {
   render () {
     const { location } = this.props
 
-    return this.props.data.cata({
-      Success: device => {
-        return (
-          <Wrapper>
-            <ContentWrapper>
-              {location.pathname === '/lockbox/settings' && (
-                <Settings device={device} />
-              )}
-              {location.pathname === '/lockbox/dashboard' && (
-                <Transactions device={device} />
-              )}
-            </ContentWrapper>
-          </Wrapper>
-        )
-      },
-      Failure: () => null,
-      Loading: () => null,
-      NotAsked: () => null
-    })
+    return (
+      <Wrapper>
+        <ContentWrapper>
+          {location.pathname.includes('settings') && (
+            <Settings deviceIndex={this.props.match.params.deviceIndex} />
+          )}
+          {location.pathname.includes('dashboard') && (
+            <Transactions deviceIndex={this.props.match.params.deviceIndex} />
+          )}
+        </ContentWrapper>
+      </Wrapper>
+    )
   }
 }
 
-const mapStateToProps = state => ({
-  data: getData(state)
+const mapStateToProps = (state, ownProps) => ({
+  data: selectors.core.kvStore.lockbox.getDevice(
+    state,
+    ownProps.match.params.deviceIndex
+  )
 })
 const mapDispatchToProps = dispatch => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)

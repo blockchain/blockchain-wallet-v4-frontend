@@ -76,17 +76,24 @@ const multiValueContainer = props => {
 }
 
 const Menu = props => {
-  const { btcBalance, bchBalance, ethBalance, deviceInfo, ...rest } = props
+  const {
+    btcBalance,
+    bchBalance,
+    ethBalance,
+    deviceInfo,
+    deviceIndex,
+    ...rest
+  } = props
   const { location } = rest
 
   return (
     <Container>
       <TitleBar>
         <TitleBarWrapper>
-          <DeviceTitle deviceInfo={deviceInfo} />
+          <DeviceTitle deviceInfo={deviceInfo} deviceIndex={deviceIndex} />
         </TitleBarWrapper>
       </TitleBar>
-      <LinkContainer to='/lockbox/dashboard'>
+      <LinkContainer to={`/lockbox/dashboard/${deviceIndex}`}>
         <CurrencyListContainer>
           <CurrencyList deviceInfo={deviceInfo} />
         </CurrencyListContainer>

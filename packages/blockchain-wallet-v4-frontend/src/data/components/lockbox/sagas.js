@@ -115,7 +115,7 @@ export default ({ api, coreSagas }) => {
       const devices = devicesR.getOrElse({})
 
       keysIn(devices).length
-        ? yield put(actions.router.push('/lockbox/dashboard'))
+        ? yield put(actions.router.push('/lockbox/dashboard/0'))
         : yield put(actions.router.push('/lockbox/onboard'))
     } catch (e) {
       yield put(
@@ -141,7 +141,7 @@ export default ({ api, coreSagas }) => {
       )
       yield put(A.saveNewDeviceKvStoreSuccess())
       yield put(actions.modals.closeModal())
-      yield put(actions.router.push('/lockbox/dashboard'))
+      yield put(actions.router.push('/lockbox/dashboard/0'))
       yield put(actions.core.data.bch.fetchData())
       yield put(actions.core.data.bitcoin.fetchData())
       yield put(actions.core.data.ethereum.fetchData())

@@ -17,7 +17,7 @@ class SettingsContainer extends React.PureComponent {
 
   onSubmit () {
     this.props.lockboxActions.updateDeviceName(
-      this.props.deviceId,
+      this.props.deviceIndex,
       this.props.deviceName
     )
     this.handleToggle()
