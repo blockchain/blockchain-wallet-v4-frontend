@@ -3,10 +3,9 @@ import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
-import { any, equals } from 'ramda'
 
 import { Button } from 'blockchain-info-components'
-import { required } from 'services/FormHelper'
+import { required, requireUniqueDeviceName } from 'services/FormHelper'
 import { SettingForm, SettingWrapper } from 'components/Setting'
 import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
 import {
@@ -30,7 +29,7 @@ const ButtonWrapper = styled.div`
 const RenameDevice = props => {
   const {
     deviceName,
-    deviceIndex,
+    usedDeviceNames,
     updateToggled,
     handleToggle,
     handleSubmit,
@@ -38,12 +37,7 @@ const RenameDevice = props => {
     invalid,
     handleCancel
   } = props
-
-  // let requireUnique = (value, allValues) => {
-  //   return any(equals(value))(['stop'])
-  //     ? 'Device name is already taken.'
-  //     : undefined
-  // }
+  const uniqueName = requireUniqueDeviceName(usedDeviceNames)
 
   return (
     <SettingContainer>
@@ -78,7 +72,7 @@ const RenameDevice = props => {
                 <Field
                   name='newDeviceName'
                   autoFocus
-                  validate={[required]}
+                  validate={[required, uniqueName]}
                   component={TextBox}
                   maxLength={30}
                 />

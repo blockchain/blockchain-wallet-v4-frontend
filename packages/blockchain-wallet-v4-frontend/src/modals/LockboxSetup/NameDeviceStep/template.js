@@ -1,12 +1,11 @@
 import React from 'react'
 
 import styled from 'styled-components'
-import { required } from 'services/FormHelper'
+import { required, requireUniqueDeviceName } from 'services/FormHelper'
 import { Button, Image, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
-import { any, equals } from 'ramda'
 
 const Wrapper = styled.div`
   padding: 20px;
@@ -34,14 +33,9 @@ const Row = styled.div`
   padding: 10px 0;
 `
 
-const requireUnique = (value, allValues, { deviceNames }) => {
-  return any(equals(value))(deviceNames)
-    ? 'Device name is already taken.'
-    : undefined
-}
-
 const NameDeviceStep = props => {
-  const { handleSubmit, invalid } = props
+  const { handleSubmit, invalid, usedDeviceNames } = props
+  const uniqueName = requireUniqueDeviceName(usedDeviceNames)
 
   return (
     <Wrapper>
@@ -70,7 +64,7 @@ const NameDeviceStep = props => {
             <Field
               name='newDeviceName'
               autoFocus
-              validate={[required, requireUnique]}
+              validate={[required, uniqueName]}
               component={TextBox}
               maxLength={30}
             />

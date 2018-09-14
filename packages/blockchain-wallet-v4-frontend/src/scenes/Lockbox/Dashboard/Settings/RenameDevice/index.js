@@ -37,7 +37,7 @@ class RenameDeviceContainer extends React.PureComponent {
   render () {
     return (
       <RenameDevice
-        deviceName={this.props.deviceName}
+        {...this.props}
         onSubmit={this.onSubmit}
         updateToggled={this.state.updateToggled}
         handleToggle={this.handleToggle}
@@ -51,6 +51,10 @@ const mapStateToProps = (state, ownProps) => ({
   deviceName: selectors.core.kvStore.lockbox
     .getDeviceName(state, ownProps.deviceIndex)
     .getOrFail(),
+  usedDeviceNames: selectors.core.kvStore.lockbox
+    .getDevices(state)
+    .getOrElse([])
+    .map(d => d.device_name),
   newDeviceName: formValueSelector('RenameDevice')(state, 'newDeviceName')
 })
 

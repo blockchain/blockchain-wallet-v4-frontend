@@ -168,3 +168,10 @@ export const UnacceptedTermsMessage = () => (
     defaultMessage='You must agree to the terms and conditions'
   />
 )
+
+export const UniqueDeviceName = () => (
+  <FormattedMessage
+    id='formhelper.uniquedevicename'
+    defaultMessage='Device name is already in use.'
+  />
+)

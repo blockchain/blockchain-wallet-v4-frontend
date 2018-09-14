@@ -19,7 +19,7 @@ import postalCodes from 'postal-codes-js/generated/postal-codes-alpha2'
 import zxcvbn from 'zxcvbn'
 import { utils } from 'blockchain-wallet-v4/src'
 import * as M from './validationMessages'
-import { concat, path, takeWhile, prop } from 'ramda'
+import { any, concat, equals, path, takeWhile, prop } from 'ramda'
 
 export const required = value => (value ? undefined : <M.RequiredMessage />)
 
@@ -154,13 +154,13 @@ export const requiredZipCode = (value, allVals) => {
 }
 
 export const onPartnerCountryWhitelist = (
-  val,
-  allVals,
+  value,
+  allValues,
   props,
   name,
   countries
 ) => {
-  const country = val && takeWhile(x => x !== '-', val)
+  const country = value && takeWhile(x => x !== '-', value)
   const options = path(['options', 'platforms', 'web'], props)
   const sfoxCountries = path(['sfox', 'countries'], options)
   const coinifyCountries = path(['coinify', 'countries'], options)
@@ -172,13 +172,21 @@ export const onPartnerCountryWhitelist = (
   )
 }
 
-export const onPartnerStateWhitelist = (val, allVals, props, name, states) => {
-  const usState = prop('code', val)
+export const onPartnerStateWhitelist = (value, allValues, props) => {
+  const usState = prop('code', value)
   const options = path(['options', 'platforms', 'web'], props)
   const sfoxStates = path(['sfox', 'states'], options)
   return usState && sfoxStates.includes(usState) ? (
     undefined
   ) : (
     <M.PartnerStateWhitelist />
+  )
+}
+
+export const requireUniqueDeviceName = usedDeviceNames => value => {
+  return any(equals(value))(usedDeviceNames) ? (
+    <M.UniqueDeviceName />
+  ) : (
+    undefined
   )
 }

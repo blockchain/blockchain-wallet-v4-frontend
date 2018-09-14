@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { actions } from 'data'
-import { getDeviceNames } from './selectors'
+import { actions, selectors } from 'data'
 
 import NameDeviceStep from './template'
 import { formValueSelector } from 'redux-form'
@@ -18,9 +17,9 @@ class NameDeviceStepContainer extends React.PureComponent {
   }
 
   render () {
-    const { deviceNames } = this.props
+    const { usedDeviceNames } = this.props
     const deviceIndex =
-      deviceNames.length > 0 ? ` ${deviceNames.length + 1}` : ''
+      usedDeviceNames.length > 0 ? ` ${usedDeviceNames.length + 1}` : ''
 
     return (
       <NameDeviceStep
@@ -36,7 +35,10 @@ class NameDeviceStepContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   newDeviceName: formValueSelector('lockboxNameDevice')(state, 'newDeviceName'),
-  deviceNames: getDeviceNames(state)
+  usedDeviceNames: selectors.core.kvStore.lockbox
+    .getDevices(state)
+    .getOrElse([])
+    .map(d => d.device_name)
 })
 
 const mapDispatchToProps = dispatch => ({
