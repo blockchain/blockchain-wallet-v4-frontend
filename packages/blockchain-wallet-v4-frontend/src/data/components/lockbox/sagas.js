@@ -63,32 +63,44 @@ export default ({ api, coreSagas }) => {
   const checkDeviceAuthenticity = function*() {
     try {
       yield put(A.checkDeviceAuthenticityLoading())
-      // TODO: finish this....
-      // const { transport } = yield select(S.getCurrentConnection)
-      // // get base device info
-      // const deviceInfo = yield call(
-      //   LockboxService.firmware.getDeviceInfo,
-      //   transport
-      // )
-      // // get full device info via api
-      // const deviceVersion = yield call(api.getDeviceVersion, {
-      //   provider: deviceInfo.providerId,
-      //   target_id: deviceInfo.targetId
-      // })
-      // // get full firmware info via api
-      // const firmware = yield call(api.getCurrentFirmware, {
-      //   device_version: deviceVersion.id,
-      //   version_name: deviceInfo.fullVersion,
-      //   provider: deviceInfo.providerId
-      // })
-      // // open socket and check if device is authentic
-      // const isDeviceAuthentic = yield call(
-      //   LockboxService.firmware.checkDeviceAuthenticity,
-      //   transport,
-      //   firmware.perso
-      // )
-      yield put(A.checkDeviceAuthenticitySuccess(true))
+      const { transport } = yield select(S.getCurrentConnection)
+      // get base device info
+      const deviceInfo = yield call(
+        LockboxService.firmware.getDeviceInfo,
+        transport
+      )
+      // get full device info via api
+      const deviceVersion = yield call(api.getDeviceVersion, {
+        provider: deviceInfo.providerId,
+        target_id: deviceInfo.targetId
+      })
+      // get full firmware info via api
+      const firmware = yield call(api.getCurrentFirmware, {
+        device_version: deviceVersion.id,
+        version_name: deviceInfo.fullVersion,
+        provider: deviceInfo.providerId
+      })
+
+      const domainsR = yield select(selectors.core.walletOptions.getDomains)
+      const domains = domainsR.getOrElse({
+        ledgerSocket: 'wss://api.ledgerwallet.com'
+      })
+
+      // open socket and check if device is authentic
+      const isDeviceAuthentic = yield call(
+        LockboxService.firmware.checkDeviceAuthenticity,
+        transport,
+        domains.ledgerSocket,
+        {
+          targetId: deviceInfo.targetId,
+          perso: firmware.perso
+        }
+      )
+      isDeviceAuthentic
+        ? yield put(A.checkDeviceAuthenticitySuccess(isDeviceAuthentic))
+        : yield put(A.changeDeviceSetupStep('error-step', true, 'authenticity'))
     } catch (e) {
+      yield put(A.changeDeviceSetupStep('error-step', true, 'authenticity'))
       yield put(A.checkDeviceAuthenticityFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'checkDeviceAuthenticity', e)
@@ -201,6 +213,7 @@ export default ({ api, coreSagas }) => {
       const deviceType = 'ledger'
       yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType, setupTimeout))
       yield take(AT.SET_CONNECTION_INFO)
+      yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
       // check device authenticity
       yield put(A.checkDeviceAuthenticity())
       yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
@@ -234,7 +247,7 @@ export default ({ api, coreSagas }) => {
       const storedDevices = storedDevicesR.getOrElse({})
       // check if device has already been added
       if (contains(newDeviceId)(keysIn(storedDevices))) {
-        yield put(A.changeDeviceSetupStep('duplicate-device'))
+        yield put(A.changeDeviceSetupStep('error-step', true, 'duplicate'))
       } else {
         yield put(A.changeDeviceSetupStep('open-btc-app', true))
       }

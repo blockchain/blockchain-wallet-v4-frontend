@@ -4,6 +4,6 @@ module.exports = {
   WEB_SOCKET_URL: 'wss://ws.blockchain.info/testnet3',
   WALLET_HELPER_DOMAIN: 'https://wallet-helper.blockchain.info',
   LEDGER_URL: 'https://manager.api.live.ledger.com',
-  LEDGER_SOCKET_URL: 'wss://api.ledgerwallet.com/update',
+  LEDGER_SOCKET_URL: 'wss://api.ledgerwallet.com',
   NETWORK_TYPE: 'testnet'
 }
