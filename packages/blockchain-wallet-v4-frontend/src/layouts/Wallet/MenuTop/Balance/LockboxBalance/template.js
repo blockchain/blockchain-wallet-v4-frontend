@@ -4,22 +4,39 @@ import BtcLockboxBalance from './BtcLockboxBalance'
 import EthLockboxBalance from './EthLockboxBalance'
 import BchLockboxBalance from './BchLockboxBalance'
 import { FormattedMessage } from 'react-intl'
-import { Text } from 'blockchain-info-components'
-import { Wrapper, Header } from 'components/Balances'
+import { Icon } from 'blockchain-info-components'
+import {
+  Wrapper,
+  BalancesWrapper,
+  Header,
+  HeaderText
+} from 'components/Balances'
 
 const Template = props => (
   <Wrapper>
     <Header>
-      <Text size='14px'>
+      <HeaderText size='14px' onClick={props.handleToggle}>
+        <Icon
+          name='lock'
+          size='21px'
+          style={{ marginRight: '5px', marginLeft: '-5px' }}
+        />
         <FormattedMessage
           id='layouts.wallet.menutop.balance.walletbalance.Lockbox'
           defaultMessage='Lockbox'
         />
-      </Text>
+      </HeaderText>
+      <Icon
+        name='caret'
+        size='10px'
+        className={props.isActive ? 'active' : ''}
+      />
     </Header>
-    <BtcLockboxBalance />
-    <EthLockboxBalance />
-    <BchLockboxBalance />
+    <BalancesWrapper className={props.isActive ? 'active' : ''}>
+      <BtcLockboxBalance />
+      <EthLockboxBalance />
+      <BchLockboxBalance />
+    </BalancesWrapper>
   </Wrapper>
 )
 

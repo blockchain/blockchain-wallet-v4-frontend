@@ -10,6 +10,7 @@ import WatchOnlyBalance from './WatchOnlyBalance'
 import BtcBalance from './WalletBalance/BtcBalance'
 import BchBalance from './WalletBalance/BchBalance'
 import EthBalance from './WalletBalance/EthBalance'
+import CurrencySwitch from './CurrencySwitch'
 
 import { FormattedMessage } from 'react-intl'
 import { ComponentDropdown, Text } from 'blockchain-info-components'
@@ -38,10 +39,6 @@ const BalanceDropdown = styled.div`
     right: 0px;
     padding: 0;
     position: absolute;
-    // Balance List Items (DropdownItem)
-    > li:not(:first-child) > div {
-      border-top: 1px solid ${props => props.theme['gray-1']};
-    }
   }
   > div > div > span:last-child {
     top: 1px;
@@ -57,7 +54,8 @@ const getComponentOrder = path => {
     <WalletBalance />,
     <LockboxBalance />,
     <PendingBalance />,
-    <WatchOnlyBalance />
+    <WatchOnlyBalance />,
+    <CurrencySwitch />
   ]
 }
 

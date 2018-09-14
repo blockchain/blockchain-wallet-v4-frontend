@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { getTotalBalance } from 'components/Balances/lockbox/selectors'
 
 import Error from './template.error'
-import Loading from './template.loading'
 import Success from './template.success'
+import { LoadingBalance } from 'components/Balances'
 
 class TotalBalance extends React.PureComponent {
   render () {
@@ -13,8 +13,8 @@ class TotalBalance extends React.PureComponent {
         <Success totalBalance={value.totalBalance} large={this.props.large} />
       ),
       Failure: msg => <Error>{msg}</Error>,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      Loading: () => <LoadingBalance large={this.props.large} />,
+      NotAsked: () => <LoadingBalance large={this.props.large} />
     })
   }
 }
