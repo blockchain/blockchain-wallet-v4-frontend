@@ -135,5 +135,8 @@ export default {
   wallet: '\\e956',
   'open-in-new-tab': '\\e979',
   'nav-buy': '\\e988',
-  security: '\\e987'
+  security: '\\e987',
+  pending: '\\e915',
+  forbidden: '\\e904',
+  caret: '\\e917'
 }

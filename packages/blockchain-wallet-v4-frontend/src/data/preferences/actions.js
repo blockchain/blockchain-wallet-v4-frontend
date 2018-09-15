@@ -35,3 +35,8 @@ export const setBalancesTableTab = payload => ({
   type: AT.SET_BALANCES_CHART_TAB,
   payload
 })
+
+export const setTotalBalancesDropdown = payload => ({
+  type: AT.SET_TOTAL_BALANCES_DROPDOWN,
+  payload
+})

@@ -15,20 +15,13 @@ class ConnectDeviceStepContainer extends React.PureComponent {
   }
 
   changeDeviceSetupStep () {
-    this.props.lockboxActions.changeDeviceSetupStep('open-btc-app')
+    this.props.lockboxActions.changeDeviceSetupStep('auth-check')
   }
 
   render () {
-    const authenticity = this.props.authenticity.cata({
-      Success: resp => ({ isLoading: false, isSuccess: resp.isAuthentic }),
-      Failure: () => ({ isLoading: false, isSuccess: false }),
-      Loading: () => ({ isLoading: true }),
-      NotAsked: () => ({ isLoading: true })
-    })
-
     return (
       <Template
-        authenticity={authenticity}
+        isConnected={this.props.connection.app}
         handleStepChange={this.changeDeviceSetupStep}
       />
     )
@@ -36,7 +29,7 @@ class ConnectDeviceStepContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  authenticity: selectors.components.lockbox.getNewDeviceAuthenticity(state)
+  connection: selectors.components.lockbox.getCurrentConnection(state)
 })
 
 const mapDispatchToProps = dispatch => ({

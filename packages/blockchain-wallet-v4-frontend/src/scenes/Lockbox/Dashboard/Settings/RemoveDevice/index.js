@@ -12,7 +12,7 @@ class RemoveDeviceContainer extends React.PureComponent {
   }
 
   deleteDevice () {
-    this.props.lockboxActions.deleteDevice(this.props.deviceId)
+    this.props.lockboxActions.deleteDevice(this.props.deviceIndex)
   }
 
   render () {
@@ -25,7 +25,7 @@ class RemoveDeviceContainer extends React.PureComponent {
 
 const mapStateToProps = (state, ownProps) => ({
   deviceName: selectors.core.kvStore.lockbox
-    .getDeviceName(state, ownProps.deviceId)
+    .getDeviceName(state, ownProps.deviceIndex)
     .getOrFail()
 })
 
