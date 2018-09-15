@@ -27,6 +27,7 @@ const TitleBarWrapper = styled.div`
 `
 const StyledCreatableInputContainer = styled.div`
   display: flex;
+  min-height: 40px;
   padding: 15px 30px;
   align-items: center;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
@@ -38,6 +39,10 @@ const StyledCreatableInputContainer = styled.div`
     cursor: text;
     box-shadow: none;
     background-color: ${props => props.theme['white']};
+  }
+  .bc__placeholder {
+    font-size: 13px;
+    font-style: italic;
   }
   .bc__multi-value {
     cursor: auto;
@@ -71,17 +76,24 @@ const multiValueContainer = props => {
 }
 
 const Menu = props => {
-  const { btcBalance, bchBalance, ethBalance, deviceInfo, ...rest } = props
+  const {
+    btcBalance,
+    bchBalance,
+    ethBalance,
+    deviceInfo,
+    deviceIndex,
+    ...rest
+  } = props
   const { location } = rest
 
   return (
     <Container>
       <TitleBar>
         <TitleBarWrapper>
-          <DeviceTitle deviceInfo={deviceInfo} />
+          <DeviceTitle deviceInfo={deviceInfo} deviceIndex={deviceIndex} />
         </TitleBarWrapper>
       </TitleBar>
-      <LinkContainer to='/lockbox/dashboard'>
+      <LinkContainer to={`/lockbox/dashboard/${deviceIndex}`}>
         <CurrencyListContainer>
           <CurrencyList deviceInfo={deviceInfo} />
         </CurrencyListContainer>
@@ -102,12 +114,20 @@ const Menu = props => {
               />
             )}
           </Text>
-          <Field
-            name='search'
-            autoFocus
-            component={CreatableInputField}
-            multiValueContainer={multiValueContainer}
-          />
+          {location.pathname.includes('/lockbox/dashboard') && (
+            <Field
+              name='search'
+              autoFocus
+              component={CreatableInputField}
+              multiValueContainer={multiValueContainer}
+              placeholder={
+                <FormattedMessage
+                  id='scenes.lockbox.menu.transactions.search.placeholder'
+                  defaultMessage='Search by coin, address, or description'
+                />
+              }
+            />
+          )}
         </StyledCreatableInputContainer>
       )}
     </Container>

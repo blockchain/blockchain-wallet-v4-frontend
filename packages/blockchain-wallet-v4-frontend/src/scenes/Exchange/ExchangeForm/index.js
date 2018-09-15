@@ -7,7 +7,7 @@ import { compose, flip, prop, isEmpty } from 'ramda'
 import { getRemotePropType, getElementsPropType } from 'utils/proptypes'
 import { debounce } from 'utils/helpers'
 import { actions, model } from 'data'
-import { getData, canUseExchange } from './selectors'
+import { getData, betaFlow, canUseExchange } from './selectors'
 
 import Loading from './template.loading'
 import Success from './template.success'
@@ -51,8 +51,22 @@ class FirstStepContainer extends React.Component {
     )
   })
 
+  handleRadioClick = active => {
+    if (!active) {
+    }
+  }
+
+  handleSwap = (e, value) => {
+    if (this.props.betaFlow) {
+    }
+    return compose(
+      actions.changeSource,
+      extractFieldValue
+    )(e, value)
+  }
+
   render () {
-    const { actions, data, canUseExchange } = this.props
+    const { actions, data, betaFlow, canUseExchange } = this.props
     return data.cata({
       Success: value =>
         canUseExchange && isEmpty(value.availablePairs) ? (
@@ -60,14 +74,12 @@ class FirstStepContainer extends React.Component {
         ) : (
           <Success
             {...value}
+            betaFlow={betaFlow}
             canUseExchange={canUseExchange}
             handleMaximum={actions.firstStepMaximumClicked}
             handleMinimum={actions.firstStepMinimumClicked}
             onSubmit={actions.firstStepSubmitClicked}
-            handleSourceChange={compose(
-              actions.changeSource,
-              extractFieldValue
-            )}
+            handleSourceChange={this.handleSourceChange}
             handleTargetChange={compose(
               actions.changeTarget,
               extractFieldValue
@@ -76,8 +88,12 @@ class FirstStepContainer extends React.Component {
               this.getChangeAmountAction(value.fix),
               extractFieldValue
             )}
-            swapBaseAndCounter={compose(
+            swapFix={compose(
               this.props.actions.changeFix,
+              swapBaseAndCounter.bind(null, value.fix)
+            )}
+            swapBaseAndCounter={compose(
+              this.props.actions.swapBaseAndCounter,
               swapBaseAndCounter.bind(null, value.fix)
             )}
             swapCoinAndFiat={compose(
@@ -124,6 +140,7 @@ FirstStepContainer.propTypes = {
 
 const mapStateToProps = state => ({
   canUseExchange: canUseExchange(state),
+  betaFlow: betaFlow(state),
   data: getData(state)
 })
 

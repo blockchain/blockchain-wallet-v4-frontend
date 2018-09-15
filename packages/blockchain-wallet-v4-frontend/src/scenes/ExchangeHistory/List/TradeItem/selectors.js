@@ -12,7 +12,12 @@ const formatExchangeTrade = ({
   pair,
   createdAt,
   depositQuantity,
-  withdrawalQuantity
+  withdrawalQuantity,
+  targetFiat,
+  currency,
+  fee,
+  rate,
+  refundAmount
 }) => {
   const [sourceCoin, targetCoin] = splitPair(pair)
 
@@ -22,7 +27,13 @@ const formatExchangeTrade = ({
     sourceCoin,
     targetCoin,
     depositAmount: depositQuantity,
-    withdrawalAmount: withdrawalQuantity
+    withdrawalAmount: withdrawalQuantity,
+    targetFiat,
+    currency,
+    fee,
+    rate,
+    refundAmount,
+    isShapeShiftTrade: false
   }
 }
 
@@ -38,7 +49,8 @@ const formatShapeshiftTrade = trade => {
     targetCoin,
     deposit,
     depositAmount,
-    withdrawalAmount
+    withdrawalAmount,
+    isShapeShiftTrade: true
   }
 }
 

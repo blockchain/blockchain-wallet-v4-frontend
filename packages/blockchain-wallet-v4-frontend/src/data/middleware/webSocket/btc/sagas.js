@@ -1,6 +1,7 @@
-import { call, put, select } from 'redux-saga/effects'
-import { compose, equals, prop } from 'ramda'
+import { call, put, select, take } from 'redux-saga/effects'
+import { compose, equals, prop, concat } from 'ramda'
 import * as actions from '../../../actions'
+import * as actionTypes from '../../../actionTypes'
 import * as selectors from '../../../selectors'
 import * as T from 'services/AlertService'
 import { Wrapper } from 'blockchain-wallet-v4/src/types'
@@ -11,9 +12,21 @@ export default ({ api, btcSocket }) => {
 
   const onOpen = function*() {
     try {
-      const subscribeInfo = yield select(
+      let subscribeInfo = yield select(
         selectors.core.wallet.getInitialSocketContext
       )
+      yield take(
+        actionTypes.core.kvStore.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS
+      )
+      const lockboxXPubs = yield select(
+        selectors.core.kvStore.lockbox.getLockboxBtcContext
+      )
+
+      subscribeInfo.xpubs = concat(
+        subscribeInfo.xpubs,
+        lockboxXPubs.getOrElse([])
+      )
+
       yield call(
         compose(
           send,
@@ -52,7 +65,7 @@ export default ({ api, btcSocket }) => {
           break
         case 'utx':
           // Find out if the transaction is sent/received to show a notification
-          const context = yield select(selectors.core.wallet.getContext)
+          const context = yield select(selectors.core.data.bitcoin.getContext)
           const data = yield call(api.fetchBlockchainData, context, {
             n: 50,
             offset: 0

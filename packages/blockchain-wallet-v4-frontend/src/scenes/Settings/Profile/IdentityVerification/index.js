@@ -23,7 +23,7 @@ const SolidBgBanner = styled(Banner)`
     color: ${props => props.theme.white};
   }
 `
-const IdentityVerification = ({ kycState, canTrade, verifyIdentity }) => {
+const IdentityVerification = ({ kycState, verifyIdentity }) => {
   const banners = {
     [KYC_STATES.NONE]: (
       <SolidBgBanner color='sent'>
@@ -46,6 +46,16 @@ const IdentityVerification = ({ kycState, canTrade, verifyIdentity }) => {
       </SolidBgBanner>
     ),
     [KYC_STATES.REJECTED]: (
+      <SolidBgBanner color='error'>
+        <FormattedMessage
+          id='scenes.profile.identityverification.banner.rejected'
+          defaultMessage='Failed'
+          altFont
+          light
+        />
+      </SolidBgBanner>
+    ),
+    [KYC_STATES.UNDER_REVIEW]: (
       <SolidBgBanner color='error'>
         <FormattedMessage
           id='scenes.profile.identityverification.banner.underreview'
@@ -80,7 +90,7 @@ const IdentityVerification = ({ kycState, canTrade, verifyIdentity }) => {
       <FormattedMessage
         id='scenes.profile.identityverification.note.inreview'
         defaultMessage={
-          'We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to buy cryptocurrency.\n {note} In some cases it can take up to 2 hours to get verified.'
+          'We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to exchange cryptocurrency.\n {note} In some cases it can take up to 2 hours to get verified.'
         }
         values={{
           note: (
@@ -95,10 +105,18 @@ const IdentityVerification = ({ kycState, canTrade, verifyIdentity }) => {
         light
       />
     ),
-    [KYC_STATES.REJECTED]: (
+    [KYC_STATES.UNDER_REVIEW]: (
       <FormattedMessage
         id='scenes.profile.identityverification.note.underreview'
         defaultMessage='We had some trouble verifying your account with the documents provided. Our Support team will contact you shortly to help you with the verification process.'
+        altFont
+        light
+      />
+    ),
+    [KYC_STATES.REJECTED]: (
+      <FormattedMessage
+        id='scenes.profile.identityverification.note.rejected'
+        defaultMessage='Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time.'
         altFont
         light
       />
@@ -124,8 +142,9 @@ const IdentityVerification = ({ kycState, canTrade, verifyIdentity }) => {
     ),
     [KYC_STATES.PENDING]: null,
     [KYC_STATES.REJECTED]: null,
+    [KYC_STATES.UNDER_REVIEW]: null,
     [KYC_STATES.VERIFIED]: (
-      <LinkContainer to={canTrade ? '/buy-sell' : '/exchange'}>
+      <LinkContainer to={'/exchange'}>
         <Button nature='primary'>
           <FormattedMessage
             id='scenes.profile.identityverification.button.getstarted'
