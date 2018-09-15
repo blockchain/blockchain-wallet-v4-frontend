@@ -67,10 +67,6 @@ class TwoStepVerificationContainer extends React.PureComponent {
         authName: this.state.authName
       })
     } else {
-      this.props.updateUI({
-        verifyToggled: !this.props.ui.verifyToggled,
-        editing: true
-      })
       this.setState({
         verifyToggled: !this.state.verifyToggled,
         editing: true
@@ -91,12 +87,6 @@ class TwoStepVerificationContainer extends React.PureComponent {
       })
     }
   }
-
-  handleDisableTwoStep () {
-    this.props.securityCenterActions.disableTwoStep()
-    this.setState({ authName: '' })
-  }
-
   handleTwoFactorChange () {
     this.props.modalActions.showModal('ConfirmDisable2FA', {
       authName: this.state.authName
@@ -133,9 +123,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
           data={value}
           handleClick={this.handleClick}
           chooseMethod={this.chooseMethod}
-          handleGoBack={() =>
-            this.props.updateUI({ authMethod: '', verifyToggled: false })
-          }
+          handleGoBack={() => this.handleGoBack()}
           handleDisableClick={this.handleDisableClick}
           handleTwoFactorChange={this.handleTwoFactorChange}
           twoStepChoice={this.state.authMethod}
