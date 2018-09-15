@@ -251,7 +251,7 @@ export default ({ api, coreSagas, networks, options }) => {
       const target = prop('target', form)
       const sourceCoin = prop('coin', source)
       const targetCoin = prop('coin', target)
-      const sourceAddress = prop('address', source)
+      const sourceAddressOrIndex = prop('address', source)
       const targetAddress = prop('address', target)
       const amount = prop('sourceAmount', form)
       const returnAddress = yield call(selectReceiveAddress, source, networks)
@@ -281,7 +281,7 @@ export default ({ api, coreSagas, networks, options }) => {
       const finalPayment = yield call(
         createPayment,
         sourceCoin,
-        sourceAddress,
+        sourceAddressOrIndex,
         depositAddress,
         sourceAmount
       )

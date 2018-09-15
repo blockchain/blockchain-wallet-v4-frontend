@@ -10,6 +10,7 @@ import * as CC from 'services/ConfirmService'
 import { promptForSecondPassword, confirm } from 'services/SagaService'
 import { path, prop, equals, head } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 export const sellDescription = `Exchange Trade SFX-`
 export const logLocation = 'modules/sfox/sagas'
@@ -257,7 +258,7 @@ export default ({ coreSagas, networks }) => {
         selectors.core.wallet.getDefaultAccountIndex
       )
       const defaultFeePerByte = path(['fees', 'priority'], payment.value())
-      payment = yield payment.from(defaultIndex)
+      payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
       payment = yield payment.fee(defaultFeePerByte)
       yield put(A.sfoxSellBtcPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
