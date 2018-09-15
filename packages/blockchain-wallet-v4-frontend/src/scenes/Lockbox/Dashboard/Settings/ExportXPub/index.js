@@ -23,7 +23,7 @@ class ExportXPubContainer extends React.PureComponent {
 
 const mapStateToProps = (state, ownProps) => ({
   xpub: selectors.core.kvStore.lockbox
-    .getLockboxBtcDefaultAccount(state, ownProps.deviceId)
+    .getLockboxBtcDefaultAccount(state, ownProps.deviceIndex)
     .map(prop('xpub'))
     .getOrFail()
 })
