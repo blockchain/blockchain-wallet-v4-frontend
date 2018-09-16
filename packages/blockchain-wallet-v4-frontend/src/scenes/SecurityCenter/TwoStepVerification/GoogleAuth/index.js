@@ -16,22 +16,20 @@ class GoogleAuthContainer extends React.PureComponent {
 
     this.handleClick = this.handleClick.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
-    this.handleUpdate = this.handleUpdate.bind(this)
   }
 
   componentWillMount () {
     this.props.securityCenterActions.getGoogleAuthenticatorSecretUrl()
-    this.props.setState({ successToggled: !this.state.successToggled })
-    this.props.triggerSuccess()
-    this.props.goBackOnSuccess()
-    this.props.handleGoBack()
   }
 
   componentDidUpdate (prevProps) {
     const next = this.props.data.getOrElse({})
     const prev = prevProps.data.getOrElse({})
     if (next.authType !== prev.authType) {
-      this.handleUpdate()
+      this.props.setState({ successToggled: !this.state.successToggled })
+      this.props.triggerSuccess()
+      this.props.goBackOnSuccess()
+      this.props.handleGoBack()
     }
   }
 

@@ -11,16 +11,19 @@ import { actions } from 'data'
 class WalletRecoveryPhraseContainer extends React.PureComponent {
   constructor (props) {
     super(props)
+    this.state = {
+      nextStepToggled: false,
+      descriptionToggled: false
+    }
 
     this.toggleNextStep = this.toggleNextStep.bind(this)
     this.closeSteps = this.closeSteps.bind(this)
     this.changeDescription = this.changeDescription.bind(this)
-    this.state = {}
   }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.recoveryPhrase && this.props.recoveryPhrase === undefined) {
-      this.props.updateUI({ nextStepToggled: true })
+      this.setState({ nextStepToggled: true })
       this.props.handleEnable()
     }
   }
@@ -29,18 +32,18 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
     if (this.props.recoveryPhrase === undefined) {
       this.props.settingsActions.showBackupRecovery()
     } else {
-      this.props.updateUI({ nextStepToggled: true })
+      this.setState({ nextStepToggled: true })
       this.props.handleEnable()
     }
   }
 
   closeSteps () {
-    this.props.updateUI({ nextStepToggled: false, descriptionToggled: false })
+    this.setState({ nextStepToggled: false, descriptionToggled: false })
   }
 
   changeDescription () {
     this.props.updateUI({
-      descriptionToggled: !this.props.ui.descriptionToggled
+      descriptionToggled: !this.state.descriptionToggled
     })
   }
 

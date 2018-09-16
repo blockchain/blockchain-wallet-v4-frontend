@@ -133,6 +133,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
           pulse={this.state.pulse}
           triggerSuccess={() => {
             this.triggerSuccess()
+            this.handleGoBack()
           }}
         />
       ),

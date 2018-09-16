@@ -18,6 +18,7 @@ class SmsAuthContainer extends React.PureComponent {
       successToggled: false
     }
     this.handleMount = this.handleMount.bind(this)
+    this.handleUpdate = this.handleUpdate.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
