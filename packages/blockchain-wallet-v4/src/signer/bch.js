@@ -100,11 +100,17 @@ export const signWithLedger = function*(selection, transport, api) {
       coin.script.toString('hex')
   })
 
+  const hashType =
+    BitcoinCash.Transaction.SIGHASH_ALL |
+    BitcoinCash.Transaction.SIGHASH_BITCOINCASHBIP143
+
   const txHex = yield BTC.createPaymentTransactionNew(
     inputs,
     paths,
     undefined,
-    outputs
+    outputs,
+    undefined,
+    hashType
   )
   return { txHex }
 }
