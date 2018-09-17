@@ -135,13 +135,27 @@ export const installApplication = (deviceIndex, app) => ({
 })
 export const installApplicationLoading = app => ({
   type: AT.INSTALL_APPLICATION_LOADING,
-  app
+  payload: { app }
 })
 export const installApplicationSuccess = app => ({
   type: AT.INSTALL_APPLICATION_SUCCESS,
-  app
+  payload: { app }
 })
-export const installApplicationFailure = app => ({
+export const installApplicationFailure = (app, error) => ({
   type: AT.INSTALL_APPLICATION_FAILURE,
-  app
+  payload: { app, error }
+})
+export const installBlockchainApps = deviceIndex => ({
+  type: AT.INSTALL_BLOCKCHAIN_APPS,
+  payload: { deviceIndex }
+})
+export const installBlockchainAppsLoading = () => ({
+  type: AT.INSTALL_BLOCKCHAIN_APPS_LOADING
+})
+export const installBlockchainAppsSuccess = () => ({
+  type: AT.INSTALL_BLOCKCHAIN_APPS_SUCCESS
+})
+export const installBlockchainAppsFailure = error => ({
+  type: AT.INSTALL_BLOCKCHAIN_APPS_FAILURE,
+  payload: { error }
 })

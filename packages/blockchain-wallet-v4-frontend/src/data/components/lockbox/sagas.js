@@ -319,7 +319,6 @@ export default ({ api }) => {
   }
 
   // update device firmware saga
-  // TODO: need to block closing of modal or at least disable onclickoutside
   const updateDeviceFirmware = function*(action) {
     try {
       const { deviceIndex } = action.payload
@@ -381,7 +380,6 @@ export default ({ api }) => {
   }
 
   // installs requested application on device
-  // TODO: need to block closing of modal or at least disable onclickoutside
   const installApplication = function*(action) {
     const { deviceIndex, app } = action.payload
     try {
@@ -434,9 +432,42 @@ export default ({ api }) => {
       )
       yield put(A.installApplicationSuccess(app))
     } catch (e) {
-      yield put(A.installApplicationFailure(app))
+      // TODO: make sure error works
+      yield put(A.installApplicationFailure(app, e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'installApplication', e)
+      )
+    }
+  }
+
+  // installs blockchain standard apps (BTC, BCH, ETH)
+  const installBlockchainApps = function*(action) {
+    try {
+      const { deviceIndex } = action.payload
+      yield put(A.installBlockchainAppsLoading())
+      // install BTC app
+      yield put(A.installApplication(deviceIndex, 'BTC'))
+      yield take([
+        AT.INSTALL_APPLICATION_FAILURE,
+        AT.INSTALL_APPLICATION_SUCCESS
+      ])
+      // install BCH app
+      yield put(A.installApplication(deviceIndex, 'BCH'))
+      yield take([
+        AT.INSTALL_APPLICATION_FAILURE,
+        AT.INSTALL_APPLICATION_SUCCESS
+      ])
+      // install ETH app
+      yield put(A.installApplication(deviceIndex, 'ETH'))
+      yield take([
+        AT.INSTALL_APPLICATION_FAILURE,
+        AT.INSTALL_APPLICATION_SUCCESS
+      ])
+      yield put(A.installBlockchainAppsSuccess())
+    } catch (e) {
+      yield put(A.installBlockchainAppsFailure())
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'installBlockchainApps', e)
       )
     }
   }
@@ -448,6 +479,7 @@ export default ({ api }) => {
     initializeDashboard,
     initializeNewDeviceSetup,
     installApplication,
+    installBlockchainApps,
     pollForDeviceApp,
     saveNewDeviceKvStore,
     updateDeviceFirmware,
