@@ -66,7 +66,7 @@ export default ({ api }) => {
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
       const deviceInfo = yield call(
-        LockboxService.firmware.getDeviceInfo,
+        LockboxService.utils.getDeviceInfo,
         transport
       )
       // get full device info via api
@@ -179,7 +179,7 @@ export default ({ api }) => {
   const deleteDevice = function*(action) {
     try {
       const { deviceIndex } = action.payload
-      debugger
+
       const confirmed = yield call(confirm, {
         title: CC.CONFIRM_DELETE_LOCKBOX_TITLE,
         message: CC.CONFIRM_DELETE_LOCKBOX_MESSAGE,
@@ -188,7 +188,9 @@ export default ({ api }) => {
       if (confirmed) {
         try {
           yield put(A.deleteDeviceLoading())
-          yield put(actions.core.kvStore.lockbox.deleteDeviceLockbox(deviceIndex))
+          yield put(
+            actions.core.kvStore.lockbox.deleteDeviceLockbox(deviceIndex)
+          )
           yield put(actions.router.push('/lockbox'))
           yield put(A.deleteDeviceSuccess())
           yield put(actions.alerts.displaySuccess(C.LOCKBOX_DELETE_SUCCESS))
@@ -326,7 +328,10 @@ export default ({ api }) => {
       // clear out previous firmware info
       yield put(A.resetFirmwareInfo())
       // derive device type
-      const deviceR = yield select(selectors.core.kvStore.lockbox.getDevice, deviceIndex)
+      const deviceR = yield select(
+        selectors.core.kvStore.lockbox.getDevice,
+        deviceIndex
+      )
       const device = deviceR.getOrFail()
       // poll for device connection
       yield put(A.pollForDeviceApp('DASHBOARD', null, device.device_type))
@@ -334,7 +339,7 @@ export default ({ api }) => {
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
       const deviceInfo = yield call(
-        LockboxService.firmware.getDeviceInfo,
+        LockboxService.utils.getDeviceInfo,
         transport
       )
       yield put(A.setFirmwareInstalledInfo(deviceInfo))
@@ -383,7 +388,10 @@ export default ({ api }) => {
     try {
       const { deviceIndex } = action.payload
       // derive device type
-      const deviceR = yield select(selectors.core.kvStore.lockbox.getDevice, deviceIndex)
+      const deviceR = yield select(
+        selectors.core.kvStore.lockbox.getDevice,
+        deviceIndex
+      )
       const device = deviceR.getOrFail()
       // poll for device connection
       yield put(A.pollForDeviceApp('DASHBOARD', null, device.device_type))
@@ -391,7 +399,7 @@ export default ({ api }) => {
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
       const deviceInfo = yield call(
-        LockboxService.firmware.getDeviceInfo,
+        LockboxService.utils.getDeviceInfo,
         transport
       )
       yield put(A.setFirmwareInstalledInfo(deviceInfo))
@@ -400,8 +408,8 @@ export default ({ api }) => {
         provider: deviceInfo.providerId,
         target_id: deviceInfo.targetId
       })
+      // eslint-disable-next-line
       console.info('DONE::', deviceVersion)
-
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'installApplications', e)

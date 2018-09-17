@@ -1,5 +1,8 @@
 import { Observable } from 'rxjs'
 
+import firmware from './firmware'
+import constants from './constants'
+
 /* eslint-disable */
 // TODO: enable eslint after dev complete
 
@@ -9,7 +12,7 @@ import { Observable } from 'rxjs'
  * @param {String} url - The web socket url to connect to
  * @returns {Observable} the final socket result
  */
-export const createDeviceSocket = (transport, url) => {
+const createDeviceSocket = (transport, url) => {
   return Observable.create(o => {
     let ws, lastMessage
 
@@ -122,3 +125,47 @@ export const createDeviceSocket = (transport, url) => {
   })
 }
 /* eslint-enable */
+
+// derives full device information from api response
+const getDeviceInfo = transport => {
+  return new Promise((resolve, reject) => {
+    firmware.getDeviceFirmwareInfo(transport).then(
+      res => {
+        const { seVersion } = res
+        const { targetId, mcuVersion, flags } = res
+        const parsedVersion =
+          seVersion.match(
+            /([0-9]+.[0-9])+(.[0-9]+)?((?!-osu)-([a-z]+))?(-osu)?/
+          ) || []
+        const isOSU = typeof parsedVersion[5] !== 'undefined'
+        const providerName = parsedVersion[4] || ''
+        const providerId = constants.providers[providerName]
+        const isBootloader = targetId === 0x01000001
+        const majMin = parsedVersion[1]
+        const patch = parsedVersion[2] || '.0'
+        const fullVersion = `${majMin}${patch}${
+          providerName ? `-${providerName}` : ''
+        }`
+        resolve({
+          targetId,
+          seVersion: majMin + patch,
+          isOSU,
+          mcuVersion,
+          isBootloader,
+          providerName,
+          providerId,
+          flags,
+          fullVersion
+        })
+      },
+      err => {
+        reject(err)
+      }
+    )
+  })
+}
+
+export default {
+  createDeviceSocket,
+  getDeviceInfo
+}

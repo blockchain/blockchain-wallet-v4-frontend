@@ -27,7 +27,10 @@ class CheckForUpdatesContainer extends React.PureComponent {
   }
 
   retryConnection () {
-    this.props.lockboxActions.pollForDeviceApp('DASHBOARD', this.props.deviceIndex)
+    this.props.lockboxActions.pollForDeviceApp(
+      'DASHBOARD',
+      this.props.deviceIndex
+    )
   }
 
   render () {
