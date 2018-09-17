@@ -6,7 +6,6 @@ const checkForVulnerableAddressError = (message) => {
   const testForErrorMatch = match(re, message)
   const addressMatch = testForErrorMatch && match(/[13][a-km-zA-HJ-NP-Z0-9]{26,33}/, message)
   const matchResult = !isEmpty(addressMatch) && head(addressMatch)
-  console.log('check for vuln', addressMatch)
   return utils.bitcoin.isValidBitcoinAddress(matchResult) && matchResult
 }
 

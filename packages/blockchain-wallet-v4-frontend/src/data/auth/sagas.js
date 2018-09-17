@@ -7,12 +7,15 @@ import * as actions from '../actions.js'
 import * as actionTypes from '../actionTypes.js'
 import * as selectors from '../selectors.js'
 import * as C from 'services/AlertService'
+import * as CC from 'services/ConfirmService'
 import {
   askSecondPasswordEnhancer,
+  confirm,
   promptForSecondPassword,
   forceSyncWallet
 } from 'services/SagaService'
-import { Types } from 'blockchain-wallet-v4/src'
+import { Types, Remote } from 'blockchain-wallet-v4/src'
+import { checkForVulnerableAddressError } from 'services/ErrorService'
 
 export const logLocation = 'auth/sagas'
 export const defaultLoginErrorMessage = 'Error logging into your wallet'
@@ -132,6 +135,7 @@ export default ({ api, coreSagas }) => {
       yield fork(welcomeSaga, firstLogin)
       yield fork(reportStats, mobileLogin)
       yield put(actions.analytics.reportBalanceStats())
+      yield fork(checkDataErrors)
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
       if (!firstLogin) {
         yield put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
@@ -154,6 +158,26 @@ export default ({ api, coreSagas }) => {
         api.incrementSecPasswordStats,
         Types.Wallet.isDoubleEncrypted(wallet)
       )
+    }
+  }
+
+  const checkDataErrors = function*() {
+    const btcDataR = yield select(selectors.core.data.bitcoin.getInfo)
+    if (Remote.Failure.is(btcDataR)) {
+      const error = prop('error', btcDataR)
+      const vulnerableAddress = checkForVulnerableAddressError(error)
+      yield put(actions.modals.closeAllModals())
+      if (vulnerableAddress) {
+        const confirmed = yield call(confirm, {
+          title: CC.ARCHIVE_VULNERABLE_ADDRESS_TITLE,
+          image: null,
+          message: CC.ARCHIVE_VULNERABLE_ADDRESS_MSG,
+          confirm: CC.ARCHIVE_VULNERABLE_ADDRESS_CONFIRM,
+          cancel: CC.ARCHIVE_VULNERABLE_ADDRESS_CANCEL,
+          messageValues: { vulnerableAddress }
+        })
+        if (confirmed) yield put(actions.core.wallet.setAddressArchived(vulnerableAddress, true))
+      }
     }
   }
 
