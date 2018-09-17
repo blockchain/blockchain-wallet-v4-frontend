@@ -10,6 +10,7 @@ import {
 // getType :: TX -> [String] -> String
 const getType = (tx, addresses) => {
   const lowerAddresses = map(toLower, addresses)
+
   switch (true) {
     case contains(tx.from, lowerAddresses) && contains(tx.to, lowerAddresses):
       return 'Transferred'
