@@ -46,7 +46,7 @@ class BitcoinWalletsContainer extends React.Component {
       Failure: message => (
         message && checkForVulnerableAddressError(message)
           ? <VulnerableAddressError message={message} onArchive={this.handleArchive} />
-          : <DataError onClick={this.handleRefresh} />
+          : <DataError onClick={this.handleRefresh}>{message}</DataError>
       ),
       Loading: () => <div />,
       NotAsked: () => <div />
