@@ -7,7 +7,7 @@ import { compose, flip, prop, isEmpty } from 'ramda'
 import { getRemotePropType, getElementsPropType } from 'utils/proptypes'
 import { debounce } from 'utils/helpers'
 import { actions, model } from 'data'
-import { getData } from './selectors'
+import { getData, betaFlow, canUseExchange } from './selectors'
 
 import Loading from './template.loading'
 import Success from './template.success'
@@ -20,7 +20,13 @@ const { BASE, COUNTER, BASE_IN_FIAT, COUNTER_IN_FIAT } = FIX_TYPES
 
 class FirstStepContainer extends React.Component {
   componentDidMount () {
-    this.props.actions.initialize()
+    const { canUseExchange, actions } = this.props
+    if (canUseExchange) actions.initialize()
+  }
+
+  componentDidUpdate (prevProps) {
+    const { canUseExchange, actions } = this.props
+    if (!prevProps.canUseExchange && canUseExchange) actions.initialize()
   }
 
   debounceTime = 50
@@ -45,22 +51,35 @@ class FirstStepContainer extends React.Component {
     )
   })
 
+  handleRadioClick = active => {
+    if (!active) {
+    }
+  }
+
+  handleSwap = (e, value) => {
+    if (this.props.betaFlow) {
+    }
+    return compose(
+      actions.changeSource,
+      extractFieldValue
+    )(e, value)
+  }
+
   render () {
-    const { actions, data } = this.props
+    const { actions, data, betaFlow, canUseExchange } = this.props
     return data.cata({
       Success: value =>
-        isEmpty(value.availablePairs) ? (
+        canUseExchange && isEmpty(value.availablePairs) ? (
           <DataError onClick={this.handleRefresh} />
         ) : (
           <Success
             {...value}
+            betaFlow={betaFlow}
+            canUseExchange={canUseExchange}
             handleMaximum={actions.firstStepMaximumClicked}
             handleMinimum={actions.firstStepMinimumClicked}
             onSubmit={actions.firstStepSubmitClicked}
-            handleSourceChange={compose(
-              actions.changeSource,
-              extractFieldValue
-            )}
+            handleSourceChange={this.handleSourceChange}
             handleTargetChange={compose(
               actions.changeTarget,
               extractFieldValue
@@ -69,8 +88,12 @@ class FirstStepContainer extends React.Component {
               this.getChangeAmountAction(value.fix),
               extractFieldValue
             )}
-            swapBaseAndCounter={compose(
+            swapFix={compose(
               this.props.actions.changeFix,
+              swapBaseAndCounter.bind(null, value.fix)
+            )}
+            swapBaseAndCounter={compose(
+              this.props.actions.swapBaseAndCounter,
               swapBaseAndCounter.bind(null, value.fix)
             )}
             swapCoinAndFiat={compose(
@@ -116,6 +139,8 @@ FirstStepContainer.propTypes = {
 }
 
 const mapStateToProps = state => ({
+  canUseExchange: canUseExchange(state),
+  betaFlow: betaFlow(state),
   data: getData(state)
 })
 

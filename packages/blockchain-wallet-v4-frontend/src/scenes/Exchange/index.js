@@ -13,11 +13,13 @@ import { getData } from './selectors'
 
 const Wrapper = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
 `
 
 const Container = styled.section`
+  overflow: auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

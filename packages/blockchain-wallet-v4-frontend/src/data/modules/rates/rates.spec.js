@@ -236,7 +236,7 @@ describe('rates service', () => {
     it('should set pair rate to success upon advice message if fix and volume match', () => {
       ratesSocket.triggerMessage({
         ...model.rates.ADVICE_MESSAGE,
-        ...stubAdvice
+        quote: { ...stubAdvice }
       })
       expect(
         selectors.modules.rates.getPairAdvice(pair, store.getState())

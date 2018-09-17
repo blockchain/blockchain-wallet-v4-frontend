@@ -4,9 +4,7 @@ exports[`FooterShadowWrapper renders correctly 1`] = `
 <FaqMessage__Container
   className="cn"
 >
-  <FaqMessage__Bulb>
-    ?
-  </FaqMessage__Bulb>
+  <FaqMessage__FaqIcon />
   <FaqMessage__Title>
     <div />
   </FaqMessage__Title>

@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import { isEmpty, contains } from 'ramda'
+import { contains } from 'ramda'
 
 import { model } from 'data'
 import media from 'services/ResponsiveService'
@@ -33,6 +33,7 @@ const { EXCHANGE_FORM } = model.components.exchange
 const { fixIsFiat, formatPair } = model.rates
 
 const Wrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -45,6 +46,14 @@ const Wrapper = styled.div`
     padding: 0;
     flex-direction: column;
   `};
+`
+
+const Cover = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background-color: rgba(255, 255, 255, 0.1);
 `
 
 const ColumnLeft = styled.div`
@@ -158,6 +167,18 @@ const ActiveCurrencyIndicator = styled.div`
     props.active ? props.theme[props.coin] : props.theme['gray-3']};
   margin-right: 8px;
 `
+const ActiveCurrencyButton = styled.div`
+  cursor: pointer;
+  height: 12px;
+  width: 12px;
+  background-color: ${props => props.checked && props.theme[props.coin]};
+  border-radius: 8px;
+  border: ${props => props.checked && '2px solid'}
+    ${props => props.theme['white']};
+  border-color: ;
+  margin-right: 8px;
+  box-shadow: 0 0 0 1px ${props => props.theme[props.coin]};
+`
 const FieldsWrapper = styled.div`
   padding: 30px;
   border: 1px solid ${props => props.theme['gray-2']}};
@@ -171,6 +192,8 @@ const normalizeAmount = (value, prevValue, allValues, ...args) => {
 
 const Success = props => {
   const {
+    betaFlow,
+    canUseExchange,
     availablePairs,
     fromElements,
     toElements,
@@ -190,6 +213,7 @@ const Success = props => {
     handleSourceChange,
     handleTargetChange,
     handleAmountChange,
+    swapFix,
     swapBaseAndCounter,
     swapCoinAndFiat
   } = props
@@ -200,15 +224,27 @@ const Success = props => {
 
   return (
     <Wrapper>
+      {!canUseExchange && <Cover />}
       <ColumnLeft>
         <Form onSubmit={handleSubmit}>
           <FieldsWrapper>
             <Row>
               <Cell>
-                <ActiveCurrencyIndicator
-                  active={sourceActive}
-                  coin={sourceCoin.toLowerCase()}
-                />
+                {betaFlow ? (
+                  <ActiveCurrencyButton
+                    onClick={() => {
+                      if (betaFlow && !disabled && !sourceActive) swapFix()
+                    }}
+                    props={{}}
+                    checked={sourceActive}
+                    coin={sourceCoin.toLowerCase()}
+                  />
+                ) : (
+                  <ActiveCurrencyIndicator
+                    active={sourceActive}
+                    coin={sourceCoin.toLowerCase()}
+                  />
+                )}
                 <Text size='14px' weight={400}>
                   <FormattedMessage
                     id='scenes.exchange.shapeshift.firststep.from'
@@ -218,10 +254,21 @@ const Success = props => {
               </Cell>
               <Cell size='small' />
               <Cell>
-                <ActiveCurrencyIndicator
-                  active={targetActive}
-                  coin={targetCoin.toLowerCase()}
-                />
+                {betaFlow ? (
+                  <ActiveCurrencyButton
+                    onClick={() => {
+                      if (betaFlow && !disabled && !targetActive) swapFix()
+                    }}
+                    props={{}}
+                    checked={targetActive}
+                    coin={targetCoin.toLowerCase()}
+                  />
+                ) : (
+                  <ActiveCurrencyIndicator
+                    active={targetActive}
+                    coin={targetCoin.toLowerCase()}
+                  />
+                )}
                 <Text size='14px' weight={400}>
                   <FormattedMessage
                     id='scenes.exchange.shapeshift.firststep.to'
@@ -250,7 +297,9 @@ const Success = props => {
                     cursor
                     disabled={swapDisabled}
                     onClick={() => {
-                      if (!disabled && !swapDisabled) swapBaseAndCounter()
+                      if (!betaFlow && !disabled) swapFix()
+                      if (betaFlow && !disabled && !swapDisabled)
+                        swapBaseAndCounter()
                     }}
                   />
                 </Cell>
@@ -305,17 +354,15 @@ const Success = props => {
                 }}
               />
             </AmountRow>
-            {formError && (
-              <Row spaced>
-                {formError === 'minimum' && <MinimumAmountMessage />}
-                {formError === 'maximum' && <MaximumAmountMessage />}
-                {formError === 'insufficient' && <InsufficientAmountMessage />}
-                {formError === 'regulationlimit' && (
-                  <AboveRegulationLimitMessage />
-                )}
-                {formError === 'invalid' && <InvalidAmountMessage />}
-              </Row>
-            )}
+            <Row spaced>
+              {formError === 'minimum' && <MinimumAmountMessage />}
+              {formError === 'maximum' && <MaximumAmountMessage />}
+              {formError === 'insufficient' && <InsufficientAmountMessage />}
+              {formError === 'regulationlimit' && (
+                <AboveRegulationLimitMessage />
+              )}
+              {formError === 'invalid' && <InvalidAmountMessage />}
+            </Row>
             <Row>
               <MinMaxButtonGroup>
                 <Button fullwidth>
@@ -339,7 +386,7 @@ const Success = props => {
             disabled={
               disabled ||
               !dirty ||
-              (dirty && !isEmpty(formError) && formError !== 'initial')
+              (dirty && formError && formError !== 'initial')
             }
           >
             {!disabled && (
@@ -367,5 +414,6 @@ const Success = props => {
 
 export default reduxForm({
   form: EXCHANGE_FORM,
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
+  enableReinitialize: true
 })(Success)
