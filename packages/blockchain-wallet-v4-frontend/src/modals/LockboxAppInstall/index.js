@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import LockboxAppInstall from './template'
 

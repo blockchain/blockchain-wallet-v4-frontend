@@ -2,14 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 
-import {
-  Button,
-  Icon,
-  Modal,
-  ModalBody,
-  FlatLoader,
-  Text
-} from 'blockchain-info-components'
+import { Modal, ModalBody, FlatLoader, Text } from 'blockchain-info-components'
 
 const Wrapper = styled(ModalBody)`
   padding: 20px;
@@ -24,19 +17,6 @@ const Content = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 26px;
-`
-const SuccessMessage = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  align-content: center;
-`
-const SuccessIcon = styled(Icon)`
-  margin-right: 14px;
-`
-const ButtonContainer = styled.div`
-  margin-top: 35px;
 `
 
 const LockboxAppInstall = props => (
