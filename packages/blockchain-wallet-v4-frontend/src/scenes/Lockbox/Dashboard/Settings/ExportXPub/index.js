@@ -1,7 +1,8 @@
 import React from 'react'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { prop } from 'ramda'
 
 import ExportXPub from './template.js'
 
@@ -21,7 +22,10 @@ class ExportXPubContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  xpub: ownProps.deviceId
+  xpub: selectors.core.kvStore.lockbox
+    .getLockboxBtcDefaultAccount(state, ownProps.deviceIndex)
+    .map(prop('xpub'))
+    .getOrFail()
 })
 
 const mapDispatchToProps = dispatch => ({
