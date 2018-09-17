@@ -80,7 +80,7 @@ export const signWithLedger = function*(selection, transport, api) {
   let paths = []
   for (let i in selection.inputs) {
     const coin = selection.inputs[i]
-    const txHex = yield api.getRawTx(coin.txHash)
+    const txHex = yield api.getBchRawTx(coin.txHash)
     inputs.push([BTC.splitTransaction(txHex), coin.index])
     paths.push("44'/0'/0'" + coin.path.split('M')[1])
   }

@@ -55,7 +55,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       data: { tx: txHex, format: 'plain' }
     })
 
-  const getRawTx = txHex =>
+  const getBchRawTx = txHex =>
     get({
       url: apiUrl,
       endPoint: '/bch/rawtx/' + txHex,
@@ -70,7 +70,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     getBchFee,
     getBchTicker,
     getBchUnspents,
-    getRawTx,
+    getBchRawTx,
     pushBchTx
   }
 }
