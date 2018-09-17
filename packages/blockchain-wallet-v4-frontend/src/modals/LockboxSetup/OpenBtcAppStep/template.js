@@ -1,7 +1,7 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-
+import { FormattedMessage } from 'react-intl'
+import { RotateSync } from 'components/RotateSync'
 import { Button, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
@@ -21,6 +21,10 @@ const Content = styled.div`
 
 const ButtonContainer = styled.div`
   margin-top: 30px;
+`
+
+const RotateSyncContainer = styled(RotateSync)`
+  margin-left: 15px;
 `
 
 const OpenBtcAppStep = props => {
@@ -45,25 +49,25 @@ const OpenBtcAppStep = props => {
         </Text>
       </Content>
       <ButtonContainer>
-        {isReady ? (
-          <Button
-            nature='success'
-            onClick={() => props.handleStepChange()}
-            fullwidth
-          >
+        <Button
+          fullwidth
+          disabled={!isReady}
+          nature={isReady ? 'success' : 'gray'}
+          onClick={() => props.handleStepChange()}
+        >
+          {isReady ? (
             <FormattedMessage
               id='modals.lockboxsetup.openbtcappstep.success'
               defaultMessage='Success! Click to Continue'
             />
-          </Button>
-        ) : (
-          <Button nature='gray' disabled fullwidth>
+          ) : (
             <FormattedMessage
               id='modals.lockboxsetup.openbtcappstep.loading'
               defaultMessage='Open Your Bitcoin App'
             />
-          </Button>
-        )}
+          )}
+          {!isReady && <RotateSyncContainer size='16px' color='white' />}
+        </Button>
       </ButtonContainer>
     </Wrapper>
   )
