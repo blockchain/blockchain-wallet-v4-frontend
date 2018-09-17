@@ -26,7 +26,7 @@ class RequestEtherContainer extends React.PureComponent {
   }
 
   componentDidUpdate (prevProps) {
-    const { coin } = prevProps
+    const { coin } = this.props
 
     if (coin === 'BTC') {
       this.props.modalActions.closeAllModals()

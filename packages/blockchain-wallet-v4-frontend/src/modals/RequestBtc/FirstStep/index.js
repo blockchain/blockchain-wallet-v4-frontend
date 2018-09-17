@@ -24,7 +24,7 @@ class FirstStepContainer extends React.PureComponent {
   }
 
   componentDidUpdate (prevProps) {
-    prevProps.data.map(x => {
+    this.props.data.map(x => {
       if (equals(prop('coin', x), 'ETH')) {
         this.props.modalActions.closeAllModals()
         this.props.modalActions.showModal('RequestEther')
