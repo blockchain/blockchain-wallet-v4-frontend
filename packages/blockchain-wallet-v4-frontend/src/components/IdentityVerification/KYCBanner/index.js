@@ -14,7 +14,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { Button, Text, Icon } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
-  min-height: 210px;
+  min-height: ${props => props.minHeight};
   position: relative;
   display: flex;
   width: 100%;
@@ -59,12 +59,12 @@ export const NEW_USER = 'NEW_USER'
 
 export const KYCBanner = ({
   outsideOfProfile,
-  canTrade,
   kycState,
   userState,
   verifyIdentity
 }) => {
   if (outsideOfProfile && kycState === KYC_STATES.VERIFIED) return null
+  const isUserStateNone = () => userState === USER_ACTIVATION_STATES.NONE
 
   const headers = {
     NEW_USER: (
@@ -85,10 +85,25 @@ export const KYCBanner = ({
         defaultMessage='Account In Review'
       />
     ),
-    [KYC_STATES.REJECTED]: [
+    [KYC_STATES.UNDER_REVIEW]: [
       <FormattedMessage
         id='components.identityverification.popup.header.underreview'
         defaultMessage='Verification Under Review {icon}'
+        values={{
+          icon: null
+        }}
+      />,
+      <Icon
+        name='alert-filled'
+        size='20px'
+        className='warning-icon'
+        color='white'
+      />
+    ],
+    [KYC_STATES.REJECTED]: [
+      <FormattedMessage
+        id='components.identityverification.popup.header.rejected'
+        defaultMessage='Verification Failed {icon}'
         values={{
           icon: null
         }}
@@ -132,13 +147,19 @@ export const KYCBanner = ({
     [KYC_STATES.PENDING]: (
       <FormattedMessage
         id='components.identityverification.popup.note.inreview'
-        defaultMessage='We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to buy cryptocurrency,'
+        defaultMessage='We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to exchange cryptocurrency,'
+      />
+    ),
+    [KYC_STATES.UNDER_REVIEW]: (
+      <FormattedMessage
+        id='components.identityverification.popup.note.underreview'
+        defaultMessage='We had some trouble verifying your account with the documents provided. Our Support team will contact you shortly to help you with the verification process.'
       />
     ),
     [KYC_STATES.REJECTED]: (
       <FormattedMessage
-        id='components.identityverification.popup.note.underreview'
-        defaultMessage='We had some trouble verifying your account with the documents provided. Our Support team will contact you shortly to help you with the verification process.'
+        id='components.identityverification.popup.note.rejected'
+        defaultMessage='Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time.'
       />
     ),
     [KYC_STATES.VERIFIED]: (
@@ -176,9 +197,10 @@ export const KYCBanner = ({
         </ActionButton>
       </LinkContainer>
     ),
+    [KYC_STATES.UNDER_REVIEW]: null,
     [KYC_STATES.REJECTED]: null,
     [KYC_STATES.VERIFIED]: (
-      <LinkContainer to={canTrade ? '/buy-sell' : '/exchange'}>
+      <LinkContainer to={'/exchange'}>
         <ActionButton nature='primary'>
           <FormattedMessage
             id='components.identityverification.popup.button.getstarted'
@@ -189,21 +211,15 @@ export const KYCBanner = ({
     )
   }
   return (
-    <Wrapper>
+    <Wrapper minHeight={isUserStateNone() ? '250px' : '210px'}>
       <Container>
         <Header size='20px' weight={300} color='white'>
-          {userState === USER_ACTIVATION_STATES.NONE
-            ? headers[NEW_USER]
-            : headers[kycState]}
+          {isUserStateNone() ? headers[NEW_USER] : headers[kycState]}
         </Header>
         <Content size='14px' weight={300} color='white'>
-          {userState === USER_ACTIVATION_STATES.NONE
-            ? notes[NEW_USER]
-            : notes[kycState]}
+          {isUserStateNone() ? notes[NEW_USER] : notes[kycState]}
         </Content>
-        {userState === USER_ACTIVATION_STATES.NONE
-          ? buttons[NEW_USER]
-          : buttons[kycState]}
+        {isUserStateNone() ? buttons[NEW_USER] : buttons[kycState]}
       </Container>
     </Wrapper>
   )

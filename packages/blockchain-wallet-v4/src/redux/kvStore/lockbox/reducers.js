@@ -1,7 +1,7 @@
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
 import { mapped, over } from 'ramda-lens'
-import { assoc, append, compose, lensProp, reject, propEq, map } from 'ramda'
+import { append, compose, lensProp, remove, assoc, map, addIndex } from 'ramda'
 import { KVStoreEntry } from '../../../types'
 
 const INITIAL_STATE = Remote.NotAsked
@@ -35,40 +35,40 @@ export default (state = INITIAL_STATE, action) => {
     }
     // UPDATE
     case AT.UPDATE_DEVICE_NAME: {
-      const { deviceID, deviceName } = payload
+      const { deviceIndex, deviceName } = payload
       const valueLens = compose(
         mapped,
         KVStoreEntry.value,
         lensProp('devices')
       )
-      let isDevice = propEq('device_id', deviceID)
       let assocDeviceName = assoc('device_name', deviceName)
-      let setDeviceName = d => (isDevice(d) ? assocDeviceName(d) : d)
-      return over(valueLens, map(setDeviceName), state)
+      // eslint-disable-next-line eqeqeq
+      let setDeviceName = (d, i) => (i == deviceIndex ? assocDeviceName(d) : d)
+      let mapIndexed = addIndex(map)
+      return over(valueLens, mapIndexed(setDeviceName), state)
     }
     // TODO: update balance display
     // case AT.UPDATE_DEVICE_BALANCE_DISPLAY: {
-    //   const { deviceID, showBalances } = payload
+    //   const { deviceIndex, showBalances } = payload
     //   const valueLens = compose(
     //     mapped,
     //     KVStoreEntry.value
     //   )
     //   let setShowBalances = assocPath(
-    //     ['devices', deviceID, 'showBalances'],
+    //     ['devices', deviceIndex, 'showBalances'],
     //     showBalances
     //   )
     //   return over(valueLens, setShowBalances, state)
     // }
     // DELETE
     case AT.DELETE_DEVICE_LOCKBOX: {
-      const { deviceID } = payload
+      const { deviceIndex } = payload
       const valueLens = compose(
         mapped,
         KVStoreEntry.value,
         lensProp('devices')
       )
-      let removeAccount = reject(propEq('device_id', deviceID))
-      return over(valueLens, removeAccount, state)
+      return over(valueLens, remove(deviceIndex, 1), state)
     }
     default:
       return state

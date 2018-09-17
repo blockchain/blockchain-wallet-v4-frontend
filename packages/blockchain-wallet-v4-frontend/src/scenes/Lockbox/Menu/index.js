@@ -2,16 +2,22 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
-
-import { actions } from 'data'
-import { getData, getFormValues } from './selectors'
+import { getFormValues } from './selectors'
+import { actions, selectors } from 'data'
 import LockboxMenu from './template'
 
 class LockboxMenuContainer extends React.PureComponent {
   render () {
     const { data, ...rest } = this.props
     return data.cata({
-      Success: val => <LockboxMenu deviceInfo={val} {...rest} />,
+      Success: val => (
+        <LockboxMenu
+          deviceInfo={val}
+          location={this.props.location}
+          deviceIndex={this.props.match.params.deviceIndex}
+          {...rest}
+        />
+      ),
       Loading: () => <div>Loading</div>,
       Failure: () => <div>Failure</div>,
       NotAsked: () => null
@@ -19,8 +25,11 @@ class LockboxMenuContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  data: getData(state),
+const mapStateToProps = (state, ownProps) => ({
+  data: selectors.core.kvStore.lockbox.getDevice(
+    state,
+    ownProps.match.params.deviceIndex
+  ),
   formValues: getFormValues(state)
 })
 

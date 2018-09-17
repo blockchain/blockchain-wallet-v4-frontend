@@ -12,9 +12,11 @@ const ToggleIcon = styled(Icon)`
 `
 
 const DeviceTitle = props => {
-  const { deviceInfo, location } = props
+  const { deviceInfo, deviceIndex, location } = props
   const onDashboard = location.pathname.includes('/lockbox/dashboard')
-  const linkTo = onDashboard ? '/lockbox/settings' : '/lockbox/dashboard'
+  const linkTo = onDashboard
+    ? `/lockbox/settings/${deviceIndex}`
+    : `/lockbox/dashboard/${deviceIndex}`
   const icon = onDashboard ? 'settings-filled' : 'transactions'
 
   return deviceInfo ? (

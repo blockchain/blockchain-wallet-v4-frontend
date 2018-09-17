@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { Text } from 'blockchain-info-components'
+import { LinkContainer } from 'react-router-bootstrap'
 import { CreatableInputField } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { toLower } from 'ramda'
@@ -75,7 +76,14 @@ const multiValueContainer = props => {
 }
 
 const Menu = props => {
-  const { btcBalance, bchBalance, ethBalance, deviceInfo, ...rest } = props
+  const {
+    btcBalance,
+    bchBalance,
+    ethBalance,
+    deviceInfo,
+    deviceIndex,
+    ...rest
+  } = props
   const { location, formValues } = rest
   const onDashboard = location.pathname.includes('/lockbox/dashboard')
 
@@ -83,13 +91,19 @@ const Menu = props => {
     <Container>
       <TitleBar>
         <TitleBarWrapper>
-          <DeviceTitle deviceInfo={deviceInfo} location={location} />
+          <DeviceTitle
+            deviceInfo={deviceInfo}
+            deviceIndex={deviceIndex}
+            location={location}
+          />
         </TitleBarWrapper>
       </TitleBar>
       {onDashboard && (
-        <CurrencyListContainer>
-          <CurrencyList deviceInfo={deviceInfo} formValues={formValues} />
-        </CurrencyListContainer>
+        <LinkContainer to={`/lockbox/dashboard/${deviceIndex}`}>
+          <CurrencyListContainer>
+            <CurrencyList deviceInfo={deviceInfo} formValues={formValues} />
+          </CurrencyListContainer>
+        </LinkContainer>
       )}
       {deviceInfo && (
         <StyledCreatableInputContainer>

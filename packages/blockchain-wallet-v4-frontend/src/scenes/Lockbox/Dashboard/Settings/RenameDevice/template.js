@@ -11,7 +11,7 @@ import {
 import Settings from './Settings'
 
 const RenameDevice = props => {
-  const { deviceName, deviceId } = props
+  const { deviceName, deviceIndex } = props
 
   return (
     <SettingContainer>
@@ -31,7 +31,7 @@ const RenameDevice = props => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Settings deviceId={deviceId} />
+        <Settings deviceIndex={deviceIndex} />
       </SettingComponent>
     </SettingContainer>
   )

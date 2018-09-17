@@ -1,14 +1,4 @@
-import {
-  any,
-  find,
-  path,
-  prop,
-  propEq,
-  map,
-  flatten,
-  filter,
-  head
-} from 'ramda'
+import { any, path, prop, map, flatten, filter, head, nth } from 'ramda'
 import { kvStorePath } from '../../paths'
 import { LOCKBOX } from '../config'
 
@@ -18,11 +8,11 @@ export const getMetadata = path([kvStorePath, LOCKBOX])
 export const getDevices = state =>
   getMetadata(state).map(path(['value', 'devices']))
 
-export const getDevice = (state, deviceID) =>
-  getDevices(state).map(find(propEq('device_id', deviceID)))
+export const getDevice = (state, deviceIndex) =>
+  getDevices(state).map(nth(deviceIndex))
 
-export const getDeviceName = (state, deviceId) =>
-  getDevice(state, deviceId).map(prop('device_name'))
+export const getDeviceName = (state, deviceIndex) =>
+  getDevice(state, deviceIndex).map(prop('device_name'))
 
 // BTC
 export const getLockboxBtc = state => getDevices(state).map(map(path(['btc'])))
@@ -52,6 +42,11 @@ export const getDeviceFromBtcXpubs = (state, xpubs) => {
     .map(filter(deviceFilter))
     .map(head)
 }
+
+export const getLockboxBtcDefaultAccount = (state, deviceId) =>
+  getDevice(state, deviceId)
+    .map(path(['btc', 'accounts']))
+    .map(head)
 
 // BCH
 export const getLockboxBch = state => getDevices(state).map(map(path(['bch'])))

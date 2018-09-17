@@ -308,6 +308,6 @@
     "comWalletApp": "https://login.blockchain.com",
     "walletHelper": "https://wallet-helper.blockchain.info",
     "ledger": "https://manager.api.live.ledger.com",
-    "ledgerSocket": "wss://api.ledgerwallet.com/update"
+    "ledgerSocket": "wss://api.ledgerwallet.com"
   }
 }

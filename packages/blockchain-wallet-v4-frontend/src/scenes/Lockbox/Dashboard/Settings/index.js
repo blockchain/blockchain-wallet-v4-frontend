@@ -13,16 +13,16 @@ const SettingsContainer = styled.div`
 
 export default class LockboxSettings extends React.PureComponent {
   render () {
-    const { device } = this.props
+    const { deviceIndex } = this.props
 
     return (
       <SettingsContainer>
-        <RenameDevice deviceId={device.device_id} />
-        <UpdateDevice deviceId={device.device_id} />
+        <RenameDevice deviceIndex={deviceIndex} />
+        <UpdateDevice deviceIndex={deviceIndex} />
         <AddDevice />
         <RestoreDevice />
-        <ExportXPub deviceId={device.device_id} />
-        <RemoveDevice deviceId={device.device_id} />
+        <ExportXPub deviceIndex={deviceIndex} />
+        <RemoveDevice deviceIndex={deviceIndex} />
       </SettingsContainer>
     )
   }

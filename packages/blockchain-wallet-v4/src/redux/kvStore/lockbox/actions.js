@@ -27,13 +27,13 @@ export const fetchMetadataLockboxFailure = error => ({
 })
 
 // UPDATE
-export const updateDeviceName = (deviceID, deviceName) => ({
+export const updateDeviceName = (deviceIndex, deviceName) => ({
   type: AT.UPDATE_DEVICE_NAME,
-  payload: { deviceID, deviceName }
+  payload: { deviceIndex, deviceName }
 })
 
 // DELETE
-export const deleteDeviceLockbox = deviceID => ({
+export const deleteDeviceLockbox = deviceIndex => ({
   type: AT.DELETE_DEVICE_LOCKBOX,
-  payload: { deviceID }
+  payload: { deviceIndex }
 })
