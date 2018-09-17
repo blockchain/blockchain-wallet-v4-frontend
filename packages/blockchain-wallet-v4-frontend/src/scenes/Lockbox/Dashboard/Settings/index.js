@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
+
 import RenameDevice from './RenameDevice'
 import RemoveDevice from './RemoveDevice'
 import ExportXPub from './ExportXPub'
@@ -9,13 +10,12 @@ import UpdateDevice from './UpdateDevice'
 import InstallApps from './InstallApps'
 
 const SettingsContainer = styled.div`
-  padding: 0px 15px;
+  padding: 0 15px;
 `
 
 export default class LockboxSettings extends PureComponent {
   render () {
     const { deviceIndex } = this.props
-
     return (
       <SettingsContainer>
         <RenameDevice deviceIndex={deviceIndex} />
