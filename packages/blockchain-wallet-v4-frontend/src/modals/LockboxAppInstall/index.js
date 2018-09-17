@@ -9,7 +9,8 @@ import LockboxAppInstall from './template'
 
 class LockboxAppInstallContainer extends React.PureComponent {
   componentDidMount () {
-    this.props.lockboxActions.installApplications(this.props.deviceIndex)
+    // TODO: dont hardcode app
+    this.props.lockboxActions.installApplication(this.props.deviceIndex, 'BTC')
   }
 
   render () {

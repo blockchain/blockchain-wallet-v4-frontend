@@ -380,11 +380,12 @@ export default ({ api }) => {
     }
   }
 
-  // installs btc, bch and eth applications on device
+  // installs requested application on device
   // TODO: need to block closing of modal or at least disable onclickoutside
-  const installApplications = function*(action) {
+  const installApplication = function*(action) {
+    const { deviceIndex, app } = action.payload
     try {
-      const { deviceIndex } = action.payload
+      yield put(A.installApplicationLoading(app))
       // derive device type
       const deviceR = yield select(
         selectors.core.kvStore.lockbox.getDevice,
@@ -400,7 +401,6 @@ export default ({ api }) => {
         LockboxService.utils.getDeviceInfo,
         transport
       )
-      yield put(A.setFirmwareInstalledInfo(deviceInfo))
       // get full device info via api
       const deviceVersion = yield call(api.getDeviceVersion, {
         provider: deviceInfo.providerId,
@@ -418,29 +418,25 @@ export default ({ api }) => {
         current_se_firmware_final_version: seFirmwareVersion.id,
         device_version: deviceVersion.id
       })
-
+      // fetch base socket domain
       const domainsR = yield select(selectors.core.walletOptions.getDomains)
       const domains = domainsR.getOrElse({
         ledgerSocket: 'wss://api.ledgerwallet.com'
       })
-
       // install application
-      const appInstallStatus = yield call(
+      yield call(
         LockboxService.apps.installApp,
         transport,
         domains.ledgerSocket,
         deviceInfo.targetId,
-        'BTC',
+        app,
         appInfos.application_versions
       )
-
-      // eslint-disable-next-line
-      console.info('SUCCESS', appInstallStatus)
+      yield put(A.installApplicationSuccess(app))
     } catch (e) {
-      // eslint-disable-next-line
-      console.info('ERROR:', e)
+      yield put(A.installApplicationFailure(app))
       yield put(
-        actions.logs.logErrorMessage(logLocation, 'installApplications', e)
+        actions.logs.logErrorMessage(logLocation, 'installApplication', e)
       )
     }
   }
@@ -451,7 +447,7 @@ export default ({ api }) => {
     determineLockboxRoute,
     initializeDashboard,
     initializeNewDeviceSetup,
-    installApplications,
+    installApplication,
     pollForDeviceApp,
     saveNewDeviceKvStore,
     updateDeviceFirmware,

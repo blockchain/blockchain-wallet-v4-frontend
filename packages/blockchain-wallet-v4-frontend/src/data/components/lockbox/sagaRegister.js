@@ -32,7 +32,7 @@ export default ({ api, coreSagas }) => {
       AT.UPDATE_DEVICE_FIRMWARE,
       lockboxSagas.updateDeviceFirmware
     )
-    yield takeLatest(AT.INSTALL_APPLICATIONS, lockboxSagas.installApplications)
+    yield takeLatest(AT.INSTALL_APPLICATION, lockboxSagas.installApplication)
     yield takeLatest(AT.INITIALIZE_DASHBOARD, lockboxSagas.initializeDashboard)
   }
 }
