@@ -8,19 +8,13 @@ import { MODAL_NAME as IV_MODAL } from 'data/components/identityVerification/mod
 import { KYC_STATES, USER_ACTIVATION_STATES } from 'data/modules/profile/model'
 import modalsReducer from 'data/modals/reducers'
 import profileReducer from 'data/modules/profile/reducers'
-import { getCanTrade } from 'data/exchange/selectors'
-import { Remote } from 'blockchain-wallet-v4/src'
 
 import { Route, Switch } from 'react-router-dom'
 import Banner, { KYCBanner } from './index'
 
 const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 
-jest.mock('data/exchange/selectors')
-getCanTrade.mockImplementation(() => Remote.of(true))
-
 const IndexPageStub = () => <div />
-const BuySellStub = () => <div />
 const ExchangeStub = () => <div />
 const ProfileStub = () => <div />
 
@@ -44,7 +38,6 @@ describe('Profile Settings', () => {
         <TestBed withRouter={true} store={store}>
           <Switch>
             <Route exact path='/' children={() => <Banner />} />
-            <Route path='/buy-sell' component={BuySellStub} />
             <Route path='/exchange' component={ExchangeStub} />
           </Switch>
         </TestBed>
@@ -70,7 +63,10 @@ describe('Profile Settings', () => {
     describe('KYC_STATE: PENDING', () => {
       beforeEach(() => {
         store.dispatch(
-          actions.modules.profile.setUserData({ state: USER_ACTIVATION_STATES.CREATED, kycState: KYC_STATES.PENDING })
+          actions.modules.profile.setUserData({
+            state: USER_ACTIVATION_STATES.CREATED,
+            kycState: KYC_STATES.PENDING
+          })
         )
         wrapper.unmount().mount()
       })
@@ -83,19 +79,15 @@ describe('Profile Settings', () => {
     describe('KYC_STATE: VERIFIED', () => {
       beforeEach(() => {
         store.dispatch(
-          actions.modules.profile.setUserData({ state: USER_ACTIVATION_STATES.ACTIVE, kycState: KYC_STATES.VERIFIED })
+          actions.modules.profile.setUserData({
+            state: USER_ACTIVATION_STATES.ACTIVE,
+            kycState: KYC_STATES.VERIFIED
+          })
         )
         wrapper.update()
       })
 
-      it('should lead to buysell is user can trade', () => {
-        wrapper.find('button').simulate('click', { button: 0 })
-        expect(wrapper.find(BuySellStub)).toHaveLength(1)
-      })
-
-      it('should lead to exchange if user can not trade', () => {
-        getCanTrade.mockImplementationOnce(() => Remote.of(false))
-        wrapper.unmount().mount()
+      it('should lead to exchange', () => {
         wrapper.find('button').simulate('click', { button: 0 })
         expect(wrapper.find(ExchangeStub)).toHaveLength(1)
       })
@@ -104,13 +96,18 @@ describe('Profile Settings', () => {
     describe('USER_ACTIVATION_STATES: NONE', () => {
       beforeEach(() => {
         store.dispatch(
-          actions.modules.profile.setUserData({ state: USER_ACTIVATION_STATES.NONE, kycState: KYC_STATES.NONE })
+          actions.modules.profile.setUserData({
+            state: USER_ACTIVATION_STATES.NONE,
+            kycState: KYC_STATES.NONE
+          })
         )
         wrapper.unmount().mount()
       })
 
       it('should have the userState of NONE', () => {
-        expect(wrapper.find(KYCBanner).prop('userState')).toBe(USER_ACTIVATION_STATES.NONE)
+        expect(wrapper.find(KYCBanner).prop('userState')).toBe(
+          USER_ACTIVATION_STATES.NONE
+        )
       })
     })
   })
@@ -136,7 +133,10 @@ describe('Profile Settings', () => {
     describe('KYC_STATE: PENDING', () => {
       beforeEach(() => {
         store.dispatch(
-          actions.modules.profile.setUserData({ state: USER_ACTIVATION_STATES.CREATED, kycState: KYC_STATES.PENDING })
+          actions.modules.profile.setUserData({
+            state: USER_ACTIVATION_STATES.CREATED,
+            kycState: KYC_STATES.PENDING
+          })
         )
         wrapper.update()
       })
@@ -167,13 +167,18 @@ describe('Profile Settings', () => {
     describe('USER_ACTIVATION_STATES: NONE', () => {
       beforeEach(() => {
         store.dispatch(
-          actions.modules.profile.setUserData({ state: USER_ACTIVATION_STATES.NONE, kycState: KYC_STATES.NONE })
+          actions.modules.profile.setUserData({
+            state: USER_ACTIVATION_STATES.NONE,
+            kycState: KYC_STATES.NONE
+          })
         )
         wrapper.unmount().mount()
       })
 
       it('should have the userState of NONE', () => {
-        expect(wrapper.find(KYCBanner).prop('userState')).toBe(USER_ACTIVATION_STATES.NONE)
+        expect(wrapper.find(KYCBanner).prop('userState')).toBe(
+          USER_ACTIVATION_STATES.NONE
+        )
       })
     })
   })

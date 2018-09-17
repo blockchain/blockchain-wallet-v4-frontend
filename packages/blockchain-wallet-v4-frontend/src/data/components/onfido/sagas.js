@@ -18,11 +18,12 @@ export default ({ api }) => {
     }
   }
 
-  const syncOnfido = function*() {
+  const syncOnfido = function*({ payload }) {
     try {
+      const { isSelfie } = payload
       const applicantId = yield select(S.getApplicantId)
       yield put(A.syncOnfidoLoading())
-      yield call(api.syncOnfido, applicantId)
+      yield call(api.syncOnfido, applicantId, isSelfie)
       yield put(A.syncOnfidoSuccess())
       yield put(actions.modules.profile.fetchUser())
       yield put(actions.modals.closeAllModals())

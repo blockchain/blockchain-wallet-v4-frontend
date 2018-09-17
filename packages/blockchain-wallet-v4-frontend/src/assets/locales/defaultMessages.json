@@ -1046,7 +1046,7 @@
         "id": "components.identityverification.popup.note.unverified"
       },
       {
-        "defaultMessage": "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to buy cryptocurrency,",
+        "defaultMessage": "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to exchange cryptocurrency,",
         "id": "components.identityverification.popup.note.inreview"
       },
       {
@@ -1054,7 +1054,7 @@
         "id": "components.identityverification.popup.note.underreview"
       },
       {
-        "defaultMessage": "Good news – your account is verified. You can now buy, sell, and exchange cryptocurrency at any time.",
+        "defaultMessage": "Good news – your account is verified. You can now exchange cryptocurrency at any time.",
         "id": "components.identityverification.popup.note.verified"
       },
       {
@@ -3180,7 +3180,7 @@
         "id": "identityverification.personal.faq.name.title"
       },
       {
-        "defaultMessage": "They should match exactly the details in your government issued ID, passport or driving license.",
+        "defaultMessage": "They should match exactly the details in your passport or driving license.",
         "id": "identityverification.personal.faq.name.text"
       },
       {
@@ -10220,7 +10220,7 @@
         "id": "scenes.profile.identityverification.note.unverified"
       },
       {
-        "defaultMessage": "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to buy cryptocurrency.\n {note} In some cases it can take up to 2 hours to get verified.",
+        "defaultMessage": "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to exchange cryptocurrency.\n {note} In some cases it can take up to 2 hours to get verified.",
         "id": "scenes.profile.identityverification.note.inreview"
       },
       {
@@ -10228,7 +10228,7 @@
         "id": "scenes.profile.identityverification.note.underreview"
       },
       {
-        "defaultMessage": "Good news – your account is verified. You can now buy, sell, and exchange cryptocurrency at any time.",
+        "defaultMessage": "Good news – your account is verified. You can now exchange cryptocurrency at any time.",
         "id": "scenes.profile.identityverification.note.verified"
       },
       {
