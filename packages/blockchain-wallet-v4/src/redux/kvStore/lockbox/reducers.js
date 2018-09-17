@@ -55,9 +55,9 @@ export default (state = INITIAL_STATE, action) => {
 
       const setDeviceName = compose(
         assoc('device_name', deviceName),
-        set(accountLabelLens('btc'), deviceName + ' - BTC'),
-        set(accountLabelLens('bch'), deviceName + ' - BCH'),
-        set(accountLabelLens('eth'), deviceName + ' - ETH')
+        set(accountLabelLens('btc'), deviceName + ' - BTC Wallet'),
+        set(accountLabelLens('bch'), deviceName + ' - BCH Wallet'),
+        set(accountLabelLens('eth'), deviceName + ' - ETH Wallet')
       )
 
       return over(valueLens, setDeviceName, state)
