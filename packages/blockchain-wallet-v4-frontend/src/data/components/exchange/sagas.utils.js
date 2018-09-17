@@ -12,13 +12,14 @@ import {
 } from './services'
 import { selectRates } from '../utils/sagas'
 import { SHAPESHIFT_FORM } from './model'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 export default ({ api, coreSagas, networks, options }) => {
   const logLocation = 'components/exchange/sagas.utils'
 
   const calculateEffectiveBalance = function*(source) {
     const coin = prop('coin', source)
-    const address = prop('address', source)
+    const addressOrIndex = prop('address', source)
     let payment
     switch (coin) {
       case 'BCH':
@@ -27,7 +28,7 @@ export default ({ api, coreSagas, networks, options }) => {
           .chain()
           .init()
           .fee('priority')
-          .from(address)
+          .from(addressOrIndex, ADDRESS_TYPES.ACCOUNT)
           .done()
         break
       case 'BTC':
@@ -36,7 +37,7 @@ export default ({ api, coreSagas, networks, options }) => {
           .chain()
           .init()
           .fee('priority')
-          .from(address)
+          .from(addressOrIndex, ADDRESS_TYPES.ACCOUNT)
           .done()
         break
       case 'ETH':
@@ -45,7 +46,7 @@ export default ({ api, coreSagas, networks, options }) => {
           .chain()
           .init()
           .fee('priority')
-          .from(address)
+          .from(addressOrIndex, ADDRESS_TYPES.ACCOUNT)
           .done()
         break
       default:
@@ -61,7 +62,12 @@ export default ({ api, coreSagas, networks, options }) => {
     return prop('effectiveBalance', payment.value())
   }
 
-  const createPayment = function*(coin, sourceAddress, targetAddress, amount) {
+  const createPayment = function*(
+    coin,
+    sourceAddressOrIndex,
+    targetAddress,
+    amount
+  ) {
     let payment
     switch (coin) {
       case 'BCH':
@@ -99,7 +105,7 @@ export default ({ api, coreSagas, networks, options }) => {
         throw new Error('Could not create payment.')
     }
     payment = yield payment
-      .from(sourceAddress)
+      .from(sourceAddressOrIndex, ADDRESS_TYPES.ACCOUNT)
       .to(targetAddress)
       .build()
       .done()
