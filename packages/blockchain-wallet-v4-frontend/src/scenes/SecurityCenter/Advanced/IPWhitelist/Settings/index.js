@@ -16,15 +16,17 @@ class SettingsContainer extends React.PureComponent {
     this.handleToggle = this.handleToggle.bind(this)
   }
 
-
   componentDidMount (prevProps) {
-    if (!equals(this.props.currentWhitelist, prevProps.currentWhitelist)) {
-      this.props.updateUI({ updateToggled: false })
-    }
     if (!isEmpty(this.props.currentWhitelist)) {
       this.props.formActions.initialize('settingIPWhitelist', {
         IPWhitelist: this.props.currentWhitelist
       })
+    }
+  }
+
+  componentDidUpdate (prevProps) {
+    if (!equals(this.props.currentWhitelist, prevProps.currentWhitelist)) {
+      this.props.updateUI({ updateToggled: false })
     }
   }
 
