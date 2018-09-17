@@ -1,4 +1,3 @@
-import { selectors } from 'data'
 import { lift } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import {
@@ -18,5 +17,3 @@ export const getData = createDeepEqualSelector(
     return lift(transform)(btcBalanceR, bchBalanceR, ethBalanceR)
   }
 )
-
-export const getFormValues = selectors.form.getFormValues('lockboxTransactions')

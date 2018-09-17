@@ -6,7 +6,6 @@ import { Button, Image, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
-import { any, equals } from 'ramda'
 
 const Wrapper = styled.div`
   padding: 20px;
@@ -33,12 +32,6 @@ const Row = styled.div`
   align-items: center;
   padding: 10px 0;
 `
-
-const requireUnique = (value, allValues, { deviceNames }) => {
-  return any(equals(value))(deviceNames)
-    ? 'Device name is already taken.'
-    : undefined
-}
 
 const NameDeviceStep = props => {
   const { handleSubmit, invalid } = props
@@ -70,8 +63,9 @@ const NameDeviceStep = props => {
             <Field
               name='newDeviceName'
               autoFocus
-              validate={[required, requireUnique]}
+              validate={[required]}
               component={TextBox}
+              maxLength={30}
             />
           </FormItem>
         </Row>

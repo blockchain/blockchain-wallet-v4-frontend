@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { actions } from 'data'
-import { getDeviceNames } from './selectors'
+import { actions, selectors } from 'data'
+import { formValueSelector, SubmissionError } from 'redux-form'
 
+import { requireUniqueDeviceName } from 'services/FormHelper'
 import NameDeviceStep from './template'
-import { formValueSelector } from 'redux-form'
 
 class NameDeviceStepContainer extends React.PureComponent {
   constructor (props) {
@@ -14,13 +14,24 @@ class NameDeviceStepContainer extends React.PureComponent {
   }
 
   onSubmit () {
-    this.props.lockboxActions.saveNewDeviceKvStore(this.props.newDeviceName)
+    const isNotUnique = requireUniqueDeviceName(
+      this.props.newDeviceName,
+      this.props.usedDeviceNames
+    )
+
+    if (isNotUnique) {
+      throw new SubmissionError({
+        newDeviceName: isNotUnique
+      })
+    } else {
+      this.props.lockboxActions.saveNewDeviceKvStore(this.props.newDeviceName)
+    }
   }
 
   render () {
-    const { deviceNames } = this.props
+    const { usedDeviceNames } = this.props
     const deviceIndex =
-      deviceNames.length > 0 ? ` ${deviceNames.length + 1}` : ''
+      usedDeviceNames.length > 0 ? ` ${usedDeviceNames.length + 1}` : ''
 
     return (
       <NameDeviceStep
@@ -36,7 +47,10 @@ class NameDeviceStepContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   newDeviceName: formValueSelector('lockboxNameDevice')(state, 'newDeviceName'),
-  deviceNames: getDeviceNames(state)
+  usedDeviceNames: selectors.core.kvStore.lockbox
+    .getDevices(state)
+    .getOrElse([])
+    .map(d => d.device_name)
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -18,8 +18,8 @@ describe('kvStore ethereum reducers', () => {
           label: 'some label'
         }
       ],
-      last_tx: 'this is the last tx',
-      last_tx_timestamp: 'this is the last tx timestamp',
+      last_tx: { address: 'this is the last tx' },
+      last_tx_timestamp: { address: 'this is the last tx timestamp' },
       legacy_account: 'this is the legacy account',
       tx_notes: {
         someTxHash: 'some someTxHash tx note'
@@ -79,8 +79,12 @@ describe('kvStore ethereum reducers', () => {
 
   it('should handle SET_LATEST_TX_ETHEREUM', () => {
     const latestTx = 'latest tx'
-    const action = actions.setLatestTxEthereum(latestTx)
-    const setCoinifyTrades = assocPath(['ethereum', 'last_tx'], latestTx)
+    const address = 'tx_address'
+    const action = actions.setLatestTxEthereum(address, latestTx)
+    const setCoinifyTrades = assocPath(
+      ['ethereum', 'last_tx', address],
+      latestTx
+    )
     const expectedState = over(
       valueLens,
       setCoinifyTrades,
@@ -91,9 +95,13 @@ describe('kvStore ethereum reducers', () => {
 
   it('should handle SET_LATEST_TX_TIMESTAMP_ETHEREUM', () => {
     const latestTimestamp = 42
-    const action = actions.setLatestTxTimestampEthereum(latestTimestamp)
+    const address = 'tx_address'
+    const action = actions.setLatestTxTimestampEthereum(
+      address,
+      latestTimestamp
+    )
     const setLatestTimestamp = assocPath(
-      ['ethereum', 'last_tx_timestamp'],
+      ['ethereum', 'last_tx_timestamp', address],
       latestTimestamp
     )
     const expectedState = over(
