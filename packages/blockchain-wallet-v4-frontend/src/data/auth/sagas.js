@@ -490,6 +490,7 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
+    checkDataErrors,
     deauthorizeBrowser,
     login,
     logout,
