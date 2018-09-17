@@ -7,6 +7,8 @@ import Success from './template.success'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { formValueSelector } from 'redux-form'
 import DataError from 'components/DataError'
+import { checkForVulnerableAddressError } from 'services/ErrorService'
+import VulnerableAddressError from 'components/VulnerableAddressError'
 
 class BitcoinWalletsContainer extends React.Component {
   constructor (props) {
@@ -21,6 +23,8 @@ class BitcoinWalletsContainer extends React.Component {
   handleRefresh () {
     this.props.actions.fetchData()
   }
+
+  handleArchive = (address) => this.props.coreActions.setAddressArchived(address, true)
 
   render () {
     const { search, data, ...rest } = this.props
@@ -40,7 +44,9 @@ class BitcoinWalletsContainer extends React.Component {
         />
       ),
       Failure: message => (
-        <DataError onClick={this.handleRefresh}>{message}</DataError>
+        message && checkForVulnerableAddressError(message)
+          ? <VulnerableAddressError message={message} onArchive={this.handleArchive} />
+          : <DataError onClick={this.handleRefresh} />
       ),
       Loading: () => <div />,
       NotAsked: () => <div />
