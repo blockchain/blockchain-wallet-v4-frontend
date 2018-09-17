@@ -264,8 +264,9 @@ describe('sendEth sagas', () => {
     const description = 'description'
     const txId = 'txId'
     const beforeError = 'beforeError'
+    const from = { address: 'address' }
     beforeAll(() => {
-      paymentMock.value.mockReturnValue({ ...value, description, txId })
+      paymentMock.value.mockReturnValue({ ...value, description, txId, from })
       coreSagas.payment.eth.create.mockClear()
       paymentMock.sign.mockClear()
       paymentMock.publish.mockClear()
@@ -312,7 +313,10 @@ describe('sendEth sagas', () => {
       saga
         .next()
         .put(
-          actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now())
+          actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(
+            from.address,
+            Date.now()
+          )
         )
     })
 
@@ -325,7 +329,9 @@ describe('sendEth sagas', () => {
     it('should update latest transaction', () => {
       saga
         .next(paymentMock)
-        .put(actions.core.kvStore.ethereum.setLatestTxEthereum(txId))
+        .put(
+          actions.core.kvStore.ethereum.setLatestTxEthereum(from.address, txId)
+        )
     })
 
     it('should display succcess message', () => {

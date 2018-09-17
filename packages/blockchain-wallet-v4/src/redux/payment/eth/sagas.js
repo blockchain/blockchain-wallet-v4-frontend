@@ -74,6 +74,36 @@ export default ({ api }) => {
     yield put(A.data.ethereum.fetchCurrentBalanceSuccess(balance))
     return balance
   }
+
+  const calculateUnconfirmed = function*(address) {
+    const latestTxR = yield select(S.kvStore.ethereum.getLatestTx, address)
+    const latestTxTimestampR = yield select(
+      S.kvStore.ethereum.getLatestTxTimestamp,
+      address
+    )
+
+    const latestTx = latestTxR.getOrElse(undefined)
+    const latestTxTimestamp = latestTxTimestampR.getOrElse(undefined)
+
+    if (latestTx) {
+      const ethOptionsR = yield select(S.walletOptions.getEthereumTxFuse)
+      const lastTxFuse = ethOptionsR.getOrElse(86400) * 1000
+      try {
+        const latestTxStatus = yield call(api.getEthereumTransaction, latestTx)
+        if (
+          !latestTxStatus.blockNumber &&
+          latestTxTimestamp + lastTxFuse > Date.now()
+        ) {
+          return true
+        }
+      } catch (e) {
+        if (latestTxTimestamp + lastTxFuse > Date.now()) {
+          return true
+        }
+      }
+    }
+    return false
+  }
   // ///////////////////////////////////////////////////////////////////////////
 
   function create ({ network, payment } = { network: undefined, payment: {} }) {
@@ -89,36 +119,7 @@ export default ({ api }) => {
         const fee = calculateFee(gasPrice, gasLimit)
         const feeInGwei = gasPrice
 
-        const latestTxR = yield select(S.kvStore.ethereum.getLatestTx)
-        const latestTxTimestampR = yield select(
-          S.kvStore.ethereum.getLatestTxTimestamp
-        )
-
-        const latestTx = latestTxR.getOrElse(undefined)
-        const latestTxTimestamp = latestTxTimestampR.getOrElse(undefined)
-
-        let unconfirmedTx = false
-        if (latestTx) {
-          const ethOptionsR = yield select(S.walletOptions.getEthereumTxFuse)
-          const lastTxFuse = ethOptionsR.getOrElse(86400) * 1000
-          try {
-            const latestTxStatus = yield call(
-              api.getEthereumTransaction,
-              latestTx
-            )
-            if (
-              !latestTxStatus.blockNumber &&
-              latestTxTimestamp + lastTxFuse > Date.now()
-            ) {
-              unconfirmedTx = true
-            }
-          } catch (e) {
-            if (latestTxTimestamp + lastTxFuse > Date.now()) {
-              unconfirmedTx = true
-            }
-          }
-        }
-        return makePayment(merge(p, { fees, fee, feeInGwei, unconfirmedTx }))
+        return makePayment(merge(p, { fees, fee, feeInGwei }))
       },
 
       *to (destination) {
@@ -155,7 +156,10 @@ export default ({ api }) => {
           address: account,
           nonce
         }
-        return makePayment(merge(p, { from, effectiveBalance }))
+
+        const unconfirmedTx = yield call(calculateUnconfirmed, account)
+
+        return makePayment(merge(p, { from, effectiveBalance, unconfirmedTx }))
       },
 
       *fee (value) {
