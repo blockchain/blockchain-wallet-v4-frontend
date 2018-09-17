@@ -1,7 +1,15 @@
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
-import { mapped, over } from 'ramda-lens'
-import { append, compose, lensProp, remove, assoc, map, addIndex } from 'ramda'
+import { mapped, over, set } from 'ramda-lens'
+import {
+  append,
+  compose,
+  lensProp,
+  lensPath,
+  remove,
+  assoc,
+  lensIndex
+} from 'ramda'
 import { KVStoreEntry } from '../../../types'
 
 const INITIAL_STATE = Remote.NotAsked
@@ -39,13 +47,20 @@ export default (state = INITIAL_STATE, action) => {
       const valueLens = compose(
         mapped,
         KVStoreEntry.value,
-        lensProp('devices')
+        lensProp('devices'),
+        lensIndex(parseInt(deviceIndex))
       )
-      let assocDeviceName = assoc('device_name', deviceName)
-      // eslint-disable-next-line eqeqeq
-      let setDeviceName = (d, i) => (i == deviceIndex ? assocDeviceName(d) : d)
-      let mapIndexed = addIndex(map)
-      return over(valueLens, mapIndexed(setDeviceName), state)
+
+      const accountLabelLens = coin => lensPath([coin, 'accounts', 0, 'label'])
+
+      const setDeviceName = compose(
+        assoc('device_name', deviceName),
+        set(accountLabelLens('btc'), deviceName + ' - BTC Wallet'),
+        set(accountLabelLens('bch'), deviceName + ' - BCH Wallet'),
+        set(accountLabelLens('eth'), deviceName + ' - ETH Wallet')
+      )
+
+      return over(valueLens, setDeviceName, state)
     }
     // TODO: update balance display
     // case AT.UPDATE_DEVICE_BALANCE_DISPLAY: {

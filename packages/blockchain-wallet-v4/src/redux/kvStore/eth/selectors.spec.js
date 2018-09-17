@@ -17,8 +17,8 @@ describe('kvstore ethereum selectors', () => {
     value: {
       ethereum: {
         accounts,
-        last_tx: 'this is the last tx',
-        last_tx_timestamp: 'this is the last tx timestamp',
+        last_tx: { address: 'this is the last tx' },
+        last_tx_timestamp: { address: 'this is the last tx timestamp' },
         legacy_account: { addr: 'legacy account addr' },
         tx_notes: {
           someTxHash: 'some someTxHash tx note'
@@ -106,11 +106,15 @@ describe('kvstore ethereum selectors', () => {
 
   it('getLatestTx should return success of latest tx', () => {
     const expectedResult = Remote.Success('this is the last tx')
-    expect(selectors.getLatestTx(successState)).toEqual(expectedResult)
+    expect(selectors.getLatestTx(successState, 'address')).toEqual(
+      expectedResult
+    )
   })
 
   it('getLatestTxTimestamp should return success of latest tx timestamp', () => {
     const expectedResult = Remote.Success('this is the last tx timestamp')
-    expect(selectors.getLatestTxTimestamp(successState)).toEqual(expectedResult)
+    expect(selectors.getLatestTxTimestamp(successState, 'address')).toEqual(
+      expectedResult
+    )
   })
 })
