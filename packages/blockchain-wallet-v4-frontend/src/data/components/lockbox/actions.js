@@ -105,9 +105,9 @@ export const setFirmwareLatestInfo = info => ({
 export const resetFirmwareInfo = () => ({
   type: AT.RESET_FIRMWARE_INFO
 })
-export const updateDeviceFirmware = deviceType => ({
+export const updateDeviceFirmware = deviceIndex => ({
   type: AT.UPDATE_DEVICE_FIRMWARE,
-  payload: { deviceType }
+  payload: { deviceIndex }
 })
 
 // DELETE
@@ -129,7 +129,7 @@ export const updateTransactionList = () => ({
 })
 
 // APPLICATIONS
-export const installApplications = deviceType => ({
+export const installApplications = deviceIndex => ({
   type: AT.INSTALL_APPLICATIONS,
-  payload: { deviceType }
+  payload: { deviceIndex }
 })

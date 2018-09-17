@@ -9,7 +9,7 @@ import LockboxAppInstall from './template'
 
 class LockboxAppInstallContainer extends React.PureComponent {
   componentDidMount () {
-    this.props.lockboxActions.installApplications(this.props.deviceId)
+    this.props.lockboxActions.installApplications(this.props.deviceIndex)
   }
 
   render () {
@@ -24,10 +24,6 @@ LockboxAppInstallContainer.propTypes = {
   closeAll: PropTypes.func.isRequired
 }
 
-const mapStateToProps = state => ({
-  currentStep: selectors.components.lockbox.getFirmwareUpdateStep(state)
-})
-
 const mapDispatchToProps = dispatch => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
@@ -35,7 +31,7 @@ const mapDispatchToProps = dispatch => ({
 const enhance = compose(
   modalEnhancer('LockboxAppInstall'),
   connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
   )
 )

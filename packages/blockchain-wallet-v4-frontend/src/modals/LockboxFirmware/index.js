@@ -11,12 +11,12 @@ import UpgradeFirmwareStep from './UpgradeFirmwareStep'
 
 class LockboxFirmwareContainer extends React.PureComponent {
   render () {
-    const { currentStep, deviceId, position, total, closeAll } = this.props
+    const { currentStep, deviceIndex, position, total, closeAll } = this.props
 
     return (
       <LockboxFirmware position={position} total={total} closeAll={closeAll}>
         {(!currentStep || currentStep === 'check-for-updates-step') && (
-          <CheckForUpdatesStep deviceId={deviceId} />
+          <CheckForUpdatesStep deviceIndex={deviceIndex} />
         )}
         {currentStep === 'upgrade-firmware-step' && <UpgradeFirmwareStep />}
       </LockboxFirmware>
@@ -25,7 +25,7 @@ class LockboxFirmwareContainer extends React.PureComponent {
 }
 
 LockboxFirmwareContainer.propTypes = {
-  deviceId: PropTypes.string.isRequired,
+  deviceIndex: PropTypes.string.isRequired,
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   closeAll: PropTypes.func.isRequired

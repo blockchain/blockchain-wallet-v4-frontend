@@ -32,13 +32,12 @@ export default ({ api }) => {
       if (transport) transport.close()
       yield put(A.resetConnectionStatus())
 
-      // TODO: does this still work!?
       if (!deviceType) {
         const deviceR = yield select(
           selectors.core.kvStore.lockbox.getDevice,
           deviceIndex
         )
-        const device = deviceR.getOrElse({})
+        const device = deviceR.getOrFail()
         deviceType = prop('device_type', device)
       }
 
@@ -320,13 +319,17 @@ export default ({ api }) => {
   }
 
   // update device firmware saga
+  // TODO: need to block closing of modal or at least disable onclickoutside
   const updateDeviceFirmware = function*(action) {
     try {
-      const { deviceType } = action.payload
+      const { deviceIndex } = action.payload
       // clear out previous firmware info
       yield put(A.resetFirmwareInfo())
+      // derive device type
+      const deviceR = yield select(selectors.core.kvStore.lockbox.getDevice, deviceIndex)
+      const device = deviceR.getOrFail()
       // poll for device connection
-      yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType))
+      yield put(A.pollForDeviceApp('DASHBOARD', null, device.device_type))
       yield take(AT.SET_CONNECTION_INFO)
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
@@ -375,12 +378,15 @@ export default ({ api }) => {
   }
 
   // installs btc, bch and eth applications on device
+  // TODO: need to block closing of modal or at least disable onclickoutside
   const installApplications = function*(action) {
     try {
-      const { deviceType } = action.payload
-      debugger
+      const { deviceIndex } = action.payload
+      // derive device type
+      const deviceR = yield select(selectors.core.kvStore.lockbox.getDevice, deviceIndex)
+      const device = deviceR.getOrFail()
       // poll for device connection
-      yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType))
+      yield put(A.pollForDeviceApp('DASHBOARD', null, device.device_type))
       yield take(AT.SET_CONNECTION_INFO)
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
