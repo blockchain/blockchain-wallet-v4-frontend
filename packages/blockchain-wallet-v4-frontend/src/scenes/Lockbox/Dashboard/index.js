@@ -33,12 +33,6 @@ class LockboxDashboardContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  data: selectors.core.kvStore.lockbox.getDevice(
-    state,
-    ownProps.match.params.deviceIndex
-  )
-})
 const mapDispatchToProps = dispatch => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
@@ -46,7 +40,7 @@ const mapDispatchToProps = dispatch => ({
 const enhance = compose(
   withRouter,
   connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
   )
 )

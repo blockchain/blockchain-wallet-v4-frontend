@@ -11,7 +11,7 @@ import {
   Text
 } from 'blockchain-info-components'
 
-const Wrapper = styled.div`
+const Wrapper = styled(ModalBody)`
   padding: 20px;
 `
 const Title = styled.div`
@@ -41,31 +41,29 @@ const ButtonContainer = styled.div`
 
 const LockboxAppInstall = props => (
   <Modal size='large' position={props.position} total={props.total}>
-    <ModalBody>
-      <Wrapper>
-        <Title>
-          <Text>
-            <FormattedMessage
-              id='modals.lockboxappinstall.title'
-              defaultMessage='Install Lockbox Applications'
-            />
-          </Text>
-        </Title>
-        <Content>
-          <FlatLoader
-            width='175px'
-            height='25px'
-            style={{ marginBottom: '20px' }}
+    <Wrapper>
+      <Title>
+        <Text>
+          <FormattedMessage
+            id='modals.lockboxappinstall.title'
+            defaultMessage='Install Lockbox Applications'
           />
-          <Text size='14px' weight={300}>
-            <FormattedHTMLMessage
-              id='modals.lockboxappinstall.subtitle'
-              defaultMessage='Allow device manager on the device when prompted'
-            />
-          </Text>
-        </Content>
-      </Wrapper>
-    </ModalBody>
+        </Text>
+      </Title>
+      <Content>
+        <FlatLoader
+          width='175px'
+          height='25px'
+          style={{ marginBottom: '20px' }}
+        />
+        <Text size='14px' weight={300}>
+          <FormattedHTMLMessage
+            id='modals.lockboxappinstall.subtitle'
+            defaultMessage='Allow device manager on the device when prompted'
+          />
+        </Text>
+      </Content>
+    </Wrapper>
   </Modal>
 )
 

@@ -8,15 +8,17 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import LockboxAppInstall from './template'
 
 class LockboxAppInstallContainer extends React.PureComponent {
-  render () {
-    const { deviceId } = this.props
+  componentDidMount () {
+    this.props.lockboxActions.installApplications(this.props.deviceId)
+  }
 
+  render () {
     return <LockboxAppInstall {...this.props} />
   }
 }
 
 LockboxAppInstallContainer.propTypes = {
-  deviceId: PropTypes.string.isRequired,
+  deviceIndex: PropTypes.string.isRequired,
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   closeAll: PropTypes.func.isRequired

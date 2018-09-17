@@ -12,7 +12,8 @@ class InstallAppsContainer extends React.PureComponent {
   }
 
   onInstallClick () {
-    this.props.modalActions.showModal('LockboxAppInstall')
+    const deviceIndex = this.props.deviceIndex
+    this.props.modalActions.showModal('LockboxAppInstall', { deviceIndex })
   }
 
   render () {
