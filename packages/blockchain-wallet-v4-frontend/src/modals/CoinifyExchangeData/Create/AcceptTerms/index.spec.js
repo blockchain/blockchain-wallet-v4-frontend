@@ -11,7 +11,7 @@ import AcceptTerms from './index'
 
 const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 
-fdescribe('Coinify AcceptTerms Modal', () => {
+describe('Coinify AcceptTerms Modal', () => {
   beforeEach(() => {
     dispatchSpy.mockClear()
   })
