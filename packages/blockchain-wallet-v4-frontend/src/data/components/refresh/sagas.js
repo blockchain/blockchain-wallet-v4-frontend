@@ -25,7 +25,7 @@ export default () => {
           break
         case '/home': {
           yield put(actions.core.data.bitcoin.fetchTransactions('', true))
-          yield put(actions.core.data.ethereum.fetchTransactions(true))
+          yield put(actions.core.data.ethereum.fetchTransactions(null, true))
           yield put(actions.core.data.bch.fetchTransactions('', true))
         }
       }
@@ -59,7 +59,7 @@ export default () => {
   }
 
   const refreshEthTransactions = function*() {
-    yield put(actions.core.data.ethereum.fetchTransactions(true))
+    yield put(actions.core.data.ethereum.fetchTransactions(null, true))
   }
 
   return {
