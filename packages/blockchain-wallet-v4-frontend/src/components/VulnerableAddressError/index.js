@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { Button, Text, Image } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import { checkForVulnerableAddressError } from 'services/ErrorService'
+import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 
 const ErrorContainer = styled.div`
   width: 100%;

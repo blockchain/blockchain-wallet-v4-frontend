@@ -3,7 +3,7 @@ import React from 'react'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import Success from './template.success'
-import { checkForVulnerableAddressError } from 'services/ErrorService'
+import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 import VulnerableAddressError from 'components/VulnerableAddressError'
 
 class Pages extends React.PureComponent {

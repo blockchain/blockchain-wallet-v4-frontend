@@ -7,7 +7,7 @@ import Success from './template.success'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { formValueSelector } from 'redux-form'
 import DataError from 'components/DataError'
-import { checkForVulnerableAddressError } from 'services/ErrorService'
+import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 import VulnerableAddressError from 'components/VulnerableAddressError'
 
 class BitcoinWalletsContainer extends React.Component {

@@ -15,7 +15,7 @@ import {
   forceSyncWallet
 } from 'services/SagaService'
 import { Types, Remote } from 'blockchain-wallet-v4/src'
-import { checkForVulnerableAddressError } from 'services/ErrorService'
+import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 
 export const logLocation = 'auth/sagas'
 export const defaultLoginErrorMessage = 'Error logging into your wallet'
