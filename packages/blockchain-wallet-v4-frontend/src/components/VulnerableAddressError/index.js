@@ -18,7 +18,6 @@ const MessageText = styled(Text)`
 
 const Error = ({ message, onArchive }) => {
   const vulnerableAddress = checkForVulnerableAddressError(message)
-  console.log('test', vulnerableAddress)
 
   if (!vulnerableAddress) return null
   return (
