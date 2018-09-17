@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import { path } from 'ramda'
-import ui from 'redux-ui'
 import { getData } from './selectors'
 import Success from './template.success'
 
@@ -42,7 +41,7 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
   }
 
   changeDescription () {
-    this.props.updateUI({
+    this.setState({
       descriptionToggled: !this.state.descriptionToggled
     })
   }
@@ -52,6 +51,7 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
     return (
       <Success
         {...rest}
+        ui={this.state}
         data={data}
         toggleNextStep={this.toggleNextStep}
         handleClose={this.closeSteps}
@@ -75,15 +75,7 @@ const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({
-    key: 'Security_TwoStep',
-    state: { nextStepToggled: false, descriptionToggled: false }
-  })
-)
-
-export default enhance(WalletRecoveryPhraseContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WalletRecoveryPhraseContainer)
