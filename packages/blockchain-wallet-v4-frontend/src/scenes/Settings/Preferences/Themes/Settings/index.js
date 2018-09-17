@@ -17,11 +17,11 @@ class SettingsContainer extends React.PureComponent {
   componentDidUpdate (prevProps) {
     const { theme, newTheme } = this.props
     if (
-      !isNil(prevProps.newTheme) &&
-      !equals(theme, prevProps.newTheme) &&
-      !equals(newTheme, prevProps.newTheme)
+      !isNil(newTheme) &&
+      !equals(theme, newTheme) &&
+      !equals(prevProps.newTheme, newTheme)
     ) {
-      this.props.preferencesActions.setTheme(prevProps.newTheme)
+      this.props.preferencesActions.setTheme(newTheme)
     }
   }
 
