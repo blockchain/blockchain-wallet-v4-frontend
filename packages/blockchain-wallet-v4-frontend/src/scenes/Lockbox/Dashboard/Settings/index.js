@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import RenameDevice from './RenameDevice'
 import RemoveDevice from './RemoveDevice'
@@ -11,7 +11,7 @@ const SettingsContainer = styled.div`
   padding: 0px 15px;
 `
 
-export default class LockboxSettings extends PureComponent {
+export default class LockboxSettings extends React.PureComponent {
   render () {
     const { deviceIndex } = this.props
 
