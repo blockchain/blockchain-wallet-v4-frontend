@@ -352,7 +352,8 @@ export default ({ api }) => {
           init: () => chain(gen, payment => payment.init()),
           to: destinations => chain(gen, payment => payment.to(destinations)),
           amount: amounts => chain(gen, payment => payment.amount(amounts)),
-          from: origins => chain(gen, payment => payment.from(origins)),
+          from: (origins, type) =>
+            chain(gen, payment => payment.from(origins, type)),
           fee: value => chain(gen, payment => payment.fee(value)),
           build: () => chain(gen, payment => payment.build()),
           buildSweep: () => chain(gen, payment => payment.buildSweep()),
