@@ -48,9 +48,9 @@ export default ({ api, networks } = {}) => {
           }
         ],
         tx_notes: {},
-        last_tx: null,
+        last_tx: {},
         legacy_account: null,
-        last_tx_timestamp: null
+        last_tx_timestamp: {}
       }
       const newkv = set(KVStoreEntry.value, { ethereum }, kv)
       yield put(A.createMetadataEthereum(newkv))

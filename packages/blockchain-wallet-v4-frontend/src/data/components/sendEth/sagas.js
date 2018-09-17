@@ -182,14 +182,21 @@ export default ({ coreSagas }) => {
       payment = yield payment.publish()
       yield put(actions.modals.closeAllModals())
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
+      const fromAddress = payment.value().from.address
       yield put(
-        actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now())
+        actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(
+          fromAddress,
+          Date.now()
+        )
       )
       yield take(
         actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
       )
       yield put(
-        actions.core.kvStore.ethereum.setLatestTxEthereum(payment.value().txId)
+        actions.core.kvStore.ethereum.setLatestTxEthereum(
+          fromAddress,
+          payment.value().txId
+        )
       )
       yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
       if (path(['description', 'length'], payment.value())) {
