@@ -298,7 +298,7 @@ export default ({ coreSagas, networks }) => {
           prop('from', p.getOrElse({}))
         )
         const device = deviceR.getOrFail('missing_device')
-        yield call(promptForLockbox, 'BTC', prop('device_id', device))
+        yield call(promptForLockbox, 'BTC', null, prop('device_type', device))
         let connection = yield select(
           selectors.components.lockbox.getCurrentConnection
         )

@@ -290,7 +290,6 @@ export default ({ api }) => {
   }
 
   const updateTransactionList = function*() {
-    // TODO: onlyShow and filtering
     const btcContextR = yield select(
       selectors.core.kvStore.lockbox.getLockboxBtcContext
     )

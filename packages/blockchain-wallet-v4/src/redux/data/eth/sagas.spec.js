@@ -342,7 +342,6 @@ describe('ethereum data sagas', () => {
       it('should add transaction data to the state', () => {
         return expectSaga(dataEthereumSagas.fetchTransactions, {
           payload: {
-            address: '0xC6B0bB1dcfAEdF1c4Fd82C5F5b7E5E0aD120aDcB',
             reset: true
           }
         })

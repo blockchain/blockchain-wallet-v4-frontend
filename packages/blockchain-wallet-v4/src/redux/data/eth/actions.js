@@ -91,13 +91,13 @@ export const fetchRatesFailure = error => ({
 })
 
 // FETCH_ETHEREUM_TRANSACTIONS
-export const fetchTransactions = reset => ({
+export const fetchTransactions = (address, reset) => ({
   type: AT.FETCH_ETHEREUM_TRANSACTIONS,
-  payload: { reset }
+  payload: { address, reset }
 })
-export const fetchTransactionsLoading = reset => ({
+export const fetchTransactionsLoading = (address, reset) => ({
   type: AT.FETCH_ETHEREUM_TRANSACTIONS_LOADING,
-  payload: { reset }
+  payload: { address, reset }
 })
 export const fetchTransactionsSuccess = (transactions, reset) => ({
   type: AT.FETCH_ETHEREUM_TRANSACTIONS_SUCCESS,

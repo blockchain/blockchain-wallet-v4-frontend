@@ -1,11 +1,14 @@
-import { lift, map, path, prop } from 'ramda'
+import { concat, lift, map, path, prop } from 'ramda'
 import {
   getAddresses,
   getTransactions,
   getHeight
 } from '../../data/eth/selectors.js'
 import { getAccounts } from '../../kvStore/eth/selectors.js'
-import { getLockboxEthAccounts } from '../../kvStore/lockbox/selectors.js'
+import {
+  getLockboxEthAccounts,
+  getLockboxEthContext
+} from '../../kvStore/lockbox/selectors.js'
 import * as transactions from '../../../transactions'
 import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
 import Remote from '../../../remote'
@@ -50,14 +53,20 @@ export const getWalletTransactions = state => {
   const accountsR = getAccounts(state)
   const blockHeightR = getHeight(state)
   const addressesR = accountsR.map(map(prop('addr')))
+  const lockboxContextR = getLockboxEthContext(state)
   const pages = getTransactions(state)
   const getPartnerLabel = hash => getShapeshiftTxHashMatch(state, hash)
-  const ProcessTxs = (addresses, blockHeight, txList) => {
+  const ProcessTxs = (addresses, lockboxContext, blockHeight, txList) => {
+    const ethAddresses = concat(addresses, lockboxContext)
     return map(
-      transformTx(addresses, blockHeight, getPartnerLabel, state),
+      transformTx(ethAddresses, blockHeight, getPartnerLabel, state),
       txList
     )
   }
-  const ProcessPage = lift(ProcessTxs)(addressesR, blockHeightR)
+  const ProcessPage = lift(ProcessTxs)(
+    addressesR,
+    lockboxContextR,
+    blockHeightR
+  )
   return map(ProcessPage, pages)
 }

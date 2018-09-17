@@ -172,7 +172,7 @@ export default ({ coreSagas }) => {
           path(['from', 'address'], p.getOrElse({}))
         )
         const device = deviceR.getOrFail('missing_device')
-        yield call(promptForLockbox, 'ETH', prop('device_id', device))
+        yield call(promptForLockbox, 'ETH', null, prop('device_type', device))
         let connection = yield select(
           selectors.components.lockbox.getCurrentConnection
         )
