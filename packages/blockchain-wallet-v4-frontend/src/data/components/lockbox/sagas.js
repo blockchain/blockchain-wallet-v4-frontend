@@ -1,5 +1,5 @@
 import { call, put, take, select } from 'redux-saga/effects'
-import { contains, keysIn, prop } from 'ramda'
+import { contains, find, keysIn, prop, propEq } from 'ramda'
 
 import { actions, selectors } from 'data'
 import * as A from './actions'
@@ -407,8 +407,30 @@ export default ({ api }) => {
         provider: deviceInfo.providerId,
         target_id: deviceInfo.targetId
       })
+      // get full firmware info via api
+      const seFirmwareVersion = yield call(api.getCurrentFirmware, {
+        device_version: deviceVersion.id,
+        version_name: deviceInfo.fullVersion,
+        provider: deviceInfo.providerId
+      })
+      // get latest info on applications
+      const appInfos = yield call(api.getApplications, {
+        provider: deviceInfo.providerId,
+        current_se_firmware_final_version: seFirmwareVersion.id,
+        device_version: deviceVersion.id
+      })
+      const btcAppInfo = find(
+        propEq('app', LockboxService.constants.appIds.btc)
+      )(appInfos.application_versions)
+      const bchAppInfo = find(
+        propEq('app', LockboxService.constants.appIds.bch)
+      )(appInfos.application_versions)
+      const ethAppInfo = find(
+        propEq('app', LockboxService.constants.appIds.eth)
+      )(appInfos.application_versions)
+
       // eslint-disable-next-line
-      console.info('DONE::', deviceVersion)
+      console.info(btcAppInfo, bchAppInfo, ethAppInfo)
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'installApplications', e)
