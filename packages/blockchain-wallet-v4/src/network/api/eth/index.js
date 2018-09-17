@@ -21,6 +21,15 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       }`
     })
 
+  const getEthereumTransactions = (context, page = 0) =>
+    get({
+      url: apiUrl,
+      endPoint: `/eth/account/${
+        Array.isArray(context) ? context.join(',') : context
+      }`,
+      data: { page }
+    })
+
   const getEthereumFee = () =>
     get({
       url: apiUrl,
@@ -44,13 +53,6 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     get({
       url: apiUrl,
       endPoint: `/eth/tx/${hash}`
-    })
-
-  const getEthereumTransactions = (account, page = 0) =>
-    get({
-      url: apiUrl,
-      endPoint: `/eth/account/${account}`,
-      data: { page }
     })
 
   const pushEthereumTx = rawTx =>
