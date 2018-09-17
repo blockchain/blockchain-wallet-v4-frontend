@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { RotateSync } from 'components/RotateSync'
 import { CONFIRM_STEPS } from './model'
 
 import {
@@ -20,6 +21,13 @@ const Row = styled.div`
   align-items: center;
   margin-bottom: 40px;
   width: 100%;
+  > div {
+    margin: 0px 15px;
+  }
+`
+const CircledIcon = styled(Icon)`
+  border-radius: 50%;
+  border: 2px solid ${props => props.theme['gray-5']};
 `
 
 const PromptLockbox = props => {
@@ -29,7 +37,7 @@ const PromptLockbox = props => {
   const disabled = !ready || step === CONFIRM_STEPS.review
 
   return (
-    <Modal size='medium' position={position} total={total} closeButton={false}>
+    <Modal size='large' position={position} total={total} closeButton={false}>
       <ModalHeader icon='safe' onClose={close}>
         <FormattedMessage
           id='modals.promptforlockbox.title'
@@ -40,6 +48,7 @@ const PromptLockbox = props => {
       <ModalBody>
         {step === CONFIRM_STEPS.connect ? (
           <Row>
+            <CircledIcon name='usb-icon' size='28px' />
             <Text weight={300}>
               <FormattedHTMLMessage
                 id='modals.promptforlockbox.connectcoinapp'
@@ -50,21 +59,23 @@ const PromptLockbox = props => {
             {ready ? (
               <Icon
                 name='checkmark-in-circle-filled'
-                color='brand-secondary'
-                size='24px'
+                color='success'
+                size='28px'
               />
             ) : (
-              <Icon name='refresh' />
+              <RotateSync size='24px' />
             )}
           </Row>
         ) : (
           <Row>
+            <CircledIcon name='bell' size='18px' style={{ padding: '5px' }} />
             <Text weight={300}>
               <FormattedMessage
                 id='modals.promptforlockbox.confirmcointx'
                 defaultMessage='Review the transaction details on your device screen. Press the top right button to confirm and sign the transaction.'
               />
             </Text>
+            <RotateSync size='24px' />
           </Row>
         )}
         <Button
