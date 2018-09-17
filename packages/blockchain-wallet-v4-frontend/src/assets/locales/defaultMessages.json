@@ -1054,7 +1054,7 @@
         "id": "components.identityverification.popup.note.underreview"
       },
       {
-        "defaultMessage": "Good news – your account is verified. You can now buy, sell, and exchange cryptocurrency at any time.",
+        "defaultMessage": "Good news – your account is verified. You can now exchange cryptocurrency at any time.",
         "id": "components.identityverification.popup.note.verified"
       },
       {
@@ -10228,7 +10228,7 @@
         "id": "scenes.profile.identityverification.note.underreview"
       },
       {
-        "defaultMessage": "Good news – your account is verified. You can now buy, sell, and exchange cryptocurrency at any time.",
+        "defaultMessage": "Good news – your account is verified. You can now exchange cryptocurrency at any time.",
         "id": "scenes.profile.identityverification.note.verified"
       },
       {

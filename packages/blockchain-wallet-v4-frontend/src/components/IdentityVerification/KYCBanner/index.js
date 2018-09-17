@@ -165,7 +165,7 @@ export const KYCBanner = ({
     [KYC_STATES.VERIFIED]: (
       <FormattedMessage
         id='components.identityverification.popup.note.verified'
-        defaultMessage='Good news – your account is verified. You can now buy, sell, and exchange cryptocurrency at any time. '
+        defaultMessage='Good news – your account is verified. You can now exchange cryptocurrency at any time. '
       />
     )
   }
