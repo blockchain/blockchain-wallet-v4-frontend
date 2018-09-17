@@ -17,11 +17,11 @@ class SettingsContainer extends React.PureComponent {
   componentDidUpdate (prevProps) {
     const { currency, newCurrency } = this.props
     if (
-      !isNil(prevProps.newCurrency) &&
-      !equals(currency, prevProps.newCurrency) &&
-      !equals(newCurrency, prevProps.newCurrency)
+      !isNil(newCurrency) &&
+      !equals(currency, newCurrency) &&
+      !equals(prevProps.newCurrency, newCurrency)
     ) {
-      this.props.settingsActions.updateCurrency(prevProps.newCurrency)
+      this.props.settingsActions.updateCurrency(newCurrency)
     }
   }
 
