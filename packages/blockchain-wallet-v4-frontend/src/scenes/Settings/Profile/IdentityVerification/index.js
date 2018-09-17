@@ -124,7 +124,7 @@ const IdentityVerification = ({ kycState, verifyIdentity }) => {
     [KYC_STATES.VERIFIED]: (
       <FormattedMessage
         id='scenes.profile.identityverification.note.verified'
-        defaultMessage='Good news – your account is verified. You can now buy, sell, and exchange cryptocurrency at any time. '
+        defaultMessage='Good news – your account is verified. You can now exchange cryptocurrency at any time. '
         altFont
         light
       />
