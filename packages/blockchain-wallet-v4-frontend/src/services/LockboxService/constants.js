@@ -4,9 +4,9 @@ export default {
     no_op: [0x00, 0x00, 0x00, 0x00]
   },
   appIds: {
-    btc: 1,
-    bch: 2,
-    eth: 18
+    BTC: 1,
+    BCH: 2,
+    ETH: 18
   },
   providers: {
     '': 1,

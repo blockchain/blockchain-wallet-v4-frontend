@@ -1,5 +1,5 @@
 import { call, put, take, select } from 'redux-saga/effects'
-import { contains, find, keysIn, prop, propEq } from 'ramda'
+import { contains, keysIn, prop } from 'ramda'
 
 import { actions, selectors } from 'data'
 import * as A from './actions'
@@ -96,9 +96,8 @@ export default ({ api }) => {
           perso: firmware.perso
         }
       )
-      isDeviceAuthentic
-        ? yield put(A.checkDeviceAuthenticitySuccess(isDeviceAuthentic))
-        : yield put(A.changeDeviceSetupStep('error-step', true, 'authenticity'))
+
+      yield put(A.checkDeviceAuthenticitySuccess(isDeviceAuthentic))
     } catch (e) {
       yield put(A.changeDeviceSetupStep('error-step', true, 'authenticity'))
       yield put(A.checkDeviceAuthenticityFailure(e))
@@ -419,19 +418,27 @@ export default ({ api }) => {
         current_se_firmware_final_version: seFirmwareVersion.id,
         device_version: deviceVersion.id
       })
-      const btcAppInfo = find(
-        propEq('app', LockboxService.constants.appIds.btc)
-      )(appInfos.application_versions)
-      const bchAppInfo = find(
-        propEq('app', LockboxService.constants.appIds.bch)
-      )(appInfos.application_versions)
-      const ethAppInfo = find(
-        propEq('app', LockboxService.constants.appIds.eth)
-      )(appInfos.application_versions)
+
+      const domainsR = yield select(selectors.core.walletOptions.getDomains)
+      const domains = domainsR.getOrElse({
+        ledgerSocket: 'wss://api.ledgerwallet.com'
+      })
+
+      // install application
+      const appInstallStatus = yield call(
+        LockboxService.apps.installApp,
+        transport,
+        domains.ledgerSocket,
+        deviceInfo.targetId,
+        'BTC',
+        appInfos.application_versions
+      )
 
       // eslint-disable-next-line
-      console.info(btcAppInfo, bchAppInfo, ethAppInfo)
+      console.info('SUCCESS', appInstallStatus)
     } catch (e) {
+      // eslint-disable-next-line
+      console.info('ERROR:', e)
       yield put(
         actions.logs.logErrorMessage(logLocation, 'installApplications', e)
       )

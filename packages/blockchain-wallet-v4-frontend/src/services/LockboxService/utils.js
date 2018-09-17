@@ -42,10 +42,7 @@ const createDeviceSocket = (transport, url) => {
       try {
         const msg = JSON.parse(rawMsg.data)
         if (!(msg.query in handlers)) {
-          return new Error(`Cannot handle msg of type ${msg.query}`, {
-            query: msg.query,
-            url
-          })
+          throw new Error({ message: 's0ck3t' }, { url })
         }
         console.info('RECEIVE', msg)
         await handlers[msg.query](msg)
@@ -92,7 +89,7 @@ const createDeviceSocket = (transport, url) => {
         }
 
         if (!lastStatus) {
-          return new Error('DeviceSocketNoBulkStatus')
+          throw new Error({ message: 's0ck3t' }, { url })
         }
 
         const strStatus = lastStatus.toString('hex')
@@ -112,7 +109,7 @@ const createDeviceSocket = (transport, url) => {
       error: msg => {
         console.info('ERROR', { data: msg.data })
         ws.close()
-        return new Error(msg.data, { url })
+        throw new Error(msg.data, { url })
       }
     }
 
@@ -165,7 +162,30 @@ const getDeviceInfo = transport => {
   })
 }
 
+// TODO: create human readable errors
+const mapSocketError = promise => {
+  return promise.catch(err => {
+    switch (true) {
+      case err.message.endsWith('6985'):
+        return { errMsg: 'USER REFUSED DEVICE CONNECTION', err }
+      case err.message.endsWith('6982'):
+        return { errMsg: 'DEVICE LOCKED', err }
+      case err.message.endsWith('6a84') || err.message.endsWith('6a85'):
+        return { errMsg: 'INSUFFICIENT SPACE', err }
+      case err.message.endsWith('6a80') || err.message.endsWith('6a81'):
+        return { errMsg: 'APP ALREADY INSTALLED', err }
+      case err.message.endsWith('6a83'):
+        return { errMsg: 'BTC APP REQUIRED', err }
+      case err.message.endsWith('s0ck3t'):
+        return { errMsg: 'SOCKET CONNECTION FAILED', err }
+      default:
+        return { errMsg: 'UNKNOWN ERROR', err }
+    }
+  })
+}
+
 export default {
   createDeviceSocket,
-  getDeviceInfo
+  getDeviceInfo,
+  mapSocketError
 }

@@ -10,10 +10,13 @@ const checkDeviceAuthenticity = (transport, baseUrl, params) => {
       `${baseUrl}${constants.socketPaths.authenticity}` +
       `?${qs.stringify(params)}`
 
-    const res = await utils.createDeviceSocket(transport, url).toPromise()
+    // check authenticity
+    const res = await utils.mapSocketError(
+      utils.createDeviceSocket(transport, url).toPromise()
+    )
 
-    !res || res !== '0000'
-      ? reject(new Error('device authenticity failed'))
+    !res || res !== '0000' || res.errMsg
+      ? reject(res.errMsg ? res.errMsg : 'Device authenticity check failed')
       : resolve(res)
   })
 }
