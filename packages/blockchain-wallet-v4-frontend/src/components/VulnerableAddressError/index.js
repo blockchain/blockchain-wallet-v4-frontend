@@ -12,7 +12,7 @@ const ErrorContainer = styled.div`
   align-items: center;
 `
 const MessageText = styled(Text)`
-  width: 75%;
+  width: 80%;
   margin: 20px 0px;
 `
 
