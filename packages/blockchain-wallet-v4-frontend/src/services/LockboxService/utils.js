@@ -1,4 +1,6 @@
 import { Observable } from 'rxjs'
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 
 import firmware from './firmware'
 import constants from './constants'
@@ -167,19 +169,75 @@ const mapSocketError = promise => {
   return promise.catch(err => {
     switch (true) {
       case err.message.endsWith('6985'):
-        return { errMsg: 'USER REFUSED DEVICE CONNECTION', err }
+        return {
+          err,
+          errMsg: () => (
+            <FormattedMessage
+              id='lockbox.service.messages.connectionrefused'
+              defaultMessage='Device connection was refused'
+            />
+          )
+        }
       case err.message.endsWith('6982'):
-        return { errMsg: 'DEVICE LOCKED', err }
+        return {
+          err,
+          errMsg: () => (
+            <FormattedMessage
+              id='lockbox.service.messages.devicelocked'
+              defaultMessage='Device locked and unable to communicate'
+            />
+          )
+        }
       case err.message.endsWith('6a84') || err.message.endsWith('6a85'):
-        return { errMsg: 'INSUFFICIENT SPACE', err }
+        return {
+          err,
+          errMsg: () => (
+            <FormattedMessage
+              id='lockbox.service.messages.storagespace'
+              defaultMessage='Insufficient storage space on device'
+            />
+          )
+        }
       case err.message.endsWith('6a80') || err.message.endsWith('6a81'):
-        return { errMsg: 'APP ALREADY INSTALLED', err }
+        return {
+          err,
+          errMsg: () => (
+            <FormattedMessage
+              id='lockbox.service.messages.appalreadyinstalled'
+              defaultMessage='App already installed'
+            />
+          )
+        }
       case err.message.endsWith('6a83'):
-        return { errMsg: 'BTC APP REQUIRED', err }
+        return {
+          err,
+          errMsg: () => (
+            <FormattedMessage
+              id='lockbox.service.messages.btcapprequired'
+              defaultMessage='Unable to remove BTC app as it is required by others'
+            />
+          )
+        }
       case err.message.endsWith('s0ck3t'):
-        return { errMsg: 'SOCKET CONNECTION FAILED', err }
+        return {
+          err,
+          errMsg: () => (
+            <FormattedMessage
+              id='lockbox.service.messages.socketerror'
+              defaultMessage='Socket connection failed'
+            />
+          )
+        }
       default:
-        return { errMsg: 'UNKNOWN ERROR', err }
+        return {
+          err,
+          errMsg: () => (
+            <FormattedMessage
+              id='lockbox.service.messages.unknownerror'
+              defaultMessage='An unknown error has occurred'
+            />
+          )
+        }
     }
   })
 }
@@ -189,3 +247,24 @@ export default {
   getDeviceInfo,
   mapSocketError
 }
+
+export const InvalidMessage = () => (
+  <FormattedMessage
+    id='settings.preferences.autologout.settings.invalid'
+    defaultMessage='Please set a valid time'
+  />
+)
+
+export const MinimumMessage = () => (
+  <FormattedMessage
+    id='settings.preferences.autologout.settings.invalid2'
+    defaultMessage='Please set a duration greater than 1 minute.'
+  />
+)
+
+export const MaximumMessage = () => (
+  <FormattedMessage
+    id='settings.preferences.autologout.settings.invalid3'
+    defaultMessage='Please set a duration less than 1440 minutes'
+  />
+)

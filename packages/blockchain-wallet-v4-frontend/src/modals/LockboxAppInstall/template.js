@@ -122,8 +122,8 @@ const LockboxAppInstall = props => {
                 {btcStatus.waiting && (
                   <Text size='14px' weight={300}>
                     <FormattedHTMLMessage
-                      id='modals.lockboxappinstall.waiting'
-                      defaultMessage='Waiting...'
+                      id='modals.lockboxappinstall.pending'
+                      defaultMessage='Pending'
                     />
                   </Text>
                 )}
@@ -136,7 +136,7 @@ const LockboxAppInstall = props => {
                       color='brand-yellow'
                     />
                     <Text size='14px' weight={300}>
-                      {btcStatus.error}
+                      {btcStatus.error()}
                     </Text>
                   </Result>
                 )}
@@ -166,8 +166,8 @@ const LockboxAppInstall = props => {
                 {bchStatus.waiting && (
                   <Text size='14px' weight={300}>
                     <FormattedHTMLMessage
-                      id='modals.lockboxappinstall.waiting'
-                      defaultMessage='Waiting...'
+                      id='modals.lockboxappinstall.pending'
+                      defaultMessage='Pending'
                     />
                   </Text>
                 )}
@@ -180,7 +180,7 @@ const LockboxAppInstall = props => {
                       color='brand-yellow'
                     />
                     <Text size='14px' weight={300}>
-                      {bchStatus.error}
+                      {bchStatus.error()}
                     </Text>
                   </Result>
                 )}
@@ -210,8 +210,8 @@ const LockboxAppInstall = props => {
                 {ethStatus.waiting && (
                   <Text size='14px' weight={300}>
                     <FormattedHTMLMessage
-                      id='modals.lockboxappinstall.waiting'
-                      defaultMessage='Waiting...'
+                      id='modals.lockboxappinstall.pending'
+                      defaultMessage='Pending'
                     />
                   </Text>
                 )}
@@ -224,7 +224,7 @@ const LockboxAppInstall = props => {
                       color='brand-yellow'
                     />
                     <Text size='14px' weight={300}>
-                      {ethStatus.error}
+                      {ethStatus.error()}
                     </Text>
                   </Result>
                 )}
