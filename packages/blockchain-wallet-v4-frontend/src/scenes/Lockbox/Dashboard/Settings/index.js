@@ -20,11 +20,11 @@ export default class LockboxSettings extends React.PureComponent {
       <SettingsContainer>
         <RenameDevice deviceIndex={deviceIndex} />
         <UpdateDevice deviceIndex={deviceIndex} />
+        <InstallApps deviceIndex={deviceIndex} />
         <AddDevice />
         <RestoreDevice />
         <ExportXPub deviceIndex={deviceIndex} />
         <RemoveDevice deviceIndex={deviceIndex} />
-        <InstallApps deviceIndex={deviceIndex} />
       </SettingsContainer>
     )
   }

@@ -19,13 +19,13 @@ const ReinstallApps = props => {
         <SettingHeader>
           <FormattedMessage
             id='scenes.lockbox.settings.installapps.title'
-            defaultMessage='Install/Update Apps'
+            defaultMessage='Install Apps'
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
             id='scenes.lockbox.settings.installapps.description'
-            defaultMessage='Install the latest versions of the Bitcoin, Bitcoin Cash and Ethereum applications.'
+            defaultMessage='Install the latest versions of the Bitcoin, Bitcoin Cash and Ethereum apps'
           />
         </SettingDescription>
       </SettingSummary>

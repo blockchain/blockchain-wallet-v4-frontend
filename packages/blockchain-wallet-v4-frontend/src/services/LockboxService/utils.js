@@ -164,7 +164,6 @@ const getDeviceInfo = transport => {
   })
 }
 
-// TODO: create human readable errors
 const mapSocketError = promise => {
   return promise.catch(err => {
     switch (true) {
