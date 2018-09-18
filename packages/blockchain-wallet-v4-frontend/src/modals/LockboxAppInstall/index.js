@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import LockboxAppInstall from './template'
+import CoinInstallStatus from './status.template'
 
 class LockboxAppInstallContainer extends React.PureComponent {
   constructor (props) {
@@ -52,15 +53,16 @@ class LockboxAppInstallContainer extends React.PureComponent {
 
     return (
       <LockboxAppInstall
-        btcStatus={btcStatus}
-        ethStatus={ethStatus}
-        bchStatus={bchStatus}
         overallStatus={overallStatus}
         isOnDashboard={isOnDashboard}
         isInstallStep={this.state.isInstallStep}
         onContinue={this.onContinue}
         {...this.props}
-      />
+      >
+        <CoinInstallStatus coin='Bitcoin' status={btcStatus} />
+        <CoinInstallStatus coin='Bitcoin Cash' status={bchStatus} />
+        <CoinInstallStatus coin='Ethereum' status={ethStatus} />
+      </LockboxAppInstall>
     )
   }
 }

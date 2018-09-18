@@ -2,13 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 
-import {
-  Button,
-  Icon,
-  Modal,
-  ModalBody,
-  Text
-} from 'blockchain-info-components'
+import { Button, Modal, ModalBody, Text } from 'blockchain-info-components'
 import { RotateSync } from 'components/RotateSync'
 
 const Wrapper = styled(ModalBody)`
@@ -39,12 +33,6 @@ const InstallStatusRows = styled.div`
     margin: 8px 0;
   }
 `
-const Result = styled.div`
-  display: flex;
-  & > :last-child {
-    margin-left: 5px;
-  }
-`
 const ContinueButton = styled(Button)`
   & > :last-child {
     margin-left: 15px;
@@ -53,9 +41,6 @@ const ContinueButton = styled(Button)`
 const ButtonContainer = styled.div`
   width: 100%;
   margin-top: 30px;
-`
-const RotateSyncIcon = styled(RotateSync)`
-  margin-right: 18px;
 `
 const Instructions = styled.div`
   width: 100%;
@@ -66,10 +51,8 @@ const Instructions = styled.div`
 `
 const LockboxAppInstall = props => {
   const {
-    btcStatus,
-    ethStatus,
-    bchStatus,
     closeAll,
+    children,
     isOnDashboard,
     isInstallStep,
     onContinue,
@@ -147,138 +130,7 @@ const LockboxAppInstall = props => {
                   />
                 </Text>
               </Row>
-              <Row>
-                <Text size='16px' weight={300}>
-                  <FormattedHTMLMessage
-                    id='modals.lockboxappinstall.btc'
-                    defaultMessage='Bitcoin'
-                  />
-                </Text>
-                {btcStatus.waiting && (
-                  <Text size='14px' weight={300}>
-                    <FormattedHTMLMessage
-                      id='modals.lockboxappinstall.pending'
-                      defaultMessage='Pending'
-                    />
-                  </Text>
-                )}
-                {btcStatus.busy && <RotateSyncIcon size='15px' />}
-                {btcStatus.error && (
-                  <Result>
-                    <Icon
-                      name='alert-filled'
-                      size='18px'
-                      color='brand-yellow'
-                    />
-                    <Text size='14px' weight={300}>
-                      {btcStatus.error()}
-                    </Text>
-                  </Result>
-                )}
-                {btcStatus.success && (
-                  <Result>
-                    <Icon
-                      name='checkmark-in-circle-filled'
-                      size='18px'
-                      color='success'
-                    />
-                    <Text size='14px' weight={300}>
-                      <FormattedHTMLMessage
-                        id='modals.lockboxappinstall.success'
-                        defaultMessage='Success!'
-                      />
-                    </Text>
-                  </Result>
-                )}
-              </Row>
-              <Row>
-                <Text size='16px' weight={300}>
-                  <FormattedHTMLMessage
-                    id='modals.lockboxappinstall.bch'
-                    defaultMessage='Bitcoin Cash'
-                  />
-                </Text>
-                {bchStatus.waiting && (
-                  <Text size='14px' weight={300}>
-                    <FormattedHTMLMessage
-                      id='modals.lockboxappinstall.pending'
-                      defaultMessage='Pending'
-                    />
-                  </Text>
-                )}
-                {bchStatus.busy && <RotateSyncIcon size='15px' />}
-                {bchStatus.error && (
-                  <Result>
-                    <Icon
-                      name='alert-filled'
-                      size='18px'
-                      color='brand-yellow'
-                    />
-                    <Text size='14px' weight={300}>
-                      {bchStatus.error()}
-                    </Text>
-                  </Result>
-                )}
-                {bchStatus.success && (
-                  <Result>
-                    <Icon
-                      name='checkmark-in-circle-filled'
-                      size='18px'
-                      color='success'
-                    />
-                    <Text size='14px' weight={300}>
-                      <FormattedHTMLMessage
-                        id='modals.lockboxappinstall.success'
-                        defaultMessage='Success!'
-                      />
-                    </Text>
-                  </Result>
-                )}
-              </Row>
-              <Row>
-                <Text size='16px' weight={300}>
-                  <FormattedHTMLMessage
-                    id='modals.lockboxappinstall.eth'
-                    defaultMessage='Ethereum'
-                  />
-                </Text>
-                {ethStatus.waiting && (
-                  <Text size='14px' weight={300}>
-                    <FormattedHTMLMessage
-                      id='modals.lockboxappinstall.pending'
-                      defaultMessage='Pending'
-                    />
-                  </Text>
-                )}
-                {ethStatus.busy && <RotateSyncIcon size='15px' />}
-                {ethStatus.error && (
-                  <Result>
-                    <Icon
-                      name='alert-filled'
-                      size='18px'
-                      color='brand-yellow'
-                    />
-                    <Text size='14px' weight={300}>
-                      {ethStatus.error()}
-                    </Text>
-                  </Result>
-                )}
-                {ethStatus.success && (
-                  <Result>
-                    <Icon
-                      name='checkmark-in-circle-filled'
-                      size='18px'
-                      color='success'
-                    />
-                    <Text size='14px' weight={300}>
-                      <FormattedHTMLMessage
-                        id='modals.lockboxappinstall.success'
-                        defaultMessage='Success!'
-                      />
-                    </Text>
-                  </Result>
-                )}
-              </Row>
+              {children}
               <Row>
                 <Button
                   onClick={closeAll}
