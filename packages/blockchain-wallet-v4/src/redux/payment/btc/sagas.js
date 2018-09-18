@@ -378,6 +378,7 @@ export default ({ api }) => {
     calculateSelection,
     calculateSignature,
     calculateSweepSelection,
-    getWalletUnspent
+    getWalletUnspent,
+    pushBitcoinTx
   }
 }

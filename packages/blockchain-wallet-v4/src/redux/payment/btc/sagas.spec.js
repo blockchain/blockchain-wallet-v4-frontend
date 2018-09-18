@@ -5,9 +5,11 @@ import { prop } from 'ramda'
 import * as S from '../../selectors'
 import { btc } from '../../../signer'
 import * as CoinSelection from '../../../coinSelection'
+import * as Coin from '../../../coinSelection/coin'
 
 jest.mock('../../../signer')
 jest.mock('../../../coinSelection')
+jest.mock('../../../coinSelection/coin')
 
 const EFFECTIVE_BALANCE_AMOUNT = 100000
 
@@ -33,6 +35,7 @@ const FROM_INDEX = 0
 
 const PASSWORD_VALUE = 'password'
 
+const CHANGE_ADDRESS = '1BzILT4NbxZp4TeeNM2TjdCUvHKW2ZHxFx'
 const TO_ADDRESS = '1LiASK9MawXo9SppMn3RhfWUvHKW2ZHxFx'
 
 const FROM_DATA = {
@@ -51,13 +54,18 @@ const p = {
   txHex: 'txHex'
 }
 
+const SELECT_ALL_RESULT = { outputs: [{ value: EFFECTIVE_BALANCE_AMOUNT }] }
+
 btc.signWithWIF.mockImplementation(() => true)
 CoinSelection.selectAll.mockImplementation(() => {
-  return { outputs: [{ value: EFFECTIVE_BALANCE_AMOUNT }] }
+  return SELECT_ALL_RESULT
 })
+CoinSelection.descentDraw.mockImplementation(() => true)
+Coin.fromJS.mockImplementation(() => true)
+
+let api = { getBitcoinFee: () => feeResult }
 
 describe('createPayment', () => {
-  let api = { getBitcoinFee: () => feeResult }
   let {
     create,
     calculateTo,
@@ -178,7 +186,15 @@ describe('createPayment', () => {
     it('should default to throwing an error', () => {
       let result = calculateSignature(network, PASSWORD_VALUE, 'FROM.ERROR', prop('selection', p))
       expect(result.next().value).toEqual(select(S.wallet.getWrapper))
-      // expect(result.next()).toThrow('unkown_from')
+      expect(
+        () => result.next()
+      ).toThrow(new Error('unknown_from'))
+    })
+    it('should throw if no selection is passed', () => {
+      let result = calculateSignature(network, PASSWORD_VALUE, FROM.WATCH_ONLY, undefined)
+      expect(
+        () => result.next()
+      ).toThrow(new Error('missing_selection'))
     })
   })
 
@@ -190,6 +206,157 @@ describe('createPayment', () => {
     it('should return undefined with no fee', () => {
       let result = calculateEffectiveBalance({ coins: [] })
       expect(result).toBe(undefined)
+    })
+  })
+
+  describe('calculateSweepSelection', () => {
+    it('should throw if missing to', () => {
+      expect(() => calculateSweepSelection({
+        to: undefined,
+        fee: FEE_VALUE,
+        coins: [],
+        effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
+      })).toThrowError(new Error('missing_to'))
+    })
+    it('should throw if to length does not equal 1', () => {
+      expect(() => calculateSweepSelection({
+        to: TO_ADDRESS,
+        fee: FEE_VALUE,
+        coins: [],
+        effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
+      })).toThrowError(new Error('can_only_sweep_to_one_target'))
+    })
+    it('should throw if fee is not positive integer', () => {
+      expect(() => calculateSweepSelection({
+        to: [TO_ADDRESS],
+        fee: undefined,
+        coins: [],
+        effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
+      })).toThrowError(new Error('missing_fee_per_byte'))
+    })
+    it('should throw if coins isNil', () => {
+      expect(() => calculateSweepSelection({
+        to: [TO_ADDRESS],
+        fee: FEE_VALUE,
+        coins: undefined,
+        effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
+      })).toThrowError(new Error('missing_coins'))
+    })
+    it('should throw if effectiveBalance is zero', () => {
+      expect(() => calculateSweepSelection({
+        to: [TO_ADDRESS],
+        fee: FEE_VALUE,
+        coins: ['coin'],
+        effectiveBalance: 0
+      })).toThrowError(new Error('empty_addresses'))
+    })
+    it('should return CoinSelection.selectAll if all conditions are met', () => {
+      expect(calculateSweepSelection({
+        to: [TO_ADDRESS],
+        fee: FEE_VALUE,
+        coins: ['coin'],
+        effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
+      })).toBe(SELECT_ALL_RESULT)
+    })
+  })
+
+  describe('calculateSelection', () => {
+    it('should throw if missing to', () => {
+      expect(() => calculateSelection({
+        to: undefined,
+        amount: AMOUNT,
+        fee: FEE_VALUE,
+        coins: [],
+        change: CHANGE_ADDRESS,
+        effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
+      })).toThrowError(new Error('missing_to'))
+    })
+    it('should throw if missing amount', () => {
+      expect(() => calculateSelection({
+        to: TO_ADDRESS,
+        amount: undefined,
+        fee: FEE_VALUE,
+        coins: [],
+        change: CHANGE_ADDRESS,
+        effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
+      })).toThrowError(new Error('missing_amount'))
+    })
+    it('should throw if missing fee', () => {
+      expect(() => calculateSelection({
+        to: TO_ADDRESS,
+        amount: AMOUNT,
+        fee: undefined,
+        coins: [],
+        change: CHANGE_ADDRESS,
+        effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
+      })).toThrowError(new Error('missing_fee_per_byte'))
+    })
+    it('should throw if missing coins', () => {
+      expect(() => calculateSelection({
+        to: TO_ADDRESS,
+        amount: AMOUNT,
+        fee: FEE_VALUE,
+        coins: undefined,
+        change: CHANGE_ADDRESS,
+        effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
+      })).toThrowError(new Error('missing_coins'))
+    })
+    it('should throw if effective balance is zero', () => {
+      expect(() => calculateSelection({
+        to: TO_ADDRESS,
+        amount: AMOUNT,
+        fee: FEE_VALUE,
+        coins: ['coin'],
+        change: CHANGE_ADDRESS,
+        effectiveBalance: 0
+      })).toThrowError(new Error('empty_addresses'))
+    })
+    it('should throw if missing change address', () => {
+      expect(() => calculateSelection({
+        to: TO_ADDRESS,
+        amount: AMOUNT,
+        fee: FEE_VALUE,
+        coins: ['coin'],
+        change: undefined,
+        effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
+      })).toThrowError(new Error('missing_change_address'))
+    })
+    it('should return CoinSelection.descentDraw if all conditions are met', () => {
+      expect(calculateSelection({
+        to: TO_ADDRESS,
+        amount: AMOUNT,
+        fee: FEE_VALUE,
+        coins: ['coin'],
+        change: CHANGE_ADDRESS,
+        effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
+      })).toBe(true)
+    })
+  })
+
+  describe('calculatePublish', () => {
+    it('should throw if no txHex', () => {
+      let result = calculatePublish()
+      expect(
+        () => result.next()
+      ).toThrow(new Error('missing_signed_tx'))
+    })
+  })
+
+  describe('calculateFee', () => {
+    it('should return the fee', () => {
+      expect(
+        calculateFee(FEE_VALUE, p.fees)
+      ).toBe(FEE_VALUE)
+    })
+    it('should use the payment fees object to get the fee if string is passed', () => {
+      expect(
+        calculateFee('regular', p.fees)
+      ).toBe(feeResult.regular)
+    })
+    it('should throw if fee is not passed', () => {
+      expect(
+        () => calculateFee(undefined, p.fees)
+      ).toThrow(new Error('no_fee_set'))
     })
   })
 })
