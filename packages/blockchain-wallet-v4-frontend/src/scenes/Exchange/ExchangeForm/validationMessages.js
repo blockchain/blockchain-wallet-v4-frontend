@@ -12,6 +12,8 @@ import MinimumAmountLink from './MinimumAmountLink'
 const {
   NO_ADVICE_ERROR,
   NO_LIMITS_ERROR,
+  MINIMUM_NO_LINK_ERROR,
+  MAXIMUM_NO_LINK_ERROR,
   MINIMUM_ERROR,
   BALANCE_ERROR,
   DAILY_ERROR,
@@ -49,6 +51,28 @@ const NoLimitsMessage = () => (
       />
       &nbsp;
       <LimitsUpdateLink />
+    </Text>
+  </Wrapper>
+)
+
+const MinimumNoLinkMessage = () => (
+  <Wrapper>
+    <Text size='12px' weight={300} color='error'>
+      <FormattedMessage
+        id='scenes.exchange.exchangeform.error.minimumamount'
+        defaultMessage='Amount is below mimimum.'
+      />
+    </Text>
+  </Wrapper>
+)
+
+const MaximumNoLinkMessage = () => (
+  <Wrapper>
+    <Text size='12px' weight={300} color='error'>
+      <FormattedMessage
+        id='scenes.exchange.exchangeform.error.balancelimit'
+        defaultMessage='Not enough funds.'
+      />
     </Text>
   </Wrapper>
 )
@@ -134,6 +158,8 @@ const OrderLimitMessage = () => (
 export const getErrorMessage = flip(prop)({
   [NO_ADVICE_ERROR]: <NoAdviceMessage />,
   [NO_LIMITS_ERROR]: <NoLimitsMessage />,
+  [MINIMUM_NO_LINK_ERROR]: <MinimumNoLinkMessage />,
+  [MAXIMUM_NO_LINK_ERROR]: <MaximumNoLinkMessage />,
   [MINIMUM_ERROR]: <MinimumAmountMessage />,
   [BALANCE_ERROR]: <BalanceLimitMessage />,
   [DAILY_ERROR]: <DailyLimitMessage />,

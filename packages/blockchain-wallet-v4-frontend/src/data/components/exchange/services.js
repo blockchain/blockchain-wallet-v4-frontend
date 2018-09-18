@@ -198,6 +198,14 @@ export const calculateFinalAmount = (value, fee) => {
   return new BigNumber(value).add(new BigNumber(fee)).toString()
 }
 
+export const divide = (dividend, divisor) => {
+  return new BigNumber(dividend).dividedBy(new BigNumber(divisor)).toString()
+}
+
+export const minimum = (val1, val2) => {
+  return new BigNumber(val1).lessThan(val2) ? val1 : val2
+}
+
 export const selectFee = (coin, payment) => {
   switch (coin) {
     case 'BCH':

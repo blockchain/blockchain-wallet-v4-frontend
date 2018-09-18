@@ -29,6 +29,10 @@ const registerExchangeSagas = function*(exchange) {
     actionTypes.modules.rates.PAIR_UPDATED,
     exchange.validateOnRatesChange
   )
+  yield takeLatest(
+    actionTypes.modules.rates.UPDATE_BEST_RATES,
+    exchange.updateBalanceLimit
+  )
 }
 
 const registerShapeshiftSagas = function*(shapeshift) {
