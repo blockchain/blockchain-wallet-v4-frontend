@@ -72,6 +72,9 @@ if (!isCiBuild) {
 
 module.exports = {
   mode: isCiBuild ? 'production' : 'development',
+  node: {
+    fs: 'empty'
+  },
   entry: {
     app: [
       'babel-polyfill',

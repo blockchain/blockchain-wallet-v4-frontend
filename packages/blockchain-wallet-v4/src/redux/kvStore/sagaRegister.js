@@ -4,6 +4,7 @@ import whatsNew from './whatsNew/sagaRegister'
 import ethereum from './eth/sagaRegister'
 import bch from './bch/sagaRegister'
 import btc from './btc/sagaRegister'
+import xlm from './xlm/sagaRegister'
 import shapeShift from './shapeShift/sagaRegister'
 import buySell from './buySell/sagaRegister'
 import contacts from './contacts/sagaRegister'
@@ -16,6 +17,7 @@ export default ({ api, networks }) =>
     yield fork(ethereum({ api, networks }))
     yield fork(bch({ api, networks }))
     yield fork(btc({ api, networks }))
+    yield fork(xlm({ api, networks }))
     yield fork(shapeShift({ api, networks }))
     yield fork(buySell({ api, networks }))
     yield fork(contacts({ api, networks }))

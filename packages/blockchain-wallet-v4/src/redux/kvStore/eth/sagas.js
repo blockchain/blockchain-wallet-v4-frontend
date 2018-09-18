@@ -21,14 +21,6 @@ export default ({ api, networks } = {}) => {
     )
   }
 
-  const fetchEthereum = function*() {
-    const typeId = derivationMap[ETHEREUM]
-    const mxpriv = yield select(getMetadataXpriv)
-    const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId, networks.btc)
-    const newkv = yield callTask(api.fetchKVStore(kv))
-    yield put(A.setEthereum(newkv))
-  }
-
   const createEthereum = function*({ kv, password }) {
     try {
       const obtainMnemonic = state => getMnemonic(state, password)
@@ -85,7 +77,6 @@ export default ({ api, networks } = {}) => {
 
   return {
     createEthereum,
-    fetchEthereum,
     fetchMetadataEthereum
   }
 }

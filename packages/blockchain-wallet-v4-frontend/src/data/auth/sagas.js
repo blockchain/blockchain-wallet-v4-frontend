@@ -109,6 +109,10 @@ export default ({ api, coreSagas }) => {
         coreSagas.kvStore.ethereum.fetchMetadataEthereum,
         askSecondPasswordEnhancer
       )
+      yield call(
+        coreSagas.kvStore.xlm.fetchMetadataXlm,
+        askSecondPasswordEnhancer
+      )
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
       yield put(actions.router.push('/home'))
