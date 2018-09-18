@@ -14,21 +14,11 @@ class PagesContainer extends React.PureComponent {
       modalActions,
       useShapeShift,
       deposit,
-      status,
-      sourceCoin,
-      targetCoin,
-      depositAmount,
-      withdrawalAmount
+      isShapeShiftTrade
     } = this.props
-    useShapeShift
+    useShapeShift || isShapeShiftTrade
       ? modalActions.showModal('ExchangeDetails', { depositAddress: deposit })
-      : modalActions.showModal(RESULTS_MODAL, {
-          status,
-          sourceCoin,
-          targetCoin,
-          sourceAmount: depositAmount,
-          targetAmount: withdrawalAmount
-        })
+      : modalActions.showModal(RESULTS_MODAL, this.props)
   }
 
   render () {
