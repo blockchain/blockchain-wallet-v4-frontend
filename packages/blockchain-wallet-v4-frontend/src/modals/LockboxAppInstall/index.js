@@ -13,39 +13,39 @@ class LockboxAppInstallContainer extends React.PureComponent {
   }
 
   render () {
-    let { appStatus, blockchainStatus, connection } = this.props
-    let isOnDashboard = connection.app === 'DASHBOARD'
-    let btcBusy = appStatus.BTC.cata({
-      Success: () => false,
-      Failure: () => false,
-      Loading: () => true,
-      NotAsked: () => true
+    const { appStatus, blockchainStatus, connection } = this.props
+    const isOnDashboard = connection.app === 'DASHBOARD'
+    const btcStatus = appStatus.BTC.cata({
+      Success: () => ({ success: true }),
+      Failure: resp => ({ error: resp.error }),
+      Loading: () => ({ busy: true }),
+      NotAsked: () => ({ waiting: true })
     })
-    let bchBusy = appStatus.BCH.cata({
-      Success: () => false,
-      Failure: () => false,
-      Loading: () => true,
-      NotAsked: () => true
+    const bchStatus = appStatus.BCH.cata({
+      Success: () => ({ success: true }),
+      Failure: resp => ({ error: resp.error }),
+      Loading: () => ({ busy: true }),
+      NotAsked: () => ({ waiting: true })
     })
-    let ethBusy = appStatus.ETH.cata({
-      Success: () => false,
-      Failure: () => false,
-      Loading: () => true,
-      NotAsked: () => true
+    const ethStatus = appStatus.ETH.cata({
+      Success: () => ({ success: true }),
+      Failure: resp => ({ error: resp.error }),
+      Loading: () => ({ busy: true }),
+      NotAsked: () => ({ waiting: true })
     })
-    let overallBusy = blockchainStatus.cata({
-      Success: () => false,
-      Failure: () => false,
-      Loading: () => true,
-      NotAsked: () => true
+    const overallStatus = blockchainStatus.cata({
+      Success: () => ({ busy: false }),
+      Failure: resp => ({ error: resp.error }),
+      Loading: () => ({ busy: true }),
+      NotAsked: () => ({ busy: true })
     })
 
     return (
       <LockboxAppInstall
-        btcBusy={btcBusy}
-        ethBusy={ethBusy}
-        bchBusy={bchBusy}
-        overallBusy={overallBusy}
+        btcStatus={btcStatus}
+        ethStatus={ethStatus}
+        bchStatus={bchStatus}
+        overallStatus={overallStatus}
         isOnDashboard={isOnDashboard}
         {...this.props}
       />

@@ -8,7 +8,8 @@ import {
   Modal,
   ModalBody,
   FlatLoader,
-  Text
+  Text,
+  TextGroup
 } from 'blockchain-info-components'
 
 const Wrapper = styled(ModalBody)`
@@ -32,64 +33,79 @@ const Row = styled.div`
   align-items: center;
   padding: 10px 0;
 `
-const InstallStatus = styled.div`
+const InstallStatusRows = styled.div`
   margin-top: 15px;
   width: 100%;
   & > :last-child {
     margin: 8px 0;
   }
 `
+const Result = styled.div`
+  display: flex;
+  & > :last-child {
+    margin-left: 5px;
+  }
+`
 const LockboxAppInstall = props => {
   const {
-    btcBusy,
-    ethBusy,
-    bchBusy,
+    btcStatus,
+    ethStatus,
+    bchStatus,
     closeAll,
     isOnDashboard,
-    overallBusy
+    overallStatus
   } = props
 
   return (
     <Modal size='large' position={props.position} total={props.total}>
       <Wrapper>
-        <Title size='17px' weight={400}>
+        <Title size='20px' weight={400}>
           <FormattedMessage
             id='modals.lockboxappinstall.title'
-            defaultMessage='Install & Update Lockbox Applications'
+            defaultMessage='Install/Update Lockbox Applications'
           />
         </Title>
         <Content>
           {!isOnDashboard && (
             <React.Fragment>
-              <Row>
-                <Text size='14px' weight={300} style={{ marginBottom: '30px' }}>
-                  <FormattedHTMLMessage
-                    id='modals.lockboxappinstall.connectdevice'
-                    defaultMessage='Plug in device, open dashboard and allow device manager if prompted'
-                  />
-                </Text>
-              </Row>
-              <FlatLoader width='100px' height='20px' />
+              <Text
+                size='16px'
+                weight={300}
+                style={{ marginBottom: '25px', textAlign: 'center' }}
+              >
+                <FormattedHTMLMessage
+                  id='modals.lockboxappinstall.connectdevice'
+                  defaultMessage='Plug in device, unlock and open the dashboard on your device'
+                />
+              </Text>
+              <FlatLoader width='135px' height='30px' />
             </React.Fragment>
           )}
           {isOnDashboard && (
-            <InstallStatus>
-              <Row>
+            <InstallStatusRows>
+              <TextGroup>
                 <Text size='14px' weight={300}>
                   <FormattedHTMLMessage
                     id='modals.lockboxappinstall.allowmanager'
-                    defaultMessage='Allow the device manager onto the device when prompted. Then do not press buttons on device until all installs are complete!'
+                    defaultMessage='Allow the device manager onto the device when prompted.'
                   />
                 </Text>
-              </Row>
+
+                <Text size='14px' weight={300}>
+                  <FormattedHTMLMessage
+                    id='modals.lockboxappinstall.dontpress'
+                    defaultMessage='Do not press any buttons on device until all installations are complete!'
+                  />
+                </Text>
+              </TextGroup>
               <Row>
-                <Text size='14px' weight={400}>
+                <Text size='16px' weight={400}>
                   <FormattedHTMLMessage
                     id='modals.lockboxappinstall.application'
                     defaultMessage='Application'
                   />
                 </Text>
-                <Text size='14px' weight={400}>
+                <Text size='16px' weight={400}>
                   <FormattedHTMLMessage
                     id='modals.lockboxappinstall.status'
                     defaultMessage='Status'
@@ -97,62 +113,148 @@ const LockboxAppInstall = props => {
                 </Text>
               </Row>
               <Row>
-                <Text size='14px' weight={300}>
+                <Text size='16px' weight={300}>
                   <FormattedHTMLMessage
                     id='modals.lockboxappinstall.btc'
                     defaultMessage='Bitcoin'
                   />
                 </Text>
-                {btcBusy ? (
-                  <FlatLoader width='80px' height='16px' />
-                ) : (
-                  <Icon
-                    name='checkmark-in-circle-filled'
-                    size='22px'
-                    color='success'
-                  />
+                {btcStatus.waiting && (
+                  <Text size='14px' weight={300}>
+                    <FormattedHTMLMessage
+                      id='modals.lockboxappinstall.waiting'
+                      defaultMessage='Waiting...'
+                    />
+                  </Text>
+                )}
+                {btcStatus.busy && <FlatLoader width='60px' height='16px' />}
+                {btcStatus.error && (
+                  <Result>
+                    <Icon
+                      name='alert-filled'
+                      size='18px'
+                      color='brand-yellow'
+                    />
+                    <Text size='14px' weight={300}>
+                      {btcStatus.error}
+                    </Text>
+                  </Result>
+                )}
+                {btcStatus.success && (
+                  <Result>
+                    <Icon
+                      name='checkmark-in-circle-filled'
+                      size='18px'
+                      color='success'
+                    />
+                    <Text size='14px' weight={300}>
+                      <FormattedHTMLMessage
+                        id='modals.lockboxappinstall.success'
+                        defaultMessage='Success!'
+                      />
+                    </Text>
+                  </Result>
                 )}
               </Row>
               <Row>
-                <Text size='14px' weight={300}>
+                <Text size='16px' weight={300}>
                   <FormattedHTMLMessage
                     id='modals.lockboxappinstall.bch'
                     defaultMessage='Bitcoin Cash'
                   />
                 </Text>
-                {bchBusy ? (
-                  <FlatLoader width='80px' height='16px' />
-                ) : (
-                  <Icon
-                    name='checkmark-in-circle-filled'
-                    size='22px'
-                    color='success'
-                  />
+                {bchStatus.waiting && (
+                  <Text size='14px' weight={300}>
+                    <FormattedHTMLMessage
+                      id='modals.lockboxappinstall.waiting'
+                      defaultMessage='Waiting...'
+                    />
+                  </Text>
+                )}
+                {bchStatus.busy && <FlatLoader width='60px' height='16px' />}
+                {bchStatus.error && (
+                  <Result>
+                    <Icon
+                      name='alert-filled'
+                      size='18px'
+                      color='brand-yellow'
+                    />
+                    <Text size='14px' weight={300}>
+                      {bchStatus.error}
+                    </Text>
+                  </Result>
+                )}
+                {bchStatus.success && (
+                  <Result>
+                    <Icon
+                      name='checkmark-in-circle-filled'
+                      size='18px'
+                      color='success'
+                    />
+                    <Text size='14px' weight={300}>
+                      <FormattedHTMLMessage
+                        id='modals.lockboxappinstall.success'
+                        defaultMessage='Success!'
+                      />
+                    </Text>
+                  </Result>
                 )}
               </Row>
               <Row>
-                <Text size='14px' weight={300}>
+                <Text size='16px' weight={300}>
                   <FormattedHTMLMessage
                     id='modals.lockboxappinstall.eth'
                     defaultMessage='Ethereum'
                   />
                 </Text>
-                {ethBusy ? (
-                  <FlatLoader width='80px' height='16px' />
-                ) : (
-                  <Icon
-                    name='checkmark-in-circle-filled'
-                    size='22px'
-                    color='success'
-                  />
+                {ethStatus.waiting && (
+                  <Text size='14px' weight={300}>
+                    <FormattedHTMLMessage
+                      id='modals.lockboxappinstall.waiting'
+                      defaultMessage='Waiting...'
+                    />
+                  </Text>
+                )}
+                {ethStatus.busy && <FlatLoader width='60px' height='16px' />}
+                {ethStatus.error && (
+                  <Result>
+                    <Icon
+                      name='alert-filled'
+                      size='18px'
+                      color='brand-yellow'
+                    />
+                    <Text size='14px' weight={300}>
+                      {ethStatus.error}
+                    </Text>
+                  </Result>
+                )}
+                {ethStatus.success && (
+                  <Result>
+                    <Icon
+                      name='checkmark-in-circle-filled'
+                      size='18px'
+                      color='success'
+                    />
+                    <Text size='14px' weight={300}>
+                      <FormattedHTMLMessage
+                        id='modals.lockboxappinstall.success'
+                        defaultMessage='Success!'
+                      />
+                    </Text>
+                  </Result>
                 )}
               </Row>
               <Row>
+                {overallStatus.error && (
+                  <Text size='14px' weight={300}>
+                    {overallStatus.error}
+                  </Text>
+                )}
                 <Button
                   onClick={closeAll}
                   fullwidth
                   nature='primary'
-                  disabled={overallBusy}
+                  disabled={overallStatus.busy}
                 >
                   <FormattedMessage
                     id='modals.lockboxappinstall.finish'
@@ -160,7 +262,7 @@ const LockboxAppInstall = props => {
                   />
                 </Button>
               </Row>
-            </InstallStatus>
+            </InstallStatusRows>
           )}
         </Content>
       </Wrapper>
