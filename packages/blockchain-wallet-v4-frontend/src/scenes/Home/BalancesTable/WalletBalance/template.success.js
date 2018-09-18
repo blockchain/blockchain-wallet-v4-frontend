@@ -16,8 +16,8 @@ const Success = props => (
     <HomeBalanceRow>
       <HomeBalanceHeaderTitle>
         <FormattedMessage
-          id='layouts.wallet.menutop.balance.walletbalance.totalbalance'
-          defaultMessage='Total Balance'
+          id='layouts.wallet.menutop.balance.walletbalance.walletbalance'
+          defaultMessage='Wallet Balance'
         />
       </HomeBalanceHeaderTitle>
       <HomeBalanceAmount>{props.totalBalance}</HomeBalanceAmount>
