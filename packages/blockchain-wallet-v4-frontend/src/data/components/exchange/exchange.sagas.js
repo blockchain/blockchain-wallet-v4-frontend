@@ -40,14 +40,16 @@ export default ({ api, coreSagas, options, networks }) => {
     FIX_TYPES
   } = model.rates
   const formValueSelector = selectors.form.getFormValues(EXCHANGE_FORM)
-  const { calculateEffectiveBalance, getDefaultAccount, createPayment } = utils(
-    {
-      api,
-      coreSagas,
-      options,
-      networks
-    }
-  )
+  const {
+    calculateEffectiveBalanceMemo,
+    getDefaultAccount,
+    createPayment
+  } = utils({
+    api,
+    coreSagas,
+    options,
+    networks
+  })
 
   const validateVolume = function (limits, volume) {
     const minOrder = prop('minOrder', limits)
@@ -116,7 +118,7 @@ export default ({ api, coreSagas, options, networks }) => {
     const form = yield select(formValueSelector)
     const source = prop('source', form)
     const sourceCoin = prop('coin', source)
-    const effectiveBalance = yield call(calculateEffectiveBalance, source)
+    const effectiveBalance = yield call(calculateEffectiveBalanceMemo, source)
     const balance = getEffectiveBalanceStandard(sourceCoin, effectiveBalance)
     const rates = yield call(getBestRates)
     const rate = path([formatPair(fiatCurrency, sourceCoin), 'price'], rates)
