@@ -8,8 +8,18 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import LockboxAppInstall from './template'
 
 class LockboxAppInstallContainer extends React.PureComponent {
+  constructor (props) {
+    super(props)
+    this.onContinue = this.onContinue.bind(this)
+    this.state = { isInstallStep: false }
+  }
+
   componentDidMount () {
     this.props.lockboxActions.installBlockchainApps(this.props.deviceIndex)
+  }
+
+  onContinue () {
+    this.setState({ isInstallStep: true })
   }
 
   render () {
@@ -47,6 +57,8 @@ class LockboxAppInstallContainer extends React.PureComponent {
         bchStatus={bchStatus}
         overallStatus={overallStatus}
         isOnDashboard={isOnDashboard}
+        isInstallStep={this.state.isInstallStep}
+        onContinue={this.onContinue}
         {...this.props}
       />
     )
