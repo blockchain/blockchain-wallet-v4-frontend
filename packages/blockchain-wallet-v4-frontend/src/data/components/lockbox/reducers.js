@@ -2,6 +2,7 @@ import { assocPath } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import * as AT from './actionTypes'
 
+// TODO: simplify installs state once app store is introduced
 const INITIAL_STATE = {
   connection: {},
   firmware: {},
@@ -84,6 +85,7 @@ export default (state = INITIAL_STATE, action) => {
         state
       )
     }
+    // TODO: remove Blockchain app reducers once app store is introduced
     case AT.INSTALL_BLOCKCHAIN_APPS: {
       return assocPath(['installs', 'blockchain'], Remote.Loading, state)
     }
@@ -102,7 +104,6 @@ export default (state = INITIAL_STATE, action) => {
       )
     }
     case AT.RESET_APPS_INSTALL_STATUS: {
-      // TODO: do ramda things
       return assocPath(
         ['installs', 'apps'],
         {

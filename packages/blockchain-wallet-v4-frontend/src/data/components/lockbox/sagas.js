@@ -422,7 +422,6 @@ export default ({ api }) => {
       )
       yield put(A.installApplicationSuccess(app))
     } catch (e) {
-      // TODO: make sure error works
       yield put(A.installApplicationFailure(app, e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'installApplication', e)
@@ -431,6 +430,7 @@ export default ({ api }) => {
   }
 
   // installs blockchain standard apps (BTC, BCH, ETH)
+  // TODO: remove Blockchain install saga once app store is introduced
   const installBlockchainApps = function*(action) {
     try {
       const { deviceIndex } = action.payload
@@ -465,7 +465,7 @@ export default ({ api }) => {
       ])
       yield put(A.installBlockchainAppsSuccess())
     } catch (e) {
-      yield put(A.installBlockchainAppsFailure())
+      yield put(A.installBlockchainAppsFailure(e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'installBlockchainApps', e)
       )
