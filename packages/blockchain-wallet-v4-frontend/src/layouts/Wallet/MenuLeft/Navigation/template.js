@@ -111,8 +111,9 @@ const Navigation = props => {
             const deviceName = device.device_name
             return (
               <LinkContainer
-                to={`/lockbox/dashboard/${index}`}
                 activeClassName='active'
+                to={`/lockbox/dashboard/${index}`}
+                isActive={() => rest.pathname.includes(index)}
               >
                 <SubMenuItem>
                   <FormattedMessage
