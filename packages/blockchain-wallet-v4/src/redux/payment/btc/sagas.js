@@ -217,7 +217,6 @@ export default ({ api }) => {
         coins,
         'fake-target-address'
       )
-      debugger
       return outputs[0].value
     } else {
       return undefined
