@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-
 import { Button, TextGroup, Text } from 'blockchain-info-components'
+import { RotateSync } from 'components/RotateSync'
 
 const Wrapper = styled.div`
   padding: 20px;
@@ -25,6 +25,10 @@ const StepText = styled(Text)`
 
 const ButtonContainer = styled.div`
   margin-top: 30px;
+`
+
+const RotateSyncContainer = styled(RotateSync)`
+  margin-left: 15px;
 `
 
 const ConnectDeviceStep = props => {
@@ -71,25 +75,25 @@ const ConnectDeviceStep = props => {
         </StepText>
       </TextGroup>
       <ButtonContainer>
-        {isConnected ? (
-          <Button
-            nature='success'
-            onClick={() => props.handleStepChange()}
-            fullwidth
-          >
+        <Button
+          fullwidth
+          disabled={!isConnected}
+          onClick={() => props.handleStepChange()}
+          nature={isConnected ? 'success' : 'gray'}
+        >
+          {isConnected ? (
             <FormattedMessage
               id='modals.lockboxsetup.connectdevice.success'
               defaultMessage='Success! Click to Continue'
             />
-          </Button>
-        ) : (
-          <Button nature='gray' disabled fullwidth>
+          ) : (
             <FormattedMessage
               id='modals.lockboxsetup.connectdevice.connect'
               defaultMessage='Connect Your Lockbox'
             />
-          </Button>
-        )}
+          )}
+          {!isConnected && <RotateSyncContainer size='16px' color='white' />}
+        </Button>
       </ButtonContainer>
     </Wrapper>
   )

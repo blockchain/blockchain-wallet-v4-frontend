@@ -138,5 +138,7 @@ export default {
   security: '\\e987',
   pending: '\\e915',
   forbidden: '\\e904',
-  caret: '\\e917'
+  caret: '\\e917',
+  'sync-regular': '\\e93d',
+  'usb-icon': '\\e95a'
 }

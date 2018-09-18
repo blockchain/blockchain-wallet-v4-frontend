@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Button, Text } from 'blockchain-info-components'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-
-import { Button, FlatLoader, Icon, Text } from 'blockchain-info-components'
+import { RotateSync } from 'components/RotateSync'
 
 const Wrapper = styled.div`
   padding: 20px;
@@ -16,20 +16,14 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   margin-top: 26px;
-`
-const SuccessMessage = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  align-content: center;
-`
-const SuccessIcon = styled(Icon)`
-  margin-right: 14px;
 `
 const ButtonContainer = styled.div`
   margin-top: 35px;
+`
+const RotateSyncContainer = styled(RotateSync)`
+  margin-left: 15px;
 `
 
 const AuthenticityStep = props => {
@@ -45,49 +39,37 @@ const AuthenticityStep = props => {
           />
         </Text>
       </Title>
-      {isAuthenticating ? (
-        <Content>
-          <FlatLoader
-            width='175px'
-            height='25px'
-            style={{ marginBottom: '20px' }}
+      <Content>
+        <Text weight={300}>
+          <FormattedHTMLMessage
+            id='modals.lockboxsetup.authenticitystep.content'
+            defaultMessage='Click <b>Allow Device Manager</b> on the device if and when prompted'
           />
-          <Text size='14px' weight={300}>
-            <FormattedHTMLMessage
-              id='modals.lockboxsetup.authenticitystep.step1'
-              defaultMessage='Allow device manager on the device when prompted'
+        </Text>
+      </Content>
+      <ButtonContainer>
+        <Button
+          fullwidth
+          disabled={isAuthenticating}
+          onClick={() => props.handleStepChange()}
+          nature={isAuthenticating ? 'gray' : 'success'}
+        >
+          {isAuthenticating ? (
+            <FormattedMessage
+              id='modals.lockboxsetup.authenticitystep.authenticating'
+              defaultMessage='Checking Your Devices Authenticity'
             />
-          </Text>
-        </Content>
-      ) : (
-        <Content>
-          <SuccessMessage>
-            <SuccessIcon
-              name='checkmark-in-circle-filled'
-              color='success'
-              size='24px'
+          ) : (
+            <FormattedMessage
+              id='modals.lockboxsetup.authenticitystep.success'
+              defaultMessage='Success! Click to Continue'
             />
-            <Text size='16px' weight={300}>
-              <FormattedHTMLMessage
-                id='modals.lockboxsetup.authenticitystep.authentic'
-                defaultMessage='Success! Your device appears to be authentic.'
-              />
-            </Text>
-          </SuccessMessage>
-          <ButtonContainer>
-            <Button
-              nature='success'
-              onClick={() => props.handleStepChange()}
-              fullwidth
-            >
-              <FormattedMessage
-                id='modals.lockboxsetup.authenticitystep.success'
-                defaultMessage='Click to Continue'
-              />
-            </Button>
-          </ButtonContainer>
-        </Content>
-      )}
+          )}
+          {isAuthenticating && (
+            <RotateSyncContainer size='16px' color='white' />
+          )}
+        </Button>
+      </ButtonContainer>
     </Wrapper>
   )
 }

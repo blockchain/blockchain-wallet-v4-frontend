@@ -48,13 +48,13 @@ const Text = styled.span`
 const renderDisplay = item => (
   <DisplayWrapper>
     {prop('value', item) === 'BCH' && (
-      <Icon name='bitcoin-cash' size='14px' weight={300} />
+      <Icon name='bch-circle' size='22px' weight={300} />
     )}
     {prop('value', item) === 'BTC' && (
-      <Icon name='bitcoin' size='14px' weight={300} />
+      <Icon name='btc-circle' size='22px' weight={300} />
     )}
     {prop('value', item) === 'ETH' && (
-      <Icon name='ethereum' size='14px' weight={300} />
+      <Icon name='eth-circle' size='22px' weight={300} />
     )}
     <Text>{item.text}</Text>
   </DisplayWrapper>
@@ -69,13 +69,13 @@ const renderItem = item => (
 const renderItemWithIcon = item => (
   <ItemWrapper>
     {path(['value', 'coin'], item) === 'BCH' && (
-      <Icon name='bitcoin-cash' size='14px' weight={300} />
+      <Icon name='bch-circle' size='22px' weight={300} />
     )}
     {path(['value', 'coin'], item) === 'BTC' && (
-      <Icon name='bitcoin' size='14px' weight={300} />
+      <Icon name='btc-circle' size='22px' weight={300} />
     )}
     {path(['value', 'coin'], item) === 'ETH' && (
-      <Icon name='ethereum' size='14px' weight={300} />
+      <Icon name='eth-circle' size='22px' weight={300} />
     )}
     <Text>{item.text}</Text>
   </ItemWrapper>
