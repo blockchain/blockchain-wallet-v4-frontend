@@ -1,5 +1,5 @@
 export default ({ nabuUrl, post, get }) => {
-  const executeTrade = (quote, destinationAddress, refundAddress) =>
+  const executeTrade = (quote, refundAddress, destinationAddress) =>
     post({
       url: nabuUrl,
       endPoint: `/trades`,
