@@ -1,5 +1,6 @@
 import * as AT from './actionTypes'
 
+// ROUTING
 export const determineLockboxRoute = () => ({
   type: AT.DETERMINE_LOCKBOX_ROUTE
 })
@@ -7,19 +8,19 @@ export const determineLockboxRoute = () => ({
 // CONNECTIONS
 export const pollForDeviceApp = (
   appRequested,
-  deviceId,
+  deviceIndex,
   deviceType,
   timeout
 ) => ({
   type: AT.POLL_FOR_DEVICE_APP,
-  payload: { appRequested, deviceId, deviceType, timeout }
+  payload: { appRequested, deviceIndex, deviceType, timeout }
 })
 export const resetConnectionStatus = () => ({
   type: AT.RESET_CONNECTION_STATUS
 })
-export const setConnectionInfo = (app, deviceId, transport) => ({
+export const setConnectionInfo = (app, deviceIndex, transport) => ({
   type: AT.SET_CONNECTION_INFO,
-  payload: { app, deviceId, transport }
+  payload: { app, deviceIndex, transport }
 })
 export const setConnectionError = error => ({
   type: AT.SET_CONNECTION_ERROR,
@@ -73,9 +74,9 @@ export const saveNewDeviceKvStoreFailure = payload => ({
 })
 
 // UPDATE
-export const updateDeviceName = (deviceID, deviceName) => ({
+export const updateDeviceName = (deviceIndex, deviceName) => ({
   type: AT.UPDATE_DEVICE_NAME,
-  payload: { deviceID, deviceName }
+  payload: { deviceIndex, deviceName }
 })
 export const updateDeviceNameLoading = () => ({
   type: AT.UPDATE_DEVICE_NAME_LOADING
@@ -104,15 +105,15 @@ export const setFirmwareLatestInfo = info => ({
 export const resetFirmwareInfo = () => ({
   type: AT.RESET_FIRMWARE_INFO
 })
-export const updateDeviceFirmware = deviceID => ({
+export const updateDeviceFirmware = deviceIndex => ({
   type: AT.UPDATE_DEVICE_FIRMWARE,
-  payload: { deviceID }
+  payload: { deviceIndex }
 })
 
 // DELETE
-export const deleteDevice = deviceID => ({
+export const deleteDevice = deviceIndex => ({
   type: AT.DELETE_DEVICE,
-  payload: { deviceID }
+  payload: { deviceIndex }
 })
 export const deleteDeviceLoading = () => ({ type: AT.DELETE_DEVICE_LOADING })
 export const deleteDeviceSuccess = () => ({ type: AT.DELETE_DEVICE_SUCCESS })
@@ -125,4 +126,40 @@ export const deleteDeviceFailure = payload => ({
 export const initializeDashboard = () => ({ type: AT.INITIALIZE_DASHBOARD })
 export const updateTransactionList = () => ({
   type: AT.UPDATE_TRANSACTION_LIST
+})
+
+// APPLICATIONS
+export const installApplication = app => ({
+  type: AT.INSTALL_APPLICATION,
+  payload: { app }
+})
+export const installApplicationLoading = app => ({
+  type: AT.INSTALL_APPLICATION_LOADING,
+  payload: { app }
+})
+export const installApplicationSuccess = app => ({
+  type: AT.INSTALL_APPLICATION_SUCCESS,
+  payload: { app }
+})
+export const installApplicationFailure = (app, error) => ({
+  type: AT.INSTALL_APPLICATION_FAILURE,
+  payload: { app, error }
+})
+// TODO: remove blockchain actions once app store is introduced
+export const installBlockchainApps = deviceIndex => ({
+  type: AT.INSTALL_BLOCKCHAIN_APPS,
+  payload: { deviceIndex }
+})
+export const installBlockchainAppsLoading = () => ({
+  type: AT.INSTALL_BLOCKCHAIN_APPS_LOADING
+})
+export const installBlockchainAppsSuccess = () => ({
+  type: AT.INSTALL_BLOCKCHAIN_APPS_SUCCESS
+})
+export const installBlockchainAppsFailure = error => ({
+  type: AT.INSTALL_BLOCKCHAIN_APPS_FAILURE,
+  payload: { error }
+})
+export const resetAppsInstallStatus = () => ({
+  type: AT.RESET_APPS_INSTALL_STATUS
 })

@@ -6,7 +6,7 @@ const BaseTextInput = styled.input.attrs({
   type: 'text',
   'data-lpignore': props => props.noLastPass,
   disabled: props => props.disabled,
-  maxlength: props => props.maxLength
+  maxLength: props => props.maxLength
 })`
   display: block;
   width: 100%;

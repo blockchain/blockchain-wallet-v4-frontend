@@ -1,4 +1,9 @@
 import { Observable } from 'rxjs'
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+
+import firmware from './firmware'
+import constants from './constants'
 
 /* eslint-disable */
 // TODO: enable eslint after dev complete
@@ -9,7 +14,7 @@ import { Observable } from 'rxjs'
  * @param {String} url - The web socket url to connect to
  * @returns {Observable} the final socket result
  */
-export const createDeviceSocket = (transport, url) => {
+const createDeviceSocket = (transport, url) => {
   return Observable.create(o => {
     let ws, lastMessage
 
@@ -39,10 +44,7 @@ export const createDeviceSocket = (transport, url) => {
       try {
         const msg = JSON.parse(rawMsg.data)
         if (!(msg.query in handlers)) {
-          return new Error(`Cannot handle msg of type ${msg.query}`, {
-            query: msg.query,
-            url
-          })
+          throw new Error({ message: 's0ck3t' }, { url })
         }
         console.info('RECEIVE', msg)
         await handlers[msg.query](msg)
@@ -89,7 +91,7 @@ export const createDeviceSocket = (transport, url) => {
         }
 
         if (!lastStatus) {
-          return new Error('DeviceSocketNoBulkStatus')
+          throw new Error({ message: 's0ck3t' }, { url })
         }
 
         const strStatus = lastStatus.toString('hex')
@@ -109,7 +111,7 @@ export const createDeviceSocket = (transport, url) => {
       error: msg => {
         console.info('ERROR', { data: msg.data })
         ws.close()
-        return new Error(msg.data, { url })
+        throw new Error(msg.data, { url })
       }
     }
 
@@ -122,3 +124,125 @@ export const createDeviceSocket = (transport, url) => {
   })
 }
 /* eslint-enable */
+
+// derives full device information from api response
+const getDeviceInfo = transport => {
+  return new Promise((resolve, reject) => {
+    firmware.getDeviceFirmwareInfo(transport).then(
+      res => {
+        const { seVersion } = res
+        const { targetId, mcuVersion, flags } = res
+        const parsedVersion =
+          seVersion.match(
+            /([0-9]+.[0-9])+(.[0-9]+)?((?!-osu)-([a-z]+))?(-osu)?/
+          ) || []
+        const isOSU = typeof parsedVersion[5] !== 'undefined'
+        const providerName = parsedVersion[4] || ''
+        const providerId = constants.providers[providerName]
+        const isBootloader = targetId === 0x01000001
+        const majMin = parsedVersion[1]
+        const patch = parsedVersion[2] || '.0'
+        const fullVersion = `${majMin}${patch}${
+          providerName ? `-${providerName}` : ''
+        }`
+        resolve({
+          targetId,
+          seVersion: majMin + patch,
+          isOSU,
+          mcuVersion,
+          isBootloader,
+          providerName,
+          providerId,
+          flags,
+          fullVersion
+        })
+      },
+      err => {
+        reject(err)
+      }
+    )
+  })
+}
+
+const mapSocketError = promise => {
+  return promise.catch(err => {
+    switch (true) {
+      case err.message.endsWith('6985'):
+        return {
+          err,
+          errMsg: () => (
+            <FormattedMessage
+              id='lockbox.service.messages.connectionrefused'
+              defaultMessage='Device connection was refused'
+            />
+          )
+        }
+      case err.message.endsWith('6982'):
+        return {
+          err,
+          errMsg: () => (
+            <FormattedMessage
+              id='lockbox.service.messages.devicelocked'
+              defaultMessage='Device locked and unable to communicate'
+            />
+          )
+        }
+      case err.message.endsWith('6a84') || err.message.endsWith('6a85'):
+        return {
+          err,
+          errMsg: () => (
+            <FormattedMessage
+              id='lockbox.service.messages.storagespace'
+              defaultMessage='Insufficient storage space on device'
+            />
+          )
+        }
+      case err.message.endsWith('6a80') || err.message.endsWith('6a81'):
+        return {
+          err,
+          errMsg: () => (
+            <FormattedMessage
+              id='lockbox.service.messages.appalreadyinstalled'
+              defaultMessage='App already installed'
+            />
+          )
+        }
+      case err.message.endsWith('6a83'):
+        return {
+          err,
+          errMsg: () => (
+            <FormattedMessage
+              id='lockbox.service.messages.btcapprequired'
+              defaultMessage='Unable to remove BTC app as it is required by others'
+            />
+          )
+        }
+      case err.message.endsWith('s0ck3t'):
+        return {
+          err,
+          errMsg: () => (
+            <FormattedMessage
+              id='lockbox.service.messages.socketerror'
+              defaultMessage='Socket connection failed'
+            />
+          )
+        }
+      default:
+        return {
+          err,
+          errMsg: () => (
+            <FormattedMessage
+              id='lockbox.service.messages.unknownerror'
+              defaultMessage='An unknown error has occurred'
+            />
+          )
+        }
+    }
+  })
+}
+
+export default {
+  createDeviceSocket,
+  getDeviceInfo,
+  mapSocketError
+}

@@ -32,6 +32,4 @@ class LockboxDashboardContainer extends React.PureComponent {
   }
 }
 
-const enhance = compose(withRouter)
-
-export default enhance(LockboxDashboardContainer)
+export default compose(withRouter)(LockboxDashboardContainer)

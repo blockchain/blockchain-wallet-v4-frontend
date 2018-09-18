@@ -1,8 +1,17 @@
 export default ({ ledgerUrl, get, post }) => {
+  const getApplications = req =>
+    post({
+      url: ledgerUrl,
+      endPoint: '/api/get_apps',
+      contentType: 'application/json',
+      data: req
+    })
+
   const getFinalFirmware = () =>
     get({
       url: ledgerUrl,
       endPoint: '/api/firmware_final_versions',
+      contentType: 'application/json',
       data: {}
     })
 
@@ -57,6 +66,7 @@ export default ({ ledgerUrl, get, post }) => {
     })
 
   return {
+    getApplications,
     getFinalFirmware,
     getCurrentFirmware,
     getDeviceVersion,

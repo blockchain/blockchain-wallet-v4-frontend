@@ -3,6 +3,11 @@ export default {
     get_firmware: [0xe0, 0x01, 0x00, 0x00],
     no_op: [0x00, 0x00, 0x00, 0x00]
   },
+  appIds: {
+    BTC: 1,
+    BCH: 2,
+    ETH: 18
+  },
   providers: {
     '': 1,
     das: 2,

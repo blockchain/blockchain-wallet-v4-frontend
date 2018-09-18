@@ -32,6 +32,11 @@ export default ({ api, coreSagas }) => {
       AT.UPDATE_DEVICE_FIRMWARE,
       lockboxSagas.updateDeviceFirmware
     )
+    yield takeLatest(
+      AT.INSTALL_BLOCKCHAIN_APPS,
+      lockboxSagas.installBlockchainApps
+    )
+    yield takeLatest(AT.INSTALL_APPLICATION, lockboxSagas.installApplication)
     yield takeLatest(AT.INITIALIZE_DASHBOARD, lockboxSagas.initializeDashboard)
   }
 }

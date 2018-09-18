@@ -13,7 +13,7 @@ class CheckForUpdatesContainer extends React.PureComponent {
   }
 
   componentDidMount () {
-    this.props.lockboxActions.updateDeviceFirmware(this.props.deviceId)
+    this.props.lockboxActions.updateDeviceFirmware(this.props.deviceIndex)
   }
 
   continueOrClose () {
@@ -27,7 +27,10 @@ class CheckForUpdatesContainer extends React.PureComponent {
   }
 
   retryConnection () {
-    this.props.lockboxActions.pollForDeviceApp('DASHBOARD', this.props.deviceId)
+    this.props.lockboxActions.pollForDeviceApp(
+      'DASHBOARD',
+      this.props.deviceIndex
+    )
   }
 
   render () {

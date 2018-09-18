@@ -22,10 +22,8 @@ const deriveDeviceId = btcXpub => {
 }
 
 const generateAccountsMDEntry = (newDevice, deviceName) => {
-  /* eslint-disable */
-  const device_id = prop('id', newDevice)
-  const device_type = prop('type', newDevice)
-  /* eslint-enable */
+  const deviceId = prop('id', newDevice)
+  const deviceType = prop('type', newDevice)
 
   try {
     const { btc, bch, eth } = prop('info', newDevice)
@@ -34,8 +32,8 @@ const generateAccountsMDEntry = (newDevice, deviceName) => {
     const ethXpub = publicKeyChainCodeToBip32(eth)
 
     return {
-      device_id,
-      device_type,
+      device_id: deviceId,
+      device_type: deviceType,
       device_name: deviceName,
       btc: { accounts: [btcAccount(btcXpub, deviceName + ' - BTC Wallet')] },
       bch: { accounts: [btcAccount(bchXpub, deviceName + ' - BCH Wallet')] },
