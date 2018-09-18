@@ -1,5 +1,5 @@
 import { call, put, take, select } from 'redux-saga/effects'
-import { contains, keysIn, prop } from 'ramda'
+import { contains, keysIn, length, prop } from 'ramda'
 
 import { actions, selectors } from 'data'
 import * as A from './actions'
@@ -112,9 +112,9 @@ export default ({ api, coreSagas }) => {
   const determineLockboxRoute = function*() {
     try {
       const devicesR = yield select(selectors.core.kvStore.lockbox.getDevices)
-      const devices = devicesR.getOrElse({})
+      const devices = devicesR.getOrElse([])
 
-      keysIn(devices).length
+      length(devices)
         ? yield put(actions.router.push('/lockbox/dashboard/0'))
         : yield put(actions.router.push('/lockbox/onboard'))
     } catch (e) {
@@ -141,11 +141,16 @@ export default ({ api, coreSagas }) => {
       )
       yield put(A.saveNewDeviceKvStoreSuccess())
       yield put(actions.modals.closeModal())
-      yield put(actions.router.push('/lockbox/dashboard/0'))
       yield put(actions.core.data.bch.fetchData())
       yield put(actions.core.data.bitcoin.fetchData())
       yield put(actions.core.data.ethereum.fetchData())
       yield put(actions.alerts.displaySuccess(C.LOCKBOX_SETUP_SUCCESS))
+      const devices = (yield select(
+        selectors.core.kvStore.lockbox.getDevices
+      )).getOrElse([])
+      yield put(
+        actions.router.push(`/lockbox/dashboard/${length(devices) - 1}`)
+      )
     } catch (e) {
       yield put(A.saveNewDeviceKvStoreFailure(e))
       yield put(actions.alerts.displayError(C.LOCKBOX_SETUP_ERROR))
