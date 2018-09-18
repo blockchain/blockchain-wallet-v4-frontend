@@ -1,7 +1,6 @@
 import { fork } from 'redux-saga/effects'
 import addressesBch from './addressesBch/sagaRegister'
 import coinify from './coinify/sagaRegister'
-import limits from './limits/sagaRegister'
 import profile from './profile/sagaRegister'
 import rates from './rates/sagaRegister'
 import settings from './settings/sagaRegister'
@@ -13,7 +12,6 @@ export default ({ api, coreSagas, networks }) =>
   function*() {
     yield fork(addressesBch({ coreSagas }))
     yield fork(coinify({ coreSagas, networks }))
-    yield fork(limits({ api }))
     yield fork(profile({ api, coreSagas }))
     yield fork(rates({ api }))
     yield fork(settings({ api, coreSagas }))

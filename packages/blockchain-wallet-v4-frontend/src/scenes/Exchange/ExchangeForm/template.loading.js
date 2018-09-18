@@ -10,7 +10,7 @@ const stubBtcAccount = {
   archived: false,
   coin: 'BTC',
   label: 'Bitcon',
-  address: '',
+  address: 0,
   balance: 0
 }
 
@@ -18,7 +18,7 @@ const stubEthAccount = {
   archived: false,
   coin: 'ETH',
   label: 'Ether',
-  address: '',
+  address: 0,
   balance: 0
 }
 

@@ -8,7 +8,6 @@ import authReducer from './auth/reducers.js'
 import cacheReducer from './cache/reducers.js'
 import coinifyReducer from './modules/coinify/reducers.js'
 import goalsReducer from './goals/reducers.js'
-import limitsReducer from './modules/limits/reducers.js'
 import logsReducer from './logs/reducers'
 import modalsReducer from './modals/reducers.js'
 import preferencesReducer from './preferences/reducers.js'
@@ -30,7 +29,6 @@ const rootReducer = combineReducers({
   goals: goalsReducer,
   modals: modalsReducer,
   logs: logsReducer,
-  limits: limitsReducer,
   preferences: preferencesReducer,
   profile: profileReducer,
   rates: ratesReducer,

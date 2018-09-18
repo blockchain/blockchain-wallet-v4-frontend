@@ -7,18 +7,23 @@ import { actions } from 'data'
 import { Link } from 'blockchain-info-components'
 
 const MaximumAmountLink = props => (
-  <Link
-    size='12px'
-    weight={300}
-    onClick={() => {
-      if (!props.disabled) props.actions.firstStepMaximumClicked()
-    }}
-  >
+  <React.Fragment>
     <FormattedMessage
-      id='scenes.exchange.firststep.maximumamountlink.maximum'
-      defaultMessage='maximum'
+      id='modals.exchange.maximumamountmessage2'
+      defaultMessage='Use'
     />
-  </Link>
+    &nbsp;
+    <Link
+      size='12px'
+      weight={300}
+      onClick={props.actions.firstStepMaximumClicked}
+    >
+      <FormattedMessage
+        id='scenes.exchange.firststep.maximumamountlink.maximum'
+        defaultMessage='maximum'
+      />
+    </Link>
+  </React.Fragment>
 )
 
 const mapDispatchToProps = dispatch => ({

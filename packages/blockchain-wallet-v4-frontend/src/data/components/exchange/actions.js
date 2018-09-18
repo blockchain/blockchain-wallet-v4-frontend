@@ -125,3 +125,17 @@ export const clearSubscriptions = () => ({
 export const swapBaseAndCounter = () => ({
   type: AT.SWAP_BASE_AND_COUNTER
 })
+export const updateLimits = () => ({
+  type: AT.UPDATE_LIMITS
+})
+export const fetchLimitsLoading = () => ({
+  type: AT.FETCH_LIMITS_LOADING
+})
+export const fetchLimitsSuccess = limits => ({
+  type: AT.FETCH_LIMITS_SUCCESS,
+  payload: { limits }
+})
+export const fetchLimitsError = error => ({
+  type: AT.FETCH_LIMITS_ERROR,
+  payload: { error }
+})

@@ -51,20 +51,6 @@ class FirstStepContainer extends React.Component {
     )
   })
 
-  handleRadioClick = active => {
-    if (!active) {
-    }
-  }
-
-  handleSwap = (e, value) => {
-    if (this.props.betaFlow) {
-    }
-    return compose(
-      actions.changeSource,
-      extractFieldValue
-    )(e, value)
-  }
-
   render () {
     const { actions, data, betaFlow, canUseExchange } = this.props
     return data.cata({
@@ -79,7 +65,10 @@ class FirstStepContainer extends React.Component {
             handleMaximum={actions.firstStepMaximumClicked}
             handleMinimum={actions.firstStepMinimumClicked}
             onSubmit={actions.firstStepSubmitClicked}
-            handleSourceChange={this.handleSourceChange}
+            handleSourceChange={compose(
+              actions.changeSource,
+              extractFieldValue
+            )}
             handleTargetChange={compose(
               actions.changeTarget,
               extractFieldValue

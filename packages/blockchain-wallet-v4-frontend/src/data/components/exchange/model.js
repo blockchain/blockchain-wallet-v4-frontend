@@ -19,3 +19,12 @@ export const SHAPESHIFT_PAIRS = Remote.of([
   'ETH-BTC',
   'ETH-BCH'
 ])
+
+export const NO_ADVICE_ERROR = 'No advice present'
+export const NO_LIMITS_ERROR = 'No limits present'
+export const MINIMUM_ERROR = 'Amount is lower than mimimum'
+export const BALANCE_ERROR = 'Insufficient funds'
+export const DAILY_ERROR = "You've reached daily trade limit"
+export const WEEKLY_ERROR = "You've reached weekly trade limit"
+export const ANNUAL_ERROR = "You've reached annual trade limit"
+export const ORDER_ERROR = 'Amount exceeds maximum trade size'

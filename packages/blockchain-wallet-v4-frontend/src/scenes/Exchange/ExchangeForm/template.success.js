@@ -20,17 +20,15 @@ import { ExchangeButton } from 'components/Exchange'
 import { Form, TextBox } from 'components/Form'
 import StringDisplay from 'components/Display/StringDisplay'
 import SelectBox from './SelectBox'
-import {
-  AboveRegulationLimitMessage,
-  MaximumAmountMessage,
-  MinimumAmountMessage,
-  InsufficientAmountMessage,
-  InvalidAmountMessage
-} from './validationMessages'
+import { getErrorMessage } from './validationMessages'
 import Summary from './Summary'
 
-const { EXCHANGE_FORM } = model.components.exchange
-const { fixIsFiat, formatPair } = model.rates
+const {
+  EXCHANGE_FORM,
+  NO_ADVICE_ERROR,
+  NO_LIMITS_ERROR
+} = model.components.exchange
+const { fiatActive, formatPair } = model.rates
 
 const Wrapper = styled.div`
   position: relative;
@@ -184,22 +182,29 @@ const FieldsWrapper = styled.div`
   border: 1px solid ${props => props.theme['gray-2']}};
   margin-bottom: 45px;
 `
+const ErrorRow = styled(Row)`
+  justify-content: center;
+  min-height: 15px;
+`
 
 const normalizeAmount = (value, prevValue, allValues, ...args) => {
   if (isNaN(Number(value))) return prevValue
-  return formatAmount(value, fixIsFiat(allValues.fix))
+  return formatAmount(value, fiatActive(allValues.fix))
 }
 
 const Success = props => {
   const {
+    disabled,
+    dirty,
+    asyncValidating,
+    error,
+    submitting,
     betaFlow,
     canUseExchange,
     availablePairs,
     fromElements,
     toElements,
     hasOneAccount,
-    disabled,
-    dirty,
     sourceCoin,
     targetCoin,
     sourceActive,
@@ -208,7 +213,6 @@ const Success = props => {
     inputSymbol,
     complementaryAmount,
     complementarySymbol,
-    formError,
     handleSubmit,
     handleSourceChange,
     handleTargetChange,
@@ -221,6 +225,7 @@ const Success = props => {
     formatPair(targetCoin, sourceCoin),
     availablePairs
   )
+  const minMaxDisabled = contains(error, [NO_ADVICE_ERROR, NO_LIMITS_ERROR])
 
   return (
     <Wrapper>
@@ -354,24 +359,16 @@ const Success = props => {
                 }}
               />
             </AmountRow>
-            <Row spaced>
-              {formError === 'minimum' && <MinimumAmountMessage />}
-              {formError === 'maximum' && <MaximumAmountMessage />}
-              {formError === 'insufficient' && <InsufficientAmountMessage />}
-              {formError === 'regulationlimit' && (
-                <AboveRegulationLimitMessage />
-              )}
-              {formError === 'invalid' && <InvalidAmountMessage />}
-            </Row>
+            <ErrorRow spaced>{error && getErrorMessage(error)}</ErrorRow>
             <Row>
               <MinMaxButtonGroup>
-                <Button fullwidth>
+                <Button fullwidth disabled={minMaxDisabled}>
                   <FormattedMessage
                     id='scenes.exchange.exchangeform.min'
                     defaultMessage='MIN'
                   />
                 </Button>
-                <Button fullwidth>
+                <Button fullwidth disabled={minMaxDisabled}>
                   <FormattedMessage
                     id='scenes.exchange.exchangeform.max'
                     defaultMessage='MAX'
@@ -385,11 +382,13 @@ const Success = props => {
             nature='primary'
             disabled={
               disabled ||
+              asyncValidating ||
+              submitting ||
               !dirty ||
-              (dirty && formError && formError !== 'initial')
+              (dirty && error)
             }
           >
-            {!disabled && (
+            {!disabled && !asyncValidating && !submitting ? (
               <FormattedMessage
                 id='scenes.exchange.exchangeform.exchange'
                 defaultMessage='Exchange {source} for {target}'
@@ -398,8 +397,7 @@ const Success = props => {
                   target: targetCoin
                 }}
               />
-            )}
-            {disabled && (
+            ) : (
               <HeartbeatLoader height='20px' width='20px' color='white' />
             )}
           </ExchangeButton>

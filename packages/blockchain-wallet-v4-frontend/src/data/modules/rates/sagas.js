@@ -50,8 +50,10 @@ export default ({ api }) => {
   const updateAdvice = function*({ payload: { quote } }) {
     const { pair, fix, volume, fiatCurrency } = quote
     const currentConfig = yield select(S.getPairConfig(pair))
-    if (configEquals(currentConfig, { fix, volume, fiatCurrency }))
+    if (configEquals(currentConfig, { fix, volume, fiatCurrency })) {
       yield put(A.setPairQuote(pair, quote))
+      yield put(A.pairUpdated(pair))
+    }
   }
 
   return {

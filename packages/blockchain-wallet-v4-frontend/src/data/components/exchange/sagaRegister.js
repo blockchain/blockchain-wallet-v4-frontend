@@ -1,5 +1,7 @@
 import { actionTypes as formActionTypes } from 'redux-form'
 import { takeEvery, takeLatest, fork } from 'redux-saga/effects'
+
+import { actionTypes } from 'data'
 import * as AT from './actionTypes'
 import exchangeSagas from './exchange.sagas'
 import shapeshiftSagas from './shapeshift.sagas'
@@ -22,6 +24,11 @@ const registerExchangeSagas = function*(exchange) {
   yield takeLatest(AT.CONFIRM_EXCHANGE, exchange.confirm)
   yield takeLatest(AT.CLEAR_SUBSCRIPTIONS, exchange.clearSubscriptions)
   yield takeLatest(AT.SWAP_BASE_AND_COUNTER, exchange.swapFieldValue)
+  yield takeLatest(AT.UPDATE_LIMITS, exchange.updateLimits)
+  yield takeLatest(
+    actionTypes.modules.rates.PAIR_UPDATED,
+    exchange.validateOnRatesChange
+  )
 }
 
 const registerShapeshiftSagas = function*(shapeshift) {
