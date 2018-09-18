@@ -42,7 +42,7 @@ export const promptForInput = function*({ title, secret, initial = '' }) {
 export const promptForLockbox = function*(coin, deviceId, deviceType) {
   yield put(actions.modals.showModal('PromptLockbox', { coin }))
   yield put(
-    actions.components.lockbox.pollForDeviceApp(coin, deviceId, 'ledger')
+    actions.components.lockbox.pollForDeviceApp(coin, deviceId, deviceType)
   )
   yield take(actionTypes.components.lockbox.SET_CONNECTION_INFO)
   yield put(actions.components.lockbox.setConnectionReady())
