@@ -73,7 +73,6 @@ class TwoStepVerificationContainer extends React.PureComponent {
       })
     }
   }
-
   chooseMethod (method) {
     const next = this.props.data.getOrElse({})
     if (next.smsVerified && method === 'sms') {
@@ -95,7 +94,6 @@ class TwoStepVerificationContainer extends React.PureComponent {
       editing: false
     })
   }
-
   pulseText () {
     this.setState({ pulse: true })
     setTimeout(() => {
@@ -103,7 +101,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
     }, 500)
   }
   handleGoBack () {
-    this.props.setState({ authMethod: '', verifyToggled: false })
+    this.setState({ authMethod: '', verifyToggled: false })
   }
   triggerSuccess () {
     this.setState({ success: true })
@@ -123,7 +121,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
           data={value}
           handleClick={this.handleClick}
           chooseMethod={this.chooseMethod}
-          handleGoBack={() => this.handleGoBack()}
+          handleGoBack={this.handleGoBack}
           handleDisableClick={this.handleDisableClick}
           handleTwoFactorChange={this.handleTwoFactorChange}
           twoStepChoice={this.state.authMethod}

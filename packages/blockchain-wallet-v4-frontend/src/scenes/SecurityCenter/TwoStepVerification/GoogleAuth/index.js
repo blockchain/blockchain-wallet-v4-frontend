@@ -26,7 +26,8 @@ class GoogleAuthContainer extends React.PureComponent {
     const next = this.props.data.getOrElse({})
     const prev = prevProps.data.getOrElse({})
     if (next.authType !== prev.authType) {
-      this.props.setState({ successToggled: !this.state.successToggled })
+      // eslint-disable-next-line  react/no-did-update-set-state
+      this.setState({ successToggled: !this.state.successToggled })
       this.props.triggerSuccess()
       this.props.goBackOnSuccess()
       this.props.handleGoBack()
