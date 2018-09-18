@@ -295,9 +295,9 @@ export default ({ api }) => {
       },
 
       *fee (value) {
-        let fee = yield call(calculateFee, value, p.fees)
+        let fee = yield call(calculateFee, value, prop('fees', p))
         let effectiveBalance = yield call(calculateEffectiveBalance, {
-          coins: p.coins,
+          coins: prop('coins', p),
           fee
         })
         return makePayment(merge(p, { fee, effectiveBalance }))
@@ -318,8 +318,8 @@ export default ({ api }) => {
           calculateSignature,
           network,
           password,
-          p.fromType,
-          p.selection
+          prop('fromType', p),
+          prop('selection', p)
         )
         return makePayment(merge(p, { ...signed }))
       },
@@ -368,6 +368,15 @@ export default ({ api }) => {
   }
 
   return {
-    create: create
+    create,
+    calculateAmount,
+    calculateEffectiveBalance,
+    calculateFee,
+    calculateFrom,
+    calculateTo,
+    calculateSelection,
+    calculateSignature,
+    calculateSweepSelection,
+    getWalletUnspent
   }
 }
