@@ -1,7 +1,15 @@
-import { call } from 'redux-saga/effects'
+import { call, select } from 'redux-saga/effects'
 import createPaymentFactory from './sagas'
 import { FROM } from './utils'
 import { prop } from 'ramda'
+import * as S from '../../selectors'
+import { btc } from '../../../signer'
+import * as CoinSelection from '../../../coinSelection'
+
+jest.mock('../../../signer')
+jest.mock('../../../coinSelection')
+
+const EFFECTIVE_BALANCE_AMOUNT = 100000
 
 const feeResult = {
   limits: {
@@ -38,9 +46,15 @@ const FEE_VALUE = 50
 
 const p = {
   fees: feeResult,
-  fromType: null,
-  selection: []
+  fromType: FROM.ACCOUNT,
+  selection: [],
+  txHex: 'txHex'
 }
+
+btc.signWithWIF.mockImplementation(() => true)
+CoinSelection.selectAll.mockImplementation(() => {
+  return { outputs: [{ value: EFFECTIVE_BALANCE_AMOUNT }] }
+})
 
 describe('createPayment', () => {
   let api = { getBitcoinFee: () => feeResult }
@@ -51,6 +65,7 @@ describe('createPayment', () => {
     calculateEffectiveBalance,
     calculateFee,
     calculateFrom,
+    calculatePublish,
     calculateSelection,
     calculateSignature,
     calculateSweepSelection,
@@ -127,4 +142,54 @@ describe('createPayment', () => {
     })
   })
 
+  describe('*publish', () => {
+    it('should call calculatePublish', () => {
+      let gen = payment.publish()
+      expect(gen.next().value).toEqual(call(calculatePublish, prop('txHex', p)))
+      expect(gen.next().done).toEqual(true)
+    })
+  })
+
+  describe('calculateSignature', () => {
+    it('should follow the FROM.ACCOUNT case', () => {
+      let WRAPPER_VALUE = {}
+      let result = calculateSignature(network, PASSWORD_VALUE, FROM.ACCOUNT, prop('selection', p))
+      expect(result.next().value).toEqual(select(S.wallet.getWrapper))
+      expect(result.next(WRAPPER_VALUE).value).toBeTruthy()
+      expect(result.next().done).toEqual(true)
+    })
+    it('should follow the FROM.LEGACY case', () => {
+      let WRAPPER_VALUE = {}
+      let result = calculateSignature(network, PASSWORD_VALUE, FROM.LEGACY, prop('selection', p))
+      expect(result.next().value).toEqual(select(S.wallet.getWrapper))
+      expect(result.next(WRAPPER_VALUE).value).toBeTruthy()
+      expect(result.next().done).toEqual(true)
+    })
+    it('should follow the FROM.EXTERNAL case', () => {
+      let result = calculateSignature(network, PASSWORD_VALUE, FROM.EXTERNAL, prop('selection', p))
+      expect(result.next().value).toEqual(select(S.wallet.getWrapper))
+      expect(result.next().value).toBe(true)
+    })
+    it('should follow the FROM.WATCH_ONLY case', () => {
+      let result = calculateSignature(network, PASSWORD_VALUE, FROM.WATCH_ONLY, prop('selection', p))
+      expect(result.next().value).toEqual(select(S.wallet.getWrapper))
+      expect(result.next().value).toBe(true)
+    })
+    it('should default to throwing an error', () => {
+      let result = calculateSignature(network, PASSWORD_VALUE, 'FROM.ERROR', prop('selection', p))
+      expect(result.next().value).toEqual(select(S.wallet.getWrapper))
+      // expect(result.next()).toThrow('unkown_from')
+    })
+  })
+
+  describe('calculateEffectiveBalance', () => {
+    it('should return the outputs', () => {
+      let result = calculateEffectiveBalance({ fee: 100, coins: [] })
+      expect(result).toBe(EFFECTIVE_BALANCE_AMOUNT)
+    })
+    it('should return undefined with no fee', () => {
+      let result = calculateEffectiveBalance({ coins: [] })
+      expect(result).toBe(undefined)
+    })
+  })
 })

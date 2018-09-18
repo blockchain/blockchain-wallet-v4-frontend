@@ -27,7 +27,7 @@ import {
   fromAccount,
   fromPrivateKey
 } from './utils'
-const taskToPromise = t =>
+export const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 /**
@@ -217,6 +217,7 @@ export default ({ api }) => {
         coins,
         'fake-target-address'
       )
+      debugger
       return outputs[0].value
     } else {
       return undefined
@@ -325,7 +326,7 @@ export default ({ api }) => {
       },
 
       *publish () {
-        let result = yield call(calculatePublish, p.txHex)
+        let result = yield call(calculatePublish, prop('txHex', p))
         return makePayment(merge(p, { result }))
       },
 
@@ -373,6 +374,7 @@ export default ({ api }) => {
     calculateEffectiveBalance,
     calculateFee,
     calculateFrom,
+    calculatePublish,
     calculateTo,
     calculateSelection,
     calculateSignature,
