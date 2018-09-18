@@ -159,3 +159,6 @@ export const installBlockchainAppsFailure = error => ({
   type: AT.INSTALL_BLOCKCHAIN_APPS_FAILURE,
   payload: { error }
 })
+export const resetAppsInstallStatus = () => ({
+  type: AT.RESET_APPS_INSTALL_STATUS
+})

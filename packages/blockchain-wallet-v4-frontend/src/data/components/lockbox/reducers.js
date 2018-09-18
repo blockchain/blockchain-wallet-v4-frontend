@@ -101,6 +101,18 @@ export default (state = INITIAL_STATE, action) => {
         state
       )
     }
+    case AT.RESET_APPS_INSTALL_STATUS: {
+      // TODO: do ramda things
+      return assocPath(
+        ['installs', 'apps'],
+        {
+          BTC: Remote.NotAsked,
+          BCH: Remote.NotAsked,
+          ETH: Remote.NotAsked
+        },
+        state
+      )
+    }
     case AT.SET_CONNECTION_INFO: {
       return assocPath(['connection'], payload, state)
     }

@@ -16,7 +16,6 @@ const Wrapper = styled(ModalBody)`
 `
 const Title = styled(Text)`
   text-align: center;
-  margin-bottom: 20px;
 `
 const Content = styled.div`
   width: 100%;
@@ -37,10 +36,9 @@ const InstallStatus = styled.div`
   margin-top: 15px;
   width: 100%;
   & > :last-child {
-    margin-top: 15px;
+    margin: 8px 0;
   }
 `
-
 const LockboxAppInstall = props => {
   const {
     btcBusy,
@@ -57,29 +55,33 @@ const LockboxAppInstall = props => {
         <Title size='17px' weight={400}>
           <FormattedMessage
             id='modals.lockboxappinstall.title'
-            defaultMessage='Installing Lockbox Applications'
+            defaultMessage='Install & Update Lockbox Applications'
           />
         </Title>
         <Content>
-          <Row>
-            <Text size='14px' weight={300} style={{ marginRight: '30px' }}>
-              <FormattedHTMLMessage
-                id='modals.lockboxappinstall.subtitle'
-                defaultMessage='Plug in device, open dashboard and allow device manager if prompted'
-              />
-            </Text>
-            {isOnDashboard ? (
-              <Icon
-                name='checkmark-in-circle-filled'
-                size='28px'
-                color='success'
-              />
-            ) : (
-              <FlatLoader width='80px' height='16px' />
-            )}
-          </Row>
+          {!isOnDashboard && (
+            <React.Fragment>
+              <Row>
+                <Text size='14px' weight={300} style={{ marginBottom: '30px' }}>
+                  <FormattedHTMLMessage
+                    id='modals.lockboxappinstall.connectdevice'
+                    defaultMessage='Plug in device, open dashboard and allow device manager if prompted'
+                  />
+                </Text>
+              </Row>
+              <FlatLoader width='100px' height='20px' />
+            </React.Fragment>
+          )}
           {isOnDashboard && (
             <InstallStatus>
+              <Row>
+                <Text size='14px' weight={300}>
+                  <FormattedHTMLMessage
+                    id='modals.lockboxappinstall.allowmanager'
+                    defaultMessage='Allow the device manager onto the device when prompted. Then do not press buttons on device until all installs are complete!'
+                  />
+                </Text>
+              </Row>
               <Row>
                 <Text size='14px' weight={400}>
                   <FormattedHTMLMessage

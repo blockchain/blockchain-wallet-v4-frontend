@@ -434,6 +434,7 @@ export default ({ api }) => {
   const installBlockchainApps = function*(action) {
     try {
       const { deviceIndex } = action.payload
+      yield put(A.resetAppsInstallStatus())
       yield put(A.installBlockchainAppsLoading())
       // derive device type
       const deviceR = yield select(
