@@ -154,17 +154,6 @@ const CoinFiatSwapIcon = styled(Icon)`
       props.disabled ? props.theme['gray-1'] : props.theme['brand-secondary']};
   }
 `
-const ActiveCurrencyIndicator = styled.div`
-  height: 12px;
-  width: 12px;
-  background-color: ${props =>
-    props.active ? props.theme[props.coin] : props.theme['white']};
-  border-radius: 7px;
-  border: 1px solid;
-  border-color: ${props =>
-    props.active ? props.theme[props.coin] : props.theme['gray-3']};
-  margin-right: 8px;
-`
 const ActiveCurrencyButton = styled.div`
   cursor: pointer;
   height: 12px;
@@ -199,7 +188,6 @@ const Success = props => {
     asyncValidating,
     error,
     submitting,
-    betaFlow,
     canUseExchange,
     availablePairs,
     fromElements,
@@ -235,21 +223,13 @@ const Success = props => {
           <FieldsWrapper>
             <Row>
               <Cell>
-                {betaFlow ? (
-                  <ActiveCurrencyButton
-                    onClick={() => {
-                      if (betaFlow && !disabled && !sourceActive) swapFix()
-                    }}
-                    props={{}}
-                    checked={sourceActive}
-                    coin={sourceCoin.toLowerCase()}
-                  />
-                ) : (
-                  <ActiveCurrencyIndicator
-                    active={sourceActive}
-                    coin={sourceCoin.toLowerCase()}
-                  />
-                )}
+                <ActiveCurrencyButton
+                  onClick={() => {
+                    if (!disabled && !sourceActive) swapFix()
+                  }}
+                  checked={sourceActive}
+                  coin={sourceCoin.toLowerCase()}
+                />
                 <Text size='14px' weight={400}>
                   <FormattedMessage
                     id='scenes.exchange.shapeshift.firststep.from'
@@ -259,21 +239,15 @@ const Success = props => {
               </Cell>
               <Cell size='small' />
               <Cell>
-                {betaFlow ? (
+                {
                   <ActiveCurrencyButton
                     onClick={() => {
-                      if (betaFlow && !disabled && !targetActive) swapFix()
+                      if (!disabled && !targetActive) swapFix()
                     }}
-                    props={{}}
                     checked={targetActive}
                     coin={targetCoin.toLowerCase()}
                   />
-                ) : (
-                  <ActiveCurrencyIndicator
-                    active={targetActive}
-                    coin={targetCoin.toLowerCase()}
-                  />
-                )}
+                }
                 <Text size='14px' weight={400}>
                   <FormattedMessage
                     id='scenes.exchange.shapeshift.firststep.to'
@@ -302,9 +276,7 @@ const Success = props => {
                     cursor
                     disabled={swapDisabled}
                     onClick={() => {
-                      if (!betaFlow && !disabled) swapFix()
-                      if (betaFlow && !disabled && !swapDisabled)
-                        swapBaseAndCounter()
+                      if (!disabled && !swapDisabled) swapBaseAndCounter()
                     }}
                   />
                 </Cell>
@@ -324,6 +296,7 @@ const Success = props => {
               <CurrencyBox>{inputSymbol}</CurrencyBox>
               <Field
                 name={inputField}
+                autoComplete='off'
                 onChange={handleAmountChange}
                 normalize={normalizeAmount}
                 component={AmountTextBox}
