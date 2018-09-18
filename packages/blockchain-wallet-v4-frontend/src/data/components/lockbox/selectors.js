@@ -40,3 +40,18 @@ export const getFirmwareVersions = path([
   'firmware',
   'versions'
 ])
+
+// Application Installs
+export const getApplicationInstalls = path([
+  'components',
+  'lockbox',
+  'installs',
+  'apps'
+])
+
+export const getBlockchainInstall = path([
+  'components',
+  'lockbox',
+  'installs',
+  'blockchain'
+])

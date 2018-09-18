@@ -5,6 +5,14 @@ import * as AT from './actionTypes'
 const INITIAL_STATE = {
   connection: {},
   firmware: {},
+  installs: {
+    apps: {
+      BTC: Remote.NotAsked,
+      BCH: Remote.NotAsked,
+      ETH: Remote.NotAsked
+    },
+    blockchain: Remote.NotAsked
+  },
   newDeviceSetup: {
     device: Remote.NotAsked,
     isAuthentic: Remote.NotAsked
@@ -58,6 +66,40 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.RESET_FIRMWARE_INFO: {
       return assocPath(['firmware'], {}, state)
+    }
+    case AT.INSTALL_APPLICATION: {
+      return assocPath(['installs', 'apps', payload.app], Remote.Loading, state)
+    }
+    case AT.INSTALL_APPLICATION_FAILURE: {
+      return assocPath(
+        ['installs', 'apps', payload.app],
+        Remote.Failure(payload),
+        state
+      )
+    }
+    case AT.INSTALL_APPLICATION_SUCCESS: {
+      return assocPath(
+        ['installs', 'apps', payload.app],
+        Remote.Success(payload),
+        state
+      )
+    }
+    case AT.INSTALL_BLOCKCHAIN_APPS: {
+      return assocPath(['installs', 'blockchain'], Remote.Loading, state)
+    }
+    case AT.INSTALL_BLOCKCHAIN_APPS_FAILURE: {
+      return assocPath(
+        ['installs', 'blockchain'],
+        Remote.Failure(payload),
+        state
+      )
+    }
+    case AT.INSTALL_BLOCKCHAIN_APPS_SUCCESS: {
+      return assocPath(
+        ['installs', 'blockchain'],
+        Remote.Success(payload),
+        state
+      )
     }
     case AT.SET_CONNECTION_INFO: {
       return assocPath(['connection'], payload, state)

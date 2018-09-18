@@ -381,18 +381,8 @@ export default ({ api }) => {
 
   // installs requested application on device
   const installApplication = function*(action) {
-    const { deviceIndex, app } = action.payload
+    const { app } = action.payload
     try {
-      yield put(A.installApplicationLoading(app))
-      // derive device type
-      const deviceR = yield select(
-        selectors.core.kvStore.lockbox.getDevice,
-        deviceIndex
-      )
-      const device = deviceR.getOrFail()
-      // poll for device connection
-      yield put(A.pollForDeviceApp('DASHBOARD', null, device.device_type))
-      yield take(AT.SET_CONNECTION_INFO)
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
       const deviceInfo = yield call(
@@ -445,20 +435,29 @@ export default ({ api }) => {
     try {
       const { deviceIndex } = action.payload
       yield put(A.installBlockchainAppsLoading())
+      // derive device type
+      const deviceR = yield select(
+        selectors.core.kvStore.lockbox.getDevice,
+        deviceIndex
+      )
+      const device = deviceR.getOrFail()
+      // poll for device connection on dashboard
+      yield put(A.pollForDeviceApp('DASHBOARD', null, device.device_type))
+      yield take(AT.SET_CONNECTION_INFO)
       // install BTC app
-      yield put(A.installApplication(deviceIndex, 'BTC'))
+      yield put(A.installApplication('BTC'))
       yield take([
         AT.INSTALL_APPLICATION_FAILURE,
         AT.INSTALL_APPLICATION_SUCCESS
       ])
       // install BCH app
-      yield put(A.installApplication(deviceIndex, 'BCH'))
+      yield put(A.installApplication('BCH'))
       yield take([
         AT.INSTALL_APPLICATION_FAILURE,
         AT.INSTALL_APPLICATION_SUCCESS
       ])
       // install ETH app
-      yield put(A.installApplication(deviceIndex, 'ETH'))
+      yield put(A.installApplication('ETH'))
       yield take([
         AT.INSTALL_APPLICATION_FAILURE,
         AT.INSTALL_APPLICATION_SUCCESS
