@@ -37,7 +37,7 @@ const NoAdviceMessage = () => (
   <Text size='12px' weight={300} color='error'>
     <FormattedMessage
       id='scenes.exchange.exchangeform.error.noadvicemessage'
-      defaultMessage='Please enter an amount less than the limit.'
+      defaultMessage='Failed to fetch the rates for current amount.'
     />
   </Text>
 )

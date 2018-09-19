@@ -9,7 +9,7 @@ const { BASE_IN_FIAT } = model.rates.FIX_TYPES
 const stubBtcAccount = {
   archived: false,
   coin: 'BTC',
-  label: 'Bitcon',
+  label: 'Bitcoin',
   address: 0,
   balance: 0
 }

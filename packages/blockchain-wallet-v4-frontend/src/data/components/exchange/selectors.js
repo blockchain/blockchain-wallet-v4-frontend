@@ -21,6 +21,8 @@ export const getFirstStepEnabled = path([
 export const getSecondStep = path(['components', 'exchange', 'secondStep'])
 export const getThirdStep = path(['components', 'exchange', 'thirdStep'])
 export const getLimits = path(['components', 'exchange', 'limits'])
+export const getMin = path(['components', 'exchange', 'min'])
+export const getMax = path(['components', 'exchange', 'max'])
 
 const advicePath = pathOr(0)
 const adviceToAmount = advice => ({

@@ -201,13 +201,17 @@ const Success = props => {
     inputSymbol,
     complementaryAmount,
     complementarySymbol,
+    min,
+    max,
     handleSubmit,
     handleSourceChange,
     handleTargetChange,
     handleAmountChange,
     swapFix,
     swapBaseAndCounter,
-    swapCoinAndFiat
+    swapCoinAndFiat,
+    useMin,
+    useMax
   } = props
   const swapDisabled = !contains(
     formatPair(targetCoin, sourceCoin),
@@ -335,17 +339,19 @@ const Success = props => {
             <ErrorRow spaced>{error && getErrorMessage(error)}</ErrorRow>
             <Row>
               <MinMaxButtonGroup>
-                <Button fullwidth disabled={minMaxDisabled}>
+                <Button fullwidth disabled={minMaxDisabled} onClick={useMin}>
                   <FormattedMessage
                     id='scenes.exchange.exchangeform.min'
                     defaultMessage='MIN'
                   />
+                  {min}
                 </Button>
-                <Button fullwidth disabled={minMaxDisabled}>
+                <Button fullwidth disabled={minMaxDisabled} onClick={useMax}>
                   <FormattedMessage
                     id='scenes.exchange.exchangeform.max'
                     defaultMessage='MAX'
                   />
+                  {max}
                 </Button>
               </MinMaxButtonGroup>
             </Row>

@@ -13,11 +13,7 @@ const MinimumAmountLink = props => (
       defaultMessage='Use'
     />
     &nbsp;
-    <Link
-      size='12px'
-      weight={300}
-      onClick={props.actions.firstStepMinimumClicked}
-    >
+    <Link size='12px' weight={300} onClick={props.actions.useMin}>
       <FormattedMessage
         id='scenes.exchange.firststep.minimumamountlink.minimum'
         defaultMessage='minimum'

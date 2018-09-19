@@ -10,16 +10,7 @@ const registerExchangeSagas = function*(exchange) {
   yield takeLatest(AT.INITIALIZE, exchange.exchangeFormInitialized)
   yield takeLatest(AT.CHANGE_SOURCE, exchange.changeSource)
   yield takeLatest(AT.CHANGE_TARGET, exchange.changeTarget)
-  yield takeLatest(AT.CHANGE_SOURCE_AMOUNT, exchange.changeSourceAmount)
-  yield takeLatest(AT.CHANGE_TARGET_AMOUNT, exchange.changeTargetAmount)
-  yield takeLatest(
-    AT.CHANGE_SOURCE_FIAT_AMOUNT,
-    exchange.changeSourceFiatAmount
-  )
-  yield takeLatest(
-    AT.CHANGE_TARGET_FIAT_AMOUNT,
-    exchange.changeTargetFiatAmount
-  )
+  yield takeLatest(AT.CHANGE_AMOUNT, exchange.changeAmount)
   yield takeLatest(AT.CHANGE_FIX, exchange.changeFix)
   yield takeLatest(AT.CONFIRM_EXCHANGE, exchange.confirm)
   yield takeLatest(AT.CLEAR_SUBSCRIPTIONS, exchange.clearSubscriptions)
@@ -27,12 +18,14 @@ const registerExchangeSagas = function*(exchange) {
   yield takeLatest(AT.UPDATE_LIMITS, exchange.updateLimits)
   yield takeLatest(
     actionTypes.modules.rates.PAIR_UPDATED,
-    exchange.validateOnRatesChange
+    exchange.onQuoteChange
   )
   yield takeLatest(
     actionTypes.modules.rates.UPDATE_BEST_RATES,
-    exchange.updateBalanceLimit
+    exchange.onBestRatesChange
   )
+  yield takeLatest(AT.USE_MIN, exchange.useMin)
+  yield takeLatest(AT.USE_MAX, exchange.useMax)
 }
 
 const registerShapeshiftSagas = function*(shapeshift) {

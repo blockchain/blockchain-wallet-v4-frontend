@@ -1,4 +1,4 @@
-import { assoc, merge } from 'ramda'
+import { assoc, compose, merge } from 'ramda'
 import * as AT from './actionTypes'
 import { Remote } from 'blockchain-wallet-v4'
 import { EXCHANGE_STEPS } from './model'
@@ -10,7 +10,9 @@ const INITIAL_STATE = {
   payment: {},
   order: {},
   firstStepEnabled: true,
-  limits: Remote.NotAsked
+  limits: Remote.NotAsked,
+  min: null,
+  max: null
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -71,6 +73,11 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('limits', Remote.Success(payload.limits), state)
     case AT.FETCH_LIMITS_ERROR:
       return assoc('limits', Remote.Failure(payload.error), state)
+    case AT.SET_MIN_MAX:
+      return compose(
+        assoc('min', payload.min),
+        assoc('max', payload.max)
+      )(state)
     default:
       return state
   }
