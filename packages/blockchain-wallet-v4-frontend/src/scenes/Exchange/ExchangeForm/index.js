@@ -67,10 +67,6 @@ class FirstStepContainer extends React.Component {
               actions.swapBaseAndCounter,
               swapBaseAndCounter.bind(null, value.fix)
             )}
-            swapBaseAndCounter={compose(
-              this.props.actions.swapBaseAndCounter,
-              swapBaseAndCounter.bind(null, value.fix)
-            )}
             swapCoinAndFiat={compose(
               actions.changeFix,
               swapCoinAndFiat.bind(null, value.fix)
