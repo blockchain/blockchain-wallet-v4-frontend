@@ -1,10 +1,9 @@
 import PhoneNumber from 'awesome-phonenumber'
-import { prop, lift } from 'ramda'
+import { lift } from 'ramda'
 import { selectors, model } from 'data'
 
 const { SMS_NUMBER_FORM } = model.components.identityVerification
 const activeFieldSelector = selectors.form.getActiveField(SMS_NUMBER_FORM)
-const submitErrorsSelector = selectors.form.getFormSubmitErrors(SMS_NUMBER_FORM)
 
 export const getData = state => ({
   smsNumber: selectors.core.settings.getSmsNumber(state).getOrElse(''),
@@ -12,8 +11,7 @@ export const getData = state => ({
     .getSmsStep(state)
     .getOrElse(null),
   countryCode: getCountryCode(state),
-  activeField: activeFieldSelector(state),
-  mobileVerifiedError: prop('mobileVerifiedError', submitErrorsSelector(state))
+  activeField: activeFieldSelector(state)
 })
 
 const determineCountryCode = (currentNumber, defaultCode) =>
