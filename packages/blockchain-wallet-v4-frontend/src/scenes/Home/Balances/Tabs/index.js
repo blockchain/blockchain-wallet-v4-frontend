@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { FormattedMessage } from 'react-intl'
+
 import { Icon, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 
@@ -76,21 +78,36 @@ class TabsContainer extends React.PureComponent {
           onClick={() => this.handleClick('total')}
         >
           <TabIcon name='bank-filled' />
-          <TabHeader>Total</TabHeader>
+          <TabHeader>
+            <FormattedMessage
+              id='scenes.home.balance.total'
+              defaultMessage='Total'
+            />
+          </TabHeader>
         </Tab>
         <Tab
           className={this.props.currentTab === 'wallet' ? 'active' : ''}
           onClick={() => this.handleClick('wallet')}
         >
           <TabIcon name='wallet' />
-          <TabHeader>Wallet</TabHeader>
+          <TabHeader>
+            <FormattedMessage
+              id='scenes.home.balance.wallet'
+              defaultMessage='Wallet'
+            />
+          </TabHeader>
         </Tab>
         <Tab
           className={this.props.currentTab === 'lockbox' ? 'active' : ''}
           onClick={() => this.handleClick('lockbox')}
         >
           <TabIcon name='lock-filled' />
-          <TabHeader>Lockbox</TabHeader>
+          <TabHeader>
+            <FormattedMessage
+              id='scenes.home.balance.lockbox'
+              defaultMessage='Lockbox'
+            />
+          </TabHeader>
         </Tab>
       </Tabs>
     )

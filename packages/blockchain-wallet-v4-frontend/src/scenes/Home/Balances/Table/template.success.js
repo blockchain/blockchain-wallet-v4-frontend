@@ -24,7 +24,7 @@ const Success = props => {
       <HomeBalanceRow>
         <HomeBalanceHeaderTitle>
           <FormattedMessage
-            id='layouts.wallet.menutop.balance.walletbalance.header'
+            id='scenes.home.balance.table.header'
             defaultMessage='{viewType} Balance'
             values={{ viewType }}
           />

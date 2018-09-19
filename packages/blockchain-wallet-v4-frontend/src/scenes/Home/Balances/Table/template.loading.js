@@ -18,15 +18,13 @@ const SkeletonTable = styled.div`
   justify-content: space-around;
 `
 
-export default props => {
-  return (
-    <BalanceSkeleton>
-      <SkeletonTable>
-        <SkeletonRectangle width='40%' height='70px' bgColor='white-blue' />
-        <SkeletonRectangle width='100%' height='35px' bgColor='white-blue' />
-        <SkeletonRectangle width='100%' height='35px' bgColor='white-blue' />
-        <SkeletonRectangle width='100%' height='35px' bgColor='white-blue' />
-      </SkeletonTable>
-    </BalanceSkeleton>
-  )
-}
+export default () => (
+  <BalanceSkeleton>
+    <SkeletonTable>
+      <SkeletonRectangle width='40%' height='70px' bgColor='white-blue' />
+      <SkeletonRectangle width='100%' height='35px' bgColor='white-blue' />
+      <SkeletonRectangle width='100%' height='35px' bgColor='white-blue' />
+      <SkeletonRectangle width='100%' height='35px' bgColor='white-blue' />
+    </SkeletonTable>
+  </BalanceSkeleton>
+)
