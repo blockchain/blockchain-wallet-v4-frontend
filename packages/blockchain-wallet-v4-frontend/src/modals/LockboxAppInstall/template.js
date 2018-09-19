@@ -82,7 +82,7 @@ const LockboxAppInstall = props => {
                   fullwidth
                   disabled={!isOnDashboard}
                   onClick={onContinue}
-                  nature={isOnDashboard ? 'success' : 'gray'}
+                  nature={isOnDashboard ? 'success' : 'dark'}
                 >
                   {isOnDashboard ? (
                     <FormattedMessage
