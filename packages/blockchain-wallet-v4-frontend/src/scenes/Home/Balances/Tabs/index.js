@@ -10,7 +10,7 @@ const Tabs = styled.div`
   border-bottom: 2px solid ${props => props.theme['gray-1']};
 `
 const Tab = styled.div`
-  width: 25%;
+  width: 33%;
   display: flex;
   padding: 10px 5px;
   position: relative;
