@@ -17,6 +17,16 @@ import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 export default ({ api, coreSagas, networks, options }) => {
   const logLocation = 'components/exchange/sagas.utils'
 
+  let prevSource
+  let prevResult
+  const calculateEffectiveBalanceMemo = function*(source) {
+    if (!equals(source, prevSource)) {
+      prevSource = source
+      prevResult = yield call(calculateEffectiveBalance, source)
+    }
+    return prevResult
+  }
+
   const calculateEffectiveBalance = function*(source) {
     const coin = prop('coin', source)
     const addressOrIndex = prop('address', source)
@@ -367,6 +377,7 @@ export default ({ api, coreSagas, networks, options }) => {
   }
 
   return {
+    calculateEffectiveBalanceMemo,
     calculateEffectiveBalance,
     createPayment,
     resumePayment,

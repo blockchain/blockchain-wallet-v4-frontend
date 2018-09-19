@@ -1,13 +1,4 @@
-import {
-  assoc,
-  assocPath,
-  dissocPath,
-  indexBy,
-  lensProp,
-  propOr,
-  prop,
-  set
-} from 'ramda'
+import { assoc, assocPath, dissocPath, lensProp, propOr, set } from 'ramda'
 
 import * as socketActionTypes from 'data/middleware/webSocket/rates/actionTypes'
 import * as AT from './actionTypes'
@@ -65,8 +56,7 @@ export default (state = INITIAL_STATE, action) => {
         state
       )
     case AT.UPDATE_BEST_RATES: {
-      const pairs = indexBy(prop('pair'), payload.rates)
-      return set(bestRatesLens, Remote.Success(pairs), state)
+      return set(bestRatesLens, Remote.Success(payload.rates), state)
     }
     case AT.SUBSCRIBE_TO_RATES:
       return set(bestRatesLens, Remote.Loading, state)

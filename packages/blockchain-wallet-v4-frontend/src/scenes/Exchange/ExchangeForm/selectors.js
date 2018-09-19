@@ -2,7 +2,6 @@ import { selectors, model } from 'data'
 import {
   append,
   compose,
-  contains,
   cond,
   curry,
   equals,
@@ -29,9 +28,13 @@ const {
   mapFixToFieldName,
   formatPair,
   splitPair,
-  FIX_TYPES
+  FIX_TYPES,
+  coinActive,
+  fiatActive,
+  sourceActive,
+  targetActive
 } = model.rates
-const { BASE, BASE_IN_FIAT, COUNTER, COUNTER_IN_FIAT } = FIX_TYPES
+const { BASE_IN_FIAT } = FIX_TYPES
 
 const currenciesOrder = ['BTC', 'BCH', 'ETH']
 
@@ -140,12 +143,12 @@ const {
   getError,
   getActiveBtcAccounts,
   getActiveBchAccounts,
-  getActiveEthAccounts
+  getActiveEthAccounts,
+  getMin,
+  getMax
 } = selectors.components.exchange
 
-export { canUseExchange }
-export const betaFlow = state =>
-  /exchangeAB/.test(selectors.core.settings.getEmail(state).getOrElse(''))
+export { canUseExchange, getMin, getMax }
 export const getData = createDeepEqualSelector(
   [
     getActiveBtcAccounts,
@@ -179,10 +182,6 @@ export const getData = createDeepEqualSelector(
     const activeBchAccounts = bchAccountsR.getOrElse([])
     const activeEthAccounts = ethAccountsR.getOrElse([])
     const { sourceCoin, targetCoin, fix } = formValues
-    const sourceActive = contains(fix, [BASE, BASE_IN_FIAT])
-    const targetActive = contains(fix, [COUNTER, COUNTER_IN_FIAT])
-    const coinActive = contains(fix, [BASE, COUNTER])
-    const fiatActive = contains(fix, [BASE_IN_FIAT, COUNTER_IN_FIAT])
 
     const transform = (currency, availablePairs) => {
       const defaultBtcAccount = head(activeBtcAccounts)
@@ -245,10 +244,10 @@ export const getData = createDeepEqualSelector(
         targetToFiatRate: ratesR.map(prop('targetToFiatRate')),
         sourceCoin,
         targetCoin,
-        sourceActive,
-        targetActive,
-        coinActive,
-        fiatActive,
+        sourceActive: sourceActive(fix),
+        targetActive: targetActive(fix),
+        coinActive: coinActive(fix),
+        fiatActive: fiatActive(fix),
         fix
       }
     }

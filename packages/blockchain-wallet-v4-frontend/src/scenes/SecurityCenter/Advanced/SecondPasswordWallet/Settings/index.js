@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
-import ui from 'redux-ui'
 
 import { actions, selectors } from 'data'
 import Settings from './template.js'
@@ -10,6 +9,9 @@ import Settings from './template.js'
 class SettingsContainer extends React.PureComponent {
   constructor (props) {
     super(props)
+    this.state = {
+      updateToggled: false
+    }
     this.onSubmit = this.onSubmit.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
   }
@@ -25,17 +27,19 @@ class SettingsContainer extends React.PureComponent {
   }
 
   handleToggle () {
-    this.props.updateUI({ updateToggled: !this.props.ui.updateToggled })
+    this.setState({
+      updateToggled: !this.state.updateToggled
+    })
   }
 
   render () {
-    const { ui, ...rest } = this.props
+    const { ...rest } = this.props
 
     return (
       <Settings
         {...rest}
         onSubmit={this.onSubmit}
-        updateToggled={ui.updateToggled}
+        updateToggled={this.state.updateToggled}
         handleToggle={this.handleToggle}
         handleCancel={() => {
           this.props.formActions.reset('settingSecondPassword')
@@ -61,12 +65,7 @@ const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({ key: 'Setting_SecondPassword', state: { updateToggled: false } })
-)
-
-export default enhance(SettingsContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SettingsContainer)

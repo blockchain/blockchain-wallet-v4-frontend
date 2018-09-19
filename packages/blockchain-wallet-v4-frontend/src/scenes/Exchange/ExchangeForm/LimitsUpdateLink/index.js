@@ -6,20 +6,13 @@ import { FormattedMessage } from 'react-intl'
 import { actions } from 'data'
 import { Link } from 'blockchain-info-components'
 
-const MinimumAmountLink = props => (
-  <React.Fragment>
+const LimitsUpdateLink = props => (
+  <Link size='12px' weight={300} onClick={props.actions.updateLimits}>
     <FormattedMessage
-      id='modals.exchange.maximumamountmessage2'
-      defaultMessage='Use'
+      id='scenes.exchange.exchangeform.tryagain'
+      defaultMessage='Try again'
     />
-    &nbsp;
-    <Link size='12px' weight={300} onClick={props.actions.useMin}>
-      <FormattedMessage
-        id='scenes.exchange.firststep.minimumamountlink.minimum'
-        defaultMessage='minimum'
-      />
-    </Link>
-  </React.Fragment>
+  </Link>
 )
 
 const mapDispatchToProps = dispatch => ({
@@ -29,4 +22,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   undefined,
   mapDispatchToProps
-)(MinimumAmountLink)
+)(LimitsUpdateLink)
