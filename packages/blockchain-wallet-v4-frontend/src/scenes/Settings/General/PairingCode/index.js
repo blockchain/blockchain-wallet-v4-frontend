@@ -14,7 +14,7 @@ import Settings from './Settings'
 
 const BadgesContainer = styled.div`
   display: block;
-  padding: 10px 0;
+  padding-top: 10px;
   & > * {
     display: inline;
     margin-right: 5px;
