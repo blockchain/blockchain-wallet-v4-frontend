@@ -261,15 +261,19 @@ export default ({ api }) => {
     }
   }
 
-  const initializeDashboard = function*() {
+  const initializeDashboard = function*(action) {
+    const { deviceIndex } = action.payload
     const btcContextR = yield select(
-      selectors.core.kvStore.lockbox.getLockboxBtcContext
+      selectors.core.kvStore.lockbox.getBtcContextForDevice,
+      deviceIndex
     )
     const bchContextR = yield select(
-      selectors.core.kvStore.lockbox.getLockboxBchContext
+      selectors.core.kvStore.lockbox.getBchContextForDevice,
+      deviceIndex
     )
     const ethContextR = yield select(
-      selectors.core.kvStore.lockbox.getLockboxEthContext
+      selectors.core.kvStore.lockbox.getEthContextForDevice,
+      deviceIndex
     )
     yield put(
       actions.core.data.bitcoin.fetchTransactions(
@@ -288,15 +292,19 @@ export default ({ api }) => {
     )
   }
 
-  const updateTransactionList = function*() {
+  const updateTransactionList = function*(action) {
+    const { deviceIndex } = action.payload
     const btcContextR = yield select(
-      selectors.core.kvStore.lockbox.getLockboxBtcContext
+      selectors.core.kvStore.lockbox.getBtcContextForDevice,
+      deviceIndex
     )
     const bchContextR = yield select(
-      selectors.core.kvStore.lockbox.getLockboxBchContext
+      selectors.core.kvStore.lockbox.getBchContextForDevice,
+      deviceIndex
     )
     const ethContextR = yield select(
-      selectors.core.kvStore.lockbox.getLockboxEthContext
+      selectors.core.kvStore.lockbox.getEthContextForDevice,
+      deviceIndex
     )
     yield put(
       actions.core.data.bitcoin.fetchTransactions(
