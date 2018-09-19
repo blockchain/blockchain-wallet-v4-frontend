@@ -54,7 +54,7 @@ class ImportedAddressesContainer extends React.Component {
           onShowSignMessage={this.handleSignMessage}
         />
       ),
-      Failure: message => <div>{message}</div>,
+      Failure: message => <div />,
       Loading: () => <div />,
       NotAsked: () => <div />
     })
