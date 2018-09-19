@@ -23,14 +23,14 @@ class EmptyTxContainer extends React.PureComponent {
         <Image name='empty-tx' width='300px' />
         <Header size='18px' weight={500}>
           <FormattedMessage
-            id='scenes.transactions.empty.content.header'
+            id='components.emptytx.header'
             defaultMessage="Oops, we couldn't find any transactions!"
           />
         </Header>
         <TextGroup inline>
           <Text size='18px' weight={300}>
             <FormattedMessage
-              id='scenes.transactions.empty.content.body'
+              id='components.emptytx.body'
               defaultMessage='Please try filtering by a different criteria or'
             />
           </Text>
@@ -42,14 +42,14 @@ class EmptyTxContainer extends React.PureComponent {
               referrer='noreferrer'
             >
               <FormattedMessage
-                id='scenes.transactions.empty.content.body2'
+                id='components.emptytx.body2'
                 defaultMessage='reach out to us'
               />
             </Link>
           </Text>
           <Text size='18px' weight={300}>
             <FormattedMessage
-              id='scenes.transactions.empty.content.body3'
+              id='components.emptytx.body3'
               defaultMessage='if you need help.'
             />
           </Text>
