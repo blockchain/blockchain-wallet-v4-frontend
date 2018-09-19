@@ -1,4 +1,3 @@
-import { path } from 'ramda'
 import * as AT from './actionTypes'
 
 export const reportBalanceStats = () => ({
