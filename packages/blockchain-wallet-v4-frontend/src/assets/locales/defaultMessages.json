@@ -7085,6 +7085,19 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Try again",
+        "id": "scenes.exchange.exchangeform.tryagain"
+      }
+    ],
+    "path": "src/scenes/Exchange/ExchangeForm/LimitsUpdateLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Use",
+        "id": "modals.exchange.maximumamountmessage2"
+      },
+      {
         "defaultMessage": "maximum",
         "id": "scenes.exchange.firststep.maximumamountlink.maximum"
       }
@@ -7093,6 +7106,10 @@
   },
   {
     "descriptors": [
+      {
+        "defaultMessage": "Use",
+        "id": "modals.exchange.maximumamountmessage2"
+      },
       {
         "defaultMessage": "minimum",
         "id": "scenes.exchange.firststep.minimumamountlink.minimum"
@@ -7170,32 +7187,36 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Please enter an amount less than the limit.",
-        "id": "modals.exchange.abovelimitmessage"
+        "defaultMessage": "Failed to fetch the rates for current amount.",
+        "id": "scenes.exchange.exchangeform.error.noadvicemessage"
+      },
+      {
+        "defaultMessage": "Failed to get trade limits.",
+        "id": "scenes.exchange.exchangeform.error.nolimitsmessage"
+      },
+      {
+        "defaultMessage": "Amount is below mimimum.",
+        "id": "scenes.exchange.exchangeform.error.minimumamount"
       },
       {
         "defaultMessage": "Not enough funds.",
-        "id": "modals.exchange.maximumamountmessage"
+        "id": "scenes.exchange.exchangeform.error.balancelimit"
       },
       {
-        "defaultMessage": "Use",
-        "id": "modals.exchange.maximumamountmessage2"
+        "defaultMessage": "Amount exceeds your daily trade limit.",
+        "id": "scenes.exchange.exchangeform.error.dailylimit"
       },
       {
-        "defaultMessage": "Below minimum amount.",
-        "id": "modals.exchange.minimumamountmessage"
+        "defaultMessage": "Amount exceeds your weekly trade limit.",
+        "id": "scenes.exchange.exchangeform.error.weeklylimit"
       },
       {
-        "defaultMessage": "Use",
-        "id": "modals.exchange.minimumamountmessage2"
+        "defaultMessage": "Amount exceeds your annual trade limit.",
+        "id": "scenes.exchange.exchangeform.error.annuallimit"
       },
       {
-        "defaultMessage": "Insufficient funds",
-        "id": "modals.exchange.insufficientamountmessage"
-      },
-      {
-        "defaultMessage": "Invalid amount",
-        "id": "modals.exchange.invalidamountmessage"
+        "defaultMessage": "Amount exceeds single trade limit.",
+        "id": "scenes.exchange.exchangeform.error.orderlimit"
       }
     ],
     "path": "src/scenes/Exchange/ExchangeForm/validationMessages.json"

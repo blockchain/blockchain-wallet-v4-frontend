@@ -175,18 +175,6 @@ const ActiveCurrencyButton = styled.div`
   margin-right: 8px;
   box-shadow: 0 0 0 1px ${props => props.theme[props.coin]};
 `
-const ActiveCurrencyButton = styled.div`
-  cursor: pointer;
-  height: 12px;
-  width: 12px;
-  background-color: ${props => props.checked && props.theme[props.coin]};
-  border-radius: 8px;
-  border: ${props => props.checked && '2px solid'}
-    ${props => props.theme['white']};
-  border-color: ;
-  margin-right: 8px;
-  box-shadow: 0 0 0 1px ${props => props.theme[props.coin]};
-`
 const FieldsWrapper = styled.div`
   padding: 30px;
   border: 1px solid ${props => props.theme['gray-2']}};
@@ -305,9 +293,9 @@ const Success = props => {
                     cursor
                     disabled={swapDisabled}
                     onClick={() => {
-                      if (!betaFlow && !disabled) swapFix()
-                      if (betaFlow && !disabled && !swapDisabled)
+                      if (!disabled && !swapDisabled) {
                         swapBaseAndCounter()
+                      }
                     }}
                   />
                 </Cell>
