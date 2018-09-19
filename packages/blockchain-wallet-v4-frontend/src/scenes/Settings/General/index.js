@@ -2,9 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import WalletId from './WalletId'
-import PairingCode from './PairingCode'
 import { Banner, Text } from 'blockchain-info-components'
+
+import About from './About'
+import PairingCode from './PairingCode'
+import PrivacyPolicy from './PrivacyPolicy'
+import TermsOfService from './TermsOfService'
+import WalletId from './WalletId'
 
 const Wrapper = styled.section`
   padding: 30px;
@@ -30,6 +34,9 @@ const General = () => {
       </Banner>
       <WalletId />
       <PairingCode />
+      <PrivacyPolicy />
+      <TermsOfService />
+      <About />
     </Wrapper>
   )
 }
