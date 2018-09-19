@@ -1,19 +1,24 @@
 import React from 'react'
+import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-
-import BtcLockboxBalance from './BtcLockboxBalance/index'
-import EthLockboxBalance from './EthLockboxBalance/index'
-import BchLockboxBalance from './BchLockboxBalance/index'
+import { LinkContainer } from 'react-router-bootstrap'
 
 import {
   HomeBalanceRow,
   HomeBalanceTable,
+  HomeCoinBalanceCell,
   HomeBalanceAmount,
   HomeBalanceHeaderTitle
 } from 'components/Balances'
 
+const TxLink = styled(LinkContainer)`
+  &:hover {
+    cursor: pointer;
+  }
+`
 const Success = props => {
-  const { viewType } = props
+  const { viewType, balances } = props
+
   return (
     <HomeBalanceTable>
       <HomeBalanceRow>
@@ -24,16 +29,45 @@ const Success = props => {
             values={{ viewType }}
           />
         </HomeBalanceHeaderTitle>
-        <HomeBalanceAmount>{props.totalBalance}</HomeBalanceAmount>
+        <HomeBalanceAmount>
+          {balances.totalBalance.totalBalance}
+        </HomeBalanceAmount>
       </HomeBalanceRow>
       <HomeBalanceRow>
-        <BtcLockboxBalance />
+        <TxLink to={viewType === 'Lockbox' ? '/lockbox' : '/btc/transactions'}>
+          <div>
+            <HomeCoinBalanceCell
+              coin='BTC'
+              coinName='Bitcoin'
+              coinIcon='btc'
+              balance={balances.btcBalance}
+            />
+          </div>
+        </TxLink>
       </HomeBalanceRow>
       <HomeBalanceRow>
-        <BchLockboxBalance />
+        <TxLink to={viewType === 'Lockbox' ? '/lockbox' : '/eth/transactions'}>
+          <div>
+            <HomeCoinBalanceCell
+              coin='ETH'
+              coinName='Ether'
+              coinIcon='eth'
+              balance={balances.ethBalance}
+            />
+          </div>
+        </TxLink>
       </HomeBalanceRow>
       <HomeBalanceRow>
-        <EthLockboxBalance />
+        <TxLink to={viewType === 'Lockbox' ? '/lockbox' : '/bch/transactions'}>
+          <div>
+            <HomeCoinBalanceCell
+              coin='BCH'
+              coinName='Bitcoin Cash'
+              coinIcon='bch'
+              balance={balances.bchBalance}
+            />
+          </div>
+        </TxLink>
       </HomeBalanceRow>
     </HomeBalanceTable>
   )

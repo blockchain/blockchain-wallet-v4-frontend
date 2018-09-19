@@ -14,9 +14,7 @@ class Table extends React.PureComponent {
 
     if (data.cata) {
       return data.cata({
-        Success: value => (
-          <Success totalBalance={value.totalBalance} viewType={viewType} />
-        ),
+        Success: values => <Success balances={values} viewType={viewType} />,
         Failure: msg => (
           <Error handleRefresh={this.props.actions.refreshClicked}>{msg}</Error>
         ),
