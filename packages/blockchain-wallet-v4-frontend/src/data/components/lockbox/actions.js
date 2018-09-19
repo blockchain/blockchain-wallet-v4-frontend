@@ -123,9 +123,13 @@ export const deleteDeviceFailure = payload => ({
 })
 
 // DASHBOARD
-export const initializeDashboard = () => ({ type: AT.INITIALIZE_DASHBOARD })
-export const updateTransactionList = () => ({
-  type: AT.UPDATE_TRANSACTION_LIST
+export const initializeDashboard = deviceIndex => ({
+  type: AT.INITIALIZE_DASHBOARD,
+  payload: { deviceIndex }
+})
+export const updateTransactionList = deviceIndex => ({
+  type: AT.UPDATE_TRANSACTION_LIST,
+  payload: { deviceIndex }
 })
 
 // APPLICATIONS

@@ -1409,7 +1409,7 @@
   "scenes.home.didyouknow.content18": "Every address has an accompanying private key, which is what indicates ownership or control over funds at that particular address. In other words, whoever has the private key can spend those funds.",
   "scenes.home.didyouknow.content19.navlink": "Security Center",
   "scenes.home.didyouknow.content19.one": "Your Blockchain Wallet backup phrase serves as the copy of your private keys. You can find this phrase in your",
-  "scenes.home.didyouknow.content19.two": ". It makes backing up a one- time process for all funds except Imported Addresses.",
+  "scenes.home.didyouknow.content19.two": ". It makes backing up a one-time process for all funds except Imported Addresses.",
   "scenes.home.didyouknow.content2": "Client side encryption keeps you firmly in control of your funds. Not even we have access. Your wallet is encrypted within your browser before it’s sent to our servers.",
   "scenes.home.didyouknow.content20": "Your passwords are considered secure as long as they are 16 characters minimum, unique, and include a diverse range of letters, numbers, and symbols.",
   "scenes.home.didyouknow.content22": "Our wallet uses a dynamic fee structure. This means that when you send bitcoin, fees adjust based on network conditions & your transaction size.",
