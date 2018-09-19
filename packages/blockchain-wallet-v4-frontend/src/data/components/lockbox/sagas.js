@@ -112,10 +112,14 @@ export default ({ api }) => {
     try {
       const devicesR = yield select(selectors.core.kvStore.lockbox.getDevices)
       const devices = devicesR.getOrElse([])
-
-      length(devices)
-        ? yield put(actions.router.push('/lockbox/dashboard/0'))
-        : yield put(actions.router.push('/lockbox/onboard'))
+      if (length(devices)) {
+        // always go to the first device's dashboard
+        const index = 0
+        yield put(A.initializeDashboard(index))
+        yield put(actions.router.push(`/lockbox/dashboard/${index}`))
+      } else {
+        yield put(actions.router.push('/lockbox/onboard'))
+      }
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'determineLockboxRoute', e)
