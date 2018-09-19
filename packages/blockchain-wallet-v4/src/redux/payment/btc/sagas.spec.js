@@ -1,12 +1,13 @@
 import { call, select } from 'redux-saga/effects'
 import createPaymentFactory from './sagas'
-import { FROM } from './utils'
+import { FROM, TO } from './utils'
 import { prop } from 'ramda'
 import * as S from '../../selectors'
 import { btc } from '../../../signer'
 import * as CoinSelection from '../../../coinSelection'
 import * as Coin from '../../../coinSelection/coin'
 
+jest.mock('../../selectors')
 jest.mock('../../../signer')
 jest.mock('../../../coinSelection')
 jest.mock('../../../coinSelection/coin')
@@ -56,6 +57,8 @@ const p = {
 
 const SELECT_ALL_RESULT = { outputs: [{ value: EFFECTIVE_BALANCE_AMOUNT }] }
 
+S.wallet.getWrapper.mockImplementation(() => {})
+S.wallet.getWallet.mockImplementation(() => 1)
 btc.signWithWIF.mockImplementation(() => true)
 CoinSelection.selectAll.mockImplementation(() => {
   return SELECT_ALL_RESULT
@@ -357,6 +360,34 @@ describe('createPayment', () => {
       expect(
         () => calculateFee(undefined, p.fees)
       ).toThrow(new Error('no_fee_set'))
+    })
+  })
+
+  describe('calculateAmount', () => {
+    it('should return the amounts', () => {
+      expect(
+        calculateAmount(AMOUNT)
+      ).toEqual([AMOUNT])
+    })
+    it('should return the amounts if an array is passed', () => {
+      expect(
+        calculateAmount([AMOUNT, AMOUNT])
+      ).toEqual([AMOUNT, AMOUNT])
+    })
+    it('should throw if amount is invalid', () => {
+      expect(
+        () => calculateAmount('151000')
+      ).toThrow(new Error('no_amount_set'))
+    })
+  })
+
+  describe('calculateTo', () => {
+    it('should return output with the type and address given an address or index', () => {
+      let result = calculateTo(TO_ADDRESS, network)
+      result.next()
+      expect(result.next().value).toEqual([
+        { type: TO.ADDRESS, address: TO_ADDRESS }
+      ])
     })
   })
 })
