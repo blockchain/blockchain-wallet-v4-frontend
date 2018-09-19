@@ -1,4 +1,4 @@
-import { whereEq, map, isEmpty, isNil, values } from 'ramda'
+import { whereEq, map, indexBy, isEmpty, isNil, prop, values } from 'ramda'
 import { put, all, call, select } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import moment from 'moment'
@@ -73,7 +73,11 @@ export default ({ api, ratesSocket }) => {
     if (isRatesUnubscribeSuccess(message))
       yield put(A.ratesUnsubscribeSuccess(message.pairs))
     if (isRatesMessage(message))
-      yield put(actions.modules.rates.updateBestRates(message.rates))
+      yield put(
+        actions.modules.rates.updateBestRates(
+          indexBy(prop('pair'), message.rates)
+        )
+      )
   }
 
   const restFallback = function*() {

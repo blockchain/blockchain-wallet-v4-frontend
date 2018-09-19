@@ -101,7 +101,6 @@ exports[`Icon component EXPIRED renders correctly 1`] = `
         nature="primary"
         rounded={false}
         size="13px"
-        small={false}
         uppercase={false}
         weight={300}
       >
@@ -207,7 +206,6 @@ exports[`Icon component FAILED renders correctly 1`] = `
       nature="primary"
       rounded={false}
       size="13px"
-      small={false}
       uppercase={false}
       weight={300}
     >
@@ -341,7 +339,6 @@ exports[`Icon component FINISHED renders correctly 1`] = `
       nature="primary"
       rounded={false}
       size="13px"
-      small={false}
       uppercase={false}
       weight={300}
     >
@@ -472,7 +469,6 @@ exports[`Icon component PENDING_DEPOSIT renders correctly 1`] = `
       nature="primary"
       rounded={false}
       size="13px"
-      small={false}
       uppercase={false}
       weight={300}
     >
@@ -603,7 +599,6 @@ exports[`Icon component PENDING_EXECUTION renders correctly 1`] = `
       nature="primary"
       rounded={false}
       size="13px"
-      small={false}
       uppercase={false}
       weight={300}
     >
@@ -704,7 +699,6 @@ exports[`Icon component PENDING_REFUND renders correctly 1`] = `
       nature="primary"
       rounded={false}
       size="13px"
-      small={false}
       uppercase={false}
       weight={300}
     >
@@ -835,7 +829,6 @@ exports[`Icon component PENDING_WITHDRAWAL renders correctly 1`] = `
       nature="primary"
       rounded={false}
       size="13px"
-      small={false}
       uppercase={false}
       weight={300}
     >
@@ -936,7 +929,6 @@ exports[`Icon component REFUNDED renders correctly 1`] = `
       nature="primary"
       rounded={false}
       size="13px"
-      small={false}
       uppercase={false}
       weight={300}
     >
