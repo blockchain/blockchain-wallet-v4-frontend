@@ -27,24 +27,24 @@ const PairingCode = () => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.info.pairingcode.title'
+            id='scenes.settings.general.pairingcode.title'
             defaultMessage='Mobile App Pairing Code'
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.info.pairingcode.description'
+            id='scenes.settings.general.pairingcode.description'
             defaultMessage="Scan the code (click on 'Show Pairing Code') with your Blockchain Wallet (iOS or Android) for a seamless connection to your wallet."
             altFont
             light
           />
           <FormattedMessage
-            id='scenes.info.pairingcode.description2'
+            id='scenes.settings.general.pairingcode.description2'
             defaultMessage='Download our mobile applications below.'
           />
           <Text size='14px' weight={300} color='error'>
             <FormattedMessage
-              id='scenes.info.pairingcode.warning'
+              id='scenes.settings.general.pairingcode.warning'
               defaultMessage='Do not share your Pairing Code with others.'
             />
           </Text>
