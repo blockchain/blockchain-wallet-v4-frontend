@@ -1,5 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+
+import { selectors } from 'data'
 import { Text } from 'blockchain-info-components'
 import {
   SettingComponent,
@@ -8,44 +11,39 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
-import Settings from './Settings'
 
-const WalletId = () => {
+const WalletId = props => {
   return (
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.info.walletid.title'
+            id='scenes.settings.general.walletid.title'
             defaultMessage='Wallet ID'
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.info.walletid.description'
-            defaultMessage='Wallet ID is your unique identifier.'
-          />
-          <FormattedMessage
-            id='scenes.info.walletid.description2'
-            defaultMessage='It is completely individual to you, and it is what you will use to log in and access your wallet.'
-          />
-          <FormattedMessage
-            id='scenes.info.walletid.description3'
-            defaultMessage='It is NOT a bitcoin address for sending or receiving.'
+            id='scenes.settings.general.walletid.description'
+            defaultMessage='Wallet ID is your unique identifier. It is completely individual to you, and it is what you will use to log in and access your wallet. It is NOT a bitcoin address for sending or receiving.'
           />
           <Text size='14px' weight={300} color='error'>
             <FormattedMessage
-              id='scenes.info.walletid.warning'
+              id='scenes.settings.general.walletid.warning'
               defaultMessage='Do not share your Wallet ID with others.'
             />
           </Text>
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Settings />
+        <Text>{props.guid}</Text>
       </SettingComponent>
     </SettingContainer>
   )
 }
 
-export default WalletId
+const mapStateToProps = state => ({
+  guid: selectors.core.wallet.getGuid(state)
+})
+
+export default connect(mapStateToProps)(WalletId)

@@ -47,7 +47,7 @@ export const signWithLockbox = function*(network = 1, transport, data) {
   const tx = new EthereumTx(txParams)
   const rawTx = tx.serialize().toString('hex')
   const eth = new Eth(transport)
-  const signature = yield eth.signTransaction("44'/60'/0'/0", rawTx)
+  const signature = yield eth.signTransaction("44'/60'/0'/0/0", rawTx)
   return serialize(network, data, signature)
 }
 
