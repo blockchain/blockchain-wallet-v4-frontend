@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Button } from 'blockchain-info-components'
+import { Button, Link, Icon } from 'blockchain-info-components'
 import {
   SettingComponent,
   SettingContainer,
@@ -28,7 +28,11 @@ const PrivacyPolicy = () => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button>Here</Button>
+        <Link href='https://www.blockchain.com/legal/privacy' target='_blank'>
+          <Button nature='empty'>
+            <Icon name='open-in-new-tab' size='20px' />
+          </Button>
+        </Link>
       </SettingComponent>
     </SettingContainer>
   )
