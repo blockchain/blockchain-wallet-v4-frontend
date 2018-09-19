@@ -11,8 +11,6 @@ class UpdateDeviceContainer extends React.PureComponent {
     this.onCheckForUpdates = this.onCheckForUpdates.bind(this)
   }
 
-  // TODO: need to block closing of modal or at least disable onclickoutside
-  // TODO: need deviceID logic for when device is not connected
   onCheckForUpdates () {
     this.props.modalActions.showModal('LockboxFirmware', {
       deviceIndex: this.props.deviceIndex

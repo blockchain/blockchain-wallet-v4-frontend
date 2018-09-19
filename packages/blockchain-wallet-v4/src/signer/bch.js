@@ -80,9 +80,9 @@ export const signWithLedger = function*(selection, transport, api) {
   let paths = []
   for (let i in selection.inputs) {
     const coin = selection.inputs[i]
-    const txHex = yield api.getRawTx(coin.txHash)
+    const txHex = yield api.getBchRawTx(coin.txHash)
     inputs.push([BTC.splitTransaction(txHex), coin.index])
-    paths.push("44'/0'/0'" + coin.path.split('M')[1])
+    paths.push("44'/145'/0'" + coin.path.split('M')[1])
   }
 
   const intToHex = i => {
@@ -100,11 +100,20 @@ export const signWithLedger = function*(selection, transport, api) {
       coin.script.toString('hex')
   })
 
+  const hashType =
+    BitcoinCash.Transaction.SIGHASH_ALL |
+    BitcoinCash.Transaction.SIGHASH_BITCOINCASHBIP143
+
   const txHex = yield BTC.createPaymentTransactionNew(
     inputs,
     paths,
     undefined,
-    outputs
+    outputs,
+    undefined,
+    hashType,
+    undefined,
+    undefined,
+    ['abc']
   )
   return { txHex }
 }

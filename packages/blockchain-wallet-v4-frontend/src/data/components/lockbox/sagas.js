@@ -12,20 +12,20 @@ import { confirm } from 'services/SagaService'
 
 const logLocation = 'components/lockbox/sagas'
 
-export default ({ api, coreSagas }) => {
+export default ({ api }) => {
   /**
    * Polls for device application to be opened
    * @param {String} action.app - Requested application to wait for
-   * @param {String} [action.deviceId] - Optional unique device ID
+   * @param {String} [action.deviceIndex] - Optional kvStore device index
    * @param {String} [action.deviceType] - Optional device type (ledger or blockchain)
    * @param {Number} [action.timeout] - Optional length of time in ms to wait for a connection
    * @returns {Action} Yields device connected action
    */
   const pollForDeviceApp = function*(action) {
     try {
-      let { appRequested, deviceId, deviceType, timeout } = action.payload
-      if (!deviceId && !deviceType) {
-        throw new Error('deviceId or deviceType is required')
+      let { appRequested, deviceIndex, deviceType, timeout } = action.payload
+      if (!deviceIndex && !deviceType) {
+        throw new Error('deviceIndex or deviceType is required')
       }
       // close previous transport and reset old connection info
       const { transport } = yield select(S.getCurrentConnection)
@@ -35,9 +35,9 @@ export default ({ api, coreSagas }) => {
       if (!deviceType) {
         const deviceR = yield select(
           selectors.core.kvStore.lockbox.getDevice,
-          deviceId
+          deviceIndex
         )
-        const device = deviceR.getOrElse({})
+        const device = deviceR.getOrFail()
         deviceType = prop('device_type', device)
       }
 
@@ -49,7 +49,7 @@ export default ({ api, coreSagas }) => {
       yield put(
         A.setConnectionInfo(
           appConnection.app,
-          deviceId,
+          deviceIndex,
           appConnection.transport
         )
       )
@@ -66,7 +66,7 @@ export default ({ api, coreSagas }) => {
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
       const deviceInfo = yield call(
-        LockboxService.firmware.getDeviceInfo,
+        LockboxService.utils.getDeviceInfo,
         transport
       )
       // get full device info via api
@@ -96,9 +96,8 @@ export default ({ api, coreSagas }) => {
           perso: firmware.perso
         }
       )
-      isDeviceAuthentic
-        ? yield put(A.checkDeviceAuthenticitySuccess(isDeviceAuthentic))
-        : yield put(A.changeDeviceSetupStep('error-step', true, 'authenticity'))
+
+      yield put(A.checkDeviceAuthenticitySuccess(isDeviceAuthentic))
     } catch (e) {
       yield put(A.changeDeviceSetupStep('error-step', true, 'authenticity'))
       yield put(A.checkDeviceAuthenticityFailure(e))
@@ -164,10 +163,10 @@ export default ({ api, coreSagas }) => {
   // renames a device in KvStore
   const updateDeviceName = function*(action) {
     try {
-      const { deviceID, deviceName } = action.payload
+      const { deviceIndex, deviceName } = action.payload
       yield put(A.updateDeviceNameLoading())
       yield put(
-        actions.core.kvStore.lockbox.storeDeviceName(deviceID, deviceName)
+        actions.core.kvStore.lockbox.storeDeviceName(deviceIndex, deviceName)
       )
       yield put(A.updateDeviceNameSuccess())
       yield put(actions.alerts.displaySuccess(C.LOCKBOX_UPDATE_SUCCESS))
@@ -183,7 +182,8 @@ export default ({ api, coreSagas }) => {
   // deletes a device from KvStore
   const deleteDevice = function*(action) {
     try {
-      const { deviceID } = action.payload
+      const { deviceIndex } = action.payload
+
       const confirmed = yield call(confirm, {
         title: CC.CONFIRM_DELETE_LOCKBOX_TITLE,
         message: CC.CONFIRM_DELETE_LOCKBOX_MESSAGE,
@@ -192,7 +192,9 @@ export default ({ api, coreSagas }) => {
       if (confirmed) {
         try {
           yield put(A.deleteDeviceLoading())
-          yield put(actions.core.kvStore.lockbox.deleteDeviceLockbox(deviceID))
+          yield put(
+            actions.core.kvStore.lockbox.deleteDeviceLockbox(deviceIndex)
+          )
           yield put(actions.router.push('/lockbox'))
           yield put(A.deleteDeviceSuccess())
           yield put(actions.alerts.displaySuccess(C.LOCKBOX_DELETE_SUCCESS))
@@ -264,15 +266,19 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const initializeDashboard = function*() {
+  const initializeDashboard = function*(action) {
+    const { deviceIndex } = action.payload
     const btcContextR = yield select(
-      selectors.core.kvStore.lockbox.getLockboxBtcContext
+      selectors.core.kvStore.lockbox.getBtcContextForDevice,
+      deviceIndex
     )
     const bchContextR = yield select(
-      selectors.core.kvStore.lockbox.getLockboxBchContext
+      selectors.core.kvStore.lockbox.getBchContextForDevice,
+      deviceIndex
     )
     const ethContextR = yield select(
-      selectors.core.kvStore.lockbox.getLockboxEthContext
+      selectors.core.kvStore.lockbox.getEthContextForDevice,
+      deviceIndex
     )
     yield put(
       actions.core.data.bitcoin.fetchTransactions(
@@ -291,15 +297,19 @@ export default ({ api, coreSagas }) => {
     )
   }
 
-  const updateTransactionList = function*() {
+  const updateTransactionList = function*(action) {
+    const { deviceIndex } = action.payload
     const btcContextR = yield select(
-      selectors.core.kvStore.lockbox.getLockboxBtcContext
+      selectors.core.kvStore.lockbox.getBtcContextForDevice,
+      deviceIndex
     )
     const bchContextR = yield select(
-      selectors.core.kvStore.lockbox.getLockboxBchContext
+      selectors.core.kvStore.lockbox.getBchContextForDevice,
+      deviceIndex
     )
     const ethContextR = yield select(
-      selectors.core.kvStore.lockbox.getLockboxEthContext
+      selectors.core.kvStore.lockbox.getEthContextForDevice,
+      deviceIndex
     )
     yield put(
       actions.core.data.bitcoin.fetchTransactions(
@@ -324,16 +334,22 @@ export default ({ api, coreSagas }) => {
   // update device firmware saga
   const updateDeviceFirmware = function*(action) {
     try {
-      const { deviceID } = action.payload
+      const { deviceIndex } = action.payload
       // clear out previous firmware info
       yield put(A.resetFirmwareInfo())
+      // derive device type
+      const deviceR = yield select(
+        selectors.core.kvStore.lockbox.getDevice,
+        deviceIndex
+      )
+      const device = deviceR.getOrFail()
       // poll for device connection
-      yield put(A.pollForDeviceApp('DASHBOARD', deviceID))
+      yield put(A.pollForDeviceApp('DASHBOARD', null, device.device_type))
       yield take(AT.SET_CONNECTION_INFO)
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
       const deviceInfo = yield call(
-        LockboxService.firmware.getDeviceInfo,
+        LockboxService.utils.getDeviceInfo,
         transport
       )
       yield put(A.setFirmwareInstalledInfo(deviceInfo))
@@ -376,12 +392,107 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  // installs requested application on device
+  const installApplication = function*(action) {
+    const { app } = action.payload
+    try {
+      const { transport } = yield select(S.getCurrentConnection)
+      // get base device info
+      const deviceInfo = yield call(
+        LockboxService.utils.getDeviceInfo,
+        transport
+      )
+      // get full device info via api
+      const deviceVersion = yield call(api.getDeviceVersion, {
+        provider: deviceInfo.providerId,
+        target_id: deviceInfo.targetId
+      })
+      // get full firmware info via api
+      const seFirmwareVersion = yield call(api.getCurrentFirmware, {
+        device_version: deviceVersion.id,
+        version_name: deviceInfo.fullVersion,
+        provider: deviceInfo.providerId
+      })
+      // get latest info on applications
+      const appInfos = yield call(api.getApplications, {
+        provider: deviceInfo.providerId,
+        current_se_firmware_final_version: seFirmwareVersion.id,
+        device_version: deviceVersion.id
+      })
+      // fetch base socket domain
+      const domainsR = yield select(selectors.core.walletOptions.getDomains)
+      const domains = domainsR.getOrElse({
+        ledgerSocket: 'wss://api.ledgerwallet.com'
+      })
+      // install application
+      yield call(
+        LockboxService.apps.installApp,
+        transport,
+        domains.ledgerSocket,
+        deviceInfo.targetId,
+        app,
+        appInfos.application_versions
+      )
+      yield put(A.installApplicationSuccess(app))
+    } catch (e) {
+      yield put(A.installApplicationFailure(app, e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'installApplication', e)
+      )
+    }
+  }
+
+  // installs blockchain standard apps (BTC, BCH, ETH)
+  // TODO: remove Blockchain install saga once app store is introduced
+  const installBlockchainApps = function*(action) {
+    try {
+      const { deviceIndex } = action.payload
+      yield put(A.resetAppsInstallStatus())
+      yield put(A.installBlockchainAppsLoading())
+      // derive device type
+      const deviceR = yield select(
+        selectors.core.kvStore.lockbox.getDevice,
+        deviceIndex
+      )
+      const device = deviceR.getOrFail()
+      // poll for device connection on dashboard
+      yield put(A.pollForDeviceApp('DASHBOARD', null, device.device_type))
+      yield take(AT.SET_CONNECTION_INFO)
+      // install BTC app
+      yield put(A.installApplication('BTC'))
+      yield take([
+        AT.INSTALL_APPLICATION_FAILURE,
+        AT.INSTALL_APPLICATION_SUCCESS
+      ])
+      // install BCH app
+      yield put(A.installApplication('BCH'))
+      yield take([
+        AT.INSTALL_APPLICATION_FAILURE,
+        AT.INSTALL_APPLICATION_SUCCESS
+      ])
+      // install ETH app
+      yield put(A.installApplication('ETH'))
+      yield take([
+        AT.INSTALL_APPLICATION_FAILURE,
+        AT.INSTALL_APPLICATION_SUCCESS
+      ])
+      yield put(A.installBlockchainAppsSuccess())
+    } catch (e) {
+      yield put(A.installBlockchainAppsFailure(e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'installBlockchainApps', e)
+      )
+    }
+  }
+
   return {
     checkDeviceAuthenticity,
     deleteDevice,
     determineLockboxRoute,
     initializeDashboard,
     initializeNewDeviceSetup,
+    installApplication,
+    installBlockchainApps,
     pollForDeviceApp,
     saveNewDeviceKvStore,
     updateDeviceFirmware,

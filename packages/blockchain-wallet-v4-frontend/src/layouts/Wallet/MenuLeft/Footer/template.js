@@ -21,7 +21,7 @@ const Footer = props => {
         </MenuItem>
       </LinkContainer>
       <LinkContainer
-        to='/settings/info'
+        to='/settings/general'
         activeClassName='active'
         className={settingsOpened ? 'active' : ''}
       >
@@ -35,7 +35,7 @@ const Footer = props => {
       </LinkContainer>
       {settingsOpened && (
         <SubMenu>
-          <LinkContainer to='/settings/info' activeClassName='active'>
+          <LinkContainer to='/settings/general' activeClassName='active'>
             <SubMenuItem>
               <FormattedMessage
                 id='layouts.wallet.menuleft.navigation.general'

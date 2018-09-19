@@ -40,3 +40,19 @@ export const getFirmwareVersions = path([
   'firmware',
   'versions'
 ])
+
+// Application Installs
+export const getApplicationInstalls = path([
+  'components',
+  'lockbox',
+  'installs',
+  'apps'
+])
+
+// TODO: remove once app store is introduced
+export const getBlockchainInstall = path([
+  'components',
+  'lockbox',
+  'installs',
+  'blockchain'
+])

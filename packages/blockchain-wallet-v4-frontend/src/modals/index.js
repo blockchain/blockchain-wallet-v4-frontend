@@ -13,6 +13,7 @@ import ExchangeDetails from './ExchangeDetails'
 import ExchangeResults from './ExchangeResults'
 import IdentityVerification from './IdentityVerification'
 import ImportBtcAddress from './ImportBtcAddress'
+import LockboxAppInstall from './LockboxAppInstall'
 import LockboxFirmware from './LockboxFirmware'
 import LockboxSetup from './LockboxSetup'
 import MobileNumberChange from './MobileNumberChange'
@@ -63,6 +64,7 @@ const Modals = props => (
     <ExchangeResults />
     <IdentityVerification />
     <ImportBtcAddress />
+    <LockboxAppInstall />
     <LockboxFirmware />
     <LockboxSetup />
     <MobileNumberChange />

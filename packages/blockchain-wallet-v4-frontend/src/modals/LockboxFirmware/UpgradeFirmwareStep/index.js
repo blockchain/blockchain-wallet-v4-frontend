@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { actions, selectors } from 'data'
 import UpgradeFirmwareStep from './template'
 
+// TODO: either install apps or add messaging for user to do soe
 class UpgradeFirmwareContainer extends React.PureComponent {
   render () {
     return <UpgradeFirmwareStep {...this.props} />

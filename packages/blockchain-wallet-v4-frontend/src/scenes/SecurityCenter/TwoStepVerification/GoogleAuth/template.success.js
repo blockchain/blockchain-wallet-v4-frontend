@@ -45,11 +45,11 @@ const QRInputWrapper = styled.div`
 `
 
 const Google = props => {
-  const { data, invalid, handleSubmit, ui } = props
+  const { data, invalid, handleSubmit, uiState } = props
 
   return (
     <form onSubmit={handleSubmit}>
-      <AuthenticatorSummary success={ui.successToggled}>
+      <AuthenticatorSummary success={uiState.successToggled}>
         <QRCodeContainer>
           {data.googleSecret ? (
             <QRCode>

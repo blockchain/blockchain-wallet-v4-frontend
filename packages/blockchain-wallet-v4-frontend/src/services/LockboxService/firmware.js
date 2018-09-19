@@ -1,6 +1,6 @@
 import qs from 'qs'
 
-import { createDeviceSocket } from './utils'
+import utils from './utils'
 import constants from './constants'
 
 // checks if device is authentic
@@ -10,10 +10,13 @@ const checkDeviceAuthenticity = (transport, baseUrl, params) => {
       `${baseUrl}${constants.socketPaths.authenticity}` +
       `?${qs.stringify(params)}`
 
-    const res = await createDeviceSocket(transport, url).toPromise()
+    // check authenticity
+    const res = await utils.mapSocketError(
+      utils.createDeviceSocket(transport, url).toPromise()
+    )
 
-    !res || res !== '0000'
-      ? reject(new Error('device authenticity failed'))
+    !res || res !== '0000' || res.errMsg
+      ? reject(res.errMsg ? res.errMsg : 'Device authenticity check failed')
       : resolve(res)
   })
 }
@@ -68,47 +71,7 @@ const getDeviceFirmwareInfo = transport => {
   })
 }
 
-// derives full device information from api response
-const getDeviceInfo = transport => {
-  return new Promise((resolve, reject) => {
-    getDeviceFirmwareInfo(transport).then(
-      res => {
-        const { seVersion } = res
-        const { targetId, mcuVersion, flags } = res
-        const parsedVersion =
-          seVersion.match(
-            /([0-9]+.[0-9])+(.[0-9]+)?((?!-osu)-([a-z]+))?(-osu)?/
-          ) || []
-        const isOSU = typeof parsedVersion[5] !== 'undefined'
-        const providerName = parsedVersion[4] || ''
-        const providerId = constants.providers[providerName]
-        const isBootloader = targetId === 0x01000001
-        const majMin = parsedVersion[1]
-        const patch = parsedVersion[2] || '.0'
-        const fullVersion = `${majMin}${patch}${
-          providerName ? `-${providerName}` : ''
-        }`
-        resolve({
-          targetId,
-          seVersion: majMin + patch,
-          isOSU,
-          mcuVersion,
-          isBootloader,
-          providerName,
-          providerId,
-          flags,
-          fullVersion
-        })
-      },
-      err => {
-        reject(err)
-      }
-    )
-  })
-}
-
 export default {
   checkDeviceAuthenticity,
-  getDeviceInfo,
   getDeviceFirmwareInfo
 }
