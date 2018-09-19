@@ -13,8 +13,8 @@ import {
 
 const Template = props => (
   <Wrapper>
-    <Header>
-      <HeaderText size='14px' onClick={props.handleToggle}>
+    <Header onClick={props.handleToggle}>
+      <HeaderText size='14px'>
         <Icon name='forbidden' size='12px' style={{ marginRight: '10px' }} />
         <FormattedMessage
           id='layouts.wallet.menutop.balance.walletbalance.nonspendable'
