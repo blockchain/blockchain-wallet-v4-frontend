@@ -25,8 +25,9 @@ import Summary from './Summary'
 
 const {
   EXCHANGE_FORM,
-  NO_ADVICE_ERROR,
-  NO_LIMITS_ERROR
+  NO_LIMITS_ERROR,
+  MAXIMUM_NO_LINK_ERROR,
+  MINIMUM_NO_LINK_ERROR
 } = model.components.exchange
 const { fiatActive, formatPair } = model.rates
 
@@ -96,6 +97,14 @@ const MinMaxButtonGroup = styled(ButtonGroup)`
   > * {
     color: ${props => props.theme['brand-primary']};
   }
+`
+const MinMaxButton = styled(Button)`
+  font-size: 10px;
+  justify-content: space-between;
+`
+const MinMaxValue = styled.div`
+  font-weight: 600;
+  font-size: 14px;
 `
 const AmountTextBox = styled(TextBox)`
   height: 86px;
@@ -217,7 +226,11 @@ const Success = props => {
     formatPair(targetCoin, sourceCoin),
     availablePairs
   )
-  const minMaxDisabled = contains(error, [NO_ADVICE_ERROR, NO_LIMITS_ERROR])
+  const minMaxDisabled = contains(error, [
+    NO_LIMITS_ERROR,
+    MAXIMUM_NO_LINK_ERROR,
+    MINIMUM_NO_LINK_ERROR
+  ])
 
   return (
     <Wrapper>
@@ -339,20 +352,30 @@ const Success = props => {
             <ErrorRow spaced>{error && getErrorMessage(error)}</ErrorRow>
             <Row>
               <MinMaxButtonGroup>
-                <Button fullwidth disabled={minMaxDisabled} onClick={useMin}>
+                <MinMaxButton
+                  fullwidth
+                  disabled={minMaxDisabled}
+                  onClick={useMin}
+                >
                   <FormattedMessage
                     id='scenes.exchange.exchangeform.min'
                     defaultMessage='MIN'
                   />
-                  {min}
-                </Button>
-                <Button fullwidth disabled={minMaxDisabled} onClick={useMax}>
+                  &nbsp;
+                  <MinMaxValue>{!minMaxDisabled && min}</MinMaxValue>
+                </MinMaxButton>
+                <MinMaxButton
+                  fullwidth
+                  disabled={minMaxDisabled}
+                  onClick={useMax}
+                >
                   <FormattedMessage
                     id='scenes.exchange.exchangeform.max'
                     defaultMessage='MAX'
                   />
-                  {max}
-                </Button>
+                  &nbsp;
+                  <MinMaxValue>{!minMaxDisabled && max}</MinMaxValue>
+                </MinMaxButton>
               </MinMaxButtonGroup>
             </Row>
           </FieldsWrapper>
