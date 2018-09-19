@@ -1066,6 +1066,10 @@
         "id": "components.identityverification.popup.note.underreview"
       },
       {
+        "defaultMessage": "Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time.",
+        "id": "components.identityverification.popup.note.rejected"
+      },
+      {
         "defaultMessage": "Good news – your account is verified. You can now exchange cryptocurrency at any time.",
         "id": "components.identityverification.popup.note.verified"
       },
@@ -3870,8 +3874,8 @@
         "id": "modals.lockboxfirmware.checkforupdates.installed"
       },
       {
-        "defaultMessage": "They should match exactly the details in your passport or driving license.",
-        "id": "identityverification.personal.faq.name.text"
+        "defaultMessage": "3) Get latest firmware version",
+        "id": "modals.lockboxfirmware.checkforupdates.latest"
       },
       {
         "defaultMessage": "An update is available for your device!",
@@ -11032,6 +11036,10 @@
       {
         "defaultMessage": "We had some trouble verifying your account with the documents provided. Our Support team will contact you shortly to help you with the verification process.",
         "id": "scenes.profile.identityverification.note.underreview"
+      },
+      {
+        "defaultMessage": "Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time.",
+        "id": "scenes.profile.identityverification.note.rejected"
       },
       {
         "defaultMessage": "Good news – your account is verified. You can now exchange cryptocurrency at any time.",
