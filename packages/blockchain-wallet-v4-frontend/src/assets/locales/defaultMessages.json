@@ -3602,7 +3602,7 @@
         "id": "identityverification.personal.faq.dateofbirth.text"
       },
       {
-        "defaultMessage": "Country",
+        "defaultMessage": "Select your country of residence",
         "id": "identityverification.personal.country"
       },
       {

@@ -297,7 +297,7 @@ const Personal = ({
                     >
                       <FormattedMessage
                         id='identityverification.personal.country'
-                        defaultMessage='Country'
+                        defaultMessage='Select your country of residence'
                       />
                     </Text>
                     <Field
