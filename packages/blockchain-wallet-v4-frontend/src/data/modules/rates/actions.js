@@ -21,6 +21,10 @@ export const setPairQuote = (pair, quote) => ({
   type: AT.SET_PAIR_QUOTE,
   payload: { pair, quote }
 })
+export const pairUpdated = pair => ({
+  type: AT.PAIR_UPDATED,
+  payload: { pair }
+})
 
 export const fetchAvailablePairs = () => ({
   type: AT.FETCH_AVAILABLE_PAIRS

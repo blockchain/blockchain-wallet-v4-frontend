@@ -16,6 +16,16 @@ import { SHAPESHIFT_FORM } from './model'
 export default ({ api, coreSagas, networks, options }) => {
   const logLocation = 'components/exchange/sagas.utils'
 
+  let prevSource
+  let prevResult
+  const calculateEffectiveBalanceMemo = function*(source) {
+    if (!equals(source, prevSource)) {
+      prevSource = source
+      prevResult = yield call(calculateEffectiveBalance, source)
+    }
+    return prevResult
+  }
+
   const calculateEffectiveBalance = function*(source) {
     const coin = prop('coin', source)
     const address = prop('address', source)
@@ -361,6 +371,7 @@ export default ({ api, coreSagas, networks, options }) => {
   }
 
   return {
+    calculateEffectiveBalanceMemo,
     calculateEffectiveBalance,
     createPayment,
     resumePayment,
