@@ -1,6 +1,7 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+
 import { getData } from './selectors'
 import { actions } from 'data'
 import Success from './template.success'
@@ -29,6 +30,7 @@ class TransactionsContainer extends React.PureComponent {
           loadMore={this.loadMore}
           isLoading={val.isLoading}
           transactions={val.filteredTransactions}
+          searchesApplied={val.searchesApplied}
         />
       ),
       Loading: () => <Loading />,
