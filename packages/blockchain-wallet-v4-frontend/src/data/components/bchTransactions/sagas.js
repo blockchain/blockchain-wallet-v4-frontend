@@ -7,7 +7,7 @@ export default ({ coreSagas }) => {
 
   const initialized = function*() {
     try {
-      const defaultSource = ''
+      const defaultSource = 'all'
       const initialValues = {
         source: defaultSource,
         status: '',
