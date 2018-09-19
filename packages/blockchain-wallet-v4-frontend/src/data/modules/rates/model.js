@@ -133,7 +133,10 @@ export const swapBaseAndCounter = flip(prop)({
   [COUNTER_IN_FIAT]: BASE_IN_FIAT
 })
 
-export const fixIsFiat = flip(contains)([BASE_IN_FIAT, COUNTER_IN_FIAT])
+export const coinActive = flip(contains)([BASE, COUNTER])
+export const fiatActive = flip(contains)([BASE_IN_FIAT, COUNTER_IN_FIAT])
+export const sourceActive = flip(contains)([BASE, BASE_IN_FIAT])
+export const targetActive = flip(contains)([COUNTER, COUNTER_IN_FIAT])
 
 const volumeLens = lensProp('volume')
 export const configEquals = eqBy(over(volumeLens, Number))
