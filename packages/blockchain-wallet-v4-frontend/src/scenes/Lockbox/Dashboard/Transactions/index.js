@@ -13,11 +13,11 @@ class TransactionsContainer extends React.PureComponent {
   }
 
   componentDidMount () {
-    this.props.lockboxActions.initializeDashboard()
+    this.props.lockboxActions.initializeDashboard(this.props.deviceIndex)
   }
 
   loadMore () {
-    this.props.lockboxActions.updateTransactionList()
+    this.props.lockboxActions.updateTransactionList(this.props.deviceIndex)
   }
 
   render () {
