@@ -1,28 +1,29 @@
 import { selectors, model } from 'data'
 import {
-  append,
   compose,
   cond,
   curry,
+  defaultTo,
   equals,
-  filter,
-  flip,
   head,
-  indexOf,
   last,
   length,
   lift,
   map,
   path,
   prop,
-  sortBy,
-  unnest
+  unnest,
+  uniq
 } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { currencySymbolMap } from 'services/CoinifyService'
 import { Remote } from 'blockchain-wallet-v4'
 
-const { EXCHANGE_FORM } = model.components.exchange
+const {
+  EXCHANGE_FORM,
+  getTargetCoinsPairedToSource,
+  sortByOrder
+} = model.components.exchange
 const {
   getComplementaryField,
   mapFixToFieldName,
@@ -36,26 +37,15 @@ const {
 } = model.rates
 const { BASE_IN_FIAT } = FIX_TYPES
 
-const currenciesOrder = ['BTC', 'BCH', 'ETH']
-
-const getPairedCurrencies = curry(
-  (
-    getComparedCurrency,
-    getResultingCurrency,
-    targetCurrency,
-    availableCurrencies
-  ) =>
-    compose(
-      sortBy(flip(indexOf)(currenciesOrder)),
-      append(targetCurrency),
-      map(getResultingCurrency),
-      filter(pair => getComparedCurrency(pair) === targetCurrency),
-      map(splitPair)
-    )(availableCurrencies)
-)
-
-const getFromCurrencies = getPairedCurrencies(last, head)
-const getToCurrencies = getPairedCurrencies(head, last)
+const getAvailableCoin = headOrLast => availablePairs =>
+  compose(
+    sortByOrder,
+    uniq,
+    map(headOrLast),
+    map(splitPair)
+  )(availablePairs)
+const getAvailableSourceCoins = getAvailableCoin(head)
+const getAvailableTargetCoins = getAvailableCoin(last)
 
 export const format = acc => ({ text: prop('label', acc), value: acc })
 export const formatDefault = curry((coin, acc) => ({ text: coin, value: acc }))
@@ -179,31 +169,40 @@ export const getData = createDeepEqualSelector(
   ) => {
     if (!canUseExchange) return Remote.Loading
 
-    const activeBtcAccounts = btcAccountsR.getOrElse([])
-    const activeBchAccounts = bchAccountsR.getOrElse([])
-    const activeEthAccounts = ethAccountsR.getOrElse([])
-    const { sourceCoin, targetCoin, fix } = formValues
+    const accounts = {
+      BTC: btcAccountsR.getOrElse([]),
+      BCH: bchAccountsR.getOrElse([]),
+      ETH: ethAccountsR.getOrElse([])
+    }
+    const { fix, sourceCoin, targetCoin } = formValues
 
     const transform = (currency, availablePairs) => {
-      const defaultBtcAccount = head(activeBtcAccounts)
-      const defaultEthAccount = head(activeEthAccounts)
-      const hasOneAccount = length(activeBtcAccounts) === 1
+      const availableSourceCoins = getAvailableSourceCoins(availablePairs)
+      const availableTargetCoins = getAvailableTargetCoins(availablePairs)
+      const initialSourceCoin = defaultTo(
+        sourceCoin,
+        head(availableSourceCoins)
+      )
+      const initialTargetCoin = compose(
+        defaultTo(targetCoin),
+        last,
+        getTargetCoinsPairedToSource
+      )(initialSourceCoin, availablePairs)
+      const initialSourceAccount = head(accounts[initialSourceCoin])
+      const initialTargetAccount = head(accounts[initialTargetCoin])
+      const hasOneAccount = length(accounts.BTC) === 1
       const generateActiveGroups = generateGroups(
-        activeBchAccounts,
-        activeBtcAccounts,
-        activeEthAccounts,
+        accounts.BCH,
+        accounts.BTC,
+        accounts.ETH,
         hasOneAccount
       )
-      const fromElements = generateActiveGroups(
-        getFromCurrencies(targetCoin, availablePairs)
-      )
-      const toElements = generateActiveGroups(
-        getToCurrencies(sourceCoin, availablePairs)
-      )
+      const fromElements = generateActiveGroups(availableSourceCoins)
+      const toElements = generateActiveGroups(availableTargetCoins)
 
       const initialValues = {
-        source: defaultBtcAccount,
-        target: defaultEthAccount,
+        source: initialSourceAccount,
+        target: initialTargetAccount,
         sourceFiat: 0,
         fix: BASE_IN_FIAT
       }

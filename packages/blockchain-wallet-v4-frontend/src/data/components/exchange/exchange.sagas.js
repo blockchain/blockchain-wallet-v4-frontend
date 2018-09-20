@@ -1,5 +1,5 @@
 import { call, put, select, all, take } from 'redux-saga/effects'
-import { equals, keys, path, prop, propOr } from 'ramda'
+import { contains, equals, head, keys, last, path, prop, propOr } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4'
 import { actions, actionTypes, selectors, model } from 'data'
@@ -7,7 +7,9 @@ import {
   EXCHANGE_FORM,
   CONFIRM_FORM,
   NO_ADVICE_ERROR,
-  NO_LIMITS_ERROR
+  NO_LIMITS_ERROR,
+  getTargetCoinsPairedToSource,
+  getSourceCoinsPairedToTarget
 } from './model'
 import utils from './sagas.utils'
 import * as A from './actions'
@@ -320,10 +322,22 @@ export default ({ api, coreSagas, options, networks }) => {
       const targetCoin = path(['target', 'coin'], form)
       const prevSoureCoin = path(['source', 'coin'], form)
       yield put(actions.form.change(EXCHANGE_FORM, 'source', source))
-      if (equals(sourceCoin, targetCoin)) {
-        const newTarget = yield call(getDefaultAccount, prevSoureCoin)
+
+      const pairs = (yield select(
+        selectors.modules.rates.getAvailablePairs
+      )).getOrElse([])
+      const pairedCoins = getTargetCoinsPairedToSource(sourceCoin, pairs)
+      let newTargetCoin = null
+      if (equals(sourceCoin, targetCoin))
+        newTargetCoin = contains(prevSoureCoin, pairedCoins)
+          ? prevSoureCoin
+          : last(pairedCoins)
+      if (!contains(targetCoin, pairedCoins)) newTargetCoin = last(pairedCoins)
+      if (newTargetCoin) {
+        const newTarget = yield call(getDefaultAccount, newTargetCoin)
         yield put(actions.form.change(EXCHANGE_FORM, 'target', newTarget))
       }
+
       yield call(startValidation)
       yield call(unsubscribeFromCurrentAdvice, form)
       yield call(changeSubscription, true)
@@ -341,10 +355,20 @@ export default ({ api, coreSagas, options, networks }) => {
       const targetCoin = prop('coin', target)
       const prevTargetCoin = path(['target', 'coin'], form)
       yield put(actions.form.change(EXCHANGE_FORM, 'target', target))
-      if (equals(sourceCoin, targetCoin)) {
-        const newSource = yield call(getDefaultAccount, prevTargetCoin)
-        yield put(actions.form.change(EXCHANGE_FORM, 'source', newSource))
-      }
+
+      const pairs = (yield select(
+        selectors.modules.rates.getAvailablePairs
+      )).getOrElse([])
+      const pairedCoins = getSourceCoinsPairedToTarget(targetCoin, pairs)
+      let newSourceCoin = null
+      if (equals(sourceCoin, targetCoin))
+        newSourceCoin = contains(prevTargetCoin, pairedCoins)
+          ? prevTargetCoin
+          : head(pairedCoins)
+      if (!contains(sourceCoin, pairedCoins)) newSourceCoin = head(pairedCoins)
+      const newSource = yield call(getDefaultAccount, newSourceCoin)
+      yield put(actions.form.change(EXCHANGE_FORM, 'source', newSource))
+
       yield call(startValidation)
       yield call(unsubscribeFromCurrentAdvice, form)
       yield call(changeSubscription, true)

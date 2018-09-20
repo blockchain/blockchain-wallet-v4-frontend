@@ -1,4 +1,17 @@
+import {
+  compose,
+  curry,
+  indexOf,
+  filter,
+  flip,
+  head,
+  last,
+  map,
+  sortBy
+} from 'ramda'
+
 import { Remote } from 'blockchain-wallet-v4'
+import { splitPair } from 'data/modules/rates/model'
 
 export const EXCHANGE_STEPS = {
   STATE_REGISTRATION: 0,
@@ -32,3 +45,18 @@ export const DAILY_ERROR = "You've reached daily trade limit"
 export const WEEKLY_ERROR = "You've reached weekly trade limit"
 export const ANNUAL_ERROR = "You've reached annual trade limit"
 export const ORDER_ERROR = 'Amount exceeds maximum trade size'
+
+const currenciesOrder = ['BTC', 'BCH', 'ETH']
+export const sortByOrder = sortBy(flip(indexOf)(currenciesOrder))
+
+const getPairedCoins = curry(
+  (getPaired, getOriginal, originalCoin, availablePairs) =>
+    compose(
+      sortByOrder,
+      map(getPaired),
+      filter(pair => getOriginal(pair) === originalCoin),
+      map(splitPair)
+    )(availablePairs)
+)
+export const getTargetCoinsPairedToSource = getPairedCoins(last, head)
+export const getSourceCoinsPairedToTarget = getPairedCoins(head, last)
