@@ -330,8 +330,9 @@ export default ({ api }) => {
   const updateDeviceFirmware = function*(action) {
     try {
       const { deviceIndex } = action.payload
-      // clear out previous firmware info
+      // reset previous firmware infos
       yield put(A.resetFirmwareInfo())
+      yield put(A.changeFirmwareUpdateStep('connect-device'))
       // derive device type
       const deviceR = yield select(
         selectors.core.kvStore.lockbox.getDevice,
@@ -341,6 +342,8 @@ export default ({ api }) => {
       // poll for device connection
       yield put(A.pollForDeviceApp('DASHBOARD', null, device.device_type))
       yield take(AT.SET_CONNECTION_INFO)
+      // wait for user to continue
+      yield take(AT.SET_FIRMWARE_UPDATE_STEP)
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
       const deviceInfo = yield call(
@@ -372,18 +375,20 @@ export default ({ api }) => {
         })
       )
 
-      // TODO: blocked until we get some outdated devices...
+      // determine if update is needed
       if (latestFirmware.result !== 'null') {
         // device firmware is out of date
         // lines 56-75 in helpers/devices/getLatestFirmwareForDevice.js
         yield put(A.changeFirmwareUpdateStep('upgrade-firmware-step'))
+        // TODO: install MCU and firmware
+      } else {
+        // no firmware to install
+        yield put(A.changeFirmwareUpdateStep('complete', false))
       }
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'updateDeviceFirmware', e)
       )
-    } finally {
-      yield put(A.changeFirmwareUpdateStep('check-for-updates-step'))
     }
   }
 

@@ -5,29 +5,30 @@ import { connect } from 'react-redux'
 
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
-import LockboxFirmware from './template'
-import CheckForUpdatesStep from './CheckForUpdatesStep'
-import UpgradeFirmwareStep from './UpgradeFirmwareStep'
+import FirmwareContainer from './template'
+import ConnectDeviceStep from './ConnectDeviceStep'
+import CompleteStep from './CompleteStep'
+import CheckVersionsStep from './CheckVersionsStep'
 
 class LockboxFirmwareContainer extends React.PureComponent {
-  componentWillUnmount () {
-    this.props.lockboxActions.changeFirmwareUpdateStep('connect-device')
+  componentWillMount () {
+    this.props.lockboxActions.updateDeviceFirmware(this.props.deviceIndex)
   }
 
   render () {
     const { currentStep, deviceIndex, position, total, closeAll } = this.props
     let step
     switch (currentStep) {
-      case 'check-for-updates':
+      case 'check-versions':
         step = 1
         break
       case 'verify-identifier':
         step = 2
         break
-      case 'install-mcu':
+      case 'install':
         step = 3
         break
-      case 'install-firmware':
+      case 'complete':
         step = 4
         break
       default:
@@ -36,19 +37,19 @@ class LockboxFirmwareContainer extends React.PureComponent {
     }
 
     return (
-      <LockboxFirmware
+      <FirmwareContainer
         position={position}
         total={total}
         closeAll={closeAll}
         step={step}
         totalSteps={5}
       >
-        {step === 0 && <CheckForUpdatesStep deviceIndex={deviceIndex} />}
-        {step === 1 && <UpgradeFirmwareStep />}
+        {step === 0 && <ConnectDeviceStep deviceIndex={deviceIndex} />}
+        {step === 1 && <CheckVersionsStep />}
         {step === 2 && <div>Step 3</div>}
         {step === 3 && <div>Step 4</div>}
-        {step === 4 && <div>Step 5</div>}
-      </LockboxFirmware>
+        {step === 4 && <CompleteStep closeAll={closeAll} />}
+      </FirmwareContainer>
     )
   }
 }
