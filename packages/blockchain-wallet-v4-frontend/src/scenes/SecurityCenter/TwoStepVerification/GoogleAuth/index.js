@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
-import ui from 'redux-ui'
+import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
 import { actions } from 'data'
@@ -13,6 +12,8 @@ import Loading from './template.loading'
 class GoogleAuthContainer extends React.PureComponent {
   constructor (props) {
     super(props)
+    this.state = { updateToggled: false, successToggled: false }
+
     this.handleClick = this.handleClick.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
@@ -25,7 +26,8 @@ class GoogleAuthContainer extends React.PureComponent {
     const next = this.props.data.getOrElse({})
     const prev = prevProps.data.getOrElse({})
     if (next.authType !== prev.authType) {
-      this.props.updateUI({ successToggled: true })
+      // eslint-disable-next-line  react/no-did-update-set-state
+      this.setState({ successToggled: !this.state.successToggled })
       this.props.triggerSuccess()
       this.props.goBackOnSuccess()
       this.props.handleGoBack()
@@ -43,7 +45,7 @@ class GoogleAuthContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, ui, ...rest } = this.props
+    const { data, ...rest } = this.props
 
     return data.cata({
       Success: value => (
@@ -51,7 +53,7 @@ class GoogleAuthContainer extends React.PureComponent {
           data={value}
           handleClick={this.handleClick}
           onSubmit={this.onSubmit}
-          ui={ui}
+          uiState={this.state}
         />
       ),
       Failure: message => <Error {...rest} message={message} />,
@@ -75,15 +77,7 @@ const mapDispatchToProps = dispatch => ({
   )
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({
-    key: 'Security_TwoFactor',
-    state: { updateToggled: false, successToggled: false }
-  })
-)
-
-export default enhance(GoogleAuthContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GoogleAuthContainer)
