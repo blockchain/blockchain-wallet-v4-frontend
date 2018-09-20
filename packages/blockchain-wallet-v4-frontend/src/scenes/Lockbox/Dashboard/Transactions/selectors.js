@@ -93,7 +93,7 @@ export const getData = createDeepEqualSelector(
     )
     const isLoading = all(x => !!x, [btcIsLoading, bchIsLoading, ethIsLoading])
     const search = pathOr([], ['search', 'value'], formValues)
-    const searches = search.map(path(['value']))
+    const searchesApplied = search.map(path(['value']))
     const transform = (
       currency,
       btcTransactions,
@@ -105,11 +105,14 @@ export const getData = createDeepEqualSelector(
         bchTransactions,
         ethTransactions
       )
-      const filteredTransactions = filterTransactions(searches)(transactions)
+      const filteredTransactions = filterTransactions(searchesApplied)(
+        transactions
+      )
       return {
         currency,
         isLoading,
-        filteredTransactions
+        filteredTransactions,
+        searchesApplied
       }
     }
     return lift(transform)(
