@@ -1,5 +1,5 @@
 import { formValueSelector } from 'redux-form'
-import { equals, head, lift, filter, map, prop } from 'ramda'
+import { equals, head, lift, filter, map, prop, nth } from 'ramda'
 import { selectors } from 'data'
 import { Remote } from 'blockchain-wallet-v4/src'
 import Bitcoin from 'bitcoinjs-lib'
@@ -87,16 +87,17 @@ export const getData = state => {
   return lift(transform)(receiveAddressR, accountIdxR, receiveAddressIdxR)
 }
 
-export const getInitialValues = state => {
-  const toDropdown = map(x => ({ text: x.label, value: x }))
-  const balancesR = selectors.core.common.btc
-    .getAccountsBalances(state)
-    .map(toDropdown)
+export const getInitialValues = (state, ownProps) => {
+  const to = to => ({ to, coin: 'BTC' })
+  if (ownProps.lockboxIndex != null) {
+    return selectors.core.common.btc
+      .getLockboxBtcBalances(state)
+      .map(nth(ownProps.lockboxIndex))
+      .map(to)
+  }
+  const balancesR = selectors.core.common.btc.getAccountsBalances(state)
   const xpub = selectors.core.wallet.getDefaultAccountXpub(state)
-  const defaultElementR = balancesR.map(x =>
-    prop('value', head(filter(y => equals(y.value.xpub, xpub), x)))
-  )
-  return defaultElementR.map(to => ({ to, coin: 'BTC' }))
+  return balancesR.map(x => head(filter(x => equals(x.xpub, xpub), x))).map(to)
 }
 
 export const getImportedAddresses = state => {
