@@ -293,9 +293,7 @@ const Success = props => {
                     cursor
                     disabled={swapDisabled}
                     onClick={() => {
-                      if (!disabled && !swapDisabled) {
-                        swapBaseAndCounter()
-                      }
+                      if (!disabled && !swapDisabled) swapBaseAndCounter()
                     }}
                   />
                 </Cell>

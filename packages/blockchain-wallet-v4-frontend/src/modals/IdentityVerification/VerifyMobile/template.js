@@ -57,17 +57,39 @@ const FaqFormMessage = styled(FaqMessage)`
   right: 0;
   width: 35%;
 `
-const { SMS_NUMBER_FORM, SMS_STEPS } = model.components.identityVerification
+const {
+  SMS_NUMBER_FORM,
+  SMS_STEPS,
+  BAD_CODE_ERROR,
+  PHONE_EXISTS_ERROR,
+  UPDATE_FAILURE
+} = model.components.identityVerification
 
-const smsHelper = ({ mobileVerifiedError, resendCode }) => {
-  if (mobileVerifiedError) {
+const smsHelper = (error, resendCode) => {
+  if (error === BAD_CODE_ERROR) {
     return (
       <FormattedMessage
-        id='identityverification.personal.sms.error'
+        id='identityverification.personal.sms.badcode'
         defaultMessage="That code doesn't match. {resend}."
         values={{
           resend: <a onClick={resendCode}>Resend a new code</a>
         }}
+      />
+    )
+  }
+  if (error === PHONE_EXISTS_ERROR) {
+    return (
+      <FormattedMessage
+        id='identityverification.personal.sms.numberexists'
+        defaultMessage='This number is already in use.'
+      />
+    )
+  }
+  if (error === UPDATE_FAILURE) {
+    return (
+      <FormattedMessage
+        id='identityverification.personal.sms.error'
+        defaultMessage='Updating mobile number failed, please try again'
       />
     )
   }
@@ -85,11 +107,11 @@ const smsHelper = ({ mobileVerifiedError, resendCode }) => {
 const VerifyMobile = ({
   invalid,
   submitting,
+  error,
   step,
   activeField,
   countryCode,
   smsNumber,
-  mobileVerifiedError,
   editSmsNumber,
   updateSmsNumber,
   resendCode,
@@ -191,11 +213,8 @@ const VerifyMobile = ({
                         validate={[required]}
                         errorBottom
                       />
-                      <EmailHelper error={mobileVerifiedError}>
-                        {smsHelper({
-                          mobileVerifiedError,
-                          resendCode
-                        })}
+                      <EmailHelper error={error}>
+                        {smsHelper(error, resendCode)}
                       </EmailHelper>
                     </FaqFormItem>
                     {activeField === 'code' &&
@@ -263,7 +282,6 @@ VerifyMobile.propTypes = {
   step: PropTypes.string.isRequired,
   countryCode: PropTypes.object.isRequired,
   smsNumber: PropTypes.string.isRequired,
-  mobileVerifiedError: PropTypes.string.isRequired,
   editSmsNumber: PropTypes.func.isRequired,
   updateSmsNumber: PropTypes.func.isRequired,
   resendCode: PropTypes.func.isRequired,

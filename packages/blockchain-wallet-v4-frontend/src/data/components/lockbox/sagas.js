@@ -1,5 +1,5 @@
 import { call, put, take, select } from 'redux-saga/effects'
-import { contains, keysIn, prop } from 'ramda'
+import { any, equals, keysIn, pluck, prop } from 'ramda'
 
 import { actions, selectors } from 'data'
 import * as A from './actions'
@@ -248,7 +248,7 @@ export default ({ api }) => {
       )
       const storedDevices = storedDevicesR.getOrElse({})
       // check if device has already been added
-      if (contains(newDeviceId)(keysIn(storedDevices))) {
+      if (any(equals(newDeviceId))(pluck('device_id')(storedDevices))) {
         yield put(A.changeDeviceSetupStep('error-step', true, 'duplicate'))
       } else {
         yield put(A.changeDeviceSetupStep('open-btc-app', true))
