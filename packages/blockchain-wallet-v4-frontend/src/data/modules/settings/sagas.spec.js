@@ -8,9 +8,9 @@ import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as actions from '../../actions'
 import * as settingsActions from './actions.js'
 import * as selectors from '../../selectors.js'
-import settingsSagas, { logLocation, recoverySaga } from './sagas'
+import settingsSagas, { logLocation, recoverySaga, ipRestrictionError } from './sagas'
 import * as C from 'services/AlertService'
-import { merge } from 'ramda'
+import { contains } from 'ramda'
 // import profileSagas from 'data/modules/profile/sagaRegister'
 // import { syncUserWithWallet } from 'data/modules/profile/sagas'
 
@@ -23,6 +23,8 @@ const SECRET_GOOGLE_AUTHENTICATOR_URL = 'some_url'
 
 // syncUserWithWallet.mockImplementation(() => true)
 // profileSagas.syncUserWithWallet = jest.fn()
+
+const MOCK_GUID = '50dae286-e42e-4d67-8419-d5dcc563746c'
 
 describe('settingsSagas', () => {
   beforeAll(() => {
@@ -170,7 +172,7 @@ describe('settingsSagas', () => {
 
     describe('error handling', () => {
       const error = new Error('ERROR')
-      it('should log the error', () => {
+      it('should log the error, show an error alert, and dispatch a verify mobile error action', () => {
         saga
           .restart()
           .next()
@@ -183,4 +185,350 @@ describe('settingsSagas', () => {
       })
     })
   })
+
+  describe('updateLanguage', () => {
+    let { updateLanguage } = settingsSagas({ coreSagas })
+
+    let action = { payload: { language: 'ES' } }
+
+    let saga = testSaga(updateLanguage, action)
+
+    it('should call setLanguage', () => {
+      saga.next().call(coreSagas.settings.setLanguage, action.payload)
+    })
+
+    it('should add the language to the url', () => {
+      saga.next()
+      expect(contains(action.payload.language, window.location.href)).toBe(true)
+    })
+
+    describe('error handling', () => {
+      const error = new Error('ERROR')
+      it('should log the error', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'updateLanguage', error))
+      })
+    })
+  })
+
+  describe('updateCurrency', () => {
+    let { updateCurrency } = settingsSagas({ coreSagas })
+
+    let action = { payload: 'USD' }
+
+    let saga = testSaga(updateCurrency, action)
+
+    it('should call setCurrency', () => {
+      saga.next().call(coreSagas.settings.setCurrency, action.payload)
+    })
+
+    it('should display a success alert', () => {
+      saga.next().put(actions.alerts.displaySuccess(C.CURRENCY_UPDATE_SUCCESS))
+    })
+
+    describe('error handling', () => {
+      const error = new Error('ERROR')
+      it('should log the error and show an error alert', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'updateCurrency', error))
+          .next()
+          .put(actions.alerts.displayError(C.CURRENCY_UPDATE_ERROR))
+      })
+    })
+  })
+
+  describe('updateAutoLogout', () => {
+    let { updateAutoLogout } = settingsSagas({ coreSagas })
+
+    let action = { payload: 100 }
+
+    let saga = testSaga(updateAutoLogout, action)
+
+    it('should call set auto logout', () => {
+      saga.next().call(coreSagas.settings.setAutoLogout, action.payload)
+    })
+
+    it('should put an action to start logout timer', () => {
+      saga.next().put(actions.auth.startLogoutTimer())
+    })
+
+    it('should display success', () => {
+      saga.next().put(actions.alerts.displaySuccess(C.AUTOLOGOUT_UPDATE_SUCCESS))
+    })
+
+    describe('error handling', () => {
+      const error = new Error('ERROR')
+      it('should log the error and dispatch an action to show an error alert', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'updateAutoLogout', error))
+          .next()
+          .put(actions.alerts.displayError(C.AUTOLOGOUT_UPDATE_ERROR))
+      })
+    })
+  })
+
+  describe('updateLoggingLevel', () => {
+    let { updateLoggingLevel } = settingsSagas({ coreSagas })
+
+    let action = { payload: 'logging_level' }
+
+    let saga = testSaga(updateLoggingLevel, action)
+
+    it('should call set logging level', () => {
+      saga.next().call(coreSagas.settings.setLoggingLevel, action.payload)
+    })
+
+    it('should display success', () => {
+      saga
+        .next()
+        .put(actions.alerts.displaySuccess(C.LOGGINGLEVEL_UPDATE_SUCCESS))
+    })
+
+    describe('error handling', () => {
+      const error = new Error('ERROR')
+      it('should log the error and display an error alert', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'updateLoggingLevel', error))
+          .next()
+          .put(actions.alerts.displayError(C.LOGGINGLEVEL_UPDATE_ERROR))
+      })
+    })
+  })
+
+  describe('updateIpLock', () => {
+    let { updateIpLock } = settingsSagas({ coreSagas })
+
+    let action = { payload: 'ip_lock' }
+
+    let saga = testSaga(updateIpLock, action)
+
+    it('should call set ip lock', () => {
+      saga.next().call(coreSagas.settings.setIpLock, action.payload)
+    })
+
+    it('should display success', () => {
+      saga
+        .next()
+        .put(actions.alerts.displaySuccess(C.IPWHITELIST_UPDATE_SUCCESS))
+    })
+
+    describe('error handling', () => {
+      const error = new Error('ERROR')
+      it('should log the error and display an error alert', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'updateIpLock', error))
+          .next()
+          .put(actions.alerts.displayError(C.IPWHITELIST_UPDATE_ERROR))
+      })
+    })
+  })
+
+  describe('updateIpLockOn', () => {
+    let { updateIpLockOn } = settingsSagas({ coreSagas })
+
+    let action = { payload: 'ip_lock_on' }
+
+    let saga = testSaga(updateIpLockOn, action)
+
+    it('should call set ip lock on', () => {
+      saga.next().call(coreSagas.settings.setIpLockOn, action.payload)
+    })
+
+    it('should display success', () => {
+      saga
+        .next()
+        .put(actions.alerts.displaySuccess(C.IPRESTRICTION_UPDATE_SUCCESS))
+    })
+
+    describe('error handling not ipRestriction error', () => {
+      const error = new Error('ERROR')
+      it('should log the error and display the correct error', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'updateIpLockOn', error))
+          .next()
+          .put(actions.alerts.displayError(C.IPRESTRICTION_UPDATE_ERROR))
+      })
+    })
+
+    describe('error handling ipRestriction error', () => {
+      const error = ipRestrictionError
+      it('should log the error and display the correct error', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'updateIpLockOn', error))
+          .next()
+          .put(actions.alerts.displayError(C.IPRESTRICTION_NO_WHITELIST_ERROR))
+      })
+    })
+  })
+
+  describe('updateBlockTorIps', () => {
+    let { updateBlockTorIps } = settingsSagas({ coreSagas })
+
+    let action = { payload: 'block_tor' }
+
+    let saga = testSaga(updateBlockTorIps, action)
+
+    it('should call set block tor ips', () => {
+      saga.next().call(coreSagas.settings.setBlockTorIps, action.payload)
+    })
+
+    it('should display success', () => {
+      saga
+        .next()
+        .put(actions.alerts.displaySuccess(C.TOR_UPDATE_SUCCESS))
+    })
+
+    describe('error handling', () => {
+      const error = new Error('ERROR')
+      it('should log the error and display an error alert', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'updateBlockTorIps', error))
+          .next()
+          .put(actions.alerts.displayError(C.TOR_UPDATE_ERROR))
+      })
+    })
+  })
+
+  describe('updateHint', () => {
+    let { updateHint } = settingsSagas({ coreSagas })
+
+    let action = { payload: 'hint' }
+
+    let saga = testSaga(updateHint, action)
+
+    it('should call set hint', () => {
+      saga.next().call(coreSagas.settings.setHint, action.payload)
+    })
+
+    it('should display success', () => {
+      saga
+        .next()
+        .put(actions.alerts.displaySuccess(C.HINT_UPDATE_SUCCESS))
+    })
+
+    describe('error handling', () => {
+      const error = new Error('ERROR')
+      it('should log the error and display an error alert', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'updateHint', error))
+          .next()
+          .put(actions.alerts.displayError(C.HINT_UPDATE_ERROR))
+      })
+    })
+  })
+
+  describe('updateTwoStepRemember', () => {
+    let { updateTwoStepRemember } = settingsSagas({ coreSagas })
+
+    describe('with authTypeNeverSave 1', () => {
+      let action = { payload: { authTypeNeverSave: 1 } }
+
+      let saga = testSaga(updateTwoStepRemember, action)
+
+      it('should call the core', () => {
+        saga.next().call(coreSagas.settings.setAuthTypeNeverSave, action.payload)
+      })
+
+      it('should select the guid', () => {
+        saga.next().select(selectors.core.wallet.getGuid)
+      })
+
+      it('should put removeSession with the guid', () => {
+        saga.next(MOCK_GUID).put(actions.session.removeSession(MOCK_GUID))
+      })
+
+      it('should display a success alert', () => {
+        saga.next().put(actions.alerts.displaySuccess(C.TWOFA_REMEMBER_UPDATE_SUCCESS))
+      })
+    })
+
+    describe('without authTypeNeverSave of 1', () => {
+      let action = { payload: { authTypeNeverSave: 0 } }
+
+      let saga = testSaga(updateTwoStepRemember, action)
+
+      it('should call the core', () => {
+        saga.next().call(coreSagas.settings.setAuthTypeNeverSave, action.payload)
+      })
+      it('should display a success alert', () => {
+        saga.next().put(actions.alerts.displaySuccess(C.TWOFA_REMEMBER_UPDATE_SUCCESS))
+      })
+
+      describe('error handling', () => {
+        const error = new Error('ERROR')
+        it('should log the error and display an error alert', () => {
+          saga
+            .restart()
+            .next()
+            .throw(error)
+            .put(actions.logs.logErrorMessage(logLocation, 'updateTwoStepRemember', error))
+            .next()
+            .put(actions.alerts.displayError(C.TWOFA_REMEMBER_UPDATE_ERROR))
+        })
+      })
+    })
+  })
+
+  describe('enableTwoStepMobile', () => {
+    let { enableTwoStepMobile } = settingsSagas({ coreSagas })
+
+    let action = { payload: 'two_step_mobile' }
+
+    let saga = testSaga(enableTwoStepMobile, action)
+
+    it('should call set authType', () => {
+      saga.next().call(coreSagas.settings.setAuthType, action.payload)
+    })
+
+    it('should display success', () => {
+      saga
+        .next()
+        .put(actions.alerts.displaySuccess(C.TWOFA_MOBILE_ENABLE_SUCCESS))
+    })
+
+    it('should close the modal', () => {
+      saga.next().put(actions.modals.closeModal())
+    })
+
+    describe('error handling', () => {
+      const error = new Error('ERROR')
+      it('should log the error and display an error alert', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'enableTwoStepMobile', error))
+          .next()
+          .put(actions.alerts.displayError(C.TWOFA_MOBILE_ENABLE_ERROR))
+      })
+    })
+  })
+
 })

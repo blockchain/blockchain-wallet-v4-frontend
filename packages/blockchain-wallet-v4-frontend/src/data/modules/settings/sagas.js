@@ -152,7 +152,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displaySuccess(C.CURRENCY_UPDATE_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateCurrency', e))
-      yield put(actions.alerts.displayErrorC.CURRENCY_UPDATE_ERROR)
+      yield put(actions.alerts.displayError(C.CURRENCY_UPDATE_ERROR))
     }
   }
 
