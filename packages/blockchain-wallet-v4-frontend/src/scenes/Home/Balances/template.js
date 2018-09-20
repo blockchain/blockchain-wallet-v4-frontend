@@ -2,9 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import Tabs from './Tabs'
-import TotalBalance from './TotalBalance'
-import WalletBalance from './WalletBalance'
-import LockboxBalance from './LockboxBalance'
+import Table from './Table'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -23,9 +21,9 @@ const BalancesTable = props => {
   return (
     <Wrapper>
       <Tabs {...props} />
-      {currentTab === 'total' && <TotalBalance />}
-      {currentTab === 'wallet' && <WalletBalance />}
-      {currentTab === 'lockbox' && <LockboxBalance />}
+      {currentTab === 'total' && <Table viewType='Total' />}
+      {currentTab === 'wallet' && <Table viewType='Wallet' />}
+      {currentTab === 'lockbox' && <Table viewType='Lockbox' />}
     </Wrapper>
   )
 }

@@ -10,7 +10,7 @@ import { actions, selectors } from 'data'
 import ActivityList from './ActivityList'
 import DidYouKnow from './DidYouKnow'
 import PriceChart from './PriceChart'
-import BalancesTable from './BalancesTable'
+import Balances from './Balances'
 import SfoxSignupBanner from './SfoxSignupBanner'
 
 ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
@@ -104,7 +104,7 @@ class Home extends React.PureComponent {
         })}
         <ColumnWrapper>
           <ColumnLeft>
-            <BalancesTable />
+            <Balances />
             <ActivityList />
           </ColumnLeft>
           <ColumnRight>
