@@ -6,7 +6,7 @@ import { Button, Text } from 'blockchain-info-components'
 
 const Title = styled.div`
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 `
 const Content = styled.div`
   text-align: center;
@@ -23,10 +23,10 @@ const CompleteStep = props => {
   return (
     <React.Fragment>
       <Title>
-        <Text>
+        <Text size='16px' weight={400}>
           <FormattedMessage
             id='modals.lockboxfirmware.completestep.title'
-            defaultMessage='Update Complete'
+            defaultMessage='Update Complete!'
           />
         </Text>
       </Title>

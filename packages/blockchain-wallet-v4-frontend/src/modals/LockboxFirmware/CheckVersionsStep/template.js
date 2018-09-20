@@ -7,7 +7,7 @@ import { Button, Text } from 'blockchain-info-components'
 
 const Title = styled.div`
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 `
 const Content = styled.div`
   text-align: center;
@@ -24,15 +24,15 @@ const CheckVersionsStep = props => {
   return (
     <React.Fragment>
       <Title>
-        <Text>
+        <Text size='16px' weight={400}>
           <FormattedMessage
             id='modals.lockboxfirmware.checkversions.title'
-            defaultMessage='Checking versions'
+            defaultMessage='Step 2. Checking for Updates'
           />
         </Text>
       </Title>
       <Content>
-        <Text size='16px' weight={300}>
+        <Text size='13px' weight={300}>
           <FormattedMessage
             id='modals.lockboxfirmware.checkversions.subtitle'
             defaultMessage='Please wait while we check for updates for your device.'

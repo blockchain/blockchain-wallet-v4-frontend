@@ -7,7 +7,7 @@ import { Button, Text } from 'blockchain-info-components'
 
 const Title = styled.div`
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 `
 const Content = styled.div`
   text-align: center;
@@ -26,15 +26,15 @@ const CheckForUpdatesStep = props => {
   return (
     <React.Fragment>
       <Title>
-        <Text>
+        <Text size='16px' weight={400}>
           <FormattedMessage
             id='modals.lockboxfirmware.connectdevice.title'
-            defaultMessage='Connect your Lockbox'
+            defaultMessage='Step 1. Connect your Lockbox'
           />
         </Text>
       </Title>
       <Content>
-        <Text size='16px' weight={300}>
+        <Text size='13px' weight={300}>
           <FormattedMessage
             id='modals.lockboxfirmware.connectdevice.subtitle'
             defaultMessage='Connect and unlock your Lockbox. Then open the Dashboard app.'
