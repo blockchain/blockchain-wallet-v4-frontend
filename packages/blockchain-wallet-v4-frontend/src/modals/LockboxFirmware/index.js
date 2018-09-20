@@ -6,19 +6,24 @@ import { connect } from 'react-redux'
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import LockboxFirmware from './template'
-import CheckForUpdatesStep from './CheckForUpdatesStep'
-import UpgradeFirmwareStep from './UpgradeFirmwareStep'
+// import CheckForUpdatesStep from './CheckForUpdatesStep'
+// import UpgradeFirmwareStep from './UpgradeFirmwareStep'
 
 class LockboxFirmwareContainer extends React.PureComponent {
+  componentWillUnmount () {
+    this.props.lockboxActions.changeFirmwareUpdateStep('connect-device')
+  }
+
   render () {
-    const { currentStep, deviceIndex, position, total, closeAll } = this.props
+    const { step, deviceIndex, position, total, closeAll } = this.props
 
     return (
-      <LockboxFirmware position={position} total={total} closeAll={closeAll}>
-        {(!currentStep || currentStep === 'check-for-updates-step') && (
-          <CheckForUpdatesStep deviceIndex={deviceIndex} />
-        )}
-        {currentStep === 'upgrade-firmware-step' && <UpgradeFirmwareStep />}
+      <LockboxFirmware position={position} total={total} closeAll={closeAll} step={step}>
+        {(!step || step === 'connect-device') && <div />}
+        {step === 'check-for-updates' && <div />}
+        {step === 'verify-identifier' && <div />}
+        {step === 'install-mcu' && <div />}
+        {step === 'install-firmware' && <div />}
       </LockboxFirmware>
     )
   }
