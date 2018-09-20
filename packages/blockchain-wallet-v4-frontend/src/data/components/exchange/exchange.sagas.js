@@ -447,6 +447,7 @@ export default ({ api, coreSagas, options, networks }) => {
 
   const confirm = function*() {
     try {
+      yield put(actions.form.clearSubmitErrors(CONFIRM_FORM))
       yield put(actions.form.startSubmit(CONFIRM_FORM))
       const form = yield select(formValueSelector)
       const { source, target } = form
