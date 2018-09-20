@@ -17,7 +17,7 @@ const extractFieldValue = (e, value) => value
 
 const { swapCoinAndFiat, swapBaseAndCounter } = model.rates
 
-class FirstStepContainer extends React.Component {
+class ExchangeForm extends React.Component {
   componentDidMount () {
     const { canUseExchange, actions } = this.props
     if (canUseExchange) actions.initialize()
@@ -32,7 +32,7 @@ class FirstStepContainer extends React.Component {
   changeAmount = debounce(this.props.actions.changeAmount, this.debounceTime)
 
   handleRefresh = () => {
-    actions.initialize()
+    this.props.actions.initialize()
   }
 
   render () {
@@ -50,7 +50,10 @@ class FirstStepContainer extends React.Component {
             handleMaximum={actions.firstStepMaximumClicked}
             handleMinimum={actions.firstStepMinimumClicked}
             onSubmit={actions.firstStepSubmitClicked}
-            handleSourceChange={this.handleSourceChange}
+            handleSourceChange={compose(
+              actions.changeSource,
+              extractFieldValue
+            )}
             handleTargetChange={compose(
               actions.changeTarget,
               extractFieldValue
@@ -92,7 +95,7 @@ const AccountPropType = PropTypes.shape({
   coin: PropTypes.string.isRequired
 })
 
-FirstStepContainer.propTypes = {
+ExchangeForm.propTypes = {
   data: getRemotePropType(
     PropTypes.shape({
       availablePairs: PropTypes.arrayOf(PropTypes.string),
@@ -126,4 +129,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FirstStepContainer)
+)(ExchangeForm)
