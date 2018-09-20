@@ -769,19 +769,19 @@
     "descriptors": [
       {
         "defaultMessage": "Oops, we couldn't find any transactions!",
-        "id": "scenes.transactions.empty.content.header"
+        "id": "components.emptytx.header"
       },
       {
         "defaultMessage": "Please try filtering by a different criteria or",
-        "id": "scenes.transactions.empty.content.body"
+        "id": "components.emptytx.body"
       },
       {
         "defaultMessage": "reach out to us",
-        "id": "scenes.transactions.empty.content.body2"
+        "id": "components.emptytx.body2"
       },
       {
         "defaultMessage": "if you need help.",
-        "id": "scenes.transactions.empty.content.body3"
+        "id": "components.emptytx.body3"
       }
     ],
     "path": "src/components/EmptyTx/index.json"
@@ -3611,7 +3611,7 @@
         "id": "identityverification.personal.faq.dateofbirth.text"
       },
       {
-        "defaultMessage": "Country",
+        "defaultMessage": "Select your country of residence",
         "id": "identityverification.personal.country"
       },
       {
@@ -3627,16 +3627,16 @@
         "id": "identityverification.personal.postcode"
       },
       {
+        "defaultMessage": "Oops, address lookup failed. {retry}",
+        "id": "identityverification.personal.addressrefetch"
+      },
+      {
         "defaultMessage": "Address search",
         "id": "identityverification.personal.faq.postcode.title"
       },
       {
         "defaultMessage": "We try and prefill your address so you don’t have to fill out all the fields",
         "id": "identityverification.personal.faq.postcode.text"
-      },
-      {
-        "defaultMessage": "Oops, address lookup failed. {retry}",
-        "id": "identityverification.personal.addressrefetch"
       },
       {
         "defaultMessage": "Select Address",
@@ -3702,6 +3702,14 @@
     "descriptors": [
       {
         "defaultMessage": "That code doesn't match. {resend}.",
+        "id": "identityverification.personal.sms.badcode"
+      },
+      {
+        "defaultMessage": "This number is already in use.",
+        "id": "identityverification.personal.sms.numberexists"
+      },
+      {
+        "defaultMessage": "Updating mobile number failed, please try again",
         "id": "identityverification.personal.sms.error"
       },
       {
@@ -8033,6 +8041,32 @@
       }
     ],
     "path": "src/scenes/Home/ActivityList/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "{viewType} Balance",
+        "id": "scenes.home.balance.table.header"
+      }
+    ],
+    "path": "src/scenes/Home/Balances/Table/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Total",
+        "id": "scenes.home.balance.total"
+      },
+      {
+        "defaultMessage": "Wallet",
+        "id": "scenes.home.balance.wallet"
+      },
+      {
+        "defaultMessage": "Lockbox",
+        "id": "scenes.home.balance.lockbox"
+      }
+    ],
+    "path": "src/scenes/Home/Balances/Tabs/index.json"
   },
   {
     "descriptors": [

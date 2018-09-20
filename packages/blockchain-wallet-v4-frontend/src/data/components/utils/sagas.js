@@ -1,5 +1,6 @@
 import { call, select } from 'redux-saga/effects'
 import { equals, filter, identity, is, isEmpty, prop, propEq } from 'ramda'
+import { utils } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 import settings from 'config'
 
@@ -31,7 +32,7 @@ export const selectReceiveAddress = function*(source, networks) {
     if (isEmpty(bchReceiveAddress.getOrElse(''))) {
       throw new Error('Could not generate bitcoin cash receive address')
     }
-    return bchReceiveAddress.getOrElse('')
+    return utils.bch.toCashAddr(bchReceiveAddress.getOrElse(''))
   }
   if (equals('BTC', coin) && is(Number, address)) {
     const btcReceiveAddress = selectors.core.common.btc.getNextAvailableReceiveAddress(
