@@ -1112,7 +1112,6 @@ describe('authSagas', () => {
     it('should call confirm service', () => {
       saga.next().call(confirm, {
         title: 'archive_vulnerable_address_title',
-        image: null,
         message: 'archive_vulnerable_address_msg',
         confirm: 'archive_vulnerable_address_confirm',
         cancel: undefined,
