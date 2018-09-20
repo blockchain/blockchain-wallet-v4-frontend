@@ -1,0 +1,6 @@
+{
+  "src": {
+    "beforeStartCommand": "yarn manage:translations"
+  },
+  "requireCleanWorkingDir": false
+}

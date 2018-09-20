@@ -1,6 +1,7 @@
-import { whereEq, map, isEmpty, isNil, values } from 'ramda'
+import { whereEq, map, indexBy, isEmpty, isNil, prop, values } from 'ramda'
 import { put, all, call, select } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
+import moment from 'moment'
 
 import { selectors, model, actions } from 'data'
 import * as A from './actions'
@@ -64,15 +65,7 @@ export default ({ api, ratesSocket }) => {
     if (isAdviceUnsubscribeSuccess(message))
       yield put(A.adviceUnsubscribeSuccess(message.pair))
     if (isAdviceMessage(message))
-      yield put(
-        actions.modules.rates.updateAdvice(
-          message.pair,
-          message.fix,
-          message.volume,
-          message.fiatCurrency,
-          message.currencyRatio
-        )
-      )
+      yield put(actions.modules.rates.updateAdvice(message.quote))
     if (isRatesSubscribeSuccess(message))
       yield put(A.ratesSubscribeSuccess(message.pairs))
     if (isRatesSubscribeError(message))
@@ -80,7 +73,11 @@ export default ({ api, ratesSocket }) => {
     if (isRatesUnubscribeSuccess(message))
       yield put(A.ratesUnsubscribeSuccess(message.pairs))
     if (isRatesMessage(message))
-      yield put(actions.modules.rates.updateBestRates(message.rates))
+      yield put(
+        actions.modules.rates.updateBestRates(
+          indexBy(prop('pair'), message.rates)
+        )
+      )
   }
 
   const restFallback = function*() {
@@ -109,13 +106,14 @@ export default ({ api, ratesSocket }) => {
       )
       if (error) throw error
       yield put(
-        actions.modules.rates.updateAdvice(
+        actions.modules.rates.updateAdvice({
           pair,
           fix,
           volume,
           fiatCurrency,
-          ratio
-        )
+          currencyRatio: ratio,
+          time: moment().format('YYYY-MM-DDTHH:mm:ss.SSSSZ')
+        })
       )
     } catch (e) {
       yield put(A.adviceSubscribeError(pair, e))

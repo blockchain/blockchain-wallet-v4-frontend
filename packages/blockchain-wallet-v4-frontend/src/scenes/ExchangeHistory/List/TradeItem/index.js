@@ -2,11 +2,25 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
-import { getData } from './selectors'
+import { actions, model } from 'data'
+import { formatTrade, getData } from './selectors'
 import TradeItem from './template'
 
+const { RESULTS_MODAL } = model.components.exchangeHistory
+
 class PagesContainer extends React.PureComponent {
+  showDetails = () => {
+    const {
+      modalActions,
+      useShapeShift,
+      deposit,
+      isShapeShiftTrade
+    } = this.props
+    useShapeShift || isShapeShiftTrade
+      ? modalActions.showModal('ExchangeDetails', { depositAddress: deposit })
+      : modalActions.showModal(RESULTS_MODAL, this.props)
+  }
+
   render () {
     const {
       status,
@@ -15,8 +29,7 @@ class PagesContainer extends React.PureComponent {
       targetCoin,
       deposit,
       depositAmount,
-      withdrawalAmount,
-      modalActions
+      withdrawalAmount
     } = this.props
 
     return (
@@ -28,15 +41,16 @@ class PagesContainer extends React.PureComponent {
         deposit={deposit}
         depositAmount={depositAmount}
         withdrawalAmount={withdrawalAmount}
-        handleClick={() =>
-          modalActions.showModal('ExchangeDetails', { depositAddress: deposit })
-        }
+        handleClick={this.showDetails}
       />
     )
   }
 }
 
-const mapStateToProps = (state, ownProps) => getData(ownProps.trade, state)
+const mapStateToProps = (state, ownProps) => ({
+  ...formatTrade(ownProps.trade),
+  ...getData(state)
+})
 
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)

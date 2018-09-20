@@ -3,12 +3,20 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Table, TableCell, TableHeader, Text } from 'blockchain-info-components'
+import {
+  HeartbeatLoader,
+  Table,
+  TableCell,
+  TableRow,
+  TableHeader,
+  Text
+} from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
 import TradeItem from './TradeItem'
+import LazyLoadContainer from 'components/LazyLoadContainer'
 import media from 'services/ResponsiveService'
 
-const Wrapper = styled.div`
+const LazyLoadWrapper = styled(LazyLoadContainer)`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -17,23 +25,32 @@ const Wrapper = styled.div`
   padding: 30px;
   box-sizing: border-box;
 
-  & > :first-child {
-    margin-bottom: 20px;
-  }
-
   ${media.mobile`
     padding: 10px
   `};
 `
 const Container = styled.div`
   width: 100%;
+  & :first-child {
+    margin-bottom: 20px;
+  }
+`
+const LoaderRow = styled(TableRow)`
+  justify-content: center;
 `
 
 const List = props => {
-  const { complete, incomplete, showComplete, showIncomplete } = props
+  const {
+    complete,
+    incomplete,
+    showComplete,
+    showIncomplete,
+    loadingNextPage,
+    handleScrollPastFinish
+  } = props
 
   return (
-    <Wrapper>
+    <LazyLoadWrapper onLazyLoad={handleScrollPastFinish}>
       {showIncomplete && (
         <Container>
           <Table>
@@ -126,10 +143,15 @@ const List = props => {
             {complete.map((trade, index) => (
               <TradeItem key={index} trade={trade} />
             ))}
+            {loadingNextPage && (
+              <LoaderRow>
+                <HeartbeatLoader />
+              </LoaderRow>
+            )}
           </Table>
         </Container>
       )}
-    </Wrapper>
+    </LazyLoadWrapper>
   )
 }
 

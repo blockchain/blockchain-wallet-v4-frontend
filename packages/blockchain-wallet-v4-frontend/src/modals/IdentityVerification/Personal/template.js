@@ -50,7 +50,10 @@ const FaqFormMessage = styled(FaqMessage)`
 const DobFaqFormMessage = styled(FaqFormMessage)`
   margin-top: 46px;
 `
-const FaqFormGroup = styled(FormGroup)`
+const PersonalFormGroup = styled(FormGroup)`
+  margin-bottom: 24px;
+`
+const FaqFormGroup = styled(PersonalFormGroup)`
   position: relative;
   display: flex;
   flex-direction: row;
@@ -77,7 +80,7 @@ const PersonalField = styled.div`
   ${media.mobile`
     :first-of-type {
       margin-right: 0;
-      margin-bottom: 10px;
+      margin-bottom: 24px;
     }
   `};
 `
@@ -98,7 +101,10 @@ const TermsText = styled(Text)`
 const addTrailingZero = string => (string.length >= 2 ? string : `0${string}`)
 const removeTrailingZero = replace(/^0/, '')
 const { AddressPropType, CountryPropType } = model.profile
-const { PERSONAL_FORM } = model.components.identityVerification
+const {
+  PERSONAL_FORM,
+  MANUAL_ADDRESS_ITEM
+} = model.components.identityVerification
 const objectToDOB = ({ date = '', month = '', year = '' }) =>
   `${year}-${month}-${addTrailingZero(date)}`
 const DOBToObject = value => {
@@ -109,11 +115,51 @@ const DOBToObject = value => {
     year
   }
 }
+const countryUsesZipcode = code => code === 'US'
+
+const ManualAddressText = styled(Text)`
+  span {
+    font-weight: 300;
+    font-size: 14px;
+    color: ${props =>
+      props.isSelected
+        ? props.theme['white']
+        : props.theme['brand-secondary']} !important;
+  }
+`
+const renderAddressItem = props => {
+  if (props.text === MANUAL_ADDRESS_ITEM.text)
+    return (
+      <ManualAddressText isSelected={props.isSelected}>
+        <FormattedMessage
+          id='identityverification.personal.manualaddress'
+          defaultMessage='Enter Address Manually'
+        />
+      </ManualAddressText>
+    )
+  return props.text
+}
+
+const renderAddressDisplay = (props, children) => {
+  if (props.text === MANUAL_ADDRESS_ITEM.text) {
+    return (
+      <React.Fragment>
+        <FormattedMessage
+          id='identityverification.personal.manualaddress'
+          defaultMessage='Enter Address Manually'
+        />
+        <div hidden>{children}</div>
+      </React.Fragment>
+    )
+  }
+  return children
+}
 
 const Personal = ({
   invalid,
   submitting,
   address,
+  postCode,
   addressRefetchVisible,
   supportedCountries,
   possibleAddresses,
@@ -194,7 +240,7 @@ const Personal = ({
                         text={
                           <FormattedMessage
                             id='identityverification.personal.faq.name.text'
-                            defaultMessage='They should match exactly the details in your government issued ID, passport or driving license.'
+                            defaultMessage='They should match exactly the details in your passport or driving license.'
                           />
                         }
                       />
@@ -242,7 +288,7 @@ const Personal = ({
                       />
                     )}
                 </FaqFormGroup>
-                <FormGroup>
+                <PersonalFormGroup>
                   <FaqFormItem>
                     <Text
                       size='14px'
@@ -268,7 +314,7 @@ const Personal = ({
                       }
                     />
                   </FaqFormItem>
-                </FormGroup>
+                </PersonalFormGroup>
                 {countryCode && (
                   <FaqFormGroup>
                     <FaqFormItem>
@@ -277,10 +323,17 @@ const Personal = ({
                         weight={400}
                         style={{ marginBottom: '5px' }}
                       >
-                        <FormattedMessage
-                          id='identityverification.personal.zipcode'
-                          defaultMessage='Zip Code'
-                        />
+                        {countryUsesZipcode(countryCode) ? (
+                          <FormattedMessage
+                            id='identityverification.personal.zipcode'
+                            defaultMessage='Zip Code'
+                          />
+                        ) : (
+                          <FormattedMessage
+                            id='identityverification.personal.postcode'
+                            defaultMessage='Postcode'
+                          />
+                        )}
                       </Text>
                       <Field
                         name='postCode'
@@ -317,42 +370,56 @@ const Personal = ({
                         id='identityverification.personal.addressrefetch'
                         defaultMessage='Oops, address lookup failed. {retry}'
                         values={{
-                          retry: <a onClick={onPostCodeChange}>Try again?</a>
+                          retry: (
+                            <a
+                              onClick={onPostCodeChange.bind(
+                                null,
+                                null,
+                                postCode
+                              )}
+                            >
+                              Try again?
+                            </a>
+                          )
                         }}
                       />
                     </EmailHelper>
                   )}
-                {Boolean(possibleAddresses[0].items.length) && (
-                  <FormGroup>
-                    <FaqFormItem>
-                      <Text
-                        size='14px'
-                        weight={400}
-                        style={{ marginBottom: '5px' }}
-                      >
-                        <FormattedMessage
-                          id='identityverification.personal.selectaddress'
-                          defaultMessage='Select Address'
-                        />
-                      </Text>
-                      <Field
-                        name='address'
-                        elements={possibleAddresses}
-                        onChange={onAddressSelect}
-                        component={SelectBox}
-                        label={
+                {countryCode &&
+                  Boolean(possibleAddresses[0].items.length) && (
+                    <PersonalFormGroup>
+                      <FaqFormItem>
+                        <Text
+                          size='14px'
+                          weight={400}
+                          style={{ marginBottom: '5px' }}
+                        >
                           <FormattedMessage
                             id='identityverification.personal.selectaddress'
                             defaultMessage='Select Address'
                           />
-                        }
-                      />
-                    </FaqFormItem>
-                  </FormGroup>
-                )}
+                        </Text>
+                        <Field
+                          name='address'
+                          validate={required}
+                          elements={possibleAddresses}
+                          onChange={onAddressSelect}
+                          templateDisplay={renderAddressDisplay}
+                          templateItem={renderAddressItem}
+                          component={SelectBox}
+                          label={
+                            <FormattedMessage
+                              id='identityverification.personal.selectaddress'
+                              defaultMessage='Select Address'
+                            />
+                          }
+                        />
+                      </FaqFormItem>
+                    </PersonalFormGroup>
+                  )}
                 {address && (
                   <div>
-                    <FormGroup>
+                    <PersonalFormGroup>
                       <FaqFormItem>
                         <Text
                           size='14px'
@@ -371,8 +438,8 @@ const Personal = ({
                           placeholder='Street Address'
                         />
                       </FaqFormItem>
-                    </FormGroup>
-                    <FormGroup>
+                    </PersonalFormGroup>
+                    <PersonalFormGroup>
                       <FaqFormItem>
                         <Text
                           size='14px'
@@ -390,8 +457,8 @@ const Personal = ({
                           placeholder='Apartment, unit, floor, etc..'
                         />
                       </FaqFormItem>
-                    </FormGroup>
-                    <FormGroup>
+                    </PersonalFormGroup>
+                    <PersonalFormGroup>
                       <FaqFormItem>
                         <Text
                           size='14px'
@@ -409,8 +476,8 @@ const Personal = ({
                           component={TextBox}
                         />
                       </FaqFormItem>
-                    </FormGroup>
-                    <FormGroup>
+                    </PersonalFormGroup>
+                    <PersonalFormGroup>
                       <FaqFormItem>
                         <Text
                           size='14px'
@@ -436,7 +503,7 @@ const Personal = ({
                           component={TextBox}
                         />
                       </FaqFormItem>
-                    </FormGroup>
+                    </PersonalFormGroup>
                   </div>
                 )}
               </FormContainer>
