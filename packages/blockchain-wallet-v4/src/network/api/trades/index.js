@@ -40,10 +40,19 @@ export default ({ nabuUrl, post, get }) => {
       ignoreQueryParams: true
     })
 
+  const fetchTradeCounterFees = currency =>
+    get({
+      url: nabuUrl,
+      endPoint: `/fees/${currency}`,
+      contentType: 'application/json',
+      ignoreQueryParams: true
+    })
+
   return {
     executeTrade,
     fetchLimits,
     fetchTrade,
-    fetchTrades
+    fetchTrades,
+    fetchTradeCounterFees
   }
 }

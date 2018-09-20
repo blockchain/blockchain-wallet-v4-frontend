@@ -1,5 +1,5 @@
 import { call, put, select, all, take } from 'redux-saga/effects'
-import { equals, keys, path, prop } from 'ramda'
+import { equals, keys, path, prop, propOr } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4'
 import { actions, actionTypes, selectors, model } from 'data'
@@ -98,6 +98,7 @@ export default ({ api, coreSagas, options, networks }) => {
     const fiatCurrency = yield call(getFiatCurrency)
     yield call(changeRatesSubscription, source, target, fiatCurrency)
     yield call(fetchLimits)
+    yield call(fetchTargetFees)
   }
 
   const validateForm = function*() {
@@ -135,6 +136,19 @@ export default ({ api, coreSagas, options, networks }) => {
     if (!(fix && formatPair(sourceCoin, targetCoin) === pair)) return
 
     yield call(validateForm)
+  }
+
+  const fetchTargetFees = function*() {
+    try {
+      yield put(A.fetchTargetFeesLoading())
+      const form = yield select(formValueSelector)
+      const targetCoin = path(['target', 'coin'], form)
+      const { fee } = yield call(api.fetchTradeCounterFees, targetCoin)
+      yield put(A.fetchTargetFeesSuccess(fee))
+    } catch (e) {
+      const description = propOr('', 'description', e)
+      yield put(A.fetchTargetFeesError(description))
+    }
   }
 
   const fetchLimits = function*() {
@@ -334,6 +348,7 @@ export default ({ api, coreSagas, options, networks }) => {
       yield call(startValidation)
       yield call(unsubscribeFromCurrentAdvice, form)
       yield call(changeSubscription, true)
+      yield call(fetchTargetFees)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'changeTarget', e))
     }
@@ -400,6 +415,7 @@ export default ({ api, coreSagas, options, networks }) => {
       yield call(unsubscribeFromCurrentAdvice, { source, target })
       yield call(changeSubscription, true)
       yield call(clearMinMax)
+      yield call(fetchTargetFees)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'swapFieldValue', e))
     }

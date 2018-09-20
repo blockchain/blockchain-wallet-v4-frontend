@@ -63,7 +63,10 @@ const stubProps = {
   targetActive: false,
   coinActive: false,
   fiatActive: true,
-  fix: BASE_IN_FIAT
+  fix: BASE_IN_FIAT,
+  min: null,
+  max: null,
+  targetFee: Remote.NotAsked
 }
 
 export default () => <Success {...stubProps} />
