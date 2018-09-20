@@ -386,7 +386,7 @@
   "identityverification.mobile.faq.phone.title": "Please add your phone",
   "identityverification.personal.address": "Address",
   "identityverification.personal.address2": "Address 2",
-  "identityverification.personal.addressrefetch": "Ooops, address lookup failed. {retry}",
+  "identityverification.personal.addressrefetch": "Oops, address lookup failed. {retry}",
   "identityverification.personal.back": "Back",
   "identityverification.personal.city": "City",
   "identityverification.personal.continue": "Continue",
