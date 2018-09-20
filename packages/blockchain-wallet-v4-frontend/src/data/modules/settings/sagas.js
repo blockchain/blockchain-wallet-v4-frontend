@@ -45,22 +45,23 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const showBackupRecovery = function*() {
-    const recoverySaga = function*({ password }) {
-      const getMnemonic = s => selectors.core.wallet.getMnemonic(s, password)
-      try {
-        const mnemonicT = yield select(getMnemonic)
-        const mnemonic = yield call(() => taskToPromise(mnemonicT))
-        const mnemonicArray = mnemonic.split(' ')
-        yield put(
-          actions.modules.settings.addMnemonic({ mnemonic: mnemonicArray })
-        )
-      } catch (e) {
-        yield put(
-          actions.logs.logErrorMessage(logLocation, 'showBackupRecovery', e)
-        )
-      }
+  const recoverySaga = function* ({ password }) {
+    const getMnemonic = s => selectors.core.wallet.getMnemonic(s, password)
+    try {
+      const mnemonicT = yield select(getMnemonic)
+      const mnemonic = yield call(() => taskToPromise(mnemonicT))
+      const mnemonicArray = mnemonic.split(' ')
+      yield put(
+        actions.modules.settings.addMnemonic({ mnemonic: mnemonicArray })
+      )
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'showBackupRecovery', e)
+      )
     }
+  }
+
+  const showBackupRecovery = function*() {
     yield call(askSecondPasswordEnhancer(recoverySaga), {})
   }
 
@@ -368,6 +369,7 @@ export default ({ api, coreSagas }) => {
     enableTwoStepGoogleAuthenticator,
     enableTwoStepYubikey,
     newHDAccount,
+    recoverySaga,
     showBtcPrivateKey,
     showEthPrivateKey
   }
