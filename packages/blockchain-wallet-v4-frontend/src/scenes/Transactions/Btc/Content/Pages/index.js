@@ -3,6 +3,8 @@ import React from 'react'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import Success from './template.success'
+import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
+import VulnerableAddressError from 'components/VulnerableAddressError'
 
 class Pages extends React.PureComponent {
   render () {
@@ -12,7 +14,15 @@ class Pages extends React.PureComponent {
       Success: value => (
         <Success transactions={value} buysellPartner={buysellPartner} />
       ),
-      Failure: () => <DataError onClick={() => this.props.onRefresh()} />,
+      Failure: message =>
+        message && checkForVulnerableAddressError(message) ? (
+          <VulnerableAddressError
+            message={message}
+            onArchive={this.props.onArchive}
+          />
+        ) : (
+          <DataError onClick={() => this.props.onRefresh()} />
+        ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
