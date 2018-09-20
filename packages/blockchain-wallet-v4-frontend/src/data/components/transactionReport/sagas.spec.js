@@ -1,16 +1,10 @@
-import { select } from 'redux-saga/effects'
-
-import { expectSaga, testSaga } from 'redux-saga-test-plan'
-// import * as matchers from 'redux-saga-test-plan/matchers'
-// import { throwError } from 'redux-saga-test-plan/providers'
+import { testSaga } from 'redux-saga-test-plan'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
 import transactionReportSagas, { initialValues, logLocation } from './sagas'
 import moment from 'services/MomentHelper'
-import { transactionReport } from 'blockchain-wallet-v4-frontend/src/data/components/actions';
-// import * as C from 'services/AlertService'
-// import { promptForSecondPassword, confirm } from 'services/SagaService'
+
 const coreSagas = coreSagasFactory()
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
