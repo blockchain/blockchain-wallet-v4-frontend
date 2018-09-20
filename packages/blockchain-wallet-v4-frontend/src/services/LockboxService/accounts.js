@@ -1,9 +1,14 @@
 import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
-import { publicKeyChainCodeToBip32 } from 'blockchain-wallet-v4/src/utils/btc'
+import {
+  getParentPath,
+  createXPUB,
+  publicKeyChainCodeToBip32
+} from 'blockchain-wallet-v4/src/utils/btc'
 import { deriveAddressFromXpub } from 'blockchain-wallet-v4/src/utils/eth'
 import { Types } from 'blockchain-wallet-v4/src'
 import { prop } from 'ramda'
 
+// TODO :: probably deprecated. You should getXpub only
 const deriveDeviceInfo = async btcTransport => {
   const btc = await btcTransport.getWalletPublicKey("44'/0'/0'")
   const bch = await btcTransport.getWalletPublicKey("44'/145'/0'")
@@ -12,6 +17,7 @@ const deriveDeviceInfo = async btcTransport => {
   return { btc, bch, eth }
 }
 
+// TODO :: publicKeyChainCodeToBip32 must be removed and use getXpub
 const deriveDeviceId = btcXpub => {
   try {
     const xpub = publicKeyChainCodeToBip32(btcXpub)
@@ -21,6 +27,7 @@ const deriveDeviceId = btcXpub => {
   }
 }
 
+// TODO :: publicKeyChainCodeToBip32 must be removed removed and use getXpub
 const generateAccountsMDEntry = (newDevice, deviceName) => {
   const deviceId = prop('id', newDevice)
   const deviceType = prop('type', newDevice)
@@ -53,10 +60,18 @@ const ethAccount = (xpub, label) => ({
 
 const btcAccount = (xpub, label) => Types.HDAccount.js(label, null, xpub)
 
+const getXpub = async (ledgerApp, path) => {
+  let parentPath = getParentPath(path)
+  let child = await ledgerApp.getWalletPublicKey(path)
+  let parent = await ledgerApp.getWalletPublicKey(parentPath)
+  return createXPUB(path, child, parent)
+}
+
 export default {
   btcAccount,
   deriveDeviceInfo,
   deriveDeviceId,
   ethAccount,
-  generateAccountsMDEntry
+  generateAccountsMDEntry,
+  getXpub
 }

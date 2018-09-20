@@ -1,6 +1,6 @@
 import { selectAll } from '../coinSelection'
 import { address, networks, ECPair, Transaction, crypto } from 'bitcoinjs-lib'
-import { equals, head, or, propOr, compose } from 'ramda'
+import { equals, head, or, propOr, compose, dropLast, last } from 'ramda'
 import { decode, fromWords } from 'bech32'
 import { fromPublicKey } from 'bip32'
 import { compile } from 'bitcoinjs-lib/src/script'
@@ -10,6 +10,7 @@ import BigInteger from 'bigi'
 import BigNumber from 'bignumber.js'
 import * as Exchange from '../exchange'
 import Either from 'data.either'
+import * as bippath from 'bip32-path'
 
 export const isValidBitcoinAddress = (value, network) => {
   try {
@@ -247,6 +248,7 @@ export const getWifAddress = (key, compressed = true) => {
 
 export const txHexToHashHex = txHex => Transaction.fromHex(txHex).getId()
 
+// DEPRECATED :: SHOULD BE REMOVED ONCE MOVED TO CREATEXPUB
 export const publicKeyChainCodeToBip32 = data => {
   const { publicKey, chainCode } = data
   const compressedPublicKey = compressPublicKey(Buffer.from(publicKey, 'hex'))
@@ -263,4 +265,29 @@ export const compressPublicKey = publicKey => {
   const prefixBuffer = Buffer.alloc(1)
   prefixBuffer[0] = prefix
   return Buffer.concat([prefixBuffer, publicKey.slice(1, 1 + 32)])
+}
+
+export const fingerprint = publickey => {
+  let pkh = compose(
+    crypto.ripemd160,
+    crypto.sha256
+  )(publickey)
+  return ((pkh[0] << 24) | (pkh[1] << 16) | (pkh[2] << 8) | pkh[3]) >>> 0
+}
+
+export const getParentPath = compose(
+  array => bippath.fromPathArray(array).toString(),
+  dropLast(1),
+  path => bippath.fromString(path).toPathArray()
+)
+
+export const createXPUB = (path, child, parent) => {
+  let pathArray = bippath.fromString(path).toPathArray()
+  let pkChild = compressPublicKey(Buffer.from(child.publicKey, 'hex'))
+  let pkParent = compressPublicKey(Buffer.from(parent.publicKey, 'hex'))
+  let hdnode = fromPublicKey(pkChild, Buffer.from(child.chainCode, 'hex'))
+  hdnode.parentFingerprint = fingerprint(pkParent)
+  hdnode.depth = pathArray.length
+  hdnode.index = last(pathArray)
+  return hdnode.toBase58()
 }
