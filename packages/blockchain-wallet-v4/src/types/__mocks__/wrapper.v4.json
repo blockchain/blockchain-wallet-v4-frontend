@@ -1,0 +1,48 @@
+{
+  "sync_pubkeys": false,
+  "serverTime": 1537471942924,
+  "real_auth_type": 0,
+  "auth_type": 0,
+  "payload_checksum": "ca9317656c34fd5677eaf3d312e7663eefd479d1bcea915ee73c4dcaf7f7292e",
+  "version": 3,
+  "language": "en",
+  "war_checksum": "a5493d86b6ce640e",
+  "password": "Blockchain*",
+  "clientTimeDiff": 154,
+  "pbkdf2_iterations": 5000,
+  "wallet": {
+    "addresses": [],
+    "tx_notes": [],
+    "guid": "f2dab335-b5ab-40fc-9e1e-570779651501",
+    "tx_names": [],
+    "double_encryption": false,
+    "address_book": [],
+    "sharedKey": "9bf56d39-c60f-4b80-8c15-9fbe8ad537a3",
+    "hd_wallets": [
+      {
+        "seed_hex": "6a4d9524d413fdf69ca1b5664d1d6db0",
+        "passphrase": "",
+        "mnemonic_verified": false,
+        "default_account_idx": 0,,
+        "accounts": [
+          {
+            "label": "My Bitcoin Wallet",
+            "archived": false,
+            "xpriv": "xprv9yL1ousLjQQzGNBAYykaT8J3U626NV6zbLYkRv8rvUDpY4f1RnrvAXQneGXC9UNuNvGXX4j6oHBK5KiV2hKevRxY5ntis212oxjEL11ysuG",
+            "xpub": "xpub6CKNDRQEZmyHUrFdf1HapGEn27ramwpqxZUMEJYUUokoQrz9yLBAiKjGVWDuiCT39udj1r3whqQN89Tar5KrojH8oqSy7ytzJKW8gwmhwD3",
+            "address_labels": [
+              {
+                "index": 0,
+                "label": "labeled_address"
+              }
+            ],
+            "cache": {
+              "receiveAccount": "xpub6DvkWPwBsu1HpPJj8qnAKQXzEiDthudN7sVRu41hXgLr2Vm6t7DCgiwnKuB1jojhW5BYEfV4dGa4Wp5PNjJnn37Zww8WbCVbU1LQ4KktG3Y",
+              "changeAccount": "xpub6DvkWPwBsu1HrL2cnTqKcdkbvYAwkfU5oy7SpoPMTULSy4jE6i7xapGjxYDdJaTGi3rM8q9x3okBnDoN2UnrQhBPdeDHmMEFMqG8m27Qzpr"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

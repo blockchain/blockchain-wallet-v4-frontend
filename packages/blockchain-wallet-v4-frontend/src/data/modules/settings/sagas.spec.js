@@ -1,29 +1,22 @@
 import { select } from 'redux-saga/effects'
 import {
-  promptForSecondPassword,
-  askSecondPasswordEnhancer
+  promptForSecondPassword
 } from 'services/SagaService'
-import { expectSaga, testSaga } from 'redux-saga-test-plan'
+import { testSaga, expectSaga } from 'redux-saga-test-plan'
+import * as matchers from 'redux-saga-test-plan/matchers'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
+
 import * as actions from '../../actions'
-import * as settingsActions from './actions.js'
 import * as selectors from '../../selectors.js'
-import settingsSagas, { logLocation, recoverySaga, ipRestrictionError } from './sagas'
+import settingsSagas, { logLocation, ipRestrictionError, taskToPromise } from './sagas'
 import * as C from 'services/AlertService'
 import { contains } from 'ramda'
-// import profileSagas from 'data/modules/profile/sagaRegister'
-// import { syncUserWithWallet } from 'data/modules/profile/sagas'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
-// jest.mock('data/modules/profile/sagas')
-jest.mock()
 const coreSagas = coreSagasFactory()
 
 const SECRET_GOOGLE_AUTHENTICATOR_URL = 'some_url'
-
-// syncUserWithWallet.mockImplementation(() => true)
-// profileSagas.syncUserWithWallet = jest.fn()
-
+const MOCK_PASSWORD = 'password'
 const MOCK_GUID = '50dae286-e42e-4d67-8419-d5dcc563746c'
 
 describe('settingsSagas', () => {
@@ -503,7 +496,7 @@ describe('settingsSagas', () => {
 
     let saga = testSaga(enableTwoStepMobile, action)
 
-    it('should call set authType', () => {
+    it('should call core set authType', () => {
       saga.next().call(coreSagas.settings.setAuthType, action.payload)
     })
 
@@ -531,4 +524,112 @@ describe('settingsSagas', () => {
     })
   })
 
+  describe('enableTwoStepGoogleAuthenticator', () => {
+    let { enableTwoStepGoogleAuthenticator } = settingsSagas({ coreSagas })
+
+    let action = { payload: 'google_auth' }
+
+    let saga = testSaga(enableTwoStepGoogleAuthenticator, action)
+
+    it('should call core set google auth', () => {
+      saga.next().call(coreSagas.settings.setGoogleAuthenticator, action.payload)
+    })
+
+    it('should display success', () => {
+      saga
+        .next()
+        .put(actions.alerts.displaySuccess(C.TWOFA_GOOGLEAUTH_ENABLE_SUCCESS))
+    })
+
+    it('should close the modal', () => {
+      saga.next().put(actions.modals.closeModal())
+    })
+
+    describe('error handling', () => {
+      const error = new Error('ERROR')
+      it('should log the error and display an error alert', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'enableTwoStepGoogleAuthenticator', error))
+          .next()
+          .put(actions.alerts.displayError(C.TWOFA_GOOGLEAUTH_ENABLE_ERROR))
+      })
+    })
+  })
+
+  describe('enableTwoStepYubikey', () => {
+    let { enableTwoStepYubikey } = settingsSagas({ coreSagas })
+
+    let action = { payload: 'yubikey' }
+
+    let saga = testSaga(enableTwoStepYubikey, action)
+
+    it('should call core set setYubikey', () => {
+      saga
+        .next()
+        .call(coreSagas.settings.setYubikey, action.payload)
+    })
+
+    it('should display success', () => {
+      saga
+        .next()
+        .put(
+          actions.alerts.displaySuccess(C.TWOFA_YUBIKEY_ENABLE_SUCCESS)
+        )
+    })
+
+    it('should close the modal', () => {
+      saga.next().put(actions.modals.closeModal())
+    })
+
+    describe('error handling', () => {
+      const error = new Error('ERROR')
+      it('should log the error and display an error alert', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'enableTwoStepYubikey', error))
+          .next()
+          .put(actions.alerts.displayError(C.TWOFA_YUBIKEY_ENABLE_ERROR))
+      })
+    })
+  })
+
+  describe('showBtcPrivateKey', () => {
+    const { showBtcPrivateKey } = settingsSagas({ coreSagas })
+
+    let action = { payload: { addr: 'address' } }
+
+    let saga = testSaga(showBtcPrivateKey, action)
+
+    it('should call promptForSecondPassword', () => {
+      saga.next().call(promptForSecondPassword)
+    })
+
+    it('should select the wallet', () => {
+      saga.next(MOCK_PASSWORD).select(selectors.core.wallet.getWallet)
+    })
+  })
+
+  describe('showEthPrivateKey', () => {
+    const getMnemonic = () => jest.fn()
+    const { showEthPrivateKey } = settingsSagas({ coreSagas })
+
+    let action = { payload: { isLegacy: false } }
+
+    // let saga = testSaga(showEthPrivateKey, action)
+
+    it('should get the mnemonic', () => {
+      return expectSaga(showEthPrivateKey, action)
+        .provide([
+          [matchers.call.fn(promptForSecondPassword), 'password'],
+          [select(getMnemonic), 'mnemonicT'],
+          [matchers.call.fn(() => taskToPromise), 'mnemonic']
+        ])
+        .run()
+    })
+  })
 })

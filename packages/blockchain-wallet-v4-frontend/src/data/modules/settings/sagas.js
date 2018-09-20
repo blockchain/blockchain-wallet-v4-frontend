@@ -11,7 +11,7 @@ import {
 import { Types, utils } from 'blockchain-wallet-v4/src'
 import { contains, toLower, prop, head } from 'ramda'
 
-const taskToPromise = t =>
+export const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export const ipRestrictionError =
