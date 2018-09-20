@@ -66,7 +66,7 @@ export default (state = INITIAL_STATE, action) => {
       return INITIAL_STATE
     }
     case AT.SET_STEP: {
-      return EXCHANGE_STEPS.EXCHANGE_FORM
+      return assoc('step', payload.step, state)
     }
     case AT.FETCH_LIMITS_LOADING:
       return assoc('limits', Remote.Loading, state)

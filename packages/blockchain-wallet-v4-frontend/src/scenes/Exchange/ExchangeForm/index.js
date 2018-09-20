@@ -22,6 +22,7 @@ import DataError from 'components/DataError'
 const extractFieldValue = (e, value) => value
 
 const { swapCoinAndFiat, swapBaseAndCounter } = model.rates
+const { CONFIRM } = model.components.exchange.EXCHANGE_STEPS
 
 class ExchangeForm extends React.Component {
   componentDidMount () {
@@ -56,7 +57,7 @@ class ExchangeForm extends React.Component {
             canUseExchange={canUseExchange}
             handleMaximum={actions.firstStepMaximumClicked}
             handleMinimum={actions.firstStepMinimumClicked}
-            onSubmit={actions.firstStepSubmitClicked}
+            onSubmit={actions.setStep.bind(null, CONFIRM)}
             handleSourceChange={compose(
               actions.changeSource,
               extractFieldValue
