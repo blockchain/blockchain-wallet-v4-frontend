@@ -28,6 +28,7 @@ const Success = props => {
             data={value}
             onRefresh={props.onRefresh}
             buysellPartner={props.buysellPartner}
+            onArchive={props.onArchive}
           />
         ))
       )}
