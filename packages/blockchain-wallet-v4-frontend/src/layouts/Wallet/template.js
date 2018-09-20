@@ -84,7 +84,13 @@ const WalletLayout = props => {
             {location.pathname.includes('/settings/addresses/bch') && (
               <AddrMenu />
             )}
-            {location.pathname.includes('/exchange') && <ExchangeMenu />}
+            {location.pathname.includes('/exchange') && (
+              <ExchangeMenu
+                historySelected={location.pathname.includes(
+                  '/exchange/history'
+                )}
+              />
+            )}
             {location.pathname.includes('/lockbox') && <LockboxMenu />}
             <Page>{children}</Page>
           </Content>
