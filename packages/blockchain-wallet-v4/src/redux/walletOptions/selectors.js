@@ -3,6 +3,10 @@ import { walletOptionsPath } from '../paths'
 
 export const getOptions = path([walletOptionsPath])
 export const getDomains = state => getOptions(state).map(path(['domains']))
+export const getBtcNetwork = state =>
+  getOptions(state).map(
+    path(['platforms', 'web', 'bitcoin', 'config', 'network'])
+  )
 export const getMigrationRedirects = state =>
   getOptions(state).map(
     path(['platforms', 'web', 'application', 'enableDomainMigrationRedirects'])

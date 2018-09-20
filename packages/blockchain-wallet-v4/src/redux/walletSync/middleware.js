@@ -48,11 +48,7 @@ export const getHDAccountAddressPromises = curry((state, account) => {
    */
   const asyncDerive = index =>
     toAsync(() =>
-      HDAccount.getReceiveAddress(
-        account,
-        index,
-        networks.bitcoin.NETWORK_BITCOIN
-      )
+      HDAccount.getReceiveAddress(account, index, networks.bitcoin.NETWORK_BTC)
     )
 
   const receiveIndex = selectors.data.bitcoin

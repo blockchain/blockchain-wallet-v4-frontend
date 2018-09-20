@@ -4,7 +4,7 @@ import * as KV from '../../../types/KVStoreEntry'
 
 const eitherToTask = e => e.fold(Task.rejected, Task.of)
 
-export default ({ apiUrl }) => {
+export default ({ apiUrl, networks }) => {
   const request = (method, endpoint, data) => {
     const checkStatus = response => {
       if (response.status >= 200 && response.status < 300) {
@@ -50,7 +50,8 @@ export default ({ apiUrl }) => {
     let signatureBuffer = KV.computeSignature(
       kv.signKey,
       encPayloadBuffer,
-      kv.magicHash
+      kv.magicHash,
+      networks.btc
     )
 
     let body = {
@@ -62,7 +63,7 @@ export default ({ apiUrl }) => {
     }
 
     return request('PUT', kv.address, body).map(res => {
-      let magicHash = KV.magic(encPayloadBuffer, kv.magicHash)
+      let magicHash = KV.magic(encPayloadBuffer, kv.magicHash, networks.btc)
       return set(KV.magicHash, magicHash, kv)
     })
   }
@@ -78,7 +79,7 @@ export default ({ apiUrl }) => {
     })
 
     return request('GET', kv.address)
-      .map(KV.verifyResponse(kv.address))
+      .map(KV.verifyResponse(kv.address, networks.btc))
       .chain(eitherToTask)
       .map(setKvFromResponse(kv))
       .rejectedMap(e => {

@@ -515,7 +515,8 @@ const FaqContent = [
             <FormattedMessage
               id='scenes.faq.group.walletfunctionality.answer2.two'
               defaultMessage='To ensure your transactions confirm consistently and reliably, your wallet will automatically include an appropriate fee based on your transaction’s size and the level of network traffic at the time. If you wish to specify your own fee for bitcoin transactions, you can do so under ‘Customize Fee’.'
-            />'
+            />
+            '
           </FaqDescription>
         )
       },

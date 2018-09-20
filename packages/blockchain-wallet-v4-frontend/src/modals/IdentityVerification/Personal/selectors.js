@@ -1,38 +1,47 @@
-import PhoneNumber from 'awesome-phonenumber'
-import { selectors } from 'data'
-import { path, lift } from 'ramda'
+import { formValueSelector } from 'redux-form'
+import { compose, prop } from 'ramda'
+
+import { selectors, model } from 'data'
 
 const {
-  getPersonalData,
-  getPersonalStep,
-  getSmsStep,
-  getEmailStep,
-  getFormBusy
+  getSupportedCountries,
+  getPossibleAddresses,
+  isAddressRefetchVisible
 } = selectors.components.identityVerification
+const { getApiToken, getUserData } = selectors.modules.profile
+
+const { PERSONAL_FORM } = model.components.identityVerification
+
+const formValSelector = formValueSelector(PERSONAL_FORM)
+const activeFieldSelector = selectors.form.getActiveField(PERSONAL_FORM)
+
+const formatUserData = ({
+  state,
+  kycState,
+  id,
+  address,
+  mobile,
+  ...userData
+}) => ({
+  ...userData,
+  address,
+  ...address
+})
 
 export const getData = state => ({
-  personalData: getPersonalData(state),
-  step: getPersonalStep(state).getOrElse(null),
-  countryCode: getCountryCode(state).getOrElse('US'),
-  formBusy: getFormBusy(state)
+  addressRefetchVisible:
+    isAddressRefetchVisible(state) || getApiToken(state).error,
+  initialCountryCode: selectors.core.settings
+    .getCountryCode(state)
+    .getOrElse(null),
+  possibleAddresses: getPossibleAddresses(state),
+  countryCode: prop('code', formValSelector(state, 'country')),
+  postCode: formValSelector(state, 'postCode'),
+  address: formValSelector(state, 'address'),
+  supportedCountries: getSupportedCountries(state),
+  activeField: activeFieldSelector(state),
+  userData: compose(
+    formatUserData,
+    getUserData
+  )(state)
 })
-
-export const getEmailData = state => ({
-  step: getEmailStep(state).getOrElse(null),
-  emailVerifiedError: path(['securityCenter', 'emailVerifiedError'], state)
-})
-
-export const getSmsData = state => ({
-  step: getSmsStep(state).getOrElse(null),
-  mobileVerifiedError: path(['securityCenter', 'mobileVerifiedError'], state),
-  countryCode: getCountryCode(state)
-})
-
-const determineCountryCode = (currentNumber, defaultCode) =>
-  currentNumber ? PhoneNumber(currentNumber).getRegionCode() : defaultCode
-
-const getCountryCode = state =>
-  lift(determineCountryCode)(
-    selectors.core.settings.getSmsNumber(state),
-    selectors.core.settings.getCountryCode(state)
-  )

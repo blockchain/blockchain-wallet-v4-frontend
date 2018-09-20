@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import styled from 'styled-components'
+import { pathEq } from 'ramda'
 
 import { getData } from './selectors'
 import { actions } from 'data'
@@ -15,7 +16,9 @@ import modalEnhancer from 'providers/ModalEnhancer'
 
 export const MODAL_NAME = 'Onfido'
 
-const OnfidoIframe = styled.iframe`
+const OnfidoIframe = styled.iframe.attrs({
+  allow: 'camera'
+})`
   width: 100%;
   height: 604px;
   border: none;
@@ -29,7 +32,7 @@ const OnfidoModal = styled(Modal)`
 class OnfidoContainer extends React.PureComponent {
   componentDidMount () {
     this.props.actions.fetchOnfidoSDKKey()
-    window.addEventListener('message', this.handleOnfidoMessage)
+    window.addEventListener('message', this.handleOnfidoMessage, false)
   }
 
   componentWillUnmount () {
@@ -38,12 +41,12 @@ class OnfidoContainer extends React.PureComponent {
 
   handleOnfidoMessage = ({ data, origin }) => {
     const { helperDomain, actions } = this.props
-    if (!data.command) return
+    if (origin !== helperDomain) return
     if (data.from !== 'onfido') return
     if (data.to !== 'IdentityVerification') return
-    if (origin !== helperDomain) return
-    if (data.command !== 'done') return
-    actions.syncOnfido()
+    if (data.event !== 'done') return
+    const isSelfie = pathEq(['data', 'face', 'variant'], 'standard', data)
+    actions.syncOnfido(isSelfie)
   }
 
   render () {
