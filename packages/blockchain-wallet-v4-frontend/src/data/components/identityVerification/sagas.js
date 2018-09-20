@@ -8,7 +8,15 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import * as C from 'services/AlertService'
 
 import * as A from './actions'
-import { STEPS, SMS_STEPS, SMS_NUMBER_FORM, PERSONAL_FORM } from './model'
+import {
+  STEPS,
+  SMS_STEPS,
+  SMS_NUMBER_FORM,
+  PERSONAL_FORM,
+  BAD_CODE_ERROR,
+  PHONE_EXISTS_ERROR,
+  UPDATE_FAILURE
+} from './model'
 
 export const logLocation = 'components/identityVerification/sagas'
 
@@ -80,9 +88,13 @@ export default ({ api, coreSagas }) => {
       yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
       yield put(A.setVerificationStep(STEPS.verify))
     } catch (e) {
-      yield put(
-        actions.form.stopSubmit(SMS_NUMBER_FORM, { mobileVerifiedError })
-      )
+      const description = prop('description', e)
+
+      let error
+      if (description === PHONE_EXISTS_ERROR) error = PHONE_EXISTS_ERROR
+      else if (e === BAD_CODE_ERROR) error = BAD_CODE_ERROR
+      else error = UPDATE_FAILURE
+      yield put(actions.form.stopSubmit(SMS_NUMBER_FORM, { _error: error }))
     }
   }
 

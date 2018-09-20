@@ -34,20 +34,16 @@ export default ({ api, coreSagas }) => {
       )).getOrElse(null)
       if (!userId || !lifetimeToken) return
 
-      yield call(startSession, userId, lifetimeToken, email, guid)
+      yield put(A.setApiToken(Remote.Loading))
+      renewSessionTask = yield fork(
+        renewSession,
+        userId,
+        lifetimeToken,
+        email,
+        guid,
+        0
+      )
     } catch (e) {}
-  }
-
-  const startSession = function*(userId, lifetimeToken, email, guid) {
-    yield put(A.setApiToken(Remote.Loading))
-    renewSessionTask = yield fork(
-      renewSession,
-      userId,
-      lifetimeToken,
-      email,
-      guid,
-      0
-    )
   }
 
   const renewSession = function*(
@@ -59,20 +55,7 @@ export default ({ api, coreSagas }) => {
   ) {
     try {
       yield delay(renewIn)
-      const { token: apiToken, expiresAt } = yield call(
-        api.generateSession,
-        userId,
-        lifetimeToken,
-        email,
-        guid
-      )
-      yield put(A.setApiToken(Remote.of(apiToken)))
-      yield call(fetchUser)
-      yield call(renewApiSockets)
-      const expiresIn = moment(expiresAt)
-        .subtract(5, 's')
-        .diff(moment())
-      yield spawn(renewSession, userId, lifetimeToken, email, guid, expiresIn)
+      yield call(setSession, userId, lifetimeToken, email, guid)
     } catch (e) {
       yield put(A.setApiToken(Remote.Failure(e)))
       yield spawn(
@@ -84,6 +67,23 @@ export default ({ api, coreSagas }) => {
         authRetryDelay
       )
     }
+  }
+
+  const setSession = function*(userId, lifetimeToken, email, guid) {
+    const { token: apiToken, expiresAt } = yield call(
+      api.generateSession,
+      userId,
+      lifetimeToken,
+      email,
+      guid
+    )
+    yield put(A.setApiToken(Remote.of(apiToken)))
+    yield call(fetchUser)
+    yield call(renewApiSockets)
+    const expiresIn = moment(expiresAt)
+      .subtract(5, 's')
+      .diff(moment())
+    yield spawn(renewSession, userId, lifetimeToken, email, guid, expiresIn)
   }
 
   const fetchUser = function*() {
@@ -106,11 +106,11 @@ export default ({ api, coreSagas }) => {
   }
 
   const clearSession = function*() {
-    if (renewSessionTask !== null) {
+    if (renewSessionTask) {
       yield cancel(renewSessionTask)
       renewSessionTask = null
     }
-    if (renewUserTask !== null) {
+    if (renewUserTask) {
       yield cancel(renewUserTask)
       renewUserTask = null
     }
@@ -141,8 +141,8 @@ export default ({ api, coreSagas }) => {
   }
 
   const createUser = function*() {
-    // session has already started
-    if (renewSessionTask !== null) return
+    const token = yield select(S.getApiToken)
+    if (!Remote.NotAsked.is(token)) return
 
     const userIdR = yield select(
       selectors.core.kvStore.userCredentials.getUserId
@@ -165,7 +165,7 @@ export default ({ api, coreSagas }) => {
       })
       .getOrElse({})
 
-    yield call(startSession, userId, lifetimeToken, email, guid)
+    yield call(setSession, userId, lifetimeToken, email, guid)
   }
 
   const updateUser = function*({ payload }) {
@@ -206,13 +206,15 @@ export default ({ api, coreSagas }) => {
   return {
     signIn,
     clearSession,
-    startSession,
+    setSession,
+    renewSession,
     generateRetailToken,
     generateAuthCredentials,
     createUser,
     updateUser,
     updateUserAddress,
     fetchUser,
+    renewApiSockets,
     renewUser,
     syncUserWithWallet
   }

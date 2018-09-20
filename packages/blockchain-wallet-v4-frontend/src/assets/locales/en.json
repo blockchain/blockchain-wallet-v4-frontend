@@ -390,7 +390,7 @@
   "identityverification.personal.back": "Back",
   "identityverification.personal.city": "City",
   "identityverification.personal.continue": "Continue",
-  "identityverification.personal.country": "Country",
+  "identityverification.personal.country": "Select your country of residence",
   "identityverification.personal.dateofbirth": "Your Birthday (MM/DD/YYYY)",
   "identityverification.personal.email.code": "We emailed a verification code to {email}",
   "identityverification.personal.email.confirm": "Confirm Email:",
