@@ -1,9 +1,12 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, HeartbeatLoader, Image } from 'blockchain-info-components'
 import media from 'services/ResponsiveService'
+
+import { Button, Image } from 'blockchain-info-components'
+import { FooterShadowWrapper } from 'components/Form'
 import {
   ColLeft,
   ColRight,
@@ -12,8 +15,16 @@ import {
   PartnerSubHeader,
   ColRightInner
 } from 'components/IdentityVerification'
-import renderFaq from 'components/FaqDropdown'
 
+const VerifyMobileForm = styled.div`
+  height: 100%;
+`
+const Footer = styled.div`
+  width: 60%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`
 const VerifyWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -21,63 +32,77 @@ const VerifyWrapper = styled.div`
     flex-direction: column;
   `};
 `
+const DocumentsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 48px;
+  height: 95px;
+  font-size: 18px;
+  line-height: 25px;
+  font-weight: 600;
+`
 
-const faqQuestions = [
-  {
-    question: (
-      <FormattedMessage
-        id='identityverification.verify.faq.whycollect.question'
-        defaultMessage='Why do you need this information?'
-      />
-    ),
-    answer: (
-      <FormattedMessage
-        id='identityverification.verify.faq.whycollect.answer'
-        defaultMessage='To comply with government regulated anti-money laundering legislation, we need to obtain additional information in order to verify your identity.'
-      />
-    )
-  }
-]
-
-const Verify = ({ formBusy, handleSubmit }) => (
-  <VerifyWrapper>
-    <ColLeft>
-      <InputWrapper>
-        <PartnerHeader>
-          <FormattedMessage
-            id='identityverification.verify.header'
-            defaultMessage='Verify Your Identity'
-          />
-        </PartnerHeader>
-        <Image name='verify-identity' width='100%' />
-        <PartnerSubHeader>
-          <FormattedMessage
-            id='identityverification.verify.subheader'
-            defaultMessage='Good news – you’re almost done! Just grab your photo ID and mobile phone to complete your verification. This will only take a few minutes.'
-          />
-        </PartnerSubHeader>
-      </InputWrapper>
-    </ColLeft>
-    <ColRight>
-      <ColRightInner>
-        <Button uppercase nature='primary' onClick={handleSubmit} fullwidth>
-          {!formBusy ? (
+const Verify = ({ handleSubmit, onBack }) => (
+  <VerifyMobileForm>
+    <FooterShadowWrapper
+      fields={
+        <VerifyWrapper>
+          <ColLeft>
+            <InputWrapper>
+              <PartnerHeader>
+                <FormattedMessage
+                  id='identityverification.verify.header'
+                  defaultMessage='Verify Your Identity'
+                />
+              </PartnerHeader>
+              <PartnerSubHeader>
+                <FormattedMessage
+                  id='identityverification.verify.message'
+                  defaultMessage='Last step! We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.'
+                />
+              </PartnerSubHeader>
+              <DocumentsWrapper>
+                <FormattedMessage
+                  id='identityverification.verify.passport'
+                  defaultMessage='Government Issued Passport'
+                />
+                <FormattedMessage
+                  id='identityverification.verify.driverslicense'
+                  defaultMessage='Driver’s License'
+                />
+              </DocumentsWrapper>
+            </InputWrapper>
+          </ColLeft>
+          <ColRight>
+            <ColRightInner>
+              <Image name='identity-verification' width='100%' />
+            </ColRightInner>
+          </ColRight>
+        </VerifyWrapper>
+      }
+      footer={
+        <Footer>
+          <Button uppercase nature='transferred' onClick={onBack}>
             <FormattedMessage
-              id='identityverification.verify.verify'
-              defaultMessage='Verify My Identity'
+              id='identityverification.personal.back'
+              defaultMessage='Back'
             />
-          ) : (
-            <HeartbeatLoader height='20px' width='20px' color='white' />
-          )}
-        </Button>
-        {renderFaq(faqQuestions)}
-      </ColRightInner>
-    </ColRight>
-  </VerifyWrapper>
+          </Button>
+          <Button uppercase nature='primary' onClick={handleSubmit}>
+            <FormattedMessage
+              id='identityverification.personal.continue'
+              defaultMessage='Continue'
+            />
+          </Button>
+        </Footer>
+      }
+    />
+  </VerifyMobileForm>
 )
 
-Verify.propTypes = {}
-
-Verify.defaultProps = {}
+Verify.propTypes = {
+  handleSubmit: PropTypes.func.isRequired
+}
 
 export default Verify

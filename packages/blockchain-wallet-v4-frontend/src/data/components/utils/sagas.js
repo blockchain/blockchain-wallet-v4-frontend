@@ -17,7 +17,7 @@ export const selectRates = function*(coin) {
   }
 }
 
-export const selectReceiveAddress = function*(source) {
+export const selectReceiveAddress = function*(source, networks) {
   const appState = yield select(identity)
   const coin = prop('coin', source)
   const address = prop('address', source)
@@ -35,7 +35,7 @@ export const selectReceiveAddress = function*(source) {
   }
   if (equals('BTC', coin) && is(Number, address)) {
     const btcReceiveAddress = selectors.core.common.btc.getNextAvailableReceiveAddress(
-      settings.NETWORK_BITCOIN,
+      networks.btc,
       address,
       appState
     )

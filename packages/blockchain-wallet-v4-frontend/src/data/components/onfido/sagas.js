@@ -10,9 +10,9 @@ export default ({ api }) => {
   const fetchOnfidoSDKKey = function*() {
     try {
       yield put(A.fetchOnfidoSDKKeyLoading())
-      const { message: key, applicantId } = yield call(api.fetchOnfidoSDKKey)
+      const { token, applicantId } = yield call(api.fetchOnfidoSDKKey)
       yield put(A.setOnfidoApplicantId(applicantId))
-      yield put(A.fetchOnfidoSDKKeySuccess(key))
+      yield put(A.fetchOnfidoSDKKeySuccess(token))
     } catch (error) {
       yield put(A.fetchOnfidoSDKKeyError(error))
     }
@@ -24,7 +24,8 @@ export default ({ api }) => {
       yield put(A.syncOnfidoLoading())
       yield call(api.syncOnfido, applicantId)
       yield put(A.syncOnfidoSuccess())
-      yield put(actions.modals.closeModal())
+      yield put(actions.modules.profile.fetchUser())
+      yield put(actions.modals.closeAllModals())
     } catch (error) {
       yield put(A.syncOnfidoError(error))
     }

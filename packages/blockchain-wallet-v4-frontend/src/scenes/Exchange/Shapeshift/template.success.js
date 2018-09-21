@@ -1,23 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import StateRegistrationStep from './StateRegistrationStep'
-import FirstStep from './FirstStep'
-import SecondStep from './SecondStep'
-import ThirdStep from './ThirdStep'
+import { EXCHANGE_STEPS } from 'data/components/exchange/model'
+
+import StateRegistration from './StateRegistration'
+import ExchangeForm from './ExchangeForm'
+import Confirm from './Confirm'
+import ExchangeResults from './ExchangeResults'
 
 const Shapeshift = props => {
   switch (props.step) {
-    case 0:
-      return <StateRegistrationStep />
-    case 1:
-      return <FirstStep />
-    case 2:
-      return <SecondStep />
-    case 3:
-      return <ThirdStep />
+    case EXCHANGE_STEPS.STATE_REGISTRATION:
+      return <StateRegistration />
+    case EXCHANGE_STEPS.EXCHANGE_FORM:
+      return <ExchangeForm />
+    case EXCHANGE_STEPS.CONFIRM:
+      return <Confirm />
+    case EXCHANGE_STEPS.EXCHANGE_RESULT:
+      return <ExchangeResults />
     default:
-      return <FirstStep />
+      return <ExchangeForm />
   }
 }
 

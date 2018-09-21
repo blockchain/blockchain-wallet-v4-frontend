@@ -165,6 +165,7 @@ class VerifyMobile extends Component {
                 validate={[required, validMobileNumber]}
                 normalize={normalizePhone}
                 countryCode={countryCode}
+                errorBottom
               />
               {ui.create === 'change_mobile' && (
                 <Button
