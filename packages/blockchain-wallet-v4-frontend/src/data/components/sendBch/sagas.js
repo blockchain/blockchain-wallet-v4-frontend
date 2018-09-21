@@ -223,7 +223,11 @@ export default ({ coreSagas }) => {
         )
       }
       yield put(actions.core.data.bch.fetchData())
-      yield put(actions.router.push('/bch/transactions'))
+      if (payment.value().fromType === ADDRESS_TYPES.LOCKBOX) {
+        yield put(actions.router.push('/lockbox/dashboard/0'))
+      } else {
+        yield put(actions.router.push('/bch/transactions'))
+      }
       yield put(actions.alerts.displaySuccess(C.SEND_BCH_SUCCESS))
     } catch (e) {
       yield put(

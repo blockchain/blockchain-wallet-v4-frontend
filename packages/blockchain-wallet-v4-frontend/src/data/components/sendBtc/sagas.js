@@ -317,7 +317,11 @@ export default ({ coreSagas, networks }) => {
           )
         )
       }
-      yield put(actions.router.push('/btc/transactions'))
+      if (payment.value().fromType === ADDRESS_TYPES.LOCKBOX) {
+        yield put(actions.router.push('/lockbox/dashboard/0'))
+      } else {
+        yield put(actions.router.push('/btc/transactions'))
+      }
       yield put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
     } catch (e) {
       yield put(
