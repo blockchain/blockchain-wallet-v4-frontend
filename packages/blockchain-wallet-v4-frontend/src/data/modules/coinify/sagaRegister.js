@@ -3,8 +3,8 @@ import * as AT from './actionTypes'
 import sagas from './sagas'
 import { actionTypes } from 'redux-form'
 
-export default ({ coreSagas }) => {
-  const coinifySagas = sagas({ coreSagas })
+export default ({ coreSagas, networks }) => {
+  const coinifySagas = sagas({ coreSagas, networks })
 
   return function*() {
     yield takeLatest(AT.SIGNUP, coinifySagas.coinifySignup)

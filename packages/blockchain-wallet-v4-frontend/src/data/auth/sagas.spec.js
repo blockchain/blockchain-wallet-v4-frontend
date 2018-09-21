@@ -2,7 +2,7 @@ import { select } from 'redux-saga/effects'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import { fork, call } from 'redux-saga-test-plan/matchers'
 
-import { askSecondPasswordEnhancer } from 'services/SagaService'
+import { askSecondPasswordEnhancer, confirm } from 'services/SagaService'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as selectors from '../selectors.js'
 import * as actions from '../actions.js'
@@ -24,6 +24,8 @@ const api = {
   obtainSessionToken: jest.fn(),
   deauthorizeBrowser: jest.fn()
 }
+
+const VULNERABLE_ADDRESS = '1BgGZ9tcN4rm9KBzDn7KprQz87SZ26SAMH'
 
 describe('authSagas', () => {
   // Mocking Math.random() to have identical popup ids for action testing
@@ -334,6 +336,7 @@ describe('authSagas', () => {
 
   describe('login routine', () => {
     const {
+      checkDataErrors,
       loginRoutineSaga,
       logoutRoutine,
       reportStats,
@@ -350,6 +353,7 @@ describe('authSagas', () => {
     const firstLogin = false
     const saga = testSaga(loginRoutineSaga, mobileLogin, firstLogin)
     const beforeHdCheck = 'beforeHdCheck'
+    const beforeUserFlowCheck = 'beforeUserFlowCheck'
 
     it('should check if wallet is an hd wallet', () => {
       saga
@@ -404,8 +408,26 @@ describe('authSagas', () => {
       saga.next().put(actions.router.push('/home'))
     })
 
+    it('should fetch settings', () => {
+      saga.next().call(coreSagas.settings.fetchSettings)
+    })
+
+    it('should check if user flow is supported', () => {
+      saga
+        .next()
+        .select(selectors.modules.profile.userFlowSupported)
+        .save(beforeUserFlowCheck)
+    })
+
+    it('should trigger signin action if user flow is supported', () => {
+      saga
+        .next(Remote.of(true))
+        .put(actions.modules.profile.signIn())
+        .restore(beforeUserFlowCheck)
+    })
+
     it('should call upgrade address labels saga', () => {
-      saga.next().call(upgradeAddressLabelsSaga)
+      saga.next(Remote.of(false)).call(upgradeAddressLabelsSaga)
     })
 
     it('should trigger login success action', () => {
@@ -452,6 +474,10 @@ describe('authSagas', () => {
 
     it('should launch reportStats saga', () => {
       saga.next().fork(reportStats, mobileLogin)
+    })
+
+    it('should check for data errors', () => {
+      saga.next().fork(checkDataErrors)
     })
 
     it('should start listening for logout event', () => {
@@ -984,10 +1010,39 @@ describe('authSagas', () => {
       coreSagas
     })
 
+    it('should stop rates scoket if user flow is supported', () => {
+      return expectSaga(logout)
+        .provide([
+          [select(selectors.core.settings.getEmailVerified), Remote.of(true)],
+          [select(selectors.modules.profile.userFlowSupported), Remote.of(true)]
+        ])
+        .put(actions.modules.profile.clearSession())
+        .put(actions.middleware.webSocket.rates.stopSocket())
+        .run()
+    })
+
+    it('should not stop rates scoket if user flow is supported', () => {
+      return expectSaga(logout)
+        .provide([
+          [select(selectors.core.settings.getEmailVerified), Remote.of(true)],
+          [
+            select(selectors.modules.profile.userFlowSupported),
+            Remote.of(false)
+          ]
+        ])
+        .not.put(actions.modules.profile.clearSession())
+        .not.put(actions.middleware.webSocket.rates.stopSocket())
+        .run()
+    })
+
     it('should stop sockets and redirect to logout if email is verified', () => {
       return expectSaga(logout)
         .provide([
-          [select(selectors.core.settings.getEmailVerified), Remote.of(true)]
+          [select(selectors.core.settings.getEmailVerified), Remote.of(true)],
+          [
+            select(selectors.modules.profile.userFlowSupported),
+            Remote.of(false)
+          ]
         ])
         .put(actions.middleware.webSocket.bch.stopSocket())
         .put(actions.middleware.webSocket.btc.stopSocket())
@@ -999,7 +1054,11 @@ describe('authSagas', () => {
     it('should stop sockets and clear redux store if email is not verified', async () => {
       return expectSaga(logout)
         .provide([
-          [select(selectors.core.settings.getEmailVerified), Remote.of(false)]
+          [select(selectors.core.settings.getEmailVerified), Remote.of(false)],
+          [
+            select(selectors.modules.profile.userFlowSupported),
+            Remote.of(false)
+          ]
         ])
         .put(actions.middleware.webSocket.bch.stopSocket())
         .put(actions.middleware.webSocket.btc.stopSocket())
@@ -1089,6 +1148,32 @@ describe('authSagas', () => {
       })
 
       pageReloadTest()
+    })
+  })
+
+  describe('checkDataErrors', () => {
+    const { checkDataErrors } = authSagas({ api, coreSagas })
+    const saga = testSaga(checkDataErrors)
+    it('should select btc getInfo', () => {
+      saga.next().select(selectors.core.data.bitcoin.getInfo)
+    })
+    it('should call closeAllModals', () => {
+      let failedData = Remote.Failure(`A security issue effects address ${VULNERABLE_ADDRESS}. Please Archive It and Contact support@blockchain.zendesk.com`)
+      saga.next(failedData).put(actions.modals.closeAllModals())
+    })
+    it('should call confirm service', () => {
+      saga.next().call(confirm, {
+        title: 'archive_vulnerable_address_title',
+        message: 'archive_vulnerable_address_msg',
+        confirm: 'archive_vulnerable_address_confirm',
+        cancel: undefined,
+        messageValues: { vulnerableAddress: VULNERABLE_ADDRESS }
+      })
+    })
+    it('should archive the address', () => {
+      saga
+        .next(true)
+        .put(actions.core.wallet.setAddressArchived(VULNERABLE_ADDRESS, true))
     })
   })
 })

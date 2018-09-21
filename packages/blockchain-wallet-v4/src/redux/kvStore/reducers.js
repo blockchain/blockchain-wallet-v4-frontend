@@ -7,6 +7,7 @@ import contacts from './contacts/reducers.js'
 import root from './root/reducers.js'
 import bch from './bch/reducers.js'
 import btc from './btc/reducers.js'
+import userCredentials from './userCredentials/reducers.js'
 import * as C from './config'
 
 const kvStoreReducer = combineReducers({
@@ -17,7 +18,8 @@ const kvStoreReducer = combineReducers({
   [C.BUYSELL]: buySell,
   [C.CONTACTS]: contacts,
   [C.BCH]: bch,
-  [C.BTC]: btc
+  [C.BTC]: btc,
+  [C.USER_CREDENTIALS]: userCredentials
 })
 
 export default kvStoreReducer
