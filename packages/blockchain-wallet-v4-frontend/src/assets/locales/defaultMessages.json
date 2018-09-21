@@ -769,19 +769,19 @@
     "descriptors": [
       {
         "defaultMessage": "Oops, we couldn't find any transactions!",
-        "id": "scenes.transactions.empty.content.header"
+        "id": "components.emptytx.header"
       },
       {
         "defaultMessage": "Please try filtering by a different criteria or",
-        "id": "scenes.transactions.empty.content.body"
+        "id": "components.emptytx.body"
       },
       {
         "defaultMessage": "reach out to us",
-        "id": "scenes.transactions.empty.content.body2"
+        "id": "components.emptytx.body2"
       },
       {
         "defaultMessage": "if you need help.",
-        "id": "scenes.transactions.empty.content.body3"
+        "id": "components.emptytx.body3"
       }
     ],
     "path": "src/components/EmptyTx/index.json"
@@ -906,6 +906,15 @@
       }
     ],
     "path": "src/components/Form/SelectBoxBchAddresses/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "All",
+        "id": "components.form.selectboxbtcaddresses.all"
+      }
+    ],
+    "path": "src/components/Form/SelectBoxBtcAddresses/index.json"
   },
   {
     "descriptors": [
@@ -3590,7 +3599,7 @@
         "id": "identityverification.personal.faq.name.text"
       },
       {
-        "defaultMessage": "Your Birthday",
+        "defaultMessage": "Date of Birth",
         "id": "identityverification.personal.dateofbirth"
       },
       {
@@ -3602,7 +3611,7 @@
         "id": "identityverification.personal.faq.dateofbirth.text"
       },
       {
-        "defaultMessage": "Country",
+        "defaultMessage": "Select your country of residence",
         "id": "identityverification.personal.country"
       },
       {
@@ -3618,16 +3627,16 @@
         "id": "identityverification.personal.postcode"
       },
       {
+        "defaultMessage": "Oops, address lookup failed. {retry}",
+        "id": "identityverification.personal.addressrefetch"
+      },
+      {
         "defaultMessage": "Address search",
         "id": "identityverification.personal.faq.postcode.title"
       },
       {
         "defaultMessage": "We try and prefill your address so you don’t have to fill out all the fields",
         "id": "identityverification.personal.faq.postcode.text"
-      },
-      {
-        "defaultMessage": "Oops, address lookup failed. {retry}",
-        "id": "identityverification.personal.addressrefetch"
       },
       {
         "defaultMessage": "Select Address",
@@ -3693,6 +3702,14 @@
     "descriptors": [
       {
         "defaultMessage": "That code doesn't match. {resend}.",
+        "id": "identityverification.personal.sms.badcode"
+      },
+      {
+        "defaultMessage": "This number is already in use.",
+        "id": "identityverification.personal.sms.numberexists"
+      },
+      {
+        "defaultMessage": "Updating mobile number failed, please try again",
         "id": "identityverification.personal.sms.error"
       },
       {
@@ -7052,6 +7069,10 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Failed to execute a trade",
+        "id": "scenes.exchange.confirm.tradefailed"
+      },
+      {
         "defaultMessage": "Confirm Exchange",
         "id": "scenes.exchange.confirm.title"
       },
@@ -8024,6 +8045,32 @@
       }
     ],
     "path": "src/scenes/Home/ActivityList/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "{viewType} Balance",
+        "id": "scenes.home.balance.table.header"
+      }
+    ],
+    "path": "src/scenes/Home/Balances/Table/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Total",
+        "id": "scenes.home.balance.total"
+      },
+      {
+        "defaultMessage": "Wallet",
+        "id": "scenes.home.balance.wallet"
+      },
+      {
+        "defaultMessage": "Lockbox",
+        "id": "scenes.home.balance.lockbox"
+      }
+    ],
+    "path": "src/scenes/Home/Balances/Tabs/index.json"
   },
   {
     "descriptors": [
@@ -10667,6 +10714,100 @@
       }
     ],
     "path": "src/scenes/Settings/Addresses/Menu/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "About",
+        "id": "scenes.settings.general.about.title"
+      },
+      {
+        "defaultMessage": "Learn more about our company.",
+        "id": "scenes.settings.general.about.description"
+      }
+    ],
+    "path": "src/scenes/Settings/General/About/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Use your Wallet ID to log in using our web client,",
+        "id": "scenes.settings.general.explain"
+      },
+      {
+        "defaultMessage": "or simply scan the code below (click on 'Show Pairing Code') with your Blockchain Mobile Wallet (iOS or Android) to access your wallet on your mobile devices.",
+        "id": "scenes.settings.general.explain2"
+      }
+    ],
+    "path": "src/scenes/Settings/General/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Mobile App Pairing Code",
+        "id": "scenes.settings.general.pairingcode.title"
+      },
+      {
+        "defaultMessage": "Scan the code (click on 'Show Pairing Code') with your Blockchain Wallet (iOS or Android) for a seamless connection to your wallet.",
+        "id": "scenes.settings.general.pairingcode.description"
+      },
+      {
+        "defaultMessage": "Download our mobile applications below.",
+        "id": "scenes.settings.general.pairingcode.description2"
+      },
+      {
+        "defaultMessage": "Do not share your Pairing Code with others.",
+        "id": "scenes.settings.general.pairingcode.warning"
+      },
+      {
+        "defaultMessage": "Show Pairing Code",
+        "id": "scenes.settings.general.pairingcode.settings.show"
+      }
+    ],
+    "path": "src/scenes/Settings/General/PairingCode/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Privacy Policy",
+        "id": "scenes.settings.general.privacypolicy.title"
+      },
+      {
+        "defaultMessage": "Read about the privacy and security of your personal information.",
+        "id": "scenes.settings.general.privacypolicy.description"
+      }
+    ],
+    "path": "src/scenes/Settings/General/PrivacyPolicy/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Terms of Service",
+        "id": "scenes.settings.general.termsofservice.title"
+      },
+      {
+        "defaultMessage": "Read our terms and services agreement.",
+        "id": "scenes.settings.general.termsofservice.description"
+      }
+    ],
+    "path": "src/scenes/Settings/General/TermsOfService/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Wallet ID",
+        "id": "scenes.settings.general.walletid.title"
+      },
+      {
+        "defaultMessage": "Wallet ID is your unique identifier. It is completely individual to you, and it is what you will use to log in and access your wallet. It is NOT a bitcoin address for sending or receiving.",
+        "id": "scenes.settings.general.walletid.description"
+      },
+      {
+        "defaultMessage": "Do not share your Wallet ID with others.",
+        "id": "scenes.settings.general.walletid.warning"
+      }
+    ],
+    "path": "src/scenes/Settings/General/WalletId/index.json"
   },
   {
     "descriptors": [

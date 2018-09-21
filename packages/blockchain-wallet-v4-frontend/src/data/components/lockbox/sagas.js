@@ -1,6 +1,6 @@
-import { call, put, take, select } from 'redux-saga/effects'
-import { contains, keysIn, length, prop } from 'ramda'
-
+import { call, put, take, select, takeEvery } from 'redux-saga/effects'
+import { any, equals, pluck, prop } from 'ramda'
+import { eventChannel, END } from 'redux-saga'
 import { actions, selectors } from 'data'
 import * as A from './actions'
 import * as AT from './actionTypes'
@@ -50,6 +50,7 @@ export default ({ api }) => {
         A.setConnectionInfo(
           appConnection.app,
           deviceIndex,
+          deviceType,
           appConnection.transport
         )
       )
@@ -219,11 +220,36 @@ export default ({ api }) => {
   const initializeNewDeviceSetup = function*() {
     try {
       yield put(A.changeDeviceSetupStep('connect-device'))
-      const setupTimeout = 1500000 // 25 min timeout for setup
-      // TODO: poll for both Ledger and Blockchain type devices
-      const deviceType = 'ledger'
-      yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType, setupTimeout))
-      yield take(AT.SET_CONNECTION_INFO)
+      const setupTimeout = 2500
+      let pollPosition = 0
+      let closePoll
+
+      const pollForDeviceChannel = () =>
+        eventChannel(emitter => {
+          const pollInterval = setInterval(() => {
+            if (closePoll) {
+              emitter(END)
+              return
+            }
+            // swap deviceType polling between intervals
+            pollPosition += setupTimeout
+            const index = pollPosition / setupTimeout
+            emitter(index % 2 === 0 ? 'ledger' : 'blockchain')
+          }, setupTimeout)
+          return () => clearInterval(pollInterval)
+        })
+
+      const channel = yield call(pollForDeviceChannel)
+      yield takeEvery(channel, function*(deviceType) {
+        yield put(
+          A.pollForDeviceApp('DASHBOARD', null, deviceType, setupTimeout)
+        )
+      })
+
+      const { payload } = yield take(AT.SET_CONNECTION_INFO)
+      const { deviceType } = payload
+      closePoll = true
+
       yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
       // check device authenticity
       yield put(A.checkDeviceAuthenticity())
@@ -257,7 +283,7 @@ export default ({ api }) => {
       )
       const storedDevices = storedDevicesR.getOrElse({})
       // check if device has already been added
-      if (contains(newDeviceId)(keysIn(storedDevices))) {
+      if (any(equals(newDeviceId))(pluck('device_id')(storedDevices))) {
         yield put(A.changeDeviceSetupStep('error-step', true, 'duplicate'))
       } else {
         yield put(A.changeDeviceSetupStep('open-btc-app', true))

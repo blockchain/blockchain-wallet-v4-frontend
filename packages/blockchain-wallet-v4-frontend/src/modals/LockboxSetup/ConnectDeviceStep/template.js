@@ -79,7 +79,7 @@ const ConnectDeviceStep = props => {
           fullwidth
           disabled={!isConnected}
           onClick={() => props.handleStepChange()}
-          nature={isConnected ? 'success' : 'gray'}
+          nature={isConnected ? 'success' : 'dark'}
         >
           {isConnected ? (
             <FormattedMessage

@@ -132,7 +132,7 @@ const Navigation = props => {
 }
 
 Navigation.propTypes = {
-  lockboxOpened: PropTypes.bool.isRequired
+  lockboxOpened: PropTypes.bool
 }
 
 export default Navigation

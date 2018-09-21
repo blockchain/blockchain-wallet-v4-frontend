@@ -52,7 +52,7 @@ const OpenBtcAppStep = props => {
         <Button
           fullwidth
           disabled={!isReady}
-          nature={isReady ? 'success' : 'gray'}
+          nature={isReady ? 'success' : 'dark'}
           onClick={() => props.handleStepChange()}
         >
           {isReady ? (

@@ -79,7 +79,7 @@ const ItemIcon = styled(Icon)`
   color: ${props => props.theme[props.coin]} !important;
 `
 
-const getIconName = coin => `exchange-${toLower(coin)}`
+const getIconName = coin => `${toLower(coin)}`
 
 const renderDisplay = (props, children) => {
   const coin = pathOr('', ['value', 'coin'], props)

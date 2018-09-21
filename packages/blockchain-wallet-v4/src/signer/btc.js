@@ -1,6 +1,8 @@
 import Bitcoin from 'bitcoinjs-lib'
 import BitcoinMessage from 'bitcoinjs-message'
 import { mapped } from 'ramda-lens'
+import * as crypto from '../walletCrypto'
+
 import {
   curry,
   forEach,
@@ -111,5 +113,9 @@ export const signWithLedger = function*(selection, transport, api) {
     undefined,
     outputs
   )
-  return { txHex }
+  const txId = crypto
+    .sha256(crypto.sha256(Buffer.from(txHex, 'hex')))
+    .reverse()
+    .toString('hex')
+  return { txHex, txId }
 }
