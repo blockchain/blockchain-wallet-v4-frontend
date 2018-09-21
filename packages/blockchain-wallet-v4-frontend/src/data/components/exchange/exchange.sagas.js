@@ -464,21 +464,19 @@ export default ({ api, coreSagas, options, networks }) => {
         target,
         networks
       )
-      const { withdrawalAddress, depositAddress, quantity } = yield call(
-        api.executeTrade,
-        quote,
-        refundAddress,
-        destinationAddress
-      )
+      const {
+        depositAddress,
+        deposit: { symbol, value }
+      } = yield call(api.executeTrade, quote, refundAddress, destinationAddress)
       const payment = yield call(
         createPayment,
-        source.coin,
-        withdrawalAddress,
+        symbol,
+        source.address,
         depositAddress,
-        quantity
+        value
       )
       const password = yield call(promptForSecondPassword)
-      payment.sign(password).publish()
+      yield (yield payment.sign(password)).publish()
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
       yield put(actions.router.push('/exchange/history'))
     } catch (e) {
