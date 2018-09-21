@@ -1,5 +1,5 @@
 import { call, put, take, select, takeEvery } from 'redux-saga/effects'
-import { any, equals, pluck, prop } from 'ramda'
+import { any, equals, length, pluck, prop } from 'ramda'
 import { eventChannel, END } from 'redux-saga'
 import { actions, selectors } from 'data'
 import * as A from './actions'

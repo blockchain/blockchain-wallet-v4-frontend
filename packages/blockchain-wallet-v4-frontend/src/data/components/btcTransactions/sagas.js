@@ -14,9 +14,7 @@ export default ({ coreSagas }) => {
         search: ''
       }
       yield put(actions.form.initialize('btcTransactions', initialValues))
-      yield put(
-        actions.core.data.bitcoin.fetchTransactions(defaultSource, true)
-      )
+      yield put(actions.core.data.bitcoin.fetchTransactions('', true))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }

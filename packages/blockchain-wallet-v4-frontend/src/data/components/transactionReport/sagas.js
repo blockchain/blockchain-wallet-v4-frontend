@@ -12,7 +12,7 @@ export default ({ coreSagas }) => {
       const language = yield select(selectors.preferences.getLanguage)
       moment.locale(language)
       const initialValues = {
-        from: '',
+        from: 'all',
         start: moment()
           .startOf('day')
           .subtract(7, 'day'),
