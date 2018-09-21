@@ -1101,7 +1101,6 @@ describe('authSagas', () => {
   })
 
   const VULNERABLE_ADDRESS_ERROR = `A security issue effects address ${VULNERABLE_ADDRESS}. Please Archive It and Contact support@blockchain.zendesk.com`
-
   describe('checkDataErrors', () => {
     const { checkDataErrors } = authSagas({ api, coreSagas })
     const saga = testSaga(checkDataErrors)
