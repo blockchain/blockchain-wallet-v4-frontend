@@ -1125,6 +1125,7 @@
   "scenes.exchange.confirm.cancel": "Cancel",
   "scenes.exchange.confirm.submit": "Complete Order",
   "scenes.exchange.confirm.title": "Confirm Exchange",
+  "scenes.exchange.confirm.tradefailed": "Failed to execute a trade",
   "scenes.exchange.confirm.value": "Total Value",
   "scenes.exchange.exchangeform.error.annuallimit": "Amount exceeds your annual trade limit.",
   "scenes.exchange.exchangeform.error.balancelimit": "Not enough funds.",
