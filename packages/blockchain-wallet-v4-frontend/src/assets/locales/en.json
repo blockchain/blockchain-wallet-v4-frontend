@@ -396,7 +396,7 @@
   "identityverification.personal.city": "City",
   "identityverification.personal.continue": "Continue",
   "identityverification.personal.country": "Select your country of residence",
-  "identityverification.personal.dateofbirth": "Your Birthday (MM/DD/YYYY)",
+  "identityverification.personal.dateofbirth": "Date of Birth",
   "identityverification.personal.email.code": "We emailed a verification code to {email}",
   "identityverification.personal.email.confirm": "Confirm Email:",
   "identityverification.personal.email.didntreceive": "Didn't receive your email? {resend} or {changeEmail}.",

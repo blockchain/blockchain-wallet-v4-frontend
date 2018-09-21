@@ -3534,43 +3534,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "That code doesn't match. {resend} or {changeNumber}.",
-        "id": "identityverification.personal.sms.error"
-      },
-      {
-        "defaultMessage": "Didn't get our text? {resend} or {changeNumber}.",
-        "id": "identityverification.personal.sms.didntreceive"
-      },
-      {
-        "defaultMessage": "What's Your Number?",
-        "id": "identityverification.personal.mobile.header"
-      },
-      {
-        "defaultMessage": "Don't worry, we won't use your number for anything other than sending your code.",
-        "id": "identityverification.personal.mobile.subheader"
-      },
-      {
-        "defaultMessage": "Enter your digits here:",
-        "id": "identityverification.personal.mobile.entermobilenumber"
-      },
-      {
-        "defaultMessage": "Enter the code we just sent to {smsNumber}",
-        "id": "identityverification.personal.mobile.entercode"
-      },
-      {
-        "defaultMessage": "Send My Code",
-        "id": "identityverification.personal.mobile.sendmycode"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "identityverification.personal.continue"
-      }
-    ],
-    "path": "src/modals/IdentityVerification/Personal/EditSmsNumber.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Enter Address Manually",
         "id": "identityverification.personal.manualaddress"
       },
@@ -3599,7 +3562,7 @@
         "id": "identityverification.personal.faq.name.text"
       },
       {
-        "defaultMessage": "Your Birthday",
+        "defaultMessage": "Date of Birth",
         "id": "identityverification.personal.dateofbirth"
       },
       {

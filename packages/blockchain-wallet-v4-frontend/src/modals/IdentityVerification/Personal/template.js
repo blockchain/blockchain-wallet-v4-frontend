@@ -255,7 +255,7 @@ const Personal = ({
                     >
                       <FormattedMessage
                         id='identityverification.personal.dateofbirth'
-                        defaultMessage='Your Birthday'
+                        defaultMessage='Date of Birth'
                       />
                     </Text>
                     <Field

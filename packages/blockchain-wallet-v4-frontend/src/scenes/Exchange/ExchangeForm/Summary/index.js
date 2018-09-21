@@ -37,7 +37,7 @@ const Summary = ({
   sourceCoin,
   targetCoin,
   currency,
-  fee,
+  targetFee,
   sourceAmount,
   targetAmount,
   targetFiat,
@@ -88,7 +88,11 @@ const Summary = ({
           defaultMessage='Network Fee'
         />
       </ExchangeText>
-      <ExchangeText weight={300}>{`${fee} ${targetCoin}`}</ExchangeText>
+      <ExchangeText weight={300}>
+        <StringDisplay>
+          {targetFee.map(fee => `${fee} ${targetCoin}`)}
+        </StringDisplay>
+      </ExchangeText>
     </TableRow>
     <TableRow>
       <ExchangeText>

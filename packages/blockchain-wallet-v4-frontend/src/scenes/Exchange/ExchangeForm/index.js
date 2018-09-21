@@ -7,7 +7,13 @@ import { compose, isEmpty } from 'ramda'
 import { getRemotePropType, getElementsPropType } from 'utils/proptypes'
 import { debounce } from 'utils/helpers'
 import { actions, model } from 'data'
-import { getData, getMin, getMax, canUseExchange } from './selectors'
+import {
+  getData,
+  getMin,
+  getMax,
+  getTargetFee,
+  canUseExchange
+} from './selectors'
 
 import Loading from './template.loading'
 import Success from './template.success'
@@ -16,6 +22,7 @@ import DataError from 'components/DataError'
 const extractFieldValue = (e, value) => value
 
 const { swapCoinAndFiat, swapBaseAndCounter } = model.rates
+const { CONFIRM } = model.components.exchange.EXCHANGE_STEPS
 
 class ExchangeForm extends React.Component {
   componentDidMount () {
@@ -36,7 +43,7 @@ class ExchangeForm extends React.Component {
   }
 
   render () {
-    const { actions, data, min, max, canUseExchange } = this.props
+    const { actions, data, min, max, targetFee, canUseExchange } = this.props
     return data.cata({
       Success: value =>
         canUseExchange && isEmpty(value.availablePairs) ? (
@@ -46,10 +53,11 @@ class ExchangeForm extends React.Component {
             {...value}
             min={min}
             max={max}
+            targetFee={targetFee}
             canUseExchange={canUseExchange}
             handleMaximum={actions.firstStepMaximumClicked}
             handleMinimum={actions.firstStepMinimumClicked}
-            onSubmit={actions.firstStepSubmitClicked}
+            onSubmit={actions.setStep.bind(null, CONFIRM)}
             handleSourceChange={compose(
               actions.changeSource,
               extractFieldValue
@@ -118,6 +126,7 @@ const mapStateToProps = state => ({
   canUseExchange: canUseExchange(state),
   min: getMin(state),
   max: getMax(state),
+  targetFee: getTargetFee(state),
   data: getData(state)
 })
 
