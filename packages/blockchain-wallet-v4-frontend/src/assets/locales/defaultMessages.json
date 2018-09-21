@@ -3599,7 +3599,7 @@
         "id": "identityverification.personal.faq.name.text"
       },
       {
-        "defaultMessage": "Your Birthday",
+        "defaultMessage": "Date of Birth",
         "id": "identityverification.personal.dateofbirth"
       },
       {
@@ -7068,6 +7068,10 @@
   },
   {
     "descriptors": [
+      {
+        "defaultMessage": "Failed to execute a trade",
+        "id": "scenes.exchange.confirm.tradefailed"
+      },
       {
         "defaultMessage": "Confirm Exchange",
         "id": "scenes.exchange.confirm.title"

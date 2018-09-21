@@ -137,3 +137,17 @@ export const useMin = () => ({
 export const useMax = () => ({
   type: AT.USE_MAX
 })
+export const fetchTargetFees = () => ({
+  type: AT.FETCH_TARGET_FEES
+})
+export const fetchTargetFeesLoading = () => ({
+  type: AT.FETCH_TARGET_FEES_LOADING
+})
+export const fetchTargetFeesSuccess = fee => ({
+  type: AT.FETCH_TARGET_FEES_SUCCESS,
+  payload: { fee }
+})
+export const fetchTargetFeesError = error => ({
+  type: AT.FETCH_TARGET_FEES_ERROR,
+  payload: { error }
+})

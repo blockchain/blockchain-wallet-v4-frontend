@@ -1125,6 +1125,7 @@
   "scenes.exchange.confirm.cancel": null,
   "scenes.exchange.confirm.submit": null,
   "scenes.exchange.confirm.title": null,
+  "scenes.exchange.confirm.tradefailed": null,
   "scenes.exchange.confirm.value": null,
   "scenes.exchange.exchangeform.error.annuallimit": null,
   "scenes.exchange.exchangeform.error.balancelimit": null,

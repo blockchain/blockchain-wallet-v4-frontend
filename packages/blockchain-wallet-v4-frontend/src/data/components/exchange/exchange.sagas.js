@@ -1,5 +1,5 @@
 import { call, put, select, all, take } from 'redux-saga/effects'
-import { equals, keys, path, prop } from 'ramda'
+import { contains, equals, head, keys, last, path, prop, propOr } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4'
 import { actions, actionTypes, selectors, model } from 'data'
@@ -7,7 +7,9 @@ import {
   EXCHANGE_FORM,
   CONFIRM_FORM,
   NO_ADVICE_ERROR,
-  NO_LIMITS_ERROR
+  NO_LIMITS_ERROR,
+  getTargetCoinsPairedToSource,
+  getSourceCoinsPairedToTarget
 } from './model'
 import utils from './sagas.utils'
 import * as A from './actions'
@@ -98,6 +100,7 @@ export default ({ api, coreSagas, options, networks }) => {
     const fiatCurrency = yield call(getFiatCurrency)
     yield call(changeRatesSubscription, source, target, fiatCurrency)
     yield call(fetchLimits)
+    yield call(fetchTargetFees)
   }
 
   const validateForm = function*() {
@@ -135,6 +138,19 @@ export default ({ api, coreSagas, options, networks }) => {
     if (!(fix && formatPair(sourceCoin, targetCoin) === pair)) return
 
     yield call(validateForm)
+  }
+
+  const fetchTargetFees = function*() {
+    try {
+      yield put(A.fetchTargetFeesLoading())
+      const form = yield select(formValueSelector)
+      const targetCoin = path(['target', 'coin'], form)
+      const { fee } = yield call(api.fetchTradeCounterFees, targetCoin)
+      yield put(A.fetchTargetFeesSuccess(fee))
+    } catch (e) {
+      const description = propOr('', 'description', e)
+      yield put(A.fetchTargetFeesError(description))
+    }
   }
 
   const fetchLimits = function*() {
@@ -306,10 +322,22 @@ export default ({ api, coreSagas, options, networks }) => {
       const targetCoin = path(['target', 'coin'], form)
       const prevSoureCoin = path(['source', 'coin'], form)
       yield put(actions.form.change(EXCHANGE_FORM, 'source', source))
-      if (equals(sourceCoin, targetCoin)) {
-        const newTarget = yield call(getDefaultAccount, prevSoureCoin)
+
+      const pairs = (yield select(
+        selectors.modules.rates.getAvailablePairs
+      )).getOrElse([])
+      const pairedCoins = getTargetCoinsPairedToSource(sourceCoin, pairs)
+      let newTargetCoin = null
+      if (equals(sourceCoin, targetCoin))
+        newTargetCoin = contains(prevSoureCoin, pairedCoins)
+          ? prevSoureCoin
+          : last(pairedCoins)
+      if (!contains(targetCoin, pairedCoins)) newTargetCoin = last(pairedCoins)
+      if (newTargetCoin) {
+        const newTarget = yield call(getDefaultAccount, newTargetCoin)
         yield put(actions.form.change(EXCHANGE_FORM, 'target', newTarget))
       }
+
       yield call(startValidation)
       yield call(unsubscribeFromCurrentAdvice, form)
       yield call(changeSubscription, true)
@@ -327,13 +355,24 @@ export default ({ api, coreSagas, options, networks }) => {
       const targetCoin = prop('coin', target)
       const prevTargetCoin = path(['target', 'coin'], form)
       yield put(actions.form.change(EXCHANGE_FORM, 'target', target))
-      if (equals(sourceCoin, targetCoin)) {
-        const newSource = yield call(getDefaultAccount, prevTargetCoin)
-        yield put(actions.form.change(EXCHANGE_FORM, 'source', newSource))
-      }
+
+      const pairs = (yield select(
+        selectors.modules.rates.getAvailablePairs
+      )).getOrElse([])
+      const pairedCoins = getSourceCoinsPairedToTarget(targetCoin, pairs)
+      let newSourceCoin = null
+      if (equals(sourceCoin, targetCoin))
+        newSourceCoin = contains(prevTargetCoin, pairedCoins)
+          ? prevTargetCoin
+          : head(pairedCoins)
+      if (!contains(sourceCoin, pairedCoins)) newSourceCoin = head(pairedCoins)
+      const newSource = yield call(getDefaultAccount, newSourceCoin)
+      yield put(actions.form.change(EXCHANGE_FORM, 'source', newSource))
+
       yield call(startValidation)
       yield call(unsubscribeFromCurrentAdvice, form)
       yield call(changeSubscription, true)
+      yield call(fetchTargetFees)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'changeTarget', e))
     }
@@ -400,6 +439,7 @@ export default ({ api, coreSagas, options, networks }) => {
       yield call(unsubscribeFromCurrentAdvice, { source, target })
       yield call(changeSubscription, true)
       yield call(clearMinMax)
+      yield call(fetchTargetFees)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'swapFieldValue', e))
     }
@@ -407,6 +447,7 @@ export default ({ api, coreSagas, options, networks }) => {
 
   const confirm = function*() {
     try {
+      yield put(actions.form.clearSubmitErrors(CONFIRM_FORM))
       yield put(actions.form.startSubmit(CONFIRM_FORM))
       const form = yield select(formValueSelector)
       const { source, target } = form

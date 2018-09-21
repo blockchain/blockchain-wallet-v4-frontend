@@ -12,7 +12,8 @@ const INITIAL_STATE = {
   firstStepEnabled: true,
   limits: Remote.NotAsked,
   min: null,
-  max: null
+  max: null,
+  targetFee: Remote.NotAsked
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -65,7 +66,7 @@ export default (state = INITIAL_STATE, action) => {
       return INITIAL_STATE
     }
     case AT.SET_STEP: {
-      return EXCHANGE_STEPS.EXCHANGE_FORM
+      return assoc('step', payload.step, state)
     }
     case AT.FETCH_LIMITS_LOADING:
       return assoc('limits', Remote.Loading, state)
@@ -78,6 +79,12 @@ export default (state = INITIAL_STATE, action) => {
         assoc('min', payload.min),
         assoc('max', payload.max)
       )(state)
+    case AT.FETCH_TARGET_FEES_LOADING:
+      return assoc('targetFee', Remote.Loading, state)
+    case AT.FETCH_TARGET_FEES_SUCCESS:
+      return assoc('targetFee', Remote.Success(payload.fee), state)
+    case AT.FETCH_TARGET_FEES_ERROR:
+      return assoc('targetFee', Remote.Failure(payload.error), state)
     default:
       return state
   }
