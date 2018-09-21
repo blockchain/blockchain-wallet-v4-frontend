@@ -29,10 +29,14 @@ class RequestEtherContainer extends React.PureComponent {
     const { coin } = nextProps
     if (coin === 'BTC') {
       this.props.modalActions.closeAllModals()
-      this.props.modalActions.showModal('RequestBitcoin')
+      this.props.modalActions.showModal('RequestBitcoin', {
+        lockboxIndex: nextProps.lockboxIndex
+      })
     } else if (coin === 'BCH') {
       this.props.modalActions.closeAllModals()
-      this.props.modalActions.showModal('RequestBch')
+      this.props.modalActions.showModal('RequestBch', {
+        lockboxIndex: nextProps.lockboxIndex
+      })
     }
   }
 
@@ -95,7 +99,7 @@ class RequestEtherContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  initialValues: getInitialValues(state),
+  initialValues: getInitialValues(state, ownProps),
   data: getData(state),
   coin: formValueSelector('requestEther')(state, 'coin')
 })

@@ -1,5 +1,5 @@
 import { selectors } from 'data'
-import { head, prop, map } from 'ramda'
+import { head, prop, nth } from 'ramda'
 import { formValueSelector } from 'redux-form'
 import { Remote } from 'blockchain-wallet-v4/src'
 
@@ -13,10 +13,18 @@ export const getData = state => {
   )
 }
 
-export const getInitialValues = state => {
-  const toDropdown = map(x => ({ text: x.label, value: x }))
-  const balancesR = selectors.core.common.eth
+export const getInitialValues = (state, ownProps) => {
+  const to = to => ({ to, coin: 'ETH' })
+  if (ownProps.lockboxIndex != null) {
+    return selectors.core.common.eth
+      .getLockboxEthBalances(state)
+      .map(nth(ownProps.lockboxIndex))
+      .map(to)
+      .getOrFail()
+  }
+  return selectors.core.common.eth
     .getAccountBalances(state)
-    .map(toDropdown)
-  return { to: balancesR.data[0].value, coin: 'ETH' }
+    .map(head)
+    .map(to)
+    .getOrFail()
 }
