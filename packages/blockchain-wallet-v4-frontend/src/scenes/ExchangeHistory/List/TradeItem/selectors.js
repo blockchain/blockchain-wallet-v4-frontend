@@ -5,32 +5,27 @@ import { getCoinFromPair } from 'services/ShapeshiftService'
 import { model, selectors } from 'data'
 
 const { DATE_FORMAT, isShapeShiftTrade } = model.components.exchangeHistory
-const { splitPair } = model.rates
 
 const formatExchangeTrade = ({
   state,
-  pair,
   createdAt,
-  depositQuantity,
-  withdrawalQuantity,
-  targetFiat,
-  currency,
-  fee,
+  deposit,
+  withdrawal,
+  fiatValue,
+  withdrawalFee,
   rate,
   refundAmount
 }) => {
-  const [sourceCoin, targetCoin] = splitPair(pair)
-
   return {
     status: state,
     date: moment(createdAt).format(DATE_FORMAT),
-    sourceCoin,
-    targetCoin,
-    depositAmount: depositQuantity,
-    withdrawalAmount: withdrawalQuantity,
-    targetFiat,
-    currency,
-    fee,
+    sourceCoin: deposit.symbol,
+    targetCoin: deposit.symbol,
+    depositAmount: deposit.value,
+    withdrawalAmount: withdrawal.value,
+    targetFiat: fiatValue.value,
+    currency: fiatValue.symbol,
+    fee: withdrawalFee.value,
     rate,
     refundAmount,
     isShapeShiftTrade: false
