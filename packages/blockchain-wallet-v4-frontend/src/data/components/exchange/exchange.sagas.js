@@ -9,7 +9,8 @@ import {
   NO_ADVICE_ERROR,
   NO_LIMITS_ERROR,
   getTargetCoinsPairedToSource,
-  getSourceCoinsPairedToTarget
+  getSourceCoinsPairedToTarget,
+  EXCHANGE_STEPS
 } from './model'
 import utils from './sagas.utils'
 import * as A from './actions'
@@ -480,6 +481,7 @@ export default ({ api, coreSagas, options, networks }) => {
       yield (yield payment.sign(password)).publish()
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
       yield put(actions.router.push('/exchange/history'))
+      yield put(A.setStep(EXCHANGE_STEPS.EXCHANGE_FORM))
     } catch (e) {
       yield put(actions.form.stopSubmit(CONFIRM_FORM, { _error: e }))
     }
