@@ -45,7 +45,7 @@ const DropdownList = styled.ul`
   margin: 2px 0px;
   min-width: 20px;
   overflow: auto;
-  padding: 5px 0px;
+  padding: 5px;
   position: absolute;
   right: 0;
   ${props =>

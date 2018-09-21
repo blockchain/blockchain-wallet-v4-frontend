@@ -57,6 +57,7 @@ const Cover = styled.div`
 
 const ColumnLeft = styled.div`
   margin-right: 34px;
+  max-width: 450px;
   @media (min-width: 992px) {
     width: 60%;
   }
@@ -65,7 +66,9 @@ const ColumnLeft = styled.div`
   `};
 `
 const ColumnRight = styled.div`
+  max-width: 450px;
   @media (min-width: 992px) {
+    max-width: 345px;
     width: 40%;
   }
 `
