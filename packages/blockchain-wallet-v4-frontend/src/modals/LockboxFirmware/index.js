@@ -20,19 +20,19 @@ class LockboxFirmwareContainer extends React.PureComponent {
     let step
     switch (currentStep) {
       case 'check-versions':
-        step = 1
-        break
-      case 'verify-identifier':
         step = 2
         break
-      case 'install':
+      case 'verify-identifier':
         step = 3
         break
-      case 'complete':
+      case 'install':
         step = 4
         break
+      case 'complete':
+        step = 5
+        break
       default:
-        step = 0
+        step = 1
         break
     }
 
@@ -44,11 +44,11 @@ class LockboxFirmwareContainer extends React.PureComponent {
         step={step}
         totalSteps={5}
       >
-        {step === 0 && <ConnectDeviceStep deviceIndex={deviceIndex} />}
-        {step === 1 && <CheckVersionsStep />}
-        {step === 2 && <div>Step 3</div>}
-        {step === 3 && <div>Step 4</div>}
-        {step === 4 && <CompleteStep closeAll={closeAll} />}
+        {step === 1 && <ConnectDeviceStep deviceIndex={deviceIndex} />}
+        {step === 2 && <CheckVersionsStep />}
+        {step === 3 && <div>Step 3</div>}
+        {step === 4 && <div>Step 4</div>}
+        {step === 5 && <CompleteStep closeAll={closeAll} />}
       </FirmwareContainer>
     )
   }

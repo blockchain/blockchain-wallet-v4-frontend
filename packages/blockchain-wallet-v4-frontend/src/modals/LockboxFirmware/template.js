@@ -33,10 +33,26 @@ const LineWrapper = styled.div`
 `
 
 const Line = styled.div`
+  &.animate {
+    width: 1px;
+    border-top: 2px solid rgba(255, 255, 255, 1);
+    @keyframes increase {
+      100% {
+        width: 117px;
+      }
+    }
+    -webkit-animation: increase 1s;
+    -moz-animation: increase 1s;
+    -o-animation: increase 1s;
+    animation: increase 1s;
+    animation-fill-mode: forwards;
+  }
+
   width: 117px;
+  border-top: 2px solid rgba(255, 255, 255, 0.3);
   border-top: 2px solid
     ${props =>
-      props.step > props.i
+      props.step > props.i && props.i !== props.step
         ? 'rgba(255, 255, 255, 1)'
         : 'rgba(255, 255, 255, 0.3)'};
   position: absolute;
@@ -49,11 +65,17 @@ const Circle = styled.div`
   line-height: 14px;
   border-radius: 15px;
   background-color: ${props =>
-    props.step >= props.i
+    props.step > props.i || props.i === 1
       ? 'rgba(255, 255, 255, 1)'
       : 'rgba(255, 255, 255, 0.3)'};
   margin-top: 15px;
   z-index: 10;
+
+  &.animate {
+    transition-property: background-color;
+    background-color: rgba(255, 255, 255, 1);
+    transition-delay: 1.1s;
+  }
 
   & > span:first-child {
     padding-left: 8px;
@@ -62,11 +84,11 @@ const Circle = styled.div`
 
 const LockboxFirmware = props => {
   const { children, position, total, step, totalSteps } = props
-
   return (
     <Modal size='large' position={position} total={total}>
       <StepHeader>
         {[...Array(totalSteps)].map((r, i) => {
+          i += 1
           return (
             <React.Fragment key={i}>
               <Step>
@@ -74,14 +96,22 @@ const LockboxFirmware = props => {
                   <FormattedMessage
                     id='modals.lockboxfirmware.header.step'
                     defaultMessage='Step {number}'
-                    values={{ number: i + 1 }}
+                    values={{ number: i }}
                   />
                 </Text>
-                <Circle step={step} i={i} />
+                <Circle
+                  step={step}
+                  i={i}
+                  className={step === i ? 'animate' : ''}
+                />
               </Step>
-              {i !== totalSteps - 1 && (
+              {i !== totalSteps && (
                 <LineWrapper>
-                  <Line step={step} i={i} />
+                  <Line
+                    step={step}
+                    i={i}
+                    className={step !== 1 && i === step - 1 ? 'animate' : ''}
+                  />
                 </LineWrapper>
               )}
             </React.Fragment>
