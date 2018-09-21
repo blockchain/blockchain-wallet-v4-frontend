@@ -3599,7 +3599,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Step 2. Checking for Updates",
+        "defaultMessage": "Step 2. Check for updates",
         "id": "modals.lockboxfirmware.checkversions.title"
       },
       {
@@ -3654,6 +3654,19 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Step 3. Verify the identifier",
+        "id": "modals.lockboxfirmware.confirmidentifierstep.title"
+      },
+      {
+        "defaultMessage": "Confirm",
+        "id": "modals.lockboxfirmware.confirmidentifierstep.confirm"
+      }
+    ],
+    "path": "src/modals/LockboxFirmware/ConfirmIdentifierStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Step 1. Connect your Lockbox",
         "id": "modals.lockboxfirmware.connectdevice.title"
       },
@@ -3671,6 +3684,32 @@
       }
     ],
     "path": "src/modals/LockboxFirmware/ConnectDeviceStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Step 4. Update Firmware",
+        "id": "modals.lockboxfirmware.installfirmware.title"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.lockboxfirmware.installfirmware.continue"
+      }
+    ],
+    "path": "src/modals/LockboxFirmware/InstallFirmwareStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Step 4. Update MCU",
+        "id": "modals.lockboxfirmware.installmcu.title"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.lockboxfirmware.installmcu.continue"
+      }
+    ],
+    "path": "src/modals/LockboxFirmware/InstallMcuStep/template.json"
   },
   {
     "descriptors": [
@@ -8062,8 +8101,8 @@
         "id": "scenes.lockbox.settings.exportxpub.description"
       },
       {
-        "defaultMessage": "show",
-        "id": "scenes.lockbox.settings.exportxpub.delete"
+        "defaultMessage": "Show xPub",
+        "id": "scenes.lockbox.settings.exportxpub.show"
       }
     ],
     "path": "src/scenes/Lockbox/Dashboard/Settings/ExportXPub/template.json"
@@ -8096,8 +8135,8 @@
         "id": "scenes.lockbox.settings.installapps.description"
       },
       {
-        "defaultMessage": "install",
-        "id": "scenes.lockbox.settings.installapps.install"
+        "defaultMessage": "Install Apps",
+        "id": "scenes.lockbox.settings.installapps.installapps"
       }
     ],
     "path": "src/scenes/Lockbox/Dashboard/Settings/InstallApps/template.json"
@@ -8130,8 +8169,8 @@
         "id": "scenes.lockbox.settings.removedevice.description"
       },
       {
-        "defaultMessage": "unpair",
-        "id": "scenes.lockbox.settings.removedevice.delete"
+        "defaultMessage": "Remove Device",
+        "id": "scenes.lockbox.settings.removedevice.remove"
       }
     ],
     "path": "src/scenes/Lockbox/Dashboard/Settings/RemoveDevice/template.json"
@@ -8164,8 +8203,8 @@
         "id": "scenes.lockbox.settings.renamedevice.description"
       },
       {
-        "defaultMessage": "edit",
-        "id": "scenes.lockbox.settings.renamedevice.settings.edit"
+        "defaultMessage": "Rename Device",
+        "id": "scenes.lockbox.settings.renamedevice.settings.editname"
       },
       {
         "defaultMessage": "Cancel",
@@ -8236,8 +8275,8 @@
         "id": "scenes.lockbox.settings.updatedevice.description"
       },
       {
-        "defaultMessage": "check for update",
-        "id": "scenes.lockbox.settings.updatedevice.checkforupdates"
+        "defaultMessage": "Check For Updates",
+        "id": "scenes.lockbox.settings.updatedevice.checkforupdate"
       }
     ],
     "path": "src/scenes/Lockbox/Dashboard/Settings/UpdateDevice/template.json"
