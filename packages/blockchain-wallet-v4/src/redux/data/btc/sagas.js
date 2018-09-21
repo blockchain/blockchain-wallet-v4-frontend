@@ -90,7 +90,7 @@ export default ({ api }) => {
         )
         yield put(A.fetchTransactionHistorySuccess(data))
       } else {
-        const context = yield select(selectors.wallet.getWalletContext)
+        const context = yield select(S.getContext)
         const active = context.join('|')
         const data = yield call(
           api.getTransactionHistory,

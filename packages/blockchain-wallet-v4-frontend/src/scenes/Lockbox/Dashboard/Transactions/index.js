@@ -1,9 +1,7 @@
 import React from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import { getData } from './selectors'
-import { actions } from 'data'
 import Success from './template.success'
 import Loading from './template.loading'
 
@@ -11,10 +9,6 @@ class TransactionsContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.loadMore = this.loadMore.bind(this)
-  }
-
-  componentDidMount () {
-    this.props.lockboxActions.initializeDashboard(this.props.deviceIndex)
   }
 
   loadMore () {
@@ -44,11 +38,4 @@ const mapStateToProps = state => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
-  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TransactionsContainer)
+export default connect(mapStateToProps)(TransactionsContainer)

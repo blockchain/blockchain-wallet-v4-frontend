@@ -14,8 +14,8 @@ import {
 
 const Template = props => (
   <Wrapper>
-    <Header>
-      <HeaderText size='14px' onClick={props.handleToggle}>
+    <Header onClick={props.handleToggle}>
+      <HeaderText size='14px'>
         <Icon
           name='lock'
           size='21px'
