@@ -6,7 +6,6 @@ import { askSecondPasswordEnhancer, confirm } from 'services/SagaService'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as selectors from '../selectors.js'
 import * as actions from '../actions.js'
-import * as actionTypes from '../actionTypes.js'
 import authSagas, {
   defaultLoginErrorMessage,
   logLocation,
