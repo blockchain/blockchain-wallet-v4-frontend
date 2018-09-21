@@ -25,7 +25,7 @@ class ActionsContainer extends React.PureComponent {
         return this.props.modalActions.showModal('SendBch')
       default:
         return this.props.modalActions.showModal('SendBitcoin', {
-          lockboxIndex: paths[3]
+          lockboxIndex: pathname.includes('lockbox') ? paths[3] : null
         })
     }
   }
@@ -43,7 +43,7 @@ class ActionsContainer extends React.PureComponent {
         return this.props.modalActions.showModal('RequestEther')
       default:
         return this.props.modalActions.showModal('RequestBitcoin', {
-          lockboxIndex: paths[3]
+          lockboxIndex: pathname.includes('lockbox') ? paths[3] : null
         })
     }
   }
