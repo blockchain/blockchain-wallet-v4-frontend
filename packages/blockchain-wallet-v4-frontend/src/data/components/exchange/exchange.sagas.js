@@ -459,13 +459,15 @@ export default ({ api, coreSagas, options, networks }) => {
       const quote = (yield select(
         selectors.modules.rates.getPairQuote(pair)
       )).getOrFail(NO_ADVICE_ERROR)
-
       const refundAddress = yield call(selectReceiveAddress, source, networks)
       const destinationAddress = yield call(
         selectReceiveAddress,
         target,
         networks
       )
+
+      const password = yield call(promptForSecondPassword)
+
       const {
         depositAddress,
         deposit: { symbol, value }
@@ -477,7 +479,6 @@ export default ({ api, coreSagas, options, networks }) => {
         depositAddress,
         convertStandardToBase(symbol, value)
       )
-      const password = yield call(promptForSecondPassword)
       yield (yield payment.sign(password)).publish()
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
       yield put(actions.router.push('/exchange/history'))
