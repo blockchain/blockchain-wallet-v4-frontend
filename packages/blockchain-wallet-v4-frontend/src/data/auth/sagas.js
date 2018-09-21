@@ -155,22 +155,32 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const checkAndHandleVulnerableAddress = function*(data) {
+    const err = prop('error', data)
+    const vulnerableAddress = checkForVulnerableAddressError(err)
+    if (vulnerableAddress) {
+      yield put(actions.modals.closeAllModals())
+      const confirmed = yield call(confirm, {
+        title: CC.ARCHIVE_VULNERABLE_ADDRESS_TITLE,
+        message: CC.ARCHIVE_VULNERABLE_ADDRESS_MSG,
+        confirm: CC.ARCHIVE_VULNERABLE_ADDRESS_CONFIRM,
+        cancel: CC.ARCHIVE_VULNERABLE_ADDRESS_CANCEL,
+        messageValues: { vulnerableAddress }
+      })
+      if (confirmed) yield put(actions.core.wallet.setAddressArchived(vulnerableAddress, true))
+    }
+  }
+
   const checkDataErrors = function*() {
     const btcDataR = yield select(selectors.core.data.bitcoin.getInfo)
+
+    if (Remote.Loading.is(btcDataR)) {
+      const btcData = yield take(actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_FAILURE)
+      const error = prop('payload', btcData)
+      yield call(checkAndHandleVulnerableAddress, { error })
+    }
     if (Remote.Failure.is(btcDataR)) {
-      const error = prop('error', btcDataR)
-      const vulnerableAddress = checkForVulnerableAddressError(error)
-      yield put(actions.modals.closeAllModals())
-      if (vulnerableAddress) {
-        const confirmed = yield call(confirm, {
-          title: CC.ARCHIVE_VULNERABLE_ADDRESS_TITLE,
-          message: CC.ARCHIVE_VULNERABLE_ADDRESS_MSG,
-          confirm: CC.ARCHIVE_VULNERABLE_ADDRESS_CONFIRM,
-          cancel: CC.ARCHIVE_VULNERABLE_ADDRESS_CANCEL,
-          messageValues: { vulnerableAddress }
-        })
-        if (confirmed) yield put(actions.core.wallet.setAddressArchived(vulnerableAddress, true))
-      }
+      yield call(checkAndHandleVulnerableAddress, btcDataR)
     }
   }
 
@@ -476,6 +486,7 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
+    checkAndHandleVulnerableAddress,
     checkDataErrors,
     deauthorizeBrowser,
     login,
