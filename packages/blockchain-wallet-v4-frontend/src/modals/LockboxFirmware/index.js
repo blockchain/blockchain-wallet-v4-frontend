@@ -7,8 +7,11 @@ import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import FirmwareContainer from './template'
 import ConnectDeviceStep from './ConnectDeviceStep'
+import ConfirmIdentifierStep from './ConfirmIdentifierStep'
 import CompleteStep from './CompleteStep'
 import CheckVersionsStep from './CheckVersionsStep'
+import InstallMcuStep from './InstallMcuStep'
+import InstallFirmwareStep from './InstallFirmwareStep'
 
 class LockboxFirmwareContainer extends React.PureComponent {
   componentWillMount () {
@@ -25,11 +28,14 @@ class LockboxFirmwareContainer extends React.PureComponent {
       case 'verify-identifier':
         step = 3
         break
-      case 'install':
+      case 'install-mcu':
         step = 4
         break
-      case 'complete':
+      case 'install-firmware':
         step = 5
+        break
+      case 'complete':
+        step = 6
         break
       default:
         step = 1
@@ -46,9 +52,10 @@ class LockboxFirmwareContainer extends React.PureComponent {
       >
         {step === 1 && <ConnectDeviceStep deviceIndex={deviceIndex} />}
         {step === 2 && <CheckVersionsStep />}
-        {step === 3 && <div>Step 3</div>}
-        {step === 4 && <div>Step 4</div>}
-        {step === 5 && <CompleteStep closeAll={closeAll} />}
+        {step === 3 && <ConfirmIdentifierStep />}
+        {step === 4 && <InstallMcuStep />}
+        {step === 5 && <InstallFirmwareStep />}
+        {step === 6 && <CompleteStep closeAll={closeAll} />}
       </FirmwareContainer>
     )
   }

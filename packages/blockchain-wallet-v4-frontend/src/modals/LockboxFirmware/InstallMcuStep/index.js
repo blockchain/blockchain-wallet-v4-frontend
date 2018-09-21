@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
-import CompleteStep from './template'
+import InstallMcu from './template'
 
-class CompleteStepContainer extends React.PureComponent {
+class InstallMcuContainer extends React.PureComponent {
   render () {
-    return <CompleteStep {...this.props} />
+    return <InstallMcu {...this.props} />
   }
 }
 
@@ -22,4 +22,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CompleteStepContainer)
+)(InstallMcuContainer)

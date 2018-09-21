@@ -27,7 +27,7 @@ const CheckVersionsStep = props => {
         <Text size='16px' weight={400}>
           <FormattedMessage
             id='modals.lockboxfirmware.checkversions.title'
-            defaultMessage='Step 2. Checking for Updates'
+            defaultMessage='Step 2. Check for updates'
           />
         </Text>
       </Title>
