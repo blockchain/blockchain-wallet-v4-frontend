@@ -1099,29 +1099,41 @@ describe('authSagas', () => {
     })
   })
 
+  const VULNERABLE_ADDRESS_ERROR = `A security issue effects address ${VULNERABLE_ADDRESS}. Please Archive It and Contact support@blockchain.zendesk.com`
   describe('checkDataErrors', () => {
     const { checkDataErrors } = authSagas({ api, coreSagas })
     const saga = testSaga(checkDataErrors)
     it('should select btc getInfo', () => {
       saga.next().select(selectors.core.data.bitcoin.getInfo)
     })
-    it('should call closeAllModals', () => {
-      let failedData = Remote.Failure(`A security issue effects address ${VULNERABLE_ADDRESS}. Please Archive It and Contact support@blockchain.zendesk.com`)
-      saga.next(failedData).put(actions.modals.closeAllModals())
+  })
+
+  describe('checkAndHandleVulnerableAddress', () => {
+    const { checkAndHandleVulnerableAddress } = authSagas({ api, coreSagas })
+    const data = { error: VULNERABLE_ADDRESS_ERROR }
+    const saga = testSaga(checkAndHandleVulnerableAddress, data)
+
+    it('should close all modals', () => {
+      saga.next().put(actions.modals.closeAllModals())
     })
-    it('should call confirm service', () => {
-      saga.next().call(confirm, {
-        title: 'archive_vulnerable_address_title',
-        message: 'archive_vulnerable_address_msg',
-        confirm: 'archive_vulnerable_address_confirm',
-        cancel: undefined,
-        messageValues: { vulnerableAddress: VULNERABLE_ADDRESS }
-      })
+
+    it('should call confirm', () => {
+      saga
+        .next()
+        .call(confirm, {
+          title: 'archive_vulnerable_address_title',
+          message: 'archive_vulnerable_address_msg',
+          confirm: 'archive_vulnerable_address_confirm',
+          cancel: undefined,
+          messageValues: { vulnerableAddress: VULNERABLE_ADDRESS }
+        })
     })
     it('should archive the address', () => {
       saga
         .next(true)
-        .put(actions.core.wallet.setAddressArchived(VULNERABLE_ADDRESS, true))
+        .put(
+          actions.core.wallet.setAddressArchived(VULNERABLE_ADDRESS, true)
+        )
     })
   })
 })
