@@ -23,7 +23,8 @@ import {
   validateVolume,
   addBalanceLimit,
   getCurrentMin,
-  getCurrentMax
+  getCurrentMax,
+  convertStandardToBase
 } from './services'
 
 export const logLocation = 'exchange/sagas'
@@ -473,7 +474,7 @@ export default ({ api, coreSagas, options, networks }) => {
         symbol,
         source.address,
         depositAddress,
-        value
+        convertStandardToBase(symbol, value)
       )
       const password = yield call(promptForSecondPassword)
       yield (yield payment.sign(password)).publish()
