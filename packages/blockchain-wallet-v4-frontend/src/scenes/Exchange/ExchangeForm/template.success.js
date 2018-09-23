@@ -6,7 +6,7 @@ import { contains, isNil, gte } from 'ramda'
 
 import { model } from 'data'
 import media from 'services/ResponsiveService'
-import { formatAmount } from 'services/ValidationHelper'
+import { formatTextAmount } from 'services/ValidationHelper'
 
 import {
   Button,
@@ -190,7 +190,7 @@ const ErrorRow = styled(Row)`
 
 const normalizeAmount = (value, prevValue, allValues, ...args) => {
   if (isNaN(Number(value))) return prevValue
-  return formatAmount(value, fiatActive(allValues.fix))
+  return formatTextAmount(value, fiatActive(allValues.fix))
 }
 
 const Success = props => {
