@@ -23,7 +23,7 @@ const Navigation = props => {
     <Wrapper {...rest} onClick={logClick}>
       {/* If updating navigation item names dont forget to update analytics saga */}
       <LinkContainer to='/home' activeClassName='active'>
-        <MenuItem>
+        <MenuItem data-e2e='dashboardLink'>
           <Icon name='nav-home' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.dashboard'
@@ -32,7 +32,7 @@ const Navigation = props => {
         </MenuItem>
       </LinkContainer>
       <LinkContainer to='/buy-sell' activeClassName='active'>
-        <MenuItem>
+        <MenuItem data-e2e='buyAndSellLink'>
           <Icon name='nav-buy' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.buybitcoin'
@@ -41,7 +41,7 @@ const Navigation = props => {
         </MenuItem>
       </LinkContainer>
       <LinkContainer to='/exchange' activeClassName='active'>
-        <MenuItem>
+        <MenuItem data-e2e='exchangeLink'>
           <Icon name='nav-switch' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.exchange'
@@ -60,7 +60,7 @@ const Navigation = props => {
         </Separator>
       </MenuItem>
       <LinkContainer to='/btc/transactions' activeClassName='active'>
-        <MenuItem>
+        <MenuItem data-e2e='bitcoinLink'>
           <Icon name='btc-circle' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.transactions.bitcoin'
@@ -69,7 +69,7 @@ const Navigation = props => {
         </MenuItem>
       </LinkContainer>
       <LinkContainer to='/eth/transactions' activeClassName='active'>
-        <MenuItem>
+        <MenuItem data-e2e='etherLink'>
           <Icon name='eth-circle' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.transactions.ether'
@@ -78,7 +78,7 @@ const Navigation = props => {
         </MenuItem>
       </LinkContainer>
       <LinkContainer to='/bch/transactions' activeClassName='active'>
-        <MenuItem>
+        <MenuItem data-e2e='bitcoinCashLink'>
           <Icon name='bch-circle' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.transactions.bch'
@@ -97,7 +97,7 @@ const Navigation = props => {
         </Separator>
       </MenuItem>
       <LinkContainer to='/lockbox' activeClassName='active'>
-        <MenuItem>
+        <MenuItem data-e2e='lockboxLink'>
           <Icon name='lock' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.lockbox'
