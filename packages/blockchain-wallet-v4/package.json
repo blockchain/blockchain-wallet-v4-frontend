@@ -2,7 +2,7 @@
   "name": "blockchain-wallet-v4",
   "version": "1.0.1",
   "description": "Functional library for handling Blockchain.info wallets.",
-  "license": "ISC",
+  "license": "AGPL-3.0-or-later",
   "author": {
     "name": "Blockchain.info",
     "url": "https://blockchain.info"
