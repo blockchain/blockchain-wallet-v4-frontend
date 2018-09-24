@@ -1,12 +1,36 @@
 /* eslint-disable */
-/* prettier-ignore */
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const Webpack = require('webpack')
-const PATHS = require('../../config/paths')
+const PATHS = require('./../../config/paths')
+
+try {
+  fs.readdirSync('./../../config').forEach(file => {
+    console.info('PATHS::', file)
+  })
+} catch (e) {
+  console.info('ERROR', e)
+}
+
+try {
+  fs.readdirSync('.').forEach(file => {
+    console.info('CWD::', file)
+  })
+} catch (e) {
+  console.info('ERROR', e)
+}
+
+try {
+  fs.readdirSync('/').forEach(file => {
+    console.info('ROOT::', file)
+  })
+} catch (e) {
+  console.info('ERROR', e)
+}
 
 const runBundleAnalyzer = process.env.ANALYZE
 let envConfig = {}
