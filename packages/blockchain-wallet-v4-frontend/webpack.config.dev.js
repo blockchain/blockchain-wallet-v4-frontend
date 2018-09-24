@@ -1,5 +1,4 @@
 /* eslint-disable */
-/* prettier-ignore */
 const chalk = require('chalk')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
