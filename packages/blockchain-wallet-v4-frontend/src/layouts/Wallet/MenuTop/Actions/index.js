@@ -16,26 +16,35 @@ class ActionsContainer extends React.PureComponent {
     this.props.analytics.logClick('send')
     const { pathname } = this.props.router.location
 
-    switch (pathname) {
-      case '/eth/transactions':
+    const paths = pathname.split('/')
+
+    switch (paths[1]) {
+      case 'eth':
         return this.props.modalActions.showModal('SendEther')
-      case '/bch/transactions':
+      case 'bch':
         return this.props.modalActions.showModal('SendBch')
       default:
-        return this.props.modalActions.showModal('SendBitcoin')
+        return this.props.modalActions.showModal('SendBitcoin', {
+          lockboxIndex: pathname.includes('lockbox') ? paths[3] : null
+        })
     }
   }
 
   handleRequest () {
     this.props.analytics.logClick('request')
     const { pathname } = this.props.router.location
-    switch (pathname) {
-      case '/bch/transactions':
+
+    const paths = pathname.split('/')
+
+    switch (paths[1]) {
+      case 'bch':
         return this.props.modalActions.showModal('RequestBch')
-      case '/eth/transactions':
+      case 'eth':
         return this.props.modalActions.showModal('RequestEther')
       default:
-        return this.props.modalActions.showModal('RequestBitcoin')
+        return this.props.modalActions.showModal('RequestBitcoin', {
+          lockboxIndex: pathname.includes('lockbox') ? paths[3] : null
+        })
     }
   }
 

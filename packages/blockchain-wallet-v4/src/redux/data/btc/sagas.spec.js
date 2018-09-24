@@ -390,7 +390,7 @@ describe('bitcoin data sagas', () => {
       })
         .provide([
           [select(selectors.settings.getCurrency), currency],
-          [select(selectors.wallet.getWalletContext), mockContext]
+          [select(S.getContext), mockContext]
         ])
         .call(
           api.getTransactionHistory,
@@ -436,7 +436,7 @@ describe('bitcoin data sagas', () => {
           .withReducer(reducers)
           .provide([
             [select(selectors.settings.getCurrency), Remote.of('USD')],
-            [select(selectors.wallet.getWalletContext), mockContext]
+            [select(S.getContext), mockContext]
           ])
           .run()
           .then(result => {

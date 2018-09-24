@@ -1,6 +1,6 @@
-import { call, put, take, select } from 'redux-saga/effects'
-import { contains, keysIn, prop } from 'ramda'
-
+import { call, put, take, select, takeEvery } from 'redux-saga/effects'
+import { any, equals, length, pluck, prop } from 'ramda'
+import { eventChannel, END } from 'redux-saga'
 import { actions, selectors } from 'data'
 import * as A from './actions'
 import * as AT from './actionTypes'
@@ -50,6 +50,7 @@ export default ({ api }) => {
         A.setConnectionInfo(
           appConnection.app,
           deviceIndex,
+          deviceType,
           appConnection.transport
         )
       )
@@ -111,11 +112,15 @@ export default ({ api }) => {
   const determineLockboxRoute = function*() {
     try {
       const devicesR = yield select(selectors.core.kvStore.lockbox.getDevices)
-      const devices = devicesR.getOrElse({})
-
-      keysIn(devices).length
-        ? yield put(actions.router.push('/lockbox/dashboard/0'))
-        : yield put(actions.router.push('/lockbox/onboard'))
+      const devices = devicesR.getOrElse([])
+      if (length(devices)) {
+        // always go to the first device's dashboard
+        const index = 0
+        yield put(A.initializeDashboard(index))
+        yield put(actions.router.push(`/lockbox/dashboard/${index}`))
+      } else {
+        yield put(actions.router.push('/lockbox/onboard'))
+      }
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'determineLockboxRoute', e)
@@ -140,11 +145,16 @@ export default ({ api }) => {
       )
       yield put(A.saveNewDeviceKvStoreSuccess())
       yield put(actions.modals.closeModal())
-      yield put(actions.router.push('/lockbox/dashboard/0'))
       yield put(actions.core.data.bch.fetchData())
       yield put(actions.core.data.bitcoin.fetchData())
       yield put(actions.core.data.ethereum.fetchData())
       yield put(actions.alerts.displaySuccess(C.LOCKBOX_SETUP_SUCCESS))
+      const devices = (yield select(
+        selectors.core.kvStore.lockbox.getDevices
+      )).getOrElse([])
+      yield put(
+        actions.router.push(`/lockbox/dashboard/${length(devices) - 1}`)
+      )
     } catch (e) {
       yield put(A.saveNewDeviceKvStoreFailure(e))
       yield put(actions.alerts.displayError(C.LOCKBOX_SETUP_ERROR))
@@ -210,11 +220,36 @@ export default ({ api }) => {
   const initializeNewDeviceSetup = function*() {
     try {
       yield put(A.changeDeviceSetupStep('connect-device'))
-      const setupTimeout = 1500000 // 25 min timeout for setup
-      // TODO: poll for both Ledger and Blockchain type devices
-      const deviceType = 'ledger'
-      yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType, setupTimeout))
-      yield take(AT.SET_CONNECTION_INFO)
+      const setupTimeout = 2500
+      let pollPosition = 0
+      let closePoll
+
+      const pollForDeviceChannel = () =>
+        eventChannel(emitter => {
+          const pollInterval = setInterval(() => {
+            if (closePoll) {
+              emitter(END)
+              return
+            }
+            // swap deviceType polling between intervals
+            pollPosition += setupTimeout
+            const index = pollPosition / setupTimeout
+            emitter(index % 2 === 0 ? 'ledger' : 'blockchain')
+          }, setupTimeout)
+          return () => clearInterval(pollInterval)
+        })
+
+      const channel = yield call(pollForDeviceChannel)
+      yield takeEvery(channel, function*(deviceType) {
+        yield put(
+          A.pollForDeviceApp('DASHBOARD', null, deviceType, setupTimeout)
+        )
+      })
+
+      const { payload } = yield take(AT.SET_CONNECTION_INFO)
+      const { deviceType } = payload
+      closePoll = true
+
       yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
       // check device authenticity
       yield put(A.checkDeviceAuthenticity())
@@ -248,7 +283,7 @@ export default ({ api }) => {
       )
       const storedDevices = storedDevicesR.getOrElse({})
       // check if device has already been added
-      if (contains(newDeviceId)(keysIn(storedDevices))) {
+      if (any(equals(newDeviceId))(pluck('device_id')(storedDevices))) {
         yield put(A.changeDeviceSetupStep('error-step', true, 'duplicate'))
       } else {
         yield put(A.changeDeviceSetupStep('open-btc-app', true))
@@ -330,8 +365,9 @@ export default ({ api }) => {
   const updateDeviceFirmware = function*(action) {
     try {
       const { deviceIndex } = action.payload
-      // clear out previous firmware info
+      // reset previous firmware infos
       yield put(A.resetFirmwareInfo())
+      yield put(A.changeFirmwareUpdateStep('connect-device'))
       // derive device type
       const deviceR = yield select(
         selectors.core.kvStore.lockbox.getDevice,
@@ -341,6 +377,8 @@ export default ({ api }) => {
       // poll for device connection
       yield put(A.pollForDeviceApp('DASHBOARD', null, device.device_type))
       yield take(AT.SET_CONNECTION_INFO)
+      // wait for user to continue
+      yield take(AT.SET_FIRMWARE_UPDATE_STEP)
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
       const deviceInfo = yield call(
@@ -372,18 +410,20 @@ export default ({ api }) => {
         })
       )
 
-      // TODO: blocked until we get some outdated devices...
+      // determine if update is needed
       if (latestFirmware.result !== 'null') {
         // device firmware is out of date
         // lines 56-75 in helpers/devices/getLatestFirmwareForDevice.js
         yield put(A.changeFirmwareUpdateStep('upgrade-firmware-step'))
+        // TODO: install MCU and firmware
+      } else {
+        // no firmware to install
+        yield put(A.changeFirmwareUpdateStep('complete', false))
       }
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'updateDeviceFirmware', e)
       )
-    } finally {
-      yield put(A.changeFirmwareUpdateStep('check-for-updates-step'))
     }
   }
 

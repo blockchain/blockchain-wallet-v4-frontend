@@ -5,7 +5,7 @@ import { reduxForm } from 'redux-form'
 
 import { model } from 'data'
 
-import { HeartbeatLoader, Icon } from 'blockchain-info-components'
+import { HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import {
   Wrapper,
   ExchangeText,
@@ -68,8 +68,27 @@ const FromToIcon = styled(Icon)`
   justify-content: center;
   font-size: 24px;
 `
+const ErrorRow = styled(Text)`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  min-height: 18px;
+  margin-bottom: 15px;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 18px;
+  color: ${props => props.theme.error};
+`
+
+const getErrorMessage = () => (
+  <FormattedMessage
+    id='scenes.exchange.confirm.tradefailed'
+    defaultMessage='Failed to execute a trade'
+  />
+)
 
 const ExchangeConfirm = ({
+  error,
   sourceAmount,
   targetAmount,
   targetFiat,
@@ -136,6 +155,7 @@ const ExchangeConfirm = ({
         />
       </Note>
     </ConfirmWrapper>
+    <ErrorRow>{error && getErrorMessage(error)}</ErrorRow>
     <ExchangeButton type='submit' nature='primary' disabled={submitting}>
       {!submitting && (
         <FormattedMessage

@@ -100,8 +100,8 @@ class FirstStepContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  initialValues: getInitialValues(state),
+const mapStateToProps = (state, ownProps) => ({
+  initialValues: getInitialValues(state, ownProps),
   data: getData(state),
   importedAddresses: getImportedAddresses(state)
 })

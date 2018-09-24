@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import { contains } from 'ramda'
+import { contains, isNil, gte } from 'ramda'
 
 import { model } from 'data'
 import media from 'services/ResponsiveService'
@@ -57,6 +57,7 @@ const Cover = styled.div`
 
 const ColumnLeft = styled.div`
   margin-right: 34px;
+  max-width: 450px;
   @media (min-width: 992px) {
     width: 60%;
   }
@@ -65,7 +66,9 @@ const ColumnLeft = styled.div`
   `};
 `
 const ColumnRight = styled.div`
+  max-width: 450px;
   @media (min-width: 992px) {
+    max-width: 345px;
     width: 40%;
   }
 `
@@ -226,11 +229,15 @@ const Success = props => {
     formatPair(targetCoin, sourceCoin),
     availablePairs
   )
-  const minMaxDisabled = contains(error, [
-    NO_LIMITS_ERROR,
-    MAXIMUM_NO_LINK_ERROR,
-    MINIMUM_NO_LINK_ERROR
-  ])
+  const minMaxDisabled =
+    contains(error, [
+      NO_LIMITS_ERROR,
+      MAXIMUM_NO_LINK_ERROR,
+      MINIMUM_NO_LINK_ERROR
+    ]) ||
+    gte(min, max) ||
+    isNil(min) ||
+    isNil(max)
 
   return (
     <Wrapper>
@@ -242,7 +249,7 @@ const Success = props => {
               <Cell>
                 <ActiveCurrencyButton
                   onClick={() => {
-                    if (!disabled && !sourceActive) swapFix()
+                    if (!sourceActive) swapFix()
                   }}
                   checked={sourceActive}
                   coin={sourceCoin.toLowerCase()}
@@ -259,7 +266,7 @@ const Success = props => {
                 {
                   <ActiveCurrencyButton
                     onClick={() => {
-                      if (!disabled && !targetActive) swapFix()
+                      if (!targetActive) swapFix()
                     }}
                     checked={targetActive}
                     coin={targetCoin.toLowerCase()}
@@ -281,7 +288,6 @@ const Success = props => {
                   component={SelectBox}
                   elements={fromElements}
                   hasOneAccount={hasOneAccount}
-                  disabled={disabled}
                 />
               </Cell>
               <TooltipHost id='exchange.changeinput'>
@@ -293,7 +299,7 @@ const Success = props => {
                     cursor
                     disabled={swapDisabled}
                     onClick={() => {
-                      if (!disabled && !swapDisabled) swapBaseAndCounter()
+                      if (!swapDisabled) swapBaseAndCounter()
                     }}
                   />
                 </Cell>
@@ -305,7 +311,6 @@ const Success = props => {
                   component={SelectBox}
                   elements={toElements}
                   hasOneAccount={hasOneAccount}
-                  disabled={disabled}
                 />
               </Cell>
             </Row>
@@ -345,7 +350,7 @@ const Success = props => {
                 cursor
                 disabled={swapDisabled}
                 onClick={() => {
-                  if (!disabled && !swapDisabled) swapCoinAndFiat()
+                  if (!swapDisabled) swapCoinAndFiat()
                 }}
               />
             </AmountRow>

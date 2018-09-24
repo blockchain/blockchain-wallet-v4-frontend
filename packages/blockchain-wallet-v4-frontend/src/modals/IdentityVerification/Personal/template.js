@@ -255,7 +255,7 @@ const Personal = ({
                     >
                       <FormattedMessage
                         id='identityverification.personal.dateofbirth'
-                        defaultMessage='Your Birthday'
+                        defaultMessage='Date of Birth'
                       />
                     </Text>
                     <Field
@@ -342,6 +342,29 @@ const Personal = ({
                         validate={[required]}
                         component={TextBox}
                       />
+                      {countryCode &&
+                        addressRefetchVisible &&
+                        !mobile && (
+                          <EmailHelper error={true}>
+                            <FormattedMessage
+                              id='identityverification.personal.addressrefetch'
+                              defaultMessage='Oops, address lookup failed. {retry}'
+                              values={{
+                                retry: (
+                                  <a
+                                    onClick={onPostCodeChange.bind(
+                                      null,
+                                      null,
+                                      postCode
+                                    )}
+                                  >
+                                    Try again?
+                                  </a>
+                                )
+                              }}
+                            />
+                          </EmailHelper>
+                        )}
                     </FaqFormItem>
                     {activeField === 'postCode' && (
                       <FaqFormMessage
@@ -362,29 +385,6 @@ const Personal = ({
                     )}
                   </FaqFormGroup>
                 )}
-                {countryCode &&
-                  addressRefetchVisible &&
-                  !mobile && (
-                    <EmailHelper error={true}>
-                      <FormattedMessage
-                        id='identityverification.personal.addressrefetch'
-                        defaultMessage='Oops, address lookup failed. {retry}'
-                        values={{
-                          retry: (
-                            <a
-                              onClick={onPostCodeChange.bind(
-                                null,
-                                null,
-                                postCode
-                              )}
-                            >
-                              Try again?
-                            </a>
-                          )
-                        }}
-                      />
-                    </EmailHelper>
-                  )}
                 {countryCode &&
                   Boolean(possibleAddresses[0].items.length) && (
                     <PersonalFormGroup>

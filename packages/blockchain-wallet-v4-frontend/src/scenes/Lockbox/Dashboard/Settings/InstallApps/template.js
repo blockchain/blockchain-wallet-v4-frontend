@@ -32,8 +32,8 @@ const ReinstallApps = props => {
       <SettingComponent>
         <Button nature='empty' onClick={onInstallClick}>
           <FormattedMessage
-            id='scenes.lockbox.settings.installapps.install'
-            defaultMessage='install'
+            id='scenes.lockbox.settings.installapps.installapps'
+            defaultMessage='Install Apps'
           />
         </Button>
       </SettingComponent>

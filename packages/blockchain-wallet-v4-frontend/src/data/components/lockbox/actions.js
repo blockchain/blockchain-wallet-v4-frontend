@@ -18,9 +18,9 @@ export const pollForDeviceApp = (
 export const resetConnectionStatus = () => ({
   type: AT.RESET_CONNECTION_STATUS
 })
-export const setConnectionInfo = (app, deviceIndex, transport) => ({
+export const setConnectionInfo = (app, deviceIndex, deviceType, transport) => ({
   type: AT.SET_CONNECTION_INFO,
-  payload: { app, deviceIndex, transport }
+  payload: { app, deviceIndex, deviceType, transport }
 })
 export const setConnectionError = error => ({
   type: AT.SET_CONNECTION_ERROR,
@@ -90,9 +90,9 @@ export const updateDeviceNameFailure = payload => ({
 })
 
 // FIRMWARE
-export const changeFirmwareUpdateStep = step => ({
+export const changeFirmwareUpdateStep = (step, updatePerformed) => ({
   type: AT.SET_FIRMWARE_UPDATE_STEP,
-  payload: { step }
+  payload: { step, updatePerformed }
 })
 export const setFirmwareInstalledInfo = info => ({
   type: AT.SET_FIRMWARE_INSTALLED_INFO,
