@@ -28,13 +28,14 @@ const LineWrapper = styled.div`
   margin-top: 16px;
 `
 
+// TODO: this only supports totalSteps of 4 or 5
 const Line = styled.div`
   &.animate {
     width: 1px;
     border-top: 2px solid rgba(255, 255, 255, 1);
     @keyframes increase {
       100% {
-        width: 117px;
+        width: ${props => (props.totalSteps === 5 ? '117px' : '155px')};
       }
     }
     -webkit-animation: increase 1s;
@@ -44,7 +45,8 @@ const Line = styled.div`
     animation-fill-mode: forwards;
   }
 
-  width: 117px;
+  width: ${props => (props.totalSteps === 5 ? '117px' : '155px')};
+  z-index: 0;
   border-top: 2px solid rgba(255, 255, 255, 0.3);
   border-top: 2px solid
     ${props =>
@@ -53,7 +55,7 @@ const Line = styled.div`
         : 'rgba(255, 255, 255, 0.3)'};
   position: absolute;
   top: 6px;
-  left: -26px;
+  left: ${props => (props.totalSteps === 5 ? '-26px' : '-35px')};
 `
 const Circle = styled.div`
   width: 14px;
@@ -107,6 +109,7 @@ class ModalStepper extends React.PureComponent {
                   <Line
                     currentStep={currentStep}
                     i={i}
+                    totalSteps={totalSteps}
                     className={
                       currentStep !== 1 && i === currentStep - 1
                         ? 'animate'

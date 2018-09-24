@@ -1,13 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import ModalStepper from 'components/ModalStepper'
 import { Modal, ModalBody } from 'blockchain-info-components'
 
-const LockboxSetup = props => (
-  <Modal size='large' position={props.position} total={props.total}>
-    <ModalBody>{props.children}</ModalBody>
-  </Modal>
-)
+const LockboxSetup = props => {
+  const { children, position, total, totalSteps, step } = props
+
+  return (
+    <Modal size='large' position={position} total={total}>
+      {step !== 0 &&
+        step !== 5 && (
+          <ModalStepper currentStep={step} totalSteps={totalSteps} />
+        )}
+      <ModalBody>{children}</ModalBody>
+    </Modal>
+  )
+}
 
 LockboxSetup.propTypes = {
   position: PropTypes.number.isRequired,
