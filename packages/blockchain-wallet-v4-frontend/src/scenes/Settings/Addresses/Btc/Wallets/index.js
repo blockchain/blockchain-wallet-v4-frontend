@@ -17,12 +17,6 @@ class BitcoinWalletsContainer extends React.Component {
     return !Remote.Loading.is(nextProps.data)
   }
 
-  handleRefresh () {
-    this.props.actions.fetchData()
-  }
-
-  handleArchive = (address) => this.props.coreActions.setAddressArchived(address, true)
-
   render () {
     const { search, data, walletsWithoutRemoteData, modalActions, coreActions, ...rest } = this.props
 
