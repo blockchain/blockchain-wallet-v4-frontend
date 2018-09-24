@@ -79,7 +79,7 @@ const Dropdown = props => {
 
   return (
     <Wrapper uppercase={uppercase}>
-      <DropdownList toggled={toggled} down={down}>
+      <DropdownList toggled={toggled} down={down} data-e2e='balanceDropdown'>
         {components.map((comp, index) => {
           return (
             <DropdownItem key={index} onClick={handleCallback.bind(null, comp)}>

@@ -14,7 +14,7 @@ import {
 
 const Template = props => (
   <Wrapper>
-    <Header onClick={props.handleToggle}>
+    <Header onClick={props.handleToggle} data-e2e='balanceDropdown-lockbox'>
       <HeaderText size='14px'>
         <Icon
           name='lock'
