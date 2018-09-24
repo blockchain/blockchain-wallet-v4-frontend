@@ -2,11 +2,10 @@ import React from 'react'
 import { actions } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { getData } from './selectors'
-import Success from './template.success'
+import { getData, getWalletsWithoutRemoteData } from './selectors'
+import Template from './template.success'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { formValueSelector } from 'redux-form'
-import DataError from 'components/DataError'
 
 class BitcoinWalletsContainer extends React.Component {
   constructor (props) {
@@ -25,16 +24,16 @@ class BitcoinWalletsContainer extends React.Component {
   handleArchive = (address) => this.props.coreActions.setAddressArchived(address, true)
 
   render () {
-    const { search, data, ...rest } = this.props
+    const { search, data, walletsWithoutRemoteData, modalActions, coreActions, ...rest } = this.props
 
     return data.cata({
       Success: value => (
-        <Success
+        <Template
           wallets={value}
           search={search && search.toLowerCase()}
-          onUnarchive={i => this.props.coreActions.setAccountArchived(i, false)}
+          onUnarchive={i => coreActions.setAccountArchived(i, false)}
           handleClick={() =>
-            this.props.modalActions.showModal('AddBitcoinWallet', {
+            modalActions.showModal('AddBitcoinWallet', {
               wallets: value
             })
           }
@@ -42,7 +41,19 @@ class BitcoinWalletsContainer extends React.Component {
         />
       ),
       Failure: message => (
-          <DataError onClick={this.handleRefresh} onArchive={this.handleArchive} message={message} />
+        <Template
+          failure
+          message={message}
+          wallets={walletsWithoutRemoteData}
+          search={search && search.toLowerCase()}
+          onUnarchive={i => coreActions.setAccountArchived(i, false)}
+          handleClick={() =>
+            modalActions.showModal('AddBitcoinWallet', {
+              wallets: walletsWithoutRemoteData
+            })
+          }
+          {...rest}
+        />
       ),
       Loading: () => <div />,
       NotAsked: () => <div />
@@ -58,7 +69,8 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   data: getData(state),
-  search: formValueSelector('settingsAddresses')(state, 'search')
+  search: formValueSelector('settingsAddresses')(state, 'search'),
+  walletsWithoutRemoteData: getWalletsWithoutRemoteData(state)
 })
 
 export default connect(
