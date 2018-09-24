@@ -9,7 +9,7 @@ const Webpack = require('webpack')
 const PATHS = require('./../../config/paths')
 
 try {
-  fs.readdirSync('./../../config').forEach(file => {
+  fs.readdirSync('./../..').forEach(file => {
     console.info('PATHS::', file)
   })
 } catch (e) {
