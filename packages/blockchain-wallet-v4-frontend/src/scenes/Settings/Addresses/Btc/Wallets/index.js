@@ -8,11 +8,6 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { formValueSelector } from 'redux-form'
 
 class BitcoinWalletsContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.handleRefresh = this.handleRefresh.bind(this)
-  }
-
   shouldComponentUpdate (nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
