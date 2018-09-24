@@ -1,5 +1,5 @@
 import { formValueSelector } from 'redux-form'
-import { lift, head, map } from 'ramda'
+import { lift, head, nth } from 'ramda'
 import settings from 'config'
 import { selectors } from 'data'
 import { Remote, utils } from 'blockchain-wallet-v4/src'
@@ -17,7 +17,7 @@ const extractAddress = (walletSelector, lockboxSelector, value) => {
     : Remote.Loading
 }
 
-export const getData = state => {
+export const getData = (state, ownProps) => {
   const getReceiveAddressWallet = index =>
     selectors.core.common.bch.getNextAvailableReceiveAddress(
       settings.NETWORK_BCH,
@@ -33,7 +33,7 @@ export const getData = state => {
   const coin = formValueSelector('requestBch')(state, 'coin')
   const to = formValueSelector('requestBch')(state, 'to')
 
-  const initialValuesR = getInitialValues(state)
+  const initialValuesR = getInitialValues(state, ownProps)
   const receiveAddressR = extractAddress(
     getReceiveAddressWallet,
     getReceiveAddressLockbox,
@@ -51,17 +51,19 @@ export const getData = state => {
   return lift(transform)(receiveAddressR, initialValuesR)
 }
 
-export const getInitialValues = state => {
-  const toDropdown = map(x => ({ text: x.label, value: x }))
-  const balancesR = selectors.core.common.bch
-    .getAccountsBalances(state)
-    .map(toDropdown)
+export const getInitialValues = (state, ownProps) => {
+  const to = to => ({ to, coin: 'BCH' })
+  if (ownProps.lockboxIndex != null) {
+    return selectors.core.common.bch
+      .getLockboxBchBalances(state)
+      .map(nth(ownProps.lockboxIndex))
+      .map(to)
+  }
+  const balancesR = selectors.core.common.bch.getAccountsBalances(state)
   const defaultIndexR = selectors.core.kvStore.bch.getDefaultAccountIndex(state)
   const transform = (defaultIndex, balances) => {
-    const defaultElement = head(
-      balances.filter(x => x.value.index === defaultIndex)
-    )
-    return { to: defaultElement.value, coin: 'BCH' }
+    const defaultElement = head(balances.filter(x => x.index === defaultIndex))
+    return to(defaultElement)
   }
   return lift(transform)(defaultIndexR)(balancesR)
 }
