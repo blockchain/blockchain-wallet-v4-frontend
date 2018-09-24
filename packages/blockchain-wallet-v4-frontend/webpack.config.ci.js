@@ -6,19 +6,28 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const Webpack = require('webpack')
+const fs = require('fs')
 // const PATHS = require('./../../config/paths')
 
 try {
-  fs.readdirSync('./..').forEach(file => {
-    console.info('PATHS::', file)
+  fs.readdirSync('.').forEach(file => {
+    console.info('ONE::', file)
   })
 } catch (e) {
   console.info('ERROR', e)
 }
 
 try {
-  fs.readdirSync('.').forEach(file => {
-    console.info('CWD::', file)
+  fs.readdirSync('./..').forEach(file => {
+    console.info('TWO::', file)
+  })
+} catch (e) {
+  console.info('ERROR', e)
+}
+
+try {
+  fs.readdirSync('./../..').forEach(file => {
+    console.info('THREE::', file)
   })
 } catch (e) {
   console.info('ERROR', e)
