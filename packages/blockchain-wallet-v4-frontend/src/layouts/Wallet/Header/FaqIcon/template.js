@@ -32,7 +32,7 @@ const FaqIcon = props => {
       <FaqLink onClick={handleClick} highlighted={highlighted}>
         <Icon
           id='faq-icon'
-          name='question-in-circle-filled'
+          name='question-in-circle'
           size='18px'
           color='white'
           cursor

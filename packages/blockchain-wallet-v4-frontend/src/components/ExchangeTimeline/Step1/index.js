@@ -46,16 +46,12 @@ const Step1 = props => (
     <Circle>
       {props.status === 'active' ? (
         <AnimatedIcon
-          name='paper-airplane-filled-2'
+          name='paper-airplane-filled'
           size='40px'
           color='brand-primary'
         />
       ) : (
-        <Icon
-          name='paper-airplane-filled-2'
-          size='40px'
-          color='brand-primary'
-        />
+        <Icon name='paper-airplane-filled' size='40px' color='brand-primary' />
       )}
     </Circle>
     <Text size='13px' weight={500} capitalize>

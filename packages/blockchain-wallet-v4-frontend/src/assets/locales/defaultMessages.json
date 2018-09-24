@@ -8127,6 +8127,15 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Installing applications and updating firmware can only be done while using the Chrome browser.",
+        "id": "scenes.lockbox.settings.browserwarn"
+      }
+    ],
+    "path": "src/scenes/Lockbox/Dashboard/Settings/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Install Apps",
         "id": "scenes.lockbox.settings.installapps.title"
       },

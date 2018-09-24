@@ -1451,6 +1451,7 @@
   "scenes.lockbox.menu.transactions.search.placeholder": "Search by coin, address, or description",
   "scenes.lockbox.settings.adddevice.description": "Get step by step instructions in our setup guide",
   "scenes.lockbox.settings.adddevice.title": "Setup New Device",
+  "scenes.lockbox.settings.browserwarn": "Installing applications and updating firmware can only be done while using the Chrome browser.",
   "scenes.lockbox.settings.devicename.description": "{deviceName}",
   "scenes.lockbox.settings.devicename.title": "Device Name",
   "scenes.lockbox.settings.devicestatus.delete": "Delete",
