@@ -10,7 +10,7 @@
   "main": "index.js",
   "scripts": {
     "analyze": "cross-env-shell ANALYZE=true NODE_ENV=production CI_BUILD=true webpack-cli --config webpack.config.ci.js",
-    "build:dev": "cross-env-shell NODE_ENV=development webpack-cli --config webpack.config.js --progress --colors",
+    "build:dev": "cross-env-shell NODE_ENV=development webpack-cli --config webpack.config.dev.js --progress --colors",
     "build:prod": "cross-env-shell NODE_ENV=production webpack-cli --config webpack.config.dev.js --progress --colors",
     "build:staging": "cross-env-shell NODE_ENV=staging webpack-cli --config webpack.config.dev.js --progress --colors",
     "build:testnet": "cross-env-shell NODE_ENV=testnet webpack-cli --config webpack.config.dev.js --progress --colors",
