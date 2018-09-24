@@ -70,7 +70,7 @@ class ThirdStep extends React.PureComponent {
         </TextGroup>
         <Footer>
           <LinkContainer to='/login'>
-            <Button nature='primary' fullwidth uppercase>
+            <Button nature='primary' fullwidth>
               <FormattedMessage
                 id='scenes.reset2fa.thirdstep.login'
                 defaultMessage='Continue to Login'

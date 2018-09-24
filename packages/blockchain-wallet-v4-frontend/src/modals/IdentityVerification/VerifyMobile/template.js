@@ -225,19 +225,13 @@ const VerifyMobile = ({
       }
       footer={
         <Footer>
-          <Button
-            uppercase
-            nature='transferred'
-            onClick={onBack}
-            disabled={submitting}
-          >
+          <Button nature='transferred' onClick={onBack} disabled={submitting}>
             <FormattedMessage
               id='identityverification.personal.back'
               defaultMessage='Back'
             />
           </Button>
           <Button
-            uppercase
             nature='primary'
             type='submit'
             disabled={invalid || submitting || step !== SMS_STEPS.verify}

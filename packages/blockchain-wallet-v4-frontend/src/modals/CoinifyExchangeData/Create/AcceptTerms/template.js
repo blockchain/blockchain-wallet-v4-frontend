@@ -186,14 +186,16 @@ const AcceptTerms = props => {
         <ColRightInner>
           <ButtonWrapper>
             <Button
-              uppercase
               type='submit'
               nature='primary'
               fullwidth
               disabled={invalid || busy || signupError}
             >
               {!busy ? (
-                <span>Continue</span>
+                <FormattedMessage
+                  id='coinifyexchangedata.create.continue'
+                  defaultMessage='Continue'
+                />
               ) : (
                 <HeartbeatLoader height='20px' width='20px' color='white' />
               )}
