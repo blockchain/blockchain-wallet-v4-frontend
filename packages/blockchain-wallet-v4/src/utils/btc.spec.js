@@ -79,7 +79,9 @@ describe('Bitcoin Utils', () => {
       const expectedXpub =
         'xpub6BwFGQ41Zi14LdeBtF42CBxaFeH84HBTAR9adRHbWWL53iTaRF5WNUzK2ojRQ3feH7Mx3bi2tAuBXV4qemaPrAAJjpUGgp3aAj3xVDMp8p2'
       const path = "44'/0'/0'"
-      expect(utils.createXPUB(path, child, parent)).toEqual(expectedXpub)
+      expect(utils.createXpubFromChildAndParent(path, child, parent)).toEqual(
+        expectedXpub
+      )
     })
   })
 

@@ -248,18 +248,6 @@ export const getWifAddress = (key, compressed = true) => {
 
 export const txHexToHashHex = txHex => Transaction.fromHex(txHex).getId()
 
-// DEPRECATED :: SHOULD BE REMOVED ONCE MOVED TO CREATEXPUB
-export const publicKeyChainCodeToBip32 = data => {
-  const { publicKey, chainCode } = data
-  const compressedPublicKey = compressPublicKey(Buffer.from(publicKey, 'hex'))
-  const bip32 = fromPublicKey(
-    compressedPublicKey,
-    Buffer.from(chainCode, 'hex')
-  )
-
-  return bip32.toBase58()
-}
-
 export const compressPublicKey = publicKey => {
   const prefix = (publicKey[64] & 1) !== 0 ? 0x03 : 0x02
   const prefixBuffer = Buffer.alloc(1)
@@ -281,7 +269,7 @@ export const getParentPath = compose(
   path => bippath.fromString(path).toPathArray()
 )
 
-export const createXPUB = (path, child, parent) => {
+export const createXpubFromChildAndParent = (path, child, parent) => {
   let pathArray = bippath.fromString(path).toPathArray()
   let pkChild = compressPublicKey(Buffer.from(child.publicKey, 'hex'))
   let pkParent = compressPublicKey(Buffer.from(parent.publicKey, 'hex'))
