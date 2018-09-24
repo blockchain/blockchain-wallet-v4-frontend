@@ -47,7 +47,7 @@ const Step3 = props => {
     <Wrapper>
       <Circle status={status}>
         {status === 'refunded' ? (
-          <Icon name='alert' size='40px' color='error' />
+          <Icon name='alert-filled' size='40px' color='error' />
         ) : (
           <Icon
             name='checkmark'
