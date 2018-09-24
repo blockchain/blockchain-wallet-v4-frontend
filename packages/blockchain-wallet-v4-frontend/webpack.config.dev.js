@@ -11,7 +11,7 @@ const path = require('path')
 const fs = require('fs')
 const PATHS = require('../../config/paths')
 const mockWalletOptions = require('../../config/mocks/wallet-options-v4.json')
-console.info(PATHS)
+
 const runBundleAnalyzer = process.env.ANALYZE
 const iSignThisDomain =
   mockWalletOptions.platforms.web.coinify.config.iSignThisDomain
