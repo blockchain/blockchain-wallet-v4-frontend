@@ -1451,6 +1451,7 @@
   "scenes.lockbox.menu.transactions.search.placeholder": null,
   "scenes.lockbox.settings.adddevice.description": null,
   "scenes.lockbox.settings.adddevice.title": null,
+  "scenes.lockbox.settings.browserwarn": null,
   "scenes.lockbox.settings.devicename.description": null,
   "scenes.lockbox.settings.devicename.title": null,
   "scenes.lockbox.settings.devicestatus.delete": null,
