@@ -1,20 +1,29 @@
-import { map } from 'ramda'
+import { map, pathOr } from 'ramda'
 
 import { selectors } from 'data'
 import { Types } from 'blockchain-wallet-v4'
 
-export const getData = state => {
-  const defaultId = Types.HDWallet.selectDefaultAccountIdx(
+const getDefaultIdx = state =>
+  Types.HDWallet.selectDefaultAccountIdx(
     Types.Wallet.selectHdWallets(state.walletPath.wallet).get(0)
   )
-  const wallets = map(x => ({
-    label: x.label,
-    index: x.index,
-    archived: x.archived,
-    default: defaultId === x.index,
-    balance: x.info ? x.info.final_balance : 0,
-    xpub: x.xpub
-  }))
+const prepareWallet = (wallet, idx) => ({
+  label: wallet.label,
+  index: wallet.index,
+  archived: wallet.archived,
+  default: idx === wallet.index,
+  balance: pathOr(0, ['info', 'final_balance'], wallet),
+  xpub: wallet.xpub
+})
 
+export const getData = state => {
+  const defaultIdx = getDefaultIdx(state)
+  const wallets = map(wallet => prepareWallet(wallet, defaultIdx))
   return selectors.core.common.btc.getHDAccounts(state).map(wallets)
+}
+
+export const getWalletsWithoutRemoteData = state => {
+  const defaultIdx = getDefaultIdx(state)
+  const wallets = wallet => prepareWallet(wallet, defaultIdx)
+  return selectors.core.wallet.getHDAccounts(state).map(wallets)
 }
