@@ -1,6 +1,5 @@
 /* eslint-disable */
 /* prettier-ignore */
-
 const chalk = require('chalk')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
@@ -12,13 +11,14 @@ const Webpack = require('webpack')
 const path = require('path')
 const fs = require('fs')
 const PATHS = require('../../config/paths')
+const mockWalletOptions = require('../../config/mocks/wallet-options-v4.json')
 
 const runBundleAnalyzer = process.env.ANALYZE
-
-// only configure app if we will be using the webpack dev server
-const mockWalletOptions = require('./../../config/wallet-options-v4.json')
 const iSignThisDomain =
   mockWalletOptions.platforms.web.coinify.config.iSignThisDomain
+let sslEnabled =
+  fs.existsSync(PATHS.sslConfig + 'key.pem') &&
+  fs.existsSync(PATHS.sslConfig + 'cert.pem')
 let envConfig = {}
 
 try {
@@ -45,10 +45,6 @@ try {
   console.log(
     chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL)
   )
-  // SSL detection
-  sslEnabled =
-    fs.existsSync(PATHS.sslConfig + 'key.pem') &&
-    fs.existsSync(PATHS.sslConfig + 'cert.pem')
   console.log(chalk.cyan('SSL Enabled: ') + chalk.blue(sslEnabled))
 }
 
@@ -218,7 +214,10 @@ module.exports = {
       // This is to locally test transferring cookies from transfer_stored_values.html
       app.get('/Resources/transfer_stored_values.html', function(req, res) {
         res.sendFile(
-          path.join(__dirname, '/../../config/transfer_stored_values.html')
+          path.join(
+            __dirname,
+            '/../../config/mocks/transfer_stored_values.html'
+          )
         )
       })
 
@@ -249,8 +248,6 @@ module.exports = {
       'Content-Security-Policy': [
         "img-src 'self' data: blob:",
         "script-src 'self'",
-        // 'unsafe-inline' can only be used in dev. production builds remove
-        // this rule and use nonce generated from the server instead.
         "style-src 'self' 'unsafe-inline'",
         `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${
           envConfig.ROOT_URL

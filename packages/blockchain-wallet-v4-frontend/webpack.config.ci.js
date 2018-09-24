@@ -1,8 +1,6 @@
 /* eslint-disable */
 /* prettier-ignore */
-
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -11,7 +9,6 @@ const Webpack = require('webpack')
 const PATHS = require('../../config/paths')
 
 const runBundleAnalyzer = process.env.ANALYZE
-
 let envConfig = {}
 
 module.exports = {
