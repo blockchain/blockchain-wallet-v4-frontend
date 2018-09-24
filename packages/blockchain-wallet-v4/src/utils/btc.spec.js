@@ -74,7 +74,7 @@ describe('Bitcoin Utils', () => {
     // TODO tests for bech32 addresses with other errors
   })
 
-  describe('CreateXPUB', () => {
+  describe('createXpubFromChildAndParent', () => {
     it('Should create the proper xpub', () => {
       const expectedXpub =
         'xpub6BwFGQ41Zi14LdeBtF42CBxaFeH84HBTAR9adRHbWWL53iTaRF5WNUzK2ojRQ3feH7Mx3bi2tAuBXV4qemaPrAAJjpUGgp3aAj3xVDMp8p2'
