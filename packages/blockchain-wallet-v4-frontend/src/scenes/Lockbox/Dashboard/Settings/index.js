@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import * as bowser from 'bowser'
 
 import { Banner, Text } from 'blockchain-info-components'
 import RenameDevice from './RenameDevice'
@@ -19,12 +20,14 @@ const BrowserWarning = styled(Banner)`
   margin-top: 18px;
 `
 
+const isBrowserChrome = bowser.name === 'Chrome' || bowser.name === 'Chromium'
+
 export default class LockboxSettings extends React.PureComponent {
   render () {
-    const { browserWarn, deviceIndex } = this.props
+    const { deviceIndex } = this.props
     return (
       <SettingsContainer>
-        {browserWarn && (
+        {!isBrowserChrome && (
           <BrowserWarning type='warning'>
             <Text color='warning' size='14px'>
               <FormattedMessage
@@ -35,8 +38,14 @@ export default class LockboxSettings extends React.PureComponent {
           </BrowserWarning>
         )}
         <RenameDevice deviceIndex={deviceIndex} />
-        <UpdateDevice deviceIndex={deviceIndex} />
-        <InstallApps deviceIndex={deviceIndex} />
+        <UpdateDevice
+          deviceIndex={deviceIndex}
+          isBrowserChrome={isBrowserChrome}
+        />
+        <InstallApps
+          deviceIndex={deviceIndex}
+          isBrowserChrome={isBrowserChrome}
+        />
         <AddDevice />
         <RestoreDevice />
         <ExportXPub deviceIndex={deviceIndex} />
