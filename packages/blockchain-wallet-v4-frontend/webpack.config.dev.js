@@ -11,13 +11,13 @@ const path = require('path')
 const fs = require('fs')
 const PATHS = require('../../config/paths')
 const mockWalletOptions = require('../../config/mocks/wallet-options-v4.json')
-
+console.info(PATHS)
 const runBundleAnalyzer = process.env.ANALYZE
 const iSignThisDomain =
   mockWalletOptions.platforms.web.coinify.config.iSignThisDomain
 let sslEnabled =
-  fs.existsSync(PATHS.sslConfig + 'key.pem') &&
-  fs.existsSync(PATHS.sslConfig + 'cert.pem')
+  fs.existsSync(PATHS.sslConfig + '/key.pem') &&
+  fs.existsSync(PATHS.sslConfig + '/cert.pem')
 let localhostUrl = sslEnabled
   ? 'https://localhost:8080'
   : 'http://localhost:8080'
