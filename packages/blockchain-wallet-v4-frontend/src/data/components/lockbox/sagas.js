@@ -1,5 +1,5 @@
 import { call, put, take, select, takeEvery } from 'redux-saga/effects'
-import { any, equals, length, pluck, prop } from 'ramda'
+import { contains, length, prop } from 'ramda'
 import { eventChannel, END } from 'redux-saga'
 import { actions, selectors } from 'data'
 import * as A from './actions'
@@ -266,24 +266,19 @@ export default ({ api }) => {
         LockboxService.accounts.deriveDeviceInfo,
         btcConnection
       )
-      // derive a unique deviceId hashed from btc xpub
-      const newDeviceId = yield call(
-        LockboxService.accounts.deriveDeviceId,
-        newDeviceInfo.btc
-      )
       yield put(
         A.setNewDeviceInfo({
-          id: newDeviceId,
           info: newDeviceInfo,
           type: deviceType
         })
       )
-      const storedDevicesR = yield select(
-        selectors.core.kvStore.lockbox.getDevices
+      const storedDevicesBtcContextR = yield select(
+        selectors.core.kvStore.lockbox.getLockboxBtcContext
       )
-      const storedDevices = storedDevicesR.getOrElse({})
+      const storedDevicesBtcContext = storedDevicesBtcContextR.getOrElse([])
+      const newDeviceBtcContext = prop('btc', newDeviceInfo)
       // check if device has already been added
-      if (any(equals(newDeviceId))(pluck('device_id')(storedDevices))) {
+      if (contains(newDeviceBtcContext, storedDevicesBtcContext)) {
         yield put(A.changeDeviceSetupStep('error-step', true, 'duplicate'))
       } else {
         yield put(A.changeDeviceSetupStep('open-btc-app', true))
