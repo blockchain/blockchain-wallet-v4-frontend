@@ -51,7 +51,7 @@ const Onboard = props => {
             <Text size='14px' weight={300}>
               <FormattedMessage
                 id='scenes.lockbox.welcome.subtitle'
-                defaultMessage='Additional security. Always accessible. Blockchain Lockbox brings you the best of both worlds for your crypto.'
+                defaultMessage='Lockbox works with your Blockchain Wallet to give your digital assets an additional layer of security. Unlock your Lockbox by linking your device, or buy one today.'
               />
             </Text>
             <ButtonContainer>

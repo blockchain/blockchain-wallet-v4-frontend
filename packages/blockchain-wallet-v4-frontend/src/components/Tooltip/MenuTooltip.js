@@ -136,7 +136,7 @@ class MenuTooltip extends React.PureComponent {
 }
 
 MenuTooltip.defaultProps = {
-  icon: 'bell-filled'
+  icon: 'bell'
 }
 
 const mapDispatchToProps = dispatch => ({

@@ -1,6 +1,4 @@
 /* eslint-disable */
-/* prettier-ignore */
-
 const chalk = require('chalk')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
@@ -11,98 +9,71 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const Webpack = require('webpack')
 const path = require('path')
 const fs = require('fs')
+const PATHS = require('../../config/paths')
+const mockWalletOptions = require('../../config/mocks/wallet-options-v4.json')
 
-const isCiBuild = !!process.env.CI_BUILD
 const runBundleAnalyzer = process.env.ANALYZE
-const PATHS = {
-  lib: `${__dirname}/../../lib`,
-  dist: `${__dirname}/../../dist`,
-  src: `${__dirname}/src`,
-  pkgJson: `${__dirname}/../../package.json`,
-  envConfig: `${__dirname}/../../config/env/`,
-  sslConfig: `${__dirname}/../../config/ssl/`
-}
-let localhostUrl = 'http://localhost:8080'
+const iSignThisDomain =
+  mockWalletOptions.platforms.web.coinify.config.iSignThisDomain
+let sslEnabled =
+  fs.existsSync(PATHS.sslConfig + 'key.pem') &&
+  fs.existsSync(PATHS.sslConfig + 'cert.pem')
+let localhostUrl = sslEnabled
+  ? 'https://localhost:8080'
+  : 'http://localhost:8080'
 let envConfig = {}
-let mockWalletOptions
-let iSignThisDomain
-let sslEnabled
 
-// only configure app if we will be using the webpack dev server
-if (!isCiBuild) {
-  mockWalletOptions = require('./../../config/wallet-options-v4.json')
-  iSignThisDomain =
-    mockWalletOptions.platforms.web.coinify.config.iSignThisDomain
-
-  try {
-    envConfig = require(PATHS.envConfig + process.env.NODE_ENV + '.js')
-  } catch (e) {
-    console.log(
-      chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') +
-        chalk.yellow(
-          `Failed to load ${
-            process.env.NODE_ENV
-          }.js config file! Using the production config instead.\n`
-        )
-    )
-    envConfig = require(PATHS.envConfig + 'production.js')
-  } finally {
-    console.log(chalk.blue('\u{1F6A7} CONFIGURATION \u{1F6A7}'))
-    console.log(chalk.cyan('Root URL') + `: ${envConfig.ROOT_URL}`)
-    console.log(chalk.cyan('API Domain') + `: ${envConfig.API_DOMAIN}`)
-    console.log(
-      chalk.cyan('Wallet Helper Domain') +
-        ': ' +
-        chalk.blue(envConfig.WALLET_HELPER_DOMAIN)
-    )
-    console.log(
-      chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL)
-    )
-
-    // SSL detection
-    sslEnabled =
-      fs.existsSync(PATHS.sslConfig + 'key.pem') &&
-      fs.existsSync(PATHS.sslConfig + 'cert.pem')
-    if (sslEnabled) {
-      localhostUrl = 'https://localhost:8080'
-    }
-    console.log(chalk.cyan('SSL Enabled: ') + chalk.blue(sslEnabled))
-  }
+try {
+  envConfig = require(PATHS.envConfig + `/${process.env.NODE_ENV}` + '.js')
+} catch (e) {
+  console.log(
+    chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') +
+      chalk.yellow(
+        `Failed to load ${
+          process.env.NODE_ENV
+        }.js config file! Using the production config instead.\n`
+      )
+  )
+  envConfig = require(PATHS.envConfig + '/production.js')
+} finally {
+  console.log(chalk.blue('\u{1F6A7} CONFIGURATION \u{1F6A7}'))
+  console.log(chalk.cyan('Root URL') + `: ${envConfig.ROOT_URL}`)
+  console.log(chalk.cyan('API Domain') + `: ${envConfig.API_DOMAIN}`)
+  console.log(
+    chalk.cyan('Wallet Helper Domain') +
+      ': ' +
+      chalk.blue(envConfig.WALLET_HELPER_DOMAIN)
+  )
+  console.log(
+    chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL)
+  )
+  console.log(chalk.cyan('SSL Enabled: ') + chalk.blue(sslEnabled))
 }
 
 module.exports = {
-  mode: isCiBuild ? 'production' : 'development',
+  mode: 'development',
   entry: {
     app: [
       'babel-polyfill',
-      ...(isCiBuild
-        ? []
-        : [
-            'react-hot-loader/patch',
-            'webpack-dev-server/client?http://localhost:8080',
-            'webpack/hot/only-dev-server'
-          ]),
+      'react-hot-loader/patch',
+      'webpack-dev-server/client?http://localhost:8080',
+      'webpack/hot/only-dev-server',
       PATHS.src + '/index.js'
     ]
   },
   output: {
-    path: isCiBuild ? PATHS.dist : PATHS.lib,
+    path: PATHS.appBuild,
     chunkFilename: '[name].[chunkhash:10].js',
     publicPath: '/',
     crossOriginLoading: 'anonymous'
   },
   module: {
     rules: [
-      isCiBuild
-        ? {
-            test: /\.js$/,
-            use: ['thread-loader', 'babel-loader']
-          }
-        : {
-            test: /\.js$/,
-            include: /src|blockchain-info-components.src|blockchain-wallet-v4.src/,
-            use: ['thread-loader', 'babel-loader']
-          },
+      {
+        test: /\.js$/,
+        include: /src|blockchain-info-components.src|blockchain-wallet-v4.src/,
+        use: ['thread-loader', 'babel-loader']
+      },
       {
         test: /\.(eot|ttf|otf|woff|woff2)$/,
         use: {
@@ -137,7 +108,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin([PATHS.dist, PATHS.lib], { allowExternal: true }),
+    new CleanWebpackPlugin([PATHS.appBuild], { allowExternal: true }),
     new CaseSensitivePathsPlugin(),
     new Webpack.DefinePlugin({
       APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version),
@@ -147,7 +118,7 @@ module.exports = {
       template: PATHS.src + '/index.html',
       filename: 'index.html'
     }),
-    ...(!isCiBuild ? [new Webpack.HotModuleReplacementPlugin()] : []),
+    new Webpack.HotModuleReplacementPlugin(),
     ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
   ],
   optimization: {
@@ -171,7 +142,7 @@ module.exports = {
         cache: true
       })
     ],
-    concatenateModules: isCiBuild,
+    concatenateModules: false,
     runtimeChunk: {
       name: 'manifest'
     },
@@ -207,15 +178,17 @@ module.exports = {
   },
   devServer: {
     cert: sslEnabled
-      ? fs.readFileSync(PATHS.sslConfig + 'cert.pem', 'utf8')
+      ? fs.readFileSync(PATHS.sslConfig + '/cert.pem', 'utf8')
       : '',
     contentBase: PATHS.src,
     disableHostCheck: true,
     host: 'localhost',
     https: sslEnabled,
-    key: sslEnabled ? fs.readFileSync(PATHS.sslConfig + 'key.pem', 'utf8') : '',
+    key: sslEnabled
+      ? fs.readFileSync(PATHS.sslConfig + '/key.pem', 'utf8')
+      : '',
     port: 8080,
-    hot: !isCiBuild,
+    hot: true,
     historyApiFallback: true,
     before(app) {
       app.get('/Resources/wallet-options-v4.json', function(req, res) {
@@ -245,7 +218,10 @@ module.exports = {
       // This is to locally test transferring cookies from transfer_stored_values.html
       app.get('/Resources/transfer_stored_values.html', function(req, res) {
         res.sendFile(
-          path.join(__dirname, '/../../config/transfer_stored_values.html')
+          path.join(
+            __dirname,
+            '/../../config/mocks/transfer_stored_values.html'
+          )
         )
       })
 
@@ -262,55 +238,49 @@ module.exports = {
         pathRewrite: { '^/ledger': '' }
       }
     },
-    overlay: !isCiBuild && {
+    overlay: {
       warnings: true,
       errors: true
     },
     headers: {
       'Access-Control-Allow-Origin': '*',
-      'Content-Security-Policy': isCiBuild
-        ? []
-        : [
-            "img-src 'self' data: blob:",
-            "script-src 'self'",
-            // 'unsafe-inline' can only be used in dev. production builds remove
-            // this rule and use nonce generated from the server instead.
-            "style-src 'self' 'unsafe-inline'",
-            `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${
-              envConfig.ROOT_URL
-            } https://localhost:8080 http://localhost:8080`,
-            `child-src ${iSignThisDomain} ${
-              envConfig.WALLET_HELPER_DOMAIN
-            } blob:`,
-            [
-              'connect-src',
-              "'self'",
-              'wss://localhost:8080',
-              'ws://localhost:8080',
-              envConfig.WEB_SOCKET_URL,
-              envConfig.ROOT_URL,
-              envConfig.API_DOMAIN,
-              envConfig.WALLET_HELPER_DOMAIN,
-              envConfig.LEDGER_URL,
-              envConfig.LEDGER_SOCKET_URL,
-              'wss://api.ledgerwallet.com',
-              'https://app-api.coinify.com',
-              'https://app-api.sandbox.coinify.com',
-              'https://api.sfox.com',
-              'https://api.staging.sfox.com',
-              'https://quotes.sfox.com',
-              `https://quotes.staging.sfox.com`,
-              'https://sfox-kyc.s3.amazonaws.com',
-              'https://sfox-kyctest.s3.amazonaws.com',
-              'https://testnet5.blockchain.info',
-              'https://api.testnet.blockchain.info',
-              'wss://ws.testnet.blockchain.info/inv',
-              'https://shapeshift.io'
-            ].join(' '),
-            "object-src 'none'",
-            "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",
-            "font-src 'self'"
-          ].join('; ')
+      'Content-Security-Policy': [
+        "img-src 'self' data: blob:",
+        "script-src 'self'",
+        "style-src 'self' 'unsafe-inline'",
+        `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${
+          envConfig.ROOT_URL
+        } https://localhost:8080 http://localhost:8080`,
+        `child-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
+        [
+          'connect-src',
+          "'self'",
+          'ws://localhost:8080',
+          'wss://localhost:8080',
+          'wss://api.ledgerwallet.com',
+          'wss://ws.testnet.blockchain.info/inv',
+          envConfig.WEB_SOCKET_URL,
+          envConfig.ROOT_URL,
+          envConfig.API_DOMAIN,
+          envConfig.WALLET_HELPER_DOMAIN,
+          envConfig.LEDGER_URL,
+          envConfig.LEDGER_SOCKET_URL,
+          'https://app-api.coinify.com',
+          'https://app-api.sandbox.coinify.com',
+          'https://api.sfox.com',
+          'https://api.staging.sfox.com',
+          'https://quotes.sfox.com',
+          `https://quotes.staging.sfox.com`,
+          'https://sfox-kyc.s3.amazonaws.com',
+          'https://sfox-kyctest.s3.amazonaws.com',
+          'https://testnet5.blockchain.info',
+          'https://api.testnet.blockchain.info',
+          'https://shapeshift.io'
+        ].join(' '),
+        "object-src 'none'",
+        "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",
+        "font-src 'self'"
+      ].join('; ')
     }
   }
 }

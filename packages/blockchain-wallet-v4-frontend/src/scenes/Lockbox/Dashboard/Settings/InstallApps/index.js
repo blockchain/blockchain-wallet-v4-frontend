@@ -2,6 +2,7 @@ import React from 'react'
 import { actions } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import PropTypes from 'prop-types'
 
 import InstallApps from './template.js'
 
@@ -17,8 +18,17 @@ class InstallAppsContainer extends React.PureComponent {
   }
 
   render () {
-    return <InstallApps onInstallClick={this.onInstallClick} />
+    return (
+      <InstallApps
+        onInstallClick={this.onInstallClick}
+        isBrowserChrome={this.props.isBrowserChrome}
+      />
+    )
   }
+}
+
+InstallAppsContainer.propTypes = {
+  isBrowserChrome: PropTypes.bool.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({

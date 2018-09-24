@@ -19,7 +19,7 @@ A module can contain the following files:
 
 ### Root
 
-The `root` of this folder contains all the modules shared accross the wallet
+The `root` of this folder contains all the modules shared across the wallet
 
 * alerts
 * cache

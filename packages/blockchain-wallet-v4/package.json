@@ -2,7 +2,7 @@
   "name": "blockchain-wallet-v4",
   "version": "1.0.1",
   "description": "Functional library for handling Blockchain.info wallets.",
-  "license": "ISC",
+  "license": "AGPL-3.0-or-later",
   "author": {
     "name": "Blockchain.info",
     "url": "https://blockchain.info"
@@ -58,6 +58,7 @@
     "bigi": "1.4.2",
     "bignumber.js": "5.0.0",
     "bip32": "1.0.2",
+    "bip32-path": "^0.4.2",
     "bip39": "2.3.1",
     "bip69": "2.1.4",
     "bitcoin-coinify-client": "0.7.6",
