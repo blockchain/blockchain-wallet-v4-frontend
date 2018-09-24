@@ -11,7 +11,7 @@ import {
 import { Button } from 'blockchain-info-components'
 
 const ReinstallApps = props => {
-  const { onInstallClick } = props
+  const { onInstallClick, isBrowserChrome } = props
 
   return (
     <SettingContainer>
@@ -30,7 +30,11 @@ const ReinstallApps = props => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button nature='empty' onClick={onInstallClick}>
+        <Button
+          nature='empty'
+          onClick={onInstallClick}
+          disabled={!isBrowserChrome}
+        >
           <FormattedMessage
             id='scenes.lockbox.settings.installapps.installapps'
             defaultMessage='Install Apps'

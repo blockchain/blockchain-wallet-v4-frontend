@@ -235,7 +235,7 @@ class ExchangeCheckout extends React.PureComponent {
               {accounts.map(account => {
                 return (
                   <Account>
-                    <Icon size='24px' name='bank' />
+                    <Icon size='24px' name='bank-filled' />
                     <AccountDetails>
                       <span>
                         {account.accountType} ({account.routingNumber})

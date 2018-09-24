@@ -27,8 +27,8 @@ export const getLockboxBtcContext = state => {
     return accounts ? accounts.map(a => path(['xpub'], a)) : []
   })
 }
-export const getBtcContextForDevice = (state, deviceId) =>
-  getDevice(state, deviceId)
+export const getBtcContextForDevice = (state, deviceIndex) =>
+  getDevice(state, deviceIndex)
     .map(path(['btc', 'accounts']))
     .map(map(prop('xpub')))
 
@@ -47,8 +47,8 @@ export const getDeviceFromBtcXpubs = (state, xpubs) => {
     .map(head)
 }
 
-export const getLockboxBtcDefaultAccount = (state, deviceId) =>
-  getDevice(state, deviceId)
+export const getLockboxBtcDefaultAccount = (state, deviceIndex) =>
+  getDevice(state, deviceIndex)
     .map(path(['btc', 'accounts']))
     .map(head)
 
@@ -66,8 +66,8 @@ export const getLockboxBchContext = state => {
   })
 }
 
-export const getBchContextForDevice = (state, deviceId) =>
-  getDevice(state, deviceId)
+export const getBchContextForDevice = (state, deviceIndex) =>
+  getDevice(state, deviceIndex)
     .map(path(['bch', 'accounts']))
     .map(map(prop('xpub')))
 
@@ -104,8 +104,8 @@ export const getLockboxEthContext = state => {
     return accounts ? accounts.map(a => path(['addr'], a)) : []
   })
 }
-export const getEthContextForDevice = (state, deviceId) =>
-  getDevice(state, deviceId)
+export const getEthContextForDevice = (state, deviceIndex) =>
+  getDevice(state, deviceIndex)
     .map(path(['eth', 'accounts']))
     .map(map(prop('addr')))
 
