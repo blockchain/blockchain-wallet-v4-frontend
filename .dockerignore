@@ -7,7 +7,10 @@ node_modules/
 coverage/
 dist/
 lib/
-config/
+config/env
+config/jest
+config/mocks
+config/ssl
 packages/blockchain-info-components/lib
 packages/blockchain-info-components/node_modules
 packages/blockchain-info-components/storybook-static
