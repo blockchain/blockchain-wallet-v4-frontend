@@ -2,7 +2,7 @@
   "name": "blockchain-wallet-v4-frontend",
   "version": "0.1.0",
   "description": "Frontend wallet application.",
-  "license": "ISC",
+  "license": "AGPL-3.0-or-later",
   "author": {
     "name": "Blockchain.info",
     "url": "https://blockchain.info"
