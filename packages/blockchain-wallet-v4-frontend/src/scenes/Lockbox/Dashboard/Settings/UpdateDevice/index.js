@@ -2,6 +2,7 @@ import React from 'react'
 import { actions } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import PropTypes from 'prop-types'
 
 import UpdateDevice from './template.js'
 
@@ -18,8 +19,17 @@ class UpdateDeviceContainer extends React.PureComponent {
   }
 
   render () {
-    return <UpdateDevice onCheckForUpdates={this.onCheckForUpdates} />
+    return (
+      <UpdateDevice
+        onCheckForUpdates={this.onCheckForUpdates}
+        isBrowserChrome={this.props.isBrowserChrome}
+      />
+    )
   }
+}
+
+UpdateDeviceContainer.propTypes = {
+  isBrowserChrome: PropTypes.bool.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
