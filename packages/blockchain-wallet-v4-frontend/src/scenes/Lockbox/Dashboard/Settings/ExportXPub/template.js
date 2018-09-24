@@ -32,8 +32,8 @@ const ExportXPub = props => {
       <SettingComponent>
         <Button nature='empty' onClick={onClick}>
           <FormattedMessage
-            id='scenes.lockbox.settings.exportxpub.delete'
-            defaultMessage='show'
+            id='scenes.lockbox.settings.exportxpub.show'
+            defaultMessage='Show xPub'
           />
         </Button>
       </SettingComponent>

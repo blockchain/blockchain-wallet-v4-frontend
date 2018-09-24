@@ -90,9 +90,9 @@ export const updateDeviceNameFailure = payload => ({
 })
 
 // FIRMWARE
-export const changeFirmwareUpdateStep = step => ({
+export const changeFirmwareUpdateStep = (step, updatePerformed) => ({
   type: AT.SET_FIRMWARE_UPDATE_STEP,
-  payload: { step }
+  payload: { step, updatePerformed }
 })
 export const setFirmwareInstalledInfo = info => ({
   type: AT.SET_FIRMWARE_INSTALLED_INFO,

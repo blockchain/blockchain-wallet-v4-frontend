@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
+import { prop, flatten } from 'ramda'
 
 import { Icon } from 'blockchain-info-components'
 import {
@@ -89,12 +90,13 @@ const SearchIcon = styled(Icon)`
 
 const Menu = props => {
   const { accounts, handleClickReporting } = props
+  const options = flatten(accounts.map(prop('options')))
 
   return (
     <Wrapper>
       <Container>
         <Controls>
-          {accounts.length > 1 && (
+          {options.length > 1 && (
             <Addresses>
               <Field
                 name='source'

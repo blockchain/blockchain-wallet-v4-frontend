@@ -3,17 +3,16 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
-import UpgradeFirmwareStep from './template'
+import InstallFirmware from './template'
 
-// TODO: either install apps or add messaging for user to do soe
-class UpgradeFirmwareContainer extends React.PureComponent {
+class InstallFirmwareContainer extends React.PureComponent {
   render () {
-    return <UpgradeFirmwareStep {...this.props} />
+    return <InstallFirmware {...this.props} />
   }
 }
 
 const mapStateToProps = state => ({
-  firmwares: selectors.components.lockbox.getFirmwareVersions(state)
+  step: selectors.components.lockbox.getFirmwareUpdateStep(state)
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -23,4 +22,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(UpgradeFirmwareContainer)
+)(InstallFirmwareContainer)

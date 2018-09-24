@@ -5,25 +5,15 @@ import { bindActionCreators } from 'redux'
 import { actions, selectors } from 'data'
 import CheckForUpdatesStep from './template'
 
-class CheckForUpdatesContainer extends React.PureComponent {
+class ConnectDeviceContainer extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.continueOrClose = this.continueOrClose.bind(this)
+    this.onContinue = this.onContinue.bind(this)
     this.retryConnection = this.retryConnection.bind(this)
   }
 
-  componentDidMount () {
-    this.props.lockboxActions.updateDeviceFirmware(this.props.deviceIndex)
-  }
-
-  continueOrClose () {
-    if (this.props.firmwares.latest.deviceOutdated) {
-      this.props.lockboxActions.changeFirmwareUpdateStep(
-        'upgrade-firmware-step'
-      )
-    } else {
-      this.props.modalActions.closeModal()
-    }
+  onContinue () {
+    this.props.lockboxActions.changeFirmwareUpdateStep('check-versions')
   }
 
   retryConnection () {
@@ -34,10 +24,12 @@ class CheckForUpdatesContainer extends React.PureComponent {
   }
 
   render () {
+    const { connection } = this.props
     return (
       <CheckForUpdatesStep
         {...this.props}
-        continueOrClose={this.continueOrClose}
+        isOnDashboard={connection.app === 'DASHBOARD'}
+        onContinue={this.onContinue}
         retryConnection={this.retryConnection}
       />
     )
@@ -57,4 +49,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CheckForUpdatesContainer)
+)(ConnectDeviceContainer)
