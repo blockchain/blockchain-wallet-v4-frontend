@@ -152,9 +152,9 @@ export default ({ api }) => {
       const devices = (yield select(
         selectors.core.kvStore.lockbox.getDevices
       )).getOrElse([])
-      yield put(
-        actions.router.push(`/lockbox/dashboard/${length(devices) - 1}`)
-      )
+      const index = length(devices) - 1
+      yield put(A.initializeDashboard(index))
+      yield put(actions.router.push(`/lockbox/dashboard/${index}`))
     } catch (e) {
       yield put(A.saveNewDeviceKvStoreFailure(e))
       yield put(actions.alerts.displayError(C.LOCKBOX_SETUP_ERROR))
