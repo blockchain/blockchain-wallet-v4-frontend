@@ -7,7 +7,7 @@ import {
   LAYOUT_WALLET_HEADER_WHATSNEW_CLICKED
 } from '../components/layoutWallet/actionTypes'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { test, pathOr, equals } from 'ramda'
+import { test, pathOr, prop, equals } from 'ramda'
 
 export const logLocation = 'analytics/sagas'
 export const balancePath = ['payload', 'info', 'final_balance']
@@ -119,12 +119,21 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const logSfoxDropoff = function*(payload) {
+    try {
+      yield call(api.logSfoxDropoff, prop('step', payload))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'logSfoxDropoff', e))
+    }
+  }
+
   return {
     getEthBalance,
     getBtcBalance,
     getBchBalance,
     logClick,
     logLeftNavClick,
+    logSfoxDropoff,
     reportBalanceStats
   }
 }
