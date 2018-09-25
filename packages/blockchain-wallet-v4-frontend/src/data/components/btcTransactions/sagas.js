@@ -2,9 +2,9 @@ import { select, put } from 'redux-saga/effects'
 import { equals, path, prop } from 'ramda'
 import { actions, selectors } from 'data'
 
-export default ({ coreSagas }) => {
-  const logLocation = 'components/btcTransactions/sagas'
+export const logLocation = 'components/btcTransactions/sagas'
 
+export default ({ coreSagas }) => {
   const initialized = function*() {
     try {
       const defaultSource = ''
