@@ -36,7 +36,7 @@ const ActiveIndicator = styled.div`
   height: 38px;
   width: 4px;
   left: 0;
-  background: ${props => props.theme['marketing-secondary']};
+  background: ${props => props.theme['marketing-primary']};
 `
 
 const MenuLeft = props => (
