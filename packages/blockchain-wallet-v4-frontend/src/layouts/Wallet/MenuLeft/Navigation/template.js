@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -12,10 +11,6 @@ import {
 } from 'components/MenuLeft'
 import { Icon, Text } from 'blockchain-info-components'
 
-const LockboxSubMenu = styled(SubMenu)`
-  width: 100%;
-  margin-left: 40px;
-`
 const Navigation = props => {
   const { logClick, lockboxOpened, lockboxDevices, ...rest } = props.data
 
@@ -106,7 +101,7 @@ const Navigation = props => {
         </MenuItem>
       </LinkContainer>
       {lockboxOpened && (
-        <LockboxSubMenu>
+        <SubMenu>
           {lockboxDevices.map((device, index) => {
             const deviceName = device.device_name
             return (
@@ -125,7 +120,7 @@ const Navigation = props => {
               </LinkContainer>
             )
           })}
-        </LockboxSubMenu>
+        </SubMenu>
       )}
     </Wrapper>
   )

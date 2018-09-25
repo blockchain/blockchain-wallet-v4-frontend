@@ -152,9 +152,9 @@ export default ({ api }) => {
       const devices = (yield select(
         selectors.core.kvStore.lockbox.getDevices
       )).getOrElse([])
-      yield put(
-        actions.router.push(`/lockbox/dashboard/${length(devices) - 1}`)
-      )
+      const index = length(devices) - 1
+      yield put(A.initializeDashboard(index))
+      yield put(actions.router.push(`/lockbox/dashboard/${index}`))
     } catch (e) {
       yield put(A.saveNewDeviceKvStoreFailure(e))
       yield put(actions.alerts.displayError(C.LOCKBOX_SETUP_ERROR))
@@ -216,28 +216,29 @@ export default ({ api }) => {
     }
   }
 
+  // poll device channel
+  const setupTimeout = 2500
+  let pollPosition = 0
+  let closePoll
+  const pollForDeviceChannel = () =>
+    eventChannel(emitter => {
+      const pollInterval = setInterval(() => {
+        if (closePoll) {
+          emitter(END)
+          return
+        }
+        // swap deviceType polling between intervals
+        pollPosition += setupTimeout
+        const index = pollPosition / setupTimeout
+        emitter(index % 2 === 0 ? 'ledger' : 'blockchain')
+      }, setupTimeout)
+      return () => clearInterval(pollInterval)
+    })
+
   // new device setup saga
   const initializeNewDeviceSetup = function*() {
     try {
       yield put(A.changeDeviceSetupStep('connect-device'))
-      const setupTimeout = 2500
-      let pollPosition = 0
-      let closePoll
-
-      const pollForDeviceChannel = () =>
-        eventChannel(emitter => {
-          const pollInterval = setInterval(() => {
-            if (closePoll) {
-              emitter(END)
-              return
-            }
-            // swap deviceType polling between intervals
-            pollPosition += setupTimeout
-            const index = pollPosition / setupTimeout
-            emitter(index % 2 === 0 ? 'ledger' : 'blockchain')
-          }, setupTimeout)
-          return () => clearInterval(pollInterval)
-        })
 
       const channel = yield call(pollForDeviceChannel)
       yield takeEvery(channel, function*(deviceType) {
@@ -518,6 +519,7 @@ export default ({ api }) => {
   return {
     checkDeviceAuthenticity,
     deleteDevice,
+    pollForDeviceChannel,
     determineLockboxRoute,
     initializeDashboard,
     initializeNewDeviceSetup,
