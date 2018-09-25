@@ -1,4 +1,15 @@
-import { curry, contains, equals, lift, map, toLower } from 'ramda'
+import {
+  any,
+  curry,
+  contains,
+  equals,
+  head,
+  filter,
+  lift,
+  map,
+  prop,
+  toLower
+} from 'ramda'
 import moment from 'moment'
 import BigNumber from 'bignumber.js'
 import {
@@ -6,6 +17,7 @@ import {
   getDefaultLabel,
   getEthereumTxNote
 } from '../redux/kvStore/eth/selectors.js'
+import { getLockboxEthAccounts } from '../redux/kvStore/lockbox/selectors.js'
 
 // getType :: TX -> [String] -> String
 const getType = (tx, addresses) => {
@@ -41,9 +53,29 @@ export const getFee = tx =>
 export const getLabel = (address, state) => {
   const defaultLabelR = getDefaultLabel(state)
   const defaultAddressR = getDefaultAddress(state)
-  const transform = (defaultLabel, defaultAddress) =>
-    equals(toLower(defaultAddress), toLower(address)) ? defaultLabel : address
-  const labelR = lift(transform)(defaultLabelR, defaultAddressR)
+  const lockboxEthAccountsR = getLockboxEthAccounts(state)
+  const transform = (defaultLabel, defaultAddress, lockboxEthAccounts) => {
+    switch (true) {
+      case equals(toLower(defaultAddress), toLower(address)):
+        return defaultLabel
+      case any(
+        x => equals(toLower(x.addr), toLower(address)),
+        lockboxEthAccounts
+      ):
+        const ethAccounts = filter(
+          x => equals(toLower(x.addr), toLower(address)),
+          lockboxEthAccounts
+        )
+        return prop('label', head(ethAccounts))
+      default:
+        return address
+    }
+  }
+  const labelR = lift(transform)(
+    defaultLabelR,
+    defaultAddressR,
+    lockboxEthAccountsR
+  )
   return labelR.getOrElse(address)
 }
 
