@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { prop } from 'ramda'
 import { BigNumber } from 'bignumber.js'
 
 import StringDisplay from 'components/Display/StringDisplay'
@@ -36,14 +35,11 @@ const RatesTitle = styled(RatesRow)`
 `
 
 const add = (augend, addend) => new BigNumber(augend).add(addend).toString()
-const subtract = (minuend, subtrahend) =>
-  new BigNumber(minuend).minus(subtrahend).toString()
 
 const Summary = ({
   sourceCoin,
   targetCoin,
   currency,
-  targetFee,
   sourceFee,
   sourceAmount,
   targetAmount,
@@ -86,13 +82,7 @@ const Summary = ({
     </AmountHeader>
     <ExchangeAmount>
       <StringDisplay>
-        {targetAmount.map(
-          amount =>
-            `${subtract(
-              amount,
-              targetFee.map(prop('target')).getOrElse(0)
-            )} ${targetCoin}`
-        )}
+        {targetAmount.map(amount => `${amount} ${targetCoin}`)}
       </StringDisplay>
     </ExchangeAmount>
     <Delimiter />
@@ -104,11 +94,7 @@ const Summary = ({
         />
       </ExchangeText>
       <ExchangeText weight={300}>
-        <StringDisplay>
-          {targetFee.map(
-            targetFee => `${add(targetFee, sourceFee.target)} ${targetCoin}`
-          )}
-        </StringDisplay>
+        {`${sourceFee.source} ${sourceCoin}`}
       </ExchangeText>
     </TableRow>
     <TableRow>
@@ -120,13 +106,7 @@ const Summary = ({
       </ExchangeText>
       <ExchangeText weight={300}>
         <StringDisplay>
-          {targetFiat.map(
-            amount =>
-              `${subtract(
-                amount,
-                targetFee.map(prop('targetFiat')).getOrElse(0)
-              )} ${currency}`
-          )}
+          {targetFiat.map(amount => `${amount} ${currency}`)}
         </StringDisplay>
       </ExchangeText>
     </TableRow>
