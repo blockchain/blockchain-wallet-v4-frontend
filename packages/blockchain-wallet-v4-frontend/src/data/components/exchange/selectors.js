@@ -24,6 +24,7 @@ export const getLimits = path(['components', 'exchange', 'limits'])
 export const getMin = path(['components', 'exchange', 'min'])
 export const getMax = path(['components', 'exchange', 'max'])
 export const getTargetFee = path(['components', 'exchange', 'targetFee'])
+export const getSourceFee = path(['components', 'exchange', 'sourceFee'])
 
 const advicePath = pathOr(0)
 const adviceToAmount = advice => ({

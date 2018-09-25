@@ -1,5 +1,16 @@
 import { call, put, select, all, take } from 'redux-saga/effects'
-import { contains, equals, head, keys, last, path, prop, propOr } from 'ramda'
+import {
+  compose,
+  contains,
+  converge,
+  equals,
+  head,
+  keys,
+  last,
+  path,
+  prop,
+  propOr
+} from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4'
 import { actions, actionTypes, selectors, model } from 'data'
@@ -25,7 +36,11 @@ import {
   addBalanceLimit,
   getCurrentMin,
   getCurrentMax,
-  convertStandardToBase
+  selectFee,
+  convertTargetToFiat,
+  convertStandardToBase,
+  convertSourceToTarget,
+  convertBaseToStandard
 } from './services'
 
 export const logLocation = 'exchange/sagas'
@@ -38,8 +53,8 @@ export default ({ api, coreSagas, options, networks }) => {
     swapBaseAndCounter,
     FIX_TYPES
   } = model.rates
-  const formValueSelector = selectors.form.getFormValues(EXCHANGE_FORM)
   const {
+    calculatePaymentMemo,
     calculateEffectiveBalanceMemo,
     getDefaultAccount,
     createPayment
@@ -49,6 +64,16 @@ export default ({ api, coreSagas, options, networks }) => {
     options,
     networks
   })
+  const formValueSelector = selectors.form.getFormValues(EXCHANGE_FORM)
+  const getActiveFieldName = compose(
+    mapFixToFieldName,
+    prop('fix')
+  )
+  const getCurrentVolume = form => propOr(0, getActiveFieldName(form), form)
+  const getCurrentPair = converge(formatPair, [
+    path(['source', 'coin']),
+    path(['target', 'coin'])
+  ])
 
   const getFiatCurrency = function*() {
     return (yield select(selectors.core.settings.getCurrency)).getOrElse(null)
@@ -68,7 +93,10 @@ export default ({ api, coreSagas, options, networks }) => {
   const getBestRates = function*() {
     const ratesR = yield select(selectors.modules.rates.getBestRates)
     if (Remote.Loading.is(ratesR) || Remote.NotAsked.is(ratesR)) {
-      return yield take(actionTypes.modules.rates.UPDATE_BEST_RATES)
+      return path(
+        ['payload', 'rates'],
+        yield take(actionTypes.modules.rates.UPDATE_BEST_RATES)
+      )
     }
     return ratesR.getOrFail(NO_ADVICE_ERROR)
   }
@@ -84,23 +112,23 @@ export default ({ api, coreSagas, options, networks }) => {
     return divide(balance, rate, 2)
   }
 
-  const getSourceFiatAmount = function*(pair) {
+  const getAmounts = function*(pair) {
     const amountsR = (yield select(S.getAmounts(pair))).map(prop('sourceFiat'))
 
     if (Remote.Loading.is(amountsR)) {
       yield take(actionTypes.modules.rates.PAIR_UPDATED)
     }
 
-    return (yield select(S.getAmounts(pair)))
-      .map(prop('sourceFiat'))
-      .getOrFail(NO_ADVICE_ERROR)
+    return (yield select(S.getAmounts(pair))).getOrFail(NO_ADVICE_ERROR)
   }
 
   const exchangeFormInitialized = function*() {
     yield put(actions.modules.rates.fetchAvailablePairs())
-    const { source, target } = yield select(formValueSelector)
+    const form = yield select(formValueSelector)
+    const sourceCoin = path(['source', 'coin'], form)
+    const targetCoin = path(['target', 'coin'], form)
     const fiatCurrency = yield call(getFiatCurrency)
-    yield call(changeRatesSubscription, source, target, fiatCurrency)
+    yield call(changeRatesSubscription, sourceCoin, targetCoin, fiatCurrency)
     yield call(fetchLimits)
     yield call(fetchTargetFees)
   }
@@ -108,14 +136,13 @@ export default ({ api, coreSagas, options, networks }) => {
   const validateForm = function*() {
     yield call(startValidation)
     const form = yield select(formValueSelector)
-    const { fix, source, target } = form
-    const sourceCoin = prop('coin', source)
-    const targetCoin = prop('coin', target)
-    const formVolume = form[mapFixToFieldName(fix)]
+    const fix = prop('fix', form)
+    const formVolume = getCurrentVolume(form)
     const fiatCurrency = yield call(getFiatCurrency)
-    const pair = formatPair(sourceCoin, targetCoin)
+    const pair = getCurrentPair(form)
     try {
-      const sourceFiatVolume = yield call(getSourceFiatAmount, pair)
+      const amounts = yield call(getAmounts, pair)
+      const sourceFiatVolume = prop('sourceFiat', amounts)
       const volume =
         fix === FIX_TYPES.BASE_IN_FIAT ? formVolume : sourceFiatVolume
       const limits = yield call(getLimits, fiatCurrency)
@@ -134,10 +161,8 @@ export default ({ api, coreSagas, options, networks }) => {
     const { pair } = payload
     const form = yield select(formValueSelector)
     const fix = prop('fix', form)
-    const sourceCoin = path(['source', 'coin'], form)
-    const targetCoin = path(['target', 'coin'], form)
 
-    if (!(fix && formatPair(sourceCoin, targetCoin) === pair)) return
+    if (!(fix && getCurrentPair(form) === pair)) return
 
     yield call(validateForm)
   }
@@ -148,7 +173,13 @@ export default ({ api, coreSagas, options, networks }) => {
       const form = yield select(formValueSelector)
       const targetCoin = path(['target', 'coin'], form)
       const { fee } = yield call(api.fetchTradeCounterFees, targetCoin)
-      yield put(A.fetchTargetFeesSuccess(fee))
+      const rates = yield call(getBestRates)
+      yield put(
+        A.fetchTargetFeesSuccess({
+          targetFiat: convertTargetToFiat(form, rates, fee),
+          target: fee
+        })
+      )
     } catch (e) {
       const description = propOr('', 'description', e)
       yield put(A.fetchTargetFeesError(description))
@@ -172,6 +203,39 @@ export default ({ api, coreSagas, options, networks }) => {
       yield put(
         actions.form.stopAsyncValidation(EXCHANGE_FORM, {
           _error: NO_LIMITS_ERROR
+        })
+      )
+    }
+  }
+
+  const updateSourceFee = function*() {
+    try {
+      const form = yield select(formValueSelector)
+      const source = prop('source', form)
+      const sourceCoin = prop('coin', source)
+      const amounts = yield call(getAmounts, getCurrentPair(form))
+      const sourceAmount = prop('sourceAmount', amounts)
+      const provisionalPayment = yield call(
+        calculatePaymentMemo,
+        source,
+        sourceAmount
+      )
+      const fee = convertBaseToStandard(
+        sourceCoin,
+        selectFee(sourceCoin, provisionalPayment)
+      )
+      const rates = yield call(getBestRates)
+      yield put(
+        A.setSourceFee({
+          source: fee,
+          target: convertSourceToTarget(form, rates, fee)
+        })
+      )
+    } catch (e) {
+      yield put(
+        A.setSourceFee({
+          source: 0,
+          target: 0
         })
       )
     }
@@ -246,30 +310,27 @@ export default ({ api, coreSagas, options, networks }) => {
 
   const changeSubscription = function*(pairChanged = false) {
     const form = yield select(formValueSelector)
-    const { source, target, fix } = form
+    const sourceCoin = path(['source', 'coin'], form)
+    const targetCoin = path(['target', 'coin'], form)
     const fiatCurrency = yield call(getFiatCurrency)
-    const volume = form[mapFixToFieldName(fix)]
     yield call(
       changeAdviceSubscription,
-      volume,
-      fix,
-      source,
-      target,
+      getCurrentVolume(form),
+      prop('fix', form),
       fiatCurrency,
+      getCurrentPair(form),
       pairChanged
     )
-    yield call(changeRatesSubscription, source, target, fiatCurrency)
+    yield call(changeRatesSubscription, sourceCoin, targetCoin, fiatCurrency)
   }
 
   const changeAdviceSubscription = function*(
     volume,
     fix,
-    source,
-    target,
     fiatCurrency,
+    pair,
     pairChanged
   ) {
-    const pair = formatPair(source.coin, target.coin)
     const currentConfig = yield select(
       selectors.modules.rates.getPairConfig(pair)
     )
@@ -286,9 +347,11 @@ export default ({ api, coreSagas, options, networks }) => {
     )
   }
 
-  const changeRatesSubscription = function*(source, target, fiatCurrency) {
-    const sourceCoin = prop('coin', source)
-    const targetCoin = prop('coin', target)
+  const changeRatesSubscription = function*(
+    sourceCoin,
+    targetCoin,
+    fiatCurrency
+  ) {
     const pairs = [
       formatPair(sourceCoin, targetCoin),
       formatPair(targetCoin, sourceCoin),
@@ -306,9 +369,8 @@ export default ({ api, coreSagas, options, networks }) => {
     yield put(actions.modules.rates.subscribeToRates(pairs))
   }
 
-  const unsubscribeFromCurrentAdvice = function*({ source, target }) {
-    const pair = formatPair(source.coin, target.coin)
-    yield put(actions.modules.rates.unsubscribeFromAdvice(pair))
+  const unsubscribeFromCurrentAdvice = function*(form) {
+    yield put(actions.modules.rates.unsubscribeFromAdvice(getCurrentPair(form)))
   }
 
   const startValidation = function*() {
@@ -343,6 +405,7 @@ export default ({ api, coreSagas, options, networks }) => {
       yield call(startValidation)
       yield call(unsubscribeFromCurrentAdvice, form)
       yield call(changeSubscription, true)
+      yield call(updateSourceFee)
       yield call(clearMinMax)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'changeSource', e))
@@ -374,6 +437,7 @@ export default ({ api, coreSagas, options, networks }) => {
       yield call(startValidation)
       yield call(unsubscribeFromCurrentAdvice, form)
       yield call(changeSubscription, true)
+      yield call(updateSourceFee)
       yield call(fetchTargetFees)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'changeTarget', e))
@@ -383,13 +447,14 @@ export default ({ api, coreSagas, options, networks }) => {
   const changeAmount = function*({ payload }) {
     try {
       const { amount } = payload
-      const { fix } = yield select(formValueSelector)
+      const form = yield select(formValueSelector)
 
       yield put(
-        actions.form.change(EXCHANGE_FORM, mapFixToFieldName(fix), amount)
+        actions.form.change(EXCHANGE_FORM, getActiveFieldName(form), amount)
       )
       yield call(startValidation)
       yield call(changeSubscription)
+      yield call(updateSourceFee)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'changeAmount', e))
     }
@@ -399,8 +464,7 @@ export default ({ api, coreSagas, options, networks }) => {
     try {
       const form = yield select(formValueSelector)
       const { fix } = payload
-      const { source, target } = form
-      const pair = formatPair(source.coin, target.coin)
+      const pair = getCurrentPair(form)
       const newInputField = mapFixToFieldName(fix)
       const newInputAmount = (yield select(S.getAmounts(pair)))
         .map(prop(newInputField))
@@ -420,8 +484,10 @@ export default ({ api, coreSagas, options, networks }) => {
   const swapFieldValue = function*() {
     try {
       const form = yield select(formValueSelector)
-      const { fix, source, target } = form
-      const pair = formatPair(source.coin, target.coin)
+      const fix = prop('fix', form)
+      const source = prop('source', form)
+      const target = prop('target', form)
+      const pair = getCurrentPair(form)
       const currentField = mapFixToFieldName(fix)
       const currentFieldAmount = form[currentField]
       const oppositeFix = swapBaseAndCounter(fix)
@@ -441,6 +507,7 @@ export default ({ api, coreSagas, options, networks }) => {
       yield call(unsubscribeFromCurrentAdvice, { source, target })
       yield call(changeSubscription, true)
       yield call(clearMinMax)
+      yield call(updateSourceFee)
       yield call(fetchTargetFees)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'swapFieldValue', e))
@@ -452,10 +519,9 @@ export default ({ api, coreSagas, options, networks }) => {
       yield put(actions.form.clearSubmitErrors(CONFIRM_FORM))
       yield put(actions.form.startSubmit(CONFIRM_FORM))
       const form = yield select(formValueSelector)
-      const { source, target } = form
-      const sourceCoin = source.coin
-      const targetCoin = target.coin
-      const pair = formatPair(sourceCoin, targetCoin)
+      const source = prop('source', form)
+      const target = prop('target', form)
+      const pair = getCurrentPair(form)
       const quote = (yield select(
         selectors.modules.rates.getPairQuote(pair)
       )).getOrFail(NO_ADVICE_ERROR)

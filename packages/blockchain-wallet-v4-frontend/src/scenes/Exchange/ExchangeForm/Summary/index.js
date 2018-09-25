@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { prop } from 'ramda'
+import { BigNumber } from 'bignumber.js'
 
 import StringDisplay from 'components/Display/StringDisplay'
 import {
@@ -33,11 +35,16 @@ const RatesTitle = styled(RatesRow)`
   margin-bottom: 12px;
 `
 
+const add = (augend, addend) => new BigNumber(augend).add(addend).toString()
+const subtract = (minuend, subtrahend) =>
+  new BigNumber(minuend).minus(subtrahend).toString()
+
 const Summary = ({
   sourceCoin,
   targetCoin,
   currency,
   targetFee,
+  sourceFee,
   sourceAmount,
   targetAmount,
   targetFiat,
@@ -63,7 +70,9 @@ const Summary = ({
     </AmountHeader>
     <ExchangeAmount>
       <StringDisplay>
-        {sourceAmount.map(amount => `${amount} ${sourceCoin}`)}
+        {sourceAmount.map(
+          amount => `${add(amount, sourceFee.source)} ${sourceCoin}`
+        )}
       </StringDisplay>
     </ExchangeAmount>
     <AmountHeader>
@@ -77,7 +86,13 @@ const Summary = ({
     </AmountHeader>
     <ExchangeAmount>
       <StringDisplay>
-        {targetAmount.map(amount => `${amount} ${targetCoin}`)}
+        {targetAmount.map(
+          amount =>
+            `${subtract(
+              amount,
+              targetFee.map(prop('target')).getOrElse(0)
+            )} ${targetCoin}`
+        )}
       </StringDisplay>
     </ExchangeAmount>
     <Delimiter />
@@ -90,7 +105,9 @@ const Summary = ({
       </ExchangeText>
       <ExchangeText weight={300}>
         <StringDisplay>
-          {targetFee.map(fee => `${fee} ${targetCoin}`)}
+          {targetFee.map(
+            targetFee => `${add(targetFee, sourceFee.target)} ${targetCoin}`
+          )}
         </StringDisplay>
       </ExchangeText>
     </TableRow>
@@ -103,7 +120,13 @@ const Summary = ({
       </ExchangeText>
       <ExchangeText weight={300}>
         <StringDisplay>
-          {targetFiat.map(amount => `${amount} ${currency}`)}
+          {targetFiat.map(
+            amount =>
+              `${subtract(
+                amount,
+                targetFee.map(prop('targetFiat')).getOrElse(0)
+              )} ${currency}`
+          )}
         </StringDisplay>
       </ExchangeText>
     </TableRow>

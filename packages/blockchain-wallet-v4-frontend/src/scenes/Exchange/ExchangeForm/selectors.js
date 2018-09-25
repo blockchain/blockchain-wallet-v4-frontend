@@ -136,10 +136,11 @@ const {
   getActiveEthAccounts,
   getMin,
   getMax,
-  getTargetFee
+  getTargetFee,
+  getSourceFee
 } = selectors.components.exchange
 
-export { canUseExchange, getMin, getMax, getTargetFee }
+export { canUseExchange, getMin, getMax, getTargetFee, getSourceFee }
 export const getData = createDeepEqualSelector(
   [
     getActiveBtcAccounts,

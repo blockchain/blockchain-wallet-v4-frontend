@@ -12,6 +12,7 @@ import {
   getMin,
   getMax,
   getTargetFee,
+  getSourceFee,
   canUseExchange
 } from './selectors'
 
@@ -43,7 +44,15 @@ class ExchangeForm extends React.Component {
   }
 
   render () {
-    const { actions, data, min, max, targetFee, canUseExchange } = this.props
+    const {
+      actions,
+      data,
+      min,
+      max,
+      targetFee,
+      sourceFee,
+      canUseExchange
+    } = this.props
     return data.cata({
       Success: value =>
         canUseExchange && isEmpty(value.availablePairs) ? (
@@ -54,6 +63,7 @@ class ExchangeForm extends React.Component {
             min={min}
             max={max}
             targetFee={targetFee}
+            sourceFee={sourceFee}
             canUseExchange={canUseExchange}
             handleMaximum={actions.firstStepMaximumClicked}
             handleMinimum={actions.firstStepMinimumClicked}
@@ -127,6 +137,7 @@ const mapStateToProps = state => ({
   min: getMin(state),
   max: getMax(state),
   targetFee: getTargetFee(state),
+  sourceFee: getSourceFee(state),
   data: getData(state)
 })
 
