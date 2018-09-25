@@ -77,6 +77,7 @@ class RequestBchContainer extends React.PureComponent {
           receiveAddress={value.receiveAddress}
           handleSubmit={this.handleSubmit}
           closeAll={closeAll}
+          to={value.to}
         />
       ),
       NotAsked: () => <DataError onClick={this.handleRefresh} />,

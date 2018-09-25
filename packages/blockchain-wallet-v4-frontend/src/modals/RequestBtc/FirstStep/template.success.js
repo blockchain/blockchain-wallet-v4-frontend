@@ -1,18 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import * as bowser from 'bowser'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { contains } from 'ramda'
+
 import { required } from 'services/FormHelper'
 import { invalidAmountMin, invalidAmountMax } from './validation'
 import {
+  Banner,
   Button,
   Separator,
   Text,
   TooltipIcon,
-  TooltipHost,
-  Banner
+  TooltipHost
 } from 'blockchain-info-components'
 import {
   FiatConvertor,
@@ -47,7 +49,7 @@ const CoinSelector = styled(FormGroup)`
   width: 50%;
 `
 const BannerContainer = styled.div`
-  margin-top: 5px;
+  margin-top: 8px;
 `
 
 const FirstStep = props => {
@@ -57,8 +59,12 @@ const FirstStep = props => {
     handleSubmit,
     handleClickQRCode,
     receiveAddress,
-    importedAddresses
+    importedAddresses,
+    to
   } = props
+  const disableLockboxReceive =
+    to.type === 'LOCKBOX' &&
+    !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -140,7 +146,7 @@ const FirstStep = props => {
             includeAll={false}
             validate={[required]}
           />
-          {contains(receiveAddress, importedAddresses) ? (
+          {contains(receiveAddress, importedAddresses) && (
             <BannerContainer>
               <Banner type='warning'>
                 <FormattedMessage
@@ -149,7 +155,19 @@ const FirstStep = props => {
                 />
               </Banner>
             </BannerContainer>
-          ) : null}
+          )}
+          {disableLockboxReceive && (
+            <BannerContainer>
+              <Banner type='warning'>
+                <Text color='warning' size='12px'>
+                  <FormattedMessage
+                    id='modals.requestbitcoin.firststep.lockboxwarn'
+                    defaultMessage='Requesting Bitcoin to Lockbox can only be done while using the Chrome browser'
+                  />
+                </Text>
+              </Banner>
+            </BannerContainer>
+          )}
         </FormItem>
       </FormGroup>
       <FormGroup margin={'20px'}>
@@ -174,7 +192,7 @@ const FirstStep = props => {
           nature='primary'
           fullwidth
           uppercase
-          disabled={submitting || invalid}
+          disabled={submitting || invalid || disableLockboxReceive}
         >
           <FormattedMessage
             id='modals.requestbitcoin.firststep.next'

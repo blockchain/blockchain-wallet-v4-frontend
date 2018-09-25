@@ -46,7 +46,8 @@ export const getData = (state, ownProps) => {
   const transform = (receiveAddress, initialValues) => ({
     coin,
     receiveAddress,
-    initialValues
+    initialValues,
+    to
   })
   return lift(transform)(receiveAddressR, initialValuesR)
 }

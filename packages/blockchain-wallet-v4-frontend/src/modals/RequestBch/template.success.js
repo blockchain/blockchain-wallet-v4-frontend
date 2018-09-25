@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import * as bowser from 'bowser'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import QRCodeReact from 'qrcode.react'
 
 import { required } from 'services/FormHelper'
 import {
+  Banner,
   Button,
   Separator,
   Text,
@@ -41,9 +43,14 @@ const QRCodeContainer = styled.div`
 const ScanMessage = styled.div`
   padding-bottom: 20px;
 `
-
+const BannerContainer = styled.div`
+  margin: -8px 0 10px;
+`
 const RequestBch = props => {
-  const { submitting, invalid, handleSubmit, receiveAddress } = props
+  const { submitting, invalid, handleSubmit, receiveAddress, to } = props
+  const disableLockboxReceive =
+    to.type === 'LOCKBOX' &&
+    !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -51,7 +58,7 @@ const RequestBch = props => {
         <FormItem>
           <FormLabel for='coin'>
             <FormattedMessage
-              id='modals.sendbch.coin'
+              id='modals.requestbch.coin'
               defaultMessage='Currency:'
             />
           </FormLabel>
@@ -60,7 +67,7 @@ const RequestBch = props => {
         <FormItem>
           <FormLabel for='to'>
             <FormattedMessage
-              id='modals.requestbitcoin.firststep.to'
+              id='modals.requestbch.firststep.to'
               defaultMessage='Receive to:'
             />
           </FormLabel>
@@ -73,47 +80,62 @@ const RequestBch = props => {
           />
         </FormItem>
       </FormGroup>
-      <FormGroup>
-        <FormItem>
-          <FormLabel>
-            <FormattedMessage
-              id='modals.requestbch.share'
-              defaultMessage='Copy & Share Address: '
-            />
-            <TooltipHost id='reqBchShare'>
-              <TooltipIcon name='question-in-circle' />
-            </TooltipHost>
-          </FormLabel>
-          <AddressContainer>
-            <CopyClipboard address={receiveAddress} />
-          </AddressContainer>
-        </FormItem>
-      </FormGroup>
-      <Separator margin={'20px 0'}>
-        <Text size='14px' weight={300} uppercase>
-          <FormattedMessage id='modals.requestbch.or' defaultMessage='Or' />
-        </Text>
-      </Separator>
-      <QRCodeContainer>
-        <ScanMessage>
-          <Text size='14px'>
-            <FormattedMessage
-              id='modals.requestbch.scan'
-              defaultMessage='Scan QR Code:'
-            />
-            <TooltipHost id='reqBchQR'>
-              <TooltipIcon name='question-in-circle' />
-            </TooltipHost>
-          </Text>
-        </ScanMessage>
-        <QRCodeReact value={receiveAddress} size={150} />
-      </QRCodeContainer>
+      {disableLockboxReceive ? (
+        <BannerContainer>
+          <Banner type='warning'>
+            <Text color='warning' size='12px'>
+              <FormattedMessage
+                id='modals.requestbch.firststep.lockboxwarn'
+                defaultMessage='Requesting Bitcoin Cash to Lockbox can only be done while using the Chrome browser'
+              />
+            </Text>
+          </Banner>
+        </BannerContainer>
+      ) : (
+        <React.Fragment>
+          <FormGroup>
+            <FormItem>
+              <FormLabel>
+                <FormattedMessage
+                  id='modals.requestbch.share'
+                  defaultMessage='Copy & Share Address: '
+                />
+                <TooltipHost id='reqBchShare'>
+                  <TooltipIcon name='question-in-circle' />
+                </TooltipHost>
+              </FormLabel>
+              <AddressContainer>
+                <CopyClipboard address={receiveAddress} />
+              </AddressContainer>
+            </FormItem>
+          </FormGroup>
+          <Separator margin={'20px 0'}>
+            <Text size='14px' weight={300} uppercase>
+              <FormattedMessage id='modals.requestbch.or' defaultMessage='Or' />
+            </Text>
+          </Separator>
+          <QRCodeContainer>
+            <ScanMessage>
+              <Text size='14px'>
+                <FormattedMessage
+                  id='modals.requestbch.scan'
+                  defaultMessage='Scan QR Code:'
+                />
+                <TooltipHost id='reqBchQR'>
+                  <TooltipIcon name='question-in-circle' />
+                </TooltipHost>
+              </Text>
+            </ScanMessage>
+            <QRCodeReact value={receiveAddress} size={150} />
+          </QRCodeContainer>
+        </React.Fragment>
+      )}
       <Button
         type='submit'
         nature='primary'
         fullwidth
         uppercase
-        disabled={submitting || invalid}
+        disabled={submitting || invalid || disableLockboxReceive}
       >
         <FormattedMessage id='modals.requestbch.done' defaultMessage='Done' />
       </Button>
