@@ -7,6 +7,7 @@ import { model, selectors } from 'data'
 const { DATE_FORMAT, isShapeShiftTrade } = model.components.exchangeHistory
 
 const formatExchangeTrade = ({
+  id,
   state,
   createdAt,
   deposit,
@@ -17,6 +18,7 @@ const formatExchangeTrade = ({
   refundAmount
 }) => {
   return {
+    id,
     status: state,
     date: moment(createdAt).format(DATE_FORMAT),
     sourceCoin: deposit.symbol,
