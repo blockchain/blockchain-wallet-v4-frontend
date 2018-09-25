@@ -71,7 +71,7 @@ const CheckBoxInput = props => {
         disabled={disabled}
         {...rest}
       />
-      <Label htmlFor={name} data-e2e={name === 'terms' ? 'termsLabel' : ''}>
+      <Label htmlFor={name} data-e2e={name === 'terms' && 'termsLabel'}>
         {children}
       </Label>
     </Wrapper>
