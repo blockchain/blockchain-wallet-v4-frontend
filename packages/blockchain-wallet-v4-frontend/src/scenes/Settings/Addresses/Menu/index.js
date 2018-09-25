@@ -50,7 +50,7 @@ const MenuTop = () => (
       <Controls>
         <TabMenu>
           <LinkContainer
-            to='/settings/addresses'
+            to='/settings/addresses/btc'
             activeClassName='active'
             exact
           >

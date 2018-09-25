@@ -61,7 +61,7 @@ const Footer = props => {
               />
             </SubMenuItem>
           </LinkContainer>
-          <LinkContainer to='/settings/addresses' activeClassName='active'>
+          <LinkContainer to='/settings/addresses/btc' activeClassName='active'>
             <SubMenuItem>
               <FormattedMessage
                 id='layouts.wallet.menuleft.navigation.addresses'
