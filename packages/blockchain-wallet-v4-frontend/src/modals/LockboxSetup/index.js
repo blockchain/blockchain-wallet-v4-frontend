@@ -20,27 +20,15 @@ class LockboxSetupContainer extends React.PureComponent {
 
   render () {
     const { currentStep, position, total, closeAll } = this.props
-    let { step, done } = currentStep || {}
-    switch (step) {
-      case 'connect-device':
-        step = 1
-        break
-      case 'auth-check':
-        step = 2
-        break
-      case 'open-btc-app':
-        step = 3
-        break
-      case 'name-device':
-        step = 4
-        break
-      case 'error-step':
-        step = 5
-        break
-      default:
-        step = 0
-        break
+    const steps = {
+      'setup-type': 0,
+      'connect-device': 1,
+      'auth-check': 2,
+      'open-btc-app': 3,
+      'name-device': 4,
+      'error-step': 5
     }
+    const step = currentStep && currentStep.step ? steps[currentStep.step] : 0
 
     return (
       <LockboxSetup
@@ -54,7 +42,7 @@ class LockboxSetupContainer extends React.PureComponent {
         {step === 0 && <SetupTypeStep />}
         {step === 1 && <ConnectDeviceStep />}
         {step === 2 && <AuthenticityStep />}
-        {step === 3 && <OpenBtcAppStep done={done} />}
+        {step === 3 && <OpenBtcAppStep done={currentStep.done} />}
         {step === 4 && <NameDeviceStep />}
         {step === 5 && <ErrorStep />}
       </LockboxSetup>
