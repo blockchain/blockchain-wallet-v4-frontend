@@ -431,8 +431,10 @@ export default ({ api, coreSagas, options, networks }) => {
           ? prevTargetCoin
           : head(pairedCoins)
       if (!contains(sourceCoin, pairedCoins)) newSourceCoin = head(pairedCoins)
-      const newSource = yield call(getDefaultAccount, newSourceCoin)
-      yield put(actions.form.change(EXCHANGE_FORM, 'source', newSource))
+      if (newSourceCoin) {
+        const newSource = yield call(getDefaultAccount, newSourceCoin)
+        yield put(actions.form.change(EXCHANGE_FORM, 'source', newSource))
+      }
 
       yield call(startValidation)
       yield call(unsubscribeFromCurrentAdvice, form)
