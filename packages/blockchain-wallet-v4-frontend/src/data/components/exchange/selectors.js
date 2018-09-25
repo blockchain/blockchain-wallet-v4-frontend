@@ -7,7 +7,8 @@ export const useShapeShift = state =>
   !selectors.modules.profile.userFlowSupported(state).getOrElse(false)
 
 export const canUseExchange = state =>
-  selectors.modules.profile.isUserActive(state)
+  selectors.modules.profile.isUserActive(state) &&
+  selectors.modules.profile.isUserVerified(state)
 
 export const getStep = path(['components', 'exchange', 'step'])
 export const getPayment = path(['components', 'exchange', 'payment'])
