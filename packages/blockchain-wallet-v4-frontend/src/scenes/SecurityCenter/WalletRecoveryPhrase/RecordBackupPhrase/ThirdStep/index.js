@@ -19,7 +19,6 @@ class ThirdStepContainer extends React.PureComponent {
   }
 
   componentDidMount () {
-    const { updateUI } = this.props
     const randomize = sortBy(prop(0))
     const pair = map(x => [Math.random(), x])
     const indexes = compose(
@@ -28,7 +27,9 @@ class ThirdStepContainer extends React.PureComponent {
       randomize,
       pair
     )(range(0, 12))
+    /* eslint-disable */
     this.setState({ indexes })
+    /* eslint-enable */
   }
 
   onSubmit (values, disptach, props) {
