@@ -29,8 +29,19 @@ const Wrapper = styled.div`
   }
 `
 
+const ActiveIndicator = styled.div`
+  top: ${props => props.offsetTop}px;
+  transition: top 0.5s;
+  position: absolute;
+  height: 38px;
+  width: 4px;
+  left: 0;
+  background: ${props => props.theme['marketing-secondary']};
+`
+
 const MenuLeft = props => (
   <Wrapper toggled={props.toggled}>
+    <ActiveIndicator offsetTop={props.offsetTop} />
     <Navigation />
     <Footer />
   </Wrapper>

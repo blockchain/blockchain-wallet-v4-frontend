@@ -22,13 +22,18 @@ export const MenuItem = styled.li`
   font-weight: 300;
   font-size: 15px;
   width: 100%;
-
+  & > * {
+    cursor: pointer;
+    transition: color 0.3s;
+    color: ${props => props.theme['gray-5']};
+  }
   & > span:first-child {
     width: 30px;
     font-size: 28px;
     margin-right: 10px;
   }
 
+  &:hover,
   &.active {
     & > * {
       color: ${props => props.theme['marketing-primary']};
@@ -36,6 +41,7 @@ export const MenuItem = styled.li`
   }
 `
 export const SubMenu = styled.ul`
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -43,7 +49,7 @@ export const SubMenu = styled.ul`
   list-style: none;
   text-transform: none;
   padding: 5px 10px;
-  margin-left: 10px;
+  margin-left: 40px;
   margin-top: -15px;
   margin-bottom: 5px;
 `
@@ -52,7 +58,7 @@ export const SubMenuItem = styled.li`
   box-sizing: border-box;
   text-transform: none;
   font-weight: 300;
-  font-size: 13px;
+  font-size: 14px;
   cursor: pointer;
 
   &.active {
