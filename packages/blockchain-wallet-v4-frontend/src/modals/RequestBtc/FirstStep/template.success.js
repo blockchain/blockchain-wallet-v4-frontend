@@ -79,47 +79,43 @@ const FirstStep = props => {
           <Field name='coin' component={SelectBoxCoin} validate={[required]} />
         </FormItem>
       </CoinSelector>
-      {!disableLockboxReceive && (
-        <React.Fragment>
-          <FormGroup margin={'5px'}>
-            <FormItem>
-              <AddressFormLabel>
-                <div>
-                  <FormattedMessage
-                    id='modals.requestbitcoin.firststep.share'
-                    defaultMessage='Copy & Share Address: '
-                  />
-                  <TooltipHost id='reqBitcoinShare'>
-                    <TooltipIcon name='question-in-circle' />
-                  </TooltipHost>
-                </div>
-                <QRText
-                  size='14px'
-                  weight={300}
-                  color='brand-secondary'
-                  onClick={handleClickQRCode}
-                >
-                  <FormattedMessage
-                    id='modals.requestbitcoin.firststep.qrcode'
-                    defaultMessage='QR Code'
-                  />
-                </QRText>
-              </AddressFormLabel>
-              <AddressContainer>
-                <CopyClipboard address={receiveAddress} />
-              </AddressContainer>
-            </FormItem>
-          </FormGroup>
-          <Separator margin={'20px 0'}>
-            <Text size='14px' weight={300} uppercase>
+      <FormGroup margin={'5px'}>
+        <FormItem>
+          <AddressFormLabel>
+            <div>
               <FormattedMessage
-                id='modals.requestbitcoin.firststep.or'
-                defaultMessage='Or'
+                id='modals.requestbitcoin.firststep.share'
+                defaultMessage='Copy & Share Address: '
               />
-            </Text>
-          </Separator>
-        </React.Fragment>
-      )}
+              <TooltipHost id='reqBitcoinShare'>
+                <TooltipIcon name='question-in-circle' />
+              </TooltipHost>
+            </div>
+            <QRText
+              size='14px'
+              weight={300}
+              color='brand-secondary'
+              onClick={handleClickQRCode}
+            >
+              <FormattedMessage
+                id='modals.requestbitcoin.firststep.qrcode'
+                defaultMessage='QR Code'
+              />
+            </QRText>
+          </AddressFormLabel>
+          <AddressContainer>
+            <CopyClipboard address={receiveAddress} />
+          </AddressContainer>
+        </FormItem>
+      </FormGroup>
+      <Separator margin={'20px 0'}>
+        <Text size='14px' weight={300} uppercase>
+          <FormattedMessage
+            id='modals.requestbitcoin.firststep.or'
+            defaultMessage='Or'
+          />
+        </Text>
+      </Separator>
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for='amount'>
