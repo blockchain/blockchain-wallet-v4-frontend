@@ -219,6 +219,18 @@ describe('sfoxSagas', () => {
     })
   })
 
+  describe('sfox prepareAddress', () => {
+    const { prepareAddress } = sfoxSagas({
+      coreSagas
+    })
+
+    const saga = testSaga(prepareAddress)
+
+    it('should select the state', () => {
+      saga.next().select()
+    })
+  })
+
   describe('sfox setProfile', () => {
     const { setProfile } = sfoxSagas({
       coreSagas,
@@ -716,6 +728,54 @@ describe('sfoxSagas', () => {
     })
     it('should refresh jumioStatus', () => {
       saga.next().call(fetchJumioStatus)
+    })
+  })
+
+  describe('sfox initializePayment', () => {
+    let { initializePayment } = sfoxSagas({ coreSagas, networks })
+
+    let saga = testSaga(initializePayment)
+
+    it('should set loading', () => {
+      saga
+        .next(paymentMock)
+        .put(sfoxActions.sfoxSellBtcPaymentUpdatedLoading())
+    })
+    it('should create the payment', () => {
+      saga.next(paymentMock)
+      expect(coreSagas.payment.btc.create).toHaveBeenCalled()
+      expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
+        network: networks.btc
+      })
+    })
+    it('should call init on the payment', () => {
+      saga.next(paymentMock)
+      expect(paymentMock.init).toHaveBeenCalled()
+    })
+    it('should update payment from', () => {
+      saga.next(paymentMock)
+      expect(paymentMock.from).toHaveBeenCalled()
+    })
+    it('should update the payment fee', () => {
+      saga.next(paymentMock)
+      expect(paymentMock.fee).toHaveBeenCalled()
+    })
+    it('should call payment value', () => {
+      saga.next(paymentMock)
+      expect(paymentMock.value).toHaveBeenCalled()
+    })
+
+    describe('error handling', () => {
+      const error = { error: 'some_error' }
+      it('should dispatch a failure action then log the error', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(sfoxActions.sfoxSellBtcPaymentUpdatedFailure(error))
+          .next()
+          .put(actions.logs.logErrorMessage(logLocation, 'initializePayment', error))
+      })
     })
   })
 })
