@@ -28,7 +28,7 @@ const LineWrapper = styled.div`
   margin-top: 16px;
 `
 
-// TODO: this only supports totalSteps of 4 or 5
+// TODO: this brittle CSS only supports totalSteps of 4 or 5
 const Line = styled.div`
   &.animate {
     width: 1px;
@@ -82,6 +82,7 @@ const Circle = styled.div`
 
 class ModalStepper extends React.PureComponent {
   render () {
+    // currentStep & totalSteps do not follow zero-based numbering
     const { currentStep, totalSteps } = this.props
 
     return (
