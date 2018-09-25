@@ -7,7 +7,7 @@ import {
   LAYOUT_WALLET_HEADER_WHATSNEW_CLICKED
 } from '../components/layoutWallet/actionTypes'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { path, toLower, test, pathOr, equals, prop } from 'ramda'
+import { test, pathOr, equals } from 'ramda'
 
 export const logLocation = 'analytics/sagas'
 export const balancePath = ['payload', 'info', 'final_balance']
@@ -80,11 +80,9 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const logLeftNavClick = function*(payload) {
-    const { event } = payload
+  const logLeftNavClick = function*({ payload }) {
     try {
-      event.persist()
-      const text = toLower(path(['target', 'textContent'], event))
+      const { text } = payload
 
       if (test(/dashboard/, text)) return yield call(api.logClick, 'dashboard')
       if (test(/^bitcoin$/, text)) return yield call(api.logClick, 'btc')
@@ -107,11 +105,11 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const logClick = function*(payload) {
+  const logClick = function*({ type, payload }) {
     try {
-      if (equals(prop('type', payload), LAYOUT_WALLET_HEADER_FAQ_CLICKED))
+      if (equals(type, LAYOUT_WALLET_HEADER_FAQ_CLICKED))
         return yield call(api.logClick, 'faq')
-      if (equals(prop('type', payload), LAYOUT_WALLET_HEADER_WHATSNEW_CLICKED))
+      if (equals(type, LAYOUT_WALLET_HEADER_WHATSNEW_CLICKED))
         return yield call(api.logClick, 'whatsnew')
 
       const { name } = payload
