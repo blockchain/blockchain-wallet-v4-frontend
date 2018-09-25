@@ -108,14 +108,6 @@ describe('settingsSagas', () => {
     it('should select userFlowSupported', () => {
       saga.next().select(selectors.modules.profile.userFlowSupported)
     })
-
-    // it('should call syncUserWithWallet', () => {
-    //   saga.next(Remote.of(true)).call(syncUserWithWallet)
-    // })
-
-    // it('should display success', () => {
-    //   saga.next().next().put(actions.alerts.displaySuccess(C.MOBILE_UPDATE_SUCCESS))
-    // })
   })
 
   describe('resendMobile', () => {
@@ -619,8 +611,6 @@ describe('settingsSagas', () => {
     const { showEthPrivateKey } = settingsSagas({ coreSagas })
 
     let action = { payload: { isLegacy: false } }
-
-    // let saga = testSaga(showEthPrivateKey, action)
 
     it('should get the mnemonic', () => {
       return expectSaga(showEthPrivateKey, action)
