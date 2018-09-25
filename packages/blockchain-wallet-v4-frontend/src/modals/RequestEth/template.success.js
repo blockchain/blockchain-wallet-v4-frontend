@@ -50,6 +50,7 @@ const BannerContainer = styled.div`
 const RequestEther = props => {
   const { submitting, invalid, handleSubmit, address, to } = props
   const disableLockboxReceive =
+    to &&
     to.type === 'LOCKBOX' &&
     !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
 
