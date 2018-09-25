@@ -130,6 +130,7 @@ const Success = props => (
         selectedComponent={getSelectedComponent(props.path)}
         components={getComponentOrder(props.path)}
         callback={() => {}}
+        data-e2e='balanceDropdown'
       />
     </BalanceDropdown>
   </Wrapper>
