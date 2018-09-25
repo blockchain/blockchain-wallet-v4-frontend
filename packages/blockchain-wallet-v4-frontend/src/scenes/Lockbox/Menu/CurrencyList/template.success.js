@@ -28,20 +28,20 @@ const Success = props => {
         onClick={() => handleCoinSelection('BTC')}
       />
       <CurrencyItem
-        coin='bch'
-        icon='bch'
-        balance={data.bchBalance}
-        isActive={isActive('bch')}
-        isInactive={!isEmpty(formValues) && !isActive('bch')}
-        onClick={() => handleCoinSelection('BCH')}
-      />
-      <CurrencyItem
         coin='eth'
         icon='eth'
         balance={data.ethBalance}
         isActive={isActive('eth')}
         isInactive={!isEmpty(formValues) && !isActive('eth')}
         onClick={() => handleCoinSelection('ETH')}
+      />
+      <CurrencyItem
+        coin='bch'
+        icon='bch'
+        balance={data.bchBalance}
+        isActive={isActive('bch')}
+        isInactive={!isEmpty(formValues) && !isActive('bch')}
+        onClick={() => handleCoinSelection('BCH')}
       />
     </CurrencyList>
   )
