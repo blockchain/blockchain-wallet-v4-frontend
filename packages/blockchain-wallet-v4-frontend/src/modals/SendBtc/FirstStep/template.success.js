@@ -191,6 +191,7 @@ const FirstStep = props => {
               maximumAmount
             ]}
             coin='BTC'
+            data-e2e='sendBtc'
           />
         </FormItem>
       </FormGroup>
@@ -210,6 +211,7 @@ const FirstStep = props => {
             component={TextAreaDebounced}
             placeholder="What's this transaction for?"
             rows={3}
+            data-e2e='sendBtc_description'
           />
         </FormItem>
       </FormGroup>
@@ -247,6 +249,7 @@ const FirstStep = props => {
                   errorBottom
                   errorLeft
                   unit='sat/byte'
+                  data-e2e='sendBtc_custom_fee_input'
                 />
               </FeePerByteContainer>
             )}
@@ -261,6 +264,7 @@ const FirstStep = props => {
             weight={300}
             capitalize
             onClick={handleFeePerByteToggle}
+            data-e2e='sendBtc_custom_fee_link'
           >
             {feePerByteToggled ? (
               <FormattedMessage
@@ -298,6 +302,7 @@ const FirstStep = props => {
           nature='primary'
           uppercase
           disabled={submitting || invalid || pristine}
+          data-e2e='sendBtc_continue'
         >
           <FormattedMessage
             id='modals.sendbtc.firststep.continue'
