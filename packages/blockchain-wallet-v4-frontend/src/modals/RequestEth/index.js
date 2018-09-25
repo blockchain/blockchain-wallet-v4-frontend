@@ -62,7 +62,7 @@ class RequestEtherContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, closeAll, selection, coins, to } = this.props
+    const { data, closeAll, selection, coins } = this.props
 
     const content = data.cata({
       Success: val => (
@@ -73,7 +73,6 @@ class RequestEtherContainer extends React.PureComponent {
           coins={coins}
           selection={selection}
           onSubmit={this.onSubmit}
-          to={to}
         />
       ),
       NotAsked: () => <DataError onClick={this.handleRefresh} />,
@@ -102,8 +101,7 @@ class RequestEtherContainer extends React.PureComponent {
 const mapStateToProps = (state, ownProps) => ({
   initialValues: getInitialValues(state, ownProps),
   data: getData(state),
-  coin: formValueSelector('requestEther')(state, 'coin'),
-  to: formValueSelector('requestEther')(state, 'to')
+  coin: formValueSelector('requestEther')(state, 'coin')
 })
 
 const mapDispatchToProps = dispatch => ({

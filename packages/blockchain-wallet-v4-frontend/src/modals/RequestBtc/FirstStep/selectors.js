@@ -82,8 +82,7 @@ export const getData = state => {
     amount,
     message,
     accountIdx,
-    addressIdx,
-    to
+    addressIdx
   })
   return lift(transform)(receiveAddressR, accountIdxR, receiveAddressIdxR)
 }
