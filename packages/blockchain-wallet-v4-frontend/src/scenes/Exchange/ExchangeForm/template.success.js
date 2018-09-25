@@ -354,7 +354,9 @@ const Success = props => {
                 }}
               />
             </AmountRow>
-            <ErrorRow spaced>{error && getErrorMessage(error)}</ErrorRow>
+            <ErrorRow spaced>
+              {dirty && error && getErrorMessage(error)}
+            </ErrorRow>
             <Row>
               <MinMaxButtonGroup>
                 <MinMaxButton

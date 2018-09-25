@@ -130,7 +130,6 @@ const formatBestRates = curry(
 
 const {
   canUseExchange,
-  getError,
   getActiveBtcAccounts,
   getActiveBchAccounts,
   getActiveEthAccounts,
@@ -147,7 +146,6 @@ export const getData = createDeepEqualSelector(
     getActiveBchAccounts,
     getActiveEthAccounts,
     selectors.core.settings.getCurrency,
-    getError,
     getFormValues,
     selectors.modules.rates.getAvailablePairs,
     getCurrentPairAmounts,
@@ -160,7 +158,6 @@ export const getData = createDeepEqualSelector(
     bchAccountsR,
     ethAccountsR,
     currencyR,
-    formError,
     formValues,
     availablePairsR,
     adviceAmountsR,
@@ -231,7 +228,6 @@ export const getData = createDeepEqualSelector(
         initialValues,
         hasOneAccount,
         disabled: !Remote.Success.is(amountsR),
-        formError,
         currency,
         inputField,
         inputSymbol: currencySymbolMap[inputCurrency],

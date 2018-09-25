@@ -23,7 +23,8 @@ import DataError from 'components/DataError'
 const extractFieldValue = (e, value) => value
 
 const { swapCoinAndFiat, swapBaseAndCounter } = model.rates
-const { CONFIRM } = model.components.exchange.EXCHANGE_STEPS
+const { EXCHANGE_FORM, EXCHANGE_STEPS } = model.components.exchange
+const { CONFIRM } = EXCHANGE_STEPS
 
 class ExchangeForm extends React.Component {
   componentDidMount () {
@@ -37,7 +38,10 @@ class ExchangeForm extends React.Component {
   }
 
   debounceTime = 50
-  changeAmount = debounce(this.props.actions.changeAmount, this.debounceTime)
+  changeAmount = debounce(amount => {
+    actions.form.clearSubmitErrors(EXCHANGE_FORM)
+    this.props.actions.changeAmount(amount)
+  }, this.debounceTime)
 
   handleRefresh = () => {
     this.props.actions.initialize()
