@@ -29,7 +29,6 @@ export default ({ api }) => {
       }
       // close previous transport and reset old connection info
       const { transport } = yield select(S.getCurrentConnection)
-      if (transport) transport.close()
       yield put(A.resetConnectionStatus())
 
       if (!deviceType) {
@@ -54,6 +53,7 @@ export default ({ api }) => {
           appConnection.transport
         )
       )
+      if (transport) transport.close()
     } catch (e) {
       yield put(A.setConnectionError(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'connectDevice', e))
