@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { Icon, Image, Text, Button, Link } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl';
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
+import bowser from 'bowser'
+import { prop, toLower, equals } from 'ramda'
 
 const Container = styled.div`
   width: 100%;
@@ -40,24 +42,23 @@ const LinkButton = styled(Button)`
   min-width: 100px;
 `
 
+const isChrome = equals(toLower(prop('name', bowser)), 'chrome')
+
 class MobileAppLink extends React.PureComponent {
   constructor () {
     super()
-
     this.state = { show: true }
   }
 
   onClose = () => this.setState({ show: false })
 
   handleOpen = () => {
-    console.log('handle open')
     window.open('blockchain://', '_blank')
   }
 
   render () {
-
     const renderIfMobile = (mobile) =>
-      !this.state.show || !mobile
+      !this.state.show || !mobile || !isChrome
         ? null
         : <Container>
           <HideWrapper>
