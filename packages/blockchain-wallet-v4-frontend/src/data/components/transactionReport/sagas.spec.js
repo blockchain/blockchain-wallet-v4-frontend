@@ -8,6 +8,7 @@ import moment from 'services/MomentHelper'
 const coreSagas = coreSagasFactory()
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
+jest.useFakeTimers()
 
 const MOCK_FORM_VALUES = {
   from: {
