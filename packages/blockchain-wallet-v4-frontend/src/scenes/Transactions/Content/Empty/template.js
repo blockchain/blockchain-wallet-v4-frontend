@@ -18,20 +18,27 @@ const Transactions = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 40px;
+  & > :first-child {
+    margin-bottom: 6px;
+  }
+  & > :last-child {
+    margin-top: 14px;
+  }
 `
 const Bitcoin = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-top: 25px;
+  margin-top: 10px;
   & > :first-child {
     margin-right: 10px;
   }
 `
 const TransactionIcon = styled(Icon)`
   justify-content: center;
+  margin-bottom: 8px;
 `
 
 const Empty = props => {
@@ -42,7 +49,7 @@ const Empty = props => {
       <CoinWelcome coin={coin} />
       <Transactions>
         <Text size='20px' weight={300} capitalize>
-          <TransactionIcon name='transactions' />
+          <TransactionIcon name='transactions' size='28px' />
           <FormattedMessage
             id='scenes.transactions.content.empty.transactions'
             defaultMessage='Your transactions'
@@ -51,7 +58,7 @@ const Empty = props => {
         <Text size='14px' weight={300}>
           <FormattedMessage
             id='scenes.transactions.content.empty.explain'
-            defaultMessage='Transactions occur when you send and receive currencies.'
+            defaultMessage='Transactions occur when you send and receive coins.'
           />
         </Text>
         <Separator />

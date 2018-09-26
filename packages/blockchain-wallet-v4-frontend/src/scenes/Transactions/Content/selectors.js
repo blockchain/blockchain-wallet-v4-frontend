@@ -34,7 +34,6 @@ const filterTransactions = curry((status, criteria, transactions) => {
       path(property)
     )(tx)
   )
-
   const searchPredicate = anyPass(
     map(search(criteria), [
       ['description'],
@@ -45,15 +44,14 @@ const filterTransactions = curry((status, criteria, transactions) => {
       ['inputs', 0, 'address']
     ])
   )
-
   const fullPredicate = allPass([isOfType(status), searchPredicate])
 
   return filter(fullPredicate, transactions)
 })
-// TODO: line 57!!!
-export const getData = createSelector(
+
+export const getDataBtc = createSelector(
   [
-    selectors.form.getFormValues('Transactions'),
+    selectors.form.getFormValues('transactions'),
     selectors.core.common.btc.getWalletTransactions,
     selectors.core.kvStore.buySell.getMetadata,
     selectors.core.settings.getCurrency
@@ -74,6 +72,27 @@ export const getData = createSelector(
       empty: all(empty)(filteredPages),
       search: search.length > 0 || status !== '',
       buySellPartner: hasAccount(partnerData)
+    }
+  }
+)
+
+export const getDataBch = createSelector(
+  [
+    selectors.form.getFormValues('transactions'),
+    selectors.core.common.bch.getWalletTransactions
+  ],
+  (formValues, pages) => {
+    const empty = page => isEmpty(page.data)
+    const search = propOr('', 'search', formValues)
+    const status = propOr('', 'status', formValues)
+    const filteredPages = !isEmpty(pages)
+      ? pages.map(map(filterTransactions(status, search)))
+      : []
+
+    return {
+      pages: filteredPages,
+      empty: all(empty)(filteredPages),
+      search: search.length > 0 || status !== ''
     }
   }
 )

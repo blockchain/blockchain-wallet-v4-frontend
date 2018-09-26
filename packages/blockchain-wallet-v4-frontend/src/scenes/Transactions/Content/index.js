@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 
-import { getData } from './selectors'
+import { getDataBtc, getDataBch } from './selectors'
 import { actions } from 'data'
 import Content from './template'
 
@@ -43,9 +43,18 @@ class ContentContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  ...getData(state)
-})
+const mapStateToProps = (state, ownProps) => {
+  switch (ownProps.coin) {
+    case 'BTC':
+      return { ...getDataBtc(state) }
+    case 'BCH':
+      return { ...getDataBch(state) }
+    case 'ETH':
+      return {}
+    default:
+      return {}
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
   dataActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
