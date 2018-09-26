@@ -58,7 +58,7 @@ class ManageAddressesContainer extends React.PureComponent {
     return (
       <Wrapper>
         <MenuWrapper>
-          <LinkContainer to='/settings/addresses'>
+          <LinkContainer to='/settings/addresses/btc'>
             <IconButton name='left-arrow' nature='empty'>
               <FormattedMessage
                 id='scenes.settings.addresses.btc.manageaddresses.back'
