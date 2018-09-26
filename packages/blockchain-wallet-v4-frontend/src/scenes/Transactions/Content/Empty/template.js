@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+
 import { Icon, IconButton, Separator, Text } from 'blockchain-info-components'
-import BchWelcome from './BchWelcome'
-import BtcWelcome from './BtcWelcome'
+import CoinWelcome from './CoinWelcome'
 
 const Wrapper = styled.div`
   display: flex;
@@ -39,7 +39,7 @@ const Empty = props => {
 
   return (
     <Wrapper>
-      {coin === 'BTC' ? <BtcWelcome /> : <BchWelcome />}
+      <CoinWelcome coin={coin} />
       <Transactions>
         <Text size='20px' weight={300} capitalize>
           <TransactionIcon name='transactions' />

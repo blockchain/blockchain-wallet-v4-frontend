@@ -68,7 +68,7 @@ const LearnMoreLink = styled(Link)`
   justify-content: flex-start;
   align-items: center;
 `
-const BitcoinWelcome = props => {
+const BtcWelcome = props => {
   const { displayed, handleClick, handleRequest, partner, exchange } = props
 
   return (
@@ -79,7 +79,7 @@ const BitcoinWelcome = props => {
           <Cell small>
             <Text size='24px' weight={300} color='brand-primary' uppercase>
               <FormattedMessage
-                id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.welcometo'
+                id='scenes.transaction.content.empty.bitcoinwelcome.welcometo'
                 defaultMessage='Welcome to'
               />
             </Text>
@@ -94,7 +94,7 @@ const BitcoinWelcome = props => {
               uppercase
             >
               <FormattedMessage
-                id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.learnmore'
+                id='scenes.transaction.content.empty.bitcoinwelcome.learnmore'
                 defaultMessage='Learn More'
               />
               <Icon name='right-arrow' color='brand-secondary' />
@@ -104,7 +104,7 @@ const BitcoinWelcome = props => {
             <Cell>
               <Text weight={300} color='brand-primary' uppercase>
                 <FormattedMessage
-                  id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.what'
+                  id='scenes.transaction.content.empty.bitcoinwelcome.what'
                   defaultMessage='What is bitcoin?'
                 />
               </Text>
@@ -112,13 +112,13 @@ const BitcoinWelcome = props => {
               <TextGroup inline>
                 <Text size='12px' weight={300}>
                   <FormattedMessage
-                    id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.currency'
+                    id='scenes.transaction.content.empty.bitcoinwelcome.currency'
                     defaultMessage='Bitcoin is a digital currency, and is used like other assets in exchange for goods and services.'
                   />
                 </Text>
                 <Text size='12px' weight={300}>
                   <FormattedMessage
-                    id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.transact'
+                    id='scenes.transaction.content.empty.bitcoinwelcome.transact'
                     defaultMessage='Unlike traditional currencies and assets, bitcoin is easily portable, divisible, and irreversible.'
                   />
                 </Text>
@@ -127,7 +127,7 @@ const BitcoinWelcome = props => {
             <Cell>
               <Text weight={300} color='brand-primary' uppercase>
                 <FormattedMessage
-                  id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.why'
+                  id='scenes.transaction.content.empty.bitcoinwelcome.why'
                   defaultMessage='Why should I use it?'
                 />
               </Text>
@@ -135,7 +135,7 @@ const BitcoinWelcome = props => {
               <TextGroup inline>
                 <Text size='12px' weight={300}>
                   <FormattedMessage
-                    id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.fees'
+                    id='scenes.transaction.content.empty.bitcoinwelcome.fees'
                     defaultMessage='As a global currency you can send bitcoin to anyone, anywhere in the world without worrying about cross border remittance fees.'
                   />
                 </Text>
@@ -183,10 +183,10 @@ const BitcoinWelcome = props => {
   )
 }
 
-BitcoinWelcome.propTypes = {
+BtcWelcome.propTypes = {
   displayed: PropTypes.bool.isRequired,
   handleClick: PropTypes.func.isRequired,
   handleRequest: PropTypes.func.isRequired
 }
 
-export default BitcoinWelcome
+export default BtcWelcome
