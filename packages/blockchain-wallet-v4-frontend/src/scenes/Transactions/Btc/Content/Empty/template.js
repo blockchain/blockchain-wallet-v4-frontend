@@ -56,18 +56,13 @@ const Empty = props => {
         <Separator />
       </Transactions>
       <Bitcoin>
-        <IconButton name='send' nature='empty' uppercase onClick={handleSend}>
+        <IconButton name='send' nature='empty' onClick={handleSend}>
           <FormattedMessage
             id='scenes.transactions.bitcoin.content.empty.send'
             defaultMessage='Send'
           />
         </IconButton>
-        <IconButton
-          name='request'
-          nature='empty'
-          uppercase
-          onClick={handleRequest}
-        >
+        <IconButton name='request' nature='empty' onClick={handleRequest}>
           <FormattedMessage
             id='scenes.transactions.bitcoin.content.empty.request'
             defaultMessage='Request'

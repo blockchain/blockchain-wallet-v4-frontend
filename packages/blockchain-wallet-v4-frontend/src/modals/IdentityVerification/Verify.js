@@ -83,13 +83,13 @@ const Verify = ({ handleSubmit, onBack }) => (
       }
       footer={
         <Footer>
-          <Button uppercase nature='transferred' onClick={onBack}>
+          <Button nature='transferred' onClick={onBack}>
             <FormattedMessage
               id='identityverification.personal.back'
               defaultMessage='Back'
             />
           </Button>
-          <Button uppercase nature='primary' onClick={handleSubmit}>
+          <Button nature='primary' onClick={handleSubmit}>
             <FormattedMessage
               id='identityverification.personal.continue'
               defaultMessage='Continue'

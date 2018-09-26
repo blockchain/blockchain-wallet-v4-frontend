@@ -325,7 +325,6 @@ const FirstStep = props => {
         <Button
           type='submit'
           nature='primary'
-          uppercase
           data-e2e='sendBtc_continue'
           disabled={submitting || invalid || pristine || disableLockboxSend}
         >

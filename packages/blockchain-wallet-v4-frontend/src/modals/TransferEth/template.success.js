@@ -111,7 +111,7 @@ const Success = props => {
             </CoinDisplay>
           </Row>
         </Container>
-        <Button nature='primary' fullwidth uppercase onClick={handleSubmit}>
+        <Button nature='primary' fullwidth onClick={handleSubmit}>
           <FormattedMessage
             id='modals.transfereth.confirm'
             defaultMessage='Confirm'
