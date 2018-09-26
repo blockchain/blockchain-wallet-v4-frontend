@@ -116,7 +116,9 @@ const getBalanceMessage = path => {
 
 const Success = props => (
   <Wrapper>
-    <BalanceText weight={300}>{getBalanceMessage(props.path)}</BalanceText>
+    <BalanceText weight={300} data-e2e='totalBalance'>
+      {getBalanceMessage(props.path)}
+    </BalanceText>
     <BalanceDropdown>
       <ComponentDropdown
         down
@@ -126,6 +128,7 @@ const Success = props => (
         selectedComponent={getSelectedComponent(props.path)}
         components={getComponentOrder(props.path)}
         callback={() => {}}
+        data-e2e='balanceDropdown'
       />
     </BalanceDropdown>
   </Wrapper>

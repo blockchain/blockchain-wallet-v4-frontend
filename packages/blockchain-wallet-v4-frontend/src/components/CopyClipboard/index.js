@@ -28,6 +28,7 @@ class CopyClipboardContainer extends React.PureComponent {
         active={this.state.active}
         address={this.props.address}
         handleClick={this.handleClick}
+        data-e2e={this.props['data-e2e']}
       />
     )
   }

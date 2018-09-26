@@ -34,6 +34,7 @@ const TextArea = field => {
         errorState={errorState}
         placeholder={field.placeholder}
         rows={field.rows}
+        data-e2e={field['data-e2e']}
       />
       {field.meta.touched &&
         field.meta.error && (
