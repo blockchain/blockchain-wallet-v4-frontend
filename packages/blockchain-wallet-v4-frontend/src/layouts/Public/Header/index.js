@@ -3,10 +3,12 @@ import React from 'react'
 import ServiceAnnouncement from 'components/ServiceAnnouncement'
 import { Image, Link } from 'blockchain-info-components'
 import { Navbar, NavbarBrand } from 'components/Navbar'
+import MobileAppLink from 'components/MobileAppLink'
 
 const Header = () => {
   return (
     <React.Fragment>
+      <MobileAppLink />
       <Navbar height='90px'>
         <NavbarBrand>
           <Link href='https://www.blockchain.com'>

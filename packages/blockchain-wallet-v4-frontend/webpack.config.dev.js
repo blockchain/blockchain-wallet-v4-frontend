@@ -17,8 +17,8 @@ const runBundleAnalyzer = process.env.ANALYZE
 const iSignThisDomain =
   mockWalletOptions.platforms.web.coinify.config.iSignThisDomain
 let sslEnabled =
-  fs.existsSync(PATHS.sslConfig + 'key.pem') &&
-  fs.existsSync(PATHS.sslConfig + 'cert.pem')
+  fs.existsSync(PATHS.sslConfig + '/key.pem') &&
+  fs.existsSync(PATHS.sslConfig + '/cert.pem')
 let envConfig = {}
 
 try {
