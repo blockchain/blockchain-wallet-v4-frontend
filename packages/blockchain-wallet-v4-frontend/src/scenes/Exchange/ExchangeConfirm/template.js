@@ -152,7 +152,7 @@ const ExchangeConfirm = ({
           </ExchangeText>
           <ExchangeText
             weight={300}
-          >{`~${sourceFiat} ${currency}`}</ExchangeText>
+          >{`${sourceFiat} ${currency}`}</ExchangeText>
         </TableRow>
       ) : (
         <TableRow>
@@ -164,7 +164,7 @@ const ExchangeConfirm = ({
           </ExchangeText>
           <ExchangeText
             weight={300}
-          >{`~${targetFiat} ${currency}`}</ExchangeText>
+          >{`${targetFiat} ${currency}`}</ExchangeText>
         </TableRow>
       )}
       <Delimiter />
