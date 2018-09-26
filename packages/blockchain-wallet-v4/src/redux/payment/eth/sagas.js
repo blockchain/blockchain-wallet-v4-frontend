@@ -136,7 +136,8 @@ export default ({ api }) => {
       *fee (value) {
         // value can be in gwei or string ('regular' or 'priority')
         const fees = prop('fees', p)
-        const feeInGwei = indexOf(value, ['regular', 'priority']) > -1 ? fees[value] : value
+        const feeInGwei =
+          indexOf(value, ['regular', 'priority']) > -1 ? fees[value] : value
         const gasLimit = path(['fees', 'gasLimit'], p)
         const fee = calculateFee(feeInGwei, gasLimit)
         const balance = yield call(getBalance)

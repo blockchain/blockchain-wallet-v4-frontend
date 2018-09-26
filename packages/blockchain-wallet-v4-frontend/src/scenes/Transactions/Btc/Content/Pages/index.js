@@ -12,7 +12,8 @@ class Pages extends React.PureComponent {
       Success: value => (
         <Success transactions={value} buysellPartner={buysellPartner} />
       ),
-      Failure: () => <DataError onClick={() => this.props.onRefresh()} />,
+      Failure: message =>
+        <DataError onClick={() => this.props.onRefresh()} message={message} onArchive={this.props.onArchive} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })

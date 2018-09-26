@@ -223,7 +223,12 @@ export default ({ api }) => {
     }
   }
 
-  const __calculateSignature = function*(network, password, fromType, selection) {
+  const __calculateSignature = function*(
+    network,
+    password,
+    fromType,
+    selection
+  ) {
     if (!selection) {
       throw new Error('missing_selection')
     }
