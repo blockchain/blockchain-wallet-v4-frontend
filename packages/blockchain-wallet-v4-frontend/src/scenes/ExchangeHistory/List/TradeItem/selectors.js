@@ -22,7 +22,7 @@ const formatExchangeTrade = ({
     status: state,
     date: moment(createdAt).format(DATE_FORMAT),
     sourceCoin: propOr('', 'symbol', deposit),
-    targetCoin: propOr('', 'symbol', deposit),
+    targetCoin: propOr('', 'symbol', withdrawal),
     depositAmount: propOr('', 'value', deposit),
     withdrawalAmount: propOr('', 'value', withdrawal),
     targetFiat: propOr('', 'value', fiatValue),
