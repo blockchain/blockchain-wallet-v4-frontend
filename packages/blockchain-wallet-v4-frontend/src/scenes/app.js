@@ -34,6 +34,7 @@ import General from './Settings/General'
 import Profile from './Settings/Profile'
 import Preferences from './Settings/Preferences'
 import Transactions from './Transactions'
+import EthTransactions from './Transactions/Eth'
 
 class App extends React.PureComponent {
   render () {
@@ -67,6 +68,7 @@ class App extends React.PureComponent {
                   />
                   <PublicLayout path='/wallet' component={Login} />
                   <WalletLayout path='/home' component={Home} />
+                  <WalletLayout path='/buy-sell' component={BuySell} />
                   <WalletLayout
                     path='/btc/transactions'
                     component={Transactions}
@@ -74,10 +76,9 @@ class App extends React.PureComponent {
                   />
                   <WalletLayout
                     path='/eth/transactions'
-                    component={Transactions}
+                    component={EthTransactions}
                     coin='ETH'
                   />
-                  <WalletLayout path='/buy-sell' component={BuySell} />
                   <WalletLayout
                     path='/bch/transactions'
                     component={Transactions}

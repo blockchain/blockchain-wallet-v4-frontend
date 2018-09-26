@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import DataError from 'components/DataError'
 import Loading from './template.loading'
@@ -22,6 +23,10 @@ class Pages extends React.PureComponent {
       NotAsked: () => <Loading />
     })
   }
+}
+
+Pages.propTypes = {
+  coin: PropTypes.oneOf(['BTC', 'BCH', 'ETH'])
 }
 
 export default Pages

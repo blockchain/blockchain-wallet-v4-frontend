@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import PropTypes from 'prop-types'
 
 import { getData } from './selectors'
 import { actions } from 'data'
@@ -46,6 +47,10 @@ const mapDispatchToProps = dispatch => ({
   dataActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
   txActions: bindActionCreators(actions.components.btcTransactions, dispatch)
 })
+
+ContentContainer.propTypes = {
+  coin: PropTypes.oneOf(['BTC', 'BCH', 'ETH'])
+}
 
 export default connect(
   mapStateToProps,
