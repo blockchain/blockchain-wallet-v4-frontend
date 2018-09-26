@@ -12,7 +12,6 @@ import Page from './Page'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
 import Menu from 'scenes/Transactions/Menu'
-import EthMenu from 'scenes/Transactions/Eth/Menu'
 import AddrMenu from 'scenes/Settings/Addresses/Menu'
 import LockboxMenu from '../../scenes/Lockbox/Menu'
 import ExchangeMenu from 'scenes/Exchange/Menu'
@@ -85,7 +84,7 @@ const WalletLayout = props => {
               <Menu coin='BCH' />
             )}
             {location.pathname.includes('/eth/transactions') && (
-              <EthMenu coin='ETH' />
+              <Menu coin='ETH' />
             )}
             {location.pathname.includes('/exchange') && (
               <ExchangeMenu

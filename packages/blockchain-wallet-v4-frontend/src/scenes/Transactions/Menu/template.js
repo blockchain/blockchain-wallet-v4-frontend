@@ -2,8 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { prop, flatten } from 'ramda'
+import { FormattedMessage } from 'react-intl'
 
-import { Icon } from 'blockchain-info-components'
+import { ComponentDropdown, Icon, Link, Text } from 'blockchain-info-components'
 import {
   SelectBoxBtcAddresses,
   SelectBoxBCHAddresses,
@@ -68,7 +69,6 @@ const Status = styled.div`
     width: 360px;
   }
 `
-
 const Search = styled.div`
   position: relative;
   display: flex;
@@ -80,6 +80,15 @@ const Search = styled.div`
     width: auto;
   }
 `
+const EthPrivateKeysWrapper = styled.div`
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  margin-right: 15px;
+`
+const ExportEthPrivateKeyText = styled(Text)`
+  cursor: pointer;
+`
 const ReportingIcon = styled(Icon)`
   width: 40px;
 `
@@ -88,10 +97,23 @@ const SearchIcon = styled(Icon)`
   top: 10px;
   right: 10px;
 `
-
+const EthPrivateKeys = () => (
+  <Link weight={300} size='12px'>
+    <FormattedMessage
+      id='scenes.transactions.privatekeys'
+      defaultMessage='Private Keys'
+    />
+  </Link>
+)
 const Menu = props => {
-  const { accounts, handleClickReporting, coin } = props
-  const options = flatten(accounts.map(prop('options')))
+  const {
+    accounts,
+    coin,
+    handleClickReporting,
+    onShowEthPrivateKey,
+    isLegacyEthAddr
+  } = props
+  const options = accounts ? flatten(accounts.map(prop('options'))) : []
 
   return (
     <Wrapper>
@@ -125,12 +147,56 @@ const Menu = props => {
         </Controls>
         <Controls>
           <Search>
-            <ReportingIcon
-              name='up-arrow-in-circle'
-              size='28px'
-              cursor
-              onClick={handleClickReporting}
-            />
+            {coin === 'ETH' ? (
+              <EthPrivateKeysWrapper>
+                {isLegacyEthAddr ? (
+                  <ComponentDropdown
+                    down
+                    forceSelected
+                    color={'gray-5'}
+                    selectedComponent={<EthPrivateKeys />}
+                    components={[
+                      <ExportEthPrivateKeyText
+                        size='small'
+                        onClick={() => onShowEthPrivateKey(false)}
+                      >
+                        <FormattedMessage
+                          id='scenes.transactions.export.ethkey'
+                          defaultMessage='Export Private Key'
+                        />
+                      </ExportEthPrivateKeyText>,
+                      <ExportEthPrivateKeyText
+                        size='small'
+                        onClick={() => onShowEthPrivateKey(true)}
+                      >
+                        <FormattedMessage
+                          id='scenes.transactions.export.ethkeyarchived'
+                          defaultMessage='Export Archived Private Key'
+                        />
+                      </ExportEthPrivateKeyText>
+                    ].filter(x => x)}
+                  />
+                ) : (
+                  <Link
+                    size={'12px'}
+                    weight={300}
+                    onClick={() => onShowEthPrivateKey(false)}
+                  >
+                    <FormattedMessage
+                      id='scenes.transactions.export.ethkey'
+                      defaultMessage='Export Private Key'
+                    />
+                  </Link>
+                )}
+              </EthPrivateKeysWrapper>
+            ) : (
+              <ReportingIcon
+                name='up-arrow-in-circle'
+                size='28px'
+                cursor
+                onClick={handleClickReporting}
+              />
+            )}
             <Field name='search' component={TextBox} />
             <SearchIcon name='search' size='20px' />
           </Search>
