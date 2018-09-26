@@ -45,10 +45,7 @@ const LinkButton = styled(Button)`
 const isChrome = equals(toLower(prop('name', bowser)), 'chrome')
 
 class MobileAppLink extends React.PureComponent {
-  constructor () {
-    super()
-    this.state = { show: true }
-  }
+  state = { show: true }
 
   onClose = () => this.setState({ show: false })
 
