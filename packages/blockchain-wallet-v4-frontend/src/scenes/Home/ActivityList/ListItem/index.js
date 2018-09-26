@@ -102,10 +102,7 @@ const ActivityListItem = props => (
     <Circle>
       <Icon name={selectIcon(props.type)} color='brand-primary' />
     </Circle>
-    <Info
-      cursor={props.coin}
-      onClick={() => props.path && props.handleLink(props.path)}
-    >
+    <Info>
       <RecentActivityText capitalize color={selectColor(props.action)}>
         {props.action} {props.coin}
         {props.watchOnly && (
