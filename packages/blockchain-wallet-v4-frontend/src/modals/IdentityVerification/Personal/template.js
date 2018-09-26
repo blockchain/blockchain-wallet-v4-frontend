@@ -407,6 +407,7 @@ const Personal = ({
                           templateDisplay={renderAddressDisplay}
                           templateItem={renderAddressItem}
                           component={SelectBox}
+                          openMenuOnFocus={true}
                           label={
                             <FormattedMessage
                               id='identityverification.personal.selectaddress'

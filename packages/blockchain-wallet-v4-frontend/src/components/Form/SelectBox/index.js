@@ -21,19 +21,44 @@ const Error = styled.label`
   color: ${props => props.theme['error']};
 `
 
-const SelectBox = props => {
-  const { input, meta, hideErrors, errorBottom, className, ...rest } = props
-  const { touched, invalid, error, pristine } = meta
-  const errorState = touched && invalid ? 'invalid' : 'initial'
+class SelectBox extends React.PureComponent {
+  componentDidUpdate (prevProps) {
+    if (this.props.meta.active && !prevProps.meta.active) {
+      this.selectRef.focus()
+    }
+  }
 
-  return (
-    <Container className={className}>
-      <SelectInput {...input} {...meta} {...rest} errorState={errorState} />
-      {(touched || !pristine) &&
-        error &&
-        !hideErrors && <Error errorBottom>{error}</Error>}
-    </Container>
-  )
+  getSelectRef = node => {
+    if (node) this.selectRef = node
+  }
+
+  render () {
+    const {
+      input,
+      meta,
+      hideErrors,
+      errorBottom,
+      className,
+      ...rest
+    } = this.props
+    const { touched, invalid, error, pristine } = meta
+    const errorState = touched && invalid ? 'invalid' : 'initial'
+
+    return (
+      <Container className={className}>
+        <SelectInput
+          {...input}
+          {...meta}
+          {...rest}
+          getRef={this.getSelectRef}
+          errorState={errorState}
+        />
+        {(touched || !pristine) &&
+          error &&
+          !hideErrors && <Error errorBottom>{error}</Error>}
+      </Container>
+    )
+  }
 }
 
 SelectBox.propTypes = {
