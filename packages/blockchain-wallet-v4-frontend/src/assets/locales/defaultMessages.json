@@ -747,8 +747,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Oops, something went wrong here!",
-        "id": "components.dataerror.header"
+        "defaultMessage": "Archive Address",
+        "id": "components.dataerror.archiveaddress"
       },
       {
         "defaultMessage": "Please",
@@ -761,6 +761,10 @@
       {
         "defaultMessage": "to refresh.",
         "id": "components.dataerror.refresh"
+      },
+      {
+        "defaultMessage": "Oops, something went wrong here!",
+        "id": "components.dataerror.header"
       }
     ],
     "path": "src/components/DataError/index.json"
@@ -1321,6 +1325,14 @@
       {
         "defaultMessage": "What's New",
         "id": "whatsnew.tooltip.description"
+      },
+      {
+        "defaultMessage": "Hardware device is required",
+        "id": "lockboxrequired.tooltip"
+      },
+      {
+        "defaultMessage": "This change address belongs to your wallet",
+        "id": "txlist.change.tooltip.description"
       }
     ],
     "path": "src/components/Tooltips/index.json"
@@ -1484,6 +1496,10 @@
       {
         "defaultMessage": "Received By",
         "id": "components.txlistitem.receivedby"
+      },
+      {
+        "defaultMessage": "(Change Address)",
+        "id": "components.txlistitem.change"
       },
       {
         "defaultMessage": "Status",
@@ -2868,6 +2884,10 @@
       {
         "defaultMessage": "contact support.",
         "id": "contactsupport"
+      },
+      {
+        "defaultMessage": "Error Description: {errorDescription}",
+        "id": "coinifyexchangedata.create.accept.support_error_description"
       }
     ],
     "path": "src/modals/CoinifyExchangeData/Create/AcceptTerms/template.json"
@@ -3180,6 +3200,10 @@
         "id": "modals.confirm.title.lockbox"
       },
       {
+        "defaultMessage": "Archive Vulnerable Address",
+        "id": "modals.confirm.title.archive_address"
+      },
+      {
         "defaultMessage": "Confirm",
         "id": "modals.confirm.title"
       },
@@ -3204,6 +3228,10 @@
         "id": "modals.confirm.message.lockbox"
       },
       {
+        "defaultMessage": "A security issue effects address {addr}. Please Archive it, and if you continue to have issues contact {support}.",
+        "id": "modals.confirm.title.archive_address_msg"
+      },
+      {
         "defaultMessage": "Please confirm.",
         "id": "modals.confirm.message"
       },
@@ -3222,6 +3250,10 @@
       {
         "defaultMessage": "Verify My Identity",
         "id": "modals.confirm.confirm.verify_identity"
+      },
+      {
+        "defaultMessage": "Archive Address",
+        "id": "modals.confirm.title.archive_address_confirm"
       },
       {
         "defaultMessage": "Give Me A Call",
@@ -4827,6 +4859,10 @@
         "id": "modals.sendBch.firststep.from"
       },
       {
+        "defaultMessage": "Sending Bitcoin Cash from Lockbox can only be done while using the Chrome browser",
+        "id": "modals.sendbch.firststep.lockboxwarn"
+      },
+      {
         "defaultMessage": "To:",
         "id": "modals.sendBch.firststep.to"
       },
@@ -4992,6 +5028,10 @@
       {
         "defaultMessage": "From:",
         "id": "modals.sendbtc.firststep.from"
+      },
+      {
+        "defaultMessage": "Sending Bitcoin from Lockbox can only be done while using the Chrome browser",
+        "id": "modals.sendbtc.firststep.lockboxwarn"
       },
       {
         "defaultMessage": "To:",
@@ -5195,6 +5235,10 @@
       {
         "defaultMessage": "From:",
         "id": "modals.sendEther.firststep.from"
+      },
+      {
+        "defaultMessage": "Sending Ether from Lockbox can only be done while using the Chrome browser",
+        "id": "modals.sendeth.firststep.lockboxwarn"
       },
       {
         "defaultMessage": "To:",
@@ -7181,11 +7225,15 @@
       },
       {
         "defaultMessage": "Network Fee",
-        "id": "scenes.exchange.exchangeform.summary.fee"
+        "id": "scenes.exchange.exchangeform.summary.sourceFee"
       },
       {
-        "defaultMessage": "Total Value",
-        "id": "scenes.exchange.confirm.value"
+        "defaultMessage": "Exchange Value",
+        "id": "scenes.exchange.confirm.exchangevalue"
+      },
+      {
+        "defaultMessage": "Receive Value",
+        "id": "scenes.exchange.confirm.receivevalue"
       },
       {
         "defaultMessage": "All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.",
@@ -9125,7 +9173,7 @@
         "id": "scenes.lockbox.welcome.title"
       },
       {
-        "defaultMessage": "Additional security. Always accessible. Blockchain Lockbox brings you the best of both worlds for your crypto.",
+        "defaultMessage": "Lockbox works with your Blockchain Wallet to give your digital assets an additional layer of security. Unlock your Lockbox by linking your device, or buy one today.",
         "id": "scenes.lockbox.welcome.subtitle"
       },
       {
@@ -10782,6 +10830,14 @@
       {
         "defaultMessage": "Manage",
         "id": "scenes.settings.addresses.btc.wallets.manage"
+      },
+      {
+        "defaultMessage": "There is an issue with the wallet and this page may have limited functionality, such as balances not showing.",
+        "id": "scenes.settings.addresses.btc.failurealert"
+      },
+      {
+        "defaultMessage": "Message: {errorMessage}",
+        "id": "scenes.settings.addresses.btc.failuremessage"
       },
       {
         "defaultMessage": "Bitcoin Wallets",
