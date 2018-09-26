@@ -11,6 +11,7 @@ const RefreshIcon = props => (
       color='white'
       uppercase
       onClick={props.handleRefresh}
+      data-e2e='refreshLink'
     >
       <Icon name='refresh' color='white' cursor />
     </Link>

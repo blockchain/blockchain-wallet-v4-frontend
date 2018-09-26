@@ -195,6 +195,7 @@ export default ({ api, coreSagas }) => {
       })
       if (isEmpty(addresses)) throw new Error(failedToFetchAddressesError)
       yield put(A.setPossibleAddresses(addresses))
+      yield put(actions.form.focus(PERSONAL_FORM, 'address'))
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
     } catch (e) {
       const description = prop('description', e)

@@ -407,6 +407,7 @@ const Personal = ({
                           templateDisplay={renderAddressDisplay}
                           templateItem={renderAddressItem}
                           component={SelectBox}
+                          openMenuOnFocus={true}
                           label={
                             <FormattedMessage
                               id='identityverification.personal.selectaddress'
@@ -517,7 +518,6 @@ const Personal = ({
             <Terms company='blockchain-kyc' />
           </TermsText>
           <Button
-            uppercase
             nature='primary'
             type='submit'
             disabled={invalid || submitting}

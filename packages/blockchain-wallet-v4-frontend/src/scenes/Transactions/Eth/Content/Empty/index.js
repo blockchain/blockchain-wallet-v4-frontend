@@ -51,10 +51,10 @@ const Empty = props => (
     </Transactions>
     <Ether>
       <LinkContainer to='/exchange'>
-        <IconButton name='exchange' nature='empty' uppercase>
+        <IconButton name='exchange' nature='empty'>
           <FormattedMessage
             id='scenes.transactions.ether.content.empty.getether'
-            defaultMessage='Get ether'
+            defaultMessage='Get Ether'
           />
         </IconButton>
       </LinkContainer>

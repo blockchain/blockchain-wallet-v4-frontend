@@ -29,7 +29,11 @@ const FaqIcon = props => {
 
   return (
     <TooltipHost id='faq.tooltip'>
-      <FaqLink onClick={handleClick} highlighted={highlighted}>
+      <FaqLink
+        onClick={handleClick}
+        highlighted={highlighted}
+        data-e2e='faqLink'
+      >
         <Icon
           id='faq-icon'
           name='question-in-circle'

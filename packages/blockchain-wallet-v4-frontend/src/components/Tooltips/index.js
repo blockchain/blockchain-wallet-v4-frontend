@@ -194,6 +194,18 @@ class Tooltips extends React.PureComponent {
             defaultMessage="What's New"
           />
         </Tooltip>
+        <Tooltip id='lockboxRequired'>
+          <FormattedMessage
+            id='lockboxrequired.tooltip'
+            defaultMessage='Hardware device is required'
+          />
+        </Tooltip>
+        <Tooltip id='txlist.change.tooltip'>
+          <FormattedMessage
+            id='txlist.change.tooltip.description'
+            defaultMessage='This change address belongs to your wallet't
+          />
+        </Tooltip>
       </div>
     )
   }

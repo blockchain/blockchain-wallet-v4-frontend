@@ -11,7 +11,7 @@ import {
 import { selectors } from 'data'
 import { eeaCountryCodes } from 'services/IdentityVerificationService'
 import { Remote } from 'blockchain-wallet-v4'
-import { USER_ACTIVATION_STATES } from './model'
+import { USER_ACTIVATION_STATES, KYC_STATES } from './model'
 
 export const getUserData = path(['profile', 'userData'])
 export const getUserActivationState = compose(
@@ -25,6 +25,10 @@ export const getUserKYCState = compose(
 export const isUserActive = compose(
   equals(USER_ACTIVATION_STATES.ACTIVE),
   getUserActivationState
+)
+export const isUserVerified = compose(
+  equals(KYC_STATES.VERIFIED),
+  getUserKYCState
 )
 
 export const isCountrySupported = countryCode =>

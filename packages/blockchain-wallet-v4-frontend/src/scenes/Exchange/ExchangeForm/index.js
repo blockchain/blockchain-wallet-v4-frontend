@@ -12,6 +12,7 @@ import {
   getMin,
   getMax,
   getTargetFee,
+  getSourceFee,
   canUseExchange
 } from './selectors'
 
@@ -22,7 +23,8 @@ import DataError from 'components/DataError'
 const extractFieldValue = (e, value) => value
 
 const { swapCoinAndFiat, swapBaseAndCounter } = model.rates
-const { CONFIRM } = model.components.exchange.EXCHANGE_STEPS
+const { EXCHANGE_FORM, EXCHANGE_STEPS } = model.components.exchange
+const { CONFIRM } = EXCHANGE_STEPS
 
 class ExchangeForm extends React.Component {
   componentDidMount () {
@@ -36,14 +38,25 @@ class ExchangeForm extends React.Component {
   }
 
   debounceTime = 50
-  changeAmount = debounce(this.props.actions.changeAmount, this.debounceTime)
+  changeAmount = debounce(amount => {
+    actions.form.clearSubmitErrors(EXCHANGE_FORM)
+    this.props.actions.changeAmount(amount)
+  }, this.debounceTime)
 
   handleRefresh = () => {
     this.props.actions.initialize()
   }
 
   render () {
-    const { actions, data, min, max, targetFee, canUseExchange } = this.props
+    const {
+      actions,
+      data,
+      min,
+      max,
+      targetFee,
+      sourceFee,
+      canUseExchange
+    } = this.props
     return data.cata({
       Success: value =>
         canUseExchange && isEmpty(value.availablePairs) ? (
@@ -54,6 +67,7 @@ class ExchangeForm extends React.Component {
             min={min}
             max={max}
             targetFee={targetFee}
+            sourceFee={sourceFee}
             canUseExchange={canUseExchange}
             handleMaximum={actions.firstStepMaximumClicked}
             handleMinimum={actions.firstStepMinimumClicked}
@@ -127,6 +141,7 @@ const mapStateToProps = state => ({
   min: getMin(state),
   max: getMax(state),
   targetFee: getTargetFee(state),
+  sourceFee: getSourceFee(state),
   data: getData(state)
 })
 

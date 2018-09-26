@@ -10,7 +10,11 @@ import exchangeHistoryReducer from 'data/components/exchangeHistory/reducers'
 import { pollTimeout } from 'data/components/exchangeHistory/sagas'
 import exchangeHistorySagas from 'data/components/exchangeHistory/sagaRegister'
 import { getTrades } from 'blockchain-wallet-v4/src/redux/kvStore/shapeShift/selectors'
-import { userFlowSupported, isUserActive } from 'data/modules/profile/selectors'
+import {
+  userFlowSupported,
+  isUserActive,
+  isUserVerified
+} from 'data/modules/profile/selectors'
 
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import ExchangeHistory from './index'
@@ -26,6 +30,7 @@ jest.mock('blockchain-wallet-v4/src/redux/sagas')
 jest.mock('data/modules/profile/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/kvStore/shapeShift/selectors')
 isUserActive.mockReturnValue(true)
+isUserVerified.mockReturnValue(true)
 userFlowSupported.mockReturnValue(Remote.of(true))
 getTrades.mockReturnValue(Remote.of([]))
 
