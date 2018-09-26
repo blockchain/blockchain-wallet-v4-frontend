@@ -21,8 +21,6 @@ export const getShowKycCompleted = path(['preferences', 'showKycCompleted'])
 
 export const getPriceChart = path(['preferences', 'priceChart'])
 
-export const getBalancesTable = path(['preferences', 'balancesTable'])
-
 export const getTotalBalancesDropdown = path([
   'preferences',
   'totalBalancesDropdown'
