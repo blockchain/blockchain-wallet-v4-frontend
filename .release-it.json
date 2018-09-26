@@ -6,6 +6,7 @@
     "beforeStartCommand": "yarn manage:translations"
   },
   "github": {
+    "release": true,
     "preRelease": true,
     "releaseName": "v%s",
     "tokenRef": "RELEASE_IT_TOKEN"
