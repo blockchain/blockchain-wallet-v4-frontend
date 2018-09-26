@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { BigNumber } from 'bignumber.js'
 
 import StringDisplay from 'components/Display/StringDisplay'
 import {
@@ -33,11 +34,13 @@ const RatesTitle = styled(RatesRow)`
   margin-bottom: 12px;
 `
 
+const add = (augend, addend) => new BigNumber(augend).add(addend).toString()
+
 const Summary = ({
   sourceCoin,
   targetCoin,
   currency,
-  targetFee,
+  sourceFee,
   sourceAmount,
   targetAmount,
   targetFiat,
@@ -63,7 +66,9 @@ const Summary = ({
     </AmountHeader>
     <ExchangeAmount>
       <StringDisplay>
-        {sourceAmount.map(amount => `${amount} ${sourceCoin}`)}
+        {sourceAmount.map(
+          amount => `${add(amount, sourceFee.source)} ${sourceCoin}`
+        )}
       </StringDisplay>
     </ExchangeAmount>
     <AmountHeader>
@@ -89,9 +94,7 @@ const Summary = ({
         />
       </ExchangeText>
       <ExchangeText weight={300}>
-        <StringDisplay>
-          {targetFee.map(fee => `${fee} ${targetCoin}`)}
-        </StringDisplay>
+        {`${sourceFee.source} ${sourceCoin}`}
       </ExchangeText>
     </TableRow>
     <TableRow>
