@@ -2,7 +2,7 @@ import { testSaga } from 'redux-saga-test-plan'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
-import transactionReportSagas, { logLocation } from './sagas'
+import transactionReportSagas, { initialValues, logLocation } from './sagas'
 import moment from 'services/MomentHelper'
 
 const coreSagas = coreSagasFactory()
@@ -28,6 +28,12 @@ describe('transactionReport sagas', () => {
 
     it('should select the language', () => {
       saga.next().select(selectors.preferences.getLanguage)
+    })
+
+    it('should initialize the transaction report form', () => {
+      saga
+        .next('ES')
+        .put(actions.form.initialize('transactionReport', initialValues))
     })
 
     describe('error handling', () => {
