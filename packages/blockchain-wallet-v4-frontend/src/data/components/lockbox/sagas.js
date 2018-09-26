@@ -67,6 +67,11 @@ export default ({ api }) => {
   const checkDeviceAuthenticity = function*() {
     try {
       yield put(A.checkDeviceAuthenticityLoading())
+      const { deviceType } = yield select(S.getCurrentConnection)
+      // reset connection with default timeout
+      yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType))
+      // take new transport
+      yield take(AT.SET_CONNECTION_INFO)
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
       const deviceInfo = yield call(
