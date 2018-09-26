@@ -11,6 +11,7 @@
     "releaseName": "v%s",
     "tokenRef": "RELEASE_IT_TOKEN"
   },
+  "changelogCommand": "git-changelog -t $(git describe --abbrev=0 --tags)",
   "requireCleanWorkingDir": false,
   "requireUpstream": false
 }
