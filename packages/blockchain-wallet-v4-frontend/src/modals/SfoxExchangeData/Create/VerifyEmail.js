@@ -241,7 +241,6 @@ class VerifyEmail extends Component {
                 type='submit'
                 nature='primary'
                 fullwidth
-                uppercase
                 disabled={
                   invalid || ui.create !== 'enter_email_code' || !emailCode
                 }

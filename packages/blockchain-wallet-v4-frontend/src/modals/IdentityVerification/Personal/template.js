@@ -517,7 +517,6 @@ const Personal = ({
             <Terms company='blockchain-kyc' />
           </TermsText>
           <Button
-            uppercase
             nature='primary'
             type='submit'
             disabled={invalid || submitting}

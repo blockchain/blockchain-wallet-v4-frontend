@@ -95,7 +95,7 @@ const RequestEther = props => {
         </ScanMessage>
         <QRCodeReact value={address} size={150} />
       </QRCodeContainer>
-      <Button type='submit' nature='primary' fullwidth uppercase>
+      <Button type='submit' nature='primary' fullwidth>
         <FormattedMessage id='modals.requestether.done' defaultMessage='Done' />
       </Button>
     </Form>

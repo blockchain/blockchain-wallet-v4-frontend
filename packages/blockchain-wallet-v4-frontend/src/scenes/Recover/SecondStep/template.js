@@ -139,12 +139,7 @@ const SecondStep = props => {
               defaultMessage='Go Back'
             />
           </GoBackLink>
-          <Button
-            type='submit'
-            nature='primary'
-            uppercase
-            disabled={busy || invalid}
-          >
+          <Button type='submit' nature='primary' disabled={busy || invalid}>
             {busy ? (
               <HeartbeatLoader height='20px' width='20px' color='white' />
             ) : (
