@@ -290,6 +290,25 @@ const getRate = (rates, source, target) =>
     path([formatPair(source, target), 'price'])
   )(rates)
 
+export const convertTargetToFiat = (form, fiatCurrency, rates, amount) => {
+  const targetCoin = path(['target', 'coin'], form)
+
+  return compose(
+    toFixed(8, false),
+    multiply(getRate(rates, targetCoin, fiatCurrency))
+  )(amount)
+}
+
+export const convertSourceToTarget = (form, rates, amount) => {
+  const sourceCoin = path(['source', 'coin'], form)
+  const targetCoin = path(['target', 'coin'], form)
+
+  return compose(
+    toFixed(8, false),
+    multiply(getRate(rates, targetCoin, sourceCoin))
+  )(amount)
+}
+
 export const getCurrentMin = (form, fiatCurrency, rates, sourceFiatMin) => {
   const fix = prop('fix', form)
   const sourceCoin = path(['source', 'coin'], form)

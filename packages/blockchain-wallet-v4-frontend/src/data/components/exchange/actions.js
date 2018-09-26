@@ -151,3 +151,7 @@ export const fetchTargetFeesError = error => ({
   type: AT.FETCH_TARGET_FEES_ERROR,
   payload: { error }
 })
+export const setSourceFee = fee => ({
+  type: AT.SET_SOURCE_FEE,
+  payload: { fee }
+})

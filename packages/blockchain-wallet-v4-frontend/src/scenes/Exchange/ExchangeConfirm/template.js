@@ -92,11 +92,13 @@ const ExchangeConfirm = ({
   sourceAmount,
   targetAmount,
   targetFiat,
+  sourceFiat,
+  sourceActive,
   sourceToTargetRate,
   sourceCoin,
   targetCoin,
   currency,
-  fee,
+  sourceFee,
   submitting,
   handleSubmit,
   onBack
@@ -132,21 +134,39 @@ const ExchangeConfirm = ({
       <TableRow>
         <ExchangeText>
           <FormattedMessage
-            id='scenes.exchange.exchangeform.summary.fee'
+            id='scenes.exchange.exchangeform.summary.sourceFee'
             defaultMessage='Network Fee'
           />
         </ExchangeText>
-        <ExchangeText weight={300}>{`${fee} ${targetCoin}`}</ExchangeText>
+        <ExchangeText weight={300}>{`${
+          sourceFee.source
+        } ${sourceCoin}`}</ExchangeText>
       </TableRow>
-      <TableRow>
-        <ExchangeText>
-          <FormattedMessage
-            id='scenes.exchange.confirm.value'
-            defaultMessage='Total Value'
-          />
-        </ExchangeText>
-        <ExchangeText weight={300}>{`~${targetFiat} ${currency}`}</ExchangeText>
-      </TableRow>
+      {sourceActive ? (
+        <TableRow>
+          <ExchangeText>
+            <FormattedMessage
+              id='scenes.exchange.confirm.exchangevalue'
+              defaultMessage='Exchange Value'
+            />
+          </ExchangeText>
+          <ExchangeText
+            weight={300}
+          >{`${sourceFiat} ${currency}`}</ExchangeText>
+        </TableRow>
+      ) : (
+        <TableRow>
+          <ExchangeText>
+            <FormattedMessage
+              id='scenes.exchange.confirm.receivevalue'
+              defaultMessage='Receive Value'
+            />
+          </ExchangeText>
+          <ExchangeText
+            weight={300}
+          >{`${targetFiat} ${currency}`}</ExchangeText>
+        </TableRow>
+      )}
       <Delimiter />
       <Note>
         <FormattedMessage

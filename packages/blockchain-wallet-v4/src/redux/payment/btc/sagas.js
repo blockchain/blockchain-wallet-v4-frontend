@@ -166,8 +166,11 @@ export default ({ api }) => {
       throw new Error('missing_change_address')
     }
 
-    let targets = zip(to, amount).map(([target, value]) =>
-      Coin.fromJS({ address: target.address, value })
+    let targets = zip(to, amount).map(
+      ([target, value]) =>
+        target.type === ADDRESS_TYPES.SCRIPT
+          ? Coin.fromJS({ script: target.script, value })
+          : Coin.fromJS({ address: target.address, value })
     )
     return CoinSelection.descentDraw(targets, fee, coins, change)
   }
@@ -343,7 +346,8 @@ export default ({ api }) => {
 
         const makeChain = gen => ({
           init: () => chain(gen, payment => payment.init()),
-          to: destinations => chain(gen, payment => payment.to(destinations)),
+          to: (destinations, type) =>
+            chain(gen, payment => payment.to(destinations, type)),
           amount: amounts => chain(gen, payment => payment.amount(amounts)),
           from: (origins, type) =>
             chain(gen, payment => payment.from(origins, type)),
