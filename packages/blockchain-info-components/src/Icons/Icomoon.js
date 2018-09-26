@@ -39,6 +39,7 @@ export default {
   'hamburger-menu': '\\e919',
   home: '\\e946',
   'id-card': '\\e981',
+  info: '\\e902',
   'left-arrow': '\\e947',
   lightbulb: '\\e948',
   lock: '\\e949',

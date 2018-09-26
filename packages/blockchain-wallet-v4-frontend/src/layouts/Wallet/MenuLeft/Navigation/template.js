@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import {
@@ -9,7 +10,18 @@ import {
   SubMenu,
   SubMenuItem
 } from 'components/MenuLeft'
-import { Icon, Text } from 'blockchain-info-components'
+import {
+  Icon,
+  Text,
+  TooltipIcon,
+  TooltipHost
+} from 'blockchain-info-components'
+
+const HelperTipContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+`
 
 const Navigation = props => {
   const { logClick, lockboxOpened, lockboxDevices, ...rest } = props.data
@@ -98,6 +110,11 @@ const Navigation = props => {
             id='layouts.wallet.menuleft.navigation.lockbox'
             defaultMessage='Lockbox'
           />
+          <HelperTipContainer>
+            <TooltipHost id='lockboxRequired'>
+              <TooltipIcon name='info' />
+            </TooltipHost>
+          </HelperTipContainer>
         </MenuItem>
       </LinkContainer>
       {lockboxOpened && (
