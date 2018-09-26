@@ -1,6 +1,11 @@
 {
   "src": {
+    "commitMessage": "chore(Release): %s",
     "beforeStartCommand": "yarn manage:translations"
+  },
+  "github": {
+    "release": true,
+    "tokenRef": "RELEASE_IT_TOKEN"
   },
   "requireCleanWorkingDir": false,
   "requireUpstream": false
