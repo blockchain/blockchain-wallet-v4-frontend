@@ -6,14 +6,15 @@ import Success from './template.success'
 
 class Pages extends React.PureComponent {
   render () {
-    const { data, currency, buysellPartner } = this.props
+    const { buySellPartner, coin, currency, data } = this.props
 
     return data.cata({
       Success: value => (
         <Success
           transactions={value}
+          coin={coin}
           currency={currency}
-          buysellPartner={buysellPartner}
+          buySellPartner={buySellPartner}
         />
       ),
       Failure: () => <DataError onClick={() => this.props.onRefresh()} />,

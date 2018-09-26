@@ -13,16 +13,17 @@ const Wrapper = styled.div`
 `
 
 const Success = props => {
+  const minConfirms = props.coin === 'ETH' ? 12 : 3
   return (
     <Wrapper>
-      {props.transactions.map((transaction, index) => (
+      {props.transactions.map(transaction => (
         <TransactionListItem
           key={transaction.hash}
           transaction={transaction}
-          coin='BTC'
-          minConfirmations={3}
+          coin={props.coin}
+          minConfirmations={minConfirms}
           currency={props.currency}
-          buysellPartner={props.buysellPartner}
+          buySellPartner={props.buySellPartner}
         />
       ))}
     </Wrapper>

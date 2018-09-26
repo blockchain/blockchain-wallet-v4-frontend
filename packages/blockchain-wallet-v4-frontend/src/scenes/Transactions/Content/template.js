@@ -26,9 +26,10 @@ const Success = props => {
           <Pages
             key={index}
             data={value}
+            coin={props.coin}
             currency={props.currency}
             onRefresh={props.onRefresh}
-            buysellPartner={props.buysellPartner}
+            buySellPartner={props.buySellPartner}
           />
         ))
       )}

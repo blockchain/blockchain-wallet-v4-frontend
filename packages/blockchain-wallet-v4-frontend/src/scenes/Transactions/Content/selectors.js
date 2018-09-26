@@ -50,22 +50,22 @@ const filterTransactions = curry((status, criteria, transactions) => {
 
   return filter(fullPredicate, transactions)
 })
-
+// TODO: line 57!!!
 export const getData = createSelector(
   [
-    selectors.form.getFormValues('btcTransactions'),
+    selectors.form.getFormValues('Transactions'),
     selectors.core.common.btc.getWalletTransactions,
     selectors.core.kvStore.buySell.getMetadata,
     selectors.core.settings.getCurrency
   ],
-  (formValues, pages, buysellMetadata, currencyR) => {
+  (formValues, pages, buySellMetadata, currencyR) => {
     const empty = page => isEmpty(page.data)
     const search = propOr('', 'search', formValues)
     const status = propOr('', 'status', formValues)
     const filteredPages = !isEmpty(pages)
       ? pages.map(map(filterTransactions(status, search)))
       : []
-    const partnerData = prop('value', buysellMetadata.getOrElse())
+    const partnerData = prop('value', buySellMetadata.getOrElse())
     const currency = currencyR.getOrElse('')
 
     return {
@@ -73,7 +73,7 @@ export const getData = createSelector(
       pages: filteredPages,
       empty: all(empty)(filteredPages),
       search: search.length > 0 || status !== '',
-      buysellPartner: hasAccount(partnerData)
+      buySellPartner: hasAccount(partnerData)
     }
   }
 )
