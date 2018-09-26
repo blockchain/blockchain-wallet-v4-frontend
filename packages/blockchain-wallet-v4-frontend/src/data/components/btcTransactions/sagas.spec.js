@@ -19,7 +19,7 @@ describe('btcTransactions sagas', () => {
 
     let saga = testSaga(initialized)
 
-    const defaultSource = ''
+    const defaultSource = 'all'
     const initialValues = {
       source: defaultSource,
       status: '',
@@ -31,9 +31,7 @@ describe('btcTransactions sagas', () => {
     })
 
     it('should dispatch an action to fetch txs', () => {
-      saga
-        .next()
-        .put(actions.core.data.bitcoin.fetchTransactions(defaultSource, true))
+      saga.next().put(actions.core.data.bitcoin.fetchTransactions('', true))
     })
 
     describe('error handling', () => {

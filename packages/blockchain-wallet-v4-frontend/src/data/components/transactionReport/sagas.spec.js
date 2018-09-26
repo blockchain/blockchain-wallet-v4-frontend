@@ -2,12 +2,13 @@ import { testSaga } from 'redux-saga-test-plan'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
-import transactionReportSagas, { initialValues, logLocation } from './sagas'
+import transactionReportSagas, { logLocation } from './sagas'
 import moment from 'services/MomentHelper'
 
 const coreSagas = coreSagasFactory()
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
+jest.useFakeTimers()
 
 const MOCK_FORM_VALUES = {
   from: {
@@ -27,12 +28,6 @@ describe('transactionReport sagas', () => {
 
     it('should select the language', () => {
       saga.next().select(selectors.preferences.getLanguage)
-    })
-
-    it('should initialize the transaciton report form', () => {
-      saga
-        .next('ES')
-        .put(actions.form.initialize('transactionReport', initialValues))
     })
 
     describe('error handling', () => {
