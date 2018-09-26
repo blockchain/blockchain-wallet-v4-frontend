@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Icon, IconButton, Separator, Text } from 'blockchain-info-components'
-import EtherWelcome from './EthWelcome'
+import EtherWelcome from './EthWelcome/index'
 
 const Wrapper = styled.div`
   display: flex;

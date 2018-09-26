@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import EmptyTx from 'components/EmptyTx'
-import Empty from './Empty'
-import Pages from './Pages'
+import Empty from './Empty/index'
+import Pages from './Pages/index'
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,7 +23,13 @@ const Success = props => {
         )
       ) : (
         props.pages.map((value, index) => (
-          <Pages key={index} data={value} onRefresh={props.onRefresh} />
+          <Pages
+            key={index}
+            data={value}
+            currency={props.currency}
+            onRefresh={props.onRefresh}
+            buysellPartner={props.buysellPartner}
+          />
         ))
       )}
     </Wrapper>

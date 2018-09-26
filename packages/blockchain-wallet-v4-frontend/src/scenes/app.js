@@ -33,9 +33,7 @@ import BtcManageAddresses from './Settings/Addresses/Btc/ManageAddresses'
 import General from './Settings/General'
 import Profile from './Settings/Profile'
 import Preferences from './Settings/Preferences'
-import BitcoinTransactions from './Transactions/Btc'
-import EtherTransactions from './Transactions/Eth'
-import BchTransactions from './Transactions/Bch'
+import Transactions from './Transactions'
 
 class App extends React.PureComponent {
   render () {
@@ -71,16 +69,19 @@ class App extends React.PureComponent {
                   <WalletLayout path='/home' component={Home} />
                   <WalletLayout
                     path='/btc/transactions'
-                    component={BitcoinTransactions}
+                    component={Transactions}
+                    coin='BTC'
                   />
                   <WalletLayout
                     path='/eth/transactions'
-                    component={EtherTransactions}
+                    component={Transactions}
+                    coin='ETH'
                   />
                   <WalletLayout path='/buy-sell' component={BuySell} />
                   <WalletLayout
                     path='/bch/transactions'
-                    component={BchTransactions}
+                    component={Transactions}
+                    coin='BCH'
                   />
                   <WalletLayout
                     path='/exchange/history'

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Icon, IconButton, Separator, Text } from 'blockchain-info-components'
-import BitcoinCashWelcome from './BchWelcome'
+import BitcoinCashWelcome from './BchWelcome/index'
 
 const Wrapper = styled.div`
   display: flex;

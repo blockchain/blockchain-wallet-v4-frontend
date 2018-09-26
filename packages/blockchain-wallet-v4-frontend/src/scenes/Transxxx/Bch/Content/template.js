@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import EmptyTx from 'components/EmptyTx'
-import Empty from './Empty'
-import Pages from './Pages'
+import Empty from './Empty/index'
+import Pages from './Pages/index'
 
 const Wrapper = styled.div`
   display: flex;

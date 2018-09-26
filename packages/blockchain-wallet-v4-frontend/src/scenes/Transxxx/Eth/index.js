@@ -1,12 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
-import Content from './Content'
+
+import Content from './Content/index'
 
 const Wrapper = styled.div`
   width: 100%;
 `
 
-const BitcoinTransactionsContainer = () => {
+const EtherTransactionsContainer = () => {
   return (
     <Wrapper>
       <Content />
@@ -14,4 +15,4 @@ const BitcoinTransactionsContainer = () => {
   )
 }
 
-export default BitcoinTransactionsContainer
+export default EtherTransactionsContainer
