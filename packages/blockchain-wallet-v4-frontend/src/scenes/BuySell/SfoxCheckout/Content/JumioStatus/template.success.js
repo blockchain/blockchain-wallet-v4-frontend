@@ -126,7 +126,7 @@ export const Success = ({
             />
           </Link>
         ) : (
-          <Button onClick={handleOpen} nature='light' uppercase>
+          <Button onClick={handleOpen} nature='light'>
             <FormattedMessage
               id='scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification'
               defaultMessage='Complete Verification'
@@ -135,7 +135,7 @@ export const Success = ({
         )
       case 'FAILED':
         return (
-          <Button onClick={handleOpen} nature='light' uppercase>
+          <Button onClick={handleOpen} nature='light'>
             <FormattedMessage
               id='scenes.buysell.sfoxcheckout.content.jumio.button.tryagain'
               defaultMessage='Try Again'

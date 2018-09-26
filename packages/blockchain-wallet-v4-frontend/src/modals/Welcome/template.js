@@ -49,7 +49,6 @@ const Welcome = props => {
           <Button
             nature='primary'
             fullwidth
-            uppercase
             onClick={close}
             data-e2e='getStartedButton'
           >

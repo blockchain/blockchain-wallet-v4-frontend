@@ -204,8 +204,7 @@ const FiatConvertor = props => {
   const currency = 'BTC'
   const level = val.level || { name: 1 }
   const kyc = prop('kyc', val)
-  const { canTrade, cannotTradeReason, profile } = val
-  const { canTradeAfter } = profile
+  const { canTrade, cannotTradeReason, canTradeAfter } = val
   const isSell = form === 'coinifyCheckoutSell'
   const curr = isSell ? 'BTC' : symbol
 

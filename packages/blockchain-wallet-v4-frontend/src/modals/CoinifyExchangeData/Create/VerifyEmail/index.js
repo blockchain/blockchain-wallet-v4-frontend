@@ -37,9 +37,6 @@ class VerifyEmailContainer extends Component {
     } else {
       this.props.updateUI({ create: 'enter_email_code' })
       this.props.securityCenterActions.updateEmail(this.props.emailAddress)
-      this.props.securityCenterActions.sendConfirmationCodeEmail(
-        this.props.emailAddress
-      )
     }
   }
 

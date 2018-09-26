@@ -102,7 +102,6 @@ const Reminder = props => {
           <Button
             type='submit'
             nature='primary'
-            uppercase
             disabled={submitting || invalid || loading}
           >
             {loading ? (
@@ -131,7 +130,7 @@ const Reminder = props => {
           </Text>
         </SuccessMessages>
         <LinkContainer to='/login'>
-          <Button nature='primary' fullwidth uppercase>
+          <Button nature='primary' fullwidth>
             <FormattedMessage
               id='scenes.reminder.login'
               defaultMessage='Continue to Login'

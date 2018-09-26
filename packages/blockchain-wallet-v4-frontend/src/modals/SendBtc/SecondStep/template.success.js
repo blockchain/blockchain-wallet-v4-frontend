@@ -137,7 +137,7 @@ const Success = props => {
         </FiatDisplay>
       </Summary>
       <Footer>
-        <Button onClick={handleSubmit} nature='primary' fullwidth uppercase>
+        <Button onClick={handleSubmit} nature='primary' fullwidth>
           <FormattedMessage
             id='modals.sendbtc.secondstep.send'
             defaultMessage='Send Bitcoin'

@@ -200,7 +200,6 @@ const Register = props => {
             type='submit'
             nature='primary'
             fullwidth
-            uppercase
             disabled={busy || invalid}
             data-e2e='signupButton'
           >

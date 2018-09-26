@@ -6,7 +6,7 @@ import { selectors } from 'data'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
-import sagas from './sagas'
+import sagas, { userRequiresRestoreError } from './sagas'
 import { USER_ACTIVATION_STATES, KYC_STATES } from './model'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 
@@ -22,7 +22,8 @@ const api = {
   getUser: jest.fn(),
   updateUser: jest.fn(),
   updateUserAddress: jest.fn(),
-  syncUserWithWallet: jest.fn()
+  syncUserWithWallet: jest.fn(),
+  recoverUser: jest.fn()
 }
 
 const {
@@ -37,7 +38,8 @@ const {
   syncUserWithWallet,
   setSession,
   renewApiSockets,
-  renewSession
+  renewSession,
+  recoverUser
 } = sagas({
   api,
   coreSagas
@@ -393,4 +395,53 @@ describe('set session saga', () => {
       .call(fetchUser)
       .call(renewApiSockets)
       .run())
+
+  it('should trigger recoverUser if api token returns userRequiresRestoreError', () => {
+    api.generateSession.mockRejectedValue({
+      description: userRequiresRestoreError
+    })
+
+    return expectSaga(
+      setSession,
+      stubUserId,
+      stubLifetimeToken,
+      stubEmail,
+      stubGuid
+    )
+      .provide([[call.fn(recoverUser), jest.fn()]])
+      .call(recoverUser)
+      .run()
+  })
+})
+
+describe('recover user saga', () => {
+  it(`should
+    fetch retail token
+    select userId and lifetimeToken from kvStore
+    call recoverUser
+    and set session`, () => {
+    return expectSaga(recoverUser)
+      .provide([
+        [call.fn(generateRetailToken), stubRetailToken],
+        [
+          select(selectors.core.kvStore.userCredentials.getUserId),
+          Remote.of(stubUserId)
+        ],
+        [
+          select(selectors.core.kvStore.userCredentials.getLifetimeToken),
+          Remote.of(stubLifetimeToken)
+        ],
+        [select(selectors.core.settings.getEmail), Remote.of(stubEmail)],
+        [select(selectors.core.wallet.getGuid), stubGuid],
+        [call.fn(setSession), jest.fn()]
+      ])
+      .call(generateRetailToken)
+      .select(selectors.core.kvStore.userCredentials.getUserId)
+      .select(selectors.core.kvStore.userCredentials.getLifetimeToken)
+      .call(api.recoverUser, stubUserId, stubLifetimeToken, stubRetailToken)
+      .select(selectors.core.settings.getEmail)
+      .select(selectors.core.wallet.getGuid)
+      .call(setSession, stubUserId, stubLifetimeToken, stubEmail, stubGuid)
+      .run()
+  })
 })

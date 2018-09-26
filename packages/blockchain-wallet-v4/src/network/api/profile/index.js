@@ -24,6 +24,17 @@ export default ({
       data: { jwt: retailToken }
     })
 
+  const recoverUser = (userId, lifetimeToken, retailToken) =>
+    post({
+      url: nabuUrl,
+      endPoint: `/users/recover/${userId}`,
+      contentType: 'application/json',
+      headers: {
+        Authorization: `Bearer ${lifetimeToken}`
+      },
+      data: { jwt: retailToken }
+    })
+
   const generateSession = (userId, lifetimeToken, email, walletGuid) =>
     post({
       url: nabuUrl,
@@ -72,6 +83,7 @@ export default ({
 
   return {
     createUser,
+    recoverUser,
     generateRetailToken,
     generateSession,
     getUser,

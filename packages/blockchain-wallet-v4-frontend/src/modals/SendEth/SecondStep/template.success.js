@@ -138,7 +138,7 @@ const Success = props => {
         </FiatDisplay>
       </Summary>
       <Footer>
-        <Button onClick={handleSubmit} nature='primary' fullwidth uppercase>
+        <Button onClick={handleSubmit} nature='primary' fullwidth>
           <FormattedMessage
             id='modals.sendeth.secondstep.send'
             defaultMessage='Send Ether'
