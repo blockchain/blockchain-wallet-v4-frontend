@@ -41,7 +41,7 @@ import {
 } from 'blockchain-wallet-v4/src/redux/settings/selectors'
 import { getGuid } from 'blockchain-wallet-v4/src/redux/wallet/selectors'
 
-const { MODAL_NAME, STEPS, SMS_STEPS } = model.components.identityVerification
+const { KYC_MODAL, STEPS, SMS_STEPS } = model.components.identityVerification
 
 const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 
@@ -144,14 +144,14 @@ describe('IdentityVerification Modal', () => {
     it('should render after modal action', () => {
       expect(wrapper.find(Tray)).toHaveLength(0)
 
-      store.dispatch(actions.modals.showModal(MODAL_NAME))
+      store.dispatch(actions.modals.showModal(KYC_MODAL))
       wrapper.update()
 
       expect(wrapper.find(Tray)).toHaveLength(1)
     })
 
     it('should be hidden on close click', () => {
-      store.dispatch(actions.modals.showModal(MODAL_NAME))
+      store.dispatch(actions.modals.showModal(KYC_MODAL))
       wrapper.update()
       wrapper.find(ModalHeader).prop('onClose')()
       wrapper.update()
@@ -162,7 +162,7 @@ describe('IdentityVerification Modal', () => {
   describe('form behaviour', () => {
     getVerificationStep.mockImplementation(() => STEPS.personal)
     beforeEach(() => {
-      store.dispatch(actions.modals.showModal(MODAL_NAME))
+      store.dispatch(actions.modals.showModal(KYC_MODAL))
       coreSagas.settings.sendConfirmationCodeEmail.mockClear()
       coreSagas.settings.setMobile.mockClear()
       wrapper.update()
@@ -298,7 +298,7 @@ describe('IdentityVerification Modal', () => {
     beforeEach(() => {
       getSmsStep.mockImplementation(() => Remote.of(SMS_STEPS.edit))
       getVerificationStep.mockImplementation(() => STEPS.mobile)
-      store.dispatch(actions.modals.showModal(MODAL_NAME))
+      store.dispatch(actions.modals.showModal(KYC_MODAL))
       coreSagas.settings.sendConfirmationCodeEmail.mockClear()
       // coreSagas.settings.setMobile.mockClear()
       wrapper.update()

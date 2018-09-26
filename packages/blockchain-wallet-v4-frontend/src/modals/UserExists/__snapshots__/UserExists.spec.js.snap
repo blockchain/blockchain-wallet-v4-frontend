@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`User Exists modal Renders correctly 1`] = `
+<Modal
+  size="medium"
+>
+  <ModalBody
+    loading={false}
+  >
+    <UserExists__Header>
+      <FormattedMessage
+        defaultMessage="Email Address Already Used"
+        id="modals.userexists.title"
+        values={Object {}}
+      />
+    </UserExists__Header>
+    <UserExists__Row
+      size="14px"
+      weight={300}
+    >
+      <FormattedHTMLMessage
+        defaultMessage="Looks like the email <b>{email}</b> has already been used on a different Blockchain wallet."
+        id="modals.userexists.emailused"
+        values={
+          Object {
+            "email": "test@blockchain.com",
+          }
+        }
+      />
+    </UserExists__Row>
+    <UserExists__Row
+      size="14px"
+      weight={300}
+    >
+      <FormattedHTMLMessage
+        defaultMessage="If you didn't complete your identity verification on another Wallet, <b>change your email address</b> to continue your process."
+        id="modals.userexists.kycnotcomplete"
+        values={Object {}}
+      />
+    </UserExists__Row>
+    <UserExists__Row
+      size="14px"
+      weight={300}
+    >
+      <FormattedMessage
+        defaultMessage="If you have completed your verification you won't be able to get identity verified again."
+        id="modals.userexists.kyccomplete"
+        values={Object {}}
+      />
+       
+      <UserExists__TextLink
+        href=""
+        target="_blank"
+      >
+        <FormattedMessage
+          defaultMessage="Learn more"
+          id="modals.userexists.learnmore"
+          values={Object {}}
+        />
+      </UserExists__TextLink>
+    </UserExists__Row>
+  </ModalBody>
+  <UserExists__Footer>
+    <UserExists__CloseButton>
+      <FormattedMessage
+        defaultMessage="Close"
+        id="modals.userexists.close"
+        values={Object {}}
+      />
+    </UserExists__CloseButton>
+    <LinkContainer
+      activeClassName="active"
+      exact={false}
+      replace={false}
+      strict={false}
+      to="/security-center"
+    >
+      <Button
+        bold={false}
+        capitalize={false}
+        disabled={false}
+        fullwidth={false}
+        height="40px"
+        nature="primary"
+        rounded={false}
+        small={false}
+        uppercase={false}
+      >
+        <FormattedMessage
+          defaultMessage="Change Email"
+          id="modals.userexists.changeemail"
+          values={Object {}}
+        />
+      </Button>
+    </LinkContainer>
+  </UserExists__Footer>
+</Modal>
+`;

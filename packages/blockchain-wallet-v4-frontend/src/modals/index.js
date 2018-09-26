@@ -45,9 +45,10 @@ import TransferEth from './TransferEth'
 import TwoStepGoogleAuthenticator from './TwoStepGoogleAuthenticator'
 import TwoStepSetup from './TwoStepSetup'
 import TwoStepYubico from './TwoStepYubico'
-import UpgradeWallet from './UpgradeWallet'
-import Welcome from './Welcome'
 import UpgradeAddressLabels from './UpgradeAddressLabels'
+import UpgradeWallet from './UpgradeWallet'
+import UserExists from './UserExists'
+import Welcome from './Welcome'
 
 const Modals = props => (
   <div>
@@ -98,6 +99,7 @@ const Modals = props => (
     <TwoStepYubico />
     <UpgradeAddressLabels />
     <UpgradeWallet />
+    <UserExists />
     <Welcome />
   </div>
 )

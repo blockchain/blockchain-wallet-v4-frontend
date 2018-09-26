@@ -4,7 +4,7 @@ import { mount } from 'enzyme'
 import { head, last, path } from 'ramda'
 
 import { actions } from 'data'
-import { MODAL_NAME as IV_MODAL } from 'data/components/identityVerification/model'
+import { KYC_MODAL } from 'data/components/identityVerification/model'
 import { KYC_STATES } from 'data/modules/profile/model'
 import modalsReducer from 'data/modals/reducers'
 import profileReducer from 'data/modules/profile/reducers'
@@ -92,7 +92,7 @@ describe('Profile Settings', () => {
 
         const lastAction = last(dispatchSpy.mock.calls)[0]
         expect(path(['type'], lastAction)).toBe('SHOW_MODAL')
-        expect(path(['payload', 'type'], lastAction)).toBe(IV_MODAL)
+        expect(path(['payload', 'type'], lastAction)).toBe(KYC_MODAL)
       })
     })
 

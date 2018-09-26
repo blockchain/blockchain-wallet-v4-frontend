@@ -15,7 +15,9 @@ import {
   PERSONAL_FORM,
   BAD_CODE_ERROR,
   PHONE_EXISTS_ERROR,
-  UPDATE_FAILURE
+  UPDATE_FAILURE,
+  KYC_MODAL,
+  USER_EXISTS_MODAL
 } from './model'
 
 export const logLocation = 'components/identityVerification/sagas'
@@ -35,12 +37,23 @@ export default ({ api, coreSagas }) => {
   const {
     createUser,
     updateUser,
+    generateRetailToken,
     updateUserAddress,
     syncUserWithWallet
   } = profileSagas({
     api,
     coreSagas
   })
+
+  const verifyIdentity = function*() {
+    try {
+      const retailToken = yield call(generateRetailToken)
+      yield call(api.checkUserExistance, retailToken)
+      yield put(actions.modals.showModal(USER_EXISTS_MODAL))
+    } catch (e) {
+      yield put(actions.modals.showModal(KYC_MODAL))
+    }
+  }
 
   const initializeStep = function*() {
     const activationState = yield select(
@@ -260,6 +273,7 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
+    verifyIdentity,
     initializeStep,
     fetchSupportedCountries,
     fetchPossibleAddresses,
