@@ -2,9 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
+import * as bowser from 'bowser'
+import styled from 'styled-components'
+
 import { Remote } from 'blockchain-wallet-v4/src'
 import { required, validEtherAddress } from 'services/FormHelper'
 import {
+  Banner,
   Button,
   Text,
   Icon,
@@ -50,6 +54,9 @@ import ComboDisplay from 'components/Display/ComboDisplay'
 import RegularFeeLink from './RegularFeeLink'
 import PriorityFeeLink from './PriorityFeeLink'
 
+const BrowserWarning = styled(Banner)`
+  margin: -4px 0 8px;
+`
 const FirstStep = props => {
   const {
     pristine,
@@ -71,6 +78,9 @@ const FirstStep = props => {
     handleFeeToggle,
     balanceStatus
   } = props
+  const disableLockboxSend =
+    from.type === 'LOCKBOX' &&
+    !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -99,6 +109,16 @@ const FirstStep = props => {
           />
         </FormItem>
       </FormGroup>
+      {disableLockboxSend && (
+        <BrowserWarning type='warning'>
+          <Text color='warning' size='12px'>
+            <FormattedMessage
+              id='modals.sendeth.firststep.lockboxwarn'
+              defaultMessage='Sending Ether from Lockbox can only be done while using the Chrome browser'
+            />
+          </Text>
+        </BrowserWarning>
+      )}
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for='to'>
