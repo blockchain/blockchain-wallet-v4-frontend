@@ -57,6 +57,8 @@ const p = {
   txHex: 'txHex'
 }
 
+const STUB_TYPE = ADDRESS_TYPES.ACCOUNT
+
 const SELECT_ALL_RESULT = { outputs: [{ value: EFFECTIVE_BALANCE_AMOUNT }] }
 
 S.wallet.getWrapper.mockImplementation(() => {})
@@ -97,8 +99,10 @@ describe('createPayment', () => {
 
   describe('*to', () => {
     it('should call calculateTo', () => {
-      let gen = payment.to(TO_ADDRESS)
-      expect(gen.next().value).toEqual(call(__calculateTo, TO_ADDRESS, network))
+      let gen = payment.to(TO_ADDRESS, STUB_TYPE)
+      expect(gen.next().value).toEqual(
+        call(__calculateTo, TO_ADDRESS, STUB_TYPE, network)
+      )
       expect(gen.next().done).toEqual(true)
     })
   })
@@ -113,9 +117,9 @@ describe('createPayment', () => {
 
   describe('*from', () => {
     it('should set from', () => {
-      let gen = payment.from(ADDRESS_TYPES_INDEX)
+      let gen = payment.from(ADDRESS_TYPES_INDEX, STUB_TYPE)
       expect(gen.next().value).toEqual(
-        call(__calculateFrom, ADDRESS_TYPES_INDEX, network)
+        call(__calculateFrom, ADDRESS_TYPES_INDEX, STUB_TYPE, network)
       )
       expect(gen.next(ADDRESS_TYPES_DATA).value).toEqual(
         call(__getWalletUnspent, network, ADDRESS_TYPES_DATA)
