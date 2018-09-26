@@ -101,7 +101,7 @@ class App extends React.PureComponent {
                     component={BtcManageAddresses}
                   />
                   <WalletLayout
-                    path='/settings/addresses'
+                    path='/settings/addresses/btc'
                     component={Addresses}
                     exact
                   />

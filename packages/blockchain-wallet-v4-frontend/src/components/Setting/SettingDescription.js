@@ -5,6 +5,7 @@ const SettingDescription = styled.div`
   font-weight: 200;
   font-size: 14px;
   margin-top: 5px;
+  margin-bottom: 10px;
   color: ${props => props.theme['gray-5']};
 
   & > * {

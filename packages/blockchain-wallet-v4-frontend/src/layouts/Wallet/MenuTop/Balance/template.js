@@ -60,15 +60,14 @@ const getComponentOrder = path => {
 }
 
 const getSelectedComponent = path => {
-  switch (path) {
-    case '/btc/transactions':
+  switch (true) {
+    case path.includes('btc'):
       return <BtcBalance large />
-    case '/eth/transactions':
+    case path.includes('eth'):
       return <EthBalance large />
-    case '/bch/transactions':
+    case path.includes('bch'):
       return <BchBalance large />
-    case '/lockbox/dashboard':
-    case '/lockbox/settings':
+    case path.includes('lockbox'):
       return <LockboxTotalBalance />
     default:
       return <TotalBalance large />
@@ -76,30 +75,29 @@ const getSelectedComponent = path => {
 }
 
 const getBalanceMessage = path => {
-  switch (path) {
-    case '/btc/transactions':
+  switch (true) {
+    case path.includes('btc'):
       return (
         <FormattedMessage
           id='scenes.wallet.menutop.balance.bitcoinbalance'
           defaultMessage='Bitcoin Balance'
         />
       )
-    case '/eth/transactions':
+    case path.includes('eth'):
       return (
         <FormattedMessage
           id='scenes.wallet.menutop.balance.etherbalance'
           defaultMessage='Ether Balance'
         />
       )
-    case '/bch/transactions':
+    case path.includes('bch'):
       return (
         <FormattedMessage
           id='scenes.wallet.menutop.balance.bchbalance'
           defaultMessage='Bitcoin Cash Balance'
         />
       )
-    case '/lockbox/dashboard':
-    case '/lockbox/settings':
+    case path.includes('lockbox'):
       return (
         <FormattedMessage
           id='scenes.wallet.menutop.balance.lockboxbalance'
