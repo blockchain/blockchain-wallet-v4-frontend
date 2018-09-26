@@ -42,7 +42,7 @@ const Navigation = props => {
         <MenuItem data-e2e='buyAndSellLink'>
           <Icon name='nav-buy' />
           <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.buybitcoin'
+            id='layouts.wallet.menuleft.navigation.buysell'
             defaultMessage='Buy & Sell'
           />
         </MenuItem>

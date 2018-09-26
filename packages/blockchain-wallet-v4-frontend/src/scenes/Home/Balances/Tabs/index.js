@@ -67,7 +67,7 @@ class TabsContainer extends React.PureComponent {
   }
 
   handleClick (tab) {
-    this.props.preferencesActions.setBalancesTableTab(tab)
+    this.props.layoutActions.setBalancesTableTab(tab)
   }
 
   render () {
@@ -115,7 +115,7 @@ class TabsContainer extends React.PureComponent {
 }
 
 export const mapDispatchToProps = dispatch => ({
-  preferencesActions: bindActionCreators(actions.preferences, dispatch)
+  layoutActions: bindActionCreators(actions.components.layoutWallet, dispatch)
 })
 
 export default connect(

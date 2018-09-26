@@ -21,3 +21,9 @@ export const getLockboxOpened = path([
   'layoutWallet',
   'lockboxOpened'
 ])
+
+export const getBalancesTable = path([
+  'components',
+  'layoutWallet',
+  'balancesTable'
+])
