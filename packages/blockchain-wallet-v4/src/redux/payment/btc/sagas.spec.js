@@ -1,6 +1,6 @@
 import { call, select } from 'redux-saga/effects'
 import createPaymentFactory from './sagas'
-import { FROM, TO } from './utils'
+import { ADDRESS_TYPES } from './utils'
 import { prop } from 'ramda'
 import * as S from '../../selectors'
 import { btc } from '../../../signer'
@@ -32,25 +32,27 @@ const network = {
 
 const AMOUNT = 157228
 
-const FROM_INDEX = 0
+const ADDRESS_TYPES_INDEX = 0
 
 const PASSWORD_VALUE = 'password'
+
+const TRANSPORT_VALUE = undefined
 
 const CHANGE_ADDRESS = '1BzILT4NbxZp4TeeNM2TjdCUvHKW2ZHxFx'
 const TO_ADDRESS = '1LiASK9MawXo9SppMn3RhfWUvHKW2ZHxFx'
 
-const FROM_DATA = {
+const ADDRESS_TYPES_DATA = {
   change: 'change_address',
   from: ['xpub'],
-  fromAccountIdx: FROM_INDEX,
-  fromType: FROM.ACCOUNT
+  fromAccountIdx: ADDRESS_TYPES_INDEX,
+  fromType: ADDRESS_TYPES.ACCOUNT
 }
 
 const FEE_VALUE = 50
 
 const p = {
   fees: feeResult,
-  fromType: FROM.ACCOUNT,
+  fromType: ADDRESS_TYPES.ACCOUNT,
   selection: [],
   txHex: 'txHex'
 }
@@ -111,12 +113,12 @@ describe('createPayment', () => {
 
   describe('*from', () => {
     it('should set from', () => {
-      let gen = payment.from(FROM_INDEX)
+      let gen = payment.from(ADDRESS_TYPES_INDEX)
       expect(gen.next().value).toEqual(
-        call(__calculateFrom, FROM_INDEX, network)
+        call(__calculateFrom, ADDRESS_TYPES_INDEX, network)
       )
-      expect(gen.next(FROM_DATA).value).toEqual(
-        call(__getWalletUnspent, network, FROM_DATA)
+      expect(gen.next(ADDRESS_TYPES_DATA).value).toEqual(
+        call(__getWalletUnspent, network, ADDRESS_TYPES_DATA)
       )
     })
   })
@@ -161,6 +163,7 @@ describe('createPayment', () => {
           __calculateSignature,
           network,
           PASSWORD_VALUE,
+          TRANSPORT_VALUE,
           prop('fromType', p),
           prop('selection', p)
         )
@@ -180,65 +183,59 @@ describe('createPayment', () => {
   })
 
   describe('calculateSignature', () => {
-    it('should follow the FROM.ACCOUNT case', () => {
+    it('should follow the ADDRESS_TYPES.ACCOUNT case', () => {
       let WRAPPER_VALUE = {}
       let result = __calculateSignature(
         network,
         PASSWORD_VALUE,
-        FROM.ACCOUNT,
+        TRANSPORT_VALUE,
+        ADDRESS_TYPES.ACCOUNT,
         prop('selection', p)
       )
       expect(result.next().value).toEqual(select(S.wallet.getWrapper))
       expect(result.next(WRAPPER_VALUE).value).toBeTruthy()
       expect(result.next().done).toEqual(true)
     })
-    it('should follow the FROM.LEGACY case', () => {
+    it('should follow the ADDRESS_TYPES.LEGACY case', () => {
       let WRAPPER_VALUE = {}
       let result = __calculateSignature(
         network,
         PASSWORD_VALUE,
-        FROM.LEGACY,
+        TRANSPORT_VALUE,
+        ADDRESS_TYPES.LEGACY,
         prop('selection', p)
       )
       expect(result.next().value).toEqual(select(S.wallet.getWrapper))
       expect(result.next(WRAPPER_VALUE).value).toBeTruthy()
       expect(result.next().done).toEqual(true)
     })
-    it('should follow the FROM.EXTERNAL case', () => {
+    it('should follow the ADDRESS_TYPES.EXTERNAL case', () => {
       let result = __calculateSignature(
         network,
         PASSWORD_VALUE,
-        FROM.EXTERNAL,
+        TRANSPORT_VALUE,
+        ADDRESS_TYPES.EXTERNAL,
         prop('selection', p)
       )
       expect(result.next().value).toEqual(select(S.wallet.getWrapper))
       expect(result.next().value).toBe(true)
     })
-    it('should follow the FROM.WATCH_ONLY case', () => {
+    it('should follow the ADDRESS_TYPES.WATCH_ONLY case', () => {
       let result = __calculateSignature(
         network,
         PASSWORD_VALUE,
-        FROM.WATCH_ONLY,
+        TRANSPORT_VALUE,
+        ADDRESS_TYPES.WATCH_ONLY,
         prop('selection', p)
       )
       expect(result.next().value).toEqual(select(S.wallet.getWrapper))
       expect(result.next().value).toBe(true)
-    })
-    it('should default to throwing an error', () => {
-      let result = __calculateSignature(
-        network,
-        PASSWORD_VALUE,
-        'FROM.ERROR',
-        prop('selection', p)
-      )
-      expect(result.next().value).toEqual(select(S.wallet.getWrapper))
-      expect(() => result.next()).toThrow(new Error('unknown_from'))
     })
     it('should throw if no selection is passed', () => {
       let result = __calculateSignature(
         network,
         PASSWORD_VALUE,
-        FROM.WATCH_ONLY,
+        ADDRESS_TYPES.WATCH_ONLY,
         undefined
       )
       expect(() => result.next()).toThrow(new Error('missing_selection'))
@@ -446,7 +443,7 @@ describe('createPayment', () => {
       let result = __calculateTo(TO_ADDRESS, network)
       result.next()
       expect(result.next().value).toEqual([
-        { type: TO.ADDRESS, address: TO_ADDRESS }
+        { type: ADDRESS_TYPES.ADDRESS, address: TO_ADDRESS }
       ])
     })
   })
