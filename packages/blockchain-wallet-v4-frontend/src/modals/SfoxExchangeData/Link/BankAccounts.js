@@ -5,6 +5,7 @@ import { reduxForm, Field } from 'redux-form'
 import { TextBox, Form, FormGroup, FormItem, FormLabel } from 'components/Form'
 import { required } from 'services/FormHelper'
 import Bank from './Bank'
+import { Text } from 'blockchain-info-components'
 
 const Container = styled.div`
   display: flex;
@@ -15,8 +16,9 @@ const Container = styled.div`
     margin-top: 20px;
   }
 `
-const BankHolderFormGroup = styled(FormGroup)`
+const HolderText = styled(Text)`
   margin-top: 20px;
+  margin-bottom: 5px;
 `
 
 class BankAccounts extends Component {
@@ -41,12 +43,18 @@ class BankAccounts extends Component {
           {this.props.data.map(bank => {
             return <Bank bank={bank} onInputClick={this.onInputClick} />
           })}
-          <BankHolderFormGroup inline>
+          <HolderText size='18px' weight={400}>
+            <FormattedMessage
+              id='sfoxexchangedata.link.accountholder'
+              defaultMessage='Account Holder'
+            />
+          </HolderText>
+          <FormGroup inline>
             <FormItem>
               <FormLabel for='accountHolderFirst'>
                 <FormattedMessage
                   id='sfoxexchangedata.link.accountholderfirstname'
-                  defaultMessage="Account Holder's First Name"
+                  defaultMessage='First Name'
                 />
               </FormLabel>
               <Field
@@ -59,7 +67,7 @@ class BankAccounts extends Component {
               <FormLabel for='accountHolderLast'>
                 <FormattedMessage
                   id='sfoxexchangedata.link.accountholderlastname'
-                  defaultMessage="Account Holder's Last Name"
+                  defaultMessage='Last Name'
                 />
               </FormLabel>
               <Field
@@ -68,7 +76,7 @@ class BankAccounts extends Component {
                 validate={required}
               />
             </FormItem>
-          </BankHolderFormGroup>
+          </FormGroup>
         </Form>
       </Container>
     )
