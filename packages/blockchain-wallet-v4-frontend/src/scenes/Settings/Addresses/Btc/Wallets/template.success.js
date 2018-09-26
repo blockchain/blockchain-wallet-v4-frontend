@@ -37,12 +37,18 @@ const WalletTableCell = styled(TableCell)`
 const LabelCell = styled(Text)`
   margin-right: 6px;
 `
+const ErrorWrapper = styled.div`
+  margin-bottom: 20px;
+`
+const ErrorMessageText = styled(Text)`
+  margin-top: 5px;
+`
 
-const Success = ({ wallets, handleClick, onUnarchive, search }) => {
+const Success = ({ wallets, handleClick, onUnarchive, search, failure, message }) => {
   const isMatch = wallet =>
     !search || wallet.label.toLowerCase().indexOf(search) > -1
 
-  const walletTableRows = filter(isMatch, wallets).map(wallet => {
+  const walletTableRows = wallets && filter(isMatch, wallets).map(wallet => {
     return (
       <TableRow key={wallet.index}>
         <WalletTableCell width='50%'>
@@ -103,6 +109,25 @@ const Success = ({ wallets, handleClick, onUnarchive, search }) => {
 
   return (
     <Wrapper>
+      {
+        failure && <ErrorWrapper>
+          <Banner type='warning'>
+            <Text size='14px' color='error'>
+              <FormattedMessage
+                id='scenes.settings.addresses.btc.failurealert'
+                defaultMessage='There is an issue with the wallet and this page may have limited functionality, such as balances not showing.'
+              />
+              <ErrorMessageText size='14px' color='error'>
+                <FormattedMessage
+                  id='scenes.settings.addresses.btc.failuremessage'
+                  defaultMessage='Message: {errorMessage}'
+                  values={{ errorMessage: message || <span>Please contact<Link size='14px' href='https://support.blockchain.com/hc/en-us/requests/new' target='_blank'>support</Link> for help resolving the problem</span> }}
+                />
+              </ErrorMessageText>
+            </Text>
+          </Banner>
+        </ErrorWrapper>
+      }
       <BitcoinWalletsAddressesSettingHeader>
         <FormattedMessage
           id='scenes.settings.addresses.btc.wallets.bitcoinwallets'

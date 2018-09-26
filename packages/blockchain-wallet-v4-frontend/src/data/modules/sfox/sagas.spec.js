@@ -737,9 +737,7 @@ describe('sfoxSagas', () => {
     let saga = testSaga(initializePayment)
 
     it('should set loading', () => {
-      saga
-        .next(paymentMock)
-        .put(sfoxActions.sfoxSellBtcPaymentUpdatedLoading())
+      saga.next(paymentMock).put(sfoxActions.sfoxSellBtcPaymentUpdatedLoading())
     })
     it('should create the payment', () => {
       saga.next(paymentMock)
@@ -774,7 +772,13 @@ describe('sfoxSagas', () => {
           .throw(error)
           .put(sfoxActions.sfoxSellBtcPaymentUpdatedFailure(error))
           .next()
-          .put(actions.logs.logErrorMessage(logLocation, 'initializePayment', error))
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'initializePayment',
+              error
+            )
+          )
       })
     })
   })
