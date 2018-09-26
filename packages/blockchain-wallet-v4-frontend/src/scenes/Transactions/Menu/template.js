@@ -84,13 +84,15 @@ const EthPrivateKeysWrapper = styled.div`
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  margin-right: 15px;
+  margin-right: 10px;
+  min-width: 115px;
 `
 const ExportEthPrivateKeyText = styled(Text)`
   cursor: pointer;
 `
 const ReportingIcon = styled(Icon)`
   width: 40px;
+  margin-right: 10px;
 `
 const SearchIcon = styled(Icon)`
   position: absolute;
