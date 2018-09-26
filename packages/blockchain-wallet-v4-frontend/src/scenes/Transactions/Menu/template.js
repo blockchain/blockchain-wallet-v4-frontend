@@ -6,6 +6,7 @@ import { prop, flatten } from 'ramda'
 import { Icon } from 'blockchain-info-components'
 import {
   SelectBoxBtcAddresses,
+  SelectBoxBCHAddresses,
   TextBox,
   TabMenuTransactionStatus
 } from 'components/Form'
@@ -89,7 +90,7 @@ const SearchIcon = styled(Icon)`
 `
 
 const Menu = props => {
-  const { accounts, handleClickReporting } = props
+  const { accounts, handleClickReporting, coin } = props
   const options = flatten(accounts.map(prop('options')))
 
   return (
@@ -98,11 +99,20 @@ const Menu = props => {
         <Controls>
           {options.length > 1 && (
             <Addresses>
-              <Field
-                name='source'
-                component={SelectBoxBtcAddresses}
-                excludeLockbox
-              />
+              {coin === 'BTC' && (
+                <Field
+                  name='source'
+                  component={SelectBoxBtcAddresses}
+                  excludeLockbox
+                />
+              )}
+              {coin === 'BCH' && (
+                <Field
+                  name='source'
+                  component={SelectBoxBCHAddresses}
+                  excludeLockbox
+                />
+              )}
             </Addresses>
           )}
           <Status>
@@ -130,4 +140,4 @@ const Menu = props => {
   )
 }
 
-export default reduxForm({ form: 'btcTransactions' })(Menu)
+export default reduxForm({ form: 'transactions' })(Menu)

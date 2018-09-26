@@ -79,9 +79,15 @@ const WalletLayout = props => {
             </Top>
             {location.pathname === '/settings/addresses/btc' && <AddrMenu />}
             {location.pathname === '/settings/addresses/bch' && <AddrMenu />}
-            {location.pathname.includes('/btc/transactions') && <BtcMenu />}
-            {location.pathname.includes('/bch/transactions') && <BchMenu />}
-            {location.pathname.includes('/eth/transactions') && <EthMenu />}
+            {location.pathname.includes('/btc/transactions') && (
+              <BtcMenu coin='BTC' />
+            )}
+            {location.pathname.includes('/bch/transactions') && (
+              <BchMenu coin='BCH' />
+            )}
+            {location.pathname.includes('/eth/transactions') && (
+              <EthMenu coin='ETH' />
+            )}
             {location.pathname.includes('/exchange') && (
               <ExchangeMenu
                 historySelected={location.pathname.includes(

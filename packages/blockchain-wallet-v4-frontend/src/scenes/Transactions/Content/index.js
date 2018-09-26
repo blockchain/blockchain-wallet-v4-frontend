@@ -22,7 +22,7 @@ class ContentContainer extends React.PureComponent {
   }
 
   render () {
-    const { empty, pages, currency, search, buysellPartner } = this.props
+    const { empty, pages, coin, currency, search, buysellPartner } = this.props
 
     return (
       <Content
@@ -30,6 +30,7 @@ class ContentContainer extends React.PureComponent {
         search={search}
         pages={pages}
         currency={currency}
+        coin={coin}
         onRefresh={this.handleRefresh}
         buysellPartner={buysellPartner}
       />
