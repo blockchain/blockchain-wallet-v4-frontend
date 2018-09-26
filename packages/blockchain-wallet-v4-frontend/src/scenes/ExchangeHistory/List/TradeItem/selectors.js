@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { ifElse } from 'ramda'
+import { ifElse, propOr } from 'ramda'
 
 import { getCoinFromPair } from 'services/ShapeshiftService'
 import { model, selectors } from 'data'
@@ -21,13 +21,13 @@ const formatExchangeTrade = ({
     id,
     status: state,
     date: moment(createdAt).format(DATE_FORMAT),
-    sourceCoin: deposit.symbol,
-    targetCoin: deposit.symbol,
-    depositAmount: deposit.value,
-    withdrawalAmount: withdrawal.value,
-    targetFiat: fiatValue.value,
-    currency: fiatValue.symbol,
-    fee: withdrawalFee.value,
+    sourceCoin: propOr('', 'symbol', deposit),
+    targetCoin: propOr('', 'symbol', deposit),
+    depositAmount: propOr('', 'value', deposit),
+    withdrawalAmount: propOr('', 'value', withdrawal),
+    targetFiat: propOr('', 'value', fiatValue),
+    currency: propOr('', 'symbol', fiatValue),
+    fee: propOr('', 'value', withdrawalFee),
     rate,
     refundAmount,
     isShapeShiftTrade: false
