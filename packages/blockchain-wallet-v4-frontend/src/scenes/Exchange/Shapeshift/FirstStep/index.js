@@ -22,6 +22,9 @@ class FirstStepContainer extends React.Component {
     this.props.actions.firstStepInitialized()
   }
 
+  handleArchive = (address) =>
+    this.props.coreActions.setAddressArchived(address, true)
+
   render () {
     return this.props.data.cata({
       Success: value => (
@@ -43,7 +46,7 @@ class FirstStepContainer extends React.Component {
         />
       ),
       Failure: message => (
-        <DataError onClick={this.handleRefresh} message={message} />
+        <DataError onClick={this.handleRefresh} message={message} onArchive={this.handleArchive} />
       ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -56,7 +59,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.exchange, dispatch)
+  actions: bindActionCreators(actions.components.exchange, dispatch),
+  coreActions: bindActionCreators(actions.core.wallet, dispatch)
 })
 
 export default connect(
