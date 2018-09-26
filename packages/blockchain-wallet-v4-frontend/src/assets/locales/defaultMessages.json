@@ -1,1 +1,266 @@
-[]
+[
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "What is Coinify?",
+        "id": "coinifysignup.acceptterms.helper1.question"
+      },
+      {
+        "defaultMessage": "Coinify is a trading platform we’ve partnered with to bring you a harmonious buy & sell experience in your Blockchain wallet",
+        "id": "coinifysignup.acceptterms.helper1.answer"
+      },
+      {
+        "defaultMessage": "Create Your Account",
+        "id": "coinifyexchangedata.create.verifyemail.partner.header.createyouraccount"
+      },
+      {
+        "defaultMessage": "We teamed up with Coinify’s exchange platform to offer buy and sell to our customers in Europe. Accept their terms and conditions to start buying and selling.",
+        "id": "coinifyexchangedata.create.accept.partner.header.acceptterms"
+      },
+      {
+        "defaultMessage": "Verified Email Address",
+        "id": "sfoxexchangedata.create.createaccount.partner.verifiedemail"
+      },
+      {
+        "defaultMessage": "edit",
+        "id": "sfoxexchangedata.create.createaccount.partner.edit"
+      },
+      {
+        "defaultMessage": "edit email",
+        "id": "sfoxexchangedata.create.createaccount.partner.editemail"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "coinifyexchangedata.create.continue"
+      },
+      {
+        "defaultMessage": "Unfortunately this email is being used for another account.",
+        "id": "coinifyexchangedata.create.accept.error1"
+      },
+      {
+        "defaultMessage": "Click here",
+        "id": "coinifyexchangedata.create.accept.error2"
+      },
+      {
+        "defaultMessage": "to change it.",
+        "id": "coinifyexchangedata.create.accept.error3"
+      },
+      {
+        "defaultMessage": "We're sorry, but something unexpected went wrong. Please",
+        "id": "coinifyexchangedata.create.accept.unknownError"
+      },
+      {
+        "defaultMessage": "try again",
+        "id": "tryagain"
+      },
+      {
+        "defaultMessage": "or",
+        "id": "or"
+      },
+      {
+        "defaultMessage": "contact support.",
+        "id": "contactsupport"
+      },
+      {
+        "defaultMessage": "Error Description: {errorDescription}",
+        "id": "coinifyexchangedata.create.accept.support_error_description"
+      }
+    ],
+    "path": "src/modals/CoinifyExchangeData/Create/AcceptTerms/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Enter Address Manually",
+        "id": "identityverification.personal.manualaddress"
+      },
+      {
+        "defaultMessage": "Personal Details",
+        "id": "identityverification.personal.header"
+      },
+      {
+        "defaultMessage": "There's so much we'd love to know about you, but we only need a few things.",
+        "id": "identityverification.personal.subheader"
+      },
+      {
+        "defaultMessage": "First Name",
+        "id": "identityverification.personal.firstname"
+      },
+      {
+        "defaultMessage": "Last Name",
+        "id": "identityverification.personal.lastname"
+      },
+      {
+        "defaultMessage": "First & Last Name",
+        "id": "identityverification.personal.faq.name.title"
+      },
+      {
+        "defaultMessage": "They should match exactly the details in your passport or driving license.",
+        "id": "identityverification.personal.faq.name.text"
+      },
+      {
+        "defaultMessage": "Date of Birth",
+        "id": "identityverification.personal.dateofbirth"
+      },
+      {
+        "defaultMessage": "Age requirement",
+        "id": "identityverification.personal.faq.dateofbirth.title"
+      },
+      {
+        "defaultMessage": "Users must be at least 18 years old to trade crypto",
+        "id": "identityverification.personal.faq.dateofbirth.text"
+      },
+      {
+        "defaultMessage": "Select your country of residence",
+        "id": "identityverification.personal.country"
+      },
+      {
+        "defaultMessage": "Select country",
+        "id": "components.selectboxcountry.label"
+      },
+      {
+        "defaultMessage": "Zip Code",
+        "id": "identityverification.personal.zipcode"
+      },
+      {
+        "defaultMessage": "Postcode",
+        "id": "identityverification.personal.postcode"
+      },
+      {
+        "defaultMessage": "Oops, address lookup failed. {retry}",
+        "id": "identityverification.personal.addressrefetch"
+      },
+      {
+        "defaultMessage": "Address search",
+        "id": "identityverification.personal.faq.postcode.title"
+      },
+      {
+        "defaultMessage": "We try and prefill your address so you don’t have to fill out all the fields",
+        "id": "identityverification.personal.faq.postcode.text"
+      },
+      {
+        "defaultMessage": "Select Address",
+        "id": "identityverification.personal.selectaddress"
+      },
+      {
+        "defaultMessage": "Address",
+        "id": "identityverification.personal.address"
+      },
+      {
+        "defaultMessage": "Address 2",
+        "id": "identityverification.personal.address2"
+      },
+      {
+        "defaultMessage": "City",
+        "id": "identityverification.personal.city"
+      },
+      {
+        "defaultMessage": "State",
+        "id": "identityverification.personal.state"
+      },
+      {
+        "defaultMessage": "Region",
+        "id": "identityverification.personal.region"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "identityverification.personal.continue"
+      }
+    ],
+    "path": "src/modals/IdentityVerification/Personal/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Verify Your Identity",
+        "id": "identityverification.verify.header"
+      },
+      {
+        "defaultMessage": "Last step! We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.",
+        "id": "identityverification.verify.message"
+      },
+      {
+        "defaultMessage": "Government Issued Passport",
+        "id": "identityverification.verify.passport"
+      },
+      {
+        "defaultMessage": "Driver’s License",
+        "id": "identityverification.verify.driverslicense"
+      },
+      {
+        "defaultMessage": "Back",
+        "id": "identityverification.personal.back"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "identityverification.personal.continue"
+      }
+    ],
+    "path": "src/modals/IdentityVerification/Verify.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "That code doesn't match. {resend}.",
+        "id": "identityverification.personal.sms.badcode"
+      },
+      {
+        "defaultMessage": "This number is already in use.",
+        "id": "identityverification.personal.sms.numberexists"
+      },
+      {
+        "defaultMessage": "Updating mobile number failed, please try again",
+        "id": "identityverification.personal.sms.error"
+      },
+      {
+        "defaultMessage": "Didn't get our text? {resend}.",
+        "id": "identityverification.personal.sms.didntreceive"
+      },
+      {
+        "defaultMessage": "Verify your Phone Number",
+        "id": "identityverification.personal.mobile.header"
+      },
+      {
+        "defaultMessage": "Good news – you’re almost done! We need to confirm your phone number and get a copy of your photo ID. This will only take a few minutes.",
+        "id": "identityverification.personal.mobile.subheader"
+      },
+      {
+        "defaultMessage": "Enter your mobile number here",
+        "id": "identityverification.personal.mobile.entermobilenumber"
+      },
+      {
+        "defaultMessage": "Please add your phone",
+        "id": "identityverification.mobile.faq.phone.title"
+      },
+      {
+        "defaultMessage": "We will send you a SMS with verification code.",
+        "id": "identityverification.mobile.faq.phone.text"
+      },
+      {
+        "defaultMessage": "Send My Code",
+        "id": "identityverification.personal.mobile.sendmycode"
+      },
+      {
+        "defaultMessage": "Verification code",
+        "id": "identityverification.personal.mobile.entercode"
+      },
+      {
+        "defaultMessage": "We sent you a text message",
+        "id": "identityverification.mobile.faq.code.title"
+      },
+      {
+        "defaultMessage": "Your verification code is on its way. Once you receive it, please enter it.",
+        "id": "identityverification.mobile.faq.code.text"
+      },
+      {
+        "defaultMessage": "Back",
+        "id": "identityverification.personal.back"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "identityverification.personal.continue"
+      }
+    ],
+    "path": "src/modals/IdentityVerification/VerifyMobile/template.json"
+  }
+]

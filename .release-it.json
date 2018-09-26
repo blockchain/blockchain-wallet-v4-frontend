@@ -1,10 +1,13 @@
 {
   "src": {
-    "commitMessage": "chore(Release): %s",
+    "tagName": "v%s",
+    "tagAnnotation": "Release v%s",
+    "commitMessage": "chore(Release): v%s",
     "beforeStartCommand": "yarn manage:translations"
   },
   "github": {
-    "release": true,
+    "preRelease": true,
+    "releaseName": "v%s",
     "tokenRef": "RELEASE_IT_TOKEN"
   },
   "requireCleanWorkingDir": false,
