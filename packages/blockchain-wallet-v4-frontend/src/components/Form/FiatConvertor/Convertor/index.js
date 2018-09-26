@@ -78,6 +78,7 @@ class ConvertorContainer extends React.PureComponent {
         handleFocus={this.handleFocus}
         handleCoinChange={this.handleCoinChange}
         handleFiatChange={this.handleFiatChange}
+        data-e2e={this.props['data-e2e']}
       />
     )
   }

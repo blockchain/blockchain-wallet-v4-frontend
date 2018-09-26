@@ -18,7 +18,8 @@ export default ({ api }) => {
       }
       yield put(A.fetchDataSuccess(bitcoinData))
     } catch (e) {
-      yield put(A.fetchDataFailure(e.message))
+      if (prop('message', e)) yield put(A.fetchDataFailure(e.message))
+      else yield put(A.fetchDataFailure(e))
     }
   }
 

@@ -11,7 +11,7 @@ const Success = props => {
 
   return (
     <LinkContainer to='/eth/transactions'>
-      <Wrapper>
+      <Wrapper data-e2e='balanceDropdown-wallet-eth'>
         <CoinBalanceWrapper coin='ETH' balance={balance} large={large} />
       </Wrapper>
     </LinkContainer>

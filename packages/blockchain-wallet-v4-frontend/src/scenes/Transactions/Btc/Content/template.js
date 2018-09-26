@@ -29,6 +29,7 @@ const Success = props => {
             currency={props.currency}
             onRefresh={props.onRefresh}
             buysellPartner={props.buysellPartner}
+            onArchive={props.onArchive}
           />
         ))
       )}

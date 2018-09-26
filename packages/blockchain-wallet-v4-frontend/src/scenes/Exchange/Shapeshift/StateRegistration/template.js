@@ -76,7 +76,6 @@ const StateRegistrationStep = props => {
           </FormGroup>
           <SubmitButton
             nature='primary'
-            uppercase
             fullwidth
             type='submit'
             disabled={invalid || pristine}

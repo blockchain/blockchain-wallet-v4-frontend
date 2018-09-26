@@ -11,7 +11,7 @@ const Footer = props => {
   return (
     <Wrapper>
       <LinkContainer to='/security-center' activeClassName='active'>
-        <MenuItem>
+        <MenuItem data-e2e='securityCenterLink'>
           <Icon name='security' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.securitycenter'
@@ -25,7 +25,7 @@ const Footer = props => {
         activeClassName='active'
         className={settingsOpened ? 'active' : ''}
       >
-        <MenuItem>
+        <MenuItem data-e2e='settingsLink'>
           <Icon name='settings' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.settings'
@@ -36,7 +36,7 @@ const Footer = props => {
       {settingsOpened && (
         <SubMenu>
           <LinkContainer to='/settings/general' activeClassName='active'>
-            <SubMenuItem>
+            <SubMenuItem data-e2e='settings_generalLink'>
               <FormattedMessage
                 id='layouts.wallet.menuleft.navigation.general'
                 defaultMessage='General'
@@ -45,7 +45,7 @@ const Footer = props => {
           </LinkContainer>
           {userFlowSupported && (
             <LinkContainer to='/settings/profile' activeClassName='active'>
-              <SubMenuItem>
+              <SubMenuItem data-e2e='settings_profileLink'>
                 <FormattedMessage
                   id='layouts.wallet.menuleft.navigation.profile'
                   defaultMessage='Profile'
@@ -54,15 +54,15 @@ const Footer = props => {
             </LinkContainer>
           )}
           <LinkContainer to='/settings/preferences' activeClassName='active'>
-            <SubMenuItem>
+            <SubMenuItem data-e2e='settings_preferencesLink'>
               <FormattedMessage
                 id='layouts.wallet.menuleft.navigation.preferences'
                 defaultMessage='Preferences'
               />
             </SubMenuItem>
           </LinkContainer>
-          <LinkContainer to='/settings/addresses' activeClassName='active'>
-            <SubMenuItem>
+          <LinkContainer to='/settings/addresses/btc' activeClassName='active'>
+            <SubMenuItem data-e2e='settings_walletsLink'>
               <FormattedMessage
                 id='layouts.wallet.menuleft.navigation.addresses'
                 defaultMessage='Wallets & Addresses'

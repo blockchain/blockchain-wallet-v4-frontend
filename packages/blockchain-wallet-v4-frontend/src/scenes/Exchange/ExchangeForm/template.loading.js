@@ -66,7 +66,11 @@ const stubProps = {
   fix: BASE_IN_FIAT,
   min: null,
   max: null,
-  targetFee: Remote.NotAsked
+  targetFee: Remote.NotAsked,
+  sourceFee: {
+    source: 0,
+    target: 0
+  }
 }
 
 export default () => <Success {...stubProps} />

@@ -16,6 +16,7 @@ const Template = props => (
       size='11px'
       color='brand-secondary'
       onClick={props.toggleCoinDisplayed}
+      data-e2e='balanceDropdown-currency-switch'
     >
       {props.coinDisplayed ? (
         <FormattedMessage

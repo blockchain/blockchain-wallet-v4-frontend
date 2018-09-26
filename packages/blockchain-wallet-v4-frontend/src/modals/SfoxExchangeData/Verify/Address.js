@@ -213,7 +213,6 @@ const Address = props => {
       <ColRight>
         <ColRightInner>
           <Button
-            uppercase
             nature='primary'
             fullwidth
             type='submit'

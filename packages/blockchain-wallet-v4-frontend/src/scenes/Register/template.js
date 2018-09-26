@@ -74,7 +74,7 @@ const Register = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='24px' weight={300} capitalize>
+        <Text size='24px' weight={300} capitalize data-e2e='signupHeader'>
           <FormattedMessage
             id='scenes.register.create'
             defaultMessage='Create your Wallet'
@@ -200,8 +200,8 @@ const Register = props => {
             type='submit'
             nature='primary'
             fullwidth
-            uppercase
             disabled={busy || invalid}
+            data-e2e='signupButton'
           >
             {busy ? (
               <HeartbeatLoader height='20px' width='20px' color='white' />

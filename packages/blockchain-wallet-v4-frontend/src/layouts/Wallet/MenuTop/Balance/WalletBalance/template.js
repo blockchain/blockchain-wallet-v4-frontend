@@ -13,7 +13,7 @@ import {
 
 const Template = props => (
   <Wrapper>
-    <Header onClick={props.handleToggle}>
+    <Header onClick={props.handleToggle} data-e2e='balanceDropdown-wallet'>
       <HeaderText size='14px'>
         <Icon name='wallet' size='12px' style={{ marginRight: '10px' }} />
         <FormattedMessage

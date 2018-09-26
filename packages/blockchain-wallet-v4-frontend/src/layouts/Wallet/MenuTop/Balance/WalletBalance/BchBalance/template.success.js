@@ -12,7 +12,7 @@ const Success = props => {
 
   return (
     <LinkContainer to='/bch/transactions'>
-      <Wrapper>
+      <Wrapper data-e2e='balanceDropdown-wallet-bch'>
         <CoinBalanceWrapper coin='BCH' balance={balance} large={large} />
       </Wrapper>
     </LinkContainer>

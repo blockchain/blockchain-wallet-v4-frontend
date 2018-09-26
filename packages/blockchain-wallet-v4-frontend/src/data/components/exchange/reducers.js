@@ -13,7 +13,8 @@ const INITIAL_STATE = {
   limits: Remote.NotAsked,
   min: null,
   max: null,
-  targetFee: Remote.NotAsked
+  targetFee: Remote.NotAsked,
+  sourceFee: { source: 0, target: 0 }
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -85,6 +86,8 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('targetFee', Remote.Success(payload.fee), state)
     case AT.FETCH_TARGET_FEES_ERROR:
       return assoc('targetFee', Remote.Failure(payload.error), state)
+    case AT.SET_SOURCE_FEE:
+      return assoc('sourceFee', payload.fee, state)
     default:
       return state
   }

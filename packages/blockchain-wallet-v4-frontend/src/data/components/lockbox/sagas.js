@@ -28,9 +28,12 @@ export default ({ api }) => {
         throw new Error('deviceIndex or deviceType is required')
       }
       // close previous transport and reset old connection info
-      const { transport } = yield select(S.getCurrentConnection)
-      if (transport) transport.close()
-      yield put(A.resetConnectionStatus())
+      try {
+        const { transport } = yield select(S.getCurrentConnection)
+        if (transport) transport.close()
+      } finally {
+        yield put(A.resetConnectionStatus())
+      }
 
       if (!deviceType) {
         const deviceR = yield select(

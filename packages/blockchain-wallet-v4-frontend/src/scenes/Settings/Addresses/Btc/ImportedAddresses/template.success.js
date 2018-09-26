@@ -39,7 +39,8 @@ const Success = ({
   onToggleArchived,
   onShowPriv,
   onShowSignMessage,
-  search
+  search,
+  failure
 }) => {
   const isMatch = address =>
     !search || address.addr.toLowerCase().indexOf(search) > -1
@@ -63,15 +64,17 @@ const Success = ({
             !address.priv
               ? []
               : [
-                  <ClickableText
-                    size='small'
-                    onClick={() => onShowPriv(address)}
-                  >
-                    <FormattedMessage
-                      id='scenes.settings.addresses.show_priv'
-                      defaultMessage='Private Key'
-                    />
-                  </ClickableText>,
+                  !failure && (
+                    <ClickableText
+                      size='small'
+                      onClick={() => onShowPriv(address)}
+                    >
+                      <FormattedMessage
+                        id='scenes.settings.addresses.show_priv'
+                        defaultMessage='Private Key'
+                      />
+                    </ClickableText>
+                  ),
                   <ClickableText
                     size='small'
                     onClick={() => onShowSignMessage(address)}

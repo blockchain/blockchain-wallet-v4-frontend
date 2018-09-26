@@ -6,7 +6,7 @@ import { contains, isNil, gte } from 'ramda'
 
 import { model } from 'data'
 import media from 'services/ResponsiveService'
-import { formatAmount } from 'services/ValidationHelper'
+import { formatTextAmount } from 'services/ValidationHelper'
 
 import {
   Button,
@@ -52,7 +52,7 @@ const Cover = styled.div`
   width: 100%;
   height: 100%;
   z-index: 2;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.6);
 `
 
 const ColumnLeft = styled.div`
@@ -190,7 +190,7 @@ const ErrorRow = styled(Row)`
 
 const normalizeAmount = (value, prevValue, allValues, ...args) => {
   if (isNaN(Number(value))) return prevValue
-  return formatAmount(value, fiatActive(allValues.fix))
+  return formatTextAmount(value, fiatActive(allValues.fix))
 }
 
 const Success = props => {
@@ -354,7 +354,9 @@ const Success = props => {
                 }}
               />
             </AmountRow>
-            <ErrorRow spaced>{error && getErrorMessage(error)}</ErrorRow>
+            <ErrorRow spaced>
+              {dirty && error && getErrorMessage(error)}
+            </ErrorRow>
             <Row>
               <MinMaxButtonGroup>
                 <MinMaxButton

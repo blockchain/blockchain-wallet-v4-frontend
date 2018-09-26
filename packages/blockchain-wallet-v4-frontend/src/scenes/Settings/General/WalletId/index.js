@@ -36,7 +36,7 @@ const WalletId = props => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Text>{props.guid}</Text>
+        <Text data-e2e='walletId'>{props.guid}</Text>
       </SettingComponent>
     </SettingContainer>
   )
