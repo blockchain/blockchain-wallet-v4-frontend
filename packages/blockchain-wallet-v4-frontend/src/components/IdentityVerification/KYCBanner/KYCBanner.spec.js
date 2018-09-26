@@ -3,8 +3,7 @@ import { TestBed, getDispatchSpyReducer, createTestStore } from 'utils/testbed'
 import { mount } from 'enzyme'
 import { last, path } from 'ramda'
 
-import { actions } from 'data'
-import { KYC_MODAL } from 'data/components/identityVerification/model'
+import { actions, actionTypes } from 'data'
 import { KYC_STATES, USER_ACTIVATION_STATES } from 'data/modules/profile/model'
 import modalsReducer from 'data/modals/reducers'
 import profileReducer from 'data/modules/profile/reducers'
@@ -51,12 +50,13 @@ describe('Profile Settings', () => {
     })
 
     describe('KYC_STATE: NONE', () => {
-      it('should trigger IdentityVerification modal action on button click', () => {
+      it('should trigger verifyIdentity action on button click', () => {
         wrapper.find('button').simulate('click')
 
         const lastAction = last(dispatchSpy.mock.calls)[0]
-        expect(path(['type'], lastAction)).toBe('SHOW_MODAL')
-        expect(path(['payload', 'type'], lastAction)).toBe(KYC_MODAL)
+        expect(path(['type'], lastAction)).toBe(
+          actionTypes.components.identityVerification.VERIFY_IDENTITY
+        )
       })
     })
 

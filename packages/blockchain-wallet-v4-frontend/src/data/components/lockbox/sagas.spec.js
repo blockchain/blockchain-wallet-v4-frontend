@@ -85,11 +85,28 @@ const mdAccountsEntryMock = {
 describe('lockbox sagas', () => {
   const {
     pollForDeviceChannel,
+    checkDeviceAuthenticity,
     initializeNewDeviceSetup,
     saveNewDeviceKvStore
   } = lockboxSagas({
     api,
     coreSagas
+  })
+
+  describe('checkDeviceAuthenticity', () => {
+    const saga = testSaga(checkDeviceAuthenticity)
+
+    it('should set checkDeviceAuthenticity to loading', () => {
+      saga.next().put(A.checkDeviceAuthenticityLoading())
+    })
+    it('should get deviceType from getCurrentConnection', () => {
+      saga.next().select(S.getCurrentConnection)
+    })
+    it('should poll for deviceApp with deviceType', () => {
+      saga
+        .next({ deviceType: 'ledger' })
+        .put(A.pollForDeviceApp('DASHBOARD', null, 'ledger'))
+    })
   })
 
   describe('saveNewDeviceKvStore', () => {

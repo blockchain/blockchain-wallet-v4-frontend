@@ -3,8 +3,7 @@ import { TestBed, getDispatchSpyReducer, createTestStore } from 'utils/testbed'
 import { mount } from 'enzyme'
 import { head, last, path } from 'ramda'
 
-import { actions } from 'data'
-import { KYC_MODAL } from 'data/components/identityVerification/model'
+import { actions, actionTypes } from 'data'
 import { KYC_STATES } from 'data/modules/profile/model'
 import modalsReducer from 'data/modals/reducers'
 import profileReducer from 'data/modules/profile/reducers'
@@ -91,8 +90,9 @@ describe('Profile Settings', () => {
           .simulate('click')
 
         const lastAction = last(dispatchSpy.mock.calls)[0]
-        expect(path(['type'], lastAction)).toBe('SHOW_MODAL')
-        expect(path(['payload', 'type'], lastAction)).toBe(KYC_MODAL)
+        expect(path(['type'], lastAction)).toBe(
+          actionTypes.components.identityVerification.VERIFY_IDENTITY
+        )
       })
     })
 

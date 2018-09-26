@@ -271,7 +271,7 @@ export default ({ api }) => {
       },
 
       *to (destinations, type) {
-        let to = yield call(__calculateTo, destinations, network)
+        let to = yield call(__calculateTo, destinations, type, network)
         return makePayment(merge(p, { to }))
       },
 
@@ -281,7 +281,7 @@ export default ({ api }) => {
       },
 
       *from (origins, type) {
-        let fromData = yield call(__calculateFrom, origins, network)
+        let fromData = yield call(__calculateFrom, origins, type, network)
         try {
           let coins = yield call(__getWalletUnspent, network, fromData)
           let effectiveBalance = yield call(__calculateEffectiveBalance, {

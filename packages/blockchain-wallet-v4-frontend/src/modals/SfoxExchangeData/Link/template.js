@@ -270,7 +270,6 @@ const BankLink = props => {
         return (
           <Button
             nature='primary'
-            uppercase
             fullwidth
             onClick={submitMicroDeposits}
             disabled={ui.busy || invalid}
@@ -285,7 +284,6 @@ const BankLink = props => {
       return (
         <Button
           nature='primary'
-          uppercase
           fullwidth
           onClick={() => goToMicroDepositStep('amounts')}
         >
@@ -321,7 +319,6 @@ const BankLink = props => {
           <Button
             type='submit'
             nature='primary'
-            uppercase
             fullwidth
             disabled={busy || invalid || pristine}
           >
@@ -330,7 +327,7 @@ const BankLink = props => {
             ) : (
               <FormattedMessage
                 id='sfoxexchangedata.link.continue'
-                defaultMessage='continue'
+                defaultMessage='Continue'
               />
             )}
           </Button>
