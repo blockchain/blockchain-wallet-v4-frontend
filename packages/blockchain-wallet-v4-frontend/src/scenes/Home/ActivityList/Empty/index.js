@@ -38,7 +38,7 @@ const Empty = props => (
       </Text>
       {props.partner ? (
         <LinkContainer to='/buy-sell'>
-          <Button uppercase rounded nature='primary'>
+          <Button rounded nature='primary'>
             <FormattedMessage
               id='scenes.home.activitylist.empty.buybitcoin'
               defaultMessage='Buy Bitcoin'
@@ -46,12 +46,7 @@ const Empty = props => (
           </Button>
         </LinkContainer>
       ) : (
-        <Button
-          uppercase
-          rounded
-          nature='primary'
-          onClick={props.handleRequest}
-        >
+        <Button rounded nature='primary' onClick={props.handleRequest}>
           <FormattedMessage
             id='scenes.home.activitylist.empty.requestfunds'
             defaultMessage='Request Funds'

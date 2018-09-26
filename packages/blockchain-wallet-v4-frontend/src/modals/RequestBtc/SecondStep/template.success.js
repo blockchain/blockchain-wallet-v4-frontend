@@ -84,7 +84,6 @@ const SecondStep = props => {
             type='submit'
             nature={active ? 'copy' : 'primary'}
             fullwidth
-            uppercase
             data-e2e='requestBtc_copy_link_button'
           >
             {active ? (
@@ -95,7 +94,7 @@ const SecondStep = props => {
             ) : (
               <FormattedMessage
                 id='modals.requestbitcoin.secondstep.copy'
-                defaultMessage='Copy link'
+                defaultMessage='Copy Link'
               />
             )}
           </Button>

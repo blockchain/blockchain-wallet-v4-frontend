@@ -75,7 +75,6 @@ const AwaitingDeposits = ({ showModal }) => {
       </LeftCol>
       <RightCol>
         <Button
-          uppercase
           width='80%'
           nature='primary'
           onClick={() => showModal('SfoxEnterMicroDeposits')}
