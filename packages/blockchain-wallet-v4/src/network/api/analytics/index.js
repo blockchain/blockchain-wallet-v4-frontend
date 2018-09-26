@@ -38,11 +38,43 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       data: { name: `wallet_web_click_${name}` }
     })
 
+  const logSfoxAccountCreation = () =>
+    get({
+      url: rootUrl,
+      endPoint: '/event',
+      data: { name: `sfox_account_creation` }
+    })
+
+  const logSfoxQuote = type =>
+    get({
+      url: rootUrl,
+      endPoint: '/event',
+      data: { name: type }
+    })
+
+  const logSfoxTrade = type =>
+    get({
+      url: rootUrl,
+      endPoint: '/event',
+      data: { name: type }
+    })
+
+  const logSfoxDropoff = step =>
+    get({
+      url: rootUrl,
+      endPoint: '/event',
+      data: { name: `sfox_dropoff_${step}` }
+    })
+
   return {
     incrementCurrencyUsageStats,
     incrementLoginViaQrStats,
     incrementSecPasswordStats,
     incrementStat,
-    logClick
+    logClick,
+    logSfoxAccountCreation,
+    logSfoxDropoff,
+    logSfoxQuote,
+    logSfoxTrade
   }
 }
