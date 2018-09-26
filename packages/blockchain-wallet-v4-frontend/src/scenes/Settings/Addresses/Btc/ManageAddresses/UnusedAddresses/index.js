@@ -83,7 +83,7 @@ class UnusedAddressesContainer extends React.PureComponent {
     }
     const onSetArchived = () => {
       coreActions.setAccountArchived(account.index, true)
-      routerActions.push('/settings/addresses')
+      routerActions.push('/settings/addresses/btc')
     }
     const props = {
       account,
