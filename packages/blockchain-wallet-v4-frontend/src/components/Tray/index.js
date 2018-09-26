@@ -40,6 +40,10 @@ const TrayModal = styled(Modal)`
     ${media.mobile`
       padding-top: 20px;
       padding-bottom: 20px;
+      > span:last-child {
+        top: 20px;
+        right: 25px;
+      }
     `};
   }
   > div:last-child {
@@ -53,6 +57,11 @@ const TrayModal = styled(Modal)`
   ${media.tablet`
     width: 100%;
     left: 0px;
+  `};
+  ${media.mobile`
+    height: calc(100vh - 60px):
+    padding-top: 20px;
+    padding-bottom: 20px;
   `};
 `
 

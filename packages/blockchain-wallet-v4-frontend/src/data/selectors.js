@@ -8,6 +8,7 @@ import * as form from './form/selectors'
 import * as goals from './goals/selectors'
 import * as logs from './logs/selectors'
 import * as modals from './modals/selectors'
+import * as modules from './modules/selectors'
 import * as preferences from './preferences/selectors'
 import * as router from './router/selectors'
 import * as scroll from './scroll/selectors'
@@ -25,6 +26,7 @@ export {
   goals,
   logs,
   modals,
+  modules,
   preferences,
   router,
   scroll,

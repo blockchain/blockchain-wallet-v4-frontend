@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { SubmissionError } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import ui from 'redux-ui'
 import { take, map, sortBy, prop, range, keysIn, forEach, split } from 'ramda'
 
 import { actions } from 'data'
@@ -12,12 +11,14 @@ import ThirdStep from './template.js'
 class ThirdStepContainer extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.state = { hasError: false }
+    this.state = {
+      hasError: false,
+      indexes: []
+    }
     this.onSubmit = this.onSubmit.bind(this)
   }
 
   componentWillMount () {
-    const { updateUI } = this.props
     const randomize = sortBy(prop(0))
     const pair = map(x => [Math.random(), x])
     const indexes = compose(
@@ -26,7 +27,7 @@ class ThirdStepContainer extends React.PureComponent {
       randomize,
       pair
     )(range(0, 12))
-    updateUI({ indexes })
+    this.setState({ indexes })
   }
 
   onSubmit (values, disptach, props) {
@@ -55,11 +56,11 @@ class ThirdStepContainer extends React.PureComponent {
   }
 
   render () {
-    const { ui, ...rest } = this.props
+    const { ...rest } = this.props
     return (
       <ThirdStep
         {...rest}
-        indexes={ui.indexes}
+        indexes={this.state.indexes}
         onSubmit={this.onSubmit}
         hasError={this.state.hasError}
       />
@@ -71,12 +72,7 @@ const mapDispatchToProps = dispatch => ({
   walletActions: bindActionCreators(actions.wallet, dispatch)
 })
 
-const enhance = compose(
-  ui({ key: 'RecoveryPhraseVerification', state: { indexes: [] } }),
-  connect(
-    undefined,
-    mapDispatchToProps
-  )
-)
-
-export default enhance(ThirdStepContainer)
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(ThirdStepContainer)
