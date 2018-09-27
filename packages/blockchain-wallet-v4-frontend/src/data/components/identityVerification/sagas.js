@@ -48,6 +48,12 @@ export default ({ api, coreSagas }) => {
   const verifyIdentity = function*() {
     try {
       const retailToken = yield call(generateRetailToken)
+      const userId = (yield select(
+        selectors.core.kvStore.userCredentials.getUserId
+      )).getOrElse('')
+      if (userId) {
+        return yield put(actions.modals.showModal(KYC_MODAL))
+      }
       yield call(api.checkUserExistance, retailToken)
       yield put(actions.modals.showModal(USER_EXISTS_MODAL))
     } catch (e) {
