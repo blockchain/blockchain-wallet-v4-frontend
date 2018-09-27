@@ -4,22 +4,22 @@ exports[`User Exists modal Renders correctly 1`] = `
 <Modal
   size="medium"
 >
+  <UserExists__Header>
+    <FormattedMessage
+      defaultMessage="Oops! Looks like we have this email already"
+      id="modals.userexists.title"
+      values={Object {}}
+    />
+  </UserExists__Header>
   <ModalBody
     loading={false}
   >
-    <UserExists__Header>
-      <FormattedMessage
-        defaultMessage="Email Address Already Used"
-        id="modals.userexists.title"
-        values={Object {}}
-      />
-    </UserExists__Header>
     <UserExists__Row
       size="14px"
       weight={300}
     >
       <FormattedHTMLMessage
-        defaultMessage="Looks like the email <b>{email}</b> has already been used on a different Blockchain wallet."
+        defaultMessage="You may have started the verification process in a different Blockchain wallet."
         id="modals.userexists.emailused"
         values={
           Object {
@@ -33,7 +33,7 @@ exports[`User Exists modal Renders correctly 1`] = `
       weight={300}
     >
       <FormattedHTMLMessage
-        defaultMessage="If you didn't complete your identity verification on another Wallet, <b>change your email address</b> to continue your process."
+        defaultMessage="In order to complete verification, please consider using another email address."
         id="modals.userexists.kycnotcomplete"
         values={Object {}}
       />
@@ -43,7 +43,7 @@ exports[`User Exists modal Renders correctly 1`] = `
       weight={300}
     >
       <FormattedMessage
-        defaultMessage="If you have completed your verification you won't be able to get identity verified again."
+        defaultMessage="If you have already verified your profile on another Blockchain Wallet, we are unable to verify you again on another wallet."
         id="modals.userexists.kyccomplete"
         values={Object {}}
       />
@@ -61,13 +61,6 @@ exports[`User Exists modal Renders correctly 1`] = `
     </UserExists__Row>
   </ModalBody>
   <UserExists__Footer>
-    <UserExists__CloseButton>
-      <FormattedMessage
-        defaultMessage="Close"
-        id="modals.userexists.close"
-        values={Object {}}
-      />
-    </UserExists__CloseButton>
     <LinkContainer
       activeClassName="active"
       exact={false}

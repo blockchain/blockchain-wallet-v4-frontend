@@ -12,17 +12,13 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import {
   Modal,
   ModalBody,
+  ModalHeader,
   ModalFooter,
   Link,
   Text,
   Button
 } from 'blockchain-info-components'
 
-const Header = styled(Text)`
-  font-size: 20px;
-  font-weight: 400;
-  margin-bottom: 20px;
-`
 const Row = styled(Text)`
   margin-bottom: 20px;
   &:last-child {
@@ -38,40 +34,39 @@ const Footer = styled(ModalFooter)`
     justify-content: flex-end;
   }
 `
-const CloseButton = styled(Button)`
-  border: none;
-  margin-right: 15px;
+const Header = styled(ModalHeader)`
+  font-size: 18px;
 `
 
 const { USER_EXISTS_MODAL } = model.components.identityVerification
 
-export const UserExists = ({ position, total, email, close }) => {
+export const UserExists = ({ position, total, email }) => {
   return (
     <Modal size='medium' position={position} total={total}>
+      <Header>
+        <FormattedMessage
+          id='modals.userexists.title'
+          defaultMessage='Oops! Looks like we have this email already'
+        />
+      </Header>
       <ModalBody>
-        <Header>
-          <FormattedMessage
-            id='modals.userexists.title'
-            defaultMessage='Email Address Already Used'
-          />
-        </Header>
         <Row size='14px' weight={300}>
           <FormattedHTMLMessage
             id='modals.userexists.emailused'
-            defaultMessage='Looks like the email <b>{email}</b> has already been used on a different Blockchain wallet.'
+            defaultMessage='You may have started the verification process in a different Blockchain Wallet.'
             values={{ email }}
           />
         </Row>
         <Row size='14px' weight={300}>
           <FormattedHTMLMessage
             id='modals.userexists.kycnotcomplete'
-            defaultMessage="If you didn't complete your identity verification on another Wallet, <b>change your email address</b> to continue your process."
+            defaultMessage='In order to complete verification, please consider using another email address.'
           />
         </Row>
         <Row size='14px' weight={300}>
           <FormattedMessage
             id='modals.userexists.kyccomplete'
-            defaultMessage="If you have completed your verification you won't be able to get identity verified again."
+            defaultMessage='If you have already verified your profile on another Blockchain Wallet, we are unable to verify you again on another wallet.'
           />
           &nbsp;
           <TextLink target='_blank' href=''>
@@ -83,12 +78,6 @@ export const UserExists = ({ position, total, email, close }) => {
         </Row>
       </ModalBody>
       <Footer>
-        <CloseButton onClick={close}>
-          <FormattedMessage
-            id='modals.userexists.close'
-            defaultMessage='Close'
-          />
-        </CloseButton>
         <LinkContainer to='/security-center'>
           <Button nature='primary'>
             <FormattedMessage
