@@ -21,19 +21,12 @@ class MenuContainer extends React.PureComponent {
   }
 
   handleClickReporting () {
-    switch (this.props.coin) {
-      case 'BTC':
-        this.props.btcActions.reportClicked()
-        break
-      case 'BCH':
-        this.props.bchActions.reportClicked()
-        break
-      default:
-        break
-    }
+    this.props.coin === 'BTC'
+      ? this.props.btcActions.reportClicked()
+      : this.props.bchActions.reportClicked()
   }
 
-  // TODO: test all legacy eth stuff and fix CSS link
+  // TODO: test legacy eth stuff
   render () {
     return this.props.data.cata({
       Success: value => {
@@ -78,7 +71,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 MenuContainer.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'BCH', 'ETH'])
+  coin: PropTypes.oneOf(['BTC', 'BCH', 'ETH']).isRequired
 }
 
 export default connect(

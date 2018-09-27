@@ -32,7 +32,7 @@ class Pages extends React.PureComponent {
 }
 
 Pages.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'BCH', 'ETH'])
+  coin: PropTypes.oneOf(['BTC', 'BCH', 'ETH']).isRequired
 }
 
 export default Pages

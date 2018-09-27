@@ -45,76 +45,39 @@ const filterTransactions = curry((status, criteria, transactions) => {
     ])
   )
   const fullPredicate = allPass([isOfType(status), searchPredicate])
-
   return filter(fullPredicate, transactions)
 })
 
-// TODO: these coin selectors can all be one!
-export const getDataBtc = createSelector(
-  [
-    selectors.form.getFormValues('transactions'),
-    selectors.core.common.btc.getWalletTransactions,
-    selectors.core.kvStore.buySell.getMetadata,
-    selectors.core.settings.getCurrency
-  ],
-  (formValues, pages, buySellMetadata, currencyR) => {
-    const empty = page => isEmpty(page.data)
-    const search = propOr('', 'search', formValues)
-    const status = propOr('', 'status', formValues)
-    const filteredPages = !isEmpty(pages)
-      ? pages.map(map(filterTransactions(status, search)))
-      : []
-    const partnerData = prop('value', buySellMetadata.getOrElse())
-    const currency = currencyR.getOrElse('')
+const coinSelectorMap = {
+  ETH: selectors.core.common.eth.getWalletTransactions,
+  BTC: selectors.core.common.btc.getWalletTransactions,
+  BCH: selectors.core.common.bch.getWalletTransactions
+}
 
-    return {
-      currency: currency,
-      pages: filteredPages,
-      empty: all(empty)(filteredPages),
-      search: search.length > 0 || status !== '',
-      buySellPartner: hasAccount(partnerData)
+export const getData = (state, coin) =>
+  createSelector(
+    [
+      selectors.form.getFormValues('transactions'),
+      coinSelectorMap[coin],
+      selectors.core.kvStore.buySell.getMetadata,
+      selectors.core.settings.getCurrency
+    ],
+    (formValues, pages, buySellMetadata, currencyR) => {
+      const empty = page => isEmpty(page.data)
+      const search = propOr('', 'search', formValues)
+      const status = propOr('', 'status', formValues)
+      const filteredPages = !isEmpty(pages)
+        ? pages.map(map(filterTransactions(status, search)))
+        : []
+      const partnerData = prop('value', buySellMetadata.getOrElse())
+      const currency = currencyR.getOrElse('')
+
+      return {
+        currency: currency,
+        pages: filteredPages,
+        empty: all(empty)(filteredPages),
+        search: search.length > 0 || status !== '',
+        buySellPartner: hasAccount(partnerData)
+      }
     }
-  }
-)
-
-export const getDataBch = createSelector(
-  [
-    selectors.form.getFormValues('transactions'),
-    selectors.core.common.bch.getWalletTransactions
-  ],
-  (formValues, pages) => {
-    const empty = page => isEmpty(page.data)
-    const search = propOr('', 'search', formValues)
-    const status = propOr('', 'status', formValues)
-    const filteredPages = !isEmpty(pages)
-      ? pages.map(map(filterTransactions(status, search)))
-      : []
-
-    return {
-      pages: filteredPages,
-      empty: all(empty)(filteredPages),
-      search: search.length > 0 || status !== ''
-    }
-  }
-)
-
-export const getDataEth = createSelector(
-  [
-    selectors.form.getFormValues('transactions'),
-    selectors.core.common.eth.getWalletTransactions
-  ],
-  (formValues, pages) => {
-    const empty = page => isEmpty(page.data)
-    const search = propOr('', 'search', formValues)
-    const status = propOr('', 'status', formValues)
-    const filteredPages = !isEmpty(pages)
-      ? pages.map(map(filterTransactions(status, search)))
-      : []
-
-    return {
-      pages: filteredPages,
-      empty: all(empty)(filteredPages),
-      search: search.length > 0 || status !== ''
-    }
-  }
-)
+  )(state, coin)
