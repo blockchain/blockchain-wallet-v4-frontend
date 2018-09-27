@@ -37,8 +37,8 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   const updateCurrency = (guid, sharedKey, currency) =>
     updateSettings(guid, sharedKey, 'update-currency', currency)
 
-  const updateLastTxTime = (guid, sharedKey) =>
-    updateSettings(guid, sharedKey, 'update-last-tx-time')
+  const updateLastTxTime = (guid, sharedKey, time) =>
+    updateSettings(guid, sharedKey, 'update-last-tx-time', time)
 
   const updateLoggingLevel = (guid, sharedKey, loggingLevel) =>
     updateSettings(guid, sharedKey, 'update-logging-level', loggingLevel)

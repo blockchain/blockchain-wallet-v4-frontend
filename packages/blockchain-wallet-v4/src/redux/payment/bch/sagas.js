@@ -336,7 +336,7 @@ export default ({ api }) => {
 
       *publish () {
         let result = yield call(calculatePublish, p.txHex)
-        yield put(A.setLastTxTime)
+        yield put(A.setLastTxTime())
         return makePayment(merge(p, { result }))
       },
 

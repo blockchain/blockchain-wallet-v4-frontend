@@ -206,7 +206,7 @@ export default ({ api }) => {
         const publish = txHex => api.pushEthereumTx(signed).then(prop('txHash'))
         const txId = yield call(publish)
 
-        yield put(setLastTxTime)
+        yield put(setLastTxTime())
 
         return makePayment(merge(p, { txId }))
       },

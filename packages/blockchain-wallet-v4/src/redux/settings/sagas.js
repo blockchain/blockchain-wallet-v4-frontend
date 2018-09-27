@@ -134,14 +134,10 @@ export default ({ api }) => {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     let d = new Date()
-    const response = yield call(
-      api.updateLastTxTime,
-      guid,
-      sharedKey,
-      d.setHours(0, 0, 0, 0)
-    )
-    if (!contains('Success', toLower(response))) {
-      throw new Error(response)
+    let epoch = d.setHours(0, 0, 0, 0)
+    const response = yield call(api.updateLastTxTime, guid, sharedKey, epoch)
+    if (!contains('success', toLower(response))) {
+      console.log('setLastTxTime failed')
     }
   }
 
