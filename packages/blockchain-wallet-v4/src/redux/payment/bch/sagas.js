@@ -1,4 +1,4 @@
-import { call, select } from 'redux-saga/effects'
+import { call, select, put } from 'redux-saga/effects'
 import { merge, zip, prop, map, identity, isNil, isEmpty } from 'ramda'
 import Task from 'data.task'
 
@@ -6,6 +6,7 @@ import * as S from '../../selectors'
 import { bch } from '../../../signer'
 import * as CoinSelection from '../../../coinSelection'
 import * as Coin from '../../../coinSelection/coin'
+import * as A from '../../../redux/settings/actions'
 import {
   isValidBitcoinAddress,
   privateKeyStringToKey,
@@ -335,6 +336,7 @@ export default ({ api }) => {
 
       *publish () {
         let result = yield call(calculatePublish, p.txHex)
+        yield put(A.setLastTxTime)
         return makePayment(merge(p, { result }))
       },
 

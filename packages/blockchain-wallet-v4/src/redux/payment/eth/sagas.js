@@ -7,6 +7,7 @@ import * as A from '../../actions'
 import { isValidIndex } from './utils'
 import { eth } from '../../../signer'
 import { isString, isPositiveInteger } from '../../../utils/checks'
+import { setLastTxTime } from '../../../redux/settings/actions'
 import {
   calculateEffectiveBalance,
   isValidAddress,
@@ -204,6 +205,8 @@ export default ({ api }) => {
         if (isNil(signed)) throw new Error('missing_signed_tx')
         const publish = txHex => api.pushEthereumTx(signed).then(prop('txHash'))
         const txId = yield call(publish)
+
+        yield put(setLastTxTime)
 
         return makePayment(merge(p, { txId }))
       },
