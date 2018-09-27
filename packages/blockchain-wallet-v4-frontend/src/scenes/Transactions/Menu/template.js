@@ -152,7 +152,7 @@ const Menu = props => {
                     selectedComponent={<EthPrivateKeys />}
                     components={[
                       <ExportEthPrivateKeyText
-                        size='small'
+                        size='medium'
                         onClick={() => onShowEthPrivateKey(false)}
                       >
                         <FormattedMessage

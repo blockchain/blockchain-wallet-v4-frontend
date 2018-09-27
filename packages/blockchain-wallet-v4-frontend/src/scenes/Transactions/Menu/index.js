@@ -51,11 +51,11 @@ const mapStateToProps = (state, ownProps) => {
   switch (ownProps.coin) {
     case 'ETH':
       return {
-        data: Remote.of(
-          selectors.core.kvStore.ethereum
+        data: Remote.of({
+          legacyEthAddr: selectors.core.kvStore.ethereum
             .getLegacyAccountAddress(state)
             .getOrElse(null)
-        )
+        })
       }
     default:
       return {
