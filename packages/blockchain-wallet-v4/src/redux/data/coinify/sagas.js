@@ -8,6 +8,7 @@ import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import { coinifyService } from '../../../exchange/service'
 import * as buySellA from '../../kvStore/buySell/actions'
 import { equals, head, prop, sort, path } from 'ramda'
+import { setLastTxTime } from '../../settings/actions.js'
 
 export default ({ api, options }) => {
   const getCoinify = function*() {
@@ -258,6 +259,9 @@ export default ({ api, options }) => {
       const accounts = yield apply(mediums[medium], mediums[medium].getAccounts)
       const buyResult = yield apply(accounts[0], accounts[0].buy)
       yield put(A.handleTradeSuccess(buyResult))
+
+      yield put(setLastTxTime())
+
       const coinifyObj = yield call(getCoinify)
       yield put(A.fetchTrades(coinifyObj))
 
