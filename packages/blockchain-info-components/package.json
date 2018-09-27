@@ -26,6 +26,7 @@
       "cross-env rimraf lib && babel --out-dir lib --ignore spec.js --copy-files src",
     "test:debug":
       "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
+    "test:update": "cross-env ./../../node_modules/.bin/jest -u",
     "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll"
   },
   "jest": {
