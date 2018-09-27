@@ -26,7 +26,6 @@ class MenuContainer extends React.PureComponent {
       : this.props.bchActions.reportClicked()
   }
 
-  // TODO: test legacy eth stuff
   render () {
     return this.props.data.cata({
       Success: value => {
