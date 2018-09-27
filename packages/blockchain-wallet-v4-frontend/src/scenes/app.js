@@ -34,7 +34,6 @@ import General from './Settings/General'
 import Profile from './Settings/Profile'
 import Preferences from './Settings/Preferences'
 import Transactions from './Transactions'
-import EthTransactions from './Transactions/Eth'
 
 class App extends React.PureComponent {
   render () {
@@ -76,7 +75,7 @@ class App extends React.PureComponent {
                   />
                   <WalletLayout
                     path='/eth/transactions'
-                    component={EthTransactions}
+                    component={Transactions}
                     coin='ETH'
                   />
                   <WalletLayout

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 
 import { Icon, IconButton, Separator, Text } from 'blockchain-info-components'
 import CoinWelcome from './CoinWelcome'
@@ -26,7 +27,7 @@ const Transactions = styled.div`
     margin-top: 14px;
   }
 `
-const Bitcoin = styled.div`
+const SendRequestContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -63,20 +64,33 @@ const Empty = props => {
         </Text>
         <Separator />
       </Transactions>
-      <Bitcoin>
-        <IconButton name='send' nature='empty' onClick={handleSend}>
-          <FormattedMessage
-            id='scenes.transactions.content.empty.send'
-            defaultMessage='Send'
-          />
-        </IconButton>
-        <IconButton name='request' nature='empty' onClick={handleRequest}>
-          <FormattedMessage
-            id='scenes.transactions.content.empty.request'
-            defaultMessage='Request'
-          />
-        </IconButton>
-      </Bitcoin>
+      {coin === 'ETH' ? (
+        <SendRequestContainer>
+          <LinkContainer to='/exchange'>
+            <IconButton name='exchange' nature='empty'>
+              <FormattedMessage
+                id='scenes.transactions.content.empty.getether'
+                defaultMessage='Get Ether'
+              />
+            </IconButton>
+          </LinkContainer>
+        </SendRequestContainer>
+      ) : (
+        <SendRequestContainer>
+          <IconButton name='send' nature='empty' onClick={handleSend}>
+            <FormattedMessage
+              id='scenes.transactions.content.empty.send'
+              defaultMessage='Send'
+            />
+          </IconButton>
+          <IconButton name='request' nature='empty' onClick={handleRequest}>
+            <FormattedMessage
+              id='scenes.transactions.content.empty.request'
+              defaultMessage='Request'
+            />
+          </IconButton>
+        </SendRequestContainer>
+      )}
     </Wrapper>
   )
 }

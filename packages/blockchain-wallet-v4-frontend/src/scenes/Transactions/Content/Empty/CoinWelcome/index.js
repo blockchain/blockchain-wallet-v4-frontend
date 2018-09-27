@@ -4,9 +4,11 @@ import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 
 import { actions, selectors } from 'data'
-import BtcWelcome from './template.btc.js'
-import BchWelcome from './template.bch.js'
+import BtcWelcome from './template.btc'
+import BchWelcome from './template.bch'
+import EthWelcome from './template.eth'
 
+// TODO: refactor methods and preferences updates
 class CoinWelcomeContainer extends React.PureComponent {
   constructor (props) {
     super(props)
@@ -14,6 +16,16 @@ class CoinWelcomeContainer extends React.PureComponent {
     this.handleRequestBtc = this.handleRequestBtc.bind(this)
     this.handleClickBch = this.handleClickBch.bind(this)
     this.handleRequestBch = this.handleRequestBch.bind(this)
+    this.handleClickEth = this.handleClickEth.bind(this)
+    this.handleRequestEth = this.handleRequestEth.bind(this)
+  }
+
+  handleClickEth () {
+    this.props.preferencesActions.setEtherWelcome(false)
+  }
+
+  handleRequestEth () {
+    this.props.modalActions.showModal('RequestEther')
   }
 
   handleClickBtc () {
@@ -40,10 +52,12 @@ class CoinWelcomeContainer extends React.PureComponent {
       bchBalanceR,
       ethBalanceR,
       showBtcWelcome,
-      showBchWelcome
+      showBchWelcome,
+      showEthWelcome
     } = this.props
     const exchangeBtc = ethBalanceR.getOrElse(0) + bchBalanceR.getOrElse(0) > 0
     const exchangeBch = ethBalanceR.getOrElse(0) + btcBalanceR.getOrElse(0) > 0
+    const exchangeEth = btcBalanceR.getOrElse(0) + bchBalanceR.getOrElse(0) > 0
     const partnerBtc = canBuyBtc.cata({
       Success: val => val,
       Loading: () => false,
@@ -71,8 +85,14 @@ class CoinWelcomeContainer extends React.PureComponent {
           />
         )
       case 'ETH':
-        // TODO
-        return null
+        return (
+          <EthWelcome
+            displayed={showEthWelcome}
+            handleClick={this.handleClickEth}
+            handleRequest={this.handleRequestEth}
+            exchange={exchangeEth}
+          />
+        )
       default:
         return null
     }
@@ -85,6 +105,7 @@ const mapStateToProps = state => ({
   btcBalanceR: selectors.core.data.bitcoin.getBalance(state),
   showBchWelcome: selectors.preferences.getShowBitcoinCashWelcome(state),
   showBtcWelcome: selectors.preferences.getShowBitcoinWelcome(state),
+  showEthWelcome: selectors.preferences.getShowEtherWelcome(state),
   canBuyBtc: selectors.exchange.getCanTrade(state, 'Buy')
 })
 

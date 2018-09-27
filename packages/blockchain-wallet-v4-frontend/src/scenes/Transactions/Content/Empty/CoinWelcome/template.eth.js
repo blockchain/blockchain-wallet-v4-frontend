@@ -79,7 +79,7 @@ const EtherWelcome = props => {
           <Cell small>
             <Text size='24px' weight={300} color='brand-primary' uppercase>
               <FormattedMessage
-                id='scenes.transaction.ether.content.empty.etherwelcome.welcome'
+                id='scenes.transaction.content.empty.etherwelcome.welcome'
                 defaultMessage='Welcome to'
               />
             </Text>
@@ -94,7 +94,7 @@ const EtherWelcome = props => {
               uppercase
             >
               <FormattedMessage
-                id='scenes.transaction.ether.content.empty.etherwelcome.learnmore'
+                id='scenes.transaction.content.empty.etherwelcome.learnmore'
                 defaultMessage='Learn More'
               />
               <Icon name='right-arrow' color='brand-secondary' />
@@ -104,7 +104,7 @@ const EtherWelcome = props => {
             <Cell>
               <Text weight={300} color='brand-primary' uppercase>
                 <FormattedMessage
-                  id='scenes.transaction.ether.content.empty.etherwelcome.what'
+                  id='scenes.transaction.content.empty.etherwelcome.what'
                   defaultMessage='What is ether?'
                 />
               </Text>
@@ -112,19 +112,19 @@ const EtherWelcome = props => {
               <TextGroup inline>
                 <Text size='12px' weight={300}>
                   <FormattedMessage
-                    id='scenes.transaction.ether.content.empty.etherwelcome.currency'
+                    id='scenes.transaction.content.empty.etherwelcome.currency'
                     defaultMessage='Ether is a digital currency.'
                   />
                 </Text>
                 <Text size='12px' weight={300}>
                   <FormattedMessage
-                    id='scenes.transaction.ether.content.empty.etherwelcome.transact'
+                    id='scenes.transaction.content.empty.etherwelcome.transact'
                     defaultMessage='Like Bitcoin, it enables people around the world to transact, save, and hedge their way to a better financial future.'
                   />
                 </Text>
                 <Text size='12px' weight={300}>
                   <FormattedMessage
-                    id='scenes.transaction.ether.content.empty.etherwelcome.platform'
+                    id='scenes.transaction.content.empty.etherwelcome.platform'
                     defaultMessage='In addition to sending value, ether also powers the Ethereum platform.'
                   />
                 </Text>
@@ -133,7 +133,7 @@ const EtherWelcome = props => {
             <Cell>
               <Text weight={300} color='brand-primary' uppercase>
                 <FormattedMessage
-                  id='scenes.transaction.ether.content.empty.etherwelcome.why'
+                  id='scenes.transaction.content.empty.etherwelcome.why'
                   defaultMessage='Why should I use it?'
                 />
               </Text>
@@ -141,13 +141,13 @@ const EtherWelcome = props => {
               <TextGroup inline>
                 <Text size='12px' weight={300}>
                   <FormattedMessage
-                    id='scenes.transaction.ether.content.empty.etherwelcome.grow'
+                    id='scenes.transaction.content.empty.etherwelcome.grow'
                     defaultMessage='As the Ethereum platform grows, more intelligent applications will be built on top of it.'
                   />
                 </Text>
                 <Text size='12px' weight={300}>
                   <FormattedMessage
-                    id='scenes.transaction.ether.content.empty.etherwelcome.opportunity'
+                    id='scenes.transaction.content.empty.etherwelcome.opportunity'
                     defaultMessage="We want to give you the opportunity to start using ether now, so you' ll be ready to use these products in the future."
                   />
                 </Text>
@@ -160,7 +160,7 @@ const EtherWelcome = props => {
             <LinkContainer to='/exchange'>
               <Button nature='primary' margin='20px' fullwidth>
                 <FormattedMessage
-                  id='scenes.transaction.ether.content.empty.etherwelcome.getstarted'
+                  id='scenes.transaction.content.empty.etherwelcome.getstarted'
                   defaultMessage='Get Started With Ether'
                 />
               </Button>
@@ -173,7 +173,7 @@ const EtherWelcome = props => {
               fullwidth
             >
               <FormattedMessage
-                id='scenes.transaction.ether.content.empty.etherwelcome.getstarted'
+                id='scenes.transaction.content.empty.etherwelcome.getstarted'
                 defaultMessage='Get Started With Ether'
               />
             </Button>

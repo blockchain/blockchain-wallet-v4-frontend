@@ -96,3 +96,24 @@ export const getDataBch = createSelector(
     }
   }
 )
+
+export const getDataEth = createSelector(
+  [
+    selectors.form.getFormValues('transactions'),
+    selectors.core.common.eth.getWalletTransactions
+  ],
+  (formValues, pages) => {
+    const empty = page => isEmpty(page.data)
+    const search = propOr('', 'search', formValues)
+    const status = propOr('', 'status', formValues)
+    const filteredPages = !isEmpty(pages)
+      ? pages.map(map(filterTransactions(status, search)))
+      : []
+
+    return {
+      pages: filteredPages,
+      empty: all(empty)(filteredPages),
+      search: search.length > 0 || status !== ''
+    }
+  }
+)

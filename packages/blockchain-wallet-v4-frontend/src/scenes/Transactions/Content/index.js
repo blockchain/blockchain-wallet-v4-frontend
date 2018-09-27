@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 
-import { getDataBtc, getDataBch } from './selectors'
+import { getDataBtc, getDataBch, getDataEth } from './selectors'
 import { actions } from 'data'
 import Content from './template'
 
@@ -50,17 +50,43 @@ const mapStateToProps = (state, ownProps) => {
     case 'BCH':
       return { ...getDataBch(state) }
     case 'ETH':
-      return {}
+      return { ...getDataEth(state) }
     default:
       return {}
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  dataActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
-  txActions: bindActionCreators(actions.components.btcTransactions, dispatch),
-  coreWalletActions: bindActionCreators(actions.core.wallet, dispatch)
-})
+const mapDispatchToProps = (dispatch, ownProps) => {
+  switch (ownProps.coin) {
+    case 'BTC':
+      return {
+        dataActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
+        txActions: bindActionCreators(
+          actions.components.btcTransactions,
+          dispatch
+        ),
+        coreWalletActions: bindActionCreators(actions.core.wallet, dispatch)
+      }
+    case 'BCH':
+      return {
+        dataActions: bindActionCreators(actions.core.data.bch, dispatch),
+        txActions: bindActionCreators(
+          actions.components.bchTransactions,
+          dispatch
+        )
+      }
+    case 'ETH':
+      return {
+        dataActions: bindActionCreators(actions.core.data.ethereum, dispatch),
+        txActions: bindActionCreators(
+          actions.components.ethTransactions,
+          dispatch
+        )
+      }
+    default:
+      return {}
+  }
+}
 
 ContentContainer.propTypes = {
   coin: PropTypes.oneOf(['BTC', 'BCH', 'ETH'])

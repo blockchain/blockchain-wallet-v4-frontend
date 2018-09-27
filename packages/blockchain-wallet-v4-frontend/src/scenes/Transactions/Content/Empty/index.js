@@ -21,9 +21,6 @@ class EmptyContainer extends React.PureComponent {
       case 'BCH':
         this.props.modalActions.showModal('SendBch')
         break
-      case 'ETH':
-        // TODO
-        break
       default:
         break
     }
