@@ -102,7 +102,7 @@ const SearchIcon = styled(Icon)`
 const EthPrivateKeys = () => (
   <Link weight={300} size='12px'>
     <FormattedMessage
-      id='scenes.transactions.privatekeys'
+      id='scenes.transactions.menu.ethprivatekeys'
       defaultMessage='Private Keys'
     />
   </Link>
@@ -123,20 +123,13 @@ const Menu = props => {
         <Controls>
           {options.length > 1 && (
             <Addresses>
-              {coin === 'BTC' && (
-                <Field
-                  name='source'
-                  component={SelectBoxBtcAddresses}
-                  excludeLockbox
-                />
-              )}
-              {coin === 'BCH' && (
-                <Field
-                  name='source'
-                  component={SelectBoxBCHAddresses}
-                  excludeLockbox
-                />
-              )}
+              <Field
+                name='source'
+                component={
+                  coin === 'BTC' ? SelectBoxBtcAddresses : SelectBoxBCHAddresses
+                }
+                excludeLockbox
+              />
             </Addresses>
           )}
           <Status>

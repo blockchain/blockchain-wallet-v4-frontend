@@ -1,6 +1,7 @@
 import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 
+/// TODO: fix update and write moar tests!
 describe('Btc Transactions selectors', () => {
   describe('getData', () => {
     it('should return the correct transaction(s)', () => {

@@ -8,7 +8,7 @@ import BtcWelcome from './template.btc'
 import BchWelcome from './template.bch'
 import EthWelcome from './template.eth'
 
-// TODO: refactor methods and preferences updates
+// TODO: refactor methods and preferences redux
 class CoinWelcomeContainer extends React.PureComponent {
   constructor (props) {
     super(props)

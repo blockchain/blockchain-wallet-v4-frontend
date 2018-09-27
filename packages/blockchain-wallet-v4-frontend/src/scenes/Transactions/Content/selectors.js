@@ -49,6 +49,7 @@ const filterTransactions = curry((status, criteria, transactions) => {
   return filter(fullPredicate, transactions)
 })
 
+// TODO: these coin selectors can all be one!
 export const getDataBtc = createSelector(
   [
     selectors.form.getFormValues('transactions'),
