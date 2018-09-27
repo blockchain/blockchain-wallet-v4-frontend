@@ -8,42 +8,7 @@ import BtcWelcome from './template.btc'
 import BchWelcome from './template.bch'
 import EthWelcome from './template.eth'
 
-// TODO: refactor methods and preferences redux
 class CoinWelcomeContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleClickBtc = this.handleClickBtc.bind(this)
-    this.handleRequestBtc = this.handleRequestBtc.bind(this)
-    this.handleClickBch = this.handleClickBch.bind(this)
-    this.handleRequestBch = this.handleRequestBch.bind(this)
-    this.handleClickEth = this.handleClickEth.bind(this)
-    this.handleRequestEth = this.handleRequestEth.bind(this)
-  }
-
-  handleClickEth () {
-    this.props.preferencesActions.setEtherWelcome(false)
-  }
-
-  handleRequestEth () {
-    this.props.modalActions.showModal('RequestEther')
-  }
-
-  handleClickBtc () {
-    this.props.preferencesActions.setBitcoinWelcome(false)
-  }
-
-  handleRequestBtc () {
-    this.props.modalActions.showModal('RequestBitcoin')
-  }
-
-  handleClickBch () {
-    this.props.preferencesActions.setBitcoinCashWelcome(false)
-  }
-
-  handleRequestBch () {
-    this.props.modalActions.showModal('RequestBch')
-  }
-
   render () {
     const {
       coin,
@@ -65,22 +30,16 @@ class CoinWelcomeContainer extends React.PureComponent {
       NotAsked: () => false
     })
     switch (coin) {
-      case 'BTC':
-        return (
-          <BtcWelcome
-            displayed={showBtcWelcome}
-            handleClick={this.handleClickBtc}
-            handleRequest={this.handleRequestBtc}
-            partner={partnerBtc}
-            exchange={exchangeBtc}
-          />
-        )
       case 'BCH':
         return (
           <BchWelcome
             displayed={showBchWelcome}
-            handleClick={this.handleClickBch}
-            handleRequest={this.handleRequestBch}
+            handleClick={() => {
+              this.props.preferencesActions.setBitcoinCashWelcome(false)
+            }}
+            handleRequest={() => {
+              this.props.modalActions.showModal('RequestBch')
+            }}
             exchange={exchangeBch}
           />
         )
@@ -88,13 +47,29 @@ class CoinWelcomeContainer extends React.PureComponent {
         return (
           <EthWelcome
             displayed={showEthWelcome}
-            handleClick={this.handleClickEth}
-            handleRequest={this.handleRequestEth}
+            handleClick={() => {
+              this.props.preferencesActions.setEtherWelcome(false)
+            }}
+            handleRequest={() => {
+              this.props.modalActions.showModal('RequestEther')
+            }}
             exchange={exchangeEth}
           />
         )
       default:
-        return null
+        return (
+          <BtcWelcome
+            displayed={showBtcWelcome}
+            handleClick={() => {
+              this.props.preferencesActions.setBitcoinWelcome(false)
+            }}
+            handleRequest={() => {
+              this.props.modalActions.showModal('RequestBitcoin')
+            }}
+            partner={partnerBtc}
+            exchange={exchangeBtc}
+          />
+        )
     }
   }
 }

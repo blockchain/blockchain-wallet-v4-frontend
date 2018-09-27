@@ -15,9 +15,6 @@ class EmptyContainer extends React.PureComponent {
 
   handleSend () {
     switch (this.props.coin) {
-      case 'BTC':
-        this.props.modalActions.showModal('SendBitcoin')
-        break
       case 'BCH':
         this.props.modalActions.showModal('SendBch')
         break
@@ -25,15 +22,13 @@ class EmptyContainer extends React.PureComponent {
         this.props.modalActions.showModal('SendEther')
         break
       default:
+        this.props.modalActions.showModal('SendBitcoin')
         break
     }
   }
 
   handleRequest () {
     switch (this.props.coin) {
-      case 'BTC':
-        this.props.modalActions.showModal('RequestBitcoin')
-        break
       case 'BCH':
         this.props.modalActions.showModal('RequestBch')
         break
@@ -41,6 +36,7 @@ class EmptyContainer extends React.PureComponent {
         this.props.modalActions.showModal('RequestEther')
         break
       default:
+        this.props.modalActions.showModal('RequestBitcoin')
         break
     }
   }
