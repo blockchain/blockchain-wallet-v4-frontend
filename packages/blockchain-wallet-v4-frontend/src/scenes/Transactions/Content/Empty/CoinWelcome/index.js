@@ -16,9 +16,7 @@ class CoinWelcomeContainer extends React.PureComponent {
       btcBalanceR,
       bchBalanceR,
       ethBalanceR,
-      showBtcWelcome,
-      showBchWelcome,
-      showEthWelcome
+      showCoinIntro
     } = this.props
     const exchangeBtc = ethBalanceR.getOrElse(0) + bchBalanceR.getOrElse(0) > 0
     const exchangeBch = ethBalanceR.getOrElse(0) + btcBalanceR.getOrElse(0) > 0
@@ -33,9 +31,9 @@ class CoinWelcomeContainer extends React.PureComponent {
       case 'BCH':
         return (
           <BchWelcome
-            displayed={showBchWelcome}
+            displayed={showCoinIntro}
             handleClick={() => {
-              this.props.preferencesActions.setBitcoinCashWelcome(false)
+              this.props.preferencesActions.setCoinShowIntro('BCH', false)
             }}
             handleRequest={() => {
               this.props.modalActions.showModal('RequestBch')
@@ -46,9 +44,9 @@ class CoinWelcomeContainer extends React.PureComponent {
       case 'ETH':
         return (
           <EthWelcome
-            displayed={showEthWelcome}
+            displayed={showCoinIntro}
             handleClick={() => {
-              this.props.preferencesActions.setEtherWelcome(false)
+              this.props.preferencesActions.setCoinShowIntro('ETH', false)
             }}
             handleRequest={() => {
               this.props.modalActions.showModal('RequestEther')
@@ -59,9 +57,9 @@ class CoinWelcomeContainer extends React.PureComponent {
       default:
         return (
           <BtcWelcome
-            displayed={showBtcWelcome}
+            displayed={showCoinIntro}
             handleClick={() => {
-              this.props.preferencesActions.setBitcoinWelcome(false)
+              this.props.preferencesActions.setCoinShowIntro('BTC', false)
             }}
             handleRequest={() => {
               this.props.modalActions.showModal('RequestBitcoin')
@@ -74,13 +72,11 @@ class CoinWelcomeContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
   ethBalanceR: selectors.core.data.ethereum.getBalance(state),
   bchBalanceR: selectors.core.data.bch.getBalance(state),
   btcBalanceR: selectors.core.data.bitcoin.getBalance(state),
-  showBchWelcome: selectors.preferences.getShowBitcoinCashWelcome(state),
-  showBtcWelcome: selectors.preferences.getShowBitcoinWelcome(state),
-  showEthWelcome: selectors.preferences.getShowEtherWelcome(state),
+  showCoinIntro: selectors.preferences.getCoinShowIntro(state, ownProps.coin),
   canBuyBtc: selectors.exchange.getCanTrade(state, 'Buy')
 })
 
