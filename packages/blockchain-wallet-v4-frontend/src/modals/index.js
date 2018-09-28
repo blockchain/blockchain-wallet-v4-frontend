@@ -24,7 +24,6 @@ import PairingCode from './PairingCode'
 import PromptInput from './PromptInput'
 import PromptLockbox from './PromptLockbox'
 import QRCode from './QRCode'
-import RecoveryPhrase from './RecoveryPhrase'
 import RequestBch from './RequestBch'
 import RequestBitcoin from './RequestBtc'
 import RequestEther from './RequestEth'
@@ -75,7 +74,6 @@ const Modals = props => (
     <PromptInput />
     <PromptLockbox />
     <QRCode />
-    <RecoveryPhrase />
     <RequestBch />
     <RequestBitcoin />
     <RequestEther />
