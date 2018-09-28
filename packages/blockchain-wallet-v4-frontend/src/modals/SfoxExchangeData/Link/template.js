@@ -305,33 +305,19 @@ const BankLink = props => {
             <Text size='13px' weight={300} color='error'>
               {linkError}
             </Text>
-            {
-              equals(linkError, 'There was an error linking your bank')
-                ? <Link
-                  size='13px'
-                  weight={300}
-                  onClick={() => {
-                    resetAccountHolder()
-                  }}>
-                  <FormattedMessage
-                    id='sfoxexchangedata.link.tryagain'
-                    defaultMessage='Try again'
-                  />
-                </Link>
-                : <Link
-                  size='13px'
-                  weight={300}
-                  onClick={() => {
-                    toggleManual()
-                    setNotAsked()
-                  }}
-                >
-                  <FormattedMessage
-                    id='sfoxexchangedata.link.tryagain'
-                    defaultMessage='Try again'
-                  />
-                </Link>
-            }
+            <Link
+              size='13px'
+              weight={300}
+              onClick={() => {
+                equals(linkError, 'There was an error linking your bank')
+                  ? resetAccountHolder()
+                  : toggleManual(); setNotAsked()
+              }}>
+              <FormattedMessage
+                id='sfoxexchangedata.link.tryagain'
+                defaultMessage='Try again'
+              />
+            </Link>
           </Fragment>
         ) : (
           <Button
