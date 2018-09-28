@@ -19,6 +19,7 @@ import {
   ColRightInner
 } from 'components/IdentityVerification'
 import media from 'services/ResponsiveService'
+import { equals } from 'ramda'
 
 const Form = styled.form`
   width: 100%;
@@ -169,7 +170,8 @@ const BankLink = props => {
     busy,
     linkError,
     setNotAsked,
-    awaitingDeposits
+    awaitingDeposits,
+    resetAccountHolder
   } = props
 
   const titleHelper = () => {
@@ -273,7 +275,7 @@ const BankLink = props => {
             uppercase
             fullwidth
             onClick={submitMicroDeposits}
-            disabled={ui.busy || invalid}
+            disabled={busy || invalid}
           >
             <FormattedMessage
               id='sfoxexchangedata.link.microdeposits.submitverification'
@@ -307,13 +309,13 @@ const BankLink = props => {
               size='13px'
               weight={300}
               onClick={() => {
-                toggleManual()
-                setNotAsked()
-              }}
-            >
+                equals(linkError, 'There was an error linking your bank')
+                  ? resetAccountHolder()
+                  : toggleManual(); setNotAsked()
+              }}>
               <FormattedMessage
                 id='sfoxexchangedata.link.tryagain'
-                defaultMessage='Try again.'
+                defaultMessage='Try again'
               />
             </Link>
           </Fragment>
@@ -325,7 +327,7 @@ const BankLink = props => {
             fullwidth
             disabled={busy || invalid || pristine}
           >
-            {Remote.Loading.is(busy) ? (
+            {busy ? (
               <HeartbeatLoader height='20px' width='20px' color='white' />
             ) : (
               <FormattedMessage
