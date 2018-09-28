@@ -11,7 +11,7 @@ import {
 import { Button, Icon } from 'blockchain-info-components'
 
 const AddDevice = props => {
-  const { onClick } = props
+  const { onClick, isBrowserChrome } = props
 
   return (
     <SettingContainer>
@@ -30,7 +30,7 @@ const AddDevice = props => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button nature='empty' onClick={onClick}>
+        <Button nature='empty' onClick={onClick} disabled={!isBrowserChrome}>
           <Icon name='open-in-new-tab' size='20px' />
         </Button>
       </SettingComponent>

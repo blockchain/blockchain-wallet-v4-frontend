@@ -1,36 +1,33 @@
 import moment from 'moment'
-import { ifElse } from 'ramda'
+import { ifElse, propOr } from 'ramda'
 
 import { getCoinFromPair } from 'services/ShapeshiftService'
 import { model, selectors } from 'data'
 
 const { DATE_FORMAT, isShapeShiftTrade } = model.components.exchangeHistory
-const { splitPair } = model.rates
 
 const formatExchangeTrade = ({
+  id,
   state,
-  pair,
   createdAt,
-  depositQuantity,
-  withdrawalQuantity,
-  targetFiat,
-  currency,
-  fee,
+  deposit,
+  withdrawal,
+  fiatValue,
+  withdrawalFee,
   rate,
   refundAmount
 }) => {
-  const [sourceCoin, targetCoin] = splitPair(pair)
-
   return {
+    id,
     status: state,
     date: moment(createdAt).format(DATE_FORMAT),
-    sourceCoin,
-    targetCoin,
-    depositAmount: depositQuantity,
-    withdrawalAmount: withdrawalQuantity,
-    targetFiat,
-    currency,
-    fee,
+    sourceCoin: propOr('', 'symbol', deposit),
+    targetCoin: propOr('', 'symbol', withdrawal),
+    depositAmount: propOr('', 'value', deposit),
+    withdrawalAmount: propOr('', 'value', withdrawal),
+    targetFiat: propOr('', 'value', fiatValue),
+    currency: propOr('', 'symbol', fiatValue),
+    fee: propOr('', 'value', withdrawalFee),
     rate,
     refundAmount,
     isShapeShiftTrade: false

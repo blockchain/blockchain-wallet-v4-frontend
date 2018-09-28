@@ -11,7 +11,7 @@ const Success = props => {
 
   return (
     <LinkContainer to='/lockbox'>
-      <Wrapper>
+      <Wrapper data-e2e='balanceDropdown-lockbox-btc'>
         <CoinBalanceWrapper coin='BTC' balance={balance} />
       </Wrapper>
     </LinkContainer>

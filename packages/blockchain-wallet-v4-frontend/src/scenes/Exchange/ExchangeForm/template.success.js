@@ -2,11 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import { contains } from 'ramda'
+import { contains, isNil, gte } from 'ramda'
 
 import { model } from 'data'
 import media from 'services/ResponsiveService'
-import { formatAmount } from 'services/ValidationHelper'
+import { formatTextAmount } from 'services/ValidationHelper'
 
 import {
   Button,
@@ -20,17 +20,16 @@ import { ExchangeButton } from 'components/Exchange'
 import { Form, TextBox } from 'components/Form'
 import StringDisplay from 'components/Display/StringDisplay'
 import SelectBox from './SelectBox'
-import {
-  AboveRegulationLimitMessage,
-  MaximumAmountMessage,
-  MinimumAmountMessage,
-  InsufficientAmountMessage,
-  InvalidAmountMessage
-} from './validationMessages'
+import { getErrorMessage } from './validationMessages'
 import Summary from './Summary'
 
-const { EXCHANGE_FORM } = model.components.exchange
-const { fixIsFiat, formatPair } = model.rates
+const {
+  EXCHANGE_FORM,
+  NO_LIMITS_ERROR,
+  MAXIMUM_NO_LINK_ERROR,
+  MINIMUM_NO_LINK_ERROR
+} = model.components.exchange
+const { fiatActive, formatPair } = model.rates
 
 const Wrapper = styled.div`
   position: relative;
@@ -53,11 +52,12 @@ const Cover = styled.div`
   width: 100%;
   height: 100%;
   z-index: 2;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.6);
 `
 
 const ColumnLeft = styled.div`
   margin-right: 34px;
+  max-width: 450px;
   @media (min-width: 992px) {
     width: 60%;
   }
@@ -66,7 +66,9 @@ const ColumnLeft = styled.div`
   `};
 `
 const ColumnRight = styled.div`
+  max-width: 450px;
   @media (min-width: 992px) {
+    max-width: 345px;
     width: 40%;
   }
 `
@@ -98,6 +100,14 @@ const MinMaxButtonGroup = styled(ButtonGroup)`
   > * {
     color: ${props => props.theme['brand-primary']};
   }
+`
+const MinMaxButton = styled(Button)`
+  font-size: 10px;
+  justify-content: space-between;
+`
+const MinMaxValue = styled.div`
+  font-weight: 600;
+  font-size: 14px;
 `
 const AmountTextBox = styled(TextBox)`
   height: 86px;
@@ -156,17 +166,6 @@ const CoinFiatSwapIcon = styled(Icon)`
       props.disabled ? props.theme['gray-1'] : props.theme['brand-secondary']};
   }
 `
-const ActiveCurrencyIndicator = styled.div`
-  height: 12px;
-  width: 12px;
-  background-color: ${props =>
-    props.active ? props.theme[props.coin] : props.theme['white']};
-  border-radius: 7px;
-  border: 1px solid;
-  border-color: ${props =>
-    props.active ? props.theme[props.coin] : props.theme['gray-3']};
-  margin-right: 8px;
-`
 const ActiveCurrencyButton = styled.div`
   cursor: pointer;
   height: 12px;
@@ -184,22 +183,28 @@ const FieldsWrapper = styled.div`
   border: 1px solid ${props => props.theme['gray-2']}};
   margin-bottom: 45px;
 `
+const ErrorRow = styled(Row)`
+  justify-content: center;
+  min-height: 15px;
+`
 
 const normalizeAmount = (value, prevValue, allValues, ...args) => {
   if (isNaN(Number(value))) return prevValue
-  return formatAmount(value, fixIsFiat(allValues.fix))
+  return formatTextAmount(value, fiatActive(allValues.fix))
 }
 
 const Success = props => {
   const {
-    betaFlow,
+    disabled,
+    dirty,
+    asyncValidating,
+    error,
+    submitting,
     canUseExchange,
     availablePairs,
     fromElements,
     toElements,
     hasOneAccount,
-    disabled,
-    dirty,
     sourceCoin,
     targetCoin,
     sourceActive,
@@ -208,19 +213,31 @@ const Success = props => {
     inputSymbol,
     complementaryAmount,
     complementarySymbol,
-    formError,
+    min,
+    max,
     handleSubmit,
     handleSourceChange,
     handleTargetChange,
     handleAmountChange,
     swapFix,
     swapBaseAndCounter,
-    swapCoinAndFiat
+    swapCoinAndFiat,
+    useMin,
+    useMax
   } = props
   const swapDisabled = !contains(
     formatPair(targetCoin, sourceCoin),
     availablePairs
   )
+  const minMaxDisabled =
+    contains(error, [
+      NO_LIMITS_ERROR,
+      MAXIMUM_NO_LINK_ERROR,
+      MINIMUM_NO_LINK_ERROR
+    ]) ||
+    gte(min, max) ||
+    isNil(min) ||
+    isNil(max)
 
   return (
     <Wrapper>
@@ -230,21 +247,13 @@ const Success = props => {
           <FieldsWrapper>
             <Row>
               <Cell>
-                {betaFlow ? (
-                  <ActiveCurrencyButton
-                    onClick={() => {
-                      if (betaFlow && !disabled && !sourceActive) swapFix()
-                    }}
-                    props={{}}
-                    checked={sourceActive}
-                    coin={sourceCoin.toLowerCase()}
-                  />
-                ) : (
-                  <ActiveCurrencyIndicator
-                    active={sourceActive}
-                    coin={sourceCoin.toLowerCase()}
-                  />
-                )}
+                <ActiveCurrencyButton
+                  onClick={() => {
+                    if (!sourceActive) swapFix()
+                  }}
+                  checked={sourceActive}
+                  coin={sourceCoin.toLowerCase()}
+                />
                 <Text size='14px' weight={400}>
                   <FormattedMessage
                     id='scenes.exchange.shapeshift.firststep.from'
@@ -254,21 +263,15 @@ const Success = props => {
               </Cell>
               <Cell size='small' />
               <Cell>
-                {betaFlow ? (
+                {
                   <ActiveCurrencyButton
                     onClick={() => {
-                      if (betaFlow && !disabled && !targetActive) swapFix()
+                      if (!targetActive) swapFix()
                     }}
-                    props={{}}
                     checked={targetActive}
                     coin={targetCoin.toLowerCase()}
                   />
-                ) : (
-                  <ActiveCurrencyIndicator
-                    active={targetActive}
-                    coin={targetCoin.toLowerCase()}
-                  />
-                )}
+                }
                 <Text size='14px' weight={400}>
                   <FormattedMessage
                     id='scenes.exchange.shapeshift.firststep.to'
@@ -285,7 +288,6 @@ const Success = props => {
                   component={SelectBox}
                   elements={fromElements}
                   hasOneAccount={hasOneAccount}
-                  disabled={disabled}
                 />
               </Cell>
               <TooltipHost id='exchange.changeinput'>
@@ -297,9 +299,7 @@ const Success = props => {
                     cursor
                     disabled={swapDisabled}
                     onClick={() => {
-                      if (!betaFlow && !disabled) swapFix()
-                      if (betaFlow && !disabled && !swapDisabled)
-                        swapBaseAndCounter()
+                      if (!swapDisabled) swapBaseAndCounter()
                     }}
                   />
                 </Cell>
@@ -311,7 +311,6 @@ const Success = props => {
                   component={SelectBox}
                   elements={toElements}
                   hasOneAccount={hasOneAccount}
-                  disabled={disabled}
                 />
               </Cell>
             </Row>
@@ -319,6 +318,7 @@ const Success = props => {
               <CurrencyBox>{inputSymbol}</CurrencyBox>
               <Field
                 name={inputField}
+                autoComplete='off'
                 onChange={handleAmountChange}
                 normalize={normalizeAmount}
                 component={AmountTextBox}
@@ -350,33 +350,39 @@ const Success = props => {
                 cursor
                 disabled={swapDisabled}
                 onClick={() => {
-                  if (!disabled && !swapDisabled) swapCoinAndFiat()
+                  if (!swapDisabled) swapCoinAndFiat()
                 }}
               />
             </AmountRow>
-            <Row spaced>
-              {formError === 'minimum' && <MinimumAmountMessage />}
-              {formError === 'maximum' && <MaximumAmountMessage />}
-              {formError === 'insufficient' && <InsufficientAmountMessage />}
-              {formError === 'regulationlimit' && (
-                <AboveRegulationLimitMessage />
-              )}
-              {formError === 'invalid' && <InvalidAmountMessage />}
-            </Row>
+            <ErrorRow spaced>
+              {dirty && error && getErrorMessage(error)}
+            </ErrorRow>
             <Row>
               <MinMaxButtonGroup>
-                <Button fullwidth>
+                <MinMaxButton
+                  fullwidth
+                  disabled={minMaxDisabled}
+                  onClick={useMin}
+                >
                   <FormattedMessage
                     id='scenes.exchange.exchangeform.min'
                     defaultMessage='MIN'
                   />
-                </Button>
-                <Button fullwidth>
+                  &nbsp;
+                  <MinMaxValue>{!minMaxDisabled && min}</MinMaxValue>
+                </MinMaxButton>
+                <MinMaxButton
+                  fullwidth
+                  disabled={minMaxDisabled}
+                  onClick={useMax}
+                >
                   <FormattedMessage
                     id='scenes.exchange.exchangeform.max'
                     defaultMessage='MAX'
                   />
-                </Button>
+                  &nbsp;
+                  <MinMaxValue>{!minMaxDisabled && max}</MinMaxValue>
+                </MinMaxButton>
               </MinMaxButtonGroup>
             </Row>
           </FieldsWrapper>
@@ -385,11 +391,13 @@ const Success = props => {
             nature='primary'
             disabled={
               disabled ||
+              asyncValidating ||
+              submitting ||
               !dirty ||
-              (dirty && formError && formError !== 'initial')
+              (dirty && error)
             }
           >
-            {!disabled && (
+            {!disabled && !asyncValidating && !submitting ? (
               <FormattedMessage
                 id='scenes.exchange.exchangeform.exchange'
                 defaultMessage='Exchange {source} for {target}'
@@ -398,8 +406,7 @@ const Success = props => {
                   target: targetCoin
                 }}
               />
-            )}
-            {disabled && (
+            ) : (
               <HeartbeatLoader height='20px' width='20px' color='white' />
             )}
           </ExchangeButton>

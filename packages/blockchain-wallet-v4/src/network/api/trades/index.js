@@ -1,5 +1,5 @@
 export default ({ nabuUrl, post, get }) => {
-  const executeTrade = (quote, destinationAddress, refundAddress) =>
+  const executeTrade = (quote, refundAddress, destinationAddress) =>
     post({
       url: nabuUrl,
       endPoint: `/trades`,
@@ -32,9 +32,27 @@ export default ({ nabuUrl, post, get }) => {
     })
   }
 
+  const fetchLimits = currency =>
+    get({
+      url: nabuUrl,
+      endPoint: `/trades/limits?currency=${currency}`,
+      contentType: 'application/json',
+      ignoreQueryParams: true
+    })
+
+  const fetchTradeCounterFees = currency =>
+    get({
+      url: nabuUrl,
+      endPoint: `/fees/${currency}`,
+      contentType: 'application/json',
+      ignoreQueryParams: true
+    })
+
   return {
     executeTrade,
+    fetchLimits,
     fetchTrade,
-    fetchTrades
+    fetchTrades,
+    fetchTradeCounterFees
   }
 }

@@ -43,7 +43,10 @@ const CopyClipboard = props => {
     <Wrapper>
       <AddressBox>{address}</AddressBox>
       <CopyToClipBoard text={address} onCopy={handleClick}>
-        <CopyButton nature={active ? 'copy' : 'secondary'}>
+        <CopyButton
+          nature={active ? 'success' : 'secondary'}
+          data-e2e={`${props['data-e2e']}_copy_button`}
+        >
           {active ? (
             <FormattedMessage
               id='components.copyclipboard.copied'

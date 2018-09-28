@@ -98,7 +98,7 @@ const FirstStep = props => {
             </QRText>
           </AddressFormLabel>
           <AddressContainer>
-            <CopyClipboard address={receiveAddress} />
+            <CopyClipboard address={receiveAddress} data-e2e='requestBtc' />
           </AddressContainer>
         </FormItem>
       </FormGroup>
@@ -123,6 +123,7 @@ const FirstStep = props => {
             component={FiatConvertor}
             validate={[required, invalidAmountMin, invalidAmountMax]}
             coin='BTC'
+            data-e2e='requestBtc'
           />
         </FormItem>
       </FormGroup>
@@ -165,6 +166,7 @@ const FirstStep = props => {
             component={TextArea}
             validate={[required]}
             placeholder="What's this transaction for?"
+            data-e2e='requestBtc_description'
           />
         </FormItem>
       </FormGroup>
@@ -173,8 +175,8 @@ const FirstStep = props => {
           type='submit'
           nature='primary'
           fullwidth
-          uppercase
           disabled={submitting || invalid}
+          data-e2e='requestBtc_next_button'
         >
           <FormattedMessage
             id='modals.requestbitcoin.firststep.next'

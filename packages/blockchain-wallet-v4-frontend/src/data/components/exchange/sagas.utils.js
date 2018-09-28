@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import { equals, identity, head, path, pathOr, prop } from 'ramda'
+import { equals, identity, head, path, pathOr, prop, toLower } from 'ramda'
 import { selectors, actions } from 'data'
 import * as S from './selectors'
 import settings from 'config'
@@ -14,8 +14,67 @@ import { selectRates } from '../utils/sagas'
 import { SHAPESHIFT_FORM } from './model'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
+const PROVISIONAL_BTC_SCRIPT = '00000000000000000000000'
+const PROVISIONAL_BCH_SCRIPT = '0000000000000000000000000'
 export default ({ api, coreSagas, networks, options }) => {
   const logLocation = 'components/exchange/sagas.utils'
+
+  let prevPaymentSource
+  let prevPaymentAmount
+  let prevPayment
+  const calculatePaymentMemo = function*(source, amount) {
+    if (
+      !equals(source, prevPaymentSource) ||
+      !equals(amount, prevPaymentAmount)
+    ) {
+      prevPaymentSource = source
+      prevPaymentAmount = amount
+      prevPayment = yield call(calculateProvisionalPayment, source, amount)
+    }
+    return prevPayment
+  }
+
+  const btcOptions = [settings.NETWORK_BTC, PROVISIONAL_BTC_SCRIPT]
+  const bchOptions = [settings.NETWORK_BCH, PROVISIONAL_BCH_SCRIPT]
+  const ethOptions = [settings.NETWORK_ETH, null]
+  const calculateProvisionalPayment = function*(source, amount) {
+    try {
+      const coin = prop('coin', source)
+      const addressOrIndex = prop('address', source)
+      const [network, provisionalScript] = prop(coin, {
+        BTC: btcOptions,
+        BCH: bchOptions,
+        ETH: ethOptions
+      })
+      const payment = yield coreSagas.payment[toLower(coin)]
+        .create({ network })
+        .chain()
+        .init()
+        .fee('priority')
+        .from(addressOrIndex, ADDRESS_TYPES.ACCOUNT)
+        .done()
+      if (coin === 'ETH') return payment.value()
+
+      return (yield payment
+        .chain()
+        .to(provisionalScript, ADDRESS_TYPES.SCRIPT)
+        .amount(parseInt(convertStandardToBase(coin, amount)))
+        .build()
+        .done()).value()
+    } catch (e) {
+      return {}
+    }
+  }
+
+  let prevBalanceSource
+  let prevBalance
+  const calculateEffectiveBalanceMemo = function*(source) {
+    if (!equals(source, prevBalanceSource)) {
+      prevBalanceSource = source
+      prevBalance = yield call(calculateEffectiveBalance, source)
+    }
+    return prevBalance
+  }
 
   const calculateEffectiveBalance = function*(source) {
     const coin = prop('coin', source)
@@ -106,7 +165,7 @@ export default ({ api, coreSagas, networks, options }) => {
     }
     payment = yield payment
       .from(sourceAddressOrIndex, ADDRESS_TYPES.ACCOUNT)
-      .to(targetAddress)
+      .to(targetAddress, ADDRESS_TYPES.ADDRESS)
       .build()
       .done()
     yield put(
@@ -367,6 +426,8 @@ export default ({ api, coreSagas, networks, options }) => {
   }
 
   return {
+    calculatePaymentMemo,
+    calculateEffectiveBalanceMemo,
     calculateEffectiveBalance,
     createPayment,
     resumePayment,

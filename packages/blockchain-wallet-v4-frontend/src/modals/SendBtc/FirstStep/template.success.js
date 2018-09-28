@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
+import * as bowser from 'bowser'
+import styled from 'styled-components'
 
 import {
   required,
@@ -9,6 +11,7 @@ import {
   validBitcoinPrivateKey
 } from 'services/FormHelper'
 import {
+  Banner,
   Button,
   Icon,
   Link,
@@ -57,8 +60,19 @@ import RegularFeeLink from './RegularFeeLink'
 import PriorityFeeLink from './PriorityFeeLink'
 import ComboDisplay from 'components/Display/ComboDisplay'
 
+const BrowserWarning = styled(Banner)`
+  margin: -4px 0 8px;
+`
 const FirstStep = props => {
-  const { invalid, submitting, pristine, ...rest } = props
+  const {
+    invalid,
+    submitting,
+    pristine,
+    handleFeePerByteToggle,
+    handleToToggle,
+    handleSubmit,
+    ...rest
+  } = props
   const {
     from,
     watchOnly,
@@ -70,10 +84,11 @@ const FirstStep = props => {
     regularFeePerByte,
     priorityFeePerByte,
     isPriorityFeePerByte,
-    totalFee,
-    ...rest2
+    totalFee
   } = rest
-  const { handleFeePerByteToggle, handleToToggle, handleSubmit } = rest2
+  const disableLockboxSend =
+    from.type === 'LOCKBOX' &&
+    !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -122,6 +137,16 @@ const FirstStep = props => {
           )}
         </FormItem>
       </FormGroup>
+      {disableLockboxSend && (
+        <BrowserWarning type='warning'>
+          <Text color='warning' size='12px'>
+            <FormattedMessage
+              id='modals.sendbtc.firststep.lockboxwarn'
+              defaultMessage='Sending Bitcoin from Lockbox can only be done while using the Chrome browser'
+            />
+          </Text>
+        </BrowserWarning>
+      )}
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for='to'>
@@ -191,6 +216,7 @@ const FirstStep = props => {
               maximumAmount
             ]}
             coin='BTC'
+            data-e2e='sendBtc'
           />
         </FormItem>
       </FormGroup>
@@ -210,6 +236,7 @@ const FirstStep = props => {
             component={TextAreaDebounced}
             placeholder="What's this transaction for?"
             rows={3}
+            data-e2e='sendBtc_description'
           />
         </FormItem>
       </FormGroup>
@@ -247,6 +274,7 @@ const FirstStep = props => {
                   errorBottom
                   errorLeft
                   unit='sat/byte'
+                  data-e2e='sendBtc_custom_fee_input'
                 />
               </FeePerByteContainer>
             )}
@@ -261,6 +289,7 @@ const FirstStep = props => {
             weight={300}
             capitalize
             onClick={handleFeePerByteToggle}
+            data-e2e='sendBtc_custom_fee_link'
           >
             {feePerByteToggled ? (
               <FormattedMessage
@@ -296,8 +325,8 @@ const FirstStep = props => {
         <Button
           type='submit'
           nature='primary'
-          uppercase
-          disabled={submitting || invalid || pristine}
+          data-e2e='sendBtc_continue'
+          disabled={submitting || invalid || pristine || disableLockboxSend}
         >
           <FormattedMessage
             id='modals.sendbtc.firststep.continue'

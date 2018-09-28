@@ -3,7 +3,12 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import moment from 'moment'
-import { Banner, Text } from 'blockchain-info-components'
+import {
+  Banner,
+  Text,
+  TooltipIcon,
+  TooltipHost
+} from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import ComboDisplay from 'components/Display/ComboDisplay'
@@ -94,6 +99,10 @@ const AmountColumn = styled.div`
   ${media.mobile`
     min-width: 50%;
   `};
+`
+const IOAddressText = styled(Text)`
+  display: flex;
+  align-items: center;
 `
 
 const dateHelper = (time, isMobile) =>
@@ -226,9 +235,21 @@ const TransactionListItem = props => {
                   />
                 </Text>
                 {prop('outputs', transaction).map(output => (
-                  <Text size='14px' weight={300}>
+                  <IOAddressText size='14px' weight={300}>
                     {output.address}
-                  </Text>
+                    {output.change && (
+                      <React.Fragment>
+                        <span>&nbsp;</span>
+                        <FormattedMessage
+                          id='components.txlistitem.change'
+                          defaultMessage='(Change Address)'
+                        />
+                        <TooltipHost id='txlist.change.tooltip'>
+                          <TooltipIcon name='question-in-circle' />
+                        </TooltipHost>
+                      </React.Fragment>
+                    )}
+                  </IOAddressText>
                 ))}
               </DetailsColumn>
             )}

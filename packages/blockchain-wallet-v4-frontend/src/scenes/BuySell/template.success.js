@@ -122,12 +122,12 @@ const SelectPartner = props => {
             <Text size='14px' weight={300} style={spacing('mb-15')}>
               {equals(country, 'US') ? (
                 <FormattedMessage
-                  id='selectpartner.unavailable.unfortunatelystate'
+                  id='scenes.buysell.selectpartner.unavailable.unfortunatelystate'
                   defaultMessage='Unfortunately buy & sell is not available in your state at this time. To be notified when we expand to your location, sign up below.'
                 />
               ) : (
                 <FormattedMessage
-                  id='selectpartner.unavailable.unfortunatelycountry'
+                  id='scenes.buysell.selectpartner.unavailable.unfortunatelycountry'
                   defaultMessage='Unfortunately buy & sell is not available in your country at this time. To be notified when we expand to your location, sign up below.'
                 />
               )}
@@ -148,7 +148,7 @@ const SelectPartner = props => {
                 disabled={validEmail(email)}
               >
                 <FormattedMessage
-                  id='selectpartner.unavailable.notifyme'
+                  id='scenes.buysell.selectpartner.unavailable.notifyme'
                   defaultMessage='Notify Me When This Becomes Available'
                 />
               </Button>
@@ -157,13 +157,13 @@ const SelectPartner = props => {
             <SubmittedWrapper>
               <Text size='16px' color='brand-primary'>
                 <FormattedMessage
-                  id='selectpartner.unavailable.thanks'
+                  id='scenes.buysell.selectpartner.unavailable.thanks'
                   defaultMessage='Thanks!'
                 />
               </Text>
               <Text size='14px' weight={300}>
                 <FormattedMessage
-                  id='selectpartner.unavailable.sendemail'
+                  id='scenes.buysell.selectpartner.unavailable.sendemail'
                   defaultMessage='We will send an email to {email} once buy & sell are available for your area.'
                   values={{ email: <strong>{email}</strong> }}
                 />
@@ -184,19 +184,19 @@ const SelectPartner = props => {
         <Intro>
           <PartnerHeader>
             <FormattedMessage
-              id='selectpartner.header'
+              id='scenes.buysell.selectpartner.header'
               defaultMessage='Introducing Buy & Sell'
             />
           </PartnerHeader>
           <PartnerSubHeader>
             <FormattedMessage
-              id='selectpartner.subheader'
+              id='scenes.buysell.selectpartner.subheader'
               defaultMessage='You can now buy & sell bitcoin directly from your wallet and have the exchanged funds deposited into your bank account.'
             />
           </PartnerSubHeader>
           <PartnerSubHeader style={spacing('mt-15')}>
             <FormattedMessage
-              id='selectpartner.subheader2'
+              id='scenes.buysell.selectpartner.subheader2'
               defaultMessage="Select your location below, verify your identity, and before you know it, you'll be on your way to making your crypto dreams a reality!"
             />
           </PartnerSubHeader>
@@ -204,7 +204,7 @@ const SelectPartner = props => {
         <SelectionContainer>
           <Text size='14px'>
             <FormattedMessage
-              id='selectpartner.selectcountry'
+              id='scenes.buysell.selectpartner.selectcountry'
               defaultMessage='Select your country:'
             />
           </Text>
@@ -234,14 +234,13 @@ const SelectPartner = props => {
               ) : null}
               <Button
                 nature='primary'
-                uppercase
                 type='submit'
                 disabled={invalid || pristine}
                 style={spacing('mt-35')}
               >
                 <FormattedMessage
-                  id='selectpartner.getstarted'
-                  defaultMessage='get started'
+                  id='scenes.buysell.selectpartner.getstarted'
+                  defaultMessage='Get Started'
                 />
               </Button>
             </form>

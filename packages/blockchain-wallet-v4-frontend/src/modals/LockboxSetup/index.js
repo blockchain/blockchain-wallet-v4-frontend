@@ -41,7 +41,6 @@ class LockboxSetupContainer extends React.PureComponent {
 }
 
 LockboxSetupContainer.propTypes = {
-  currentStep: PropTypes.string.isRequired,
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   closeAll: PropTypes.func.isRequired

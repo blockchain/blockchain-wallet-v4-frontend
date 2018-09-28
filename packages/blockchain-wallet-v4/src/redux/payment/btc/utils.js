@@ -36,7 +36,8 @@ export const ADDRESS_TYPES = {
   WATCH_ONLY: 'WATCH_ONLY',
   EXTERNAL: 'EXTERNAL',
   LOCKBOX: 'LOCKBOX',
-  ADDRESS: 'ADDRESS'
+  ADDRESS: 'ADDRESS',
+  SCRIPT: 'SCRIPT'
 }
 
 // fromLegacy :: String -> Object
@@ -136,70 +137,74 @@ export const fromPrivateKey = (network, wallet, key) => {
   return fromExternal(c.address, u.address, c.wif, u.wif)
 }
 
+// toOutputAccount :: Coin -> String -> ReduxState -> Integer -> Object
+export const toOutputAccount = (coin, network, state, accountIndex) => {
+  const wallet = S.wallet.getWallet(state)
+  const account = Wallet.getAccount(accountIndex, wallet).get() // throw if nothing
+  const receiveIndexR =
+    coin === 'BTC'
+      ? S.data.bitcoin.getReceiveIndex(account.xpub, state)
+      : S.data.bch.getReceiveIndex(account.xpub, state)
+  const receiveIndex = receiveIndexR.getOrFail(
+    new Error('missing_receive_address')
+  )
+  const address = HDAccount.getReceiveAddress(account, receiveIndex, network)
+  return {
+    type: ADDRESS_TYPES.ACCOUNT,
+    address,
+    accountIndex,
+    addressIndex: receiveIndex
+  }
+}
+
+// toLockBoxAccount :: Coin -> String -> ReduxState -> String -> Object
+export const toLockboxAccount = (coin, state, network, xpub) => {
+  const receiveIndexR =
+    coin === 'BTC'
+      ? S.data.bitcoin.getReceiveIndex(xpub, state)
+      : S.data.bch.getReceiveIndex(xpub, state)
+
+  const receiveIndex = receiveIndexR.getOrFail(
+    new Error('missing_receive_address')
+  )
+
+  const address =
+    coin === 'BTC'
+      ? S.common.btc.getAddressLockbox(network, xpub, receiveIndex, state)
+      : S.common.bch.getAddressLockbox(network, xpub, receiveIndex, state)
+  return {
+    type: ADDRESS_TYPES.LOCKBOX,
+    address,
+    xpub,
+    addressIndex: receiveIndex
+  }
+}
+
+// toOutputScript :: String -> Object
+export const toOutputScript = script => ({
+  type: ADDRESS_TYPES.SCRIPT,
+  script
+})
+
 // toOutputAddress :: String -> Object
 export const toOutputAddress = address => ({
   type: ADDRESS_TYPES.ADDRESS,
   address
 })
 
-// toOutputAccount :: String -> Integer -> Integer -> Object
-export const toOutputAccount = (address, accountIndex, addressIndex) => ({
-  type: ADDRESS_TYPES.ACCOUNT,
-  address,
-  accountIndex,
-  addressIndex
-})
-
-export const toLockboxAccount = (address, addressIndex, xpub) => ({
-  type: ADDRESS_TYPES.LOCKBOX,
-  address,
-  addressIndex,
-  xpub
-})
-
-// toOutputAccount :: Network -> ReduxState -> String|Integer -> Object
-export const toOutput = curry((coin, network, state, addressOrIndex, type) => {
-  let wallet = S.wallet.getWallet(state)
+// toOutputAccount :: Network -> ReduxState -> String|Integer -> String -> Object
+export const toOutput = curry((coin, network, state, destination, type) => {
   switch (type) {
     case ADDRESS_TYPES.ACCOUNT:
-      let account = Wallet.getAccount(addressOrIndex, wallet).get() // throw if nothing
-      let receiveIndexR =
-        coin === 'BTC'
-          ? S.data.bitcoin.getReceiveIndex(account.xpub, state)
-          : S.data.bch.getReceiveIndex(account.xpub, state)
-      let receiveIndex = receiveIndexR.getOrFail(
-        new Error('missing_receive_address')
-      )
-      let address = HDAccount.getReceiveAddress(account, receiveIndex, network)
-      return toOutputAccount(address, addressOrIndex, receiveIndex)
+      return toOutputAccount(coin, network, state, destination)
     case ADDRESS_TYPES.LOCKBOX: {
-      let receiveIndexR =
-        coin === 'BTC'
-          ? S.data.bitcoin.getReceiveIndex(addressOrIndex, state)
-          : S.data.bch.getReceiveIndex(addressOrIndex, state)
-
-      let receiveIndex = receiveIndexR.getOrFail(
-        new Error('missing_receive_address')
-      )
-
-      let address =
-        coin === 'BTC'
-          ? S.common.btc.getAddressLockbox(
-              network,
-              addressOrIndex,
-              receiveIndex,
-              state
-            )
-          : S.common.bch.getAddressLockbox(
-              network,
-              addressOrIndex,
-              receiveIndex,
-              state
-            )
-      return toLockboxAccount(address, receiveIndex, addressOrIndex)
+      return toLockboxAccount(coin, network, state, destination)
+    }
+    case ADDRESS_TYPES.SCRIPT: {
+      return toOutputScript(destination)
     }
     default:
-      return toOutputAddress(addressOrIndex)
+      return toOutputAddress(destination)
   }
 })
 

@@ -68,7 +68,6 @@ const ShowUsedAddresses = props => {
           />
         </CancelBtn>
         <Button
-          uppercase
           nature='primary'
           type='submit'
           onClick={handleContinue}
@@ -77,7 +76,7 @@ const ShowUsedAddresses = props => {
           {!busy ? (
             <FormattedMessage
               id='modals.showusedaddresses.ok'
-              defaultMessage='OK'
+              defaultMessage='Ok'
             />
           ) : (
             <HeartbeatLoader height='20px' width='20px' color='white' />

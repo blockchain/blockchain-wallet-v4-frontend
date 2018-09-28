@@ -112,7 +112,7 @@ const Login = props => {
             <FormattedMessage id='scenes.login.or' defaultMessage='or' />
           </Text>
           <LinkContainer to='/signup'>
-            <Link size='13px' weight={300}>
+            <Link size='13px' weight={300} data-e2e='signupLink'>
               <FormattedMessage
                 id='scenes.login.register'
                 defaultMessage='Sign Up'
@@ -157,7 +157,12 @@ const Login = props => {
           </FormItem>
           {guidError && (
             <GuidError inline>
-              <Text size='12px' color='error' weight={300}>
+              <Text
+                size='12px'
+                color='error'
+                weight={300}
+                data-e2e='walletIdError'
+              >
                 <FormattedMessage
                   id='scenes.login.guiderror'
                   defaultMessage='Unknown Wallet ID. If you need a reminder '
@@ -210,7 +215,10 @@ const Login = props => {
               disabled={!isSupportedBrowser}
             />
             {passwordError && (
-              <FormError position={authType > 0 ? 'relative' : 'absolute'}>
+              <FormError
+                position={authType > 0 ? 'relative' : 'absolute'}
+                data-e2e='passwordError'
+              >
                 <FormattedMessage
                   id='scenes.login.wrong_password'
                   defaultMessage='Error decrypting wallet. Wrong password'
@@ -280,15 +288,15 @@ const Login = props => {
             type='submit'
             nature='primary'
             fullwidth
-            uppercase
             disabled={submitting || invalid || busy || !password}
+            data-e2e='loginButton'
           >
             {busy && !loginError ? (
               <HeartbeatLoader height='20px' width='20px' color='white' />
             ) : (
               <FormattedMessage
                 id='scenes.login.submit'
-                defaultMessage='Log in'
+                defaultMessage='Log In'
               />
             )}
           </LoginButton>

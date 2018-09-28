@@ -25,6 +25,7 @@ class FiatConvertorContainer extends React.PureComponent {
           onBlur={input.onBlur}
           onFocus={input.onFocus}
           disabled={disabled}
+          data-e2e={this.props['data-e2e']}
         />
       ),
       Failure: message => <Error>{message}</Error>,

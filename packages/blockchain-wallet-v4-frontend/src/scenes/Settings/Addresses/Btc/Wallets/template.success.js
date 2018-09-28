@@ -37,72 +37,120 @@ const WalletTableCell = styled(TableCell)`
 const LabelCell = styled(Text)`
   margin-right: 6px;
 `
+const ErrorWrapper = styled.div`
+  margin-bottom: 20px;
+`
+const ErrorMessageText = styled(Text)`
+  margin-top: 5px;
+`
 
-const Success = ({ wallets, handleClick, onUnarchive, search }) => {
+const Success = ({
+  wallets,
+  handleClick,
+  onUnarchive,
+  search,
+  failure,
+  message
+}) => {
   const isMatch = wallet =>
     !search || wallet.label.toLowerCase().indexOf(search) > -1
 
-  const walletTableRows = filter(isMatch, wallets).map(wallet => {
-    return (
-      <TableRow key={wallet.index}>
-        <WalletTableCell width='50%'>
-          <LabelCell size='13px'>{wallet.label}</LabelCell>
-          {wallet.default && (
-            <Banner label>
-              <FormattedMessage
-                id='scenes.settings.addresses.btc.wallets.defaultlabel'
-                defaultMessage='Default'
-              />
-            </Banner>
-          )}
-          {wallet.archived && (
-            <Banner label type='informational'>
-              <FormattedMessage
-                id='scenes.settings.addresses.btc.wallets.archivedlabel'
-                defaultMessage='Archived'
-              />
-            </Banner>
-          )}
-        </WalletTableCell>
-        <TableCell width='30%'>
-          {!wallet.archived && (
-            <SwitchableDisplay size='13px' coin='BTC'>
-              {wallet.balance}
-            </SwitchableDisplay>
-          )}
-        </TableCell>
-        <TableCell
-          width='20%'
-          style={{ display: 'flex', justifyContent: 'flex-end' }}
-        >
-          {wallet.archived ? (
-            <Link
-              weight={200}
-              size='small'
-              onClick={() => onUnarchive(wallet.index)}
-            >
-              <FormattedMessage
-                id='scenes.settings.addresses.btc.wallets.unarchive'
-                defaultMessage='Unarchive'
-              />
-            </Link>
-          ) : (
-            <LinkContainer to={`/settings/addresses/btc/${wallet.index}`}>
-              <Link weight={200} size='small'>
+  const walletTableRows =
+    wallets &&
+    filter(isMatch, wallets).map(wallet => {
+      return (
+        <TableRow key={wallet.index}>
+          <WalletTableCell width='50%'>
+            <LabelCell size='13px'>{wallet.label}</LabelCell>
+            {wallet.default && (
+              <Banner label>
                 <FormattedMessage
-                  id='scenes.settings.addresses.btc.wallets.manage'
-                  defaultMessage='Manage'
+                  id='scenes.settings.addresses.btc.wallets.defaultlabel'
+                  defaultMessage='Default'
+                />
+              </Banner>
+            )}
+            {wallet.archived && (
+              <Banner label type='informational'>
+                <FormattedMessage
+                  id='scenes.settings.addresses.btc.wallets.archivedlabel'
+                  defaultMessage='Archived'
+                />
+              </Banner>
+            )}
+          </WalletTableCell>
+          <TableCell width='30%'>
+            {!wallet.archived && (
+              <SwitchableDisplay size='13px' coin='BTC'>
+                {wallet.balance}
+              </SwitchableDisplay>
+            )}
+          </TableCell>
+          <TableCell
+            width='20%'
+            style={{ display: 'flex', justifyContent: 'flex-end' }}
+          >
+            {wallet.archived ? (
+              <Link
+                weight={200}
+                size='small'
+                onClick={() => onUnarchive(wallet.index)}
+              >
+                <FormattedMessage
+                  id='scenes.settings.addresses.btc.wallets.unarchive'
+                  defaultMessage='Unarchive'
                 />
               </Link>
-            </LinkContainer>
-          )}
-        </TableCell>
-      </TableRow>
-    )
-  })
+            ) : (
+              <LinkContainer to={`/settings/addresses/btc/${wallet.index}`}>
+                <Link weight={200} size='small'>
+                  <FormattedMessage
+                    id='scenes.settings.addresses.btc.wallets.manage'
+                    defaultMessage='Manage'
+                  />
+                </Link>
+              </LinkContainer>
+            )}
+          </TableCell>
+        </TableRow>
+      )
+    })
 
   return (
     <Wrapper>
+      {failure && (
+        <ErrorWrapper>
+          <Banner type='warning'>
+            <Text size='14px' color='error'>
+              <FormattedMessage
+                id='scenes.settings.addresses.btc.failurealert'
+                defaultMessage='There is an issue with the wallet and this page may have limited functionality, such as balances not showing.'
+              />
+              <ErrorMessageText size='14px' color='error'>
+                <FormattedMessage
+                  id='scenes.settings.addresses.btc.failuremessage'
+                  defaultMessage='Message: {errorMessage}'
+                  values={{
+                    errorMessage: message || (
+                      <span>
+                        Please contact
+                        <Link
+                          size='14px'
+                          href='https://support.blockchain.com/hc/en-us/requests/new'
+                          target='_blank'
+                        >
+                          support
+                        </Link>{' '}
+                        for help resolving the problem
+                      </span>
+                    )
+                  }}
+                />
+              </ErrorMessageText>
+            </Text>
+          </Banner>
+        </ErrorWrapper>
+      )}
       <BitcoinWalletsAddressesSettingHeader>
         <FormattedMessage
           id='scenes.settings.addresses.btc.wallets.bitcoinwallets'
