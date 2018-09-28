@@ -6,6 +6,7 @@ import * as S from '../../selectors'
 import { bch } from '../../../signer'
 import * as CoinSelection from '../../../coinSelection'
 import * as Coin from '../../../coinSelection/coin'
+import settingsSagaFactory from '../../../redux/settings/sagas'
 import {
   isValidBitcoinAddress,
   privateKeyStringToKey,
@@ -45,6 +46,7 @@ const taskToPromise = t =>
 
 export default ({ api }) => {
   // ///////////////////////////////////////////////////////////////////////////
+  const settingsSagas = settingsSagaFactory({ api })
   const pushBitcoinTx = futurizeP(Task)(api.pushBchTx)
   const getWalletUnspent = (network, fromData) =>
     api
@@ -335,6 +337,7 @@ export default ({ api }) => {
 
       *publish () {
         let result = yield call(calculatePublish, p.txHex)
+        yield call(settingsSagas.setLastTxTime)
         return makePayment(merge(p, { result }))
       },
 
