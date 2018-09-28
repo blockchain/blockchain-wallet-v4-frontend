@@ -30,19 +30,6 @@ class SfoxCheckout extends React.PureComponent {
     this.props.sfoxActions.disableSiftScience()
   }
 
-  initialize = () => {
-    this.props.sfoxDataActions.fetchTrades()
-    this.props.sfoxDataActions.fetchProfile()
-    this.props.sfoxDataActions.sfoxFetchAccounts()
-    this.props.sfoxDataActions.fetchQuote({
-      quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }
-    })
-    this.props.sfoxDataActions.fetchSellQuote({
-      quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }
-    })
-    this.props.sfoxActions.initializePayment()
-  }
-
   render () {
     const {
       data,
@@ -83,8 +70,8 @@ class SfoxCheckout extends React.PureComponent {
             fetchQuote({ quote, nextAddress: value.nextAddress })
           }
           fetchSellQuote={quote => fetchSellQuote({ quote })}
-          refreshBuyQuote={() => refreshQuote()}
-          refreshSellQuote={() => refreshSellQuote()}
+          refreshBuyQuote={refreshQuote}
+          refreshSellQuote={refreshSellQuote}
           submitBuyQuote={quote => {
             sfoxActions.submitQuote(quote)
             this.setState({ busy: true })
@@ -95,7 +82,7 @@ class SfoxCheckout extends React.PureComponent {
           }}
           busy={busy}
           payment={payment}
-          clearTradeError={() => sfoxNotAsked()}
+          clearTradeError={sfoxNotAsked}
           changeTab={tab => change('buySellTabStatus', 'status', tab)}
           disableButton={() => this.setState({ buttonStatus: false })}
           enableButton={() => this.setState({ buttonStatus: true })}

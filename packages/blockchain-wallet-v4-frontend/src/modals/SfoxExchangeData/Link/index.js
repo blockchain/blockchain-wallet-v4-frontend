@@ -40,15 +40,6 @@ class LinkContainer extends Component {
     window.addEventListener('message', receiveMessage, false)
   }
 
-  componentDidUpdate () {
-    // if (
-    //   Remote.Success.is(this.props.bankAccounts) &&
-    //   Remote.Loading.is(this.props.linkStatus)
-    // ) {
-    //   this.props.sfoxFrontendActions.sfoxSuccess()
-    // }
-  }
-
   componentWillUnmount () {
     this.props.updateUI({
       toggleManual: false,
