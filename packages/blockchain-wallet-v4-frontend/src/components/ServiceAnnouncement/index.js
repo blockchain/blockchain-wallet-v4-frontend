@@ -27,19 +27,16 @@ class ServiceAnnouncement extends React.PureComponent {
     const { alertArea, data } = this.props
     return data.cata({
       Success: val => {
-        const showAnnounce =
-          val.showAnnounce ||
-          val.announcements[alertArea].hideType === 'collapse'
-        return (
+        return val.showAnnounce ||
+          val.announcements[alertArea].hideType === 'collapse' ? (
           <Announcement
             announcement={val.announcements[alertArea]}
             language={val.language}
             collapsed={val.collapsed}
             handleDismiss={this.handleDismiss}
             toggleCollapse={this.toggleCollapse}
-            visible={showAnnounce}
           />
-        )
+        ) : null
       },
       Loading: () => <div />,
       Failure: () => <div />,

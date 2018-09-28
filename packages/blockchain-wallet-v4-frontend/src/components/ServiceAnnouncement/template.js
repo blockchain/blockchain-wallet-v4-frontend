@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Link, Icon, Text, TextGroup } from 'blockchain-info-components'
 
 const Container = styled.div`
-  display: ${props => (props.visible ? 'flex' : 'none')};
+  display: flex;
   flex-direction: row;
   align-items: center;
   background: ${props => props.theme[props.color]};
@@ -72,14 +72,13 @@ const Announcement = props => {
     collapsed,
     language,
     handleDismiss,
-    toggleCollapse,
-    visible
+    toggleCollapse
   } = props
   const style = selectStyle(announcement.type)
   const { color, icon, iconColor, uppercase } = style
 
   return (
-    <Container visible={visible} color={color} collapsed={collapsed}>
+    <Container color={color} collapsed={collapsed}>
       <IconContainer>
         {icon && (
           <Icon name={icon} size='34px' weight={600} color={iconColor} />
