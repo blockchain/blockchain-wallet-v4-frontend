@@ -286,7 +286,7 @@ export const addBalanceLimit = (fiatBalance, limits) =>
 
 const getRate = (rates, source, target) =>
   compose(
-    rate => rate.toFixed(14),
+    rate => new BigNumber(rate).toFixed(14),
     path([formatPair(source, target), 'price'])
   )(rates)
 
