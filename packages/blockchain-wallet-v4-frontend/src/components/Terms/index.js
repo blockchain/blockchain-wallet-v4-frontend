@@ -183,6 +183,7 @@ const Terms = props => {
             target='_blank'
             size='12px'
             weight={300}
+            data-e2e='blockchainTermsLink'
           >
             <FormattedMessage
               id='scenes.register.registerform.blockchain.terms'
@@ -199,6 +200,7 @@ const Terms = props => {
             target='_blank'
             size='12px'
             weight={300}
+            data-e2e='blockchainPrivacyLink'
           >
             <FormattedMessage
               id='privacypolicy'

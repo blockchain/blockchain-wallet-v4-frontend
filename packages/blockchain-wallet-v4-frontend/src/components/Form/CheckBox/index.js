@@ -37,6 +37,7 @@ const CheckBox = ({ children, className, ...field }) => {
           disabled={field.disabled}
           checked={checked}
           errorState={errorState}
+          data-e2e={field['data-e2e']}
         >
           {children}
         </CheckBoxInput>
