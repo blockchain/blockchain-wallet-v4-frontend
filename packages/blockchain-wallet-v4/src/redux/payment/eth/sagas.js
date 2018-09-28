@@ -6,6 +6,7 @@ import * as S from '../../selectors'
 import { isValidIndex } from './utils'
 import { eth } from '../../../signer'
 import { isString, isPositiveInteger } from '../../../utils/checks'
+import settingsSagaFactory from '../../../redux/settings/sagas'
 import {
   calculateFee,
   calculateEffectiveBalance,
@@ -28,6 +29,7 @@ const taskToPromise = t =>
 
 export default ({ api }) => {
   // ///////////////////////////////////////////////////////////////////////////
+  const settingsSagas = settingsSagaFactory({ api })
   const selectIndex = function*(from) {
     const appState = yield select(identity)
     switch (prop('type', from)) {
@@ -175,7 +177,7 @@ export default ({ api }) => {
         if (isNil(signed)) throw new Error('missing_signed_tx')
         const publish = txHex => api.pushEthereumTx(signed).then(prop('txHash'))
         const txId = yield call(publish)
-
+        yield call(settingsSagas.setLastTxTime)
         return makePayment(merge(p, { txId }))
       },
 
