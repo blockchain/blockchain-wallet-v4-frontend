@@ -10,10 +10,10 @@ import * as selectors from '../../selectors.js'
 import sfoxSagas, { logLocation } from './sagas'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword, confirm } from 'services/SagaService'
-import settings from 'config'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const coreSagas = coreSagasFactory()
+const networks = { btc: 'bitcoin' }
 
 describe('sfoxSagas', () => {
   beforeAll(() => {
@@ -63,7 +63,8 @@ describe('sfoxSagas', () => {
 
   describe('sfox signup', () => {
     let { sfoxSignup } = sfoxSagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     let saga = testSaga(sfoxSignup)
 
@@ -110,7 +111,8 @@ describe('sfoxSagas', () => {
 
   describe('sfox set bank', () => {
     let { setBank } = sfoxSagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     it('should call core setBankAccount and display success', () => {
@@ -140,7 +142,8 @@ describe('sfoxSagas', () => {
 
   describe('sfox handle quote', () => {
     const { submitQuote, prepareAddress } = sfoxSagas({
-      coreSagas
+      coreSagas,
+      networks
     })
     const quoteId = '12345'
     const quoteCurrency = 'USD'
@@ -216,9 +219,22 @@ describe('sfoxSagas', () => {
     })
   })
 
+  describe('sfox prepareAddress', () => {
+    const { prepareAddress } = sfoxSagas({
+      coreSagas
+    })
+
+    const saga = testSaga(prepareAddress)
+
+    it('should select the state', () => {
+      saga.next().select()
+    })
+  })
+
   describe('sfox setProfile', () => {
     const { setProfile } = sfoxSagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const firstName = 'satoshi'
@@ -284,7 +300,8 @@ describe('sfoxSagas', () => {
 
   describe('sfox submitMicroDeposits', () => {
     const { submitMicroDeposits } = sfoxSagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const deposit1 = '.02'
@@ -340,7 +357,8 @@ describe('sfoxSagas', () => {
 
   describe('sfox upload', () => {
     const { upload } = sfoxSagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const data = {}
@@ -373,7 +391,8 @@ describe('sfoxSagas', () => {
 
   describe('sfox setBankManually', () => {
     const { setBankManually } = sfoxSagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const action = {
@@ -425,7 +444,8 @@ describe('sfoxSagas', () => {
 
   describe('sfox checkProfileStatus', () => {
     const { checkProfileStatus } = sfoxSagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const saga = testSaga(checkProfileStatus)
@@ -447,7 +467,8 @@ describe('sfoxSagas', () => {
 
   describe('sfox submitSellQuote', () => {
     const { submitSellQuote } = sfoxSagas({
-      coreSagas
+      coreSagas,
+      networks
     })
 
     const action = {
@@ -490,7 +511,7 @@ describe('sfoxSagas', () => {
       expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
         payment: state.sfoxSignup.payment.getOrElse({}),
-        network: settings.NETWORK_BITCOIN
+        network: networks.btc
       })
     })
 
@@ -586,7 +607,10 @@ describe('sfoxSagas', () => {
   })
 
   describe('sfox initializeJumio', () => {
-    const { initializeJumio, fetchJumioStatus } = sfoxSagas({ coreSagas })
+    const { initializeJumio, fetchJumioStatus } = sfoxSagas({
+      coreSagas,
+      networks
+    })
 
     const saga = testSaga(initializeJumio)
 
@@ -616,7 +640,10 @@ describe('sfoxSagas', () => {
   })
 
   describe('sfox completeJumio', () => {
-    const { completeJumio, fetchJumioStatus } = sfoxSagas({ coreSagas })
+    const { completeJumio, fetchJumioStatus } = sfoxSagas({
+      coreSagas,
+      networks
+    })
 
     const saga = testSaga(completeJumio)
 
@@ -643,7 +670,7 @@ describe('sfoxSagas', () => {
   })
 
   describe('sfox fetchJumioStatus', () => {
-    const { fetchJumioStatus } = sfoxSagas({ coreSagas })
+    const { fetchJumioStatus } = sfoxSagas({ coreSagas, networks })
 
     const saga = testSaga(fetchJumioStatus)
 
@@ -674,7 +701,10 @@ describe('sfoxSagas', () => {
   })
 
   describe('sfox fetchJumioToken', () => {
-    const { fetchJumioToken, fetchJumioStatus } = sfoxSagas({ coreSagas })
+    const { fetchJumioToken, fetchJumioStatus } = sfoxSagas({
+      coreSagas,
+      networks
+    })
 
     const saga = testSaga(fetchJumioToken)
 
@@ -698,6 +728,58 @@ describe('sfoxSagas', () => {
     })
     it('should refresh jumioStatus', () => {
       saga.next().call(fetchJumioStatus)
+    })
+  })
+
+  describe('sfox initializePayment', () => {
+    let { initializePayment } = sfoxSagas({ coreSagas, networks })
+
+    let saga = testSaga(initializePayment)
+
+    it('should set loading', () => {
+      saga.next(paymentMock).put(sfoxActions.sfoxSellBtcPaymentUpdatedLoading())
+    })
+    it('should create the payment', () => {
+      saga.next(paymentMock)
+      expect(coreSagas.payment.btc.create).toHaveBeenCalled()
+      expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
+        network: networks.btc
+      })
+    })
+    it('should call init on the payment', () => {
+      saga.next(paymentMock)
+      expect(paymentMock.init).toHaveBeenCalled()
+    })
+    it('should update payment from', () => {
+      saga.next(paymentMock)
+      expect(paymentMock.from).toHaveBeenCalled()
+    })
+    it('should update the payment fee', () => {
+      saga.next(paymentMock)
+      expect(paymentMock.fee).toHaveBeenCalled()
+    })
+    it('should call payment value', () => {
+      saga.next(paymentMock)
+      expect(paymentMock.value).toHaveBeenCalled()
+    })
+
+    describe('error handling', () => {
+      const error = { error: 'some_error' }
+      it('should dispatch a failure action then log the error', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(sfoxActions.sfoxSellBtcPaymentUpdatedFailure(error))
+          .next()
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'initializePayment',
+              error
+            )
+          )
+      })
     })
   })
 })

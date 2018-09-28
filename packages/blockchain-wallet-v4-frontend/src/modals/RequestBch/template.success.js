@@ -112,7 +112,6 @@ const RequestBch = props => {
         type='submit'
         nature='primary'
         fullwidth
-        uppercase
         disabled={submitting || invalid}
       >
         <FormattedMessage id='modals.requestbch.done' defaultMessage='Done' />

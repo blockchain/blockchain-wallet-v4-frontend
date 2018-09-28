@@ -1,14 +1,18 @@
-import { assoc, merge } from 'ramda'
+import { assoc, compose, merge } from 'ramda'
 import * as AT from './actionTypes'
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from 'blockchain-wallet-v4'
+import { EXCHANGE_STEPS } from './model'
 
 const INITIAL_STATE = {
-  step: 1,
+  step: EXCHANGE_STEPS.EXCHANGE_FORM,
   secondStep: Remote.NotAsked,
   error: 'initial',
   payment: {},
   order: {},
-  firstStepEnabled: true
+  firstStepEnabled: true,
+  limits: Remote.NotAsked,
+  min: null,
+  max: null
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -34,7 +38,7 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('error', payload, state)
     }
     case AT.EXCHANGE_FIRST_STEP_SUBMIT_CLICKED: {
-      return assoc('step', 2, state)
+      return assoc('step', EXCHANGE_STEPS.CONFIRM, state)
     }
     case AT.EXCHANGE_SECOND_STEP_INITIALIZED: {
       return assoc('secondStep', Remote.Loading, state)
@@ -50,13 +54,30 @@ export default (state = INITIAL_STATE, action) => {
       return INITIAL_STATE
     }
     case AT.EXCHANGE_SECOND_STEP_PAYMENT_SENT: {
-      return merge(state, { step: 3, payment: payload })
+      return merge(state, {
+        step: EXCHANGE_STEPS.EXCHANGE_RESULT,
+        payment: payload
+      })
     }
     case AT.EXCHANGE_SECOND_STEP_GOBACK:
     case AT.EXCHANGE_DESTROYED:
     case AT.EXCHANGE_THIRD_STEP_CLOSE_CLICKED: {
       return INITIAL_STATE
     }
+    case AT.SET_STEP: {
+      return EXCHANGE_STEPS.EXCHANGE_FORM
+    }
+    case AT.FETCH_LIMITS_LOADING:
+      return assoc('limits', Remote.Loading, state)
+    case AT.FETCH_LIMITS_SUCCESS:
+      return assoc('limits', Remote.Success(payload.limits), state)
+    case AT.FETCH_LIMITS_ERROR:
+      return assoc('limits', Remote.Failure(payload.error), state)
+    case AT.SET_MIN_MAX:
+      return compose(
+        assoc('min', payload.min),
+        assoc('max', payload.max)
+      )(state)
     default:
       return state
   }

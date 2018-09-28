@@ -23,26 +23,26 @@ class SfoxExchangeData extends React.PureComponent {
     this.stepMap = {
       account: (
         <FormattedMessage
-          id='modals.sfoxexchangedata.steps.account'
+          id='modals.sfoxexchangedata.steps.createaccount'
           defaultMessage='Account'
         />
       ),
       verify: (
         <FormattedMessage
-          id='modals.sfoxexchangedata.steps.verify'
-          defaultMessage='Verify'
+          id='modals.sfoxexchangedata.steps.verifyidentity'
+          defaultMessage='Identity'
+        />
+      ),
+      upload: (
+        <FormattedMessage
+          id='modals.sfoxexchangedata.steps.uploadidentitydocs'
+          defaultMessage='Verification'
         />
       ),
       funding: (
         <FormattedMessage
-          id='modals.sfoxexchangedata.steps.funding'
+          id='modals.sfoxexchangedata.steps.linkbank'
           defaultMessage='Funding'
-        />
-      ),
-      submit: (
-        <FormattedMessage
-          id='modals.sfoxexchangedata.steps.submit'
-          defaultMessage='Submit'
         />
       )
     }
@@ -58,6 +58,8 @@ class SfoxExchangeData extends React.PureComponent {
     this.setState({ show: false })
     setTimeout(this.props.close, 500)
     this.props.sfoxFrontendActions.handleModalClose()
+    const step = this.props.signupStep || this.props.step
+    this.props.analytics.logSfoxDropoff(step)
   }
 
   getStepComponent (step) {
@@ -69,9 +71,9 @@ class SfoxExchangeData extends React.PureComponent {
       case 'funding':
         return { component: <Link />, step: 'funding' }
       case 'upload':
-        return { component: <Verify step='upload' />, step: 'verify' }
+        return { component: <Verify step='upload' />, step: 'upload' }
       case 'jumio':
-        return { component: <Verify step='jumio' />, step: 'verify' }
+        return { component: <Verify step='jumio' />, step: 'upload' }
       case 'verified': {
         this.handleClose()
         break
@@ -119,7 +121,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch),
-  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
+  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch),
+  analytics: bindActionCreators(actions.analytics, dispatch)
 })
 
 const enhance = compose(

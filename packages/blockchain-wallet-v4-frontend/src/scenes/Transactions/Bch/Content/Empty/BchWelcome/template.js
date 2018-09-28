@@ -152,24 +152,18 @@ const BitcoinCashWelcome = props => {
         <Row>
           {exchange ? (
             <LinkContainer to='/exchange'>
-              <Button nature='primary' margin='20px' fullwidth uppercase>
+              <Button nature='primary' margin='20px' fullwidth>
                 <FormattedMessage
-                  id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.getstarted.exchange'
-                  defaultMessage='Get started with Bitcoin Cash'
+                  id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.getstarted'
+                  defaultMessage='Get Started With Bitcoin Cash'
                 />
               </Button>
             </LinkContainer>
           ) : (
-            <Button
-              nature='primary'
-              margin='20px'
-              onClick={handleRequest}
-              fullwidth
-              uppercase
-            >
+            <Button nature='primary' margin='20px' onClick={handleRequest}>
               <FormattedMessage
-                id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.getstarted.request'
-                defaultMessage='Get started with Bitcoin Cash'
+                id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.getstarted'
+                defaultMessage='Get Started With Bitcoin Cash'
               />
             </Button>
           )}

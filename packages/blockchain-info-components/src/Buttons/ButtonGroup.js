@@ -11,19 +11,21 @@ const BaseButtonGroup = styled.div`
   & > * {
     display: inline-flex !important;
   }
-  & :first-child {
+  & > :first-child {
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
+    border-right: none;
   }
-  & :last-child {
+  & > :last-child {
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
   }
-  & :not(:first-child):not(:last-child) {
+  & > :not(:first-child):not(:last-child) {
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
+    border-right: none;
   }
 `
 const ButtonGroup = props => {

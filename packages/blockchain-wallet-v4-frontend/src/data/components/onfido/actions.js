@@ -1,6 +1,9 @@
 import * as AT from './actionTypes'
 
-export const syncOnfido = () => ({ type: AT.SYNC_ONFIDO })
+export const syncOnfido = isSelfie => ({
+  type: AT.SYNC_ONFIDO,
+  payload: { isSelfie }
+})
 export const syncOnfidoLoading = () => ({ type: AT.SYNC_ONFIDO_LOADING })
 export const syncOnfidoSuccess = () => ({ type: AT.SYNC_ONFIDO_SUCCESS })
 export const syncOnfidoError = message => ({
@@ -21,7 +24,7 @@ export const fetchOnfidoSDKKeyError = message => ({
   payload: { message }
 })
 
-export const setOnfidoApplicantId = applicatntId => ({
+export const setOnfidoApplicantId = applicantId => ({
   type: AT.SET_ONFIDO_APPLICANT_ID,
-  payload: { applicatntId }
+  payload: { applicantId }
 })

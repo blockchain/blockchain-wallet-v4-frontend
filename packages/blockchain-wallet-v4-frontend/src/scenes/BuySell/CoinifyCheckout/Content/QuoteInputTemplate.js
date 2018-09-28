@@ -46,7 +46,7 @@ const Container = styled.div`
 `
 const Unit = styled.span`
   padding: 0 15px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 300;
   position: absolute;
   color: ${props => props.theme['gray-4']};

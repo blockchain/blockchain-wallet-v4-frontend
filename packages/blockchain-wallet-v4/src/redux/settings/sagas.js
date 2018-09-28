@@ -102,6 +102,7 @@ export default ({ api }) => {
       throw new Error(response)
     }
     yield put(actions.setMobileVerified())
+    return response
   }
 
   const setMobileVerifiedAs2FA = function*({ code }) {

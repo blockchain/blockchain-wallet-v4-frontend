@@ -5,7 +5,6 @@ import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
 import * as modalActions from '../../modals/actions'
 import * as modalSelectors from '../../modals/selectors'
-import settings from 'config'
 import * as C from 'services/AlertService'
 import * as CC from 'services/ConfirmService'
 import { promptForSecondPassword, confirm } from 'services/SagaService'
@@ -16,7 +15,7 @@ export const sellDescription = `Exchange Trade SFX-`
 export const logLocation = 'modules/sfox/sagas'
 export const missingJumioToken = 'missing_jumio_token'
 
-export default ({ coreSagas }) => {
+export default ({ api, coreSagas, networks }) => {
   const setBankManually = function*(action) {
     try {
       yield put(A.sfoxLoading())
@@ -41,6 +40,7 @@ export default ({ coreSagas }) => {
         yield put(A.sfoxSuccess())
         yield put(A.enableSiftScience())
         yield put(A.nextStep('verify'))
+        yield api.logSfoxAccountCreation()
       } else {
         yield put(A.sfoxNotAsked())
         throw new Error(JSON.parse(profile.error).error)
@@ -87,9 +87,14 @@ export default ({ coreSagas }) => {
 
   const setBank = function*(payload) {
     try {
-      const setBankResult = yield call(coreSagas.data.sfox.setBankAccount, payload)
+      const setBankResult = yield call(
+        coreSagas.data.sfox.setBankAccount,
+        payload
+      )
       if (!setBankResult) {
-        yield put(A.sfoxFailure({message: 'There was an error linking your bank'}))
+        yield put(
+          A.sfoxFailure({ message: 'There was an error linking your bank' })
+        )
       } else {
         yield put(actions.alerts.displaySuccess(C.BANK_ACCOUNT_SET_SUCCESS))
         yield put(modalActions.closeAllModals())
@@ -152,6 +157,7 @@ export default ({ coreSagas }) => {
         actions.form.change('buySellTabStatus', 'status', 'order_history')
       )
       yield put(modalActions.showModal('SfoxTradeDetails', { trade }))
+      yield call(api.logSfoxTrade, 'sfox_trade_buy_usd_btc_confirmed')
     } catch (e) {
       yield put(A.sfoxFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'submitQuote', e))
@@ -163,12 +169,12 @@ export default ({ coreSagas }) => {
       const state = yield select()
       const defaultIdx = selectors.core.wallet.getDefaultAccountIndex(state)
       const receiveR = selectors.core.common.btc.getNextAvailableReceiveAddress(
-        settings.NETWORK_BITCOIN,
+        networks.btc,
         defaultIdx,
         state
       )
       const receiveIdxR = selectors.core.common.btc.getNextAvailableReceiveIndex(
-        settings.NETWORK_BITCOIN,
+        networks.btc,
         defaultIdx,
         state
       )
@@ -194,7 +200,7 @@ export default ({ coreSagas }) => {
       let p = path(['sfoxSignup', 'payment'], state)
       let payment = yield coreSagas.payment.btc.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_BITCOIN
+        network: networks.btc
       })
 
       payment = yield payment.amount(parseInt(trade.sendAmount))
@@ -232,6 +238,7 @@ export default ({ coreSagas }) => {
       )
       yield put(modalActions.showModal('SfoxTradeDetails', { trade }))
       yield put(A.initializePayment())
+      yield call(api.logSfoxTrade, 'sfox_trade_sell_btc_usd_confirmed')
     } catch (e) {
       yield put(A.sfoxFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'submitSellQuote', e))
@@ -255,7 +262,7 @@ export default ({ coreSagas }) => {
     try {
       yield put(A.sfoxSellBtcPaymentUpdatedLoading())
       let payment = coreSagas.payment.btc.create({
-        network: settings.NETWORK_BITCOIN
+        network: networks.btc
       })
       payment = yield payment.init()
       const defaultIndex = yield select(
@@ -385,12 +392,16 @@ export default ({ coreSagas }) => {
       yield put(actions.core.data.sfox.fetchTrades())
       yield put(actions.core.data.sfox.fetchProfile())
       yield put(actions.core.data.sfox.sfoxFetchAccounts())
-      yield put(actions.core.data.sfox.fetchQuote({
-        quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }
-      }))
-      yield put(actions.core.data.sfox.fetchSellQuote({
-        quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }
-      }))
+      yield put(
+        actions.core.data.sfox.fetchQuote({
+          quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }
+        })
+      )
+      yield put(
+        actions.core.data.sfox.fetchSellQuote({
+          quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }
+        })
+      )
       yield put(A.initializePayment())
       yield put(A.sfoxNotAsked())
     } catch (e) {

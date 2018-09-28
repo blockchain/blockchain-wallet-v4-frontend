@@ -1,30 +1,30 @@
 import { path } from 'ramda'
-import { selectors } from 'data'
 
-export const getStep = path(['components', 'identityVerification', 'step'])
-export const getPersonalStep = path([
+export const getVerificationStep = path([
   'components',
   'identityVerification',
-  'personalStep'
-])
-export const getEmailStep = path([
-  'components',
-  'identityVerification',
-  'emailStep'
+  'verificationStep'
 ])
 export const getSmsStep = path([
   'components',
   'identityVerification',
   'smsStep'
 ])
-export const getFormBusy = path([
+
+export const getSupportedCountries = path([
   'components',
   'identityVerification',
-  'formBusy'
+  'supportedCountries'
 ])
-export const getPersonalData = state => ({
-  email: selectors.core.settings.getEmail(state).getOrElse(''),
-  smsNumber: selectors.core.settings.getSmsNumber(state).getOrElse(''),
-  emailVerified: selectors.core.settings.getEmailVerified(state).getOrElse(0),
-  smsVerified: selectors.core.settings.getSmsVerified(state).getOrElse(0)
-})
+
+export const getPossibleAddresses = path([
+  'components',
+  'identityVerification',
+  'possibleAddresses'
+])
+
+export const isAddressRefetchVisible = path([
+  'components',
+  'identityVerification',
+  'addressRefetchVisible'
+])

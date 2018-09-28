@@ -266,7 +266,6 @@ class AcceptTerms extends Component {
           <ColRightInner>
             <ButtonWrapper>
               <Button
-                uppercase
                 type='submit'
                 nature='primary'
                 fullwidth
@@ -275,7 +274,10 @@ class AcceptTerms extends Component {
                 {busy ? (
                   <HeartbeatLoader height='20px' width='20px' color='white' />
                 ) : (
-                  <span>Continue</span>
+                  <FormattedMessage
+                    id='sfoxexchangedata.create.continue'
+                    defaultMessage='Continue'
+                  />
                 )}
               </Button>
             </ButtonWrapper>

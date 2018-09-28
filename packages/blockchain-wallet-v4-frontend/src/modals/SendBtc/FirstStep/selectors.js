@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { equals, length, prop, path, pathOr } from 'ramda'
 import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
+import Bitcoin from 'bitcoinjs-lib'
 
 export const getData = createDeepEqualSelector(
   [
@@ -11,6 +12,7 @@ export const getData = createDeepEqualSelector(
     selectors.components.sendBtc.getPayment,
     selectors.core.common.btc.getActiveHDAccounts,
     selectors.core.common.btc.getActiveAddresses,
+    selectors.core.walletOptions.getBtcNetwork,
     selectors.form.getFormValues('sendBtc')
   ],
   (
@@ -19,10 +21,12 @@ export const getData = createDeepEqualSelector(
     paymentR,
     btcAccountsR,
     btcAddressesR,
+    networkTypeR,
     formValues
   ) => {
     const btcAccountsLength = length(btcAccountsR.getOrElse([]))
     const btcAddressesLength = length(btcAddressesR.getOrElse([]))
+    const networkType = networkTypeR.getOrElse('bitcoin')
     const enableToggle = btcAccountsLength + btcAddressesLength > 1
     const feePerByte = prop('feePerByte', formValues)
     const destination = prop('to', formValues)
@@ -61,7 +65,7 @@ export const getData = createDeepEqualSelector(
         }
       ]
       const watchOnly = prop('watchOnly', from)
-      const addressMatchesPriv = payment.fromType === 'FROM.WATCH_ONLY'
+      const network = Bitcoin.networks[networkType]
       const isPriorityFeePerByte = equals(
         parseInt(feePerByte),
         priorityFeePerByte
@@ -69,6 +73,7 @@ export const getData = createDeepEqualSelector(
 
       return {
         from,
+        network,
         toToggled,
         enableToggle,
         feePerByteToggled,
@@ -81,8 +86,7 @@ export const getData = createDeepEqualSelector(
         isPriorityFeePerByte,
         destination,
         totalFee,
-        watchOnly,
-        addressMatchesPriv
+        watchOnly
       }
     }
 
