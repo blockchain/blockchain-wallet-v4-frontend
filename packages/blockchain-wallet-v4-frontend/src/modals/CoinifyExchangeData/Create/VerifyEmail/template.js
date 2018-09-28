@@ -147,7 +147,6 @@ const VerifyEmail = props => {
           {ui.create === 'enter_email_code' ? (
             <ButtonWrapper>
               <Button
-                uppercase
                 type='submit'
                 nature='primary'
                 fullwidth

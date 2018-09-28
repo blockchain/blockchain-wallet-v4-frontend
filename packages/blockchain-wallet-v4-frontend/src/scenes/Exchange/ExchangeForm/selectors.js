@@ -2,7 +2,6 @@ import { selectors, model } from 'data'
 import {
   append,
   compose,
-  contains,
   cond,
   curry,
   equals,
@@ -16,7 +15,6 @@ import {
   map,
   path,
   prop,
-  propEq,
   sortBy,
   unnest
 } from 'ramda'
@@ -30,9 +28,13 @@ const {
   mapFixToFieldName,
   formatPair,
   splitPair,
-  FIX_TYPES
+  FIX_TYPES,
+  coinActive,
+  fiatActive,
+  sourceActive,
+  targetActive
 } = model.rates
-const { BASE, BASE_IN_FIAT, COUNTER, COUNTER_IN_FIAT } = FIX_TYPES
+const { BASE_IN_FIAT } = FIX_TYPES
 
 const currenciesOrder = ['BTC', 'BCH', 'ETH']
 
@@ -136,18 +138,30 @@ const formatBestRates = curry(
   })
 )
 
+const {
+  canUseExchange,
+  getError,
+  getActiveBtcAccounts,
+  getActiveBchAccounts,
+  getActiveEthAccounts,
+  getMin,
+  getMax
+} = selectors.components.exchange
+
+export { canUseExchange, getMin, getMax }
 export const getData = createDeepEqualSelector(
   [
-    selectors.components.exchange.getBtcAccounts,
-    selectors.components.exchange.getBchAccounts,
-    selectors.components.exchange.getEthAccounts,
+    getActiveBtcAccounts,
+    getActiveBchAccounts,
+    getActiveEthAccounts,
     selectors.core.settings.getCurrency,
-    selectors.components.exchange.getError,
+    getError,
     getFormValues,
     selectors.modules.rates.getAvailablePairs,
     getCurrentPairAmounts,
     getCurrentPairRates,
-    selectors.modules.rates.getBestRates
+    selectors.modules.rates.getBestRates,
+    canUseExchange
   ],
   (
     btcAccountsR,
@@ -159,22 +173,17 @@ export const getData = createDeepEqualSelector(
     availablePairsR,
     adviceAmountsR,
     adviceRatesR,
-    bestRatesR
+    bestRatesR,
+    canUseExchange
   ) => {
-    const btcAccounts = btcAccountsR.getOrElse([])
-    const bchAccounts = bchAccountsR.getOrElse([])
-    const ethAccounts = ethAccountsR.getOrElse([])
+    if (!canUseExchange) return Remote.Loading
+
+    const activeBtcAccounts = btcAccountsR.getOrElse([])
+    const activeBchAccounts = bchAccountsR.getOrElse([])
+    const activeEthAccounts = ethAccountsR.getOrElse([])
     const { sourceCoin, targetCoin, fix } = formValues
-    const sourceActive = contains(fix, [BASE, BASE_IN_FIAT])
-    const targetActive = contains(fix, [COUNTER, COUNTER_IN_FIAT])
-    const coinActive = contains(fix, [BASE, COUNTER])
-    const fiatActive = contains(fix, [BASE_IN_FIAT, COUNTER_IN_FIAT])
 
     const transform = (currency, availablePairs) => {
-      const isActive = propEq('archived', false)
-      const activeBtcAccounts = filter(isActive, btcAccounts)
-      const activeBchAccounts = filter(isActive, bchAccounts)
-      const activeEthAccounts = filter(isActive, ethAccounts)
       const defaultBtcAccount = head(activeBtcAccounts)
       const defaultEthAccount = head(activeEthAccounts)
       const hasOneAccount = length(activeBtcAccounts) === 1
@@ -214,6 +223,7 @@ export const getData = createDeepEqualSelector(
       )
 
       return {
+        canUseExchange: true,
         availablePairs,
         fromElements,
         toElements,
@@ -234,10 +244,10 @@ export const getData = createDeepEqualSelector(
         targetToFiatRate: ratesR.map(prop('targetToFiatRate')),
         sourceCoin,
         targetCoin,
-        sourceActive,
-        targetActive,
-        coinActive,
-        fiatActive,
+        sourceActive: sourceActive(fix),
+        targetActive: targetActive(fix),
+        coinActive: coinActive(fix),
+        fiatActive: fiatActive(fix),
         fix
       }
     }

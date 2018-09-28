@@ -1,14 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import {
-  equals,
-  filter,
-  identity,
-  head,
-  path,
-  pathOr,
-  prop,
-  propEq
-} from 'ramda'
+import { equals, identity, head, path, pathOr, prop } from 'ramda'
 import { selectors, actions } from 'data'
 import * as S from './selectors'
 import settings from 'config'
@@ -24,6 +15,16 @@ import { SHAPESHIFT_FORM } from './model'
 
 export default ({ api, coreSagas, networks, options }) => {
   const logLocation = 'components/exchange/sagas.utils'
+
+  let prevSource
+  let prevResult
+  const calculateEffectiveBalanceMemo = function*(source) {
+    if (!equals(source, prevSource)) {
+      prevSource = source
+      prevResult = yield call(calculateEffectiveBalance, source)
+    }
+    return prevResult
+  }
 
   const calculateEffectiveBalance = function*(source) {
     const coin = prop('coin', source)
@@ -305,33 +306,18 @@ export default ({ api, coreSagas, networks, options }) => {
   }
 
   const getDefaultBchAccountValue = function*() {
-    const bchAccounts = yield call(getActiveBchAccounts)
+    const bchAccounts = yield select(S.getActiveBchAccounts)
     return head(bchAccounts.getOrFail('Could not get BCH HD accounts.'))
   }
 
   const getDefaultBtcAccountValue = function*() {
-    const btcAccounts = yield call(getActiveBtcAccounts)
+    const btcAccounts = yield select(S.getActiveBtcAccounts)
     return head(btcAccounts.getOrFail('Could not get BTC HD accounts.'))
   }
 
   const getDefaultEthAccountValue = function*() {
-    const ethAccounts = yield call(getActiveEthAccounts)
+    const ethAccounts = yield select(S.getActiveEthAccounts)
     return head(ethAccounts.getOrFail('Could not get ETH accounts.'))
-  }
-
-  const getActiveBchAccounts = function*() {
-    const bchAccounts = yield select(S.getBchAccounts)
-    return bchAccounts.map(filter(propEq('archived', false)))
-  }
-
-  const getActiveBtcAccounts = function*() {
-    const btcAccounts = yield select(S.getBtcAccounts)
-    return btcAccounts.map(filter(propEq('archived', false)))
-  }
-
-  const getActiveEthAccounts = function*() {
-    const ethAccounts = yield select(S.getEthAccounts)
-    return ethAccounts.map(filter(propEq('archived', false)))
   }
 
   const selectOtherAccount = function*(coin) {
@@ -385,6 +371,7 @@ export default ({ api, coreSagas, networks, options }) => {
   }
 
   return {
+    calculateEffectiveBalanceMemo,
     calculateEffectiveBalance,
     createPayment,
     resumePayment,

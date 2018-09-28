@@ -1,15 +1,4 @@
-import {
-  assoc,
-  assocPath,
-  compose,
-  groupBy,
-  head,
-  lensProp,
-  map,
-  propOr,
-  prop,
-  set
-} from 'ramda'
+import { assoc, assocPath, dissocPath, lensProp, propOr, set } from 'ramda'
 
 import * as socketActionTypes from 'data/middleware/webSocket/rates/actionTypes'
 import * as AT from './actionTypes'
@@ -27,10 +16,10 @@ const INITIAL_PAIR = {
     volume: 0,
     fiatCurrency: 'USD'
   },
-  advice: Remote.NotAsked
+  quote: Remote.NotAsked
 }
 const getPair = propOr(INITIAL_PAIR)
-const adviceLens = lensProp('advice')
+const quoteLens = lensProp('quote')
 const configLens = lensProp('config')
 const bestRatesLens = lensProp('bestRates')
 const setPairProp = (lens, fn, pair, state) => {
@@ -50,28 +39,24 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('availablePairs', Remote.Failure(payload.error), state)
     case AT.UPDATE_PAIR_CONFIG:
       return setPairProp(configLens, payload.config, payload.pair, state)
-    case AT.SET_PAIR_ADVICE:
+    case AT.SET_PAIR_QUOTE:
       return setPairProp(
-        adviceLens,
-        Remote.Success(payload.advice),
+        quoteLens,
+        Remote.Success(payload.quote),
         payload.pair,
         state
       )
     case AT.SUBSCRIBE_TO_ADVICE:
-      return setPairProp(adviceLens, Remote.Loading, payload.pair, state)
+      return setPairProp(quoteLens, Remote.Loading, payload.pair, state)
     case socketActionTypes.ADVICE_SUBSCRIBE_ERROR:
       return setPairProp(
-        adviceLens,
+        quoteLens,
         Remote.Failure(payload.error),
         payload.pair,
         state
       )
     case AT.UPDATE_BEST_RATES: {
-      const pairs = compose(
-        map(head),
-        groupBy(prop('pair'))
-      )(payload.rates)
-      return set(bestRatesLens, Remote.Success(pairs), state)
+      return set(bestRatesLens, Remote.Success(payload.rates), state)
     }
     case AT.SUBSCRIBE_TO_RATES:
       return set(bestRatesLens, Remote.Loading, state)
@@ -79,6 +64,8 @@ export default (state = INITIAL_STATE, action) => {
       return set(bestRatesLens, Remote.Failure(payload.error), state)
     case AT.UNSUBSCRIBE_FROM_RATES:
       return set(bestRatesLens, Remote.NotAsked, state)
+    case AT.REMOVE_ADVICE:
+      return dissocPath(['pairs', payload.pair], state)
     default:
       return state
   }

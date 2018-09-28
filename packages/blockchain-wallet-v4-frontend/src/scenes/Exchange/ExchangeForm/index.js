@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { compose, flip, prop, isEmpty } from 'ramda'
+import { compose, isEmpty } from 'ramda'
 
 import { getRemotePropType, getElementsPropType } from 'utils/proptypes'
 import { debounce } from 'utils/helpers'
 import { actions, model } from 'data'
-import { getData } from './selectors'
+import { getData, getMin, getMax, canUseExchange } from './selectors'
 
 import Loading from './template.loading'
 import Success from './template.success'
@@ -15,45 +15,38 @@ import DataError from 'components/DataError'
 
 const extractFieldValue = (e, value) => value
 
-const { swapCoinAndFiat, swapBaseAndCounter, FIX_TYPES } = model.rates
-const { BASE, COUNTER, BASE_IN_FIAT, COUNTER_IN_FIAT } = FIX_TYPES
+const { swapCoinAndFiat, swapBaseAndCounter } = model.rates
 
 class FirstStepContainer extends React.Component {
   componentDidMount () {
-    this.props.actions.initialize()
+    const { canUseExchange, actions } = this.props
+    if (canUseExchange) actions.initialize()
+  }
+
+  componentDidUpdate (prevProps) {
+    const { canUseExchange, actions } = this.props
+    if (!prevProps.canUseExchange && canUseExchange) actions.initialize()
   }
 
   debounceTime = 50
+  changeAmount = debounce(this.props.actions.changeAmount, this.debounceTime)
 
   handleRefresh = () => {
-    this.props.actions.initialize()
+    actions.initialize()
   }
 
-  getChangeAmountAction = flip(prop)({
-    [BASE]: debounce(this.props.actions.changeSourceAmount, this.debounceTime),
-    [COUNTER]: debounce(
-      this.props.actions.changeTargetAmount,
-      this.debounceTime
-    ),
-    [BASE_IN_FIAT]: debounce(
-      this.props.actions.changeSourceFiatAmount,
-      this.debounceTime
-    ),
-    [COUNTER_IN_FIAT]: debounce(
-      this.props.actions.changeTargetFiatAmount,
-      this.debounceTime
-    )
-  })
-
   render () {
-    const { actions, data } = this.props
+    const { actions, data, min, max, canUseExchange } = this.props
     return data.cata({
       Success: value =>
-        isEmpty(value.availablePairs) ? (
+        canUseExchange && isEmpty(value.availablePairs) ? (
           <DataError onClick={this.handleRefresh} />
         ) : (
           <Success
             {...value}
+            min={min}
+            max={max}
+            canUseExchange={canUseExchange}
             handleMaximum={actions.firstStepMaximumClicked}
             handleMinimum={actions.firstStepMinimumClicked}
             onSubmit={actions.firstStepSubmitClicked}
@@ -66,17 +59,23 @@ class FirstStepContainer extends React.Component {
               extractFieldValue
             )}
             handleAmountChange={compose(
-              this.getChangeAmountAction(value.fix),
+              this.changeAmount,
               extractFieldValue
             )}
+            swapFix={compose(
+              actions.changeFix,
+              swapBaseAndCounter.bind(null, value.fix)
+            )}
             swapBaseAndCounter={compose(
-              this.props.actions.changeFix,
+              actions.swapBaseAndCounter,
               swapBaseAndCounter.bind(null, value.fix)
             )}
             swapCoinAndFiat={compose(
-              this.props.actions.changeFix,
+              actions.changeFix,
               swapCoinAndFiat.bind(null, value.fix)
             )}
+            useMin={actions.useMin}
+            useMax={actions.useMax}
           />
         ),
       Failure: message => (
@@ -116,6 +115,9 @@ FirstStepContainer.propTypes = {
 }
 
 const mapStateToProps = state => ({
+  canUseExchange: canUseExchange(state),
+  min: getMin(state),
+  max: getMax(state),
   data: getData(state)
 })
 

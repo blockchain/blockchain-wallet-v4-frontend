@@ -1,90 +1,69 @@
 import React from 'react'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
+import { currencySymbolMap } from 'services/CoinifyService'
+import { Remote } from 'blockchain-wallet-v4'
+import { model } from 'data'
+import Success from './template.success'
 
-import { SkeletonRectangle, Text } from 'blockchain-info-components'
+const { BASE_IN_FIAT } = model.rates.FIX_TYPES
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 100%;
-  padding: 30px 30px 10px 30px;
-  box-sizing: border-box;
-  border: 1px solid ${props => props.theme['gray-2']};
-`
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: ${props => props.justify || 'flex-start'};
-  align-items: flex-start;
-  width: 100%;
-  height: ${props => props.height || 'auto'};
-  margin-bottom: 10px;
-`
-const Cell = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: ${props => (props.size === 'small' ? 'center' : 'flex-start')};
-  width: ${props => (props.size === 'small' ? '10%' : '45%')};
-  height: 100%;
-`
+const stubBtcAccount = {
+  archived: false,
+  coin: 'BTC',
+  label: 'Bitcoin',
+  address: 0,
+  balance: 0
+}
 
-const Loading = () => (
-  <Wrapper>
-    <Row justify='flex-end'>
-      <Text size='12px' weight={300}>
-        <FormattedMessage
-          id='scenes.exchange.shapeshift.firststep.step'
-          defaultMessage='Step 1 of 2'
-        />
-      </Text>
-    </Row>
-    <Row>
-      <Cell>
-        <SkeletonRectangle width='100px' height='20px' />
-      </Cell>
-      <Cell size='small' />
-      <Cell>
-        <SkeletonRectangle width='100px' height='20px' />
-      </Cell>
-    </Row>
-    <Row height='50px'>
-      <Cell>
-        <SkeletonRectangle width='100%' height='25px' />
-      </Cell>
-      <Cell size='small'>
-        <SkeletonRectangle width='20px' height='20px' />
-      </Cell>
-      <Cell>
-        <SkeletonRectangle width='100%' height='25px' />
-      </Cell>
-    </Row>
-    <Row>
-      <SkeletonRectangle width='200px' height='20px' />
-    </Row>
-    <Row height='80px'>
-      <Cell>
-        <SkeletonRectangle width='100%' height='25px' />
-        <SkeletonRectangle width='100%' height='25px' />
-      </Cell>
-      <Cell size='small'>
-        <SkeletonRectangle width='20px' height='20px' />
-      </Cell>
-      <Cell>
-        <SkeletonRectangle width='100%' height='25px' />
-        <SkeletonRectangle width='100%' height='25px' />
-      </Cell>
-    </Row>
-    <Row>
-      <SkeletonRectangle width='200px' height='15px' />
-    </Row>
-    <Row>
-      <SkeletonRectangle width='100%' height='25px' />
-    </Row>
-  </Wrapper>
-)
+const stubEthAccount = {
+  archived: false,
+  coin: 'ETH',
+  label: 'Ether',
+  address: 0,
+  balance: 0
+}
 
-export default Loading
+const stubProps = {
+  canUseExchange: false,
+  availablePairs: [],
+  fromElements: [
+    {
+      group: '',
+      items: [{ text: stubBtcAccount.label, value: stubBtcAccount }]
+    }
+  ],
+  toElements: [
+    {
+      group: '',
+      items: [{ text: stubEthAccount.label, value: stubEthAccount }]
+    }
+  ],
+  initialValues: {
+    source: stubBtcAccount,
+    target: stubEthAccount,
+    sourceFiat: 0,
+    fix: BASE_IN_FIAT
+  },
+  hasOneAccount: true,
+  disabled: false,
+  formError: '',
+  currency: 'USD',
+  inputField: 'sourceFiat',
+  inputSymbol: currencySymbolMap.USD,
+  complementaryAmount: Remote.of(0),
+  complementarySymbol: currencySymbolMap.BTC,
+  sourceAmount: Remote.of(0),
+  targetAmount: Remote.of(0),
+  targetFiat: Remote.of(0),
+  sourceToTargetRate: Remote.of(0),
+  sourceToFiatRate: Remote.of(0),
+  targetToFiatRate: Remote.of(0),
+  sourceCoin: 'BTC',
+  targetCoin: 'ETH',
+  sourceActive: true,
+  targetActive: false,
+  coinActive: false,
+  fiatActive: true,
+  fix: BASE_IN_FIAT
+}
+
+export default () => <Success {...stubProps} />

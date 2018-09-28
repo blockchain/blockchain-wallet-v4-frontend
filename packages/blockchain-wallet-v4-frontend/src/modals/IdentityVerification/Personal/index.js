@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { map, find, propEq } from 'ramda'
+import { find, map, prepend, propEq } from 'ramda'
 
 import { actions, model } from 'data'
 import { getData } from './selectors'
@@ -28,18 +28,24 @@ const getCountryElements = countries => [
 const getAddressElements = addresses => [
   {
     group: '',
-    items: map(address => {
-      const { line1, line2, postCode, city, state } = address
-      return {
-        value: address,
-        text: `${line1} ${line2} ${postCode}, ${city}, ${state}`
-      }
-    }, addresses)
+    items: prepend(
+      MANUAL_ADDRESS_ITEM,
+      map(address => {
+        const { line1, line2, postCode, city, state } = address
+        return {
+          value: address,
+          text: `${line1} ${line2} ${postCode}, ${city}, ${state}`
+        }
+      }, addresses)
+    )
   }
 ]
 
 const { AddressPropType } = model.profile
-const { PERSONAL_FORM } = model.components.identityVerification
+const {
+  PERSONAL_FORM,
+  MANUAL_ADDRESS_ITEM
+} = model.components.identityVerification
 
 class PersonalContainer extends React.PureComponent {
   componentDidMount () {
@@ -64,6 +70,7 @@ class PersonalContainer extends React.PureComponent {
       countryCode,
       possibleAddresses,
       address,
+      postCode,
       activeField,
       addressRefetchVisible,
       actions,
@@ -77,10 +84,11 @@ class PersonalContainer extends React.PureComponent {
           initialValues={{
             ...userData,
             country:
-              find(propEq('name', userData.country), supportedCountries) ||
+              find(propEq('code', userData.country), supportedCountries) ||
               find(propEq('code', initialCountryCode), supportedCountries)
           }}
           countryCode={countryCode}
+          postCode={postCode}
           supportedCountries={getCountryElements(supportedCountries)}
           possibleAddresses={getAddressElements(possibleAddresses)}
           address={address}

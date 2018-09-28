@@ -20,19 +20,19 @@ import { ExchangeButton } from 'components/Exchange'
 import { Form, TextBox } from 'components/Form'
 import StringDisplay from 'components/Display/StringDisplay'
 import SelectBox from './SelectBox'
-import {
-  AboveRegulationLimitMessage,
-  MaximumAmountMessage,
-  MinimumAmountMessage,
-  InsufficientAmountMessage,
-  InvalidAmountMessage
-} from './validationMessages'
+import { getErrorMessage } from './validationMessages'
 import Summary from './Summary'
 
-const { EXCHANGE_FORM } = model.components.exchange
-const { fixIsFiat, formatPair } = model.rates
+const {
+  EXCHANGE_FORM,
+  NO_LIMITS_ERROR,
+  MAXIMUM_NO_LINK_ERROR,
+  MINIMUM_NO_LINK_ERROR
+} = model.components.exchange
+const { fiatActive, formatPair } = model.rates
 
 const Wrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -45,6 +45,14 @@ const Wrapper = styled.div`
     padding: 0;
     flex-direction: column;
   `};
+`
+
+const Cover = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background-color: rgba(255, 255, 255, 0.1);
 `
 
 const ColumnLeft = styled.div`
@@ -89,6 +97,14 @@ const MinMaxButtonGroup = styled(ButtonGroup)`
   > * {
     color: ${props => props.theme['brand-primary']};
   }
+`
+const MinMaxButton = styled(Button)`
+  font-size: 10px;
+  justify-content: space-between;
+`
+const MinMaxValue = styled.div`
+  font-weight: 600;
+  font-size: 14px;
 `
 const AmountTextBox = styled(TextBox)`
   height: 86px;
@@ -147,36 +163,45 @@ const CoinFiatSwapIcon = styled(Icon)`
       props.disabled ? props.theme['gray-1'] : props.theme['brand-secondary']};
   }
 `
-const ActiveCurrencyIndicator = styled.div`
+const ActiveCurrencyButton = styled.div`
+  cursor: pointer;
   height: 12px;
   width: 12px;
-  background-color: ${props =>
-    props.active ? props.theme[props.coin] : props.theme['white']};
-  border-radius: 7px;
-  border: 1px solid;
-  border-color: ${props =>
-    props.active ? props.theme[props.coin] : props.theme['gray-3']};
+  background-color: ${props => props.checked && props.theme[props.coin]};
+  border-radius: 8px;
+  border: ${props => props.checked && '2px solid'}
+    ${props => props.theme['white']};
+  border-color: ;
   margin-right: 8px;
+  box-shadow: 0 0 0 1px ${props => props.theme[props.coin]};
 `
 const FieldsWrapper = styled.div`
   padding: 30px;
   border: 1px solid ${props => props.theme['gray-2']}};
   margin-bottom: 45px;
 `
+const ErrorRow = styled(Row)`
+  justify-content: center;
+  min-height: 15px;
+`
 
 const normalizeAmount = (value, prevValue, allValues, ...args) => {
   if (isNaN(Number(value))) return prevValue
-  return formatAmount(value, fixIsFiat(allValues.fix))
+  return formatAmount(value, fiatActive(allValues.fix))
 }
 
 const Success = props => {
   const {
+    disabled,
+    dirty,
+    asyncValidating,
+    error,
+    submitting,
+    canUseExchange,
     availablePairs,
     fromElements,
     toElements,
     hasOneAccount,
-    disabled,
-    dirty,
     sourceCoin,
     targetCoin,
     sourceActive,
@@ -185,28 +210,41 @@ const Success = props => {
     inputSymbol,
     complementaryAmount,
     complementarySymbol,
-    formError,
+    min,
+    max,
     handleSubmit,
     handleSourceChange,
     handleTargetChange,
     handleAmountChange,
+    swapFix,
     swapBaseAndCounter,
-    swapCoinAndFiat
+    swapCoinAndFiat,
+    useMin,
+    useMax
   } = props
   const swapDisabled = !contains(
     formatPair(targetCoin, sourceCoin),
     availablePairs
   )
+  const minMaxDisabled = contains(error, [
+    NO_LIMITS_ERROR,
+    MAXIMUM_NO_LINK_ERROR,
+    MINIMUM_NO_LINK_ERROR
+  ])
 
   return (
     <Wrapper>
+      {!canUseExchange && <Cover />}
       <ColumnLeft>
         <Form onSubmit={handleSubmit}>
           <FieldsWrapper>
             <Row>
               <Cell>
-                <ActiveCurrencyIndicator
-                  active={sourceActive}
+                <ActiveCurrencyButton
+                  onClick={() => {
+                    if (!disabled && !sourceActive) swapFix()
+                  }}
+                  checked={sourceActive}
                   coin={sourceCoin.toLowerCase()}
                 />
                 <Text size='14px' weight={400}>
@@ -218,10 +256,15 @@ const Success = props => {
               </Cell>
               <Cell size='small' />
               <Cell>
-                <ActiveCurrencyIndicator
-                  active={targetActive}
-                  coin={targetCoin.toLowerCase()}
-                />
+                {
+                  <ActiveCurrencyButton
+                    onClick={() => {
+                      if (!disabled && !targetActive) swapFix()
+                    }}
+                    checked={targetActive}
+                    coin={targetCoin.toLowerCase()}
+                  />
+                }
                 <Text size='14px' weight={400}>
                   <FormattedMessage
                     id='scenes.exchange.shapeshift.firststep.to'
@@ -270,6 +313,7 @@ const Success = props => {
               <CurrencyBox>{inputSymbol}</CurrencyBox>
               <Field
                 name={inputField}
+                autoComplete='off'
                 onChange={handleAmountChange}
                 normalize={normalizeAmount}
                 component={AmountTextBox}
@@ -305,31 +349,33 @@ const Success = props => {
                 }}
               />
             </AmountRow>
-            {formError && (
-              <Row spaced>
-                {formError === 'minimum' && <MinimumAmountMessage />}
-                {formError === 'maximum' && <MaximumAmountMessage />}
-                {formError === 'insufficient' && <InsufficientAmountMessage />}
-                {formError === 'regulationlimit' && (
-                  <AboveRegulationLimitMessage />
-                )}
-                {formError === 'invalid' && <InvalidAmountMessage />}
-              </Row>
-            )}
+            <ErrorRow spaced>{error && getErrorMessage(error)}</ErrorRow>
             <Row>
               <MinMaxButtonGroup>
-                <Button fullwidth>
+                <MinMaxButton
+                  fullwidth
+                  disabled={minMaxDisabled}
+                  onClick={useMin}
+                >
                   <FormattedMessage
                     id='scenes.exchange.exchangeform.min'
                     defaultMessage='MIN'
                   />
-                </Button>
-                <Button fullwidth>
+                  &nbsp;
+                  <MinMaxValue>{!minMaxDisabled && min}</MinMaxValue>
+                </MinMaxButton>
+                <MinMaxButton
+                  fullwidth
+                  disabled={minMaxDisabled}
+                  onClick={useMax}
+                >
                   <FormattedMessage
                     id='scenes.exchange.exchangeform.max'
                     defaultMessage='MAX'
                   />
-                </Button>
+                  &nbsp;
+                  <MinMaxValue>{!minMaxDisabled && max}</MinMaxValue>
+                </MinMaxButton>
               </MinMaxButtonGroup>
             </Row>
           </FieldsWrapper>
@@ -338,11 +384,13 @@ const Success = props => {
             nature='primary'
             disabled={
               disabled ||
+              asyncValidating ||
+              submitting ||
               !dirty ||
-              (dirty && formError && formError !== 'initial')
+              (dirty && error)
             }
           >
-            {!disabled && (
+            {!disabled && !asyncValidating && !submitting ? (
               <FormattedMessage
                 id='scenes.exchange.exchangeform.exchange'
                 defaultMessage='Exchange {source} for {target}'
@@ -351,8 +399,7 @@ const Success = props => {
                   target: targetCoin
                 }}
               />
-            )}
-            {disabled && (
+            ) : (
               <HeartbeatLoader height='20px' width='20px' color='white' />
             )}
           </ExchangeButton>
@@ -367,5 +414,6 @@ const Success = props => {
 
 export default reduxForm({
   form: EXCHANGE_FORM,
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
+  enableReinitialize: true
 })(Success)

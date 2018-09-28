@@ -38,14 +38,21 @@ const QRInputWrapper = styled.div`
 `
 
 const SmsAuth = props => {
-  const { data, ui, handleSubmit, changeMobileNumber, invalid, code } = props
+  const {
+    data,
+    uiState,
+    handleSubmit,
+    changeMobileNumber,
+    invalid,
+    code
+  } = props
   const { smsVerified, smsNumber, countryCode } = data
 
   return (
     <Form onSubmit={handleSubmit}>
-      <AuthenticatorSummary verified={ui.successToggled}>
+      <AuthenticatorSummary verified={uiState.successToggled}>
         <SmsAuthContainer>
-          {(!smsNumber && !smsVerified) || ui.changeNumberToggled ? (
+          {(!smsNumber && !smsVerified) || uiState.changeNumberToggled ? (
             <Fragment>
               <Text size='14px' weight={200}>
                 <FormattedMessage

@@ -15,5 +15,5 @@ export default ({ coreSagas, api }) => ({
   settings: settings({ api, coreSagas }),
   securityCenter: securityCenter({ coreSagas }),
   transferEth: transferEth({ coreSagas }),
-  sfox: sfox({ coreSagas })
+  sfox: sfox({ api, coreSagas })
 })

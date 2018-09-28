@@ -152,7 +152,7 @@ const Success = props => {
         </WarningBanner>
       )}
       <Footer>
-        <Button onClick={handleSubmit} nature='primary' fullwidth uppercase>
+        <Button onClick={handleSubmit} nature='primary' fullwidth>
           <FormattedMessage
             id='modals.sendbch.secondstep.send'
             defaultMessage='Send Bitcoin Cash'

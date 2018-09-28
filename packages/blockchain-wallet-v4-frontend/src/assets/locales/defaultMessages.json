@@ -844,7 +844,19 @@
     "descriptors": [
       {
         "defaultMessage": "Month",
+        "id": "components.DateInputBox.label.month"
+      },
+      {
+        "defaultMessage": "Month",
         "id": "components.DateInputBox.placeholder.month"
+      },
+      {
+        "defaultMessage": "Date",
+        "id": "components.DateInputBox.label.date"
+      },
+      {
+        "defaultMessage": "Year",
+        "id": "components.DateInputBox.label.year"
       }
     ],
     "path": "src/components/Form/DateInputBox/index.json"
@@ -968,6 +980,10 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "A better way to Exchange Crypto",
+        "id": "components.identityverification.popup.header.notcreated"
+      },
+      {
         "defaultMessage": "You're Almost There",
         "id": "components.identityverification.popup.header.unverified"
       },
@@ -980,15 +996,27 @@
         "id": "components.identityverification.popup.header.underreview"
       },
       {
+        "defaultMessage": "Verification Failed {icon}",
+        "id": "components.identityverification.popup.header.rejected"
+      },
+      {
         "defaultMessage": "Verification Completed",
         "id": "components.identityverification.popup.header.verified"
+      },
+      {
+        "defaultMessage": "Introducing Blockchain's new and improved crypto exchange function. To begin using this updated feature, please verify your identity. The process only takes a couple of minutes.",
+        "id": "components.identityverification.popup.note.notcreated"
+      },
+      {
+        "defaultMessage": "Your personal information is secure with us and not shared with any third parties.",
+        "id": "components.identityverification.popup.note.personalinfosecure"
       },
       {
         "defaultMessage": "Complete your profile and identity verification to start buying and selling. Don’t worry, we only need a couple more details.",
         "id": "components.identityverification.popup.note.unverified"
       },
       {
-        "defaultMessage": "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to buy cryptocurrency,",
+        "defaultMessage": "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to exchange cryptocurrency,",
         "id": "components.identityverification.popup.note.inreview"
       },
       {
@@ -996,8 +1024,16 @@
         "id": "components.identityverification.popup.note.underreview"
       },
       {
-        "defaultMessage": "Good news – your account is verified. You can now buy, sell, and exchange cryptocurrency at any time.",
+        "defaultMessage": "Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time.",
+        "id": "components.identityverification.popup.note.rejected"
+      },
+      {
+        "defaultMessage": "Good news – your account is verified. You can now exchange cryptocurrency at any time.",
         "id": "components.identityverification.popup.note.verified"
+      },
+      {
+        "defaultMessage": "Begin Now",
+        "id": "components.identityverification.popup.button.begin"
       },
       {
         "defaultMessage": "Verify My Identity",
@@ -1013,6 +1049,63 @@
       }
     ],
     "path": "src/components/IdentityVerification/KYCBanner/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Complete",
+        "id": "scenes.exchangehistory.list.orderstatus.complete"
+      },
+      {
+        "defaultMessage": "Failed",
+        "id": "scenes.exchangehistory.list.orderstatus.failed"
+      },
+      {
+        "defaultMessage": "Error",
+        "id": "scenes.exchangehistory.list.orderstatus.error"
+      },
+      {
+        "defaultMessage": "In Progress",
+        "id": "scenes.exchangehistory.list.orderstatus.pending"
+      },
+      {
+        "defaultMessage": "Refund In Progress",
+        "id": "scenes.exchangehistory.list.orderstatus.refunding"
+      },
+      {
+        "defaultMessage": "Refunded",
+        "id": "scenes.exchangehistory.list.orderstatus.refunded"
+      },
+      {
+        "defaultMessage": "Expired",
+        "id": "scenes.exchangehistory.list.orderstatus.expired"
+      },
+      {
+        "defaultMessage": "Unknown",
+        "id": "scenes.exchangehistory.list.orderstatus.unknown"
+      },
+      {
+        "defaultMessage": "This trade has failed. If any funds have been broadcast from your wallet, they will be returned automatically minus the network fee. Please return to the exchange tab to start a new trade.",
+        "id": "components.orderstatus.note.failed"
+      },
+      {
+        "defaultMessage": "Thanks for placing your trade! Funds will usually reach your wallet within 2 hours and we’ll send you a notification when that happens. Keep track of your trade’s progress in the Order History tab.",
+        "id": "components.orderstatus.note.pending"
+      },
+      {
+        "defaultMessage": "We are now processing a refund for any funds broadcast minus the network fee. Please check your Order History to check the refund status.",
+        "id": "components.orderstatus.note.refunding"
+      },
+      {
+        "defaultMessage": "We have refunded your wallet after the trade failed.  Please return to the exchange tab to start a new trade.",
+        "id": "components.orderstatus.note.refunded"
+      },
+      {
+        "defaultMessage": "This trade has expired. Any funds broadcast from your wallet will be refunded minus the network fee. Please Contact Support stating your order ID to request a refund.",
+        "id": "components.orderstatus.note.expired"
+      }
+    ],
+    "path": "src/components/OrderStatus/index.json"
   },
   {
     "descriptors": [
@@ -1165,6 +1258,18 @@
       {
         "defaultMessage": "By signing a message, you can prove that you own this bitcoin address. You can verify signed messages by clicking on 'More Actions' > 'Verify Message'.",
         "id": "modals.signmessage.label"
+      },
+      {
+        "defaultMessage": "Frequently Asked Questions",
+        "id": "faq.tooltip.description"
+      },
+      {
+        "defaultMessage": "Refresh",
+        "id": "refresh.tooltip.description"
+      },
+      {
+        "defaultMessage": "What's New",
+        "id": "whatsnew.tooltip.description"
       }
     ],
     "path": "src/components/Tooltips/index.json"
@@ -1207,19 +1312,6 @@
       }
     ],
     "path": "src/components/TransactionListItem/Addresses/Eth/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "To:",
-        "id": "components.transactionlistitem.addresses.to"
-      },
-      {
-        "defaultMessage": "From:",
-        "id": "components.transactionlistitem.addresses.from"
-      }
-    ],
-    "path": "src/components/TransactionListItem/Addresses/index.json"
   },
   {
     "descriptors": [
@@ -1361,7 +1453,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Sign out",
+        "defaultMessage": "Sign Out",
         "id": "layouts.wallet.header.logout.signout"
       }
     ],
@@ -2173,15 +2265,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Learn More",
-        "id": "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore"
-      }
-    ],
-    "path": "src/layouts/Wallet/TrayRight/WhatsNew/FaqLink/index.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "🎉 You're all caught up!",
         "id": "layouts.wallet.header.whatsnew.whatsnew.empty"
       },
@@ -2294,11 +2377,11 @@
         "id": "coinifyexchangedata.confirm.canceledit"
       },
       {
-        "defaultMessage": "confirm",
+        "defaultMessage": "Confirm",
         "id": "coinifyexchangedata.confirm.confirm"
       },
       {
-        "defaultMessage": "update",
+        "defaultMessage": "Update",
         "id": "coinifyexchangedata.confirm.update"
       }
     ],
@@ -2333,6 +2416,10 @@
       {
         "defaultMessage": "edit email",
         "id": "sfoxexchangedata.create.createaccount.partner.editemail"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "coinifyexchangedata.create.continue"
       },
       {
         "defaultMessage": "Unfortunately this email is being used for another account.",
@@ -2830,6 +2917,67 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Exchange {coin}",
+        "id": "modals.exchangeresults.exchange"
+      },
+      {
+        "defaultMessage": "{coin} Deposited",
+        "id": "modals.exchangeresults.deposited"
+      },
+      {
+        "defaultMessage": "{coin} Broadcast",
+        "id": "modals.exchangeresults.broadcast"
+      },
+      {
+        "defaultMessage": "{coin} Received",
+        "id": "modals.exchangeresults.received"
+      },
+      {
+        "defaultMessage": "Receive {coin}",
+        "id": "modals.exchangeresults.receive"
+      },
+      {
+        "defaultMessage": "Total refunded",
+        "id": "modals.exchangeresults.totalrefunded"
+      },
+      {
+        "defaultMessage": "Total to be refunded",
+        "id": "modals.exchangeresults.totaltoberefunded"
+      },
+      {
+        "defaultMessage": "Request a refund",
+        "id": "modals.exchangedetails.refund"
+      },
+      {
+        "defaultMessage": "Close",
+        "id": "modals.exchangedetails.close"
+      },
+      {
+        "defaultMessage": "Order {id}",
+        "id": "modals.exchangeresults.orderid"
+      },
+      {
+        "defaultMessage": "Total Value",
+        "id": "modals.exchangeresults.value"
+      },
+      {
+        "defaultMessage": "(when exchanged)",
+        "id": "modals.exchangeresults.valuenotcie"
+      },
+      {
+        "defaultMessage": "Network Fee",
+        "id": "modals.exchangeresults.fee"
+      },
+      {
+        "defaultMessage": "Exchange rate",
+        "id": "modals.exchangeresults.rate"
+      }
+    ],
+    "path": "src/modals/ExchangeResults/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Why do you need this information?",
         "id": "identityverification.address.faq.whycollect.question"
       },
@@ -2974,6 +3122,10 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Enter Address Manually",
+        "id": "identityverification.personal.manualaddress"
+      },
+      {
         "defaultMessage": "Personal Details",
         "id": "identityverification.personal.header"
       },
@@ -2994,7 +3146,7 @@
         "id": "identityverification.personal.faq.name.title"
       },
       {
-        "defaultMessage": "They should match exactly the details in your government issued ID, passport or driving license.",
+        "defaultMessage": "They should match exactly the details in your passport or driving license.",
         "id": "identityverification.personal.faq.name.text"
       },
       {
@@ -3020,6 +3172,10 @@
       {
         "defaultMessage": "Zip Code",
         "id": "identityverification.personal.zipcode"
+      },
+      {
+        "defaultMessage": "Postcode",
+        "id": "identityverification.personal.postcode"
       },
       {
         "defaultMessage": "Address search",
@@ -3566,7 +3722,7 @@
         "id": "modals.requestbitcoin.secondstep.copied"
       },
       {
-        "defaultMessage": "Copy link",
+        "defaultMessage": "Copy Link",
         "id": "modals.requestbitcoin.secondstep.copy"
       },
       {
@@ -4210,6 +4366,10 @@
         "id": "sfoxexchangedata.create.createaccount.partner.editmobile"
       },
       {
+        "defaultMessage": "Continue",
+        "id": "sfoxexchangedata.create.continue"
+      },
+      {
         "defaultMessage": "Unfortunately this email is being used for another account.",
         "id": "sfoxexchangedata.create.accept.error"
       },
@@ -4326,19 +4486,19 @@
     "descriptors": [
       {
         "defaultMessage": "Account",
-        "id": "modals.sfoxexchangedata.steps.account"
+        "id": "modals.sfoxexchangedata.steps.createaccount"
       },
       {
-        "defaultMessage": "Verify",
-        "id": "modals.sfoxexchangedata.steps.verify"
+        "defaultMessage": "Identity",
+        "id": "modals.sfoxexchangedata.steps.verifyidentity"
+      },
+      {
+        "defaultMessage": "Verification",
+        "id": "modals.sfoxexchangedata.steps.uploadidentitydocs"
       },
       {
         "defaultMessage": "Funding",
-        "id": "modals.sfoxexchangedata.steps.funding"
-      },
-      {
-        "defaultMessage": "Submit",
-        "id": "modals.sfoxexchangedata.steps.submit"
+        "id": "modals.sfoxexchangedata.steps.linkbank"
       }
     ],
     "path": "src/modals/SfoxExchangeData/index.json"
@@ -4490,7 +4650,7 @@
         "id": "sfoxexchangedata.link.tryagain"
       },
       {
-        "defaultMessage": "continue",
+        "defaultMessage": "Continue",
         "id": "sfoxexchangedata.link.continue"
       },
       {
@@ -4852,7 +5012,7 @@
         "id": "modals.showusedaddresses.cancel"
       },
       {
-        "defaultMessage": "OK",
+        "defaultMessage": "Ok",
         "id": "modals.showusedaddresses.ok"
       }
     ],
@@ -6017,6 +6177,19 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Try again",
+        "id": "scenes.exchange.exchangeform.tryagain"
+      }
+    ],
+    "path": "src/scenes/Exchange/ExchangeForm/LimitsUpdateLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Use",
+        "id": "modals.exchange.maximumamountmessage2"
+      },
+      {
         "defaultMessage": "maximum",
         "id": "scenes.exchange.firststep.maximumamountlink.maximum"
       }
@@ -6025,6 +6198,10 @@
   },
   {
     "descriptors": [
+      {
+        "defaultMessage": "Use",
+        "id": "modals.exchange.maximumamountmessage2"
+      },
       {
         "defaultMessage": "minimum",
         "id": "scenes.exchange.firststep.minimumamountlink.minimum"
@@ -6102,32 +6279,36 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Please enter an amount less than the limit.",
-        "id": "modals.exchange.abovelimitmessage"
+        "defaultMessage": "Failed to fetch the rates for current amount.",
+        "id": "scenes.exchange.exchangeform.error.noadvicemessage"
+      },
+      {
+        "defaultMessage": "Failed to get trade limits.",
+        "id": "scenes.exchange.exchangeform.error.nolimitsmessage"
+      },
+      {
+        "defaultMessage": "Amount is below mimimum.",
+        "id": "scenes.exchange.exchangeform.error.minimumamount"
       },
       {
         "defaultMessage": "Not enough funds.",
-        "id": "modals.exchange.maximumamountmessage"
+        "id": "scenes.exchange.exchangeform.error.balancelimit"
       },
       {
-        "defaultMessage": "Use",
-        "id": "modals.exchange.maximumamountmessage2"
+        "defaultMessage": "Amount exceeds your daily trade limit.",
+        "id": "scenes.exchange.exchangeform.error.dailylimit"
       },
       {
-        "defaultMessage": "Below minimum amount.",
-        "id": "modals.exchange.minimumamountmessage"
+        "defaultMessage": "Amount exceeds your weekly trade limit.",
+        "id": "scenes.exchange.exchangeform.error.weeklylimit"
       },
       {
-        "defaultMessage": "Use",
-        "id": "modals.exchange.minimumamountmessage2"
+        "defaultMessage": "Amount exceeds your annual trade limit.",
+        "id": "scenes.exchange.exchangeform.error.annuallimit"
       },
       {
-        "defaultMessage": "Insufficient funds",
-        "id": "modals.exchange.insufficientamountmessage"
-      },
-      {
-        "defaultMessage": "Invalid amount",
-        "id": "modals.exchange.invalidamountmessage"
+        "defaultMessage": "Amount exceeds single trade limit.",
+        "id": "scenes.exchange.exchangeform.error.orderlimit"
       }
     ],
     "path": "src/scenes/Exchange/ExchangeForm/validationMessages.json"
@@ -6467,178 +6648,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "maximum",
-        "id": "scenes.exchange.firststep.maximumamountlink.maximum"
-      }
-    ],
-    "path": "src/scenes/Exchange/Shapeshift/FirstStep/MaximumAmountLink/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "minimum",
-        "id": "scenes.exchange.firststep.minimumamountlink.minimum"
-      }
-    ],
-    "path": "src/scenes/Exchange/Shapeshift/FirstStep/MinimumAmountLink/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Step 1 of 2",
-        "id": "scenes.exchange.shapeshift.firststep.step"
-      }
-    ],
-    "path": "src/scenes/Exchange/Shapeshift/FirstStep/template.loading.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Step 1 of 2",
-        "id": "scenes.exchange.shapeshift.firststep.step"
-      },
-      {
-        "defaultMessage": "Exchange:",
-        "id": "scenes.exchange.shapeshift.firststep.from"
-      },
-      {
-        "defaultMessage": "Receive:",
-        "id": "scenes.exchange.shapeshift.firststep.to"
-      },
-      {
-        "defaultMessage": "Enter amount:",
-        "id": "scenes.exchange.shapeshift.firststep.amount"
-      },
-      {
-        "defaultMessage": "Use",
-        "id": "scenes.exchangebox.firststep.use1"
-      },
-      {
-        "defaultMessage": "| Use",
-        "id": "scenes.exchangebox.firststep.use2"
-      },
-      {
-        "defaultMessage": "Next",
-        "id": "scenes.exchange.shapeshift.firststep.next"
-      }
-    ],
-    "path": "src/scenes/Exchange/Shapeshift/FirstStep/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Please enter an amount less than the limit.",
-        "id": "modals.exchange.abovelimitmessage"
-      },
-      {
-        "defaultMessage": "Not enough funds.",
-        "id": "modals.exchange.maximumamountmessage"
-      },
-      {
-        "defaultMessage": "Use",
-        "id": "modals.exchange.maximumamountmessage2"
-      },
-      {
-        "defaultMessage": "Below minimum amount.",
-        "id": "modals.exchange.minimumamountmessage"
-      },
-      {
-        "defaultMessage": "Use",
-        "id": "modals.exchange.minimumamountmessage2"
-      },
-      {
-        "defaultMessage": "Insufficient funds",
-        "id": "modals.exchange.insufficientamountmessage"
-      },
-      {
-        "defaultMessage": "Invalid amount",
-        "id": "modals.exchange.invalidamountmessage"
-      }
-    ],
-    "path": "src/scenes/Exchange/Shapeshift/FirstStep/validationMessages.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Your order could not be placed. Please try again later.",
-        "id": "scenes.shapeshift.secondstep.shapeshiftordererror"
-      },
-      {
-        "defaultMessage": "An unexpected error occured. Please try again later.",
-        "id": "scenes.shapeshift.secondstep.shapeshifterror"
-      },
-      {
-        "defaultMessage": "Go back",
-        "id": "scenes.shapeshift.secondstep.goback"
-      }
-    ],
-    "path": "src/scenes/Exchange/Shapeshift/SecondStep/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Confirm Exchange Order",
-        "id": "scenes.exchange.shapeshift.secondstep.title"
-      },
-      {
-        "defaultMessage": "Step 2 of 2",
-        "id": "scenes.exchange.shapeshift.secondstep.stepnumber"
-      },
-      {
-        "defaultMessage": "Review the details below and click 'Confirm' to begin your exchange.",
-        "id": "scenes.exchange.shapeshift.secondstep.recap"
-      },
-      {
-        "defaultMessage": "The exchanged funds will be deposited directly into {depositLabel}.",
-        "id": "scenes.exchange.shapeshift.secondstep.recap2"
-      },
-      {
-        "defaultMessage": "{coin} to deposit:",
-        "id": "scenes.exchange.shapeshift.secondstep.todeposit"
-      },
-      {
-        "defaultMessage": "Transaction fee",
-        "id": "scenes.exchange.shapeshift.secondstep.txfee"
-      },
-      {
-        "defaultMessage": "Total {sourceCoin} leaving the wallet",
-        "id": "scenes.exchange.shapeshift.secondstep.leaving"
-      },
-      {
-        "defaultMessage": "Exchange rate",
-        "id": "scenes.exchange.shapeshift.secondstep.rate"
-      },
-      {
-        "defaultMessage": "Network transaction fee",
-        "id": "scenes.exchange.shapeshift.secondstep.networkfee"
-      },
-      {
-        "defaultMessage": "{coin} to be received",
-        "id": "scenes.exchange.shapeshift.exchangebox.secondstep.tobereceived"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "scenes.exchange.shapeshift.secondstep.back"
-      },
-      {
-        "defaultMessage": "Confirm",
-        "id": "scenes.exchange.shapeshift.secondstep.finish"
-      }
-    ],
-    "path": "src/scenes/Exchange/Shapeshift/SecondStep/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "You must agree to the terms and conditions",
-        "id": "modals.exchange.shapeshift.agreetermsandconditions"
-      }
-    ],
-    "path": "src/scenes/Exchange/Shapeshift/SecondStep/validationMessages.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Simple. Seamless. Secure.",
         "id": "scenes.exchange.shapeshift.stateregistration.header"
       },
@@ -6660,89 +6669,11 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Simple. Seamless. Secure.",
-        "id": "scenes.exchange.shapeshift.stateregistration.header"
-      },
-      {
-        "defaultMessage": "Blockchain works with exchange partners to make exchanging coins in your wallet secure and seamless.",
-        "id": "scenes.exchange.shapeshift.stateregistration.subheader"
-      },
-      {
-        "defaultMessage": "Select your state of residency:",
-        "id": "scenes.exchange.shapeshift.stateregistration.selectstate"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "scenes.exchange.shapeshift.stateregistration.continue"
-      }
-    ],
-    "path": "src/scenes/Exchange/Shapeshift/StateRegistrationStep/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "An error has occurred. Please try again.",
         "id": "scenes.exchange.shapeshift.error"
       }
     ],
     "path": "src/scenes/Exchange/Shapeshift/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Success! Your exchange is complete",
-        "id": "modals.exchange.shapeshift.title.success"
-      },
-      {
-        "defaultMessage": "Exchange In Progress",
-        "id": "modals.exchange.shapeshift.title.inprogress"
-      },
-      {
-        "defaultMessage": "Thanks for placing your trade!",
-        "id": "modals.exchange.shapeshift.explain"
-      },
-      {
-        "defaultMessage": "Exchange trades can take up to two hours, and you can keep track of your trade’s progress in the Order History tab.",
-        "id": "modals.exchange.shapeshift.explain2"
-      },
-      {
-        "defaultMessage": "Your exchange is complete.",
-        "id": "modals.exchange.shapeshift.explain3"
-      },
-      {
-        "defaultMessage": "It may take a few minutes for the funds to show in your balance.",
-        "id": "modals.exchange.shapeshift.explain4"
-      },
-      {
-        "defaultMessage": "Order summary",
-        "id": "modals.exchange.shapeshift.ordersummary"
-      },
-      {
-        "defaultMessage": "{coin} deposited",
-        "id": "modals.exchange.shapeshift.deposited"
-      },
-      {
-        "defaultMessage": "{coin} to be received",
-        "id": "modals.exchange.shapeshift.received"
-      },
-      {
-        "defaultMessage": "Exchange rate",
-        "id": "modals.exchange.shapeshift.exchangerate"
-      },
-      {
-        "defaultMessage": "Transaction fee",
-        "id": "modals.exchange.shapeshift.fee"
-      },
-      {
-        "defaultMessage": "Order ID",
-        "id": "modals.exchange.shapeshift.orderid"
-      },
-      {
-        "defaultMessage": "Close",
-        "id": "modals.exchange.shapeshift.close"
-      }
-    ],
-    "path": "src/scenes/Exchange/Shapeshift/ThirdStep/template.success.json"
   },
   {
     "descriptors": [
@@ -7318,20 +7249,20 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Create Account",
-        "id": "scenes.home.exchangeStepper.sfox.step1"
+        "defaultMessage": "Account",
+        "id": "scenes.home.exchangeStepper.sfox.createaccount"
       },
       {
-        "defaultMessage": "Verify Identity",
-        "id": "scenes.home.exchangeStepper.sfox.step2"
+        "defaultMessage": "Identity",
+        "id": "scenes.home.exchangeStepper.sfox.identity"
       },
       {
-        "defaultMessage": "Upload Documents",
-        "id": "scenes.home.exchangeStepper.sfox.step3"
+        "defaultMessage": "Verification",
+        "id": "scenes.home.exchangeStepper.sfox.verification"
       },
       {
-        "defaultMessage": "Link Bank",
-        "id": "scenes.home.exchangeStepper.sfox.step4"
+        "defaultMessage": "Funding",
+        "id": "scenes.home.exchangeStepper.sfox.funding"
       },
       {
         "defaultMessage": "Complete the following steps to buy & sell bitcoin.",
@@ -7411,7 +7342,7 @@
         "id": "scenes.login.resendsms"
       },
       {
-        "defaultMessage": "Log in",
+        "defaultMessage": "Log In",
         "id": "scenes.login.submit"
       },
       {
@@ -7873,48 +7804,6 @@
       }
     ],
     "path": "src/scenes/SecurityCenter/Advanced/LoginIpRestriction/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Change",
-        "id": "scenes.securitysettings.basicsecurity.passwordhint.settings.change"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel"
-      },
-      {
-        "defaultMessage": "Change",
-        "id": "scenes.securitysettings.basicsecurity.passwordhint.settings.save"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/Advanced/PasswordHint/Settings/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Password Hint",
-        "id": "scenes.settings.passwordhint.title"
-      },
-      {
-        "defaultMessage": "Hint Stored",
-        "id": "scenes.security.passwordhint.stored"
-      },
-      {
-        "defaultMessage": "Not Stored",
-        "id": "scenes.security.passwordhint.notstored"
-      },
-      {
-        "defaultMessage": "Blockchain cannot reset your password.",
-        "id": "scenes.settings.passwordhint.description1"
-      },
-      {
-        "defaultMessage": "Create a memorable password hint that we can send to your verified email address in case you forget your password.",
-        "id": "scenes.settings.passwordhint.description2"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/Advanced/PasswordHint/template.json"
   },
   {
     "descriptors": [
@@ -9374,6 +9263,10 @@
         "id": "scenes.profile.identityverification.banner.inreview"
       },
       {
+        "defaultMessage": "Failed",
+        "id": "scenes.profile.identityverification.banner.rejected"
+      },
+      {
         "defaultMessage": "Under Review",
         "id": "scenes.profile.identityverification.banner.underreview"
       },
@@ -9386,7 +9279,7 @@
         "id": "scenes.profile.identityverification.note.unverified"
       },
       {
-        "defaultMessage": "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to buy cryptocurrency.\n {note} In some cases it can take up to 2 hours to get verified.",
+        "defaultMessage": "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to exchange cryptocurrency.\n {note} In some cases it can take up to 2 hours to get verified.",
         "id": "scenes.profile.identityverification.note.inreview"
       },
       {
@@ -9394,7 +9287,11 @@
         "id": "scenes.profile.identityverification.note.underreview"
       },
       {
-        "defaultMessage": "Good news – your account is verified. You can now buy, sell, and exchange cryptocurrency at any time.",
+        "defaultMessage": "Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time.",
+        "id": "scenes.profile.identityverification.note.rejected"
+      },
+      {
+        "defaultMessage": "Good news – your account is verified. You can now exchange cryptocurrency at any time.",
         "id": "scenes.profile.identityverification.note.verified"
       },
       {
@@ -9447,12 +9344,8 @@
         "id": "scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.exchange"
       },
       {
-        "defaultMessage": "Get started with Bitcoin Cash",
-        "id": "scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.getstarted.exchange"
-      },
-      {
-        "defaultMessage": "Get started with Bitcoin Cash",
-        "id": "scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.getstarted.request"
+        "defaultMessage": "Get Started With Bitcoin Cash",
+        "id": "scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.getstarted"
       }
     ],
     "path": "src/scenes/Transactions/Bch/Content/Empty/BchWelcome/template.json"
@@ -9509,12 +9402,8 @@
         "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.fees"
       },
       {
-        "defaultMessage": "Get started with bitcoin",
-        "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted.buysell"
-      },
-      {
-        "defaultMessage": "Get started with bitcoin",
-        "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted.exchange"
+        "defaultMessage": "Get Started With Bitcoin",
+        "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted"
       },
       {
         "defaultMessage": "Get started with bitcoin",
@@ -9583,12 +9472,8 @@
         "id": "scenes.transaction.ether.content.empty.etherwelcome.opportunity"
       },
       {
-        "defaultMessage": "Get started with ether",
-        "id": "scenes.transaction.ether.content.empty.etherwelcome.getstarted.exchange"
-      },
-      {
-        "defaultMessage": "Get started with ether",
-        "id": "scenes.transaction.ether.content.empty.etherwelcome.getstarted.request"
+        "defaultMessage": "Get Started With Ether",
+        "id": "scenes.transaction.ether.content.empty.etherwelcome.getstarted"
       }
     ],
     "path": "src/scenes/Transactions/Eth/Content/Empty/EthWelcome/template.json"
@@ -9604,7 +9489,7 @@
         "id": "scenes.transactions.ether.content.empty.explain"
       },
       {
-        "defaultMessage": "Get ether",
+        "defaultMessage": "Get Ether",
         "id": "scenes.transactions.ether.content.empty.getether"
       }
     ],

@@ -45,6 +45,8 @@ export const getTrade = path([dataPath, 'coinify', 'trade'])
 
 export const canTrade = state => getProfile(state).map(prop('_canTrade'))
 
+export const canTradeAfter = state => getProfile(state).map(prop(['_canTradeAfter']))
+
 export const cannotTradeReason = state =>
   getProfile(state).map(prop('_cannotTradeReason'))
 

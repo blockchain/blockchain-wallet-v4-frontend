@@ -13,7 +13,6 @@ import {
   getInvited,
   getCountryCode
 } from 'blockchain-wallet-v4/src/redux/settings/selectors'
-import { getCanTrade } from 'data/exchange/selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import KYCBanner from 'components/IdentityVerification/KYCBanner'
 
@@ -23,10 +22,10 @@ import { Route, Switch } from 'react-router-dom'
 
 const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 
-jest.mock('data/exchange/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/settings/selectors')
-getCanTrade.mockImplementation(() => Remote.of(true))
+
 getInvited.mockImplementation(() => Remote.of({ kyc: true }))
+
 getCountryCode.mockImplementation(() => head(eeaCountryCodes))
 
 const BuySellStub = () => <div />
@@ -107,17 +106,7 @@ describe('Profile Settings', () => {
         wrapper.update()
       })
 
-      it('should lead to buysell is user can trade', () => {
-        wrapper
-          .find(IdentityVerification)
-          .find('button')
-          .simulate('click', { button: 0 })
-        expect(wrapper.find(BuySellStub)).toHaveLength(1)
-      })
-
       it('should lead to exchange if user can not trade', () => {
-        getCanTrade.mockImplementationOnce(() => Remote.of(false))
-        wrapper.unmount().mount()
         wrapper
           .find(IdentityVerification)
           .find('button')

@@ -7,12 +7,15 @@ import * as actions from '../actions.js'
 import * as actionTypes from '../actionTypes.js'
 import * as selectors from '../selectors.js'
 import * as C from 'services/AlertService'
+import * as CC from 'services/ConfirmService'
 import {
   askSecondPasswordEnhancer,
+  confirm,
   promptForSecondPassword,
   forceSyncWallet
 } from 'services/SagaService'
-import { Types } from 'blockchain-wallet-v4/src'
+import { Types, Remote } from 'blockchain-wallet-v4/src'
+import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 
 export const logLocation = 'auth/sagas'
 export const defaultLoginErrorMessage = 'Error logging into your wallet'
@@ -131,6 +134,8 @@ export default ({ api, coreSagas }) => {
       yield fork(transferEthSaga)
       yield fork(welcomeSaga, firstLogin)
       yield fork(reportStats, mobileLogin)
+      yield fork(checkDataErrors)
+      yield put(actions.analytics.reportBalanceStats())
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
       if (!firstLogin) {
         yield put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
@@ -153,6 +158,40 @@ export default ({ api, coreSagas }) => {
         api.incrementSecPasswordStats,
         Types.Wallet.isDoubleEncrypted(wallet)
       )
+    }
+  }
+
+  const checkAndHandleVulnerableAddress = function*(data) {
+    const err = prop('error', data)
+    const vulnerableAddress = checkForVulnerableAddressError(err)
+    if (vulnerableAddress) {
+      yield put(actions.modals.closeAllModals())
+      const confirmed = yield call(confirm, {
+        title: CC.ARCHIVE_VULNERABLE_ADDRESS_TITLE,
+        message: CC.ARCHIVE_VULNERABLE_ADDRESS_MSG,
+        confirm: CC.ARCHIVE_VULNERABLE_ADDRESS_CONFIRM,
+        cancel: CC.ARCHIVE_VULNERABLE_ADDRESS_CANCEL,
+        messageValues: { vulnerableAddress }
+      })
+      if (confirmed)
+        yield put(
+          actions.core.wallet.setAddressArchived(vulnerableAddress, true)
+        )
+    }
+  }
+
+  const checkDataErrors = function*() {
+    const btcDataR = yield select(selectors.core.data.bitcoin.getInfo)
+
+    if (Remote.Loading.is(btcDataR)) {
+      const btcData = yield take(
+        actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_FAILURE
+      )
+      const error = prop('payload', btcData)
+      yield call(checkAndHandleVulnerableAddress, { error })
+    }
+    if (Remote.Failure.is(btcDataR)) {
+      yield call(checkAndHandleVulnerableAddress, btcDataR)
     }
   }
 
@@ -465,6 +504,8 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
+    checkAndHandleVulnerableAddress,
+    checkDataErrors,
     deauthorizeBrowser,
     login,
     logout,
