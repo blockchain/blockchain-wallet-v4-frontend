@@ -26,7 +26,7 @@ describe('lockbox reducers', () => {
 
   it('should reset connection status', () => {
     const action = actions.resetConnectionStatus()
-    const expectedState = assocPath(['connection'], {}, INITIAL_STATE)
+    const expectedState = assoc('connection', {}, INITIAL_STATE)
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
   })
 
@@ -113,7 +113,7 @@ describe('lockbox reducers', () => {
     expect(reducer(INITIAL_STATE, setAction)).toEqual(setExpectedState)
 
     const resetAction = actions.resetFirmwareInfo()
-    const resetExpectedState = assocPath(['firmware'], {}, INITIAL_STATE)
+    const resetExpectedState = assoc('firmware', {}, INITIAL_STATE)
     expect(reducer(INITIAL_STATE, resetAction)).toEqual(resetExpectedState)
   })
 
@@ -122,6 +122,28 @@ describe('lockbox reducers', () => {
     const expectedState = assocPath(
       ['installs', 'apps', 'BTC'],
       Remote.Loading,
+      INITIAL_STATE
+    )
+    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
+  })
+
+  it('should set install application failure', () => {
+    const PAYLOAD = { app: 'BTC', error: 'error' }
+    const action = actions.installApplicationFailure('BTC', 'error')
+    const expectedState = assocPath(
+      ['installs', 'apps', 'BTC'],
+      Remote.Failure(PAYLOAD),
+      INITIAL_STATE
+    )
+    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
+  })
+
+  it('should set install application success', () => {
+    const PAYLOAD = { app: 'ETH' }
+    const action = actions.installApplicationSuccess('ETH')
+    const expectedState = assocPath(
+      ['installs', 'apps', 'ETH'],
+      Remote.Success(PAYLOAD),
       INITIAL_STATE
     )
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
