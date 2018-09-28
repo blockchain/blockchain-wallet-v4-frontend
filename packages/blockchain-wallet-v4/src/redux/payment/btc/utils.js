@@ -158,7 +158,7 @@ export const toOutputAccount = (coin, network, state, accountIndex) => {
 }
 
 // toLockBoxAccount :: Coin -> String -> ReduxState -> String -> Object
-export const toLockboxAccount = (coin, state, network, xpub) => {
+export const toLockboxAccount = (coin, network, state, xpub) => {
   const receiveIndexR =
     coin === 'BTC'
       ? S.data.bitcoin.getReceiveIndex(xpub, state)
