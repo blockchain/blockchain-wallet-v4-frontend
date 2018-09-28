@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import Footer from './Footer'
 import Navigation from './Navigation'
 
-const Wrapper = styled.div`
+export const Container = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -40,11 +40,11 @@ const ActiveIndicator = styled.div`
 `
 
 const MenuLeft = props => (
-  <Wrapper toggled={props.toggled}>
+  <Container toggled={props.menuOpened}>
     <ActiveIndicator offsetTop={props.offsetTop} />
-    <Navigation />
+    <Navigation {...props} />
     <Footer />
-  </Wrapper>
+  </Container>
 )
 
 MenuLeft.propTypes = {
