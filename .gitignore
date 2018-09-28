@@ -27,6 +27,7 @@ CHANGELOG.md
 coverage/
 dist/
 lib/
+package-lock.json
 
 # Package Files
 packages/blockchain-info-components/lib
