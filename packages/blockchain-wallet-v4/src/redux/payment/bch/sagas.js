@@ -1,4 +1,4 @@
-import { call, select, put } from 'redux-saga/effects'
+import { call, select } from 'redux-saga/effects'
 import { merge, zip, prop, map, identity, isNil, isEmpty } from 'ramda'
 import Task from 'data.task'
 
@@ -6,7 +6,7 @@ import * as S from '../../selectors'
 import { bch } from '../../../signer'
 import * as CoinSelection from '../../../coinSelection'
 import * as Coin from '../../../coinSelection/coin'
-import * as A from '../../../redux/settings/actions'
+import settingsSagaFactory from '../../../redux/settings/sagas'
 import {
   isValidBitcoinAddress,
   privateKeyStringToKey,
@@ -46,6 +46,7 @@ const taskToPromise = t =>
 
 export default ({ api }) => {
   // ///////////////////////////////////////////////////////////////////////////
+  const settingsSagas = settingsSagaFactory({ api })
   const pushBitcoinTx = futurizeP(Task)(api.pushBchTx)
   const getWalletUnspent = (network, fromData) =>
     api
@@ -336,7 +337,7 @@ export default ({ api }) => {
 
       *publish () {
         let result = yield call(calculatePublish, p.txHex)
-        yield put(A.setLastTxTime())
+        yield call(settingsSagas.setLastTxTime)
         return makePayment(merge(p, { result }))
       },
 

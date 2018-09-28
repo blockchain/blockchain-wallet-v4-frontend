@@ -7,7 +7,7 @@ import * as A from '../../actions'
 import { isValidIndex } from './utils'
 import { eth } from '../../../signer'
 import { isString, isPositiveInteger } from '../../../utils/checks'
-import { setLastTxTime } from '../../../redux/settings/actions'
+import settingsSagaFactory from '../../../redux/settings/sagas'
 import {
   calculateEffectiveBalance,
   isValidAddress,
@@ -30,6 +30,7 @@ const taskToPromise = t =>
 
 export default ({ api }) => {
   // ///////////////////////////////////////////////////////////////////////////
+  const settingsSagas = settingsSagaFactory({ api })
   const selectIndex = function*(from) {
     const appState = yield select(identity)
     switch (prop('type', from)) {
@@ -205,9 +206,7 @@ export default ({ api }) => {
         if (isNil(signed)) throw new Error('missing_signed_tx')
         const publish = txHex => api.pushEthereumTx(signed).then(prop('txHash'))
         const txId = yield call(publish)
-
-        yield put(setLastTxTime())
-
+        yield call(settingsSagas.setLastTxTime)
         return makePayment(merge(p, { txId }))
       },
 

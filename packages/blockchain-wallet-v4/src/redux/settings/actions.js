@@ -39,10 +39,6 @@ export const setLanguage = language => ({
   type: AT.SET_LANGUAGE,
   payload: { language }
 })
-export const setLastTxTime = () => ({
-  type: AT.SET_LAST_TX_TIME,
-  payload: {}
-})
 export const setCurrency = currency => ({
   type: AT.SET_CURRENCY,
   payload: { currency }
