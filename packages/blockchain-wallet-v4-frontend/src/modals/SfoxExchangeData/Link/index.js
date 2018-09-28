@@ -41,12 +41,12 @@ class LinkContainer extends Component {
   }
 
   componentDidUpdate () {
-    if (
-      Remote.Success.is(this.props.bankAccounts) &&
-      Remote.Loading.is(this.props.linkStatus)
-    ) {
-      this.props.sfoxFrontendActions.sfoxSuccess()
-    }
+    // if (
+    //   Remote.Success.is(this.props.bankAccounts) &&
+    //   Remote.Loading.is(this.props.linkStatus)
+    // ) {
+    //   this.props.sfoxFrontendActions.sfoxSuccess()
+    // }
   }
 
   componentWillUnmount () {
@@ -58,6 +58,11 @@ class LinkContainer extends Component {
       busy: false
     })
     this.props.sfoxDataActions.wipeBankAccounts()
+  }
+
+  resetAccountHolder = () => {
+    this.props.formActions.reset('sfoxLink')
+    this.props.sfoxFrontendActions.sfoxNotAsked()
   }
 
   onSetBankAccount (data) {
@@ -77,7 +82,7 @@ class LinkContainer extends Component {
       this.state.routingNumber &&
       this.state.accountNumber
     ) {
-      this.props.updateUI({ busy: true })
+      this.props.sfoxFrontendActions.sfoxLoading()
       const { fullName, routingNumber, accountNumber, accountType } = this.state
       this.props.sfoxFrontendActions.setBankManually(
         routingNumber,
@@ -86,7 +91,7 @@ class LinkContainer extends Component {
         accountType
       )
     } else {
-      this.props.updateUI({ busy: true })
+      this.props.sfoxFrontendActions.sfoxLoading()
       const bankChoice = merge(
         { id: this.state.id, firstname: this.props.accountHolderFirst, lastname: this.props.accountHolderLast },
         { token: this.state.token }
@@ -151,6 +156,7 @@ class LinkContainer extends Component {
         busy={sfoxBusy}
         setNotAsked={sfoxNotAsked}
         linkError={err && path(['message'], err)}
+        resetAccountHolder={this.resetAccountHolder}
       />
     )
   }

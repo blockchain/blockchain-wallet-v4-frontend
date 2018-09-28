@@ -21,7 +21,16 @@ class SfoxCheckout extends React.PureComponent {
     super(props)
     this.state = { buttonStatus: false }
   }
+
   componentDidMount () {
+    this.props.sfoxActions.sfoxInitialize()
+  }
+
+  componentWillUnmount () {
+    this.props.sfoxActions.disableSiftScience()
+  }
+
+  initialize = () => {
     this.props.sfoxDataActions.fetchTrades()
     this.props.sfoxDataActions.fetchProfile()
     this.props.sfoxDataActions.sfoxFetchAccounts()
@@ -32,10 +41,6 @@ class SfoxCheckout extends React.PureComponent {
       quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }
     })
     this.props.sfoxActions.initializePayment()
-  }
-
-  componentWillUnmount () {
-    this.props.sfoxActions.disableSiftScience()
   }
 
   render () {
@@ -56,7 +61,7 @@ class SfoxCheckout extends React.PureComponent {
       refreshSellQuote,
       fetchSellQuote
     } = sfoxDataActions
-    const { sfoxNotAsked } = sfoxActions
+    const { sfoxNotAsked, sfoxInitialize } = sfoxActions
     const { showModal } = modalActions
     const { change } = formActions
 
@@ -98,7 +103,7 @@ class SfoxCheckout extends React.PureComponent {
           siftScienceEnabled={siftScienceEnabled}
         />
       ),
-      Failure: error => <Failure error={error} />,
+      Failure: error => <Failure message={error} refresh={sfoxInitialize} />,
       Loading: () => <Loading />,
       NotAsked: () => <div>Not Asked</div>
     })
