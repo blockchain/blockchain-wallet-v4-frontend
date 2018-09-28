@@ -1,0 +1,129 @@
+import { assoc, assocPath } from 'ramda'
+import { Remote } from 'blockchain-wallet-v4/src'
+import reducer from './reducers'
+import * as actions from './actions'
+
+const INITIAL_STATE = {
+  connection: {},
+  firmware: {},
+  installs: {
+    apps: {
+      BTC: Remote.NotAsked,
+      BCH: Remote.NotAsked,
+      ETH: Remote.NotAsked
+    },
+    blockchain: Remote.NotAsked
+  },
+  newDeviceSetup: {
+    device: Remote.NotAsked,
+    isAuthentic: Remote.NotAsked
+  }
+}
+describe('lockbox reducers', () => {
+  it('should return the initial state', () => {
+    expect(reducer(undefined, {})).toEqual(INITIAL_STATE)
+  })
+
+  it('should reset connection status', () => {
+    const action = actions.resetConnectionStatus()
+    const expectedState = assocPath(['connection'], {}, INITIAL_STATE)
+    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
+  })
+
+  it('should set new device setup step', () => {
+    const action = actions.changeDeviceSetupStep('open-btc-app', true)
+    const expectedState = assocPath(
+      ['newDeviceSetup', 'currentStep'],
+      { step: 'open-btc-app', done: true },
+      INITIAL_STATE
+    )
+    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
+  })
+
+  it('should set check device authenticity to loading', () => {
+    const action = actions.checkDeviceAuthenticityLoading()
+    const expectedState = assocPath(
+      ['newDeviceSetup', 'isAuthentic'],
+      Remote.Loading,
+      INITIAL_STATE
+    )
+    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
+  })
+
+  it('should set check device authenticity to failure', () => {
+    const ERROR = 'authenticity-error'
+    const action = actions.checkDeviceAuthenticityFailure(ERROR)
+    const expectedState = assocPath(
+      ['newDeviceSetup', 'isAuthentic'],
+      Remote.Failure({ failure: ERROR }),
+      INITIAL_STATE
+    )
+    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
+  })
+
+  it('should set check device authenticity to success', () => {
+    const action = actions.checkDeviceAuthenticitySuccess(true)
+    const expectedState = assocPath(
+      ['newDeviceSetup', 'isAuthentic'],
+      Remote.Success({ isAuthentic: true }),
+      INITIAL_STATE
+    )
+    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
+  })
+
+  it('should set firmware update step', () => {
+    const action = actions.changeFirmwareUpdateStep('connect-device')
+    const expectedState = assocPath(
+      ['firmware', 'step'],
+      'connect-device',
+      INITIAL_STATE
+    )
+    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
+  })
+
+  it('should set firmware installed info', () => {
+    const INFO = 'some-info'
+    const action = actions.setFirmwareInstalledInfo(INFO)
+    const expectedState = assocPath(
+      ['firmware', 'versions', 'installed'],
+      INFO,
+      INITIAL_STATE
+    )
+    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
+  })
+
+  it('should set firmware latest info', () => {
+    const LATEST_INFO = 'some-latest-info'
+    const action = actions.setFirmwareLatestInfo(LATEST_INFO)
+    const expectedState = assocPath(
+      ['firmware', 'versions', 'latest'],
+      LATEST_INFO,
+      INITIAL_STATE
+    )
+    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
+  })
+
+  it('should reset firmware info', () => {
+    const setAction = actions.setFirmwareLatestInfo('latest-info')
+    const setExpectedState = assocPath(
+      ['firmware', 'versions', 'latest'],
+      'latest-info',
+      INITIAL_STATE
+    )
+    expect(reducer(INITIAL_STATE, setAction)).toEqual(setExpectedState)
+
+    const resetAction = actions.resetFirmwareInfo()
+    const resetExpectedState = assocPath(['firmware'], {}, INITIAL_STATE)
+    expect(reducer(INITIAL_STATE, resetAction)).toEqual(resetExpectedState)
+  })
+
+  it('should install application', () => {
+    const action = actions.installApplication('BTC')
+    const expectedState = assocPath(
+      ['installs', 'apps', 'BTC'],
+      Remote.Loading,
+      INITIAL_STATE
+    )
+    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
+  })
+})
