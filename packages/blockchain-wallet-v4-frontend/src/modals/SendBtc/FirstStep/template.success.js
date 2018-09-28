@@ -87,6 +87,7 @@ const FirstStep = props => {
     totalFee
   } = rest
   const disableLockboxSend =
+    from &&
     from.type === 'LOCKBOX' &&
     !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
 
