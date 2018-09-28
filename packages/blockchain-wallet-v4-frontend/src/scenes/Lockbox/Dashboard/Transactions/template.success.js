@@ -39,6 +39,7 @@ const Success = props => {
 
   return (
     <Wrapper>
+      {isLoading && <Loading />}
       {sortByTime(transactions).map(transaction => (
         <TransactionListItem
           key={transaction.hash}
@@ -47,8 +48,9 @@ const Success = props => {
           transaction={transaction}
         />
       ))}
-      {isEmpty(transactions) && !isEmpty(searchesApplied) && <EmptyTx />}
-      {isLoading && <Loading />}
+      {!isLoading &&
+        isEmpty(transactions) &&
+        !isEmpty(searchesApplied) && <EmptyTx />}
       {!isLoading &&
         !isEmpty(transactions) && (
           <LoadMore onClick={() => props.loadMore()}>

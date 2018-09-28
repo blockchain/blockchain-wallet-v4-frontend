@@ -1,6 +1,7 @@
 import { call, select } from 'redux-saga/effects'
 import { equals, filter, identity, is, isEmpty, prop, propEq } from 'ramda'
 import { utils } from 'blockchain-wallet-v4/src'
+import EthUtil from 'ethereumjs-util'
 import { selectors } from 'data'
 import settings from 'config'
 
@@ -22,7 +23,8 @@ export const selectReceiveAddress = function*(source, networks) {
   const appState = yield select(identity)
   const coin = prop('coin', source)
   const address = prop('address', source)
-  if (equals('ETH', coin) && is(String, address)) return address
+  if (equals('ETH', coin) && is(String, address))
+    return EthUtil.toChecksumAddress(address)
   if (equals('BCH', coin) && is(Number, address)) {
     const bchReceiveAddress = selectors.core.common.bch.getNextAvailableReceiveAddress(
       settings.NETWORK_BCH,

@@ -32,7 +32,7 @@ export default class LockboxSettings extends React.PureComponent {
             <Text color='warning' size='14px'>
               <FormattedMessage
                 id='scenes.lockbox.settings.browserwarn'
-                defaultMessage='Installing applications and updating firmware can only be done while using the Chrome browser.'
+                defaultMessage='Adding new devices, installing applications and updating firmware can only be done while using the Chrome browser.'
               />
             </Text>
           </BrowserWarning>
@@ -46,7 +46,7 @@ export default class LockboxSettings extends React.PureComponent {
           deviceIndex={deviceIndex}
           isBrowserChrome={isBrowserChrome}
         />
-        <AddDevice />
+        <AddDevice isBrowserChrome={isBrowserChrome} />
         <RestoreDevice />
         <ExportXPub deviceIndex={deviceIndex} />
         <RemoveDevice deviceIndex={deviceIndex} />
