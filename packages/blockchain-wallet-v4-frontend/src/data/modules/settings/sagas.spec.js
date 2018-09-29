@@ -1,14 +1,16 @@
 import { select } from 'redux-saga/effects'
-import {
-  promptForSecondPassword
-} from 'services/SagaService'
+import { promptForSecondPassword } from 'services/SagaService'
 import { testSaga, expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 
 import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
-import settingsSagas, { logLocation, ipRestrictionError, taskToPromise } from './sagas'
+import settingsSagas, {
+  logLocation,
+  ipRestrictionError,
+  taskToPromise
+} from './sagas'
 import * as C from 'services/AlertService'
 import { contains } from 'ramda'
 
@@ -40,7 +42,9 @@ describe('settingsSagas', () => {
           .restart()
           .next()
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'initSettingsInfo', error))
+          .put(
+            actions.logs.logErrorMessage(logLocation, 'initSettingsInfo', error)
+          )
       })
     })
   })
@@ -61,7 +65,13 @@ describe('settingsSagas', () => {
           .restart()
           .next()
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'initSettingsPreferences', error))
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'initSettingsPreferences',
+              error
+            )
+          )
       })
     })
   })
@@ -76,10 +86,11 @@ describe('settingsSagas', () => {
     })
 
     it('should show the two step google auth modal', () => {
-      saga.next(SECRET_GOOGLE_AUTHENTICATOR_URL)
-        .put(actions.modals.showModal('TwoStepGoogleAuthenticator', {
+      saga.next(SECRET_GOOGLE_AUTHENTICATOR_URL).put(
+        actions.modals.showModal('TwoStepGoogleAuthenticator', {
           googleAuthenticatorSecretUrl: SECRET_GOOGLE_AUTHENTICATOR_URL
-        }))
+        })
+      )
     })
 
     describe('error handling', () => {
@@ -89,7 +100,13 @@ describe('settingsSagas', () => {
           .restart()
           .next()
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'showGoogleAuthenticatorSecretUrl', error))
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'showGoogleAuthenticatorSecretUrl',
+              error
+            )
+          )
       })
     })
   })
@@ -143,7 +160,7 @@ describe('settingsSagas', () => {
     })
 
     it('should close all modals if not SfoxExchangeData modal', () => {
-      let modals = [ { type: 'modal_type' } ]
+      let modals = [{ type: 'modal_type' }]
       saga.next(modals).put(actions.modals.closeAllModals())
     })
 
@@ -152,7 +169,9 @@ describe('settingsSagas', () => {
     })
 
     it('should display success', () => {
-      saga.next(Remote.of(false)).put(actions.alerts.displaySuccess(C.MOBILE_VERIFY_SUCCESS))
+      saga
+        .next(Remote.of(false))
+        .put(actions.alerts.displaySuccess(C.MOBILE_VERIFY_SUCCESS))
     })
 
     describe('error handling', () => {
@@ -194,7 +213,9 @@ describe('settingsSagas', () => {
           .restart()
           .next()
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'updateLanguage', error))
+          .put(
+            actions.logs.logErrorMessage(logLocation, 'updateLanguage', error)
+          )
       })
     })
   })
@@ -221,7 +242,9 @@ describe('settingsSagas', () => {
           .restart()
           .next()
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'updateCurrency', error))
+          .put(
+            actions.logs.logErrorMessage(logLocation, 'updateCurrency', error)
+          )
           .next()
           .put(actions.alerts.displayError(C.CURRENCY_UPDATE_ERROR))
       })
@@ -244,7 +267,9 @@ describe('settingsSagas', () => {
     })
 
     it('should display success', () => {
-      saga.next().put(actions.alerts.displaySuccess(C.AUTOLOGOUT_UPDATE_SUCCESS))
+      saga
+        .next()
+        .put(actions.alerts.displaySuccess(C.AUTOLOGOUT_UPDATE_SUCCESS))
     })
 
     describe('error handling', () => {
@@ -254,7 +279,9 @@ describe('settingsSagas', () => {
           .restart()
           .next()
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'updateAutoLogout', error))
+          .put(
+            actions.logs.logErrorMessage(logLocation, 'updateAutoLogout', error)
+          )
           .next()
           .put(actions.alerts.displayError(C.AUTOLOGOUT_UPDATE_ERROR))
       })
@@ -285,7 +312,13 @@ describe('settingsSagas', () => {
           .restart()
           .next()
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'updateLoggingLevel', error))
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'updateLoggingLevel',
+              error
+            )
+          )
           .next()
           .put(actions.alerts.displayError(C.LOGGINGLEVEL_UPDATE_ERROR))
       })
@@ -347,7 +380,9 @@ describe('settingsSagas', () => {
           .restart()
           .next()
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'updateIpLockOn', error))
+          .put(
+            actions.logs.logErrorMessage(logLocation, 'updateIpLockOn', error)
+          )
           .next()
           .put(actions.alerts.displayError(C.IPRESTRICTION_UPDATE_ERROR))
       })
@@ -360,7 +395,9 @@ describe('settingsSagas', () => {
           .restart()
           .next()
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'updateIpLockOn', error))
+          .put(
+            actions.logs.logErrorMessage(logLocation, 'updateIpLockOn', error)
+          )
           .next()
           .put(actions.alerts.displayError(C.IPRESTRICTION_NO_WHITELIST_ERROR))
       })
@@ -379,9 +416,7 @@ describe('settingsSagas', () => {
     })
 
     it('should display success', () => {
-      saga
-        .next()
-        .put(actions.alerts.displaySuccess(C.TOR_UPDATE_SUCCESS))
+      saga.next().put(actions.alerts.displaySuccess(C.TOR_UPDATE_SUCCESS))
     })
 
     describe('error handling', () => {
@@ -391,7 +426,13 @@ describe('settingsSagas', () => {
           .restart()
           .next()
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'updateBlockTorIps', error))
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'updateBlockTorIps',
+              error
+            )
+          )
           .next()
           .put(actions.alerts.displayError(C.TOR_UPDATE_ERROR))
       })
@@ -410,9 +451,7 @@ describe('settingsSagas', () => {
     })
 
     it('should display success', () => {
-      saga
-        .next()
-        .put(actions.alerts.displaySuccess(C.HINT_UPDATE_SUCCESS))
+      saga.next().put(actions.alerts.displaySuccess(C.HINT_UPDATE_SUCCESS))
     })
 
     describe('error handling', () => {
@@ -438,7 +477,9 @@ describe('settingsSagas', () => {
       let saga = testSaga(updateTwoStepRemember, action)
 
       it('should call the core', () => {
-        saga.next().call(coreSagas.settings.setAuthTypeNeverSave, action.payload)
+        saga
+          .next()
+          .call(coreSagas.settings.setAuthTypeNeverSave, action.payload)
       })
 
       it('should select the guid', () => {
@@ -450,7 +491,9 @@ describe('settingsSagas', () => {
       })
 
       it('should display a success alert', () => {
-        saga.next().put(actions.alerts.displaySuccess(C.TWOFA_REMEMBER_UPDATE_SUCCESS))
+        saga
+          .next()
+          .put(actions.alerts.displaySuccess(C.TWOFA_REMEMBER_UPDATE_SUCCESS))
       })
     })
 
@@ -460,10 +503,14 @@ describe('settingsSagas', () => {
       let saga = testSaga(updateTwoStepRemember, action)
 
       it('should call the core', () => {
-        saga.next().call(coreSagas.settings.setAuthTypeNeverSave, action.payload)
+        saga
+          .next()
+          .call(coreSagas.settings.setAuthTypeNeverSave, action.payload)
       })
       it('should display a success alert', () => {
-        saga.next().put(actions.alerts.displaySuccess(C.TWOFA_REMEMBER_UPDATE_SUCCESS))
+        saga
+          .next()
+          .put(actions.alerts.displaySuccess(C.TWOFA_REMEMBER_UPDATE_SUCCESS))
       })
 
       describe('error handling', () => {
@@ -473,7 +520,13 @@ describe('settingsSagas', () => {
             .restart()
             .next()
             .throw(error)
-            .put(actions.logs.logErrorMessage(logLocation, 'updateTwoStepRemember', error))
+            .put(
+              actions.logs.logErrorMessage(
+                logLocation,
+                'updateTwoStepRemember',
+                error
+              )
+            )
             .next()
             .put(actions.alerts.displayError(C.TWOFA_REMEMBER_UPDATE_ERROR))
         })
@@ -509,7 +562,13 @@ describe('settingsSagas', () => {
           .restart()
           .next()
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'enableTwoStepMobile', error))
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'enableTwoStepMobile',
+              error
+            )
+          )
           .next()
           .put(actions.alerts.displayError(C.TWOFA_MOBILE_ENABLE_ERROR))
       })
@@ -524,7 +583,9 @@ describe('settingsSagas', () => {
     let saga = testSaga(enableTwoStepGoogleAuthenticator, action)
 
     it('should call core set google auth', () => {
-      saga.next().call(coreSagas.settings.setGoogleAuthenticator, action.payload)
+      saga
+        .next()
+        .call(coreSagas.settings.setGoogleAuthenticator, action.payload)
     })
 
     it('should display success', () => {
@@ -544,7 +605,13 @@ describe('settingsSagas', () => {
           .restart()
           .next()
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'enableTwoStepGoogleAuthenticator', error))
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'enableTwoStepGoogleAuthenticator',
+              error
+            )
+          )
           .next()
           .put(actions.alerts.displayError(C.TWOFA_GOOGLEAUTH_ENABLE_ERROR))
       })
@@ -559,17 +626,13 @@ describe('settingsSagas', () => {
     let saga = testSaga(enableTwoStepYubikey, action)
 
     it('should call core set setYubikey', () => {
-      saga
-        .next()
-        .call(coreSagas.settings.setYubikey, action.payload)
+      saga.next().call(coreSagas.settings.setYubikey, action.payload)
     })
 
     it('should display success', () => {
       saga
         .next()
-        .put(
-          actions.alerts.displaySuccess(C.TWOFA_YUBIKEY_ENABLE_SUCCESS)
-        )
+        .put(actions.alerts.displaySuccess(C.TWOFA_YUBIKEY_ENABLE_SUCCESS))
     })
 
     it('should close the modal', () => {
@@ -583,7 +646,13 @@ describe('settingsSagas', () => {
           .restart()
           .next()
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'enableTwoStepYubikey', error))
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'enableTwoStepYubikey',
+              error
+            )
+          )
           .next()
           .put(actions.alerts.displayError(C.TWOFA_YUBIKEY_ENABLE_ERROR))
       })

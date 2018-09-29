@@ -80,12 +80,7 @@ const SecondStep = props => {
           </LinkContainer>
         </Container>
         <CopyToClipBoard text={link}>
-          <Button
-            type='submit'
-            nature={active ? 'copy' : 'primary'}
-            fullwidth
-            uppercase
-          >
+          <Button type='submit' nature={active ? 'copy' : 'primary'} fullwidth>
             {active ? (
               <FormattedMessage
                 id='modals.requestbitcoin.secondstep.copied'
@@ -94,7 +89,7 @@ const SecondStep = props => {
             ) : (
               <FormattedMessage
                 id='modals.requestbitcoin.secondstep.copy'
-                defaultMessage='Copy link'
+                defaultMessage='Copy Link'
               />
             )}
           </Button>

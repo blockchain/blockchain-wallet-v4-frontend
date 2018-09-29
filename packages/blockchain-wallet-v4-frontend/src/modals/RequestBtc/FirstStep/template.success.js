@@ -173,7 +173,6 @@ const FirstStep = props => {
           type='submit'
           nature='primary'
           fullwidth
-          uppercase
           disabled={submitting || invalid}
         >
           <FormattedMessage

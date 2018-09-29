@@ -27,19 +27,13 @@ describe('btcTransactions sagas', () => {
     }
 
     it('should initialize the form with initial values', () => {
-      saga
-        .next()
-        .put(
-          actions.form.initialize('btcTransactions', initialValues)
-        )
+      saga.next().put(actions.form.initialize('btcTransactions', initialValues))
     })
 
     it('should dispatch an action to fetch txs', () => {
       saga
         .next()
-        .put(
-          actions.core.data.bitcoin.fetchTransactions(defaultSource, true)
-        )
+        .put(actions.core.data.bitcoin.fetchTransactions(defaultSource, true))
     })
 
     describe('error handling', () => {
@@ -61,9 +55,7 @@ describe('btcTransactions sagas', () => {
     it('should open the modal', () => {
       saga
         .next()
-        .put(
-          actions.modals.showModal('TransactionReport', { coin: 'BTC' })
-        )
+        .put(actions.modals.showModal('TransactionReport', { coin: 'BTC' }))
     })
 
     describe('error handling', () => {
@@ -73,7 +65,9 @@ describe('btcTransactions sagas', () => {
           .restart()
           .next()
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'reportClicked', error))
+          .put(
+            actions.logs.logErrorMessage(logLocation, 'reportClicked', error)
+          )
       })
     })
   })
@@ -99,7 +93,12 @@ describe('btcTransactions sagas', () => {
     it('should fetch transactions', () => {
       saga
         .next(FORM_VALUES)
-        .put(actions.core.data.bitcoin.fetchTransactions(FORM_VALUES.source === 'all' ? '' : 'some_address', false))
+        .put(
+          actions.core.data.bitcoin.fetchTransactions(
+            FORM_VALUES.source === 'all' ? '' : 'some_address',
+            false
+          )
+        )
     })
 
     describe('error handling', () => {
@@ -109,7 +108,9 @@ describe('btcTransactions sagas', () => {
           .restart()
           .next()
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'scrollUpdated', error))
+          .put(
+            actions.logs.logErrorMessage(logLocation, 'scrollUpdated', error)
+          )
       })
     })
   })
@@ -127,7 +128,14 @@ describe('btcTransactions sagas', () => {
     let saga = testSaga(formChanged, action)
 
     it('should fetch transactions', () => {
-      saga.next().put(actions.core.data.bitcoin.fetchTransactions(action.payload === 'all' ? '' : 'some_address', true))
+      saga
+        .next()
+        .put(
+          actions.core.data.bitcoin.fetchTransactions(
+            action.payload === 'all' ? '' : 'some_address',
+            true
+          )
+        )
     })
 
     describe('error handling', () => {
@@ -157,7 +165,14 @@ describe('btcTransactions sagas', () => {
     let saga = testSaga(formChanged, action)
 
     it('should fetch transactions', () => {
-      saga.next().put(actions.core.data.bitcoin.fetchTransactions(action.payload === 'all' ? '' : 'some_address', true))
+      saga
+        .next()
+        .put(
+          actions.core.data.bitcoin.fetchTransactions(
+            action.payload === 'all' ? '' : 'some_address',
+            true
+          )
+        )
     })
   })
 })

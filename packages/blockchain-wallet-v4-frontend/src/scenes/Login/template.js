@@ -280,7 +280,6 @@ const Login = props => {
             type='submit'
             nature='primary'
             fullwidth
-            uppercase
             disabled={submitting || invalid || busy || !password}
           >
             {busy && !loginError ? (
@@ -288,7 +287,7 @@ const Login = props => {
             ) : (
               <FormattedMessage
                 id='scenes.login.submit'
-                defaultMessage='Log in'
+                defaultMessage='Log In'
               />
             )}
           </LoginButton>

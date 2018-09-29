@@ -112,19 +112,27 @@ describe('createPayment', () => {
   describe('*from', () => {
     it('should set from', () => {
       let gen = payment.from(FROM_INDEX)
-      expect(gen.next().value).toEqual(call(__calculateFrom, FROM_INDEX, network))
-      expect(gen.next(FROM_DATA).value).toEqual(call(__getWalletUnspent, network, FROM_DATA))
+      expect(gen.next().value).toEqual(
+        call(__calculateFrom, FROM_INDEX, network)
+      )
+      expect(gen.next(FROM_DATA).value).toEqual(
+        call(__getWalletUnspent, network, FROM_DATA)
+      )
     })
   })
 
   describe('*fee', () => {
     it('should set the fee', () => {
       let gen = payment.fee(FEE_VALUE)
-      expect(gen.next().value).toEqual(call(__calculateFee, FEE_VALUE, prop('fees', p)))
-      expect(gen.next(FEE_VALUE).value).toEqual(call(__calculateEffectiveBalance, {
-        undefined,
-        fee: FEE_VALUE
-      }))
+      expect(gen.next().value).toEqual(
+        call(__calculateFee, FEE_VALUE, prop('fees', p))
+      )
+      expect(gen.next(FEE_VALUE).value).toEqual(
+        call(__calculateEffectiveBalance, {
+          undefined,
+          fee: FEE_VALUE
+        })
+      )
       expect(gen.next().done).toEqual(true)
     })
   })
@@ -148,7 +156,15 @@ describe('createPayment', () => {
   describe('*sign', () => {
     it('should call calculateSignature', () => {
       let gen = payment.sign(PASSWORD_VALUE)
-      expect(gen.next(PASSWORD_VALUE).value).toEqual(call(__calculateSignature, network, PASSWORD_VALUE, prop('fromType', p), prop('selection', p)))
+      expect(gen.next(PASSWORD_VALUE).value).toEqual(
+        call(
+          __calculateSignature,
+          network,
+          PASSWORD_VALUE,
+          prop('fromType', p),
+          prop('selection', p)
+        )
+      )
       expect(gen.next().done).toEqual(true)
     })
   })
@@ -156,7 +172,9 @@ describe('createPayment', () => {
   describe('*publish', () => {
     it('should call calculatePublish', () => {
       let gen = payment.publish()
-      expect(gen.next().value).toEqual(call(__calculatePublish, prop('txHex', p)))
+      expect(gen.next().value).toEqual(
+        call(__calculatePublish, prop('txHex', p))
+      )
       expect(gen.next().done).toEqual(true)
     })
   })
@@ -164,40 +182,66 @@ describe('createPayment', () => {
   describe('calculateSignature', () => {
     it('should follow the FROM.ACCOUNT case', () => {
       let WRAPPER_VALUE = {}
-      let result = __calculateSignature(network, PASSWORD_VALUE, FROM.ACCOUNT, prop('selection', p))
+      let result = __calculateSignature(
+        network,
+        PASSWORD_VALUE,
+        FROM.ACCOUNT,
+        prop('selection', p)
+      )
       expect(result.next().value).toEqual(select(S.wallet.getWrapper))
       expect(result.next(WRAPPER_VALUE).value).toBeTruthy()
       expect(result.next().done).toEqual(true)
     })
     it('should follow the FROM.LEGACY case', () => {
       let WRAPPER_VALUE = {}
-      let result = __calculateSignature(network, PASSWORD_VALUE, FROM.LEGACY, prop('selection', p))
+      let result = __calculateSignature(
+        network,
+        PASSWORD_VALUE,
+        FROM.LEGACY,
+        prop('selection', p)
+      )
       expect(result.next().value).toEqual(select(S.wallet.getWrapper))
       expect(result.next(WRAPPER_VALUE).value).toBeTruthy()
       expect(result.next().done).toEqual(true)
     })
     it('should follow the FROM.EXTERNAL case', () => {
-      let result = __calculateSignature(network, PASSWORD_VALUE, FROM.EXTERNAL, prop('selection', p))
+      let result = __calculateSignature(
+        network,
+        PASSWORD_VALUE,
+        FROM.EXTERNAL,
+        prop('selection', p)
+      )
       expect(result.next().value).toEqual(select(S.wallet.getWrapper))
       expect(result.next().value).toBe(true)
     })
     it('should follow the FROM.WATCH_ONLY case', () => {
-      let result = __calculateSignature(network, PASSWORD_VALUE, FROM.WATCH_ONLY, prop('selection', p))
+      let result = __calculateSignature(
+        network,
+        PASSWORD_VALUE,
+        FROM.WATCH_ONLY,
+        prop('selection', p)
+      )
       expect(result.next().value).toEqual(select(S.wallet.getWrapper))
       expect(result.next().value).toBe(true)
     })
     it('should default to throwing an error', () => {
-      let result = __calculateSignature(network, PASSWORD_VALUE, 'FROM.ERROR', prop('selection', p))
+      let result = __calculateSignature(
+        network,
+        PASSWORD_VALUE,
+        'FROM.ERROR',
+        prop('selection', p)
+      )
       expect(result.next().value).toEqual(select(S.wallet.getWrapper))
-      expect(
-        () => result.next()
-      ).toThrow(new Error('unknown_from'))
+      expect(() => result.next()).toThrow(new Error('unknown_from'))
     })
     it('should throw if no selection is passed', () => {
-      let result = __calculateSignature(network, PASSWORD_VALUE, FROM.WATCH_ONLY, undefined)
-      expect(
-        () => result.next()
-      ).toThrow(new Error('missing_selection'))
+      let result = __calculateSignature(
+        network,
+        PASSWORD_VALUE,
+        FROM.WATCH_ONLY,
+        undefined
+      )
+      expect(() => result.next()).toThrow(new Error('missing_selection'))
     })
   })
 
@@ -214,170 +258,186 @@ describe('createPayment', () => {
 
   describe('calculateSweepSelection', () => {
     it('should throw if missing to', () => {
-      expect(() => __calculateSweepSelection({
-        to: undefined,
-        fee: FEE_VALUE,
-        coins: [],
-        effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
-      })).toThrowError(new Error('missing_to'))
+      expect(() =>
+        __calculateSweepSelection({
+          to: undefined,
+          fee: FEE_VALUE,
+          coins: [],
+          effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
+        })
+      ).toThrowError(new Error('missing_to'))
     })
     it('should throw if to length does not equal 1', () => {
-      expect(() => __calculateSweepSelection({
-        to: TO_ADDRESS,
-        fee: FEE_VALUE,
-        coins: [],
-        effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
-      })).toThrowError(new Error('can_only_sweep_to_one_target'))
+      expect(() =>
+        __calculateSweepSelection({
+          to: TO_ADDRESS,
+          fee: FEE_VALUE,
+          coins: [],
+          effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
+        })
+      ).toThrowError(new Error('can_only_sweep_to_one_target'))
     })
     it('should throw if fee is not positive integer', () => {
-      expect(() => __calculateSweepSelection({
-        to: [TO_ADDRESS],
-        fee: undefined,
-        coins: [],
-        effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
-      })).toThrowError(new Error('missing_fee_per_byte'))
+      expect(() =>
+        __calculateSweepSelection({
+          to: [TO_ADDRESS],
+          fee: undefined,
+          coins: [],
+          effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
+        })
+      ).toThrowError(new Error('missing_fee_per_byte'))
     })
     it('should throw if coins isNil', () => {
-      expect(() => __calculateSweepSelection({
-        to: [TO_ADDRESS],
-        fee: FEE_VALUE,
-        coins: undefined,
-        effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
-      })).toThrowError(new Error('missing_coins'))
+      expect(() =>
+        __calculateSweepSelection({
+          to: [TO_ADDRESS],
+          fee: FEE_VALUE,
+          coins: undefined,
+          effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
+        })
+      ).toThrowError(new Error('missing_coins'))
     })
     it('should throw if effectiveBalance is zero', () => {
-      expect(() => __calculateSweepSelection({
-        to: [TO_ADDRESS],
-        fee: FEE_VALUE,
-        coins: ['coin'],
-        effectiveBalance: 0
-      })).toThrowError(new Error('empty_addresses'))
+      expect(() =>
+        __calculateSweepSelection({
+          to: [TO_ADDRESS],
+          fee: FEE_VALUE,
+          coins: ['coin'],
+          effectiveBalance: 0
+        })
+      ).toThrowError(new Error('empty_addresses'))
     })
     it('should return CoinSelection.selectAll if all conditions are met', () => {
-      expect(__calculateSweepSelection({
-        to: [TO_ADDRESS],
-        fee: FEE_VALUE,
-        coins: ['coin'],
-        effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
-      })).toBe(SELECT_ALL_RESULT)
+      expect(
+        __calculateSweepSelection({
+          to: [TO_ADDRESS],
+          fee: FEE_VALUE,
+          coins: ['coin'],
+          effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
+        })
+      ).toBe(SELECT_ALL_RESULT)
     })
   })
 
   describe('calculateSelection', () => {
     it('should throw if missing to', () => {
-      expect(() => __calculateSelection({
-        to: undefined,
-        amount: AMOUNT,
-        fee: FEE_VALUE,
-        coins: [],
-        change: CHANGE_ADDRESS,
-        effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
-      })).toThrowError(new Error('missing_to'))
+      expect(() =>
+        __calculateSelection({
+          to: undefined,
+          amount: AMOUNT,
+          fee: FEE_VALUE,
+          coins: [],
+          change: CHANGE_ADDRESS,
+          effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
+        })
+      ).toThrowError(new Error('missing_to'))
     })
     it('should throw if missing amount', () => {
-      expect(() => __calculateSelection({
-        to: TO_ADDRESS,
-        amount: undefined,
-        fee: FEE_VALUE,
-        coins: [],
-        change: CHANGE_ADDRESS,
-        effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
-      })).toThrowError(new Error('missing_amount'))
+      expect(() =>
+        __calculateSelection({
+          to: TO_ADDRESS,
+          amount: undefined,
+          fee: FEE_VALUE,
+          coins: [],
+          change: CHANGE_ADDRESS,
+          effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
+        })
+      ).toThrowError(new Error('missing_amount'))
     })
     it('should throw if missing fee', () => {
-      expect(() => __calculateSelection({
-        to: TO_ADDRESS,
-        amount: AMOUNT,
-        fee: undefined,
-        coins: [],
-        change: CHANGE_ADDRESS,
-        effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
-      })).toThrowError(new Error('missing_fee_per_byte'))
+      expect(() =>
+        __calculateSelection({
+          to: TO_ADDRESS,
+          amount: AMOUNT,
+          fee: undefined,
+          coins: [],
+          change: CHANGE_ADDRESS,
+          effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
+        })
+      ).toThrowError(new Error('missing_fee_per_byte'))
     })
     it('should throw if missing coins', () => {
-      expect(() => __calculateSelection({
-        to: TO_ADDRESS,
-        amount: AMOUNT,
-        fee: FEE_VALUE,
-        coins: undefined,
-        change: CHANGE_ADDRESS,
-        effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
-      })).toThrowError(new Error('missing_coins'))
+      expect(() =>
+        __calculateSelection({
+          to: TO_ADDRESS,
+          amount: AMOUNT,
+          fee: FEE_VALUE,
+          coins: undefined,
+          change: CHANGE_ADDRESS,
+          effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
+        })
+      ).toThrowError(new Error('missing_coins'))
     })
     it('should throw if effective balance is zero', () => {
-      expect(() => __calculateSelection({
-        to: TO_ADDRESS,
-        amount: AMOUNT,
-        fee: FEE_VALUE,
-        coins: ['coin'],
-        change: CHANGE_ADDRESS,
-        effectiveBalance: 0
-      })).toThrowError(new Error('empty_addresses'))
+      expect(() =>
+        __calculateSelection({
+          to: TO_ADDRESS,
+          amount: AMOUNT,
+          fee: FEE_VALUE,
+          coins: ['coin'],
+          change: CHANGE_ADDRESS,
+          effectiveBalance: 0
+        })
+      ).toThrowError(new Error('empty_addresses'))
     })
     it('should throw if missing change address', () => {
-      expect(() => __calculateSelection({
-        to: TO_ADDRESS,
-        amount: AMOUNT,
-        fee: FEE_VALUE,
-        coins: ['coin'],
-        change: undefined,
-        effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
-      })).toThrowError(new Error('missing_change_address'))
+      expect(() =>
+        __calculateSelection({
+          to: TO_ADDRESS,
+          amount: AMOUNT,
+          fee: FEE_VALUE,
+          coins: ['coin'],
+          change: undefined,
+          effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
+        })
+      ).toThrowError(new Error('missing_change_address'))
     })
     it('should return CoinSelection.descentDraw if all conditions are met', () => {
-      expect(__calculateSelection({
-        to: TO_ADDRESS,
-        amount: AMOUNT,
-        fee: FEE_VALUE,
-        coins: ['coin'],
-        change: CHANGE_ADDRESS,
-        effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
-      })).toBe(true)
+      expect(
+        __calculateSelection({
+          to: TO_ADDRESS,
+          amount: AMOUNT,
+          fee: FEE_VALUE,
+          coins: ['coin'],
+          change: CHANGE_ADDRESS,
+          effectiveBalance: EFFECTIVE_BALANCE_AMOUNT
+        })
+      ).toBe(true)
     })
   })
 
   describe('calculatePublish', () => {
     it('should throw if no txHex', () => {
       let result = __calculatePublish()
-      expect(
-        () => result.next()
-      ).toThrow(new Error('missing_signed_tx'))
+      expect(() => result.next()).toThrow(new Error('missing_signed_tx'))
     })
   })
 
   describe('calculateFee', () => {
     it('should return the fee', () => {
-      expect(
-        __calculateFee(FEE_VALUE, p.fees)
-      ).toBe(FEE_VALUE)
+      expect(__calculateFee(FEE_VALUE, p.fees)).toBe(FEE_VALUE)
     })
     it('should use the payment fees object to get the fee if string is passed', () => {
-      expect(
-        __calculateFee('regular', p.fees)
-      ).toBe(feeResult.regular)
+      expect(__calculateFee('regular', p.fees)).toBe(feeResult.regular)
     })
     it('should throw if fee is not passed', () => {
-      expect(
-        () => __calculateFee(undefined, p.fees)
-      ).toThrow(new Error('no_fee_set'))
+      expect(() => __calculateFee(undefined, p.fees)).toThrow(
+        new Error('no_fee_set')
+      )
     })
   })
 
   describe('calculateAmount', () => {
     it('should return the amounts', () => {
-      expect(
-        __calculateAmount(AMOUNT)
-      ).toEqual([AMOUNT])
+      expect(__calculateAmount(AMOUNT)).toEqual([AMOUNT])
     })
     it('should return the amounts if an array is passed', () => {
-      expect(
-        __calculateAmount([AMOUNT, AMOUNT])
-      ).toEqual([AMOUNT, AMOUNT])
+      expect(__calculateAmount([AMOUNT, AMOUNT])).toEqual([AMOUNT, AMOUNT])
     })
     it('should throw if amount is invalid', () => {
-      expect(
-        () => __calculateAmount('151000')
-      ).toThrow(new Error('no_amount_set'))
+      expect(() => __calculateAmount('151000')).toThrow(
+        new Error('no_amount_set')
+      )
     })
   })
 

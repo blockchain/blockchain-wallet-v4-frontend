@@ -45,7 +45,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const recoverySaga = function* ({ password }) {
+  const recoverySaga = function*({ password }) {
     const getMnemonic = s => selectors.core.wallet.getMnemonic(s, password)
     try {
       const mnemonicT = yield select(getMnemonic)

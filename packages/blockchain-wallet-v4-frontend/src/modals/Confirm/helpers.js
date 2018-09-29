@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import { Text } from 'blockchain-info-components'
+import { Text, Link } from 'blockchain-info-components'
 import * as C from 'services/ConfirmService'
+import { prop } from 'ramda'
 
 export const selectTitle = title => {
   switch (title) {
@@ -17,6 +18,13 @@ export const selectTitle = title => {
         <FormattedMessage
           id='modals.confirm.title.phone_call'
           defaultMessage='Trade In Progress'
+        />
+      )
+    case C.ARCHIVE_VULNERABLE_ADDRESS_TITLE:
+      return (
+        <FormattedMessage
+          id='modals.confirm.title.archive_address'
+          defaultMessage='Archive Vulnerable Address'
         />
       )
     default:
@@ -59,6 +67,14 @@ export const selectMessage = (message, values) => {
             />
           </Text>
         </Fragment>
+      )
+    case C.ARCHIVE_VULNERABLE_ADDRESS_MSG:
+      return (
+        <FormattedMessage
+          id='modals.confirm.title.archive_address_msg'
+          defaultMessage='A security issue effects address {addr}. Please Archive it, and if you continue to have issues contact {support}.'
+          values={{ addr: prop('vulnerableAddress', values), support: <Link size='16px' weight={300} target='_blank' href='https://support.blockchain.com'>support</Link> }}
+        />
       )
     default:
       return (
@@ -103,6 +119,13 @@ export const selectConfirm = message => {
         <FormattedMessage
           id='modals.confirm.confirm.verify_identity'
           defaultMessage='Verify My Identity'
+        />
+      )
+    case C.ARCHIVE_VULNERABLE_ADDRESS_CONFIRM:
+      return (
+        <FormattedMessage
+          id='modals.confirm.title.archive_address_confirm'
+          defaultMessage='Archive Address'
         />
       )
     case C.CONFIRM_PHONE_CALL:

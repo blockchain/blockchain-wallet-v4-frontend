@@ -30,9 +30,9 @@ describe('transactionReport sagas', () => {
     })
 
     it('should initialize the transaciton report form', () => {
-      saga.next('ES').put(
-        actions.form.initialize('transactionReport', initialValues)
-      )
+      saga
+        .next('ES')
+        .put(actions.form.initialize('transactionReport', initialValues))
     })
 
     describe('error handling', () => {
@@ -73,12 +73,16 @@ describe('transactionReport sagas', () => {
     })
 
     it('should fetch bch tx history', () => {
-      saga.next(MOCK_FORM_VALUES).put(actions.core.data.bch.fetchTransactionHistory(
-        MOCK_FORM_VALUES.from.address,
-        START_DATE,
-        END_DATE,
-        moment(MOCK_FORM_VALUES.end).format('DD/MM/YYYY')
-      ))
+      saga
+        .next(MOCK_FORM_VALUES)
+        .put(
+          actions.core.data.bch.fetchTransactionHistory(
+            MOCK_FORM_VALUES.from.address,
+            START_DATE,
+            END_DATE,
+            moment(MOCK_FORM_VALUES.end).format('DD/MM/YYYY')
+          )
+        )
     })
   })
 
@@ -94,11 +98,15 @@ describe('transactionReport sagas', () => {
     })
 
     it('should fetch btc tx history', () => {
-      saga.next(MOCK_FORM_VALUES).put(actions.core.data.bitcoin.fetchTransactionHistory(
-        MOCK_FORM_VALUES.from.address,
-        START_DATE,
-        END_DATE
-      ))
+      saga
+        .next(MOCK_FORM_VALUES)
+        .put(
+          actions.core.data.bitcoin.fetchTransactionHistory(
+            MOCK_FORM_VALUES.from.address,
+            START_DATE,
+            END_DATE
+          )
+        )
     })
   })
 
@@ -114,11 +122,15 @@ describe('transactionReport sagas', () => {
     })
 
     it('should fetch btc tx history', () => {
-      saga.next(MOCK_FORM_VALUES).put(actions.core.data.bitcoin.fetchTransactionHistory(
-        MOCK_FORM_VALUES.from.address,
-        START_DATE,
-        END_DATE
-      ))
+      saga
+        .next(MOCK_FORM_VALUES)
+        .put(
+          actions.core.data.bitcoin.fetchTransactionHistory(
+            MOCK_FORM_VALUES.from.address,
+            START_DATE,
+            END_DATE
+          )
+        )
     })
 
     describe('error handling', () => {
@@ -129,7 +141,9 @@ describe('transactionReport sagas', () => {
           .restart()
           .next()
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'submitClicked', error))
+          .put(
+            actions.logs.logErrorMessage(logLocation, 'submitClicked', error)
+          )
       })
     })
   })

@@ -11,7 +11,7 @@ export const logClick = name => ({
   type: AT.LOG_CLICK,
   payload: { name }
 })
-export const logSfoxDropoff = (step) => ({
+export const logSfoxDropoff = step => ({
   type: AT.LOG_SFOX_DROPOFF,
   step
 })

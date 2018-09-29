@@ -435,7 +435,9 @@ describe('analyticsSagas', () => {
         saga
           .next()
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'logSfoxDropoff', error))
+          .put(
+            actions.logs.logErrorMessage(logLocation, 'logSfoxDropoff', error)
+          )
       })
     })
   })
