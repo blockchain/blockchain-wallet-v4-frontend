@@ -2,11 +2,10 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm, Field } from 'redux-form'
-import { TextBox, Form } from 'components/Form'
-import { Text } from 'blockchain-info-components'
+import { TextBox, Form, FormGroup, FormItem, FormLabel } from 'components/Form'
 import { required } from 'services/FormHelper'
 import Bank from './Bank'
-import { spacing } from 'services/StyleService'
+import { Text } from 'blockchain-info-components'
 
 const Container = styled.div`
   display: flex;
@@ -16,6 +15,10 @@ const Container = styled.div`
   button {
     margin-top: 20px;
   }
+`
+const HolderText = styled(Text)`
+  margin-top: 20px;
+  margin-bottom: 5px;
 `
 
 class BankAccounts extends Component {
@@ -40,18 +43,40 @@ class BankAccounts extends Component {
           {this.props.data.map(bank => {
             return <Bank bank={bank} onInputClick={this.onInputClick} />
           })}
-          <Text size='14px' style={spacing('mt-10')}>
+          <HolderText size='18px' weight={400}>
             <FormattedMessage
-              id='sfoxexchangedata.link.accountholdername'
-              defaultMessage="Account Holder's Name"
+              id='sfoxexchangedata.link.accountholder'
+              defaultMessage='Account Holder'
             />
-          </Text>
-          <Field
-            name='accountHolder'
-            component={TextBox}
-            validate={required}
-            onChange={this.onInputChange}
-          />
+          </HolderText>
+          <FormGroup inline>
+            <FormItem>
+              <FormLabel for='accountHolderFirst'>
+                <FormattedMessage
+                  id='sfoxexchangedata.link.accountholderfirstname'
+                  defaultMessage='First Name'
+                />
+              </FormLabel>
+              <Field
+                name='accountHolderFirst'
+                component={TextBox}
+                validate={required}
+              />
+            </FormItem>
+            <FormItem>
+              <FormLabel for='accountHolderLast'>
+                <FormattedMessage
+                  id='sfoxexchangedata.link.accountholderlastname'
+                  defaultMessage='Last Name'
+                />
+              </FormLabel>
+              <Field
+                name='accountHolderLast'
+                component={TextBox}
+                validate={required}
+              />
+            </FormItem>
+          </FormGroup>
         </Form>
       </Container>
     )

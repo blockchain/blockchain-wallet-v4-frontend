@@ -20,5 +20,6 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.FETCH_JUMIO_STATUS, sfoxSagas.fetchJumioStatus)
     yield takeLatest(AT.FETCH_JUMIO_TOKEN, sfoxSagas.fetchJumioToken)
     yield takeLatest(AT.COMPLETE_JUMIO, sfoxSagas.completeJumio)
+    yield takeLatest(AT.SFOX_INITIALIZE, sfoxSagas.sfoxInitialize)
   }
 }

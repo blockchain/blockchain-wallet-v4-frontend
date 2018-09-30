@@ -8,8 +8,10 @@ import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import { coinifyService } from '../../../exchange/service'
 import * as buySellA from '../../kvStore/buySell/actions'
 import { equals, head, prop, sort, path } from 'ramda'
+import settingsSagaFactory from '../../settings/sagas.js'
 
 export default ({ api, options }) => {
+  const settingsSagas = settingsSagaFactory({ api })
   const getCoinify = function*() {
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api, 'coinify')
@@ -258,6 +260,7 @@ export default ({ api, options }) => {
       const accounts = yield apply(mediums[medium], mediums[medium].getAccounts)
       const buyResult = yield apply(accounts[0], accounts[0].buy)
       yield put(A.handleTradeSuccess(buyResult))
+      yield call(settingsSagas.setLastTxTime)
       const coinifyObj = yield call(getCoinify)
       yield put(A.fetchTrades(coinifyObj))
 

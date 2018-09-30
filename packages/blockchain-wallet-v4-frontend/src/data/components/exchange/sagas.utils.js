@@ -1,4 +1,4 @@
-import { call, put, select } from 'redux-saga/effects'
+import { call, cancel, fork, join, put, select } from 'redux-saga/effects'
 import { equals, identity, head, path, pathOr, prop, toLower } from 'ramda'
 import { selectors, actions } from 'data'
 import * as S from './selectors'
@@ -22,14 +22,18 @@ export default ({ api, coreSagas, networks, options }) => {
   let prevPaymentSource
   let prevPaymentAmount
   let prevPayment
+  let paymentTask
   const calculatePaymentMemo = function*(source, amount) {
     if (
       !equals(source, prevPaymentSource) ||
       !equals(amount, prevPaymentAmount)
     ) {
+      if (paymentTask) cancel(paymentTask)
+      paymentTask = yield fork(calculateProvisionalPayment, source, amount)
+      prevPayment = yield join(paymentTask)
       prevPaymentSource = source
       prevPaymentAmount = amount
-      prevPayment = yield call(calculateProvisionalPayment, source, amount)
+      paymentTask = null
     }
     return prevPayment
   }
@@ -68,10 +72,14 @@ export default ({ api, coreSagas, networks, options }) => {
 
   let prevBalanceSource
   let prevBalance
+  let balanceTask
   const calculateEffectiveBalanceMemo = function*(source) {
     if (!equals(source, prevBalanceSource)) {
+      if (balanceTask) cancel(balanceTask)
+      balanceTask = yield fork(calculateEffectiveBalance, source)
+      prevBalance = yield join(balanceTask)
       prevBalanceSource = source
-      prevBalance = yield call(calculateEffectiveBalance, source)
+      balanceTask = null
     }
     return prevBalance
   }
