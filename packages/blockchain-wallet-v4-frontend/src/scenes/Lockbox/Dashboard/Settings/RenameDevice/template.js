@@ -56,8 +56,8 @@ const RenameDevice = props => {
         {!updateToggled && (
           <Button nature='empty' onClick={handleToggle}>
             <FormattedMessage
-              id='scenes.lockbox.settings.renamedevice.settings.edit'
-              defaultMessage='edit'
+              id='scenes.lockbox.settings.renamedevice.settings.editname'
+              defaultMessage='Rename Device'
             />
           </Button>
         )}

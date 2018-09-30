@@ -43,19 +43,19 @@ const Shapeshift = styled(TextGroup)`
   }
 `
 
-export const MenuTop = ({ useShapeShift }) => (
+export const MenuTop = ({ historySelected, useShapeShift }) => (
   <Wrapper>
     <TabMenu>
-      <LinkContainer to='/exchange' activeClassName='active' exact>
-        <TabMenuItem>
+      <LinkContainer to='/exchange' exact>
+        <TabMenuItem selected={!historySelected}>
           <FormattedMessage
             id='scenes.exchange.menutop.exchange'
             defaultMessage='Exchange'
           />
         </TabMenuItem>
       </LinkContainer>
-      <LinkContainer to='/exchange/history' activeClassName='active'>
-        <TabMenuItem>
+      <LinkContainer to='/exchange/history'>
+        <TabMenuItem selected={historySelected}>
           <FormattedMessage
             id='scenes.exchange.menutop.history'
             defaultMessage='Order History'

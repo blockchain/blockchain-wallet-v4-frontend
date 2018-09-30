@@ -75,7 +75,7 @@ const Identity = props => {
               id='sfoxexchangedata.verify.partner.header'
               defaultMessage='The Hidden Details'
             />
-            <LockIcon name='lock-filled' />
+            <LockIcon name='lock' />
           </IconHeader>
           <PartnerSubHeader>
             <FormattedMessage
@@ -160,7 +160,6 @@ const Identity = props => {
       <ColRight>
         <ColRightInner>
           <Button
-            uppercase
             nature='primary'
             fullwidth
             type='submit'

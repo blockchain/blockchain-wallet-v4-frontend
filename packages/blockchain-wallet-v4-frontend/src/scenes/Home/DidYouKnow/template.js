@@ -486,7 +486,7 @@ const selectContent = number => {
           </NavLink>
           <FormattedMessage
             id='scenes.home.didyouknow.content19.two'
-            defaultMessage='. It makes backing up a one- time process for all funds except Imported Addresses.'
+            defaultMessage='. It makes backing up a one-time process for all funds except Imported Addresses.'
           />
         </DidYouKnowWrapper>
       )

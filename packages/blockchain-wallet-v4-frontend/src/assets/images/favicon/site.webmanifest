@@ -1,6 +1,6 @@
 {
-    "name": "",
-    "short_name": "",
+    "name": "Blockchain Wallet",
+    "short_name": "Blockchain",
     "icons": [
         {
             "src": "/img/android-chrome-192x192.png",
@@ -15,5 +15,12 @@
     ],
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
-    "display": "standalone"
+    "display": "standalone",
+    "prefer_related_applications": true,
+    "related_applications": [
+        {
+            "platform": "play",
+            "id": "piuk.blockchain.android"
+        }
+    ]
 }

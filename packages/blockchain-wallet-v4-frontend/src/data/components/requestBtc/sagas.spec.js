@@ -45,6 +45,25 @@ describe('requestBtc sagas', () => {
           .next()
           .isDone()
       })
+      it('should throw if accountIdx is not integer', () => {
+        const accountIdx = 'address123'
+        const addressIdx = 'address123'
+        const message = 'laundry'
+
+        const action = { payload: { accountIdx, addressIdx, message } }
+        const saga = testSaga(requestBtcSagas.firstStepSubmitClicked, action)
+        saga
+          .next()
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'firstStepSubmitClicked',
+              new Error('accountIdx must be integer')
+            )
+          )
+          .next()
+          .isDone()
+      })
     })
   })
 

@@ -50,7 +50,7 @@ const Label = styled.label`
     border: 1px solid ${props => props.theme['brand-secondary']};
   }
   &:after {
-    content: '\\e90a';
+    content: '\\e95d';
     font-family: 'icomoon';
     position: absolute;
     color: ${props => props.theme['white']};
@@ -71,7 +71,9 @@ const CheckBoxInput = props => {
         disabled={disabled}
         {...rest}
       />
-      <Label htmlFor={name}>{children}</Label>
+      <Label htmlFor={name} data-e2e={name === 'terms' && 'termsLabel'}>
+        {children}
+      </Label>
     </Wrapper>
   )
 }

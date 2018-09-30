@@ -21,16 +21,21 @@ class ContentContainer extends React.PureComponent {
     this.props.txActions.initialized()
   }
 
+  handleArchive = address =>
+    this.props.coreWalletActions.setAddressArchived(address, true)
+
   render () {
-    const { empty, pages, search, buysellPartner } = this.props
+    const { empty, pages, currency, search, buysellPartner } = this.props
 
     return (
       <Content
         empty={empty}
         search={search}
         pages={pages}
+        currency={currency}
         onRefresh={this.handleRefresh}
         buysellPartner={buysellPartner}
+        onArchive={this.handleArchive}
       />
     )
   }
@@ -42,7 +47,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   dataActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
-  txActions: bindActionCreators(actions.components.btcTransactions, dispatch)
+  txActions: bindActionCreators(actions.components.btcTransactions, dispatch),
+  coreWalletActions: bindActionCreators(actions.core.wallet, dispatch)
 })
 
 export default connect(

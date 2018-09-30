@@ -15,7 +15,8 @@ const coreSagas = coreSagasFactory()
 
 const api = {
   incrementCurrencyUsageStats: jest.fn(),
-  logClick: jest.fn()
+  logClick: jest.fn(),
+  logSfoxDropoff: jest.fn()
 }
 
 describe('analyticsSagas', () => {
@@ -240,12 +241,13 @@ describe('analyticsSagas', () => {
   })
 
   describe('logLeftNavClick', () => {
-    let makePayload = name => {
-      return { payload: { target: name } }
-    }
+    let makeAction = name => ({
+      type: actionTypes.analytics.LOG_LEFT_NAV_CLICK,
+      payload: { text: name.toLowerCase() }
+    })
     describe('Dashboard clicked', () => {
       let { logLeftNavClick } = analyticsSagas({ coreSagas, api })
-      let payload = makePayload('Dashboard')
+      let payload = makeAction('Dashboard')
       let saga = testSaga(logLeftNavClick, payload)
 
       it('should call api.logClick with dashboard', () => {
@@ -254,7 +256,7 @@ describe('analyticsSagas', () => {
     })
     describe('Bitcoin clicked', () => {
       let { logLeftNavClick } = analyticsSagas({ coreSagas, api })
-      let payload = makePayload('Bitcoin')
+      let payload = makeAction('Bitcoin')
       let saga = testSaga(logLeftNavClick, payload)
 
       it('should call api.logClick with btc', () => {
@@ -263,7 +265,7 @@ describe('analyticsSagas', () => {
     })
     describe('Ether clicked', () => {
       let { logLeftNavClick } = analyticsSagas({ coreSagas, api })
-      let payload = makePayload('Ether')
+      let payload = makeAction('Ether')
       let saga = testSaga(logLeftNavClick, payload)
 
       it('should call api.logClick with eth', () => {
@@ -272,7 +274,7 @@ describe('analyticsSagas', () => {
     })
     describe('Bitcoin Cash clicked', () => {
       let { logLeftNavClick } = analyticsSagas({ coreSagas, api })
-      let payload = makePayload('Bitcoin Cash')
+      let payload = makeAction('Bitcoin Cash')
       let saga = testSaga(logLeftNavClick, payload)
 
       it('should call api.logClick with bch', () => {
@@ -281,7 +283,7 @@ describe('analyticsSagas', () => {
     })
     describe('Buy Sell clicked', () => {
       let { logLeftNavClick } = analyticsSagas({ coreSagas, api })
-      let payload = makePayload('Buy & Sell')
+      let payload = makeAction('Buy & Sell')
       let saga = testSaga(logLeftNavClick, payload)
 
       it('should call api.logClick with buysell', () => {
@@ -290,7 +292,7 @@ describe('analyticsSagas', () => {
     })
     describe('Exchange clicked', () => {
       let { logLeftNavClick } = analyticsSagas({ coreSagas, api })
-      let payload = makePayload('Exchange')
+      let payload = makeAction('Exchange')
       let saga = testSaga(logLeftNavClick, payload)
 
       it('should call api.logClick with exchange', () => {
@@ -299,7 +301,7 @@ describe('analyticsSagas', () => {
     })
     describe('Security Center clicked', () => {
       let { logLeftNavClick } = analyticsSagas({ coreSagas, api })
-      let payload = makePayload('Security Center')
+      let payload = makeAction('Security Center')
       let saga = testSaga(logLeftNavClick, payload)
 
       it('should call api.logClick with security', () => {
@@ -308,7 +310,7 @@ describe('analyticsSagas', () => {
     })
     describe('Settings clicked', () => {
       let { logLeftNavClick } = analyticsSagas({ coreSagas, api })
-      let payload = makePayload('Settings')
+      let payload = makeAction('Settings')
       let saga = testSaga(logLeftNavClick, payload)
 
       it('should call api.logClick with settings', () => {
@@ -317,7 +319,7 @@ describe('analyticsSagas', () => {
     })
     describe('Settings/General clicked', () => {
       let { logLeftNavClick } = analyticsSagas({ coreSagas, api })
-      let payload = makePayload('General')
+      let payload = makeAction('General')
       let saga = testSaga(logLeftNavClick, payload)
 
       it('should call api.logClick with settings_general', () => {
@@ -326,7 +328,7 @@ describe('analyticsSagas', () => {
     })
     describe('Settings/Profile clicked', () => {
       let { logLeftNavClick } = analyticsSagas({ coreSagas, api })
-      let payload = makePayload('Profile')
+      let payload = makeAction('Profile')
       let saga = testSaga(logLeftNavClick, payload)
 
       it('should call api.logClick with settings_profile', () => {
@@ -335,7 +337,7 @@ describe('analyticsSagas', () => {
     })
     describe('Settings/Preferences clicked', () => {
       let { logLeftNavClick } = analyticsSagas({ coreSagas, api })
-      let payload = makePayload('Preferences')
+      let payload = makeAction('Preferences')
       let saga = testSaga(logLeftNavClick, payload)
 
       it('should call api.logClick with settings_preferences', () => {
@@ -344,7 +346,7 @@ describe('analyticsSagas', () => {
     })
     describe('Settings/Wallets clicked', () => {
       let { logLeftNavClick } = analyticsSagas({ coreSagas, api })
-      let payload = makePayload('Wallets & Addresses')
+      let payload = makeAction('Wallets & Addresses')
       let saga = testSaga(logLeftNavClick, payload)
 
       it('should call api.logClick with settings_wallets', () => {
@@ -353,7 +355,7 @@ describe('analyticsSagas', () => {
     })
     describe('error handling', () => {
       let { logLeftNavClick } = analyticsSagas({ coreSagas, api })
-      let payload = makePayload('Dashboard')
+      let payload = makeAction('Dashboard')
       let saga = testSaga(logLeftNavClick, payload)
       const error = new Error('ERROR')
       it('should log an error', () => {
@@ -390,7 +392,10 @@ describe('analyticsSagas', () => {
     describe('called with a name', () => {
       let { logClick } = analyticsSagas({ coreSagas, api })
       let payload = { name: 'send' }
-      let saga = testSaga(logClick, payload)
+      let saga = testSaga(logClick, {
+        type: actionTypes.analytics.LOG_CLICK,
+        payload: { name: 'send' }
+      })
 
       it('should call api.logClick with the name', () => {
         const { name } = payload
@@ -408,6 +413,31 @@ describe('analyticsSagas', () => {
           .next()
           .throw(error)
           .put(actions.logs.logErrorMessage(logLocation, 'logClick', error))
+      })
+    })
+  })
+
+  describe('logSfoxDropoff', () => {
+    let { logSfoxDropoff } = analyticsSagas({ coreSagas, api })
+    let payload = { step: 'funding' }
+    let saga = testSaga(logSfoxDropoff, payload)
+
+    it('should call api.logSfoxDropoff with the step', () => {
+      saga.next().call(api.logSfoxDropoff, 'funding')
+    })
+
+    describe('error handling', () => {
+      let { logSfoxDropoff } = analyticsSagas({ coreSagas, api })
+      let payload = { step: 'funding' }
+      let saga = testSaga(logSfoxDropoff, payload)
+      const error = new Error('ERROR')
+      it('should log an error', () => {
+        saga
+          .next()
+          .throw(error)
+          .put(
+            actions.logs.logErrorMessage(logLocation, 'logSfoxDropoff', error)
+          )
       })
     })
   })

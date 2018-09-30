@@ -75,7 +75,7 @@ const ConfirmDisable2FA = props => {
                 {extraCopy}
               </Text>
             ) : (
-              <Icon name='alert' size='40px' color='error' />
+              <Icon name='alert-filled' size='40px' color='error' />
             )}
           </Container>
         </Wrapper>

@@ -1,6 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import {
@@ -10,12 +10,19 @@ import {
   SubMenu,
   SubMenuItem
 } from 'components/MenuLeft'
-import { Icon, Text } from 'blockchain-info-components'
+import {
+  Icon,
+  Text,
+  TooltipIcon,
+  TooltipHost
+} from 'blockchain-info-components'
 
-const LockboxSubMenu = styled(SubMenu)`
+const HelperTipContainer = styled.div`
   width: 100%;
-  margin-left: 40px;
+  display: flex;
+  justify-content: flex-end;
 `
+
 const Navigation = props => {
   const { logClick, lockboxOpened, lockboxDevices, ...rest } = props.data
 
@@ -23,7 +30,7 @@ const Navigation = props => {
     <Wrapper {...rest} onClick={logClick}>
       {/* If updating navigation item names dont forget to update analytics saga */}
       <LinkContainer to='/home' activeClassName='active'>
-        <MenuItem>
+        <MenuItem data-e2e='dashboardLink'>
           <Icon name='nav-home' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.dashboard'
@@ -32,16 +39,16 @@ const Navigation = props => {
         </MenuItem>
       </LinkContainer>
       <LinkContainer to='/buy-sell' activeClassName='active'>
-        <MenuItem>
+        <MenuItem data-e2e='buyAndSellLink'>
           <Icon name='nav-buy' />
           <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.buybitcoin'
+            id='layouts.wallet.menuleft.navigation.buysell'
             defaultMessage='Buy & Sell'
           />
         </MenuItem>
       </LinkContainer>
       <LinkContainer to='/exchange' activeClassName='active'>
-        <MenuItem>
+        <MenuItem data-e2e='exchangeLink'>
           <Icon name='nav-switch' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.exchange'
@@ -60,7 +67,7 @@ const Navigation = props => {
         </Separator>
       </MenuItem>
       <LinkContainer to='/btc/transactions' activeClassName='active'>
-        <MenuItem>
+        <MenuItem data-e2e='bitcoinLink'>
           <Icon name='btc-circle' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.transactions.bitcoin'
@@ -69,7 +76,7 @@ const Navigation = props => {
         </MenuItem>
       </LinkContainer>
       <LinkContainer to='/eth/transactions' activeClassName='active'>
-        <MenuItem>
+        <MenuItem data-e2e='etherLink'>
           <Icon name='eth-circle' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.transactions.ether'
@@ -78,7 +85,7 @@ const Navigation = props => {
         </MenuItem>
       </LinkContainer>
       <LinkContainer to='/bch/transactions' activeClassName='active'>
-        <MenuItem>
+        <MenuItem data-e2e='bitcoinCashLink'>
           <Icon name='bch-circle' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.transactions.bch'
@@ -97,22 +104,28 @@ const Navigation = props => {
         </Separator>
       </MenuItem>
       <LinkContainer to='/lockbox' activeClassName='active'>
-        <MenuItem>
+        <MenuItem data-e2e='lockboxLink'>
           <Icon name='lock' />
           <FormattedMessage
             id='layouts.wallet.menuleft.navigation.lockbox'
             defaultMessage='Lockbox'
           />
+          <HelperTipContainer>
+            <TooltipHost id='lockboxRequired'>
+              <TooltipIcon name='info' />
+            </TooltipHost>
+          </HelperTipContainer>
         </MenuItem>
       </LinkContainer>
       {lockboxOpened && (
-        <LockboxSubMenu>
+        <SubMenu>
           {lockboxDevices.map((device, index) => {
             const deviceName = device.device_name
             return (
               <LinkContainer
-                to={`/lockbox/dashboard/${index}`}
                 activeClassName='active'
+                to={`/lockbox/dashboard/${index}`}
+                isActive={() => rest.pathname.includes(index)}
               >
                 <SubMenuItem>
                   <FormattedMessage
@@ -124,14 +137,14 @@ const Navigation = props => {
               </LinkContainer>
             )
           })}
-        </LockboxSubMenu>
+        </SubMenu>
       )}
     </Wrapper>
   )
 }
 
 Navigation.propTypes = {
-  lockboxOpened: PropTypes.bool.isRequired
+  lockboxOpened: PropTypes.bool
 }
 
 export default Navigation

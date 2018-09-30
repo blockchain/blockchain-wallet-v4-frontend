@@ -55,9 +55,10 @@ export const getData = createSelector(
   [
     selectors.form.getFormValues('btcTransactions'),
     selectors.core.common.btc.getWalletTransactions,
-    selectors.core.kvStore.buySell.getMetadata
+    selectors.core.kvStore.buySell.getMetadata,
+    selectors.core.settings.getCurrency
   ],
-  (formValues, pages, buysellMetadata) => {
+  (formValues, pages, buysellMetadata, currencyR) => {
     const empty = page => isEmpty(page.data)
     const search = propOr('', 'search', formValues)
     const status = propOr('', 'status', formValues)
@@ -65,8 +66,10 @@ export const getData = createSelector(
       ? pages.map(map(filterTransactions(status, search)))
       : []
     const partnerData = prop('value', buysellMetadata.getOrElse())
+    const currency = currencyR.getOrElse('')
 
     return {
+      currency: currency,
       pages: filteredPages,
       empty: all(empty)(filteredPages),
       search: search.length > 0 || status !== '',

@@ -6,6 +6,7 @@ import * as Coin from '../coinSelection/coin.js'
 import { fromCashAddr, isCashAddr } from '../utils/bch'
 import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
 import Btc from '@ledgerhq/hw-app-btc'
+import * as crypto from '../walletCrypto'
 
 export const signSelection = curry((network, selection) => {
   const hashType =
@@ -82,7 +83,7 @@ export const signWithLedger = function*(selection, transport, api) {
     const coin = selection.inputs[i]
     const txHex = yield api.getBchRawTx(coin.txHash)
     inputs.push([BTC.splitTransaction(txHex), coin.index])
-    paths.push("44'/0'/0'" + coin.path.split('M')[1])
+    paths.push("44'/145'/0'" + coin.path.split('M')[1])
   }
 
   const intToHex = i => {
@@ -110,7 +111,14 @@ export const signWithLedger = function*(selection, transport, api) {
     undefined,
     outputs,
     undefined,
-    hashType
+    hashType,
+    undefined,
+    undefined,
+    ['abc']
   )
-  return { txHex }
+  const txId = crypto
+    .sha256(crypto.sha256(Buffer.from(txHex, 'hex')))
+    .reverse()
+    .toString('hex')
+  return { txHex, txId }
 }

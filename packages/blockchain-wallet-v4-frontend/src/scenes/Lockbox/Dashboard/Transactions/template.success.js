@@ -1,9 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { compose, prop, reverse, sortBy } from 'ramda'
-import { Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
+import { compose, isEmpty, prop, reverse, sortBy } from 'ramda'
+
+import { Text } from 'blockchain-info-components'
+import EmptyTx from 'components/EmptyTx'
 import TransactionListItem from 'components/TransactionListItem'
 import Loading from './template.loading'
 
@@ -17,7 +19,7 @@ const Wrapper = styled.div`
 const LoadMore = styled(Text)`
   width: 100%;
   text-align: center;
-  margin: 20px 0px;
+  margin: 20px 0;
   > span {
     cursor: pointer;
     transition: color 0.3s;
@@ -27,17 +29,18 @@ const LoadMore = styled(Text)`
     }
   }
 `
-
 const sortByTime = compose(
   reverse,
   sortBy(prop('time'))
 )
 
 const Success = props => {
-  const { transactions, isLoading } = props
+  const { transactions, isLoading, searchesApplied } = props
+
   return (
     <Wrapper>
-      {sortByTime(transactions).map((transaction, index) => (
+      {isLoading && <Loading />}
+      {sortByTime(transactions).map(transaction => (
         <TransactionListItem
           key={transaction.hash}
           coin={transaction.coin}
@@ -45,20 +48,25 @@ const Success = props => {
           transaction={transaction}
         />
       ))}
-      {isLoading && <Loading />}
-      {!isLoading && (
-        <LoadMore onClick={() => props.loadMore()}>
-          <FormattedMessage
-            id='scenes.lockbox.dashboard.transactions.loadmore'
-            defaultMessage='Load More Transactions'
-          />
-        </LoadMore>
-      )}
+      {!isLoading &&
+        isEmpty(transactions) &&
+        !isEmpty(searchesApplied) && <EmptyTx />}
+      {!isLoading &&
+        !isEmpty(transactions) && (
+          <LoadMore onClick={() => props.loadMore()}>
+            <FormattedMessage
+              id='scenes.lockbox.dashboard.transactions.loadmore'
+              defaultMessage='Load More Transactions'
+            />
+          </LoadMore>
+        )}
     </Wrapper>
   )
 }
 
 Success.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  searchesApplied: PropTypes.array.isRequired,
   transactions: PropTypes.array.isRequired
 }
 

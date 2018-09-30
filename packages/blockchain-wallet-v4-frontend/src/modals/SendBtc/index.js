@@ -11,8 +11,8 @@ import SecondStep from './SecondStep'
 
 class SendBitcoinContainer extends React.PureComponent {
   componentDidMount () {
-    const { to, description, amount } = this.props
-    this.props.actions.initialized({ to, description, amount })
+    const { to, description, amount, lockboxIndex } = this.props
+    this.props.actions.initialized({ to, description, amount, lockboxIndex })
   }
 
   componentWillUnmount () {

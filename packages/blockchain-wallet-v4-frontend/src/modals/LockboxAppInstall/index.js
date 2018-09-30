@@ -25,7 +25,6 @@ class LockboxAppInstallContainer extends React.PureComponent {
 
   render () {
     const { appStatus, blockchainStatus, connection } = this.props
-    const isOnDashboard = connection.app === 'DASHBOARD'
     const btcStatus = appStatus.BTC.cata({
       Success: () => ({ success: true }),
       Failure: resp => ({ error: resp.error }),
@@ -54,7 +53,7 @@ class LockboxAppInstallContainer extends React.PureComponent {
     return (
       <LockboxAppInstall
         overallStatus={overallStatus}
-        isOnDashboard={isOnDashboard}
+        isOnDashboard={connection.app === 'DASHBOARD'}
         isInstallStep={this.state.isInstallStep}
         onContinue={this.onContinue}
         {...this.props}

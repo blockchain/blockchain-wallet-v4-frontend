@@ -2,6 +2,7 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 import { actions } from 'data'
 import { getData } from './selectors'
@@ -24,22 +25,28 @@ class ServiceAnnouncement extends React.PureComponent {
 
   render () {
     const { alertArea, data } = this.props
-    return data &&
-      (data.visible ||
-        data.announcements[alertArea].hideType === 'collapse') ? (
-      <Announcement
-        announcement={data.announcements[alertArea]}
-        language={data.language}
-        collapsed={data.collapsed}
-        handleDismiss={this.handleDismiss}
-        toggleCollapse={this.toggleCollapse}
-      />
-    ) : null
+    return data.cata({
+      Success: val => {
+        return val.showAnnounce ||
+          val.announcements[alertArea].hideType === 'collapse' ? (
+          <Announcement
+            announcement={val.announcements[alertArea]}
+            language={val.language}
+            collapsed={val.collapsed}
+            handleDismiss={this.handleDismiss}
+            toggleCollapse={this.toggleCollapse}
+          />
+        ) : null
+      },
+      Loading: () => <div />,
+      Failure: () => <div />,
+      NotAsked: () => <div />
+    })
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  data: getData(state, ownProps)
+  data: Remote.of(getData(state, ownProps))
 })
 
 const mapDispatchToProps = dispatch => ({

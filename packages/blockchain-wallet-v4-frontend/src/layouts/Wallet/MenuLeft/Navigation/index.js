@@ -1,11 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
+import { toLower, path } from 'ramda'
 import { withRouter } from 'react-router-dom'
 
 import { actions } from 'data'
 import { getData } from './selectors'
 import Navigation from './template.js'
+
+const extractText = compose(
+  toLower,
+  path(['target', 'textContent'])
+)
 
 class NavigationContainer extends React.PureComponent {
   render () {
@@ -14,7 +20,10 @@ class NavigationContainer extends React.PureComponent {
       <Navigation
         {...props}
         handleCloseMenu={actions.layoutWalletMenuCloseClicked}
-        logClick={analytics.logLeftNavClick}
+        logClick={compose(
+          analytics.logLeftNavClick,
+          extractText
+        )}
       />
     )
   }

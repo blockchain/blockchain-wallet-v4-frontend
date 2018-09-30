@@ -15,9 +15,6 @@ import {
 const Wrapper = styled.section`
   box-sizing: border-box;
 `
-const AddressesSettingDescription = SettingDescription.extend`
-  margin-bottom: 10px;
-`
 const ImportedAddressesSettingHeader = SettingHeader.extend`
   justify-content: flex-start;
   margin-top: 30px;
@@ -50,7 +47,7 @@ const Success = props => {
           defaultMessage='Imported Bitcoin Cash Addresses'
         />
       </ImportedAddressesSettingHeader>
-      <AddressesSettingDescription>
+      <SettingDescription>
         <WarningWrapper>
           <Icon
             name='alert-filled'
@@ -63,7 +60,7 @@ const Success = props => {
             defaultMessage='Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.'
           />
         </WarningWrapper>
-      </AddressesSettingDescription>
+      </SettingDescription>
       {importedAddressesTableRows.length > 0 && (
         <Table>
           <TableHeader>

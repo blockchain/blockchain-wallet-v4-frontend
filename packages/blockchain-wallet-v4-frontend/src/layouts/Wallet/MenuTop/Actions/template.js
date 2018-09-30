@@ -34,7 +34,12 @@ const Actions = props => {
 
   return (
     <Wrapper>
-      <ActionButton name='send-filled' onClick={handleSend} min='100px'>
+      <ActionButton
+        name='send'
+        onClick={handleSend}
+        min='100px'
+        data-e2e='sendButton'
+      >
         <Text size='14px' weight={400}>
           <FormattedMessage
             id='layouts.wallet.menutop.send'
@@ -44,9 +49,10 @@ const Actions = props => {
       </ActionButton>
       <ActionButton
         style={spacing('ml-15')}
-        name='request-filled'
+        name='request'
         onClick={handleRequest}
         min='100px'
+        data-e2e='requestButton'
       >
         <Text size='14px' weight={400}>
           <FormattedMessage

@@ -26,3 +26,7 @@ export const MANUAL_ADDRESS_ITEM = {
   },
   text: 'manual address'
 }
+
+export const PHONE_EXISTS_ERROR = 'Phone number already registered'
+export const BAD_CODE_ERROR = 'SMS Verification Code Incorrect.'
+export const UPDATE_FAILURE = 'UPDATE_FAILURE'

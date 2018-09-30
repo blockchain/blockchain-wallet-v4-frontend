@@ -1,4 +1,4 @@
-import { put, select } from 'redux-saga/effects'
+import { put, select, call } from 'redux-saga/effects'
 
 import { actions } from 'data'
 import * as A from './actions'
@@ -40,7 +40,7 @@ export default ({ api }) => {
   const fetchAvailablePairs = function*() {
     try {
       yield put(A.availablePairsLoading())
-      const { pairs } = yield api.fetchAvailablePairs()
+      const { pairs } = yield call(api.fetchAvailablePairs)
       yield put(A.availablePairsSuccess(pairs))
     } catch (e) {
       yield put(A.availablePairsError(e))
@@ -50,8 +50,10 @@ export default ({ api }) => {
   const updateAdvice = function*({ payload: { quote } }) {
     const { pair, fix, volume, fiatCurrency } = quote
     const currentConfig = yield select(S.getPairConfig(pair))
-    if (configEquals(currentConfig, { fix, volume, fiatCurrency }))
+    if (configEquals(currentConfig, { fix, volume, fiatCurrency })) {
       yield put(A.setPairQuote(pair, quote))
+      yield put(A.pairUpdated(pair))
+    }
   }
 
   return {

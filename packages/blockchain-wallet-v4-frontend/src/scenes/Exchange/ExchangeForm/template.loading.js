@@ -9,8 +9,8 @@ const { BASE_IN_FIAT } = model.rates.FIX_TYPES
 const stubBtcAccount = {
   archived: false,
   coin: 'BTC',
-  label: 'Bitcon',
-  address: '',
+  label: 'Bitcoin',
+  address: 0,
   balance: 0
 }
 
@@ -18,7 +18,7 @@ const stubEthAccount = {
   archived: false,
   coin: 'ETH',
   label: 'Ether',
-  address: '',
+  address: 0,
   balance: 0
 }
 
@@ -54,16 +54,23 @@ const stubProps = {
   sourceAmount: Remote.of(0),
   targetAmount: Remote.of(0),
   targetFiat: Remote.of(0),
-  sourceToTargetRate: Remote.of(0),
-  sourceToFiatRate: Remote.of(0),
-  targetToFiatRate: Remote.of(0),
+  sourceToTargetRate: Remote.Loading,
+  sourceToFiatRate: Remote.Loading,
+  targetToFiatRate: Remote.Loading,
   sourceCoin: 'BTC',
   targetCoin: 'ETH',
   sourceActive: true,
   targetActive: false,
   coinActive: false,
   fiatActive: true,
-  fix: BASE_IN_FIAT
+  fix: BASE_IN_FIAT,
+  min: null,
+  max: null,
+  targetFee: Remote.NotAsked,
+  sourceFee: {
+    source: 0,
+    target: 0
+  }
 }
 
 export default () => <Success {...stubProps} />

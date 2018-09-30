@@ -158,6 +158,7 @@ Button.propTypes = {
     'transferred',
     'warning',
     'dark',
+    'success',
     'empty-secondary'
   ]),
   fullwidth: PropTypes.bool,

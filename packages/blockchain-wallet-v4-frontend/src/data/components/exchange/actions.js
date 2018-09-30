@@ -96,21 +96,9 @@ export const changeTarget = target => ({
   type: AT.CHANGE_TARGET,
   payload: { target }
 })
-export const changeSourceAmount = sourceAmount => ({
-  type: AT.CHANGE_SOURCE_AMOUNT,
-  payload: { sourceAmount }
-})
-export const changeTargetAmount = targetAmount => ({
-  type: AT.CHANGE_TARGET_AMOUNT,
-  payload: { targetAmount }
-})
-export const changeSourceFiatAmount = sourceFiatAmount => ({
-  type: AT.CHANGE_SOURCE_FIAT_AMOUNT,
-  payload: { sourceFiatAmount }
-})
-export const changeTargetFiatAmount = targetFiatAmount => ({
-  type: AT.CHANGE_TARGET_FIAT_AMOUNT,
-  payload: { targetFiatAmount }
+export const changeAmount = amount => ({
+  type: AT.CHANGE_AMOUNT,
+  payload: { amount }
 })
 export const changeFix = fix => ({
   type: AT.CHANGE_FIX,
@@ -124,4 +112,46 @@ export const clearSubscriptions = () => ({
 })
 export const swapBaseAndCounter = () => ({
   type: AT.SWAP_BASE_AND_COUNTER
+})
+export const updateLimits = () => ({
+  type: AT.UPDATE_LIMITS
+})
+export const fetchLimitsLoading = () => ({
+  type: AT.FETCH_LIMITS_LOADING
+})
+export const fetchLimitsSuccess = limits => ({
+  type: AT.FETCH_LIMITS_SUCCESS,
+  payload: { limits }
+})
+export const fetchLimitsError = error => ({
+  type: AT.FETCH_LIMITS_ERROR,
+  payload: { error }
+})
+export const setMinMax = (min, max) => ({
+  type: AT.SET_MIN_MAX,
+  payload: { min, max }
+})
+export const useMin = () => ({
+  type: AT.USE_MIN
+})
+export const useMax = () => ({
+  type: AT.USE_MAX
+})
+export const fetchTargetFees = () => ({
+  type: AT.FETCH_TARGET_FEES
+})
+export const fetchTargetFeesLoading = () => ({
+  type: AT.FETCH_TARGET_FEES_LOADING
+})
+export const fetchTargetFeesSuccess = fee => ({
+  type: AT.FETCH_TARGET_FEES_SUCCESS,
+  payload: { fee }
+})
+export const fetchTargetFeesError = error => ({
+  type: AT.FETCH_TARGET_FEES_ERROR,
+  payload: { error }
+})
+export const setSourceFee = fee => ({
+  type: AT.SET_SOURCE_FEE,
+  payload: { fee }
 })

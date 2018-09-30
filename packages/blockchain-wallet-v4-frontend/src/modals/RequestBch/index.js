@@ -29,10 +29,14 @@ class RequestBchContainer extends React.PureComponent {
     nextProps.data.map(x => {
       if (equals(prop('coin', x), 'ETH')) {
         this.props.modalActions.closeAllModals()
-        this.props.modalActions.showModal('RequestEther')
+        this.props.modalActions.showModal('RequestEther', {
+          lockboxIndex: nextProps.lockboxIndex
+        })
       } else if (equals(prop('coin', x), 'BTC')) {
         this.props.modalActions.closeAllModals()
-        this.props.modalActions.showModal('RequestBitcoin')
+        this.props.modalActions.showModal('RequestBitcoin', {
+          lockboxIndex: nextProps.lockboxIndex
+        })
       }
     })
   }
@@ -98,9 +102,9 @@ class RequestBchContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  initialValues: getInitialValues(state),
-  data: getData(state)
+const mapStateToProps = (state, ownProps) => ({
+  initialValues: getInitialValues(state, ownProps),
+  data: getData(state, ownProps)
 })
 
 const mapDispatchToProps = dispatch => ({

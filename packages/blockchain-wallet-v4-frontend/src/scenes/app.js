@@ -30,7 +30,7 @@ import SecurityCenter from './SecurityCenter'
 import Addresses from './Settings/Addresses/Btc'
 import BchAddresses from './Settings/Addresses/Bch'
 import BtcManageAddresses from './Settings/Addresses/Btc/ManageAddresses'
-import Info from './Settings/Info'
+import General from './Settings/General'
 import Profile from './Settings/Profile'
 import Preferences from './Settings/Preferences'
 import BitcoinTransactions from './Transactions/Btc'
@@ -101,7 +101,7 @@ class App extends React.PureComponent {
                     component={BtcManageAddresses}
                   />
                   <WalletLayout
-                    path='/settings/addresses'
+                    path='/settings/addresses/btc'
                     component={Addresses}
                     exact
                   />
@@ -109,7 +109,7 @@ class App extends React.PureComponent {
                     path='/settings/addresses/bch'
                     component={BchAddresses}
                   />
-                  <WalletLayout path='/settings/info' component={Info} />
+                  <WalletLayout path='/settings/general' component={General} />
                   <WalletLayout path='/lockbox' component={Lockbox} exact />
                   <WalletLayout
                     path='/lockbox/dashboard/:deviceIndex'
