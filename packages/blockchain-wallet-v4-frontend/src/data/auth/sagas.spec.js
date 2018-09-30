@@ -400,6 +400,12 @@ describe('authSagas', () => {
         )
     })
 
+    it('should fetch stellar metadata', () => {
+      saga
+        .next()
+        .call(coreSagas.kvStore.xlm.fetchMetadataXlm, askSecondPasswordEnhancer)
+    })
+
     it('should fetch bitcoin cash metadata', () => {
       saga.next().call(coreSagas.kvStore.bch.fetchMetadataBch)
     })

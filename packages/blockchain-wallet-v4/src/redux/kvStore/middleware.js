@@ -49,7 +49,7 @@ const kvStoreMiddleware = ({
         [C.LOCKBOX]: A.lockbox.fetchMetadataLockboxSuccess,
         [C.USER_CREDENTIALS]:
           A.userCredentials.fetchMetadataUserCredentialsSuccess,
-        [C.XLM]: A.btc.fetchMetadataXlmSuccess
+        [C.XLM]: A.xlm.fetchMetadataXlmSuccess
       }
 
       const saveTasks = (value, key) => {

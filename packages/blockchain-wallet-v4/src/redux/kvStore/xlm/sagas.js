@@ -26,19 +26,22 @@ export default ({ api, networks } = {}) => {
 
   const createXlm = function*({ kv, password }) {
     try {
-      const obtainMnemonic = state => getMnemonic(state, password)
-      const mnemonicT = yield select(obtainMnemonic)
+      const mnemonicT = yield select(getMnemonic, password)
       const mnemonic = yield call(() => taskToPromise(mnemonicT))
-      // TODO: tests https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0005.md
-      // const seed = BIP39.mnemonicToSeed('illness spike retreat truth genius clock brain pass fit cave bargain toe')
-      const seed = BIP39.mnemonicToSeed(mnemonic)
+      const seed = yield call(BIP39.mnemonicToSeed, mnemonic)
       const seedHex = seed.toString('hex')
-      const masterKey = ed25519.derivePath("m/44'/148'/0'", seedHex)
+      const masterKey = yield call(ed25519.derivePath, "m/44'/148'/0'", seedHex)
       const keypair = StellarSDK.Keypair.fromRawEd25519Seed(masterKey.key)
-      console.info(keypair.publicKey())
-      console.info(keypair.secret())
       const xlm = {
-        addr: null
+        default_account_idx: 0,
+        accounts: [
+          {
+            publicKey: keypair.publicKey(),
+            secret: keypair.secret(),
+            label: 'My Stellar Wallet',
+            archived: false
+          }
+        ]
       }
       const newkv = set(KVStoreEntry.value, { xlm }, kv)
       yield put(A.createMetadataXlm(newkv))
