@@ -163,15 +163,17 @@ export default ({ coreSagas }) => {
         payment: p.getOrElse({}),
         network: settings.NETWORK_ETH
       })
-      if (p.getOrElse({}).from.type !== ADDRESS_TYPES.LOCKBOX) {
+      const fromType = path(['from', 'type'], payment.value())
+      const fromAddress = path(['from', 'address'], payment.value())
+      // Sign payment
+      if (fromType !== ADDRESS_TYPES.LOCKBOX) {
         let password = yield call(promptForSecondPassword)
         payment = yield payment.sign(password)
       } else {
-        const deviceR = yield select(
+        const device = (yield select(
           selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
-          path(['from', 'address'], p.getOrElse({}))
-        )
-        const device = deviceR.getOrFail('missing_device')
+          fromAddress
+        )).getOrFail('missing_device')
         yield call(promptForLockbox, 'ETH', null, prop('device_type', device))
         let connection = yield select(
           selectors.components.lockbox.getCurrentConnection
@@ -179,30 +181,54 @@ export default ({ coreSagas }) => {
         let transport = prop('transport', connection)
         payment = yield payment.sign(null, transport)
       }
+      // Publish payment
       payment = yield payment.publish()
       yield put(actions.modals.closeAllModals())
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
-      const fromAddress = payment.value().from.address
-      yield put(
-        actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(
-          fromAddress,
-          Date.now()
+      // Update metadata
+      if (fromType !== ADDRESS_TYPES.LOCKBOX) {
+        yield put(
+          actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now())
         )
-      )
-      yield take(
-        actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
-      )
-      yield put(
-        actions.core.kvStore.ethereum.setLatestTxEthereum(
-          fromAddress,
-          payment.value().txId
-        )
-      )
-      yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
-      if (path(['description', 'length'], payment.value())) {
         yield take(
           actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
         )
+        yield put(
+          actions.core.kvStore.ethereum.setLatestTxEthereum(
+            payment.value().txId
+          )
+        )
+      } else {
+        const device = (yield select(
+          selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
+          fromAddress
+        )).getOrFail('missing_device')
+        const deviceIndex = (yield select(
+          selectors.core.kvStore.lockbox.getDeviceIndex,
+          device
+        )).getOrFail('missing_device_index')
+        yield put(
+          actions.core.kvStore.lockbox.setLatestTxTimestampEth(
+            deviceIndex,
+            Date.now()
+          )
+        )
+        yield take(
+          actionTypes.core.kvStore.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS
+        )
+        yield put(
+          actions.core.kvStore.lockbox.setLatestTxEth(
+            deviceIndex,
+            payment.value().txId
+          )
+        )
+      }
+      if (path(['description', 'length'], payment.value())) {
+        if (fromType !== ADDRESS_TYPES.LOCKBOX) {
+          yield take(
+            actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
+          )
+        }
         yield put(
           actions.core.kvStore.ethereum.setTxNotesEthereum(
             payment.value().txId,
@@ -210,6 +236,7 @@ export default ({ coreSagas }) => {
           )
         )
       }
+      yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e)

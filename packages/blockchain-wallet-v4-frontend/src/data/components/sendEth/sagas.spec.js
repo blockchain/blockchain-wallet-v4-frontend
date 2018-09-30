@@ -313,10 +313,7 @@ describe('sendEth sagas', () => {
       saga
         .next()
         .put(
-          actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(
-            from.address,
-            Date.now()
-          )
+          actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now())
         )
     })
 
@@ -329,15 +326,7 @@ describe('sendEth sagas', () => {
     it('should update latest transaction', () => {
       saga
         .next(paymentMock)
-        .put(
-          actions.core.kvStore.ethereum.setLatestTxEthereum(from.address, txId)
-        )
-    })
-
-    it('should display succcess message', () => {
-      saga
-        .next()
-        .put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
+        .put(actions.core.kvStore.ethereum.setLatestTxEthereum(txId))
         .save(beforeError)
     })
 
@@ -349,6 +338,12 @@ describe('sendEth sagas', () => {
         .put(
           actions.core.kvStore.ethereum.setTxNotesEthereum(txId, description)
         )
+    })
+
+    it('should display succcess message', () => {
+      saga
+        .next()
+        .put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
         .next()
         .isDone()
     })

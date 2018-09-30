@@ -1,4 +1,15 @@
-import { any, path, prop, map, flatten, filter, head, nth } from 'ramda'
+import {
+  any,
+  path,
+  prop,
+  propEq,
+  map,
+  flatten,
+  filter,
+  findIndex,
+  head,
+  nth
+} from 'ramda'
 import { kvStorePath } from '../../paths'
 import { LOCKBOX } from '../config'
 
@@ -13,6 +24,11 @@ export const getDevice = (state, deviceIndex) =>
 
 export const getDeviceName = (state, deviceIndex) =>
   getDevice(state, deviceIndex).map(prop('device_name'))
+
+export const getDeviceIndex = (state, device) => {
+  const deviceName = prop('device_name', device)
+  return getDevices(state).map(findIndex(propEq('device_name', deviceName)))
+}
 
 // BTC
 export const getLockboxBtc = state => getDevices(state).map(map(path(['btc'])))
@@ -117,3 +133,9 @@ export const getDeviceFromEthAddr = (state, addr) => {
     .map(filter(deviceFilter))
     .map(head)
 }
+
+export const getLatestTxEth = (state, address) =>
+  getDeviceFromEthAddr(state, address).map(path(['eth', 'last_tx']))
+
+export const getLatestTxTimestampEth = (state, address) =>
+  getDeviceFromEthAddr(state, address).map(path(['eth', 'last_tx_timestamp']))
