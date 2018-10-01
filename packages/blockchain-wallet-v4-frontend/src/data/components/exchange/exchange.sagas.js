@@ -27,7 +27,8 @@ import utils from './sagas.utils'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
-import { promptForSecondPassword } from 'services/SagaService'
+import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { selectReceiveAddress } from '../utils/sagas'
 import {
   getEffectiveBalanceStandard,
@@ -515,8 +516,6 @@ export default ({ api, coreSagas, options, networks }) => {
         networks
       )
 
-      const password = yield call(promptForSecondPassword)
-
       const {
         depositAddress,
         deposit: { symbol, value }
@@ -529,7 +528,33 @@ export default ({ api, coreSagas, options, networks }) => {
         depositAddress,
         convertStandardToBase(symbol, value)
       )
-      yield (yield payment.sign(password)).publish()
+
+      if (source.type !== ADDRESS_TYPES.LOCKBOX) {
+        let password = yield call(promptForSecondPassword)
+        yield (yield payment.sign(password)).publish()
+      } else {
+        const deviceR = yield select(
+          selectors.kvStore.lockbox.getDeviceFromEthAddr,
+          refundAddress,
+          payment
+        )
+        const device = deviceR.getOrFail('missing_device')
+        yield call(
+          promptForLockbox,
+          prop('coin', source),
+          null,
+          prop('device_type', device)
+        )
+        let connection = yield select(
+          selectors.components.lockbox.getCurrentConnection
+        )
+        yield (yield payment.sign(
+          null,
+          prop('transport', connection)
+        )).publish()
+        yield put(actions.modals.closeAllModals())
+      }
+
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
       yield put(actions.router.push('/exchange/history'))
       yield put(A.setStep(EXCHANGE_STEPS.EXCHANGE_FORM))
