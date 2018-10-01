@@ -2,11 +2,12 @@ import {
   any,
   path,
   prop,
-  propEq,
   map,
+  set,
   flatten,
   filter,
-  findIndex,
+  lensProp,
+  addIndex,
   head,
   nth
 } from 'ramda'
@@ -17,18 +18,20 @@ import { LOCKBOX } from '../config'
 export const getMetadata = path([kvStorePath, LOCKBOX])
 
 export const getDevices = state =>
-  getMetadata(state).map(path(['value', 'devices']))
+  getMetadata(state)
+    .map(path(['value', 'devices']))
+    .map(devices => {
+      const mapIndexed = addIndex(map)
+      const deviceIndexLens = lensProp('device_index')
+      const setDeviceIndex = (device, i) => set(deviceIndexLens, i, device)
+      return mapIndexed(setDeviceIndex, devices)
+    })
 
 export const getDevice = (state, deviceIndex) =>
   getDevices(state).map(nth(deviceIndex))
 
 export const getDeviceName = (state, deviceIndex) =>
   getDevice(state, deviceIndex).map(prop('device_name'))
-
-export const getDeviceIndex = (state, device) => {
-  const deviceName = prop('device_name', device)
-  return getDevices(state).map(findIndex(propEq('device_name', deviceName)))
-}
 
 // BTC
 export const getLockboxBtc = state => getDevices(state).map(map(path(['btc'])))

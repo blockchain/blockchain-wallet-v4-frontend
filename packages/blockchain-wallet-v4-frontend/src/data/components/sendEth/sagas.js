@@ -203,10 +203,7 @@ export default ({ coreSagas }) => {
           selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
           fromAddress
         )).getOrFail('missing_device')
-        const deviceIndex = (yield select(
-          selectors.core.kvStore.lockbox.getDeviceIndex,
-          device
-        )).getOrFail('missing_device_index')
+        const deviceIndex = prop('device_index', device)
         yield put(
           actions.core.kvStore.lockbox.setLatestTxTimestampEth(
             deviceIndex,
