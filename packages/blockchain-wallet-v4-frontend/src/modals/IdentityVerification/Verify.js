@@ -8,17 +8,15 @@ import media from 'services/ResponsiveService'
 import { Button, Image } from 'blockchain-info-components'
 import { FooterShadowWrapper } from 'components/Form'
 import {
+  IdentityVerificationForm,
   ColLeft,
   ColRight,
   InputWrapper,
-  PartnerHeader,
-  PartnerSubHeader,
+  IdentityVerificationHeader,
+  IdentityVerificationSubHeader,
   ColRightInner
 } from 'components/IdentityVerification'
 
-const VerifyMobileForm = styled.div`
-  height: 100%;
-`
 const Footer = styled.div`
   width: 60%;
   display: flex;
@@ -36,32 +34,32 @@ const DocumentsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-top: 48px;
-  height: 95px;
+  margin-top: 24px;
+  height: 74px;
   font-size: 18px;
   line-height: 25px;
   font-weight: 600;
 `
 
 const Verify = ({ handleSubmit, onBack }) => (
-  <VerifyMobileForm>
+  <IdentityVerificationForm>
     <FooterShadowWrapper
       fields={
         <VerifyWrapper>
           <ColLeft>
             <InputWrapper>
-              <PartnerHeader>
+              <IdentityVerificationHeader>
                 <FormattedMessage
                   id='identityverification.verify.header'
                   defaultMessage='Verify Your Identity'
                 />
-              </PartnerHeader>
-              <PartnerSubHeader>
+              </IdentityVerificationHeader>
+              <IdentityVerificationSubHeader>
                 <FormattedMessage
                   id='identityverification.verify.message'
                   defaultMessage='Last step! We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.'
                 />
-              </PartnerSubHeader>
+              </IdentityVerificationSubHeader>
               <DocumentsWrapper>
                 <FormattedMessage
                   id='identityverification.verify.passport'
@@ -98,7 +96,7 @@ const Verify = ({ handleSubmit, onBack }) => (
         </Footer>
       }
     />
-  </VerifyMobileForm>
+  </IdentityVerificationForm>
 )
 
 Verify.propTypes = {

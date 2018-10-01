@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 import media from 'services/ResponsiveService'
+import { Text } from 'blockchain-info-components'
+import { FaqMessage, FormGroup } from 'components/Form'
 
 export const Form = styled.form`
   width: 100%;
@@ -140,4 +142,42 @@ export const FieldMimic = styled.div`
     flex-direction: column;
     width: fit-content;
   `};
+`
+
+export const IdentityVerificationForm = styled(Form)`
+  height: 100%;
+`
+
+export const IdentityVerificationHeader = styled(PartnerHeader)`
+  font-weight: 400;
+  ${media.mobile`
+    font-weight: 400;
+  `};
+`
+
+export const IdentityVerificationSubHeader = styled(PartnerSubHeader)`
+  font-weight: 200;
+`
+
+export const FaqFormMessage = styled(FaqMessage)`
+  position: absolute;
+  margin-top: 30px;
+  width: 60%;
+  left: 105%;
+`
+
+export const FaqFormGroup = styled(FormGroup)`
+  position: relative;
+  margin-bottom: 24px;
+  max-width: 800px;
+  width: 60%;
+  ${media.mobile`
+    width: 100%;
+  `};
+`
+
+export const Label = styled(Text)`
+  font-size: 14px;
+  font-weight: 300;
+  margin-bottom: 12px;
 `

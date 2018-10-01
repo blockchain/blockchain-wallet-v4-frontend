@@ -10,36 +10,24 @@ import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
 import { Button, Text, HeartbeatLoader } from 'blockchain-info-components'
 import {
-  FaqMessage,
   FooterShadowWrapper,
-  FormGroup,
   FormItem,
   PhoneNumberBox,
   TextBox
 } from 'components/Form'
 import {
-  Form,
+  IdentityVerificationForm,
   InputWrapper,
-  PartnerHeader,
-  PartnerSubHeader,
-  EmailHelper
+  IdentityVerificationHeader,
+  IdentityVerificationSubHeader,
+  EmailHelper,
+  FaqFormMessage,
+  FaqFormGroup
 } from 'components/IdentityVerification'
 
 const FormContainer = styled.div`
   margin-top: 25px;
   margin-bottom: 198px;
-`
-const VerifyMobileForm = styled(Form)`
-  height: 100%;
-`
-const FaqFormGroup = styled(FormGroup)`
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`
-const FaqFormItem = styled(FormItem)`
-  width: 60%;
 `
 const Footer = styled.div`
   width: 60%;
@@ -47,15 +35,9 @@ const Footer = styled.div`
   flex-direction: row;
   justify-content: space-between;
 `
-const ButtonFormItem = styled(FaqFormItem)`
+const ButtonFormItem = styled(FormItem)`
   display: flex;
   justify-content: flex-end;
-`
-const FaqFormMessage = styled(FaqMessage)`
-  position: absolute;
-  margin-top: 23px;
-  right: 0;
-  width: 35%;
 `
 const {
   SMS_NUMBER_FORM,
@@ -118,27 +100,27 @@ const VerifyMobile = ({
   handleSubmit,
   onBack
 }) => (
-  <VerifyMobileForm onSubmit={handleSubmit}>
+  <IdentityVerificationForm onSubmit={handleSubmit}>
     <FooterShadowWrapper
       fields={
         <MediaContextConsumer>
           {({ mobile }) => (
             <InputWrapper>
-              <PartnerHeader>
+              <IdentityVerificationHeader>
                 <FormattedMessage
                   id='identityverification.personal.mobile.header'
                   defaultMessage='Verify your Phone Number'
                 />
-              </PartnerHeader>
-              <PartnerSubHeader>
+              </IdentityVerificationHeader>
+              <IdentityVerificationSubHeader>
                 <FormattedMessage
                   id='identityverification.personal.mobile.subheader'
                   defaultMessage='Good news – you’re almost done! We need to confirm your phone number and get a copy of your photo ID. This will only take a few minutes.'
                 />
-              </PartnerSubHeader>
+              </IdentityVerificationSubHeader>
               <FormContainer>
                 <FaqFormGroup>
-                  <FaqFormItem>
+                  <FormItem>
                     <Text
                       size='14px'
                       weight={400}
@@ -158,7 +140,7 @@ const VerifyMobile = ({
                       onChange={editSmsNumber}
                       errorBottom
                     />
-                  </FaqFormItem>
+                  </FormItem>
                   {activeField === 'smsNumber' &&
                     !mobile && (
                       <FaqFormMessage
@@ -196,7 +178,7 @@ const VerifyMobile = ({
                 )}
                 {step === SMS_STEPS.verify && (
                   <FaqFormGroup>
-                    <FaqFormItem>
+                    <FormItem>
                       <Text
                         size='14px'
                         weight={400}
@@ -216,7 +198,7 @@ const VerifyMobile = ({
                       <EmailHelper error={error}>
                         {smsHelper(error, resendCode)}
                       </EmailHelper>
-                    </FaqFormItem>
+                    </FormItem>
                     {activeField === 'code' &&
                       !mobile && (
                         <FaqFormMessage
@@ -267,7 +249,7 @@ const VerifyMobile = ({
         </Footer>
       }
     />
-  </VerifyMobileForm>
+  </IdentityVerificationForm>
 )
 
 VerifyMobile.propTypes = {

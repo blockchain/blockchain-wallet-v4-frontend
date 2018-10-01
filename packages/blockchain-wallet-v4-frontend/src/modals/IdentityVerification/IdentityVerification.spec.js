@@ -182,7 +182,7 @@ describe('IdentityVerification Modal', () => {
         expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
           true
         )
-        wrapper.find('template__PersonalForm').simulate('submit')
+        wrapper.find('form').simulate('submit')
         expect(last(dispatchSpy.mock.calls)[0].type).toEqual(
           actionTypes.form.SET_SUBMIT_FAILED
         )

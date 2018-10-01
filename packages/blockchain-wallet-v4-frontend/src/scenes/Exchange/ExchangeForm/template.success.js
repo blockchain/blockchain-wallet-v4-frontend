@@ -113,7 +113,7 @@ const AmountTextBox = styled(TextBox)`
   height: 86px;
   input {
     position: relative;
-    font-weight: 400;
+    font-weight: 300;
     font-size: 72px;
     line-height: 86px;
     height: 86px;
@@ -124,11 +124,13 @@ const AmountTextBox = styled(TextBox)`
   }
 `
 const ComplementaryAmountContaier = styled.div`
+  .text {
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 24px;
+  }
   position: relative;
   font-family: 'Montserrat', Helvetica, sans-serif;
-  font-weight: 300;
-  font-size: 20px;
-  line-height: 24px;
   justify-self: center;
   margin: auto;
   margin-top: 10px;
@@ -142,12 +144,13 @@ const CurrencyBox = styled(Text)`
   align-items: center;
   height: 38px;
   font-size: ${props => (props.coinActive ? '20px' : '32px')};
-  font-weight: 400;
+  font-weight: 300;
   transform: uppercase;
   background-color: ${props =>
     props.disabled ? props.theme['gray-1'] : props.theme['white']};
 `
 const CoinSwapIcon = styled(Icon)`
+  font-size: 18px;
   margin: auto;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   color: ${props =>
@@ -158,6 +161,7 @@ const CoinSwapIcon = styled(Icon)`
   }
 `
 const CoinFiatSwapIcon = styled(Icon)`
+  font-size: 24px;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   color: ${props =>
     props.disabled ? props.theme['gray-1'] : props.theme['brand-primary']};

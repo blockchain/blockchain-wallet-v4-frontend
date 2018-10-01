@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Image } from 'blockchain-info-components'
+import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -23,6 +24,7 @@ const Steps = styled.div`
   flex-direction: row;
   justify-content: center;
   border-bottom: 8px solid ${props => props.theme['gray-2']};
+  max-width: calc(100% - 50px);
   &:after {
     left: 0;
     content: '';
@@ -33,7 +35,7 @@ const Steps = styled.div`
     width: ${props => props.width * 100}%;
     background: ${props => props.theme['brand-primary']};
   }
-  @media (max-width: 480px) {
+  ${media.mobile`
     border-bottom: 0;
     padding-bottom: 0px;
     flex-direction: column;
@@ -46,7 +48,7 @@ const Steps = styled.div`
       height: ${props => props.width * 100}%;
       background: ${props => props.theme['brand-primary']};
     }
-  }
+  `};
 `
 
 const Step = styled.span`
@@ -54,26 +56,25 @@ const Step = styled.span`
   min-width: ${props => props.minWidth || '70px'};
   max-width: ${props => props.maxWidth || '80px'};
   width: calc(100% / ${props => props.totalSteps});
-  margin-left: 50px;
-  margin-right: 50px;
+  margin: 0 50px;
   overflow: hidden;
   text-align: center;
   white-space: nowrap;
   color: ${props => props.theme['brand-primary']};
-  @media (max-width: 480px) {
-    margin-top: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-  }
+  ${media.tablet`
+    margin: 0 20px;
+  `};
+  ${media.mobile`
+    margin: 10px;
+  `};
 `
 
 const Logo = styled(Image)`
   margin-right: 60px;
-  @media (max-width: 480px) {
+  ${media.mobile`
     margin-right: 0px;
     margin-left: 30px;
-  }
+  `};
 `
 
 const StepIndicator = props => {
