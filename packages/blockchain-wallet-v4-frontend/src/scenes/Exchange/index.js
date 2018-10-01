@@ -77,7 +77,7 @@ const ExchangeScene = ({ useShapeShift }) => (
         </ColumnRight>
       </Container>
     )}
-    {!useShapeShift && <KYCBanner outsideOfProfile={true} />}
+    {!useShapeShift && <KYCBanner outsideOfProfile />}
     {!useShapeShift && (
       <Container>
         <Column>

@@ -39,6 +39,7 @@ const PasswordBox = field => {
         active={active}
         controlledBorderColor={borderColor}
         errorState={errorState}
+        data-e2e={field['data-e2e']}
       />
       {scoreVisible ? <PasswordScore value={input.value} /> : <div />}
       {touched &&

@@ -27,7 +27,6 @@ class YubikeyContainer extends React.PureComponent {
     if (next.authType !== prev.authType) {
       this.handleUpdate()
       this.props.triggerSuccess()
-      this.props.handleGoBack()
       this.props.goBackOnSuccess()
     }
   }
