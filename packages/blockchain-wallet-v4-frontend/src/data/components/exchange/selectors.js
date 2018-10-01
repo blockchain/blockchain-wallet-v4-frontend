@@ -2,6 +2,7 @@ import { curry, lift, path, pathOr, prop, propEq } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { coreSelectors } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 export const useShapeShift = state =>
   !selectors.modules.profile.userFlowSupported(state).getOrElse(false)
@@ -70,7 +71,8 @@ export const getActiveBchAccounts = createDeepEqualSelector(
             coin: 'BCH',
             label: prop('label', metadata) || prop('xpub', acc),
             address: index,
-            balance: prop('final_balance', data)
+            balance: prop('final_balance', data),
+            type: ADDRESS_TYPES.ACCOUNT
           }
         })
         .filter(isActive)
@@ -93,7 +95,8 @@ export const getActiveBtcAccounts = createDeepEqualSelector(
           coin: 'BTC',
           label: prop('label', acc) || prop('xpub', acc),
           address: prop('index', acc),
-          balance: prop('final_balance', prop(prop('xpub', acc), btcData))
+          balance: prop('final_balance', prop(prop('xpub', acc), btcData)),
+          type: ADDRESS_TYPES.ACCOUNT
         }))
         .filter(isActive)
         .concat(lockboxBtcAccounts)
@@ -120,7 +123,8 @@ export const getActiveEthAccounts = createDeepEqualSelector(
             coin: 'ETH',
             label: prop('label', acc) || prop('addr', acc),
             address: prop('addr', acc),
-            balance: prop('balance', data)
+            balance: prop('balance', data),
+            type: ADDRESS_TYPES.ACCOUNT
           }
         })
         .filter(isActive)

@@ -525,6 +525,7 @@ export default ({ api, coreSagas, options, networks }) => {
         createPayment,
         symbol,
         source.address,
+        source.type,
         depositAddress,
         convertStandardToBase(symbol, value)
       )
