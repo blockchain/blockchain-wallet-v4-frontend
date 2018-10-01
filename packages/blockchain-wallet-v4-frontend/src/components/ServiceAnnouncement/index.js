@@ -1,6 +1,7 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
+import { path } from 'ramda'
 import { connect } from 'react-redux'
 import { Remote } from 'blockchain-wallet-v4/src'
 
@@ -28,7 +29,7 @@ class ServiceAnnouncement extends React.PureComponent {
     return data.cata({
       Success: val => {
         return val.showAnnounce ||
-          val.announcements[alertArea].hideType === 'collapse' ? (
+          path(['announcements', alertArea, 'hideType'], val) === 'collapse' ? (
           <Announcement
             announcement={val.announcements[alertArea]}
             language={val.language}
