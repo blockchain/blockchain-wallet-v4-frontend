@@ -1,45 +1,34 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
-import { compose, isEmpty, prop, reverse, sortBy } from 'ramda'
+import { compose, prop, reverse, sortBy } from 'ramda'
 
-import { Text } from 'blockchain-info-components'
-import EmptyTx from 'components/EmptyTx'
 import TransactionListItem from 'components/TransactionListItem'
-import Loading from './template.loading'
+import LazyLoadContainer from 'components/LazyLoadContainer'
+import { TableRow, HeartbeatLoader } from 'blockchain-info-components'
 
-const Wrapper = styled.div`
+const LazyLoadWrapper = styled(LazyLoadContainer)`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
 `
-const LoadMore = styled(Text)`
-  width: 100%;
-  text-align: center;
-  margin: 20px 0;
-  > span {
-    cursor: pointer;
-    transition: color 0.3s;
-    text-decoration: underline;
-    &:hover {
-      color: ${props => props.theme['brand-secondary']};
-    }
-  }
+
+const LoaderRow = styled(TableRow)`
+  justify-content: center;
 `
+
 const sortByTime = compose(
   reverse,
   sortBy(prop('time'))
 )
 
 const Success = props => {
-  const { transactions, isLoading, searchesApplied } = props
+  const { transactions, isLoading, loadMore } = props
 
   return (
-    <Wrapper>
-      {isLoading && <Loading />}
+    <LazyLoadWrapper onLazyLoad={loadMore}>
       {sortByTime(transactions).map(transaction => (
         <TransactionListItem
           key={transaction.hash}
@@ -48,19 +37,12 @@ const Success = props => {
           transaction={transaction}
         />
       ))}
-      {!isLoading &&
-        isEmpty(transactions) &&
-        !isEmpty(searchesApplied) && <EmptyTx />}
-      {!isLoading &&
-        !isEmpty(transactions) && (
-          <LoadMore onClick={() => props.loadMore()}>
-            <FormattedMessage
-              id='scenes.lockbox.dashboard.transactions.loadmore'
-              defaultMessage='Load More Transactions'
-            />
-          </LoadMore>
-        )}
-    </Wrapper>
+      {isLoading && (
+        <LoaderRow>
+          <HeartbeatLoader />
+        </LoaderRow>
+      )}
+    </LazyLoadWrapper>
   )
 }
 
