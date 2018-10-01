@@ -54,7 +54,7 @@ exports[`Exchange Results EXPIRED renders correctly 1`] = `
           id="modals.exchangeresults.receive"
           values={
             Object {
-              "coin": "BTC",
+              "coin": "ETH",
             }
           }
         />
@@ -170,7 +170,7 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
           id="modals.exchangeresults.receive"
           values={
             Object {
-              "coin": "BTC",
+              "coin": "ETH",
             }
           }
         />
@@ -270,7 +270,7 @@ exports[`Exchange Results FINISHED renders correctly 1`] = `
           id="modals.exchangeresults.received"
           values={
             Object {
-              "coin": "BTC",
+              "coin": "ETH",
             }
           }
         />
@@ -409,7 +409,7 @@ exports[`Exchange Results PENDING_DEPOSIT renders correctly 1`] = `
           id="modals.exchangeresults.receive"
           values={
             Object {
-              "coin": "BTC",
+              "coin": "ETH",
             }
           }
         />
@@ -540,7 +540,7 @@ exports[`Exchange Results PENDING_EXECUTION renders correctly 1`] = `
           id="modals.exchangeresults.receive"
           values={
             Object {
-              "coin": "BTC",
+              "coin": "ETH",
             }
           }
         />
@@ -772,7 +772,7 @@ exports[`Exchange Results PENDING_WITHDRAWAL renders correctly 1`] = `
           id="modals.exchangeresults.receive"
           values={
             Object {
-              "coin": "BTC",
+              "coin": "ETH",
             }
           }
         />
