@@ -38,6 +38,7 @@ export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
     ...kyc({
       nabuUrl,
       get: http.get,
+      post: http.post,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post
     }),

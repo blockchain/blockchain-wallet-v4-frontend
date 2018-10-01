@@ -1,4 +1,4 @@
-export default ({ nabuUrl, get, authorizedGet, authorizedPost }) => {
+export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
   const getSupportedCountries = () =>
     get({
       url: nabuUrl,
@@ -35,10 +35,18 @@ export default ({ nabuUrl, get, authorizedGet, authorizedPost }) => {
     })
   }
 
+  const uploadDocument = (token, data) =>
+    post({
+      data,
+      endPoint: `/upload/${token}`,
+      url: nabuUrl
+    })
+
   return {
     getSupportedCountries,
     fetchKycAddresses,
     fetchOnfidoSDKKey,
-    syncOnfido
+    syncOnfido,
+    uploadDocument
   }
 }

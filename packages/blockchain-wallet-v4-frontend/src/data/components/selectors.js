@@ -11,6 +11,7 @@ import * as sendBch from './sendBch/selectors'
 import * as sendBtc from './sendBtc/selectors'
 import * as sendEth from './sendEth/selectors'
 import * as signMessage from './signMessage/selectors'
+import * as uploadDocument from './uploadDocument/selectors'
 
 export {
   identityVerification,
@@ -25,5 +26,6 @@ export {
   sendBch,
   sendBtc,
   sendEth,
-  signMessage
+  signMessage,
+  uploadDocument
 }
