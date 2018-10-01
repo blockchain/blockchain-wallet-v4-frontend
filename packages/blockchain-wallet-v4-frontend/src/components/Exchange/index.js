@@ -4,7 +4,7 @@ import { Text, Button } from 'blockchain-info-components'
 export const Wrapper = styled.div`
   padding: 30px;
   max-width: 440px;
-  border: 1px solid ${props => props.theme['gray-2']}};
+  border: 1px solid ${props => props.theme['gray-1']}};
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -24,7 +24,7 @@ export const AmountHeader = styled(ExchangeText)`
   margin-bottom: 8px;
 `
 export const Delimiter = styled.div`
-  border-bottom: 1px solid ${props => props.theme['gray-2']}};
+  border-bottom: 1px solid ${props => props.theme['gray-1']}};
   width: 100%;
   margin-top: 6px;
   margin-bottom: 25px;

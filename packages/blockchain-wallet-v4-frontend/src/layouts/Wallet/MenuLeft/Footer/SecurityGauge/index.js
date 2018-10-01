@@ -1,5 +1,4 @@
 import React from 'react'
-import ui from 'redux-ui'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
@@ -32,8 +31,7 @@ const enhance = compose(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  ),
-  ui({ key: 'MenuLeft', persist: true, state: { settingsToggled: false } })
+  )
 )
 
 export default enhance(SecurityGaugeContainer)
