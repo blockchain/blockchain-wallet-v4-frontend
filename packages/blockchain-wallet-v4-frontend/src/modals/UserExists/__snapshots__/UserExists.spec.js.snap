@@ -19,7 +19,7 @@ exports[`User Exists modal Renders correctly 1`] = `
       weight={300}
     >
       <FormattedHTMLMessage
-        defaultMessage="You may have started the verification process in a different Blockchain wallet."
+        defaultMessage="You may have started the verification process in a different Blockchain Wallet."
         id="modals.userexists.emailused"
         values={
           Object {
