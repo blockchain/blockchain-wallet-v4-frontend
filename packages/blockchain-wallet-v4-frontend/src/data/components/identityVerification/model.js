@@ -1,4 +1,5 @@
-export const MODAL_NAME = 'IdentityVerification'
+export const KYC_MODAL = '@KYC.IdentityVerification'
+export const USER_EXISTS_MODAL = '@KYC.UserExists'
 
 export const STEPS = {
   personal: 'personal',

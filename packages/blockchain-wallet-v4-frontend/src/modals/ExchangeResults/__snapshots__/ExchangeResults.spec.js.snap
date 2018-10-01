@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Icon component EXPIRED renders correctly 1`] = `
+exports[`Exchange Results EXPIRED renders correctly 1`] = `
 <Modal
   size="small"
 >
@@ -116,7 +116,7 @@ exports[`Icon component EXPIRED renders correctly 1`] = `
 </Modal>
 `;
 
-exports[`Icon component FAILED renders correctly 1`] = `
+exports[`Exchange Results FAILED renders correctly 1`] = `
 <Modal
   size="small"
 >
@@ -221,7 +221,7 @@ exports[`Icon component FAILED renders correctly 1`] = `
 </Modal>
 `;
 
-exports[`Icon component FINISHED renders correctly 1`] = `
+exports[`Exchange Results FINISHED renders correctly 1`] = `
 <Modal
   size="small"
 >
@@ -355,7 +355,7 @@ exports[`Icon component FINISHED renders correctly 1`] = `
 </Modal>
 `;
 
-exports[`Icon component PENDING_DEPOSIT renders correctly 1`] = `
+exports[`Exchange Results PENDING_DEPOSIT renders correctly 1`] = `
 <Modal
   size="small"
 >
@@ -486,7 +486,7 @@ exports[`Icon component PENDING_DEPOSIT renders correctly 1`] = `
 </Modal>
 `;
 
-exports[`Icon component PENDING_EXECUTION renders correctly 1`] = `
+exports[`Exchange Results PENDING_EXECUTION renders correctly 1`] = `
 <Modal
   size="small"
 >
@@ -617,7 +617,7 @@ exports[`Icon component PENDING_EXECUTION renders correctly 1`] = `
 </Modal>
 `;
 
-exports[`Icon component PENDING_REFUND renders correctly 1`] = `
+exports[`Exchange Results PENDING_REFUND renders correctly 1`] = `
 <Modal
   size="small"
 >
@@ -718,7 +718,7 @@ exports[`Icon component PENDING_REFUND renders correctly 1`] = `
 </Modal>
 `;
 
-exports[`Icon component PENDING_WITHDRAWAL renders correctly 1`] = `
+exports[`Exchange Results PENDING_WITHDRAWAL renders correctly 1`] = `
 <Modal
   size="small"
 >
@@ -849,7 +849,7 @@ exports[`Icon component PENDING_WITHDRAWAL renders correctly 1`] = `
 </Modal>
 `;
 
-exports[`Icon component REFUNDED renders correctly 1`] = `
+exports[`Exchange Results REFUNDED renders correctly 1`] = `
 <Modal
   size="small"
 >

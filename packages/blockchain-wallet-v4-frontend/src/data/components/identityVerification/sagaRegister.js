@@ -4,6 +4,7 @@ import sagas from './sagas'
 
 export default ({ api, coreSagas }) => {
   const {
+    verifyIdentity,
     initializeStep,
     updateSmsStep,
     updateSmsNumber,
@@ -16,6 +17,7 @@ export default ({ api, coreSagas }) => {
   } = sagas({ api, coreSagas })
 
   return function*() {
+    yield takeLatest(AT.VERIFY_IDENTITY, verifyIdentity)
     yield takeLatest(AT.INITIALIZE_STEP, initializeStep)
     yield takeLatest(AT.UPDATE_SMS_STEP, updateSmsStep)
     yield takeLatest(AT.UPDATE_SMS_NUMBER, updateSmsNumber)

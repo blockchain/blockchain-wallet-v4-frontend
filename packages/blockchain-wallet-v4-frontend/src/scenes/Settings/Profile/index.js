@@ -1,13 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { values } from 'ramda'
 
 import { actions } from 'data'
 import { KYC_STATES } from 'data/modules/profile/model'
-import { MODAL_NAME as KYC_MODAL } from 'data/components/identityVerification/model'
 import { getData } from './selectors'
 
 import IdentityVerification from './IdentityVerification'
@@ -22,7 +20,7 @@ const Container = styled.div`
   box-sizing: border-box;
 `
 
-export const Profile = ({ kycState, modalActions, userFlowSupported }) => {
+export const Profile = ({ kycState, verifyIdentity, userFlowSupported }) => {
   if (!userFlowSupported) return null
 
   return (
@@ -31,7 +29,7 @@ export const Profile = ({ kycState, modalActions, userFlowSupported }) => {
       <Container>
         <IdentityVerification
           kycState={kycState}
-          verifyIdentity={modalActions.showModal.bind(null, KYC_MODAL, {}, {})}
+          verifyIdentity={verifyIdentity}
         />
       </Container>
     </Wrapper>
@@ -44,7 +42,8 @@ Profile.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  verifyIdentity: () =>
+    dispatch(actions.components.identityVerification.verifyIdentity())
 })
 
 export default connect(
