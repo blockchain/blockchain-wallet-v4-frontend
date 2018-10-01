@@ -200,16 +200,15 @@ const normalizeAmount = (value, prevValue, allValues, ...args) => {
 
 const Success = props => {
   const {
-    disabled,
     dirty,
     asyncValidating,
     error,
     submitting,
     canUseExchange,
+    disabled,
     availablePairs,
     fromElements,
     toElements,
-    hasOneAccount,
     sourceCoin,
     targetCoin,
     sourceActive,
@@ -257,7 +256,6 @@ const Success = props => {
                   onChange={handleSourceChange}
                   component={SelectBox}
                   elements={fromElements}
-                  hasOneAccount={hasOneAccount}
                 />
               </Cell>
               <TooltipHost id='exchange.changeinput'>
@@ -280,7 +278,6 @@ const Success = props => {
                   onChange={handleTargetChange}
                   component={SelectBox}
                   elements={toElements}
-                  hasOneAccount={hasOneAccount}
                 />
               </Cell>
             </SelectSourceRow>
