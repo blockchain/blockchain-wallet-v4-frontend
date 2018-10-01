@@ -35,7 +35,11 @@ const generateAccountsMDEntry = (newDevice, deviceName) => {
       device_name: deviceName,
       btc: { accounts: [btcAccount(btc, deviceName + ' - BTC Wallet')] },
       bch: { accounts: [btcAccount(bch, deviceName + ' - BCH Wallet')] },
-      eth: { accounts: [ethAccount(eth, deviceName + ' - ETH Wallet')] }
+      eth: {
+        accounts: [ethAccount(eth, deviceName + ' - ETH Wallet')],
+        last_tx: null,
+        last_tx_timestamp: null
+      }
     }
   } catch (e) {
     throw new Error('mising_device_info')
