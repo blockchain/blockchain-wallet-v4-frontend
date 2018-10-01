@@ -63,6 +63,7 @@ class PasswordInput extends React.Component {
       <BasePasswordInput
         innerRef={this.refInput}
         borderColor={borderColor}
+        data-e2e={this.props['data-e2e']}
         {...rest}
       />
     )
