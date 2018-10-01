@@ -1,6 +1,5 @@
 import { selectors, model } from 'data'
 import {
-  concat,
   cond,
   compose,
   curry,
@@ -11,7 +10,6 @@ import {
   length,
   lift,
   map,
-  mergeWith,
   path,
   prop,
   unnest,
@@ -147,9 +145,6 @@ export const getData = createDeepEqualSelector(
     getActiveBtcAccounts,
     getActiveBchAccounts,
     getActiveEthAccounts,
-    selectors.core.common.btc.getLockboxBtcBalances,
-    selectors.core.common.bch.getLockboxBchBalances,
-    selectors.core.common.eth.getLockboxEthBalances,
     selectors.core.settings.getCurrency,
     getFormValues,
     selectors.modules.rates.getAvailablePairs,
@@ -162,9 +157,6 @@ export const getData = createDeepEqualSelector(
     btcAccountsR,
     bchAccountsR,
     ethAccountsR,
-    lockboxBtcAccountsR,
-    lockboxBchAccountsR,
-    lockboxEthAccountsR,
     currencyR,
     formValues,
     availablePairsR,
@@ -174,19 +166,11 @@ export const getData = createDeepEqualSelector(
     canUseExchange
   ) => {
     if (!canUseExchange) return Remote.Loading
-    const accounts = mergeWith(
-      concat,
-      {
-        BTC: btcAccountsR.getOrElse([]),
-        BCH: bchAccountsR.getOrElse([]),
-        ETH: ethAccountsR.getOrElse([])
-      },
-      {
-        BTC: lockboxBtcAccountsR.getOrElse([]),
-        BCH: lockboxBchAccountsR.getOrElse([]),
-        ETH: lockboxEthAccountsR.getOrElse([])
-      }
-    )
+    const accounts = {
+      BTC: btcAccountsR.getOrElse([]),
+      BCH: bchAccountsR.getOrElse([]),
+      ETH: ethAccountsR.getOrElse([])
+    }
     const { fix, sourceCoin, targetCoin } = formValues
 
     const transform = (currency, availablePairs) => {

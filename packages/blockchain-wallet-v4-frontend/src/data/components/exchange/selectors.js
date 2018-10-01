@@ -54,10 +54,11 @@ export const getActiveBchAccounts = createDeepEqualSelector(
   [
     coreSelectors.wallet.getHDAccounts,
     coreSelectors.data.bch.getAddresses,
-    coreSelectors.kvStore.bch.getAccounts
+    coreSelectors.kvStore.bch.getAccounts,
+    coreSelectors.common.bch.getLockboxBchBalances
   ],
-  (bchAccounts, bchDataR, bchMetadataR) => {
-    const transform = (bchData, bchMetadata) =>
+  (bchAccounts, bchDataR, bchMetadataR, lockboxBchAccountsR) => {
+    const transform = (bchData, bchMetadata, lockboxBchAccounts) =>
       bchAccounts
         .map(acc => {
           const index = prop('index', acc)
@@ -73,15 +74,19 @@ export const getActiveBchAccounts = createDeepEqualSelector(
           }
         })
         .filter(isActive)
-
-    return lift(transform)(bchDataR, bchMetadataR)
+        .concat(lockboxBchAccounts)
+    return lift(transform)(bchDataR, bchMetadataR, lockboxBchAccountsR)
   }
 )
 
 export const getActiveBtcAccounts = createDeepEqualSelector(
-  [coreSelectors.wallet.getHDAccounts, coreSelectors.data.bitcoin.getAddresses],
-  (btcAccounts, btcDataR) => {
-    const transform = btcData => {
+  [
+    coreSelectors.wallet.getHDAccounts,
+    coreSelectors.data.bitcoin.getAddresses,
+    coreSelectors.common.btc.getLockboxBtcBalances
+  ],
+  (btcAccounts, btcDataR, lockboxBtcAccountsR) => {
+    const transform = (btcData, lockboxBtcAccounts) => {
       return btcAccounts
         .map(acc => ({
           archived: prop('archived', acc),
@@ -91,19 +96,21 @@ export const getActiveBtcAccounts = createDeepEqualSelector(
           balance: prop('final_balance', prop(prop('xpub', acc), btcData))
         }))
         .filter(isActive)
+        .concat(lockboxBtcAccounts)
     }
 
-    return lift(transform)(btcDataR)
+    return lift(transform)(btcDataR, lockboxBtcAccountsR)
   }
 )
 
 export const getActiveEthAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.ethereum.getAddresses,
-    coreSelectors.kvStore.ethereum.getAccounts
+    coreSelectors.kvStore.ethereum.getAccounts,
+    coreSelectors.common.eth.getLockboxEthBalances
   ],
-  (ethDataR, ethMetadataR) => {
-    const transform = (ethData, ethMetadata) =>
+  (ethDataR, ethMetadataR, lockboxEthDataR) => {
+    const transform = (ethData, ethMetadata, lockboxEthData) =>
       ethMetadata
         .map(acc => {
           const data = prop(prop('addr', acc), ethData)
@@ -117,7 +124,8 @@ export const getActiveEthAccounts = createDeepEqualSelector(
           }
         })
         .filter(isActive)
+        .concat(lockboxEthData)
 
-    return lift(transform)(ethDataR, ethMetadataR)
+    return lift(transform)(ethDataR, ethMetadataR, lockboxEthDataR)
   }
 )
