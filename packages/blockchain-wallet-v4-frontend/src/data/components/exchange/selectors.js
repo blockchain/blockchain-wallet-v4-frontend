@@ -28,7 +28,7 @@ export const getTargetFee = path(['components', 'exchange', 'targetFee'])
 export const getSourceFee = path(['components', 'exchange', 'sourceFee'])
 
 const advicePath = pathOr(0)
-const adviceToAmount = advice => ({
+export const adviceToAmount = advice => ({
   sourceAmount: advicePath(['base', 'crypto', 'value'], advice),
   targetAmount: advicePath(['counter', 'crypto', 'value'], advice),
   sourceFiat: advicePath(['base', 'fiat', 'value'], advice),

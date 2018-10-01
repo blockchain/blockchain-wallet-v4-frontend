@@ -40,15 +40,6 @@ class LinkContainer extends Component {
     window.addEventListener('message', receiveMessage, false)
   }
 
-  componentDidUpdate () {
-    if (
-      Remote.Success.is(this.props.bankAccounts) &&
-      Remote.Loading.is(this.props.linkStatus)
-    ) {
-      this.props.sfoxFrontendActions.sfoxSuccess()
-    }
-  }
-
   componentWillUnmount () {
     this.props.updateUI({
       toggleManual: false,
@@ -58,6 +49,11 @@ class LinkContainer extends Component {
       busy: false
     })
     this.props.sfoxDataActions.wipeBankAccounts()
+  }
+
+  resetAccountHolder = () => {
+    this.props.formActions.reset('sfoxLink')
+    this.props.sfoxFrontendActions.sfoxNotAsked()
   }
 
   onSetBankAccount (data) {
@@ -77,7 +73,7 @@ class LinkContainer extends Component {
       this.state.routingNumber &&
       this.state.accountNumber
     ) {
-      this.props.updateUI({ busy: true })
+      this.props.sfoxFrontendActions.sfoxLoading()
       const { fullName, routingNumber, accountNumber, accountType } = this.state
       this.props.sfoxFrontendActions.setBankManually(
         routingNumber,
@@ -86,9 +82,13 @@ class LinkContainer extends Component {
         accountType
       )
     } else {
-      this.props.updateUI({ busy: true })
+      this.props.sfoxFrontendActions.sfoxLoading()
       const bankChoice = merge(
-        { id: this.state.id, name: this.state.holderName },
+        {
+          id: this.state.id,
+          firstname: this.props.accountHolderFirst,
+          lastname: this.props.accountHolderLast
+        },
         { token: this.state.token }
       )
       this.props.sfoxFrontendActions.setBankAccount(bankChoice)
@@ -151,6 +151,7 @@ class LinkContainer extends Component {
         busy={sfoxBusy}
         setNotAsked={sfoxNotAsked}
         linkError={err && path(['message'], err)}
+        resetAccountHolder={this.resetAccountHolder}
       />
     )
   }
@@ -178,6 +179,11 @@ const mapStateToProps = state => ({
   accounts: selectors.core.data.sfox.getAccounts(state),
   deposit1: formValueSelector('sfoxLink')(state, 'deposit1'),
   deposit2: formValueSelector('sfoxLink')(state, 'deposit2'),
+  accountHolderFirst: formValueSelector('sfoxLink')(
+    state,
+    'accountHolderFirst'
+  ),
+  accountHolderLast: formValueSelector('sfoxLink')(state, 'accountHolderLast'),
   linkStatus: path(['sfoxSignup', 'sfoxBusy'], state)
 })
 

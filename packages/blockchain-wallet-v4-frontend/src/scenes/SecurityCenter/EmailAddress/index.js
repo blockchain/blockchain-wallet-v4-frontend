@@ -36,9 +36,10 @@ class EmailAddressContainer extends React.PureComponent {
       prevProps.goBackOnSuccess()
     }
   }
+
   handleUpdate () {
     this.setState({
-      successToggled: !this.state.successToggled,
+      successToggled: false,
       verifyToggled: !this.state.verifyToggled
     })
   }
