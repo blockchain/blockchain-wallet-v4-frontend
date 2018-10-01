@@ -20,7 +20,6 @@ import {
 const { CONFIRM_FORM } = model.components.exchange
 
 const ConfirmWrapper = styled(Wrapper)`
-  margin-bottom: 15px;
   ${Title} {
     margin-bottom: 8px;
   }
