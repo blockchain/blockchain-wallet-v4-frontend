@@ -362,7 +362,6 @@
   "formhelper.invalidwalletidentifier": "Invalid wallet identifier",
   "formhelper.partnercountrywhitelist": "Country not available for buy & sell",
   "formhelper.partnerstatewhitelist": "State not available for buy & sell",
-  "formhelper.passwordcracktime": "Your password would take {cracktime} to crack.",
   "formhelper.passwordsdonotmatch": "Passwords do not match",
   "formhelper.passwordsuggest": "Try adding a few more characters.",
   "formhelper.required": "Required",
