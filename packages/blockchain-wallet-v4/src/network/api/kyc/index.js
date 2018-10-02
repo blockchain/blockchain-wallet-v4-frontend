@@ -37,7 +37,7 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
 
   const uploadDocument = (token, data) =>
     post({
-      data,
+      data: { data },
       endPoint: `/upload/${token}`,
       url: nabuUrl
     })

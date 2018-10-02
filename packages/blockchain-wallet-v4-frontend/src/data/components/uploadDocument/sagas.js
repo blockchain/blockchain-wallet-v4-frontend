@@ -9,7 +9,7 @@ export default ({ api }) => {
     try {
       const { file, token } = payload
       yield put(A.uploadLoading())
-      yield call(api.upload, token, file)
+      yield call(api.uploadDocument, token, file)
       yield put(A.uploadSuccess())
     } catch (error) {
       yield put(A.uploadError(error))

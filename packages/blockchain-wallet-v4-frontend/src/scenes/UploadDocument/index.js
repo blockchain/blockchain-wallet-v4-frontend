@@ -8,13 +8,26 @@ import UploadDocument from './template'
 
 class UploadDocumentContainer extends Component {
   static propTypes = {
+    displayError: PropTypes.func.isRequired,
     pathname: PropTypes.string.isRequired,
     uploadDocument: PropTypes.func.isRequired
   }
 
   onDropAccepted = files => {
+    const fileSizeLimit = 5000000
     const token = this.props.pathname.split('/')[2]
-    files.forEach(file => this.props.uploadDocument(token, file))
+    files.forEach(file => {
+      if (file.size >= fileSizeLimit) {
+        this.props.displayError('File over size limit')
+      } else {
+        const fileReader = new FileReader()
+        fileReader.onload = event => {
+          const fileArray = new Int8Array(event.target.result)
+          this.props.uploadDocument(token, fileArray)
+        }
+        fileReader.readAsArrayBuffer(file)
+      }
+    })
   }
 
   render () {
@@ -33,6 +46,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  displayError: bindActionCreators(actions.alerts.displayError, dispatch),
   uploadDocument: bindActionCreators(
     actions.components.uploadDocument.upload,
     dispatch
