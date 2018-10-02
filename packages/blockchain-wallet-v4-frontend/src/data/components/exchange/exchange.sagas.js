@@ -515,7 +515,6 @@ export default ({ api, coreSagas, options, networks }) => {
         target,
         networks
       )
-
       const {
         depositAddress,
         deposit: { symbol, value }
@@ -524,11 +523,10 @@ export default ({ api, coreSagas, options, networks }) => {
         createPayment,
         symbol,
         source.address,
-        source.type,
         depositAddress,
+        source.type,
         convertStandardToBase(symbol, value)
       )
-
       if (source.type !== ADDRESS_TYPES.LOCKBOX) {
         let password = yield call(promptForSecondPassword)
         yield (yield payment.sign(password)).publish()

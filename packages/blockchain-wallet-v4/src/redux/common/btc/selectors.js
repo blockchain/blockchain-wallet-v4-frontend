@@ -115,6 +115,7 @@ export const getLockboxBtcBalances = state => {
     label: account.label,
     balance: path([account.xpub, 'final_balance'], addresses),
     xpub: account.xpub,
+    address: account.xpub,
     type: ADDRESS_TYPES.LOCKBOX
   })
   const balances = Remote.of(getAddresses(state).getOrElse([]))
