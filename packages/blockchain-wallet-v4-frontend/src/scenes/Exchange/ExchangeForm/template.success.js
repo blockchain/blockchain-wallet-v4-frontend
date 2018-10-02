@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { contains, isNil, gte } from 'ramda'
 
@@ -17,6 +17,7 @@ import {
   Text
 } from 'blockchain-info-components'
 import { Form, TextBox } from 'components/Form'
+import { ResizeableInputHOC } from 'components/ResizeableInputHOC'
 import StringDisplay from 'components/Display/StringDisplay'
 import SelectBox from './SelectBox'
 import { getErrorMessage } from './validationMessages'
@@ -89,7 +90,6 @@ const SelectSourceRow = styled(Row)`
 const AmountRow = styled(Row)`
   position: relative;
   padding: 10px 30px;
-  width: calc(100% - 20px);
 `
 const Cell = styled.div`
   display: flex;
@@ -114,7 +114,7 @@ const MinMaxValue = styled.div`
   font-weight: 600;
   font-size: 14px;
 `
-const AmountTextBox = styled(TextBox)`
+const AmountTextBox = styled(ResizeableInputHOC(TextBox))`
   height: 86px;
   input {
     position: relative;
@@ -137,20 +137,6 @@ const ComplementaryAmountContaier = styled.div`
   justify-self: center;
   margin: auto;
   margin-top: 10px;
-`
-const CurrencyBox = styled(Text)`
-  align-self: flex-start;
-  margin-top: 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  height: 38px;
-  font-size: ${props => (props.coinActive ? '20px' : '32px')};
-  font-weight: 300;
-  transform: uppercase;
-  background-color: ${props =>
-    props.disabled ? props.theme['gray-1'] : props.theme['white']};
 `
 const CoinSwapIcon = styled(Icon)`
   font-size: 18px;
@@ -203,6 +189,16 @@ const normalizeAmount = (value, prevValue, allValues, ...args) => {
   return formatTextAmount(value, fiatActive(allValues.fix))
 }
 
+const formatAmount = (intl, fiatActive, symbol, value) => {
+  if (fiatActive) return `${symbol}${intl.formatNumber(value)}`
+  return `${intl.formatNumber(value, {
+    maximumFractionDigits: 8
+  })}${symbol}`
+}
+
+const parseAmount = (symbol, value) =>
+  value.replace(symbol, '').replace(/,/g, '')
+
 const Success = props => {
   const {
     disabled,
@@ -234,7 +230,8 @@ const Success = props => {
     swapBaseAndCounter,
     swapCoinAndFiat,
     useMin,
-    useMax
+    useMax,
+    intl
   } = props
   const swapDisabled = !contains(
     formatPair(targetCoin, sourceCoin),
@@ -326,23 +323,16 @@ const Success = props => {
               </Cell>
             </Row>
             <AmountRow>
-              <CurrencyBox
-                style={{ visibility: fiatActive ? 'visible' : 'hidden' }}
-              >
-                {inputSymbol}
-              </CurrencyBox>
               <Field
                 name={inputField}
                 autoComplete='off'
+                format={formatAmount.bind(null, intl, fiatActive, inputSymbol)}
+                parse={parseAmount.bind(null, inputSymbol)}
                 onChange={handleAmountChange}
                 normalize={normalizeAmount}
                 component={AmountTextBox}
+                maxFontSize='72px'
               />
-              <CurrencyBox
-                style={{ visibility: fiatActive ? 'hidden' : 'visible' }}
-              >
-                {inputSymbol}
-              </CurrencyBox>
             </AmountRow>
             <AmountRow>
               <CoinFiatSwapIcon
@@ -444,4 +434,4 @@ export default reduxForm({
   form: EXCHANGE_FORM,
   destroyOnUnmount: false,
   enableReinitialize: true
-})(Success)
+})(injectIntl(Success))
