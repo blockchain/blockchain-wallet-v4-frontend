@@ -129,11 +129,9 @@ const AmountTextBox = styled(TextBox)`
   }
 `
 const ComplementaryAmountContaier = styled.div`
-  .text {
-    font-weight: 300;
-    font-size: 20px;
-    line-height: 24px;
-  }
+  font-weight: 200;
+  font-size: 20px;
+  line-height: 24px;
   position: relative;
   font-family: 'Montserrat', Helvetica, sans-serif;
   justify-self: center;
@@ -221,6 +219,7 @@ const Success = props => {
     targetCoin,
     sourceActive,
     targetActive,
+    fiatActive,
     inputField,
     inputSymbol,
     complementaryAmount,
@@ -327,7 +326,11 @@ const Success = props => {
               </Cell>
             </Row>
             <AmountRow>
-              <CurrencyBox>{inputSymbol}</CurrencyBox>
+              <CurrencyBox
+                style={{ visibility: fiatActive ? 'visible' : 'hidden' }}
+              >
+                {inputSymbol}
+              </CurrencyBox>
               <Field
                 name={inputField}
                 autoComplete='off'
@@ -335,7 +338,9 @@ const Success = props => {
                 normalize={normalizeAmount}
                 component={AmountTextBox}
               />
-              <CurrencyBox style={{ visibility: 'hidden' }}>
+              <CurrencyBox
+                style={{ visibility: fiatActive ? 'hidden' : 'visible' }}
+              >
                 {inputSymbol}
               </CurrencyBox>
             </AmountRow>
@@ -351,7 +356,10 @@ const Success = props => {
               <ComplementaryAmountContaier>
                 <StringDisplay>
                   {complementaryAmount.map(
-                    amount => `${amount} ${complementarySymbol}`
+                    amount =>
+                      fiatActive
+                        ? `${amount} ${complementarySymbol}`
+                        : `${complementarySymbol}${amount}`
                   )}
                 </StringDisplay>
               </ComplementaryAmountContaier>

@@ -80,6 +80,9 @@ const ErrorRow = styled(Text)`
   line-height: 18px;
   color: ${props => props.theme.error};
 `
+const ConfirmForm = styled(Form)`
+  max-width: 440px;
+`
 
 const getErrorMessage = () => (
   <FormattedMessage
@@ -104,7 +107,7 @@ const ExchangeConfirm = ({
   handleSubmit,
   onBack
 }) => (
-  <Form onSubmit={handleSubmit}>
+  <ConfirmForm onSubmit={handleSubmit}>
     <ConfirmWrapper>
       <Title>
         <FormattedMessage
@@ -196,7 +199,7 @@ const ExchangeConfirm = ({
         />
       )}
     </CancelButton>
-  </Form>
+  </ConfirmForm>
 )
 
 export default reduxForm({
