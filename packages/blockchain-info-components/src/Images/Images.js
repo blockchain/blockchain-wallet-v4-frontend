@@ -27,6 +27,9 @@ import linkLockboxIcon from './img/link-lockbox-icon.svg'
 import linkedinWhite from './img/linkedin-white.svg'
 import lockboxWelcomeSafe from './img/lockbox-welcome-safe.svg'
 import lockboxUsb from './img/lockbox-usb.svg'
+import onboardLink from './img/lockbox/onboard-link.png'
+import onboardLink2 from './img/lockbox/onboard-link@2x.png'
+import onboardLink3 from './img/lockbox/onboard-link@3x.png'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
 import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
@@ -76,6 +79,9 @@ export default {
   'lockbox-usb': lockboxUsb,
   'link-lockbox-icon': linkLockboxIcon,
   'linkedin-white': linkedinWhite,
+  'lockbox-onboard-link': onboardLink,
+  'lockbox-onboard-link2': onboardLink2,
+  'lockbox-onboard-link3': onboardLink3,
   'micro-deposits-whole': microDepositsWhole,
   printer: printer,
   'restore-lockbox-icon': restoreLockboxIcon,

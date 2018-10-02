@@ -1,12 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import { Button, TextGroup, Text } from 'blockchain-info-components'
+import { Button, Image, TextGroup, Text } from 'blockchain-info-components'
 import { RotateSync } from 'components/RotateSync'
 
-const Wrapper = styled.div`
-  padding: 20px;
-`
+const Wrapper = styled.div``
 
 const Title = styled.div`
   text-align: center;
@@ -45,35 +43,38 @@ const ConnectDeviceStep = props => {
         </Text>
       </Title>
       <TextGroup>
-        <StepText size='16px' weight={300}>
-          <span className='number'>1. </span>
+        <StepText size='14px' weight={300}>
           <FormattedHTMLMessage
             id='modals.lockboxsetup.connectdevice.step1'
-            defaultMessage='Insert your Lockbox into your computer'
+            defaultMessage='1. Insert your Lockbox into your computer'
           />
         </StepText>
-        <StepText size='16px' weight={300}>
-          <span className='number'>2. </span>
+        <StepText size='14px' weight={300}>
           <FormattedHTMLMessage
             id='modals.lockboxsetup.connectdevice.step2'
-            defaultMessage='Press both buttons on your Lockbox to begin'
+            defaultMessage='2. Press both buttons on your Lockbox to begin'
           />
         </StepText>
-        <StepText size='16px' weight={300}>
-          <span className='number'>3. </span>
+        <StepText size='14px' weight={300}>
           <FormattedHTMLMessage
             id='modals.lockboxsetup.connectdevice.step3'
-            defaultMessage='Set your pin'
+            defaultMessage='3. Set your pin'
           />
         </StepText>
-        <StepText size='16px' weight={300}>
-          <span className='number'>4. </span>
+        <StepText size='14px' weight={300}>
           <FormattedHTMLMessage
             id='modals.lockboxsetup.connectdevice.step4'
-            defaultMessage='Complete backup phrase process'
+            defaultMessage='4. Complete backup phrase process'
           />
         </StepText>
       </TextGroup>
+      <Image
+        name='lockbox-onboard-link'
+        srcset={{
+          'lockbox-onboard-link2': '2x',
+          'lockbox-onboard-link3': '3x'
+        }}
+      />
       <ButtonContainer>
         <Button
           fullwidth
@@ -92,7 +93,7 @@ const ConnectDeviceStep = props => {
               defaultMessage='Connect Your Lockbox'
             />
           )}
-          {!isConnected && <RotateSyncContainer size='16px' color='white' />}
+          {!isConnected && <RotateSyncContainer size='14px' color='white' />}
         </Button>
       </ButtonContainer>
     </Wrapper>

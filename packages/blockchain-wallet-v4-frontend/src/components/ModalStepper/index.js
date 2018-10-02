@@ -7,11 +7,11 @@ import { Icon, Text } from 'blockchain-info-components'
 const StepHeader = styled.div`
   background-color: ${props => props.theme['white']};
   justify-content: space-evenly;
+  padding: 30px 30px 0px 30px;
   border-radius: 4px 4px 0 0;
   flex-direction: row;
   align-items: center;
   display: flex;
-  padding: 20px;
 `
 const Step = styled.div`
   flex-direction: column;

@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import ModalStepper from 'components/ModalStepper'
 import { Modal, ModalBody } from 'blockchain-info-components'
 

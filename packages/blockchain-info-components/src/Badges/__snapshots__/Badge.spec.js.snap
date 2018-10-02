@@ -12,6 +12,7 @@ exports[`Badge component applestore renders correctly 1`] = `
     color="auto"
     height="40px"
     src="[object Object]"
+    srcset=""
     width="auto"
   />
 </a>
@@ -29,6 +30,7 @@ exports[`Badge component googleplay renders correctly 1`] = `
     color="auto"
     height="40px"
     src="[object Object]"
+    srcset=""
     width="auto"
   />
 </a>
