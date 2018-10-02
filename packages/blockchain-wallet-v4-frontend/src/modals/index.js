@@ -24,7 +24,6 @@ import PairingCode from './PairingCode'
 import PromptInput from './PromptInput'
 import PromptLockbox from './PromptLockbox'
 import QRCode from './QRCode'
-import RecoveryPhrase from './RecoveryPhrase'
 import RequestBch from './RequestBch'
 import RequestBitcoin from './RequestBtc'
 import RequestEther from './RequestEth'
@@ -45,9 +44,10 @@ import TransferEth from './TransferEth'
 import TwoStepGoogleAuthenticator from './TwoStepGoogleAuthenticator'
 import TwoStepSetup from './TwoStepSetup'
 import TwoStepYubico from './TwoStepYubico'
-import UpgradeWallet from './UpgradeWallet'
-import Welcome from './Welcome'
 import UpgradeAddressLabels from './UpgradeAddressLabels'
+import UpgradeWallet from './UpgradeWallet'
+import UserExists from './UserExists'
+import Welcome from './Welcome'
 
 const Modals = props => (
   <div>
@@ -75,7 +75,6 @@ const Modals = props => (
     <PromptInput />
     <PromptLockbox />
     <QRCode />
-    <RecoveryPhrase />
     <RequestBch />
     <RequestBitcoin />
     <RequestEther />
@@ -98,6 +97,7 @@ const Modals = props => (
     <TwoStepYubico />
     <UpgradeAddressLabels />
     <UpgradeWallet />
+    <UserExists />
     <Welcome />
   </div>
 )

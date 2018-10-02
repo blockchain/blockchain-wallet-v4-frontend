@@ -346,20 +346,15 @@ export default ({ api, coreSagas, networks, options }) => {
       outgoingPayment = yield outgoingPayment.sign(password)
       outgoingPayment = yield outgoingPayment.publish()
       const paymentValue = outgoingPayment.value()
-      const { txId, from } = paymentValue
+      const { txId } = paymentValue
       if (order.pair.startsWith('eth')) {
         yield put(
-          actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(
-            from.address,
-            Date.now()
-          )
+          actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now())
         )
         yield take(
           actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
         )
-        yield put(
-          actions.core.kvStore.ethereum.setLatestTxEthereum(from.address, txId)
-        )
+        yield put(actions.core.kvStore.ethereum.setLatestTxEthereum(txId))
       }
       // Save the trade in metadata
       const trade = {
