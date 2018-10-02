@@ -8,7 +8,7 @@ import { model } from 'data'
 import { required, validMobileNumber } from 'services/FormHelper'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
-import { Button, Text, HeartbeatLoader } from 'blockchain-info-components'
+import { Button, HeartbeatLoader } from 'blockchain-info-components'
 import {
   FooterShadowWrapper,
   FormItem,
@@ -23,7 +23,8 @@ import {
   IdentityVerificationSubHeader,
   EmailHelper,
   FaqFormMessage,
-  FaqFormGroup
+  FaqFormGroup,
+  Label
 } from 'components/IdentityVerification'
 
 const FormContainer = styled.div`
@@ -122,16 +123,12 @@ const VerifyMobile = ({
               <FormContainer>
                 <FaqFormGroup>
                   <FormItem>
-                    <Text
-                      size='14px'
-                      weight={400}
-                      style={{ marginBottom: '5px' }}
-                    >
+                    <Label>
                       <FormattedMessage
                         id='identityverification.personal.mobile.entermobilenumber'
                         defaultMessage='Enter your mobile number here'
                       />
-                    </Text>
+                    </Label>
                     <Field
                       name='smsNumber'
                       defaultValue={smsNumber}
@@ -180,16 +177,12 @@ const VerifyMobile = ({
                 {step === SMS_STEPS.verify && (
                   <FaqFormGroup>
                     <FormItem>
-                      <Text
-                        size='14px'
-                        weight={400}
-                        style={{ marginBottom: '5px' }}
-                      >
+                      <Label>
                         <FormattedMessage
                           id='identityverification.personal.mobile.entercode'
                           defaultMessage='Verification code'
                         />
-                      </Text>
+                      </Label>
                       <Field
                         name='code'
                         component={TextBox}
