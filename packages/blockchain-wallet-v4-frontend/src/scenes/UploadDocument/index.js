@@ -13,19 +13,35 @@ class UploadDocumentContainer extends Component {
     uploadDocument: PropTypes.func.isRequired
   }
 
+  constructor (props) {
+    super(props)
+    this.state = {
+      files: []
+    }
+  }
+
+  onSubmit = () => {
+    const token = this.props.pathname.split('/')[2]
+    this.state.files.forEach(file => {
+      const fileReader = new FileReader()
+      // TODO: One single upload for the array of all byte arrays
+      fileReader.onload = event => {
+        const fileArray = new Int8Array(event.target.result)
+        this.props.uploadDocument(token, fileArray)
+      }
+      fileReader.readAsArrayBuffer(file)
+    })
+  }
+
   onDropAccepted = files => {
     const fileSizeLimit = 5000000
-    const token = this.props.pathname.split('/')[2]
     files.forEach(file => {
       if (file.size >= fileSizeLimit) {
         this.props.displayError('File over size limit')
       } else {
-        const fileReader = new FileReader()
-        fileReader.onload = event => {
-          const fileArray = new Int8Array(event.target.result)
-          this.props.uploadDocument(token, fileArray)
-        }
-        fileReader.readAsArrayBuffer(file)
+        this.setState(previousState => ({
+          files: [...previousState.files, file]
+        }))
       }
     })
   }
@@ -35,7 +51,9 @@ class UploadDocumentContainer extends Component {
     return (
       <UploadDocument
         documentType={documentType}
+        files={this.state.files}
         onDropAccepted={this.onDropAccepted}
+        onSubmit={this.onSubmit}
       />
     )
   }

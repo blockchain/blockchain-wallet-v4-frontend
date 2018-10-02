@@ -20,17 +20,22 @@ const Wrapper = styled.div`
     width: 550px;
   }
 `
+const UploadButton = styled(Button)`
+  margin-top: 16px;
+`
 const UploadZone = styled(Dropzone)`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   border: 2px dotted ${props => props.theme['gray-4']};
   border-radius: 8px;
-  margin-top: 8px;
-  padding: 8px;
+  margin-bottom: 16px;
+  margin-top: 16px;
+  padding: 16px;
+  cursor: pointer;
 `
 
-const UploadDocument = ({ documentType, onDropAccepted }) => (
+const UploadDocument = ({ documentType, files, onDropAccepted, onSubmit }) => (
   <Wrapper>
     <Title size='24px' weight={300}>
       <FormattedMessage
@@ -43,14 +48,21 @@ const UploadDocument = ({ documentType, onDropAccepted }) => (
       <Text weight={300}>
         Try dropping some files here, or click to select files to upload.
       </Text>
-      <Button nature='primary'>Upload</Button>
     </UploadZone>
+    {files.map(file => (
+      <Text>{`${file.name} - ${file.size} bytes`}</Text>
+    ))}
+    <UploadButton nature='primary' onClick={onSubmit}>
+      Upload
+    </UploadButton>
   </Wrapper>
 )
 
 UploadDocument.propTypes = {
   documentType: PropTypes.string.isRequired,
-  onDropAccepted: PropTypes.func.isRequired
+  files: PropTypes.array.isRequired,
+  onDropAccepted: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired
 }
 
 export default UploadDocument
