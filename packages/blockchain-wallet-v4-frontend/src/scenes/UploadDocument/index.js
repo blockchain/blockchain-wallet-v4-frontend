@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { formValueSelector } from 'redux-form'
 
 import { actions, selectors } from 'data'
 import UploadDocument from './template'
@@ -13,22 +12,24 @@ class UploadDocumentContainer extends Component {
     uploadDocument: PropTypes.func.isRequired
   }
 
-  onSubmit = () => {
+  onDropAccepted = files => {
     const token = this.props.pathname.split('/')[2]
-    this.props.uploadDocument(token, this.props.file)
+    files.forEach(file => this.props.uploadDocument(token, file))
   }
 
   render () {
     const documentType = this.props.pathname.split('/')[3]
     return (
-      <UploadDocument documentType={documentType} onSubmit={this.onSubmit} />
+      <UploadDocument
+        documentType={documentType}
+        onDropAccepted={this.onDropAccepted}
+      />
     )
   }
 }
 
 const mapStateToProps = state => ({
-  pathname: selectors.router.getPathname(state),
-  file: formValueSelector('uploadDocument')(state, 'document')
+  pathname: selectors.router.getPathname(state)
 })
 
 const mapDispatchToProps = dispatch => ({

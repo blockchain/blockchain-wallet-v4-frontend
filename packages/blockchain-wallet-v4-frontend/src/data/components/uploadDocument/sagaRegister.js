@@ -6,6 +6,6 @@ export default ({ api, coreSagas }) => {
   const { upload } = sagas({ api })
 
   return function*() {
-    yield takeLatest(AT.UPLOAD_DOCUMENT, upload)
+    yield takeLatest(AT.UPLOAD, upload)
   }
 }

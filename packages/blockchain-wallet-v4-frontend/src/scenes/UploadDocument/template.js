@@ -1,23 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Field, Form, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import Dropzone from 'react-dropzone'
 
 import { Button, Text } from 'blockchain-info-components'
-import { FileInput } from 'components/Form'
 
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`
 const Title = styled(Text)`
   padding-bottom: 5px;
 `
 
-const UploadForm = styled(Form)`
+const Wrapper = styled.div`
   width: 100%;
   padding: 35px;
   box-sizing: border-box;
@@ -27,9 +20,18 @@ const UploadForm = styled(Form)`
     width: 550px;
   }
 `
+const UploadZone = styled(Dropzone)`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border: 2px dotted ${props => props.theme['gray-4']};
+  border-radius: 8px;
+  margin-top: 8px;
+  padding: 8px;
+`
 
-const UploadDocument = ({ documentType, handleSubmit, onSubmit }) => (
-  <UploadForm onSubmit={handleSubmit}>
+const UploadDocument = ({ documentType, onDropAccepted }) => (
+  <Wrapper>
     <Title size='24px' weight={300}>
       <FormattedMessage
         id='scenes.uploaddoc.upload'
@@ -37,28 +39,18 @@ const UploadDocument = ({ documentType, handleSubmit, onSubmit }) => (
       />
     </Title>
     <Text weight={300}>{documentType}</Text>
-    <Row>
-      <Field
-        accept='.jpg, .png'
-        component={FileInput}
-        data-e2e='documentUploadField'
-        name='document'
-      />
-      <Button data-e2e='documentUploadButton' nature='primary' type='submit'>
-        <Text color='white' weight={300}>
-          <FormattedMessage
-            id='scenes.uploaddoc.submit'
-            defaultMessage='Upload'
-          />
-        </Text>
-      </Button>
-    </Row>
-  </UploadForm>
+    <UploadZone accept='image/jpeg, image/png' onDropAccepted={onDropAccepted}>
+      <Text weight={300}>
+        Try dropping some files here, or click to select files to upload.
+      </Text>
+      <Button nature='primary'>Upload</Button>
+    </UploadZone>
+  </Wrapper>
 )
 
 UploadDocument.propTypes = {
   documentType: PropTypes.string.isRequired,
-  handleSubmit: PropTypes.func.isRequired
+  onDropAccepted: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'uploadDocument' })(UploadDocument)
+export default UploadDocument
