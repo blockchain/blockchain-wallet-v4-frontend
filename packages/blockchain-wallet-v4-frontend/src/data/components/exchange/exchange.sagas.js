@@ -532,9 +532,9 @@ export default ({ api, coreSagas, options, networks }) => {
         yield (yield payment.sign(password)).publish()
       } else {
         const deviceR = yield select(
-          selectors.kvStore.lockbox.getDeviceFromEthAddr,
-          refundAddress,
-          payment
+          selectors.core.kvStore.lockbox.getDeviceFromCoinAddrs,
+          prop('coin', source),
+          prop('from', payment.value())
         )
         const device = deviceR.getOrFail('missing_device')
         yield call(
