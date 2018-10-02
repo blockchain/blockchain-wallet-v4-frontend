@@ -16,6 +16,7 @@ import {
   ExchangeButton,
   CancelButton
 } from 'components/Exchange'
+import { Form } from 'components/Form'
 
 const { CONFIRM_FORM } = model.components.exchange
 
@@ -62,7 +63,8 @@ const Row = styled.div`
   margin-bottom: 35px;
 `
 const FromToIcon = styled(Icon)`
-  min-width: 45px;
+  min-width: 25px;
+  width: 45px;
   text-align: center;
   justify-content: center;
   font-size: 24px;
@@ -102,7 +104,7 @@ const ExchangeConfirm = ({
   handleSubmit,
   onBack
 }) => (
-  <form onSubmit={handleSubmit}>
+  <Form onSubmit={handleSubmit}>
     <ConfirmWrapper>
       <Title>
         <FormattedMessage
@@ -194,7 +196,7 @@ const ExchangeConfirm = ({
         />
       )}
     </CancelButton>
-  </form>
+  </Form>
 )
 
 export default reduxForm({

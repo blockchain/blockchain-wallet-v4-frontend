@@ -62,10 +62,13 @@ const ColumnLeft = styled.div`
   }
   ${media.mobile`
     margin-right: 0;
+    margin-bottom: 20px;
+    width: 100%;
   `};
 `
 const ColumnRight = styled.div`
   max-width: 450px;
+  width: 100%;
   @media (min-width: 992px) {
     max-width: 345px;
     width: 40%;
