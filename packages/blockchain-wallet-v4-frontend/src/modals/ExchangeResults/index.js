@@ -47,6 +47,9 @@ const ResultsHeader = styled(ModalHeader)`
 `
 
 const OrderRow = styled(AmountHeader)`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   font-weight: 600;
   margin-bottom: 24px;
 `
@@ -214,10 +217,10 @@ export const ExchangeResults = ({
         )}
         <OrderRow>
           <FormattedMessage
-            id='modals.exchangeresults.orderid'
-            defaultMessage='Order {id}'
-            values={{ id }}
+            id='modals.exchangeresults.order'
+            defaultMessage='Order'
           />
+          {id}
         </OrderRow>
         <AmountHeader>{getSourceMessage(status, sourceCoin)}</AmountHeader>
         <ExchangeAmount>{`${depositAmount} ${sourceCoin}`}</ExchangeAmount>
@@ -267,25 +270,26 @@ export const ExchangeResults = ({
           </ExchangeText>
           <ExchangeText weight={300}>{`${fee} ${targetCoin}`}</ExchangeText>
         </TableRow>
-        {contains(status, [
-          FINISHED,
-          PENDING_DEPOSIT,
-          PENDING_EXECUTION,
-          PENDING_WITHDRAWAL,
-          FINISHED_DEPOSIT
-        ]) && (
-          <TableRow>
-            <ExchangeText>
-              <FormattedMessage
-                id='modals.exchangeresults.rate'
-                defaultMessage='Exchange rate'
-              />
-            </ExchangeText>
-            <ExchangeText
-              weight={300}
-            >{`1 ${sourceCoin} = ${rate} ${targetCoin}`}</ExchangeText>
-          </TableRow>
-        )}
+        {rate &&
+          contains(status, [
+            FINISHED,
+            PENDING_DEPOSIT,
+            PENDING_EXECUTION,
+            PENDING_WITHDRAWAL,
+            FINISHED_DEPOSIT
+          ]) && (
+            <TableRow>
+              <ExchangeText>
+                <FormattedMessage
+                  id='modals.exchangeresults.rate'
+                  defaultMessage='Exchange rate'
+                />
+              </ExchangeText>
+              <ExchangeText
+                weight={300}
+              >{`1 ${sourceCoin} = ${rate} ${targetCoin}`}</ExchangeText>
+            </TableRow>
+          )}
         {contains(status, [REFUNDED, PENDING_REFUND]) && (
           <TableRow>
             <ExchangeText>{getRefundMessage(status)}</ExchangeText>
