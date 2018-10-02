@@ -18,7 +18,7 @@ class MenuLeftContainer extends React.PureComponent {
   }
 
   componentDidUpdate (prevProps) {
-    this.setActiveNodeOffsetTop()
+    window.requestAnimationFrame(() => this.setActiveNodeOffsetTop())
   }
 
   setActiveNodeOffsetTop () {
