@@ -8,6 +8,7 @@ import media from 'services/ResponsiveService'
 import { Button, Image } from 'blockchain-info-components'
 import { FooterShadowWrapper } from 'components/Form'
 import {
+  BackButton,
   IdentityVerificationForm,
   ColLeft,
   ColRight,
@@ -81,12 +82,12 @@ const Verify = ({ handleSubmit, onBack }) => (
       }
       footer={
         <Footer>
-          <Button nature='transferred' onClick={onBack}>
+          <BackButton onClick={onBack}>
             <FormattedMessage
               id='identityverification.personal.back'
               defaultMessage='Back'
             />
-          </Button>
+          </BackButton>
           <Button nature='primary' onClick={handleSubmit}>
             <FormattedMessage
               id='identityverification.personal.continue'

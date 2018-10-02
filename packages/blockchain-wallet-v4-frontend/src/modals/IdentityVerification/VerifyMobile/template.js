@@ -16,6 +16,7 @@ import {
   TextBox
 } from 'components/Form'
 import {
+  BackButton,
   IdentityVerificationForm,
   InputWrapper,
   IdentityVerificationHeader,
@@ -226,12 +227,12 @@ const VerifyMobile = ({
       }
       footer={
         <Footer>
-          <Button nature='transferred' onClick={onBack} disabled={submitting}>
+          <BackButton onClick={onBack} disabled={submitting}>
             <FormattedMessage
               id='identityverification.personal.back'
               defaultMessage='Back'
             />
-          </Button>
+          </BackButton>
           <Button
             nature='primary'
             type='submit'

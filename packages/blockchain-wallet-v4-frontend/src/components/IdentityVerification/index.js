@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import media from 'services/ResponsiveService'
-import { Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import { FaqMessage, FormGroup } from 'components/Form'
 
 export const Form = styled.form`
@@ -180,4 +180,10 @@ export const Label = styled(Text)`
   font-size: 14px;
   font-weight: 300;
   margin-bottom: 12px;
+`
+
+export const BackButton = styled(Button)`
+  color: ${props => props.theme['white']};
+  background-color: ${props => props.theme['gray-2']};
+  border-color: ${props => props.theme['gray-2']};
 `
