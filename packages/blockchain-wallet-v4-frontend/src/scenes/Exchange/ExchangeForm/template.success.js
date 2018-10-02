@@ -13,7 +13,6 @@ import {
   HeartbeatLoader,
   Icon,
   TooltipHost,
-  ButtonGroup,
   Text
 } from 'blockchain-info-components'
 import { Form, TextBox } from 'components/Form'
@@ -99,16 +98,13 @@ const Cell = styled.div`
   width: ${props => (props.size === 'small' ? '10%' : '45%')};
   height: 100%;
 `
-const MinMaxButtonGroup = styled(ButtonGroup)`
-  width: 100%;
-  margin: 0;
+const MinMaxButton = styled(Button)`
+  width: 48%;
+  font-size: 10px;
+  justify-content: space-between;
   > * {
     color: ${props => props.theme['brand-primary']};
   }
-`
-const MinMaxButton = styled(Button)`
-  font-size: 10px;
-  justify-content: space-between;
 `
 const MinMaxValue = styled.div`
   font-weight: 600;
@@ -366,32 +362,30 @@ const Success = props => {
             </AmountRow>
             <ErrorRow>{getErrorMessage(error)}</ErrorRow>
             <Row>
-              <MinMaxButtonGroup>
-                <MinMaxButton
-                  fullwidth
-                  disabled={minMaxDisabled}
-                  onClick={useMin}
-                >
-                  <FormattedMessage
-                    id='scenes.exchange.exchangeform.min'
-                    defaultMessage='MIN'
-                  />
-                  &nbsp;
-                  <MinMaxValue>{!minMaxDisabled && min}</MinMaxValue>
-                </MinMaxButton>
-                <MinMaxButton
-                  fullwidth
-                  disabled={minMaxDisabled}
-                  onClick={useMax}
-                >
-                  <FormattedMessage
-                    id='scenes.exchange.exchangeform.max'
-                    defaultMessage='MAX'
-                  />
-                  &nbsp;
-                  <MinMaxValue>{!minMaxDisabled && max}</MinMaxValue>
-                </MinMaxButton>
-              </MinMaxButtonGroup>
+              <MinMaxButton
+                fullwidth
+                disabled={minMaxDisabled}
+                onClick={useMin}
+              >
+                <FormattedMessage
+                  id='scenes.exchange.exchangeform.min'
+                  defaultMessage='MIN'
+                />
+                &nbsp;
+                <MinMaxValue>{!minMaxDisabled && min}</MinMaxValue>
+              </MinMaxButton>
+              <MinMaxButton
+                fullwidth
+                disabled={minMaxDisabled}
+                onClick={useMax}
+              >
+                <FormattedMessage
+                  id='scenes.exchange.exchangeform.max'
+                  defaultMessage='MAX'
+                />
+                &nbsp;
+                <MinMaxValue>{!minMaxDisabled && max}</MinMaxValue>
+              </MinMaxButton>
             </Row>
           </FieldsWrapper>
           <ButtonRow>
