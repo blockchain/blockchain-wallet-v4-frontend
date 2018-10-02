@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { contains, isNil, gte } from 'ramda'
 
@@ -185,15 +185,10 @@ const normalizeAmount = (value, prevValue, allValues, ...args) => {
   return formatTextAmount(value, fiatActive(allValues.fix))
 }
 
-const formatAmount = (intl, fiatActive, symbol, value) => {
-  if (fiatActive) return `${symbol}${intl.formatNumber(value)}`
-  return `${intl.formatNumber(value, {
-    maximumFractionDigits: 8
-  })}${symbol}`
-}
+const parseInputAmount = (symbol, value) => value.replace(symbol, '')
 
-const parseAmount = (symbol, value) =>
-  value.replace(symbol, '').replace(/,/g, '')
+const formatAmount = (isFiat, symbol, value) =>
+  isFiat ? `${symbol}${value}` : `${value} ${symbol}`
 
 const Success = props => {
   const {
@@ -226,8 +221,7 @@ const Success = props => {
     swapBaseAndCounter,
     swapCoinAndFiat,
     useMin,
-    useMax,
-    intl
+    useMax
   } = props
   const swapDisabled = !contains(
     formatPair(targetCoin, sourceCoin),
@@ -322,8 +316,8 @@ const Success = props => {
               <Field
                 name={inputField}
                 autoComplete='off'
-                format={formatAmount.bind(null, intl, fiatActive, inputSymbol)}
-                parse={parseAmount.bind(null, inputSymbol)}
+                format={formatAmount.bind(null, fiatActive, inputSymbol)}
+                parse={parseInputAmount.bind(null, inputSymbol)}
                 onChange={handleAmountChange}
                 normalize={normalizeAmount}
                 component={AmountTextBox}
@@ -341,11 +335,8 @@ const Success = props => {
               />
               <ComplementaryAmountContaier>
                 <StringDisplay>
-                  {complementaryAmount.map(
-                    amount =>
-                      fiatActive
-                        ? `${amount} ${complementarySymbol}`
-                        : `${complementarySymbol}${amount}`
+                  {complementaryAmount.map(amount =>
+                    formatAmount(!fiatActive, complementarySymbol, amount)
                   )}
                 </StringDisplay>
               </ComplementaryAmountContaier>
@@ -372,7 +363,10 @@ const Success = props => {
                   defaultMessage='MIN'
                 />
                 &nbsp;
-                <MinMaxValue>{!minMaxDisabled && min}</MinMaxValue>
+                <MinMaxValue>
+                  {!minMaxDisabled &&
+                    formatAmount(fiatActive, inputSymbol, min)}
+                </MinMaxValue>
               </MinMaxButton>
               <MinMaxButton
                 fullwidth
@@ -384,7 +378,10 @@ const Success = props => {
                   defaultMessage='MAX'
                 />
                 &nbsp;
-                <MinMaxValue>{!minMaxDisabled && max}</MinMaxValue>
+                <MinMaxValue>
+                  {!minMaxDisabled &&
+                    formatAmount(fiatActive, inputSymbol, max)}
+                </MinMaxValue>
               </MinMaxButton>
             </Row>
           </FieldsWrapper>
@@ -428,4 +425,4 @@ export default reduxForm({
   form: EXCHANGE_FORM,
   destroyOnUnmount: false,
   enableReinitialize: true
-})(injectIntl(Success))
+})(Success)
