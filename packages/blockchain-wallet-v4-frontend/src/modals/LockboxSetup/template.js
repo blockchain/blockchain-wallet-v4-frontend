@@ -8,7 +8,7 @@ const LockboxSetup = props => {
   const { children, position, total, totalSteps, step } = props
 
   return (
-    <Modal size='large' position={position} total={total}>
+    <Modal size='auto' position={position} total={total}>
       {step !== 0 &&
         step !== 5 && (
           <ModalStepper currentStep={step} totalSteps={totalSteps} />

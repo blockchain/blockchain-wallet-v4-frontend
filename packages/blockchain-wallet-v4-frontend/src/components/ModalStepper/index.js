@@ -1,83 +1,74 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
 
 const StepHeader = styled.div`
-  background-color: ${props => props.theme['brand-secondary']};
-  border-radius: 4px 4px 0 0;
-  height: 70px;
-  display: flex;
-  flex-direction: row;
+  background-color: ${props => props.theme['white']};
   justify-content: space-evenly;
+  border-radius: 4px 4px 0 0;
+  flex-direction: row;
   align-items: center;
-  padding: 0 5px 10px 5px;
+  display: flex;
+  padding: 20px;
 `
 const Step = styled.div`
-  width: 100%;
-  display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  display: flex;
 `
-const LineWrapper = styled.div`
-  position: relative;
-  width: 100%;
-  margin-top: 16px;
-`
-
-// TODO: this brittle CSS only supports totalSteps of 4 or 5
 const Line = styled.div`
-  &.animate {
-    width: 1px;
-    border-top: 2px solid rgba(255, 255, 255, 1);
-    @keyframes increase {
-      100% {
-        width: ${props => (props.totalSteps === 5 ? '117px' : '155px')};
-      }
-    }
-    -webkit-animation: increase 1s;
-    -moz-animation: increase 1s;
-    -o-animation: increase 1s;
-    animation: increase 1s;
-    animation-fill-mode: forwards;
+  width: 100%;
+  position: relative;
+  border-top: 4px solid ${props => props.theme['gray-1']};
+  &:before {
+    content: '';
+    left: 0;
+    width: 0%;
+    height: 4px;
+    bottom: 0px;
+    position: absolute;
+    background: ${props => props.theme['brand-secondary']};
+    transition: width 0.5s 0.3s;
   }
-
-  width: ${props => (props.totalSteps === 5 ? '117px' : '155px')};
-  z-index: 0;
-  border-top: 2px solid rgba(255, 255, 255, 0.3);
-  border-top: 2px solid
-    ${props =>
-      props.currentStep > props.i && props.i !== props.currentStep
-        ? 'rgba(255, 255, 255, 1)'
-        : 'rgba(255, 255, 255, 0.3)'};
-  position: absolute;
-  top: 6px;
-  left: ${props => (props.totalSteps === 5 ? '-26px' : '-35px')};
+  &.complete {
+    &:before {
+      width: 100%;
+    }
+  }
 `
 const Circle = styled.div`
-  width: 14px;
-  height: 14px;
-  line-height: 14px;
-  border-radius: 15px;
-  background-color: ${props =>
-    props.currentStep > props.i || props.i === 1
-      ? 'rgba(255, 255, 255, 1)'
-      : 'rgba(255, 255, 255, 0.3)'};
-  margin-top: 15px;
+  width: 22px;
+  height: 22px;
   z-index: 10;
-
-  &.animate {
-    transition-property: background-color;
-    background-color: rgba(255, 255, 255, 1);
-    transition-delay: 1.1s;
+  display: flex;
+  border-radius: 15px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  overflow: hidden;
+  border: 2px solid ${props => props.theme['gray-1']};
+  transition: border 0.3s, background-color 0.2s;
+  &.active,
+  &.complete {
+    border: 2px solid ${props => props.theme['brand-secondary']};
   }
-
-  & > span:first-child {
-    padding-left: 8px;
+  &.complete {
+    background-color: ${props => props.theme['brand-secondary']};
   }
+`
+const CircleContent = styled.div`
+  top: 10px;
+  position: relative;
+  transition: top 0.5s;
+  &.complete {
+    top: -12px;
+  }
+`
+const CheckIcon = styled(Icon)`
+  margin-top: 10px;
 `
 
 class ModalStepper extends React.PureComponent {
@@ -89,36 +80,35 @@ class ModalStepper extends React.PureComponent {
       <StepHeader>
         {[...Array(totalSteps)].map((r, i) => {
           i += 1
+          const active = currentStep === i ? 'active' : null
+          const complete = currentStep > i ? 'complete' : null
           return (
             <React.Fragment key={i}>
               <Step>
-                <Text size='12px' weight={400} color='white'>
-                  <FormattedMessage
-                    id='components.modalstepper.step'
-                    defaultMessage='Step {number}'
-                    values={{ number: i }}
-                  />
-                </Text>
-                <Circle
-                  currentStep={currentStep}
-                  i={i}
-                  className={currentStep === i ? 'animate' : ''}
-                />
+                <Circle className={active + ' ' + complete}>
+                  <CircleContent className={active + ' ' + complete}>
+                    <Text
+                      size='13px'
+                      color={
+                        active
+                          ? 'brand-secondary'
+                          : complete
+                            ? 'white'
+                            : 'gray-1'
+                      }
+                    >
+                      {i}
+                    </Text>
+                    <CheckIcon
+                      name='checkmark'
+                      size='10px'
+                      weight='600'
+                      color='white'
+                    />
+                  </CircleContent>
+                </Circle>
               </Step>
-              {i !== totalSteps && (
-                <LineWrapper>
-                  <Line
-                    currentStep={currentStep}
-                    i={i}
-                    totalSteps={totalSteps}
-                    className={
-                      currentStep !== 1 && i === currentStep - 1
-                        ? 'animate'
-                        : ''
-                    }
-                  />
-                </LineWrapper>
-              )}
+              {i !== totalSteps && <Line className={complete} />}
             </React.Fragment>
           )
         })}

@@ -246,7 +246,7 @@ module.exports = {
       'Access-Control-Allow-Origin': '*',
       'Content-Security-Policy': [
         "img-src 'self' data: blob:",
-        "script-src 'self'",
+        "script-src 'self' 'unsafe-eval'",
         "style-src 'self' 'unsafe-inline'",
         `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${
           envConfig.ROOT_URL
