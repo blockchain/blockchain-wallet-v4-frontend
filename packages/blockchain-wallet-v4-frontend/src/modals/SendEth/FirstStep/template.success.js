@@ -79,6 +79,7 @@ const FirstStep = props => {
     balanceStatus
   } = props
   const disableLockboxSend =
+    from &&
     from.type === 'LOCKBOX' &&
     !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
 

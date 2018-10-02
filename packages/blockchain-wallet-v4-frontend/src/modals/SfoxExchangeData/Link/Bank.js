@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Text } from 'blockchain-info-components'
 import PropTypes from 'prop-types'
+import { prop } from 'ramda'
 
 const BankInfo = styled.div`
   display: flex;
@@ -18,10 +19,6 @@ const BankInfo = styled.div`
     background-color: #004a7c;
   }
   margin: 0px;
-`
-const BankName = styled(Text)`
-  text-transform: capitalize;
-  cursor: pointer;
 `
 const BankLabel = styled.label`
   display: flex;
@@ -48,20 +45,19 @@ const BankMeta = styled.div`
 `
 
 const Bank = ({ bank, onInputClick }) => (
-  <BankInfo key={bank._id}>
+  <BankInfo key={prop('account_id', bank)}>
     <input
       type='radio'
       name='bank-filled'
       value={bank}
-      id={bank._id}
-      onClick={() => onInputClick(bank._id)}
+      id={prop('account_id', bank)}
+      onClick={() => onInputClick(prop('account_id', bank))}
     />
-    <BankLabel htmlFor={bank._id}>
+    <BankLabel htmlFor={prop('account_id', bank)}>
       <BankMeta>
         <Text size='16px'>
-          {bank.meta.name} ending in {bank.meta.number}
+          {prop('name', bank)} ending in {prop('mask', bank)}
         </Text>
-        <BankName size='14px'>{bank.institution_type} Bank</BankName>
       </BankMeta>
     </BankLabel>
   </BankInfo>
@@ -69,12 +65,9 @@ const Bank = ({ bank, onInputClick }) => (
 
 Bank.propTypes = {
   bank: PropTypes.shape({
-    institution_type: PropTypes.string,
-    _id: PropTypes.number,
-    meta: PropTypes.shape({
-      name: PropTypes.string,
-      number: PropTypes.number
-    })
+    account_id: PropTypes.number,
+    name: PropTypes.string,
+    mask: PropTypes.number
   })
 }
 

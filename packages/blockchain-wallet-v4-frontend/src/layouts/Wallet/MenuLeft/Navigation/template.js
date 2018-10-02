@@ -24,7 +24,8 @@ const HelperTipContainer = styled.div`
 `
 
 const Navigation = props => {
-  const { logClick, lockboxOpened, lockboxDevices, ...rest } = props.data
+  const { logClick, ...rest } = props
+  const { lockboxOpened, lockboxDevices, lockboxEnabled } = rest
 
   return (
     <Wrapper {...rest} onClick={logClick}>
@@ -42,7 +43,7 @@ const Navigation = props => {
         <MenuItem data-e2e='buyAndSellLink'>
           <Icon name='nav-buy' />
           <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.buybitcoin'
+            id='layouts.wallet.menuleft.navigation.buysell'
             defaultMessage='Buy & Sell'
           />
         </MenuItem>
@@ -93,51 +94,55 @@ const Navigation = props => {
           />
         </MenuItem>
       </LinkContainer>
-      <MenuItem>
-        <Separator>
-          <Text size='14px' weight={400} uppercase>
-            <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.storage'
-              defaultMessage='Storage'
-            />
-          </Text>
-        </Separator>
-      </MenuItem>
-      <LinkContainer to='/lockbox' activeClassName='active'>
-        <MenuItem data-e2e='lockboxLink'>
-          <Icon name='lock' />
-          <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.lockbox'
-            defaultMessage='Lockbox'
-          />
-          <HelperTipContainer>
-            <TooltipHost id='lockboxRequired'>
-              <TooltipIcon name='info' />
-            </TooltipHost>
-          </HelperTipContainer>
-        </MenuItem>
-      </LinkContainer>
-      {lockboxOpened && (
-        <SubMenu>
-          {lockboxDevices.map((device, index) => {
-            const deviceName = device.device_name
-            return (
-              <LinkContainer
-                activeClassName='active'
-                to={`/lockbox/dashboard/${index}`}
-                isActive={() => rest.pathname.includes(index)}
-              >
-                <SubMenuItem>
-                  <FormattedMessage
-                    id='layouts.wallet.menuleft.navigation.lockbox.device'
-                    defaultMessage='{deviceName}'
-                    values={{ deviceName }}
-                  />
-                </SubMenuItem>
-              </LinkContainer>
-            )
-          })}
-        </SubMenu>
+      {lockboxEnabled && (
+        <React.Fragment>
+          <MenuItem>
+            <Separator>
+              <Text size='14px' weight={400} uppercase>
+                <FormattedMessage
+                  id='layouts.wallet.menuleft.navigation.storage'
+                  defaultMessage='Storage'
+                />
+              </Text>
+            </Separator>
+          </MenuItem>
+          <LinkContainer to='/lockbox' activeClassName='active'>
+            <MenuItem data-e2e='lockboxLink'>
+              <Icon name='lock' />
+              <FormattedMessage
+                id='layouts.wallet.menuleft.navigation.lockbox'
+                defaultMessage='Lockbox'
+              />
+              <HelperTipContainer>
+                <TooltipHost id='lockboxRequired'>
+                  <TooltipIcon name='info' />
+                </TooltipHost>
+              </HelperTipContainer>
+            </MenuItem>
+          </LinkContainer>
+          {lockboxOpened && (
+            <SubMenu>
+              {lockboxDevices.map((device, index) => {
+                const deviceName = device.device_name
+                return (
+                  <LinkContainer
+                    activeClassName='active'
+                    to={`/lockbox/dashboard/${index}`}
+                    isActive={() => rest.pathname.includes(index)}
+                  >
+                    <SubMenuItem>
+                      <FormattedMessage
+                        id='layouts.wallet.menuleft.navigation.lockbox.device'
+                        defaultMessage='{deviceName}'
+                        values={{ deviceName }}
+                      />
+                    </SubMenuItem>
+                  </LinkContainer>
+                )
+              })}
+            </SubMenu>
+          )}
+        </React.Fragment>
       )}
     </Wrapper>
   )

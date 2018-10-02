@@ -5,20 +5,21 @@ import styled from 'styled-components'
 import Footer from './Footer'
 import Navigation from './Navigation'
 
-const Wrapper = styled.div`
-  position: absolute;
+export const Container = styled.div`
   display: flex;
+  position: absolute;
   flex-direction: column;
   justify-content: space-between;
   left: ${props => (props.toggled ? '0' : '-270px')};
   width: 270px;
   height: 100%;
   padding: 15px;
+  overflow: scroll;
   box-sizing: border-box;
   background: ${props => props.theme['white-blue']};
   border-right: 1px solid ${props => props.theme['gray-1']};
-  z-index: 11;
   transition: left 0.3s ease-in-out;
+  z-index: 11;
 
   @media (min-width: 768px) {
     display: flex;
@@ -39,12 +40,22 @@ const ActiveIndicator = styled.div`
   background: ${props => props.theme['marketing-primary']};
 `
 
+const Overflow = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 530px;
+  height: 100%;
+`
+
 const MenuLeft = props => (
-  <Wrapper toggled={props.toggled}>
-    <ActiveIndicator offsetTop={props.offsetTop} />
-    <Navigation />
-    <Footer />
-  </Wrapper>
+  <Container toggled={props.menuOpened}>
+    <Overflow>
+      <ActiveIndicator offsetTop={props.offsetTop} />
+      <Navigation {...props} />
+      <Footer />
+    </Overflow>
+  </Container>
 )
 
 MenuLeft.propTypes = {

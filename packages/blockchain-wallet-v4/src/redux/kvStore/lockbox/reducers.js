@@ -3,11 +3,12 @@ import Remote from '../../../remote'
 import { mapped, over, set } from 'ramda-lens'
 import {
   append,
+  assoc,
+  assocPath,
   compose,
   lensProp,
   lensPath,
   remove,
-  assoc,
   lensIndex
 } from 'ramda'
 import { KVStoreEntry } from '../../../types'
@@ -61,6 +62,28 @@ export default (state = INITIAL_STATE, action) => {
       )
 
       return over(valueLens, setDeviceName, state)
+    }
+    case AT.SET_LATEST_TX_ETH: {
+      const { deviceIndex, txHash } = payload
+      let valueLens = compose(
+        mapped,
+        KVStoreEntry.value,
+        lensProp('devices'),
+        lensIndex(parseInt(deviceIndex))
+      )
+      let setTx = assocPath(['eth', 'last_tx'], txHash)
+      return over(valueLens, setTx, state)
+    }
+    case AT.SET_LATEST_TX_TIMESTAMP_ETH: {
+      const { deviceIndex, timestamp } = payload
+      let valueLens = compose(
+        mapped,
+        KVStoreEntry.value,
+        lensProp('devices'),
+        lensIndex(parseInt(deviceIndex))
+      )
+      let setTxTimestamp = assocPath(['eth', 'last_tx_timestamp'], timestamp)
+      return over(valueLens, setTxTimestamp, state)
     }
     // TODO: update balance display
     // case AT.UPDATE_DEVICE_BALANCE_DISPLAY: {

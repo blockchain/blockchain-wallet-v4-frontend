@@ -153,6 +153,7 @@ const Login = props => {
               component={TextBox}
               borderColor={guidError ? 'invalid' : undefined}
               disabled={!isSupportedBrowser}
+              data-e2e='loginGuid'
             />
           </FormItem>
           {guidError && (
@@ -213,6 +214,7 @@ const Login = props => {
               component={PasswordBox}
               borderColor={passwordError ? 'invalid' : undefined}
               disabled={!isSupportedBrowser}
+              data-e2e='loginPassword'
             />
             {passwordError && (
               <FormError
@@ -264,6 +266,7 @@ const Login = props => {
                 validate={[required]}
                 component={authType === 1 ? PasswordBox : TextBox}
                 borderColor={twoFactorError ? 'invalid' : undefined}
+                data-e2e='loginTwoFactorCode'
               />
               {authType === 5 && (
                 <ResendSmsLink
@@ -304,7 +307,12 @@ const Login = props => {
       </LoginForm>
       {isSupportedBrowser && (
         <Footer>
-          <Link size='13px' weight={300} onClick={handleMobile}>
+          <Link
+            size='13px'
+            weight={300}
+            onClick={handleMobile}
+            data-e2e='loginViaMobileLink'
+          >
             <FormattedMessage
               id='scenes.login.loginmobile'
               defaultMessage='Login via Mobile'
@@ -318,7 +326,7 @@ const Login = props => {
               />
             </Text>
             <LinkContainer to='/help'>
-              <Link size='13px' weight={300}>
+              <Link size='13px' weight={300} data-e2e='loginGetHelp'>
                 <FormattedMessage
                   id='scenes.login.options'
                   defaultMessage='Get help logging in'

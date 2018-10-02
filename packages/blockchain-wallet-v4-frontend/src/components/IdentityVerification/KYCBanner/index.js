@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl'
 import { values } from 'ramda'
 import { connect } from 'react-redux'
 
-import { MODAL_NAME as KYC_MODAL } from 'data/components/identityVerification/model'
 import { KYC_STATES, USER_ACTIVATION_STATES } from 'data/modules/profile/model'
 import { getData } from './selectors'
 import { actions } from 'data'
@@ -238,7 +237,8 @@ KYCBanner.defaultProps = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  verifyIdentity: () => dispatch(actions.modals.showModal(KYC_MODAL))
+  verifyIdentity: () =>
+    dispatch(actions.components.identityVerification.verifyIdentity())
 })
 
 export default connect(

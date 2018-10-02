@@ -13,7 +13,8 @@ export default {
     das: 2,
     club: 3,
     shitcoins: 4,
-    ee: 5
+    ee: 5,
+    bc: 6
   },
   scrambleKeys: {
     blockchain: {

@@ -69,6 +69,7 @@ const CheckBoxInput = props => {
         id={name}
         checked={checked}
         disabled={disabled}
+        data-e2e={props['data-e2e']}
         {...rest}
       />
       <Label htmlFor={name} data-e2e={name === 'terms' && 'termsLabel'}>
