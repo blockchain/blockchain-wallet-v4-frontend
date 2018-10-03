@@ -223,7 +223,17 @@ export default ({ coreSagas }) => {
         )
       }
       yield put(actions.core.data.bch.fetchData())
-      yield put(actions.router.push('/bch/transactions'))
+      if (payment.value().fromType === ADDRESS_TYPES.LOCKBOX) {
+        const fromXPubs = path(['from'], payment.value())
+        const device = (yield select(
+          selectors.core.kvStore.lockbox.getDeviceFromBchXpubs,
+          fromXPubs
+        )).getOrFail('missing_device')
+        const deviceIndex = prop('device_index', device)
+        yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
+      } else {
+        yield put(actions.router.push('/bch/transactions'))
+      }
       yield put(actions.alerts.displaySuccess(C.SEND_BCH_SUCCESS))
     } catch (e) {
       yield put(

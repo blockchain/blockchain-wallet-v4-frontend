@@ -1,5 +1,3 @@
-import PhoneNumber from 'awesome-phonenumber'
-import { lift } from 'ramda'
 import { selectors, model } from 'data'
 
 const { SMS_NUMBER_FORM } = model.components.identityVerification
@@ -14,11 +12,5 @@ export const getData = state => ({
   activeField: activeFieldSelector(state)
 })
 
-const determineCountryCode = (currentNumber, defaultCode) =>
-  currentNumber ? PhoneNumber(currentNumber).getRegionCode() : defaultCode
-
 const getCountryCode = state =>
-  lift(determineCountryCode)(
-    selectors.core.settings.getSmsNumber(state),
-    selectors.core.settings.getCountryCode(state)
-  )
+  selectors.modules.profile.getUserCountryCode(state)

@@ -31,7 +31,7 @@ export const getData = createDeepEqualSelector(
     const networkType = networkTypeR.getOrElse('bitcoin')
     const enableToggle =
       btcAccountsLength + btcAddressesLength > 1 ||
-      !isEmpty(lockboxDevicesR.getOrElse({}))
+      !isEmpty(lockboxDevicesR.getOrElse([]))
     const feePerByte = prop('feePerByte', formValues)
     const destination = prop('to', formValues)
     const from = prop('from', formValues)

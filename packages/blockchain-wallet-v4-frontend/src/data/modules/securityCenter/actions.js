@@ -20,6 +20,11 @@ export const sendConfirmationCodeEmail = email => ({
   payload: { email }
 })
 
+export const resendVerifyEmail = email => ({
+  type: AT.RESEND_VERIFY_EMAIL,
+  payload: { email }
+})
+
 export const getGoogleAuthenticatorSecretUrl = () => ({
   type: AT.GET_GOOGLE_AUTHENTICATOR_SECRET_URL
 })

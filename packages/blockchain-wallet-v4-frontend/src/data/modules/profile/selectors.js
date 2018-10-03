@@ -30,6 +30,10 @@ export const isUserVerified = compose(
   equals(KYC_STATES.VERIFIED),
   getUserKYCState
 )
+export const getUserCountryCode = compose(
+  path(['address', 'country']),
+  getUserData
+)
 
 export const isCountrySupported = countryCode =>
   contains(countryCode, eeaCountryCodes)

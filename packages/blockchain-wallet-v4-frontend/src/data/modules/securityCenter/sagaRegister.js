@@ -14,6 +14,10 @@ export default ({ coreSagas }) => {
     )
     yield takeLatest(AT.VERIFY_EMAIL_CODE, securityCenterSagas.verifyEmailCode)
     yield takeLatest(
+      AT.RESEND_VERIFY_EMAIL,
+      securityCenterSagas.resendVerifyEmail
+    )
+    yield takeLatest(
       AT.GET_GOOGLE_AUTHENTICATOR_SECRET_URL,
       securityCenterSagas.getGoogleAuthenticatorSecretUrl
     )

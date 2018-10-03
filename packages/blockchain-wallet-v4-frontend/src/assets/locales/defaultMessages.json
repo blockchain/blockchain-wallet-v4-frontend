@@ -876,19 +876,7 @@
     "descriptors": [
       {
         "defaultMessage": "Month",
-        "id": "components.DateInputBox.label.month"
-      },
-      {
-        "defaultMessage": "Month",
         "id": "components.DateInputBox.placeholder.month"
-      },
-      {
-        "defaultMessage": "Date",
-        "id": "components.DateInputBox.label.date"
-      },
-      {
-        "defaultMessage": "Year",
-        "id": "components.DateInputBox.label.year"
       }
     ],
     "path": "src/components/Form/DateInputBox/index.json"
@@ -1099,6 +1087,15 @@
       }
     ],
     "path": "src/components/IdentityVerification/KYCBanner/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Step {number}",
+        "id": "components.modalstepper.step"
+      }
+    ],
+    "path": "src/components/ModalStepper/index.json"
   },
   {
     "descriptors": [
@@ -3206,8 +3203,8 @@
         "id": "modals.exchangedetails.close"
       },
       {
-        "defaultMessage": "Order {id}",
-        "id": "modals.exchangeresults.orderid"
+        "defaultMessage": "Order",
+        "id": "modals.exchangeresults.order"
       },
       {
         "defaultMessage": "Total Value",
@@ -3276,8 +3273,16 @@
         "id": "identityverification.personal.faq.name.text"
       },
       {
-        "defaultMessage": "Date of Birth",
-        "id": "identityverification.personal.dateofbirth"
+        "defaultMessage": "Date of Birth - Month",
+        "id": "identityverification.personal.dateofbirthmonth"
+      },
+      {
+        "defaultMessage": "Date",
+        "id": "identityverification.personal.date"
+      },
+      {
+        "defaultMessage": "Year",
+        "id": "identityverification.personal.year"
       },
       {
         "defaultMessage": "Age requirement",
@@ -6632,6 +6637,10 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Lockbox device is missing",
+        "id": "scenes.exchange.confirm.missingdevice"
+      },
+      {
         "defaultMessage": "Failed to execute a trade",
         "id": "scenes.exchange.confirm.tradefailed"
       },
@@ -6712,7 +6721,7 @@
         "id": "scenes.exchange.exchangeform.summary.title"
       },
       {
-        "defaultMessage": "Deposit {coin}",
+        "defaultMessage": "Exchange {coin}",
         "id": "scenes.exchange.exchangeform.summary.deposit"
       },
       {
