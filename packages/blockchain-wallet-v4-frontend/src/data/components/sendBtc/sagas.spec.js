@@ -333,18 +333,14 @@ describe('sendBtc sagas', () => {
       expect(paymentMock.publish).toHaveBeenCalledTimes(1)
     })
 
-    it('should put action to close all modals', () => {
-      saga.next(paymentMock).put(actions.modals.closeAllModals())
+    it('should put btc fetch data action', () => {
+      saga.next(paymentMock).put(actions.core.data.bitcoin.fetchData())
     })
 
     it('should put btc payment updated success action', () => {
       saga
         .next(paymentMock)
         .put(A.sendBtcPaymentUpdatedSuccess(paymentMock.value()))
-    })
-
-    it('should put btc fetch data action', () => {
-      saga.next(paymentMock).put(actions.core.data.bitcoin.fetchData())
     })
 
     it('should set transaction note if transaction has description', () => {
@@ -360,6 +356,12 @@ describe('sendBtc sagas', () => {
         .next()
         .put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
         .save(beforeError)
+    })
+
+    it('should put action to close all modals', () => {
+      saga
+        .next()
+        .put(actions.modals.closeAllModals())
         .next()
         .isDone()
     })
@@ -383,8 +385,6 @@ describe('sendBtc sagas', () => {
         saga
           .next()
           .put(actions.alerts.displayError(C.SEND_BTC_ERROR))
-          .next()
-          .put(actions.modals.closeAllModals())
           .next()
           .isDone()
       })

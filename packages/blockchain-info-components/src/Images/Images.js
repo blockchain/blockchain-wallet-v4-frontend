@@ -46,6 +46,15 @@ import restoreLockboxIcon from './img/restore-lockbox-icon.svg'
 import rocket from './img/rocket.gif'
 import search from './img/search.svg'
 import selectArrow from './img/select-arrow.png'
+import sendConnect from './img/lockbox/send-connect.png'
+import sendConnect2 from './img/lockbox/send-connect@2x.png'
+import sendConnect3 from './img/lockbox/send-connect@3x.png'
+import sendReview from './img/lockbox/send-review.png'
+import sendReview2 from './img/lockbox/send-review@2x.png'
+import sendReview3 from './img/lockbox/send-review@3x.png'
+import sendConfirmed from './img/lockbox/send-confirmed.png'
+import sendConfirmed2 from './img/lockbox/send-confirmed@2x.png'
+import sendConfirmed3 from './img/lockbox/send-confirmed@3x.png'
 import shapeshiftLogo from './img/shapeshift-logo.png'
 import smartphone from './img/smartphone.png'
 import sfoxLogo from './img/sfox-logo.png'
@@ -100,6 +109,15 @@ export default {
   'lockbox-onboard-verify': onboardVerify,
   'lockbox-onboard-verify2': onboardVerify2,
   'lockbox-onboard-verify3': onboardVerify3,
+  'lockbox-send-connect': sendConnect,
+  'lockbox-send-connect2': sendConnect2,
+  'lockbox-send-connect3': sendConnect3,
+  'lockbox-send-confirmed': sendConfirmed,
+  'lockbox-send-confirmed2': sendConfirmed2,
+  'lockbox-send-confirmed3': sendConfirmed3,
+  'lockbox-send-review': sendReview,
+  'lockbox-send-review2': sendReview2,
+  'lockbox-send-review3': sendReview3,
   'micro-deposits-whole': microDepositsWhole,
   printer: printer,
   'restore-lockbox-icon': restoreLockboxIcon,

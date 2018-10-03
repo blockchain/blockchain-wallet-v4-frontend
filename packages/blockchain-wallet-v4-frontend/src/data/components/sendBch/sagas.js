@@ -1,5 +1,6 @@
 import { call, select, put } from 'redux-saga/effects'
 import { equals, path, prop, nth, is, identity } from 'ramda'
+import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
@@ -188,15 +189,16 @@ export default ({ coreSagas }) => {
   }
 
   const secondStepSubmitClicked = function*() {
+    let p = yield select(S.getPayment)
+    let payment = coreSagas.payment.bch.create({
+      payment: p.getOrElse({}),
+      network: settings.NETWORK_BCH
+    })
+    const fromType = path(['fromType'], payment.value())
     try {
-      let p = yield select(S.getPayment)
-      let payment = coreSagas.payment.bch.create({
-        payment: p.getOrElse({}),
-        network: settings.NETWORK_BCH
-      })
-      let password = null
-      if (p.getOrElse({}).fromType !== ADDRESS_TYPES.LOCKBOX) {
-        password = yield call(promptForSecondPassword)
+      // Sign payment
+      if (fromType !== ADDRESS_TYPES.LOCKBOX) {
+        let password = yield call(promptForSecondPassword)
         payment = yield payment.sign(password)
       } else {
         const deviceR = yield select(
@@ -211,9 +213,11 @@ export default ({ coreSagas }) => {
         let transport = prop('transport', connection)
         payment = yield payment.sign(null, transport)
       }
+      // Publish payment
       payment = yield payment.publish()
-      yield put(actions.modals.closeAllModals())
+      yield put(actions.core.data.bch.fetchData())
       yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
+      // Set tx note
       if (path(['description', 'length'], payment.value())) {
         yield put(
           actions.core.kvStore.bch.setTxNotesBch(
@@ -222,8 +226,10 @@ export default ({ coreSagas }) => {
           )
         )
       }
-      yield put(actions.core.data.bch.fetchData())
-      if (payment.value().fromType === ADDRESS_TYPES.LOCKBOX) {
+      // Redirect to tx list, display success
+      if (fromType === ADDRESS_TYPES.LOCKBOX) {
+        yield put(actions.components.lockbox.setConnectionSuccess())
+        yield delay(1500)
         const fromXPubs = path(['from'], payment.value())
         const device = (yield select(
           selectors.core.kvStore.lockbox.getDeviceFromBchXpubs,
@@ -233,13 +239,24 @@ export default ({ coreSagas }) => {
         yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
       } else {
         yield put(actions.router.push('/bch/transactions'))
+        yield put(actions.alerts.displaySuccess(C.SEND_BCH_SUCCESS))
       }
-      yield put(actions.alerts.displaySuccess(C.SEND_BCH_SUCCESS))
+      // Close modals
+      yield put(actions.modals.closeAllModals())
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e)
-      )
-      yield put(actions.alerts.displayError(C.SEND_BCH_ERROR))
+      // Set errors
+      if (fromType === ADDRESS_TYPES.LOCKBOX) {
+        yield put(actions.components.lockbox.setConnectionError(e))
+      } else {
+        yield put(
+          actions.logs.logErrorMessage(
+            logLocation,
+            'secondStepSubmitClicked',
+            e
+          )
+        )
+        yield put(actions.alerts.displayError(C.SEND_BCH_ERROR))
+      }
     }
   }
 
