@@ -276,12 +276,9 @@ export default ({ api }) => {
       // wait for BTC connection
       yield put(A.pollForDeviceApp('BTC', null, deviceType))
       yield take(AT.SET_CONNECTION_INFO)
-      const connection = yield select(S.getCurrentConnection)
-      // create BTC transport
+      const { transport } = yield select(S.getCurrentConnection)
       const btcConnection = LockboxService.connections.createBtcBchConnection(
-        connection.app,
-        connection.deviceType,
-        connection.transport
+        transport
       )
       // derive device info (chaincodes and xpubs)
       const newDeviceInfo = yield call(

@@ -12,6 +12,8 @@ jest.mock('../../../signer')
 jest.mock('../../../coinSelection')
 jest.mock('../../../coinSelection/coin')
 
+const EFFECTIVE_BALANCE_AMOUNT = 100000
+
 const feeResult = {
   limits: {
     min: 2,
@@ -28,21 +30,25 @@ const network = {
   bip32: {}
 }
 
-const FEE_VALUE = 50
-const EFFECTIVE_BALANCE_AMOUNT = 100000
 const AMOUNT = 157228
+
 const ADDRESS_TYPES_INDEX = 0
+
 const PASSWORD_VALUE = 'password'
+
 const TRANSPORT_VALUE = undefined
-const SCRAMBLEKEY_VALUE = 'K3Y'
+
 const CHANGE_ADDRESS = '1BzILT4NbxZp4TeeNM2TjdCUvHKW2ZHxFx'
 const TO_ADDRESS = '1LiASK9MawXo9SppMn3RhfWUvHKW2ZHxFx'
+
 const ADDRESS_TYPES_DATA = {
   change: 'change_address',
   from: ['xpub'],
   fromAccountIdx: ADDRESS_TYPES_INDEX,
   fromType: ADDRESS_TYPES.ACCOUNT
 }
+
+const FEE_VALUE = 50
 
 const p = {
   fees: feeResult,
@@ -155,14 +161,13 @@ describe('createPayment', () => {
 
   describe('*sign', () => {
     it('should call calculateSignature', () => {
-      let gen = payment.sign(PASSWORD_VALUE, TRANSPORT_VALUE, SCRAMBLEKEY_VALUE)
+      let gen = payment.sign(PASSWORD_VALUE)
       expect(gen.next(PASSWORD_VALUE).value).toEqual(
         call(
           __calculateSignature,
           network,
           PASSWORD_VALUE,
           TRANSPORT_VALUE,
-          SCRAMBLEKEY_VALUE,
           prop('fromType', p),
           prop('selection', p)
         )
@@ -189,7 +194,6 @@ describe('createPayment', () => {
         network,
         PASSWORD_VALUE,
         TRANSPORT_VALUE,
-        SCRAMBLEKEY_VALUE,
         ADDRESS_TYPES.ACCOUNT,
         prop('selection', p)
       )
@@ -203,7 +207,6 @@ describe('createPayment', () => {
         network,
         PASSWORD_VALUE,
         TRANSPORT_VALUE,
-        SCRAMBLEKEY_VALUE,
         ADDRESS_TYPES.LEGACY,
         prop('selection', p)
       )
@@ -216,7 +219,6 @@ describe('createPayment', () => {
         network,
         PASSWORD_VALUE,
         TRANSPORT_VALUE,
-        SCRAMBLEKEY_VALUE,
         ADDRESS_TYPES.EXTERNAL,
         prop('selection', p)
       )
@@ -228,7 +230,6 @@ describe('createPayment', () => {
         network,
         PASSWORD_VALUE,
         TRANSPORT_VALUE,
-        SCRAMBLEKEY_VALUE,
         ADDRESS_TYPES.WATCH_ONLY,
         prop('selection', p)
       )

@@ -28,7 +28,6 @@ import utils from './sagas.utils'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
-import * as Lockbox from 'services/LockboxService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { selectReceiveAddress } from '../utils/sagas'
@@ -539,17 +538,18 @@ export default ({ api, coreSagas, options, networks }) => {
           prop('from', payment.value())
         )
         const device = deviceR.getOrFail(MISSING_DEVICE_ERROR)
-        const coin = prop('coin', source)
-        const deviceType = prop('device_type', device)
-        yield call(promptForLockbox, coin, null, deviceType)
-        const scrambleKey = Lockbox.utils.getScrambleKey(coin, deviceType)
+        yield call(
+          promptForLockbox,
+          prop('coin', source),
+          null,
+          prop('device_type', device)
+        )
         const connection = yield select(
           selectors.components.lockbox.getCurrentConnection
         )
         yield (yield payment.sign(
           null,
-          prop('transport', connection),
-          scrambleKey
+          prop('transport', connection)
         )).publish()
         yield put(actions.modals.closeAllModals())
       }

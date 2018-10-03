@@ -125,11 +125,7 @@ const createDeviceSocket = (transport, url) => {
 }
 /* eslint-enable */
 
-/**
- * Gets and parses full device information from api response
- * @param {Transport} transport - Current device transport
- * @returns {Promise} full device information
- */
+// derives full device information from api response
 const getDeviceInfo = transport => {
   return new Promise((resolve, reject) => {
     firmware.getDeviceFirmwareInfo(transport).then(
@@ -168,11 +164,6 @@ const getDeviceInfo = transport => {
   })
 }
 
-/**
- * Maps a socket error code to a human readable error
- * @param {Promise} promise - Current device transport
- * @returns {Promise} a catch function that returns human error
- */
 const mapSocketError = promise => {
   return promise.catch(err => {
     switch (true) {
@@ -250,19 +241,8 @@ const mapSocketError = promise => {
   })
 }
 
-/**
- * Determines correct scrambleKey to use for device connection
- * @param {String} app - Current app requested
- * @param {String} deviceType - Either 'ledger' or 'blockchain'
- * @returns {String} the scrambleKey for connection
- */
-const getScrambleKey = (app, deviceType) => {
-  return constants.scrambleKeys[deviceType][app]
-}
-
 export default {
   createDeviceSocket,
   getDeviceInfo,
-  getScrambleKey,
   mapSocketError
 }

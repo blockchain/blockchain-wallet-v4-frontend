@@ -81,13 +81,8 @@ export const signMessage = (priv, addr, message) => {
   )
 }
 
-export const signWithLockbox = function*(
-  selection,
-  transport,
-  scrambleKey,
-  api
-) {
-  const BTC = new Btc(transport, scrambleKey)
+export const signWithLedger = function*(selection, transport, api) {
+  const BTC = new Btc(transport)
   let inputs = []
   let paths = []
   for (let i in selection.inputs) {
