@@ -27,9 +27,18 @@ import linkLockboxIcon from './img/link-lockbox-icon.svg'
 import linkedinWhite from './img/linkedin-white.svg'
 import lockboxWelcomeSafe from './img/lockbox-welcome-safe.svg'
 import lockboxUsb from './img/lockbox-usb.svg'
+import onboardBitcoin from './img/lockbox/onboard-bitcoin.png'
+import onboardBitcoin2 from './img/lockbox/onboard-bitcoin@2x.png'
+import onboardBitcoin3 from './img/lockbox/onboard-bitcoin@3x.png'
+import onboardName from './img/lockbox/onboard-name.png'
+import onboardName2 from './img/lockbox/onboard-name@2x.png'
+import onboardName3 from './img/lockbox/onboard-name@3x.png'
 import onboardLink from './img/lockbox/onboard-link.png'
 import onboardLink2 from './img/lockbox/onboard-link@2x.png'
 import onboardLink3 from './img/lockbox/onboard-link@3x.png'
+import onboardVerify from './img/lockbox/onboard-verify.png'
+import onboardVerify2 from './img/lockbox/onboard-verify@2x.png'
+import onboardVerify3 from './img/lockbox/onboard-verify@3x.png'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
 import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
@@ -79,9 +88,18 @@ export default {
   'lockbox-usb': lockboxUsb,
   'link-lockbox-icon': linkLockboxIcon,
   'linkedin-white': linkedinWhite,
+  'lockbox-onboard-bitcoin': onboardBitcoin,
+  'lockbox-onboard-bitcoin2': onboardBitcoin2,
+  'lockbox-onboard-bitcoin3': onboardBitcoin3,
+  'lockbox-onboard-name': onboardName,
+  'lockbox-onboard-name2': onboardName2,
+  'lockbox-onboard-name3': onboardName3,
   'lockbox-onboard-link': onboardLink,
   'lockbox-onboard-link2': onboardLink2,
   'lockbox-onboard-link3': onboardLink3,
+  'lockbox-onboard-verify': onboardVerify,
+  'lockbox-onboard-verify2': onboardVerify2,
+  'lockbox-onboard-verify3': onboardVerify3,
   'micro-deposits-whole': microDepositsWhole,
   printer: printer,
   'restore-lockbox-icon': restoreLockboxIcon,

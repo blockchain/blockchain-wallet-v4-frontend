@@ -3651,10 +3651,6 @@
         "id": "modals.lockboxsetup.authenticitystep.title"
       },
       {
-        "defaultMessage": "Click <b>Allow Device Manager</b> on the device if and when prompted",
-        "id": "modals.lockboxsetup.authenticitystep.content"
-      },
-      {
         "defaultMessage": "Checking Your Devices Authenticity",
         "id": "modals.lockboxsetup.authenticitystep.authenticating"
       },
@@ -3735,14 +3731,6 @@
   },
   {
     "descriptors": [
-      {
-        "defaultMessage": "Your Blockchain Lockbox + Blockchain Wallet",
-        "id": "modals.lockboxsetup.openbtcappstep.title"
-      },
-      {
-        "defaultMessage": "Select 'Bitcoin' on your device to connect your Lockbox with your wallet",
-        "id": "modals.lockboxsetup.openbtcappstep.explanation"
-      },
       {
         "defaultMessage": "Success! Click to Continue",
         "id": "modals.lockboxsetup.openbtcappstep.success"

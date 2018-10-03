@@ -7,9 +7,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
 
-const Wrapper = styled.div`
-  padding: 20px;
-`
+const Wrapper = styled.div``
 
 const Title = styled.div`
   text-align: center;
@@ -20,17 +18,8 @@ const Content = styled.div`
   margin-bottom: 10px;
 `
 
-const ImageContainer = styled.div`
-  text-align: center;
-  margin-bottom: 20px;
-`
-
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 10px 0;
+const StyledImage = styled(Image)`
+  margin: 20px 0;
 `
 
 const NameDeviceStep = props => {
@@ -47,9 +36,6 @@ const NameDeviceStep = props => {
         </Text>
       </Title>
       <Content>
-        <ImageContainer>
-          <Image width='100px' name='lockbox-usb' />
-        </ImageContainer>
         <Text size='14px' weight={300}>
           <FormattedMessage
             id='modals.lockboxsetup.labelstep.body'
@@ -58,17 +44,23 @@ const NameDeviceStep = props => {
         </Text>
       </Content>
       <Form onSubmit={handleSubmit}>
-        <Row>
-          <FormItem>
-            <Field
-              name='newDeviceName'
-              autoFocus
-              validate={[required]}
-              component={TextBox}
-              maxLength={30}
-            />
-          </FormItem>
-        </Row>
+        <FormItem>
+          <Field
+            name='newDeviceName'
+            autoFocus
+            validate={[required]}
+            component={TextBox}
+            maxLength={30}
+          />
+        </FormItem>
+        <StyledImage
+          name='lockbox-onboard-name'
+          width='100%'
+          srcset={{
+            'lockbox-onboard-name2': '2x',
+            'lockbox-onboard-name3': '3x'
+          }}
+        />
         <FormGroup>
           <Button type='submit' nature='primary' disabled={invalid}>
             <FormattedMessage

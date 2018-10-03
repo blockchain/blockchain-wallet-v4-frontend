@@ -8,21 +8,15 @@ const Wrapper = styled.div``
 
 const Title = styled.div`
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 `
 
 const StepText = styled(Text)`
   margin-bottom: 20px;
-  .number {
-    font-size: 20px;
-    font-weight: 400;
-    margin-right: 10px;
-    color: ${props => props.theme['brand-secondary']};
-  }
 `
 
 const ButtonContainer = styled.div`
-  margin-top: 30px;
+  margin-top: 20px;
 `
 
 const RotateSyncContainer = styled(RotateSync)`
@@ -70,6 +64,7 @@ const ConnectDeviceStep = props => {
       </TextGroup>
       <Image
         name='lockbox-onboard-link'
+        width='100%'
         srcset={{
           'lockbox-onboard-link2': '2x',
           'lockbox-onboard-link3': '3x'

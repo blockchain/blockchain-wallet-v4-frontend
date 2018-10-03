@@ -5,13 +5,11 @@ import { Modal, ModalBody } from 'blockchain-info-components'
 
 const LockboxSetup = props => {
   const { children, position, total, totalSteps, step } = props
+  const atBounds = step === 0 || step > totalSteps
 
   return (
-    <Modal size='auto' position={position} total={total}>
-      {step !== 0 &&
-        step !== 5 && (
-          <ModalStepper currentStep={step} totalSteps={totalSteps} />
-        )}
+    <Modal size={atBounds ? 'auto' : 'small'} position={position} total={total}>
+      {!atBounds && <ModalStepper currentStep={step} totalSteps={totalSteps} />}
       <ModalBody>{children}</ModalBody>
     </Modal>
   )
