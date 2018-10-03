@@ -14,7 +14,7 @@ export const getData = createDeepEqualSelector(
     selectors.form.getFormValues('sendEth')
   ],
   (paymentR, toToggled, feeToggled, balanceR, lockboxDevicesR, formValues) => {
-    const enableToggle = !isEmpty(lockboxDevicesR.getOrElse({}))
+    const enableToggle = !isEmpty(lockboxDevicesR.getOrElse([]))
 
     const transform = payment => {
       const effectiveBalance = propOr('0', 'effectiveBalance', payment)

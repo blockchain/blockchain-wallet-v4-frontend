@@ -876,19 +876,7 @@
     "descriptors": [
       {
         "defaultMessage": "Month",
-        "id": "components.DateInputBox.label.month"
-      },
-      {
-        "defaultMessage": "Month",
         "id": "components.DateInputBox.placeholder.month"
-      },
-      {
-        "defaultMessage": "Date",
-        "id": "components.DateInputBox.label.date"
-      },
-      {
-        "defaultMessage": "Year",
-        "id": "components.DateInputBox.label.year"
       }
     ],
     "path": "src/components/Form/DateInputBox/index.json"
@@ -1099,6 +1087,15 @@
       }
     ],
     "path": "src/components/IdentityVerification/KYCBanner/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Step {number}",
+        "id": "components.modalstepper.step"
+      }
+    ],
+    "path": "src/components/ModalStepper/index.json"
   },
   {
     "descriptors": [
@@ -3206,8 +3203,8 @@
         "id": "modals.exchangedetails.close"
       },
       {
-        "defaultMessage": "Order {id}",
-        "id": "modals.exchangeresults.orderid"
+        "defaultMessage": "Order",
+        "id": "modals.exchangeresults.order"
       },
       {
         "defaultMessage": "Total Value",
@@ -3276,8 +3273,16 @@
         "id": "identityverification.personal.faq.name.text"
       },
       {
-        "defaultMessage": "Date of Birth",
-        "id": "identityverification.personal.dateofbirth"
+        "defaultMessage": "Date of Birth - Month",
+        "id": "identityverification.personal.dateofbirthmonth"
+      },
+      {
+        "defaultMessage": "Date",
+        "id": "identityverification.personal.date"
+      },
+      {
+        "defaultMessage": "Year",
+        "id": "identityverification.personal.year"
       },
       {
         "defaultMessage": "Age requirement",
@@ -3651,10 +3656,6 @@
         "id": "modals.lockboxsetup.authenticitystep.title"
       },
       {
-        "defaultMessage": "Click <b>Allow Device Manager</b> on the device if and when prompted",
-        "id": "modals.lockboxsetup.authenticitystep.content"
-      },
-      {
         "defaultMessage": "Checking Your Devices Authenticity",
         "id": "modals.lockboxsetup.authenticitystep.authenticating"
       },
@@ -3670,22 +3671,6 @@
       {
         "defaultMessage": "Connect Your Lockbox",
         "id": "modals.lockboxsetup.setuptypestep.connect"
-      },
-      {
-        "defaultMessage": "Insert your Lockbox into your computer",
-        "id": "modals.lockboxsetup.connectdevice.step1"
-      },
-      {
-        "defaultMessage": "Press both buttons on your Lockbox to begin",
-        "id": "modals.lockboxsetup.connectdevice.step2"
-      },
-      {
-        "defaultMessage": "Set your pin",
-        "id": "modals.lockboxsetup.connectdevice.step3"
-      },
-      {
-        "defaultMessage": "Complete backup phrase process",
-        "id": "modals.lockboxsetup.connectdevice.step4"
       },
       {
         "defaultMessage": "Success! Click to Continue",
@@ -3751,14 +3736,6 @@
   },
   {
     "descriptors": [
-      {
-        "defaultMessage": "Your Blockchain Lockbox + Blockchain Wallet",
-        "id": "modals.lockboxsetup.openbtcappstep.title"
-      },
-      {
-        "defaultMessage": "Select 'Bitcoin' on your device to connect your Lockbox with your wallet",
-        "id": "modals.lockboxsetup.openbtcappstep.explanation"
-      },
       {
         "defaultMessage": "Success! Click to Continue",
         "id": "modals.lockboxsetup.openbtcappstep.success"
@@ -3917,10 +3894,6 @@
       {
         "defaultMessage": "Connect {coin} App",
         "id": "modals.promptforlockbox.title"
-      },
-      {
-        "defaultMessage": "Connect and unlock your hardware device. Then open the <b>{coin} app</b> on the device.",
-        "id": "modals.promptforlockbox.connectcoinapp"
       },
       {
         "defaultMessage": "Review the transaction details on your device screen. Press the top right button to confirm and sign the transaction.",
@@ -6660,6 +6633,10 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Lockbox device is missing",
+        "id": "scenes.exchange.confirm.missingdevice"
+      },
+      {
         "defaultMessage": "Failed to execute a trade",
         "id": "scenes.exchange.confirm.tradefailed"
       },
@@ -6740,7 +6717,7 @@
         "id": "scenes.exchange.exchangeform.summary.title"
       },
       {
-        "defaultMessage": "Deposit {coin}",
+        "defaultMessage": "Exchange {coin}",
         "id": "scenes.exchange.exchangeform.summary.deposit"
       },
       {

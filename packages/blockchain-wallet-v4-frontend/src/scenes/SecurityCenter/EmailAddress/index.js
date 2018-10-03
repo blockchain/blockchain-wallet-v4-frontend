@@ -51,7 +51,7 @@ class EmailAddressContainer extends React.PureComponent {
 
   handleResend () {
     const { email } = this.props.data.getOrElse({})
-    this.props.securityCenterActions.sendConfirmationCodeEmail(email)
+    this.props.securityCenterActions.resendVerifyEmail(email)
   }
 
   handleSubmitVerification (e) {

@@ -19,6 +19,7 @@ import {
   CONFIRM_FORM,
   NO_ADVICE_ERROR,
   NO_LIMITS_ERROR,
+  MISSING_DEVICE_ERROR,
   getTargetCoinsPairedToSource,
   getSourceCoinsPairedToTarget,
   EXCHANGE_STEPS
@@ -27,7 +28,8 @@ import utils from './sagas.utils'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
-import { promptForSecondPassword } from 'services/SagaService'
+import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { selectReceiveAddress } from '../utils/sagas'
 import {
   getEffectiveBalanceStandard,
@@ -514,9 +516,6 @@ export default ({ api, coreSagas, options, networks }) => {
         target,
         networks
       )
-
-      const password = yield call(promptForSecondPassword)
-
       const {
         depositAddress,
         deposit: { symbol, value }
@@ -526,9 +525,35 @@ export default ({ api, coreSagas, options, networks }) => {
         symbol,
         source.address,
         depositAddress,
+        source.type,
         convertStandardToBase(symbol, value)
       )
-      yield (yield payment.sign(password)).publish()
+      if (source.type !== ADDRESS_TYPES.LOCKBOX) {
+        const password = yield call(promptForSecondPassword)
+        yield (yield payment.sign(password)).publish()
+      } else {
+        const deviceR = yield select(
+          selectors.core.kvStore.lockbox.getDeviceFromCoinAddrs,
+          prop('coin', source),
+          prop('from', payment.value())
+        )
+        const device = deviceR.getOrFail(MISSING_DEVICE_ERROR)
+        yield call(
+          promptForLockbox,
+          prop('coin', source),
+          null,
+          prop('device_type', device)
+        )
+        const connection = yield select(
+          selectors.components.lockbox.getCurrentConnection
+        )
+        yield (yield payment.sign(
+          null,
+          prop('transport', connection)
+        )).publish()
+        yield put(actions.modals.closeAllModals())
+      }
+
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
       yield put(actions.router.push('/exchange/history'))
       yield put(A.setStep(EXCHANGE_STEPS.EXCHANGE_FORM))

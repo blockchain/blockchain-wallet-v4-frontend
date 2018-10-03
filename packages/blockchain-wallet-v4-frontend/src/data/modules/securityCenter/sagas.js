@@ -10,7 +10,8 @@ export default ({ coreSagas }) => {
       yield put(actions.modules.settings.clearEmailCodeFailure())
       yield call(coreSagas.settings.setEmail, action.payload)
       yield put(actions.alerts.displaySuccess(C.EMAIL_UPDATE_SUCCESS))
-      yield call(coreSagas.settings.sendConfirmationCodeEmail, action.payload)
+      // TODO: NEEDED FOR PARTNERS
+      // yield call(coreSagas.settings.sendConfirmationCodeEmail, action.payload)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateEmail', e))
       yield put(actions.alerts.displayError(C.EMAIL_UPDATE_ERROR))
@@ -55,6 +56,21 @@ export default ({ coreSagas }) => {
           'sendConfirmationCodeEmail',
           e
         )
+      )
+    }
+  }
+
+  const resendVerifyEmail = function*(action) {
+    try {
+      yield call(coreSagas.settings.resendVerifyEmail, action.payload)
+      yield put(
+        actions.alerts.displayInfo(
+          'Verification email sent. Please check your email'
+        )
+      )
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'resendVerifyEmail', e)
       )
     }
   }
@@ -152,6 +168,7 @@ export default ({ coreSagas }) => {
   return {
     updateEmail,
     verifyEmail,
+    resendVerifyEmail,
     sendConfirmationCodeEmail,
     verifyEmailCode,
     getGoogleAuthenticatorSecretUrl,

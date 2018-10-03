@@ -58,7 +58,7 @@ const InputWrapper = styled(LabelWrapper)`
 const Error = styled(Text)`
   position: absolute;
   display: block;
-  top: ${props => (props.errorBottom ? 40 : -20) + (props.label ? 23 : 0)}px;
+  top: ${props => (props.errorBottom ? 40 : -20)}px;
   right: 0;
   height: 15px;
 `
@@ -120,21 +120,13 @@ class DateInputBox extends React.PureComponent {
     })
 
   render () {
-    const { input, label, meta, errorBottom, intl } = this.props
+    const { input, meta, errorBottom, intl, className } = this.props
     const { error, ...otherMeta } = meta
 
     return (
-      <Container>
+      <Container className={className}>
         <RowWrapper>
           <MonthWrapper>
-            {label && (
-              <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
-                <FormattedMessage
-                  id='components.DateInputBox.label.month'
-                  defaultMessage='Month'
-                />
-              </Text>
-            )}
             <SelectBox
               label={
                 <FormattedMessage
@@ -142,6 +134,7 @@ class DateInputBox extends React.PureComponent {
                   defaultMessage='Month'
                 />
               }
+              menuPlacement='auto'
               elements={monthElements}
               input={{
                 name: 'month',
@@ -153,16 +146,8 @@ class DateInputBox extends React.PureComponent {
               meta={otherMeta}
             />
           </MonthWrapper>
-          <InputsWrapper>
+          <InputsWrapper className='inputs-wrapper'>
             <InputWrapper>
-              {label && (
-                <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
-                  <FormattedMessage
-                    id='components.DateInputBox.label.date'
-                    defaultMessage='Date'
-                  />
-                </Text>
-              )}
               <NumberBox
                 placeholder={intl.formatMessage({
                   id: 'components.DateInputBox.placeholder.day',
@@ -179,14 +164,6 @@ class DateInputBox extends React.PureComponent {
               />
             </InputWrapper>
             <InputWrapper>
-              {label && (
-                <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
-                  <FormattedMessage
-                    id='components.DateInputBox.label.year'
-                    defaultMessage='Year'
-                  />
-                </Text>
-              )}
               <NumberBox
                 placeholder={intl.formatMessage({
                   id: 'components.DateInputBox.placeholder.year',
@@ -212,7 +189,6 @@ class DateInputBox extends React.PureComponent {
               weight={300}
               color='error'
               errorBottom={errorBottom}
-              label={label}
             >
               {meta.error}
             </Error>
