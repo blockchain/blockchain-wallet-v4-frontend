@@ -78,7 +78,9 @@ const mdAccountsEntryMock = {
         correct: true,
         addr: '0xd379c32a70A6e2D2698cA9890484340279e96DAA'
       }
-    ]
+    ],
+    last_tx: null,
+    last_tx_timestamp: null
   }
 }
 

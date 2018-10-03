@@ -52,7 +52,7 @@ const IdentityVerificationTray = styled(Tray)`
   }
 `
 
-const { STEPS, MODAL_NAME } = model.components.identityVerification
+const { STEPS, KYC_MODAL } = model.components.identityVerification
 
 const stepMap = {
   [STEPS.personal]: (
@@ -179,7 +179,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer(MODAL_NAME),
+  modalEnhancer(KYC_MODAL),
   connect(
     getData,
     mapDispatchToProps

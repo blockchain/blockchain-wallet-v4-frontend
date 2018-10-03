@@ -226,7 +226,7 @@ export const ExchangeResults = ({
         <ExchangeAmount>{`${depositAmount} ${sourceCoin}`}</ExchangeAmount>
         {!contains(status, [REFUNDED, PENDING_REFUND]) && (
           <React.Fragment>
-            <AmountHeader>{getTargetMessage(status, sourceCoin)}</AmountHeader>
+            <AmountHeader>{getTargetMessage(status, targetCoin)}</AmountHeader>
             <ExchangeAmount>
               {getTargetAmount(withdrawalAmount, targetCoin, status)}
             </ExchangeAmount>

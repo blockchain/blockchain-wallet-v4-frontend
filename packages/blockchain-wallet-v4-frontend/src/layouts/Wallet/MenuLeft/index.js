@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { head, prop } from 'ramda'
 import { getData } from './selectors'
-import MenuLeft from './template'
+import MenuLeft from './template.success'
+import Loading from './template.loading'
+import Failure from './template.failure'
 
 class MenuLeftContainer extends React.PureComponent {
   constructor (props) {
@@ -32,11 +34,17 @@ class MenuLeftContainer extends React.PureComponent {
   }
 
   render () {
+    const { data } = this.props
     const { offsetTop } = this.state
-    return <MenuLeft toggled={this.props.toggled} offsetTop={offsetTop} />
+    return data.cata({
+      Success: val => <MenuLeft {...val} offsetTop={offsetTop} />,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />,
+      Failure: msg => <Failure msg={msg} />
+    })
   }
 }
 
-const mapStateToProps = state => getData(state)
+const mapStateToProps = state => ({ data: getData(state) })
 
 export default connect(mapStateToProps)(MenuLeftContainer)
