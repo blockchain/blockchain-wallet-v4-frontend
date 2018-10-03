@@ -17,7 +17,7 @@ import {
   CancelButton
 } from 'components/Exchange'
 
-const { CONFIRM_FORM } = model.components.exchange
+const { CONFIRM_FORM, MISSING_DEVICE_ERROR } = model.components.exchange
 
 const ConfirmWrapper = styled(Wrapper)`
   ${Title} {
@@ -79,12 +79,24 @@ const ErrorRow = styled(Text)`
   color: ${props => props.theme.error};
 `
 
-const getErrorMessage = () => (
-  <FormattedMessage
-    id='scenes.exchange.confirm.tradefailed'
-    defaultMessage='Failed to execute a trade'
-  />
-)
+const getErrorMessage = error => {
+  switch (error) {
+    case MISSING_DEVICE_ERROR:
+      return (
+        <FormattedMessage
+          id='scenes.exchange.confirm.missingdevice'
+          defaultMessage='Lockbox device is missing'
+        />
+      )
+    default:
+      return (
+        <FormattedMessage
+          id='scenes.exchange.confirm.tradefailed'
+          defaultMessage='Failed to execute a trade'
+        />
+      )
+  }
+}
 
 const ExchangeConfirm = ({
   error,

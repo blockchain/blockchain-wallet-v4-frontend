@@ -33,6 +33,17 @@ export const getDevice = (state, deviceIndex) =>
 export const getDeviceName = (state, deviceIndex) =>
   getDevice(state, deviceIndex).map(prop('device_name'))
 
+export const getDeviceFromCoinAddrs = (state, coin, addrs) => {
+  switch (coin) {
+    case 'BTC':
+      return getDeviceFromBtcXpubs(state, addrs)
+    case 'BCH':
+      return getDeviceFromBchXpubs(state, addrs)
+    case 'ETH':
+      return getDeviceFromEthAddr(state, prop('address', addrs))
+  }
+}
+
 // BTC
 export const getLockboxBtc = state => getDevices(state).map(map(path(['btc'])))
 
