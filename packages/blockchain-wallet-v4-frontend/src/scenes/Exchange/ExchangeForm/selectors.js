@@ -1,13 +1,12 @@
 import { selectors, model } from 'data'
 import {
+  always,
   compose,
-  cond,
   curry,
   defaultTo,
-  equals,
+  flip,
   head,
   last,
-  length,
   lift,
   map,
   path,
@@ -47,31 +46,28 @@ const getAvailableCoin = headOrLast => availablePairs =>
 const getAvailableSourceCoins = getAvailableCoin(head)
 const getAvailableTargetCoins = getAvailableCoin(last)
 
-export const format = acc => ({ text: prop('label', acc), value: acc })
-export const formatDefault = curry((coin, acc) => ({ text: coin, value: acc }))
+const getCoinFullName = flip(prop)({
+  BTC: 'Bitcoin',
+  BCH: 'Bitcoin Cash',
+  ETH: 'Ether'
+})
+const generateItems = ({ coin, accounts }) => {
+  const getText =
+    accounts.length === 1 ? always(getCoinFullName(coin)) : prop('label')
+  return accounts.map(account => ({
+    value: account,
+    text: getText(account)
+  }))
+}
 
-export const generateGroups = (
-  bchAccounts,
-  btcAccounts,
-  ethAccounts,
-  hasOneAccount
-) => availableCurrencies => {
-  const getOneAccElements = cond([
-    [equals('BTC'), () => btcAccounts.map(formatDefault('Bitcoin'))],
-    [equals('BCH'), () => bchAccounts.map(formatDefault('Bitcoin Cash'))],
-    [equals('ETH'), () => ethAccounts.map(formatDefault('Ether'))]
-  ])
-  const getAccElements = cond([
-    [equals('BTC'), () => btcAccounts.map(format)],
-    [equals('BCH'), () => bchAccounts.map(format)],
-    [equals('ETH'), () => ethAccounts.map(format)]
-  ])
+export const generateGroups = curry((accounts, availableCurrencies) => {
   const items = compose(
     unnest,
-    map(hasOneAccount ? getOneAccElements : getAccElements)
+    map(generateItems),
+    map(coin => ({ coin, accounts: prop(coin, accounts) }))
   )(availableCurrencies)
   return [{ group: '', items }]
-}
+})
 
 const getFormValues = state => {
   const formValues = selectors.form.getFormValues(EXCHANGE_FORM)(state)
@@ -188,13 +184,7 @@ export const getData = createDeepEqualSelector(
       )(initialSourceCoin, availablePairs)
       const initialSourceAccount = head(accounts[initialSourceCoin])
       const initialTargetAccount = head(accounts[initialTargetCoin])
-      const hasOneAccount = length(accounts.BTC) === 1
-      const generateActiveGroups = generateGroups(
-        accounts.BCH,
-        accounts.BTC,
-        accounts.ETH,
-        hasOneAccount
-      )
+      const generateActiveGroups = generateGroups(accounts)
       const fromElements = generateActiveGroups(availableSourceCoins)
       const toElements = generateActiveGroups(availableTargetCoins)
 
@@ -222,12 +212,10 @@ export const getData = createDeepEqualSelector(
 
       return {
         canUseExchange: true,
+        disabled: !Remote.Success.is(amountsR),
         availablePairs,
         fromElements,
         toElements,
-        initialValues,
-        hasOneAccount,
-        disabled: !Remote.Success.is(amountsR),
         currency,
         inputField,
         inputSymbol: currencySymbolMap[inputCurrency],
@@ -245,7 +233,8 @@ export const getData = createDeepEqualSelector(
         targetActive: targetActive(fix),
         coinActive: coinActive(fix),
         fiatActive: fiatActive(fix),
-        fix
+        fix,
+        initialValues
       }
     }
     return lift(transform)(currencyR, availablePairsR)

@@ -9,10 +9,12 @@ import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellA from '../../kvStore/buySell/actions'
 import { sfoxService } from '../../../exchange/service'
 import * as walletActions from '../../wallet/actions'
+import settingsSagaFactory from '../../settings/sagas'
 
 let sfox
 
 export default ({ api, options }) => {
+  const settingsSagas = settingsSagaFactory({ api })
   const refreshSFOX = function*() {
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api, 'sfox')
@@ -244,6 +246,7 @@ export default ({ api, options }) => {
       const methods = yield apply(sfox, sfox.getBuyMethods)
       const accounts = yield apply(sfox, methods.ach.getAccounts)
       yield put(A.sfoxFetchAccountsSuccess(accounts))
+      return accounts
     } catch (e) {
       yield put(A.sfoxFetchAccountsFailure(e))
     }
@@ -280,7 +283,7 @@ export default ({ api, options }) => {
       yield put(A.handleTradeSuccess(trade))
       yield put(A.fetchProfile())
       yield put(A.fetchTrades())
-
+      yield call(settingsSagas.setLastTxTime)
       // save trades to metadata
       const kvTrades = yield select(buySellSelectors.getSfoxTrades)
       const newTrades = prepend(trade, kvTrades.getOrElse([]))

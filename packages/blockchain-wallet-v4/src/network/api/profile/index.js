@@ -6,6 +6,14 @@ export default ({
   authorizedPut,
   authorizedGet
 }) => {
+  const checkUserExistance = retailToken =>
+    post({
+      url: nabuUrl,
+      endPoint: `/users/check`,
+      contentType: 'application/json',
+      data: { jwt: retailToken }
+    })
+
   const generateRetailToken = (guid, sharedKey) =>
     get({
       url: rootUrl,
@@ -82,6 +90,7 @@ export default ({
     })
 
   return {
+    checkUserExistance,
     createUser,
     recoverUser,
     generateRetailToken,

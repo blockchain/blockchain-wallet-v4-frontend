@@ -182,6 +182,7 @@ describe('createPayment', () => {
       expect(gen.next().value).toEqual(
         call(__calculatePublish, prop('txHex', p))
       )
+      gen.next()
       expect(gen.next().done).toEqual(true)
     })
   })

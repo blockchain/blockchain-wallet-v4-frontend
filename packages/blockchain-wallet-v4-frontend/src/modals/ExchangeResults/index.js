@@ -223,7 +223,7 @@ export const ExchangeResults = ({
         <ExchangeAmount>{`${depositAmount} ${sourceCoin}`}</ExchangeAmount>
         {!contains(status, [REFUNDED, PENDING_REFUND]) && (
           <React.Fragment>
-            <AmountHeader>{getTargetMessage(status, sourceCoin)}</AmountHeader>
+            <AmountHeader>{getTargetMessage(status, targetCoin)}</AmountHeader>
             <ExchangeAmount>
               {getTargetAmount(withdrawalAmount, targetCoin, status)}
             </ExchangeAmount>
@@ -267,25 +267,26 @@ export const ExchangeResults = ({
           </ExchangeText>
           <ExchangeText weight={300}>{`${fee} ${targetCoin}`}</ExchangeText>
         </TableRow>
-        {contains(status, [
-          FINISHED,
-          PENDING_DEPOSIT,
-          PENDING_EXECUTION,
-          PENDING_WITHDRAWAL,
-          FINISHED_DEPOSIT
-        ]) && (
-          <TableRow>
-            <ExchangeText>
-              <FormattedMessage
-                id='modals.exchangeresults.rate'
-                defaultMessage='Exchange rate'
-              />
-            </ExchangeText>
-            <ExchangeText
-              weight={300}
-            >{`1 ${sourceCoin} = ${rate} ${targetCoin}`}</ExchangeText>
-          </TableRow>
-        )}
+        {rate &&
+          contains(status, [
+            FINISHED,
+            PENDING_DEPOSIT,
+            PENDING_EXECUTION,
+            PENDING_WITHDRAWAL,
+            FINISHED_DEPOSIT
+          ]) && (
+            <TableRow>
+              <ExchangeText>
+                <FormattedMessage
+                  id='modals.exchangeresults.rate'
+                  defaultMessage='Exchange rate'
+                />
+              </ExchangeText>
+              <ExchangeText
+                weight={300}
+              >{`1 ${sourceCoin} = ${rate} ${targetCoin}`}</ExchangeText>
+            </TableRow>
+          )}
         {contains(status, [REFUNDED, PENDING_REFUND]) && (
           <TableRow>
             <ExchangeText>{getRefundMessage(status)}</ExchangeText>
