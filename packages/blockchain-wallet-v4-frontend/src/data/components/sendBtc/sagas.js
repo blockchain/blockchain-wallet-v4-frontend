@@ -327,7 +327,17 @@ export default ({ coreSagas, networks }) => {
           )
         )
       }
-      yield put(actions.router.push('/btc/transactions'))
+      if (payment.value().fromType === ADDRESS_TYPES.LOCKBOX) {
+        const fromXPubs = path(['from'], payment.value())
+        const device = (yield select(
+          selectors.core.kvStore.lockbox.getDeviceFromBtcXpubs,
+          fromXPubs
+        )).getOrFail('missing_device')
+        const deviceIndex = prop('device_index', device)
+        yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
+      } else {
+        yield put(actions.router.push('/btc/transactions'))
+      }
       yield put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
     } catch (e) {
       yield put(
