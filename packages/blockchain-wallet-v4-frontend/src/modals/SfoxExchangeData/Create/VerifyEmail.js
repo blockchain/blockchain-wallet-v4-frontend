@@ -216,6 +216,7 @@ class VerifyEmail extends Component {
                 <Field
                   name='emailAddress'
                   component={TextBox}
+                  errorBottom
                   validate={[required]}
                 />
                 <Button
@@ -240,7 +241,6 @@ class VerifyEmail extends Component {
                 type='submit'
                 nature='primary'
                 fullwidth
-                uppercase
                 disabled={
                   invalid || ui.create !== 'enter_email_code' || !emailCode
                 }

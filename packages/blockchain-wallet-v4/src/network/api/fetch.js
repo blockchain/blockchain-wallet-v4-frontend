@@ -94,8 +94,12 @@ export default ({ apiKey }) => {
   const post = ({ url, endPoint, data, sessionToken, contentType }) =>
     request({ method: 'POST', url, endPoint, data, sessionToken, contentType })
 
+  const put = ({ url, endPoint, data, sessionToken, contentType }) =>
+    request({ method: 'PUT', url, endPoint, data, sessionToken, contentType })
+
   return {
     get,
-    post
+    post,
+    put
   }
 }

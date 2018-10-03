@@ -66,7 +66,8 @@ const SecondStep = ({ addr, balance, priv }) => (
             defaultMessage='Balance'
           />
         </DetailRowText>
-        {':'}&nbsp;
+        {':'}
+        &nbsp;
         <CoinDisplay coin='ETH' size='14px'>
           {balance}
         </CoinDisplay>
@@ -78,7 +79,8 @@ const SecondStep = ({ addr, balance, priv }) => (
             defaultMessage='Address'
           />
         </DetailRowText>
-        {':'}&nbsp;
+        {':'}
+        &nbsp;
         <DataRowText size='14px' weight={300}>
           {addr}
         </DataRowText>
@@ -90,7 +92,8 @@ const SecondStep = ({ addr, balance, priv }) => (
             defaultMessage='Private Key'
           />
         </DetailRowText>
-        {':'}&nbsp;
+        {':'}
+        &nbsp;
         <DataRowText size='14px' weight={300}>
           {priv}
         </DataRowText>

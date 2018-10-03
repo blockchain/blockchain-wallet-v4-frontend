@@ -117,7 +117,6 @@ const FirstStep = props => {
           <Button
             type='submit'
             nature='primary'
-            uppercase
             disabled={submitting || invalid}
           >
             <FormattedMessage

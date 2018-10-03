@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import SelectBox from '../SelectBox'
 import { Icon, Text } from 'blockchain-info-components'
-import { prop } from 'ramda'
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -12,7 +11,6 @@ const HeaderWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: 5px;
   box-sizing: border-box;
   text-overflow: ellipsis;
 
@@ -24,22 +22,41 @@ const HeaderWrapper = styled.div`
   }
 `
 
-const renderItem = item => (
-  <HeaderWrapper>
-    {prop('value', item) === 'BTC' && (
-      <Icon name='bitcoin-in-circle' size='14px' weight={300} />
-    )}
-    {prop('value', item) === 'BCH' && (
-      <Icon name='bitcoin-cash' size='14px' weight={300} />
-    )}
-    {prop('value', item) === 'ETH' && (
-      <Icon name='ethereum-filled' size='14px' weight={300} />
-    )}
-    <Text size='13px' weight={300} cursor='pointer'>
-      {item.text}
-    </Text>
-  </HeaderWrapper>
-)
+const renderItem = props => {
+  const { value, text, ...rest } = props
+  return (
+    <HeaderWrapper {...rest}>
+      {value === 'BTC' && (
+        <Icon name='bitcoin-in-circle' size='14px' weight={300} />
+      )}
+      {value === 'BCH' && <Icon name='bitcoin-cash' size='14px' weight={300} />}
+      {value === 'ETH' && (
+        <Icon name='ethereum-filled' size='14px' weight={300} />
+      )}
+      <Text size='14px' weight={300} cursor='pointer'>
+        {text}
+      </Text>
+    </HeaderWrapper>
+  )
+}
+
+const renderDisplay = (props, children) => {
+  const { value, ...rest } = props
+  return (
+    <HeaderWrapper {...rest}>
+      {value === 'BTC' && (
+        <Icon name='bitcoin-in-circle' size='14px' weight={300} />
+      )}
+      {value === 'BCH' && <Icon name='bitcoin-cash' size='14px' weight={300} />}
+      {value === 'ETH' && (
+        <Icon name='ethereum-filled' size='14px' weight={300} />
+      )}
+      <Text size='14px' weight={300} cursor='pointer'>
+        {children}
+      </Text>
+    </HeaderWrapper>
+  )
+}
 
 class SelectBoxCoin extends React.PureComponent {
   render () {
@@ -48,7 +65,7 @@ class SelectBoxCoin extends React.PureComponent {
     return (
       <SelectBox
         elements={elements}
-        templateDisplay={renderItem}
+        templateDisplay={renderDisplay}
         templateItem={renderItem}
         {...rest}
       />

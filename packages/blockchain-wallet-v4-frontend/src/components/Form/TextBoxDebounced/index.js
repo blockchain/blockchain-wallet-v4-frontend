@@ -74,11 +74,11 @@ class TextBoxDebounced extends React.Component {
   }
 
   render () {
-    const { meta, disabled, placeholder, autoComplete } = this.props
+    const { meta, disabled, placeholder, autoComplete, className } = this.props
     const errorState = getErrorState(meta)
 
     return (
-      <Container>
+      <Container className={className}>
         <TextInput
           autoComplete={autoComplete}
           value={this.state.value}

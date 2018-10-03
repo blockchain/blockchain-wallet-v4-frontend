@@ -1,13 +1,32 @@
-import { cancel, call, fork, put, race, select, take } from 'redux-saga/effects'
+import { cancel, call, fork, put, all, select, spawn } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { any, equals, identity, isNil, path, prop } from 'ramda'
-import { actions, actionTypes, selectors } from 'data'
+import {
+  any,
+  concat,
+  compose,
+  contains,
+  equals,
+  identity,
+  indexBy,
+  isEmpty,
+  isNil,
+  last,
+  map,
+  path,
+  prop
+} from 'ramda'
+import { actions, selectors } from 'data'
+import * as A from './actions'
+import * as S from './selectors'
 import * as C from 'services/AlertService'
+import { PER_PAGE, INCOMPLETE_STATES } from './model'
 
+export const pollTimeout = 5000
 export default ({ api, coreSagas }) => {
   const logLocation = 'components/exchangeHistory/sagas'
-  let pollingTradeStatusTask
-  let fetchingTradesTask
+  let pollingShapeShiftTask = null
+  let fetchingTradesTasks = []
+  let pollingExchangeTask = null
 
   const updateTrade = function*(depositAddress) {
     try {
@@ -39,47 +58,126 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const startFetchingTrades = function*(trades) {
-    for (let i = 0; i < trades.length; i++) {
-      const trade = trades[i]
-      try {
-        const depositAddress = path(['quote', 'deposit'], trade)
-        const status = prop('status', trade)
-        const quote = prop('quote', trade)
-        const depositAmount = prop('depositAmount', quote)
-        const withdrawalAmount = prop('withdrawalAmount', quote)
-        if (
-          !equals('complete', status) ||
-          any(isNil)([depositAmount, withdrawalAmount])
-        ) {
-          yield call(
-            coreSagas.kvStore.shapeShift.fetchShapeshiftTrade,
-            depositAddress
-          )
-          yield race({
-            success: take(
-              actionTypes.core.kvStore.shapeShift
-                .FETCH_METADATA_SHAPESHIFT_SUCCESS
-            ),
-            failure: take(
-              actionTypes.core.kvStore.shapeShift
-                .FETCH_METADATA_SHAPESHIFT_FAILURE
-            )
-          })
-        }
-      } catch (e) {
-        yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADE_ERROR))
-        yield put(
-          actions.logs.logErrorMessage(logLocation, 'startFetchingTrades', e)
-        )
-      }
+  const updateExchangeTrade = function*(trade) {
+    try {
+      const id = prop('id', trade)
+      const tradeData = yield call(api.fetchTrade, id)
+      yield put(A.updateTrade(id, tradeData))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'updateExchangeTrade', e)
+      )
     }
   }
 
-  const exchangeHistoryInitialized = function*(action) {
+  const pollExchangeTrades = function*(trades) {
     try {
-      const { trades } = action.payload
-      fetchingTradesTask = yield fork(startFetchingTrades, trades)
+      while (true) {
+        yield all(map(trade => fork(updateExchangeTrade, trade), trades))
+        yield delay(pollTimeout)
+      }
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'pollExchangeTrades', e)
+      )
+    }
+  }
+
+  const initTradePolling = function*(trades) {
+    const incompleteTrades = trades.filter(({ state }) =>
+      contains(state, INCOMPLETE_STATES)
+    )
+    yield call(stopPollingTrades)
+    if (!isEmpty(incompleteTrades)) {
+      pollingExchangeTask = yield spawn(pollExchangeTrades, incompleteTrades)
+    }
+  }
+
+  const stopPollingTrades = function*() {
+    if (pollingExchangeTask) {
+      yield cancel(pollingExchangeTask)
+      pollingExchangeTask = null
+    }
+  }
+
+  const fetchNextPage = function*() {
+    try {
+      yield put(A.fetchTradesLoading())
+      const trades = (yield select(S.getTrades)).getOrElse([])
+      const lastTradeTime = prop('createdAt', last(trades))
+      let nextPageTrades = yield call(api.fetchTrades, PER_PAGE, lastTradeTime)
+      if (nextPageTrades.length < PER_PAGE) {
+        const shapeShiftTrades = (yield select(
+          selectors.core.kvStore.shapeShift.getTrades
+        )).getOrElse([])
+        yield put(A.allFetched())
+        nextPageTrades = concat(nextPageTrades, shapeShiftTrades)
+      }
+      const newTrades = concat(trades, nextPageTrades)
+      yield call(initTradePolling, newTrades)
+      yield put(A.fetchTradesSuccess(newTrades))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'fetchNextPage', e))
+      yield put(A.fetchTradesError(e))
+    }
+  }
+
+  const updateDisplayedShapeShiftTrades = function*(updatedShapeShiftTrades) {
+    if (isEmpty(updatedShapeShiftTrades)) return
+    const idPath = path(['quote', 'orderId'])
+    const indexedTrades = indexBy(idPath, updatedShapeShiftTrades)
+    const trades = (yield select(S.getTrades)).getOrElse([])
+    yield compose(
+      put,
+      A.fetchTradesSuccess,
+      map(trade => {
+        const updatedTrade = prop(idPath(trade), indexedTrades)
+        if (updatedTrade) return updatedTrade
+        return trade
+      })
+    )(trades)
+  }
+
+  const fetchTradeData = function*(trade) {
+    try {
+      const depositAddress = path(['quote', 'deposit'], trade)
+      const status = prop('status', trade)
+      const quote = prop('quote', trade)
+      const depositAmount = prop('depositAmount', quote)
+      const withdrawalAmount = prop('withdrawalAmount', quote)
+      if (
+        !equals('complete', status) ||
+        any(isNil)([depositAmount, withdrawalAmount])
+      ) {
+        yield call(
+          coreSagas.kvStore.shapeShift.fetchShapeshiftTrade,
+          depositAddress
+        )
+        return (yield select(
+          selectors.core.kvStore.shapeShift.getTrade(depositAddress)
+        )).getOrElse(null)
+      }
+      return null
+    } catch (e) {
+      yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADE_ERROR))
+      yield put(actions.logs.logErrorMessage(logLocation, 'fetchTradeData', e))
+    }
+  }
+
+  const exchangeHistoryInitialized = function*() {
+    try {
+      const userFlowSupported = yield select(
+        selectors.modules.profile.userFlowSupported
+      )
+      const trades = (yield select(
+        selectors.core.kvStore.shapeShift.getTrades
+      )).getOrElse([])
+      const updatedTrades = (yield all(
+        trades.map(trade => call(fetchTradeData, trade))
+      )).filter(Boolean)
+      if (userFlowSupported) {
+        yield call(updateDisplayedShapeShiftTrades, updatedTrades)
+      }
     } catch (e) {
       yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADES_ERROR))
       yield put(
@@ -92,9 +190,10 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const exchangeHistoryDestroyed = function*(action) {
+  const exchangeHistoryDestroyed = function*() {
     try {
-      yield cancel(fetchingTradesTask)
+      yield all(map(cancel, fetchingTradesTasks))
+      fetchingTradesTasks = []
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'exchangeHistoryDestroyed', e)
@@ -106,7 +205,7 @@ export default ({ api, coreSagas }) => {
     try {
       while (true) {
         yield call(updateTrade, depositAddress)
-        yield call(delay, 5000)
+        yield call(delay, pollTimeout)
       }
     } catch (e) {
       yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADE_ERROR))
@@ -119,7 +218,7 @@ export default ({ api, coreSagas }) => {
   const exchangeHistoryModalInitialized = function*(action) {
     try {
       const { depositAddress } = action.payload
-      pollingTradeStatusTask = yield fork(
+      pollingShapeShiftTask = yield fork(
         startPollingTradeStatus,
         depositAddress
       )
@@ -136,7 +235,10 @@ export default ({ api, coreSagas }) => {
 
   const exchangeHistoryModalDestroyed = function*() {
     try {
-      yield cancel(pollingTradeStatusTask)
+      if (pollingShapeShiftTask) {
+        yield cancel(pollingShapeShiftTask)
+        pollingShapeShiftTask = null
+      }
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
@@ -152,6 +254,8 @@ export default ({ api, coreSagas }) => {
     exchangeHistoryInitialized,
     exchangeHistoryDestroyed,
     exchangeHistoryModalInitialized,
-    exchangeHistoryModalDestroyed
+    exchangeHistoryModalDestroyed,
+    fetchNextPage,
+    stopPollingTrades
   }
 }
