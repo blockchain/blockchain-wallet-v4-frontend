@@ -41,11 +41,11 @@ const selectStyle = type => {
         icon: 'checkmark-in-circle'
       }
     case 'warning':
-      return { color: 'error', uppercase: true, icon: 'alert' }
+      return { color: 'error', uppercase: true, icon: 'alert-filled' }
     case 'alert':
       return { color: 'brand-secondary', uppercase: false, icon: 'bell' }
     case 'caution':
-      return { color: 'brand-yellow', uppercase: false, icon: 'alert' }
+      return { color: 'brand-yellow', uppercase: false, icon: 'alert-filled' }
     case 'informational':
       return { color: 'gray-5', uppercase: false, icon: null }
     default:
@@ -66,7 +66,7 @@ const Banner = props => {
       inline={inline}
       label={label}
     >
-      {icon && <Icon name={icon} size='18px' weight={700} color={color} />}
+      {icon && <Icon name={icon} size='18px' weight={300} color={color} />}
       <BannerContent
         size='12px'
         weight={400}

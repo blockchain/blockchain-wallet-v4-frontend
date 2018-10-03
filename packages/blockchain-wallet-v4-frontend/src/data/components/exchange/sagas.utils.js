@@ -1,4 +1,4 @@
-import { call, put, select } from 'redux-saga/effects'
+import { call, cancel, fork, join, put, select } from 'redux-saga/effects'
 import { equals, identity, head, path, pathOr, prop, toLower } from 'ramda'
 import { selectors, actions } from 'data'
 import * as S from './selectors'
@@ -22,14 +22,18 @@ export default ({ api, coreSagas, networks, options }) => {
   let prevPaymentSource
   let prevPaymentAmount
   let prevPayment
+  let paymentTask
   const calculatePaymentMemo = function*(source, amount) {
     if (
       !equals(source, prevPaymentSource) ||
       !equals(amount, prevPaymentAmount)
     ) {
+      if (paymentTask) cancel(paymentTask)
+      paymentTask = yield fork(calculateProvisionalPayment, source, amount)
+      prevPayment = yield join(paymentTask)
       prevPaymentSource = source
       prevPaymentAmount = amount
-      prevPayment = yield call(calculateProvisionalPayment, source, amount)
+      paymentTask = null
     }
     return prevPayment
   }
@@ -41,6 +45,7 @@ export default ({ api, coreSagas, networks, options }) => {
     try {
       const coin = prop('coin', source)
       const addressOrIndex = prop('address', source)
+      const addressType = prop('type', source)
       const [network, provisionalScript] = prop(coin, {
         BTC: btcOptions,
         BCH: bchOptions,
@@ -51,7 +56,7 @@ export default ({ api, coreSagas, networks, options }) => {
         .chain()
         .init()
         .fee('priority')
-        .from(addressOrIndex, ADDRESS_TYPES.ACCOUNT)
+        .from(addressOrIndex, addressType)
         .done()
       if (coin === 'ETH') return payment.value()
 
@@ -68,10 +73,14 @@ export default ({ api, coreSagas, networks, options }) => {
 
   let prevBalanceSource
   let prevBalance
+  let balanceTask
   const calculateEffectiveBalanceMemo = function*(source) {
     if (!equals(source, prevBalanceSource)) {
+      if (balanceTask) cancel(balanceTask)
+      balanceTask = yield fork(calculateEffectiveBalance, source)
+      prevBalance = yield join(balanceTask)
       prevBalanceSource = source
-      prevBalance = yield call(calculateEffectiveBalance, source)
+      balanceTask = null
     }
     return prevBalance
   }
@@ -79,7 +88,9 @@ export default ({ api, coreSagas, networks, options }) => {
   const calculateEffectiveBalance = function*(source) {
     const coin = prop('coin', source)
     const addressOrIndex = prop('address', source)
+    const addressType = prop('type', source)
     let payment
+
     switch (coin) {
       case 'BCH':
         payment = yield coreSagas.payment.bch
@@ -87,7 +98,7 @@ export default ({ api, coreSagas, networks, options }) => {
           .chain()
           .init()
           .fee('priority')
-          .from(addressOrIndex, ADDRESS_TYPES.ACCOUNT)
+          .from(addressOrIndex, addressType)
           .done()
         break
       case 'BTC':
@@ -96,7 +107,7 @@ export default ({ api, coreSagas, networks, options }) => {
           .chain()
           .init()
           .fee('priority')
-          .from(addressOrIndex, ADDRESS_TYPES.ACCOUNT)
+          .from(addressOrIndex, addressType)
           .done()
         break
       case 'ETH':
@@ -105,7 +116,7 @@ export default ({ api, coreSagas, networks, options }) => {
           .chain()
           .init()
           .fee('priority')
-          .from(addressOrIndex, ADDRESS_TYPES.ACCOUNT)
+          .from(addressOrIndex, addressType)
           .done()
         break
       default:
@@ -125,6 +136,7 @@ export default ({ api, coreSagas, networks, options }) => {
     coin,
     sourceAddressOrIndex,
     targetAddress,
+    addressType,
     amount
   ) {
     let payment
@@ -164,7 +176,7 @@ export default ({ api, coreSagas, networks, options }) => {
         throw new Error('Could not create payment.')
     }
     payment = yield payment
-      .from(sourceAddressOrIndex, ADDRESS_TYPES.ACCOUNT)
+      .from(sourceAddressOrIndex, addressType)
       .to(targetAddress, ADDRESS_TYPES.ADDRESS)
       .build()
       .done()

@@ -31,6 +31,14 @@ export const updateDeviceName = (deviceIndex, deviceName) => ({
   type: AT.UPDATE_DEVICE_NAME,
   payload: { deviceIndex, deviceName }
 })
+export const setLatestTxEth = (deviceIndex, txHash) => ({
+  type: AT.SET_LATEST_TX_ETH,
+  payload: { deviceIndex, txHash }
+})
+export const setLatestTxTimestampEth = (deviceIndex, timestamp) => ({
+  type: AT.SET_LATEST_TX_TIMESTAMP_ETH,
+  payload: { deviceIndex, timestamp }
+})
 
 // DELETE
 export const deleteDeviceLockbox = deviceIndex => ({

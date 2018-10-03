@@ -19,6 +19,7 @@ import {
   CONFIRM_FORM,
   NO_ADVICE_ERROR,
   NO_LIMITS_ERROR,
+  MISSING_DEVICE_ERROR,
   getTargetCoinsPairedToSource,
   getSourceCoinsPairedToTarget,
   EXCHANGE_STEPS
@@ -27,7 +28,8 @@ import utils from './sagas.utils'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
-import { promptForSecondPassword } from 'services/SagaService'
+import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { selectReceiveAddress } from '../utils/sagas'
 import {
   getEffectiveBalanceStandard,
@@ -37,7 +39,6 @@ import {
   getCurrentMin,
   getCurrentMax,
   selectFee,
-  convertTargetToFiat,
   convertStandardToBase,
   convertSourceToTarget,
   convertBaseToStandard
@@ -113,13 +114,17 @@ export default ({ api, coreSagas, options, networks }) => {
   }
 
   const getAmounts = function*(pair) {
-    const amountsR = (yield select(S.getAmounts(pair))).map(prop('sourceFiat'))
+    const amountsR = yield select(S.getAmounts(pair))
 
     if (Remote.Loading.is(amountsR)) {
-      yield take(actionTypes.modules.rates.PAIR_UPDATED)
+      const quote = yield take(actionTypes.modules.rates.SET_PAIR_QUOTE)
+      return compose(
+        S.adviceToAmount,
+        path(['payload', 'quote', 'currencyRatio'])
+      )(quote)
     }
 
-    return (yield select(S.getAmounts(pair))).getOrFail(NO_ADVICE_ERROR)
+    return amountsR.getOrFail(NO_ADVICE_ERROR)
   }
 
   const exchangeFormInitialized = function*() {
@@ -130,7 +135,6 @@ export default ({ api, coreSagas, options, networks }) => {
     const fiatCurrency = yield call(getFiatCurrency)
     yield call(changeRatesSubscription, sourceCoin, targetCoin, fiatCurrency)
     yield call(fetchLimits)
-    yield call(fetchTargetFees)
   }
 
   const validateForm = function*() {
@@ -165,25 +169,6 @@ export default ({ api, coreSagas, options, networks }) => {
     if (!(fix && getCurrentPair(form) === pair)) return
 
     yield call(validateForm)
-  }
-
-  const fetchTargetFees = function*() {
-    try {
-      yield put(A.fetchTargetFeesLoading())
-      const form = yield select(formValueSelector)
-      const targetCoin = path(['target', 'coin'], form)
-      const { fee } = yield call(api.fetchTradeCounterFees, targetCoin)
-      const rates = yield call(getBestRates)
-      yield put(
-        A.fetchTargetFeesSuccess({
-          targetFiat: convertTargetToFiat(form, rates, fee),
-          target: fee
-        })
-      )
-    } catch (e) {
-      const description = propOr('', 'description', e)
-      yield put(A.fetchTargetFeesError(description))
-    }
   }
 
   const fetchLimits = function*() {
@@ -440,7 +425,6 @@ export default ({ api, coreSagas, options, networks }) => {
       yield call(unsubscribeFromCurrentAdvice, form)
       yield call(changeSubscription, true)
       yield call(updateSourceFee)
-      yield call(fetchTargetFees)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'changeTarget', e))
     }
@@ -510,7 +494,6 @@ export default ({ api, coreSagas, options, networks }) => {
       yield call(changeSubscription, true)
       yield call(clearMinMax)
       yield call(updateSourceFee)
-      yield call(fetchTargetFees)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'swapFieldValue', e))
     }
@@ -533,9 +516,6 @@ export default ({ api, coreSagas, options, networks }) => {
         target,
         networks
       )
-
-      const password = yield call(promptForSecondPassword)
-
       const {
         depositAddress,
         deposit: { symbol, value }
@@ -545,9 +525,35 @@ export default ({ api, coreSagas, options, networks }) => {
         symbol,
         source.address,
         depositAddress,
+        source.type,
         convertStandardToBase(symbol, value)
       )
-      yield (yield payment.sign(password)).publish()
+      if (source.type !== ADDRESS_TYPES.LOCKBOX) {
+        const password = yield call(promptForSecondPassword)
+        yield (yield payment.sign(password)).publish()
+      } else {
+        const deviceR = yield select(
+          selectors.core.kvStore.lockbox.getDeviceFromCoinAddrs,
+          prop('coin', source),
+          prop('from', payment.value())
+        )
+        const device = deviceR.getOrFail(MISSING_DEVICE_ERROR)
+        yield call(
+          promptForLockbox,
+          prop('coin', source),
+          null,
+          prop('device_type', device)
+        )
+        const connection = yield select(
+          selectors.components.lockbox.getCurrentConnection
+        )
+        yield (yield payment.sign(
+          null,
+          prop('transport', connection)
+        )).publish()
+        yield put(actions.modals.closeAllModals())
+      }
+
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
       yield put(actions.router.push('/exchange/history'))
       yield put(A.setStep(EXCHANGE_STEPS.EXCHANGE_FORM))

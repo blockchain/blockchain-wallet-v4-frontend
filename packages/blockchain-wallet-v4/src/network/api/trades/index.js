@@ -27,8 +27,7 @@ export default ({ nabuUrl, post, get }) => {
       url: nabuUrl,
       endPoint: '/trades',
       data,
-      contentType: 'application/json',
-      ignoreQueryParams: true
+      contentType: 'application/json'
     })
   }
 

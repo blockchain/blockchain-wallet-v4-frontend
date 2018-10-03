@@ -27,7 +27,7 @@ class StringDisplayContainer extends React.PureComponent {
     return (
       <Wrapper {...rest}>
         {children.cata({
-          Success: value => <Text className='text'>{value}</Text>,
+          Success: value => value,
           Failure: message => (
             <Text size='12px' weight={300} color='red' className='error'>
               {message}

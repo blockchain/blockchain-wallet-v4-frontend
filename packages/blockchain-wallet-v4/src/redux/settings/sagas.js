@@ -84,6 +84,16 @@ export default ({ api }) => {
     yield put(actions.setEmailVerified())
   }
 
+  const resendVerifyEmail = function*({ email }) {
+    const guid = yield select(wS.getGuid)
+    const sharedKey = yield select(wS.getSharedKey)
+    const response = yield call(api.resendVerifyEmail, guid, sharedKey, email)
+    if (!response.success) {
+      throw new Error(response)
+    }
+    yield put(actions.setEmailVerified())
+  }
+
   const setMobile = function*({ mobile }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
@@ -128,6 +138,18 @@ export default ({ api }) => {
       throw new Error(response)
     }
     yield put(actions.setLanguage(language))
+  }
+
+  const setLastTxTime = function*() {
+    const guid = yield select(wS.getGuid)
+    const sharedKey = yield select(wS.getSharedKey)
+    let d = new Date()
+    let epoch = d.setHours(0, 0, 0, 0)
+    try {
+      yield call(api.updateLastTxTime, guid, sharedKey, epoch)
+    } catch (e) {
+      console.warn('Error: setLastTxTime')
+    }
   }
 
   const setCurrency = function*({ currency }) {
@@ -305,12 +327,14 @@ export default ({ api }) => {
   return {
     decodePairingCode,
     requestGoogleAuthenticatorSecretUrl,
+    resendVerifyEmail,
     fetchSettings,
     setEmail,
     setMobile,
     setMobileVerified,
     setMobileVerifiedAs2FA,
     setLanguage,
+    setLastTxTime,
     setCurrency,
     setAutoLogout,
     setLoggingLevel,

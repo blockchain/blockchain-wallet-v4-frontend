@@ -639,6 +639,10 @@
       {
         "defaultMessage": "Error code: {err}",
         "id": "buysell.general.failure.message3"
+      },
+      {
+        "defaultMessage": "Refresh",
+        "id": "buysell.general.failure.refresh"
       }
     ],
     "path": "src/components/BuySell/Failure.json"
@@ -872,19 +876,7 @@
     "descriptors": [
       {
         "defaultMessage": "Month",
-        "id": "components.DateInputBox.label.month"
-      },
-      {
-        "defaultMessage": "Month",
         "id": "components.DateInputBox.placeholder.month"
-      },
-      {
-        "defaultMessage": "Date",
-        "id": "components.DateInputBox.label.date"
-      },
-      {
-        "defaultMessage": "Year",
-        "id": "components.DateInputBox.label.year"
       }
     ],
     "path": "src/components/Form/DateInputBox/index.json"
@@ -910,15 +902,6 @@
       }
     ],
     "path": "src/components/Form/SelectBoxBchAddresses/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "All",
-        "id": "components.form.selectboxbtcaddresses.all"
-      }
-    ],
-    "path": "src/components/Form/SelectBoxBtcAddresses/index.json"
   },
   {
     "descriptors": [
@@ -1104,6 +1087,15 @@
       }
     ],
     "path": "src/components/IdentityVerification/KYCBanner/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Step {number}",
+        "id": "components.modalstepper.step"
+      }
+    ],
+    "path": "src/components/ModalStepper/index.json"
   },
   {
     "descriptors": [
@@ -1515,203 +1507,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "To:",
-        "id": "components.transactionlistitem.addresses.to"
-      },
-      {
-        "defaultMessage": "From:",
-        "id": "components.transactionlistitem.addresses.from"
-      }
-    ],
-    "path": "src/components/TransactionListItem2/Addresses/Bch/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "To:",
-        "id": "components.transactionlistitem.addresses.to"
-      },
-      {
-        "defaultMessage": "From:",
-        "id": "components.transactionlistitem.addresses.from"
-      }
-    ],
-    "path": "src/components/TransactionListItem2/Addresses/Btc/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "To:",
-        "id": "components.transactionlistitem.addresses.to"
-      },
-      {
-        "defaultMessage": "From:",
-        "id": "components.transactionlistitem.addresses.from"
-      }
-    ],
-    "path": "src/components/TransactionListItem2/Addresses/Eth/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "To:",
-        "id": "components.transactionlistitem.addresses.to"
-      },
-      {
-        "defaultMessage": "From:",
-        "id": "components.transactionlistitem.addresses.from"
-      }
-    ],
-    "path": "src/components/TransactionListItem2/Addresses/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Transaction Confirmed",
-        "id": "scenes.transactions.content.pages.listitem.confirmation.confirmed"
-      },
-      {
-        "defaultMessage": "Pending: {count}/{total} Confirmations",
-        "id": "scenes.transactions.content.pages.listitem.confirmation.unconfirmed"
-      },
-      {
-        "defaultMessage": "Your transaction will be complete after it has {minConfirmations} confirmations.",
-        "id": "scenes.transactions.content.list.listitem.transactionunconfirmed"
-      }
-    ],
-    "path": "src/components/TransactionListItem2/Confirmations/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Add a description",
-        "id": "components.editdescription.add"
-      }
-    ],
-    "path": "src/components/TransactionListItem2/Description/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "view",
-        "id": "components.transactionlistitem.fiatattime.notasked.view"
-      }
-    ],
-    "path": "src/components/TransactionListItem2/FiatAtTime/template.notasked.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Value when Sent:",
-        "id": "components.transactionlistitem.fiatattime.valuewhensent"
-      },
-      {
-        "defaultMessage": "Value when Received:",
-        "id": "components.transactionlistitem.fiatattime.valuewhenreceived"
-      }
-    ],
-    "path": "src/components/TransactionListItem2/FiatAtTime/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "view",
-        "id": "components.transactionlistitem.fiatattime.notasked.view"
-      }
-    ],
-    "path": "src/components/TransactionListItem2/FiatAtTime/ValueWhenReceived/template.notasked.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "ShapeShift Deposit",
-        "id": "components.txlistitem.partnerlabel.depositedshapeshift"
-      },
-      {
-        "defaultMessage": "Received from ShapeShift",
-        "id": "components.txlistitem.partnerlabel.receivedshapeshift"
-      },
-      {
-        "defaultMessage": "Sold via {partner}",
-        "id": "components.txlistitem.partnerlabel.soldvia"
-      },
-      {
-        "defaultMessage": "Bought via {partner}",
-        "id": "components.txlistitem.partnerlabel.boughtvia"
-      }
-    ],
-    "path": "src/components/TransactionListItem2/PartnerLabel/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Sent {coin}",
-        "id": "scenes.transactions.bitcoin.content.list.listitem.status.sent"
-      },
-      {
-        "defaultMessage": "Received {coin}",
-        "id": "scenes.transactions.bitcoin.content.list.listitem.status.received"
-      },
-      {
-        "defaultMessage": "Transferred {coin}",
-        "id": "scenes.transactions.bitcoin.content.list.listitem.status.transferred"
-      }
-    ],
-    "path": "src/components/TransactionListItem2/Status/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Non-Spendable",
-        "id": "components.txlistitem.watchonly"
-      },
-      {
-        "defaultMessage": "Description",
-        "id": "components.txlistitem.description"
-      },
-      {
-        "defaultMessage": "Value When {type}",
-        "id": "components.txlistitem.valueattime"
-      },
-      {
-        "defaultMessage": "Sent From",
-        "id": "components.txlistitem.sentfrom"
-      },
-      {
-        "defaultMessage": "Received By",
-        "id": "components.txlistitem.receivedby"
-      },
-      {
-        "defaultMessage": "Status",
-        "id": "components.txlistitem.status"
-      },
-      {
-        "defaultMessage": "Transaction Fee",
-        "id": "scenes.transactions.bitcoin.content.pages.listitem.fee.label"
-      }
-    ],
-    "path": "src/components/TransactionListItem2/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Exchange",
-        "id": "scenes.exchange.menutop.exchange"
-      },
-      {
-        "defaultMessage": "Order History",
-        "id": "scenes.exchange.menutop.history"
-      },
-      {
-        "defaultMessage": "Powered by",
-        "id": "scenes.exchange.menutop.poweredby"
-      }
-    ],
-    "path": "src/layouts/Exchange/MenuTop/index.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Data",
         "id": "layouts.public.footer.explorer"
       },
@@ -1760,27 +1555,27 @@
     "descriptors": [
       {
         "defaultMessage": "Security Center",
-        "id": "layouts.wallet.menuleft.navigation.securitycenter"
+        "id": "layouts.wallet.menuleft.footer.securitycenter"
       },
       {
         "defaultMessage": "Settings",
-        "id": "layouts.wallet.menuleft.navigation.settings"
+        "id": "layouts.wallet.menuleft.footer.settings"
       },
       {
         "defaultMessage": "General",
-        "id": "layouts.wallet.menuleft.navigation.general"
+        "id": "layouts.wallet.menuleft.footer.general"
       },
       {
         "defaultMessage": "Profile",
-        "id": "layouts.wallet.menuleft.navigation.profile"
+        "id": "layouts.wallet.menuleft.footer.profile"
       },
       {
         "defaultMessage": "Preferences",
-        "id": "layouts.wallet.menuleft.navigation.preferences"
+        "id": "layouts.wallet.menuleft.footer.preferences"
       },
       {
         "defaultMessage": "Wallets & Addresses",
-        "id": "layouts.wallet.menuleft.navigation.addresses"
+        "id": "layouts.wallet.menuleft.footer.addresses"
       }
     ],
     "path": "src/layouts/Wallet/MenuLeft/Footer/template.json"
@@ -1829,6 +1624,15 @@
       }
     ],
     "path": "src/layouts/Wallet/MenuLeft/Navigation/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Something went wrong. Please refresh",
+        "id": "layouts.wallet.menuleft.failure"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuLeft/template.failure.json"
   },
   {
     "descriptors": [
@@ -1954,15 +1758,6 @@
       }
     ],
     "path": "src/layouts/Wallet/MenuTop/Balance/LockboxBalance/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Total Balance",
-        "id": "scenes.wallet.menutop.balance.totalbalance"
-      }
-    ],
-    "path": "src/layouts/Wallet/MenuTop/Balance/LockboxBalance/TotalBalance/template.success.json"
   },
   {
     "descriptors": [
@@ -2696,15 +2491,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Learn More",
-        "id": "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore"
-      }
-    ],
-    "path": "src/layouts/Wallet/TrayRight/WhatsNew/FaqLink/index.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "🎉 You're all caught up!",
         "id": "layouts.wallet.header.whatsnew.whatsnew.empty"
       },
@@ -3290,27 +3076,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Connect your device",
-        "id": "modals.connectlockbox.title"
-      },
-      {
-        "defaultMessage": "1. Connect your lockbox to computer via USB port.",
-        "id": "modals.connectlockbox.connectdevice"
-      },
-      {
-        "defaultMessage": "2. Open the {appName} application",
-        "id": "modals.connectlockbox.openapp"
-      },
-      {
-        "defaultMessage": "3. Make sure browser support is enabled",
-        "id": "modals.connectlockbox.enablebrowsersupport"
-      }
-    ],
-    "path": "src/modals/ConnectLockboxDevice/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Remove Label?",
         "id": "modal.deleteaddresslabel.title"
       },
@@ -3438,8 +3203,8 @@
         "id": "modals.exchangedetails.close"
       },
       {
-        "defaultMessage": "Order {id}",
-        "id": "modals.exchangeresults.orderid"
+        "defaultMessage": "Order",
+        "id": "modals.exchangeresults.order"
       },
       {
         "defaultMessage": "Total Value",
@@ -3463,59 +3228,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Why do you need this information?",
-        "id": "identityverification.address.faq.whycollect.question"
-      },
-      {
-        "defaultMessage": "To comply with government regulated anti-money laundering legislation, we need to obtain additional information in order to verify your identity.",
-        "id": "identityverification.address.faq.whycollect.answer"
-      },
-      {
-        "defaultMessage": "Address Details",
-        "id": "identityverification.address.header"
-      },
-      {
-        "defaultMessage": "There's so much we'd love to know about you, but we only need a few things.",
-        "id": "identityverification.address.subheader"
-      },
-      {
-        "defaultMessage": "Address",
-        "id": "identityverification.address.address"
-      },
-      {
-        "defaultMessage": "Address 2",
-        "id": "identityverification.address.address2"
-      },
-      {
-        "defaultMessage": "City",
-        "id": "identityverification.address.city"
-      },
-      {
-        "defaultMessage": "State",
-        "id": "identityverification.address.state"
-      },
-      {
-        "defaultMessage": "Region",
-        "id": "identityverification.address.region"
-      },
-      {
-        "defaultMessage": "Zip Code",
-        "id": "identityverification.address.zipcode"
-      },
-      {
-        "defaultMessage": "Country",
-        "id": "identityverification.address.country"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "identityverification.address.continue"
-      }
-    ],
-    "path": "src/modals/IdentityVerification/Address.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Personal",
         "id": "modals.identityverification.steps.personal"
       },
@@ -3529,80 +3241,6 @@
       }
     ],
     "path": "src/modals/IdentityVerification/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "That code doesn't match. {resend} or {changeEmail}.",
-        "id": "identityverification.personal.email.error"
-      },
-      {
-        "defaultMessage": "Didn't receive your email? {resend} or {changeEmail}.",
-        "id": "identityverification.personal.email.didntreceive"
-      },
-      {
-        "defaultMessage": "What's your email?",
-        "id": "identityverification.personal.email.header"
-      },
-      {
-        "defaultMessage": "Rest assured: there are only a few steps separating you from the good stuff. Let's start by confirming your verified email address and phone number.",
-        "id": "identityverification.personal.email.subheader"
-      },
-      {
-        "defaultMessage": "Confirm Email:",
-        "id": "identityverification.personal.email.confirm"
-      },
-      {
-        "defaultMessage": "We emailed a verification code to {email}",
-        "id": "identityverification.personal.email.code"
-      },
-      {
-        "defaultMessage": "Send Email Verification Code",
-        "id": "identityverification.personal.email.number"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "identityverification.personal.continue"
-      }
-    ],
-    "path": "src/modals/IdentityVerification/Personal/EditEmail.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "That code doesn't match. {resend} or {changeNumber}.",
-        "id": "identityverification.personal.sms.error"
-      },
-      {
-        "defaultMessage": "Didn't get our text? {resend} or {changeNumber}.",
-        "id": "identityverification.personal.sms.didntreceive"
-      },
-      {
-        "defaultMessage": "What's Your Number?",
-        "id": "identityverification.personal.mobile.header"
-      },
-      {
-        "defaultMessage": "Don't worry, we won't use your number for anything other than sending your code.",
-        "id": "identityverification.personal.mobile.subheader"
-      },
-      {
-        "defaultMessage": "Enter your digits here:",
-        "id": "identityverification.personal.mobile.entermobilenumber"
-      },
-      {
-        "defaultMessage": "Enter the code we just sent to {smsNumber}",
-        "id": "identityverification.personal.mobile.entercode"
-      },
-      {
-        "defaultMessage": "Send My Code",
-        "id": "identityverification.personal.mobile.sendmycode"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "identityverification.personal.continue"
-      }
-    ],
-    "path": "src/modals/IdentityVerification/Personal/EditSmsNumber.json"
   },
   {
     "descriptors": [
@@ -3635,8 +3273,16 @@
         "id": "identityverification.personal.faq.name.text"
       },
       {
-        "defaultMessage": "Date of Birth",
-        "id": "identityverification.personal.dateofbirth"
+        "defaultMessage": "Date of Birth - Month",
+        "id": "identityverification.personal.dateofbirthmonth"
+      },
+      {
+        "defaultMessage": "Date",
+        "id": "identityverification.personal.date"
+      },
+      {
+        "defaultMessage": "Year",
+        "id": "identityverification.personal.year"
       },
       {
         "defaultMessage": "Age requirement",
@@ -3907,47 +3553,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Update Lockbox Firmware",
-        "id": "modals.lockboxfirmware.checkforupdates.title"
-      },
-      {
-        "defaultMessage": "Follow the steps below to continue",
-        "id": "modals.lockboxfirmware.checkforupdates.subtitle"
-      },
-      {
-        "defaultMessage": "1) Connect and open the Dashboard on your Lockbox",
-        "id": "modals.lockboxfirmware.checkforupdates.connectdevice"
-      },
-      {
-        "defaultMessage": "Retry",
-        "id": "modals.lockboxfirmware.checkforupdates.retry"
-      },
-      {
-        "defaultMessage": "2) Check device firmware version",
-        "id": "modals.lockboxfirmware.checkforupdates.installed"
-      },
-      {
-        "defaultMessage": "3) Get latest firmware version",
-        "id": "modals.lockboxfirmware.checkforupdates.latest"
-      },
-      {
-        "defaultMessage": "An update is available for your device!",
-        "id": "modals.lockboxfirmware.checkforupdates.deviceoutdated"
-      },
-      {
-        "defaultMessage": "Congrats! Your device is up to date!",
-        "id": "modals.lockboxfirmware.checkforupdates.deviceuptodated"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "modals.lockboxfirmware.checkforupdates.continue"
-      }
-    ],
-    "path": "src/modals/LockboxFirmware/CheckForUpdatesStep/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Step 2. Check for updates",
         "id": "modals.lockboxfirmware.checkversions.title"
       },
@@ -3961,31 +3566,6 @@
       }
     ],
     "path": "src/modals/LockboxFirmware/CheckVersionsStep/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Checking for Updates...",
-        "id": "modals.lockboxfirmware.compareversionsstep.title"
-      },
-      {
-        "defaultMessage": "Fetching firmware information",
-        "id": "modals.lockboxfirmware.compareversionsstep.installedtitle"
-      },
-      {
-        "defaultMessage": "Installed Firmwares:",
-        "id": "modals.lockboxfirmware.compareversionsstep.installed"
-      },
-      {
-        "defaultMessage": "Fetching latest firmware information",
-        "id": "modals.lockboxfirmware.compareversionsstep.latesttitle"
-      },
-      {
-        "defaultMessage": "Latest Firmwares:",
-        "id": "modals.lockboxfirmware.compareversionsstep.latest"
-      }
-    ],
-    "path": "src/modals/LockboxFirmware/CompareVersionsStep/template.json"
   },
   {
     "descriptors": [
@@ -4063,83 +3643,11 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Connect your device",
-        "id": "modals.lockboxfirmware.opendashboardstep.title"
-      },
-      {
-        "defaultMessage": "Follow the steps below to continue",
-        "id": "modals.lockboxfirmware.opendashboardstep.subtitle"
-      },
-      {
-        "defaultMessage": "Connect, unlock and open the Dashboard on your Lockbox",
-        "id": "modals.lockboxfirmware.opendashboardstep.connectdevice"
-      },
-      {
-        "defaultMessage": "Failed to connect to Lockbox device!",
-        "id": "modals.lockboxfirmware.opendashboardstep.failtoconnect"
-      },
-      {
-        "defaultMessage": "Retry",
-        "id": "modals.lockboxfirmware.opendashboardstep.retry"
-      }
-    ],
-    "path": "src/modals/LockboxFirmware/OpenDashboardStep/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Step {number}",
         "id": "modals.lockboxfirmware.header.step"
       }
     ],
     "path": "src/modals/LockboxFirmware/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Install Latest Firmware",
-        "id": "modals.lockboxfirmware.upgradefirmwarestep.title"
-      },
-      {
-        "defaultMessage": "Implement this...",
-        "id": "modals.lockboxfirmware.upgradefirmwarestep.subtitle"
-      }
-    ],
-    "path": "src/modals/LockboxFirmware/UpgradeFirmwareStep/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Continue",
-        "id": "modals.lockboxsetup.authenticitycheck.continue"
-      },
-      {
-        "defaultMessage": "Congrats! Your device is authentic!",
-        "id": "modals.lockboxsetup.authenticitycheck.authentic"
-      },
-      {
-        "defaultMessage": "Whoops! This device appears to be not authentic. Please contact support.",
-        "id": "modals.lockboxsetup.authenticitycheck.inauthentic"
-      },
-      {
-        "defaultMessage": "Failed to authenticate your device. Please contact support.",
-        "id": "modals.lockboxsetup.authenticitycheck.failure"
-      },
-      {
-        "defaultMessage": "Checking device authenticity...",
-        "id": "modals.lockboxsetup.authenticitycheck.loading"
-      }
-    ],
-    "path": "src/modals/LockboxSetup/AuthenticityCheckStep/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Device Authenticity",
-        "id": "modals.lockboxsetup.authenticitycheck.title"
-      }
-    ],
-    "path": "src/modals/LockboxSetup/AuthenticityCheckStep/template.json"
   },
   {
     "descriptors": [
@@ -4161,36 +3669,6 @@
       }
     ],
     "path": "src/modals/LockboxSetup/AuthenticityStep/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Incorrect phrase entered.",
-        "id": "modals.lockboxsetup.confirmrecovery.step2.incorrectphrase"
-      },
-      {
-        "defaultMessage": "Please confirm that you have saved your backup phrase.",
-        "id": "modals.lockboxsetup.confirmrecovery.step2.title"
-      },
-      {
-        "defaultMessage": "This cannot be recovered at a later date. Type COMPLETE to confirm that you have written down your backup phrase.",
-        "id": "modals.lockboxsetup.confirmrecovery.step2.subtitle"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "modals.lockboxsetup.confirmrecovery.step2.confirm"
-      }
-    ],
-    "path": "src/modals/LockboxSetup/ConfirmRecoveryStep/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Unable to connect to your device. Please make sure your device is connected and the bitcoin app is open!",
-        "id": "modals.lockboxsetup.connectstep.error"
-      }
-    ],
-    "path": "src/modals/LockboxSetup/ConnectDeviceStep/template.failure.json"
   },
   {
     "descriptors": [
@@ -4224,41 +3702,6 @@
       }
     ],
     "path": "src/modals/LockboxSetup/ConnectDeviceStep/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Please unlock your device and open your bitcoin app to continue.",
-        "id": "modals.lockboxsetup.connectstep.connectdevice"
-      }
-    ],
-    "path": "src/modals/LockboxSetup/ConnectDeviceStep/template.loading.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Device connected successfully!",
-        "id": "modals.lockboxsetup.connectstep.connected"
-      }
-    ],
-    "path": "src/modals/LockboxSetup/ConnectDeviceStep/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Whoops!",
-        "id": "modals.lockboxsetup.duplicatedevice.title"
-      },
-      {
-        "defaultMessage": "This device has already been associated with your Blockchain Wallet. Please connect a new device and restart this process.",
-        "id": "modals.lockboxsetup.duplicatedevice.subtitle"
-      },
-      {
-        "defaultMessage": "OK",
-        "id": "modals.lockboxsetup.duplicatedevice.continue"
-      }
-    ],
-    "path": "src/modals/LockboxSetup/DuplicateDeviceStep/template.json"
   },
   {
     "descriptors": [
@@ -4348,15 +3791,6 @@
       }
     ],
     "path": "src/modals/LockboxSetup/SetupTypeStep/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Lockbox Setup",
-        "id": "modals.lockboxsetup.title"
-      }
-    ],
-    "path": "src/modals/LockboxSetup/template.json"
   },
   {
     "descriptors": [
@@ -4473,19 +3907,6 @@
       }
     ],
     "path": "src/modals/PairingCode/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Second password required",
-        "id": "modals.promptforlockbox.title"
-      },
-      {
-        "defaultMessage": "2. Review the transaction details on your device screen. Press the top right button to confirm the transaction.",
-        "id": "modals.sendbtc.thirdstep.confirmtx"
-      }
-    ],
-    "path": "src/modals/PromptForLockbox/template.json"
   },
   {
     "descriptors": [
@@ -5162,19 +4583,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "1. Open the <b>bitcoin app</b> on your device",
-        "id": "modals.sendbtc.thirdstep.connectbtcapp"
-      },
-      {
-        "defaultMessage": "2. Review the transaction details on your device screen. Press the top right button to confirm the transaction.",
-        "id": "modals.sendbtc.thirdstep.confirmtx"
-      }
-    ],
-    "path": "src/modals/SendBtc/ThirdStep/index.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "maximum",
         "id": "modals.sendeth.maximumamountlink.maximum"
       }
@@ -5620,8 +5028,16 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Account Holder's Name",
-        "id": "sfoxexchangedata.link.accountholdername"
+        "defaultMessage": "Account Holder",
+        "id": "sfoxexchangedata.link.accountholder"
+      },
+      {
+        "defaultMessage": "First Name",
+        "id": "sfoxexchangedata.link.accountholderfirstname"
+      },
+      {
+        "defaultMessage": "Last Name",
+        "id": "sfoxexchangedata.link.accountholderlastname"
       }
     ],
     "path": "src/modals/SfoxExchangeData/Link/BankAccounts.json"
@@ -5722,7 +5138,7 @@
         "id": "sfoxexchangedata.link.microdeposits.enter"
       },
       {
-        "defaultMessage": "Try again.",
+        "defaultMessage": "Try again",
         "id": "sfoxexchangedata.link.tryagain"
       },
       {
@@ -6381,6 +5797,35 @@
       }
     ],
     "path": "src/modals/UpgradeWallet/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Oops! Looks like we have this email already",
+        "id": "modals.userexists.title"
+      },
+      {
+        "defaultMessage": "You may have started the verification process in a different Blockchain Wallet.",
+        "id": "modals.userexists.emailused"
+      },
+      {
+        "defaultMessage": "In order to complete verification, please consider using another email address.",
+        "id": "modals.userexists.kycnotcomplete"
+      },
+      {
+        "defaultMessage": "If you have already verified your profile on another Blockchain Wallet, we are unable to verify you again on another wallet.",
+        "id": "modals.userexists.kyccomplete"
+      },
+      {
+        "defaultMessage": "Learn more",
+        "id": "modals.userexists.learnmore"
+      },
+      {
+        "defaultMessage": "Change Email",
+        "id": "modals.userexists.changeemail"
+      }
+    ],
+    "path": "src/modals/UserExists/index.json"
   },
   {
     "descriptors": [
@@ -7176,49 +6621,53 @@
     "descriptors": [
       {
         "defaultMessage": "Unfortunately buy & sell is not available in your state at this time. To be notified when we expand to your location, sign up below.",
-        "id": "selectpartner.unavailable.unfortunatelystate"
+        "id": "scenes.buysell.selectpartner.unavailable.unfortunatelystate"
       },
       {
         "defaultMessage": "Unfortunately buy & sell is not available in your country at this time. To be notified when we expand to your location, sign up below.",
-        "id": "selectpartner.unavailable.unfortunatelycountry"
+        "id": "scenes.buysell.selectpartner.unavailable.unfortunatelycountry"
       },
       {
         "defaultMessage": "Notify Me When This Becomes Available",
-        "id": "selectpartner.unavailable.notifyme"
+        "id": "scenes.buysell.selectpartner.unavailable.notifyme"
       },
       {
         "defaultMessage": "Thanks!",
-        "id": "selectpartner.unavailable.thanks"
+        "id": "scenes.buysell.selectpartner.unavailable.thanks"
       },
       {
         "defaultMessage": "We will send an email to {email} once buy & sell are available for your area.",
-        "id": "selectpartner.unavailable.sendemail"
+        "id": "scenes.buysell.selectpartner.unavailable.sendemail"
       },
       {
         "defaultMessage": "Introducing Buy & Sell",
-        "id": "selectpartner.header"
+        "id": "scenes.buysell.selectpartner.header"
       },
       {
         "defaultMessage": "You can now buy & sell bitcoin directly from your wallet and have the exchanged funds deposited into your bank account.",
-        "id": "selectpartner.subheader"
+        "id": "scenes.buysell.selectpartner.subheader"
       },
       {
         "defaultMessage": "Select your location below, verify your identity, and before you know it, you'll be on your way to making your crypto dreams a reality!",
-        "id": "selectpartner.subheader2"
+        "id": "scenes.buysell.selectpartner.subheader2"
       },
       {
         "defaultMessage": "Select your country:",
-        "id": "selectpartner.selectcountry"
+        "id": "scenes.buysell.selectpartner.selectcountry"
       },
       {
-        "defaultMessage": "get started",
-        "id": "selectpartner.getstarted"
+        "defaultMessage": "Get Started",
+        "id": "scenes.buysell.selectpartner.getstarted"
       }
     ],
     "path": "src/scenes/BuySell/template.success.json"
   },
   {
     "descriptors": [
+      {
+        "defaultMessage": "Lockbox device is missing",
+        "id": "scenes.exchange.confirm.missingdevice"
+      },
       {
         "defaultMessage": "Failed to execute a trade",
         "id": "scenes.exchange.confirm.tradefailed"
@@ -7300,7 +6749,7 @@
         "id": "scenes.exchange.exchangeform.summary.title"
       },
       {
-        "defaultMessage": "Deposit {coin}",
+        "defaultMessage": "Exchange {coin}",
         "id": "scenes.exchange.exchangeform.summary.deposit"
       },
       {
@@ -7329,20 +6778,11 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Step 1 of 2",
-        "id": "scenes.exchange.shapeshift.firststep.step"
-      }
-    ],
-    "path": "src/scenes/Exchange/ExchangeForm/template.loading.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Exchange:",
+        "defaultMessage": "Exchange",
         "id": "scenes.exchange.shapeshift.firststep.from"
       },
       {
-        "defaultMessage": "Receive:",
+        "defaultMessage": "Receive",
         "id": "scenes.exchange.shapeshift.firststep.to"
       },
       {
@@ -7396,63 +6836,6 @@
       }
     ],
     "path": "src/scenes/Exchange/ExchangeForm/validationMessages.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Success! Your exchange is complete",
-        "id": "modals.exchange.shapeshift.title.success"
-      },
-      {
-        "defaultMessage": "Exchange In Progress",
-        "id": "modals.exchange.shapeshift.title.inprogress"
-      },
-      {
-        "defaultMessage": "Thanks for placing your trade!",
-        "id": "modals.exchange.shapeshift.explain"
-      },
-      {
-        "defaultMessage": "Exchange trades can take up to two hours, and you can keep track of your trade’s progress in the Order History tab.",
-        "id": "modals.exchange.shapeshift.explain2"
-      },
-      {
-        "defaultMessage": "Your exchange is complete.",
-        "id": "modals.exchange.shapeshift.explain3"
-      },
-      {
-        "defaultMessage": "It may take a few minutes for the funds to show in your balance.",
-        "id": "modals.exchange.shapeshift.explain4"
-      },
-      {
-        "defaultMessage": "Order summary",
-        "id": "modals.exchange.shapeshift.ordersummary"
-      },
-      {
-        "defaultMessage": "{coin} deposited",
-        "id": "modals.exchange.shapeshift.deposited"
-      },
-      {
-        "defaultMessage": "{coin} to be received",
-        "id": "modals.exchange.shapeshift.received"
-      },
-      {
-        "defaultMessage": "Exchange rate",
-        "id": "modals.exchange.shapeshift.exchangerate"
-      },
-      {
-        "defaultMessage": "Transaction fee",
-        "id": "modals.exchange.shapeshift.fee"
-      },
-      {
-        "defaultMessage": "Order ID",
-        "id": "modals.exchange.shapeshift.orderid"
-      },
-      {
-        "defaultMessage": "Close",
-        "id": "modals.exchange.shapeshift.close"
-      }
-    ],
-    "path": "src/scenes/Exchange/ExchangeResults/template.success.json"
   },
   {
     "descriptors": [
@@ -7732,178 +7115,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "maximum",
-        "id": "scenes.exchange.firststep.maximumamountlink.maximum"
-      }
-    ],
-    "path": "src/scenes/Exchange/Shapeshift/FirstStep/MaximumAmountLink/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "minimum",
-        "id": "scenes.exchange.firststep.minimumamountlink.minimum"
-      }
-    ],
-    "path": "src/scenes/Exchange/Shapeshift/FirstStep/MinimumAmountLink/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Step 1 of 2",
-        "id": "scenes.exchange.shapeshift.firststep.step"
-      }
-    ],
-    "path": "src/scenes/Exchange/Shapeshift/FirstStep/template.loading.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Step 1 of 2",
-        "id": "scenes.exchange.shapeshift.firststep.step"
-      },
-      {
-        "defaultMessage": "Exchange:",
-        "id": "scenes.exchange.shapeshift.firststep.from"
-      },
-      {
-        "defaultMessage": "Receive:",
-        "id": "scenes.exchange.shapeshift.firststep.to"
-      },
-      {
-        "defaultMessage": "Enter amount:",
-        "id": "scenes.exchange.shapeshift.firststep.amount"
-      },
-      {
-        "defaultMessage": "Use",
-        "id": "scenes.exchangebox.firststep.use1"
-      },
-      {
-        "defaultMessage": "| Use",
-        "id": "scenes.exchangebox.firststep.use2"
-      },
-      {
-        "defaultMessage": "Next",
-        "id": "scenes.exchange.shapeshift.firststep.next"
-      }
-    ],
-    "path": "src/scenes/Exchange/Shapeshift/FirstStep/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Please enter an amount less than the limit.",
-        "id": "modals.exchange.abovelimitmessage"
-      },
-      {
-        "defaultMessage": "Not enough funds.",
-        "id": "modals.exchange.maximumamountmessage"
-      },
-      {
-        "defaultMessage": "Use",
-        "id": "modals.exchange.maximumamountmessage2"
-      },
-      {
-        "defaultMessage": "Below minimum amount.",
-        "id": "modals.exchange.minimumamountmessage"
-      },
-      {
-        "defaultMessage": "Use",
-        "id": "modals.exchange.minimumamountmessage2"
-      },
-      {
-        "defaultMessage": "Insufficient funds",
-        "id": "modals.exchange.insufficientamountmessage"
-      },
-      {
-        "defaultMessage": "Invalid amount",
-        "id": "modals.exchange.invalidamountmessage"
-      }
-    ],
-    "path": "src/scenes/Exchange/Shapeshift/FirstStep/validationMessages.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Your order could not be placed. Please try again later.",
-        "id": "scenes.shapeshift.secondstep.shapeshiftordererror"
-      },
-      {
-        "defaultMessage": "An unexpected error occured. Please try again later.",
-        "id": "scenes.shapeshift.secondstep.shapeshifterror"
-      },
-      {
-        "defaultMessage": "Go back",
-        "id": "scenes.shapeshift.secondstep.goback"
-      }
-    ],
-    "path": "src/scenes/Exchange/Shapeshift/SecondStep/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Confirm Exchange Order",
-        "id": "scenes.exchange.shapeshift.secondstep.title"
-      },
-      {
-        "defaultMessage": "Step 2 of 2",
-        "id": "scenes.exchange.shapeshift.secondstep.stepnumber"
-      },
-      {
-        "defaultMessage": "Review the details below and click 'Confirm' to begin your exchange.",
-        "id": "scenes.exchange.shapeshift.secondstep.recap"
-      },
-      {
-        "defaultMessage": "The exchanged funds will be deposited directly into {depositLabel}.",
-        "id": "scenes.exchange.shapeshift.secondstep.recap2"
-      },
-      {
-        "defaultMessage": "{coin} to deposit:",
-        "id": "scenes.exchange.shapeshift.secondstep.todeposit"
-      },
-      {
-        "defaultMessage": "Transaction fee",
-        "id": "scenes.exchange.shapeshift.secondstep.txfee"
-      },
-      {
-        "defaultMessage": "Total {sourceCoin} leaving the wallet",
-        "id": "scenes.exchange.shapeshift.secondstep.leaving"
-      },
-      {
-        "defaultMessage": "Exchange rate",
-        "id": "scenes.exchange.shapeshift.secondstep.rate"
-      },
-      {
-        "defaultMessage": "Network transaction fee",
-        "id": "scenes.exchange.shapeshift.secondstep.networkfee"
-      },
-      {
-        "defaultMessage": "{coin} to be received",
-        "id": "scenes.exchange.shapeshift.exchangebox.secondstep.tobereceived"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "scenes.exchange.shapeshift.secondstep.back"
-      },
-      {
-        "defaultMessage": "Confirm",
-        "id": "scenes.exchange.shapeshift.secondstep.finish"
-      }
-    ],
-    "path": "src/scenes/Exchange/Shapeshift/SecondStep/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "You must agree to the terms and conditions",
-        "id": "modals.exchange.shapeshift.agreetermsandconditions"
-      }
-    ],
-    "path": "src/scenes/Exchange/Shapeshift/SecondStep/validationMessages.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Simple. Seamless. Secure.",
         "id": "scenes.exchange.shapeshift.stateregistration.header"
       },
@@ -7925,89 +7136,11 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Simple. Seamless. Secure.",
-        "id": "scenes.exchange.shapeshift.stateregistration.header"
-      },
-      {
-        "defaultMessage": "Blockchain works with exchange partners to make exchanging coins in your wallet secure and seamless.",
-        "id": "scenes.exchange.shapeshift.stateregistration.subheader"
-      },
-      {
-        "defaultMessage": "Select your state of residency:",
-        "id": "scenes.exchange.shapeshift.stateregistration.selectstate"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "scenes.exchange.shapeshift.stateregistration.continue"
-      }
-    ],
-    "path": "src/scenes/Exchange/Shapeshift/StateRegistrationStep/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "An error has occurred. Please try again.",
         "id": "scenes.exchange.shapeshift.error"
       }
     ],
     "path": "src/scenes/Exchange/Shapeshift/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Success! Your exchange is complete",
-        "id": "modals.exchange.shapeshift.title.success"
-      },
-      {
-        "defaultMessage": "Exchange In Progress",
-        "id": "modals.exchange.shapeshift.title.inprogress"
-      },
-      {
-        "defaultMessage": "Thanks for placing your trade!",
-        "id": "modals.exchange.shapeshift.explain"
-      },
-      {
-        "defaultMessage": "Exchange trades can take up to two hours, and you can keep track of your trade’s progress in the Order History tab.",
-        "id": "modals.exchange.shapeshift.explain2"
-      },
-      {
-        "defaultMessage": "Your exchange is complete.",
-        "id": "modals.exchange.shapeshift.explain3"
-      },
-      {
-        "defaultMessage": "It may take a few minutes for the funds to show in your balance.",
-        "id": "modals.exchange.shapeshift.explain4"
-      },
-      {
-        "defaultMessage": "Order summary",
-        "id": "modals.exchange.shapeshift.ordersummary"
-      },
-      {
-        "defaultMessage": "{coin} deposited",
-        "id": "modals.exchange.shapeshift.deposited"
-      },
-      {
-        "defaultMessage": "{coin} to be received",
-        "id": "modals.exchange.shapeshift.received"
-      },
-      {
-        "defaultMessage": "Exchange rate",
-        "id": "modals.exchange.shapeshift.exchangerate"
-      },
-      {
-        "defaultMessage": "Transaction fee",
-        "id": "modals.exchange.shapeshift.fee"
-      },
-      {
-        "defaultMessage": "Order ID",
-        "id": "modals.exchange.shapeshift.orderid"
-      },
-      {
-        "defaultMessage": "Close",
-        "id": "modals.exchange.shapeshift.close"
-      }
-    ],
-    "path": "src/scenes/Exchange/Shapeshift/ThirdStep/template.success.json"
   },
   {
     "descriptors": [
@@ -8066,35 +7199,6 @@
       }
     ],
     "path": "src/scenes/ExchangeHistory/List/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Complete",
-        "id": "scenes.exchangehistory.list.orderstatus.complete"
-      },
-      {
-        "defaultMessage": "Failed",
-        "id": "scenes.exchangehistory.list.orderstatus.failed"
-      },
-      {
-        "defaultMessage": "Error",
-        "id": "scenes.exchangehistory.list.orderstatus.error"
-      },
-      {
-        "defaultMessage": "In progress",
-        "id": "scenes.exchangehistory.list.orderstatus.pending"
-      },
-      {
-        "defaultMessage": "Refunded",
-        "id": "scenes.exchangehistory.list.orderstatus.refunded"
-      },
-      {
-        "defaultMessage": "Unknown",
-        "id": "scenes.exchangehistory.list.orderstatus.unknown"
-      }
-    ],
-    "path": "src/scenes/ExchangeHistory/List/TradeItem/OrderStatus/index.json"
   },
   {
     "descriptors": [
@@ -8317,263 +7421,11 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesChart/LockboxBalance/BchLockboxBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesChart/LockboxBalance/BtcLockboxBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesChart/LockboxBalance/EthLockboxBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Lockbox",
-        "id": "layouts.wallet.menutop.balance.walletbalance.Lockbox"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesChart/LockboxBalance/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Lockbox Balance",
-        "id": "layouts.wallet.menutop.balance.walletbalance.lockboxbalance"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesChart/LockboxBalance/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Balances",
-        "id": "scenes.home.balanceschart.balances"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesChart/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Your Balances",
         "id": "scenes.home.balanceschart.yourbalances"
       }
     ],
     "path": "src/scenes/Home/BalancesChart/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesChart/TotalBalance/BchBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesChart/TotalBalance/BtcBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesChart/TotalBalance/EthBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Total",
-        "id": "layouts.wallet.menutop.balance.walletbalance.total"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesChart/TotalBalance/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Total Balance",
-        "id": "layouts.wallet.menutop.balance.walletbalance.totalbalance"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesChart/TotalBalance/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesChart/WalletBalance/BchBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesChart/WalletBalance/BtcBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesChart/WalletBalance/EthBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Wallet",
-        "id": "layouts.wallet.menutop.balance.walletbalance.wallet"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesChart/WalletBalance/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Total Balance",
-        "id": "layouts.wallet.menutop.balance.walletbalance.totalbalance"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesChart/WalletBalance/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/LockboxBalance/BchLockboxBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/LockboxBalance/BtcLockboxBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/LockboxBalance/EthLockboxBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Lockbox Balance",
-        "id": "layouts.wallet.menutop.balance.walletbalance.lockboxbalance"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/LockboxBalance/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/TotalBalance/BchBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/TotalBalance/BtcBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/TotalBalance/EthBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Total Balance",
-        "id": "layouts.wallet.menutop.balance.walletbalance.totalbalance"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/TotalBalance/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/WalletBalance/BchBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/WalletBalance/BtcBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/WalletBalance/EthBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Wallet Balance",
-        "id": "layouts.wallet.menutop.balance.walletbalance.walletbalance"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/WalletBalance/template.success.json"
   },
   {
     "descriptors": [
@@ -8899,53 +7751,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Edit",
-        "id": "scenes.lockbox.settings.renamedevice.settings.edit"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "scenes.lockbox.settings.renamedevice.settings.cancel"
-      },
-      {
-        "defaultMessage": "Save",
-        "id": "scenes.lockbox.settings.renamedevice.settings.save"
-      }
-    ],
-    "path": "src/scenes/Lockbox/Dashboard/Settings/DeviceName/Settings/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Device Name",
-        "id": "scenes.lockbox.settings.devicename.title"
-      },
-      {
-        "defaultMessage": "{deviceName}",
-        "id": "scenes.lockbox.settings.devicename.description"
-      }
-    ],
-    "path": "src/scenes/Lockbox/Dashboard/Settings/DeviceName/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Device Status",
-        "id": "scenes.lockbox.settings.devicestatus.title"
-      },
-      {
-        "defaultMessage": "{deviceName} is paired to your Blockchain web wallet",
-        "id": "scenes.lockbox.settings.devicestatus.description"
-      },
-      {
-        "defaultMessage": "Delete",
-        "id": "scenes.lockbox.settings.devicestatus.delete"
-      }
-    ],
-    "path": "src/scenes/Lockbox/Dashboard/Settings/DeviceStatus/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Show xPub",
         "id": "scenes.lockbox.settings.exportxpub.title"
       },
@@ -8963,24 +7768,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Firmware Update",
-        "id": "scenes.lockbox.settings.firmwareupdate.title"
-      },
-      {
-        "defaultMessage": "Version 1.3 includes bug fixes blah blah",
-        "id": "scenes.lockbox.settings.firmwareupdate.description"
-      },
-      {
-        "defaultMessage": "Update",
-        "id": "scenes.lockbox.settings.firmwareupdate.update"
-      }
-    ],
-    "path": "src/scenes/Lockbox/Dashboard/Settings/FIrmwareUpdate/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Installing applications and updating firmware can only be done while using the Chrome browser.",
+        "defaultMessage": "Adding new devices, installing applications and updating firmware can only be done while using the Chrome browser.",
         "id": "scenes.lockbox.settings.browserwarn"
       }
     ],
@@ -9023,23 +7811,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "edit",
-        "id": "scenes.lockbox.settings.renamedevice.settings.edit"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "scenes.lockbox.settings.renamedevice.settings.cancel"
-      },
-      {
-        "defaultMessage": "Save",
-        "id": "scenes.lockbox.settings.renamedevice.settings.save"
-      }
-    ],
-    "path": "src/scenes/Lockbox/Dashboard/Settings/RenameDevice/Settings/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Name",
         "id": "scenes.lockbox.settings.renamedevice.title"
       },
@@ -9078,40 +7849,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Restore Lockbox Device",
-        "id": "scenes.lockbox.settings.restorelockboxdevice.title"
-      },
-      {
-        "defaultMessage": "Get step by step instructions to restore your device in our user guide",
-        "id": "scenes.lockbox.settings.restorelockboxdevice.description"
-      },
-      {
-        "defaultMessage": "ICON",
-        "id": "scenes.lockbox.settings.restorelockboxdevice.restore"
-      }
-    ],
-    "path": "src/scenes/Lockbox/Dashboard/Settings/RestoreLockboxDevice/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Setup New Device",
-        "id": "scenes.lockbox.settings.setupnewdevice.title"
-      },
-      {
-        "defaultMessage": "Get step by step instructions in our setup guide",
-        "id": "scenes.lockbox.settings.setupnewdevice.description"
-      },
-      {
-        "defaultMessage": "ICON",
-        "id": "scenes.lockbox.settings.setupnewdevice.setup"
-      }
-    ],
-    "path": "src/scenes/Lockbox/Dashboard/Settings/SetupNewDevice/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Firmware Update",
         "id": "scenes.lockbox.settings.updatedevice.title"
       },
@@ -9125,19 +7862,6 @@
       }
     ],
     "path": "src/scenes/Lockbox/Dashboard/Settings/UpdateDevice/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Add Another Device",
-        "id": "scenes.lockbox.welcome.addanotherdevice"
-      },
-      {
-        "defaultMessage": "Delete Device",
-        "id": "scenes.lockbox.welcome.deletedevice"
-      }
-    ],
-    "path": "src/scenes/Lockbox/Dashboard/template.json"
   },
   {
     "descriptors": [
@@ -9191,26 +7915,13 @@
       {
         "defaultMessage": "Purchase",
         "id": "scenes.lockbox.welcome.purchase"
+      },
+      {
+        "defaultMessage": "New device setup can only be done while using the Chrome browser",
+        "id": "scenes.lockbox.welcome.browserblock"
       }
     ],
     "path": "src/scenes/Lockbox/Onboard/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Hardware Secured Digital Assets",
-        "id": "scenes.lockbox.welcome.title"
-      },
-      {
-        "defaultMessage": "Lockbox works with Carbon to give your digital assets an additional layer of security. Unlock your Lockbox by linking your Carbon, or buy one today.",
-        "id": "scenes.lockbox.welcome.subtitle"
-      },
-      {
-        "defaultMessage": "Get Started",
-        "id": "scenes.lockbox.welcome.getstarted"
-      }
-    ],
-    "path": "src/scenes/Lockbox/Setup/template.json"
   },
   {
     "descriptors": [
@@ -9745,48 +8456,6 @@
       }
     ],
     "path": "src/scenes/SecurityCenter/Advanced/LoginIpRestriction/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Change",
-        "id": "scenes.securitysettings.basicsecurity.passwordhint.settings.change"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel"
-      },
-      {
-        "defaultMessage": "Change",
-        "id": "scenes.securitysettings.basicsecurity.passwordhint.settings.save"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/Advanced/PasswordHint/Settings/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Password Hint",
-        "id": "scenes.settings.passwordhint.title"
-      },
-      {
-        "defaultMessage": "Hint Stored",
-        "id": "scenes.security.passwordhint.stored"
-      },
-      {
-        "defaultMessage": "Not Stored",
-        "id": "scenes.security.passwordhint.notstored"
-      },
-      {
-        "defaultMessage": "Blockchain cannot reset your password.",
-        "id": "scenes.settings.passwordhint.description1"
-      },
-      {
-        "defaultMessage": "Create a memorable password hint that we can send to your verified email address in case you forget your password.",
-        "id": "scenes.settings.passwordhint.description2"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/Advanced/PasswordHint/template.json"
   },
   {
     "descriptors": [
