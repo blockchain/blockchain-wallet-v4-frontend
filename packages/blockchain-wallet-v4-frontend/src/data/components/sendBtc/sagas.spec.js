@@ -382,11 +382,7 @@ describe('sendBtc sagas', () => {
       })
 
       it('should display error message', () => {
-        saga
-          .next()
-          .put(actions.alerts.displayError(C.SEND_BTC_ERROR))
-          .next()
-          .isDone()
+        saga.next().put(actions.alerts.displayError(C.SEND_BTC_ERROR))
       })
     })
 
