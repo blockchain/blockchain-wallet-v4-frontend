@@ -7,13 +7,7 @@ import { actions } from 'data'
 import Empty from './template.js'
 
 class EmptyContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleSend = this.handleSend.bind(this)
-    this.handleRequest = this.handleRequest.bind(this)
-  }
-
-  handleSend () {
+  handleSend = () => {
     switch (this.props.coin) {
       case 'BCH':
         this.props.modalActions.showModal('SendBch')
@@ -27,7 +21,7 @@ class EmptyContainer extends React.PureComponent {
     }
   }
 
-  handleRequest () {
+  handleRequest = () => {
     switch (this.props.coin) {
       case 'BCH':
         this.props.modalActions.showModal('RequestBch')

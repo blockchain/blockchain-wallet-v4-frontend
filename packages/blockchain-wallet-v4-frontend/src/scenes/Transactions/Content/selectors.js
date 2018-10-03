@@ -26,12 +26,12 @@ const filterTransactions = curry((status, criteria, transactions) => {
       tx
     )
   )
-  const search = curry((text, property, tx) =>
+  const search = curry((text, txPath, tx) =>
     compose(
       contains(toUpper(text || '')),
       toUpper,
       String,
-      path(property)
+      path(txPath)
     )(tx)
   )
   const searchPredicate = anyPass(

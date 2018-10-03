@@ -8,16 +8,11 @@ import { actions } from 'data'
 import Content from './template'
 
 class ContentContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleRefresh = this.handleRefresh.bind(this)
-  }
-
   componentDidMount () {
     this.props.txActions.initialized()
   }
 
-  handleRefresh () {
+  handleRefresh = () => {
     this.props.dataActions.fetchData()
     this.props.txActions.initialized()
   }
@@ -43,9 +38,7 @@ class ContentContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  ...getData(state, ownProps.coin)
-})
+const mapStateToProps = (state, ownProps) => getData(state, ownProps.coin)
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   switch (ownProps.coin) {

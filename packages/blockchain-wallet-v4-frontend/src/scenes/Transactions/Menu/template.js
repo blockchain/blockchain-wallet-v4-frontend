@@ -113,6 +113,7 @@ const Menu = props => {
     coin,
     handleClickReporting,
     onShowEthPrivateKey,
+    onShowEthPrivateKeyLegacy,
     isLegacyEthAddr
   } = props
   const options = accounts ? flatten(accounts.map(prop('options'))) : []
@@ -152,8 +153,8 @@ const Menu = props => {
                     selectedComponent={<EthPrivateKeys />}
                     components={[
                       <ExportEthPrivateKeyText
-                        size='medium'
-                        onClick={() => onShowEthPrivateKey(false)}
+                        size='small'
+                        onClick={onShowEthPrivateKey}
                       >
                         <FormattedMessage
                           id='scenes.transactions.export.ethkey'
@@ -162,20 +163,20 @@ const Menu = props => {
                       </ExportEthPrivateKeyText>,
                       <ExportEthPrivateKeyText
                         size='small'
-                        onClick={() => onShowEthPrivateKey(true)}
+                        onClick={onShowEthPrivateKeyLegacy}
                       >
                         <FormattedMessage
                           id='scenes.transactions.export.ethkeyarchived'
                           defaultMessage='Export Archived Private Key'
                         />
                       </ExportEthPrivateKeyText>
-                    ].filter(x => x)}
+                    ]}
                   />
                 ) : (
                   <Link
                     size={'12px'}
                     weight={300}
-                    onClick={() => onShowEthPrivateKey(false)}
+                    onClick={onShowEthPrivateKey}
                   >
                     <FormattedMessage
                       id='scenes.transactions.export.ethkey'

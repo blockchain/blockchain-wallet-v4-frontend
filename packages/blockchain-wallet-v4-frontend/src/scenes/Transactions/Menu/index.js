@@ -10,17 +10,15 @@ import Menu from './template.js'
 import { getData as getDataBtcBch } from 'components/Form/SelectBoxBtcAddresses/selectors'
 
 class MenuContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.onShowEthPrivateKey = this.onShowEthPrivateKey.bind(this)
-    this.handleClickReporting = this.handleClickReporting.bind(this)
+  onShowEthPrivateKey = () => {
+    this.props.modalActions.showModal('ShowEthPrivateKey', { isLegacy: false })
   }
 
-  onShowEthPrivateKey (isLegacy) {
-    this.props.modalActions.showModal('ShowEthPrivateKey', { isLegacy })
+  onShowEthPrivateKeyLegacy = () => {
+    this.props.modalActions.showModal('ShowEthPrivateKey', { isLegacy: true })
   }
 
-  handleClickReporting () {
+  handleClickReporting = () => {
     this.props.coin === 'BTC'
       ? this.props.btcActions.reportClicked()
       : this.props.bchActions.reportClicked()
@@ -35,6 +33,7 @@ class MenuContainer extends React.PureComponent {
             coin={this.props.coin}
             handleClickReporting={this.handleClickReporting}
             onShowEthPrivateKey={this.onShowEthPrivateKey}
+            onShowEthPrivateKeyLegacy={this.onShowEthPrivateKeyLegacy}
             isLegacyEthAddr={isLegacyEthAddr}
           />
         )

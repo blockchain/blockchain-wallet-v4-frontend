@@ -13,14 +13,14 @@ class CoinWelcomeContainer extends React.PureComponent {
     const {
       coin,
       canBuyBtc,
-      btcBalanceR,
-      bchBalanceR,
-      ethBalanceR,
+      btcBalance,
+      bchBalance,
+      ethBalance,
       showCoinIntro
     } = this.props
-    const exchangeBtc = ethBalanceR.getOrElse(0) + bchBalanceR.getOrElse(0) > 0
-    const exchangeBch = ethBalanceR.getOrElse(0) + btcBalanceR.getOrElse(0) > 0
-    const exchangeEth = btcBalanceR.getOrElse(0) + bchBalanceR.getOrElse(0) > 0
+    const exchangeBtc = ethBalance + bchBalance > 0
+    const exchangeBch = ethBalance + btcBalance > 0
+    const exchangeEth = btcBalance + bchBalance > 0
     const partnerBtc = canBuyBtc.cata({
       Success: val => val,
       Loading: () => false,
@@ -73,9 +73,9 @@ class CoinWelcomeContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  ethBalanceR: selectors.core.data.ethereum.getBalance(state),
-  bchBalanceR: selectors.core.data.bch.getBalance(state),
-  btcBalanceR: selectors.core.data.bitcoin.getBalance(state),
+  ethBalance: selectors.core.data.ethereum.getBalance(state).getOrElse(0),
+  bchBalance: selectors.core.data.bch.getBalance(state).getOrElse(0),
+  btcBalance: selectors.core.data.bitcoin.getBalance(state).getOrElse(0),
   showCoinIntro: selectors.preferences.getCoinShowIntro(state, ownProps.coin),
   canBuyBtc: selectors.exchange.getCanTrade(state, 'Buy')
 })
