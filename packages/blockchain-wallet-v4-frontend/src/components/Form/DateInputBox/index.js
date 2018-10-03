@@ -120,11 +120,11 @@ class DateInputBox extends React.PureComponent {
     })
 
   render () {
-    const { input, meta, errorBottom, intl } = this.props
+    const { input, meta, errorBottom, intl, className } = this.props
     const { error, ...otherMeta } = meta
 
     return (
-      <Container>
+      <Container className={className}>
         <RowWrapper>
           <MonthWrapper>
             <SelectBox
@@ -146,7 +146,7 @@ class DateInputBox extends React.PureComponent {
               meta={otherMeta}
             />
           </MonthWrapper>
-          <InputsWrapper>
+          <InputsWrapper className='inputs-wrapper'>
             <InputWrapper>
               <NumberBox
                 placeholder={intl.formatMessage({

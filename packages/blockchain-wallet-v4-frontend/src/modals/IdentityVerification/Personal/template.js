@@ -80,11 +80,20 @@ const DobLabelRow = styled.div`
 const MonthLabel = styled(Label)`
   width: 50%;
   margin-right: 15px;
+  ${media.mobile`
+    width: 100%;
+  `};
 `
 const DobLabelWrapper = styled.div`
   width: 50%;
   display: flex;
   flex-direction: row;
+  ${media.mobile`
+    position: absolute;
+    top: 94px;
+    left: 0;
+    width: 100%;
+  `};
 `
 const DobLabel = styled(Label)`
   width: 50%;
@@ -92,6 +101,13 @@ const DobLabel = styled(Label)`
   & :first-child {
     margin-right: 15px;
   }
+`
+const LabeledDateInputBox = styled(DateInputBox)`
+  ${media.mobile`
+    .inputs-wrapper {
+      margin-top: 54px;
+    }
+  `};
 `
 const addTrailingZero = string => (string.length >= 2 ? string : `0${string}`)
 const removeTrailingZero = replace(/^0/, '')
@@ -262,7 +278,7 @@ const Personal = ({
                     <Field
                       name='dob'
                       validate={[requiredDOB, ageOverEighteen]}
-                      component={DateInputBox}
+                      component={LabeledDateInputBox}
                       fullwidth
                       label
                       errorBottom
