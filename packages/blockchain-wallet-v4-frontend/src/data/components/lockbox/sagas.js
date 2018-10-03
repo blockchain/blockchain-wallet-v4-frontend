@@ -310,6 +310,7 @@ export default ({ api }) => {
     }
   }
 
+  // loads data for device dashboard
   const initializeDashboard = function*(action) {
     const { deviceIndex } = action.payload
     const btcContextR = yield select(
@@ -341,6 +342,7 @@ export default ({ api }) => {
     )
   }
 
+  // updates latest transaction information for device
   const updateTransactionList = function*(action) {
     const { deviceIndex } = action.payload
     const btcContextR = yield select(
