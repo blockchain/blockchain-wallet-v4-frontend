@@ -19,6 +19,7 @@ import {
   CONFIRM_FORM,
   NO_ADVICE_ERROR,
   NO_LIMITS_ERROR,
+  MISSING_DEVICE_ERROR,
   getTargetCoinsPairedToSource,
   getSourceCoinsPairedToTarget,
   EXCHANGE_STEPS
@@ -528,7 +529,7 @@ export default ({ api, coreSagas, options, networks }) => {
         convertStandardToBase(symbol, value)
       )
       if (source.type !== ADDRESS_TYPES.LOCKBOX) {
-        let password = yield call(promptForSecondPassword)
+        const password = yield call(promptForSecondPassword)
         yield (yield payment.sign(password)).publish()
       } else {
         const deviceR = yield select(
@@ -536,14 +537,14 @@ export default ({ api, coreSagas, options, networks }) => {
           prop('coin', source),
           prop('from', payment.value())
         )
-        const device = deviceR.getOrFail('missing_device')
+        const device = deviceR.getOrFail(MISSING_DEVICE_ERROR)
         yield call(
           promptForLockbox,
           prop('coin', source),
           null,
           prop('device_type', device)
         )
-        let connection = yield select(
+        const connection = yield select(
           selectors.components.lockbox.getCurrentConnection
         )
         yield (yield payment.sign(
