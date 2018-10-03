@@ -22,6 +22,9 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   const sendEmailConfirmation = (guid, sharedKey, email) =>
     updateSettings(guid, sharedKey, 'update-email', email)
 
+  const resendVerifyEmail = (guid, sharedKey, email) =>
+    updateSettings(guid, sharedKey, 'resend-verify-email', email)
+
   const verifyEmail = (guid, sharedKey, code) =>
     updateSettings(guid, sharedKey, 'verify-email-code', code)
 
@@ -85,6 +88,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     getSettings,
     updateEmail,
     sendEmailConfirmation,
+    resendVerifyEmail,
     verifyEmail,
     updateMobile,
     verifyMobile,
