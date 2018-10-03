@@ -135,6 +135,7 @@ const SelectInput = props => {
     handleChange,
     errorState,
     menuIsOpen,
+    menuPlacement,
     openMenuOnFocus,
     onFocus,
     grouped,
@@ -175,6 +176,7 @@ const SelectInput = props => {
       menuIsOpen={menuIsOpen}
       openMenuOnFocus={openMenuOnFocus}
       innerRef={getRef}
+      menuPlacement={menuPlacement}
       isDisabled={disabled}
       value={defaultValue}
     />

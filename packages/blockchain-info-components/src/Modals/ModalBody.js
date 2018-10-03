@@ -28,10 +28,10 @@ const SplashScreen = styled.div`
 `
 
 const ModalBody = props => {
-  const { children, loading } = props
+  const { children, loading, ...rest } = props
 
   return (
-    <BaseModalBody>
+    <BaseModalBody {...rest}>
       <SplashScreen displayed={loading}>
         <BlockchainLoader />
       </SplashScreen>

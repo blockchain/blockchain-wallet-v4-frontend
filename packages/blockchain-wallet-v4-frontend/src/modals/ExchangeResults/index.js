@@ -47,6 +47,9 @@ const ResultsHeader = styled(ModalHeader)`
 `
 
 const OrderRow = styled(AmountHeader)`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   font-weight: 600;
   margin-bottom: 24px;
 `
@@ -214,10 +217,10 @@ export const ExchangeResults = ({
         )}
         <OrderRow>
           <FormattedMessage
-            id='modals.exchangeresults.orderid'
-            defaultMessage='Order {id}'
-            values={{ id }}
+            id='modals.exchangeresults.order'
+            defaultMessage='Order'
           />
+          {id}
         </OrderRow>
         <AmountHeader>{getSourceMessage(status, sourceCoin)}</AmountHeader>
         <ExchangeAmount>{`${depositAmount} ${sourceCoin}`}</ExchangeAmount>
