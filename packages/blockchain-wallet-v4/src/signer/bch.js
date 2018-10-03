@@ -2,7 +2,6 @@ import { curry, compose, lensProp, forEach, addIndex, over } from 'ramda'
 import { mapped } from 'ramda-lens'
 import BitcoinCash from 'bitcoinforksjs-lib'
 import * as Coin from '../coinSelection/coin.js'
-// import { isFromAccount } from '../coinSelection'
 import { fromCashAddr, isCashAddr } from '../utils/bch'
 import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
 import Btc from '@ledgerhq/hw-app-btc'
@@ -75,8 +74,13 @@ export const signWithWIF = curry((network, selection) =>
   )(selection)
 )
 
-export const signWithLedger = function*(selection, transport, api) {
-  const BTC = new Btc(transport)
+export const signWithLockbox = function*(
+  selection,
+  transport,
+  scrambleKey,
+  api
+) {
+  const BTC = new Btc(transport, scrambleKey)
   let inputs = []
   let paths = []
   for (let i in selection.inputs) {
