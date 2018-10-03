@@ -1,4 +1,5 @@
 import { call, put, select, all, take } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import {
   compose,
   contains,
@@ -551,6 +552,8 @@ export default ({ api, coreSagas, options, networks }) => {
           null,
           prop('transport', connection)
         )).publish()
+        yield put(actions.components.lockbox.setConnectionSuccess())
+        yield delay(1500)
         yield put(actions.modals.closeAllModals())
       }
 
@@ -558,6 +561,7 @@ export default ({ api, coreSagas, options, networks }) => {
       yield put(actions.router.push('/exchange/history'))
       yield put(A.setStep(EXCHANGE_STEPS.EXCHANGE_FORM))
     } catch (e) {
+      yield put(actions.modals.closeAllModals())
       yield put(actions.form.stopSubmit(CONFIRM_FORM, { _error: e }))
     }
   }
