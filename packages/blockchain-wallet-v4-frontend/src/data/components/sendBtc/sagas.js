@@ -7,7 +7,6 @@ import * as selectors from '../../selectors'
 import { initialize, change } from 'redux-form'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
-import * as Lockbox from 'services/LockboxService'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
@@ -309,14 +308,12 @@ export default ({ coreSagas, networks }) => {
           prop('from', p.getOrElse({}))
         )
         const device = deviceR.getOrFail('missing_device')
-        const deviceType = prop('device_type', device)
-        yield call(promptForLockbox, 'BTC', null, deviceType)
+        yield call(promptForLockbox, 'BTC', null, prop('device_type', device))
         let connection = yield select(
           selectors.components.lockbox.getCurrentConnection
         )
-        const transport = prop('transport', connection)
-        const scrambleKey = Lockbox.utils.getScrambleKey('BTC', deviceType)
-        payment = yield payment.sign(null, transport, scrambleKey)
+        let transport = prop('transport', connection)
+        payment = yield payment.sign(null, transport)
       }
       payment = yield payment.publish()
       yield put(actions.modals.closeAllModals())

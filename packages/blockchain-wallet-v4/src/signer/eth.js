@@ -31,12 +31,7 @@ export const sign = curry((network = 1, mnemonic, data) => {
   return Task.of(rawTx)
 })
 
-export const signWithLockbox = function*(
-  network = 1,
-  transport,
-  scrambleKey,
-  data
-) {
+export const signWithLockbox = function*(network = 1, transport, data) {
   const { to, amount, nonce, gasPrice, gasLimit } = data
   const txParams = {
     to,
@@ -51,7 +46,7 @@ export const signWithLockbox = function*(
   }
   const tx = new EthereumTx(txParams)
   const rawTx = tx.serialize().toString('hex')
-  const eth = new Eth(transport, scrambleKey)
+  const eth = new Eth(transport)
   const signature = yield eth.signTransaction("44'/60'/0'/0/0", rawTx)
   return serialize(network, data, signature)
 }
