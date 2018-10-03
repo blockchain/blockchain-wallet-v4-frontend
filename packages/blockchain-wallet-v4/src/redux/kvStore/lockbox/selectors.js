@@ -1,4 +1,16 @@
-import { any, path, prop, map, flatten, filter, head, nth } from 'ramda'
+import {
+  any,
+  path,
+  prop,
+  map,
+  set,
+  flatten,
+  filter,
+  lensProp,
+  addIndex,
+  head,
+  nth
+} from 'ramda'
 import { kvStorePath } from '../../paths'
 import { LOCKBOX } from '../config'
 
@@ -6,7 +18,14 @@ import { LOCKBOX } from '../config'
 export const getMetadata = path([kvStorePath, LOCKBOX])
 
 export const getDevices = state =>
-  getMetadata(state).map(path(['value', 'devices']))
+  getMetadata(state)
+    .map(path(['value', 'devices']))
+    .map(devices => {
+      const mapIndexed = addIndex(map)
+      const deviceIndexLens = lensProp('device_index')
+      const setDeviceIndex = (device, i) => set(deviceIndexLens, i, device)
+      return mapIndexed(setDeviceIndex, devices)
+    })
 
 export const getDevice = (state, deviceIndex) =>
   getDevices(state).map(nth(deviceIndex))
@@ -27,8 +46,8 @@ export const getLockboxBtcContext = state => {
     return accounts ? accounts.map(a => path(['xpub'], a)) : []
   })
 }
-export const getBtcContextForDevice = (state, deviceId) =>
-  getDevice(state, deviceId)
+export const getBtcContextForDevice = (state, deviceIndex) =>
+  getDevice(state, deviceIndex)
     .map(path(['btc', 'accounts']))
     .map(map(prop('xpub')))
 
@@ -47,8 +66,8 @@ export const getDeviceFromBtcXpubs = (state, xpubs) => {
     .map(head)
 }
 
-export const getLockboxBtcDefaultAccount = (state, deviceId) =>
-  getDevice(state, deviceId)
+export const getLockboxBtcDefaultAccount = (state, deviceIndex) =>
+  getDevice(state, deviceIndex)
     .map(path(['btc', 'accounts']))
     .map(head)
 
@@ -66,8 +85,8 @@ export const getLockboxBchContext = state => {
   })
 }
 
-export const getBchContextForDevice = (state, deviceId) =>
-  getDevice(state, deviceId)
+export const getBchContextForDevice = (state, deviceIndex) =>
+  getDevice(state, deviceIndex)
     .map(path(['bch', 'accounts']))
     .map(map(prop('xpub')))
 
@@ -104,8 +123,8 @@ export const getLockboxEthContext = state => {
     return accounts ? accounts.map(a => path(['addr'], a)) : []
   })
 }
-export const getEthContextForDevice = (state, deviceId) =>
-  getDevice(state, deviceId)
+export const getEthContextForDevice = (state, deviceIndex) =>
+  getDevice(state, deviceIndex)
     .map(path(['eth', 'accounts']))
     .map(map(prop('addr')))
 
@@ -117,3 +136,9 @@ export const getDeviceFromEthAddr = (state, addr) => {
     .map(filter(deviceFilter))
     .map(head)
 }
+
+export const getLatestTxEth = (state, address) =>
+  getDeviceFromEthAddr(state, address).map(path(['eth', 'last_tx']))
+
+export const getLatestTxTimestampEth = (state, address) =>
+  getDeviceFromEthAddr(state, address).map(path(['eth', 'last_tx_timestamp']))

@@ -7,12 +7,13 @@ export const getQuoteInputData = state => {
   const kyc = selectors.core.data.coinify.getKyc(state)
   const canTrade = selectors.core.data.coinify.canTrade(state)
   const cannotTradeReason = selectors.core.data.coinify.cannotTradeReason(state)
-  const profile = selectors.core.data.coinify.getProfile(state)
-  return lift((level, kyc, canTrade, cannotTradeReason, profile) => ({
+  const canTradeAfter = selectors.core.data.coinify.canTradeAfter(state)
+
+  return lift((level, kyc, canTrade, cannotTradeReason, canTradeAfter) => ({
     level,
     kyc,
     canTrade,
     cannotTradeReason,
-    profile
-  }))(level, kyc, canTrade, cannotTradeReason, profile)
+    canTradeAfter
+  }))(level, kyc, canTrade, cannotTradeReason, canTradeAfter)
 }

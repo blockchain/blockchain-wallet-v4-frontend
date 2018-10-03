@@ -87,6 +87,7 @@ class TextAreaDebounced extends React.Component {
           onChange={this.handleChange}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
+          data-e2e={this.props['data-e2e']}
           {...rest}
         />
         {meta.touched &&

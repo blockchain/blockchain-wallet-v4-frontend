@@ -17,8 +17,8 @@ describe('kvstore ethereum selectors', () => {
     value: {
       ethereum: {
         accounts,
-        last_tx: { address: 'this is the last tx' },
-        last_tx_timestamp: { address: 'this is the last tx timestamp' },
+        last_tx: 'this is the last tx',
+        last_tx_timestamp: 'this is the last tx timestamp',
         legacy_account: { addr: 'legacy account addr' },
         tx_notes: {
           someTxHash: 'some someTxHash tx note'

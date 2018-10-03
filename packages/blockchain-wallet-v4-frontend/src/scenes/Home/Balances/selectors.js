@@ -1,3 +1,3 @@
 import { selectors } from 'data'
 
-export const getData = selectors.preferences.getBalancesTable
+export const getData = selectors.components.layoutWallet.getBalancesTable

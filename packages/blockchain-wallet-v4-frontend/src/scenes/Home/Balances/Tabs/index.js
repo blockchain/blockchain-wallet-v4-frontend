@@ -56,7 +56,7 @@ const TabHeader = styled(Text)`
 const TabIcon = styled(Icon)`
   margin-right: 10px;
   @media (min-width: 768px) {
-    font-size: 20px;
+    font-size: ${props => props.size || '20px'};
   }
 `
 
@@ -67,7 +67,7 @@ class TabsContainer extends React.PureComponent {
   }
 
   handleClick (tab) {
-    this.props.preferencesActions.setBalancesTableTab(tab)
+    this.props.layoutActions.setBalancesTableTab(tab)
   }
 
   render () {
@@ -101,7 +101,7 @@ class TabsContainer extends React.PureComponent {
           className={this.props.currentTab === 'lockbox' ? 'active' : ''}
           onClick={() => this.handleClick('lockbox')}
         >
-          <TabIcon name='lock-filled' />
+          <TabIcon name='lock' size='28px' />
           <TabHeader>
             <FormattedMessage
               id='scenes.home.balance.lockbox'
@@ -115,7 +115,7 @@ class TabsContainer extends React.PureComponent {
 }
 
 export const mapDispatchToProps = dispatch => ({
-  preferencesActions: bindActionCreators(actions.preferences, dispatch)
+  layoutActions: bindActionCreators(actions.components.layoutWallet, dispatch)
 })
 
 export default connect(

@@ -196,7 +196,6 @@ const Confirm = props => {
       </ColLeft>
       <ColRight>
         <Button
-          uppercase
           nature='primary'
           fullwidth
           type='submit'
@@ -210,12 +209,12 @@ const Confirm = props => {
           {!busy && !editing ? (
             <FormattedMessage
               id='coinifyexchangedata.confirm.confirm'
-              defaultMessage='confirm'
+              defaultMessage='Confirm'
             />
           ) : editing ? (
             <FormattedMessage
               id='coinifyexchangedata.confirm.update'
-              defaultMessage='update'
+              defaultMessage='Update'
             />
           ) : (
             <HeartbeatLoader height='20px' width='20px' color='white' />

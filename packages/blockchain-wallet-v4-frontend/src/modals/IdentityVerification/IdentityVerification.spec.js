@@ -5,9 +5,19 @@ import { mount } from 'enzyme'
 import { combineReducers } from 'redux'
 import { actions, model } from 'data'
 
-import { coreReducers, paths, coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
+import {
+  coreReducers,
+  paths,
+  coreSagasFactory,
+  Remote
+} from 'blockchain-wallet-v4/src'
 import identityVerificationReducer from 'data/components/identityVerification/reducers'
-import { getPossibleAddresses, getSupportedCountries, getVerificationStep, getSmsStep } from 'data/components/identityVerification/selectors'
+import {
+  getPossibleAddresses,
+  getSupportedCountries,
+  getVerificationStep,
+  getSmsStep
+} from 'data/components/identityVerification/selectors'
 import modalsReducer from 'data/modals/reducers'
 import profileReducer from 'data/modules/profile/reducers'
 import identityVerificationSaga from 'data/components/identityVerification/sagaRegister'
@@ -23,10 +33,15 @@ import {
   getUserId,
   getLifetimeToken
 } from 'blockchain-wallet-v4/src/redux/kvStore/userCredentials/selectors'
-import { getEmail, getSmsVerified, getCountryCode, getSmsNumber } from 'blockchain-wallet-v4/src/redux/settings/selectors'
+import {
+  getEmail,
+  getSmsVerified,
+  getCountryCode,
+  getSmsNumber
+} from 'blockchain-wallet-v4/src/redux/settings/selectors'
 import { getGuid } from 'blockchain-wallet-v4/src/redux/wallet/selectors'
 
-const { MODAL_NAME, STEPS, SMS_STEPS } = model.components.identityVerification
+const { KYC_MODAL, STEPS, SMS_STEPS } = model.components.identityVerification
 
 const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 
@@ -39,8 +54,20 @@ jest.mock('blockchain-wallet-v4/src/redux/wallet/selectors')
 jest.mock('data/components/identityVerification/selectors')
 
 const POSSIBLE_ADDRESSES = [
-  { line1: 'Square Louvois', line2: '', postCode: '75002', city: '', state: 'Île-de-France' },
-  { line1: 'Rue Montmartre, 108', line2: '', postCode: '75002', city: '', state: 'Île-de-France' }
+  {
+    line1: 'Square Louvois',
+    line2: '',
+    postCode: '75002',
+    city: '',
+    state: 'Île-de-France'
+  },
+  {
+    line1: 'Rue Montmartre, 108',
+    line2: '',
+    postCode: '75002',
+    city: '',
+    state: 'Île-de-France'
+  }
 ]
 const SUPPORTED_COUNTRIES = [{ code: 'FR', name: 'France' }]
 
@@ -60,7 +87,8 @@ const coreSagas = coreSagasFactory({ api: {} })
 const api = {
   obtainSessionToken: jest.fn(),
   deauthorizeBrowser: jest.fn(),
-  getSupportedCountries: () => Remote.of([{ name: 'France' }, { name: 'Spain' }]),
+  getSupportedCountries: () =>
+    Remote.of([{ name: 'France' }, { name: 'Spain' }]),
   fetchKycAddresses: () => Remote.of(POSSIBLE_ADDRESSES)
 }
 
@@ -72,7 +100,9 @@ getEmail.mockImplementation(() => Remote.of('email@email.com'))
 getGuid.mockImplementation(() => Remote.of('123-abc-456-def'))
 getCountryCode.mockImplementation(() => Remote.of('FR'))
 getPossibleAddresses.mockImplementation(() => POSSIBLE_ADDRESSES)
-getSupportedCountries.mockImplementation(() => Remote.Success(SUPPORTED_COUNTRIES))
+getSupportedCountries.mockImplementation(() =>
+  Remote.Success(SUPPORTED_COUNTRIES)
+)
 
 profileSagas.createUser = jest.fn()
 
@@ -114,14 +144,14 @@ describe('IdentityVerification Modal', () => {
     it('should render after modal action', () => {
       expect(wrapper.find(Tray)).toHaveLength(0)
 
-      store.dispatch(actions.modals.showModal(MODAL_NAME))
+      store.dispatch(actions.modals.showModal(KYC_MODAL))
       wrapper.update()
 
       expect(wrapper.find(Tray)).toHaveLength(1)
     })
 
     it('should be hidden on close click', () => {
-      store.dispatch(actions.modals.showModal(MODAL_NAME))
+      store.dispatch(actions.modals.showModal(KYC_MODAL))
       wrapper.update()
       wrapper.find(ModalHeader).prop('onClose')()
       wrapper.update()
@@ -132,7 +162,7 @@ describe('IdentityVerification Modal', () => {
   describe('form behaviour', () => {
     getVerificationStep.mockImplementation(() => STEPS.personal)
     beforeEach(() => {
-      store.dispatch(actions.modals.showModal(MODAL_NAME))
+      store.dispatch(actions.modals.showModal(KYC_MODAL))
       coreSagas.settings.sendConfirmationCodeEmail.mockClear()
       coreSagas.settings.setMobile.mockClear()
       wrapper.update()
@@ -268,7 +298,7 @@ describe('IdentityVerification Modal', () => {
     beforeEach(() => {
       getSmsStep.mockImplementation(() => Remote.of(SMS_STEPS.edit))
       getVerificationStep.mockImplementation(() => STEPS.mobile)
-      store.dispatch(actions.modals.showModal(MODAL_NAME))
+      store.dispatch(actions.modals.showModal(KYC_MODAL))
       coreSagas.settings.sendConfirmationCodeEmail.mockClear()
       // coreSagas.settings.setMobile.mockClear()
       wrapper.update()
@@ -287,25 +317,27 @@ describe('IdentityVerification Modal', () => {
       })
 
       it('should be disabled and not submit by default', async () => {
-        expect(wrapper
-          .find('Button[type="submit"]')
-          .prop('disabled')).toBe(true)
+        expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
+          true
+        )
         wrapper.find('form').simulate('submit')
-        expect(last(dispatchSpy.mock.calls)[0].type).toEqual(actionTypes.form.SET_SUBMIT_FAILED)
+        expect(last(dispatchSpy.mock.calls)[0].type).toEqual(
+          actionTypes.form.SET_SUBMIT_FAILED
+        )
       })
 
       it('should have the "send code" button disabled if sms input is empty', async () => {
-        expect(wrapper
-          .find('Field')
-          .find('PhoneNumberBox')
-          .props()
-          .input
-          .value
+        expect(
+          wrapper
+            .find('Field')
+            .find('PhoneNumberBox')
+            .props().input.value
         ).toBe('')
-        expect(wrapper
-          .find('button')
-          .first()
-          .prop('disabled')
+        expect(
+          wrapper
+            .find('button')
+            .first()
+            .prop('disabled')
         ).toBe(true)
       })
 
@@ -322,8 +354,7 @@ describe('IdentityVerification Modal', () => {
           wrapper
             .find('button')
             .first()
-            .props()
-            .disabled
+            .props().disabled
         ).toBe(false)
       })
 
@@ -341,7 +372,10 @@ describe('IdentityVerification Modal', () => {
           .first()
           .simulate('click')
 
-        let pickIndex = compose(values, pickAll)
+        let pickIndex = compose(
+          values,
+          pickAll
+        )
         let calls = dispatchSpy.mock.calls
         expect(head(pickIndex([calls.length - 4], calls)[0]).type).toEqual(
           actionTypes.components.identityVerification.UPDATE_SMS_NUMBER
@@ -355,9 +389,7 @@ describe('IdentityVerification Modal', () => {
           actionTypes.components.identityVerification.SET_SMS_STEP
         )
 
-        expect(last(calls)[0].type).toEqual(
-          actionTypes.form.STOP_SUBMIT
-        )
+        expect(last(calls)[0].type).toEqual(actionTypes.form.STOP_SUBMIT)
       })
 
       it('should show the code field', async () => {
@@ -401,7 +433,10 @@ describe('IdentityVerification Modal', () => {
           .simulate('change', { target: { value: STUB_CODE } })
 
         expect(
-          wrapper.find('button').last().props().disabled
+          wrapper
+            .find('button')
+            .last()
+            .props().disabled
         ).toBe(false)
       })
     })

@@ -1,43 +1,45 @@
-import * as crypto from 'blockchain-wallet-v4/src/walletCrypto'
-import { publicKeyChainCodeToBip32 } from 'blockchain-wallet-v4/src/utils/btc'
+import {
+  createXpubFromChildAndParent,
+  getParentPath
+} from 'blockchain-wallet-v4/src/utils/btc'
 import { deriveAddressFromXpub } from 'blockchain-wallet-v4/src/utils/eth'
 import { Types } from 'blockchain-wallet-v4/src'
 import { prop } from 'ramda'
 
-const deriveDeviceInfo = async btcTransport => {
-  const btc = await btcTransport.getWalletPublicKey("44'/0'/0'")
-  const bch = await btcTransport.getWalletPublicKey("44'/145'/0'")
-  const eth = await btcTransport.getWalletPublicKey("44'/60'/0'/0/0")
+const deriveDeviceInfo = async ledgerApp => {
+  let btcPath = "44'/0'/0'"
+  let bchPath = "44'/145'/0'"
+  let ethPath = "44'/60'/0'/0/0"
+
+  let btcChild = await ledgerApp.getWalletPublicKey(btcPath)
+  let bchChild = await ledgerApp.getWalletPublicKey(bchPath)
+  let ethChild = await ledgerApp.getWalletPublicKey(ethPath)
+  let btcParent = await ledgerApp.getWalletPublicKey(getParentPath(btcPath))
+  let bchParent = await ledgerApp.getWalletPublicKey(getParentPath(bchPath))
+  let ethParent = await ledgerApp.getWalletPublicKey(getParentPath(ethPath))
+  const btc = createXpubFromChildAndParent(btcPath, btcChild, btcParent)
+  const bch = createXpubFromChildAndParent(bchPath, bchChild, bchParent)
+  const eth = createXpubFromChildAndParent(ethPath, ethChild, ethParent)
 
   return { btc, bch, eth }
 }
 
-const deriveDeviceId = btcXpub => {
-  try {
-    const xpub = publicKeyChainCodeToBip32(btcXpub)
-    return crypto.sha256(crypto.sha256(xpub).toString('hex')).toString('hex')
-  } catch (e) {
-    throw new Error('BTC Device Info Required')
-  }
-}
-
 const generateAccountsMDEntry = (newDevice, deviceName) => {
-  const deviceId = prop('id', newDevice)
   const deviceType = prop('type', newDevice)
 
   try {
     const { btc, bch, eth } = prop('info', newDevice)
-    const btcXpub = publicKeyChainCodeToBip32(btc)
-    const bchXpub = publicKeyChainCodeToBip32(bch)
-    const ethXpub = publicKeyChainCodeToBip32(eth)
 
     return {
-      device_id: deviceId,
       device_type: deviceType,
       device_name: deviceName,
-      btc: { accounts: [btcAccount(btcXpub, deviceName + ' - BTC Wallet')] },
-      bch: { accounts: [btcAccount(bchXpub, deviceName + ' - BCH Wallet')] },
-      eth: { accounts: [ethAccount(ethXpub, deviceName + ' - ETH Wallet')] }
+      btc: { accounts: [btcAccount(btc, deviceName + ' - BTC Wallet')] },
+      bch: { accounts: [btcAccount(bch, deviceName + ' - BCH Wallet')] },
+      eth: {
+        accounts: [ethAccount(eth, deviceName + ' - ETH Wallet')],
+        last_tx: null,
+        last_tx_timestamp: null
+      }
     }
   } catch (e) {
     throw new Error('mising_device_info')
@@ -55,8 +57,7 @@ const btcAccount = (xpub, label) => Types.HDAccount.js(label, null, xpub)
 
 export default {
   btcAccount,
-  deriveDeviceInfo,
-  deriveDeviceId,
   ethAccount,
+  deriveDeviceInfo,
   generateAccountsMDEntry
 }

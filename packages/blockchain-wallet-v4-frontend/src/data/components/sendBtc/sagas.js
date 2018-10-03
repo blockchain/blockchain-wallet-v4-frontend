@@ -17,24 +17,34 @@ export const logLocation = 'components/sendBtc/sagas'
 export default ({ coreSagas, networks }) => {
   const initialized = function*(action) {
     try {
-      const { to, description, amount, feeType } = action.payload
+      const { to, description, amount, feeType, lockboxIndex } = action.payload
       yield put(A.sendBtcPaymentUpdatedLoading())
       let payment = coreSagas.payment.btc.create({
         network: networks.btc
       })
       payment = yield payment.init()
-      const accountsR = yield select(
-        selectors.core.common.btc.getAccountsBalances
-      )
-      const defaultIndex = yield select(
-        selectors.core.wallet.getDefaultAccountIndex
-      )
-      const defaultAccountR = accountsR.map(nth(defaultIndex))
+      let defaultAccountR
+      if (lockboxIndex == null) {
+        const accountsR = yield select(
+          selectors.core.common.btc.getAccountsBalances
+        )
+        const defaultIndex = yield select(
+          selectors.core.wallet.getDefaultAccountIndex
+        )
+        defaultAccountR = accountsR.map(nth(defaultIndex))
+        payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
+      } else {
+        const accountsR = yield select(
+          selectors.core.common.btc.getLockboxBtcBalances
+        )
+        defaultAccountR = accountsR.map(nth(lockboxIndex))
+        const xpub = defaultAccountR.map(prop('xpub')).getOrFail()
+        payment = yield payment.from(xpub, ADDRESS_TYPES.LOCKBOX)
+      }
       const defaultFeePerByte = path(
         ['fees', feeType || 'regular'],
         payment.value()
       )
-      payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
       payment = yield payment.fee(defaultFeePerByte)
       const initialValues = {
         to,

@@ -2,21 +2,19 @@ import { select, put } from 'redux-saga/effects'
 import { equals, path, prop } from 'ramda'
 import { actions, selectors } from 'data'
 
-export default ({ coreSagas }) => {
-  const logLocation = 'components/btcTransactions/sagas'
+export const logLocation = 'components/btcTransactions/sagas'
 
+export default ({ coreSagas }) => {
   const initialized = function*() {
     try {
-      const defaultSource = ''
+      const defaultSource = 'all'
       const initialValues = {
         source: defaultSource,
         status: '',
         search: ''
       }
       yield put(actions.form.initialize('btcTransactions', initialValues))
-      yield put(
-        actions.core.data.bitcoin.fetchTransactions(defaultSource, true)
-      )
+      yield put(actions.core.data.bitcoin.fetchTransactions('', true))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }

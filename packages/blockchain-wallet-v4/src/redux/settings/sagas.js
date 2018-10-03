@@ -130,6 +130,18 @@ export default ({ api }) => {
     yield put(actions.setLanguage(language))
   }
 
+  const setLastTxTime = function*() {
+    const guid = yield select(wS.getGuid)
+    const sharedKey = yield select(wS.getSharedKey)
+    let d = new Date()
+    let epoch = d.setHours(0, 0, 0, 0)
+    try {
+      yield call(api.updateLastTxTime, guid, sharedKey, epoch)
+    } catch (e) {
+      console.warn('Error: setLastTxTime')
+    }
+  }
+
   const setCurrency = function*({ currency }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
@@ -311,6 +323,7 @@ export default ({ api }) => {
     setMobileVerified,
     setMobileVerifiedAs2FA,
     setLanguage,
+    setLastTxTime,
     setCurrency,
     setAutoLogout,
     setLoggingLevel,

@@ -1,6 +1,15 @@
 import { BigNumber } from 'bignumber.js'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { assoc, compose, curry, path, prop, reduce, toLower } from 'ramda'
+import {
+  assoc,
+  compose,
+  curry,
+  path,
+  pathOr,
+  prop,
+  reduce,
+  toLower
+} from 'ramda'
 
 import { formatPair, FIX_TYPES } from 'data/modules/rates/model'
 import {
@@ -286,9 +295,28 @@ export const addBalanceLimit = (fiatBalance, limits) =>
 
 const getRate = (rates, source, target) =>
   compose(
-    rate => rate.toFixed(14),
-    path([formatPair(source, target), 'price'])
+    rate => new BigNumber(rate).toFixed(14),
+    pathOr(0, [formatPair(source, target), 'price'])
   )(rates)
+
+export const convertTargetToFiat = (form, fiatCurrency, rates, amount) => {
+  const targetCoin = path(['target', 'coin'], form)
+
+  return compose(
+    toFixed(8, false),
+    multiply(getRate(rates, targetCoin, fiatCurrency))
+  )(amount)
+}
+
+export const convertSourceToTarget = (form, rates, amount) => {
+  const sourceCoin = path(['source', 'coin'], form)
+  const targetCoin = path(['target', 'coin'], form)
+
+  return compose(
+    toFixed(8, false),
+    multiply(getRate(rates, targetCoin, sourceCoin))
+  )(amount)
+}
 
 export const getCurrentMin = (form, fiatCurrency, rates, sourceFiatMin) => {
   const fix = prop('fix', form)

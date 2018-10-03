@@ -1,10 +1,12 @@
 import React from 'react'
-import { compose } from 'redux'
+import { bindActionCreators, compose } from 'redux'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { equals } from 'ramda'
 import { withRouter } from 'react-router-dom'
-
 import Transactions from './Transactions'
 import Settings from './Settings'
+import { actions } from 'data'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -13,10 +15,17 @@ const ContentWrapper = styled.div`
   padding: 0 15px;
 `
 class LockboxDashboardContainer extends React.PureComponent {
+  componentDidUpdate (prevProps) {
+    const prevIndex = prevProps.match.params.deviceIndex
+    const nextIndex = this.props.match.params.deviceIndex
+    if (equals(prevIndex, nextIndex)) return
+    this.props.lockboxActions.initializeDashboard(nextIndex)
+  }
+
   render () {
-    const { location } = this.props
+    const { location, match } = this.props
+    const { deviceIndex } = match.params
     const onDashboard = location.pathname.includes('/lockbox/dashboard')
-    const deviceIndex = this.props.match.params.deviceIndex
 
     return (
       <Wrapper>
@@ -32,4 +41,16 @@ class LockboxDashboardContainer extends React.PureComponent {
   }
 }
 
-export default compose(withRouter)(LockboxDashboardContainer)
+const mapDispatchToProps = dispatch => ({
+  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
+})
+
+const enhance = compose(
+  withRouter,
+  connect(
+    undefined,
+    mapDispatchToProps
+  )
+)
+
+export default enhance(LockboxDashboardContainer)

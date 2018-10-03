@@ -2,8 +2,8 @@ import { takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import sagas from './sagas'
 
-export default ({ coreSagas, networks }) => {
-  const sfoxSagas = sagas({ coreSagas, networks })
+export default ({ api, coreSagas, networks }) => {
+  const sfoxSagas = sagas({ api, coreSagas, networks })
 
   return function*() {
     yield takeLatest(AT.SET_BANK_MANUALLY, sfoxSagas.setBankManually)
@@ -20,5 +20,6 @@ export default ({ coreSagas, networks }) => {
     yield takeLatest(AT.FETCH_JUMIO_STATUS, sfoxSagas.fetchJumioStatus)
     yield takeLatest(AT.FETCH_JUMIO_TOKEN, sfoxSagas.fetchJumioToken)
     yield takeLatest(AT.COMPLETE_JUMIO, sfoxSagas.completeJumio)
+    yield takeLatest(AT.SFOX_INITIALIZE, sfoxSagas.sfoxInitialize)
   }
 }

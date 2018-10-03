@@ -45,7 +45,7 @@ const DropdownList = styled.ul`
   margin: 2px 0px;
   min-width: 20px;
   overflow: auto;
-  padding: 5px 0px;
+  padding: 5px;
   position: absolute;
   right: 0;
   ${props =>
@@ -79,7 +79,7 @@ const Dropdown = props => {
 
   return (
     <Wrapper uppercase={uppercase}>
-      <DropdownList toggled={toggled} down={down}>
+      <DropdownList toggled={toggled} down={down} data-e2e={props['data-e2e']}>
         {components.map((comp, index) => {
           return (
             <DropdownItem key={index} onClick={handleCallback.bind(null, comp)}>

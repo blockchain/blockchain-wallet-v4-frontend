@@ -112,7 +112,7 @@ const Login = props => {
             <FormattedMessage id='scenes.login.or' defaultMessage='or' />
           </Text>
           <LinkContainer to='/signup'>
-            <Link size='13px' weight={300}>
+            <Link size='13px' weight={300} data-e2e='signupLink'>
               <FormattedMessage
                 id='scenes.login.register'
                 defaultMessage='Sign Up'
@@ -153,11 +153,17 @@ const Login = props => {
               component={TextBox}
               borderColor={guidError ? 'invalid' : undefined}
               disabled={!isSupportedBrowser}
+              data-e2e='loginGuid'
             />
           </FormItem>
           {guidError && (
             <GuidError inline>
-              <Text size='12px' color='error' weight={300}>
+              <Text
+                size='12px'
+                color='error'
+                weight={300}
+                data-e2e='walletIdError'
+              >
                 <FormattedMessage
                   id='scenes.login.guiderror'
                   defaultMessage='Unknown Wallet ID. If you need a reminder '
@@ -208,9 +214,13 @@ const Login = props => {
               component={PasswordBox}
               borderColor={passwordError ? 'invalid' : undefined}
               disabled={!isSupportedBrowser}
+              data-e2e='loginPassword'
             />
             {passwordError && (
-              <FormError position={authType > 0 ? 'relative' : 'absolute'}>
+              <FormError
+                position={authType > 0 ? 'relative' : 'absolute'}
+                data-e2e='passwordError'
+              >
                 <FormattedMessage
                   id='scenes.login.wrong_password'
                   defaultMessage='Error decrypting wallet. Wrong password'
@@ -256,6 +266,7 @@ const Login = props => {
                 validate={[required]}
                 component={authType === 1 ? PasswordBox : TextBox}
                 borderColor={twoFactorError ? 'invalid' : undefined}
+                data-e2e='loginTwoFactorCode'
               />
               {authType === 5 && (
                 <ResendSmsLink
@@ -280,15 +291,15 @@ const Login = props => {
             type='submit'
             nature='primary'
             fullwidth
-            uppercase
             disabled={submitting || invalid || busy || !password}
+            data-e2e='loginButton'
           >
             {busy && !loginError ? (
               <HeartbeatLoader height='20px' width='20px' color='white' />
             ) : (
               <FormattedMessage
                 id='scenes.login.submit'
-                defaultMessage='Log in'
+                defaultMessage='Log In'
               />
             )}
           </LoginButton>
@@ -296,7 +307,12 @@ const Login = props => {
       </LoginForm>
       {isSupportedBrowser && (
         <Footer>
-          <Link size='13px' weight={300} onClick={handleMobile}>
+          <Link
+            size='13px'
+            weight={300}
+            onClick={handleMobile}
+            data-e2e='loginViaMobileLink'
+          >
             <FormattedMessage
               id='scenes.login.loginmobile'
               defaultMessage='Login via Mobile'
@@ -310,7 +326,7 @@ const Login = props => {
               />
             </Text>
             <LinkContainer to='/help'>
-              <Link size='13px' weight={300}>
+              <Link size='13px' weight={300} data-e2e='loginGetHelp'>
                 <FormattedMessage
                   id='scenes.login.options'
                   defaultMessage='Get help logging in'

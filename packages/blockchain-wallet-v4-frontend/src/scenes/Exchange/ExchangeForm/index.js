@@ -7,7 +7,14 @@ import { compose, isEmpty } from 'ramda'
 import { getRemotePropType, getElementsPropType } from 'utils/proptypes'
 import { debounce } from 'utils/helpers'
 import { actions, model } from 'data'
-import { getData, getMin, getMax, canUseExchange } from './selectors'
+import {
+  getData,
+  getMin,
+  getMax,
+  getTargetFee,
+  getSourceFee,
+  canUseExchange
+} from './selectors'
 
 import Loading from './template.loading'
 import Success from './template.success'
@@ -16,6 +23,8 @@ import DataError from 'components/DataError'
 const extractFieldValue = (e, value) => value
 
 const { swapCoinAndFiat, swapBaseAndCounter } = model.rates
+const { EXCHANGE_FORM, EXCHANGE_STEPS } = model.components.exchange
+const { CONFIRM } = EXCHANGE_STEPS
 
 class ExchangeForm extends React.Component {
   componentDidMount () {
@@ -29,14 +38,25 @@ class ExchangeForm extends React.Component {
   }
 
   debounceTime = 50
-  changeAmount = debounce(this.props.actions.changeAmount, this.debounceTime)
+  changeAmount = debounce(amount => {
+    actions.form.clearSubmitErrors(EXCHANGE_FORM)
+    this.props.actions.changeAmount(amount)
+  }, this.debounceTime)
 
   handleRefresh = () => {
     this.props.actions.initialize()
   }
 
   render () {
-    const { actions, data, min, max, canUseExchange } = this.props
+    const {
+      actions,
+      data,
+      min,
+      max,
+      targetFee,
+      sourceFee,
+      canUseExchange
+    } = this.props
     return data.cata({
       Success: value =>
         canUseExchange && isEmpty(value.availablePairs) ? (
@@ -46,10 +66,12 @@ class ExchangeForm extends React.Component {
             {...value}
             min={min}
             max={max}
+            targetFee={targetFee}
+            sourceFee={sourceFee}
             canUseExchange={canUseExchange}
             handleMaximum={actions.firstStepMaximumClicked}
             handleMinimum={actions.firstStepMinimumClicked}
-            onSubmit={actions.firstStepSubmitClicked}
+            onSubmit={actions.setStep.bind(null, CONFIRM)}
             handleSourceChange={compose(
               actions.changeSource,
               extractFieldValue
@@ -98,17 +120,34 @@ const AccountPropType = PropTypes.shape({
 ExchangeForm.propTypes = {
   data: getRemotePropType(
     PropTypes.shape({
+      canUseExchange: PropTypes.bool.isRequired,
+      disabled: PropTypes.bool.isRequired,
       availablePairs: PropTypes.arrayOf(PropTypes.string),
       fromElements: getElementsPropType(AccountPropType).isRequired,
       toElements: getElementsPropType(AccountPropType).isRequired,
-      formError: PropTypes.string,
-      hasOneAccount: PropTypes.bool.isRequired,
-      disabled: PropTypes.bool.isRequired,
       sourceCoin: PropTypes.string.isRequired,
       targetCoin: PropTypes.string.isRequired,
+      currency: PropTypes.string.isRequired,
+      inputField: PropTypes.string.isRequired,
+      inputSymbol: PropTypes.string.isRequired,
+      complementaryAmount: PropTypes.string.isRequired,
+      complementarySymbol: PropTypes.string.isRequired,
+      sourceAmount: PropTypes.string.isRequired,
+      targetAmount: PropTypes.string.isRequired,
+      targetFiat: PropTypes.string.isRequired,
+      sourceToTargetRate: PropTypes.string.isRequired,
+      sourceToFiatRate: PropTypes.string.isRequired,
+      targetToFiatRate: PropTypes.string.isRequired,
+      sourceActive: PropTypes.bool.isRequired,
+      targetActive: PropTypes.bool.isRequired,
+      coinActive: PropTypes.bool.isRequired,
+      fiatActive: PropTypes.bool.isRequired,
+      fix: PropTypes.string.isRequired,
       initialValues: PropTypes.shape({
         source: AccountPropType.isRequired,
-        target: AccountPropType.isRequired
+        target: AccountPropType.isRequired,
+        sourceFiat: PropTypes.number.isRequired,
+        fix: PropTypes.string.isRequired
       }).isRequired
     })
   ).isRequired
@@ -118,6 +157,8 @@ const mapStateToProps = state => ({
   canUseExchange: canUseExchange(state),
   min: getMin(state),
   max: getMax(state),
+  targetFee: getTargetFee(state),
+  sourceFee: getSourceFee(state),
   data: getData(state)
 })
 

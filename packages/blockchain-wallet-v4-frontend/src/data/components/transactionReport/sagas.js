@@ -4,20 +4,20 @@ import moment from 'services/MomentHelper'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 
-export default ({ coreSagas }) => {
-  const logLocation = 'components/transactionReport/sagas'
+export const initialValues = {
+  from: 'all',
+  start: moment()
+    .startOf('day')
+    .subtract(7, 'day'),
+  end: moment().startOf('day')
+}
+export const logLocation = 'components/transactionReport/sagas'
 
-  const initialized = function*(action) {
+export default ({ coreSagas }) => {
+  const initialized = function*() {
     try {
       const language = yield select(selectors.preferences.getLanguage)
       moment.locale(language)
-      const initialValues = {
-        from: '',
-        start: moment()
-          .startOf('day')
-          .subtract(7, 'day'),
-        end: moment().startOf('day')
-      }
       yield put(actions.form.initialize('transactionReport', initialValues))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))

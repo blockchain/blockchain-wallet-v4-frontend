@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import * as bowser from 'bowser'
 
-import { Button, Image, Link, Text } from 'blockchain-info-components'
+import { Banner, Button, Image, Link, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -32,6 +33,11 @@ const ButtonContainer = styled.div`
     margin-right: 20px;
   }
 `
+const BrowserWarning = styled(Banner)`
+  margin-top: 10px;
+`
+
+const disableSetup = !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
 
 const Onboard = props => {
   const { domains, launchLockboxSetup } = props
@@ -51,11 +57,15 @@ const Onboard = props => {
             <Text size='14px' weight={300}>
               <FormattedMessage
                 id='scenes.lockbox.welcome.subtitle'
-                defaultMessage='Additional security. Always accessible. Blockchain Lockbox brings you the best of both worlds for your crypto.'
+                defaultMessage='Lockbox works with your Blockchain Wallet to give your digital assets an additional layer of security. Unlock your Lockbox by linking your device, or buy one today.'
               />
             </Text>
             <ButtonContainer>
-              <Button nature='primary' onClick={launchLockboxSetup}>
+              <Button
+                nature='primary'
+                disabled={disableSetup}
+                onClick={launchLockboxSetup}
+              >
                 <FormattedMessage
                   id='scenes.lockbox.welcome.connect'
                   defaultMessage='Connect'
@@ -71,6 +81,16 @@ const Onboard = props => {
               </Link>
             </ButtonContainer>
           </div>
+          {disableSetup && (
+            <BrowserWarning type='warning'>
+              <Text color='warning' size='12px'>
+                <FormattedMessage
+                  id='scenes.lockbox.welcome.browserblock'
+                  defaultMessage='New device setup can only be done while using the Chrome browser'
+                />
+              </Text>
+            </BrowserWarning>
+          )}
         </Content>
       </IntroContainer>
     </Wrapper>

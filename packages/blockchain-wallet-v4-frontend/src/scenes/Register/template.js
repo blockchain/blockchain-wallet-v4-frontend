@@ -74,7 +74,7 @@ const Register = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='24px' weight={300} capitalize>
+        <Text size='24px' weight={300} capitalize data-e2e='signupHeader'>
           <FormattedMessage
             id='scenes.register.create'
             defaultMessage='Create your Wallet'
@@ -85,7 +85,7 @@ const Register = props => {
             <FormattedMessage id='scenes.register.or' defaultMessage='or' />
           </Text>
           <LinkContainer to='/login'>
-            <Link size='13px' weight={300}>
+            <Link size='13px' weight={300} data-e2e='signupLinkToLogin'>
               <FormattedMessage
                 id='scenes.register.login'
                 defaultMessage='Login'
@@ -126,6 +126,7 @@ const Register = props => {
               validate={[required, validEmail]}
               component={TextBox}
               disabled={!isSupportedBrowser}
+              data-e2e='signupEmail'
             />
           </FormItem>
         </FormGroup>
@@ -143,6 +144,7 @@ const Register = props => {
               component={PasswordBox}
               score
               disabled={!isSupportedBrowser}
+              data-e2e='signupPassword'
             />
           </FormItem>
           {passwordLength > 0 && (
@@ -180,6 +182,7 @@ const Register = props => {
               validate={[required, validatePasswordConfirmation]}
               component={PasswordBox}
               disabled={!isSupportedBrowser}
+              data-e2e='signupConfirmPassword'
             />
           </FormItem>
         </FormGroup>
@@ -190,6 +193,7 @@ const Register = props => {
               validate={[checkboxShouldBeChecked]}
               component={CheckBox}
               disabled={!isSupportedBrowser}
+              data-e2e='signupTermsCheckbox'
             >
               <Terms />
             </Field>
@@ -200,8 +204,8 @@ const Register = props => {
             type='submit'
             nature='primary'
             fullwidth
-            uppercase
             disabled={busy || invalid}
+            data-e2e='signupButton'
           >
             {busy ? (
               <HeartbeatLoader height='20px' width='20px' color='white' />
