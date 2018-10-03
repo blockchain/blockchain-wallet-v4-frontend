@@ -1,5 +1,6 @@
-import { call, select, put } from 'redux-saga/effects'
 import { equals, path, prop, nth, is, identity } from 'ramda'
+import { call, select, put } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
@@ -293,13 +294,15 @@ export default ({ coreSagas, networks }) => {
   }
 
   const secondStepSubmitClicked = function*() {
+    let p = yield select(S.getPayment)
+    let payment = coreSagas.payment.btc.create({
+      payment: p.getOrElse({}),
+      network: networks.btc
+    })
+    const fromType = path(['fromType'], payment.value())
     try {
-      let p = yield select(S.getPayment)
-      let payment = coreSagas.payment.btc.create({
-        payment: p.getOrElse({}),
-        network: networks.btc
-      })
-      if (p.getOrElse({}).fromType !== ADDRESS_TYPES.LOCKBOX) {
+      // Sign payment
+      if (fromType !== ADDRESS_TYPES.LOCKBOX) {
         let password = yield call(promptForSecondPassword)
         payment = yield payment.sign(password)
       } else {
@@ -315,10 +318,11 @@ export default ({ coreSagas, networks }) => {
         let transport = prop('transport', connection)
         payment = yield payment.sign(null, transport)
       }
+      // Publish payment
       payment = yield payment.publish()
-      yield put(actions.modals.closeAllModals())
-      yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
       yield put(actions.core.data.bitcoin.fetchData())
+      yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
+      // Set tx note
       if (path(['description', 'length'], payment.value())) {
         yield put(
           actions.core.wallet.setTransactionNote(
@@ -327,7 +331,10 @@ export default ({ coreSagas, networks }) => {
           )
         )
       }
-      if (payment.value().fromType === ADDRESS_TYPES.LOCKBOX) {
+      // Redirect to tx list, display success
+      if (fromType === ADDRESS_TYPES.LOCKBOX) {
+        yield put(actions.components.lockbox.setConnectionSuccess())
+        yield delay(1500)
         const fromXPubs = path(['from'], payment.value())
         const device = (yield select(
           selectors.core.kvStore.lockbox.getDeviceFromBtcXpubs,
@@ -337,14 +344,25 @@ export default ({ coreSagas, networks }) => {
         yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
       } else {
         yield put(actions.router.push('/btc/transactions'))
+        yield put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
       }
-      yield put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
-    } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e)
-      )
-      yield put(actions.alerts.displayError(C.SEND_BTC_ERROR))
+      // Close modals
       yield put(actions.modals.closeAllModals())
+    } catch (e) {
+      // Set errors
+      if (fromType === ADDRESS_TYPES.LOCKBOX) {
+        yield put(actions.components.lockbox.setConnectionError(e))
+      } else {
+        yield put(
+          actions.logs.logErrorMessage(
+            logLocation,
+            'secondStepSubmitClicked',
+            e
+          )
+        )
+        yield put(actions.alerts.displayError(C.SEND_BTC_ERROR))
+        yield put(actions.modals.closeAllModals())
+      }
     }
   }
 

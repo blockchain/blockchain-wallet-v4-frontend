@@ -130,6 +130,9 @@ export default (state = INITIAL_STATE, action) => {
     case AT.SET_CONNECTION_READY: {
       return assocPath(['connection', 'ready'], true, state)
     }
+    case AT.SET_CONNECTION_SUCCESS: {
+      return assocPath(['connection', 'success'], true, state)
+    }
     default:
       return state
   }

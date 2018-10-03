@@ -40,6 +40,8 @@ const BaseModal = styled.div`
 
 const selectWidth = size => {
   switch (size) {
+    case 'auto':
+      return 'auto'
     case 'small':
       return '400px'
     case 'medium':

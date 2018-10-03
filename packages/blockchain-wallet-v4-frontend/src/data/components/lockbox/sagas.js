@@ -256,6 +256,7 @@ export default ({ api }) => {
   // new device setup saga
   const initializeNewDeviceSetup = function*() {
     try {
+      closePoll = false
       yield put(A.changeDeviceSetupStep('connect-device'))
 
       const channel = yield call(pollForDeviceChannel)

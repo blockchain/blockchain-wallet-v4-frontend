@@ -324,8 +324,8 @@ describe('sendBch sagas', () => {
       expect(paymentMock.publish).toHaveBeenCalledTimes(1)
     })
 
-    it('should put action to close all modals', () => {
-      saga.next(paymentMock).put(actions.modals.closeAllModals())
+    it('should put bch fetch data action', () => {
+      saga.next(paymentMock).put(actions.core.data.bch.fetchData())
     })
 
     it('should put bch payment updated success action', () => {
@@ -338,10 +338,6 @@ describe('sendBch sagas', () => {
       saga.next().put(actions.core.kvStore.bch.setTxNotesBch(txId, description))
     })
 
-    it('should put bch fetch data action', () => {
-      saga.next(paymentMock).put(actions.core.data.bch.fetchData())
-    })
-
     it('should route to bch transactions', () => {
       saga.next().put(actions.router.push('/bch/transactions'))
     })
@@ -351,6 +347,12 @@ describe('sendBch sagas', () => {
         .next()
         .put(actions.alerts.displaySuccess(C.SEND_BCH_SUCCESS))
         .save(beforeError)
+    })
+
+    it('should put action to close all modals', () => {
+      saga
+        .next()
+        .put(actions.modals.closeAllModals())
         .next()
         .isDone()
     })
@@ -370,7 +372,7 @@ describe('sendBch sagas', () => {
           )
       })
 
-      it('should display success message', () => {
+      it('should display error message', () => {
         saga
           .next()
           .put(actions.alerts.displayError(C.SEND_BCH_ERROR))

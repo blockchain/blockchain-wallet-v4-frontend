@@ -1,5 +1,6 @@
 import { call, select, put, take } from 'redux-saga/effects'
 import { equals, identity, path, prop, head } from 'ramda'
+import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
@@ -157,14 +158,14 @@ export default ({ coreSagas }) => {
   }
 
   const secondStepSubmitClicked = function*() {
+    let p = yield select(S.getPayment)
+    let payment = coreSagas.payment.eth.create({
+      payment: p.getOrElse({}),
+      network: settings.NETWORK_ETH
+    })
+    const fromType = path(['from', 'type'], payment.value())
+    const fromAddress = path(['from', 'address'], payment.value())
     try {
-      let p = yield select(S.getPayment)
-      let payment = coreSagas.payment.eth.create({
-        payment: p.getOrElse({}),
-        network: settings.NETWORK_ETH
-      })
-      const fromType = path(['from', 'type'], payment.value())
-      const fromAddress = path(['from', 'address'], payment.value())
       // Sign payment
       if (fromType !== ADDRESS_TYPES.LOCKBOX) {
         let password = yield call(promptForSecondPassword)
@@ -183,22 +184,9 @@ export default ({ coreSagas }) => {
       }
       // Publish payment
       payment = yield payment.publish()
-      yield put(actions.modals.closeAllModals())
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
       // Update metadata
-      if (fromType !== ADDRESS_TYPES.LOCKBOX) {
-        yield put(
-          actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now())
-        )
-        yield take(
-          actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
-        )
-        yield put(
-          actions.core.kvStore.ethereum.setLatestTxEthereum(
-            payment.value().txId
-          )
-        )
-      } else {
+      if (fromType === ADDRESS_TYPES.LOCKBOX) {
         const device = (yield select(
           selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
           fromAddress
@@ -219,6 +207,18 @@ export default ({ coreSagas }) => {
             payment.value().txId
           )
         )
+      } else {
+        yield put(
+          actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now())
+        )
+        yield take(
+          actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
+        )
+        yield put(
+          actions.core.kvStore.ethereum.setLatestTxEthereum(
+            payment.value().txId
+          )
+        )
       }
       if (path(['description', 'length'], payment.value())) {
         if (fromType !== ADDRESS_TYPES.LOCKBOX) {
@@ -233,12 +233,29 @@ export default ({ coreSagas }) => {
           )
         )
       }
-      yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
+      // Display success
+      if (fromType === ADDRESS_TYPES.LOCKBOX) {
+        yield put(actions.components.lockbox.setConnectionSuccess())
+        yield delay(1500)
+      } else {
+        yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
+      }
+      // Close modals
+      yield put(actions.modals.closeAllModals())
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e)
-      )
-      yield put(actions.alerts.displayError(C.SEND_ETH_ERROR))
+      // Set errors
+      if (fromType === ADDRESS_TYPES.LOCKBOX) {
+        yield put(actions.components.lockbox.setConnectionError(e))
+      } else {
+        yield put(
+          actions.logs.logErrorMessage(
+            logLocation,
+            'secondStepSubmitClicked',
+            e
+          )
+        )
+        yield put(actions.alerts.displayError(C.SEND_ETH_ERROR))
+      }
     }
   }
 
