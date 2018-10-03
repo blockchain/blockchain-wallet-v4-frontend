@@ -16,6 +16,7 @@ import {
   ExchangeButton,
   CancelButton
 } from 'components/Exchange'
+import { Form } from 'components/Form'
 
 const { CONFIRM_FORM, MISSING_DEVICE_ERROR } = model.components.exchange
 
@@ -62,7 +63,8 @@ const Row = styled.div`
   margin-bottom: 35px;
 `
 const FromToIcon = styled(Icon)`
-  min-width: 45px;
+  min-width: 25px;
+  width: 45px;
   text-align: center;
   justify-content: center;
   font-size: 24px;
@@ -77,6 +79,9 @@ const ErrorRow = styled(Text)`
   font-size: 14px;
   line-height: 18px;
   color: ${props => props.theme.error};
+`
+const ConfirmForm = styled(Form)`
+  max-width: 440px;
 `
 
 const getErrorMessage = error => {
@@ -114,7 +119,7 @@ const ExchangeConfirm = ({
   handleSubmit,
   onBack
 }) => (
-  <form onSubmit={handleSubmit}>
+  <ConfirmForm onSubmit={handleSubmit}>
     <ConfirmWrapper>
       <Title>
         <FormattedMessage
@@ -206,7 +211,7 @@ const ExchangeConfirm = ({
         />
       )}
     </CancelButton>
-  </form>
+  </ConfirmForm>
 )
 
 export default reduxForm({

@@ -69,18 +69,27 @@ const POSSIBLE_ADDRESSES = [
     state: 'Île-de-France'
   }
 ]
-const SUPPORTED_COUNTRIES = [{ code: 'FR', name: 'France' }]
+const STUB_COUNTRY_CODE = 'FR'
+const SUPPORTED_COUNTRIES = [{ code: STUB_COUNTRY_CODE, name: 'France' }]
+
+const stubMail = 'mail@mail.com'
+const STUB_MOBILE = '212555555'
+const STUB_CODE = '12345'
 
 const MOCK_USER_DATA = {
   id: '12345abcde',
   firstName: 'Satoshi',
   lastName: 'Nakamoto',
-  email: 'btcMaximalist@gmail.com',
+  email: stubMail,
   dob: '1988-12-11',
   mobile: null,
   mobileVerified: false,
   state: 'CREATED',
-  kycState: 'NONE'
+  kycState: 'NONE',
+  address: {
+    country: STUB_COUNTRY_CODE,
+    ...POSSIBLE_ADDRESSES[0]
+  }
 }
 
 const coreSagas = coreSagasFactory({ api: {} })
@@ -88,7 +97,7 @@ const api = {
   obtainSessionToken: jest.fn(),
   deauthorizeBrowser: jest.fn(),
   getSupportedCountries: () =>
-    Remote.of([{ name: 'France' }, { name: 'Spain' }]),
+    Remote.of([{ name: 'France', code: 'FR' }, { name: 'Spain', code: 'ES' }]),
   fetchKycAddresses: () => Remote.of(POSSIBLE_ADDRESSES)
 }
 
@@ -105,10 +114,6 @@ getSupportedCountries.mockImplementation(() =>
 )
 
 profileSagas.createUser = jest.fn()
-
-const stubMail = 'mail@mail.com'
-const STUB_MOBILE = '212555555'
-const STUB_CODE = '12345'
 
 describe('IdentityVerification Modal', () => {
   beforeEach(() => {
@@ -182,7 +187,7 @@ describe('IdentityVerification Modal', () => {
         expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
           true
         )
-        wrapper.find('template__PersonalForm').simulate('submit')
+        wrapper.find('form').simulate('submit')
         expect(last(dispatchSpy.mock.calls)[0].type).toEqual(
           actionTypes.form.SET_SUBMIT_FAILED
         )
@@ -313,7 +318,6 @@ describe('IdentityVerification Modal', () => {
         // store.dispatch(actions.core.settings.setMobileVerified())
         store.dispatch(actions.modules.profile.setUserData(MOCK_USER_DATA))
         // store.dispatch(actions.components.identityVerification.setVerificationStep(STEPS.mobile))
-        wrapper.update()
       })
 
       it('should be disabled and not submit by default', async () => {
@@ -409,12 +413,13 @@ describe('IdentityVerification Modal', () => {
           .first()
           .simulate('click')
 
-        wrapper.unmount().mount()
+        wrapper.update()
 
         expect(wrapper.find('Field[name="code"]')).toHaveLength(1)
       })
 
       it('should enable the continue button when a code is entered', () => {
+        wrapper.unmount().mount()
         getSmsStep.mockImplementation(() => Remote.of(SMS_STEPS.verify))
         wrapper
           .find('Field[name="smsNumber"]')

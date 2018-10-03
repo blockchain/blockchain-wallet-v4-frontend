@@ -30,7 +30,7 @@ const RatesRow = styled(ExchangeText)`
   margin-bottom: 16px;
 `
 const RatesTitle = styled(RatesRow)`
-  font-weight: 600;
+  font-weight: 400;
   margin-bottom: 12px;
 `
 
@@ -58,7 +58,7 @@ const Summary = ({
     <AmountHeader>
       <FormattedMessage
         id='scenes.exchange.exchangeform.summary.deposit'
-        defaultMessage='Deposit {coin}'
+        defaultMessage='Exchange {coin}'
         values={{
           coin: sourceCoin
         }}
