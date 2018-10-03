@@ -1,31 +1,25 @@
 import TransportU2F from '@ledgerhq/hw-transport-u2f'
 import Btc from '@ledgerhq/hw-app-btc'
-import Eth from '@ledgerhq/hw-app-eth'
 
 import constants from './constants'
+import utils from './utils'
 
 /**
  * Creates and returns a new BTC/BCH app connection
+ * @param {String} app - The app to connect to (BTC, DASHBOARD, etc)
+ * @param {String} deviceType - Either 'ledger' or 'blockchain'
  * @param {TransportU2F<Btc>} transport - Transport with BTC/BCH as scrambleKey
  * @returns {Btc} Returns a BTC/BCH connection
  */
-const createBtcBchConnection = transport => {
-  return new Btc(transport)
-}
-
-/**
- * Creates and returns a new BTC app connection
- * @param {TransportU2F<Eth>} ethTransport - Transport with ETH as scrambleKey
- * @returns {Eth} Returns a ETH connection
- */
-const createEthConnection = ethTransport => {
-  return new Eth(ethTransport)
+const createBtcBchConnection = (app, deviceType, transport) => {
+  const scrambleKey = utils.getScrambleKey(app, deviceType)
+  return new Btc(transport, scrambleKey)
 }
 
 /**
  * Polls for a given application to open on the device
  * @async
- * @param {String} deviceType - Either 'LEDGER' or 'BLOCKCHAIN'
+ * @param {String} deviceType - Either 'ledger' or 'blockchain'
  * @param {String} app - The app to connect to (BTC, DASHBOARD, etc)
  * @param {Number} timeout - Length of time in ms to wait for a connection
  * @returns {Promise<TransportU2F>} Returns a connected Transport or Error
@@ -36,9 +30,11 @@ function pollForAppConnection (deviceType, app, timeout = 60000) {
   return new Promise((resolve, reject) => {
     // create transport
     TransportU2F.open().then(transport => {
+      // get scrambleKey
+      const scrambleKey = utils.getScrambleKey(app, deviceType)
       // configure transport
       transport.setExchangeTimeout(timeout)
-      transport.setScrambleKey(constants.scrambleKeys[deviceType][app])
+      transport.setScrambleKey(scrambleKey)
       // send NO_OP cmd until response is received (success) or timeout is hit (reject)
       transport.send(...constants.apdus.no_op).then(
         () => {},
@@ -58,6 +54,5 @@ function pollForAppConnection (deviceType, app, timeout = 60000) {
 
 export default {
   createBtcBchConnection,
-  createEthConnection,
   pollForAppConnection
 }
