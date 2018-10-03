@@ -204,7 +204,8 @@ const AcceptTerms = props => {
             </Button>
           </ButtonWrapper>
           <ErrorWrapper>
-            {signupError && prop('error', signupError) === EMAIL_IN_USE_ERROR ? (
+            {signupError &&
+            prop('error', signupError) === EMAIL_IN_USE_ERROR ? (
               <TextGroup inline>
                 <Text size='12px' color='error' weight={300}>
                   <FormattedMessage
@@ -217,7 +218,7 @@ const AcceptTerms = props => {
                   color='brand-secondary'
                   cursor='pointer'
                   weight={300}
-                  onClick={() => updateUI({ create: 'change_email' })}
+                  onClick={() => updateUI('create', 'change_email')}
                 >
                   <FormattedMessage
                     id='coinifyexchangedata.create.accept.error2'
@@ -261,7 +262,9 @@ const AcceptTerms = props => {
                   <FormattedMessage
                     id='coinifyexchangedata.create.accept.support_error_description'
                     defaultMessage='Error Description: {errorDescription}'
-                    values={{ errorDescription: prop('error_description', signupError) }}
+                    values={{
+                      errorDescription: prop('error_description', signupError)
+                    }}
                   />
                 </Text>
               </TextGroup>

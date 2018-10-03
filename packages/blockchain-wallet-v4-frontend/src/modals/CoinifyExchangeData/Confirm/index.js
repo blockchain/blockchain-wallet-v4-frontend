@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 import { actions } from 'data'
-import ui from 'redux-ui'
 import { path } from 'ramda'
 import Template from './template'
 import { getData } from './selectors'
@@ -12,6 +11,10 @@ import Failure from 'components/BuySell/Failure'
 class ConfirmContainer extends Component {
   constructor (props) {
     super(props)
+    this.state = {
+      editing: false,
+      limitsError: ''
+    }
 
     this.onSubmit = this.onSubmit.bind(this)
   }
@@ -22,7 +25,7 @@ class ConfirmContainer extends Component {
     if (data && nextData) {
       // so it doesn't complain when hot reloading
       if (data.quote.baseAmount !== nextData.quote.baseAmount) {
-        this.props.updateUI({ editing: false })
+        this.props.setState({ editing: false })
       }
     }
   }
@@ -31,7 +34,7 @@ class ConfirmContainer extends Component {
     const medium = this.props.medium
     const data = this.props.data.getOrElse(false)
     if (!data) return
-    if (this.props.ui.editing) {
+    if (this.state.editing) {
       const { baseCurrency, quoteCurrency } = data.quote
       const amt = +this.props.editingAmount * 100
       this.props.coinifyDataActions.fetchQuoteAndMediums({
@@ -48,19 +51,17 @@ class ConfirmContainer extends Component {
   }
 
   render () {
-    const { ui, data, medium, editingAmount } = this.props
+    const { data, medium, editingAmount } = this.props
 
     return data.cata({
       Success: value => (
         <Template
           value={value}
-          ui={ui}
+          ui={this.state}
           medium={medium}
           onSubmit={this.onSubmit}
           editingAmount={editingAmount}
-          toggleEdit={() =>
-            this.props.updateUI({ editing: !this.props.ui.editing })
-          }
+          toggleEdit={() => this.setState({ editing: !this.state.editing })}
         />
       ),
       Failure: msg => <Failure error={msg} />,
@@ -82,12 +83,7 @@ const mapDispatchToProps = dispatch => ({
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({ state: { editing: false, limitsError: '' } })
-)
-
-export default enhance(ConfirmContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ConfirmContainer)

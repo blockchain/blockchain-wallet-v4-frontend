@@ -51,7 +51,7 @@ const VerifyEmail = props => {
             values={{
               resend: <a onClick={resendCode}>Resend</a>,
               changeEmail: (
-                <a onClick={() => updateUI({ create: 'change_email' })}>
+                <a onClick={() => updateUI('create', 'change_email')}>
                   change email
                 </a>
               )
@@ -73,7 +73,7 @@ const VerifyEmail = props => {
             values={{
               resend: <a onClick={resendCode}>Resend</a>,
               changeEmail: (
-                <a onClick={() => updateUI({ create: 'change_email' })}>
+                <a onClick={() => updateUI('create', 'change_email')}>
                   change email
                 </a>
               )
@@ -117,7 +117,7 @@ const VerifyEmail = props => {
               </Text>
               <Field
                 name='emailCode'
-                onChange={() => updateUI({ uniqueEmail: true })}
+                onChange={() => updateUI('uniqueEmail', true)}
                 component={TextBox}
                 validate={[required]}
               />

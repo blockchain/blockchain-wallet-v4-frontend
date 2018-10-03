@@ -20,7 +20,7 @@ class AcceptTermsContainer extends Component {
   componentWillReceiveProps (nextProps) {
     if (nextProps.signupError) {
       this.setState({ busy: false })
-      this.props.updateUI({ uniqueEmail: false })
+      this.props.updateUI('uniqueEmail', false)
     }
   }
 
@@ -49,7 +49,7 @@ class AcceptTermsContainer extends Component {
         signupError={signupError}
         updateUI={updateUI}
         editEmail={() => {
-          this.props.updateUI({ create: 'change_email' })
+          this.props.updateUI('create', 'change_email')
         }}
         clearError={() => coinifyClearSignupError()}
       />

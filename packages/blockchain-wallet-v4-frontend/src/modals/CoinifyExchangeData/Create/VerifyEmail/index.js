@@ -24,7 +24,7 @@ class VerifyEmailContainer extends Component {
   }
 
   resendCode () {
-    this.props.updateUI({ codeSent: true })
+    this.props.updateUI('codeSent', true)
     this.props.securityCenterActions.sendConfirmationCodeEmail(
       this.props.emailAddress
     )
@@ -35,7 +35,7 @@ class VerifyEmailContainer extends Component {
       this.props.coinifyActions.coinifyClearSignupError()
       this.props.securityCenterActions.verifyEmailCode(this.props.emailCode)
     } else {
-      this.props.updateUI({ create: 'enter_email_code' })
+      this.props.updateUI('create', 'enter_email_code')
       this.props.securityCenterActions.updateEmail(this.props.emailAddress)
     }
   }
