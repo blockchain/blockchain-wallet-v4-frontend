@@ -9,9 +9,11 @@ import Settings from './Settings'
 import { actions } from 'data'
 
 const Wrapper = styled.div`
+  height: 100%;
   width: 100%;
 `
 const ContentWrapper = styled.div`
+  height: 100%;
   padding: 0 15px;
 `
 class LockboxDashboardContainer extends React.PureComponent {

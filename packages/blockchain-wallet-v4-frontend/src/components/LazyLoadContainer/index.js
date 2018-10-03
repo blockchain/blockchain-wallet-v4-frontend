@@ -10,8 +10,6 @@ const Wrapper = styled.div`
 // Container resizes with children and scrolls inside wrapper
 const Container = styled.div`
   width: 100%;
-  height: 300px;
-  overflow-y: scroll;
 `
 
 class LazyLoadContainer extends React.PureComponent {
