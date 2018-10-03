@@ -3,13 +3,13 @@ import { lift, head, nth } from 'ramda'
 import settings from 'config'
 import { selectors } from 'data'
 import { Remote, utils } from 'blockchain-wallet-v4/src'
-
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 const { isCashAddr, toCashAddr } = utils.bch
 
 // extractAddress :: (Int -> Remote(String)) -> Int -> Remote(String)
 const extractAddress = (walletSelector, lockboxSelector, value) => {
   return value
-    ? value.address
+    ? value.address && !value.fromType === ADDRESS_TYPES.LOCKBOX
       ? Remote.of(value.address)
       : value.index !== undefined
         ? walletSelector(value.index)
