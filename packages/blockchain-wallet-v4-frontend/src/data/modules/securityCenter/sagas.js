@@ -9,7 +9,7 @@ export default ({ coreSagas }) => {
     try {
       yield put(actions.modules.settings.clearEmailCodeFailure())
       yield call(coreSagas.settings.setEmail, action.payload)
-      yield put(actions.alerts.displaySuccess(C.EMAIL_UPDATE_SUCCESS))
+      yield put(actions.alerts.displaySuccess(C.EMAIL_UPDATE_SUCCESS_LINK))
       // TODO: NEEDED FOR PARTNERS
       // yield call(coreSagas.settings.sendConfirmationCodeEmail, action.payload)
     } catch (e) {
@@ -65,6 +65,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.settings.resendVerifyEmail, action.payload)
       yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
     } catch (e) {
+      yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'resendVerifyEmail', e)
       )

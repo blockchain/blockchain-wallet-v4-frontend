@@ -88,7 +88,7 @@ export default ({ api }) => {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.resendVerifyEmail, guid, sharedKey, email)
-    if (response && !response.success) {
+    if (!response.success) {
       throw new Error(response)
     }
   }

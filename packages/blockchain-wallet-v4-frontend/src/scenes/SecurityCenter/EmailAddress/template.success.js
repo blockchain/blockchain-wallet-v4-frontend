@@ -126,20 +126,9 @@ const EmailAddress = props => {
           <React.Fragment>
             <EmailExplanation>
               <FormattedMessage
-                id='scenes.security.email.verifieddescription'
-                defaultMessage='You’ve verified '
-              />
-              <span>
-                &nbsp;
-                {email}
-              </span>
-              <FormattedMessage
-                id='scenes.security.email.verifieddescription2'
-                defaultMessage='. Select ‘Change Email’ to modify this existing address. '
-              />
-              <FormattedMessage
-                id='scenes.security.email.verifieddescription3'
-                defaultMessage=' We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.'
+                id='scenes.security.email.verifieddescription.success'
+                defaultMessage='You’ve verified {email}. Select &quot;Change Email&quot; to modify this existing address. We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.'
+                values={{ email }}
               />
             </EmailExplanation>
           </React.Fragment>
@@ -148,16 +137,9 @@ const EmailAddress = props => {
       return (
         <EmailExplanation>
           <FormattedMessage
-            id='scenes.security.email.unverifieddescription'
-            defaultMessage='We have sent a verification email to '
-          />
-          <span>
-            &nbsp;
-            {email}
-          </span>
-          <FormattedMessage
-            id='scenes.security.email.unverifieddescription2'
-            defaultMessage='. Please enter the code you’ve received to your email in order to complete the verification process. We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.'
+            id='scenes.security.email.unverifiedemaildescription'
+            defaultMessage='We have sent a verification email to {email}. Please click on the email that you’ve received to verify your email. We’ll use this email to authorize logins, send payment notifications, and notify you of wallet updates.'
+            values={{ email }}
           />
         </EmailExplanation>
       )
@@ -166,7 +148,7 @@ const EmailAddress = props => {
       return (
         <FormattedMessage
           id='scenes.security.email.yourverifiedemailaddress'
-          defaultMessage='Your verified email address is used to send login codes when suspicious or unusual activity is detected, to remind you of your wallet login ID, and to send payment alerts when you receive funds.'
+          defaultMessage='Your verified email address is used to send login codes when suspicious or unusual activity is detected. We can also remind you of your wallet login ID, and send you payments alerts when you receive funds.'
         />
       )
     }

@@ -196,6 +196,13 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage='Your email has been updated and your confirmation code has been sent.'
         />
       )
+    case C.EMAIL_UPDATE_SUCCESS_LINK:
+      return (
+        <FormattedMessage
+          id='components.alerts.email_update_success_link'
+          defaultMessage='Your email has been updated and a verification link has been sent.'
+        />
+      )
     case C.EMAIL_VERIFY_ERROR:
       return (
         <FormattedMessage
@@ -867,6 +874,13 @@ const selectMessage = (message, data = undefined) => {
         <FormattedMessage
           id='components.alerts.verify_email_sent'
           defaultMessage='Verification email sent. Please check your email.'
+        />
+      )
+    case C.VERIFY_EMAIL_SENT_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.verify_email_sent_error'
+          defaultMessage='Error sending verification email. Please try again later.'
         />
       )
     case C.WALLET_LOADING_ERROR:
