@@ -26,6 +26,12 @@ import identityVerification from './img/identity-verification.svg'
 import linkLockboxIcon from './img/link-lockbox-icon.svg'
 import linkedinWhite from './img/linkedin-white.svg'
 import lockboxWelcomeSafe from './img/lockbox-welcome-safe.svg'
+import lockboxFailed from './img/lockbox/firmware-bad.png'
+import lockboxFailed2 from './img/lockbox/firmware-bad@2x.png'
+import lockboxFailed3 from './img/lockbox/firmware-bad@3x.png'
+import lockboxSuccess from './img/lockbox/send-confirmed.png'
+import lockboxSuccess2 from './img/lockbox/send-confirmed@2x.png'
+import lockboxSuccess3 from './img/lockbox/send-confirmed@3x.png'
 import lockboxUsb from './img/lockbox-usb.svg'
 import onboardBitcoin from './img/lockbox/onboard-bitcoin.png'
 import onboardBitcoin2 from './img/lockbox/onboard-bitcoin@2x.png'
@@ -52,9 +58,6 @@ import sendConnect3 from './img/lockbox/send-connect@3x.png'
 import sendReview from './img/lockbox/send-review.png'
 import sendReview2 from './img/lockbox/send-review@2x.png'
 import sendReview3 from './img/lockbox/send-review@3x.png'
-import sendConfirmed from './img/lockbox/send-confirmed.png'
-import sendConfirmed2 from './img/lockbox/send-confirmed@2x.png'
-import sendConfirmed3 from './img/lockbox/send-confirmed@3x.png'
 import shapeshiftLogo from './img/shapeshift-logo.png'
 import smartphone from './img/smartphone.png'
 import sfoxLogo from './img/sfox-logo.png'
@@ -112,9 +115,12 @@ export default {
   'lockbox-send-connect': sendConnect,
   'lockbox-send-connect2': sendConnect2,
   'lockbox-send-connect3': sendConnect3,
-  'lockbox-send-confirmed': sendConfirmed,
-  'lockbox-send-confirmed2': sendConfirmed2,
-  'lockbox-send-confirmed3': sendConfirmed3,
+  'lockbox-failed': lockboxFailed,
+  'lockbox-failed2': lockboxFailed2,
+  'lockbox-failed3': lockboxFailed3,
+  'lockbox-success': lockboxSuccess,
+  'lockbox-success2': lockboxSuccess2,
+  'lockbox-success3': lockboxSuccess3,
   'lockbox-send-review': sendReview,
   'lockbox-send-review2': sendReview2,
   'lockbox-send-review3': sendReview3,

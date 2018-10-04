@@ -221,6 +221,9 @@ export default ({ api }) => {
           yield put(actions.router.push('/lockbox'))
           yield put(A.deleteDeviceSuccess())
           yield put(actions.alerts.displaySuccess(C.LOCKBOX_DELETE_SUCCESS))
+          yield put(actions.core.data.bitcoin.fetchTransactions('', true))
+          yield put(actions.core.data.ethereum.fetchTransactions('', true))
+          yield put(actions.core.data.bch.fetchTransactions('', true))
         } catch (e) {
           yield put(A.deleteDeviceFailure(e))
           yield put(actions.alerts.displayError(C.LOCKBOX_DELETE_ERROR))
