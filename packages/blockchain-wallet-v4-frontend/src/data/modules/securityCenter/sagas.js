@@ -63,11 +63,7 @@ export default ({ coreSagas }) => {
   const resendVerifyEmail = function*(action) {
     try {
       yield call(coreSagas.settings.resendVerifyEmail, action.payload)
-      yield put(
-        actions.alerts.displayInfo(
-          'Verification email sent. Please check your email'
-        )
-      )
+      yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'resendVerifyEmail', e)
