@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { bindActionCreators, compose } from 'redux'
-import ui from 'redux-ui'
+import { bindActionCreators } from 'redux'
 import { actions, selectors } from 'data'
 import { FormattedMessage } from 'react-intl'
 import { formValueSelector, Field } from 'redux-form'
@@ -40,7 +39,9 @@ const VerifyEmailForm = styled(Form)`
 class VerifyEmail extends Component {
   constructor (props) {
     super(props)
-    this.state = {}
+    this.state = {
+      codeSent: false
+    }
 
     this.onSubmit = this.onSubmit.bind(this)
     this.resendCode = this.resendCode.bind(this)
@@ -62,19 +63,19 @@ class VerifyEmail extends Component {
 
   componentDidUpdate (prevProps) {
     if (this.props.emailVerified && !prevProps.emailVerified) {
-      this.props.updateUI({ create: 'change_mobile' })
+      this.props.handleUpdate('create', 'change_mobile')
     }
     if (
       this.props.emailVerified &&
       this.props.ui.uniqueEmail &&
       !this.props.editVerifiedEmail
     ) {
-      this.props.updateUI({ create: 'change_mobile' })
+      this.props.handleUpdate('create', 'change_mobile')
     }
   }
 
   resendCode () {
-    this.props.updateUI({ codeSent: true })
+    this.setState({ codeSent: true })
     this.props.securityCenterActions.sendConfirmationCodeEmail(
       this.props.emailAddress
     )
@@ -86,19 +87,14 @@ class VerifyEmail extends Component {
       this.props.sfoxFrontendActions.clearSignupError()
       this.props.securityCenterActions.verifyEmailCode(this.props.emailCode)
     } else {
-      this.props.updateUI({ create: 'enter_email_code' })
+      this.props.handleUpdate({ create: 'enter_email_code' })
       this.props.securityCenterActions.updateEmail(this.props.emailAddress)
     }
   }
 
   render () {
-    const {
-      ui,
-      invalid,
-      emailVerifiedError,
-      emailAddress,
-      emailCode
-    } = this.props
+    const { invalid, emailVerifiedError, emailAddress, emailCode } = this.props
+    const ui = this.state
 
     let emailHelper = () => {
       switch (true) {
@@ -112,7 +108,7 @@ class VerifyEmail extends Component {
                 changeEmail: (
                   <a
                     onClick={() =>
-                      this.props.updateUI({ create: 'change_email' })
+                      this.props.handleUpdate('create', 'change_email')
                     }
                   >
                     change email
@@ -130,7 +126,7 @@ class VerifyEmail extends Component {
                 changeEmail: (
                   <a
                     onClick={() =>
-                      this.props.updateUI({ create: 'change_email' })
+                      this.props.handleUpdate('create', 'change_email')
                     }
                   >
                     change email
@@ -149,7 +145,7 @@ class VerifyEmail extends Component {
                 changeEmail: (
                   <a
                     onClick={() =>
-                      this.props.updateUI({ create: 'change_email' })
+                      this.props.handleUpdate('create', 'change_email')
                     }
                   >
                     change email
@@ -192,7 +188,7 @@ class VerifyEmail extends Component {
                 </Text>
                 <Field
                   name='emailCode'
-                  onChange={() => this.props.updateUI({ uniqueEmail: true })}
+                  onChange={() => this.props.handleUpdate('uniqueEmail', true)}
                   component={TextBox}
                   errorBottom
                   validate={[required]}
@@ -242,7 +238,9 @@ class VerifyEmail extends Component {
                 nature='primary'
                 fullwidth
                 disabled={
-                  invalid || ui.create !== 'enter_email_code' || !emailCode
+                  invalid ||
+                  this.props.ui.create !== 'enter_email_code' ||
+                  !emailCode
                 }
               >
                 <FormattedMessage
@@ -283,12 +281,7 @@ const mapDispatchToProps = dispatch => ({
   )
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({ state: { codeSent: false } })
-)
-
-export default enhance(VerifyEmail)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(VerifyEmail)

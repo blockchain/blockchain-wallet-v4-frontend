@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import Create from './template'
 import { actions, selectors } from 'data'
-import ui from 'redux-ui'
 import { path } from 'ramda'
 import { getData } from './selectors'
 
@@ -13,15 +12,23 @@ class CreateContainer extends Component {
     super(props)
     this.state = {
       editVerifiedEmail: false,
-      editVerifiedMobile: false
+      editVerifiedMobile: false,
+      create: '',
+      uniqueEmail: true
     }
+    this.handleUpdate = this.handleUpdate.bind(this)
   }
   componentDidMount () {
     if (this.props.emailVerified && this.props.smsVerified) {
-      this.props.updateUI({ create: 'create_account' })
+      this.handleUpdate('create', 'create_account')
     } else if (this.props.emailVerified) {
-      this.props.updateUI({ create: 'change_mobile' })
-    } else this.props.updateUI({ create: 'enter_email_code' })
+      this.handleUpdate('create', 'change_mobile')
+    } else this.props.updateUI('create', 'enter_email_code')
+  }
+  handleUpdate (key, value) {
+    this.setState({
+      [key]: value
+    })
   }
 
   render () {
@@ -29,18 +36,21 @@ class CreateContainer extends Component {
       <Create
         countryCode={this.props.data.countryCode}
         editEmail={() => {
-          this.props.updateUI({ create: 'change_email' })
+          this.handleUpdate('create', 'change_email')
           this.setState({ editVerifiedEmail: true })
         }}
         editMobile={() => {
-          this.props.updateUI({ create: 'change_mobile' })
+          this.handleUpdate('create', 'change_mobile')
           this.setState({ editVerifiedMobile: true })
         }}
         editVerifiedEmail={this.state.editVerifiedEmail}
         editVerifiedMobile={this.state.editVerifiedMobile}
-        needsChangeEmail={() =>
-          this.props.updateUI({ create: 'change_email', uniqueEmail: false })
-        }
+        needsChangeEmail={() => {
+          this.handleUpdate('uniqueEmail', false)
+          this.handleUpdate('create', 'change_email')
+        }}
+        ui={this.state}
+        handleUpdate={this.handleUpdate}
         {...this.props}
       />
     )
@@ -67,12 +77,7 @@ const mapDispatchToProps = dispatch => ({
   sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({ state: { create: '', uniqueEmail: true } })
-)
-
-export default enhance(CreateContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateContainer)

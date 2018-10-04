@@ -34,8 +34,9 @@ class CreateContainer extends Component {
     }
   }
   handleChange (key, value) {
-    let state = { key, value }
-    this.setState(state)
+    this.setState({
+      [key]: value
+    })
   }
 
   render () {
