@@ -15,6 +15,7 @@ import ErrorStep from './ErrorStep'
 
 class LockboxSetupContainer extends React.PureComponent {
   componentWillUnmount () {
+    this.props.lockboxActions.resetConnectionStatus()
     this.props.lockboxActions.changeDeviceSetupStep('setup-type')
   }
 
@@ -36,8 +37,8 @@ class LockboxSetupContainer extends React.PureComponent {
         position={position}
         closeAll={closeAll}
         handleClose={this.handleClose}
-        step={step}
         totalSteps={4}
+        step={step}
       >
         {step === 0 && <SetupTypeStep />}
         {step === 1 && <ConnectDeviceStep />}
