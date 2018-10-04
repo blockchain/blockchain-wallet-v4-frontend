@@ -33,8 +33,26 @@ const StepHeader = styled(ModalHeader)`
     }
   }
 `
+const IdentityVerificationTray = styled(Tray)`
+  > div:first-child {
+    padding: 20px;
+  }
+  > div:last-child {
+    overflow: hidden;
+    padding: 28px 50px;
+    height: calc(100% - 91px);
+    ${media.tablet`
+      padding: 18px;
+      height: calc(100% - 151px);
+    `};
+    ${media.mobile`
+      padding: 18px;
+      height: calc(100% - 215px);
+    `};
+  }
+`
 
-const { STEPS, MODAL_NAME } = model.components.identityVerification
+const { STEPS, KYC_MODAL } = model.components.identityVerification
 
 const stepMap = {
   [STEPS.personal]: (
@@ -118,7 +136,7 @@ class IdentityVerification extends React.PureComponent {
     const { step, position, total } = this.props
 
     return (
-      <Tray
+      <IdentityVerificationTray
         in={show}
         class='tray'
         position={position}
@@ -138,7 +156,7 @@ class IdentityVerification extends React.PureComponent {
           </HeaderWrapper>
         </StepHeader>
         <ModalBody>{this.getStepComponent(step)}</ModalBody>
-      </Tray>
+      </IdentityVerificationTray>
     )
   }
 }
@@ -161,7 +179,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer(MODAL_NAME),
+  modalEnhancer(KYC_MODAL),
   connect(
     getData,
     mapDispatchToProps

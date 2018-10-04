@@ -1,4 +1,4 @@
-import { assocPath } from 'ramda'
+import { assocPath, assoc } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import * as AT from './actionTypes'
 
@@ -25,7 +25,7 @@ export default (state = INITIAL_STATE, action) => {
 
   switch (type) {
     case AT.RESET_CONNECTION_STATUS: {
-      return assocPath(['connection'], {}, state)
+      return assoc('connection', {}, state)
     }
     case AT.SET_NEW_DEVICE_SETUP_STEP: {
       const { step, done, error } = payload
@@ -66,7 +66,7 @@ export default (state = INITIAL_STATE, action) => {
       return assocPath(['firmware', 'versions', 'latest'], payload.info, state)
     }
     case AT.RESET_FIRMWARE_INFO: {
-      return assocPath(['firmware'], {}, state)
+      return assoc('firmware', {}, state)
     }
     case AT.INSTALL_APPLICATION: {
       return assocPath(['installs', 'apps', payload.app], Remote.Loading, state)
@@ -115,7 +115,7 @@ export default (state = INITIAL_STATE, action) => {
       )
     }
     case AT.SET_CONNECTION_INFO: {
-      return assocPath(['connection'], payload, state)
+      return assoc('connection', payload, state)
     }
     case AT.SET_CONNECTION_ERROR: {
       return assocPath(['connection', 'error'], payload.error, state)
@@ -129,6 +129,9 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.SET_CONNECTION_READY: {
       return assocPath(['connection', 'ready'], true, state)
+    }
+    case AT.SET_CONNECTION_SUCCESS: {
+      return assocPath(['connection', 'success'], true, state)
     }
     default:
       return state

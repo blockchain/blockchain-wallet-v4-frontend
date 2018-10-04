@@ -13,11 +13,10 @@ import {
   HeartbeatLoader,
   Icon,
   TooltipHost,
-  ButtonGroup,
   Text
 } from 'blockchain-info-components'
-import { ExchangeButton } from 'components/Exchange'
 import { Form, TextBox } from 'components/Form'
+import { ResizeableInputHOC } from 'components/ResizeableInputHOC'
 import StringDisplay from 'components/Display/StringDisplay'
 import SelectBox from './SelectBox'
 import { getErrorMessage } from './validationMessages'
@@ -57,16 +56,19 @@ const Cover = styled.div`
 
 const ColumnLeft = styled.div`
   margin-right: 34px;
-  max-width: 450px;
+  max-width: 550px;
   @media (min-width: 992px) {
     width: 60%;
   }
   ${media.mobile`
     margin-right: 0;
+    margin-bottom: 20px;
+    width: 100%;
   `};
 `
 const ColumnRight = styled.div`
   max-width: 450px;
+  width: 100%;
   @media (min-width: 992px) {
     max-width: 345px;
     width: 40%;
@@ -76,44 +78,43 @@ const Row = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  box-sizing: border-box;
   align-items: center;
+  padding: 30px;
   width: 100%;
-  margin-bottom: ${props => (props.spaced ? '70px' : '8px')};
+`
+const SelectSourceRow = styled(Row)`
+  border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 const AmountRow = styled(Row)`
   position: relative;
-  margin-left: 10px;
-  margin-right: 10px;
-  width: calc(100% - 20px);
+  padding: 10px 30px;
 `
 const Cell = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
   align-items: center;
+  justify-content: ${props => (props.center ? 'center' : 'flex-start')};
   width: ${props => (props.size === 'small' ? '10%' : '45%')};
   height: 100%;
 `
-const MinMaxButtonGroup = styled(ButtonGroup)`
-  width: 100%;
-  margin: 0;
+const MinMaxButton = styled(Button)`
+  width: 48%;
+  font-size: 10px;
+  justify-content: space-between;
   > * {
     color: ${props => props.theme['brand-primary']};
   }
-`
-const MinMaxButton = styled(Button)`
-  font-size: 10px;
-  justify-content: space-between;
 `
 const MinMaxValue = styled.div`
   font-weight: 600;
   font-size: 14px;
 `
-const AmountTextBox = styled(TextBox)`
+const AmountTextBox = styled(ResizeableInputHOC(TextBox))`
   height: 86px;
   input {
     position: relative;
-    font-weight: 400;
+    font-weight: 300;
     font-size: 72px;
     line-height: 86px;
     height: 86px;
@@ -124,31 +125,18 @@ const AmountTextBox = styled(TextBox)`
   }
 `
 const ComplementaryAmountContaier = styled.div`
-  position: relative;
-  font-family: 'Montserrat', Helvetica, sans-serif;
-  font-weight: 300;
+  font-weight: 200;
   font-size: 20px;
   line-height: 24px;
+  position: relative;
+  font-family: 'Montserrat', Helvetica, sans-serif;
   justify-self: center;
   margin: auto;
   margin-top: 10px;
 `
-const CurrencyBox = styled(Text)`
-  align-self: flex-start;
-  margin-top: 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  height: 38px;
-  font-size: ${props => (props.coinActive ? '20px' : '32px')};
-  font-weight: 400;
-  transform: uppercase;
-  background-color: ${props =>
-    props.disabled ? props.theme['gray-1'] : props.theme['white']};
-`
 const CoinSwapIcon = styled(Icon)`
-  margin: auto;
+  font-size: 18px;
+  margin: 0 15px;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   color: ${props =>
     props.disabled ? props.theme['gray-1'] : props.theme['gray-6']};
@@ -158,6 +146,7 @@ const CoinSwapIcon = styled(Icon)`
   }
 `
 const CoinFiatSwapIcon = styled(Icon)`
+  font-size: 24px;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   color: ${props =>
     props.disabled ? props.theme['gray-1'] : props.theme['brand-primary']};
@@ -179,13 +168,16 @@ const ActiveCurrencyButton = styled.div`
   box-shadow: 0 0 0 1px ${props => props.theme[props.coin]};
 `
 const FieldsWrapper = styled.div`
-  padding: 30px;
-  border: 1px solid ${props => props.theme['gray-2']}};
-  margin-bottom: 45px;
+  border: 1px solid ${props => props.theme['gray-1']}};
 `
 const ErrorRow = styled(Row)`
   justify-content: center;
   min-height: 15px;
+  padding: 0px;
+`
+const ButtonRow = styled(Row)`
+  border: 1px solid ${props => props.theme['gray-1']}};
+  border-top: none;
 `
 
 const normalizeAmount = (value, prevValue, allValues, ...args) => {
@@ -193,22 +185,27 @@ const normalizeAmount = (value, prevValue, allValues, ...args) => {
   return formatTextAmount(value, fiatActive(allValues.fix))
 }
 
+const parseInputAmount = (symbol, value) => value.replace(symbol, '')
+
+const formatAmount = (isFiat, symbol, value) =>
+  isFiat ? `${symbol}${value}` : `${value} ${symbol}`
+
 const Success = props => {
   const {
-    disabled,
     dirty,
     asyncValidating,
     error,
     submitting,
     canUseExchange,
+    disabled,
     availablePairs,
     fromElements,
     toElements,
-    hasOneAccount,
     sourceCoin,
     targetCoin,
     sourceActive,
     targetActive,
+    fiatActive,
     inputField,
     inputSymbol,
     complementaryAmount,
@@ -245,56 +242,20 @@ const Success = props => {
       <ColumnLeft>
         <Form onSubmit={handleSubmit}>
           <FieldsWrapper>
-            <Row>
-              <Cell>
-                <ActiveCurrencyButton
-                  onClick={() => {
-                    if (!sourceActive) swapFix()
-                  }}
-                  checked={sourceActive}
-                  coin={sourceCoin.toLowerCase()}
-                />
-                <Text size='14px' weight={400}>
-                  <FormattedMessage
-                    id='scenes.exchange.shapeshift.firststep.from'
-                    defaultMessage='Exchange:'
-                  />
-                </Text>
-              </Cell>
-              <Cell size='small' />
-              <Cell>
-                {
-                  <ActiveCurrencyButton
-                    onClick={() => {
-                      if (!targetActive) swapFix()
-                    }}
-                    checked={targetActive}
-                    coin={targetCoin.toLowerCase()}
-                  />
-                }
-                <Text size='14px' weight={400}>
-                  <FormattedMessage
-                    id='scenes.exchange.shapeshift.firststep.to'
-                    defaultMessage='Receive:'
-                  />
-                </Text>
-              </Cell>
-            </Row>
-            <Row height='50px' spaced>
+            <SelectSourceRow height='50px' spaced>
               <Cell>
                 <Field
                   name='source'
                   onChange={handleSourceChange}
                   component={SelectBox}
                   elements={fromElements}
-                  hasOneAccount={hasOneAccount}
                 />
               </Cell>
               <TooltipHost id='exchange.changeinput'>
                 <Cell size='small'>
                   <CoinSwapIcon
                     name='arrow-switch'
-                    size='28px'
+                    size='24px'
                     weight={500}
                     cursor
                     disabled={swapDisabled}
@@ -310,22 +271,55 @@ const Success = props => {
                   onChange={handleTargetChange}
                   component={SelectBox}
                   elements={toElements}
-                  hasOneAccount={hasOneAccount}
                 />
+              </Cell>
+            </SelectSourceRow>
+            <Row>
+              <Cell center>
+                <ActiveCurrencyButton
+                  onClick={() => {
+                    if (!sourceActive) swapFix()
+                  }}
+                  checked={sourceActive}
+                  coin={sourceCoin.toLowerCase()}
+                />
+                <Text size='14px' weight={400}>
+                  <FormattedMessage
+                    id='scenes.exchange.shapeshift.firststep.from'
+                    defaultMessage='Exchange'
+                  />
+                </Text>
+              </Cell>
+              <Cell size='small' />
+              <Cell center>
+                {
+                  <ActiveCurrencyButton
+                    onClick={() => {
+                      if (!targetActive) swapFix()
+                    }}
+                    checked={targetActive}
+                    coin={targetCoin.toLowerCase()}
+                  />
+                }
+                <Text size='14px' weight={400}>
+                  <FormattedMessage
+                    id='scenes.exchange.shapeshift.firststep.to'
+                    defaultMessage='Receive'
+                  />
+                </Text>
               </Cell>
             </Row>
             <AmountRow>
-              <CurrencyBox>{inputSymbol}</CurrencyBox>
               <Field
                 name={inputField}
                 autoComplete='off'
+                format={formatAmount.bind(null, fiatActive, inputSymbol)}
+                parse={parseInputAmount.bind(null, inputSymbol)}
                 onChange={handleAmountChange}
                 normalize={normalizeAmount}
                 component={AmountTextBox}
+                maxFontSize='72px'
               />
-              <CurrencyBox style={{ visibility: 'hidden' }}>
-                {inputSymbol}
-              </CurrencyBox>
             </AmountRow>
             <AmountRow>
               <CoinFiatSwapIcon
@@ -334,12 +328,12 @@ const Success = props => {
                 size='28px'
                 weight={500}
                 cursor
-                disabled={true}
+                disabled
               />
               <ComplementaryAmountContaier>
                 <StringDisplay>
-                  {complementaryAmount.map(
-                    amount => `${amount} ${complementarySymbol}`
+                  {complementaryAmount.map(amount =>
+                    formatAmount(!fiatActive, complementarySymbol, amount)
                   )}
                 </StringDisplay>
               </ComplementaryAmountContaier>
@@ -354,62 +348,67 @@ const Success = props => {
                 }}
               />
             </AmountRow>
-            <ErrorRow spaced>
-              {dirty && error && getErrorMessage(error)}
-            </ErrorRow>
+            <ErrorRow>{getErrorMessage(error)}</ErrorRow>
             <Row>
-              <MinMaxButtonGroup>
-                <MinMaxButton
-                  fullwidth
-                  disabled={minMaxDisabled}
-                  onClick={useMin}
-                >
-                  <FormattedMessage
-                    id='scenes.exchange.exchangeform.min'
-                    defaultMessage='MIN'
-                  />
-                  &nbsp;
-                  <MinMaxValue>{!minMaxDisabled && min}</MinMaxValue>
-                </MinMaxButton>
-                <MinMaxButton
-                  fullwidth
-                  disabled={minMaxDisabled}
-                  onClick={useMax}
-                >
-                  <FormattedMessage
-                    id='scenes.exchange.exchangeform.max'
-                    defaultMessage='MAX'
-                  />
-                  &nbsp;
-                  <MinMaxValue>{!minMaxDisabled && max}</MinMaxValue>
-                </MinMaxButton>
-              </MinMaxButtonGroup>
+              <MinMaxButton
+                fullwidth
+                disabled={minMaxDisabled}
+                onClick={useMin}
+              >
+                <FormattedMessage
+                  id='scenes.exchange.exchangeform.min'
+                  defaultMessage='MIN'
+                />
+                &nbsp;
+                <MinMaxValue>
+                  {!minMaxDisabled &&
+                    formatAmount(fiatActive, inputSymbol, min)}
+                </MinMaxValue>
+              </MinMaxButton>
+              <MinMaxButton
+                fullwidth
+                disabled={minMaxDisabled}
+                onClick={useMax}
+              >
+                <FormattedMessage
+                  id='scenes.exchange.exchangeform.max'
+                  defaultMessage='MAX'
+                />
+                &nbsp;
+                <MinMaxValue>
+                  {!minMaxDisabled &&
+                    formatAmount(fiatActive, inputSymbol, max)}
+                </MinMaxValue>
+              </MinMaxButton>
             </Row>
           </FieldsWrapper>
-          <ExchangeButton
-            type='submit'
-            nature='primary'
-            disabled={
-              disabled ||
-              asyncValidating ||
-              submitting ||
-              !dirty ||
-              (dirty && error)
-            }
-          >
-            {!disabled && !asyncValidating && !submitting ? (
-              <FormattedMessage
-                id='scenes.exchange.exchangeform.exchange'
-                defaultMessage='Exchange {source} for {target}'
-                values={{
-                  source: sourceCoin,
-                  target: targetCoin
-                }}
-              />
-            ) : (
-              <HeartbeatLoader height='20px' width='20px' color='white' />
-            )}
-          </ExchangeButton>
+          <ButtonRow>
+            <Button
+              type='submit'
+              nature='primary'
+              fullwidth
+              disabled={
+                disabled ||
+                asyncValidating ||
+                submitting ||
+                !dirty ||
+                (dirty && error)
+              }
+            >
+              {!disabled && !asyncValidating && !submitting ? (
+                <FormattedMessage
+                  id='scenes.exchange.exchangeform.exchange'
+                  defaultMessage='Exchange {source} for {target}'
+                  values={{
+                    source: sourceCoin,
+                    target: targetCoin
+                  }}
+                />
+              ) : (
+                <HeartbeatLoader height='20px' width='20px' color='white' />
+              )}
+            </Button>
+          </ButtonRow>
         </Form>
       </ColumnLeft>
       <ColumnRight>

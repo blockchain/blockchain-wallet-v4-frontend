@@ -84,6 +84,16 @@ export default ({ api }) => {
     yield put(actions.setEmailVerified())
   }
 
+  const resendVerifyEmail = function*({ email }) {
+    const guid = yield select(wS.getGuid)
+    const sharedKey = yield select(wS.getSharedKey)
+    const response = yield call(api.resendVerifyEmail, guid, sharedKey, email)
+    if (!response.success) {
+      throw new Error(response)
+    }
+    yield put(actions.setEmailVerified())
+  }
+
   const setMobile = function*({ mobile }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
@@ -317,6 +327,7 @@ export default ({ api }) => {
   return {
     decodePairingCode,
     requestGoogleAuthenticatorSecretUrl,
+    resendVerifyEmail,
     fetchSettings,
     setEmail,
     setMobile,

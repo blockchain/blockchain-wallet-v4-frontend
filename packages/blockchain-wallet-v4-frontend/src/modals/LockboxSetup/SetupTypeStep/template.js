@@ -4,9 +4,7 @@ import { FormattedMessage } from 'react-intl'
 
 import { Button, Image, Text } from 'blockchain-info-components'
 
-const Wrapper = styled.div`
-  padding: 20px;
-`
+const Wrapper = styled.div``
 
 const Title = styled.div`
   text-align: center;
@@ -27,7 +25,6 @@ const Column = styled.div`
     margin-right: 40px;
   }
 `
-
 const ImageContainer = styled.div`
   height: 72px;
   margin-bottom: 40px;

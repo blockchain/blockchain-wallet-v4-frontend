@@ -1,11 +1,17 @@
 import React from 'react'
 import { TestBed, getDispatchSpyReducer, createTestStore } from 'utils/testbed'
 import { mount } from 'enzyme'
-import { last, path } from 'ramda'
+import { init, last, path } from 'ramda'
 
-import { actions } from 'data'
-import { MODAL_NAME as IV_MODAL } from 'data/components/identityVerification/model'
+import { actions, actionTypes } from 'data'
+import {
+  KYC_MODAL,
+  USER_EXISTS_MODAL
+} from 'data/components/identityVerification/model'
 import { KYC_STATES, USER_ACTIVATION_STATES } from 'data/modules/profile/model'
+import identityVerificationSaga from 'data/components/identityVerification/sagaRegister'
+import { getUserId } from 'blockchain-wallet-v4/src/redux/kvStore/userCredentials/selectors'
+import { Remote } from 'blockchain-wallet-v4'
 import modalsReducer from 'data/modals/reducers'
 import profileReducer from 'data/modules/profile/reducers'
 
@@ -14,9 +20,17 @@ import Banner, { KYCBanner } from './index'
 
 const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 
+jest.mock('blockchain-wallet-v4/src/redux/wallet/selectors')
+jest.mock('blockchain-wallet-v4/src/redux/kvStore/userCredentials/selectors')
+
 const IndexPageStub = () => <div />
 const ExchangeStub = () => <div />
 const ProfileStub = () => <div />
+const coreSagas = {}
+const api = {
+  generateRetailToken: jest.fn(() => ({})),
+  checkUserExistance: jest.fn()
+}
 
 describe('Profile Settings', () => {
   beforeEach(() => {
@@ -27,7 +41,7 @@ describe('Profile Settings', () => {
     modals: modalsReducer,
     profile: profileReducer
   }
-  const sagas = []
+  const sagas = [identityVerificationSaga({ api, coreSagas })]
   let store
   let wrapper
 
@@ -51,12 +65,50 @@ describe('Profile Settings', () => {
     })
 
     describe('KYC_STATE: NONE', () => {
-      it('should trigger IdentityVerification modal action on button click', () => {
+      // it('should trigger verifyIdentity action on button click', () => {
+      //   wrapper.find('button').simulate('click')
+
+      //   const lastAction = last(dispatchSpy.mock.calls)[0]
+      //   expect(path(['type'], lastAction)).toBe(
+      //     actionTypes.components.identityVerification.VERIFY_IDENTITY
+      //   )
+      // })
+      it('should trigger verifyIdentity action on button click', () => {
+        wrapper.find('button').simulate('click')
+
+        const lastAction = last(init(dispatchSpy.mock.calls))[0]
+        expect(path(['type'], lastAction)).toBe(
+          actionTypes.components.identityVerification.VERIFY_IDENTITY
+        )
+      })
+
+      it('should show KYC modal on button click when user is already created', () => {
+        getUserId.mockReturnValue(Remote.of('userId'))
         wrapper.find('button').simulate('click')
 
         const lastAction = last(dispatchSpy.mock.calls)[0]
         expect(path(['type'], lastAction)).toBe('SHOW_MODAL')
-        expect(path(['payload', 'type'], lastAction)).toBe(IV_MODAL)
+        expect(path(['payload', 'type'], lastAction)).toBe(KYC_MODAL)
+      })
+
+      it('should show KYC modal on button click when checkUser returns error', async () => {
+        getUserId.mockReturnValue(Remote.of(''))
+        api.checkUserExistance.mockRejectedValue({})
+        await wrapper.find('button').simulate('click')
+
+        const lastAction = last(dispatchSpy.mock.calls)[0]
+        expect(path(['type'], lastAction)).toBe('SHOW_MODAL')
+        expect(path(['payload', 'type'], lastAction)).toBe(KYC_MODAL)
+      })
+
+      it('should show USER_EXISTS modal on button click when checkUser returns success', async () => {
+        getUserId.mockReturnValue(Remote.of(''))
+        api.checkUserExistance.mockResolvedValue('')
+        await wrapper.find('button').simulate('click')
+
+        const lastAction = last(dispatchSpy.mock.calls)[0]
+        expect(path(['type'], lastAction)).toBe('SHOW_MODAL')
+        expect(path(['payload', 'type'], lastAction)).toBe(USER_EXISTS_MODAL)
       })
     })
 

@@ -3,10 +3,11 @@ import { equals, head, lift, filter, map, prop, nth } from 'ramda'
 import { selectors } from 'data'
 import { Remote } from 'blockchain-wallet-v4/src'
 import Bitcoin from 'bitcoinjs-lib'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 const extractAddress = (walletSelector, lockboxSelector, value) =>
   value
-    ? value.address
+    ? value.address && !value.fromType === ADDRESS_TYPES.LOCKBOX
       ? Remote.of(value.address)
       : value.index !== undefined
         ? walletSelector(value.index)
@@ -15,7 +16,7 @@ const extractAddress = (walletSelector, lockboxSelector, value) =>
 
 const extractAddressIdx = (walletSelector, lockboxSelector, value) =>
   value
-    ? value.address
+    ? value.address && !value.fromType === ADDRESS_TYPES.LOCKBOX
       ? Remote.of(value.address)
       : value.index !== undefined
         ? walletSelector(value.index)
@@ -24,7 +25,7 @@ const extractAddressIdx = (walletSelector, lockboxSelector, value) =>
 
 const extractAccountIdx = value =>
   value
-    ? value.address
+    ? value.address && !value.fromType === ADDRESS_TYPES.LOCKBOX
       ? Remote.of(value.address)
       : value.index !== undefined
         ? Remote.of(value.index)

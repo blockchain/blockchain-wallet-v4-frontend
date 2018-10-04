@@ -77,12 +77,18 @@ export default ({ api }) => {
     return balance
   }
 
-  const calculateUnconfirmed = function*(address) {
-    const latestTxR = yield select(S.kvStore.ethereum.getLatestTx, address)
-    const latestTxTimestampR = yield select(
-      S.kvStore.ethereum.getLatestTxTimestamp,
-      address
-    )
+  const calculateUnconfirmed = function*(type, address) {
+    let latestTxS =
+      type !== ADDRESS_TYPES.LOCKBOX
+        ? S.kvStore.ethereum.getLatestTx
+        : S.kvStore.lockbox.getLatestTxEth
+    let latestTxTimestampS =
+      type !== ADDRESS_TYPES.LOCKBOX
+        ? S.kvStore.ethereum.getLatestTxTimestamp
+        : S.kvStore.lockbox.getLatestTxTimestampEth
+
+    const latestTxR = yield select(latestTxS, address)
+    const latestTxTimestampR = yield select(latestTxTimestampS, address)
 
     const latestTx = latestTxR.getOrElse(undefined)
     const latestTxTimestamp = latestTxTimestampR.getOrElse(undefined)
@@ -159,7 +165,7 @@ export default ({ api }) => {
           nonce
         }
 
-        const unconfirmedTx = yield call(calculateUnconfirmed, account)
+        const unconfirmedTx = yield call(calculateUnconfirmed, type, account)
 
         return makePayment(merge(p, { from, effectiveBalance, unconfirmedTx }))
       },

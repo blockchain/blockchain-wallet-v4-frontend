@@ -119,8 +119,18 @@ export default ({ api }) => {
   // determines if lockbox is setup and routes app accordingly
   const determineLockboxRoute = function*() {
     try {
+      const invitationsR = yield select(selectors.core.settings.getInvitations)
       const devicesR = yield select(selectors.core.kvStore.lockbox.getDevices)
+
+      const invitations = invitationsR.getOrElse({})
       const devices = devicesR.getOrElse([])
+
+      // for invited users only, sorry!
+      if (!prop('lockbox', invitations)) {
+        yield put(actions.router.push('/home'))
+        return
+      }
+
       if (length(devices)) {
         // always go to the first device's dashboard
         const index = 0
@@ -246,6 +256,7 @@ export default ({ api }) => {
   // new device setup saga
   const initializeNewDeviceSetup = function*() {
     try {
+      closePoll = false
       yield put(A.changeDeviceSetupStep('connect-device'))
 
       const channel = yield call(pollForDeviceChannel)
@@ -300,6 +311,7 @@ export default ({ api }) => {
     }
   }
 
+  // loads data for device dashboard
   const initializeDashboard = function*(action) {
     const { deviceIndex } = action.payload
     const btcContextR = yield select(
@@ -331,6 +343,7 @@ export default ({ api }) => {
     )
   }
 
+  // updates latest transaction information for device
   const updateTransactionList = function*(action) {
     const { deviceIndex } = action.payload
     const btcContextR = yield select(

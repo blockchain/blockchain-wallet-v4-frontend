@@ -120,17 +120,34 @@ const AccountPropType = PropTypes.shape({
 ExchangeForm.propTypes = {
   data: getRemotePropType(
     PropTypes.shape({
+      canUseExchange: PropTypes.bool.isRequired,
+      disabled: PropTypes.bool.isRequired,
       availablePairs: PropTypes.arrayOf(PropTypes.string),
       fromElements: getElementsPropType(AccountPropType).isRequired,
       toElements: getElementsPropType(AccountPropType).isRequired,
-      formError: PropTypes.string,
-      hasOneAccount: PropTypes.bool.isRequired,
-      disabled: PropTypes.bool.isRequired,
       sourceCoin: PropTypes.string.isRequired,
       targetCoin: PropTypes.string.isRequired,
+      currency: PropTypes.string.isRequired,
+      inputField: PropTypes.string.isRequired,
+      inputSymbol: PropTypes.string.isRequired,
+      complementaryAmount: PropTypes.string.isRequired,
+      complementarySymbol: PropTypes.string.isRequired,
+      sourceAmount: PropTypes.string.isRequired,
+      targetAmount: PropTypes.string.isRequired,
+      targetFiat: PropTypes.string.isRequired,
+      sourceToTargetRate: PropTypes.string.isRequired,
+      sourceToFiatRate: PropTypes.string.isRequired,
+      targetToFiatRate: PropTypes.string.isRequired,
+      sourceActive: PropTypes.bool.isRequired,
+      targetActive: PropTypes.bool.isRequired,
+      coinActive: PropTypes.bool.isRequired,
+      fiatActive: PropTypes.bool.isRequired,
+      fix: PropTypes.string.isRequired,
       initialValues: PropTypes.shape({
         source: AccountPropType.isRequired,
-        target: AccountPropType.isRequired
+        target: AccountPropType.isRequired,
+        sourceFiat: PropTypes.number.isRequired,
+        fix: PropTypes.string.isRequired
       }).isRequired
     })
   ).isRequired
