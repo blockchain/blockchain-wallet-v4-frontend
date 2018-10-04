@@ -3965,10 +3965,6 @@
         "id": "modals.promptforlockbox.title"
       },
       {
-        "defaultMessage": "Connect and unlock your hardware device. Then open the <b>{coin} app</b> on the device.",
-        "id": "modals.promptforlockbox.connectcoinapp"
-      },
-      {
         "defaultMessage": "Review the transaction details on your device screen. Press the top right button to confirm and sign the transaction.",
         "id": "modals.promptforlockbox.confirmcointx"
       },
