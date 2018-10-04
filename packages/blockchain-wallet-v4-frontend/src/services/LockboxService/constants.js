@@ -18,10 +18,10 @@ export default {
   },
   scrambleKeys: {
     blockchain: {
-      BCH: 'blockchain-bch',
-      BTC: 'blockchain-btc',
+      BCH: 'bch-blockchain',
+      BTC: 'btc-blockchain',
       DASHBOARD: 'blockchain',
-      ETH: 'blockchain-eth'
+      ETH: 'eth-blockchain'
     },
     ledger: {
       BCH: 'BTC',
