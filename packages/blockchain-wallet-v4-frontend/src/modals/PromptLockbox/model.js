@@ -61,10 +61,10 @@ export const CONFIRM_STEPS = {
         defaultMessage='Your transaction was sent. Please allow for it to confirm on the network.'
       />
     ),
-    image: () => 'lockbox-send-confirmed',
+    image: () => 'lockbox-success',
     srcset: () => ({
-      'lockbox-send-confirmed2': '2x',
-      'lockbox-send-confirmed3': '3x'
+      'lockbox-success2': '2x',
+      'lockbox-success3': '3x'
     })
   },
   error: {
@@ -83,7 +83,10 @@ export const CONFIRM_STEPS = {
         defaultMessage='Something went wrong. Please reconnect your device and try again.'
       />
     ),
-    image: () => '',
-    srcset: () => ({})
+    image: () => 'lockbox-failed',
+    srcset: () => ({
+      'lockbox-failed2': '2x',
+      'lockbox-failed3': '3x'
+    })
   }
 }
