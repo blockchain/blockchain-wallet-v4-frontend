@@ -19,9 +19,9 @@ class CreateContainer extends Component {
   }
   componentDidMount () {
     if (this.props.emailVerified) {
-      this.props.setState({ create: 'create_account' })
+      this.handleChange('create', 'create_account')
     } else {
-      this.props.setState({ create: 'enter_email_code' })
+      this.handleChange('create', 'enter_email_code')
       this.props.securityCenterActions.sendConfirmationCodeEmail(
         this.props.oldEmail
       )
@@ -30,13 +30,12 @@ class CreateContainer extends Component {
 
   componentDidUpdate (prevProps) {
     if (!prevProps.emailVerified && this.props.emailVerified) {
-      this.props.setState({ create: 'create_account' })
+      this.handleChange('create', 'create_account')
     }
   }
   handleChange (key, value) {
-    this.setState({
-      key: value
-    })
+    let state = { key, value }
+    this.setState(state)
   }
 
   render () {
