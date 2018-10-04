@@ -6,14 +6,14 @@ import { deriveAddressFromXpub } from 'blockchain-wallet-v4/src/utils/eth'
 import { Types } from 'blockchain-wallet-v4/src'
 import { prop } from 'ramda'
 
-const _ethAccount = (xpub, label) => ({
+const ethAccount = (xpub, label) => ({
   label: label,
   archived: false,
   correct: true,
   addr: deriveAddressFromXpub(xpub)
 })
 
-const _btcAccount = (xpub, label) => Types.HDAccount.js(label, null, xpub)
+const btcAccount = (xpub, label) => Types.HDAccount.js(label, null, xpub)
 
 const deriveDeviceInfo = async ledgerApp => {
   let btcPath = "44'/0'/0'"
@@ -42,10 +42,10 @@ const generateAccountsMDEntry = (newDevice, deviceName) => {
     return {
       device_type: deviceType,
       device_name: deviceName,
-      btc: { accounts: [_btcAccount(btc, deviceName + ' - BTC Wallet')] },
-      bch: { accounts: [_btcAccount(bch, deviceName + ' - BCH Wallet')] },
+      btc: { accounts: [btcAccount(btc, deviceName + ' - BTC Wallet')] },
+      bch: { accounts: [btcAccount(bch, deviceName + ' - BCH Wallet')] },
       eth: {
-        accounts: [_ethAccount(eth, deviceName + ' - ETH Wallet')],
+        accounts: [ethAccount(eth, deviceName + ' - ETH Wallet')],
         last_tx: null,
         last_tx_timestamp: null
       }
