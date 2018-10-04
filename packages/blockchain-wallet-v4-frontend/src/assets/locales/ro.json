@@ -657,6 +657,7 @@
   "modals.promptforlockbox.button.success": null,
   "modals.promptforlockbox.confirmcointx": null,
   "modals.promptforlockbox.connectcoinapp": null,
+  "modals.promptforlockbox.connectcoinapp.content": null,
   "modals.promptforlockbox.connectcoinapp.error": null,
   "modals.promptforlockbox.connectcoinapp.review": null,
   "modals.promptforlockbox.connectcoinapp.success": null,
