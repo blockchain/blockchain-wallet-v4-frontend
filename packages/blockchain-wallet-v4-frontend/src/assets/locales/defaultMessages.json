@@ -1050,7 +1050,7 @@
         "id": "components.identityverification.popup.note.personalinfosecure"
       },
       {
-        "defaultMessage": "Complete your profile and identity verification to start buying and selling. Don’t worry, we only need a couple more details.",
+        "defaultMessage": "Complete your profile and identity verification to start exchanging. Don’t worry, we only need a couple more details.",
         "id": "components.identityverification.popup.note.unverified"
       },
       {
@@ -3656,6 +3656,10 @@
         "id": "modals.lockboxsetup.authenticitystep.title"
       },
       {
+        "defaultMessage": "On your Lockbox, tap the RIGHT button to let your Lockbox connect to your Blockchain wallet.",
+        "id": "modals.lockboxsetup.authenticitystep.content"
+      },
+      {
         "defaultMessage": "Checking Your Devices Authenticity",
         "id": "modals.lockboxsetup.authenticitystep.authenticating"
       },
@@ -3671,6 +3675,22 @@
       {
         "defaultMessage": "Connect Your Lockbox",
         "id": "modals.lockboxsetup.setuptypestep.connect"
+      },
+      {
+        "defaultMessage": "1. Insert your Lockbox into your computer",
+        "id": "modals.lockboxsetup.connectdevice.step1"
+      },
+      {
+        "defaultMessage": "2. Press both buttons on your Lockbox to begin",
+        "id": "modals.lockboxsetup.connectdevice.step2"
+      },
+      {
+        "defaultMessage": "3. Set your pin",
+        "id": "modals.lockboxsetup.connectdevice.step3"
+      },
+      {
+        "defaultMessage": "4. Complete backup phrase process",
+        "id": "modals.lockboxsetup.connectdevice.step4"
       },
       {
         "defaultMessage": "Success! Click to Continue",
@@ -3736,6 +3756,18 @@
   },
   {
     "descriptors": [
+      {
+        "defaultMessage": "Lockbox + Blockchain Wallet",
+        "id": "modals.lockboxsetup.openbtcappstep.title"
+      },
+      {
+        "defaultMessage": "Now add a Bitcoin wallet to your device.",
+        "id": "modals.lockboxsetup.openbtcappstep.explanation"
+      },
+      {
+        "defaultMessage": "Select \"Bitcoin\" from the picker.",
+        "id": "modals.lockboxsetup.openbtcappstep.selection"
+      },
       {
         "defaultMessage": "Success! Click to Continue",
         "id": "modals.lockboxsetup.openbtcappstep.success"
@@ -3892,8 +3924,49 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Connect Your Lockbox",
+        "id": "modals.promptforlockbox.connectcoinapp.title.connect"
+      },
+      {
+        "defaultMessage": "Connect and unlock your hardware device. Then open the {coin} app on the device.",
+        "id": "modals.promptforlockbox.connectcoinapp"
+      },
+      {
+        "defaultMessage": "Review Transaction Details",
+        "id": "modals.promptforlockbox.connectcoinapp.title.review"
+      },
+      {
+        "defaultMessage": "Review the transaction details on your device screen. Press the top right button to confirm and sign the transaction.",
+        "id": "modals.promptforlockbox.connectcoinapp.review"
+      },
+      {
+        "defaultMessage": "Your {coin} Transaction Was Sent",
+        "id": "modals.promptforlockbox.connectcoinapp.title.success"
+      },
+      {
+        "defaultMessage": "Your transaction was sent. Please allow for it to confirm on the network.",
+        "id": "modals.promptforlockbox.connectcoinapp.success"
+      },
+      {
+        "defaultMessage": "Transaction Failed",
+        "id": "modals.promptforlockbox.connectcoinapp.title.error"
+      },
+      {
+        "defaultMessage": "Something went wrong. Please reconnect your device and try again.",
+        "id": "modals.promptforlockbox.connectcoinapp.error"
+      }
+    ],
+    "path": "src/modals/PromptLockbox/model.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Connect {coin} App",
         "id": "modals.promptforlockbox.title"
+      },
+      {
+        "defaultMessage": "Connect and unlock your hardware device. Then open the <b>{coin} app</b> on the device.",
+        "id": "modals.promptforlockbox.connectcoinapp"
       },
       {
         "defaultMessage": "Review the transaction details on your device screen. Press the top right button to confirm and sign the transaction.",
@@ -9997,7 +10070,7 @@
         "id": "scenes.profile.identityverification.banner.verified"
       },
       {
-        "defaultMessage": "Complete our verification process to begin buying and selling cryptocurrency – all within your Blockchain wallet.",
+        "defaultMessage": "Complete our verification process to begin exchanging cryptocurrency – all within your Blockchain wallet.",
         "id": "scenes.profile.identityverification.note.unverified"
       },
       {
