@@ -49,7 +49,7 @@ jest.mock('config', () => {
 describe('App Store Config', () => {
   let apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
   let fakeWalletOptions = {
-    domains: { webSocket: 'MOCK_SOCKET', root: 'MOCK_ROOT' },
+    domains: { webSocket: 'wss://ws.blockchain.info', root: 'MOCK_ROOT' },
     platforms: {
       web: {
         bitcoin: {
