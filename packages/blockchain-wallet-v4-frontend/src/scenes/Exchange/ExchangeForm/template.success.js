@@ -15,8 +15,8 @@ import {
   TooltipHost,
   Text
 } from 'blockchain-info-components'
-import { Form, TextBox } from 'components/Form'
-import { ResizeableInputHOC } from 'components/ResizeableInputHOC'
+import { Form, AutosizeTextBox } from 'components/Form'
+import { ResizeableFontInputHOC } from 'components/ResizeableFontInputHOC'
 import StringDisplay from 'components/Display/StringDisplay'
 import SelectBox from './SelectBox'
 import { getErrorMessage } from './validationMessages'
@@ -57,9 +57,7 @@ const Cover = styled.div`
 const ColumnLeft = styled.div`
   margin-right: 34px;
   max-width: 550px;
-  @media (min-width: 992px) {
-    width: 60%;
-  }
+  width: 60%;
   ${media.mobile`
     margin-right: 0;
     margin-bottom: 20px;
@@ -89,6 +87,8 @@ const SelectSourceRow = styled(Row)`
 const AmountRow = styled(Row)`
   position: relative;
   padding: 10px 30px;
+  justify-content: center;
+  border: 4px solid transparent;
 `
 const Cell = styled.div`
   display: flex;
@@ -110,9 +110,19 @@ const MinMaxValue = styled.div`
   font-weight: 600;
   font-size: 14px;
 `
-const AmountTextBox = styled(ResizeableInputHOC(TextBox))`
+const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))`
   height: 86px;
+  max-width: 100%;
+  > div {
+    border: none;
+    height: 100%;
+    padding: 0;
+    display: flex !important;
+    flex-direction: row;
+    justify-content: center;
+  }
   input {
+    outline: 0;
     position: relative;
     font-weight: 300;
     font-size: 72px;
@@ -120,6 +130,8 @@ const AmountTextBox = styled(ResizeableInputHOC(TextBox))`
     height: 86px;
     padding: 0;
     width: 100%;
+    min-width: 45px;
+    max-width: 100%;
     border: none;
     text-align: center;
   }
@@ -179,13 +191,25 @@ const ButtonRow = styled(Row)`
   border: 1px solid ${props => props.theme['gray-1']}};
   border-top: none;
 `
+const CurrencyBox = styled(Text)`
+  align-self: flex-start;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 38px;
+  font-size: ${props => (props.coinActive ? '20px' : '32px')};
+  font-weight: 300;
+  transform: uppercase;
+  background-color: ${props =>
+    props.disabled ? props.theme['gray-1'] : props.theme['white']};
+`
 
 const normalizeAmount = (value, prevValue, allValues, ...args) => {
-  if (isNaN(Number(value))) return prevValue
+  if (isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
   return formatTextAmount(value, fiatActive(allValues.fix))
 }
-
-const parseInputAmount = (symbol, value) => value.replace(symbol, '')
 
 const formatAmount = (isFiat, symbol, value) =>
   isFiat ? `${symbol}${value}` : `${value} ${symbol}`
@@ -216,6 +240,8 @@ const Success = props => {
     handleSourceChange,
     handleTargetChange,
     handleAmountChange,
+    handleInputFocus,
+    handleInputBlur,
     swapFix,
     swapBaseAndCounter,
     swapCoinAndFiat,
@@ -310,16 +336,19 @@ const Success = props => {
               </Cell>
             </Row>
             <AmountRow>
+              {fiatActive && <CurrencyBox>{inputSymbol}</CurrencyBox>}
               <Field
                 name={inputField}
                 autoComplete='off'
-                format={formatAmount.bind(null, fiatActive, inputSymbol)}
-                parse={parseInputAmount.bind(null, inputSymbol)}
+                noLastPass
                 onChange={handleAmountChange}
+                onFocus={handleInputFocus}
+                onBlur={handleInputBlur}
                 normalize={normalizeAmount}
                 component={AmountTextBox}
                 maxFontSize='72px'
               />
+              {!fiatActive && <CurrencyBox>{inputSymbol}</CurrencyBox>}
             </AmountRow>
             <AmountRow>
               <CoinFiatSwapIcon
@@ -348,7 +377,7 @@ const Success = props => {
                 }}
               />
             </AmountRow>
-            <ErrorRow>{getErrorMessage(error)}</ErrorRow>
+            <ErrorRow>{dirty && error && getErrorMessage(error)}</ErrorRow>
             <Row>
               <MinMaxButton
                 fullwidth

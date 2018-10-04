@@ -7,6 +7,7 @@ import {
   head,
   keys,
   last,
+  or,
   path,
   prop,
   propOr
@@ -328,7 +329,12 @@ export default ({ api, coreSagas, options, networks }) => {
     }
 
     yield put(
-      actions.modules.rates.subscribeToAdvice(pair, volume, fix, fiatCurrency)
+      actions.modules.rates.subscribeToAdvice(
+        pair,
+        or(volume, '0'),
+        fix,
+        fiatCurrency
+      )
     )
   }
 

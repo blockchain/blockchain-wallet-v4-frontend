@@ -38,18 +38,30 @@ class ExchangeForm extends React.Component {
   }
 
   debounceTime = 50
-  changeAmount = debounce(amount => {
-    actions.form.clearSubmitErrors(EXCHANGE_FORM)
-    this.props.actions.changeAmount(amount)
-  }, this.debounceTime)
+  changeAmount = debounce(this.props.actions.changeAmount, this.debounceTime)
 
   handleRefresh = () => {
     this.props.actions.initialize()
   }
 
+  clearZero = e => {
+    if (e.target.value === '0') {
+      this.props.formActions.change(EXCHANGE_FORM, e.target.name, '')
+    }
+  }
+
+  addZero = e => {
+    if (e.target.value === '') {
+      requestAnimationFrame(() =>
+        this.props.formActions.change(EXCHANGE_FORM, e.target.name, '0')
+      )
+    }
+  }
+
   render () {
     const {
       actions,
+      formActions,
       data,
       min,
       max,
@@ -81,9 +93,12 @@ class ExchangeForm extends React.Component {
               extractFieldValue
             )}
             handleAmountChange={compose(
+              formActions.clearSubmitErrors.bind(null, EXCHANGE_FORM),
               this.changeAmount,
               extractFieldValue
             )}
+            handleInputFocus={this.clearZero}
+            handleInputBlur={this.addZero}
             swapFix={compose(
               actions.changeFix,
               swapBaseAndCounter.bind(null, value.fix)
