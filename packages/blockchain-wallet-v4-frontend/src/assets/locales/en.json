@@ -657,6 +657,7 @@
   "modals.promptforlockbox.button.success": "Success! Click to Continue",
   "modals.promptforlockbox.confirmcointx": "Review the transaction details on your device screen. Press the top right button to confirm and sign the transaction.",
   "modals.promptforlockbox.connectcoinapp": "Connect and unlock your hardware device. Then open the <b>{coin} app</b> on the device.",
+  "modals.promptforlockbox.connectcoinapp.content": "Connect and unlock your hardware device. Then open the {coin} app on the device.",
   "modals.promptforlockbox.connectcoinapp.error": "Something went wrong. Please reconnect your device and try again.",
   "modals.promptforlockbox.connectcoinapp.review": "Review the transaction details on your device screen. Press the top right button to confirm and sign the transaction.",
   "modals.promptforlockbox.connectcoinapp.success": "Your transaction was sent. Please allow for it to confirm on the network.",
