@@ -205,6 +205,9 @@ const CurrencyBox = styled(Text)`
   background-color: ${props =>
     props.disabled ? props.theme['gray-1'] : props.theme['white']};
 `
+const ClickableText = styled(Text)`
+  cursor: pointer;
+`
 
 const normalizeAmount = (value, prevValue, allValues, ...args) => {
   if (isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
@@ -309,12 +312,18 @@ const Success = props => {
                   checked={sourceActive}
                   coin={sourceCoin.toLowerCase()}
                 />
-                <Text size='14px' weight={400}>
+                <ClickableText
+                  onClick={() => {
+                    if (!sourceActive) swapFix()
+                  }}
+                  size='14px'
+                  weight={400}
+                >
                   <FormattedMessage
-                    id='scenes.exchange.shapeshift.firststep.from'
+                    id='scenes.exchange.exchangeform.from'
                     defaultMessage='Exchange'
                   />
-                </Text>
+                </ClickableText>
               </Cell>
               <Cell size='small' />
               <Cell center>
@@ -327,12 +336,18 @@ const Success = props => {
                     coin={targetCoin.toLowerCase()}
                   />
                 }
-                <Text size='14px' weight={400}>
+                <ClickableText
+                  onClick={() => {
+                    if (!targetActive) swapFix()
+                  }}
+                  size='14px'
+                  weight={400}
+                >
                   <FormattedMessage
-                    id='scenes.exchange.shapeshift.firststep.to'
+                    id='scenes.exchange.exchangeform.to'
                     defaultMessage='Receive'
                   />
-                </Text>
+                </ClickableText>
               </Cell>
             </Row>
             <AmountRow>
