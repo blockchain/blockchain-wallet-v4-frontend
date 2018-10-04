@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import Upload from './template'
 import { actions } from 'data'
 import { getData } from './selectors'
-import ui from 'redux-ui'
 import Failure from 'components/BuySell/Failure'
 
 class UploadContainer extends Component {
@@ -22,7 +21,8 @@ class UploadContainer extends Component {
     this.state = {
       file: null,
       camera: false,
-      photo: ''
+      photo: '',
+      busy: false
     }
   }
 
@@ -101,12 +101,7 @@ const mapDispatchToProps = dispatch => ({
   sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({ state: { busy: false } })
-)
-
-export default enhance(UploadContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UploadContainer)

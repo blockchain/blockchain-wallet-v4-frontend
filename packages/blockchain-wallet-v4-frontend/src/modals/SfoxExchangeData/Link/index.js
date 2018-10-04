@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
-import ui from 'redux-ui'
+import { bindActionCreators } from 'redux'
 import Link from './template'
 import { actions, selectors } from 'data'
 import { formValueSelector } from 'redux-form'
@@ -15,7 +14,15 @@ class LinkContainer extends Component {
     this.onSubmit = this.onSubmit.bind(this)
     this.submitMicroDeposits = this.submitMicroDeposits.bind(this)
 
-    this.state = { enablePlaid: false, id: '' }
+    this.state = {
+      enablePlaid: false,
+      id: '',
+      toggleManual: false,
+      selectBank: false,
+      microDeposits: false,
+      microStep: 'welcome',
+      busy: false
+    }
   }
 
   componentDidMount () {
@@ -33,8 +40,11 @@ class LinkContainer extends Component {
       }
       if (e.data.command === 'getBankAccounts' && e.data.msg) {
         this.props.sfoxDataActions.getBankAccounts(e.data.msg)
-        this.setState({ enablePlaid: false, token: e.data.msg })
-        this.props.updateUI({ selectBank: true })
+        this.setState({
+          enablePlaid: false,
+          token: e.data.msg,
+          selectBank: true
+        })
       }
     }
     window.addEventListener('message', receiveMessage, false)
@@ -50,7 +60,7 @@ class LinkContainer extends Component {
   }
 
   componentWillUnmount () {
-    this.props.updateUI({
+    this.setState({
       toggleManual: false,
       selectBank: false,
       microDeposits: false,
@@ -73,11 +83,11 @@ class LinkContainer extends Component {
 
   onSubmit () {
     if (
-      this.props.ui.toggleManual &&
+      this.state.toggleManual &&
       this.state.routingNumber &&
       this.state.accountNumber
     ) {
-      this.props.updateUI({ busy: true })
+      this.setState({ busy: true })
       const { fullName, routingNumber, accountNumber, accountType } = this.state
       this.props.sfoxFrontendActions.setBankManually(
         routingNumber,
@@ -86,7 +96,7 @@ class LinkContainer extends Component {
         accountType
       )
     } else {
-      this.props.updateUI({ busy: true })
+      this.setState({ busy: true })
       const bankChoice = merge(
         { id: this.state.id, name: this.state.holderName },
         { token: this.state.token }
@@ -99,10 +109,11 @@ class LinkContainer extends Component {
     const {
       bankAccounts,
       accounts,
-      ui,
+
       linkStatus,
       sfoxFrontendActions
     } = this.props
+    const ui = this.state
     const { plaidBaseUrl, plaidPath, plaidEnv } = this.props
     const { sfoxNotAsked } = sfoxFrontendActions
     const plaidUrl = `${plaidBaseUrl}/wallet-helper/plaid/#/key/${plaidPath}/env/${plaidEnv}`
@@ -129,10 +140,8 @@ class LinkContainer extends Component {
         bankAccounts={bankAccounts}
         accounts={accounts}
         onSetBankAccount={this.onSetBankAccount}
-        toggleManual={() =>
-          this.props.updateUI({ toggleManual: !ui.toggleManual })
-        }
-        ui={ui}
+        toggleManual={() => this.setState({ toggleManual: !ui.toggleManual })}
+        ui={this.state}
         handleBankSelection={id => this.setState({ id })}
         onNameChange={name => this.setState({ holderName: name })}
         handleFullName={e => this.setState({ fullName: e.target.value })}
@@ -144,7 +153,7 @@ class LinkContainer extends Component {
         }
         handleAccountType={(e, val) => this.setState({ accountType: val })}
         microStep={ui.microStep}
-        goToMicroDepositStep={step => this.props.updateUI({ microStep: step })}
+        goToMicroDepositStep={step => this.setState({ microStep: step })}
         submitMicroDeposits={this.submitMicroDeposits}
         awaitingDeposits={awaitingDeposits}
         showModal={showModal}
@@ -188,20 +197,7 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({
-    state: {
-      toggleManual: false,
-      selectBank: false,
-      microDeposits: false,
-      microStep: 'welcome',
-      busy: false
-    }
-  })
-)
-
-export default enhance(LinkContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LinkContainer)

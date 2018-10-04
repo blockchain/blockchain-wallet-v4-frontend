@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import { FormattedMessage } from 'react-intl'
-import ui from 'redux-ui'
 import { actions, selectors } from 'data'
 import { formValueSelector, Field } from 'redux-form'
 
@@ -46,7 +45,9 @@ const VerifyMobileForm = styled(Form)`
 class VerifyMobile extends Component {
   constructor (props) {
     super(props)
-    this.state = {}
+    this.state = {
+      smsCodeResent: false
+    }
 
     this.onSubmit = this.onSubmit.bind(this)
     this.resendCode = this.resendCode.bind(this)
@@ -59,20 +60,20 @@ class VerifyMobile extends Component {
 
   componentDidUpdate (prevProps) {
     if (this.props.smsVerified && !prevProps.smsVerified) {
-      this.props.updateUI({ create: 'create_account' })
+      this.props.handleUpdate('create', 'create_account')
     }
     if (this.props.smsVerified && !this.props.editVerifiedMobile) {
-      this.props.updateUI({ create: 'create_account' })
+      this.props.handleUpdate('create', 'create_account')
     }
   }
 
   updateMobileNumber () {
-    this.props.updateUI({ create: 'enter_mobile_code' })
+    this.props.handleUpdate('create', 'enter_mobile_code')
     this.props.settingsActions.updateMobile(this.props.mobileNumber)
   }
 
   resendCode () {
-    this.props.updateUI({ smsCodeResent: true })
+    this.setState({ smsCodeResent: true })
     this.props.settingsActions.resendMobile(this.props.mobileNumber)
   }
 
@@ -88,13 +89,13 @@ class VerifyMobile extends Component {
 
   render () {
     const {
-      ui,
       mobileCode,
       mobileNumber,
       mobileVerifiedError,
       countryCode,
       smsNumber
     } = this.props
+    const ui = this.state
 
     let smsHelper = () => {
       switch (true) {
@@ -108,7 +109,7 @@ class VerifyMobile extends Component {
                 changeNumber: (
                   <a
                     onClick={() =>
-                      this.props.updateUI({ create: 'change_mobile' })
+                      this.props.handleUpdate('create', 'change_mobile')
                     }
                   >
                     change number
@@ -167,7 +168,7 @@ class VerifyMobile extends Component {
                 countryCode={countryCode}
                 errorBottom
               />
-              {ui.create === 'change_mobile' && (
+              {this.props.ui.create === 'change_mobile' && (
                 <Button
                   nature='primary'
                   type='submit'
@@ -181,7 +182,7 @@ class VerifyMobile extends Component {
                 </Button>
               )}
             </MobileInput>
-            {ui.create === 'enter_mobile_code' && (
+            {this.props.ui.create === 'enter_mobile_code' && (
               <MobileCodeContainer>
                 <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
@@ -204,7 +205,7 @@ class VerifyMobile extends Component {
         </ColLeft>
         <ColRight>
           <ColRightInner>
-            {ui.create !== 'enter_mobile_code' ? null : (
+            {this.props.ui.create !== 'enter_mobile_code' ? null : (
               <ButtonWrapper>
                 <Button
                   type='submit'
@@ -238,12 +239,7 @@ const mapDispatchToProps = dispatch => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({ state: { smsCodeResent: false } })
-)
-
-export default enhance(VerifyMobile)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(VerifyMobile)
