@@ -53,7 +53,8 @@ export default ({ api, coreSagas, options, networks }) => {
     configEquals,
     formatPair,
     swapBaseAndCounter,
-    FIX_TYPES
+    FIX_TYPES,
+    MIN_ERROR
   } = model.rates
   const {
     calculatePaymentMemo,
@@ -125,6 +126,8 @@ export default ({ api, coreSagas, options, networks }) => {
       )(quote)
     }
 
+    if (Remote.Failure.is(amountsR)) throw amountsR.error
+
     return amountsR.getOrFail(NO_ADVICE_ERROR)
   }
 
@@ -146,6 +149,7 @@ export default ({ api, coreSagas, options, networks }) => {
     const fiatCurrency = yield call(getFiatCurrency)
     const pair = getCurrentPair(form)
     try {
+      if (!formVolume || formVolume === '0') throw MIN_ERROR
       const amounts = yield call(getAmounts, pair)
       const sourceFiatVolume = prop('sourceFiat', amounts)
       const volume =
@@ -394,10 +398,10 @@ export default ({ api, coreSagas, options, networks }) => {
       }
 
       yield call(startValidation)
+      yield call(clearMinMax)
       yield call(unsubscribeFromCurrentAdvice, form)
       yield call(changeSubscription, true)
       yield call(updateSourceFee)
-      yield call(clearMinMax)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'changeSource', e))
     }
@@ -445,6 +449,7 @@ export default ({ api, coreSagas, options, networks }) => {
         actions.form.change(EXCHANGE_FORM, getActiveFieldName(form), amount)
       )
       yield call(startValidation)
+      yield put(A.setShowError(true))
       yield call(changeSubscription)
       yield call(updateSourceFee)
     } catch (e) {

@@ -13,7 +13,8 @@ import {
   getMax,
   getTargetFee,
   getSourceFee,
-  canUseExchange
+  canUseExchange,
+  showError
 } from './selectors'
 
 import Loading from './template.loading'
@@ -35,6 +36,10 @@ class ExchangeForm extends React.Component {
   componentDidUpdate (prevProps) {
     const { canUseExchange, actions } = this.props
     if (!prevProps.canUseExchange && canUseExchange) actions.initialize()
+  }
+
+  componentWillUnmount () {
+    this.props.actions.setShowError(false)
   }
 
   debounceTime = 50
@@ -67,7 +72,8 @@ class ExchangeForm extends React.Component {
       max,
       targetFee,
       sourceFee,
-      canUseExchange
+      canUseExchange,
+      showError
     } = this.props
     return data.cata({
       Success: value =>
@@ -81,6 +87,7 @@ class ExchangeForm extends React.Component {
             targetFee={targetFee}
             sourceFee={sourceFee}
             canUseExchange={canUseExchange}
+            showError={showError}
             handleMaximum={actions.firstStepMaximumClicked}
             handleMinimum={actions.firstStepMinimumClicked}
             onSubmit={actions.setStep.bind(null, CONFIRM)}
@@ -174,6 +181,7 @@ const mapStateToProps = state => ({
   max: getMax(state),
   targetFee: getTargetFee(state),
   sourceFee: getSourceFee(state),
+  showError: showError(state),
   data: getData(state)
 })
 

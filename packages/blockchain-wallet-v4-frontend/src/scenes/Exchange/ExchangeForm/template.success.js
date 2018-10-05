@@ -25,7 +25,9 @@ import Summary from './Summary'
 const {
   EXCHANGE_FORM,
   NO_LIMITS_ERROR,
-  MAXIMUM_NO_LINK_ERROR,
+  REACHED_DAILY_ERROR,
+  REACHED_WEEKLY_ERROR,
+  REACHED_ANNUAL_ERROR,
   MINIMUM_NO_LINK_ERROR
 } = model.components.exchange
 const { fiatActive, formatPair } = model.rates
@@ -214,7 +216,7 @@ const normalizeAmount = (value, prevValue, allValues, ...args) => {
   return formatTextAmount(value, fiatActive(allValues.fix))
 }
 
-const formatAmount = (isFiat, symbol, value) =>
+export const formatAmount = (isFiat, symbol, value) =>
   isFiat ? `${symbol}${value}` : `${value} ${symbol}`
 
 const Success = props => {
@@ -249,7 +251,9 @@ const Success = props => {
     swapBaseAndCounter,
     swapCoinAndFiat,
     useMin,
-    useMax
+    useMax,
+    volume,
+    showError
   } = props
   const swapDisabled = !contains(
     formatPair(targetCoin, sourceCoin),
@@ -258,8 +262,10 @@ const Success = props => {
   const minMaxDisabled =
     contains(error, [
       NO_LIMITS_ERROR,
-      MAXIMUM_NO_LINK_ERROR,
-      MINIMUM_NO_LINK_ERROR
+      MINIMUM_NO_LINK_ERROR,
+      REACHED_DAILY_ERROR,
+      REACHED_WEEKLY_ERROR,
+      REACHED_ANNUAL_ERROR
     ]) ||
     gte(min, max) ||
     isNil(min) ||
@@ -392,7 +398,9 @@ const Success = props => {
                 }}
               />
             </AmountRow>
-            <ErrorRow>{dirty && error && getErrorMessage(error)}</ErrorRow>
+            <ErrorRow>
+              {showError && error && getErrorMessage(error)(props)}
+            </ErrorRow>
             <Row>
               <MinMaxButton
                 fullwidth
@@ -436,7 +444,9 @@ const Success = props => {
                 asyncValidating ||
                 submitting ||
                 !dirty ||
-                (dirty && error)
+                volume === '0' ||
+                !volume ||
+                (volume && error)
               }
             >
               {!disabled && !asyncValidating && !submitting ? (

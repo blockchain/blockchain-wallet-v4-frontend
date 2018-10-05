@@ -96,6 +96,9 @@ export const getAuthMessage = token => ({
   }
 })
 
+export const MIN_ERROR = 'Result volume is too small'
+export const MAX_ERROR = 'Too big volume'
+
 export const FIX_TYPES = {
   BASE: 'base',
   COUNTER: 'counter',
