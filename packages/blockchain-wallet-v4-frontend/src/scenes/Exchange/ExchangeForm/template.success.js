@@ -136,6 +136,7 @@ const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))`
     max-width: 100%;
     border: none;
     text-align: center;
+    color: ${props => props.theme['gray-5']};
   }
 `
 const ComplementaryAmountContaier = styled.div`
@@ -362,6 +363,7 @@ const Success = props => {
                 name={inputField}
                 autoComplete='off'
                 noLastPass
+                placeholder='0'
                 onChange={handleAmountChange}
                 onFocus={handleInputFocus}
                 onBlur={handleInputBlur}
