@@ -67,7 +67,7 @@ class EmailAddressContainer extends React.PureComponent {
   }
 
   handleEmailChangeSubmit () {
-    this.props.securityCenterActions.updateEmail(this.props.updatedEmail)
+    this.props.securityCenterActions.updateEmail(this.props.updatedEmail, true)
     this.setState({
       changeEmailToggled: !this.state.changeEmailToggled
     })
