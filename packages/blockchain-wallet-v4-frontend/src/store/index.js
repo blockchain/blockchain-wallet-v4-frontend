@@ -58,19 +58,19 @@ const configureStore = () => {
       const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
       const btcSocket = new Socket({
         options,
-        url: `wss://ws.blockchain.info/inv`
+        url: `${options.domains.webSocket}/inv`
       })
       const bchSocket = new Socket({
         options,
-        url: `wss://ws.blockchain.info/bch/inv`
+        url: `${options.domains.webSocket}/bch/inv`
       })
       const ethSocket = new Socket({
         options,
-        url: `wss://ws.blockchain.info/eth/inv`
+        url: `${options.domains.webSocket}/eth/inv`
       })
       const ratesSocket = new ApiSocket({
         options,
-        url: `wss://ws.blockchain.info/nabu-gateway/markets/quotes`,
+        url: `${options.domains.webSocket}/nabu-gateway/markets/quotes`,
         maxReconnects: 3
       })
       const getAuthCredentials = () =>
