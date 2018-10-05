@@ -24,7 +24,7 @@ const Wrapper = styled.div`
   background: ${props => props.theme['marketing-primary']};
   overflow: hidden;
   ${media.mobile`
-    flex-direction: column;
+    display: none;
   `};
 `
 
@@ -41,6 +41,9 @@ const EmailSentNotification = styled(Text)`
   }
   position: relative;
   top: -30px;
+  @media (max-width: 1023px) {
+    display: none;
+  }
 `
 
 const WhatsNewIcon = props => {
