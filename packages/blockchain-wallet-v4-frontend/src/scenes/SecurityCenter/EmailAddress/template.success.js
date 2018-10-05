@@ -205,12 +205,17 @@ const EmailAddress = props => {
           </React.Fragment>
         ) : null}
         {uiHelper() && verified ? (
-          <EmailButton nature='primary' onClick={props.handleChangeEmailView}>
+          <Text
+            color='brand-secondary'
+            size='13px'
+            style={{ cursor: 'pointer' }}
+            onClick={props.handleChangeEmailView}
+          >
             <FormattedMessage
-              id='scenes.security.email.settings.updateform.change'
-              defaultMessage='Change Email'
+              id='scenes.security.email.settings.updateform.changeyouremail'
+              defaultMessage='Change Your Email'
             />
-          </EmailButton>
+          </Text>
         ) : null}
       </EmailSecurityComponent>
       <FieldsContainer>
