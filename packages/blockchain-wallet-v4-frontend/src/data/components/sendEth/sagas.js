@@ -9,6 +9,7 @@ import * as selectors from '../../selectors'
 import settings from 'config'
 import { initialize, change } from 'redux-form'
 import * as C from 'services/AlertService'
+import * as Lockbox from 'services/LockboxService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
@@ -175,12 +176,14 @@ export default ({ coreSagas }) => {
           selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
           fromAddress
         )).getOrFail('missing_device')
-        yield call(promptForLockbox, 'ETH', null, prop('device_type', device))
+        const deviceType = prop('device_type', device)
+        yield call(promptForLockbox, 'ETH', null, deviceType)
         let connection = yield select(
           selectors.components.lockbox.getCurrentConnection
         )
-        let transport = prop('transport', connection)
-        payment = yield payment.sign(null, transport)
+        const transport = prop('transport', connection)
+        const scrambleKey = Lockbox.utils.getScrambleKey('ETH', deviceType)
+        payment = yield payment.sign(null, transport, scrambleKey)
       }
       // Publish payment
       payment = yield payment.publish()

@@ -233,6 +233,7 @@ export default ({ api }) => {
     network,
     password,
     transport,
+    scrambleKey,
     fromType,
     selection
   ) {
@@ -253,7 +254,13 @@ export default ({ api }) => {
       case ADDRESS_TYPES.EXTERNAL:
         return bch.signWithWIF(network, selection)
       case ADDRESS_TYPES.LOCKBOX:
-        return yield call(bch.signWithLedger, selection, transport, api)
+        return yield call(
+          bch.signWithLockbox,
+          selection,
+          transport,
+          scrambleKey,
+          api
+        )
       default:
         throw new Error('unknown_from')
     }
@@ -324,12 +331,13 @@ export default ({ api }) => {
         return makePayment(merge(p, { selection }))
       },
 
-      *sign (password, transport) {
+      *sign (password, transport, scrambleKey) {
         let signed = yield call(
           calculateSignature,
           network,
           password,
           transport,
+          scrambleKey,
           p.fromType,
           p.selection
         )

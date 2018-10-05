@@ -19,7 +19,7 @@ import {
   webSocketEth,
   webSocketRates
 } from '../middleware'
-
+import { head } from 'ramda'
 import Bitcoin from 'bitcoinjs-lib'
 import BitcoinCash from 'bitcoinforksjs-lib'
 
@@ -56,21 +56,23 @@ const configureStore = () => {
     .then(res => res.json())
     .then(options => {
       const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
+      // TODO: deprecate when wallet-options-v4 is updated on prod
+      const socketUrl = head(options.domains.webSocket.split('/inv'))
       const btcSocket = new Socket({
         options,
-        url: `wss://ws.blockchain.info/inv`
+        url: `${socketUrl}/inv`
       })
       const bchSocket = new Socket({
         options,
-        url: `wss://ws.blockchain.info/bch/inv`
+        url: `${socketUrl}/bch/inv`
       })
       const ethSocket = new Socket({
         options,
-        url: `wss://ws.blockchain.info/eth/inv`
+        url: `${socketUrl}/eth/inv`
       })
       const ratesSocket = new ApiSocket({
         options,
-        url: `wss://ws.blockchain.info/nabu-gateway/markets/quotes`,
+        url: `${socketUrl}/nabu-gateway/markets/quotes`,
         maxReconnects: 3
       })
       const getAuthCredentials = () =>

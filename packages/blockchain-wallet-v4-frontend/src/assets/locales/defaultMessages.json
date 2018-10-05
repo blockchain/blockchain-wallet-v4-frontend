@@ -1528,6 +1528,27 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Confirm your email address to properly secure your account",
+        "id": "layouts.wallet.header.emailreminder"
+      },
+      {
+        "defaultMessage": "- An email was sent to {email}",
+        "id": "layouts.wallet.header.emailreminder.emailsent"
+      },
+      {
+        "defaultMessage": "Resend Email",
+        "id": "layouts.wallet.header.emailreminder.resend"
+      },
+      {
+        "defaultMessage": "Change Email",
+        "id": "layouts.wallet.header.emailreminder.change"
+      }
+    ],
+    "path": "src/layouts/Wallet/Header/EmailReminder/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Sign Out",
         "id": "layouts.wallet.header.logout.signout"
       }
