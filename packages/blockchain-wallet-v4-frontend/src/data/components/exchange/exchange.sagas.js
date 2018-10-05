@@ -53,6 +53,7 @@ export default ({ api, coreSagas, options, networks }) => {
     configEquals,
     formatPair,
     swapBaseAndCounter,
+    getBestRatesPairs,
     FIX_TYPES,
     MIN_ERROR
   } = model.rates
@@ -347,14 +348,7 @@ export default ({ api, coreSagas, options, networks }) => {
     targetCoin,
     fiatCurrency
   ) {
-    const pairs = [
-      formatPair(sourceCoin, targetCoin),
-      formatPair(targetCoin, sourceCoin),
-      formatPair(sourceCoin, fiatCurrency),
-      formatPair(fiatCurrency, sourceCoin),
-      formatPair(targetCoin, fiatCurrency),
-      formatPair(fiatCurrency, targetCoin)
-    ]
+    const pairs = getBestRatesPairs(sourceCoin, targetCoin, fiatCurrency)
     const currentPairs = (yield select(selectors.modules.rates.getBestRates))
       .map(keys)
       .getOrElse([])
