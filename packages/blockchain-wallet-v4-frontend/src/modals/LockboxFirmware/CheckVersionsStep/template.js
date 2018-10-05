@@ -21,32 +21,54 @@ const RotateSyncContainer = styled(RotateSync)`
   margin-left: 15px;
 `
 const CheckVersionsStep = props => {
+  const { onStartInstall, status } = props
   return (
     <React.Fragment>
       <Title>
-        <Text size='16px' weight={400}>
+        <Text size='22px' weight={400}>
           <FormattedMessage
             id='modals.lockboxfirmware.checkversions.title'
-            defaultMessage='Step 2. Check for updates'
+            defaultMessage='Check for Updates'
           />
         </Text>
       </Title>
       <Content>
-        <Text size='13px' weight={300}>
-          <FormattedMessage
-            id='modals.lockboxfirmware.checkversions.subtitle'
-            defaultMessage='Please wait while we check for updates for your device.'
-          />
-        </Text>
+        {status === 'updateAvailable'
+          ? (
+            <Text size='13px' weight={300}>
+              <FormattedMessage
+                id='modals.lockboxfirmware.checkversions.updateavailable'
+                defaultMessage='A new firmware is available for your device! Click continue to start installing.'
+              />
+            </Text>
+          )
+        : (
+          <Text size='13px' weight={300}>
+            <FormattedMessage
+              id='modals.lockboxfirmware.checkversions.subtitle'
+              defaultMessage='Please wait while we check for updates for your device.'
+            />
+          </Text>
+          )}
       </Content>
       <ButtonContainer>
-        <Button fullwidth disabled={true} nature='dark' onClick={() => {}}>
-          <FormattedMessage
-            id='modals.lockboxfirmware.checkversions.loading'
-            defaultMessage='Checking Versions'
-          />
-          <RotateSyncContainer size='16px' color='white' />
-        </Button>
+        {status === 'updateAvailable'
+          ? (
+            <Button fullwidth nature='success' onClick={onStartInstall}>
+              <FormattedMessage
+                id='modals.lockboxfirmware.checkversions.continue'
+                defaultMessage='Continue'
+              />
+            </Button>
+          ) :(
+            <Button fullwidth disabled nature='dark'>
+              <FormattedMessage
+                id='modals.lockboxfirmware.checkversions.loading'
+                defaultMessage='Checking Versions'
+              />
+              <RotateSyncContainer size='16px' color='white' />
+            </Button>
+          )}
       </ButtonContainer>
     </React.Fragment>
   )

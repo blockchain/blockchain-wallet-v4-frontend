@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
+import { RotateSync } from 'components/RotateSync'
 import { Button, Text } from 'blockchain-info-components'
 
 const Title = styled.div`
@@ -16,27 +17,37 @@ const Content = styled.div`
 const ButtonContainer = styled.div`
   margin-top: 30px;
 `
-
+const RotateSyncContainer = styled(RotateSync)`
+  margin-left: 15px;
+`
 const InstallMcu = props => {
-  const { closeAll } = props
+  const { status } = props
 
   return (
     <React.Fragment>
       <Title>
-        <Text size='16px' weight={400}>
+        <Text size='22px' weight={400}>
           <FormattedMessage
             id='modals.lockboxfirmware.installmcu.title'
-            defaultMessage='Step 4. Update MCU'
+            defaultMessage='Installing Firmware'
           />
         </Text>
       </Title>
-      <Content />
-      <ButtonContainer>
-        <Button fullwidth nature='success' onClick={closeAll}>
+      <Content>
+        <Text size='14px' weight={300}>
           <FormattedMessage
-            id='modals.lockboxfirmware.installmcu.continue'
-            defaultMessage='Continue'
+            id='modals.lockboxfirmware.installmcu.message'
+            defaultMessage='Please wait while your device is being updated.  Do not unplug device!'
           />
+        </Text>
+      </Content>
+      <ButtonContainer>
+        <Button fullwidth disabled nature='dark'>
+          <FormattedMessage
+            id='modals.lockboxfirmware.checkversions.loading'
+            defaultMessage='Installing'
+          />
+          <RotateSyncContainer size='16px' color='white' />
         </Button>
       </ButtonContainer>
     </React.Fragment>

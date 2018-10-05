@@ -1,6 +1,6 @@
 import { call, put, take, select, takeEvery } from 'redux-saga/effects'
 import { contains, length, prop } from 'ramda'
-import { eventChannel, END } from 'redux-saga'
+import { delay, eventChannel, END } from 'redux-saga'
 import { actions, selectors } from 'data'
 import * as A from './actions'
 import * as AT from './actionTypes'
@@ -399,7 +399,7 @@ export default ({ api }) => {
       yield take(AT.SET_CONNECTION_INFO)
       // wait for user to continue
       yield take(AT.SET_FIRMWARE_UPDATE_STEP)
-      const { transport } = yield select(S.getCurrentConnection)
+      let { transport } = yield select(S.getCurrentConnection)
       // get base device info
       const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
       // get full device info via api
@@ -447,34 +447,78 @@ export default ({ api }) => {
             ...currentMcuVersionId
           )
         }
+        yield put(
+          A.changeFirmwareUpdateStep({
+            step: 'check-versions',
+            status: 'updateAvailable'
+          })
+        )
+        // wait for user to continue
+        yield take(AT.SET_FIRMWARE_UPDATE_STEP)
+
         // fetch base socket domain
         const domainsR = yield select(selectors.core.walletOptions.getDomains)
         const domains = domainsR.getOrElse({
           ledgerSocket: 'wss://api.ledgerwallet.com'
         })
-        yield put(
-          A.changeFirmwareUpdateStep('install-osu-firmware', osuFirmware)
-        )
-        // flash MCU if needed
-        if (prop('shouldFlashMcu', osuFirmware)) {
-          // TODO
-          // firmwareUpdate.js line 94
-        }
 
-        const result = yield call(
+        console.info('1::', osuFirmware)
+
+        if (prop('shouldFlashMcu', osuFirmware)) {
+          // get latest MCU
+          const nextMcu = yield call(api.getNextMcu, deviceInfo.seVersion)
+          // TODO: seems to be a bug, see line ~19 in getNextMCU
+          if (nextMcu !== 'default' && nextMcu.name) {
+            // flash latest MCU onto device
+            yield call(Lockbox.firmware.flashMcu,
+              transport,
+              domains.ledgerSocket,
+              deviceInfo.targetId,
+              nextMcu.name
+            )
+          } else {
+            osuFirmware.shouldFlashMcu = false
+          }
+        }
+        console.info('start osu install')
+        // install osu firmware
+        let osuResult = yield call(
           Lockbox.firmware.installOsuFirmware,
           transport,
           domains.ledgerSocket,
           osuFirmware,
           deviceInfo.targetId
         )
+        console.info('end osu install', osuResult)
+        // ensures old socket closes before opening another
+        yield delay(500)
+        // install final firmware
+        let finalResult = yield call(Lockbox.firmware.installFinalFirmware,
+          transport,
+          domains.ledgerSocket,
+          seFirmwareFinalVersion,
+          deviceInfo.providerId,
+          deviceVersion.id
+        )
+        console.info('final result', finalResult)
+
+        yield put(A.changeFirmwareUpdateStep({
+          step: 'complete',
+          status: 'success'
+        }))
       } else {
         // no firmware to install
         yield put(
-          A.changeFirmwareUpdateStep({ step: 'complete', status: 'uptodate' })
+          A.changeFirmwareUpdateStep({
+            step: 'complete',
+            status: 'uptodate'
+          })
         )
       }
     } catch (e) {
+      yield put(
+        A.changeFirmwareUpdateStep({ step: 'complete', status: 'error' })
+      )
       yield put(
         actions.logs.logErrorMessage(logLocation, 'updateDeviceFirmware', e)
       )

@@ -26,10 +26,10 @@ const CheckForUpdatesStep = props => {
   return (
     <React.Fragment>
       <Title>
-        <Text size='16px' weight={400}>
+        <Text size='22px' weight={400}>
           <FormattedMessage
             id='modals.lockboxfirmware.connectdevice.title'
-            defaultMessage='Step 1. Connect your Lockbox'
+            defaultMessage='Connect your Lockbox'
           />
         </Text>
       </Title>

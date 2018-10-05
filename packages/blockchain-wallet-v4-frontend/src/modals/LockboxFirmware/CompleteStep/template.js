@@ -25,7 +25,7 @@ const CompleteStep = props => {
       {status === 'uptodate' && (
         <React.Fragment>
           <Title>
-            <Text size='16px' weight={400}>
+            <Text size='22px' weight={400}>
               <FormattedMessage
                 id='modals.lockboxfirmware.completestep.uptodate.title'
                 defaultMessage='Device Up-to-date!'
@@ -45,7 +45,7 @@ const CompleteStep = props => {
       {status === 'success' && (
         <React.Fragment>
           <Title>
-            <Text size='16px' weight={400}>
+            <Text size='22px' weight={400}>
               <FormattedMessage
                 id='modals.lockboxfirmware.completestep.installsuccess.title'
                 defaultMessage='Update Complete!'
@@ -65,7 +65,7 @@ const CompleteStep = props => {
       {status === 'error' && (
         <React.Fragment>
           <Title>
-            <Text size='16px' weight={400}>
+            <Text size='22px' weight={400}>
               <FormattedMessage
                 id='modals.lockboxfirmware.completestep.installerror.title'
                 defaultMessage='Update Failed!'

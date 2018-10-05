@@ -24,9 +24,9 @@ class LockboxFirmwareContainer extends React.PureComponent {
       'connect-device': 1,
       'check-versions': 2,
       'install-mcu': 3,
-      'install-osu-firmware': 4,
-      'install-final-firmware': 5,
-      complete: 6
+      'install-osu-firmware': 3,
+      'install-final-firmware': 4,
+      complete: 5
     }
     const step = currentStep ? steps[currentStep.step] : 1
 
@@ -36,14 +36,14 @@ class LockboxFirmwareContainer extends React.PureComponent {
         total={total}
         closeAll={closeAll}
         step={step}
-        totalSteps={5}
+        totalSteps={4}
       >
         {step === 1 && <ConnectDeviceStep deviceIndex={deviceIndex} />}
-        {step === 2 && <CheckVersionsStep />}
-        {step === 3 && <ConfirmIdentifierStep />}
-        {step === 4 && <InstallMcuStep />}
-        {step === 5 && <InstallFirmwareStep />}
-        {step === 6 && <CompleteStep closeAll={closeAll} />}
+        {step === 2 && <CheckVersionsStep status={currentStep.status} />}
+        {/*{step === 3 && <ConfirmIdentifierStep />}*/}
+        {step === 3 && <InstallMcuStep status={currentStep.status} />}
+        {step === 4 && <InstallFirmwareStep status={currentStep.status} />}
+        {step === 5 && <CompleteStep closeAll={closeAll} />}
       </FirmwareContainer>
     )
   }
