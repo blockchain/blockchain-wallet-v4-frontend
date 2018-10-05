@@ -16,32 +16,38 @@ import constants from './constants'
  */
 const installApp = (transport, baseUrl, targetId, appName, appInfos) => {
   return new Promise(async (resolve, reject) => {
-    // derive latest app info
-    const latestAppInfo = find(propEq('app', constants.appIds[appName]))(
-      appInfos
-    )
-    // socket params
-    const params = {
-      targetId,
-      perso: latestAppInfo.perso,
-      deleteKey: latestAppInfo.delete_key,
-      firmware: latestAppInfo.firmware,
-      firmwareKey: latestAppInfo.firmware_key,
-      hash: latestAppInfo.hash
-    }
-    // build socket url
-    const url =
-      `${baseUrl}${constants.socketPaths.install}` + `?${qs.stringify(params)}`
+    try {
+      // derive latest app info
+      const latestAppInfo = find(propEq('app', constants.appIds[appName]))(
+        appInfos
+      )
+      // socket params
+      const params = {
+        targetId,
+        perso: latestAppInfo.perso,
+        deleteKey: latestAppInfo.delete_key,
+        firmware: latestAppInfo.firmware,
+        firmwareKey: latestAppInfo.firmware_key,
+        hash: latestAppInfo.hash
+      }
 
-    // install app via socket
-    const res = await utils.mapSocketError(
-      utils.createDeviceSocket(transport, url).toPromise()
-    )
+      // build socket url
+      const url =
+        `${baseUrl}${constants.socketPaths.install}` +
+        `?${qs.stringify(params)}`
 
-    if (res.err) {
-      reject(res.errMsg)
-    } else {
-      resolve()
+      // install app via socket
+      const res = await utils.mapSocketError(
+        utils.createDeviceSocket(transport, url).toPromise()
+      )
+
+      if (res.err) {
+        reject(res.errMsg)
+      } else {
+        resolve()
+      }
+    } catch (e) {
+      reject(e)
     }
   })
 }

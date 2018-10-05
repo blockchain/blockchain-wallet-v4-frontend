@@ -18,19 +18,70 @@ const ButtonContainer = styled.div`
 `
 
 const CompleteStep = props => {
-  const { closeAll } = props
+  const { closeAll, status } = props
 
   return (
     <React.Fragment>
-      <Title>
-        <Text size='16px' weight={400}>
-          <FormattedMessage
-            id='modals.lockboxfirmware.completestep.title'
-            defaultMessage='Update Complete!'
-          />
-        </Text>
-      </Title>
-      <Content />
+      {status === 'uptodate' && (
+        <React.Fragment>
+          <Title>
+            <Text size='16px' weight={400}>
+              <FormattedMessage
+                id='modals.lockboxfirmware.completestep.uptodate.title'
+                defaultMessage='Device Up-to-date!'
+              />
+            </Text>
+            <Content>
+              <Text size='13px' weight={300}>
+                <FormattedMessage
+                  id='modals.lockboxfirmware.completestep.uptodate.message'
+                  defaultMessage='Your device is already up-to-date.'
+                />
+              </Text>
+            </Content>
+          </Title>
+        </React.Fragment>
+      )}
+      {status === 'success' && (
+        <React.Fragment>
+          <Title>
+            <Text size='16px' weight={400}>
+              <FormattedMessage
+                id='modals.lockboxfirmware.completestep.installsuccess.title'
+                defaultMessage='Update Complete!'
+              />
+            </Text>
+          </Title>
+          <Content>
+            <Text size='13px' weight={300}>
+              <FormattedMessage
+                id='modals.lockboxfirmware.completestep.installsuccess.message'
+                defaultMessage='Your firmware was successfully updated. You may now reinstall apps on your device from the settings page.'
+              />
+            </Text>
+          </Content>
+        </React.Fragment>
+      )}
+      {status === 'error' && (
+        <React.Fragment>
+          <Title>
+            <Text size='16px' weight={400}>
+              <FormattedMessage
+                id='modals.lockboxfirmware.completestep.installerror.title'
+                defaultMessage='Update Failed!'
+              />
+            </Text>
+          </Title>
+          <Content>
+            <Text size='13px' weight={300}>
+              <FormattedMessage
+                id='modals.lockboxfirmware.completestep.installerror.message'
+                defaultMessage='The firmware update failed to install. Please try again or reach out to support if the issue persists.'
+              />
+            </Text>
+          </Content>
+        </React.Fragment>
+      )}
       <ButtonContainer>
         <Button fullwidth nature='success' onClick={closeAll}>
           <FormattedMessage

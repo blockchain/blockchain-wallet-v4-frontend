@@ -7,12 +7,13 @@ import CheckVersionsStep from './template'
 
 class CheckVersionsContainer extends React.PureComponent {
   render () {
-    return <CheckVersionsStep {...this.props} />
+    const { currentStep } = this.props
+    return <CheckVersionsStep status={currentStep.status} />
   }
 }
 
 const mapStateToProps = state => ({
-  firmwares: selectors.components.lockbox.getFirmwareVersions(state)
+  currentStep: selectors.components.lockbox.getFirmwareUpdateStep(state)
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -28,18 +28,7 @@ export const getCurrentConnection = path([
 ])
 
 // Firmware
-export const getFirmwareUpdateStep = path([
-  'components',
-  'lockbox',
-  'firmware',
-  'step'
-])
-export const getFirmwareVersions = path([
-  'components',
-  'lockbox',
-  'firmware',
-  'versions'
-])
+export const getFirmwareUpdateStep = path(['components', 'lockbox', 'firmware'])
 
 // Application Installs
 export const getApplicationInstalls = path([

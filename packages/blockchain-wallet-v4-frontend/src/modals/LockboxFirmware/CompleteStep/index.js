@@ -7,12 +7,13 @@ import CompleteStep from './template'
 
 class CompleteStepContainer extends React.PureComponent {
   render () {
-    return <CompleteStep {...this.props} />
+    const { closeAll, currentStep } = this.props
+    return <CompleteStep closeAll={closeAll} status={currentStep.status} />
   }
 }
 
 const mapStateToProps = state => ({
-  step: selectors.components.lockbox.getFirmwareUpdateStep(state)
+  currentStep: selectors.components.lockbox.getFirmwareUpdateStep(state)
 })
 
 const mapDispatchToProps = dispatch => ({

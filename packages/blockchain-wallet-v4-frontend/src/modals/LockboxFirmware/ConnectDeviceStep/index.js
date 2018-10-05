@@ -13,7 +13,9 @@ class ConnectDeviceContainer extends React.PureComponent {
   }
 
   onContinue () {
-    this.props.lockboxActions.changeFirmwareUpdateStep('check-versions')
+    this.props.lockboxActions.changeFirmwareUpdateStep({
+      step: 'check-versions'
+    })
   }
 
   retryConnection () {
@@ -37,8 +39,7 @@ class ConnectDeviceContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  connection: selectors.components.lockbox.getCurrentConnection(state),
-  firmwares: selectors.components.lockbox.getFirmwareVersions(state)
+  connection: selectors.components.lockbox.getCurrentConnection(state)
 })
 
 const mapDispatchToProps = dispatch => ({

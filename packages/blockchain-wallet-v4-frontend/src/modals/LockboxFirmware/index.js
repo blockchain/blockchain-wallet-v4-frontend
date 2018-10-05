@@ -19,16 +19,16 @@ class LockboxFirmwareContainer extends React.PureComponent {
   }
 
   render () {
-    const { currentStep, deviceIndex, position, total, closeAll } = this.props
+    const { closeAll, currentStep, deviceIndex, position, total } = this.props
     const steps = {
       'connect-device': 1,
       'check-versions': 2,
-      'verify-identifier': 3,
-      'install-mcu': 4,
-      'install-firmware': 5,
+      'install-mcu': 3,
+      'install-osu-firmware': 4,
+      'install-final-firmware': 5,
       complete: 6
     }
-    const step = currentStep ? steps[currentStep] : 1
+    const step = currentStep ? steps[currentStep.step] : 1
 
     return (
       <FirmwareContainer
