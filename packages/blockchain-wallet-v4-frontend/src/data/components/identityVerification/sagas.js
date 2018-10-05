@@ -1,5 +1,5 @@
 import { put, select, call } from 'redux-saga/effects'
-import { isEmpty, prop } from 'ramda'
+import { prop } from 'ramda'
 
 import { callLatest } from 'utils/effects'
 import { actions, selectors, model } from 'data'
@@ -212,7 +212,6 @@ export default ({ api, coreSagas }) => {
         postCode,
         countryCode
       })
-      if (isEmpty(addresses)) throw new Error(failedToFetchAddressesError)
       yield put(A.setPossibleAddresses(addresses))
       yield put(actions.form.focus(PERSONAL_FORM, 'address'))
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
@@ -267,11 +266,10 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const selectAddress = function*({
-    payload: {
-      address: { line1, line2, city, state }
-    }
-  }) {
+  const selectAddress = function*({ payload }) {
+    const address = prop('address', payload)
+    if (!address) return
+    const { line1, line2, city, state } = address
     yield put(actions.form.change(PERSONAL_FORM, 'line1', line1))
     yield put(actions.form.change(PERSONAL_FORM, 'line2', line2))
     yield put(actions.form.change(PERSONAL_FORM, 'city', city))
