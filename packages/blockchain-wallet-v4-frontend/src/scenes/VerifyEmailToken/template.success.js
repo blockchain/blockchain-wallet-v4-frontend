@@ -32,7 +32,7 @@ const Success = props => {
       <Text style={{ marginTop: '10px' }} size='16px' weight={300}>
         <FormattedHTMLMessage
           id='scenes.verifyemailtoken.success.return'
-          defaultMessage='Return to the previous tab to view your wallet.'
+          defaultMessage='Return to the previous tab to access your wallet account.'
         />
       </Text>
     </Wrapper>
