@@ -200,7 +200,7 @@ const selectMessage = (message, data = undefined) => {
       return (
         <FormattedMessage
           id='components.alerts.email_update_success_link'
-          defaultMessage='Your email has been updated and a verification link has been sent.'
+          defaultMessage='Your email has been updated and a confirmation email has been sent to the new address.'
         />
       )
     case C.EMAIL_VERIFY_ERROR:
