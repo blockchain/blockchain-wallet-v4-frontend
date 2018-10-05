@@ -12,9 +12,9 @@ class EmailReminderContainer extends React.PureComponent {
     this.state = {}
   }
 
-  onResendVerifyEmail = () => {
-    this.props.actions.resendVerifyEmail()
+  onResendVerifyEmail = email => {
     if (this.state.reminded) return
+    this.props.actions.resendVerifyEmail(email)
     this.setState({ reminded: true })
     setTimeout(() => {
       this.setState({ reminded: false })

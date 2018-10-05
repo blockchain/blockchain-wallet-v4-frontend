@@ -81,7 +81,7 @@ const WhatsNewIcon = props => {
           color='white'
           size='14px'
           weight={200}
-          onClick={handleResendVerifyEmail}
+          onClick={() => handleResendVerifyEmail(email)}
         >
           <FormattedMessage
             id='layouts.wallet.header.emailreminder.resend'
