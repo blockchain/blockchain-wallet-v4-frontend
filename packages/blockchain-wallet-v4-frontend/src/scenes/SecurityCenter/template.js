@@ -31,7 +31,7 @@ const IntroContainer = styled.div`
   width: 100%;
 
   @media (min-width: 992px) {
-    width: ${props => (props.progress === 3 ? '100%' : '40%')};
+    width: 40%;
   }
 `
 const BodyContainer = styled.div`
@@ -150,13 +150,20 @@ const SecurityCenter = props => {
           <TopContainer>
             <IntroContainer progress={props.progress}>
               <IntroText size='14px' weight={300}>
-                <FormattedMessage
-                  id='scenes.securitycenter.introtextnone'
-                  defaultMessage='Complete the steps below to help prevent unauthorized access to your wallet. Add additional verification to access your funds at any time.'
-                />
+                {props.progress < 3 ? (
+                  <FormattedMessage
+                    id='scenes.securitycenter.introtextnone'
+                    defaultMessage='Complete the steps below to help prevent unauthorized access to your wallet. Add additional verification to access your funds at any time.'
+                  />
+                ) : (
+                  <FormattedMessage
+                    id='scenes.securitycenter.introtextfour'
+                    defaultMessage='Congratulations, you have completed the initial steps in helping to prevent unauthorized access to your wallet and bringing you even closer to financial security. Remember to always use caution with where you store your wallet details, what information you share with others, and with phishing emails.'
+                  />
+                )}
               </IntroText>
             </IntroContainer>
-            {props.progress < 3 && <SecuritySteps data={props.data} />}
+            {<SecuritySteps data={props.data} />}
           </TopContainer>
           {renderSteps()}
         </Wrapper>
