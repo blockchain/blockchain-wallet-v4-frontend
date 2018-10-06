@@ -64,7 +64,8 @@ describe('Create XLM', () => {
             label: 'My Stellar Wallet',
             archived: false
           }
-        ]
+        ],
+        tx_notes: {}
       }
       const newkv = set(KVStoreEntry.value, { xlm }, kv)
 
