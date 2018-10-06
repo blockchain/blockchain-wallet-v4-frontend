@@ -18,8 +18,7 @@ import {
   FormGroup,
   FormItem,
   FormLabel,
-  SelectBoxCoin,
-  SelectBoxEthAddresses
+  SelectBoxCoin
 } from 'components/Form'
 import CopyClipboard from 'components/CopyClipboard'
 
@@ -42,7 +41,7 @@ const ScanMessage = styled.div`
   padding-bottom: 20px;
 `
 
-const RequestEth = props => {
+const RequestXlm = props => {
   const { handleSubmit, address } = props
 
   return (
@@ -51,13 +50,14 @@ const RequestEth = props => {
         <FormItem>
           <FormLabel for='coin'>
             <FormattedMessage
-              id='modals.requestether.coin'
+              id='modals.requestxlm.coin'
               defaultMessage='Currency:'
             />
           </FormLabel>
           <Field name='coin' component={SelectBoxCoin} validate={[required]} />
         </FormItem>
-        <FormItem>
+        <FormItem />
+        {/* <FormItem>
           <FormLabel for='to'>
             <FormattedMessage
               id='modals.requestbitcoin.firststep.to'
@@ -70,16 +70,16 @@ const RequestEth = props => {
             includeAll={false}
             validate={[required]}
           />
-        </FormItem>
+        </FormItem> */}
       </FormGroup>
       <FormGroup>
         <FormItem>
           <FormLabel>
             <FormattedMessage
-              id='modals.requestether.share'
+              id='modals.requestxlm.share'
               defaultMessage='Copy & Share Address:'
             />
-            <TooltipHost id='reqEthShare'>
+            <TooltipHost id='reqXlmShare'>
               <TooltipIcon name='question-in-circle' />
             </TooltipHost>
           </FormLabel>
@@ -90,14 +90,14 @@ const RequestEth = props => {
       </FormGroup>
       <Separator margin={'20px 0'}>
         <Text size='14px' weight={300} uppercase>
-          <FormattedMessage id='modals.requestether.or' defaultMessage='Or' />
+          <FormattedMessage id='modals.requestxlm.or' defaultMessage='Or' />
         </Text>
       </Separator>
       <QRCodeContainer>
         <ScanMessage>
           <Text size='14px'>
             <FormattedMessage
-              id='modals.requestether.scan'
+              id='modals.requestxlm.scan'
               defaultMessage='Scan QR Code:'
             />
             <TooltipHost id='reqEthScan'>
@@ -108,17 +108,17 @@ const RequestEth = props => {
         <QRCodeReact value={address} size={150} />
       </QRCodeContainer>
       <Button type='submit' nature='primary' fullwidth>
-        <FormattedMessage id='modals.requestether.done' defaultMessage='Done' />
+        <FormattedMessage id='modals.requestxlm.done' defaultMessage='Done' />
       </Button>
     </Form>
   )
 }
 
-RequestEth.propTypes = {
+RequestXlm.propTypes = {
   address: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'requestEther', destroyOnUnmount: false })(
-  RequestEth
+export default reduxForm({ form: 'requestXlm', destroyOnUnmount: false })(
+  RequestXlm
 )

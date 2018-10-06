@@ -17,6 +17,7 @@ import wallet from './wallet'
 import fetchService from './fetch'
 import httpService from './http'
 import apiAuthorize from './apiAuthorize'
+import xlm from './xlm'
 
 export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
   const { get, post } = fetchService({ apiKey })
@@ -56,6 +57,7 @@ export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
     ...shapeShift({ shapeShiftApiKey, ...http }),
     ...rates({ nabuUrl, ...authorizedHttp }),
     ...trades({ nabuUrl, ...authorizedHttp }),
-    ...wallet({ rootUrl, apiUrl, get, post })
+    ...wallet({ rootUrl, apiUrl, get, post }),
+    ...xlm({ get, post, networks })
   }
 }

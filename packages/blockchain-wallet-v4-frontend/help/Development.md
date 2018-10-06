@@ -90,7 +90,7 @@ This directory contains different modals
 * `PairingCode`
 * `QRCode`
 * `QRCodeCapture`
-* `RequestBitcoin`
+* `RequestBtc`
 * `SecondPassword`
 * `SendBitcoin`
 * ....

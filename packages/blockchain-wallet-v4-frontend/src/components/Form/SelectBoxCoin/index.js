@@ -29,6 +29,7 @@ const renderItem = props => {
       {value === 'BTC' && <Icon name='btc-circle' size='22px' weight={300} />}
       {value === 'BCH' && <Icon name='bch-circle' size='22px' weight={300} />}
       {value === 'ETH' && <Icon name='eth-circle' size='22px' weight={300} />}
+      {value === 'XLM' && <Icon name='eth-circle' size='22px' weight={300} />}
       <Text size='14px' weight={300} cursor='pointer'>
         {text}
       </Text>
@@ -43,6 +44,7 @@ const renderDisplay = (props, children) => {
       {value === 'BTC' && <Icon name='btc-circle' size='22px' weight={300} />}
       {value === 'BCH' && <Icon name='bch-circle' size='22px' weight={300} />}
       {value === 'ETH' && <Icon name='eth-circle' size='22px' weight={300} />}
+      {value === 'XLM' && <Icon name='eth-circle' size='22px' weight={300} />}
       <Text size='14px' weight={300} cursor='pointer'>
         {children}
       </Text>
@@ -69,7 +71,8 @@ const mapStateToProps = (state, ownProps) => ({
   coins: [
     { text: 'Bitcoin', value: 'BTC' },
     { text: 'Ether', value: 'ETH' },
-    { text: 'Bitcoin Cash', value: 'BCH' }
+    { text: 'Bitcoin Cash', value: 'BCH' },
+    { text: 'Stellar', value: 'XLM' }
   ]
 })
 

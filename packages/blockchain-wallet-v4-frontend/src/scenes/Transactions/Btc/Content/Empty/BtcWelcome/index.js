@@ -17,7 +17,7 @@ class BitcoinWelcomeContainer extends React.PureComponent {
   }
 
   handleRequest () {
-    this.props.modalActions.showModal('RequestBitcoin')
+    this.props.modalActions.showModal('RequestBtc')
   }
 
   render () {

@@ -57,6 +57,9 @@ describe('App Store Config', () => {
         },
         ethereum: {
           config: { network: 1 }
+        },
+        xlm: {
+          config: { network: 'horizon' }
         }
       }
     }
