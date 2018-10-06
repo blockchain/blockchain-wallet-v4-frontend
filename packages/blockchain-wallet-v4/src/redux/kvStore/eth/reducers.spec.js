@@ -79,12 +79,8 @@ describe('kvStore ethereum reducers', () => {
 
   it('should handle SET_LATEST_TX_ETHEREUM', () => {
     const latestTx = 'latest tx'
-    const address = 'tx_address'
-    const action = actions.setLatestTxEthereum(address, latestTx)
-    const setCoinifyTrades = assocPath(
-      ['ethereum', 'last_tx', address],
-      latestTx
-    )
+    const action = actions.setLatestTxEthereum(latestTx)
+    const setCoinifyTrades = assocPath(['ethereum', 'last_tx'], latestTx)
     const expectedState = over(
       valueLens,
       setCoinifyTrades,
@@ -95,13 +91,9 @@ describe('kvStore ethereum reducers', () => {
 
   it('should handle SET_LATEST_TX_TIMESTAMP_ETHEREUM', () => {
     const latestTimestamp = 42
-    const address = 'tx_address'
-    const action = actions.setLatestTxTimestampEthereum(
-      address,
-      latestTimestamp
-    )
+    const action = actions.setLatestTxTimestampEthereum(latestTimestamp)
     const setLatestTimestamp = assocPath(
-      ['ethereum', 'last_tx_timestamp', address],
+      ['ethereum', 'last_tx_timestamp'],
       latestTimestamp
     )
     const expectedState = over(

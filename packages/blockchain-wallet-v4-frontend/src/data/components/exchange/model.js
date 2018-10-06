@@ -45,6 +45,7 @@ export const DAILY_ERROR = "You've reached daily trade limit"
 export const WEEKLY_ERROR = "You've reached weekly trade limit"
 export const ANNUAL_ERROR = "You've reached annual trade limit"
 export const ORDER_ERROR = 'Amount exceeds maximum trade size'
+export const MISSING_DEVICE_ERROR = 'missing_device'
 
 const currenciesOrder = ['BTC', 'BCH', 'ETH']
 export const sortByOrder = sortBy(flip(indexOf)(currenciesOrder))

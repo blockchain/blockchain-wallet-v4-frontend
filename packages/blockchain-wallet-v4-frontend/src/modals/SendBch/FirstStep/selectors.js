@@ -7,7 +7,7 @@ export const getData = state => {
   const toToggled = selectors.components.sendBch.getToToggled(state)
   const paymentR = selectors.components.sendBch.getPayment(state)
   const lockboxEnabled = !isEmpty(
-    selectors.core.kvStore.lockbox.getDevices(state).getOrElse({})
+    selectors.core.kvStore.lockbox.getDevices(state).getOrElse([])
   )
   const networkTypeR = selectors.core.walletOptions.getBtcNetwork(state)
   const networkType = networkTypeR.getOrElse('bitcoin')

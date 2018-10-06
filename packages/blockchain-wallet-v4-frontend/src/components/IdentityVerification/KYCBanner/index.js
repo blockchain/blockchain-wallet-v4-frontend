@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl'
 import { values } from 'ramda'
 import { connect } from 'react-redux'
 
-import { MODAL_NAME as KYC_MODAL } from 'data/components/identityVerification/model'
 import { KYC_STATES, USER_ACTIVATION_STATES } from 'data/modules/profile/model'
 import { getData } from './selectors'
 import { actions } from 'data'
@@ -141,7 +140,7 @@ export const KYCBanner = ({
     [KYC_STATES.NONE]: (
       <FormattedMessage
         id='components.identityverification.popup.note.unverified'
-        defaultMessage='Complete your profile and identity verification to start buying and selling. Don’t worry, we only need a couple more details.'
+        defaultMessage='Complete your profile and identity verification to start exchanging. Don’t worry, we only need a couple more details.'
       />
     ),
     [KYC_STATES.PENDING]: (
@@ -165,7 +164,7 @@ export const KYCBanner = ({
     [KYC_STATES.VERIFIED]: (
       <FormattedMessage
         id='components.identityverification.popup.note.verified'
-        defaultMessage='Good news – your account is verified. You can now exchange cryptocurrency at any time. '
+        defaultMessage='Good news – your account is verified. You can now exchange cryptocurrency at any time.'
       />
     )
   }
@@ -238,7 +237,8 @@ KYCBanner.defaultProps = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  verifyIdentity: () => dispatch(actions.modals.showModal(KYC_MODAL))
+  verifyIdentity: () =>
+    dispatch(actions.components.identityVerification.verifyIdentity())
 })
 
 export default connect(

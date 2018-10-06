@@ -1,5 +1,5 @@
 import { put, select, call } from 'redux-saga/effects'
-import { isEmpty, prop } from 'ramda'
+import { prop } from 'ramda'
 
 import { callLatest } from 'utils/effects'
 import { actions, selectors, model } from 'data'
@@ -15,7 +15,9 @@ import {
   PERSONAL_FORM,
   BAD_CODE_ERROR,
   PHONE_EXISTS_ERROR,
-  UPDATE_FAILURE
+  UPDATE_FAILURE,
+  KYC_MODAL,
+  USER_EXISTS_MODAL
 } from './model'
 
 export const logLocation = 'components/identityVerification/sagas'
@@ -35,12 +37,29 @@ export default ({ api, coreSagas }) => {
   const {
     createUser,
     updateUser,
+    generateRetailToken,
     updateUserAddress,
     syncUserWithWallet
   } = profileSagas({
     api,
     coreSagas
   })
+
+  const verifyIdentity = function*() {
+    try {
+      const userId = (yield select(
+        selectors.core.kvStore.userCredentials.getUserId
+      )).getOrElse('')
+      if (userId) {
+        return yield put(actions.modals.showModal(KYC_MODAL))
+      }
+      const retailToken = yield call(generateRetailToken)
+      yield call(api.checkUserExistance, retailToken)
+      yield put(actions.modals.showModal(USER_EXISTS_MODAL))
+    } catch (e) {
+      yield put(actions.modals.showModal(KYC_MODAL))
+    }
+  }
 
   const initializeStep = function*() {
     const activationState = yield select(
@@ -193,7 +212,6 @@ export default ({ api, coreSagas }) => {
         postCode,
         countryCode
       })
-      if (isEmpty(addresses)) throw new Error(failedToFetchAddressesError)
       yield put(A.setPossibleAddresses(addresses))
       yield put(actions.form.focus(PERSONAL_FORM, 'address'))
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
@@ -248,11 +266,10 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const selectAddress = function*({
-    payload: {
-      address: { line1, line2, city, state }
-    }
-  }) {
+  const selectAddress = function*({ payload }) {
+    const address = prop('address', payload)
+    if (!address) return
+    const { line1, line2, city, state } = address
     yield put(actions.form.change(PERSONAL_FORM, 'line1', line1))
     yield put(actions.form.change(PERSONAL_FORM, 'line2', line2))
     yield put(actions.form.change(PERSONAL_FORM, 'city', city))
@@ -260,6 +277,7 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
+    verifyIdentity,
     initializeStep,
     fetchSupportedCountries,
     fetchPossibleAddresses,

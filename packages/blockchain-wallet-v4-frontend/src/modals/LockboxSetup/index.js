@@ -15,12 +15,21 @@ import ErrorStep from './ErrorStep'
 
 class LockboxSetupContainer extends React.PureComponent {
   componentWillUnmount () {
+    this.props.lockboxActions.resetConnectionStatus()
     this.props.lockboxActions.changeDeviceSetupStep('setup-type')
   }
 
   render () {
     const { currentStep, position, total, closeAll } = this.props
-    const { step, done } = currentStep || {}
+    const steps = {
+      'setup-type': 0,
+      'connect-device': 1,
+      'auth-check': 2,
+      'open-btc-app': 3,
+      'name-device': 4,
+      'error-step': 5
+    }
+    const step = currentStep && currentStep.step ? steps[currentStep.step] : 0
 
     return (
       <LockboxSetup
@@ -28,13 +37,15 @@ class LockboxSetupContainer extends React.PureComponent {
         position={position}
         closeAll={closeAll}
         handleClose={this.handleClose}
+        totalSteps={4}
+        step={step}
       >
-        {(!step || step === 'setup-type') && <SetupTypeStep />}
-        {step === 'connect-device' && <ConnectDeviceStep />}
-        {step === 'auth-check' && <AuthenticityStep />}
-        {step === 'open-btc-app' && <OpenBtcAppStep done={done} />}
-        {step === 'name-device' && <NameDeviceStep />}
-        {step === 'error-step' && <ErrorStep />}
+        {step === 0 && <SetupTypeStep />}
+        {step === 1 && <ConnectDeviceStep />}
+        {step === 2 && <AuthenticityStep />}
+        {step === 3 && <OpenBtcAppStep done={currentStep.done} />}
+        {step === 4 && <NameDeviceStep />}
+        {step === 5 && <ErrorStep />}
       </LockboxSetup>
     )
   }

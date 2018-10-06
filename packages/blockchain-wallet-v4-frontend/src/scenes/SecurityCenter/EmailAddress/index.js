@@ -36,9 +36,10 @@ class EmailAddressContainer extends React.PureComponent {
       prevProps.goBackOnSuccess()
     }
   }
+
   handleUpdate () {
     this.setState({
-      successToggled: !this.state.successToggled,
+      successToggled: false,
       verifyToggled: !this.state.verifyToggled
     })
   }
@@ -50,7 +51,7 @@ class EmailAddressContainer extends React.PureComponent {
 
   handleResend () {
     const { email } = this.props.data.getOrElse({})
-    this.props.securityCenterActions.sendConfirmationCodeEmail(email)
+    this.props.securityCenterActions.resendVerifyEmail(email)
   }
 
   handleSubmitVerification (e) {
