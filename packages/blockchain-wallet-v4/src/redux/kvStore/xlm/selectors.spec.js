@@ -22,12 +22,10 @@ describe('kvstore stellar selectors', () => {
 
   const ethMetadata = {
     value: {
-      xlm: {
-        default_account_idx: defaultIdx,
-        accounts,
-        tx_notes: {
-          [txNoteHash]: txNote
-        }
+      default_account_idx: defaultIdx,
+      accounts,
+      tx_notes: {
+        [txNoteHash]: txNote
       }
     }
   }

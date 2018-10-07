@@ -9,7 +9,7 @@ import { getMnemonic } from '../../wallet/selectors'
 
 import BIP39 from 'bip39'
 import * as ed25519 from 'ed25519-hd-key'
-import * as StellarSDK from 'stellar-sdk'
+import * as StellarSdk from 'stellar-sdk'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -31,7 +31,7 @@ export default ({ api, networks } = {}) => {
       const seed = yield call(BIP39.mnemonicToSeed, mnemonic)
       const seedHex = seed.toString('hex')
       const masterKey = yield call(ed25519.derivePath, "m/44'/148'/0'", seedHex)
-      const keypair = StellarSDK.Keypair.fromRawEd25519Seed(masterKey.key)
+      const keypair = StellarSdk.Keypair.fromRawEd25519Seed(masterKey.key)
       const xlm = {
         default_account_idx: 0,
         accounts: [
@@ -44,7 +44,7 @@ export default ({ api, networks } = {}) => {
         ],
         tx_notes: {}
       }
-      const newkv = set(KVStoreEntry.value, { xlm }, kv)
+      const newkv = set(KVStoreEntry.value, xlm, kv)
       yield put(A.createMetadataXlm(newkv))
     } catch (e) {
       throw new Error(

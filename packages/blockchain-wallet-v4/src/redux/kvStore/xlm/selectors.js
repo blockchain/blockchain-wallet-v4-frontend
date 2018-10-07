@@ -5,10 +5,10 @@ import { kvStorePath } from '../../paths'
 export const getMetadata = path([kvStorePath, XLM])
 
 export const getAccounts = state =>
-  getMetadata(state).map(path(['value', 'xlm', 'accounts']))
+  getMetadata(state).map(path(['value', 'accounts']))
 
 export const getDefaultAccountIndex = state =>
-  getMetadata(state).map(path(['value', 'xlm', 'default_account_idx']))
+  getMetadata(state).map(path(['value', 'default_account_idx']))
 
 export const getDefaultAccount = state =>
   getAccounts(state).map(nth(getDefaultAccountIndex(state).getOrElse(0)))
@@ -27,4 +27,4 @@ export const getAccountLabel = curry((state, accountId) =>
 )
 
 export const getXLMTxNote = (state, txHash) =>
-  getMetadata(state).map(path(['value', 'xlm', 'tx_notes', txHash]))
+  getMetadata(state).map(path(['value', 'tx_notes', txHash]))
