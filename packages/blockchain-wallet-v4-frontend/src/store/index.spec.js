@@ -59,7 +59,7 @@ describe('App Store Config', () => {
           config: { network: 1 }
         },
         xlm: {
-          config: { network: 'horizon' }
+          config: { network: 'public' }
         }
       }
     }

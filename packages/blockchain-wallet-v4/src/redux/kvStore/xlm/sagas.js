@@ -41,7 +41,8 @@ export default ({ api, networks } = {}) => {
             label: 'My Stellar Wallet',
             archived: false
           }
-        ]
+        ],
+        tx_notes: {}
       }
       const newkv = set(KVStoreEntry.value, xlm, kv)
       yield put(A.createMetadataXlm(newkv))
