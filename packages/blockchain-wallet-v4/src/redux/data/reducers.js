@@ -6,6 +6,7 @@ import bch from './bch/reducers'
 import misc from './misc/reducers'
 import sfox from './sfox/reducers'
 import shapeShift from './shapeShift/reducers'
+import xlm from './xlm/reducers'
 
 const dataReducer = combineReducers({
   bitcoin: bitcoin,
@@ -14,7 +15,8 @@ const dataReducer = combineReducers({
   bch: bch,
   misc: misc,
   sfox: sfox,
-  shapeShift: shapeShift
+  shapeShift: shapeShift,
+  xlm: xlm
 })
 
 export default dataReducer

@@ -6,6 +6,7 @@ import bch from './bch/sagaRegister'
 import misc from './misc/sagaRegister'
 import sfox from './sfox/sagaRegister'
 import shapeShift from './shapeShift/sagaRegister'
+import xlm from './xlm/sagaRegister'
 
 export default ({ api }) =>
   function*() {
@@ -16,4 +17,5 @@ export default ({ api }) =>
     yield fork(misc({ api }))
     yield fork(shapeShift({ api }))
     yield fork(sfox({ api }))
+    yield fork(xlm({ api }))
   }

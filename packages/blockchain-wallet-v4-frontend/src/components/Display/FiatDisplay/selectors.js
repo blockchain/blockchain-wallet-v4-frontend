@@ -13,6 +13,8 @@ export const getData = (state, coin, amount) => {
         return selectors.core.data.ethereum.getRates(state)
       case 'BCH':
         return selectors.core.data.bch.getRates(state)
+      case 'XLM':
+        return selectors.core.data.xlm.getRates(state)
       default:
         return Remote.Failure('Coin code incorrect')
     }
@@ -40,6 +42,13 @@ export const getData = (state, coin, amount) => {
         return Exchange.displayBchToFiat({
           value: a,
           fromUnit: 'SAT',
+          toCurrency: s.currency,
+          rates: r
+        })
+      case 'XLM':
+        return Exchange.displayXlmToFiat({
+          value: a,
+          fromUnit: 'STROOP',
           toCurrency: s.currency,
           rates: r
         })

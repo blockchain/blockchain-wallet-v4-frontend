@@ -175,11 +175,6 @@
         },
         "announcements": {}
       },
-      "xlm": {
-        "config": {
-          "network": "horizon"
-        }
-      },
       "sfox": {
         "fraction": 1,
         "countries": ["US"],

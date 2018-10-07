@@ -1,4 +1,3 @@
-
 import * as StellarSDK from 'stellar-sdk'
 
 const TESTNET_NETWORK = 'testnet'
@@ -15,19 +14,19 @@ export default ({ horizonUrl, network }) => {
     )
   }
 
-  const getXLMAccount = publicKey => server.loadAccount(publicKey)
+  const getXlmAccount = publicKey => server.loadAccount(publicKey)
 
-  const pushXLMTx = tx => server.submitTransaction(tx)
+  const pushXlmTx = tx => server.submitTransaction(tx)
 
-  const getXLMTransactions = publicKey =>
+  const getXlmTransactions = publicKey =>
     server
       .transactions()
       .forAccount(publicKey)
       .call()
 
   return {
-    getXLMAccount,
-    getXLMTransactions,
-    pushXLMTx
+    getXlmAccount,
+    getXlmTransactions,
+    pushXlmTx
   }
 }

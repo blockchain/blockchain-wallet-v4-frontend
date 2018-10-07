@@ -56,7 +56,7 @@ const CoinDisplay = props => {
 }
 
 CoinDisplay.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired,
+  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'XLM']).isRequired,
   children: PropTypes.string.isRequired,
   showIcon: PropTypes.bool,
   size: PropTypes.string,
