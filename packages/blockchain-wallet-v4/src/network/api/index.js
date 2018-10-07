@@ -18,7 +18,6 @@ import xlm from './xlm'
 import fetchService from './fetch'
 import httpService from './http'
 import apiAuthorize from './apiAuthorize'
-import xlm from './xlm'
 
 export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
   const { get, post } = fetchService({ apiKey })
