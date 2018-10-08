@@ -8278,8 +8278,8 @@
         "id": "formhelper.passwordsuggest.medium"
       },
       {
-        "defaultMessage": "Strong password.",
-        "id": "formhelper.passwordsuggest.strong"
+        "defaultMessage": "Great password.",
+        "id": "formhelper.passwordsuggest.great"
       },
       {
         "defaultMessage": "Confirm Password",

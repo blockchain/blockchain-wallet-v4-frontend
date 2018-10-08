@@ -165,8 +165,8 @@ const Register = props => {
                   )}
                 {passwordStrength === 4 && (
                   <FormattedMessage
-                    id='formhelper.passwordsuggest.strong'
-                    defaultMessage='Strong password.'
+                    id='formhelper.passwordsuggest.great'
+                    defaultMessage='Great password.'
                   />
                 )}
               </PasswordTip>

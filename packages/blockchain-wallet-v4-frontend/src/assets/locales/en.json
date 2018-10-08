@@ -367,7 +367,7 @@
   "formhelper.partnerstatewhitelist": "State not available for buy & sell",
   "formhelper.passwordsdonotmatch": "Passwords do not match",
   "formhelper.passwordsuggest.medium": "Medium. Use at least 8 characters, a mix of letters, numbers and symbols.",
-  "formhelper.passwordsuggest.strong": "Strong password.",
+  "formhelper.passwordsuggest.great": "Great password.",
   "formhelper.passwordsuggest.weak": "Weak. Use at least 8 characters, a mix of letters, numbers and symbols.",
   "formhelper.required": "Required",
   "formhelper.requireddob": "Must be a valid date",
