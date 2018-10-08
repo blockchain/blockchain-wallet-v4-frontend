@@ -14,7 +14,6 @@ const Wrapper = styled.div`
 `
 const ContentWrapper = styled.div`
   height: 100%;
-  padding: 0 15px;
 `
 class LockboxDashboardContainer extends React.PureComponent {
   componentDidUpdate (prevProps) {

@@ -5,18 +5,23 @@ import { compose, prop, reverse, sortBy } from 'ramda'
 
 import TransactionListItem from 'components/TransactionListItem'
 import LazyLoadContainer from 'components/LazyLoadContainer'
-import { TableRow, HeartbeatLoader } from 'blockchain-info-components'
+import { HeartbeatLoader } from 'blockchain-info-components'
 
 const LazyLoadWrapper = styled(LazyLoadContainer)`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  box-sizing: border-box;
+  padding: 0 15px;
   width: 100%;
 `
 
-const LoaderRow = styled(TableRow)`
+const LoaderRow = styled.div`
   justify-content: center;
+  display: flex;
+  padding: 15px;
+  width: 100%;
 `
 
 const sortByTime = compose(
