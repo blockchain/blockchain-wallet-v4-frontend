@@ -62,7 +62,7 @@ export default function*({
   networks,
   options
 }) {
-  const coreSagas = coreSagasFactory({ api, networks })
+  const coreSagas = coreSagasFactory({ api, networks, options })
 
   yield all([
     call(welcomeSaga),

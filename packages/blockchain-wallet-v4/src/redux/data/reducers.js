@@ -9,14 +9,14 @@ import shapeShift from './shapeShift/reducers'
 import xlm from './xlm/reducers'
 
 const dataReducer = combineReducers({
-  bitcoin: bitcoin,
-  coinify: coinify,
-  ethereum: ethereum,
-  bch: bch,
-  misc: misc,
-  sfox: sfox,
-  shapeShift: shapeShift,
-  xlm: xlm
+  bitcoin,
+  coinify,
+  ethereum,
+  bch,
+  misc,
+  sfox,
+  shapeShift,
+  xlm
 })
 
 export default dataReducer

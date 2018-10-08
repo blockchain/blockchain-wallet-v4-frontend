@@ -1,19 +1,65 @@
-import { path } from 'ramda'
-import { dataPath } from '../../paths'
-import { createDeepEqualSelector } from '../../../utils'
-import * as kvStoreSelectors from '../../kvStore/xlm/selectors'
+import {
+  compose,
+  converge,
+  find,
+  lift,
+  memoize,
+  path,
+  prop,
+  propEq
+} from 'ramda'
 
-export const getContext = createDeepEqualSelector(
-  [kvStoreSelectors.getDefaultAccountId],
-  walletContextR => {
-    return walletContextR.map(x => x).getOrElse([])
-  }
+import { dataPath } from '../../paths'
+import * as Exchange from '../../../exchange'
+import { calculateEffectiveBalance } from '../../../utils/xlm'
+
+const getLedgerDetails = path([dataPath, 'xlm', 'ledgerDetails'])
+const getAccount = path([dataPath, 'xlm', 'account'])
+
+export const getBaseReserve = compose(
+  lift(prop('base_reserve_in_stroops')),
+  getLedgerDetails
 )
 
-export const getAddresses = path([dataPath, 'xlm', 'addresses'])
+export const getBaseFee = compose(
+  lift(prop('base_fee_in_stroops')),
+  getLedgerDetails
+)
 
-export const getBalance = path([dataPath, 'xlm', 'balance'])
+export const getNumberOfEntries = compose(
+  lift(prop('subentry_count')),
+  getAccount
+)
+
+export const getAccountBalance = compose(
+  lift(
+    compose(
+      prop('balance'),
+      find(propEq('asset_type', 'native')),
+      prop('balances')
+    )
+  ),
+  getAccount
+)
+
+const calculateBalance = memoize((balance, baseReserve, entries, baseFee) =>
+  calculateEffectiveBalance(
+    Exchange.convertCoinToCoin({
+      value: balance,
+      coin: 'XLM',
+      baseToStandard: false
+    }).value,
+    baseReserve,
+    entries,
+    baseFee
+  )
+)
+
+export const getBalance = converge(lift(calculateBalance), [
+  getAccountBalance,
+  getBaseReserve,
+  getNumberOfEntries,
+  getBaseFee
+])
 
 export const getRates = path([dataPath, 'xlm', 'rates'])
-
-export const getTransactions = path([dataPath, 'xlm', 'transactions'])
