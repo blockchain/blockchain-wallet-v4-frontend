@@ -295,11 +295,6 @@
           ]
         },
         "announcements": {}
-      },
-      "xlm": {
-        "config": {
-          "network": "testnet"
-        }
       }
     },
     "ios": {},

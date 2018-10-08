@@ -7,4 +7,4 @@ import * as sfox from './sfox/selectors'
 import * as shapeShift from './shapeShift/selectors'
 import * as xlm from './xlm/selectors'
 
-export { bitcoin, coinify, ethereum, bch, misc, sfox, shapeShift, xlm }
+export { bitcoin, coinify, ethereum, bch, xlm, misc, sfox, shapeShift }

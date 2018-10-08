@@ -122,7 +122,6 @@ const transformFiatToXlm = ({ value, fromCurrency, toUnit, rates }) => {
 }
 
 const transformXlmToFiat = ({ value, fromUnit, toCurrency, rates }) => {
-  console.log(XLM)
   const pairs = Pairs.create(XLM.code, rates)
   const targetCurrency = prop(toCurrency, Currencies)
   const targetCurrencyCode = prop('code', targetCurrency)
@@ -238,8 +237,8 @@ const convertCoinToCoin = ({ value, coin, baseToStandard }) => {
         : convertBchToBch({ value, fromUnit: 'BCH', toUnit: 'SAT' })
     case 'XLM':
       return baseToStandard
-        ? convertBchToBch({ value, fromUnit: 'STROOP', toUnit: 'XLM' })
-        : convertBchToBch({ value, fromUnit: 'XLM', toUnit: 'STROOP' })
+        ? convertXlmToXlm({ value, fromUnit: 'STROOP', toUnit: 'XLM' })
+        : convertXlmToXlm({ value, fromUnit: 'XLM', toUnit: 'STROOP' })
   }
 }
 
@@ -334,8 +333,8 @@ const displayCoinToCoin = ({ value, coin, baseToStandard }) => {
         : displayBchToBch({ value, fromUnit: 'BCH', toUnit: 'SAT' })
     case 'XLM':
       return baseToStandard
-        ? displayBchToBch({ value, fromUnit: 'STROOP', toUnit: 'XLM' })
-        : displayBchToBch({ value, fromUnit: 'XLM', toUnit: 'STROOP' })
+        ? displayXlmToXlm({ value, fromUnit: 'STROOP', toUnit: 'XLM' })
+        : displayXlmToXlm({ value, fromUnit: 'XLM', toUnit: 'STROOP' })
   }
 }
 
@@ -354,7 +353,7 @@ const displayCoinToFiat = ({
     case 'BCH':
       return displayBchToFiat({ value, fromUnit, toCurrency, rates })
     case 'XLM':
-      return displayBchToFiat({ value, fromUnit, toCurrency, rates })
+      return displayXlmToFiat({ value, fromUnit, toCurrency, rates })
   }
 }
 

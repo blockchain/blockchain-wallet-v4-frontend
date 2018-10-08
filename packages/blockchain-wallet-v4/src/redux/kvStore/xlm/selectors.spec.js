@@ -22,12 +22,10 @@ describe('kvstore stellar selectors', () => {
 
   const ethMetadata = {
     value: {
-      xlm: {
-        default_account_idx: defaultIdx,
-        accounts,
-        tx_notes: {
-          [txNoteHash]: txNote
-        }
+      default_account_idx: defaultIdx,
+      accounts,
+      tx_notes: {
+        [txNoteHash]: txNote
       }
     }
   }
@@ -86,9 +84,9 @@ describe('kvstore stellar selectors', () => {
     )
   })
 
-  it('getXLMTxNote should return success of correct eth tx note', () => {
+  it('getXlmTxNote should return success of correct xlm tx note', () => {
     const expectedResult = Remote.Success(txNote)
-    expect(selectors.getXLMTxNote(successState, txNoteHash)).toEqual(
+    expect(selectors.getXlmTxNote(successState, txNoteHash)).toEqual(
       expectedResult
     )
   })
