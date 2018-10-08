@@ -15,7 +15,7 @@ export const MenuItem = styled.li`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 5px 10px;
+  padding: 5px 5px;
   margin-bottom: 5px;
   box-sizing: border-box;
   cursor: pointer;
@@ -48,7 +48,7 @@ export const SubMenu = styled.ul`
   align-items: flex-start;
   list-style: none;
   text-transform: none;
-  padding: 5px 10px;
+  padding: 5px 5px;
   margin-left: 40px;
   margin-top: -15px;
   margin-bottom: 5px;

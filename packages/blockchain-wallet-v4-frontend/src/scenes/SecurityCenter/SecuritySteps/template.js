@@ -10,14 +10,11 @@ const Wrapper = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  height: 50%;
-  background-color: ${props => props.theme['gray-2']};
   border-radius: 50px;
+  height: 50%;
 `
 const StepSection = styled.div`
-  width: 34%;
-  background-color: ${props =>
-    props.success ? props.theme['brand-primary'] : props.theme['gray-2']};
+  width: 33.333%;
   border-radius: 50px;
   display: flex;
   flex-direction: row;
@@ -26,20 +23,6 @@ const StepSection = styled.div`
     width: 33.5%;
   `};
 `
-const EmailSection = StepSection.extend`
-  border-top-right-radius: ${props => (props.radius ? '0px' : '50px')};
-  border-bottom-right-radius: ${props => (props.radius ? '0px' : '50px')};
-`
-const TwoStepSection = StepSection.extend`
-  border-top-right-radius: ${props => (props.rightRadius ? '0px' : '50px')};
-  border-bottom-right-radius: ${props => (props.rightRadius ? '0px' : '50px')};
-  border-top-left-radius: ${props => (props.leftRadius ? '0px' : '50px')};
-  border-bottom-left-radius: ${props => (props.leftRadius ? '0px' : '50px')};
-`
-const BackupSection = StepSection.extend`
-  border-top-left-radius: ${props => (props.radius ? '0px' : '50px')};
-  border-bottom-left-radius: ${props => (props.radius ? '0px' : '50px')};
-`
 
 const Circle = styled.div`
   display: flex;
@@ -47,24 +30,31 @@ const Circle = styled.div`
   align-items: center;
   width: 50px;
   height: 50px;
+  min-width: 50px;
   background-color: white;
   border: 5px solid ${props => props.theme['brand-primary']};
+  transition: background-color 0.4s, border 0.4s;
   border-radius: 50px;
   ${media.mobile`
     width: 35px;
     height: 25px;
     min-width: 25px;
   `};
+  &.active {
+    background-color: ${props => props.theme['white-blue']};
+    border: 5px solid ${props => props.theme['white-blue']};
+  }
 `
 const StepText = styled(Text)`
   display: flex;
   flex-direction: column;
-  max-width: 86px;
-  margin-left: 5px;
-  margin-right: 5px;
+  max-width: 120px;
+  margin-left: 10px;
+  margin-right: 20px;
   word-break: break-word;
-  color: ${props =>
-    props.success ? props.theme['white'] : props.theme['brand-primary']};
+  ${media.mobile`
+    word-break: initial;
+  `};
 `
 
 const SecuritySteps = props => {
@@ -76,20 +66,26 @@ const SecuritySteps = props => {
     <MediaContextConsumer>
       {({ mobile }) => (
         <Wrapper>
-          <EmailSection
+          <StepSection
             success={emailSuccess}
             radius={emailSuccess ? twoFactorSuccess : undefined}
           >
-            <Circle>
-              {emailSuccess && (
+            <Circle className={emailSuccess ? 'active' : ''}>
+              {emailSuccess ? (
                 <Icon
-                  name='checkmark'
                   color='success'
+                  name='checkmark-in-circle-filled'
                   size={mobile ? '15px' : '30px'}
                 />
+              ) : (
+                <Text size={mobile ? '14px' : '36px'}>1</Text>
               )}
             </Circle>
-            <StepText success={emailSuccess} size='12px' weight={300}>
+            <StepText
+              success={emailSuccess}
+              size={mobile ? '12px' : '14px'}
+              weight={300}
+            >
               {mobile ? (
                 <FormattedMessage
                   id='scenes.securitycenter.steps.step1mobile'
@@ -97,27 +93,33 @@ const SecuritySteps = props => {
                 />
               ) : (
                 <FormattedMessage
-                  id='scenes.securitycenter.steps.step1'
-                  defaultMessage='Verified Email Address'
+                  id='scenes.securitycenter.steps.step1.verify'
+                  defaultMessage='Verify Your Personal Email'
                 />
               )}
             </StepText>
-          </EmailSection>
-          <TwoStepSection
+          </StepSection>
+          <StepSection
             success={twoFactorSuccess}
             leftRadius={twoFactorSuccess && emailSuccess}
             rightRadius={twoFactorSuccess && isMnemonicVerified}
           >
-            <Circle>
-              {twoFactorSuccess && (
+            <Circle className={twoFactorSuccess ? 'active' : ''}>
+              {twoFactorSuccess ? (
                 <Icon
-                  name='checkmark'
                   color='success'
+                  name='checkmark-in-circle-filled'
                   size={mobile ? '15px' : '30px'}
                 />
+              ) : (
+                <Text size={mobile ? '14px' : '36px'}>2</Text>
               )}
             </Circle>
-            <StepText success={twoFactorSuccess} size='12px' weight={300}>
+            <StepText
+              success={twoFactorSuccess}
+              size={mobile ? '12px' : '14px'}
+              weight={300}
+            >
               {mobile ? (
                 <FormattedMessage
                   id='scenes.securitycenter.steps.step2mobile'
@@ -125,32 +127,38 @@ const SecuritySteps = props => {
                 />
               ) : (
                 <FormattedMessage
-                  id='scenes.securitycenter.steps.step2'
-                  defaultMessage='Two-Step Verification'
+                  id='scenes.securitycenter.steps.step2.verify'
+                  defaultMessage='Turn on Two-Step Verification'
                 />
               )}
             </StepText>
-          </TwoStepSection>
-          <BackupSection
+          </StepSection>
+          <StepSection
             success={isMnemonicVerified}
             radius={isMnemonicVerified ? twoFactorSuccess : undefined}
           >
-            <Circle>
-              {isMnemonicVerified && (
+            <Circle className={isMnemonicVerified ? 'active' : ''}>
+              {isMnemonicVerified ? (
                 <Icon
-                  name='checkmark'
                   color='success'
+                  name='checkmark-in-circle-filled'
                   size={mobile ? '15px' : '30px'}
                 />
+              ) : (
+                <Text size={mobile ? '14px' : '36px'}>3</Text>
               )}
             </Circle>
-            <StepText success={isMnemonicVerified} size='12px' weight={300}>
+            <StepText
+              success={isMnemonicVerified}
+              size={mobile ? '12px' : '14px'}
+              weight={300}
+            >
               <FormattedMessage
-                id='scenes.securitycenter.steps.step3'
-                defaultMessage='Backup Phrase'
+                id='scenes.securitycenter.steps.step3.save'
+                defaultMessage='Save Backup Phrase'
               />
             </StepText>
-          </BackupSection>
+          </StepSection>
         </Wrapper>
       )}
     </MediaContextConsumer>
