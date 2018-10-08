@@ -5,6 +5,11 @@ export const upload = (token, files) => ({
   payload: { files, token }
 })
 
+export const setReference = reference => ({
+  type: AT.SET_REFERENCE,
+  payload: { reference }
+})
+
 export const setUploaded = () => {
   return { type: AT.SET_UPLOADED }
 }

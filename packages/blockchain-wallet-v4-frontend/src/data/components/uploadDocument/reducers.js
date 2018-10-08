@@ -6,9 +6,12 @@ export const INITIAL_STATE = {
 }
 
 export default (state = INITIAL_STATE, action) => {
-  const { type } = action
+  const { payload, type } = action
 
   switch (type) {
+    case AT.SET_REFERENCE: {
+      return assoc('reference', payload.reference, state)
+    }
     case AT.SET_UPLOADED: {
       return assoc('uploaded', true, state)
     }

@@ -37,6 +37,7 @@ import Preferences from './Settings/Preferences'
 import BitcoinTransactions from './Transactions/Btc'
 import EtherTransactions from './Transactions/Eth'
 import BchTransactions from './Transactions/Bch'
+import UploadDocumentSuccess from './UploadDocument/Success'
 
 class App extends React.PureComponent {
   render () {
@@ -71,6 +72,10 @@ class App extends React.PureComponent {
                   <PublicLayout
                     path='/upload-document/:token/:documentType'
                     component={UploadDocument}
+                  />
+                  <PublicLayout
+                    path='/upload-document/success'
+                    component={UploadDocumentSuccess}
                   />
                   <PublicLayout path='/wallet' component={Login} />
                   <WalletLayout path='/home' component={Home} />
