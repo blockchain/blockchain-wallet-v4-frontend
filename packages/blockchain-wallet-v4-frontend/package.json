@@ -69,6 +69,7 @@
     }
   },
   "dependencies": {
+    "@blockchain-com/components": "^2.0.11",
     "@ledgerhq/hw-app-btc": "4.21.0",
     "@ledgerhq/hw-app-eth": "4.21.0",
     "@ledgerhq/hw-transport-u2f": "4.21.0",

@@ -15,6 +15,8 @@ class UploadDocumentContainer extends Component {
 
   constructor (props) {
     super(props)
+    this.dropzone = null
+
     this.state = {
       files: []
     }
@@ -33,11 +35,22 @@ class UploadDocumentContainer extends Component {
     })
   }
 
+  deleteFileAt = index => {
+    this.setState(previousState => {
+      previousState.files.splice(index, 1)
+      return {
+        files: previousState.files
+      }
+    })
+  }
+
   onDropAccepted = files => {
-    const fileSizeLimit = 5000000
+    const fileSizeLimit = 3 * 1024 * 1024
     files.forEach(file => {
       if (file.size >= fileSizeLimit) {
         this.props.displayError('File over size limit')
+      } else if (this.state.files.length >= 3) {
+        this.props.displayError('Maximum number of files reached')
       } else {
         this.setState(previousState => ({
           files: [...previousState.files, file]
@@ -46,14 +59,27 @@ class UploadDocumentContainer extends Component {
     })
   }
 
+  openDropzone = () => {
+    // Focus the text input using the raw DOM API
+    if (this.dropzone) this.dropzone.open()
+  }
+
+  setDropzoneRef = element => {
+    this.dropzone = element
+  }
+
   render () {
     const documentType = this.props.pathname.split('/')[3]
     return (
       <UploadDocument
         documentType={documentType}
+        dropzoneRef={this.dropzoneRef}
         files={this.state.files}
+        deleteFileAt={this.deleteFileAt}
         onDropAccepted={this.onDropAccepted}
         onSubmit={this.onSubmit}
+        setDropzoneRef={this.setDropzoneRef}
+        openDropzone={this.openDropzone}
       />
     )
   }
