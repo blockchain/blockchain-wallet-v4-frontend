@@ -40,7 +40,7 @@ class LockboxFirmwareContainer extends React.PureComponent {
       >
         {step === 1 && <ConnectDeviceStep deviceIndex={deviceIndex} />}
         {step === 2 && <CheckVersionsStep status={currentStep.status} />}
-        {/*{step === 3 && <ConfirmIdentifierStep />}*/}
+        {/* {step === 3 && <ConfirmIdentifierStep />} */}
         {step === 3 && <InstallMcuStep status={currentStep.status} />}
         {step === 4 && <InstallFirmwareStep status={currentStep.status} />}
         {step === 5 && <CompleteStep closeAll={closeAll} />}

@@ -5,15 +5,13 @@ import { FormattedMessage } from 'react-intl'
 import firmware from './firmware'
 import constants from './constants'
 
-/* eslint-disable */
-// TODO: enable eslint after dev complete
-
 /**
  * Creates device socket
  * @param {Transport} transport - Current device transport
  * @param {String} url - The web socket url to connect to
  * @returns {Observable} the final socket result
  */
+/* eslint-disable */
 const createDeviceSocket = (transport, url) => {
   return Observable.create(o => {
     let ws, lastMessage
@@ -109,6 +107,7 @@ const createDeviceSocket = (transport, url) => {
       },
 
       error: msg => {
+        debugger
         console.info('ERROR', { data: msg.data })
         ws.close()
         throw new Error(msg.data, { url })

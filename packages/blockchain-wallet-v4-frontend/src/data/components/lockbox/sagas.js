@@ -1,6 +1,6 @@
 import { call, put, take, select, takeEvery } from 'redux-saga/effects'
 import { contains, length, prop } from 'ramda'
-import { delay, eventChannel, END } from 'redux-saga'
+import { eventChannel, END } from 'redux-saga'
 import { actions, selectors } from 'data'
 import * as A from './actions'
 import * as AT from './actionTypes'
@@ -420,9 +420,10 @@ export default ({ api }) => {
         provider: deviceInfo.providerId
       })
 
-      // determine if update is needed
       if (latestFirmware.result !== 'null') {
         // device firmware is out of date
+        // TODO: check if in bootloader or mcu!
+        // TODO: uninstall apps
         const seFirmwareOsuVersion = prop(
           'se_firmware_osu_version',
           latestFirmware
@@ -462,15 +463,14 @@ export default ({ api }) => {
           ledgerSocket: 'wss://api.ledgerwallet.com'
         })
 
-        console.info('1::', osuFirmware)
-
         if (prop('shouldFlashMcu', osuFirmware)) {
           // get latest MCU
           const nextMcu = yield call(api.getNextMcu, deviceInfo.seVersion)
           // TODO: seems to be a bug, see line ~19 in getNextMCU
           if (nextMcu !== 'default' && nextMcu.name) {
             // flash latest MCU onto device
-            yield call(Lockbox.firmware.flashMcu,
+            yield call(
+              Lockbox.firmware.flashMcu,
               transport,
               domains.ledgerSocket,
               deviceInfo.targetId,
@@ -480,7 +480,6 @@ export default ({ api }) => {
             osuFirmware.shouldFlashMcu = false
           }
         }
-        console.info('start osu install')
         // install osu firmware
         let osuResult = yield call(
           Lockbox.firmware.installOsuFirmware,
@@ -490,10 +489,10 @@ export default ({ api }) => {
           deviceInfo.targetId
         )
         console.info('end osu install', osuResult)
-        // ensures old socket closes before opening another
-        yield delay(500)
+
         // install final firmware
-        let finalResult = yield call(Lockbox.firmware.installFinalFirmware,
+        let finalResult = yield call(
+          Lockbox.firmware.installFinalFirmware,
           transport,
           domains.ledgerSocket,
           seFirmwareFinalVersion,
@@ -502,10 +501,12 @@ export default ({ api }) => {
         )
         console.info('final result', finalResult)
 
-        yield put(A.changeFirmwareUpdateStep({
-          step: 'complete',
-          status: 'success'
-        }))
+        yield put(
+          A.changeFirmwareUpdateStep({
+            step: 'complete',
+            status: 'success'
+          })
+        )
       } else {
         // no firmware to install
         yield put(

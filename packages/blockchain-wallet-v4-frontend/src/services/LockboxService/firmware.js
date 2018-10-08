@@ -148,8 +148,7 @@ const flashMcu = (transport, baseUrl, targetId, version) => {
 
       // build socket url
       const url =
-        `${baseUrl}${constants.socketPaths.mcu}` +
-        `?${qs.stringify(params)}`
+        `${baseUrl}${constants.socketPaths.mcu}` + `?${qs.stringify(params)}`
 
       // install final firmware
       const res = await utils.mapSocketError(
