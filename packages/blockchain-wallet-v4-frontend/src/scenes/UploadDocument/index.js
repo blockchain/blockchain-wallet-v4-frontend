@@ -10,6 +10,7 @@ class UploadDocumentContainer extends Component {
   static propTypes = {
     displayError: PropTypes.func.isRequired,
     pathname: PropTypes.string.isRequired,
+    uploaded: PropTypes.bool.isRequired,
     uploadDocument: PropTypes.func.isRequired
   }
 
@@ -18,18 +19,24 @@ class UploadDocumentContainer extends Component {
     this.dropzone = null
 
     this.state = {
+      submitted: false,
       files: []
     }
   }
 
   onSubmit = () => {
+    this.setState({ submitted: true })
+    let filesLoaded = []
     const token = this.props.pathname.split('/')[2]
     this.state.files.forEach(file => {
       const fileReader = new FileReader()
-      // TODO: One single upload for the array of all byte arrays
+      // One single upload for the array of all byte arrays
       fileReader.onload = event => {
         const fileArray = new Int8Array(event.target.result)
-        this.props.uploadDocument(token, fileArray)
+        filesLoaded.push(fileArray)
+        if (filesLoaded.length >= this.state.files.length) {
+          this.props.uploadDocument(token, filesLoaded)
+        }
       }
       fileReader.readAsArrayBuffer(file)
     })
@@ -60,7 +67,6 @@ class UploadDocumentContainer extends Component {
   }
 
   openDropzone = () => {
-    // Focus the text input using the raw DOM API
     if (this.dropzone) this.dropzone.open()
   }
 
@@ -78,7 +84,9 @@ class UploadDocumentContainer extends Component {
         deleteFileAt={this.deleteFileAt}
         onDropAccepted={this.onDropAccepted}
         onSubmit={this.onSubmit}
+        uploaded={this.props.uploaded}
         setDropzoneRef={this.setDropzoneRef}
+        submitted={this.state.submitted}
         openDropzone={this.openDropzone}
       />
     )
@@ -86,7 +94,8 @@ class UploadDocumentContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  pathname: selectors.router.getPathname(state)
+  pathname: selectors.router.getPathname(state),
+  uploaded: selectors.components.uploadDocument.getUploaded(state)
 })
 
 const mapDispatchToProps = dispatch => ({

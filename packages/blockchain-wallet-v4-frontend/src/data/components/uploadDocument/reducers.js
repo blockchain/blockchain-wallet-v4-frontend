@@ -1,28 +1,16 @@
 import { assoc } from 'ramda'
-import { Remote } from 'blockchain-wallet-v4/src'
 import * as AT from './actionTypes'
 
 export const INITIAL_STATE = {
-  files: [],
-  uploadStatus: Remote.NotAsked
+  uploaded: false
 }
 
 export default (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
+  const { type } = action
 
   switch (type) {
-    case AT.UPLOAD_ERROR: {
-      return assoc('uploadStatus', Remote.Failure(payload.message), state)
-    }
-    case AT.UPLOAD_LOADING: {
-      return assoc('uploadStatus', Remote.Loading, state)
-    }
-    case AT.UPLOAD_SUCCESS: {
-      return assoc(
-        'uploadStatus',
-        Remote.Success('Document successfully uploaded'),
-        state
-      )
+    case AT.SET_UPLOADED: {
+      return assoc('uploaded', true, state)
     }
     default:
       return state

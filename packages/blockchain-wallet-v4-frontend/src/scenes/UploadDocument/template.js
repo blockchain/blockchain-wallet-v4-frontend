@@ -5,7 +5,13 @@ import { FormattedMessage } from 'react-intl'
 import Dropzone from 'react-dropzone'
 import { FasIdBadge, FasIdCard, FasPassport } from '@blockchain-com/components'
 
-import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
+import {
+  Button,
+  HeartbeatLoader,
+  Link,
+  Text,
+  TextGroup
+} from 'blockchain-info-components'
 
 const FileContainer = styled.div`
   display: flex;
@@ -86,8 +92,10 @@ const UploadDocument = ({
   files,
   onDropAccepted,
   onSubmit,
+  openDropzone,
   setDropzoneRef,
-  openDropzone
+  submitted,
+  uploaded
 }) => (
   <Wrapper>
     <TextContainer>
@@ -220,10 +228,14 @@ const UploadDocument = ({
         </Text>
         {files.length > 0 && (
           <UploadButton nature='primary' onClick={onSubmit}>
-            <FormattedMessage
-              id='scenes.uploaddoc.uploadnow'
-              defaultMessage='Upload Now'
-            />
+            {submitted && !uploaded ? (
+              <HeartbeatLoader height='20px' width='20px' color='white' />
+            ) : (
+              <FormattedMessage
+                id='scenes.uploaddoc.uploadnow'
+                defaultMessage='Upload Now'
+              />
+            )}
           </UploadButton>
         )}
       </UploadZone>
@@ -232,11 +244,15 @@ const UploadDocument = ({
 )
 
 UploadDocument.propTypes = {
-  deleteFile: PropTypes.func.isRequired,
+  deleteFileAt: PropTypes.func.isRequired,
   documentType: PropTypes.string.isRequired,
   files: PropTypes.array.isRequired,
   onDropAccepted: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
+  openDropzone: PropTypes.func.isRequired,
+  setDropzoneRef: PropTypes.func.isRequired,
+  submitted: PropTypes.bool.isRequired,
+  uploaded: PropTypes.bool.isRequired
 }
 
 export default UploadDocument

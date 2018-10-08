@@ -1,12 +1,10 @@
 import * as AT from './actionTypes'
 
-export const upload = (token, file) => ({
+export const upload = (token, files) => ({
   type: AT.UPLOAD,
-  payload: { file, token }
+  payload: { files, token }
 })
-export const uploadLoading = () => ({ type: AT.UPLOAD_LOADING })
-export const uploadSuccess = () => ({ type: AT.UPLOAD_SUCCESS })
-export const uploadError = message => ({
-  type: AT.UPLOAD_ERROR,
-  payload: { message }
-})
+
+export const setUploaded = () => {
+  return { type: AT.SET_UPLOADED }
+}

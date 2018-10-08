@@ -1,7 +1,3 @@
 import { path } from 'ramda'
 
-export const getUploadStatus = path([
-  'components',
-  'uploadDocument',
-  'uploadStatus'
-])
+export const getUploaded = path(['components', 'uploadDocument', 'uploaded'])
