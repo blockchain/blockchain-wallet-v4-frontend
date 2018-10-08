@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { find, map, prepend, propEq } from 'ramda'
+import { isNil, find, map, prepend, prop, propEq } from 'ramda'
 
 import { actions, model } from 'data'
 import { getData } from './selectors'
@@ -50,6 +50,7 @@ const {
 class PersonalContainer extends React.PureComponent {
   componentDidMount () {
     this.props.actions.fetchSupportedCountries()
+    this.props.actions.fetchStates()
   }
 
   onPostCodeChange = (_, postCode) => {
@@ -59,15 +60,25 @@ class PersonalContainer extends React.PureComponent {
     actions.fetchPossibleAddresses(postCode, countryCode)
   }
 
-  selectAddress = (_, address) => {
+  selectAddress = (e, address) => {
+    e.preventDefault()
     this.props.actions.selectAddress(address)
+  }
+
+  onCountryChange = (e, value) => {
+    e.preventDefault()
+    this.props.formActions.change(PERSONAL_FORM, 'country', value)
+    this.props.actions.setPossibleAddresses([])
+    this.props.formActions.clearFields(PERSONAL_FORM, false, false, 'state')
   }
 
   render () {
     const {
-      supportedCountries,
       initialCountryCode,
       countryCode,
+      countryData,
+      countryAndStateSelected,
+      stateSupported,
       possibleAddresses,
       address,
       postCode,
@@ -77,25 +88,37 @@ class PersonalContainer extends React.PureComponent {
       userData,
       handleSubmit
     } = this.props
-
-    return supportedCountries.cata({
-      Success: supportedCountries => (
+    return countryData.cata({
+      Success: ({ supportedCountries, states }) => (
         <Personal
           initialValues={{
             ...userData,
+            state:
+              userData.country === 'US'
+                ? find(propEq('code', userData.state), states) || {}
+                : userData.state,
             country:
               find(propEq('code', userData.country), supportedCountries) ||
               find(propEq('code', initialCountryCode), supportedCountries)
           }}
           countryCode={countryCode}
+          showStateSelect={countryCode && countryCode === 'US'}
+          showStateError={countryAndStateSelected && !stateSupported}
+          showPersonal={countryAndStateSelected && stateSupported}
+          showAddress={
+            countryAndStateSelected &&
+            stateSupported &&
+            !isNil(prop('line1', address))
+          }
           postCode={postCode}
           supportedCountries={getCountryElements(supportedCountries)}
+          states={getCountryElements(states)}
           possibleAddresses={getAddressElements(possibleAddresses)}
-          address={address}
           addressRefetchVisible={addressRefetchVisible}
           activeField={activeField}
           onAddressSelect={this.selectAddress}
-          onCountrySelect={actions.setPossibleAddresses.bind(null, [])}
+          onCountrySelect={this.onCountryChange}
+          onStateSelect={actions.setPossibleAddresses.bind(null, [])}
           onPostCodeChange={this.onPostCodeChange}
           onSubmit={handleSubmit}
         />

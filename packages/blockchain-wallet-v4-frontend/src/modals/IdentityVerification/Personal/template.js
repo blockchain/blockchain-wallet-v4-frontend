@@ -5,13 +5,23 @@ import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 import { replace, defaultTo } from 'ramda'
 
-import { required, requiredDOB, ageOverEighteen } from 'services/FormHelper'
+import {
+  required,
+  requiredDOB,
+  ageOverEighteen,
+  requiredZipCode
+} from 'services/FormHelper'
 import { model } from 'data'
 import media from 'services/ResponsiveService'
 import { getElementsPropType } from 'utils/proptypes'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
-import { Button, Text, HeartbeatLoader } from 'blockchain-info-components'
+import {
+  Button,
+  Text,
+  Banner,
+  HeartbeatLoader
+} from 'blockchain-info-components'
 import {
   DateInputBox,
   FooterShadowWrapper,
@@ -30,7 +40,6 @@ import {
   Label
 } from 'components/IdentityVerification'
 import Terms from 'components/Terms'
-import { countryHasStates } from 'components/Form/SelectBoxRegion'
 
 const FormContainer = styled.div`
   margin-top: 25px;
@@ -109,6 +118,22 @@ const LabeledDateInputBox = styled(DateInputBox)`
     }
   `};
 `
+const ErrorBanner = styled(Banner)`
+  width: 60%;
+  box-sizing: border-box;
+  padding: 16px;
+  > span {
+    display: none;
+  }
+  > div {
+    display: flex;
+    flex-direction: column;
+
+    text-transform: none;
+    font-size: 14px;
+  }
+`
+
 const addTrailingZero = string => (string.length >= 2 ? string : `0${string}`)
 const removeTrailingZero = replace(/^0/, '')
 const { AddressPropType, CountryPropType } = model.profile
@@ -169,14 +194,19 @@ const renderAddressDisplay = (props, children) => {
 const Personal = ({
   invalid,
   submitting,
-  address,
   postCode,
   addressRefetchVisible,
   supportedCountries,
+  states,
   possibleAddresses,
   countryCode,
+  showStateSelect,
+  showStateError,
+  showPersonal,
+  showAddress,
   activeField,
   onCountrySelect,
+  onStateSelect,
   onAddressSelect,
   onPostCodeChange,
   handleSubmit
@@ -201,111 +231,6 @@ const Personal = ({
               </IdentityVerificationSubHeader>
               <FormContainer>
                 <FaqFormGroup>
-                  <PersonalItem>
-                    <PersonalField>
-                      <Label>
-                        <FormattedMessage
-                          id='identityverification.personal.firstname'
-                          defaultMessage='First Name'
-                        />
-                      </Label>
-                      <Field
-                        name='firstName'
-                        validate={required}
-                        component={TextBox}
-                        errorBottom
-                      />
-                    </PersonalField>
-                    <PersonalField>
-                      <Label>
-                        <FormattedMessage
-                          id='identityverification.personal.lastname'
-                          defaultMessage='Last Name'
-                        />
-                      </Label>
-                      <Field
-                        name='lastName'
-                        validate={required}
-                        component={TextBox}
-                        errorBottom
-                      />
-                    </PersonalField>
-                  </PersonalItem>
-                  {(activeField === 'firstName' ||
-                    activeField === 'lastName') &&
-                    !mobile && (
-                      <FaqFormMessage
-                        icon='id-card'
-                        title={
-                          <FormattedMessage
-                            id='identityverification.personal.faq.name.title'
-                            defaultMessage='First & Last Name'
-                          />
-                        }
-                        text={
-                          <FormattedMessage
-                            id='identityverification.personal.faq.name.text'
-                            defaultMessage='They should match exactly the details in your passport or driving license.'
-                          />
-                        }
-                      />
-                    )}
-                </FaqFormGroup>
-                <FaqFormGroup>
-                  <FormItem>
-                    <DobLabelRow>
-                      <MonthLabel>
-                        <FormattedMessage
-                          id='identityverification.personal.dateofbirthmonth'
-                          defaultMessage='Date of Birth - Month'
-                        />
-                      </MonthLabel>
-                      <DobLabelWrapper>
-                        <DobLabel>
-                          <FormattedMessage
-                            id='identityverification.personal.date'
-                            defaultMessage='Date'
-                          />
-                        </DobLabel>
-                        <DobLabel>
-                          <FormattedMessage
-                            id='identityverification.personal.year'
-                            defaultMessage='Year'
-                          />
-                        </DobLabel>
-                      </DobLabelWrapper>
-                    </DobLabelRow>
-                    <Field
-                      name='dob'
-                      validate={[requiredDOB, ageOverEighteen]}
-                      component={LabeledDateInputBox}
-                      fullwidth
-                      label
-                      errorBottom
-                      parse={objectToDOB}
-                      format={DOBToObject}
-                    />
-                  </FormItem>
-                  {activeField === 'dob' &&
-                    !mobile && (
-                      <FaqFormMessage
-                        icon='birthday-cake-light'
-                        title={
-                          <FormattedMessage
-                            id='identityverification.personal.faq.dateofbirth.title'
-                            defaultMessage='Age requirement'
-                          />
-                        }
-                        text={
-                          <FormattedMessage
-                            id='identityverification.personal.faq.dateofbirth.text'
-                            defaultMessage='Users must be at least 18 years old to trade crypto'
-                          />
-                        }
-                      />
-                    )}
-                </FaqFormGroup>
-                <FaqFormGroup>
                   <FormItem>
                     <Label>
                       <FormattedMessage
@@ -329,7 +254,154 @@ const Personal = ({
                     />
                   </FormItem>
                 </FaqFormGroup>
-                {countryCode && (
+                {showStateSelect && (
+                  <FaqFormGroup>
+                    <FormItem>
+                      <Label>
+                        <FormattedMessage
+                          id='identityverification.personal.state'
+                          defaultMessage='State'
+                        />
+                      </Label>
+                      <Field
+                        name='state'
+                        validate={required}
+                        elements={states}
+                        component={SelectBox}
+                        menuPlacement='auto'
+                        onChange={onStateSelect}
+                        label={
+                          <FormattedMessage
+                            id='identityverification.personal.label.state'
+                            defaultMessage='Select your state'
+                          />
+                        }
+                      />
+                    </FormItem>
+                  </FaqFormGroup>
+                )}
+                {showStateError && (
+                  <ErrorBanner type='warning'>
+                    <FormattedMessage
+                      id='identityverification.personal.unavailable'
+                      defaultMessage='Unfortunately exchange is not available in your state at this time.'
+                    />
+                    <FormattedMessage
+                      id='identityverification.personal.unavailablenotify'
+                      defaultMessage='We will notify you when we expand to your area.'
+                    />
+                  </ErrorBanner>
+                )}
+                {showPersonal && (
+                  <FaqFormGroup>
+                    <PersonalItem>
+                      <PersonalField>
+                        <Label>
+                          <FormattedMessage
+                            id='identityverification.personal.firstname'
+                            defaultMessage='First Name'
+                          />
+                        </Label>
+                        <Field
+                          name='firstName'
+                          validate={required}
+                          component={TextBox}
+                          errorBottom
+                        />
+                      </PersonalField>
+                      <PersonalField>
+                        <Label>
+                          <FormattedMessage
+                            id='identityverification.personal.lastname'
+                            defaultMessage='Last Name'
+                          />
+                        </Label>
+                        <Field
+                          name='lastName'
+                          validate={required}
+                          component={TextBox}
+                          errorBottom
+                        />
+                      </PersonalField>
+                    </PersonalItem>
+                    {(activeField === 'firstName' ||
+                      activeField === 'lastName') &&
+                      !mobile && (
+                        <FaqFormMessage
+                          icon='id-card'
+                          title={
+                            <FormattedMessage
+                              id='identityverification.personal.faq.name.title'
+                              defaultMessage='First & Last Name'
+                            />
+                          }
+                          text={
+                            <FormattedMessage
+                              id='identityverification.personal.faq.name.text'
+                              defaultMessage='They should match exactly the details in your passport or driving license.'
+                            />
+                          }
+                        />
+                      )}
+                  </FaqFormGroup>
+                )}
+                {showPersonal && (
+                  <FaqFormGroup>
+                    <FormItem>
+                      <DobLabelRow>
+                        <MonthLabel>
+                          <FormattedMessage
+                            id='identityverification.personal.dateofbirthmonth'
+                            defaultMessage='Date of Birth - Month'
+                          />
+                        </MonthLabel>
+                        <DobLabelWrapper>
+                          <DobLabel>
+                            <FormattedMessage
+                              id='identityverification.personal.date'
+                              defaultMessage='Date'
+                            />
+                          </DobLabel>
+                          <DobLabel>
+                            <FormattedMessage
+                              id='identityverification.personal.year'
+                              defaultMessage='Year'
+                            />
+                          </DobLabel>
+                        </DobLabelWrapper>
+                      </DobLabelRow>
+                      <Field
+                        name='dob'
+                        validate={[requiredDOB, ageOverEighteen]}
+                        component={LabeledDateInputBox}
+                        fullwidth
+                        label
+                        errorBottom
+                        parse={objectToDOB}
+                        format={DOBToObject}
+                      />
+                    </FormItem>
+                    {activeField === 'dob' &&
+                      !mobile && (
+                        <FaqFormMessage
+                          icon='birthday-cake-light'
+                          title={
+                            <FormattedMessage
+                              id='identityverification.personal.faq.dateofbirth.title'
+                              defaultMessage='Age requirement'
+                            />
+                          }
+                          text={
+                            <FormattedMessage
+                              id='identityverification.personal.faq.dateofbirth.text'
+                              defaultMessage='Users must be at least 18 years old to trade crypto'
+                            />
+                          }
+                        />
+                      )}
+                  </FaqFormGroup>
+                )}
+                {showPersonal && (
                   <FaqFormGroup>
                     <FormItem>
                       <Label>
@@ -349,10 +421,10 @@ const Personal = ({
                         name='postCode'
                         onChange={onPostCodeChange}
                         errorBottom
-                        validate={required}
+                        validate={requiredZipCode}
                         component={TextBox}
                       />
-                      {countryCode &&
+                      {showPersonal &&
                         addressRefetchVisible &&
                         !mobile && (
                           <EmailHelper error={true}>
@@ -395,7 +467,7 @@ const Personal = ({
                     )}
                   </FaqFormGroup>
                 )}
-                {countryCode &&
+                {showPersonal &&
                   Boolean(possibleAddresses[0].items.length) && (
                     <FaqFormGroup>
                       <FormItem>
@@ -425,7 +497,7 @@ const Personal = ({
                       </FormItem>
                     </FaqFormGroup>
                   )}
-                {address && (
+                {showAddress && (
                   <div>
                     <FaqFormGroup>
                       <FormItem>
@@ -473,29 +545,24 @@ const Personal = ({
                         />
                       </FormItem>
                     </FaqFormGroup>
-                    <FaqFormGroup>
-                      <FormItem>
-                        <Label>
-                          {countryHasStates(countryCode) ? (
-                            <FormattedMessage
-                              id='identityverification.personal.state'
-                              defaultMessage='State'
-                            />
-                          ) : (
+                    {!showStateSelect && (
+                      <FaqFormGroup>
+                        <FormItem>
+                          <Label>
                             <FormattedMessage
                               id='identityverification.personal.region'
                               defaultMessage='Region'
                             />
-                          )}
-                        </Label>
-                        <Field
-                          name='state'
-                          validate={required}
-                          countryCode={countryCode}
-                          component={TextBox}
-                        />
-                      </FormItem>
-                    </FaqFormGroup>
+                          </Label>
+                          <Field
+                            name='state'
+                            validate={required}
+                            countryCode={countryCode}
+                            component={TextBox}
+                          />
+                        </FormItem>
+                      </FaqFormGroup>
+                    )}
                   </div>
                 )}
               </FormContainer>
@@ -511,7 +578,7 @@ const Personal = ({
           <Button
             nature='primary'
             type='submit'
-            disabled={invalid || submitting}
+            disabled={invalid || submitting || showStateError}
           >
             {!submitting ? (
               <FormattedMessage
