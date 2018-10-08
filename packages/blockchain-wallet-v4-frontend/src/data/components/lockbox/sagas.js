@@ -44,7 +44,7 @@ export default ({ api }) => {
         deviceType = prop('device_type', device)
       }
 
-      const appConnection = yield Lockbox.connections.pollForAppConnection(
+      const appConnection = yield Lockbox.utils.pollForAppConnection(
         deviceType,
         appRequested,
         timeout
@@ -150,7 +150,7 @@ export default ({ api }) => {
       yield put(A.saveNewDeviceKvStoreLoading())
       const newDeviceR = yield select(S.getNewDeviceInfo)
       const newDevice = newDeviceR.getOrFail('missing_device')
-      const mdAccountsEntry = Lockbox.accounts.generateAccountsMDEntry(
+      const mdAccountsEntry = Lockbox.utils.generateAccountsMDEntry(
         newDevice,
         deviceName
       )
@@ -279,14 +279,14 @@ export default ({ api }) => {
       yield take(AT.SET_CONNECTION_INFO)
       const connection = yield select(S.getCurrentConnection)
       // create BTC transport
-      const btcConnection = Lockbox.connections.createBtcBchConnection(
+      const btcConnection = Lockbox.utils.createBtcBchConnection(
         connection.app,
         connection.deviceType,
         connection.transport
       )
       // derive device info (chaincodes and xpubs)
       const newDeviceInfo = yield call(
-        Lockbox.accounts.deriveDeviceInfo,
+        Lockbox.utils.deriveDeviceInfo,
         btcConnection
       )
       yield put(
@@ -440,8 +440,8 @@ export default ({ api }) => {
           ...seFirmwareOsuVersion,
           shouldFlashMcu: false
         }
-        debugger
-        // TODO: add release notes for user to view
+
+        // TODO: add release notes for user to view?
         yield put(
           A.changeFirmwareUpdateStep({
             step: 'check-versions',
@@ -465,7 +465,7 @@ export default ({ api }) => {
         )
         console.info('start osu install')
         // install osu firmware
-        let osuResult = yield call(
+        yield call(
           Lockbox.firmware.installOsuFirmware,
           transport,
           domains.ledgerSocket,
@@ -478,14 +478,14 @@ export default ({ api }) => {
             status: ''
           })
         )
-        console.info('end osu install', osuResult)
+        console.info('end osu install')
         yield delay(1000)
         // TODO: need to recreate transport, since OSU wasnt update to support bc devices
         yield put(A.pollForDeviceApp('DASHBOARD', null, 'ledger'))
         yield take(AT.SET_CONNECTION_INFO)
         console.info('start final install')
         // install final firmware
-        let finalResult = yield call(
+        yield call(
           Lockbox.firmware.installFinalFirmware,
           transport,
           domains.ledgerSocket,
@@ -493,7 +493,7 @@ export default ({ api }) => {
           deviceInfo.providerId,
           deviceVersion.id
         )
-        console.info('end final install', finalResult)
+        console.info('end final install')
 
         yield put(
           A.changeFirmwareUpdateStep({
@@ -511,12 +511,11 @@ export default ({ api }) => {
         )
       }
     } catch (e) {
-      debugger
+      // TODO: reject errors are getting swallowed in promise
       yield put(
         A.changeFirmwareUpdateStep({
           step: 'install-complete',
-          status: 'error',
-          data: e
+          status: 'error'
         })
       )
       yield put(

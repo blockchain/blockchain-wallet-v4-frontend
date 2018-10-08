@@ -1,9 +1,26 @@
 import { Observable } from 'rxjs'
 import React from 'react'
+import { prop } from 'ramda'
 import { FormattedMessage } from 'react-intl'
+import TransportU2F from '@ledgerhq/hw-transport-u2f'
+import Btc from '@ledgerhq/hw-app-btc'
 
+import {
+  createXpubFromChildAndParent,
+  getParentPath
+} from 'blockchain-wallet-v4/src/utils/btc'
+import { deriveAddressFromXpub } from 'blockchain-wallet-v4/src/utils/eth'
 import firmware from './firmware'
 import constants from './constants'
+
+const ethAccount = (xpub, label) => ({
+  label: label,
+  archived: false,
+  correct: true,
+  addr: deriveAddressFromXpub(xpub)
+})
+
+const btcAccount = (xpub, label) => Types.HDAccount.js(label, null, xpub)
 
 /**
  * Creates device socket
@@ -107,7 +124,6 @@ const createDeviceSocket = (transport, url) => {
       },
 
       error: msg => {
-        debugger
         console.info('ERROR', { data: msg.data })
         ws.close()
         throw new Error(msg.data, { url })
@@ -259,9 +275,112 @@ const getScrambleKey = (app, deviceType) => {
   return constants.scrambleKeys[deviceType][app]
 }
 
+/**
+ * Derives xPubs from device
+ * @param {TransportU2F} btcApp - The BTC app connection
+ * @returns {Object} the derived xPubs
+ */
+const deriveDeviceInfo = async btcApp => {
+  let btcPath = "44'/0'/0'"
+  let bchPath = "44'/145'/0'"
+  let ethPath = "44'/60'/0'/0/0"
+
+  let btcChild = await btcApp.getWalletPublicKey(btcPath)
+  let bchChild = await btcApp.getWalletPublicKey(bchPath)
+  let ethChild = await btcApp.getWalletPublicKey(ethPath)
+  let btcParent = await btcApp.getWalletPublicKey(getParentPath(btcPath))
+  let bchParent = await btcApp.getWalletPublicKey(getParentPath(bchPath))
+  let ethParent = await btcApp.getWalletPublicKey(getParentPath(ethPath))
+  const btc = createXpubFromChildAndParent(btcPath, btcChild, btcParent)
+  const bch = createXpubFromChildAndParent(bchPath, bchChild, bchParent)
+  const eth = createXpubFromChildAndParent(ethPath, ethChild, ethParent)
+
+  return { btc, bch, eth }
+}
+
+/**
+ * Generates metadata entry new device save
+ * @param {Object} newDevice - The new device info with xPubs
+ * @param {String} deviceName - The users name for the new device
+ * @returns {Object} the metadata entry to save
+ */
+const generateAccountsMDEntry = (newDevice, deviceName) => {
+  const deviceType = prop('type', newDevice)
+
+  try {
+    const { btc, bch, eth } = prop('info', newDevice)
+
+    return {
+      device_type: deviceType,
+      device_name: deviceName,
+      btc: { accounts: [btcAccount(btc, deviceName + ' - BTC Wallet')] },
+      bch: { accounts: [btcAccount(bch, deviceName + ' - BCH Wallet')] },
+      eth: {
+        accounts: [ethAccount(eth, deviceName + ' - ETH Wallet')],
+        last_tx: null,
+        last_tx_timestamp: null
+      }
+    }
+  } catch (e) {
+    throw new Error('mising_device_info')
+  }
+}
+
+/**
+ * Creates and returns a new BTC/BCH app connection
+ * @param {String} app - The app to connect to (BTC, DASHBOARD, etc)
+ * @param {String} deviceType - Either 'ledger' or 'blockchain'
+ * @param {TransportU2F<Btc>} transport - Transport with BTC/BCH as scrambleKey
+ * @returns {Btc} Returns a BTC/BCH connection
+ */
+const createBtcBchConnection = (app, deviceType, transport) => {
+  const scrambleKey = getScrambleKey(app, deviceType)
+  return new Btc(transport, scrambleKey)
+}
+
+/**
+ * Polls for a given application to open on the device
+ * @async
+ * @param {String} deviceType - Either 'ledger' or 'blockchain'
+ * @param {String} app - The app to connect to (BTC, DASHBOARD, etc)
+ * @param {Number} timeout - Length of time in ms to wait for a connection
+ * @returns {Promise<TransportU2F>} Returns a connected Transport or Error
+ */
+function pollForAppConnection(deviceType, app, timeout = 60000) {
+  if (!deviceType || !app) throw new Error('Missing required params')
+
+  return new Promise((resolve, reject) => {
+    // create transport
+    TransportU2F.open().then(transport => {
+      // get scrambleKey
+      const scrambleKey = getScrambleKey(app, deviceType)
+      // configure transport
+      transport.setExchangeTimeout(timeout)
+      transport.setScrambleKey(scrambleKey)
+      // send NO_OP cmd until response is received (success) or timeout is hit (reject)
+      transport.send(...constants.apdus.no_op).then(
+        () => {},
+        res => {
+          // since no_op wont be recognized by any app as a valid cmd, this is always going
+          // to fail but a response, means a device is connected and unlocked
+          if (res.originalError) {
+            reject(res.originalError.metaData)
+          }
+
+          resolve({ app, transport })
+        }
+      )
+    })
+  })
+}
+
 export default {
   createDeviceSocket,
+  createBtcBchConnection,
+  deriveDeviceInfo,
+  generateAccountsMDEntry,
   getDeviceInfo,
   getScrambleKey,
-  mapSocketError
+  mapSocketError,
+  pollForAppConnection
 }

@@ -136,39 +136,8 @@ const installFinalFirmware = (transport, baseUrl, finalFirmware, targetId) => {
   })
 }
 
-// flashes the latest MCU onto device
-const flashMcu = (transport, baseUrl, targetId, version) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      // socket params
-      const params = {
-        targetId,
-        version
-      }
-
-      // build socket url
-      const url =
-        `${baseUrl}${constants.socketPaths.mcu}` + `?${qs.stringify(params)}`
-
-      // install final firmware
-      const res = await utils.mapSocketError(
-        utils.createDeviceSocket(transport, url).toPromise()
-      )
-
-      if (res.err) {
-        reject(res.errMsg)
-      } else {
-        resolve()
-      }
-    } catch (e) {
-      reject(e)
-    }
-  })
-}
-
 export default {
   checkDeviceAuthenticity,
-  flashMcu,
   getDeviceFirmwareInfo,
   installFinalFirmware,
   installOsuFirmware
