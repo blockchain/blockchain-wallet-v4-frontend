@@ -8,7 +8,7 @@ import CheckVersionsStep from './template'
 class CheckVersionsContainer extends React.PureComponent {
   onStartInstall = () => {
     this.props.lockboxActions.changeFirmwareUpdateStep({
-      step: 'install-osu-firmware'
+      step: 'confirm-identifier'
     })
   }
   render () {

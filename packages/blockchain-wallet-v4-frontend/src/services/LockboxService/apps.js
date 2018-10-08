@@ -10,25 +10,20 @@ import constants from './constants'
  * @param {Transport} transport - The opened device transport
  * @param {String} baseUrl - Base url of socket connection
  * @param {String | Number} targetId - The targetId of the device
- * @param {String} appName - The app to install (BTC, BCH, ETH)
- * @param {Object} appInfos - The latest info/versions for applications
+ * @param {Object} appInfo - The latest info/versions for application
  * @returns {Promise} Returns install result as a Promise
  */
-const uninstallApp = (transport, baseUrl, targetId, appName, appInfos) => {
+const uninstallApp = (transport, baseUrl, targetId, appInfo) => {
   return new Promise(async (resolve, reject) => {
     try {
-      // derive latest app info
-      const latestAppInfo = find(propEq('app', constants.appIds[appName]))(
-        appInfos
-      )
       // socket params
       const params = {
         targetId,
-        perso: latestAppInfo.perso,
-        deleteKey: latestAppInfo.delete_key,
-        firmware: latestAppInfo.firmware,
-        firmwareKey: latestAppInfo.firmware_key,
-        hash: latestAppInfo.hash
+        perso: appInfo.perso,
+        deleteKey: appInfo.delete_key,
+        firmware: appInfo.delete,
+        firmwareKey: appInfo.delete_key,
+        hash: appInfo.hash
       }
 
       // build socket url
@@ -36,7 +31,7 @@ const uninstallApp = (transport, baseUrl, targetId, appName, appInfos) => {
         `${baseUrl}${constants.socketPaths.install}` +
         `?${qs.stringify(params)}`
 
-      // install app via socket
+      // uninstall app via socket
       const res = await utils.mapSocketError(
         utils.createDeviceSocket(transport, url).toPromise()
       )

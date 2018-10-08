@@ -1,5 +1,5 @@
 import { call, put, take, select, takeEvery } from 'redux-saga/effects'
-import { contains, length, prop } from 'ramda'
+import { contains, find, length, prop, propEq } from 'ramda'
 import { delay, eventChannel, END } from 'redux-saga'
 import { actions, selectors } from 'data'
 import * as A from './actions'
@@ -382,6 +382,7 @@ export default ({ api }) => {
   }
 
   // update device firmware saga
+  /* eslint-disable */
   const updateDeviceFirmware = function*(action) {
     try {
       const { deviceIndex } = action.payload
@@ -422,7 +423,6 @@ export default ({ api }) => {
 
       if (latestFirmware.result !== 'null') {
         // device firmware is out of date
-        // TODO: uninstall apps
         const seFirmwareOsuVersion = prop(
           'se_firmware_osu_version',
           latestFirmware
@@ -451,18 +451,29 @@ export default ({ api }) => {
         // wait for user to continue
         yield take(AT.SET_FIRMWARE_UPDATE_STEP)
 
+        // uninstall apps to ensure room for firmware
+        yield put(A.uninstallApplication('BCH'))
+        yield take([
+          AT.UNINSTALL_APPLICATION_FAILURE,
+          AT.UNINSTALL_APPLICATION_SUCCESS
+        ])
+        yield put(A.uninstallApplication('ETH'))
+        yield take([
+          AT.UNINSTALL_APPLICATION_FAILURE,
+          AT.UNINSTALL_APPLICATION_SUCCESS
+        ])
+        yield put(A.uninstallApplication('BTC'))
+        yield take([
+          AT.UNINSTALL_APPLICATION_FAILURE,
+          AT.UNINSTALL_APPLICATION_SUCCESS
+        ])
+
         // fetch base socket domain
         const domainsR = yield select(selectors.core.walletOptions.getDomains)
         const domains = domainsR.getOrElse({
           ledgerSocket: 'wss://api.ledgerwallet.com'
         })
 
-        yield put(
-          A.changeFirmwareUpdateStep({
-            step: 'confirm-identifier',
-            status: ''
-          })
-        )
         console.info('start osu install')
         // install osu firmware
         yield call(
@@ -523,6 +534,7 @@ export default ({ api }) => {
       )
     }
   }
+  /* eslint-enable */
 
   // installs requested application on device
   const installApplication = function*(action) {
@@ -567,6 +579,61 @@ export default ({ api }) => {
       yield put(A.installApplicationFailure(app, e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'installApplication', e)
+      )
+    }
+  }
+
+  // uninstalls requested application on device
+  const uninstallApplication = function*(action) {
+    const { app } = action.payload
+    try {
+      const { transport } = yield select(S.getCurrentConnection)
+      // get base device info
+      const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
+      // get full device info via api
+      const deviceVersion = yield call(api.getDeviceVersion, {
+        provider: deviceInfo.providerId,
+        target_id: deviceInfo.targetId
+      })
+      // get full firmware info via api
+      const seFirmwareVersion = yield call(api.getCurrentFirmware, {
+        device_version: deviceVersion.id,
+        version_name: deviceInfo.fullVersion,
+        provider: deviceInfo.providerId
+      })
+      // get latest info on applications
+      // TODO: does Ledger have endpoint for single app info instead of all?
+      const appInfos = yield call(api.getApplications, {
+        provider: deviceInfo.providerId,
+        current_se_firmware_final_version: seFirmwareVersion.id,
+        device_version: deviceVersion.id
+      })
+      const appNameMap = {
+        BTC: 'Bitcoin',
+        BCH: 'Bitcoin Cash',
+        ETH: 'Ethereum'
+      }
+      const appInfo = find(propEq('name', appNameMap[app]))(
+        prop('application_versions', appInfos)
+      )
+      // fetch base socket domain
+      const domainsR = yield select(selectors.core.walletOptions.getDomains)
+      const domains = domainsR.getOrElse({
+        ledgerSocket: 'wss://api.ledgerwallet.com'
+      })
+      // uninstall application
+      yield call(
+        Lockbox.apps.uninstallApp,
+        transport,
+        domains.ledgerSocket,
+        deviceInfo.targetId,
+        appInfo
+      )
+      yield put(A.uninstallApplicationSuccess(app))
+    } catch (e) {
+      yield put(A.uninstallApplicationFailure(app, e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'uninstallApplication', e)
       )
     }
   }
@@ -625,6 +692,7 @@ export default ({ api }) => {
     installBlockchainApps,
     pollForDeviceApp,
     saveNewDeviceKvStore,
+    uninstallApplication,
     updateDeviceFirmware,
     updateDeviceName,
     updateTransactionList

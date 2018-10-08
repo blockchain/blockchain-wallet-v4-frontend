@@ -144,6 +144,22 @@ export const installApplicationFailure = (app, error) => ({
   type: AT.INSTALL_APPLICATION_FAILURE,
   payload: { app, error }
 })
+export const uninstallApplication = app => ({
+  type: AT.UNINSTALL_APPLICATION,
+  payload: { app }
+})
+export const uninstallApplicationLoading = app => ({
+  type: AT.UNINSTALL_APPLICATION_LOADING,
+  payload: { app }
+})
+export const uninstallApplicationSuccess = app => ({
+  type: AT.UNINSTALL_APPLICATION_SUCCESS,
+  payload: { app }
+})
+export const uninstallApplicationFailure = (app, error) => ({
+  type: AT.UNINSTALL_APPLICATION_FAILURE,
+  payload: { app, error }
+})
 // TODO: remove blockchain actions once app store is introduced
 export const installBlockchainApps = deviceIndex => ({
   type: AT.INSTALL_BLOCKCHAIN_APPS,

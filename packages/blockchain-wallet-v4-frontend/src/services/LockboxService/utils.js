@@ -9,6 +9,7 @@ import {
   createXpubFromChildAndParent,
   getParentPath
 } from 'blockchain-wallet-v4/src/utils/btc'
+import { Types } from 'blockchain-wallet-v4/src'
 import { deriveAddressFromXpub } from 'blockchain-wallet-v4/src/utils/eth'
 import firmware from './firmware'
 import constants from './constants'
@@ -59,6 +60,7 @@ const createDeviceSocket = (transport, url) => {
       try {
         const msg = JSON.parse(rawMsg.data)
         if (!(msg.query in handlers)) {
+          debugger
           throw new Error({ message: 's0ck3t' }, { url })
         }
         console.info('RECEIVE', msg)
@@ -346,7 +348,7 @@ const createBtcBchConnection = (app, deviceType, transport) => {
  * @param {Number} timeout - Length of time in ms to wait for a connection
  * @returns {Promise<TransportU2F>} Returns a connected Transport or Error
  */
-function pollForAppConnection(deviceType, app, timeout = 60000) {
+function pollForAppConnection (deviceType, app, timeout = 60000) {
   if (!deviceType || !app) throw new Error('Missing required params')
 
   return new Promise((resolve, reject) => {
