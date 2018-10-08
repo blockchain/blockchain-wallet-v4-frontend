@@ -15,11 +15,11 @@ class XlmBalance extends React.PureComponent {
   }
 
   componentWillMount () {
-    this.props.actions.fetchData()
+    this.props.actions.fetchAccount()
   }
 
   handleRefresh () {
-    this.props.actions.fetchData()
+    this.props.actions.fetchAccount()
   }
 
   render () {
