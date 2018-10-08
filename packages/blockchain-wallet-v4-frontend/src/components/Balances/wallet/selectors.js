@@ -44,6 +44,9 @@ export const getEthBalance = createDeepEqualSelector(
   }
 )
 
+export const getXlmBalance = state =>
+  Remote.of(selectors.core.data.xlm.getBalance(state).getOrElse(0))
+
 export const getBtcBalanceInfo = createDeepEqualSelector(
   [
     getBtcBalance,
@@ -90,17 +93,51 @@ export const getEthBalanceInfo = createDeepEqualSelector(
   }
 )
 
+export const getXlmBalanceInfo = createDeepEqualSelector(
+  [
+    getXlmBalance,
+    selectors.core.data.xlm.getRates,
+    selectors.core.settings.getCurrency
+  ],
+  (xlmBalanceR, xlmRatesR, currencyR) => {
+    const transform = (value, rates, toCurrency) =>
+      Exchange.convertXlmToFiat({
+        value,
+        fromUnit: 'STROOP',
+        toCurrency,
+        rates
+      }).value
+    return lift(transform)(xlmBalanceR, xlmRatesR, currencyR)
+  }
+)
+
 export const getTotalBalance = createDeepEqualSelector(
   [
     getBchBalanceInfo,
     getBtcBalanceInfo,
     getEthBalanceInfo,
+    getXlmBalanceInfo,
     selectors.core.settings.getCurrency
   ],
-  (btcBalanceInfoR, bchBalanceInfoR, ethBalanceInfoR, currency) => {
-    const transform = (bchBalance, btcBalance, ethBalance, currency) => {
+  (
+    btcBalanceInfoR,
+    bchBalanceInfoR,
+    ethBalanceInfoR,
+    xlmBalanceInfoR,
+    currency
+  ) => {
+    const transform = (
+      bchBalance,
+      btcBalance,
+      ethBalance,
+      xlmBalance,
+      currency
+    ) => {
       const total = Currency.formatFiat(
-        Number(btcBalance) + Number(ethBalance) + Number(bchBalance)
+        Number(btcBalance) +
+          Number(ethBalance) +
+          Number(bchBalance) +
+          Number(xlmBalance)
       )
       const totalBalance = `${Exchange.getSymbol(currency)}${total}`
       return { totalBalance }
@@ -109,21 +146,29 @@ export const getTotalBalance = createDeepEqualSelector(
       bchBalanceInfoR,
       btcBalanceInfoR,
       ethBalanceInfoR,
+      xlmBalanceInfoR,
       currency
     )
   }
 )
 
 export const getCoinAndTotalBalances = createDeepEqualSelector(
-  [getBtcBalance, getBchBalance, getEthBalance, getTotalBalance],
-  (btcBalanceR, bchBalanceR, ethBalanceR, getTotalBalanceR) => {
-    const transform = (btcBalance, bchBalance, ethBalance, totalBalance) => {
-      return { btcBalance, bchBalance, ethBalance, totalBalance }
+  [getBtcBalance, getBchBalance, getEthBalance, getXlmBalance, getTotalBalance],
+  (btcBalanceR, bchBalanceR, ethBalanceR, xlmBalanceR, getTotalBalanceR) => {
+    const transform = (
+      btcBalance,
+      bchBalance,
+      ethBalance,
+      xlmBalance,
+      totalBalance
+    ) => {
+      return { btcBalance, bchBalance, ethBalance, xlmBalance, totalBalance }
     }
     return lift(transform)(
       btcBalanceR,
       bchBalanceR,
       ethBalanceR,
+      xlmBalanceR,
       getTotalBalanceR
     )
   }
