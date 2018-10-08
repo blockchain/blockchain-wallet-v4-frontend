@@ -100,7 +100,7 @@ const RequestXlm = props => {
               id='modals.requestxlm.scan'
               defaultMessage='Scan QR Code:'
             />
-            <TooltipHost id='reqEthScan'>
+            <TooltipHost id='reqXlmScan'>
               <TooltipIcon name='question-in-circle' />
             </TooltipHost>
           </Text>
