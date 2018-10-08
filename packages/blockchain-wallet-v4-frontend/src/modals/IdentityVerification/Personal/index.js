@@ -49,6 +49,10 @@ const {
 
 class PersonalContainer extends React.PureComponent {
   componentDidMount () {
+    this.fetchData()
+  }
+
+  fetchData = () => {
     this.props.actions.fetchSupportedCountries()
     this.props.actions.fetchStates()
   }
@@ -125,7 +129,7 @@ class PersonalContainer extends React.PureComponent {
       ),
       NotAsked: () => <Loading />,
       Loading: () => <Loading />,
-      Failure: () => <DataError onClick={actions.fetchSupportedCountries} />
+      Failure: () => <DataError onClick={actions.fetchData} />
     })
   }
 }
