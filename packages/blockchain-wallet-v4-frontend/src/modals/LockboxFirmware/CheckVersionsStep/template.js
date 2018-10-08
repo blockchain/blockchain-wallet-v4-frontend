@@ -12,10 +12,10 @@ const Title = styled.div`
 const Content = styled.div`
   text-align: center;
   max-width: 400px;
-  margin: 0 auto;
+  margin: 10px auto;
 `
 const ButtonContainer = styled.div`
-  margin-top: 30px;
+  margin-top: 50px;
 `
 const RotateSyncContainer = styled(RotateSync)`
   margin-left: 15px;
@@ -27,23 +27,23 @@ const CheckVersionsStep = props => {
       <Title>
         <Text size='22px' weight={400}>
           <FormattedMessage
-            id='modals.lockboxfirmware.checkversions.title'
+            id='modals.lockboxfirmware.checkversionsstep.title'
             defaultMessage='Check for Updates'
           />
         </Text>
       </Title>
       <Content>
         {status === 'updateAvailable' ? (
-          <Text size='13px' weight={300}>
+          <Text size='15px' weight={300}>
             <FormattedMessage
-              id='modals.lockboxfirmware.checkversions.updateavailable'
+              id='modals.lockboxfirmware.checkversionsstep.updateavailable'
               defaultMessage='A new firmware is available for your device! Click continue to start installing.'
             />
           </Text>
         ) : (
-          <Text size='13px' weight={300}>
+          <Text size='15px' weight={300}>
             <FormattedMessage
-              id='modals.lockboxfirmware.checkversions.subtitle'
+              id='modals.lockboxfirmware.checkversionsstep.subtitle'
               defaultMessage='Please wait while we check for updates for your device.'
             />
           </Text>
@@ -53,14 +53,14 @@ const CheckVersionsStep = props => {
         {status === 'updateAvailable' ? (
           <Button fullwidth nature='success' onClick={onStartInstall}>
             <FormattedMessage
-              id='modals.lockboxfirmware.checkversions.continue'
+              id='modals.lockboxfirmware.checkversionsstep.continue'
               defaultMessage='Continue'
             />
           </Button>
         ) : (
           <Button fullwidth disabled nature='dark'>
             <FormattedMessage
-              id='modals.lockboxfirmware.checkversions.loading'
+              id='modals.lockboxfirmware.checkversionsstep.loading'
               defaultMessage='Checking Versions'
             />
             <RotateSyncContainer size='16px' color='white' />

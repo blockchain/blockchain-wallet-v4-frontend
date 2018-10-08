@@ -34,7 +34,7 @@ function pollForAppConnection (deviceType, app, timeout = 60000) {
       const scrambleKey = utils.getScrambleKey(app, deviceType)
       // configure transport
       transport.setExchangeTimeout(timeout)
-      transport.setScrambleKey('B0L0S')
+      transport.setScrambleKey(scrambleKey)
       // send NO_OP cmd until response is received (success) or timeout is hit (reject)
       transport.send(...constants.apdus.no_op).then(
         () => {},

@@ -12,10 +12,10 @@ const Title = styled.div`
 const Content = styled.div`
   text-align: center;
   max-width: 400px;
-  margin: 0 auto;
+  margin: 10px auto;
 `
 const ButtonContainer = styled.div`
-  margin-top: 30px;
+  margin-top: 50px;
 `
 const RotateSyncContainer = styled(RotateSync)`
   margin-left: 15px;
@@ -34,7 +34,7 @@ const CheckForUpdatesStep = props => {
         </Text>
       </Title>
       <Content>
-        <Text size='13px' weight={300}>
+        <Text size='15px' weight={300}>
           <FormattedMessage
             id='modals.lockboxfirmware.connectdevice.subtitle'
             defaultMessage='Connect and unlock your Lockbox. Then open the Dashboard app.'

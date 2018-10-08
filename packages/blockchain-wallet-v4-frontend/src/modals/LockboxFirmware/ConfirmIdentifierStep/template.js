@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 
 const Title = styled.div`
   text-align: center;
@@ -11,34 +11,31 @@ const Title = styled.div`
 const Content = styled.div`
   text-align: center;
   max-width: 400px;
-  margin: 0 auto;
+  margin: 10px auto;
 `
-const ButtonContainer = styled.div`
-  margin-top: 30px;
-`
-
-const ConfirmIdentifier = props => {
-  const { closeAll } = props
-
+const ConfirmIdentifier = (props) => {
+  //const { status } = props
   return (
     <React.Fragment>
       <Title>
-        <Text size='16px' weight={400}>
+        <Text size='22px' weight={400}>
           <FormattedMessage
-            id='modals.lockboxfirmware.confirmidentifierstep.title'
-            defaultMessage='Step 3. Verify the identifier'
+            id='modals.lockboxfirmware.confirmidstep.title'
+            defaultMessage='Verify Your Device'
           />
         </Text>
+        <Content>
+          <Text size='15px' weight={300}>
+            <FormattedMessage
+              id='modals.lockboxfirmware.confirmidstep.message'
+              defaultMessage='When prompted, confirm on your device that the install identifier matches the own shown below.'
+            />
+          </Text>
+          <Text size='14px' weight={300} style={{marginTop: '16px'}}>
+            <b>DUB75gDJBD8nbdD3bD8hdwskk</b>
+          </Text>
+        </Content>
       </Title>
-      <Content />
-      <ButtonContainer>
-        <Button fullwidth nature='success' onClick={closeAll}>
-          <FormattedMessage
-            id='modals.lockboxfirmware.confirmidentifierstep.confirm'
-            defaultMessage='Confirm'
-          />
-        </Button>
-      </ButtonContainer>
     </React.Fragment>
   )
 }
