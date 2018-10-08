@@ -1,4 +1,14 @@
-import { whereEq, map, indexBy, isEmpty, isNil, prop, values } from 'ramda'
+import {
+  compose,
+  whereEq,
+  map,
+  indexBy,
+  isEmpty,
+  isNil,
+  prop,
+  unnest,
+  values
+} from 'ramda'
 import { put, all, call, select } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import moment from 'moment'
@@ -82,7 +92,19 @@ export default ({ api, ratesSocket }) => {
 
   const restFallback = function*() {
     const pairs = yield select(selectors.modules.rates.getActivePairs)
-    if (!isEmpty(pairs)) yield all(map(fetchAdvice, pairs))
+    if (!isEmpty(pairs)) {
+      yield all(
+        unnest(
+          map(pair => {
+            const pairs = model.rates.getBestRatesPairs(
+              ...model.rates.splitPair(pair.pair),
+              pair.config.fiatCurrency
+            )
+            return [fetchAdvice(pair), fetchRates(pairs)]
+          }, pairs)
+        )
+      )
+    }
   }
 
   const authenticateSocket = function*() {
@@ -120,15 +142,32 @@ export default ({ api, ratesSocket }) => {
     }
   }
 
+  const fetchRates = function*(pairs) {
+    try {
+      const { rates } = yield call(api.fetchBestRates, pairs)
+      yield put(
+        actions.modules.rates.updateBestRates(
+          compose(
+            indexBy(prop('pair')),
+            map(({ symbol, value }) => ({ pair: symbol, price: value }))
+          )(rates)
+        )
+      )
+    } catch (e) {
+      yield put(A.ratesSubscribeError(pairs, e))
+    }
+  }
+
   const onClose = function*(action) {}
 
-  const openRatesChannel = function ({ payload }) {
+  const openRatesChannel = function*({ payload }) {
     const { pairs } = payload
     if (ratesSocket.isReady()) {
       const message = model.rates.getRatesSubscribeMessage(pairs)
       openChannels.rates[pairs] = message
       return ratesSocket.send(message)
     }
+    yield call(fetchRates, pairs)
   }
 
   const closeRatesChannel = function ({ payload }) {

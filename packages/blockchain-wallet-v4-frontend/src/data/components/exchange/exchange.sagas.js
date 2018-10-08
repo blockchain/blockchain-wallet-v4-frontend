@@ -8,6 +8,7 @@ import {
   head,
   keys,
   last,
+  or,
   path,
   prop,
   propOr
@@ -29,6 +30,7 @@ import utils from './sagas.utils'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
+import * as Lockbox from 'services/LockboxService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { selectReceiveAddress } from '../utils/sagas'
@@ -53,7 +55,9 @@ export default ({ api, coreSagas, options, networks }) => {
     configEquals,
     formatPair,
     swapBaseAndCounter,
-    FIX_TYPES
+    getBestRatesPairs,
+    FIX_TYPES,
+    MIN_ERROR
   } = model.rates
   const {
     calculatePaymentMemo,
@@ -125,6 +129,8 @@ export default ({ api, coreSagas, options, networks }) => {
       )(quote)
     }
 
+    if (Remote.Failure.is(amountsR)) throw amountsR.error
+
     return amountsR.getOrFail(NO_ADVICE_ERROR)
   }
 
@@ -146,6 +152,7 @@ export default ({ api, coreSagas, options, networks }) => {
     const fiatCurrency = yield call(getFiatCurrency)
     const pair = getCurrentPair(form)
     try {
+      if (!formVolume || formVolume === '0') throw MIN_ERROR
       const amounts = yield call(getAmounts, pair)
       const sourceFiatVolume = prop('sourceFiat', amounts)
       const volume =
@@ -329,7 +336,12 @@ export default ({ api, coreSagas, options, networks }) => {
     }
 
     yield put(
-      actions.modules.rates.subscribeToAdvice(pair, volume, fix, fiatCurrency)
+      actions.modules.rates.subscribeToAdvice(
+        pair,
+        or(volume, '0'),
+        fix,
+        fiatCurrency
+      )
     )
   }
 
@@ -338,14 +350,7 @@ export default ({ api, coreSagas, options, networks }) => {
     targetCoin,
     fiatCurrency
   ) {
-    const pairs = [
-      formatPair(sourceCoin, targetCoin),
-      formatPair(targetCoin, sourceCoin),
-      formatPair(sourceCoin, fiatCurrency),
-      formatPair(fiatCurrency, sourceCoin),
-      formatPair(targetCoin, fiatCurrency),
-      formatPair(fiatCurrency, targetCoin)
-    ]
+    const pairs = getBestRatesPairs(sourceCoin, targetCoin, fiatCurrency)
     const currentPairs = (yield select(selectors.modules.rates.getBestRates))
       .map(keys)
       .getOrElse([])
@@ -389,10 +394,10 @@ export default ({ api, coreSagas, options, networks }) => {
       }
 
       yield call(startValidation)
+      yield call(clearMinMax)
       yield call(unsubscribeFromCurrentAdvice, form)
       yield call(changeSubscription, true)
       yield call(updateSourceFee)
-      yield call(clearMinMax)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'changeSource', e))
     }
@@ -440,6 +445,7 @@ export default ({ api, coreSagas, options, networks }) => {
         actions.form.change(EXCHANGE_FORM, getActiveFieldName(form), amount)
       )
       yield call(startValidation)
+      yield put(A.setShowError(true))
       yield call(changeSubscription)
       yield call(updateSourceFee)
     } catch (e) {
@@ -539,18 +545,17 @@ export default ({ api, coreSagas, options, networks }) => {
           prop('from', payment.value())
         )
         const device = deviceR.getOrFail(MISSING_DEVICE_ERROR)
-        yield call(
-          promptForLockbox,
-          prop('coin', source),
-          null,
-          prop('device_type', device)
-        )
+        const coin = prop('coin', source)
+        const deviceType = prop('device_type', device)
+        yield call(promptForLockbox, coin, null, deviceType)
+        const scrambleKey = Lockbox.utils.getScrambleKey(coin, deviceType)
         const connection = yield select(
           selectors.components.lockbox.getCurrentConnection
         )
         yield (yield payment.sign(
           null,
-          prop('transport', connection)
+          prop('transport', connection),
+          scrambleKey
         )).publish()
         yield put(actions.components.lockbox.setConnectionSuccess())
         yield delay(1500)

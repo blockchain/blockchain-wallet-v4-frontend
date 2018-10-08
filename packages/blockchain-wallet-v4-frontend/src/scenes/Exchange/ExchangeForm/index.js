@@ -13,7 +13,8 @@ import {
   getMax,
   getTargetFee,
   getSourceFee,
-  canUseExchange
+  canUseExchange,
+  showError
 } from './selectors'
 
 import Loading from './template.loading'
@@ -37,25 +38,42 @@ class ExchangeForm extends React.Component {
     if (!prevProps.canUseExchange && canUseExchange) actions.initialize()
   }
 
+  componentWillUnmount () {
+    this.props.actions.setShowError(false)
+  }
+
   debounceTime = 50
-  changeAmount = debounce(amount => {
-    actions.form.clearSubmitErrors(EXCHANGE_FORM)
-    this.props.actions.changeAmount(amount)
-  }, this.debounceTime)
+  changeAmount = debounce(this.props.actions.changeAmount, this.debounceTime)
 
   handleRefresh = () => {
     this.props.actions.initialize()
   }
 
+  clearZero = e => {
+    if (e.target.value === '0') {
+      this.props.formActions.change(EXCHANGE_FORM, e.target.name, '')
+    }
+  }
+
+  addZero = e => {
+    if (e.target.value === '') {
+      requestAnimationFrame(() =>
+        this.props.formActions.change(EXCHANGE_FORM, e.target.name, '0')
+      )
+    }
+  }
+
   render () {
     const {
       actions,
+      formActions,
       data,
       min,
       max,
       targetFee,
       sourceFee,
-      canUseExchange
+      canUseExchange,
+      showError
     } = this.props
     return data.cata({
       Success: value =>
@@ -69,6 +87,7 @@ class ExchangeForm extends React.Component {
             targetFee={targetFee}
             sourceFee={sourceFee}
             canUseExchange={canUseExchange}
+            showError={showError}
             handleMaximum={actions.firstStepMaximumClicked}
             handleMinimum={actions.firstStepMinimumClicked}
             onSubmit={actions.setStep.bind(null, CONFIRM)}
@@ -81,9 +100,12 @@ class ExchangeForm extends React.Component {
               extractFieldValue
             )}
             handleAmountChange={compose(
+              formActions.clearSubmitErrors.bind(null, EXCHANGE_FORM),
               this.changeAmount,
               extractFieldValue
             )}
+            handleInputFocus={this.clearZero}
+            handleInputBlur={this.addZero}
             swapFix={compose(
               actions.changeFix,
               swapBaseAndCounter.bind(null, value.fix)
@@ -159,6 +181,7 @@ const mapStateToProps = state => ({
   max: getMax(state),
   targetFee: getTargetFee(state),
   sourceFee: getSourceFee(state),
+  showError: showError(state),
   data: getData(state)
 })
 

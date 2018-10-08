@@ -8,7 +8,7 @@ import * as C from 'services/AlertService'
 const Wrapper = styled.div`
   position: absolute;
   bottom: 0;
-  left: 0;
+  right: 0;
   width: 100%;
   display: flex;
   flex-direction: column-reverse;
@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 
   @media (min-width: 768px) {
     bottom: 5px;
-    left: 5px;
+    right: 5px;
     width: auto;
   }
 `
@@ -194,6 +194,13 @@ const selectMessage = (message, data = undefined) => {
         <FormattedMessage
           id='components.alerts.email_update_success'
           defaultMessage='Your email has been updated and your confirmation code has been sent.'
+        />
+      )
+    case C.EMAIL_UPDATE_SUCCESS_LINK:
+      return (
+        <FormattedMessage
+          id='components.alerts.email_update_success_link'
+          defaultMessage='Your email has been updated and a confirmation email has been sent to the new address.'
         />
       )
     case C.EMAIL_VERIFY_ERROR:
@@ -860,6 +867,20 @@ const selectMessage = (message, data = undefined) => {
         <FormattedMessage
           id='components.alerts.update_address_label_error'
           defaultMessage='Failed to update address label.'
+        />
+      )
+    case C.VERIFY_EMAIL_SENT:
+      return (
+        <FormattedMessage
+          id='components.alerts.verify_email_sent'
+          defaultMessage='Verification email sent. Please check your email.'
+        />
+      )
+    case C.VERIFY_EMAIL_SENT_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.verify_email_sent_error'
+          defaultMessage='Error sending verification email. Please try again later.'
         />
       )
     case C.WALLET_LOADING_ERROR:

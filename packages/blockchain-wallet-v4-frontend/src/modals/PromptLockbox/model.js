@@ -13,7 +13,7 @@ export const CONFIRM_STEPS = {
     ),
     content: coin => (
       <FormattedMessage
-        id='modals.promptforlockbox.connectcoinapp'
+        id='modals.promptforlockbox.connectcoinapp.content'
         defaultMessage='Connect and unlock your hardware device. Then open the {coin} app on the device.'
         values={{ coin }}
       />

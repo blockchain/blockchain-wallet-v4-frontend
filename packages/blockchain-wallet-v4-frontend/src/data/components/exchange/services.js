@@ -14,12 +14,14 @@ import {
 import { formatPair, FIX_TYPES } from 'data/modules/rates/model'
 import {
   MINIMUM_NO_LINK_ERROR,
-  MAXIMUM_NO_LINK_ERROR,
+  // REACHED_DAILY_ERROR,
+  // REACHED_WEEKLY_ERROR,
+  // REACHED_ANNUAL_ERROR,
   MINIMUM_ERROR,
   BALANCE_ERROR,
-  DAILY_ERROR,
-  WEEKLY_ERROR,
-  ANNUAL_ERROR,
+  // DAILY_ERROR,
+  // WEEKLY_ERROR,
+  // ANNUAL_ERROR,
   ORDER_ERROR
 } from './model'
 const { BASE, BASE_IN_FIAT, COUNTER, COUNTER_IN_FIAT } = FIX_TYPES
@@ -258,19 +260,21 @@ export const validateVolume = (limits, volume) => {
   const maxPossible = prop('maxPossibleOrder', limits)
   const balanceMax = prop('balanceMax', limits)
   const maxOrder = prop('maxOrder', limits)
-  const dailyMax = path(['daily', 'available'], limits)
-  const weeklyMax = path(['weekly', 'available'], limits)
-  const annualMax = path(['annual', 'available'], limits)
+  // const dailyMax = path(['daily', 'available'], limits)
+  // const weeklyMax = path(['weekly', 'available'], limits)
+  // const annualMax = path(['annual', 'available'], limits)
 
   if (isAmountAboveMaximum(minOrder, maxPossible)) {
-    if (isAmountBelowMinimum(volume, minOrder)) throw MINIMUM_NO_LINK_ERROR
-    throw MAXIMUM_NO_LINK_ERROR
+    // if (isAmountAboveMaximum(minOrder, annualMax)) throw REACHED_ANNUAL_ERROR
+    // if (isAmountAboveMaximum(minOrder, weeklyMax)) throw REACHED_WEEKLY_ERROR
+    // if (isAmountAboveMaximum(minOrder, dailyMax)) throw REACHED_DAILY_ERROR
+    throw MINIMUM_NO_LINK_ERROR
   }
   if (isAmountBelowMinimum(volume, minOrder)) throw MINIMUM_ERROR
   if (isAmountAboveMaximum(volume, balanceMax)) throw BALANCE_ERROR
-  if (isAmountAboveMaximum(volume, dailyMax)) throw DAILY_ERROR
-  if (isAmountAboveMaximum(volume, weeklyMax)) throw WEEKLY_ERROR
-  if (isAmountAboveMaximum(volume, annualMax)) throw ANNUAL_ERROR
+  // if (isAmountAboveMaximum(volume, dailyMax)) throw DAILY_ERROR
+  // if (isAmountAboveMaximum(volume, weeklyMax)) throw WEEKLY_ERROR
+  // if (isAmountAboveMaximum(volume, annualMax)) throw ANNUAL_ERROR
   if (isAmountAboveMaximum(volume, maxOrder)) throw ORDER_ERROR
 }
 
@@ -279,10 +283,10 @@ const calcMaxPossibleOrder = limits =>
     'maxPossibleOrder',
     reduce(minimum, Infinity, [
       prop('balanceMax', limits),
-      prop('maxOrder', limits),
-      path(['daily', 'available'], limits),
-      path(['weekly', 'available'], limits),
-      path(['annual', 'available'], limits)
+      prop('maxOrder', limits)
+      // path(['daily', 'available'], limits),
+      // path(['weekly', 'available'], limits),
+      // path(['annual', 'available'], limits)
     ]),
     limits
   )
