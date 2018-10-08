@@ -26,18 +26,18 @@ const CheckForUpdatesStep = props => {
   return (
     <React.Fragment>
       <Title>
-        <Text size='22px' weight={400}>
+        <Text size="22px" weight={400}>
           <FormattedMessage
-            id='modals.lockboxfirmware.connectdevice.title'
-            defaultMessage='Connect your Lockbox'
+            id="modals.lockboxfirmware.connectdevice.title"
+            defaultMessage="Connect your Lockbox"
           />
         </Text>
       </Title>
       <Content>
-        <Text size='15px' weight={300}>
+        <Text size="15px" weight={300}>
           <FormattedMessage
-            id='modals.lockboxfirmware.connectdevice.subtitle'
-            defaultMessage='Connect and unlock your Lockbox. Then open the Dashboard app.'
+            id="modals.lockboxfirmware.connectdevice.subtitle"
+            defaultMessage="Connect and unlock your Lockbox. Then open the Dashboard app."
           />
         </Text>
       </Content>
@@ -50,16 +50,16 @@ const CheckForUpdatesStep = props => {
         >
           {isOnDashboard ? (
             <FormattedMessage
-              id='modals.lockboxfirmware.connectdevice.success'
-              defaultMessage='Success! Click to Continue'
+              id="modals.lockboxfirmware.connectdevice.success"
+              defaultMessage="Success! Click to Continue"
             />
           ) : (
             <FormattedMessage
-              id='modals.lockboxfirmware.connectdevice.loading'
-              defaultMessage='Open Dashboard App'
+              id="modals.lockboxfirmware.connectdevice.loading"
+              defaultMessage="Open Dashboard App"
             />
           )}
-          {!isOnDashboard && <RotateSyncContainer size='16px' color='white' />}
+          {!isOnDashboard && <RotateSyncContainer size="16px" color="white" />}
         </Button>
       </ButtonContainer>
     </React.Fragment>

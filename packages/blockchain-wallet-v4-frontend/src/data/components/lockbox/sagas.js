@@ -513,7 +513,11 @@ export default ({ api }) => {
     } catch (e) {
       debugger
       yield put(
-        A.changeFirmwareUpdateStep({ step: 'install-complete', status: 'error', data: e })
+        A.changeFirmwareUpdateStep({
+          step: 'install-complete',
+          status: 'error',
+          data: e
+        })
       )
       yield put(
         actions.logs.logErrorMessage(logLocation, 'updateDeviceFirmware', e)

@@ -24,7 +24,7 @@ const createBtcBchConnection = (app, deviceType, transport) => {
  * @param {Number} timeout - Length of time in ms to wait for a connection
  * @returns {Promise<TransportU2F>} Returns a connected Transport or Error
  */
-function pollForAppConnection (deviceType, app, timeout = 60000) {
+function pollForAppConnection(deviceType, app, timeout = 60000) {
   if (!deviceType || !app) throw new Error('Missing required params')
 
   return new Promise((resolve, reject) => {

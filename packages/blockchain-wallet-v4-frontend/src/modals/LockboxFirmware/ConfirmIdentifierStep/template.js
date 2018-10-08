@@ -13,25 +13,25 @@ const Content = styled.div`
   max-width: 400px;
   margin: 10px auto;
 `
-const ConfirmIdentifier = (props) => {
+const ConfirmIdentifier = props => {
   //const { status } = props
   return (
     <React.Fragment>
       <Title>
-        <Text size='22px' weight={400}>
+        <Text size="22px" weight={400}>
           <FormattedMessage
-            id='modals.lockboxfirmware.confirmidstep.title'
-            defaultMessage='Verify Your Device'
+            id="modals.lockboxfirmware.confirmidstep.title"
+            defaultMessage="Verify Your Device"
           />
         </Text>
         <Content>
-          <Text size='15px' weight={300}>
+          <Text size="15px" weight={300}>
             <FormattedMessage
-              id='modals.lockboxfirmware.confirmidstep.message'
-              defaultMessage='When prompted, confirm on your device that the install identifier matches the own shown below.'
+              id="modals.lockboxfirmware.confirmidstep.message"
+              defaultMessage="When prompted, confirm on your device that the install identifier matches the own shown below."
             />
           </Text>
-          <Text size='14px' weight={300} style={{marginTop: '16px'}}>
+          <Text size="14px" weight={300} style={{ marginTop: '16px' }}>
             <b>DUB75gDJBD8nbdD3bD8hdwskk</b>
           </Text>
         </Content>

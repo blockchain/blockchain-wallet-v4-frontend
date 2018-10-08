@@ -19,20 +19,20 @@ const InstallFirmware = props => {
   return (
     <React.Fragment>
       <Title>
-        <Text size='22px' weight={400}>
+        <Text size="22px" weight={400}>
           <FormattedMessage
-            id='modals.lockboxfirmware.installstep.title'
-            defaultMessage='Finalizing Install'
+            id="modals.lockboxfirmware.installstep.title"
+            defaultMessage="Finalizing Install"
           />
         </Text>
         <Content>
-          <Text size='13px' weight={300}>
+          <Text size="13px" weight={300}>
             <FormattedMessage
-              id='modals.lockboxfirmware.installstep.message'
-              defaultMessage='Please wait while we finalize the update on your Lockbox.'
+              id="modals.lockboxfirmware.installstep.message"
+              defaultMessage="Please wait while we finalize the update on your Lockbox."
             />
           </Text>
-          <BlockchainLoader height='30px' width='100px' />
+          <BlockchainLoader height="30px" width="100px" />
         </Content>
       </Title>
     </React.Fragment>
