@@ -29,7 +29,7 @@ const InstallFirmware = props => {
           <Text size='13px' weight={300}>
             <FormattedMessage
               id='modals.lockboxfirmware.installstep.message'
-              defaultMessage='Finalizing the update on your Lockbox. Please follow the instructions on your device to complete the install.'
+              defaultMessage='Finalizing the update on your Lockbox. Enter your device pin when prompted.'
             />
           </Text>
           <BlockchainLoader
