@@ -175,6 +175,11 @@
         },
         "announcements": {}
       },
+      "xlm": {
+        "config": {
+          "network": "testnet"
+        }
+      },
       "sfox": {
         "fraction": 1,
         "countries": ["US"],
