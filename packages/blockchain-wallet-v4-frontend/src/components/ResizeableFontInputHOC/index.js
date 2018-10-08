@@ -1,6 +1,5 @@
 import React from 'react'
 import { findDOMNode } from 'react-dom'
-import { pathOr } from 'ramda'
 
 const fontSizeToNumber = fontSize => Number(fontSize.replace(/px/, ''))
 
@@ -22,14 +21,14 @@ const getValueLength = value => {
   return /\./.test(value) ? length - 0.5 : length
 }
 
-export const ResizeableInputHOC = Component =>
+export const ResizeableFontInputHOC = Component =>
   class ResizeableInput extends React.PureComponent {
     componentDidMount () {
       window.addEventListener('resize', this.resizeInputFont)
     }
 
     componentDidUpdate () {
-      this.updateValueLength(pathOr(0, ['input', 'value'], this.props))
+      requestAnimationFrame(this.updateValueLength)
     }
 
     componentWillUnmount () {
@@ -56,20 +55,23 @@ export const ResizeableInputHOC = Component =>
     resizeInputFont = () => {
       const input = this.selectInput()
       if (!input) return
-      const fontSize = this.props.maxFontSize
-      const fontSizeNumber = fontSizeToNumber(fontSize)
+
+      const { maxFontSize } = this.props
+      const fontSizeNumber = fontSizeToNumber(maxFontSize)
       let fontSizeRatio = calculateFontSizeRatio(
         input.offsetWidth,
         fontSizeNumber,
-        getFontSizeToCharWidth(fontSize),
+        getFontSizeToCharWidth(maxFontSize),
         this.valueLength
       )
       if (fontSizeRatio > 1) fontSizeRatio = 1
       input.style.fontSize = `${fontSizeNumber * fontSizeRatio}px`
     }
 
-    updateValueLength = value => {
-      const valueLength = getValueLength(value)
+    updateValueLength = () => {
+      const input = this.selectInput()
+      if (!input) return
+      const valueLength = getValueLength(input.value)
       if (valueLength === this.valueLength) return
 
       this.valueLength = valueLength
@@ -78,7 +80,7 @@ export const ResizeableInputHOC = Component =>
 
     onValueChange = e => {
       this.props.input.onChange(e)
-      this.updateValueLength(pathOr(0, ['target', 'value'], e))
+      requestAnimationFrame(this.updateValueLength)
     }
 
     getComponentRef = ref => {

@@ -155,3 +155,7 @@ export const setSourceFee = fee => ({
   type: AT.SET_SOURCE_FEE,
   payload: { fee }
 })
+export const setShowError = showError => ({
+  type: AT.SET_SHOW_ERROR,
+  payload: { showError }
+})

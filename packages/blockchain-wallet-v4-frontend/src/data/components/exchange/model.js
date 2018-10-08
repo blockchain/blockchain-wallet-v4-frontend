@@ -35,8 +35,10 @@ export const SHAPESHIFT_PAIRS = Remote.of([
 
 export const MINIMUM_NO_LINK_ERROR =
   'Amount is lower than mimimum. Trade Impossible'
-export const MAXIMUM_NO_LINK_ERROR =
-  'Amount is higher than maximum. Trade Impossible'
+export const NO_VALUE_ERROR = 'No value'
+export const REACHED_DAILY_ERROR = 'Reached daily limit'
+export const REACHED_WEEKLY_ERROR = 'Reached weekly limit'
+export const REACHED_ANNUAL_ERROR = 'Reached annual limit'
 export const NO_ADVICE_ERROR = 'No advice present'
 export const NO_LIMITS_ERROR = 'No limits present'
 export const MINIMUM_ERROR = 'Amount is lower than mimimum'

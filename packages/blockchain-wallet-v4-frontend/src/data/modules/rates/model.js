@@ -96,6 +96,9 @@ export const getAuthMessage = token => ({
   }
 })
 
+export const MIN_ERROR = 'Result volume is too small'
+export const MAX_ERROR = 'Too big volume'
+
 export const FIX_TYPES = {
   BASE: 'base',
   COUNTER: 'counter',
@@ -140,3 +143,12 @@ export const targetActive = flip(contains)([COUNTER, COUNTER_IN_FIAT])
 
 const volumeLens = lensProp('volume')
 export const configEquals = eqBy(over(volumeLens, Number))
+
+export const getBestRatesPairs = (sourceCoin, targetCoin, fiatCurrency) => [
+  formatPair(sourceCoin, targetCoin),
+  formatPair(targetCoin, sourceCoin),
+  formatPair(sourceCoin, fiatCurrency),
+  formatPair(fiatCurrency, sourceCoin),
+  formatPair(targetCoin, fiatCurrency),
+  formatPair(fiatCurrency, targetCoin)
+]
