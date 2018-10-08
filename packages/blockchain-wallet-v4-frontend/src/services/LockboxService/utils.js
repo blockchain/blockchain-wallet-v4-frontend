@@ -348,7 +348,7 @@ const createBtcBchConnection = (app, deviceType, transport) => {
  * @param {Number} timeout - Length of time in ms to wait for a connection
  * @returns {Promise<TransportU2F>} Returns a connected Transport or Error
  */
-function pollForAppConnection (deviceType, app, timeout = 60000) {
+const pollForAppConnection = (deviceType, app, timeout = 60000) => {
   if (!deviceType || !app) throw new Error('Missing required params')
 
   return new Promise((resolve, reject) => {
@@ -376,10 +376,40 @@ function pollForAppConnection (deviceType, app, timeout = 60000) {
   })
 }
 
+/**
+ * Formats a firmware hash
+ * @async
+ * @param {String} hash - THe unformatted firmware hash
+ * @returns {String} Returns the formatted hash
+ */
+const formatFirmwareHash = hash => {
+  if (!hash) {
+    return ''
+  }
+  hash = hash.toUpperCase()
+  const length = hash.length
+  const half = Math.ceil(length / 2)
+  const start = hash.slice(0, half)
+  const end = hash.slice(half)
+  return [start, end].join('\n')
+}
+
+/**
+ * Converts a firmware version into human displayable format
+ * @async
+ * @param {String} raw - THe unformatted firmware version
+ * @returns {String} Returns the formatted firmware name
+ */
+const formatFirmwareDisplayName = raw => {
+  return raw.endsWith('-osu') ? raw.replace('-osu', '') : raw
+}
+
 export default {
   createDeviceSocket,
   createBtcBchConnection,
   deriveDeviceInfo,
+  formatFirmwareDisplayName,
+  formatFirmwareHash,
   generateAccountsMDEntry,
   getDeviceInfo,
   getScrambleKey,

@@ -25,45 +25,46 @@ const CheckVersionsStep = props => {
   return (
     <React.Fragment>
       <Title>
-        <Text size="22px" weight={400}>
+        <Text size='22px' weight={400}>
           <FormattedMessage
-            id="modals.lockboxfirmware.checkversionsstep.title"
-            defaultMessage="Check for Updates"
+            id='modals.lockboxfirmware.checkversionsstep.title'
+            defaultMessage='Check for Updates'
           />
         </Text>
       </Title>
       <Content>
-        {status === 'updateAvailable' ? (
-          <Text size="15px" weight={300}>
+        {status ? (
+          <Text size='15px' weight={300}>
             <FormattedMessage
-              id="modals.lockboxfirmware.checkversionsstep.updateavailable"
-              defaultMessage="A new firmware is available for your device! Click continue to start installing."
+              id='modals.lockboxfirmware.checkversionsstep.updateavailable'
+              defaultMessage='A new firmware, version {status}, is available for your device! Click continue to start installing.'
+              values={{ status: <strong>{status}</strong> }}
             />
           </Text>
         ) : (
-          <Text size="15px" weight={300}>
+          <Text size='15px' weight={300}>
             <FormattedMessage
-              id="modals.lockboxfirmware.checkversionsstep.subtitle"
-              defaultMessage="Please wait while we check for updates for your device."
+              id='modals.lockboxfirmware.checkversionsstep.subtitle'
+              defaultMessage='Please wait while we check for updates for your device.'
             />
           </Text>
         )}
       </Content>
       <ButtonContainer>
-        {status === 'updateAvailable' ? (
-          <Button fullwidth nature="success" onClick={onStartInstall}>
+        {status ? (
+          <Button fullwidth nature='success' onClick={onStartInstall}>
             <FormattedMessage
-              id="modals.lockboxfirmware.checkversionsstep.continue"
-              defaultMessage="Continue"
+              id='modals.lockboxfirmware.checkversionsstep.continue'
+              defaultMessage='Continue'
             />
           </Button>
         ) : (
-          <Button fullwidth disabled nature="dark">
+          <Button fullwidth disabled nature='dark'>
             <FormattedMessage
-              id="modals.lockboxfirmware.checkversionsstep.loading"
-              defaultMessage="Checking Versions"
+              id='modals.lockboxfirmware.checkversionsstep.loading'
+              defaultMessage='Checking Versions'
             />
-            <RotateSyncContainer size="16px" color="white" />
+            <RotateSyncContainer size='16px' color='white' />
           </Button>
         )}
       </ButtonContainer>

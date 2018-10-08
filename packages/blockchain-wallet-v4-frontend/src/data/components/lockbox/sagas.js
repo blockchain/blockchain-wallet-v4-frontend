@@ -1,6 +1,6 @@
 import { call, put, take, select, takeEvery } from 'redux-saga/effects'
 import { contains, find, length, prop, propEq } from 'ramda'
-import { delay, eventChannel, END } from 'redux-saga'
+import { eventChannel, END } from 'redux-saga'
 import { actions, selectors } from 'data'
 import * as A from './actions'
 import * as AT from './actionTypes'
@@ -420,6 +420,10 @@ export default ({ api }) => {
         device_version: deviceVersion.id,
         provider: deviceInfo.providerId
       })
+      // latestFirmware.display_name = "1.4.2-bc3-osu"
+      // latestFirmware.firmware = "nanos/1.4.2-bc3/fw_1.4.2-bc3/upgrade_osu_1.4.2_bc3"
+      // latestFirmware.firmware_key = "nanos/1.4.2-bc3/fw_1.4.2-bc3/upgrade_osu_1.4.2_bc3_key"
+      // latestFirmware.name = "1.4.2-bc3-osu"
 
       if (latestFirmware.result !== 'null') {
         // device firmware is out of date
@@ -440,17 +444,21 @@ export default ({ api }) => {
           ...seFirmwareOsuVersion,
           shouldFlashMcu: false
         }
-
-        // TODO: add release notes for user to view?
         yield put(
           A.changeFirmwareUpdateStep({
             step: 'check-versions',
-            status: 'updateAvailable'
+            status: Lockbox.utils.formatFirmwareDisplayName(osuFirmware.name)
           })
         )
         // wait for user to continue
         yield take(AT.SET_FIRMWARE_UPDATE_STEP)
-
+        yield put(
+          A.changeFirmwareUpdateStep({
+            step: 'confirm-identifier',
+            status: Lockbox.utils.formatFirmwareHash(osuFirmware.hash)
+          })
+        )
+        debugger
         // uninstall apps to ensure room for firmware
         yield put(A.uninstallApplication('BCH'))
         yield take([
@@ -467,13 +475,11 @@ export default ({ api }) => {
           AT.UNINSTALL_APPLICATION_FAILURE,
           AT.UNINSTALL_APPLICATION_SUCCESS
         ])
-
         // fetch base socket domain
         const domainsR = yield select(selectors.core.walletOptions.getDomains)
         const domains = domainsR.getOrElse({
           ledgerSocket: 'wss://api.ledgerwallet.com'
         })
-
         console.info('start osu install')
         // install osu firmware
         yield call(
@@ -490,10 +496,6 @@ export default ({ api }) => {
           })
         )
         console.info('end osu install')
-        yield delay(1000)
-        // TODO: need to recreate transport, since OSU wasnt update to support bc devices
-        yield put(A.pollForDeviceApp('DASHBOARD', null, 'ledger'))
-        yield take(AT.SET_CONNECTION_INFO)
         console.info('start final install')
         // install final firmware
         yield call(
@@ -501,11 +503,9 @@ export default ({ api }) => {
           transport,
           domains.ledgerSocket,
           seFirmwareFinalVersion,
-          deviceInfo.providerId,
-          deviceVersion.id
+          deviceInfo.targetId
         )
         console.info('end final install')
-
         yield put(
           A.changeFirmwareUpdateStep({
             step: 'complete',
