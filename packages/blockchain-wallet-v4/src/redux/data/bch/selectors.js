@@ -104,3 +104,9 @@ export const getEffectiveBalance = path([
   'payment',
   'effectiveBalance'
 ])
+
+export const getTransactionsAtBound = path([
+  dataPath,
+  'bch',
+  'transactions_at_bound'
+])

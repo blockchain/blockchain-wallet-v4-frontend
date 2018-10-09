@@ -23,11 +23,10 @@ export default () => {
         case '/eth/transactions':
           yield call(refreshEthTransactions)
           break
-        case '/home': {
+        default:
           yield put(actions.core.data.bitcoin.fetchTransactions('', true))
           yield put(actions.core.data.ethereum.fetchTransactions(null, true))
           yield put(actions.core.data.bch.fetchTransactions('', true))
-        }
       }
     } catch (e) {
       yield put(

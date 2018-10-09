@@ -5,7 +5,8 @@ import { compose, prop, reverse, sortBy } from 'ramda'
 
 import TransactionListItem from 'components/TransactionListItem'
 import LazyLoadContainer from 'components/LazyLoadContainer'
-import { HeartbeatLoader } from 'blockchain-info-components'
+import { HeartbeatLoader, Text } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
 
 const LazyLoadWrapper = styled(LazyLoadContainer)`
   display: flex;
@@ -17,7 +18,7 @@ const LazyLoadWrapper = styled(LazyLoadContainer)`
   width: 100%;
 `
 
-const LoaderRow = styled.div`
+const Row = styled.div`
   justify-content: center;
   display: flex;
   padding: 15px;
@@ -30,8 +31,7 @@ const sortByTime = compose(
 )
 
 const Success = props => {
-  const { transactions, isLoading, loadMore } = props
-
+  const { transactions, transactionsAtBounds, isLoading, loadMore } = props
   return (
     <LazyLoadWrapper onLazyLoad={loadMore}>
       {sortByTime(transactions).map(transaction => (
@@ -42,10 +42,21 @@ const Success = props => {
           transaction={transaction}
         />
       ))}
-      {isLoading && (
-        <LoaderRow>
+      {isLoading ? (
+        <Row>
           <HeartbeatLoader />
-        </LoaderRow>
+        </Row>
+      ) : (
+        transactionsAtBounds && (
+          <Row>
+            <Text weight={300} size='18px'>
+              <FormattedMessage
+                id='scenes.lockbox.dashboard.transactions.thatsit'
+                defaultMessage="That's it! 📭"
+              />
+            </Text>
+          </Row>
+        )
       )}
     </LazyLoadWrapper>
   )

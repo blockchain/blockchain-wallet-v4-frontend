@@ -25,8 +25,9 @@ class TransactionsContainer extends React.PureComponent {
           currency={val.currency}
           loadMore={this.loadMore}
           isLoading={val.isLoading}
-          transactions={val.filteredTransactions}
           searchesApplied={val.searchesApplied}
+          transactions={val.filteredTransactions}
+          transactionsAtBounds={val.transactionsAtBounds}
         />
       ),
       Loading: () => <Loading />,
