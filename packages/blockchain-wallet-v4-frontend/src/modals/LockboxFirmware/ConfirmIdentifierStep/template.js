@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
+import { BlockchainLoader, Text } from 'blockchain-info-components'
 
 const Title = styled.div`
   text-align: center;
@@ -12,6 +12,9 @@ const Content = styled.div`
   text-align: center;
   max-width: 400px;
   margin: 10px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
 const ConfirmIdentifier = props => {
   const { status } = props
@@ -30,7 +33,7 @@ const ConfirmIdentifier = props => {
               <Text size='15px' weight={300}>
                 <FormattedMessage
                   id='modals.lockboxfirmware.confirmidstep.message1'
-                  defaultMessage='When prompted, confirm on your device that the install identifier matches the own shown below.'
+                  defaultMessage='Preparing your device for update. Please confirm on your device that the install identifier matches the own shown below.'
                 />
               </Text>
               <Text size='14px' weight={300} style={{ marginTop: '16px' }}>
@@ -41,10 +44,15 @@ const ConfirmIdentifier = props => {
             <Text size='15px' weight={300}>
               <FormattedMessage
                 id='modals.lockboxfirmware.confirmidstep.message2'
-                defaultMessage='Follow the instructions displayed on your device.'
+                defaultMessage='Preparing your device for update. Follow the instructions displayed on your device.'
               />
             </Text>
           )}
+          <BlockchainLoader
+            height='75px'
+            width='75px'
+            style={{ marginTop: '45px' }}
+          />
         </Content>
       </Title>
     </React.Fragment>

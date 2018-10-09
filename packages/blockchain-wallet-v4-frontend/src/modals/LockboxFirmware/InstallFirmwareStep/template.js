@@ -12,6 +12,9 @@ const Content = styled.div`
   text-align: center;
   max-width: 400px;
   margin: 10px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
 
 const InstallFirmware = props => {
@@ -33,9 +36,9 @@ const InstallFirmware = props => {
             />
           </Text>
           <BlockchainLoader
-            height='30px'
-            width='30px'
-            style={{ marginTop: '12px' }}
+            height='75px'
+            width='75px'
+            style={{ marginTop: '45px' }}
           />
         </Content>
       </Title>

@@ -1,26 +1,39 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
+import { withRouter } from 'react-router-dom'
 
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import CompleteStep from './template'
 
 class CompleteStepContainer extends React.PureComponent {
+  onInstallApps = () => {
+    this.props.closeAll()
+    const deviceIndex = this.props.match.params.deviceIndex
+    this.props.modalActions.showModal('LockboxAppInstall', { deviceIndex })
+  }
   render () {
-    const { closeAll, currentStep } = this.props
-    return <CompleteStep closeAll={closeAll} status={currentStep.status} />
+    const { closeAll, status } = this.props
+    return (
+      <CompleteStep
+        closeAll={closeAll}
+        status={status}
+        onInstallApps={this.onInstallApps}
+      />
+    )
   }
 }
 
-const mapStateToProps = state => ({
-  currentStep: selectors.components.lockbox.getFirmwareUpdateStep(state)
-})
-
 const mapDispatchToProps = dispatch => ({
-  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
+  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CompleteStepContainer)
+const enhance = compose(
+  withRouter,
+  connect(
+    null,
+    mapDispatchToProps
+  )
+)
+export default enhance(CompleteStepContainer)

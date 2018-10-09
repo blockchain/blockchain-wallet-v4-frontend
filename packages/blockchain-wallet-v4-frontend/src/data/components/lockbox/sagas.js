@@ -1,6 +1,6 @@
 import { call, put, take, select, takeEvery } from 'redux-saga/effects'
 import { contains, find, length, prop, propEq } from 'ramda'
-import { eventChannel, END } from 'redux-saga'
+import { delay, eventChannel, END } from 'redux-saga'
 import { actions, selectors } from 'data'
 import * as A from './actions'
 import * as AT from './actionTypes'
@@ -458,7 +458,6 @@ export default ({ api }) => {
             status: Lockbox.utils.formatFirmwareHash(osuFirmware.hash)
           })
         )
-        debugger
         // uninstall apps to ensure room for firmware
         yield put(A.uninstallApplication('BCH'))
         yield take([
@@ -489,13 +488,14 @@ export default ({ api }) => {
           osuFirmware,
           deviceInfo.targetId
         )
+        console.info('end osu install')
         yield put(
           A.changeFirmwareUpdateStep({
             step: 'install-firmware',
             status: ''
           })
         )
-        console.info('end osu install')
+        yield delay(500)
         console.info('start final install')
         // install final firmware
         yield call(
@@ -508,7 +508,7 @@ export default ({ api }) => {
         console.info('end final install')
         yield put(
           A.changeFirmwareUpdateStep({
-            step: 'complete',
+            step: 'install-complete',
             status: 'success'
           })
         )
