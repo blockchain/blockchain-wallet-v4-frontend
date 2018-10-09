@@ -83,6 +83,12 @@ const installOsuFirmware = (transport, baseUrl, osuFirmware, targetId) => {
       }
       delete params.shouldFlashMcu
 
+      // params.name = "1.4.2-bc3-osu"
+      // params.display_name = "1.4.2-bc3-osu"
+      // params.firmware = "nanos/1.4.2-bc3/fw_1.4.2-bc3/upgrade_osu_1.4.2_bc3"
+      // params.firmwareKey = "nanos/1.4.2-bc3/fw_1.4.2-bc3/upgrade_osu_1.4.2_bc3_key"
+      // params.firmware_key = "nanos/1.4.2-bc3/fw_1.4.2-bc3/upgrade_osu_1.4.2_bc3_key"
+
       // build socket url
       const url =
         `${baseUrl}${constants.socketPaths.install}` +
@@ -114,6 +120,12 @@ const installFinalFirmware = (transport, baseUrl, finalFirmware, targetId) => {
         ...finalFirmware,
         firmwareKey: finalFirmware.firmware_key
       }
+
+      // params.display_name = "1.4.2-bc3"
+      // params.firmware = "nanos/1.4.2-bc3/fw_1.4.2-bc3/upgrade_1.4.2_bc3"
+      // params.firmwareKey = "nanos/1.4.2-bc3/fw_1.4.2-bc3/upgrade_1.4.2_bc3_key"
+      // params.firmware_key = "nanos/1.4.2-bc3/fw_1.4.2-bc3/upgrade_1.4.2_bc3_key"
+      // params.name = "1.4.2-bc3"
 
       // build socket url
       const url =

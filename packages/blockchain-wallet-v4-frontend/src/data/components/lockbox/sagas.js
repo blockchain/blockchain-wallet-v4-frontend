@@ -399,7 +399,7 @@ export default ({ api }) => {
       yield take(AT.SET_CONNECTION_INFO)
       // wait for user to continue
       yield take(AT.SET_FIRMWARE_UPDATE_STEP)
-      let { transport } = yield select(S.getCurrentConnection)
+      const { transport } = yield select(S.getCurrentConnection)
       // get base device info
       const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
       // get full device info via api
@@ -474,10 +474,13 @@ export default ({ api }) => {
         const domains = domainsR.getOrElse({
           ledgerSocket: 'wss://api.ledgerwallet.com'
         })
+        yield put(A.pollForDeviceApp('DASHBOARD', null, device.device_type))
+        yield take(AT.SET_CONNECTION_INFO)
+        const connection = yield select(S.getCurrentConnection)
         // install osu firmware
         yield call(
           Lockbox.firmware.installOsuFirmware,
-          transport,
+          connection.transport,
           domains.ledgerSocket,
           osuFirmware,
           deviceInfo.targetId
@@ -488,11 +491,12 @@ export default ({ api }) => {
             status: ''
           })
         )
-        yield delay(500)
+        // wait for device restart
+        yield delay(2000)
         // install final firmware
         yield call(
           Lockbox.firmware.installFinalFirmware,
-          transport,
+          connection.transport,
           domains.ledgerSocket,
           seFirmwareFinalVersion,
           deviceInfo.targetId

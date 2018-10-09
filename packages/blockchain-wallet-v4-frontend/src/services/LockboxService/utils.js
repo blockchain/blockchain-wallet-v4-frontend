@@ -98,24 +98,21 @@ const createDeviceSocket = (transport, url) => {
       bulk: async input => {
         const { data, nonce } = input
         let lastStatus // Execute all apdus and collect last status
-
+        let i = 0
         for (const apdu of data) {
+          i++
           const res = await transport.exchange(Buffer.from(apdu, 'hex'))
           lastStatus = res.slice(res.length - 2)
-
           if (lastStatus.toString('hex') !== '9000') break
         }
-
-        if (!lastStatus) {
-          throw new Error({ message: 's0ck3t' }, { url })
-        }
-
-        const strStatus = lastStatus.toString('hex')
+        if (!lastStatus) throw new Error({ message: 's0ck3t' }, { url })
+        const isSuccess =
+          lastStatus.toString('hex') === '9000' || data.length === i
 
         send(
           nonce,
-          strStatus === '9000' ? 'success' : 'error',
-          strStatus === '9000' ? '' : strStatus
+          isSuccess ? 'success' : 'error',
+          isSuccess ? '' : lastStatus.toString('hex')
         )
       },
 
@@ -356,6 +353,7 @@ const pollForAppConnection = (deviceType, app, timeout = 60000) => {
       // get scrambleKey
       const scrambleKey = getScrambleKey(app, deviceType)
       // configure transport
+      // transport.setDebugMode(true)
       transport.setExchangeTimeout(timeout)
       transport.setScrambleKey(scrambleKey)
       // send NO_OP cmd until response is received (success) or timeout is hit (reject)
