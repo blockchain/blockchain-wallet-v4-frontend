@@ -51,7 +51,7 @@ try {
 }
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: {
     app: [
       'babel-polyfill',
