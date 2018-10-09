@@ -1,8 +1,16 @@
-import { assoc, assocPath, dissocPath, lensProp, propOr, set } from 'ramda'
+import {
+  assoc,
+  assocPath,
+  dissocPath,
+  lensProp,
+  prop,
+  propOr,
+  set
+} from 'ramda'
 
 import * as socketActionTypes from 'data/middleware/webSocket/rates/actionTypes'
 import * as AT from './actionTypes'
-import { FIX_TYPES } from './model'
+import { FIX_TYPES, MIN_ERROR, MAX_ERROR } from './model'
 import { Remote } from 'blockchain-wallet-v4'
 
 const INITIAL_STATE = {
@@ -25,6 +33,13 @@ const bestRatesLens = lensProp('bestRates')
 const setPairProp = (lens, fn, pair, state) => {
   const pairValue = set(lens, fn, getPair(pair, state.pairs))
   return assocPath(['pairs', pair], pairValue, state)
+}
+const getError = error => {
+  const description = prop('description', error)
+  if (description === MIN_ERROR) return MIN_ERROR
+  if (new RegExp(MAX_ERROR).test(description)) return MAX_ERROR
+
+  return error
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -51,7 +66,7 @@ export default (state = INITIAL_STATE, action) => {
     case socketActionTypes.ADVICE_SUBSCRIBE_ERROR:
       return setPairProp(
         quoteLens,
-        Remote.Failure(payload.error),
+        Remote.Failure(getError(payload.error)),
         payload.pair,
         state
       )

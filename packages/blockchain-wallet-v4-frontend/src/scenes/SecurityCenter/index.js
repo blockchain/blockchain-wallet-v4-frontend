@@ -1,6 +1,8 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { pathOr } from 'ramda'
 
 import { actions } from 'data'
 import { getData } from './selectors'
@@ -14,7 +16,12 @@ class SecurityCenterContainer extends React.PureComponent {
     this.onClose = this.onClose.bind(this)
     this.setView = this.setView.bind(this)
 
-    this.state = { enabling: false, editing: false, viewing: 'security' }
+    this.state = {
+      editing: false,
+      enabling: false,
+      viewing: 'security',
+      changeEmail: pathOr(false, ['location', 'state', 'changeEmail'], props)
+    }
   }
 
   componentWillUnmount () {
@@ -56,6 +63,7 @@ class SecurityCenterContainer extends React.PureComponent {
         onClose={this.onClose}
         viewing={this.state.viewing}
         setView={this.setView}
+        changeEmail={this.state.changeEmail}
         isMnemonicVerified={this.props.isMnemonicVerified}
       />
     )
@@ -68,7 +76,9 @@ const mapDispatchToProps = dispatch => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SecurityCenterContainer)
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(SecurityCenterContainer)
+)

@@ -48,7 +48,7 @@ export const getTime = tx => {
 }
 
 export const getFee = tx =>
-  new BigNumber(tx.gasPrice).mul(tx.gasUsed || tx.gas).toString()
+  new BigNumber(tx.gasPrice || 0).mul(tx.gasUsed || tx.gas).toString()
 
 export const getLabel = (address, state) => {
   const defaultLabelR = getDefaultLabel(state)

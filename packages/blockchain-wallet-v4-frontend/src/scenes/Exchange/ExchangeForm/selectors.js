@@ -71,10 +71,12 @@ export const generateGroups = curry((accounts, availableCurrencies) => {
 
 const getFormValues = state => {
   const formValues = selectors.form.getFormValues(EXCHANGE_FORM)(state)
+  const fix = prop('fix', formValues) || BASE_IN_FIAT
   return {
     sourceCoin: path(['source', 'coin'], formValues) || 'BTC',
     targetCoin: path(['target', 'coin'], formValues) || 'ETH',
-    fix: prop('fix', formValues) || BASE_IN_FIAT
+    fix,
+    volume: prop(mapFixToFieldName(fix), formValues)
   }
 }
 
@@ -132,10 +134,11 @@ const {
   getMin,
   getMax,
   getTargetFee,
-  getSourceFee
+  getSourceFee,
+  showError
 } = selectors.components.exchange
 
-export { canUseExchange, getMin, getMax, getTargetFee, getSourceFee }
+export { canUseExchange, getMin, getMax, getTargetFee, getSourceFee, showError }
 export const getData = createDeepEqualSelector(
   [
     getActiveBtcAccounts,
@@ -168,7 +171,7 @@ export const getData = createDeepEqualSelector(
       BCH: bchAccountsR.getOrElse([]),
       ETH: ethAccountsR.getOrElse([])
     }
-    const { fix, sourceCoin, targetCoin } = formValues
+    const { fix, sourceCoin, targetCoin, volume } = formValues
 
     const transform = (currency, availablePairs) => {
       const availableSourceCoins = getAvailableSourceCoins(availablePairs)
@@ -233,6 +236,7 @@ export const getData = createDeepEqualSelector(
         targetActive: targetActive(fix),
         coinActive: coinActive(fix),
         fiatActive: fiatActive(fix),
+        volume,
         fix,
         initialValues
       }
