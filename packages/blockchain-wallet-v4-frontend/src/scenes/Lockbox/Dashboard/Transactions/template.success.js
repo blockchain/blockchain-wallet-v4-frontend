@@ -5,6 +5,7 @@ import { compose, prop, reverse, sortBy } from 'ramda'
 
 import TransactionListItem from 'components/TransactionListItem'
 import LazyLoadContainer from 'components/LazyLoadContainer'
+import EmptyTx from 'components/EmptyTx'
 import { HeartbeatLoader, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 
@@ -42,22 +43,22 @@ const Success = props => {
           transaction={transaction}
         />
       ))}
-      {isLoading ? (
-        <Row>
+      <Row>
+        {isLoading ? (
           <HeartbeatLoader />
-        </Row>
-      ) : (
-        transactionsAtBounds && (
-          <Row>
+        ) : transactionsAtBounds ? (
+          transactions.length ? (
             <Text weight={300} size='18px'>
               <FormattedMessage
                 id='scenes.lockbox.dashboard.transactions.thatsit'
-                defaultMessage="That's it! 📭"
+                defaultMessage="That's it! No more transactions 📭"
               />
             </Text>
-          </Row>
-        )
-      )}
+          ) : (
+            <EmptyTx />
+          )
+        ) : null}
+      </Row>
     </LazyLoadWrapper>
   )
 }
