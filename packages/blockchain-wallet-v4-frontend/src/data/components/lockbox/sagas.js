@@ -602,7 +602,6 @@ export default ({ api }) => {
         provider: deviceInfo.providerId
       })
       // get latest info on applications
-      // TODO: does Ledger have endpoint for single app info instead of all?
       const appInfos = yield call(api.getApplications, {
         provider: deviceInfo.providerId,
         current_se_firmware_final_version: seFirmwareVersion.id,

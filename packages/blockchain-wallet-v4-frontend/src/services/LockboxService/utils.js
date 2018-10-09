@@ -60,7 +60,6 @@ const createDeviceSocket = (transport, url) => {
       try {
         const msg = JSON.parse(rawMsg.data)
         if (!(msg.query in handlers)) {
-          debugger
           throw new Error({ message: 's0ck3t' }, { url })
         }
         console.info('RECEIVE', msg)
