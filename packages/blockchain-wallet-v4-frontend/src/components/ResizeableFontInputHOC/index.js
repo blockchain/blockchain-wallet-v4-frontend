@@ -89,10 +89,6 @@ export const ResizeableFontInputHOC = Component =>
       requestAnimationFrame(this.updateValueLength)
     }
 
-    getComponentRef = ref => {
-      this.componentRef = ref
-    }
-
     render () {
       return (
         <Component
