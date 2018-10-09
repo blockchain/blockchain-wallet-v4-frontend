@@ -3,9 +3,10 @@ import * as AT from './actionTypes'
 import sagas from './sagas'
 
 export default ({ api, coreSagas }) => {
-  const { upload } = sagas({ api })
+  const { fetchData, upload } = sagas({ api })
 
   return function*() {
+    yield takeLatest(AT.FETCH_DATA, fetchData)
     yield takeLatest(AT.UPLOAD, upload)
   }
 }

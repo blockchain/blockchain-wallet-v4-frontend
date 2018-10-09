@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import Dropzone from 'react-dropzone'
 import { FasIdBadge, FasIdCard, FasPassport } from '@blockchain-com/components'
+import { prop } from 'ramda'
 
 import {
   Button,
@@ -92,9 +93,9 @@ const Wrapper = styled.div`
 
 const isMobile = window.matchMedia('(max-width: 760px)')
 
-const UploadDocument = ({
+const UploadDocuments = ({
+  data,
   deleteFileAt,
-  documentType,
   files,
   onDropAccepted,
   onSubmit,
@@ -105,9 +106,15 @@ const UploadDocument = ({
 }) => (
   <Wrapper>
     <TextContainer>
-      <Text color='brand-primary' size='20px' weight={300}>
-        <FormattedMessage id='scenes.uploaddoc.hello' defaultMessage='Hello!' />
-      </Text>
+      <TextGroup inline>
+        <Text color='brand-primary' size='20px' weight={300}>
+          <FormattedMessage
+            id='scenes.uploaddoc.hello'
+            defaultMessage='Hello '
+          />
+        </Text>
+        <Text>{prop('firstName', data)}</Text>
+      </TextGroup>
       <Text color='brand-primary' size='20px' weight={300}>
         <FormattedMessage
           id='scenes.uploaddoc.verify'
@@ -121,9 +128,12 @@ const UploadDocument = ({
           defaultMessage='Please upload the following document: '
         />
       </Text>
-      <Text color='brand-primary' size='20px' weight={300}>
-        {documentType}
-      </Text>
+      {prop('documentsTypes', data) &&
+        data.documentsTypes.map((type, index) => (
+          <Text color='brand-primary' key={index} size='20px' weight={300}>
+            {type}
+          </Text>
+        ))}
       <Link>
         <FormattedMessage
           id='scenes.uploaddoc.need'
@@ -260,16 +270,16 @@ const UploadDocument = ({
   </Wrapper>
 )
 
-UploadDocument.propTypes = {
+UploadDocuments.propTypes = {
+  data: PropTypes.object,
   deleteFileAt: PropTypes.func.isRequired,
-  documentType: PropTypes.string.isRequired,
   files: PropTypes.array.isRequired,
   onDropAccepted: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   openDropzone: PropTypes.func.isRequired,
   setDropzoneRef: PropTypes.func.isRequired,
   submitted: PropTypes.bool.isRequired,
-  uploaded: PropTypes.bool.isRequired
+  uploaded: PropTypes.bool
 }
 
-export default UploadDocument
+export default UploadDocuments

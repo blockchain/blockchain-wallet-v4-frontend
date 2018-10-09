@@ -5,10 +5,20 @@ import * as A from './actions'
 export const logLocation = 'components/identityVerification/sagas'
 
 export default ({ api }) => {
+  const fetchData = function*({ payload }) {
+    try {
+      const { token } = payload
+      const response = yield call(api.fetchUploadData, token)
+      yield put(A.setData(response))
+    } catch (error) {
+      yield put(actions.alerts.displayError(error.description))
+    }
+  }
+
   const upload = function*({ payload }) {
     try {
       const { files, token } = payload
-      const response = yield call(api.uploadDocument, token, files)
+      const response = yield call(api.uploadDocuments, token, files)
       yield put(A.setUploaded())
       yield put(A.setReference(response))
     } catch (error) {
@@ -18,6 +28,7 @@ export default ({ api }) => {
   }
 
   return {
+    fetchData,
     upload
   }
 }

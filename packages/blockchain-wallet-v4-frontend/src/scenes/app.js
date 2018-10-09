@@ -24,7 +24,7 @@ import Recover from './Recover'
 import Reminder from './Reminder'
 import Reset2FA from './Reset2FA'
 import Reset2FAToken from './Reset2FAToken'
-import UploadDocument from './UploadDocument'
+import UploadDocuments from './UploadDocuments'
 import VerifyEmailToken from './VerifyEmailToken'
 import Register from './Register'
 import SecurityCenter from './SecurityCenter'
@@ -37,7 +37,7 @@ import Preferences from './Settings/Preferences'
 import BitcoinTransactions from './Transactions/Btc'
 import EtherTransactions from './Transactions/Eth'
 import BchTransactions from './Transactions/Bch'
-import UploadDocumentSuccess from './UploadDocument/Success'
+import UploadDocumentsSuccess from './UploadDocuments/Success'
 
 class App extends React.PureComponent {
   render () {
@@ -70,12 +70,12 @@ class App extends React.PureComponent {
                     component={AuthorizeLogin}
                   />
                   <PublicLayout
-                    path='/upload-document/:token/:documentType'
-                    component={UploadDocument}
+                    path='/upload-document/:token'
+                    component={UploadDocuments}
                   />
                   <PublicLayout
                     path='/upload-document/success'
-                    component={UploadDocumentSuccess}
+                    component={UploadDocumentsSuccess}
                   />
                   <PublicLayout path='/wallet' component={Login} />
                   <WalletLayout path='/home' component={Home} />

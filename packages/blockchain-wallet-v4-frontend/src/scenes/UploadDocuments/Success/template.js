@@ -29,7 +29,7 @@ const Wrapper = styled.div`
   }
 `
 
-const UploadDocumentSuccess = ({ reference }) => (
+const UploadDocumentsSuccess = ({ reference }) => (
   <Wrapper>
     <CheckCircleIcon />
     <Text color='brand-primary' size='24px'>
@@ -68,8 +68,8 @@ const UploadDocumentSuccess = ({ reference }) => (
   </Wrapper>
 )
 
-UploadDocumentSuccess.propTypes = {
+UploadDocumentsSuccess.propTypes = {
   reference: PropTypes.string.isRequired
 }
 
-export default UploadDocumentSuccess
+export default UploadDocumentsSuccess

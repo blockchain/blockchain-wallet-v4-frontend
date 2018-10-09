@@ -9,6 +9,9 @@ export default (state = INITIAL_STATE, action) => {
   const { payload, type } = action
 
   switch (type) {
+    case AT.SET_DATA: {
+      return assoc('data', payload.data, state)
+    }
     case AT.SET_REFERENCE: {
       return assoc('reference', payload.reference, state)
     }

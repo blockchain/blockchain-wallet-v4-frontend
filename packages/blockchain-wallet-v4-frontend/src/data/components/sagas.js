@@ -19,7 +19,7 @@ import sendEth from './sendEth/sagas'
 import settings from './settings/sagas'
 import signMessage from './signMessage/sagas'
 import transactionReport from './transactionReport/sagas'
-import uploadDocument from './uploadDocument/sagas'
+import uploadDocuments from './uploadDocuments/sagas'
 
 export default ({ api, coreSagas, options }) => ({
   activityList: activityList({ api, coreSagas }),
@@ -43,5 +43,5 @@ export default ({ api, coreSagas, options }) => ({
   settings: settings({ api, coreSagas }),
   signMessage: signMessage({ coreSagas }),
   transactionReport: transactionReport({ api, coreSagas }),
-  uploadDocument: uploadDocument({ api })
+  uploadDocument: uploadDocuments({ api })
 })

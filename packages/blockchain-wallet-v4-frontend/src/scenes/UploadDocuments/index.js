@@ -4,14 +4,15 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import { actions, selectors } from 'data'
-import UploadDocument from './template'
+import UploadDocuments from './template'
 
-class UploadDocumentContainer extends Component {
+class UploadDocumentsContainer extends Component {
   static propTypes = {
+    data: PropTypes.object,
     displayError: PropTypes.func.isRequired,
     pathname: PropTypes.string.isRequired,
-    uploaded: PropTypes.bool.isRequired,
-    uploadDocument: PropTypes.func.isRequired
+    uploaded: PropTypes.bool,
+    uploadDocuments: PropTypes.func.isRequired
   }
 
   constructor (props) {
@@ -22,6 +23,11 @@ class UploadDocumentContainer extends Component {
       submitted: false,
       files: []
     }
+  }
+
+  componentDidMount () {
+    const token = this.props.pathname.split('/')[2]
+    this.props.fetchUploadData(token)
   }
 
   onSubmit = () => {
@@ -35,7 +41,7 @@ class UploadDocumentContainer extends Component {
         const fileArray = new Int8Array(event.target.result)
         filesLoaded.push(fileArray)
         if (filesLoaded.length >= this.state.files.length) {
-          this.props.uploadDocument(token, filesLoaded)
+          this.props.uploadDocuments(token, filesLoaded)
         }
       }
       fileReader.readAsArrayBuffer(file)
@@ -75,10 +81,9 @@ class UploadDocumentContainer extends Component {
   }
 
   render () {
-    const documentType = this.props.pathname.split('/')[3]
     return (
-      <UploadDocument
-        documentType={documentType}
+      <UploadDocuments
+        data={this.props.data}
         dropzoneRef={this.dropzoneRef}
         files={this.state.files}
         deleteFileAt={this.deleteFileAt}
@@ -94,14 +99,19 @@ class UploadDocumentContainer extends Component {
 }
 
 const mapStateToProps = state => ({
+  data: selectors.components.uploadDocuments.getData(state),
   pathname: selectors.router.getPathname(state),
-  uploaded: selectors.components.uploadDocument.getUploaded(state)
+  uploaded: selectors.components.uploadDocuments.getUploaded(state)
 })
 
 const mapDispatchToProps = dispatch => ({
   displayError: bindActionCreators(actions.alerts.displayError, dispatch),
-  uploadDocument: bindActionCreators(
-    actions.components.uploadDocument.upload,
+  fetchUploadData: bindActionCreators(
+    actions.components.uploadDocuments.fetchData,
+    dispatch
+  ),
+  uploadDocuments: bindActionCreators(
+    actions.components.uploadDocuments.upload,
     dispatch
   )
 })
@@ -109,4 +119,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(UploadDocumentContainer)
+)(UploadDocumentsContainer)

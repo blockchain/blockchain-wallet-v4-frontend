@@ -23,6 +23,12 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
       }
     })
 
+  const fetchUploadData = token =>
+    get({
+      url: nabuUrl,
+      endPoint: `/upload/data/${token}`
+    })
+
   const syncOnfido = (applicantId, isSelfie) => {
     return authorizedPost({
       url: nabuUrl,
@@ -35,7 +41,7 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
     })
   }
 
-  const uploadDocument = (token, data) =>
+  const uploadDocuments = (token, data) =>
     post({
       contentType: 'application/json',
       data: { data },
@@ -47,7 +53,8 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
     getSupportedCountries,
     fetchKycAddresses,
     fetchOnfidoSDKKey,
+    fetchUploadData,
     syncOnfido,
-    uploadDocument
+    uploadDocuments
   }
 }
