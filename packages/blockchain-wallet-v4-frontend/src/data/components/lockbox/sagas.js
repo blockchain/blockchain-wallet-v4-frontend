@@ -491,7 +491,7 @@ export default ({ api }) => {
             status: ''
           })
         )
-        // wait for device restart
+        // wait for device to fully restart
         yield delay(2000)
         // install final firmware
         yield call(
@@ -529,6 +529,7 @@ export default ({ api }) => {
       )
     }
   }
+  /* eslint-enable */
 
   // installs requested application on device
   const installApplication = function*(action) {
