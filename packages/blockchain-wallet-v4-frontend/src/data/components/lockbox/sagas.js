@@ -420,10 +420,6 @@ export default ({ api }) => {
         device_version: deviceVersion.id,
         provider: deviceInfo.providerId
       })
-      // latestFirmware.display_name = "1.4.2-bc3-osu"
-      // latestFirmware.firmware = "nanos/1.4.2-bc3/fw_1.4.2-bc3/upgrade_osu_1.4.2_bc3"
-      // latestFirmware.firmware_key = "nanos/1.4.2-bc3/fw_1.4.2-bc3/upgrade_osu_1.4.2_bc3_key"
-      // latestFirmware.name = "1.4.2-bc3-osu"
 
       if (latestFirmware.result !== 'null') {
         // device firmware is out of date
@@ -479,7 +475,6 @@ export default ({ api }) => {
         const domains = domainsR.getOrElse({
           ledgerSocket: 'wss://api.ledgerwallet.com'
         })
-        console.info('start osu install')
         // install osu firmware
         yield call(
           Lockbox.firmware.installOsuFirmware,
@@ -488,7 +483,6 @@ export default ({ api }) => {
           osuFirmware,
           deviceInfo.targetId
         )
-        console.info('end osu install')
         yield put(
           A.changeFirmwareUpdateStep({
             step: 'install-firmware',
@@ -496,7 +490,6 @@ export default ({ api }) => {
           })
         )
         yield delay(500)
-        console.info('start final install')
         // install final firmware
         yield call(
           Lockbox.firmware.installFinalFirmware,
@@ -505,7 +498,6 @@ export default ({ api }) => {
           seFirmwareFinalVersion,
           deviceInfo.targetId
         )
-        console.info('end final install')
         yield put(
           A.changeFirmwareUpdateStep({
             step: 'install-complete',
