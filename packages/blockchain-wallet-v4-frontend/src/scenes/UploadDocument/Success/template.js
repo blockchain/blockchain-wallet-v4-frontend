@@ -11,6 +11,10 @@ const CheckCircleIcon = styled(FarCheckCircle)`
   fill: ${props => props.theme['success']};
 `
 
+const SuccessText = styled(Text)`
+  padding-bottom: 16px;
+`
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -22,7 +26,6 @@ const Wrapper = styled.div`
   max-width: 720px;
   & > * {
     padding-bottom: 10px;
-    padding-top: 10px;
   }
 `
 
@@ -44,15 +47,15 @@ const UploadDocumentSuccess = ({ reference }) => (
       </Text>
       <Text>{reference}</Text>
     </TextGroup>
-    <Text color='brand-primary' size='20px' weight={300}>
+    <SuccessText color='brand-primary' size='20px' weight={300}>
       <FormattedMessage
         id='scenes.uploaddoc.success.explanation'
         defaultMessage='We have received your files. A Blockchain Team Member 
         will be reviewing your ID check shortly. Look for an email from us on
         your new account status.'
       />
-    </Text>
-    <Button nature='primary' onClick={top.close}>
+    </SuccessText>
+    <Button nature='primary'>
       <NavLink style={{ textDecoration: 'none' }} to='/login'>
         <Text color='white' size='16px' weight={300}>
           <FormattedMessage

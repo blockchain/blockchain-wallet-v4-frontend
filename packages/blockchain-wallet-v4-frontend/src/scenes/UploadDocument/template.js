@@ -51,8 +51,12 @@ const IdContainer = styled.div`
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
   padding-right: 20px;
+
+  & > * {
+    padding-bottom: 12px;
+  }
 `
 const UploadButton = styled(Button)`
   margin-top: 16px;
@@ -81,10 +85,12 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   background-color: ${props => props.theme['white-blue']};
 
-  @media (max-width: 992px) {
+  @media (max-width: 760px) {
     flex-direction: column;
   }
 `
+
+const isMobile = window.matchMedia('(max-width: 760px)')
 
 const UploadDocument = ({
   deleteFileAt,
@@ -134,26 +140,37 @@ const UploadDocument = ({
       >
         {files.length === 0 ? (
           <Fragment>
-            <Text color='brand-primary' size='20px' weight={300}>
-              <FormattedMessage
-                id='scenes.uploaddoc.dragdrop'
-                defaultMessage='Drag &amp; Drop'
-              />
-            </Text>
-            <TextGroup inline>
-              <Text color='brand-primary' weight={300}>
-                <FormattedMessage
-                  id='scenes.uploaddoc.placefiles'
-                  defaultMessage='Place your files here, '
-                />
-              </Text>
+            {isMobile.matches ? (
               <Link onClick={openDropzone} weight={300}>
                 <FormattedMessage
-                  id='scenes.uploaddoc.browse'
-                  defaultMessage='or browse'
+                  id='scenes.uploaddoc.browsefiles'
+                  defaultMessage='Browse files'
                 />
               </Link>
-            </TextGroup>
+            ) : (
+              <Fragment>
+                <Text color='brand-primary' size='20px' weight={300}>
+                  <FormattedMessage
+                    id='scenes.uploaddoc.dragdrop'
+                    defaultMessage='Drag &amp; Drop'
+                  />
+                </Text>
+                <TextGroup inline>
+                  <Text color='brand-primary' weight={300}>
+                    <FormattedMessage
+                      id='scenes.uploaddoc.placefiles'
+                      defaultMessage='Place your files here, '
+                    />
+                  </Text>
+                  <Link onClick={openDropzone} weight={300}>
+                    <FormattedMessage
+                      id='scenes.uploaddoc.browse'
+                      defaultMessage='or browse'
+                    />
+                  </Link>
+                </TextGroup>
+              </Fragment>
+            )}
             <Icons>
               <IdContainer>
                 <FasPassport />
