@@ -529,7 +529,6 @@ export default ({ api }) => {
       )
     }
   }
-  /* eslint-enable */
 
   // installs requested application on device
   const installApplication = function*(action) {
