@@ -120,6 +120,7 @@ const LabeledDateInputBox = styled(DateInputBox)`
 `
 const ErrorBanner = styled(Banner)`
   width: 60%;
+  max-width: 800px;
   box-sizing: border-box;
   padding: 16px;
   > span {
