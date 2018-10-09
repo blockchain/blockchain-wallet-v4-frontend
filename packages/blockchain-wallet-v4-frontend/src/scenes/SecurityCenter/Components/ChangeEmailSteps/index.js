@@ -36,6 +36,7 @@ function ChangeEmailSteps (props) {
       <ChangeEmailWrapper>
         <ChangeEmailInputWrapper>
           <Field
+            autoFocus
             name='changeEmail'
             validate={[validEmail]}
             component={TextBox}

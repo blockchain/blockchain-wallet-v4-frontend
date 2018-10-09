@@ -71,7 +71,74 @@ const getDeviceFirmwareInfo = transport => {
   })
 }
 
+// installs osu firmware on device
+const installOsuFirmware = (transport, baseUrl, osuFirmware, targetId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // socket params
+      const params = {
+        targetId,
+        ...osuFirmware,
+        firmwareKey: osuFirmware.firmware_key
+      }
+      delete params.shouldFlashMcu
+
+      // build socket url
+      const url =
+        `${baseUrl}${constants.socketPaths.install}` +
+        `?${qs.stringify(params)}`
+
+      // install osu firmware
+      const res = await utils.mapSocketError(
+        utils.createDeviceSocket(transport, url).toPromise()
+      )
+
+      if (res.err) {
+        reject(res.errMsg)
+      } else {
+        resolve()
+      }
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
+// installs final firmware on device
+const installFinalFirmware = (transport, baseUrl, finalFirmware, targetId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // socket params
+      const params = {
+        targetId,
+        ...finalFirmware,
+        firmwareKey: finalFirmware.firmware_key
+      }
+
+      // build socket url
+      const url =
+        `${baseUrl}${constants.socketPaths.install}` +
+        `?${qs.stringify(params)}`
+
+      // install final firmware
+      const res = await utils.mapSocketError(
+        utils.createDeviceSocket(transport, url).toPromise()
+      )
+
+      if (res.err) {
+        reject(res.errMsg)
+      } else {
+        resolve()
+      }
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
 export default {
   checkDeviceAuthenticity,
-  getDeviceFirmwareInfo
+  getDeviceFirmwareInfo,
+  installFinalFirmware,
+  installOsuFirmware
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import styled from 'styled-components'
 import { reduxForm } from 'redux-form'
 import { Button, Text } from 'blockchain-info-components'
@@ -125,9 +125,9 @@ const EmailAddress = props => {
         return (
           <React.Fragment>
             <EmailExplanation>
-              <FormattedMessage
+              <FormattedHTMLMessage
                 id='scenes.security.email.verifieddescription.success'
-                defaultMessage='You’ve verified {email}. Select &quot;Change Email&quot; to modify this existing address. We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.'
+                defaultMessage='You’ve verified <b>{email}</b>. Select &quot;Change Email&quot; to modify this existing address. We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.'
                 values={{ email }}
               />
             </EmailExplanation>
@@ -136,9 +136,9 @@ const EmailAddress = props => {
       }
       return (
         <EmailExplanation>
-          <FormattedMessage
+          <FormattedHTMLMessage
             id='scenes.security.email.unverifiedemaildescription'
-            defaultMessage='We have sent a verification email to {email}. Please click on the email that you’ve received to verify your email. We’ll use this email to authorize logins, send payment notifications, and notify you of wallet updates.'
+            defaultMessage='We have sent a verification email to <b>{email}</b>. Please click on the email that you’ve received to verify your email. We’ll use this email to authorize logins, send payment notifications, and notify you of wallet updates.'
             values={{ email }}
           />
         </EmailExplanation>

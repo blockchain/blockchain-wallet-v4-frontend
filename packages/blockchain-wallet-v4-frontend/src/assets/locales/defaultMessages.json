@@ -98,6 +98,10 @@
         "id": "components.alerts.email_update_success"
       },
       {
+        "defaultMessage": "Your email has been updated and a confirmation email has been sent to the new address.",
+        "id": "components.alerts.email_update_success_link"
+      },
+      {
         "defaultMessage": "Failed to verify email address.",
         "id": "components.alerts.email_verify_error"
       },
@@ -476,6 +480,14 @@
       {
         "defaultMessage": "Failed to update address label.",
         "id": "components.alerts.update_address_label_error"
+      },
+      {
+        "defaultMessage": "Verification email sent. Please check your email.",
+        "id": "components.alerts.verify_email_sent"
+      },
+      {
+        "defaultMessage": "Error sending verification email. Please try again later.",
+        "id": "components.alerts.verify_email_sent_error"
       },
       {
         "defaultMessage": "Could not retrieve essential data. Try again later.",
@@ -4308,6 +4320,40 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Request Stellar",
+        "id": "modals.requestxlm.title"
+      }
+    ],
+    "path": "src/modals/RequestXlm/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Currency:",
+        "id": "modals.requestxlm.coin"
+      },
+      {
+        "defaultMessage": "Copy & Share Address:",
+        "id": "modals.requestxlm.share"
+      },
+      {
+        "defaultMessage": "Or",
+        "id": "modals.requestxlm.or"
+      },
+      {
+        "defaultMessage": "Scan QR Code:",
+        "id": "modals.requestxlm.scan"
+      },
+      {
+        "defaultMessage": "Done",
+        "id": "modals.requestxlm.done"
+      }
+    ],
+    "path": "src/modals/RequestXlm/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Second password required",
         "id": "modals.secondpassword.title"
       },
@@ -5926,8 +5972,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "<span>Uh Oh. Something went wrong. Error: </span> {error}",
-        "id": "scenes.authorizelogin.loading"
+        "defaultMessage": "Uh Oh. Something went wrong.",
+        "id": "scenes.authorizelogin.error.uhoh"
+      },
+      {
+        "defaultMessage": "Error: {error}",
+        "id": "scenes.authorizelogin.error.msg"
       }
     ],
     "path": "src/scenes/AuthorizeLogin/template.error.json"
@@ -6841,11 +6891,11 @@
     "descriptors": [
       {
         "defaultMessage": "Exchange",
-        "id": "scenes.exchange.shapeshift.firststep.from"
+        "id": "scenes.exchange.exchangeform.from"
       },
       {
         "defaultMessage": "Receive",
-        "id": "scenes.exchange.shapeshift.firststep.to"
+        "id": "scenes.exchange.exchangeform.to"
       },
       {
         "defaultMessage": "MIN",
@@ -6873,8 +6923,28 @@
         "id": "scenes.exchange.exchangeform.error.nolimitsmessage"
       },
       {
+        "defaultMessage": "Insufficient funds. {min} is required for a trade",
+        "id": "scenes.exchange.exchangeform.error.balancebelowmin"
+      },
+      {
+        "defaultMessage": "You've reached your daily trade limit",
+        "id": "scenes.exchange.exchangeform.error.dailylimitreached"
+      },
+      {
+        "defaultMessage": "You've reached your weekly trade limit",
+        "id": "scenes.exchange.exchangeform.error.weeklylimitreached"
+      },
+      {
+        "defaultMessage": "You've reached your annual trade limit",
+        "id": "scenes.exchange.exchangeform.error.annuallimitreached"
+      },
+      {
         "defaultMessage": "Amount is below mimimum.",
         "id": "scenes.exchange.exchangeform.error.minimumamount"
+      },
+      {
+        "defaultMessage": "Amount is above maximum.",
+        "id": "scenes.exchange.exchangeform.error.maximumamount"
       },
       {
         "defaultMessage": "Not enough funds.",
@@ -8200,12 +8270,16 @@
         "id": "scenes.register.password"
       },
       {
-        "defaultMessage": "Your password would take {cracktime} to crack.",
-        "id": "formhelper.passwordcracktime"
+        "defaultMessage": "Weak. Use at least 8 characters, a mix of letters, numbers and symbols.",
+        "id": "formhelper.passwordsuggest.weak"
       },
       {
-        "defaultMessage": "Try adding a few more characters.",
-        "id": "formhelper.passwordsuggest"
+        "defaultMessage": "Medium. Use at least 8 characters, a mix of letters, numbers and symbols.",
+        "id": "formhelper.passwordsuggest.medium"
+      },
+      {
+        "defaultMessage": "Great password.",
+        "id": "formhelper.passwordsuggest.great"
       },
       {
         "defaultMessage": "Confirm Password",
@@ -8753,6 +8827,10 @@
       {
         "defaultMessage": "Change",
         "id": "scenes.preferences.email.settings.updateform.change"
+      },
+      {
+        "defaultMessage": "<b>Note:</b> This will change your wallet’s email address. The email address you use to buy or sell with will remain the same.",
+        "id": "scenes.security.email.changeemail.description"
       }
     ],
     "path": "src/scenes/SecurityCenter/Components/ChangeEmailSteps/index.json"
@@ -8860,52 +8938,20 @@
         "id": "scenes.security.email.unverifiedemail.verifyemail"
       },
       {
-        "defaultMessage": "You’ve verified",
-        "id": "scenes.security.email.verifieddescription"
+        "defaultMessage": "Your verified email address is used to send login codes when suspicious or unusual activity is detected. We can also remind you of your wallet login ID, and send you payments alerts when you receive funds.",
+        "id": "scenes.security.email.yourverifiedemailaddress"
       },
       {
-        "defaultMessage": ". Select ‘Change Email’ to modify this existing address.",
-        "id": "scenes.security.email.verifieddescription2"
-      },
-      {
-        "defaultMessage": "We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.",
-        "id": "scenes.security.email.verifieddescription3"
-      },
-      {
-        "defaultMessage": "We have sent a verification email to",
-        "id": "scenes.security.email.unverifieddescription"
-      },
-      {
-        "defaultMessage": ". Please enter the code you’ve received to your email in order to complete the verification process. We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.",
-        "id": "scenes.security.email.unverifieddescription2"
-      },
-      {
-        "defaultMessage": "We have sent a verification code to",
-        "id": "scenes.security.email.verify.wehavesentcode"
-      },
-      {
-        "defaultMessage": ".  Please enter this code below to complete your email verification process.",
-        "id": "scenes.security.email.verify.pleaseenter"
-      },
-      {
-        "defaultMessage": "Didn’t receive the verification email?",
-        "id": "scenes.security.email.verify.didnotreceive"
-      },
-      {
-        "defaultMessage": "Resend email",
-        "id": "scenes.security.email.verify.resend"
-      },
-      {
-        "defaultMessage": "Send Code",
-        "id": "scenes.security.email.settings.updateform.sendcode"
+        "defaultMessage": "Resend Email",
+        "id": "scenes.security.email.settings.updateform.resendemail"
       },
       {
         "defaultMessage": "Change Your Email",
         "id": "scenes.security.email.upateform.changetext"
       },
       {
-        "defaultMessage": "Change Email",
-        "id": "scenes.security.email.settings.updateform.change"
+        "defaultMessage": "Change Your Email",
+        "id": "scenes.security.email.settings.updateform.changeyouremail"
       }
     ],
     "path": "src/scenes/SecurityCenter/EmailAddress/template.success.json"
@@ -8917,20 +8963,20 @@
         "id": "scenes.securitycenter.steps.step1mobile"
       },
       {
-        "defaultMessage": "Verified Email Address",
-        "id": "scenes.securitycenter.steps.step1"
+        "defaultMessage": "Verify Your Personal Email",
+        "id": "scenes.securitycenter.steps.step1.verify"
       },
       {
         "defaultMessage": "2 Factor Auth",
         "id": "scenes.securitycenter.steps.step2mobile"
       },
       {
-        "defaultMessage": "Two-Step Verification",
-        "id": "scenes.securitycenter.steps.step2"
+        "defaultMessage": "Turn on Two-Step Verification",
+        "id": "scenes.securitycenter.steps.step2.verify"
       },
       {
-        "defaultMessage": "Backup Phrase",
-        "id": "scenes.securitycenter.steps.step3"
+        "defaultMessage": "Save Backup Phrase",
+        "id": "scenes.securitycenter.steps.step3.save"
       }
     ],
     "path": "src/scenes/SecurityCenter/SecuritySteps/template.json"
@@ -8957,6 +9003,14 @@
       {
         "defaultMessage": "We recommend you complete these 3 steps before moving into the advanced security settings.",
         "id": "scenes.securitycenter.introadvancedexplainer"
+      },
+      {
+        "defaultMessage": "Complete the steps below to help prevent unauthorized access to your wallet. Add additional verification to access your funds at any time.",
+        "id": "scenes.securitycenter.introtextnone"
+      },
+      {
+        "defaultMessage": "Congratulations, you have completed the initial steps in helping to prevent unauthorized access to your wallet and bringing you even closer to financial security. Remember to always use caution with where you store your wallet details, what information you share with others, and with phishing emails.",
+        "id": "scenes.securitycenter.introtextfour"
       }
     ],
     "path": "src/scenes/SecurityCenter/template.json"
@@ -9112,10 +9166,6 @@
       {
         "defaultMessage": "Disable",
         "id": "scenes.securitysettings.basicsecurity.twostepverification.settings.disable"
-      },
-      {
-        "defaultMessage": "Security Tip",
-        "id": "scenes.securitysettings.basicsecurity.twostepverification.settings.securitytip"
       },
       {
         "defaultMessage": "You can choose to use a free app or your mobile phone number to secure your wallet. We recommend using Google Authenticator (available for",
@@ -10303,8 +10353,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "<span>Uh Oh. Something went wrong. Error: </span> {error}",
-        "id": "scenes.verifyemailtoken.error"
+        "defaultMessage": "Uh Oh. Something went wrong.",
+        "id": "scenes.verifyemailtoken.error.uhoh"
+      },
+      {
+        "defaultMessage": "Error: {error}",
+        "id": "scenes.verifyemailtoken.error.msg"
       }
     ],
     "path": "src/scenes/VerifyEmailToken/template.error.json"
@@ -10321,8 +10375,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "You've succesfully verified your email address! <span>Return to the previous tab to view your wallet.</span>",
-        "id": "scenes.verifyemailtoken.success"
+        "defaultMessage": "You've succesfully verified your email address!",
+        "id": "scenes.verifyemailtoken.success.verified"
+      },
+      {
+        "defaultMessage": "Return to the previous tab to access your wallet account.",
+        "id": "scenes.verifyemailtoken.success.return"
       }
     ],
     "path": "src/scenes/VerifyEmailToken/template.success.json"

@@ -5,6 +5,49 @@ import utils from './utils'
 import constants from './constants'
 
 /**
+ * Uninstalls an application from device
+ * @async
+ * @param {Transport} transport - The opened device transport
+ * @param {String} baseUrl - Base url of socket connection
+ * @param {String | Number} targetId - The targetId of the device
+ * @param {Object} appInfo - The latest info/versions for application
+ * @returns {Promise} Returns install result as a Promise
+ */
+const uninstallApp = (transport, baseUrl, targetId, appInfo) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // socket params
+      const params = {
+        targetId,
+        perso: appInfo.perso,
+        deleteKey: appInfo.delete_key,
+        firmware: appInfo.delete,
+        firmwareKey: appInfo.delete_key,
+        hash: appInfo.hash
+      }
+
+      // build socket url
+      const url =
+        `${baseUrl}${constants.socketPaths.install}` +
+        `?${qs.stringify(params)}`
+
+      // uninstall app via socket
+      const res = await utils.mapSocketError(
+        utils.createDeviceSocket(transport, url).toPromise()
+      )
+
+      if (res.err) {
+        reject(res.errMsg)
+      } else {
+        resolve()
+      }
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
+/**
  * Installs an application onto device
  * @async
  * @param {Transport} transport - The opened device transport
@@ -16,36 +59,43 @@ import constants from './constants'
  */
 const installApp = (transport, baseUrl, targetId, appName, appInfos) => {
   return new Promise(async (resolve, reject) => {
-    // derive latest app info
-    const latestAppInfo = find(propEq('app', constants.appIds[appName]))(
-      appInfos
-    )
-    // socket params
-    const params = {
-      targetId,
-      perso: latestAppInfo.perso,
-      deleteKey: latestAppInfo.delete_key,
-      firmware: latestAppInfo.firmware,
-      firmwareKey: latestAppInfo.firmware_key,
-      hash: latestAppInfo.hash
-    }
-    // build socket url
-    const url =
-      `${baseUrl}${constants.socketPaths.install}` + `?${qs.stringify(params)}`
+    try {
+      // derive latest app info
+      const latestAppInfo = find(propEq('app', constants.appIds[appName]))(
+        appInfos
+      )
+      // socket params
+      const params = {
+        targetId,
+        perso: latestAppInfo.perso,
+        deleteKey: latestAppInfo.delete_key,
+        firmware: latestAppInfo.firmware,
+        firmwareKey: latestAppInfo.firmware_key,
+        hash: latestAppInfo.hash
+      }
 
-    // install app via socket
-    const res = await utils.mapSocketError(
-      utils.createDeviceSocket(transport, url).toPromise()
-    )
+      // build socket url
+      const url =
+        `${baseUrl}${constants.socketPaths.install}` +
+        `?${qs.stringify(params)}`
 
-    if (res.err) {
-      reject(res.errMsg)
-    } else {
-      resolve()
+      // install app via socket
+      const res = await utils.mapSocketError(
+        utils.createDeviceSocket(transport, url).toPromise()
+      )
+
+      if (res.err) {
+        reject(res.errMsg)
+      } else {
+        resolve()
+      }
+    } catch (e) {
+      reject(e)
     }
   })
 }
 
 export default {
-  installApp
+  installApp,
+  uninstallApp
 }

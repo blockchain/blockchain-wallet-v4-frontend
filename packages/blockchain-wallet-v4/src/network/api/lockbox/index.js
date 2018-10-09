@@ -7,12 +7,12 @@ export default ({ ledgerUrl, get, post }) => {
       data: req
     })
 
-  const getFinalFirmware = () =>
+  const getFinalFirmwareById = id =>
     get({
       url: ledgerUrl,
-      endPoint: '/api/firmware_final_versions',
+      endPoint: `/api/firmware_final_versions/${id}`,
       contentType: 'application/json',
-      data: {}
+      ignoreKey: true
     })
 
   const getDeviceVersion = req =>
@@ -52,7 +52,7 @@ export default ({ ledgerUrl, get, post }) => {
       url: ledgerUrl,
       endPoint: '/api/mcu_versions',
       contentType: 'application/json',
-      data: {}
+      ignoreKey: true
     })
 
   const getNextMcu = bootLoaderVersion =>
@@ -67,7 +67,7 @@ export default ({ ledgerUrl, get, post }) => {
 
   return {
     getApplications,
-    getFinalFirmware,
+    getFinalFirmwareById,
     getCurrentFirmware,
     getDeviceVersion,
     getCurrentOsu,
