@@ -71,7 +71,7 @@ const ButtonContainer = styled.div`
 `
 
 const SecurityCenter = props => {
-  const { enabling, setView } = props
+  const { enabling, setView, changeEmail } = props
   const showTabs = props.progress === 3
 
   const renderSteps = () => {
@@ -101,6 +101,7 @@ const SecurityCenter = props => {
         <EmailAddress
           handleEnable={() => props.handleEnable('email')}
           goBackOnSuccess={props.onClose}
+          changeEmail={changeEmail}
         />
         <TwoStepVerification
           handleEnable={() => props.handleEnable('2fa')}

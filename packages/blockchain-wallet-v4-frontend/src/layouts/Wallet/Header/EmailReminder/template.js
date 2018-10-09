@@ -91,7 +91,10 @@ const WhatsNewIcon = props => {
             defaultMessage='Resend Email'
           />
         </Action>
-        <LinkContainer style={{ marginLeft: '15px' }} to='/security-center'>
+        <LinkContainer
+          style={{ marginLeft: '15px' }}
+          to={{ pathname: '/security-center', state: { changeEmail: true } }}
+        >
           <Action color='white' size='14px' weight={200}>
             <FormattedMessage
               id='layouts.wallet.header.emailreminder.change'
