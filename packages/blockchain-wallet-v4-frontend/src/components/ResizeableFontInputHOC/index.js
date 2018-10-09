@@ -21,6 +21,10 @@ const getValueLength = value => {
   return /\./.test(value) ? length - 0.5 : length
 }
 
+/**
+ * THIS HOC CAN ONLY BE USED ON CLASS COMPONENTS
+ * ANY SFC WILL NOT WORK AND SFC WRAPPED WITH styled() WILL BREAK IN PROD
+ */
 export const ResizeableFontInputHOC = Component =>
   class ResizeableInput extends React.PureComponent {
     componentDidMount () {
@@ -36,7 +40,7 @@ export const ResizeableFontInputHOC = Component =>
     }
 
     selectInput () {
-      const ref = this.componentRef
+      const ref = this.componentRef.current
       if (!ref) return
 
       const node = findDOMNode(ref)
@@ -51,6 +55,8 @@ export const ResizeableFontInputHOC = Component =>
      * although being a react anti-pattern attribute works best here
      */
     valueLength = 0
+
+    componentRef = React.createRef()
 
     resizeInputFont = () => {
       const input = this.selectInput()
@@ -83,16 +89,12 @@ export const ResizeableFontInputHOC = Component =>
       requestAnimationFrame(this.updateValueLength)
     }
 
-    getComponentRef = ref => {
-      this.componentRef = ref
-    }
-
     render () {
       return (
         <Component
           {...this.props}
           input={{ ...this.props.input, onChange: this.onValueChange }}
-          ref={this.getComponentRef}
+          ref={this.componentRef}
         />
       )
     }
