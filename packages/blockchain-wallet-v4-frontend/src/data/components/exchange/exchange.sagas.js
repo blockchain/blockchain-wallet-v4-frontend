@@ -15,6 +15,7 @@ import {
 } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4'
+import { currencySymbolMap } from 'services/CoinifyService'
 import { actions, actionTypes, selectors, model } from 'data'
 import {
   EXCHANGE_FORM,
@@ -37,14 +38,14 @@ import { selectReceiveAddress } from '../utils/sagas'
 import {
   getEffectiveBalanceStandard,
   divide,
+  validateMinMax,
   validateVolume,
   addBalanceLimit,
-  getCurrentMin,
-  getCurrentMax,
   selectFee,
   convertStandardToBase,
   convertSourceToTarget,
-  convertBaseToStandard
+  convertBaseToStandard,
+  formatLimits
 } from './services'
 
 export const logLocation = 'exchange/sagas'
@@ -56,7 +57,6 @@ export default ({ api, coreSagas, options, networks }) => {
     formatPair,
     swapBaseAndCounter,
     getBestRatesPairs,
-    FIX_TYPES,
     MIN_ERROR
   } = model.rates
   const {
@@ -107,7 +107,7 @@ export default ({ api, coreSagas, options, networks }) => {
     return ratesR.getOrFail(NO_ADVICE_ERROR)
   }
 
-  const getFiatBalance = function*(fiatCurrency) {
+  const getBalanceLimit = function*(fiatCurrency) {
     const form = yield select(formValueSelector)
     const source = prop('source', form)
     const sourceCoin = prop('coin', source)
@@ -115,7 +115,18 @@ export default ({ api, coreSagas, options, networks }) => {
     const balance = getEffectiveBalanceStandard(sourceCoin, effectiveBalance)
     const rates = yield call(getBestRates)
     const rate = path([formatPair(fiatCurrency, sourceCoin), 'price'], rates)
-    return divide(balance, rate, 2)
+    return {
+      fiatBalance: {
+        amount: divide(balance, rate, 2),
+        fiat: true,
+        symbol: currencySymbolMap[fiatCurrency]
+      },
+      cryptoBalance: {
+        amount: balance,
+        fiat: false,
+        symbol: currencySymbolMap[sourceCoin]
+      }
+    }
   }
 
   const getAmounts = function*(pair) {
@@ -147,18 +158,17 @@ export default ({ api, coreSagas, options, networks }) => {
   const validateForm = function*() {
     yield call(startValidation)
     const form = yield select(formValueSelector)
-    const fix = prop('fix', form)
     const formVolume = getCurrentVolume(form)
     const fiatCurrency = yield call(getFiatCurrency)
     const pair = getCurrentPair(form)
     try {
+      const limits = yield call(getLimits, fiatCurrency)
+      yield call(validateMinMax, limits)
       if (!formVolume || formVolume === '0') throw MIN_ERROR
       const amounts = yield call(getAmounts, pair)
       const sourceFiatVolume = prop('sourceFiat', amounts)
-      const volume =
-        fix === FIX_TYPES.BASE_IN_FIAT ? formVolume : sourceFiatVolume
-      const limits = yield call(getLimits, fiatCurrency)
-      yield call(validateVolume, limits, volume)
+      const sourceCryptoVolume = prop('sourceAmount', amounts)
+      yield call(validateVolume, limits, sourceFiatVolume, sourceCryptoVolume)
       yield put(actions.form.stopAsyncValidation(EXCHANGE_FORM))
     } catch (error) {
       yield put(
@@ -184,11 +194,12 @@ export default ({ api, coreSagas, options, networks }) => {
       yield call(startValidation)
       yield put(A.fetchLimitsLoading())
       const fiatCurrency = yield call(getFiatCurrency)
-      const limits = yield call(api.fetchLimits, fiatCurrency)
-      const fiatBalance = yield call(getFiatBalance, fiatCurrency)
+      const fiatLimits = yield call(api.fetchLimits, fiatCurrency)
+      const limits = formatLimits(fiatLimits)
+      const balanceLimit = yield call(getBalanceLimit, fiatCurrency)
       yield put(
         A.fetchLimitsSuccess({
-          [fiatCurrency]: addBalanceLimit(fiatBalance, limits)
+          [fiatCurrency]: addBalanceLimit(balanceLimit, limits)
         })
       )
     } catch (e) {
@@ -238,13 +249,9 @@ export default ({ api, coreSagas, options, networks }) => {
     try {
       const fiatCurrency = yield call(getFiatCurrency)
       const limits = yield call(getLimits, fiatCurrency)
-      const sourceFiatMin = prop('minOrder', limits)
-      const sourceFiatMax = prop('maxPossibleOrder', limits)
-      const form = yield select(formValueSelector)
-      const rates = yield call(getBestRates)
-      const currentMin = getCurrentMin(form, fiatCurrency, rates, sourceFiatMin)
-      const currentMax = getCurrentMax(form, fiatCurrency, rates, sourceFiatMax)
-      yield put(A.setMinMax(currentMin, currentMax))
+      const min = prop('minOrder', limits)
+      const max = prop('maxPossibleOrder', limits)
+      yield put(A.setMinMax(min, max))
     } catch (error) {
       yield put(A.setMinMax(null, null))
       yield put(
@@ -260,13 +267,19 @@ export default ({ api, coreSagas, options, networks }) => {
   }
 
   const useMin = function*() {
-    const min = yield select(S.getMin)
-    yield put(A.changeAmount(min))
+    const { amount, fiat } = yield select(S.getMin)
+    yield put(
+      actions.form.change(EXCHANGE_FORM, 'fix', fiat ? 'baseInFiat' : 'base')
+    )
+    yield put(A.changeAmount(amount))
   }
 
   const useMax = function*() {
-    const max = yield select(S.getMax)
-    yield put(A.changeAmount(max))
+    const { amount, fiat } = yield select(S.getMax)
+    yield put(
+      actions.form.change(EXCHANGE_FORM, 'fix', fiat ? 'baseInFiat' : 'base')
+    )
+    yield put(A.changeAmount(amount))
   }
 
   const updateLimits = function*() {
@@ -285,10 +298,10 @@ export default ({ api, coreSagas, options, networks }) => {
     try {
       const fiatCurrency = yield call(getFiatCurrency)
       const limits = yield call(getLimits, fiatCurrency)
-      const fiatBalance = yield call(getFiatBalance, fiatCurrency)
+      const balanceLimit = yield call(getBalanceLimit, fiatCurrency)
       yield put(
         A.fetchLimitsSuccess({
-          [fiatCurrency]: addBalanceLimit(fiatBalance, limits)
+          [fiatCurrency]: addBalanceLimit(balanceLimit, limits)
         })
       )
     } catch (e) {

@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { prop } from 'ramda'
 
 import { model } from 'data'
 import { Text } from 'blockchain-info-components'
@@ -59,14 +60,27 @@ const NoLimitsMessage = () => (
   </Wrapper>
 )
 
-const MinimumNoLinkMessage = ({ min, fiatActive, inputSymbol }) => (
+const MinimumNoLinkMessage = ({ min }) => (
   <Wrapper>
     <Text size='12px' weight={300} color='error'>
-      <FormattedMessage
-        id='scenes.exchange.exchangeform.error.balancebelowmin'
-        defaultMessage='Insufficient funds. {min} is required for a trade'
-        values={{ min: formatAmount(fiatActive, inputSymbol, min) }}
-      />
+      {min ? (
+        <FormattedMessage
+          id='scenes.exchange.exchangeform.error.balancebelowmin'
+          defaultMessage='Insufficient funds. {min} is required for a trade'
+          values={{
+            min: formatAmount(
+              prop('fiat', min),
+              prop('symbol', min),
+              prop('amount', min)
+            )
+          }}
+        />
+      ) : (
+        <FormattedMessage
+          id='scenes.exchange.exchangeform.error.insufficientfunds'
+          defaultMessage='Insufficient funds'
+        />
+      )}
     </Text>
   </Wrapper>
 )
