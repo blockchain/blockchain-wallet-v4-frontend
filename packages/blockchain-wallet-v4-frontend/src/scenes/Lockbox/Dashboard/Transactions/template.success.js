@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { compose, prop, reverse, sortBy } from 'ramda'
+import { compose, prop, length, reverse, sortBy } from 'ramda'
 
 import TransactionListItem from 'components/TransactionListItem'
 import LazyLoadContainer from 'components/LazyLoadContainer'
@@ -47,7 +47,7 @@ const Success = props => {
         {isLoading ? (
           <HeartbeatLoader />
         ) : transactionsAtBounds ? (
-          transactions.length ? (
+          length(transactions) ? (
             <Text weight={300} size='18px'>
               <FormattedMessage
                 id='scenes.lockbox.dashboard.transactions.thatsit'
