@@ -131,7 +131,7 @@ const Success = props => {
                   id='modals.exchange.shapeshift.explain'
                   defaultMessage='Thanks for placing your trade!'
                 />
-                <span>&nbps;</span>
+                <span>&nbsp;</span>
                 <FormattedMessage
                   id='modals.exchange.shapeshift.explain2'
                   defaultMessage='Exchange trades can take up to two hours, and you can keep track of your trade’s progress in the Order History tab.'
