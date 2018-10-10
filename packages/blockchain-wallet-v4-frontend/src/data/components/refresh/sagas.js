@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import { equals, prop } from 'ramda'
+import { contains, equals, prop } from 'ramda'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 
@@ -13,21 +13,23 @@ export default () => {
       yield put(actions.core.data.bitcoin.fetchRates())
       yield put(actions.core.data.ethereum.fetchRates())
       const pathname = yield select(selectors.router.getPathname)
-      switch (pathname) {
-        case '/bch/transactions':
+      switch (true) {
+        case contains('/bch/transactions', pathname):
           yield call(refreshBchTransactions)
           break
-        case '/btc/transactions':
+        case contains('/btc/transactions', pathname):
           yield call(refreshBtcTransactions)
           break
-        case '/eth/transactions':
+        case contains('/eth/transactions', pathname):
           yield call(refreshEthTransactions)
           break
-        case '/home': {
+        case contains('/lockbox/', pathname):
+          yield put(actions.lockbox.initializeDashboard(pathname.split('/')[3]))
+          break
+        default:
           yield put(actions.core.data.bitcoin.fetchTransactions('', true))
           yield put(actions.core.data.ethereum.fetchTransactions(null, true))
           yield put(actions.core.data.bch.fetchTransactions('', true))
-        }
       }
     } catch (e) {
       yield put(
