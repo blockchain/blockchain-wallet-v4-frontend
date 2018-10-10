@@ -35,12 +35,6 @@ import sagaUtils from './sagas.utils'
 import { SHAPESHIFT_FORM } from './model'
 import { utils } from 'blockchain-wallet-v4/src'
 
-const selectAddressForShapeshift = (source, networks) => {
-  if (prop('coin', source) === 'BCH')
-    return utils.bch.fromCashAddr(selectReceiveAddress(source, networks))
-  return selectReceiveAddress(source, networks)
-}
-
 export default ({ api, coreSagas, networks, options }) => {
   const logLocation = 'components/exchange/sagas/shapeshift'
   const {
@@ -57,6 +51,12 @@ export default ({ api, coreSagas, networks, options }) => {
   } = sagaUtils({ api, coreSagas, options, networks })
 
   let pollingTradeStatusTask
+
+  const selectAddressForShapeshift = function*(source, networks) {
+    const address = yield call(selectReceiveAddress, source, networks)
+    if (prop('coin', source) === 'BCH') return utils.bch.fromCashAddr(address)
+    return address
+  }
 
   const firstStepInitialized = function*() {
     try {
@@ -294,6 +294,7 @@ export default ({ api, coreSagas, networks, options }) => {
         sourceCoin,
         sourceAddressOrIndex,
         depositAddress,
+        source.type,
         sourceAmount
       )
       yield put(A.paymentUpdated(finalPayment.value()))
