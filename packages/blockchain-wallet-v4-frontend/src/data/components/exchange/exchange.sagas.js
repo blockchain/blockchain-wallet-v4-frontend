@@ -602,6 +602,7 @@ export default ({ api, coreSagas, options, networks }) => {
       yield put(
         actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))
       )
+      yield put(actions.components.refresh.refreshClicked())
     } catch (e) {
       yield put(actions.modals.closeAllModals())
       yield put(actions.form.stopSubmit(CONFIRM_FORM, { _error: e }))
