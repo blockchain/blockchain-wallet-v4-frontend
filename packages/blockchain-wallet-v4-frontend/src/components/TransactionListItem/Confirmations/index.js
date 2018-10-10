@@ -102,7 +102,7 @@ const Confirmations = props => {
           defaultMessage='Your transaction will be complete after it has {minConfirmations} confirmations.'
           values={{ minConfirmations }}
         />
-        <span>nbsp;</span>
+        <span>&nbsp;</span>
         <Link
           href='https://support.blockchain.com/hc/en-us/articles/217116406-Why-hasn-t-my-transaction-confirmed-yet-'
           target='_blank'
