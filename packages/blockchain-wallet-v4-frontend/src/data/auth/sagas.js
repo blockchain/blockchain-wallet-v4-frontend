@@ -124,6 +124,8 @@ export default ({ api, coreSagas }) => {
         selectors.modules.profile.userFlowSupported
       )).getOrElse(false)
       if (userFlowSupported) yield put(actions.modules.profile.signIn())
+      yield call(coreSagas.data.xlm.fetchLedgerDetails)
+      yield call(coreSagas.data.xlm.fetchAccount)
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.loginSuccess())
       yield put(actions.auth.startLogoutTimer())

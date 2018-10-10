@@ -436,8 +436,19 @@ describe('authSagas', () => {
         .restore(beforeUserFlowCheck)
     })
 
+    it('should fetch xlm ledger details', () => {
+      saga.next(Remote.of(false)).call(coreSagas.data.xlm.fetchLedgerDetails)
+    })
+
+    it('should fetch xlm account', () => {
+      saga
+        .next()
+        .call(coreSagas.data.xlm.fetchAccount)
+        .restore(beforeUserFlowCheck)
+    })
+
     it('should call upgrade address labels saga', () => {
-      saga.next(Remote.of(false)).call(upgradeAddressLabelsSaga)
+      saga.next().call(upgradeAddressLabelsSaga)
     })
 
     it('should trigger login success action', () => {

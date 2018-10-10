@@ -18,6 +18,12 @@ export const getData = (state, coin, amount) => {
           fromUnit: 'SAT',
           toUnit: 'BTC'
         })
+      case 'XLM':
+        return Exchange.displayXlmToXlm({
+          value: a,
+          fromUnit: 'STROOP',
+          toUnit: 'XLM'
+        })
     }
   }
   return lift(convert)(Remote.of(coin), Remote.of(amount))

@@ -177,7 +177,7 @@
       },
       "xlm": {
         "config": {
-          "network": "horizon"
+          "network": "testnet"
         }
       },
       "sfox": {
@@ -300,11 +300,6 @@
           ]
         },
         "announcements": {}
-      },
-      "xlm": {
-        "config": {
-          "network": "testnet"
-        }
       }
     },
     "ios": {},

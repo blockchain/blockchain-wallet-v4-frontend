@@ -270,6 +270,7 @@ module.exports = {
           envConfig.LEDGER_URL,
           envConfig.LEDGER_SOCKET_URL,
           envConfig.HORIZON_URL,
+          'https://friendbot.stellar.org',
           'https://app-api.coinify.com',
           'https://app-api.sandbox.coinify.com',
           'https://api.sfox.com',
