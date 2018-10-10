@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import { contains, gte, isNil, prop } from 'ramda'
+import { contains, equals, gte, isNil, prop } from 'ramda'
 
 import { model } from 'data'
 import media from 'services/ResponsiveService'
@@ -268,7 +268,8 @@ const Success = props => {
       REACHED_WEEKLY_ERROR,
       REACHED_ANNUAL_ERROR
     ]) ||
-    gte(prop('amount', min), prop('amount', max)) ||
+    (equals(prop('symbol', min), prop('symbol', max)) &&
+      gte(prop('amount', min), prop('amount', max))) ||
     isNil(min) ||
     isNil(max)
 

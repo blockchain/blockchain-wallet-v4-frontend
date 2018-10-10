@@ -52,6 +52,11 @@ export const logLocation = 'exchange/sagas'
 
 export default ({ api, coreSagas, options, networks }) => {
   const {
+    RESULTS_MODAL,
+    formatExchangeTrade
+  } = model.components.exchangeHistory
+
+  const {
     mapFixToFieldName,
     configEquals,
     formatPair,
@@ -536,10 +541,16 @@ export default ({ api, coreSagas, options, networks }) => {
         target,
         networks
       )
+      const trade = yield call(
+        api.executeTrade,
+        quote,
+        refundAddress,
+        destinationAddress
+      )
       const {
         depositAddress,
         deposit: { symbol, value }
-      } = yield call(api.executeTrade, quote, refundAddress, destinationAddress)
+      } = trade
       let payment = yield call(
         createPayment,
         symbol,
@@ -588,6 +599,9 @@ export default ({ api, coreSagas, options, networks }) => {
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
       yield put(actions.router.push('/exchange/history'))
       yield put(A.setStep(EXCHANGE_STEPS.EXCHANGE_FORM))
+      yield put(
+        actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))
+      )
     } catch (e) {
       yield put(actions.modals.closeAllModals())
       yield put(actions.form.stopSubmit(CONFIRM_FORM, { _error: e }))
