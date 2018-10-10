@@ -525,7 +525,11 @@ export default ({ api, coreSagas, options, networks }) => {
   }
 
   const confirm = function*() {
+    let password
+    let scrambleKey
+    let connection
     try {
+      // Get form data
       yield put(actions.form.clearSubmitErrors(CONFIRM_FORM))
       yield put(actions.form.startSubmit(CONFIRM_FORM))
       const form = yield select(formValueSelector)
@@ -541,6 +545,25 @@ export default ({ api, coreSagas, options, networks }) => {
         target,
         networks
       )
+      // Ask for second password or lockbox transport
+      if (source.type !== ADDRESS_TYPES.LOCKBOX) {
+        password = yield call(promptForSecondPassword)
+      } else {
+        const deviceR = yield select(
+          selectors.core.kvStore.lockbox.getDeviceFromCoinAddrs,
+          prop('coin', source),
+          [prop('address', source)]
+        )
+        const device = deviceR.getOrFail(MISSING_DEVICE_ERROR)
+        const coin = prop('coin', source)
+        const deviceType = prop('device_type', device)
+        yield call(promptForLockbox, coin, null, deviceType)
+        scrambleKey = Lockbox.utils.getScrambleKey(coin, deviceType)
+        connection = yield select(
+          selectors.components.lockbox.getCurrentConnection
+        )
+      }
+      // Execute trade
       const trade = yield call(
         api.executeTrade,
         quote,
@@ -559,23 +582,10 @@ export default ({ api, coreSagas, options, networks }) => {
         source.type,
         convertStandardToBase(symbol, value)
       )
+      // Sign transaction
       if (source.type !== ADDRESS_TYPES.LOCKBOX) {
-        const password = yield call(promptForSecondPassword)
         payment = yield (yield payment.sign(password)).publish()
       } else {
-        const deviceR = yield select(
-          selectors.core.kvStore.lockbox.getDeviceFromCoinAddrs,
-          prop('coin', source),
-          prop('from', payment.value())
-        )
-        const device = deviceR.getOrFail(MISSING_DEVICE_ERROR)
-        const coin = prop('coin', source)
-        const deviceType = prop('device_type', device)
-        yield call(promptForLockbox, coin, null, deviceType)
-        const scrambleKey = Lockbox.utils.getScrambleKey(coin, deviceType)
-        const connection = yield select(
-          selectors.components.lockbox.getCurrentConnection
-        )
         payment = yield (yield payment.sign(
           null,
           prop('transport', connection),
@@ -585,6 +595,7 @@ export default ({ api, coreSagas, options, networks }) => {
         yield delay(1500)
         yield put(actions.modals.closeAllModals())
       }
+      // Update metadat
       if (prop('coin', source) === 'ETH') {
         const { txId } = payment.value()
         yield put(
