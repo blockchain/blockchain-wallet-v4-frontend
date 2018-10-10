@@ -44,7 +44,7 @@ const Overflow = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 530px;
+  min-height: 600px;
   height: 100%;
 `
 

@@ -2,6 +2,7 @@ import { call, select, put } from 'redux-saga/effects'
 import { prop } from 'ramda'
 import { actions, selectors } from 'data'
 import * as C from 'services/AlertService'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { promptForSecondPassword, promptForInput } from 'services/SagaService'
 import { utils } from 'blockchain-wallet-v4/src'
 
@@ -46,9 +47,9 @@ export default ({ api, coreSagas, networks }) => {
           .create({ network: networks.btc })
           .chain()
           .init()
-          .from(priv)
+          .from(priv, ADDRESS_TYPES.ADDRESS)
           .fee('regular')
-          .to(index)
+          .to(index, ADDRESS_TYPES.ACCOUNT)
           .description('Imported address swept')
           .buildSweep()
           .sign(password)

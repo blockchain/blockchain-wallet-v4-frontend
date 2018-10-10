@@ -102,8 +102,9 @@ const WalletRecoveryPhrase = props => {
                 <span>
                   <FormattedMessage
                     id='scenes.securitysettings.basicsecurity.recoveryphrase.description'
-                    defaultMessage='Your backup phrase contains all of the private keys within your wallet. Please write these 12 words down, in order, and keep them somewhere safe offline. This phrase gives you (or anyone who has it) a way to restore your wallet and access your funds. '
+                    defaultMessage='Your backup phrase contains all of the private keys within your wallet. Please write these 12 words down, in order, and keep them somewhere safe offline. This phrase gives you (or anyone who has it) a way to restore your wallet and access your funds.'
                   />
+                  <span>&nbsp;</span>
                   <FormattedMessage
                     id='scenes.securitysettings.basicsecurity.recoveryphrase.description2'
                     defaultMessage='In the event that you lose your password or our service is unavailable, this will be your safety net.'
