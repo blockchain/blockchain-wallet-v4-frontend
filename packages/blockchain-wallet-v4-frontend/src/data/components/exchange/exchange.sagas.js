@@ -527,7 +527,7 @@ export default ({ api, coreSagas, options, networks }) => {
         depositAddress,
         deposit: { symbol, value }
       } = yield call(api.executeTrade, quote, refundAddress, destinationAddress)
-      const payment = yield call(
+      let payment = yield call(
         createPayment,
         symbol,
         source.address,
@@ -537,7 +537,7 @@ export default ({ api, coreSagas, options, networks }) => {
       )
       if (source.type !== ADDRESS_TYPES.LOCKBOX) {
         const password = yield call(promptForSecondPassword)
-        yield (yield payment.sign(password)).publish()
+        payment = yield (yield payment.sign(password)).publish()
       } else {
         const deviceR = yield select(
           selectors.core.kvStore.lockbox.getDeviceFromCoinAddrs,
@@ -552,7 +552,7 @@ export default ({ api, coreSagas, options, networks }) => {
         const connection = yield select(
           selectors.components.lockbox.getCurrentConnection
         )
-        yield (yield payment.sign(
+        payment = yield (yield payment.sign(
           null,
           prop('transport', connection),
           scrambleKey
@@ -560,6 +560,16 @@ export default ({ api, coreSagas, options, networks }) => {
         yield put(actions.components.lockbox.setConnectionSuccess())
         yield delay(1500)
         yield put(actions.modals.closeAllModals())
+      }
+      if (prop('coin', source) === 'ETH') {
+        const { txId } = payment.value()
+        yield put(
+          actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now())
+        )
+        yield take(
+          actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
+        )
+        yield put(actions.core.kvStore.ethereum.setLatestTxEthereum(txId))
       }
 
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
