@@ -332,20 +332,20 @@ export const getCurrentMin = (form, fiatCurrency, rates, sourceFiatMin) => {
     case BASE:
       return compose(
         toFixed(8, false),
-        multiply(getRate(rates, fiatCurrency, sourceCoin))
+        divideBy(getRate(rates, sourceCoin, fiatCurrency))
       )(sourceFiatMin)
     case COUNTER:
       return compose(
         toFixed(8, false),
-        multiply(getRate(rates, fiatCurrency, sourceCoin)),
-        multiply(getRate(rates, sourceCoin, targetCoin))
+        divideBy(getRate(rates, sourceCoin, fiatCurrency)),
+        divideBy(getRate(rates, targetCoin, sourceCoin))
       )(sourceFiatMin)
     case COUNTER_IN_FIAT:
       return compose(
         toFixed(2, false),
-        multiply(getRate(rates, fiatCurrency, sourceCoin)),
-        multiply(getRate(rates, sourceCoin, targetCoin)),
-        multiply(getRate(rates, targetCoin, fiatCurrency))
+        divideBy(getRate(rates, sourceCoin, fiatCurrency)),
+        divideBy(getRate(rates, targetCoin, sourceCoin)),
+        divideBy(getRate(rates, fiatCurrency, targetCoin))
       )(sourceFiatMin)
   }
 }
@@ -360,20 +360,20 @@ export const getCurrentMax = (form, fiatCurrency, rates, sourceFiatMax) => {
     case BASE:
       return compose(
         toFixed(8, true),
-        divideBy(getRate(rates, sourceCoin, fiatCurrency))
+        multiply(getRate(rates, fiatCurrency, sourceCoin))
       )(sourceFiatMax)
     case COUNTER:
       return compose(
         toFixed(8, true),
-        divideBy(getRate(rates, sourceCoin, fiatCurrency)),
-        divideBy(getRate(rates, targetCoin, sourceCoin))
+        multiply(getRate(rates, fiatCurrency, sourceCoin)),
+        multiply(getRate(rates, sourceCoin, targetCoin))
       )(sourceFiatMax)
     case COUNTER_IN_FIAT:
       return compose(
         toFixed(2, true),
-        divideBy(getRate(rates, sourceCoin, fiatCurrency)),
-        divideBy(getRate(rates, targetCoin, sourceCoin)),
-        divideBy(getRate(rates, fiatCurrency, targetCoin))
+        multiply(getRate(rates, fiatCurrency, sourceCoin)),
+        multiply(getRate(rates, sourceCoin, targetCoin)),
+        multiply(getRate(rates, targetCoin, fiatCurrency))
       )(sourceFiatMax)
   }
 }
