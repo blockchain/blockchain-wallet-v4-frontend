@@ -9,7 +9,7 @@ const { isCashAddr, toCashAddr } = utils.bch
 // extractAddress :: (Int -> Remote(String)) -> Int -> Remote(String)
 const extractAddress = (walletSelector, lockboxSelector, value) => {
   return value
-    ? value.address && !value.fromType === ADDRESS_TYPES.LOCKBOX
+    ? value.address && value.type !== ADDRESS_TYPES.LOCKBOX
       ? Remote.of(value.address)
       : value.index !== undefined
         ? walletSelector(value.index)
