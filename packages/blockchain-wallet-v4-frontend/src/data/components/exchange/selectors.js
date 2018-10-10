@@ -5,7 +5,7 @@ import { selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 export const useShapeShift = state =>
-  !selectors.modules.profile.userFlowSupported(state).getOrElse(false)
+  !selectors.modules.profile.userFlowSupported(state).getOrElse(true)
 
 export const canUseExchange = state =>
   selectors.modules.profile.isUserActive(state) &&

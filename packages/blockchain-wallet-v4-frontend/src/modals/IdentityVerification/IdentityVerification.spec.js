@@ -15,6 +15,7 @@ import identityVerificationReducer from 'data/components/identityVerification/re
 import {
   getPossibleAddresses,
   getSupportedCountries,
+  getStates,
   getVerificationStep,
   getSmsStep
 } from 'data/components/identityVerification/selectors'
@@ -98,6 +99,7 @@ const api = {
   deauthorizeBrowser: jest.fn(),
   getSupportedCountries: () =>
     Remote.of([{ name: 'France', code: 'FR' }, { name: 'Spain', code: 'ES' }]),
+  getStates: () => Remote.of([]),
   fetchKycAddresses: () => Remote.of(POSSIBLE_ADDRESSES)
 }
 
@@ -112,6 +114,7 @@ getPossibleAddresses.mockImplementation(() => POSSIBLE_ADDRESSES)
 getSupportedCountries.mockImplementation(() =>
   Remote.Success(SUPPORTED_COUNTRIES)
 )
+getStates.mockImplementation(() => Remote.Success([]))
 
 profileSagas.createUser = jest.fn()
 
