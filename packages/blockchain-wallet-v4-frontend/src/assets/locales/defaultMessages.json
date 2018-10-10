@@ -1887,6 +1887,15 @@
         "id": "wallet.menutop.balance.refresh"
       }
     ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/WalletBalance/XlmBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
     "path": "src/layouts/Wallet/MenuTop/Balance/WatchOnlyBalance/BchWatchOnlyBalance/template.error.json"
   },
   {
@@ -3290,6 +3299,30 @@
         "id": "identityverification.personal.subheader"
       },
       {
+        "defaultMessage": "Select your country of residence",
+        "id": "identityverification.personal.country"
+      },
+      {
+        "defaultMessage": "Select country",
+        "id": "components.selectboxcountry.label"
+      },
+      {
+        "defaultMessage": "State",
+        "id": "identityverification.personal.state"
+      },
+      {
+        "defaultMessage": "Select your state",
+        "id": "identityverification.personal.label.state"
+      },
+      {
+        "defaultMessage": "Unfortunately exchange is not available in your state at this time.",
+        "id": "identityverification.personal.unavailable"
+      },
+      {
+        "defaultMessage": "We will notify you when we expand to your area.",
+        "id": "identityverification.personal.unavailablenotify"
+      },
+      {
         "defaultMessage": "First Name",
         "id": "identityverification.personal.firstname"
       },
@@ -3326,14 +3359,6 @@
         "id": "identityverification.personal.faq.dateofbirth.text"
       },
       {
-        "defaultMessage": "Select your country of residence",
-        "id": "identityverification.personal.country"
-      },
-      {
-        "defaultMessage": "Select country",
-        "id": "components.selectboxcountry.label"
-      },
-      {
         "defaultMessage": "Zip Code",
         "id": "identityverification.personal.zipcode"
       },
@@ -3368,10 +3393,6 @@
       {
         "defaultMessage": "City",
         "id": "identityverification.personal.city"
-      },
-      {
-        "defaultMessage": "State",
-        "id": "identityverification.personal.state"
       },
       {
         "defaultMessage": "Region",
@@ -3586,16 +3607,24 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Step 2. Check for updates",
-        "id": "modals.lockboxfirmware.checkversions.title"
+        "defaultMessage": "Check for Updates",
+        "id": "modals.lockboxfirmware.checkversionsstep.title"
+      },
+      {
+        "defaultMessage": "A new firmware, version {status}, is available for your device! Click continue to start installing.",
+        "id": "modals.lockboxfirmware.checkversionsstep.updateavailable"
       },
       {
         "defaultMessage": "Please wait while we check for updates for your device.",
-        "id": "modals.lockboxfirmware.checkversions.subtitle"
+        "id": "modals.lockboxfirmware.checkversionsstep.subtitle"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.lockboxfirmware.checkversionsstep.continue"
       },
       {
         "defaultMessage": "Checking Versions",
-        "id": "modals.lockboxfirmware.checkversions.loading"
+        "id": "modals.lockboxfirmware.checkversionsstep.loading"
       }
     ],
     "path": "src/modals/LockboxFirmware/CheckVersionsStep/template.json"
@@ -3603,8 +3632,32 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Device Up-to-date!",
+        "id": "modals.lockboxfirmware.completestep.uptodate.title"
+      },
+      {
+        "defaultMessage": "Your device is already up-to-date.",
+        "id": "modals.lockboxfirmware.completestep.uptodate.message"
+      },
+      {
         "defaultMessage": "Update Complete!",
-        "id": "modals.lockboxfirmware.completestep.title"
+        "id": "modals.lockboxfirmware.completestep.installsuccess.title"
+      },
+      {
+        "defaultMessage": "Your firmware was successfully updated. You will now need to reinstall the apps on your device or do it later via the settings page.",
+        "id": "modals.lockboxfirmware.completestep.installsuccess.message"
+      },
+      {
+        "defaultMessage": "Update Failed!",
+        "id": "modals.lockboxfirmware.completestep.installerror.title"
+      },
+      {
+        "defaultMessage": "The firmware update failed to install. Please try again or reach out to support if the issue persists.",
+        "id": "modals.lockboxfirmware.completestep.installerror.message"
+      },
+      {
+        "defaultMessage": "Install Apps",
+        "id": "modals.lockboxfirmware.completestep.installApps"
       },
       {
         "defaultMessage": "Close",
@@ -3616,12 +3669,16 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Step 3. Verify the identifier",
-        "id": "modals.lockboxfirmware.confirmidentifierstep.title"
+        "defaultMessage": "Verify Your Device",
+        "id": "modals.lockboxfirmware.confirmidstep.title"
       },
       {
-        "defaultMessage": "Confirm",
-        "id": "modals.lockboxfirmware.confirmidentifierstep.confirm"
+        "defaultMessage": "Preparing your device for update. Please confirm on your device that the install identifier matches the own shown below.",
+        "id": "modals.lockboxfirmware.confirmidstep.message1"
+      },
+      {
+        "defaultMessage": "Preparing your device for update. Follow the instructions displayed on your device.",
+        "id": "modals.lockboxfirmware.confirmidstep.message2"
       }
     ],
     "path": "src/modals/LockboxFirmware/ConfirmIdentifierStep/template.json"
@@ -3629,7 +3686,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Step 1. Connect your Lockbox",
+        "defaultMessage": "Connect your Lockbox",
         "id": "modals.lockboxfirmware.connectdevice.title"
       },
       {
@@ -3650,12 +3707,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Step 4. Update Firmware",
-        "id": "modals.lockboxfirmware.installfirmware.title"
+        "defaultMessage": "Finalizing Install",
+        "id": "modals.lockboxfirmware.installstep.title"
       },
       {
-        "defaultMessage": "Continue",
-        "id": "modals.lockboxfirmware.installfirmware.continue"
+        "defaultMessage": "Finalizing the update on your Lockbox. Enter your device pin when prompted.",
+        "id": "modals.lockboxfirmware.installstep.message"
       }
     ],
     "path": "src/modals/LockboxFirmware/InstallFirmwareStep/template.json"
@@ -7998,8 +8055,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Load More Transactions",
-        "id": "scenes.lockbox.dashboard.transactions.loadmore"
+        "defaultMessage": "That's it! No more transactions 📭",
+        "id": "scenes.lockbox.dashboard.transactions.thatsit"
       }
     ],
     "path": "src/scenes/Lockbox/Dashboard/Transactions/template.success.json"
@@ -8936,6 +8993,14 @@
       {
         "defaultMessage": "Verify Email Address",
         "id": "scenes.security.email.unverifiedemail.verifyemail"
+      },
+      {
+        "defaultMessage": "You’ve verified <b>{email}</b>. Select \"Change Email\" to modify this existing address. We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.",
+        "id": "scenes.security.email.verifieddescription.success"
+      },
+      {
+        "defaultMessage": "We have sent a verification email to <b>{email}</b>. Please click on the email that you’ve received to verify your email. We’ll use this email to authorize logins, send payment notifications, and notify you of wallet updates.",
+        "id": "scenes.security.email.unverifiedemaildescription"
       },
       {
         "defaultMessage": "Your verified email address is used to send login codes when suspicious or unusual activity is detected. We can also remind you of your wallet login ID, and send you payments alerts when you receive funds.",
