@@ -44,8 +44,15 @@ export const promptForLockbox = function*(coin, deviceId, deviceType) {
   yield put(
     actions.components.lockbox.pollForDeviceApp(coin, deviceId, deviceType)
   )
-  yield take(actionTypes.components.lockbox.SET_CONNECTION_INFO)
-  yield put(actions.components.lockbox.setConnectionReady())
+  let { canceled } = yield race({
+    response: take(actionTypes.components.lockbox.SET_CONNECTION_INFO),
+    canceled: take(actionTypes.modals.CLOSE_MODAL)
+  })
+  if (canceled) {
+    throw new Error('PROMPT_FOR_LOCKBOX_CANCELED')
+  } else {
+    yield put(actions.components.lockbox.setConnectionReady())
+  }
 }
 
 export const confirm = function*({

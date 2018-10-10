@@ -507,6 +507,9 @@ export default ({ api, coreSagas, options, networks }) => {
   }
 
   const confirm = function*() {
+    let password
+    let scrambleKey
+    let connection
     try {
       yield put(actions.form.clearSubmitErrors(CONFIRM_FORM))
       yield put(actions.form.startSubmit(CONFIRM_FORM))
@@ -523,6 +526,23 @@ export default ({ api, coreSagas, options, networks }) => {
         target,
         networks
       )
+      if (source.type !== ADDRESS_TYPES.LOCKBOX) {
+        password = yield call(promptForSecondPassword)
+      } else {
+        const deviceR = yield select(
+          selectors.core.kvStore.lockbox.getDeviceFromCoinAddrs,
+          prop('coin', source),
+          [prop('address', source)]
+        )
+        const device = deviceR.getOrFail(MISSING_DEVICE_ERROR)
+        const coin = prop('coin', source)
+        const deviceType = prop('device_type', device)
+        yield call(promptForLockbox, coin, null, deviceType)
+        scrambleKey = Lockbox.utils.getScrambleKey(coin, deviceType)
+        connection = yield select(
+          selectors.components.lockbox.getCurrentConnection
+        )
+      }
       const {
         depositAddress,
         deposit: { symbol, value }
@@ -536,22 +556,8 @@ export default ({ api, coreSagas, options, networks }) => {
         convertStandardToBase(symbol, value)
       )
       if (source.type !== ADDRESS_TYPES.LOCKBOX) {
-        const password = yield call(promptForSecondPassword)
         payment = yield (yield payment.sign(password)).publish()
       } else {
-        const deviceR = yield select(
-          selectors.core.kvStore.lockbox.getDeviceFromCoinAddrs,
-          prop('coin', source),
-          prop('from', payment.value())
-        )
-        const device = deviceR.getOrFail(MISSING_DEVICE_ERROR)
-        const coin = prop('coin', source)
-        const deviceType = prop('device_type', device)
-        yield call(promptForLockbox, coin, null, deviceType)
-        const scrambleKey = Lockbox.utils.getScrambleKey(coin, deviceType)
-        const connection = yield select(
-          selectors.components.lockbox.getCurrentConnection
-        )
         payment = yield (yield payment.sign(
           null,
           prop('transport', connection),
