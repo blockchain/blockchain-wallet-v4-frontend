@@ -336,6 +336,7 @@ describe('authSagas', () => {
 
   describe('login routine', () => {
     const {
+      authNabu,
       checkDataErrors,
       loginRoutineSaga,
       logoutRoutine,
@@ -416,18 +417,11 @@ describe('authSagas', () => {
       saga.next().call(coreSagas.settings.fetchSettings)
     })
 
-    it('should check if user flow is supported', () => {
+    it('should call auth nabu saga', () => {
       saga
         .next()
-        .select(selectors.modules.profile.userFlowSupported)
+        .call(authNabu)
         .save(beforeUserFlowCheck)
-    })
-
-    it('should trigger signin action if user flow is supported', () => {
-      saga
-        .next(Remote.of(true))
-        .put(actions.modules.profile.signIn())
-        .restore(beforeUserFlowCheck)
     })
 
     it('should call upgrade address labels saga', () => {

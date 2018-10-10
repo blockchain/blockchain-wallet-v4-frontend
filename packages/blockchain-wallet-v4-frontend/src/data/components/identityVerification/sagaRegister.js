@@ -13,6 +13,7 @@ export default ({ api, coreSagas }) => {
     savePersonalData,
     selectAddress,
     fetchSupportedCountries,
+    fetchStates,
     fetchPossibleAddresses
   } = sagas({ api, coreSagas })
 
@@ -25,6 +26,7 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.RESEND_SMS_CODE, resendSmsCode)
     yield takeLatest(AT.SAVE_PERSONAL_DATA, savePersonalData)
     yield takeLatest(AT.FETCH_SUPPORTED_COUNTRIES, fetchSupportedCountries)
+    yield takeLatest(AT.FETCH_STATES, fetchStates)
     yield takeLatest(AT.FETCH_POSSIBLE_ADDRESSES, fetchPossibleAddresses)
     yield takeLatest(AT.SELECT_ADDRESS, selectAddress)
   }
