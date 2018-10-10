@@ -20,8 +20,15 @@ export const promptForSecondPassword = function*() {
   const wallet = yield select(selectors.core.wallet.getWallet)
   if (Types.Wallet.isDoubleEncrypted(wallet)) {
     yield put(actions.modals.showModal('SecondPassword'))
-    const secPassAct = yield take(actionTypes.wallet.SUBMIT_SECOND_PASSWORD)
-    return secPassAct.payload.password
+    let { response, canceled } = yield race({
+      response: take(actionTypes.wallet.SUBMIT_SECOND_PASSWORD),
+      canceled: take(actionTypes.modals.CLOSE_MODAL)
+    })
+    if (canceled) {
+      throw new Error('PROMPT_FOR_SEC_PW_CANCEL')
+    } else {
+      return response.payload.password
+    }
   }
 }
 
