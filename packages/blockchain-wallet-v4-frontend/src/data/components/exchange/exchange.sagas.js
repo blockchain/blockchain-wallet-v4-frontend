@@ -267,6 +267,7 @@ export default ({ api, coreSagas, options, networks }) => {
       if (provisionalPayment.unconfirmedTx) throw LATEST_TX_ERROR
       yield put(actions.form.stopAsyncValidation(EXCHANGE_FORM))
     } catch (e) {
+      if (e === MIN_ERROR) return
       yield put(
         A.setTxError(
           e === LATEST_TX_ERROR ? LATEST_TX_ERROR : LATEST_TX_FETCH_FAILED_ERROR

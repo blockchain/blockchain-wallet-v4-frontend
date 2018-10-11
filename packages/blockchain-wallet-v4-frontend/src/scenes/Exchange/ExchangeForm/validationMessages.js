@@ -223,8 +223,8 @@ const LatestTxMessage = () => (
       &nbsp;
       <CheckConfirmationLink>
         <FormattedMessage
-          id='scenes.exchange.exchangeform.checklatesttx'
-          defaultMessage='Check confirmation.'
+          id='scenes.exchange.exchangeform.refreshlatest'
+          defaultMessage='Refresh status.'
         />
       </CheckConfirmationLink>
     </Text>
