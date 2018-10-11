@@ -18,7 +18,11 @@ export default ({ api }) => {
   const upload = function*({ payload }) {
     try {
       const { files, token } = payload
-      const response = yield call(api.uploadDocuments, token, files)
+      const response = yield call(
+        api.uploadDocuments,
+        token,
+        JSON.stringify(files)
+      )
       yield put(A.setUploaded())
       yield put(A.setReference(response))
     } catch (error) {
