@@ -254,7 +254,8 @@ const Success = props => {
     useMin,
     useMax,
     volume,
-    showError
+    showError,
+    txError
   } = props
   const swapDisabled = !contains(
     formatPair(targetCoin, sourceCoin),
@@ -401,7 +402,9 @@ const Success = props => {
               />
             </AmountRow>
             <ErrorRow>
-              {showError && error && getErrorMessage(error)(props)}
+              {(showError || txError) &&
+                (error || txError) &&
+                getErrorMessage(txError || error)(props)}
             </ErrorRow>
             <Row>
               <MinMaxButton
@@ -448,7 +451,8 @@ const Success = props => {
                 !dirty ||
                 volume === '0' ||
                 !volume ||
-                (volume && error)
+                (volume && error) ||
+                txError
               }
             >
               {!disabled && !asyncValidating && !submitting ? (

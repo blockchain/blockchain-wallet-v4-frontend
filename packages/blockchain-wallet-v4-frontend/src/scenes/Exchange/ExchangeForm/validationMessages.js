@@ -7,6 +7,7 @@ import { Text } from 'blockchain-info-components'
 import LimitsUpdateLink from './LimitsUpdateLink'
 import MaximumAmountLink from './MaximumAmountLink'
 import MinimumAmountLink from './MinimumAmountLink'
+import CheckConfirmationLink from './CheckConfirmationLink'
 import { formatAmount } from './template.success'
 
 const {
@@ -21,6 +22,8 @@ const {
   DAILY_ERROR,
   WEEKLY_ERROR,
   ANNUAL_ERROR,
+  LATEST_TX_ERROR,
+  LATEST_TX_FETCH_FAILED_ERROR,
   ORDER_ERROR
 } = model.components.exchange
 
@@ -31,6 +34,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
+  text-align: center;
 
   > * {
     margin-left: 2px;
@@ -195,6 +199,42 @@ const OrderLimitMessage = () => (
   </Wrapper>
 )
 
+const LatestTxMessage = () => (
+  <Wrapper>
+    <Text size='12px' weight={300} color='error'>
+      <FormattedMessage
+        id='scenes.exchange.exchangeform.error.latesttx'
+        defaultMessage='Please wait until our previous transaction confirms.'
+      />
+      &nbsp;
+      <CheckConfirmationLink>
+        <FormattedMessage
+          id='scenes.exchange.exchangeform.checklatesttx'
+          defaultMessage='Check confirmation.'
+        />
+      </CheckConfirmationLink>
+    </Text>
+  </Wrapper>
+)
+
+const LatestTxFetchFailedMessage = () => (
+  <Wrapper>
+    <Text size='12px' weight={300} color='error'>
+      <FormattedMessage
+        id='scenes.exchange.exchangeform.error.latesttxfetchfailed'
+        defaultMessage='Failed to get previous transaction.'
+      />
+      &nbsp;
+      <CheckConfirmationLink>
+        <FormattedMessage
+          id='scenes.exchange.exchangeform.retry'
+          defaultMessage='Retry.'
+        />
+      </CheckConfirmationLink>
+    </Text>
+  </Wrapper>
+)
+
 export const getErrorMessage = error => {
   if (error === NO_LIMITS_ERROR) return NoLimitsMessage
   if (error === MINIMUM_NO_LINK_ERROR) return MinimumNoLinkMessage
@@ -209,6 +249,8 @@ export const getErrorMessage = error => {
   if (error === WEEKLY_ERROR) return WeeklyLimitMessage
   if (error === ANNUAL_ERROR) return AnnualLimitMessage
   if (error === ORDER_ERROR) return OrderLimitMessage
+  if (error === LATEST_TX_ERROR) return LatestTxMessage
+  if (error === LATEST_TX_FETCH_FAILED_ERROR) return LatestTxFetchFailedMessage
   if (error === NO_VALUE_ERROR) return () => ''
   return NoAdviceMessage
 }
