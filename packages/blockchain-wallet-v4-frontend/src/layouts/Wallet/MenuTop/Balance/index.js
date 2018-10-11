@@ -6,8 +6,8 @@ import Template from './template'
 
 class Balance extends React.PureComponent {
   render () {
-    const { path, showLockbox } = this.props
-    return <Template path={path} showLockbox={showLockbox} />
+    const { path, lockboxEnabled } = this.props
+    return <Template path={path} lockboxEnabled={lockboxEnabled} />
   }
 }
 

@@ -10,6 +10,6 @@ export const getData = state =>
     ],
     (currentTab, invitationsR) => ({
       currentTab,
-      showLockbox: prop('lockbox', invitationsR.getOrElse({}))
+      lockboxEnabled: prop('lockbox', invitationsR.getOrElse({}))
     })
   )(state)

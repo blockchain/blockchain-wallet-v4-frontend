@@ -4,9 +4,12 @@ import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 export const getData = state =>
   createDeepEqualSelector(
-    [selectors.router.getPathname, selectors.core.settings.getInvitations],
-    (path, invitationsR) => ({
-      path,
+    [
+      selectors.preferences.getTotalBalancesDropdown,
+      selectors.core.settings.getInvitations
+    ],
+    (totalBalancesDropdown, invitationsR) => ({
+      totalBalancesDropdown,
       lockboxEnabled: prop('lockbox', invitationsR.getOrElse({}))
     })
   )(state)

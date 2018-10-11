@@ -17,8 +17,8 @@ const Wrapper = styled.div`
 `
 
 const BalancesTable = props => {
-  const { currentTab, showLockbox } = props
-  return showLockbox ? (
+  const { currentTab, lockboxEnabled } = props
+  return lockboxEnabled ? (
     <Wrapper>
       <Tabs {...props} />
       {currentTab === 'total' && <Table viewType='Total' />}
