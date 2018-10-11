@@ -29,14 +29,14 @@ const Wrapper = styled.div`
 `
 const BalanceText = styled(Text)`
   font-size: 20px;
-  @media (min-width: 768) {
+  @media (max-width: 767px) {
     font-size: 16px;
   }
 `
 const BalanceDropdown = styled.div`
   margin-top: 4px;
   > div > ul {
-    right: 0px;
+    right: 0;
     padding: 0;
     position: absolute;
   }
@@ -49,15 +49,13 @@ const BalanceDropdown = styled.div`
   }
 `
 
-const getComponentOrder = path => {
-  return [
-    <WalletBalance />,
-    <LockboxBalance />,
-    <PendingBalance />,
-    <WatchOnlyBalance />,
-    <CurrencySwitch />
-  ]
-}
+const getComponentOrder = () => [
+  <WalletBalance />,
+  <LockboxBalance />,
+  <PendingBalance />,
+  <WatchOnlyBalance />,
+  <CurrencySwitch />
+]
 
 const getSelectedComponent = path => {
   switch (true) {
@@ -126,7 +124,7 @@ const Success = props => (
         color={'gray-5'}
         toggleOnCallback={false}
         selectedComponent={getSelectedComponent(props.path)}
-        components={getComponentOrder(props.path)}
+        components={getComponentOrder()}
         callback={() => {}}
         data-e2e='balanceDropdown'
       />

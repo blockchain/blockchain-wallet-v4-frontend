@@ -532,8 +532,11 @@ export default ({ api }) => {
 
   // installs requested application on device
   const installApplication = function*(action) {
-    const { app } = action.payload
+    const { app, deviceType } = action.payload
     try {
+      // poll for device connection on dashboard
+      yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType))
+      yield take(AT.SET_CONNECTION_INFO)
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
       const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
@@ -638,29 +641,33 @@ export default ({ api }) => {
       const { deviceIndex } = action.payload
       yield put(A.resetAppsInstallStatus())
       yield put(A.installBlockchainAppsLoading())
-      // derive device type
-      const deviceR = yield select(
-        selectors.core.kvStore.lockbox.getDevice,
-        deviceIndex
-      )
-      const device = deviceR.getOrFail()
-      // poll for device connection on dashboard
-      yield put(A.pollForDeviceApp('DASHBOARD', null, device.device_type))
-      yield take(AT.SET_CONNECTION_INFO)
+      let device
+      if (deviceIndex) {
+        // derive device type
+        const deviceR = yield select(
+          selectors.core.kvStore.lockbox.getDevice,
+          deviceIndex
+        )
+        device = deviceR.getOrFail()
+      } else {
+        // TODO: pull deviceType from setup state instead of hardcode
+        device = { device_type: 'blockchain' }
+      }
+
       // install BTC app
-      yield put(A.installApplication('BTC'))
+      yield put(A.installApplication('BTC', device.device_type))
       yield take([
         AT.INSTALL_APPLICATION_FAILURE,
         AT.INSTALL_APPLICATION_SUCCESS
       ])
       // install BCH app
-      yield put(A.installApplication('BCH'))
+      yield put(A.installApplication('BCH', device.device_type))
       yield take([
         AT.INSTALL_APPLICATION_FAILURE,
         AT.INSTALL_APPLICATION_SUCCESS
       ])
       // install ETH app
-      yield put(A.installApplication('ETH'))
+      yield put(A.installApplication('ETH', device.device_type))
       yield take([
         AT.INSTALL_APPLICATION_FAILURE,
         AT.INSTALL_APPLICATION_SUCCESS

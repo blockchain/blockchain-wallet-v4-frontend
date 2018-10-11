@@ -6,12 +6,11 @@ import { actions, selectors } from 'data'
 import Setup from './template.js'
 
 class OnboardContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.launchLockboxSetup = this.launchLockboxSetup.bind(this)
+  handleAppInstall = () => {
+    this.props.modalActions.showModal('LockboxAppInstall')
   }
 
-  launchLockboxSetup () {
+  launchLockboxSetup = () => {
     this.props.modalActions.showModal('LockboxSetup')
   }
 
@@ -20,7 +19,11 @@ class OnboardContainer extends React.PureComponent {
     const domains = domainsR.getOrElse({ comRoot: 'https://blockchain.com' })
 
     return (
-      <Setup launchLockboxSetup={this.launchLockboxSetup} domains={domains} />
+      <Setup
+        handleAppInstall={this.handleAppInstall}
+        launchLockboxSetup={this.launchLockboxSetup}
+        domains={domains}
+      />
     )
   }
 }
@@ -30,6 +33,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

@@ -14,7 +14,8 @@ import {
   getTargetFee,
   getSourceFee,
   canUseExchange,
-  showError
+  showError,
+  getTxError
 } from './selectors'
 
 import Loading from './template.loading'
@@ -24,8 +25,7 @@ import DataError from 'components/DataError'
 const extractFieldValue = (e, value) => value
 
 const { swapCoinAndFiat, swapBaseAndCounter } = model.rates
-const { EXCHANGE_FORM, EXCHANGE_STEPS } = model.components.exchange
-const { CONFIRM } = EXCHANGE_STEPS
+const { EXCHANGE_FORM } = model.components.exchange
 
 class ExchangeForm extends React.Component {
   componentDidMount () {
@@ -73,7 +73,8 @@ class ExchangeForm extends React.Component {
       targetFee,
       sourceFee,
       canUseExchange,
-      showError
+      showError,
+      txError
     } = this.props
     return data.cata({
       Success: value =>
@@ -88,9 +89,10 @@ class ExchangeForm extends React.Component {
             sourceFee={sourceFee}
             canUseExchange={canUseExchange}
             showError={showError}
+            txError={txError}
             handleMaximum={actions.firstStepMaximumClicked}
             handleMinimum={actions.firstStepMinimumClicked}
-            onSubmit={actions.setStep.bind(null, CONFIRM)}
+            onSubmit={actions.showConfirmation}
             handleSourceChange={compose(
               actions.changeSource,
               extractFieldValue
@@ -182,6 +184,7 @@ const mapStateToProps = state => ({
   targetFee: getTargetFee(state),
   sourceFee: getSourceFee(state),
   showError: showError(state),
+  txError: getTxError(state),
   data: getData(state)
 })
 

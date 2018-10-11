@@ -21,6 +21,7 @@ import sendEth from './sendEth/sagaRegister'
 import settings from './settings/sagaRegister'
 import signMessage from './signMessage/sagaRegister'
 import transactionReport from './transactionReport/sagaRegister'
+import uploadDocuments from './uploadDocuments/sagaRegister'
 
 export default ({ api, coreSagas, networks, options }) =>
   function*() {
@@ -46,4 +47,5 @@ export default ({ api, coreSagas, networks, options }) =>
     yield fork(settings({ api, coreSagas }))
     yield fork(signMessage({ coreSagas }))
     yield fork(transactionReport({ api, coreSagas }))
+    yield fork(uploadDocuments({ api }))
   }

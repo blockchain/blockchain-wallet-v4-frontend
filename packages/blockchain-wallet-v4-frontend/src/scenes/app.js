@@ -24,6 +24,8 @@ import Recover from './Recover'
 import Reminder from './Reminder'
 import Reset2FA from './Reset2FA'
 import Reset2FAToken from './Reset2FAToken'
+import UploadDocuments from './UploadDocuments'
+import UploadDocumentsSuccess from './UploadDocuments/Success'
 import VerifyEmailToken from './VerifyEmailToken'
 import Register from './Register'
 import SecurityCenter from './SecurityCenter'
@@ -64,6 +66,14 @@ class App extends React.PureComponent {
                   <PublicLayout
                     path='/authorize-approve'
                     component={AuthorizeLogin}
+                  />
+                  <PublicLayout
+                    path='/upload-document/:token'
+                    component={UploadDocuments}
+                  />
+                  <PublicLayout
+                    path='/upload-document/success'
+                    component={UploadDocumentsSuccess}
                   />
                   <PublicLayout path='/wallet' component={Login} />
                   <WalletLayout path='/home' component={Home} />

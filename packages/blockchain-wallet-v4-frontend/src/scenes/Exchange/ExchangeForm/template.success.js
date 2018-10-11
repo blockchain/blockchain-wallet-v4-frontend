@@ -257,6 +257,7 @@ const Success = props => {
     targetActive,
     targetCoin,
     toElements,
+    txError,
     useMin,
     useMax,
     volume
@@ -419,7 +420,9 @@ const Success = props => {
               />
             </AmountRow>
             <ErrorRow>
-              {showError && error && getErrorMessage(error)(props)}
+              {(showError || txError) &&
+                (error || txError) &&
+                getErrorMessage(txError || error)(props)}
             </ErrorRow>
             <Row>
               <MinMaxButton
@@ -475,7 +478,8 @@ const Success = props => {
                 !dirty ||
                 volume === '0' ||
                 !volume ||
-                (volume && error)
+                (volume && error) ||
+                txError
               }
             >
               {!disabled && !asyncValidating && !submitting ? (
