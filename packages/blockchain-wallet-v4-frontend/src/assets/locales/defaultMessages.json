@@ -6947,6 +6947,10 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Sending from Lockbox can only be done while using the Chrome browser",
+        "id": "scenes.exchange.exchangeform.blocklockbox"
+      },
+      {
         "defaultMessage": "Exchange",
         "id": "scenes.exchange.exchangeform.from"
       },
@@ -6982,6 +6986,10 @@
       {
         "defaultMessage": "Insufficient funds. {min} is required for a trade",
         "id": "scenes.exchange.exchangeform.error.balancebelowmin"
+      },
+      {
+        "defaultMessage": "Insufficient funds",
+        "id": "scenes.exchange.exchangeform.error.insufficientfunds"
       },
       {
         "defaultMessage": "You've reached your daily trade limit",
@@ -7022,6 +7030,22 @@
       {
         "defaultMessage": "Amount exceeds single trade limit.",
         "id": "scenes.exchange.exchangeform.error.orderlimit"
+      },
+      {
+        "defaultMessage": "Please wait until our previous transaction confirms.",
+        "id": "scenes.exchange.exchangeform.error.latesttx"
+      },
+      {
+        "defaultMessage": "Refresh status.",
+        "id": "scenes.exchange.exchangeform.refreshlatest"
+      },
+      {
+        "defaultMessage": "Failed to get previous transaction.",
+        "id": "scenes.exchange.exchangeform.error.latesttxfetchfailed"
+      },
+      {
+        "defaultMessage": "Retry.",
+        "id": "scenes.exchange.exchangeform.retry"
       }
     ],
     "path": "src/scenes/Exchange/ExchangeForm/validationMessages.json"
@@ -7931,8 +7955,12 @@
         "id": "scenes.lockbox.settings.adddevice.title"
       },
       {
-        "defaultMessage": "Get step by step instructions in our setup guide",
-        "id": "scenes.lockbox.settings.adddevice.description"
+        "defaultMessage": "Add another Lockbox device to your wallet",
+        "id": "scenes.lockbox.settings.adddevice.desc"
+      },
+      {
+        "defaultMessage": "Add Device",
+        "id": "scenes.lockbox.settings.adddevice.add"
       }
     ],
     "path": "src/scenes/Lockbox/Dashboard/Settings/AddDevice/template.json"
@@ -8104,6 +8132,10 @@
       {
         "defaultMessage": "Purchase",
         "id": "scenes.lockbox.welcome.purchase"
+      },
+      {
+        "defaultMessage": "Install Applications",
+        "id": "scenes.lockbox.welcome.install"
       },
       {
         "defaultMessage": "New device setup can only be done while using the Chrome browser",
@@ -10414,6 +10446,88 @@
       }
     ],
     "path": "src/scenes/Transactions/Eth/Menu/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Success!",
+        "id": "scenes.uploaddoc.success.success"
+      },
+      {
+        "defaultMessage": "Reference",
+        "id": "scenes.uploaddoc.success.reference"
+      },
+      {
+        "defaultMessage": "We have received your files. A Blockchain Team Member \n        will be reviewing your ID check shortly. Look for an email from us on\n        your new account status.",
+        "id": "scenes.uploaddoc.success.explanation"
+      },
+      {
+        "defaultMessage": "Return to the wallet",
+        "id": "scenes.uploaddoc.success.return"
+      }
+    ],
+    "path": "src/scenes/UploadDocuments/Success/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Hello",
+        "id": "scenes.uploaddoc.hello"
+      },
+      {
+        "defaultMessage": "We need to verify your identity in order to allow buys,\n          sells or exchanges.",
+        "id": "scenes.uploaddoc.verify"
+      },
+      {
+        "defaultMessage": "Please upload the following document:",
+        "id": "scenes.uploaddoc.doc"
+      },
+      {
+        "defaultMessage": "Browse files",
+        "id": "scenes.uploaddoc.browsefiles"
+      },
+      {
+        "defaultMessage": "Drag & Drop",
+        "id": "scenes.uploaddoc.dragdrop"
+      },
+      {
+        "defaultMessage": "Place your files here,",
+        "id": "scenes.uploaddoc.placefiles"
+      },
+      {
+        "defaultMessage": "or browse",
+        "id": "scenes.uploaddoc.browse"
+      },
+      {
+        "defaultMessage": "Passport",
+        "id": "scenes.uploaddoc.passport"
+      },
+      {
+        "defaultMessage": "Driving license",
+        "id": "scenes.uploaddoc.drivinglicense"
+      },
+      {
+        "defaultMessage": "ID Card",
+        "id": "scenes.uploaddoc.idcard"
+      },
+      {
+        "defaultMessage": "Delete",
+        "id": "scenes.uploaddoc.deletedoc"
+      },
+      {
+        "defaultMessage": "Browse my computer",
+        "id": "scenes.uploaddoc.browsecomputer"
+      },
+      {
+        "defaultMessage": "Please upload a JPG, PNG or PDF up to 3MB in size.",
+        "id": "scenes.uploaddoc.filesize"
+      },
+      {
+        "defaultMessage": "Upload Now",
+        "id": "scenes.uploaddoc.uploadnow"
+      }
+    ],
+    "path": "src/scenes/UploadDocuments/template.json"
   },
   {
     "descriptors": [
