@@ -1,13 +1,17 @@
 import {
+  both,
+  complement,
   compose,
-  whereEq,
-  map,
+  either,
+  has,
   indexBy,
   isEmpty,
   isNil,
+  map,
   prop,
   unnest,
-  values
+  values,
+  whereEq
 } from 'ramda'
 import { put, all, call, select } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
@@ -29,15 +33,22 @@ export default ({ api, ratesSocket }) => {
     model.rates.ADVICE_SUBSCRIBE_SUCCESS_MESSAGE
   )
 
-  const isAdviceSubscribeError = whereEq(
-    model.rates.ADVICE_SUBSCRIBE_ERROR_MESSAGE
+  const isAdviceSubscribeError = either(
+    whereEq(model.rates.ADVICE_SUBSCRIBE_ERROR_MESSAGE),
+    both(whereEq(model.rates.ADVICE_UPDATED_MESSAGE), has('error'))
   )
 
   const isAdviceUnsubscribeSuccess = whereEq(
     model.rates.ADVICE_UNSUBSCRIBE_SUCCESS_MESSAGE
   )
 
-  const isAdviceMessage = whereEq(model.rates.ADVICE_MESSAGE)
+  const isAdviceMessage = both(
+    either(
+      whereEq(model.rates.ADVICE_UPDATED_MESSAGE),
+      whereEq(model.rates.ADVICE_SNAPSHOT_MESSAGE)
+    ),
+    complement(has('error'))
+  )
 
   const isRatesSubscribeSuccess = whereEq(
     model.rates.RATES_SUBSCRIBE_SUCCESS_MESSAGE
@@ -51,7 +62,10 @@ export default ({ api, ratesSocket }) => {
     model.rates.RATES_UNSUBSCRIBE_SUCCESS_MESSAGE
   )
 
-  const isRatesMessage = whereEq(model.rates.RATES_MESSAGE)
+  const isRatesMessage = either(
+    whereEq(model.rates.RATES_UPDATED_MESSAGE),
+    whereEq(model.rates.RATES_SNAPSHOT_MESSAGE)
+  )
 
   const onOpen = function*() {
     yield call(authenticateSocket)
