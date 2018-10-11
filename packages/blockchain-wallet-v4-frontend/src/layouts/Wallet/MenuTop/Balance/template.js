@@ -29,14 +29,14 @@ const Wrapper = styled.div`
 `
 const BalanceText = styled(Text)`
   font-size: 20px;
-  @media (min-width: 768) {
+  @media (min-width: 768px) {
     font-size: 16px;
   }
 `
 const BalanceDropdown = styled.div`
   margin-top: 4px;
   > div > ul {
-    right: 0px;
+    right: 0;
     padding: 0;
     position: absolute;
   }
@@ -49,14 +49,17 @@ const BalanceDropdown = styled.div`
   }
 `
 
-const getComponentOrder = path => {
-  return [
+const getComponentOrder = showLockbox => {
+  let order = [
     <WalletBalance />,
-    <LockboxBalance />,
     <PendingBalance />,
     <WatchOnlyBalance />,
     <CurrencySwitch />
   ]
+  if (showLockbox) {
+    order.splice(1, 0, <LockboxBalance />)
+  }
+  return order
 }
 
 const getSelectedComponent = path => {
@@ -126,7 +129,7 @@ const Success = props => (
         color={'gray-5'}
         toggleOnCallback={false}
         selectedComponent={getSelectedComponent(props.path)}
-        components={getComponentOrder(props.path)}
+        components={getComponentOrder(props.showLockbox)}
         callback={() => {}}
         data-e2e='balanceDropdown'
       />
