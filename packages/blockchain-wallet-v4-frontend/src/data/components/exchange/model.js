@@ -47,6 +47,8 @@ export const DAILY_ERROR = "You've reached daily trade limit"
 export const WEEKLY_ERROR = "You've reached weekly trade limit"
 export const ANNUAL_ERROR = "You've reached annual trade limit"
 export const ORDER_ERROR = 'Amount exceeds maximum trade size'
+export const LATEST_TX_ERROR = 'Unconfirmed tx pending'
+export const LATEST_TX_FETCH_FAILED_ERROR = 'Failed to fetch latest tx data'
 export const MISSING_DEVICE_ERROR = 'missing_device'
 
 const currenciesOrder = ['BTC', 'BCH', 'ETH']

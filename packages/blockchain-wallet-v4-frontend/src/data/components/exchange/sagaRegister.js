@@ -26,6 +26,11 @@ const registerExchangeSagas = function*(exchange) {
   )
   yield takeLatest(AT.USE_MIN, exchange.useMin)
   yield takeLatest(AT.USE_MAX, exchange.useMax)
+  yield takeLatest(
+    AT.RECHECK_LATEST_TX,
+    exchange.checkLatestTx.bind(null, 'ETH')
+  )
+  yield takeLatest(AT.SHOW_CONFIRMATION, exchange.showConfirmation)
 }
 
 const registerShapeshiftSagas = function*(shapeshift) {

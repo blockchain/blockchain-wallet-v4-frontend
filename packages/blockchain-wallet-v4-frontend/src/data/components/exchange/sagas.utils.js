@@ -439,6 +439,7 @@ export default ({ api, coreSagas, networks, options }) => {
 
   return {
     calculatePaymentMemo,
+    calculateProvisionalPayment,
     calculateEffectiveBalanceMemo,
     calculateEffectiveBalance,
     createPayment,
