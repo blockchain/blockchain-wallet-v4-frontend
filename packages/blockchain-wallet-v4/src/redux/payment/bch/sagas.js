@@ -235,7 +235,8 @@ export default ({ api }) => {
     transport,
     scrambleKey,
     fromType,
-    selection
+    selection,
+    changeIndex
   ) {
     if (!selection) {
       throw new Error('missing_selection')
@@ -259,6 +260,7 @@ export default ({ api }) => {
           selection,
           transport,
           scrambleKey,
+          changeIndex,
           api
         )
       default:
@@ -338,8 +340,9 @@ export default ({ api }) => {
           password,
           transport,
           scrambleKey,
-          p.fromType,
-          p.selection
+          prop('fromType', p),
+          prop('selection', p),
+          prop('changeIndex', p)
         )
         return makePayment(merge(p, { ...signed }))
       },
