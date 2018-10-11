@@ -47,10 +47,12 @@ export default ({ api, coreSagas }) => {
       lockboxSagas.uninstallApplication
     )
     yield takeLatest(AT.INITIALIZE_DASHBOARD, lockboxSagas.initializeDashboard)
+
+    // TODO: better way to do this...
     yield takeEvery(actionTypes.modals.CLOSE_MODAL, function*() {
-      yield [installAppSaga, firmwareInstallSaga, deviceSetupSaga].map(task =>
-        cancel(task)
-      )
+      yield cancel(installAppSaga)
+      yield cancel(firmwareInstallSaga)
+      yield cancel(deviceSetupSaga)
     })
   }
 }
