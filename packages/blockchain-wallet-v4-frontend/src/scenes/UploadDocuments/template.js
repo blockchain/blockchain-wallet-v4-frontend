@@ -102,7 +102,7 @@ const UploadDocuments = ({
   openDropzone,
   setDropzoneRef,
   submitted,
-  uploaded
+  loading
 }) => (
   <Wrapper>
     <TextContainer>
@@ -118,7 +118,7 @@ const UploadDocuments = ({
       <Text color='brand-primary' size='20px' weight={300}>
         <FormattedMessage
           id='scenes.uploaddoc.verify'
-          defaultMessage='We need to verify your identity in order to allow buys, 
+          defaultMessage='We need to verify your identity in order to allow buys,
           sells or exchanges.'
         />
       </Text>
@@ -134,12 +134,13 @@ const UploadDocuments = ({
             {type}
           </Text>
         ))}
-      <Link>
+      {/* Add back when link is provided */}
+      {/* <Link>
         <FormattedMessage
           id='scenes.uploaddoc.need'
           defaultMessage='Why do you need this?'
         />
-      </Link>
+      </Link> */}
     </TextContainer>
     <UploadZoneContainer>
       <UploadZone
@@ -254,8 +255,8 @@ const UploadDocuments = ({
           />
         </Text>
         {files.length > 0 && (
-          <UploadButton nature='primary' onClick={onSubmit}>
-            {submitted && !uploaded ? (
+          <UploadButton nature='primary' onClick={onSubmit} disabled={loading}>
+            {loading ? (
               <HeartbeatLoader height='20px' width='20px' color='white' />
             ) : (
               <FormattedMessage
@@ -277,9 +278,7 @@ UploadDocuments.propTypes = {
   onDropAccepted: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   openDropzone: PropTypes.func.isRequired,
-  setDropzoneRef: PropTypes.func.isRequired,
-  submitted: PropTypes.bool.isRequired,
-  uploaded: PropTypes.bool
+  setDropzoneRef: PropTypes.func.isRequired
 }
 
 export default UploadDocuments

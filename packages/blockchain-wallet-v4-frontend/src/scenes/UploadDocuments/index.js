@@ -20,20 +20,18 @@ class UploadDocumentsContainer extends Component {
     this.dropzone = null
 
     this.state = {
-      submitted: false,
       files: []
     }
   }
 
   componentDidMount () {
-    const token = this.props.pathname.split('/')[2]
+    const token = this.props.pathname.split('/')[3]
     this.props.fetchUploadData(token)
   }
 
   onSubmit = () => {
-    this.setState({ submitted: true })
     let filesLoaded = []
-    const token = this.props.pathname.split('/')[2]
+    const token = this.props.pathname.split('/')[3]
     this.state.files.forEach(file => {
       const fileReader = new FileReader()
       // One single upload for the array of all byte arrays
@@ -81,18 +79,24 @@ class UploadDocumentsContainer extends Component {
   }
 
   render () {
+    const { loading } = this.props.uploaded.cata({
+      Success: val => ({ loading: false }),
+      Failure: val => ({ loading: false }),
+      NotAsked: val => ({ loading: false }),
+      Loading: () => ({ loading: true })
+    })
+
     return (
       <UploadDocuments
         data={this.props.data}
-        dropzoneRef={this.dropzoneRef}
         files={this.state.files}
+        dropzoneRef={this.dropzoneRef}
         deleteFileAt={this.deleteFileAt}
         onDropAccepted={this.onDropAccepted}
-        onSubmit={this.onSubmit}
-        uploaded={this.props.uploaded}
         setDropzoneRef={this.setDropzoneRef}
-        submitted={this.state.submitted}
         openDropzone={this.openDropzone}
+        onSubmit={this.onSubmit}
+        loading={loading}
       />
     )
   }

@@ -20,6 +20,14 @@ export const setData = data => ({
   payload: { data }
 })
 
-export const setUploaded = () => {
-  return { type: AT.SET_UPLOADED }
+export const setUploadedLoading = () => {
+  return { type: AT.SET_UPLOADED_LOADING }
+}
+
+export const setUploadedSuccess = payload => {
+  return { type: AT.SET_UPLOADED_SUCCESS, payload }
+}
+
+export const setUploadedFailure = payload => {
+  return { type: AT.SET_UPLOADED_FAILURE, payload }
 }
