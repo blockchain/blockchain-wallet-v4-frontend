@@ -8,7 +8,6 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import LockboxAppInstall from './template'
 import CoinInstallStatus from './status.template'
 
-// TODO: install apps continues even if the user doesnt click start button and modal closes
 class LockboxAppInstallContainer extends React.PureComponent {
   constructor (props) {
     super(props)

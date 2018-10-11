@@ -33,6 +33,9 @@ const ButtonContainer = styled.div`
     margin-right: 20px;
   }
 `
+const InstallContainer = styled.div`
+  margin-top: 16px;
+`
 const BrowserWarning = styled(Banner)`
   margin-top: 10px;
 `
@@ -40,7 +43,7 @@ const BrowserWarning = styled(Banner)`
 const disableSetup = !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
 
 const Onboard = props => {
-  const { domains, launchLockboxSetup } = props
+  const { domains, launchLockboxSetup, handleAppInstall } = props
 
   return (
     <Wrapper>
@@ -80,6 +83,14 @@ const Onboard = props => {
                 </Button>
               </Link>
             </ButtonContainer>
+            <InstallContainer>
+              <Button fullwidth nature='success' onClick={handleAppInstall}>
+                <FormattedMessage
+                  id='scenes.lockbox.welcome.install'
+                  defaultMessage='Install Applications'
+                />
+              </Button>
+            </InstallContainer>
           </div>
           {disableSetup && (
             <BrowserWarning type='warning'>
