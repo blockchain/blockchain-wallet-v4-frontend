@@ -93,17 +93,9 @@ export const updateDeviceNameFailure = payload => ({
 })
 
 // FIRMWARE
-export const changeFirmwareUpdateStep = (step, updatePerformed) => ({
+export const changeFirmwareUpdateStep = (step, status) => ({
   type: AT.SET_FIRMWARE_UPDATE_STEP,
-  payload: { step, updatePerformed }
-})
-export const setFirmwareInstalledInfo = info => ({
-  type: AT.SET_FIRMWARE_INSTALLED_INFO,
-  payload: { info }
-})
-export const setFirmwareLatestInfo = info => ({
-  type: AT.SET_FIRMWARE_LATEST_INFO,
-  payload: { info }
+  payload: { step, status }
 })
 export const resetFirmwareInfo = () => ({
   type: AT.RESET_FIRMWARE_INFO
@@ -150,6 +142,22 @@ export const installApplicationSuccess = app => ({
 })
 export const installApplicationFailure = (app, error) => ({
   type: AT.INSTALL_APPLICATION_FAILURE,
+  payload: { app, error }
+})
+export const uninstallApplication = app => ({
+  type: AT.UNINSTALL_APPLICATION,
+  payload: { app }
+})
+export const uninstallApplicationLoading = app => ({
+  type: AT.UNINSTALL_APPLICATION_LOADING,
+  payload: { app }
+})
+export const uninstallApplicationSuccess = app => ({
+  type: AT.UNINSTALL_APPLICATION_SUCCESS,
+  payload: { app }
+})
+export const uninstallApplicationFailure = (app, error) => ({
+  type: AT.UNINSTALL_APPLICATION_FAILURE,
   payload: { app, error }
 })
 // TODO: remove blockchain actions once app store is introduced

@@ -134,8 +134,8 @@ const fiatDecimals = 2
 const formatTextAmount = (val, isFiat) => {
   const decimals = isFiat ? fiatDecimals : cryptoDecimals
   return val
-    .replace(/^0+/, '')
-    .replace(/^(\.|$)/, ($0, $1) => `0${$1}`)
+    .replace(/^0+(.)/, ($0, $1) => $1)
+    .replace(/^\./, '0.')
     .replace(new RegExp(`(.*\\..{${decimals}}).*`), ($0, $1) => $1)
     .replace('-', '')
 }

@@ -164,7 +164,8 @@ describe('createPayment', () => {
           TRANSPORT_VALUE,
           SCRAMBLEKEY_VALUE,
           prop('fromType', p),
-          prop('selection', p)
+          prop('selection', p),
+          prop('changeIndex', p)
         )
       )
       expect(gen.next().done).toEqual(true)

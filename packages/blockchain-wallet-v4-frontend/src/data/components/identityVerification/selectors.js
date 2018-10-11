@@ -17,6 +17,8 @@ export const getSupportedCountries = path([
   'supportedCountries'
 ])
 
+export const getStates = path(['components', 'identityVerification', 'states'])
+
 export const getPossibleAddresses = path([
   'components',
   'identityVerification',

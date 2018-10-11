@@ -1,3 +1,5 @@
+import { contains, compose, propOr } from 'ramda'
+
 export const KYC_MODAL = '@KYC.IdentityVerification'
 export const USER_EXISTS_MODAL = '@KYC.UserExists'
 
@@ -31,3 +33,8 @@ export const MANUAL_ADDRESS_ITEM = {
 export const PHONE_EXISTS_ERROR = 'Phone number already registered'
 export const BAD_CODE_ERROR = 'SMS Verification Code Incorrect.'
 export const UPDATE_FAILURE = 'UPDATE_FAILURE'
+
+export const isStateSupported = compose(
+  contains('KYC'),
+  propOr([], 'scopes')
+)

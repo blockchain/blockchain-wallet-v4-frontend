@@ -2,7 +2,6 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Icon } from 'blockchain-info-components'
-import SecurityGauge from './SecurityGauge'
 import { Wrapper, MenuItem, SubMenu, SubMenuItem } from 'components/MenuLeft'
 
 const Footer = props => {
@@ -17,7 +16,6 @@ const Footer = props => {
             id='layouts.wallet.menuleft.footer.securitycenter'
             defaultMessage='Security Center'
           />
-          <SecurityGauge />
         </MenuItem>
       </LinkContainer>
       <LinkContainer

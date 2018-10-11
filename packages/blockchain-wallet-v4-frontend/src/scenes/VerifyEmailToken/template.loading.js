@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { BlockchainLoader, Text } from 'blockchain-info-components'
+import { LogoWrapper } from 'components/Public'
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,7 +14,10 @@ const Wrapper = styled.div`
 const Loading = props => {
   return (
     <Wrapper>
-      <BlockchainLoader width='40px' height='40px' />
+      <LogoWrapper>
+        <BlockchainLoader width='40px' height='40px' />
+        <Text weight={300}>Blockchain Wallet</Text>
+      </LogoWrapper>
       <Text size='16px' weight={300} style={{ 'margin-top': '25px' }}>
         <FormattedMessage
           id='scenes.verifyemailtoken.loading'

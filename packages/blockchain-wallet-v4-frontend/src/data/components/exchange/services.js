@@ -1,25 +1,19 @@
 import { BigNumber } from 'bignumber.js'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import {
-  assoc,
-  compose,
-  curry,
-  path,
-  pathOr,
-  prop,
-  reduce,
-  toLower
-} from 'ramda'
+import { assoc, compose, curry, path, pathOr, prop, toLower, map } from 'ramda'
 
+import { currencySymbolMap } from 'services/CoinifyService'
 import { formatPair, FIX_TYPES } from 'data/modules/rates/model'
 import {
   MINIMUM_NO_LINK_ERROR,
-  MAXIMUM_NO_LINK_ERROR,
+  // REACHED_DAILY_ERROR,
+  // REACHED_WEEKLY_ERROR,
+  // REACHED_ANNUAL_ERROR,
   MINIMUM_ERROR,
   BALANCE_ERROR,
-  DAILY_ERROR,
-  WEEKLY_ERROR,
-  ANNUAL_ERROR,
+  // DAILY_ERROR,
+  // WEEKLY_ERROR,
+  // ANNUAL_ERROR,
   ORDER_ERROR
 } from './model'
 const { BASE, BASE_IN_FIAT, COUNTER, COUNTER_IN_FIAT } = FIX_TYPES
@@ -253,45 +247,66 @@ export const selectFee = (coin, payment) => {
   }
 }
 
-export const validateVolume = (limits, volume) => {
-  const minOrder = prop('minOrder', limits)
-  const maxPossible = prop('maxPossibleOrder', limits)
-  const balanceMax = prop('balanceMax', limits)
-  const maxOrder = prop('maxOrder', limits)
-  const dailyMax = path(['daily', 'available'], limits)
-  const weeklyMax = path(['weekly', 'available'], limits)
-  const annualMax = path(['annual', 'available'], limits)
+export const validateMinMax = limits => {
+  const minSymbol = path(['minOrder', 'symbol'], limits)
+  const maxSymbol = path(['maxPossibleOrder', 'symbol'], limits)
+  const minOrder = path(['minOrder', 'amount'], limits)
+  const maxPossible = path(['maxPossibleOrder', 'amount'], limits)
 
-  if (isAmountAboveMaximum(minOrder, maxPossible)) {
-    if (isAmountBelowMinimum(volume, minOrder)) throw MINIMUM_NO_LINK_ERROR
-    throw MAXIMUM_NO_LINK_ERROR
+  if (minSymbol === maxSymbol && isAmountAboveMaximum(minOrder, maxPossible)) {
+    // if (isAmountAboveMaximum(minOrder, annualMax)) throw REACHED_ANNUAL_ERROR
+    // if (isAmountAboveMaximum(minOrder, weeklyMax)) throw REACHED_WEEKLY_ERROR
+    // if (isAmountAboveMaximum(minOrder, dailyMax)) throw REACHED_DAILY_ERROR
+    throw MINIMUM_NO_LINK_ERROR
   }
-  if (isAmountBelowMinimum(volume, minOrder)) throw MINIMUM_ERROR
-  if (isAmountAboveMaximum(volume, balanceMax)) throw BALANCE_ERROR
-  if (isAmountAboveMaximum(volume, dailyMax)) throw DAILY_ERROR
-  if (isAmountAboveMaximum(volume, weeklyMax)) throw WEEKLY_ERROR
-  if (isAmountAboveMaximum(volume, annualMax)) throw ANNUAL_ERROR
-  if (isAmountAboveMaximum(volume, maxOrder)) throw ORDER_ERROR
 }
 
-const calcMaxPossibleOrder = limits =>
-  assoc(
-    'maxPossibleOrder',
-    reduce(minimum, Infinity, [
-      prop('balanceMax', limits),
-      prop('maxOrder', limits),
-      path(['daily', 'available'], limits),
-      path(['weekly', 'available'], limits),
-      path(['annual', 'available'], limits)
-    ]),
+export const validateVolume = (
+  limits,
+  sourceFiatVolume,
+  sourceCryptoVolume
+) => {
+  const minOrder = path(['minOrder', 'amount'], limits)
+  const balanceMax = path(['balanceMax', 'amount'], limits)
+  const maxOrder = path(['maxOrder', 'amount'], limits)
+  // const dailyMax = path(['daily', 'available'], limits)
+  // const weeklyMax = path(['weekly', 'available'], limits)
+  // const annualMax = path(['annual', 'available'], limits)
+
+  if (isAmountBelowMinimum(sourceFiatVolume, minOrder)) throw MINIMUM_ERROR
+  if (isAmountAboveMaximum(sourceCryptoVolume, balanceMax)) throw BALANCE_ERROR
+  // if (isAmountAboveMaximum(sourceFiatVolume, dailyMax)) throw DAILY_ERROR
+  // if (isAmountAboveMaximum(sourceFiatVolume, weeklyMax)) throw WEEKLY_ERROR
+  // if (isAmountAboveMaximum(sourceFiatVolume, annualMax)) throw ANNUAL_ERROR
+  if (isAmountAboveMaximum(sourceFiatVolume, maxOrder)) throw ORDER_ERROR
+}
+
+export const addBalanceLimit = (balanceLimit, limits) => {
+  const { fiatBalance, cryptoBalance } = balanceLimit
+
+  const resultingLimits = assoc('balanceMax', cryptoBalance, limits)
+
+  if (prop('amount', fiatBalance) < path(['minOrder', 'amount'], limits)) {
+    return assoc('maxPossibleOrder', fiatBalance, resultingLimits)
+  }
+  if (
+    prop('amount', fiatBalance) < path(['maxPossibleOrder', 'amount'], limits)
+  ) {
+    return assoc('maxPossibleOrder', cryptoBalance, resultingLimits)
+  }
+
+  return resultingLimits
+}
+
+export const formatLimits = ({ currency, ...limits }) =>
+  map(
+    limit => ({
+      amount: limit,
+      fiat: true,
+      symbol: currencySymbolMap[currency]
+    }),
     limits
   )
-
-export const addBalanceLimit = (fiatBalance, limits) =>
-  compose(
-    calcMaxPossibleOrder,
-    assoc('balanceMax', fiatBalance)
-  )(limits)
 
 const getRate = (rates, source, target) =>
   compose(
@@ -328,20 +343,20 @@ export const getCurrentMin = (form, fiatCurrency, rates, sourceFiatMin) => {
     case BASE:
       return compose(
         toFixed(8, false),
-        multiply(getRate(rates, fiatCurrency, sourceCoin))
+        divideBy(getRate(rates, sourceCoin, fiatCurrency))
       )(sourceFiatMin)
     case COUNTER:
       return compose(
         toFixed(8, false),
-        multiply(getRate(rates, fiatCurrency, sourceCoin)),
-        multiply(getRate(rates, sourceCoin, targetCoin))
+        divideBy(getRate(rates, sourceCoin, fiatCurrency)),
+        divideBy(getRate(rates, targetCoin, sourceCoin))
       )(sourceFiatMin)
     case COUNTER_IN_FIAT:
       return compose(
         toFixed(2, false),
-        multiply(getRate(rates, fiatCurrency, sourceCoin)),
-        multiply(getRate(rates, sourceCoin, targetCoin)),
-        multiply(getRate(rates, targetCoin, fiatCurrency))
+        divideBy(getRate(rates, sourceCoin, fiatCurrency)),
+        divideBy(getRate(rates, targetCoin, sourceCoin)),
+        divideBy(getRate(rates, fiatCurrency, targetCoin))
       )(sourceFiatMin)
   }
 }
@@ -356,20 +371,20 @@ export const getCurrentMax = (form, fiatCurrency, rates, sourceFiatMax) => {
     case BASE:
       return compose(
         toFixed(8, true),
-        divideBy(getRate(rates, sourceCoin, fiatCurrency))
+        multiply(getRate(rates, fiatCurrency, sourceCoin))
       )(sourceFiatMax)
     case COUNTER:
       return compose(
         toFixed(8, true),
-        divideBy(getRate(rates, sourceCoin, fiatCurrency)),
-        divideBy(getRate(rates, targetCoin, sourceCoin))
+        multiply(getRate(rates, fiatCurrency, sourceCoin)),
+        multiply(getRate(rates, sourceCoin, targetCoin))
       )(sourceFiatMax)
     case COUNTER_IN_FIAT:
       return compose(
         toFixed(2, true),
-        divideBy(getRate(rates, sourceCoin, fiatCurrency)),
-        divideBy(getRate(rates, targetCoin, sourceCoin)),
-        divideBy(getRate(rates, fiatCurrency, targetCoin))
+        multiply(getRate(rates, fiatCurrency, sourceCoin)),
+        multiply(getRate(rates, sourceCoin, targetCoin)),
+        multiply(getRate(rates, targetCoin, fiatCurrency))
       )(sourceFiatMax)
   }
 }

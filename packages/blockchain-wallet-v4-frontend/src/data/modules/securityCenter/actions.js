@@ -1,8 +1,8 @@
 import * as AT from './actionTypes'
 
-export const updateEmail = email => ({
+export const updateEmail = (email, confirmationCode) => ({
   type: AT.UPDATE_EMAIL,
-  payload: { email }
+  payload: { email, confirmationCode }
 })
 
 export const verifyEmail = code => ({

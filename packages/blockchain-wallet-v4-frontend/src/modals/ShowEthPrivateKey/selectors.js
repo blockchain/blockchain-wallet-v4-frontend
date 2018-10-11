@@ -1,4 +1,5 @@
 import { selectors } from 'data'
+import { getEthBalance } from 'components/Balances/wallet/selectors'
 
 export const getData = (state, props) => {
   const ethKvStoreSelectors = selectors.core.kvStore.ethereum
@@ -15,7 +16,7 @@ export const getData = (state, props) => {
     }
   } else {
     return {
-      balance: selectors.core.data.ethereum.getBalance(state).getOrElse(0),
+      balance: getEthBalance(state).getOrElse(0),
       addr: ethKvStoreSelectors.getContext(state).getOrElse(''),
       priv: state.securityCenter.shownEthPrivKey
     }
