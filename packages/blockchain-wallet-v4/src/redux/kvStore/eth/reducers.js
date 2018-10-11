@@ -42,24 +42,19 @@ export default (state = INITIAL_STATE, action) => {
       return over(valueLens, setNote, state)
     }
     case AT.SET_LATEST_TX_ETHEREUM: {
-      const { address, txHash } = payload
       let valueLens = compose(
         mapped,
         KVStoreEntry.value
       )
-      let setTx = assocPath(['ethereum', 'last_tx', address], txHash)
+      let setTx = assocPath(['ethereum', 'last_tx'], payload)
       return over(valueLens, setTx, state)
     }
     case AT.SET_LATEST_TX_TIMESTAMP_ETHEREUM: {
-      const { address, timestamp } = payload
       let valueLens = compose(
         mapped,
         KVStoreEntry.value
       )
-      let setTxTimestamp = assocPath(
-        ['ethereum', 'last_tx_timestamp', address],
-        timestamp
-      )
+      let setTxTimestamp = assocPath(['ethereum', 'last_tx_timestamp'], payload)
       return over(valueLens, setTxTimestamp, state)
     }
     default:

@@ -19,12 +19,8 @@ class SelectInputContainer extends React.PureComponent {
   handleChange = item => {
     const value = prop('value', item)
 
-    this.setState({
-      value
-    })
-    if (this.props.onChange) {
-      this.props.onChange(value)
-    }
+    this.setState({ value })
+    if (this.props.onChange) this.props.onChange(value)
   }
 
   transform = (elements, search) => {
@@ -45,10 +41,7 @@ class SelectInputContainer extends React.PureComponent {
     return items
   }
 
-  onBlur = () => {
-    const { onBlur, value } = this.props
-    return onBlur(value)
-  }
+  onBlur = () => this.props.onBlur()
 
   render () {
     const {

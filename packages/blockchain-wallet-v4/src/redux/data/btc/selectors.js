@@ -82,3 +82,9 @@ export const getFiatAtTime = curry((hash, currency, state) =>
 )
 
 export const getAllFiatAtTime = path([dataPath, 'bitcoin', 'transactions_fiat'])
+
+export const getTransactionsAtBound = path([
+  dataPath,
+  'bitcoin',
+  'transactions_at_bound'
+])

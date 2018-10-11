@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Text } from 'blockchain-info-components'
+import { BlockchainLoader, Text } from 'blockchain-info-components'
 
 const Title = styled.div`
   text-align: center;
@@ -11,34 +11,37 @@ const Title = styled.div`
 const Content = styled.div`
   text-align: center;
   max-width: 400px;
-  margin: 0 auto;
-`
-const ButtonContainer = styled.div`
-  margin-top: 30px;
+  margin: 10px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
 
 const InstallFirmware = props => {
-  const { closeAll } = props
-
+  // const { status } = props
   return (
     <React.Fragment>
       <Title>
-        <Text size='16px' weight={400}>
+        <Text size='22px' weight={400}>
           <FormattedMessage
-            id='modals.lockboxfirmware.installfirmware.title'
-            defaultMessage='Step 4. Update Firmware'
+            id='modals.lockboxfirmware.installstep.title'
+            defaultMessage='Finalizing Install'
           />
         </Text>
-      </Title>
-      <Content />
-      <ButtonContainer>
-        <Button fullwidth nature='success' onClick={closeAll}>
-          <FormattedMessage
-            id='modals.lockboxfirmware.installfirmware.continue'
-            defaultMessage='Continue'
+        <Content>
+          <Text size='13px' weight={300}>
+            <FormattedMessage
+              id='modals.lockboxfirmware.installstep.message'
+              defaultMessage='Finalizing the update on your Lockbox. Enter your device pin when prompted.'
+            />
+          </Text>
+          <BlockchainLoader
+            height='75px'
+            width='75px'
+            style={{ marginTop: '45px' }}
           />
-        </Button>
-      </ButtonContainer>
+        </Content>
+      </Title>
     </React.Fragment>
   )
 }

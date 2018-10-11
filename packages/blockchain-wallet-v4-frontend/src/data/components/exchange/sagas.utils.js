@@ -45,6 +45,7 @@ export default ({ api, coreSagas, networks, options }) => {
     try {
       const coin = prop('coin', source)
       const addressOrIndex = prop('address', source)
+      const addressType = prop('type', source)
       const [network, provisionalScript] = prop(coin, {
         BTC: btcOptions,
         BCH: bchOptions,
@@ -55,7 +56,7 @@ export default ({ api, coreSagas, networks, options }) => {
         .chain()
         .init()
         .fee('priority')
-        .from(addressOrIndex, ADDRESS_TYPES.ACCOUNT)
+        .from(addressOrIndex, addressType)
         .done()
       if (coin === 'ETH') return payment.value()
 
@@ -87,7 +88,9 @@ export default ({ api, coreSagas, networks, options }) => {
   const calculateEffectiveBalance = function*(source) {
     const coin = prop('coin', source)
     const addressOrIndex = prop('address', source)
+    const addressType = prop('type', source)
     let payment
+
     switch (coin) {
       case 'BCH':
         payment = yield coreSagas.payment.bch
@@ -95,7 +98,7 @@ export default ({ api, coreSagas, networks, options }) => {
           .chain()
           .init()
           .fee('priority')
-          .from(addressOrIndex, ADDRESS_TYPES.ACCOUNT)
+          .from(addressOrIndex, addressType)
           .done()
         break
       case 'BTC':
@@ -104,7 +107,7 @@ export default ({ api, coreSagas, networks, options }) => {
           .chain()
           .init()
           .fee('priority')
-          .from(addressOrIndex, ADDRESS_TYPES.ACCOUNT)
+          .from(addressOrIndex, addressType)
           .done()
         break
       case 'ETH':
@@ -113,7 +116,7 @@ export default ({ api, coreSagas, networks, options }) => {
           .chain()
           .init()
           .fee('priority')
-          .from(addressOrIndex, ADDRESS_TYPES.ACCOUNT)
+          .from(addressOrIndex, addressType)
           .done()
         break
       default:
@@ -133,6 +136,7 @@ export default ({ api, coreSagas, networks, options }) => {
     coin,
     sourceAddressOrIndex,
     targetAddress,
+    addressType,
     amount
   ) {
     let payment
@@ -172,7 +176,7 @@ export default ({ api, coreSagas, networks, options }) => {
         throw new Error('Could not create payment.')
     }
     payment = yield payment
-      .from(sourceAddressOrIndex, ADDRESS_TYPES.ACCOUNT)
+      .from(sourceAddressOrIndex, addressType)
       .to(targetAddress, ADDRESS_TYPES.ADDRESS)
       .build()
       .done()
@@ -435,6 +439,7 @@ export default ({ api, coreSagas, networks, options }) => {
 
   return {
     calculatePaymentMemo,
+    calculateProvisionalPayment,
     calculateEffectiveBalanceMemo,
     calculateEffectiveBalance,
     createPayment,

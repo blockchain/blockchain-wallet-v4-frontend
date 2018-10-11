@@ -15,17 +15,16 @@ class EmailAddressContainer extends React.PureComponent {
     this.state = {
       updateToggled: false,
       verifyToggled: false,
-      changeEmailToggled: false,
-      successToggled: false
+      successToggled: false,
+      changeEmailToggled: props.changeEmail || false
     }
 
-    this.handleVerifyClick = this.handleVerifyClick.bind(this)
-    this.handleSubmitVerification = this.handleSubmitVerification.bind(this)
     this.handleResend = this.handleResend.bind(this)
+    this.handleUpdate = this.handleUpdate.bind(this)
+    this.handleVerifyClick = this.handleVerifyClick.bind(this)
     this.handleChangeEmailView = this.handleChangeEmailView.bind(this)
     this.handleEmailChangeCancel = this.handleEmailChangeCancel.bind(this)
     this.handleEmailChangeSubmit = this.handleEmailChangeSubmit.bind(this)
-    this.handleUpdate = this.handleUpdate.bind(this)
   }
 
   componentDidUpdate (prevProps) {
@@ -36,26 +35,21 @@ class EmailAddressContainer extends React.PureComponent {
       prevProps.goBackOnSuccess()
     }
   }
+
   handleUpdate () {
     this.setState({
-      successToggled: !this.state.successToggled,
+      successToggled: false,
       verifyToggled: !this.state.verifyToggled
     })
   }
 
   handleVerifyClick () {
-    this.props.handleEnable()
     this.handleResend()
   }
 
   handleResend () {
     const { email } = this.props.data.getOrElse({})
-    this.props.securityCenterActions.sendConfirmationCodeEmail(email)
-  }
-
-  handleSubmitVerification (e) {
-    e.preventDefault()
-    this.props.securityCenterActions.verifyEmailCode(this.props.code)
+    this.props.securityCenterActions.resendVerifyEmail(email)
   }
 
   handleChangeEmailView () {
@@ -75,8 +69,7 @@ class EmailAddressContainer extends React.PureComponent {
   handleEmailChangeSubmit () {
     this.props.securityCenterActions.updateEmail(this.props.updatedEmail)
     this.setState({
-      changeEmailToggled: !this.state.changeEmailToggled,
-      verifyToggled: !this.state.verifyToggled
+      changeEmailToggled: !this.state.changeEmailToggled
     })
   }
 

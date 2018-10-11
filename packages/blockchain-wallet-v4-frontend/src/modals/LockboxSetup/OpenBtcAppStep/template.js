@@ -2,25 +2,25 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { RotateSync } from 'components/RotateSync'
-import { Button, Text } from 'blockchain-info-components'
+import { Button, Image, Text, TextGroup } from 'blockchain-info-components'
 
-const Wrapper = styled.div`
-  padding: 20px;
-`
+const Wrapper = styled.div``
 
 const Title = styled.div`
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 `
 
-const Content = styled.div`
+const Content = styled(TextGroup)`
   text-align: center;
-  max-width: 400px;
-  margin: 0 auto;
+  margin-bottom: 20px;
+  > * {
+    margin-bottom: 0px;
+  }
 `
 
 const ButtonContainer = styled.div`
-  margin-top: 30px;
+  margin-top: 20px;
 `
 
 const RotateSyncContainer = styled(RotateSync)`
@@ -36,18 +36,32 @@ const OpenBtcAppStep = props => {
         <Text>
           <FormattedMessage
             id='modals.lockboxsetup.openbtcappstep.title'
-            defaultMessage='Your Blockchain Lockbox + Blockchain Wallet'
+            defaultMessage='Lockbox + Blockchain Wallet'
           />
         </Text>
       </Title>
       <Content>
-        <Text size='16px' weight={300}>
+        <Text size='14px' weight={300}>
           <FormattedMessage
             id='modals.lockboxsetup.openbtcappstep.explanation'
-            defaultMessage="Select 'Bitcoin' on your device to connect your Lockbox with your wallet"
+            defaultMessage='Now add a Bitcoin wallet to your device.'
+          />
+        </Text>
+        <Text size='14px' weight={300}>
+          <FormattedMessage
+            id='modals.lockboxsetup.openbtcappstep.selection'
+            defaultMessage='Select &quot;Bitcoin&quot; from the picker.'
           />
         </Text>
       </Content>
+      <Image
+        name='lockbox-onboard-bitcoin'
+        width='100%'
+        srcset={{
+          'lockbox-onboard-bitcoin2': '2x',
+          'lockbox-onboard-bitcoin3': '3x'
+        }}
+      />
       <ButtonContainer>
         <Button
           fullwidth

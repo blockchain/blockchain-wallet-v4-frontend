@@ -1,4 +1,16 @@
-import { any, path, prop, map, flatten, filter, head, nth } from 'ramda'
+import {
+  any,
+  path,
+  prop,
+  map,
+  set,
+  flatten,
+  filter,
+  lensProp,
+  addIndex,
+  head,
+  nth
+} from 'ramda'
 import { kvStorePath } from '../../paths'
 import { LOCKBOX } from '../config'
 
@@ -6,13 +18,31 @@ import { LOCKBOX } from '../config'
 export const getMetadata = path([kvStorePath, LOCKBOX])
 
 export const getDevices = state =>
-  getMetadata(state).map(path(['value', 'devices']))
+  getMetadata(state)
+    .map(path(['value', 'devices']))
+    .map(devices => {
+      const mapIndexed = addIndex(map)
+      const deviceIndexLens = lensProp('device_index')
+      const setDeviceIndex = (device, i) => set(deviceIndexLens, i, device)
+      return mapIndexed(setDeviceIndex, devices)
+    })
 
 export const getDevice = (state, deviceIndex) =>
   getDevices(state).map(nth(deviceIndex))
 
 export const getDeviceName = (state, deviceIndex) =>
   getDevice(state, deviceIndex).map(prop('device_name'))
+
+export const getDeviceFromCoinAddrs = (state, coin, addrs) => {
+  switch (coin) {
+    case 'BTC':
+      return getDeviceFromBtcXpubs(state, addrs)
+    case 'BCH':
+      return getDeviceFromBchXpubs(state, addrs)
+    case 'ETH':
+      return getDeviceFromEthAddr(state, prop('address', addrs))
+  }
+}
 
 // BTC
 export const getLockboxBtc = state => getDevices(state).map(map(path(['btc'])))
@@ -117,3 +147,9 @@ export const getDeviceFromEthAddr = (state, addr) => {
     .map(filter(deviceFilter))
     .map(head)
 }
+
+export const getLatestTxEth = (state, address) =>
+  getDeviceFromEthAddr(state, address).map(path(['eth', 'last_tx']))
+
+export const getLatestTxTimestampEth = (state, address) =>
+  getDeviceFromEthAddr(state, address).map(path(['eth', 'last_tx_timestamp']))

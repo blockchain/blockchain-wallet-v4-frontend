@@ -16,11 +16,11 @@ import {
   ExchangeButton,
   CancelButton
 } from 'components/Exchange'
+import { Form } from 'components/Form'
 
-const { CONFIRM_FORM } = model.components.exchange
+const { CONFIRM_FORM, MISSING_DEVICE_ERROR } = model.components.exchange
 
 const ConfirmWrapper = styled(Wrapper)`
-  margin-bottom: 15px;
   ${Title} {
     margin-bottom: 8px;
   }
@@ -63,7 +63,8 @@ const Row = styled.div`
   margin-bottom: 35px;
 `
 const FromToIcon = styled(Icon)`
-  min-width: 45px;
+  min-width: 25px;
+  width: 45px;
   text-align: center;
   justify-content: center;
   font-size: 24px;
@@ -79,13 +80,28 @@ const ErrorRow = styled(Text)`
   line-height: 18px;
   color: ${props => props.theme.error};
 `
+const ConfirmForm = styled(Form)`
+  max-width: 440px;
+`
 
-const getErrorMessage = () => (
-  <FormattedMessage
-    id='scenes.exchange.confirm.tradefailed'
-    defaultMessage='Failed to execute a trade'
-  />
-)
+const getErrorMessage = error => {
+  switch (error) {
+    case MISSING_DEVICE_ERROR:
+      return (
+        <FormattedMessage
+          id='scenes.exchange.confirm.missingdevice'
+          defaultMessage='Lockbox device is missing'
+        />
+      )
+    default:
+      return (
+        <FormattedMessage
+          id='scenes.exchange.confirm.tradefailed'
+          defaultMessage='Failed to execute a trade'
+        />
+      )
+  }
+}
 
 const ExchangeConfirm = ({
   error,
@@ -103,7 +119,7 @@ const ExchangeConfirm = ({
   handleSubmit,
   onBack
 }) => (
-  <form onSubmit={handleSubmit}>
+  <ConfirmForm onSubmit={handleSubmit}>
     <ConfirmWrapper>
       <Title>
         <FormattedMessage
@@ -195,7 +211,7 @@ const ExchangeConfirm = ({
         />
       )}
     </CancelButton>
-  </form>
+  </ConfirmForm>
 )
 
 export default reduxForm({

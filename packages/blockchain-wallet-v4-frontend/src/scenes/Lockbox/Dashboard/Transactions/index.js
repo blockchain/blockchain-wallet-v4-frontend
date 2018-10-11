@@ -1,5 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { actions } from 'data'
 
 import { getData } from './selectors'
 import Success from './template.success'
@@ -23,8 +25,9 @@ class TransactionsContainer extends React.PureComponent {
           currency={val.currency}
           loadMore={this.loadMore}
           isLoading={val.isLoading}
-          transactions={val.filteredTransactions}
           searchesApplied={val.searchesApplied}
+          transactions={val.filteredTransactions}
+          transactionsAtBounds={val.transactionsAtBounds}
         />
       ),
       Loading: () => <Loading />,
@@ -34,8 +37,15 @@ class TransactionsContainer extends React.PureComponent {
   }
 }
 
+const mapDispatchToProps = dispatch => ({
+  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
+})
+
 const mapStateToProps = state => ({
   data: getData(state)
 })
 
-export default connect(mapStateToProps)(TransactionsContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TransactionsContainer)

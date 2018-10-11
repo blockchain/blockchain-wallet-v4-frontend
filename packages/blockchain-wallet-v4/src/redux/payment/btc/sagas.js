@@ -223,8 +223,10 @@ export default ({ api }) => {
     network,
     password,
     transport,
+    scrambleKey,
     fromType,
-    selection
+    selection,
+    changeIndex
   ) {
     if (!selection) {
       throw new Error('missing_selection')
@@ -243,7 +245,14 @@ export default ({ api }) => {
       case ADDRESS_TYPES.EXTERNAL:
         return btc.signWithWIF(network, selection)
       case ADDRESS_TYPES.LOCKBOX:
-        return yield call(btc.signWithLedger, selection, transport, api)
+        return yield call(
+          btc.signWithLockbox,
+          selection,
+          transport,
+          scrambleKey,
+          changeIndex,
+          api
+        )
       default:
         throw new Error('unknown_from')
     }
@@ -317,15 +326,18 @@ export default ({ api }) => {
         return makePayment(merge(p, { selection }))
       },
 
-      *sign (password, transport) {
+      *sign (password, transport, scrambleKey) {
         let signed = yield call(
           __calculateSignature,
           network,
           password,
           transport,
+          scrambleKey,
           prop('fromType', p),
-          prop('selection', p)
+          prop('selection', p),
+          prop('changeIndex', p)
         )
+
         return makePayment(merge(p, { ...signed }))
       },
 

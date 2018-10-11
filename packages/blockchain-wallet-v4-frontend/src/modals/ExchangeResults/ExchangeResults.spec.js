@@ -51,7 +51,7 @@ const FINISHED = {
   status: 'FINISHED'
 }
 
-describe('Icon component', () => {
+describe('Exchange Results', () => {
   it('PENDING_EXECUTION renders correctly', () => {
     const component = shallow(<ExchangeResults {...PENDING_EXECUTION} />)
     const tree = toJson(component)

@@ -47,3 +47,9 @@ export const getHeight = state => getLatestBlock(state).map(path(['number']))
 
 export const getNonce = (state, address) =>
   getAddresses(state).map(path([address, 'nonce']))
+
+export const getTransactionsAtBound = path([
+  dataPath,
+  'ethereum',
+  'transactions_at_bound'
+])

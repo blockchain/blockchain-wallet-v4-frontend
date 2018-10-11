@@ -15,7 +15,9 @@ import {
   PERSONAL_FORM,
   BAD_CODE_ERROR,
   PHONE_EXISTS_ERROR,
-  UPDATE_FAILURE
+  UPDATE_FAILURE,
+  KYC_MODAL,
+  USER_EXISTS_MODAL
 } from './model'
 
 export const logLocation = 'components/identityVerification/sagas'
@@ -35,12 +37,29 @@ export default ({ api, coreSagas }) => {
   const {
     createUser,
     updateUser,
+    generateRetailToken,
     updateUserAddress,
     syncUserWithWallet
   } = profileSagas({
     api,
     coreSagas
   })
+
+  const verifyIdentity = function*() {
+    try {
+      const userId = (yield select(
+        selectors.core.kvStore.userCredentials.getUserId
+      )).getOrElse('')
+      if (userId) {
+        return yield put(actions.modals.showModal(KYC_MODAL))
+      }
+      const retailToken = yield call(generateRetailToken)
+      yield call(api.checkUserExistance, retailToken)
+      yield put(actions.modals.showModal(USER_EXISTS_MODAL))
+    } catch (e) {
+      yield put(actions.modals.showModal(KYC_MODAL))
+    }
+  }
 
   const initializeStep = function*() {
     const activationState = yield select(
@@ -138,6 +157,7 @@ export default ({ api, coreSagas }) => {
         state,
         postCode
       }
+      if (address.country === 'US') address.state = address.state.code
       yield put(actions.form.startSubmit(PERSONAL_FORM))
       yield call(updateUser, { payload: { data: personalData } })
       yield call(updateUserAddress, { payload: { address } })
@@ -181,6 +201,21 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const fetchStates = function*() {
+    try {
+      yield put(A.setStates(Remote.Loading))
+      const states = yield call(api.getStates)
+      yield put(A.setStates(Remote.Success(states)))
+    } catch (e) {
+      yield put(A.setStates(Remote.Failure(e)))
+      actions.logs.logErrorMessage(
+        logLocation,
+        'fetchSupportedCountries',
+        `Error fetching supported countries: ${e}`
+      )
+    }
+  }
+
   const fetchPossibleAddresses = function*({
     payload: { postCode, countryCode }
   }) {
@@ -193,9 +228,9 @@ export default ({ api, coreSagas }) => {
         postCode,
         countryCode
       })
-      if (isEmpty(addresses)) throw new Error(failedToFetchAddressesError)
       yield put(A.setPossibleAddresses(addresses))
-      yield put(actions.form.focus(PERSONAL_FORM, 'address'))
+      if (!isEmpty(addresses))
+        yield put(actions.form.focus(PERSONAL_FORM, 'address'))
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
     } catch (e) {
       const description = prop('description', e)
@@ -248,20 +283,34 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const selectAddress = function*({
-    payload: {
-      address: { line1, line2, city, state }
-    }
-  }) {
+  const selectAddress = function*({ payload }) {
+    const address = prop('address', payload)
+    const { country, state: usState } = yield select(
+      selectors.form.getFormValues(PERSONAL_FORM)
+    )
+    if (!address) return
+    const { line1, line2, city, state } = address
     yield put(actions.form.change(PERSONAL_FORM, 'line1', line1))
     yield put(actions.form.change(PERSONAL_FORM, 'line2', line2))
     yield put(actions.form.change(PERSONAL_FORM, 'city', city))
-    yield put(actions.form.change(PERSONAL_FORM, 'state', state))
+    if (prop('code', country) !== 'US') {
+      yield put(actions.form.change(PERSONAL_FORM, 'address', address))
+      yield put(actions.form.change(PERSONAL_FORM, 'state', state))
+    } else {
+      yield put(
+        actions.form.change(PERSONAL_FORM, 'address', {
+          ...address,
+          state: usState
+        })
+      )
+    }
   }
 
   return {
+    verifyIdentity,
     initializeStep,
     fetchSupportedCountries,
+    fetchStates,
     fetchPossibleAddresses,
     resendSmsCode,
     savePersonalData,

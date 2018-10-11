@@ -31,7 +31,7 @@ const IntroContainer = styled.div`
   width: 100%;
 
   @media (min-width: 992px) {
-    width: ${props => (props.progress === 3 ? '100%' : '40%')};
+    width: 40%;
   }
 `
 const BodyContainer = styled.div`
@@ -43,7 +43,6 @@ const BodyContainer = styled.div`
     margin-top: 20px;
   }
 `
-const Title = styled(Text)``
 const IntroText = styled(Text)`
   padding: 20px 0px;
 `
@@ -72,7 +71,7 @@ const ButtonContainer = styled.div`
 `
 
 const SecurityCenter = props => {
-  const { enabling, setView } = props
+  const { enabling, setView, changeEmail } = props
   const showTabs = props.progress === 3
 
   const renderSteps = () => {
@@ -102,6 +101,7 @@ const SecurityCenter = props => {
         <EmailAddress
           handleEnable={() => props.handleEnable('email')}
           goBackOnSuccess={props.onClose}
+          changeEmail={changeEmail}
         />
         <TwoStepVerification
           handleEnable={() => props.handleEnable('2fa')}
@@ -150,32 +150,13 @@ const SecurityCenter = props => {
           )}
           <TopContainer>
             <IntroContainer progress={props.progress}>
-              <Title size='24px' weight={300} color='black'>
-                <FormattedMessage
-                  id='scenes.securitycenter.title'
-                  defaultMessage='Security Center'
-                />
-              </Title>
               <IntroText size='14px' weight={300}>
-                {props.progress < 1 && (
+                {props.progress < 3 ? (
                   <FormattedMessage
                     id='scenes.securitycenter.introtextnone'
-                    defaultMessage='Welcome to your Security Center! Complete the following three steps to help prevent unauthorized access to your wallet and ensure you can access your funds at any time.'
+                    defaultMessage='Complete the steps below to help prevent unauthorized access to your wallet. Add additional verification to access your funds at any time.'
                   />
-                )}
-                {props.progress === 1 && (
-                  <FormattedMessage
-                    id='scenes.securitycenter.introtexttwo'
-                    defaultMessage='Welcome to your Security Center! You have completed 1 of 3 steps to help prevent unauthorized access to your wallet and ensure that you can access your funds at any time.'
-                  />
-                )}
-                {props.progress === 2 && (
-                  <FormattedMessage
-                    id='scenes.securitycenter.introtextthree'
-                    defaultMessage='Welcome to your Security Center! You have completed 2 of 3 steps to help prevent unauthorized access to your wallet and ensure that you can access your funds at any time.'
-                  />
-                )}
-                {props.progress === 3 && (
+                ) : (
                   <FormattedMessage
                     id='scenes.securitycenter.introtextfour'
                     defaultMessage='Congratulations, you have completed the initial steps in helping to prevent unauthorized access to your wallet and bringing you even closer to financial security. Remember to always use caution with where you store your wallet details, what information you share with others, and with phishing emails.'
@@ -183,7 +164,7 @@ const SecurityCenter = props => {
                 )}
               </IntroText>
             </IntroContainer>
-            {props.progress < 3 && <SecuritySteps data={props.data} />}
+            {<SecuritySteps data={props.data} />}
           </TopContainer>
           {renderSteps()}
         </Wrapper>

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { prop } from 'ramda'
 
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -10,7 +11,6 @@ import ConnectDeviceStep from './ConnectDeviceStep'
 import ConfirmIdentifierStep from './ConfirmIdentifierStep'
 import CompleteStep from './CompleteStep'
 import CheckVersionsStep from './CheckVersionsStep'
-import InstallMcuStep from './InstallMcuStep'
 import InstallFirmwareStep from './InstallFirmwareStep'
 
 class LockboxFirmwareContainer extends React.PureComponent {
@@ -19,28 +19,16 @@ class LockboxFirmwareContainer extends React.PureComponent {
   }
 
   render () {
-    const { currentStep, deviceIndex, position, total, closeAll } = this.props
-    let step
-    switch (currentStep) {
-      case 'check-versions':
-        step = 2
-        break
-      case 'verify-identifier':
-        step = 3
-        break
-      case 'install-mcu':
-        step = 4
-        break
-      case 'install-firmware':
-        step = 5
-        break
-      case 'complete':
-        step = 6
-        break
-      default:
-        step = 1
-        break
+    const { closeAll, currentStep, deviceIndex, position, total } = this.props
+    const steps = {
+      'connect-device': 1,
+      'check-versions': 2,
+      'confirm-identifier': 3,
+      'install-firmware': 4,
+      'install-complete': 5
     }
+    const step = currentStep ? steps[currentStep.step] : 1
+    const status = prop('status', currentStep)
 
     return (
       <FirmwareContainer
@@ -51,11 +39,10 @@ class LockboxFirmwareContainer extends React.PureComponent {
         totalSteps={5}
       >
         {step === 1 && <ConnectDeviceStep deviceIndex={deviceIndex} />}
-        {step === 2 && <CheckVersionsStep />}
-        {step === 3 && <ConfirmIdentifierStep />}
-        {step === 4 && <InstallMcuStep />}
-        {step === 5 && <InstallFirmwareStep />}
-        {step === 6 && <CompleteStep closeAll={closeAll} />}
+        {step === 2 && <CheckVersionsStep status={status} />}
+        {step === 3 && <ConfirmIdentifierStep status={status} />}
+        {step === 4 && <InstallFirmwareStep status={status} />}
+        {step === 5 && <CompleteStep status={status} closeAll={closeAll} />}
       </FirmwareContainer>
     )
   }

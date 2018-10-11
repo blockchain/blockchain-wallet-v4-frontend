@@ -2,24 +2,28 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import CheckVersionsStep from './template'
 
 class CheckVersionsContainer extends React.PureComponent {
+  onStartInstall = () => {
+    this.props.lockboxActions.changeFirmwareUpdateStep({
+      step: 'confirm-identifier'
+    })
+  }
   render () {
-    return <CheckVersionsStep {...this.props} />
+    const { status } = this.props
+    return (
+      <CheckVersionsStep status={status} onStartInstall={this.onStartInstall} />
+    )
   }
 }
-
-const mapStateToProps = state => ({
-  firmwares: selectors.components.lockbox.getFirmwareVersions(state)
-})
 
 const mapDispatchToProps = dispatch => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(CheckVersionsContainer)

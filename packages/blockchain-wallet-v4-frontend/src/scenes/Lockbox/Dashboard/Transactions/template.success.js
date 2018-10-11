@@ -1,45 +1,40 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
-import { compose, isEmpty, prop, reverse, sortBy } from 'ramda'
+import { compose, prop, length, reverse, sortBy } from 'ramda'
 
-import { Text } from 'blockchain-info-components'
-import EmptyTx from 'components/EmptyTx'
 import TransactionListItem from 'components/TransactionListItem'
-import Loading from './template.loading'
+import LazyLoadContainer from 'components/LazyLoadContainer'
+import EmptyTx from 'components/EmptyTx'
+import { HeartbeatLoader, Text } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
 
-const Wrapper = styled.div`
+const LazyLoadWrapper = styled(LazyLoadContainer)`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  box-sizing: border-box;
+  padding: 0 15px;
   width: 100%;
 `
-const LoadMore = styled(Text)`
+
+const Row = styled.div`
+  justify-content: center;
+  display: flex;
+  padding: 15px;
   width: 100%;
-  text-align: center;
-  margin: 20px 0;
-  > span {
-    cursor: pointer;
-    transition: color 0.3s;
-    text-decoration: underline;
-    &:hover {
-      color: ${props => props.theme['brand-secondary']};
-    }
-  }
 `
+
 const sortByTime = compose(
   reverse,
   sortBy(prop('time'))
 )
 
 const Success = props => {
-  const { transactions, isLoading, searchesApplied } = props
-
+  const { transactions, transactionsAtBounds, isLoading, loadMore } = props
   return (
-    <Wrapper>
-      {isLoading && <Loading />}
+    <LazyLoadWrapper onLazyLoad={loadMore}>
       {sortByTime(transactions).map(transaction => (
         <TransactionListItem
           key={transaction.hash}
@@ -48,19 +43,23 @@ const Success = props => {
           transaction={transaction}
         />
       ))}
-      {!isLoading &&
-        isEmpty(transactions) &&
-        !isEmpty(searchesApplied) && <EmptyTx />}
-      {!isLoading &&
-        !isEmpty(transactions) && (
-          <LoadMore onClick={() => props.loadMore()}>
-            <FormattedMessage
-              id='scenes.lockbox.dashboard.transactions.loadmore'
-              defaultMessage='Load More Transactions'
-            />
-          </LoadMore>
-        )}
-    </Wrapper>
+      <Row>
+        {isLoading ? (
+          <HeartbeatLoader />
+        ) : transactionsAtBounds ? (
+          length(transactions) ? (
+            <Text weight={300} size='18px'>
+              <FormattedMessage
+                id='scenes.lockbox.dashboard.transactions.thatsit'
+                defaultMessage="That's it! No more transactions 📭"
+              />
+            </Text>
+          ) : (
+            <EmptyTx />
+          )
+        ) : null}
+      </Row>
+    </LazyLoadWrapper>
   )
 }
 

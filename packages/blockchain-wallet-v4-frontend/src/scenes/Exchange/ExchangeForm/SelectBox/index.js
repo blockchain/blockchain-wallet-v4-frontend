@@ -21,6 +21,7 @@ const ExchangeSelect = styled(SelectBox)`
   }
   .bc__option {
     padding: 8px 0;
+    font-weight: 600;
   }
 
   .bc__single-value {
@@ -70,12 +71,12 @@ const Text = styled.span`
 `
 
 const DisplayIcon = styled(Icon)`
-  font-size: 24px;
+  font-size: 28px;
   color: ${props => props.theme.white};
 `
 
 const ItemIcon = styled(Icon)`
-  font-size: 18px;
+  font-size: 24px;
   color: ${props => props.theme[props.coin]} !important;
 `
 

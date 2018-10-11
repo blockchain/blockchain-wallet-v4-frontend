@@ -81,10 +81,17 @@ export const signMessage = (priv, addr, message) => {
   )
 }
 
-export const signWithLedger = function*(selection, transport, api) {
-  const BTC = new Btc(transport)
+export const signWithLockbox = function*(
+  selection,
+  transport,
+  scrambleKey,
+  changeIndex,
+  api
+) {
+  const BTC = new Btc(transport, scrambleKey)
   let inputs = []
   let paths = []
+  const changePath = `44'/0'/0'/M/1/${changeIndex}`
   for (let i in selection.inputs) {
     const coin = selection.inputs[i]
     const txHex = yield api.getRawTx(coin.txHash)
@@ -110,7 +117,7 @@ export const signWithLedger = function*(selection, transport, api) {
   const txHex = yield BTC.createPaymentTransactionNew(
     inputs,
     paths,
-    undefined,
+    changePath,
     outputs
   )
   const txId = crypto

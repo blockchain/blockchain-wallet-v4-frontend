@@ -1,5 +1,6 @@
-import { call, select, put } from 'redux-saga/effects'
 import { equals, path, prop, nth, is, identity } from 'ramda'
+import { call, select, put } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
@@ -7,6 +8,7 @@ import * as selectors from '../../selectors'
 import { initialize, change } from 'redux-form'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
+import * as Lockbox from 'services/LockboxService'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
@@ -293,13 +295,15 @@ export default ({ coreSagas, networks }) => {
   }
 
   const secondStepSubmitClicked = function*() {
+    let p = yield select(S.getPayment)
+    let payment = coreSagas.payment.btc.create({
+      payment: p.getOrElse({}),
+      network: networks.btc
+    })
+    const fromType = path(['fromType'], payment.value())
     try {
-      let p = yield select(S.getPayment)
-      let payment = coreSagas.payment.btc.create({
-        payment: p.getOrElse({}),
-        network: networks.btc
-      })
-      if (p.getOrElse({}).fromType !== ADDRESS_TYPES.LOCKBOX) {
+      // Sign payment
+      if (fromType !== ADDRESS_TYPES.LOCKBOX) {
         let password = yield call(promptForSecondPassword)
         payment = yield payment.sign(password)
       } else {
@@ -308,17 +312,20 @@ export default ({ coreSagas, networks }) => {
           prop('from', p.getOrElse({}))
         )
         const device = deviceR.getOrFail('missing_device')
-        yield call(promptForLockbox, 'BTC', null, prop('device_type', device))
+        const deviceType = prop('device_type', device)
+        yield call(promptForLockbox, 'BTC', null, deviceType)
         let connection = yield select(
           selectors.components.lockbox.getCurrentConnection
         )
-        let transport = prop('transport', connection)
-        payment = yield payment.sign(null, transport)
+        const transport = prop('transport', connection)
+        const scrambleKey = Lockbox.utils.getScrambleKey('BTC', deviceType)
+        payment = yield payment.sign(null, transport, scrambleKey)
       }
+      // Publish payment
       payment = yield payment.publish()
-      yield put(actions.modals.closeAllModals())
-      yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
       yield put(actions.core.data.bitcoin.fetchData())
+      yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
+      // Set tx note
       if (path(['description', 'length'], payment.value())) {
         yield put(
           actions.core.wallet.setTransactionNote(
@@ -327,14 +334,38 @@ export default ({ coreSagas, networks }) => {
           )
         )
       }
-      yield put(actions.router.push('/btc/transactions'))
-      yield put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
-    } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e)
-      )
-      yield put(actions.alerts.displayError(C.SEND_BTC_ERROR))
+      // Redirect to tx list, display success
+      if (fromType === ADDRESS_TYPES.LOCKBOX) {
+        yield put(actions.components.lockbox.setConnectionSuccess())
+        yield delay(1500)
+        const fromXPubs = path(['from'], payment.value())
+        const device = (yield select(
+          selectors.core.kvStore.lockbox.getDeviceFromBtcXpubs,
+          fromXPubs
+        )).getOrFail('missing_device')
+        const deviceIndex = prop('device_index', device)
+        yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
+      } else {
+        yield put(actions.router.push('/btc/transactions'))
+        yield put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
+      }
+      // Close modals
       yield put(actions.modals.closeAllModals())
+    } catch (e) {
+      // Set errors
+      if (fromType === ADDRESS_TYPES.LOCKBOX) {
+        yield put(actions.components.lockbox.setConnectionError(e))
+      } else {
+        yield put(
+          actions.logs.logErrorMessage(
+            logLocation,
+            'secondStepSubmitClicked',
+            e
+          )
+        )
+        yield put(actions.alerts.displayError(C.SEND_BTC_ERROR))
+        yield put(actions.modals.closeAllModals())
+      }
     }
   }
 

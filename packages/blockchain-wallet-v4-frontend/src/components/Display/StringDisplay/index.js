@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { propOr } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4'
 
@@ -27,10 +28,10 @@ class StringDisplayContainer extends React.PureComponent {
     return (
       <Wrapper {...rest}>
         {children.cata({
-          Success: value => <Text className='text'>{value}</Text>,
-          Failure: message => (
+          Success: value => value,
+          Failure: error => (
             <Text size='12px' weight={300} color='red' className='error'>
-              {message}
+              {propOr(error.toString(), 'message', error)}
             </Text>
           ),
           Loading: () => <Loader />,
