@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import { contains, isNil, gte } from 'ramda'
+import { contains, equals, gte, isNil, prop } from 'ramda'
 
 import { model } from 'data'
 import media from 'services/ResponsiveService'
@@ -273,7 +273,8 @@ const Success = props => {
       REACHED_WEEKLY_ERROR,
       REACHED_ANNUAL_ERROR
     ]) ||
-    gte(min, max) ||
+    (equals(prop('symbol', min), prop('symbol', max)) &&
+      gte(prop('amount', min), prop('amount', max))) ||
     isNil(min) ||
     isNil(max)
 
@@ -433,7 +434,11 @@ const Success = props => {
                 &nbsp;
                 <MinMaxValue>
                   {!minMaxDisabled &&
-                    formatAmount(fiatActive, inputSymbol, min)}
+                    formatAmount(
+                      prop('fiat', max),
+                      prop('symbol', min),
+                      prop('amount', min)
+                    )}
                 </MinMaxValue>
               </MinMaxButton>
               <MinMaxButton
@@ -448,7 +453,11 @@ const Success = props => {
                 &nbsp;
                 <MinMaxValue>
                   {!minMaxDisabled &&
-                    formatAmount(fiatActive, inputSymbol, max)}
+                    formatAmount(
+                      prop('fiat', max),
+                      prop('symbol', max),
+                      prop('amount', max)
+                    )}
                 </MinMaxValue>
               </MinMaxButton>
             </Row>
