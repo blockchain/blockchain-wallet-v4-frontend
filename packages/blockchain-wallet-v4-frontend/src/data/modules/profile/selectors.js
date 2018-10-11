@@ -1,6 +1,6 @@
 import {
-  any,
   and,
+  any,
   path,
   compose,
   converge,

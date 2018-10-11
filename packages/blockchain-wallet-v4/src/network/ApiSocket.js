@@ -1,14 +1,19 @@
-import { whereEq, identity, compose, prop } from 'ramda'
+import { compose, either, identity, prop, whereEq } from 'ramda'
 import { noop } from '../utils/functional'
 
-const isHeartbeatMsg = whereEq({
-  channel: 'heartbeat',
-  type: 'heartbeat'
-})
+const isHeartbeatMsg = either(
+  whereEq({
+    channel: 'heartbeat',
+    event: 'updated'
+  }),
+  whereEq({
+    channel: 'heartbeat',
+    event: 'snapshot'
+  })
+)
 const isServerRebootMsg = whereEq({
-  channel: 'server',
-  type: 'rebooting',
-  sequenceNumber: 0
+  channel: 'server_reboot',
+  event: 'updated'
 })
 
 export default class ApiSocket {

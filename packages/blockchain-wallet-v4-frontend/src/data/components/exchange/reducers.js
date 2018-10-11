@@ -15,7 +15,8 @@ const INITIAL_STATE = {
   max: null,
   targetFee: Remote.NotAsked,
   sourceFee: { source: 0, target: 0 },
-  showError: false
+  showError: false,
+  txError: null
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -91,6 +92,8 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('sourceFee', payload.fee, state)
     case AT.SET_SHOW_ERROR:
       return assoc('showError', payload.showError, state)
+    case AT.SET_TX_ERROR:
+      return assoc('txError', payload.error, state)
     default:
       return state
   }

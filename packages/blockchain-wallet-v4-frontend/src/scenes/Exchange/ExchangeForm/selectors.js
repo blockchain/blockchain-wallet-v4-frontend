@@ -1,9 +1,11 @@
+import * as bowser from 'bowser'
 import { selectors, model } from 'data'
 import {
   always,
   compose,
   curry,
   defaultTo,
+  equals,
   flip,
   head,
   last,
@@ -17,6 +19,7 @@ import {
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { currencySymbolMap } from 'services/CoinifyService'
 import { Remote } from 'blockchain-wallet-v4'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 const {
   EXCHANGE_FORM,
@@ -72,6 +75,7 @@ export const generateGroups = curry((accounts, availableCurrencies) => {
 const getFormValues = state => {
   const formValues = selectors.form.getFormValues(EXCHANGE_FORM)(state)
   const fix = prop('fix', formValues) || BASE_IN_FIAT
+
   return {
     sourceCoin: path(['source', 'coin'], formValues) || 'BTC',
     targetCoin: path(['target', 'coin'], formValues) || 'ETH',
@@ -80,12 +84,22 @@ const getFormValues = state => {
   }
 }
 
+const getBlockLockbox = state => {
+  const formValues = selectors.form.getFormValues(EXCHANGE_FORM)(state)
+  return (
+    equals(path(['source', 'type'], formValues), ADDRESS_TYPES.LOCKBOX) &&
+    !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
+  )
+}
+
 const getCurrentPair = state => {
   const { sourceCoin, targetCoin } = getFormValues(state)
   return formatPair(sourceCoin, targetCoin)
 }
+
 const getCurrentPairAmounts = state =>
   selectors.components.exchange.getAmounts(getCurrentPair(state), state)
+
 const getCurrentPairRates = state =>
   selectors.components.exchange.getRates(getCurrentPair(state), state)
 
@@ -96,12 +110,14 @@ const fallbackToNullAmounts = adviceAmountsR =>
     Loading: () => adviceAmountsR,
     NotAsked: () => Remote.of(nullAmounts)
   })
+
 const nullAmounts = {
   sourceAmount: 0,
   targetAmount: 0,
   sourceFiat: 0,
   targetFiat: 0
 }
+
 const fallbackToBestRates = (adviceRatesR, bestRatesR) =>
   adviceRatesR.cata({
     Success: () => adviceRatesR,
@@ -109,6 +125,7 @@ const fallbackToBestRates = (adviceRatesR, bestRatesR) =>
     Loading: () => adviceRatesR,
     NotAsked: () => bestRatesR
   })
+
 const formatBestRates = curry(
   (sourceCoin, targetCoin, currency, bestRates) => ({
     sourceToTargetRate: path(
@@ -135,15 +152,25 @@ const {
   getMax,
   getTargetFee,
   getSourceFee,
-  showError
+  showError,
+  getTxError
 } = selectors.components.exchange
 
-export { canUseExchange, getMin, getMax, getTargetFee, getSourceFee, showError }
+export {
+  canUseExchange,
+  getMin,
+  getMax,
+  getTargetFee,
+  getSourceFee,
+  showError,
+  getTxError
+}
 export const getData = createDeepEqualSelector(
   [
     getActiveBtcAccounts,
     getActiveBchAccounts,
     getActiveEthAccounts,
+    getBlockLockbox,
     selectors.core.settings.getCurrency,
     getFormValues,
     selectors.modules.rates.getAvailablePairs,
@@ -156,6 +183,7 @@ export const getData = createDeepEqualSelector(
     btcAccountsR,
     bchAccountsR,
     ethAccountsR,
+    blockLockbox,
     currencyR,
     formValues,
     availablePairsR,
@@ -214,31 +242,32 @@ export const getData = createDeepEqualSelector(
       )
 
       return {
-        canUseExchange: true,
-        disabled: !Remote.Success.is(amountsR),
         availablePairs,
-        fromElements,
-        toElements,
-        currency,
-        inputField,
-        inputSymbol: currencySymbolMap[inputCurrency],
+        blockLockbox,
+        canUseExchange: true,
+        coinActive: coinActive(fix),
         complementaryAmount: amountsR.map(prop(complementaryField)),
         complementarySymbol: currencySymbolMap[complementaryCurrency],
+        currency,
+        disabled: !Remote.Success.is(amountsR),
+        fiatActive: fiatActive(fix),
+        fix,
+        fromElements,
+        initialValues,
+        inputField,
+        inputSymbol: currencySymbolMap[inputCurrency],
+        sourceActive: sourceActive(fix),
         sourceAmount: amountsR.map(prop('sourceAmount')),
-        targetAmount: amountsR.map(prop('targetAmount')),
-        targetFiat: amountsR.map(prop('targetFiat')),
+        sourceCoin,
         sourceToTargetRate: ratesR.map(prop('sourceToTargetRate')),
         sourceToFiatRate: ratesR.map(prop('sourceToFiatRate')),
-        targetToFiatRate: ratesR.map(prop('targetToFiatRate')),
-        sourceCoin,
-        targetCoin,
-        sourceActive: sourceActive(fix),
         targetActive: targetActive(fix),
-        coinActive: coinActive(fix),
-        fiatActive: fiatActive(fix),
-        volume,
-        fix,
-        initialValues
+        targetAmount: amountsR.map(prop('targetAmount')),
+        targetCoin,
+        targetFiat: amountsR.map(prop('targetFiat')),
+        targetToFiatRate: ratesR.map(prop('targetToFiatRate')),
+        toElements,
+        volume
       }
     }
     return lift(transform)(currencyR, availablePairsR)

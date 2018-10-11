@@ -1,16 +1,8 @@
 import { BigNumber } from 'bignumber.js'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import {
-  assoc,
-  compose,
-  curry,
-  path,
-  pathOr,
-  prop,
-  reduce,
-  toLower
-} from 'ramda'
+import { assoc, compose, curry, path, pathOr, prop, toLower, map } from 'ramda'
 
+import { currencySymbolMap } from 'services/CoinifyService'
 import { formatPair, FIX_TYPES } from 'data/modules/rates/model'
 import {
   MINIMUM_NO_LINK_ERROR,
@@ -255,47 +247,66 @@ export const selectFee = (coin, payment) => {
   }
 }
 
-export const validateVolume = (limits, volume) => {
-  const minOrder = prop('minOrder', limits)
-  const maxPossible = prop('maxPossibleOrder', limits)
-  const balanceMax = prop('balanceMax', limits)
-  const maxOrder = prop('maxOrder', limits)
-  // const dailyMax = path(['daily', 'available'], limits)
-  // const weeklyMax = path(['weekly', 'available'], limits)
-  // const annualMax = path(['annual', 'available'], limits)
+export const validateMinMax = limits => {
+  const minSymbol = path(['minOrder', 'symbol'], limits)
+  const maxSymbol = path(['maxPossibleOrder', 'symbol'], limits)
+  const minOrder = path(['minOrder', 'amount'], limits)
+  const maxPossible = path(['maxPossibleOrder', 'amount'], limits)
 
-  if (isAmountAboveMaximum(minOrder, maxPossible)) {
+  if (minSymbol === maxSymbol && isAmountAboveMaximum(minOrder, maxPossible)) {
     // if (isAmountAboveMaximum(minOrder, annualMax)) throw REACHED_ANNUAL_ERROR
     // if (isAmountAboveMaximum(minOrder, weeklyMax)) throw REACHED_WEEKLY_ERROR
     // if (isAmountAboveMaximum(minOrder, dailyMax)) throw REACHED_DAILY_ERROR
     throw MINIMUM_NO_LINK_ERROR
   }
-  if (isAmountBelowMinimum(volume, minOrder)) throw MINIMUM_ERROR
-  if (isAmountAboveMaximum(volume, balanceMax)) throw BALANCE_ERROR
-  // if (isAmountAboveMaximum(volume, dailyMax)) throw DAILY_ERROR
-  // if (isAmountAboveMaximum(volume, weeklyMax)) throw WEEKLY_ERROR
-  // if (isAmountAboveMaximum(volume, annualMax)) throw ANNUAL_ERROR
-  if (isAmountAboveMaximum(volume, maxOrder)) throw ORDER_ERROR
 }
 
-const calcMaxPossibleOrder = limits =>
-  assoc(
-    'maxPossibleOrder',
-    reduce(minimum, Infinity, [
-      prop('balanceMax', limits),
-      prop('maxOrder', limits)
-      // path(['daily', 'available'], limits),
-      // path(['weekly', 'available'], limits),
-      // path(['annual', 'available'], limits)
-    ]),
+export const validateVolume = (
+  limits,
+  sourceFiatVolume,
+  sourceCryptoVolume
+) => {
+  const minOrder = path(['minOrder', 'amount'], limits)
+  const balanceMax = path(['balanceMax', 'amount'], limits)
+  const maxOrder = path(['maxOrder', 'amount'], limits)
+  // const dailyMax = path(['daily', 'available'], limits)
+  // const weeklyMax = path(['weekly', 'available'], limits)
+  // const annualMax = path(['annual', 'available'], limits)
+
+  if (isAmountBelowMinimum(sourceFiatVolume, minOrder)) throw MINIMUM_ERROR
+  if (isAmountAboveMaximum(sourceCryptoVolume, balanceMax)) throw BALANCE_ERROR
+  // if (isAmountAboveMaximum(sourceFiatVolume, dailyMax)) throw DAILY_ERROR
+  // if (isAmountAboveMaximum(sourceFiatVolume, weeklyMax)) throw WEEKLY_ERROR
+  // if (isAmountAboveMaximum(sourceFiatVolume, annualMax)) throw ANNUAL_ERROR
+  if (isAmountAboveMaximum(sourceFiatVolume, maxOrder)) throw ORDER_ERROR
+}
+
+export const addBalanceLimit = (balanceLimit, limits) => {
+  const { fiatBalance, cryptoBalance } = balanceLimit
+
+  const resultingLimits = assoc('balanceMax', cryptoBalance, limits)
+
+  if (prop('amount', fiatBalance) < path(['minOrder', 'amount'], limits)) {
+    return assoc('maxPossibleOrder', fiatBalance, resultingLimits)
+  }
+  if (
+    prop('amount', fiatBalance) < path(['maxPossibleOrder', 'amount'], limits)
+  ) {
+    return assoc('maxPossibleOrder', cryptoBalance, resultingLimits)
+  }
+
+  return resultingLimits
+}
+
+export const formatLimits = ({ currency, ...limits }) =>
+  map(
+    limit => ({
+      amount: limit,
+      fiat: true,
+      symbol: currencySymbolMap[currency]
+    }),
     limits
   )
-
-export const addBalanceLimit = (fiatBalance, limits) =>
-  compose(
-    calcMaxPossibleOrder,
-    assoc('balanceMax', fiatBalance)
-  )(limits)
 
 const getRate = (rates, source, target) =>
   compose(
