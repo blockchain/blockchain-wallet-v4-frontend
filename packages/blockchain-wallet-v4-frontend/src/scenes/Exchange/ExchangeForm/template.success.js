@@ -2,13 +2,14 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import { contains, isNil, gte } from 'ramda'
+import { contains, equals, gte, isNil, prop } from 'ramda'
 
 import { model } from 'data'
 import media from 'services/ResponsiveService'
 import { formatTextAmount } from 'services/ValidationHelper'
 
 import {
+  Banner,
   Button,
   HeartbeatLoader,
   Icon,
@@ -211,6 +212,9 @@ const CurrencyBox = styled(Text)`
 const ClickableText = styled(Text)`
   cursor: pointer;
 `
+const LockboxWarning = styled(Row)`
+  padding: 20px 30px 0;
+`
 
 const normalizeAmount = (value, prevValue, allValues, ...args) => {
   if (isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
@@ -222,40 +226,41 @@ export const formatAmount = (isFiat, symbol, value) =>
 
 const Success = props => {
   const {
-    dirty,
     asyncValidating,
-    error,
-    submitting,
-    canUseExchange,
-    disabled,
     availablePairs,
-    fromElements,
-    toElements,
-    sourceCoin,
-    targetCoin,
-    sourceActive,
-    targetActive,
-    fiatActive,
-    inputField,
-    inputSymbol,
+    blockLockbox,
+    canUseExchange,
     complementaryAmount,
     complementarySymbol,
-    min,
-    max,
-    handleSubmit,
-    handleSourceChange,
-    handleTargetChange,
+    dirty,
+    disabled,
+    error,
+    fiatActive,
+    fromElements,
     handleAmountChange,
-    handleInputFocus,
     handleInputBlur,
-    swapFix,
+    handleInputFocus,
+    handleSourceChange,
+    handleSubmit,
+    handleTargetChange,
+    inputField,
+    inputSymbol,
+    max,
+    min,
+    showError,
+    sourceActive,
+    sourceCoin,
+    submitting,
     swapBaseAndCounter,
     swapCoinAndFiat,
+    swapFix,
+    targetActive,
+    targetCoin,
+    toElements,
+    txError,
     useMin,
     useMax,
-    volume,
-    showError,
-    txError
+    volume
   } = props
   const swapDisabled = !contains(
     formatPair(targetCoin, sourceCoin),
@@ -269,7 +274,8 @@ const Success = props => {
       REACHED_WEEKLY_ERROR,
       REACHED_ANNUAL_ERROR
     ]) ||
-    gte(min, max) ||
+    (equals(prop('symbol', min), prop('symbol', max)) &&
+      gte(prop('amount', min), prop('amount', max))) ||
     isNil(min) ||
     isNil(max)
 
@@ -311,6 +317,18 @@ const Success = props => {
                 />
               </Cell>
             </SelectSourceRow>
+            {blockLockbox && (
+              <LockboxWarning>
+                <Banner type='warning'>
+                  <Text color='warning' size='12px'>
+                    <FormattedMessage
+                      id='scenes.exchange.exchangeform.blocklockbox'
+                      defaultMessage='Sending from Lockbox can only be done while using the Chrome browser'
+                    />
+                  </Text>
+                </Banner>
+              </LockboxWarning>
+            )}
             <Row>
               <Cell center>
                 <ActiveCurrencyButton
@@ -419,7 +437,11 @@ const Success = props => {
                 &nbsp;
                 <MinMaxValue>
                   {!minMaxDisabled &&
-                    formatAmount(fiatActive, inputSymbol, min)}
+                    formatAmount(
+                      prop('fiat', max),
+                      prop('symbol', min),
+                      prop('amount', min)
+                    )}
                 </MinMaxValue>
               </MinMaxButton>
               <MinMaxButton
@@ -434,7 +456,11 @@ const Success = props => {
                 &nbsp;
                 <MinMaxValue>
                   {!minMaxDisabled &&
-                    formatAmount(fiatActive, inputSymbol, max)}
+                    formatAmount(
+                      prop('fiat', max),
+                      prop('symbol', max),
+                      prop('amount', max)
+                    )}
                 </MinMaxValue>
               </MinMaxButton>
             </Row>
@@ -446,6 +472,7 @@ const Success = props => {
               fullwidth
               disabled={
                 disabled ||
+                blockLockbox ||
                 asyncValidating ||
                 submitting ||
                 !dirty ||
