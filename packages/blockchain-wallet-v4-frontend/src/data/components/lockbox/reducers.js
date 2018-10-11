@@ -53,17 +53,7 @@ export default (state = INITIAL_STATE, action) => {
       )
     }
     case AT.SET_FIRMWARE_UPDATE_STEP: {
-      return assocPath(['firmware', 'step'], payload.step, state)
-    }
-    case AT.SET_FIRMWARE_INSTALLED_INFO: {
-      return assocPath(
-        ['firmware', 'versions', 'installed'],
-        payload.info,
-        state
-      )
-    }
-    case AT.SET_FIRMWARE_LATEST_INFO: {
-      return assocPath(['firmware', 'versions', 'latest'], payload.info, state)
+      return assoc('firmware', payload.step, state)
     }
     case AT.RESET_FIRMWARE_INFO: {
       return assoc('firmware', {}, state)
@@ -129,6 +119,9 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.SET_CONNECTION_READY: {
       return assocPath(['connection', 'ready'], true, state)
+    }
+    case AT.SET_CONNECTION_SUCCESS: {
+      return assocPath(['connection', 'success'], true, state)
     }
     default:
       return state

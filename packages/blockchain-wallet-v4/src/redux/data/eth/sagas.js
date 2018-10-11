@@ -7,6 +7,9 @@ import * as S from './selectors'
 import * as selectors from '../../selectors'
 import * as kvStoreSelectors from '../../kvStore/eth/selectors'
 
+const TX_PER_PAGE = 40
+const CONTEXT_FAILURE = 'Could not get ETH context.'
+
 export default ({ api }) => {
   const fetchData = function*(action) {
     try {
@@ -85,14 +88,17 @@ export default ({ api }) => {
       const defaultAccountR = yield select(
         selectors.kvStore.ethereum.getContext
       )
-      const ethAddress =
-        address || defaultAccountR.getOrFail('Could not get ethereum context.')
+      const ethAddress = address || defaultAccountR.getOrFail(CONTEXT_FAILURE)
       const pages = yield select(S.getTransactions)
       const nextPage = reset ? 0 : length(pages)
+      const transactionsAtBound = yield select(S.getTransactionsAtBound)
+      if (transactionsAtBound && !reset) return
       yield put(A.fetchTransactionsLoading(reset))
       const data = yield call(api.getEthereumTransactions, ethAddress, nextPage)
       const txs = path([ethAddress, 'txns'], data)
       if (isNil(txs)) return
+      const atBounds = length(txs) < TX_PER_PAGE
+      yield put(A.transactionsAtBound(atBounds))
       yield put(A.fetchTransactionsSuccess(txs, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))

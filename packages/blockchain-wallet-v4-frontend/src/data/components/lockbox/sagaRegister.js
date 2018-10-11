@@ -37,6 +37,10 @@ export default ({ api, coreSagas }) => {
       lockboxSagas.installBlockchainApps
     )
     yield takeLatest(AT.INSTALL_APPLICATION, lockboxSagas.installApplication)
+    yield takeLatest(
+      AT.UNINSTALL_APPLICATION,
+      lockboxSagas.uninstallApplication
+    )
     yield takeLatest(AT.INITIALIZE_DASHBOARD, lockboxSagas.initializeDashboard)
   }
 }

@@ -1,13 +1,13 @@
 import { call, put, take, select, takeEvery } from 'redux-saga/effects'
-import { contains, length, prop } from 'ramda'
-import { eventChannel, END } from 'redux-saga'
+import { contains, find, length, prop, propEq } from 'ramda'
+import { delay, eventChannel, END } from 'redux-saga'
 import { actions, selectors } from 'data'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as C from 'services/AlertService'
 import * as S from './selectors'
 import * as CC from 'services/ConfirmService'
-import * as LockboxService from 'services/LockboxService'
+import * as Lockbox from 'services/LockboxService'
 import { confirm } from 'services/SagaService'
 
 const logLocation = 'components/lockbox/sagas'
@@ -44,7 +44,7 @@ export default ({ api }) => {
         deviceType = prop('device_type', device)
       }
 
-      const appConnection = yield LockboxService.connections.pollForAppConnection(
+      const appConnection = yield Lockbox.utils.pollForAppConnection(
         deviceType,
         appRequested,
         timeout
@@ -74,10 +74,7 @@ export default ({ api }) => {
       yield take(AT.SET_CONNECTION_INFO)
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
-      const deviceInfo = yield call(
-        LockboxService.utils.getDeviceInfo,
-        transport
-      )
+      const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
       // get full device info via api
       const deviceVersion = yield call(api.getDeviceVersion, {
         provider: deviceInfo.providerId,
@@ -97,7 +94,7 @@ export default ({ api }) => {
 
       // open socket and check if device is authentic
       const isDeviceAuthentic = yield call(
-        LockboxService.firmware.checkDeviceAuthenticity,
+        Lockbox.firmware.checkDeviceAuthenticity,
         transport,
         domains.ledgerSocket,
         {
@@ -153,7 +150,7 @@ export default ({ api }) => {
       yield put(A.saveNewDeviceKvStoreLoading())
       const newDeviceR = yield select(S.getNewDeviceInfo)
       const newDevice = newDeviceR.getOrFail('missing_device')
-      const mdAccountsEntry = LockboxService.accounts.generateAccountsMDEntry(
+      const mdAccountsEntry = Lockbox.utils.generateAccountsMDEntry(
         newDevice,
         deviceName
       )
@@ -221,6 +218,9 @@ export default ({ api }) => {
           yield put(actions.router.push('/lockbox'))
           yield put(A.deleteDeviceSuccess())
           yield put(actions.alerts.displaySuccess(C.LOCKBOX_DELETE_SUCCESS))
+          yield put(actions.core.data.bitcoin.fetchTransactions('', true))
+          yield put(actions.core.data.ethereum.fetchTransactions('', true))
+          yield put(actions.core.data.bch.fetchTransactions('', true))
         } catch (e) {
           yield put(A.deleteDeviceFailure(e))
           yield put(actions.alerts.displayError(C.LOCKBOX_DELETE_ERROR))
@@ -256,6 +256,7 @@ export default ({ api }) => {
   // new device setup saga
   const initializeNewDeviceSetup = function*() {
     try {
+      closePoll = false
       yield put(A.changeDeviceSetupStep('connect-device'))
 
       const channel = yield call(pollForDeviceChannel)
@@ -276,13 +277,16 @@ export default ({ api }) => {
       // wait for BTC connection
       yield put(A.pollForDeviceApp('BTC', null, deviceType))
       yield take(AT.SET_CONNECTION_INFO)
-      const { transport } = yield select(S.getCurrentConnection)
-      const btcConnection = LockboxService.connections.createBtcBchConnection(
-        transport
+      const connection = yield select(S.getCurrentConnection)
+      // create BTC transport
+      const btcConnection = Lockbox.utils.createBtcBchConnection(
+        connection.app,
+        connection.deviceType,
+        connection.transport
       )
       // derive device info (chaincodes and xpubs)
       const newDeviceInfo = yield call(
-        LockboxService.accounts.deriveDeviceInfo,
+        Lockbox.utils.deriveDeviceInfo,
         btcConnection
       )
       yield put(
@@ -383,7 +387,7 @@ export default ({ api }) => {
       const { deviceIndex } = action.payload
       // reset previous firmware infos
       yield put(A.resetFirmwareInfo())
-      yield put(A.changeFirmwareUpdateStep('connect-device'))
+      yield put(A.changeFirmwareUpdateStep({ step: 'connect-device' }))
       // derive device type
       const deviceR = yield select(
         selectors.core.kvStore.lockbox.getDevice,
@@ -397,11 +401,7 @@ export default ({ api }) => {
       yield take(AT.SET_FIRMWARE_UPDATE_STEP)
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
-      const deviceInfo = yield call(
-        LockboxService.utils.getDeviceInfo,
-        transport
-      )
-      yield put(A.setFirmwareInstalledInfo(deviceInfo))
+      const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
       // get full device info via api
       const deviceVersion = yield call(api.getDeviceVersion, {
         provider: deviceInfo.providerId,
@@ -419,24 +419,111 @@ export default ({ api }) => {
         device_version: deviceVersion.id,
         provider: deviceInfo.providerId
       })
-      yield put(
-        A.setFirmwareLatestInfo({
-          version: seFirmwareVersion.name,
-          deviceOutdated: latestFirmware.result !== 'null'
-        })
-      )
 
-      // determine if update is needed
       if (latestFirmware.result !== 'null') {
         // device firmware is out of date
-        // lines 56-75 in helpers/devices/getLatestFirmwareForDevice.js
-        yield put(A.changeFirmwareUpdateStep('upgrade-firmware-step'))
-        // TODO: install MCU and firmware
+        const seFirmwareOsuVersion = prop(
+          'se_firmware_osu_version',
+          latestFirmware
+        )
+        const nextSeFirmwareFinalVersion = prop(
+          'next_se_firmware_final_version',
+          seFirmwareOsuVersion
+        )
+        // fetch final firmware info
+        const seFirmwareFinalVersion = yield call(
+          api.getFinalFirmwareById,
+          nextSeFirmwareFinalVersion
+        )
+        const osuFirmware = {
+          ...seFirmwareOsuVersion,
+          shouldFlashMcu: false
+        }
+        yield put(
+          A.changeFirmwareUpdateStep({
+            step: 'check-versions',
+            status: Lockbox.utils.formatFirmwareDisplayName(osuFirmware.name)
+          })
+        )
+        // wait for user to continue
+        yield take(AT.SET_FIRMWARE_UPDATE_STEP)
+        yield put(
+          A.changeFirmwareUpdateStep({
+            step: 'confirm-identifier',
+            status: Lockbox.utils.formatFirmwareHash(osuFirmware.hash)
+          })
+        )
+        // uninstall apps to ensure room for firmware
+        yield put(A.uninstallApplication('BCH'))
+        yield take([
+          AT.UNINSTALL_APPLICATION_FAILURE,
+          AT.UNINSTALL_APPLICATION_SUCCESS
+        ])
+        yield put(A.uninstallApplication('ETH'))
+        yield take([
+          AT.UNINSTALL_APPLICATION_FAILURE,
+          AT.UNINSTALL_APPLICATION_SUCCESS
+        ])
+        yield put(A.uninstallApplication('BTC'))
+        yield take([
+          AT.UNINSTALL_APPLICATION_FAILURE,
+          AT.UNINSTALL_APPLICATION_SUCCESS
+        ])
+        // fetch base socket domain
+        const domainsR = yield select(selectors.core.walletOptions.getDomains)
+        const domains = domainsR.getOrElse({
+          ledgerSocket: 'wss://api.ledgerwallet.com'
+        })
+        yield put(A.pollForDeviceApp('DASHBOARD', null, device.device_type))
+        yield take(AT.SET_CONNECTION_INFO)
+        const connection = yield select(S.getCurrentConnection)
+        // install osu firmware
+        yield call(
+          Lockbox.firmware.installOsuFirmware,
+          connection.transport,
+          domains.ledgerSocket,
+          osuFirmware,
+          deviceInfo.targetId
+        )
+        yield put(
+          A.changeFirmwareUpdateStep({
+            step: 'install-firmware',
+            status: ''
+          })
+        )
+        // wait for device to fully restart
+        yield delay(2000)
+        // install final firmware
+        yield call(
+          Lockbox.firmware.installFinalFirmware,
+          connection.transport,
+          domains.ledgerSocket,
+          seFirmwareFinalVersion,
+          deviceInfo.targetId
+        )
+        yield put(
+          A.changeFirmwareUpdateStep({
+            step: 'install-complete',
+            status: 'success'
+          })
+        )
       } else {
         // no firmware to install
-        yield put(A.changeFirmwareUpdateStep('complete', false))
+        yield put(
+          A.changeFirmwareUpdateStep({
+            step: 'install-complete',
+            status: 'uptodate'
+          })
+        )
       }
     } catch (e) {
+      // TODO: reject errors are getting swallowed in promise
+      yield put(
+        A.changeFirmwareUpdateStep({
+          step: 'install-complete',
+          status: 'error'
+        })
+      )
       yield put(
         actions.logs.logErrorMessage(logLocation, 'updateDeviceFirmware', e)
       )
@@ -449,10 +536,7 @@ export default ({ api }) => {
     try {
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
-      const deviceInfo = yield call(
-        LockboxService.utils.getDeviceInfo,
-        transport
-      )
+      const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
       // get full device info via api
       const deviceVersion = yield call(api.getDeviceVersion, {
         provider: deviceInfo.providerId,
@@ -477,7 +561,7 @@ export default ({ api }) => {
       })
       // install application
       yield call(
-        LockboxService.apps.installApp,
+        Lockbox.apps.installApp,
         transport,
         domains.ledgerSocket,
         deviceInfo.targetId,
@@ -489,6 +573,60 @@ export default ({ api }) => {
       yield put(A.installApplicationFailure(app, e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'installApplication', e)
+      )
+    }
+  }
+
+  // uninstalls requested application on device
+  const uninstallApplication = function*(action) {
+    const { app } = action.payload
+    try {
+      const { transport } = yield select(S.getCurrentConnection)
+      // get base device info
+      const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
+      // get full device info via api
+      const deviceVersion = yield call(api.getDeviceVersion, {
+        provider: deviceInfo.providerId,
+        target_id: deviceInfo.targetId
+      })
+      // get full firmware info via api
+      const seFirmwareVersion = yield call(api.getCurrentFirmware, {
+        device_version: deviceVersion.id,
+        version_name: deviceInfo.fullVersion,
+        provider: deviceInfo.providerId
+      })
+      // get latest info on applications
+      const appInfos = yield call(api.getApplications, {
+        provider: deviceInfo.providerId,
+        current_se_firmware_final_version: seFirmwareVersion.id,
+        device_version: deviceVersion.id
+      })
+      const appNameMap = {
+        BTC: 'Bitcoin',
+        BCH: 'Bitcoin Cash',
+        ETH: 'Ethereum'
+      }
+      const appInfo = find(propEq('name', appNameMap[app]))(
+        prop('application_versions', appInfos)
+      )
+      // fetch base socket domain
+      const domainsR = yield select(selectors.core.walletOptions.getDomains)
+      const domains = domainsR.getOrElse({
+        ledgerSocket: 'wss://api.ledgerwallet.com'
+      })
+      // uninstall application
+      yield call(
+        Lockbox.apps.uninstallApp,
+        transport,
+        domains.ledgerSocket,
+        deviceInfo.targetId,
+        appInfo
+      )
+      yield put(A.uninstallApplicationSuccess(app))
+    } catch (e) {
+      yield put(A.uninstallApplicationFailure(app, e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'uninstallApplication', e)
       )
     }
   }
@@ -547,6 +685,7 @@ export default ({ api }) => {
     installBlockchainApps,
     pollForDeviceApp,
     saveNewDeviceKvStore,
+    uninstallApplication,
     updateDeviceFirmware,
     updateDeviceName,
     updateTransactionList

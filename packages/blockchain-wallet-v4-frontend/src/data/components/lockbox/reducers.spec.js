@@ -19,6 +19,7 @@ const INITIAL_STATE = {
     isAuthentic: Remote.NotAsked
   }
 }
+
 describe('lockbox reducers', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toEqual(INITIAL_STATE)
@@ -74,47 +75,11 @@ describe('lockbox reducers', () => {
   it('should set firmware update step', () => {
     const action = actions.changeFirmwareUpdateStep('connect-device')
     const expectedState = assocPath(
-      ['firmware', 'step'],
+      ['firmware'],
       'connect-device',
       INITIAL_STATE
     )
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
-  })
-
-  it('should set firmware installed info', () => {
-    const INFO = 'some-info'
-    const action = actions.setFirmwareInstalledInfo(INFO)
-    const expectedState = assocPath(
-      ['firmware', 'versions', 'installed'],
-      INFO,
-      INITIAL_STATE
-    )
-    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
-  })
-
-  it('should set firmware latest info', () => {
-    const LATEST_INFO = 'some-latest-info'
-    const action = actions.setFirmwareLatestInfo(LATEST_INFO)
-    const expectedState = assocPath(
-      ['firmware', 'versions', 'latest'],
-      LATEST_INFO,
-      INITIAL_STATE
-    )
-    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
-  })
-
-  it('should reset firmware info', () => {
-    const setAction = actions.setFirmwareLatestInfo('latest-info')
-    const setExpectedState = assocPath(
-      ['firmware', 'versions', 'latest'],
-      'latest-info',
-      INITIAL_STATE
-    )
-    expect(reducer(INITIAL_STATE, setAction)).toEqual(setExpectedState)
-
-    const resetAction = actions.resetFirmwareInfo()
-    const resetExpectedState = assoc('firmware', {}, INITIAL_STATE)
-    expect(reducer(INITIAL_STATE, resetAction)).toEqual(resetExpectedState)
   })
 
   it('should install application', () => {

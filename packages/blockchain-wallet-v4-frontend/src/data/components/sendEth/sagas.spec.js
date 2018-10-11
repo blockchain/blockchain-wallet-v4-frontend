@@ -299,10 +299,6 @@ describe('sendEth sagas', () => {
       expect(paymentMock.publish).toHaveBeenCalledTimes(1)
     })
 
-    it('should put action to close all modals', () => {
-      saga.next(paymentMock).put(actions.modals.closeAllModals())
-    })
-
     it('should put eth payment updated success action', () => {
       saga
         .next(paymentMock)
@@ -341,20 +337,15 @@ describe('sendEth sagas', () => {
     })
 
     it('should display succcess message', () => {
-      saga
-        .next()
-        .put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
-        .next()
-        .isDone()
+      saga.next().put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
     })
 
-    it('should not set transaction note if payment has no description', () => {
-      paymentMock.value.mockReturnValue({ ...value, description: '', txId })
-      return expectSaga(secondStepSubmitClicked)
-        .not.put(
-          actions.core.kvStore.ethereum.setTxNotesEthereum(txId, description)
-        )
-        .run()
+    it('should put action to close all modals', () => {
+      saga
+        .next()
+        .put(actions.modals.closeAllModals())
+        .next()
+        .isDone()
     })
 
     describe('error handling', () => {
@@ -372,12 +363,11 @@ describe('sendEth sagas', () => {
           )
       })
 
-      it('should display success message', () => {
+      it('should display error message', () => {
         saga
           .next()
           .put(actions.alerts.displayError(C.SEND_ETH_ERROR))
           .next()
-          .isDone()
       })
     })
   })

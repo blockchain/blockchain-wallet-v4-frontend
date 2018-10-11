@@ -157,6 +157,7 @@ export default ({ api, coreSagas }) => {
         state,
         postCode
       }
+      if (address.country === 'US') address.state = address.state.code
       yield put(actions.form.startSubmit(PERSONAL_FORM))
       yield call(updateUser, { payload: { data: personalData } })
       yield call(updateUserAddress, { payload: { address } })
@@ -200,6 +201,21 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const fetchStates = function*() {
+    try {
+      yield put(A.setStates(Remote.Loading))
+      const states = yield call(api.getStates)
+      yield put(A.setStates(Remote.Success(states)))
+    } catch (e) {
+      yield put(A.setStates(Remote.Failure(e)))
+      actions.logs.logErrorMessage(
+        logLocation,
+        'fetchSupportedCountries',
+        `Error fetching supported countries: ${e}`
+      )
+    }
+  }
+
   const fetchPossibleAddresses = function*({
     payload: { postCode, countryCode }
   }) {
@@ -212,9 +228,9 @@ export default ({ api, coreSagas }) => {
         postCode,
         countryCode
       })
-      if (isEmpty(addresses)) throw new Error(failedToFetchAddressesError)
       yield put(A.setPossibleAddresses(addresses))
-      yield put(actions.form.focus(PERSONAL_FORM, 'address'))
+      if (!isEmpty(addresses))
+        yield put(actions.form.focus(PERSONAL_FORM, 'address'))
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
     } catch (e) {
       const description = prop('description', e)
@@ -267,21 +283,34 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const selectAddress = function*({
-    payload: {
-      address: { line1, line2, city, state }
-    }
-  }) {
+  const selectAddress = function*({ payload }) {
+    const address = prop('address', payload)
+    const { country, state: usState } = yield select(
+      selectors.form.getFormValues(PERSONAL_FORM)
+    )
+    if (!address) return
+    const { line1, line2, city, state } = address
     yield put(actions.form.change(PERSONAL_FORM, 'line1', line1))
     yield put(actions.form.change(PERSONAL_FORM, 'line2', line2))
     yield put(actions.form.change(PERSONAL_FORM, 'city', city))
-    yield put(actions.form.change(PERSONAL_FORM, 'state', state))
+    if (prop('code', country) !== 'US') {
+      yield put(actions.form.change(PERSONAL_FORM, 'address', address))
+      yield put(actions.form.change(PERSONAL_FORM, 'state', state))
+    } else {
+      yield put(
+        actions.form.change(PERSONAL_FORM, 'address', {
+          ...address,
+          state: usState
+        })
+      )
+    }
   }
 
   return {
     verifyIdentity,
     initializeStep,
     fetchSupportedCountries,
+    fetchStates,
     fetchPossibleAddresses,
     resendSmsCode,
     savePersonalData,

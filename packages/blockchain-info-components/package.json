@@ -1,8 +1,7 @@
 {
   "name": "blockchain-info-components",
   "version": "0.0.31",
-  "description":
-    "A shared UI components library for blockchain.info applications.",
+  "description": "A shared UI components library for blockchain.info applications.",
   "license": "AGPL-3.0-or-later",
   "author": {
     "name": "Blockchain.info",
@@ -15,30 +14,33 @@
     "ci:coverage:components": "yarn coverage --runInBand",
     "coverage": "cross-env ./../../node_modules/.bin/jest --coverage",
     "deploy-storybook": "storybook-to-ghpages",
-    "publish":
-      "rm -rf lib && babel --out-dir lib --ignore spec.js --copy-files src",
+    "publish": "rm -rf lib && babel --out-dir lib --ignore spec.js --copy-files src",
     "storybook:build": "build-storybook",
     "storybook:serve": "start-storybook -p 6006",
-    "storybook:deploy":
-      "yarn deploy-storybook --existing-output-dir=./storybook-static",
+    "storybook:deploy": "yarn deploy-storybook --existing-output-dir=./storybook-static",
     "test": "cross-env ./../../node_modules/.bin/jest",
-    "test:build":
-      "cross-env rimraf lib && babel --out-dir lib --ignore spec.js --copy-files src",
-    "test:debug":
-      "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
+    "test:build": "cross-env rimraf lib && babel --out-dir lib --ignore spec.js --copy-files src",
+    "test:debug": "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "test:update": "cross-env ./../../node_modules/.bin/jest -u",
     "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll"
   },
   "jest": {
-    "collectCoverageFrom": ["src/**/*.js", "!src/**/index.js"],
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/**/index.js"
+    ],
     "coverageDirectory": "<rootDir>/../../coverage/blockchain-info-components",
-    "coverageReporters": ["json", "html"],
+    "coverageReporters": [
+      "json",
+      "html"
+    ],
     "moduleNameMapper": {
-      "\\.(pdf|jpg|jpeg|png|gif|eot|otf|svg|ttf|woff|woff2)$":
-        "<rootDir>/src/__mocks__/fileMock.js",
+      "\\.(pdf|jpg|jpeg|png|gif|eot|otf|svg|ttf|woff|woff2)$": "<rootDir>/src/__mocks__/fileMock.js",
       "\\.(css|scss)$": "<rootDir>/../../node_modules/identity-obj-proxy"
     },
-    "modulePathIgnorePatterns": ["./lib"],
+    "modulePathIgnorePatterns": [
+      "./lib"
+    ],
     "setupFiles": [
       "<rootDir>/../../config/jest/jest.shim.js",
       "<rootDir>/../../config/jest/jest.config.js"
@@ -46,7 +48,9 @@
     "snapshotSerializers": [
       "<rootDir>/../../node_modules/enzyme-to-json/serializer"
     ],
-    "testPathIgnorePatterns": ["./lib"],
+    "testPathIgnorePatterns": [
+      "./lib"
+    ],
     "transform": {
       "^.+\\.jsx$": "<rootDir>/../../node_modules/babel-jest",
       "^.+\\.js$": "<rootDir>/../../node_modules/babel-jest"
@@ -58,6 +62,7 @@
     "ramda": "0.25.0",
     "react": "16.4.0",
     "react-datetime": "2.14.0",
+    "react-input-autosize": "2.2.1",
     "react-intl": "2.4.0",
     "react-onclickoutside": "6.7.1",
     "react-select": "2.0.0",

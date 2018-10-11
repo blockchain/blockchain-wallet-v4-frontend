@@ -98,6 +98,10 @@
         "id": "components.alerts.email_update_success"
       },
       {
+        "defaultMessage": "Your email has been updated and a confirmation email has been sent to the new address.",
+        "id": "components.alerts.email_update_success_link"
+      },
+      {
         "defaultMessage": "Failed to verify email address.",
         "id": "components.alerts.email_verify_error"
       },
@@ -476,6 +480,14 @@
       {
         "defaultMessage": "Failed to update address label.",
         "id": "components.alerts.update_address_label_error"
+      },
+      {
+        "defaultMessage": "Verification email sent. Please check your email.",
+        "id": "components.alerts.verify_email_sent"
+      },
+      {
+        "defaultMessage": "Error sending verification email. Please try again later.",
+        "id": "components.alerts.verify_email_sent_error"
       },
       {
         "defaultMessage": "Could not retrieve essential data. Try again later.",
@@ -1050,7 +1062,7 @@
         "id": "components.identityverification.popup.note.personalinfosecure"
       },
       {
-        "defaultMessage": "Complete your profile and identity verification to start buying and selling. Don’t worry, we only need a couple more details.",
+        "defaultMessage": "Complete your profile and identity verification to start exchanging. Don’t worry, we only need a couple more details.",
         "id": "components.identityverification.popup.note.unverified"
       },
       {
@@ -1528,6 +1540,27 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Confirm your email address to properly secure your account",
+        "id": "layouts.wallet.header.emailreminder"
+      },
+      {
+        "defaultMessage": "- An email was sent to {email}",
+        "id": "layouts.wallet.header.emailreminder.emailsent"
+      },
+      {
+        "defaultMessage": "Resend Email",
+        "id": "layouts.wallet.header.emailreminder.resend"
+      },
+      {
+        "defaultMessage": "Change Email",
+        "id": "layouts.wallet.header.emailreminder.change"
+      }
+    ],
+    "path": "src/layouts/Wallet/Header/EmailReminder/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Sign Out",
         "id": "layouts.wallet.header.logout.signout"
       }
@@ -1846,6 +1879,15 @@
       }
     ],
     "path": "src/layouts/Wallet/MenuTop/Balance/WalletBalance/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/WalletBalance/XlmBalance/template.error.json"
   },
   {
     "descriptors": [
@@ -3257,6 +3299,30 @@
         "id": "identityverification.personal.subheader"
       },
       {
+        "defaultMessage": "Select your country of residence",
+        "id": "identityverification.personal.country"
+      },
+      {
+        "defaultMessage": "Select country",
+        "id": "components.selectboxcountry.label"
+      },
+      {
+        "defaultMessage": "State",
+        "id": "identityverification.personal.state"
+      },
+      {
+        "defaultMessage": "Select your state",
+        "id": "identityverification.personal.label.state"
+      },
+      {
+        "defaultMessage": "Unfortunately exchange is not available in your state at this time.",
+        "id": "identityverification.personal.unavailable"
+      },
+      {
+        "defaultMessage": "We will notify you when we expand to your area.",
+        "id": "identityverification.personal.unavailablenotify"
+      },
+      {
         "defaultMessage": "First Name",
         "id": "identityverification.personal.firstname"
       },
@@ -3293,14 +3359,6 @@
         "id": "identityverification.personal.faq.dateofbirth.text"
       },
       {
-        "defaultMessage": "Select your country of residence",
-        "id": "identityverification.personal.country"
-      },
-      {
-        "defaultMessage": "Select country",
-        "id": "components.selectboxcountry.label"
-      },
-      {
         "defaultMessage": "Zip Code",
         "id": "identityverification.personal.zipcode"
       },
@@ -3335,10 +3393,6 @@
       {
         "defaultMessage": "City",
         "id": "identityverification.personal.city"
-      },
-      {
-        "defaultMessage": "State",
-        "id": "identityverification.personal.state"
       },
       {
         "defaultMessage": "Region",
@@ -3553,16 +3607,24 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Step 2. Check for updates",
-        "id": "modals.lockboxfirmware.checkversions.title"
+        "defaultMessage": "Check for Updates",
+        "id": "modals.lockboxfirmware.checkversionsstep.title"
+      },
+      {
+        "defaultMessage": "A new firmware, version {status}, is available for your device! Click continue to start installing.",
+        "id": "modals.lockboxfirmware.checkversionsstep.updateavailable"
       },
       {
         "defaultMessage": "Please wait while we check for updates for your device.",
-        "id": "modals.lockboxfirmware.checkversions.subtitle"
+        "id": "modals.lockboxfirmware.checkversionsstep.subtitle"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.lockboxfirmware.checkversionsstep.continue"
       },
       {
         "defaultMessage": "Checking Versions",
-        "id": "modals.lockboxfirmware.checkversions.loading"
+        "id": "modals.lockboxfirmware.checkversionsstep.loading"
       }
     ],
     "path": "src/modals/LockboxFirmware/CheckVersionsStep/template.json"
@@ -3570,8 +3632,32 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Device Up-to-date!",
+        "id": "modals.lockboxfirmware.completestep.uptodate.title"
+      },
+      {
+        "defaultMessage": "Your device is already up-to-date.",
+        "id": "modals.lockboxfirmware.completestep.uptodate.message"
+      },
+      {
         "defaultMessage": "Update Complete!",
-        "id": "modals.lockboxfirmware.completestep.title"
+        "id": "modals.lockboxfirmware.completestep.installsuccess.title"
+      },
+      {
+        "defaultMessage": "Your firmware was successfully updated. You will now need to reinstall the apps on your device or do it later via the settings page.",
+        "id": "modals.lockboxfirmware.completestep.installsuccess.message"
+      },
+      {
+        "defaultMessage": "Update Failed!",
+        "id": "modals.lockboxfirmware.completestep.installerror.title"
+      },
+      {
+        "defaultMessage": "The firmware update failed to install. Please try again or reach out to support if the issue persists.",
+        "id": "modals.lockboxfirmware.completestep.installerror.message"
+      },
+      {
+        "defaultMessage": "Install Apps",
+        "id": "modals.lockboxfirmware.completestep.installApps"
       },
       {
         "defaultMessage": "Close",
@@ -3583,12 +3669,16 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Step 3. Verify the identifier",
-        "id": "modals.lockboxfirmware.confirmidentifierstep.title"
+        "defaultMessage": "Verify Your Device",
+        "id": "modals.lockboxfirmware.confirmidstep.title"
       },
       {
-        "defaultMessage": "Confirm",
-        "id": "modals.lockboxfirmware.confirmidentifierstep.confirm"
+        "defaultMessage": "Preparing your device for update. Please confirm on your device that the install identifier matches the own shown below.",
+        "id": "modals.lockboxfirmware.confirmidstep.message1"
+      },
+      {
+        "defaultMessage": "Preparing your device for update. Follow the instructions displayed on your device.",
+        "id": "modals.lockboxfirmware.confirmidstep.message2"
       }
     ],
     "path": "src/modals/LockboxFirmware/ConfirmIdentifierStep/template.json"
@@ -3596,7 +3686,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Step 1. Connect your Lockbox",
+        "defaultMessage": "Connect your Lockbox",
         "id": "modals.lockboxfirmware.connectdevice.title"
       },
       {
@@ -3617,12 +3707,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Step 4. Update Firmware",
-        "id": "modals.lockboxfirmware.installfirmware.title"
+        "defaultMessage": "Finalizing Install",
+        "id": "modals.lockboxfirmware.installstep.title"
       },
       {
-        "defaultMessage": "Continue",
-        "id": "modals.lockboxfirmware.installfirmware.continue"
+        "defaultMessage": "Finalizing the update on your Lockbox. Enter your device pin when prompted.",
+        "id": "modals.lockboxfirmware.installstep.message"
       }
     ],
     "path": "src/modals/LockboxFirmware/InstallFirmwareStep/template.json"
@@ -3656,7 +3746,7 @@
         "id": "modals.lockboxsetup.authenticitystep.title"
       },
       {
-        "defaultMessage": "Click <b>Allow Device Manager</b> on the device if and when prompted",
+        "defaultMessage": "On your Lockbox, tap the RIGHT button to let your Lockbox connect to your Blockchain wallet.",
         "id": "modals.lockboxsetup.authenticitystep.content"
       },
       {
@@ -3677,19 +3767,19 @@
         "id": "modals.lockboxsetup.setuptypestep.connect"
       },
       {
-        "defaultMessage": "Insert your Lockbox into your computer",
+        "defaultMessage": "1. Insert your Lockbox into your computer",
         "id": "modals.lockboxsetup.connectdevice.step1"
       },
       {
-        "defaultMessage": "Press both buttons on your Lockbox to begin",
+        "defaultMessage": "2. Press both buttons on your Lockbox to begin",
         "id": "modals.lockboxsetup.connectdevice.step2"
       },
       {
-        "defaultMessage": "Set your pin",
+        "defaultMessage": "3. Set your pin",
         "id": "modals.lockboxsetup.connectdevice.step3"
       },
       {
-        "defaultMessage": "Complete backup phrase process",
+        "defaultMessage": "4. Complete backup phrase process",
         "id": "modals.lockboxsetup.connectdevice.step4"
       },
       {
@@ -3757,12 +3847,16 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Your Blockchain Lockbox + Blockchain Wallet",
+        "defaultMessage": "Lockbox + Blockchain Wallet",
         "id": "modals.lockboxsetup.openbtcappstep.title"
       },
       {
-        "defaultMessage": "Select 'Bitcoin' on your device to connect your Lockbox with your wallet",
+        "defaultMessage": "Now add a Bitcoin wallet to your device.",
         "id": "modals.lockboxsetup.openbtcappstep.explanation"
+      },
+      {
+        "defaultMessage": "Select \"Bitcoin\" from the picker.",
+        "id": "modals.lockboxsetup.openbtcappstep.selection"
       },
       {
         "defaultMessage": "Success! Click to Continue",
@@ -3916,6 +4010,43 @@
       }
     ],
     "path": "src/modals/PromptInput/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Connect Your Lockbox",
+        "id": "modals.promptforlockbox.connectcoinapp.title.connect"
+      },
+      {
+        "defaultMessage": "Connect and unlock your hardware device. Then open the {coin} app on the device.",
+        "id": "modals.promptforlockbox.connectcoinapp.content"
+      },
+      {
+        "defaultMessage": "Review Transaction Details",
+        "id": "modals.promptforlockbox.connectcoinapp.title.review"
+      },
+      {
+        "defaultMessage": "Review the transaction details on your device screen. Press the top right button to confirm and sign the transaction.",
+        "id": "modals.promptforlockbox.connectcoinapp.review"
+      },
+      {
+        "defaultMessage": "Your {coin} Transaction Was Sent",
+        "id": "modals.promptforlockbox.connectcoinapp.title.success"
+      },
+      {
+        "defaultMessage": "Your transaction was sent. Please allow for it to confirm on the network.",
+        "id": "modals.promptforlockbox.connectcoinapp.success"
+      },
+      {
+        "defaultMessage": "Transaction Failed",
+        "id": "modals.promptforlockbox.connectcoinapp.title.error"
+      },
+      {
+        "defaultMessage": "Something went wrong. Please reconnect your device and try again.",
+        "id": "modals.promptforlockbox.connectcoinapp.error"
+      }
+    ],
+    "path": "src/modals/PromptLockbox/model.json"
   },
   {
     "descriptors": [
@@ -4242,6 +4373,40 @@
       }
     ],
     "path": "src/modals/RequestEth/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Request Stellar",
+        "id": "modals.requestxlm.title"
+      }
+    ],
+    "path": "src/modals/RequestXlm/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Currency:",
+        "id": "modals.requestxlm.coin"
+      },
+      {
+        "defaultMessage": "Copy & Share Address:",
+        "id": "modals.requestxlm.share"
+      },
+      {
+        "defaultMessage": "Or",
+        "id": "modals.requestxlm.or"
+      },
+      {
+        "defaultMessage": "Scan QR Code:",
+        "id": "modals.requestxlm.scan"
+      },
+      {
+        "defaultMessage": "Done",
+        "id": "modals.requestxlm.done"
+      }
+    ],
+    "path": "src/modals/RequestXlm/template.success.json"
   },
   {
     "descriptors": [
@@ -5864,8 +6029,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "<span>Uh Oh. Something went wrong. Error: </span> {error}",
-        "id": "scenes.authorizelogin.loading"
+        "defaultMessage": "Uh Oh. Something went wrong.",
+        "id": "scenes.authorizelogin.error.uhoh"
+      },
+      {
+        "defaultMessage": "Error: {error}",
+        "id": "scenes.authorizelogin.error.msg"
       }
     ],
     "path": "src/scenes/AuthorizeLogin/template.error.json"
@@ -6779,11 +6948,11 @@
     "descriptors": [
       {
         "defaultMessage": "Exchange",
-        "id": "scenes.exchange.shapeshift.firststep.from"
+        "id": "scenes.exchange.exchangeform.from"
       },
       {
         "defaultMessage": "Receive",
-        "id": "scenes.exchange.shapeshift.firststep.to"
+        "id": "scenes.exchange.exchangeform.to"
       },
       {
         "defaultMessage": "MIN",
@@ -6811,8 +6980,28 @@
         "id": "scenes.exchange.exchangeform.error.nolimitsmessage"
       },
       {
+        "defaultMessage": "Insufficient funds. {min} is required for a trade",
+        "id": "scenes.exchange.exchangeform.error.balancebelowmin"
+      },
+      {
+        "defaultMessage": "You've reached your daily trade limit",
+        "id": "scenes.exchange.exchangeform.error.dailylimitreached"
+      },
+      {
+        "defaultMessage": "You've reached your weekly trade limit",
+        "id": "scenes.exchange.exchangeform.error.weeklylimitreached"
+      },
+      {
+        "defaultMessage": "You've reached your annual trade limit",
+        "id": "scenes.exchange.exchangeform.error.annuallimitreached"
+      },
+      {
         "defaultMessage": "Amount is below mimimum.",
         "id": "scenes.exchange.exchangeform.error.minimumamount"
+      },
+      {
+        "defaultMessage": "Amount is above maximum.",
+        "id": "scenes.exchange.exchangeform.error.maximumamount"
       },
       {
         "defaultMessage": "Not enough funds.",
@@ -7866,8 +8055,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Load More Transactions",
-        "id": "scenes.lockbox.dashboard.transactions.loadmore"
+        "defaultMessage": "That's it! No more transactions 📭",
+        "id": "scenes.lockbox.dashboard.transactions.thatsit"
       }
     ],
     "path": "src/scenes/Lockbox/Dashboard/Transactions/template.success.json"
@@ -8138,12 +8327,16 @@
         "id": "scenes.register.password"
       },
       {
-        "defaultMessage": "Your password would take {cracktime} to crack.",
-        "id": "formhelper.passwordcracktime"
+        "defaultMessage": "Weak. Use at least 8 characters, a mix of letters, numbers and symbols.",
+        "id": "formhelper.passwordsuggest.weak"
       },
       {
-        "defaultMessage": "Try adding a few more characters.",
-        "id": "formhelper.passwordsuggest"
+        "defaultMessage": "Medium. Use at least 8 characters, a mix of letters, numbers and symbols.",
+        "id": "formhelper.passwordsuggest.medium"
+      },
+      {
+        "defaultMessage": "Great password.",
+        "id": "formhelper.passwordsuggest.great"
       },
       {
         "defaultMessage": "Confirm Password",
@@ -8693,7 +8886,7 @@
         "id": "scenes.preferences.email.settings.updateform.change"
       },
       {
-        "defaultMessage": "This will change your wallet's email address. The email address you use to buy or sell with will remain the same.",
+        "defaultMessage": "<b>Note:</b> This will change your wallet’s email address. The email address you use to buy or sell with will remain the same.",
         "id": "scenes.security.email.changeemail.description"
       }
     ],
@@ -8802,56 +8995,28 @@
         "id": "scenes.security.email.unverifiedemail.verifyemail"
       },
       {
-        "defaultMessage": "You’ve verified",
-        "id": "scenes.security.email.verifieddescription"
+        "defaultMessage": "You’ve verified <b>{email}</b>. Select \"Change Email\" to modify this existing address. We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.",
+        "id": "scenes.security.email.verifieddescription.success"
       },
       {
-        "defaultMessage": ". Select ‘Change Email’ to modify this existing address.",
-        "id": "scenes.security.email.verifieddescription2"
+        "defaultMessage": "We have sent a verification email to <b>{email}</b>. Please click on the email that you’ve received to verify your email. We’ll use this email to authorize logins, send payment notifications, and notify you of wallet updates.",
+        "id": "scenes.security.email.unverifiedemaildescription"
       },
       {
-        "defaultMessage": "We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.",
-        "id": "scenes.security.email.verifieddescription3"
-      },
-      {
-        "defaultMessage": "We have sent a verification email to",
-        "id": "scenes.security.email.unverifieddescription"
-      },
-      {
-        "defaultMessage": ". Please enter the code you’ve received to your email in order to complete the verification process. We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.",
-        "id": "scenes.security.email.unverifieddescription2"
-      },
-      {
-        "defaultMessage": "Your verified email address is used to send login codes when suspicious or unusual activity is detected, to remind you of your wallet login ID, and to send payment alerts when you receive funds.",
+        "defaultMessage": "Your verified email address is used to send login codes when suspicious or unusual activity is detected. We can also remind you of your wallet login ID, and send you payments alerts when you receive funds.",
         "id": "scenes.security.email.yourverifiedemailaddress"
       },
       {
-        "defaultMessage": "We have sent a verification code to",
-        "id": "scenes.security.email.verify.wehavesentcode"
-      },
-      {
-        "defaultMessage": ".  Please enter this code below to complete your email verification process.",
-        "id": "scenes.security.email.verify.pleaseenter"
-      },
-      {
-        "defaultMessage": "Didn’t receive the verification email?",
-        "id": "scenes.security.email.verify.didnotreceive"
-      },
-      {
-        "defaultMessage": "Resend email",
-        "id": "scenes.security.email.verify.resend"
-      },
-      {
-        "defaultMessage": "Send Code",
-        "id": "scenes.security.email.settings.updateform.sendcode"
+        "defaultMessage": "Resend Email",
+        "id": "scenes.security.email.settings.updateform.resendemail"
       },
       {
         "defaultMessage": "Change Your Email",
         "id": "scenes.security.email.upateform.changetext"
       },
       {
-        "defaultMessage": "Change Email",
-        "id": "scenes.security.email.settings.updateform.change"
+        "defaultMessage": "Change Your Email",
+        "id": "scenes.security.email.settings.updateform.changeyouremail"
       }
     ],
     "path": "src/scenes/SecurityCenter/EmailAddress/template.success.json"
@@ -8863,20 +9028,20 @@
         "id": "scenes.securitycenter.steps.step1mobile"
       },
       {
-        "defaultMessage": "Verified Email Address",
-        "id": "scenes.securitycenter.steps.step1"
+        "defaultMessage": "Verify Your Personal Email",
+        "id": "scenes.securitycenter.steps.step1.verify"
       },
       {
         "defaultMessage": "2 Factor Auth",
         "id": "scenes.securitycenter.steps.step2mobile"
       },
       {
-        "defaultMessage": "Two-Step Verification",
-        "id": "scenes.securitycenter.steps.step2"
+        "defaultMessage": "Turn on Two-Step Verification",
+        "id": "scenes.securitycenter.steps.step2.verify"
       },
       {
-        "defaultMessage": "Backup Phrase",
-        "id": "scenes.securitycenter.steps.step3"
+        "defaultMessage": "Save Backup Phrase",
+        "id": "scenes.securitycenter.steps.step3.save"
       }
     ],
     "path": "src/scenes/SecurityCenter/SecuritySteps/template.json"
@@ -8905,20 +9070,8 @@
         "id": "scenes.securitycenter.introadvancedexplainer"
       },
       {
-        "defaultMessage": "Security Center",
-        "id": "scenes.securitycenter.title"
-      },
-      {
-        "defaultMessage": "Welcome to your Security Center! Complete the following three steps to help prevent unauthorized access to your wallet and ensure you can access your funds at any time.",
+        "defaultMessage": "Complete the steps below to help prevent unauthorized access to your wallet. Add additional verification to access your funds at any time.",
         "id": "scenes.securitycenter.introtextnone"
-      },
-      {
-        "defaultMessage": "Welcome to your Security Center! You have completed 1 of 3 steps to help prevent unauthorized access to your wallet and ensure that you can access your funds at any time.",
-        "id": "scenes.securitycenter.introtexttwo"
-      },
-      {
-        "defaultMessage": "Welcome to your Security Center! You have completed 2 of 3 steps to help prevent unauthorized access to your wallet and ensure that you can access your funds at any time.",
-        "id": "scenes.securitycenter.introtextthree"
       },
       {
         "defaultMessage": "Congratulations, you have completed the initial steps in helping to prevent unauthorized access to your wallet and bringing you even closer to financial security. Remember to always use caution with where you store your wallet details, what information you share with others, and with phishing emails.",
@@ -9078,10 +9231,6 @@
       {
         "defaultMessage": "Disable",
         "id": "scenes.securitysettings.basicsecurity.twostepverification.settings.disable"
-      },
-      {
-        "defaultMessage": "Security Tip",
-        "id": "scenes.securitysettings.basicsecurity.twostepverification.settings.securitytip"
       },
       {
         "defaultMessage": "You can choose to use a free app or your mobile phone number to secure your wallet. We recommend using Google Authenticator (available for",
@@ -10029,7 +10178,7 @@
         "id": "scenes.profile.identityverification.banner.verified"
       },
       {
-        "defaultMessage": "Complete our verification process to begin buying and selling cryptocurrency – all within your Blockchain wallet.",
+        "defaultMessage": "Complete our verification process to begin exchanging cryptocurrency – all within your Blockchain wallet.",
         "id": "scenes.profile.identityverification.note.unverified"
       },
       {
@@ -10269,8 +10418,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "<span>Uh Oh. Something went wrong. Error: </span> {error}",
-        "id": "scenes.verifyemailtoken.error"
+        "defaultMessage": "Uh Oh. Something went wrong.",
+        "id": "scenes.verifyemailtoken.error.uhoh"
+      },
+      {
+        "defaultMessage": "Error: {error}",
+        "id": "scenes.verifyemailtoken.error.msg"
       }
     ],
     "path": "src/scenes/VerifyEmailToken/template.error.json"
@@ -10287,8 +10440,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "You've succesfully verified your email address! <span>Return to the previous tab to view your wallet.</span>",
-        "id": "scenes.verifyemailtoken.success"
+        "defaultMessage": "You've succesfully verified your email address!",
+        "id": "scenes.verifyemailtoken.success.verified"
+      },
+      {
+        "defaultMessage": "Return to the previous tab to access your wallet account.",
+        "id": "scenes.verifyemailtoken.success.return"
       }
     ],
     "path": "src/scenes/VerifyEmailToken/template.success.json"

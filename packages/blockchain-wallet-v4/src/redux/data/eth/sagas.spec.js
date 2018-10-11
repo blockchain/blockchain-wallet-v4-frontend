@@ -11,7 +11,7 @@ import sagas from './sagas'
 import reducers from '../reducers'
 import { convertFeeToWei } from '../../../utils/eth'
 
-const ethereumFetchData = {
+const ethFetchData = {
   '0x8790143B84A1A12ADA4aF057D7096A937143a476': {
     balance: 5,
     totalReceived: 100,
@@ -28,7 +28,7 @@ const feeData = {
     max: 20
   }
 }
-const ethereumTransactionData = {
+const ethTransactionData = {
   '0x4e7943357bbd52afd8d317fa7974abf8bb64beffe906bb4ab4d42e7ef5ac6af1': {
     txns: [
       {
@@ -54,11 +54,11 @@ const latest_block = {
 }
 
 const api = {
-  getEthereumData: jest.fn(() => ethereumFetchData),
+  getEthereumData: jest.fn(() => ethFetchData),
   getEthereumFee: jest.fn(() => feeData),
   getEthereumLatestBlock: jest.fn(() => latest_block),
   getEthereumTicker: jest.fn(() => rateData),
-  getEthereumTransactions: jest.fn(() => ethereumTransactionData),
+  getEthereumTransactions: jest.fn(() => ethTransactionData),
   getTransactionHistory: jest.fn(() => transactionHistory)
 }
 
@@ -71,14 +71,12 @@ describe('ethereum data sagas', () => {
     )
 
     const ethereumData = {
-      addresses: ethereumFetchData,
+      addresses: ethFetchData,
       info: {
-        n_tx: sum(values(ethereumFetchData).map(obj => obj.txn_count)),
-        total_received: sum(
-          values(ethereumFetchData).map(obj => obj.totalReceived)
-        ),
-        total_sent: sum(values(ethereumFetchData).map(obj => obj.totalSent)),
-        final_balance: sum(values(ethereumFetchData).map(obj => obj.balance))
+        n_tx: sum(values(ethFetchData).map(obj => obj.txn_count)),
+        total_received: sum(values(ethFetchData).map(obj => obj.totalReceived)),
+        total_sent: sum(values(ethFetchData).map(obj => obj.totalSent)),
+        final_balance: sum(values(ethFetchData).map(obj => obj.balance))
       },
       latest_block: latest_block
     }
@@ -100,7 +98,7 @@ describe('ethereum data sagas', () => {
     })
 
     it('should retrieve latest_block info', () => {
-      saga.next(ethereumFetchData).call(api.getEthereumLatestBlock)
+      saga.next(ethFetchData).call(api.getEthereumLatestBlock)
     })
 
     it('should dispatch success action', () => {
@@ -285,8 +283,12 @@ describe('ethereum data sagas', () => {
       saga.next(mockContextR).select(S.getTransactions)
     })
 
+    it('should getTransactionsAtBound state', () => {
+      saga.next(pages).select(S.getTransactionsAtBound)
+    })
+
     it('should put loading state', () => {
-      saga.next(pages).put(A.fetchTransactionsLoading(payload.reset))
+      saga.next(false).put(A.fetchTransactionsLoading(payload.reset))
     })
 
     it('should call getEthereumTransactions', () => {
@@ -294,12 +296,16 @@ describe('ethereum data sagas', () => {
       saga.save(isNil)
     })
 
+    it('should set transactionsAtBound', () => {
+      saga.next(ethTransactionData).put(A.transactionsAtBound(true))
+    })
+
     it('should dispatch success with data', () => {
       saga
-        .next(ethereumTransactionData)
+        .next(ethTransactionData)
         .put(
           A.fetchTransactionsSuccess(
-            path([mockContext, 'txns'], ethereumTransactionData),
+            path([mockContext, 'txns'], ethTransactionData),
             payload.reset
           )
         )
@@ -315,7 +321,8 @@ describe('ethereum data sagas', () => {
       })
       saga.next().select(selectors.kvStore.ethereum.getContext)
       saga.next(mockContextR).select(S.getTransactions)
-      saga.next(pages).put(A.fetchTransactionsLoading(false))
+      saga.next(pages).select(S.getTransactionsAtBound)
+      saga.next(false).put(A.fetchTransactionsLoading(false))
       saga
         .next(mockContextR)
         .call(api.getEthereumTransactions, mockContext, length(pages))
@@ -354,9 +361,7 @@ describe('ethereum data sagas', () => {
           .then(result => {
             expect(result.storeState.ethereum).toMatchObject({
               transactions: [
-                Remote.Success(
-                  path([mockContext, 'txns'], ethereumTransactionData)
-                )
+                Remote.Success(path([mockContext, 'txns'], ethTransactionData))
               ]
             })
           })
@@ -381,9 +386,7 @@ describe('ethereum data sagas', () => {
           .then(result => {
             expect(result.storeState.ethereum).toMatchObject({
               transactions: append(
-                Remote.Success(
-                  path([mockContext, 'txns'], ethereumTransactionData)
-                ),
+                Remote.Success(path([mockContext, 'txns'], ethTransactionData)),
                 [Remote.Success(initTx)]
               )
             })

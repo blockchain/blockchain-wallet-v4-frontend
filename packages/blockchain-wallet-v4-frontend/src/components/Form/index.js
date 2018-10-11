@@ -1,3 +1,4 @@
+import AutosizeTextBox from './AutosizeTextBox'
 import CaptchaBox from './CaptchaBox'
 import CheckBox from './CheckBox'
 import CodeInputBoxes from './CodeInputBoxes'
@@ -40,6 +41,7 @@ import TextBox from './TextBox'
 import TextBoxDebounced from './TextBoxDebounced'
 
 export {
+  AutosizeTextBox,
   CaptchaBox,
   CheckBox,
   CodeInputBoxes,
