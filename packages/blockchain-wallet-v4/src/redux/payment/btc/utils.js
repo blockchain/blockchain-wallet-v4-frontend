@@ -110,7 +110,8 @@ export const fromLockbox = (network, state, xpub, coin) => {
   return {
     fromType: ADDRESS_TYPES.LOCKBOX,
     from: [xpub],
-    change: changeAddress
+    change: changeAddress,
+    changeIndex: changeIndex.getOrElse(0)
   }
 }
 
