@@ -1103,6 +1103,15 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Step {number}",
+        "id": "components.modalstepper.step"
+      }
+    ],
+    "path": "src/components/ModalStepper/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Complete",
         "id": "scenes.exchangehistory.list.orderstatus.complete"
       },
@@ -1343,6 +1352,45 @@
         "id": "components.transactionlistitem.addresses.from"
       }
     ],
+    "path": "src/components/TransactionListItem/Addresses/Bch/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "To:",
+        "id": "components.transactionlistitem.addresses.to"
+      },
+      {
+        "defaultMessage": "From:",
+        "id": "components.transactionlistitem.addresses.from"
+      }
+    ],
+    "path": "src/components/TransactionListItem/Addresses/Btc/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "To:",
+        "id": "components.transactionlistitem.addresses.to"
+      },
+      {
+        "defaultMessage": "From:",
+        "id": "components.transactionlistitem.addresses.from"
+      }
+    ],
+    "path": "src/components/TransactionListItem/Addresses/Eth/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "To:",
+        "id": "components.transactionlistitem.addresses.to"
+      },
+      {
+        "defaultMessage": "From:",
+        "id": "components.transactionlistitem.addresses.from"
+      }
+    ],
     "path": "src/components/TransactionListItem/Addresses/index.json"
   },
   {
@@ -1370,6 +1418,28 @@
       }
     ],
     "path": "src/components/TransactionListItem/Description/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Value when sent:",
+        "id": "components.transactionlistitem.fiatattime.valuewhensent"
+      },
+      {
+        "defaultMessage": "Value when received:",
+        "id": "components.transactionlistitem.fiatattime.valuewhenreceived"
+      }
+    ],
+    "path": "src/components/TransactionListItem/FiatAtTime/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "view",
+        "id": "components.transactionlistitem.fiatattime.notasked.view"
+      }
+    ],
+    "path": "src/components/TransactionListItem/FiatAtTime/ValueWhenReceived/template.notasked.json"
   },
   {
     "descriptors": [
@@ -1500,6 +1570,23 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "ToS",
+        "id": "layouts.wallet.menuleft.footer.termsofservice"
+      },
+      {
+        "defaultMessage": "Privacy Policy",
+        "id": "layouts.wallet.menuleft.footer.privacypolicy"
+      },
+      {
+        "defaultMessage": "About",
+        "id": "layouts.wallet.menuleft.footer.about"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuLeft/Footer/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Security Center",
         "id": "layouts.wallet.menuleft.footer.securitycenter"
       },
@@ -1596,6 +1683,60 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/BchBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/BchWatchOnlyBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Non-Spendable",
+        "id": "scenes.wallet.menutop.balance.watchonlybchbalance"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/BchWatchOnlyBalance/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/BtcBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/BtcWatchOnlyBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Non-Spendable",
+        "id": "scenes.wallet.menutop.balance.watchonlybtcbalance"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/BtcWatchOnlyBalance/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Show {currency}",
         "id": "layouts.wallet.menutop.balance.walletbalance.showfiat"
       },
@@ -1605,6 +1746,15 @@
       }
     ],
     "path": "src/layouts/Wallet/MenuTop/Balance/CurrencySwitch/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/EthBalance/template.error.json"
   },
   {
     "descriptors": [
@@ -1650,6 +1800,15 @@
       }
     ],
     "path": "src/layouts/Wallet/MenuTop/Balance/PendingBalance/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Pending Balance",
+        "id": "scenes.wallet.menutop.balance.sfoxpendingbalance"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/SfoxPendingBalance/template.success.json"
   },
   {
     "descriptors": [
@@ -1720,6 +1879,15 @@
       }
     ],
     "path": "src/layouts/Wallet/MenuTop/Balance/WalletBalance/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/WalletBalance/XlmBalance/template.error.json"
   },
   {
     "descriptors": [
@@ -3929,6 +4097,118 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Backup recovery phrase",
+        "id": "modals.recoveryphrase.firststep.title"
+      },
+      {
+        "defaultMessage": "Security tip",
+        "id": "modals.recoveryphrase.firststep.tip"
+      },
+      {
+        "defaultMessage": "Do not store your Recovery Phrase on your computer or online.",
+        "id": "modals.recoveryphrase.firststep.explain"
+      },
+      {
+        "defaultMessage": "It is very important to keep your Recovery Phrase offline in a safe and private place.",
+        "id": "modals.recoveryphrase.firststep.explain2"
+      },
+      {
+        "defaultMessage": "Anyone with access to your Recovery Phrase has access to your funds.",
+        "id": "modals.recoveryphrase.firststep.explain3"
+      },
+      {
+        "defaultMessage": "We have created a printable Recovery Sheet to help you conveniently keep your Recovery Phrase safe.",
+        "id": "modals.recoveryphrase.firststep.explain4"
+      },
+      {
+        "defaultMessage": "Print the blank Recovery Sheet and then move onto the next step to fill it in.",
+        "id": "modals.recoveryphrase.firststep.explain5"
+      },
+      {
+        "defaultMessage": "Print Recovery Sheet",
+        "id": "modals.recoveryphrase.firststep.print"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "modals.recoveryphrase.firststep.cancel"
+      },
+      {
+        "defaultMessage": "Next step",
+        "id": "modals.recoveryphrase.firststep.logout"
+      }
+    ],
+    "path": "src/modals/RecoveryPhrase/FirstStep/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Backup recovery phrase",
+        "id": "modals.recoveryphrase.secondstep.title"
+      },
+      {
+        "defaultMessage": "Write it down",
+        "id": "modals.recoveryphrase.secondstep.tip"
+      },
+      {
+        "defaultMessage": "Use a pen to legibly write down the following 12 words onto your printed Recovery Sheet.",
+        "id": "modals.recoveryphrase.secondstep.explain"
+      },
+      {
+        "defaultMessage": "It is important that you write down the words exactly as they appear here and in this order.",
+        "id": "modals.recoveryphrase.secondstep.explain2"
+      },
+      {
+        "defaultMessage": "Word {number}",
+        "id": "modals.recoveryphrase.secondstep.number"
+      },
+      {
+        "defaultMessage": "Back",
+        "id": "modals.recoveryphrase.secondstep.back"
+      },
+      {
+        "defaultMessage": "Final step",
+        "id": "modals.recoveryphrase.secondstep.next"
+      }
+    ],
+    "path": "src/modals/RecoveryPhrase/SecondStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Backup recovery phrase",
+        "id": "modals.recoveryphrase.title"
+      },
+      {
+        "defaultMessage": "Verify",
+        "id": "modals.recoveryphrase.tip"
+      },
+      {
+        "defaultMessage": "Using the completed Recovery Sheet as a reference, please enter the following words from your Recovery Phrase to complete the backup process.",
+        "id": "modals.recoveryphrase.explain"
+      },
+      {
+        "defaultMessage": "Back",
+        "id": "modals.recoveryphrase.thirdstep.back"
+      },
+      {
+        "defaultMessage": "Finish",
+        "id": "modals.recoveryphrase.thirdstep.finish"
+      }
+    ],
+    "path": "src/modals/RecoveryPhrase/ThirdStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Word {number} :",
+        "id": "modals.recoveryphrase.thirdstep.word"
+      }
+    ],
+    "path": "src/modals/RecoveryPhrase/ThirdStep/WordInput/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Request Bitcoin Cash",
         "id": "modals.requestbch.title"
       }
@@ -4093,6 +4373,40 @@
       }
     ],
     "path": "src/modals/RequestEth/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Request Stellar",
+        "id": "modals.requestxlm.title"
+      }
+    ],
+    "path": "src/modals/RequestXlm/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Currency:",
+        "id": "modals.requestxlm.coin"
+      },
+      {
+        "defaultMessage": "Copy & Share Address:",
+        "id": "modals.requestxlm.share"
+      },
+      {
+        "defaultMessage": "Or",
+        "id": "modals.requestxlm.or"
+      },
+      {
+        "defaultMessage": "Scan QR Code:",
+        "id": "modals.requestxlm.scan"
+      },
+      {
+        "defaultMessage": "Done",
+        "id": "modals.requestxlm.done"
+      }
+    ],
+    "path": "src/modals/RequestXlm/template.success.json"
   },
   {
     "descriptors": [
@@ -7233,6 +7547,102 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Bitcoin Cash",
+        "id": "scenes.home.balanceschart.bch"
+      },
+      {
+        "defaultMessage": "Unknown amount",
+        "id": "scenes.home.balanceschart.bch.unkown"
+      },
+      {
+        "defaultMessage": "Refresh",
+        "id": "scenes.home.balanceschart.bch.refresh"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "scenes.home.balanceschart.getstarted"
+      },
+      {
+        "defaultMessage": "Request Bitcoin Cash",
+        "id": "scenes.home.balanceschart.requestbch"
+      },
+      {
+        "defaultMessage": "View All Balances",
+        "id": "scenes.home.balanceschart.bch.viewall"
+      }
+    ],
+    "path": "src/scenes/Home/BalancesChart/BchBalance/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Bitcoin",
+        "id": "scenes.home.balanceschart.btc"
+      },
+      {
+        "defaultMessage": "Unknown amount",
+        "id": "scenes.home.balanceschart.btc.unkown"
+      },
+      {
+        "defaultMessage": "Refresh",
+        "id": "scenes.home.balanceschart.btc.refresh"
+      },
+      {
+        "defaultMessage": "Buy Bitcoin",
+        "id": "scenes.home.balanceschart.buybtc"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "scenes.home.balanceschart.getstarted"
+      },
+      {
+        "defaultMessage": "Request Bitcoin",
+        "id": "scenes.home.balanceschart.requestbtc"
+      },
+      {
+        "defaultMessage": "View All Balances",
+        "id": "scenes.home.balanceschart.btc.viewall"
+      }
+    ],
+    "path": "src/scenes/Home/BalancesChart/BtcBalance/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Ether",
+        "id": "scenes.home.balanceschart.eth"
+      },
+      {
+        "defaultMessage": "Unknown amount",
+        "id": "scenes.home.balanceschart.eth.unkown"
+      },
+      {
+        "defaultMessage": "Refresh",
+        "id": "scenes.home.balanceschart.btc.refresh"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "scenes.home.balanceschart.getstarted"
+      },
+      {
+        "defaultMessage": "Request Ether",
+        "id": "scenes.home.balanceschart.requesteth"
+      }
+    ],
+    "path": "src/scenes/Home/BalancesChart/EthBalance/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Your Balances",
+        "id": "scenes.home.balanceschart.yourbalances"
+      }
+    ],
+    "path": "src/scenes/Home/BalancesChart/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "We don’t store your password",
         "id": "scenes.home.didyouknow.title1"
       },
@@ -8646,408 +9056,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "We created a printable backup sheet to give you a place to write down your 12 word phrase and keep it safe. Please print the blank sheet (or grab a piece of paper) and move on to the next step.",
-        "id": "scenes.securitycenter.general.backupphrase.step1.intro"
-      },
-      {
-        "defaultMessage": "Print Backup Sheet",
-        "id": "scenes.securitycenter.general.backupphrase.step1.print"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "scenes.securitycenter.general.backupphrase.step1.cancel"
-      },
-      {
-        "defaultMessage": "Backup Funds",
-        "id": "scenes.securitycenter.general.backupphrase.step1.backup"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/General/BackupPhrase/RecordBackupPhrase/FirstStep/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Cancel",
-        "id": "scenes.securitycenter.general.backupphrase.step2.cancel"
-      },
-      {
-        "defaultMessage": "Previous 4 Words",
-        "id": "scenes.securitycenter.general.backupphrase.step2.previous"
-      },
-      {
-        "defaultMessage": "Finish & Verify",
-        "id": "scenes.securitycenter.general.backupphrase.step2.finish"
-      },
-      {
-        "defaultMessage": "Next 4 Words",
-        "id": "scenes.securitycenter.general.backupphrase.step2.next"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/General/BackupPhrase/RecordBackupPhrase/SecondStep/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Incorrect Word",
-        "id": "scenes.securitycenter.walletrecoveryphrase.thirdstep.incorrectword"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/General/BackupPhrase/RecordBackupPhrase/ThirdStep/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Review your backup phrase",
-        "id": "scenes.securitycenter.general.backupphrase.step3.reviewphrase"
-      },
-      {
-        "defaultMessage": "Review Backup Phrase",
-        "id": "scenes.securitycenter.general.backupphrase.step3.reviewbackupphrase"
-      },
-      {
-        "defaultMessage": "Confirm",
-        "id": "scenes.securitycenter.general.backupphrase.step3.confirm"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/General/BackupPhrase/RecordBackupPhrase/ThirdStep/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Backup Phrase",
-        "id": "scenes.securitycenter.general.backupphrase.title"
-      },
-      {
-        "defaultMessage": "Your backup phrase contains all of the private keys within your wallet. Please write these 12 words down, in order, and keep them somewhere safe offline. This phrase gives you (or anyone who has it) a way to restore your wallet and access your funds.",
-        "id": "scenes.securitycenter.general.backupphrase.description"
-      },
-      {
-        "defaultMessage": "In the event that you lose your password or our service is unavailable, this will be your safety net.",
-        "id": "scenes.securitycenter.general.backupphrase.description2"
-      },
-      {
-        "defaultMessage": "Using the 12 words you just wrote down, please enter the following words exactly as you see them to complete the backup process.",
-        "id": "scenes.securitycenter.general.backupphrase.description3"
-      },
-      {
-        "defaultMessage": "Backup Again",
-        "id": "scenes.securitycenter.general.backupphrase.backupagain"
-      },
-      {
-        "defaultMessage": "Backup Funds",
-        "id": "scenes.securitycenter.general.backupphrase.backupfunds"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/General/BackupPhrase/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Verify Code",
-        "id": "scenes.securitycenter.general.email.update.verify"
-      },
-      {
-        "defaultMessage": "Your verification code is incorrect. Please double check your email and try again.",
-        "id": "scenes.securitycenter.general.email.update.incorrect"
-      },
-      {
-        "defaultMessage": "Get a new verification code",
-        "id": "scenes.securitycenter.general.email.update.getnew"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/General/EmailAddress/EmailVerificationSteps/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Email Address",
-        "id": "scenes.securitycenter.general.email.verified.title"
-      },
-      {
-        "defaultMessage": "Verify Email Address",
-        "id": "scenes.securitycenter.general.email.unverified.title"
-      },
-      {
-        "defaultMessage": "Change Email Address",
-        "id": "scenes.securitycenter.general.email.verified.change"
-      },
-      {
-        "defaultMessage": "Verify Email Address",
-        "id": "scenes.securitycenter.general.email.unverified.verify"
-      },
-      {
-        "defaultMessage": "You’ve verified",
-        "id": "scenes.securitycenter.general.email.verified.description"
-      },
-      {
-        "defaultMessage": "Select ‘Change Email’ to modify this existing address.",
-        "id": "scenes.securitycenter.general.email.verified.description2"
-      },
-      {
-        "defaultMessage": "We will use this email to authorize logins, send payment notifications and notify you of wallet updates.",
-        "id": "scenes.securitycenter.general.email.verified.description3"
-      },
-      {
-        "defaultMessage": "We have sent a verification email to",
-        "id": "scenes.securitycenter.general.email.unverified.description"
-      },
-      {
-        "defaultMessage": "Please enter the code you’ve received to your email in order to complete the verification process. We will use this email to authorize logins, send payment notifications and notify you of wallet updates.",
-        "id": "scenes.securitycenter.general.email.unverified.description2"
-      },
-      {
-        "defaultMessage": "Your verified email address is used to send login codes when suspicious or unusual activity is detected, to remind you of your wallet login ID and to send payment alerts when you receive funds.",
-        "id": "scenes.securitycenter.general.email.verified.changetoggled"
-      },
-      {
-        "defaultMessage": "We have sent a verification code to",
-        "id": "scenes.securitycenter.general.email.unverified.emailsent"
-      },
-      {
-        "defaultMessage": "Please enter this code below to complete your email verification process.",
-        "id": "scenes.securitycenter.general.email.unverified.emailsent2"
-      },
-      {
-        "defaultMessage": "Didn’t receive the verification email?",
-        "id": "scenes.securitycenter.general.email.unverified.notreceived"
-      },
-      {
-        "defaultMessage": "Resend email",
-        "id": "scenes.securitycenter.general.email.unverified.resend"
-      },
-      {
-        "defaultMessage": "This will change your wallet's email address. The email address you use to buy or sell with will remain the same.",
-        "id": "scenes.securitycenter.general.email.verified.changeintro"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "scenes.securitycenter.general.email.verified.cancelbutton"
-      },
-      {
-        "defaultMessage": "Change",
-        "id": "scenes.securitycenter.general.email.verified.changebutton"
-      },
-      {
-        "defaultMessage": "Send Code",
-        "id": "scenes.securitycenter.general.email.unverified.updateform.sendcode"
-      },
-      {
-        "defaultMessage": "Change Your Email",
-        "id": "scenes.securitycenter.general.email.unverified.updateform.changeemail"
-      },
-      {
-        "defaultMessage": "Change Email",
-        "id": "scenes.securitycenter.general.email.verified.updateform.changeemail"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/General/EmailAddress/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Complete the following steps to help prevent unauthorized access to your wallet and ensure that you can access your funds at any time.",
-        "id": "scenes.securitycenter.general.intro"
-      },
-      {
-        "defaultMessage": "Verified Email Address",
-        "id": "scenes.securitycenter.general.step1"
-      },
-      {
-        "defaultMessage": "Two-Step Verification",
-        "id": "scenes.securitycenter.general.step2"
-      },
-      {
-        "defaultMessage": "Backup Phrase",
-        "id": "scenes.securitycenter.general.step3"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/General/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Authenticator App",
-        "id": "scenes.securitycenter.general.2fa.choices.authenticator.title"
-      },
-      {
-        "defaultMessage": "Use app-generated codes",
-        "id": "scenes.securitycenter.general.2fa.choices.authenticator.use"
-      },
-      {
-        "defaultMessage": "Yubikey",
-        "id": "scenes.securitycenter.general.2fa.choices.yubikey.title"
-      },
-      {
-        "defaultMessage": "Pair with your Yubikey",
-        "id": "scenes.securitycenter.general.2fa.choices.yubikey.use"
-      },
-      {
-        "defaultMessage": "Mobile Phone Number",
-        "id": "scenes.securitycenter.general.2fa.choices.sms.title"
-      },
-      {
-        "defaultMessage": "Use codes sent via SMS",
-        "id": "scenes.securitycenter.general.2fa.choices.sms.use"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "scenes.securitycenter.general.2fa.choices.cancel"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/General/TwoStepVerification/Choices/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "1. Scan this QR code with your Authenticator app.",
-        "id": "scenes.securitycenter.general.2fa.auth.step1"
-      },
-      {
-        "defaultMessage": "2. Enter the random number presented below.",
-        "id": "scenes.securitycenter.general.2fa.auth.step2"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "scenes.securitycenter.general.2fa.choices.cancel"
-      },
-      {
-        "defaultMessage": "Verify Code",
-        "id": "scenes.securitycenter.general.2fa.auth.verifycode"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/General/TwoStepVerification/GoogleAuth/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Enter your mobile number and click Get Code. A verification code will be sent.",
-        "id": "scenes.securitycenter.general.2fa.sms.entermobile"
-      },
-      {
-        "defaultMessage": "Get Verification Code",
-        "id": "scenes.securitycenter.general.2fa.sms.getcode"
-      },
-      {
-        "defaultMessage": "Enter your verification code below and click submit.",
-        "id": "scenes.securitycenter.general.2fa.sms.entercode"
-      },
-      {
-        "defaultMessage": "Change mobile number",
-        "id": "scenes.securitycenter.general.2fa.sms.changenumber"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "scenes.securitycenter.general.2fa.sms.cancel"
-      },
-      {
-        "defaultMessage": "Submit",
-        "id": "scenes.securitycenter.general.2fa.sms.submitcode"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/General/TwoStepVerification/SMS/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "To change your two-step verification method, disable your current one first. {link}",
-        "id": "scenes.securitycenter.general.2fa.disableintro"
-      },
-      {
-        "defaultMessage": "Two-factor authentication is set up with {authName} for number {number}.",
-        "id": "scenes.securitycenter.general.2fa.sms.success"
-      },
-      {
-        "defaultMessage": "To change your two-step verification method, {link} SMS codes first.",
-        "id": "scenes.securitycenter.general.2fa.sms.change"
-      },
-      {
-        "defaultMessage": "Use an Authenticator app, Yubikey or SMS Codes",
-        "id": "scenes.securitycenter.general.2fa.descriotion"
-      },
-      {
-        "defaultMessage": "Two-step verification helps to prevent unauthorized access to your wallet by requiring a one-time password for every login attempt. Enable this to further secure your wallet.",
-        "id": "scenes.securitycenter.general.2fa.description2"
-      },
-      {
-        "defaultMessage": "Two-step verification helps to prevent unauthorized access to your wallet by requiring a one-time password for every login attempt. You can disable this here if you would like to change your phone number or switch the type of two-step verification you are using.",
-        "id": "scenes.securitycenter.general.2fa.description3"
-      },
-      {
-        "defaultMessage": "Two-Step Verification - Authenticator App",
-        "id": "scenes.securitycenter.general.2fa.authenticator.title"
-      },
-      {
-        "defaultMessage": "Two-Step Verification - Yubikey",
-        "id": "scenes.securitycenter.general.2fa.yubikey.title"
-      },
-      {
-        "defaultMessage": "Two-Step Verification - Mobile Phone Number",
-        "id": "scenes.securitycenter.general.2fa.sms.title"
-      },
-      {
-        "defaultMessage": "Two-Step Verification",
-        "id": "scenes.securitycenter.general.2fa.general.title"
-      },
-      {
-        "defaultMessage": "Enable",
-        "id": "scenes.securitycenter.general.2fa.general.enable"
-      },
-      {
-        "defaultMessage": "Disable",
-        "id": "scenes.securitycenter.general.2fa.general.disable"
-      },
-      {
-        "defaultMessage": "Security Tip",
-        "id": "scenes.securitycenter.general.2fa.general.securitytip"
-      },
-      {
-        "defaultMessage": "You can choose to use a free app or your mobile phone number to secure your wallet. We recommend using Google Authenticator (available for",
-        "id": "scenes.securitycenter.general.2fa.general.securitytip.description"
-      },
-      {
-        "defaultMessage": "and",
-        "id": "scenes.securitycenter.general.2fa.general.securitytip.and"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/General/TwoStepVerification/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "1. Insert the Yubikey into your computer's USB port.",
-        "id": "scenes.securitycenter.general.2fa.yubikey.step1"
-      },
-      {
-        "defaultMessage": "2. Pair your Yubikey.",
-        "id": "scenes.securitycenter.general.2fa.yubikey.step2"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "scenes.securitycenter.general.2fa.yubikey.cancel"
-      },
-      {
-        "defaultMessage": "Submit",
-        "id": "scenes.securitycenter.general.2fa.yubikey.submit"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/General/TwoStepVerification/Yubikey/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "General",
-        "id": "scenes.securitycenter.menu.general"
-      },
-      {
-        "defaultMessage": "Advanced",
-        "id": "scenes.securitycenter.menu.advanced"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/Menu/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Verified Email",
         "id": "scenes.securitycenter.steps.step1mobile"
       },
@@ -9826,6 +9834,74 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Use your Wallet ID to log in using our web client,",
+        "id": "scenes.settings.info.explain"
+      },
+      {
+        "defaultMessage": "or simply scan the code below (click on 'Show Pairing Code') with your Blockchain Mobile Wallet (iOS or Android) to access your wallet on your mobile devices.",
+        "id": "scenes.settings.info.explain2"
+      }
+    ],
+    "path": "src/scenes/Settings/Info/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Mobile App Pairing Code",
+        "id": "scenes.info.pairingcode.title"
+      },
+      {
+        "defaultMessage": "Scan the code (click on 'Show Pairing Code') with your Blockchain Wallet (iOS or Android) for a seamless connection to your wallet.",
+        "id": "scenes.info.pairingcode.description"
+      },
+      {
+        "defaultMessage": "Download our mobile applications below.",
+        "id": "scenes.info.pairingcode.description2"
+      },
+      {
+        "defaultMessage": "Do not share your Pairing Code with others.",
+        "id": "scenes.info.pairingcode.warning"
+      }
+    ],
+    "path": "src/scenes/Settings/Info/PairingCode/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Show Pairing Code",
+        "id": "scenes.info.pairingcode.settings.show"
+      }
+    ],
+    "path": "src/scenes/Settings/Info/PairingCode/Settings/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Wallet ID",
+        "id": "scenes.info.walletid.title"
+      },
+      {
+        "defaultMessage": "Wallet ID is your unique identifier.",
+        "id": "scenes.info.walletid.description"
+      },
+      {
+        "defaultMessage": "It is completely individual to you, and it is what you will use to log in and access your wallet.",
+        "id": "scenes.info.walletid.description2"
+      },
+      {
+        "defaultMessage": "It is NOT a bitcoin address for sending or receiving.",
+        "id": "scenes.info.walletid.description3"
+      },
+      {
+        "defaultMessage": "Do not share your Wallet ID with others.",
+        "id": "scenes.info.walletid.warning"
+      }
+    ],
+    "path": "src/scenes/Settings/Info/WalletId/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Auto Logout",
         "id": "scenes.preferences.autologout.title"
       },
@@ -10296,154 +10372,6 @@
     "descriptors": [
       {
         "defaultMessage": "Welcome to",
-        "id": "scenes.transaction.content.empty.bitcoincashwelcome.welcome"
-      },
-      {
-        "defaultMessage": "Learn More",
-        "id": "scenes.transaction.content.empty.bitcoincashwelcome.learnmore"
-      },
-      {
-        "defaultMessage": "What is Bitcoin Cash?",
-        "id": "scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.what"
-      },
-      {
-        "defaultMessage": "Bitcoin Cash is a form of peer-to-peer electronic cash that was created after a fork of the Bitcoin block chain in August 2017.",
-        "id": "scenes.transaction.content.empty.bitcoincashwelcome.currency"
-      },
-      {
-        "defaultMessage": "Bitcoin Cash has since grown to be one of the top cryptocurrencies, along with bitcoin and ether.",
-        "id": "scenes.transaction.content.empty.bitcoincashwelcome.top"
-      },
-      {
-        "defaultMessage": "How do I get Bitcoin Cash?",
-        "id": "scenes.transaction.content.empty.bitcoincashwelcome.why"
-      },
-      {
-        "defaultMessage": "If you had bitcoin in your Blockchain wallet before the fork in August, you already have Bitcoin Cash.",
-        "id": "scenes.transaction.content.empty.bitcoincashwelcome.fork"
-      },
-      {
-        "defaultMessage": "If you’re new to Blockchain, you can get started with Bitcoin Cash by exchanging bitcoin or ether.",
-        "id": "scenes.transaction.content.empty.bitcoincashwelcome.exchange"
-      },
-      {
-        "defaultMessage": "Get Started With Bitcoin Cash",
-        "id": "scenes.transaction.content.empty.bitcoincashwelcome.getstarted"
-      }
-    ],
-    "path": "src/scenes/Transactions/Content/Empty/CoinWelcome/template.bch.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Welcome to",
-        "id": "scenes.transaction.content.empty.bitcoinwelcome.welcometo"
-      },
-      {
-        "defaultMessage": "Learn More",
-        "id": "scenes.transaction.content.empty.bitcoinwelcome.learnmore"
-      },
-      {
-        "defaultMessage": "What is bitcoin?",
-        "id": "scenes.transaction.content.empty.bitcoinwelcome.what"
-      },
-      {
-        "defaultMessage": "Bitcoin is a digital currency, and is used like other assets in exchange for goods and services.",
-        "id": "scenes.transaction.content.empty.bitcoinwelcome.currency"
-      },
-      {
-        "defaultMessage": "Unlike traditional currencies and assets, bitcoin is easily portable, divisible, and irreversible.",
-        "id": "scenes.transaction.content.empty.bitcoinwelcome.transact"
-      },
-      {
-        "defaultMessage": "Why should I use it?",
-        "id": "scenes.transaction.content.empty.bitcoinwelcome.why"
-      },
-      {
-        "defaultMessage": "As a global currency you can send bitcoin to anyone, anywhere in the world without worrying about cross border remittance fees.",
-        "id": "scenes.transaction.content.empty.bitcoinwelcome.fees"
-      },
-      {
-        "defaultMessage": "Get Started With Bitcoin",
-        "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted"
-      },
-      {
-        "defaultMessage": "Get started with bitcoin",
-        "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted.request"
-      }
-    ],
-    "path": "src/scenes/Transactions/Content/Empty/CoinWelcome/template.btc.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Welcome to",
-        "id": "scenes.transaction.content.empty.etherwelcome.welcome"
-      },
-      {
-        "defaultMessage": "Learn More",
-        "id": "scenes.transaction.content.empty.etherwelcome.learnmore"
-      },
-      {
-        "defaultMessage": "What is ether?",
-        "id": "scenes.transaction.content.empty.etherwelcome.what"
-      },
-      {
-        "defaultMessage": "Ether is a digital currency.",
-        "id": "scenes.transaction.content.empty.etherwelcome.currency"
-      },
-      {
-        "defaultMessage": "Like Bitcoin, it enables people around the world to transact, save, and hedge their way to a better financial future.",
-        "id": "scenes.transaction.content.empty.etherwelcome.transact"
-      },
-      {
-        "defaultMessage": "In addition to sending value, ether also powers the Ethereum platform.",
-        "id": "scenes.transaction.content.empty.etherwelcome.platform"
-      },
-      {
-        "defaultMessage": "Why should I use it?",
-        "id": "scenes.transaction.content.empty.etherwelcome.why"
-      },
-      {
-        "defaultMessage": "As the Ethereum platform grows, more intelligent applications will be built on top of it.",
-        "id": "scenes.transaction.content.empty.etherwelcome.grow"
-      },
-      {
-        "defaultMessage": "We want to give you the opportunity to start using ether now, so you' ll be ready to use these products in the future.",
-        "id": "scenes.transaction.content.empty.etherwelcome.opportunity"
-      },
-      {
-        "defaultMessage": "Get Started With Ether",
-        "id": "scenes.transaction.content.empty.etherwelcome.getstarted"
-      }
-    ],
-    "path": "src/scenes/Transactions/Content/Empty/CoinWelcome/template.eth.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Your transactions",
-        "id": "scenes.transactions.content.empty.transactions"
-      },
-      {
-        "defaultMessage": "Transactions occur when you send and receive coins.",
-        "id": "scenes.transactions.content.empty.explain"
-      },
-      {
-        "defaultMessage": "Send",
-        "id": "scenes.transactions.content.empty.send"
-      },
-      {
-        "defaultMessage": "Request",
-        "id": "scenes.transactions.content.empty.request"
-      }
-    ],
-    "path": "src/scenes/Transactions/Content/Empty/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Welcome to",
         "id": "scenes.transaction.ether.content.empty.etherwelcome.welcome"
       },
       {
@@ -10518,23 +10446,6 @@
       }
     ],
     "path": "src/scenes/Transactions/Eth/Menu/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Private Keys",
-        "id": "scenes.transactions.menu.ethprivatekeys"
-      },
-      {
-        "defaultMessage": "Export Private Key",
-        "id": "scenes.transactions.export.ethkey"
-      },
-      {
-        "defaultMessage": "Export Archived Private Key",
-        "id": "scenes.transactions.export.ethkeyarchived"
-      }
-    ],
-    "path": "src/scenes/Transactions/Menu/template.json"
   },
   {
     "descriptors": [
