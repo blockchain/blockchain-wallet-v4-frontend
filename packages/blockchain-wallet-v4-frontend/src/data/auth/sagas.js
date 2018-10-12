@@ -214,6 +214,7 @@ export default ({ api, coreSagas }) => {
   const login = function*(action) {
     let { guid, sharedKey, password, code, mobileLogin } = action.payload
     const safeParse = Either.try(JSON.parse)
+    guid.trim()
     let session = yield select(selectors.session.getSession, guid)
     try {
       if (!session) {
