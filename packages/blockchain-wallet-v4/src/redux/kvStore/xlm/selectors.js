@@ -26,10 +26,6 @@ export const getAccountIndex = curry((accountId, state) =>
   getAccounts(state).map(findIndex(propEq('publicKey', accountId)))
 )
 
-export const getAccountSecret = curry((accountId, state) =>
-  getAccount(state, accountId).map(prop('secret'))
-)
-
 export const getAccountLabel = curry((state, accountId) =>
   getAccount(state, accountId).map(prop('label'))
 )

@@ -60,7 +60,6 @@ describe('Create XLM', () => {
         accounts: [
           {
             publicKey: testData.publicKey,
-            secret: testData.secret,
             label: 'My Stellar Wallet',
             archived: false
           }

@@ -37,7 +37,6 @@ export default ({ api, networks } = {}) => {
         accounts: [
           {
             publicKey: keypair.publicKey(),
-            secret: keypair.secret(),
             label: 'My Stellar Wallet',
             archived: false
           }
