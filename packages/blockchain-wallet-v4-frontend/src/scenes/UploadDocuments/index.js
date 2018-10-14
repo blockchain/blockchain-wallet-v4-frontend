@@ -11,7 +11,7 @@ class UploadDocumentsContainer extends Component {
     data: PropTypes.object,
     displayError: PropTypes.func.isRequired,
     pathname: PropTypes.string.isRequired,
-    uploaded: PropTypes.bool,
+    uploaded: PropTypes.object,
     uploadDocuments: PropTypes.func.isRequired
   }
 
@@ -25,13 +25,13 @@ class UploadDocumentsContainer extends Component {
   }
 
   componentDidMount () {
-    const token = this.props.pathname.split('/')[3]
+    const token = this.props.pathname.split('/')[2]
     this.props.fetchUploadData(token)
   }
 
   onSubmit = () => {
     let filesLoaded = []
-    const token = this.props.pathname.split('/')[3]
+    const token = this.props.pathname.split('/')[2]
     this.state.files.forEach(file => {
       const fileReader = new FileReader()
       // One single upload for the array of all byte arrays
