@@ -1,17 +1,18 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { actions, selectors } from 'data'
+import { getData } from './selectors'
+import { actions } from 'data'
 import { prop } from 'ramda'
 import Template from './template'
-
 const key = 'lockbox'
 
 class LockboxBalanceContainer extends React.PureComponent {
   render () {
-    const { preferencesActions, totalBalancesDropdown } = this.props
+    const { data, preferencesActions } = this.props
+    const { totalBalancesDropdown, lockboxEnabled } = data
     const isActive = prop(key, totalBalancesDropdown)
-    return (
+    return lockboxEnabled ? (
       <Template
         isActive={isActive}
         handleToggle={() =>
@@ -21,12 +22,12 @@ class LockboxBalanceContainer extends React.PureComponent {
           })
         }
       />
-    )
+    ) : null
   }
 }
 
 const mapStateToProps = state => ({
-  totalBalancesDropdown: selectors.preferences.getTotalBalancesDropdown(state)
+  data: getData(state)
 })
 
 const mapDispatchToProps = dispatch => ({

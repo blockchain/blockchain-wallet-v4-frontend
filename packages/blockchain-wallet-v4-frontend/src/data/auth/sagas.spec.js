@@ -434,6 +434,14 @@ describe('authSagas', () => {
       saga.next().call(authNabu)
     })
 
+    it('should fetch xlm ledger details', () => {
+      saga.next(Remote.of(false)).call(coreSagas.data.xlm.fetchLedgerDetails)
+    })
+
+    it('should fetch xlm account', () => {
+      saga.next().call(coreSagas.data.xlm.fetchAccount)
+    })
+
     it('should call upgrade address labels saga', () => {
       saga.next().call(upgradeAddressLabelsSaga)
     })

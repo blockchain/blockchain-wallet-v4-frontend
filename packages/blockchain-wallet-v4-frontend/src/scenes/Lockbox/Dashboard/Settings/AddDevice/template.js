@@ -8,7 +8,7 @@ import {
   SettingSummary
 } from 'components/Setting'
 
-import { Button, Icon } from 'blockchain-info-components'
+import { Button } from 'blockchain-info-components'
 
 const AddDevice = props => {
   const { onClick, isBrowserChrome } = props
@@ -24,14 +24,17 @@ const AddDevice = props => {
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.lockbox.settings.adddevice.description'
-            defaultMessage='Get step by step instructions in our setup guide'
+            id='scenes.lockbox.settings.adddevice.desc'
+            defaultMessage='Add another Lockbox device to your wallet'
           />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
         <Button nature='empty' onClick={onClick} disabled={!isBrowserChrome}>
-          <Icon name='open-in-new-tab' size='20px' />
+          <FormattedMessage
+            id='scenes.lockbox.settings.adddevice.add'
+            defaultMessage='Add Device'
+          />
         </Button>
       </SettingComponent>
     </SettingContainer>

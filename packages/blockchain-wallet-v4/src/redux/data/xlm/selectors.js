@@ -14,6 +14,7 @@ import * as Exchange from '../../../exchange'
 import { calculateEffectiveBalance } from '../../../utils/xlm'
 
 const getLedgerDetails = path([dataPath, 'xlm', 'ledgerDetails'])
+
 export const getAccount = path([dataPath, 'xlm', 'account'])
 
 export const getBaseReserve = compose(
