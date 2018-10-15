@@ -18,7 +18,7 @@ import {
   FormGroup,
   FormItem,
   FormLabel,
-  SelectBoxBCHAddresses,
+  SelectBoxBchAddresses,
   SelectBoxCoin
 } from 'components/Form'
 import CopyClipboard from 'components/CopyClipboard'
@@ -67,7 +67,7 @@ const RequestBch = props => {
           <Field
             name='to'
             coin='BCH'
-            component={SelectBoxBCHAddresses}
+            component={SelectBoxBchAddresses}
             includeAll={false}
             validate={[required]}
           />

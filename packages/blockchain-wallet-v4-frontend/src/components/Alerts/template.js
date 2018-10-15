@@ -672,6 +672,20 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage='Your ether transaction is now pending'
         />
       )
+    case C.SEND_XLM_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.send_xlm_error'
+          defaultMessage='Your stellar transaction failed to send. Please try again.'
+        />
+      )
+    case C.SEND_XLM_SUCCESS:
+      return (
+        <FormattedMessage
+          id='components.alerts.send_xlm_success'
+          defaultMessage='Your stellar transaction is now pending'
+        />
+      )
     case C.SMS_RESEND_ERROR:
       return (
         <FormattedMessage

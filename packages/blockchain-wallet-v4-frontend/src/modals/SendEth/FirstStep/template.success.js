@@ -5,6 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 import * as bowser from 'bowser'
 import styled from 'styled-components'
 
+import { model } from 'data'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { required, validEtherAddress } from 'services/FormHelper'
 import {
@@ -320,7 +321,7 @@ FirstStep.propTypes = {
 }
 
 export default reduxForm({
-  form: 'sendEth',
+  form: model.components.sendEth.FORM,
   shouldError,
   shouldWarn,
   destroyOnUnmount: false

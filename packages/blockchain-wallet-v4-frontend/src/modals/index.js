@@ -30,8 +30,9 @@ import RequestEth from './RequestEth'
 import RequestXlm from './RequestXlm'
 import SecondPassword from './SecondPassword'
 import SendBch from './SendBch'
-import SendBitcoin from './SendBtc'
-import SendEther from './SendEth'
+import SendBtc from './SendBtc'
+import SendEth from './SendEth'
+import SendXlm from './SendXlm'
 import SfoxExchangeData from './SfoxExchangeData'
 import SfoxTradeDetails from './SfoxTradeDetails'
 import SfoxEnterMicroDeposits from './SfoxEnterMicroDeposits'
@@ -82,8 +83,9 @@ const Modals = props => (
     <RequestXlm />
     <SecondPassword />
     <SendBch />
-    <SendBitcoin />
-    <SendEther />
+    <SendBtc />
+    <SendEth />
+    <SendXlm />
     <ShowBtcPrivateKey />
     <ShowEthPrivateKey />
     <ShowUsedAddresses />

@@ -5,6 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 import * as bowser from 'bowser'
 import styled from 'styled-components'
 
+import { model } from 'data'
 import { required, validBitcoinCashAddress } from 'services/FormHelper'
 import {
   Banner,
@@ -20,7 +21,7 @@ import {
   FormGroup,
   FormItem,
   FormLabel,
-  SelectBoxBCHAddresses,
+  SelectBoxBchAddresses,
   SelectBoxCoin,
   TextBox,
   TextAreaDebounced
@@ -78,7 +79,7 @@ const FirstStep = props => {
           <Field
             name='from'
             coin='BCH'
-            component={SelectBoxBCHAddresses}
+            component={SelectBoxBchAddresses}
             includeAll={false}
             excludeWatchOnly
             validate={[required]}
@@ -108,7 +109,7 @@ const FirstStep = props => {
               <Field
                 name='to'
                 coin='BCH'
-                component={SelectBoxBCHAddresses}
+                component={SelectBoxBchAddresses}
                 menuIsOpen={!destination}
                 exclude={[from.label]}
                 validate={[required]}
@@ -223,7 +224,7 @@ FirstStep.propTypes = {
 }
 
 export default reduxForm({
-  form: 'sendBch',
+  form: model.components.sendBch.FORM,
   destroyOnUnmount: false,
   shouldError
 })(FirstStep)

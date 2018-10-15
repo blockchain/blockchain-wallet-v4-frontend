@@ -17,16 +17,17 @@ import * as Exchange from '../../../exchange'
 import { calculateEffectiveBalance } from '../../../utils/xlm'
 import { createDeepEqualSelector } from '../../../utils'
 import * as kvStoreSelectors from '../../kvStore/xlm/selectors'
+import { getLockboxXlmContext } from '../../kvStore/lockbox/selectors'
 import Remote from '../../../remote'
 
 const getLedgerDetails = path([dataPath, 'xlm', 'ledgerDetails'])
 
 export const getContext = createDeepEqualSelector(
-  [kvStoreSelectors.getContext /* , getLockboxXlmContext */],
-  (walletContextR /* , lockboxContextR */) => {
+  [kvStoreSelectors.getContext, getLockboxXlmContext],
+  (walletContextR, lockboxContextR) => {
     const walletContext = walletContextR.getOrElse([])
-    // const lockboxContext = lockboxContextR.getOrElse([])
-    return walletContext
+    const lockboxContext = lockboxContextR.getOrElse([])
+    return walletContext.concat(lockboxContext)
   }
 )
 

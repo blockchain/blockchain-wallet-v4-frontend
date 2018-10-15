@@ -3,8 +3,8 @@ import { equals, path, prop, nth, is, identity } from 'ramda'
 import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
-import * as actions from '../../actions'
-import * as selectors from '../../selectors'
+import { FORM } from './model'
+import { actions, model, selectors } from 'data'
 import settings from 'config'
 import { initialize, change } from 'redux-form'
 import * as C from 'services/AlertService'
@@ -39,7 +39,7 @@ export default ({ coreSagas }) => {
         coin: 'BCH',
         from: defaultAccountR.getOrElse()
       }
-      yield put(initialize('sendBch', initialValues))
+      yield put(initialize(FORM, initialValues))
       yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
       yield put(
@@ -49,7 +49,7 @@ export default ({ coreSagas }) => {
   }
 
   const destroyed = function*() {
-    yield put(actions.form.destroy('sendBch'))
+    yield put(actions.form.destroy(FORM))
   }
 
   const firstStepSubmitClicked = function*() {
@@ -74,7 +74,7 @@ export default ({ coreSagas }) => {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      if (!equals('sendBch', form)) return
+      if (!equals(FORM, form)) return
 
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.bch.create({
@@ -87,12 +87,24 @@ export default ({ coreSagas }) => {
           switch (payload) {
             case 'BTC': {
               yield put(actions.modals.closeAllModals())
-              yield put(actions.modals.showModal('SendBitcoin'))
+              yield put(
+                actions.modals.showModal(model.components.sendBtc.MODAL)
+              )
               break
             }
             case 'ETH': {
               yield put(actions.modals.closeAllModals())
-              yield put(actions.modals.showModal('SendEther'))
+              yield put(
+                actions.modals.showModal(model.components.sendEth.MODAL)
+              )
+              break
+            }
+            case 'XLM': {
+              yield put(actions.modals.closeAllModals())
+              yield put(
+                actions.modals.showModal(model.components.sendXlm.MODAL)
+              )
+              break
             }
           }
           break
@@ -152,7 +164,7 @@ export default ({ coreSagas }) => {
 
   const toToggled = function*() {
     try {
-      yield put(change('sendBch', 'to', ''))
+      yield put(change(FORM, 'to', ''))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'toToggled', e))
     }
@@ -181,7 +193,7 @@ export default ({ coreSagas }) => {
         toCurrency: currency,
         rates: bchRates
       }).value
-      yield put(change('sendBch', 'amount', { coin, fiat }))
+      yield put(change(FORM, 'amount', { coin, fiat }))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'maximumAmountClicked', e)

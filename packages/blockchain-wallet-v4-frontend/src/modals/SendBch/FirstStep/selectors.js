@@ -1,5 +1,5 @@
 import { length, prop, path, isEmpty } from 'ramda'
-import { selectors } from 'data'
+import { model, selectors } from 'data'
 import { formValueSelector } from 'redux-form'
 import Bitcoin from 'bitcoinjs-lib'
 
@@ -23,8 +23,11 @@ export const getData = state => {
     const maxFeePerByte = path(['fees', 'limit', 'max'], payment)
     const totalFee = path(['selection', 'fee'], payment)
     const effectiveBalance = prop('effectiveBalance', payment)
-    const destination = formValueSelector('sendBch')(state, 'to')
-    const from = formValueSelector('sendBch')(state, 'from')
+    const destination = formValueSelector(model.components.sendBch.FORM)(
+      state,
+      'to'
+    )
+    const from = formValueSelector(model.components.sendBch.FORM)(state, 'from')
 
     return {
       from,

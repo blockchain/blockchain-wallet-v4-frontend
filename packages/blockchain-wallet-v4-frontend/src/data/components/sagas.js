@@ -16,32 +16,34 @@ import requestBtc from './requestBtc/sagas'
 import sendBch from './sendBch/sagas'
 import sendBtc from './sendBtc/sagas'
 import sendEth from './sendEth/sagas'
+import sendXlm from './sendXlm/sagas'
 import settings from './settings/sagas'
 import signMessage from './signMessage/sagas'
 import transactionReport from './transactionReport/sagas'
 import uploadDocuments from './uploadDocuments/sagas'
 
-export default ({ api, coreSagas, options }) => ({
-  activityList: activityList({ api, coreSagas }),
-  bchTransactions: bchTransactions({ api, coreSagas }),
-  btcTransactions: btcTransactions({ api, coreSagas }),
-  ethTransactions: ethTransactions({ api, coreSagas }),
-  exchange: exchange({ api, coreSagas, options }),
+export default ({ api, coreSagas, options, networks }) => ({
+  activityList: activityList({ coreSagas }),
+  bchTransactions: bchTransactions({ coreSagas }),
+  btcTransactions: btcTransactions({ coreSagas }),
+  ethTransactions: ethTransactions({ coreSagas }),
+  exchange: exchange({ api, coreSagas, options, networks }),
   exchangeHistory: exchangeHistory({ api, coreSagas }),
   identityVerification: identityVerification({ api, coreSagas }),
-  onfido: onfido({ api, coreSagas }),
-  importBtcAddress: importBtcAddress({ api, coreSagas }),
+  onfido: onfido({ api }),
+  importBtcAddress: importBtcAddress({ api, coreSagas, networks }),
   login: login(),
-  manageAddresses: manageAddresses({ api, coreSagas }),
+  manageAddresses: manageAddresses({ api, networks }),
   priceChart: priceChart({ coreSagas }),
   priceTicker: priceTicker({ coreSagas }),
   refresh: refresh(),
   requestBtc: requestBtc(),
-  sendBch: sendBch({ api, coreSagas }),
-  sendBtc: sendBtc({ api, coreSagas }),
-  sendEth: sendEth({ api, coreSagas }),
-  settings: settings({ api, coreSagas }),
+  sendBch: sendBch({ coreSagas }),
+  sendBtc: sendBtc({ coreSagas, networks }),
+  sendEth: sendEth({ coreSagas }),
+  sendXlm: sendXlm({ coreSagas }),
+  settings: settings({ coreSagas }),
   signMessage: signMessage({ coreSagas }),
-  transactionReport: transactionReport({ api, coreSagas }),
+  transactionReport: transactionReport({ coreSagas }),
   uploadDocument: uploadDocuments({ api })
 })

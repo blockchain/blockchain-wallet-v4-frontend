@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
-const SendBitcoin = props => (
+const SendBtc = props => (
   <Modal size='large' position={props.position} total={props.total}>
     <ModalHeader icon='send' onClose={props.closeAll}>
       <FormattedMessage
@@ -16,10 +16,10 @@ const SendBitcoin = props => (
   </Modal>
 )
 
-SendBitcoin.propTypes = {
+SendBtc.propTypes = {
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   closeAll: PropTypes.func.isRequired
 }
 
-export default SendBitcoin
+export default SendBtc

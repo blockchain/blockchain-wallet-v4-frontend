@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form'
 import { Icon } from 'blockchain-info-components'
 import { prop, flatten } from 'ramda'
 import {
-  SelectBoxBCHAddresses,
+  SelectBoxBchAddresses,
   TextBox,
   TabMenuTransactionStatus
 } from 'components/Form'
@@ -100,7 +100,7 @@ const Menu = props => {
                 name='source'
                 coin='BCH'
                 excludeLockbox
-                component={SelectBoxBCHAddresses}
+                component={SelectBoxBchAddresses}
               />
             </Addresses>
           )}

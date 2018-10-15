@@ -22,6 +22,7 @@ import * as S from '../../selectors'
 import { xlm as xlmSigner } from '../../../signer'
 import Remote from '../../../remote'
 import { ADDRESS_TYPES } from '../btc/utils'
+import { convertXlmToXlm } from '../../../exchange'
 
 jest.mock('../../selectors')
 jest.mock('../../../signer')
@@ -247,31 +248,19 @@ describe('payment', () => {
       expect(StellarSdk.Operation.payment).toHaveBeenCalledWith({
         destination: OTHER_ACCOUNT_ID,
         asset: StellarSdk.Asset.native(),
-        amount: String(STUB_AMOUNT)
+        amount: convertXlmToXlm({
+          value: STUB_AMOUNT,
+          fromUnit: 'STROOP',
+          toUnit: 'XLM'
+        }).value
       })
       expect(
         StellarSdk.TransactionBuilder.prototype.addOperation
       ).toHaveBeenCalledTimes(1)
       expect(
-        StellarSdk.TransactionBuilder.prototype.addMemo
-      ).toHaveBeenCalledTimes(1)
-      expect(
-        StellarSdk.TransactionBuilder.prototype.addMemo
-      ).toHaveBeenCalledWith(StellarSdk.Memo.text(STUB_DESCRIPTION))
-      expect(
         StellarSdk.TransactionBuilder.prototype.build
       ).toHaveBeenCalledTimes(1)
       expect(payment.value().transaction).toBe(STUB_TX)
-    })
-
-    it('should not add memo if payment has no description', () => {
-      const otherPayment = create({
-        payment: dissoc('description', payment.value())
-      })
-      otherPayment.build()
-      expect(
-        StellarSdk.TransactionBuilder.prototype.addMemo
-      ).toHaveBeenCalledTimes(0)
     })
 
     it('should throw if source account is not set', () => {

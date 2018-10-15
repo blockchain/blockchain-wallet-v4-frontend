@@ -3,8 +3,8 @@ import { call, select, put } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
-import * as actions from '../../actions'
-import * as selectors from '../../selectors'
+import { FORM } from './model'
+import { actions, model, selectors } from 'data'
 import { initialize, change } from 'redux-form'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
@@ -56,7 +56,7 @@ export default ({ coreSagas, networks }) => {
         from: defaultAccountR.getOrElse(),
         feePerByte: defaultFeePerByte
       }
-      yield put(initialize('sendBtc', initialValues))
+      yield put(initialize(FORM, initialValues))
       yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
       yield put(A.sendBtcPaymentUpdatedFailure(e))
@@ -67,7 +67,7 @@ export default ({ coreSagas, networks }) => {
   }
 
   const destroyed = function*() {
-    yield put(actions.form.destroy('sendBtc'))
+    yield put(actions.form.destroy(FORM))
   }
 
   const firstStepSubmitClicked = function*() {
@@ -92,7 +92,7 @@ export default ({ coreSagas, networks }) => {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      if (!equals('sendBtc', form)) return
+      if (!equals(FORM, form)) return
 
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.btc.create({
@@ -105,12 +105,24 @@ export default ({ coreSagas, networks }) => {
           switch (payload) {
             case 'ETH': {
               yield put(actions.modals.closeAllModals())
-              yield put(actions.modals.showModal('SendEther'))
+              yield put(
+                actions.modals.showModal(model.components.sendEth.MODAL)
+              )
               break
             }
             case 'BCH': {
               yield put(actions.modals.closeAllModals())
-              yield put(actions.modals.showModal('SendBch'))
+              yield put(
+                actions.modals.showModal(model.components.sendBch.MODAL)
+              )
+              break
+            }
+            case 'XLM': {
+              yield put(actions.modals.closeAllModals())
+              yield put(
+                actions.modals.showModal(model.components.sendXlm.MODAL)
+              )
+              break
             }
           }
           break
@@ -181,7 +193,7 @@ export default ({ coreSagas, networks }) => {
 
   const toToggled = function*() {
     try {
-      yield put(change('sendBtc', 'to', ''))
+      yield put(change(FORM, 'to', ''))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'toToggled', e))
     }
@@ -203,7 +215,7 @@ export default ({ coreSagas, networks }) => {
         toCurrency: currency,
         rates: btcRates
       }).value
-      yield put(change('sendBtc', 'amount', { coin, fiat }))
+      yield put(change(FORM, 'amount', { coin, fiat }))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'minimumAmountClicked', e)
@@ -234,7 +246,7 @@ export default ({ coreSagas, networks }) => {
         toCurrency: currency,
         rates: btcRates
       }).value
-      yield put(change('sendBtc', 'amount', { coin, fiat }))
+      yield put(change(FORM, 'amount', { coin, fiat }))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'maximumAmountClicked', e)
@@ -247,7 +259,7 @@ export default ({ coreSagas, networks }) => {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
       const minFeePerByte = path(['fees', 'limits', 'min'], payment)
-      yield put(change('sendBtc', 'feePerByte', minFeePerByte))
+      yield put(change(FORM, 'feePerByte', minFeePerByte))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'minimumFeeClicked', e)
@@ -260,7 +272,7 @@ export default ({ coreSagas, networks }) => {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
       const maxFeePerByte = path(['fees', 'limits', 'max'], payment)
-      yield put(change('sendBtc', 'feePerByte', maxFeePerByte))
+      yield put(change(FORM, 'feePerByte', maxFeePerByte))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'maximumFeeClicked', e)
@@ -273,7 +285,7 @@ export default ({ coreSagas, networks }) => {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
       const regularFeePerByte = path(['fees', 'regular'], payment)
-      yield put(change('sendBtc', 'feePerByte', regularFeePerByte))
+      yield put(change(FORM, 'feePerByte', regularFeePerByte))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'regularFeeClicked', e)
@@ -286,7 +298,7 @@ export default ({ coreSagas, networks }) => {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
       const priorityFeePerByte = path(['fees', 'priority'], payment)
-      yield put(change('sendBtc', 'feePerByte', priorityFeePerByte))
+      yield put(change(FORM, 'feePerByte', priorityFeePerByte))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'priorityFeeClicked', e)

@@ -163,6 +163,7 @@ export default ({ api }) => {
       yield put(actions.core.data.bch.fetchData())
       yield put(actions.core.data.bitcoin.fetchData())
       yield put(actions.core.data.ethereum.fetchData())
+      yield put(actions.core.data.xlm.fetchData())
       yield put(actions.alerts.displaySuccess(C.LOCKBOX_SETUP_SUCCESS))
       const devices = (yield select(
         selectors.core.kvStore.lockbox.getDevices

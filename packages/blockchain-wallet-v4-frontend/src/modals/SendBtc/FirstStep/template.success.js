@@ -5,6 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 import * as bowser from 'bowser'
 import styled from 'styled-components'
 
+import { model } from 'data'
 import {
   required,
   validBitcoinAddress,
@@ -355,7 +356,7 @@ FirstStep.propTypes = {
 }
 
 export default reduxForm({
-  form: 'sendBtc',
+  form: model.components.sendBtc.FORM,
   destroyOnUnmount: false,
   shouldError,
   shouldWarn

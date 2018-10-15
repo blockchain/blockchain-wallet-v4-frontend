@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { equals, length, prop, path, pathOr, isEmpty } from 'ramda'
-import { selectors } from 'data'
+import { model, selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import Bitcoin from 'bitcoinjs-lib'
 
@@ -14,7 +14,7 @@ export const getData = createDeepEqualSelector(
     selectors.core.common.btc.getActiveAddresses,
     selectors.core.kvStore.lockbox.getDevices,
     selectors.core.walletOptions.getBtcNetwork,
-    selectors.form.getFormValues('sendBtc')
+    selectors.form.getFormValues(model.components.sendBtc.FORM)
   ],
   (
     toToggled,

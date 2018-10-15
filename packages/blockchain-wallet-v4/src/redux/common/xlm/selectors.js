@@ -4,15 +4,14 @@ import { getAccounts } from '../../kvStore/xlm/selectors'
 import { getLockboxXlmAccounts } from '../../kvStore/lockbox/selectors'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
 
-const digest = type => ({ label, balance, addr }) => ({
+const digest = type => ({ label, publicKey }) => ({
   coin: 'XLM',
   label,
-  balance,
-  address: addr,
+  address: publicKey,
   type
 })
 const addBalance = curry((state, account) =>
-  assoc('balance', getBalance(account.addr, state), account)
+  assoc('balance', getBalance(account.address, state).getOrElse(0), account)
 )
 
 export const getAccountBalances = state =>

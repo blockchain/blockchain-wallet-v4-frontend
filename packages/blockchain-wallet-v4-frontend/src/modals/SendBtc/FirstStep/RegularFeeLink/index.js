@@ -11,7 +11,7 @@ const RegularFeeLink = props => (
   <Link
     size='12px'
     weight={300}
-    onClick={() => props.actions.sendBtcFirstStepRegularFeeClicked()}
+    onClick={props.actions.sendBtcFirstStepRegularFeeClicked}
   >
     <FormattedMessage
       id='modals.sendbtc.regularfeelink.regular'

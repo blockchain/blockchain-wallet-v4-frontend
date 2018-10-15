@@ -5,7 +5,7 @@ import { prepend } from 'ramda'
 import { getData } from './selectors'
 import SelectBoxBCH from './template'
 
-class SelectBoxBCHAddresses extends React.PureComponent {
+class SelectBoxBchAddresses extends React.PureComponent {
   render () {
     const { data, ...rest } = this.props
     const allWallets = {
@@ -32,11 +32,11 @@ class SelectBoxBCHAddresses extends React.PureComponent {
   }
 }
 
-SelectBoxBCHAddresses.propTypes = {
+SelectBoxBchAddresses.propTypes = {
   includeAll: PropTypes.bool
 }
 
-SelectBoxBCHAddresses.defaultProps = {
+SelectBoxBchAddresses.defaultProps = {
   includeAll: true
 }
 
@@ -44,4 +44,4 @@ const mapStateToProps = (state, ownProps) => ({
   data: getData(state, ownProps)
 })
 
-export default connect(mapStateToProps)(SelectBoxBCHAddresses)
+export default connect(mapStateToProps)(SelectBoxBchAddresses)

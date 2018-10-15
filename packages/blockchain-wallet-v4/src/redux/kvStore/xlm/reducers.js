@@ -1,5 +1,5 @@
-import { set, mapped } from 'ramda-lens'
-import { compose } from 'ramda'
+import { set, mapped, over } from 'ramda-lens'
+import { assocPath, compose } from 'ramda'
 import { KVStoreEntry } from '../../../types'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
@@ -22,6 +22,14 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_METADATA_XLM_LOADING: {
       return Remote.Loading
+    }
+    case AT.SET_TRANSACTION_NOTE_XLM: {
+      let valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
+      let setNote = assocPath(['tx_notes', payload.txHash], payload.txNote)
+      return over(valueLens, setNote, state)
     }
     case AT.CREATE_METADATA_XLM:
     case AT.FETCH_METADATA_XLM_SUCCESS: {

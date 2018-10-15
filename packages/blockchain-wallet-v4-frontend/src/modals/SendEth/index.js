@@ -4,12 +4,12 @@ import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import modalEnhancer from 'providers/ModalEnhancer'
-import { actions, selectors } from 'data'
-import SendBitcoin from './template'
+import { actions, model, selectors } from 'data'
+import SendEth from './template'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
-class SendEtherContainer extends React.PureComponent {
+class SendEthContainer extends React.PureComponent {
   componentDidMount () {
     this.props.actions.initialized()
   }
@@ -21,15 +21,15 @@ class SendEtherContainer extends React.PureComponent {
   render () {
     const { step, position, total, closeAll } = this.props
     return (
-      <SendBitcoin position={position} total={total} closeAll={closeAll}>
+      <SendEth position={position} total={total} closeAll={closeAll}>
         {step === 1 && <FirstStep />}
         {step === 2 && <SecondStep />}
-      </SendBitcoin>
+      </SendEth>
     )
   }
 }
 
-SendEtherContainer.propTypes = {
+SendEthContainer.propTypes = {
   step: PropTypes.number.isRequired,
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
@@ -45,11 +45,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('SendEther'),
+  modalEnhancer(model.components.sendEth.MODAL),
   connect(
     mapStateToProps,
     mapDispatchToProps
   )
 )
 
-export default enhance(SendEtherContainer)
+export default enhance(SendEthContainer)

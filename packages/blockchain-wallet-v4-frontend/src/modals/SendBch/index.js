@@ -4,7 +4,7 @@ import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import modalEnhancer from 'providers/ModalEnhancer'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import SendBch from './template'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
@@ -46,7 +46,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('SendBch'),
+  modalEnhancer(model.components.sendBch.MODAL),
   connect(
     mapStateToProps,
     mapDispatchToProps

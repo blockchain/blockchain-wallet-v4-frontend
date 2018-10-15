@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import Empty from './template.js'
 
 class EmptyContainer extends React.PureComponent {
@@ -13,7 +13,7 @@ class EmptyContainer extends React.PureComponent {
   }
 
   handleSend () {
-    this.props.modalActions.showModal('SendBitcoin')
+    this.props.modalActions.showModal(model.components.sendBtc.MODAL)
   }
 
   handleRequest () {

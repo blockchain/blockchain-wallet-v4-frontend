@@ -18,6 +18,7 @@ import requestBtc from './requestBtc/sagaRegister'
 import sendBch from './sendBch/sagaRegister'
 import sendBtc from './sendBtc/sagaRegister'
 import sendEth from './sendEth/sagaRegister'
+import sendXlm from './sendXlm/sagaRegister'
 import settings from './settings/sagaRegister'
 import signMessage from './signMessage/sagaRegister'
 import transactionReport from './transactionReport/sagaRegister'
@@ -25,27 +26,28 @@ import uploadDocuments from './uploadDocuments/sagaRegister'
 
 export default ({ api, coreSagas, networks, options }) =>
   function*() {
-    yield fork(activityList({ api, coreSagas }))
-    yield fork(bchTransactions({ api, coreSagas }))
-    yield fork(btcTransactions({ api, coreSagas }))
-    yield fork(ethTransactions({ api, coreSagas }))
+    yield fork(activityList({ coreSagas }))
+    yield fork(bchTransactions({ coreSagas }))
+    yield fork(btcTransactions({ coreSagas }))
+    yield fork(ethTransactions({ coreSagas }))
     yield fork(exchange({ api, coreSagas, networks, options }))
     yield fork(exchangeHistory({ api, coreSagas }))
     yield fork(identityVerification({ api, coreSagas }))
     yield fork(lockbox({ api, coreSagas }))
     yield fork(importBtcAddress({ api, coreSagas, networks }))
     yield fork(login())
-    yield fork(manageAddresses({ api, coreSagas, networks }))
+    yield fork(manageAddresses({ api, networks }))
     yield fork(onfido({ api, coreSagas }))
     yield fork(priceChart({ coreSagas }))
     yield fork(priceTicker({ coreSagas }))
     yield fork(refresh())
     yield fork(requestBtc())
-    yield fork(sendBch({ api, coreSagas }))
-    yield fork(sendBtc({ api, coreSagas, networks }))
-    yield fork(sendEth({ api, coreSagas }))
-    yield fork(settings({ api, coreSagas }))
+    yield fork(sendBch({ coreSagas }))
+    yield fork(sendBtc({ coreSagas, networks }))
+    yield fork(sendEth({ coreSagas }))
+    yield fork(sendXlm({ coreSagas }))
+    yield fork(settings({ coreSagas }))
     yield fork(signMessage({ coreSagas }))
-    yield fork(transactionReport({ api, coreSagas }))
+    yield fork(transactionReport({ coreSagas }))
     yield fork(uploadDocuments({ api }))
   }

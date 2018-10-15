@@ -29,7 +29,7 @@ CoinDisplayContainer.defaultProps = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  data: getData(state, ownProps.coin, ownProps.children)
+  data: getData(ownProps.coin, ownProps.children)
 })
 
 export default connect(mapStateToProps)(CoinDisplayContainer)

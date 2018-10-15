@@ -49,6 +49,12 @@ export const InvalidEtherAddressMessage = () => (
     defaultMessage='Invalid Ether address'
   />
 )
+export const InvalidXlmAddressMessage = () => (
+  <FormattedMessage
+    id='formhelper.invalidxlmaddress'
+    defaultMessage='Invalid Stellar address'
+  />
+)
 export const InvalidIpListMessage = () => (
   <FormattedMessage
     id='formhelper.invalidiplist'

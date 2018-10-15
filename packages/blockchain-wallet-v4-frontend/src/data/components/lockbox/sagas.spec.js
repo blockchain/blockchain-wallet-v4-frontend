@@ -142,6 +142,8 @@ describe('lockbox sagas', () => {
         .put(actions.core.data.bitcoin.fetchData())
         .next()
         .put(actions.core.data.ethereum.fetchData())
+        .next()
+        .put(actions.core.data.xlm.fetchData())
     })
     it('alerts success', () => {
       saga.next()

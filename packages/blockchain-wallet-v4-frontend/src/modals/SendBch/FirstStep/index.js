@@ -3,19 +3,14 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { getData } from './selectors'
-import { actions } from 'data'
+import { actions, model } from 'data'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
 class FirstStep extends React.Component {
-  constructor (props) {
-    super(props)
-    this.handleToToggle = this.handleToToggle.bind(this)
-  }
-
-  handleToToggle (val) {
-    this.props.formActions.touch('sendBch', 'to')
+  handleToToggle = val => {
+    this.props.formActions.touch(model.components.sendBch.FORM, 'to')
     this.props.actions.sendBchFirstStepToToggled(val)
   }
 
@@ -32,7 +27,7 @@ class FirstStep extends React.Component {
           enableToggle={value.enableToggle}
           effectiveBalance={value.effectiveBalance}
           totalFee={value.totalFee}
-          onSubmit={() => actions.sendBchFirstStepSubmitClicked()}
+          onSubmit={actions.sendBchFirstStepSubmitClicked}
           handleToToggle={this.handleToToggle}
         />
       ),
