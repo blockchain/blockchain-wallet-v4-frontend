@@ -14,8 +14,12 @@ class XlmBalance extends React.PureComponent {
     this.handleRefresh = this.handleRefresh.bind(this)
   }
 
+  componentDidMount () {
+    this.props.actions.fetchData()
+  }
+
   handleRefresh () {
-    this.props.actions.fetchAccount()
+    this.props.actions.fetchData()
   }
 
   render () {
