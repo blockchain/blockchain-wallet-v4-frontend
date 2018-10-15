@@ -1,14 +1,23 @@
-import { takeLatest } from 'redux-saga/effects'
+import { cancel, takeEvery, takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
+import * as actionTypes from 'data/actionTypes'
 import sagas from './sagas'
 
 export default ({ api, coreSagas }) => {
   const lockboxSagas = sagas({ api, coreSagas })
 
   return function*() {
-    yield takeLatest(
+    const installAppSaga = yield takeLatest(
+      AT.INSTALL_APPLICATION,
+      lockboxSagas.installApplication
+    )
+    const deviceSetupSaga = yield takeLatest(
       AT.INITIALIZE_NEW_DEVICE_SETUP,
       lockboxSagas.initializeNewDeviceSetup
+    )
+    const firmwareInstallSaga = yield takeLatest(
+      AT.UPDATE_DEVICE_FIRMWARE,
+      lockboxSagas.updateDeviceFirmware
     )
     yield takeLatest(
       AT.UPDATE_TRANSACTION_LIST,
@@ -29,14 +38,21 @@ export default ({ api, coreSagas }) => {
       lockboxSagas.checkDeviceAuthenticity
     )
     yield takeLatest(
-      AT.UPDATE_DEVICE_FIRMWARE,
-      lockboxSagas.updateDeviceFirmware
-    )
-    yield takeLatest(
       AT.INSTALL_BLOCKCHAIN_APPS,
       lockboxSagas.installBlockchainApps
     )
-    yield takeLatest(AT.INSTALL_APPLICATION, lockboxSagas.installApplication)
+
+    yield takeLatest(
+      AT.UNINSTALL_APPLICATION,
+      lockboxSagas.uninstallApplication
+    )
     yield takeLatest(AT.INITIALIZE_DASHBOARD, lockboxSagas.initializeDashboard)
+
+    // TODO: better way to do this...
+    yield takeEvery(actionTypes.modals.CLOSE_MODAL, function*() {
+      yield cancel(installAppSaga)
+      yield cancel(firmwareInstallSaga)
+      yield cancel(deviceSetupSaga)
+    })
   }
 }

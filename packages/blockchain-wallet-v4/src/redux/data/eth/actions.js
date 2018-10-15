@@ -107,3 +107,7 @@ export const fetchTransactionsFailure = error => ({
   type: AT.FETCH_ETHEREUM_TRANSACTIONS_FAILURE,
   payload: error
 })
+export const transactionsAtBound = payload => ({
+  type: AT.ETH_TRANSACTIONS_AT_BOUND,
+  payload
+})

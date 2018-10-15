@@ -8,6 +8,7 @@ export { Color, Palette } from './Colors'
 export { SimpleDropdown, ComponentDropdown } from './Dropdowns'
 export { ConfirmationGauge, PasswordGauge, SecurityGauge } from './Gauges'
 export {
+  AutosizeTextInput,
   CreatableInput,
   CheckBoxInput,
   DateInput,

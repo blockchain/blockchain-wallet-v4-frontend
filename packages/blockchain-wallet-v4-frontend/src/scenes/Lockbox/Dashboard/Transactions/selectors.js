@@ -19,7 +19,6 @@ import {
   contains,
   toUpper,
   any,
-  all,
   path
 } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -70,15 +69,30 @@ const processPages = (pages, coinType) => {
   }
 }
 
+const getTransactionsAtBounds = state => {
+  const bchAtBounds = selectors.core.data.bch.getTransactionsAtBound(state)
+  const btcAtBounds = selectors.core.data.bitcoin.getTransactionsAtBound(state)
+  const ethAtBounds = selectors.core.data.ethereum.getTransactionsAtBound(state)
+  return bchAtBounds && btcAtBounds && ethAtBounds
+}
+
 export const getData = createDeepEqualSelector(
   [
+    getTransactionsAtBounds,
     selectors.core.settings.getCurrency,
     selectors.core.common.btc.getWalletTransactions,
     selectors.core.common.bch.getWalletTransactions,
     selectors.core.common.eth.getWalletTransactions,
     selectors.form.getFormValues('lockboxTransactions')
   ],
-  (currencyR, btcPages, bchPages, ethPages, formValues) => {
+  (
+    transactionsAtBounds,
+    currencyR,
+    btcPages,
+    bchPages,
+    ethPages,
+    formValues
+  ) => {
     const { isLoading: btcIsLoading, pagesR: btcTransactions } = processPages(
       btcPages,
       'BTC'
@@ -91,7 +105,7 @@ export const getData = createDeepEqualSelector(
       ethPages,
       'ETH'
     )
-    const isLoading = all(x => !!x, [btcIsLoading, bchIsLoading, ethIsLoading])
+    const isLoading = any(x => !!x, [btcIsLoading, bchIsLoading, ethIsLoading])
     const search = pathOr([], ['search', 'value'], formValues)
     const searchesApplied = search.map(path(['value']))
     const transform = (
@@ -111,8 +125,9 @@ export const getData = createDeepEqualSelector(
       return {
         currency,
         isLoading,
+        searchesApplied,
         filteredTransactions,
-        searchesApplied
+        transactionsAtBounds
       }
     }
     return lift(transform)(

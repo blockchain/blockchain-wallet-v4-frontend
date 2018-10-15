@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { prop } from 'ramda'
 
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -10,7 +11,6 @@ import ConnectDeviceStep from './ConnectDeviceStep'
 import ConfirmIdentifierStep from './ConfirmIdentifierStep'
 import CompleteStep from './CompleteStep'
 import CheckVersionsStep from './CheckVersionsStep'
-import InstallMcuStep from './InstallMcuStep'
 import InstallFirmwareStep from './InstallFirmwareStep'
 
 class LockboxFirmwareContainer extends React.PureComponent {
@@ -19,16 +19,16 @@ class LockboxFirmwareContainer extends React.PureComponent {
   }
 
   render () {
-    const { currentStep, deviceIndex, position, total, closeAll } = this.props
+    const { closeAll, currentStep, deviceIndex, position, total } = this.props
     const steps = {
       'connect-device': 1,
       'check-versions': 2,
-      'verify-identifier': 3,
-      'install-mcu': 4,
-      'install-firmware': 5,
-      complete: 6
+      'confirm-identifier': 3,
+      'install-firmware': 4,
+      'install-complete': 5
     }
-    const step = currentStep ? steps[currentStep] : 1
+    const step = currentStep ? steps[currentStep.step] : 1
+    const status = prop('status', currentStep)
 
     return (
       <FirmwareContainer
@@ -39,11 +39,10 @@ class LockboxFirmwareContainer extends React.PureComponent {
         totalSteps={5}
       >
         {step === 1 && <ConnectDeviceStep deviceIndex={deviceIndex} />}
-        {step === 2 && <CheckVersionsStep />}
-        {step === 3 && <ConfirmIdentifierStep />}
-        {step === 4 && <InstallMcuStep />}
-        {step === 5 && <InstallFirmwareStep />}
-        {step === 6 && <CompleteStep closeAll={closeAll} />}
+        {step === 2 && <CheckVersionsStep status={status} />}
+        {step === 3 && <ConfirmIdentifierStep status={status} />}
+        {step === 4 && <InstallFirmwareStep status={status} />}
+        {step === 5 && <CompleteStep status={status} closeAll={closeAll} />}
       </FirmwareContainer>
     )
   }

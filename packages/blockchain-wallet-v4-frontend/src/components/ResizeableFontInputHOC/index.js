@@ -1,6 +1,5 @@
 import React from 'react'
 import { findDOMNode } from 'react-dom'
-import { pathOr } from 'ramda'
 
 const fontSizeToNumber = fontSize => Number(fontSize.replace(/px/, ''))
 
@@ -22,14 +21,18 @@ const getValueLength = value => {
   return /\./.test(value) ? length - 0.5 : length
 }
 
-export const ResizeableInputHOC = Component =>
+/**
+ * THIS HOC CAN ONLY BE USED ON CLASS COMPONENTS
+ * ANY SFC WILL NOT WORK AND SFC WRAPPED WITH styled() WILL BREAK IN PROD
+ */
+export const ResizeableFontInputHOC = Component =>
   class ResizeableInput extends React.PureComponent {
     componentDidMount () {
       window.addEventListener('resize', this.resizeInputFont)
     }
 
     componentDidUpdate () {
-      this.updateValueLength(pathOr(0, ['input', 'value'], this.props))
+      requestAnimationFrame(this.updateValueLength)
     }
 
     componentWillUnmount () {
@@ -37,7 +40,7 @@ export const ResizeableInputHOC = Component =>
     }
 
     selectInput () {
-      const ref = this.componentRef
+      const ref = this.componentRef.current
       if (!ref) return
 
       const node = findDOMNode(ref)
@@ -53,23 +56,28 @@ export const ResizeableInputHOC = Component =>
      */
     valueLength = 0
 
+    componentRef = React.createRef()
+
     resizeInputFont = () => {
       const input = this.selectInput()
       if (!input) return
-      const fontSize = this.props.maxFontSize
-      const fontSizeNumber = fontSizeToNumber(fontSize)
+
+      const { maxFontSize } = this.props
+      const fontSizeNumber = fontSizeToNumber(maxFontSize)
       let fontSizeRatio = calculateFontSizeRatio(
         input.offsetWidth,
         fontSizeNumber,
-        getFontSizeToCharWidth(fontSize),
+        getFontSizeToCharWidth(maxFontSize),
         this.valueLength
       )
       if (fontSizeRatio > 1) fontSizeRatio = 1
       input.style.fontSize = `${fontSizeNumber * fontSizeRatio}px`
     }
 
-    updateValueLength = value => {
-      const valueLength = getValueLength(value)
+    updateValueLength = () => {
+      const input = this.selectInput()
+      if (!input) return
+      const valueLength = getValueLength(input.value)
       if (valueLength === this.valueLength) return
 
       this.valueLength = valueLength
@@ -78,11 +86,7 @@ export const ResizeableInputHOC = Component =>
 
     onValueChange = e => {
       this.props.input.onChange(e)
-      this.updateValueLength(pathOr(0, ['target', 'value'], e))
-    }
-
-    getComponentRef = ref => {
-      this.componentRef = ref
+      requestAnimationFrame(this.updateValueLength)
     }
 
     render () {
@@ -90,7 +94,7 @@ export const ResizeableInputHOC = Component =>
         <Component
           {...this.props}
           input={{ ...this.props.input, onChange: this.onValueChange }}
-          ref={this.getComponentRef}
+          ref={this.componentRef}
         />
       )
     }

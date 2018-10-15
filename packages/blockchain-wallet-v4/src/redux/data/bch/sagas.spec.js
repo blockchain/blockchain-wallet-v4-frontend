@@ -241,8 +241,12 @@ describe('bch data sagas', () => {
       saga.save(conditional)
     })
 
+    it('should select transactionsAtBound state', () => {
+      saga.next(pages).select(S.getTransactionsAtBound)
+    })
+
     it('should put loading state', () => {
-      saga.next(pages).put(A.fetchTransactionsLoading(payload.reset))
+      saga.next(false).put(A.fetchTransactionsLoading(payload.reset))
     })
 
     it('should select wallet context', () => {
@@ -261,6 +265,10 @@ describe('bch data sagas', () => {
       })
     })
 
+    it('should set transactionsAtBound', () => {
+      saga.next(bchFetchData).put(A.transactionsAtBound(true))
+    })
+
     it('should dispatch success with data', () => {
       saga
         .next(bchFetchData)
@@ -271,11 +279,11 @@ describe('bch data sagas', () => {
       saga.next().isDone()
     })
 
-    it('should break if reset is false and no last page', () => {
+    it('should break if reset is false and at bounds', () => {
       saga.restore(conditional)
       saga
         .next([blankPage])
-        .next()
+        .next(true)
         .isDone()
     })
 

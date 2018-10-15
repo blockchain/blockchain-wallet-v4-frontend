@@ -5,7 +5,7 @@ import { selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 export const useShapeShift = state =>
-  !selectors.modules.profile.userFlowSupported(state).getOrElse(false)
+  !selectors.modules.profile.userFlowSupported(state).getOrElse(true)
 
 export const canUseExchange = state =>
   selectors.modules.profile.isUserActive(state) &&
@@ -27,6 +27,8 @@ export const getMin = path(['components', 'exchange', 'min'])
 export const getMax = path(['components', 'exchange', 'max'])
 export const getTargetFee = path(['components', 'exchange', 'targetFee'])
 export const getSourceFee = path(['components', 'exchange', 'sourceFee'])
+export const showError = path(['components', 'exchange', 'showError'])
+export const getTxError = path(['components', 'exchange', 'txError'])
 
 const advicePath = pathOr(0)
 export const adviceToAmount = advice => ({

@@ -1,17 +1,17 @@
 import {
   and,
+  any,
   path,
   compose,
   converge,
   equals,
   lift,
   prop,
-  contains
+  propEq
 } from 'ramda'
 import { selectors } from 'data'
-import { eeaCountryCodes } from 'services/IdentityVerificationService'
-import { Remote } from 'blockchain-wallet-v4'
 import { USER_ACTIVATION_STATES, KYC_STATES } from './model'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 export const getUserData = path(['profile', 'userData'])
 export const getUserActivationState = compose(
@@ -35,18 +35,18 @@ export const getUserCountryCode = compose(
   getUserData
 )
 
-export const isCountrySupported = countryCode =>
-  contains(countryCode, eeaCountryCodes)
-
+export const isCountrySupported = (countryCode, supportedCountries) =>
+  any(propEq('code', countryCode), supportedCountries)
 export const invitedToKyc = state =>
   selectors.core.settings.getInvitations(state).map(prop('kyc'))
-export const countrySupportsKyc = state => Remote.of(true)
-// Remote.of(selectors.core.settings.getCountryCode(state)).map(
-//   isCountrySupported
-// )
+export const countrySupportsKyc = state =>
+  converge(lift(isCountrySupported), [
+    selectors.core.settings.getCountryCode,
+    selectors.components.identityVerification.getSupportedCountries
+  ])(state)
 export const userFlowSupported = converge(lift(and), [
   invitedToKyc,
-  countrySupportsKyc
+  () => Remote.of(true)
 ])
 
 export const getApiToken = path(['profile', 'apiToken'])

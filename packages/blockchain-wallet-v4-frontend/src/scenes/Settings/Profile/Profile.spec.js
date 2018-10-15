@@ -1,7 +1,8 @@
 import React from 'react'
 import { TestBed, getDispatchSpyReducer, createTestStore } from 'utils/testbed'
 import { mount } from 'enzyme'
-import { head, init, last, path } from 'ramda'
+import { head, init, last, map, path } from 'ramda'
+import { combineReducers } from 'redux'
 
 import { actions, actionTypes } from 'data'
 import { KYC_STATES } from 'data/modules/profile/model'
@@ -11,6 +12,7 @@ import {
 } from 'data/components/identityVerification/model'
 import modalsReducer from 'data/modals/reducers'
 import profileReducer from 'data/modules/profile/reducers'
+import identityVerificationReducer from 'data/components/identityVerification/reducers'
 import { eeaCountryCodes } from 'services/IdentityVerificationService'
 import {
   getInvitations,
@@ -31,7 +33,7 @@ jest.mock('blockchain-wallet-v4/src/redux/settings/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/wallet/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/kvStore/userCredentials/selectors')
 getInvitations.mockImplementation(() => Remote.of({ kyc: true }))
-getCountryCode.mockImplementation(() => head(eeaCountryCodes))
+getCountryCode.mockImplementation(() => Remote.of(head(eeaCountryCodes)))
 
 const BuySellStub = () => <div />
 const ExchangeStub = () => <div />
@@ -48,13 +50,21 @@ describe('Profile Settings', () => {
   const reducers = {
     spy: spyReducer,
     modals: modalsReducer,
-    profile: profileReducer
+    profile: profileReducer,
+    components: combineReducers({
+      identityVerification: identityVerificationReducer
+    })
   }
   const sagas = [identityVerificationSaga({ api, coreSagas })]
   let store
   let wrapper
   beforeEach(() => {
     store = createTestStore(reducers, sagas)
+    store.dispatch(
+      actions.components.identityVerification.setSupportedCountries(
+        Remote.of(map(code => ({ code }), eeaCountryCodes))
+      )
+    )
     wrapper = mount(
       <TestBed withRouter={true} store={store}>
         <Switch>

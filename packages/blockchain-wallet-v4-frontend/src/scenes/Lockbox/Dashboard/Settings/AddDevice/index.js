@@ -7,13 +7,9 @@ import PropTypes from 'prop-types'
 import AddDevice from './template.js'
 
 class AddDeviceContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.onClick = this.onClick.bind(this)
-  }
-
-  onClick () {
+  onClick = () => {
     this.props.modalActions.showModal('LockboxSetup')
+    this.props.lockboxActions.changeDeviceSetupStep('connect-device')
   }
 
   render () {
@@ -27,6 +23,7 @@ class AddDeviceContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
+  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
