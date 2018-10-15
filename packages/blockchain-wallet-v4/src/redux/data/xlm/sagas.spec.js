@@ -1,19 +1,31 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import { call } from 'redux-saga-test-plan/matchers'
 import { select } from 'redux-saga/effects'
+import * as StellarSdk from 'stellar-sdk'
 
-import * as selectors from '../../selectors'
+import * as S from './selectors'
 import * as A from './actions'
-import sagas, { NO_ACCOUNT_ID_ERROR, ACCOUNT_NOT_FOUND } from './sagas'
+import sagas, { ACCOUNT_NOT_FOUND } from './sagas'
 import Remote from '../../../remote'
 
 const STUB_LEDGER = {
   base_reserve_in_stroops: 500000,
   base_fee_in_stroops: 100
 }
-const STUB_ACCOUNT_ID =
-  'GA2C5RFPE6GCKMY3US5PAB6UZLKIGSPIUKSLRB6Q723BM2OARMDUYEJ5'
+const STUB_ACCOUNT_ID = StellarSdk.Keypair.random().publicKey()
+const OTHER_ACCOUNT_ID = StellarSdk.Keypair.random().publicKey()
 const STUB_ACCOUNT = {
+  account_id: STUB_ACCOUNT_ID,
+  subentry_count: 1,
+  balances: [
+    {
+      asset_type: 'native',
+      balance: 10000000000
+    }
+  ]
+}
+const OTHER_ACCOUNT = {
+  account_id: OTHER_ACCOUNT_ID,
   subentry_count: 1,
   balances: [
     {
@@ -26,10 +38,21 @@ const STUB_ACCOUNT = {
 const api = {
   createXlmAccount: jest.fn(),
   getLatestLedgerDetails: jest.fn(() => STUB_LEDGER),
-  getXlmAccount: jest.fn(() => STUB_ACCOUNT)
+  getXlmAccount: jest.fn(id => {
+    if (id === STUB_ACCOUNT_ID) return STUB_ACCOUNT
+    if (id === OTHER_ACCOUNT_ID) return OTHER_ACCOUNT
+    return null
+  })
 }
 
-const { createAccount, fetchAccount, fetchLedgerDetails } = sagas({ api })
+const networks = {
+  xlm: 'testnet'
+}
+
+const { createAccounts, fetchData, fetchLedgerDetails } = sagas({
+  api,
+  networks
+})
 
 describe('fetch ledger details saga', () => {
   it('should fetch latest ledger details', () =>
@@ -50,107 +73,85 @@ describe('fetch ledger details saga', () => {
   })
 })
 
-describe('fetch account saga', () => {
-  it('should fetch account', () =>
-    expectSaga(fetchAccount)
-      .provide([
-        [
-          select(selectors.kvStore.xlm.getDefaultAccountId),
-          Remote.Success(STUB_ACCOUNT_ID)
-        ]
-      ])
-      .put(A.setAccount(Remote.Loading))
-      .select(selectors.kvStore.xlm.getDefaultAccountId)
+describe('fetch data saga', () => {
+  it('should fetch accounts', () =>
+    expectSaga(fetchData)
+      .provide([[select(S.getContext), [STUB_ACCOUNT_ID, OTHER_ACCOUNT_ID]]])
+      .put(A.setData(Remote.Loading))
+      .select(S.getContext)
       .call(api.getXlmAccount, STUB_ACCOUNT_ID)
-      .put(A.setAccount(Remote.Success(STUB_ACCOUNT)))
-      .run())
-
-  it('should set account error if account id is not found', () =>
-    expectSaga(fetchAccount)
-      .provide([
-        [select(selectors.kvStore.xlm.getDefaultAccountId), Remote.NotAsked]
-      ])
-      .put(A.setAccount(Remote.Loading))
-      .select(selectors.kvStore.xlm.getDefaultAccountId)
-      .not.call(api.getXlmAccount)
-      .put(A.setAccount(Remote.Failure(NO_ACCOUNT_ID_ERROR)))
+      .call(api.getXlmAccount, OTHER_ACCOUNT_ID)
+      .put(
+        A.setData(
+          Remote.Success({
+            [STUB_ACCOUNT_ID]: STUB_ACCOUNT,
+            [OTHER_ACCOUNT_ID]: OTHER_ACCOUNT
+          })
+        )
+      )
       .run())
 
   it('should create account if it is not found', () => {
     api.getXlmAccount.mockRejectedValue({ message: ACCOUNT_NOT_FOUND })
-    return expectSaga(fetchAccount)
+    return expectSaga(fetchData)
       .provide([
-        [
-          select(selectors.kvStore.xlm.getDefaultAccountId),
-          Remote.Success(STUB_ACCOUNT_ID)
-        ],
-        [call.fn(createAccount), jest.fn()]
+        [select(S.getContext), [STUB_ACCOUNT_ID]],
+        [call.fn(createAccounts), jest.fn()]
       ])
-      .put(A.setAccount(Remote.Loading))
-      .select(selectors.kvStore.xlm.getDefaultAccountId)
+      .put(A.setData(Remote.Loading))
+      .select(S.getContext)
       .call(api.getXlmAccount, STUB_ACCOUNT_ID)
-      .call(createAccount)
+      .call(createAccounts)
       .run()
   })
 
   it('should set account error if fetch fails', () => {
     const error = 'error'
     api.getXlmAccount.mockRejectedValue(error)
-    return expectSaga(fetchAccount)
-      .provide([
-        [
-          select(selectors.kvStore.xlm.getDefaultAccountId),
-          Remote.Success(STUB_ACCOUNT_ID)
-        ]
-      ])
-      .put(A.setAccount(Remote.Loading))
-      .select(selectors.kvStore.xlm.getDefaultAccountId)
+    return expectSaga(fetchData)
+      .provide([[select(S.getContext), [STUB_ACCOUNT_ID]]])
+      .put(A.setData(Remote.Loading))
+      .select(S.getContext)
       .call(api.getXlmAccount, STUB_ACCOUNT_ID)
-      .put(A.setAccount(Remote.Failure(error)))
+      .put(A.setData(Remote.Failure(error)))
       .run()
   })
 })
 
 describe('create account saga', () => {
   it('should create account', () =>
-    expectSaga(createAccount)
+    expectSaga(createAccounts)
       .provide([
-        [
-          select(selectors.kvStore.xlm.getDefaultAccountId),
-          Remote.Success(STUB_ACCOUNT_ID)
-        ],
-        [call.fn(fetchAccount), jest.fn()]
+        [select(S.getContext), [STUB_ACCOUNT_ID]],
+        [call.fn(fetchData), jest.fn()]
       ])
-      .select(selectors.kvStore.xlm.getDefaultAccountId)
+      .select(S.getContext)
       .call(api.createXlmAccount, STUB_ACCOUNT_ID)
-      .call(fetchAccount)
-      .run())
-
-  it('should set account error if account id is not found', () =>
-    expectSaga(createAccount)
-      .provide([
-        [select(selectors.kvStore.xlm.getDefaultAccountId), Remote.NotAsked]
-      ])
-      .select(selectors.kvStore.xlm.getDefaultAccountId)
-      .not.call(api.createXlmAccount)
-      .not.call(fetchAccount)
-      .put(A.setAccount(Remote.Failure(NO_ACCOUNT_ID_ERROR)))
+      .call(fetchData)
       .run())
 
   it('should set account error if creation fails', () => {
     const error = 'error'
     api.createXlmAccount.mockRejectedValue(error)
-    return expectSaga(createAccount)
-      .provide([
-        [
-          select(selectors.kvStore.xlm.getDefaultAccountId),
-          Remote.Success(STUB_ACCOUNT_ID)
-        ]
-      ])
-      .select(selectors.kvStore.xlm.getDefaultAccountId)
+    return expectSaga(createAccounts)
+      .provide([[select(S.getContext), [STUB_ACCOUNT_ID]]])
+      .select(S.getContext)
       .call(api.createXlmAccount, STUB_ACCOUNT_ID)
-      .not.call(fetchAccount)
-      .put(A.setAccount(Remote.Failure(error)))
+      .not.call(fetchData)
+      .put(A.setData(Remote.Failure(error)))
+      .run()
+  })
+
+  it('should not create account for non-testnet', () => {
+    networks.xlm = 'public'
+    return expectSaga(createAccounts)
+      .provide([
+        [select(S.getContext), [STUB_ACCOUNT_ID]],
+        [call.fn(fetchData), jest.fn()]
+      ])
+      .not.select(S.getContext)
+      .not.call(api.createXlmAccount, STUB_ACCOUNT_ID)
+      .not.call(fetchData)
       .run()
   })
 })

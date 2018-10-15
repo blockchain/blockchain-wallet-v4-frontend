@@ -1,20 +1,38 @@
 import {
+  add,
   compose,
-  converge,
+  curry,
   find,
   lift,
+  map,
   memoize,
   path,
   prop,
-  propEq
+  propEq,
+  reduce
 } from 'ramda'
 
 import { dataPath } from '../../paths'
 import * as Exchange from '../../../exchange'
 import { calculateEffectiveBalance } from '../../../utils/xlm'
+import { createDeepEqualSelector } from '../../../utils'
+import * as kvStoreSelectors from '../../kvStore/xlm/selectors'
+import Remote from '../../../remote'
 
 const getLedgerDetails = path([dataPath, 'xlm', 'ledgerDetails'])
-const getAccount = path([dataPath, 'xlm', 'account'])
+
+export const getContext = createDeepEqualSelector(
+  [kvStoreSelectors.getContext /* , getLockboxXlmContext */],
+  (walletContextR /* , lockboxContextR */) => {
+    const walletContext = walletContextR.getOrElse([])
+    // const lockboxContext = lockboxContextR.getOrElse([])
+    return walletContext
+  }
+)
+
+export const getAccount = curry((accountId, state) =>
+  path([dataPath, 'xlm', 'data'], state).map(prop(accountId))
+)
 
 export const getBaseReserve = compose(
   lift(prop('base_reserve_in_stroops')),
@@ -55,11 +73,20 @@ const calculateBalance = memoize((balance, baseReserve, entries, baseFee) =>
   )
 )
 
-export const getBalance = converge(lift(calculateBalance), [
-  getAccountBalance,
-  getBaseReserve,
-  getNumberOfEntries,
-  getBaseFee
-])
+export const getBalance = curry((accountId, state) =>
+  lift(calculateBalance)(
+    getAccountBalance(accountId, state),
+    getBaseReserve(state),
+    getNumberOfEntries(accountId, state),
+    getBaseFee(state)
+  )
+)
+
+export const getTotalBalance = state =>
+  compose(
+    reduce(lift(add), Remote.of(0)),
+    map(accountId => getBalance(accountId, state)),
+    getContext
+  )(state)
 
 export const getRates = path([dataPath, 'xlm', 'rates'])

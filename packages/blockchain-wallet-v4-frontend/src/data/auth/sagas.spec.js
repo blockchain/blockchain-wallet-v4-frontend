@@ -354,7 +354,6 @@ describe('authSagas', () => {
     const firstLogin = false
     const saga = testSaga(loginRoutineSaga, mobileLogin, firstLogin)
     const beforeHdCheck = 'beforeHdCheck'
-    const beforeUserFlowCheck = 'beforeUserFlowCheck'
 
     it('should check if wallet is an hd wallet', () => {
       saga
@@ -423,19 +422,16 @@ describe('authSagas', () => {
       saga.next().call(coreSagas.settings.fetchSettings)
     })
 
-    it('should call auth nabu saga', () => {
-      saga
-        .next()
-        .call(authNabu)
-        .save(beforeUserFlowCheck)
-    })
-
     it('should fetch xlm ledger details', () => {
-      saga.next(Remote.of(false)).call(coreSagas.data.xlm.fetchLedgerDetails)
+      saga.next().call(coreSagas.data.xlm.fetchLedgerDetails)
     })
 
-    it('should fetch xlm account', () => {
-      saga.next().call(coreSagas.data.xlm.fetchAccount)
+    it('should fetch xlm data', () => {
+      saga.next().call(coreSagas.data.xlm.fetchData)
+    })
+
+    it('should call auth nabu saga', () => {
+      saga.next().call(authNabu)
     })
 
     it('should call upgrade address labels saga', () => {
