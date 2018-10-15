@@ -6,15 +6,12 @@ export default ({ api, coreSagas }) => {
   const lockboxSagas = sagas({ api, coreSagas })
 
   return function*() {
-    const installAppSaga = yield takeLatest(
-      AT.INSTALL_APPLICATION,
-      lockboxSagas.installApplication
-    )
-    const deviceSetupSaga = yield takeLatest(
+    yield takeLatest(AT.INSTALL_APPLICATION, lockboxSagas.installApplication)
+    yield takeLatest(
       AT.INITIALIZE_NEW_DEVICE_SETUP,
       lockboxSagas.initializeNewDeviceSetup
     )
-    const firmwareInstallSaga = yield takeLatest(
+    yield takeLatest(
       AT.UPDATE_DEVICE_FIRMWARE,
       lockboxSagas.updateDeviceFirmware
     )
