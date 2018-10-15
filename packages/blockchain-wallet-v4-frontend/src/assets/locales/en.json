@@ -308,7 +308,7 @@
   "components.identityverification.popup.header.verified": "Verification Completed",
   "components.identityverification.popup.note.inreview": "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to exchange cryptocurrency,",
   "components.identityverification.popup.note.notcreated": "Introducing Blockchain's new and improved crypto exchange function. To begin using this updated feature, please verify your identity. The process only takes a couple of minutes.",
-  "components.identityverification.popup.note.personalinfosecure": "Your personal information is secure with us and not shared with any third parties.",
+  "components.identityverification.popup.note.personalinfosecure": "Your personal information is secure with us.",
   "components.identityverification.popup.note.rejected": "Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time.",
   "components.identityverification.popup.note.underreview": "We had some trouble verifying your account with the documents provided. Our Support team will contact you shortly to help you with the verification process.",
   "components.identityverification.popup.note.unverified": "Complete your profile and identity verification to start buying and selling. Don’t worry, we only need a couple more details.",
