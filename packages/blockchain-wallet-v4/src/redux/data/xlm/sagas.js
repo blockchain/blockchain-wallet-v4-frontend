@@ -1,14 +1,14 @@
-import { call, put, select } from 'redux-saga/effects'
-import { prop } from 'ramda'
+import { all, call, put, select } from 'redux-saga/effects'
+import { indexBy, prop } from 'ramda'
 
 import * as A from './actions'
-import * as selectors from '../../selectors'
+import * as S from './selectors'
 import Remote from '../../../remote'
 
 export const NO_ACCOUNT_ID_ERROR = 'No account id'
 export const ACCOUNT_NOT_FOUND = 'Not Found'
 
-export default ({ api }) => {
+export default ({ api, networks }) => {
   const fetchLedgerDetails = function*() {
     try {
       yield put(A.setLedgerDetails(Remote.Loading))
@@ -19,32 +19,33 @@ export default ({ api }) => {
     }
   }
 
-  const createAccount = function*() {
+  const createAccounts = function*() {
+    if (networks.xlm !== 'testnet') return
     try {
-      const accountId = (yield select(
-        selectors.kvStore.xlm.getDefaultAccountId
-      )).getOrFail('No account id')
-      yield call(api.createXlmAccount, accountId)
-      yield call(fetchAccount)
+      const accountIds = yield select(S.getContext)
+      yield all(accountIds.map(id => call(api.createXlmAccount, id)))
+      yield call(fetchData)
     } catch (e) {
-      yield put(A.setAccount(Remote.Failure(e)))
+      yield put(A.setData(Remote.Failure(e)))
     }
   }
 
-  const fetchAccount = function*() {
+  const fetchData = function*() {
     try {
-      yield put(A.setAccount(Remote.Loading))
-      const accountId = (yield select(
-        selectors.kvStore.xlm.getDefaultAccountId
-      )).getOrFail('No account id')
-      const account = yield call(api.getXlmAccount, accountId)
-      yield put(A.setAccount(Remote.Success(account)))
+      yield put(A.setData(Remote.Loading))
+      const accountIds = yield select(S.getContext)
+      const accounts = yield all(
+        accountIds.map(id => call(api.getXlmAccount, id))
+      )
+      yield put(
+        A.setData(Remote.Success(indexBy(prop('account_id'), accounts)))
+      )
     } catch (e) {
       const message = prop('message', e)
       if (message === ACCOUNT_NOT_FOUND) {
-        return yield call(createAccount)
+        return yield call(createAccounts)
       }
-      yield put(A.setAccount(Remote.Failure(e)))
+      yield put(A.setData(Remote.Failure(e)))
     }
   }
 
@@ -60,9 +61,9 @@ export default ({ api }) => {
   }
 
   return {
-    createAccount,
+    createAccounts,
     fetchLedgerDetails,
-    fetchAccount,
+    fetchData,
     fetchRates
   }
 }

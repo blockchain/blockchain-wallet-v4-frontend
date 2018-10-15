@@ -1,4 +1,4 @@
-import { curry, find, findIndex, nth, propEq, path, prop } from 'ramda'
+import { curry, find, findIndex, map, nth, propEq, path, prop } from 'ramda'
 import { XLM } from '../config'
 import { kvStorePath } from '../../paths'
 
@@ -32,3 +32,6 @@ export const getAccountLabel = curry((state, accountId) =>
 
 export const getXlmTxNote = (state, txHash) =>
   getMetadata(state).map(path(['value', 'tx_notes', txHash]))
+
+export const getContext = state =>
+  getAccounts(state).map(map(prop('publicKey')))
