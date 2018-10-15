@@ -153,3 +153,35 @@ export const getLatestTxEth = (state, address) =>
 
 export const getLatestTxTimestampEth = (state, address) =>
   getDeviceFromEthAddr(state, address).map(path(['eth', 'last_tx_timestamp']))
+
+// XLM
+export const getLockboxXlm = state => getDevices(state).map(map(path(['xlm'])))
+
+export const getLockboxXlmAccounts = state =>
+  getLockboxXlm(state)
+    .map(map(path(['accounts'])))
+    .map(flatten)
+
+export const getLockboxXlmAccount = (state, address) =>
+  getLockboxXlmAccounts(state)
+    .map(filter(x => x.addr === address))
+    .map(head)
+
+export const getLockboxXlmContext = state => {
+  return getLockboxXlmAccounts(state).map(accounts => {
+    return accounts ? accounts.map(a => path(['addr'], a)) : []
+  })
+}
+export const getXlmContextForDevice = (state, deviceIndex) =>
+  getDevice(state, deviceIndex)
+    .map(path(['xlm', 'accounts']))
+    .map(map(prop('addr')))
+
+export const getDeviceFromXlmAddr = (state, addr) => {
+  const accountContainsAddr = account => account.addr === addr
+  const deviceFilter = device =>
+    any(accountContainsAddr, path(['xlm', 'accounts'], device))
+  return getDevices(state)
+    .map(filter(deviceFilter))
+    .map(head)
+}

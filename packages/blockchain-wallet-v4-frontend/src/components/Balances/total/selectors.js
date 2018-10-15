@@ -57,7 +57,7 @@ export const getEthBalance = state =>
   )(state)
 
 export const getXlmBalance = state =>
-  Remote.of(selectors.core.data.xlm.getBalance(state).getOrElse(0))
+  Remote.of(selectors.core.data.xlm.getTotalBalance(state).getOrElse(0))
 
 export const getBtcBalanceInfo = createDeepEqualSelector(
   [

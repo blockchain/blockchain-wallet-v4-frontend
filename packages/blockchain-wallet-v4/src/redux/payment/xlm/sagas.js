@@ -31,7 +31,7 @@ export const INVALID_ADDRESS_ERROR = 'Invalid address'
 export const INVALID_AMOUNT_ERROR = 'Invalid amount'
 export const INSUFFICIENT_FUNDS_ERROR = 'Insufficient funds'
 export const NO_DESTINATION_ERROR = 'No destination'
-export const NO_AMMOUNT_ERROR = 'No amount'
+export const NO_AMOUNT_ERROR = 'No amount'
 export const NO_SOURCE_ERROR = 'No source account'
 export const NO_TX_ERROR = 'No transaction'
 export const NO_SIGNED_ERROR = 'No signed tx'
@@ -44,13 +44,6 @@ export default ({ api }) => {
     }
 
     return destination
-  }
-  const getAccount = function*(accountId) {
-    try {
-      return yield call(api.getXlmAccount, accountId)
-    } catch (e) {
-      throw new Error(NO_ACCOUNT_ERROR)
-    }
   }
 
   // ///////////////////////////////////////////////////////////////////////////
@@ -67,24 +60,18 @@ export default ({ api }) => {
         )
         const fee = baseFee * NUMBER_OF_OPERATIONS
 
-        const effectiveBalance = (yield select(
-          S.data.xlm.getBalance
-        )).getOrFail(new Error(NO_DEFAULT_ACCOUNT_ERROR))
-
-        return makePayment(merge(p, { fee, effectiveBalance }))
+        return makePayment(merge(p, { fee }))
       },
 
       *from (origin, type) {
-        const defaultAccountId = (yield select(
-          S.kvStore.xlm.getDefaultAccountId
-        )).getOrFail(new Error(NO_DEFAULT_ACCOUNT_ERROR))
-        const accountId = origin || defaultAccountId
-        const account =
-          defaultAccountId === accountId
-            ? (yield select(S.data.xlm.getAccount)).getOrFail(
-                new Error(NO_DEFAULT_ACCOUNT_ERROR)
-              )
-            : yield call(getAccount, accountId)
+        const accountId =
+          origin ||
+          (yield select(S.kvStore.xlm.getDefaultAccountId)).getOrFail(
+            new Error(NO_DEFAULT_ACCOUNT_ERROR)
+          )
+        const account = (yield select(
+          S.data.xlm.getAccount(accountId)
+        )).getOrFail(new Error(NO_ACCOUNT_ERROR))
         const fromType = type || ADDRESS_TYPES.ACCOUNT
 
         if (!contains(fromType, values(ADDRESS_TYPES)))
@@ -95,7 +82,12 @@ export default ({ api }) => {
           address: accountId,
           account
         }
-        return makePayment(merge(p, { from }))
+
+        const effectiveBalance = (yield select(
+          S.data.xlm.getBalance(accountId)
+        )).getOrFail(new Error(NO_ACCOUNT_ERROR))
+
+        return makePayment(merge(p, { from, effectiveBalance }))
       },
 
       to (destination) {
@@ -130,7 +122,7 @@ export default ({ api }) => {
         const description = prop('description', p)
         if (!account) throw new Error(NO_SOURCE_ERROR)
         if (!to) throw new Error(NO_DESTINATION_ERROR)
-        if (!amount) throw new Error(NO_AMMOUNT_ERROR)
+        if (!amount) throw new Error(NO_AMOUNT_ERROR)
         const txBuilder = new StellarSdk.TransactionBuilder(account)
         const paymentOperation = StellarSdk.Operation.payment({
           destination: to,

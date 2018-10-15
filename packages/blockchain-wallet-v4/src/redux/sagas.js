@@ -6,7 +6,7 @@ import kvStore from './kvStore/sagas'
 import payment from './payment/sagas'
 
 export default ({ api, networks, options }) => ({
-  data: data({ api }),
+  data: data({ api, options, networks }),
   settings: settings({ api }),
   wallet: wallet({ api, networks }),
   walletOptions: walletOptions({ api }),

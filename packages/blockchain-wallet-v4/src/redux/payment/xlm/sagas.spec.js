@@ -5,6 +5,7 @@ import Task from 'data.task'
 
 import createPaymentFactory, {
   NUMBER_OF_OPERATIONS,
+  NO_ACCOUNT_ERROR,
   NO_LEDGER_ERROR,
   NO_DEFAULT_ACCOUNT_ERROR,
   INVALID_ADDRESS_TYPE_ERROR,
@@ -12,7 +13,7 @@ import createPaymentFactory, {
   INVALID_AMOUNT_ERROR,
   INSUFFICIENT_FUNDS_ERROR,
   NO_DESTINATION_ERROR,
-  NO_AMMOUNT_ERROR,
+  NO_AMOUNT_ERROR,
   NO_SOURCE_ERROR,
   NO_TX_ERROR,
   NO_SIGNED_ERROR
@@ -30,6 +31,7 @@ const STUB_BASE_RESERVE = 500000
 const STUB_BALANCE = 10
 const STUB_EFFECTIVE_BALANCE =
   STUB_BALANCE * 10000000 - STUB_BASE_RESERVE * 2 - STUB_BASE_FEE
+const STUB_OTHER_EFFECTIVE_BALANCE = 900000
 const STUB_AMOUNT = 100000
 const DEFAULT_ACCOUNT_ID = StellarSdk.Keypair.random().publicKey()
 const OTHER_ACCOUNT_ID = StellarSdk.Keypair.random().publicKey()
@@ -55,12 +57,20 @@ const api = {
   pushXlmTx: jest.fn(() => STUB_TX_RESULT)
 }
 
-S.data.xlm.getBalance.mockReturnValue(Remote.of(STUB_EFFECTIVE_BALANCE))
+S.data.xlm.getBalance.mockImplementation(id => () => {
+  if (id === DEFAULT_ACCOUNT_ID) return Remote.of(STUB_EFFECTIVE_BALANCE)
+  if (id === OTHER_ACCOUNT_ID) return Remote.of(STUB_OTHER_EFFECTIVE_BALANCE)
+  return null
+})
 S.data.xlm.getBaseFee.mockReturnValue(Remote.of(STUB_BASE_FEE))
 S.data.xlm.getBaseReserve.mockReturnValue(Remote.of(STUB_BASE_RESERVE))
 S.data.xlm.getBaseReserve.mockReturnValue(Remote.of(STUB_BASE_RESERVE))
 S.kvStore.xlm.getDefaultAccountId.mockReturnValue(Remote.of(DEFAULT_ACCOUNT_ID))
-S.data.xlm.getAccount.mockReturnValue(Remote.of(STUB_DEFAULT_ACCOUNT))
+S.data.xlm.getAccount.mockImplementation(id => () => {
+  if (id === DEFAULT_ACCOUNT_ID) return Remote.of(STUB_DEFAULT_ACCOUNT)
+  if (id === OTHER_ACCOUNT_ID) return Remote.of(STUB_OTHER_ACCOUNT)
+  return null
+})
 S.wallet.getMnemonic.mockReturnValue(() => Task.of(STUB_MNEMONIC))
 
 xlmSigner.sign.mockReturnValue(STUB_SIGNED_TX)
@@ -83,12 +93,11 @@ describe('payment', () => {
   })
 
   describe('init', () => {
-    it('should calculate the fee and effectiveBalance', async () => {
+    it('should calculate the fee', async () => {
       payment = await expectSaga(payment.init)
         .run()
         .then(prop('returnValue'))
       expect(payment.value().fee).toBe(NUMBER_OF_OPERATIONS * STUB_BASE_FEE)
-      expect(payment.value().effectiveBalance).toBe(STUB_EFFECTIVE_BALANCE)
     })
 
     it('should throw if no base fee is available', () => {
@@ -97,17 +106,10 @@ describe('payment', () => {
         new Error(NO_LEDGER_ERROR)
       )
     })
-
-    it('should throw if no account balance is available', () => {
-      S.data.xlm.getBalance.mockReturnValueOnce(Remote.NotAsked)
-      return expect(expectSaga(payment.init).run()).rejects.toThrowError(
-        new Error(NO_DEFAULT_ACCOUNT_ERROR)
-      )
-    })
   })
 
   describe('from', () => {
-    it('should set default "from" data', async () => {
+    it('should set default "from" data and effective balance', async () => {
       payment = await expectSaga(payment.from)
         .run()
         .then(prop('returnValue'))
@@ -116,16 +118,21 @@ describe('payment', () => {
         address: DEFAULT_ACCOUNT_ID,
         account: STUB_DEFAULT_ACCOUNT
       })
+      expect(payment.value().effectiveBalance).toEqual(STUB_EFFECTIVE_BALANCE)
     })
 
-    it('should fetch account if accountId is not default', async () => {
+    it('should set "from" data and effectiveBalance from specific account', async () => {
       const otherPayment = await expectSaga(payment.from, OTHER_ACCOUNT_ID)
         .run()
         .then(prop('returnValue'))
-
-      expect(api.getXlmAccount).toHaveBeenCalledTimes(1)
-      expect(api.getXlmAccount).toHaveBeenCalledWith(OTHER_ACCOUNT_ID)
-      expect(otherPayment.value().from.account).toBe(STUB_OTHER_ACCOUNT)
+      expect(otherPayment.value().from).toEqual({
+        type: ADDRESS_TYPES.ACCOUNT,
+        address: OTHER_ACCOUNT_ID,
+        account: STUB_OTHER_ACCOUNT
+      })
+      expect(otherPayment.value().effectiveBalance).toEqual(
+        STUB_OTHER_EFFECTIVE_BALANCE
+      )
     })
 
     it('should set non-default type', async () => {
@@ -148,9 +155,9 @@ describe('payment', () => {
     })
 
     it('should throw if no account is available', () => {
-      S.data.xlm.getAccount.mockReturnValueOnce(Remote.NotAsked)
+      S.data.xlm.getAccount.mockReturnValueOnce(() => Remote.NotAsked)
       return expect(expectSaga(payment.from).run()).rejects.toThrowError(
-        new Error(NO_DEFAULT_ACCOUNT_ERROR)
+        new Error(NO_ACCOUNT_ERROR)
       )
     })
 
@@ -158,6 +165,13 @@ describe('payment', () => {
       return expect(
         expectSaga(payment.from, undefined, ADDRESS_TYPES.LOCKBOX + '1').run()
       ).rejects.toThrowError(new Error(INVALID_ADDRESS_TYPE_ERROR))
+    })
+
+    it('should throw if no account balance is available', () => {
+      S.data.xlm.getBalance.mockReturnValueOnce(() => Remote.NotAsked)
+      return expect(expectSaga(payment.from).run()).rejects.toThrowError(
+        new Error(NO_ACCOUNT_ERROR)
+      )
     })
   })
 
@@ -278,7 +292,7 @@ describe('payment', () => {
       const otherPayment = create({
         payment: dissoc('amount', payment.value())
       })
-      expect(otherPayment.build).toThrowError(new Error(NO_AMMOUNT_ERROR))
+      expect(otherPayment.build).toThrowError(new Error(NO_AMOUNT_ERROR))
     })
   })
 

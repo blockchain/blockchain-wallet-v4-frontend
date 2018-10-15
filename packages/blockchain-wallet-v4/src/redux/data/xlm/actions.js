@@ -6,10 +6,10 @@ export const setLedgerDetails = ledger => ({
   payload: { ledger }
 })
 
-export const fetchAccount = () => ({ type: AT.FETCH_ACCOUNT })
-export const setAccount = account => ({
-  type: AT.SET_ACCOUNT,
-  payload: { account }
+export const fetchData = () => ({ type: AT.FETCH_DATA })
+export const setData = data => ({
+  type: AT.SET_DATA,
+  payload: { data }
 })
 
 export const fetchRates = () => ({ type: AT.FETCH_XLM_RATES })

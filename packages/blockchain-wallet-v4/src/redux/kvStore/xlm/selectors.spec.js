@@ -1,3 +1,5 @@
+import { prop } from 'ramda'
+
 import Remote from '../../../remote'
 import * as selectors from './selectors'
 
@@ -89,5 +91,10 @@ describe('kvstore stellar selectors', () => {
     expect(selectors.getXlmTxNote(successState, txNoteHash)).toEqual(
       expectedResult
     )
+  })
+
+  it('getContext should return success of all xlm addresses', () => {
+    const expectedResult = Remote.Success(accounts.map(prop('publicKey')))
+    expect(selectors.getContext(successState)).toEqual(expectedResult)
   })
 })
