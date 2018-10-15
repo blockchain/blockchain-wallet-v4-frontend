@@ -2,36 +2,37 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { RotateSync } from 'components/RotateSync'
-import { Button, Image, Text, TextGroup } from 'blockchain-info-components'
-
-const Wrapper = styled.div``
+import { Button, Image, Link, Text, TextGroup } from 'blockchain-info-components'
 
 const Title = styled.div`
   text-align: center;
   margin-bottom: 20px;
 `
-
 const Content = styled(TextGroup)`
   text-align: center;
   margin-bottom: 20px;
   > * {
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
 `
-
 const ButtonContainer = styled.div`
   margin-top: 20px;
 `
-
 const RotateSyncContainer = styled(RotateSync)`
   margin-left: 15px;
 `
+const InstallTexts = styled(TextGroup)`
+  margin-top: 12px;
+  & >:last-child {
+    margin-left: -3px;
+  }
+`
 
 const OpenBtcAppStep = props => {
-  const { isReady } = props
+  const { isReady, onInstallApps, onStepChange } = props
 
   return (
-    <Wrapper>
+    <React.Fragment>
       <Title>
         <Text>
           <FormattedMessage
@@ -53,6 +54,26 @@ const OpenBtcAppStep = props => {
             defaultMessage='Select &quot;Bitcoin&quot; from the picker.'
           />
         </Text>
+        <InstallTexts inline>
+          <Text size='14px' weight={400}>
+            <FormattedMessage
+              id='modals.lockboxsetup.openbtcappstep.note'
+              defaultMessage='Note:'
+            />
+          </Text>
+          <Text size='14px' weight={300}>
+            <FormattedMessage
+              id='modals.lockboxsetup.openbtcappstep.installapps'
+              defaultMessage='If you do not have the Bitcoin app on your device, you can install it'
+            />
+          </Text>
+          <Link size='14px' weight={400} onClick={onInstallApps}>
+            <FormattedMessage
+              id='modals.lockboxsetup.openbtcappstep.installappshere'
+              defaultMessage='here.'
+            />
+          </Link>
+        </InstallTexts>
       </Content>
       <Image
         name='lockbox-onboard-bitcoin'
@@ -67,7 +88,7 @@ const OpenBtcAppStep = props => {
           fullwidth
           disabled={!isReady}
           nature={isReady ? 'success' : 'dark'}
-          onClick={() => props.handleStepChange()}
+          onClick={onStepChange}
         >
           {isReady ? (
             <FormattedMessage
@@ -83,7 +104,7 @@ const OpenBtcAppStep = props => {
           {!isReady && <RotateSyncContainer size='16px' color='white' />}
         </Button>
       </ButtonContainer>
-    </Wrapper>
+    </React.Fragment>
   )
 }
 

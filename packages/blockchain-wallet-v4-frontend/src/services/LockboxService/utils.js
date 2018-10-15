@@ -344,7 +344,7 @@ const createBtcBchConnection = (app, deviceType, transport) => {
  * @param {Number} timeout - Length of time in ms to wait for a connection
  * @returns {Promise<TransportU2F>} Returns a connected Transport or Error
  */
-const pollForAppConnection = (deviceType, app, timeout = 60000) => {
+const pollForAppConnection = (deviceType, app, timeout = 45000) => {
   if (!deviceType || !app) throw new Error('Missing required params')
 
   return new Promise((resolve, reject) => {
@@ -356,10 +356,12 @@ const pollForAppConnection = (deviceType, app, timeout = 60000) => {
       // transport.setDebugMode(true)
       transport.setExchangeTimeout(timeout)
       transport.setScrambleKey(scrambleKey)
+      console.info('POLL', deviceType, scrambleKey, app, timeout)
       // send NO_OP cmd until response is received (success) or timeout is hit (reject)
       transport.send(...constants.apdus.no_op).then(
         () => {},
         res => {
+          console.info('RES', deviceType, scrambleKey, app, timeout)
           // since no_op wont be recognized by any app as a valid cmd, this is always going
           // to fail but a response, means a device is connected and unlocked
           if (res.originalError) {

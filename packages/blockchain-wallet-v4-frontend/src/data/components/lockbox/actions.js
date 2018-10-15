@@ -128,9 +128,12 @@ export const updateTransactionList = deviceIndex => ({
 })
 
 // APPLICATIONS
-export const installApplication = (app, deviceType) => ({
+export const continueAppInstall = () => ({
+  type: AT.CONTINUE_APP_INSTALL
+})
+export const installApplication = app => ({
   type: AT.INSTALL_APPLICATION,
-  payload: { app, deviceType }
+  payload: { app }
 })
 export const installApplicationLoading = app => ({
   type: AT.INSTALL_APPLICATION_LOADING,

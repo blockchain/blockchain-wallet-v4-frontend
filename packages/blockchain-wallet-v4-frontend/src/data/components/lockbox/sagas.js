@@ -24,16 +24,18 @@ export default ({ api }) => {
   const pollForDeviceApp = function*(action) {
     try {
       let { appRequested, deviceIndex, deviceType, timeout } = action.payload
+      console.log('pollForDeviceApp 1')
       if (!deviceIndex && !deviceType) {
         throw new Error('deviceIndex or deviceType is required')
       }
+
       // close previous transport and reset old connection info
-      try {
-        const { transport } = yield select(S.getCurrentConnection)
-        if (transport) transport.close()
-      } finally {
-        yield put(A.resetConnectionStatus())
-      }
+      // try {
+      //   const { transport } = yield select(S.getCurrentConnection)
+      //   if (transport) transport.close()
+      // } finally {
+      //   yield put(A.resetConnectionStatus())
+      // }
 
       if (!deviceType) {
         const deviceR = yield select(
@@ -44,11 +46,14 @@ export default ({ api }) => {
         deviceType = prop('device_type', device)
       }
 
+      console.log('pollForDeviceApp 2')
+
       const appConnection = yield Lockbox.utils.pollForAppConnection(
         deviceType,
         appRequested,
         timeout
       )
+      console.log('pollForDeviceApp 3')
       yield put(
         A.setConnectionInfo(
           appConnection.app,
@@ -532,11 +537,8 @@ export default ({ api }) => {
 
   // installs requested application on device
   const installApplication = function*(action) {
-    const { app, deviceType } = action.payload
+    const { app } = action.payload
     try {
-      // poll for device connection on dashboard
-      yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType))
-      yield take(AT.SET_CONNECTION_INFO)
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
       const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
@@ -653,21 +655,27 @@ export default ({ api }) => {
         // TODO: pull deviceType from setup state instead of hardcode
         device = { device_type: 'blockchain' }
       }
-
+      console.log('HERE')
+      // poll for device connection on dashboard
+      yield put(A.pollForDeviceApp('DASHBOARD', null,  'blockchain'))
+      yield take(AT.SET_CONNECTION_INFO)
+      console.log('NOT HERE')
+      // wait for user to continue
+      yield take(AT.CONTINUE_APP_INSTALL)
       // install BTC app
-      yield put(A.installApplication('BTC', device.device_type))
+      yield put(A.installApplication('BTC'))
       yield take([
         AT.INSTALL_APPLICATION_FAILURE,
         AT.INSTALL_APPLICATION_SUCCESS
       ])
       // install BCH app
-      yield put(A.installApplication('BCH', device.device_type))
+      yield put(A.installApplication('BCH'))
       yield take([
         AT.INSTALL_APPLICATION_FAILURE,
         AT.INSTALL_APPLICATION_SUCCESS
       ])
       // install ETH app
-      yield put(A.installApplication('ETH', device.device_type))
+      yield put(A.installApplication('ETH'))
       yield take([
         AT.INSTALL_APPLICATION_FAILURE,
         AT.INSTALL_APPLICATION_SUCCESS

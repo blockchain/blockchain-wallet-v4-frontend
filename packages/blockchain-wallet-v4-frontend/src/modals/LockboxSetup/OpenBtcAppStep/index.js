@@ -6,12 +6,12 @@ import { actions } from 'data'
 import OpenBtcAppStep from './template'
 
 class OpenBtcAppStepContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.changeDeviceSetupStep = this.changeDeviceSetupStep.bind(this)
+  onInstallApps = () => {
+    // TODO: reset setup type?
+    this.props.modalActions.showModal('LockboxAppInstall')
   }
 
-  changeDeviceSetupStep () {
+  onStepChange = () => {
     this.props.lockboxActions.changeDeviceSetupStep('name-device')
   }
 
@@ -19,13 +19,15 @@ class OpenBtcAppStepContainer extends React.PureComponent {
     return (
       <OpenBtcAppStep
         isReady={this.props.done}
-        handleStepChange={this.changeDeviceSetupStep}
+        onInstallApps={this.onInstallApps}
+        onStepChange={this.onStepChange}
       />
     )
   }
 }
 
 const mapDispatchToProps = dispatch => ({
+  modalActions: bindActionCreators(actions.modals, dispatch),
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
