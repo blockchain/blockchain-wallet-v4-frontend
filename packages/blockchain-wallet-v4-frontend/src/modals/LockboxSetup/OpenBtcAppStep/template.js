@@ -2,7 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { RotateSync } from 'components/RotateSync'
-import { Button, Image, Link, Text, TextGroup } from 'blockchain-info-components'
+import {
+  Button,
+  Image,
+  Link,
+  Text,
+  TextGroup
+} from 'blockchain-info-components'
 
 const Title = styled.div`
   text-align: center;
@@ -23,7 +29,7 @@ const RotateSyncContainer = styled(RotateSync)`
 `
 const InstallTexts = styled(TextGroup)`
   margin-top: 12px;
-  & >:last-child {
+  & > :last-child {
     margin-left: -3px;
   }
 `

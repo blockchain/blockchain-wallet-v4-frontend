@@ -7,7 +7,6 @@ import OpenBtcAppStep from './template'
 
 class OpenBtcAppStepContainer extends React.PureComponent {
   onInstallApps = () => {
-    // TODO: reset setup type?
     this.props.modalActions.showModal('LockboxAppInstall')
   }
 

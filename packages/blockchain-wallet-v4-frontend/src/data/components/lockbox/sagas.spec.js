@@ -86,7 +86,7 @@ const mdAccountsEntryMock = {
 
 describe('lockbox sagas', () => {
   const {
-    pollForDeviceChannel,
+    pollForDeviceTypeChannel,
     checkDeviceAuthenticity,
     initializeNewDeviceSetup,
     saveNewDeviceKvStore
@@ -182,7 +182,7 @@ describe('lockbox sagas', () => {
       saga.next().put(A.changeDeviceSetupStep('connect-device'))
     })
     it('opens a channel and polls for device', () => {
-      saga.next().call(pollForDeviceChannel)
+      saga.next().call(pollForDeviceTypeChannel)
     })
     it('sets the connection info', () => {
       saga
