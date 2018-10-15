@@ -9,8 +9,7 @@ import {
   path,
   prop,
   propEq,
-  reduce,
-  tap
+  reduce
 } from 'ramda'
 
 import { dataPath } from '../../paths'
@@ -86,7 +85,6 @@ export const getBalance = curry((accountId, state) =>
 export const getTotalBalance = state =>
   compose(
     reduce(lift(add), Remote.of(0)),
-    tap(console.log),
     map(accountId => getBalance(accountId, state)),
     getContext
   )(state)
