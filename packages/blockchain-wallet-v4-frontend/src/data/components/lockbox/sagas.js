@@ -730,6 +730,7 @@ export default ({ api }) => {
     checkDeviceAuthenticity,
     deleteDevice,
     pollForDeviceTypeChannel,
+    pollForDeviceAppChannel,
     determineLockboxRoute,
     initializeDashboard,
     initializeNewDeviceSetup,

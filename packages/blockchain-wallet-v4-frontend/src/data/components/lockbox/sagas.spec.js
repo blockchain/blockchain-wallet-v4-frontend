@@ -87,6 +87,7 @@ const mdAccountsEntryMock = {
 describe('lockbox sagas', () => {
   const {
     pollForDeviceTypeChannel,
+    pollForDeviceAppChannel,
     checkDeviceAuthenticity,
     initializeNewDeviceSetup,
     saveNewDeviceKvStore
@@ -182,7 +183,7 @@ describe('lockbox sagas', () => {
       saga.next().put(A.changeDeviceSetupStep('connect-device'))
     })
     it('opens a channel and polls for device', () => {
-      saga.next().call(pollForDeviceTypeChannel)
+      saga.next().call(pollForDeviceTypeChannel, 2500)
     })
     it('sets the connection info', () => {
       saga
@@ -201,11 +202,14 @@ describe('lockbox sagas', () => {
     it('waits for setup step 2', () => {
       saga.next().take(AT.SET_NEW_DEVICE_SETUP_STEP)
     })
-    it("polls for device's btc app", () => {
-      saga.next().put(A.pollForDeviceApp('BTC', null, 'ledger'))
+    it('opens a channel and polls for app', () => {
+      saga.next().call(pollForDeviceAppChannel, 'BTC', 5000)
     })
-    it('waits for set connection info', () => {
-      saga.next().take(AT.SET_CONNECTION_INFO)
+    it('waits for set connection info or install apps', () => {
+      saga
+        .next()
+        .next()
+        .take([AT.SET_CONNECTION_INFO, AT.INSTALL_BLOCKCHAIN_APPS])
     })
   })
 })
