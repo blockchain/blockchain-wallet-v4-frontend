@@ -36,7 +36,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 CoinTickerContainer.propTypes = {
-  coin: PropTypes.oneOf(['BCH', 'BTC', 'ETH']).isRequired,
+  coin: PropTypes.oneOf(['BCH', 'BTC', 'ETH', 'XLM']).isRequired,
   handleClick: PropTypes.func.isRequired,
   selected: PropTypes.bool.isRequired
 }

@@ -80,7 +80,8 @@ const configureStore = () => {
       const networks = {
         btc: Bitcoin.networks[options.platforms.web.bitcoin.config.network],
         bch: BitcoinCash.networks[options.platforms.web.bitcoin.config.network],
-        eth: options.platforms.web.ethereum.config.network
+        eth: options.platforms.web.ethereum.config.network,
+        xlm: options.platforms.web.xlm.config.network
       }
       const api = createWalletApi({
         options,

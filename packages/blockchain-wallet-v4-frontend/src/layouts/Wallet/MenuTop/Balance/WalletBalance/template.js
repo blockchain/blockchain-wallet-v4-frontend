@@ -2,6 +2,7 @@ import React from 'react'
 import BtcBalance from './BtcBalance'
 import EthBalance from './EthBalance'
 import BchBalance from './BchBalance'
+import XlmBalance from './XlmBalance'
 import { FormattedMessage } from 'react-intl'
 import { Icon } from 'blockchain-info-components'
 import {
@@ -31,6 +32,7 @@ const Template = props => (
       <BtcBalance />
       <EthBalance />
       <BchBalance />
+      <XlmBalance />
     </BalancesWrapper>
   </Wrapper>
 )

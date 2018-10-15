@@ -61,10 +61,22 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.'
           />
         </Tooltip>
+        <Tooltip id='reqXlmShare'>
+          <FormattedMessage
+            id='modals.requestxlm.sharetooltip'
+            defaultMessage='Share this address with others, and they can send you XLM directly to your wallet. Your request address will not change.'
+          />
+        </Tooltip>
         <Tooltip id='reqEthScan'>
           <FormattedMessage
             id='modals.requestether.scan_tooltip'
             defaultMessage='Ask the sender to scan this QR code with their ether wallet'
+          />
+        </Tooltip>
+        <Tooltip id='reqXlmScan'>
+          <FormattedMessage
+            id='modals.requestxlm.scan_tooltip'
+            defaultMessage='Ask the sender to scan this QR code with their stellar wallet'
           />
         </Tooltip>
         <Tooltip id='sendBch.firststep.share_tooltip'>
@@ -203,7 +215,8 @@ class Tooltips extends React.PureComponent {
         <Tooltip id='txlist.change.tooltip'>
           <FormattedMessage
             id='txlist.change.tooltip.description'
-            defaultMessage='This change address belongs to your wallet't
+            defaultMessage='This change address belongs to your wallet'
+            t
           />
         </Tooltip>
       </div>

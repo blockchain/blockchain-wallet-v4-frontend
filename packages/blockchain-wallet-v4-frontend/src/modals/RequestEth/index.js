@@ -2,7 +2,6 @@ import React from 'react'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
-
 import { getData, getInitialValues } from './selectors'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { actions } from 'data'
@@ -13,7 +12,7 @@ import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
-class RequestEtherContainer extends React.PureComponent {
+class RequestEthContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.init = this.init.bind(this)
@@ -29,12 +28,17 @@ class RequestEtherContainer extends React.PureComponent {
     const { coin } = nextProps
     if (coin === 'BTC') {
       this.props.modalActions.closeAllModals()
-      this.props.modalActions.showModal('RequestBitcoin', {
+      this.props.modalActions.showModal('RequestBtc', {
         lockboxIndex: nextProps.lockboxIndex
       })
     } else if (coin === 'BCH') {
       this.props.modalActions.closeAllModals()
       this.props.modalActions.showModal('RequestBch', {
+        lockboxIndex: nextProps.lockboxIndex
+      })
+    } else if (coin === 'XLM') {
+      this.props.modalActions.closeAllModals()
+      this.props.modalActions.showModal('RequestXlm', {
         lockboxIndex: nextProps.lockboxIndex
       })
     }
@@ -114,11 +118,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('RequestEther'),
+  modalEnhancer('RequestEth'),
   connect(
     mapStateToProps,
     mapDispatchToProps
   )
 )
 
-export default enhance(RequestEtherContainer)
+export default enhance(RequestEthContainer)

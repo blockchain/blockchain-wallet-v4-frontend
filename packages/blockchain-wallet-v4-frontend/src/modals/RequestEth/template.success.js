@@ -42,7 +42,7 @@ const ScanMessage = styled.div`
   padding-bottom: 20px;
 `
 
-const RequestEther = props => {
+const RequestEth = props => {
   const { handleSubmit, address } = props
 
   return (
@@ -114,11 +114,11 @@ const RequestEther = props => {
   )
 }
 
-RequestEther.propTypes = {
+RequestEth.propTypes = {
   address: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'requestEther', destroyOnUnmount: false })(
-  RequestEther
+  RequestEth
 )

@@ -25,8 +25,9 @@ import PromptInput from './PromptInput'
 import PromptLockbox from './PromptLockbox'
 import QRCode from './QRCode'
 import RequestBch from './RequestBch'
-import RequestBitcoin from './RequestBtc'
-import RequestEther from './RequestEth'
+import RequestBtc from './RequestBtc'
+import RequestEth from './RequestEth'
+import RequestXlm from './RequestXlm'
 import SecondPassword from './SecondPassword'
 import SendBch from './SendBch'
 import SendBitcoin from './SendBtc'
@@ -76,8 +77,9 @@ const Modals = props => (
     <PromptLockbox />
     <QRCode />
     <RequestBch />
-    <RequestBitcoin />
-    <RequestEther />
+    <RequestBtc />
+    <RequestEth />
+    <RequestXlm />
     <SecondPassword />
     <SendBch />
     <SendBitcoin />

@@ -401,6 +401,12 @@ describe('authSagas', () => {
         )
     })
 
+    it('should fetch stellar metadata', () => {
+      saga
+        .next()
+        .call(coreSagas.kvStore.xlm.fetchMetadataXlm, askSecondPasswordEnhancer)
+    })
+
     it('should fetch bitcoin cash metadata', () => {
       saga.next().call(coreSagas.kvStore.bch.fetchMetadataBch)
     })
@@ -424,8 +430,16 @@ describe('authSagas', () => {
         .save(beforeUserFlowCheck)
     })
 
+    it('should fetch xlm ledger details', () => {
+      saga.next(Remote.of(false)).call(coreSagas.data.xlm.fetchLedgerDetails)
+    })
+
+    it('should fetch xlm account', () => {
+      saga.next().call(coreSagas.data.xlm.fetchAccount)
+    })
+
     it('should call upgrade address labels saga', () => {
-      saga.next(Remote.of(false)).call(upgradeAddressLabelsSaga)
+      saga.next().call(upgradeAddressLabelsSaga)
     })
 
     it('should trigger login success action', () => {

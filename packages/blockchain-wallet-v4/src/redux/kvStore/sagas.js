@@ -8,6 +8,7 @@ import whatsNew from './whatsNew/sagas'
 import contacts from './contacts/sagas'
 import userCredentials from './userCredentials/sagas'
 import shapeShift from './shapeShift/sagas'
+import xlm from './xlm/sagas'
 
 export default ({ api, networks }) => ({
   bch: bch({ api, networks }),
@@ -19,5 +20,6 @@ export default ({ api, networks }) => ({
   whatsNew: whatsNew({ api, networks }),
   contacts: contacts({ api, networks }),
   shapeShift: shapeShift({ api, networks }),
-  userCredentials: userCredentials({ api, networks })
+  userCredentials: userCredentials({ api, networks }),
+  xlm: xlm({ api, networks })
 })

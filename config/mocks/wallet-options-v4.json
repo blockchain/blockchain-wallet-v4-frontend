@@ -175,6 +175,11 @@
         },
         "announcements": {}
       },
+      "xlm": {
+        "config": {
+          "network": "testnet"
+        }
+      },
       "sfox": {
         "fraction": 1,
         "countries": ["US"],
@@ -308,6 +313,7 @@
     "comWalletApp": "https://login.blockchain.com",
     "walletHelper": "https://wallet-helper.blockchain.info",
     "ledger": "https://manager.api.live.ledger.com",
-    "ledgerSocket": "wss://api.ledgerwallet.com"
+    "ledgerSocket": "wss://api.ledgerwallet.com",
+    "horizon": "https://horizon-testnet.stellar.org"
   }
 }

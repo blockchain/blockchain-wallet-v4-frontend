@@ -17,5 +17,10 @@ exports[`CoinFilters component renders correctly 1`] = `
     handleClick={[Function]}
     selected={false}
   />
+  <CoinTicker
+    coin="XLM"
+    handleClick={[Function]}
+    selected={false}
+  />
 </template__Wrapper>
 `;

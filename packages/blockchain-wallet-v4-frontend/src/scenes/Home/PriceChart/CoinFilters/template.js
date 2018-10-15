@@ -32,6 +32,11 @@ const CoinFilters = props => {
         selected={coin === 'BCH'}
         handleClick={() => handleClick('BCH')}
       />
+      <CoinTicker
+        coin='XLM'
+        selected={coin === 'XLM'}
+        handleClick={() => handleClick('XLM')}
+      />
     </Wrapper>
   )
 }
