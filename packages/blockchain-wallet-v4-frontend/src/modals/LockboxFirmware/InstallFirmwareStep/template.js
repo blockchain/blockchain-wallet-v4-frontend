@@ -18,7 +18,6 @@ const Content = styled.div`
 `
 
 const InstallFirmware = props => {
-  // const { status } = props
   return (
     <React.Fragment>
       <Title>
@@ -29,7 +28,7 @@ const InstallFirmware = props => {
           />
         </Text>
         <Content>
-          <Text size='13px' weight={300}>
+          <Text weight={300}>
             <FormattedMessage
               id='modals.lockboxfirmware.installstep.message'
               defaultMessage='Finalizing the update on your Lockbox. Enter your device pin when prompted.'

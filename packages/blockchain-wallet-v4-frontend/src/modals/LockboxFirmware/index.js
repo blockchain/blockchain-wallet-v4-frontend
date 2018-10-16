@@ -8,7 +8,7 @@ import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import FirmwareContainer from './template'
 import ConnectDeviceStep from './ConnectDeviceStep'
-import ConfirmIdentifierStep from './ConfirmIdentifierStep'
+import UninstallAppsStep from './UninstallAppsStep'
 import CompleteStep from './CompleteStep'
 import CheckVersionsStep from './CheckVersionsStep'
 import InstallFirmwareStep from './InstallFirmwareStep'
@@ -18,12 +18,19 @@ class LockboxFirmwareContainer extends React.PureComponent {
     this.props.lockboxActions.updateDeviceFirmware(this.props.deviceIndex)
   }
 
+  componentWillUnmount () {
+    this.props.lockboxActions.resetConnectionStatus()
+    this.props.lockboxActions.changeFirmwareUpdateStep({
+      step: 'connect-device'
+    })
+  }
+
   render () {
     const { closeAll, currentStep, deviceIndex, position, total } = this.props
     const steps = {
       'connect-device': 1,
       'check-versions': 2,
-      'confirm-identifier': 3,
+      'uninstall-apps': 3,
       'install-firmware': 4,
       'install-complete': 5
     }
@@ -40,7 +47,7 @@ class LockboxFirmwareContainer extends React.PureComponent {
       >
         {step === 1 && <ConnectDeviceStep deviceIndex={deviceIndex} />}
         {step === 2 && <CheckVersionsStep status={status} />}
-        {step === 3 && <ConfirmIdentifierStep status={status} />}
+        {step === 3 && <UninstallAppsStep status={status} />}
         {step === 4 && <InstallFirmwareStep status={status} />}
         {step === 5 && <CompleteStep status={status} closeAll={closeAll} />}
       </FirmwareContainer>
