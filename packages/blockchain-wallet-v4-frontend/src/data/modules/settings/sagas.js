@@ -322,8 +322,8 @@ export default ({ api, coreSagas }) => {
 
   const showEthPrivateKey = function*(action) {
     const { isLegacy } = action.payload
-    const password = yield call(promptForSecondPassword)
     try {
+      const password = yield call(promptForSecondPassword)
       if (isLegacy) {
         const getSeedHex = state =>
           selectors.core.wallet.getSeedHex(state, password)
