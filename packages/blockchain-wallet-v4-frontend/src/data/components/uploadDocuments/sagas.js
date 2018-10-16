@@ -22,7 +22,7 @@ export default ({ api }) => {
       const response = yield call(
         api.uploadDocuments,
         token,
-        JSON.stringify(files)
+        files
       )
       yield put(A.setUploadedSuccess(response))
       yield put(A.setReference(response))
