@@ -668,14 +668,13 @@ export default ({ api }) => {
       const { deviceIndex } = action.payload
       yield put(A.resetAppsInstallStatus())
       yield put(A.installBlockchainAppsLoading())
-      let deviceType
       if (deviceIndex) {
         // derive device type
         const deviceR = yield select(
           selectors.core.kvStore.lockbox.getDevice,
           deviceIndex
         )
-        deviceType = prop('device_type', deviceR.getOrFail())
+        const deviceType = prop('device_type', deviceR.getOrFail())
         // poll for device connection on dashboard
         yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType))
       } else {
