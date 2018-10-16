@@ -8,17 +8,13 @@ import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
 class RequestBtcContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = { receiveAddress: '' }
-    this.setReceiveAddress = this.setReceiveAddress.bind(this)
-  }
+  state = { receiveAddress: '' }
 
-  componentWillMount () {
+  componentDidMount () {
     this.props.resetStep()
   }
 
-  setReceiveAddress (addr) {
+  setReceiveAddress = addr => {
     this.setState({ receiveAddress: addr })
   }
 

@@ -3,7 +3,7 @@ import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
 
-import { getData } from './selectors'
+import { getData, getInitialValues } from './selectors'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { actions } from 'data'
 import Loading from './template.loading'
@@ -14,14 +14,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
 class RequestXlmContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.init = this.init.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
-    this.handleRefresh = this.handleRefresh.bind(this)
-  }
-
-  componentWillMount () {
+  componentDidMount () {
     this.init()
   }
 
@@ -54,16 +47,17 @@ class RequestXlmContainer extends React.PureComponent {
     }
   }
 
-  init () {
+  init = () => {
     this.props.formActions.initialize('requestXlm', this.props.initialValues)
   }
 
-  onSubmit () {
+  onSubmit = () => {
     this.props.modalActions.closeAllModals()
   }
 
-  handleRefresh () {
-    // TODO: fetch xlm data
+  handleRefresh = () => {
+    this.props.kvStoreXlmActions.fetchMetadataXlm()
+    this.props.dataXlmActions.fetchData()
   }
 
   render () {
@@ -105,15 +99,13 @@ class RequestXlmContainer extends React.PureComponent {
 
 const mapStateToProps = (state, ownProps) => ({
   data: getData(state),
-  initialValues: { coin: 'XLM' },
+  initialValues: getInitialValues(state, ownProps),
   coin: formValueSelector('requestXlm')(state, 'coin')
 })
 
 const mapDispatchToProps = dispatch => ({
-  kvStoreEthActions: bindActionCreators(
-    actions.core.kvStore.ethereum,
-    dispatch
-  ),
+  kvStoreXlmActions: bindActionCreators(actions.core.kvStore.xlm, dispatch),
+  dataXlmActions: bindActionCreators(actions.core.data.xlm, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

@@ -18,7 +18,8 @@ import {
   FormGroup,
   FormItem,
   FormLabel,
-  SelectBoxCoin
+  SelectBoxCoin,
+  SelectBoxXlmAddresses
 } from 'components/Form'
 import CopyClipboard from 'components/CopyClipboard'
 
@@ -56,8 +57,7 @@ const RequestXlm = props => {
           </FormLabel>
           <Field name='coin' component={SelectBoxCoin} validate={[required]} />
         </FormItem>
-        <FormItem />
-        {/* <FormItem>
+        <FormItem>
           <FormLabel for='to'>
             <FormattedMessage
               id='modals.requestbitcoin.firststep.to'
@@ -66,11 +66,11 @@ const RequestXlm = props => {
           </FormLabel>
           <Field
             name='to'
-            component={SelectBoxEthAddresses}
+            component={SelectBoxXlmAddresses}
             includeAll={false}
             validate={[required]}
           />
-        </FormItem> */}
+        </FormItem>
       </FormGroup>
       <FormGroup>
         <FormItem>

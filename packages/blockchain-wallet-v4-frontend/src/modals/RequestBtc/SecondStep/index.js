@@ -9,18 +9,15 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class SecondStepContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.timeout = undefined
-    this.state = { active: false }
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
+  state = { active: false }
 
-  componentWillUnmount () {
+  componentDidUnmount () {
     clearTimeout(this.timeout)
   }
 
-  handleSubmit (e) {
+  timeout = undefined
+
+  handleSubmit = e => {
     e.preventDefault()
     this.setState({ active: true })
     this.timeout = setTimeout(() => {

@@ -7,7 +7,7 @@ export const getData = state =>
   selectors.core.kvStore.xlm.getAccounts(state).map(extractAddress)
 
 export const getInitialValues = (state, ownProps) => {
-  const to = to => ({ to, coin: 'ETH' })
+  const to = to => ({ to, coin: 'XLM' })
   if (ownProps.lockboxIndex != null) {
     return selectors.core.common.xlm
       .getLockboxXlmBalances(state)
