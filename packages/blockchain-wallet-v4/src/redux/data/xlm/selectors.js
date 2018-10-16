@@ -91,3 +91,11 @@ export const getTotalBalance = state =>
   )(state)
 
 export const getRates = path([dataPath, 'xlm', 'rates'])
+
+export const getTransactionsAtBound = path([
+  dataPath,
+  'xlm',
+  'transactionsAtBound'
+])
+
+export const getTransactions = path([dataPath, 'xlm', 'transactions'])

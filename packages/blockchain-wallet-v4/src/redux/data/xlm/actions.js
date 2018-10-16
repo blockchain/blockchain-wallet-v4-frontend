@@ -12,8 +12,29 @@ export const setData = data => ({
   payload: { data }
 })
 
-export const fetchRates = () => ({ type: AT.FETCH_XLM_RATES })
+export const fetchRates = () => ({ type: AT.FETCH_RATES })
 export const setRates = rates => ({
-  type: AT.SET_XLM_RATES,
+  type: AT.SET_RATES,
   payload: { rates }
+})
+
+export const fetchTransactions = (accountId, reset) => ({
+  type: AT.FETCH_TRANSACTIONS,
+  payload: { accountId, reset }
+})
+export const fetchTransactionsLoading = reset => ({
+  type: AT.FETCH_TRANSACTIONS_LOADING,
+  payload: { reset }
+})
+export const fetchTransactionsSuccess = (txs, reset) => ({
+  type: AT.FETCH_TRANSACTIONS_SUCCESS,
+  payload: { txs, reset }
+})
+export const fetchTransactionsFailure = error => ({
+  type: AT.FETCH_TRANSACTIONS_FAILURE,
+  payload: { error }
+})
+export const transactionsAtBound = atBound => ({
+  type: AT.TRANSACTIONS_AT_BOUND,
+  payload: { atBound }
 })

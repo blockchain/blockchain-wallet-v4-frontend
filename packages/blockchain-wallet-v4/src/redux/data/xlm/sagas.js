@@ -1,12 +1,14 @@
 import { all, call, put, select } from 'redux-saga/effects'
-import { indexBy, prop } from 'ramda'
+import { indexBy, last, length, prop } from 'ramda'
 
 import * as A from './actions'
 import * as S from './selectors'
+import * as selectors from '../../selectors'
 import Remote from '../../../remote'
 
 export const NO_ACCOUNT_ID_ERROR = 'No account id'
 export const ACCOUNT_NOT_FOUND = 'Not Found'
+export const TX_PER_PAGE = 10
 
 export default ({ api, networks }) => {
   const fetchLedgerDetails = function*() {
@@ -60,10 +62,41 @@ export default ({ api, networks }) => {
     }
   }
 
+  const fetchTransactions = function*(action) {
+    try {
+      const { payload } = action
+      const { accountId, reset } = payload
+      const defaultAccountR = yield select(
+        selectors.kvStore.xlm.getDefaultAccountId
+      )
+      const publicKey =
+        accountId || defaultAccountR.getOrFail(ACCOUNT_NOT_FOUND)
+      const pages = yield select(S.getTransactions)
+      const latestTradeId = last(pages || [Remote.NotAsked])
+        .map(last)
+        .map(prop('id'))
+        .getOrElse(null)
+      const transactionsAtBound = yield select(S.getTransactionsAtBound)
+      if (transactionsAtBound && !reset) return
+      yield put(A.fetchTransactionsLoading(reset))
+      const txs = yield call(api.getXlmTransactions, {
+        publicKey,
+        limit: TX_PER_PAGE,
+        latestTradeId
+      })
+      const atBounds = length(txs) < TX_PER_PAGE
+      yield put(A.transactionsAtBound(atBounds))
+      yield put(A.fetchTransactionsSuccess(txs, reset))
+    } catch (e) {
+      yield put(A.fetchTransactionsFailure(e.message))
+    }
+  }
+
   return {
     createAccounts,
     fetchLedgerDetails,
     fetchData,
-    fetchRates
+    fetchRates,
+    fetchTransactions
   }
 }

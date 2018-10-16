@@ -25,11 +25,22 @@ export default ({ horizonUrl, network, get }) => {
 
   const pushXlmTx = tx => server.submitTransaction(tx)
 
-  const getXlmTransactions = publicKey =>
-    server
+  const getXlmTransactions = ({
+    publicKey,
+    limit,
+    latestTradeId,
+    order = 'desc'
+  }) => {
+    const txCallBuilder = server
       .transactions()
       .forAccount(publicKey)
-      .call()
+      .order(order)
+
+    if (limit) txCallBuilder.limit(limit)
+    if (latestTradeId) txCallBuilder.cursor(latestTradeId)
+
+    return txCallBuilder.call().then(prop('records'))
+  }
 
   const getLatestLedgerDetails = () =>
     server
