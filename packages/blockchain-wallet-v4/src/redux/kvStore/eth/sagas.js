@@ -47,7 +47,7 @@ export default ({ api, networks } = {}) => {
         {
           label: 'My Ether Wallet',
           archived: false,
-          correct: false,
+          correct: true,
           addr: addr
         }
       ],
