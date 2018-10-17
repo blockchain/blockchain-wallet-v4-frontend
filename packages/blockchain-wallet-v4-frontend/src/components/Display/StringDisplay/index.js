@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { propOr } from 'ramda'
+import { FormattedMessage } from 'react-intl'
 
 import { Remote } from 'blockchain-wallet-v4'
 
@@ -22,6 +23,10 @@ const Loader = styled(FlatLoader)`
   margin: 5px 0;
 `
 
+const defaultError = (
+  <FormattedMessage id='stringdisplay.deafulterror' defaultMessage='Error' />
+)
+
 class StringDisplayContainer extends React.PureComponent {
   render () {
     const { children, ...rest } = this.props
@@ -31,7 +36,7 @@ class StringDisplayContainer extends React.PureComponent {
           Success: value => value,
           Failure: error => (
             <Text size='12px' weight={300} color='red' className='error'>
-              {propOr(error.toString(), 'message', error)}
+              {propOr(defaultError, 'message', error)}
             </Text>
           ),
           Loading: () => <Loader />,
