@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import DataError from 'components/DataError'
 import Loading from './template.loading'
@@ -6,14 +7,15 @@ import Success from './template.success'
 
 class Pages extends React.PureComponent {
   render () {
-    const { data, currency, buysellPartner } = this.props
+    const { buySellPartner, coin, currency, data } = this.props
 
     return data.cata({
       Success: value => (
         <Success
           transactions={value}
+          coin={coin}
           currency={currency}
-          buysellPartner={buysellPartner}
+          buySellPartner={buySellPartner}
         />
       ),
       Failure: message => (
@@ -27,6 +29,10 @@ class Pages extends React.PureComponent {
       NotAsked: () => <Loading />
     })
   }
+}
+
+Pages.propTypes = {
+  coin: PropTypes.oneOf(['BTC', 'BCH', 'ETH']).isRequired
 }
 
 export default Pages

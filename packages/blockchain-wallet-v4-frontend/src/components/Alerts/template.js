@@ -620,14 +620,14 @@ const selectMessage = (message, data = undefined) => {
       return (
         <FormattedMessage
           id='components.alerts.second_password_enabled_success'
-          defaultMessage='Second password enabled'
+          defaultMessage='Second password successfully enabled'
         />
       )
     case C.SECOND_PASSWORD_DISABLED_SUCCESS:
       return (
         <FormattedMessage
           id='components.alerts.second_password_disabled_success'
-          defaultMessage='Second password disabled'
+          defaultMessage='Second password successfully disabled'
         />
       )
     case C.SEND_BCH_ERROR:

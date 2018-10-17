@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+
 import EmptyTx from 'components/EmptyTx'
 import Empty from './Empty'
 import Pages from './Pages'
@@ -19,16 +20,17 @@ const Success = props => {
         props.search ? (
           <EmptyTx />
         ) : (
-          <Empty />
+          <Empty coin={props.coin} />
         )
       ) : (
         props.pages.map((value, index) => (
           <Pages
             key={index}
             data={value}
+            coin={props.coin}
             currency={props.currency}
             onRefresh={props.onRefresh}
-            buysellPartner={props.buysellPartner}
+            buySellPartner={props.buySellPartner}
             onArchive={props.onArchive}
           />
         ))

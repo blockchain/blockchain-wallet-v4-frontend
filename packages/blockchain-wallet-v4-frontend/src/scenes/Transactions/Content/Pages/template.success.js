@@ -1,6 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
 import TransactionListItem from 'components/TransactionListItem'
 
@@ -13,14 +13,17 @@ const Wrapper = styled.div`
 `
 
 const Success = props => {
+  const minConfirms = props.coin === 'ETH' ? 12 : 3
   return (
     <Wrapper>
-      {props.transactions.map((transaction, index) => (
+      {props.transactions.map(transaction => (
         <TransactionListItem
           key={transaction.hash}
           transaction={transaction}
-          coin='ETH'
-          minConfirmations={12}
+          coin={props.coin}
+          minConfirmations={minConfirms}
+          currency={props.currency}
+          buySellPartner={props.buySellPartner}
         />
       ))}
     </Wrapper>
