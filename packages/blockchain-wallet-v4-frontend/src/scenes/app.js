@@ -70,12 +70,13 @@ class App extends React.PureComponent {
                     component={AuthorizeLogin}
                   />
                   <PublicLayout
-                    path='/upload-document/:token'
-                    component={UploadDocuments}
-                  />
-                  <PublicLayout
                     path='/upload-document/success'
                     component={UploadDocumentsSuccess}
+                    exact
+                  />
+                  <PublicLayout
+                    path='/upload-document/:token'
+                    component={UploadDocuments}
                   />
                   <PublicLayout path='/wallet' component={Login} />
                   <WalletLayout path='/home' component={Home} />
