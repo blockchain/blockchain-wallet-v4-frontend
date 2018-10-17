@@ -285,7 +285,7 @@ export const addBalanceLimit = (balanceLimit, limits) => {
   const { fiatBalance, cryptoBalance } = balanceLimit
 
   const resultingLimits = assoc('balanceMax', cryptoBalance, limits)
-  const maxFiatLimit = path(['maxFiatLimit', 'amount'], limits)
+  const maxFiatLimit = prop('maxFiatLimit', limits)
 
   if (
     new BigNumber(prop('amount', fiatBalance)).lessThan(
@@ -294,7 +294,11 @@ export const addBalanceLimit = (balanceLimit, limits) => {
   )
     return assoc('maxPossibleOrder', fiatBalance, resultingLimits)
 
-  if (new BigNumber(prop('amount', fiatBalance)).lessThan(maxFiatLimit))
+  if (
+    new BigNumber(prop('amount', fiatBalance)).lessThan(
+      prop('amount', maxFiatLimit)
+    )
+  )
     return assoc('maxPossibleOrder', cryptoBalance, resultingLimits)
 
   return assoc('maxPossibleOrder', maxFiatLimit, resultingLimits)
