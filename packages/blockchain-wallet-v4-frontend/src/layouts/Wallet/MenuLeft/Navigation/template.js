@@ -94,6 +94,15 @@ const Navigation = props => {
           />
         </MenuItem>
       </LinkContainer>
+      <LinkContainer to='/xlm/transactions' activeClassName='active'>
+        <MenuItem data-e2e='stellarLink'>
+          <Icon name='bch-circle' />
+          <FormattedMessage
+            id='layouts.wallet.menuleft.navigation.transactions.xlm'
+            defaultMessage='Stellar'
+          />
+        </MenuItem>
+      </LinkContainer>
       {lockboxEnabled && (
         <React.Fragment>
           <MenuItem>

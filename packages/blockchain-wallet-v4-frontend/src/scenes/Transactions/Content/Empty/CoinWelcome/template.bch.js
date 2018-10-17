@@ -68,7 +68,7 @@ const LearnMoreLink = styled(Link)`
   justify-content: flex-start;
   align-items: center;
 `
-const BitcoinCashWelcome = props => {
+const BchWelcome = props => {
   const { displayed, handleClick, handleRequest, exchange } = props
 
   return (
@@ -79,7 +79,7 @@ const BitcoinCashWelcome = props => {
           <Cell small>
             <Text size='24px' weight={300} color='brand-primary' uppercase>
               <FormattedMessage
-                id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.welcome'
+                id='scenes.transaction.content.empty.bitcoincashwelcome.welcome'
                 defaultMessage='Welcome to'
               />
             </Text>
@@ -94,7 +94,7 @@ const BitcoinCashWelcome = props => {
               uppercase
             >
               <FormattedMessage
-                id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.learnmore'
+                id='scenes.transaction.content.empty.bitcoincashwelcome.learnmore'
                 defaultMessage='Learn More'
               />
               <Icon name='right-arrow' color='brand-secondary' />
@@ -112,13 +112,13 @@ const BitcoinCashWelcome = props => {
               <TextGroup inline>
                 <Text size='12px' weight={300}>
                   <FormattedMessage
-                    id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.currency'
+                    id='scenes.transaction.content.empty.bitcoincashwelcome.currency'
                     defaultMessage='Bitcoin Cash is a form of peer-to-peer electronic cash that was created after a fork of the Bitcoin block chain in August 2017.'
                   />
                 </Text>
                 <Text size='12px' weight={300}>
                   <FormattedMessage
-                    id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.top'
+                    id='scenes.transaction.content.empty.bitcoincashwelcome.top'
                     defaultMessage='Bitcoin Cash has since grown to be one of the top cryptocurrencies, along with bitcoin and ether.'
                   />
                 </Text>
@@ -127,7 +127,7 @@ const BitcoinCashWelcome = props => {
             <Cell>
               <Text weight={300} color='brand-primary' uppercase>
                 <FormattedMessage
-                  id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.why'
+                  id='scenes.transaction.content.empty.bitcoincashwelcome.why'
                   defaultMessage='How do I get Bitcoin Cash?'
                 />
               </Text>
@@ -135,13 +135,13 @@ const BitcoinCashWelcome = props => {
               <TextGroup inline>
                 <Text size='12px' weight={300}>
                   <FormattedMessage
-                    id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.fork'
+                    id='scenes.transaction.content.empty.bitcoincashwelcome.fork'
                     defaultMessage='If you had bitcoin in your Blockchain wallet before the fork in August, you already have Bitcoin Cash.'
                   />
                 </Text>
                 <Text size='12px' weight={300}>
                   <FormattedMessage
-                    id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.exchange'
+                    id='scenes.transaction.content.empty.bitcoincashwelcome.exchange'
                     defaultMessage='If you’re new to Blockchain, you can get started with Bitcoin Cash by exchanging bitcoin or ether.'
                   />
                 </Text>
@@ -154,15 +154,20 @@ const BitcoinCashWelcome = props => {
             <LinkContainer to='/exchange'>
               <Button nature='primary' margin='20px' fullwidth>
                 <FormattedMessage
-                  id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.getstarted'
+                  id='scenes.transaction.content.empty.bitcoincashwelcome.getstarted'
                   defaultMessage='Get Started With Bitcoin Cash'
                 />
               </Button>
             </LinkContainer>
           ) : (
-            <Button nature='primary' margin='20px' onClick={handleRequest}>
+            <Button
+              nature='primary'
+              margin='20px'
+              fullwidth
+              onClick={handleRequest}
+            >
               <FormattedMessage
-                id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.getstarted'
+                id='scenes.transaction.content.empty.bitcoincashwelcome.getstarted'
                 defaultMessage='Get Started With Bitcoin Cash'
               />
             </Button>
@@ -174,10 +179,10 @@ const BitcoinCashWelcome = props => {
   )
 }
 
-BitcoinCashWelcome.propTypes = {
+BchWelcome.propTypes = {
   displayed: PropTypes.bool.isRequired,
   handleClick: PropTypes.func.isRequired,
   handleRequest: PropTypes.func.isRequired
 }
 
-export default BitcoinCashWelcome
+export default BchWelcome
