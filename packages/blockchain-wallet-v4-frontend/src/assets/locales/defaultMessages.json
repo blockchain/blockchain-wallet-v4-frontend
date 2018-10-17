@@ -3691,6 +3691,19 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Verify Your Device",
+        "id": "modals.lockboxfirmware.deleteapps.title"
+      },
+      {
+        "defaultMessage": "Update in progress. Please keep your browser opened. Your device's applications will be removed for the time being.",
+        "id": "modals.lockboxfirmware.deleteapps.message1"
+      }
+    ],
+    "path": "src/modals/LockboxFirmware/DeleteAppsStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Finalizing Install",
         "id": "modals.lockboxfirmware.installstep.title"
       },
@@ -3722,6 +3735,23 @@
       }
     ],
     "path": "src/modals/LockboxFirmware/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Verify Your Device",
+        "id": "modals.lockboxfirmware.uninstallapps.title"
+      },
+      {
+        "defaultMessage": "Update in progress. Please keep your browser opened, your device opened, and wait while your device's applications are uninstalled for the time being.",
+        "id": "modals.lockboxfirmware.uninstallapps.message1"
+      },
+      {
+        "defaultMessage": "Also, please verify the below on your device before continuing.",
+        "id": "modals.lockboxfirmware.uninstallapps.message2"
+      }
+    ],
+    "path": "src/modals/LockboxFirmware/UninstallAppsStep/template.json"
   },
   {
     "descriptors": [

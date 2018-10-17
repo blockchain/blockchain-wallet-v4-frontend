@@ -1,3 +1,4 @@
+import { darken } from 'polished'
 import styled from 'styled-components'
 
 export const Wrapper = styled.div`
@@ -33,10 +34,17 @@ export const MenuItem = styled.li`
     margin-right: 10px;
   }
 
-  &:hover,
   &.active {
+    font-weight: 400;
+
     & > * {
       color: ${props => props.theme['marketing-primary']};
+    }
+  }
+
+  &:hover {
+    & > * {
+      color: ${props => darken(0.9, props.theme['marketing-primary'])};
     }
   }
 `

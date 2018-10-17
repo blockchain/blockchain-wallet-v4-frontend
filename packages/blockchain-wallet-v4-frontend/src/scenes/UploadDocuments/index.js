@@ -37,7 +37,10 @@ class UploadDocumentsContainer extends Component {
       const fileReader = new FileReader()
       // One single upload for the array of all byte arrays
       fileReader.onload = event => {
-        const fileArray = new Int8Array(event.target.result)
+        const fileArray = new Uint8Array(event.target.result).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          ''
+        )
         filesLoaded.push(Base64.encode(fileArray))
         if (filesLoaded.length >= this.state.files.length) {
           this.props.uploadDocuments(token, filesLoaded)
