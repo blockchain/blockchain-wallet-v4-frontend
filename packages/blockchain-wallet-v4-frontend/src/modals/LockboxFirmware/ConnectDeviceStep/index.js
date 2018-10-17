@@ -6,12 +6,6 @@ import { actions, selectors } from 'data'
 import CheckForUpdatesStep from './template'
 
 class ConnectDeviceContainer extends React.PureComponent {
-  onContinue = () => {
-    this.props.lockboxActions.changeFirmwareUpdateStep({
-      step: 'check-versions'
-    })
-  }
-
   retryConnection = () => {
     this.props.lockboxActions.pollForDeviceApp(
       'DASHBOARD',
@@ -20,12 +14,9 @@ class ConnectDeviceContainer extends React.PureComponent {
   }
 
   render () {
-    const { connection } = this.props
     return (
       <CheckForUpdatesStep
         {...this.props}
-        isOnDashboard={connection.app === 'DASHBOARD'}
-        onContinue={this.onContinue}
         retryConnection={this.retryConnection}
       />
     )

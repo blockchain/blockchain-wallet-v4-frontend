@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
-import { replace, defaultTo } from 'ramda'
+import { defaultTo, equals, replace } from 'ramda'
 
 import {
   required,
@@ -153,6 +153,15 @@ const DOBToObject = value => {
   }
 }
 const countryUsesZipcode = code => code === 'US'
+
+const retainItemFilter = item => (candidate, input) => {
+  if (equals(item.value, candidate.value)) return true
+  if (input)
+    return new RegExp(`.*${input.toLowerCase()}.*`).test(
+      candidate.label.toLowerCase()
+    )
+  return true
+}
 
 const ManualAddressText = styled(Text)`
   span {
@@ -486,6 +495,7 @@ const Personal = ({
                           templateDisplay={renderAddressDisplay}
                           templateItem={renderAddressItem}
                           component={SelectBox}
+                          filterOption={retainItemFilter(MANUAL_ADDRESS_ITEM)}
                           menuPlacement='auto'
                           openMenuOnFocus={true}
                           label={

@@ -76,9 +76,16 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const importLegacyAddress = function*(address, priv, secPass, bipPass, to) {
-    const password = secPass || (yield call(promptForSecondPassword))
     // TODO :: check if address and priv are corresponding each other
     // (how do we respond to weird pairs of compressed/uncompressed)
+    let password
+    try {
+      password = secPass || (yield call(promptForSecondPassword))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(`${logLocation} importLegacyAddress`, e)
+      )
+    }
     try {
       const key = priv || address
       yield call(coreSagas.wallet.importLegacyAddress, {

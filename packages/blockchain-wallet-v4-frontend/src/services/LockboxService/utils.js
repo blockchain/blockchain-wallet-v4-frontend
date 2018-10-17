@@ -23,13 +23,53 @@ const ethAccount = (xpub, label) => ({
 
 const btcAccount = (xpub, label) => Types.HDAccount.js(label, null, xpub)
 
+/* eslint-disable */
+
+/**
+ * Polls for a given application to open on the device
+ * @async
+ * @param {String} deviceType - Either 'ledger' or 'blockchain'
+ * @param {String} app - The app to connect to (BTC, DASHBOARD, etc)
+ * @param {Number} timeout - Length of time in ms to wait for a connection
+ * @returns {Promise<TransportU2F>} Returns a connected Transport or Error
+ */
+const pollForAppConnection = (deviceType, app, timeout = 45000) => {
+  if (!deviceType || !app) throw new Error('Missing required params')
+
+  return new Promise((resolve, reject) => {
+    // create transport
+    TransportU2F.open().then(transport => {
+      // get scrambleKey
+      const scrambleKey = getScrambleKey(app, deviceType)
+      // configure transport
+      // transport.setDebugMode(true)
+      transport.setExchangeTimeout(timeout)
+      transport.setScrambleKey(scrambleKey)
+      console.info('POLL:START', deviceType, scrambleKey, app, timeout)
+      // send NO_OP cmd until response is received (success) or timeout is hit (reject)
+      transport.send(...constants.apdus.no_op).then(
+        () => {},
+        res => {
+          // since no_op wont be recognized by any app as a valid cmd, this is always going
+          // to fail but a response, means a device is connected and unlocked
+          console.info('POLL:END', deviceType, scrambleKey, app, timeout)
+          if (res.originalError) {
+            reject(res.originalError.metaData)
+          }
+
+          resolve({ app, transport })
+        }
+      )
+    })
+  })
+}
+
 /**
  * Creates device socket
  * @param {Transport} transport - Current device transport
  * @param {String} url - The web socket url to connect to
  * @returns {Observable} the final socket result
  */
-/* eslint-disable */
 const createDeviceSocket = (transport, url) => {
   return Observable.create(o => {
     let ws, lastMessage
@@ -136,6 +176,7 @@ const createDeviceSocket = (transport, url) => {
     }
   })
 }
+
 /* eslint-enable */
 
 /**
@@ -334,43 +375,6 @@ const generateAccountsMDEntry = (newDevice, deviceName) => {
 const createBtcBchConnection = (app, deviceType, transport) => {
   const scrambleKey = getScrambleKey(app, deviceType)
   return new Btc(transport, scrambleKey)
-}
-
-/**
- * Polls for a given application to open on the device
- * @async
- * @param {String} deviceType - Either 'ledger' or 'blockchain'
- * @param {String} app - The app to connect to (BTC, DASHBOARD, etc)
- * @param {Number} timeout - Length of time in ms to wait for a connection
- * @returns {Promise<TransportU2F>} Returns a connected Transport or Error
- */
-const pollForAppConnection = (deviceType, app, timeout = 60000) => {
-  if (!deviceType || !app) throw new Error('Missing required params')
-
-  return new Promise((resolve, reject) => {
-    // create transport
-    TransportU2F.open().then(transport => {
-      // get scrambleKey
-      const scrambleKey = getScrambleKey(app, deviceType)
-      // configure transport
-      // transport.setDebugMode(true)
-      transport.setExchangeTimeout(timeout)
-      transport.setScrambleKey(scrambleKey)
-      // send NO_OP cmd until response is received (success) or timeout is hit (reject)
-      transport.send(...constants.apdus.no_op).then(
-        () => {},
-        res => {
-          // since no_op wont be recognized by any app as a valid cmd, this is always going
-          // to fail but a response, means a device is connected and unlocked
-          if (res.originalError) {
-            reject(res.originalError.metaData)
-          }
-
-          resolve({ app, transport })
-        }
-      )
-    })
-  })
 }
 
 /**

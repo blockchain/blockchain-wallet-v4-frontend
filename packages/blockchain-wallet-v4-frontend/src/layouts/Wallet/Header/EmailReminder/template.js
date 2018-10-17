@@ -34,6 +34,10 @@ const ItemWrapper = styled.div`
 `
 const Action = styled(Text)`
   cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
 const EmailSentNotification = styled(Text)`
   &.active {
@@ -58,7 +62,7 @@ const WhatsNewIcon = props => {
           style={{ marginLeft: '15px' }}
           color='white'
           size='14px'
-          weight={200}
+          weight={300}
         >
           <FormattedMessage
             id='layouts.wallet.header.emailreminder'
@@ -69,7 +73,7 @@ const WhatsNewIcon = props => {
         <EmailSentNotification
           color='white'
           size='14px'
-          weight={200}
+          weight={300}
           className={reminded ? 'active' : ''}
         >
           <FormattedMessage
@@ -83,7 +87,7 @@ const WhatsNewIcon = props => {
         <Action
           color='white'
           size='14px'
-          weight={200}
+          weight={300}
           onClick={() => handleResendVerifyEmail(email)}
         >
           <FormattedMessage
@@ -95,7 +99,7 @@ const WhatsNewIcon = props => {
           style={{ marginLeft: '15px' }}
           to={{ pathname: '/security-center', state: { changeEmail: true } }}
         >
-          <Action color='white' size='14px' weight={200}>
+          <Action color='white' size='14px' weight={300}>
             <FormattedMessage
               id='layouts.wallet.header.emailreminder.change'
               defaultMessage='Change Email'
