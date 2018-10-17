@@ -427,8 +427,8 @@ export default ({ api }) => {
       // poll for device connection
       yield put(A.pollForDeviceApp('DASHBOARD', null, device.device_type))
       yield take(AT.SET_CONNECTION_INFO)
-      // wait for user to continue
-      yield take(AT.SET_FIRMWARE_UPDATE_STEP)
+      // set step to check-versions
+      yield put(A.changeFirmwareUpdateStep({ step: 'check-versions' }))
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
       const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
@@ -479,7 +479,7 @@ export default ({ api }) => {
         yield take(AT.SET_FIRMWARE_UPDATE_STEP)
         yield put(
           A.changeFirmwareUpdateStep({
-            step: 'confirm-identifier',
+            step: 'uninstall-apps',
             status: Lockbox.utils.formatFirmwareHash(osuFirmware.hash)
           })
         )

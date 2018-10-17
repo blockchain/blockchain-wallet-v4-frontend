@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
-import ConfirmIdentifier from './template'
+import UninstallApps from './template'
 
-class ConfirmIdentifierContainer extends React.PureComponent {
+class UninstallAppsContainer extends React.PureComponent {
   render () {
-    return <ConfirmIdentifier {...this.props} />
+    return <UninstallApps {...this.props} />
   }
 }
 
@@ -22,4 +22,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ConfirmIdentifierContainer)
+)(UninstallAppsContainer)

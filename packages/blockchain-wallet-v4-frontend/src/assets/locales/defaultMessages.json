@@ -3607,10 +3607,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Check for Updates",
-        "id": "modals.lockboxfirmware.checkversionsstep.title"
-      },
-      {
         "defaultMessage": "A new firmware, version {status}, is available for your device! Click continue to start installing.",
         "id": "modals.lockboxfirmware.checkversionsstep.updateavailable"
       },
@@ -3621,10 +3617,6 @@
       {
         "defaultMessage": "Continue",
         "id": "modals.lockboxfirmware.checkversionsstep.continue"
-      },
-      {
-        "defaultMessage": "Checking Versions",
-        "id": "modals.lockboxfirmware.checkversionsstep.loading"
       }
     ],
     "path": "src/modals/LockboxFirmware/CheckVersionsStep/template.json"
@@ -3686,20 +3678,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Connect your Lockbox",
-        "id": "modals.lockboxfirmware.connectdevice.title"
-      },
-      {
         "defaultMessage": "Connect and unlock your Lockbox. Then open the Dashboard app.",
         "id": "modals.lockboxfirmware.connectdevice.subtitle"
       },
       {
         "defaultMessage": "Success! Click to Continue",
         "id": "modals.lockboxfirmware.connectdevice.success"
-      },
-      {
-        "defaultMessage": "Open Dashboard App",
-        "id": "modals.lockboxfirmware.connectdevice.loading"
       }
     ],
     "path": "src/modals/LockboxFirmware/ConnectDeviceStep/template.json"

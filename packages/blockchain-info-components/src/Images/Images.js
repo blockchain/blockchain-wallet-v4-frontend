@@ -25,6 +25,28 @@ import halfEther from './img/half-ether.svg'
 import identityVerification from './img/identity-verification.svg'
 import linkLockboxIcon from './img/link-lockbox-icon.svg'
 import linkedinWhite from './img/linkedin-white.svg'
+import microDepositsWhole from './img/micro-deposits-whole.svg'
+import printer from './img/printer.svg'
+import qrCode from './img/qr-code.png'
+import restoreLockboxIcon from './img/restore-lockbox-icon.svg'
+import rocket from './img/rocket.gif'
+import search from './img/search.svg'
+import selectArrow from './img/select-arrow.png'
+import shapeshiftLogo from './img/shapeshift-logo.png'
+import smartphone from './img/smartphone.png'
+import sfoxLogo from './img/sfox-logo.png'
+import sophisticated from './img/sophisticated.svg'
+import twitterWhite from './img/twitter-white.svg'
+import v4Welcome from './img/v4-welcome.jpg'
+import walletV3Backup from './img/wallet-v3-backup.jpg'
+import walletV3FundManagement from './img/wallet-v3-fund-management.jpg'
+import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
+import walletV3SecurityUpgrade from './img/wallet-v3-security-upgrade.jpg'
+import yubikey from './img/yubikey.svg'
+// Lockbox
+import firmwareConnect from './img/lockbox/firmware-connect.png'
+import firmwareConnect2 from './img/lockbox/firmware-connect@2x.png'
+import firmwareConnect3 from './img/lockbox/firmware-connect@3x.png'
 import lockboxWelcomeSafe from './img/lockbox-welcome-safe.svg'
 import lockboxFailed from './img/lockbox/firmware-bad.png'
 import lockboxFailed2 from './img/lockbox/firmware-bad@2x.png'
@@ -45,30 +67,12 @@ import onboardLink3 from './img/lockbox/onboard-link@3x.png'
 import onboardVerify from './img/lockbox/onboard-verify.png'
 import onboardVerify2 from './img/lockbox/onboard-verify@2x.png'
 import onboardVerify3 from './img/lockbox/onboard-verify@3x.png'
-import microDepositsWhole from './img/micro-deposits-whole.svg'
-import printer from './img/printer.svg'
-import qrCode from './img/qr-code.png'
-import restoreLockboxIcon from './img/restore-lockbox-icon.svg'
-import rocket from './img/rocket.gif'
-import search from './img/search.svg'
-import selectArrow from './img/select-arrow.png'
 import sendConnect from './img/lockbox/send-connect.png'
 import sendConnect2 from './img/lockbox/send-connect@2x.png'
 import sendConnect3 from './img/lockbox/send-connect@3x.png'
 import sendReview from './img/lockbox/send-review.png'
 import sendReview2 from './img/lockbox/send-review@2x.png'
 import sendReview3 from './img/lockbox/send-review@3x.png'
-import shapeshiftLogo from './img/shapeshift-logo.png'
-import smartphone from './img/smartphone.png'
-import sfoxLogo from './img/sfox-logo.png'
-import sophisticated from './img/sophisticated.svg'
-import twitterWhite from './img/twitter-white.svg'
-import v4Welcome from './img/v4-welcome.jpg'
-import walletV3Backup from './img/wallet-v3-backup.jpg'
-import walletV3FundManagement from './img/wallet-v3-fund-management.jpg'
-import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
-import walletV3SecurityUpgrade from './img/wallet-v3-security-upgrade.jpg'
-import yubikey from './img/yubikey.svg'
 
 export default {
   'app-store-badge': appStoreBadge,
@@ -100,6 +104,9 @@ export default {
   'lockbox-usb': lockboxUsb,
   'link-lockbox-icon': linkLockboxIcon,
   'linkedin-white': linkedinWhite,
+  'firmware-connect': firmwareConnect,
+  'firmware-connect2': firmwareConnect2,
+  'firmware-connect3': firmwareConnect3,
   'lockbox-onboard-bitcoin': onboardBitcoin,
   'lockbox-onboard-bitcoin2': onboardBitcoin2,
   'lockbox-onboard-bitcoin3': onboardBitcoin3,

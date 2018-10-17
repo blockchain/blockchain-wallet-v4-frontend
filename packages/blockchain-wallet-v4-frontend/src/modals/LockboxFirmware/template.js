@@ -7,12 +7,12 @@ import ModalStepper from 'components/ModalStepper'
 
 const ContentWrapper = styled(ModalBody)`
   padding: 20px;
-  height: 300px;
 `
+
 const LockboxFirmware = props => {
   const { children, position, total, step, totalSteps } = props
   return (
-    <Modal size='large' position={position} total={total}>
+    <Modal size='small' position={position} total={total}>
       <ModalStepper currentStep={step} totalSteps={totalSteps} />
       <ContentWrapper>{children}</ContentWrapper>
     </Modal>
