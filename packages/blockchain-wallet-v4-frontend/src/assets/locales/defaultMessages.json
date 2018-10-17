@@ -8287,20 +8287,28 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Cover Your Assets",
+        "defaultMessage": "Get a Lockbox for your Crypto",
         "id": "scenes.lockbox.welcome.title"
       },
       {
-        "defaultMessage": "Lockbox works with your Blockchain Wallet to give your digital assets an additional layer of security. Unlock your Lockbox by linking your device, or buy one today.",
+        "defaultMessage": "You can now store your crypto completely offline using our hardware wallet. This means easy access to funds while ensuring offline security.",
         "id": "scenes.lockbox.welcome.subtitle"
       },
       {
-        "defaultMessage": "Connect",
-        "id": "scenes.lockbox.welcome.connect"
+        "defaultMessage": "Powered By",
+        "id": "scenes.lockbox.welcome.poweredby"
       },
       {
-        "defaultMessage": "Purchase",
-        "id": "scenes.lockbox.welcome.purchase"
+        "defaultMessage": "Get Started",
+        "id": "scenes.lockbox.welcome.getstarted"
+      },
+      {
+        "defaultMessage": "We've put together a page explaining all of this.",
+        "id": "scenes.lockbox.welcome.explanation"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "scenes.lockbox.welcome.learnmore"
       },
       {
         "defaultMessage": "New device setup can only be done while using the Chrome browser",

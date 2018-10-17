@@ -47,6 +47,12 @@ import yubikey from './img/yubikey.svg'
 import firmwareConnect from './img/lockbox/firmware-connect.png'
 import firmwareConnect2 from './img/lockbox/firmware-connect@2x.png'
 import firmwareConnect3 from './img/lockbox/firmware-connect@3x.png'
+import ledgerDevice from './img/lockbox/device.png'
+import ledgerDevice2 from './img/lockbox/device@2x.png'
+import ledgerDevice3 from './img/lockbox/device@3x.png'
+import ledgerLogo from './img/lockbox/ledger.png'
+import ledgerLogo2 from './img/lockbox/ledger@2x.png'
+import ledgerLogo3 from './img/lockbox/ledger@3x.png'
 import lockboxWelcomeSafe from './img/lockbox-welcome-safe.svg'
 import lockboxFailed from './img/lockbox/firmware-bad.png'
 import lockboxFailed2 from './img/lockbox/firmware-bad@2x.png'
@@ -107,6 +113,12 @@ export default {
   'firmware-connect': firmwareConnect,
   'firmware-connect2': firmwareConnect2,
   'firmware-connect3': firmwareConnect3,
+  'ledger-device': ledgerDevice,
+  'ledger-device2': ledgerDevice2,
+  'ledger-device3': ledgerDevice3,
+  'ledger-logo': ledgerLogo,
+  'ledger-logo2': ledgerLogo2,
+  'ledger-logo3': ledgerLogo3,
   'lockbox-onboard-bitcoin': onboardBitcoin,
   'lockbox-onboard-bitcoin2': onboardBitcoin2,
   'lockbox-onboard-bitcoin3': onboardBitcoin3,
