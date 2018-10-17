@@ -20,6 +20,7 @@ class LockboxAppInstallContainer extends React.PureComponent {
   }
 
   onContinue () {
+    this.props.lockboxActions.continueAppInstall()
     this.setState({ isInstallStep: true })
   }
 
