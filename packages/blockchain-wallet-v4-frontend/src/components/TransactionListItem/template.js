@@ -116,7 +116,7 @@ const TransactionListItem = props => {
     currency,
     isToggled,
     transaction,
-    buysellPartner,
+    buySellPartner,
     ...rest
   } = props
   const { handleToggle, handleEditDescription } = rest
@@ -146,7 +146,7 @@ const TransactionListItem = props => {
             <PartnerLabel
               txType={prop('type', transaction)}
               partnerLabel={prop('partnerLabel', transaction)}
-              buysellPartner={buysellPartner}
+              buySellPartner={buySellPartner}
             />
           ) : null}
         </StatusColumn>

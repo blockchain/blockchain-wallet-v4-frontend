@@ -23,16 +23,16 @@ const Wrapper = styled.div`
   width: 100%;
   background-color: ${props => props.theme['brand-quaternary']};
 `
-const BitcoinImage = styled(Image)`
+const EtherImage = styled(Image)`
   display: none;
   height: 230px;
   opacity: 0.3;
-  color: ${props => props.theme['brand-tertiary']};
   @media (min-width: 1200px) {
     display: block;
   }
 `
 const Container = styled.div`
+  display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
@@ -68,33 +68,33 @@ const LearnMoreLink = styled(Link)`
   justify-content: flex-start;
   align-items: center;
 `
-const BitcoinWelcome = props => {
-  const { displayed, handleClick, handleRequest, partner, exchange } = props
+const EtherWelcome = props => {
+  const { displayed, handleClick, handleRequest, exchange } = props
 
   return (
     <Wrapper displayed={displayed}>
-      <BitcoinImage name='half-bitcoin' />
+      <EtherImage name='half-ether' />
       <Container>
         <Row>
           <Cell small>
             <Text size='24px' weight={300} color='brand-primary' uppercase>
               <FormattedMessage
-                id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.welcometo'
+                id='scenes.transaction.content.empty.etherwelcome.welcome'
                 defaultMessage='Welcome to'
               />
             </Text>
             <Text size='24px' weight={300} color='brand-primary' uppercase>
-              Bitcoin
+              Ether
             </Text>
             <LearnMoreLink
-              href='https://blockchain.info/wallet/bitcoin-faq'
-              size='16px'
+              href='https://www.blockchain.com/learning-portal/ether-basics'
               target='_blank'
+              size='16px'
               weight={300}
               uppercase
             >
               <FormattedMessage
-                id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.learnmore'
+                id='scenes.transaction.content.empty.etherwelcome.learnmore'
                 defaultMessage='Learn More'
               />
               <Icon name='right-arrow' color='brand-secondary' />
@@ -104,22 +104,28 @@ const BitcoinWelcome = props => {
             <Cell>
               <Text weight={300} color='brand-primary' uppercase>
                 <FormattedMessage
-                  id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.what'
-                  defaultMessage='What is bitcoin?'
+                  id='scenes.transaction.content.empty.etherwelcome.what'
+                  defaultMessage='What is ether?'
                 />
               </Text>
               <Separator />
               <TextGroup inline>
                 <Text size='12px' weight={300}>
                   <FormattedMessage
-                    id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.currency'
-                    defaultMessage='Bitcoin is a digital currency, and is used like other assets in exchange for goods and services.'
+                    id='scenes.transaction.content.empty.etherwelcome.currency'
+                    defaultMessage='Ether is a digital currency.'
                   />
                 </Text>
                 <Text size='12px' weight={300}>
                   <FormattedMessage
-                    id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.transact'
-                    defaultMessage='Unlike traditional currencies and assets, bitcoin is easily portable, divisible, and irreversible.'
+                    id='scenes.transaction.content.empty.etherwelcome.transact'
+                    defaultMessage='Like Bitcoin, it enables people around the world to transact, save, and hedge their way to a better financial future.'
+                  />
+                </Text>
+                <Text size='12px' weight={300}>
+                  <FormattedMessage
+                    id='scenes.transaction.content.empty.etherwelcome.platform'
+                    defaultMessage='In addition to sending value, ether also powers the Ethereum platform.'
                   />
                 </Text>
               </TextGroup>
@@ -127,7 +133,7 @@ const BitcoinWelcome = props => {
             <Cell>
               <Text weight={300} color='brand-primary' uppercase>
                 <FormattedMessage
-                  id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.why'
+                  id='scenes.transaction.content.empty.etherwelcome.why'
                   defaultMessage='Why should I use it?'
                 />
               </Text>
@@ -135,8 +141,14 @@ const BitcoinWelcome = props => {
               <TextGroup inline>
                 <Text size='12px' weight={300}>
                   <FormattedMessage
-                    id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.fees'
-                    defaultMessage='As a global currency you can send bitcoin to anyone, anywhere in the world without worrying about cross border remittance fees.'
+                    id='scenes.transaction.content.empty.etherwelcome.grow'
+                    defaultMessage='As the Ethereum platform grows, more intelligent applications will be built on top of it.'
+                  />
+                </Text>
+                <Text size='12px' weight={300}>
+                  <FormattedMessage
+                    id='scenes.transaction.content.empty.etherwelcome.opportunity'
+                    defaultMessage="We want to give you the opportunity to start using ether now, so you' ll be ready to use these products in the future."
                   />
                 </Text>
               </TextGroup>
@@ -144,21 +156,12 @@ const BitcoinWelcome = props => {
           </Row>
         </Row>
         <Row>
-          {partner ? (
-            <LinkContainer to='/buy-sell'>
-              <Button nature='primary' margin='20px' fullwidth>
-                <FormattedMessage
-                  id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted'
-                  defaultMessage='Get Started With Bitcoin'
-                />
-              </Button>
-            </LinkContainer>
-          ) : exchange ? (
+          {exchange ? (
             <LinkContainer to='/exchange'>
               <Button nature='primary' margin='20px' fullwidth>
                 <FormattedMessage
-                  id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted'
-                  defaultMessage='Get Started With Bitcoin'
+                  id='scenes.transaction.content.empty.etherwelcome.getstarted'
+                  defaultMessage='Get Started With Ether'
                 />
               </Button>
             </LinkContainer>
@@ -168,11 +171,10 @@ const BitcoinWelcome = props => {
               margin='20px'
               onClick={handleRequest}
               fullwidth
-              uppercase
             >
               <FormattedMessage
-                id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted.request'
-                defaultMessage='Get started with bitcoin'
+                id='scenes.transaction.content.empty.etherwelcome.getstarted'
+                defaultMessage='Get Started With Ether'
               />
             </Button>
           )}
@@ -183,10 +185,9 @@ const BitcoinWelcome = props => {
   )
 }
 
-BitcoinWelcome.propTypes = {
+EtherWelcome.propTypes = {
   displayed: PropTypes.bool.isRequired,
-  handleClick: PropTypes.func.isRequired,
-  handleRequest: PropTypes.func.isRequired
+  handleClick: PropTypes.func.isRequired
 }
 
-export default BitcoinWelcome
+export default EtherWelcome

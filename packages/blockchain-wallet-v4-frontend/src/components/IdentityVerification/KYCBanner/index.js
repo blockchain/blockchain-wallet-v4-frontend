@@ -132,7 +132,7 @@ export const KYCBanner = ({
         <SubNote color='white' size='12px' weight={400}>
           <FormattedMessage
             id='components.identityverification.popup.note.personalinfosecure'
-            defaultMessage='Your personal information is secure with us and not shared with any third parties.'
+            defaultMessage='Your personal information is secure with us.'
           />
         </SubNote>
       </Fragment>
