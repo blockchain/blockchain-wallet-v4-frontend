@@ -426,10 +426,6 @@ describe('authSagas', () => {
       saga.next().call(coreSagas.data.xlm.fetchLedgerDetails)
     })
 
-    it('should fetch xlm data', () => {
-      saga.next().call(coreSagas.data.xlm.fetchData)
-    })
-
     it('should call auth nabu saga', () => {
       saga.next().call(authNabu)
     })

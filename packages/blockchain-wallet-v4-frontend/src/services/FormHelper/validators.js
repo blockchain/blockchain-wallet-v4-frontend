@@ -89,6 +89,9 @@ export const validEtherAddress = value =>
     <M.InvalidEtherAddressMessage />
   )
 
+export const validXlmAddress = value =>
+  utils.xlm.isValidAddress(value) ? undefined : <M.InvalidXlmAddressMessage />
+
 export const validBitcoinAddress = (value, allValues, props) => {
   return utils.bitcoin.isValidBitcoinAddress(value, props.network) ? (
     undefined

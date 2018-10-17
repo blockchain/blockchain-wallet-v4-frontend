@@ -2,6 +2,7 @@ import { select, put, take, call } from 'redux-saga/effects'
 import * as actions from '../actions'
 import * as actionTypes from '../actionTypes'
 import * as selectors from '../selectors'
+import { model } from 'data'
 import { Exchange } from 'blockchain-wallet-v4/src'
 
 export default ({ coreSagas }) => {
@@ -20,7 +21,7 @@ export default ({ coreSagas }) => {
     }).value
     // Goal work
     yield put(
-      actions.modals.showModal('SendBitcoin', {
+      actions.modals.showModal(model.components.sendBtc.MODAL, {
         to: address,
         description,
         amount: { coin: amount, fiat }

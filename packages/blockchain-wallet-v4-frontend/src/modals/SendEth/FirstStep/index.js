@@ -3,19 +3,14 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { getData } from './selectors'
-import { actions } from 'data'
+import { actions, model } from 'data'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
 class FirstStep extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleToToggle = this.handleToToggle.bind(this)
-  }
-
-  handleToToggle (val) {
-    this.props.formActions.touch('sendEth', 'to')
+  handleToToggle = val => {
+    this.props.formActions.touch(model.components.sendEth.FORM, 'to')
     this.props.actions.sendEthFirstStepToToggled(val)
   }
 
@@ -29,7 +24,7 @@ class FirstStep extends React.PureComponent {
           isContract={value.isContract}
           unconfirmedTx={value.unconfirmedTx}
           effectiveBalance={value.effectiveBalance}
-          onSubmit={() => actions.sendEthFirstStepSubmitClicked()}
+          onSubmit={actions.sendEthFirstStepSubmitClicked}
           toToggled={value.toToggled}
           feeToggled={value.feeToggled}
           handleToToggle={this.handleToToggle}
@@ -40,7 +35,7 @@ class FirstStep extends React.PureComponent {
           regularFee={value.regularFee}
           priorityFee={value.priorityFee}
           feeElements={value.feeElements}
-          handleFeeToggle={() => actions.sendEthFirstStepFeeToggled()}
+          handleFeeToggle={actions.sendEthFirstStepFeeToggled}
           balanceStatus={value.balanceStatus}
         />
       ),

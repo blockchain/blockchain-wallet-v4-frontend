@@ -10,7 +10,7 @@ const MaximumFeeLink = props => (
   <Link
     size='12px'
     weight={300}
-    onClick={() => props.actions.sendEthFirstStepMaximumFeeClicked()}
+    onClick={props.actions.sendEthFirstStepMaximumFeeClicked}
   >
     <FormattedMessage
       id='modals.sendeth.maximumfeelink.userecupperlimit'

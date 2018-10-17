@@ -1,16 +1,16 @@
 import { select } from 'redux-saga/effects'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import { initialize } from 'redux-form'
-import { prop } from 'ramda'
+import { path, prop } from 'ramda'
 import { call } from 'redux-saga-test-plan/matchers'
 
 import rootReducer from '../../rootReducer'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as A from './actions'
 import * as S from './selectors'
+import { FORM } from './model'
 import * as C from 'services/AlertService'
-import * as actions from '../../actions'
-import * as selectors from '../../selectors'
+import { actions, selectors } from 'data'
 import sendBchSagas, { logLocation, bchDefaultFee } from './sagas'
 import { promptForSecondPassword } from 'services/SagaService'
 import settings from 'config'
@@ -135,7 +135,7 @@ describe('sendBch sagas', () => {
     })
 
     it('should initialize sendBch form with correct values', () => {
-      saga.next(paymentMock).put(initialize('sendBch', initialValues))
+      saga.next(paymentMock).put(initialize(FORM, initialValues))
     })
 
     it('should trigger bch payment updated success action', () => {
@@ -205,10 +205,9 @@ describe('sendBch sagas', () => {
       })
 
       it('should produce correct form state', () => {
-        expect(resultingState.form.sendBch.initial).toEqual(
-          resultingState.form.sendBch.values
-        )
-        expect(resultingState.form.sendBch.initial).toEqual({
+        const form = path(FORM.split('.'), resultingState.form)
+        expect(form.initial).toEqual(form.values)
+        expect(form.initial).toEqual({
           coin: 'BCH',
           from: defaultAccount
         })

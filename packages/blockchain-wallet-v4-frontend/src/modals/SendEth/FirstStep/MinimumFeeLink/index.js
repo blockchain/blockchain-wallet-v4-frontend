@@ -10,7 +10,7 @@ const MinimumFeeLink = props => (
   <Link
     size='12px'
     weight={300}
-    onClick={() => props.actions.sendEthFirstStepMinimumFeeClicked()}
+    onClick={props.actions.sendEthFirstStepMinimumFeeClicked}
   >
     <FormattedMessage
       id='modals.sendeth.minimumfeelink.minimum'

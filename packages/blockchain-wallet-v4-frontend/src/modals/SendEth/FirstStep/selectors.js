@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { prop, propOr, path, isEmpty } from 'ramda'
-import { selectors } from 'data'
+import { model, selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 export const getData = createDeepEqualSelector(
@@ -11,7 +11,7 @@ export const getData = createDeepEqualSelector(
     selectors.components.sendEth.getFeeToggled,
     selectors.core.data.ethereum.getCurrentBalance,
     selectors.core.kvStore.lockbox.getDevices,
-    selectors.form.getFormValues('sendEth')
+    selectors.form.getFormValues(model.components.sendEth.FORM)
   ],
   (paymentR, toToggled, feeToggled, balanceR, lockboxDevicesR, formValues) => {
     const enableToggle = !isEmpty(lockboxDevicesR.getOrElse([]))

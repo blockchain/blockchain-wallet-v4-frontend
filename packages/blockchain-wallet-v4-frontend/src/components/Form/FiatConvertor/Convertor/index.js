@@ -23,20 +23,35 @@ class ConvertorContainer extends React.PureComponent {
   }
 
   handleCoinChange (e) {
-    const { unit, currency, btcRates, bchRates, ethRates } = this.props
+    const {
+      unit,
+      currency,
+      btcRates,
+      bchRates,
+      ethRates,
+      xlmRates
+    } = this.props
     const nextProps = convertCoinToFiat(
       e.target.value,
       unit,
       currency,
       bchRates,
       btcRates,
-      ethRates
+      ethRates,
+      xlmRates
     )
     this.props.onChange(nextProps)
   }
 
   handleFiatChange (e) {
-    const { unit, currency, btcRates, bchRates, ethRates } = this.props
+    const {
+      unit,
+      currency,
+      btcRates,
+      bchRates,
+      ethRates,
+      xlmRates
+    } = this.props
     const decimals = e.target.value.split('.')[1]
     const needsFormatting = decimals && decimals.length > 2
     const val = needsFormatting
@@ -49,7 +64,8 @@ class ConvertorContainer extends React.PureComponent {
       currency,
       bchRates,
       btcRates,
-      ethRates
+      ethRates,
+      xlmRates
     )
     this.props.onChange(nextProps)
   }
@@ -85,11 +101,12 @@ class ConvertorContainer extends React.PureComponent {
 }
 
 ConvertorContainer.propTypes = {
-  unit: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired,
+  unit: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'XLM']).isRequired,
   currency: PropTypes.string.isRequired,
   btcRates: PropTypes.object.isRequired,
   bchRates: PropTypes.object.isRequired,
   ethRates: PropTypes.object.isRequired,
+  xlmRates: PropTypes.object.isRequired,
   onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onFocus: PropTypes.func.isRequired,

@@ -3,20 +3,20 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 
-import { actions } from 'data'
+import { model, actions } from 'data'
 import Empty from './template.js'
 
 class EmptyContainer extends React.PureComponent {
   handleSend = () => {
     switch (this.props.coin) {
       case 'BCH':
-        this.props.modalActions.showModal('SendBch')
+        this.props.modalActions.showModal(model.components.sendBch.MODAL)
         break
       case 'ETH':
-        this.props.modalActions.showModal('SendEther')
+        this.props.modalActions.showModal(model.components.sendEth.MODAL)
         break
       default:
-        this.props.modalActions.showModal('SendBitcoin')
+        this.props.modalActions.showModal(model.components.sendBtc.MODAL)
         break
     }
   }

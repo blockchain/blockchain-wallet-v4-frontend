@@ -135,7 +135,6 @@ export default ({ api, coreSagas }) => {
       yield put(actions.router.push('/home'))
       yield call(coreSagas.settings.fetchSettings)
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
-      yield call(coreSagas.data.xlm.fetchData)
       yield call(authNabu)
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.loginSuccess())

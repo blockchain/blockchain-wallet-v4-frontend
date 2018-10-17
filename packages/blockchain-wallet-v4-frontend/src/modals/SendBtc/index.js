@@ -4,12 +4,12 @@ import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import modalEnhancer from 'providers/ModalEnhancer'
-import { actions, selectors } from 'data'
-import SendBitcoin from './template'
+import { actions, model, selectors } from 'data'
+import SendBtc from './template'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
-class SendBitcoinContainer extends React.PureComponent {
+class SendBtcContainer extends React.PureComponent {
   componentDidMount () {
     const { to, description, amount, lockboxIndex } = this.props
     this.props.actions.initialized({ to, description, amount, lockboxIndex })
@@ -31,17 +31,17 @@ class SendBitcoinContainer extends React.PureComponent {
     } = this.props
 
     return (
-      <SendBitcoin position={position} total={total} closeAll={closeAll}>
+      <SendBtc position={position} total={total} closeAll={closeAll}>
         {step === 1 && (
           <FirstStep to={to} description={description} amount={amount} />
         )}
         {step === 2 && <SecondStep />}
-      </SendBitcoin>
+      </SendBtc>
     )
   }
 }
 
-SendBitcoinContainer.propTypes = {
+SendBtcContainer.propTypes = {
   step: PropTypes.number.isRequired,
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
@@ -57,11 +57,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('SendBitcoin'),
+  modalEnhancer(model.components.sendBtc.MODAL),
   connect(
     mapStateToProps,
     mapDispatchToProps
   )
 )
 
-export default enhance(SendBitcoinContainer)
+export default enhance(SendBtcContainer)

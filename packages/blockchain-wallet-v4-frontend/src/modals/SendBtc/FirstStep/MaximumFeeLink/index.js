@@ -10,7 +10,7 @@ const MaximumFeeLink = props => (
   <Link
     size='12px'
     weight={300}
-    onClick={() => props.actions.sendBtcFirstStepMaximumFeeClicked()}
+    onClick={props.actions.sendBtcFirstStepMaximumFeeClicked}
   >
     <FormattedMessage
       id='modals.sendbtc.maximumfeelink.userecupperlimit'

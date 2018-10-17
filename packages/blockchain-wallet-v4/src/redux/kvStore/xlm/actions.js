@@ -26,3 +26,7 @@ export const createMetadataXlm = data => ({
   type: AT.CREATE_METADATA_XLM,
   payload: data
 })
+export const setTxNotesXlm = (txHash, txNote) => ({
+  type: AT.SET_TRANSACTION_NOTE_XLM,
+  payload: { txHash, txNote }
+})

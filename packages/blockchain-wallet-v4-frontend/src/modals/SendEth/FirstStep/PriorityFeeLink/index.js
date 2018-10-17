@@ -11,7 +11,7 @@ const PriorityFeeLink = props => (
   <Link
     size='12px'
     weight={300}
-    onClick={() => props.actions.sendEthFirstStepPriorityFeeClicked()}
+    onClick={props.actions.sendEthFirstStepPriorityFeeClicked}
   >
     <FormattedMessage
       id='modals.sendeth.priorityfeelink.priority'

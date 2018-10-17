@@ -11,7 +11,7 @@ const RegularFeeLink = props => (
   <Link
     size='12px'
     weight={300}
-    onClick={() => props.actions.sendEthFirstStepRegularFeeClicked()}
+    onClick={props.actions.sendEthFirstStepRegularFeeClicked}
   >
     <FormattedMessage
       id='modals.sendeth.regularfeelink.regular'

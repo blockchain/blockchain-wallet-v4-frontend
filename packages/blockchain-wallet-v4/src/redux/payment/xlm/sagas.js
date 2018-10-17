@@ -1,10 +1,12 @@
 import { call, select } from 'redux-saga/effects'
 import { contains, flip, merge, prop, path, values } from 'ramda'
+import * as StellarSdk from 'stellar-sdk'
 
 import * as S from '../../selectors'
 import { xlm as xlmSigner } from '../../../signer'
+import { isValidAddress } from '../../../utils/xlm'
 import { isString, isPositiveInteger } from '../../../utils/checks'
-import * as StellarSdk from 'stellar-sdk'
+import { convertXlmToXlm } from '../../../exchange'
 import { ADDRESS_TYPES } from '../btc/utils'
 
 const taskToPromise = t =>
@@ -97,14 +99,14 @@ export default ({ api }) => {
 
         if (!contains(to.type, values(ADDRESS_TYPES)))
           throw new Error(INVALID_ADDRESS_TYPE_ERROR)
-        if (!StellarSdk.StrKey.isValidEd25519PublicKey(to.address))
-          throw new Error(INVALID_ADDRESS_ERROR)
+        if (!isValidAddress(to.address)) throw new Error(INVALID_ADDRESS_ERROR)
 
         return makePayment(merge(p, { to }))
       },
 
       amount (amount) {
-        if (!isPositiveInteger(amount)) throw new Error(INVALID_AMOUNT_ERROR)
+        if (!isPositiveInteger(Number(amount)))
+          throw new Error(INVALID_AMOUNT_ERROR)
         if (amount > p.effectiveBalance)
           throw new Error(INSUFFICIENT_FUNDS_ERROR)
 
@@ -119,7 +121,6 @@ export default ({ api }) => {
         const account = path(['from', 'account'], p)
         const to = path(['to', 'address'], p)
         const amount = prop('amount', p)
-        const description = prop('description', p)
         if (!account) throw new Error(NO_SOURCE_ERROR)
         if (!to) throw new Error(NO_DESTINATION_ERROR)
         if (!amount) throw new Error(NO_AMOUNT_ERROR)
@@ -127,10 +128,13 @@ export default ({ api }) => {
         const paymentOperation = StellarSdk.Operation.payment({
           destination: to,
           asset: StellarSdk.Asset.native(),
-          amount: String(amount)
+          amount: convertXlmToXlm({
+            value: amount,
+            fromUnit: 'STROOP',
+            toUnit: 'XLM'
+          }).value
         })
         txBuilder.addOperation(paymentOperation)
-        if (description) txBuilder.addMemo(StellarSdk.Memo.text(description))
         const transaction = txBuilder.build()
         return makePayment(merge(p, { transaction }))
       },
