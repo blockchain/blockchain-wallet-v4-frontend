@@ -71,9 +71,9 @@
   },
   "dependencies": {
     "@blockchain-com/components": "^2.0.11",
-    "@ledgerhq/hw-app-btc": "git://github.com/plondon/hw-app-btc.git",
+    "@ledgerhq/hw-app-btc": "git+ssh://github.com/blockchain/hw-app-btc.git",
     "@ledgerhq/hw-app-eth": "4.23.0",
-    "@ledgerhq/hw-transport-u2f": "git://github.com/plondon/hw-transport-u2f.git",
+    "@ledgerhq/hw-transport-u2f": "git+ssh://github.com/blockchain/hw-transport-u2f.git",
     "awesome-phonenumber": "2.2.5",
     "base-64": "0.1.0",
     "bignumber.js": "5.0.0",
