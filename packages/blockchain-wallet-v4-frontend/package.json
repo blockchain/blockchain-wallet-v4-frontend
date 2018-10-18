@@ -71,9 +71,9 @@
   },
   "dependencies": {
     "@blockchain-com/components": "^2.0.11",
-    "@ledgerhq/hw-app-eth": "4.23.0",
-    "hw-app-btc": "4.24.0",
-    "hw-transport-u2f": "4.24.3",
+    "@ledgerhq/hw-app-eth": "4.26.0-beta.ebeb3540",
+    "@ledgerhq/hw-app-btc": "4.26.0-beta.ebeb3540",
+    "@ledgerhq/hw-transport-u2f": "4.26.0-beta.ebeb3540",
     "awesome-phonenumber": "2.2.5",
     "base-64": "0.1.0",
     "bignumber.js": "5.0.0",

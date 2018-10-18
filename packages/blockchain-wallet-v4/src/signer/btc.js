@@ -16,7 +16,7 @@ import {
 import { privateKeyStringToKey } from '../utils/btc'
 import * as Coin from '../coinSelection/coin.js'
 import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
-import Btc from 'hw-app-btc'
+import Btc from '@ledgerhq/hw-app-btc'
 
 export const signSelection = curry((network, selection) => {
   const tx = new Bitcoin.TransactionBuilder(network)

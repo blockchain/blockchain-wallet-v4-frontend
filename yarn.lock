@@ -759,17 +759,33 @@
     camelcase "^5.0.0"
     prettier "^1.13.7"
 
-"@ledgerhq/hw-app-eth@4.23.0":
-  version "4.23.0"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-app-eth/-/hw-app-eth-4.23.0.tgz#f253faf56143403182b9701fb0b6454c255de7ff"
-  integrity sha512-r00O3xlaTJJpP4u17MyLwZfnba0ul1o2BjJQ4a39DAjcIhff5Vq7f1FItUTHrEsAmHrQRXMmAlCAc2/3Rx6Dkg==
+"@ledgerhq/hw-app-btc@4.26.0-beta.ebeb3540":
+  version "4.26.0-beta.ebeb3540"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-app-btc/-/hw-app-btc-4.26.0-beta.ebeb3540.tgz#c7547f8832619e3c8780717cc81c07b2654b487d"
+  integrity sha512-Gt69kgDqRvk4jJxTItNNBPwaTulusTBKhlNGTgligOVoLYdaigSZC1RXS8nkzXBiuoOCKrfTZlNXHGgOVE3auA==
   dependencies:
-    "@ledgerhq/hw-transport" "^4.21.0"
+    "@ledgerhq/hw-transport" "^4.26.0-beta.ebeb3540"
+    create-hash "^1.1.3"
 
-"@ledgerhq/hw-transport@^4.21.0", "@ledgerhq/hw-transport@^4.24.0":
-  version "4.24.0"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport/-/hw-transport-4.24.0.tgz#8def925d8c2e1f73d15128d9e27ead729870be58"
-  integrity sha512-L34TG1Ss7goRB+5BxtvBwUuu0CmDSIxS33oUqkpEy6rCs31k7XicV48iUGAnRnt8hNY2DvJ9WFyaOroUE9h6wQ==
+"@ledgerhq/hw-app-eth@4.26.0-beta.ebeb3540":
+  version "4.26.0-beta.ebeb3540"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-app-eth/-/hw-app-eth-4.26.0-beta.ebeb3540.tgz#6a48ba33d094cd52d4ec4ee3aa4abd40c62384a2"
+  integrity sha512-t7DCz+UPNi6wfvO+xJaS2L7rjdmfD9lkX1DCvQ+Fyx3DtYuQ1jvxAlwvdAHX2GczXTrGQxU4liLLRsTsW1Fo/Q==
+  dependencies:
+    "@ledgerhq/hw-transport" "^4.26.0-beta.ebeb3540"
+
+"@ledgerhq/hw-transport-u2f@4.26.0-beta.ebeb3540":
+  version "4.26.0-beta.ebeb3540"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport-u2f/-/hw-transport-u2f-4.26.0-beta.ebeb3540.tgz#1997e76087a2c18a951d461a9446eca4b5d570b9"
+  integrity sha512-C8a0UEW8BXQuvOi1uragyokm9IhDWfQhzr3553BmGZ113VMH/uYh+dcHNY0rbmvkSCsZAkldP8GMpKpLoGWVmw==
+  dependencies:
+    "@ledgerhq/hw-transport" "^4.26.0-beta.ebeb3540"
+    u2f-api "0.2.7"
+
+"@ledgerhq/hw-transport@^4.26.0-beta.ebeb3540":
+  version "4.26.0-beta.ebeb3540"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport/-/hw-transport-4.26.0-beta.ebeb3540.tgz#c4eaee8cc233a179bbf357670b0a9f007279d491"
+  integrity sha512-7xhCSjEEYAdWAtYINJnqeyiqJdvXIwgDxHnBk1ZiAx2IouCaEaujm3b5b2gNVyXHUJx1ZedjbScVygn/sQiYWA==
   dependencies:
     events "^3.0.0"
 
@@ -8292,29 +8308,6 @@ husky@1.0.0-rc.13:
     read-pkg "^4.0.1"
     run-node "^1.0.0"
     slash "^2.0.0"
-
-hw-app-btc@4.24.0:
-  version "4.24.0"
-  resolved "https://registry.yarnpkg.com/hw-app-btc/-/hw-app-btc-4.24.0.tgz#a2ce3aa02b665ea025db24545d7159024308821d"
-  integrity sha512-fe8O7LGSxOGcnzVDN4nUzCXLlMb5L7aUHQyMO2hs3cBFNUiJhWtNwppRSRUSoVxJEdrbOfBa4m0ygRr0jy6aXQ==
-  dependencies:
-    "@ledgerhq/hw-transport" "^4.24.0"
-    create-hash "^1.1.3"
-
-hw-transport-u2f@4.24.3:
-  version "4.24.3"
-  resolved "https://registry.yarnpkg.com/hw-transport-u2f/-/hw-transport-u2f-4.24.3.tgz#28331fe85b9585e2bf7005f1899536a1cc09c7fc"
-  integrity sha512-E0l3xWwLiFCeRMoXxEHLoCCjw0+xqav0/7mgJldoB9V3K8A9wdorTtuYgwFFX7GC/BhWbviGpLzYbHdc/2he9w==
-  dependencies:
-    hw-transport "4.24.0"
-    u2f-api "0.2.7"
-
-hw-transport@4.24.0:
-  version "4.24.0"
-  resolved "https://registry.yarnpkg.com/hw-transport/-/hw-transport-4.24.0.tgz#cc874355e306c87c386679c49b685f55e63b57cc"
-  integrity sha512-Xy5tYIHQJ9ZbSeIDXhT30u2+XcD9LMBEE4hw3pdUfmJlg72Ld6fTWosMGy5hoAJv6aQEnIGhNfLSMXm+MjFkDA==
-  dependencies:
-    events "^3.0.0"
 
 hyphenate-style-name@^1.0.2:
   version "1.0.2"

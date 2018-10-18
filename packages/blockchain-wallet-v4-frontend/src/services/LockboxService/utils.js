@@ -2,8 +2,8 @@ import { Observable } from 'rxjs'
 import React from 'react'
 import { prop } from 'ramda'
 import { FormattedMessage } from 'react-intl'
-import TransportU2F from 'hw-transport-u2f'
-import Btc from 'hw-app-btc'
+import TransportU2F from '@ledgerhq/hw-transport-u2f'
+import Btc from '@ledgerhq/hw-app-btc'
 
 import {
   createXpubFromChildAndParent,
