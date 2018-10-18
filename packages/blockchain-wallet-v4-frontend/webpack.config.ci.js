@@ -10,6 +10,7 @@ const PATHS = require('./../../config/paths')
 
 const runBundleAnalyzer = process.env.ANALYZE
 let envConfig = {}
+let currentTime = new Date().getTime()
 
 module.exports = {
   mode: 'production',
@@ -98,7 +99,7 @@ module.exports = {
     ],
     concatenateModules: true,
     runtimeChunk: {
-      name: 'manifest'
+      name: `manifest.${currentTime}`
     },
     splitChunks: {
       cacheGroups: {

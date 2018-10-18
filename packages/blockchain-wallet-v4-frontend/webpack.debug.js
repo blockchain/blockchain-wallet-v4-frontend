@@ -20,6 +20,7 @@ let localhostUrl = sslEnabled
   ? 'https://localhost:8080'
   : 'http://localhost:8080'
 let envConfig = {}
+let currentTime = new Date().getTime()
 
 try {
   envConfig = require(PATHS.envConfig + `/${process.env.NODE_ENV}` + '.js')
@@ -137,7 +138,7 @@ module.exports = {
     ],
     concatenateModules: false,
     runtimeChunk: {
-      name: 'manifest'
+      name: `manifest.${currentTime}`
     },
     splitChunks: {
       cacheGroups: {
