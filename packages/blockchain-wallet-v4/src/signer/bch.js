@@ -4,7 +4,7 @@ import BitcoinCash from 'bitcoinforksjs-lib'
 import * as Coin from '../coinSelection/coin.js'
 import { fromCashAddr, isCashAddr } from '../utils/bch'
 import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
-import Btc from '@ledgerhq/hw-app-btc'
+import Btc from 'hw-app-btc'
 import * as crypto from '../walletCrypto'
 
 export const signSelection = curry((network, selection) => {
