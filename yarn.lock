@@ -759,12 +759,11 @@
     camelcase "^5.0.0"
     prettier "^1.13.7"
 
-"@ledgerhq/hw-app-btc@4.23.0":
-  version "4.23.0"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-app-btc/-/hw-app-btc-4.23.0.tgz#e4b9e909badbdf5ccb58c74b4199e0916bb44825"
-  integrity sha512-GyawZ6f8e/b1t1hLULEIcUvrbMp7dlFS2WnHwil3diYq78cuxNYhhB/jrGw4lI/yGuvRWH4b6VhBHl3XIxtjDg==
+"@ledgerhq/hw-app-btc@git+ssh://github.com/blockchain/hw-app-btc.git":
+  version "4.24.0"
+  resolved "git+ssh://github.com/blockchain/hw-app-btc.git#62924c23f57db50f74c24713cec0849b7d5c1c28"
   dependencies:
-    "@ledgerhq/hw-transport" "^4.21.0"
+    "@ledgerhq/hw-transport" "^4.24.0"
     create-hash "^1.1.3"
 
 "@ledgerhq/hw-app-eth@4.23.0":
@@ -774,20 +773,19 @@
   dependencies:
     "@ledgerhq/hw-transport" "^4.21.0"
 
-"@ledgerhq/hw-transport-u2f@4.21.0":
-  version "4.21.0"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport-u2f/-/hw-transport-u2f-4.21.0.tgz#85695d7e853a5c21af7e7dcb0ce3919f2b65cdd9"
-  integrity sha1-hWldfoU6XCGvfn3LDOORnytlzdk=
+"@ledgerhq/hw-transport-u2f@git+ssh://github.com/blockchain/hw-transport-u2f.git":
+  version "4.24.0"
+  resolved "git+ssh://github.com/blockchain/hw-transport-u2f.git#be80c3a4e7ca70e312dd722d8b45b91992aa4df6"
   dependencies:
-    "@ledgerhq/hw-transport" "^4.21.0"
+    "@ledgerhq/hw-transport" "^4.24.0"
     u2f-api "0.2.7"
 
-"@ledgerhq/hw-transport@^4.21.0":
-  version "4.21.0"
-  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport/-/hw-transport-4.21.0.tgz#50f85cfe115ba3f9d5bf94755c701e927175794f"
-  integrity sha1-UPhc/hFbo/nVv5R1XHAeknF1eU8=
+"@ledgerhq/hw-transport@^4.21.0", "@ledgerhq/hw-transport@^4.24.0":
+  version "4.24.0"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport/-/hw-transport-4.24.0.tgz#8def925d8c2e1f73d15128d9e27ead729870be58"
+  integrity sha512-L34TG1Ss7goRB+5BxtvBwUuu0CmDSIxS33oUqkpEy6rCs31k7XicV48iUGAnRnt8hNY2DvJ9WFyaOroUE9h6wQ==
   dependencies:
-    events "^2.0.0"
+    events "^3.0.0"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -6680,11 +6678,6 @@ events@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/events/-/events-1.1.1.tgz#9ebdb7635ad099c70dcc4c2a1f5004288e8bd924"
   integrity sha1-nr23Y1rQmccNzEwqH1AEKI6L2SQ=
-
-events@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/events/-/events-2.1.0.tgz#2a9a1e18e6106e0e812aa9ebd4a819b3c29c0ba5"
-  integrity sha512-3Zmiobend8P9DjmKAty0Era4jV8oJ0yGYe2nJJAxgymF9+N8F2m0hhZiMoWtcfepExzNKZumFU3ksdQbInGWCg==
 
 events@^3.0.0:
   version "3.0.0"
