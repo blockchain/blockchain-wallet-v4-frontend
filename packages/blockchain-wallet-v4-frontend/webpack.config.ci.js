@@ -22,6 +22,7 @@ module.exports = {
     publicPath: '/',
     crossOriginLoading: 'anonymous'
   },
+  stats: 'verbose',
   module: {
     rules: [
       {
