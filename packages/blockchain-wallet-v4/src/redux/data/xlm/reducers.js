@@ -17,8 +17,14 @@ export default (state = INITIAL_STATE, action) => {
     case AT.SET_LEDGER_DETAILS: {
       return assoc('ledgerDetails', payload.ledger, state)
     }
-    case AT.SET_DATA: {
-      return assoc('data', payload.data, state)
+    case AT.FETCH_DATA_SUCCESS: {
+      return assoc('data', Remote.Success(payload.data), state)
+    }
+    case AT.FETCH_DATA_FAILURE: {
+      return assoc('data', Remote.Failure(payload.error), state)
+    }
+    case AT.FETCH_DATA_LOADING: {
+      return assoc('data', Remote.Loading, state)
     }
     case AT.SET_RATES: {
       return assoc('rates', payload.rates, state)

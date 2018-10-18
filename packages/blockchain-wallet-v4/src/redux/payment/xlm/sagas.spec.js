@@ -12,6 +12,7 @@ import createPaymentFactory, {
   INVALID_ADDRESS_ERROR,
   INVALID_AMOUNT_ERROR,
   INSUFFICIENT_FUNDS_ERROR,
+  RESERVE_ERROR,
   NO_DESTINATION_ERROR,
   NO_AMOUNT_ERROR,
   NO_SOURCE_ERROR,
@@ -29,10 +30,17 @@ jest.mock('../../../signer')
 
 const STUB_BASE_FEE = 100
 const STUB_BASE_RESERVE = 500000
-const STUB_BALANCE = 10
+const STUB_BALANCE = 10000000
+const STUB_NUMBER_OF_ENTRIES = 0
 const STUB_EFFECTIVE_BALANCE =
-  STUB_BALANCE * 10000000 - STUB_BASE_RESERVE * 2 - STUB_BASE_FEE
-const STUB_OTHER_EFFECTIVE_BALANCE = 900000
+  STUB_BALANCE -
+  STUB_BASE_RESERVE * (2 + STUB_NUMBER_OF_ENTRIES) -
+  STUB_BASE_FEE
+const STUB_OTHER_BALANCE = 9000000
+const STUB_OTHER_EFFECTIVE_BALANCE =
+  STUB_OTHER_BALANCE -
+  STUB_BASE_RESERVE * (2 + STUB_NUMBER_OF_ENTRIES) -
+  STUB_BASE_FEE
 const STUB_AMOUNT = 100000
 const DEFAULT_ACCOUNT_ID = StellarSdk.Keypair.random().publicKey()
 const OTHER_ACCOUNT_ID = StellarSdk.Keypair.random().publicKey()
@@ -59,13 +67,15 @@ const api = {
 }
 
 S.data.xlm.getBalance.mockImplementation(id => () => {
-  if (id === DEFAULT_ACCOUNT_ID) return Remote.of(STUB_EFFECTIVE_BALANCE)
-  if (id === OTHER_ACCOUNT_ID) return Remote.of(STUB_OTHER_EFFECTIVE_BALANCE)
+  if (id === DEFAULT_ACCOUNT_ID) return Remote.of(STUB_BALANCE)
+  if (id === OTHER_ACCOUNT_ID) return Remote.of(STUB_OTHER_BALANCE)
   return null
 })
 S.data.xlm.getBaseFee.mockReturnValue(Remote.of(STUB_BASE_FEE))
 S.data.xlm.getBaseReserve.mockReturnValue(Remote.of(STUB_BASE_RESERVE))
-S.data.xlm.getBaseReserve.mockReturnValue(Remote.of(STUB_BASE_RESERVE))
+S.data.xlm.getNumberOfEntries.mockReturnValue(() =>
+  Remote.of(STUB_NUMBER_OF_ENTRIES)
+)
 S.kvStore.xlm.getDefaultAccountId.mockReturnValue(Remote.of(DEFAULT_ACCOUNT_ID))
 S.data.xlm.getAccount.mockImplementation(id => () => {
   if (id === DEFAULT_ACCOUNT_ID) return Remote.of(STUB_DEFAULT_ACCOUNT)
@@ -77,6 +87,7 @@ S.wallet.getMnemonic.mockReturnValue(() => Task.of(STUB_MNEMONIC))
 xlmSigner.sign.mockReturnValue(STUB_SIGNED_TX)
 
 jest.spyOn(StellarSdk.Operation, 'payment')
+jest.spyOn(StellarSdk.Operation, 'createAccount')
 jest.spyOn(StellarSdk.TransactionBuilder.prototype, 'constructor')
 jest.spyOn(StellarSdk.TransactionBuilder.prototype, 'addOperation')
 jest.spyOn(StellarSdk.TransactionBuilder.prototype, 'addMemo')
@@ -98,7 +109,9 @@ describe('payment', () => {
       payment = await expectSaga(payment.init)
         .run()
         .then(prop('returnValue'))
-      expect(payment.value().fee).toBe(NUMBER_OF_OPERATIONS * STUB_BASE_FEE)
+      expect(payment.value().fee).toBe(
+        String(NUMBER_OF_OPERATIONS * STUB_BASE_FEE)
+      )
     })
 
     it('should throw if no base fee is available', () => {
@@ -119,7 +132,9 @@ describe('payment', () => {
         address: DEFAULT_ACCOUNT_ID,
         account: STUB_DEFAULT_ACCOUNT
       })
-      expect(payment.value().effectiveBalance).toEqual(STUB_EFFECTIVE_BALANCE)
+      expect(payment.value().effectiveBalance).toEqual(
+        String(STUB_EFFECTIVE_BALANCE)
+      )
     })
 
     it('should set "from" data and effectiveBalance from specific account', async () => {
@@ -132,7 +147,7 @@ describe('payment', () => {
         account: STUB_OTHER_ACCOUNT
       })
       expect(otherPayment.value().effectiveBalance).toEqual(
-        STUB_OTHER_EFFECTIVE_BALANCE
+        String(STUB_OTHER_EFFECTIVE_BALANCE)
       )
     })
 
@@ -177,19 +192,32 @@ describe('payment', () => {
   })
 
   describe('to', () => {
-    it('should set destination', () => {
-      payment = payment.to(OTHER_ACCOUNT_ID)
+    it('should set destination', async () => {
+      payment = await expectSaga(payment.to, OTHER_ACCOUNT_ID)
+        .run()
+        .then(prop('returnValue'))
       expect(payment.value().to).toEqual({
         address: OTHER_ACCOUNT_ID,
         type: ADDRESS_TYPES.ADDRESS
       })
+      expect(payment.value().destinationAccountExists).toBe(true)
     })
 
-    it('should set custom address type', () => {
-      const otherPayment = payment.to({
+    it('should set destinationAccountExists to false if account does not exists', async () => {
+      api.getXlmAccount.mockRejectedValueOnce('')
+      const otherPayment = await expectSaga(payment.to, OTHER_ACCOUNT_ID)
+        .run()
+        .then(prop('returnValue'))
+      expect(otherPayment.value().destinationAccountExists).toBe(false)
+    })
+
+    it('should set custom address type', async () => {
+      const otherPayment = await expectSaga(payment.to, {
         address: OTHER_ACCOUNT_ID,
         type: ADDRESS_TYPES.LOCKBOX
       })
+        .run()
+        .then(prop('returnValue'))
       expect(otherPayment.value().to).toEqual({
         address: OTHER_ACCOUNT_ID,
         type: ADDRESS_TYPES.LOCKBOX
@@ -197,21 +225,25 @@ describe('payment', () => {
     })
 
     it('should throw if address type is invalid', () => {
-      expect(
-        payment.to.bind(null, {
+      try {
+        expectSaga(payment.to, {
           address: OTHER_ACCOUNT_ID,
           type: ADDRESS_TYPES.LOCKBOX + '1'
-        })
-      ).toThrowError(new Error(INVALID_ADDRESS_TYPE_ERROR))
+        }).run()
+      } catch (e) {
+        expect(e).toEqual(new Error(INVALID_ADDRESS_TYPE_ERROR))
+      }
     })
 
     it('should throw if address is invalid', () => {
-      expect(
-        payment.to.bind(null, {
+      try {
+        expectSaga(payment.to, {
           address: OTHER_ACCOUNT_ID + '1',
           type: ADDRESS_TYPES.LOCKBOX
-        })
-      ).toThrowError(new Error(INVALID_ADDRESS_ERROR))
+        }).run()
+      } catch (e) {
+        expect(e).toEqual(new Error(INVALID_ADDRESS_ERROR))
+      }
     })
   })
 
@@ -229,8 +261,19 @@ describe('payment', () => {
 
     it('should throw if amount is bigger than effective balance', () => {
       expect(
-        payment.amount.bind(null, payment.value().effectiveBalance + 1)
+        payment.amount.bind(
+          null,
+          Number(payment.value().effectiveBalance) +
+            Number(payment.value().reserve) +
+            1
+        )
       ).toThrowError(new Error(INSUFFICIENT_FUNDS_ERROR))
+    })
+
+    it('should throw if amount leaves less balance than reserve', () => {
+      expect(
+        payment.amount.bind(null, Number(payment.value().effectiveBalance) + 1)
+      ).toThrowError(new Error(RESERVE_ERROR))
     })
   })
 
@@ -242,8 +285,10 @@ describe('payment', () => {
   })
 
   describe('build', () => {
-    it('should build transaction', () => {
-      payment = payment.build()
+    it('should build transaction', async () => {
+      payment = await expectSaga(payment.build)
+        .run()
+        .then(prop('returnValue'))
       expect(StellarSdk.Operation.payment).toHaveBeenCalledTimes(1)
       expect(StellarSdk.Operation.payment).toHaveBeenCalledWith({
         destination: OTHER_ACCOUNT_ID,
@@ -263,25 +308,63 @@ describe('payment', () => {
       expect(payment.value().transaction).toBe(STUB_TX)
     })
 
-    it('should throw if source account is not set', () => {
-      const otherPayment = create({
-        payment: dissocPath(['from', 'account'], payment.value())
+    it('should build transaction with createAccount operation if destination account does not exist', async () => {
+      api.getXlmAccount.mockRejectedValueOnce('')
+      let otherPayment = await expectSaga(payment.to, OTHER_ACCOUNT_ID)
+        .run()
+        .then(prop('returnValue'))
+      otherPayment = await expectSaga(otherPayment.build)
+        .run()
+        .then(prop('returnValue'))
+      expect(StellarSdk.Operation.createAccount).toHaveBeenCalledTimes(1)
+      expect(StellarSdk.Operation.createAccount).toHaveBeenCalledWith({
+        destination: OTHER_ACCOUNT_ID,
+        startingBalance: convertXlmToXlm({
+          value: STUB_AMOUNT,
+          fromUnit: 'STROOP',
+          toUnit: 'XLM'
+        }).value
       })
-      expect(otherPayment.build).toThrowError(new Error(NO_SOURCE_ERROR))
+      expect(
+        StellarSdk.TransactionBuilder.prototype.addOperation
+      ).toHaveBeenCalledTimes(1)
+      expect(
+        StellarSdk.TransactionBuilder.prototype.build
+      ).toHaveBeenCalledTimes(1)
+      expect(otherPayment.value().transaction).toBe(STUB_TX)
+    })
+
+    it('should throw if source account is not set', () => {
+      try {
+        const otherPayment = create({
+          payment: dissocPath(['from', 'account'], payment.value())
+        })
+        expectSaga(otherPayment.build).run()
+      } catch (e) {
+        expect(e).toEqual(new Error(NO_SOURCE_ERROR))
+      }
     })
 
     it('should throw if destination address is not set', () => {
-      const otherPayment = create({
-        payment: dissocPath(['to', 'address'], payment.value())
-      })
-      expect(otherPayment.build).toThrowError(new Error(NO_DESTINATION_ERROR))
+      try {
+        const otherPayment = create({
+          payment: dissocPath(['to', 'address'], payment.value())
+        })
+        expectSaga(otherPayment.build).run()
+      } catch (e) {
+        expect(e).toEqual(new Error(NO_DESTINATION_ERROR))
+      }
     })
 
     it('should throw if amount is not set', () => {
-      const otherPayment = create({
-        payment: dissoc('amount', payment.value())
-      })
-      expect(otherPayment.build).toThrowError(new Error(NO_AMOUNT_ERROR))
+      try {
+        const otherPayment = create({
+          payment: dissoc('amount', payment.value())
+        })
+        expectSaga(otherPayment.build).run()
+      } catch (e) {
+        expect(e).toEqual(new Error(NO_AMOUNT_ERROR))
+      }
     })
   })
 

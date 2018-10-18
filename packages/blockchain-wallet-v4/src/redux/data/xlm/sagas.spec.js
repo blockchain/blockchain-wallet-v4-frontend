@@ -86,17 +86,15 @@ describe('fetch data saga', () => {
   it('should fetch accounts', () =>
     expectSaga(fetchData)
       .provide([[select(S.getContext), [STUB_ACCOUNT_ID, OTHER_ACCOUNT_ID]]])
-      .put(A.setData(Remote.Loading))
+      .put(A.fetchDataLoading())
       .select(S.getContext)
       .call(api.getXlmAccount, STUB_ACCOUNT_ID)
       .call(api.getXlmAccount, OTHER_ACCOUNT_ID)
       .put(
-        A.setData(
-          Remote.Success({
-            [STUB_ACCOUNT_ID]: STUB_ACCOUNT,
-            [OTHER_ACCOUNT_ID]: OTHER_ACCOUNT
-          })
-        )
+        A.fetchDataSuccess({
+          [STUB_ACCOUNT_ID]: STUB_ACCOUNT,
+          [OTHER_ACCOUNT_ID]: OTHER_ACCOUNT
+        })
       )
       .run())
 
@@ -107,7 +105,7 @@ describe('fetch data saga', () => {
         [select(S.getContext), [STUB_ACCOUNT_ID]],
         [call.fn(createAccounts), jest.fn()]
       ])
-      .put(A.setData(Remote.Loading))
+      .put(A.fetchDataLoading())
       .select(S.getContext)
       .call(api.getXlmAccount, STUB_ACCOUNT_ID)
       .call(createAccounts)
@@ -119,10 +117,10 @@ describe('fetch data saga', () => {
     api.getXlmAccount.mockRejectedValue(error)
     return expectSaga(fetchData)
       .provide([[select(S.getContext), [STUB_ACCOUNT_ID]]])
-      .put(A.setData(Remote.Loading))
+      .put(A.fetchDataLoading())
       .select(S.getContext)
       .call(api.getXlmAccount, STUB_ACCOUNT_ID)
-      .put(A.setData(Remote.Failure(error)))
+      .put(A.fetchDataFailure(error))
       .run()
   })
 })
@@ -147,7 +145,7 @@ describe('create account saga', () => {
       .select(S.getContext)
       .call(api.createXlmAccount, STUB_ACCOUNT_ID)
       .not.call(fetchData)
-      .put(A.setData(Remote.Failure(error)))
+      .put(A.fetchDataFailure(error))
       .run()
   })
 

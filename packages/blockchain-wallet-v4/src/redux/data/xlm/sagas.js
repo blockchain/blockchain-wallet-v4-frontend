@@ -28,26 +28,24 @@ export default ({ api, networks }) => {
       yield all(accountIds.map(id => call(api.createXlmAccount, id)))
       yield call(fetchData)
     } catch (e) {
-      yield put(A.setData(Remote.Failure(e)))
+      yield put(A.fetchDataFailure(e))
     }
   }
 
   const fetchData = function*() {
     try {
-      yield put(A.setData(Remote.Loading))
+      yield put(A.fetchDataLoading())
       const accountIds = yield select(S.getContext)
       const accounts = yield all(
         accountIds.map(id => call(api.getXlmAccount, id))
       )
-      yield put(
-        A.setData(Remote.Success(indexBy(prop('account_id'), accounts)))
-      )
+      yield put(A.fetchDataSuccess(indexBy(prop('account_id'), accounts)))
     } catch (e) {
       const message = prop('message', e)
       if (message === ACCOUNT_NOT_FOUND) {
         return yield call(createAccounts)
       }
-      yield put(A.setData(Remote.Failure(e)))
+      yield put(A.fetchDataFailure(e))
     }
   }
 

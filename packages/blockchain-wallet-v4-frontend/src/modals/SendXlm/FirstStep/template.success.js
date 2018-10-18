@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import * as bowser from 'bowser'
 import styled from 'styled-components'
+import { path } from 'ramda'
 
 import { model } from 'data'
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -28,12 +29,15 @@ import {
   TextAreaDebounced
 } from 'components/Form'
 import {
+  ACCOUNT_CREATION_ERROR,
+  accountCreationAmount,
   invalidAmount,
   insufficientFunds,
   maximumAmount,
   shouldError,
   shouldWarn
 } from './validation'
+import { ShouldCreateAccountMessage } from './validationMessages'
 import { Row, AddressButton } from 'components/Send'
 import QRCodeCapture from 'components/QRCodeCapture'
 import ComboDisplay from 'components/Display/ComboDisplay'
@@ -41,6 +45,14 @@ import ComboDisplay from 'components/Display/ComboDisplay'
 const BrowserWarning = styled(Banner)`
   margin: -4px 0 8px;
 `
+
+const XlmFiatConvertor = ({ meta, ...rest }) => {
+  if (path(['error', 'message'], meta) === ACCOUNT_CREATION_ERROR) {
+    meta.error = <ShouldCreateAccountMessage amount={meta.error.amount} />
+  }
+  return <FiatConvertor meta={meta} {...rest} />
+}
+
 const FirstStep = props => {
   const {
     pristine,
@@ -176,7 +188,7 @@ const FirstStep = props => {
           <Field
             name='amount'
             disabled={unconfirmedTx}
-            component={FiatConvertor}
+            component={XlmFiatConvertor}
             coin='XLM'
             validate={[
               required,
@@ -253,9 +265,17 @@ FirstStep.propTypes = {
   unconfirmedTx: PropTypes.bool
 }
 
+const validate = (values, props) => {
+  const errors = {}
+  accountCreationAmount(errors, values, props)
+
+  return errors
+}
+
 export default reduxForm({
   form: model.components.sendXlm.FORM,
   shouldError,
   shouldWarn,
+  validate,
   destroyOnUnmount: false
 })(FirstStep)
