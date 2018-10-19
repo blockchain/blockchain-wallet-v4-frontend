@@ -13,7 +13,7 @@ import UpdateDevice from './UpdateDevice'
 import InstallApps from './InstallApps'
 
 const SettingsContainer = styled.div`
-  padding: 0 15px;
+  padding: 0 30px;
 `
 
 const BrowserWarning = styled(Banner)`

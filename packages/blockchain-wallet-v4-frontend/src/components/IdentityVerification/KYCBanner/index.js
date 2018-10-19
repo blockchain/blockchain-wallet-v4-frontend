@@ -51,9 +51,6 @@ const ActionButton = styled(Button)`
   margin-top: 30px;
 `
 
-const SubNote = styled(Text)`
-  margin-top: 30px;
-`
 export const NEW_USER = 'NEW_USER'
 
 export const KYCBanner = ({
@@ -129,12 +126,6 @@ export const KYCBanner = ({
           id='components.identityverification.popup.note.notcreated'
           defaultMessage="Introducing Blockchain's new and improved crypto exchange function. To begin using this updated feature, please verify your identity. The process only takes a couple of minutes."
         />
-        <SubNote color='white' size='12px' weight={400}>
-          <FormattedMessage
-            id='components.identityverification.popup.note.personalinfosecure'
-            defaultMessage='Your personal information is secure with us and not shared with any third parties.'
-          />
-        </SubNote>
       </Fragment>
     ),
     [KYC_STATES.NONE]: (

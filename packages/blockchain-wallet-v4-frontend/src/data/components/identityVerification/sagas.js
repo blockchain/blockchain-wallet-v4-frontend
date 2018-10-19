@@ -1,4 +1,4 @@
-import { put, select, call } from 'redux-saga/effects'
+import { join, put, select, call, spawn } from 'redux-saga/effects'
 import { isEmpty, prop } from 'ramda'
 
 import { callLatest } from 'utils/effects'
@@ -223,7 +223,12 @@ export default ({ api, coreSagas }) => {
       yield put(A.setAddressRefetchVisible(false))
       yield put(actions.form.startSubmit(PERSONAL_FORM))
       yield put(A.setPossibleAddresses([]))
-      yield call(createUser)
+
+      // Spawn/join is used so that
+      // createUser task won't be canceled by takeLatest
+      // and addresses fetch will be canceled
+      const createUserTask = yield spawn(createUser)
+      yield join(createUserTask)
       const addresses = yield callLatest(api.fetchKycAddresses, {
         postCode,
         countryCode
@@ -236,18 +241,8 @@ export default ({ api, coreSagas }) => {
       const description = prop('description', e)
       const message = prop('message', e)
 
-      if (description === userExistsError) {
-        // TODO: show a better error explaining that user with
-        // target email already exists
-        const email = (yield select(
-          selectors.core.settings.getEmail
-        )).getOrFail()
-        return yield put(
-          actions.form.stopSubmit(PERSONAL_FORM, {
-            postCode: getUserExistsError(email)
-          })
-        )
-      }
+      // occurs if typing fast and 2 user tasks are created
+      if (description === userExistsError) return
 
       if (description === noCountryCodeError) {
         yield put(

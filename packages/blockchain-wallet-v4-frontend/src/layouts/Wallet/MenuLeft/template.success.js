@@ -35,7 +35,7 @@ const ActiveIndicator = styled.div`
   transition: top 0.5s;
   position: absolute;
   height: 38px;
-  width: 4px;
+  width: 3px;
   left: 0;
   background: ${props => props.theme['marketing-primary']};
 `

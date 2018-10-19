@@ -6,12 +6,12 @@ import ReactTooltip from 'react-tooltip'
 const StyledTip = styled(ReactTooltip)`
   cursor: pointer;
   max-width: 200px;
-  font-size: 11px;
   font-weight: 300;
-  z-index: 2000;
   text-align: left;
   padding: 7px 12px;
   text-transform: none;
+  z-index: 2000 !important;
+  font-size: 11px !important;
   pointer-events: auto !important;
   font-family: 'Montserrat', sans serif;
 `

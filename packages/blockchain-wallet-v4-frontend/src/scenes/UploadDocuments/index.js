@@ -1,3 +1,4 @@
+import Base64 from 'base-64'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
@@ -11,7 +12,7 @@ class UploadDocumentsContainer extends Component {
     data: PropTypes.object,
     displayError: PropTypes.func.isRequired,
     pathname: PropTypes.string.isRequired,
-    uploaded: PropTypes.bool,
+    uploaded: PropTypes.object,
     uploadDocuments: PropTypes.func.isRequired
   }
 
@@ -25,19 +26,22 @@ class UploadDocumentsContainer extends Component {
   }
 
   componentDidMount () {
-    const token = this.props.pathname.split('/')[3]
+    const token = this.props.pathname.split('/')[2]
     this.props.fetchUploadData(token)
   }
 
   onSubmit = () => {
     let filesLoaded = []
-    const token = this.props.pathname.split('/')[3]
+    const token = this.props.pathname.split('/')[2]
     this.state.files.forEach(file => {
       const fileReader = new FileReader()
       // One single upload for the array of all byte arrays
       fileReader.onload = event => {
-        const fileArray = new Int8Array(event.target.result)
-        filesLoaded.push(fileArray)
+        const fileArray = new Uint8Array(event.target.result).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          ''
+        )
+        filesLoaded.push(Base64.encode(fileArray))
         if (filesLoaded.length >= this.state.files.length) {
           this.props.uploadDocuments(token, filesLoaded)
         }

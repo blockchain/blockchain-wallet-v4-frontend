@@ -140,7 +140,8 @@ const SelectInput = props => {
     onFocus,
     grouped,
     onBlur,
-    getRef
+    getRef,
+    filterOption
   } = props
   const options = grouped
     ? items
@@ -179,6 +180,7 @@ const SelectInput = props => {
       menuPlacement={menuPlacement}
       isDisabled={disabled}
       value={defaultValue}
+      filterOption={filterOption}
     />
   )
 }
@@ -198,7 +200,8 @@ SelectInput.propTypes = {
   onBlur: PropTypes.func,
   templateItem: PropTypes.func,
   getRef: PropTypes.func,
-  fontSize: PropTypes.string
+  fontSize: PropTypes.string,
+  filterOption: PropTypes.func
 }
 
 export default SelectInput

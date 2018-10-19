@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.3.41",
+  "version": "4.3.50",
   "license": "AGPL-3.0-or-later",
   "private": true,
   "author": {
@@ -98,6 +98,7 @@
     "test:frontend:debug": "yarn workspace blockchain-wallet-v4-frontend test:debug",
     "test:frontend:update": "yarn workspace blockchain-wallet-v4-frontend test -- -u",
     "test:frontend:watch": "yarn workspace blockchain-wallet-v4-frontend test:watch",
+    "debug:prod": "yarn workspace blockchain-wallet-v4-frontend debug:prod",
     "manage:translations": "yarn workspace blockchain-wallet-v4-frontend manage:translations",
     "release": "release-it"
   },

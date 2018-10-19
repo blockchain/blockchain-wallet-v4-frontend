@@ -3,16 +3,20 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { RotateSync } from 'components/RotateSync'
-import { Button, Text } from 'blockchain-info-components'
+import { BlockchainLoader, Button, Text } from 'blockchain-info-components'
 
 const Title = styled.div`
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 `
 const Content = styled.div`
   text-align: center;
-  max-width: 400px;
-  margin: 10px auto;
+  margin-bottom: 40px;
+`
+const LoaderContainer = styled.div`
+  margin: 60px;
+  display: flex;
+  justify-content: center;
 `
 const ButtonContainer = styled.div`
   margin-top: 50px;
@@ -25,16 +29,19 @@ const CheckVersionsStep = props => {
   return (
     <React.Fragment>
       <Title>
-        <Text size='22px' weight={400}>
+        <Text>
           <FormattedMessage
             id='modals.lockboxfirmware.checkversionsstep.title'
-            defaultMessage='Check for Updates'
+            defaultMessage='Checking for Updates'
           />
         </Text>
       </Title>
+      <LoaderContainer>
+        <BlockchainLoader width='100px' height='100px' />
+      </LoaderContainer>
       <Content>
         {status ? (
-          <Text size='15px' weight={300}>
+          <Text weight={300}>
             <FormattedMessage
               id='modals.lockboxfirmware.checkversionsstep.updateavailable'
               defaultMessage='A new firmware, version {status}, is available for your device! Click continue to start installing.'
@@ -52,10 +59,10 @@ const CheckVersionsStep = props => {
       </Content>
       <ButtonContainer>
         {status ? (
-          <Button fullwidth nature='success' onClick={onStartInstall}>
+          <Button fullwidth nature='primary' onClick={onStartInstall}>
             <FormattedMessage
               id='modals.lockboxfirmware.checkversionsstep.continue'
-              defaultMessage='Continue'
+              defaultMessage='Install Update'
             />
           </Button>
         ) : (

@@ -15,7 +15,6 @@ const LazyLoadWrapper = styled(LazyLoadContainer)`
   justify-content: flex-start;
   align-items: flex-start;
   box-sizing: border-box;
-  padding: 0 15px;
   width: 100%;
 `
 

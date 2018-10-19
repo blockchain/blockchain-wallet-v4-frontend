@@ -38,6 +38,10 @@ const KeyText = styled(Text)`
   word-wrap: break-word;
 `
 
+const KeySelectInput = styled(SelectInput)`
+  flex: 1;
+`
+
 const FirstStep = () => (
   <div>
     <Text size='13px' color='error' weight={500} uppercase>
@@ -125,7 +129,7 @@ const SecondStep = ({
         </DetailRowText>
         {':'}
         &nbsp;
-        <SelectInput
+        <KeySelectInput
           label='Export Format'
           value={format}
           searchEnabled={false}

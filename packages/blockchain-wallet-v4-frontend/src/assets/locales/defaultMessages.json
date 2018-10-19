@@ -338,11 +338,11 @@
         "id": "components.alerts.second_password_invalid_error"
       },
       {
-        "defaultMessage": "Second password enabled",
+        "defaultMessage": "Second password successfully enabled",
         "id": "components.alerts.second_password_enabled_success"
       },
       {
-        "defaultMessage": "Second password disabled",
+        "defaultMessage": "Second password successfully disabled",
         "id": "components.alerts.second_password_disabled_success"
       },
       {
@@ -788,6 +788,15 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Error",
+        "id": "stringdisplay.deafulterror"
+      }
+    ],
+    "path": "src/components/Display/StringDisplay/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Oops, we couldn't find any transactions!",
         "id": "components.emptytx.header"
       },
@@ -988,6 +997,15 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Non-Spendable",
+        "id": "components.selectboxbitcoin.watchonly"
+      }
+    ],
+    "path": "src/components/Form/SelectBoxXlmAddresses/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Buy",
         "id": "components.form.tabmenubuysell.buy"
       },
@@ -1056,10 +1074,6 @@
       {
         "defaultMessage": "Introducing Blockchain's new and improved crypto exchange function. To begin using this updated feature, please verify your identity. The process only takes a couple of minutes.",
         "id": "components.identityverification.popup.note.notcreated"
-      },
-      {
-        "defaultMessage": "Your personal information is secure with us and not shared with any third parties.",
-        "id": "components.identityverification.popup.note.personalinfosecure"
       },
       {
         "defaultMessage": "Complete your profile and identity verification to start exchanging. Don’t worry, we only need a couple more details.",
@@ -3607,7 +3621,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Check for Updates",
+        "defaultMessage": "Checking for Updates",
         "id": "modals.lockboxfirmware.checkversionsstep.title"
       },
       {
@@ -3619,7 +3633,7 @@
         "id": "modals.lockboxfirmware.checkversionsstep.subtitle"
       },
       {
-        "defaultMessage": "Continue",
+        "defaultMessage": "Install Update",
         "id": "modals.lockboxfirmware.checkversionsstep.continue"
       },
       {
@@ -3644,7 +3658,7 @@
         "id": "modals.lockboxfirmware.completestep.installsuccess.title"
       },
       {
-        "defaultMessage": "Your firmware was successfully updated. You will now need to reinstall the apps on your device or do it later via the settings page.",
+        "defaultMessage": "Your firmware was successfully updated. You will now need to reinstall the apps on your device.",
         "id": "modals.lockboxfirmware.completestep.installsuccess.message"
       },
       {
@@ -3658,10 +3672,6 @@
       {
         "defaultMessage": "Install Apps",
         "id": "modals.lockboxfirmware.completestep.installApps"
-      },
-      {
-        "defaultMessage": "Close",
-        "id": "modals.lockboxfirmware.completestep.close"
       }
     ],
     "path": "src/modals/LockboxFirmware/CompleteStep/template.json"
@@ -3694,15 +3704,24 @@
         "id": "modals.lockboxfirmware.connectdevice.subtitle"
       },
       {
-        "defaultMessage": "Success! Click to Continue",
-        "id": "modals.lockboxfirmware.connectdevice.success"
-      },
-      {
-        "defaultMessage": "Open Dashboard App",
+        "defaultMessage": "Connect Your Lockbox",
         "id": "modals.lockboxfirmware.connectdevice.loading"
       }
     ],
     "path": "src/modals/LockboxFirmware/ConnectDeviceStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Verify Your Device",
+        "id": "modals.lockboxfirmware.deleteapps.title"
+      },
+      {
+        "defaultMessage": "Update in progress. Please keep your browser opened. Your device's applications will be removed for the time being.",
+        "id": "modals.lockboxfirmware.deleteapps.message1"
+      }
+    ],
+    "path": "src/modals/LockboxFirmware/DeleteAppsStep/template.json"
   },
   {
     "descriptors": [
@@ -3738,6 +3757,23 @@
       }
     ],
     "path": "src/modals/LockboxFirmware/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Verify Your Device",
+        "id": "modals.lockboxfirmware.uninstallapps.title"
+      },
+      {
+        "defaultMessage": "Update in progress. Please keep your browser opened, your device opened, and wait while your device's applications are uninstalled for the time being.",
+        "id": "modals.lockboxfirmware.uninstallapps.message1"
+      },
+      {
+        "defaultMessage": "Also, please verify the below on your device before continuing.",
+        "id": "modals.lockboxfirmware.uninstallapps.message2"
+      }
+    ],
+    "path": "src/modals/LockboxFirmware/UninstallAppsStep/template.json"
   },
   {
     "descriptors": [
@@ -3857,6 +3893,18 @@
       {
         "defaultMessage": "Select \"Bitcoin\" from the picker.",
         "id": "modals.lockboxsetup.openbtcappstep.selection"
+      },
+      {
+        "defaultMessage": "Note:",
+        "id": "modals.lockboxsetup.openbtcappstep.note"
+      },
+      {
+        "defaultMessage": "If you do not have the Bitcoin app on your device, you can install it",
+        "id": "modals.lockboxsetup.openbtcappstep.installapps"
+      },
+      {
+        "defaultMessage": "here.",
+        "id": "modals.lockboxsetup.openbtcappstep.installappshere"
       },
       {
         "defaultMessage": "Success! Click to Continue",
@@ -4388,6 +4436,10 @@
       {
         "defaultMessage": "Currency:",
         "id": "modals.requestxlm.coin"
+      },
+      {
+        "defaultMessage": "Receive to:",
+        "id": "modals.requestbitcoin.firststep.to"
       },
       {
         "defaultMessage": "Copy & Share Address:",
@@ -4926,6 +4978,123 @@
       }
     ],
     "path": "src/modals/SendEth/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "maximum",
+        "id": "modals.sendxlm.maximumamountlink.maximum"
+      }
+    ],
+    "path": "src/modals/SendXlm/FirstStep/MaximumAmountLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Currency:",
+        "id": "modals.sendxlm.firststep.coin"
+      },
+      {
+        "defaultMessage": "From:",
+        "id": "modals.sendxlm.firststep.from"
+      },
+      {
+        "defaultMessage": "Sending Stellar from Lockbox can only be done while using the Chrome browser",
+        "id": "modals.sendxlm.firststep.lockboxwarn"
+      },
+      {
+        "defaultMessage": "To:",
+        "id": "modals.sendxlm.firststep.to"
+      },
+      {
+        "defaultMessage": "Please wait until your previous transaction confirms.",
+        "id": "modals.sendxlm.unconfirmedtransactionmessage"
+      },
+      {
+        "defaultMessage": "Sending to contract addresses is disabled.",
+        "id": "modals.sendxlm.contractaddr"
+      },
+      {
+        "defaultMessage": "Enter amount:",
+        "id": "modals.sendxlm.firststep.amount"
+      },
+      {
+        "defaultMessage": "Description:",
+        "id": "modals.sendxlm.firststep.description"
+      },
+      {
+        "defaultMessage": "Transaction Fee:",
+        "id": "modals.sendxlm.firststep.fee"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.sendxlm.firststep.continue"
+      }
+    ],
+    "path": "src/modals/SendXlm/FirstStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Invalid amount",
+        "id": "modals.sendxlm.amountnotzeromessage"
+      },
+      {
+        "defaultMessage": "Not enough funds. Use",
+        "id": "modals.sendxlm.maximumamountmessage"
+      },
+      {
+        "defaultMessage": "Insufficient funds",
+        "id": "modals.sendxlm.insufficientfundsmessage"
+      }
+    ],
+    "path": "src/modals/SendXlm/FirstStep/validationMessages.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "From:",
+        "id": "modals.sendxlm.secondstep.from"
+      },
+      {
+        "defaultMessage": "To:",
+        "id": "modals.sendxlm.secondstep.to"
+      },
+      {
+        "defaultMessage": "Note:",
+        "id": "modals.sendxlm.secondstep.note"
+      },
+      {
+        "defaultMessage": "Payment:",
+        "id": "modals.sendxlm.secondstep.payment"
+      },
+      {
+        "defaultMessage": "Fee:",
+        "id": "modals.sendxlm.secondstep.fee"
+      },
+      {
+        "defaultMessage": "Total",
+        "id": "modals.sendxlm.secondstep.total"
+      },
+      {
+        "defaultMessage": "Send Stellar",
+        "id": "modals.sendxlm.secondstep.send"
+      },
+      {
+        "defaultMessage": "Go Back",
+        "id": "modals.sendxlm.sendconfirm.back"
+      }
+    ],
+    "path": "src/modals/SendXlm/SecondStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Send Stellar",
+        "id": "modals.sendxlm.title"
+      }
+    ],
+    "path": "src/modals/SendXlm/template.json"
   },
   {
     "descriptors": [
@@ -8134,10 +8303,6 @@
         "id": "scenes.lockbox.welcome.purchase"
       },
       {
-        "defaultMessage": "Install Applications",
-        "id": "scenes.lockbox.welcome.install"
-      },
-      {
         "defaultMessage": "New device setup can only be done while using the Chrome browser",
         "id": "scenes.lockbox.welcome.browserblock"
       }
@@ -10372,6 +10537,154 @@
     "descriptors": [
       {
         "defaultMessage": "Welcome to",
+        "id": "scenes.transaction.content.empty.bitcoincashwelcome.welcome"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "scenes.transaction.content.empty.bitcoincashwelcome.learnmore"
+      },
+      {
+        "defaultMessage": "What is Bitcoin Cash?",
+        "id": "scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.what"
+      },
+      {
+        "defaultMessage": "Bitcoin Cash is a form of peer-to-peer electronic cash that was created after a fork of the Bitcoin block chain in August 2017.",
+        "id": "scenes.transaction.content.empty.bitcoincashwelcome.currency"
+      },
+      {
+        "defaultMessage": "Bitcoin Cash has since grown to be one of the top cryptocurrencies, along with bitcoin and ether.",
+        "id": "scenes.transaction.content.empty.bitcoincashwelcome.top"
+      },
+      {
+        "defaultMessage": "How do I get Bitcoin Cash?",
+        "id": "scenes.transaction.content.empty.bitcoincashwelcome.why"
+      },
+      {
+        "defaultMessage": "If you had bitcoin in your Blockchain wallet before the fork in August, you already have Bitcoin Cash.",
+        "id": "scenes.transaction.content.empty.bitcoincashwelcome.fork"
+      },
+      {
+        "defaultMessage": "If you’re new to Blockchain, you can get started with Bitcoin Cash by exchanging bitcoin or ether.",
+        "id": "scenes.transaction.content.empty.bitcoincashwelcome.exchange"
+      },
+      {
+        "defaultMessage": "Get Started With Bitcoin Cash",
+        "id": "scenes.transaction.content.empty.bitcoincashwelcome.getstarted"
+      }
+    ],
+    "path": "src/scenes/Transactions/Content/Empty/CoinWelcome/template.bch.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Welcome to",
+        "id": "scenes.transaction.content.empty.bitcoinwelcome.welcometo"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "scenes.transaction.content.empty.bitcoinwelcome.learnmore"
+      },
+      {
+        "defaultMessage": "What is bitcoin?",
+        "id": "scenes.transaction.content.empty.bitcoinwelcome.what"
+      },
+      {
+        "defaultMessage": "Bitcoin is a digital currency, and is used like other assets in exchange for goods and services.",
+        "id": "scenes.transaction.content.empty.bitcoinwelcome.currency"
+      },
+      {
+        "defaultMessage": "Unlike traditional currencies and assets, bitcoin is easily portable, divisible, and irreversible.",
+        "id": "scenes.transaction.content.empty.bitcoinwelcome.transact"
+      },
+      {
+        "defaultMessage": "Why should I use it?",
+        "id": "scenes.transaction.content.empty.bitcoinwelcome.why"
+      },
+      {
+        "defaultMessage": "As a global currency you can send bitcoin to anyone, anywhere in the world without worrying about cross border remittance fees.",
+        "id": "scenes.transaction.content.empty.bitcoinwelcome.fees"
+      },
+      {
+        "defaultMessage": "Get Started With Bitcoin",
+        "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted"
+      },
+      {
+        "defaultMessage": "Get started with bitcoin",
+        "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted.request"
+      }
+    ],
+    "path": "src/scenes/Transactions/Content/Empty/CoinWelcome/template.btc.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Welcome to",
+        "id": "scenes.transaction.content.empty.etherwelcome.welcome"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "scenes.transaction.content.empty.etherwelcome.learnmore"
+      },
+      {
+        "defaultMessage": "What is ether?",
+        "id": "scenes.transaction.content.empty.etherwelcome.what"
+      },
+      {
+        "defaultMessage": "Ether is a digital currency.",
+        "id": "scenes.transaction.content.empty.etherwelcome.currency"
+      },
+      {
+        "defaultMessage": "Like Bitcoin, it enables people around the world to transact, save, and hedge their way to a better financial future.",
+        "id": "scenes.transaction.content.empty.etherwelcome.transact"
+      },
+      {
+        "defaultMessage": "In addition to sending value, ether also powers the Ethereum platform.",
+        "id": "scenes.transaction.content.empty.etherwelcome.platform"
+      },
+      {
+        "defaultMessage": "Why should I use it?",
+        "id": "scenes.transaction.content.empty.etherwelcome.why"
+      },
+      {
+        "defaultMessage": "As the Ethereum platform grows, more intelligent applications will be built on top of it.",
+        "id": "scenes.transaction.content.empty.etherwelcome.grow"
+      },
+      {
+        "defaultMessage": "We want to give you the opportunity to start using ether now, so you' ll be ready to use these products in the future.",
+        "id": "scenes.transaction.content.empty.etherwelcome.opportunity"
+      },
+      {
+        "defaultMessage": "Get Started With Ether",
+        "id": "scenes.transaction.content.empty.etherwelcome.getstarted"
+      }
+    ],
+    "path": "src/scenes/Transactions/Content/Empty/CoinWelcome/template.eth.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Your transactions",
+        "id": "scenes.transactions.content.empty.transactions"
+      },
+      {
+        "defaultMessage": "Transactions occur when you send and receive coins.",
+        "id": "scenes.transactions.content.empty.explain"
+      },
+      {
+        "defaultMessage": "Send",
+        "id": "scenes.transactions.content.empty.send"
+      },
+      {
+        "defaultMessage": "Request",
+        "id": "scenes.transactions.content.empty.request"
+      }
+    ],
+    "path": "src/scenes/Transactions/Content/Empty/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Welcome to",
         "id": "scenes.transaction.ether.content.empty.etherwelcome.welcome"
       },
       {
@@ -10446,6 +10759,23 @@
       }
     ],
     "path": "src/scenes/Transactions/Eth/Menu/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Private Keys",
+        "id": "scenes.transactions.menu.ethprivatekeys"
+      },
+      {
+        "defaultMessage": "Export Private Key",
+        "id": "scenes.transactions.export.ethkey"
+      },
+      {
+        "defaultMessage": "Export Archived Private Key",
+        "id": "scenes.transactions.export.ethkeyarchived"
+      }
+    ],
+    "path": "src/scenes/Transactions/Menu/template.json"
   },
   {
     "descriptors": [
