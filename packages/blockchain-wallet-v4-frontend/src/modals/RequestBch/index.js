@@ -14,13 +14,6 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
 class RequestBchContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.init = this.init.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleRefresh = this.handleRefresh.bind(this)
-  }
-
   componentWillMount () {
     this.init()
   }
@@ -55,18 +48,18 @@ class RequestBchContainer extends React.PureComponent {
     }
   }
 
-  init () {
+  init = () => {
     this.props.initialValues.map(x => {
       this.props.formActions.initialize('requestBch', x)
     })
   }
 
-  handleSubmit (e) {
+  handleSubmit = e => {
     e.preventDefault()
     this.props.modalActions.closeAllModals()
   }
 
-  handleRefresh () {
+  handleRefresh = () => {
     const { bchDataActions, initialValues } = this.props
     if (!Remote.Success.is(initialValues)) return bchDataActions.fetchData()
 

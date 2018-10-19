@@ -13,14 +13,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
 class RequestEthContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.init = this.init.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
-    this.handleRefresh = this.handleRefresh.bind(this)
-  }
-
-  componentWillMount () {
+  componentDidMount () {
     this.init()
   }
 
@@ -53,15 +46,15 @@ class RequestEthContainer extends React.PureComponent {
     }
   }
 
-  init () {
+  init = () => {
     this.props.formActions.initialize('requestEther', this.props.initialValues)
   }
 
-  onSubmit () {
+  onSubmit = () => {
     this.props.modalActions.closeAllModals()
   }
 
-  handleRefresh () {
+  handleRefresh = () => {
     this.props.kvStoreEthActions.fetchMetadataEthereum()
   }
 
