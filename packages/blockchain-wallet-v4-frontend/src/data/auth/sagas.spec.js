@@ -374,18 +374,6 @@ describe('authSagas', () => {
       saga.next(true).put(actions.auth.authenticate())
     })
 
-    it('should put action to start bitcoin cash socket', () => {
-      saga.next().put(actions.middleware.webSocket.bch.startSocket())
-    })
-
-    it('should put action to start bitcoin socket', () => {
-      saga.next().put(actions.middleware.webSocket.btc.startSocket())
-    })
-
-    it('should put action to start ethereum socket', () => {
-      saga.next().put(actions.middleware.webSocket.eth.startSocket())
-    })
-
     it('should fetch root', () => {
       saga
         .next()
@@ -407,6 +395,18 @@ describe('authSagas', () => {
 
     it('should fetch lockbox metadata', () => {
       saga.next().call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
+    })
+
+    it('should put action to start bitcoin cash socket', () => {
+      saga.next().put(actions.middleware.webSocket.bch.startSocket())
+    })
+
+    it('should put action to start bitcoin socket', () => {
+      saga.next().put(actions.middleware.webSocket.btc.startSocket())
+    })
+
+    it('should put action to start ethereum socket', () => {
+      saga.next().put(actions.middleware.webSocket.eth.startSocket())
     })
 
     it('should redirect to home route', () => {

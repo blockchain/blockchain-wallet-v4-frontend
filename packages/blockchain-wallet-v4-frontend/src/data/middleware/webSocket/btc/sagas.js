@@ -1,7 +1,6 @@
-import { call, put, select, take } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import { compose, equals, prop, concat } from 'ramda'
 import * as actions from '../../../actions'
-import * as actionTypes from '../../../actionTypes'
 import * as selectors from '../../../selectors'
 import * as T from 'services/AlertService'
 import { Wrapper } from 'blockchain-wallet-v4/src/types'
@@ -15,13 +14,9 @@ export default ({ api, btcSocket }) => {
       let subscribeInfo = yield select(
         selectors.core.wallet.getInitialSocketContext
       )
-      yield take(
-        actionTypes.core.kvStore.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS
-      )
       const lockboxXPubs = yield select(
         selectors.core.kvStore.lockbox.getLockboxBtcContext
       )
-
       subscribeInfo.xpubs = concat(
         subscribeInfo.xpubs,
         lockboxXPubs.getOrElse([])
@@ -112,6 +107,7 @@ export default ({ api, btcSocket }) => {
           break
         case 'email_verified':
           yield put(actions.core.settings.setEmailVerified())
+          yield put(actions.alerts.displaySuccess(T.EMAIL_VERIFY_SUCCESS))
           break
         case 'wallet_logout':
           yield call(dispatchLogoutEvent)
