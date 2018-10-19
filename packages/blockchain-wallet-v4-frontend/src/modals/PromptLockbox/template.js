@@ -17,9 +17,23 @@ const Content = styled.div`
   margin-bottom: 20px;
 `
 
+const ImageContainer = styled.div`
+  position: relative;
+`
+const MarqueeContainer = styled.marquee.attrs({
+  scrollamount: 3,
+  behavior: 'alternate'
+})`
+  position: absolute;
+  padding: 4px;
+  width: 32%;
+  left: 43%;
+  top: 50%;
+`
+
 const PromptLockbox = props => {
   const { position, total, close, ...rest } = props
-  const { coin, currentConnection } = rest
+  const { coin, currentConnection, marquees } = rest
   const { error, ready, success } = currentConnection
 
   let step
@@ -45,11 +59,21 @@ const PromptLockbox = props => {
         <Content>
           <Text color='gray-4'>{CONFIRM_STEPS[step].content(coin)}</Text>
         </Content>
-        <Image
-          width='100%'
-          name={CONFIRM_STEPS[step].image()}
-          srcset={CONFIRM_STEPS[step].srcset()}
-        />
+        <ImageContainer>
+          <Image
+            width='100%'
+            name={CONFIRM_STEPS[step].image()}
+            srcset={CONFIRM_STEPS[step].srcset()}
+          />
+          <MarqueeContainer>
+            {step === 'ready' &&
+              marquees.map((marquee, i) => (
+                <Text size='12px' weight={300}>
+                  {i + 1 + '. ' + marquee}
+                </Text>
+              ))}
+          </MarqueeContainer>
+        </ImageContainer>
       </ModalBody>
     </Modal>
   )

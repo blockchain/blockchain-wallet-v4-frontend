@@ -313,7 +313,10 @@ export default ({ coreSagas, networks }) => {
         )
         const device = deviceR.getOrFail('missing_device')
         const deviceType = prop('device_type', device)
-        yield call(promptForLockbox, 'BTC', null, deviceType)
+        const outputs = path(['selection', 'outputs'], payment.value())
+          .filter(o => !o.change)
+          .map(prop('address'))
+        yield call(promptForLockbox, 'BTC', deviceType, outputs)
         let connection = yield select(
           selectors.components.lockbox.getCurrentConnection
         )

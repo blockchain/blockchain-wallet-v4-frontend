@@ -40,7 +40,7 @@ export default ({ api, coreSagas, networks, options }) =>
     yield fork(priceChart({ coreSagas }))
     yield fork(priceTicker({ coreSagas }))
     yield fork(refresh())
-    yield fork(requestBtc())
+    yield fork(requestBtc({ networks }))
     yield fork(sendBch({ api, coreSagas }))
     yield fork(sendBtc({ api, coreSagas, networks }))
     yield fork(sendEth({ api, coreSagas }))
