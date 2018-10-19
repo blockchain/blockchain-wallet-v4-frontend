@@ -89,30 +89,31 @@ const ConfirmForm = styled(Form)`
 `
 
 const getErrorMessage = error => {
-  switch (true) {
-    case error === MISSING_DEVICE_ERROR:
-      return (
+  if (error === MISSING_DEVICE_ERROR) {
+    return (
+      <FormattedMessage
+        id='scenes.exchange.confirm.missingdevice'
+        defaultMessage='Lockbox device is missing'
+      />
+    )
+  } else if (prop('type', error) === NO_TRADE_PERMISSION) {
+    return (
+      prop('description', error) || (
         <FormattedMessage
-          id='scenes.exchange.confirm.missingdevice'
-          defaultMessage='Lockbox device is missing'
+          id='scenes.exchange.confirm.notradepermission'
+          defaultMessage='You do not have permission to trade right now. Please try again later.'
         />
       )
-    case prop('type', error) === NO_TRADE_PERMISSION:
-      return (
-        prop('description', error) || (
-          <FormattedMessage
-            id='scenes.exchange.confirm.notradepermission'
-            defaultMessage='You do not have permission to trade right now. Please try again later.'
-          />
-        )
-      )
-    default:
-      return (
+    )
+  } else {
+    return (
+      prop('description', error) || (
         <FormattedMessage
           id='scenes.exchange.confirm.tradefailed'
           defaultMessage='Failed to execute a trade'
         />
       )
+    )
   }
 }
 
