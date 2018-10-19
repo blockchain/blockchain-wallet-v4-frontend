@@ -170,7 +170,8 @@ describe('fetch transactions saga', () => {
         [
           select(selectors.kvStore.xlm.getDefaultAccountId),
           Remote.of(STUB_ACCOUNT_ID)
-        ]
+        ],
+        [select(S.getTransactions), []]
       ])
       .select(selectors.kvStore.xlm.getDefaultAccountId)
       .select(S.getTransactions)
@@ -179,7 +180,7 @@ describe('fetch transactions saga', () => {
       .call(api.getXlmTransactions, {
         publicKey: STUB_ACCOUNT_ID,
         limit: TX_PER_PAGE,
-        latestTradeId: null
+        latestTxId: null
       })
       .put(A.transactionsAtBound(true))
       .put(A.fetchTransactionsSuccess(STUB_TXS))
@@ -191,7 +192,8 @@ describe('fetch transactions saga', () => {
         [
           select(selectors.kvStore.xlm.getDefaultAccountId),
           Remote.of(STUB_ACCOUNT_ID)
-        ]
+        ],
+        [select(S.getTransactions), []]
       ])
       .select(selectors.kvStore.xlm.getDefaultAccountId)
       .select(S.getTransactions)
@@ -200,7 +202,7 @@ describe('fetch transactions saga', () => {
       .call(api.getXlmTransactions, {
         publicKey: OTHER_ACCOUNT_ID,
         limit: TX_PER_PAGE,
-        latestTradeId: null
+        latestTxId: null
       })
       .put(A.transactionsAtBound(true))
       .put(A.fetchTransactionsSuccess(STUB_TXS))
@@ -213,7 +215,8 @@ describe('fetch transactions saga', () => {
           select(selectors.kvStore.xlm.getDefaultAccountId),
           Remote.of(STUB_ACCOUNT_ID)
         ],
-        [select(S.getTransactionsAtBound), true]
+        [select(S.getTransactionsAtBound), true],
+        [select(S.getTransactions), []]
       ])
       .select(selectors.kvStore.xlm.getDefaultAccountId)
       .select(S.getTransactions)
@@ -222,7 +225,7 @@ describe('fetch transactions saga', () => {
       .not.call(api.getXlmTransactions, {
         publicKey: STUB_ACCOUNT_ID,
         limit: TX_PER_PAGE,
-        latestTradeId: null
+        latestTxId: null
       })
       .not.put(A.transactionsAtBound(true))
       .not.put(A.fetchTransactionsSuccess(STUB_TXS))
@@ -235,7 +238,8 @@ describe('fetch transactions saga', () => {
           select(selectors.kvStore.xlm.getDefaultAccountId),
           Remote.of(STUB_ACCOUNT_ID)
         ],
-        [select(S.getTransactionsAtBound), true]
+        [select(S.getTransactionsAtBound), true],
+        [select(S.getTransactions), []]
       ])
       .select(selectors.kvStore.xlm.getDefaultAccountId)
       .select(S.getTransactions)
@@ -244,7 +248,7 @@ describe('fetch transactions saga', () => {
       .call(api.getXlmTransactions, {
         publicKey: STUB_ACCOUNT_ID,
         limit: TX_PER_PAGE,
-        latestTradeId: null
+        latestTxId: null
       })
       .put(A.transactionsAtBound(true))
       .put(A.fetchTransactionsSuccess(STUB_TXS, true))
@@ -258,7 +262,8 @@ describe('fetch transactions saga', () => {
           select(selectors.kvStore.xlm.getDefaultAccountId),
           Remote.of(STUB_ACCOUNT_ID)
         ],
-        [call.fn(api.getXlmTransactions), fullPage]
+        [call.fn(api.getXlmTransactions), fullPage],
+        [select(S.getTransactions), []]
       ])
       .select(selectors.kvStore.xlm.getDefaultAccountId)
       .select(S.getTransactions)
@@ -267,7 +272,7 @@ describe('fetch transactions saga', () => {
       .call(api.getXlmTransactions, {
         publicKey: STUB_ACCOUNT_ID,
         limit: TX_PER_PAGE,
-        latestTradeId: null
+        latestTxId: null
       })
       .put(A.transactionsAtBound(false))
       .put(A.fetchTransactionsSuccess(fullPage))

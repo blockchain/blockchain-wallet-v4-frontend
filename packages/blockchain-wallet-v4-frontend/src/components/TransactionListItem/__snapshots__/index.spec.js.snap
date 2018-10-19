@@ -83,6 +83,17 @@ exports[`ListItemContainer renders correctly 1`] = `
         "verifyMnemonic": [Function],
       }
     }
+    xlmActions={
+      Object {
+        "createMetadataXlm": [Function],
+        "fetchMetadataXlm": [Function],
+        "fetchMetadataXlmFailure": [Function],
+        "fetchMetadataXlmLoading": [Function],
+        "fetchMetadataXlmSuccess": [Function],
+        "setTxNotesXlm": [Function],
+        "updateMetadataXlm": [Function],
+      }
+    }
   >
     <Component
       handleEditDescription={[Function]}
