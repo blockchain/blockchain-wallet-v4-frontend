@@ -1168,6 +1168,7 @@
   "scenes.exchange.confirm.cancel": "Cancel",
   "scenes.exchange.confirm.exchangevalue": "Exchange Value",
   "scenes.exchange.confirm.missingdevice": "Lockbox device is missing",
+  "scenes.exchange.confirm.notradepermission": "You do not have permission to trade right now. Please try again later.",
   "scenes.exchange.confirm.receivevalue": "Receive Value",
   "scenes.exchange.confirm.submit": "Complete Order",
   "scenes.exchange.confirm.title": "Confirm Exchange",

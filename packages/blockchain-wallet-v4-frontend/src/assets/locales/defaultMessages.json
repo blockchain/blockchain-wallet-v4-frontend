@@ -7007,6 +7007,10 @@
         "id": "scenes.exchange.confirm.missingdevice"
       },
       {
+        "defaultMessage": "You do not have permission to trade right now. Please try again later.",
+        "id": "scenes.exchange.confirm.notradepermission"
+      },
+      {
         "defaultMessage": "Failed to execute a trade",
         "id": "scenes.exchange.confirm.tradefailed"
       },
