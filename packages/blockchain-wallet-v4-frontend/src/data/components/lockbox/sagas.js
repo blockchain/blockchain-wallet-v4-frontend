@@ -13,6 +13,40 @@ import { confirm } from 'services/SagaService'
 const logLocation = 'components/lockbox/sagas'
 
 export default ({ api }) => {
+  // variables for deviceType and app polling during new device setup
+  let pollPosition, closePoll
+
+  // allows for device type quick polling during new device setup
+  const pollForDeviceTypeChannel = pollLength => {
+    return eventChannel(emitter => {
+      const devicePollInterval = setInterval(() => {
+        if (closePoll) {
+          emitter(END)
+          return
+        }
+        // swap deviceType polling between intervals
+        pollPosition += pollLength
+        const index = pollPosition / pollLength
+        emitter(index % 2 === 0 ? 'ledger' : 'blockchain')
+      }, pollLength)
+      return () => clearInterval(devicePollInterval)
+    })
+  }
+
+  // allows for application quick polling during new device setup
+  const pollForDeviceAppChannel = (app, pollLength) => {
+    return eventChannel(emitter => {
+      const appPollInterval = setInterval(() => {
+        if (closePoll) {
+          emitter(END)
+          return
+        }
+        emitter(app)
+      }, pollLength)
+      return () => clearInterval(appPollInterval)
+    })
+  }
+
   /**
    * Polls for device application to be opened
    * @param {String} action.app - Requested application to wait for
@@ -34,7 +68,6 @@ export default ({ api }) => {
       } finally {
         yield put(A.resetConnectionStatus())
       }
-
       if (!deviceType) {
         const deviceR = yield select(
           selectors.core.kvStore.lockbox.getDevice,
@@ -43,7 +76,6 @@ export default ({ api }) => {
         const device = deviceR.getOrFail()
         deviceType = prop('device_type', device)
       }
-
       const appConnection = yield Lockbox.utils.pollForAppConnection(
         deviceType,
         appRequested,
@@ -57,6 +89,7 @@ export default ({ api }) => {
           appConnection.transport
         )
       )
+      closePoll = true
     } catch (e) {
       yield put(A.setConnectionError(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'connectDevice', e))
@@ -236,49 +269,46 @@ export default ({ api }) => {
     }
   }
 
-  // poll device channel
-  const setupTimeout = 2500
-  let pollPosition = 0
-  let closePoll
-  const pollForDeviceChannel = () =>
-    eventChannel(emitter => {
-      const pollInterval = setInterval(() => {
-        if (closePoll) {
-          emitter(END)
-          return
-        }
-        // swap deviceType polling between intervals
-        pollPosition += setupTimeout
-        const index = pollPosition / setupTimeout
-        emitter(index % 2 === 0 ? 'ledger' : 'blockchain')
-      }, setupTimeout)
-      return () => clearInterval(pollInterval)
-    })
-
   // new device setup saga
   const initializeNewDeviceSetup = function*() {
     try {
       closePoll = false
+      let pollLength = 2500
+      pollPosition = 0
       yield put(A.changeDeviceSetupStep('connect-device'))
-
-      const channel = yield call(pollForDeviceChannel)
-      yield takeEvery(channel, function*(deviceType) {
-        yield put(
-          A.pollForDeviceApp('DASHBOARD', null, deviceType, setupTimeout)
-        )
+      // poll for device type via channel
+      const deviceTypeChannel = yield call(pollForDeviceTypeChannel, pollLength)
+      yield takeEvery(deviceTypeChannel, function*(deviceType) {
+        yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType, pollLength))
       })
-
+      // device connection made
       const { payload } = yield take(AT.SET_CONNECTION_INFO)
       const { deviceType } = payload
-      closePoll = true
-
       yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
       // check device authenticity
       yield put(A.checkDeviceAuthenticity())
       yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
-      // wait for BTC connection
-      yield put(A.pollForDeviceApp('BTC', null, deviceType))
-      yield take(AT.SET_CONNECTION_INFO)
+      // quick poll for BTC connection in case user cancels setup to install BTC
+      pollLength = 5000
+      closePoll = false
+      const btcAppChannel = yield call(
+        pollForDeviceAppChannel,
+        'BTC',
+        pollLength
+      )
+      yield takeEvery(btcAppChannel, function*(app) {
+        yield put(A.pollForDeviceApp(app, null, deviceType, pollLength))
+      })
+      const resp = yield take([
+        AT.SET_CONNECTION_INFO,
+        AT.INSTALL_BLOCKCHAIN_APPS
+      ])
+      // user requested to install apps, close polling and break
+      if (resp.type === AT.INSTALL_BLOCKCHAIN_APPS) {
+        btcAppChannel.close()
+        return
+      }
+      // BTC app connection
       const connection = yield select(S.getCurrentConnection)
       // create BTC transport
       const btcConnection = Lockbox.utils.createBtcBchConnection(
@@ -379,8 +409,8 @@ export default ({ api }) => {
       // poll for device connection
       yield put(A.pollForDeviceApp('DASHBOARD', null, device.device_type))
       yield take(AT.SET_CONNECTION_INFO)
-      // wait for user to continue
-      yield take(AT.SET_FIRMWARE_UPDATE_STEP)
+      // set step to check-versions
+      yield put(A.changeFirmwareUpdateStep({ step: 'check-versions' }))
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
       const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
@@ -431,7 +461,7 @@ export default ({ api }) => {
         yield take(AT.SET_FIRMWARE_UPDATE_STEP)
         yield put(
           A.changeFirmwareUpdateStep({
-            step: 'confirm-identifier',
+            step: 'uninstall-apps',
             status: Lockbox.utils.formatFirmwareHash(osuFirmware.hash)
           })
         )
@@ -514,11 +544,8 @@ export default ({ api }) => {
 
   // installs requested application on device
   const installApplication = function*(action) {
-    const { app, deviceType } = action.payload
+    const { app } = action.payload
     try {
-      // poll for device connection on dashboard
-      yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType))
-      yield take(AT.SET_CONNECTION_INFO)
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
       const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
@@ -623,33 +650,50 @@ export default ({ api }) => {
       const { deviceIndex } = action.payload
       yield put(A.resetAppsInstallStatus())
       yield put(A.installBlockchainAppsLoading())
-      let device
       if (deviceIndex) {
         // derive device type
         const deviceR = yield select(
           selectors.core.kvStore.lockbox.getDevice,
           deviceIndex
         )
-        device = deviceR.getOrFail()
+        const deviceType = prop('device_type', deviceR.getOrFail())
+        // poll for device connection on dashboard
+        yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType))
       } else {
-        // TODO: pull deviceType from setup state instead of hardcode
-        device = { device_type: 'blockchain' }
+        // no device index passed, user is still in device setup
+        // poll for device type
+        closePoll = false
+        let pollLength = 2500
+        pollPosition = 0
+        // poll for device type via channel
+        const deviceTypeChannel = yield call(
+          pollForDeviceTypeChannel,
+          pollLength
+        )
+        yield takeEvery(deviceTypeChannel, function*(deviceType) {
+          yield put(
+            A.pollForDeviceApp('DASHBOARD', null, deviceType, pollLength)
+          )
+        })
       }
-
+      // device connection made
+      yield take(AT.SET_CONNECTION_INFO)
+      // wait for user to continue
+      yield take(AT.CONTINUE_APP_INSTALL)
       // install BTC app
-      yield put(A.installApplication('BTC', device.device_type))
+      yield put(A.installApplication('BTC'))
       yield take([
         AT.INSTALL_APPLICATION_FAILURE,
         AT.INSTALL_APPLICATION_SUCCESS
       ])
       // install BCH app
-      yield put(A.installApplication('BCH', device.device_type))
+      yield put(A.installApplication('BCH'))
       yield take([
         AT.INSTALL_APPLICATION_FAILURE,
         AT.INSTALL_APPLICATION_SUCCESS
       ])
       // install ETH app
-      yield put(A.installApplication('ETH', device.device_type))
+      yield put(A.installApplication('ETH'))
       yield take([
         AT.INSTALL_APPLICATION_FAILURE,
         AT.INSTALL_APPLICATION_SUCCESS
@@ -666,7 +710,8 @@ export default ({ api }) => {
   return {
     checkDeviceAuthenticity,
     deleteDevice,
-    pollForDeviceChannel,
+    pollForDeviceTypeChannel,
+    pollForDeviceAppChannel,
     determineLockboxRoute,
     initializeDashboard,
     initializeNewDeviceSetup,

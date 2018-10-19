@@ -285,28 +285,30 @@ export const addBalanceLimit = (balanceLimit, limits) => {
   const { fiatBalance, cryptoBalance } = balanceLimit
 
   const resultingLimits = assoc('balanceMax', cryptoBalance, limits)
+  const maxFiatLimit = path(['maxFiatLimit', 'amount'], limits)
 
-  if (prop('amount', fiatBalance) < path(['minOrder', 'amount'], limits)) {
-    return assoc('maxPossibleOrder', fiatBalance, resultingLimits)
-  }
   if (
-    prop('amount', fiatBalance) < path(['maxPossibleOrder', 'amount'], limits)
-  ) {
-    return assoc('maxPossibleOrder', cryptoBalance, resultingLimits)
-  }
+    new BigNumber(prop('amount', fiatBalance)).lessThan(
+      path(['minOrder', 'amount'], limits)
+    )
+  )
+    return assoc('maxPossibleOrder', fiatBalance, resultingLimits)
 
-  return resultingLimits
+  if (new BigNumber(prop('amount', fiatBalance)).lessThan(maxFiatLimit))
+    return assoc('maxPossibleOrder', cryptoBalance, resultingLimits)
+
+  return assoc('maxPossibleOrder', maxFiatLimit, resultingLimits)
 }
 
 export const formatLimits = ({ currency, ...limits }) =>
-  map(
-    limit => ({
+  compose(
+    map(limit => ({
       amount: limit,
       fiat: true,
       symbol: currencySymbolMap[currency]
-    }),
-    limits
-  )
+    })),
+    assoc('maxFiatLimit', limits.maxPossibleOrder)
+  )(limits)
 
 const getRate = (rates, source, target) =>
   compose(

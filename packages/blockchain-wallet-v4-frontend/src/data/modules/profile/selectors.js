@@ -11,7 +11,6 @@ import {
 } from 'ramda'
 import { selectors } from 'data'
 import { USER_ACTIVATION_STATES, KYC_STATES } from './model'
-import { Remote } from 'blockchain-wallet-v4/src'
 
 export const getUserData = path(['profile', 'userData'])
 export const getUserActivationState = compose(
@@ -46,7 +45,7 @@ export const countrySupportsKyc = state =>
   ])(state)
 export const userFlowSupported = converge(lift(and), [
   invitedToKyc,
-  () => Remote.of(true)
+  countrySupportsKyc
 ])
 
 export const getApiToken = path(['profile', 'apiToken'])

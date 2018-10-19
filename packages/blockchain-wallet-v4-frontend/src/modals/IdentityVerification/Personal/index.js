@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { isNil, find, map, prepend, prop, propEq } from 'ramda'
 
+import { debounce } from 'utils/helpers'
 import { actions, model } from 'data'
 import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4'
@@ -57,12 +58,12 @@ class PersonalContainer extends React.PureComponent {
     this.props.actions.fetchStates()
   }
 
-  onPostCodeChange = (_, postCode) => {
+  onPostCodeChange = debounce((_, postCode) => {
     const { countryCode, actions, formActions } = this.props
 
     formActions.touch(PERSONAL_FORM, 'postCode')
     actions.fetchPossibleAddresses(postCode, countryCode)
-  }
+  }, 200)
 
   selectAddress = (e, address) => {
     e.preventDefault()

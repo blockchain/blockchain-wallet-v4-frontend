@@ -113,7 +113,9 @@ const UploadDocuments = ({
             defaultMessage='Hello '
           />
         </Text>
-        <Text>{prop('firstName', data)}</Text>
+        <Text color='brand-primary' size='20px' weight={300}>
+          {prop('firstName', data)},
+        </Text>
       </TextGroup>
       <Text color='brand-primary' size='20px' weight={300}>
         <FormattedMessage
