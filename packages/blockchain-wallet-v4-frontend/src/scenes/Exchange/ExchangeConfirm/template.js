@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-
+import { prop } from 'ramda'
 import { model } from 'data'
 
 import { HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
@@ -18,7 +18,11 @@ import {
 } from 'components/Exchange'
 import { Form } from 'components/Form'
 
-const { CONFIRM_FORM, MISSING_DEVICE_ERROR } = model.components.exchange
+const {
+  CONFIRM_FORM,
+  MISSING_DEVICE_ERROR,
+  NO_TRADE_PERMISSION
+} = model.components.exchange
 
 const ConfirmWrapper = styled(Wrapper)`
   ${Title} {
@@ -74,7 +78,7 @@ const ErrorRow = styled(Text)`
   flex-direction: row;
   justify-content: center;
   min-height: 18px;
-  margin-bottom: 15px;
+  padding: 5px 0;
   font-weight: 300;
   font-size: 14px;
   line-height: 18px;
@@ -85,21 +89,31 @@ const ConfirmForm = styled(Form)`
 `
 
 const getErrorMessage = error => {
-  switch (error) {
-    case MISSING_DEVICE_ERROR:
-      return (
+  if (error === MISSING_DEVICE_ERROR) {
+    return (
+      <FormattedMessage
+        id='scenes.exchange.confirm.missingdevice'
+        defaultMessage='Lockbox device is missing'
+      />
+    )
+  } else if (prop('type', error) === NO_TRADE_PERMISSION) {
+    return (
+      prop('description', error) || (
         <FormattedMessage
-          id='scenes.exchange.confirm.missingdevice'
-          defaultMessage='Lockbox device is missing'
+          id='scenes.exchange.confirm.notradepermission'
+          defaultMessage='You do not have permission to trade right now. Please try again later.'
         />
       )
-    default:
-      return (
+    )
+  } else {
+    return (
+      prop('description', error) || (
         <FormattedMessage
           id='scenes.exchange.confirm.tradefailed'
           defaultMessage='Failed to execute a trade'
         />
       )
+    )
   }
 }
 
