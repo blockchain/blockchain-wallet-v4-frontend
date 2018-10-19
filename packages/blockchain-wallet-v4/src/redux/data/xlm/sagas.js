@@ -9,6 +9,7 @@ import Remote from '../../../remote'
 export const NO_ACCOUNT_ID_ERROR = 'No account id'
 export const ACCOUNT_NOT_FOUND = 'Not Found'
 export const TX_PER_PAGE = 10
+export const OPERATIONS_PER_TX = 1
 
 export default ({ api, networks }) => {
   const fetchLedgerDetails = function*() {
@@ -70,7 +71,7 @@ export default ({ api, networks }) => {
       const publicKey =
         accountId || defaultAccountR.getOrFail(ACCOUNT_NOT_FOUND)
       const pages = yield select(S.getTransactions)
-      const latestTradeId = last(pages || [Remote.NotAsked])
+      const latestTxId = (last(pages) || Remote.NotAsked)
         .map(last)
         .map(prop('id'))
         .getOrElse(null)
@@ -80,7 +81,7 @@ export default ({ api, networks }) => {
       const txs = yield call(api.getXlmTransactions, {
         publicKey,
         limit: TX_PER_PAGE,
-        latestTradeId
+        latestTxId
       })
       const atBounds = length(txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))

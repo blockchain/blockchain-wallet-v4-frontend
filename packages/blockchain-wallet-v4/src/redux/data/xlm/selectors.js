@@ -44,11 +44,27 @@ export const getBaseFee = compose(
   getLedgerDetails
 )
 
+export const getHeight = compose(
+  prop('sequence'),
+  getLedgerDetails
+)
+
 export const getNumberOfEntries = curry(
   compose(
     lift(prop('subentry_count')),
     getAccount
   )
+)
+
+export const getAccountBalance = compose(
+  lift(
+    compose(
+      prop('balance'),
+      find(propEq('asset_type', 'native')),
+      prop('balances')
+    )
+  ),
+  getAccount
 )
 
 const calculateBalance = memoize(
@@ -90,3 +106,4 @@ export const getTransactionsAtBound = path([
 ])
 
 export const getTransactions = path([dataPath, 'xlm', 'transactions'])
+export const getOperations = path([dataPath, 'xlm', 'operations'])

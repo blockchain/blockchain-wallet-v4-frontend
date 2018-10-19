@@ -94,6 +94,11 @@ class App extends React.PureComponent {
                     coin='BCH'
                   />
                   <WalletLayout
+                    path='/xlm/transactions'
+                    component={Transactions}
+                    coin='XLM'
+                  />
+                  <WalletLayout
                     path='/exchange/history'
                     component={ExchangeHistory}
                   />

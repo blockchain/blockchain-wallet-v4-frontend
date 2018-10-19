@@ -51,7 +51,8 @@ const filterTransactions = curry((status, criteria, transactions) => {
 const coinSelectorMap = {
   ETH: selectors.core.common.eth.getWalletTransactions,
   BTC: selectors.core.common.btc.getWalletTransactions,
-  BCH: selectors.core.common.bch.getWalletTransactions
+  BCH: selectors.core.common.bch.getWalletTransactions,
+  XLM: selectors.core.common.xlm.getWalletTransactions
 }
 
 export const getData = (state, coin) =>
@@ -80,4 +81,4 @@ export const getData = (state, coin) =>
         buySellPartner: hasAccount(partnerData)
       }
     }
-  )(state, coin)
+  )(state)

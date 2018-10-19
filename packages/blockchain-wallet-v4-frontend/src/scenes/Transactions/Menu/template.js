@@ -7,7 +7,7 @@ import { FormattedMessage } from 'react-intl'
 import { ComponentDropdown, Icon, Link, Text } from 'blockchain-info-components'
 import {
   SelectBoxBtcAddresses,
-  SelectBoxBCHAddresses,
+  SelectBoxBchAddresses,
   TextBox,
   TabMenuTransactionStatus
 } from 'components/Form'
@@ -127,7 +127,7 @@ const Menu = props => {
               <Field
                 name='source'
                 component={
-                  coin === 'BTC' ? SelectBoxBtcAddresses : SelectBoxBCHAddresses
+                  coin === 'BTC' ? SelectBoxBtcAddresses : SelectBoxBchAddresses
                 }
                 excludeLockbox
               />

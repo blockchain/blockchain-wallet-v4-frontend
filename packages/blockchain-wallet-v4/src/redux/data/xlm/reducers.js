@@ -36,13 +36,13 @@ export default (state = INITIAL_STATE, action) => {
         : over(lensProp('transactions'), append(Remote.Loading), state)
     }
     case AT.FETCH_TRANSACTIONS_SUCCESS: {
-      const { transactions, reset } = payload
+      const { txs, reset } = payload
       return reset
-        ? assoc('transactions', [Remote.Success(transactions)], state)
+        ? assoc('transactions', [Remote.Success(txs)], state)
         : over(
             lensProp('transactions'),
             compose(
-              append(Remote.Success(transactions)),
+              append(Remote.Success(txs)),
               dropLast(1)
             ),
             state

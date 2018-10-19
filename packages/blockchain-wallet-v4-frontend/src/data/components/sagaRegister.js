@@ -3,6 +3,7 @@ import activityList from './activityList/sagaRegister'
 import bchTransactions from './bchTransactions/sagaRegister'
 import btcTransactions from './btcTransactions/sagaRegister'
 import ethTransactions from './ethTransactions/sagaRegister'
+import xlmTransactions from './xlmTransactions/sagaRegister'
 import exchange from './exchange/sagaRegister'
 import exchangeHistory from './exchangeHistory/sagaRegister'
 import identityVerification from './identityVerification/sagaRegister'
@@ -26,10 +27,11 @@ import uploadDocuments from './uploadDocuments/sagaRegister'
 
 export default ({ api, coreSagas, networks, options }) =>
   function*() {
-    yield fork(activityList({ coreSagas }))
-    yield fork(bchTransactions({ coreSagas }))
-    yield fork(btcTransactions({ coreSagas }))
-    yield fork(ethTransactions({ coreSagas }))
+    yield fork(activityList())
+    yield fork(bchTransactions())
+    yield fork(btcTransactions())
+    yield fork(ethTransactions())
+    yield fork(xlmTransactions())
     yield fork(exchange({ api, coreSagas, networks, options }))
     yield fork(exchangeHistory({ api, coreSagas }))
     yield fork(identityVerification({ api, coreSagas }))

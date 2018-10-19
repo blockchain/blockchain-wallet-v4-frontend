@@ -1,10 +1,11 @@
 import { select, put } from 'redux-saga/effects'
 import { equals, path, prop } from 'ramda'
 import { actions, selectors } from 'data'
+import { FORM } from './model'
 
 export const logLocation = 'components/btcTransactions/sagas'
 
-export default ({ coreSagas }) => {
+export default () => {
   const initialized = function*() {
     try {
       const defaultSource = 'all'
@@ -13,7 +14,7 @@ export default ({ coreSagas }) => {
         status: '',
         search: ''
       }
-      yield put(actions.form.initialize('btcTransactions', initialValues))
+      yield put(actions.form.initialize(FORM, initialValues))
       yield put(actions.core.data.bitcoin.fetchTransactions('', true))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
@@ -32,9 +33,7 @@ export default ({ coreSagas }) => {
     try {
       const pathname = yield select(selectors.router.getPathname)
       if (!equals(pathname, '/btc/transactions')) return
-      const formValues = yield select(
-        selectors.form.getFormValues('btcTransactions')
-      )
+      const formValues = yield select(selectors.form.getFormValues(FORM))
       const source = prop('source', formValues)
       const threshold = 250
       const { yMax, yOffset } = action.payload
@@ -54,7 +53,7 @@ export default ({ coreSagas }) => {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      if (!equals('btcTransactions', form)) return
+      if (!equals(FORM, form)) return
 
       switch (field) {
         case 'source':

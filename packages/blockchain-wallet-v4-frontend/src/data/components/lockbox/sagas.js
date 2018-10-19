@@ -222,6 +222,7 @@ export default ({ api }) => {
           yield put(actions.core.data.bitcoin.fetchTransactions('', true))
           yield put(actions.core.data.ethereum.fetchTransactions('', true))
           yield put(actions.core.data.bch.fetchTransactions('', true))
+          yield put(actions.core.data.xlm.fetchTransactions('', true))
         } catch (e) {
           yield put(A.deleteDeviceFailure(e))
           yield put(actions.alerts.displayError(C.LOCKBOX_DELETE_ERROR))
@@ -317,34 +318,7 @@ export default ({ api }) => {
 
   // loads data for device dashboard
   const initializeDashboard = function*(action) {
-    const { deviceIndex } = action.payload
-    const btcContextR = yield select(
-      selectors.core.kvStore.lockbox.getBtcContextForDevice,
-      deviceIndex
-    )
-    const bchContextR = yield select(
-      selectors.core.kvStore.lockbox.getBchContextForDevice,
-      deviceIndex
-    )
-    const ethContextR = yield select(
-      selectors.core.kvStore.lockbox.getEthContextForDevice,
-      deviceIndex
-    )
-    yield put(
-      actions.core.data.bitcoin.fetchTransactions(
-        btcContextR.getOrElse(null),
-        true
-      )
-    )
-    yield put(
-      actions.core.data.ethereum.fetchTransactions(
-        ethContextR.getOrElse(null),
-        true
-      )
-    )
-    yield put(
-      actions.core.data.bch.fetchTransactions(bchContextR.getOrElse(null), true)
-    )
+    yield call(updateTransactionList, action)
   }
 
   // updates latest transaction information for device
@@ -360,6 +334,10 @@ export default ({ api }) => {
     )
     const ethContextR = yield select(
       selectors.core.kvStore.lockbox.getEthContextForDevice,
+      deviceIndex
+    )
+    const xlmContextR = yield select(
+      selectors.core.kvStore.lockbox.getXlmContextForDevice,
       deviceIndex
     )
     yield put(
@@ -379,6 +357,9 @@ export default ({ api }) => {
         bchContextR.getOrElse(null),
         false
       )
+    )
+    yield put(
+      actions.core.data.xlm.fetchTransactions(xlmContextR.getOrElse(null), true)
     )
   }
 

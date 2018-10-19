@@ -1,7 +1,6 @@
 import { call, put, select } from 'redux-saga/effects'
 import { contains, equals, prop } from 'ramda'
-import * as actions from '../../actions'
-import * as selectors from '../../selectors'
+import { actions, model, selectors } from 'data'
 
 export default () => {
   const refreshClicked = function*() {
@@ -25,6 +24,9 @@ export default () => {
         case contains('/eth/transactions', pathname):
           yield call(refreshEthTransactions)
           break
+        case contains('/xlm/transactions', pathname):
+          yield call(refreshXlmTransactions)
+          break
         case contains('/lockbox/', pathname):
           yield put(actions.lockbox.initializeDashboard(pathname.split('/')[3]))
           break
@@ -32,6 +34,7 @@ export default () => {
           yield put(actions.core.data.bitcoin.fetchTransactions('', true))
           yield put(actions.core.data.ethereum.fetchTransactions(null, true))
           yield put(actions.core.data.bch.fetchTransactions('', true))
+          yield put(actions.core.data.xlm.fetchTransactions('', true))
       }
     } catch (e) {
       yield put(
@@ -46,7 +49,7 @@ export default () => {
 
   const refreshBchTransactions = function*() {
     const formValues = yield select(
-      selectors.form.getFormValues('bchTransactions')
+      selectors.form.getFormValues(model.components.btcTransactions.FORM)
     )
     const source = prop('source', formValues)
     const onlyShow = equals(source, 'all') ? '' : source.xpub || source.address
@@ -55,7 +58,7 @@ export default () => {
 
   const refreshBtcTransactions = function*() {
     const formValues = yield select(
-      selectors.form.getFormValues('btcTransactions')
+      selectors.form.getFormValues(model.components.bchTransactions.FORM)
     )
     const source = prop('source', formValues)
     const onlyShow = equals(source, 'all') ? '' : source.xpub || source.address
@@ -64,6 +67,10 @@ export default () => {
 
   const refreshEthTransactions = function*() {
     yield put(actions.core.data.ethereum.fetchTransactions(null, true))
+  }
+
+  const refreshXlmTransactions = function*() {
+    yield put(actions.core.data.xlm.fetchTransactions(null, true))
   }
 
   return {

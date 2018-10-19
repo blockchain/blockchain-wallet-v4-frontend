@@ -8,14 +8,13 @@ export default () => {
 
   return function*() {
     yield takeEvery(
-      AT.BTC_TRANSACTIONS_INITIALIZED,
+      AT.TRANSACTIONS_INITIALIZED,
       btcTransactionsSagas.initialized
     )
     yield takeEvery(
-      AT.BTC_TRANSACTIONS_REPORT_CLICKED,
+      AT.TRANSACTIONS_REPORT_CLICKED,
       btcTransactionsSagas.reportClicked
     )
-    yield takeEvery(actionTypes.form.CHANGE, btcTransactionsSagas.formChanged)
     yield takeEvery(
       actionTypes.scroll.UPDATE_SCROLL,
       btcTransactionsSagas.scrollUpdated

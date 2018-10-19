@@ -42,6 +42,10 @@ const CoinDisplay = props => {
         coin === 'BCH' && (
           <Icon name='bch' size={size} weight={weight} color={color} />
         )}
+      {showIcon &&
+        coin === 'XLM' && (
+          <Icon name='xlm' size={size} weight={weight} color={color} />
+        )}
       <CoinText
         mobileSize={mobileSize}
         size={size}

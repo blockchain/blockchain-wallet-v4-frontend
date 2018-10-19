@@ -42,6 +42,30 @@ export default ({ horizonUrl, network, get }) => {
     return txCallBuilder.call().then(prop('records'))
   }
 
+  // const getOperationsForTransaction = txId =>
+  //   server
+  //     .operations()
+  //     .forTransaction(txId)
+  //     .call()
+  //     .then(prop('records'))
+
+  // const getOperations = ({
+  //   publicKey,
+  //   limit,
+  //   latestTradeId,
+  //   order = 'desc'
+  // }) => {
+  //   const opCallBuilder = server
+  //     .transactions()
+  //     .forAccount(publicKey)
+  //     .order(order)
+
+  //   if (limit) opCallBuilder.limit(limit)
+  //   if (latestTradeId) opCallBuilder.cursor(latestTradeId)
+
+  //   return opCallBuilder.call().then(prop('records'))
+  // }
+
   const getLatestLedgerDetails = () =>
     server
       .ledgers()
@@ -60,6 +84,7 @@ export default ({ horizonUrl, network, get }) => {
     getLatestLedgerDetails,
     getXlmAccount,
     getXlmTransactions,
+    // getOperationsForTransaction,
     pushXlmTx
   }
 }
