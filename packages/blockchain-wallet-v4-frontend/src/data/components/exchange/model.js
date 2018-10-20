@@ -50,6 +50,7 @@ export const ORDER_ERROR = 'Amount exceeds maximum trade size'
 export const LATEST_TX_ERROR = 'Unconfirmed tx pending'
 export const LATEST_TX_FETCH_FAILED_ERROR = 'Failed to fetch latest tx data'
 export const MISSING_DEVICE_ERROR = 'missing_device'
+export const NO_TRADE_PERMISSION = 'NO_TRADE_PERMISSION'
 
 const currenciesOrder = ['BTC', 'BCH', 'ETH']
 export const sortByOrder = sortBy(flip(indexOf)(currenciesOrder))

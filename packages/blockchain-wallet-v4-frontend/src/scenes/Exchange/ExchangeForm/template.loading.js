@@ -3,6 +3,7 @@ import { currencySymbolMap } from 'services/CoinifyService'
 import { Remote } from 'blockchain-wallet-v4'
 import { model } from 'data'
 import Success from './template.success'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 const { BASE_IN_FIAT } = model.rates.FIX_TYPES
 
@@ -11,6 +12,7 @@ const stubBtcAccount = {
   coin: 'BTC',
   label: 'Bitcoin',
   address: 0,
+  type: ADDRESS_TYPES.ACCOUNT,
   balance: 0
 }
 

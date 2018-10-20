@@ -788,6 +788,15 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Error",
+        "id": "stringdisplay.deafulterror"
+      }
+    ],
+    "path": "src/components/Display/StringDisplay/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Oops, we couldn't find any transactions!",
         "id": "components.emptytx.header"
       },
@@ -988,6 +997,15 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Non-Spendable",
+        "id": "components.selectboxbitcoin.watchonly"
+      }
+    ],
+    "path": "src/components/Form/SelectBoxXlmAddresses/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Buy",
         "id": "components.form.tabmenubuysell.buy"
       },
@@ -1056,10 +1074,6 @@
       {
         "defaultMessage": "Introducing Blockchain's new and improved crypto exchange function. To begin using this updated feature, please verify your identity. The process only takes a couple of minutes.",
         "id": "components.identityverification.popup.note.notcreated"
-      },
-      {
-        "defaultMessage": "Your personal information is secure with us.",
-        "id": "components.identityverification.popup.note.personalinfosecure"
       },
       {
         "defaultMessage": "Complete your profile and identity verification to start exchanging. Don’t worry, we only need a couple more details.",
@@ -3607,6 +3621,10 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Checking for Updates",
+        "id": "modals.lockboxfirmware.checkversionsstep.title"
+      },
+      {
         "defaultMessage": "A new firmware, version {status}, is available for your device! Click continue to start installing.",
         "id": "modals.lockboxfirmware.checkversionsstep.updateavailable"
       },
@@ -3615,8 +3633,12 @@
         "id": "modals.lockboxfirmware.checkversionsstep.subtitle"
       },
       {
-        "defaultMessage": "Continue",
+        "defaultMessage": "Install Update",
         "id": "modals.lockboxfirmware.checkversionsstep.continue"
+      },
+      {
+        "defaultMessage": "Checking Versions",
+        "id": "modals.lockboxfirmware.checkversionsstep.loading"
       }
     ],
     "path": "src/modals/LockboxFirmware/CheckVersionsStep/template.json"
@@ -3636,7 +3658,7 @@
         "id": "modals.lockboxfirmware.completestep.installsuccess.title"
       },
       {
-        "defaultMessage": "Your firmware was successfully updated. You will now need to reinstall the apps on your device or do it later via the settings page.",
+        "defaultMessage": "Your firmware was successfully updated. You will now need to reinstall the apps on your device.",
         "id": "modals.lockboxfirmware.completestep.installsuccess.message"
       },
       {
@@ -3650,10 +3672,6 @@
       {
         "defaultMessage": "Install Apps",
         "id": "modals.lockboxfirmware.completestep.installApps"
-      },
-      {
-        "defaultMessage": "Close",
-        "id": "modals.lockboxfirmware.completestep.close"
       }
     ],
     "path": "src/modals/LockboxFirmware/CompleteStep/template.json"
@@ -3678,12 +3696,16 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Connect your Lockbox",
+        "id": "modals.lockboxfirmware.connectdevice.title"
+      },
+      {
         "defaultMessage": "Connect and unlock your Lockbox. Then open the Dashboard app.",
         "id": "modals.lockboxfirmware.connectdevice.subtitle"
       },
       {
-        "defaultMessage": "Success! Click to Continue",
-        "id": "modals.lockboxfirmware.connectdevice.success"
+        "defaultMessage": "Connect Your Lockbox",
+        "id": "modals.lockboxfirmware.connectdevice.loading"
       }
     ],
     "path": "src/modals/LockboxFirmware/ConnectDeviceStep/template.json"
@@ -3871,6 +3893,18 @@
       {
         "defaultMessage": "Select \"Bitcoin\" from the picker.",
         "id": "modals.lockboxsetup.openbtcappstep.selection"
+      },
+      {
+        "defaultMessage": "Note:",
+        "id": "modals.lockboxsetup.openbtcappstep.note"
+      },
+      {
+        "defaultMessage": "If you do not have the Bitcoin app on your device, you can install it",
+        "id": "modals.lockboxsetup.openbtcappstep.installapps"
+      },
+      {
+        "defaultMessage": "here.",
+        "id": "modals.lockboxsetup.openbtcappstep.installappshere"
       },
       {
         "defaultMessage": "Success! Click to Continue",
@@ -4402,6 +4436,10 @@
       {
         "defaultMessage": "Currency:",
         "id": "modals.requestxlm.coin"
+      },
+      {
+        "defaultMessage": "Receive to:",
+        "id": "modals.requestbitcoin.firststep.to"
       },
       {
         "defaultMessage": "Copy & Share Address:",
@@ -4940,6 +4978,123 @@
       }
     ],
     "path": "src/modals/SendEth/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "maximum",
+        "id": "modals.sendxlm.maximumamountlink.maximum"
+      }
+    ],
+    "path": "src/modals/SendXlm/FirstStep/MaximumAmountLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Currency:",
+        "id": "modals.sendxlm.firststep.coin"
+      },
+      {
+        "defaultMessage": "From:",
+        "id": "modals.sendxlm.firststep.from"
+      },
+      {
+        "defaultMessage": "Sending Stellar from Lockbox can only be done while using the Chrome browser",
+        "id": "modals.sendxlm.firststep.lockboxwarn"
+      },
+      {
+        "defaultMessage": "To:",
+        "id": "modals.sendxlm.firststep.to"
+      },
+      {
+        "defaultMessage": "Please wait until your previous transaction confirms.",
+        "id": "modals.sendxlm.unconfirmedtransactionmessage"
+      },
+      {
+        "defaultMessage": "Sending to contract addresses is disabled.",
+        "id": "modals.sendxlm.contractaddr"
+      },
+      {
+        "defaultMessage": "Enter amount:",
+        "id": "modals.sendxlm.firststep.amount"
+      },
+      {
+        "defaultMessage": "Description:",
+        "id": "modals.sendxlm.firststep.description"
+      },
+      {
+        "defaultMessage": "Transaction Fee:",
+        "id": "modals.sendxlm.firststep.fee"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.sendxlm.firststep.continue"
+      }
+    ],
+    "path": "src/modals/SendXlm/FirstStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Invalid amount",
+        "id": "modals.sendxlm.amountnotzeromessage"
+      },
+      {
+        "defaultMessage": "Not enough funds. Use",
+        "id": "modals.sendxlm.maximumamountmessage"
+      },
+      {
+        "defaultMessage": "Insufficient funds",
+        "id": "modals.sendxlm.insufficientfundsmessage"
+      }
+    ],
+    "path": "src/modals/SendXlm/FirstStep/validationMessages.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "From:",
+        "id": "modals.sendxlm.secondstep.from"
+      },
+      {
+        "defaultMessage": "To:",
+        "id": "modals.sendxlm.secondstep.to"
+      },
+      {
+        "defaultMessage": "Note:",
+        "id": "modals.sendxlm.secondstep.note"
+      },
+      {
+        "defaultMessage": "Payment:",
+        "id": "modals.sendxlm.secondstep.payment"
+      },
+      {
+        "defaultMessage": "Fee:",
+        "id": "modals.sendxlm.secondstep.fee"
+      },
+      {
+        "defaultMessage": "Total",
+        "id": "modals.sendxlm.secondstep.total"
+      },
+      {
+        "defaultMessage": "Send Stellar",
+        "id": "modals.sendxlm.secondstep.send"
+      },
+      {
+        "defaultMessage": "Go Back",
+        "id": "modals.sendxlm.sendconfirm.back"
+      }
+    ],
+    "path": "src/modals/SendXlm/SecondStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Send Stellar",
+        "id": "modals.sendxlm.title"
+      }
+    ],
+    "path": "src/modals/SendXlm/template.json"
   },
   {
     "descriptors": [
@@ -6852,6 +7007,10 @@
         "id": "scenes.exchange.confirm.missingdevice"
       },
       {
+        "defaultMessage": "You do not have permission to trade right now. Please try again later.",
+        "id": "scenes.exchange.confirm.notradepermission"
+      },
+      {
         "defaultMessage": "Failed to execute a trade",
         "id": "scenes.exchange.confirm.tradefailed"
       },
@@ -8132,24 +8291,20 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Cover Your Assets",
-        "id": "scenes.lockbox.welcome.title"
+        "defaultMessage": "Powered By",
+        "id": "scenes.lockbox.welcome.poweredby"
       },
       {
-        "defaultMessage": "Lockbox works with your Blockchain Wallet to give your digital assets an additional layer of security. Unlock your Lockbox by linking your device, or buy one today.",
-        "id": "scenes.lockbox.welcome.subtitle"
+        "defaultMessage": "Get Started",
+        "id": "scenes.lockbox.welcome.getstarted"
       },
       {
-        "defaultMessage": "Connect",
-        "id": "scenes.lockbox.welcome.connect"
+        "defaultMessage": "We've put together a page explaining all of this.",
+        "id": "scenes.lockbox.welcome.explanation"
       },
       {
-        "defaultMessage": "Purchase",
-        "id": "scenes.lockbox.welcome.purchase"
-      },
-      {
-        "defaultMessage": "Install Applications",
-        "id": "scenes.lockbox.welcome.install"
+        "defaultMessage": "Learn More",
+        "id": "scenes.lockbox.welcome.learnmore"
       },
       {
         "defaultMessage": "New device setup can only be done while using the Chrome browser",
