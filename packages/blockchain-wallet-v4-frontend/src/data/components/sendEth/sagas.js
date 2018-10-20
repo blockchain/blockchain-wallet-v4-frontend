@@ -117,7 +117,8 @@ export default ({ coreSagas }) => {
           payment = yield payment.description(payload)
           break
         case 'fee':
-          payment = yield payment.fee(parseInt(payload))
+          const account = path(['from', 'address'], payment.value())
+          payment = yield payment.fee(parseInt(payload), account)
           break
       }
 
