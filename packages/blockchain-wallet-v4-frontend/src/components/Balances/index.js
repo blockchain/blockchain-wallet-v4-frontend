@@ -146,17 +146,10 @@ export const HomeBalanceRow = styled.div`
   }
 `
 
-export const HomeBalanceHeaderTitle = styled(Text)`
-  font-size: 20px;
-  font-weight: 200;
-  text-transform: uppercase;
-  color: ${props => props.theme['brand-primary']};
-`
-
 export const HomeBalanceAmount = styled(Text)`
+  margin: 5px 0;
   font-size: 28px;
-  font-weight: 200;
-  margin-top: 10px;
+  font-weight: 300;
   color: ${props => props.theme['brand-primary']};
 `
 
@@ -177,7 +170,7 @@ export const HomeCoinBalanceCell = props => {
     font-weight: 300;
   `
   const CoinIcon = styled(Icon)`
-    font-size: 24px;
+    font-size: 32px;
     margin-right: 10px;
   `
   const Amount = styled.div`
@@ -193,7 +186,7 @@ export const HomeCoinBalanceCell = props => {
     <Wrapper>
       <Coin>
         <CoinIcon color={coinColor} name={props.coinIcon} />
-        <CoinName color={coinColor}>{props.coinName}</CoinName>
+        <CoinName color={'gray-5'}>{props.coinName}</CoinName>
       </Coin>
       <Amount>
         <CoinDisplay
@@ -201,7 +194,7 @@ export const HomeCoinBalanceCell = props => {
           size='14px'
           cursor='pointer'
           mobileSize='14px'
-          color='brand-primary'
+          color='gray-5'
           weight={300}
         >
           {props.balance}

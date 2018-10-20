@@ -1,14 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import {
   HomeBalanceRow,
   HomeBalanceTable,
   HomeCoinBalanceCell,
-  HomeBalanceAmount,
-  HomeBalanceHeaderTitle
+  HomeBalanceAmount
 } from 'components/Balances'
 
 const TxLink = styled(LinkContainer)`
@@ -22,13 +20,6 @@ const Success = props => {
   return (
     <HomeBalanceTable>
       <HomeBalanceRow>
-        <HomeBalanceHeaderTitle>
-          <FormattedMessage
-            id='scenes.home.balance.table.header'
-            defaultMessage='{viewType} Balance'
-            values={{ viewType }}
-          />
-        </HomeBalanceHeaderTitle>
         <HomeBalanceAmount>
           {balances.totalBalance.totalBalance}
         </HomeBalanceAmount>
@@ -39,7 +30,7 @@ const Success = props => {
             <HomeCoinBalanceCell
               coin='BTC'
               coinName='Bitcoin'
-              coinIcon='btc'
+              coinIcon='btc-circle'
               balance={balances.btcBalance}
             />
           </div>
@@ -51,7 +42,7 @@ const Success = props => {
             <HomeCoinBalanceCell
               coin='ETH'
               coinName='Ether'
-              coinIcon='eth'
+              coinIcon='eth-circle'
               balance={balances.ethBalance}
             />
           </div>
@@ -63,7 +54,7 @@ const Success = props => {
             <HomeCoinBalanceCell
               coin='BCH'
               coinName='Bitcoin Cash'
-              coinIcon='bch'
+              coinIcon='bch-circle'
               balance={balances.bchBalance}
             />
           </div>
