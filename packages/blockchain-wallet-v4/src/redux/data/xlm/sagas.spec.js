@@ -180,7 +180,8 @@ describe('fetch transactions saga', () => {
       .call(api.getXlmTransactions, {
         publicKey: STUB_ACCOUNT_ID,
         limit: TX_PER_PAGE,
-        latestTxId: null
+        pagingToken: null,
+        reset: undefined
       })
       .put(A.transactionsAtBound(true))
       .put(A.fetchTransactionsSuccess(STUB_TXS))
@@ -202,7 +203,8 @@ describe('fetch transactions saga', () => {
       .call(api.getXlmTransactions, {
         publicKey: OTHER_ACCOUNT_ID,
         limit: TX_PER_PAGE,
-        latestTxId: null
+        pagingToken: null,
+        reset: undefined
       })
       .put(A.transactionsAtBound(true))
       .put(A.fetchTransactionsSuccess(STUB_TXS))
@@ -225,7 +227,8 @@ describe('fetch transactions saga', () => {
       .not.call(api.getXlmTransactions, {
         publicKey: STUB_ACCOUNT_ID,
         limit: TX_PER_PAGE,
-        latestTxId: null
+        pagingToken: null,
+        reset: undefined
       })
       .not.put(A.transactionsAtBound(true))
       .not.put(A.fetchTransactionsSuccess(STUB_TXS))
@@ -248,7 +251,8 @@ describe('fetch transactions saga', () => {
       .call(api.getXlmTransactions, {
         publicKey: STUB_ACCOUNT_ID,
         limit: TX_PER_PAGE,
-        latestTxId: null
+        pagingToken: null,
+        reset: true
       })
       .put(A.transactionsAtBound(true))
       .put(A.fetchTransactionsSuccess(STUB_TXS, true))
@@ -272,7 +276,8 @@ describe('fetch transactions saga', () => {
       .call(api.getXlmTransactions, {
         publicKey: STUB_ACCOUNT_ID,
         limit: TX_PER_PAGE,
-        latestTxId: null
+        pagingToken: null,
+        reset: undefined
       })
       .put(A.transactionsAtBound(false))
       .put(A.fetchTransactionsSuccess(fullPage))

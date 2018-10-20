@@ -28,7 +28,8 @@ export default ({ horizonUrl, network, get }) => {
   const getXlmTransactions = ({
     publicKey,
     limit,
-    latestTradeId,
+    pagingToken,
+    reset,
     order = 'desc'
   }) => {
     const txCallBuilder = server
@@ -36,8 +37,8 @@ export default ({ horizonUrl, network, get }) => {
       .forAccount(publicKey)
       .order(order)
 
+    if (pagingToken && !reset) txCallBuilder.cursor(pagingToken)
     if (limit) txCallBuilder.limit(limit)
-    if (latestTradeId) txCallBuilder.cursor(latestTradeId)
 
     return txCallBuilder.call().then(prop('records'))
   }

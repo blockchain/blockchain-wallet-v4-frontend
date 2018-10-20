@@ -71,9 +71,9 @@ export default ({ api, networks }) => {
       const publicKey =
         accountId || defaultAccountR.getOrFail(ACCOUNT_NOT_FOUND)
       const pages = yield select(S.getTransactions)
-      const latestTxId = (last(pages) || Remote.NotAsked)
+      const pagingToken = (last(pages) || Remote.NotAsked)
         .map(last)
-        .map(prop('id'))
+        .map(prop('paging_token'))
         .getOrElse(null)
       const transactionsAtBound = yield select(S.getTransactionsAtBound)
       if (transactionsAtBound && !reset) return
@@ -81,7 +81,8 @@ export default ({ api, networks }) => {
       const txs = yield call(api.getXlmTransactions, {
         publicKey,
         limit: TX_PER_PAGE,
-        latestTxId
+        pagingToken,
+        reset
       })
       const atBounds = length(txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))

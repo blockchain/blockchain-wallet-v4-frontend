@@ -2,7 +2,7 @@ import { assoc, compose, concat, curry, lift, map, prop, unnest } from 'ramda'
 
 import { createDeepEqualSelector } from '../../../../../blockchain-wallet-v4-frontend/src/services/ReselectHelper'
 import { getBalance, getTransactions } from '../../data/xlm/selectors'
-import { getAccounts } from '../../kvStore/xlm/selectors'
+import { getAccounts, getXlmTxNotes } from '../../kvStore/xlm/selectors'
 import { getLockboxXlmAccounts } from '../../kvStore/lockbox/selectors'
 import { xlm } from '../../../transactions'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
@@ -47,18 +47,18 @@ export const getAccountsInfo = state => {
 // getWalletTransactions :: state -> Remote([ProcessedTx])
 // TODO: get xlm transactions
 export const getWalletTransactions = createDeepEqualSelector(
-  [getAccounts, getLockboxXlmAccounts, getTransactions],
-  (accountsR, lockboxAccountsR, pages) => {
-    const processTxs = (walletAccounts, lockboxAccounts, txList) => {
+  [getAccounts, getLockboxXlmAccounts, getTransactions, getXlmTxNotes],
+  (accountsR, lockboxAccountsR, pages, txNotesR) => {
+    const processTxs = (walletAccounts, lockboxAccounts, txNotes, txList) => {
       const accounts = concat(walletAccounts, lockboxAccounts)
       return unnest(
         map(tx => {
           const operations = decodeOperations(tx)
-          return map(transformTx(accounts, tx), operations)
+          return map(transformTx(accounts, tx, txNotes), operations)
         }, txList)
       )
     }
-    const ProcessPage = lift(processTxs)(accountsR, lockboxAccountsR)
+    const ProcessPage = lift(processTxs)(accountsR, lockboxAccountsR, txNotesR)
     return map(ProcessPage, pages)
   }
 )

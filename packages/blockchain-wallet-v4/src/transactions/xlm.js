@@ -34,7 +34,7 @@ const getLabel = (accounts, address) =>
     find(propEq('publicKey', address))
   )(accounts)
 
-export const transformTx = curry((accounts, tx, operation) => {
+export const transformTx = curry((accounts, tx, txNotes, operation) => {
   const addresses = map(prop('publicKey'), accounts)
   const amount = getAmount(operation)
   const to = getDistination(operation)
@@ -46,13 +46,14 @@ export const transformTx = curry((accounts, tx, operation) => {
 
   return {
     amount,
+    confirmations: 1,
+    description: prop(hash, txNotes),
     fee,
     from: getLabel(accounts, from),
     hash,
     time,
     to: getLabel(accounts, to),
-    type,
-    confirmations: 1
+    type
   }
 })
 
