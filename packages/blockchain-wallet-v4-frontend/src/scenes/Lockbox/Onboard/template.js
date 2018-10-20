@@ -10,6 +10,7 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
+import media from 'services/ResponsiveService'
 
 const containerWidth = '650px'
 const containerPadding = '25px'
@@ -19,6 +20,7 @@ const Wrapper = styled.div`
   width: 100%;
   height: 90%;
   padding: 30px;
+  box-sizing: border-box;
 `
 const IntroContainer = styled.div`
   padding-top: 50px;
@@ -36,20 +38,32 @@ const GetStartedContainer = styled.div`
   background-image: url('/img/device@2x.png');
   background-repeat: no-repeat;
   background-size: auto 100%;
+  ${media.mobile`
+    width: 100%;
+  `};
 `
 
 const GetStartedContent = styled.div`
   width: 300px;
+  ${media.mobile`
+    width: 100%;
+  `};
 `
 
 const GetStartedHeader = styled(Text)`
   width: 200px;
   margin-bottom: ${marginContent};
+  ${media.mobile`
+    width: 100%;
+  `};
 `
 
 const GetStartedText = styled(Text)`
   width: 350px;
   margin-bottom: ${marginContent};
+  ${media.mobile`
+    width: 100%;
+  `};
 `
 const PoweredByContainer = styled.div`
   position: absolute;
@@ -75,6 +89,10 @@ const LearnMoreContainer = styled.div`
   box-sizing: border-box;
   border-radius: 3px;
   background-color: ${props => props.theme['white-blue']};
+  ${media.mobile`
+    width: 100%;
+    flex-direction: column;
+  `};
 `
 
 const LearnMoreLink = styled(Link)`

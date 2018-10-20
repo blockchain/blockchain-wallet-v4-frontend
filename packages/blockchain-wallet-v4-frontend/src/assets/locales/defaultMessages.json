@@ -8287,14 +8287,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Get a Lockbox for your Crypto",
-        "id": "scenes.lockbox.welcome.title"
-      },
-      {
-        "defaultMessage": "You can now store your crypto completely offline using our hardware wallet. This means easy access to funds while ensuring offline security.",
-        "id": "scenes.lockbox.welcome.subtitle"
-      },
-      {
         "defaultMessage": "Powered By",
         "id": "scenes.lockbox.welcome.poweredby"
       },
