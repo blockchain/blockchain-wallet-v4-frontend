@@ -14,6 +14,7 @@ import priceTicker from './priceTicker/sagas'
 import refresh from './refresh/sagas'
 import requestBtc from './requestBtc/sagas'
 import requestBch from './requestBch/sagas'
+import requestEth from './requestEth/sagas'
 import sendBch from './sendBch/sagas'
 import sendBtc from './sendBtc/sagas'
 import sendEth from './sendEth/sagas'
@@ -39,6 +40,7 @@ export default ({ api, coreSagas, options }) => ({
   refresh: refresh(),
   requestBtc: requestBtc(),
   requestBch: requestBch(),
+  requestEth: requestEth(),
   sendBch: sendBch({ api, coreSagas }),
   sendBtc: sendBtc({ api, coreSagas }),
   sendEth: sendEth({ api, coreSagas }),

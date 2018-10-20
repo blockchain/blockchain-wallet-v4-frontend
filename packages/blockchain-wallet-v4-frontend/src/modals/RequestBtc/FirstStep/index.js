@@ -28,7 +28,7 @@ class FirstStepContainer extends React.PureComponent {
     nextProps.data.map(x => {
       if (equals(prop('coin', x), 'ETH')) {
         this.props.modalActions.closeAllModals()
-        this.props.modalActions.showModal('RequestEther', {
+        this.props.modalActions.showModal('RequestEth', {
           lockboxIndex: nextProps.lockboxIndex
         })
       } else if (equals(prop('coin', x), 'BCH')) {

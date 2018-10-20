@@ -40,9 +40,9 @@ class ActionsContainer extends React.PureComponent {
       case 'bch':
         return this.props.modalActions.showModal('RequestBch')
       case 'eth':
-        return this.props.modalActions.showModal('RequestEther')
+        return this.props.modalActions.showModal('RequestEth')
       default:
-        return this.props.modalActions.showModal('RequestBitcoin', {
+        return this.props.modalActions.showModal('RequestBtc', {
           lockboxIndex: pathname.includes('lockbox') ? paths[3] : null
         })
     }
