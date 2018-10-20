@@ -19,6 +19,7 @@ class RequestBchContainer extends React.PureComponent {
     this.init = this.init.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleRefresh = this.handleRefresh.bind(this)
+    this.handleOpenLockbox = this.handleOpenLockbox.bind(this)
   }
 
   componentWillMount () {
@@ -68,14 +69,21 @@ class RequestBchContainer extends React.PureComponent {
     this.init()
   }
 
+  handleOpenLockbox () {
+    this.props.requestBchActions.openLockboxAppClicked()
+  }
+
   render () {
     const { data, closeAll } = this.props
 
     const content = data.cata({
       Success: value => (
         <Success
+          handleOpenLockbox={this.handleOpenLockbox}
           receiveAddress={value.receiveAddress}
+          legacyAddress={value.legacyAddress}
           handleSubmit={this.handleSubmit}
+          type={value.type}
           closeAll={closeAll}
         />
       ),
@@ -108,6 +116,10 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  requestBchActions: bindActionCreators(
+    actions.components.requestBch,
+    dispatch
+  ),
   bchDataActions: bindActionCreators(actions.core.data.bch, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
