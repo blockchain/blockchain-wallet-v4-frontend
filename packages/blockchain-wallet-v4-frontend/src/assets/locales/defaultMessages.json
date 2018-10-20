@@ -8291,20 +8291,20 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Cover Your Assets",
-        "id": "scenes.lockbox.welcome.title"
+        "defaultMessage": "Powered By",
+        "id": "scenes.lockbox.welcome.poweredby"
       },
       {
-        "defaultMessage": "Lockbox works with your Blockchain Wallet to give your digital assets an additional layer of security. Unlock your Lockbox by linking your device, or buy one today.",
-        "id": "scenes.lockbox.welcome.subtitle"
+        "defaultMessage": "Get Started",
+        "id": "scenes.lockbox.welcome.getstarted"
       },
       {
-        "defaultMessage": "Connect",
-        "id": "scenes.lockbox.welcome.connect"
+        "defaultMessage": "We've put together a page explaining all of this.",
+        "id": "scenes.lockbox.welcome.explanation"
       },
       {
-        "defaultMessage": "Purchase",
-        "id": "scenes.lockbox.welcome.purchase"
+        "defaultMessage": "Learn More",
+        "id": "scenes.lockbox.welcome.learnmore"
       },
       {
         "defaultMessage": "New device setup can only be done while using the Chrome browser",
