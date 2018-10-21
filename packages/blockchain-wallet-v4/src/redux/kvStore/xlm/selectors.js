@@ -30,8 +30,11 @@ export const getAccountLabel = curry((state, accountId) =>
   getAccount(state, accountId).map(prop('label'))
 )
 
+export const getXlmTxNotes = state =>
+  getMetadata(state).map(path(['value', 'tx_notes']))
+
 export const getXlmTxNote = (state, txHash) =>
-  getMetadata(state).map(path(['value', 'tx_notes', txHash]))
+  getXlmTxNotes(state).map(prop(txHash))
 
 export const getContext = state =>
   getAccounts(state).map(map(prop('publicKey')))

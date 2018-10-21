@@ -15,6 +15,9 @@ class EmptyContainer extends React.PureComponent {
       case 'ETH':
         this.props.modalActions.showModal(model.components.sendEth.MODAL)
         break
+      case 'XLM':
+        this.props.modalActions.showModal(model.components.sendXlm.MODAL)
+        break
       default:
         this.props.modalActions.showModal(model.components.sendBtc.MODAL)
         break
@@ -27,10 +30,13 @@ class EmptyContainer extends React.PureComponent {
         this.props.modalActions.showModal('RequestBch')
         break
       case 'ETH':
-        this.props.modalActions.showModal('RequestEther')
+        this.props.modalActions.showModal('RequestEth')
+        break
+      case 'XLM':
+        this.props.modalActions.showModal('RequestXlm')
         break
       default:
-        this.props.modalActions.showModal('RequestBitcoin')
+        this.props.modalActions.showModal('RequestBtc')
         break
     }
   }

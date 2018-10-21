@@ -14,7 +14,6 @@ import {
 
 import { dataPath } from '../../paths'
 import * as Exchange from '../../../exchange'
-import { calculateEffectiveBalance } from '../../../utils/xlm'
 import { createDeepEqualSelector } from '../../../utils'
 import * as kvStoreSelectors from '../../kvStore/xlm/selectors'
 import { getLockboxXlmContext } from '../../kvStore/lockbox/selectors'
@@ -45,9 +44,16 @@ export const getBaseFee = compose(
   getLedgerDetails
 )
 
-export const getNumberOfEntries = compose(
-  lift(prop('subentry_count')),
-  getAccount
+export const getHeight = compose(
+  prop('sequence'),
+  getLedgerDetails
+)
+
+export const getNumberOfEntries = curry(
+  compose(
+    lift(prop('subentry_count')),
+    getAccount
+  )
 )
 
 export const getAccountBalance = compose(
@@ -61,25 +67,26 @@ export const getAccountBalance = compose(
   getAccount
 )
 
-const calculateBalance = memoize((balance, baseReserve, entries, baseFee) =>
-  calculateEffectiveBalance(
+const calculateBalance = memoize(
+  balance =>
     Exchange.convertCoinToCoin({
       value: balance,
       coin: 'XLM',
       baseToStandard: false
-    }).value,
-    baseReserve,
-    entries,
-    baseFee
-  )
+    }).value
 )
 
-export const getBalance = curry((accountId, state) =>
-  lift(calculateBalance)(
-    getAccountBalance(accountId, state),
-    getBaseReserve(state),
-    getNumberOfEntries(accountId, state),
-    getBaseFee(state)
+export const getBalance = curry(
+  compose(
+    lift(
+      compose(
+        calculateBalance,
+        prop('balance'),
+        find(propEq('asset_type', 'native')),
+        prop('balances')
+      )
+    ),
+    getAccount
   )
 )
 
@@ -91,3 +98,12 @@ export const getTotalBalance = state =>
   )(state)
 
 export const getRates = path([dataPath, 'xlm', 'rates'])
+
+export const getTransactionsAtBound = path([
+  dataPath,
+  'xlm',
+  'transactionsAtBound'
+])
+
+export const getTransactions = path([dataPath, 'xlm', 'transactions'])
+export const getOperations = path([dataPath, 'xlm', 'operations'])

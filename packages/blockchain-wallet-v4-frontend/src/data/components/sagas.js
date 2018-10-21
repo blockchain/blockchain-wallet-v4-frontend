@@ -2,6 +2,7 @@ import activityList from './activityList/sagas'
 import bchTransactions from './bchTransactions/sagas'
 import btcTransactions from './btcTransactions/sagas'
 import ethTransactions from './ethTransactions/sagas'
+import xlmTransactions from './xlmTransactions/sagas'
 import exchange from './exchange/shapeshift.sagas'
 import exchangeHistory from './exchangeHistory/sagas'
 import identityVerification from './identityVerification/sagas'
@@ -23,10 +24,11 @@ import transactionReport from './transactionReport/sagas'
 import uploadDocuments from './uploadDocuments/sagas'
 
 export default ({ api, coreSagas, options, networks }) => ({
-  activityList: activityList({ coreSagas }),
-  bchTransactions: bchTransactions({ coreSagas }),
-  btcTransactions: btcTransactions({ coreSagas }),
-  ethTransactions: ethTransactions({ coreSagas }),
+  activityList: activityList(),
+  bchTransactions: bchTransactions(),
+  btcTransactions: btcTransactions(),
+  ethTransactions: ethTransactions(),
+  xlmTransactions: xlmTransactions(),
   exchange: exchange({ api, coreSagas, options, networks }),
   exchangeHistory: exchangeHistory({ api, coreSagas }),
   identityVerification: identityVerification({ api, coreSagas }),

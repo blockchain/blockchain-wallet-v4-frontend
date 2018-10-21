@@ -67,13 +67,21 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           dispatch
         )
       }
+    case 'XLM':
+      return {
+        dataActions: bindActionCreators(actions.core.data.xlm, dispatch),
+        txActions: bindActionCreators(
+          actions.components.xlmTransactions,
+          dispatch
+        )
+      }
     default:
       return {}
   }
 }
 
 ContentContainer.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'BCH', 'ETH']).isRequired
+  coin: PropTypes.oneOf(['BTC', 'BCH', 'ETH', 'XLM']).isRequired
 }
 
 export default connect(

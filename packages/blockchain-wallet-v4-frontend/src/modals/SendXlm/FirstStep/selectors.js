@@ -15,6 +15,12 @@ export const getData = createDeepEqualSelector(
 
     const transform = payment => {
       const effectiveBalance = propOr('0', 'effectiveBalance', payment)
+      const reserve = propOr('0', 'reserve', payment)
+      const destinationAccountExists = propOr(
+        false,
+        'destinationAccountExists',
+        payment
+      )
       const unconfirmedTx = prop('unconfirmedTx', payment)
       const isContract = prop('isContract', payment)
       const fee = propOr('0', 'fee', payment)
@@ -30,6 +36,8 @@ export const getData = createDeepEqualSelector(
         enableToggle,
         destination,
         from,
+        reserve,
+        destinationAccountExists,
         balanceStatus: balanceR
       }
     }

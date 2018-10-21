@@ -37,6 +37,9 @@ class ListItemContainer extends React.PureComponent {
         this.props.bchActions.setTxNotesBch(this.props.transaction.hash, value)
         break
       }
+      case 'XLM': {
+        this.props.xlmActions.setTxNotesXlm(this.props.transaction.hash, value)
+      }
     }
   }
 
@@ -59,7 +62,8 @@ const mapDispatchToProps = dispatch => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch),
   walletActions: bindActionCreators(actions.core.wallet, dispatch),
   ethereumActions: bindActionCreators(actions.core.kvStore.ethereum, dispatch),
-  bchActions: bindActionCreators(actions.core.kvStore.bch, dispatch)
+  bchActions: bindActionCreators(actions.core.kvStore.bch, dispatch),
+  xlmActions: bindActionCreators(actions.core.kvStore.xlm, dispatch)
 })
 
 export default connect(

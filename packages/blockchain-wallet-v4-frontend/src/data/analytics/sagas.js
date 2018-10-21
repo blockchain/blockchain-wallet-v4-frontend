@@ -7,7 +7,16 @@ import {
   LAYOUT_WALLET_HEADER_WHATSNEW_CLICKED
 } from '../components/layoutWallet/actionTypes'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { test, pathOr, prop, equals } from 'ramda'
+import {
+  compose,
+  defaultTo,
+  find,
+  test,
+  pathOr,
+  prop,
+  propEq,
+  equals
+} from 'ramda'
 
 export const logLocation = 'analytics/sagas'
 export const balancePath = ['payload', 'info', 'final_balance']
@@ -58,20 +67,41 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const getXlmBalance = function*() {
+    try {
+      const xlmBalanceR = yield select(selectors.core.data.xlm.getTotalBalance)
+      if (!Remote.Success.is(xlmBalanceR)) {
+        const xlmData = yield take(actionTypes.core.data.xlm.FETCH_DATA_SUCCESS)
+        return compose(
+          defaultTo(0),
+          prop('balance'),
+          find(propEq('asset_type', 'native')),
+          prop('balances')
+        )(xlmData)
+      }
+      return xlmBalanceR.getOrElse(0)
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'getXlmBalance', e))
+    }
+  }
+
   const reportBalanceStats = function*() {
     try {
       const ethT = yield fork(getEthBalance)
       const btcT = yield fork(getBtcBalance)
       const bchT = yield fork(getBchBalance)
+      // const xlmT = yield fork(getXlmBalance)
       const btcBalance = yield join(btcT)
       const ethBalance = yield join(ethT)
       const bchBalance = yield join(bchT)
+      // const xlmBalance = yield join(xlmT)
 
       yield call(
         api.incrementCurrencyUsageStats,
         btcBalance,
         ethBalance,
         bchBalance
+        // xlmBalance
       )
     } catch (e) {
       yield put(
@@ -131,6 +161,7 @@ export default ({ api, coreSagas }) => {
     getEthBalance,
     getBtcBalance,
     getBchBalance,
+    getXlmBalance,
     logClick,
     logLeftNavClick,
     logSfoxDropoff,

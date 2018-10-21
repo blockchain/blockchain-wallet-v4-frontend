@@ -1,8 +1,9 @@
 import { select, put } from 'redux-saga/effects'
 import { equals, path } from 'ramda'
 import { actions, selectors } from 'data'
+import { FORM } from './model'
 
-export default ({ coreSagas }) => {
+export default () => {
   const logLocation = 'components/ethTransactions/sagas'
   const initialized = function*() {
     try {
@@ -10,7 +11,7 @@ export default ({ coreSagas }) => {
         status: '',
         search: ''
       }
-      yield put(actions.form.initialize('ethTransactions', initialValues))
+      yield put(actions.form.initialize(FORM, initialValues))
       yield put(actions.core.data.ethereum.fetchTransactions(null, true))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
@@ -36,7 +37,7 @@ export default ({ coreSagas }) => {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
-      if (!equals('ethTransactions', form)) return
+      if (!equals(FORM, form)) return
       switch (field) {
         case 'source':
           yield put(actions.core.data.ethereum.fetchTransactions())

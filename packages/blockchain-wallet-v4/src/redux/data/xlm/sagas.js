@@ -1,12 +1,15 @@
 import { all, call, put, select } from 'redux-saga/effects'
-import { indexBy, prop } from 'ramda'
+import { indexBy, last, length, prop } from 'ramda'
 
 import * as A from './actions'
 import * as S from './selectors'
+import * as selectors from '../../selectors'
 import Remote from '../../../remote'
 
 export const NO_ACCOUNT_ID_ERROR = 'No account id'
 export const ACCOUNT_NOT_FOUND = 'Not Found'
+export const TX_PER_PAGE = 10
+export const OPERATIONS_PER_TX = 1
 
 export default ({ api, networks }) => {
   const fetchLedgerDetails = function*() {
@@ -26,26 +29,24 @@ export default ({ api, networks }) => {
       yield all(accountIds.map(id => call(api.createXlmAccount, id)))
       yield call(fetchData)
     } catch (e) {
-      yield put(A.setData(Remote.Failure(e)))
+      yield put(A.fetchDataFailure(e))
     }
   }
 
   const fetchData = function*() {
     try {
-      yield put(A.setData(Remote.Loading))
+      yield put(A.fetchDataLoading())
       const accountIds = yield select(S.getContext)
       const accounts = yield all(
         accountIds.map(id => call(api.getXlmAccount, id))
       )
-      yield put(
-        A.setData(Remote.Success(indexBy(prop('account_id'), accounts)))
-      )
+      yield put(A.fetchDataSuccess(indexBy(prop('account_id'), accounts)))
     } catch (e) {
       const message = prop('message', e)
       if (message === ACCOUNT_NOT_FOUND) {
         return yield call(createAccounts)
       }
-      yield put(A.setData(Remote.Failure(e)))
+      yield put(A.fetchDataFailure(e))
     }
   }
 
@@ -60,10 +61,42 @@ export default ({ api, networks }) => {
     }
   }
 
+  const fetchTransactions = function*(action) {
+    try {
+      const { payload } = action
+      const { accountId, reset } = payload
+      const defaultAccountR = yield select(
+        selectors.kvStore.xlm.getDefaultAccountId
+      )
+      const publicKey =
+        accountId || defaultAccountR.getOrFail(ACCOUNT_NOT_FOUND)
+      const pages = yield select(S.getTransactions)
+      const pagingToken = (last(pages) || Remote.NotAsked)
+        .map(last)
+        .map(prop('paging_token'))
+        .getOrElse(null)
+      const transactionsAtBound = yield select(S.getTransactionsAtBound)
+      if (transactionsAtBound && !reset) return
+      yield put(A.fetchTransactionsLoading(reset))
+      const txs = yield call(api.getXlmTransactions, {
+        publicKey,
+        limit: TX_PER_PAGE,
+        pagingToken,
+        reset
+      })
+      const atBounds = length(txs) < TX_PER_PAGE
+      yield put(A.transactionsAtBound(atBounds))
+      yield put(A.fetchTransactionsSuccess(txs, reset))
+    } catch (e) {
+      yield put(A.fetchTransactionsFailure(e.message))
+    }
+  }
+
   return {
     createAccounts,
     fetchLedgerDetails,
     fetchData,
-    fetchRates
+    fetchRates,
+    fetchTransactions
   }
 }

@@ -25,11 +25,47 @@ export default ({ horizonUrl, network, get }) => {
 
   const pushXlmTx = tx => server.submitTransaction(tx)
 
-  const getXlmTransactions = publicKey =>
-    server
+  const getXlmTransactions = ({
+    publicKey,
+    limit,
+    pagingToken,
+    reset,
+    order = 'desc'
+  }) => {
+    const txCallBuilder = server
       .transactions()
       .forAccount(publicKey)
-      .call()
+      .order(order)
+
+    if (pagingToken && !reset) txCallBuilder.cursor(pagingToken)
+    if (limit) txCallBuilder.limit(limit)
+
+    return txCallBuilder.call().then(prop('records'))
+  }
+
+  // const getOperationsForTransaction = txId =>
+  //   server
+  //     .operations()
+  //     .forTransaction(txId)
+  //     .call()
+  //     .then(prop('records'))
+
+  // const getOperations = ({
+  //   publicKey,
+  //   limit,
+  //   latestTradeId,
+  //   order = 'desc'
+  // }) => {
+  //   const opCallBuilder = server
+  //     .transactions()
+  //     .forAccount(publicKey)
+  //     .order(order)
+
+  //   if (limit) opCallBuilder.limit(limit)
+  //   if (latestTradeId) opCallBuilder.cursor(latestTradeId)
+
+  //   return opCallBuilder.call().then(prop('records'))
+  // }
 
   const getLatestLedgerDetails = () =>
     server
@@ -49,6 +85,7 @@ export default ({ horizonUrl, network, get }) => {
     getLatestLedgerDetails,
     getXlmAccount,
     getXlmTransactions,
+    // getOperationsForTransaction,
     pushXlmTx
   }
 }

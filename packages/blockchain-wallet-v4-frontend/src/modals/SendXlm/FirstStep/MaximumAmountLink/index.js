@@ -14,7 +14,7 @@ const MaximumAmountLink = props => (
   >
     <FormattedMessage
       id='modals.sendxlm.maximumamountlink.maximum'
-      defaultMessage='maximum'
+      defaultMessage='Use maximum'
     />
   </Link>
 )

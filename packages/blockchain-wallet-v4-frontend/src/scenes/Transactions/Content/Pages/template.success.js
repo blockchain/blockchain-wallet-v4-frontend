@@ -12,23 +12,31 @@ const Wrapper = styled.div`
   width: 100%;
 `
 
-const Success = props => {
-  const minConfirms = props.coin === 'ETH' ? 12 : 3
-  return (
-    <Wrapper>
-      {props.transactions.map(transaction => (
-        <TransactionListItem
-          key={transaction.hash}
-          transaction={transaction}
-          coin={props.coin}
-          minConfirmations={minConfirms}
-          currency={props.currency}
-          buySellPartner={props.buySellPartner}
-        />
-      ))}
-    </Wrapper>
-  )
+const getMinConfirms = coin => {
+  switch (coin) {
+    case 'ETH':
+      return 12
+    case 'XLM':
+      return 1
+    default:
+      return 3
+  }
 }
+
+const Success = props => (
+  <Wrapper>
+    {props.transactions.map(transaction => (
+      <TransactionListItem
+        key={transaction.hash}
+        transaction={transaction}
+        coin={props.coin}
+        minConfirmations={getMinConfirms(props.coin)}
+        currency={props.currency}
+        buySellPartner={props.buySellPartner}
+      />
+    ))}
+  </Wrapper>
+)
 
 Success.propTypes = {
   transactions: PropTypes.array.isRequired

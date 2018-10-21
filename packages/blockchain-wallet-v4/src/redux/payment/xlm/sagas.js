@@ -4,7 +4,14 @@ import * as StellarSdk from 'stellar-sdk'
 
 import * as S from '../../selectors'
 import { xlm as xlmSigner } from '../../../signer'
-import { isValidAddress } from '../../../utils/xlm'
+import {
+  isValidAddress,
+  calculateEffectiveBalance,
+  calculateFee,
+  calculateReserve,
+  overflowsFullBalance,
+  overflowsEffectiveBalance
+} from '../../../utils/xlm'
 import { isString, isPositiveInteger } from '../../../utils/checks'
 import { convertXlmToXlm } from '../../../exchange'
 import { ADDRESS_TYPES } from '../btc/utils'
@@ -32,6 +39,8 @@ export const INVALID_ADDRESS_TYPE_ERROR = 'Invalid address type'
 export const INVALID_ADDRESS_ERROR = 'Invalid address'
 export const INVALID_AMOUNT_ERROR = 'Invalid amount'
 export const INSUFFICIENT_FUNDS_ERROR = 'Insufficient funds'
+export const RESERVE_ERROR = 'Reserve exceeds remaining funds'
+export const NEW_ACCOUNT_ERROR = 'Not enough funds to create new account'
 export const NO_DESTINATION_ERROR = 'No destination'
 export const NO_AMOUNT_ERROR = 'No amount'
 export const NO_SOURCE_ERROR = 'No source account'
@@ -48,6 +57,59 @@ export default ({ api }) => {
     return destination
   }
 
+  const createOperation = (to, value, destinationAccountExists) => {
+    const amount = convertXlmToXlm({
+      value,
+      fromUnit: 'STROOP',
+      toUnit: 'XLM'
+    }).value
+    if (destinationAccountExists)
+      return StellarSdk.Operation.payment({
+        destination: to,
+        asset: StellarSdk.Asset.native(),
+        amount
+      })
+
+    return StellarSdk.Operation.createAccount({
+      destination: to,
+      startingBalance: amount
+    })
+  }
+
+  const checkAccountExistance = function*(id) {
+    try {
+      yield call(api.getXlmAccount, id)
+      return true
+    } catch (e) {
+      return false
+    }
+  }
+
+  const getFee = function*() {
+    const baseFee = (yield select(S.data.xlm.getBaseFee)).getOrFail(
+      new Error(NO_LEDGER_ERROR)
+    )
+    return yield call(calculateFee, baseFee, NUMBER_OF_OPERATIONS)
+  }
+
+  const getReserve = function*(accountId) {
+    const baseReserve = (yield select(S.data.xlm.getBaseReserve)).getOrFail(
+      new Error(NO_LEDGER_ERROR)
+    )
+    const entriesNumber = (yield select(
+      S.data.xlm.getNumberOfEntries(accountId)
+    )).getOrFail(new Error(NO_ACCOUNT_ERROR))
+    return yield call(calculateReserve, baseReserve, entriesNumber)
+  }
+
+  const getEffectiveBalance = function*(accountId, fee, reserve) {
+    const balance = (yield select(S.data.xlm.getBalance(accountId))).getOrFail(
+      new Error(NO_ACCOUNT_ERROR)
+    )
+
+    return calculateEffectiveBalance(balance, fee, reserve)
+  }
+
   // ///////////////////////////////////////////////////////////////////////////
 
   function create ({ payment } = { payment: {} }) {
@@ -57,11 +119,7 @@ export default ({ api }) => {
       },
 
       *init () {
-        const baseFee = (yield select(S.data.xlm.getBaseFee)).getOrFail(
-          new Error(NO_LEDGER_ERROR)
-        )
-        const fee = baseFee * NUMBER_OF_OPERATIONS
-
+        const fee = yield call(getFee)
         return makePayment(merge(p, { fee }))
       },
 
@@ -84,15 +142,18 @@ export default ({ api }) => {
           address: accountId,
           account
         }
+        const reserve = yield call(getReserve, accountId)
+        const effectiveBalance = yield call(
+          getEffectiveBalance,
+          accountId,
+          p.fee,
+          reserve
+        )
 
-        const effectiveBalance = (yield select(
-          S.data.xlm.getBalance(accountId)
-        )).getOrFail(new Error(NO_ACCOUNT_ERROR))
-
-        return makePayment(merge(p, { from, effectiveBalance }))
+        return makePayment(merge(p, { from, effectiveBalance, reserve }))
       },
 
-      to (destination) {
+      *to (destination) {
         if (!destination) throw new Error(NO_DESTINATION_ERROR)
 
         const to = calculateTo(destination)
@@ -101,14 +162,21 @@ export default ({ api }) => {
           throw new Error(INVALID_ADDRESS_TYPE_ERROR)
         if (!isValidAddress(to.address)) throw new Error(INVALID_ADDRESS_ERROR)
 
-        return makePayment(merge(p, { to }))
+        const destinationAccountExists = yield call(
+          checkAccountExistance,
+          to.address
+        )
+
+        return makePayment(merge(p, { to, destinationAccountExists }))
       },
 
       amount (amount) {
         if (!isPositiveInteger(Number(amount)))
           throw new Error(INVALID_AMOUNT_ERROR)
-        if (amount > p.effectiveBalance)
+        if (overflowsFullBalance(amount, p.effectiveBalance, p.reserve))
           throw new Error(INSUFFICIENT_FUNDS_ERROR)
+        if (overflowsEffectiveBalance(amount, p.effectiveBalance))
+          throw new Error(RESERVE_ERROR)
 
         return makePayment(merge(p, { amount }))
       },
@@ -117,24 +185,22 @@ export default ({ api }) => {
         return makePayment(p)
       },
 
-      build () {
+      *build () {
         const account = path(['from', 'account'], p)
         const to = path(['to', 'address'], p)
         const amount = prop('amount', p)
+        const destinationAccountExists = prop('destinationAccountExists', p)
         if (!account) throw new Error(NO_SOURCE_ERROR)
         if (!to) throw new Error(NO_DESTINATION_ERROR)
         if (!amount) throw new Error(NO_AMOUNT_ERROR)
         const txBuilder = new StellarSdk.TransactionBuilder(account)
-        const paymentOperation = StellarSdk.Operation.payment({
-          destination: to,
-          asset: StellarSdk.Asset.native(),
-          amount: convertXlmToXlm({
-            value: amount,
-            fromUnit: 'STROOP',
-            toUnit: 'XLM'
-          }).value
-        })
-        txBuilder.addOperation(paymentOperation)
+        const operation = yield call(
+          createOperation,
+          to,
+          amount,
+          destinationAccountExists
+        )
+        txBuilder.addOperation(operation)
         const transaction = txBuilder.build()
         return makePayment(merge(p, { transaction }))
       },
