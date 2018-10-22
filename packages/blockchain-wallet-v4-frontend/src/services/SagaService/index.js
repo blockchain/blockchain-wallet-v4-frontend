@@ -46,11 +46,12 @@ export const promptForInput = function*({ title, secret, initial = '' }) {
   }
 }
 
-export const promptForLockbox = function*(coin, deviceId, deviceType) {
-  yield put(actions.modals.showModal('PromptLockbox', { coin }))
-  yield put(
-    actions.components.lockbox.pollForDeviceApp(coin, deviceId, deviceType)
-  )
+export const promptForLockbox = function*(coin, deviceType, marquees) {
+  if (marquees && !Array.isArray(marquees)) {
+    throw new Error('MARQUEES_NEEDS_TO_BE_ARRAY')
+  }
+  yield put(actions.modals.showModal('PromptLockbox', { coin, marquees }))
+  yield put(actions.components.lockbox.pollForDeviceApp(coin, null, deviceType))
   let { canceled } = yield race({
     response: take(actionTypes.components.lockbox.SET_CONNECTION_INFO),
     canceled: take(actionTypes.modals.CLOSE_MODAL)

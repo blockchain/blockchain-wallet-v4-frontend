@@ -4,7 +4,7 @@ import * as actions from '../../actions.js'
 import * as C from 'services/AlertService'
 import sagas from './sagas.js'
 
-const requestBtcSagas = sagas()
+const requestBtcSagas = sagas({ networks: 'btc' })
 
 describe('requestBtc sagas', () => {
   const mockMath = Object.create(global.Math)

@@ -65,6 +65,7 @@ export const getData = state => {
   const amount = formValueSelector('requestBitcoin')(state, 'amount')
   const coin = formValueSelector('requestBitcoin')(state, 'coin')
   const to = formValueSelector('requestBitcoin')(state, 'to')
+  const type = prop('type', to)
   const accountIdxR = extractAccountIdx(to)
   const receiveAddressIdxR = extractAddressIdx(
     getReceiveIdxWallet,
@@ -78,12 +79,13 @@ export const getData = state => {
   )
 
   const transform = (receiveAddress, accountIdx, addressIdx) => ({
+    type,
     coin,
-    receiveAddress,
     amount,
     message,
     accountIdx,
-    addressIdx
+    addressIdx,
+    receiveAddress
   })
   return lift(transform)(receiveAddressR, accountIdxR, receiveAddressIdxR)
 }
