@@ -13,12 +13,13 @@ import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
-class RequestEtherContainer extends React.PureComponent {
+class RequestEthContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.init = this.init.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.handleRefresh = this.handleRefresh.bind(this)
+    this.handleOpenLockbox = this.handleOpenLockbox.bind(this)
   }
 
   componentWillMount () {
@@ -29,7 +30,7 @@ class RequestEtherContainer extends React.PureComponent {
     const { coin } = nextProps
     if (coin === 'BTC') {
       this.props.modalActions.closeAllModals()
-      this.props.modalActions.showModal('RequestBitcoin', {
+      this.props.modalActions.showModal('RequestBtc', {
         lockboxIndex: nextProps.lockboxIndex
       })
     } else if (coin === 'BCH') {
@@ -50,7 +51,7 @@ class RequestEtherContainer extends React.PureComponent {
   }
 
   init () {
-    this.props.formActions.initialize('requestEther', this.props.initialValues)
+    this.props.formActions.initialize('requestEth', this.props.initialValues)
   }
 
   onSubmit () {
@@ -61,6 +62,10 @@ class RequestEtherContainer extends React.PureComponent {
     this.props.kvStoreEthActions.fetchMetadataEthereum()
   }
 
+  handleOpenLockbox () {
+    this.props.requestEthActions.openLockboxAppClicked()
+  }
+
   render () {
     const { data, closeAll, selection, coins } = this.props
 
@@ -68,11 +73,13 @@ class RequestEtherContainer extends React.PureComponent {
       Success: val => (
         <Success
           {...this.props}
-          address={val}
-          closeAll={closeAll}
+          type={val.type}
           coins={coins}
+          closeAll={closeAll}
           selection={selection}
+          address={val.address}
           onSubmit={this.onSubmit}
+          handleOpenLockbox={this.handleOpenLockbox}
         />
       ),
       NotAsked: () => <DataError onClick={this.handleRefresh} />,
@@ -99,9 +106,9 @@ class RequestEtherContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  initialValues: getInitialValues(state, ownProps),
   data: getData(state),
-  coin: formValueSelector('requestEther')(state, 'coin')
+  initialValues: getInitialValues(state, ownProps),
+  coin: formValueSelector('requestEth')(state, 'coin')
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -109,16 +116,20 @@ const mapDispatchToProps = dispatch => ({
     actions.core.kvStore.ethereum,
     dispatch
   ),
+  requestEthActions: bindActionCreators(
+    actions.components.requestEth,
+    dispatch
+  ),
   modalActions: bindActionCreators(actions.modals, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const enhance = compose(
-  modalEnhancer('RequestEther'),
+  modalEnhancer('RequestEth'),
   connect(
     mapStateToProps,
     mapDispatchToProps
   )
 )
 
-export default enhance(RequestEtherContainer)
+export default enhance(RequestEthContainer)
