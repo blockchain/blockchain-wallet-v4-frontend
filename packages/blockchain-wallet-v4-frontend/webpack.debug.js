@@ -1,7 +1,5 @@
 /* eslint-disable */
 const chalk = require('chalk')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -11,16 +9,18 @@ const path = require('path')
 const fs = require('fs')
 const PATHS = require('../../config/paths')
 const mockWalletOptions = require('../../config/mocks/wallet-options-v4.json')
-
-const runBundleAnalyzer = process.env.ANALYZE
 const iSignThisDomain =
   mockWalletOptions.platforms.web.coinify.config.iSignThisDomain
-let sslEnabled
+
+let envConfig = {}
+let manifestCacheBust = new Date().getTime()
+let sslEnabled = process.env.DISABLE_SSL
+  ? false
+  : fs.existsSync(PATHS.sslConfig + '/key.pem') &&
+    fs.existsSync(PATHS.sslConfig + '/cert.pem')
 let localhostUrl = sslEnabled
   ? 'https://localhost:8080'
   : 'http://localhost:8080'
-let envConfig = {}
-let currentTime = new Date().getTime()
 
 try {
   envConfig = require(PATHS.envConfig + `/${process.env.NODE_ENV}` + '.js')
@@ -112,8 +112,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
       filename: 'index.html'
-    }),
-    ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
+    })
   ],
   optimization: {
     namedModules: true,
@@ -138,7 +137,7 @@ module.exports = {
     ],
     concatenateModules: false,
     runtimeChunk: {
-      name: `manifest.${currentTime}`
+      name: `manifest.${manifestCacheBust}`
     },
     splitChunks: {
       cacheGroups: {

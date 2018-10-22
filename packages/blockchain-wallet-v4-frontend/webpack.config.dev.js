@@ -12,18 +12,18 @@ const fs = require('fs')
 const PATHS = require('../../config/paths')
 const mockWalletOptions = require('../../config/mocks/wallet-options-v4.json')
 const runBundleAnalyzer = process.env.ANALYZE
-const sslDisabled = process.env.DISABLE_SSL
 const iSignThisDomain =
   mockWalletOptions.platforms.web.coinify.config.iSignThisDomain
 
-let sslEnabled = sslDisabled
+let envConfig = {}
+let manifestCacheBust = new Date().getTime()
+let sslEnabled = process.env.DISABLE_SSL
   ? false
   : fs.existsSync(PATHS.sslConfig + '/key.pem') &&
     fs.existsSync(PATHS.sslConfig + '/cert.pem')
 let localhostUrl = sslEnabled
   ? 'https://localhost:8080'
   : 'http://localhost:8080'
-let envConfig = {}
 
 try {
   envConfig = require(PATHS.envConfig + `/${process.env.NODE_ENV}` + '.js')
@@ -146,7 +146,7 @@ module.exports = {
     ],
     concatenateModules: false,
     runtimeChunk: {
-      name: 'manifest'
+      name: `manifest.${manifestCacheBust}`
     },
     splitChunks: {
       cacheGroups: {
