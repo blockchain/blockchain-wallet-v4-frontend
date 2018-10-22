@@ -117,7 +117,8 @@ export default ({ coreSagas }) => {
           payment = yield payment.description(payload)
           break
         case 'fee':
-          payment = yield payment.fee(parseInt(payload))
+          const account = path(['from', 'address'], payment.value())
+          payment = yield payment.fee(parseInt(payload), account)
           break
       }
 
@@ -301,6 +302,14 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const toToggled = function*() {
+    try {
+      yield put(change('sendEth', 'to', ''))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'toToggled', e))
+    }
+  }
+
   const maximumFeeClicked = function*() {
     try {
       const p = yield select(S.getPayment)
@@ -324,6 +333,7 @@ export default ({ coreSagas }) => {
     secondStepSubmitClicked,
     formChanged,
     regularFeeClicked,
-    priorityFeeClicked
+    priorityFeeClicked,
+    toToggled
   }
 }
