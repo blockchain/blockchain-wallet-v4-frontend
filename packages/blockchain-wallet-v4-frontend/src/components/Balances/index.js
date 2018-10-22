@@ -196,6 +196,7 @@ export const HomeCoinBalanceCell = props => {
           mobileSize='14px'
           color='gray-5'
           weight={300}
+          data-e2e={props.coin + 'Balance'}
         >
           {props.balance}
         </CoinDisplay>
@@ -206,6 +207,7 @@ export const HomeCoinBalanceCell = props => {
           mobileSize='14px'
           color='gray-3'
           weight={300}
+          data-e2e={props.coin + 'FiatBalance'}
         >
           {props.balance}
         </FiatDisplay>

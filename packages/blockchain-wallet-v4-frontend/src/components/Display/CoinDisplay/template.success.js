@@ -48,6 +48,7 @@ const CoinDisplay = props => {
         weight={weight}
         color={color}
         cursor={cursor}
+        data-e2e={coin + 'Amt'}
       >
         {children}
       </CoinText>
