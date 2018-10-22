@@ -47,7 +47,7 @@ class RequestEthContainer extends React.PureComponent {
   }
 
   init = () => {
-    this.props.formActions.initialize('requestEther', this.props.initialValues)
+    this.props.formActions.initialize('requestEth', this.props.initialValues)
   }
 
   onSubmit = () => {
@@ -58,6 +58,10 @@ class RequestEthContainer extends React.PureComponent {
     this.props.kvStoreEthActions.fetchMetadataEthereum()
   }
 
+  handleOpenLockbox = () => {
+    this.props.requestEthActions.openLockboxAppClicked()
+  }
+
   render () {
     const { data, closeAll, selection, coins } = this.props
 
@@ -65,11 +69,13 @@ class RequestEthContainer extends React.PureComponent {
       Success: val => (
         <Success
           {...this.props}
-          address={val}
-          closeAll={closeAll}
+          type={val.type}
           coins={coins}
+          closeAll={closeAll}
           selection={selection}
+          address={val.address}
           onSubmit={this.onSubmit}
+          handleOpenLockbox={this.handleOpenLockbox}
         />
       ),
       NotAsked: () => <DataError onClick={this.handleRefresh} />,
@@ -96,14 +102,18 @@ class RequestEthContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  initialValues: getInitialValues(state, ownProps),
   data: getData(state),
-  coin: formValueSelector('requestEther')(state, 'coin')
+  initialValues: getInitialValues(state, ownProps),
+  coin: formValueSelector('requestEth')(state, 'coin')
 })
 
 const mapDispatchToProps = dispatch => ({
   kvStoreEthActions: bindActionCreators(
     actions.core.kvStore.ethereum,
+    dispatch
+  ),
+  requestEthActions: bindActionCreators(
+    actions.components.requestEth,
     dispatch
   ),
   modalActions: bindActionCreators(actions.modals, dispatch),

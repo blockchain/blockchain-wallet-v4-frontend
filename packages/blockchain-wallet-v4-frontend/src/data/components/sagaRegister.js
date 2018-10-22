@@ -16,6 +16,8 @@ import priceChart from './priceChart/sagaRegister'
 import priceTicker from './priceTicker/sagaRegister'
 import refresh from './refresh/sagaRegister'
 import requestBtc from './requestBtc/sagaRegister'
+import requestBch from './requestBch/sagaRegister'
+import requestEth from './requestEth/sagaRegister'
 import sendBch from './sendBch/sagaRegister'
 import sendBtc from './sendBtc/sagaRegister'
 import sendEth from './sendEth/sagaRegister'
@@ -43,12 +45,14 @@ export default ({ api, coreSagas, networks, options }) =>
     yield fork(priceChart({ coreSagas }))
     yield fork(priceTicker({ coreSagas }))
     yield fork(refresh())
-    yield fork(requestBtc())
-    yield fork(sendBch({ coreSagas }))
-    yield fork(sendBtc({ coreSagas, networks }))
-    yield fork(sendEth({ coreSagas }))
+    yield fork(requestBtc({ networks }))
+    yield fork(requestBch({ networks }))
+    yield fork(requestEth({ networks }))
+    yield fork(sendBch({ api, coreSagas }))
+    yield fork(sendBtc({ api, coreSagas, networks }))
+    yield fork(sendEth({ api, coreSagas }))
     yield fork(sendXlm({ coreSagas }))
-    yield fork(settings({ coreSagas }))
+    yield fork(settings({ api, coreSagas }))
     yield fork(signMessage({ coreSagas }))
     yield fork(transactionReport({ coreSagas }))
     yield fork(uploadDocuments({ api }))

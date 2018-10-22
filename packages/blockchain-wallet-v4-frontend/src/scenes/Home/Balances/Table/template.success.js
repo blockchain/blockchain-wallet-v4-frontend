@@ -20,7 +20,7 @@ const Success = props => {
   return (
     <HomeBalanceTable>
       <HomeBalanceRow>
-        <HomeBalanceAmount>
+        <HomeBalanceAmount data-e2e='homeBalanceAmt'>
           {balances.totalBalance.totalBalance}
         </HomeBalanceAmount>
       </HomeBalanceRow>

@@ -35,7 +35,7 @@ class RequestBtcContainer extends React.PureComponent {
 
 const enhance = compose(
   modalEnhancer('RequestBtc'),
-  wizardProvider('requestBitcoin', 2)
+  wizardProvider('requestBtc', 2)
 )
 
 export default enhance(RequestBtcContainer)

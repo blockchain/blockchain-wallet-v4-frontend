@@ -25,6 +25,7 @@ This repo contains the three codebases/packages listed below.
 5. The frontend application will now be accessible via browser at `localhost:8080`
 
 If you require the application to run locally over HTTPS, follow the instructions [here](./config/ssl/ssl.md).
+You can disable SSL by setting the `DISABLE_SSL` env param to `true` with any start command. (e.g. `DISABLE_SSL=true yarn start:staging`)
 
 ### Windows Support
 To ensure proper support for Windows, please take the following actions before running the above setup instructions.

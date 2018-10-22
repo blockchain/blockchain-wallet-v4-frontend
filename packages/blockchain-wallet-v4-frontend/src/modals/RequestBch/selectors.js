@@ -1,10 +1,10 @@
 import { formValueSelector } from 'redux-form'
-import { lift, head, nth } from 'ramda'
+import { prop, lift, head, nth } from 'ramda'
 import settings from 'config'
 import { selectors } from 'data'
 import { Remote, utils } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-const { isCashAddr, toCashAddr } = utils.bch
+const { fromCashAddr, isCashAddr, toCashAddr } = utils.bch
 
 // extractAddress :: (Int -> Remote(String)) -> Int -> Remote(String)
 const extractAddress = (walletSelector, lockboxSelector, value) => {
@@ -32,6 +32,7 @@ export const getData = (state, ownProps) => {
     )
   const coin = formValueSelector('requestBch')(state, 'coin')
   const to = formValueSelector('requestBch')(state, 'to')
+  const type = prop('type', to)
 
   const initialValuesR = getInitialValues(state, ownProps)
   const receiveAddressR = extractAddress(
@@ -44,9 +45,11 @@ export const getData = (state, ownProps) => {
   )
 
   const transform = (receiveAddress, initialValues) => ({
+    type,
     coin,
     receiveAddress,
-    initialValues
+    initialValues,
+    legacyAddress: fromCashAddr(receiveAddress)
   })
   return lift(transform)(receiveAddressR, initialValuesR)
 }

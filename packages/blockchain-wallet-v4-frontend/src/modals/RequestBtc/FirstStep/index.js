@@ -55,6 +55,10 @@ class FirstStepContainer extends React.PureComponent {
     this.props.modalActions.showModal('QRCode', { value })
   }
 
+  handleOpenLockbox = () => {
+    this.props.requestBtcActions.openLockboxAppClicked()
+  }
+
   handleSubmit = e => {
     e.preventDefault()
     const {
@@ -73,8 +77,8 @@ class FirstStepContainer extends React.PureComponent {
   }
 
   handleRefresh = () => {
-    const { bitcoinDataActions, initialValues } = this.props
-    if (!Remote.Success.is(initialValues)) return bitcoinDataActions.fetchData()
+    const { btcDataActions, initialValues } = this.props
+    if (!Remote.Success.is(initialValues)) return btcDataActions.fetchData()
 
     this.init()
   }
@@ -85,10 +89,12 @@ class FirstStepContainer extends React.PureComponent {
     return data.cata({
       Success: value => (
         <Success
+          type={value.type}
           message={value.message}
           addressIdx={value.addressIdx}
           accountIdx={value.accountIdx}
           receiveAddress={value.receiveAddress}
+          handleOpenLockbox={this.handleOpenLockbox}
           handleClickQRCode={() => this.handleClickQRCode(value)}
           handleSubmit={this.handleSubmit}
           importedAddresses={importedAddresses}
@@ -112,7 +118,7 @@ const mapDispatchToProps = dispatch => ({
     actions.components.requestBtc,
     dispatch
   ),
-  bitcoinDataActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
+  btcDataActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

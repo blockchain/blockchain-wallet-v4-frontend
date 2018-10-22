@@ -595,7 +595,7 @@ export default ({ api, coreSagas, options, networks }) => {
         const device = deviceR.getOrFail(MISSING_DEVICE_ERROR)
         const coin = prop('coin', source)
         const deviceType = prop('device_type', device)
-        yield call(promptForLockbox, coin, null, deviceType)
+        yield call(promptForLockbox, coin, deviceType)
         scrambleKey = Lockbox.utils.getScrambleKey(coin, deviceType)
         connection = yield select(
           selectors.components.lockbox.getCurrentConnection
