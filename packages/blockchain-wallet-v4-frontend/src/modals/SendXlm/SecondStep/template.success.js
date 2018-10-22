@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Link, Text } from 'blockchain-info-components'
+import { Button, Link, Text, TooltipHost } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import ComboDisplay from 'components/Display/ComboDisplay'
@@ -50,6 +50,13 @@ const Footer = styled.div`
     margin-bottom: 15px;
   }
 `
+const CoinTooltipHost = styled(TooltipHost)`
+  overflow: hidden;
+`
+const CoinText = styled(Text)`
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
 
 const Success = props => {
   const {
@@ -84,9 +91,11 @@ const Success = props => {
             defaultMessage='To:'
           />
         </Text>
-        <Text size='16px' weight={300}>
-          {toAddress}
-        </Text>
+        <CoinTooltipHost id='sendxlm.addr' tip={toAddress}>
+          <CoinText size='16px' weight={300}>
+            {toAddress}
+          </CoinText>
+        </CoinTooltipHost>
       </Row>
       {description && (
         <Row>

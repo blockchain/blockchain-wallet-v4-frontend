@@ -182,6 +182,7 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
           />
         </Tooltip>
+        <Tooltip id='sendxlm.addr' maxWidth='initial' />
         <Tooltip id='signmessage.label.tooltip'>
           <FormattedMessage
             id='modals.signmessage.label'
