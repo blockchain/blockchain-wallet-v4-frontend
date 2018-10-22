@@ -15,6 +15,8 @@ import * as priceChart from './priceChart/actions'
 import * as priceTicker from './priceTicker/actions'
 import * as refresh from './refresh/actions'
 import * as requestBtc from './requestBtc/actions'
+import * as requestBch from './requestBch/actions'
+import * as requestEth from './requestEth/actions'
 import * as sendBch from './sendBch/actions'
 import * as sendBtc from './sendBtc/actions'
 import * as sendEth from './sendEth/actions'
@@ -41,6 +43,8 @@ export {
   priceTicker,
   refresh,
   requestBtc,
+  requestBch,
+  requestEth,
   sendBch,
   sendBtc,
   sendEth,

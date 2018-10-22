@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import QRCodeReact from 'qrcode.react'
 
 import { required } from 'services/FormHelper'
 import {
+  Banner,
   Button,
   Separator,
   Text,
@@ -41,9 +42,17 @@ const QRCodeContainer = styled.div`
 const ScanMessage = styled.div`
   padding-bottom: 20px;
 `
+const BannerContainer = styled.div`
+  margin-top: 5px;
+  .link {
+    cursor: pointer;
+    text-decoration: underline;
+    color: ${props => props.theme['brrand-primary']};
+  }
+`
 
-const RequestEther = props => {
-  const { handleSubmit, address } = props
+const RequestEth = props => {
+  const { handleSubmit, handleOpenLockbox, address, type } = props
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -88,6 +97,16 @@ const RequestEther = props => {
           <CopyClipboard address={address} />
         </AddressContainer>
       </FormGroup>
+      {type === 'LOCKBOX' && (
+        <BannerContainer onClick={handleOpenLockbox}>
+          <Banner type='alert'>
+            <FormattedHTMLMessage
+              id='modals.requestether.firststep.lockbox'
+              defaultMessage='Please confirm this address on your lockbox device by opening your Ethereum app. <span class=&quot;link&quot;>Click here</span> once the Ethereum app has been opened.'
+            />
+          </Banner>
+        </BannerContainer>
+      )}
       <Separator margin={'20px 0'}>
         <Text size='14px' weight={300} uppercase>
           <FormattedMessage id='modals.requestether.or' defaultMessage='Or' />
@@ -114,11 +133,11 @@ const RequestEther = props => {
   )
 }
 
-RequestEther.propTypes = {
+RequestEth.propTypes = {
   address: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'requestEther', destroyOnUnmount: false })(
-  RequestEther
+export default reduxForm({ form: 'requestEth', destroyOnUnmount: false })(
+  RequestEth
 )

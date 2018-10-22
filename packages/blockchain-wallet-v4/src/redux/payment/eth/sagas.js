@@ -1,9 +1,8 @@
-import { call, select, put } from 'redux-saga/effects'
+import { call, select } from 'redux-saga/effects'
 import { isNil, merge, prop, path, identity, indexOf } from 'ramda'
 import EthUtil from 'ethereumjs-util'
 
 import * as S from '../../selectors'
-import * as A from '../../actions'
 import { isValidIndex } from './utils'
 import { eth } from '../../../signer'
 import { isString, isPositiveInteger } from '../../../utils/checks'
@@ -77,16 +76,6 @@ export default ({ api }) => {
         )
       }
     }
-  }
-
-  const getBalance = function*() {
-    yield put(A.data.ethereum.fetchCurrentBalanceLoading())
-    const accountR = yield select(S.kvStore.ethereum.getDefaultAddress)
-    const account = accountR.getOrFail('missing_default_from')
-    const data = yield call(api.getEthereumBalances, account)
-    const balance = path([account, 'balance'], data)
-    yield put(A.data.ethereum.fetchCurrentBalanceSuccess(balance))
-    return balance
   }
 
   const calculateUnconfirmed = function*(type, address) {
@@ -182,14 +171,20 @@ export default ({ api }) => {
         return makePayment(merge(p, { from, effectiveBalance, unconfirmedTx }))
       },
 
-      *fee (value) {
+      *fee (value, origin) {
+        let account = origin
+        if (origin === null || origin === undefined || origin === '') {
+          const accountR = yield select(S.kvStore.ethereum.getDefaultAddress)
+          account = accountR.getOrFail('missing_default_from')
+        }
         // value can be in gwei or string ('regular' or 'priority')
         const fees = prop('fees', p)
         const feeInGwei =
           indexOf(value, ['regular', 'priority']) > -1 ? fees[value] : value
         const gasLimit = path(['fees', 'gasLimit'], p)
         const fee = calculateFee(feeInGwei, gasLimit)
-        const balance = yield call(getBalance)
+        const data = yield call(api.getEthereumBalances, account)
+        const balance = path([account, 'balance'], data)
         let effectiveBalance = calculateEffectiveBalance(
           // balance + fee need to be in wei
           balance,

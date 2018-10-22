@@ -17,7 +17,7 @@ class EtherWelcomeContainer extends React.PureComponent {
   }
 
   handleRequest () {
-    this.props.modalActions.showModal('RequestEther')
+    this.props.modalActions.showModal('RequestEth')
   }
 
   render () {

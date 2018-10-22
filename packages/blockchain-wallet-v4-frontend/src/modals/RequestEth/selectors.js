@@ -1,16 +1,18 @@
 import { selectors } from 'data'
-import { head, prop, nth } from 'ramda'
+import { head, lift, prop, nth } from 'ramda'
 import { formValueSelector } from 'redux-form'
-import { Remote } from 'blockchain-wallet-v4/src'
 
 const extractAddress = addr => prop('addr', head(addr))
 
 export const getData = state => {
-  const to = formValueSelector('requestEther')(state, 'to')
-  return (
-    (to && Remote.of(prop('address', to))) ||
-    selectors.core.kvStore.ethereum.getAccounts(state).map(extractAddress)
-  )
+  const to = formValueSelector('requestEth')(state, 'to')
+  const accountsR = selectors.core.kvStore.ethereum.getAccounts(state)
+  const transform = accounts => ({
+    type: prop('type', to),
+    address: prop('address', to) || accounts.map(extractAddress)
+  })
+
+  return lift(transform)(accountsR)
 }
 
 export const getInitialValues = (state, ownProps) => {
