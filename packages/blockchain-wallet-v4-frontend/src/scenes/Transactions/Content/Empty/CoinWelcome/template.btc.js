@@ -142,7 +142,7 @@ const BtcWelcome = props => {
         <LearnMoreLink>
           <LearnMoreText size='15px'>
             <FormattedMessage
-              id='scenes.lockbox.welcome.learnmore'
+              id='scenes.transactions.bitcoin.content.empty.ethwelcome.learnmore'
               defaultMessage='Learn More'
             />
           </LearnMoreText>

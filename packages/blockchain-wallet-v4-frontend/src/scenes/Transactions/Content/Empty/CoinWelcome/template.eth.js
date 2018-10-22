@@ -6,7 +6,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import media from 'services/ResponsiveService'
 import { lighten } from 'polished'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, Link, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   padding-top: 50px;
@@ -55,6 +55,23 @@ const ButtonContainer = styled.div`
     margin-right: 15px;
   }
 `
+const LearnMoreContainer = styled(Link)`
+  width: 640px;
+  display: flex;
+  justify-content: space-between;
+  margin: 0px auto 25px;
+  padding: 25px;
+  border-radius: 3px;
+  box-sizing: border-box;
+  background-color: ${props => props.theme['white-blue']};
+`
+const LearnMoreText = styled(Text)`
+  margin-right: 15px;
+  color: ${props => props.theme['brand-secondary']};
+`
+const LearnMoreLink = styled(Link)`
+  display: inline-flex;
+`
 
 const BchWelcome = props => {
   const { displayed, handleRequest } = props
@@ -101,6 +118,26 @@ const BchWelcome = props => {
           <Icon name='eth-circle' color='eth' size='160px' />
         </CoinRow>
       </Container>
+      <LearnMoreContainer
+        href='https://www.blockchain.com/learning-portal/ether-basics'
+        target='_blank'
+      >
+        <Text size='15px'>
+          <FormattedMessage
+            id='scenes.transactions.eth.content.empty.ethwelcome.explanation'
+            defaultMessage="We've put together a page explaining all of this."
+          />
+        </Text>
+        <LearnMoreLink>
+          <LearnMoreText size='15px'>
+            <FormattedMessage
+              id='scenes.transactions.eth.content.empty.ethwelcome.learnmore'
+              defaultMessage='Learn More'
+            />
+          </LearnMoreText>
+          <Icon name='short-right-arrow' color='brand-secondary' size='18px' />
+        </LearnMoreLink>
+      </LearnMoreContainer>
     </Wrapper>
   )
 }
