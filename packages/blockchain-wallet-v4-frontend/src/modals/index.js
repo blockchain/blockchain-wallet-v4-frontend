@@ -38,6 +38,7 @@ import SfoxTradeDetails from './SfoxTradeDetails'
 import SfoxEnterMicroDeposits from './SfoxEnterMicroDeposits'
 import ShowBtcPrivateKey from './ShowBtcPrivateKey'
 import ShowEthPrivateKey from './ShowEthPrivateKey'
+import ShowXlmPrivateKey from './ShowXlmPrivateKey'
 import ShowUsedAddresses from './ShowUsedAddresses'
 import SignMessage from './SignMessage'
 import ShowXPub from './ShowXPub'
@@ -88,6 +89,7 @@ const Modals = props => (
     <SendXlm />
     <ShowBtcPrivateKey />
     <ShowEthPrivateKey />
+    <ShowXlmPrivateKey />
     <ShowUsedAddresses />
     <SignMessage />
     <ShowXPub />

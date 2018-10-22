@@ -3,7 +3,6 @@ import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
 import btcTransactionsSagas, { logLocation } from './sagas'
-import { FORM } from './model'
 
 const coreSagas = coreSagasFactory()
 
@@ -28,7 +27,7 @@ describe('btcTransactions sagas', () => {
     }
 
     it('should initialize the form with initial values', () => {
-      saga.next().put(actions.form.initialize(FORM, initialValues))
+      saga.next().put(actions.form.initialize('transactions', initialValues))
     })
 
     it('should dispatch an action to fetch txs', () => {
@@ -118,7 +117,7 @@ describe('btcTransactions sagas', () => {
     let { formChanged } = btcTransactionsSagas({ coreSagas })
     const action = {
       meta: {
-        form: FORM,
+        form: 'transactions',
         field: 'source'
       },
       payload: 'all'
@@ -153,7 +152,7 @@ describe('btcTransactions sagas', () => {
     let { formChanged } = btcTransactionsSagas({ coreSagas })
     const action = {
       meta: {
-        form: FORM,
+        form: 'transactions',
         field: 'source'
       },
       payload: {

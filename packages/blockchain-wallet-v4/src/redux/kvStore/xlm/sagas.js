@@ -6,10 +6,7 @@ import { KVStoreEntry } from '../../../types'
 import { getMetadataXpriv } from '../root/selectors'
 import { derivationMap, XLM } from '../config'
 import { getMnemonic } from '../../wallet/selectors'
-
-import BIP39 from 'bip39'
-import * as ed25519 from 'ed25519-hd-key'
-import * as StellarSdk from 'stellar-sdk'
+import { getKeyPair } from '../../../utils/xlm'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -28,10 +25,7 @@ export default ({ api, networks } = {}) => {
     try {
       const mnemonicT = yield select(getMnemonic, password)
       const mnemonic = yield call(() => taskToPromise(mnemonicT))
-      const seed = yield call(BIP39.mnemonicToSeed, mnemonic)
-      const seedHex = seed.toString('hex')
-      const masterKey = yield call(ed25519.derivePath, "m/44'/148'/0'", seedHex)
-      const keypair = StellarSdk.Keypair.fromRawEd25519Seed(masterKey.key)
+      const keypair = getKeyPair(mnemonic)
       const xlm = {
         default_account_idx: 0,
         accounts: [
