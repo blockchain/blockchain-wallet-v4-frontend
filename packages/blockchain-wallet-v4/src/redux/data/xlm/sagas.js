@@ -1,5 +1,5 @@
 import { all, call, put, select } from 'redux-saga/effects'
-import { indexBy, last, length, prop } from 'ramda'
+import { indexBy, last, length, path, prop } from 'ramda'
 
 import * as A from './actions'
 import * as S from './selectors'
@@ -88,6 +88,8 @@ export default ({ api, networks }) => {
       yield put(A.transactionsAtBound(atBounds))
       yield put(A.fetchTransactionsSuccess(txs, reset))
     } catch (e) {
+      const statusCode = path(['response', 'status'], e)
+      if (statusCode === 404) return yield put(A.fetchTransactionsSuccess([]))
       yield put(A.fetchTransactionsFailure(e.message))
     }
   }
