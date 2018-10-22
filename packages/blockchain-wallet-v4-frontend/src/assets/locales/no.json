@@ -1168,6 +1168,7 @@
   "scenes.exchange.confirm.cancel": null,
   "scenes.exchange.confirm.exchangevalue": null,
   "scenes.exchange.confirm.missingdevice": null,
+  "scenes.exchange.confirm.notradepermission": null,
   "scenes.exchange.confirm.receivevalue": null,
   "scenes.exchange.confirm.submit": null,
   "scenes.exchange.confirm.title": null,
