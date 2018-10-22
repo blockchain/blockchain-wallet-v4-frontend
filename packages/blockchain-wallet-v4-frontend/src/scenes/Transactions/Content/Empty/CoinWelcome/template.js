@@ -7,6 +7,7 @@ import media from 'services/ResponsiveService'
 import { lighten } from 'polished'
 
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
+import { coinProps } from './model'
 
 const Wrapper = styled.div`
   padding-top: 50px;
@@ -43,7 +44,7 @@ const CoinRow = styled.div`
   position: relative;
   align-items: center;
   justify-content: center;
-  background-color: ${props => lighten(0.4, props.theme['btc'])};
+  background-color: ${props => lighten(0.4, props.theme[props.coin])};
   ${media.mobile`
     width: 100%;
   `};
@@ -73,23 +74,26 @@ const LearnMoreLink = styled(Link)`
   display: inline-flex;
 `
 
-const BtcWelcome = props => {
-  const { displayed, handleRequest, partner } = props
+const Welcome = props => {
+  const { coin, partner, ...rest } = props
+  const { handleRequest } = rest
 
   return (
-    <Wrapper displayed={displayed}>
+    <Wrapper>
       <Container>
         <Row>
           <Text size='24px' weight={400} color='brand-primary'>
             <FormattedMessage
-              id='scenes.transaction.content.empty.bitcoinwelcome.yourbtcwallet'
-              defaultMessage='Your BTC Wallet'
+              id='scenes.transaction.content.empty.yourcoinwallet'
+              defaultMessage='Your {coin} Wallet'
+              values={{ coin }}
             />
           </Text>
           <Content weight={300}>
             <FormattedMessage
-              id='scenes.transaction.content.empty.bitcoinwelcome.sendreqexchange'
-              defaultMessage='Send, Request and Exchange Bitcoin (BTC) directly from your Blockchain Wallet.'
+              id='scenes.transaction.content.empty.sendreqexchange'
+              defaultMessage='Send, Request and Exchange {coinName} ({coin}) directly from your Blockchain Wallet.'
+              values={{ coinName: coinProps[coin].name, coin }}
             />
           </Content>
           <ButtonContainer>
@@ -97,8 +101,9 @@ const BtcWelcome = props => {
               <LinkContainer to='/buy-sell'>
                 <Button nature='primary' fullwidth>
                   <FormattedMessage
-                    id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.buy'
-                    defaultMessage='Buy BTC'
+                    id='scenes.transaction.content.empty.buy'
+                    defaultMessage='Buy {coin}'
+                    values={{ coin }}
                   />
                 </Button>
               </LinkContainer>
@@ -110,52 +115,61 @@ const BtcWelcome = props => {
                 uppercase
               >
                 <FormattedMessage
-                  id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted.requestbtc'
-                  defaultMessage='Get BTC'
+                  id='scenes.transaction.content.empty.getstarted.request'
+                  defaultMessage='Get {coin}'
+                  values={{ coin }}
                 />
               </Button>
             )}
             <LinkContainer to='/exchange'>
               <Button nature='empty-secondary' fullwidth>
                 <FormattedMessage
-                  id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted.exchange'
-                  defaultMessage='Exchange BTC'
+                  id='scenes.transaction.content.empty.getstarted.exchange'
+                  defaultMessage='Exchange {coin}'
+                  values={{ coin }}
                 />
               </Button>
             </LinkContainer>
           </ButtonContainer>
         </Row>
-        <CoinRow>
-          <Icon name='btc-circle' color='btc' size='160px' />
+        <CoinRow coin={coin.toLowerCase()}>
+          <Icon
+            name={coinProps[coin].icon}
+            color={coin.toLowerCase()}
+            size='160px'
+          />
         </CoinRow>
       </Container>
-      <LearnMoreContainer
-        href='https://blockchain.info/wallet/bitcoin-faq'
-        target='_blank'
-      >
-        <Text size='15px'>
-          <FormattedMessage
-            id='scenes.transactions.bitcoin.content.empty.bitcoinwelcome.explanation'
-            defaultMessage="We've put together a page explaining all of this."
-          />
-        </Text>
-        <LearnMoreLink>
-          <LearnMoreText size='15px'>
+      {coinProps[coin].link && (
+        <LearnMoreContainer href={coinProps[coin].link} target='_blank'>
+          <Text size='15px'>
             <FormattedMessage
-              id='scenes.transactions.bitcoin.content.empty.ethwelcome.learnmore'
-              defaultMessage='Learn More'
+              id='scenes.transactions.content.empty.explanation'
+              defaultMessage="We've put together a page explaining all of this."
             />
-          </LearnMoreText>
-          <Icon name='short-right-arrow' color='brand-secondary' size='18px' />
-        </LearnMoreLink>
-      </LearnMoreContainer>
+          </Text>
+          <LearnMoreLink>
+            <LearnMoreText size='15px'>
+              <FormattedMessage
+                id='scenes.transactions.content.empty.learnmore'
+                defaultMessage='Learn More'
+              />
+            </LearnMoreText>
+            <Icon
+              name='short-right-arrow'
+              color='brand-secondary'
+              size='18px'
+            />
+          </LearnMoreLink>
+        </LearnMoreContainer>
+      )}
     </Wrapper>
   )
 }
 
-BtcWelcome.propTypes = {
+Welcome.propTypes = {
   displayed: PropTypes.bool.isRequired,
   handleRequest: PropTypes.func.isRequired
 }
 
-export default BtcWelcome
+export default Welcome

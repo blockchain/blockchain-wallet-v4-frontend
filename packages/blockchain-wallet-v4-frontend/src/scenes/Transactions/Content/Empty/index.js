@@ -17,7 +17,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 EmptyContainer.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'BCH', 'ETH']).isRequired
+  coin: PropTypes.oneOf(['BTC', 'BCH', 'ETH', 'XLM']).isRequired
 }
 
 export default connect(
