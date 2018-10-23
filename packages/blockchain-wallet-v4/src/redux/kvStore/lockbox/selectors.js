@@ -1,6 +1,7 @@
 import {
   any,
   path,
+  pathOr,
   prop,
   map,
   set,
@@ -159,7 +160,7 @@ export const getLockboxXlm = state => getDevices(state).map(map(path(['xlm'])))
 
 export const getLockboxXlmAccounts = state =>
   getLockboxXlm(state)
-    .map(map(path(['accounts'])))
+    .map(map(pathOr([], ['accounts'])))
     .map(flatten)
 
 export const getLockboxXlmAccount = (state, address) =>
@@ -174,7 +175,7 @@ export const getLockboxXlmContext = state => {
 }
 export const getXlmContextForDevice = (state, deviceIndex) =>
   getDevice(state, deviceIndex)
-    .map(path(['xlm', 'accounts']))
+    .map(pathOr([], ['xlm', 'accounts']))
     .map(map(prop('addr')))
 
 export const getDeviceFromXlmAddr = (state, addr) => {
