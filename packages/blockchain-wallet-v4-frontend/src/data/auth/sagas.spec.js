@@ -414,6 +414,10 @@ describe('authSagas', () => {
       saga.next().put(actions.middleware.webSocket.eth.startSocket())
     })
 
+    it('should put action to start xlm streams', () => {
+      saga.next().put(actions.middleware.webSocket.xlm.startStreams())
+    })
+
     it('should redirect to home route', () => {
       saga.next().put(actions.router.push('/home'))
     })
@@ -1059,6 +1063,7 @@ describe('authSagas', () => {
         .put(actions.middleware.webSocket.bch.stopSocket())
         .put(actions.middleware.webSocket.btc.stopSocket())
         .put(actions.middleware.webSocket.eth.stopSocket())
+        .put(actions.middleware.webSocket.xlm.stopStreams())
         .put(actions.router.push('/logout'))
         .run()
     })
@@ -1075,6 +1080,7 @@ describe('authSagas', () => {
         .put(actions.middleware.webSocket.bch.stopSocket())
         .put(actions.middleware.webSocket.btc.stopSocket())
         .put(actions.middleware.webSocket.eth.stopSocket())
+        .put(actions.middleware.webSocket.xlm.stopStreams())
         .run()
         .then(() => {
           expect(pushStateSpy).toHaveBeenCalledTimes(1)

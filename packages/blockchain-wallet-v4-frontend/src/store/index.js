@@ -8,12 +8,14 @@ import { coreMiddleware } from 'blockchain-wallet-v4/src'
 import {
   createWalletApi,
   Socket,
-  ApiSocket
+  ApiSocket,
+  HorizonStreamingService
 } from 'blockchain-wallet-v4/src/network'
 import { serializer } from 'blockchain-wallet-v4/src/types'
 import { actions, rootSaga, rootReducer, selectors } from 'data'
 import {
   autoDisconnection,
+  streamingXlm,
   webSocketBch,
   webSocketBtc,
   webSocketEth,
@@ -58,6 +60,7 @@ const configureStore = () => {
       const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
       // TODO: deprecate when wallet-options-v4 is updated on prod
       const socketUrl = head(options.domains.webSocket.split('/inv'))
+      const horizonUrl = options.domains.horizon
       const btcSocket = new Socket({
         options,
         url: `${socketUrl}/inv`
@@ -74,6 +77,9 @@ const configureStore = () => {
         options,
         url: `${socketUrl}/nabu-gateway/markets/quotes`,
         maxReconnects: 3
+      })
+      const xlmStreamingService = new HorizonStreamingService({
+        url: horizonUrl
       })
       const getAuthCredentials = () =>
         selectors.modules.profile.getAuthCredentials(store.getState())
@@ -100,6 +106,7 @@ const configureStore = () => {
             webSocketBtc(btcSocket),
             webSocketBch(bchSocket),
             webSocketEth(ethSocket),
+            streamingXlm(xlmStreamingService),
             webSocketRates(ratesSocket),
             coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
             autoDisconnection()
