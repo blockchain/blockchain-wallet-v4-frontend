@@ -3,6 +3,7 @@ import { put, select, take } from 'redux-saga/effects'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import * as actionTypes from '../../actionTypes'
+import * as Lockbox from 'services/LockboxService'
 import Eth from '@ledgerhq/hw-app-eth'
 
 export default ({ networks }) => {
@@ -27,7 +28,8 @@ export default ({ networks }) => {
       const { transport } = yield select(
         selectors.components.lockbox.getCurrentConnection
       )
-      const eth = new Eth(transport)
+      const scrambleKey = Lockbox.utils.getScrambleKey('ETH', deviceType)
+      const eth = new Eth(transport, scrambleKey)
       eth.getAddress(`44'/60'/0'/0/0`, true)
     } catch (e) {
       yield put(
