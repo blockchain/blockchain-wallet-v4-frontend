@@ -24,8 +24,8 @@ export default ({ coreSagas }) => {
       payment = yield call(payment.init)
       payment =
         from && type
-          ? yield call(payment.from, from, type)
-          : yield call(payment.from)
+          ? yield call(setFrom, payment, from, type)
+          : yield call(setFrom, payment)
       const defaultFee = prop('fee', payment.value())
       const defaultAccount = (yield select(
         selectors.core.common.xlm.getAccountBalances
@@ -86,7 +86,7 @@ export default ({ coreSagas }) => {
         case 'from':
           const source = prop('address', payload)
           const fromType = prop('type', payload)
-          payment = yield call(payment.from, source, fromType)
+          payment = yield call(setFrom, payment, source, fromType)
           break
         case 'to':
           payment = yield call(payment.to, payload)
@@ -238,12 +238,28 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const setFrom = function*(payment, from, type) {
+    try {
+      const updatedPayment = yield call(payment.from, from, type)
+      yield put(A.showNoAccountForm(false))
+      return updatedPayment
+    } catch (e) {
+      const message = prop('message', e)
+      if (message === 'Account does not exist') {
+        yield put(A.showNoAccountForm(true))
+        return payment
+      }
+      throw e
+    }
+  }
+
   return {
     initialized,
     destroyed,
     firstStepSubmitClicked,
     maximumAmountClicked,
     secondStepSubmitClicked,
-    formChanged
+    formChanged,
+    setFrom
   }
 }

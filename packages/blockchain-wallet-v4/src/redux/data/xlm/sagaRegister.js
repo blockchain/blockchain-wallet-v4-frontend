@@ -9,6 +9,7 @@ export default ({ api, networks }) => {
     yield takeLatest(AT.FETCH_LEDGER_DETAILS, dataXlmSagas.fetchLedgerDetails)
     yield takeLatest(AT.FETCH_DATA, dataXlmSagas.fetchData)
     yield takeLatest(AT.FETCH_RATES, dataXlmSagas.fetchRates)
+    yield takeLatest(AT.CREATE_TEST_ACCOUNTS, dataXlmSagas.createAccounts)
     yield takeEvery(AT.FETCH_TRANSACTIONS, dataXlmSagas.fetchTransactions)
   }
 }

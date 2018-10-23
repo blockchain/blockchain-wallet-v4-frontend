@@ -6,7 +6,7 @@ import * as StellarSdk from 'stellar-sdk'
 import * as S from './selectors'
 import * as A from './actions'
 import * as selectors from '../../selectors'
-import sagas, { ACCOUNT_NOT_FOUND, TX_PER_PAGE } from './sagas'
+import sagas, { TX_PER_PAGE } from './sagas'
 import Remote from '../../../remote'
 
 const STUB_LEDGER = {
@@ -97,20 +97,6 @@ describe('fetch data saga', () => {
         })
       )
       .run())
-
-  it('should create account if it is not found', () => {
-    api.getXlmAccount.mockRejectedValue({ message: ACCOUNT_NOT_FOUND })
-    return expectSaga(fetchData)
-      .provide([
-        [select(S.getContext), [STUB_ACCOUNT_ID]],
-        [call.fn(createAccounts), jest.fn()]
-      ])
-      .put(A.fetchDataLoading())
-      .select(S.getContext)
-      .call(api.getXlmAccount, STUB_ACCOUNT_ID)
-      .call(createAccounts)
-      .run()
-  })
 
   it('should set account error if fetch fails', () => {
     const error = 'error'

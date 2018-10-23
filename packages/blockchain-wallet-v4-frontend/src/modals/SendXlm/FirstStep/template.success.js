@@ -41,6 +41,7 @@ import { ShouldCreateAccountMessage } from './validationMessages'
 import { Row, AddressButton } from 'components/Send'
 import QRCodeCapture from 'components/QRCodeCapture'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import { NoAccountTemplate } from './NoAccountTemplate'
 
 const BrowserWarning = styled(Banner)`
   margin: -4px 0 8px;
@@ -64,6 +65,7 @@ const FirstStep = props => {
     isContract,
     toToggled,
     enableToggle,
+    noAccount,
     from,
     balanceStatus,
     handleToToggle,
@@ -73,7 +75,6 @@ const FirstStep = props => {
     from &&
     from.type === 'LOCKBOX' &&
     !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
-
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'15px'}>
@@ -101,155 +102,162 @@ const FirstStep = props => {
           />
         </FormItem>
       </FormGroup>
-      {disableLockboxSend && (
-        <BrowserWarning type='warning'>
-          <Text color='warning' size='12px'>
-            <FormattedMessage
-              id='modals.sendxlm.firststep.lockboxwarn'
-              defaultMessage='Sending Stellar from Lockbox can only be done while using the Chrome browser'
-            />
-          </Text>
-        </BrowserWarning>
-      )}
-      <FormGroup margin={'15px'}>
-        <FormItem>
-          <FormLabel for='to'>
-            <FormattedMessage
-              id='modals.sendxlm.firststep.to'
-              defaultMessage='To:'
-            />
-          </FormLabel>
-          <Row>
-            {toToggled && (
+      {noAccount && <NoAccountTemplate />}
+      {!noAccount && (
+        <React.Fragment>
+          {disableLockboxSend && (
+            <BrowserWarning type='warning'>
+              <Text color='warning' size='12px'>
+                <FormattedMessage
+                  id='modals.sendxlm.firststep.lockboxwarn'
+                  defaultMessage='Sending Stellar from Lockbox can only be done while using the Chrome browser'
+                />
+              </Text>
+            </BrowserWarning>
+          )}
+          <FormGroup margin={'15px'}>
+            <FormItem>
+              <FormLabel for='to'>
+                <FormattedMessage
+                  id='modals.sendxlm.firststep.to'
+                  defaultMessage='To:'
+                />
+              </FormLabel>
+              <Row>
+                {toToggled && (
+                  <Field
+                    name='to'
+                    component={SelectBoxXlmAddresses}
+                    menuIsOpen={!destination}
+                    exclude={[from.label]}
+                    validate={[required]}
+                    includeAll={false}
+                    hideIndicator
+                    hideErrors
+                  />
+                )}
+                {!toToggled && (
+                  <Field
+                    name='to'
+                    placeholder='Paste or scan an address, or select a destination'
+                    component={TextBox}
+                    validate={[required, validXlmAddress]}
+                    autoFocus
+                  />
+                )}
+                <QRCodeCapture
+                  scanType='xlmAddress'
+                  border={
+                    enableToggle
+                      ? ['top', 'bottom']
+                      : ['top', 'bottom', 'right']
+                  }
+                />
+                {enableToggle ? (
+                  !toToggled ? (
+                    <AddressButton onClick={handleToToggle}>
+                      <Icon name='down-arrow' size='11px' cursor />
+                    </AddressButton>
+                  ) : (
+                    <AddressButton onClick={handleToToggle}>
+                      <Icon name='pencil' size='13px' cursor />
+                    </AddressButton>
+                  )
+                ) : null}
+              </Row>
+              {unconfirmedTx && (
+                <Text color='error' size='12px' weight={300}>
+                  <FormattedMessage
+                    id='modals.sendxlm.unconfirmedtransactionmessage'
+                    defaultMessage='Please wait until your previous transaction confirms.'
+                  />
+                </Text>
+              )}
+              {isContract && (
+                <Text color='error' size='12px' weight={300}>
+                  <FormattedMessage
+                    id='modals.sendxlm.contractaddr'
+                    defaultMessage='Sending to contract addresses is disabled.'
+                  />
+                </Text>
+              )}
+            </FormItem>
+          </FormGroup>
+          <FormGroup margin={'15px'}>
+            <FormItem>
+              <FormLabel for='amount'>
+                <FormattedMessage
+                  id='modals.sendxlm.firststep.amount'
+                  defaultMessage='Enter amount:'
+                />
+              </FormLabel>
               <Field
-                name='to'
-                component={SelectBoxXlmAddresses}
-                menuIsOpen={!destination}
-                exclude={[from.label]}
-                validate={[required]}
-                includeAll={false}
-                hideIndicator
-                hideErrors
+                name='amount'
+                disabled={unconfirmedTx}
+                component={XlmFiatConvertor}
+                coin='XLM'
+                validate={[
+                  required,
+                  invalidAmount,
+                  insufficientFunds,
+                  maximumAmount
+                ]}
               />
-            )}
-            {!toToggled && (
+            </FormItem>
+          </FormGroup>
+          <FormGroup margin={'15px'}>
+            <FormItem>
+              <FormLabel for='description'>
+                <FormattedMessage
+                  id='modals.sendxlm.firststep.description'
+                  defaultMessage='Description: '
+                />
+                <TooltipHost id='sendxlm.firststep.sharetooltip'>
+                  <TooltipIcon name='question-in-circle' />
+                </TooltipHost>
+              </FormLabel>
               <Field
-                name='to'
-                placeholder='Paste or scan an address, or select a destination'
-                component={TextBox}
-                validate={[required, validXlmAddress]}
-                autoFocus
+                name='description'
+                component={TextAreaDebounced}
+                placeholder="What's this transaction for?"
+                fullwidth
               />
-            )}
-            <QRCodeCapture
-              scanType='xlmAddress'
-              border={
-                enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']
+            </FormItem>
+          </FormGroup>
+          <FormGroup inline margin={'10px'}>
+            <FormItem>
+              <Text size='16px' weight={500}>
+                <FormattedMessage
+                  id='modals.sendxlm.firststep.fee'
+                  defaultMessage='Transaction Fee:'
+                />
+              </Text>
+              <Text size='16px' weight={300}>
+                <ComboDisplay coin='XLM'>{fee}</ComboDisplay>
+              </Text>
+            </FormItem>
+          </FormGroup>
+          <FormGroup>
+            <Button
+              type='submit'
+              nature='primary'
+              uppercase
+              disabled={
+                pristine ||
+                submitting ||
+                invalid ||
+                isContract ||
+                Remote.Loading.is(balanceStatus)
               }
-            />
-            {enableToggle ? (
-              !toToggled ? (
-                <AddressButton onClick={handleToToggle}>
-                  <Icon name='down-arrow' size='11px' cursor />
-                </AddressButton>
-              ) : (
-                <AddressButton onClick={handleToToggle}>
-                  <Icon name='pencil' size='13px' cursor />
-                </AddressButton>
-              )
-            ) : null}
-          </Row>
-          {unconfirmedTx && (
-            <Text color='error' size='12px' weight={300}>
+            >
               <FormattedMessage
-                id='modals.sendxlm.unconfirmedtransactionmessage'
-                defaultMessage='Please wait until your previous transaction confirms.'
+                id='modals.sendxlm.firststep.continue'
+                defaultMessage='Continue'
               />
-            </Text>
-          )}
-          {isContract && (
-            <Text color='error' size='12px' weight={300}>
-              <FormattedMessage
-                id='modals.sendxlm.contractaddr'
-                defaultMessage='Sending to contract addresses is disabled.'
-              />
-            </Text>
-          )}
-        </FormItem>
-      </FormGroup>
-      <FormGroup margin={'15px'}>
-        <FormItem>
-          <FormLabel for='amount'>
-            <FormattedMessage
-              id='modals.sendxlm.firststep.amount'
-              defaultMessage='Enter amount:'
-            />
-          </FormLabel>
-          <Field
-            name='amount'
-            disabled={unconfirmedTx}
-            component={XlmFiatConvertor}
-            coin='XLM'
-            validate={[
-              required,
-              invalidAmount,
-              insufficientFunds,
-              maximumAmount
-            ]}
-          />
-        </FormItem>
-      </FormGroup>
-      <FormGroup margin={'15px'}>
-        <FormItem>
-          <FormLabel for='description'>
-            <FormattedMessage
-              id='modals.sendxlm.firststep.description'
-              defaultMessage='Description: '
-            />
-            <TooltipHost id='sendxlm.firststep.sharetooltip'>
-              <TooltipIcon name='question-in-circle' />
-            </TooltipHost>
-          </FormLabel>
-          <Field
-            name='description'
-            component={TextAreaDebounced}
-            placeholder="What's this transaction for?"
-            fullwidth
-          />
-        </FormItem>
-      </FormGroup>
-      <FormGroup inline margin={'10px'}>
-        <FormItem>
-          <Text size='16px' weight={500}>
-            <FormattedMessage
-              id='modals.sendxlm.firststep.fee'
-              defaultMessage='Transaction Fee:'
-            />
-          </Text>
-          <Text size='16px' weight={300}>
-            <ComboDisplay coin='XLM'>{fee}</ComboDisplay>
-          </Text>
-        </FormItem>
-      </FormGroup>
-      <FormGroup>
-        <Button
-          type='submit'
-          nature='primary'
-          uppercase
-          disabled={
-            pristine ||
-            submitting ||
-            invalid ||
-            isContract ||
-            Remote.Loading.is(balanceStatus)
-          }
-        >
-          <FormattedMessage
-            id='modals.sendxlm.firststep.continue'
-            defaultMessage='Continue'
-          />
-        </Button>
-      </FormGroup>
+            </Button>
+          </FormGroup>
+        </React.Fragment>
+      )}
     </Form>
   )
 }

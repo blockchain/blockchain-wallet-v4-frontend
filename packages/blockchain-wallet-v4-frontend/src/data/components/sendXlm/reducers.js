@@ -6,7 +6,8 @@ const INITIAL_STATE = {
   step: 1,
   payment: Remote.NotAsked,
   toToggled: false,
-  feeToggled: false
+  feeToggled: false,
+  showNoAccountForm: false
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -35,6 +36,9 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.FIRST_STEP_FEE_TOGGLED: {
       return assoc('feeToggled', !state.feeToggled, state)
+    }
+    case AT.SHOW_NO_ACCOUNT_FORM: {
+      return assoc('showNoAccountForm', payload.shouldShow, state)
     }
     default:
       return state

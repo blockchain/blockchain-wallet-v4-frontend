@@ -11,7 +11,7 @@ import {
   ApiSocket
 } from 'blockchain-wallet-v4/src/network'
 import { serializer } from 'blockchain-wallet-v4/src/types'
-import { rootSaga, rootReducer, selectors } from 'data'
+import { actions, rootSaga, rootReducer, selectors } from 'data'
 import {
   autoDisconnection,
   webSocketBch,
@@ -117,6 +117,11 @@ const configureStore = () => {
         networks,
         options
       })
+
+      // TODO: remove in production
+      window.createTestXlmAccounts = () => {
+        store.dispatch(actions.core.data.xlm.createTestAccounts())
+      }
 
       return {
         store,
