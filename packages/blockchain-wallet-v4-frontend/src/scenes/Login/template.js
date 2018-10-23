@@ -265,6 +265,7 @@ const Login = props => {
                 name='code'
                 validate={[required]}
                 component={authType === 1 ? PasswordBox : TextBox}
+                noLastPass
                 borderColor={twoFactorError ? 'invalid' : undefined}
                 data-e2e='loginTwoFactorCode'
               />
