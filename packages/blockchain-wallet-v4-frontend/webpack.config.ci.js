@@ -11,6 +11,9 @@ let manifestCacheBust = new Date().getTime()
 
 module.exports = {
   mode: 'production',
+  node: {
+    fs: 'empty'
+  },
   entry: {
     app: ['babel-polyfill', PATHS.src + '/index.js']
   },
