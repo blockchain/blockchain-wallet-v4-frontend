@@ -4,6 +4,7 @@ import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import * as actionTypes from '../../actionTypes'
 import * as C from 'services/AlertService'
+import * as Lockbox from 'services/LockboxService'
 import Btc from '@ledgerhq/hw-app-btc'
 
 export default ({ networks }) => {
@@ -57,7 +58,8 @@ export default ({ networks }) => {
       const { transport } = yield select(
         selectors.components.lockbox.getCurrentConnection
       )
-      const btc = new Btc(transport)
+      const scrambleKey = Lockbox.utils.getScrambleKey('BTC', deviceType)
+      const btc = new Btc(transport, scrambleKey)
       // TODO: multiple hd account support?
       // display receive address on device
       btc.getWalletPublicKey(`44'/0'/0'/0/${receiveIndex}`, true)
