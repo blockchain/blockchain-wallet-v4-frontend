@@ -370,6 +370,14 @@
         "id": "components.alerts.send_eth_success"
       },
       {
+        "defaultMessage": "Your stellar transaction failed to send. Please try again.",
+        "id": "components.alerts.send_xlm_error"
+      },
+      {
+        "defaultMessage": "Your stellar transaction is now pending",
+        "id": "components.alerts.send_xlm_success"
+      },
+      {
         "defaultMessage": "Error sending SMS verification code.",
         "id": "components.alerts.sms_resend_error"
       },
@@ -1265,8 +1273,16 @@
         "id": "modals.requestether.sharetooltip"
       },
       {
+        "defaultMessage": "Share this address with others, and they can send you XLM directly to your wallet. Your request address will not change.",
+        "id": "modals.requestxlm.sharetooltip"
+      },
+      {
         "defaultMessage": "Ask the sender to scan this QR code with their ether wallet",
         "id": "modals.requestether.scan_tooltip"
+      },
+      {
+        "defaultMessage": "Ask the sender to scan this QR code with their stellar wallet",
+        "id": "modals.requestxlm.scan_tooltip"
       },
       {
         "defaultMessage": "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
@@ -1656,6 +1672,10 @@
       {
         "defaultMessage": "Bitcoin Cash",
         "id": "layouts.wallet.menuleft.navigation.transactions.bch"
+      },
+      {
+        "defaultMessage": "Stellar",
+        "id": "layouts.wallet.menuleft.navigation.transactions.xlm"
       },
       {
         "defaultMessage": "Storage",
@@ -4278,6 +4298,10 @@
         "id": "modals.requestbch.share"
       },
       {
+        "defaultMessage": "Please confirm this address on your lockbox device by opening your Bitcoin Cash app. On your device the address will be displayed in the legacy format {legacyAddress}. <span class=\"link\">Click here</span> once the Bitcoin Cash app has been opened.",
+        "id": "modals.requestbch.firststep.lockbox"
+      },
+      {
         "defaultMessage": "Or",
         "id": "modals.requestbch.or"
       },
@@ -4305,6 +4329,10 @@
       {
         "defaultMessage": "QR Code",
         "id": "modals.requestbitcoin.firststep.qrcode"
+      },
+      {
+        "defaultMessage": "Please confirm this address on your lockbox device by opening your Bitcoin app. <span class=\"link\">Click here</span> once the Bitcoin app has been opened.",
+        "id": "modals.requestbitcoin.firststep.lockbox"
       },
       {
         "defaultMessage": "Or",
@@ -4406,6 +4434,10 @@
       {
         "defaultMessage": "Copy & Share Address:",
         "id": "modals.requestether.share"
+      },
+      {
+        "defaultMessage": "Please confirm this address on your lockbox device by opening your Ethereum app. <span class=\"link\">Click here</span> once the Ethereum app has been opened.",
+        "id": "modals.requestether.firststep.lockbox"
       },
       {
         "defaultMessage": "Or",
@@ -4982,11 +5014,20 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "maximum",
+        "defaultMessage": "Use maximum",
         "id": "modals.sendxlm.maximumamountlink.maximum"
       }
     ],
     "path": "src/modals/SendXlm/FirstStep/MaximumAmountLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Learn more",
+        "id": "modals.sendxlm.reservelearn"
+      }
+    ],
+    "path": "src/modals/SendXlm/FirstStep/ReserveLearnLink/index.json"
   },
   {
     "descriptors": [
@@ -5042,6 +5083,14 @@
       {
         "defaultMessage": "Not enough funds. Use",
         "id": "modals.sendxlm.maximumamountmessage"
+      },
+      {
+        "defaultMessage": "You need to send at least {amount} XLM to this address",
+        "id": "modals.sendxlm.shouldcreateaccountmessage"
+      },
+      {
+        "defaultMessage": "This amount will leave your wallet with an insufficient xlm balance",
+        "id": "modals.sendxlm.reservemessage"
       },
       {
         "defaultMessage": "Insufficient funds",
@@ -8291,20 +8340,28 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Cover Your Assets",
+        "defaultMessage": "Get a Lockbox for your Crypto",
         "id": "scenes.lockbox.welcome.title"
       },
       {
-        "defaultMessage": "Lockbox works with your Blockchain Wallet to give your digital assets an additional layer of security. Unlock your Lockbox by linking your device, or buy one today.",
+        "defaultMessage": "You can now store your crypto completely offline using our hardware wallet. This means easy access to funds while ensuring offline security.",
         "id": "scenes.lockbox.welcome.subtitle"
       },
       {
-        "defaultMessage": "Connect",
-        "id": "scenes.lockbox.welcome.connect"
+        "defaultMessage": "Get Started",
+        "id": "scenes.lockbox.welcome.getstarted"
       },
       {
-        "defaultMessage": "Purchase",
-        "id": "scenes.lockbox.welcome.purchase"
+        "defaultMessage": "Powered By",
+        "id": "scenes.lockbox.welcome.poweredby"
+      },
+      {
+        "defaultMessage": "We've put together a page explaining all of this.",
+        "id": "scenes.lockbox.welcome.explanation"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "scenes.lockbox.welcome.learnmore"
       },
       {
         "defaultMessage": "New device setup can only be done while using the Chrome browser",
@@ -10667,6 +10724,39 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Your {coin} Wallet",
+        "id": "scenes.transaction.content.empty.yourcoinwallet"
+      },
+      {
+        "defaultMessage": "Send, Request and Exchange {coinName} ({coin}) directly from your Blockchain Wallet.",
+        "id": "scenes.transaction.content.empty.sendreqexchange"
+      },
+      {
+        "defaultMessage": "Buy {coin}",
+        "id": "scenes.transaction.content.empty.buy"
+      },
+      {
+        "defaultMessage": "Get {coin}",
+        "id": "scenes.transaction.content.empty.getstarted.request"
+      },
+      {
+        "defaultMessage": "Exchange {coin}",
+        "id": "scenes.transaction.content.empty.getstarted.exchange"
+      },
+      {
+        "defaultMessage": "We've put together a page explaining all of this.",
+        "id": "scenes.transactions.content.empty.explanation"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "scenes.transactions.content.empty.learnmore"
+      }
+    ],
+    "path": "src/scenes/Transactions/Content/Empty/CoinWelcome/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Your transactions",
         "id": "scenes.transactions.content.empty.transactions"
       },
@@ -11108,6 +11198,10 @@
       {
         "defaultMessage": "Invalid Ether address",
         "id": "formhelper.invalidetheraddress"
+      },
+      {
+        "defaultMessage": "Invalid Stellar address",
+        "id": "formhelper.invalidxlmaddress"
       },
       {
         "defaultMessage": "Invalid IP list",
