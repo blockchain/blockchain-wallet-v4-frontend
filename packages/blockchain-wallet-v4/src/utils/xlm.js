@@ -30,7 +30,6 @@ export const calculateTransactionAmount = (amount, fee) =>
   new BigNumber(amount).add(fee).toString()
 
 export const getKeyPair = mnemonic => {
-  console.log(mnemonic)
   const seed = BIP39.mnemonicToSeed(mnemonic)
   const seedHex = seed.toString('hex')
   const masterKey = ed25519.derivePath("m/44'/148'/0'", seedHex)
