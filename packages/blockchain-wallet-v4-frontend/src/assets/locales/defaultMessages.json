@@ -278,6 +278,10 @@
         "id": "components.alerts.payment_received_eth"
       },
       {
+        "defaultMessage": "You've just received a Stellar payment",
+        "id": "components.alerts.payment_received_xlm"
+      },
+      {
         "defaultMessage": "PBKDF2 iterations changed successfully",
         "id": "components.alerts.pbkdf2_update_success"
       },
@@ -3546,132 +3550,6 @@
         "id": "identityverification.personal.year"
       },
       {
-        "defaultMessage": "Rest assured: there are only a few steps separating you from the good stuff. Let's start by confirming your verified email address and phone number.",
-        "id": "identityverification.personal.email.subheader"
-      },
-      {
-        "defaultMessage": "Confirm Email:",
-        "id": "identityverification.personal.email.confirm"
-      },
-      {
-        "defaultMessage": "We emailed a verification code to {email}",
-        "id": "identityverification.personal.email.code"
-      },
-      {
-        "defaultMessage": "Send Email Verification Code",
-        "id": "identityverification.personal.email.number"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "identityverification.personal.continue"
-      }
-    ],
-    "path": "src/modals/IdentityVerification/Personal/EditEmail.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "That code doesn't match. {resend} or {changeNumber}.",
-        "id": "identityverification.personal.sms.error"
-      },
-      {
-        "defaultMessage": "Didn't get our text? {resend} or {changeNumber}.",
-        "id": "identityverification.personal.sms.didntreceive"
-      },
-      {
-        "defaultMessage": "What's Your Number?",
-        "id": "identityverification.personal.mobile.header"
-      },
-      {
-        "defaultMessage": "Don't worry, we won't use your number for anything other than sending your code.",
-        "id": "identityverification.personal.mobile.subheader"
-      },
-      {
-        "defaultMessage": "Enter your digits here:",
-        "id": "identityverification.personal.mobile.entermobilenumber"
-      },
-      {
-        "defaultMessage": "Enter the code we just sent to {smsNumber}",
-        "id": "identityverification.personal.mobile.entercode"
-      },
-      {
-        "defaultMessage": "Send My Code",
-        "id": "identityverification.personal.mobile.sendmycode"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "identityverification.personal.continue"
-      }
-    ],
-    "path": "src/modals/IdentityVerification/Personal/EditSmsNumber.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Enter Address Manually",
-        "id": "identityverification.personal.manualaddress"
-      },
-      {
-        "defaultMessage": "Personal Details",
-        "id": "identityverification.personal.header"
-      },
-      {
-        "defaultMessage": "There's so much we'd love to know about you, but we only need a few things.",
-        "id": "identityverification.personal.subheader"
-      },
-      {
-        "defaultMessage": "Select your country of residence",
-        "id": "identityverification.personal.country"
-      },
-      {
-        "defaultMessage": "Select country",
-        "id": "components.selectboxcountry.label"
-      },
-      {
-        "defaultMessage": "State",
-        "id": "identityverification.personal.state"
-      },
-      {
-        "defaultMessage": "Select your state",
-        "id": "identityverification.personal.label.state"
-      },
-      {
-        "defaultMessage": "Unfortunately exchange is not available in your state at this time.",
-        "id": "identityverification.personal.unavailable"
-      },
-      {
-        "defaultMessage": "We will notify you when we expand to your area.",
-        "id": "identityverification.personal.unavailablenotify"
-      },
-      {
-        "defaultMessage": "First Name",
-        "id": "identityverification.personal.firstname"
-      },
-      {
-        "defaultMessage": "Last Name",
-        "id": "identityverification.personal.lastname"
-      },
-      {
-        "defaultMessage": "First & Last Name",
-        "id": "identityverification.personal.faq.name.title"
-      },
-      {
-        "defaultMessage": "They should match exactly the details in your passport or driving license.",
-        "id": "identityverification.personal.faq.name.text"
-      },
-      {
-        "defaultMessage": "Date of Birth - Month",
-        "id": "identityverification.personal.dateofbirthmonth"
-      },
-      {
-        "defaultMessage": "Date",
-        "id": "identityverification.personal.date"
-      },
-      {
-        "defaultMessage": "Year",
-        "id": "identityverification.personal.year"
-      },
-      {
         "defaultMessage": "Age requirement",
         "id": "identityverification.personal.faq.dateofbirth.title"
       },
@@ -4819,77 +4697,6 @@
         "id": "modals.secondpassword.title"
       },
       {
-        "defaultMessage": "Copy & Share Address:",
-        "id": "modals.requestether.share"
-      },
-      {
-        "defaultMessage": "Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.",
-        "id": "modals.requestether.sharetooltip"
-      },
-      {
-        "defaultMessage": "Or",
-        "id": "modals.requestether.or"
-      },
-      {
-        "defaultMessage": "Scan QR Code:",
-        "id": "modals.requestether.scan"
-      },
-      {
-        "defaultMessage": "Ask the sender to scan this QR code with their ether wallet",
-        "id": "modals.requestether.scan_tooltip"
-      },
-      {
-        "defaultMessage": "Done",
-        "id": "modals.requestether.done"
-      }
-    ],
-    "path": "src/modals/RequestEther/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Request Stellar",
-        "id": "modals.requestxlm.title"
-      }
-    ],
-    "path": "src/modals/RequestXlm/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Currency:",
-        "id": "modals.requestxlm.coin"
-      },
-      {
-        "defaultMessage": "Receive to:",
-        "id": "modals.requestbitcoin.firststep.to"
-      },
-      {
-        "defaultMessage": "Copy & Share Address:",
-        "id": "modals.requestxlm.share"
-      },
-      {
-        "defaultMessage": "Or",
-        "id": "modals.requestxlm.or"
-      },
-      {
-        "defaultMessage": "Scan QR Code:",
-        "id": "modals.requestxlm.scan"
-      },
-      {
-        "defaultMessage": "Done",
-        "id": "modals.requestxlm.done"
-      }
-    ],
-    "path": "src/modals/RequestXlm/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Second password required",
-        "id": "modals.secondpassword.title"
-      },
-      {
         "defaultMessage": "Please enter your second password",
         "id": "modals.secondpassword.explain"
       },
@@ -5410,6 +5217,19 @@
       }
     ],
     "path": "src/modals/SendXlm/FirstStep/MaximumAmountLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "This account is currently inactive. To activate it, deposit at least one lumen (XLM) into your wallet.",
+        "id": "modals.sendxlm.firststep.noaccount"
+      },
+      {
+        "defaultMessage": "Exchange for Lumen",
+        "id": "modals.sendxlm.firststep.exchange"
+      }
+    ],
+    "path": "src/modals/SendXlm/FirstStep/NoAccountTemplate/index.json"
   },
   {
     "descriptors": [
