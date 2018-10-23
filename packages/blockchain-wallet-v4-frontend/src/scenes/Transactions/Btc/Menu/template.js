@@ -105,7 +105,7 @@ const Menu = props => {
               />
             </Addresses>
           )}
-          <Status>
+          <Status data-e2e='transactionTabs'>
             <Field
               name='status'
               statuses={['', 'sent', 'received', 'transferred']}
