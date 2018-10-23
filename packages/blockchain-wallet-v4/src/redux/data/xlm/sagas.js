@@ -42,10 +42,6 @@ export default ({ api, networks }) => {
       )
       yield put(A.fetchDataSuccess(indexBy(prop('account_id'), accounts)))
     } catch (e) {
-      const message = prop('message', e)
-      if (message === ACCOUNT_NOT_FOUND) {
-        return yield call(createAccounts)
-      }
       yield put(A.fetchDataFailure(e))
     }
   }

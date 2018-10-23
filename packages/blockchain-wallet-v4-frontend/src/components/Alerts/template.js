@@ -511,6 +511,13 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage="You've just received an Ethereum payment"
         />
       )
+    case C.PAYMENT_RECEIVED_XLM:
+      return (
+        <FormattedMessage
+          id='components.alerts.payment_received_xlm'
+          defaultMessage="You've just received a Stellar payment"
+        />
+      )
     case C.PBKDF2_UPDATE_SUCCESS:
       return (
         <FormattedMessage

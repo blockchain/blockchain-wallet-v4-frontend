@@ -49,7 +49,8 @@ describe('sendXlm sagas', () => {
   const {
     initialized,
     firstStepSubmitClicked,
-    secondStepSubmitClicked
+    secondStepSubmitClicked,
+    setFrom
   } = sendXlmSagas({ coreSagas })
 
   const paymentMock = {
@@ -99,30 +100,8 @@ describe('sendXlm sagas', () => {
       expect(coreSagas.payment.xlm.create).toHaveBeenCalledWith()
     })
 
-    it('should set payment from values based on payload', () => {
-      saga.next(paymentMock).call(paymentMock.from, from, type)
-    })
-
-    it('should call payment from without params if from was not passed', () => {
-      const { from, ...payloadWithoutFrom } = payload
-      paymentMock.from.mockClear()
-      return expectSaga(initialized, { payload: payloadWithoutFrom })
-        .run()
-        .then(() => {
-          expect(paymentMock.from).toHaveBeenCalledTimes(1)
-          expect(paymentMock.from).toHaveBeenCalledWith()
-        })
-    })
-
-    it('should call payment from without params if type was not passed', () => {
-      const { type, ...payloadWithoutType } = payload
-      paymentMock.from.mockClear()
-      return expectSaga(initialized, { payload: payloadWithoutType })
-        .run()
-        .then(() => {
-          expect(paymentMock.from).toHaveBeenCalledTimes(1)
-          expect(paymentMock.from).toHaveBeenCalledWith()
-        })
+    it('should call setFrom based on payload', () => {
+      saga.next(paymentMock).call(setFrom, paymentMock, from, type)
     })
 
     it('should select default account', () => {
@@ -321,6 +300,36 @@ describe('sendXlm sagas', () => {
           .put(actions.alerts.displayError(C.SEND_XLM_ERROR))
           .next()
       })
+    })
+  })
+
+  describe('setFrom', () => {
+    const from = 'fromxlmaddress'
+    const type = 'ACCOUNT'
+    it('should update payment from and remove noAccount form', () =>
+      expectSaga(setFrom, paymentMock, from, type)
+        .call(paymentMock.from, from, type)
+        .put(A.showNoAccountForm(false))
+        .returns(paymentMock)
+        .run())
+
+    it('should show noAccount form if from throw `Account does not exist` error', () => {
+      paymentMock.from.mockRejectedValue(new Error('Account does not exist'))
+      return expectSaga(setFrom, paymentMock, from, type)
+        .call(paymentMock.from, from, type)
+        .put(A.showNoAccountForm(true))
+        .returns(paymentMock)
+        .run()
+    })
+
+    it('should rethrow on other error', () => {
+      const error = new Error('other error')
+      paymentMock.from.mockRejectedValue(error)
+      return expect(
+        expectSaga(setFrom, paymentMock, from, type)
+          .call(paymentMock.from, from, type)
+          .run()
+      ).rejects.toThrowError(error)
     })
   })
 })

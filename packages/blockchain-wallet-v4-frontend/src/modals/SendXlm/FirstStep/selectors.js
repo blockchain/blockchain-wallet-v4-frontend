@@ -8,9 +8,10 @@ export const getData = createDeepEqualSelector(
     selectors.components.sendXlm.getToToggled,
     selectors.core.data.xlm.getTotalBalance,
     selectors.core.kvStore.lockbox.getDevices,
-    selectors.form.getFormValues(model.components.sendXlm.FORM)
+    selectors.form.getFormValues(model.components.sendXlm.FORM),
+    selectors.components.sendXlm.showNoAccountForm
   ],
-  (paymentR, toToggled, balanceR, lockboxDevicesR, formValues) => {
+  (paymentR, toToggled, balanceR, lockboxDevicesR, formValues, noAccount) => {
     const enableToggle = !isEmpty(lockboxDevicesR.getOrElse([]))
 
     const transform = payment => {
@@ -38,7 +39,8 @@ export const getData = createDeepEqualSelector(
         from,
         reserve,
         destinationAccountExists,
-        balanceStatus: balanceR
+        balanceStatus: balanceR,
+        noAccount
       }
     }
     return paymentR.map(transform)

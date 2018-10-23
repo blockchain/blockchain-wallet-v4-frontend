@@ -40,3 +40,7 @@ export const firstStepMinimumFeeClicked = () => ({
 export const firstStepMaximumFeeClicked = () => ({
   type: AT.FIRST_STEP_MAXIMUM_FEE_CLICKED
 })
+export const showNoAccountForm = shouldShow => ({
+  type: AT.SHOW_NO_ACCOUNT_FORM,
+  payload: { shouldShow }
+})

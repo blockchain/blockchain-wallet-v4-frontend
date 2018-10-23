@@ -45,3 +45,7 @@ export const transactionsAtBound = atBound => ({
   type: AT.TRANSACTIONS_AT_BOUND,
   payload: { atBound }
 })
+
+export const createTestAccounts = () => ({
+  type: AT.CREATE_TEST_ACCOUNTS
+})
