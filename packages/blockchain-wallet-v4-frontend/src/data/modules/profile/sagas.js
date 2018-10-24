@@ -99,6 +99,8 @@ export default ({ api, coreSagas }) => {
     yield put(A.setUserData(user))
     if (!renewUserTask && user.kycState === KYC_STATES.PENDING)
       renewUserTask = yield fork(renewUser)
+
+    return user
   }
 
   const renewUser = function*(renewIn = 0) {
@@ -192,6 +194,7 @@ export default ({ api, coreSagas }) => {
 
   const updateUser = function*({ payload }) {
     const { data } = payload
+    const user = yield select(S.getUserData)
     const {
       id,
       address,
@@ -200,23 +203,24 @@ export default ({ api, coreSagas }) => {
       state,
       kycState,
       ...userData
-    } = yield select(S.getUserData)
+    } = user
     const updatedData = { ...userData, ...data }
 
-    if (equals(updatedData, userData)) return
+    if (equals(updatedData, userData)) return user
 
     yield call(api.updateUser, updatedData)
-    yield call(fetchUser)
+    return yield call(fetchUser)
   }
 
   const updateUserAddress = function*({ payload }) {
     const { address } = payload
-    const { address: prevAddress } = yield select(S.getUserData)
+    const user = yield select(S.getUserData)
+    const { address: prevAddress } = user
 
-    if (equals(address, prevAddress)) return
+    if (equals(address, prevAddress)) return user
 
     yield call(api.updateUserAddress, address)
-    yield call(fetchUser)
+    return yield call(fetchUser)
   }
 
   const syncUserWithWallet = function*() {

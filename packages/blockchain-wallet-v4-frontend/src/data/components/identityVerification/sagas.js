@@ -160,12 +160,14 @@ export default ({ api, coreSagas }) => {
       if (address.country === 'US') address.state = address.state.code
       yield put(actions.form.startSubmit(PERSONAL_FORM))
       yield call(updateUser, { payload: { data: personalData } })
-      yield call(updateUserAddress, { payload: { address } })
+      const { mobileVerified } = yield call(updateUserAddress, {
+        payload: { address }
+      })
       const smsVerified = (yield select(
         selectors.core.settings.getSmsVerified
       )).getOrElse(0)
 
-      if (!smsVerified) {
+      if (!smsVerified && !mobileVerified) {
         yield put(actions.form.stopSubmit(PERSONAL_FORM))
         return yield put(A.setVerificationStep(STEPS.mobile))
       }
