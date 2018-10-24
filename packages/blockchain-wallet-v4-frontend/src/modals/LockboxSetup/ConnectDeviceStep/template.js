@@ -15,6 +15,16 @@ const StepText = styled(Text)`
   margin-bottom: 20px;
 `
 
+const ImageContainer = styled.div`
+  position: relative;
+  padding-bottom: 57%;
+  img {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+`
+
 const ButtonContainer = styled.div`
   margin-top: 20px;
 `
@@ -62,14 +72,16 @@ const ConnectDeviceStep = props => {
           />
         </StepText>
       </TextGroup>
-      <Image
-        name='lockbox-onboard-link'
-        width='100%'
-        srcset={{
-          'lockbox-onboard-link2': '2x',
-          'lockbox-onboard-link3': '3x'
-        }}
-      />
+      <ImageContainer>
+        <Image
+          name='lockbox-onboard-link'
+          width='100%'
+          srcset={{
+            'lockbox-onboard-link2': '2x',
+            'lockbox-onboard-link3': '3x'
+          }}
+        />
+      </ImageContainer>
       <ButtonContainer>
         <Button
           fullwidth
