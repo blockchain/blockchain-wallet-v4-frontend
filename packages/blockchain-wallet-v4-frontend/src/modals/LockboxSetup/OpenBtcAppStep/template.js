@@ -21,6 +21,15 @@ const Content = styled(TextGroup)`
     margin-bottom: 0;
   }
 `
+const ImageContainer = styled.div`
+  position: relative;
+  padding-bottom: 57%;
+  img {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+`
 const ButtonContainer = styled.div`
   margin-top: 20px;
 `
@@ -81,14 +90,16 @@ const OpenBtcAppStep = props => {
           </Link>
         </InstallTexts>
       </Content>
-      <Image
-        name='lockbox-onboard-bitcoin'
-        width='100%'
-        srcset={{
-          'lockbox-onboard-bitcoin2': '2x',
-          'lockbox-onboard-bitcoin3': '3x'
-        }}
-      />
+      <ImageContainer>
+        <Image
+          name='lockbox-onboard-bitcoin'
+          width='100%'
+          srcset={{
+            'lockbox-onboard-bitcoin2': '2x',
+            'lockbox-onboard-bitcoin3': '3x'
+          }}
+        />
+      </ImageContainer>
       <ButtonContainer>
         <Button
           fullwidth
