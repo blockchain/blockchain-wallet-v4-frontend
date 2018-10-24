@@ -21,7 +21,7 @@ export default {
       BCH: 'bch-blockchain',
       BTC: 'btc-blockchain',
       DASHBOARD: 'blockchain',
-      ETH: 'blockchain-eth'
+      ETH: 'eth-blockchain'
     },
     ledger: {
       BCH: 'BTC',

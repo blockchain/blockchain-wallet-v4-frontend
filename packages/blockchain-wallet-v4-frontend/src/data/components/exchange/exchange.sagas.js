@@ -655,6 +655,9 @@ export default ({ api, coreSagas, options, networks }) => {
     } catch (e) {
       yield put(actions.modals.closeAllModals())
       yield put(actions.form.stopSubmit(CONFIRM_FORM, { _error: e }))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'confirm', JSON.stringify(e))
+      )
     }
   }
 
