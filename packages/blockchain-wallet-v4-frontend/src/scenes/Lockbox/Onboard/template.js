@@ -35,11 +35,13 @@ const GetStartedContainer = styled.div`
   height: 325px;
   border: 1px solid ${props => props.theme['brand-quaternary']};
   border-radius: 3px;
-  background-image: url('/img/device@2x.png');
+  background-image: url('/img/lockbox@2x.png');
   background-repeat: no-repeat;
   background-size: auto 100%;
+  background-position: right;
   ${media.mobile`
     width: 100%;
+    background-image: none;
   `};
 `
 
@@ -66,10 +68,14 @@ const GetStartedText = styled(Text)`
   `};
 `
 const PoweredByContainer = styled.div`
-  position: absolute;
+  top: ${containerPadding};
   right: ${containerPadding};
-  bottom: ${containerPadding};
+  position: absolute;
   color: error;
+  ${media.mobile`
+    top: initial;
+    bottom: ${containerPadding};
+  `};
 `
 
 const PoweredByText = styled(Text)`
@@ -116,16 +122,16 @@ const Onboard = props => {
       <IntroContainer>
         <GetStartedContainer>
           <GetStartedContent>
-            <GetStartedHeader size='26px' weight={300}>
+            <GetStartedHeader size='26px' weight={400} color='brand-primary'>
               <FormattedMessage
                 id='scenes.lockbox.welcome.title'
-                defaultMessage='Get a Lockbox for your Crypto'
+                defaultMessage='Secure Your Crypto Offline'
               />
             </GetStartedHeader>
-            <GetStartedText size='17px' weight={200}>
+            <GetStartedText size='17px' weight={300}>
               <FormattedMessage
                 id='scenes.lockbox.welcome.subtitle'
-                defaultMessage='You can now store your crypto completely offline using our hardware wallet. This means easy access to funds while ensuring offline security.'
+                defaultMessage='Trade, send and receive straight from your offline hardware wallet. Blockchain Lockbox works seamlessly with your Blockchain Wallet.'
               />
             </GetStartedText>
             <Button
@@ -140,7 +146,7 @@ const Onboard = props => {
             </Button>
           </GetStartedContent>
           <PoweredByContainer>
-            <PoweredByText size='14px' weight={300}>
+            <PoweredByText size='11px' weight={300} color='brand-primary'>
               <FormattedMessage
                 id='scenes.lockbox.welcome.poweredby'
                 defaultMessage='Powered By'
@@ -160,7 +166,7 @@ const Onboard = props => {
           <Text size='15px'>
             <FormattedMessage
               id='scenes.lockbox.welcome.explanation'
-              defaultMessage="We've put together a page explaining all of this."
+              defaultMessage="Don't have a Lockbox? Secure your crypto now for $99."
             />
           </Text>
           <LearnMoreLink href={domains['comRoot'] + '/lockbox'} target='_blank'>

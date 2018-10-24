@@ -8830,24 +8830,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Get a Lockbox for your Crypto",
-        "id": "scenes.lockbox.welcome.title"
-      },
-      {
-        "defaultMessage": "You can now store your crypto completely offline using our hardware wallet. This means easy access to funds while ensuring offline security.",
-        "id": "scenes.lockbox.welcome.subtitle"
-      },
-      {
         "defaultMessage": "Get Started",
         "id": "scenes.lockbox.welcome.getstarted"
       },
       {
         "defaultMessage": "Powered By",
         "id": "scenes.lockbox.welcome.poweredby"
-      },
-      {
-        "defaultMessage": "We've put together a page explaining all of this.",
-        "id": "scenes.lockbox.welcome.explanation"
       },
       {
         "defaultMessage": "Learn More",
