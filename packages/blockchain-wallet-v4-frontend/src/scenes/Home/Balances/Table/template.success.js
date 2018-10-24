@@ -66,7 +66,7 @@ const Success = props => {
             <HomeCoinBalanceCell
               coin='XLM'
               coinName='Stellar'
-              coinIcon='xlm'
+              coinIcon='xlm-circle-filled'
               balance={balances.xlmBalance}
             />
           </div>
