@@ -199,10 +199,12 @@ describe('fetch user saga', () => {
       .provide([[fork.fn(renewUser), jest.fn()]])
       .not.fork(renewUser)
       .put(A.setUserData(newUserData))
+      .returns(newUserData)
       .run()
       .then(() => {
         expect(api.getUser).toHaveBeenCalledTimes(1)
       }))
+
   it('should start renewTask if kycState is PENDING', () => {
     api.getUser.mockReturnValueOnce({
       ...newUserData,
@@ -211,6 +213,10 @@ describe('fetch user saga', () => {
     return expectSaga(fetchUser)
       .provide([[fork.fn(renewUser), jest.fn()]])
       .fork(renewUser)
+      .returns({
+        ...newUserData,
+        kycState: KYC_STATES.PENDING
+      })
       .run()
   })
 })
@@ -235,9 +241,10 @@ describe('update user saga', () => {
     })
       .provide([
         [select(S.getUserData), stubUserData],
-        [call.fn(fetchUser), jest.fn()]
+        [call.fn(fetchUser), stubUserData]
       ])
       .call(fetchUser)
+      .returns(stubUserData)
       .run()
       .then(() => {
         expect(api.updateUser).toHaveBeenCalledTimes(1)
@@ -260,9 +267,10 @@ describe('update user saga', () => {
     })
       .provide([
         [select(S.getUserData), stubUserData],
-        [call.fn(fetchUser), jest.fn()]
+        [call.fn(fetchUser), {}]
       ])
       .not.call(fetchUser)
+      .returns(stubUserData)
       .run()
       .then(() => {
         expect(api.updateUser).toHaveBeenCalledTimes(0)
@@ -291,9 +299,10 @@ describe('update user address saga', () => {
     })
       .provide([
         [select(S.getUserData), updateData],
-        [call.fn(fetchUser), jest.fn()]
+        [call.fn(fetchUser), stubUserData]
       ])
       .call(fetchUser)
+      .returns(stubUserData)
       .run()
       .then(() => {
         expect(api.updateUserAddress).toHaveBeenCalledTimes(1)
@@ -307,9 +316,10 @@ describe('update user address saga', () => {
     })
       .provide([
         [select(S.getUserData), stubUserData],
-        [call.fn(fetchUser), jest.fn()]
+        [call.fn(fetchUser), {}]
       ])
       .not.call(fetchUser)
+      .returns(stubUserData)
       .run()
       .then(() => {
         expect(api.updateUserAddress).toHaveBeenCalledTimes(0)
