@@ -67,7 +67,7 @@ class RequestXlmContainer extends React.PureComponent {
       Success: val => (
         <Success
           {...this.props}
-          address={val}
+          {...val}
           closeAll={closeAll}
           coins={coins}
           selection={selection}
