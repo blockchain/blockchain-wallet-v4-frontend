@@ -49,8 +49,7 @@ export default ({ api, networks }) => {
   const fetchRates = function*() {
     try {
       yield put(A.setRates(Remote.Loading))
-      // TODO: XLM: replace with getXlmTicker
-      const data = yield call(api.getBitcoinTicker)
+      const data = yield call(api.getXlmTicker)
       yield put(A.setRates(Remote.Success(data)))
     } catch (e) {
       yield put(A.setRates(Remote.Failure(e)))

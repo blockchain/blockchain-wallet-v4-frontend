@@ -60,6 +60,6 @@ export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
     ...rates({ nabuUrl, ...authorizedHttp }),
     ...trades({ nabuUrl, ...authorizedHttp }),
     ...wallet({ rootUrl, apiUrl, get, post }),
-    ...xlm({ get: http.get, horizonUrl, network: networks.xlm })
+    ...xlm({ apiUrl, get: http.get, horizonUrl, network: networks.xlm })
   }
 }
