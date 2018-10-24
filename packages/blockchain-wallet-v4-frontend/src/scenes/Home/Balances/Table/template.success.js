@@ -30,7 +30,7 @@ const Success = props => {
             <HomeCoinBalanceCell
               coin='BTC'
               coinName='Bitcoin'
-              coinIcon='btc-circle'
+              coinIcon='btc-circle-filled'
               balance={balances.btcBalance}
             />
           </div>
@@ -42,7 +42,7 @@ const Success = props => {
             <HomeCoinBalanceCell
               coin='ETH'
               coinName='Ether'
-              coinIcon='eth-circle'
+              coinIcon='eth-circle-filled'
               balance={balances.ethBalance}
             />
           </div>
@@ -54,7 +54,7 @@ const Success = props => {
             <HomeCoinBalanceCell
               coin='BCH'
               coinName='Bitcoin Cash'
-              coinIcon='bch-circle'
+              coinIcon='bch-circle-filled'
               balance={balances.bchBalance}
             />
           </div>
