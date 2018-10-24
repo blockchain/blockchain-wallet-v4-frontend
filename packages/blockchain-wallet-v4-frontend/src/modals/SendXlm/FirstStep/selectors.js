@@ -9,8 +9,7 @@ export const getData = createDeepEqualSelector(
     selectors.core.data.xlm.getTotalBalance,
     selectors.core.kvStore.lockbox.getDevices,
     selectors.core.settings.getCurrency,
-    // TODO: change rates
-    selectors.core.data.bitcoin.getRates,
+    selectors.core.data.xlm.getRates,
     selectors.form.getFormValues(model.components.sendXlm.FORM),
     selectors.form.getActiveField(model.components.sendXlm.FORM),
     selectors.components.sendXlm.showNoAccountForm

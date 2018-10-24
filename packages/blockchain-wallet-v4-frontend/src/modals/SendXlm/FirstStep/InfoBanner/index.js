@@ -3,6 +3,7 @@ import { BigNumber } from 'bignumber.js'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { prop } from 'ramda'
+import { currencySymbolMap } from 'services/CoinifyService'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { model } from 'data'
@@ -28,21 +29,30 @@ export const InfoBanner = props => {
     fromUnit: 'STROOP',
     toUnit: 'XLM'
   }).value
+  const currency = prop('currency', props)
+  const rates = prop('rates', props)
+  const effectiveBalanceFiat = Exchange.convertXlmToFiat({
+    value: new BigNumber(effectiveBalance).add(fee),
+    fromUnit: 'STROOP',
+    toCurrency: currency,
+    rates
+  }).value
   const effectiveBalanceXlm = Exchange.convertXlmToXlm({
     value: new BigNumber(effectiveBalance).add(fee),
     fromUnit: 'STROOP',
     toUnit: 'XLM'
   }).value
-  const currency = prop('currency', props)
-  const rates = prop('rates', props)
   const modalProps = { currency, effectiveBalanceXlm, fee, rates, reserveXlm }
 
   return (
     <BannerTemplate>
       <FormattedMessage
         id='modals.sendxlm.reserveinfo'
-        defaultMessage='Your available balance is {effectiveBalanceFiat} (minus fee). Learn about Stellar’s minimum balance.'
-        values={props}
+        defaultMessage='Your available balance is {currencySymbol}{effectiveBalanceFiat} (minus fee). Learn about Stellar’s minimum balance.'
+        values={{
+          effectiveBalanceFiat,
+          currencySymbol: currencySymbolMap[currency]
+        }}
       />
       <ModalIcon modal={RESERVE_LEARN_MODAL} {...modalProps} />
     </BannerTemplate>
