@@ -5212,6 +5212,15 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Your available balance is {currencySymbol}{effectiveBalanceFiat} (minus fee). Learn about Stellar’s minimum balance.",
+        "id": "modals.sendxlm.reserveinfo"
+      }
+    ],
+    "path": "src/modals/SendXlm/FirstStep/InfoBanner/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Use maximum",
         "id": "modals.sendxlm.maximumamountlink.maximum"
       }
@@ -5296,11 +5305,11 @@
         "id": "modals.sendxlm.maximumamountmessage"
       },
       {
-        "defaultMessage": "You need to send at least {amount} XLM to this address",
+        "defaultMessage": "You need to send at least {reserveXlm} XLM to this address",
         "id": "modals.sendxlm.shouldcreateaccountmessage"
       },
       {
-        "defaultMessage": "This amount will leave your wallet with an insufficient xlm balance",
+        "defaultMessage": "Insufficient balance. To maintain Stellar’s minimum balance of {reserveXlm} XLM the most that you can send is {currencySymbol}{effectiveBalanceFiat} ({effectiveBalanceXlm} XLM) minus fee.",
         "id": "modals.sendxlm.reservemessage"
       },
       {
@@ -6474,6 +6483,80 @@
       }
     ],
     "path": "src/modals/Welcome/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Back.",
+        "id": "modal.createaccountlearn.back"
+      },
+      {
+        "defaultMessage": "Stellar mimimum balance requirement.",
+        "id": "modal.createaccountlearn.title"
+      },
+      {
+        "defaultMessage": "To fund a new address, you must send enough XLM to meet the reserve requirement.",
+        "id": "modal.createaccountlearn.info1"
+      },
+      {
+        "defaultMessage": "The current minimum reserve requirement is {reserveXlm} XLM; this is the cost of an address that owns no other objects in the ledger.",
+        "id": "modal.createaccountlearn.info2"
+      },
+      {
+        "defaultMessage": "You can read more information on the",
+        "id": "modal.createaccountlearn.info3"
+      },
+      {
+        "defaultMessage": "Stellar (XLM) reserve requirements in the official documentation.",
+        "id": "modal.createaccountlearn.link"
+      }
+    ],
+    "path": "src/modals/XlmCreateAccountLearn/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Back.",
+        "id": "modal.reservelearn.back"
+      },
+      {
+        "defaultMessage": "Stellar mimimum balance requirement.",
+        "id": "modal.reservelearn.title"
+      },
+      {
+        "defaultMessage": "To submit transactions, an address must hold a minimum amount of XLM in the shared global ledger. You cannot send this XLM to other addresses. To fund a new address, you must send enough XLM to meet the reserve requirement.",
+        "id": "modal.reservelearn.info1"
+      },
+      {
+        "defaultMessage": "The current minimum reserve requirement is {reserveXlm} XLM; this is the cost of an address that owns no other objects in the ledger.",
+        "id": "modal.reservelearn.info2"
+      },
+      {
+        "defaultMessage": "You can read more information on the",
+        "id": "modal.reservelearn.info3"
+      },
+      {
+        "defaultMessage": "Stellar (XLM) reserve requirements in the official documentation.",
+        "id": "modal.reservelearn.link"
+      },
+      {
+        "defaultMessage": "Total funds.",
+        "id": "modal.reservelearn.totalfunds"
+      },
+      {
+        "defaultMessage": "XLM Reserve Requirement",
+        "id": "modal.reservelearn.reservexlm"
+      },
+      {
+        "defaultMessage": "Transaction fee",
+        "id": "modal.reservelearn.fee"
+      },
+      {
+        "defaultMessage": "Available to withdraw or send",
+        "id": "modal.reservelearn.availablefunds"
+      }
+    ],
+    "path": "src/modals/XlmReserveLearn/index.json"
   },
   {
     "descriptors": [
