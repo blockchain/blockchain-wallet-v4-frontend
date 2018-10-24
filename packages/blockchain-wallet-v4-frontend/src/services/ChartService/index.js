@@ -54,6 +54,7 @@ export const calculateStart = (coin, time) => {
 }
 
 export const calculateScale = (coin, time) => {
+  if (coin === 'XLM' && time === 'all') return SCALES.DAY
   switch (time) {
     case '1year':
       return SCALES.DAY
