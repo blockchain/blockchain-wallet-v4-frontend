@@ -5197,6 +5197,19 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "This account is currently inactive. To activate it, deposit at least one lumen (XLM) into your wallet.",
+        "id": "modals.sendxlm.firststep.noaccount"
+      },
+      {
+        "defaultMessage": "Exchange for Lumen",
+        "id": "modals.sendxlm.firststep.exchange"
+      }
+    ],
+    "path": "src/modals/SendXlm/FirstStep/NoAccountTemplate/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Learn more",
         "id": "modals.sendxlm.reservelearn"
       }
@@ -8830,12 +8843,24 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Secure Your Crypto Offline",
+        "id": "scenes.lockbox.welcome.title"
+      },
+      {
+        "defaultMessage": "Trade, send and receive straight from your offline hardware wallet. Blockchain Lockbox works seamlessly with your Blockchain Wallet.",
+        "id": "scenes.lockbox.welcome.subtitle"
+      },
+      {
         "defaultMessage": "Get Started",
         "id": "scenes.lockbox.welcome.getstarted"
       },
       {
         "defaultMessage": "Powered By",
         "id": "scenes.lockbox.welcome.poweredby"
+      },
+      {
+        "defaultMessage": "Don't have a Lockbox? Secure your crypto now for $99.",
+        "id": "scenes.lockbox.welcome.explanation"
       },
       {
         "defaultMessage": "Learn More",
