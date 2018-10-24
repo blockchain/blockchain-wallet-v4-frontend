@@ -46,7 +46,7 @@ export const promptForInput = function*({ title, secret, initial = '' }) {
   }
 }
 
-export const promptForLockbox = function*(coin, deviceType, marquees) {
+export const promptForLockbox = function*(coin, deviceType, marquees = []) {
   if (marquees && !Array.isArray(marquees)) {
     throw new Error('MARQUEES_NEEDS_TO_BE_ARRAY')
   }

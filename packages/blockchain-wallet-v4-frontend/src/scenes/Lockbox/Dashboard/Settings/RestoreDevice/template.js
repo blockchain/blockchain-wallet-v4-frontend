@@ -8,11 +8,9 @@ import {
   SettingSummary
 } from 'components/Setting'
 
-import { Button, Icon } from 'blockchain-info-components'
+import { Button, Link, Icon } from 'blockchain-info-components'
 
 const RestoreLockboxDevice = props => {
-  const { onClick } = props
-
   return (
     <SettingContainer>
       <SettingSummary>
@@ -30,9 +28,14 @@ const RestoreLockboxDevice = props => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button nature='empty' onClick={onClick}>
-          <Icon name='open-in-new-tab' size='20px' />
-        </Button>
+        <Link
+          href='https://support.blockchain.com/hc/en-us/articles/360018285872'
+          target='_blank'
+        >
+          <Button nature='empty'>
+            <Icon name='open-in-new-tab' size='20px' />
+          </Button>
+        </Link>
       </SettingComponent>
     </SettingContainer>
   )

@@ -40,7 +40,7 @@ export const getDeviceFromCoinAddrs = (state, coin, addrs) => {
     case 'BCH':
       return getDeviceFromBchXpubs(state, addrs)
     case 'ETH':
-      return getDeviceFromEthAddr(state, prop('address', addrs))
+      return getDeviceFromEthAddr(state, head(addrs))
   }
 }
 

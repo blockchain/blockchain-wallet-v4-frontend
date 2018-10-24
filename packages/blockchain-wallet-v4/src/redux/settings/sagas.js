@@ -101,19 +101,14 @@ export default ({ api }) => {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.updateMobile, guid, sharedKey, mobile)
-    if (!contains('successfully', toLower(response))) {
-      throw new Error(response)
-    }
     yield put(actions.setMobile(mobile))
+    return response
   }
 
   const setMobileVerified = function*({ code }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.verifyMobile, guid, sharedKey, code)
-    if (!contains('successfully', toLower(response))) {
-      throw new Error(response)
-    }
     yield put(actions.setMobileVerified())
     return response
   }
