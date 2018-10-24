@@ -6,8 +6,7 @@ export const getData = (state, ownProps) => {
   const btcRatesR = selectors.core.data.bitcoin.getRates(state)
   const ethRatesR = selectors.core.data.ethereum.getRates(state)
   const bchRatesR = selectors.core.data.bch.getRates(state)
-  // TODO: change rates
-  const xlmRatesR = selectors.core.data.bitcoin.getRates(state)
+  const xlmRatesR = selectors.core.data.xlm.getRates(state)
 
   const transform = (currency, btcRates, ethRates, bchRates, xlmRates) => ({
     unit: ownProps.coin,
