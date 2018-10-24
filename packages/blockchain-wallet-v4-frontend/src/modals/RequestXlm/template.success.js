@@ -42,77 +42,73 @@ const ScanMessage = styled.div`
   padding-bottom: 20px;
 `
 
-const RequestXlm = props => {
-  const { handleSubmit, address } = props
-
-  return (
-    <Form onSubmit={handleSubmit}>
-      <FormGroup inline margin={'20px'}>
-        <FormItem>
-          <FormLabel for='coin'>
-            <FormattedMessage
-              id='modals.requestxlm.coin'
-              defaultMessage='Currency:'
-            />
-          </FormLabel>
-          <Field name='coin' component={SelectBoxCoin} validate={[required]} />
-        </FormItem>
-        <FormItem>
-          <FormLabel for='to'>
-            <FormattedMessage
-              id='modals.requestbitcoin.firststep.to'
-              defaultMessage='Receive to:'
-            />
-          </FormLabel>
-          <Field
-            name='to'
-            component={SelectBoxXlmAddresses}
-            includeAll={false}
-            validate={[required]}
+const RequestXlm = ({ handleSubmit, address, xlmURI }) => (
+  <Form onSubmit={handleSubmit}>
+    <FormGroup inline margin={'20px'}>
+      <FormItem>
+        <FormLabel for='coin'>
+          <FormattedMessage
+            id='modals.requestxlm.coin'
+            defaultMessage='Currency:'
           />
-        </FormItem>
-      </FormGroup>
-      <FormGroup>
-        <FormItem>
-          <FormLabel>
-            <FormattedMessage
-              id='modals.requestxlm.share'
-              defaultMessage='Copy & Share Address:'
-            />
-            <TooltipHost id='reqXlmShare'>
-              <TooltipIcon name='question-in-circle' />
-            </TooltipHost>
-          </FormLabel>
-        </FormItem>
-        <AddressContainer>
-          <CopyClipboard address={address} />
-        </AddressContainer>
-      </FormGroup>
-      <Separator margin={'20px 0'}>
-        <Text size='14px' weight={300} uppercase>
-          <FormattedMessage id='modals.requestxlm.or' defaultMessage='Or' />
+        </FormLabel>
+        <Field name='coin' component={SelectBoxCoin} validate={[required]} />
+      </FormItem>
+      <FormItem>
+        <FormLabel for='to'>
+          <FormattedMessage
+            id='modals.requestbitcoin.firststep.to'
+            defaultMessage='Receive to:'
+          />
+        </FormLabel>
+        <Field
+          name='to'
+          component={SelectBoxXlmAddresses}
+          includeAll={false}
+          validate={[required]}
+        />
+      </FormItem>
+    </FormGroup>
+    <FormGroup>
+      <FormItem>
+        <FormLabel>
+          <FormattedMessage
+            id='modals.requestxlm.share'
+            defaultMessage='Copy & Share Address:'
+          />
+          <TooltipHost id='reqXlmShare'>
+            <TooltipIcon name='question-in-circle' />
+          </TooltipHost>
+        </FormLabel>
+      </FormItem>
+      <AddressContainer>
+        <CopyClipboard address={address} />
+      </AddressContainer>
+    </FormGroup>
+    <Separator margin={'20px 0'}>
+      <Text size='14px' weight={300} uppercase>
+        <FormattedMessage id='modals.requestxlm.or' defaultMessage='Or' />
+      </Text>
+    </Separator>
+    <QRCodeContainer>
+      <ScanMessage>
+        <Text size='14px'>
+          <FormattedMessage
+            id='modals.requestxlm.scan'
+            defaultMessage='Scan QR Code:'
+          />
+          <TooltipHost id='reqXlmScan'>
+            <TooltipIcon name='question-in-circle' />
+          </TooltipHost>
         </Text>
-      </Separator>
-      <QRCodeContainer>
-        <ScanMessage>
-          <Text size='14px'>
-            <FormattedMessage
-              id='modals.requestxlm.scan'
-              defaultMessage='Scan QR Code:'
-            />
-            <TooltipHost id='reqXlmScan'>
-              <TooltipIcon name='question-in-circle' />
-            </TooltipHost>
-          </Text>
-        </ScanMessage>
-        <QRCodeReact value={address} size={150} />
-      </QRCodeContainer>
-      <Button type='submit' nature='primary' fullwidth>
-        <FormattedMessage id='modals.requestxlm.done' defaultMessage='Done' />
-      </Button>
-    </Form>
-  )
-}
+      </ScanMessage>
+      <QRCodeReact value={xlmURI} size={150} />
+    </QRCodeContainer>
+    <Button type='submit' nature='primary' fullwidth>
+      <FormattedMessage id='modals.requestxlm.done' defaultMessage='Done' />
+    </Button>
+  </Form>
+)
 
 RequestXlm.propTypes = {
   address: PropTypes.string.isRequired,

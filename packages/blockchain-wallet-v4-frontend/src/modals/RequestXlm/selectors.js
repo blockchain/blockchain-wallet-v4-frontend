@@ -1,10 +1,19 @@
 import { selectors } from 'data'
 import { head, nth, prop } from 'ramda'
+import { utils } from 'blockchain-wallet-v4'
 
 const extractAddress = account => prop('publicKey', head(account))
 
-export const getData = state =>
-  selectors.core.kvStore.xlm.getAccounts(state).map(extractAddress)
+export const getData = state => {
+  const addressR = selectors.core.kvStore.xlm
+    .getAccounts(state)
+    .map(extractAddress)
+
+  return addressR.map(address => ({
+    address,
+    xlmURI: utils.xlm.encodeXlmURI(address)
+  }))
+}
 
 export const getInitialValues = (state, ownProps) => {
   const to = to => ({ to, coin: 'XLM' })

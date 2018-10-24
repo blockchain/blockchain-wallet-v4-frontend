@@ -4,7 +4,6 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import * as bowser from 'bowser'
 import styled from 'styled-components'
-import { path } from 'ramda'
 
 import { model } from 'data'
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -18,7 +17,6 @@ import {
   TooltipIcon
 } from 'blockchain-info-components'
 import {
-  FiatConvertor,
   Form,
   FormGroup,
   FormItem,
@@ -29,33 +27,29 @@ import {
   TextAreaDebounced
 } from 'components/Form'
 import {
-  ACCOUNT_CREATION_ERROR,
   accountCreationAmount,
+  balanceReserveAmount,
   invalidAmount,
   insufficientFunds,
   maximumAmount,
   shouldError,
   shouldWarn
 } from './validation'
-import { ShouldCreateAccountMessage } from './validationMessages'
 import { Row, AddressButton } from 'components/Send'
 import QRCodeCapture from 'components/QRCodeCapture'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import { NoAccountTemplate } from './NoAccountTemplate'
+import { ErrorBanner } from './ErrorBanner'
+import { XlmFiatConvertor } from './XlmFiatConvertor'
+import { InfoBanner } from './InfoBanner'
 
 const BrowserWarning = styled(Banner)`
-  margin: -4px 0 8px;
+  margin-bottom: 15px;
 `
-
-const XlmFiatConvertor = ({ meta, ...rest }) => {
-  if (path(['error', 'message'], meta) === ACCOUNT_CREATION_ERROR) {
-    meta.error = <ShouldCreateAccountMessage amount={meta.error.amount} />
-  }
-  return <FiatConvertor meta={meta} {...rest} />
-}
 
 const FirstStep = props => {
   const {
+    activeField,
     pristine,
     invalid,
     submitting,
@@ -69,8 +63,10 @@ const FirstStep = props => {
     from,
     balanceStatus,
     handleToToggle,
+    error,
     handleSubmit
   } = props
+  const amountActive = activeField === 'amount'
   const disableLockboxSend =
     from &&
     from.type === 'LOCKBOX' &&
@@ -195,6 +191,7 @@ const FirstStep = props => {
                 name='amount'
                 disabled={unconfirmedTx}
                 component={XlmFiatConvertor}
+                error={error}
                 coin='XLM'
                 validate={[
                   required,
@@ -205,6 +202,8 @@ const FirstStep = props => {
               />
             </FormItem>
           </FormGroup>
+          {amountActive && !error && <InfoBanner {...props} />}
+          {error && <ErrorBanner error={error} />}
           <FormGroup margin={'15px'}>
             <FormItem>
               <FormLabel for='description'>
@@ -276,7 +275,7 @@ FirstStep.propTypes = {
 const validate = (values, props) => {
   const errors = {}
   accountCreationAmount(errors, values, props)
-
+  balanceReserveAmount(errors, values, props)
   return errors
 }
 

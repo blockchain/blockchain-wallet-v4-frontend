@@ -51,6 +51,8 @@ import UpgradeAddressLabels from './UpgradeAddressLabels'
 import UpgradeWallet from './UpgradeWallet'
 import UserExists from './UserExists'
 import Welcome from './Welcome'
+import XlmCreateAccountLearn from './XlmCreateAccountLearn'
+import XlmReserveLearn from './XlmReserveLearn'
 
 const Modals = props => (
   <div>
@@ -105,6 +107,8 @@ const Modals = props => (
     <UpgradeWallet />
     <UserExists />
     <Welcome />
+    <XlmCreateAccountLearn />
+    <XlmReserveLearn />
   </div>
 )
 

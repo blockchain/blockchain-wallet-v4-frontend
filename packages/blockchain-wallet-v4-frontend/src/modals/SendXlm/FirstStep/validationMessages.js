@@ -2,8 +2,15 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
+import { model } from 'data'
+import { Banner } from 'blockchain-info-components'
 import MaximumAmountLink from './MaximumAmountLink'
-import ReserveLearnLink from './ReserveLearnLink'
+import ModalIcon from './ModalIcon'
+
+const {
+  CREATE_ACCOUNT_LEARN_MODAL,
+  RESERVE_LEARN_MODAL
+} = model.components.sendXlm
 
 const Wrapper = styled.div`
   display: flex;
@@ -14,6 +21,19 @@ const Wrapper = styled.div`
   > * {
     margin: 0 0 0 2px;
   }
+`
+
+const ErrorBanner = styled(Banner)`
+  > span {
+    display: none;
+  }
+  > div {
+    text-transform: none;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+  margin-bottom: 16px;
 `
 
 export const InvalidAmountMessage = () => (
@@ -33,25 +53,26 @@ export const MaximumAmountMessage = () => (
   </Wrapper>
 )
 
-export const ShouldCreateAccountMessage = ({ amount }) => (
-  <Wrapper>
+export const ShouldCreateAccountMessage = props => (
+  <ErrorBanner type='warning'>
     <FormattedMessage
       id='modals.sendxlm.shouldcreateaccountmessage'
-      defaultMessage='You need to send at least {amount} XLM to this address'
-      values={{ amount }}
+      defaultMessage='You need to send at least {reserveXlm} XLM to this address'
+      values={props}
     />
-    <ReserveLearnLink />
-  </Wrapper>
+    <ModalIcon modal={CREATE_ACCOUNT_LEARN_MODAL} {...props} />
+  </ErrorBanner>
 )
 
-export const ReserveMessage = () => (
-  <Wrapper>
+export const ReserveMessage = props => (
+  <ErrorBanner type='warning'>
     <FormattedMessage
       id='modals.sendxlm.reservemessage'
-      defaultMessage='This amount will leave your wallet with an insufficient xlm balance'
+      defaultMessage='Insufficient balance. To maintain Stellar’s minimum balance of {reserveXlm} XLM the most that you can send is {currencySymbol}{effectiveBalanceFiat} ({effectiveBalanceXlm} XLM) minus fee.'
+      values={props}
     />
-    <MaximumAmountLink />
-  </Wrapper>
+    <ModalIcon modal={RESERVE_LEARN_MODAL} {...props} />
+  </ErrorBanner>
 )
 
 export const InsufficientFundsMessage = () => (
