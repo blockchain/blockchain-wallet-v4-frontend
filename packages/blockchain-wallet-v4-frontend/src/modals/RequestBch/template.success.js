@@ -102,7 +102,7 @@ const RequestBch = props => {
             </TooltipHost>
           </FormLabel>
           <AddressContainer>
-            <CopyClipboard address={receiveAddress} />
+            <CopyClipboard address={receiveAddress} data-e2e='requestBch' />
           </AddressContainer>
         </FormItem>
       </FormGroup>
@@ -141,6 +141,7 @@ const RequestBch = props => {
         nature='primary'
         fullwidth
         disabled={submitting || invalid}
+        data-e2e='requestBch_done_button'
       >
         <FormattedMessage id='modals.requestbch.done' defaultMessage='Done' />
       </Button>

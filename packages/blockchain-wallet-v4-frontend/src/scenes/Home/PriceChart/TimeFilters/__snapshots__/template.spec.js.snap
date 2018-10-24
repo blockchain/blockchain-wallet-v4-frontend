@@ -3,6 +3,7 @@
 exports[`TimeFilters component renders correctly 1`] = `
 <template__Wrapper>
   <template__FilterContainer
+    data-e2e="priceChartAll"
     onClick={[Function]}
     selected={false}
     size="14px"
@@ -15,6 +16,7 @@ exports[`TimeFilters component renders correctly 1`] = `
     />
   </template__FilterContainer>
   <template__FilterContainer
+    data-e2e="priceChartYear"
     onClick={[Function]}
     selected={false}
     size="14px"
@@ -27,6 +29,7 @@ exports[`TimeFilters component renders correctly 1`] = `
     />
   </template__FilterContainer>
   <template__FilterContainer
+    data-e2e="priceChartMonth"
     onClick={[Function]}
     selected={true}
     size="14px"
@@ -39,6 +42,7 @@ exports[`TimeFilters component renders correctly 1`] = `
     />
   </template__FilterContainer>
   <template__FilterContainer
+    data-e2e="priceChartWeek"
     onClick={[Function]}
     selected={false}
     size="14px"
@@ -51,6 +55,7 @@ exports[`TimeFilters component renders correctly 1`] = `
     />
   </template__FilterContainer>
   <template__FilterContainer
+    data-e2e="priceChartDay"
     onClick={[Function]}
     selected={false}
     size="14px"
