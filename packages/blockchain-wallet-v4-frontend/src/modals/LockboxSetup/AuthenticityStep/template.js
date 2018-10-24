@@ -18,6 +18,15 @@ const Content = styled.div`
   text-align: center;
   margin-bottom: 15px;
 `
+const ImageContainer = styled.div`
+  position: relative;
+  padding-bottom: 57%;
+  img {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+`
 const ButtonContainer = styled.div`
   margin-top: 20px;
 `
@@ -46,14 +55,16 @@ const AuthenticityStep = props => {
           />
         </Text>
       </Content>
-      <Image
-        name='lockbox-onboard-verify'
-        width='100%'
-        srcset={{
-          'lockbox-onboard-verify2': '2x',
-          'lockbox-onboard-verify3': '3x'
-        }}
-      />
+      <ImageContainer>
+        <Image
+          name='lockbox-onboard-verify'
+          width='100%'
+          srcset={{
+            'lockbox-onboard-verify2': '2x',
+            'lockbox-onboard-verify3': '3x'
+          }}
+        />
+      </ImageContainer>
       <ButtonContainer>
         <Button
           fullwidth

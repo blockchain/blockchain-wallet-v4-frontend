@@ -86,6 +86,9 @@ const WalletLayout = props => {
             {location.pathname.includes('/eth/transactions') && (
               <Menu coin='ETH' />
             )}
+            {location.pathname.includes('/xlm/transactions') && (
+              <Menu coin='XLM' />
+            )}
             {location.pathname.includes('/exchange') && (
               <ExchangeMenu
                 historySelected={location.pathname.includes(

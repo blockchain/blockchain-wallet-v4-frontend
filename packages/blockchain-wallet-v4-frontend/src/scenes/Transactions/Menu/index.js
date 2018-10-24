@@ -4,14 +4,17 @@ import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 import { isNil } from 'ramda'
 
-import { Remote } from 'blockchain-wallet-v4/src'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
+import { getData } from './selectors'
 import Menu from './template.js'
-import { getData as getDataBtcBch } from 'components/Form/SelectBoxBtcAddresses/selectors'
 
 class MenuContainer extends React.PureComponent {
-  onShowEthPrivateKey = () => {
-    this.props.modalActions.showModal('ShowEthPrivateKey', { isLegacy: false })
+  onShowPrivateKey = () => {
+    const { coin, modalActions } = this.props
+
+    if (coin === 'ETH')
+      modalActions.showModal('ShowEthPrivateKey', { isLegacy: false })
+    if (coin === 'XLM') modalActions.showModal('ShowXlmPrivateKey')
   }
 
   onShowEthPrivateKeyLegacy = () => {
@@ -19,9 +22,9 @@ class MenuContainer extends React.PureComponent {
   }
 
   handleClickReporting = () => {
-    this.props.coin === 'BTC'
-      ? this.props.btcActions.reportClicked()
-      : this.props.bchActions.reportClicked()
+    const { coin } = this.props
+    if (coin === 'BTC') this.props.btcActions.reportClicked()
+    if (coin === 'BCH') this.props.bchActions.reportClicked()
   }
 
   render () {
@@ -30,9 +33,10 @@ class MenuContainer extends React.PureComponent {
         const isLegacyEthAddr = !isNil(value && value.legacyEthAddr)
         return (
           <Menu
+            accounts={value.data}
             coin={this.props.coin}
             handleClickReporting={this.handleClickReporting}
-            onShowEthPrivateKey={this.onShowEthPrivateKey}
+            onShowPrivateKey={this.onShowPrivateKey}
             onShowEthPrivateKeyLegacy={this.onShowEthPrivateKeyLegacy}
             isLegacyEthAddr={isLegacyEthAddr}
           />
@@ -45,23 +49,6 @@ class MenuContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  switch (ownProps.coin) {
-    case 'ETH':
-      return {
-        data: Remote.of({
-          legacyEthAddr: selectors.core.kvStore.ethereum
-            .getLegacyAccountAddress(state)
-            .getOrElse(null)
-        })
-      }
-    default:
-      return {
-        data: getDataBtcBch(state, ownProps.coin)
-      }
-  }
-}
-
 const mapDispatchToProps = dispatch => ({
   btcActions: bindActionCreators(actions.components.btcTransactions, dispatch),
   bchActions: bindActionCreators(actions.components.bchTransactions, dispatch),
@@ -69,10 +56,10 @@ const mapDispatchToProps = dispatch => ({
 })
 
 MenuContainer.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'BCH', 'ETH']).isRequired
+  coin: PropTypes.oneOf(['BTC', 'BCH', 'ETH', 'XLM']).isRequired
 }
 
 export default connect(
-  mapStateToProps,
+  getData,
   mapDispatchToProps
 )(MenuContainer)

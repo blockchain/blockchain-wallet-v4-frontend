@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
-import { prop, flatten } from 'ramda'
+import { contains, flatten, prop } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
 import { ComponentDropdown, Icon, Link, Text } from 'blockchain-info-components'
@@ -99,6 +99,10 @@ const SearchIcon = styled(Icon)`
   top: 10px;
   right: 10px;
 `
+
+const PRIVATE_KEY_EXPORT_COINS = ['ETH', 'XLM']
+const ACCOUNT_FILTER_COINS = ['BTC', 'BCH']
+
 const EthPrivateKeys = () => (
   <Link weight={300} size='12px'>
     <FormattedMessage
@@ -112,11 +116,14 @@ const Menu = props => {
     accounts,
     coin,
     handleClickReporting,
-    onShowEthPrivateKey,
+    onShowPrivateKey,
     onShowEthPrivateKeyLegacy,
     isLegacyEthAddr
   } = props
-  const options = accounts ? flatten(accounts.map(prop('options'))) : []
+  const options =
+    contains(coin, ACCOUNT_FILTER_COINS) && accounts
+      ? flatten(accounts.map(prop('options')))
+      : []
 
   return (
     <Wrapper>
@@ -143,7 +150,7 @@ const Menu = props => {
         </Controls>
         <Controls>
           <Search>
-            {coin === 'ETH' ? (
+            {contains(coin, PRIVATE_KEY_EXPORT_COINS) ? (
               <EthPrivateKeysWrapper>
                 {isLegacyEthAddr ? (
                   <ComponentDropdown
@@ -154,7 +161,7 @@ const Menu = props => {
                     components={[
                       <ExportEthPrivateKeyText
                         size='small'
-                        onClick={onShowEthPrivateKey}
+                        onClick={onShowPrivateKey}
                       >
                         <FormattedMessage
                           id='scenes.transactions.export.ethkey'
@@ -173,11 +180,7 @@ const Menu = props => {
                     ]}
                   />
                 ) : (
-                  <Link
-                    size={'12px'}
-                    weight={300}
-                    onClick={onShowEthPrivateKey}
-                  >
+                  <Link size={'12px'} weight={300} onClick={onShowPrivateKey}>
                     <FormattedMessage
                       id='scenes.transactions.export.ethkey'
                       defaultMessage='Export Private Key'

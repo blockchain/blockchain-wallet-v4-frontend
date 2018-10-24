@@ -353,7 +353,7 @@ export default ({ api }) => {
 
   // updates latest transaction information for device
   const updateTransactionList = function*(action) {
-    const { deviceIndex } = action.payload
+    const { deviceIndex, reset } = action.payload
     const btcContextR = yield select(
       selectors.core.kvStore.lockbox.getBtcContextForDevice,
       deviceIndex
@@ -373,23 +373,26 @@ export default ({ api }) => {
     yield put(
       actions.core.data.bitcoin.fetchTransactions(
         btcContextR.getOrElse(null),
-        false
+        reset
       )
     )
     yield put(
       actions.core.data.ethereum.fetchTransactions(
         ethContextR.getOrElse(null),
-        false
+        reset
       )
     )
     yield put(
       actions.core.data.bch.fetchTransactions(
         bchContextR.getOrElse(null),
-        false
+        reset
       )
     )
     yield put(
-      actions.core.data.xlm.fetchTransactions(xlmContextR.getOrElse(null), true)
+      actions.core.data.xlm.fetchTransactions(
+        xlmContextR.getOrElse(null),
+        reset
+      )
     )
   }
 

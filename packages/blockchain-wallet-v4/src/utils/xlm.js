@@ -2,6 +2,8 @@ import { BigNumber } from 'bignumber.js'
 import * as StellarSdk from 'stellar-sdk'
 import queryString from 'query-string'
 import { assoc } from 'ramda'
+import BIP39 from 'bip39'
+import * as ed25519 from 'ed25519-hd-key'
 
 export const calculateEffectiveBalance = (balance, reserve, fee) =>
   new BigNumber(balance)
@@ -42,4 +44,11 @@ export const decodeXlmURI = uri => {
   const query = uri.replace(/web\+stellar:pay(.*)/, ($0, $1) => $1)
   const { destination, amount, memo, msg } = queryString.parse(query)
   return { address: destination, amount, memo, note: msg }
+}
+
+export const getKeyPair = mnemonic => {
+  const seed = BIP39.mnemonicToSeed(mnemonic)
+  const seedHex = seed.toString('hex')
+  const masterKey = ed25519.derivePath("m/44'/148'/0'", seedHex)
+  return StellarSdk.Keypair.fromRawEd25519Seed(masterKey.key)
 }

@@ -17,9 +17,15 @@ const Title = styled.div`
 const Content = styled.div`
   margin-bottom: 10px;
 `
-
-const StyledImage = styled(Image)`
+const ImageContainer = styled.div`
   margin: 20px 0;
+  position: relative;
+  padding-bottom: 57%;
+  img {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
 `
 
 const NameDeviceStep = props => {
@@ -53,14 +59,16 @@ const NameDeviceStep = props => {
             maxLength={30}
           />
         </FormItem>
-        <StyledImage
-          name='lockbox-onboard-name'
-          width='100%'
-          srcset={{
-            'lockbox-onboard-name2': '2x',
-            'lockbox-onboard-name3': '3x'
-          }}
-        />
+        <ImageContainer>
+          <Image
+            name='lockbox-onboard-name'
+            width='100%'
+            srcset={{
+              'lockbox-onboard-name2': '2x',
+              'lockbox-onboard-name3': '3x'
+            }}
+          />
+        </ImageContainer>
         <FormGroup>
           <Button type='submit' nature='primary' disabled={invalid}>
             <FormattedMessage

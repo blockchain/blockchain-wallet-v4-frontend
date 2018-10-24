@@ -9,7 +9,7 @@ export const getData = state => {
   const accountsR = selectors.core.kvStore.ethereum.getAccounts(state)
   const transform = accounts => ({
     type: prop('type', to),
-    address: prop('address', to) || accounts.map(extractAddress)
+    address: to ? prop('address', to) : extractAddress(accounts)
   })
 
   return lift(transform)(accountsR)

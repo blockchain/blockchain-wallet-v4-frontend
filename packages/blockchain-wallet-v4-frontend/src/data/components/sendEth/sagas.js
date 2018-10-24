@@ -175,6 +175,7 @@ export default ({ coreSagas }) => {
       network: settings.NETWORK_ETH
     })
     const fromType = path(['from', 'type'], payment.value())
+    const toAddress = path(['to', 'address'], payment.value())
     const fromAddress = path(['from', 'address'], payment.value())
     try {
       // Sign payment
@@ -187,7 +188,7 @@ export default ({ coreSagas }) => {
           fromAddress
         )).getOrFail('missing_device')
         const deviceType = prop('device_type', device)
-        yield call(promptForLockbox, 'ETH', deviceType, [fromAddress])
+        yield call(promptForLockbox, 'ETH', deviceType, [toAddress])
         let connection = yield select(
           selectors.components.lockbox.getCurrentConnection
         )

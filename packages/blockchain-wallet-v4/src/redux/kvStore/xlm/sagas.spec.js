@@ -11,6 +11,9 @@ import { derivationMap, XLM } from '../config'
 import * as A from './actions'
 import sagas from './sagas'
 
+jest.spyOn(BIP39, 'mnemonicToSeed')
+jest.spyOn(ed25519, 'derivePath')
+
 const TEST_DATA = [
   {
     mnemonic:
@@ -53,6 +56,10 @@ const password = 'pAssword1<>!'
 const kv = KVStoreEntry.createEmpty(derivationMap[XLM])
 
 describe('Create XLM', () => {
+  beforeEach(() => {
+    BIP39.mnemonicToSeed.mockClear()
+    ed25519.derivePath.mockClear()
+  })
   TEST_DATA.forEach((testData, index) => {
     it(`Test data ${index}: should select mnemonic`, () => {
       const xlm = {
@@ -70,10 +77,17 @@ describe('Create XLM', () => {
 
       return expectSaga(createXlm, { kv, password })
         .provide([[select(getMnemonic, password), Task.of(testData.mnemonic)]])
-        .call(BIP39.mnemonicToSeed, testData.mnemonic)
-        .call(ed25519.derivePath, "m/44'/148'/0'", testData.seedHex)
         .put(A.createMetadataXlm(newkv))
         .run()
+        .then(() => {
+          expect(BIP39.mnemonicToSeed).toHaveBeenCalledTimes(1)
+          expect(BIP39.mnemonicToSeed).toHaveBeenCalledWith(testData.mnemonic)
+          expect(ed25519.derivePath).toHaveBeenCalledTimes(1)
+          expect(ed25519.derivePath).toHaveBeenCalledWith(
+            "m/44'/148'/0'",
+            testData.seedHex
+          )
+        })
     })
   })
 })

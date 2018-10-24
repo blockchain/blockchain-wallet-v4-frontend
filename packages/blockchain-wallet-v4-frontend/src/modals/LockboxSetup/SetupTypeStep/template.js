@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Image, Text } from 'blockchain-info-components'
+import { Button, Image, Link, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div``
 
@@ -65,12 +65,17 @@ const OptionsStep = props => {
           <ImageContainer>
             <Image name='restore-lockbox-icon' />
           </ImageContainer>
-          <StyledButton nature='primary' fullwidth>
-            <FormattedMessage
-              id='modals.lockboxsetup.firststep.restore'
-              defaultMessage='Restore your device'
-            />
-          </StyledButton>
+          <Link
+            href='https://support.blockchain.com/hc/en-us/articles/360018285872'
+            target='_blank'
+          >
+            <StyledButton nature='primary' fullwidth>
+              <FormattedMessage
+                id='modals.lockboxsetup.firststep.restore'
+                defaultMessage='Restore your device'
+              />
+            </StyledButton>
+          </Link>
         </Column>
       </Content>
     </Wrapper>
