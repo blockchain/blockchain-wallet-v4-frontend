@@ -8867,11 +8867,11 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Get a Lockbox for your Crypto",
+        "defaultMessage": "Secure Your Crypto Offline",
         "id": "scenes.lockbox.welcome.title"
       },
       {
-        "defaultMessage": "You can now store your crypto completely offline using our hardware wallet. This means easy access to funds while ensuring offline security.",
+        "defaultMessage": "Trade, send and receive straight from your offline hardware wallet. Blockchain Lockbox works seamlessly with your Blockchain Wallet.",
         "id": "scenes.lockbox.welcome.subtitle"
       },
       {
@@ -8883,7 +8883,7 @@
         "id": "scenes.lockbox.welcome.poweredby"
       },
       {
-        "defaultMessage": "We've put together a page explaining all of this.",
+        "defaultMessage": "Don't have a Lockbox? Secure your crypto now for $99.",
         "id": "scenes.lockbox.welcome.explanation"
       },
       {
