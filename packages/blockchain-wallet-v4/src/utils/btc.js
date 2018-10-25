@@ -1,7 +1,8 @@
 import { selectAll } from '../coinSelection'
 import { address, networks, ECPair, Transaction, crypto } from 'bitcoinjs-lib'
-import { equals, head, or, propOr, compose } from 'ramda'
+import { equals, head, or, propOr, compose, dropLast, last } from 'ramda'
 import { decode, fromWords } from 'bech32'
+import { fromPublicKey } from 'bip32'
 import { compile } from 'bitcoinjs-lib/src/script'
 import * as OP from 'bitcoin-ops'
 import Base58 from 'bs58'
@@ -9,11 +10,13 @@ import BigInteger from 'bigi'
 import BigNumber from 'bignumber.js'
 import * as Exchange from '../exchange'
 import Either from 'data.either'
+import * as bippath from 'bip32-path'
+import { fromCashAddr } from './bch'
 
-export const isValidBitcoinAddress = value => {
+export const isValidBitcoinAddress = (value, network) => {
   try {
     const addr = address.fromBase58Check(value)
-    const n = networks.bitcoin
+    const n = network || networks.bitcoin
     return or(
       equals(addr.version, n.pubKeyHash),
       equals(addr.version, n.scriptHash)
@@ -22,7 +25,6 @@ export const isValidBitcoinAddress = value => {
     try {
       const decoded = decode(value)
 
-      // TODO how do we know which network we are on here?
       if (decoded.prefix !== 'bc') {
         return false
       }
@@ -56,6 +58,8 @@ export const addressToScript = (value, network) => {
       )(words)
 
       return compile([OP[`OP_${version}`], program])
+    } else if (value.toLowerCase().startsWith('bitcoincash')) {
+      return address.toOutputScript(fromCashAddr(value), n)
     } else {
       return address.toOutputScript(value, n)
     }
@@ -145,7 +149,7 @@ export const privateKeyStringToKey = function (
   addr
 ) {
   if (format === 'sipa' || format === 'compsipa') {
-    return ECPair.fromWIF(value, networks.bitcoin)
+    return ECPair.fromWIF(value, network)
   } else {
     let keyBuffer = null
 
@@ -193,10 +197,13 @@ export const formatPrivateKeyString = (keyString, format, addr) => {
   })
 }
 
-export const isValidBitcoinPrivateKey = value => {
+export const isValidBitcoinPrivateKey = (value, network) => {
   try {
     let format = detectPrivateKeyFormat(value)
-    return format === 'bip38' || privateKeyStringToKey(value, format) != null
+    return (
+      format === 'bip38' ||
+      privateKeyStringToKey(value, format, network) != null
+    )
   } catch (e) {
     return false
   }
@@ -243,3 +250,35 @@ export const getWifAddress = (key, compressed = true) => {
 }
 
 export const txHexToHashHex = txHex => Transaction.fromHex(txHex).getId()
+
+export const compressPublicKey = publicKey => {
+  const prefix = (publicKey[64] & 1) !== 0 ? 0x03 : 0x02
+  const prefixBuffer = Buffer.alloc(1)
+  prefixBuffer[0] = prefix
+  return Buffer.concat([prefixBuffer, publicKey.slice(1, 1 + 32)])
+}
+
+export const fingerprint = publickey => {
+  let pkh = compose(
+    crypto.ripemd160,
+    crypto.sha256
+  )(publickey)
+  return ((pkh[0] << 24) | (pkh[1] << 16) | (pkh[2] << 8) | pkh[3]) >>> 0
+}
+
+export const getParentPath = compose(
+  array => bippath.fromPathArray(array).toString(),
+  dropLast(1),
+  path => bippath.fromString(path).toPathArray()
+)
+
+export const createXpubFromChildAndParent = (path, child, parent) => {
+  let pathArray = bippath.fromString(path).toPathArray()
+  let pkChild = compressPublicKey(Buffer.from(child.publicKey, 'hex'))
+  let pkParent = compressPublicKey(Buffer.from(parent.publicKey, 'hex'))
+  let hdnode = fromPublicKey(pkChild, Buffer.from(child.chainCode, 'hex'))
+  hdnode.parentFingerprint = fingerprint(pkParent)
+  hdnode.depth = pathArray.length
+  hdnode.index = last(pathArray)
+  return hdnode.toBase58()
+}

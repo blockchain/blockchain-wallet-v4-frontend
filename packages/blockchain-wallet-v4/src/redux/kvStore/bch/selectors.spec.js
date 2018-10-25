@@ -32,24 +32,6 @@ describe('kvstore bch selectors', () => {
     successState
   )
 
-  describe('getContext', () => {
-    it('should return the context', () => {
-      let context = selectors.getContext(mockState)
-      expect(context).toEqual([
-        'xpub6CaQke7DZA2WPRTKy954mx52b1duxkXoPbeB1teNEMzR7oLsg2XoCnUwMbK8WDvKJYfuvWxfeH2f7HdoyGDEZs7Kj11AuQiKeJhLBd2GciM'
-      ])
-    })
-
-    it('should return context with legacy and watch-only addresses', () => {
-      let context = selectors.getContext(mockStateLegacy)
-      expect(context).toEqual([
-        'xpub6CaQke7DZA2WPRTKy954mx52b1duxkXoPbeB1teNEMzR7oLsg2XoCnUwMbK8WDvKJYfuvWxfeH2f7HdoyGDEZs7Kj11AuQiKeJhLBd2GciM',
-        '1EGW5YZs4EXExhLiCVvRXTRVmfLjs69bZc',
-        '12BeccoHhdZ5DtoZbuphji1FbQEgNNhy3P'
-      ])
-    })
-  })
-
   describe('getSpendableContext', () => {
     it('should return the context', () => {
       let context = selectors.getSpendableContext(mockState)
@@ -64,6 +46,13 @@ describe('kvstore bch selectors', () => {
         'xpub6CaQke7DZA2WPRTKy954mx52b1duxkXoPbeB1teNEMzR7oLsg2XoCnUwMbK8WDvKJYfuvWxfeH2f7HdoyGDEZs7Kj11AuQiKeJhLBd2GciM',
         '1EGW5YZs4EXExhLiCVvRXTRVmfLjs69bZc'
       ])
+    })
+  })
+
+  describe('getUnspendableContext', () => {
+    it('should return context with legacy and watch-only addresses', () => {
+      let context = selectors.getUnspendableContext(mockStateLegacy)
+      expect(context).toEqual(['12BeccoHhdZ5DtoZbuphji1FbQEgNNhy3P'])
     })
   })
 

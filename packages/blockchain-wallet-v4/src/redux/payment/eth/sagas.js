@@ -1,5 +1,5 @@
 import { call, select } from 'redux-saga/effects'
-import { isNil, merge, prop, path, identity } from 'ramda'
+import { isNil, merge, prop, path, identity, indexOf } from 'ramda'
 import EthUtil from 'ethereumjs-util'
 
 import * as S from '../../selectors'
@@ -8,11 +8,12 @@ import { eth } from '../../../signer'
 import { isString, isPositiveInteger } from '../../../utils/checks'
 import settingsSagaFactory from '../../../redux/settings/sagas'
 import {
-  calculateFee,
   calculateEffectiveBalance,
   isValidAddress,
-  convertGweiToWei
+  convertGweiToWei,
+  calculateFee
 } from '../../../utils/eth'
+import { ADDRESS_TYPES } from '../btc/utils'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -33,15 +34,87 @@ export default ({ api }) => {
   const selectIndex = function*(from) {
     const appState = yield select(identity)
     switch (prop('type', from)) {
-      case 'ACCOUNT':
+      case ADDRESS_TYPES.ACCOUNT:
         return S.kvStore.ethereum
           .getAccountIndex(appState, prop('address', from))
           .getOrFail('Could not find ether account index')
-      case 'LEGACY':
+      case ADDRESS_TYPES.LEGACY:
         return 1
     }
   }
+
+  const calculateTo = destination => {
+    if (!destination.type) {
+      return { address: destination, type: ADDRESS_TYPES.ADDRESS }
+    }
+
+    return destination
+  }
+
+  const calculateSignature = function*(
+    network,
+    password,
+    transport,
+    scrambleKey,
+    raw
+  ) {
+    switch (raw.fromType) {
+      case ADDRESS_TYPES.ACCOUNT: {
+        const appState = yield select(identity)
+        const mnemonicT = S.wallet.getMnemonic(appState, password)
+        const mnemonic = yield call(() => taskToPromise(mnemonicT))
+        const sign = data => taskToPromise(eth.sign(network, mnemonic, data))
+        return yield call(sign, raw)
+      }
+      case ADDRESS_TYPES.LOCKBOX: {
+        return yield call(
+          eth.signWithLockbox,
+          network,
+          transport,
+          scrambleKey,
+          raw
+        )
+      }
+    }
+  }
+
+  const calculateUnconfirmed = function*(type, address) {
+    let latestTxS =
+      type !== ADDRESS_TYPES.LOCKBOX
+        ? S.kvStore.ethereum.getLatestTx
+        : S.kvStore.lockbox.getLatestTxEth
+    let latestTxTimestampS =
+      type !== ADDRESS_TYPES.LOCKBOX
+        ? S.kvStore.ethereum.getLatestTxTimestamp
+        : S.kvStore.lockbox.getLatestTxTimestampEth
+
+    const latestTxR = yield select(latestTxS, address)
+    const latestTxTimestampR = yield select(latestTxTimestampS, address)
+
+    const latestTx = latestTxR.getOrElse(undefined)
+    const latestTxTimestamp = latestTxTimestampR.getOrElse(undefined)
+
+    if (latestTx) {
+      const ethOptionsR = yield select(S.walletOptions.getEthereumTxFuse)
+      const lastTxFuse = ethOptionsR.getOrElse(86400) * 1000
+      try {
+        const latestTxStatus = yield call(api.getEthereumTransaction, latestTx)
+        if (
+          !latestTxStatus.blockNumber &&
+          latestTxTimestamp + lastTxFuse > Date.now()
+        ) {
+          return true
+        }
+      } catch (e) {
+        if (latestTxTimestamp + lastTxFuse > Date.now()) {
+          return true
+        }
+      }
+    }
+    return false
+  }
   // ///////////////////////////////////////////////////////////////////////////
+
   function create ({ network, payment } = { network: undefined, payment: {} }) {
     const makePayment = p => ({
       value () {
@@ -53,46 +126,19 @@ export default ({ api }) => {
         const gasPrice = prop('regular', fees)
         const gasLimit = prop('gasLimit', fees)
         const fee = calculateFee(gasPrice, gasLimit)
+        const feeInGwei = gasPrice
 
-        const latestTxR = yield select(S.kvStore.ethereum.getLatestTx)
-        const latestTxTimestampR = yield select(
-          S.kvStore.ethereum.getLatestTxTimestamp
-        )
-
-        const latestTx = latestTxR.getOrElse(undefined)
-        const latestTxTimestamp = latestTxTimestampR.getOrElse(undefined)
-
-        let unconfirmedTx = false
-        if (latestTx) {
-          const ethOptionsR = yield select(S.walletOptions.getEthereumTxFuse)
-          const lastTxFuse = ethOptionsR.getOrElse(86400) * 1000
-          try {
-            const latestTxStatus = yield call(
-              api.getEthereumTransaction,
-              latestTx
-            )
-            if (
-              !latestTxStatus.blockNumber &&
-              latestTxTimestamp + lastTxFuse > Date.now()
-            ) {
-              unconfirmedTx = true
-            }
-          } catch (e) {
-            if (latestTxTimestamp + lastTxFuse > Date.now()) {
-              unconfirmedTx = true
-            }
-          }
-        }
-        return makePayment(merge(p, { fees, fee, unconfirmedTx }))
+        return makePayment(merge(p, { fees, fee, feeInGwei }))
       },
 
       *to (destination) {
-        if (!EthUtil.isValidAddress(destination)) {
+        let to = calculateTo(destination)
+        if (!EthUtil.isValidAddress(to.address)) {
           throw new Error('Invalid address')
         }
-        const isContract = yield call(api.checkContract, destination)
+        const isContract = yield call(api.checkContract, to.address)
         return makePayment(
-          merge(p, { to: destination, isContract: isContract.contract })
+          merge(p, { to: to, isContract: isContract.contract })
         )
       },
 
@@ -115,21 +161,48 @@ export default ({ api }) => {
           prop('fee', p)
         )
         const from = {
-          type: type || 'ACCOUNT',
+          type: type || ADDRESS_TYPES.ACCOUNT,
           address: account,
           nonce
         }
-        return makePayment(merge(p, { from, effectiveBalance }))
+
+        const unconfirmedTx = yield call(calculateUnconfirmed, type, account)
+
+        return makePayment(merge(p, { from, effectiveBalance, unconfirmedTx }))
+      },
+
+      *fee (value, origin) {
+        let account = origin
+        if (origin === null || origin === undefined || origin === '') {
+          const accountR = yield select(S.kvStore.ethereum.getDefaultAddress)
+          account = accountR.getOrFail('missing_default_from')
+        }
+        // value can be in gwei or string ('regular' or 'priority')
+        const fees = prop('fees', p)
+        const feeInGwei =
+          indexOf(value, ['regular', 'priority']) > -1 ? fees[value] : value
+        const gasLimit = path(['fees', 'gasLimit'], p)
+        const fee = calculateFee(feeInGwei, gasLimit)
+        const data = yield call(api.getEthereumBalances, account)
+        const balance = path([account, 'balance'], data)
+        let effectiveBalance = calculateEffectiveBalance(
+          // balance + fee need to be in wei
+          balance,
+          fee
+        )
+        return makePayment(merge(p, { feeInGwei, fee, effectiveBalance }))
       },
 
       *build () {
-        const from = prop('from', p)
-        const index = yield call(selectIndex, from)
-        const to = prop('to', p)
+        const fromData = prop('from', p)
+        const index = yield call(selectIndex, fromData)
+        const to = path(['to', 'address'], p)
         const amount = prop('amount', p)
-        const gasPrice = convertGweiToWei(path(['fees', 'regular'], p))
+        const gasPrice = convertGweiToWei(prop('feeInGwei', p))
         const gasLimit = path(['fees', 'gasLimit'], p)
-        const nonce = prop('nonce', from)
+        const nonce = prop('nonce', fromData)
+        const from = prop('address', fromData)
+        const fromType = prop('type', fromData)
         if (isNil(from)) throw new Error('missing_from')
         if (!isValidIndex(index)) throw new Error('invalid_index')
         if (isNil(to)) throw new Error('missing_to')
@@ -141,17 +214,29 @@ export default ({ api }) => {
         // if (!isPositiveInteger(gasLimit)) throw new Error('invalid_gaslimit')
         if (isNil(nonce)) throw new Error('missing_nonce')
         if (!isPositiveInteger(nonce)) throw new Error('invalid_nonce')
-        const raw = { index, to, amount, gasPrice, gasLimit, nonce }
+        const raw = {
+          index,
+          to,
+          amount,
+          gasPrice,
+          gasLimit,
+          nonce,
+          from,
+          fromType
+        }
         return makePayment(merge(p, { raw }))
       },
 
-      *sign (password) {
+      *sign (password, transport, scrambleKey) {
         try {
-          const appState = yield select(identity)
-          const mnemonicT = S.wallet.getMnemonic(appState, password)
-          const mnemonic = yield call(() => taskToPromise(mnemonicT))
-          const sign = data => taskToPromise(eth.sign(network, mnemonic, data))
-          const signed = yield call(sign, p.raw)
+          const signed = yield call(
+            calculateSignature,
+            network,
+            password,
+            transport,
+            scrambleKey,
+            p.raw
+          )
           return makePayment(merge(p, { signed }))
         } catch (e) {
           throw new Error('missing_mnemonic')
@@ -197,7 +282,9 @@ export default ({ api }) => {
           init: () => chain(gen, payment => payment.init()),
           to: address => chain(gen, payment => payment.to(address)),
           amount: amount => chain(gen, payment => payment.amount(amount)),
-          from: origin => chain(gen, payment => payment.from(origin)),
+          from: (origin, type) =>
+            chain(gen, payment => payment.from(origin, type)),
+          fee: value => chain(gen, payment => payment.fee(value)),
           build: () => chain(gen, payment => payment.build()),
           sign: password => chain(gen, payment => payment.sign(password)),
           publish: () => chain(gen, payment => payment.publish()),

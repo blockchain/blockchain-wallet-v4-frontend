@@ -11,7 +11,7 @@ import { Remote } from 'blockchain-wallet-v4'
 
 const Container = styled.div`
   position: relative;
-  > div {
+  > :first-child {
     width: 100%;
   }
   .iti-arrow {
@@ -21,6 +21,7 @@ const Container = styled.div`
     width: 100%;
     height: 40px;
     font-size: 14px;
+    color: ${props => props.theme['gray-5']};
     ::-webkit-input-placeholder {
       opacity: 0.35;
     }
@@ -30,9 +31,9 @@ const Container = styled.div`
   }
   * {
     outline: none;
-    color: ${props => props.theme['gray-5']};
     font-family: 'Montserrat', sans-serif;
     font-weight: 300;
+    font-size: 14px;
   }
 `
 const Error = styled(Text)`
@@ -43,61 +44,77 @@ const Error = styled(Text)`
   right: 0;
 `
 
-const PhoneNumberBox = field => {
-  const { input, defaultValue, meta, errorBottom, disabled } = field
-  const { touched, error, warning } = meta
-  const changeHandler = (status, value, countryData, number, id) => {
-    input.onChange(number)
-  }
-  const blurHandler = (status, value, countryData, number, id) => {
-    input.onBlur(number)
+class PhoneNumberBox extends React.Component {
+  componentDidMount () {
+    if (this.tel) {
+      this.tel.onfocus = this.props.input.onFocus
+    }
   }
 
-  const countryCodeField = prop('countryCode', field)
-  const upperCountryCode = Remote.is(countryCodeField)
-    ? countryCodeField.getOrElse('US')
-    : countryCodeField || 'US'
-  const countryCode = upperCountryCode && toLower(upperCountryCode)
+  changeHandler = (status, value, countryData, number, id) => {
+    this.props.input.onChange(number)
+  }
 
-  return (
-    <Container>
-      <IntlTelInput
-        disabled={disabled}
-        defaultValue={defaultValue || input.value}
-        onPhoneNumberChange={changeHandler}
-        onPhoneNumberBlur={blurHandler}
-        format
-        defaultCountry={countryCode}
-        preferredCountries={['us', 'gb']}
-        css={['intl-tel-input', 'form-control']}
-        utilsScript={'libphonenumber.js'}
-        placeholder='555-555-5555'
-      />
-      {touched &&
-        error && (
-          <Error
-            size='12px'
-            weight={300}
-            color='error'
-            errorBottom={errorBottom}
-          >
-            {error}
-          </Error>
-        )}
-      {touched &&
-        !error &&
-        warning && (
-          <Error
-            size='12px'
-            weight={300}
-            color='sent'
-            errorBottom={errorBottom}
-          >
-            {warning}
-          </Error>
-        )}
-    </Container>
-  )
+  blurHandler = (status, value, countryData, number, id) => {
+    this.props.input.onBlur(number)
+  }
+
+  bindTel = ref => {
+    const tel = prop('tel', ref)
+    if (tel) this.tel = tel
+  }
+
+  render () {
+    const field = this.props
+    const { input, defaultValue, meta, errorBottom, disabled } = field
+    const { touched, error, warning } = meta
+    const countryCodeField = prop('countryCode', field)
+    const upperCountryCode = Remote.is(countryCodeField)
+      ? countryCodeField.getOrElse('US')
+      : countryCodeField || 'US'
+    const countryCode = upperCountryCode && toLower(upperCountryCode)
+
+    return (
+      <Container>
+        <IntlTelInput
+          ref={this.bindTel}
+          disabled={disabled}
+          defaultValue={defaultValue || input.value}
+          onPhoneNumberChange={this.changeHandler}
+          onPhoneNumberBlur={this.blurHandler}
+          format
+          defaultCountry={countryCode}
+          preferredCountries={['us', 'gb']}
+          css={['intl-tel-input', 'form-control']}
+          utilsScript={'libphonenumber.js'}
+          placeholder='555-555-5555'
+        />
+        {touched &&
+          error && (
+            <Error
+              size='12px'
+              weight={300}
+              color='error'
+              errorBottom={errorBottom}
+            >
+              {error}
+            </Error>
+          )}
+        {touched &&
+          !error &&
+          warning && (
+            <Error
+              size='12px'
+              weight={300}
+              color='sent'
+              errorBottom={errorBottom}
+            >
+              {warning}
+            </Error>
+          )}
+      </Container>
+    )
+  }
 }
 
 PhoneNumberBox.propTypes = {

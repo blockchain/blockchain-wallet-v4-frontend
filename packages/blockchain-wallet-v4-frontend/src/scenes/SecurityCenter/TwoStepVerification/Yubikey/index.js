@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
-import ui from 'redux-ui'
+import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
 import { getData } from './selectors'
@@ -12,22 +11,27 @@ import Loading from './template.loading'
 class YubikeyContainer extends React.PureComponent {
   constructor (props) {
     super(props)
+    this.state = {
+      updateToggled: false,
+      successToggled: false,
+      yubikeyCode: ''
+    }
     this.handleClick = this.handleClick.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.handleInput = this.handleInput.bind(this)
-
-    this.state = { yubikeyCode: '' }
   }
 
   componentDidUpdate (prevProps) {
     const next = this.props.data.getOrElse({})
     const prev = prevProps.data.getOrElse({})
     if (next.authType !== prev.authType) {
-      this.props.updateUI({ successToggled: true })
+      this.handleUpdate()
       this.props.triggerSuccess()
-      this.props.handleGoBack()
       this.props.goBackOnSuccess()
     }
+  }
+  handleUpdate () {
+    this.setState({ successToggled: true })
   }
 
   handleClick () {
@@ -44,7 +48,7 @@ class YubikeyContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, ui, ...rest } = this.props
+    const { data, ...rest } = this.props
 
     return data.cata({
       Success: value => (
@@ -55,7 +59,7 @@ class YubikeyContainer extends React.PureComponent {
           goBack={this.props.goBack}
           handleInput={this.handleInput}
           value={this.state.yubikeyCode}
-          ui={ui}
+          uiState={this.state}
         />
       ),
       Failure: message => <Error {...rest} message={message} />,
@@ -78,15 +82,7 @@ const mapDispatchToProps = dispatch => ({
   )
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({
-    key: 'Security_TwoFactor',
-    state: { updateToggled: false, successToggled: false }
-  })
-)
-
-export default enhance(YubikeyContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(YubikeyContainer)

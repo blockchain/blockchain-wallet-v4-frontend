@@ -84,7 +84,11 @@ class LinkContainer extends Component {
     } else {
       this.props.sfoxFrontendActions.sfoxLoading()
       const bankChoice = merge(
-        { id: this.state.id, firstname: this.props.accountHolderFirst, lastname: this.props.accountHolderLast },
+        {
+          id: this.state.id,
+          firstname: this.props.accountHolderFirst,
+          lastname: this.props.accountHolderLast
+        },
         { token: this.state.token }
       )
       this.props.sfoxFrontendActions.setBankAccount(bankChoice)
@@ -175,7 +179,10 @@ const mapStateToProps = state => ({
   accounts: selectors.core.data.sfox.getAccounts(state),
   deposit1: formValueSelector('sfoxLink')(state, 'deposit1'),
   deposit2: formValueSelector('sfoxLink')(state, 'deposit2'),
-  accountHolderFirst: formValueSelector('sfoxLink')(state, 'accountHolderFirst'),
+  accountHolderFirst: formValueSelector('sfoxLink')(
+    state,
+    'accountHolderFirst'
+  ),
   accountHolderLast: formValueSelector('sfoxLink')(state, 'accountHolderLast'),
   linkStatus: path(['sfoxSignup', 'sfoxBusy'], state)
 })

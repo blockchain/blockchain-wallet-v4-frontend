@@ -16,9 +16,11 @@ const INITIAL_STATE = {
   fee: Remote.NotAsked,
   info: Remote.NotAsked,
   latest_block: Remote.NotAsked,
+  current_balance: Remote.NotAsked,
   legacy_balance: Remote.NotAsked,
   rates: Remote.NotAsked,
-  transactions: []
+  transactions: [],
+  transactions_at_bound: false
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -77,6 +79,16 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_ETHEREUM_LEGACY_BALANCE_FAILURE: {
       return assoc('legacy_balance', Remote.Failure(payload), state)
     }
+    case AT.FETCH_ETHEREUM_CURRENT_BALANCE_LOADING: {
+      return assoc('current_balance', Remote.Loading, state)
+    }
+    case AT.FETCH_ETHEREUM_CURRENT_BALANCE_SUCCESS: {
+      const { balance } = payload
+      return assoc('current_balance', Remote.Success(balance), state)
+    }
+    case AT.FETCH_ETHEREUM_CURRENT_BALANCE_FAILURE: {
+      return assoc('current_balance', Remote.Failure(payload), state)
+    }
     case AT.FETCH_ETHEREUM_RATES_LOADING: {
       return assoc('rates', Remote.Loading, state)
     }
@@ -107,6 +119,9 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_ETHEREUM_TRANSACTIONS_FAILURE: {
       return assoc('transactions', [Remote.Failure(payload)], state)
+    }
+    case AT.ETH_TRANSACTIONS_AT_BOUND: {
+      return assoc('transactions_at_bound', payload, state)
     }
     default:
       return state

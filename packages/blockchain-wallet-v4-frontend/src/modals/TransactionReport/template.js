@@ -16,7 +16,8 @@ import {
 } from 'blockchain-info-components'
 import {
   DateBoxDebounced,
-  SelectBoxBitcoinAddresses,
+  SelectBoxBtcAddresses,
+  SelectBoxBCHAddresses,
   Form
 } from 'components/Form'
 import { required } from 'services/FormHelper'
@@ -94,8 +95,10 @@ const FirstStep = props => {
             <Row margin='30px'>
               <Field
                 name='from'
-                component={SelectBoxBitcoinAddresses}
                 coin={coin}
+                component={
+                  coin === 'BTC' ? SelectBoxBtcAddresses : SelectBoxBCHAddresses
+                }
               />
             </Row>
             <Row>

@@ -48,7 +48,7 @@ const Bank = ({ bank, onInputClick }) => (
   <BankInfo key={prop('account_id', bank)}>
     <input
       type='radio'
-      name='bank'
+      name='bank-filled'
       value={bank}
       id={prop('account_id', bank)}
       onClick={() => onInputClick(prop('account_id', bank))}

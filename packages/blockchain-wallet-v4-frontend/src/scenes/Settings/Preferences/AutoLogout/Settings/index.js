@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
-import ui from 'redux-ui'
 
 import { actions, selectors } from 'data'
 import Settings from './template.js'
@@ -10,6 +9,7 @@ import Settings from './template.js'
 class SettingContainer extends React.PureComponent {
   constructor (props) {
     super(props)
+    this.state = { updateToggled: false }
     this.handleClick = this.handleClick.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
   }
@@ -19,7 +19,6 @@ class SettingContainer extends React.PureComponent {
     this.props.formActions.initialize('settingAutoLogoutTime', {
       autoLogoutTime: logoutTime
     })
-    this.props.updateUI({ updateToggled: false })
   }
 
   handleClick () {
@@ -28,19 +27,21 @@ class SettingContainer extends React.PureComponent {
     this.props.settingsActions.updateAutoLogout(
       parseInt(autoLogoutTime) * 60000
     )
-    this.props.updateUI({ updateToggled: false })
+    this.handleToggle()
   }
 
   handleToggle () {
-    this.props.updateUI({ updateToggled: !this.props.ui.updateToggled })
+    this.setState({
+      updateToggled: !this.state.updateToggled
+    })
   }
 
   render () {
-    const { ui, logoutTime } = this.props
+    const { logoutTime } = this.props
 
     return (
       <Settings
-        updateToggled={ui.updateToggled}
+        updateToggled={this.state.updateToggled}
         logoutTime={logoutTime}
         handleToggle={this.handleToggle}
         handleClick={this.handleClick}
@@ -61,12 +62,7 @@ const mapDispatchToProps = dispatch => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({ key: 'Setting_AutoLogoutTime', state: { updateToggled: false } })
-)
-
-export default enhance(SettingContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SettingContainer)

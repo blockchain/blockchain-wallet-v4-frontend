@@ -1,13 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
+import * as bowser from 'bowser'
+import styled from 'styled-components'
 
 import { required, validBitcoinCashAddress } from 'services/FormHelper'
 import {
+  Banner,
   Button,
   Icon,
+  Text,
   TooltipIcon,
   TooltipHost
 } from 'blockchain-info-components'
@@ -17,7 +20,7 @@ import {
   FormGroup,
   FormItem,
   FormLabel,
-  SelectBoxBitcoinAddresses,
+  SelectBoxBCHAddresses,
   SelectBoxCoin,
   TextBox,
   TextAreaDebounced
@@ -29,28 +32,10 @@ import {
   maximumAmount,
   invalidAmount
 } from './validation'
+import { Row, AddressButton } from 'components/Send'
 import QRCodeCapture from 'components/QRCodeCapture'
-
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-`
-const AddressButton = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  box-sizing: border-box;
-  border: 1px solid ${props => props.theme['gray-2']};
-
-  &:hover {
-    background-color: ${props => props.theme['gray-1']};
-  }
+const BrowserWarning = styled(Banner)`
+  margin: -4px 0 8px;
 `
 
 const FirstStep = props => {
@@ -66,6 +51,10 @@ const FirstStep = props => {
     totalFee,
     pristine
   } = props
+  const disableLockboxSend =
+    from &&
+    from.type === 'LOCKBOX' &&
+    !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -88,14 +77,24 @@ const FirstStep = props => {
           </FormLabel>
           <Field
             name='from'
-            component={SelectBoxBitcoinAddresses}
+            coin='BCH'
+            component={SelectBoxBCHAddresses}
             includeAll={false}
             excludeWatchOnly
             validate={[required]}
-            coin='BCH'
           />
         </FormItem>
       </FormGroup>
+      {disableLockboxSend && (
+        <BrowserWarning type='warning'>
+          <Text color='warning' size='12px'>
+            <FormattedMessage
+              id='modals.sendbch.firststep.lockboxwarn'
+              defaultMessage='Sending Bitcoin Cash from Lockbox can only be done while using the Chrome browser'
+            />
+          </Text>
+        </BrowserWarning>
+      )}
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for='to'>
@@ -105,34 +104,19 @@ const FirstStep = props => {
             />
           </FormLabel>
           <Row>
-            {toToggled &&
-              !destination && (
-                <Field
-                  name='to'
-                  component={SelectBoxBitcoinAddresses}
-                  opened
-                  onFocus={() => handleToToggle()}
-                  includeAll={false}
-                  validate={[required]}
-                  exclude={[from.label]}
-                  hideErrors
-                  coin='BCH'
-                />
-              )}
-            {toToggled &&
-              destination && (
-                <Field
-                  name='to'
-                  component={SelectBoxBitcoinAddresses}
-                  onFocus={() => handleToToggle()}
-                  includeAll={false}
-                  validate={[required]}
-                  exclude={[from.label]}
-                  hideArrow
-                  hideErrors
-                  coin='BCH'
-                />
-              )}
+            {toToggled && (
+              <Field
+                name='to'
+                coin='BCH'
+                component={SelectBoxBCHAddresses}
+                menuIsOpen={!destination}
+                exclude={[from.label]}
+                validate={[required]}
+                includeAll={false}
+                hideIndicator
+                hideErrors
+              />
+            )}
             {!toToggled && (
               <Field
                 name='to'
@@ -142,20 +126,23 @@ const FirstStep = props => {
                 autoFocus
               />
             )}
-            {(!toToggled || destination) && (
-              <QRCodeCapture
-                scanType='bchAddress'
-                border={
-                  enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']
-                }
-              />
-            )}
-            {enableToggle &&
-              (!toToggled || destination) && (
-                <AddressButton onClick={() => handleToToggle(true)}>
-                  <Icon name='down-arrow' size='10px' cursor />
+            <QRCodeCapture
+              scanType='bchAddress'
+              border={
+                enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']
+              }
+            />
+            {enableToggle ? (
+              !toToggled ? (
+                <AddressButton onClick={() => handleToToggle()}>
+                  <Icon name='down-arrow' size='11px' cursor />
                 </AddressButton>
-              )}
+              ) : (
+                <AddressButton onClick={() => handleToToggle()}>
+                  <Icon name='pencil' size='13px' cursor />
+                </AddressButton>
+              )
+            ) : null}
           </Row>
         </FormItem>
       </FormGroup>
@@ -214,8 +201,7 @@ const FirstStep = props => {
         <Button
           type='submit'
           nature='primary'
-          uppercase
-          disabled={submitting || invalid || pristine}
+          disabled={submitting || invalid || pristine || disableLockboxSend}
         >
           <FormattedMessage
             id='modals.sendBch.firststep.continue'

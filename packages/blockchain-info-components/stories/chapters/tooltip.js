@@ -12,12 +12,11 @@ storiesOf('Tooltip', module)
   )
   .add('Tooltip', () => (
     <Fragment>
-      <Tooltip id="storybook.tooltip">
+      <Tooltip id='storybook.tooltip'>
         <span>This is a tooltip of a component.</span>
       </Tooltip>
-      <TooltipHost id="storybook.tooltip">
-        <TooltipIcon name="question-in-circle" />
+      <TooltipHost id='storybook.tooltip'>
+        <TooltipIcon name='question-in-circle' />
       </TooltipHost>
     </Fragment>
   ))
-// .add('MenuTooltip', () => <MenuTooltip title='MenuTooltip title'>This is a MenuTooltip.</MenuTooltip>)

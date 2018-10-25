@@ -70,13 +70,17 @@ export const fetchTransactionsLoading = reset => ({
   type: AT.FETCH_BITCOIN_TRANSACTIONS_LOADING,
   payload: { reset }
 })
-export const fetchTransactionsSuccess = (transactions, reset) => ({
+export const fetchTransactionsSuccess = (transactions, reset, isFinalPage) => ({
   type: AT.FETCH_BITCOIN_TRANSACTIONS_SUCCESS,
-  payload: { transactions, reset }
+  payload: { transactions, reset, isFinalPage }
 })
 export const fetchTransactionsFailure = error => ({
   type: AT.FETCH_BITCOIN_TRANSACTIONS_FAILURE,
   payload: error
+})
+export const transactionsAtBound = payload => ({
+  type: AT.BTC_TRANSACTIONS_AT_BOUND,
+  payload
 })
 
 // FETCH_BITCOIN_TRANSACTION_HISTORY

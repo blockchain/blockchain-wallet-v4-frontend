@@ -87,7 +87,10 @@ class VerifyEmail extends Component {
       this.props.securityCenterActions.verifyEmailCode(this.props.emailCode)
     } else {
       this.props.updateUI({ create: 'enter_email_code' })
-      this.props.securityCenterActions.updateEmail(this.props.emailAddress)
+      this.props.securityCenterActions.updateEmail(
+        this.props.emailAddress,
+        true
+      )
     }
   }
 
@@ -216,6 +219,7 @@ class VerifyEmail extends Component {
                 <Field
                   name='emailAddress'
                   component={TextBox}
+                  errorBottom
                   validate={[required]}
                 />
                 <Button
@@ -240,7 +244,6 @@ class VerifyEmail extends Component {
                 type='submit'
                 nature='primary'
                 fullwidth
-                uppercase
                 disabled={
                   invalid || ui.create !== 'enter_email_code' || !emailCode
                 }

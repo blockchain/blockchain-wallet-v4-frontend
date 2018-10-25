@@ -2,7 +2,6 @@
 
 exports[`ListItemContainer renders correctly 1`] = `
 <Connect(ListItemContainer)
-  minConfirmations={3}
   store={
     Object {
       "clearActions": [Function],
@@ -41,7 +40,6 @@ exports[`ListItemContainer renders correctly 1`] = `
         "updateMetadataEthereum": [Function],
       }
     }
-    minConfirmations={3}
     preferencesActions={
       Object {
         "hideKycCompleted": [Function],
@@ -51,6 +49,7 @@ exports[`ListItemContainer renders correctly 1`] = `
         "setEtherWelcome": [Function],
         "setLanguage": [Function],
         "setTheme": [Function],
+        "setTotalBalancesDropdown": [Function],
         "toggleCoinDisplayed": [Function],
       }
     }
@@ -88,9 +87,9 @@ exports[`ListItemContainer renders correctly 1`] = `
     }
   >
     <Component
-      handleCoinToggle={[Function]}
       handleEditDescription={[Function]}
-      minConfirmations={3}
+      handleToggle={[Function]}
+      isToggled={false}
     >
       <div />
     </Component>

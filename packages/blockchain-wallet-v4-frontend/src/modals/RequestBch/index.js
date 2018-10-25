@@ -19,6 +19,7 @@ class RequestBchContainer extends React.PureComponent {
     this.init = this.init.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleRefresh = this.handleRefresh.bind(this)
+    this.handleOpenLockbox = this.handleOpenLockbox.bind(this)
   }
 
   componentWillMount () {
@@ -29,10 +30,14 @@ class RequestBchContainer extends React.PureComponent {
     nextProps.data.map(x => {
       if (equals(prop('coin', x), 'ETH')) {
         this.props.modalActions.closeAllModals()
-        this.props.modalActions.showModal('RequestEther')
+        this.props.modalActions.showModal('RequestEth', {
+          lockboxIndex: nextProps.lockboxIndex
+        })
       } else if (equals(prop('coin', x), 'BTC')) {
         this.props.modalActions.closeAllModals()
-        this.props.modalActions.showModal('RequestBitcoin')
+        this.props.modalActions.showModal('RequestBtc', {
+          lockboxIndex: nextProps.lockboxIndex
+        })
       }
     })
   }
@@ -64,14 +69,21 @@ class RequestBchContainer extends React.PureComponent {
     this.init()
   }
 
+  handleOpenLockbox () {
+    this.props.requestBchActions.openLockboxAppClicked()
+  }
+
   render () {
     const { data, closeAll } = this.props
 
     const content = data.cata({
       Success: value => (
         <Success
+          handleOpenLockbox={this.handleOpenLockbox}
           receiveAddress={value.receiveAddress}
+          legacyAddress={value.legacyAddress}
           handleSubmit={this.handleSubmit}
+          type={value.type}
           closeAll={closeAll}
         />
       ),
@@ -98,12 +110,16 @@ class RequestBchContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  initialValues: getInitialValues(state),
-  data: getData(state)
+const mapStateToProps = (state, ownProps) => ({
+  initialValues: getInitialValues(state, ownProps),
+  data: getData(state, ownProps)
 })
 
 const mapDispatchToProps = dispatch => ({
+  requestBchActions: bindActionCreators(
+    actions.components.requestBch,
+    dispatch
+  ),
   bchDataActions: bindActionCreators(actions.core.data.bch, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)

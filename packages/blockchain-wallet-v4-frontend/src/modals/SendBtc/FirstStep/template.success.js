@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
+import * as bowser from 'bowser'
+import styled from 'styled-components'
 
 import {
   required,
@@ -10,6 +11,7 @@ import {
   validBitcoinPrivateKey
 } from 'services/FormHelper'
 import {
+  Banner,
   Button,
   Icon,
   Link,
@@ -24,7 +26,7 @@ import {
   FormItem,
   FormLabel,
   NumberBoxDebounced,
-  SelectBoxBitcoinAddresses,
+  SelectBoxBtcAddresses,
   SelectBoxCoin,
   SelectBox,
   TextBox,
@@ -42,86 +44,38 @@ import {
   minimumOneSatoshi,
   invalidAmount
 } from './validation'
+import {
+  Row,
+  ColLeft,
+  ColRight,
+  AddressButton,
+  FeeFormContainer,
+  FeeFormGroup,
+  FeeFormLabel,
+  FeeOptionsContainer,
+  FeePerByteContainer
+} from 'components/Send'
 import QRCodeCapture from 'components/QRCodeCapture'
 import RegularFeeLink from './RegularFeeLink'
 import PriorityFeeLink from './PriorityFeeLink'
 import ComboDisplay from 'components/Display/ComboDisplay'
-import media from 'services/ResponsiveService'
 
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
+const BrowserWarning = styled(Banner)`
+  margin: -4px 0 8px;
 `
-const ColLeft = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  width: 50%;
-  ${media.mobile`
-    width: 100%;
-  `};
-`
-const ColRight = styled(ColLeft)`
-  align-items: flex-end;
-`
-const AddressButton = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  box-sizing: border-box;
-  border: 1px solid ${props => props.theme['gray-2']};
-
-  &:hover {
-    background-color: ${props => props.theme['gray-1']};
-  }
-`
-const FeeFormContainer = styled.div`
-  display: flex;
-  flex-direction: ${props => (props.toggled ? 'column' : 'row')};
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-`
-const FeeFormGroup = styled(FormGroup)`
-  ${media.mobile`
-    flex-direction: column;
-  `};
-`
-const FeeFormLabel = styled(FormLabel)`
-  width: 100%;
-  display: flex;
-  white-space: nowrap;
-  > div {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-`
-const FeeOptionsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-`
-const FeePerByteContainer = styled.div`
-  width: 100%;
-  margin-bottom: 10px;
-`
-
 const FirstStep = props => {
-  const { invalid, submitting, pristine, ...rest } = props
+  const {
+    invalid,
+    submitting,
+    pristine,
+    handleFeePerByteToggle,
+    handleToToggle,
+    handleSubmit,
+    ...rest
+  } = props
   const {
     from,
     watchOnly,
-    addressMatchesPriv,
     destination,
     toToggled,
     enableToggle,
@@ -130,10 +84,12 @@ const FirstStep = props => {
     regularFeePerByte,
     priorityFeePerByte,
     isPriorityFeePerByte,
-    totalFee,
-    ...rest2
+    totalFee
   } = rest
-  const { handleFeePerByteToggle, handleToToggle, handleSubmit } = rest2
+  const disableLockboxSend =
+    from &&
+    from.type === 'LOCKBOX' &&
+    !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -156,7 +112,7 @@ const FirstStep = props => {
           </FormLabel>
           <Field
             name='from'
-            component={SelectBoxBitcoinAddresses}
+            component={SelectBoxBtcAddresses}
             validate={[required]}
             includeAll={false}
           />
@@ -174,11 +130,24 @@ const FirstStep = props => {
                 autoFocus
                 errorBottom
               />
-              <QRCodeCapture scanType='btcPriv' border={['top', 'bottom']} />
+              <QRCodeCapture
+                scanType='btcPriv'
+                border={['top', 'bottom', 'right']}
+              />
             </Row>
           )}
         </FormItem>
       </FormGroup>
+      {disableLockboxSend && (
+        <BrowserWarning type='warning'>
+          <Text color='warning' size='12px'>
+            <FormattedMessage
+              id='modals.sendbtc.firststep.lockboxwarn'
+              defaultMessage='Sending Bitcoin from Lockbox can only be done while using the Chrome browser'
+            />
+          </Text>
+        </BrowserWarning>
+      )}
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for='to'>
@@ -188,32 +157,18 @@ const FirstStep = props => {
             />
           </FormLabel>
           <Row>
-            {toToggled &&
-              !destination && (
-                <Field
-                  name='to'
-                  component={SelectBoxBitcoinAddresses}
-                  opened
-                  onFocus={() => handleToToggle()}
-                  includeAll={false}
-                  exclude={[from.label]}
-                  validate={[required]}
-                  hideErrors
-                />
-              )}
-            {toToggled &&
-              destination && (
-                <Field
-                  name='to'
-                  component={SelectBoxBitcoinAddresses}
-                  onFocus={() => handleToToggle()}
-                  includeAll={false}
-                  validate={[required]}
-                  exclude={[from.label]}
-                  hideArrow
-                  hideErrors
-                />
-              )}
+            {toToggled && (
+              <Field
+                name='to'
+                component={SelectBoxBtcAddresses}
+                menuIsOpen={!destination}
+                exclude={[from.label]}
+                validate={[required]}
+                includeAll={false}
+                hideIndicator
+                hideErrors
+              />
+            )}
             {!toToggled && (
               <Field
                 name='to'
@@ -223,20 +178,23 @@ const FirstStep = props => {
                 autoFocus
               />
             )}
-            {(!toToggled || destination) && (
-              <QRCodeCapture
-                scanType='btcAddress'
-                border={
-                  enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']
-                }
-              />
-            )}
-            {enableToggle &&
-              (!toToggled || destination) && (
-                <AddressButton onClick={() => handleToToggle(true)}>
-                  <Icon name='down-arrow' size='10px' cursor />
+            <QRCodeCapture
+              scanType='btcAddress'
+              border={
+                enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']
+              }
+            />
+            {enableToggle ? (
+              !toToggled ? (
+                <AddressButton onClick={() => handleToToggle()}>
+                  <Icon name='down-arrow' size='11px' cursor />
                 </AddressButton>
-              )}
+              ) : (
+                <AddressButton onClick={() => handleToToggle()}>
+                  <Icon name='pencil' size='13px' cursor />
+                </AddressButton>
+              )
+            ) : null}
           </Row>
         </FormItem>
       </FormGroup>
@@ -259,6 +217,7 @@ const FirstStep = props => {
               maximumAmount
             ]}
             coin='BTC'
+            data-e2e='sendBtc'
           />
         </FormItem>
       </FormGroup>
@@ -278,6 +237,7 @@ const FirstStep = props => {
             component={TextAreaDebounced}
             placeholder="What's this transaction for?"
             rows={3}
+            data-e2e='sendBtc_description'
           />
         </FormItem>
       </FormGroup>
@@ -314,6 +274,8 @@ const FirstStep = props => {
                   warn={[minimumFeePerByte, maximumFeePerByte]}
                   errorBottom
                   errorLeft
+                  unit='sat/byte'
+                  data-e2e='sendBtc_custom_fee_input'
                 />
               </FeePerByteContainer>
             )}
@@ -328,6 +290,7 @@ const FirstStep = props => {
             weight={300}
             capitalize
             onClick={handleFeePerByteToggle}
+            data-e2e='sendBtc_custom_fee_link'
           >
             {feePerByteToggled ? (
               <FormattedMessage
@@ -363,8 +326,8 @@ const FirstStep = props => {
         <Button
           type='submit'
           nature='primary'
-          uppercase
-          disabled={submitting || invalid || pristine}
+          data-e2e='sendBtc_continue'
+          disabled={submitting || invalid || pristine || disableLockboxSend}
         >
           <FormattedMessage
             id='modals.sendbtc.firststep.continue'

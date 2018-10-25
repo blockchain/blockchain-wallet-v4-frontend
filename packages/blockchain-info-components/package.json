@@ -2,7 +2,7 @@
   "name": "blockchain-info-components",
   "version": "0.0.31",
   "description": "A shared UI components library for blockchain.info applications.",
-  "license": "ISC",
+  "license": "AGPL-3.0-or-later",
   "author": {
     "name": "Blockchain.info",
     "url": "https://blockchain.info"
@@ -61,8 +61,10 @@
     "ramda": "0.25.0",
     "react": "16.4.0",
     "react-datetime": "2.14.0",
+    "react-input-autosize": "2.2.1",
     "react-intl": "2.4.0",
     "react-onclickoutside": "6.7.1",
+    "react-select": "2.0.0",
     "styled-components": "3.3.2",
     "universal-cookie": "^2.2.0"
   }

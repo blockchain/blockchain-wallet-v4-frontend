@@ -13,7 +13,6 @@ import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import sendBtcSagas, { logLocation } from './sagas'
 import { promptForSecondPassword } from 'services/SagaService'
-import settings from 'config'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const api = {
@@ -21,6 +20,7 @@ const api = {
   deauthorizeBrowser: jest.fn()
 }
 const coreSagas = coreSagasFactory({ api })
+const networks = { btc: 'bitcoin' }
 
 describe('sendBtc sagas', () => {
   // Mocking Math.random() to have identical popup ids for action testing
@@ -45,7 +45,7 @@ describe('sendBtc sagas', () => {
     initialized,
     firstStepSubmitClicked,
     secondStepSubmitClicked
-  } = sendBtcSagas({ api, coreSagas })
+  } = sendBtcSagas({ api, coreSagas, networks })
 
   const feeType = 'regular'
   const feePerByte = 1
@@ -107,7 +107,7 @@ describe('sendBtc sagas', () => {
       saga.next()
       expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
-        network: settings.NETWORK_BITCOIN
+        network: networks.btc
       })
       expect(paymentMock.init).toHaveBeenCalledTimes(1)
     })
@@ -128,7 +128,7 @@ describe('sendBtc sagas', () => {
       saga.next(defaultIndex)
 
       expect(paymentMock.from).toHaveBeenCalledTimes(1)
-      expect(paymentMock.from).toHaveBeenCalledWith(defaultIndex)
+      expect(paymentMock.from).toHaveBeenCalledWith(defaultIndex, 'ACCOUNT')
     })
 
     it('should update payment fee from value', () => {
@@ -256,7 +256,7 @@ describe('sendBtc sagas', () => {
       expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
         payment: paymentMock,
-        network: settings.NETWORK_BITCOIN
+        network: networks.btc
       })
     })
 
@@ -318,16 +318,12 @@ describe('sendBtc sagas', () => {
       expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
         payment: paymentMock,
-        network: settings.NETWORK_BITCOIN
+        network: networks.btc
       })
     })
 
-    it('should put action to close all modals', () => {
-      saga.next(secondPassword).put(actions.modals.closeAllModals())
-    })
-
     it('should sign payment with second passowrd', () => {
-      saga.next()
+      saga.next(secondPassword)
       expect(paymentMock.sign).toHaveBeenCalledTimes(1)
       expect(paymentMock.sign).toHaveBeenCalledWith(secondPassword)
     })
@@ -337,14 +333,14 @@ describe('sendBtc sagas', () => {
       expect(paymentMock.publish).toHaveBeenCalledTimes(1)
     })
 
+    it('should put btc fetch data action', () => {
+      saga.next(paymentMock).put(actions.core.data.bitcoin.fetchData())
+    })
+
     it('should put btc payment updated success action', () => {
       saga
         .next(paymentMock)
         .put(A.sendBtcPaymentUpdatedSuccess(paymentMock.value()))
-    })
-
-    it('should put btc fetch data action', () => {
-      saga.next(paymentMock).put(actions.core.data.bitcoin.fetchData())
     })
 
     it('should set transaction note if transaction has description', () => {
@@ -360,6 +356,12 @@ describe('sendBtc sagas', () => {
         .next()
         .put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
         .save(beforeError)
+    })
+
+    it('should put action to close all modals', () => {
+      saga
+        .next()
+        .put(actions.modals.closeAllModals())
         .next()
         .isDone()
     })
@@ -379,12 +381,8 @@ describe('sendBtc sagas', () => {
           )
       })
 
-      it('should display success message', () => {
-        saga
-          .next()
-          .put(actions.alerts.displayError(C.SEND_BTC_ERROR))
-          .next()
-          .isDone()
+      it('should display error message', () => {
+        saga.next().put(actions.alerts.displayError(C.SEND_BTC_ERROR))
       })
     })
 

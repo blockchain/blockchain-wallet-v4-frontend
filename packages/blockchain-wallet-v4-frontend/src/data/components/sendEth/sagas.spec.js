@@ -8,6 +8,7 @@ import * as A from './actions'
 import * as S from './selectors'
 import * as C from 'services/AlertService'
 import * as actions from '../../actions'
+import * as selectors from '../../selectors'
 import * as actionTypes from '../../actionTypes'
 import sendEthSagas, { logLocation } from './sagas'
 import { promptForSecondPassword } from 'services/SagaService'
@@ -49,7 +50,6 @@ describe('sendEth sagas', () => {
     secondStepSubmitClicked
   } = sendEthSagas({ api, coreSagas })
 
-  const value = {}
   const paymentMock = {
     value: jest.fn(),
     init: jest.fn(() => paymentMock),
@@ -57,6 +57,7 @@ describe('sendEth sagas', () => {
     amount: jest.fn(() => paymentMock),
     from: jest.fn(() => paymentMock),
     fee: jest.fn(() => paymentMock),
+    fees: { regular: 10 },
     build: jest.fn(() => paymentMock),
     buildSweep: jest.fn(() => paymentMock),
     sign: jest.fn(() => paymentMock),
@@ -64,21 +65,25 @@ describe('sendEth sagas', () => {
     description: jest.fn(() => paymentMock),
     chain: jest.fn()
   }
+  const value = paymentMock
   paymentMock.value.mockReturnValue(value)
 
   coreSagas.payment.eth.create.mockImplementation(() => {
     return paymentMock
   })
 
-  describe('eth send form intialize', () => {
+  describe('eth send form initialize', () => {
     const from = 'fromethaddress'
     const type = 'ACCOUNT'
     const payload = { from, type }
 
     const saga = testSaga(initialized, { payload })
+    const mockAccount = Remote.of([{ addr: '0x123' }])
 
     const initialValues = {
-      coin: 'ETH'
+      from: { addr: '0x123' },
+      coin: 'ETH',
+      fee: 10
     }
 
     const beforeEnd = 'beforeEnd'
@@ -91,7 +96,7 @@ describe('sendEth sagas', () => {
       saga.next()
       expect(coreSagas.payment.eth.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.eth.create).toHaveBeenCalledWith({
-        network: settings.NETWORK_ETHEREUM
+        network: settings.NETWORK_ETH
       })
       expect(paymentMock.init).toHaveBeenCalledTimes(1)
     })
@@ -125,8 +130,14 @@ describe('sendEth sagas', () => {
         })
     })
 
-    it('should initializr form with correct initial values', () => {
-      saga.next(paymentMock).put(initialize('sendEth', initialValues))
+    it('should select default account', () => {
+      saga
+        .next(paymentMock)
+        .select(selectors.core.common.eth.getAccountBalances)
+    })
+
+    it('should initialize form with correct initial values', () => {
+      saga.next(mockAccount).put(initialize('sendEth', initialValues))
     })
 
     it('should trigger eth payment updated success action', () => {
@@ -171,7 +182,9 @@ describe('sendEth sagas', () => {
           resultingState.form.sendEth.values
         )
         expect(resultingState.form.sendEth.initial).toEqual({
-          coin: 'ETH'
+          from: {},
+          coin: 'ETH',
+          fee: 10
         })
       })
 
@@ -208,7 +221,7 @@ describe('sendEth sagas', () => {
       expect(coreSagas.payment.eth.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.eth.create).toHaveBeenCalledWith({
         payment: paymentMock,
-        network: settings.NETWORK_ETHEREUM
+        network: settings.NETWORK_ETH
       })
     })
 
@@ -251,8 +264,9 @@ describe('sendEth sagas', () => {
     const description = 'description'
     const txId = 'txId'
     const beforeError = 'beforeError'
+    const from = { address: 'address' }
     beforeAll(() => {
-      paymentMock.value.mockReturnValue({ ...value, description, txId })
+      paymentMock.value.mockReturnValue({ ...value, description, txId, from })
       coreSagas.payment.eth.create.mockClear()
       paymentMock.sign.mockClear()
       paymentMock.publish.mockClear()
@@ -270,16 +284,12 @@ describe('sendEth sagas', () => {
       expect(coreSagas.payment.eth.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.eth.create).toHaveBeenCalledWith({
         payment: paymentMock,
-        network: settings.NETWORK_ETHEREUM
+        network: settings.NETWORK_ETH
       })
     })
 
-    it('should put action to close all modals', () => {
-      saga.next(secondPassword).put(actions.modals.closeAllModals())
-    })
-
     it('should sign payment with second passowrd', () => {
-      saga.next()
+      saga.next(secondPassword)
       expect(paymentMock.sign).toHaveBeenCalledTimes(1)
       expect(paymentMock.sign).toHaveBeenCalledWith(secondPassword)
     })
@@ -313,12 +323,6 @@ describe('sendEth sagas', () => {
       saga
         .next(paymentMock)
         .put(actions.core.kvStore.ethereum.setLatestTxEthereum(txId))
-    })
-
-    it('should display succcess message', () => {
-      saga
-        .next()
-        .put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
         .save(beforeError)
     })
 
@@ -330,17 +334,18 @@ describe('sendEth sagas', () => {
         .put(
           actions.core.kvStore.ethereum.setTxNotesEthereum(txId, description)
         )
-        .next()
-        .isDone()
     })
 
-    it('should not set transaction note if payment has no description', () => {
-      paymentMock.value.mockReturnValue({ ...value, description: '', txId })
-      return expectSaga(secondStepSubmitClicked)
-        .not.put(
-          actions.core.kvStore.ethereum.setTxNotesEthereum(txId, description)
-        )
-        .run()
+    it('should display succcess message', () => {
+      saga.next().put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
+    })
+
+    it('should put action to close all modals', () => {
+      saga
+        .next()
+        .put(actions.modals.closeAllModals())
+        .next()
+        .isDone()
     })
 
     describe('error handling', () => {
@@ -358,12 +363,11 @@ describe('sendEth sagas', () => {
           )
       })
 
-      it('should display success message', () => {
+      it('should display error message', () => {
         saga
           .next()
           .put(actions.alerts.displayError(C.SEND_ETH_ERROR))
           .next()
-          .isDone()
       })
     })
   })

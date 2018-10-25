@@ -2,7 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Image, Link, Text, TextGroup, Button } from 'blockchain-info-components'
+import {
+  Image,
+  Link,
+  Text,
+  TextGroup,
+  Button
+} from 'blockchain-info-components'
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 
 const Wrapper = styled.div`
@@ -37,9 +43,7 @@ const DataErrorContainer = ({ message, onClick, onArchive }) => {
           <MessageText size='18px' weight={300}>
             {msg}
           </MessageText>
-          <Button
-            nature='primary'
-            onClick={() => onArchive(vulnerableAddress)}>
+          <Button nature='primary' onClick={() => onArchive(vulnerableAddress)}>
             <Text size='18px' weight={300} color='white'>
               <FormattedMessage
                 id='components.dataerror.archiveaddress'

@@ -156,7 +156,7 @@ const Upload = props => {
               id='sfoxexchangedata.upload.title'
               defaultMessage='Let’s Get to Know You'
             />
-            <LockIcon name='lock-filled' />
+            <LockIcon name='lock' />
           </PartnerHeader>
           <TitleStrings idType={idType} />
         </UploadColLeftInner>

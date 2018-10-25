@@ -131,6 +131,43 @@ const Terms = props => {
           </Link>
         </TermsContainer>
       )
+    case 'blockchain-kyc':
+      return (
+        <TermsContainer>
+          <Text size='12px' weight={300}>
+            <FormattedMessage
+              id='scenes.register.registerform.blockchainkyc.read'
+              defaultMessage='By hitting continue, I agree to Blockchain’s'
+            />
+            &nbsp;
+          </Text>
+          <Link
+            href='https://www.blockchain.com/legal/terms'
+            target='_blank'
+            size='12px'
+            weight={300}
+          >
+            <FormattedMessage
+              id='scenes.register.registerform.blockchain.terms'
+              defaultMessage='Terms of Service'
+            />
+            &nbsp;
+          </Link>
+          {`&`}
+          &nbsp;
+          <Link
+            href='https://www.blockchain.com/legal/privacy'
+            target='_blank'
+            size='12px'
+            weight={300}
+          >
+            <FormattedMessage
+              id='privacypolicy'
+              defaultMessage='Privacy Policy.'
+            />
+          </Link>
+        </TermsContainer>
+      )
     default:
       return (
         <TermsContainer>
@@ -142,10 +179,11 @@ const Terms = props => {
           </Text>
           <span>&nbsp;</span>
           <Link
-            href='https://www.blockchain.com/terms/index.html'
+            href='https://www.blockchain.com/legal/terms'
             target='_blank'
             size='12px'
             weight={300}
+            data-e2e='blockchainTermsLink'
           >
             <FormattedMessage
               id='scenes.register.registerform.blockchain.terms'
@@ -162,6 +200,7 @@ const Terms = props => {
             target='_blank'
             size='12px'
             weight={300}
+            data-e2e='blockchainPrivacyLink'
           >
             <FormattedMessage
               id='privacypolicy'

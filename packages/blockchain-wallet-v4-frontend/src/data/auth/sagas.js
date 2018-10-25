@@ -95,17 +95,28 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const authNabu = function*() {
+    yield put(actions.components.identityVerification.fetchSupportedCountries())
+    yield take(
+      action =>
+        action.type ===
+          actionTypes.components.identityVerification.SET_SUPPORTED_COUNTRIES &&
+        !Remote.Loading.is(action.payload.countries)
+    )
+    const userFlowSupported = (yield select(
+      selectors.modules.profile.userFlowSupported
+    )).getOrElse(false)
+    if (userFlowSupported) yield put(actions.modules.profile.signIn())
+  }
+
   const loginRoutineSaga = function*(mobileLogin, firstLogin) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
-      let isHdWallet = yield select(selectors.core.wallet.isHdWallet)
+      const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
       if (!isHdWallet) {
         yield call(upgradeWalletSaga)
       }
       yield put(actions.auth.authenticate())
-      yield put(actions.middleware.webSocket.bch.startSocket())
-      yield put(actions.middleware.webSocket.btc.startSocket())
-      yield put(actions.middleware.webSocket.eth.startSocket())
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
       // If there was no ethereum metadata kv store entry, we need to create one and that requires the second password.
       yield call(
@@ -113,7 +124,13 @@ export default ({ api, coreSagas }) => {
         askSecondPasswordEnhancer
       )
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
+      yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
+      yield put(actions.middleware.webSocket.bch.startSocket())
+      yield put(actions.middleware.webSocket.btc.startSocket())
+      yield put(actions.middleware.webSocket.eth.startSocket())
       yield put(actions.router.push('/home'))
+      yield call(coreSagas.settings.fetchSettings)
+      yield call(authNabu)
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.loginSuccess())
       yield put(actions.auth.startLogoutTimer())
@@ -130,6 +147,7 @@ export default ({ api, coreSagas }) => {
       yield fork(welcomeSaga, firstLogin)
       yield fork(reportStats, mobileLogin)
       yield fork(checkDataErrors)
+      yield put(actions.analytics.reportBalanceStats())
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
       if (!firstLogin) {
         yield put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
@@ -167,7 +185,10 @@ export default ({ api, coreSagas }) => {
         cancel: CC.ARCHIVE_VULNERABLE_ADDRESS_CANCEL,
         messageValues: { vulnerableAddress }
       })
-      if (confirmed) yield put(actions.core.wallet.setAddressArchived(vulnerableAddress, true))
+      if (confirmed)
+        yield put(
+          actions.core.wallet.setAddressArchived(vulnerableAddress, true)
+        )
     }
   }
 
@@ -175,7 +196,9 @@ export default ({ api, coreSagas }) => {
     const btcDataR = yield select(selectors.core.data.bitcoin.getInfo)
 
     if (Remote.Loading.is(btcDataR)) {
-      const btcData = yield take(actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_FAILURE)
+      const btcData = yield take(
+        actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_FAILURE
+      )
       const error = prop('payload', btcData)
       yield call(checkAndHandleVulnerableAddress, { error })
     }
@@ -454,6 +477,13 @@ export default ({ api, coreSagas }) => {
     const isEmailVerified = yield select(
       selectors.core.settings.getEmailVerified
     )
+    const userFlowSupported = (yield select(
+      selectors.modules.profile.userFlowSupported
+    )).getOrElse(false)
+    if (userFlowSupported) {
+      yield put(actions.modules.profile.clearSession())
+      yield put(actions.middleware.webSocket.rates.stopSocket())
+    }
     yield put(actions.middleware.webSocket.bch.stopSocket())
     yield put(actions.middleware.webSocket.btc.stopSocket())
     yield put(actions.middleware.webSocket.eth.stopSocket())
@@ -486,6 +516,7 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
+    authNabu,
     checkAndHandleVulnerableAddress,
     checkDataErrors,
     deauthorizeBrowser,

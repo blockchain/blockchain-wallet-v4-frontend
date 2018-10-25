@@ -1,15 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
+import * as bowser from 'bowser'
+import styled from 'styled-components'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import { required, validEtherAddress } from 'services/FormHelper'
 import {
+  Banner,
   Button,
   Text,
+  Icon,
   TooltipHost,
-  TooltipIcon
+  TooltipIcon,
+  Link
 } from 'blockchain-info-components'
 import {
   FiatConvertor,
@@ -17,22 +22,41 @@ import {
   FormGroup,
   FormItem,
   FormLabel,
+  NumberBoxDebounced,
+  SelectBox,
   SelectBoxCoin,
+  SelectBoxEthAddresses,
   TextBox,
   TextAreaDebounced
 } from 'components/Form'
-import { invalidAmount, insufficientFunds, maximumAmount } from './validation'
+import {
+  invalidAmount,
+  insufficientFunds,
+  maximumAmount,
+  shouldError,
+  shouldWarn,
+  minimumFee,
+  maximumFee
+} from './validation'
+import {
+  Row,
+  ColLeft,
+  ColRight,
+  FeeFormContainer,
+  FeeFormGroup,
+  FeeFormLabel,
+  AddressButton,
+  FeeOptionsContainer,
+  FeePerByteContainer
+} from 'components/Send'
 import QRCodeCapture from 'components/QRCodeCapture'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import RegularFeeLink from './RegularFeeLink'
+import PriorityFeeLink from './PriorityFeeLink'
 
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
+const BrowserWarning = styled(Banner)`
+  margin: -4px 0 8px;
 `
-
 const FirstStep = props => {
   const {
     pristine,
@@ -41,8 +65,24 @@ const FirstStep = props => {
     fee,
     handleSubmit,
     unconfirmedTx,
-    isContract
+    destination,
+    isContract,
+    toToggled,
+    feeToggled,
+    enableToggle,
+    handleToToggle,
+    from,
+    feeElements,
+    regularFee,
+    priorityFee,
+    handleFeeToggle,
+    balanceStatus
   } = props
+  const disableLockboxSend =
+    from &&
+    from.type === 'LOCKBOX' &&
+    !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
+
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'15px'}>
@@ -55,7 +95,31 @@ const FirstStep = props => {
           </FormLabel>
           <Field name='coin' component={SelectBoxCoin} validate={[required]} />
         </FormItem>
+        <FormItem width={'60%'}>
+          <FormLabel for='from'>
+            <FormattedMessage
+              id='modals.sendEther.firststep.from'
+              defaultMessage='From:'
+            />
+          </FormLabel>
+          <Field
+            name='from'
+            component={SelectBoxEthAddresses}
+            includeAll={false}
+            validate={[required]}
+          />
+        </FormItem>
       </FormGroup>
+      {disableLockboxSend && (
+        <BrowserWarning type='warning'>
+          <Text color='warning' size='12px'>
+            <FormattedMessage
+              id='modals.sendeth.firststep.lockboxwarn'
+              defaultMessage='Sending Ether from Lockbox can only be done while using the Chrome browser'
+            />
+          </Text>
+        </BrowserWarning>
+      )}
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for='to'>
@@ -65,19 +129,44 @@ const FirstStep = props => {
             />
           </FormLabel>
           <Row>
-            <Field
-              disabled={unconfirmedTx}
-              name='to'
-              placeholder='Paste or scan an address'
-              component={TextBox}
-              validate={[required, validEtherAddress]}
-            />
-            {!unconfirmedTx && (
-              <QRCodeCapture
-                scanType='ethAddress'
-                border={['top', 'bottom', 'right']}
+            {toToggled && (
+              <Field
+                name='to'
+                component={SelectBoxEthAddresses}
+                menuIsOpen={!destination}
+                exclude={[from.label]}
+                validate={[required]}
+                includeAll={false}
+                hideIndicator
+                hideErrors
               />
             )}
+            {!toToggled && (
+              <Field
+                name='to'
+                placeholder='Paste or scan an address, or select a destination'
+                component={TextBox}
+                validate={[required, validEtherAddress]}
+                autoFocus
+              />
+            )}
+            <QRCodeCapture
+              scanType='ethAddress'
+              border={
+                enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']
+              }
+            />
+            {enableToggle ? (
+              !toToggled ? (
+                <AddressButton onClick={() => handleToToggle()}>
+                  <Icon name='down-arrow' size='11px' cursor />
+                </AddressButton>
+              ) : (
+                <AddressButton onClick={() => handleToToggle()}>
+                  <Icon name='pencil' size='13px' cursor />
+                </AddressButton>
+              )
+            ) : null}
           </Row>
           {unconfirmedTx && (
             <Text color='error' size='12px' weight={300}>
@@ -110,7 +199,12 @@ const FirstStep = props => {
             disabled={unconfirmedTx}
             component={FiatConvertor}
             coin='ETH'
-            validate={[invalidAmount, insufficientFunds, maximumAmount]}
+            validate={[
+              required,
+              invalidAmount,
+              insufficientFunds,
+              maximumAmount
+            ]}
           />
         </FormItem>
       </FormGroup>
@@ -133,25 +227,76 @@ const FirstStep = props => {
           />
         </FormItem>
       </FormGroup>
-      <FormGroup margin={'30px'}>
-        <FormItem>
-          <FormLabel>
-            <FormattedMessage
-              id='modals.sendether.firststep.fee'
-              defaultMessage='Transaction Fee :'
-            />
-          </FormLabel>
+      <FeeFormGroup inline margin={'10px'}>
+        <ColLeft>
+          <FeeFormContainer toggled={feeToggled}>
+            <FeeFormLabel>
+              <FormattedMessage
+                id='modals.sendether.firststep.txfee'
+                defaultMessage='Transaction fee:'
+              />
+              <span>&nbsp;</span>
+              {!feeToggled && (
+                <Field
+                  name='fee'
+                  component={SelectBox}
+                  elements={feeElements}
+                />
+              )}
+              {feeToggled && (
+                <FeeOptionsContainer>
+                  <RegularFeeLink fee={regularFee} />
+                  <span>&nbsp;</span>
+                  <PriorityFeeLink fee={priorityFee} />
+                </FeeOptionsContainer>
+              )}
+            </FeeFormLabel>
+            {feeToggled && (
+              <FeePerByteContainer>
+                <Field
+                  name='fee'
+                  component={NumberBoxDebounced}
+                  validate={[required, minimumFee]}
+                  warn={[maximumFee]}
+                  errorBottom
+                  errorLeft
+                  unit='Gwei'
+                />
+              </FeePerByteContainer>
+            )}
+          </FeeFormContainer>
+        </ColLeft>
+        <ColRight>
           <ComboDisplay size='14px' coin='ETH'>
             {fee}
           </ComboDisplay>
-        </FormItem>
-      </FormGroup>
+          <Link size='13px' weight={300} capitalize onClick={handleFeeToggle}>
+            {feeToggled ? (
+              <FormattedMessage
+                id='modals.sendether.firststep.cancel'
+                defaultMessage='Cancel'
+              />
+            ) : (
+              <FormattedMessage
+                id='modals.sendether.firststep.edit'
+                defaultMessage='Customize fee'
+              />
+            )}
+          </Link>
+        </ColRight>
+      </FeeFormGroup>
       <FormGroup>
         <Button
           type='submit'
           nature='primary'
           uppercase
-          disabled={pristine || submitting || invalid || isContract}
+          disabled={
+            pristine ||
+            submitting ||
+            invalid ||
+            isContract ||
+            Remote.Loading.is(balanceStatus)
+          }
         >
           <FormattedMessage
             id='modals.sendether.firststep.continue'
@@ -169,9 +314,14 @@ FirstStep.propTypes = {
   fee: PropTypes.string.isRequired,
   effectiveBalance: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  toToggled: PropTypes.bool.isRequired,
+  handleToToggle: PropTypes.func.isRequired,
   unconfirmedTx: PropTypes.bool
 }
 
-export default reduxForm({ form: 'sendEth', destroyOnUnmount: false })(
-  FirstStep
-)
+export default reduxForm({
+  form: 'sendEth',
+  shouldError,
+  shouldWarn,
+  destroyOnUnmount: false
+})(FirstStep)

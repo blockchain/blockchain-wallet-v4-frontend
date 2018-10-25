@@ -84,24 +84,33 @@ export default ({ api }) => {
     yield put(actions.setEmailVerified())
   }
 
+  const resendVerifyEmail = function*({ email }) {
+    const guid = yield select(wS.getGuid)
+    const sharedKey = yield select(wS.getSharedKey)
+    const response = yield call(api.resendVerifyEmail, guid, sharedKey, email)
+    try {
+      if (!prop('success', JSON.parse(response))) {
+        throw new Error(response)
+      }
+    } catch (e) {
+      throw new Error(response)
+    }
+  }
+
   const setMobile = function*({ mobile }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.updateMobile, guid, sharedKey, mobile)
-    if (!contains('successfully', toLower(response))) {
-      throw new Error(response)
-    }
     yield put(actions.setMobile(mobile))
+    return response
   }
 
   const setMobileVerified = function*({ code }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.verifyMobile, guid, sharedKey, code)
-    if (!contains('successfully', toLower(response))) {
-      throw new Error(response)
-    }
     yield put(actions.setMobileVerified())
+    return response
   }
 
   const setMobileVerifiedAs2FA = function*({ code }) {
@@ -316,6 +325,7 @@ export default ({ api }) => {
   return {
     decodePairingCode,
     requestGoogleAuthenticatorSecretUrl,
+    resendVerifyEmail,
     fetchSettings,
     setEmail,
     setMobile,

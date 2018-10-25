@@ -7,14 +7,14 @@ export default ({ coreSagas }) => {
 
   const initialized = function*() {
     try {
-      const defaultSource = ''
+      const defaultSource = 'all'
       const initialValues = {
         source: defaultSource,
         status: '',
         search: ''
       }
       yield put(actions.form.initialize('bchTransactions', initialValues))
-      yield put(actions.core.data.bch.fetchTransactions(defaultSource, true))
+      yield put(actions.core.data.bch.fetchTransactions('', true))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }

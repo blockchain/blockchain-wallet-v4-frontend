@@ -1,5 +1,6 @@
 import { call, select, put, take } from 'redux-saga/effects'
-import { equals, identity, path, prop } from 'ramda'
+import { equals, identity, path, prop, head } from 'ramda'
+import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
@@ -8,8 +9,10 @@ import * as selectors from '../../selectors'
 import settings from 'config'
 import { initialize, change } from 'redux-form'
 import * as C from 'services/AlertService'
-import { promptForSecondPassword } from 'services/SagaService'
+import * as Lockbox from 'services/LockboxService'
+import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 export const logLocation = 'components/sendEth/sagas'
 
@@ -20,14 +23,23 @@ export default ({ coreSagas }) => {
       const type = path(['payload', 'type'], action)
       yield put(A.sendEthPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.eth.create({
-        network: settings.NETWORK_ETHEREUM
+        network: settings.NETWORK_ETH
       })
       payment = yield payment.init()
       payment =
         from && type
           ? yield payment.from(action.payload.from, action.payload.type)
           : yield payment.from()
-      const initialValues = { coin: 'ETH' }
+      const defaultFee = path(['fees', 'regular'], payment.value())
+      const ethAccountR = yield select(
+        selectors.core.common.eth.getAccountBalances
+      )
+      const defaultAccountR = ethAccountR.map(head)
+      const initialValues = {
+        coin: 'ETH',
+        fee: defaultFee,
+        from: defaultAccountR.getOrElse({})
+      }
       yield put(initialize('sendEth', initialValues))
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
@@ -47,7 +59,7 @@ export default ({ coreSagas }) => {
       yield put(A.sendEthPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.eth.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_ETHEREUM
+        network: settings.NETWORK_ETH
       })
       payment = yield payment.build()
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
@@ -67,7 +79,7 @@ export default ({ coreSagas }) => {
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.eth.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_ETHEREUM
+        network: settings.NETWORK_ETH
       })
 
       switch (field) {
@@ -84,6 +96,11 @@ export default ({ coreSagas }) => {
             }
           }
           break
+        case 'from':
+          const source = prop('address', payload)
+          const fromType = prop('type', payload)
+          payment = yield payment.from(source, fromType)
+          break
         case 'to':
           payment = yield payment.to(payload)
           break
@@ -99,7 +116,12 @@ export default ({ coreSagas }) => {
         case 'description':
           payment = yield payment.description(payload)
           break
+        case 'fee':
+          const account = path(['from', 'address'], payment.value())
+          payment = yield payment.fee(parseInt(payload), account)
+          break
       }
+
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
@@ -138,31 +160,77 @@ export default ({ coreSagas }) => {
   }
 
   const secondStepSubmitClicked = function*() {
+    let p = yield select(S.getPayment)
+    let payment = coreSagas.payment.eth.create({
+      payment: p.getOrElse({}),
+      network: settings.NETWORK_ETH
+    })
+    const fromType = path(['from', 'type'], payment.value())
+    const toAddress = path(['to', 'address'], payment.value())
+    const fromAddress = path(['from', 'address'], payment.value())
     try {
-      let p = yield select(S.getPayment)
-      let payment = coreSagas.payment.eth.create({
-        payment: p.getOrElse({}),
-        network: settings.NETWORK_ETHEREUM
-      })
-      const password = yield call(promptForSecondPassword)
-      yield put(actions.modals.closeAllModals())
-      payment = yield payment.sign(password)
+      // Sign payment
+      if (fromType !== ADDRESS_TYPES.LOCKBOX) {
+        let password = yield call(promptForSecondPassword)
+        payment = yield payment.sign(password)
+      } else {
+        const device = (yield select(
+          selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
+          fromAddress
+        )).getOrFail('missing_device')
+        const deviceType = prop('device_type', device)
+        yield call(promptForLockbox, 'ETH', deviceType, [toAddress])
+        let connection = yield select(
+          selectors.components.lockbox.getCurrentConnection
+        )
+        const transport = prop('transport', connection)
+        const scrambleKey = Lockbox.utils.getScrambleKey('ETH', deviceType)
+        payment = yield payment.sign(null, transport, scrambleKey)
+      }
+      // Publish payment
       payment = yield payment.publish()
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
-      yield put(
-        actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now())
-      )
-      yield take(
-        actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
-      )
-      yield put(
-        actions.core.kvStore.ethereum.setLatestTxEthereum(payment.value().txId)
-      )
-      yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
-      if (path(['description', 'length'], payment.value())) {
+      // Update metadata
+      if (fromType === ADDRESS_TYPES.LOCKBOX) {
+        const device = (yield select(
+          selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
+          fromAddress
+        )).getOrFail('missing_device')
+        const deviceIndex = prop('device_index', device)
+        yield put(
+          actions.core.kvStore.lockbox.setLatestTxTimestampEth(
+            deviceIndex,
+            Date.now()
+          )
+        )
+        yield take(
+          actionTypes.core.kvStore.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS
+        )
+        yield put(
+          actions.core.kvStore.lockbox.setLatestTxEth(
+            deviceIndex,
+            payment.value().txId
+          )
+        )
+      } else {
+        yield put(
+          actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now())
+        )
         yield take(
           actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
         )
+        yield put(
+          actions.core.kvStore.ethereum.setLatestTxEthereum(
+            payment.value().txId
+          )
+        )
+      }
+      if (path(['description', 'length'], payment.value())) {
+        if (fromType !== ADDRESS_TYPES.LOCKBOX) {
+          yield take(
+            actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
+          )
+        }
         yield put(
           actions.core.kvStore.ethereum.setTxNotesEthereum(
             payment.value().txId,
@@ -170,11 +238,89 @@ export default ({ coreSagas }) => {
           )
         )
       }
+      // Display success
+      if (fromType === ADDRESS_TYPES.LOCKBOX) {
+        yield put(actions.components.lockbox.setConnectionSuccess())
+        yield delay(1500)
+      } else {
+        yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
+      }
+      // Close modals
+      yield put(actions.modals.closeAllModals())
+    } catch (e) {
+      // Set errors
+      if (fromType === ADDRESS_TYPES.LOCKBOX) {
+        yield put(actions.components.lockbox.setConnectionError(e))
+      } else {
+        yield put(
+          actions.logs.logErrorMessage(
+            logLocation,
+            'secondStepSubmitClicked',
+            e
+          )
+        )
+        yield put(actions.alerts.displayError(C.SEND_ETH_ERROR))
+      }
+    }
+  }
+
+  const regularFeeClicked = function*() {
+    try {
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const regularFee = path(['fees', 'regular'], payment)
+      yield put(change('sendEth', 'fee', regularFee))
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e)
+        actions.logs.logErrorMessage(logLocation, 'regularFeeClicked', e)
       )
-      yield put(actions.alerts.displayError(C.SEND_ETH_ERROR))
+    }
+  }
+
+  const priorityFeeClicked = function*() {
+    try {
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const priorityFee = path(['fees', 'priority'], payment)
+      yield put(change('sendEth', 'fee', priorityFee))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'priorityFeeClicked', e)
+      )
+    }
+  }
+
+  const minimumFeeClicked = function*() {
+    try {
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const minFee = path(['fees', 'limits', 'min'], payment)
+      yield put(change('sendEth', 'fee', minFee))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'minimumFeeClicked', e)
+      )
+    }
+  }
+
+  const toToggled = function*() {
+    try {
+      yield put(change('sendEth', 'to', ''))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'toToggled', e))
+    }
+  }
+
+  const maximumFeeClicked = function*() {
+    try {
+      const p = yield select(S.getPayment)
+      const payment = p.getOrElse({})
+      const maxFee = path(['fees', 'limits', 'max'], payment)
+      yield put(change('sendEth', 'fee', maxFee))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'maximumFeeClicked', e)
+      )
     }
   }
 
@@ -183,7 +329,12 @@ export default ({ coreSagas }) => {
     destroyed,
     firstStepSubmitClicked,
     maximumAmountClicked,
+    maximumFeeClicked,
+    minimumFeeClicked,
     secondStepSubmitClicked,
-    formChanged
+    formChanged,
+    regularFeeClicked,
+    priorityFeeClicked,
+    toToggled
   }
 }

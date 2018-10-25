@@ -15,7 +15,13 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     return post({
       url: apiUrl,
       endPoint: '/bch/multiaddr',
-      data: onlyShow ? merge(data, { onlyShow }) : data
+      data: onlyShow
+        ? merge(data, {
+            onlyShow: (Array.isArray(onlyShow) ? onlyShow : [onlyShow]).join(
+              '|'
+            )
+          })
+        : data
     })
   }
 
@@ -49,11 +55,22 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       data: { tx: txHex, format: 'plain' }
     })
 
+  const getBchRawTx = txHex =>
+    get({
+      url: apiUrl,
+      endPoint: '/bch/rawtx/' + txHex,
+      data: {
+        format: 'hex',
+        cors: 'true'
+      }
+    })
+
   return {
     fetchBchData,
     getBchFee,
     getBchTicker,
     getBchUnspents,
+    getBchRawTx,
     pushBchTx
   }
 }

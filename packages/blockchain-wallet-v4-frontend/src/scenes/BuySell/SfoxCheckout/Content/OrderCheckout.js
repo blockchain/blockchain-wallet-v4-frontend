@@ -93,11 +93,7 @@ const OrderCheckout = ({
         {wantToHelper()}
       </Text>
       <MethodContainer>
-        <Icon
-          name='bitcoin-in-circle-filled'
-          color='bitcoin-orange'
-          size='30px'
-        />
+        <Icon name='btc-circle' color='btc' size='30px' />
         <div style={{ ...flex('col'), ...spacing('ml-20') }}>
           <Text size='14px' weight={300} uppercase>
             Bitcoin

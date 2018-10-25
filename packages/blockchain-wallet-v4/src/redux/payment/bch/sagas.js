@@ -8,7 +8,6 @@ import * as CoinSelection from '../../../coinSelection'
 import * as Coin from '../../../coinSelection/coin'
 import settingsSagaFactory from '../../../redux/settings/sagas'
 import {
-  isValidBitcoinAddress,
   privateKeyStringToKey,
   detectPrivateKeyFormat
 } from '../../../utils/btc'
@@ -20,14 +19,15 @@ import {
   isPositiveInteger
 } from '../../../utils/checks'
 import {
-  FROM,
+  ADDRESS_TYPES,
   toCoin,
   isValidAddressOrIndex,
   toOutput,
   fromLegacy,
   fromLegacyList,
   fromAccount,
-  fromPrivateKey
+  fromPrivateKey,
+  fromLockbox
 } from '../btc/utils'
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -55,13 +55,13 @@ export default ({ api }) => {
       .then(map(toCoin(network, fromData)))
 
   // ///////////////////////////////////////////////////////////////////////////
-  const calculateTo = function*(destinations, network) {
+  const calculateTo = function*(destinations, type, network) {
     const appState = yield select(identity)
     const wallet = S.wallet.getWallet(appState)
 
     // if address or account index
     if (isValidAddressOrIndex(destinations)) {
-      return [toOutput('BCH', network, appState, destinations)]
+      return [toOutput('BCH', network, appState, destinations, type)]
     }
 
     // if non-empty array of addresses or account indexes
@@ -94,51 +94,40 @@ export default ({ api }) => {
   }
 
   // ///////////////////////////////////////////////////////////////////////////
-  const calculateFrom = function*(origin, network) {
+  const calculateFrom = function*(origin, type, network) {
     const appState = yield select(identity)
     const wallet = S.wallet.getWallet(appState)
 
     // No origin => assume origin = all the legacy addresses (non - watchOnly)
-    if (origin === null || origin === undefined || origin === '') {
+    if (isNil(origin) || origin === '') {
       let spendableActiveAddresses = yield select(
         S.wallet.getSpendableActiveAddresses
       )
       return fromLegacyList(spendableActiveAddresses)
     }
 
-    if (isCashAddr(origin)) {
-      return fromLegacy(fromCashAddr(origin))
+    switch (type) {
+      case ADDRESS_TYPES.ACCOUNT:
+        return fromAccount(network, appState, origin, 'BTC')
+      case ADDRESS_TYPES.LEGACY:
+        if (isCashAddr(origin)) {
+          return fromLegacy(fromCashAddr(origin))
+        }
+        if (Array.isArray(origin) && origin.length > 0) {
+          return fromLegacyList(origin)
+        }
+        return fromLegacy(origin)
+      case ADDRESS_TYPES.LOCKBOX:
+        return fromLockbox(network, appState, origin, 'BCH')
+      default:
+        const pkformat = detectPrivateKeyFormat(origin)
+        if (pkformat != null) {
+          let pkFormat = detectPrivateKeyFormat(origin)
+          let key = privateKeyStringToKey(origin, pkFormat, network)
+          return fromPrivateKey(network, wallet, key)
+        }
+        throw new Error('no_origin_set')
     }
-
-    // Single bitcoin address (they must be legacy addresses)
-    if (isValidBitcoinAddress(origin)) {
-      return fromLegacy(origin)
-    }
-
-    // Multiple legacy addresses (they must be legacy addresses)
-    if (
-      Array.isArray(origin) &&
-      origin.length > 0 &&
-      origin.every(isValidBitcoinAddress)
-    ) {
-      return fromLegacyList(origin)
-    }
-
-    // Single account index
-    if (isPositiveInteger(origin)) {
-      return fromAccount(network, appState, origin, 'BCH')
-    }
-
-    // From private key (watch only: compressed / uncompressed, external)
-    const pkformat = detectPrivateKeyFormat(origin)
-    if (pkformat != null) {
-      let pkFormat = detectPrivateKeyFormat(origin)
-      // TODO :: privateKeyStringToKey maybe should be BitcoinCash specific?
-      let key = privateKeyStringToKey(origin, pkFormat, network)
-      return fromPrivateKey(network, wallet, key)
-    }
-
-    throw new Error('no_origin_set')
   }
 
   // ///////////////////////////////////////////////////////////////////////////
@@ -187,8 +176,11 @@ export default ({ api }) => {
       throw new Error('missing_change_address')
     }
 
-    let targets = zip(to, amount).map(([target, value]) =>
-      Coin.fromJS({ address: target.address, value })
+    let targets = zip(to, amount).map(
+      ([target, value]) =>
+        target.type === ADDRESS_TYPES.SCRIPT
+          ? Coin.fromJS({ script: target.script, value })
+          : Coin.fromJS({ address: target.address, value })
     )
     return CoinSelection.descentDraw(targets, fee, coins, change)
   }
@@ -237,23 +229,40 @@ export default ({ api }) => {
   }
 
   // ///////////////////////////////////////////////////////////////////////////
-  const calculateSignature = function*(network, password, fromType, selection) {
+  const calculateSignature = function*(
+    network,
+    password,
+    transport,
+    scrambleKey,
+    fromType,
+    selection,
+    changeIndex
+  ) {
     if (!selection) {
       throw new Error('missing_selection')
     }
     const wrapper = yield select(S.wallet.getWrapper)
     switch (fromType) {
-      case FROM.ACCOUNT:
+      case ADDRESS_TYPES.ACCOUNT:
         return yield call(() =>
           taskToPromise(bch.signHDWallet(network, password, wrapper, selection))
         )
-      case FROM.LEGACY:
+      case ADDRESS_TYPES.LEGACY:
         return yield call(() =>
           taskToPromise(bch.signLegacy(network, password, wrapper, selection))
         )
-      case FROM.WATCH_ONLY:
-      case FROM.EXTERNAL:
+      case ADDRESS_TYPES.WATCH_ONLY:
+      case ADDRESS_TYPES.EXTERNAL:
         return bch.signWithWIF(network, selection)
+      case ADDRESS_TYPES.LOCKBOX:
+        return yield call(
+          bch.signWithLockbox,
+          selection,
+          transport,
+          scrambleKey,
+          changeIndex,
+          api
+        )
       default:
         throw new Error('unknown_from')
     }
@@ -279,8 +288,8 @@ export default ({ api }) => {
         return makePayment(merge(p, { fees }))
       },
 
-      *to (destinations) {
-        let to = yield call(calculateTo, destinations, network)
+      *to (destinations, type) {
+        let to = yield call(calculateTo, destinations, type, network)
         return makePayment(merge(p, { to }))
       },
 
@@ -289,8 +298,8 @@ export default ({ api }) => {
         return makePayment(merge(p, { amount }))
       },
 
-      *from (origins) {
-        let fromData = yield call(calculateFrom, origins, network)
+      *from (origins, type) {
+        let fromData = yield call(calculateFrom, origins, type, network)
         try {
           let coins = yield call(getWalletUnspent, network, fromData)
           let effectiveBalance = yield call(calculateEffectiveBalance, {
@@ -324,13 +333,16 @@ export default ({ api }) => {
         return makePayment(merge(p, { selection }))
       },
 
-      *sign (password) {
+      *sign (password, transport, scrambleKey) {
         let signed = yield call(
           calculateSignature,
           network,
           password,
-          p.fromType,
-          p.selection
+          transport,
+          scrambleKey,
+          prop('fromType', p),
+          prop('selection', p),
+          prop('changeIndex', p)
         )
         return makePayment(merge(p, { ...signed }))
       },
@@ -355,9 +367,11 @@ export default ({ api }) => {
 
         const makeChain = gen => ({
           init: () => chain(gen, payment => payment.init()),
-          to: destinations => chain(gen, payment => payment.to(destinations)),
+          to: (destinations, type) =>
+            chain(gen, payment => payment.to(destinations, type)),
           amount: amounts => chain(gen, payment => payment.amount(amounts)),
-          from: origins => chain(gen, payment => payment.from(origins)),
+          from: (origins, type) =>
+            chain(gen, payment => payment.from(origins, type)),
           fee: value => chain(gen, payment => payment.fee(value)),
           build: () => chain(gen, payment => payment.build()),
           buildSweep: () => chain(gen, payment => payment.buildSweep()),

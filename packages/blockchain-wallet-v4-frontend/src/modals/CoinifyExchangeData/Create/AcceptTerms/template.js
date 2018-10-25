@@ -188,21 +188,24 @@ const AcceptTerms = props => {
         <ColRightInner>
           <ButtonWrapper>
             <Button
-              uppercase
               type='submit'
               nature='primary'
               fullwidth
               disabled={invalid || busy || signupError}
             >
               {!busy ? (
-                <span>Continue</span>
+                <FormattedMessage
+                  id='coinifyexchangedata.create.continue'
+                  defaultMessage='Continue'
+                />
               ) : (
                 <HeartbeatLoader height='20px' width='20px' color='white' />
               )}
             </Button>
           </ButtonWrapper>
           <ErrorWrapper>
-            {signupError && prop('error', signupError) === EMAIL_IN_USE_ERROR ? (
+            {signupError &&
+            prop('error', signupError) === EMAIL_IN_USE_ERROR ? (
               <TextGroup inline>
                 <Text size='12px' color='error' weight={300}>
                   <FormattedMessage
@@ -259,7 +262,9 @@ const AcceptTerms = props => {
                   <FormattedMessage
                     id='coinifyexchangedata.create.accept.support_error_description'
                     defaultMessage='Error Description: {errorDescription}'
-                    values={{ errorDescription: prop('error_description', signupError) }}
+                    values={{
+                      errorDescription: prop('error_description', signupError)
+                    }}
                   />
                 </Text>
               </TextGroup>

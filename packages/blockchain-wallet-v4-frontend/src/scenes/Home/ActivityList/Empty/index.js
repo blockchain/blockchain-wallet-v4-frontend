@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Button, Image, Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import { LinkContainer } from 'react-router-bootstrap'
 
 const Wrapper = styled.div`
@@ -16,7 +16,7 @@ const Wrapper = styled.div`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   height: 200px;
 `
@@ -24,7 +24,6 @@ const Container = styled.div`
 const Empty = props => (
   <Wrapper>
     <Container>
-      <Image name='blue-logo' width='40px' height='40px' />
       <Text size='16px' weight={300}>
         <FormattedMessage
           id='scenes.home.activitylist.empty.notx'
@@ -39,7 +38,7 @@ const Empty = props => (
       </Text>
       {props.partner ? (
         <LinkContainer to='/buy-sell'>
-          <Button uppercase rounded nature='primary'>
+          <Button rounded nature='primary'>
             <FormattedMessage
               id='scenes.home.activitylist.empty.buybitcoin'
               defaultMessage='Buy Bitcoin'
@@ -47,12 +46,7 @@ const Empty = props => (
           </Button>
         </LinkContainer>
       ) : (
-        <Button
-          uppercase
-          rounded
-          nature='primary'
-          onClick={props.handleRequest}
-        >
+        <Button rounded nature='primary' onClick={props.handleRequest}>
           <FormattedMessage
             id='scenes.home.activitylist.empty.requestfunds'
             defaultMessage='Request Funds'

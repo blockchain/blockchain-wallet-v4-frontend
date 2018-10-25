@@ -1,0 +1,68 @@
+import {
+  compose,
+  curry,
+  indexOf,
+  filter,
+  flip,
+  head,
+  last,
+  map,
+  sortBy
+} from 'ramda'
+
+import { Remote } from 'blockchain-wallet-v4'
+import { splitPair } from 'data/modules/rates/model'
+
+export const EXCHANGE_STEPS = {
+  STATE_REGISTRATION: 0,
+  EXCHANGE_FORM: 1,
+  CONFIRM: 2,
+  EXCHANGE_RESULT: 3
+}
+
+export const EXCHANGE_FORM = '@EXCHANGE.EXCHANGE_FORM'
+export const CONFIRM_FORM = '@EXCHANGE.CONFIRM_FORM'
+export const SHAPESHIFT_FORM = '@EXCHANGE.SHAPESHIFT_FORM'
+
+export const SHAPESHIFT_PAIRS = Remote.of([
+  'BTC-BCH',
+  'BTC-ETH',
+  'BCH-BTC',
+  'BCH-ETH',
+  'ETH-BTC',
+  'ETH-BCH'
+])
+
+export const MINIMUM_NO_LINK_ERROR =
+  'Amount is lower than mimimum. Trade Impossible'
+export const NO_VALUE_ERROR = 'No value'
+export const REACHED_DAILY_ERROR = 'Reached daily limit'
+export const REACHED_WEEKLY_ERROR = 'Reached weekly limit'
+export const REACHED_ANNUAL_ERROR = 'Reached annual limit'
+export const NO_ADVICE_ERROR = 'No advice present'
+export const NO_LIMITS_ERROR = 'No limits present'
+export const MINIMUM_ERROR = 'Amount is lower than mimimum'
+export const BALANCE_ERROR = 'Insufficient funds'
+export const DAILY_ERROR = "You've reached daily trade limit"
+export const WEEKLY_ERROR = "You've reached weekly trade limit"
+export const ANNUAL_ERROR = "You've reached annual trade limit"
+export const ORDER_ERROR = 'Amount exceeds maximum trade size'
+export const LATEST_TX_ERROR = 'Unconfirmed tx pending'
+export const LATEST_TX_FETCH_FAILED_ERROR = 'Failed to fetch latest tx data'
+export const MISSING_DEVICE_ERROR = 'missing_device'
+export const NO_TRADE_PERMISSION = 'NO_TRADE_PERMISSION'
+
+const currenciesOrder = ['BTC', 'BCH', 'ETH']
+export const sortByOrder = sortBy(flip(indexOf)(currenciesOrder))
+
+const getPairedCoins = curry(
+  (getPaired, getOriginal, originalCoin, availablePairs) =>
+    compose(
+      sortByOrder,
+      map(getPaired),
+      filter(pair => getOriginal(pair) === originalCoin),
+      map(splitPair)
+    )(availablePairs)
+)
+export const getTargetCoinsPairedToSource = getPairedCoins(last, head)
+export const getSourceCoinsPairedToTarget = getPairedCoins(head, last)

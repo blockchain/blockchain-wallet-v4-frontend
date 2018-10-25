@@ -1,7 +1,11 @@
 import { call, select } from 'redux-saga/effects'
 import { equals, filter, identity, is, isEmpty, prop, propEq } from 'ramda'
+import { utils } from 'blockchain-wallet-v4/src'
+import EthUtil from 'ethereumjs-util'
 import { selectors } from 'data'
 import settings from 'config'
+
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 export const selectRates = function*(coin) {
   const bchRatesR = yield select(selectors.core.data.bch.getRates)
@@ -17,28 +21,30 @@ export const selectRates = function*(coin) {
   }
 }
 
-export const selectReceiveAddress = function*(source) {
+export const selectReceiveAddress = function*(source, networks) {
   const appState = yield select(identity)
   const coin = prop('coin', source)
+  const type = prop('type', source)
   const address = prop('address', source)
-  if (equals('ETH', coin) && is(String, address)) return address
-  if (equals('BCH', coin) && is(Number, address)) {
-    const bchReceiveAddress = selectors.core.common.bch.getNextAvailableReceiveAddress(
-      settings.NETWORK_BCH,
-      address,
-      appState
-    )
+  if (equals('ETH', coin) && is(String, address))
+    return EthUtil.toChecksumAddress(address)
+  if (equals('BCH', coin)) {
+    const selector =
+      type !== ADDRESS_TYPES.LOCKBOX
+        ? selectors.core.common.bch.getNextAvailableReceiveAddress
+        : selectors.core.common.bch.getNextAvailableReceiveAddressLockbox
+    const bchReceiveAddress = selector(settings.NETWORK_BCH, address, appState)
     if (isEmpty(bchReceiveAddress.getOrElse(''))) {
       throw new Error('Could not generate bitcoin cash receive address')
     }
-    return bchReceiveAddress.getOrElse('')
+    return utils.bch.toCashAddr(bchReceiveAddress.getOrElse(''))
   }
-  if (equals('BTC', coin) && is(Number, address)) {
-    const btcReceiveAddress = selectors.core.common.btc.getNextAvailableReceiveAddress(
-      settings.NETWORK_BITCOIN,
-      address,
-      appState
-    )
+  if (equals('BTC', coin)) {
+    const selector =
+      type !== ADDRESS_TYPES.LOCKBOX
+        ? selectors.core.common.btc.getNextAvailableReceiveAddress
+        : selectors.core.common.btc.getNextAvailableReceiveAddressLockbox
+    const btcReceiveAddress = selector(networks.btc, address, appState)
     if (isEmpty(btcReceiveAddress.getOrElse(''))) {
       throw new Error('Could not generate return bitcoin receive address')
     }

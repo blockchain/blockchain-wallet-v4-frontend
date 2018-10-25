@@ -11,7 +11,6 @@ import Success from './template.success'
 class ActivityListContainer extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.handleLink = this.handleLink.bind(this)
     this.handleRequest = this.handleRequest.bind(this)
   }
 
@@ -20,11 +19,7 @@ class ActivityListContainer extends React.PureComponent {
   }
 
   handleRequest () {
-    this.props.modalActions.showModal('RequestBitcoin')
-  }
-
-  handleLink (path) {
-    this.props.routerActions.push(path)
+    this.props.modalActions.showModal('RequestBtc')
   }
 
   render () {
@@ -42,7 +37,6 @@ class ActivityListContainer extends React.PureComponent {
           activities={value}
           partner={partner}
           handleRequest={this.handleRequest}
-          handleLink={this.handleLink}
         />
       ),
       Failure: message => <Error>{message}</Error>,

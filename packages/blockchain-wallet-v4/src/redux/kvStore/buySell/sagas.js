@@ -9,7 +9,7 @@ import { derivationMap, BUYSELL } from '../config'
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export default ({ api }) => {
+export default ({ api, networks }) => {
   const callTask = function*(task) {
     return yield call(
       compose(
@@ -17,14 +17,6 @@ export default ({ api }) => {
         () => task
       )
     )
-  }
-
-  const fetchBuySell = function*() {
-    const typeId = derivationMap[BUYSELL]
-    const mxpriv = yield select(getMetadataXpriv)
-    const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
-    const newkv = yield callTask(api.fetchKVStore(kv))
-    yield put(A.setBuySell(newkv))
   }
 
   const createBuysell = function*(kv) {
@@ -47,7 +39,7 @@ export default ({ api }) => {
     try {
       const typeId = derivationMap[BUYSELL]
       const mxpriv = yield select(getMetadataXpriv)
-      const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
+      const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId, networks.btc)
       yield put(A.fetchMetadataBuySellLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
       if (isNil(newkv.value) || isEmpty(newkv.value)) {
@@ -61,7 +53,6 @@ export default ({ api }) => {
   }
 
   return {
-    fetchBuySell,
     fetchMetadataBuySell
   }
 }

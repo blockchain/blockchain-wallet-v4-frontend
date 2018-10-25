@@ -1,18 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Link, Icon } from 'blockchain-info-components'
+import { Link, Icon, TooltipHost } from 'blockchain-info-components'
 
 const RefreshIcon = props => (
-  <Link
-    size='14px'
-    weight={300}
-    color='white'
-    uppercase
-    onClick={props.handleRefresh}
-  >
-    <Icon name='refresh-filled' color='white' cursor />
-  </Link>
+  <TooltipHost id='refresh.tooltip'>
+    <Link
+      size='14px'
+      weight={300}
+      color='white'
+      uppercase
+      onClick={props.handleRefresh}
+      data-e2e='refreshLink'
+    >
+      <Icon name='refresh' color='white' cursor />
+    </Link>
+  </TooltipHost>
 )
 
 RefreshIcon.propTypes = {

@@ -10,19 +10,23 @@ import ConfirmDisable2FA from './ConfirmDisable2FA'
 import DeleteAddressLabel from './DeleteAddressLabel'
 import EditTxDescription from './EditTxDescription'
 import ExchangeDetails from './ExchangeDetails'
+import ExchangeResults from './ExchangeResults'
 import IdentityVerification from './IdentityVerification'
 import ImportBtcAddress from './ImportBtcAddress'
+import LockboxAppInstall from './LockboxAppInstall'
+import LockboxFirmware from './LockboxFirmware'
+import LockboxSetup from './LockboxSetup'
 import MobileNumberChange from './MobileNumberChange'
 import MobileNumberVerify from './MobileNumberVerify'
 import MobileLogin from './MobileLogin'
 import Onfido from './Onfido'
 import PairingCode from './PairingCode'
 import PromptInput from './PromptInput'
+import PromptLockbox from './PromptLockbox'
 import QRCode from './QRCode'
-import RecoveryPhrase from './RecoveryPhrase'
 import RequestBch from './RequestBch'
-import RequestBitcoin from './RequestBtc'
-import RequestEther from './RequestEth'
+import RequestBtc from './RequestBtc'
+import RequestEth from './RequestEth'
 import SecondPassword from './SecondPassword'
 import SendBch from './SendBch'
 import SendBitcoin from './SendBtc'
@@ -40,9 +44,10 @@ import TransferEth from './TransferEth'
 import TwoStepGoogleAuthenticator from './TwoStepGoogleAuthenticator'
 import TwoStepSetup from './TwoStepSetup'
 import TwoStepYubico from './TwoStepYubico'
-import UpgradeWallet from './UpgradeWallet'
-import Welcome from './Welcome'
 import UpgradeAddressLabels from './UpgradeAddressLabels'
+import UpgradeWallet from './UpgradeWallet'
+import UserExists from './UserExists'
+import Welcome from './Welcome'
 
 const Modals = props => (
   <div>
@@ -56,19 +61,23 @@ const Modals = props => (
     <DeleteAddressLabel />
     <EditTxDescription />
     <ExchangeDetails />
+    <ExchangeResults />
     <IdentityVerification />
     <ImportBtcAddress />
+    <LockboxAppInstall />
+    <LockboxFirmware />
+    <LockboxSetup />
     <MobileNumberChange />
     <MobileNumberVerify />
     <MobileLogin />
     <Onfido />
     <PairingCode />
     <PromptInput />
+    <PromptLockbox />
     <QRCode />
-    <RecoveryPhrase />
     <RequestBch />
-    <RequestBitcoin />
-    <RequestEther />
+    <RequestBtc />
+    <RequestEth />
     <SecondPassword />
     <SendBch />
     <SendBitcoin />
@@ -88,6 +97,7 @@ const Modals = props => (
     <TwoStepYubico />
     <UpgradeAddressLabels />
     <UpgradeWallet />
+    <UserExists />
     <Welcome />
   </div>
 )

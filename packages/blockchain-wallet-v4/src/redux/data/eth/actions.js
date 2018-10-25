@@ -44,6 +44,22 @@ export const fetchLatestBlockFailure = error => ({
   payload: error
 })
 
+// FETCH_ETHEREUM_BALANCE
+export const fetchCurrentBalance = () => ({
+  type: AT.FETCH_ETHEREUM_CURRENT_BALANCE
+})
+export const fetchCurrentBalanceLoading = () => ({
+  type: AT.FETCH_ETHEREUM_CURRENT_BALANCE_LOADING
+})
+export const fetchCurrentBalanceSuccess = balance => ({
+  type: AT.FETCH_ETHEREUM_CURRENT_BALANCE_SUCCESS,
+  payload: { balance }
+})
+export const fetchCurrentBalanceFailure = error => ({
+  type: AT.FETCH_ETHEREUM_CURRENT_BALANCE_FAILURE,
+  payload: error
+})
+
 // FETCH_ETHEREUM_LEGACY_BALANCE
 export const fetchLegacyBalance = () => ({
   type: AT.FETCH_ETHEREUM_LEGACY_BALANCE
@@ -75,13 +91,13 @@ export const fetchRatesFailure = error => ({
 })
 
 // FETCH_ETHEREUM_TRANSACTIONS
-export const fetchTransactions = reset => ({
+export const fetchTransactions = (address, reset) => ({
   type: AT.FETCH_ETHEREUM_TRANSACTIONS,
-  payload: { reset }
+  payload: { address, reset }
 })
-export const fetchTransactionsLoading = reset => ({
+export const fetchTransactionsLoading = (address, reset) => ({
   type: AT.FETCH_ETHEREUM_TRANSACTIONS_LOADING,
-  payload: { reset }
+  payload: { address, reset }
 })
 export const fetchTransactionsSuccess = (transactions, reset) => ({
   type: AT.FETCH_ETHEREUM_TRANSACTIONS_SUCCESS,
@@ -90,4 +106,8 @@ export const fetchTransactionsSuccess = (transactions, reset) => ({
 export const fetchTransactionsFailure = error => ({
   type: AT.FETCH_ETHEREUM_TRANSACTIONS_FAILURE,
   payload: error
+})
+export const transactionsAtBound = payload => ({
+  type: AT.ETH_TRANSACTIONS_AT_BOUND,
+  payload
 })

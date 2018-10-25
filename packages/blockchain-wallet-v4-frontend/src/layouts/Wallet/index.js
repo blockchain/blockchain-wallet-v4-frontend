@@ -8,7 +8,6 @@ import WalletLayout from './template'
 
 class WalletLayoutContainer extends React.PureComponent {
   componentWillMount () {
-    this.props.settingsActions.fetchSettings()
     this.props.kvStoreWhatsNewActions.fetchMetadataWhatsnew()
     this.props.kvStoreShapeshiftActions.fetchMetadataShapeshift()
     this.props.kvStoreBuySellActions.fetchMetadataBuySell()
@@ -53,6 +52,10 @@ const mapDispatchToProps = dispatch => ({
   ),
   kvStoreBuySellActions: bindActionCreators(
     actions.core.kvStore.buySell,
+    dispatch
+  ),
+  kvStoreLockboxActions: bindActionCreators(
+    actions.core.kvStore.lockbox,
     dispatch
   ),
   moduleSettingsActions: bindActionCreators(actions.modules.settings, dispatch),

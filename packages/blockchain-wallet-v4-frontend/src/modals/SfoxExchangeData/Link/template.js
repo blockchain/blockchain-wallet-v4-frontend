@@ -272,7 +272,6 @@ const BankLink = props => {
         return (
           <Button
             nature='primary'
-            uppercase
             fullwidth
             onClick={submitMicroDeposits}
             disabled={busy || invalid}
@@ -287,7 +286,6 @@ const BankLink = props => {
       return (
         <Button
           nature='primary'
-          uppercase
           fullwidth
           onClick={() => goToMicroDepositStep('amounts')}
         >
@@ -311,8 +309,10 @@ const BankLink = props => {
               onClick={() => {
                 equals(linkError, 'There was an error linking your bank')
                   ? resetAccountHolder()
-                  : toggleManual(); setNotAsked()
-              }}>
+                  : toggleManual()
+                setNotAsked()
+              }}
+            >
               <FormattedMessage
                 id='sfoxexchangedata.link.tryagain'
                 defaultMessage='Try again'
@@ -323,7 +323,6 @@ const BankLink = props => {
           <Button
             type='submit'
             nature='primary'
-            uppercase
             fullwidth
             disabled={busy || invalid || pristine}
           >
@@ -332,7 +331,7 @@ const BankLink = props => {
             ) : (
               <FormattedMessage
                 id='sfoxexchangedata.link.continue'
-                defaultMessage='continue'
+                defaultMessage='Continue'
               />
             )}
           </Button>

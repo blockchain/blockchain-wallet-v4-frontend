@@ -55,8 +55,8 @@ const Failure = ({ message, refresh }) => (
         values={{ err: path(['error', 'message'], message) }}
       />
     </Text>
-    {
-      refresh && <RefreshContainer>
+    {refresh && (
+      <RefreshContainer>
         <Button nature='primary' onClick={refresh}>
           <FormattedMessage
             id='buysell.general.failure.refresh'
@@ -64,7 +64,7 @@ const Failure = ({ message, refresh }) => (
           />
         </Button>
       </RefreshContainer>
-    }
+    )}
   </Container>
 )
 

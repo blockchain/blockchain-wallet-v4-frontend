@@ -26,6 +26,7 @@ const getErrorState = ({ touched, invalid }) => {
 const TextBox = field => {
   const {
     autoComplete,
+    className,
     meta,
     input,
     disabled,
@@ -33,15 +34,18 @@ const TextBox = field => {
     center,
     errorBottom,
     noLastPass,
+    maxLength,
+    autoFocus,
     borderRightNone
   } = field
   const { initial, active, touched, error, warning } = meta
   const errorState = getErrorState(meta)
 
   return (
-    <Container>
+    <Container className={className}>
       <TextInput
         {...input}
+        autoFocus={autoFocus}
         autoComplete={autoComplete}
         borderRightNone={borderRightNone}
         active={active}
@@ -51,6 +55,8 @@ const TextBox = field => {
         placeholder={placeholder}
         center={center}
         noLastPass={noLastPass}
+        maxLength={maxLength}
+        data-e2e={field['data-e2e']}
       />
       {touched &&
         error && (

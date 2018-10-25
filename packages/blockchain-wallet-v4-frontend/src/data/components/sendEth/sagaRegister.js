@@ -9,6 +9,7 @@ export default ({ coreSagas }) => {
   return function*() {
     yield takeLatest(AT.SEND_ETH_INITIALIZED, sendEthSagas.initialized)
     yield takeLatest(AT.SEND_ETH_DESTROYED, sendEthSagas.destroyed)
+    yield takeLatest(AT.SEND_ETH_FIRST_STEP_TO_TOGGLED, sendEthSagas.toToggled)
     yield takeLatest(
       AT.SEND_ETH_FIRST_STEP_SUBMIT_CLICKED,
       sendEthSagas.firstStepSubmitClicked
@@ -22,5 +23,21 @@ export default ({ coreSagas }) => {
       sendEthSagas.secondStepSubmitClicked
     )
     yield takeLatest(actionTypes.CHANGE, sendEthSagas.formChanged)
+    yield takeLatest(
+      AT.SEND_ETH_FIRST_STEP_REGULAR_FEE_CLICKED,
+      sendEthSagas.regularFeeClicked
+    )
+    yield takeLatest(
+      AT.SEND_ETH_FIRST_STEP_PRIORITY_FEE_CLICKED,
+      sendEthSagas.priorityFeeClicked
+    )
+    yield takeLatest(
+      AT.SEND_ETH_FIRST_STEP_MINIMUM_FEE_CLICKED,
+      sendEthSagas.minimumFeeClicked
+    )
+    yield takeLatest(
+      AT.SEND_ETH_FIRST_STEP_MAXIMUM_FEE_CLICKED,
+      sendEthSagas.maximumFeeClicked
+    )
   }
 }

@@ -1,0 +1,17 @@
+{
+  "src": {
+    "tagName": "v%s",
+    "tagAnnotation": "Release v%s",
+    "commitMessage": "chore(Release): v%s",
+    "beforeStartCommand": "yarn manage:translations"
+  },
+  "github": {
+    "release": true,
+    "preRelease": true,
+    "releaseName": "v%s",
+    "tokenRef": "RELEASE_IT_TOKEN"
+  },
+  "changelogCommand": "changelog -t $(git describe --abbrev=0 --tags) -f -",
+  "requireCleanWorkingDir": false,
+  "requireUpstream": false
+}

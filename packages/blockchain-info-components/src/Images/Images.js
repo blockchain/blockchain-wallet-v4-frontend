@@ -23,10 +23,12 @@ import halfBitcoin from './img/half-bitcoin.svg'
 import halfBitcoincash from './img/half-bitcoincash.svg'
 import halfEther from './img/half-ether.svg'
 import identityVerification from './img/identity-verification.svg'
+import linkLockboxIcon from './img/link-lockbox-icon.svg'
 import linkedinWhite from './img/linkedin-white.svg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
 import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
+import restoreLockboxIcon from './img/restore-lockbox-icon.svg'
 import rocket from './img/rocket.gif'
 import search from './img/search.svg'
 import selectArrow from './img/select-arrow.png'
@@ -36,12 +38,47 @@ import sfoxLogo from './img/sfox-logo.png'
 import sophisticated from './img/sophisticated.svg'
 import twitterWhite from './img/twitter-white.svg'
 import v4Welcome from './img/v4-welcome.jpg'
-import verifyIdentity from './img/verify-identity.svg'
 import walletV3Backup from './img/wallet-v3-backup.jpg'
 import walletV3FundManagement from './img/wallet-v3-fund-management.jpg'
 import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
 import walletV3SecurityUpgrade from './img/wallet-v3-security-upgrade.jpg'
 import yubikey from './img/yubikey.svg'
+// Lockbox
+import firmwareConnect from './img/lockbox/firmware-connect.png'
+import firmwareConnect2 from './img/lockbox/firmware-connect@2x.png'
+import firmwareConnect3 from './img/lockbox/firmware-connect@3x.png'
+import ledgerLockbox from './img/lockbox/lockbox.png'
+import ledgerLockbox2 from './img/lockbox/lockbox@2x.png'
+import ledgerLockbox3 from './img/lockbox/lockbox@3x.png'
+import ledgerLogo from './img/lockbox/ledger.png'
+import ledgerLogo2 from './img/lockbox/ledger@2x.png'
+import ledgerLogo3 from './img/lockbox/ledger@3x.png'
+import lockboxWelcomeSafe from './img/lockbox-welcome-safe.svg'
+import lockboxFailed from './img/lockbox/firmware-bad.png'
+import lockboxFailed2 from './img/lockbox/firmware-bad@2x.png'
+import lockboxFailed3 from './img/lockbox/firmware-bad@3x.png'
+import lockboxSuccess from './img/lockbox/send-confirmed.png'
+import lockboxSuccess2 from './img/lockbox/send-confirmed@2x.png'
+import lockboxSuccess3 from './img/lockbox/send-confirmed@3x.png'
+import lockboxUsb from './img/lockbox-usb.svg'
+import onboardBitcoin from './img/lockbox/onboard-bitcoin.png'
+import onboardBitcoin2 from './img/lockbox/onboard-bitcoin@2x.png'
+import onboardBitcoin3 from './img/lockbox/onboard-bitcoin@3x.png'
+import onboardName from './img/lockbox/onboard-name.png'
+import onboardName2 from './img/lockbox/onboard-name@2x.png'
+import onboardName3 from './img/lockbox/onboard-name@3x.png'
+import onboardLink from './img/lockbox/onboard-link.png'
+import onboardLink2 from './img/lockbox/onboard-link@2x.png'
+import onboardLink3 from './img/lockbox/onboard-link@3x.png'
+import onboardVerify from './img/lockbox/onboard-verify.png'
+import onboardVerify2 from './img/lockbox/onboard-verify@2x.png'
+import onboardVerify3 from './img/lockbox/onboard-verify@3x.png'
+import sendConnect from './img/lockbox/send-connect.png'
+import sendConnect2 from './img/lockbox/send-connect@2x.png'
+import sendConnect3 from './img/lockbox/send-connect@3x.png'
+import sendReview from './img/lockbox/send-review.png'
+import sendReview2 from './img/lockbox/send-review@2x.png'
+import sendReview3 from './img/lockbox/send-review@3x.png'
 
 export default {
   'app-store-badge': appStoreBadge,
@@ -69,9 +106,46 @@ export default {
   'half-bitcoincash': halfBitcoincash,
   'half-ether': halfEther,
   'identity-verification': identityVerification,
+  'lockbox-welcome-safe': lockboxWelcomeSafe,
+  'lockbox-usb': lockboxUsb,
+  'link-lockbox-icon': linkLockboxIcon,
   'linkedin-white': linkedinWhite,
+  'firmware-connect': firmwareConnect,
+  'firmware-connect2': firmwareConnect2,
+  'firmware-connect3': firmwareConnect3,
+  'ledger-lockbox': ledgerLockbox,
+  'ledger-lockbox2': ledgerLockbox2,
+  'ledger-lockbox3': ledgerLockbox3,
+  'ledger-logo': ledgerLogo,
+  'ledger-logo2': ledgerLogo2,
+  'ledger-logo3': ledgerLogo3,
+  'lockbox-onboard-bitcoin': onboardBitcoin,
+  'lockbox-onboard-bitcoin2': onboardBitcoin2,
+  'lockbox-onboard-bitcoin3': onboardBitcoin3,
+  'lockbox-onboard-name': onboardName,
+  'lockbox-onboard-name2': onboardName2,
+  'lockbox-onboard-name3': onboardName3,
+  'lockbox-onboard-link': onboardLink,
+  'lockbox-onboard-link2': onboardLink2,
+  'lockbox-onboard-link3': onboardLink3,
+  'lockbox-onboard-verify': onboardVerify,
+  'lockbox-onboard-verify2': onboardVerify2,
+  'lockbox-onboard-verify3': onboardVerify3,
+  'lockbox-send-connect': sendConnect,
+  'lockbox-send-connect2': sendConnect2,
+  'lockbox-send-connect3': sendConnect3,
+  'lockbox-failed': lockboxFailed,
+  'lockbox-failed2': lockboxFailed2,
+  'lockbox-failed3': lockboxFailed3,
+  'lockbox-success': lockboxSuccess,
+  'lockbox-success2': lockboxSuccess2,
+  'lockbox-success3': lockboxSuccess3,
+  'lockbox-send-review': sendReview,
+  'lockbox-send-review2': sendReview2,
+  'lockbox-send-review3': sendReview3,
   'micro-deposits-whole': microDepositsWhole,
   printer: printer,
+  'restore-lockbox-icon': restoreLockboxIcon,
   'qr-code': qrCode,
   rocket: rocket,
   search: search,
@@ -82,7 +156,6 @@ export default {
   sophisticated: sophisticated,
   'twitter-white': twitterWhite,
   'v4-welcome': v4Welcome,
-  'verify-identity': verifyIdentity,
   'wallet-v3-backup': walletV3Backup,
   'wallet-v3-fund-management': walletV3FundManagement,
   'wallet-v3-new-design': walletV3NewDesign,

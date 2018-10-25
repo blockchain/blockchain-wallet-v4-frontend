@@ -5,15 +5,23 @@ import { createHashHistory } from 'history'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import appConfig from 'config'
 import { coreMiddleware } from 'blockchain-wallet-v4/src'
-import { createWalletApi, Socket } from 'blockchain-wallet-v4/src/network'
+import {
+  createWalletApi,
+  Socket,
+  ApiSocket
+} from 'blockchain-wallet-v4/src/network'
 import { serializer } from 'blockchain-wallet-v4/src/types'
 import { rootSaga, rootReducer, selectors } from 'data'
 import {
   autoDisconnection,
   webSocketBch,
   webSocketBtc,
-  webSocketEth
+  webSocketEth,
+  webSocketRates
 } from '../middleware'
+import { head } from 'ramda'
+import Bitcoin from 'bitcoinjs-lib'
+import BitcoinCash from 'bitcoinforksjs-lib'
 
 const devToolsConfig = {
   maxAge: 1000,
@@ -48,10 +56,38 @@ const configureStore = () => {
     .then(res => res.json())
     .then(options => {
       const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
-      const btcSocket = new Socket({ options, socketType: '' })
-      const bchSocket = new Socket({ options, socketType: '/bch' })
-      const ethSocket = new Socket({ options, socketType: '/eth' })
-      const api = createWalletApi({ options, apiKey })
+      // TODO: deprecate when wallet-options-v4 is updated on prod
+      const socketUrl = head(options.domains.webSocket.split('/inv'))
+      const btcSocket = new Socket({
+        options,
+        url: `${socketUrl}/inv`
+      })
+      const bchSocket = new Socket({
+        options,
+        url: `${socketUrl}/bch/inv`
+      })
+      const ethSocket = new Socket({
+        options,
+        url: `${socketUrl}/eth/inv`
+      })
+      const ratesSocket = new ApiSocket({
+        options,
+        url: `${socketUrl}/nabu-gateway/markets/quotes`,
+        maxReconnects: 3
+      })
+      const getAuthCredentials = () =>
+        selectors.modules.profile.getAuthCredentials(store.getState())
+      const networks = {
+        btc: Bitcoin.networks[options.platforms.web.bitcoin.config.network],
+        bch: BitcoinCash.networks[options.platforms.web.bitcoin.config.network],
+        eth: options.platforms.web.ethereum.config.network
+      }
+      const api = createWalletApi({
+        options,
+        apiKey,
+        getAuthCredentials,
+        networks
+      })
 
       const store = createStore(
         connectRouter(history)(rootReducer),
@@ -63,6 +99,7 @@ const configureStore = () => {
             webSocketBtc(btcSocket),
             webSocketBch(bchSocket),
             webSocketEth(ethSocket),
+            webSocketRates(ratesSocket),
             coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
             autoDisconnection()
           ),
@@ -75,6 +112,8 @@ const configureStore = () => {
         bchSocket,
         btcSocket,
         ethSocket,
+        ratesSocket,
+        networks,
         options
       })
 

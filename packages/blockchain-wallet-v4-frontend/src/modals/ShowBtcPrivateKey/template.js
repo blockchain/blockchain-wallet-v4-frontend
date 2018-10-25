@@ -38,6 +38,10 @@ const KeyText = styled(Text)`
   word-wrap: break-word;
 `
 
+const KeySelectInput = styled(SelectInput)`
+  flex: 1;
+`
+
 const FirstStep = () => (
   <div>
     <Text size='13px' color='error' weight={500} uppercase>
@@ -75,7 +79,8 @@ const SecondStep = ({
             defaultMessage='Balance'
           />
         </DetailRowText>
-        {':'}&nbsp;
+        {':'}
+        &nbsp;
         <CoinDisplay coin='BTC' size='14px'>
           {balance}
         </CoinDisplay>
@@ -87,7 +92,8 @@ const SecondStep = ({
             defaultMessage='Address'
           />
         </DetailRowText>
-        {':'}&nbsp;
+        {':'}
+        &nbsp;
         <Text size='14px' weight={300}>
           {addr}
         </Text>
@@ -99,7 +105,8 @@ const SecondStep = ({
             defaultMessage='Private Key'
           />
         </DetailRowText>
-        {':'}&nbsp;
+        {':'}
+        &nbsp;
         {utils.bitcoin.formatPrivateKeyString(priv, format, addr).fold(
           error => (
             <Text size='14px' weight={300} color='error'>
@@ -120,8 +127,9 @@ const SecondStep = ({
             defaultMessage='Private Key Format'
           />
         </DetailRowText>
-        {':'}&nbsp;
-        <SelectInput
+        {':'}
+        &nbsp;
+        <KeySelectInput
           label='Export Format'
           value={format}
           searchEnabled={false}

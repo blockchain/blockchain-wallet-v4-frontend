@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Link, Icon } from 'blockchain-info-components'
+import { Link, Icon, TooltipHost } from 'blockchain-info-components'
 
 const FaqLink = styled(Link)`
   position: relative;
@@ -28,15 +28,21 @@ const FaqIcon = props => {
   const { handleClick, highlighted } = props
 
   return (
-    <FaqLink onClick={handleClick} highlighted={highlighted}>
-      <Icon
-        id='faq-icon'
-        name='question-in-circle-filled'
-        size='18px'
-        color='white'
-        cursor
-      />
-    </FaqLink>
+    <TooltipHost id='faq.tooltip'>
+      <FaqLink
+        onClick={handleClick}
+        highlighted={highlighted}
+        data-e2e='faqLink'
+      >
+        <Icon
+          id='faq-icon'
+          name='question-in-circle'
+          size='18px'
+          color='white'
+          cursor
+        />
+      </FaqLink>
+    </TooltipHost>
   )
 }
 

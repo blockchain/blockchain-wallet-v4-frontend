@@ -1,40 +1,52 @@
-import { call, select, put } from 'redux-saga/effects'
 import { equals, path, prop, nth, is, identity } from 'ramda'
+import { call, select, put } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
-import settings from 'config'
 import { initialize, change } from 'redux-form'
 import * as C from 'services/AlertService'
-import { promptForSecondPassword } from 'services/SagaService'
+import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
+import * as Lockbox from 'services/LockboxService'
 import { Exchange } from 'blockchain-wallet-v4/src'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 const DUST = 546
 const DUST_BTC = '0.00000546'
 export const logLocation = 'components/sendBtc/sagas'
 
-export default ({ coreSagas }) => {
+export default ({ coreSagas, networks }) => {
   const initialized = function*(action) {
     try {
-      const { to, description, amount, feeType } = action.payload
+      const { to, description, amount, feeType, lockboxIndex } = action.payload
       yield put(A.sendBtcPaymentUpdatedLoading())
       let payment = coreSagas.payment.btc.create({
-        network: settings.NETWORK_BITCOIN
+        network: networks.btc
       })
       payment = yield payment.init()
-      const accountsR = yield select(
-        selectors.core.common.btc.getAccountsBalances
-      )
-      const defaultIndex = yield select(
-        selectors.core.wallet.getDefaultAccountIndex
-      )
-      const defaultAccountR = accountsR.map(nth(defaultIndex))
+      let defaultAccountR
+      if (lockboxIndex == null) {
+        const accountsR = yield select(
+          selectors.core.common.btc.getAccountsBalances
+        )
+        const defaultIndex = yield select(
+          selectors.core.wallet.getDefaultAccountIndex
+        )
+        defaultAccountR = accountsR.map(nth(defaultIndex))
+        payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
+      } else {
+        const accountsR = yield select(
+          selectors.core.common.btc.getLockboxBtcBalances
+        )
+        defaultAccountR = accountsR.map(nth(lockboxIndex))
+        const xpub = defaultAccountR.map(prop('xpub')).getOrFail()
+        payment = yield payment.from(xpub, ADDRESS_TYPES.LOCKBOX)
+      }
       const defaultFeePerByte = path(
         ['fees', feeType || 'regular'],
         payment.value()
       )
-      payment = yield payment.from(defaultIndex)
       payment = yield payment.fee(defaultFeePerByte)
       const initialValues = {
         to,
@@ -64,7 +76,7 @@ export default ({ coreSagas }) => {
       yield put(A.sendBtcPaymentUpdatedLoading())
       let payment = coreSagas.payment.btc.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_BITCOIN
+        network: networks.btc
       })
       payment = yield payment.build()
       yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
@@ -85,7 +97,7 @@ export default ({ coreSagas }) => {
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.btc.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_BITCOIN
+        network: networks.btc
       })
 
       switch (field) {
@@ -104,9 +116,22 @@ export default ({ coreSagas }) => {
           break
         case 'from':
           yield put(A.sendBtcFirstStepToToggled(false))
-          const source = prop('address', payload) || prop('index', payload)
-          if (!prop('watchOnly', payload)) {
-            payment = yield payment.from(source)
+          const fromType = prop('type', payload)
+          if (is(String, payload)) {
+            yield payment.from(payload, fromType)
+            break
+          }
+          switch (fromType) {
+            case ADDRESS_TYPES.ACCOUNT:
+              payment = yield payment.from(payload.index, fromType)
+              break
+            case ADDRESS_TYPES.LOCKBOX:
+              payment = yield payment.from(payload.xpub, fromType)
+              break
+            default:
+              if (!payload.watchOnly) {
+                payment = yield payment.from(payload.address, fromType)
+              }
           }
           break
         case 'priv':
@@ -114,10 +139,18 @@ export default ({ coreSagas }) => {
           payment = yield payment.from(payload)
           break
         case 'to':
-          const target = is(String, payload)
-            ? payload
-            : prop('address', payload) || prop('index', payload)
-          payment = yield payment.to(target)
+          const toType = prop('type', payload)
+          switch (toType) {
+            case ADDRESS_TYPES.ACCOUNT:
+              payment = yield payment.to(payload.index, toType)
+              break
+            case ADDRESS_TYPES.LOCKBOX:
+              payment = yield payment.to(payload.xpub, toType)
+              break
+            default:
+              const address = prop('address', payload) || payload
+              payment = yield payment.to(address, toType)
+          }
           break
         case 'amount':
           const btcAmount = prop('coin', payload)
@@ -262,18 +295,40 @@ export default ({ coreSagas }) => {
   }
 
   const secondStepSubmitClicked = function*() {
+    let p = yield select(S.getPayment)
+    let payment = coreSagas.payment.btc.create({
+      payment: p.getOrElse({}),
+      network: networks.btc
+    })
+    const fromType = path(['fromType'], payment.value())
     try {
-      let p = yield select(S.getPayment)
-      let payment = coreSagas.payment.btc.create({
-        payment: p.getOrElse({}),
-        network: settings.NETWORK_BITCOIN
-      })
-      const password = yield call(promptForSecondPassword)
-      yield put(actions.modals.closeAllModals())
-      payment = yield payment.sign(password)
+      // Sign payment
+      if (fromType !== ADDRESS_TYPES.LOCKBOX) {
+        let password = yield call(promptForSecondPassword)
+        payment = yield payment.sign(password)
+      } else {
+        const deviceR = yield select(
+          selectors.core.kvStore.lockbox.getDeviceFromBtcXpubs,
+          prop('from', p.getOrElse({}))
+        )
+        const device = deviceR.getOrFail('missing_device')
+        const deviceType = prop('device_type', device)
+        const outputs = path(['selection', 'outputs'], payment.value())
+          .filter(o => !o.change)
+          .map(prop('address'))
+        yield call(promptForLockbox, 'BTC', deviceType, outputs)
+        let connection = yield select(
+          selectors.components.lockbox.getCurrentConnection
+        )
+        const transport = prop('transport', connection)
+        const scrambleKey = Lockbox.utils.getScrambleKey('BTC', deviceType)
+        payment = yield payment.sign(null, transport, scrambleKey)
+      }
+      // Publish payment
       payment = yield payment.publish()
-      yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
       yield put(actions.core.data.bitcoin.fetchData())
+      yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
+      // Set tx note
       if (path(['description', 'length'], payment.value())) {
         yield put(
           actions.core.wallet.setTransactionNote(
@@ -282,13 +337,38 @@ export default ({ coreSagas }) => {
           )
         )
       }
-      yield put(actions.router.push('/btc/transactions'))
-      yield put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
+      // Redirect to tx list, display success
+      if (fromType === ADDRESS_TYPES.LOCKBOX) {
+        yield put(actions.components.lockbox.setConnectionSuccess())
+        yield delay(1500)
+        const fromXPubs = path(['from'], payment.value())
+        const device = (yield select(
+          selectors.core.kvStore.lockbox.getDeviceFromBtcXpubs,
+          fromXPubs
+        )).getOrFail('missing_device')
+        const deviceIndex = prop('device_index', device)
+        yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
+      } else {
+        yield put(actions.router.push('/btc/transactions'))
+        yield put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
+      }
+      // Close modals
+      yield put(actions.modals.closeAllModals())
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e)
-      )
-      yield put(actions.alerts.displayError(C.SEND_BTC_ERROR))
+      // Set errors
+      if (fromType === ADDRESS_TYPES.LOCKBOX) {
+        yield put(actions.components.lockbox.setConnectionError(e))
+      } else {
+        yield put(
+          actions.logs.logErrorMessage(
+            logLocation,
+            'secondStepSubmitClicked',
+            e
+          )
+        )
+        yield put(actions.alerts.displayError(C.SEND_BTC_ERROR))
+        yield put(actions.modals.closeAllModals())
+      }
     }
   }
 

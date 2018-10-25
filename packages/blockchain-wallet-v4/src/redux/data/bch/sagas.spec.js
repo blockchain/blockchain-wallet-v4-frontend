@@ -4,11 +4,14 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
+import { fromCashAddr } from '../../../utils/bch'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import sagas from './sagas'
 import reducers from '../reducers'
+
+const CASH_ADDR_ADDRESS = 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme'
 
 const bchFetchData = {
   addresses: [
@@ -62,7 +65,7 @@ describe('bch data sagas', () => {
     })
 
     it('should select wallet', () => {
-      saga.next().select(selectors.kvStore.bch.getContext)
+      saga.next().select(S.getContext)
     })
 
     it('should get data from api', () => {
@@ -93,7 +96,7 @@ describe('bch data sagas', () => {
       it('should add bch data to the state', () => {
         return expectSaga(dataBchSagas.fetchData)
           .withReducer(reducers)
-          .provide([[select(selectors.kvStore.bch.getContext), mockContext]])
+          .provide([[select(S.getContext), mockContext]])
           .run()
           .then(result => {
             expect(result.storeState.bch).toMatchObject({
@@ -223,7 +226,7 @@ describe('bch data sagas', () => {
   describe('fetchTransactions', () => {
     const mockContext = 'qryjvc08ml7ep6dvexffrcuy9g9zz084jcgltg35xs'
     const payload = {
-      address: 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme',
+      address: CASH_ADDR_ADDRESS,
       reset: false
     }
     const saga = testSaga(dataBchSagas.fetchTransactions, { payload })
@@ -238,20 +241,32 @@ describe('bch data sagas', () => {
       saga.save(conditional)
     })
 
-    it('should put loading state', () => {
-      saga.next(pages).put(A.fetchTransactionsLoading(payload.reset))
+    it('should select transactionsAtBound state', () => {
+      saga.next(pages).select(S.getTransactionsAtBound)
     })
 
-    it('should select context', () => {
+    it('should put loading state', () => {
+      saga.next(false).put(A.fetchTransactionsLoading(payload.reset))
+    })
+
+    it('should select wallet context', () => {
       saga.next().select(selectors.wallet.getWalletContext)
+    })
+
+    it('should select full context', () => {
+      saga.next(mockContext).select(S.getContext)
     })
 
     it('should call fetchBchData', () => {
       saga.next(mockContext).call(api.fetchBchData, mockContext, {
         n: 10,
-        onlyShow: payload.address,
+        onlyShow: fromCashAddr(CASH_ADDR_ADDRESS),
         offset: 10
       })
+    })
+
+    it('should set transactionsAtBound', () => {
+      saga.next(bchFetchData).put(A.transactionsAtBound(true))
     })
 
     it('should dispatch success with data', () => {
@@ -264,11 +279,11 @@ describe('bch data sagas', () => {
       saga.next().isDone()
     })
 
-    it('should break if reset is false and no last page', () => {
+    it('should break if reset is false and at bounds', () => {
       saga.restore(conditional)
       saga
         .next([blankPage])
-        .next()
+        .next(true)
         .isDone()
     })
 
@@ -288,13 +303,14 @@ describe('bch data sagas', () => {
       it('should add transaction data to the state', () => {
         return expectSaga(dataBchSagas.fetchTransactions, {
           payload: {
-            address: 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme',
+            address: CASH_ADDR_ADDRESS,
             reset: true
           }
         })
           .withReducer(reducers)
           .provide([
             [select(selectors.wallet.getWalletContext), mockContext],
+            [select(S.getContext), mockContext],
             [select(S.getTransactions), pages]
           ])
           .run()
@@ -309,7 +325,7 @@ describe('bch data sagas', () => {
         const initTx = [Remote.Success({ id: 2 }), Remote.Success({ id: 3 })]
         return expectSaga(dataBchSagas.fetchTransactions, {
           payload: {
-            address: 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme',
+            address: CASH_ADDR_ADDRESS,
             reset: false
           }
         })
@@ -321,6 +337,7 @@ describe('bch data sagas', () => {
           })
           .provide([
             [select(selectors.wallet.getWalletContext), mockContext],
+            [select(S.getContext), mockContext],
             [select(S.getTransactions), pages]
           ])
           .run()
@@ -337,7 +354,7 @@ describe('bch data sagas', () => {
 
   describe('fetchTransactionHistory', () => {
     const payload = {
-      address: 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme',
+      address: CASH_ADDR_ADDRESS,
       start: '01/01/2018',
       end: '01/06/2018'
     }
@@ -354,13 +371,14 @@ describe('bch data sagas', () => {
     })
 
     it('should get transaction data with address if possible', () => {
+      let convertedAddress = fromCashAddr(CASH_ADDR_ADDRESS)
       saga.save(beforeGettingHistory)
       saga
         .next(currency)
         .call(
           api.getTransactionHistory,
           'BCH',
-          payload.address,
+          convertedAddress,
           currency.getOrElse('USD'),
           payload.start,
           payload.end
@@ -374,10 +392,7 @@ describe('bch data sagas', () => {
     })
 
     const payloadNoAddr = { start: '01/01/2018', end: '01/06/2018' }
-    const mockContext = [
-      'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme',
-      'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme'
-    ]
+    const mockContext = [CASH_ADDR_ADDRESS, CASH_ADDR_ADDRESS]
     const active = mockContext.join('|')
 
     it('should get transaction data with context if no address present', () => {
@@ -386,7 +401,7 @@ describe('bch data sagas', () => {
       })
         .provide([
           [select(selectors.settings.getCurrency), currency],
-          [select(selectors.wallet.getWalletContext), mockContext]
+          [select(S.getContext), mockContext]
         ])
         .call(
           api.getTransactionHistory,
@@ -432,7 +447,7 @@ describe('bch data sagas', () => {
           .withReducer(reducers)
           .provide([
             [select(selectors.settings.getCurrency), Remote.of('USD')],
-            [select(selectors.wallet.getWalletContext), mockContext]
+            [select(S.getContext), mockContext]
           ])
           .run()
           .then(result => {

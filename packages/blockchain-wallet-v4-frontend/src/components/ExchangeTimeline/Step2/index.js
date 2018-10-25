@@ -66,7 +66,7 @@ const Step2 = props => (
       />
       <SmallCircle>
         <Icon
-          name='stack-of-coins-2'
+          name='stack-of-coins'
           color={props.status === 'disabled' ? 'gray-2' : 'brand-primary'}
         />
       </SmallCircle>

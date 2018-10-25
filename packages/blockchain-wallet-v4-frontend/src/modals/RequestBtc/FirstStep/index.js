@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { equals, prop } from 'ramda'
 
 import { actions } from 'data'
-import { getData, getInitialValues } from './selectors'
+import { getData, getInitialValues, getImportedAddresses } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 import DataError from 'components/DataError'
@@ -14,6 +14,7 @@ class FirstStepContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClickQRCode = this.handleClickQRCode.bind(this)
+    this.handleOpenLockbox = this.handleOpenLockbox.bind(this)
     this.handleRefresh = this.handleRefresh.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.init = this.init.bind(this)
@@ -27,10 +28,14 @@ class FirstStepContainer extends React.PureComponent {
     nextProps.data.map(x => {
       if (equals(prop('coin', x), 'ETH')) {
         this.props.modalActions.closeAllModals()
-        this.props.modalActions.showModal('RequestEther')
+        this.props.modalActions.showModal('RequestEth', {
+          lockboxIndex: nextProps.lockboxIndex
+        })
       } else if (equals(prop('coin', x), 'BCH')) {
         this.props.modalActions.closeAllModals()
-        this.props.modalActions.showModal('RequestBch')
+        this.props.modalActions.showModal('RequestBch', {
+          lockboxIndex: nextProps.lockboxIndex
+        })
       }
     })
   }
@@ -54,6 +59,10 @@ class FirstStepContainer extends React.PureComponent {
     this.props.modalActions.showModal('QRCode', { value })
   }
 
+  handleOpenLockbox () {
+    this.props.requestBtcActions.openLockboxAppClicked()
+  }
+
   handleSubmit (e) {
     e.preventDefault()
     const {
@@ -72,24 +81,27 @@ class FirstStepContainer extends React.PureComponent {
   }
 
   handleRefresh () {
-    const { bitcoinDataActions, initialValues } = this.props
-    if (!Remote.Success.is(initialValues)) return bitcoinDataActions.fetchData()
+    const { btcDataActions, initialValues } = this.props
+    if (!Remote.Success.is(initialValues)) return btcDataActions.fetchData()
 
     this.init()
   }
 
   render () {
-    const { data } = this.props
+    const { data, importedAddresses } = this.props
 
     return data.cata({
       Success: value => (
         <Success
+          type={value.type}
           message={value.message}
           addressIdx={value.addressIdx}
           accountIdx={value.accountIdx}
           receiveAddress={value.receiveAddress}
+          handleOpenLockbox={this.handleOpenLockbox}
           handleClickQRCode={() => this.handleClickQRCode(value)}
           handleSubmit={this.handleSubmit}
+          importedAddresses={importedAddresses}
         />
       ),
       NotAsked: () => <DataError onClick={this.handleRefresh} />,
@@ -99,9 +111,10 @@ class FirstStepContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  initialValues: getInitialValues(state),
-  data: getData(state)
+const mapStateToProps = (state, ownProps) => ({
+  initialValues: getInitialValues(state, ownProps),
+  data: getData(state),
+  importedAddresses: getImportedAddresses(state)
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -109,7 +122,7 @@ const mapDispatchToProps = dispatch => ({
     actions.components.requestBtc,
     dispatch
   ),
-  bitcoinDataActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
+  btcDataActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

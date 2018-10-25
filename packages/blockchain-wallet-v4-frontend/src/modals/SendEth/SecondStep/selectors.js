@@ -7,11 +7,12 @@ export const getData = state => {
 
   const transform = payment => {
     const fromLabel = ethFromLabel(payment, state)
+    const toLabel = payment.to.label || payment.to.address
 
     return {
       description: payment.description,
       fromAddress: fromLabel,
-      toAddress: payment.to,
+      toAddress: toLabel,
       amount: payment.amount,
       fee: payment.fee,
       total: utils.ethereum.calculateTransactionAmount(
