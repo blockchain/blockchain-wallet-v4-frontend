@@ -1,5 +1,4 @@
 /* eslint-disable */
-/* prettier-ignore */
 const chalk = require('chalk')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
@@ -12,14 +11,19 @@ const path = require('path')
 const fs = require('fs')
 const PATHS = require('../../config/paths')
 const mockWalletOptions = require('../../config/mocks/wallet-options-v4.json')
-
 const runBundleAnalyzer = process.env.ANALYZE
 const iSignThisDomain =
   mockWalletOptions.platforms.web.coinify.config.iSignThisDomain
-let sslEnabled =
-  fs.existsSync(PATHS.sslConfig + 'key.pem') &&
-  fs.existsSync(PATHS.sslConfig + 'cert.pem')
+
 let envConfig = {}
+let manifestCacheBust = new Date().getTime()
+let sslEnabled = process.env.DISABLE_SSL
+  ? false
+  : fs.existsSync(PATHS.sslConfig + '/key.pem') &&
+    fs.existsSync(PATHS.sslConfig + '/cert.pem')
+let localhostUrl = sslEnabled
+  ? 'https://localhost:8080'
+  : 'http://localhost:8080'
 
 try {
   envConfig = require(PATHS.envConfig + `/${process.env.NODE_ENV}` + '.js')
@@ -142,7 +146,7 @@ module.exports = {
     ],
     concatenateModules: false,
     runtimeChunk: {
-      name: 'manifest'
+      name: `manifest.${manifestCacheBust}`
     },
     splitChunks: {
       cacheGroups: {
@@ -197,7 +201,9 @@ module.exports = {
           webSocket: envConfig.WEB_SOCKET_URL,
           walletHelper: envConfig.WALLET_HELPER_DOMAIN,
           comWalletApp: envConfig.COM_WALLET_APP,
-          comRoot: envConfig.COM_ROOT
+          comRoot: envConfig.COM_ROOT,
+          ledgerSocket: envConfig.LEDGER_SOCKET_URL,
+          ledger: localhostUrl + '/ledger' // will trigger reverse proxy
         }
 
         if (process.env.NODE_ENV === 'testnet') {
@@ -210,7 +216,7 @@ module.exports = {
         res.json(mockWalletOptions)
       })
 
-      // TODO:: DEPRECATE
+      // TODO: DEPRECATE
       // This is to locally test transferring cookies from transfer_stored_values.html
       app.get('/Resources/transfer_stored_values.html', function(req, res) {
         res.sendFile(
@@ -222,23 +228,18 @@ module.exports = {
       })
 
       app.get('/Resources/wallet-options.json', function(req, res) {
-        mockWalletOptions.domains = {
-          comWalletApp: sslEnabled
-            ? 'https://localhost:8080'
-            : 'http://localhost:8080'
-        }
-
+        mockWalletOptions.domains = { comWalletApp: localhostUrl }
         res.json(mockWalletOptions)
       })
     },
-    proxy: [
-      {
-        path: /\/a\/.*/,
-        bypass: function(req, res, proxyOptions) {
-          return '/index.html'
-        }
+    proxy: {
+      '/ledger': {
+        target: envConfig.LEDGER_URL,
+        secure: false,
+        changeOrigin: true,
+        pathRewrite: { '^/ledger': '' }
       }
-    ],
+    },
     overlay: {
       warnings: true,
       errors: true
@@ -247,7 +248,7 @@ module.exports = {
       'Access-Control-Allow-Origin': '*',
       'Content-Security-Policy': [
         "img-src 'self' data: blob:",
-        "script-src 'self'",
+        "script-src 'self' 'unsafe-eval'",
         "style-src 'self' 'unsafe-inline'",
         `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${
           envConfig.ROOT_URL
@@ -258,10 +259,14 @@ module.exports = {
           "'self'",
           'ws://localhost:8080',
           'wss://localhost:8080',
+          'wss://api.ledgerwallet.com',
+          'wss://ws.testnet.blockchain.info/inv',
           envConfig.WEB_SOCKET_URL,
           envConfig.ROOT_URL,
           envConfig.API_DOMAIN,
           envConfig.WALLET_HELPER_DOMAIN,
+          envConfig.LEDGER_URL,
+          envConfig.LEDGER_SOCKET_URL,
           'https://app-api.coinify.com',
           'https://app-api.sandbox.coinify.com',
           'https://api.sfox.com',
@@ -272,7 +277,6 @@ module.exports = {
           'https://sfox-kyctest.s3.amazonaws.com',
           'https://testnet5.blockchain.info',
           'https://api.testnet.blockchain.info',
-          'wss://ws.testnet.blockchain.info/inv',
           'https://shapeshift.io'
         ].join(' '),
         "object-src 'none'",

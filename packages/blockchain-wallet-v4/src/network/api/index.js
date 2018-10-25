@@ -5,6 +5,7 @@ import ethereum from './eth'
 import bch from './bch'
 import kvStore from './kvStore'
 import kyc from './kyc'
+import lockbox from './lockbox'
 import misc from './misc'
 import profile from './profile'
 import rates from './rates'
@@ -22,6 +23,7 @@ export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
   const http = httpService({ apiKey })
   const authorizedHttp = apiAuthorize(http, getAuthCredentials)
   const apiUrl = options.domains.api
+  const ledgerUrl = options.domains.ledger
   const nabuUrl = `${apiUrl}/nabu-gateway`
   const rootUrl = options.domains.root
   const shapeShiftApiKey = options.platforms.web.shapeshift.config.apiKey
@@ -36,9 +38,11 @@ export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
     ...kyc({
       nabuUrl,
       get: http.get,
+      post: http.post,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post
     }),
+    ...lockbox({ ledgerUrl, get, post }),
     ...misc({ rootUrl, apiUrl, get, post }),
     ...profile({
       rootUrl,

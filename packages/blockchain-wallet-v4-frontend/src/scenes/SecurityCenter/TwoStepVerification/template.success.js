@@ -314,12 +314,6 @@ const TwoStepVerification = props => {
       </SecurityTwoStepContainer>
       {uiState.verifyToggled || props.alone ? (
         <SecurityTip>
-          <Text color='brand-primary' size='12px' weight={500}>
-            <FormattedMessage
-              id='scenes.securitysettings.basicsecurity.twostepverification.settings.securitytip'
-              defaultMessage='Security Tip'
-            />
-          </Text>
           <TipText weight={200} size='12px'>
             <FormattedMessage
               id='scenes.securitycenter.2fa.tip'

@@ -43,10 +43,9 @@ const DropdownList = styled.ul`
   list-style-position: outside;
   list-style-type: none;
   margin: 2px 0px;
-  max-height: 400px;
   min-width: 20px;
   overflow: auto;
-  padding: 5px 0px;
+  padding: 5px;
   position: absolute;
   right: 0;
   ${props =>
@@ -58,7 +57,6 @@ const DropdownList = styled.ul`
 const DropdownItem = styled.li`
   color: ${props => props.theme['gray-5']};
   cursor: pointer;
-  padding: 3px 20px;
   font-family: 'Montserrat', Helvetica, sans-serif;
   font-size: 14px;
   font-weight: 300;
@@ -81,7 +79,7 @@ const Dropdown = props => {
 
   return (
     <Wrapper uppercase={uppercase}>
-      <DropdownList toggled={toggled} down={down}>
+      <DropdownList toggled={toggled} down={down} data-e2e={props['data-e2e']}>
         {components.map((comp, index) => {
           return (
             <DropdownItem key={index} onClick={handleCallback.bind(null, comp)}>

@@ -25,11 +25,29 @@ import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
 import { getAccountsList, getBchTxNote } from '../../kvStore/bch/selectors.js'
+import {
+  getLockboxBchAccounts,
+  getLockboxBchAccount
+} from '../../kvStore/lockbox/selectors'
 import { toCashAddr } from '../../../utils/bch'
 import { isValidBitcoinAddress } from '../../../utils/btc'
 import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
+import { ADDRESS_TYPES } from '../../payment/btc/utils'
 
 const transformTx = transactions.bitcoin.transformTx
+
+export const getLockboxBchBalances = state => {
+  const digest = (addresses, account) => ({
+    coin: 'BCH',
+    label: account.label,
+    balance: path([account.xpub, 'final_balance'], addresses),
+    xpub: account.xpub,
+    address: account.xpub,
+    type: ADDRESS_TYPES.LOCKBOX
+  })
+  const balances = Remote.of(getAddresses(state).getOrElse([]))
+  return map(lift(digest)(balances), getLockboxBchAccounts(state))
+}
 
 // getActiveHDAccounts :: state -> Remote ([hdacountsWithInfo])
 export const getActiveHDAccounts = state => {
@@ -84,7 +102,8 @@ const digestAddress = acc => ({
   coin: 'BCH',
   label: prop('label', acc) ? prop('label', acc) : prop('addr', acc),
   balance: path(['info', 'final_balance'], acc),
-  address: prop('addr', acc)
+  address: prop('addr', acc),
+  type: ADDRESS_TYPES.LEGACY
 })
 
 const digestAccount = acc => ({
@@ -93,7 +112,8 @@ const digestAccount = acc => ({
   balance: path(['info', 'final_balance'], acc),
   archived: prop('archived', acc),
   xpub: prop('xpub', acc),
-  index: prop('index', acc)
+  index: prop('index', acc),
+  type: ADDRESS_TYPES.ACCOUNT
 })
 
 export const getAccountsBalances = state =>
@@ -163,6 +183,15 @@ const addFromToBch = (wallet, bchAccounts, txList) => {
     txList
   )
 
+  txList.map(tx => {
+    tx.inputs.map(input => {
+      input.address = toCashAddr(input.address, true)
+    })
+    tx.outputs.map(output => {
+      output.address = toCashAddr(output.address, true)
+    })
+  })
+
   return txList
 }
 
@@ -173,25 +202,29 @@ export const getWalletTransactions = state => {
   const walletR = Remote.of(walletSelectors.getWallet(state))
   // Remote(blockHeight)
   const blockHeightR = getHeight(state)
+  // Remote(lockboxXpubs)
+  const accountListR = getLockboxBchAccounts(state).map(HDAccountList.fromJS)
   // [Remote([tx])] == [Page] == Pages
   const getDescription = hash => getBchTxNote(state, hash).getOrElse('')
   const pages = getTransactions(state)
   const getPartnerLabel = hash => getShapeshiftTxHashMatch(state, hash)
   // transformTx :: wallet -> blockHeight -> Tx
   // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
-  const ProcessTxs = (wallet, block, txList) =>
+
+  const ProcessTxs = (wallet, block, accountList, txList) =>
     map(
       transformTx.bind(
         undefined,
         wallet,
         block,
+        accountList,
         getDescription,
         getPartnerLabel
       ),
       txList
     )
   // ProcessRemotePage :: Page -> Page
-  const ProcessPage = lift(ProcessTxs)(walletR, blockHeightR)
+  const ProcessPage = lift(ProcessTxs)(walletR, blockHeightR, accountListR)
   const txs = map(ProcessPage, pages)
   return map(
     txListR => lift(addFromToBch)(walletR, getAccountsList(state), txListR),
@@ -239,3 +272,23 @@ export const getNextAvailableReceiveAddress = curry(
     )
   }
 )
+
+export const getNextAvailableReceiveIndexLockbox = curry(
+  (network, xpub, state) => {
+    const index = getReceiveIndex(xpub)(state)
+    return index
+  }
+)
+
+export const getNextAvailableReceiveAddressLockbox = curry(
+  (network, xpub, state) => {
+    const index = getReceiveIndex(xpub)(state)
+    return index.map(x => getAddressLockbox(network, xpub, x, state))
+  }
+)
+
+export const getAddressLockbox = curry((network, xpub, index, state) => {
+  const account = getLockboxBchAccount(state, xpub)
+  const hdAccount = HDAccount.fromJS(account.getOrFail(), 0)
+  return HDAccount.getAddress(hdAccount, `M/0/${index}`, network)
+})

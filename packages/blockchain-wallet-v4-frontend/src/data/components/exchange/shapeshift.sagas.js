@@ -31,8 +31,9 @@ import {
   convertBaseToStandard
 } from './services'
 import { selectReceiveAddress } from '../utils/sagas'
-import utils from './sagas.utils'
+import sagaUtils from './sagas.utils'
 import { SHAPESHIFT_FORM } from './model'
+import { utils } from 'blockchain-wallet-v4/src'
 
 export default ({ api, coreSagas, networks, options }) => {
   const logLocation = 'components/exchange/sagas/shapeshift'
@@ -47,9 +48,15 @@ export default ({ api, coreSagas, networks, options }) => {
     selectOtherAccount,
     selectLabel,
     resetForm
-  } = utils({ api, coreSagas, options, networks })
+  } = sagaUtils({ api, coreSagas, options, networks })
 
   let pollingTradeStatusTask
+
+  const selectAddressForShapeshift = function*(source, networks) {
+    const address = yield call(selectReceiveAddress, source, networks)
+    if (prop('coin', source) === 'BCH') return utils.bch.fromCashAddr(address)
+    return address
+  }
 
   const firstStepInitialized = function*() {
     try {
@@ -251,12 +258,16 @@ export default ({ api, coreSagas, networks, options }) => {
       const target = prop('target', form)
       const sourceCoin = prop('coin', source)
       const targetCoin = prop('coin', target)
-      const sourceAddress = prop('address', source)
+      const sourceAddressOrIndex = prop('address', source)
       const targetAddress = prop('address', target)
       const amount = prop('sourceAmount', form)
-      const returnAddress = yield call(selectReceiveAddress, source, networks)
+      const returnAddress = yield call(
+        selectAddressForShapeshift,
+        source,
+        networks
+      )
       const withdrawalAddress = yield call(
-        selectReceiveAddress,
+        selectAddressForShapeshift,
         target,
         networks
       )
@@ -281,8 +292,9 @@ export default ({ api, coreSagas, networks, options }) => {
       const finalPayment = yield call(
         createPayment,
         sourceCoin,
-        sourceAddress,
+        sourceAddressOrIndex,
         depositAddress,
+        source.type,
         sourceAmount
       )
       yield put(A.paymentUpdated(finalPayment.value()))

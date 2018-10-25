@@ -6,14 +6,23 @@ import Success from './template.success'
 
 class Pages extends React.PureComponent {
   render () {
-    const { data, buysellPartner } = this.props
+    const { data, currency, buysellPartner } = this.props
 
     return data.cata({
       Success: value => (
-        <Success transactions={value} buysellPartner={buysellPartner} />
+        <Success
+          transactions={value}
+          currency={currency}
+          buysellPartner={buysellPartner}
+        />
       ),
-      Failure: message =>
-        <DataError onClick={() => this.props.onRefresh()} message={message} onArchive={this.props.onArchive} />,
+      Failure: message => (
+        <DataError
+          onClick={() => this.props.onRefresh()}
+          message={message}
+          onArchive={this.props.onArchive}
+        />
+      ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })

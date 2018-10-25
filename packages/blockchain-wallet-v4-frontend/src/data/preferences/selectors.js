@@ -20,3 +20,8 @@ export const getShowBitcoinCashWelcome = path([
 export const getShowKycCompleted = path(['preferences', 'showKycCompleted'])
 
 export const getPriceChart = path(['preferences', 'priceChart'])
+
+export const getTotalBalancesDropdown = path([
+  'preferences',
+  'totalBalancesDropdown'
+])

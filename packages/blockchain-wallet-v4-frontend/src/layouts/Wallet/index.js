@@ -54,6 +54,10 @@ const mapDispatchToProps = dispatch => ({
     actions.core.kvStore.buySell,
     dispatch
   ),
+  kvStoreLockboxActions: bindActionCreators(
+    actions.core.kvStore.lockbox,
+    dispatch
+  ),
   moduleSettingsActions: bindActionCreators(actions.modules.settings, dispatch),
   settingsActions: bindActionCreators(actions.core.settings, dispatch)
 })

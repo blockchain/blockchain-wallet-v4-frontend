@@ -46,7 +46,12 @@ const Welcome = props => {
               values={{ walletMillions: props.walletMillions }}
             />
           </Text>
-          <Button nature='primary' fullwidth onClick={close}>
+          <Button
+            nature='primary'
+            fullwidth
+            onClick={close}
+            data-e2e='getStartedButton'
+          >
             <FormattedMessage
               id='modals.welcome.continue'
               defaultMessage='Get Started'

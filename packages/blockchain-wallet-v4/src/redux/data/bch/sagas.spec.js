@@ -65,7 +65,7 @@ describe('bch data sagas', () => {
     })
 
     it('should select wallet', () => {
-      saga.next().select(selectors.kvStore.bch.getContext)
+      saga.next().select(S.getContext)
     })
 
     it('should get data from api', () => {
@@ -96,7 +96,7 @@ describe('bch data sagas', () => {
       it('should add bch data to the state', () => {
         return expectSaga(dataBchSagas.fetchData)
           .withReducer(reducers)
-          .provide([[select(selectors.kvStore.bch.getContext), mockContext]])
+          .provide([[select(S.getContext), mockContext]])
           .run()
           .then(result => {
             expect(result.storeState.bch).toMatchObject({
@@ -241,12 +241,20 @@ describe('bch data sagas', () => {
       saga.save(conditional)
     })
 
-    it('should put loading state', () => {
-      saga.next(pages).put(A.fetchTransactionsLoading(payload.reset))
+    it('should select transactionsAtBound state', () => {
+      saga.next(pages).select(S.getTransactionsAtBound)
     })
 
-    it('should select context', () => {
+    it('should put loading state', () => {
+      saga.next(false).put(A.fetchTransactionsLoading(payload.reset))
+    })
+
+    it('should select wallet context', () => {
       saga.next().select(selectors.wallet.getWalletContext)
+    })
+
+    it('should select full context', () => {
+      saga.next(mockContext).select(S.getContext)
     })
 
     it('should call fetchBchData', () => {
@@ -255,6 +263,10 @@ describe('bch data sagas', () => {
         onlyShow: fromCashAddr(CASH_ADDR_ADDRESS),
         offset: 10
       })
+    })
+
+    it('should set transactionsAtBound', () => {
+      saga.next(bchFetchData).put(A.transactionsAtBound(true))
     })
 
     it('should dispatch success with data', () => {
@@ -267,11 +279,11 @@ describe('bch data sagas', () => {
       saga.next().isDone()
     })
 
-    it('should break if reset is false and no last page', () => {
+    it('should break if reset is false and at bounds', () => {
       saga.restore(conditional)
       saga
         .next([blankPage])
-        .next()
+        .next(true)
         .isDone()
     })
 
@@ -298,6 +310,7 @@ describe('bch data sagas', () => {
           .withReducer(reducers)
           .provide([
             [select(selectors.wallet.getWalletContext), mockContext],
+            [select(S.getContext), mockContext],
             [select(S.getTransactions), pages]
           ])
           .run()
@@ -324,6 +337,7 @@ describe('bch data sagas', () => {
           })
           .provide([
             [select(selectors.wallet.getWalletContext), mockContext],
+            [select(S.getContext), mockContext],
             [select(S.getTransactions), pages]
           ])
           .run()
@@ -387,7 +401,7 @@ describe('bch data sagas', () => {
       })
         .provide([
           [select(selectors.settings.getCurrency), currency],
-          [select(selectors.wallet.getWalletContext), mockContext]
+          [select(S.getContext), mockContext]
         ])
         .call(
           api.getTransactionHistory,
@@ -433,7 +447,7 @@ describe('bch data sagas', () => {
           .withReducer(reducers)
           .provide([
             [select(selectors.settings.getCurrency), Remote.of('USD')],
-            [select(selectors.wallet.getWalletContext), mockContext]
+            [select(S.getContext), mockContext]
           ])
           .run()
           .then(result => {

@@ -130,7 +130,7 @@ export const js = (label, node, xpub) => ({
   xpriv: node ? node.toBase58() : '',
   xpub: node ? node.neutered().toBase58() : xpub,
   address_labels: [],
-  cache: Cache.js(node)
+  cache: node ? Cache.js(node, null) : Cache.js(null, xpub)
 })
 
 // encrypt :: Number -> String -> String -> Account -> Task Error Account

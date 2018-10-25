@@ -29,7 +29,11 @@ const WhatsNewIcon = props => {
 
   return (
     <TooltipHost id='whatsnew.tooltip'>
-      <WhatsNewLink onClick={handleClick} highlighted={highlighted}>
+      <WhatsNewLink
+        onClick={handleClick}
+        highlighted={highlighted}
+        data-e2e='notificationsLink'
+      >
         <Icon id='whatsnew-icon' name='bell' color='white' cursor />
       </WhatsNewLink>
     </TooltipHost>

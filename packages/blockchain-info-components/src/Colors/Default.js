@@ -31,9 +31,6 @@ export default {
   red: '#FF0000',
   black: '#000000',
   halftransparentgrey: 'rgba(0, 0, 0, 0.5)',
-  btc: '#FA9300',
-  eth: '#4253CF',
-  bch: '#74D890',
   porcelain: '#F4F6F7',
   textBlack: '#030E26',
   'deep-blue': '#152343',
@@ -43,5 +40,9 @@ export default {
   whiteAlpha75: 'rgba(255,255,255,0.75)',
   whiteAlpha10: 'rgba(255,255,255,0.1)',
   blackAlpha75: 'rgba(0,0,0,0.75)',
-  blackAlpha05: 'rgba(0,0,0,0.05)'
+  blackAlpha05: 'rgba(0,0,0,0.05)',
+  // Coins
+  btc: '#FF9B22',
+  bch: '#3EDC89',
+  eth: '#473BCB'
 }

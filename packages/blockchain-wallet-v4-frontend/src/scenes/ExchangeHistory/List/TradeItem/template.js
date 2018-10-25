@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 
+import { model } from 'data'
 import { TableCell, TableRow, Text, Link } from 'blockchain-info-components'
 import { selectColor, OrderStatus } from 'components/OrderStatus'
 import media from 'services/ResponsiveService'
@@ -16,6 +17,8 @@ const StatusContainer = styled(TableCell)`
     width: 25%;
   `};
 `
+
+const { FINISHED } = model.components.exchangeHistory.STATES
 
 const tradeDateHelper = (date, isMobile = false) => {
   let timeFormat = 'MMMM D YYYY @ h:mm A'
@@ -80,7 +83,11 @@ const TradeItem = props => {
             <Text
               size={mobile ? '12px' : '14px'}
               weight={300}
-              color={status === 'complete' ? 'gray-5' : 'gray-2'}
+              color={
+                status === 'complete' || status === FINISHED
+                  ? 'gray-5'
+                  : 'gray-2'
+              }
             >{`${withdrawalAmount} ${targetCoin}`}</Text>
           </TableCell>
         </TableRow>

@@ -2,11 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
+import * as bowser from 'bowser'
+import styled from 'styled-components'
+
 import { Remote } from 'blockchain-wallet-v4/src'
 import { required, validEtherAddress } from 'services/FormHelper'
 import {
+  Banner,
   Button,
   Text,
+  Icon,
   TooltipHost,
   TooltipIcon,
   Link
@@ -20,6 +25,7 @@ import {
   NumberBoxDebounced,
   SelectBox,
   SelectBoxCoin,
+  SelectBoxEthAddresses,
   TextBox,
   TextAreaDebounced
 } from 'components/Form'
@@ -39,6 +45,7 @@ import {
   FeeFormContainer,
   FeeFormGroup,
   FeeFormLabel,
+  AddressButton,
   FeeOptionsContainer,
   FeePerByteContainer
 } from 'components/Send'
@@ -47,6 +54,9 @@ import ComboDisplay from 'components/Display/ComboDisplay'
 import RegularFeeLink from './RegularFeeLink'
 import PriorityFeeLink from './PriorityFeeLink'
 
+const BrowserWarning = styled(Banner)`
+  margin: -4px 0 8px;
+`
 const FirstStep = props => {
   const {
     pristine,
@@ -55,14 +65,23 @@ const FirstStep = props => {
     fee,
     handleSubmit,
     unconfirmedTx,
+    destination,
     isContract,
+    toToggled,
     feeToggled,
+    enableToggle,
+    handleToToggle,
+    from,
     feeElements,
     regularFee,
     priorityFee,
     handleFeeToggle,
     balanceStatus
   } = props
+  const disableLockboxSend =
+    from &&
+    from.type === 'LOCKBOX' &&
+    !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -76,7 +95,31 @@ const FirstStep = props => {
           </FormLabel>
           <Field name='coin' component={SelectBoxCoin} validate={[required]} />
         </FormItem>
+        <FormItem width={'60%'}>
+          <FormLabel for='from'>
+            <FormattedMessage
+              id='modals.sendEther.firststep.from'
+              defaultMessage='From:'
+            />
+          </FormLabel>
+          <Field
+            name='from'
+            component={SelectBoxEthAddresses}
+            includeAll={false}
+            validate={[required]}
+          />
+        </FormItem>
       </FormGroup>
+      {disableLockboxSend && (
+        <BrowserWarning type='warning'>
+          <Text color='warning' size='12px'>
+            <FormattedMessage
+              id='modals.sendeth.firststep.lockboxwarn'
+              defaultMessage='Sending Ether from Lockbox can only be done while using the Chrome browser'
+            />
+          </Text>
+        </BrowserWarning>
+      )}
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for='to'>
@@ -86,19 +129,44 @@ const FirstStep = props => {
             />
           </FormLabel>
           <Row>
-            <Field
-              disabled={unconfirmedTx}
-              name='to'
-              placeholder='Paste or scan an address'
-              component={TextBox}
-              validate={[required, validEtherAddress]}
-            />
-            {!unconfirmedTx && (
-              <QRCodeCapture
-                scanType='ethAddress'
-                border={['top', 'bottom', 'right']}
+            {toToggled && (
+              <Field
+                name='to'
+                component={SelectBoxEthAddresses}
+                menuIsOpen={!destination}
+                exclude={[from.label]}
+                validate={[required]}
+                includeAll={false}
+                hideIndicator
+                hideErrors
               />
             )}
+            {!toToggled && (
+              <Field
+                name='to'
+                placeholder='Paste or scan an address, or select a destination'
+                component={TextBox}
+                validate={[required, validEtherAddress]}
+                autoFocus
+              />
+            )}
+            <QRCodeCapture
+              scanType='ethAddress'
+              border={
+                enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']
+              }
+            />
+            {enableToggle ? (
+              !toToggled ? (
+                <AddressButton onClick={() => handleToToggle()}>
+                  <Icon name='down-arrow' size='11px' cursor />
+                </AddressButton>
+              ) : (
+                <AddressButton onClick={() => handleToToggle()}>
+                  <Icon name='pencil' size='13px' cursor />
+                </AddressButton>
+              )
+            ) : null}
           </Row>
           {unconfirmedTx && (
             <Text color='error' size='12px' weight={300}>
@@ -246,6 +314,8 @@ FirstStep.propTypes = {
   fee: PropTypes.string.isRequired,
   effectiveBalance: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  toToggled: PropTypes.bool.isRequired,
+  handleToToggle: PropTypes.func.isRequired,
   unconfirmedTx: PropTypes.bool
 }
 

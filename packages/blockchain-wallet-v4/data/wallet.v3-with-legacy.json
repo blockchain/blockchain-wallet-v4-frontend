@@ -42,12 +42,16 @@
         {
           "label": "My Bitcoin Wallet",
           "archived": false,
-          "xpriv": "xprv9yb4M8aKinUDAwNrs7Y4Qp8J2yoRZHox2NiaDWEkg2TSF11j8VDYezATWJMs49i4LtYWSYs9rCg1LUW8pBj1j8LTkHaYcitXjqBsXhzNebJ",
-          "xpub": "xpub6CaQke7DZA2WPRTKy954mx52b1duxkXoPbeB1teNEMzR7oLsg2XoCnUwMbK8WDvKJYfuvWxfeH2f7HdoyGDEZs7Kj11AuQiKeJhLBd2GciM",
+          "xpriv":
+            "xprv9yb4M8aKinUDAwNrs7Y4Qp8J2yoRZHox2NiaDWEkg2TSF11j8VDYezATWJMs49i4LtYWSYs9rCg1LUW8pBj1j8LTkHaYcitXjqBsXhzNebJ",
+          "xpub":
+            "xpub6CaQke7DZA2WPRTKy954mx52b1duxkXoPbeB1teNEMzR7oLsg2XoCnUwMbK8WDvKJYfuvWxfeH2f7HdoyGDEZs7Kj11AuQiKeJhLBd2GciM",
           "address_labels": [],
           "cache": {
-            "receiveAccount": "xpub6DrWPuoPBCE2dtHyQtErZimnm4rNTSaueiU2Xfj1BgaE6T8UUXTLYhbkei765HNzJWTLFXvVHMUyQiE739C7rYTtK2yPReojEqsNLFE15St",
-            "changeAccount": "xpub6DrWPuoPBCE2fzxhqQUa12HJQnmHEKrdL1vTphHoE55pyAPph8paBDwSDu8rUDeY9BKirZZidtxgGyiyFCxbnbNtvL5R2Ks1EK4iidNyqda"
+            "receiveAccount":
+              "xpub6DrWPuoPBCE2dtHyQtErZimnm4rNTSaueiU2Xfj1BgaE6T8UUXTLYhbkei765HNzJWTLFXvVHMUyQiE739C7rYTtK2yPReojEqsNLFE15St",
+            "changeAccount":
+              "xpub6DrWPuoPBCE2fzxhqQUa12HJQnmHEKrdL1vTphHoE55pyAPph8paBDwSDu8rUDeY9BKirZZidtxgGyiyFCxbnbNtvL5R2Ks1EK4iidNyqda"
           }
         }
       ]

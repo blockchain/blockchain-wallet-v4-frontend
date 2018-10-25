@@ -29,6 +29,7 @@ const BaseModal = styled.div`
   z-index: ${props => (props.type === 'tray' ? 1039 : 1040)};
   background-color: ${props => props.theme['white']};
   box-shadow: none;
+  border-radius: 4px;
 
   @media (min-width: 768px) {
     width: ${props => props.width};
@@ -39,6 +40,8 @@ const BaseModal = styled.div`
 
 const selectWidth = size => {
   switch (size) {
+    case 'auto':
+      return 'auto'
     case 'small':
       return '400px'
     case 'medium':

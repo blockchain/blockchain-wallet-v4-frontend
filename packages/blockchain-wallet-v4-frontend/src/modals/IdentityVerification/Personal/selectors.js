@@ -1,16 +1,20 @@
 import { formValueSelector } from 'redux-form'
-import { compose, prop } from 'ramda'
+import { compose, lift, prop } from 'ramda'
 
 import { selectors, model } from 'data'
 
 const {
   getSupportedCountries,
+  getStates,
   getPossibleAddresses,
   isAddressRefetchVisible
 } = selectors.components.identityVerification
 const { getApiToken, getUserData } = selectors.modules.profile
 
-const { PERSONAL_FORM } = model.components.identityVerification
+const {
+  PERSONAL_FORM,
+  isStateSupported
+} = model.components.identityVerification
 
 const formValSelector = formValueSelector(PERSONAL_FORM)
 const activeFieldSelector = selectors.form.getActiveField(PERSONAL_FORM)
@@ -28,6 +32,27 @@ const formatUserData = ({
   ...address
 })
 
+const isCountryAndStateSelected = state => {
+  const country = prop('code', formValSelector(state, 'country'))
+  if (!country) return false
+  if (country !== 'US') return true
+
+  return Boolean(formValSelector(state, 'state'))
+}
+
+const stateSupported = state => {
+  const country = prop('code', formValSelector(state, 'country'))
+  if (country !== 'US') return true
+
+  return isStateSupported(formValSelector(state, 'state'))
+}
+
+const getCountryData = state =>
+  lift((supportedCountries, states) => ({ supportedCountries, states }))(
+    getSupportedCountries(state),
+    getStates(state)
+  )
+
 export const getData = state => ({
   addressRefetchVisible:
     isAddressRefetchVisible(state) || getApiToken(state).error,
@@ -38,7 +63,9 @@ export const getData = state => ({
   countryCode: prop('code', formValSelector(state, 'country')),
   postCode: formValSelector(state, 'postCode'),
   address: formValSelector(state, 'address'),
-  supportedCountries: getSupportedCountries(state),
+  countryAndStateSelected: isCountryAndStateSelected(state),
+  stateSupported: stateSupported(state),
+  countryData: getCountryData(state),
   activeField: activeFieldSelector(state),
   userData: compose(
     formatUserData,

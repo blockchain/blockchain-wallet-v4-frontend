@@ -20,6 +20,13 @@ export const selectTitle = title => {
           defaultMessage='Trade In Progress'
         />
       )
+    case C.CONFIRM_DELETE_LOCKBOX_TITLE:
+      return (
+        <FormattedMessage
+          id='modals.confirm.title.lockbox'
+          defaultMessage='Unpair Device'
+        />
+      )
     case C.ARCHIVE_VULNERABLE_ADDRESS_TITLE:
       return (
         <FormattedMessage
@@ -68,12 +75,31 @@ export const selectMessage = (message, values) => {
           </Text>
         </Fragment>
       )
+    case C.CONFIRM_DELETE_LOCKBOX_MESSAGE:
+      return (
+        <FormattedMessage
+          id='modals.confirm.message.lockbox'
+          defaultMessage='Are you sure you want to unpair your device? You will lose all balance, transaction, and account data.'
+        />
+      )
     case C.ARCHIVE_VULNERABLE_ADDRESS_MSG:
       return (
         <FormattedMessage
           id='modals.confirm.title.archive_address_msg'
           defaultMessage='A security issue effects address {addr}. Please Archive it, and if you continue to have issues contact {support}.'
-          values={{ addr: prop('vulnerableAddress', values), support: <Link size='16px' weight={300} target='_blank' href='https://support.blockchain.com'>support</Link> }}
+          values={{
+            addr: prop('vulnerableAddress', values),
+            support: (
+              <Link
+                size='16px'
+                weight={300}
+                target='_blank'
+                href='https://support.blockchain.com'
+              >
+                support
+              </Link>
+            )
+          }}
         />
       )
     default:

@@ -1,17 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { selectors } from 'data'
+import { getData } from './selectors'
 import Template from './template'
 
 class Balance extends React.PureComponent {
   render () {
-    return <Template path={this.props.path} />
+    const { path, lockboxEnabled } = this.props
+    return <Template path={path} lockboxEnabled={lockboxEnabled} />
   }
 }
 
-const mapStateToProps = state => ({
-  path: selectors.router.getPathname(state)
-})
+const mapStateToProps = state => getData(state)
 
 export default connect(mapStateToProps)(Balance)

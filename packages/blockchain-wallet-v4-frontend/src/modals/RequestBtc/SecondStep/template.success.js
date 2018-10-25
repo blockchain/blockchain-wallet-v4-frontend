@@ -80,7 +80,12 @@ const SecondStep = props => {
           </LinkContainer>
         </Container>
         <CopyToClipBoard text={link}>
-          <Button type='submit' nature={active ? 'copy' : 'primary'} fullwidth>
+          <Button
+            type='submit'
+            nature={active ? 'copy' : 'primary'}
+            fullwidth
+            data-e2e='requestBtc_copy_link_button'
+          >
             {active ? (
               <FormattedMessage
                 id='modals.requestbitcoin.secondstep.copied'
@@ -96,7 +101,12 @@ const SecondStep = props => {
         </CopyToClipBoard>
       </Form>
       <Footer>
-        <Link onClick={previousStep} size='13px' weight={300}>
+        <Link
+          onClick={previousStep}
+          size='13px'
+          weight={300}
+          data-e2e='requestBtc_go_back'
+        >
           <FormattedMessage
             id='scenes.requestbitcoin.secondstep.back'
             defaultMessage='Go Back'

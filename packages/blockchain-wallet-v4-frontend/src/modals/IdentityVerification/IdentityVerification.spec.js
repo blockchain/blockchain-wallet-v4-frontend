@@ -15,6 +15,7 @@ import identityVerificationReducer from 'data/components/identityVerification/re
 import {
   getPossibleAddresses,
   getSupportedCountries,
+  getStates,
   getVerificationStep,
   getSmsStep
 } from 'data/components/identityVerification/selectors'
@@ -41,7 +42,7 @@ import {
 } from 'blockchain-wallet-v4/src/redux/settings/selectors'
 import { getGuid } from 'blockchain-wallet-v4/src/redux/wallet/selectors'
 
-const { MODAL_NAME, STEPS, SMS_STEPS } = model.components.identityVerification
+const { KYC_MODAL, STEPS, SMS_STEPS } = model.components.identityVerification
 
 const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 
@@ -69,18 +70,27 @@ const POSSIBLE_ADDRESSES = [
     state: 'Île-de-France'
   }
 ]
-const SUPPORTED_COUNTRIES = [{ code: 'FR', name: 'France' }]
+const STUB_COUNTRY_CODE = 'FR'
+const SUPPORTED_COUNTRIES = [{ code: STUB_COUNTRY_CODE, name: 'France' }]
+
+const stubMail = 'mail@mail.com'
+const STUB_MOBILE = '212555555'
+const STUB_CODE = '12345'
 
 const MOCK_USER_DATA = {
   id: '12345abcde',
   firstName: 'Satoshi',
   lastName: 'Nakamoto',
-  email: 'btcMaximalist@gmail.com',
+  email: stubMail,
   dob: '1988-12-11',
   mobile: null,
   mobileVerified: false,
   state: 'CREATED',
-  kycState: 'NONE'
+  kycState: 'NONE',
+  address: {
+    country: STUB_COUNTRY_CODE,
+    ...POSSIBLE_ADDRESSES[0]
+  }
 }
 
 const coreSagas = coreSagasFactory({ api: {} })
@@ -88,7 +98,8 @@ const api = {
   obtainSessionToken: jest.fn(),
   deauthorizeBrowser: jest.fn(),
   getSupportedCountries: () =>
-    Remote.of([{ name: 'France' }, { name: 'Spain' }]),
+    Remote.of([{ name: 'France', code: 'FR' }, { name: 'Spain', code: 'ES' }]),
+  getStates: () => Remote.of([]),
   fetchKycAddresses: () => Remote.of(POSSIBLE_ADDRESSES)
 }
 
@@ -103,12 +114,9 @@ getPossibleAddresses.mockImplementation(() => POSSIBLE_ADDRESSES)
 getSupportedCountries.mockImplementation(() =>
   Remote.Success(SUPPORTED_COUNTRIES)
 )
+getStates.mockImplementation(() => Remote.Success([]))
 
 profileSagas.createUser = jest.fn()
-
-const stubMail = 'mail@mail.com'
-const STUB_MOBILE = '212555555'
-const STUB_CODE = '12345'
 
 describe('IdentityVerification Modal', () => {
   beforeEach(() => {
@@ -144,14 +152,14 @@ describe('IdentityVerification Modal', () => {
     it('should render after modal action', () => {
       expect(wrapper.find(Tray)).toHaveLength(0)
 
-      store.dispatch(actions.modals.showModal(MODAL_NAME))
+      store.dispatch(actions.modals.showModal(KYC_MODAL))
       wrapper.update()
 
       expect(wrapper.find(Tray)).toHaveLength(1)
     })
 
     it('should be hidden on close click', () => {
-      store.dispatch(actions.modals.showModal(MODAL_NAME))
+      store.dispatch(actions.modals.showModal(KYC_MODAL))
       wrapper.update()
       wrapper.find(ModalHeader).prop('onClose')()
       wrapper.update()
@@ -162,7 +170,7 @@ describe('IdentityVerification Modal', () => {
   describe('form behaviour', () => {
     getVerificationStep.mockImplementation(() => STEPS.personal)
     beforeEach(() => {
-      store.dispatch(actions.modals.showModal(MODAL_NAME))
+      store.dispatch(actions.modals.showModal(KYC_MODAL))
       coreSagas.settings.sendConfirmationCodeEmail.mockClear()
       coreSagas.settings.setMobile.mockClear()
       wrapper.update()
@@ -182,7 +190,7 @@ describe('IdentityVerification Modal', () => {
         expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
           true
         )
-        wrapper.find('template__PersonalForm').simulate('submit')
+        wrapper.find('form').simulate('submit')
         expect(last(dispatchSpy.mock.calls)[0].type).toEqual(
           actionTypes.form.SET_SUBMIT_FAILED
         )
@@ -298,7 +306,7 @@ describe('IdentityVerification Modal', () => {
     beforeEach(() => {
       getSmsStep.mockImplementation(() => Remote.of(SMS_STEPS.edit))
       getVerificationStep.mockImplementation(() => STEPS.mobile)
-      store.dispatch(actions.modals.showModal(MODAL_NAME))
+      store.dispatch(actions.modals.showModal(KYC_MODAL))
       coreSagas.settings.sendConfirmationCodeEmail.mockClear()
       // coreSagas.settings.setMobile.mockClear()
       wrapper.update()
@@ -313,7 +321,6 @@ describe('IdentityVerification Modal', () => {
         // store.dispatch(actions.core.settings.setMobileVerified())
         store.dispatch(actions.modules.profile.setUserData(MOCK_USER_DATA))
         // store.dispatch(actions.components.identityVerification.setVerificationStep(STEPS.mobile))
-        wrapper.update()
       })
 
       it('should be disabled and not submit by default', async () => {
@@ -409,12 +416,13 @@ describe('IdentityVerification Modal', () => {
           .first()
           .simulate('click')
 
-        wrapper.unmount().mount()
+        wrapper.update()
 
         expect(wrapper.find('Field[name="code"]')).toHaveLength(1)
       })
 
       it('should enable the continue button when a code is entered', () => {
+        wrapper.unmount().mount()
         getSmsStep.mockImplementation(() => Remote.of(SMS_STEPS.verify))
         wrapper
           .find('Field[name="smsNumber"]')

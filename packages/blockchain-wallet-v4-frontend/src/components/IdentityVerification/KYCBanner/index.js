@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl'
 import { values } from 'ramda'
 import { connect } from 'react-redux'
 
-import { MODAL_NAME as KYC_MODAL } from 'data/components/identityVerification/model'
 import { KYC_STATES, USER_ACTIVATION_STATES } from 'data/modules/profile/model'
 import { getData } from './selectors'
 import { actions } from 'data'
@@ -52,9 +51,6 @@ const ActionButton = styled(Button)`
   margin-top: 30px;
 `
 
-const SubNote = styled(Text)`
-  margin-top: 30px;
-`
 export const NEW_USER = 'NEW_USER'
 
 export const KYCBanner = ({
@@ -130,18 +126,12 @@ export const KYCBanner = ({
           id='components.identityverification.popup.note.notcreated'
           defaultMessage="Introducing Blockchain's new and improved crypto exchange function. To begin using this updated feature, please verify your identity. The process only takes a couple of minutes."
         />
-        <SubNote color='white' size='12px' weight={400}>
-          <FormattedMessage
-            id='components.identityverification.popup.note.personalinfosecure'
-            defaultMessage='Your personal information is secure with us and not shared with any third parties.'
-          />
-        </SubNote>
       </Fragment>
     ),
     [KYC_STATES.NONE]: (
       <FormattedMessage
         id='components.identityverification.popup.note.unverified'
-        defaultMessage='Complete your profile and identity verification to start buying and selling. Don’t worry, we only need a couple more details.'
+        defaultMessage='Complete your profile and identity verification to start exchanging. Don’t worry, we only need a couple more details.'
       />
     ),
     [KYC_STATES.PENDING]: (
@@ -165,7 +155,7 @@ export const KYCBanner = ({
     [KYC_STATES.VERIFIED]: (
       <FormattedMessage
         id='components.identityverification.popup.note.verified'
-        defaultMessage='Good news – your account is verified. You can now exchange cryptocurrency at any time. '
+        defaultMessage='Good news – your account is verified. You can now exchange cryptocurrency at any time.'
       />
     )
   }
@@ -238,7 +228,8 @@ KYCBanner.defaultProps = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  verifyIdentity: () => dispatch(actions.modals.showModal(KYC_MODAL))
+  verifyIdentity: () =>
+    dispatch(actions.components.identityVerification.verifyIdentity())
 })
 
 export default connect(

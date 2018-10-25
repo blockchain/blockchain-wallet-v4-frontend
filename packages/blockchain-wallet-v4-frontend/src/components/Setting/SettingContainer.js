@@ -1,18 +1,19 @@
 import styled from 'styled-components'
 
 const SettingContainer = styled.div`
-  position: relative;
+  width: 100%;
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 100%;
-  border-bottom: 1px solid ${props => props.theme['gray-2']};
+  padding: 10px 0px;
+  border-bottom: 1px solid ${props => props.theme['gray-1']};
 
   @media (min-width: 992px) {
     flex-direction: row;
+    align-items: center;
     justify-content: space-between;
-    align-items: flex-start;
   }
 `
 

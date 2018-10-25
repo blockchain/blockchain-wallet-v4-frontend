@@ -137,3 +137,35 @@ export const useMin = () => ({
 export const useMax = () => ({
   type: AT.USE_MAX
 })
+export const fetchTargetFees = () => ({
+  type: AT.FETCH_TARGET_FEES
+})
+export const fetchTargetFeesLoading = () => ({
+  type: AT.FETCH_TARGET_FEES_LOADING
+})
+export const fetchTargetFeesSuccess = fee => ({
+  type: AT.FETCH_TARGET_FEES_SUCCESS,
+  payload: { fee }
+})
+export const fetchTargetFeesError = error => ({
+  type: AT.FETCH_TARGET_FEES_ERROR,
+  payload: { error }
+})
+export const setSourceFee = fee => ({
+  type: AT.SET_SOURCE_FEE,
+  payload: { fee }
+})
+export const setShowError = showError => ({
+  type: AT.SET_SHOW_ERROR,
+  payload: { showError }
+})
+export const recheckLatestTx = () => ({
+  type: AT.RECHECK_LATEST_TX
+})
+export const setTxError = error => ({
+  type: AT.SET_TX_ERROR,
+  payload: { error }
+})
+export const showConfirmation = () => ({
+  type: AT.SHOW_CONFIRMATION
+})

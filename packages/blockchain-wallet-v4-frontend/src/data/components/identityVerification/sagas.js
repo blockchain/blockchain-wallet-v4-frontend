@@ -1,4 +1,4 @@
-import { put, select, call } from 'redux-saga/effects'
+import { join, put, select, call, spawn } from 'redux-saga/effects'
 import { isEmpty, prop } from 'ramda'
 
 import { callLatest } from 'utils/effects'
@@ -8,7 +8,17 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import * as C from 'services/AlertService'
 
 import * as A from './actions'
-import { STEPS, SMS_STEPS, SMS_NUMBER_FORM, PERSONAL_FORM } from './model'
+import {
+  STEPS,
+  SMS_STEPS,
+  SMS_NUMBER_FORM,
+  PERSONAL_FORM,
+  BAD_CODE_ERROR,
+  PHONE_EXISTS_ERROR,
+  UPDATE_FAILURE,
+  KYC_MODAL,
+  USER_EXISTS_MODAL
+} from './model'
 
 export const logLocation = 'components/identityVerification/sagas'
 
@@ -27,12 +37,29 @@ export default ({ api, coreSagas }) => {
   const {
     createUser,
     updateUser,
+    generateRetailToken,
     updateUserAddress,
     syncUserWithWallet
   } = profileSagas({
     api,
     coreSagas
   })
+
+  const verifyIdentity = function*() {
+    try {
+      const userId = (yield select(
+        selectors.core.kvStore.userCredentials.getUserId
+      )).getOrElse('')
+      if (userId) {
+        return yield put(actions.modals.showModal(KYC_MODAL))
+      }
+      const retailToken = yield call(generateRetailToken)
+      yield call(api.checkUserExistance, retailToken)
+      yield put(actions.modals.showModal(USER_EXISTS_MODAL))
+    } catch (e) {
+      yield put(actions.modals.showModal(KYC_MODAL))
+    }
+  }
 
   const initializeStep = function*() {
     const activationState = yield select(
@@ -80,9 +107,13 @@ export default ({ api, coreSagas }) => {
       yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
       yield put(A.setVerificationStep(STEPS.verify))
     } catch (e) {
-      yield put(
-        actions.form.stopSubmit(SMS_NUMBER_FORM, { mobileVerifiedError })
-      )
+      const description = prop('description', e)
+
+      let error
+      if (description === PHONE_EXISTS_ERROR) error = PHONE_EXISTS_ERROR
+      else if (e === BAD_CODE_ERROR) error = BAD_CODE_ERROR
+      else error = UPDATE_FAILURE
+      yield put(actions.form.stopSubmit(SMS_NUMBER_FORM, { _error: error }))
     }
   }
 
@@ -126,14 +157,17 @@ export default ({ api, coreSagas }) => {
         state,
         postCode
       }
+      if (address.country === 'US') address.state = address.state.code
       yield put(actions.form.startSubmit(PERSONAL_FORM))
       yield call(updateUser, { payload: { data: personalData } })
-      yield call(updateUserAddress, { payload: { address } })
+      const { mobileVerified } = yield call(updateUserAddress, {
+        payload: { address }
+      })
       const smsVerified = (yield select(
         selectors.core.settings.getSmsVerified
       )).getOrElse(0)
 
-      if (!smsVerified) {
+      if (!smsVerified && !mobileVerified) {
         yield put(actions.form.stopSubmit(PERSONAL_FORM))
         return yield put(A.setVerificationStep(STEPS.mobile))
       }
@@ -169,6 +203,21 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const fetchStates = function*() {
+    try {
+      yield put(A.setStates(Remote.Loading))
+      const states = yield call(api.getStates)
+      yield put(A.setStates(Remote.Success(states)))
+    } catch (e) {
+      yield put(A.setStates(Remote.Failure(e)))
+      actions.logs.logErrorMessage(
+        logLocation,
+        'fetchSupportedCountries',
+        `Error fetching supported countries: ${e}`
+      )
+    }
+  }
+
   const fetchPossibleAddresses = function*({
     payload: { postCode, countryCode }
   }) {
@@ -176,30 +225,26 @@ export default ({ api, coreSagas }) => {
       yield put(A.setAddressRefetchVisible(false))
       yield put(actions.form.startSubmit(PERSONAL_FORM))
       yield put(A.setPossibleAddresses([]))
-      yield call(createUser)
+
+      // Spawn/join is used so that
+      // createUser task won't be canceled by takeLatest
+      // and addresses fetch will be canceled
+      const createUserTask = yield spawn(createUser)
+      yield join(createUserTask)
       const addresses = yield callLatest(api.fetchKycAddresses, {
         postCode,
         countryCode
       })
-      if (isEmpty(addresses)) throw new Error(failedToFetchAddressesError)
       yield put(A.setPossibleAddresses(addresses))
+      if (!isEmpty(addresses))
+        yield put(actions.form.focus(PERSONAL_FORM, 'address'))
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
     } catch (e) {
       const description = prop('description', e)
       const message = prop('message', e)
 
-      if (description === userExistsError) {
-        // TODO: show a better error explaining that user with
-        // target email already exists
-        const email = (yield select(
-          selectors.core.settings.getEmail
-        )).getOrFail()
-        return yield put(
-          actions.form.stopSubmit(PERSONAL_FORM, {
-            postCode: getUserExistsError(email)
-          })
-        )
-      }
+      // occurs if typing fast and 2 user tasks are created
+      if (description === userExistsError) return
 
       if (description === noCountryCodeError) {
         yield put(
@@ -235,20 +280,34 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const selectAddress = function*({
-    payload: {
-      address: { line1, line2, city, state }
-    }
-  }) {
+  const selectAddress = function*({ payload }) {
+    const address = prop('address', payload)
+    const { country, state: usState } = yield select(
+      selectors.form.getFormValues(PERSONAL_FORM)
+    )
+    if (!address) return
+    const { line1, line2, city, state } = address
     yield put(actions.form.change(PERSONAL_FORM, 'line1', line1))
     yield put(actions.form.change(PERSONAL_FORM, 'line2', line2))
     yield put(actions.form.change(PERSONAL_FORM, 'city', city))
-    yield put(actions.form.change(PERSONAL_FORM, 'state', state))
+    if (prop('code', country) !== 'US') {
+      yield put(actions.form.change(PERSONAL_FORM, 'address', address))
+      yield put(actions.form.change(PERSONAL_FORM, 'state', state))
+    } else {
+      yield put(
+        actions.form.change(PERSONAL_FORM, 'address', {
+          ...address,
+          state: usState
+        })
+      )
+    }
   }
 
   return {
+    verifyIdentity,
     initializeStep,
     fetchSupportedCountries,
+    fetchStates,
     fetchPossibleAddresses,
     resendSmsCode,
     savePersonalData,

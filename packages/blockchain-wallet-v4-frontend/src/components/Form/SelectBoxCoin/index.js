@@ -26,13 +26,9 @@ const renderItem = props => {
   const { value, text, ...rest } = props
   return (
     <HeaderWrapper {...rest}>
-      {value === 'BTC' && (
-        <Icon name='bitcoin-in-circle' size='14px' weight={300} />
-      )}
-      {value === 'BCH' && <Icon name='bitcoin-cash' size='14px' weight={300} />}
-      {value === 'ETH' && (
-        <Icon name='ethereum-filled' size='14px' weight={300} />
-      )}
+      {value === 'BTC' && <Icon name='btc-circle' size='22px' weight={300} />}
+      {value === 'BCH' && <Icon name='bch-circle' size='22px' weight={300} />}
+      {value === 'ETH' && <Icon name='eth-circle' size='22px' weight={300} />}
       <Text size='14px' weight={300} cursor='pointer'>
         {text}
       </Text>
@@ -44,13 +40,9 @@ const renderDisplay = (props, children) => {
   const { value, ...rest } = props
   return (
     <HeaderWrapper {...rest}>
-      {value === 'BTC' && (
-        <Icon name='bitcoin-in-circle' size='14px' weight={300} />
-      )}
-      {value === 'BCH' && <Icon name='bitcoin-cash' size='14px' weight={300} />}
-      {value === 'ETH' && (
-        <Icon name='ethereum-filled' size='14px' weight={300} />
-      )}
+      {value === 'BTC' && <Icon name='btc-circle' size='22px' weight={300} />}
+      {value === 'BCH' && <Icon name='bch-circle' size='22px' weight={300} />}
+      {value === 'ETH' && <Icon name='eth-circle' size='22px' weight={300} />}
       <Text size='14px' weight={300} cursor='pointer'>
         {children}
       </Text>

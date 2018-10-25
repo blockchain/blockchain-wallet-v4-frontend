@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { contains } from 'ramda'
 import { required } from 'services/FormHelper'
@@ -20,7 +20,7 @@ import {
   FormGroup,
   FormItem,
   FormLabel,
-  SelectBoxBitcoinAddresses,
+  SelectBoxBtcAddresses,
   TextArea,
   SelectBoxCoin
 } from 'components/Form'
@@ -48,15 +48,22 @@ const CoinSelector = styled(FormGroup)`
 `
 const BannerContainer = styled.div`
   margin-top: 5px;
+  .link {
+    cursor: pointer;
+    text-decoration: underline;
+    color: ${props => props.theme['brrand-primary']};
+  }
 `
 
 const FirstStep = props => {
   const {
-    submitting,
+    type,
     invalid,
+    submitting,
     handleSubmit,
-    handleClickQRCode,
     receiveAddress,
+    handleClickQRCode,
+    handleOpenLockbox,
     importedAddresses
   } = props
 
@@ -98,10 +105,20 @@ const FirstStep = props => {
             </QRText>
           </AddressFormLabel>
           <AddressContainer>
-            <CopyClipboard address={receiveAddress} />
+            <CopyClipboard address={receiveAddress} data-e2e='requestBtc' />
           </AddressContainer>
         </FormItem>
       </FormGroup>
+      {type === 'LOCKBOX' && (
+        <BannerContainer onClick={handleOpenLockbox}>
+          <Banner type='alert'>
+            <FormattedHTMLMessage
+              id='modals.requestbitcoin.firststep.lockbox'
+              defaultMessage='Please confirm this address on your lockbox device by opening your Bitcoin app. <span class=&quot;link&quot;>Click here</span> once the Bitcoin app has been opened.'
+            />
+          </Banner>
+        </BannerContainer>
+      )}
       <Separator margin={'20px 0'}>
         <Text size='14px' weight={300} uppercase>
           <FormattedMessage
@@ -123,6 +140,7 @@ const FirstStep = props => {
             component={FiatConvertor}
             validate={[required, invalidAmountMin, invalidAmountMax]}
             coin='BTC'
+            data-e2e='requestBtc'
           />
         </FormItem>
       </FormGroup>
@@ -136,11 +154,11 @@ const FirstStep = props => {
           </FormLabel>
           <Field
             name='to'
-            component={SelectBoxBitcoinAddresses}
+            component={SelectBoxBtcAddresses}
             includeAll={false}
             validate={[required]}
           />
-          {contains(receiveAddress, importedAddresses) ? (
+          {contains(receiveAddress, importedAddresses) && (
             <BannerContainer>
               <Banner type='warning'>
                 <FormattedMessage
@@ -149,7 +167,7 @@ const FirstStep = props => {
                 />
               </Banner>
             </BannerContainer>
-          ) : null}
+          )}
         </FormItem>
       </FormGroup>
       <FormGroup margin={'20px'}>
@@ -165,6 +183,7 @@ const FirstStep = props => {
             component={TextArea}
             validate={[required]}
             placeholder="What's this transaction for?"
+            data-e2e='requestBtc_description'
           />
         </FormItem>
       </FormGroup>
@@ -174,6 +193,7 @@ const FirstStep = props => {
           nature='primary'
           fullwidth
           disabled={submitting || invalid}
+          data-e2e='requestBtc_next_button'
         >
           <FormattedMessage
             id='modals.requestbitcoin.firststep.next'

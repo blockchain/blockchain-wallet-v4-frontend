@@ -1,11 +1,11 @@
 import { fork } from 'redux-saga/effects'
 import bitcoin from './btc/sagaRegister'
+import coinify from './coinify/sagaRegister'
 import ethereum from './eth/sagaRegister'
 import bch from './bch/sagaRegister'
 import misc from './misc/sagaRegister'
-import shapeShift from './shapeShift/sagaRegister'
 import sfox from './sfox/sagaRegister'
-import coinify from './coinify/sagaRegister'
+import shapeShift from './shapeShift/sagaRegister'
 
 export default ({ api }) =>
   function*() {

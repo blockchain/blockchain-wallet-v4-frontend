@@ -6,6 +6,14 @@ export default ({
   authorizedPut,
   authorizedGet
 }) => {
+  const checkUserExistance = retailToken =>
+    post({
+      url: nabuUrl,
+      endPoint: `/users/check`,
+      contentType: 'application/json',
+      data: { jwt: retailToken }
+    })
+
   const generateRetailToken = (guid, sharedKey) =>
     get({
       url: rootUrl,
@@ -21,6 +29,17 @@ export default ({
       url: nabuUrl,
       endPoint: '/users',
       contentType: 'application/json',
+      data: { jwt: retailToken }
+    })
+
+  const recoverUser = (userId, lifetimeToken, retailToken) =>
+    post({
+      url: nabuUrl,
+      endPoint: `/users/recover/${userId}`,
+      contentType: 'application/json',
+      headers: {
+        Authorization: `Bearer ${lifetimeToken}`
+      },
       data: { jwt: retailToken }
     })
 
@@ -71,7 +90,9 @@ export default ({
     })
 
   return {
+    checkUserExistance,
     createUser,
+    recoverUser,
     generateRetailToken,
     generateSession,
     getUser,

@@ -5,10 +5,11 @@ exports[`CheckBoxInput component default renders correctly 1`] = `
   <styled.input
     checked={true}
     disabled="false"
-    id="check"
+    id="terms"
   />
   <styled.label
-    htmlFor="check"
+    data-e2e="termsLabel"
+    htmlFor="terms"
   >
     <span>
       test

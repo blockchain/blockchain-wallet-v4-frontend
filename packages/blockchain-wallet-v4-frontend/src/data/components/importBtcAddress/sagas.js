@@ -2,6 +2,7 @@ import { call, select, put } from 'redux-saga/effects'
 import { prop } from 'ramda'
 import { actions, selectors } from 'data'
 import * as C from 'services/AlertService'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { promptForSecondPassword, promptForInput } from 'services/SagaService'
 import { utils } from 'blockchain-wallet-v4/src'
 
@@ -46,9 +47,9 @@ export default ({ api, coreSagas, networks }) => {
           .create({ network: networks.btc })
           .chain()
           .init()
-          .from(priv)
+          .from(priv, ADDRESS_TYPES.ADDRESS)
           .fee('regular')
-          .to(index)
+          .to(index, ADDRESS_TYPES.ACCOUNT)
           .description('Imported address swept')
           .buildSweep()
           .sign(password)
@@ -75,9 +76,16 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const importLegacyAddress = function*(address, priv, secPass, bipPass, to) {
-    const password = secPass || (yield call(promptForSecondPassword))
     // TODO :: check if address and priv are corresponding each other
     // (how do we respond to weird pairs of compressed/uncompressed)
+    let password
+    try {
+      password = secPass || (yield call(promptForSecondPassword))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(`${logLocation} importLegacyAddress`, e)
+      )
+    }
     try {
       const key = priv || address
       yield call(coreSagas.wallet.importLegacyAddress, {

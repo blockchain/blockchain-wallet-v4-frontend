@@ -36,6 +36,9 @@ const Container = styled.section`
     padding: 10px;
   `};
 `
+const ShapeshiftContainer = styled(Container)`
+  height: 100%;
+`
 const Column = styled.div`
   display: flex;
   flex-direction: column;
@@ -68,16 +71,16 @@ const ColumnRight = styled(Column)`
 const ExchangeScene = ({ useShapeShift }) => (
   <Wrapper>
     {useShapeShift && (
-      <Container>
+      <ShapeshiftContainer>
         <ColumnLeft>
           <Shapeshift />
         </ColumnLeft>
         <ColumnRight>
           <Info />
         </ColumnRight>
-      </Container>
+      </ShapeshiftContainer>
     )}
-    {!useShapeShift && <KYCBanner outsideOfProfile={true} />}
+    {!useShapeShift && <KYCBanner outsideOfProfile />}
     {!useShapeShift && (
       <Container>
         <Column>

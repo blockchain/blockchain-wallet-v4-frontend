@@ -15,3 +15,15 @@ export const getSettingsOpened = path([
   'layoutWallet',
   'settingsOpened'
 ])
+
+export const getLockboxOpened = path([
+  'components',
+  'layoutWallet',
+  'lockboxOpened'
+])
+
+export const getBalancesTable = path([
+  'components',
+  'layoutWallet',
+  'balancesTable'
+])
