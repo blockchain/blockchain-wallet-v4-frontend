@@ -183,7 +183,7 @@ const FirstStep = props => {
             name='description'
             component={TextAreaDebounced}
             placeholder="What's this transaction for?"
-            data-e2e='sendBch_description'
+            data-e2e='sendBchDescription'
             fullwidth
           />
         </FormItem>

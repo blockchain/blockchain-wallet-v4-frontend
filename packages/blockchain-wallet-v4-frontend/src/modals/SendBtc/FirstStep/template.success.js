@@ -237,7 +237,7 @@ const FirstStep = props => {
             component={TextAreaDebounced}
             placeholder="What's this transaction for?"
             rows={3}
-            data-e2e='sendBtc_description'
+            data-e2e='sendBtcDescription'
           />
         </FormItem>
       </FormGroup>
@@ -275,7 +275,7 @@ const FirstStep = props => {
                   errorBottom
                   errorLeft
                   unit='sat/byte'
-                  data-e2e='sendBtc_custom_fee_input'
+                  data-e2e='sendBtcCustomFeeInput'
                 />
               </FeePerByteContainer>
             )}
@@ -290,7 +290,7 @@ const FirstStep = props => {
             weight={300}
             capitalize
             onClick={handleFeePerByteToggle}
-            data-e2e='sendBtc_custom_fee_link'
+            data-e2e='sendBtcCustomFeeLink'
           >
             {feePerByteToggled ? (
               <FormattedMessage
@@ -326,7 +326,7 @@ const FirstStep = props => {
         <Button
           type='submit'
           nature='primary'
-          data-e2e='sendBtc_continue'
+          data-e2e='sendBtcContinue'
           disabled={submitting || invalid || pristine || disableLockboxSend}
         >
           <FormattedMessage

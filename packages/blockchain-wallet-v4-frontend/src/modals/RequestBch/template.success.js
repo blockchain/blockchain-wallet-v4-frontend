@@ -141,7 +141,7 @@ const RequestBch = props => {
         nature='primary'
         fullwidth
         disabled={submitting || invalid}
-        data-e2e='requestBch_done_button'
+        data-e2e='requestBchDoneButton'
       >
         <FormattedMessage id='modals.requestbch.done' defaultMessage='Done' />
       </Button>

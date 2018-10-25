@@ -129,7 +129,7 @@ const RequestEth = props => {
       <Button
         type='submit'
         nature='primary'
-        data-e2e='requestEth_done_button'
+        data-e2e='requestEthDoneButton'
         fullwidth
       >
         <FormattedMessage id='modals.requestether.done' defaultMessage='Done' />

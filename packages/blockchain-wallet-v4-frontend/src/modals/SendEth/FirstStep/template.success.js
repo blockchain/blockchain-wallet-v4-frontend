@@ -224,7 +224,7 @@ const FirstStep = props => {
             name='description'
             component={TextAreaDebounced}
             placeholder="What's this transaction for?"
-            data-e2e='sendEth_description'
+            data-e2e='sendEthDescription'
             fullwidth
           />
         </FormItem>
