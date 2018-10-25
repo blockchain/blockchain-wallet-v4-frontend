@@ -78,7 +78,7 @@ class TabsContainer extends React.PureComponent {
           onClick={() => this.handleClick('total')}
         >
           <TabIcon name='bank-filled' />
-          <TabHeader>
+          <TabHeader data-e2e='totalTab'>
             <FormattedMessage
               id='scenes.home.balance.total'
               defaultMessage='Total'
@@ -90,7 +90,7 @@ class TabsContainer extends React.PureComponent {
           onClick={() => this.handleClick('wallet')}
         >
           <TabIcon name='wallet' />
-          <TabHeader>
+          <TabHeader data-e2e='walletTab'>
             <FormattedMessage
               id='scenes.home.balance.wallet'
               defaultMessage='Wallet'
@@ -102,7 +102,7 @@ class TabsContainer extends React.PureComponent {
           onClick={() => this.handleClick('lockbox')}
         >
           <TabIcon name='lock' size='28px' />
-          <TabHeader>
+          <TabHeader data-e2e='lockboxTab'>
             <FormattedMessage
               id='scenes.home.balance.lockbox'
               defaultMessage='Lockbox'

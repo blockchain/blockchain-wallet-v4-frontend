@@ -94,7 +94,7 @@ const RequestEth = props => {
           </FormLabel>
         </FormItem>
         <AddressContainer>
-          <CopyClipboard address={address} />
+          <CopyClipboard address={address} data-e2e='requestEth' />
         </AddressContainer>
       </FormGroup>
       {type === 'LOCKBOX' && (
@@ -126,7 +126,12 @@ const RequestEth = props => {
         </ScanMessage>
         <QRCodeReact value={address} size={150} />
       </QRCodeContainer>
-      <Button type='submit' nature='primary' fullwidth>
+      <Button
+        type='submit'
+        nature='primary'
+        data-e2e='requestEthDoneButton'
+        fullwidth
+      >
         <FormattedMessage id='modals.requestether.done' defaultMessage='Done' />
       </Button>
     </Form>

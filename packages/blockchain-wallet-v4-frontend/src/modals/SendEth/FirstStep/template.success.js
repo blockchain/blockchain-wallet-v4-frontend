@@ -205,6 +205,7 @@ const FirstStep = props => {
               insufficientFunds,
               maximumAmount
             ]}
+            data-e2e='sendEth'
           />
         </FormItem>
       </FormGroup>
@@ -223,6 +224,7 @@ const FirstStep = props => {
             name='description'
             component={TextAreaDebounced}
             placeholder="What's this transaction for?"
+            data-e2e='sendEthDescription'
             fullwidth
           />
         </FormItem>
