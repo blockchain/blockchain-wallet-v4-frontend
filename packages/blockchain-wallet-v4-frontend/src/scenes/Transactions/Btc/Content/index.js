@@ -21,16 +21,18 @@ class ContentContainer extends React.PureComponent {
     this.props.txActions.initialized()
   }
 
-  handleArchive = (address) => this.props.coreWalletActions.setAddressArchived(address, true)
+  handleArchive = address =>
+    this.props.coreWalletActions.setAddressArchived(address, true)
 
   render () {
-    const { empty, pages, search, buysellPartner } = this.props
+    const { empty, pages, currency, search, buysellPartner } = this.props
 
     return (
       <Content
         empty={empty}
         search={search}
         pages={pages}
+        currency={currency}
         onRefresh={this.handleRefresh}
         buysellPartner={buysellPartner}
         onArchive={this.handleArchive}

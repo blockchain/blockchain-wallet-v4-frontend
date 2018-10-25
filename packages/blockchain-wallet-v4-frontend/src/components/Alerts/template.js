@@ -8,7 +8,7 @@ import * as C from 'services/AlertService'
 const Wrapper = styled.div`
   position: absolute;
   bottom: 0;
-  left: 0;
+  right: 0;
   width: 100%;
   display: flex;
   flex-direction: column-reverse;
@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 
   @media (min-width: 768px) {
     bottom: 5px;
-    left: 5px;
+    right: 5px;
     width: auto;
   }
 `
@@ -194,6 +194,13 @@ const selectMessage = (message, data = undefined) => {
         <FormattedMessage
           id='components.alerts.email_update_success'
           defaultMessage='Your email has been updated and your confirmation code has been sent.'
+        />
+      )
+    case C.EMAIL_UPDATE_SUCCESS_LINK:
+      return (
+        <FormattedMessage
+          id='components.alerts.email_update_success_link'
+          defaultMessage='Your email has been updated and a confirmation email has been sent to the new address.'
         />
       )
     case C.EMAIL_VERIFY_ERROR:
@@ -613,14 +620,14 @@ const selectMessage = (message, data = undefined) => {
       return (
         <FormattedMessage
           id='components.alerts.second_password_enabled_success'
-          defaultMessage='Second password enabled'
+          defaultMessage='Second password successfully enabled'
         />
       )
     case C.SECOND_PASSWORD_DISABLED_SUCCESS:
       return (
         <FormattedMessage
           id='components.alerts.second_password_disabled_success'
-          defaultMessage='Second password disabled'
+          defaultMessage='Second password successfully disabled'
         />
       )
     case C.SEND_BCH_ERROR:
@@ -862,6 +869,20 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage='Failed to update address label.'
         />
       )
+    case C.VERIFY_EMAIL_SENT:
+      return (
+        <FormattedMessage
+          id='components.alerts.verify_email_sent'
+          defaultMessage='Verification email sent. Please check your email.'
+        />
+      )
+    case C.VERIFY_EMAIL_SENT_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.verify_email_sent_error'
+          defaultMessage='Error sending verification email. Please try again later.'
+        />
+      )
     case C.WALLET_LOADING_ERROR:
       return (
         <FormattedMessage
@@ -937,6 +958,48 @@ const selectMessage = (message, data = undefined) => {
         <FormattedMessage
           id='components.alerts.address_and_private_key_incorrect'
           defaultMessage='Not a valid Bitcoin Private Key or Address.'
+        />
+      )
+    case C.LOCKBOX_SETUP_SUCCESS:
+      return (
+        <FormattedMessage
+          id='components.alerts.lockbox_setup_success'
+          defaultMessage='Lockbox successfully added.'
+        />
+      )
+    case C.LOCKBOX_SETUP_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.lockbox_setup_error'
+          defaultMessage='Failed to setup Lockbox.'
+        />
+      )
+    case C.LOCKBOX_UPDATE_SUCCESS:
+      return (
+        <FormattedMessage
+          id='components.alerts.lockbox_update_success'
+          defaultMessage='Lockbox settings successfully updated.'
+        />
+      )
+    case C.LOCKBOX_UPDATE_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.lockbox_update_error'
+          defaultMessage='Failed to update Lockbox settings.'
+        />
+      )
+    case C.LOCKBOX_DELETE_SUCCESS:
+      return (
+        <FormattedMessage
+          id='components.alerts.lockbox_delete_success'
+          defaultMessage='Lockbox successfully deleted.'
+        />
+      )
+    case C.LOCKBOX_DELETE_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.lockbox_delete_error'
+          defaultMessage='Failed to remove Lockbox.'
         />
       )
     default:

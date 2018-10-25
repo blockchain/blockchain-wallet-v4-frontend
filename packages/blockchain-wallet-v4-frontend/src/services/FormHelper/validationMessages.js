@@ -136,6 +136,12 @@ export const RequiredNumberMessage = () => (
     defaultMessage='Invalid number'
   />
 )
+export const RequiredPhraseMessage = () => (
+  <FormattedMessage
+    id='formhelper.requiredphrase'
+    defaultMessage='Incorrect phrase'
+  />
+)
 export const RequiredSSNMessage = () => (
   <FormattedMessage
     id='formhelper.requiredssn'
@@ -160,5 +166,12 @@ export const UnacceptedTermsMessage = () => (
   <FormattedMessage
     id='formhelper.unacceptedterms'
     defaultMessage='You must agree to the terms and conditions'
+  />
+)
+
+export const UniqueDeviceName = () => (
+  <FormattedMessage
+    id='formhelper.uniquedevicename'
+    defaultMessage='Device name is already in use.'
   />
 )

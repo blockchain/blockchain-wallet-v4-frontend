@@ -18,6 +18,7 @@ const INITIAL_STATE = {
   latest_block: Remote.NotAsked,
   rates: Remote.NotAsked,
   transactions: [],
+  transactions_at_bound: false,
   transaction_history: Remote.NotAsked
 }
 
@@ -93,6 +94,9 @@ const bchReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_BCH_TRANSACTIONS_FAILURE: {
       return assoc('transactions', [Remote.Failure(payload)], state)
+    }
+    case AT.BCH_TRANSACTIONS_AT_BOUND: {
+      return assoc('transactions_at_bound', payload, state)
     }
     case AT.FETCH_BCH_TRANSACTION_HISTORY_LOADING: {
       return assoc('transaction_history', Remote.Loading, state)

@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import QRCodeReact from 'qrcode.react'
 
 import { required } from 'services/FormHelper'
 import {
+  Banner,
   Button,
   Separator,
   Text,
@@ -18,7 +19,7 @@ import {
   FormGroup,
   FormItem,
   FormLabel,
-  SelectBoxBitcoinAddresses,
+  SelectBoxBCHAddresses,
   SelectBoxCoin
 } from 'components/Form'
 import CopyClipboard from 'components/CopyClipboard'
@@ -41,9 +42,25 @@ const QRCodeContainer = styled.div`
 const ScanMessage = styled.div`
   padding-bottom: 20px;
 `
+const BannerContainer = styled.div`
+  margin-top: 5px;
+  .link {
+    cursor: pointer;
+    text-decoration: underline;
+    color: ${props => props.theme['brrand-primary']};
+  }
+`
 
 const RequestBch = props => {
-  const { submitting, invalid, handleSubmit, receiveAddress } = props
+  const {
+    submitting,
+    invalid,
+    handleSubmit,
+    receiveAddress,
+    handleOpenLockbox,
+    legacyAddress,
+    type
+  } = props
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -66,10 +83,10 @@ const RequestBch = props => {
           </FormLabel>
           <Field
             name='to'
-            component={SelectBoxBitcoinAddresses}
+            coin='BCH'
+            component={SelectBoxBCHAddresses}
             includeAll={false}
             validate={[required]}
-            coin='BCH'
           />
         </FormItem>
       </FormGroup>
@@ -89,6 +106,17 @@ const RequestBch = props => {
           </AddressContainer>
         </FormItem>
       </FormGroup>
+      {type === 'LOCKBOX' && (
+        <BannerContainer onClick={handleOpenLockbox}>
+          <Banner type='alert'>
+            <FormattedHTMLMessage
+              id='modals.requestbch.firststep.lockbox'
+              defaultMessage='Please confirm this address on your lockbox device by opening your Bitcoin Cash app. On your device the address will be displayed in the legacy format {legacyAddress}. <span class=&quot;link&quot;>Click here</span> once the Bitcoin Cash app has been opened.'
+              values={{ legacyAddress }}
+            />
+          </Banner>
+        </BannerContainer>
+      )}
       <Separator margin={'20px 0'}>
         <Text size='14px' weight={300} uppercase>
           <FormattedMessage id='modals.requestbch.or' defaultMessage='Or' />

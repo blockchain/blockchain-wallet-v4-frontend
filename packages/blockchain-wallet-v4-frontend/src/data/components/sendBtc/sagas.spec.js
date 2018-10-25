@@ -128,7 +128,7 @@ describe('sendBtc sagas', () => {
       saga.next(defaultIndex)
 
       expect(paymentMock.from).toHaveBeenCalledTimes(1)
-      expect(paymentMock.from).toHaveBeenCalledWith(defaultIndex)
+      expect(paymentMock.from).toHaveBeenCalledWith(defaultIndex, 'ACCOUNT')
     })
 
     it('should update payment fee from value', () => {
@@ -322,12 +322,8 @@ describe('sendBtc sagas', () => {
       })
     })
 
-    it('should put action to close all modals', () => {
-      saga.next(secondPassword).put(actions.modals.closeAllModals())
-    })
-
     it('should sign payment with second passowrd', () => {
-      saga.next()
+      saga.next(secondPassword)
       expect(paymentMock.sign).toHaveBeenCalledTimes(1)
       expect(paymentMock.sign).toHaveBeenCalledWith(secondPassword)
     })
@@ -337,14 +333,14 @@ describe('sendBtc sagas', () => {
       expect(paymentMock.publish).toHaveBeenCalledTimes(1)
     })
 
+    it('should put btc fetch data action', () => {
+      saga.next(paymentMock).put(actions.core.data.bitcoin.fetchData())
+    })
+
     it('should put btc payment updated success action', () => {
       saga
         .next(paymentMock)
         .put(A.sendBtcPaymentUpdatedSuccess(paymentMock.value()))
-    })
-
-    it('should put btc fetch data action', () => {
-      saga.next(paymentMock).put(actions.core.data.bitcoin.fetchData())
     })
 
     it('should set transaction note if transaction has description', () => {
@@ -360,6 +356,12 @@ describe('sendBtc sagas', () => {
         .next()
         .put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
         .save(beforeError)
+    })
+
+    it('should put action to close all modals', () => {
+      saga
+        .next()
+        .put(actions.modals.closeAllModals())
         .next()
         .isDone()
     })
@@ -379,12 +381,8 @@ describe('sendBtc sagas', () => {
           )
       })
 
-      it('should display success message', () => {
-        saga
-          .next()
-          .put(actions.alerts.displayError(C.SEND_BTC_ERROR))
-          .next()
-          .isDone()
+      it('should display error message', () => {
+        saga.next().put(actions.alerts.displayError(C.SEND_BTC_ERROR))
       })
     })
 

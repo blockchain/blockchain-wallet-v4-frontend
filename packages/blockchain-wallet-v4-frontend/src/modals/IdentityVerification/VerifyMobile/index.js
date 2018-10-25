@@ -22,7 +22,6 @@ class VerifyMobileContainer extends React.PureComponent {
       activeField,
       smsNumber,
       step,
-      mobileVerifiedError,
       countryCode,
       actions,
       handleSubmit,
@@ -36,7 +35,6 @@ class VerifyMobileContainer extends React.PureComponent {
         activeField={activeField}
         step={step}
         countryCode={countryCode}
-        mobileVerifiedError={mobileVerifiedError}
         editSmsNumber={actions.setSmsStep.bind(null, SMS_STEPS.edit)}
         updateSmsNumber={actions.updateSmsNumber}
         resendCode={actions.resendSmsCode}

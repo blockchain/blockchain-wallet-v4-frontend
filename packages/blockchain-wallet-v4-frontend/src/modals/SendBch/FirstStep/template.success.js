@@ -2,11 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
+import * as bowser from 'bowser'
+import styled from 'styled-components'
 
 import { required, validBitcoinCashAddress } from 'services/FormHelper'
 import {
+  Banner,
   Button,
   Icon,
+  Text,
   TooltipIcon,
   TooltipHost
 } from 'blockchain-info-components'
@@ -16,7 +20,7 @@ import {
   FormGroup,
   FormItem,
   FormLabel,
-  SelectBoxBitcoinAddresses,
+  SelectBoxBCHAddresses,
   SelectBoxCoin,
   TextBox,
   TextAreaDebounced
@@ -30,6 +34,9 @@ import {
 } from './validation'
 import { Row, AddressButton } from 'components/Send'
 import QRCodeCapture from 'components/QRCodeCapture'
+const BrowserWarning = styled(Banner)`
+  margin: -4px 0 8px;
+`
 
 const FirstStep = props => {
   const {
@@ -44,6 +51,10 @@ const FirstStep = props => {
     totalFee,
     pristine
   } = props
+  const disableLockboxSend =
+    from &&
+    from.type === 'LOCKBOX' &&
+    !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -66,14 +77,24 @@ const FirstStep = props => {
           </FormLabel>
           <Field
             name='from'
-            component={SelectBoxBitcoinAddresses}
+            coin='BCH'
+            component={SelectBoxBCHAddresses}
             includeAll={false}
             excludeWatchOnly
             validate={[required]}
-            coin='BCH'
           />
         </FormItem>
       </FormGroup>
+      {disableLockboxSend && (
+        <BrowserWarning type='warning'>
+          <Text color='warning' size='12px'>
+            <FormattedMessage
+              id='modals.sendbch.firststep.lockboxwarn'
+              defaultMessage='Sending Bitcoin Cash from Lockbox can only be done while using the Chrome browser'
+            />
+          </Text>
+        </BrowserWarning>
+      )}
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for='to'>
@@ -87,7 +108,7 @@ const FirstStep = props => {
               <Field
                 name='to'
                 coin='BCH'
-                component={SelectBoxBitcoinAddresses}
+                component={SelectBoxBCHAddresses}
                 menuIsOpen={!destination}
                 exclude={[from.label]}
                 validate={[required]}
@@ -180,7 +201,7 @@ const FirstStep = props => {
         <Button
           type='submit'
           nature='primary'
-          disabled={submitting || invalid || pristine}
+          disabled={submitting || invalid || pristine || disableLockboxSend}
         >
           <FormattedMessage
             id='modals.sendBch.firststep.continue'

@@ -30,3 +30,8 @@ export const setBitcoinCashWelcome = displayed => ({
 })
 
 export const hideKycCompleted = () => ({ type: AT.HIDE_KYC_COMPLETED })
+
+export const setTotalBalancesDropdown = payload => ({
+  type: AT.SET_TOTAL_BALANCES_DROPDOWN,
+  payload
+})

@@ -10,7 +10,7 @@ import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import sagas from './sagas'
 import reducers from '../reducers'
 
-const blockchainData = {
+const btcFetchData = {
   addresses: [
     {
       address: '1HtmX6EasEE91ymDguhZ2pF9mSgEPbxxpH'
@@ -36,7 +36,7 @@ const rateData = { rate: 5213 }
 const fiatAtTime = { value: 33 }
 
 const api = {
-  fetchBlockchainData: jest.fn(() => blockchainData),
+  fetchBlockchainData: jest.fn(() => btcFetchData),
   getBitcoinFee: jest.fn(() => feeData),
   getBitcoinFiatAtTime: jest.fn(() => fiatAtTime),
   getBitcoinTicker: jest.fn(() => rateData),
@@ -48,10 +48,10 @@ describe('bitcoin data sagas', () => {
 
   describe('fetchData', () => {
     const mockContext = '1HtmX6EasEE91ymDguhZ2pF9mSgEPbxxpH'
-    const bitcoinData = {
-      addresses: indexBy(prop('address'), prop('addresses', blockchainData)),
-      info: path(['wallet'], blockchainData),
-      latest_block: path(['info', 'latest_block'], blockchainData)
+    const btcData = {
+      addresses: indexBy(prop('address'), prop('addresses', btcFetchData)),
+      info: path(['wallet'], btcFetchData),
+      latest_block: path(['info', 'latest_block'], btcFetchData)
     }
 
     const saga = testSaga(dataBtcSagas.fetchData)
@@ -61,7 +61,7 @@ describe('bitcoin data sagas', () => {
     })
 
     it('should select wallet', () => {
-      saga.next().select(selectors.wallet.getContext)
+      saga.next().select(S.getContext)
     })
 
     it('should get data from api', () => {
@@ -72,8 +72,8 @@ describe('bitcoin data sagas', () => {
 
     it('should dispatch success action', () => {
       saga
-        .next(blockchainData)
-        .put(A.fetchDataSuccess(bitcoinData))
+        .next(btcFetchData)
+        .put(A.fetchDataSuccess(btcData))
         .next()
         .isDone()
     })
@@ -94,15 +94,15 @@ describe('bitcoin data sagas', () => {
       it('should add bitcoin data to the state', () => {
         return expectSaga(dataBtcSagas.fetchData)
           .withReducer(reducers)
-          .provide([[select(selectors.wallet.getContext), mockContext]])
+          .provide([[select(S.getContext), mockContext]])
           .run()
           .then(result => {
             expect(result.storeState.bitcoin).toMatchObject({
               addresses: Remote.Success(
-                indexBy(prop('address'), prop('addresses', blockchainData))
+                indexBy(prop('address'), prop('addresses', btcFetchData))
               ),
-              info: Remote.Success(blockchainData.wallet),
-              latest_block: Remote.Success(blockchainData.info.latest_block)
+              info: Remote.Success(btcFetchData.wallet),
+              latest_block: Remote.Success(btcFetchData.info.latest_block)
             })
           })
       })
@@ -236,12 +236,20 @@ describe('bitcoin data sagas', () => {
       saga.save(conditional)
     })
 
-    it('should put loading state', () => {
-      saga.next(pages).put(A.fetchTransactionsLoading(payload.reset))
+    it('should select transactionsAtBound state', () => {
+      saga.next(pages).select(S.getTransactionsAtBound)
     })
 
-    it('should select context', () => {
+    it('should put loading state', () => {
+      saga.next(false).put(A.fetchTransactionsLoading(payload.reset))
+    })
+
+    it('should select wallet context', () => {
       saga.next().select(selectors.wallet.getWalletContext)
+    })
+
+    it('should select full context', () => {
+      saga.next(mockContext).select(S.getContext)
     })
 
     it('should call fetchBlockchainData', () => {
@@ -252,10 +260,14 @@ describe('bitcoin data sagas', () => {
       })
     })
 
+    it('should set transactionsAtBound', () => {
+      saga.next(btcFetchData).put(A.transactionsAtBound(true))
+    })
+
     it('should dispatch success with data', () => {
       saga
-        .next(blockchainData)
-        .put(A.fetchTransactionsSuccess(blockchainData.txs, payload.reset))
+        .next(btcFetchData)
+        .put(A.fetchTransactionsSuccess(btcFetchData.txs, payload.reset))
     })
 
     it('should finish', () => {
@@ -266,7 +278,7 @@ describe('bitcoin data sagas', () => {
       saga.restore(conditional)
       saga
         .next([blankPage])
-        .next()
+        .next(true)
         .isDone()
     })
 
@@ -293,12 +305,13 @@ describe('bitcoin data sagas', () => {
           .withReducer(reducers)
           .provide([
             [select(selectors.wallet.getWalletContext), mockContext],
+            [select(S.getContext), mockContext],
             [select(S.getTransactions), pages]
           ])
           .run()
           .then(result => {
             expect(result.storeState.bitcoin).toMatchObject({
-              transactions: [Remote.Success(blockchainData.txs)]
+              transactions: [Remote.Success(btcFetchData.txs)]
             })
           })
       })
@@ -319,12 +332,13 @@ describe('bitcoin data sagas', () => {
           })
           .provide([
             [select(selectors.wallet.getWalletContext), mockContext],
+            [select(S.getContext), mockContext],
             [select(S.getTransactions), pages]
           ])
           .run()
           .then(result => {
             expect(result.storeState.bitcoin).toMatchObject({
-              transactions: append(Remote.Success(blockchainData.txs), [
+              transactions: append(Remote.Success(btcFetchData.txs), [
                 Remote.Success(initTx)
               ])
             })
@@ -384,7 +398,7 @@ describe('bitcoin data sagas', () => {
       })
         .provide([
           [select(selectors.settings.getCurrency), currency],
-          [select(selectors.wallet.getWalletContext), mockContext]
+          [select(S.getContext), mockContext]
         ])
         .call(
           api.getTransactionHistory,
@@ -430,7 +444,7 @@ describe('bitcoin data sagas', () => {
           .withReducer(reducers)
           .provide([
             [select(selectors.settings.getCurrency), Remote.of('USD')],
-            [select(selectors.wallet.getWalletContext), mockContext]
+            [select(S.getContext), mockContext]
           ])
           .run()
           .then(result => {

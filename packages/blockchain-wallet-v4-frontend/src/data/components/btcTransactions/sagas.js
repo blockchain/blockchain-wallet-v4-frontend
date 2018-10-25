@@ -7,16 +7,14 @@ export const logLocation = 'components/btcTransactions/sagas'
 export default ({ coreSagas }) => {
   const initialized = function*() {
     try {
-      const defaultSource = ''
+      const defaultSource = 'all'
       const initialValues = {
         source: defaultSource,
         status: '',
         search: ''
       }
       yield put(actions.form.initialize('btcTransactions', initialValues))
-      yield put(
-        actions.core.data.bitcoin.fetchTransactions(defaultSource, true)
-      )
+      yield put(actions.core.data.bitcoin.fetchTransactions('', true))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }

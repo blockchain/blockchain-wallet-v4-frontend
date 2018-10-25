@@ -42,14 +42,16 @@ describe('Btc Transactions selectors', () => {
             buySell: {
               getMetaData: Remote.of({})
             }
-          }
+          },
+          currency: Remote.of('USD')
         }
       }
 
       const selected = getData.resultFunc(
         mockParams.form.btcTransactions,
         mockParams.core.common.btc.getWalletTransactions,
-        mockParams.core.kvStore.buySell.getMetaData
+        mockParams.core.kvStore.buySell.getMetaData,
+        mockParams.core.currency
       )
 
       expect(selected.pages).toEqual([
@@ -58,6 +60,7 @@ describe('Btc Transactions selectors', () => {
         }
       ])
       expect(selected.empty).toEqual(false)
+      expect(selected.currency).toEqual('USD')
       expect(selected.buysellPartner).toEqual(undefined)
     })
   })

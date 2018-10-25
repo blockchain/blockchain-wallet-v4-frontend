@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-
+import { keysIn } from 'ramda'
 import Images from './Images'
 
 const BaseImage = styled.img`
@@ -11,13 +11,15 @@ const BaseImage = styled.img`
 `
 
 const Image = props => {
-  const { name, ...rest } = props
+  const { name, srcset, ...rest } = props
   const file = Images[name]
+  const srcSet = srcset
+    ? keysIn(srcset).map(name => `${Images[name]} ${srcset[name]}`)
+    : []
   if (!file) {
     return <img />
   }
-
-  return <BaseImage src={file} {...rest} />
+  return <BaseImage src={file} srcSet={srcSet.join(', ')} {...rest} />
 }
 
 Image.defaultProps = {

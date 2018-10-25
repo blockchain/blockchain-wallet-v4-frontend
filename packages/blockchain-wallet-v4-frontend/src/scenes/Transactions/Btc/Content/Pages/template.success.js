@@ -21,6 +21,7 @@ const Success = props => {
           transaction={transaction}
           coin='BTC'
           minConfirmations={3}
+          currency={props.currency}
           buysellPartner={props.buysellPartner}
         />
       ))}

@@ -95,6 +95,20 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const authNabu = function*() {
+    yield put(actions.components.identityVerification.fetchSupportedCountries())
+    yield take(
+      action =>
+        action.type ===
+          actionTypes.components.identityVerification.SET_SUPPORTED_COUNTRIES &&
+        !Remote.Loading.is(action.payload.countries)
+    )
+    const userFlowSupported = (yield select(
+      selectors.modules.profile.userFlowSupported
+    )).getOrElse(false)
+    if (userFlowSupported) yield put(actions.modules.profile.signIn())
+  }
+
   const loginRoutineSaga = function*(mobileLogin, firstLogin) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
@@ -103,9 +117,6 @@ export default ({ api, coreSagas }) => {
         yield call(upgradeWalletSaga)
       }
       yield put(actions.auth.authenticate())
-      yield put(actions.middleware.webSocket.bch.startSocket())
-      yield put(actions.middleware.webSocket.btc.startSocket())
-      yield put(actions.middleware.webSocket.eth.startSocket())
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
       // If there was no ethereum metadata kv store entry, we need to create one and that requires the second password.
       yield call(
@@ -113,12 +124,13 @@ export default ({ api, coreSagas }) => {
         askSecondPasswordEnhancer
       )
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
+      yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
+      yield put(actions.middleware.webSocket.bch.startSocket())
+      yield put(actions.middleware.webSocket.btc.startSocket())
+      yield put(actions.middleware.webSocket.eth.startSocket())
       yield put(actions.router.push('/home'))
       yield call(coreSagas.settings.fetchSettings)
-      const userFlowSupported = (yield select(
-        selectors.modules.profile.userFlowSupported
-      )).getOrElse(false)
-      if (userFlowSupported) yield put(actions.modules.profile.signIn())
+      yield call(authNabu)
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.loginSuccess())
       yield put(actions.auth.startLogoutTimer())
@@ -504,6 +516,7 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
+    authNabu,
     checkAndHandleVulnerableAddress,
     checkDataErrors,
     deauthorizeBrowser,

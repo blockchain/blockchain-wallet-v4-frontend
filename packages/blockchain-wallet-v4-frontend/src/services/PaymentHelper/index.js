@@ -1,17 +1,23 @@
 import { selectors } from 'data'
-import { curry } from 'ramda'
+import { curry, prop } from 'ramda'
 import { utils } from 'blockchain-wallet-v4/src'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 export const btcToLabel = curry((payment, state) => {
   const target = payment.to[0]
   switch (target.type) {
-    case 'TO.ACCOUNT':
+    case ADDRESS_TYPES.ACCOUNT:
       return selectors.core.wallet.getAccountLabel(state)(target.accountIndex)
-    case 'TO.ADDRESS':
+    case ADDRESS_TYPES.ADDRESS:
       let label = selectors.core.wallet.getLegacyAddressLabel(state)(
         target.address
       )
       return label || target.address
+    case ADDRESS_TYPES.LOCKBOX:
+      return selectors.core.kvStore.lockbox
+        .getLockboxBtcAccount(state, target.xpub)
+        .map(prop('label'))
+        .getOrElse(target.address)
     default:
       return target.address
   }
@@ -19,17 +25,22 @@ export const btcToLabel = curry((payment, state) => {
 
 export const btcFromLabel = curry((payment, state) => {
   switch (payment.fromType) {
-    case 'FROM.ACCOUNT':
+    case ADDRESS_TYPES.ACCOUNT:
       return selectors.core.wallet.getAccountLabel(state)(
         payment.fromAccountIdx
       )
-    case 'FROM.LEGACY':
+    case ADDRESS_TYPES.LEGACY:
       const label = selectors.core.wallet.getLegacyAddressLabel(state)(
         payment.from[0]
       )
       return label || payment.from[0]
-    case 'FROM.WATCH_ONLY':
-    case 'FROM.EXTERNAL':
+    case ADDRESS_TYPES.LOCKBOX:
+      return selectors.core.kvStore.lockbox
+        .getLockboxBtcAccount(state, payment.from[0])
+        .map(prop('label'))
+        .getOrElse(payment.from[0])
+    case ADDRESS_TYPES.WATCH_ONLY:
+    case ADDRESS_TYPES.EXTERNAL:
     default:
       return payment.from[0]
   }
@@ -37,15 +48,23 @@ export const btcFromLabel = curry((payment, state) => {
 
 export const isBchLegacyAddress = curry((payment, state) => {
   const target = payment.to[0]
-  return target.type === 'TO.ADDRESS' && !utils.bch.isCashAddr(target.address)
+  return (
+    target.type === ADDRESS_TYPES.ADDRESS &&
+    !utils.bch.isCashAddr(target.address)
+  )
 })
 
 export const bchToLabel = curry((payment, state) => {
   const target = payment.to[0]
   switch (target.type) {
-    case 'TO.ACCOUNT':
+    case ADDRESS_TYPES.ACCOUNT:
       return selectors.core.kvStore.bch
         .getAccountLabel(state)(target.accountIndex)
+        .getOrElse(target.address)
+    case ADDRESS_TYPES.LOCKBOX:
+      return selectors.core.kvStore.lockbox
+        .getLockboxBchAccount(state, target.xpub)
+        .map(prop('label'))
         .getOrElse(target.address)
     default:
       return target.address
@@ -54,16 +73,21 @@ export const bchToLabel = curry((payment, state) => {
 
 export const bchFromLabel = curry((payment, state) => {
   switch (payment.fromType) {
-    case 'FROM.ACCOUNT':
+    case ADDRESS_TYPES.ACCOUNT:
       return selectors.core.kvStore.bch
         .getAccountLabel(state)(payment.fromAccountIdx)
         .getOrElse(payment.from[0])
-    case 'FROM.LEGACY':
+    case ADDRESS_TYPES.LEGACY:
       return utils.bch.toCashAddr(payment.from[0], true)
-    case 'FROM.WATCH_ONLY':
+    case ADDRESS_TYPES.WATCH_ONLY:
       return utils.bch.toCashAddr(payment.from[0], true)
-    case 'FROM.EXTERNAL':
+    case ADDRESS_TYPES.EXTERNAL:
       return utils.bch.toCashAddr(payment.from[0], true)
+    case ADDRESS_TYPES.LOCKBOX:
+      return selectors.core.kvStore.lockbox
+        .getLockboxBchAccount(state, payment.from[0])
+        .map(prop('label'))
+        .getOrElse(payment.from[0])
     default:
       return payment.from[0]
   }
@@ -72,9 +96,14 @@ export const bchFromLabel = curry((payment, state) => {
 export const ethFromLabel = curry((payment, state) => {
   const from = payment.from
   switch (from.type) {
-    case 'ACCOUNT':
+    case ADDRESS_TYPES.ACCOUNT:
       return selectors.core.kvStore.ethereum
         .getAccountLabel(state, from.address)
+        .getOrElse(from.address)
+    case ADDRESS_TYPES.LOCKBOX:
+      return selectors.core.kvStore.lockbox
+        .getLockboxEthAccount(state, from.address)
+        .map(prop('label'))
         .getOrElse(from.address)
     default:
       return from.address

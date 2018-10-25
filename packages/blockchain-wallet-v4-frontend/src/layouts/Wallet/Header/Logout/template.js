@@ -25,7 +25,14 @@ const Logout = props => {
   const { handleLogout } = props
 
   return (
-    <LogoutLink size='14px' weight={300} color='white' onClick={handleLogout}>
+    <LogoutLink
+      size='14px'
+      weight={300}
+      color='white'
+      uppercase
+      onClick={handleLogout}
+      data-e2e='logoutLink'
+    >
       <FormattedMessage
         id='layouts.wallet.header.logout.signout'
         defaultMessage='Sign Out'

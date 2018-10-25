@@ -124,7 +124,7 @@ describe('sendBch sagas', () => {
       saga.next(Remote.of(defaultIndex))
 
       expect(paymentMock.from).toHaveBeenCalledTimes(1)
-      expect(paymentMock.from).toHaveBeenCalledWith(defaultIndex)
+      expect(paymentMock.from).toHaveBeenCalledWith(defaultIndex, 'ACCOUNT')
     })
 
     it('should update payment fee from value', () => {
@@ -313,12 +313,8 @@ describe('sendBch sagas', () => {
       })
     })
 
-    it('should put action to close all modals', () => {
-      saga.next(secondPassword).put(actions.modals.closeAllModals())
-    })
-
     it('should sign payment with second passowrd', () => {
-      saga.next()
+      saga.next(secondPassword)
       expect(paymentMock.sign).toHaveBeenCalledTimes(1)
       expect(paymentMock.sign).toHaveBeenCalledWith(secondPassword)
     })
@@ -326,6 +322,10 @@ describe('sendBch sagas', () => {
     it('should publish payment', () => {
       saga.next(paymentMock)
       expect(paymentMock.publish).toHaveBeenCalledTimes(1)
+    })
+
+    it('should put bch fetch data action', () => {
+      saga.next(paymentMock).put(actions.core.data.bch.fetchData())
     })
 
     it('should put bch payment updated success action', () => {
@@ -338,10 +338,6 @@ describe('sendBch sagas', () => {
       saga.next().put(actions.core.kvStore.bch.setTxNotesBch(txId, description))
     })
 
-    it('should put bch fetch data action', () => {
-      saga.next(paymentMock).put(actions.core.data.bch.fetchData())
-    })
-
     it('should route to bch transactions', () => {
       saga.next().put(actions.router.push('/bch/transactions'))
     })
@@ -351,6 +347,12 @@ describe('sendBch sagas', () => {
         .next()
         .put(actions.alerts.displaySuccess(C.SEND_BCH_SUCCESS))
         .save(beforeError)
+    })
+
+    it('should put action to close all modals', () => {
+      saga
+        .next()
+        .put(actions.modals.closeAllModals())
         .next()
         .isDone()
     })
@@ -370,7 +372,7 @@ describe('sendBch sagas', () => {
           )
       })
 
-      it('should display success message', () => {
+      it('should display error message', () => {
         saga
           .next()
           .put(actions.alerts.displayError(C.SEND_BCH_ERROR))

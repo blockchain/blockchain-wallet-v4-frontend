@@ -1,7 +1,7 @@
 import { delay } from 'redux-saga'
 import { put, select, call, fork, cancel, spawn } from 'redux-saga/effects'
 import moment from 'moment'
-import { lift, equals } from 'ramda'
+import { equals, lift, prop } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4'
 import { selectors, actions } from 'data'
@@ -12,6 +12,7 @@ import { KYC_STATES } from './model'
 export const logLocation = 'modules/profile/sagas'
 export const authCredentialsGenerationError =
   'Failed to generate auth credentials'
+export const userRequiresRestoreError = 'User restored'
 export const authRetryDelay = 5000
 export const renewUserDelay = 30000
 
@@ -34,20 +35,16 @@ export default ({ api, coreSagas }) => {
       )).getOrElse(null)
       if (!userId || !lifetimeToken) return
 
-      yield call(startSession, userId, lifetimeToken, email, guid)
+      yield put(A.setApiToken(Remote.Loading))
+      renewSessionTask = yield fork(
+        renewSession,
+        userId,
+        lifetimeToken,
+        email,
+        guid,
+        0
+      )
     } catch (e) {}
-  }
-
-  const startSession = function*(userId, lifetimeToken, email, guid) {
-    yield put(A.setApiToken(Remote.Loading))
-    renewSessionTask = yield fork(
-      renewSession,
-      userId,
-      lifetimeToken,
-      email,
-      guid,
-      0
-    )
   }
 
   const renewSession = function*(
@@ -59,6 +56,22 @@ export default ({ api, coreSagas }) => {
   ) {
     try {
       yield delay(renewIn)
+      yield call(setSession, userId, lifetimeToken, email, guid)
+    } catch (e) {
+      yield put(A.setApiToken(Remote.Failure(e)))
+      yield spawn(
+        renewSession,
+        userId,
+        lifetimeToken,
+        email,
+        guid,
+        authRetryDelay
+      )
+    }
+  }
+
+  const setSession = function*(userId, lifetimeToken, email, guid) {
+    try {
       const { token: apiToken, expiresAt } = yield call(
         api.generateSession,
         userId,
@@ -74,15 +87,10 @@ export default ({ api, coreSagas }) => {
         .diff(moment())
       yield spawn(renewSession, userId, lifetimeToken, email, guid, expiresIn)
     } catch (e) {
-      yield put(A.setApiToken(Remote.Failure(e)))
-      yield spawn(
-        renewSession,
-        userId,
-        lifetimeToken,
-        email,
-        guid,
-        authRetryDelay
-      )
+      if (prop('description', e) === userRequiresRestoreError) {
+        return yield call(recoverUser)
+      }
+      throw e
     }
   }
 
@@ -91,6 +99,8 @@ export default ({ api, coreSagas }) => {
     yield put(A.setUserData(user))
     if (!renewUserTask && user.kycState === KYC_STATES.PENDING)
       renewUserTask = yield fork(renewUser)
+
+    return user
   }
 
   const renewUser = function*(renewIn = 0) {
@@ -106,11 +116,11 @@ export default ({ api, coreSagas }) => {
   }
 
   const clearSession = function*() {
-    if (renewSessionTask !== null) {
+    if (renewSessionTask) {
       yield cancel(renewSessionTask)
       renewSessionTask = null
     }
-    if (renewUserTask !== null) {
+    if (renewUserTask) {
       yield cancel(renewUserTask)
       renewUserTask = null
     }
@@ -140,9 +150,23 @@ export default ({ api, coreSagas }) => {
     return { userId, lifetimeToken }
   }
 
+  const recoverUser = function*() {
+    const retailToken = yield call(generateRetailToken)
+    const userId = (yield select(
+      selectors.core.kvStore.userCredentials.getUserId
+    )).getOrFail()
+    const lifetimeToken = (yield select(
+      selectors.core.kvStore.userCredentials.getLifetimeToken
+    )).getOrFail()
+    yield call(api.recoverUser, userId, lifetimeToken, retailToken)
+    const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
+    const guid = yield select(selectors.core.wallet.getGuid)
+    yield call(setSession, userId, lifetimeToken, email, guid)
+  }
+
   const createUser = function*() {
-    // session has already started
-    if (renewSessionTask !== null) return
+    const token = yield select(S.getApiToken)
+    if (!Remote.NotAsked.is(token)) return
 
     const userIdR = yield select(
       selectors.core.kvStore.userCredentials.getUserId
@@ -165,11 +189,12 @@ export default ({ api, coreSagas }) => {
       })
       .getOrElse({})
 
-    yield call(startSession, userId, lifetimeToken, email, guid)
+    yield call(setSession, userId, lifetimeToken, email, guid)
   }
 
   const updateUser = function*({ payload }) {
     const { data } = payload
+    const user = yield select(S.getUserData)
     const {
       id,
       address,
@@ -178,23 +203,24 @@ export default ({ api, coreSagas }) => {
       state,
       kycState,
       ...userData
-    } = yield select(S.getUserData)
+    } = user
     const updatedData = { ...userData, ...data }
 
-    if (equals(updatedData, userData)) return
+    if (equals(updatedData, userData)) return user
 
     yield call(api.updateUser, updatedData)
-    yield call(fetchUser)
+    return yield call(fetchUser)
   }
 
   const updateUserAddress = function*({ payload }) {
     const { address } = payload
-    const { address: prevAddress } = yield select(S.getUserData)
+    const user = yield select(S.getUserData)
+    const { address: prevAddress } = user
 
-    if (equals(address, prevAddress)) return
+    if (equals(address, prevAddress)) return user
 
     yield call(api.updateUserAddress, address)
-    yield call(fetchUser)
+    return yield call(fetchUser)
   }
 
   const syncUserWithWallet = function*() {
@@ -206,14 +232,17 @@ export default ({ api, coreSagas }) => {
   return {
     signIn,
     clearSession,
-    startSession,
+    setSession,
+    renewSession,
     generateRetailToken,
     generateAuthCredentials,
     createUser,
     updateUser,
     updateUserAddress,
     fetchUser,
+    renewApiSockets,
     renewUser,
-    syncUserWithWallet
+    syncUserWithWallet,
+    recoverUser
   }
 }

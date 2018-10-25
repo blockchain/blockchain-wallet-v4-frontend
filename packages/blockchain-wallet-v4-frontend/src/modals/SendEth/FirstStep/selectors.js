@@ -1,21 +1,28 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { prop, propOr, path } from 'ramda'
+import { prop, propOr, path, isEmpty } from 'ramda'
 import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 export const getData = createDeepEqualSelector(
   [
     selectors.components.sendEth.getPayment,
+    selectors.components.sendEth.getToToggled,
     selectors.components.sendEth.getFeeToggled,
-    selectors.core.data.ethereum.getCurrentBalance
+    selectors.core.data.ethereum.getCurrentBalance,
+    selectors.core.kvStore.lockbox.getDevices,
+    selectors.form.getFormValues('sendEth')
   ],
-  (paymentR, feeToggled, balanceR) => {
+  (paymentR, toToggled, feeToggled, balanceR, lockboxDevicesR, formValues) => {
+    const enableToggle = !isEmpty(lockboxDevicesR.getOrElse([]))
+
     const transform = payment => {
       const effectiveBalance = propOr('0', 'effectiveBalance', payment)
       const unconfirmedTx = prop('unconfirmedTx', payment)
       const isContract = prop('isContract', payment)
       const fee = propOr('0', 'fee', payment)
+      const destination = prop('to', formValues)
+      const from = prop('from', formValues)
       const regularFee = path(['fees', 'regular'], payment)
       const priorityFee = path(['fees', 'priority'], payment)
       const minFee = path(['fees', 'limits', 'min'], payment)
@@ -51,7 +58,11 @@ export const getData = createDeepEqualSelector(
         unconfirmedTx,
         isContract,
         fee,
+        toToggled,
         feeToggled,
+        enableToggle,
+        destination,
+        from,
         regularFee,
         priorityFee,
         minFee,

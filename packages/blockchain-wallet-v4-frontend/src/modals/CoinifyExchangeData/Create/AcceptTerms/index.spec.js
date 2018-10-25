@@ -38,7 +38,12 @@ describe('Coinify AcceptTerms Modal', () => {
     })
 
     it('should should be disabled with terms not clicked', () => {
-      expect(wrapper.find('Field[name="terms"]').find('input').props().checked).toBe(false)
+      expect(
+        wrapper
+          .find('Field[name="terms"]')
+          .find('input')
+          .props().checked
+      ).toBe(false)
       expect(wrapper.find('button').props().disabled).toBe(true)
     })
   })

@@ -1,4 +1,5 @@
-import { difference, has, values } from 'ramda'
+import moment from 'moment'
+import { difference, has, propOr, values } from 'ramda'
 
 export const PER_PAGE = 20
 
@@ -28,3 +29,31 @@ export const COMPLETE_STATES = [
 export const INCOMPLETE_STATES = difference(values(STATES), COMPLETE_STATES)
 
 export const isShapeShiftTrade = has('status')
+
+export const formatExchangeTrade = ({
+  id,
+  state,
+  createdAt,
+  deposit,
+  withdrawal,
+  fiatValue,
+  withdrawalFee,
+  rate,
+  refundAmount
+}) => {
+  return {
+    id,
+    status: state,
+    date: moment(createdAt).format(DATE_FORMAT),
+    sourceCoin: propOr('', 'symbol', deposit),
+    targetCoin: propOr('', 'symbol', withdrawal),
+    depositAmount: propOr('', 'value', deposit),
+    withdrawalAmount: propOr('', 'value', withdrawal),
+    targetFiat: propOr('', 'value', fiatValue),
+    currency: propOr('', 'symbol', fiatValue),
+    fee: propOr('', 'value', withdrawalFee),
+    rate,
+    refundAmount,
+    isShapeShiftTrade: false
+  }
+}

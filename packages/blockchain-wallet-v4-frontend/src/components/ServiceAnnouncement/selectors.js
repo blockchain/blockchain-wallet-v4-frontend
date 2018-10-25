@@ -9,13 +9,14 @@ export const getData = (state, ownProps) =>
       selectors.cache.getLastAnnouncementState,
       selectors.preferences.getLanguage
     ],
-    (announcementsR, announcementCachedState, language) => {
+    (announcementsR, announcementCached, language) => {
       const announcements = announcementsR.getOrElse({})
       const announcement = prop(ownProps.alertArea, announcements)
       if (keys(announcement).length) {
         const announcement = announcements[ownProps.alertArea]
         const cachedState =
-          announcementCachedState && announcementCachedState[announcement.id]
+          announcementCached && announcementCached[announcement.id]
+        const isCacheLoaded = announcementCached !== undefined
 
         return {
           announcements: announcements,
@@ -24,11 +25,16 @@ export const getData = (state, ownProps) =>
               ? cachedState.collapsed
               : false,
           language: language,
-          visible:
-            cachedState && cachedState.dismissed ? !cachedState.dismissed : true
+          showAnnounce: !isCacheLoaded
+            ? false
+            : announcementCached[announcement.id]
+              ? !announcementCached[announcement.id].dismissed
+              : true
         }
       } else {
-        return null
+        return {
+          announcements: {}
+        }
       }
     }
   )(state, ownProps)

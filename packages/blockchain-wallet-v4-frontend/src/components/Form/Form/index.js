@@ -8,9 +8,13 @@ const BaseForm = styled(ReduxForm)`
 `
 
 const Form = props => {
-  const { children, onSubmit } = props
+  const { children, onSubmit, className } = props
 
-  return <BaseForm onSubmit={onSubmit}>{children}</BaseForm>
+  return (
+    <BaseForm className={className} onSubmit={onSubmit}>
+      {children}
+    </BaseForm>
+  )
 }
 
 Form.propTypes = {

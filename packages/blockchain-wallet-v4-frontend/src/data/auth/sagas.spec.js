@@ -336,6 +336,7 @@ describe('authSagas', () => {
 
   describe('login routine', () => {
     const {
+      authNabu,
       checkDataErrors,
       loginRoutineSaga,
       logoutRoutine,
@@ -373,18 +374,6 @@ describe('authSagas', () => {
       saga.next(true).put(actions.auth.authenticate())
     })
 
-    it('should put action to start bitcoin cash socket', () => {
-      saga.next().put(actions.middleware.webSocket.bch.startSocket())
-    })
-
-    it('should put action to start bitcoin socket', () => {
-      saga.next().put(actions.middleware.webSocket.btc.startSocket())
-    })
-
-    it('should put action to start ethereum socket', () => {
-      saga.next().put(actions.middleware.webSocket.eth.startSocket())
-    })
-
     it('should fetch root', () => {
       saga
         .next()
@@ -404,6 +393,22 @@ describe('authSagas', () => {
       saga.next().call(coreSagas.kvStore.bch.fetchMetadataBch)
     })
 
+    it('should fetch lockbox metadata', () => {
+      saga.next().call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
+    })
+
+    it('should put action to start bitcoin cash socket', () => {
+      saga.next().put(actions.middleware.webSocket.bch.startSocket())
+    })
+
+    it('should put action to start bitcoin socket', () => {
+      saga.next().put(actions.middleware.webSocket.btc.startSocket())
+    })
+
+    it('should put action to start ethereum socket', () => {
+      saga.next().put(actions.middleware.webSocket.eth.startSocket())
+    })
+
     it('should redirect to home route', () => {
       saga.next().put(actions.router.push('/home'))
     })
@@ -412,18 +417,11 @@ describe('authSagas', () => {
       saga.next().call(coreSagas.settings.fetchSettings)
     })
 
-    it('should check if user flow is supported', () => {
+    it('should call auth nabu saga', () => {
       saga
         .next()
-        .select(selectors.modules.profile.userFlowSupported)
+        .call(authNabu)
         .save(beforeUserFlowCheck)
-    })
-
-    it('should trigger signin action if user flow is supported', () => {
-      saga
-        .next(Remote.of(true))
-        .put(actions.modules.profile.signIn())
-        .restore(beforeUserFlowCheck)
     })
 
     it('should call upgrade address labels saga', () => {

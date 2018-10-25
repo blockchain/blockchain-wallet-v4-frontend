@@ -9,6 +9,7 @@ export default ({ coreSagas }) => {
   return function*() {
     yield takeLatest(AT.SEND_ETH_INITIALIZED, sendEthSagas.initialized)
     yield takeLatest(AT.SEND_ETH_DESTROYED, sendEthSagas.destroyed)
+    yield takeLatest(AT.SEND_ETH_FIRST_STEP_TO_TOGGLED, sendEthSagas.toToggled)
     yield takeLatest(
       AT.SEND_ETH_FIRST_STEP_SUBMIT_CLICKED,
       sendEthSagas.firstStepSubmitClicked

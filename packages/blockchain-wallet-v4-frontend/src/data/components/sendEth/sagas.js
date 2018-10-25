@@ -1,5 +1,6 @@
 import { call, select, put, take } from 'redux-saga/effects'
-import { equals, identity, path, prop } from 'ramda'
+import { equals, identity, path, prop, head } from 'ramda'
+import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
@@ -8,8 +9,10 @@ import * as selectors from '../../selectors'
 import settings from 'config'
 import { initialize, change } from 'redux-form'
 import * as C from 'services/AlertService'
-import { promptForSecondPassword } from 'services/SagaService'
+import * as Lockbox from 'services/LockboxService'
+import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 export const logLocation = 'components/sendEth/sagas'
 
@@ -28,7 +31,15 @@ export default ({ coreSagas }) => {
           ? yield payment.from(action.payload.from, action.payload.type)
           : yield payment.from()
       const defaultFee = path(['fees', 'regular'], payment.value())
-      const initialValues = { coin: 'ETH', fee: defaultFee }
+      const ethAccountR = yield select(
+        selectors.core.common.eth.getAccountBalances
+      )
+      const defaultAccountR = ethAccountR.map(head)
+      const initialValues = {
+        coin: 'ETH',
+        fee: defaultFee,
+        from: defaultAccountR.getOrElse({})
+      }
       yield put(initialize('sendEth', initialValues))
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
@@ -85,6 +96,11 @@ export default ({ coreSagas }) => {
             }
           }
           break
+        case 'from':
+          const source = prop('address', payload)
+          const fromType = prop('type', payload)
+          payment = yield payment.from(source, fromType)
+          break
         case 'to':
           payment = yield payment.to(payload)
           break
@@ -101,7 +117,8 @@ export default ({ coreSagas }) => {
           payment = yield payment.description(payload)
           break
         case 'fee':
-          payment = yield payment.fee(parseInt(payload))
+          const account = path(['from', 'address'], payment.value())
+          payment = yield payment.fee(parseInt(payload), account)
           break
       }
 
@@ -143,31 +160,77 @@ export default ({ coreSagas }) => {
   }
 
   const secondStepSubmitClicked = function*() {
+    let p = yield select(S.getPayment)
+    let payment = coreSagas.payment.eth.create({
+      payment: p.getOrElse({}),
+      network: settings.NETWORK_ETH
+    })
+    const fromType = path(['from', 'type'], payment.value())
+    const toAddress = path(['to', 'address'], payment.value())
+    const fromAddress = path(['from', 'address'], payment.value())
     try {
-      let p = yield select(S.getPayment)
-      let payment = coreSagas.payment.eth.create({
-        payment: p.getOrElse({}),
-        network: settings.NETWORK_ETH
-      })
-      const password = yield call(promptForSecondPassword)
-      yield put(actions.modals.closeAllModals())
-      payment = yield payment.sign(password)
+      // Sign payment
+      if (fromType !== ADDRESS_TYPES.LOCKBOX) {
+        let password = yield call(promptForSecondPassword)
+        payment = yield payment.sign(password)
+      } else {
+        const device = (yield select(
+          selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
+          fromAddress
+        )).getOrFail('missing_device')
+        const deviceType = prop('device_type', device)
+        yield call(promptForLockbox, 'ETH', deviceType, [toAddress])
+        let connection = yield select(
+          selectors.components.lockbox.getCurrentConnection
+        )
+        const transport = prop('transport', connection)
+        const scrambleKey = Lockbox.utils.getScrambleKey('ETH', deviceType)
+        payment = yield payment.sign(null, transport, scrambleKey)
+      }
+      // Publish payment
       payment = yield payment.publish()
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
-      yield put(
-        actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now())
-      )
-      yield take(
-        actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
-      )
-      yield put(
-        actions.core.kvStore.ethereum.setLatestTxEthereum(payment.value().txId)
-      )
-      yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
-      if (path(['description', 'length'], payment.value())) {
+      // Update metadata
+      if (fromType === ADDRESS_TYPES.LOCKBOX) {
+        const device = (yield select(
+          selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
+          fromAddress
+        )).getOrFail('missing_device')
+        const deviceIndex = prop('device_index', device)
+        yield put(
+          actions.core.kvStore.lockbox.setLatestTxTimestampEth(
+            deviceIndex,
+            Date.now()
+          )
+        )
+        yield take(
+          actionTypes.core.kvStore.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS
+        )
+        yield put(
+          actions.core.kvStore.lockbox.setLatestTxEth(
+            deviceIndex,
+            payment.value().txId
+          )
+        )
+      } else {
+        yield put(
+          actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now())
+        )
         yield take(
           actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
         )
+        yield put(
+          actions.core.kvStore.ethereum.setLatestTxEthereum(
+            payment.value().txId
+          )
+        )
+      }
+      if (path(['description', 'length'], payment.value())) {
+        if (fromType !== ADDRESS_TYPES.LOCKBOX) {
+          yield take(
+            actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
+          )
+        }
         yield put(
           actions.core.kvStore.ethereum.setTxNotesEthereum(
             payment.value().txId,
@@ -175,11 +238,29 @@ export default ({ coreSagas }) => {
           )
         )
       }
+      // Display success
+      if (fromType === ADDRESS_TYPES.LOCKBOX) {
+        yield put(actions.components.lockbox.setConnectionSuccess())
+        yield delay(1500)
+      } else {
+        yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
+      }
+      // Close modals
+      yield put(actions.modals.closeAllModals())
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e)
-      )
-      yield put(actions.alerts.displayError(C.SEND_ETH_ERROR))
+      // Set errors
+      if (fromType === ADDRESS_TYPES.LOCKBOX) {
+        yield put(actions.components.lockbox.setConnectionError(e))
+      } else {
+        yield put(
+          actions.logs.logErrorMessage(
+            logLocation,
+            'secondStepSubmitClicked',
+            e
+          )
+        )
+        yield put(actions.alerts.displayError(C.SEND_ETH_ERROR))
+      }
     }
   }
 
@@ -222,6 +303,14 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const toToggled = function*() {
+    try {
+      yield put(change('sendEth', 'to', ''))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'toToggled', e))
+    }
+  }
+
   const maximumFeeClicked = function*() {
     try {
       const p = yield select(S.getPayment)
@@ -245,6 +334,7 @@ export default ({ coreSagas }) => {
     secondStepSubmitClicked,
     formChanged,
     regularFeeClicked,
-    priorityFeeClicked
+    priorityFeeClicked,
+    toToggled
   }
 }

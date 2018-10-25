@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { getData } from './selectors'
+import { getTotalBalance } from 'components/Balances/total/selectors'
 
 import Error from './template.error'
 import Loading from './template.loading'
@@ -20,7 +20,7 @@ class TotalBalance extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  data: getData(state)
+  data: getTotalBalance(state)
 })
 
 export default connect(mapStateToProps)(TotalBalance)

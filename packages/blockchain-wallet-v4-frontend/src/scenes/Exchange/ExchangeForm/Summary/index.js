@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { BigNumber } from 'bignumber.js'
 
 import StringDisplay from 'components/Display/StringDisplay'
 import {
@@ -29,15 +30,17 @@ const RatesRow = styled(ExchangeText)`
   margin-bottom: 16px;
 `
 const RatesTitle = styled(RatesRow)`
-  font-weight: 600;
+  font-weight: 400;
   margin-bottom: 12px;
 `
+
+const add = (augend, addend) => new BigNumber(augend).add(addend).toString()
 
 const Summary = ({
   sourceCoin,
   targetCoin,
   currency,
-  fee,
+  sourceFee,
   sourceAmount,
   targetAmount,
   targetFiat,
@@ -55,7 +58,7 @@ const Summary = ({
     <AmountHeader>
       <FormattedMessage
         id='scenes.exchange.exchangeform.summary.deposit'
-        defaultMessage='Deposit {coin}'
+        defaultMessage='Exchange {coin}'
         values={{
           coin: sourceCoin
         }}
@@ -63,7 +66,9 @@ const Summary = ({
     </AmountHeader>
     <ExchangeAmount>
       <StringDisplay>
-        {sourceAmount.map(amount => `${amount} ${sourceCoin}`)}
+        {sourceAmount.map(
+          amount => `${add(amount, sourceFee.source)} ${sourceCoin}`
+        )}
       </StringDisplay>
     </ExchangeAmount>
     <AmountHeader>
@@ -88,7 +93,9 @@ const Summary = ({
           defaultMessage='Network Fee'
         />
       </ExchangeText>
-      <ExchangeText weight={300}>{`${fee} ${targetCoin}`}</ExchangeText>
+      <ExchangeText weight={300}>
+        {`${sourceFee.source} ${sourceCoin}`}
+      </ExchangeText>
     </TableRow>
     <TableRow>
       <ExchangeText>

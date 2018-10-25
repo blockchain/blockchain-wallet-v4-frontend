@@ -11,7 +11,7 @@ export default ({ coreSagas }) => {
         search: ''
       }
       yield put(actions.form.initialize('ethTransactions', initialValues))
-      yield put(actions.core.data.ethereum.fetchTransactions(true))
+      yield put(actions.core.data.ethereum.fetchTransactions(null, true))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
