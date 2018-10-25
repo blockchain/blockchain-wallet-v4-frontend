@@ -31,7 +31,6 @@ import {
   balanceReserveAmount,
   invalidAmount,
   insufficientFunds,
-  maximumAmount,
   shouldError,
   shouldWarn
 } from './validation'
@@ -193,12 +192,7 @@ const FirstStep = props => {
                 component={XlmFiatConvertor}
                 error={error}
                 coin='XLM'
-                validate={[
-                  required,
-                  invalidAmount,
-                  insufficientFunds,
-                  maximumAmount
-                ]}
+                validate={[required, invalidAmount, insufficientFunds]}
               />
             </FormItem>
           </FormGroup>

@@ -4,7 +4,6 @@ import { path, prop } from 'ramda'
 
 import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import {
-  MaximumAmountMessage,
   InsufficientFundsMessage,
   InvalidAmountMessage
 } from './validationMessages'
@@ -72,10 +71,7 @@ export const balanceReserveAmount = (errors, allValues, props) => {
     toCurrency: currency,
     rates: prop('rates', props)
   }).value
-  if (
-    !utils.xlm.overflowsFullBalance(valueStroop, effectiveBalance, reserve) &&
-    utils.xlm.overflowsEffectiveBalance(valueStroop, effectiveBalance)
-  )
+  if (utils.xlm.overflowsEffectiveBalance(valueStroop, effectiveBalance))
     errors._error = {
       currency,
       message: RESERVE_ERROR,
@@ -87,20 +83,6 @@ export const balanceReserveAmount = (errors, allValues, props) => {
       rates
     }
   return errors
-}
-
-export const maximumAmount = (value, allValues, props) => {
-  const valueXlm = prop('coin', value)
-  const valueStroop = Exchange.convertXlmToXlm({
-    value: valueXlm,
-    fromUnit: 'XLM',
-    toUnit: 'STROOP'
-  }).value
-  const effectiveBalance = prop('effectiveBalance', props)
-  const reserve = prop('reserve', props)
-  if (utils.xlm.overflowsFullBalance(valueStroop, effectiveBalance, reserve))
-    return <MaximumAmountMessage />
-  return undefined
 }
 
 export const shouldError = ({

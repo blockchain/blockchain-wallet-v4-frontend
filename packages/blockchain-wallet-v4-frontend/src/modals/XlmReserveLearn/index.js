@@ -1,13 +1,13 @@
 import React from 'react'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { currencySymbolMap } from 'services/CoinifyService'
+import { getData } from './selectors'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { model } from 'data'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { BigNumber } from 'bignumber.js'
 
 import {
   Modal,
@@ -52,46 +52,22 @@ const Row = styled.div`
 const Bold = styled.b`
   font-weight: 400;
 `
-
-const convertXlmToFiat = (rates, currency) => amount =>
-  Exchange.convertXlmToFiat({
-    value: amount,
-    fromUnit: 'XLM',
-    toCurrency: currency,
-    rates: rates
-  }).value
-
 class XlmCreateAccountLearn extends React.PureComponent {
   render () {
     const {
       position,
       total,
       close,
+      currencySymbol,
+      effectiveBalanceMinusFeeFiat,
+      effectiveBalanceMinusFeeXlm,
+      feeFiat,
+      feeXlm,
+      reserveFiat,
       reserveXlm,
-      rates,
-      effectiveBalanceXlm,
-      currency,
-      fee
+      totalAmountFiat,
+      totalAmountXlm
     } = this.props
-    const convertToFiat = convertXlmToFiat(rates, currency)
-    const totalAmountXlm = new BigNumber(effectiveBalanceXlm)
-      .add(reserveXlm)
-      .toString()
-    const totalAmountFiat = convertToFiat(totalAmountXlm)
-    const reserveFiat = convertToFiat(reserveXlm)
-    const feeXlm = Exchange.convertXlmToXlm({
-      value: fee,
-      fromUnit: 'STROOP',
-      toUnit: 'XLM'
-    }).value
-    const feeFiat = convertToFiat(feeXlm)
-    const effectiveBalanceMinusFeeXlm = new BigNumber(effectiveBalanceXlm)
-      .minus(feeXlm)
-      .toString()
-    const effectiveBalanceMinusFeeFiat = convertToFiat(
-      effectiveBalanceMinusFeeXlm
-    )
-    const currencySymbol = currencySymbolMap[currency]
     return (
       <Modal size='medium' position={position} total={total} closeAll={close}>
         <ModalHeader onClose={close}>
@@ -113,14 +89,14 @@ class XlmCreateAccountLearn extends React.PureComponent {
           <Paragraph>
             <FormattedMessage
               id='modal.reservelearn.info1'
-              defaultMessage='To submit transactions, an address must hold a minimum amount of XLM in the shared global ledger. You cannot send this XLM to other addresses. To fund a new address, you must send enough XLM to meet the reserve requirement.'
+              defaultMessage='Stellar requires that all Stellar accounts hold a minimum balance of Lumens, or XLM. This means you cannot send a balance out of your Stellar Wallet that would leave your Stellar Wallet with less than the minimum balance. This also means that in order to send XLM to new Stellar account, you must send enough XLM to meet the minimum balance requirement.'
             />
           </Paragraph>
           <br />
           <Paragraph>
             <FormattedMessage
               id='modal.reservelearn.info2'
-              defaultMessage='The current minimum reserve requirement is {reserveXlm} XLM; this is the cost of an address that owns no other objects in the ledger.'
+              defaultMessage='The current minimum reserve requirement is {reserveXlm} XLM.'
               values={{ reserveXlm }}
             />
           </Paragraph>
@@ -204,6 +180,9 @@ XlmCreateAccountLearn.propTypes = {
   rates: PropTypes.object.isRequired
 }
 
-export default modalEnhancer(model.components.sendXlm.RESERVE_LEARN_MODAL)(
-  XlmCreateAccountLearn
+const enhance = compose(
+  modalEnhancer(model.components.sendXlm.RESERVE_LEARN_MODAL),
+  connect(getData)
 )
+
+export default enhance(XlmCreateAccountLearn)
