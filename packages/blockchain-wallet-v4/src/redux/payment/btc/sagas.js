@@ -95,14 +95,6 @@ export default ({ api }) => {
     const appState = yield select(identity)
     const wallet = S.wallet.getWallet(appState)
 
-    // No origin => assume origin = all the legacy addresses (non - watchOnly)
-    if (isNil(origin) || origin === '') {
-      let spendableActiveAddresses = yield select(
-        S.wallet.getSpendableActiveAddresses
-      )
-      return fromLegacyList(spendableActiveAddresses)
-    }
-
     switch (type) {
       case ADDRESS_TYPES.ACCOUNT:
         return fromAccount(network, appState, origin, 'BTC')
