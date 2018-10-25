@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { pathOr, toLower } from 'ramda'
+import { pathOr, prop, toLower } from 'ramda'
 
 import { Icon } from 'blockchain-info-components'
 import { SelectBox } from 'components/Form'
@@ -75,9 +75,14 @@ const DisplayIcon = styled(Icon)`
   color: ${props => props.theme.white};
 `
 
+const selectItemIconColor = props => {
+  if (props.coin === 'xlm' && props.isSelected) return props.theme.white
+  return props.theme[props.coin]
+}
+
 const ItemIcon = styled(Icon)`
   font-size: 24px;
-  color: ${props => props.theme[props.coin]} !important;
+  color: ${selectItemIconColor} !important;
 `
 
 const getIconName = coin => `${toLower(coin)}`
@@ -94,9 +99,16 @@ const renderDisplay = (props, children) => {
 
 const renderItem = item => {
   const coin = pathOr('', ['value', 'coin'], item)
+  const isSelected = prop('isSelected', item)
   return (
     <ItemWrapper>
-      {<ItemIcon coin={toLower(coin)} name={getIconName(coin)} />}
+      {
+        <ItemIcon
+          coin={toLower(coin)}
+          isSelected={isSelected}
+          name={getIconName(coin)}
+        />
+      }
       <Text>{item.text}</Text>
     </ItemWrapper>
   )

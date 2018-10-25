@@ -30,8 +30,10 @@ export const getContext = createDeepEqualSelector(
   }
 )
 
+export const getAccounts = path([dataPath, 'xlm', 'data'])
+
 export const getAccount = curry((accountId, state) =>
-  path([dataPath, 'xlm', 'data'], state).map(prop(accountId))
+  getAccounts(state).map(prop(accountId))
 )
 
 export const getBaseReserve = compose(
@@ -56,14 +58,14 @@ export const getNumberOfEntries = curry(
   )
 )
 
+export const selectBalanceFromAccount = compose(
+  prop('balance'),
+  find(propEq('asset_type', 'native')),
+  prop('balances')
+)
+
 export const getAccountBalance = compose(
-  lift(
-    compose(
-      prop('balance'),
-      find(propEq('asset_type', 'native')),
-      prop('balances')
-    )
-  ),
+  lift(selectBalanceFromAccount),
   getAccount
 )
 

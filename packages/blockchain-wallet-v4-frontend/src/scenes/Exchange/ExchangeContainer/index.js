@@ -21,10 +21,10 @@ class ExchangeContainer extends React.PureComponent {
   }
 
   render () {
-    const { step } = this.props
+    const { step, from, to } = this.props
     switch (step) {
       case EXCHANGE_STEPS.EXCHANGE_FORM:
-        return <ExchangeForm />
+        return <ExchangeForm {...{ from, to }} />
       case EXCHANGE_STEPS.CONFIRM:
         return <ExchangeConfirm />
       default:

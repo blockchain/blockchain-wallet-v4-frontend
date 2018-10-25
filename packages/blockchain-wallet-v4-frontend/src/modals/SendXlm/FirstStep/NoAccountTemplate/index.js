@@ -18,7 +18,9 @@ export const NoAccountTemplate = () => (
       </Banner>
     </FormGroup>
     <FormGroup>
-      <LinkContainer to='/exchange'>
+      <LinkContainer
+        to={{ pathname: '/exchange', state: { from: 'BTC', to: 'XLM' } }}
+      >
         <Button type='submit' nature='primary' uppercase fullwidth>
           <FormattedMessage
             id='modals.sendxlm.firststep.exchange'
