@@ -183,7 +183,7 @@ const FirstStep = props => {
             component={TextArea}
             validate={[required]}
             placeholder="What's this transaction for?"
-            data-e2e='requestBtc_description'
+            data-e2e='requestBtcDescription'
           />
         </FormItem>
       </FormGroup>
@@ -193,7 +193,7 @@ const FirstStep = props => {
           nature='primary'
           fullwidth
           disabled={submitting || invalid}
-          data-e2e='requestBtc_next_button'
+          data-e2e='requestBtcNextButton'
         >
           <FormattedMessage
             id='modals.requestbitcoin.firststep.next'

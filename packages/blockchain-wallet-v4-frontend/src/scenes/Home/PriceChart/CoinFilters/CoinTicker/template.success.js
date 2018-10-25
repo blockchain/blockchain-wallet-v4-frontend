@@ -24,6 +24,7 @@ const Success = props => {
         weight={400}
         color='brand-secondary'
         onClick={handleClick}
+        data-e2e={props['data-e2e']}
       >
         {`${coin} = ${fiat}`}
       </Link>
