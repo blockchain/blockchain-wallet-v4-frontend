@@ -10,6 +10,7 @@ import WatchOnlyBalance from './WatchOnlyBalance'
 import BtcBalance from './WalletBalance/BtcBalance'
 import BchBalance from './WalletBalance/BchBalance'
 import EthBalance from './WalletBalance/EthBalance'
+import XlmBalance from './WalletBalance/XlmBalance'
 import CurrencySwitch from './CurrencySwitch'
 
 import { FormattedMessage } from 'react-intl'
@@ -65,6 +66,8 @@ const getSelectedComponent = path => {
       return <EthBalance large />
     case path.includes('bch'):
       return <BchBalance large />
+    case path.includes('xlm'):
+      return <XlmBalance large />
     case path.includes('lockbox'):
       return <LockboxTotalBalance />
     default:
@@ -93,6 +96,13 @@ const getBalanceMessage = path => {
         <FormattedMessage
           id='scenes.wallet.menutop.balance.bchbalance'
           defaultMessage='Bitcoin Cash Balance'
+        />
+      )
+    case path.includes('xlm'):
+      return (
+        <FormattedMessage
+          id='scenes.wallet.menutop.balance.xlmbalance'
+          defaultMessage='Stellar Balance'
         />
       )
     case path.includes('lockbox'):

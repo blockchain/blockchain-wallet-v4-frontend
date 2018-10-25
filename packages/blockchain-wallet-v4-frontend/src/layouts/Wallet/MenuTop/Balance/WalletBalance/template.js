@@ -2,8 +2,7 @@ import React from 'react'
 import BtcBalance from './BtcBalance'
 import EthBalance from './EthBalance'
 import BchBalance from './BchBalance'
-// TODO: Causes infinite loop
-// import XlmBalance from './XlmBalance'
+import XlmBalance from './XlmBalance'
 import { FormattedMessage } from 'react-intl'
 import { Icon } from 'blockchain-info-components'
 import {
@@ -33,7 +32,7 @@ const Template = props => (
       <BtcBalance />
       <EthBalance />
       <BchBalance />
-      {/* <XlmBalance /> */}
+      <XlmBalance />
     </BalancesWrapper>
   </Wrapper>
 )
