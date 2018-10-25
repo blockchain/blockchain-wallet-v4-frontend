@@ -45,7 +45,6 @@ export const getAccountsInfo = state => {
 }
 
 // getWalletTransactions :: state -> Remote([ProcessedTx])
-// TODO: get xlm transactions
 export const getWalletTransactions = createDeepEqualSelector(
   [getAccounts, getLockboxXlmAccounts, getTransactions, getXlmTxNotes],
   (accountsR, lockboxAccountsR, pages, txNotesR) => {
