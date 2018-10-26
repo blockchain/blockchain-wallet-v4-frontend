@@ -1928,6 +1928,7 @@
   "scenes.settings.addresses.bch.importedaddresses.title": "Zaimportowane adresy BCH",
   "scenes.settings.addresses.bch.make_default": "Ustaw jako domyślne",
   "scenes.settings.addresses.bch.show_xpub": "Pokaż xPub",
+  "scenes.settings.addresses.bch.showchangeaddrs": null,
   "scenes.settings.addresses.bch.unarchive": "Nie archiwizuj",
   "scenes.settings.addresses.bch.wallets.actions": "Działania",
   "scenes.settings.addresses.bch.wallets.archivedlabel": "Zarchiwizowano",

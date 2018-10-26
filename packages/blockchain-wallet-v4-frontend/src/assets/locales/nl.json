@@ -1928,6 +1928,7 @@
   "scenes.settings.addresses.bch.importedaddresses.title": "Geïmporteerde Bitcoin Cash-adressen",
   "scenes.settings.addresses.bch.make_default": "Als standaard instellen",
   "scenes.settings.addresses.bch.show_xpub": "xPub tonen",
+  "scenes.settings.addresses.bch.showchangeaddrs": null,
   "scenes.settings.addresses.bch.unarchive": "De-archiveren",
   "scenes.settings.addresses.bch.wallets.actions": "Acties",
   "scenes.settings.addresses.bch.wallets.archivedlabel": "Gearchiveerd",

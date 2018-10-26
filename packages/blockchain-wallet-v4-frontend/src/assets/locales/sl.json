@@ -1928,6 +1928,7 @@
   "scenes.settings.addresses.bch.importedaddresses.title": "Uvoženi Bitcoin Cash naslovi",
   "scenes.settings.addresses.bch.make_default": "Nastavi kot privzeto",
   "scenes.settings.addresses.bch.show_xpub": "Prikaži xPub",
+  "scenes.settings.addresses.bch.showchangeaddrs": null,
   "scenes.settings.addresses.bch.unarchive": "Odstrani iz arhiva",
   "scenes.settings.addresses.bch.wallets.actions": "Dejanja",
   "scenes.settings.addresses.bch.wallets.archivedlabel": "Dodano v arhiv",

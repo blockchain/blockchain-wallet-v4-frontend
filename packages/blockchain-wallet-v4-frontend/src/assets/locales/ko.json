@@ -1928,6 +1928,7 @@
   "scenes.settings.addresses.bch.importedaddresses.title": "가져온 비트코인 캐시 주소들",
   "scenes.settings.addresses.bch.make_default": "디폴트로 하기",
   "scenes.settings.addresses.bch.show_xpub": "xPub 보이게 하기",
+  "scenes.settings.addresses.bch.showchangeaddrs": null,
   "scenes.settings.addresses.bch.unarchive": "보관 해제",
   "scenes.settings.addresses.bch.wallets.actions": "동작",
   "scenes.settings.addresses.bch.wallets.archivedlabel": "보관됨",

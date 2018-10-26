@@ -10314,6 +10314,10 @@
         "id": "scenes.settings.addresses.bch.show_xpub"
       },
       {
+        "defaultMessage": "Show Change Addresses",
+        "id": "scenes.settings.addresses.bch.showchangeaddrs"
+      },
+      {
         "defaultMessage": "Bitcoin Cash Wallets",
         "id": "scenes.settings.addresses.bch.wallets.title"
       },

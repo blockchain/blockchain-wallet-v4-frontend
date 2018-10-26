@@ -1928,6 +1928,7 @@
   "scenes.settings.addresses.bch.importedaddresses.title": "Importierte Bitcoin-Cash-Adressen",
   "scenes.settings.addresses.bch.make_default": "Als Standard festlegen",
   "scenes.settings.addresses.bch.show_xpub": "xPub anzeigen",
+  "scenes.settings.addresses.bch.showchangeaddrs": null,
   "scenes.settings.addresses.bch.unarchive": "Dearchivieren",
   "scenes.settings.addresses.bch.wallets.actions": "Handlungen",
   "scenes.settings.addresses.bch.wallets.archivedlabel": "Archiviert",

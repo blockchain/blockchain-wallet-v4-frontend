@@ -1928,6 +1928,7 @@
   "scenes.settings.addresses.bch.importedaddresses.title": "导入的比特现金地址",
   "scenes.settings.addresses.bch.make_default": "设为默认",
   "scenes.settings.addresses.bch.show_xpub": "显示xPub",
+  "scenes.settings.addresses.bch.showchangeaddrs": null,
   "scenes.settings.addresses.bch.unarchive": "未存档",
   "scenes.settings.addresses.bch.wallets.actions": "动作",
   "scenes.settings.addresses.bch.wallets.archivedlabel": "已存档",
