@@ -55,7 +55,7 @@ class SelectBox extends React.PureComponent {
         />
         {(touched || !pristine) &&
           error &&
-          !hideErrors && <Error errorBottom>{error}</Error>}
+          !hideErrors && <Error errorBottom={errorBottom}>{error}</Error>}
       </Container>
     )
   }
