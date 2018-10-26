@@ -71,7 +71,9 @@ export default ({ api, coreSagas, options, networks }) => {
     calculateProvisionalPayment,
     calculateEffectiveBalanceMemo,
     getDefaultAccount,
-    createPayment
+    createPayment,
+    validateXlm,
+    validateXlmCreateAccount
   } = utils({
     api,
     coreSagas,
@@ -153,11 +155,17 @@ export default ({ api, coreSagas, options, networks }) => {
     return amountsR.getOrFail(NO_ADVICE_ERROR)
   }
 
-  const exchangeFormInitialized = function*() {
+  const exchangeFormInitialized = function*({ payload }) {
+    const { from = 'BTC', to = 'ETH' } = payload
     yield put(actions.modules.rates.fetchAvailablePairs())
-    const form = yield select(formValueSelector)
-    const sourceCoin = path(['source', 'coin'], form)
-    const targetCoin = path(['target', 'coin'], form)
+    const {
+      payload: { pairs }
+    } = yield take(actionTypes.modules.rates.AVAILABLE_PAIRS_SUCCESS)
+
+    const initialValues = yield select(S.getInitialValues, from, to, pairs)
+    yield put(actions.form.initialize(EXCHANGE_FORM, initialValues))
+    const sourceCoin = path(['source', 'coin'], initialValues)
+    const targetCoin = path(['target', 'coin'], initialValues)
     const fiatCurrency = yield call(getFiatCurrency)
     yield call(changeRatesSubscription, sourceCoin, targetCoin, fiatCurrency)
     yield call(fetchLimits)
@@ -166,9 +174,13 @@ export default ({ api, coreSagas, options, networks }) => {
   const validateForm = function*() {
     yield call(startValidation)
     const form = yield select(formValueSelector)
+    const source = prop('source', form)
+    const target = prop('target', form)
+    const sourceCoin = prop('coin', source)
+    const targetCoin = prop('coin', target)
     const formVolume = getCurrentVolume(form)
     const fiatCurrency = yield call(getFiatCurrency)
-    const pair = getCurrentPair(form)
+    const pair = formatPair(sourceCoin, targetCoin)
     try {
       const limits = yield call(getLimits, fiatCurrency)
       yield call(validateMinMax, limits)
@@ -176,7 +188,12 @@ export default ({ api, coreSagas, options, networks }) => {
       const amounts = yield call(getAmounts, pair)
       const sourceFiatVolume = prop('sourceFiat', amounts)
       const sourceCryptoVolume = prop('sourceAmount', amounts)
+      const targetCryptoVolume = prop('sourceAmount', amounts)
       yield call(validateVolume, limits, sourceFiatVolume, sourceCryptoVolume)
+      if (sourceCoin === 'XLM')
+        yield call(validateXlm, sourceCryptoVolume, source)
+      if (targetCoin === 'XLM')
+        yield call(validateXlmCreateAccount, targetCryptoVolume, target)
       yield put(actions.form.stopAsyncValidation(EXCHANGE_FORM))
     } catch (error) {
       yield put(

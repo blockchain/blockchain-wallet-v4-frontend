@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { path } from 'ramda'
 
 import media from 'services/ResponsiveService'
 
@@ -68,7 +69,7 @@ const ColumnRight = styled(Column)`
     width: 40%;
   }
 `
-const ExchangeScene = ({ useShapeShift }) => (
+const ExchangeScene = ({ useShapeShift, location }) => (
   <Wrapper>
     {useShapeShift && (
       <ShapeshiftContainer>
@@ -84,7 +85,10 @@ const ExchangeScene = ({ useShapeShift }) => (
     {!useShapeShift && (
       <Container>
         <Column>
-          <Exchange />
+          <Exchange
+            from={path(['state', 'from'], location)}
+            to={path(['state', 'to'], location)}
+          />
         </Column>
       </Container>
     )}

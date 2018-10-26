@@ -121,7 +121,12 @@ const Welcome = props => {
                 />
               </Button>
             )}
-            <LinkContainer to='/exchange'>
+            <LinkContainer
+              to={{
+                pathname: '/exchange',
+                state: { from: coin === 'BTC' ? 'ETH' : 'BTC', to: coin }
+              }}
+            >
               <Button nature='empty-secondary' fullwidth>
                 <FormattedMessage
                   id='scenes.transaction.content.empty.getstarted.exchange'

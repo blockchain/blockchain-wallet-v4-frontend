@@ -1,5 +1,17 @@
 import { call, cancel, fork, join, put, select } from 'redux-saga/effects'
-import { equals, identity, head, path, pathOr, prop, toLower } from 'ramda'
+import {
+  always,
+  contains,
+  equals,
+  identity,
+  head,
+  path,
+  pathOr,
+  prop,
+  toLower
+} from 'ramda'
+import BigNumber from 'bignumber.js'
+
 import { selectors, actions } from 'data'
 import * as S from './selectors'
 import settings from 'config'
@@ -11,8 +23,14 @@ import {
   isUndefinedOrEqualsToZero
 } from './services'
 import { selectRates } from '../utils/sagas'
-import { SHAPESHIFT_FORM } from './model'
+import {
+  SHAPESHIFT_FORM,
+  CREATE_ACCOUNT_ERROR,
+  NO_ACCOUNT_ERROR,
+  RESERVE_ERROR
+} from './model'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { Exchange } from 'blockchain-wallet-v4'
 
 const PROVISIONAL_BTC_SCRIPT = '00000000000000000000000'
 const PROVISIONAL_BCH_SCRIPT = '0000000000000000000000000'
@@ -41,6 +59,7 @@ export default ({ api, coreSagas, networks, options }) => {
   const btcOptions = [settings.NETWORK_BTC, PROVISIONAL_BTC_SCRIPT]
   const bchOptions = [settings.NETWORK_BCH, PROVISIONAL_BCH_SCRIPT]
   const ethOptions = [settings.NETWORK_ETH, null]
+  const xlmOptions = [null, null]
   const calculateProvisionalPayment = function*(source, amount) {
     try {
       const coin = prop('coin', source)
@@ -49,7 +68,8 @@ export default ({ api, coreSagas, networks, options }) => {
       const [network, provisionalScript] = prop(coin, {
         BTC: btcOptions,
         BCH: bchOptions,
-        ETH: ethOptions
+        ETH: ethOptions,
+        XLM: xlmOptions
       })
       const payment = yield coreSagas.payment[toLower(coin)]
         .create({ network })
@@ -58,7 +78,7 @@ export default ({ api, coreSagas, networks, options }) => {
         .fee('priority')
         .from(addressOrIndex, addressType)
         .done()
-      if (coin === 'ETH') return payment.value()
+      if (contains(coin, ['ETH', 'XLM'])) return payment.value()
 
       return (yield payment
         .chain()
@@ -116,6 +136,14 @@ export default ({ api, coreSagas, networks, options }) => {
           .chain()
           .init()
           .fee('priority')
+          .from(addressOrIndex, addressType)
+          .done()
+        break
+      case 'XLM':
+        payment = yield coreSagas.payment.eth
+          .create({ network: settings.NETWORK_ETH })
+          .chain()
+          .init()
           .from(addressOrIndex, addressType)
           .done()
         break
@@ -387,6 +415,11 @@ export default ({ api, coreSagas, networks, options }) => {
     return head(ethAccounts.getOrFail('Could not get ETH accounts.'))
   }
 
+  const getDefaultXlmAccountValue = function*() {
+    const xlmAccounts = yield select(S.getActiveXlmAccounts)
+    return head(xlmAccounts.getOrFail('Could not get XLM accounts.'))
+  }
+
   const selectOtherAccount = function*(coin) {
     if (equals('BTC', coin)) {
       return yield call(getDefaultEthAccountValue)
@@ -403,6 +436,8 @@ export default ({ api, coreSagas, networks, options }) => {
         return yield call(getDefaultBtcAccountValue)
       case 'ETH':
         return yield call(getDefaultEthAccountValue)
+      case 'XLM':
+        return yield call(getDefaultXlmAccountValue)
       default:
         return yield call(getDefaultBtcAccountValue)
     }
@@ -437,6 +472,41 @@ export default ({ api, coreSagas, networks, options }) => {
     yield put(actions.components.exchange.firstStepFormUnvalidated('initial'))
   }
 
+  const validateXlm = function*(volume, account) {
+    try {
+      const paymentValue = yield call(calculatePaymentMemo, account, 0)
+      const payment = yield call(coreSagas.payment.xlm.createm, {
+        payment: paymentValue
+      })
+      payment.amount(volume)
+    } catch (e) {
+      if (e.message === 'Account does not exist') throw NO_ACCOUNT_ERROR
+      if (e.message === 'Reserve exceeds remaining funds') throw RESERVE_ERROR
+    }
+  }
+
+  const validateXlmCreateAccount = function*(volume, account) {
+    const accountId = prop('address', account)
+    const accountExists = (yield select(
+      selectors.core.data.xlm.getAccount,
+      accountId
+    ))
+      .map(always(true))
+      .getOrElse(false)
+    if (accountExists) return
+
+    const baseReserve = (yield select(
+      selectors.core.data.xlm.getBaseReserve
+    )).getOrElse('5000000')
+    const volumeStroops = Exchange.convertCoinToCoin({
+      value: volume,
+      coin: 'XLM',
+      baseToStandard: false
+    })
+    if (new BigNumber(baseReserve).mul(2).greaterThan(volumeStroops))
+      throw CREATE_ACCOUNT_ERROR
+  }
+
   return {
     calculatePaymentMemo,
     calculateProvisionalPayment,
@@ -451,6 +521,8 @@ export default ({ api, coreSagas, networks, options }) => {
     convertValues,
     selectLabel,
     selectOtherAccount,
-    resetForm
+    resetForm,
+    validateXlm,
+    validateXlmCreateAccount
   }
 }

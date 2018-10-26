@@ -4,17 +4,13 @@ import {
   always,
   compose,
   curry,
-  defaultTo,
   equals,
   flip,
-  head,
-  last,
   lift,
   map,
   path,
   prop,
-  unnest,
-  uniq
+  unnest
 } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { currencySymbolMap } from 'services/CoinifyService'
@@ -23,14 +19,13 @@ import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 const {
   EXCHANGE_FORM,
-  getTargetCoinsPairedToSource,
-  sortByOrder
+  getAvailableSourceCoins,
+  getAvailableTargetCoins
 } = model.components.exchange
 const {
   getComplementaryField,
   mapFixToFieldName,
   formatPair,
-  splitPair,
   FIX_TYPES,
   coinActive,
   fiatActive,
@@ -39,20 +34,11 @@ const {
 } = model.rates
 const { BASE_IN_FIAT } = FIX_TYPES
 
-const getAvailableCoin = headOrLast => availablePairs =>
-  compose(
-    sortByOrder,
-    uniq,
-    map(headOrLast),
-    map(splitPair)
-  )(availablePairs)
-const getAvailableSourceCoins = getAvailableCoin(head)
-const getAvailableTargetCoins = getAvailableCoin(last)
-
 const getCoinFullName = flip(prop)({
   BTC: 'Bitcoin',
   BCH: 'Bitcoin Cash',
-  ETH: 'Ether'
+  ETH: 'Ether',
+  XLM: 'Stellar'
 })
 const generateItems = ({ coin, accounts }) => {
   const getText =
@@ -75,7 +61,6 @@ export const generateGroups = curry((accounts, availableCurrencies) => {
 const getFormValues = state => {
   const formValues = selectors.form.getFormValues(EXCHANGE_FORM)(state)
   const fix = prop('fix', formValues) || BASE_IN_FIAT
-
   return {
     sourceCoin: path(['source', 'coin'], formValues) || 'BTC',
     targetCoin: path(['target', 'coin'], formValues) || 'ETH',
@@ -145,9 +130,7 @@ const formatBestRates = curry(
 
 const {
   canUseExchange,
-  getActiveBtcAccounts,
-  getActiveBchAccounts,
-  getActiveEthAccounts,
+  getActiveAccounts,
   getMin,
   getMax,
   getTargetFee,
@@ -167,9 +150,7 @@ export {
 }
 export const getData = createDeepEqualSelector(
   [
-    getActiveBtcAccounts,
-    getActiveBchAccounts,
-    getActiveEthAccounts,
+    getActiveAccounts,
     getBlockLockbox,
     selectors.core.settings.getCurrency,
     getFormValues,
@@ -180,9 +161,7 @@ export const getData = createDeepEqualSelector(
     canUseExchange
   ],
   (
-    btcAccountsR,
-    bchAccountsR,
-    ethAccountsR,
+    accounts,
     blockLockbox,
     currencyR,
     formValues,
@@ -194,37 +173,15 @@ export const getData = createDeepEqualSelector(
   ) => {
     if (!canUseExchange) return Remote.Loading
 
-    const accounts = {
-      BTC: btcAccountsR.getOrElse([]),
-      BCH: bchAccountsR.getOrElse([]),
-      ETH: ethAccountsR.getOrElse([])
-    }
     const { fix, sourceCoin, targetCoin, volume } = formValues
 
     const transform = (currency, availablePairs) => {
       const availableSourceCoins = getAvailableSourceCoins(availablePairs)
       const availableTargetCoins = getAvailableTargetCoins(availablePairs)
-      const initialSourceCoin = defaultTo(
-        sourceCoin,
-        head(availableSourceCoins)
-      )
-      const initialTargetCoin = compose(
-        defaultTo(targetCoin),
-        last,
-        getTargetCoinsPairedToSource
-      )(initialSourceCoin, availablePairs)
-      const initialSourceAccount = head(accounts[initialSourceCoin])
-      const initialTargetAccount = head(accounts[initialTargetCoin])
       const generateActiveGroups = generateGroups(accounts)
       const fromElements = generateActiveGroups(availableSourceCoins)
       const toElements = generateActiveGroups(availableTargetCoins)
 
-      const initialValues = {
-        source: initialSourceAccount,
-        target: initialTargetAccount,
-        sourceFiat: 0,
-        fix: BASE_IN_FIAT
-      }
       const inputField = mapFixToFieldName(fix)
       const complementaryField = getComplementaryField(inputField)
       const fieldCoins = {
@@ -253,7 +210,6 @@ export const getData = createDeepEqualSelector(
         fiatActive: fiatActive(fix),
         fix,
         fromElements,
-        initialValues,
         inputField,
         inputSymbol: currencySymbolMap[inputCurrency],
         sourceActive: sourceActive(fix),
