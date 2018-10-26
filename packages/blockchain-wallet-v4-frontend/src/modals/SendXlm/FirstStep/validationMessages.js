@@ -63,3 +63,17 @@ export const InsufficientFundsMessage = () => (
     defaultMessage='Insufficient funds'
   />
 )
+
+export const WrongIdMemoFormat = () => (
+  <FormattedMessage
+    id='modals.sendxlm.wrongidmemo'
+    defaultMessage='Memo should be a number'
+  />
+)
+
+export const WrongTextMemoFormat = () => (
+  <FormattedMessage
+    id='modals.sendxlm.wrongtextmemo'
+    defaultMessage='Memo should be shorter than 28 symbols'
+  />
+)

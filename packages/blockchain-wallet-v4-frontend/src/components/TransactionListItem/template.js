@@ -207,6 +207,27 @@ const TransactionListItem = ({
               />
             </React.Fragment>
           )}
+          {coin === 'XLM' &&
+            transaction.memo && (
+              <React.Fragment>
+                <Text
+                  size='14px'
+                  capitalize
+                  weight={400}
+                  style={{ marginBottom: '5px', marginTop: '15px' }}
+                >
+                  <FormattedMessage
+                    id='components.txlistitem.memo'
+                    defaultMessage='Memo'
+                  />
+                  &nbsp;
+                  {transaction.memoType}
+                </Text>
+                <Text size='14px' capitalize weight={300}>
+                  {transaction.memo}
+                </Text>
+              </React.Fragment>
+            )}
         </DetailsColumn>
         {prop('inputs', transaction) &&
           prop('outputs', transaction) && (
