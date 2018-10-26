@@ -1873,6 +1873,7 @@
   "scenes.settings.addresses.bch.importedaddresses.title": "インポートされたビットコインキャッシュのアドレス:",
   "scenes.settings.addresses.bch.make_default": "既定にする",
   "scenes.settings.addresses.bch.show_xpub": "xPubを表示",
+  "scenes.settings.addresses.bch.showchangeaddrs": null,
   "scenes.settings.addresses.bch.unarchive": "アーカイブを解除",
   "scenes.settings.addresses.bch.wallets.actions": "アクション:",
   "scenes.settings.addresses.bch.wallets.archivedlabel": "アーカイブ済み",

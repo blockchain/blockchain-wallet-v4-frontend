@@ -1873,6 +1873,7 @@
   "scenes.settings.addresses.bch.importedaddresses.title": "ที่อยู่ Bitcoin Cash ที่นำเข้า",
   "scenes.settings.addresses.bch.make_default": "ทำให้เป็นค่าเริ่มต้น",
   "scenes.settings.addresses.bch.show_xpub": "แสดง xPub",
+  "scenes.settings.addresses.bch.showchangeaddrs": null,
   "scenes.settings.addresses.bch.unarchive": "เลิกการเก็บเข้าคลัง",
   "scenes.settings.addresses.bch.wallets.actions": "การดำเนินการ",
   "scenes.settings.addresses.bch.wallets.archivedlabel": "เก็บเอกสารแล้ว",

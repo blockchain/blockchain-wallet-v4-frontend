@@ -1873,6 +1873,7 @@
   "scenes.settings.addresses.bch.importedaddresses.title": "Importerade Bitcoin Cash-adresser",
   "scenes.settings.addresses.bch.make_default": "Gör till standard",
   "scenes.settings.addresses.bch.show_xpub": "Visa xPub",
+  "scenes.settings.addresses.bch.showchangeaddrs": null,
   "scenes.settings.addresses.bch.unarchive": "Avarkivera",
   "scenes.settings.addresses.bch.wallets.actions": "Åtgärder",
   "scenes.settings.addresses.bch.wallets.archivedlabel": "Arkiverat",

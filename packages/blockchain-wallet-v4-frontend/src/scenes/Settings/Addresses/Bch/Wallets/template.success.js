@@ -53,6 +53,7 @@ const Success = props => {
   const { bchAccounts, wallets, defaultIndex } = props.data
   const {
     onEditBchAccountLabel,
+    onShowChangeAddrs,
     onMakeDefault,
     onSetArchived,
     onShowXPub,
@@ -160,7 +161,16 @@ const Success = props => {
                     defaultMessage='Show xPub'
                   />
                 </ClickableText>
-              )
+              ),
+              <ClickableText
+                size='small'
+                onClick={() => onShowChangeAddrs(wallet.value)}
+              >
+                <FormattedMessage
+                  id='scenes.settings.addresses.bch.showchangeaddrs'
+                  defaultMessage='Show Change Addresses'
+                />
+              </ClickableText>
             ].filter(x => x)}
           />
         </TableCell>

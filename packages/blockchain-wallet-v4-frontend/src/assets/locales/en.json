@@ -1873,6 +1873,7 @@
   "scenes.settings.addresses.bch.importedaddresses.title": "Imported Bitcoin Cash Addresses",
   "scenes.settings.addresses.bch.make_default": "Make Default",
   "scenes.settings.addresses.bch.show_xpub": "Show xPub",
+  "scenes.settings.addresses.bch.showchangeaddrs": "Show Change Addresses",
   "scenes.settings.addresses.bch.unarchive": "Unarchive",
   "scenes.settings.addresses.bch.wallets.actions": "Actions",
   "scenes.settings.addresses.bch.wallets.archivedlabel": "Archived",
