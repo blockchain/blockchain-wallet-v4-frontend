@@ -1857,6 +1857,7 @@
   "scenes.settings.addresses.bch.importedaddresses.title": "Endereços importados de Bitcoin Cash",
   "scenes.settings.addresses.bch.make_default": "Tornar Padrão",
   "scenes.settings.addresses.bch.show_xpub": "Mostrar xPub",
+  "scenes.settings.addresses.bch.showchangeaddrs": null,
   "scenes.settings.addresses.bch.unarchive": "Desarquivar",
   "scenes.settings.addresses.bch.wallets.actions": "Ações",
   "scenes.settings.addresses.bch.wallets.archivedlabel": "Arquivado",

@@ -1857,6 +1857,7 @@
   "scenes.settings.addresses.bch.importedaddresses.title": "Импортированные адреса Bitcoin Cash Addresses",
   "scenes.settings.addresses.bch.make_default": "Сделать настройкой по умолчанию",
   "scenes.settings.addresses.bch.show_xpub": "Показать xPub",
+  "scenes.settings.addresses.bch.showchangeaddrs": null,
   "scenes.settings.addresses.bch.unarchive": "Разархивировать",
   "scenes.settings.addresses.bch.wallets.actions": "Действия",
   "scenes.settings.addresses.bch.wallets.archivedlabel": "Архивировано",

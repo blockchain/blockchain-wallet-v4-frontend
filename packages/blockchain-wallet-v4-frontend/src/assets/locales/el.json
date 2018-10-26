@@ -1857,6 +1857,7 @@
   "scenes.settings.addresses.bch.importedaddresses.title": "Εισηγμένες Διευθύνσεις Bitcoin Cash",
   "scenes.settings.addresses.bch.make_default": "Ορισμός ως Προεπιλογή",
   "scenes.settings.addresses.bch.show_xpub": "Εμφάνιση xPub",
+  "scenes.settings.addresses.bch.showchangeaddrs": null,
   "scenes.settings.addresses.bch.unarchive": "Κατάργηση Αρχειοθέτησης",
   "scenes.settings.addresses.bch.wallets.actions": "Ενέργειες",
   "scenes.settings.addresses.bch.wallets.archivedlabel": "Αρχειοθετήθηκε",

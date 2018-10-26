@@ -1857,6 +1857,7 @@
   "scenes.settings.addresses.bch.importedaddresses.title": "Các Địa chỉ Bitcoin Cash Đã nhập",
   "scenes.settings.addresses.bch.make_default": "Làm mặc định",
   "scenes.settings.addresses.bch.show_xpub": "Hiện khóa chung mở rộng (xPub)",
+  "scenes.settings.addresses.bch.showchangeaddrs": null,
   "scenes.settings.addresses.bch.unarchive": "Bỏ lưu trữ",
   "scenes.settings.addresses.bch.wallets.actions": "Hành động",
   "scenes.settings.addresses.bch.wallets.archivedlabel": "Đã lưu trữ",

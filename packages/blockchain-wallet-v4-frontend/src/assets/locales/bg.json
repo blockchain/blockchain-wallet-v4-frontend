@@ -1857,6 +1857,7 @@
   "scenes.settings.addresses.bch.importedaddresses.title": "Импортирани Bitcoin Cash адреси",
   "scenes.settings.addresses.bch.make_default": "Направи по подразбиране",
   "scenes.settings.addresses.bch.show_xpub": "Покажи xPub",
+  "scenes.settings.addresses.bch.showchangeaddrs": null,
   "scenes.settings.addresses.bch.unarchive": "Разархивирай",
   "scenes.settings.addresses.bch.wallets.actions": "Действия",
   "scenes.settings.addresses.bch.wallets.archivedlabel": "Архивирани",

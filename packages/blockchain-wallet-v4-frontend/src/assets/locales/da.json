@@ -1857,6 +1857,7 @@
   "scenes.settings.addresses.bch.importedaddresses.title": "Importeret Bitcoin Cash-adresse",
   "scenes.settings.addresses.bch.make_default": "Gør den til standard",
   "scenes.settings.addresses.bch.show_xpub": "Vis xPub",
+  "scenes.settings.addresses.bch.showchangeaddrs": null,
   "scenes.settings.addresses.bch.unarchive": "Fjern fra arkiv",
   "scenes.settings.addresses.bch.wallets.actions": "Handlinger",
   "scenes.settings.addresses.bch.wallets.archivedlabel": "Arkiveret",

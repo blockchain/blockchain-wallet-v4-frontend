@@ -1857,6 +1857,7 @@
   "scenes.settings.addresses.bch.importedaddresses.title": "Adrese Bitcoin Cash importate",
   "scenes.settings.addresses.bch.make_default": "Setează ca opțiune implicită",
   "scenes.settings.addresses.bch.show_xpub": "Afișează xPub",
+  "scenes.settings.addresses.bch.showchangeaddrs": null,
   "scenes.settings.addresses.bch.unarchive": "Dezarhivează",
   "scenes.settings.addresses.bch.wallets.actions": "Acțiuni",
   "scenes.settings.addresses.bch.wallets.archivedlabel": "Arhivat",

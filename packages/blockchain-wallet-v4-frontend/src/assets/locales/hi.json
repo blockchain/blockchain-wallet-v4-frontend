@@ -1857,6 +1857,7 @@
   "scenes.settings.addresses.bch.importedaddresses.title": "इम्पोर्ट किए गए बिटकॉइन कैश पते",
   "scenes.settings.addresses.bch.make_default": "डिफाल्ट बनाएं",
   "scenes.settings.addresses.bch.show_xpub": "xPub दिखाएं",
+  "scenes.settings.addresses.bch.showchangeaddrs": null,
   "scenes.settings.addresses.bch.unarchive": "अनआर्काइव करें",
   "scenes.settings.addresses.bch.wallets.actions": "कार्यवाहियाँ",
   "scenes.settings.addresses.bch.wallets.archivedlabel": "आर्काइव किया गया",
