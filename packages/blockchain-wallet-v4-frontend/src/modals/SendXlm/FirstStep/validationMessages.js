@@ -12,17 +12,6 @@ const {
   RESERVE_LEARN_MODAL
 } = model.components.sendXlm
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-
-  > * {
-    margin: 0 0 0 2px;
-  }
-`
-
 const ErrorBanner = styled(Banner)`
   > span {
     display: none;
@@ -43,16 +32,6 @@ export const InvalidAmountMessage = () => (
   />
 )
 
-export const MaximumAmountMessage = () => (
-  <Wrapper>
-    <FormattedMessage
-      id='modals.sendxlm.maximumamountmessage'
-      defaultMessage='Not enough funds. Use'
-    />
-    <MaximumAmountLink />
-  </Wrapper>
-)
-
 export const ShouldCreateAccountMessage = props => (
   <ErrorBanner type='warning'>
     <FormattedMessage
@@ -66,11 +45,14 @@ export const ShouldCreateAccountMessage = props => (
 
 export const ReserveMessage = props => (
   <ErrorBanner type='warning'>
-    <FormattedMessage
-      id='modals.sendxlm.reservemessage'
-      defaultMessage='Insufficient balance. To maintain Stellar’s minimum balance of {reserveXlm} XLM the most that you can send is {currencySymbol}{effectiveBalanceFiat} ({effectiveBalanceXlm} XLM) minus fee.'
-      values={props}
-    />
+    <div>
+      <FormattedMessage
+        id='modals.sendxlm.usespendable'
+        defaultMessage='Use total spendable balance'
+      />
+      {': '}
+      <MaximumAmountLink {...props} />
+    </div>
     <ModalIcon modal={RESERVE_LEARN_MODAL} {...props} />
   </ErrorBanner>
 )

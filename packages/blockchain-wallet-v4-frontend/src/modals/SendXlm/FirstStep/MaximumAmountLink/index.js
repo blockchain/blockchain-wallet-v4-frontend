@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { FormattedMessage } from 'react-intl'
 
 import { actions } from 'data'
+import { getData } from './selectors'
 import { Link } from 'blockchain-info-components'
 
 const MaximumAmountLink = props => (
@@ -12,10 +12,7 @@ const MaximumAmountLink = props => (
     weight={300}
     onClick={props.actions.firstStepMaximumAmountClicked}
   >
-    <FormattedMessage
-      id='modals.sendxlm.maximumamountlink.maximum'
-      defaultMessage='Use maximum'
-    />
+    {`${props.effectiveBalance} XLM`}
   </Link>
 )
 
@@ -24,6 +21,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(
-  undefined,
+  getData,
   mapDispatchToProps
 )(MaximumAmountLink)

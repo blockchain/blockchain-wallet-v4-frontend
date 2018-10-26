@@ -65,7 +65,7 @@ class XlmCreateAccountLearn extends React.PureComponent {
           <Paragraph>
             <FormattedMessage
               id='modal.createaccountlearn.info1'
-              defaultMessage='To fund a new address, you must send enough XLM to meet the reserve requirement.'
+              defaultMessage='To submit transactions, an address must hold a minimum amount of XLM in the shared global ledger. You cannot send this XLM to other addresses. To fund a new address, you must send enough XLM to meet the reserve requirement.'
             />
           </Paragraph>
           <br />

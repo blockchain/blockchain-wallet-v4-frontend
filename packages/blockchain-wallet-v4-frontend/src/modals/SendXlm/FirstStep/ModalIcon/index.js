@@ -11,7 +11,7 @@ const ModalIcon = styled(Icon)`
 `
 
 const ModalIconContainer = ({ showModal, className }) => (
-  <ModalIcon onClick={showModal} name='right-arrow' className={className} />
+  <ModalIcon onMouseDown={showModal} name='right-arrow' className={className} />
 )
 
 const mapDispatchToProps = (dispatch, props) => ({

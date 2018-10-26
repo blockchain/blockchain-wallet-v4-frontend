@@ -116,9 +116,8 @@ export default ({ coreSagas }) => {
       const currency = (yield select(
         selectors.core.settings.getCurrency
       )).getOrFail('Can not retrieve currency.')
-      // TODO: update rates to xlm ticker
       const xlmRates = (yield select(
-        selectors.core.data.bitcoin.getRates
+        selectors.core.data.xlm.getRates
       )).getOrFail('Can not retrieve stellar rates.')
       const payment = (yield select(S.getPayment)).getOrElse({})
       const effectiveBalance = prop('effectiveBalance', payment)
