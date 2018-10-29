@@ -1,62 +1,70 @@
 import React from 'react'
 
-import AddBitcoinWallet from './AddBtcWallet'
+import {
+  DeleteAddressLabel,
+  ShowUsedAddresses,
+  UpgradeAddressLabels
+} from './Addresses'
 import AutoDisconnection from './AutoDisconnection'
-import CoinifyDeleteBank from './CoinifyDeleteBank'
-import CoinifyExchangeData from './CoinifyExchangeData'
-import CoinifyTradeDetails from './CoinifyTradeDetails'
+import { RequestBch, SendBch } from './Bch'
+import {
+  AddBtcWallet,
+  ImportBtcAddress,
+  RequestBtc,
+  SendBtc,
+  ShowBtcPrivateKey
+} from './Btc'
+import {
+  CoinifyDeleteBank,
+  CoinifyExchangeData,
+  CoinifyTradeDetails
+} from './Coinify'
 import Confirm from './Confirm'
-import ConfirmDisable2FA from './ConfirmDisable2FA'
-import DeleteAddressLabel from './DeleteAddressLabel'
 import EditTxDescription from './EditTxDescription'
-import ExchangeDetails from './ExchangeDetails'
-import ExchangeResults from './ExchangeResults'
-import IdentityVerification from './IdentityVerification'
-import ImportBtcAddress from './ImportBtcAddress'
-import LockboxAppInstall from './LockboxAppInstall'
-import LockboxFirmware from './LockboxFirmware'
-import LockboxSetup from './LockboxSetup'
-import MobileNumberChange from './MobileNumberChange'
-import MobileNumberVerify from './MobileNumberVerify'
-import MobileLogin from './MobileLogin'
+import { RequestEth, SendEth, ShowEthPrivateKey, TransferEth } from './Eth'
+import {
+  ExchangeDetails,
+  ExchangeResults,
+  IdentityVerification
+} from './Exchange'
+import {
+  LockboxAppInstall,
+  LockboxFirmware,
+  LockboxSetup,
+  PromptLockbox
+} from './Lockbox'
+import { MobileLogin, MobileNumberChange, MobileNumberVerify } from './Mobile'
 import Onfido from './Onfido'
-import PairingCode from './PairingCode'
 import PromptInput from './PromptInput'
-import PromptLockbox from './PromptLockbox'
 import QRCode from './QRCode'
-import RequestBch from './RequestBch'
-import RequestBtc from './RequestBtc'
-import RequestEth from './RequestEth'
-import RequestXlm from './RequestXlm'
-import SecondPassword from './SecondPassword'
-import SendBch from './SendBch'
-import SendBtc from './SendBtc'
-import SendEth from './SendEth'
-import SendXlm from './SendXlm'
-import SfoxExchangeData from './SfoxExchangeData'
-import SfoxTradeDetails from './SfoxTradeDetails'
-import SfoxEnterMicroDeposits from './SfoxEnterMicroDeposits'
-import ShowBtcPrivateKey from './ShowBtcPrivateKey'
-import ShowEthPrivateKey from './ShowEthPrivateKey'
-import ShowXlmPrivateKey from './ShowXlmPrivateKey'
-import ShowUsedAddresses from './ShowUsedAddresses'
+import {
+  SfoxEnterMicroDeposits,
+  SfoxExchangeData,
+  SfoxTradeDetails
+} from './Sfox'
 import SignMessage from './SignMessage'
-import ShowXPub from './ShowXPub'
 import TransactionReport from './TransactionReport'
-import TransferEth from './TransferEth'
-import TwoStepGoogleAuthenticator from './TwoStepGoogleAuthenticator'
-import TwoStepSetup from './TwoStepSetup'
-import TwoStepYubico from './TwoStepYubico'
-import UpgradeAddressLabels from './UpgradeAddressLabels'
-import UpgradeWallet from './UpgradeWallet'
+import {
+  ConfirmDisable2FA,
+  SecondPassword,
+  TwoStepGoogleAuthenticator,
+  TwoStepSetup,
+  TwoStepYubico
+} from './Settings'
 import UserExists from './UserExists'
-import Welcome from './Welcome'
-import XlmCreateAccountLearn from './XlmCreateAccountLearn'
-import XlmReserveLearn from './XlmReserveLearn'
+import { PairingCode, ShowXPub, UpgradeWallet, Welcome } from './Wallet'
+import {
+  RequestXlm,
+  SendXlm,
+  ShowXlmPrivateKey,
+  XlmAirdropWelcome,
+  XlmCreateAccountLearn,
+  XlmReserveLearn
+} from './Xlm'
 
 const Modals = props => (
   <div>
-    <AddBitcoinWallet />
+    <AddBtcWallet />
     <AutoDisconnection />
     <CoinifyDeleteBank />
     <CoinifyExchangeData />
@@ -109,6 +117,7 @@ const Modals = props => (
     <Welcome />
     <XlmCreateAccountLearn />
     <XlmReserveLearn />
+    <XlmAirdropWelcome />
   </div>
 )
 
