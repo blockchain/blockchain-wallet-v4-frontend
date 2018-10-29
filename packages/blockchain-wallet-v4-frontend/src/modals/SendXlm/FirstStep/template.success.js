@@ -32,7 +32,9 @@ import {
   invalidAmount,
   insufficientFunds,
   shouldError,
-  shouldWarn
+  shouldWarn,
+  validateMemo,
+  validateMemoType
 } from './validation'
 import { Row, AddressButton } from 'components/Send'
 import QRCodeCapture from 'components/QRCodeCapture'
@@ -41,9 +43,31 @@ import { NoAccountTemplate } from './NoAccountTemplate'
 import { ErrorBanner } from './ErrorBanner'
 import { XlmFiatConvertor } from './XlmFiatConvertor'
 import { InfoBanner } from './InfoBanner'
+import { SelectBoxMemo } from './SelectBoxMemo'
 
 const BrowserWarning = styled(Banner)`
   margin-bottom: 15px;
+`
+
+const MemoField = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  & > :first-child {
+    flex: 2;
+    input {
+      border-right: none;
+    }
+    div {
+      display: none;
+    }
+  }
+  & > :last-child {
+    flex: 1;
+    label {
+      width: 300%;
+    }
+  }
 `
 
 const FirstStep = props => {
@@ -215,6 +239,28 @@ const FirstStep = props => {
                 placeholder="What's this transaction for?"
                 fullwidth
               />
+            </FormItem>
+          </FormGroup>
+          <FormGroup margin={'15px'}>
+            <FormItem>
+              <FormLabel for='memo'>
+                <FormattedMessage
+                  id='modals.sendxlm.firststep.memo'
+                  defaultMessage='Memo: '
+                />
+              </FormLabel>
+              <MemoField>
+                <Field
+                  name='memo'
+                  validate={validateMemo}
+                  component={TextBox}
+                />
+                <Field
+                  name='memoType'
+                  validate={validateMemoType}
+                  component={SelectBoxMemo}
+                />
+              </MemoField>
             </FormItem>
           </FormGroup>
           <FormGroup inline margin={'10px'}>

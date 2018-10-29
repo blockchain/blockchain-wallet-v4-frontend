@@ -1,11 +1,14 @@
 import React from 'react'
 import { BigNumber } from 'bignumber.js'
 import { path, prop } from 'ramda'
+import * as StellarSdk from 'stellar-sdk'
 
 import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import {
   InsufficientFundsMessage,
-  InvalidAmountMessage
+  InvalidAmountMessage,
+  WrongTextMemoFormat,
+  WrongIdMemoFormat
 } from './validationMessages'
 import { currencySymbolMap } from 'services/CoinifyService'
 
@@ -117,4 +120,25 @@ export const shouldWarn = ({
     !structure.deepEqual(values, nextProps.values) ||
     props.effectiveBalance !== nextProps.effectiveBalance
   )
+}
+
+export const validateMemo = (value, allValues) => {
+  const memoType = prop('memoType', allValues)
+  if (!value) return
+  try {
+    StellarSdk.Memo[memoType](value)
+  } catch (e) {
+    return 'error'
+  }
+}
+
+export const validateMemoType = (value, allValues) => {
+  const memo = prop('memo', allValues)
+  if (!memo) return
+  try {
+    StellarSdk.Memo[value](memo)
+  } catch (e) {
+    if (value === 'text') return <WrongTextMemoFormat />
+    if (value === 'id') return <WrongIdMemoFormat />
+  }
 }
