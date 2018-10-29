@@ -17,13 +17,13 @@ class ActionsContainer extends React.PureComponent {
   componentWillMount () {
     const { payload } = this.props.match.params
     try {
-      if (startsWith('sunriver', payload)) {
+      if (startsWith('airdrop', payload)) {
         const params = new URLSearchParams(this.props.location.search)
         const email = params.get('email')
         // TODO: referral codes?
-        this.props.goalsActions.saveGoal('sunriver', { email })
+        this.props.goalsActions.saveGoal('airdrop', { email })
         params.get('newUser')
-          ? this.props.routerActions.push('/register')
+          ? this.props.routerActions.push('/signup')
           : this.props.routerActions.push('/login')
       } else if (startsWith('bitcoin', payload)) {
         // Special case to handle bitcoin bip21 link integration

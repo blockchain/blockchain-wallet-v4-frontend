@@ -31,6 +31,17 @@ export default ({ coreSagas }) => {
     yield put(actions.goals.deleteGoal(id))
   }
 
+  const sunRiverGoalSaga = function*(goal) {
+    const { id, data } = goal
+    yield put(
+      actions.modals.showModal('AirdropWelcome', {
+        email: data.email,
+        airdrop: true
+      })
+    )
+    yield put(actions.goals.deleteGoal(id))
+  }
+
   const runGoals = function*() {
     const goals = yield select(selectors.goals.getGoals)
     try {
@@ -39,6 +50,10 @@ export default ({ coreSagas }) => {
           case 'payment':
             yield take(actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_SUCCESS)
             yield call(sendBtcGoalSaga, goal)
+            break
+          case 'airdrop':
+            yield take(actionTypes.auth.LOGIN_SUCCESS)
+            yield call(sunRiverGoalSaga, goal)
             break
         }
       })
