@@ -60,7 +60,7 @@ export default (state = INITIAL_STATE, action) => {
         set(accountLabelLens('btc'), deviceName + ' - BTC Wallet'),
         set(accountLabelLens('bch'), deviceName + ' - BCH Wallet'),
         set(accountLabelLens('eth'), deviceName + ' - ETH Wallet'),
-        set(accountLabelLens('xlm'), deviceName + ' - ETH Wallet')
+        set(accountLabelLens('xlm'), deviceName + ' - XLM Wallet')
       )
 
       return over(valueLens, setDeviceName, state)

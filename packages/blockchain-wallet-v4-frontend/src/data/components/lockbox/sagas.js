@@ -1,5 +1,5 @@
 import { call, put, take, select, takeEvery } from 'redux-saga/effects'
-import { contains, find, length, prop, propEq } from 'ramda'
+import { head, contains, find, length, prop, propEq } from 'ramda'
 import { delay, eventChannel, END } from 'redux-saga'
 import { actions, selectors } from 'data'
 import * as A from './actions'
@@ -390,7 +390,7 @@ export default ({ api }) => {
     )
     yield put(
       actions.core.data.xlm.fetchTransactions(
-        xlmContextR.getOrElse(null),
+        head(xlmContextR.getOrElse([])),
         reset
       )
     )

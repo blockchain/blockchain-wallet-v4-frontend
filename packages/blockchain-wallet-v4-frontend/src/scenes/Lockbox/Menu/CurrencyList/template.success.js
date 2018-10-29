@@ -43,6 +43,14 @@ const Success = props => {
         isInactive={!isEmpty(formValues) && !isActive('bch')}
         onClick={() => handleCoinSelection('BCH')}
       />
+      <CurrencyItem
+        coin='xlm'
+        icon='xlm'
+        balance={data.xlmBalance}
+        isActive={isActive('xlm')}
+        isInactive={!isEmpty(formValues) && !isActive('xlm')}
+        onClick={() => handleCoinSelection('XLM')}
+      />
     </CurrencyList>
   )
 }

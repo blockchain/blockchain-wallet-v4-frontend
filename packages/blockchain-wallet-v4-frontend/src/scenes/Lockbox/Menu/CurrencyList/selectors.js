@@ -3,17 +3,24 @@ import { createDeepEqualSelector } from 'services/ReselectHelper'
 import {
   getLockboxBtcBalance,
   getLockboxBchBalance,
-  getLockboxEthBalance
+  getLockboxEthBalance,
+  getLockboxXlmBalance
 } from 'components/Balances/lockbox/selectors'
 
 export const getData = createDeepEqualSelector(
-  [getLockboxBtcBalance, getLockboxBchBalance, getLockboxEthBalance],
-  (btcBalanceR, bchBalanceR, ethBalanceR) => {
-    const transform = (btcBalance, bchBalance, ethBalance) => ({
+  [
+    getLockboxBtcBalance,
+    getLockboxBchBalance,
+    getLockboxEthBalance,
+    getLockboxXlmBalance
+  ],
+  (btcBalanceR, bchBalanceR, ethBalanceR, xlmBalanceR) => {
+    const transform = (btcBalance, bchBalance, ethBalance, xlmBalance) => ({
       btcBalance,
       bchBalance,
-      ethBalance
+      ethBalance,
+      xlmBalance
     })
-    return lift(transform)(btcBalanceR, bchBalanceR, ethBalanceR)
+    return lift(transform)(btcBalanceR, bchBalanceR, ethBalanceR, xlmBalanceR)
   }
 )
