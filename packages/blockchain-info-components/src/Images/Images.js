@@ -1,3 +1,4 @@
+import airdropWelcome from './img/airdrop-welcome.png'
 import appStoreBadge from './img/app-store-badge.svg'
 import bitcoinNetwork from './img/bitcoin-network.svg'
 import blockchainBlue from './img/blockchain-blue.svg'
@@ -81,6 +82,7 @@ import sendReview2 from './img/lockbox/send-review@2x.png'
 import sendReview3 from './img/lockbox/send-review@3x.png'
 
 export default {
+  'airdrop-welcome': airdropWelcome,
   'app-store-badge': appStoreBadge,
   'bitcoin-network': bitcoinNetwork,
   'blockchain-blue': blockchainBlue,

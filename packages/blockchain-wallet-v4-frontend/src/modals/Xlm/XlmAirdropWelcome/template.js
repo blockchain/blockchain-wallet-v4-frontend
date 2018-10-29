@@ -30,8 +30,7 @@ const AirdropWelcome = props => {
   return (
     <Modal size='medium' position={position} total={total}>
       <WelcomeModalHeader onClose={close} />
-      /* TODO: show stellar image */
-      <Image name='v4-welcome' width='100%' />
+      <Image name='airdrop-welcome' width='100%' />
       <ModalBody>
         <Container>
           <Text size='26px' weight={300}>
