@@ -15,12 +15,7 @@ class SecondStepContainer extends React.PureComponent {
       Success: value => (
         <Success
           coin='XLM'
-          fromAddress={value.fromAddress}
-          toAddress={value.toAddress}
-          description={value.description}
-          amount={value.amount}
-          fee={value.fee}
-          total={value.total}
+          {...value}
           handleBack={actions.secondStepCancelClicked}
           handleSubmit={actions.secondStepSubmitClicked}
         />

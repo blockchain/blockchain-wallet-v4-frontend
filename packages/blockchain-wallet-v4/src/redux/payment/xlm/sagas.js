@@ -245,7 +245,7 @@ export default ({ api }) => {
       memo (memo) {
         const memoType = prop('memoType', p)
         if (!isString(memo)) throw new Error(WRONG_MEMO_FORMAT)
-        if (memoType) validateMemo(memo, memoType)
+        if (memo && memoType) validateMemo(memo, memoType)
 
         return makePayment(merge(p, { memo }))
       },
