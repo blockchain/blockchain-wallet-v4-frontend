@@ -17,7 +17,15 @@ class ActionsContainer extends React.PureComponent {
   componentWillMount () {
     const { payload } = this.props.match.params
     try {
-      if (startsWith('bitcoin', payload)) {
+      if (startsWith('sunriver', payload)) {
+        const params = new URLSearchParams(this.props.location.search)
+        const email = params.get('email')
+        // TODO: referral codes?
+        this.props.goalsActions.saveGoal('sunriver', { email })
+        params.get('newUser')
+          ? this.props.routerActions.push('/register')
+          : this.props.routerActions.push('/login')
+      } else if (startsWith('bitcoin', payload)) {
         // Special case to handle bitcoin bip21 link integration
         const decodedPayload = decodeURIComponent(payload)
         const bip21Payload = bip21.decode(decodedPayload)
@@ -25,14 +33,15 @@ class ActionsContainer extends React.PureComponent {
         const { amount, message } = bip21Payload.options || {}
         const data = { address, amount, description: message }
         this.props.goalsActions.saveGoal('payment', data)
+        this.props.routerActions.push('/wallet')
       } else {
         // Other scenarios with actions encoded in base64
         const decoded = JSON.parse(base64.decode(payload))
         if (!prop('name', decoded) || !prop('data', decoded)) throw new Error()
         const { name, data } = decoded
         this.props.goalsActions.saveGoal(name, data)
+        this.props.routerActions.push('/wallet')
       }
-      this.props.routerActions.push('/wallet')
     } catch (e) {
       this.setState({ error: 'invalid_link' })
     }
