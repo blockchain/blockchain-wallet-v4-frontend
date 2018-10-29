@@ -10,6 +10,7 @@ import exchangeHistoryReducer from 'data/components/exchangeHistory/reducers'
 import { pollTimeout } from 'data/components/exchangeHistory/sagas'
 import exchangeHistorySagas from 'data/components/exchangeHistory/sagaRegister'
 import { getTrades } from 'blockchain-wallet-v4/src/redux/kvStore/shapeShift/selectors'
+import settingsReducer from 'blockchain-wallet-v4/src/redux/settings/reducers'
 import {
   userFlowSupported,
   isUserActive,
@@ -163,7 +164,8 @@ describe('ExchangeHistory', () => {
     spy: spyReducer,
     components: combineReducers({
       exchangeHistory: exchangeHistoryReducer
-    })
+    }),
+    settingsPath: settingsReducer
   }
   const sagas = [exchangeHistorySagas({ coreSagas, api })]
   let store
