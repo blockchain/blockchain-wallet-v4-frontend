@@ -165,7 +165,7 @@ export const getLockboxXlmAccounts = state =>
 
 export const getLockboxXlmAccount = (state, address) =>
   getLockboxXlmAccounts(state)
-    .map(filter(x => x.addr === address))
+    .map(filter(x => x.publicKey === address))
     .map(head)
 
 export const getLockboxXlmContext = state => {
@@ -176,7 +176,7 @@ export const getLockboxXlmContext = state => {
 export const getXlmContextForDevice = (state, deviceIndex) =>
   getDevice(state, deviceIndex)
     .map(pathOr([], ['xlm', 'accounts']))
-    .map(map(prop('addr')))
+    .map(map(prop('publicKey')))
 
 export const getDeviceFromXlmAddr = (state, publicKey) => {
   const accountContainsAddr = account => account.publicKey === publicKey
