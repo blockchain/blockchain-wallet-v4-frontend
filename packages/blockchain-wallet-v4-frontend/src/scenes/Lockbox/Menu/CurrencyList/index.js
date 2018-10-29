@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { contains, map, prop } from 'ramda'
 
 import { actions } from 'data'
-import { getData } from './selectors'
+import { getData, getCoinContexts } from './selectors'
 import Success from './template.success'
 import Loading from './template.loading'
 import Error from './template.error'
@@ -34,7 +34,8 @@ class CurrencyListContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, deviceInfo, formValues } = this.props
+    const { data, deviceInfo, formValues, ...rest } = this.props
+    const { coinContexts } = rest
     return deviceInfo
       ? data.cata({
           Success: val => (
@@ -42,6 +43,7 @@ class CurrencyListContainer extends React.PureComponent {
               data={val}
               formValues={formValues}
               deviceInfo={deviceInfo}
+              coinContexts={coinContexts}
               handleCoinSelection={this.onCoinSelection}
             />
           ),
@@ -53,8 +55,9 @@ class CurrencyListContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  data: getData(state)
+const mapStateToProps = (state, ownProps) => ({
+  data: getData(state),
+  coinContexts: getCoinContexts(state, ownProps.deviceIndex)
 })
 
 const mapDispatchToProps = dispatch => ({

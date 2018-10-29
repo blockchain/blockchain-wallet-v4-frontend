@@ -1,5 +1,6 @@
-import { lift } from 'ramda'
+import { length, lift } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { selectors } from 'data'
 import {
   getLockboxBtcBalance,
   getLockboxBchBalance,
@@ -24,3 +25,26 @@ export const getData = createDeepEqualSelector(
     return lift(transform)(btcBalanceR, bchBalanceR, ethBalanceR, xlmBalanceR)
   }
 )
+
+export const getCoinContexts = (state, i) => ({
+  btc: length(
+    selectors.core.kvStore.lockbox
+      .getBtcContextForDevice(state, i)
+      .getOrElse([])
+  ),
+  bch: length(
+    selectors.core.kvStore.lockbox
+      .getBchContextForDevice(state, i)
+      .getOrElse([])
+  ),
+  eth: length(
+    selectors.core.kvStore.lockbox
+      .getEthContextForDevice(state, i)
+      .getOrElse([])
+  ),
+  xlm: length(
+    selectors.core.kvStore.lockbox
+      .getXlmContextForDevice(state, i)
+      .getOrElse([])
+  )
+})

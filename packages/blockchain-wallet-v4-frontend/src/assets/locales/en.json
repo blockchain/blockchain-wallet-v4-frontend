@@ -1600,7 +1600,6 @@
   "scenes.lockbox.settings.exportxpub.description": "Reveal the Extended Public Key of your lockbox. (Advanced)",
   "scenes.lockbox.settings.exportxpub.show": "Show xPub",
   "scenes.lockbox.settings.exportxpub.title": "Show xPub",
-  "scenes.lockbox.settings.installapps.description": "Install the latest versions of the Bitcoin, Bitcoin Cash and Ethereum apps",
   "scenes.lockbox.settings.installapps.installapps": "Install Apps",
   "scenes.lockbox.settings.installapps.title": "Install Apps",
   "scenes.lockbox.settings.removedevice.description": "Remove {deviceName} from your Blockchain web wallet",

@@ -11,7 +11,6 @@ import AddDevice from './AddDevice'
 import RestoreDevice from './RestoreDevice'
 import UpdateDevice from './UpdateDevice'
 import InstallApps from './InstallApps'
-import AddXlm from './AddXlm'
 
 const SettingsContainer = styled.div`
   padding: 0 30px;
@@ -48,7 +47,6 @@ export default class LockboxSettings extends React.PureComponent {
           isBrowserChrome={isBrowserChrome}
         />
         <AddDevice isBrowserChrome={isBrowserChrome} />
-        <AddXlm deviceIndex={deviceIndex} isBrowserChrome={isBrowserChrome} />
         <RestoreDevice />
         <ExportXPub deviceIndex={deviceIndex} />
         <RemoveDevice deviceIndex={deviceIndex} />

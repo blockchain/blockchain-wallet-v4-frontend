@@ -8842,10 +8842,6 @@
         "id": "scenes.lockbox.settings.installapps.title"
       },
       {
-        "defaultMessage": "Install the latest versions of the Bitcoin, Bitcoin Cash and Ethereum apps",
-        "id": "scenes.lockbox.settings.installapps.description"
-      },
-      {
         "defaultMessage": "Install Apps",
         "id": "scenes.lockbox.settings.installapps.installapps"
       }

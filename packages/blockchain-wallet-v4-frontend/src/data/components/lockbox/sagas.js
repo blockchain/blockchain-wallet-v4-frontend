@@ -214,6 +214,35 @@ export default ({ api }) => {
     }
   }
 
+  const addXlm = function*(action) {
+    try {
+      const { deviceIndex } = action.payload
+      const deviceR = yield select(
+        selectors.core.kvStore.lockbox.getDevice,
+        deviceIndex
+      )
+      const deviceType = prop('device_type', deviceR.getOrFail())
+      const deviceName = prop('device_name', deviceR.getOrFail())
+      yield put(A.pollForDeviceApp('XLM', null, deviceType))
+      yield take(AT.SET_CONNECTION_INFO)
+      const { transport } = yield select(S.getCurrentConnection)
+      const { publicKey } = yield call(
+        Lockbox.utils.getXlmPublicKey,
+        deviceType,
+        transport
+      )
+      const xlmEntry = Lockbox.utils.generateXlmAccountMDEntry(
+        deviceName,
+        publicKey
+      )
+      yield put(
+        actions.core.kvStore.lockbox.addCoinEntry(deviceIndex, 'xlm', xlmEntry)
+      )
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'addXlm', e))
+    }
+  }
+
   // renames a device in KvStore
   const updateDeviceName = function*(action) {
     try {
@@ -713,35 +742,6 @@ export default ({ api }) => {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'installBlockchainApps', e)
       )
-    }
-  }
-
-  const addXlm = function*(action) {
-    try {
-      const { deviceIndex } = action.payload
-      const deviceR = yield select(
-        selectors.core.kvStore.lockbox.getDevice,
-        deviceIndex
-      )
-      const deviceType = prop('device_type', deviceR.getOrFail())
-      const deviceName = prop('device_name', deviceR.getOrFail())
-      yield put(A.pollForDeviceApp('XLM', null, deviceType))
-      yield take(AT.SET_CONNECTION_INFO)
-      const { transport } = yield select(S.getCurrentConnection)
-      const { publicKey } = yield call(
-        Lockbox.utils.getXlmPublicKey,
-        deviceType,
-        transport
-      )
-      const xlmEntry = Lockbox.utils.generateXlmAccountMDEntry(
-        deviceName,
-        publicKey
-      )
-      yield put(
-        actions.core.kvStore.lockbox.addCoinEntry(deviceIndex, 'xlm', xlmEntry)
-      )
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'addXlm', e))
     }
   }
 

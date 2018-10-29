@@ -101,7 +101,11 @@ const Menu = props => {
       {onDashboard && (
         <LinkContainer to={`/lockbox/dashboard/${deviceIndex}`}>
           <CurrencyListContainer>
-            <CurrencyList deviceInfo={deviceInfo} formValues={formValues} />
+            <CurrencyList
+              deviceIndex={deviceIndex}
+              deviceInfo={deviceInfo}
+              formValues={formValues}
+            />
           </CurrencyListContainer>
         </LinkContainer>
       )}
