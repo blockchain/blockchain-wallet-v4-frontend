@@ -59,6 +59,7 @@ export const KYCBanner = ({
   userState,
   verifyIdentity
 }) => {
+  if (!kycState || !userState) return null
   if (outsideOfProfile && kycState === KYC_STATES.VERIFIED) return null
   const isUserStateNone = () => userState === USER_ACTIVATION_STATES.NONE
 
@@ -216,11 +217,9 @@ export const KYCBanner = ({
 }
 
 KYCBanner.propTypes = {
-  kycState: PropTypes.oneOf(values(KYC_STATES)).isRequired,
-  userState: PropTypes.oneOf(values(USER_ACTIVATION_STATES)).isRequired,
-  outsideOfProfile: PropTypes.bool,
-  canTrade: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
-  verifyIdentity: PropTypes.func.isRequired
+  kycState: PropTypes.oneOf(values(KYC_STATES)),
+  userState: PropTypes.oneOf(values(USER_ACTIVATION_STATES)),
+  outsideOfProfile: PropTypes.bool
 }
 
 KYCBanner.defaultProps = {

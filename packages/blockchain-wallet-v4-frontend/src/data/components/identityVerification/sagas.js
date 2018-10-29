@@ -62,9 +62,9 @@ export default ({ api, coreSagas }) => {
   }
 
   const initializeStep = function*() {
-    const activationState = yield select(
+    const activationState = (yield select(
       selectors.modules.profile.getUserActivationState
-    )
+    )).getOrElse(USER_ACTIVATION_STATES.NONE)
     if (activationState === USER_ACTIVATION_STATES.NONE)
       return yield put(A.setVerificationStep(STEPS.personal))
     if (activationState === USER_ACTIVATION_STATES.CREATED)
