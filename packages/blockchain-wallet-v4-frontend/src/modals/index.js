@@ -25,7 +25,8 @@ import { RequestEth, SendEth, ShowEthPrivateKey, TransferEth } from './Eth'
 import {
   ExchangeDetails,
   ExchangeResults,
-  IdentityVerification
+  IdentityVerification,
+  UserExists
 } from './Exchange'
 import {
   LockboxAppInstall,
@@ -51,7 +52,6 @@ import {
   TwoStepSetup,
   TwoStepYubico
 } from './Settings'
-import UserExists from './UserExists'
 import { PairingCode, ShowXPub, UpgradeWallet, Welcome } from './Wallet'
 import {
   RequestXlm,

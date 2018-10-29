@@ -40,10 +40,10 @@ const Header = styled(ModalHeader)`
 
 const { USER_EXISTS_MODAL } = model.components.identityVerification
 
-export const UserExists = ({ position, total, email }) => {
+export const UserExists = ({ position, total, email, closeAll }) => {
   return (
     <Modal size='medium' position={position} total={total}>
-      <Header>
+      <Header onClose={closeAll}>
         <FormattedMessage
           id='modals.userexists.title'
           defaultMessage='Oops! Looks like we have this email already'
