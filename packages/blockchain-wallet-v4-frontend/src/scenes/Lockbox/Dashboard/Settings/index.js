@@ -48,7 +48,7 @@ export default class LockboxSettings extends React.PureComponent {
           isBrowserChrome={isBrowserChrome}
         />
         <AddDevice isBrowserChrome={isBrowserChrome} />
-        <AddXlm isBrowserChrome={isBrowserChrome} />
+        <AddXlm deviceIndex={deviceIndex} isBrowserChrome={isBrowserChrome} />
         <RestoreDevice />
         <ExportXPub deviceIndex={deviceIndex} />
         <RemoveDevice deviceIndex={deviceIndex} />

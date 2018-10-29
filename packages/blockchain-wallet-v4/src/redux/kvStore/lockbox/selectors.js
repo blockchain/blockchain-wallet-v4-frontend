@@ -170,7 +170,7 @@ export const getLockboxXlmAccount = (state, address) =>
 
 export const getLockboxXlmContext = state => {
   return getLockboxXlmAccounts(state).map(accounts => {
-    return accounts ? accounts.map(a => path(['addr'], a)) : []
+    return accounts ? accounts.map(a => path(['publicKey'], a)) : []
   })
 }
 export const getXlmContextForDevice = (state, deviceIndex) =>
