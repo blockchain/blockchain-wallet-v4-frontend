@@ -248,6 +248,9 @@ const FirstStep = props => {
                   id='modals.sendxlm.firststep.memo'
                   defaultMessage='Memo: '
                 />
+                <TooltipHost id='sendxlm.firststep.memotooltip'>
+                  <TooltipIcon name='question-in-circle' />
+                </TooltipHost>
               </FormLabel>
               <MemoField>
                 <Field
