@@ -1297,6 +1297,14 @@
         "id": "modals.sendether.firststep.sharetooltip"
       },
       {
+        "defaultMessage": "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
+        "id": "modals.sendxlm.firststep.sharetooltip"
+      },
+      {
+        "defaultMessage": "Memos give you the ability to communicate a message with money.",
+        "id": "modals.sendxlm.firststep.memotooltip"
+      },
+      {
         "defaultMessage": "The fee charged to execute a trade through SFOX.",
         "id": "orderdetails.tradingfee.tooltip"
       },
@@ -1526,6 +1534,10 @@
       {
         "defaultMessage": "Value When {type}",
         "id": "components.txlistitem.valueattime"
+      },
+      {
+        "defaultMessage": "Memo",
+        "id": "components.txlistitem.memo"
       },
       {
         "defaultMessage": "Sent From",
@@ -5288,6 +5300,10 @@
         "id": "modals.sendxlm.firststep.description"
       },
       {
+        "defaultMessage": "Memo:",
+        "id": "modals.sendxlm.firststep.memo"
+      },
+      {
         "defaultMessage": "Transaction Fee:",
         "id": "modals.sendxlm.firststep.fee"
       },
@@ -5315,6 +5331,14 @@
       {
         "defaultMessage": "Insufficient funds",
         "id": "modals.sendxlm.insufficientfundsmessage"
+      },
+      {
+        "defaultMessage": "Memo should be a number",
+        "id": "modals.sendxlm.wrongidmemo"
+      },
+      {
+        "defaultMessage": "Memo should be shorter than 28 symbols",
+        "id": "modals.sendxlm.wrongtextmemo"
       }
     ],
     "path": "src/modals/SendXlm/FirstStep/validationMessages.json"
@@ -5332,6 +5356,10 @@
       {
         "defaultMessage": "Note:",
         "id": "modals.sendxlm.secondstep.note"
+      },
+      {
+        "defaultMessage": "Memo",
+        "id": "modals.sendxlm.secondstep.memo"
       },
       {
         "defaultMessage": "Payment:",
@@ -8808,6 +8836,23 @@
       }
     ],
     "path": "src/scenes/Lockbox/Dashboard/Settings/AddDevice/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Add Stellar",
+        "id": "scenes.lockbox.settings.addxlm.title"
+      },
+      {
+        "defaultMessage": "Add XLM to your wallet",
+        "id": "scenes.lockbox.settings.addxlm.description"
+      },
+      {
+        "defaultMessage": "Add Stellar",
+        "id": "scenes.lockbox.settings.addxlm.addxlm"
+      }
+    ],
+    "path": "src/scenes/Lockbox/Dashboard/Settings/AddXlm/template.json"
   },
   {
     "descriptors": [
