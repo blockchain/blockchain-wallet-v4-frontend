@@ -252,11 +252,13 @@ const FirstStep = props => {
               <MemoField>
                 <Field
                   name='memo'
+                  errorBottom
                   validate={validateMemo}
                   component={TextBox}
                 />
                 <Field
                   name='memoType'
+                  errorBottom
                   validate={validateMemoType}
                   component={SelectBoxMemo}
                 />

@@ -64,6 +64,8 @@ const Success = props => {
     fromAddress,
     toAddress,
     description,
+    memo,
+    memoType,
     amount,
     fee,
     total,
@@ -107,6 +109,19 @@ const Success = props => {
           </Text>
           <Text size='16px' weight={300}>
             {description}
+          </Text>
+        </Row>
+      )}
+      {memo && (
+        <Row>
+          <Text size='16px' weight={500}>
+            <FormattedMessage
+              id='modals.sendxlm.secondstep.memo'
+              defaultMessage='Memo'
+            />
+          </Text>
+          <Text size='16px' weight={300}>
+            {` ${memoType}: ${memo}`}
           </Text>
         </Row>
       )}
