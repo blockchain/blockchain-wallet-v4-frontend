@@ -25,7 +25,7 @@ const Container = styled.div`
 `
 
 const Welcome = props => {
-  const { position, total, close } = props
+  const { position, total, close, walletMillions } = props
 
   return (
     <Modal size='medium' position={position} total={total}>
@@ -43,7 +43,7 @@ const Welcome = props => {
             <FormattedMessage
               id='modals.welcome.thanks'
               defaultMessage='Thanks for joining over {walletMillions} million Blockchain wallet users in helping create an open, accessible, and fair financial future. Your wallet makes transacting with digital currencies simple and secure. Get started now.'
-              values={{ walletMillions: props.walletMillions }}
+              values={{ walletMillions }}
             />
           </Text>
           <Button

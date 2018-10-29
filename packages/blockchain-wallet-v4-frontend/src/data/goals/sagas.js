@@ -31,10 +31,10 @@ export default ({ coreSagas }) => {
     yield put(actions.goals.deleteGoal(id))
   }
 
-  const sunRiverGoalSaga = function*(goal) {
-    const { id } = goal
+  const sunRiverGoalSaga = function*() {
     yield put(actions.modals.showModal('AirdropWelcome'))
-    yield put(actions.goals.deleteGoal(id))
+    // do not delete goal, the welcomeSaga will check for this goal
+    // if it exists, it wont show wallet welcome and will delete this goal via id
   }
 
   const runGoals = function*() {
