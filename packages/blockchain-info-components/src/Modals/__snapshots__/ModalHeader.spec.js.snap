@@ -19,6 +19,7 @@ exports[`ModalHeader component default renders correctly 1`] = `
       className="headerText"
       color="gray-5"
       cursor="inherit"
+      data-e2e="modalHeaderText"
       italic={false}
       opacity={1}
       size="20px"
@@ -29,6 +30,7 @@ exports[`ModalHeader component default renders correctly 1`] = `
   <Icon
     color="gray-5"
     cursor={true}
+    data-e2e="modalCloseButton"
     name="close"
     onClick={[Function]}
     size="20px"

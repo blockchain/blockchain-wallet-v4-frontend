@@ -31,6 +31,7 @@ const taskToPromise = t =>
 
 // Number of payment operations, equals 1 for single destination payment:
 export const NUMBER_OF_OPERATIONS = 1
+export const MEMO_TYPES = ['id', 'text']
 
 export const NO_ACCOUNT_ERROR = 'Account does not exist'
 export const NO_LEDGER_ERROR = 'No ledger data'
@@ -46,6 +47,7 @@ export const NO_AMOUNT_ERROR = 'No amount'
 export const NO_SOURCE_ERROR = 'No source account'
 export const NO_TX_ERROR = 'No transaction'
 export const NO_SIGNED_ERROR = 'No signed tx'
+export const WRONG_MEMO_FORMAT = 'Bad memo'
 
 export default ({ api }) => {
   // ///////////////////////////////////////////////////////////////////////////
@@ -108,6 +110,14 @@ export default ({ api }) => {
     )
 
     return calculateEffectiveBalance(balance, fee, reserve)
+  }
+
+  const validateMemo = (memo, memoType) => {
+    try {
+      StellarSdk.Memo[memoType](memo)
+    } catch (e) {
+      throw new Error(WRONG_MEMO_FORMAT)
+    }
   }
 
   // ///////////////////////////////////////////////////////////////////////////
@@ -190,6 +200,8 @@ export default ({ api }) => {
         const to = path(['to', 'address'], p)
         const amount = prop('amount', p)
         const destinationAccountExists = prop('destinationAccountExists', p)
+        const memo = prop('memo', p)
+        const memoType = prop('memoType', p)
         if (!account) throw new Error(NO_SOURCE_ERROR)
         if (!to) throw new Error(NO_DESTINATION_ERROR)
         if (!amount) throw new Error(NO_AMOUNT_ERROR)
@@ -201,6 +213,9 @@ export default ({ api }) => {
           destinationAccountExists
         )
         txBuilder.addOperation(operation)
+        if (memo && memoType) {
+          txBuilder.addMemo(StellarSdk.Memo[memoType](memo))
+        }
         const transaction = txBuilder.build()
         return makePayment(merge(p, { transaction }))
       },
@@ -225,6 +240,20 @@ export default ({ api }) => {
         return isString(message)
           ? makePayment(merge(p, { description: message }))
           : makePayment(p)
+      },
+
+      memo (memo) {
+        const memoType = prop('memoType', p)
+        if (!isString(memo)) throw new Error(WRONG_MEMO_FORMAT)
+        if (memo && memoType) validateMemo(memo, memoType)
+
+        return makePayment(merge(p, { memo }))
+      },
+
+      memoType (memoType) {
+        if (!contains(memoType, MEMO_TYPES)) throw new Error(WRONG_MEMO_FORMAT)
+
+        return makePayment(merge(p, { memoType }))
       },
 
       chain () {

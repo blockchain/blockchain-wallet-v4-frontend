@@ -4,6 +4,7 @@ import * as StellarSdk from 'stellar-sdk'
 import Task from 'data.task'
 
 import createPaymentFactory, {
+  MEMO_TYPES,
   NUMBER_OF_OPERATIONS,
   NO_ACCOUNT_ERROR,
   NO_LEDGER_ERROR,
@@ -17,7 +18,8 @@ import createPaymentFactory, {
   NO_AMOUNT_ERROR,
   NO_SOURCE_ERROR,
   NO_TX_ERROR,
-  NO_SIGNED_ERROR
+  NO_SIGNED_ERROR,
+  WRONG_MEMO_FORMAT
 } from './sagas'
 import * as S from '../../selectors'
 import { xlm as xlmSigner } from '../../../signer'
@@ -28,6 +30,7 @@ import { convertXlmToXlm } from '../../../exchange'
 jest.mock('../../selectors')
 jest.mock('../../../signer')
 
+const [MEMO_ID, MEMO_TEXT] = MEMO_TYPES
 const STUB_BASE_FEE = 100
 const STUB_BASE_RESERVE = 500000
 const STUB_BALANCE = 10000000
@@ -51,7 +54,9 @@ const STUB_DEFAULT_ACCOUNT = {
   subentry_count: 0
 }
 const STUB_OTHER_ACCOUNT = {}
-const STUB_DESCRIPTION = 'memo'
+const STUB_DESCRIPTION = 'description'
+const STUB_TEXT_MEMO = 'text'
+const STUB_ID_MEMO = '123'
 const STUB_TX = {}
 const STUB_PASSWORD = 'qwerty'
 const STUB_MNEMONIC =
@@ -86,6 +91,8 @@ S.wallet.getMnemonic.mockReturnValue(() => Task.of(STUB_MNEMONIC))
 
 xlmSigner.sign.mockReturnValue(STUB_SIGNED_TX)
 
+jest.spyOn(StellarSdk.Memo, 'id')
+jest.spyOn(StellarSdk.Memo, 'text')
 jest.spyOn(StellarSdk.Operation, 'payment')
 jest.spyOn(StellarSdk.Operation, 'createAccount')
 jest.spyOn(StellarSdk.TransactionBuilder.prototype, 'constructor')
@@ -284,6 +291,51 @@ describe('payment', () => {
     })
   })
 
+  describe('memo', () => {
+    it('should add memo', () => {
+      payment = payment.memo(STUB_TEXT_MEMO)
+      expect(payment.value().memo).toBe(STUB_TEXT_MEMO)
+    })
+
+    it('should throw if memo is not text', () => {
+      expect(payment.memo.bind(null, 123)).toThrowError(
+        new Error(WRONG_MEMO_FORMAT)
+      )
+      expect(payment.memo.bind(null, {})).toThrowError(
+        new Error(WRONG_MEMO_FORMAT)
+      )
+    })
+
+    it('should throw if memo type is id and memo is not a stringified number', () => {
+      let otherPayment = payment.memo('')
+      otherPayment = otherPayment.memoType(MEMO_ID)
+      expect(otherPayment.memo.bind(null, STUB_TEXT_MEMO)).toThrowError(
+        new Error(WRONG_MEMO_FORMAT)
+      )
+    })
+
+    it('should throw if memo type is text and memo is longer than 28 chars', () => {
+      let otherPayment = payment.memo('')
+      otherPayment = otherPayment.memoType(MEMO_TEXT)
+      expect(
+        otherPayment.memo.bind(null, '12345678901234567890123456789')
+      ).toThrowError(new Error(WRONG_MEMO_FORMAT))
+    })
+  })
+
+  describe('memoType', () => {
+    it('should add memo type', () => {
+      payment = payment.memoType(MEMO_TEXT)
+      expect(payment.value().memoType).toBe(MEMO_TEXT)
+    })
+
+    it('should throw if memo type is wrong', () => {
+      expect(payment.memoType.bind(null, MEMO_TEXT + 1)).toThrowError(
+        new Error(WRONG_MEMO_FORMAT)
+      )
+    })
+  })
+
   describe('build', () => {
     it('should build transaction', async () => {
       payment = await expectSaga(payment.build)
@@ -304,6 +356,11 @@ describe('payment', () => {
       ).toHaveBeenCalledTimes(1)
       expect(
         StellarSdk.TransactionBuilder.prototype.build
+      ).toHaveBeenCalledTimes(1)
+      expect(StellarSdk.Memo.text).toHaveBeenCalledTimes(1)
+      expect(StellarSdk.Memo.text).toHaveBeenCalledWith(STUB_TEXT_MEMO)
+      expect(
+        StellarSdk.TransactionBuilder.prototype.addMemo
       ).toHaveBeenCalledTimes(1)
       expect(payment.value().transaction).toBe(STUB_TX)
     })
@@ -331,7 +388,32 @@ describe('payment', () => {
       expect(
         StellarSdk.TransactionBuilder.prototype.build
       ).toHaveBeenCalledTimes(1)
+      expect(StellarSdk.Memo.text).toHaveBeenCalledTimes(1)
+      expect(StellarSdk.Memo.text).toHaveBeenCalledWith(STUB_TEXT_MEMO)
+      expect(
+        StellarSdk.TransactionBuilder.prototype.addMemo
+      ).toHaveBeenCalledTimes(1)
       expect(otherPayment.value().transaction).toBe(STUB_TX)
+    })
+
+    it('should call memo id if it was set as memo type', async () => {
+      let otherPayment = payment.memoType(MEMO_ID)
+      otherPayment = otherPayment.memo(STUB_ID_MEMO)
+      StellarSdk.Memo.id.mockClear()
+      await expectSaga(otherPayment.build)
+        .run()
+        .then(prop('returnValue'))
+      expect(StellarSdk.Memo.id).toHaveBeenCalledTimes(1)
+      expect(StellarSdk.Memo.id).toHaveBeenCalledWith(STUB_ID_MEMO)
+    })
+
+    it('should not call memo if it was not set', async () => {
+      let otherPayment = payment.memo('')
+      StellarSdk.Memo.text.mockClear()
+      await expectSaga(otherPayment.build)
+        .run()
+        .then(prop('returnValue'))
+      expect(StellarSdk.Memo.text).toHaveBeenCalledTimes(0)
     })
 
     it('should throw if source account is not set', () => {

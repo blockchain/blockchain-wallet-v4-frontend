@@ -91,6 +91,18 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
           />
         </Tooltip>
+        <Tooltip id='sendxlm.firststep.sharetooltip'>
+          <FormattedMessage
+            id='modals.sendxlm.firststep.sharetooltip'
+            defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
+          />
+        </Tooltip>
+        <Tooltip id='sendxlm.firststep.memotooltip'>
+          <FormattedMessage
+            id='modals.sendxlm.firststep.memotooltip'
+            defaultMessage='Memos give you the ability to communicate a message with money.'
+          />
+        </Tooltip>
         <Tooltip id='tradingfee.tooltip'>
           <FormattedMessage
             id='orderdetails.tradingfee.tooltip'

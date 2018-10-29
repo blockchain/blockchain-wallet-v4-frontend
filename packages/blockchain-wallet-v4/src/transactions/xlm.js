@@ -43,6 +43,8 @@ export const transformTx = curry((accounts, tx, txNotes, operation) => {
   const fee = prop('fee_paid', tx)
   const time = moment(prop('created_at', tx)).format('X')
   const hash = prop('hash', tx)
+  const memo = prop('memo', tx)
+  const memoType = prop('memo_type', tx)
 
   return {
     amount,
@@ -51,6 +53,8 @@ export const transformTx = curry((accounts, tx, txNotes, operation) => {
     fee,
     from: getLabel(accounts, from),
     hash,
+    memo,
+    memoType,
     time,
     to: getLabel(accounts, to),
     type

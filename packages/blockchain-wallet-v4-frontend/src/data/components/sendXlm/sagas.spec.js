@@ -1,5 +1,5 @@
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
-import { initialize } from 'redux-form'
+import { initialize, touch } from 'redux-form'
 import { path, prop } from 'ramda'
 
 import rootReducer from '../../rootReducer'
@@ -9,7 +9,7 @@ import * as S from './selectors'
 import * as C from 'services/AlertService'
 import { FORM } from './model'
 import { actions, selectors } from 'data'
-import sendXlmSagas, { logLocation } from './sagas'
+import sendXlmSagas, { logLocation, INITIAL_MEMO_TYPE } from './sagas'
 import { promptForSecondPassword } from 'services/SagaService'
 import * as StellarSdk from 'stellar-sdk'
 
@@ -65,6 +65,8 @@ describe('sendXlm sagas', () => {
     sign: jest.fn(() => paymentMock),
     publish: jest.fn(() => paymentMock),
     description: jest.fn(() => paymentMock),
+    memo: jest.fn(() => paymentMock),
+    memoType: jest.fn(() => paymentMock),
     chain: jest.fn()
   }
   const value = { ...paymentMock, fee: STUB_FEE }
@@ -85,7 +87,8 @@ describe('sendXlm sagas', () => {
     const initialValues = {
       from: { addr: STUB_ADDRESS },
       coin: 'XLM',
-      fee: STUB_FEE
+      fee: STUB_FEE,
+      memoType: INITIAL_MEMO_TYPE
     }
 
     const beforeEnd = 'beforeEnd'
@@ -100,6 +103,10 @@ describe('sendXlm sagas', () => {
       expect(coreSagas.payment.xlm.create).toHaveBeenCalledWith()
     })
 
+    it('should set initial memo type', () => {
+      saga.next(paymentMock).call(paymentMock.memoType, INITIAL_MEMO_TYPE)
+    })
+
     it('should call setFrom based on payload', () => {
       saga.next(paymentMock).call(setFrom, paymentMock, from, type)
     })
@@ -112,6 +119,10 @@ describe('sendXlm sagas', () => {
 
     it('should initialize form with correct initial values', () => {
       saga.next(mockAccount).put(initialize(FORM, initialValues))
+    })
+
+    it('should touch memo and memoType form fields', () => {
+      saga.next().put(touch(FORM, 'memo', 'memoType'))
     })
 
     it('should trigger xlm payment updated success action', () => {
@@ -151,7 +162,8 @@ describe('sendXlm sagas', () => {
         expect(form.initial).toEqual({
           from: {},
           coin: 'XLM',
-          fee: STUB_FEE
+          fee: STUB_FEE,
+          memoType: INITIAL_MEMO_TYPE
         })
       })
 

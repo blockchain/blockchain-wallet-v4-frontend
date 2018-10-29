@@ -108,12 +108,7 @@ const Welcome = props => {
                 </Button>
               </LinkContainer>
             ) : (
-              <Button
-                nature='primary'
-                onClick={handleRequest}
-                fullwidth
-                uppercase
-              >
+              <Button nature='primary' onClick={handleRequest} fullwidth>
                 <FormattedMessage
                   id='scenes.transaction.content.empty.getstarted.request'
                   defaultMessage='Get {coin}'

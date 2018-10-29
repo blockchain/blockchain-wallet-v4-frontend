@@ -5,7 +5,7 @@ import * as A from './actions'
 import * as S from './selectors'
 import { FORM } from './model'
 import { actions, actionTypes, model, selectors } from 'data'
-import { initialize, change } from 'redux-form'
+import { initialize, change, touch } from 'redux-form'
 import * as C from 'services/AlertService'
 import * as Lockbox from 'services/LockboxService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
@@ -13,6 +13,8 @@ import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 export const logLocation = 'components/sendXlm/sagas'
+
+export const INITIAL_MEMO_TYPE = 'text'
 
 export default ({ coreSagas }) => {
   const initialized = function*(action) {
@@ -22,6 +24,7 @@ export default ({ coreSagas }) => {
       yield put(A.paymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.xlm.create()
       payment = yield call(payment.init)
+      payment = yield call(payment.memoType, INITIAL_MEMO_TYPE)
       payment =
         from && type
           ? yield call(setFrom, payment, from, type)
@@ -35,9 +38,11 @@ export default ({ coreSagas }) => {
       const initialValues = {
         coin: 'XLM',
         fee: defaultFee,
-        from: defaultAccount
+        from: defaultAccount,
+        memoType: INITIAL_MEMO_TYPE
       }
       yield put(initialize(FORM, initialValues))
+      yield put(touch(FORM, 'memo', 'memoType'))
       yield put(A.paymentUpdated(Remote.of(payment.value())))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
@@ -102,6 +107,12 @@ export default ({ coreSagas }) => {
           break
         case 'description':
           payment = yield call(payment.description, payload)
+          break
+        case 'memo':
+          payment = yield call(payment.memo, String(payload))
+          break
+        case 'memoType':
+          payment = yield call(payment.memoType, payload)
           break
       }
 

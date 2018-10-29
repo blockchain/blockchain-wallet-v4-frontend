@@ -88,7 +88,7 @@ const Convertor = props => {
             onChange={handleCoinChange}
             onFocus={handleFocus}
             errorState={errorState}
-            data-e2e={`${props['data-e2e']}_crypto_amount`}
+            data-e2e={`${props['data-e2e']}CryptoAmount`}
           />
           <Unit>{unit}</Unit>
         </Container>
@@ -103,7 +103,7 @@ const Convertor = props => {
             onChange={handleFiatChange}
             onFocus={handleFocus}
             errorState={errorState}
-            data-e2e={`${props['data-e2e']}_fiat_amount`}
+            data-e2e={`${props['data-e2e']}FiatAmount`}
           />
           <Unit>{currency}</Unit>
         </Container>

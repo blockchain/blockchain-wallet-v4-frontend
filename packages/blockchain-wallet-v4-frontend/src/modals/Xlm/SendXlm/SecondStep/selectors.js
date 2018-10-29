@@ -11,6 +11,8 @@ export const getData = state => {
 
     return {
       description: payment.description,
+      memo: payment.memo,
+      memoType: payment.memoType,
       fromAddress: fromLabel,
       toAddress: toLabel,
       amount: payment.amount,
