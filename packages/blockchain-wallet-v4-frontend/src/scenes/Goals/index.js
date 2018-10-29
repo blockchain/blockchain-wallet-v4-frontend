@@ -19,9 +19,8 @@ class ActionsContainer extends React.PureComponent {
     try {
       if (startsWith('airdrop', payload)) {
         const params = new URLSearchParams(this.props.location.search)
-        const email = params.get('email')
         // TODO: referral codes?
-        this.props.goalsActions.saveGoal('airdrop', { email })
+        this.props.goalsActions.saveGoal('airdrop')
         params.get('newUser')
           ? this.props.routerActions.push('/signup')
           : this.props.routerActions.push('/login')

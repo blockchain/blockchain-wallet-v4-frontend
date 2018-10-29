@@ -32,13 +32,8 @@ export default ({ coreSagas }) => {
   }
 
   const sunRiverGoalSaga = function*(goal) {
-    const { id, data } = goal
-    yield put(
-      actions.modals.showModal('AirdropWelcome', {
-        email: data.email,
-        airdrop: true
-      })
-    )
+    const { id } = goal
+    yield put(actions.modals.showModal('AirdropWelcome'))
     yield put(actions.goals.deleteGoal(id))
   }
 

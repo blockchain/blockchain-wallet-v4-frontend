@@ -25,7 +25,7 @@ const Container = styled.div`
 `
 
 const AirdropWelcome = props => {
-  const { position, total, close } = props
+  const { position, total, close, verifyIdentity } = props
 
   return (
     <Modal size='medium' position={position} total={total}>
@@ -46,7 +46,7 @@ const AirdropWelcome = props => {
               defaultMessage="Verify your identity to claim your XLM. It only takes a few minutes. Once verified, you'll be able to use our next generation trading product, Swap."
             />
           </Text>
-          <Button nature='primary' fullwidth onClick={close}>
+          <Button nature='primary' fullwidth onClick={verifyIdentity}>
             <FormattedMessage
               id='modals.xlmairdropwelcome.being'
               defaultMessage='Begin Now'
