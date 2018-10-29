@@ -701,6 +701,12 @@ export default ({ api }) => {
         AT.INSTALL_APPLICATION_FAILURE,
         AT.INSTALL_APPLICATION_SUCCESS
       ])
+      // install XLM app
+      yield put(A.installApplication('XLM'))
+      yield take([
+        AT.INSTALL_APPLICATION_FAILURE,
+        AT.INSTALL_APPLICATION_SUCCESS
+      ])
       yield put(A.installBlockchainAppsSuccess())
     } catch (e) {
       yield put(A.installBlockchainAppsFailure(e))

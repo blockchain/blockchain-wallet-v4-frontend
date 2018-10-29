@@ -6,7 +6,8 @@ export default {
   appIds: {
     BTC: 1,
     BCH: 2,
-    ETH: 18
+    ETH: 18,
+    XLM: 27
   },
   providers: {
     '': 1,
