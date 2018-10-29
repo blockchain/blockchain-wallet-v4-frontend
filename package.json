@@ -21,7 +21,8 @@
     "wallet"
   ],
   "engines": {
-    "node": ">= 10.2"
+    "node": ">= 10.2",
+    "yarn": ">= 1.10"
   },
   "workspaces": [
     "packages/*"
