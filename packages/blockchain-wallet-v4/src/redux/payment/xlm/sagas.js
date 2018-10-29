@@ -59,6 +59,29 @@ export default ({ api }) => {
     return destination
   }
 
+  const calculateSignature = function*(
+    password,
+    transaction,
+    transport,
+    scrambleKey,
+    raw
+  ) {
+    switch (raw.fromType) {
+      case ADDRESS_TYPES.ACCOUNT:
+        if (!transaction) throw new Error(NO_TX_ERROR)
+        const mnemonicT = yield select(flip(S.wallet.getMnemonic)(password))
+        const mnemonic = yield call(() => taskToPromise(mnemonicT))
+        return xlmSigner.sign({ transaction }, mnemonic)
+      case ADDRESS_TYPES.LOCKBOX:
+        return yield call(
+          xlmSigner.signWithLockbox,
+          transport,
+          transaction,
+          scrambleKey
+        )
+    }
+  }
+
   const createOperation = (to, value, destinationAccountExists) => {
     const amount = convertXlmToXlm({
       value,
@@ -196,12 +219,14 @@ export default ({ api }) => {
       },
 
       *build () {
-        const account = path(['from', 'account'], p)
+        const fromData = prop('from', p)
         const to = path(['to', 'address'], p)
         const amount = prop('amount', p)
         const destinationAccountExists = prop('destinationAccountExists', p)
         const memo = prop('memo', p)
         const memoType = prop('memoType', p)
+        const fromType = prop('type', fromData)
+        const account = prop(['account'], fromData)
         if (!account) throw new Error(NO_SOURCE_ERROR)
         if (!to) throw new Error(NO_DESTINATION_ERROR)
         if (!amount) throw new Error(NO_AMOUNT_ERROR)
@@ -216,17 +241,26 @@ export default ({ api }) => {
         if (memo && memoType) {
           txBuilder.addMemo(StellarSdk.Memo[memoType](memo))
         }
+        const raw = { fromType }
         const transaction = txBuilder.build()
-        return makePayment(merge(p, { transaction }))
+        return makePayment(merge(p, { transaction, raw }))
       },
 
-      *sign (password) {
-        const transaction = prop('transaction', p)
-        if (!transaction) throw new Error(NO_TX_ERROR)
-        const mnemonicT = yield select(flip(S.wallet.getMnemonic)(password))
-        const mnemonic = yield call(() => taskToPromise(mnemonicT))
-        const signed = xlmSigner.sign({ transaction }, mnemonic)
-        return makePayment(merge(p, { signed }))
+      *sign (password, transport, scrambleKey) {
+        try {
+          const transaction = prop('transaction', p)
+          const signed = yield call(
+            calculateSignature,
+            password,
+            transaction,
+            transport,
+            scrambleKey,
+            p.raw
+          )
+          return makePayment(merge(p, { signed }))
+        } catch (e) {
+          throw new Error('missing_mnemonic')
+        }
       },
 
       *publish () {

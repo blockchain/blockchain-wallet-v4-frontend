@@ -178,8 +178,8 @@ export const getXlmContextForDevice = (state, deviceIndex) =>
     .map(pathOr([], ['xlm', 'accounts']))
     .map(map(prop('addr')))
 
-export const getDeviceFromXlmAddr = (state, addr) => {
-  const accountContainsAddr = account => account.addr === addr
+export const getDeviceFromXlmAddr = (state, publicKey) => {
+  const accountContainsAddr = account => account.publicKey === publicKey
   const deviceFilter = device =>
     any(accountContainsAddr, path(['xlm', 'accounts'], device))
   return getDevices(state)

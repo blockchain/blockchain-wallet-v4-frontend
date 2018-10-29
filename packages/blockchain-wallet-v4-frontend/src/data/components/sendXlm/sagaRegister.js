@@ -9,6 +9,7 @@ export default ({ coreSagas }) => {
   return function*() {
     yield takeLatest(AT.INITIALIZED, sendXlmSagas.initialized)
     yield takeLatest(AT.DESTROYED, sendXlmSagas.destroyed)
+    yield takeLatest(AT.FIRST_STEP_TO_TOGGLED, sendXlmSagas.toToggled)
     yield takeLatest(
       AT.FIRST_STEP_SUBMIT_CLICKED,
       sendXlmSagas.firstStepSubmitClicked
