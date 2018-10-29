@@ -181,3 +181,8 @@ export const installBlockchainAppsFailure = error => ({
 export const resetAppsInstallStatus = () => ({
   type: AT.RESET_APPS_INSTALL_STATUS
 })
+// xlm
+export const addXlm = deviceIndex => ({
+  type: AT.ADD_XLM,
+  payload: { deviceIndex }
+})

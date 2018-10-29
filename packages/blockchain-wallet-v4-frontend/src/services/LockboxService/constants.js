@@ -21,13 +21,15 @@ export default {
       BCH: 'bch-blockchain',
       BTC: 'btc-blockchain',
       DASHBOARD: 'blockchain',
-      ETH: 'eth-blockchain'
+      ETH: 'eth-blockchain',
+      XLM: 'xlm-blockchain'
     },
     ledger: {
       BCH: 'BTC',
       BTC: 'BTC',
       DASHBOARD: 'B0L0S',
-      ETH: 'w0w'
+      ETH: 'w0w',
+      XLM: 'l0v'
     }
   },
   socketPaths: {

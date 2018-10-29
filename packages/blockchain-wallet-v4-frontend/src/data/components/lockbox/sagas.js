@@ -710,7 +710,24 @@ export default ({ api }) => {
     }
   }
 
+  const addXlm = function*(action) {
+    try {
+      const { deviceIndex } = action.payload
+      const deviceR = yield select(
+        selectors.core.kvStore.lockbox.getDevice,
+        deviceIndex
+      )
+      const deviceType = prop('device_type', deviceR.getOrFail())
+      yield put(A.pollForDeviceApp('XLM', null, deviceType))
+      yield take(AT.SET_CONNECTION_INFO)
+      // const { transport } = yield select(S.getCurrentConnection)
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'addXlm', e))
+    }
+  }
+
   return {
+    addXlm,
     checkDeviceAuthenticity,
     deleteDevice,
     pollForDeviceTypeChannel,
