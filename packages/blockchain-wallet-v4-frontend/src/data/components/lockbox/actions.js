@@ -181,3 +181,8 @@ export const installBlockchainAppsFailure = error => ({
 export const resetAppsInstallStatus = () => ({
   type: AT.RESET_APPS_INSTALL_STATUS
 })
+// new coins
+export const saveCoinMD = (deviceIndex, coin) => ({
+  type: AT.SAVE_COIN_MD,
+  payload: { deviceIndex, coin }
+})

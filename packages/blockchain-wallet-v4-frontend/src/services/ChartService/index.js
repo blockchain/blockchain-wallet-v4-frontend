@@ -17,11 +17,13 @@ const SCALES = {
 const BTCSTART = 1282089600
 const ETHSTART = 1438992000
 const BCHSTART = 1500854400
+const XLMSTART = 1443631614
 
 const start = {
   BTC: BTCSTART,
   ETH: ETHSTART,
-  BCH: BCHSTART
+  BCH: BCHSTART,
+  XLM: XLMSTART
 }
 
 export const calculateStart = (coin, time) => {

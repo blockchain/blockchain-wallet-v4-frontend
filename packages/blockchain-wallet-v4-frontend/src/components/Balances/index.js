@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Icon, SkeletonRectangle, Text } from 'blockchain-info-components'
+import { Icon, Link, SkeletonRectangle, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
+import { FormattedMessage } from 'react-intl'
 
 export const Wrapper = styled.div`
   display: flex;
@@ -221,6 +222,7 @@ export const CurrencyItem = props => {
     display: flex;
     opacity: 1;
     padding: 15px;
+    max-width: 200px;
     margin-right: 25px;
     flex-direction: row;
     align-items: center;
@@ -256,14 +258,24 @@ export const CurrencyItem = props => {
       <IconBox coin={props.coin}>
         <Icon size='32px' color='white' name={props.icon} />
       </IconBox>
-      <Balance>
-        <FiatDisplay size='14px' weight={400} coin={props.coin.toUpperCase()}>
-          {props.balance}
-        </FiatDisplay>
-        <CoinDisplay size='13px' weight={200} coin={props.coin.toUpperCase()}>
-          {props.balance}
-        </CoinDisplay>
-      </Balance>
+      {props.isSaved ? (
+        <Balance>
+          <FiatDisplay size='14px' weight={400} coin={props.coin.toUpperCase()}>
+            {props.balance}
+          </FiatDisplay>
+          <CoinDisplay size='13px' weight={200} coin={props.coin.toUpperCase()}>
+            {props.balance}
+          </CoinDisplay>
+        </Balance>
+      ) : (
+        <Link size='12px' weight={300}>
+          <FormattedMessage
+            id='components.balances.savecoin'
+            defaultMessage='Click here to add {coin} to your Blockchain Wallet'
+            values={{ coin: props.coin.toUpperCase() }}
+          />
+        </Link>
+      )}
     </Wrapper>
   )
 }

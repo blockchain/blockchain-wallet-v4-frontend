@@ -177,6 +177,7 @@ export default ({ coreSagas }) => {
     let payment = (yield select(S.getPayment)).getOrElse({})
     payment = yield call(coreSagas.payment.xlm.create, { payment })
     const fromType = path(['from', 'type'], payment.value())
+    const toAddress = path(['to', 'address'], payment.value())
     const fromAddress = path(['from', 'address'], payment.value())
     try {
       // Sign payment
@@ -185,16 +186,16 @@ export default ({ coreSagas }) => {
         payment = yield call(payment.sign, password)
       } else {
         const device = (yield select(
-          selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
+          selectors.core.kvStore.lockbox.getDeviceFromXlmAddr,
           fromAddress
         )).getOrFail('missing_device')
         const deviceType = prop('device_type', device)
-        yield call(promptForLockbox, 'ETH', null, deviceType)
+        yield call(promptForLockbox, 'XLM', deviceType, [toAddress])
         let connection = yield select(
           selectors.components.lockbox.getCurrentConnection
         )
         const transport = prop('transport', connection)
-        const scrambleKey = Lockbox.utils.getScrambleKey('ETH', deviceType)
+        const scrambleKey = Lockbox.utils.getScrambleKey('XLM', deviceType)
         payment = yield call(payment.sign, null, transport, scrambleKey)
       }
       // Publish payment
@@ -205,7 +206,7 @@ export default ({ coreSagas }) => {
       // Update metadata
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         const device = (yield select(
-          selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
+          selectors.core.kvStore.lockbox.getDeviceFromXlmAddr,
           fromAddress
         )).getOrFail('missing_device')
         const deviceIndex = prop('device_index', device)
@@ -274,6 +275,14 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const toToggled = function*() {
+    try {
+      yield put(change('sendXlm', 'to', ''))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'toToggled', e))
+    }
+  }
+
   return {
     initialized,
     destroyed,
@@ -281,6 +290,7 @@ export default ({ coreSagas }) => {
     maximumAmountClicked,
     secondStepSubmitClicked,
     formChanged,
+    toToggled,
     setFrom
   }
 }
