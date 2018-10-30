@@ -1072,10 +1072,6 @@
         "id": "components.identityverification.popup.header.verified"
       },
       {
-        "defaultMessage": "Introducing Blockchain's new and improved crypto exchange function. To begin using this updated feature, please verify your identity. The process only takes a couple of minutes.",
-        "id": "components.identityverification.popup.note.notcreated"
-      },
-      {
         "defaultMessage": "Complete your profile and identity verification to start exchanging. Don’t worry, we only need a couple more details.",
         "id": "components.identityverification.popup.note.unverified"
       },
@@ -3189,6 +3185,75 @@
         "id": "identityverification.personal.dateofbirthmonth"
       },
       {
+        "defaultMessage": "Send My Code",
+        "id": "identityverification.personal.mobile.sendmycode"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "identityverification.personal.continue"
+      }
+    ],
+    "path": "src/modals/IdentityVerification/Personal/EditSmsNumber.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Enter Address Manually",
+        "id": "identityverification.personal.manualaddress"
+      },
+      {
+        "defaultMessage": "Personal Details",
+        "id": "identityverification.personal.header"
+      },
+      {
+        "defaultMessage": "To get started, we need to verify your identity. It should only take a few minutes.",
+        "id": "identityverification.personal.subheader"
+      },
+      {
+        "defaultMessage": "Select your country of residence",
+        "id": "identityverification.personal.country"
+      },
+      {
+        "defaultMessage": "Select country",
+        "id": "components.selectboxcountry.label"
+      },
+      {
+        "defaultMessage": "State",
+        "id": "identityverification.personal.state"
+      },
+      {
+        "defaultMessage": "Select your state",
+        "id": "identityverification.personal.label.state"
+      },
+      {
+        "defaultMessage": "Unfortunately exchange is not available in your state at this time.",
+        "id": "identityverification.personal.unavailable"
+      },
+      {
+        "defaultMessage": "We will notify you when we expand to your area.",
+        "id": "identityverification.personal.unavailablenotify"
+      },
+      {
+        "defaultMessage": "First Name",
+        "id": "identityverification.personal.firstname"
+      },
+      {
+        "defaultMessage": "Last Name",
+        "id": "identityverification.personal.lastname"
+      },
+      {
+        "defaultMessage": "First & Last Name",
+        "id": "identityverification.personal.faq.name.title"
+      },
+      {
+        "defaultMessage": "They should match exactly the details in your passport or driving license.",
+        "id": "identityverification.personal.faq.name.text"
+      },
+      {
+        "defaultMessage": "Date of Birth - Month",
+        "id": "identityverification.personal.dateofbirthmonth"
+      },
+      {
         "defaultMessage": "Date",
         "id": "identityverification.personal.date"
       },
@@ -3303,7 +3368,7 @@
         "id": "identityverification.personal.mobile.header"
       },
       {
-        "defaultMessage": "Good news – you’re almost done! We need to confirm your phone number and get a copy of your photo ID. This will only take a few minutes.",
+        "defaultMessage": "We need to verify your mobile number. This will help us to verify your identity today, and also keep your account secure in the future. To do this an SMS will be sent to your phone, with a verification code.",
         "id": "identityverification.personal.mobile.subheader"
       },
       {
@@ -6786,6 +6851,108 @@
       }
     ],
     "path": "src/scenes/Exchange/ExchangeForm/validationMessages.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Success! Your exchange is complete",
+        "id": "modals.exchange.shapeshift.title.success"
+      },
+      {
+        "defaultMessage": "Exchange In Progress",
+        "id": "modals.exchange.shapeshift.title.inprogress"
+      },
+      {
+        "defaultMessage": "Thanks for placing your trade!",
+        "id": "modals.exchange.shapeshift.explain"
+      },
+      {
+        "defaultMessage": "Exchange trades can take up to two hours, and you can keep track of your trade’s progress in the Order History tab.",
+        "id": "modals.exchange.shapeshift.explain2"
+      },
+      {
+        "defaultMessage": "Your exchange is complete.",
+        "id": "modals.exchange.shapeshift.explain3"
+      },
+      {
+        "defaultMessage": "It may take a few minutes for the funds to show in your balance.",
+        "id": "modals.exchange.shapeshift.explain4"
+      },
+      {
+        "defaultMessage": "Order summary",
+        "id": "modals.exchange.shapeshift.ordersummary"
+      },
+      {
+        "defaultMessage": "{coin} deposited",
+        "id": "modals.exchange.shapeshift.deposited"
+      },
+      {
+        "defaultMessage": "{coin} to be received",
+        "id": "modals.exchange.shapeshift.received"
+      },
+      {
+        "defaultMessage": "Exchange rate",
+        "id": "modals.exchange.shapeshift.exchangerate"
+      },
+      {
+        "defaultMessage": "Transaction fee",
+        "id": "modals.exchange.shapeshift.fee"
+      },
+      {
+        "defaultMessage": "Order ID",
+        "id": "modals.exchange.shapeshift.orderid"
+      },
+      {
+        "defaultMessage": "Close",
+        "id": "modals.exchange.shapeshift.close"
+      }
+    ],
+    "path": "src/scenes/Exchange/ExchangeResults/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "A better way to trade crypto",
+        "id": "scenes.exchange.getstarted.title"
+      },
+      {
+        "defaultMessage": "The faster, smarter way to trade your crypto.",
+        "id": "scenes.exchange.getstarted.introducing"
+      },
+      {
+        "defaultMessage": "Upgrade now to enjoy the following benefits:",
+        "id": "scenes.exchange.getstarted.upgrade"
+      },
+      {
+        "defaultMessage": "Lower cost",
+        "id": "scenes.exchange.getstarted.lowercost"
+      },
+      {
+        "defaultMessage": "Super competitive crypto exchange prices",
+        "id": "scenes.exchange.getstarted.lowercost_description"
+      },
+      {
+        "defaultMessage": "Live rates",
+        "id": "scenes.exchange.getstarted.liverates"
+      },
+      {
+        "defaultMessage": "You always get the most up to date price",
+        "id": "scenes.exchange.getstarted.liverates_Description"
+      },
+      {
+        "defaultMessage": "Higher limits",
+        "id": "scenes.exchange.getstarted.higherlimits"
+      },
+      {
+        "defaultMessage": "Limits from $2,000-$10,000",
+        "id": "scenes.exchange.getstarted.higherlimits_description"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "scenes.exchange.getstarted.started"
+      }
+    ],
+    "path": "src/scenes/Exchange/GetStarted/index.json"
   },
   {
     "descriptors": [

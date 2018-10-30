@@ -77,60 +77,71 @@ class PersonalContainer extends React.PureComponent {
     this.props.formActions.clearFields(PERSONAL_FORM, false, false, 'state')
   }
 
+  renderForm = ({
+    initialCountryCode,
+    countryCode,
+    countryAndStateSelected,
+    stateSupported,
+    possibleAddresses,
+    address,
+    postCode,
+    activeField,
+    addressRefetchVisible,
+    actions,
+    user,
+    supportedCountries,
+    states,
+    handleSubmit
+  }) => (
+    <Personal
+      initialValues={{
+        ...user,
+        state:
+          user.country === 'US'
+            ? find(propEq('code', user.state), states) || {}
+            : user.state,
+        country:
+          find(propEq('code', user.country), supportedCountries) ||
+          find(propEq('code', initialCountryCode), supportedCountries)
+      }}
+      countryCode={countryCode}
+      showStateSelect={countryCode && countryCode === 'US'}
+      showStateError={countryAndStateSelected && !stateSupported}
+      showPersonal={countryAndStateSelected && stateSupported}
+      showAddress={
+        countryAndStateSelected &&
+        stateSupported &&
+        !isNil(prop('line1', address))
+      }
+      postCode={postCode}
+      supportedCountries={getCountryElements(supportedCountries)}
+      states={getCountryElements(states)}
+      possibleAddresses={getAddressElements(possibleAddresses)}
+      addressRefetchVisible={addressRefetchVisible}
+      activeField={activeField}
+      onAddressSelect={this.selectAddress}
+      onCountrySelect={this.onCountryChange}
+      onStateSelect={actions.setPossibleAddresses.bind(null, [])}
+      onPostCodeChange={this.onPostCodeChange}
+      onSubmit={handleSubmit}
+    />
+  )
+
   render () {
-    const {
-      initialCountryCode,
-      countryCode,
-      countryData,
-      countryAndStateSelected,
-      stateSupported,
-      possibleAddresses,
-      address,
-      postCode,
-      activeField,
-      addressRefetchVisible,
-      actions,
-      userData,
-      handleSubmit
-    } = this.props
+    const { countryData, userData, ...rest } = this.props
     return countryData.cata({
-      Success: ({ supportedCountries, states }) => (
-        <Personal
-          initialValues={{
-            ...userData,
-            state:
-              userData.country === 'US'
-                ? find(propEq('code', userData.state), states) || {}
-                : userData.state,
-            country:
-              find(propEq('code', userData.country), supportedCountries) ||
-              find(propEq('code', initialCountryCode), supportedCountries)
-          }}
-          countryCode={countryCode}
-          showStateSelect={countryCode && countryCode === 'US'}
-          showStateError={countryAndStateSelected && !stateSupported}
-          showPersonal={countryAndStateSelected && stateSupported}
-          showAddress={
-            countryAndStateSelected &&
-            stateSupported &&
-            !isNil(prop('line1', address))
-          }
-          postCode={postCode}
-          supportedCountries={getCountryElements(supportedCountries)}
-          states={getCountryElements(states)}
-          possibleAddresses={getAddressElements(possibleAddresses)}
-          addressRefetchVisible={addressRefetchVisible}
-          activeField={activeField}
-          onAddressSelect={this.selectAddress}
-          onCountrySelect={this.onCountryChange}
-          onStateSelect={actions.setPossibleAddresses.bind(null, [])}
-          onPostCodeChange={this.onPostCodeChange}
-          onSubmit={handleSubmit}
-        />
-      ),
+      Success: ({ supportedCountries, states }) =>
+        userData.cata({
+          Success: user =>
+            this.renderForm({ ...rest, supportedCountries, states, user }),
+          NotAsked: () => <Loading />,
+          Loading: () => <Loading />,
+          Failure: () =>
+            this.renderForm({ ...rest, supportedCountries, states, user: {} })
+        }),
       NotAsked: () => <Loading />,
       Loading: () => <Loading />,
-      Failure: () => <DataError onClick={actions.fetchData} />
+      Failure: () => <DataError onClick={this.props.actions.fetchData} />
     })
   }
 }
