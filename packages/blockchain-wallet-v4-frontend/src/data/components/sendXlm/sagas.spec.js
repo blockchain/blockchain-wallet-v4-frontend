@@ -244,6 +244,10 @@ describe('sendXlm sagas', () => {
       paymentMock.publish.mockClear()
     })
 
+    it('should put start submit action', () => {
+      saga.next().put(actions.form.startSubmit(FORM))
+    })
+
     it('should select payment', () => {
       saga.next().select(S.getPayment)
     })
@@ -278,8 +282,16 @@ describe('sendXlm sagas', () => {
       saga.next().put(actions.core.kvStore.xlm.setTxNotesXlm(txId, description))
     })
 
+    it('should route to xlm tx list', () => {
+      saga.next().put(actions.router.push('/xlm/transactions'))
+    })
+
     it('should display succcess message', () => {
       saga.next().put(actions.alerts.displaySuccess(C.SEND_XLM_SUCCESS))
+    })
+
+    it('should destroy form', () => {
+      saga.next().put(actions.form.destroy(FORM))
     })
 
     it('should put action to close all modals', () => {
@@ -293,10 +305,17 @@ describe('sendXlm sagas', () => {
 
     describe('error handling', () => {
       const error = {}
-      it('should log error', () => {
+
+      it('should stop form submit', () => {
         saga
           .restore(beforeError)
           .throw(error)
+          .put(actions.form.stopSubmit(FORM))
+      })
+
+      it('should log error', () => {
+        saga
+          .next()
           .put(
             actions.logs.logErrorMessage(
               logLocation,

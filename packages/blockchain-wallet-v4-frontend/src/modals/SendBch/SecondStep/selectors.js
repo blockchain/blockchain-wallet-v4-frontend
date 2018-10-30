@@ -1,9 +1,11 @@
-import { selectors } from 'data'
+import { selectors, model } from 'data'
 import {
   bchToLabel,
   bchFromLabel,
   isBchLegacyAddress
 } from 'services/PaymentHelper'
+
+const isSubmitting = selectors.form.isSubmitting(model.components.sendBch.FORM)
 
 export const getData = state => {
   const paymentR = selectors.components.sendBch.getPayment(state)
@@ -14,6 +16,7 @@ export const getData = state => {
     const isLegacy = isBchLegacyAddress(payment, state)
 
     return {
+      submitting: isSubmitting(state),
       description: payment.description,
       fromAddress: fromLabel,
       toAddress: toLabel,
