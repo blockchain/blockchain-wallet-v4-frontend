@@ -54,7 +54,7 @@ const PromptLockbox = props => {
       <ModalStepper currentStep={currentStep} totalSteps={isTx ? 3 : 2} />
       <ModalBody>
         <Title>
-          <Text>{CONFIRM_STEPS[step].title(isTx)}</Text>
+          <Text>{CONFIRM_STEPS[step].title(coin, isTx)}</Text>
         </Title>
         <Content>
           <Text color='gray-4'>{CONFIRM_STEPS[step].content(coin, isTx)}</Text>
