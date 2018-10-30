@@ -101,13 +101,19 @@ export const CONFIRM_STEPS = {
   error: {
     name: 'error',
     index: 3,
-    title: coin => (
-      <FormattedMessage
-        id='modals.promptforlockbox.connectcoinapp.title.error'
-        defaultMessage='Transaction Failed'
-        values={{ coin }}
-      />
-    ),
+    title: (coin, isTx) =>
+      isTx ? (
+        <FormattedMessage
+          id='modals.promptforlockbox.connectcoinapp.title.error'
+          defaultMessage='Transaction Failed'
+          values={{ coin }}
+        />
+      ) : (
+        <FormattedMessage
+          id='modals.promptforlockbox.connectcoinapp.title.errorgeneric'
+          defaultMessage='An Error Occurred'
+        />
+      ),
     content: () => (
       <FormattedMessage
         id='modals.promptforlockbox.connectcoinapp.error'
