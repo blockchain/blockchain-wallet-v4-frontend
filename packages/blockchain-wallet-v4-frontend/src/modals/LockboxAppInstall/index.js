@@ -44,6 +44,12 @@ class LockboxAppInstallContainer extends React.PureComponent {
       Loading: () => ({ busy: true }),
       NotAsked: () => ({ waiting: true })
     })
+    const xlmStatus = appStatus.XLM.cata({
+      Success: () => ({ success: true }),
+      Failure: resp => ({ error: resp.error }),
+      Loading: () => ({ busy: true }),
+      NotAsked: () => ({ waiting: true })
+    })
     const overallStatus = blockchainStatus.cata({
       Success: () => ({ busy: false }),
       Failure: resp => ({ error: resp.error }),
@@ -62,6 +68,7 @@ class LockboxAppInstallContainer extends React.PureComponent {
         <CoinInstallStatus coin='Bitcoin' status={btcStatus} />
         <CoinInstallStatus coin='Bitcoin Cash' status={bchStatus} />
         <CoinInstallStatus coin='Ethereum' status={ethStatus} />
+        <CoinInstallStatus coin='Stellar' status={xlmStatus} />
       </LockboxAppInstall>
     )
   }
