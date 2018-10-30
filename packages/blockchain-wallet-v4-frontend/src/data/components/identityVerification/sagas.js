@@ -29,8 +29,6 @@ export const invalidNumberError = 'Failed to update mobile number'
 export const mobileVerifiedError = 'Failed to verify mobile number'
 export const failedResendError = 'Failed to resend the code'
 export const userExistsError = 'User already exists'
-export const getUserExistsError = email =>
-  `User with email ${email} already exists`
 
 export default ({ api, coreSagas }) => {
   const { USER_ACTIVATION_STATES } = model.profile
@@ -45,16 +43,18 @@ export default ({ api, coreSagas }) => {
     coreSagas
   })
 
-  const verifyIdentity = function*() {
+  const verifyIdentity = function*({ payload: { campaignName } }) {
     try {
       const userId = (yield select(
         selectors.core.kvStore.userCredentials.getUserId
       )).getOrElse('')
+      // debugger
       if (userId) {
-        return yield put(actions.modals.showModal(KYC_MODAL))
+        return yield put(actions.modals.showModal(KYC_MODAL, { campaignName }))
       }
+      // debugger
       const retailToken = yield call(generateRetailToken)
-      yield call(api.checkUserExistance, retailToken)
+      yield call(api.checkUserExistence, retailToken)
       yield put(actions.modals.showModal(USER_EXISTS_MODAL))
     } catch (e) {
       yield put(actions.modals.showModal(KYC_MODAL))

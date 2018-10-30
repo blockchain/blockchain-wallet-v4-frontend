@@ -29,7 +29,7 @@ const Container = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: felx-start;
+  justify-content: flex-start;
   width: 500px;
   min-height: 150px;
   padding: 30px;
