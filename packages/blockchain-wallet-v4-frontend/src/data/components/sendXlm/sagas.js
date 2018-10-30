@@ -235,6 +235,12 @@ export default ({ coreSagas }) => {
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionSuccess())
         yield delay(1500)
+        const device = (yield select(
+          selectors.core.kvStore.lockbox.getDeviceFromXlmAddr,
+          fromAddress
+        )).getOrFail('missing_device')
+        const deviceIndex = prop('device_index', device)
+        yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
       } else {
         yield put(actions.router.push('/xlm/transactions'))
         yield put(actions.alerts.displaySuccess(C.SEND_XLM_SUCCESS))
