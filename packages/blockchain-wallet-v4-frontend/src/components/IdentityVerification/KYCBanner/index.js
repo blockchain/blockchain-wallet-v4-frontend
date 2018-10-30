@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
@@ -31,10 +31,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   width: 500px;
-  min-height: 150px;
-  padding: 30px;
 `
-
 const Header = styled(Text)`
   display: flex;
   align-items: center;
@@ -42,11 +39,13 @@ const Header = styled(Text)`
     margin-left: 4px;
   }
 `
-
-const Content = styled(Text)`
+const Content = styled(Text).attrs({
+  size: '14px',
+  weight: 300,
+  color: 'white'
+})`
   margin-top: 20px;
 `
-
 const ActionButton = styled(Button)`
   margin-top: 30px;
 `
@@ -59,6 +58,7 @@ export const KYCBanner = ({
   userState,
   verifyIdentity
 }) => {
+  if (!kycState || !userState) return null
   if (outsideOfProfile && kycState === KYC_STATES.VERIFIED) return null
   const isUserStateNone = () => userState === USER_ACTIVATION_STATES.NONE
 
@@ -120,14 +120,7 @@ export const KYCBanner = ({
   }
 
   const notes = {
-    NEW_USER: (
-      <Fragment>
-        <FormattedMessage
-          id='components.identityverification.popup.note.notcreated'
-          defaultMessage="Introducing Blockchain's new and improved crypto exchange function. To begin using this updated feature, please verify your identity. The process only takes a couple of minutes."
-        />
-      </Fragment>
-    ),
+    NEW_USER: <div />,
     [KYC_STATES.NONE]: (
       <FormattedMessage
         id='components.identityverification.popup.note.unverified'
@@ -201,14 +194,18 @@ export const KYCBanner = ({
     )
   }
   return (
-    <Wrapper minHeight={isUserStateNone() ? '250px' : '210px'}>
+    <Wrapper minHeight={isUserStateNone() ? '300px' : '210px'}>
       <Container>
         <Header size='20px' weight={300} color='white'>
           {isUserStateNone() ? headers[NEW_USER] : headers[kycState]}
         </Header>
-        <Content size='14px' weight={300} color='white'>
-          {isUserStateNone() ? notes[NEW_USER] : notes[kycState]}
-        </Content>
+        {isUserStateNone() ? (
+          notes[NEW_USER]
+        ) : (
+          <Content size='14px' weight={300} color='white'>
+            {notes[kycState]}
+          </Content>
+        )}
         {isUserStateNone() ? buttons[NEW_USER] : buttons[kycState]}
       </Container>
     </Wrapper>

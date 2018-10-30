@@ -33,7 +33,7 @@ const MarqueeContainer = styled.marquee.attrs({
 
 const PromptLockbox = props => {
   const { position, total, close, ...rest } = props
-  const { coin, currentConnection, marquees } = rest
+  const { coin, currentConnection, marquees, isTx } = rest
   const { error, ready, success } = currentConnection
 
   let step
@@ -51,13 +51,13 @@ const PromptLockbox = props => {
 
   return (
     <Modal size='small' position={position} total={total} closeButton={false}>
-      <ModalStepper currentStep={currentStep} totalSteps={3} />
+      <ModalStepper currentStep={currentStep} totalSteps={isTx ? 3 : 2} />
       <ModalBody>
         <Title>
-          <Text>{CONFIRM_STEPS[step].title()}</Text>
+          <Text>{CONFIRM_STEPS[step].title(coin, isTx)}</Text>
         </Title>
         <Content>
-          <Text color='gray-4'>{CONFIRM_STEPS[step].content(coin)}</Text>
+          <Text color='gray-4'>{CONFIRM_STEPS[step].content(coin, isTx)}</Text>
         </Content>
         <ImageContainer>
           <Image

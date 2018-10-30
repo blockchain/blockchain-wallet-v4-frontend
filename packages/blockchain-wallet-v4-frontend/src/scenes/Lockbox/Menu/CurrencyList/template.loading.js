@@ -18,6 +18,7 @@ const Loading = () => {
       <SkeletonRectangle height='72px' width='180px' bgColor='white-blue' />
       <SkeletonRectangle height='72px' width='180px' bgColor='white-blue' />
       <SkeletonRectangle height='72px' width='180px' bgColor='white-blue' />
+      <SkeletonRectangle height='72px' width='180px' bgColor='white-blue' />
     </Wrapper>
   )
 }

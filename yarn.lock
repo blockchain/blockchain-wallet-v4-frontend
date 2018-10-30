@@ -762,6 +762,16 @@
   dependencies:
     "@ledgerhq/hw-transport" "^4.26.0-beta.ebeb3540"
 
+"@ledgerhq/hw-app-str@4.26.0-beta.ebeb3540":
+  version "4.26.0-beta.ebeb3540"
+  resolved "https://registry.yarnpkg.com/@ledgerhq/hw-app-str/-/hw-app-str-4.26.0-beta.ebeb3540.tgz#d0a2873a12bd3c47ff4d2ec7e7bcceeafb495864"
+  integrity sha512-GXdE8IEeKx5bHWHSJIjAm2QiDUII1KaKtSa++Yi8BQzZQnVmW0rFdQWfCbDbH+2UG42kdMsyg/DfkLCI7SlJRQ==
+  dependencies:
+    "@ledgerhq/hw-transport" "^4.26.0-beta.ebeb3540"
+    base32.js "^0.1.0"
+    sha.js "^2.3.6"
+    tweetnacl "^1.0.0"
+
 "@ledgerhq/hw-transport-u2f@4.26.0-beta.ebeb3540":
   version "4.26.0-beta.ebeb3540"
   resolved "https://registry.yarnpkg.com/@ledgerhq/hw-transport-u2f/-/hw-transport-u2f-4.26.0-beta.ebeb3540.tgz#1997e76087a2c18a951d461a9446eca4b5d570b9"
@@ -3440,7 +3450,7 @@ base-x@^3.0.2:
   dependencies:
     safe-buffer "^5.0.1"
 
-base32.js@~0.1.0:
+base32.js@^0.1.0, base32.js@~0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/base32.js/-/base32.js-0.1.0.tgz#b582dec693c2f11e893cf064ee6ac5b6131a2202"
   integrity sha1-tYLexpPC8R6JPPBk7mrFthMaIgI=
