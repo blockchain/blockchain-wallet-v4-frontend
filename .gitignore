@@ -22,6 +22,7 @@ yarn-error.log
 .eslintcache
 
 # Generated Files
+.cache
 *.log
 CHANGELOG.md
 coverage/
