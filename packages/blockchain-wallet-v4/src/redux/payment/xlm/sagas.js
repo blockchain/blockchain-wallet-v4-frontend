@@ -64,9 +64,9 @@ export default ({ api }) => {
     transaction,
     transport,
     scrambleKey,
-    raw
+    fromType
   ) {
-    switch (raw.fromType) {
+    switch (fromType) {
       case ADDRESS_TYPES.ACCOUNT:
         if (!transaction) throw new Error(NO_TX_ERROR)
         const mnemonicT = yield select(flip(S.wallet.getMnemonic)(password))
@@ -226,7 +226,7 @@ export default ({ api }) => {
         const memo = prop('memo', p)
         const memoType = prop('memoType', p)
         const fromType = prop('type', fromData)
-        const account = prop(['account'], fromData)
+        const account = prop('account', fromData)
         if (!account) throw new Error(NO_SOURCE_ERROR)
         if (!to) throw new Error(NO_DESTINATION_ERROR)
         if (!amount) throw new Error(NO_AMOUNT_ERROR)
@@ -255,7 +255,7 @@ export default ({ api }) => {
             transaction,
             transport,
             scrambleKey,
-            p.raw
+            path(['raw', 'fromType'], p)
           )
           return makePayment(merge(p, { signed }))
         } catch (e) {
