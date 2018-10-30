@@ -538,6 +538,10 @@
         "id": "components.alerts.eth_address_incorrect"
       },
       {
+        "defaultMessage": "Invalid Stellar Address.",
+        "id": "components.alerts.xlm_address_incorrect"
+      },
+      {
         "defaultMessage": "Invalid Private Key.",
         "id": "components.alerts.private_key_incorrect"
       },

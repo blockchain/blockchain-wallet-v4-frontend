@@ -967,6 +967,13 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage='Invalid Ether Address.'
         />
       )
+    case C.XLM_ADDRESS_INVALID:
+      return (
+        <FormattedMessage
+          id='components.alerts.xlm_address_incorrect'
+          defaultMessage='Invalid Stellar Address.'
+        />
+      )
     case C.PRIVATE_KEY_INVALID:
       return (
         <FormattedMessage
