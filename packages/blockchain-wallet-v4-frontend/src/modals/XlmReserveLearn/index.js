@@ -107,7 +107,10 @@ class XlmCreateAccountLearn extends React.PureComponent {
               defaultMessage='You can read more information on the'
             />
             {': '}
-            <StyledLink href='' target='_blank'>
+            <StyledLink
+              href='https://www.stellar.org/developers/guides/concepts/fees.html#minimum-account-balance'
+              target='_blank'
+            >
               <FormattedMessage
                 id='modal.reservelearn.link'
                 defaultMessage='Stellar (XLM) reserve requirements in the official documentation.'
@@ -119,7 +122,7 @@ class XlmCreateAccountLearn extends React.PureComponent {
             <Paragraph>
               <FormattedMessage
                 id='modal.reservelearn.totalfunds'
-                defaultMessage='Total funds.'
+                defaultMessage='Total funds'
               />
             </Paragraph>
             <Paragraph>

@@ -519,7 +519,7 @@
   "modal.reservelearn.link": "Stellar (XLM) reserve requirements in the official documentation.",
   "modal.reservelearn.reservexlm": "XLM Reserve Requirement",
   "modal.reservelearn.title": "Stellar mimimum balance requirement.",
-  "modal.reservelearn.totalfunds": "Total funds.",
+  "modal.reservelearn.totalfunds": "Total funds",
   "modals.addbitcoinwallet.button": "Create New Bitcoin Wallet",
   "modals.addbitcoinwallet.title": "Add New Bitcoin Wallet",
   "modals.addbitcoinwallet.wallet": "Wallet Name",
