@@ -81,49 +81,49 @@ class ExchangeForm extends React.Component {
         canUseExchange && isEmpty(value.availablePairs) ? (
           <DataError onClick={this.handleRefresh} />
         ) : (
-          <Success
-            {...value}
-            min={min}
-            max={max}
-            targetFee={targetFee}
-            sourceFee={sourceFee}
-            canUseExchange={canUseExchange}
-            showError={showError}
-            txError={txError}
-            handleMaximum={actions.firstStepMaximumClicked}
-            handleMinimum={actions.firstStepMinimumClicked}
-            onSubmit={actions.showConfirmation}
-            handleSourceChange={compose(
-              actions.changeSource,
-              extractFieldValue
-            )}
-            handleTargetChange={compose(
-              actions.changeTarget,
-              extractFieldValue
-            )}
-            handleAmountChange={compose(
-              formActions.clearSubmitErrors.bind(null, EXCHANGE_FORM),
-              this.changeAmount,
-              extractFieldValue
-            )}
-            handleInputFocus={this.clearZero}
-            handleInputBlur={this.addZero}
-            swapFix={compose(
-              actions.changeFix,
-              swapBaseAndCounter.bind(null, value.fix)
-            )}
-            swapBaseAndCounter={compose(
-              actions.swapBaseAndCounter,
-              swapBaseAndCounter.bind(null, value.fix)
-            )}
-            swapCoinAndFiat={compose(
-              actions.changeFix,
-              swapCoinAndFiat.bind(null, value.fix)
-            )}
-            useMin={actions.useMin}
-            useMax={actions.useMax}
-          />
-        ),
+            <Success
+              {...value}
+              min={min}
+              max={max}
+              targetFee={targetFee}
+              sourceFee={sourceFee}
+              canUseExchange={canUseExchange}
+              showError={showError}
+              txError={txError}
+              handleMaximum={actions.firstStepMaximumClicked}
+              handleMinimum={actions.firstStepMinimumClicked}
+              onSubmit={actions.showConfirmation}
+              handleSourceChange={compose(
+                actions.changeSource,
+                extractFieldValue
+              )}
+              handleTargetChange={compose(
+                actions.changeTarget,
+                extractFieldValue
+              )}
+              handleAmountChange={compose(
+                formActions.clearSubmitErrors.bind(null, EXCHANGE_FORM),
+                this.changeAmount,
+                extractFieldValue
+              )}
+              handleInputFocus={this.clearZero}
+              handleInputBlur={this.addZero}
+              swapFix={compose(
+                actions.changeFix,
+                swapBaseAndCounter.bind(null, value.fix)
+              )}
+              swapBaseAndCounter={compose(
+                actions.swapBaseAndCounter,
+                swapBaseAndCounter.bind(null, value.fix)
+              )}
+              swapCoinAndFiat={compose(
+                actions.changeFix,
+                swapCoinAndFiat.bind(null, value.fix)
+              )}
+              useMin={actions.useMin}
+              useMax={actions.useMax}
+            />
+          ),
       Failure: message => (
         <DataError onClick={this.handleRefresh} message={message} />
       ),
