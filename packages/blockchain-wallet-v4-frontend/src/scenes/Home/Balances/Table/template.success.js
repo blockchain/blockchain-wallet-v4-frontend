@@ -61,7 +61,7 @@ const Success = props => {
         </TxLink>
       </HomeBalanceRow>
       <HomeBalanceRow>
-        <TxLink to={viewType === 'Lockbox' ? '/lockbox' : '/bch/transactions'}>
+        <TxLink to={viewType === 'Lockbox' ? '/lockbox' : '/xlm/transactions'}>
           <div>
             <HomeCoinBalanceCell
               coin='XLM'
