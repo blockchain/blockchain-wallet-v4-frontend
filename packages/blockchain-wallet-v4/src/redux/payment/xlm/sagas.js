@@ -225,7 +225,6 @@ export default ({ api }) => {
         const destinationAccountExists = prop('destinationAccountExists', p)
         const memo = prop('memo', p)
         const memoType = prop('memoType', p)
-        const fromType = prop('type', fromData)
         const account = prop('account', fromData)
         if (!account) throw new Error(NO_SOURCE_ERROR)
         if (!to) throw new Error(NO_DESTINATION_ERROR)
@@ -241,9 +240,8 @@ export default ({ api }) => {
         if (memo && memoType) {
           txBuilder.addMemo(StellarSdk.Memo[memoType](memo))
         }
-        const raw = { fromType }
         const transaction = txBuilder.build()
-        return makePayment(merge(p, { transaction, raw }))
+        return makePayment(merge(p, { transaction }))
       },
 
       *sign (password, transport, scrambleKey) {
@@ -255,7 +253,7 @@ export default ({ api }) => {
             transaction,
             transport,
             scrambleKey,
-            path(['raw', 'fromType'], p)
+            path(['from', 'type'], p)
           )
           return makePayment(merge(p, { signed }))
         } catch (e) {
