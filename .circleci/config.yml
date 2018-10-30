@@ -11,7 +11,7 @@ references:
   container_config: &container_config
     working_directory: /home/circleci/blockchain-wallet-v4-frontend
     docker:
-      - image: circleci/node:10.12.0-jessie-browsers
+      - image: circleci/node:10.6-jessie-browsers
 
   npm_cache_key: &npm_cache_key
       v4-dependency-npm-{{ checksum "yarn.lock" }}
@@ -46,7 +46,7 @@ jobs:
       - *restore_node_modules
       - run:
           name: Install App Dependencies
-          command: sudo npm install -g yarn@1.12.1 && yarn --frozen-lockfile
+          command: yarn --frozen-lockfile
       - save_cache:
           key: *npm_cache_key
           paths:

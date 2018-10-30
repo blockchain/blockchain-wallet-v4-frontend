@@ -18,7 +18,7 @@ This repo contains the three codebases/packages listed below.
 
 
 ## Local Development
-1. Ensure Node version >= 10.4 and Yarn version >= 1.10 are installed
+1. Ensure Node version >= 10.2 and NPM version >= 6 are installed
 2. Run the following command to install necessary global packages: `npm install -g yarn babel-cli rimraf cross-env`
 3. Install, link and hoist packages: `yarn`
 4. Start the application in development mode: `yarn start`
