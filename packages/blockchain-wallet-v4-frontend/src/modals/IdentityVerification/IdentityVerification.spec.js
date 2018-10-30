@@ -41,6 +41,7 @@ import {
   getSmsNumber
 } from 'blockchain-wallet-v4/src/redux/settings/selectors'
 import { getGuid } from 'blockchain-wallet-v4/src/redux/wallet/selectors'
+import { USER_ACTIVATION_STATES, KYC_STATES } from 'data/modules/profile/model'
 
 const { KYC_MODAL, STEPS, SMS_STEPS } = model.components.identityVerification
 
@@ -178,6 +179,12 @@ describe('IdentityVerification Modal', () => {
 
     describe('personal form', () => {
       beforeEach(() => {
+        store.dispatch(
+          actions.modules.profile.fetchUserDataSuccess({
+            state: USER_ACTIVATION_STATES.NONE,
+            kycState: KYC_STATES.NONE
+          })
+        )
         store.dispatch(actions.core.settings.fetchSettingsSuccess({}))
         store.dispatch(actions.core.settings.setEmail(stubMail))
         store.dispatch(actions.core.settings.setEmailVerified())
@@ -319,7 +326,9 @@ describe('IdentityVerification Modal', () => {
         // store.dispatch(actions.core.settings.setEmailVerified())
         // store.dispatch(actions.core.settings.setMobile(stubMobile))
         // store.dispatch(actions.core.settings.setMobileVerified())
-        store.dispatch(actions.modules.profile.setUserData(MOCK_USER_DATA))
+        store.dispatch(
+          actions.modules.profile.fetchUserDataSuccess(MOCK_USER_DATA)
+        )
         // store.dispatch(actions.components.identityVerification.setVerificationStep(STEPS.mobile))
       })
 

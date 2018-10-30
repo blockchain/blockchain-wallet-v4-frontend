@@ -8,9 +8,8 @@ export const getData = state => ({
   step: selectors.components.identityVerification
     .getSmsStep(state)
     .getOrElse(null),
-  countryCode: getCountryCode(state),
+  countryCode: selectors.modules.profile
+    .getUserCountryCode(state)
+    .getOrElse('US'),
   activeField: activeFieldSelector(state)
 })
-
-const getCountryCode = state =>
-  selectors.modules.profile.getUserCountryCode(state)
