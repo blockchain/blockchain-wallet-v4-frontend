@@ -7,12 +7,13 @@ const CurrencyList = styled.div`
   display: flex;
   width: 100%;
   padding: 20px 30px;
+  overflow-x: scroll;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 
 const Success = props => {
   const { data, formValues, ...rest } = props
-  const { coinContexts, handleCoinSelection, saveCoinMD } = rest
+  const { coinContexts, handleCoinSelection, handleSaveCoinMD } = rest
 
   const isActive = coin =>
     any(val => equals(toLower(prop('label', val)), toLower(coin)), formValues)
@@ -56,7 +57,7 @@ const Success = props => {
         onClick={() =>
           prop('xlm', coinContexts) > 0
             ? handleCoinSelection('XLM')
-            : saveCoinMD('xlm')
+            : handleSaveCoinMD('xlm')
         }
       />
     </CurrencyList>

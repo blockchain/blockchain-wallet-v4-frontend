@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { Text } from 'blockchain-info-components'
-import { LinkContainer } from 'react-router-bootstrap'
 import { CreatableInputField } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { toLower } from 'ramda'
@@ -99,15 +98,13 @@ const Menu = props => {
         </TitleBarWrapper>
       </TitleBar>
       {onDashboard && (
-        <LinkContainer to={`/lockbox/dashboard/${deviceIndex}`}>
-          <CurrencyListContainer>
-            <CurrencyList
-              deviceIndex={deviceIndex}
-              deviceInfo={deviceInfo}
-              formValues={formValues}
-            />
-          </CurrencyListContainer>
-        </LinkContainer>
+        <CurrencyListContainer>
+          <CurrencyList
+            deviceIndex={deviceIndex}
+            deviceInfo={deviceInfo}
+            formValues={formValues}
+          />
+        </CurrencyListContainer>
       )}
       {deviceInfo && (
         <StyledCreatableInputContainer>

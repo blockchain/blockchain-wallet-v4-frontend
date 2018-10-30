@@ -1,14 +1,14 @@
 import { call, put, take, select, takeEvery } from 'redux-saga/effects'
 import { head, contains, find, length, prop, propEq } from 'ramda'
 import { delay, eventChannel, END } from 'redux-saga'
-import { actions, selectors } from 'data'
+import { actionTypes, actions, selectors } from 'data'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as C from 'services/AlertService'
 import * as S from './selectors'
 import * as CC from 'services/ConfirmService'
 import * as Lockbox from 'services/LockboxService'
-import { confirm } from 'services/SagaService'
+import { confirm, promptForLockbox } from 'services/SagaService'
 
 const logLocation = 'components/lockbox/sagas'
 
@@ -214,32 +214,42 @@ export default ({ api }) => {
     }
   }
 
-  const addXlm = function*(action) {
+  const saveCoinMD = function*(action) {
     try {
-      const { deviceIndex } = action.payload
+      const { deviceIndex, coin } = action.payload
       const deviceR = yield select(
         selectors.core.kvStore.lockbox.getDevice,
         deviceIndex
       )
       const deviceType = prop('device_type', deviceR.getOrFail())
       const deviceName = prop('device_name', deviceR.getOrFail())
-      yield put(A.pollForDeviceApp('XLM', null, deviceType))
-      yield take(AT.SET_CONNECTION_INFO)
-      const { transport } = yield select(S.getCurrentConnection)
-      const { publicKey } = yield call(
-        Lockbox.utils.getXlmPublicKey,
-        deviceType,
-        transport
-      )
-      const xlmEntry = Lockbox.utils.generateXlmAccountMDEntry(
-        deviceName,
-        publicKey
-      )
+      let entry
+      switch (coin) {
+        case 'xlm':
+          yield call(promptForLockbox, 'XLM', deviceType, [], false)
+          const { transport } = yield select(S.getCurrentConnection)
+          const { publicKey } = yield call(
+            Lockbox.utils.getXlmPublicKey,
+            deviceType,
+            transport
+          )
+          entry = Lockbox.utils.generateXlmAccountMDEntry(deviceName, publicKey)
+          yield put(actions.components.lockbox.setConnectionSuccess())
+          yield delay(2000)
+          yield put(actions.modals.closeAllModals())
+          break
+        default:
+          throw new Error('unknown coin type')
+      }
       yield put(
-        actions.core.kvStore.lockbox.addCoinEntry(deviceIndex, 'xlm', xlmEntry)
+        actions.core.kvStore.lockbox.addCoinEntry(deviceIndex, coin, entry)
       )
+      yield take(
+        actionTypes.core.kvStore.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS
+      )
+      yield put(A.initializeDashboard(deviceIndex))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'addXlm', e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'saveCoinMD', e))
     }
   }
 
@@ -746,7 +756,6 @@ export default ({ api }) => {
   }
 
   return {
-    addXlm,
     checkDeviceAuthenticity,
     deleteDevice,
     pollForDeviceTypeChannel,
@@ -758,6 +767,7 @@ export default ({ api }) => {
     installBlockchainApps,
     pollForDeviceApp,
     saveNewDeviceKvStore,
+    saveCoinMD,
     uninstallApplication,
     updateDeviceFirmware,
     updateDeviceName,

@@ -15,13 +15,7 @@ const createOption = label => ({
 })
 
 class CurrencyListContainer extends React.PureComponent {
-  constructor () {
-    super()
-    this.onRefresh = this.onRefresh.bind(this)
-    this.onCoinSelection = this.onCoinSelection.bind(this)
-  }
-
-  onCoinSelection (newValue) {
+  onCoinSelection = newValue => {
     if (!newValue) return
     if (contains(newValue, map(prop('value'), this.props.formValues))) return
     this.props.formActions.change('lockboxTransactions', 'search', {
@@ -29,7 +23,11 @@ class CurrencyListContainer extends React.PureComponent {
     })
   }
 
-  onRefresh () {
+  onSaveCoinMD = coin => {
+    this.props.lockboxActions.saveCoinMD(this.props.deviceIndex, coin)
+  }
+
+  onRefresh = () => {
     this.props.refreshActions.refreshClicked()
   }
 
@@ -44,6 +42,7 @@ class CurrencyListContainer extends React.PureComponent {
               formValues={formValues}
               deviceInfo={deviceInfo}
               coinContexts={coinContexts}
+              handleSaveCoinMD={this.onSaveCoinMD}
               handleCoinSelection={this.onCoinSelection}
             />
           ),
@@ -62,6 +61,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
+  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
   refreshActions: bindActionCreators(actions.components.refresh, dispatch)
 })
 
