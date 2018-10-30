@@ -7203,6 +7203,51 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "A better way to trade crypto",
+        "id": "scenes.exchange.getstarted.title"
+      },
+      {
+        "defaultMessage": "The faster, smarter way to trade your crypto.",
+        "id": "scenes.exchange.getstarted.introducing"
+      },
+      {
+        "defaultMessage": "Upgrade now to enjoy the following benefits:",
+        "id": "scenes.exchange.getstarted.upgrade"
+      },
+      {
+        "defaultMessage": "Lower cost",
+        "id": "scenes.exchange.getstarted.lowercost"
+      },
+      {
+        "defaultMessage": "Super competitive crypto exchange prices",
+        "id": "scenes.exchange.getstarted.lowercost_description"
+      },
+      {
+        "defaultMessage": "Live rates",
+        "id": "scenes.exchange.getstarted.liverates"
+      },
+      {
+        "defaultMessage": "You always get the most up to date price",
+        "id": "scenes.exchange.getstarted.liverates_Description"
+      },
+      {
+        "defaultMessage": "Higher limits",
+        "id": "scenes.exchange.getstarted.higherlimits"
+      },
+      {
+        "defaultMessage": "Limits from $2,000-$10,000",
+        "id": "scenes.exchange.getstarted.higherlimits_description"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "scenes.exchange.getstarted.started"
+      }
+    ],
+    "path": "src/scenes/Exchange/GetStarted/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Simple. Seamless. Secure.",
         "id": "scenes.exchange.simple"
       },
