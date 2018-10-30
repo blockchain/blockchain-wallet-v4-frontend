@@ -22,7 +22,7 @@ const Wrapper = styled.div`
   align-items: center;
   background: ${props =>
     `linear-gradient(153.43deg, ${props.theme['brand-secondary']} 0%, ${
-    props.theme['brand-primary']
+      props.theme['brand-primary']
     } 100%);`};
 `
 const Container = styled.div`
@@ -39,7 +39,11 @@ const Header = styled(Text)`
     margin-left: 4px;
   }
 `
-const Content = styled(Text).attrs({ size: '14px', weight: 300, color: 'white' })`
+const Content = styled(Text).attrs({
+  size: '14px',
+  weight: 300,
+  color: 'white'
+})`
   margin-top: 20px;
 `
 const ActionButton = styled(Button)`
@@ -195,9 +199,11 @@ export const KYCBanner = ({
         <Header size='20px' weight={300} color='white'>
           {isUserStateNone() ? headers[NEW_USER] : headers[kycState]}
         </Header>
-        {isUserStateNone() ? notes[NEW_USER] : (
+        {isUserStateNone() ? (
+          notes[NEW_USER]
+        ) : (
           <Content size='14px' weight={300} color='white'>
-            {notes[kycState]}}
+            {notes[kycState]}
           </Content>
         )}
         {isUserStateNone() ? buttons[NEW_USER] : buttons[kycState]}
