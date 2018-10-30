@@ -515,7 +515,7 @@ const selectMessage = (message, data = undefined) => {
       return (
         <FormattedMessage
           id='components.alerts.payment_received_xlm'
-          defaultMessage="You've just received a Stellar payment"
+          defaultMessage="You've just received a stellar payment"
         />
       )
     case C.PBKDF2_UPDATE_SUCCESS:

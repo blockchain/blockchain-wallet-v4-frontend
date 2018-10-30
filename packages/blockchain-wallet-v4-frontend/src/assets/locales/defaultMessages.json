@@ -278,7 +278,7 @@
         "id": "components.alerts.payment_received_eth"
       },
       {
-        "defaultMessage": "You've just received a Stellar payment",
+        "defaultMessage": "You've just received a stellar payment",
         "id": "components.alerts.payment_received_xlm"
       },
       {
