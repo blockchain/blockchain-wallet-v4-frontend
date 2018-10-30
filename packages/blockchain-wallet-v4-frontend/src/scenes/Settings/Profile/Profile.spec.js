@@ -1,7 +1,7 @@
 import React from 'react'
 import { TestBed, getDispatchSpyReducer, createTestStore } from 'utils/testbed'
 import { mount } from 'enzyme'
-import { head, init, last, map, path } from 'ramda'
+import { head, init, last, path } from 'ramda'
 import { combineReducers } from 'redux'
 
 import { actions, actionTypes } from 'data'
@@ -61,9 +61,9 @@ describe('Profile Settings', () => {
   beforeEach(() => {
     store = createTestStore(reducers, sagas)
     store.dispatch(
-      actions.components.identityVerification.setSupportedCountries(
-        Remote.of(map(code => ({ code }), eeaCountryCodes))
-      )
+      actions.modules.profile.fetchUserDataSuccess({
+        kycState: KYC_STATES.NONE
+      })
     )
     wrapper = mount(
       <TestBed withRouter={true} store={store}>
@@ -76,25 +76,13 @@ describe('Profile Settings', () => {
     )
   })
 
-  describe('user flow not supported', () => {
-    it('should render null when not invited', () => {
-      getInvitations.mockImplementationOnce(() => Remote.of({ kyc: false }))
-      wrapper.unmount()
-      wrapper.mount()
-      expect(wrapper.find(Profile).children().length).toBe(0)
-    })
-
-    // it('should render null when country is not supported', () => {
-    //   getCountryCode.mockImplementationOnce(() => '')
-    //   wrapper.unmount()
-    //   wrapper.mount()
-    //   expect(wrapper.find(Profile).children().length).toBe(0)
-    // })
-  })
-
   describe('default state', () => {
     it('should have KYC_STATE: NONE by default', () => {
-      expect(wrapper.find(Profile).prop('kycState')).toBe(KYC_STATES.NONE)
+      expect(wrapper.find(Profile).prop('data')).toEqual(
+        Remote.of({
+          kycState: KYC_STATES.NONE
+        })
+      )
     })
   })
 
@@ -159,7 +147,9 @@ describe('Profile Settings', () => {
     describe('KYC_STATE: VERIFIED', () => {
       beforeEach(() => {
         store.dispatch(
-          actions.modules.profile.setUserData({ kycState: KYC_STATES.VERIFIED })
+          actions.modules.profile.fetchUserDataSuccess({
+            kycState: KYC_STATES.VERIFIED
+          })
         )
         wrapper.update()
       })

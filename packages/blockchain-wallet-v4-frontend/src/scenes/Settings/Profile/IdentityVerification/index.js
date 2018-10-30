@@ -174,8 +174,7 @@ const IdentityVerification = ({ kycState, verifyIdentity }) => {
 
 IdentityVerification.propTypes = {
   kycState: PropTypes.oneOf(values(KYC_STATES)).isRequired,
-  verifyIdentity: PropTypes.func.isRequired,
-  getStarted: PropTypes.func.isRequired
+  verifyIdentity: PropTypes.func.isRequired
 }
 
 export default IdentityVerification

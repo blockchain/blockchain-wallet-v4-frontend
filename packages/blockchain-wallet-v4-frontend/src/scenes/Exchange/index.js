@@ -6,6 +6,7 @@ import { path } from 'ramda'
 import media from 'services/ResponsiveService'
 
 import KYCBanner from 'components/IdentityVerification/KYCBanner'
+import GetStarted from './GetStarted'
 import Shapeshift from './Shapeshift'
 import Info from './Info'
 import Exchange from './ExchangeContainer'
@@ -14,7 +15,7 @@ import { getData } from './selectors'
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
 `
@@ -81,8 +82,8 @@ const ExchangeScene = ({ useShapeShift, location }) => (
         </ColumnRight>
       </ShapeshiftContainer>
     )}
-    {!useShapeShift && <KYCBanner outsideOfProfile />}
-    {!useShapeShift && (
+    {!useShapeShift && !showGetStarted && <KYCBanner outsideOfProfile />}
+    {!useShapeShift && !showGetStarted && (
       <Container>
         <Column>
           <Exchange
@@ -92,6 +93,7 @@ const ExchangeScene = ({ useShapeShift, location }) => (
         </Column>
       </Container>
     )}
+    {!useShapeShift && showGetStarted && <GetStarted />}
   </Wrapper>
 )
 

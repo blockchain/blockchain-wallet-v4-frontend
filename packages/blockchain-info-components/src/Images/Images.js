@@ -23,6 +23,7 @@ import halfBitcoin from './img/half-bitcoin.svg'
 import halfBitcoincash from './img/half-bitcoincash.svg'
 import halfEther from './img/half-ether.svg'
 import identityVerification from './img/identity-verification.svg'
+import kycGetStarted from './img/kyc-get-started.png'
 import linkLockboxIcon from './img/link-lockbox-icon.svg'
 import linkedinWhite from './img/linkedin-white.svg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
@@ -106,6 +107,7 @@ export default {
   'half-bitcoincash': halfBitcoincash,
   'half-ether': halfEther,
   'identity-verification': identityVerification,
+  'kyc-get-started': kycGetStarted,
   'lockbox-welcome-safe': lockboxWelcomeSafe,
   'lockbox-usb': lockboxUsb,
   'link-lockbox-icon': linkLockboxIcon,

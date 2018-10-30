@@ -20,9 +20,6 @@
     "redux",
     "wallet"
   ],
-  "engines": {
-    "node": ">= 10.2"
-  },
   "workspaces": [
     "packages/*"
   ],
