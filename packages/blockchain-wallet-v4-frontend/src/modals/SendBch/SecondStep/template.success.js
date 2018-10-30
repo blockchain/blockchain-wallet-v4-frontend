@@ -175,7 +175,7 @@ const Success = props => {
           )}
         </Button>
         <Link
-          onClick={handleBack}
+          onClick={!submitting && handleBack}
           disabled={submitting}
           size='13px'
           weight={300}
