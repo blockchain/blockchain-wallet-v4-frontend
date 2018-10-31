@@ -440,6 +440,7 @@
   "identityverification.verify.driverslicense": null,
   "identityverification.verify.header": null,
   "identityverification.verify.message": null,
+  "identityverification.verify.natitionalidcard": null,
   "identityverification.verify.passport": null,
   "layouts.public.footer.about": "Hakkında",
   "layouts.public.footer.blog": "Blog",
