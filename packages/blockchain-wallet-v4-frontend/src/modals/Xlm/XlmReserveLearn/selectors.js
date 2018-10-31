@@ -24,9 +24,12 @@ export const getData = (state, props) => {
     toUnit: 'XLM'
   }).value
   const feeFiat = convertToFiat(feeXlm)
-  const effectiveBalanceMinusFeeXlm = new BigNumber(effectiveBalanceXlm)
-    .minus(feeXlm)
-    .toString()
+  const effectiveBalanceMinusFeeBig = new BigNumber(effectiveBalanceXlm).minus(
+    feeXlm
+  )
+  const effectiveBalanceMinusFeeXlm = effectiveBalanceMinusFeeBig.lt(0)
+    ? '0'
+    : effectiveBalanceMinusFeeBig.toString()
   const effectiveBalanceMinusFeeFiat = convertToFiat(
     effectiveBalanceMinusFeeXlm
   )
