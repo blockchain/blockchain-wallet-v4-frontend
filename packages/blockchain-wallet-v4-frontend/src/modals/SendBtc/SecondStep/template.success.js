@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Link, Text } from 'blockchain-info-components'
+import { Button, Link, HeartbeatLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import ComboDisplay from 'components/Display/ComboDisplay'
@@ -52,6 +52,7 @@ const Footer = styled.div`
 
 const Success = props => {
   const {
+    submitting,
     description,
     fromAddress,
     toAddress,
@@ -137,13 +138,27 @@ const Success = props => {
         </FiatDisplay>
       </Summary>
       <Footer>
-        <Button onClick={handleSubmit} nature='primary' fullwidth>
-          <FormattedMessage
-            id='modals.sendbtc.secondstep.send'
-            defaultMessage='Send Bitcoin'
-          />
+        <Button
+          onClick={handleSubmit}
+          disabled={submitting}
+          nature='primary'
+          fullwidth
+        >
+          {!submitting ? (
+            <FormattedMessage
+              id='modals.sendbtc.secondstep.send'
+              defaultMessage='Send Bitcoin'
+            />
+          ) : (
+            <HeartbeatLoader height='20px' width='20px' color='white' />
+          )}
         </Button>
-        <Link onClick={handleBack} size='13px' weight={300}>
+        <Link
+          onClick={!submitting && handleBack}
+          disabled={submitting}
+          size='13px'
+          weight={300}
+        >
           <FormattedMessage
             id='scenes.sendbtc.secondstep.back'
             defaultMessage='Go back'

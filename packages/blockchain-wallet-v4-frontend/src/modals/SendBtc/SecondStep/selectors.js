@@ -1,5 +1,7 @@
-import { selectors } from 'data'
+import { selectors, model } from 'data'
 import { btcToLabel, btcFromLabel } from 'services/PaymentHelper'
+
+const isSubmitting = selectors.form.isSubmitting(model.components.sendBtc.FORM)
 
 export const getData = state => {
   const paymentR = selectors.components.sendBtc.getPayment(state)
@@ -9,6 +11,7 @@ export const getData = state => {
     const toLabel = btcToLabel(payment, state)
 
     return {
+      submitting: isSubmitting(state),
       description: payment.description,
       fromAddress: fromLabel,
       toAddress: toLabel,

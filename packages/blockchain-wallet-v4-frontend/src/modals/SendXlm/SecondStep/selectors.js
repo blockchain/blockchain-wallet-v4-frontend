@@ -1,6 +1,7 @@
-import { selectors } from 'data'
+import { selectors, model } from 'data'
 import { xlmFromLabel } from 'services/PaymentHelper'
 import { utils } from 'blockchain-wallet-v4/src'
+const isSubmitting = selectors.form.isSubmitting(model.components.sendXlm.FORM)
 
 export const getData = state => {
   const paymentR = selectors.components.sendXlm.getPayment(state)
@@ -10,6 +11,7 @@ export const getData = state => {
     const toLabel = payment.to.label || payment.to.address
 
     return {
+      submitting: isSubmitting(state),
       description: payment.description,
       memo: payment.memo,
       memoType: payment.memoType,
