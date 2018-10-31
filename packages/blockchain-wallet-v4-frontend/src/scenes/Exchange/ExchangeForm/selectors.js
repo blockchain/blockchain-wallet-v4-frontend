@@ -131,12 +131,13 @@ const formatBestRates = curry(
 const {
   canUseExchange,
   getActiveAccounts,
-  getMin,
+  getAvailablePairs,
   getMax,
-  getTargetFee,
+  getMin,
   getSourceFee,
-  showError,
-  getTxError
+  getTargetFee,
+  getTxError,
+  showError
 } = selectors.components.exchange
 
 export {
@@ -154,7 +155,7 @@ export const getData = createDeepEqualSelector(
     getBlockLockbox,
     selectors.core.settings.getCurrency,
     getFormValues,
-    selectors.modules.rates.getAvailablePairs,
+    getAvailablePairs,
     getCurrentPairAmounts,
     getCurrentPairRates,
     selectors.modules.rates.getBestRates,

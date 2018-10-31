@@ -1,8 +1,10 @@
 import {
+  all,
   compose,
   contains,
   curry,
   defaultTo,
+  filter,
   head,
   last,
   lift,
@@ -12,7 +14,7 @@ import {
   propEq
 } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { coreSelectors } from 'blockchain-wallet-v4/src'
+import { coreSelectors, Remote } from 'blockchain-wallet-v4/src'
 import { selectors, model } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { getTargetCoinsPairedToSource, getAvailableSourceCoins } from './model'
@@ -151,6 +153,7 @@ export const getActiveEthAccounts = createDeepEqualSelector(
   }
 )
 
+const NO_XLM_ACCOUNT = 'Account not created'
 export const getActiveXlmAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.xlm.getAccounts,
@@ -158,17 +161,26 @@ export const getActiveXlmAccounts = createDeepEqualSelector(
     coreSelectors.common.xlm.getLockboxXlmBalances
   ],
   (xlmDataR, xlmMetadataR, lockboxXlmDataR) => {
+    if (path(['error', 'message'], xlmDataR) === 'Not Found')
+      xlmDataR = Remote.of(NO_XLM_ACCOUNT)
+
     const transform = (xlmData, xlmMetadata, lockboxXlmData) =>
       xlmMetadata
         .map(acc => {
           const address = prop('publicKey', acc)
-          const data = prop(address, xlmData)
+          const noAccount = xlmData === NO_XLM_ACCOUNT
+          const balance = noAccount
+            ? 0
+            : coreSelectors.data.xlm.selectBalanceFromAccount(
+                prop(address, xlmData)
+              )
           return {
             archived: prop('archived', acc),
             coin: 'XLM',
             label: prop('label', acc) || address,
             address,
-            balance: coreSelectors.data.xlm.selectBalanceFromAccount(data),
+            balance,
+            noAccount,
             type: ADDRESS_TYPES.ACCOUNT
           }
         })
@@ -185,6 +197,19 @@ export const getActiveAccounts = state => ({
   ETH: getActiveEthAccounts(state).getOrElse([]),
   XLM: getActiveXlmAccounts(state).getOrElse([])
 })
+
+export const getAvailablePairs = state => {
+  const activeAccounts = getActiveAccounts(state)
+  const pairsR = selectors.modules.rates.getAvailablePairs(state)
+  return pairsR.map(
+    filter(
+      compose(
+        all(currency => path([currency, 'length'], activeAccounts) > 0),
+        model.rates.splitPair
+      )
+    )
+  )
+}
 
 const getInitialCoins = (
   requestedSourceCoin,

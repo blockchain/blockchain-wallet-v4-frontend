@@ -165,7 +165,8 @@ export default ({ api, coreSagas, networks, options }) => {
     sourceAddressOrIndex,
     targetAddress,
     addressType,
-    amount
+    amount,
+    memo
   ) {
     let payment
     switch (coin) {
@@ -191,6 +192,15 @@ export default ({ api, coreSagas, networks, options }) => {
           .chain()
           .init()
           .fee('priority')
+          .amount(amount)
+        break
+      case 'XLM':
+        payment = coreSagas.payment.xlm
+          .create()
+          .chain()
+          .init()
+          .fee('priority')
+          .memo(memo)
           .amount(amount)
         break
       default:
@@ -485,11 +495,14 @@ export default ({ api, coreSagas, networks, options }) => {
     }
   }
 
+  const validateXlmAccountExists = account => {
+    if (account.noAccount) throw NO_ACCOUNT_ERROR
+  }
+
   const validateXlmCreateAccount = function*(volume, account) {
     const accountId = prop('address', account)
     const accountExists = (yield select(
-      selectors.core.data.xlm.getAccount,
-      accountId
+      selectors.core.data.xlm.getAccount(accountId)
     ))
       .map(always(true))
       .getOrElse(false)
@@ -502,7 +515,7 @@ export default ({ api, coreSagas, networks, options }) => {
       value: volume,
       coin: 'XLM',
       baseToStandard: false
-    })
+    }).value
     if (new BigNumber(baseReserve).mul(2).greaterThan(volumeStroops))
       throw CREATE_ACCOUNT_ERROR
   }
@@ -523,6 +536,7 @@ export default ({ api, coreSagas, networks, options }) => {
     selectOtherAccount,
     resetForm,
     validateXlm,
+    validateXlmAccountExists,
     validateXlmCreateAccount
   }
 }
