@@ -34,6 +34,12 @@ export const PHONE_EXISTS_ERROR = 'Phone number already registered'
 export const BAD_CODE_ERROR = 'SMS Verification Code Incorrect.'
 export const UPDATE_FAILURE = 'UPDATE_FAILURE'
 
+export const SUPPORTED_DOCUMENTS = {
+  PASSPORT: 'PASSPORT',
+  DRIVING_LICENCE: 'DRIVING_LICENCE',
+  NATIONAL_IDENTITY_CARD: 'NATIONAL_IDENTITY_CARD'
+}
+
 export const isStateSupported = compose(
   contains('KYC'),
   propOr([], 'scopes')
