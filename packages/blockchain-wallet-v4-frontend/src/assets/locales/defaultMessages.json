@@ -583,6 +583,15 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Click here to add {coin} to your Blockchain Wallet",
+        "id": "components.balances.savecoin"
+      }
+    ],
+    "path": "src/components/Balances/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Bank Transfer Order Details",
         "id": "coinify.banktransferdetails.header"
       },
@@ -1858,6 +1867,15 @@
       }
     ],
     "path": "src/layouts/Wallet/MenuTop/Balance/LockboxBalance/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/LockboxBalance/XlmLockboxBalance/template.error.json"
   },
   {
     "descriptors": [
@@ -3510,75 +3528,6 @@
         "id": "identityverification.personal.header"
       },
       {
-        "defaultMessage": "There's so much we'd love to know about you, but we only need a few things.",
-        "id": "identityverification.personal.subheader"
-      },
-      {
-        "defaultMessage": "Select your country of residence",
-        "id": "identityverification.personal.country"
-      },
-      {
-        "defaultMessage": "Select country",
-        "id": "components.selectboxcountry.label"
-      },
-      {
-        "defaultMessage": "State",
-        "id": "identityverification.personal.state"
-      },
-      {
-        "defaultMessage": "Select your state",
-        "id": "identityverification.personal.label.state"
-      },
-      {
-        "defaultMessage": "Unfortunately exchange is not available in your state at this time.",
-        "id": "identityverification.personal.unavailable"
-      },
-      {
-        "defaultMessage": "We will notify you when we expand to your area.",
-        "id": "identityverification.personal.unavailablenotify"
-      },
-      {
-        "defaultMessage": "First Name",
-        "id": "identityverification.personal.firstname"
-      },
-      {
-        "defaultMessage": "Last Name",
-        "id": "identityverification.personal.lastname"
-      },
-      {
-        "defaultMessage": "First & Last Name",
-        "id": "identityverification.personal.faq.name.title"
-      },
-      {
-        "defaultMessage": "They should match exactly the details in your passport or driving license.",
-        "id": "identityverification.personal.faq.name.text"
-      },
-      {
-        "defaultMessage": "Date of Birth - Month",
-        "id": "identityverification.personal.dateofbirthmonth"
-      },
-      {
-        "defaultMessage": "Send My Code",
-        "id": "identityverification.personal.mobile.sendmycode"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "identityverification.personal.continue"
-      }
-    ],
-    "path": "src/modals/IdentityVerification/Personal/EditSmsNumber.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Enter Address Manually",
-        "id": "identityverification.personal.manualaddress"
-      },
-      {
-        "defaultMessage": "Personal Details",
-        "id": "identityverification.personal.header"
-      },
-      {
         "defaultMessage": "To get started, we need to verify your identity. It should only take a few minutes.",
         "id": "identityverification.personal.subheader"
       },
@@ -3717,35 +3666,6 @@
       }
     ],
     "path": "src/modals/IdentityVerification/Verify.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Verify Your Identity",
-        "id": "identityverification.verify.header"
-      },
-      {
-        "defaultMessage": "Last step! We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.",
-        "id": "identityverification.verify.message"
-      },
-      {
-        "defaultMessage": "Government Issued Passport",
-        "id": "identityverification.verify.passport"
-      },
-      {
-        "defaultMessage": "Driver’s License",
-        "id": "identityverification.verify.driverslicense"
-      },
-      {
-        "defaultMessage": "Back",
-        "id": "identityverification.personal.back"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "identityverification.personal.continue"
-      }
-    ],
-    "path": "src/modals/IdentityVerification/Verify/index.json"
   },
   {
     "descriptors": [
@@ -4402,6 +4322,14 @@
         "id": "modals.promptforlockbox.connectcoinapp.content"
       },
       {
+        "defaultMessage": "Connect and unlock your hardware device. Then open the {coin} app on the device.",
+        "id": "modals.promptforlockbox.connectcoinapp.contentgeneric"
+      },
+      {
+        "defaultMessage": "Note: If you do not have the {coin} app on your device you can install it via the settings page.",
+        "id": "modals.promptforlockbox.connectcoinapp.contentgenericnote"
+      },
+      {
         "defaultMessage": "Review Transaction Details",
         "id": "modals.promptforlockbox.connectcoinapp.title.review"
       },
@@ -4414,12 +4342,24 @@
         "id": "modals.promptforlockbox.connectcoinapp.title.success"
       },
       {
+        "defaultMessage": "{coin} Success",
+        "id": "modals.promptforlockbox.connectcoinapp.title.successgeneric"
+      },
+      {
         "defaultMessage": "Your transaction was sent. Please allow for it to confirm on the network.",
         "id": "modals.promptforlockbox.connectcoinapp.success"
       },
       {
+        "defaultMessage": "{coin} successfully connected.",
+        "id": "modals.promptforlockbox.connectcoinapp.successgeneric"
+      },
+      {
         "defaultMessage": "Transaction Failed",
         "id": "modals.promptforlockbox.connectcoinapp.title.error"
+      },
+      {
+        "defaultMessage": "An Error Occurred",
+        "id": "modals.promptforlockbox.connectcoinapp.title.errorgeneric"
       },
       {
         "defaultMessage": "Something went wrong. Please reconnect your device and try again.",
@@ -7777,63 +7717,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Success! Your exchange is complete",
-        "id": "modals.exchange.shapeshift.title.success"
-      },
-      {
-        "defaultMessage": "Exchange In Progress",
-        "id": "modals.exchange.shapeshift.title.inprogress"
-      },
-      {
-        "defaultMessage": "Thanks for placing your trade!",
-        "id": "modals.exchange.shapeshift.explain"
-      },
-      {
-        "defaultMessage": "Exchange trades can take up to two hours, and you can keep track of your trade’s progress in the Order History tab.",
-        "id": "modals.exchange.shapeshift.explain2"
-      },
-      {
-        "defaultMessage": "Your exchange is complete.",
-        "id": "modals.exchange.shapeshift.explain3"
-      },
-      {
-        "defaultMessage": "It may take a few minutes for the funds to show in your balance.",
-        "id": "modals.exchange.shapeshift.explain4"
-      },
-      {
-        "defaultMessage": "Order summary",
-        "id": "modals.exchange.shapeshift.ordersummary"
-      },
-      {
-        "defaultMessage": "{coin} deposited",
-        "id": "modals.exchange.shapeshift.deposited"
-      },
-      {
-        "defaultMessage": "{coin} to be received",
-        "id": "modals.exchange.shapeshift.received"
-      },
-      {
-        "defaultMessage": "Exchange rate",
-        "id": "modals.exchange.shapeshift.exchangerate"
-      },
-      {
-        "defaultMessage": "Transaction fee",
-        "id": "modals.exchange.shapeshift.fee"
-      },
-      {
-        "defaultMessage": "Order ID",
-        "id": "modals.exchange.shapeshift.orderid"
-      },
-      {
-        "defaultMessage": "Close",
-        "id": "modals.exchange.shapeshift.close"
-      }
-    ],
-    "path": "src/scenes/Exchange/ExchangeResults/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "A better way to trade crypto",
         "id": "scenes.exchange.getstarted.title"
       },
@@ -9118,6 +9001,10 @@
       {
         "defaultMessage": "Install Apps",
         "id": "scenes.lockbox.settings.installapps.title"
+      },
+      {
+        "defaultMessage": "Install the latest versions of the Bitcoin, Bitcoin Cash, Ethereum, and Stellar apps",
+        "id": "scenes.lockbox.settings.installapps.description"
       },
       {
         "defaultMessage": "Install Apps",
