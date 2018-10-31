@@ -154,7 +154,7 @@ class SunRiverWelcomeContainer extends React.PureComponent {
     return data.cata({
       Success: value => (
         <Modal size='medium' position={position} total={total}>
-          <WelcomeModalHeader onClose={close} />
+          <WelcomeModalHeader onClose={close} closeButton={false} />
           <Image name='airdrop-welcome' width='100%' />
           <ModalBody>
             {this.determineKycState(value.userState, value.kycState)}
