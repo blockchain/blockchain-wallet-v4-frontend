@@ -32,9 +32,7 @@ const Container = styled.div`
 `
 
 class AirdropWelcomeContainer extends React.PureComponent {
-  determineKycState () {
-    const { userState, kycState } = this.props
-
+  determineKycState (userState, kycState) {
     if (kycState === KYC_STATES.VERIFIED) {
       return (
         <Container>
@@ -150,14 +148,22 @@ class AirdropWelcomeContainer extends React.PureComponent {
   }
 
   render () {
-    const { position, total, close } = this.props
-    return (
-      <Modal size='medium' position={position} total={total}>
-        <WelcomeModalHeader onClose={close} />
-        <Image name='airdrop-welcome' width='100%' />
-        <ModalBody>{this.determineKycState()}</ModalBody>
-      </Modal>
-    )
+    const { data, position, total, close } = this.props
+
+    return data.cata({
+      Success: value => (
+        <Modal size='medium' position={position} total={total}>
+          <WelcomeModalHeader onClose={close} />
+          <Image name='airdrop-welcome' width='100%' />
+          <ModalBody>
+            {this.determineKycState(value.userState, value.kycState)}
+          </ModalBody>
+        </Modal>
+      ),
+      Failure: () => null,
+      Loading: () => null,
+      NotAsked: () => null
+    })
   }
 }
 
