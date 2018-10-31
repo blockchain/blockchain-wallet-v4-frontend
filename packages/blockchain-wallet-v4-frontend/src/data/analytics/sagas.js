@@ -13,7 +13,7 @@ export const logLocation = 'analytics/sagas'
 export const balancePath = ['payload', 'info', 'final_balance']
 
 export default ({ api, coreSagas }) => {
-  const getEthBalance = function*() {
+  const getEthBalance = function* () {
     try {
       const ethBalanceR = yield select(selectors.core.data.ethereum.getBalance)
       if (!Remote.Success.is(ethBalanceR)) {
@@ -28,7 +28,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const getBtcBalance = function*() {
+  const getBtcBalance = function* () {
     try {
       const btcBalanceR = yield select(selectors.core.data.bitcoin.getBalance)
       if (!Remote.Success.is(btcBalanceR)) {
@@ -43,7 +43,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const getBchBalance = function*() {
+  const getBchBalance = function* () {
     try {
       const bchBalanceR = yield select(selectors.core.data.bch.getBalance)
       if (!Remote.Success.is(bchBalanceR)) {
@@ -58,7 +58,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const reportBalanceStats = function*() {
+  const reportBalanceStats = function* () {
     try {
       const ethT = yield fork(getEthBalance)
       const btcT = yield fork(getBtcBalance)
@@ -80,7 +80,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const logLeftNavClick = function*({ payload }) {
+  const logLeftNavClick = function* ({ payload }) {
     try {
       const { text } = payload
 
@@ -89,7 +89,7 @@ export default ({ api, coreSagas }) => {
       if (test(/ether/, text)) return yield call(api.logClick, 'eth')
       if (test(/cash/, text)) return yield call(api.logClick, 'bch')
       if (test(/(buy|sell)/, text)) return yield call(api.logClick, 'buysell')
-      if (test(/exchange/, text)) return yield call(api.logClick, 'exchange')
+      if (test(/swap/, text)) return yield call(api.logClick, 'swap')
       if (test(/security/, text)) return yield call(api.logClick, 'security')
       if (test(/settings/, text)) return yield call(api.logClick, 'settings')
       if (test(/general/, text))
@@ -105,7 +105,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const logClick = function*({ type, payload }) {
+  const logClick = function* ({ type, payload }) {
     try {
       if (equals(type, LAYOUT_WALLET_HEADER_FAQ_CLICKED))
         return yield call(api.logClick, 'faq')
@@ -119,7 +119,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const logSfoxDropoff = function*(payload) {
+  const logSfoxDropoff = function* (payload) {
     try {
       yield call(api.logSfoxDropoff, prop('step', payload))
     } catch (e) {
