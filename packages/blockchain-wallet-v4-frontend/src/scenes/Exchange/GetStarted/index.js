@@ -24,7 +24,7 @@ const Container = styled.div`
   width: 100%;
   height: auto;
 
-  @media(min-width: 1200px) {
+  @media (min-width: 1200px) {
     flex-direction: row;
     width: 100%;
   }
@@ -39,9 +39,9 @@ const Column = styled.div`
   padding: 15px;
   box-sizing: border-box;
 
-  @media(min-width: 1200px) {
-    width: auto;
+  @media (min-width: 1200px) {
     height: 100%;
+    width: ${props => props.width || 'auto'};
   }
 `
 const Row = styled.div`
@@ -57,16 +57,17 @@ const Row = styled.div`
     margin-right: 10px;
   }
 
-  @media(min-width: 1200px) {
+  @media (min-width: 1200px) {
     flex-direction: row;
     min-height: 100%;
-    margin-bottom: ${(props) => props.marginBottom ? '30px' : 'none'};
+    margin-bottom: ${props => (props.marginBottom ? '30px' : 'none')};
   }
 `
 const PreviewImage = styled(Image).attrs({
   name: 'kyc-get-started'
 })`
-  @media(max-width: 1200px) {
+  width: 100%;
+  @media (max-width: 1200px) {
     width: 350px;
   }
 `
@@ -75,8 +76,8 @@ const DarkText = styled(Text).attrs({
   size: '16px',
   weight: 300
 })`
-  @media(max-width: 1200px) {
-    display: ${(props) => props.hideOnMobile ? 'none' : 'inline-block'};
+  @media (max-width: 1200px) {
+    display: ${props => (props.hideOnMobile ? 'none' : 'inline-block')};
   }
 `
 const PrimaryText = styled(Text).attrs({
@@ -90,7 +91,7 @@ const GetStartedButton = styled(Button).attrs({
   width: '250px',
   weight: 600
 })`
-  @media(max-width: 1200px) {
+  @media (max-width: 1200px) {
     width: 100%;
   }
 `
@@ -130,9 +131,7 @@ const GetStarted = ({ verifyIdentity }) => (
               id='scenes.exchange.getstarted.lowercost'
             />
           </PrimaryText>
-          <DarkText hideOnMobile>
-            {" - "}
-          </DarkText>
+          <DarkText hideOnMobile>{' - '}</DarkText>
           <DarkText>
             <FormattedMessage
               defaultMessage='Super competitive crypto exchange prices'
@@ -147,9 +146,7 @@ const GetStarted = ({ verifyIdentity }) => (
               id='scenes.exchange.getstarted.liverates'
             />
           </PrimaryText>
-          <DarkText hideOnMobile>
-            {" - "}
-          </DarkText>
+          <DarkText hideOnMobile>{' - '}</DarkText>
           <DarkText>
             <FormattedMessage
               defaultMessage='You always get the most up to date price'
@@ -164,9 +161,7 @@ const GetStarted = ({ verifyIdentity }) => (
               id='scenes.exchange.getstarted.higherlimits'
             />
           </PrimaryText>
-          <DarkText hideOnMobile>
-            {" - "}
-          </DarkText>
+          <DarkText hideOnMobile>{' - '}</DarkText>
           <DarkText>
             <FormattedMessage
               defaultMessage='Limits from $2,000-$10,000'
@@ -183,7 +178,7 @@ const GetStarted = ({ verifyIdentity }) => (
           </GetStartedButton>
         </Row>
       </Column>
-      <Column>
+      <Column width='40%'>
         <PreviewImage />
       </Column>
     </Container>
@@ -195,4 +190,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(actions.components.identityVerification.verifyIdentity())
 })
 
-export default connect(undefined, mapDispatchToProps)(GetStarted)
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(GetStarted)

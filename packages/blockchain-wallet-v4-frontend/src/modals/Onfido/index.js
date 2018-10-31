@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import styled from 'styled-components'
-import { pathEq } from 'ramda'
+import { pathEq, toLower } from 'ramda'
 
 import { getData } from './selectors'
 import { actions } from 'data'
@@ -56,8 +56,10 @@ class OnfidoContainer extends React.PureComponent {
       total,
       onfidoSDKKey,
       onfidoSyncStatus,
+      supportedDocuments,
       actions
     } = this.props
+    const docs = supportedDocuments.map(toLower).join('|')
     return (
       <OnfidoModal
         size='medium'
@@ -72,7 +74,7 @@ class OnfidoContainer extends React.PureComponent {
               Loading: () => <Loading />,
               NotAsked: () => (
                 <OnfidoIframe
-                  src={`${helperDomain}/wallet-helper/onfido?token=${sdkKey}`}
+                  src={`${helperDomain}/wallet-helper/onfido/#/token/${sdkKey}/docs/${docs}`}
                   sandbox='allow-same-origin allow-scripts'
                   scrolling='no'
                   id='onfido-iframe'

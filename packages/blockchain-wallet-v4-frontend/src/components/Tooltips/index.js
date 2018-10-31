@@ -229,7 +229,6 @@ class Tooltips extends React.PureComponent {
           <FormattedMessage
             id='txlist.change.tooltip.description'
             defaultMessage='This change address belongs to your wallet'
-            t
           />
         </Tooltip>
       </div>
