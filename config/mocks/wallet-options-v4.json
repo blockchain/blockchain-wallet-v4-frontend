@@ -177,7 +177,7 @@
       },
       "xlm": {
         "config": {
-          "network": "testnet"
+          "network": "public"
         }
       },
       "sfox": {

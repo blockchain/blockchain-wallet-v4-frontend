@@ -140,8 +140,8 @@ export default ({ api, coreSagas, networks, options }) => {
           .done()
         break
       case 'XLM':
-        payment = yield coreSagas.payment.eth
-          .create({ network: settings.NETWORK_ETH })
+        payment = yield coreSagas.payment.xlm
+          .create({})
           .chain()
           .init()
           .from(addressOrIndex, addressType)
@@ -475,7 +475,7 @@ export default ({ api, coreSagas, networks, options }) => {
   const validateXlm = function*(volume, account) {
     try {
       const paymentValue = yield call(calculatePaymentMemo, account, 0)
-      const payment = yield call(coreSagas.payment.xlm.createm, {
+      const payment = yield call(coreSagas.payment.xlm.create, {
         payment: paymentValue
       })
       payment.amount(volume)
