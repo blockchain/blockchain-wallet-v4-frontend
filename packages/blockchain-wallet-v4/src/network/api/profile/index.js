@@ -3,10 +3,11 @@ export default ({
   nabuUrl,
   get,
   post,
+  put,
   authorizedPut,
   authorizedGet
 }) => {
-  const checkUserExistance = retailToken =>
+  const checkUserExistence = retailToken =>
     post({
       url: nabuUrl,
       endPoint: `/users/check`,
@@ -24,13 +25,38 @@ export default ({
       }
     })
 
-  const createUser = retailToken =>
+  const createUser = (retailToken, campaignName = '', xlmAccount = '') =>
     post({
       url: nabuUrl,
       endPoint: '/users',
       contentType: 'application/json',
-      data: { jwt: retailToken }
+      headers: {
+        'X-CAMPAIGN': campaignName
+      },
+      data: {
+        jwt: retailToken,
+        metaData: {
+          'x-campaign-address': xlmAccount
+        }
+      }
     })
+
+  const registerUserCampaign = (lifetimeToken, campaignName, xlmAccount) => {
+    put({
+      url: nabuUrl,
+      endPoint: '/users/register-campaign',
+      contentType: 'application/json',
+      headers: {
+        Authorization: `Bearer ${lifetimeToken}`,
+        'X-CAMPAIGN': campaignName
+      },
+      data: {
+        data: {
+          'x-campaign-address': xlmAccount
+        }
+      }
+    })
+  }
 
   const recoverUser = (userId, lifetimeToken, retailToken) =>
     post({
@@ -90,14 +116,15 @@ export default ({
     })
 
   return {
-    checkUserExistance,
+    checkUserExistence,
     createUser,
-    recoverUser,
     generateRetailToken,
     generateSession,
     getUser,
+    recoverUser,
+    registerUserCampaign,
+    syncUserWithWallet,
     updateUser,
-    updateUserAddress,
-    syncUserWithWallet
+    updateUserAddress
   }
 }

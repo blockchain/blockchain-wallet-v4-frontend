@@ -14,7 +14,7 @@ import { Field, reduxForm } from 'redux-form'
 import { Form, FormGroup, FormItem, NumberBox } from 'components/Form'
 import { required } from 'services/FormHelper'
 import PropTypes from 'prop-types'
-import BuySellAnimation from '../../scenes/BuySell/BuySellAnimation'
+import BuySellAnimation from '../../../scenes/BuySell/BuySellAnimation'
 
 const ButtonRow = styled.div`
   display: flex;

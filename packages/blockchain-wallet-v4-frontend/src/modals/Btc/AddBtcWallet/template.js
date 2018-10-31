@@ -30,7 +30,7 @@ const unique = (value, allValues, { wallets }) => {
     : undefined
 }
 
-const AddBitcoinWallet = props => {
+const AddBtcWallet = props => {
   const { position, close, submitting, invalid, handleSubmit } = props
 
   return (
@@ -80,4 +80,4 @@ const AddBitcoinWallet = props => {
   )
 }
 
-export default reduxForm({ form: 'addBitcoinWallet' })(AddBitcoinWallet)
+export default reduxForm({ form: 'addBtcWallet' })(AddBtcWallet)

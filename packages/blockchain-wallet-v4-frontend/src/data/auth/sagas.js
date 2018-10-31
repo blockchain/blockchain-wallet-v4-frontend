@@ -1,6 +1,6 @@
 import { call, put, select, take, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { path, prop, assoc, is } from 'ramda'
+import { assoc, find, path, prop, propEq, is } from 'ramda'
 import Either from 'data.either'
 
 import * as actions from '../actions.js'
@@ -43,7 +43,12 @@ export default ({ api, coreSagas }) => {
   }
 
   const welcomeSaga = function*(firstLogin) {
-    if (firstLogin) {
+    const goals = yield select(selectors.goals.getGoals)
+    const referralGoal = find(propEq('name', 'referral'))(goals)
+    if (referralGoal) {
+      // referral modal was displayed in goals saga, now delete
+      yield put(actions.goals.deleteGoal(referralGoal.id))
+    } else if (firstLogin) {
       const walletNUsers = yield call(api.getWalletNUsers)
       const walletMillions = Math.floor(
         walletNUsers.values[walletNUsers.values.length - 1].y / 1e6
