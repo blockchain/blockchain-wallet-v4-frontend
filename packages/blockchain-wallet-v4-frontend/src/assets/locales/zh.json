@@ -473,7 +473,7 @@
   "layouts.wallet.menuleft.footer.termsofservice": null,
   "layouts.wallet.menuleft.navigation.buysell": null,
   "layouts.wallet.menuleft.navigation.dashboard": "控制面板",
-  "layouts.wallet.menuleft.navigation.swap": "兑换",
+  "layouts.wallet.menuleft.navigation.exchange": "兑换",
   "layouts.wallet.menuleft.navigation.lockbox": null,
   "layouts.wallet.menuleft.navigation.lockbox.device": null,
   "layouts.wallet.menuleft.navigation.storage": null,

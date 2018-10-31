@@ -473,7 +473,7 @@
   "layouts.wallet.menuleft.footer.termsofservice": "ToS",
   "layouts.wallet.menuleft.navigation.buysell": "Buy & Sell",
   "layouts.wallet.menuleft.navigation.dashboard": "Dashboard",
-  "layouts.wallet.menuleft.navigation.swap": "Swap",
+  "layouts.wallet.menuleft.navigation.exchange": "Exchange",
   "layouts.wallet.menuleft.navigation.lockbox": "Lockbox",
   "layouts.wallet.menuleft.navigation.lockbox.device": "{deviceName}",
   "layouts.wallet.menuleft.navigation.storage": "Storage",

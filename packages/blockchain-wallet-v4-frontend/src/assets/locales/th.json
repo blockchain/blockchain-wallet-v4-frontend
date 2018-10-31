@@ -473,7 +473,7 @@
   "layouts.wallet.menuleft.footer.termsofservice": null,
   "layouts.wallet.menuleft.navigation.buysell": null,
   "layouts.wallet.menuleft.navigation.dashboard": "แดชบอร์ด",
-  "layouts.wallet.menuleft.navigation.swap": "แลกเปลี่ยน",
+  "layouts.wallet.menuleft.navigation.exchange": "แลกเปลี่ยน",
   "layouts.wallet.menuleft.navigation.lockbox": null,
   "layouts.wallet.menuleft.navigation.lockbox.device": null,
   "layouts.wallet.menuleft.navigation.storage": null,

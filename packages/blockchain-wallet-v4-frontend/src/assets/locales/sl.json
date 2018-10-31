@@ -473,7 +473,7 @@
   "layouts.wallet.menuleft.footer.termsofservice": null,
   "layouts.wallet.menuleft.navigation.buysell": null,
   "layouts.wallet.menuleft.navigation.dashboard": "Nadzorna plošča",
-  "layouts.wallet.menuleft.navigation.swap": "Borza",
+  "layouts.wallet.menuleft.navigation.exchange": "Borza",
   "layouts.wallet.menuleft.navigation.lockbox": null,
   "layouts.wallet.menuleft.navigation.lockbox.device": null,
   "layouts.wallet.menuleft.navigation.storage": null,

@@ -473,7 +473,7 @@
   "layouts.wallet.menuleft.footer.termsofservice": null,
   "layouts.wallet.menuleft.navigation.buysell": null,
   "layouts.wallet.menuleft.navigation.dashboard": "Panel de control",
-  "layouts.wallet.menuleft.navigation.swap": "Intercambio",
+  "layouts.wallet.menuleft.navigation.exchange": "Intercambio",
   "layouts.wallet.menuleft.navigation.lockbox": null,
   "layouts.wallet.menuleft.navigation.lockbox.device": null,
   "layouts.wallet.menuleft.navigation.storage": null,

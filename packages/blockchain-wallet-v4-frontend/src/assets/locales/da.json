@@ -473,7 +473,7 @@
   "layouts.wallet.menuleft.footer.termsofservice": null,
   "layouts.wallet.menuleft.navigation.buysell": null,
   "layouts.wallet.menuleft.navigation.dashboard": "Instrumentbræt",
-  "layouts.wallet.menuleft.navigation.swap": "Veksl",
+  "layouts.wallet.menuleft.navigation.exchange": "Veksl",
   "layouts.wallet.menuleft.navigation.lockbox": null,
   "layouts.wallet.menuleft.navigation.lockbox.device": null,
   "layouts.wallet.menuleft.navigation.storage": null,
