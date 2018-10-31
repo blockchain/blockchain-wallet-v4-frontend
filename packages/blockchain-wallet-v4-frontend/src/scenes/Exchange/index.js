@@ -70,7 +70,7 @@ const ColumnRight = styled(Column)`
     width: 40%;
   }
 `
-const ExchangeScene = ({ useShapeShift, location }) => (
+const ExchangeScene = ({ useShapeShift, location, showGetStarted }) => (
   <Wrapper>
     {useShapeShift && (
       <ShapeshiftContainer>
@@ -83,16 +83,17 @@ const ExchangeScene = ({ useShapeShift, location }) => (
       </ShapeshiftContainer>
     )}
     {!useShapeShift && !showGetStarted && <KYCBanner outsideOfProfile />}
-    {!useShapeShift && !showGetStarted && (
-      <Container>
-        <Column>
-          <Exchange
-            from={path(['state', 'from'], location)}
-            to={path(['state', 'to'], location)}
-          />
-        </Column>
-      </Container>
-    )}
+    {!useShapeShift &&
+      !showGetStarted && (
+        <Container>
+          <Column>
+            <Exchange
+              from={path(['state', 'from'], location)}
+              to={path(['state', 'to'], location)}
+            />
+          </Column>
+        </Container>
+      )}
     {!useShapeShift && showGetStarted && <GetStarted />}
   </Wrapper>
 )
