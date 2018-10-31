@@ -446,6 +446,7 @@
   "identityverification.verify.driverslicense": "Driver’s License",
   "identityverification.verify.header": "Verify Your Identity",
   "identityverification.verify.message": "Last step! We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.",
+  "identityverification.verify.natitionalidcard": "National Identity Card",
   "identityverification.verify.passport": "Government Issued Passport",
   "layouts.public.footer.about": "About",
   "layouts.public.footer.blog": "Blog",

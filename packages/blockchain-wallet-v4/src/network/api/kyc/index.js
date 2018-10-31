@@ -6,6 +6,12 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
       data: { scope: 'kyc' }
     })
 
+  const getSupportedDocuments = countryCode =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/kyc/supported-documents/${countryCode}`
+    })
+
   const getStates = () =>
     get({
       url: nabuUrl,
@@ -57,6 +63,7 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
 
   return {
     getSupportedCountries,
+    getSupportedDocuments,
     getStates,
     fetchKycAddresses,
     fetchOnfidoSDKKey,
