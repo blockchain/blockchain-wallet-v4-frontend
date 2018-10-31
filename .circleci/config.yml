@@ -23,11 +23,11 @@ references:
         - v4-dependency-npm
 
   restore_repo: &restore_repo
-      restore_cache:
-        keys:
-          - v4-repo-{{ .Branch }}-{{ .Revision }}
-          - v4-repo-{{ .Branch }}
-          - v4-repo
+    restore_cache:
+      keys:
+        - v4-repo-{{ .Branch }}-{{ .Revision }}
+        - v4-repo-{{ .Branch }}
+        - v4-repo
 
 jobs:
   pull_code:
