@@ -43,19 +43,45 @@ export default ({ api, coreSagas }) => {
     coreSagas
   })
 
+  const registerAirdropUser = function*() {
+    try {
+      const lifetimeToken = (yield select(
+        selectors.core.kvStore.userCredentials.getLifetimeToken
+      )).getOrFail()
+      const xlmAcct = (yield select(
+        selectors.core.kvStore.xlm.getDefaultAccountId
+      )).getOrFail()
+      yield call(api.registerCampaign, lifetimeToken, 'sunriver', xlmAcct)
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'registerAirdropUser', e)
+      )
+    }
+  }
+
   const verifyIdentity = function*({ payload: { campaignName } }) {
     try {
       const userId = (yield select(
         selectors.core.kvStore.userCredentials.getUserId
       )).getOrElse('')
-      // debugger
+
       if (userId) {
-        return yield put(actions.modals.showModal(KYC_MODAL, { campaignName }))
+        if (campaignName) {
+          yield call(registerAirdropUser)
+        }
+        yield put(actions.modals.showModal(KYC_MODAL))
+      } else {
+        const retailToken = yield call(generateRetailToken)
+
+        if (campaignName) {
+          const xlmAcct = (yield select(
+            selectors.core.kvStore.xlm.getDefaultAccountId
+          )).getOrFail()
+          yield call(api.createUser, retailToken, campaignName, xlmAcct)
+        }
+        yield call(api.checkUserExistence, retailToken)
+        yield put(actions.modals.showModal(USER_EXISTS_MODAL))
       }
-      // debugger
-      const retailToken = yield call(generateRetailToken)
-      yield call(api.checkUserExistence, retailToken)
-      yield put(actions.modals.showModal(USER_EXISTS_MODAL))
     } catch (e) {
       yield put(actions.modals.showModal(KYC_MODAL))
     }
@@ -310,6 +336,7 @@ export default ({ api, coreSagas }) => {
     fetchStates,
     fetchPossibleAddresses,
     resendSmsCode,
+    registerAirdropUser,
     savePersonalData,
     selectAddress,
     updateSmsStep,

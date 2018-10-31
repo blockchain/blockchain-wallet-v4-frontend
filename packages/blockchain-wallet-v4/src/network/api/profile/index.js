@@ -24,25 +24,32 @@ export default ({
       }
     })
 
-  const createUser = (retailToken, campaignName) =>
+  const createUser = (retailToken, campaignName = '', xlmAcct = '') =>
     post({
       url: nabuUrl,
       endPoint: '/users',
       contentType: 'application/json',
-      // headers: {
-      //   'X-CAMPAIGN': campaignName ? campaignName : ''
-      // },
-      data: { jwt: retailToken }
+      headers: {
+        'X-CAMPAIGN': campaignName
+      },
+      data: {
+        jwt: retailToken,
+        metaData: {
+          'x-campaign-address': xlmAcct
+        }
+      }
     })
 
-  const registerCampaign = (lifetimeToken, campaignName) => {
-    post({
+  const registerCampaign = (lifetimeToken, campaignName, xlmAcct) => {
+    authorizedPut({
       url: nabuUrl,
       endPoint: '/users/register-campaign',
       contentType: 'application/json',
       headers: {
-        Authorization: `Bearer ${lifetimeToken}`,
         'X-CAMPAIGN': campaignName
+      },
+      data: {
+        'x-campaign-address': xlmAcct
       }
     })
   }

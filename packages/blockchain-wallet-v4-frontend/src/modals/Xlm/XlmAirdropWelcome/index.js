@@ -34,6 +34,7 @@ const Container = styled.div`
 class AirdropWelcomeContainer extends React.PureComponent {
   determineKycState (userState, kycState) {
     if (kycState === KYC_STATES.VERIFIED) {
+      this.props.registerAirdropUser()
       return (
         <Container>
           <Text size='26px' weight={300}>
@@ -64,6 +65,7 @@ class AirdropWelcomeContainer extends React.PureComponent {
       userState === USER_ACTIVATION_STATES.ACTIVE &&
       kycState === KYC_STATES.UNDER_REVIEW
     ) {
+      this.props.registerAirdropUser()
       return (
         <Container>
           <Text size='26px' weight={300}>
@@ -149,7 +151,6 @@ class AirdropWelcomeContainer extends React.PureComponent {
 
   render () {
     const { data, position, total, close } = this.props
-
     return data.cata({
       Success: value => (
         <Modal size='medium' position={position} total={total}>
@@ -168,6 +169,9 @@ class AirdropWelcomeContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
+  registerAirdropUser: () => {
+    dispatch(actions.components.identityVerification.registerAirdropUser())
+  },
   viewStellarWallet: () => {
     dispatch(actions.modals.closeModal())
     dispatch(actions.router.push('/xlm/transactions'))
