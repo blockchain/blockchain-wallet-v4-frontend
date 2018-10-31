@@ -1,6 +1,7 @@
 import { call, select } from 'redux-saga/effects'
-import { contains, flip, merge, prop, path, values } from 'ramda'
+import { contains, flip, isNil, merge, prop, path, values } from 'ramda'
 import * as StellarSdk from 'stellar-sdk'
+import BigNumber from 'bignumber.js'
 
 import * as S from '../../selectors'
 import { xlm as xlmSigner } from '../../../signer'
@@ -143,6 +144,17 @@ export default ({ api }) => {
     }
   }
 
+  // Required when *build is called more than once on a payment
+  const decrementSequenceNumber = (p, account) => {
+    const sourceAccountSequence = prop('sequence', account)
+    if (!prop('transaction', p) || isNil(sourceAccountSequence)) return account
+
+    account._baseAccount.sequence = new BigNumber(sourceAccountSequence).minus(
+      1
+    )
+    return account
+  }
+
   // ///////////////////////////////////////////////////////////////////////////
 
   function create ({ payment } = { payment: {} }) {
@@ -225,10 +237,11 @@ export default ({ api }) => {
         const destinationAccountExists = prop('destinationAccountExists', p)
         const memo = prop('memo', p)
         const memoType = prop('memoType', p)
-        const account = prop('account', fromData)
+        let account = prop('account', fromData)
         if (!account) throw new Error(NO_SOURCE_ERROR)
         if (!to) throw new Error(NO_DESTINATION_ERROR)
         if (!amount) throw new Error(NO_AMOUNT_ERROR)
+        account = decrementSequenceNumber(p, account)
         const txBuilder = new StellarSdk.TransactionBuilder(account)
         const operation = yield call(
           createOperation,

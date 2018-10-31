@@ -12,6 +12,7 @@ import SecondStep from './SecondStep'
 class SendXlmContainer extends React.PureComponent {
   componentDidMount () {
     this.props.actions.initialized()
+    this.props.fetchData()
   }
 
   componentWillUnmount () {
@@ -41,7 +42,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.sendXlm, dispatch)
+  actions: bindActionCreators(actions.components.sendXlm, dispatch),
+  fetchData: bindActionCreators(actions.core.data.xlm.fetchData, dispatch)
 })
 
 const enhance = compose(
