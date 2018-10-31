@@ -15,7 +15,7 @@ export default ({ api, coreSagas }) => {
     fetchSupportedCountries,
     fetchStates,
     fetchPossibleAddresses,
-    registerAirdropUser
+    registerUserCampaign
   } = sagas({ api, coreSagas })
 
   return function*() {
@@ -30,6 +30,6 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.FETCH_STATES, fetchStates)
     yield takeLatest(AT.FETCH_POSSIBLE_ADDRESSES, fetchPossibleAddresses)
     yield takeLatest(AT.SELECT_ADDRESS, selectAddress)
-    yield takeLatest(AT.REGISTER_AIRDROP_USER, registerAirdropUser)
+    yield takeLatest(AT.REGISTER_USER_CAMPAIGN, registerUserCampaign)
   }
 }

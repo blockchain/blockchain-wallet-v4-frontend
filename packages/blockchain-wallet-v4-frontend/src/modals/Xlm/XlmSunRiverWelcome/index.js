@@ -31,10 +31,10 @@ const Container = styled.div`
   }
 `
 
-class AirdropWelcomeContainer extends React.PureComponent {
+class SunRiverWelcomeContainer extends React.PureComponent {
   determineKycState (userState, kycState) {
     if (kycState === KYC_STATES.VERIFIED) {
-      this.props.registerAirdropUser()
+      this.props.registerSunRiverUser()
       return (
         <Container>
           <Text size='26px' weight={300}>
@@ -65,7 +65,7 @@ class AirdropWelcomeContainer extends React.PureComponent {
       userState === USER_ACTIVATION_STATES.ACTIVE &&
       kycState === KYC_STATES.UNDER_REVIEW
     ) {
-      this.props.registerAirdropUser()
+      this.props.registerSunRiverUser()
       return (
         <Container>
           <Text size='26px' weight={300}>
@@ -169,8 +169,8 @@ class AirdropWelcomeContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  registerAirdropUser: () => {
-    dispatch(actions.components.identityVerification.registerAirdropUser())
+  registerSunRiverUser: () => {
+    dispatch(actions.components.identityVerification.registerUserCampaign())
   },
   viewStellarWallet: () => {
     dispatch(actions.modals.closeModal())
@@ -183,11 +183,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('AirdropWelcome'),
+  modalEnhancer('SunRiverWelcome'),
   connect(
     getData,
     mapDispatchToProps
   )
 )
 
-export default enhance(AirdropWelcomeContainer)
+export default enhance(SunRiverWelcomeContainer)

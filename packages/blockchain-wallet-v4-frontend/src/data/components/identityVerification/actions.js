@@ -56,6 +56,6 @@ export const updateSmsNumber = () => ({ type: AT.UPDATE_SMS_NUMBER })
 export const verifySmsNumber = () => ({ type: AT.VERIFY_SMS_NUMBER })
 export const resendSmsCode = () => ({ type: AT.RESEND_SMS_CODE })
 
-export const registerAirdropUser = () => ({
-  type: AT.REGISTER_AIRDROP_USER
+export const registerUserCampaign = () => ({
+  type: AT.REGISTER_USER_CAMPAGIN
 })

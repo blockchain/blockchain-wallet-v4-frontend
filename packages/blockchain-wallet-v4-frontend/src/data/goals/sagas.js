@@ -31,10 +31,19 @@ export default ({ coreSagas }) => {
     yield put(actions.goals.deleteGoal(id))
   }
 
-  const sunRiverGoalSaga = function*() {
-    yield put(actions.modals.showModal('AirdropWelcome'))
-    // do not delete goal, the welcomeSaga will check for this goal
-    // if it exists, it wont show wallet welcome and will delete this goal via id
+  const referralLinkGoalSaga = function*(goal) {
+    const { id, data } = goal
+
+    switch (data.campaignName) {
+      case 'sunriver':
+        yield put(actions.modals.showModal('SunRiverWelcome'))
+        // do not delete goal, the welcomeSaga will check for this goal
+        // if it exists, it wont show wallet welcome and will delete this goal via id
+        break
+      default:
+        yield put(actions.goals.deleteGoal(id))
+        break
+    }
   }
 
   const runGoals = function*() {
@@ -46,9 +55,9 @@ export default ({ coreSagas }) => {
             yield take(actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_SUCCESS)
             yield call(sendBtcGoalSaga, goal)
             break
-          case 'airdrop':
+          case 'referral':
             yield take(actionTypes.auth.LOGIN_SUCCESS)
-            yield call(sunRiverGoalSaga, goal)
+            yield call(referralLinkGoalSaga, goal)
             break
         }
       })

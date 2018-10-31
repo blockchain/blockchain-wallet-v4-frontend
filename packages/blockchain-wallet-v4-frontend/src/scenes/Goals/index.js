@@ -17,10 +17,10 @@ class ActionsContainer extends React.PureComponent {
   componentWillMount () {
     const { payload } = this.props.match.params
     try {
-      if (startsWith('airdrop', payload)) {
+      if (startsWith('referral', payload)) {
         const params = new URLSearchParams(this.props.location.search)
-        // TODO: referral codes?
-        this.props.goalsActions.saveGoal('airdrop')
+        const data = { campaignName: params.get('campaign') }
+        this.props.goalsActions.saveGoal('referral', data)
         params.get('newUser')
           ? this.props.routerActions.push('/signup')
           : this.props.routerActions.push('/login')

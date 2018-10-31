@@ -57,7 +57,7 @@ import {
   RequestXlm,
   SendXlm,
   ShowXlmPrivateKey,
-  XlmAirdropWelcome,
+  XlmSunRiverWelcome,
   XlmCreateAccountLearn,
   XlmReserveLearn
 } from './Xlm'
@@ -117,7 +117,7 @@ const Modals = props => (
     <Welcome />
     <XlmCreateAccountLearn />
     <XlmReserveLearn />
-    <XlmAirdropWelcome />
+    <XlmSunRiverWelcome />
   </div>
 )
 

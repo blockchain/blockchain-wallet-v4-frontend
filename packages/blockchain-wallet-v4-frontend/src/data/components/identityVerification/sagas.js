@@ -43,7 +43,7 @@ export default ({ api, coreSagas }) => {
     coreSagas
   })
 
-  const registerCampaignUser = function*(campaignName) {
+  const registerUserCampaign = function*(campaignName) {
     try {
       const lifetimeToken = (yield select(
         selectors.core.kvStore.userCredentials.getLifetimeToken
@@ -59,7 +59,7 @@ export default ({ api, coreSagas }) => {
       )
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, 'registerCampaignUser', e)
+        actions.logs.logErrorMessage(logLocation, 'registerUserCampaign', e)
       )
     }
   }
@@ -73,7 +73,7 @@ export default ({ api, coreSagas }) => {
       if (userId) {
         // existing user, register campaign if applicable
         if (campaignName) {
-          yield call(registerCampaignUser, campaignName)
+          yield call(registerUserCampaign, campaignName)
         }
         yield put(actions.modals.showModal(KYC_MODAL))
       } else {
@@ -345,7 +345,7 @@ export default ({ api, coreSagas }) => {
     fetchStates,
     fetchPossibleAddresses,
     resendSmsCode,
-    registerCampaignUser,
+    registerUserCampaign,
     savePersonalData,
     selectAddress,
     updateSmsStep,
