@@ -13,6 +13,7 @@ import {
 import { currencySymbolMap } from 'services/CoinifyService'
 
 export const ACCOUNT_CREATION_ERROR = 'Not enough funds to create new account'
+export const NO_FUNDS_ERROR = 'Wallet amount at base reserve'
 export const RESERVE_ERROR = 'Remaining amount below base reserve'
 
 export const insufficientFunds = (value, allValues, props) => {
@@ -74,7 +75,18 @@ export const balanceReserveAmount = (errors, allValues, props) => {
     toCurrency: currency,
     rates: prop('rates', props)
   }).value
-  if (utils.xlm.overflowsEffectiveBalance(valueStroop, effectiveBalance))
+  if (effectiveBalance < 0)
+    errors._error = {
+      currency,
+      message: NO_FUNDS_ERROR,
+      reserveXlm,
+      effectiveBalanceXlm,
+      effectiveBalanceFiat,
+      currencySymbol: currencySymbolMap[currency],
+      fee,
+      rates
+    }
+  else if (utils.xlm.overflowsEffectiveBalance(valueStroop, effectiveBalance))
     errors._error = {
       currency,
       message: RESERVE_ERROR,

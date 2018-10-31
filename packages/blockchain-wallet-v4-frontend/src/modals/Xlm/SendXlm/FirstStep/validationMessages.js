@@ -43,6 +43,16 @@ export const ShouldCreateAccountMessage = props => (
   </ErrorBanner>
 )
 
+export const NoFundsMessage = props => (
+  <ErrorBanner type='warning'>
+    <FormattedMessage
+      id='modals.sendxlm.nofunds'
+      defaultMessage='Your account is at the minimum balance'
+    />
+    <ModalIcon modal={RESERVE_LEARN_MODAL} {...props} />
+  </ErrorBanner>
+)
+
 export const ReserveMessage = props => (
   <ErrorBanner type='warning'>
     <div>
