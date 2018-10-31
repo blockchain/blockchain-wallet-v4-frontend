@@ -98,7 +98,7 @@ class SunRiverWelcomeContainer extends React.PureComponent {
           <Text size='26px' weight={300}>
             <FormattedMessage
               id='modals.xlmairdropwelcome.inprogress.title'
-              defaultMessage='Finish identity verification'
+              defaultMessage='Finish Identity Verification'
             />
           </Text>
           <Text size='16px' weight={300}>
@@ -110,7 +110,7 @@ class SunRiverWelcomeContainer extends React.PureComponent {
           <Button
             nature='primary'
             fullwidth
-            onClick={this.props.verifyIdentity}
+            onClick={this.props.goToIdentityVerification}
           >
             <FormattedMessage
               id='modals.xlmairdropwelcome.inprogress.completenow'
@@ -125,7 +125,7 @@ class SunRiverWelcomeContainer extends React.PureComponent {
           <Text size='26px' weight={300}>
             <FormattedMessage
               id='modals.xlmairdropwelcome.newuser.title'
-              defaultMessage='Start identity verification'
+              defaultMessage='Start Identity Verification'
             />
           </Text>
           <Text size='16px' weight={300}>
@@ -137,7 +137,7 @@ class SunRiverWelcomeContainer extends React.PureComponent {
           <Button
             nature='primary'
             fullwidth
-            onClick={this.props.verifyIdentity}
+            onClick={this.props.goToIdentityVerification}
           >
             <FormattedMessage
               id='modals.xlmairdropwelcome.newuser.beginenow'
@@ -170,15 +170,24 @@ class SunRiverWelcomeContainer extends React.PureComponent {
 
 const mapDispatchToProps = dispatch => ({
   registerSunRiverUser: () => {
-    dispatch(actions.components.identityVerification.registerUserCampaign())
+    dispatch(
+      actions.components.identityVerification.createRegisterUserCampaign(
+        'sunriver'
+      )
+    )
   },
   viewStellarWallet: () => {
     dispatch(actions.modals.closeModal())
     dispatch(actions.router.push('/xlm/transactions'))
   },
-  verifyIdentity: () => {
+  goToIdentityVerification: () => {
     dispatch(actions.modals.closeModal())
-    dispatch(actions.components.identityVerification.verifyIdentity('sunriver'))
+    dispatch(
+      actions.components.identityVerification.createRegisterUserCampaign(
+        'sunriver',
+        true
+      )
+    )
   }
 })
 

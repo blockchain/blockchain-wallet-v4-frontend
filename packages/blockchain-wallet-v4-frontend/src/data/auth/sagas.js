@@ -44,10 +44,10 @@ export default ({ api, coreSagas }) => {
 
   const welcomeSaga = function*(firstLogin) {
     const goals = yield select(selectors.goals.getGoals)
-    const airdropGoal = find(propEq('name', 'airdrop'))(goals)
-    if (airdropGoal) {
-      // airdrop modal was displayed in goals saga, now delete
-      yield put(actions.goals.deleteGoal(airdropGoal.id))
+    const referralGoal = find(propEq('name', 'referral'))(goals)
+    if (referralGoal) {
+      // referral modal was displayed in goals saga, now delete
+      yield put(actions.goals.deleteGoal(referralGoal.id))
     } else if (firstLogin) {
       const walletNUsers = yield call(api.getWalletNUsers)
       const walletMillions = Math.floor(

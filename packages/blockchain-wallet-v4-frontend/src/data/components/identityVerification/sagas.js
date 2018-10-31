@@ -43,54 +43,57 @@ export default ({ api, coreSagas }) => {
     coreSagas
   })
 
-  const registerUserCampaign = function*(campaignName) {
+  const createRegisterUserCampaign = function*({
+    payload: { campaignName, needsIdVerification }
+  }) {
     try {
-      const lifetimeToken = (yield select(
-        selectors.core.kvStore.userCredentials.getLifetimeToken
-      )).getOrFail()
       const xlmAccount = (yield select(
         selectors.core.kvStore.xlm.getDefaultAccountId
       )).getOrFail()
-      yield call(
-        api.registerUserCampaign,
-        lifetimeToken,
-        campaignName,
-        xlmAccount
-      )
+
+      if (needsIdVerification) {
+        const userId = (yield select(
+          selectors.core.kvStore.userCredentials.getUserId
+        )).getOrElse('')
+        if (!userId) {
+          const retailToken = yield call(generateRetailToken)
+          yield call(api.createUser, retailToken, campaignName, xlmAccount)
+        }
+        yield put(actions.modals.showModal(KYC_MODAL))
+      } else {
+        const lifetimeToken = (yield select(
+          selectors.core.kvStore.userCredentials.getLifetimeToken
+        )).getOrFail()
+
+        yield call(
+          api.registerUserCampaign,
+          lifetimeToken,
+          campaignName,
+          xlmAccount
+        )
+      }
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, 'registerUserCampaign', e)
+        actions.logs.logErrorMessage(
+          logLocation,
+          'createRegisterUserCampaign',
+          e
+        )
       )
     }
   }
 
-  const verifyIdentity = function*({ payload: { campaignName } }) {
+  const verifyIdentity = function*() {
     try {
       const userId = (yield select(
         selectors.core.kvStore.userCredentials.getUserId
       )).getOrElse('')
-      // check is user exists
       if (userId) {
-        // existing user, register campaign if applicable
-        if (campaignName) {
-          yield call(registerUserCampaign, campaignName)
-        }
-        yield put(actions.modals.showModal(KYC_MODAL))
-      } else {
-        // new user
-        const retailToken = yield call(generateRetailToken)
-        if (campaignName) {
-          // create user with campaign
-          const xlmAccount = (yield select(
-            selectors.core.kvStore.xlm.getDefaultAccountId
-          )).getOrFail()
-          yield call(api.createUser, retailToken, campaignName, xlmAccount)
-        } else {
-          // check is email is already in use
-          yield call(api.checkUserExistence, retailToken)
-          yield put(actions.modals.showModal(USER_EXISTS_MODAL))
-        }
+        return yield put(actions.modals.showModal(KYC_MODAL))
       }
+      const retailToken = yield call(generateRetailToken)
+      yield call(api.checkUserExistence, retailToken)
+      yield put(actions.modals.showModal(USER_EXISTS_MODAL))
     } catch (e) {
       yield put(actions.modals.showModal(KYC_MODAL))
     }
@@ -345,7 +348,7 @@ export default ({ api, coreSagas }) => {
     fetchStates,
     fetchPossibleAddresses,
     resendSmsCode,
-    registerUserCampaign,
+    createRegisterUserCampaign,
     savePersonalData,
     selectAddress,
     updateSmsStep,
