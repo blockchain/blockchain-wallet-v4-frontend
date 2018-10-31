@@ -52,7 +52,8 @@ export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
       authorizedPut: authorizedHttp.put,
       authorizedGet: authorizedHttp.get,
       get: http.get,
-      post: http.post
+      post: http.post,
+      put: http.put
     }),
     ...sfox(),
     ...settings({ rootUrl, apiUrl, get, post }),

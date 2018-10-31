@@ -14,7 +14,7 @@ import JumioStatus from './JumioStatus'
 import { OrderDetails, OrderSubmit } from './OrderReview'
 import renderFaq from 'components/FaqDropdown'
 import EmptyOrderHistoryContainer from 'components/BuySell/EmptyOrderHistory'
-import SiftScience from 'modals/SfoxExchangeData/sift-science.js'
+import SiftScience from 'modals/Sfox/SfoxExchangeData/sift-science.js'
 import media from 'services/ResponsiveService'
 
 const CheckoutWrapper = styled.div`

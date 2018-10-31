@@ -29,8 +29,6 @@ export const invalidNumberError = 'Failed to update mobile number'
 export const mobileVerifiedError = 'Failed to verify mobile number'
 export const failedResendError = 'Failed to resend the code'
 export const userExistsError = 'User already exists'
-export const getUserExistsError = email =>
-  `User with email ${email} already exists`
 
 export default ({ api, coreSagas }) => {
   const { USER_ACTIVATION_STATES } = model.profile
@@ -45,6 +43,46 @@ export default ({ api, coreSagas }) => {
     coreSagas
   })
 
+  const createRegisterUserCampaign = function*({
+    payload: { campaignName, needsIdVerification }
+  }) {
+    try {
+      const xlmAccount = (yield select(
+        selectors.core.kvStore.xlm.getDefaultAccountId
+      )).getOrFail()
+
+      if (needsIdVerification) {
+        const userId = (yield select(
+          selectors.core.kvStore.userCredentials.getUserId
+        )).getOrElse('')
+        if (!userId) {
+          const retailToken = yield call(generateRetailToken)
+          yield call(api.createUser, retailToken, campaignName, xlmAccount)
+        }
+        yield put(actions.modals.showModal(KYC_MODAL))
+      } else {
+        const lifetimeToken = (yield select(
+          selectors.core.kvStore.userCredentials.getLifetimeToken
+        )).getOrFail()
+
+        yield call(
+          api.registerUserCampaign,
+          lifetimeToken,
+          campaignName,
+          xlmAccount
+        )
+      }
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'createRegisterUserCampaign',
+          e
+        )
+      )
+    }
+  }
+
   const verifyIdentity = function*() {
     try {
       const userId = (yield select(
@@ -54,7 +92,7 @@ export default ({ api, coreSagas }) => {
         return yield put(actions.modals.showModal(KYC_MODAL))
       }
       const retailToken = yield call(generateRetailToken)
-      yield call(api.checkUserExistance, retailToken)
+      yield call(api.checkUserExistence, retailToken)
       yield put(actions.modals.showModal(USER_EXISTS_MODAL))
     } catch (e) {
       yield put(actions.modals.showModal(KYC_MODAL))
@@ -332,6 +370,7 @@ export default ({ api, coreSagas }) => {
     fetchSupportedDocuments,
     fetchPossibleAddresses,
     resendSmsCode,
+    createRegisterUserCampaign,
     savePersonalData,
     selectAddress,
     updateSmsStep,

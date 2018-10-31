@@ -15,7 +15,8 @@ export default ({ api, coreSagas }) => {
     fetchSupportedCountries,
     fetchSupportedDocuments,
     fetchStates,
-    fetchPossibleAddresses
+    fetchPossibleAddresses,
+    createRegisterUserCampaign
   } = sagas({ api, coreSagas })
 
   return function*() {
@@ -31,5 +32,9 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.FETCH_STATES, fetchStates)
     yield takeLatest(AT.FETCH_POSSIBLE_ADDRESSES, fetchPossibleAddresses)
     yield takeLatest(AT.SELECT_ADDRESS, selectAddress)
+    yield takeLatest(
+      AT.CREATE_REGISTER_USER_CAMPAIGN,
+      createRegisterUserCampaign
+    )
   }
 }
