@@ -117,7 +117,7 @@ const Modals = props => (
     <Welcome />
     <XlmCreateAccountLearn />
     <XlmReserveLearn />
-    <SunRiverWelcome />
+    <SunRiverWelcome disableOutsideClose />
   </div>
 )
 

@@ -1,8 +1,7 @@
 import * as AT from './actionTypes'
 
-export const verifyIdentity = campaignName => ({
-  type: AT.VERIFY_IDENTITY,
-  payload: { campaignName }
+export const verifyIdentity = () => ({
+  type: AT.VERIFY_IDENTITY
 })
 
 export const initializeStep = () => ({
