@@ -471,7 +471,7 @@
   "layouts.wallet.menuleft.footer.termsofservice": null,
   "layouts.wallet.menuleft.navigation.buysell": null,
   "layouts.wallet.menuleft.navigation.dashboard": "대시보드",
-  "layouts.wallet.menuleft.navigation.exchange": "교환",
+  "layouts.wallet.menuleft.navigation.swap": "교환",
   "layouts.wallet.menuleft.navigation.lockbox": null,
   "layouts.wallet.menuleft.navigation.lockbox.device": null,
   "layouts.wallet.menuleft.navigation.storage": null,

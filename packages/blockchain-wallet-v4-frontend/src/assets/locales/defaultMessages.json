@@ -1687,8 +1687,8 @@
         "id": "layouts.wallet.menuleft.navigation.buysell"
       },
       {
-        "defaultMessage": "Exchange",
-        "id": "layouts.wallet.menuleft.navigation.exchange"
+        "defaultMessage": "Swap",
+        "id": "layouts.wallet.menuleft.navigation.swap"
       },
       {
         "defaultMessage": "Transactions",

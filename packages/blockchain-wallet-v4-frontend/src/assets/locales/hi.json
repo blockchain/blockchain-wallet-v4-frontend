@@ -471,7 +471,7 @@
   "layouts.wallet.menuleft.footer.termsofservice": null,
   "layouts.wallet.menuleft.navigation.buysell": null,
   "layouts.wallet.menuleft.navigation.dashboard": "डैशबोर्ड",
-  "layouts.wallet.menuleft.navigation.exchange": "एक्सचेंज",
+  "layouts.wallet.menuleft.navigation.swap": "एक्सचेंज",
   "layouts.wallet.menuleft.navigation.lockbox": null,
   "layouts.wallet.menuleft.navigation.lockbox.device": null,
   "layouts.wallet.menuleft.navigation.storage": null,

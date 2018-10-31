@@ -52,8 +52,8 @@ const Navigation = props => {
         <MenuItem data-e2e='exchangeLink'>
           <Icon name='nav-switch' />
           <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.exchange'
-            defaultMessage='Exchange'
+            id='layouts.wallet.menuleft.navigation.swap'
+            defaultMessage='Swap'
           />
         </MenuItem>
       </LinkContainer>
