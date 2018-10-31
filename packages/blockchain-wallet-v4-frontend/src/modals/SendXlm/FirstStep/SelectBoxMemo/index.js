@@ -7,11 +7,11 @@ const elements = [
     items: [
       {
         value: 'id',
-        text: 'Memo_Id'
+        text: 'Id'
       },
       {
         value: 'text',
-        text: 'Memo_Text'
+        text: 'Text'
       }
     ]
   }
