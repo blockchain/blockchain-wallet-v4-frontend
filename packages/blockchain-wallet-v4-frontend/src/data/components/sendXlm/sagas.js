@@ -5,7 +5,14 @@ import * as A from './actions'
 import * as S from './selectors'
 import { FORM } from './model'
 import { actions, actionTypes, model, selectors } from 'data'
-import { initialize, change, touch } from 'redux-form'
+import {
+  initialize,
+  change,
+  touch,
+  startSubmit,
+  stopSubmit,
+  destroy
+} from 'redux-form'
 import * as C from 'services/AlertService'
 import * as Lockbox from 'services/LockboxService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
@@ -166,9 +173,11 @@ export default ({ coreSagas }) => {
   }
 
   const secondStepSubmitClicked = function*() {
+    yield put(startSubmit(FORM))
     let payment = (yield select(S.getPayment)).getOrElse({})
     payment = yield call(coreSagas.payment.xlm.create, { payment })
     const fromType = path(['from', 'type'], payment.value())
+    const toAddress = path(['to', 'address'], payment.value())
     const fromAddress = path(['from', 'address'], payment.value())
     try {
       // Sign payment
@@ -177,16 +186,16 @@ export default ({ coreSagas }) => {
         payment = yield call(payment.sign, password)
       } else {
         const device = (yield select(
-          selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
+          selectors.core.kvStore.lockbox.getDeviceFromXlmAddr,
           fromAddress
         )).getOrFail('missing_device')
         const deviceType = prop('device_type', device)
-        yield call(promptForLockbox, 'ETH', null, deviceType)
+        yield call(promptForLockbox, 'XLM', deviceType, [toAddress])
         let connection = yield select(
           selectors.components.lockbox.getCurrentConnection
         )
         const transport = prop('transport', connection)
-        const scrambleKey = Lockbox.utils.getScrambleKey('ETH', deviceType)
+        const scrambleKey = Lockbox.utils.getScrambleKey('XLM', deviceType)
         payment = yield call(payment.sign, null, transport, scrambleKey)
       }
       // Publish payment
@@ -197,7 +206,7 @@ export default ({ coreSagas }) => {
       // Update metadata
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         const device = (yield select(
-          selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
+          selectors.core.kvStore.lockbox.getDeviceFromXlmAddr,
           fromAddress
         )).getOrFail('missing_device')
         const deviceIndex = prop('device_index', device)
@@ -226,12 +235,21 @@ export default ({ coreSagas }) => {
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionSuccess())
         yield delay(1500)
+        const device = (yield select(
+          selectors.core.kvStore.lockbox.getDeviceFromXlmAddr,
+          fromAddress
+        )).getOrFail('missing_device')
+        const deviceIndex = prop('device_index', device)
+        yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
       } else {
+        yield put(actions.router.push('/xlm/transactions'))
         yield put(actions.alerts.displaySuccess(C.SEND_XLM_SUCCESS))
       }
+      yield put(destroy(FORM))
       // Close modals
       yield put(actions.modals.closeAllModals())
     } catch (e) {
+      yield put(stopSubmit(FORM))
       // Set errors
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionError(e))
@@ -263,6 +281,14 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const toToggled = function*() {
+    try {
+      yield put(change('sendXlm', 'to', ''))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'toToggled', e))
+    }
+  }
+
   return {
     initialized,
     destroyed,
@@ -270,6 +296,7 @@ export default ({ coreSagas }) => {
     maximumAmountClicked,
     secondStepSubmitClicked,
     formChanged,
+    toToggled,
     setFrom
   }
 }

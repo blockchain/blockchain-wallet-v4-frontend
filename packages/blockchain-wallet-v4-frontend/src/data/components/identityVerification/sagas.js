@@ -62,9 +62,9 @@ export default ({ api, coreSagas }) => {
   }
 
   const initializeStep = function*() {
-    const activationState = yield select(
+    const activationState = (yield select(
       selectors.modules.profile.getUserActivationState
-    )
+    )).getOrElse(USER_ACTIVATION_STATES.NONE)
     if (activationState === USER_ACTIVATION_STATES.NONE)
       return yield put(A.setVerificationStep(STEPS.personal))
     if (activationState === USER_ACTIVATION_STATES.CREATED)
@@ -203,6 +203,27 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const fetchSupportedDocuments = function*() {
+    try {
+      yield put(A.setSupportedDocuments(Remote.Loading))
+      const countryCode = (yield select(
+        selectors.modules.profile.getUserCountryCode
+      )).getOrElse('US')
+      const { documentTypes } = yield call(
+        api.getSupportedDocuments,
+        countryCode
+      )
+      yield put(A.setSupportedDocuments(Remote.Success(documentTypes)))
+    } catch (e) {
+      yield put(A.setSupportedDocuments(Remote.Failure(e)))
+      actions.logs.logErrorMessage(
+        logLocation,
+        'fetchSupportedDocuments',
+        `Error fetching supported documents: ${e}`
+      )
+    }
+  }
+
   const fetchStates = function*() {
     try {
       yield put(A.setStates(Remote.Loading))
@@ -306,8 +327,9 @@ export default ({ api, coreSagas }) => {
   return {
     verifyIdentity,
     initializeStep,
-    fetchSupportedCountries,
     fetchStates,
+    fetchSupportedCountries,
+    fetchSupportedDocuments,
     fetchPossibleAddresses,
     resendSmsCode,
     savePersonalData,

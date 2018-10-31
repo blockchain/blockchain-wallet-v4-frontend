@@ -1,6 +1,8 @@
-import { selectors } from 'data'
+import { selectors, model } from 'data'
 import { ethFromLabel } from 'services/PaymentHelper'
 import { utils } from 'blockchain-wallet-v4/src'
+
+const isSubmitting = selectors.form.isSubmitting(model.components.sendEth.FORM)
 
 export const getData = state => {
   const paymentR = selectors.components.sendEth.getPayment(state)
@@ -10,6 +12,7 @@ export const getData = state => {
     const toLabel = payment.to.label || payment.to.address
 
     return {
+      submitting: isSubmitting(state),
       description: payment.description,
       fromAddress: fromLabel,
       toAddress: toLabel,

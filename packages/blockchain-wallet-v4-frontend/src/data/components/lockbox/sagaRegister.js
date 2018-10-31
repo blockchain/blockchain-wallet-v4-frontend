@@ -42,5 +42,6 @@ export default ({ api, coreSagas }) => {
       lockboxSagas.uninstallApplication
     )
     yield takeLatest(AT.INITIALIZE_DASHBOARD, lockboxSagas.initializeDashboard)
+    yield takeLatest(AT.SAVE_COIN_MD, lockboxSagas.saveCoinMD)
   }
 }

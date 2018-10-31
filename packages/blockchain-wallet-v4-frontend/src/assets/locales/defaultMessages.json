@@ -278,7 +278,7 @@
         "id": "components.alerts.payment_received_eth"
       },
       {
-        "defaultMessage": "You've just received a Stellar payment",
+        "defaultMessage": "You've just received a stellar payment",
         "id": "components.alerts.payment_received_xlm"
       },
       {
@@ -538,6 +538,10 @@
         "id": "components.alerts.eth_address_incorrect"
       },
       {
+        "defaultMessage": "Invalid Stellar Address.",
+        "id": "components.alerts.xlm_address_incorrect"
+      },
+      {
         "defaultMessage": "Invalid Private Key.",
         "id": "components.alerts.private_key_incorrect"
       },
@@ -575,6 +579,15 @@
       }
     ],
     "path": "src/components/Alerts/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Click here to add {coin} to your Blockchain Wallet",
+        "id": "components.balances.savecoin"
+      }
+    ],
+    "path": "src/components/Balances/index.json"
   },
   {
     "descriptors": [
@@ -1082,10 +1095,6 @@
       {
         "defaultMessage": "Verification Completed",
         "id": "components.identityverification.popup.header.verified"
-      },
-      {
-        "defaultMessage": "Introducing Blockchain's new and improved crypto exchange function. To begin using this updated feature, please verify your identity. The process only takes a couple of minutes.",
-        "id": "components.identityverification.popup.note.notcreated"
       },
       {
         "defaultMessage": "Complete your profile and identity verification to start exchanging. Don’t worry, we only need a couple more details.",
@@ -1858,6 +1867,15 @@
       }
     ],
     "path": "src/layouts/Wallet/MenuTop/Balance/LockboxBalance/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/LockboxBalance/XlmLockboxBalance/template.error.json"
   },
   {
     "descriptors": [
@@ -3510,7 +3528,7 @@
         "id": "identityverification.personal.header"
       },
       {
-        "defaultMessage": "There's so much we'd love to know about you, but we only need a few things.",
+        "defaultMessage": "To get started, we need to verify your identity. It should only take a few minutes.",
         "id": "identityverification.personal.subheader"
       },
       {
@@ -3652,6 +3670,39 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Government Issued Passport",
+        "id": "identityverification.verify.passport"
+      },
+      {
+        "defaultMessage": "Driver’s License",
+        "id": "identityverification.verify.driverslicense"
+      },
+      {
+        "defaultMessage": "National Identity Card",
+        "id": "identityverification.verify.natitionalidcard"
+      },
+      {
+        "defaultMessage": "Verify Your Identity",
+        "id": "identityverification.verify.header"
+      },
+      {
+        "defaultMessage": "Last step! We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.",
+        "id": "identityverification.verify.message"
+      },
+      {
+        "defaultMessage": "Back",
+        "id": "identityverification.personal.back"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "identityverification.personal.continue"
+      }
+    ],
+    "path": "src/modals/IdentityVerification/Verify/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "That code doesn't match. {resend}.",
         "id": "identityverification.personal.sms.badcode"
       },
@@ -3672,7 +3723,7 @@
         "id": "identityverification.personal.mobile.header"
       },
       {
-        "defaultMessage": "Good news – you’re almost done! We need to confirm your phone number and get a copy of your photo ID. This will only take a few minutes.",
+        "defaultMessage": "We need to verify your mobile number. This will help us to verify your identity today, and also keep your account secure in the future. To do this an SMS will be sent to your phone, with a verification code.",
         "id": "identityverification.personal.mobile.subheader"
       },
       {
@@ -4271,6 +4322,14 @@
         "id": "modals.promptforlockbox.connectcoinapp.content"
       },
       {
+        "defaultMessage": "Connect and unlock your hardware device. Then open the {coin} app on the device.",
+        "id": "modals.promptforlockbox.connectcoinapp.contentgeneric"
+      },
+      {
+        "defaultMessage": "Note: If you do not have the {coin} app on your device you can install it via the settings page.",
+        "id": "modals.promptforlockbox.connectcoinapp.contentgenericnote"
+      },
+      {
         "defaultMessage": "Review Transaction Details",
         "id": "modals.promptforlockbox.connectcoinapp.title.review"
       },
@@ -4283,12 +4342,24 @@
         "id": "modals.promptforlockbox.connectcoinapp.title.success"
       },
       {
+        "defaultMessage": "{coin} Success",
+        "id": "modals.promptforlockbox.connectcoinapp.title.successgeneric"
+      },
+      {
         "defaultMessage": "Your transaction was sent. Please allow for it to confirm on the network.",
         "id": "modals.promptforlockbox.connectcoinapp.success"
       },
       {
+        "defaultMessage": "{coin} successfully connected.",
+        "id": "modals.promptforlockbox.connectcoinapp.successgeneric"
+      },
+      {
         "defaultMessage": "Transaction Failed",
         "id": "modals.promptforlockbox.connectcoinapp.title.error"
+      },
+      {
+        "defaultMessage": "An Error Occurred",
+        "id": "modals.promptforlockbox.connectcoinapp.title.errorgeneric"
       },
       {
         "defaultMessage": "Something went wrong. Please reconnect your device and try again.",
@@ -6568,7 +6639,7 @@
         "id": "modal.reservelearn.link"
       },
       {
-        "defaultMessage": "Total funds.",
+        "defaultMessage": "Total funds",
         "id": "modal.reservelearn.totalfunds"
       },
       {
@@ -7642,6 +7713,51 @@
       }
     ],
     "path": "src/scenes/Exchange/ExchangeForm/validationMessages.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "A better way to trade crypto",
+        "id": "scenes.exchange.getstarted.title"
+      },
+      {
+        "defaultMessage": "The faster, smarter way to trade your crypto.",
+        "id": "scenes.exchange.getstarted.introducing"
+      },
+      {
+        "defaultMessage": "Upgrade now to enjoy the following benefits:",
+        "id": "scenes.exchange.getstarted.upgrade"
+      },
+      {
+        "defaultMessage": "Lower cost",
+        "id": "scenes.exchange.getstarted.lowercost"
+      },
+      {
+        "defaultMessage": "Super competitive crypto exchange prices",
+        "id": "scenes.exchange.getstarted.lowercost_description"
+      },
+      {
+        "defaultMessage": "Live rates",
+        "id": "scenes.exchange.getstarted.liverates"
+      },
+      {
+        "defaultMessage": "You always get the most up to date price",
+        "id": "scenes.exchange.getstarted.liverates_Description"
+      },
+      {
+        "defaultMessage": "Higher limits",
+        "id": "scenes.exchange.getstarted.higherlimits"
+      },
+      {
+        "defaultMessage": "Limits from $2,000-$10,000",
+        "id": "scenes.exchange.getstarted.higherlimits_description"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "scenes.exchange.getstarted.started"
+      }
+    ],
+    "path": "src/scenes/Exchange/GetStarted/index.json"
   },
   {
     "descriptors": [
@@ -8887,7 +9003,7 @@
         "id": "scenes.lockbox.settings.installapps.title"
       },
       {
-        "defaultMessage": "Install the latest versions of the Bitcoin, Bitcoin Cash and Ethereum apps",
+        "defaultMessage": "Install the latest versions of the Bitcoin, Bitcoin Cash, Ethereum, and Stellar apps",
         "id": "scenes.lockbox.settings.installapps.description"
       },
       {

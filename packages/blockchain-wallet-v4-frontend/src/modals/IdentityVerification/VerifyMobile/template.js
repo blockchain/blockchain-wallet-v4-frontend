@@ -102,149 +102,149 @@ const VerifyMobile = ({
   handleSubmit,
   onBack
 }) => (
-  <IdentityVerificationForm onSubmit={handleSubmit}>
-    <FooterShadowWrapper
-      fields={
-        <MediaContextConsumer>
-          {({ mobile }) => (
-            <InputWrapper>
-              <IdentityVerificationHeader>
-                <FormattedMessage
-                  id='identityverification.personal.mobile.header'
-                  defaultMessage='Verify your Phone Number'
-                />
-              </IdentityVerificationHeader>
-              <IdentityVerificationSubHeader>
-                <FormattedMessage
-                  id='identityverification.personal.mobile.subheader'
-                  defaultMessage='Good news – you’re almost done! We need to confirm your phone number and get a copy of your photo ID. This will only take a few minutes.'
-                />
-              </IdentityVerificationSubHeader>
-              <FormContainer>
-                <FaqFormGroup>
-                  <FormItem>
-                    <Label>
-                      <FormattedMessage
-                        id='identityverification.personal.mobile.entermobilenumber'
-                        defaultMessage='Enter your mobile number here'
-                      />
-                    </Label>
-                    <Field
-                      name='smsNumber'
-                      defaultValue={smsNumber}
-                      component={PhoneNumberBox}
-                      validate={[required, validMobileNumber]}
-                      countryCode={countryCode}
-                      onChange={editSmsNumber}
-                      errorBottom
-                    />
-                  </FormItem>
-                  {activeField === 'smsNumber' &&
-                    !mobile && (
-                      <FaqFormMessage
-                        icon='phone-regular'
-                        title={
-                          <FormattedMessage
-                            id='identityverification.mobile.faq.phone.title'
-                            defaultMessage='Please add your phone'
-                          />
-                        }
-                        text={
-                          <FormattedMessage
-                            id='identityverification.mobile.faq.phone.text'
-                            defaultMessage='We will send you a SMS with verification code.'
-                          />
-                        }
-                      />
-                    )}
-                </FaqFormGroup>
-                {step === SMS_STEPS.edit && (
-                  <FaqFormGroup>
-                    <ButtonFormItem>
-                      <Button
-                        nature='primary'
-                        onClick={updateSmsNumber}
-                        disabled={invalid}
-                      >
-                        <FormattedMessage
-                          id='identityverification.personal.mobile.sendmycode'
-                          defaultMessage='Send My Code'
-                        />
-                      </Button>
-                    </ButtonFormItem>
-                  </FaqFormGroup>
-                )}
-                {step === SMS_STEPS.verify && (
+    <IdentityVerificationForm onSubmit={handleSubmit}>
+      <FooterShadowWrapper
+        fields={
+          <MediaContextConsumer>
+            {({ mobile }) => (
+              <InputWrapper>
+                <IdentityVerificationHeader>
+                  <FormattedMessage
+                    id='identityverification.personal.mobile.header'
+                    defaultMessage='Verify your Phone Number'
+                  />
+                </IdentityVerificationHeader>
+                <IdentityVerificationSubHeader>
+                  <FormattedMessage
+                    id='identityverification.personal.mobile.subheader'
+                    defaultMessage='We need to verify your mobile number. This will help us to verify your identity today, and also keep your account secure in the future. To do this an SMS will be sent to your phone, with a verification code.'
+                  />
+                </IdentityVerificationSubHeader>
+                <FormContainer>
                   <FaqFormGroup>
                     <FormItem>
                       <Label>
                         <FormattedMessage
-                          id='identityverification.personal.mobile.entercode'
-                          defaultMessage='Verification code'
+                          id='identityverification.personal.mobile.entermobilenumber'
+                          defaultMessage='Enter your mobile number here'
                         />
                       </Label>
                       <Field
-                        name='code'
-                        component={TextBox}
-                        validate={[required]}
+                        name='smsNumber'
+                        defaultValue={smsNumber}
+                        component={PhoneNumberBox}
+                        validate={[required, validMobileNumber]}
+                        countryCode={countryCode}
+                        onChange={editSmsNumber}
                         errorBottom
                       />
-                      <EmailHelper error={error}>
-                        {smsHelper(error, resendCode)}
-                      </EmailHelper>
                     </FormItem>
-                    {activeField === 'code' &&
+                    {activeField === 'smsNumber' &&
                       !mobile && (
                         <FaqFormMessage
-                          icon='comment-alt-regular'
+                          icon='phone-regular'
                           title={
                             <FormattedMessage
-                              id='identityverification.mobile.faq.code.title'
-                              defaultMessage='We sent you a text message'
+                              id='identityverification.mobile.faq.phone.title'
+                              defaultMessage='Please add your phone'
                             />
                           }
                           text={
                             <FormattedMessage
-                              id='identityverification.mobile.faq.code.text'
-                              defaultMessage='Your verification code is on its way. Once you receive it, please enter it.'
+                              id='identityverification.mobile.faq.phone.text'
+                              defaultMessage='We will send you a SMS with verification code.'
                             />
                           }
                         />
                       )}
                   </FaqFormGroup>
-                )}
-              </FormContainer>
-            </InputWrapper>
-          )}
-        </MediaContextConsumer>
-      }
-      footer={
-        <Footer>
-          <BackButton onClick={onBack} disabled={submitting}>
-            <FormattedMessage
-              id='identityverification.personal.back'
-              defaultMessage='Back'
-            />
-          </BackButton>
-          <Button
-            nature='primary'
-            type='submit'
-            disabled={invalid || submitting || step !== SMS_STEPS.verify}
-          >
-            {!submitting ? (
-              <FormattedMessage
-                id='identityverification.personal.continue'
-                defaultMessage='Continue'
-              />
-            ) : (
-              <HeartbeatLoader height='20px' width='20px' color='white' />
+                  {step === SMS_STEPS.edit && (
+                    <FaqFormGroup>
+                      <ButtonFormItem>
+                        <Button
+                          nature='primary'
+                          onClick={updateSmsNumber}
+                          disabled={invalid}
+                        >
+                          <FormattedMessage
+                            id='identityverification.personal.mobile.sendmycode'
+                            defaultMessage='Send My Code'
+                          />
+                        </Button>
+                      </ButtonFormItem>
+                    </FaqFormGroup>
+                  )}
+                  {step === SMS_STEPS.verify && (
+                    <FaqFormGroup>
+                      <FormItem>
+                        <Label>
+                          <FormattedMessage
+                            id='identityverification.personal.mobile.entercode'
+                            defaultMessage='Verification code'
+                          />
+                        </Label>
+                        <Field
+                          name='code'
+                          component={TextBox}
+                          validate={[required]}
+                          errorBottom
+                        />
+                        <EmailHelper error={error}>
+                          {smsHelper(error, resendCode)}
+                        </EmailHelper>
+                      </FormItem>
+                      {activeField === 'code' &&
+                        !mobile && (
+                          <FaqFormMessage
+                            icon='comment-alt-regular'
+                            title={
+                              <FormattedMessage
+                                id='identityverification.mobile.faq.code.title'
+                                defaultMessage='We sent you a text message'
+                              />
+                            }
+                            text={
+                              <FormattedMessage
+                                id='identityverification.mobile.faq.code.text'
+                                defaultMessage='Your verification code is on its way. Once you receive it, please enter it.'
+                              />
+                            }
+                          />
+                        )}
+                    </FaqFormGroup>
+                  )}
+                </FormContainer>
+              </InputWrapper>
             )}
-          </Button>
-        </Footer>
-      }
-    />
-  </IdentityVerificationForm>
-)
+          </MediaContextConsumer>
+        }
+        footer={
+          <Footer>
+            <BackButton onClick={onBack} disabled={submitting}>
+              <FormattedMessage
+                id='identityverification.personal.back'
+                defaultMessage='Back'
+              />
+            </BackButton>
+            <Button
+              nature='primary'
+              type='submit'
+              disabled={invalid || submitting || step !== SMS_STEPS.verify}
+            >
+              {!submitting ? (
+                <FormattedMessage
+                  id='identityverification.personal.continue'
+                  defaultMessage='Continue'
+                />
+              ) : (
+                  <HeartbeatLoader height='20px' width='20px' color='white' />
+                )}
+            </Button>
+          </Footer>
+        }
+      />
+    </IdentityVerificationForm>
+  )
 
 VerifyMobile.propTypes = {
   invalid: PropTypes.bool.isRequired,

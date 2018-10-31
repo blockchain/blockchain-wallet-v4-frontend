@@ -18,7 +18,11 @@ class FirstStep extends React.PureComponent {
     const { data, actions } = this.props
     return data.cata({
       Success: value => (
-        <Success {...value} onSubmit={actions.firstStepSubmitClicked} />
+        <Success
+          {...value}
+          handleToToggle={this.handleToToggle}
+          onSubmit={actions.firstStepSubmitClicked}
+        />
       ),
       Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,

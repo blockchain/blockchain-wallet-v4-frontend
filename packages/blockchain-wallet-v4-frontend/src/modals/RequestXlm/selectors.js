@@ -1,18 +1,23 @@
 import { selectors } from 'data'
-import { head, nth, prop } from 'ramda'
+import { head, lift, nth, prop } from 'ramda'
 import { utils } from 'blockchain-wallet-v4'
+import { formValueSelector } from 'redux-form'
 
 const extractAddress = account => prop('publicKey', head(account))
 
 export const getData = state => {
-  const addressR = selectors.core.kvStore.xlm
-    .getAccounts(state)
-    .map(extractAddress)
+  const to = formValueSelector('requestXlm')(state, 'to')
+  const accountsR = selectors.core.kvStore.xlm.getAccounts(state)
+  const transform = accounts => {
+    const address = to ? prop('address', to) : extractAddress(accounts)
+    return {
+      address,
+      type: prop('type', to),
+      xlmURI: utils.xlm.encodeXlmURI(address)
+    }
+  }
 
-  return addressR.map(address => ({
-    address,
-    xlmURI: utils.xlm.encodeXlmURI(address)
-  }))
+  return lift(transform)(accountsR)
 }
 
 export const getInitialValues = (state, ownProps) => {

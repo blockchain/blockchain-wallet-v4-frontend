@@ -6,7 +6,13 @@ import * as S from './selectors'
 import { FORM } from './model'
 import { actions, actionTypes, selectors, model } from 'data'
 import settings from 'config'
-import { initialize, change } from 'redux-form'
+import {
+  initialize,
+  change,
+  startSubmit,
+  stopSubmit,
+  destroy
+} from 'redux-form'
 import * as C from 'services/AlertService'
 import * as Lockbox from 'services/LockboxService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
@@ -169,6 +175,7 @@ export default ({ coreSagas }) => {
   }
 
   const secondStepSubmitClicked = function*() {
+    yield put(startSubmit(FORM))
     let p = yield select(S.getPayment)
     let payment = coreSagas.payment.eth.create({
       payment: p.getOrElse({}),
@@ -251,12 +258,21 @@ export default ({ coreSagas }) => {
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionSuccess())
         yield delay(1500)
+        const device = (yield select(
+          selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
+          fromAddress
+        )).getOrFail('missing_device')
+        const deviceIndex = prop('device_index', device)
+        yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
       } else {
+        yield put(actions.router.push('/eth/transactions'))
         yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
       }
+      yield put(destroy(FORM))
       // Close modals
       yield put(actions.modals.closeAllModals())
     } catch (e) {
+      yield put(stopSubmit(FORM))
       // Set errors
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionError(e))

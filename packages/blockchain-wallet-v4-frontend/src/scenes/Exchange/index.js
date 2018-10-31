@@ -6,6 +6,7 @@ import { path } from 'ramda'
 import media from 'services/ResponsiveService'
 
 import KYCBanner from 'components/IdentityVerification/KYCBanner'
+import GetStarted from './GetStarted'
 import Shapeshift from './Shapeshift'
 import Info from './Info'
 import Exchange from './ExchangeContainer'
@@ -14,7 +15,7 @@ import { getData } from './selectors'
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
 `
@@ -69,7 +70,7 @@ const ColumnRight = styled(Column)`
     width: 40%;
   }
 `
-const ExchangeScene = ({ useShapeShift, location }) => (
+const ExchangeScene = ({ useShapeShift, location, showGetStarted }) => (
   <Wrapper>
     {useShapeShift && (
       <ShapeshiftContainer>
@@ -81,17 +82,19 @@ const ExchangeScene = ({ useShapeShift, location }) => (
         </ColumnRight>
       </ShapeshiftContainer>
     )}
-    {!useShapeShift && <KYCBanner outsideOfProfile />}
-    {!useShapeShift && (
-      <Container>
-        <Column>
-          <Exchange
-            from={path(['state', 'from'], location)}
-            to={path(['state', 'to'], location)}
-          />
-        </Column>
-      </Container>
-    )}
+    {!useShapeShift && !showGetStarted && <KYCBanner outsideOfProfile />}
+    {!useShapeShift &&
+      !showGetStarted && (
+        <Container>
+          <Column>
+            <Exchange
+              from={path(['state', 'from'], location)}
+              to={path(['state', 'to'], location)}
+            />
+          </Column>
+        </Container>
+      )}
+    {!useShapeShift && showGetStarted && <GetStarted />}
   </Wrapper>
 )
 

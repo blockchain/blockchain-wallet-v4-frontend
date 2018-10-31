@@ -8,6 +8,7 @@ import {
   memoize,
   path,
   prop,
+  propOr,
   propEq,
   reduce
 } from 'ramda'
@@ -85,7 +86,7 @@ export const getBalance = curry(
         calculateBalance,
         prop('balance'),
         find(propEq('asset_type', 'native')),
-        prop('balances')
+        propOr([], 'balances')
       )
     ),
     getAccount
