@@ -4,9 +4,9 @@ import { bindActionCreators, compose } from 'redux'
 import { actions } from 'data'
 import { formValueSelector } from 'redux-form'
 import modalEnhancer from 'providers/ModalEnhancer'
-import AddBitcoinWallet from './template.js'
+import AddBtcWallet from './template.js'
 
-class AddBitcoinWalletContainer extends React.PureComponent {
+class AddBtcWalletContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
@@ -17,7 +17,7 @@ class AddBitcoinWalletContainer extends React.PureComponent {
   }
 
   render () {
-    return <AddBitcoinWallet {...this.props} onSubmit={this.onSubmit} />
+    return <AddBtcWallet {...this.props} onSubmit={this.onSubmit} />
   }
 }
 
@@ -30,11 +30,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('AddBitcoinWallet'),
+  modalEnhancer('AddBtcWallet'),
   connect(
     mapStateToProps,
     mapDispatchToProps
   )
 )
 
-export default enhance(AddBitcoinWalletContainer)
+export default enhance(AddBtcWalletContainer)

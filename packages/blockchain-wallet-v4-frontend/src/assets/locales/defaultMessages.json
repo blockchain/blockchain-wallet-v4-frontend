@@ -2647,7 +2647,7 @@
         "id": "modals.addbitcoinwallet.button"
       }
     ],
-    "path": "src/modals/AddBitcoinWallet/template.json"
+    "path": "src/modals/AddBtcWallet/template.json"
   },
   {
     "descriptors": [
