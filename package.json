@@ -20,9 +20,18 @@
     "redux",
     "wallet"
   ],
+  "engines": {
+    "node": ">= 10.2",
+    "yarn": ">= 1.12"
+  },
   "workspaces": [
     "packages/*"
   ],
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
@@ -191,10 +200,5 @@
     "webpack-cli": "3.1.0",
     "webpack-dev-server": "3.1.5",
     "wsrun": "2.2.1"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
   }
 }
