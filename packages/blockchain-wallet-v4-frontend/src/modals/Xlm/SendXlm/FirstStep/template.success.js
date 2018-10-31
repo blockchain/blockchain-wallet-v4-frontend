@@ -318,10 +318,14 @@ FirstStep.propTypes = {
 }
 
 const validate = (values, props) => {
-  const errors = {}
-  accountCreationAmount(errors, values, props)
-  balanceReserveAmount(errors, values, props)
-  return errors
+  try {
+    const errors = {}
+    accountCreationAmount(errors, values, props)
+    balanceReserveAmount(errors, values, props)
+    return errors
+  } catch (e) {
+    // catching BigNumber constructor errors
+  }
 }
 
 export default reduxForm({

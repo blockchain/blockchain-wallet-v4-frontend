@@ -25,20 +25,22 @@ export const invalidAmount = (value, allValues, props) => {
 }
 
 export const maximumAmount = (value, allValues, props) => {
-  const valueEth = prop('coin', value)
-  const effectiveBalanceWei = prop('effectiveBalance', props)
-  const effectiveBalanceEth = Exchange.convertEtherToEther({
-    value: effectiveBalanceWei,
-    fromUnit: 'WEI',
-    toUnit: 'ETH'
-  }).value
-  return new BigNumber(valueEth).lessThanOrEqualTo(
-    new BigNumber(effectiveBalanceEth || 0)
-  ) ? (
-    undefined
-  ) : (
-    <MaximumAmountMessage />
-  )
+  try {
+    const valueEth = prop('coin', value)
+    const effectiveBalanceWei = prop('effectiveBalance', props)
+    const effectiveBalanceEth = Exchange.convertEtherToEther({
+      value: effectiveBalanceWei,
+      fromUnit: 'WEI',
+      toUnit: 'ETH'
+    }).value
+    return new BigNumber(valueEth).lessThanOrEqualTo(
+      new BigNumber(effectiveBalanceEth || 0)
+    ) ? (
+      undefined
+    ) : (
+      <MaximumAmountMessage />
+    )
+  } catch (e) {}
 }
 
 export const minimumFee = (value, allValues, props) =>
