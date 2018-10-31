@@ -6,7 +6,13 @@ import * as S from './selectors'
 import { FORM } from './model'
 import { actions, model, selectors } from 'data'
 import settings from 'config'
-import { initialize, change } from 'redux-form'
+import {
+  initialize,
+  change,
+  startSubmit,
+  stopSubmit,
+  destroy
+} from 'redux-form'
 import * as C from 'services/AlertService'
 import * as Lockbox from 'services/LockboxService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
@@ -202,6 +208,7 @@ export default ({ coreSagas }) => {
   }
 
   const secondStepSubmitClicked = function*() {
+    yield put(startSubmit(FORM))
     let p = yield select(S.getPayment)
     let payment = coreSagas.payment.bch.create({
       payment: p.getOrElse({}),
@@ -259,9 +266,11 @@ export default ({ coreSagas }) => {
         yield put(actions.router.push('/bch/transactions'))
         yield put(actions.alerts.displaySuccess(C.SEND_BCH_SUCCESS))
       }
+      yield put(destroy(FORM))
       // Close modals
       yield put(actions.modals.closeAllModals())
     } catch (e) {
+      yield put(stopSubmit(FORM))
       // Set errors
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionError(e))

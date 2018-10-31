@@ -278,7 +278,7 @@
         "id": "components.alerts.payment_received_eth"
       },
       {
-        "defaultMessage": "You've just received a Stellar payment",
+        "defaultMessage": "You've just received a stellar payment",
         "id": "components.alerts.payment_received_xlm"
       },
       {
@@ -536,6 +536,10 @@
       {
         "defaultMessage": "Invalid Ether Address.",
         "id": "components.alerts.eth_address_incorrect"
+      },
+      {
+        "defaultMessage": "Invalid Stellar Address.",
+        "id": "components.alerts.xlm_address_incorrect"
       },
       {
         "defaultMessage": "Invalid Private Key.",

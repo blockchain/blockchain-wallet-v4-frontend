@@ -208,7 +208,7 @@
   "components.alerts.payment_received_bch": "You've just received a Bitcoin cash payment",
   "components.alerts.payment_received_btc": "You've just received a Bitcoin payment",
   "components.alerts.payment_received_eth": "You've just received an Ethereum payment",
-  "components.alerts.payment_received_xlm": "You've just received a Stellar payment",
+  "components.alerts.payment_received_xlm": "You've just received a stellar payment",
   "components.alerts.pbkdf2_update_success": "PBKDF2 iterations changed successfully",
   "components.alerts.private_key_incorrect": "Invalid Private Key.",
   "components.alerts.qr_scanner_not_allowed": "Please enable camera to use this feature",

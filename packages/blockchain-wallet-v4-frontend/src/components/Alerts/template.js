@@ -515,7 +515,7 @@ const selectMessage = (message, data = undefined) => {
       return (
         <FormattedMessage
           id='components.alerts.payment_received_xlm'
-          defaultMessage="You've just received a Stellar payment"
+          defaultMessage="You've just received a stellar payment"
         />
       )
     case C.PBKDF2_UPDATE_SUCCESS:
@@ -965,6 +965,13 @@ const selectMessage = (message, data = undefined) => {
         <FormattedMessage
           id='components.alerts.eth_address_incorrect'
           defaultMessage='Invalid Ether Address.'
+        />
+      )
+    case C.XLM_ADDRESS_INVALID:
+      return (
+        <FormattedMessage
+          id='components.alerts.xlm_address_incorrect'
+          defaultMessage='Invalid Stellar Address.'
         />
       )
     case C.PRIVATE_KEY_INVALID:

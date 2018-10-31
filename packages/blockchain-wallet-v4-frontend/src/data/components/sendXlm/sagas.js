@@ -5,7 +5,14 @@ import * as A from './actions'
 import * as S from './selectors'
 import { FORM } from './model'
 import { actions, actionTypes, model, selectors } from 'data'
-import { initialize, change, touch } from 'redux-form'
+import {
+  initialize,
+  change,
+  touch,
+  startSubmit,
+  stopSubmit,
+  destroy
+} from 'redux-form'
 import * as C from 'services/AlertService'
 import * as Lockbox from 'services/LockboxService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
@@ -166,6 +173,7 @@ export default ({ coreSagas }) => {
   }
 
   const secondStepSubmitClicked = function*() {
+    yield put(startSubmit(FORM))
     let payment = (yield select(S.getPayment)).getOrElse({})
     payment = yield call(coreSagas.payment.xlm.create, { payment })
     const fromType = path(['from', 'type'], payment.value())
@@ -227,12 +235,21 @@ export default ({ coreSagas }) => {
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionSuccess())
         yield delay(1500)
+        const device = (yield select(
+          selectors.core.kvStore.lockbox.getDeviceFromXlmAddr,
+          fromAddress
+        )).getOrFail('missing_device')
+        const deviceIndex = prop('device_index', device)
+        yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
       } else {
+        yield put(actions.router.push('/xlm/transactions'))
         yield put(actions.alerts.displaySuccess(C.SEND_XLM_SUCCESS))
       }
+      yield put(destroy(FORM))
       // Close modals
       yield put(actions.modals.closeAllModals())
     } catch (e) {
+      yield put(stopSubmit(FORM))
       // Set errors
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionError(e))
