@@ -3,6 +3,7 @@ export default ({
   nabuUrl,
   get,
   post,
+  put,
   authorizedPut,
   authorizedGet
 }) => {
@@ -24,7 +25,7 @@ export default ({
       }
     })
 
-  const createUser = (retailToken, campaignName = '', xlmAcct = '') =>
+  const createUser = (retailToken, campaignName = '', xlmAccount = '') =>
     post({
       url: nabuUrl,
       endPoint: '/users',
@@ -35,21 +36,24 @@ export default ({
       data: {
         jwt: retailToken,
         metaData: {
-          'x-campaign-address': xlmAcct
+          'x-campaign-address': xlmAccount
         }
       }
     })
 
-  const registerCampaign = (lifetimeToken, campaignName, xlmAcct) => {
-    authorizedPut({
+  const registerUserCampaign = (lifetimeToken, campaignName, xlmAccount) => {
+    put({
       url: nabuUrl,
       endPoint: '/users/register-campaign',
       contentType: 'application/json',
       headers: {
+        Authorization: `Bearer ${lifetimeToken}`,
         'X-CAMPAIGN': campaignName
       },
       data: {
-        'x-campaign-address': xlmAcct
+        data: {
+          'x-campaign-address': xlmAccount
+        }
       }
     })
   }
@@ -118,7 +122,7 @@ export default ({
     generateSession,
     getUser,
     recoverUser,
-    registerCampaign,
+    registerUserCampaign,
     syncUserWithWallet,
     updateUser,
     updateUserAddress

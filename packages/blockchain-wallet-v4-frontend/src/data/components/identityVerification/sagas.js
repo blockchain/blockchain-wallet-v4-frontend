@@ -43,18 +43,23 @@ export default ({ api, coreSagas }) => {
     coreSagas
   })
 
-  const registerAirdropUser = function*() {
+  const registerCampaignUser = function*(campaignName) {
     try {
       const lifetimeToken = (yield select(
         selectors.core.kvStore.userCredentials.getLifetimeToken
       )).getOrFail()
-      const xlmAcct = (yield select(
+      const xlmAccount = (yield select(
         selectors.core.kvStore.xlm.getDefaultAccountId
       )).getOrFail()
-      yield call(api.registerCampaign, lifetimeToken, 'sunriver', xlmAcct)
+      yield call(
+        api.registerUserCampaign,
+        lifetimeToken,
+        campaignName,
+        xlmAccount
+      )
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, 'registerAirdropUser', e)
+        actions.logs.logErrorMessage(logLocation, 'registerCampaignUser', e)
       )
     }
   }
@@ -64,23 +69,27 @@ export default ({ api, coreSagas }) => {
       const userId = (yield select(
         selectors.core.kvStore.userCredentials.getUserId
       )).getOrElse('')
-
+      // check is user exists
       if (userId) {
+        // existing user, register campaign if applicable
         if (campaignName) {
-          yield call(registerAirdropUser)
+          yield call(registerCampaignUser, campaignName)
         }
         yield put(actions.modals.showModal(KYC_MODAL))
       } else {
+        // new user
         const retailToken = yield call(generateRetailToken)
-
         if (campaignName) {
-          const xlmAcct = (yield select(
+          // create user with campaign
+          const xlmAccount = (yield select(
             selectors.core.kvStore.xlm.getDefaultAccountId
           )).getOrFail()
-          yield call(api.createUser, retailToken, campaignName, xlmAcct)
+          yield call(api.createUser, retailToken, campaignName, xlmAccount)
+        } else {
+          // check is email is already in use
+          yield call(api.checkUserExistence, retailToken)
+          yield put(actions.modals.showModal(USER_EXISTS_MODAL))
         }
-        yield call(api.checkUserExistence, retailToken)
-        yield put(actions.modals.showModal(USER_EXISTS_MODAL))
       }
     } catch (e) {
       yield put(actions.modals.showModal(KYC_MODAL))
@@ -336,7 +345,7 @@ export default ({ api, coreSagas }) => {
     fetchStates,
     fetchPossibleAddresses,
     resendSmsCode,
-    registerAirdropUser,
+    registerCampaignUser,
     savePersonalData,
     selectAddress,
     updateSmsStep,
