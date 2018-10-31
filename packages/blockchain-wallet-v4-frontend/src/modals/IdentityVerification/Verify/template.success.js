@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import media from 'services/ResponsiveService'
 
 import { model } from 'data'
-import { prop } from 'ramda'
+import { map, flip, prop } from 'ramda'
 import { Button, Image } from 'blockchain-info-components'
 import { FooterShadowWrapper } from 'components/Form'
 import {
@@ -89,7 +89,7 @@ const Verify = ({ handleSubmit, onBack, supportedDocuments }) => (
                 />
               </IdentityVerificationSubHeader>
               <DocumentsWrapper>
-                {supportedDocuments.map(docType => prop(docType, docMap))}
+                {map(flip(prop)(docMap), supportedDocuments)}
               </DocumentsWrapper>
             </InputWrapper>
           </ColLeft>
