@@ -29,7 +29,7 @@ export const NoAccountTemplate = () => (
         <Button type='submit' nature='primary' uppercase fullwidth>
           <FormattedMessage
             id='modals.sendxlm.firststep.exchange'
-            defaultMessage='Exchange for Lumen'
+            defaultMessage='Exchange for XLM'
           />
         </Button>
       </LinkContainer>
