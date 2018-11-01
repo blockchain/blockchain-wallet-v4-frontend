@@ -37,6 +37,7 @@ export default ({ coreSagas }) => {
     switch (data.campaignName) {
       case 'sunriver':
         yield put(actions.modals.showModal('SunRiverWelcome'))
+        yield put(actions.modules.profile.setCampaign('sunriver'))
         // do not delete goal, the welcomeSaga will check for this goal
         // if it exists, it wont show wallet welcome and will delete this goal via id
         break

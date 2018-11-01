@@ -2,6 +2,7 @@ import {
   and,
   any,
   path,
+  pathOr,
   compose,
   converge,
   equals,
@@ -57,3 +58,5 @@ export const getAuthCredentials = state => ({
   email: selectors.core.settings.getEmail(state).getOrElse(''),
   guid: selectors.core.wallet.getGuid(state)
 })
+
+export const getCampaign = pathOr(null, ['profile', 'campaign'])

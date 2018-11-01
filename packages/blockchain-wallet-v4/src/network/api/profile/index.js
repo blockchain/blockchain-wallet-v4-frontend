@@ -25,7 +25,7 @@ export default ({
       }
     })
 
-  const createUser = (retailToken, campaignName = '', xlmAccount = '') =>
+  const createUser = (retailToken, campaignName = '', campaignData = {}) =>
     post({
       url: nabuUrl,
       endPoint: '/users',
@@ -36,12 +36,17 @@ export default ({
       data: {
         jwt: retailToken,
         metaData: {
-          'x-campaign-address': xlmAccount
+          ...campaignData
         }
       }
     })
 
-  const registerUserCampaign = (lifetimeToken, campaignName, xlmAccount) => {
+  const registerUserCampaign = (
+    lifetimeToken,
+    campaignName,
+    campaignData,
+    newUser = false
+  ) => {
     put({
       url: nabuUrl,
       endPoint: '/users/register-campaign',
@@ -52,8 +57,9 @@ export default ({
       },
       data: {
         data: {
-          'x-campaign-address': xlmAccount
-        }
+          ...campaignData
+        },
+        newUser
       }
     })
   }
