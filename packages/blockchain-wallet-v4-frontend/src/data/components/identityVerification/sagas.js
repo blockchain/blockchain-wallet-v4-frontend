@@ -29,6 +29,7 @@ export const invalidNumberError = 'Failed to update mobile number'
 export const mobileVerifiedError = 'Failed to verify mobile number'
 export const failedResendError = 'Failed to resend the code'
 export const userExistsError = 'User already exists'
+export const noCampaignError = 'No such campaign'
 
 export default ({ api, coreSagas }) => {
   const { USER_ACTIVATION_STATES } = model.profile
@@ -43,23 +44,31 @@ export default ({ api, coreSagas }) => {
     coreSagas
   })
 
+  const getCampaignData = function*(campaignName) {
+    if (campaignName === 'sunriver') {
+      const xlmAccount = (yield select(
+        selectors.core.kvStore.xlm.getDefaultAccountId
+      )).getOrFail()
+      return { 'x-campaign-address': xlmAccount }
+    }
+
+    throw new Error(noCampaignError)
+  }
+
   const createRegisterUserCampaign = function*({
     payload: { campaignName, needsIdVerification }
   }) {
     try {
-      const xlmAccount = (yield select(
-        selectors.core.kvStore.xlm.getDefaultAccountId
-      )).getOrFail()
+      const campaignData = yield call(getCampaignData, campaignName)
 
       if (needsIdVerification) {
         const userId = (yield select(
           selectors.core.kvStore.userCredentials.getUserId
         )).getOrElse('')
-        if (!userId) {
-          const retailToken = yield call(generateRetailToken)
-          yield call(api.createUser, retailToken, campaignName, xlmAccount)
-        }
         yield put(actions.modals.showModal(KYC_MODAL))
+        if (!userId) {
+          yield call(createUser, campaignName, campaignData)
+        }
       } else {
         const lifetimeToken = (yield select(
           selectors.core.kvStore.userCredentials.getLifetimeToken
@@ -69,7 +78,7 @@ export default ({ api, coreSagas }) => {
           api.registerUserCampaign,
           lifetimeToken,
           campaignName,
-          xlmAccount
+          campaignData
         )
       }
     } catch (e) {
@@ -103,8 +112,12 @@ export default ({ api, coreSagas }) => {
     const activationState = (yield select(
       selectors.modules.profile.getUserActivationState
     )).getOrElse(USER_ACTIVATION_STATES.NONE)
+    const mobileVerified = (yield select(selectors.modules.profile.getUserData))
+      .map(prop('mobileVerified'))
+      .getOrElse(false)
     if (activationState === USER_ACTIVATION_STATES.NONE)
       return yield put(A.setVerificationStep(STEPS.personal))
+    if (mobileVerified) return yield put(A.setVerificationStep(STEPS.verify))
     if (activationState === USER_ACTIVATION_STATES.CREATED)
       return yield put(A.setVerificationStep(STEPS.mobile))
     if (activationState === USER_ACTIVATION_STATES.ACTIVE)

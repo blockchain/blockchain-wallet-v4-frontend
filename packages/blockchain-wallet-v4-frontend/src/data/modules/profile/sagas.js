@@ -155,11 +155,13 @@ export default ({ api, coreSagas }) => {
     return token
   }
 
-  const generateAuthCredentials = function*() {
+  const generateAuthCredentials = function*(campaignName, campaignData) {
     const retailToken = yield call(generateRetailToken)
     const { userId, token: lifetimeToken } = yield call(
       api.createUser,
-      retailToken
+      retailToken,
+      campaignName,
+      campaignData
     )
     yield put(
       actions.core.kvStore.userCredentials.setUserCredentials(
@@ -184,7 +186,7 @@ export default ({ api, coreSagas }) => {
     yield call(setSession, userId, lifetimeToken, email, guid)
   }
 
-  const createUser = function*() {
+  const createUser = function*(campaignName, campaignData) {
     const token = yield select(S.getApiToken)
     if (!Remote.NotAsked.is(token)) return
 
@@ -204,7 +206,8 @@ export default ({ api, coreSagas }) => {
     const { userId, lifetimeToken } = yield authCredentialsR
       .map(authCredentials => {
         const { userId, lifetimeToken } = authCredentials
-        if (!userId || !lifetimeToken) return call(generateAuthCredentials)
+        if (!userId || !lifetimeToken)
+          return call(generateAuthCredentials, campaignName, campaignData)
         return authCredentials
       })
       .getOrElse({})

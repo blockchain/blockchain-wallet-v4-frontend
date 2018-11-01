@@ -169,13 +169,12 @@ class SunRiverWelcomeContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  registerSunRiverUser: () => {
+  registerSunRiverUser: () =>
     dispatch(
       actions.components.identityVerification.createRegisterUserCampaign(
         'sunriver'
       )
-    )
-  },
+    ),
   viewStellarWallet: () => {
     dispatch(actions.modals.closeModal())
     dispatch(actions.router.push('/xlm/transactions'))

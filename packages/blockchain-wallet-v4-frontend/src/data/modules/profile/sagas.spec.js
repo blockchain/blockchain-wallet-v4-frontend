@@ -360,7 +360,7 @@ describe('create user credentials saga', () => {
         ],
         [call.fn(setSession), jest.fn()]
       ])
-      .call(generateAuthCredentials)
+      .call(generateAuthCredentials, undefined, undefined)
       .call(generateRetailToken)
       .select(selectors.core.wallet.getSharedKey)
       .call(setSession, stubUserId, stubLifetimeToken, stubEmail, stubGuid)
@@ -372,7 +372,11 @@ describe('create user credentials saga', () => {
           stubSharedKey
         )
         expect(api.createUser).toHaveBeenCalledTimes(1)
-        expect(api.createUser).toHaveBeenCalledWith(stubRetailToken)
+        expect(api.createUser).toHaveBeenCalledWith(
+          stubRetailToken,
+          undefined,
+          undefined
+        )
       })
   })
 })
