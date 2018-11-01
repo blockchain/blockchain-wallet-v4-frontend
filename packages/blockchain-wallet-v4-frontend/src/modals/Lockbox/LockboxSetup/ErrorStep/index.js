@@ -7,12 +7,11 @@ import AuthenticityError from './authenticity.template'
 import DuplicateError from './duplicate.template'
 
 class ErrorStepContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleContinue = this.handleContinue.bind(this)
+  componentDidMount () {
+    this.props.analytics.logLockboxSetup('setup_error')
   }
 
-  handleContinue () {
+  handleContinue = () => {
     this.props.modalActions.closeModal()
   }
 
@@ -32,6 +31,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  analytics: bindActionCreators(actions.analytics, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })

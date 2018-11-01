@@ -5,16 +5,12 @@ import { actions, selectors } from 'data'
 import Template from './template'
 
 class ConnectDeviceStepContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.changeDeviceSetupStep = this.changeDeviceSetupStep.bind(this)
-  }
-
   componentDidMount () {
     this.props.lockboxActions.initializeNewDeviceSetup()
+    this.props.analytics.logLockboxSetup('connect')
   }
 
-  changeDeviceSetupStep () {
+  changeDeviceSetupStep = () => {
     this.props.lockboxActions.changeDeviceSetupStep('auth-check')
   }
 
@@ -33,6 +29,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  analytics: bindActionCreators(actions.analytics, dispatch),
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 

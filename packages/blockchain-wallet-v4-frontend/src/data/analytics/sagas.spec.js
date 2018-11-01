@@ -420,7 +420,7 @@ describe('analyticsSagas', () => {
   describe('logSfoxDropoff', () => {
     let { logSfoxDropoff } = analyticsSagas({ coreSagas, api })
     let payload = { step: 'funding' }
-    let saga = testSaga(logSfoxDropoff, payload)
+    let saga = testSaga(logSfoxDropoff, { payload })
 
     it('should call api.logSfoxDropoff with the step', () => {
       saga.next().call(api.logSfoxDropoff, 'funding')
@@ -429,7 +429,7 @@ describe('analyticsSagas', () => {
     describe('error handling', () => {
       let { logSfoxDropoff } = analyticsSagas({ coreSagas, api })
       let payload = { step: 'funding' }
-      let saga = testSaga(logSfoxDropoff, payload)
+      let saga = testSaga(logSfoxDropoff, { payload })
       const error = new Error('ERROR')
       it('should log an error', () => {
         saga

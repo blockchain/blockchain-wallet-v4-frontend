@@ -10,6 +10,10 @@ class AuthenticityStepContainer extends React.PureComponent {
     this.changeDeviceSetupStep = this.changeDeviceSetupStep.bind(this)
   }
 
+  componentDidMount () {
+    this.props.analytics.logLockboxSetup('verify_device')
+  }
+
   changeDeviceSetupStep () {
     this.props.lockboxActions.changeDeviceSetupStep('open-btc-app')
   }
@@ -39,6 +43,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  analytics: bindActionCreators(actions.analytics, dispatch),
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
