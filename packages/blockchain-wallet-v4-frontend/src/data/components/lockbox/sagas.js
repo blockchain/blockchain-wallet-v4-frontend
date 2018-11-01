@@ -393,46 +393,35 @@ export default ({ api }) => {
   // updates latest transaction information for device
   const updateTransactionList = function*(action) {
     const { deviceIndex, reset } = action.payload
-    const btcContextR = yield select(
+    const btcContext = (yield select(
       selectors.core.kvStore.lockbox.getBtcContextForDevice,
       deviceIndex
-    )
-    const bchContextR = yield select(
+    )).getOrElse(null)
+    const bchContext = (yield select(
       selectors.core.kvStore.lockbox.getBchContextForDevice,
       deviceIndex
-    )
-    const ethContextR = yield select(
+    )).getOrElse(null)
+    const ethContext = (yield select(
       selectors.core.kvStore.lockbox.getEthContextForDevice,
       deviceIndex
+    )).getOrElse(null)
+    const xlmContext = head(
+      (yield select(
+        selectors.core.kvStore.lockbox.getXlmContextForDevice,
+        deviceIndex
+      )).getOrElse(null)
     )
-    const xlmContextR = yield select(
-      selectors.core.kvStore.lockbox.getXlmContextForDevice,
-      deviceIndex
-    )
-    yield put(
-      actions.core.data.bitcoin.fetchTransactions(
-        btcContextR.getOrElse(null),
-        reset
-      )
-    )
-    yield put(
-      actions.core.data.ethereum.fetchTransactions(
-        ethContextR.getOrElse(null),
-        reset
-      )
-    )
-    yield put(
-      actions.core.data.bch.fetchTransactions(
-        bchContextR.getOrElse(null),
-        reset
-      )
-    )
-    yield put(
-      actions.core.data.xlm.fetchTransactions(
-        head(xlmContextR.getOrElse([])),
-        reset
-      )
-    )
+
+    yield put(actions.core.data.bitcoin.fetchTransactions(btcContext, reset))
+    yield put(actions.core.data.ethereum.fetchTransactions(ethContext, reset))
+    yield put(actions.core.data.bch.fetchTransactions(bchContext, reset))
+    // xlmContext can be empty if not saved to MD yet
+    // if empty set transaction list to empty array to avoid mixing tx lists
+    if (xlmContext) {
+      yield put(actions.core.data.xlm.fetchTransactions(xlmContext, reset))
+    } else {
+      yield put(actions.core.data.xlm.fetchTransactionsSuccess([], true))
+    }
   }
 
   // update device firmware saga
