@@ -258,6 +258,7 @@ const FirstStep = props => {
                   errorBottom
                   validate={validateMemo}
                   component={TextBox}
+                  placeholder='Enter text or ID for recipient (optional)'
                 />
                 <Field
                   name='memoType'
