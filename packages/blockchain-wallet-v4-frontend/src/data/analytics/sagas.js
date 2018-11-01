@@ -89,7 +89,7 @@ export default ({ api, coreSagas }) => {
       if (test(/ether/, text)) return yield call(api.logClick, 'eth')
       if (test(/cash/, text)) return yield call(api.logClick, 'bch')
       if (test(/(buy|sell)/, text)) return yield call(api.logClick, 'buysell')
-      if (test(/swap/, text)) return yield call(api.logClick, 'swap')
+      if (test(/exchange/, text)) return yield call(api.logClick, 'exchange')
       if (test(/security/, text)) return yield call(api.logClick, 'security')
       if (test(/settings/, text)) return yield call(api.logClick, 'settings')
       if (test(/general/, text))
