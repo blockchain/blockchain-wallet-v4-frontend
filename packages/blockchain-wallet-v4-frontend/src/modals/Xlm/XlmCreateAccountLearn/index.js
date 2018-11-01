@@ -43,7 +43,7 @@ const BackIcon = styled(Icon)`
 
 class XlmCreateAccountLearn extends React.PureComponent {
   render () {
-    const { position, total, close, reserveXlm } = this.props
+    const { position, total, close } = this.props
     return (
       <Modal size='medium' position={position} total={total} closeAll={close}>
         <ModalHeader onClose={close}>
@@ -51,7 +51,7 @@ class XlmCreateAccountLearn extends React.PureComponent {
             <BackIcon name='left-arrow' />
             <FormattedMessage
               id='modal.createaccountlearn.back'
-              defaultMessage='Back.'
+              defaultMessage='Back'
             />
           </Header>
         </ModalHeader>
@@ -65,28 +65,31 @@ class XlmCreateAccountLearn extends React.PureComponent {
           <Paragraph>
             <FormattedMessage
               id='modal.createaccountlearn.info1'
-              defaultMessage='To submit transactions, an address must hold a minimum amount of XLM in the shared global ledger. You cannot send this XLM to other addresses. To fund a new address, you must send enough XLM to meet the reserve requirement.'
+              defaultMessage='Stellar requires that all Stellar accounts hold a minimum balance of Lumens, or XLM. This means you cannot send a balance out of your Stellar Wallet that would leave your Stellar Wallet with less than the minimum balance. This also means that in order to send XLM to a new Stellar account, you must send enough XLM to meet the minimum balance requirement.'
             />
           </Paragraph>
           <br />
           <Paragraph>
             <FormattedMessage
               id='modal.createaccountlearn.info2'
-              defaultMessage='The current minimum reserve requirement is {reserveXlm} XLM; this is the cost of an address that owns no other objects in the ledger.'
-              values={{ reserveXlm }}
+              defaultMessage='The current minimum reserve requirement is 1 XLM.'
+              // had to hard code 1 because reserveXlm is coming from the selectors file. If I incldue that in this file, I get a BigNumber error
+              // values={{ reserveXlm }}
             />
           </Paragraph>
           <br />
           <Paragraph>
             <FormattedMessage
               id='modal.createaccountlearn.info3'
-              defaultMessage='You can read more information on the'
-            />
-            {': '}
-            <StyledLink href='' target='_blank'>
+              defaultMessage='You can read more information about Stellar’s minimum balance requirement at'
+            />{' '}
+            <StyledLink
+              href='https://www.stellar.org/developers/guides/concepts/fees.html#minimum-account-balance'
+              target='_blank'
+            >
               <FormattedMessage
                 id='modal.createaccountlearn.link'
-                defaultMessage='Stellar (XLM) reserve requirements in the official documentation.'
+                defaultMessage='Stellar.org'
               />
             </StyledLink>
           </Paragraph>

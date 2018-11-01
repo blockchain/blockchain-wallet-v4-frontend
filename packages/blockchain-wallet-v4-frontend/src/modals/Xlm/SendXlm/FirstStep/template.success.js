@@ -237,7 +237,7 @@ const FirstStep = props => {
               <Field
                 name='description'
                 component={TextAreaDebounced}
-                placeholder="What's this transaction for?"
+                placeholder="What's this transaction for? (optional)"
                 fullwidth
               />
             </FormItem>
@@ -259,6 +259,7 @@ const FirstStep = props => {
                   errorBottom
                   validate={validateMemo}
                   component={TextBox}
+                  placeholder='Enter text or ID for recipient (optional)'
                 />
                 <Field
                   name='memoType'

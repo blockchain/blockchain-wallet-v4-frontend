@@ -268,7 +268,7 @@ const NoSourceXlmAccountMessage = () => (
     <Text size='12px' weight={300} color='error'>
       <FormattedMessage
         id='scenes.exchange.exchangeform.nosourcexlmaccount'
-        defaultMessage='This account is currently inactive. To activate it, deposit at least one lumen (XLM) into your wallet.'
+        defaultMessage='Minimum of 1 XLM needed for new accounts. Learn about Stellar’s minimum balance requirement.'
       />
     </Text>
   </Wrapper>

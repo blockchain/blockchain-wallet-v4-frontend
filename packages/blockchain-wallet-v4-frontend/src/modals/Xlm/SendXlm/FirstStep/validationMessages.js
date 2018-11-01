@@ -62,6 +62,11 @@ export const ReserveMessage = props => (
       />
       {': '}
       <MaximumAmountLink {...props} />
+      <br />
+      <FormattedMessage
+        id='modals.sendxlm.learnmore'
+        defaultMessage='Learn about Stellar’s minimum balance requirement.'
+      />
     </div>
     <ModalIcon modal={RESERVE_LEARN_MODAL} {...props} />
   </ErrorBanner>

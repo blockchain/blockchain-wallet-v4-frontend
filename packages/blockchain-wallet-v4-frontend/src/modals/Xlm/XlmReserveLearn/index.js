@@ -75,7 +75,7 @@ class XlmCreateAccountLearn extends React.PureComponent {
             <BackIcon name='left-arrow' />
             <FormattedMessage
               id='modal.reservelearn.back'
-              defaultMessage='Back.'
+              defaultMessage='Back'
             />
           </Header>
         </ModalHeader>
@@ -105,8 +105,7 @@ class XlmCreateAccountLearn extends React.PureComponent {
             <FormattedMessage
               id='modal.reservelearn.info3'
               defaultMessage='You can read more information on the'
-            />
-            {': '}
+            />{' '}
             <StyledLink
               href='https://www.stellar.org/developers/guides/concepts/fees.html#minimum-account-balance'
               target='_blank'
