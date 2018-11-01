@@ -507,6 +507,5 @@ const Success = props => {
 
 export default reduxForm({
   form: EXCHANGE_FORM,
-  destroyOnUnmount: false,
-  enableReinitialize: true
+  destroyOnUnmount: false
 })(Success)

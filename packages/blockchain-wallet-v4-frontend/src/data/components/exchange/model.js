@@ -53,7 +53,7 @@ export const LATEST_TX_FETCH_FAILED_ERROR = 'Failed to fetch latest tx data'
 export const MISSING_DEVICE_ERROR = 'missing_device'
 export const NO_TRADE_PERMISSION = 'NO_TRADE_PERMISSION'
 export const CREATE_ACCOUNT_ERROR = 'Not enough funds to create new account'
-export const NO_ACCOUNT_ERROR = 'Not enough funds to create new account'
+export const NO_ACCOUNT_ERROR = 'Account does not exist'
 export const RESERVE_ERROR = 'Reserve exceeds remaining funds'
 
 const currenciesOrder = ['BTC', 'BCH', 'ETH', 'XLM']
