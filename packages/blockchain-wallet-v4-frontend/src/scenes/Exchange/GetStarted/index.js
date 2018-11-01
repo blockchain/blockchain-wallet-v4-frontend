@@ -26,6 +26,7 @@ const Container = styled.div`
 
   @media (min-width: 1200px) {
     flex-direction: row;
+    justify-content: flex-start;
     width: 100%;
   }
 `
@@ -60,13 +61,14 @@ const Row = styled.div`
   @media (min-width: 1200px) {
     flex-direction: row;
     min-height: 100%;
-    margin-bottom: ${props => (props.marginBottom ? '30px' : 'none')};
+    margin-bottom: ${props => props.marginBottom};
   }
 `
 const PreviewImage = styled(Image).attrs({
   name: 'kyc-get-started'
 })`
-  width: 100%;
+  width: 410px;
+
   @media (max-width: 1200px) {
     width: 350px;
   }
@@ -88,9 +90,9 @@ const PrimaryText = styled(Text).attrs({
 `
 const GetStartedButton = styled(Button).attrs({
   nature: 'primary',
-  width: '250px',
-  weight: 600
+  width: '250px'
 })`
+  font-weight: 500;
   @media (max-width: 1200px) {
     width: 100%;
   }
@@ -100,7 +102,7 @@ const GetStarted = ({ verifyIdentity }) => (
   <Wrapper>
     <Container>
       <Column>
-        <Row marginBottom>
+        <Row marginBottom='36px'>
           <Text color='brand-primary' size='30px' weight={600}>
             <FormattedMessage
               defaultMessage='A better way to trade crypto'
@@ -108,7 +110,7 @@ const GetStarted = ({ verifyIdentity }) => (
             />
           </Text>
         </Row>
-        <Row marginBottom>
+        <Row marginBottom='24px'>
           <DarkText>
             <FormattedMessage
               defaultMessage='The faster, smarter way to trade your crypto.'
@@ -116,7 +118,7 @@ const GetStarted = ({ verifyIdentity }) => (
             />
           </DarkText>
         </Row>
-        <Row>
+        <Row marginBottom='8px'>
           <DarkText>
             <FormattedMessage
               defaultMessage='Upgrade now to enjoy the following benefits:'
@@ -124,7 +126,7 @@ const GetStarted = ({ verifyIdentity }) => (
             />
           </DarkText>
         </Row>
-        <Row>
+        <Row marginBottom='8px'>
           <PrimaryText>
             <FormattedMessage
               defaultMessage='Lower cost'
@@ -139,7 +141,7 @@ const GetStarted = ({ verifyIdentity }) => (
             />
           </DarkText>
         </Row>
-        <Row>
+        <Row marginBottom='8px'>
           <PrimaryText>
             <FormattedMessage
               defaultMessage='Live rates'
@@ -154,7 +156,7 @@ const GetStarted = ({ verifyIdentity }) => (
             />
           </DarkText>
         </Row>
-        <Row marginBottom>
+        <Row marginBottom='32px'>
           <PrimaryText>
             <FormattedMessage
               defaultMessage='Higher limits'
@@ -178,7 +180,7 @@ const GetStarted = ({ verifyIdentity }) => (
           </GetStartedButton>
         </Row>
       </Column>
-      <Column width='40%'>
+      <Column>
         <PreviewImage />
       </Column>
     </Container>

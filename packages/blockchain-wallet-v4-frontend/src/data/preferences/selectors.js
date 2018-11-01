@@ -25,3 +25,5 @@ export const getTotalBalancesDropdown = path([
   'preferences',
   'totalBalancesDropdown'
 ])
+
+export const getShowKycGetStarted = path(['preferences', 'showKycGetStarted'])

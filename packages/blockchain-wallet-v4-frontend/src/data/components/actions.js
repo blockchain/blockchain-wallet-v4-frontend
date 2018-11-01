@@ -22,6 +22,7 @@ import * as sendBtc from './sendBtc/actions'
 import * as sendEth from './sendEth/actions'
 import * as settings from './settings/actions'
 import * as signMessage from './signMessage/actions'
+import * as swapGetStarted from './swapGetStarted/actions'
 import * as transactionReport from './transactionReport/actions'
 import * as uploadDocuments from './uploadDocuments/actions'
 
@@ -50,6 +51,7 @@ export {
   sendEth,
   settings,
   signMessage,
+  swapGetStarted,
   transactionReport,
   uploadDocuments
 }

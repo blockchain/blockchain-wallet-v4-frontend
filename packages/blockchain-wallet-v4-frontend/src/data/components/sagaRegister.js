@@ -22,11 +22,12 @@ import sendBtc from './sendBtc/sagaRegister'
 import sendEth from './sendEth/sagaRegister'
 import settings from './settings/sagaRegister'
 import signMessage from './signMessage/sagaRegister'
+import swapGetStarted from './swapGetStarted/sagaRegister'
 import transactionReport from './transactionReport/sagaRegister'
 import uploadDocuments from './uploadDocuments/sagaRegister'
 
 export default ({ api, coreSagas, networks, options }) =>
-  function*() {
+  function* () {
     yield fork(activityList({ api, coreSagas }))
     yield fork(bchTransactions({ api, coreSagas }))
     yield fork(btcTransactions({ api, coreSagas }))
@@ -50,6 +51,7 @@ export default ({ api, coreSagas, networks, options }) =>
     yield fork(sendEth({ api, coreSagas }))
     yield fork(settings({ api, coreSagas }))
     yield fork(signMessage({ coreSagas }))
+    yield fork(swapGetStarted({ coreSagas }))
     yield fork(transactionReport({ api, coreSagas }))
     yield fork(uploadDocuments({ api }))
   }

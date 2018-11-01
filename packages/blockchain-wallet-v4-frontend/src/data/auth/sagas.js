@@ -30,7 +30,7 @@ export const wrongCaptcha2faErrorMessage = 'Error: Captcha Code Incorrect'
 export const wrongAuthCodeErrorMessage = 'Authentication code is incorrect'
 
 export default ({ api, coreSagas }) => {
-  const upgradeWallet = function*() {
+  const upgradeWallet = function* () {
     try {
       let password = yield call(promptForSecondPassword)
       yield coreSagas.wallet.upgradeToHd({ password })
@@ -42,7 +42,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const welcomeSaga = function*(firstLogin) {
+  const welcomeSaga = function* (firstLogin) {
     if (firstLogin) {
       const walletNUsers = yield call(api.getWalletNUsers)
       const walletMillions = Math.floor(
@@ -57,12 +57,12 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const upgradeWalletSaga = function*() {
+  const upgradeWalletSaga = function* () {
     yield put(actions.modals.showModal('UpgradeWallet'))
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
   }
 
-  const upgradeAddressLabelsSaga = function*() {
+  const upgradeAddressLabelsSaga = function* () {
     const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
     if (addressLabelSize > 100) {
       yield put(
@@ -79,7 +79,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const transferEthSaga = function*() {
+  const transferEthSaga = function* () {
     const legacyAccountR = yield select(
       selectors.core.kvStore.ethereum.getLegacyAccount
     )
@@ -95,12 +95,12 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const authNabu = function*() {
+  const authNabu = function* () {
     yield put(actions.components.identityVerification.fetchSupportedCountries())
     yield take(
       action =>
         action.type ===
-          actionTypes.components.identityVerification.SET_SUPPORTED_COUNTRIES &&
+        actionTypes.components.identityVerification.SET_SUPPORTED_COUNTRIES &&
         !Remote.Loading.is(action.payload.countries)
     )
     const userFlowSupported = (yield select(
@@ -109,7 +109,60 @@ export default ({ api, coreSagas }) => {
     if (userFlowSupported) yield put(actions.modules.profile.signIn())
   }
 
-  const loginRoutineSaga = function*(mobileLogin, firstLogin) {
+  // ======================== START KYC_GET_STARTED ============================
+  const getBtcBalance = function* () {
+    let btcDataR = yield select(selectors.core.data.bitcoin.getBalance)
+    if (Remote.Loading.is(btcDataR)) {
+      yield take([
+        actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_SUCCESS,
+        actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_FAILURE
+      ])
+      btcDataR = yield select(selectors.core.data.bitcoin.getBalance)
+    }
+    return getBalanceValue(btcDataR)
+  }
+
+  const getBchBalance = function* () {
+    let bchDataR = yield select(selectors.core.data.bch.getBalance)
+    if (Remote.Loading.is(bchDataR)) {
+      yield take([
+        actionTypes.core.data.bch.FETCH_BCH_DATA_SUCCESS,
+        actionTypes.core.data.bch.FETCH_BCH_DATA_FAILURE
+      ])
+      bchDataR = yield select(selectors.core.data.bch.getBalance)
+    }
+    return getBalanceValue(bchDataR)
+  }
+
+  const getEthBalance = function* () {
+    let ethDataR = yield select(selectors.core.data.ethereum.getBalance)
+    if (Remote.Loading.is(ethDataR)) {
+      yield take([
+        actionTypes.core.data.ethereum.FETCH_ETHEREUM_DATA_SUCCESS,
+        actionTypes.core.data.ethereum.FETCH_ETHEREUM_DATA_FAILURE
+      ])
+      ethDataR = yield select(selectors.core.data.ethereum.getBalance)
+    }
+    return getBalanceValue(ethDataR)
+  }
+
+  const getBalanceValue = (balanceR) => balanceR.getOrElse(0)
+
+  const kycGetStarted = function* () {
+    // Check if wallet is funded
+    const showKycGetStarted = yield select(selectors.preferences.getShowKycGetStarted)
+    // check/wait for balances to be available
+    const btcBalance = yield call(getBtcBalance)
+    const bchBalance = yield call(getBchBalance)
+    const ethBalance = yield call(getEthBalance)
+    const isFunded = btcBalance !== 0 || bchBalance !== 0 || ethBalance === 0
+    if (showKycGetStarted && isFunded) {
+      yield put(actions.modals.showModal('SwapGetStarted'))
+    }
+  }
+  // ========================= END KYC_GET_STARTED =============================
+
+  const loginRoutineSaga = function* (mobileLogin, firstLogin) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
@@ -146,6 +199,7 @@ export default ({ api, coreSagas }) => {
       yield fork(transferEthSaga)
       yield fork(welcomeSaga, firstLogin)
       yield fork(reportStats, mobileLogin)
+      yield fork(kycGetStarted)
       yield fork(checkDataErrors)
       yield put(actions.analytics.reportBalanceStats())
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
@@ -161,7 +215,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const reportStats = function*(mobileLogin) {
+  const reportStats = function* (mobileLogin) {
     if (mobileLogin) {
       yield call(api.incrementLoginViaQrStats)
     } else {
@@ -173,7 +227,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const checkAndHandleVulnerableAddress = function*(data) {
+  const checkAndHandleVulnerableAddress = function* (data) {
     const err = prop('error', data)
     const vulnerableAddress = checkForVulnerableAddressError(err)
     if (vulnerableAddress) {
@@ -192,7 +246,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const checkDataErrors = function*() {
+  const checkDataErrors = function* () {
     const btcDataR = yield select(selectors.core.data.bitcoin.getInfo)
 
     if (Remote.Loading.is(btcDataR)) {
@@ -207,7 +261,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const pollingSession = function*(session, n = 50) {
+  const pollingSession = function* (session, n = 50) {
     if (n === 0) {
       return false
     }
@@ -223,7 +277,7 @@ export default ({ api, coreSagas }) => {
     return yield call(pollingSession, session, n - 1)
   }
 
-  const login = function*(action) {
+  const login = function* (action) {
     let { guid, sharedKey, password, code, mobileLogin } = action.payload
     const safeParse = Either.try(JSON.parse)
     let session = yield select(selectors.session.getSession, guid)
@@ -319,7 +373,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const mobileLogin = function*(action) {
+  const mobileLogin = function* (action) {
     try {
       const { guid, sharedKey, password } = yield call(
         coreSagas.settings.decodePairingCode,
@@ -346,7 +400,7 @@ export default ({ api, coreSagas }) => {
     yield put(actions.modals.closeModal())
   }
 
-  const register = function*(action) {
+  const register = function* (action) {
     try {
       yield put(actions.auth.registerLoading())
       yield put(actions.alerts.displayInfo(C.CREATE_WALLET_INFO))
@@ -361,7 +415,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const restore = function*(action) {
+  const restore = function* (action) {
     try {
       yield put(actions.auth.restoreLoading())
       yield put(actions.alerts.displayInfo(C.RESTORE_WALLET_INFO))
@@ -376,7 +430,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const remindGuid = function*(action) {
+  const remindGuid = function* (action) {
     try {
       yield put(actions.auth.remindGuidLoading())
       yield call(coreSagas.wallet.remindWalletGuidSaga, action.payload)
@@ -394,7 +448,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const reset2fa = function*(action) {
+  const reset2fa = function* (action) {
     try {
       yield put(actions.auth.reset2faLoading())
       const response = yield call(
@@ -445,7 +499,7 @@ export default ({ api, coreSagas }) => {
     })
   }
 
-  const resendSmsLoginCode = function*(action) {
+  const resendSmsLoginCode = function* (action) {
     try {
       const { guid } = action.payload
       const sessionToken = yield select(selectors.session.getSession, guid)
@@ -469,11 +523,11 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const logoutRoutine = function*() {
+  const logoutRoutine = function* () {
     yield call(logout)
   }
 
-  const logout = function*() {
+  const logout = function* () {
     const isEmailVerified = yield select(
       selectors.core.settings.getEmailVerified
     )
@@ -493,7 +547,7 @@ export default ({ api, coreSagas }) => {
       : yield logoutClearReduxStore()
   }
 
-  const deauthorizeBrowser = function*() {
+  const deauthorizeBrowser = function* () {
     try {
       const guid = yield select(selectors.core.wallet.getGuid)
       const sessionToken = yield select(selectors.session.getSession, guid)
@@ -509,7 +563,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const logoutClearReduxStore = function*() {
+  const logoutClearReduxStore = function* () {
     // router will fallback to /login route
     yield window.history.pushState('', '', '#')
     yield window.location.reload(true)

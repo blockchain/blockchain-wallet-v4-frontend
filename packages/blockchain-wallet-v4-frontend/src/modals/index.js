@@ -38,6 +38,7 @@ import ShowBtcPrivateKey from './ShowBtcPrivateKey'
 import ShowEthPrivateKey from './ShowEthPrivateKey'
 import ShowUsedAddresses from './ShowUsedAddresses'
 import SignMessage from './SignMessage'
+import SwapGetStarted from './SwapGetStarted'
 import ShowXPub from './ShowXPub'
 import TransactionReport from './TransactionReport'
 import TransferEth from './TransferEth'
@@ -86,6 +87,7 @@ const Modals = props => (
     <ShowEthPrivateKey />
     <ShowUsedAddresses />
     <SignMessage />
+    <SwapGetStarted />
     <ShowXPub />
     <SfoxExchangeData />
     <SfoxTradeDetails />

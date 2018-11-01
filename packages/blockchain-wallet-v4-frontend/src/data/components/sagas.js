@@ -20,6 +20,7 @@ import sendBtc from './sendBtc/sagas'
 import sendEth from './sendEth/sagas'
 import settings from './settings/sagas'
 import signMessage from './signMessage/sagas'
+import swapGetStarted from './swapGetStarted/sagas'
 import transactionReport from './transactionReport/sagas'
 import uploadDocuments from './uploadDocuments/sagas'
 
@@ -46,6 +47,7 @@ export default ({ api, coreSagas, options }) => ({
   sendEth: sendEth({ api, coreSagas }),
   settings: settings({ api, coreSagas }),
   signMessage: signMessage({ coreSagas }),
+  swapGetStarted: swapGetStarted({ coreSagas }),
   transactionReport: transactionReport({ api, coreSagas }),
   uploadDocument: uploadDocuments({ api })
 })
