@@ -18,14 +18,14 @@ const Wrapper = styled.div`
 `
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   justify-content: center;
-  align-items: flex-start;
-  width: 100%;
+  align-items: center;
   height: auto;
 
   @media (min-width: 1200px) {
     flex-direction: row;
+    align-items: flex-start;
     width: 100%;
   }
 `
@@ -50,7 +50,7 @@ const Row = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   flex-wrap: wrap;
 
   & > :not(:last-child) {
@@ -67,6 +67,7 @@ const PreviewImage = styled(Image).attrs({
   name: 'kyc-get-started'
 })`
   width: 100%;
+  max-width: 411px;
   @media (max-width: 1200px) {
     width: 350px;
   }
@@ -91,6 +92,8 @@ const GetStartedButton = styled(Button).attrs({
   width: '250px',
   weight: 600
 })`
+  margin-top: 20px;
+
   @media (max-width: 1200px) {
     width: 100%;
   }
