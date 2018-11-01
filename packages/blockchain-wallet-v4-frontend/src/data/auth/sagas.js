@@ -155,7 +155,7 @@ export default ({ api, coreSagas }) => {
     const btcBalance = yield call(getBtcBalance)
     const bchBalance = yield call(getBchBalance)
     const ethBalance = yield call(getEthBalance)
-    const isFunded = btcBalance !== 0 || bchBalance !== 0 || ethBalance === 0
+    const isFunded = btcBalance !== 0 || bchBalance !== 0 || ethBalance !== 0
     if (showKycGetStarted && isFunded) {
       yield put(actions.modals.showModal('SwapGetStarted'))
     }

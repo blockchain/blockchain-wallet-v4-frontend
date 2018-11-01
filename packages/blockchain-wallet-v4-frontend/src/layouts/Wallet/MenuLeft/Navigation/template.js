@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+
+import Cartridge from 'components/Cartridge'
 import {
   Wrapper,
   MenuItem,
@@ -21,6 +23,9 @@ const HelperTipContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
+`
+const CartridgeNew = styled(Cartridge)`
+  margin-left: 75px;
 `
 
 const Navigation = props => {
@@ -55,6 +60,12 @@ const Navigation = props => {
             id='layouts.wallet.menuleft.navigation.exchange'
             defaultMessage='Exchange'
           />
+          <CartridgeNew>
+            <FormattedMessage
+              defaultMessage='New'
+              id='layouts.wallet.menuleft.navigation.new'
+            />
+          </CartridgeNew>
         </MenuItem>
       </LinkContainer>
       <MenuItem>
