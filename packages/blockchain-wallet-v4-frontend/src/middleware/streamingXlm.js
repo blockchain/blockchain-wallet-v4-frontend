@@ -1,8 +1,22 @@
-import { compose, head, map, prop } from 'ramda'
-import { actions, actionTypes, selectors } from 'data'
+import { compose, head, indexBy, keys, map, prop } from 'ramda'
+import { actions, actionTypes } from 'data'
 
-const streamingMiddleware = streamingService => store => {
-  return next => action => {
+const logLocation = 'middleware/streamingXlm'
+
+const streamingMiddleware = (streamingService, api) => {
+  const addCursor = publicKey =>
+    api
+      .getXlmTransactions({
+        publicKey,
+        limit: 1
+      })
+      .then(head)
+      .then(prop('paging_token'))
+      .then(txCursor => ({
+        id: publicKey,
+        txCursor
+      }))
+  return store => next => action => {
     const { type, payload } = action
 
     if (type === actionTypes.middleware.webSocket.xlm.START_STREAMS) {
@@ -18,19 +32,17 @@ const streamingMiddleware = streamingService => store => {
       )
     }
     if (type === actionTypes.core.data.xlm.FETCH_DATA_SUCCESS) {
-      const state = store.getState()
-      const defaultAccountId = selectors.core.kvStore.xlm
-        .getDefaultAccountId(state)
-        .getOrElse(null)
-      const txCursor = head(selectors.core.data.xlm.getTransactions(state))
-        .map(head)
-        .map(prop('paging_token'))
-        .getOrElse(null)
-      const accounts = map(account => {
-        if (account.id === defaultAccountId) return { ...account, txCursor }
-        return account
-      }, payload.data)
-      streamingService.updateStreams(accounts)
+      const accountIds = keys(payload.data)
+      Promise.all(map(addCursor, accountIds))
+        .then(indexBy(prop('id')))
+        .then(streamingService.updateStreams)
+        .catch(error =>
+          actions.logs.logErrorMessage(
+            logLocation,
+            'streamingMiddleware',
+            prop('message', error)
+          )
+        )
     }
 
     if (type === actionTypes.middleware.webSocket.xlm.STOP_STREAMS) {

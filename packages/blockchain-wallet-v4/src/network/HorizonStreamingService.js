@@ -31,7 +31,7 @@ export default class HorizonStreamingService {
     this.onError = onError
   }
 
-  updateStreams (accounts) {
+  updateStreams = accounts => {
     const accountIds = keys(accounts)
     const currentAccountIds = keys(this.streams)
     const addedAccounts = difference(accountIds, currentAccountIds)
