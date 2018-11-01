@@ -9976,7 +9976,7 @@
         "id": "modal.createaccountlearn.info1"
       },
       {
-        "defaultMessage": "The current minimum reserve requirement is {reserveXlm} XLM; this is the cost of an address that owns no other objects in the ledger.",
+        "defaultMessage": "The current minimum reserve requirement is 1 XLM.",
         "id": "modal.createaccountlearn.info2"
       },
       {
@@ -10103,7 +10103,7 @@
         "id": "modal.createaccountlearn.info1"
       },
       {
-        "defaultMessage": "The current minimum reserve requirement is {reserveXlm} XLM; this is the cost of an address that owns no other objects in the ledger.",
+        "defaultMessage": "The current minimum reserve requirement is 1 XLM.",
         "id": "modal.createaccountlearn.info2"
       },
       {

@@ -43,7 +43,7 @@ const BackIcon = styled(Icon)`
 
 class XlmCreateAccountLearn extends React.PureComponent {
   render () {
-    const { position, total, close, reserveXlm } = this.props
+    const { position, total, close } = this.props
     return (
       <Modal size='medium' position={position} total={total} closeAll={close}>
         <ModalHeader onClose={close}>
@@ -72,8 +72,9 @@ class XlmCreateAccountLearn extends React.PureComponent {
           <Paragraph>
             <FormattedMessage
               id='modal.createaccountlearn.info2'
-              defaultMessage='The current minimum reserve requirement is {reserveXlm} XLM.'
-              values={{ reserveXlm }}
+              defaultMessage='The current minimum reserve requirement is 1 XLM.'
+              // had to hard code 1 because reserveXlm is coming from the selectors file. If I incldue that in this file, I get a BigNumber error
+              // values={{ reserveXlm }}
             />
           </Paragraph>
           <br />
