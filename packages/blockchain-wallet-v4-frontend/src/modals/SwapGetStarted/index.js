@@ -68,8 +68,8 @@ class SwapGetStarted extends React.Component {
         <Header>
           <Text color='white' size='24px' weight={500}>
             <FormattedMessage
-              defaultMessage='Swap'
-              id='modals.swapgetstarted.swap'
+              defaultMessage='Exchange'
+              id='modals.swapgetstarted.exchange'
             />
           </Text>
           <Text color='white' size='24px' weight={500}>
