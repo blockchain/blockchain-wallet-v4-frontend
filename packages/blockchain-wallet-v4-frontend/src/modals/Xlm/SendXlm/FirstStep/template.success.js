@@ -87,7 +87,8 @@ const FirstStep = props => {
     balanceStatus,
     handleToToggle,
     error,
-    handleSubmit
+    handleSubmit,
+    submit
   } = props
   const amountActive = activeField === 'amount'
   const disableLockboxSend =
@@ -283,7 +284,11 @@ const FirstStep = props => {
           </FormGroup>
           <FormGroup>
             <Button
-              type='submit'
+              /* 
+               * HACK: redux-form blurs on mousedown, and we change form
+               * layout on blur preventing the onClick submit
+               */
+              onMouseDown={submit}
               nature='primary'
               uppercase
               disabled={
