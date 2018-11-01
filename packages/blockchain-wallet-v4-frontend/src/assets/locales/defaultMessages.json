@@ -7551,7 +7551,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "This account is currently inactive. To activate it, deposit at least one lumen (XLM) into your wallet.",
+        "defaultMessage": "Minimum of 1 XLM needed for new accounts. Learn about Stellar’s minimum balance requirement.",
         "id": "modals.sendxlm.firststep.noaccount"
       },
       {
@@ -9733,7 +9733,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "This account is currently inactive. To activate it, deposit at least one lumen (XLM) into your wallet.",
+        "defaultMessage": "Minimum of 1 XLM needed for new accounts. Learn about Stellar’s minimum balance requirement.",
         "id": "modals.sendxlm.firststep.noaccount"
       },
       {
@@ -11209,7 +11209,7 @@
         "id": "scenes.exchange.exchangeform.error.createtargetxlmaccount"
       },
       {
-        "defaultMessage": "This account is currently inactive. To activate it, deposit at least one lumen (XLM) into your wallet.",
+        "defaultMessage": "Minimum of 1 XLM needed for new accounts. Learn about Stellar’s minimum balance requirement.",
         "id": "scenes.exchange.exchangeform.nosourcexlmaccount"
       },
       {

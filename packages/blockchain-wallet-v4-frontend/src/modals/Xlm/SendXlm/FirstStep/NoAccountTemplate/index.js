@@ -3,7 +3,11 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { FormattedMessage } from 'react-intl'
 
 import { Banner, Button, Text } from 'blockchain-info-components'
+import { model } from 'data'
 import { FormGroup } from 'components/Form'
+import ModalIcon from '../ModalIcon'
+
+const { CREATE_ACCOUNT_LEARN_MODAL } = model.components.sendXlm
 
 export const NoAccountTemplate = () => (
   <React.Fragment>
@@ -12,9 +16,10 @@ export const NoAccountTemplate = () => (
         <Text color='warning' size='12px'>
           <FormattedMessage
             id='modals.sendxlm.firststep.noaccount'
-            defaultMessage='This account is currently inactive. To activate it, deposit at least one lumen (XLM) into your wallet.'
+            defaultMessage='Minimum of 1 XLM needed for new accounts. Learn about Stellar’s minimum balance requirement.'
           />
         </Text>
+        <ModalIcon modal={CREATE_ACCOUNT_LEARN_MODAL} />
       </Banner>
     </FormGroup>
     <FormGroup>
