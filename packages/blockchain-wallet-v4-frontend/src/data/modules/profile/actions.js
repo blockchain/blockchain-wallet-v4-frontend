@@ -26,3 +26,8 @@ export const clearSession = () => ({
 export const fetchUser = () => ({
   type: AT.FETCH_USER
 })
+
+export const setCampaign = campaign => ({
+  type: AT.SET_CAMPAIGN,
+  payload: { campaign }
+})

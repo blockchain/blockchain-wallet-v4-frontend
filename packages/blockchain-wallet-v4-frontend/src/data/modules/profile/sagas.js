@@ -19,6 +19,17 @@ export const renewUserDelay = 30000
 let renewSessionTask = null
 let renewUserTask = null
 export default ({ api, coreSagas }) => {
+  const getCampaignData = function*(campaignName) {
+    if (campaignName === 'sunriver') {
+      const xlmAccount = (yield select(
+        selectors.core.kvStore.xlm.getDefaultAccountId
+      )).getOrFail()
+      return { 'x-campaign-address': xlmAccount }
+    }
+
+    return null
+  }
+
   const signIn = function*() {
     try {
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail(
@@ -186,9 +197,12 @@ export default ({ api, coreSagas }) => {
     yield call(setSession, userId, lifetimeToken, email, guid)
   }
 
-  const createUser = function*(campaignName, campaignData) {
+  const createUser = function*() {
     const token = yield select(S.getApiToken)
     if (!Remote.NotAsked.is(token)) return
+
+    const campaignName = yield select(S.getCampaign)
+    const campaignData = yield call(getCampaignData, campaignName)
 
     const userIdR = yield select(
       selectors.core.kvStore.userCredentials.getUserId
@@ -253,6 +267,7 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
+    getCampaignData,
     signIn,
     clearSession,
     setSession,

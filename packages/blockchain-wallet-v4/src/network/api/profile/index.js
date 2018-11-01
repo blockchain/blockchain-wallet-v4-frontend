@@ -41,7 +41,12 @@ export default ({
       }
     })
 
-  const registerUserCampaign = (lifetimeToken, campaignName, campaignData) => {
+  const registerUserCampaign = (
+    lifetimeToken,
+    campaignName,
+    campaignData,
+    newUser = false
+  ) => {
     put({
       url: nabuUrl,
       endPoint: '/users/register-campaign',
@@ -53,7 +58,8 @@ export default ({
       data: {
         data: {
           ...campaignData
-        }
+        },
+        newUser
       }
     })
   }
