@@ -1,13 +1,15 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import toJson from 'enzyme-to-json'
-import WhatsNew from './index'
+import EmptyContent from './EmptyContent'
 
-jest.mock('./WhatsNewContent/ExchangeByBlockchain', () => 'exchangeByBlockchain')
+jest.mock('blockchain-info-components', () => ({
+  Text: 'text'
+}))
 
-describe('Whats New', () => {
+describe('EmptyContent', () => {
   it('renders correctly', () => {
-    const component = shallow(<WhatsNew />)
+    const component = shallow(<EmptyContent />)
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })

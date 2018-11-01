@@ -574,6 +574,7 @@ export default ({ api, coreSagas }) => {
     checkAndHandleVulnerableAddress,
     checkDataErrors,
     deauthorizeBrowser,
+    kycGetStarted,
     login,
     logout,
     logoutClearReduxStore,

@@ -23,7 +23,7 @@ const Header = styled.div`
   background: #0D0D42 url(${background});
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: 90% 100%;
+  background-position: -20px -10px;
   overflow: hidden;
   border-radius: 4px;
 `
@@ -68,14 +68,14 @@ class SwapGetStarted extends React.Component {
         <Header>
           <Text color='white' size='24px' weight={500}>
             <FormattedMessage
-              defaultMessage='Exchange'
-              id='modals.swapgetstarted.exchange'
+              defaultMessage="We've improved"
+              id='modals.swapgetstarted.improved'
             />
           </Text>
           <Text color='white' size='24px' weight={500}>
             <FormattedMessage
-              defaultMessage='by Blockchain'
-              id='modals.swapgetstarted.blockchain'
+              defaultMessage='your Exchange'
+              id='modals.swapgetstarted.exchange'
             />
           </Text>
         </Header>

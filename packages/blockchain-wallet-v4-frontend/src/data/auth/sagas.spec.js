@@ -36,10 +36,10 @@ describe('authSagas', () => {
     Math.random = () => 0.5
     pushStateSpy = jest
       .spyOn(window.history, 'pushState')
-      .mockImplementation(() => {})
+      .mockImplementation(() => { })
     locationReloadSpy = jest
       .spyOn(window.location, 'reload')
-      .mockImplementation(() => {})
+      .mockImplementation(() => { })
   })
   afterAll(() => {
     global.Math = originalMath
@@ -345,7 +345,8 @@ describe('authSagas', () => {
       transferEthSaga,
       upgradeWalletSaga,
       welcomeSaga,
-      upgradeAddressLabelsSaga
+      upgradeAddressLabelsSaga,
+      kycGetStarted
     } = authSagas({
       api,
       coreSagas
@@ -472,6 +473,10 @@ describe('authSagas', () => {
 
     it('should launch reportStats saga', () => {
       saga.next().fork(reportStats, mobileLogin)
+    })
+
+    it('should launch kycGetStarted saga', () => {
+      saga.next().fork(kycGetStarted)
     })
 
     it('should check for data errors', () => {
