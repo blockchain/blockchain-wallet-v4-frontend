@@ -106,7 +106,7 @@ const configureStore = () => {
             webSocketBtc(btcSocket),
             webSocketBch(bchSocket),
             webSocketEth(ethSocket),
-            streamingXlm(xlmStreamingService),
+            streamingXlm(xlmStreamingService, api),
             webSocketRates(ratesSocket),
             coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
             autoDisconnection()
