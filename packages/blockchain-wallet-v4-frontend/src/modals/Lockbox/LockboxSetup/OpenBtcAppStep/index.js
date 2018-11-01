@@ -6,6 +6,10 @@ import { actions } from 'data'
 import OpenBtcAppStep from './template'
 
 class OpenBtcAppStepContainer extends React.PureComponent {
+  componentDidMount () {
+    this.props.analytics.logLockboxSetup('open_btc')
+  }
+
   onInstallApps = () => {
     this.props.modalActions.showModal('LockboxAppInstall')
   }
@@ -26,6 +30,7 @@ class OpenBtcAppStepContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
+  analytics: bindActionCreators(actions.analytics, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })

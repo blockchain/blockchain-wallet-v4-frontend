@@ -39,6 +39,13 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       data: { name: `wallet_login_second_password_${secondPassActive ? 1 : 0}` }
     })
 
+  const logLockboxSetup = step =>
+    get({
+      url: rootUrl,
+      endPoint: '/event',
+      data: { name: `wallet_web_lockbox_${step}` }
+    })
+
   const logClick = name =>
     get({
       url: rootUrl,
@@ -80,6 +87,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     incrementSecPasswordStats,
     incrementStat,
     logClick,
+    logLockboxSetup,
     logSfoxAccountCreation,
     logSfoxDropoff,
     logSfoxQuote,

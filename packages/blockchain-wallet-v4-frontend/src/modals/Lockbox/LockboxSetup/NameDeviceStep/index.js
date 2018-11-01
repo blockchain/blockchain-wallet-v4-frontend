@@ -8,12 +8,11 @@ import { requireUniqueDeviceName } from 'services/FormHelper'
 import NameDeviceStep from './template'
 
 class NameDeviceStepContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.onSubmit = this.onSubmit.bind(this)
+  componentDidMount () {
+    this.props.analytics.logLockboxSetup('name_device')
   }
 
-  onSubmit () {
+  onSubmit = () => {
     const isNotUnique = requireUniqueDeviceName(
       this.props.newDeviceName,
       this.props.usedDeviceNames
@@ -54,6 +53,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  analytics: bindActionCreators(actions.analytics, dispatch),
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 

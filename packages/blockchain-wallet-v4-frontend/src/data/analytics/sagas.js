@@ -149,11 +149,21 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const logSfoxDropoff = function*(payload) {
+  const logSfoxDropoff = function*(action) {
+    const { payload } = action
     try {
       yield call(api.logSfoxDropoff, prop('step', payload))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'logSfoxDropoff', e))
+    }
+  }
+
+  const logLockboxSetup = function*(action) {
+    const { payload } = action
+    try {
+      yield call(api.logLockboxSetup, prop('step', payload))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'logLockboxSetup', e))
     }
   }
 
@@ -163,8 +173,9 @@ export default ({ api, coreSagas }) => {
     getBchBalance,
     getXlmBalance,
     logClick,
-    logLeftNavClick,
     logSfoxDropoff,
+    logLeftNavClick,
+    logLockboxSetup,
     reportBalanceStats
   }
 }
