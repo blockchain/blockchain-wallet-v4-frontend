@@ -18,6 +18,7 @@ import refresh from './refresh/sagaRegister'
 import requestBtc from './requestBtc/sagaRegister'
 import requestBch from './requestBch/sagaRegister'
 import requestEth from './requestEth/sagaRegister'
+import requestXlm from './requestXlm/sagaRegister'
 import sendBch from './sendBch/sagaRegister'
 import sendBtc from './sendBtc/sagaRegister'
 import sendEth from './sendEth/sagaRegister'
@@ -48,6 +49,7 @@ export default ({ api, coreSagas, networks, options }) =>
     yield fork(requestBtc({ networks }))
     yield fork(requestBch({ networks }))
     yield fork(requestEth({ networks }))
+    yield fork(requestXlm())
     yield fork(sendBch({ api, coreSagas }))
     yield fork(sendBtc({ api, coreSagas, networks }))
     yield fork(sendEth({ api, coreSagas }))
