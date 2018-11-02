@@ -319,6 +319,9 @@ export default ({ api }) => {
           publish: () => chain(gen, payment => payment.publish()),
           description: message =>
             chain(gen, payment => payment.description(message)),
+          memo: memo => chain(gen, payment => payment.memo(memo)),
+          memoType: memoType =>
+            chain(gen, payment => payment.memoType(memoType)),
           *done () {
             return yield gen()
           }
