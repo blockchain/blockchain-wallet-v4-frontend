@@ -10,7 +10,6 @@ export const getData = createDeepEqualSelector(
     selectors.modules.profile.getUserData
 ],
   (emailR, emailVerifiedR, userDataR) => {
-    debugger
     return lift((email, emailVerified, userData) => {
       debugger
       const kycState  = prop('kycState', userData)
