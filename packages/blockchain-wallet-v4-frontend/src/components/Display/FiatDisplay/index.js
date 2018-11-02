@@ -11,7 +11,7 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class FiatDisplayContainer extends React.PureComponent {
-  componentWillMount () {
+  componentDidMount () {
     if (Remote.NotAsked.is(this.props.data)) {
       switch (this.props.coin) {
         case 'BTC':
@@ -51,8 +51,7 @@ const mapDispatchToProps = dispatch => ({
   btcActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
   ethActions: bindActionCreators(actions.core.data.ethereum, dispatch),
   bchActions: bindActionCreators(actions.core.data.bch, dispatch),
-  xlmActions: bindActionCreators(actions.core.data.xlm, dispatch),
-  settingsActions: bindActionCreators(actions.core.settings, dispatch)
+  xlmActions: bindActionCreators(actions.core.data.xlm, dispatch)
 })
 
 export default connect(
