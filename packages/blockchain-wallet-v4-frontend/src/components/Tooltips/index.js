@@ -100,7 +100,7 @@ class Tooltips extends React.PureComponent {
         <Tooltip id='sendxlm.firststep.memotooltip'>
           <FormattedMessage
             id='modals.sendxlm.firststep.memotooltip'
-            defaultMessage='Memos give you the ability to communicate a message with money.'
+            defaultMessage='Memos are used to communicate optional information to the recipient.'
           />
         </Tooltip>
         <Tooltip id='tradingfee.tooltip'>

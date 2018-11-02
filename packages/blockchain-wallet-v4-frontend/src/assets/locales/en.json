@@ -875,7 +875,7 @@
   "modals.sendxlm.firststep.from": "From:",
   "modals.sendxlm.firststep.lockboxwarn": "Sending Stellar from Lockbox can only be done while using the Chrome browser",
   "modals.sendxlm.firststep.memo": "Memo:",
-  "modals.sendxlm.firststep.memotooltip": "Memos give you the ability to communicate a message with money.",
+  "modals.sendxlm.firststep.memotooltip": "Memos are used to communicate optional information to the recipient.",
   "modals.sendxlm.firststep.noaccount": "Minimum of 1 XLM needed for new accounts. Learn about Stellar’s minimum balance requirement.",
   "modals.sendxlm.firststep.sharetooltip": "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
   "modals.sendxlm.firststep.to": "To:",

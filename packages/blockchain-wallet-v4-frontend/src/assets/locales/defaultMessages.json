@@ -1301,7 +1301,7 @@
         "id": "modals.sendxlm.firststep.sharetooltip"
       },
       {
-        "defaultMessage": "Memos give you the ability to communicate a message with money.",
+        "defaultMessage": "Memos are used to communicate optional information to the recipient.",
         "id": "modals.sendxlm.firststep.memotooltip"
       },
       {
