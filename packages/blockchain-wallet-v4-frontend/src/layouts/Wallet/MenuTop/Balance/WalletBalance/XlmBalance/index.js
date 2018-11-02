@@ -9,16 +9,11 @@ import Success from './template.success'
 import { LoadingBalance } from 'components/Balances'
 
 class XlmBalance extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleRefresh = this.handleRefresh.bind(this)
-  }
-
   componentDidMount () {
     this.props.actions.fetchData()
   }
 
-  handleRefresh () {
+  handleRefresh = () => {
     this.props.actions.fetchData()
   }
 
