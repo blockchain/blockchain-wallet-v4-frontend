@@ -168,9 +168,9 @@ const ManualAddressText = styled(Text)`
     font-weight: 300;
     font-size: 14px;
     color: ${props =>
-      props.isSelected
-        ? props.theme['white']
-        : props.theme['brand-secondary']} !important;
+    props.isSelected
+      ? props.theme['white']
+      : props.theme['brand-secondary']} !important;
   }
 `
 const renderAddressItem = props => {
@@ -221,390 +221,390 @@ const Personal = ({
   onPostCodeChange,
   handleSubmit
 }) => (
-  <IdentityVerificationForm onSubmit={handleSubmit}>
-    <FooterShadowWrapper
-      fields={
-        <MediaContextConsumer>
-          {({ mobile }) => (
-            <InputWrapper>
-              <IdentityVerificationHeader>
-                <FormattedMessage
-                  id='identityverification.personal.header'
-                  defaultMessage='Personal Details'
-                />
-              </IdentityVerificationHeader>
-              <IdentityVerificationSubHeader>
-                <FormattedMessage
-                  id='identityverification.personal.subheader'
-                  defaultMessage="There's so much we'd love to know about you, but we only need a few things."
-                />
-              </IdentityVerificationSubHeader>
-              <FormContainer>
-                <FaqFormGroup>
-                  <FormItem>
-                    <Label>
-                      <FormattedMessage
-                        id='identityverification.personal.country'
-                        defaultMessage='Select your country of residence'
-                      />
-                    </Label>
-                    <Field
-                      name='country'
-                      validate={required}
-                      elements={supportedCountries}
-                      component={SelectBox}
-                      menuPlacement='auto'
-                      onChange={onCountrySelect}
-                      label={
-                        <FormattedMessage
-                          id='components.selectboxcountry.label'
-                          defaultMessage='Select country'
-                        />
-                      }
-                    />
-                  </FormItem>
-                </FaqFormGroup>
-                {showStateSelect && (
+    <IdentityVerificationForm onSubmit={handleSubmit}>
+      <FooterShadowWrapper
+        fields={
+          <MediaContextConsumer>
+            {({ mobile }) => (
+              <InputWrapper>
+                <IdentityVerificationHeader>
+                  <FormattedMessage
+                    id='identityverification.personal.header'
+                    defaultMessage='Personal Details'
+                  />
+                </IdentityVerificationHeader>
+                <IdentityVerificationSubHeader>
+                  <FormattedMessage
+                    id='identityverification.personal.subheader'
+                    defaultMessage='To get started, we need to verify your identity. It should only take a few minutes.'
+                  />
+                </IdentityVerificationSubHeader>
+                <FormContainer>
                   <FaqFormGroup>
                     <FormItem>
                       <Label>
                         <FormattedMessage
-                          id='identityverification.personal.state'
-                          defaultMessage='State'
+                          id='identityverification.personal.country'
+                          defaultMessage='Select your country of residence'
                         />
                       </Label>
                       <Field
-                        name='state'
+                        name='country'
                         validate={required}
-                        elements={states}
+                        elements={supportedCountries}
                         component={SelectBox}
                         menuPlacement='auto'
-                        onChange={onStateSelect}
+                        onChange={onCountrySelect}
                         label={
                           <FormattedMessage
-                            id='identityverification.personal.label.state'
-                            defaultMessage='Select your state'
+                            id='components.selectboxcountry.label'
+                            defaultMessage='Select country'
                           />
                         }
                       />
                     </FormItem>
                   </FaqFormGroup>
-                )}
-                {showStateError && (
-                  <ErrorBanner type='warning'>
-                    <FormattedMessage
-                      id='identityverification.personal.unavailable'
-                      defaultMessage='Unfortunately exchange is not available in your state at this time.'
-                    />
-                    <FormattedMessage
-                      id='identityverification.personal.unavailablenotify'
-                      defaultMessage='We will notify you when we expand to your area.'
-                    />
-                  </ErrorBanner>
-                )}
-                {showPersonal && (
-                  <FaqFormGroup>
-                    <PersonalItem>
-                      <PersonalField>
-                        <Label>
-                          <FormattedMessage
-                            id='identityverification.personal.firstname'
-                            defaultMessage='First Name'
-                          />
-                        </Label>
-                        <Field
-                          name='firstName'
-                          validate={required}
-                          component={TextBox}
-                          errorBottom
-                        />
-                      </PersonalField>
-                      <PersonalField>
-                        <Label>
-                          <FormattedMessage
-                            id='identityverification.personal.lastname'
-                            defaultMessage='Last Name'
-                          />
-                        </Label>
-                        <Field
-                          name='lastName'
-                          validate={required}
-                          component={TextBox}
-                          errorBottom
-                        />
-                      </PersonalField>
-                    </PersonalItem>
-                    {(activeField === 'firstName' ||
-                      activeField === 'lastName') &&
-                      !mobile && (
-                        <FaqFormMessage
-                          icon='id-card'
-                          title={
-                            <FormattedMessage
-                              id='identityverification.personal.faq.name.title'
-                              defaultMessage='First & Last Name'
-                            />
-                          }
-                          text={
-                            <FormattedMessage
-                              id='identityverification.personal.faq.name.text'
-                              defaultMessage='They should match exactly the details in your passport or driving license.'
-                            />
-                          }
-                        />
-                      )}
-                  </FaqFormGroup>
-                )}
-                {showPersonal && (
-                  <FaqFormGroup>
-                    <FormItem>
-                      <DobLabelRow>
-                        <MonthLabel>
-                          <FormattedMessage
-                            id='identityverification.personal.dateofbirthmonth'
-                            defaultMessage='Date of Birth - Month'
-                          />
-                        </MonthLabel>
-                        <DobLabelWrapper>
-                          <DobLabel>
-                            <FormattedMessage
-                              id='identityverification.personal.date'
-                              defaultMessage='Date'
-                            />
-                          </DobLabel>
-                          <DobLabel>
-                            <FormattedMessage
-                              id='identityverification.personal.year'
-                              defaultMessage='Year'
-                            />
-                          </DobLabel>
-                        </DobLabelWrapper>
-                      </DobLabelRow>
-                      <Field
-                        name='dob'
-                        validate={[requiredDOB, ageOverEighteen]}
-                        component={LabeledDateInputBox}
-                        fullwidth
-                        label
-                        errorBottom
-                        parse={objectToDOB}
-                        format={DOBToObject}
-                      />
-                    </FormItem>
-                    {activeField === 'dob' &&
-                      !mobile && (
-                        <FaqFormMessage
-                          icon='birthday-cake-light'
-                          title={
-                            <FormattedMessage
-                              id='identityverification.personal.faq.dateofbirth.title'
-                              defaultMessage='Age requirement'
-                            />
-                          }
-                          text={
-                            <FormattedMessage
-                              id='identityverification.personal.faq.dateofbirth.text'
-                              defaultMessage='Users must be at least 18 years old to trade crypto'
-                            />
-                          }
-                        />
-                      )}
-                  </FaqFormGroup>
-                )}
-                {showPersonal && (
-                  <FaqFormGroup>
-                    <FormItem>
-                      <Label>
-                        {countryUsesZipcode(countryCode) ? (
-                          <FormattedMessage
-                            id='identityverification.personal.zipcode'
-                            defaultMessage='Zip Code'
-                          />
-                        ) : (
-                          <FormattedMessage
-                            id='identityverification.personal.postcode'
-                            defaultMessage='Postcode'
-                          />
-                        )}
-                      </Label>
-                      <Field
-                        name='postCode'
-                        onChange={onPostCodeChange}
-                        errorBottom
-                        validate={requiredZipCode}
-                        component={TextBox}
-                      />
-                      {showPersonal &&
-                        addressRefetchVisible &&
-                        !mobile && (
-                          <EmailHelper error={true}>
-                            <FormattedMessage
-                              id='identityverification.personal.addressrefetch'
-                              defaultMessage='Oops, address lookup failed. {retry}'
-                              values={{
-                                retry: (
-                                  <a
-                                    onClick={onPostCodeChange.bind(
-                                      null,
-                                      null,
-                                      postCode
-                                    )}
-                                  >
-                                    Try again?
-                                  </a>
-                                )
-                              }}
-                            />
-                          </EmailHelper>
-                        )}
-                    </FormItem>
-                    {activeField === 'postCode' && (
-                      <FaqFormMessage
-                        icon='map-marker-alt-regular'
-                        title={
-                          <FormattedMessage
-                            id='identityverification.personal.faq.postcode.title'
-                            defaultMessage='Address search'
-                          />
-                        }
-                        text={
-                          <FormattedMessage
-                            id='identityverification.personal.faq.postcode.text'
-                            defaultMessage='We try and prefill your address so you don’t have to fill out all the fields'
-                          />
-                        }
-                      />
-                    )}
-                  </FaqFormGroup>
-                )}
-                {showPersonal &&
-                  Boolean(possibleAddresses[0].items.length) && (
+                  {showStateSelect && (
                     <FaqFormGroup>
                       <FormItem>
                         <Label>
                           <FormattedMessage
-                            id='identityverification.personal.selectaddress'
-                            defaultMessage='Select Address'
+                            id='identityverification.personal.state'
+                            defaultMessage='State'
                           />
                         </Label>
                         <Field
-                          name='address'
+                          name='state'
                           validate={required}
-                          elements={possibleAddresses}
-                          onChange={onAddressSelect}
-                          templateDisplay={renderAddressDisplay}
-                          templateItem={renderAddressItem}
+                          elements={states}
                           component={SelectBox}
-                          filterOption={retainItemFilter(MANUAL_ADDRESS_ITEM)}
                           menuPlacement='auto'
-                          openMenuOnFocus={true}
+                          onChange={onStateSelect}
                           label={
                             <FormattedMessage
-                              id='identityverification.personal.selectaddress'
-                              defaultMessage='Select Address'
+                              id='identityverification.personal.label.state'
+                              defaultMessage='Select your state'
                             />
                           }
                         />
                       </FormItem>
                     </FaqFormGroup>
                   )}
-                {showAddress && (
-                  <div>
+                  {showStateError && (
+                    <ErrorBanner type='warning'>
+                      <FormattedMessage
+                        id='identityverification.personal.unavailable'
+                        defaultMessage='Unfortunately exchange is not available in your state at this time.'
+                      />
+                      <FormattedMessage
+                        id='identityverification.personal.unavailablenotify'
+                        defaultMessage='We will notify you when we expand to your area.'
+                      />
+                    </ErrorBanner>
+                  )}
+                  {showPersonal && (
+                    <FaqFormGroup>
+                      <PersonalItem>
+                        <PersonalField>
+                          <Label>
+                            <FormattedMessage
+                              id='identityverification.personal.firstname'
+                              defaultMessage='First Name'
+                            />
+                          </Label>
+                          <Field
+                            name='firstName'
+                            validate={required}
+                            component={TextBox}
+                            errorBottom
+                          />
+                        </PersonalField>
+                        <PersonalField>
+                          <Label>
+                            <FormattedMessage
+                              id='identityverification.personal.lastname'
+                              defaultMessage='Last Name'
+                            />
+                          </Label>
+                          <Field
+                            name='lastName'
+                            validate={required}
+                            component={TextBox}
+                            errorBottom
+                          />
+                        </PersonalField>
+                      </PersonalItem>
+                      {(activeField === 'firstName' ||
+                        activeField === 'lastName') &&
+                        !mobile && (
+                          <FaqFormMessage
+                            icon='id-card'
+                            title={
+                              <FormattedMessage
+                                id='identityverification.personal.faq.name.title'
+                                defaultMessage='First & Last Name'
+                              />
+                            }
+                            text={
+                              <FormattedMessage
+                                id='identityverification.personal.faq.name.text'
+                                defaultMessage='They should match exactly the details in your passport or driving license.'
+                              />
+                            }
+                          />
+                        )}
+                    </FaqFormGroup>
+                  )}
+                  {showPersonal && (
+                    <FaqFormGroup>
+                      <FormItem>
+                        <DobLabelRow>
+                          <MonthLabel>
+                            <FormattedMessage
+                              id='identityverification.personal.dateofbirthmonth'
+                              defaultMessage='Date of Birth - Month'
+                            />
+                          </MonthLabel>
+                          <DobLabelWrapper>
+                            <DobLabel>
+                              <FormattedMessage
+                                id='identityverification.personal.date'
+                                defaultMessage='Date'
+                              />
+                            </DobLabel>
+                            <DobLabel>
+                              <FormattedMessage
+                                id='identityverification.personal.year'
+                                defaultMessage='Year'
+                              />
+                            </DobLabel>
+                          </DobLabelWrapper>
+                        </DobLabelRow>
+                        <Field
+                          name='dob'
+                          validate={[requiredDOB, ageOverEighteen]}
+                          component={LabeledDateInputBox}
+                          fullwidth
+                          label
+                          errorBottom
+                          parse={objectToDOB}
+                          format={DOBToObject}
+                        />
+                      </FormItem>
+                      {activeField === 'dob' &&
+                        !mobile && (
+                          <FaqFormMessage
+                            icon='birthday-cake-light'
+                            title={
+                              <FormattedMessage
+                                id='identityverification.personal.faq.dateofbirth.title'
+                                defaultMessage='Age requirement'
+                              />
+                            }
+                            text={
+                              <FormattedMessage
+                                id='identityverification.personal.faq.dateofbirth.text'
+                                defaultMessage='Users must be at least 18 years old to trade crypto'
+                              />
+                            }
+                          />
+                        )}
+                    </FaqFormGroup>
+                  )}
+                  {showPersonal && (
                     <FaqFormGroup>
                       <FormItem>
                         <Label>
-                          <FormattedMessage
-                            id='identityverification.personal.address'
-                            defaultMessage='Address'
-                          />
+                          {countryUsesZipcode(countryCode) ? (
+                            <FormattedMessage
+                              id='identityverification.personal.zipcode'
+                              defaultMessage='Zip Code'
+                            />
+                          ) : (
+                              <FormattedMessage
+                                id='identityverification.personal.postcode'
+                                defaultMessage='Postcode'
+                              />
+                            )}
                         </Label>
                         <Field
-                          name='line1'
-                          validate={required}
-                          component={TextBox}
-                          placeholder='Street Address'
-                        />
-                      </FormItem>
-                    </FaqFormGroup>
-                    <FaqFormGroup>
-                      <FormItem>
-                        <Label>
-                          <FormattedMessage
-                            id='identityverification.personal.address2'
-                            defaultMessage='Address 2'
-                          />
-                        </Label>
-                        <Field
-                          name='line2'
-                          component={TextBox}
-                          placeholder='Apartment, unit, floor, etc..'
-                        />
-                      </FormItem>
-                    </FaqFormGroup>
-                    <FaqFormGroup>
-                      <FormItem>
-                        <Label>
-                          <FormattedMessage
-                            id='identityverification.personal.city'
-                            defaultMessage='City'
-                          />
-                        </Label>
-                        <Field
-                          name='city'
-                          validate={required}
+                          name='postCode'
+                          onChange={onPostCodeChange}
+                          errorBottom
+                          validate={requiredZipCode}
                           component={TextBox}
                         />
+                        {showPersonal &&
+                          addressRefetchVisible &&
+                          !mobile && (
+                            <EmailHelper error={true}>
+                              <FormattedMessage
+                                id='identityverification.personal.addressrefetch'
+                                defaultMessage='Oops, address lookup failed. {retry}'
+                                values={{
+                                  retry: (
+                                    <a
+                                      onClick={onPostCodeChange.bind(
+                                        null,
+                                        null,
+                                        postCode
+                                      )}
+                                    >
+                                      Try again?
+                                  </a>
+                                  )
+                                }}
+                              />
+                            </EmailHelper>
+                          )}
                       </FormItem>
+                      {activeField === 'postCode' && (
+                        <FaqFormMessage
+                          icon='map-marker-alt-regular'
+                          title={
+                            <FormattedMessage
+                              id='identityverification.personal.faq.postcode.title'
+                              defaultMessage='Address search'
+                            />
+                          }
+                          text={
+                            <FormattedMessage
+                              id='identityverification.personal.faq.postcode.text'
+                              defaultMessage='We try and prefill your address so you don’t have to fill out all the fields'
+                            />
+                          }
+                        />
+                      )}
                     </FaqFormGroup>
-                    {!showStateSelect && (
+                  )}
+                  {showPersonal &&
+                    Boolean(possibleAddresses[0].items.length) && (
                       <FaqFormGroup>
                         <FormItem>
                           <Label>
                             <FormattedMessage
-                              id='identityverification.personal.region'
-                              defaultMessage='Region'
+                              id='identityverification.personal.selectaddress'
+                              defaultMessage='Select Address'
                             />
                           </Label>
                           <Field
-                            name='state'
+                            name='address'
                             validate={required}
-                            countryCode={countryCode}
-                            component={TextBox}
+                            elements={possibleAddresses}
+                            onChange={onAddressSelect}
+                            templateDisplay={renderAddressDisplay}
+                            templateItem={renderAddressItem}
+                            component={SelectBox}
+                            filterOption={retainItemFilter(MANUAL_ADDRESS_ITEM)}
+                            menuPlacement='auto'
+                            openMenuOnFocus={true}
+                            label={
+                              <FormattedMessage
+                                id='identityverification.personal.selectaddress'
+                                defaultMessage='Select Address'
+                              />
+                            }
                           />
                         </FormItem>
                       </FaqFormGroup>
                     )}
-                  </div>
-                )}
-              </FormContainer>
-            </InputWrapper>
-          )}
-        </MediaContextConsumer>
-      }
-      footer={
-        <Footer>
-          <TermsText>
-            <Terms company='blockchain-kyc' />
-          </TermsText>
-          <Button
-            nature='primary'
-            type='submit'
-            disabled={invalid || submitting || showStateError}
-          >
-            {!submitting ? (
-              <FormattedMessage
-                id='identityverification.personal.continue'
-                defaultMessage='Continue'
-              />
-            ) : (
-              <HeartbeatLoader height='20px' width='20px' color='white' />
+                  {showAddress && (
+                    <div>
+                      <FaqFormGroup>
+                        <FormItem>
+                          <Label>
+                            <FormattedMessage
+                              id='identityverification.personal.address'
+                              defaultMessage='Address'
+                            />
+                          </Label>
+                          <Field
+                            name='line1'
+                            validate={required}
+                            component={TextBox}
+                            placeholder='Street Address'
+                          />
+                        </FormItem>
+                      </FaqFormGroup>
+                      <FaqFormGroup>
+                        <FormItem>
+                          <Label>
+                            <FormattedMessage
+                              id='identityverification.personal.address2'
+                              defaultMessage='Address 2'
+                            />
+                          </Label>
+                          <Field
+                            name='line2'
+                            component={TextBox}
+                            placeholder='Apartment, unit, floor, etc..'
+                          />
+                        </FormItem>
+                      </FaqFormGroup>
+                      <FaqFormGroup>
+                        <FormItem>
+                          <Label>
+                            <FormattedMessage
+                              id='identityverification.personal.city'
+                              defaultMessage='City'
+                            />
+                          </Label>
+                          <Field
+                            name='city'
+                            validate={required}
+                            component={TextBox}
+                          />
+                        </FormItem>
+                      </FaqFormGroup>
+                      {!showStateSelect && (
+                        <FaqFormGroup>
+                          <FormItem>
+                            <Label>
+                              <FormattedMessage
+                                id='identityverification.personal.region'
+                                defaultMessage='Region'
+                              />
+                            </Label>
+                            <Field
+                              name='state'
+                              validate={required}
+                              countryCode={countryCode}
+                              component={TextBox}
+                            />
+                          </FormItem>
+                        </FaqFormGroup>
+                      )}
+                    </div>
+                  )}
+                </FormContainer>
+              </InputWrapper>
             )}
-          </Button>
-        </Footer>
-      }
-    />
-  </IdentityVerificationForm>
-)
+          </MediaContextConsumer>
+        }
+        footer={
+          <Footer>
+            <TermsText>
+              <Terms company='blockchain-kyc' />
+            </TermsText>
+            <Button
+              nature='primary'
+              type='submit'
+              disabled={invalid || submitting || showStateError}
+            >
+              {!submitting ? (
+                <FormattedMessage
+                  id='identityverification.personal.continue'
+                  defaultMessage='Continue'
+                />
+              ) : (
+                  <HeartbeatLoader height='20px' width='20px' color='white' />
+                )}
+            </Button>
+          </Footer>
+        }
+      />
+    </IdentityVerificationForm>
+  )
 
 Personal.propTypes = {
   address: AddressPropType,

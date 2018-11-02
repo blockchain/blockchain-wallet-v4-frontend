@@ -5,6 +5,8 @@ import styled from 'styled-components'
 
 import media from 'services/ResponsiveService'
 
+import { model } from 'data'
+import { map, flip, prop } from 'ramda'
 import { Button, Image } from 'blockchain-info-components'
 import { FooterShadowWrapper } from 'components/Form'
 import {
@@ -36,13 +38,38 @@ const DocumentsWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   margin-top: 24px;
-  height: 74px;
   font-size: 18px;
   line-height: 25px;
   font-weight: 600;
+  > span:not(:first-child) {
+    margin-top: 10px;
+  }
 `
 
-const Verify = ({ handleSubmit, onBack }) => (
+const { SUPPORTED_DOCUMENTS } = model.components.identityVerification
+
+const docMap = {
+  [SUPPORTED_DOCUMENTS['PASSPORT']]: (
+    <FormattedMessage
+      id='identityverification.verify.passport'
+      defaultMessage='Government Issued Passport'
+    />
+  ),
+  [SUPPORTED_DOCUMENTS['DRIVING_LICENCE']]: (
+    <FormattedMessage
+      id='identityverification.verify.driverslicense'
+      defaultMessage='Driver’s License'
+    />
+  ),
+  [SUPPORTED_DOCUMENTS['NATIONAL_IDENTITY_CARD']]: (
+    <FormattedMessage
+      id='identityverification.verify.natitionalidcard'
+      defaultMessage='National Identity Card'
+    />
+  )
+}
+
+const Verify = ({ handleSubmit, onBack, supportedDocuments }) => (
   <IdentityVerificationForm>
     <FooterShadowWrapper
       fields={
@@ -62,14 +89,7 @@ const Verify = ({ handleSubmit, onBack }) => (
                 />
               </IdentityVerificationSubHeader>
               <DocumentsWrapper>
-                <FormattedMessage
-                  id='identityverification.verify.passport'
-                  defaultMessage='Government Issued Passport'
-                />
-                <FormattedMessage
-                  id='identityverification.verify.driverslicense'
-                  defaultMessage='Driver’s License'
-                />
+                {map(flip(prop)(docMap), supportedDocuments)}
               </DocumentsWrapper>
             </InputWrapper>
           </ColLeft>

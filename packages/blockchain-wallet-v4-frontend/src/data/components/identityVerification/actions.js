@@ -21,6 +21,15 @@ export const setSupportedCountries = countries => ({
   payload: { countries }
 })
 
+export const fetchSupportedDocuments = countryCode => ({
+  type: AT.FETCH_SUPPORTED_DOCUMENTS,
+  payload: { countryCode }
+})
+export const setSupportedDocuments = documentTypes => ({
+  type: AT.SET_SUPPORTED_DOCUMENTS,
+  payload: { documentTypes }
+})
+
 export const fetchStates = () => ({
   type: AT.FETCH_STATES
 })

@@ -68,7 +68,7 @@ export const getData = state => ({
   countryData: getCountryData(state),
   activeField: activeFieldSelector(state),
   userData: compose(
-    formatUserData,
+    lift(formatUserData),
     getUserData
   )(state)
 })

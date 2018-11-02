@@ -43,7 +43,7 @@ const Shapeshift = styled(TextGroup)`
   }
 `
 
-export const MenuTop = ({ historySelected, useShapeShift }) => (
+export const MenuTop = ({ historySelected, useShapeShift, showGetStarted }) => !showGetStarted ? (
   <Wrapper>
     <TabMenu>
       <LinkContainer to='/exchange' exact>
@@ -77,6 +77,6 @@ export const MenuTop = ({ historySelected, useShapeShift }) => (
       </Shapeshift>
     )}
   </Wrapper>
-)
+) : <div />
 
 export default connect(getData)(MenuTop)

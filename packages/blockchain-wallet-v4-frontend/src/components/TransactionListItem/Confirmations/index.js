@@ -43,7 +43,7 @@ const IconWrapper = styled.div`
 
 const explorers = {
   BTC: 'https://blockchain.info/tx',
-  ETH: 'https://etherscan.io/tx',
+  ETH: 'https://www.blockchain.com/eth/tx',
   BCH: 'https://blockchair.com/bitcoin-cash/transaction'
 }
 
