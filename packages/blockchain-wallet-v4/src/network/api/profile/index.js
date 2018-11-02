@@ -42,7 +42,7 @@ export default ({
     })
 
   const registerUserCampaign = (
-    lifetimeToken,
+    token,
     campaignName,
     campaignData,
     newUser = false
@@ -52,7 +52,7 @@ export default ({
       endPoint: '/users/register-campaign',
       contentType: 'application/json',
       headers: {
-        Authorization: `Bearer ${lifetimeToken}`,
+        Authorization: `Bearer ${token}`,
         'X-CAMPAIGN': campaignName
       },
       data: {
