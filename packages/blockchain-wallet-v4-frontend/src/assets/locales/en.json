@@ -1723,7 +1723,7 @@
   "scenes.profile.identityverification.note.inreview": "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to exchange cryptocurrency.\n {note} In some cases it can take up to 2 hours to get verified.",
   "scenes.profile.identityverification.note.rejected": "Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time.",
   "scenes.profile.identityverification.note.underreview": "We had some trouble verifying your account with the documents provided. Our Support team will contact you shortly to help you with the verification process.",
-  "scenes.profile.identityverification.note.unverified": "Complete our verification process to begin buying and selling cryptocurrency – all within your Blockchain wallet.",
+  "scenes.profile.identityverification.note.unverified": "Complete our verification process to begin exchanging cryptocurrency – all within your Blockchain wallet.",
   "scenes.profile.identityverification.note.verified": "Good news – your account is verified. You can now exchange cryptocurrency at any time.",
   "scenes.profile.identityverification.title": "Identity Verification",
   "scenes.recover.firststep.back": "Go Back",
