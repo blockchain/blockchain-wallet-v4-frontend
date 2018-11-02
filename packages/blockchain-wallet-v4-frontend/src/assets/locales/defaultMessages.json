@@ -592,6 +592,15 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Click here to add {coin} to your Blockchain Wallet",
+        "id": "components.balances.savecoin"
+      }
+    ],
+    "path": "src/components/Balances/Lockbox.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Bank Transfer Order Details",
         "id": "coinify.banktransferdetails.header"
       },
@@ -1526,22 +1535,35 @@
     "descriptors": [
       {
         "defaultMessage": "Confirm your email address to properly secure your account",
-        "id": "layouts.wallet.header.emailreminder"
+        "id": "layouts.wallet.header.announcements.emailreminder"
       },
       {
         "defaultMessage": "- An email was sent to {email}",
-        "id": "layouts.wallet.header.emailreminder.emailsent"
+        "id": "layouts.wallet.header.announcements.emailreminder.emailsent"
       },
       {
         "defaultMessage": "Resend Email",
-        "id": "layouts.wallet.header.emailreminder.resend"
+        "id": "layouts.wallet.header.announcements.emailreminder.resend"
       },
       {
         "defaultMessage": "Change Email",
-        "id": "layouts.wallet.header.emailreminder.change"
+        "id": "layouts.wallet.header.announcements.emailreminder.change"
       }
     ],
     "path": "src/layouts/Wallet/Header/Announcements/EmailReminder/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Complete your identity verification to claim your XLM.",
+        "id": "layouts.wallet.header.announcements.sunriverkycremdinder.title"
+      },
+      {
+        "defaultMessage": "Complete Now",
+        "id": "layouts.wallet.header.announcements.sunriverkycremdinder.completenow"
+      }
+    ],
+    "path": "src/layouts/Wallet/Header/Announcements/SunRiverKycReminder/template.json"
   },
   {
     "descriptors": [
@@ -10303,6 +10325,10 @@
         "id": "modals.requestxlm.share"
       },
       {
+        "defaultMessage": "Please confirm this address on your lockbox device by opening your Stellar app. <span class=\"link\">Click here</span> once the Stellar app has been opened.",
+        "id": "modals.requestxlm.firststep.lockbox"
+      },
+      {
         "defaultMessage": "Or",
         "id": "modals.requestxlm.or"
       },
@@ -10329,11 +10355,11 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "This account is currently inactive. To activate it, deposit at least one lumen (XLM) into your wallet.",
+        "defaultMessage": "Minimum of 1 XLM needed for new accounts. Learn about Stellar’s minimum balance requirement.",
         "id": "modals.sendxlm.firststep.noaccount"
       },
       {
-        "defaultMessage": "Exchange for Lumen",
+        "defaultMessage": "Exchange for XLM",
         "id": "modals.sendxlm.firststep.exchange"
       }
     ],
@@ -10405,6 +10431,10 @@
       {
         "defaultMessage": "Use total spendable balance",
         "id": "modals.sendxlm.usespendable"
+      },
+      {
+        "defaultMessage": "Learn about Stellar’s minimum balance requirement.",
+        "id": "modals.sendxlm.learnmore"
       },
       {
         "defaultMessage": "Insufficient funds",
@@ -10626,7 +10656,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Back.",
+        "defaultMessage": "Back",
         "id": "modal.createaccountlearn.back"
       },
       {
@@ -10634,19 +10664,19 @@
         "id": "modal.createaccountlearn.title"
       },
       {
-        "defaultMessage": "To submit transactions, an address must hold a minimum amount of XLM in the shared global ledger. You cannot send this XLM to other addresses. To fund a new address, you must send enough XLM to meet the reserve requirement.",
+        "defaultMessage": "Stellar requires that all Stellar accounts hold a minimum balance of Lumens, or XLM. This means you cannot send a balance out of your Stellar Wallet that would leave your Stellar Wallet with less than the minimum balance. This also means that in order to send XLM to a new Stellar account, you must send enough XLM to meet the minimum balance requirement.",
         "id": "modal.createaccountlearn.info1"
       },
       {
-        "defaultMessage": "The current minimum reserve requirement is {reserveXlm} XLM; this is the cost of an address that owns no other objects in the ledger.",
+        "defaultMessage": "The current minimum reserve requirement is 1 XLM.",
         "id": "modal.createaccountlearn.info2"
       },
       {
-        "defaultMessage": "You can read more information on the",
+        "defaultMessage": "You can read more information about Stellar’s minimum balance requirement at",
         "id": "modal.createaccountlearn.info3"
       },
       {
-        "defaultMessage": "Stellar (XLM) reserve requirements in the official documentation.",
+        "defaultMessage": "Stellar.org",
         "id": "modal.createaccountlearn.link"
       }
     ],
@@ -10655,7 +10685,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Back.",
+        "defaultMessage": "Back",
         "id": "modal.reservelearn.back"
       },
       {
@@ -11871,7 +11901,7 @@
         "id": "scenes.exchange.exchangeform.error.createtargetxlmaccount"
       },
       {
-        "defaultMessage": "This account is currently inactive. To activate it, deposit at least one lumen (XLM) into your wallet.",
+        "defaultMessage": "Minimum of 1 XLM needed for new accounts. Learn about Stellar’s minimum balance requirement.",
         "id": "scenes.exchange.exchangeform.nosourcexlmaccount"
       },
       {
