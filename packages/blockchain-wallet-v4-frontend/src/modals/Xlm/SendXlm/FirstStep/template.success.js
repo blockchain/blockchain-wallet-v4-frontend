@@ -285,7 +285,7 @@ const FirstStep = props => {
           </FormGroup>
           <FormGroup>
             <Button
-              /* 
+              /*
                * HACK: redux-form blurs on mousedown, and we change form
                * layout on blur preventing the onClick submit
                */
@@ -297,6 +297,7 @@ const FirstStep = props => {
                 submitting ||
                 invalid ||
                 isContract ||
+                disableLockboxSend ||
                 Remote.Loading.is(balanceStatus)
               }
             >
