@@ -89,7 +89,7 @@ class XlmCreateAccountLearn extends React.PureComponent {
           <Paragraph>
             <FormattedMessage
               id='modal.reservelearn.info1'
-              defaultMessage='Stellar requires that all Stellar accounts hold a minimum balance of Lumens, or XLM. This means you cannot send a balance out of your Stellar Wallet that would leave your Stellar Wallet with less than the minimum balance. This also means that in order to send XLM to new Stellar account, you must send enough XLM to meet the minimum balance requirement.'
+              defaultMessage='Stellar requires that all Stellar accounts hold a minimum balance of lumens, or XLM. This means you cannot send a balance out of your Stellar Wallet that would leave your Stellar Wallet with less than the minimum balance. This also means that in order to send XLM to new Stellar account, you must send enough XLM to meet the minimum balance requirement.'
             />
           </Paragraph>
           <br />

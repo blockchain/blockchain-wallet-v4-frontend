@@ -77,9 +77,7 @@ const FirstStep = props => {
     invalid,
     submitting,
     fee,
-    unconfirmedTx,
     destination,
-    isContract,
     toToggled,
     enableToggle,
     noAccount,
@@ -185,22 +183,6 @@ const FirstStep = props => {
                   )
                 ) : null}
               </Row>
-              {unconfirmedTx && (
-                <Text color='error' size='12px' weight={300}>
-                  <FormattedMessage
-                    id='modals.sendxlm.unconfirmedtransactionmessage'
-                    defaultMessage='Please wait until your previous transaction confirms.'
-                  />
-                </Text>
-              )}
-              {isContract && (
-                <Text color='error' size='12px' weight={300}>
-                  <FormattedMessage
-                    id='modals.sendxlm.contractaddr'
-                    defaultMessage='Sending to contract addresses is disabled.'
-                  />
-                </Text>
-              )}
             </FormItem>
           </FormGroup>
           <FormGroup margin={'15px'}>
@@ -213,7 +195,6 @@ const FirstStep = props => {
               </FormLabel>
               <Field
                 name='amount'
-                disabled={unconfirmedTx}
                 component={XlmFiatConvertor}
                 error={error}
                 coin='XLM'
@@ -296,7 +277,6 @@ const FirstStep = props => {
                 pristine ||
                 submitting ||
                 invalid ||
-                isContract ||
                 disableLockboxSend ||
                 Remote.Loading.is(balanceStatus)
               }
@@ -320,8 +300,7 @@ FirstStep.propTypes = {
   effectiveBalance: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   toToggled: PropTypes.bool.isRequired,
-  handleToToggle: PropTypes.func.isRequired,
-  unconfirmedTx: PropTypes.bool
+  handleToToggle: PropTypes.func.isRequired
 }
 
 const validate = (values, props) => {
