@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
-import { getData } from './selectors'
 import EmailReminder from './template'
 
 class EmailReminderContainer extends React.PureComponent {
@@ -22,33 +21,21 @@ class EmailReminderContainer extends React.PureComponent {
   }
 
   render () {
-    const { data } = this.props
-    const { reminded } = this.state
-
-    return data.cata({
-      Success: val => (
-        <EmailReminder
-          val={val}
-          reminded={reminded}
-          handleResendVerifyEmail={this.onResendVerifyEmail}
-        />
-      ),
-      Failure: () => null,
-      NotAsked: () => null,
-      Loading: () => null
-    })
+    return (
+      <EmailReminder
+        email={this.props.email}
+        reminded={this.state.reminded}
+        handleResendVerifyEmail={this.onResendVerifyEmail}
+      />
+    )
   }
 }
-
-const mapStateToProps = state => ({
-  data: getData(state)
-})
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.modules.securityCenter, dispatch)
 })
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(EmailReminderContainer)

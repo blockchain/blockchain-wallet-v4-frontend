@@ -8,12 +8,12 @@ import media from 'services/ResponsiveService'
 
 const reveal = keyframes`
   0% { top: 30px; }
-  15% { top: 0px; }
-  25% { top: 0px; }
-  50% { top: 0px; }
-  75% { top: 0px; }
-  85% { top: 0px; }
-  100%: { top: -30px; }
+  15% { top: 0; }
+  25% { top: 0; }
+  50% { top: 0; }
+  75% { top: 0; }
+  85% { top: 0; }
+  100% { top: -30px; }
 `
 
 const Wrapper = styled.div`
@@ -34,7 +34,6 @@ const ItemWrapper = styled.div`
 `
 const Action = styled(Text)`
   cursor: pointer;
-
   &:hover {
     text-decoration: underline;
   }
@@ -50,11 +49,10 @@ const EmailSentNotification = styled(Text)`
   }
 `
 
-const WhatsNewIcon = props => {
-  const { handleResendVerifyEmail, reminded, val } = props
-  const { email, emailVerified } = val
+const EmailReminder = props => {
+  const { handleResendVerifyEmail, reminded, email } = props
 
-  return emailVerified ? null : (
+  return (
     <Wrapper>
       <ItemWrapper>
         <Icon name='email' color='white' weight={600} />
@@ -65,7 +63,7 @@ const WhatsNewIcon = props => {
           weight={300}
         >
           <FormattedMessage
-            id='layouts.wallet.header.emailreminder'
+            id='layouts.wallet.header.announcements.emailreminder'
             defaultMessage='Confirm your email address to properly secure your account'
           />
         </Text>
@@ -77,7 +75,7 @@ const WhatsNewIcon = props => {
           className={reminded ? 'active' : ''}
         >
           <FormattedMessage
-            id='layouts.wallet.header.emailreminder.emailsent'
+            id='layouts.wallet.header.announcements.emailreminder.emailsent'
             defaultMessage='- An email was sent to {email}'
             values={{ email }}
           />
@@ -91,7 +89,7 @@ const WhatsNewIcon = props => {
           onClick={() => handleResendVerifyEmail(email)}
         >
           <FormattedMessage
-            id='layouts.wallet.header.emailreminder.resend'
+            id='layouts.wallet.header.announcements.emailreminder.resend'
             defaultMessage='Resend Email'
           />
         </Action>
@@ -101,7 +99,7 @@ const WhatsNewIcon = props => {
         >
           <Action color='white' size='14px' weight={300}>
             <FormattedMessage
-              id='layouts.wallet.header.emailreminder.change'
+              id='layouts.wallet.header.announcements.emailreminder.change'
               defaultMessage='Change Email'
             />
           </Action>
@@ -111,9 +109,10 @@ const WhatsNewIcon = props => {
   )
 }
 
-WhatsNewIcon.propTypes = {
-  handleClick: PropTypes.func.isRequired,
-  highlighted: PropTypes.bool.isRequired
+EmailReminder.propTypes = {
+  email: PropTypes.string.isRequired,
+  reminded: PropTypes.bool.isRequired,
+  handleResendVerifyEmail: PropTypes.func.isRequired
 }
 
-export default WhatsNewIcon
+export default EmailReminder
