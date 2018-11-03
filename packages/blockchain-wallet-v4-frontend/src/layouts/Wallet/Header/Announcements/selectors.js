@@ -15,8 +15,10 @@ export const getData = createDeepEqualSelector(
       const kycState = prop('kycState', userData)
       if (
         path(['tags', 'SUNRIVER'], userData) &&
-        (!equals(kycState, KYC_STATES.VERIFIED) ||
-          !equals(kycState, KYC_STATES.PENDING))
+        !(
+          equals(kycState, KYC_STATES.VERIFIED) ||
+          equals(kycState, KYC_STATES.PENDING)
+        )
       ) {
         announcementToShow = 'sunRiverKyc'
       } else if (!emailVerified) {
