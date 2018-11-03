@@ -26,6 +26,7 @@ const WelcomeModalHeader = styled(ModalHeader)`
   }
 `
 const Container = styled.div`
+  text-align: center;
   > div:nth-child(2) {
     margin: 10px 0 20px 0;
   }
@@ -46,7 +47,7 @@ class SunRiverWelcomeContainer extends React.PureComponent {
           <Text size='16px' weight={300}>
             <FormattedMessage
               id='modals.xlmairdropwelcome.verified.subtitle'
-              defaultMessage='Hang tight, you will receive your XLM within the next 7 days.'
+              defaultMessage='Hang tight, your XLM is on its way.'
             />
           </Text>
           <Button
@@ -71,13 +72,13 @@ class SunRiverWelcomeContainer extends React.PureComponent {
           <Text size='26px' weight={300}>
             <FormattedMessage
               id='modals.xlmairdropwelcome.underreview.title'
-              defaultMessage='Thank you for completing your identity verification'
+              defaultMessage='Thank you for completing your Identity Verification'
             />
           </Text>
           <Text size='16px' weight={300}>
             <FormattedMessage
               id='modals.xlmairdropwelcome.underreview.subtitle'
-              defaultMessage='Your application is still under review. Once verified, you will receive your XLM within 7 days.'
+              defaultMessage='Your application is still under review. Once verified, you will receive your XLM.'
             />
           </Text>
           <Button
@@ -107,7 +108,7 @@ class SunRiverWelcomeContainer extends React.PureComponent {
           <Text size='16px' weight={300}>
             <FormattedMessage
               id='modals.xlmairdropwelcome.inprogress.subtitle'
-              defaultMessage="Complete your identity verification to claim your XLM. Once verified, you'll be able to use our next generation trading product, Swap."
+              defaultMessage="Complete your Identity Verification to claim your XLM. Once verified, you'll be able to use our next generation trading product, Swap."
             />
           </Text>
           <Button
@@ -157,7 +158,7 @@ class SunRiverWelcomeContainer extends React.PureComponent {
     return data.cata({
       Success: value => (
         <Modal size='medium' position={position} total={total}>
-          <WelcomeModalHeader onClose={close} closeButton={false} />
+          <WelcomeModalHeader onClose={close} />
           <Image name='airdrop-welcome' width='100%' />
           <ModalBody>
             {this.determineKycState(value.userState, value.kycState)}
