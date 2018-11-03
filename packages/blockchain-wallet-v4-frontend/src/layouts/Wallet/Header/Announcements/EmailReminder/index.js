@@ -21,7 +21,6 @@ class EmailReminderContainer extends React.PureComponent {
   }
 
   render () {
-    debugger
     return (
       <EmailReminder
         email={this.props.email}
