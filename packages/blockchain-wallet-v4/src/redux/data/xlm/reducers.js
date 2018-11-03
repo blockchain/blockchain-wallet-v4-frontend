@@ -1,4 +1,12 @@
-import { assoc, lensProp, over, append, compose, dropLast } from 'ramda'
+import {
+  assoc,
+  lensProp,
+  over,
+  append,
+  prepend,
+  compose,
+  dropLast
+} from 'ramda'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
 
@@ -50,6 +58,10 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_TRANSACTIONS_FAILURE: {
       return assoc('transactions', [Remote.Failure(payload)], state)
+    }
+    case AT.ADD_NEW_TRANSACTIONS: {
+      const { txs } = payload
+      return over(lensProp('transactions'), prepend(Remote.Success(txs)), state)
     }
     case AT.TRANSACTIONS_AT_BOUND: {
       return assoc('transactionsAtBound', payload.atBound, state)
