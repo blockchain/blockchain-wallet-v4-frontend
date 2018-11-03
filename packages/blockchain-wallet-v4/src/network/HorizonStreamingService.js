@@ -1,6 +1,8 @@
 import * as StellarSDK from 'stellar-sdk'
 import { assoc, difference, dissoc, forEach, keys, prop } from 'ramda'
 
+export const RECONNECT_TIMEOUT = 5 * 60 * 1000
+
 export default class HorizonStreamingService {
   constructor ({ url }) {
     this.server = new StellarSDK.Server(url)
@@ -12,6 +14,7 @@ export default class HorizonStreamingService {
     let txBuilder = this.server.transactions().forAccount(accountId)
     if (cursor) txBuilder = txBuilder.cursor(cursor)
     const closeStream = txBuilder.stream({
+      reconnectTimeout: RECONNECT_TIMEOUT,
       onmessage: this.onMessage.bind(null, accountId),
       onerror: this.onError.bind(null, accountId)
     })

@@ -47,13 +47,13 @@ export default ({ api, coreSagas }) => {
   const registerUserCampaign = function*(newUser = false) {
     const campaignName = yield select(selectors.modules.profile.getCampaign)
     const campaignData = yield call(getCampaignData, campaignName)
-    const lifetimeToken = (yield select(
-      selectors.core.kvStore.userCredentials.getLifetimeToken
+    const token = (yield select(
+      selectors.modules.profile.getApiToken
     )).getOrFail()
 
     yield call(
       api.registerUserCampaign,
-      lifetimeToken,
+      token,
       campaignName,
       campaignData,
       newUser
