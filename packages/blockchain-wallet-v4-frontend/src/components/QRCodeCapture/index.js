@@ -158,7 +158,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     if (!isNil(data) && !isEmpty(data)) {
       const handlerName = this.getScanHandlerKey()
       this[handlerName](data)
-      this.setState({ togggled: false })
+      this.setState({ toggled: false })
     }
   }
 
