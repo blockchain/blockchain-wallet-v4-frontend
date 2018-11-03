@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { actions } from 'data'
 import { getData } from './selectors'
 import EmailReminder from './EmailReminder'
 import SunRiverKycReminder from './SunRiverKycReminder'
@@ -9,12 +8,10 @@ import SunRiverKycReminder from './SunRiverKycReminder'
 class AnnouncementsContainer extends React.PureComponent {
   render () {
     const { data } = this.props
-    debugger
 
     return data.cata({
       Success: val => {
-        console.info(val)
-        switch(val.announcement) {
+        switch (val.announcementToShow) {
           case 'email':
             return <EmailReminder email={val.email} />
           case 'sunRiverKyc':

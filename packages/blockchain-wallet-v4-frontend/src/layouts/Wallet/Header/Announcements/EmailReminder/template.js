@@ -34,7 +34,6 @@ const ItemWrapper = styled.div`
 `
 const Action = styled(Text)`
   cursor: pointer;
-
   &:hover {
     text-decoration: underline;
   }

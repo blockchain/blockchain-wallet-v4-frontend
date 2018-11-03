@@ -1,7 +1,7 @@
 import { lift, equals, path, prop } from 'ramda'
 import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { KYC_STATES, USER_ACTIVATION_STATES } from 'data/modules/profile/model'
+import { KYC_STATES } from 'data/modules/profile/model'
 
 export const getData = createDeepEqualSelector(
   [
@@ -11,15 +11,18 @@ export const getData = createDeepEqualSelector(
   ],
   (emailR, emailVerifiedR, userDataR) => {
     return lift((email, emailVerified, userData) => {
-      debugger
+      let announcementToShow
       const kycState = prop('kycState', userData)
-      debugger
-      const needsSunRiverKyc =
+      if (
         path(['tags', 'SUNRIVER'], userData) &&
         (!equals(kycState, KYC_STATES.VERIFIED) ||
           !equals(kycState, KYC_STATES.PENDING))
-      debugger
-      return { email, announcement: emailVerified ? needsSunRiverKyc : 'email' }
+      ) {
+        announcementToShow = 'sunRiverKyc'
+      } else if (!emailVerified) {
+        announcementToShow = 'email'
+      }
+      return { email, announcementToShow }
     })(emailR, emailVerifiedR, userDataR)
   }
 )
