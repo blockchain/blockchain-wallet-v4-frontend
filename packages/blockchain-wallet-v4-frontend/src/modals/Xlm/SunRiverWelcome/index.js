@@ -92,7 +92,10 @@ class SunRiverWelcomeContainer extends React.PureComponent {
           </Button>
         </Container>
       )
-    } else if (userState === USER_ACTIVATION_STATES.ACTIVE) {
+    } else if (
+      userState === USER_ACTIVATION_STATES.CREATED ||
+      userState === USER_ACTIVATION_STATES.ACTIVE
+    ) {
       return (
         <Container>
           <Text size='26px' weight={300}>

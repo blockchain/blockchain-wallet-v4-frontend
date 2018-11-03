@@ -17,17 +17,13 @@ const Wrapper = styled.div`
 `
 
 const BalancesTable = props => {
-  const { currentTab, lockboxEnabled } = props
-  return lockboxEnabled ? (
+  const { currentTab } = props
+  return (
     <Wrapper>
       <Tabs {...props} />
       {currentTab === 'total' && <Table viewType='Total' />}
       {currentTab === 'wallet' && <Table viewType='Wallet' />}
       {currentTab === 'lockbox' && <Table viewType='Lockbox' />}
-    </Wrapper>
-  ) : (
-    <Wrapper>
-      <Table viewType='Wallet' />
     </Wrapper>
   )
 }

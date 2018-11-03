@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { toLower } from 'ramda'
 
 import { Icon, Text } from 'blockchain-info-components'
 
@@ -27,23 +28,14 @@ const FiatDisplay = props => {
     color,
     cursor,
     mobileSize,
-    ...rest
+    className
   } = props
 
   return (
-    <Wrapper {...rest}>
-      {showIcon &&
-        coin === 'BTC' && (
-          <Icon name='btc' size={size} weight={weight} color={color} />
-        )}
-      {showIcon &&
-        coin === 'ETH' && (
-          <Icon name='eth' size={size} weight={weight} color={color} />
-        )}
-      {showIcon &&
-        coin === 'BCH' && (
-          <Icon name='bch' size={size} weight={weight} color={color} />
-        )}
+    <Wrapper className={className}>
+      {showIcon && (
+        <Icon name={toLower(coin)} size={size} weight={weight} color={color} />
+      )}
       <FiatText
         mobileSize={mobileSize}
         size={size}

@@ -18,6 +18,7 @@ import * as refresh from './refresh/actions'
 import * as requestBtc from './requestBtc/actions'
 import * as requestBch from './requestBch/actions'
 import * as requestEth from './requestEth/actions'
+import * as requestXlm from './requestXlm/actions'
 import * as sendBch from './sendBch/actions'
 import * as sendBtc from './sendBtc/actions'
 import * as sendEth from './sendEth/actions'
@@ -48,6 +49,7 @@ export {
   requestBtc,
   requestBch,
   requestEth,
+  requestXlm,
   sendBch,
   sendBtc,
   sendEth,

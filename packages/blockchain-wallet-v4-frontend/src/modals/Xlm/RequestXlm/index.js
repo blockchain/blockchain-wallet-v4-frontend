@@ -60,6 +60,10 @@ class RequestXlmContainer extends React.PureComponent {
     this.props.dataXlmActions.fetchData()
   }
 
+  handleOpenLockbox = () => {
+    this.props.requestXlmActions.openLockboxAppClicked()
+  }
+
   render () {
     const { data, closeAll, selection, coins } = this.props
 
@@ -72,6 +76,7 @@ class RequestXlmContainer extends React.PureComponent {
           coins={coins}
           selection={selection}
           onSubmit={this.onSubmit}
+          handleOpenLockbox={this.handleOpenLockbox}
         />
       ),
       NotAsked: () => <DataError onClick={this.handleRefresh} />,
@@ -104,6 +109,10 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  requestXlmActions: bindActionCreators(
+    actions.components.requestXlm,
+    dispatch
+  ),
   kvStoreXlmActions: bindActionCreators(actions.core.kvStore.xlm, dispatch),
   dataXlmActions: bindActionCreators(actions.core.data.xlm, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),

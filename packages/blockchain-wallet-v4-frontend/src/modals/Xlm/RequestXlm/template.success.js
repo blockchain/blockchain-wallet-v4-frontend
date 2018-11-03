@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import QRCodeReact from 'qrcode.react'
 
 import { required } from 'services/FormHelper'
 import {
+  Banner,
   Button,
   Separator,
   Text,
@@ -41,8 +42,22 @@ const QRCodeContainer = styled.div`
 const ScanMessage = styled.div`
   padding-bottom: 20px;
 `
+const BannerContainer = styled.div`
+  margin-top: 5px;
+  .link {
+    cursor: pointer;
+    text-decoration: underline;
+    color: ${props => props.theme['brrand-primary']};
+  }
+`
 
-const RequestXlm = ({ handleSubmit, address, xlmURI }) => (
+const RequestXlm = ({
+  handleSubmit,
+  handleOpenLockbox,
+  address,
+  xlmURI,
+  type
+}) => (
   <Form onSubmit={handleSubmit}>
     <FormGroup inline margin={'20px'}>
       <FormItem>
@@ -85,6 +100,16 @@ const RequestXlm = ({ handleSubmit, address, xlmURI }) => (
         <CopyClipboard address={address} />
       </AddressContainer>
     </FormGroup>
+    {type === 'LOCKBOX' && (
+      <BannerContainer onClick={handleOpenLockbox}>
+        <Banner type='alert'>
+          <FormattedHTMLMessage
+            id='modals.requestxlm.firststep.lockbox'
+            defaultMessage='Please confirm this address on your lockbox device by opening your Stellar app. <span class=&quot;link&quot;>Click here</span> once the Stellar app has been opened.'
+          />
+        </Banner>
+      </BannerContainer>
+    )}
     <Separator margin={'20px 0'}>
       <Text size='14px' weight={300} uppercase>
         <FormattedMessage id='modals.requestxlm.or' defaultMessage='Or' />

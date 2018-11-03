@@ -16,6 +16,7 @@ import refresh from './refresh/sagas'
 import requestBtc from './requestBtc/sagas'
 import requestBch from './requestBch/sagas'
 import requestEth from './requestEth/sagas'
+import requestXlm from './requestXlm/sagas'
 import sendBch from './sendBch/sagas'
 import sendBtc from './sendBtc/sagas'
 import sendEth from './sendEth/sagas'
@@ -44,6 +45,7 @@ export default ({ api, coreSagas, options, networks }) => ({
   requestBtc: requestBtc(),
   requestBch: requestBch(),
   requestEth: requestEth(),
+  requestXlm: requestXlm(),
   sendBch: sendBch({ api, coreSagas }),
   sendBtc: sendBtc({ api, coreSagas }),
   sendEth: sendEth({ api, coreSagas }),

@@ -199,7 +199,8 @@ export default ({ api, coreSagas, networks, options }) => {
           .create()
           .chain()
           .init()
-          .fee('priority')
+          .from(sourceAddressOrIndex, addressType)
+          .memoType('text')
           .memo(memo)
           .amount(amount)
         break
