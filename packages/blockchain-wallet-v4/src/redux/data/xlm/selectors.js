@@ -1,5 +1,4 @@
 import {
-  add,
   compose,
   curry,
   find,
@@ -10,7 +9,7 @@ import {
   prop,
   propOr,
   propEq,
-  reduce
+  sum
 } from 'ramda'
 
 import { dataPath } from '../../paths'
@@ -34,7 +33,7 @@ export const getContext = createDeepEqualSelector(
 export const getAccounts = path([dataPath, 'xlm', 'data'])
 
 export const getAccount = curry((accountId, state) =>
-  getAccounts(state).map(prop(accountId))
+  propOr(Remote.NotAsked, accountId, getAccounts(state))
 )
 
 export const getBaseReserve = compose(
@@ -95,8 +94,9 @@ export const getBalance = curry(
 
 export const getTotalBalance = state =>
   compose(
-    reduce(lift(add), Remote.of(0)),
-    map(accountId => getBalance(accountId, state)),
+    Remote.of,
+    sum,
+    map(accountId => getBalance(accountId, state).getOrElse(0)),
     getContext
   )(state)
 
