@@ -1,4 +1,4 @@
-import { compose, head, indexBy, keys, map, prop } from 'ramda'
+import { compose, head, indexBy, map, pathOr, prop, unnest } from 'ramda'
 import { actions, actionTypes } from 'data'
 
 const logLocation = 'middleware/streamingXlm'
@@ -16,6 +16,20 @@ const streamingMiddleware = (streamingService, api) => {
         id: publicKey,
         txCursor
       }))
+      .catch(() => ({
+        id: publicKey
+      }))
+  const updateStreams = accountIds =>
+    Promise.all(map(addCursor, accountIds))
+      .then(indexBy(prop('id')))
+      .then(streamingService.updateStreams)
+      .catch(error =>
+        actions.logs.logErrorMessage(
+          logLocation,
+          'streamingMiddleware',
+          prop('message', error)
+        )
+      )
   return store => next => action => {
     const { type, payload } = action
 
@@ -31,20 +45,24 @@ const streamingMiddleware = (streamingService, api) => {
         )
       )
     }
-    if (type === actionTypes.core.data.xlm.FETCH_DATA_SUCCESS) {
-      const accountIds = keys(payload.data)
-      Promise.all(map(addCursor, accountIds))
-        .then(indexBy(prop('id')))
-        .then(streamingService.updateStreams)
-        .catch(error =>
-          actions.logs.logErrorMessage(
-            logLocation,
-            'streamingMiddleware',
-            prop('message', error)
-          )
-        )
+    if (type === actionTypes.core.kvStore.xlm.FETCH_METADATA_XLM_SUCCESS) {
+      const accountIds = compose(
+        map(prop('publicKey')),
+        pathOr([], ['value', 'accounts'])
+      )(payload)
+      updateStreams(accountIds)
     }
-
+    if (
+      type === actionTypes.core.kvStore.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS
+    ) {
+      const accountIds = compose(
+        map(prop('publicKey')),
+        unnest,
+        map(pathOr([], ['xlm', 'accounts'])),
+        pathOr([], ['value', 'devices'])
+      )(payload)
+      updateStreams(accountIds)
+    }
     if (type === actionTypes.middleware.webSocket.xlm.STOP_STREAMS) {
       streamingService.close()
     }
