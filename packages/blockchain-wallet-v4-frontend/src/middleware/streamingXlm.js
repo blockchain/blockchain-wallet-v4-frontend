@@ -19,10 +19,10 @@ const streamingMiddleware = (streamingService, api) => {
       .catch(() => ({
         id: publicKey
       }))
-  const updateStreams = accountIds =>
+  const addStreams = accountIds =>
     Promise.all(map(addCursor, accountIds))
       .then(indexBy(prop('id')))
-      .then(streamingService.updateStreams)
+      .then(streamingService.addStreams)
       .catch(error =>
         actions.logs.logErrorMessage(
           logLocation,
@@ -50,7 +50,7 @@ const streamingMiddleware = (streamingService, api) => {
         map(prop('publicKey')),
         pathOr([], ['value', 'accounts'])
       )(payload)
-      updateStreams(accountIds)
+      addStreams(accountIds)
     }
     if (
       type === actionTypes.core.kvStore.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS
@@ -61,7 +61,7 @@ const streamingMiddleware = (streamingService, api) => {
         map(pathOr([], ['xlm', 'accounts'])),
         pathOr([], ['value', 'devices'])
       )(payload)
-      updateStreams(accountIds)
+      addStreams(accountIds)
     }
     if (type === actionTypes.middleware.webSocket.xlm.STOP_STREAMS) {
       streamingService.close()
