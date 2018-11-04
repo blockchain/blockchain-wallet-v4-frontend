@@ -22,7 +22,7 @@ class AddBtcWalletContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  wallet: formValueSelector('addBitcoinWallet')(state, 'wallet')
+  wallet: formValueSelector('addBtcWallet')(state, 'wallet')
 })
 
 const mapDispatchToProps = dispatch => ({
