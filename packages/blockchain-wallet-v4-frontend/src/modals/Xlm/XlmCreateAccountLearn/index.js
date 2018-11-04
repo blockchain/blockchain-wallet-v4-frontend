@@ -73,8 +73,6 @@ class XlmCreateAccountLearn extends React.PureComponent {
             <FormattedMessage
               id='modal.createaccountlearn.info2'
               defaultMessage='The current minimum reserve requirement is 1 XLM.'
-              // had to hard code 1 because reserveXlm is coming from the selectors file. If I incldue that in this file, I get a BigNumber error
-              // values={{ reserveXlm }}
             />
           </Paragraph>
           <br />

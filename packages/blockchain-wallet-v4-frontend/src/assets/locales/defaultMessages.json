@@ -6083,10 +6083,6 @@
         "id": "modal.createaccountlearn.info1"
       },
       {
-        "defaultMessage": "The current minimum reserve requirement is 1 XLM.",
-        "id": "modal.createaccountlearn.info2"
-      },
-      {
         "defaultMessage": "You can read more information about Stellar’s minimum balance requirement at",
         "id": "modal.createaccountlearn.info3"
       },
