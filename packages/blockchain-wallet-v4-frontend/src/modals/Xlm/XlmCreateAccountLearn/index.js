@@ -72,7 +72,7 @@ class XlmCreateAccountLearn extends React.PureComponent {
           <Paragraph>
             <FormattedMessage
               id='modal.createaccountlearn.info2'
-              defaultMessage='The current minimum reserve requirement is 1 XLM.'
+              defaultMessage='The current minimum balance requirement is 1 XLM.'
             />
           </Paragraph>
           <br />
