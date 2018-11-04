@@ -1,5 +1,5 @@
 import * as StellarSDK from 'stellar-sdk'
-import { assoc, difference, dissoc, forEach, keys, prop } from 'ramda'
+import { assoc, difference, dissoc, forEach, keys, prop, isEmpty } from 'ramda'
 
 export const RECONNECT_TIMEOUT = 5 * 60 * 1000
 
@@ -38,6 +38,7 @@ export default class HorizonStreamingService {
     const accountIds = keys(accounts)
     const currentAccountIds = keys(this.streams)
     const addedAccounts = difference(accountIds, currentAccountIds)
+    if (isEmpty(addedAccounts)) return
 
     forEach(
       id => this._subscribeToAccount(id, accounts[id].txCursor),
