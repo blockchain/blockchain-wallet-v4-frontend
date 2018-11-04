@@ -35,8 +35,6 @@ export const getData = createDeepEqualSelector(
         'destinationAccountExists',
         payment
       )
-      const unconfirmedTx = prop('unconfirmedTx', payment)
-      const isContract = prop('isContract', payment)
       const fee = propOr('0', 'fee', payment)
       const destination = prop('to', formValues)
       const from = prop('from', formValues)
@@ -44,8 +42,6 @@ export const getData = createDeepEqualSelector(
       return {
         activeField,
         effectiveBalance,
-        unconfirmedTx,
-        isContract,
         fee,
         toToggled,
         enableToggle,

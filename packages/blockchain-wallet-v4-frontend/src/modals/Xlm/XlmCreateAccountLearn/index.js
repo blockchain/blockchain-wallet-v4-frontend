@@ -65,7 +65,7 @@ class XlmCreateAccountLearn extends React.PureComponent {
           <Paragraph>
             <FormattedMessage
               id='modal.createaccountlearn.info1'
-              defaultMessage='Stellar requires that all Stellar accounts hold a minimum balance of Lumens, or XLM. This means you cannot send a balance out of your Stellar Wallet that would leave your Stellar Wallet with less than the minimum balance. This also means that in order to send XLM to a new Stellar account, you must send enough XLM to meet the minimum balance requirement.'
+              defaultMessage='Stellar requires that all Stellar accounts hold a minimum balance of lumens, or XLM. This means you cannot send a balance out of your Stellar Wallet that would leave your Stellar Wallet with less than the minimum balance. This also means that in order to send XLM to a new Stellar account, you must send enough XLM to meet the minimum balance requirement.'
             />
           </Paragraph>
           <br />
@@ -73,8 +73,6 @@ class XlmCreateAccountLearn extends React.PureComponent {
             <FormattedMessage
               id='modal.createaccountlearn.info2'
               defaultMessage='The current minimum reserve requirement is 1 XLM.'
-              // had to hard code 1 because reserveXlm is coming from the selectors file. If I incldue that in this file, I get a BigNumber error
-              // values={{ reserveXlm }}
             />
           </Paragraph>
           <br />
