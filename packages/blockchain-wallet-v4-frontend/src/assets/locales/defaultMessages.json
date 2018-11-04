@@ -587,15 +587,6 @@
         "id": "components.balances.savecoin"
       }
     ],
-    "path": "src/components/Balances/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Click here to add {coin} to your Blockchain Wallet",
-        "id": "components.balances.savecoin"
-      }
-    ],
     "path": "src/components/Balances/Lockbox.json"
   },
   {
@@ -5095,35 +5086,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Verify Your Identity",
-        "id": "identityverification.verify.header"
-      },
-      {
-        "defaultMessage": "Last step! We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.",
-        "id": "identityverification.verify.message"
-      },
-      {
-        "defaultMessage": "Government Issued Passport",
-        "id": "identityverification.verify.passport"
-      },
-      {
-        "defaultMessage": "Driver’s License",
-        "id": "identityverification.verify.driverslicense"
-      },
-      {
-        "defaultMessage": "Back",
-        "id": "identityverification.personal.back"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "identityverification.personal.continue"
-      }
-    ],
-    "path": "src/modals/IdentityVerification/Verify.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Government Issued Passport",
         "id": "identityverification.verify.passport"
       },
@@ -5702,47 +5664,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Update Lockbox Firmware",
-        "id": "modals.lockboxfirmware.checkforupdates.title"
-      },
-      {
-        "defaultMessage": "Follow the steps below to continue",
-        "id": "modals.lockboxfirmware.checkforupdates.subtitle"
-      },
-      {
-        "defaultMessage": "1) Connect and open the Dashboard on your Lockbox",
-        "id": "modals.lockboxfirmware.checkforupdates.connectdevice"
-      },
-      {
-        "defaultMessage": "Retry",
-        "id": "modals.lockboxfirmware.checkforupdates.retry"
-      },
-      {
-        "defaultMessage": "2) Check device firmware version",
-        "id": "modals.lockboxfirmware.checkforupdates.installed"
-      },
-      {
-        "defaultMessage": "3) Get latest firmware version",
-        "id": "modals.lockboxfirmware.checkforupdates.latest"
-      },
-      {
-        "defaultMessage": "An update is available for your device!",
-        "id": "modals.lockboxfirmware.checkforupdates.deviceoutdated"
-      },
-      {
-        "defaultMessage": "Congrats! Your device is up to date!",
-        "id": "modals.lockboxfirmware.checkforupdates.deviceuptodated"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "modals.lockboxfirmware.checkforupdates.continue"
-      }
-    ],
-    "path": "src/modals/LockboxFirmware/CheckForUpdatesStep/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Checking for Updates",
         "id": "modals.lockboxfirmware.checkversionsstep.title"
       },
@@ -5801,19 +5722,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Step 3. Verify the identifier",
-        "id": "modals.lockboxfirmware.confirmidentifierstep.title"
-      },
-      {
-        "defaultMessage": "Confirm",
-        "id": "modals.lockboxfirmware.confirmidentifierstep.confirm"
-      }
-    ],
-    "path": "src/modals/LockboxFirmware/ConfirmIdentifierStep/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Connect your Lockbox",
         "id": "modals.lockboxfirmware.connectdevice.title"
       },
@@ -5844,28 +5752,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Step 4. Update MCU",
-        "id": "modals.lockboxfirmware.installmcu.title"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "modals.lockboxfirmware.installmcu.continue"
-      }
-    ],
-    "path": "src/modals/LockboxFirmware/InstallMcuStep/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Step {number}",
-        "id": "modals.lockboxfirmware.header.step"
-      }
-    ],
-    "path": "src/modals/LockboxFirmware/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Verify Your Device",
         "id": "modals.lockboxfirmware.uninstallapps.title"
       },
@@ -5879,19 +5765,6 @@
       }
     ],
     "path": "src/modals/LockboxFirmware/UninstallAppsStep/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Install Latest Firmware",
-        "id": "modals.lockboxfirmware.upgradefirmwarestep.title"
-      },
-      {
-        "defaultMessage": "Implement this...",
-        "id": "modals.lockboxfirmware.upgradefirmwarestep.subtitle"
-      }
-    ],
-    "path": "src/modals/LockboxFirmware/UpgradeFirmwareStep/template.json"
   },
   {
     "descriptors": [
@@ -5946,23 +5819,6 @@
       }
     ],
     "path": "src/modals/LockboxSetup/ConnectDeviceStep/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Whoops!",
-        "id": "modals.lockboxsetup.duplicatedevice.title"
-      },
-      {
-        "defaultMessage": "This device has already been associated with your Blockchain Wallet. Please connect a new device and restart this process.",
-        "id": "modals.lockboxsetup.duplicatedevice.subtitle"
-      },
-      {
-        "defaultMessage": "OK",
-        "id": "modals.lockboxsetup.duplicatedevice.continue"
-      }
-    ],
-    "path": "src/modals/LockboxSetup/DuplicateDeviceStep/template.json"
   },
   {
     "descriptors": [
@@ -6308,14 +6164,6 @@
         "id": "modals.promptforlockbox.connectcoinapp.content"
       },
       {
-        "defaultMessage": "Connect and unlock your hardware device. Then open the {coin} app on the device.",
-        "id": "modals.promptforlockbox.connectcoinapp.contentgeneric"
-      },
-      {
-        "defaultMessage": "Note: If you do not have the {coin} app on your device you can install it via the settings page.",
-        "id": "modals.promptforlockbox.connectcoinapp.contentgenericnote"
-      },
-      {
         "defaultMessage": "Review Transaction Details",
         "id": "modals.promptforlockbox.connectcoinapp.title.review"
       },
@@ -6328,24 +6176,12 @@
         "id": "modals.promptforlockbox.connectcoinapp.title.success"
       },
       {
-        "defaultMessage": "{coin} Success",
-        "id": "modals.promptforlockbox.connectcoinapp.title.successgeneric"
-      },
-      {
         "defaultMessage": "Your transaction was sent. Please allow for it to confirm on the network.",
         "id": "modals.promptforlockbox.connectcoinapp.success"
       },
       {
-        "defaultMessage": "{coin} successfully connected.",
-        "id": "modals.promptforlockbox.connectcoinapp.successgeneric"
-      },
-      {
         "defaultMessage": "Transaction Failed",
         "id": "modals.promptforlockbox.connectcoinapp.title.error"
-      },
-      {
-        "defaultMessage": "An Error Occurred",
-        "id": "modals.promptforlockbox.connectcoinapp.title.errorgeneric"
       },
       {
         "defaultMessage": "Something went wrong. Please reconnect your device and try again.",
@@ -6353,35 +6189,6 @@
       }
     ],
     "path": "src/modals/PromptLockbox/model.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Connect {coin} App",
-        "id": "modals.promptforlockbox.title"
-      },
-      {
-        "defaultMessage": "Connect and unlock your hardware device. Then open the <b>{coin} app</b> on the device.",
-        "id": "modals.promptforlockbox.connectcoinapp"
-      },
-      {
-        "defaultMessage": "Review the transaction details on your device screen. Press the top right button to confirm and sign the transaction.",
-        "id": "modals.promptforlockbox.confirmcointx"
-      },
-      {
-        "defaultMessage": "Success! Click to Continue",
-        "id": "modals.promptforlockbox.button.success"
-      },
-      {
-        "defaultMessage": "Connect Your Lockbox",
-        "id": "modals.promptforlockbox.button.connect"
-      },
-      {
-        "defaultMessage": "Confirm Transaction on Device",
-        "id": "modals.promptforlockbox.button.review"
-      }
-    ],
-    "path": "src/modals/PromptLockbox/template.json"
   },
   {
     "descriptors": [
@@ -6399,118 +6206,6 @@
       }
     ],
     "path": "src/modals/QRCode/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Backup recovery phrase",
-        "id": "modals.recoveryphrase.firststep.title"
-      },
-      {
-        "defaultMessage": "Security tip",
-        "id": "modals.recoveryphrase.firststep.tip"
-      },
-      {
-        "defaultMessage": "Do not store your Recovery Phrase on your computer or online.",
-        "id": "modals.recoveryphrase.firststep.explain"
-      },
-      {
-        "defaultMessage": "It is very important to keep your Recovery Phrase offline in a safe and private place.",
-        "id": "modals.recoveryphrase.firststep.explain2"
-      },
-      {
-        "defaultMessage": "Anyone with access to your Recovery Phrase has access to your funds.",
-        "id": "modals.recoveryphrase.firststep.explain3"
-      },
-      {
-        "defaultMessage": "We have created a printable Recovery Sheet to help you conveniently keep your Recovery Phrase safe.",
-        "id": "modals.recoveryphrase.firststep.explain4"
-      },
-      {
-        "defaultMessage": "Print the blank Recovery Sheet and then move onto the next step to fill it in.",
-        "id": "modals.recoveryphrase.firststep.explain5"
-      },
-      {
-        "defaultMessage": "Print Recovery Sheet",
-        "id": "modals.recoveryphrase.firststep.print"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "modals.recoveryphrase.firststep.cancel"
-      },
-      {
-        "defaultMessage": "Next step",
-        "id": "modals.recoveryphrase.firststep.logout"
-      }
-    ],
-    "path": "src/modals/RecoveryPhrase/FirstStep/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Backup recovery phrase",
-        "id": "modals.recoveryphrase.secondstep.title"
-      },
-      {
-        "defaultMessage": "Write it down",
-        "id": "modals.recoveryphrase.secondstep.tip"
-      },
-      {
-        "defaultMessage": "Use a pen to legibly write down the following 12 words onto your printed Recovery Sheet.",
-        "id": "modals.recoveryphrase.secondstep.explain"
-      },
-      {
-        "defaultMessage": "It is important that you write down the words exactly as they appear here and in this order.",
-        "id": "modals.recoveryphrase.secondstep.explain2"
-      },
-      {
-        "defaultMessage": "Word {number}",
-        "id": "modals.recoveryphrase.secondstep.number"
-      },
-      {
-        "defaultMessage": "Back",
-        "id": "modals.recoveryphrase.secondstep.back"
-      },
-      {
-        "defaultMessage": "Final step",
-        "id": "modals.recoveryphrase.secondstep.next"
-      }
-    ],
-    "path": "src/modals/RecoveryPhrase/SecondStep/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Backup recovery phrase",
-        "id": "modals.recoveryphrase.title"
-      },
-      {
-        "defaultMessage": "Verify",
-        "id": "modals.recoveryphrase.tip"
-      },
-      {
-        "defaultMessage": "Using the completed Recovery Sheet as a reference, please enter the following words from your Recovery Phrase to complete the backup process.",
-        "id": "modals.recoveryphrase.explain"
-      },
-      {
-        "defaultMessage": "Back",
-        "id": "modals.recoveryphrase.thirdstep.back"
-      },
-      {
-        "defaultMessage": "Finish",
-        "id": "modals.recoveryphrase.thirdstep.finish"
-      }
-    ],
-    "path": "src/modals/RecoveryPhrase/ThirdStep/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Word {number} :",
-        "id": "modals.recoveryphrase.thirdstep.word"
-      }
-    ],
-    "path": "src/modals/RecoveryPhrase/ThirdStep/WordInput/index.json"
   },
   {
     "descriptors": [
@@ -6691,44 +6386,6 @@
       }
     ],
     "path": "src/modals/RequestEth/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Request Stellar",
-        "id": "modals.requestxlm.title"
-      }
-    ],
-    "path": "src/modals/RequestXlm/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Currency:",
-        "id": "modals.requestxlm.coin"
-      },
-      {
-        "defaultMessage": "Receive to:",
-        "id": "modals.requestbitcoin.firststep.to"
-      },
-      {
-        "defaultMessage": "Copy & Share Address:",
-        "id": "modals.requestxlm.share"
-      },
-      {
-        "defaultMessage": "Or",
-        "id": "modals.requestxlm.or"
-      },
-      {
-        "defaultMessage": "Scan QR Code:",
-        "id": "modals.requestxlm.scan"
-      },
-      {
-        "defaultMessage": "Done",
-        "id": "modals.requestxlm.done"
-      }
-    ],
-    "path": "src/modals/RequestXlm/template.success.json"
   },
   {
     "descriptors": [
@@ -7248,158 +6905,6 @@
       }
     ],
     "path": "src/modals/SendEth/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Your available balance is {currencySymbol}{effectiveBalanceFiat} (minus fee). Learn about Stellar’s minimum balance.",
-        "id": "modals.sendxlm.reserveinfo"
-      }
-    ],
-    "path": "src/modals/SendXlm/FirstStep/InfoBanner/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Use maximum",
-        "id": "modals.sendxlm.maximumamountlink.maximum"
-      }
-    ],
-    "path": "src/modals/SendXlm/FirstStep/MaximumAmountLink/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "This account is currently inactive. To activate it, deposit at least one lumen (XLM) into your wallet.",
-        "id": "modals.sendxlm.firststep.noaccount"
-      },
-      {
-        "defaultMessage": "Exchange for Lumen",
-        "id": "modals.sendxlm.firststep.exchange"
-      }
-    ],
-    "path": "src/modals/SendXlm/FirstStep/NoAccountTemplate/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Learn more",
-        "id": "modals.sendxlm.reservelearn"
-      }
-    ],
-    "path": "src/modals/SendXlm/FirstStep/ReserveLearnLink/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Regular",
-        "id": "modals.sendeth.firststep.fee.regular"
-      },
-      {
-        "defaultMessage": "Priority",
-        "id": "modals.sendeth.firststep.fee.priority"
-      }
-    ],
-    "path": "src/modals/SendXlm/FirstStep/selectors.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Currency:",
-        "id": "modals.sendxlm.firststep.coin"
-      },
-      {
-        "defaultMessage": "From:",
-        "id": "modals.sendxlm.firststep.from"
-      },
-      {
-        "defaultMessage": "Sending Stellar from Lockbox can only be done while using the Chrome browser",
-        "id": "modals.sendxlm.firststep.lockboxwarn"
-      },
-      {
-        "defaultMessage": "To:",
-        "id": "modals.sendxlm.firststep.to"
-      },
-      {
-        "defaultMessage": "Please wait until your previous transaction confirms.",
-        "id": "modals.sendxlm.unconfirmedtransactionmessage"
-      },
-      {
-        "defaultMessage": "Sending to contract addresses is disabled.",
-        "id": "modals.sendxlm.contractaddr"
-      },
-      {
-        "defaultMessage": "Enter amount:",
-        "id": "modals.sendxlm.firststep.amount"
-      },
-      {
-        "defaultMessage": "Description:",
-        "id": "modals.sendxlm.firststep.description"
-      },
-      {
-        "defaultMessage": "Memo:",
-        "id": "modals.sendxlm.firststep.memo"
-      },
-      {
-        "defaultMessage": "Transaction Fee:",
-        "id": "modals.sendxlm.firststep.fee"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "modals.sendxlm.firststep.continue"
-      }
-    ],
-    "path": "src/modals/SendXlm/FirstStep/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "From:",
-        "id": "modals.sendxlm.secondstep.from"
-      },
-      {
-        "defaultMessage": "To:",
-        "id": "modals.sendxlm.secondstep.to"
-      },
-      {
-        "defaultMessage": "Note:",
-        "id": "modals.sendxlm.secondstep.note"
-      },
-      {
-        "defaultMessage": "Memo",
-        "id": "modals.sendxlm.secondstep.memo"
-      },
-      {
-        "defaultMessage": "Payment:",
-        "id": "modals.sendxlm.secondstep.payment"
-      },
-      {
-        "defaultMessage": "Fee:",
-        "id": "modals.sendxlm.secondstep.fee"
-      },
-      {
-        "defaultMessage": "Total",
-        "id": "modals.sendxlm.secondstep.total"
-      },
-      {
-        "defaultMessage": "Send Stellar",
-        "id": "modals.sendxlm.secondstep.send"
-      },
-      {
-        "defaultMessage": "Go Back",
-        "id": "modals.sendxlm.sendconfirm.back"
-      }
-    ],
-    "path": "src/modals/SendXlm/SecondStep/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Send Stellar",
-        "id": "modals.sendxlm.title"
-      }
-    ],
-    "path": "src/modals/SendXlm/template.json"
   },
   {
     "descriptors": [
@@ -8930,43 +8435,6 @@
       }
     ],
     "path": "src/modals/ShowUsedAddresses/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Warning",
-        "id": "modals.showethpriv.warning"
-      },
-      {
-        "defaultMessage": "Don't share your private key with anyone. This may result in a loss of funds.",
-        "id": "modals.showethpriv.warning.message"
-      },
-      {
-        "defaultMessage": "Balance",
-        "id": "modals.showethpriv.balance"
-      },
-      {
-        "defaultMessage": "Address",
-        "id": "modals.showethpriv.address"
-      },
-      {
-        "defaultMessage": "Private Key",
-        "id": "modals.showethpriv.priv_key"
-      },
-      {
-        "defaultMessage": "Private Key",
-        "id": "modals.showethpriv.title"
-      },
-      {
-        "defaultMessage": "Close",
-        "id": "modals.showethpriv.close"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "modals.showethpriv.continue"
-      }
-    ],
-    "path": "src/modals/ShowXlmPrivateKey/template.json"
   },
   {
     "descriptors": [
@@ -10616,15 +10084,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Check confirmation.",
-        "id": "scenes.exchange.exchangeform.checklatesttx"
-      }
-    ],
-    "path": "src/scenes/Exchange/ExchangeForm/CheckConfirmationLink/index.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Try again",
         "id": "scenes.exchange.exchangeform.tryagain"
       }
@@ -10689,15 +10148,6 @@
       }
     ],
     "path": "src/scenes/Exchange/ExchangeForm/Summary/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Step 1 of 2",
-        "id": "scenes.exchange.shapeshift.firststep.step"
-      }
-    ],
-    "path": "src/scenes/Exchange/ExchangeForm/template.loading.json"
   },
   {
     "descriptors": [
@@ -11228,35 +10678,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Complete",
-        "id": "scenes.exchangehistory.list.orderstatus.complete"
-      },
-      {
-        "defaultMessage": "Failed",
-        "id": "scenes.exchangehistory.list.orderstatus.failed"
-      },
-      {
-        "defaultMessage": "Error",
-        "id": "scenes.exchangehistory.list.orderstatus.error"
-      },
-      {
-        "defaultMessage": "In progress",
-        "id": "scenes.exchangehistory.list.orderstatus.pending"
-      },
-      {
-        "defaultMessage": "Refunded",
-        "id": "scenes.exchangehistory.list.orderstatus.refunded"
-      },
-      {
-        "defaultMessage": "Unknown",
-        "id": "scenes.exchangehistory.list.orderstatus.unknown"
-      }
-    ],
-    "path": "src/scenes/ExchangeHistory/List/TradeItem/OrderStatus/index.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "View details",
         "id": "scenes.exchangehistory.list.tradeitem.viewdetails"
       }
@@ -11362,15 +10783,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "{viewType} Balance",
-        "id": "scenes.home.balance.table.header"
-      }
-    ],
-    "path": "src/scenes/Home/Balances/Table/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Total",
         "id": "scenes.home.balance.total"
       },
@@ -11384,114 +10796,6 @@
       }
     ],
     "path": "src/scenes/Home/Balances/Tabs/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/LockboxBalance/BchLockboxBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/LockboxBalance/BtcLockboxBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/LockboxBalance/EthLockboxBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Lockbox Balance",
-        "id": "layouts.wallet.menutop.balance.walletbalance.lockboxbalance"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/LockboxBalance/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/TotalBalance/BchBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/TotalBalance/BtcBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/TotalBalance/EthBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Total Balance",
-        "id": "layouts.wallet.menutop.balance.walletbalance.totalbalance"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/TotalBalance/template.success.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/WalletBalance/BchBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/WalletBalance/BtcBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Refresh {curr} data",
-        "id": "wallet.menutop.balance.refresh"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/WalletBalance/EthBalance/template.error.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Wallet Balance",
-        "id": "layouts.wallet.menutop.balance.walletbalance.walletbalance"
-      }
-    ],
-    "path": "src/scenes/Home/BalancesTable/WalletBalance/template.success.json"
   },
   {
     "descriptors": [
@@ -11877,23 +11181,6 @@
       }
     ],
     "path": "src/scenes/Lockbox/Dashboard/Settings/RemoveDevice/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "edit",
-        "id": "scenes.lockbox.settings.renamedevice.settings.edit"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "scenes.lockbox.settings.renamedevice.settings.cancel"
-      },
-      {
-        "defaultMessage": "Save",
-        "id": "scenes.lockbox.settings.renamedevice.settings.save"
-      }
-    ],
-    "path": "src/scenes/Lockbox/Dashboard/Settings/RenameDevice/Settings/template.json"
   },
   {
     "descriptors": [
@@ -12830,19 +12117,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Verify Code",
-        "id": "scenes.preferences.email.settings.updateform.verify"
-      },
-      {
-        "defaultMessage": "Your verification code is incorrect. Please double check your email and try again.",
-        "id": "scenes.security.email.verificationwrong"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/Components/EmailVerificationSteps/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Email address",
         "id": "scenes.preferences.email.error.title"
       },
@@ -13712,74 +12986,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Use your Wallet ID to log in using our web client,",
-        "id": "scenes.settings.info.explain"
-      },
-      {
-        "defaultMessage": "or simply scan the code below (click on 'Show Pairing Code') with your Blockchain Mobile Wallet (iOS or Android) to access your wallet on your mobile devices.",
-        "id": "scenes.settings.info.explain2"
-      }
-    ],
-    "path": "src/scenes/Settings/Info/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Mobile App Pairing Code",
-        "id": "scenes.info.pairingcode.title"
-      },
-      {
-        "defaultMessage": "Scan the code (click on 'Show Pairing Code') with your Blockchain Wallet (iOS or Android) for a seamless connection to your wallet.",
-        "id": "scenes.info.pairingcode.description"
-      },
-      {
-        "defaultMessage": "Download our mobile applications below.",
-        "id": "scenes.info.pairingcode.description2"
-      },
-      {
-        "defaultMessage": "Do not share your Pairing Code with others.",
-        "id": "scenes.info.pairingcode.warning"
-      }
-    ],
-    "path": "src/scenes/Settings/Info/PairingCode/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Show Pairing Code",
-        "id": "scenes.info.pairingcode.settings.show"
-      }
-    ],
-    "path": "src/scenes/Settings/Info/PairingCode/Settings/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Wallet ID",
-        "id": "scenes.info.walletid.title"
-      },
-      {
-        "defaultMessage": "Wallet ID is your unique identifier.",
-        "id": "scenes.info.walletid.description"
-      },
-      {
-        "defaultMessage": "It is completely individual to you, and it is what you will use to log in and access your wallet.",
-        "id": "scenes.info.walletid.description2"
-      },
-      {
-        "defaultMessage": "It is NOT a bitcoin address for sending or receiving.",
-        "id": "scenes.info.walletid.description3"
-      },
-      {
-        "defaultMessage": "Do not share your Wallet ID with others.",
-        "id": "scenes.info.walletid.warning"
-      }
-    ],
-    "path": "src/scenes/Settings/Info/WalletId/index.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Auto Logout",
         "id": "scenes.preferences.autologout.title"
       },
@@ -14249,133 +13455,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Welcome to",
-        "id": "scenes.transaction.content.empty.bitcoincashwelcome.welcome"
-      },
-      {
-        "defaultMessage": "Learn More",
-        "id": "scenes.transaction.content.empty.bitcoincashwelcome.learnmore"
-      },
-      {
-        "defaultMessage": "What is Bitcoin Cash?",
-        "id": "scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.what"
-      },
-      {
-        "defaultMessage": "Bitcoin Cash is a form of peer-to-peer electronic cash that was created after a fork of the Bitcoin block chain in August 2017.",
-        "id": "scenes.transaction.content.empty.bitcoincashwelcome.currency"
-      },
-      {
-        "defaultMessage": "Bitcoin Cash has since grown to be one of the top cryptocurrencies, along with bitcoin and ether.",
-        "id": "scenes.transaction.content.empty.bitcoincashwelcome.top"
-      },
-      {
-        "defaultMessage": "How do I get Bitcoin Cash?",
-        "id": "scenes.transaction.content.empty.bitcoincashwelcome.why"
-      },
-      {
-        "defaultMessage": "If you had bitcoin in your Blockchain wallet before the fork in August, you already have Bitcoin Cash.",
-        "id": "scenes.transaction.content.empty.bitcoincashwelcome.fork"
-      },
-      {
-        "defaultMessage": "If you’re new to Blockchain, you can get started with Bitcoin Cash by exchanging bitcoin or ether.",
-        "id": "scenes.transaction.content.empty.bitcoincashwelcome.exchange"
-      },
-      {
-        "defaultMessage": "Get Started With Bitcoin Cash",
-        "id": "scenes.transaction.content.empty.bitcoincashwelcome.getstarted"
-      }
-    ],
-    "path": "src/scenes/Transactions/Content/Empty/CoinWelcome/template.bch.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Welcome to",
-        "id": "scenes.transaction.content.empty.bitcoinwelcome.welcometo"
-      },
-      {
-        "defaultMessage": "Learn More",
-        "id": "scenes.transaction.content.empty.bitcoinwelcome.learnmore"
-      },
-      {
-        "defaultMessage": "What is bitcoin?",
-        "id": "scenes.transaction.content.empty.bitcoinwelcome.what"
-      },
-      {
-        "defaultMessage": "Bitcoin is a digital currency, and is used like other assets in exchange for goods and services.",
-        "id": "scenes.transaction.content.empty.bitcoinwelcome.currency"
-      },
-      {
-        "defaultMessage": "Unlike traditional currencies and assets, bitcoin is easily portable, divisible, and irreversible.",
-        "id": "scenes.transaction.content.empty.bitcoinwelcome.transact"
-      },
-      {
-        "defaultMessage": "Why should I use it?",
-        "id": "scenes.transaction.content.empty.bitcoinwelcome.why"
-      },
-      {
-        "defaultMessage": "As a global currency you can send bitcoin to anyone, anywhere in the world without worrying about cross border remittance fees.",
-        "id": "scenes.transaction.content.empty.bitcoinwelcome.fees"
-      },
-      {
-        "defaultMessage": "Get Started With Bitcoin",
-        "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted"
-      },
-      {
-        "defaultMessage": "Get started with bitcoin",
-        "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted.request"
-      }
-    ],
-    "path": "src/scenes/Transactions/Content/Empty/CoinWelcome/template.btc.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Welcome to",
-        "id": "scenes.transaction.content.empty.etherwelcome.welcome"
-      },
-      {
-        "defaultMessage": "Learn More",
-        "id": "scenes.transaction.content.empty.etherwelcome.learnmore"
-      },
-      {
-        "defaultMessage": "What is ether?",
-        "id": "scenes.transaction.content.empty.etherwelcome.what"
-      },
-      {
-        "defaultMessage": "Ether is a digital currency.",
-        "id": "scenes.transaction.content.empty.etherwelcome.currency"
-      },
-      {
-        "defaultMessage": "Like Bitcoin, it enables people around the world to transact, save, and hedge their way to a better financial future.",
-        "id": "scenes.transaction.content.empty.etherwelcome.transact"
-      },
-      {
-        "defaultMessage": "In addition to sending value, ether also powers the Ethereum platform.",
-        "id": "scenes.transaction.content.empty.etherwelcome.platform"
-      },
-      {
-        "defaultMessage": "Why should I use it?",
-        "id": "scenes.transaction.content.empty.etherwelcome.why"
-      },
-      {
-        "defaultMessage": "As the Ethereum platform grows, more intelligent applications will be built on top of it.",
-        "id": "scenes.transaction.content.empty.etherwelcome.grow"
-      },
-      {
-        "defaultMessage": "We want to give you the opportunity to start using ether now, so you' ll be ready to use these products in the future.",
-        "id": "scenes.transaction.content.empty.etherwelcome.opportunity"
-      },
-      {
-        "defaultMessage": "Get Started With Ether",
-        "id": "scenes.transaction.content.empty.etherwelcome.getstarted"
-      }
-    ],
-    "path": "src/scenes/Transactions/Content/Empty/CoinWelcome/template.eth.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Your {coin} Wallet",
         "id": "scenes.transaction.content.empty.yourcoinwallet"
       },
@@ -14405,27 +13484,6 @@
       }
     ],
     "path": "src/scenes/Transactions/Content/Empty/CoinWelcome/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Your transactions",
-        "id": "scenes.transactions.content.empty.transactions"
-      },
-      {
-        "defaultMessage": "Transactions occur when you send and receive coins.",
-        "id": "scenes.transactions.content.empty.explain"
-      },
-      {
-        "defaultMessage": "Send",
-        "id": "scenes.transactions.content.empty.send"
-      },
-      {
-        "defaultMessage": "Request",
-        "id": "scenes.transactions.content.empty.request"
-      }
-    ],
-    "path": "src/scenes/Transactions/Content/Empty/template.json"
   },
   {
     "descriptors": [
