@@ -14,7 +14,7 @@ import {
   propEq
 } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { coreSelectors, Remote } from 'blockchain-wallet-v4/src'
+import { coreSelectors } from 'blockchain-wallet-v4/src'
 import { selectors, model } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { getTargetCoinsPairedToSource, getAvailableSourceCoins } from './model'
@@ -153,27 +153,22 @@ export const getActiveEthAccounts = createDeepEqualSelector(
   }
 )
 
-const NO_XLM_ACCOUNT = 'Account not created'
 export const getActiveXlmAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.xlm.getAccounts,
     coreSelectors.kvStore.xlm.getAccounts,
     coreSelectors.common.xlm.getLockboxXlmBalances
   ],
-  (xlmDataR, xlmMetadataR, lockboxXlmDataR) => {
-    if (path(['error', 'message'], xlmDataR) === 'Not Found')
-      xlmDataR = Remote.of(NO_XLM_ACCOUNT)
-
-    const transform = (xlmData, xlmMetadata, lockboxXlmData) =>
+  (xlmData, xlmMetadataR, lockboxXlmDataR) => {
+    const transform = (xlmMetadata, lockboxXlmData) =>
       xlmMetadata
         .map(acc => {
           const address = prop('publicKey', acc)
-          const noAccount = xlmData === NO_XLM_ACCOUNT
-          const balance = noAccount
-            ? 0
-            : coreSelectors.data.xlm.selectBalanceFromAccount(
-                prop(address, xlmData)
-              )
+          const account = prop(address, xlmData)
+          const noAccount = path(['error', 'message'], account) === 'Not Found'
+          const balance = account
+            .map(coreSelectors.data.xlm.selectBalanceFromAccount)
+            .getOrElse(0)
           return {
             archived: prop('archived', acc),
             coin: 'XLM',
@@ -187,7 +182,7 @@ export const getActiveXlmAccounts = createDeepEqualSelector(
         .filter(isActive)
         .concat(lockboxXlmData)
 
-    return lift(transform)(xlmDataR, xlmMetadataR, lockboxXlmDataR)
+    return lift(transform)(xlmMetadataR, lockboxXlmDataR)
   }
 )
 

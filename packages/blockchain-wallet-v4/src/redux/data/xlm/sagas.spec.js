@@ -6,7 +6,7 @@ import * as StellarSdk from 'stellar-sdk'
 import * as S from './selectors'
 import * as A from './actions'
 import * as selectors from '../../selectors'
-import sagas, { TX_PER_PAGE } from './sagas'
+import sagas, { TX_PER_PAGE, sumBigNumbers } from './sagas'
 import Remote from '../../../remote'
 
 const STUB_LEDGER = {
@@ -85,15 +85,32 @@ describe('fetch ledger details saga', () => {
 describe('fetch data saga', () => {
   it('should fetch accounts', () =>
     expectSaga(fetchData)
-      .provide([[select(S.getContext), [STUB_ACCOUNT_ID, OTHER_ACCOUNT_ID]]])
-      .put(A.fetchDataLoading())
+      .provide([
+        [select(S.getContext), [STUB_ACCOUNT_ID, OTHER_ACCOUNT_ID]],
+        [
+          select(S.getAccounts),
+          {
+            STUB_ACCOUNT_ID: Remote.of(STUB_ACCOUNT),
+            OTHER_ACCOUNT_ID: Remote.of(OTHER_ACCOUNT)
+          }
+        ]
+      ])
       .select(S.getContext)
+      .put(A.fetchAccountLoading(STUB_ACCOUNT_ID))
       .call(api.getXlmAccount, STUB_ACCOUNT_ID)
+      .put(A.fetchAccountLoading(OTHER_ACCOUNT_ID))
       .call(api.getXlmAccount, OTHER_ACCOUNT_ID)
+      .select(S.getAccounts)
+      .put(A.fetchAccountSuccess(STUB_ACCOUNT_ID, STUB_ACCOUNT))
+      .put(A.fetchAccountSuccess(OTHER_ACCOUNT_ID, OTHER_ACCOUNT))
       .put(
         A.fetchDataSuccess({
-          [STUB_ACCOUNT_ID]: STUB_ACCOUNT,
-          [OTHER_ACCOUNT_ID]: OTHER_ACCOUNT
+          info: {
+            final_balance: sumBigNumbers([
+              STUB_ACCOUNT.balances[0].balance,
+              OTHER_ACCOUNT.balances[0].balance
+            ])
+          }
         })
       )
       .run())
@@ -102,11 +119,21 @@ describe('fetch data saga', () => {
     const error = 'error'
     api.getXlmAccount.mockRejectedValue(error)
     return expectSaga(fetchData)
-      .provide([[select(S.getContext), [STUB_ACCOUNT_ID]]])
-      .put(A.fetchDataLoading())
+      .provide([
+        [select(S.getContext), [STUB_ACCOUNT_ID]],
+        [
+          select(S.getAccounts),
+          {
+            STUB_ACCOUNT_ID: Remote.Failure(error)
+          }
+        ]
+      ])
       .select(S.getContext)
+      .put(A.fetchAccountLoading(STUB_ACCOUNT_ID))
       .call(api.getXlmAccount, STUB_ACCOUNT_ID)
-      .put(A.fetchDataFailure(error))
+      .put(A.fetchAccountFailure(STUB_ACCOUNT_ID, error))
+      .select(S.getAccounts)
+      .put(A.fetchDataSuccess({ info: { final_balance: '0' } }))
       .run()
   })
 })
@@ -122,18 +149,6 @@ describe('create account saga', () => {
       .call(api.createXlmAccount, STUB_ACCOUNT_ID)
       .call(fetchData)
       .run())
-
-  it('should set account error if creation fails', () => {
-    const error = 'error'
-    api.createXlmAccount.mockRejectedValue(error)
-    return expectSaga(createAccounts)
-      .provide([[select(S.getContext), [STUB_ACCOUNT_ID]]])
-      .select(S.getContext)
-      .call(api.createXlmAccount, STUB_ACCOUNT_ID)
-      .not.call(fetchData)
-      .put(A.fetchDataFailure(error))
-      .run()
-  })
 
   it('should not create account for non-testnet', () => {
     networks.xlm = 'public'

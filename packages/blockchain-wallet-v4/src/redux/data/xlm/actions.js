@@ -7,16 +7,21 @@ export const setLedgerDetails = ledger => ({
 })
 
 export const fetchData = () => ({ type: AT.FETCH_DATA })
-export const fetchDataSuccess = data => ({
+export const fetchAccountSuccess = (id, account) => ({
+  type: AT.FETCH_ACCOUNT_SUCCESS,
+  payload: { id, account }
+})
+export const fetchAccountFailure = (id, error) => ({
+  type: AT.FETCH_ACCOUNT_FAILURE,
+  payload: { id, error }
+})
+export const fetchAccountLoading = id => ({
+  type: AT.FETCH_ACCOUNT_LOADING,
+  payload: { id }
+})
+export const fetchDataSuccess = accounts => ({
   type: AT.FETCH_DATA_SUCCESS,
-  payload: { data }
-})
-export const fetchDataFailure = error => ({
-  type: AT.FETCH_DATA_FAILURE,
-  payload: { error }
-})
-export const fetchDataLoading = () => ({
-  type: AT.FETCH_DATA_LOADING
+  payload: { accounts }
 })
 
 export const fetchRates = () => ({ type: AT.FETCH_RATES })

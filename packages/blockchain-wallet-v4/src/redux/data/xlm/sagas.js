@@ -1,5 +1,6 @@
 import { all, call, put, select } from 'redux-saga/effects'
-import { indexBy, last, length, path, prop } from 'ramda'
+import { compose, last, length, map, path, prop, reduce, values } from 'ramda'
+import BigNumber from 'bignumber.js'
 
 import * as A from './actions'
 import * as S from './selectors'
@@ -10,6 +11,17 @@ export const NO_ACCOUNT_ID_ERROR = 'No account id'
 export const ACCOUNT_NOT_FOUND = 'Not Found'
 export const TX_PER_PAGE = 10
 export const OPERATIONS_PER_TX = 1
+
+export const sumBigNumbers = reduce(
+  (num1, num2) => new BigNumber(num1).add(num2).toString(),
+  '0'
+)
+
+const sumBalance = compose(
+  sumBigNumbers,
+  map(account => account.map(S.selectBalanceFromAccount).getOrElse('0')),
+  values
+)
 
 export default ({ api, networks }) => {
   const fetchLedgerDetails = function*() {
@@ -28,22 +40,25 @@ export default ({ api, networks }) => {
       const accountIds = yield select(S.getContext)
       yield all(accountIds.map(id => call(api.createXlmAccount, id)))
       yield call(fetchData)
+    } catch (e) {}
+  }
+
+  const fetchAccount = function*(id) {
+    try {
+      yield put(A.fetchAccountLoading(id))
+      const account = yield call(api.getXlmAccount, id)
+      yield put(A.fetchAccountSuccess(id, account))
     } catch (e) {
-      yield put(A.fetchDataFailure(e))
+      yield put(A.fetchAccountFailure(id, e))
     }
   }
 
   const fetchData = function*() {
-    try {
-      yield put(A.fetchDataLoading())
-      const accountIds = yield select(S.getContext)
-      const accounts = yield all(
-        accountIds.map(id => call(api.getXlmAccount, id))
-      )
-      yield put(A.fetchDataSuccess(indexBy(prop('account_id'), accounts)))
-    } catch (e) {
-      yield put(A.fetchDataFailure(e))
-    }
+    const accountIds = yield select(S.getContext)
+    yield all(accountIds.map(id => call(fetchAccount, id)))
+    const accounts = yield select(S.getAccounts)
+    const data = { info: { final_balance: sumBalance(accounts) } }
+    yield put(A.fetchDataSuccess(data))
   }
 
   const fetchRates = function*() {

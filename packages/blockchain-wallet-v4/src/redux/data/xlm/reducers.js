@@ -1,5 +1,6 @@
 import {
   assoc,
+  assocPath,
   lensProp,
   over,
   append,
@@ -12,7 +13,7 @@ import Remote from '../../../remote'
 
 const INITIAL_STATE = {
   ledgerDetails: Remote.NotAsked,
-  data: Remote.NotAsked,
+  data: {},
   rates: Remote.NotAsked,
   transactions: [],
   transactionsAtBound: false
@@ -25,14 +26,22 @@ export default (state = INITIAL_STATE, action) => {
     case AT.SET_LEDGER_DETAILS: {
       return assoc('ledgerDetails', payload.ledger, state)
     }
-    case AT.FETCH_DATA_SUCCESS: {
-      return assoc('data', Remote.Success(payload.data), state)
+    case AT.FETCH_ACCOUNT_SUCCESS: {
+      return assocPath(
+        ['data', payload.id],
+        Remote.Success(payload.account),
+        state
+      )
     }
-    case AT.FETCH_DATA_FAILURE: {
-      return assoc('data', Remote.Failure(payload.error), state)
+    case AT.FETCH_ACCOUNT_FAILURE: {
+      return assocPath(
+        ['data', payload.id],
+        Remote.Failure(payload.error),
+        state
+      )
     }
-    case AT.FETCH_DATA_LOADING: {
-      return assoc('data', Remote.Loading, state)
+    case AT.FETCH_ACCOUNT_LOADING: {
+      return assocPath(['data', payload.id], Remote.Loading, state)
     }
     case AT.SET_RATES: {
       return assoc('rates', payload.rates, state)
