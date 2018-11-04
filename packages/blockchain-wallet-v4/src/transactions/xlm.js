@@ -24,7 +24,7 @@ const getAmount = operation => {
   if (operation.startingBalance) return operation.startingBalance().toString()
   return '0'
 }
-const getDistination = operation =>
+export const getDestination = operation =>
   StellarSdk.StrKey.encodeEd25519PublicKey(operation.destination().value())
 
 const getLabel = (accounts, address) =>
@@ -37,7 +37,7 @@ const getLabel = (accounts, address) =>
 export const transformTx = curry((accounts, tx, txNotes, operation) => {
   const addresses = map(prop('publicKey'), accounts)
   const amount = getAmount(operation)
-  const to = getDistination(operation)
+  const to = getDestination(operation)
   const from = prop('source_account', tx)
   const type = getType({ to, from }, addresses)
   const fee = prop('fee_paid', tx)
