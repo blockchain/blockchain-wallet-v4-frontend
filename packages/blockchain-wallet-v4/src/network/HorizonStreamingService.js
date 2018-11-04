@@ -34,17 +34,15 @@ export default class HorizonStreamingService {
     this.onError = onError
   }
 
-  updateStreams = accounts => {
+  addStreams = accounts => {
     const accountIds = keys(accounts)
     const currentAccountIds = keys(this.streams)
     const addedAccounts = difference(accountIds, currentAccountIds)
-    const removedAccounts = difference(currentAccountIds, accountIds)
 
     forEach(
       id => this._subscribeToAccount(id, accounts[id].txCursor),
       addedAccounts
     )
-    forEach(this._unsubscribeFromAccount, removedAccounts)
   }
 
   close () {
