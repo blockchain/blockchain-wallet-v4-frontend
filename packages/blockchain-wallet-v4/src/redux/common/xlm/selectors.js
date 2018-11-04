@@ -1,4 +1,14 @@
-import { assoc, compose, concat, curry, lift, map, prop, unnest } from 'ramda'
+import {
+  assoc,
+  compose,
+  concat,
+  curry,
+  filter,
+  lift,
+  map,
+  prop,
+  unnest
+} from 'ramda'
 
 import { createDeepEqualSelector } from '../../../../../blockchain-wallet-v4-frontend/src/services/ReselectHelper'
 import { getBalance, getTransactions } from '../../data/xlm/selectors'
@@ -53,7 +63,11 @@ export const getWalletTransactions = createDeepEqualSelector(
       return unnest(
         map(tx => {
           const operations = decodeOperations(tx)
-          return map(transformTx(accounts, tx, txNotes), operations)
+          const filteredOps = filter(
+            op => typeof op.destination === 'function',
+            operations
+          )
+          return map(transformTx(accounts, tx, txNotes), filteredOps)
         }, txList)
       )
     }
