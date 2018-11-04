@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   padding: 12px 25px;
   align-items: center;
   justify-content: space-between;
-  background: ${props => props.theme['purple']};
+  background: ${props => props.theme['marketing-primary']};
   overflow: hidden;
   ${media.mobile`
     display: none;

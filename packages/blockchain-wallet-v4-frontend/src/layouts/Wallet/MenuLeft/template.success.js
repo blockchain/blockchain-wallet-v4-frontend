@@ -20,6 +20,9 @@ export const Container = styled.div`
   border-right: 1px solid ${props => props.theme['gray-1']};
   transition: left 0.3s ease-in-out;
   z-index: 11;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
   @media (min-width: 768px) {
     display: flex;

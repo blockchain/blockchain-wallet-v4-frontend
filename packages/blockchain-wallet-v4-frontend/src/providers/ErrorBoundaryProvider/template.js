@@ -24,6 +24,9 @@ const ErrorDetails = styled.details`
   white-space: pre-wrap;
   max-height: 350px;
   overflow: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
   @media (max-width: 768px) {
     max-height: 200px;
   }

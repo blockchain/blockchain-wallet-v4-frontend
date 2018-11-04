@@ -44,7 +44,6 @@ export default {
   blackAlpha05: 'rgba(0,0,0,0.05)',
   // Colors
   red: '#FF0000',
-  purple: '#392885',
   // Coins
   btc: '#FF9B22',
   bch: '#3EDC89',
