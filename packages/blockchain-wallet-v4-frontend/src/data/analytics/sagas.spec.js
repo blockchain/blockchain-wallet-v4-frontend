@@ -25,7 +25,8 @@ describe('analyticsSagas', () => {
       reportBalanceStats,
       getEthBalance,
       getBtcBalance,
-      getBchBalance
+      getBchBalance,
+      getXlmBalance
     } = analyticsSagas({ coreSagas, api })
 
     let saga = testSaga(reportBalanceStats)
@@ -33,6 +34,7 @@ describe('analyticsSagas', () => {
     const btcTask = createMockTask()
     const ethTask = createMockTask()
     const bchTask = createMockTask()
+    const xlmTask = createMockTask()
 
     it('should fork getEthBalance', () => {
       saga.next().fork(getEthBalance)
@@ -46,8 +48,12 @@ describe('analyticsSagas', () => {
       saga.next(btcTask).fork(getBchBalance)
     })
 
+    it('should fork getXlmBalance', () => {
+      saga.next(bchTask).fork(getXlmBalance)
+    })
+
     it('should join the btc Task', () => {
-      saga.next(bchTask).join(btcTask)
+      saga.next(xlmTask).join(btcTask)
     })
 
     it('should join the eth Task', () => {
@@ -58,6 +64,10 @@ describe('analyticsSagas', () => {
       saga.next().join(bchTask)
     })
 
+    it('should join the xlm Task', () => {
+      saga.next().join(xlmTask)
+    })
+
     it('should call api.incrementCurrencyUsageStats', () => {
       saga
         .next()
@@ -65,7 +75,8 @@ describe('analyticsSagas', () => {
           api.incrementCurrencyUsageStats,
           btcTask.value,
           ethTask.value,
-          bchTask.value
+          bchTask.value,
+          xlmTask.value
         )
     })
 
