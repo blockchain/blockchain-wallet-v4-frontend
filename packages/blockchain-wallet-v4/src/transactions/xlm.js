@@ -10,6 +10,7 @@ import {
   prop,
   propEq
 } from 'ramda'
+import BigNumber from 'bignumber.js'
 
 const getType = (tx, addresses) => {
   if (contains(tx.from, addresses) && contains(tx.to, addresses))
@@ -36,7 +37,7 @@ const getLabel = (accounts, address) =>
 
 export const transformTx = curry((accounts, tx, txNotes, operation) => {
   const addresses = map(prop('publicKey'), accounts)
-  const amount = getAmount(operation)
+  const operationAmount = getAmount(operation)
   const to = getDestination(operation)
   const from = prop('source_account', tx)
   const type = getType({ to, from }, addresses)
@@ -47,7 +48,7 @@ export const transformTx = curry((accounts, tx, txNotes, operation) => {
   const memoType = prop('memo_type', tx)
 
   return {
-    amount,
+    amount: new BigNumber(operationAmount).add(fee).toString(),
     confirmations: 1,
     description: prop(hash, txNotes),
     fee,
