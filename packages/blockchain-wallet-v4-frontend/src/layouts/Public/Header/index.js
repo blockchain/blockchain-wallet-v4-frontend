@@ -7,6 +7,7 @@ import { Navbar, NavbarBrand } from 'components/Navbar'
 const Header = () => {
   return (
     <React.Fragment>
+      <ServiceAnnouncement alertArea='public' />
       <Navbar height='90px'>
         <NavbarBrand>
           <Link href='https://www.blockchain.com'>
@@ -14,7 +15,6 @@ const Header = () => {
           </Link>
         </NavbarBrand>
       </Navbar>
-      <ServiceAnnouncement alertArea='public' />
     </React.Fragment>
   )
 }
