@@ -41,15 +41,15 @@ const Column = styled.div`
   width: 100%;
 `
 
-const ExchangeScene = ({ showGetStarted }) => (
+const ExchangeScene = ({ verified }) => (
   <Wrapper>
-    {showGetStarted
-      ? <GetStarted />
-      : <Container>
+    {verified
+      ? <Container>
         <Column>
           <Exchange />
         </Column>
       </Container>
+      : <GetStarted />
     }
   </Wrapper>
 )
