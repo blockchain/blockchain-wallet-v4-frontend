@@ -17,7 +17,7 @@ const Wrapper = styled.div`
 `
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   justify-content: center;
   align-items: flex-start;
   width: 100%;
@@ -67,7 +67,6 @@ const PreviewImage = styled(Image).attrs({
   name: 'kyc-get-started'
 })`
   width: 410px;
-
   @media (max-width: 1200px) {
     width: 350px;
   }
