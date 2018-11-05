@@ -3,11 +3,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 import media from 'services/ResponsiveService'
-
-import KYCBanner from 'components/IdentityVerification/KYCBanner'
 import GetStarted from './GetStarted'
-import Shapeshift from './Shapeshift'
-import Info from './Info'
 import Exchange from './ExchangeContainer'
 
 import { getData } from './selectors'
@@ -37,9 +33,6 @@ const Container = styled.section`
     padding: 10px;
   `};
 `
-const ShapeshiftContainer = styled(Container)`
-  height: 100%;
-`
 const Column = styled.div`
   display: flex;
   flex-direction: column;
@@ -47,49 +40,17 @@ const Column = styled.div`
   align-items: flex-start;
   width: 100%;
 `
-const ColumnLeft = styled(Column)`
-  align-items: flex-end;
-  margin-right: 10px;
-  & > :first-child {
-    margin-bottom: 10px;
-  }
-  @media (min-width: 992px) {
-    width: 60%;
-  }
 
-  ${media.mobile`
-    margin-right: 0;
-  `};
-`
-const ColumnRight = styled(Column)`
-  padding: 0;
-  margin-bottom: 10px;
-  box-sizing: border-box;
-  @media (min-width: 992px) {
-    width: 40%;
-  }
-`
-const ExchangeScene = ({ useShapeShift, showGetStarted }) => (
+const ExchangeScene = ({ showGetStarted }) => (
   <Wrapper>
-    {useShapeShift && (
-      <ShapeshiftContainer>
-        <ColumnLeft>
-          <Shapeshift />
-        </ColumnLeft>
-        <ColumnRight>
-          <Info />
-        </ColumnRight>
-      </ShapeshiftContainer>
-    )}
-    {!useShapeShift && !showGetStarted && <KYCBanner outsideOfProfile />}
-    {!useShapeShift && !showGetStarted && (
-      <Container>
+    {showGetStarted
+      ? <GetStarted />
+      : <Container>
         <Column>
           <Exchange />
         </Column>
       </Container>
-    )}
-    {!useShapeShift && showGetStarted && <GetStarted />}
+    }
   </Wrapper>
 )
 
