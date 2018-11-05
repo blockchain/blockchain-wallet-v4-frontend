@@ -36,8 +36,6 @@ const Search = styled.div`
 const Content = styled.div`
   width: 100%;
   height: calc(100% - 80px);
-  overflow-x: auto;
-  overflow-y: auto;
 `
 
 const Faq = props => (
