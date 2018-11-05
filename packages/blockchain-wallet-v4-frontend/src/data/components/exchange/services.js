@@ -263,6 +263,8 @@ export const selectFee = (coin, payment) => {
       return path(['selection', 'fee'], payment)
     case 'ETH':
       return prop('fee', payment)
+    case 'XLM':
+      return prop('fee', payment)
   }
 }
 
