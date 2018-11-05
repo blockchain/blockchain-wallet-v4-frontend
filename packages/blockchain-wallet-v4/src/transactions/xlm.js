@@ -46,9 +46,13 @@ export const transformTx = curry((accounts, tx, txNotes, operation) => {
   const hash = prop('hash', tx)
   const memo = prop('memo', tx)
   const memoType = prop('memo_type', tx)
+  const amount =
+    type === 'sent'
+      ? new BigNumber(operationAmount).add(fee).toString()
+      : operationAmount
 
   return {
-    amount: new BigNumber(operationAmount).add(fee).toString(),
+    amount,
     confirmations: 1,
     description: prop(hash, txNotes),
     fee,
