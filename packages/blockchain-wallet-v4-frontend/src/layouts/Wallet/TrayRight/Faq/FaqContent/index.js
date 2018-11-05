@@ -1040,6 +1040,20 @@ const FaqContent = [
       {
         question: (
           <FormattedMessage
+            id='scenes.faq.group.educationalresources.whatisstellar'
+            defaultMessage='What is stellar?'
+          />
+        ),
+        answer: (
+          <FormattedMessage
+            id='scenes.faq.group.educationalresources.stellaranswer'
+            defaultMessage='Stellar is an open-source, decentralized payment protocol that allows for fast, cross-border transactions between any pair of currencies. Like other cryptocurrencies, it operates using blockchain technology. Its native asset, a digital currency, is called lumen (XLM). XLM powers the Stellar network and all of its operations, similarly to how ether (ETH) powers the Ethereum network.'
+          />
+        )
+      },
+      {
+        question: (
+          <FormattedMessage
             id='scenes.faq.group.educationalresources.question5'
             defaultMessage='What are contract addresses?'
           />
