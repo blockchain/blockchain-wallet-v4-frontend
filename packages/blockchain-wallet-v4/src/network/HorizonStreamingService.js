@@ -1,7 +1,7 @@
 import * as StellarSDK from 'stellar-sdk'
 import { assoc, difference, dissoc, forEach, keys, prop, isEmpty } from 'ramda'
 
-export const RECONNECT_TIMEOUT = 5 * 60 * 1000
+export const RECONNECT_TIMEOUT = 30 * 1000
 
 export default class HorizonStreamingService {
   constructor ({ url }) {
