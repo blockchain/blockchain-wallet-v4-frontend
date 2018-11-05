@@ -13,7 +13,7 @@
         "announcements": {
           "public": {
             "id": "domain-move",
-            "type": "info",
+            "type": "",
             "hideType": "dismiss",
             "header": {
               "en": "We’re packing our bags and preparing to move...domains!"
@@ -58,6 +58,30 @@
               },
               "link": "https://www.blockchain.com/privacy"
             }
+          },
+          "sendBch": {
+            "id": "hardfork",
+            "type": "danger",
+            "hideType": "dismiss",
+            "header": {
+              "en": "Hardfork Warning"
+            },
+            "sections": [
+              {
+                "title": {
+                  "en": ""
+                },
+                "body": {
+                  "en": "There may be a network split on November 15th. If you are not interested in BitcoinSV you don't have to do anything. If you are, we recommend against sending or receiving Bitcoin Cash until further notice."
+                }
+              }
+            ],
+            "action": {
+              "title": {
+                "en": ""
+              },
+              "link": "https://www.blockchain.com/privacy"
+            }
           }
         }
       },
@@ -74,8 +98,7 @@
         "states": "*",
         "config": {
           "network": "bitcoin"
-        },
-        "announcements": {}
+        }
       },
       "buysell": {
         "availability": {
@@ -86,8 +109,7 @@
         "fraction": 1,
         "countries": ["GB", "NL", "DE", "US"],
         "states": "*",
-        "config": {},
-        "announcements": {}
+        "config": {}
       },
       "coinify": {
         "fraction": 1,
@@ -156,8 +178,7 @@
             "https://blockchain.co1.qualtrics.com/jfe/form/SV_9u8XxkrkiUUy6z3",
             "https://blockchain.co1.qualtrics.com/jfe/form/SV_9ysiGRC4rkMFwFv"
           ]
-        },
-        "announcements": {}
+        }
       },
       "ethereum": {
         "availability": {
