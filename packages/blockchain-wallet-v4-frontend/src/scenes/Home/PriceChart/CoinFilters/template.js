@@ -35,6 +35,11 @@ const CoinFilters = props => {
         handleClick={() => handleClick('BCH')}
         data-e2e='priceChartBCH'
       />
+      <CoinTicker
+        coin='XLM'
+        selected={coin === 'XLM'}
+        handleClick={() => handleClick('XLM')}
+      />
     </Wrapper>
   )
 }

@@ -5,7 +5,6 @@ import ReactTooltip from 'react-tooltip'
 
 const StyledTip = styled(ReactTooltip)`
   cursor: pointer;
-  max-width: 200px;
   font-weight: 300;
   text-align: left;
   padding: 7px 12px;
@@ -14,6 +13,7 @@ const StyledTip = styled(ReactTooltip)`
   font-size: 11px !important;
   pointer-events: auto !important;
   font-family: 'Montserrat', sans serif;
+  max-width: ${props => props.maxWidth || '200px'};
 `
 
 const Tooltip = props => {

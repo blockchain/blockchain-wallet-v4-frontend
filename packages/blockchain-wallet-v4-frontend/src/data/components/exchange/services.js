@@ -93,6 +93,13 @@ export const convertFiatToCoin = (
         toUnit,
         rates
       })
+    case 'XLM':
+      return Exchange.convertFiatToXlm({
+        value,
+        fromCurrency,
+        toUnit,
+        rates
+      })
     default:
       throw new Error('Could not convert fiat to coin.')
   }
@@ -115,6 +122,12 @@ export const convertBaseToStandard = (coin, value) => {
         fromUnit: 'WEI',
         toUnit: 'ETH'
       }).value
+    case 'XLM':
+      return Exchange.convertXlmToXlm({
+        value,
+        fromUnit: 'STROOP',
+        toUnit: 'XLM'
+      }).value
     default:
       throw new Error('Could not convert coin to base.')
   }
@@ -136,6 +149,12 @@ export const convertStandardToBase = (coin, value) => {
         value,
         fromUnit: 'ETH',
         toUnit: 'WEI'
+      }).value
+    case 'XLM':
+      return Exchange.convertXlmToXlm({
+        value,
+        fromUnit: 'XLM',
+        toUnit: 'STROOP'
       }).value
     default:
       throw new Error('Could not convert base to coin.')

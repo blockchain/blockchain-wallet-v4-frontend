@@ -3,6 +3,7 @@ import USD from './USD'
 import BCH from './BCH'
 import BTC from './BTC'
 import ETH from './ETH'
+import XLM from './XLM'
 import AUD from './AUD'
 import BRL from './BRL'
 import CAD from './CAD'
@@ -30,6 +31,7 @@ export {
   BCH,
   BTC,
   ETH,
+  XLM,
   AUD,
   BRL,
   CAD,

@@ -8,6 +8,7 @@ import * as bch from './bch/actions'
 import * as btc from './btc/actions'
 import * as lockbox from './lockbox/actions'
 import * as userCredentials from './userCredentials/actions'
+import * as xlm from './xlm/actions'
 
 export {
   root,
@@ -19,5 +20,6 @@ export {
   bch,
   btc,
   lockbox,
-  userCredentials
+  userCredentials,
+  xlm
 }

@@ -11,9 +11,7 @@ import TrayRight from './TrayRight'
 import Page from './Page'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
-import BtcMenu from 'scenes/Transactions/Btc/Menu'
-import BchMenu from 'scenes/Transactions/Bch/Menu'
-import EthMenu from 'scenes/Transactions/Eth/Menu'
+import Menu from 'scenes/Transactions/Menu'
 import AddrMenu from 'scenes/Settings/Addresses/Menu'
 import LockboxMenu from '../../scenes/Lockbox/Menu'
 import ExchangeMenu from 'scenes/Exchange/Menu'
@@ -79,9 +77,18 @@ const WalletLayout = props => {
             </Top>
             {location.pathname === '/settings/addresses/btc' && <AddrMenu />}
             {location.pathname === '/settings/addresses/bch' && <AddrMenu />}
-            {location.pathname.includes('/btc/transactions') && <BtcMenu />}
-            {location.pathname.includes('/bch/transactions') && <BchMenu />}
-            {location.pathname.includes('/eth/transactions') && <EthMenu />}
+            {location.pathname.includes('/btc/transactions') && (
+              <Menu coin='BTC' />
+            )}
+            {location.pathname.includes('/bch/transactions') && (
+              <Menu coin='BCH' />
+            )}
+            {location.pathname.includes('/eth/transactions') && (
+              <Menu coin='ETH' />
+            )}
+            {location.pathname.includes('/xlm/transactions') && (
+              <Menu coin='XLM' />
+            )}
             {location.pathname.includes('/exchange') && (
               <ExchangeMenu
                 historySelected={location.pathname.includes(

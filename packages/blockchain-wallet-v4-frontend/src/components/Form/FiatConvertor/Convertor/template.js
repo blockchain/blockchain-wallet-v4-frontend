@@ -52,7 +52,7 @@ const Error = styled(Text)`
   display: block;
   font-size: 12px;
   height: 15px;
-  top: -20px;
+  top: ${props => (props.errorBottom ? '40px' : '-20px')};
   right: 0;
 `
 const getErrorState = meta => {
@@ -60,12 +60,24 @@ const getErrorState = meta => {
 }
 
 const Convertor = props => {
-  const { coin, disabled, fiat, unit, currency, meta, ...rest } = props
-  const { handleCoinChange, handleFiatChange, handleBlur, handleFocus } = rest
+  const {
+    coin,
+    disabled,
+    fiat,
+    unit,
+    currency,
+    meta,
+    errorBottom,
+    handleCoinChange,
+    handleFiatChange,
+    handleBlur,
+    handleFocus,
+    className
+  } = props
   const errorState = getErrorState(meta)
 
   return (
-    <Wrapper>
+    <Wrapper className={className}>
       <FiatConvertorInput>
         <Container>
           <TextInput
@@ -98,7 +110,13 @@ const Convertor = props => {
       </FiatConvertorInput>
       {meta.touched &&
         meta.error && (
-          <Error size='13px' weight={300} color='error'>
+          <Error
+            errorBottom={errorBottom}
+            size='13px'
+            weight={300}
+            color='error'
+            className='error'
+          >
             {meta.error}
           </Error>
         )}

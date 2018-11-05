@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { filter, contains, path, prop } from 'ramda'
 import { Text } from 'blockchain-info-components'
-import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
+import ISignThis from 'modals/Coinify/CoinifyExchangeData/ISignThis'
 
 import OrderHistoryTable from 'components/BuySell/OrderHistoryTable'
 import RecurringOrderHistoryTable from './RecurringOrderHistoryTable'

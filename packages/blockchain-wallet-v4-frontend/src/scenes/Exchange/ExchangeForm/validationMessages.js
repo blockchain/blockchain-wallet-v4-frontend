@@ -25,7 +25,10 @@ const {
   ANNUAL_ERROR,
   LATEST_TX_ERROR,
   LATEST_TX_FETCH_FAILED_ERROR,
-  ORDER_ERROR
+  ORDER_ERROR,
+  CREATE_ACCOUNT_ERROR,
+  NO_ACCOUNT_ERROR,
+  RESERVE_ERROR
 } = model.components.exchange
 
 const { MIN_ERROR: MIN_RATES_ERROR, MAX_ERROR: MAX_RATES_ERROR } = model.rates
@@ -249,6 +252,39 @@ const LatestTxFetchFailedMessage = () => (
   </Wrapper>
 )
 
+const CreateTargetXlmAccountMessage = () => (
+  <Wrapper>
+    <Text size='12px' weight={300} color='error'>
+      <FormattedMessage
+        id='scenes.exchange.exchangeform.error.createtargetxlmaccount'
+        defaultMessage='1 XLM is required to create a new account.'
+      />
+    </Text>
+  </Wrapper>
+)
+
+const NoSourceXlmAccountMessage = () => (
+  <Wrapper>
+    <Text size='12px' weight={300} color='error'>
+      <FormattedMessage
+        id='scenes.exchange.exchangeform.nosourcexlmaccount'
+        defaultMessage='Minimum of 1 XLM needed for new accounts. Learn about Stellar’s minimum balance requirement.'
+      />
+    </Text>
+  </Wrapper>
+)
+
+const ReserveOverflowMessage = () => (
+  <Wrapper>
+    <Text size='12px' weight={300} color='error'>
+      <FormattedMessage
+        id='scenes.exchange.exchangeform.error.reserveoverflow'
+        defaultMessage='This amount will leave your Wallet with an insufficient balance.'
+      />
+    </Text>
+  </Wrapper>
+)
+
 export const getErrorMessage = error => {
   if (error === NO_LIMITS_ERROR) return NoLimitsMessage
   if (error === MINIMUM_NO_LINK_ERROR) return MinimumNoLinkMessage
@@ -266,5 +302,8 @@ export const getErrorMessage = error => {
   if (error === LATEST_TX_ERROR) return LatestTxMessage
   if (error === LATEST_TX_FETCH_FAILED_ERROR) return LatestTxFetchFailedMessage
   if (error === NO_VALUE_ERROR) return () => ''
+  if (error === CREATE_ACCOUNT_ERROR) return CreateTargetXlmAccountMessage
+  if (error === NO_ACCOUNT_ERROR) return NoSourceXlmAccountMessage
+  if (error === RESERVE_ERROR) return ReserveOverflowMessage
   return NoAdviceMessage
 }

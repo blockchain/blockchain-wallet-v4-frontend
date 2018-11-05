@@ -45,7 +45,11 @@ export default type => Component =>
 
       handleClick (e) {
         const modalContainer = ReactDOM.findDOMNode(this.node)
-        if (modalContainer && equals(modalContainer.children[0], e.target)) {
+        if (
+          modalContainer &&
+          !this.props.disableOutsideClose &&
+          equals(modalContainer.children[0], e.target)
+        ) {
           this.props.close()
         }
       }
