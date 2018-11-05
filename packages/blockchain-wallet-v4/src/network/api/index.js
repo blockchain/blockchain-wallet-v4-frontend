@@ -29,11 +29,36 @@ export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
   const shapeShiftApiKey = options.platforms.web.shapeshift.config.apiKey
 
   return {
-    ...analytics({ rootUrl, apiUrl, get, post }),
-    ...bitcoin({ rootUrl, apiUrl, get, post }),
-    ...delegate({ rootUrl, apiUrl, get, post }),
-    ...ethereum({ rootUrl, apiUrl, get, post }),
-    ...bch({ rootUrl, apiUrl, get, post }),
+    ...analytics({
+      rootUrl,
+      apiUrl,
+      get: http.get,
+      post: http.post
+    }),
+    ...bitcoin({
+      rootUrl,
+      apiUrl,
+      get: http.get,
+      post: http.post
+    }),
+    ...delegate({
+      rootUrl,
+      apiUrl,
+      get: http.get,
+      post: http.post
+    }),
+    ...ethereum({
+      rootUrl,
+      apiUrl,
+      get: http.get,
+      post: http.post
+    }),
+    ...bch({
+      rootUrl,
+      apiUrl,
+      get: http.get,
+      post: http.post
+    }),
     ...kvStore({ apiUrl, networks }),
     ...kyc({
       nabuUrl,
@@ -43,7 +68,12 @@ export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
       authorizedPost: authorizedHttp.post
     }),
     ...lockbox({ ledgerUrl, get, post }),
-    ...misc({ rootUrl, apiUrl, get, post }),
+    ...misc({
+      rootUrl,
+      apiUrl,
+      get: http.get,
+      post: http.post
+    }),
     ...profile({
       rootUrl,
       nabuUrl,
@@ -53,10 +83,18 @@ export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
       post: http.post
     }),
     ...sfox(),
-    ...settings({ rootUrl, apiUrl, get, post }),
+    ...settings({
+      rootUrl,
+      post: http.post
+    }),
     ...shapeShift({ shapeShiftApiKey, ...http }),
     ...rates({ nabuUrl, ...authorizedHttp }),
     ...trades({ nabuUrl, ...authorizedHttp }),
-    ...wallet({ rootUrl, apiUrl, get, post })
+    ...wallet({
+      rootUrl,
+      apiUrl,
+      get: http.get,
+      post: http.post
+    })
   }
 }
