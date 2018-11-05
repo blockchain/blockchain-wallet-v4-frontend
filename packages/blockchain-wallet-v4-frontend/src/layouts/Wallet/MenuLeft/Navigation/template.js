@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 
-import Cartridge from 'components/Cartridge'
+import { Cartridge } from '@blockchain-com/components'
 import {
   Wrapper,
   MenuItem,
@@ -26,6 +26,7 @@ const HelperTipContainer = styled.div`
 `
 const CartridgeNew = styled(Cartridge)`
   margin-left: 75px;
+  & > span { color: ${(props) => props.theme['white']}; }
 `
 
 const Navigation = props => {
