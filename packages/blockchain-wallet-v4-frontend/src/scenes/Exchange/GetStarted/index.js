@@ -1,10 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { connect } from 'react-redux'
 
-import { actions } from 'data'
-import { Button, Image, Text } from 'blockchain-info-components'
+import { Image, Text } from 'blockchain-info-components'
+import StatusBar from './StatusBar'
 
 const Wrapper = styled.div`
   display: flex;
@@ -88,17 +87,8 @@ const PrimaryText = styled(Text).attrs({
 })`
   white-space: nowrap;
 `
-const GetStartedButton = styled(Button).attrs({
-  nature: 'primary',
-  width: '250px'
-})`
-  font-weight: 500;
-  @media (max-width: 1200px) {
-    width: 100%;
-  }
-`
 
-const GetStarted = ({ verifyIdentity }) => (
+export const GetStarted = () => (
   <Wrapper>
     <Container>
       <Column>
@@ -172,12 +162,7 @@ const GetStarted = ({ verifyIdentity }) => (
           </DarkText>
         </Row>
         <Row>
-          <GetStartedButton onClick={verifyIdentity}>
-            <FormattedMessage
-              id='scenes.exchange.getstarted.started'
-              defaultMessage='Get Started'
-            />
-          </GetStartedButton>
+          <StatusBar />
         </Row>
       </Column>
       <Column>
@@ -187,12 +172,4 @@ const GetStarted = ({ verifyIdentity }) => (
   </Wrapper>
 )
 
-const mapDispatchToProps = dispatch => ({
-  verifyIdentity: () =>
-    dispatch(actions.components.identityVerification.verifyIdentity())
-})
-
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(GetStarted)
+export default GetStarted
