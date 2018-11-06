@@ -78,7 +78,10 @@ export default (state = INITIAL_STATE, action) => {
         state
       )
     }
-    case AT.SET_LATEST_APP_INFOS: {
+    case AT.SET_LATEST_APP_INFOS_LOADING: {
+      return assocPath(['appManager', 'latestAppInfos'], Remote.Loading, state)
+    }
+    case AT.SET_LATEST_APP_INFOS_SUCCESS: {
       return assocPath(
         ['appManager', 'latestAppInfos'],
         Remote.Success(payload),

@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedHTMLMessage } from 'react-intl'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, Text, TextGroup } from 'blockchain-info-components'
 // import { RotateSync } from 'components/RotateSync'
 
 const Row = styled.div`
@@ -20,8 +20,10 @@ const AppDetails = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: start;
+   justify-items: center;
   & > :last-child {
-    margin-left: 10px;
+    margin-left: 15px;
   }
 `
 const AppActions = styled.div`
@@ -39,24 +41,30 @@ const CoinIcon = styled(Icon)`
   background-color: ${props => props.theme[props.coin]};
 `
 const CoinInstallStatus = props => {
-  const { coin, icon, onInstall, onUninstall } = props
+  const { app, coin, installApp, uninstallApp } = props
+  const { name, version } = app
 
   return (
     <Row>
       <AppDetails>
-        <CoinIcon name={icon} size='40px' />
-        <Text size='16px' weight={300}>
-          {coin}
-        </Text>
+        <CoinIcon name={`${coin.toLowerCase()}-circle`} size='40px' />
+        <div>
+          <Text size='15px' weight={400}>
+            {name}
+          </Text>
+          <Text size='13px' weight={300}>
+            v{version}
+          </Text>
+        </div>
       </AppDetails>
       <AppActions>
-        <Button nature='empty' width='75px' onClick={onInstall}>
+        <Button nature='empty' width='75px' onClick={installApp}>
           <FormattedHTMLMessage
             id='modals.lockbox.appmanager.install'
             defaultMessage='Install'
           />
         </Button>
-        <Button nature='empty' width='75px' onClick={onUninstall}>
+        <Button nature='empty' width='75px' onClick={uninstallApp}>
           <Icon name='trash' size='18px' />
         </Button>
       </AppActions>

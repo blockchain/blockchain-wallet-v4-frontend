@@ -9,12 +9,6 @@ export default {
     ETH: 18,
     XLM: 27
   },
-  appNames: {
-    BTC: 'Bitcoin',
-    BCH: 'Bitcoin Cash',
-    ETH: 'Ethereum',
-    XLM: 'Stellar'
-  },
   providers: {
     '': 1,
     das: 2,

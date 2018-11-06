@@ -142,41 +142,44 @@ export const appManagerContinue = () => ({
 export const setLatestAppInfosLoading = () => ({
   type: AT.SET_LATEST_APP_INFOS_LOADING
 })
+export const setLatestAppInfosFailure = () => ({
+  type: AT.SET_LATEST_APP_INFOS_FAILURE
+})
 export const setLatestAppInfosSuccess = appInfos => ({
   type: AT.SET_LATEST_APP_INFOS_SUCCESS,
-  payload: { appInfos }
+  payload: appInfos
 })
-export const installApplication = app => ({
+export const installApplication = appName => ({
   type: AT.INSTALL_APPLICATION,
-  payload: { app }
+  payload: { appName }
 })
-export const installApplicationLoading = app => ({
+export const installApplicationLoading = appName => ({
   type: AT.INSTALL_APPLICATION_LOADING,
-  payload: { app }
+  payload: { appName }
 })
-export const installApplicationSuccess = app => ({
+export const installApplicationSuccess = appName => ({
   type: AT.INSTALL_APPLICATION_SUCCESS,
-  payload: { app }
+  payload: { appName }
 })
-export const installApplicationFailure = (app, error) => ({
+export const installApplicationFailure = (appName, error) => ({
   type: AT.INSTALL_APPLICATION_FAILURE,
-  payload: { app, error }
+  payload: { appName, error }
 })
-export const uninstallApplication = app => ({
+export const uninstallApplication = appName => ({
   type: AT.UNINSTALL_APPLICATION,
-  payload: { app }
+  payload: { appName }
 })
-export const uninstallApplicationLoading = app => ({
+export const uninstallApplicationLoading = appName => ({
   type: AT.UNINSTALL_APPLICATION_LOADING,
-  payload: { app }
+  payload: { appName }
 })
-export const uninstallApplicationSuccess = app => ({
+export const uninstallApplicationSuccess = appName => ({
   type: AT.UNINSTALL_APPLICATION_SUCCESS,
-  payload: { app }
+  payload: { appName }
 })
-export const uninstallApplicationFailure = (app, error) => ({
+export const uninstallApplicationFailure = (appName, error) => ({
   type: AT.UNINSTALL_APPLICATION_FAILURE,
-  payload: { app, error }
+  payload: { appName, error }
 })
 export const resetAppsInstallStatus = () => ({
   type: AT.RESET_APPS_INSTALL_STATUS
