@@ -23,7 +23,8 @@ export const coinProps = {
     airdrop: {
       name: 'SUNRIVER',
       link:
-        'https://support.blockchain.com/hc/en-us/categories/360001126692-Crypto-Giveaway'
+        'https://support.blockchain.com/hc/en-us/categories/360001126692-Crypto-Giveaway',
+      image: 'stellar-planet'
     }
   }
 }

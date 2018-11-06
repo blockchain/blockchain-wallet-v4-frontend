@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import media from 'services/ResponsiveService'
 
-import { Button, Icon, Link, Text } from 'blockchain-info-components'
+import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
 import { coinProps } from './model'
 
 const Wrapper = styled.div`
@@ -109,10 +109,13 @@ const Welcome = props => {
           </ButtonContainer>
         </Row>
         <CoinRow coin={coin.toLowerCase()}>
-          <Icon
-            name={coinProps[coin].icon}
-            color={coin.toLowerCase()}
-            size='160px'
+          <Image
+            name={coinProps[coin].airdrop.image}
+            width='75%'
+            srcset={{
+              [`${coinProps[coin].airdrop.image}2`]: '2x',
+              [`${coinProps[coin].airdrop.image}3`]: '3x'
+            }}
           />
         </CoinRow>
       </Container>
