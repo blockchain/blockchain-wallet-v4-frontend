@@ -37,11 +37,3 @@ export const getApplicationInstalls = path([
   'installs',
   'apps'
 ])
-
-// TODO: remove once app store is introduced
-export const getBlockchainInstall = path([
-  'components',
-  'lockbox',
-  'installs',
-  'blockchain'
-])

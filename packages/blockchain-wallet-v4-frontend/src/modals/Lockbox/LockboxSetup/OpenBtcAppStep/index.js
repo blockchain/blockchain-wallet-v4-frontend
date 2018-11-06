@@ -11,7 +11,7 @@ class OpenBtcAppStepContainer extends React.PureComponent {
   }
 
   onInstallApps = () => {
-    this.props.modalActions.showModal('LockboxAppInstall')
+    this.props.modalActions.showModal('LockboxAppManager')
   }
 
   onStepChange = () => {

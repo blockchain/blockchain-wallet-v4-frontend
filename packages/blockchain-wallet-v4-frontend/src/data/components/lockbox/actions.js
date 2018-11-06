@@ -128,8 +128,9 @@ export const updateTransactionList = deviceIndex => ({
 })
 
 // APPLICATIONS
-export const continueAppInstall = () => ({
-  type: AT.CONTINUE_APP_INSTALL
+export const initializeAppManager = deviceIndex => ({
+  type: AT.INITIALIZE_APP_MANAGER,
+  payload: { deviceIndex }
 })
 export const installApplication = app => ({
   type: AT.INSTALL_APPLICATION,
@@ -162,21 +163,6 @@ export const uninstallApplicationSuccess = app => ({
 export const uninstallApplicationFailure = (app, error) => ({
   type: AT.UNINSTALL_APPLICATION_FAILURE,
   payload: { app, error }
-})
-// TODO: remove blockchain actions once app store is introduced
-export const installBlockchainApps = deviceIndex => ({
-  type: AT.INSTALL_BLOCKCHAIN_APPS,
-  payload: { deviceIndex }
-})
-export const installBlockchainAppsLoading = () => ({
-  type: AT.INSTALL_BLOCKCHAIN_APPS_LOADING
-})
-export const installBlockchainAppsSuccess = () => ({
-  type: AT.INSTALL_BLOCKCHAIN_APPS_SUCCESS
-})
-export const installBlockchainAppsFailure = error => ({
-  type: AT.INSTALL_BLOCKCHAIN_APPS_FAILURE,
-  payload: { error }
 })
 export const resetAppsInstallStatus = () => ({
   type: AT.RESET_APPS_INSTALL_STATUS

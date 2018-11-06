@@ -2,30 +2,31 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 
+import { Modal, ModalBody, ModalHeader, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
-import LockboxAppInstall from './template'
-import CoinInstallStatus from './status.template'
+import App from './template'
 
-class LockboxAppInstallContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.onContinue = this.onContinue.bind(this)
-    this.state = { isInstallStep: false }
-  }
+const Wrapper = styled(ModalBody)`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 25px;
+`
+
+class AppManagerContainer extends React.PureComponent {
+  state = { showApps: false }
 
   componentDidMount () {
-    this.props.lockboxActions.installBlockchainApps(this.props.deviceIndex)
-  }
-
-  onContinue () {
-    this.props.lockboxActions.continueAppInstall()
-    this.setState({ isInstallStep: true })
+    this.props.lockboxActions.initializeAppManager(this.props.deviceIndex)
   }
 
   render () {
-    const { appStatus, blockchainStatus, connection } = this.props
+    const { appStatus, connection, total, position, closeAll } = this.props
     const btcStatus = appStatus.BTC.cata({
       Success: () => ({ success: true }),
       Failure: resp => ({ error: resp.error }),
@@ -50,31 +51,38 @@ class LockboxAppInstallContainer extends React.PureComponent {
       Loading: () => ({ busy: true }),
       NotAsked: () => ({ waiting: true })
     })
-    const overallStatus = blockchainStatus.cata({
-      Success: () => ({ busy: false }),
-      Failure: resp => ({ error: resp.error }),
-      Loading: () => ({ busy: true }),
-      NotAsked: () => ({ busy: true })
-    })
 
     return (
-      <LockboxAppInstall
-        overallStatus={overallStatus}
-        isOnDashboard={connection.app === 'DASHBOARD'}
-        isInstallStep={this.state.isInstallStep}
-        onContinue={this.onContinue}
-        {...this.props}
-      >
-        <CoinInstallStatus coin='Bitcoin' status={btcStatus} />
-        <CoinInstallStatus coin='Bitcoin Cash' status={bchStatus} />
-        <CoinInstallStatus coin='Ethereum' status={ethStatus} />
-        <CoinInstallStatus coin='Stellar' status={xlmStatus} />
-      </LockboxAppInstall>
+      <Modal size='large' position={position} total={total}>
+        <ModalHeader onClose={closeAll}>
+          <FormattedMessage
+            id='modals.lockbox.appmanager.title'
+            defaultMessage='App Catalog'
+          />
+        </ModalHeader>
+        <Wrapper>
+          {connection.app !== 'DASHBOARD' ? (
+            <Text size='16px' weight={300}>
+              <FormattedHTMLMessage
+                id='modals.lockbox.appmanager.connectdevice'
+                defaultMessage='Plug in device, unlock and open the dashboard on your device'
+              />
+            </Text>
+          ) : (
+            <React.Fragment>
+              <App coin='Bitcoin' icon='btc-circle' status={btcStatus} />
+              <App coin='Bitcoin Cash' icon='bch-circle' status={bchStatus} />
+              <App coin='Ethereum' icon='eth-circle' status={ethStatus} />
+              <App coin='Stellar' icon='xlm-circle' status={xlmStatus} />
+            </React.Fragment>
+          )}
+        </Wrapper>
+      </Modal>
     )
   }
 }
 
-LockboxAppInstallContainer.propTypes = {
+AppManagerContainer.propTypes = {
   deviceIndex: PropTypes.string.isRequired,
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
@@ -83,7 +91,6 @@ LockboxAppInstallContainer.propTypes = {
 
 const mapStateToProps = state => ({
   appStatus: selectors.components.lockbox.getApplicationInstalls(state),
-  blockchainStatus: selectors.components.lockbox.getBlockchainInstall(state),
   connection: selectors.components.lockbox.getCurrentConnection(state)
 })
 
@@ -92,11 +99,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('LockboxAppInstall'),
+  modalEnhancer('LockboxAppManager'),
   connect(
     mapStateToProps,
     mapDispatchToProps
   )
 )
 
-export default enhance(LockboxAppInstallContainer)
+export default enhance(AppManagerContainer)

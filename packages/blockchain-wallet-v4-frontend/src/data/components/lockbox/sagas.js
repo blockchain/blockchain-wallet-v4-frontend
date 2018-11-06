@@ -58,13 +58,16 @@ export default ({ api }) => {
   const pollForDeviceApp = function*(action) {
     try {
       let { appRequested, deviceIndex, deviceType, timeout } = action.payload
-      if (!deviceIndex && !deviceType) {
-        throw new Error('deviceIndex or deviceType is required')
-      }
+
       // close previous transport and reset old connection info
       try {
-        const { transport } = yield select(S.getCurrentConnection)
-        if (transport) transport.close()
+        const previousConnection = yield select(S.getCurrentConnection)
+        if (!deviceIndex && !deviceType) {
+          deviceType = previousConnection.deviceType
+        }
+        if (previousConnection.transport) {
+          previousConnection.transport.close()
+        }
       } finally {
         yield put(A.resetConnectionStatus())
       }
@@ -573,6 +576,45 @@ export default ({ api }) => {
     }
   }
 
+  // initializes the app manager to add and remove apps
+  const initializeAppManager = function*(action) {
+    const { deviceIndex } = action.payload
+
+    try {
+      if (deviceIndex) {
+        // derive device type
+        const deviceR = yield select(
+          selectors.core.kvStore.lockbox.getDevice,
+          deviceIndex
+        )
+        const deviceType = prop('device_type', deviceR.getOrFail())
+        // poll for device connection on dashboard
+        yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType))
+      } else {
+        // no device index passed, user may be in device setup. quick poll for device type
+        closePoll = false
+        let pollLength = 2500
+        pollPosition = 0
+        // poll for device type via channel
+        const deviceTypeChannel = yield call(
+          pollForDeviceTypeChannel,
+          pollLength
+        )
+        yield takeEvery(deviceTypeChannel, function*(deviceType) {
+          yield put(
+            A.pollForDeviceApp('DASHBOARD', null, deviceType, pollLength)
+          )
+        })
+      }
+      // device connection made
+      yield take(AT.SET_CONNECTION_INFO)
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'initializeAppManager', e)
+      )
+    }
+  }
+
   // installs requested application on device
   const installApplication = function*(action) {
     const { app } = action.payload
@@ -644,12 +686,7 @@ export default ({ api }) => {
         current_se_firmware_final_version: seFirmwareVersion.id,
         device_version: deviceVersion.id
       })
-      const appNameMap = {
-        BTC: 'Bitcoin',
-        BCH: 'Bitcoin Cash',
-        ETH: 'Ethereum'
-      }
-      const appInfo = find(propEq('name', appNameMap[app]))(
+      const appInfo = find(propEq('name', Lockbox.constants.appNames[app]))(
         prop('application_versions', appInfos)
       )
       // fetch base socket domain
@@ -666,80 +703,14 @@ export default ({ api }) => {
         appInfo
       )
       yield put(A.uninstallApplicationSuccess(app))
+      // yield take([
+      //   AT.INSTALL_APPLICATION_FAILURE,
+      //   AT.INSTALL_APPLICATION_SUCCESS
+      // ])
     } catch (e) {
       yield put(A.uninstallApplicationFailure(app, e))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'uninstallApplication', e)
-      )
-    }
-  }
-
-  // installs blockchain standard apps (BTC, BCH, ETH)
-  // TODO: remove Blockchain install saga once app store is introduced
-  const installBlockchainApps = function*(action) {
-    try {
-      const { deviceIndex } = action.payload
-      yield put(A.resetAppsInstallStatus())
-      yield put(A.installBlockchainAppsLoading())
-      if (deviceIndex) {
-        // derive device type
-        const deviceR = yield select(
-          selectors.core.kvStore.lockbox.getDevice,
-          deviceIndex
-        )
-        const deviceType = prop('device_type', deviceR.getOrFail())
-        // poll for device connection on dashboard
-        yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType))
-      } else {
-        // no device index passed, user is still in device setup
-        // poll for device type
-        closePoll = false
-        let pollLength = 2500
-        pollPosition = 0
-        // poll for device type via channel
-        const deviceTypeChannel = yield call(
-          pollForDeviceTypeChannel,
-          pollLength
-        )
-        yield takeEvery(deviceTypeChannel, function*(deviceType) {
-          yield put(
-            A.pollForDeviceApp('DASHBOARD', null, deviceType, pollLength)
-          )
-        })
-      }
-      // device connection made
-      yield take(AT.SET_CONNECTION_INFO)
-      // wait for user to continue
-      yield take(AT.CONTINUE_APP_INSTALL)
-      // install BTC app
-      yield put(A.installApplication('BTC'))
-      yield take([
-        AT.INSTALL_APPLICATION_FAILURE,
-        AT.INSTALL_APPLICATION_SUCCESS
-      ])
-      // install BCH app
-      yield put(A.installApplication('BCH'))
-      yield take([
-        AT.INSTALL_APPLICATION_FAILURE,
-        AT.INSTALL_APPLICATION_SUCCESS
-      ])
-      // install ETH app
-      yield put(A.installApplication('ETH'))
-      yield take([
-        AT.INSTALL_APPLICATION_FAILURE,
-        AT.INSTALL_APPLICATION_SUCCESS
-      ])
-      // install XLM app
-      yield put(A.installApplication('XLM'))
-      yield take([
-        AT.INSTALL_APPLICATION_FAILURE,
-        AT.INSTALL_APPLICATION_SUCCESS
-      ])
-      yield put(A.installBlockchainAppsSuccess())
-    } catch (e) {
-      yield put(A.installBlockchainAppsFailure(e))
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'installBlockchainApps', e)
       )
     }
   }
@@ -751,9 +722,9 @@ export default ({ api }) => {
     pollForDeviceAppChannel,
     determineLockboxRoute,
     initializeDashboard,
+    initializeAppManager,
     initializeNewDeviceSetup,
     installApplication,
-    installBlockchainApps,
     pollForDeviceApp,
     saveNewDeviceKvStore,
     saveCoinMD,
