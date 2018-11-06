@@ -34,7 +34,7 @@ const WhatsNewIcon = props => {
         highlighted={highlighted}
         data-e2e='notificationsLink'
       >
-        <Icon id='whatsnew-icon' name='bell' color='white' cursor />
+        <Icon id='whatsnew-icon' name='bell' color='white' size='20px' cursor />
       </WhatsNewLink>
     </TooltipHost>
   )
