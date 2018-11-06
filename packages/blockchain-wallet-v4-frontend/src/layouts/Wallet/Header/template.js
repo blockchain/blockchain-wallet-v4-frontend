@@ -50,13 +50,13 @@ const Header = props => (
         <div />
         <NavbarNav>
           <NavbarNavItem>
-            <FaqIcon />
-          </NavbarNavItem>
-          <NavbarNavItem>
             <WhatsNewIcon />
           </NavbarNavItem>
           <NavbarNavItem>
             <RefreshIcon />
+          </NavbarNavItem>
+          <NavbarNavItem>
+            <FaqIcon />
           </NavbarNavItem>
           <NavbarNavItem>
             <Logout />
