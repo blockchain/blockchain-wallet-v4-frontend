@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 import FaqGroup from './FaqGroup'
 
@@ -55,7 +55,9 @@ const Faq = props => (
           defaultMessage='Need more help?'
         />
       </Text>
-      <Button nature='primary'>Support Center</Button>
+      <Link href='https://support.blockchain.com/' target='_blank'>
+        <Button nature='primary'>Support Center</Button>
+      </Link>
     </ContentHeader>
     <Search>
       <Field name='search' component={TextBox} />
