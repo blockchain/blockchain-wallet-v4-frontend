@@ -1,3 +1,4 @@
+import airdropWelcome from './img/airdrop-welcome.png'
 import appStoreBadge from './img/app-store-badge.svg'
 import bitcoinNetwork from './img/bitcoin-network.svg'
 import blockchainBlue from './img/blockchain-blue.svg'
@@ -23,6 +24,7 @@ import halfBitcoin from './img/half-bitcoin.svg'
 import halfBitcoincash from './img/half-bitcoincash.svg'
 import halfEther from './img/half-ether.svg'
 import identityVerification from './img/identity-verification.svg'
+import kycGetStarted from './img/kyc-get-started@2x.png'
 import linkLockboxIcon from './img/link-lockbox-icon.svg'
 import linkedinWhite from './img/linkedin-white.svg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
@@ -81,6 +83,7 @@ import sendReview2 from './img/lockbox/send-review@2x.png'
 import sendReview3 from './img/lockbox/send-review@3x.png'
 
 export default {
+  'airdrop-welcome': airdropWelcome,
   'app-store-badge': appStoreBadge,
   'bitcoin-network': bitcoinNetwork,
   'blockchain-blue': blockchainBlue,
@@ -106,6 +109,7 @@ export default {
   'half-bitcoincash': halfBitcoincash,
   'half-ether': halfEther,
   'identity-verification': identityVerification,
+  'kyc-get-started': kycGetStarted,
   'lockbox-welcome-safe': lockboxWelcomeSafe,
   'lockbox-usb': lockboxUsb,
   'link-lockbox-icon': linkLockboxIcon,

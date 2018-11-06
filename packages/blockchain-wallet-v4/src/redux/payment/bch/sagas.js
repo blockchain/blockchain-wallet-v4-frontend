@@ -108,7 +108,7 @@ export default ({ api }) => {
 
     switch (type) {
       case ADDRESS_TYPES.ACCOUNT:
-        return fromAccount(network, appState, origin, 'BTC')
+        return fromAccount(network, appState, origin, 'BCH')
       case ADDRESS_TYPES.LEGACY:
         if (isCashAddr(origin)) {
           return fromLegacy(fromCashAddr(origin))

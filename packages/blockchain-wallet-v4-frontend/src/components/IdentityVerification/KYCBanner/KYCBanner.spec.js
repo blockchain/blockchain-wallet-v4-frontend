@@ -29,7 +29,7 @@ const ProfileStub = () => <div />
 const coreSagas = {}
 const api = {
   generateRetailToken: jest.fn(() => ({})),
-  checkUserExistance: jest.fn()
+  checkUserExistence: jest.fn()
 }
 
 describe('Profile Settings', () => {
@@ -59,20 +59,22 @@ describe('Profile Settings', () => {
     })
 
     describe('default state', () => {
-      it('should have KYC_STATE: NONE by default', () => {
-        expect(wrapper.find(KYCBanner).prop('kycState')).toBe(KYC_STATES.NONE)
+      it('should not render by default', () => {
+        expect(wrapper.find(KYCBanner).isEmptyRender()).toBe(true)
       })
     })
 
     describe('KYC_STATE: NONE', () => {
-      // it('should trigger verifyIdentity action on button click', () => {
-      //   wrapper.find('button').simulate('click')
+      beforeEach(() => {
+        store.dispatch(
+          actions.modules.profile.fetchUserDataSuccess({
+            state: USER_ACTIVATION_STATES.NONE,
+            kycState: KYC_STATES.NONE
+          })
+        )
+        wrapper.unmount().mount()
+      })
 
-      //   const lastAction = last(dispatchSpy.mock.calls)[0]
-      //   expect(path(['type'], lastAction)).toBe(
-      //     actionTypes.components.identityVerification.VERIFY_IDENTITY
-      //   )
-      // })
       it('should trigger verifyIdentity action on button click', () => {
         wrapper.find('button').simulate('click')
 
@@ -93,7 +95,7 @@ describe('Profile Settings', () => {
 
       it('should show KYC modal on button click when checkUser returns error', async () => {
         getUserId.mockReturnValue(Remote.of(''))
-        api.checkUserExistance.mockRejectedValue({})
+        api.checkUserExistence.mockRejectedValue({})
         await wrapper.find('button').simulate('click')
 
         const lastAction = last(dispatchSpy.mock.calls)[0]
@@ -103,7 +105,7 @@ describe('Profile Settings', () => {
 
       it('should show USER_EXISTS modal on button click when checkUser returns success', async () => {
         getUserId.mockReturnValue(Remote.of(''))
-        api.checkUserExistance.mockResolvedValue('')
+        api.checkUserExistence.mockResolvedValue('')
         await wrapper.find('button').simulate('click')
 
         const lastAction = last(dispatchSpy.mock.calls)[0]
@@ -115,7 +117,7 @@ describe('Profile Settings', () => {
     describe('KYC_STATE: PENDING', () => {
       beforeEach(() => {
         store.dispatch(
-          actions.modules.profile.setUserData({
+          actions.modules.profile.fetchUserDataSuccess({
             state: USER_ACTIVATION_STATES.CREATED,
             kycState: KYC_STATES.PENDING
           })
@@ -131,7 +133,7 @@ describe('Profile Settings', () => {
     describe('KYC_STATE: VERIFIED', () => {
       beforeEach(() => {
         store.dispatch(
-          actions.modules.profile.setUserData({
+          actions.modules.profile.fetchUserDataSuccess({
             state: USER_ACTIVATION_STATES.ACTIVE,
             kycState: KYC_STATES.VERIFIED
           })
@@ -148,7 +150,7 @@ describe('Profile Settings', () => {
     describe('USER_ACTIVATION_STATES: NONE', () => {
       beforeEach(() => {
         store.dispatch(
-          actions.modules.profile.setUserData({
+          actions.modules.profile.fetchUserDataSuccess({
             state: USER_ACTIVATION_STATES.NONE,
             kycState: KYC_STATES.NONE
           })
@@ -185,7 +187,7 @@ describe('Profile Settings', () => {
     describe('KYC_STATE: PENDING', () => {
       beforeEach(() => {
         store.dispatch(
-          actions.modules.profile.setUserData({
+          actions.modules.profile.fetchUserDataSuccess({
             state: USER_ACTIVATION_STATES.CREATED,
             kycState: KYC_STATES.PENDING
           })
@@ -206,7 +208,9 @@ describe('Profile Settings', () => {
     describe('KYC_STATE: VERIFIED', () => {
       beforeEach(() => {
         store.dispatch(
-          actions.modules.profile.setUserData({ kycState: KYC_STATES.VERIFIED })
+          actions.modules.profile.fetchUserDataSuccess({
+            kycState: KYC_STATES.VERIFIED
+          })
         )
         wrapper.unmount().mount()
       })
@@ -219,7 +223,7 @@ describe('Profile Settings', () => {
     describe('USER_ACTIVATION_STATES: NONE', () => {
       beforeEach(() => {
         store.dispatch(
-          actions.modules.profile.setUserData({
+          actions.modules.profile.fetchUserDataSuccess({
             state: USER_ACTIVATION_STATES.NONE,
             kycState: KYC_STATES.NONE
           })

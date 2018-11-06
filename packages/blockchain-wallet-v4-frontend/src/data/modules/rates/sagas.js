@@ -41,7 +41,19 @@ export default ({ api }) => {
     try {
       yield put(A.availablePairsLoading())
       const { pairs } = yield call(api.fetchAvailablePairs)
-      yield put(A.availablePairsSuccess(pairs))
+      // XLM-TODO: remove pairs hack
+      yield put(
+        A.availablePairsSuccess(
+          pairs.concat([
+            'XLM-BTC',
+            'BTC-XLM',
+            'XLM-BCH',
+            'BCH-XLM',
+            'XLM-ETH',
+            'ETH-XLM'
+          ])
+        )
+      )
     } catch (e) {
       yield put(A.availablePairsError(e))
     }

@@ -20,8 +20,8 @@ export default ({ nabuUrl, post, get }) => {
       ignoreQueryParams: true
     })
 
-  const fetchTrades = (limit, before = null) => {
-    const data = { limit }
+  const fetchTrades = (limit, userFiatCurrency, before = null) => {
+    const data = { limit, userFiatCurrency }
     if (before) data.before = before
     return get({
       url: nabuUrl,

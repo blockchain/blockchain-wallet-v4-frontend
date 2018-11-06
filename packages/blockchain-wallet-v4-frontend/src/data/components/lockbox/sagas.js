@@ -1,14 +1,14 @@
 import { call, put, take, select, takeEvery } from 'redux-saga/effects'
-import { contains, find, length, prop, propEq } from 'ramda'
+import { head, contains, find, length, prop, propEq } from 'ramda'
 import { delay, eventChannel, END } from 'redux-saga'
-import { actions, selectors } from 'data'
+import { actionTypes, actions, selectors } from 'data'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as C from 'services/AlertService'
 import * as S from './selectors'
 import * as CC from 'services/ConfirmService'
 import * as Lockbox from 'services/LockboxService'
-import { confirm } from 'services/SagaService'
+import { confirm, promptForLockbox } from 'services/SagaService'
 
 const logLocation = 'components/lockbox/sagas'
 
@@ -196,6 +196,7 @@ export default ({ api }) => {
       yield put(actions.core.data.bch.fetchData())
       yield put(actions.core.data.bitcoin.fetchData())
       yield put(actions.core.data.ethereum.fetchData())
+      yield put(actions.core.data.xlm.fetchData())
       yield put(actions.alerts.displaySuccess(C.LOCKBOX_SETUP_SUCCESS))
       const devices = (yield select(
         selectors.core.kvStore.lockbox.getDevices
@@ -210,6 +211,45 @@ export default ({ api }) => {
     } finally {
       // reset new device setup to step 1
       yield put(A.changeDeviceSetupStep('setup-type'))
+    }
+  }
+
+  const saveCoinMD = function*(action) {
+    try {
+      const { deviceIndex, coin } = action.payload
+      const deviceR = yield select(
+        selectors.core.kvStore.lockbox.getDevice,
+        deviceIndex
+      )
+      const deviceType = prop('device_type', deviceR.getOrFail())
+      const deviceName = prop('device_name', deviceR.getOrFail())
+      let entry
+      switch (coin) {
+        case 'xlm':
+          yield call(promptForLockbox, 'XLM', deviceType, [], false)
+          const { transport } = yield select(S.getCurrentConnection)
+          const { publicKey } = yield call(
+            Lockbox.utils.getXlmPublicKey,
+            deviceType,
+            transport
+          )
+          entry = Lockbox.utils.generateXlmAccountMDEntry(deviceName, publicKey)
+          yield put(actions.components.lockbox.setConnectionSuccess())
+          yield delay(2000)
+          yield put(actions.modals.closeAllModals())
+          break
+        default:
+          throw new Error('unknown coin type')
+      }
+      yield put(
+        actions.core.kvStore.lockbox.addCoinEntry(deviceIndex, coin, entry)
+      )
+      yield take(
+        actionTypes.core.kvStore.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS
+      )
+      yield put(A.initializeDashboard(deviceIndex))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'saveCoinMD', e))
     }
   }
 
@@ -254,6 +294,7 @@ export default ({ api }) => {
           yield put(actions.core.data.bitcoin.fetchTransactions('', true))
           yield put(actions.core.data.ethereum.fetchTransactions('', true))
           yield put(actions.core.data.bch.fetchTransactions('', true))
+          yield put(actions.core.data.xlm.fetchTransactions('', true))
         } catch (e) {
           yield put(A.deleteDeviceFailure(e))
           yield put(actions.alerts.displayError(C.LOCKBOX_DELETE_ERROR))
@@ -346,69 +387,41 @@ export default ({ api }) => {
 
   // loads data for device dashboard
   const initializeDashboard = function*(action) {
-    const { deviceIndex } = action.payload
-    const btcContextR = yield select(
-      selectors.core.kvStore.lockbox.getBtcContextForDevice,
-      deviceIndex
-    )
-    const bchContextR = yield select(
-      selectors.core.kvStore.lockbox.getBchContextForDevice,
-      deviceIndex
-    )
-    const ethContextR = yield select(
-      selectors.core.kvStore.lockbox.getEthContextForDevice,
-      deviceIndex
-    )
-    yield put(
-      actions.core.data.bitcoin.fetchTransactions(
-        btcContextR.getOrElse(null),
-        true
-      )
-    )
-    yield put(
-      actions.core.data.ethereum.fetchTransactions(
-        ethContextR.getOrElse(null),
-        true
-      )
-    )
-    yield put(
-      actions.core.data.bch.fetchTransactions(bchContextR.getOrElse(null), true)
-    )
+    yield call(updateTransactionList, action)
   }
 
   // updates latest transaction information for device
   const updateTransactionList = function*(action) {
-    const { deviceIndex } = action.payload
-    const btcContextR = yield select(
+    const { deviceIndex, reset } = action.payload
+    const btcContext = (yield select(
       selectors.core.kvStore.lockbox.getBtcContextForDevice,
       deviceIndex
-    )
-    const bchContextR = yield select(
+    )).getOrElse(null)
+    const bchContext = (yield select(
       selectors.core.kvStore.lockbox.getBchContextForDevice,
       deviceIndex
-    )
-    const ethContextR = yield select(
+    )).getOrElse(null)
+    const ethContext = (yield select(
       selectors.core.kvStore.lockbox.getEthContextForDevice,
       deviceIndex
+    )).getOrElse(null)
+    const xlmContext = head(
+      (yield select(
+        selectors.core.kvStore.lockbox.getXlmContextForDevice,
+        deviceIndex
+      )).getOrElse(null)
     )
-    yield put(
-      actions.core.data.bitcoin.fetchTransactions(
-        btcContextR.getOrElse(null),
-        false
-      )
-    )
-    yield put(
-      actions.core.data.ethereum.fetchTransactions(
-        ethContextR.getOrElse(null),
-        false
-      )
-    )
-    yield put(
-      actions.core.data.bch.fetchTransactions(
-        bchContextR.getOrElse(null),
-        false
-      )
-    )
+
+    yield put(actions.core.data.bitcoin.fetchTransactions(btcContext, reset))
+    yield put(actions.core.data.ethereum.fetchTransactions(ethContext, reset))
+    yield put(actions.core.data.bch.fetchTransactions(bchContext, reset))
+    // xlmContext can be empty if not saved to MD yet
+    // if empty set transaction list to empty array to avoid mixing tx lists
+    if (xlmContext) {
+      yield put(actions.core.data.xlm.fetchTransactions(xlmContext, reset))
+    } else {
+      yield put(actions.core.data.xlm.fetchTransactionsSuccess([], true))
+    }
   }
 
   // update device firmware saga
@@ -716,6 +729,12 @@ export default ({ api }) => {
         AT.INSTALL_APPLICATION_FAILURE,
         AT.INSTALL_APPLICATION_SUCCESS
       ])
+      // install XLM app
+      yield put(A.installApplication('XLM'))
+      yield take([
+        AT.INSTALL_APPLICATION_FAILURE,
+        AT.INSTALL_APPLICATION_SUCCESS
+      ])
       yield put(A.installBlockchainAppsSuccess())
     } catch (e) {
       yield put(A.installBlockchainAppsFailure(e))
@@ -737,6 +756,7 @@ export default ({ api }) => {
     installBlockchainApps,
     pollForDeviceApp,
     saveNewDeviceKvStore,
+    saveCoinMD,
     uninstallApplication,
     updateDeviceFirmware,
     updateDeviceName,

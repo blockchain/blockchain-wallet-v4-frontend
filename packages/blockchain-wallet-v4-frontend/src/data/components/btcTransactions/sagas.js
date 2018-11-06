@@ -4,7 +4,7 @@ import { actions, selectors } from 'data'
 
 export const logLocation = 'components/btcTransactions/sagas'
 
-export default ({ coreSagas }) => {
+export default () => {
   const initialized = function*() {
     try {
       const defaultSource = 'all'
@@ -13,7 +13,7 @@ export default ({ coreSagas }) => {
         status: '',
         search: ''
       }
-      yield put(actions.form.initialize('btcTransactions', initialValues))
+      yield put(actions.form.initialize('transactions', initialValues))
       yield put(actions.core.data.bitcoin.fetchTransactions('', true))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
@@ -33,7 +33,7 @@ export default ({ coreSagas }) => {
       const pathname = yield select(selectors.router.getPathname)
       if (!equals(pathname, '/btc/transactions')) return
       const formValues = yield select(
-        selectors.form.getFormValues('btcTransactions')
+        selectors.form.getFormValues('transactions')
       )
       const source = prop('source', formValues)
       const threshold = 250
@@ -54,7 +54,7 @@ export default ({ coreSagas }) => {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      if (!equals('btcTransactions', form)) return
+      if (!equals('transactions', form)) return
 
       switch (field) {
         case 'source':

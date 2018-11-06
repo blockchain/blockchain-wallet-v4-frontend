@@ -1,8 +1,9 @@
+import { lift } from 'ramda'
+
 import { selectors } from 'data'
 
-export const getData = state => ({
-  kycState: selectors.modules.profile.getUserKYCState(state),
-  userFlowSupported: selectors.modules.profile
-    .userFlowSupported(state)
-    .getOrElse(false)
-})
+export const getData = state => {
+  const transform = kycState => ({ kycState })
+  const data = lift(transform)(selectors.modules.profile.getUserKYCState(state))
+  return { data }
+}

@@ -10,6 +10,7 @@ import exchangeHistoryReducer from 'data/components/exchangeHistory/reducers'
 import { pollTimeout } from 'data/components/exchangeHistory/sagas'
 import exchangeHistorySagas from 'data/components/exchangeHistory/sagaRegister'
 import { getTrades } from 'blockchain-wallet-v4/src/redux/kvStore/shapeShift/selectors'
+import settingsReducer from 'blockchain-wallet-v4/src/redux/settings/reducers'
 import {
   userFlowSupported,
   isUserActive,
@@ -29,8 +30,8 @@ jest.useFakeTimers()
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 jest.mock('data/modules/profile/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/kvStore/shapeShift/selectors')
-isUserActive.mockReturnValue(true)
-isUserVerified.mockReturnValue(true)
+isUserActive.mockReturnValue(Remote.of(true))
+isUserVerified.mockReturnValue(Remote.of(true))
 userFlowSupported.mockReturnValue(Remote.of(true))
 getTrades.mockReturnValue(Remote.of([]))
 
@@ -163,7 +164,8 @@ describe('ExchangeHistory', () => {
     spy: spyReducer,
     components: combineReducers({
       exchangeHistory: exchangeHistoryReducer
-    })
+    }),
+    settingsPath: settingsReducer
   }
   const sagas = [exchangeHistorySagas({ coreSagas, api })]
   let store

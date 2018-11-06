@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { contains, map, prop } from 'ramda'
 
 import { actions } from 'data'
-import { getData } from './selectors'
+import { getData, getCoinContexts } from './selectors'
 import Success from './template.success'
 import Loading from './template.loading'
 import Error from './template.error'
@@ -15,13 +15,7 @@ const createOption = label => ({
 })
 
 class CurrencyListContainer extends React.PureComponent {
-  constructor () {
-    super()
-    this.onRefresh = this.onRefresh.bind(this)
-    this.onCoinSelection = this.onCoinSelection.bind(this)
-  }
-
-  onCoinSelection (newValue) {
+  onCoinSelection = newValue => {
     if (!newValue) return
     if (contains(newValue, map(prop('value'), this.props.formValues))) return
     this.props.formActions.change('lockboxTransactions', 'search', {
@@ -29,12 +23,17 @@ class CurrencyListContainer extends React.PureComponent {
     })
   }
 
-  onRefresh () {
+  onSaveCoinMD = coin => {
+    this.props.lockboxActions.saveCoinMD(this.props.deviceIndex, coin)
+  }
+
+  onRefresh = () => {
     this.props.refreshActions.refreshClicked()
   }
 
   render () {
-    const { data, deviceInfo, formValues } = this.props
+    const { data, deviceInfo, formValues, ...rest } = this.props
+    const { coinContexts } = rest
     return deviceInfo
       ? data.cata({
           Success: val => (
@@ -42,6 +41,8 @@ class CurrencyListContainer extends React.PureComponent {
               data={val}
               formValues={formValues}
               deviceInfo={deviceInfo}
+              coinContexts={coinContexts}
+              handleSaveCoinMD={this.onSaveCoinMD}
               handleCoinSelection={this.onCoinSelection}
             />
           ),
@@ -53,12 +54,14 @@ class CurrencyListContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  data: getData(state)
+const mapStateToProps = (state, ownProps) => ({
+  data: getData(state),
+  coinContexts: getCoinContexts(state, ownProps.deviceIndex)
 })
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
+  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
   refreshActions: bindActionCreators(actions.components.refresh, dispatch)
 })
 

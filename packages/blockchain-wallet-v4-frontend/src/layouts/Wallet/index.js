@@ -7,7 +7,7 @@ import { actions, selectors } from 'data'
 import WalletLayout from './template'
 
 class WalletLayoutContainer extends React.PureComponent {
-  componentWillMount () {
+  componentDidMount () {
     this.props.kvStoreWhatsNewActions.fetchMetadataWhatsnew()
     this.props.kvStoreShapeshiftActions.fetchMetadataShapeshift()
     this.props.kvStoreBuySellActions.fetchMetadataBuySell()
@@ -18,7 +18,11 @@ class WalletLayoutContainer extends React.PureComponent {
       isAuthenticated,
       path,
       computedMatch,
-      component: Component
+      component: Component,
+      kvStoreWhatsNewActions,
+      kvStoreShapeshiftActions,
+      kvStoreBuySellActions,
+      ...rest
     } = this.props
 
     return isAuthenticated ? (
@@ -26,7 +30,7 @@ class WalletLayoutContainer extends React.PureComponent {
         path={path}
         render={props => (
           <WalletLayout location={props.location}>
-            <Component computedMatch={computedMatch} />
+            <Component computedMatch={computedMatch} {...rest} />
           </WalletLayout>
         )}
       />
@@ -37,7 +41,6 @@ class WalletLayoutContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  language: selectors.preferences.getLanguage(state),
   isAuthenticated: selectors.auth.isAuthenticated(state)
 })
 
@@ -53,13 +56,7 @@ const mapDispatchToProps = dispatch => ({
   kvStoreBuySellActions: bindActionCreators(
     actions.core.kvStore.buySell,
     dispatch
-  ),
-  kvStoreLockboxActions: bindActionCreators(
-    actions.core.kvStore.lockbox,
-    dispatch
-  ),
-  moduleSettingsActions: bindActionCreators(actions.modules.settings, dispatch),
-  settingsActions: bindActionCreators(actions.core.settings, dispatch)
+  )
 })
 
 export default connect(

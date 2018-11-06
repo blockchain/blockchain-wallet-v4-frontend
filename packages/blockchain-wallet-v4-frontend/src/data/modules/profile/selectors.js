@@ -2,6 +2,7 @@ import {
   and,
   any,
   path,
+  pathOr,
   compose,
   converge,
   equals,
@@ -14,23 +15,23 @@ import { USER_ACTIVATION_STATES, KYC_STATES } from './model'
 
 export const getUserData = path(['profile', 'userData'])
 export const getUserActivationState = compose(
-  prop('state'),
+  lift(prop('state')),
   getUserData
 )
 export const getUserKYCState = compose(
-  prop('kycState'),
+  lift(prop('kycState')),
   getUserData
 )
 export const isUserActive = compose(
-  equals(USER_ACTIVATION_STATES.ACTIVE),
+  lift(equals(USER_ACTIVATION_STATES.ACTIVE)),
   getUserActivationState
 )
 export const isUserVerified = compose(
-  equals(KYC_STATES.VERIFIED),
+  lift(equals(KYC_STATES.VERIFIED)),
   getUserKYCState
 )
 export const getUserCountryCode = compose(
-  path(['address', 'country']),
+  lift(path(['address', 'country'])),
   getUserData
 )
 
@@ -57,3 +58,5 @@ export const getAuthCredentials = state => ({
   email: selectors.core.settings.getEmail(state).getOrElse(''),
   guid: selectors.core.wallet.getGuid(state)
 })
+
+export const getCampaign = pathOr(null, ['profile', 'campaign'])

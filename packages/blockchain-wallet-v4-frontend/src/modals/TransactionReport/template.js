@@ -17,7 +17,7 @@ import {
 import {
   DateBoxDebounced,
   SelectBoxBtcAddresses,
-  SelectBoxBCHAddresses,
+  SelectBoxBchAddresses,
   Form
 } from 'components/Form'
 import { required } from 'services/FormHelper'
@@ -97,7 +97,7 @@ const FirstStep = props => {
                 name='from'
                 coin={coin}
                 component={
-                  coin === 'BTC' ? SelectBoxBtcAddresses : SelectBoxBCHAddresses
+                  coin === 'BTC' ? SelectBoxBtcAddresses : SelectBoxBchAddresses
                 }
               />
             </Row>

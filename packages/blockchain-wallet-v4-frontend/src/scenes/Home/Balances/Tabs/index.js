@@ -61,24 +61,20 @@ const TabIcon = styled(Icon)`
 `
 
 class TabsContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleClick = this.handleClick.bind(this)
-  }
-
-  handleClick (tab) {
+  handleClick = tab => {
     this.props.layoutActions.setBalancesTableTab(tab)
   }
 
   render () {
+    const { currentTab } = this.props
     return (
       <Tabs>
         <Tab
-          className={this.props.currentTab === 'total' ? 'active' : ''}
+          className={currentTab === 'total' ? 'active' : ''}
           onClick={() => this.handleClick('total')}
         >
           <TabIcon name='bank-filled' />
-          <TabHeader>
+          <TabHeader data-e2e='totalTab'>
             <FormattedMessage
               id='scenes.home.balance.total'
               defaultMessage='Total'
@@ -86,11 +82,11 @@ class TabsContainer extends React.PureComponent {
           </TabHeader>
         </Tab>
         <Tab
-          className={this.props.currentTab === 'wallet' ? 'active' : ''}
+          className={currentTab === 'wallet' ? 'active' : ''}
           onClick={() => this.handleClick('wallet')}
         >
           <TabIcon name='wallet' />
-          <TabHeader>
+          <TabHeader data-e2e='walletTab'>
             <FormattedMessage
               id='scenes.home.balance.wallet'
               defaultMessage='Wallet'
@@ -98,11 +94,11 @@ class TabsContainer extends React.PureComponent {
           </TabHeader>
         </Tab>
         <Tab
-          className={this.props.currentTab === 'lockbox' ? 'active' : ''}
+          className={currentTab === 'lockbox' ? 'active' : ''}
           onClick={() => this.handleClick('lockbox')}
         >
           <TabIcon name='lock' size='28px' />
-          <TabHeader>
+          <TabHeader data-e2e='lockboxTab'>
             <FormattedMessage
               id='scenes.home.balance.lockbox'
               defaultMessage='Lockbox'

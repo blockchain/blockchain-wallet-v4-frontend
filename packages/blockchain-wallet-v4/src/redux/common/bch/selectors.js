@@ -233,7 +233,7 @@ export const getWalletTransactions = state => {
 }
 
 // path is: accountIndex/chainIndex/addressIndex
-const getAddress = curry((network, path, state) => {
+export const getAddress = curry((network, path, state) => {
   const [a, c, i] = split('/', path)
   const accId = parseInt(a)
   const chain = parseInt(c)

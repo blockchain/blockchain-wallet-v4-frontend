@@ -24,6 +24,8 @@ class BchWalletsContainer extends React.Component {
 
     const onEditBchAccountLabel = account =>
       addressesBchActions.editBchAccountLabel(account.index, account.label)
+    const onShowChangeAddrs = account =>
+      addressesBchActions.showChangeAddrs(account.index, account.xpub)
     const onShowXPub = account =>
       modalsActions.showModal('ShowXPub', { xpub: account.xpub })
     const onMakeDefault = account =>
@@ -35,9 +37,10 @@ class BchWalletsContainer extends React.Component {
 
     const props = {
       onEditBchAccountLabel,
-      onShowXPub,
+      onShowChangeAddrs,
       onMakeDefault,
-      onSetArchived
+      onSetArchived,
+      onShowXPub
     }
 
     return data.cata({

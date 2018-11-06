@@ -32,8 +32,8 @@ const FaqContent = [
         answer: (
           <FaqDescription>
             <FormattedMessage
-              id='scenes.faq.group.coinify.answer1.one'
-              defaultMessage='We currently only support buying and selling bitcoin with fiat currency. We’re working on expanding to ether and bitcoin cash soon! In the meantime, you can exchange bitcoin for ether or bitcoin cash in the'
+              id='scenes.faq.group.coinify.answer1.one.new'
+              defaultMessage='We currently only support buying and selling bitcoin with fiat currency. We’re working on expanding to ether, bitcoin cash, and stellar soon! In the meantime, you can exchange bitcoin for ether, bitcoin cash, or stellar in the'
             />
             <span>&nbsp;</span>
             <NavLink
@@ -222,8 +222,8 @@ const FaqContent = [
         answer: (
           <FaqDescription>
             <FormattedMessage
-              id='scenes.faq.group.coinify.answer8.one'
-              defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, and BCH. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.'
+              id='scenes.faq.group.coinify.answer8.one.new'
+              defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, and XLM. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.'
             />
             <span>&nbsp;</span>
             <FormattedMessage
@@ -255,8 +255,8 @@ const FaqContent = [
         answer: (
           <FaqDescription>
             <FormattedMessage
-              id='scenes.faq.group.sfox.answer1.one'
-              defaultMessage='We currently only support buying and selling bitcoin with fiat currency. We’re working on expanding to ether and bitcoin cash soon! In the meantime, you can exchange bitcoin for ether or bitcoin cash in the'
+              id='scenes.faq.group.sfox.answer1.one.new'
+              defaultMessage='We currently only support buying and selling bitcoin with fiat currency. We’re working on expanding to ether and bitcoin cash soon! In the meantime, you can exchange bitcoin for ether, bitcoin cash, or stellar in the'
             />
             <span>&nbsp;</span>
             <NavLink
@@ -407,8 +407,8 @@ const FaqContent = [
         answer: (
           <FaqDescription>
             <FormattedMessage
-              id='scenes.faq.group.sfox.answer6.one'
-              defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, and BCH. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.'
+              id='scenes.faq.group.sfox.answer6.one.new'
+              defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, and XLM. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.'
             />
             <span>&nbsp;</span>
             <FormattedMessage
@@ -456,8 +456,8 @@ const FaqContent = [
         answer: (
           <FaqDescription>
             <FormattedMessage
-              id='scenes.faq.group.noexchange.question6.one'
-              defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, and BCH. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.'
+              id='scenes.faq.group.noexchange.question6.one.new'
+              defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, and XLM. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.'
             />
             <span>&nbsp;</span>
             <FormattedMessage
@@ -508,8 +508,8 @@ const FaqContent = [
         answer: (
           <FaqDescription>
             <FormattedMessage
-              id='scenes.faq.group.walletfunctionality.answer2.one'
-              defaultMessage='While our wallet is entirely free to use, the small fee included in your transaction goes to the miners, who help power the flow of transactions on the Bitcoin, Ethereum, and Bitcoin Cash networks.'
+              id='scenes.faq.group.walletfunctionality.answer2.one.new'
+              defaultMessage='While our wallet is entirely free to use, the small fee included in your transaction goes to the miners, who help power the flow of transactions on the Bitcoin, Ethereum, Bitcoin Cash, and Stellar networks.'
             />
             <span>&nbsp;</span>
             <FormattedMessage
@@ -629,8 +629,8 @@ const FaqContent = [
         answer: (
           <FaqDescription>
             <FormattedMessage
-              id='scenes.faq.group.walletfunctionality.answer8.one'
-              defaultMessage='No, unfortunately we are unable to cancel or reverse any transaction. Even advanced cryptocurrency users can recall an incident when they failed to double-check their transaction details and accidentally sent funds to the wrong recipient, or sent the wrong amount. As unfortunate as it is, cryptocurrency transactions on the Bitcoin, Ethereum, and Bitcoin Cash networks are designed to be       irreversible and we have no control over them. Knowing this, it is extremely important to make sure your transaction details are correct before you click send.'
+              id='scenes.faq.group.walletfunctionality.answer8.one.new'
+              defaultMessage='No, unfortunately we are unable to cancel or reverse any transaction. Even advanced cryptocurrency users can recall an incident when they failed to double-check their transaction details and accidentally sent funds to the wrong recipient, or sent the wrong amount. As unfortunate as it is, cryptocurrency transactions on the Bitcoin, Ethereum, Bitcoin Cash, and Stellar networks are designed to be irreversible and we have no control over them. Knowing this, it is extremely important to make sure your transaction details are correct before you click send.'
             />
             <br />
             <br />
@@ -1034,6 +1034,20 @@ const FaqContent = [
           <FormattedMessage
             id='scenes.faq.group.educationalresources.answer4'
             defaultMessage='Ether is a decentralized digital currency, also known as ETH. In addition to being a tradeable cryptocurrency, ether powers the Ethereum network by paying for transaction fees and computational services. Ether is paving the way for a more intelligent financial platform.'
+          />
+        )
+      },
+      {
+        question: (
+          <FormattedMessage
+            id='scenes.faq.group.educationalresources.whatisstellar'
+            defaultMessage='What is stellar?'
+          />
+        ),
+        answer: (
+          <FormattedMessage
+            id='scenes.faq.group.educationalresources.stellaranswer'
+            defaultMessage='Stellar is an open-source, decentralized payment protocol that allows for fast, cross-border transactions between any pair of currencies. Like other cryptocurrencies, it operates using blockchain technology. Its native asset, a digital currency, is called lumen (XLM). XLM powers the Stellar network and all of its operations, similarly to how ether (ETH) powers the Ethereum network.'
           />
         )
       },

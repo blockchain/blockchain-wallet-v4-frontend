@@ -348,6 +348,16 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const showXlmPrivateKey = function*() {
+    const password = yield call(promptForSecondPassword)
+    const getMnemonic = state =>
+      selectors.core.wallet.getMnemonic(state, password)
+    const mnemonicT = yield select(getMnemonic)
+    const mnemonic = yield call(() => taskToPromise(mnemonicT))
+    const keyPair = utils.xlm.getKeyPair(mnemonic)
+    yield put(actions.modules.settings.addShownXlmPrivateKey(keyPair.secret()))
+  }
+
   return {
     initSettingsInfo,
     initSettingsPreferences,
@@ -371,6 +381,7 @@ export default ({ api, coreSagas }) => {
     newHDAccount,
     recoverySaga,
     showBtcPrivateKey,
-    showEthPrivateKey
+    showEthPrivateKey,
+    showXlmPrivateKey
   }
 }
