@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const BaseNavItem = styled.li`
   box-sizing: border-box;
-  margin-right: 20px;
+  margin-right: 32px;
   cursor: pointer;
   &:last-child {
     margin-right: 0px;
