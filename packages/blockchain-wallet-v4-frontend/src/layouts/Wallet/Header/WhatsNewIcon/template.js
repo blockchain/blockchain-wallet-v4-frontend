@@ -6,22 +6,6 @@ import { Link, Icon, TooltipHost } from 'blockchain-info-components'
 
 const WhatsNewLink = styled(Link)`
   position: relative;
-
-  ::after {
-    opacity: ${props => (props.highlighted ? '1' : '0')};
-    content: '';
-    position: absolute;
-    top: 24px;
-    left: 0px;
-    width: 0;
-    height: 0;
-    z-index: 3;
-    border-left: 11px solid transparent;
-    border-right: 11px solid transparent;
-    border-bottom: 16px solid ${props => props.theme['white-blue']};
-    transition: opacity ${props => (props.highlighted ? '0.2s' : '0')};
-    transition-delay: ${props => (props.highlighted ? '0.3s' : '0')};
-  }
 `
 
 const WhatsNewIcon = props => {
