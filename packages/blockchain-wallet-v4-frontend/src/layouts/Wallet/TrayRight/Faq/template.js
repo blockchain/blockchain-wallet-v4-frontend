@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
 
-import { Icon } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 import FaqGroup from './FaqGroup'
 
@@ -24,7 +24,7 @@ const Search = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 80px;
+  margin-bottom: 20px;
 
   & > :last-child {
     position: absolute;
@@ -35,11 +35,22 @@ const Search = styled.div`
 `
 const Content = styled.div`
   width: 100%;
-  height: calc(100% - 80px);
+  height: calc(100% - 130px);
+`
+const ContentHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 20px auto;
 `
 
 const Faq = props => (
   <Wrapper>
+    <ContentHeader>
+      <Text size='14px'>Need more help? Contact us</Text>
+      <Button nature='primary'>Support Center</Button>
+    </ContentHeader>
     <Search>
       <Field name='search' component={TextBox} />
       <Icon name='search' size='20px' weight={200} color='gray-3' />
