@@ -25,6 +25,18 @@ class AppManagerContainer extends React.PureComponent {
     this.props.lockboxActions.initializeAppManager(this.props.deviceIndex)
   }
 
+  componentWillUnmount () {
+    this.props.lockboxActions.resetConnectionStatus()
+  }
+
+  installApp () {
+    this.props.lockboxActions.installApplication()
+  }
+
+  uninstallApp () {
+    this.props.lockboxActions.uninstallApplication()
+  }
+
   render () {
     const { appStatus, connection, total, position, closeAll } = this.props
     const btcStatus = appStatus.BTC.cata({
@@ -70,10 +82,34 @@ class AppManagerContainer extends React.PureComponent {
             </Text>
           ) : (
             <React.Fragment>
-              <App coin='Bitcoin' icon='btc-circle' status={btcStatus} />
-              <App coin='Bitcoin Cash' icon='bch-circle' status={bchStatus} />
-              <App coin='Ethereum' icon='eth-circle' status={ethStatus} />
-              <App coin='Stellar' icon='xlm-circle' status={xlmStatus} />
+              <App
+                coin='Bitcoin'
+                icon='btc'
+                status={btcStatus}
+                onInstall={this.installApp('BTC')}
+                onUninstall={this.uninstallApp('BTC')}
+              />
+              <App
+                coin='Bitcoin Cash'
+                icon='bch'
+                status={bchStatus}
+                onInstall={this.installApp('BCH')}
+                onUninstall={this.uninstallApp('BCH')}
+              />
+              <App
+                coin='Ethereum'
+                icon='eth'
+                status={ethStatus}
+                onInstall={this.installApp('ETH')}
+                onUninstall={this.uninstallApp('ETH')}
+              />
+              <App
+                coin='Stellar'
+                icon='xlm'
+                status={xlmStatus}
+                onInstall={this.installApp('XLM')}
+                onUninstall={this.uninstallApp('XLM')}
+              />
             </React.Fragment>
           )}
         </Wrapper>

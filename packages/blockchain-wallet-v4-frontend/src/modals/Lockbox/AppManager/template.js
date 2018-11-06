@@ -35,26 +35,29 @@ const AppActions = styled.div`
     margin-left: 10px;
   }
 `
+const CoinIcon = styled(Icon)`
+  background-color: ${props => props.theme[props.coin]};
+`
 const CoinInstallStatus = props => {
-  const { coin, icon } = props
+  const { coin, icon, onInstall, onUninstall } = props
 
   return (
     <Row>
       <AppDetails>
-        <Icon name={icon} size='40px' />
+        <CoinIcon name={icon} size='40px' />
         <Text size='16px' weight={300}>
           {coin}
         </Text>
       </AppDetails>
       <AppActions>
-        <Button nature='empty' width='75px'>
+        <Button nature='empty' width='75px' onClick={onInstall}>
           <FormattedHTMLMessage
             id='modals.lockbox.appmanager.install'
             defaultMessage='Install'
           />
         </Button>
-        <Button nature='empty' width='50px'>
-          <Icon name='trash' size='20px' />
+        <Button nature='empty' width='75px' onClick={onUninstall}>
+          <Icon name='trash' size='18px' />
         </Button>
       </AppActions>
     </Row>

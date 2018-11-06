@@ -343,10 +343,10 @@ export default ({ api }) => {
       })
       const resp = yield take([
         AT.SET_CONNECTION_INFO,
-        AT.INSTALL_BLOCKCHAIN_APPS
+        AT.INITIALIZE_APP_MANAGER
       ])
       // user requested to install apps, close polling and break
-      if (resp.type === AT.INSTALL_BLOCKCHAIN_APPS) {
+      if (resp.type === AT.INITIALIZE_APP_MANAGER) {
         btcAppChannel.close()
         return
       }
@@ -608,20 +608,13 @@ export default ({ api }) => {
       }
       // device connection made
       yield take(AT.SET_CONNECTION_INFO)
-    } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'initializeAppManager', e)
-      )
-    }
-  }
-
-  // installs requested application on device
-  const installApplication = function*(action) {
-    const { app } = action.payload
-    try {
+      // wait for user to continue
+      yield take(AT.APP_MANAGER_CONTINUE)
+      yield put(A.setLatestAppInfosLoading())
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
       const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
+      yield put(A.setDeviceTargetId(deviceInfo.targetId))
       // get full device info via api
       const deviceVersion = yield call(api.getDeviceVersion, {
         provider: deviceInfo.providerId,
@@ -639,6 +632,21 @@ export default ({ api }) => {
         current_se_firmware_final_version: seFirmwareVersion.id,
         device_version: deviceVersion.id
       })
+      yield put(A.setLatestAppInfosSuccess(appInfos))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'initializeAppManager', e)
+      )
+    }
+  }
+
+  // installs requested application on device
+  const installApplication = function*(action) {
+    const { app } = action.payload
+    try {
+      const { transport } = yield select(S.getCurrentConnection)
+      const targetId = yield select(S.getDeviceTargetId)
+      const latestAppVersions = yield select(S.getLatestApplicationVersions)
       // fetch base socket domain
       const domainsR = yield select(selectors.core.walletOptions.getDomains)
       const domains = domainsR.getOrElse({
@@ -649,9 +657,9 @@ export default ({ api }) => {
         Lockbox.apps.installApp,
         transport,
         domains.ledgerSocket,
-        deviceInfo.targetId,
+        targetId,
         app,
-        appInfos.application_versions
+        latestAppVersions
       )
       yield put(A.installApplicationSuccess(app))
     } catch (e) {
@@ -667,27 +675,10 @@ export default ({ api }) => {
     const { app } = action.payload
     try {
       const { transport } = yield select(S.getCurrentConnection)
-      // get base device info
-      const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
-      // get full device info via api
-      const deviceVersion = yield call(api.getDeviceVersion, {
-        provider: deviceInfo.providerId,
-        target_id: deviceInfo.targetId
-      })
-      // get full firmware info via api
-      const seFirmwareVersion = yield call(api.getCurrentFirmware, {
-        device_version: deviceVersion.id,
-        version_name: deviceInfo.fullVersion,
-        provider: deviceInfo.providerId
-      })
-      // get latest info on applications
-      const appInfos = yield call(api.getApplications, {
-        provider: deviceInfo.providerId,
-        current_se_firmware_final_version: seFirmwareVersion.id,
-        device_version: deviceVersion.id
-      })
+      const targetId = yield select(S.getDeviceTargetId)
+      const latestAppVersions = yield select(S.getLatestApplicationVersions)
       const appInfo = find(propEq('name', Lockbox.constants.appNames[app]))(
-        prop('application_versions', appInfos)
+        prop('application_versions', latestAppVersions)
       )
       // fetch base socket domain
       const domainsR = yield select(selectors.core.walletOptions.getDomains)
@@ -699,14 +690,10 @@ export default ({ api }) => {
         Lockbox.apps.uninstallApp,
         transport,
         domains.ledgerSocket,
-        deviceInfo.targetId,
+        targetId,
         appInfo
       )
       yield put(A.uninstallApplicationSuccess(app))
-      // yield take([
-      //   AT.INSTALL_APPLICATION_FAILURE,
-      //   AT.INSTALL_APPLICATION_SUCCESS
-      // ])
     } catch (e) {
       yield put(A.uninstallApplicationFailure(app, e))
       yield put(

@@ -2,18 +2,13 @@ import { assocPath, assoc } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import * as AT from './actionTypes'
 
-// TODO: simplify installs state once app store is introduced
 const INITIAL_STATE = {
   connection: {},
   firmware: {},
-  installs: {
-    apps: {
-      BTC: Remote.NotAsked,
-      BCH: Remote.NotAsked,
-      ETH: Remote.NotAsked,
-      XLM: Remote.NotAsked
-    },
-    blockchain: Remote.NotAsked
+  appManager: {
+    latestAppInfos: Remote.NotAsked,
+    currentInstall: Remote.NotAsked,
+    targetId: Remote.NotAsked
   },
   newDeviceSetup: {
     device: Remote.NotAsked,
@@ -59,52 +54,39 @@ export default (state = INITIAL_STATE, action) => {
     case AT.RESET_FIRMWARE_INFO: {
       return assoc('firmware', {}, state)
     }
+    case AT.SET_DEVICE_TARGET_ID: {
+      return assocPath(
+        ['appManager', 'targetId'],
+        Remote.Success(payload),
+        state
+      )
+    }
     case AT.INSTALL_APPLICATION: {
-      return assocPath(['installs', 'apps', payload.app], Remote.Loading, state)
+      return assocPath(['appManager', 'currentInstall'], Remote.Loading, state)
     }
     case AT.INSTALL_APPLICATION_FAILURE: {
       return assocPath(
-        ['installs', 'apps', payload.app],
+        ['appManager', 'currentInstall'],
         Remote.Failure(payload),
         state
       )
     }
     case AT.INSTALL_APPLICATION_SUCCESS: {
       return assocPath(
-        ['installs', 'apps', payload.app],
+        ['appManager', 'currentInstall'],
         Remote.Success(payload),
         state
       )
     }
-    // TODO: remove Blockchain app reducers once app store is introduced
-    case AT.INSTALL_BLOCKCHAIN_APPS: {
-      return assocPath(['installs', 'blockchain'], Remote.Loading, state)
-    }
-    case AT.INSTALL_BLOCKCHAIN_APPS_FAILURE: {
+    case AT.SET_LATEST_APP_INFOS: {
       return assocPath(
-        ['installs', 'blockchain'],
-        Remote.Failure(payload),
-        state
-      )
-    }
-    case AT.INSTALL_BLOCKCHAIN_APPS_SUCCESS: {
-      return assocPath(
-        ['installs', 'blockchain'],
+        ['appManager', 'latestAppInfos'],
         Remote.Success(payload),
         state
       )
     }
     case AT.RESET_APPS_INSTALL_STATUS: {
-      return assocPath(
-        ['installs', 'apps'],
-        {
-          BTC: Remote.NotAsked,
-          BCH: Remote.NotAsked,
-          ETH: Remote.NotAsked,
-          XLM: Remote.NotAsked
-        },
-        state
-      )
+      return assocPath(['appManager', 'currentInstall'], Remote.NotAsked, state)
     }
     case AT.SET_CONNECTION_INFO: {
       return assoc('connection', payload, state)

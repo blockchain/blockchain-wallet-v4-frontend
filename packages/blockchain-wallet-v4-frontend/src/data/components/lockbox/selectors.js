@@ -26,14 +26,20 @@ export const getCurrentConnection = path([
   'lockbox',
   'connection'
 ])
+export const getDeviceTargetId = path([
+  'components',
+  'lockbox',
+  'appManager',
+  'targetId'
+])
 
 // Firmware
 export const getFirmwareUpdateStep = path(['components', 'lockbox', 'firmware'])
 
 // Application Installs
-export const getApplicationInstalls = path([
+export const getLatestApplicationVersions = path([
   'components',
   'lockbox',
-  'installs',
-  'apps'
+  'appManager',
+  'latestAppInfos'
 ])

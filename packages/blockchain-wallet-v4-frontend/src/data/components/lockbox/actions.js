@@ -32,6 +32,10 @@ export const setConnectionReady = () => ({
 export const setConnectionSuccess = () => ({
   type: AT.SET_CONNECTION_SUCCESS
 })
+export const setDeviceTargetId = targetId => ({
+  type: AT.SET_DEVICE_TARGET_ID,
+  payload: { targetId }
+})
 
 // NEW DEVICE SETUP
 export const initializeNewDeviceSetup = () => ({
@@ -131,6 +135,16 @@ export const updateTransactionList = deviceIndex => ({
 export const initializeAppManager = deviceIndex => ({
   type: AT.INITIALIZE_APP_MANAGER,
   payload: { deviceIndex }
+})
+export const appManagerContinue = () => ({
+  type: AT.APP_MANAGER_CONTINUE
+})
+export const setLatestAppInfosLoading = () => ({
+  type: AT.SET_LATEST_APP_INFOS_LOADING
+})
+export const setLatestAppInfosSuccess = appInfos => ({
+  type: AT.SET_LATEST_APP_INFOS_SUCCESS,
+  payload: { appInfos }
 })
 export const installApplication = app => ({
   type: AT.INSTALL_APPLICATION,
