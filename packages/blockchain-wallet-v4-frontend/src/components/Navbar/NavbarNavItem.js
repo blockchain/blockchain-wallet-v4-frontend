@@ -20,6 +20,10 @@ const BaseNavItem = styled.li`
       color: ${props => props.theme['white']};
     }
   }
+
+  @media only screen and (max-width: 48rem) {
+    margin-right: 20px;
+  }
 `
 
 const NavbarNavItem = props => {

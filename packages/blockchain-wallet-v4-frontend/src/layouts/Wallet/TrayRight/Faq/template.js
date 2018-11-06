@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
@@ -48,7 +49,12 @@ const ContentHeader = styled.div`
 const Faq = props => (
   <Wrapper>
     <ContentHeader>
-      <Text size='14px'>Need more help? Contact us</Text>
+      <Text size='14px'>
+        <FormattedMessage
+          id='faq.content.help'
+          defaultMessage='Need more help?'
+        />
+      </Text>
       <Button nature='primary'>Support Center</Button>
     </ContentHeader>
     <Search>

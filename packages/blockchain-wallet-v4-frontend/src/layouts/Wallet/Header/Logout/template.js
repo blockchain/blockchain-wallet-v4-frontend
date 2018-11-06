@@ -36,7 +36,7 @@ const Logout = props => {
         id='layouts.wallet.header.logout.signout'
         defaultMessage='Sign Out'
       />
-      <Icon name='switch' size='16px' color='white' />
+      <Icon name='switch' size='18px' color='white' />
     </LogoutLink>
   )
 }

@@ -1,14 +1,32 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Link, TooltipHost } from 'blockchain-info-components'
+import { Link, Icon, TooltipHost } from 'blockchain-info-components'
 
 const FaqLink = styled(Link)`
   position: relative;
   padding: 5px 10px;
   border-radius: 4px;
   background-color: rgba(0, 0, 0, 0.2);
+
+  > span:last-child {
+    display: none;
+  }
+
+  @media only screen and (max-width: 48rem) {
+    background-color: transparent;
+    padding: 0;
+
+    > span:first-child {
+      display: none;
+    }
+
+    > span:last-child {
+      display: flex;
+    }
+  }
 `
 
 const FaqIcon = props => {
@@ -24,7 +42,14 @@ const FaqIcon = props => {
         highlighted={highlighted}
         data-e2e='faqLink'
       >
-        Help ?
+        <FormattedMessage id='faq.help' defaultMessage='Help?' />
+        <Icon
+          id='faq-icon'
+          name='question-in-circle'
+          size='18px'
+          color='white'
+          cursor
+        />
       </FaqLink>
     </TooltipHost>
   )
