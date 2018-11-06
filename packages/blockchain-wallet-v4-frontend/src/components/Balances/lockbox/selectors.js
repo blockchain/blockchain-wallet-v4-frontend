@@ -1,4 +1,4 @@
-import { add, lift, pathOr, reduce } from 'ramda'
+import { lift, map, sum, pathOr } from 'ramda'
 import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { Exchange } from 'blockchain-wallet-v4/src'
@@ -14,7 +14,7 @@ export const getLockboxBtcBalance = createDeepEqualSelector(
       return lockboxContext.map(a => pathOr(0, [a, 'final_balance'], balances))
     }
     const balancesR = lift(contextToBalances)(lockboxBtcContextR, addressesR)
-    return balancesR.map(reduce(add, 0))
+    return balancesR.map(sum)
   }
 )
 
@@ -28,7 +28,7 @@ export const getLockboxBchBalance = createDeepEqualSelector(
       return lockboxContext.map(a => pathOr(0, [a, 'final_balance'], balances))
     }
     const balancesR = lift(contextToBalances)(lockboxBtcContextR, addressesR)
-    return balancesR.map(reduce(add, 0))
+    return balancesR.map(sum)
   }
 )
 
@@ -42,16 +42,19 @@ export const getLockboxEthBalance = createDeepEqualSelector(
       return lockboxContext.map(a => pathOr(0, [a, 'balance'], balances))
     }
     const balancesR = lift(contextToBalances)(lockboxBtcContextR, addressesR)
-    return balancesR.map(reduce(add, 0))
+    return balancesR.map(sum)
   }
 )
 
 export const getLockboxXlmBalance = state =>
   selectors.core.kvStore.lockbox
     .getLockboxXlmContext(state)
-    .map(accountId =>
-      selectors.core.data.xlm.getBalance(accountId, state).getOrElse(0)
+    .map(
+      map(accountId =>
+        selectors.core.data.xlm.getBalance(accountId, state).getOrElse(0)
+      )
     )
+    .map(sum)
 
 export const getBtcBalanceInfo = createDeepEqualSelector(
   [
