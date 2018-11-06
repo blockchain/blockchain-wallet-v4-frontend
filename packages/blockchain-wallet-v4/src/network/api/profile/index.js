@@ -25,21 +25,20 @@ export default ({
       }
     })
 
-  const createUser = (retailToken, campaignName = '', campaignData = {}) =>
-    post({
+  const createUser = (retailToken, campaignName, campaignData) => {
+    const headers = campaignName ? { 'X-CAMPAIGN': campaignName } : null
+    const metaData = campaignName ? { ...campaignData } : {}
+    return post({
       url: nabuUrl,
       endPoint: '/users',
       contentType: 'application/json',
-      headers: {
-        'X-CAMPAIGN': campaignName
-      },
+      headers,
       data: {
         jwt: retailToken,
-        metaData: {
-          ...campaignData
-        }
+        metaData
       }
     })
+  }
 
   const registerUserCampaign = (
     token,
