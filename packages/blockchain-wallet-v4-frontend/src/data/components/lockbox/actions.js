@@ -120,7 +120,7 @@ export const deleteDeviceFailure = payload => ({
 // DASHBOARD
 export const initializeDashboard = deviceIndex => ({
   type: AT.INITIALIZE_DASHBOARD,
-  payload: { deviceIndex }
+  payload: { deviceIndex, reset: true }
 })
 export const updateTransactionList = deviceIndex => ({
   type: AT.UPDATE_TRANSACTION_LIST,
@@ -180,4 +180,9 @@ export const installBlockchainAppsFailure = error => ({
 })
 export const resetAppsInstallStatus = () => ({
   type: AT.RESET_APPS_INSTALL_STATUS
+})
+// new coins
+export const saveCoinMD = (deviceIndex, coin) => ({
+  type: AT.SAVE_COIN_MD,
+  payload: { deviceIndex, coin }
 })

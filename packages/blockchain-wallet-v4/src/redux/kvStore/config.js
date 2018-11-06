@@ -8,6 +8,7 @@ export const ROOT = 'root'
 export const SHAPESHIFT = 'shapeshift'
 export const WHATSNEW = 'whatsNew'
 export const USER_CREDENTIALS = 'userCredentials'
+export const XLM = 'xlm'
 
 export const derivationMap = {
   [ROOT]: -1,
@@ -19,5 +20,6 @@ export const derivationMap = {
   [BCH]: 7,
   [BTC]: 8,
   [LOCKBOX]: 9,
-  [USER_CREDENTIALS]: 10
+  [USER_CREDENTIALS]: 10,
+  [XLM]: 11
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import Actions from './template.js'
 
 class ActionsContainer extends React.PureComponent {
@@ -20,13 +20,18 @@ class ActionsContainer extends React.PureComponent {
 
     switch (paths[1]) {
       case 'eth':
-        return this.props.modalActions.showModal('SendEther')
+        return this.props.modalActions.showModal(model.components.sendEth.MODAL)
       case 'bch':
-        return this.props.modalActions.showModal('SendBch')
+        return this.props.modalActions.showModal(model.components.sendBch.MODAL)
+      case 'xlm':
+        return this.props.modalActions.showModal(model.components.sendXlm.MODAL)
       default:
-        return this.props.modalActions.showModal('SendBitcoin', {
-          lockboxIndex: pathname.includes('lockbox') ? paths[3] : null
-        })
+        return this.props.modalActions.showModal(
+          model.components.sendBtc.MODAL,
+          {
+            lockboxIndex: pathname.includes('lockbox') ? paths[3] : null
+          }
+        )
     }
   }
 
@@ -41,6 +46,8 @@ class ActionsContainer extends React.PureComponent {
         return this.props.modalActions.showModal('RequestBch')
       case 'eth':
         return this.props.modalActions.showModal('RequestEth')
+      case 'xlm':
+        return this.props.modalActions.showModal('RequestXlm')
       default:
         return this.props.modalActions.showModal('RequestBtc', {
           lockboxIndex: pathname.includes('lockbox') ? paths[3] : null

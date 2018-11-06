@@ -10,7 +10,8 @@ const INITIAL_STATE = {
     apps: {
       BTC: Remote.NotAsked,
       BCH: Remote.NotAsked,
-      ETH: Remote.NotAsked
+      ETH: Remote.NotAsked,
+      XLM: Remote.NotAsked
     },
     blockchain: Remote.NotAsked
   },
@@ -99,7 +100,8 @@ export default (state = INITIAL_STATE, action) => {
         {
           BTC: Remote.NotAsked,
           BCH: Remote.NotAsked,
-          ETH: Remote.NotAsked
+          ETH: Remote.NotAsked,
+          XLM: Remote.NotAsked
         },
         state
       )

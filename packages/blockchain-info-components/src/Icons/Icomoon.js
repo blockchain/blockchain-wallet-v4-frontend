@@ -86,5 +86,8 @@ export default {
   user: '\\e955',
   'vertical-arrow-switch': '\\e980',
   wallet: '\\e956',
-  'wallet-filled': '\\e939'
+  'wallet-filled': '\\e939',
+  xlm: '\\e90a',
+  'xlm-circle': '\\e909',
+  'xlm-circle-filled': '\\e90c'
 }

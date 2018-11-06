@@ -7,11 +7,15 @@ export const logLeftNavClick = text => ({
   type: AT.LOG_LEFT_NAV_CLICK,
   payload: { text }
 })
+export const logLockboxSetup = step => ({
+  type: AT.LOG_LOCKBOX_SETUP,
+  payload: { step }
+})
 export const logClick = name => ({
   type: AT.LOG_CLICK,
   payload: { name }
 })
 export const logSfoxDropoff = step => ({
   type: AT.LOG_SFOX_DROPOFF,
-  step
+  payload: { step }
 })

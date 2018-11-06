@@ -1,8 +1,23 @@
-import { curry, lift, path, pathOr, prop, propEq } from 'ramda'
+import {
+  all,
+  compose,
+  contains,
+  curry,
+  defaultTo,
+  filter,
+  head,
+  last,
+  lift,
+  path,
+  pathOr,
+  prop,
+  propEq
+} from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { coreSelectors } from 'blockchain-wallet-v4/src'
-import { selectors } from 'data'
+import { selectors, model } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { getTargetCoinsPairedToSource, getAvailableSourceCoins } from './model'
 
 export const useShapeShift = state =>
   !selectors.modules.profile.userFlowSupported(state).getOrElse(true)
@@ -65,13 +80,14 @@ export const getActiveBchAccounts = createDeepEqualSelector(
       bchAccounts
         .map(acc => {
           const index = prop('index', acc)
-          const data = prop(prop('xpub', acc), bchData)
+          const xpub = prop('xpub', acc)
+          const data = prop(xpub, bchData)
           const metadata = bchMetadata[index]
 
           return {
             archived: prop('archived', metadata),
             coin: 'BCH',
-            label: prop('label', metadata) || prop('xpub', acc),
+            label: prop('label', metadata) || xpub,
             address: index,
             balance: prop('final_balance', data),
             type: ADDRESS_TYPES.ACCOUNT
@@ -118,13 +134,14 @@ export const getActiveEthAccounts = createDeepEqualSelector(
     const transform = (ethData, ethMetadata, lockboxEthData) =>
       ethMetadata
         .map(acc => {
-          const data = prop(prop('addr', acc), ethData)
+          const address = prop('addr', acc)
+          const data = prop(address, ethData)
 
           return {
             archived: prop('archived', acc),
             coin: 'ETH',
-            label: prop('label', acc) || prop('addr', acc),
-            address: prop('addr', acc),
+            label: prop('label', acc) || address,
+            address,
             balance: prop('balance', data),
             type: ADDRESS_TYPES.ACCOUNT
           }
@@ -135,3 +152,109 @@ export const getActiveEthAccounts = createDeepEqualSelector(
     return lift(transform)(ethDataR, ethMetadataR, lockboxEthDataR)
   }
 )
+
+export const getActiveXlmAccounts = createDeepEqualSelector(
+  [
+    coreSelectors.data.xlm.getAccounts,
+    coreSelectors.kvStore.xlm.getAccounts,
+    coreSelectors.common.xlm.getLockboxXlmBalances
+  ],
+  (xlmData, xlmMetadataR, lockboxXlmDataR) => {
+    const transform = (xlmMetadata, lockboxXlmData) =>
+      xlmMetadata
+        .map(acc => {
+          const address = prop('publicKey', acc)
+          const account = prop(address, xlmData)
+          const noAccount = path(['error', 'message'], account) === 'Not Found'
+          const balance = account
+            .map(coreSelectors.data.xlm.selectBalanceFromAccount)
+            .getOrElse(0)
+          return {
+            archived: prop('archived', acc),
+            coin: 'XLM',
+            label: prop('label', acc) || address,
+            address,
+            balance,
+            noAccount,
+            type: ADDRESS_TYPES.ACCOUNT
+          }
+        })
+        .filter(isActive)
+        .concat(lockboxXlmData)
+
+    return lift(transform)(xlmMetadataR, lockboxXlmDataR)
+  }
+)
+
+export const getActiveAccounts = state => ({
+  BTC: getActiveBtcAccounts(state).getOrElse([]),
+  BCH: getActiveBchAccounts(state).getOrElse([]),
+  ETH: getActiveEthAccounts(state).getOrElse([]),
+  XLM: getActiveXlmAccounts(state).getOrElse([])
+})
+
+export const getAvailablePairs = state => {
+  const activeAccounts = getActiveAccounts(state)
+  const pairsR = selectors.modules.rates.getAvailablePairs(state)
+  return pairsR.map(
+    filter(
+      compose(
+        all(currency => path([currency, 'length'], activeAccounts) > 0),
+        model.rates.splitPair
+      )
+    )
+  )
+}
+
+const getInitialCoins = (
+  requestedSourceCoin,
+  requestedTargetCoin,
+  availablePairs,
+  availableSourceCoins
+) => {
+  const requestedPair = model.rates.formatPair(
+    requestedSourceCoin,
+    requestedTargetCoin
+  )
+  if (contains(requestedPair, availablePairs))
+    return [requestedSourceCoin, requestedTargetCoin]
+
+  const initialSourceCoin = defaultTo(
+    requestedSourceCoin,
+    head(availableSourceCoins)
+  )
+  const initialTargetCoin = compose(
+    defaultTo(requestedTargetCoin),
+    last,
+    getTargetCoinsPairedToSource
+  )(initialSourceCoin, availablePairs)
+
+  return [initialSourceCoin, initialTargetCoin]
+}
+
+export const getInitialValues = (
+  state,
+  requestedFrom,
+  requestedTo,
+  availablePairs
+) => {
+  const accounts = getActiveAccounts(state)
+  const availableSourceCoins = getAvailableSourceCoins(availablePairs)
+
+  const [initialSourceCoin, initialTargetCoin] = getInitialCoins(
+    requestedFrom,
+    requestedTo,
+    availablePairs,
+    availableSourceCoins
+  )
+
+  const initialSourceAccount = head(accounts[initialSourceCoin])
+  const initialTargetAccount = head(accounts[initialTargetCoin])
+
+  return {
+    source: initialSourceAccount,
+    target: initialTargetAccount,
+    sourceFiat: 0,
+    fix: model.rates.FIX_TYPES.BASE_IN_FIAT
+  }
+}

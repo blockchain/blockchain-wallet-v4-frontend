@@ -40,7 +40,6 @@ const Column = styled.div`
   box-sizing: border-box;
 
   @media (min-width: 1200px) {
-    height: 100%;
     width: ${props => props.width || 'auto'};
   }
 `
@@ -59,7 +58,6 @@ const Row = styled.div`
 
   @media (min-width: 1200px) {
     flex-direction: row;
-    min-height: 100%;
     margin-bottom: ${props => (props.marginBottom ? '30px' : 'none')};
   }
 `

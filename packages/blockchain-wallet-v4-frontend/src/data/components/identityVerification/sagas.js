@@ -29,12 +29,11 @@ export const invalidNumberError = 'Failed to update mobile number'
 export const mobileVerifiedError = 'Failed to verify mobile number'
 export const failedResendError = 'Failed to resend the code'
 export const userExistsError = 'User already exists'
-export const getUserExistsError = email =>
-  `User with email ${email} already exists`
 
 export default ({ api, coreSagas }) => {
   const { USER_ACTIVATION_STATES } = model.profile
   const {
+    getCampaignData,
     createUser,
     updateUser,
     generateRetailToken,
@@ -45,19 +44,62 @@ export default ({ api, coreSagas }) => {
     coreSagas
   })
 
+  const registerUserCampaign = function*(newUser = false) {
+    const campaignName = yield select(selectors.modules.profile.getCampaign)
+    const campaignData = yield call(getCampaignData, campaignName)
+    const token = (yield select(
+      selectors.modules.profile.getApiToken
+    )).getOrFail()
+
+    yield call(
+      api.registerUserCampaign,
+      token,
+      campaignName,
+      campaignData,
+      newUser
+    )
+  }
+
+  const createRegisterUserCampaign = function*({
+    payload: { needsIdVerification }
+  }) {
+    try {
+      if (!needsIdVerification) return yield call(registerUserCampaign)
+
+      const userId = (yield select(
+        selectors.core.kvStore.userCredentials.getUserId
+      )).getOrElse('')
+      const userWithEmailExists = yield call(verifyIdentity)
+      if (userWithEmailExists) return
+      if (!userId) yield call(createUser)
+      if (userId) yield call(registerUserCampaign, true)
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'createRegisterUserCampaign',
+          e
+        )
+      )
+    }
+  }
+
   const verifyIdentity = function*() {
     try {
       const userId = (yield select(
         selectors.core.kvStore.userCredentials.getUserId
       )).getOrElse('')
       if (userId) {
-        return yield put(actions.modals.showModal(KYC_MODAL))
+        yield put(actions.modals.showModal(KYC_MODAL))
+        return false
       }
       const retailToken = yield call(generateRetailToken)
-      yield call(api.checkUserExistance, retailToken)
+      yield call(api.checkUserExistence, retailToken)
       yield put(actions.modals.showModal(USER_EXISTS_MODAL))
+      return true
     } catch (e) {
       yield put(actions.modals.showModal(KYC_MODAL))
+      return false
     }
   }
 
@@ -65,8 +107,12 @@ export default ({ api, coreSagas }) => {
     const activationState = (yield select(
       selectors.modules.profile.getUserActivationState
     )).getOrElse(USER_ACTIVATION_STATES.NONE)
+    const mobileVerified = (yield select(selectors.modules.profile.getUserData))
+      .map(prop('mobileVerified'))
+      .getOrElse(false)
     if (activationState === USER_ACTIVATION_STATES.NONE)
       return yield put(A.setVerificationStep(STEPS.personal))
+    if (mobileVerified) return yield put(A.setVerificationStep(STEPS.verify))
     if (activationState === USER_ACTIVATION_STATES.CREATED)
       return yield put(A.setVerificationStep(STEPS.mobile))
     if (activationState === USER_ACTIVATION_STATES.ACTIVE)
@@ -332,6 +378,7 @@ export default ({ api, coreSagas }) => {
     fetchSupportedDocuments,
     fetchPossibleAddresses,
     resendSmsCode,
+    createRegisterUserCampaign,
     savePersonalData,
     selectAddress,
     updateSmsStep,

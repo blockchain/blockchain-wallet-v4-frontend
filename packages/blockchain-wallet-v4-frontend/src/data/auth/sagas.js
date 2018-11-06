@@ -1,6 +1,6 @@
 import { call, put, select, take, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { path, prop, assoc, is } from 'ramda'
+import { assoc, find, path, prop, propEq, is } from 'ramda'
 import Either from 'data.either'
 
 import * as actions from '../actions.js'
@@ -43,7 +43,12 @@ export default ({ api, coreSagas }) => {
   }
 
   const welcomeSaga = function*(firstLogin) {
-    if (firstLogin) {
+    const goals = yield select(selectors.goals.getGoals)
+    const referralGoal = find(propEq('name', 'referral'))(goals)
+    if (referralGoal) {
+      // referral modal was displayed in goals saga, now delete
+      yield put(actions.goals.deleteGoal(referralGoal.id))
+    } else if (firstLogin) {
       const walletNUsers = yield call(api.getWalletNUsers)
       const walletMillions = Math.floor(
         walletNUsers.values[walletNUsers.values.length - 1].y / 1e6
@@ -123,13 +128,20 @@ export default ({ api, coreSagas }) => {
         coreSagas.kvStore.ethereum.fetchMetadataEthereum,
         askSecondPasswordEnhancer
       )
+      yield call(
+        coreSagas.kvStore.xlm.fetchMetadataXlm,
+        askSecondPasswordEnhancer
+      )
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
       yield put(actions.middleware.webSocket.bch.startSocket())
       yield put(actions.middleware.webSocket.btc.startSocket())
       yield put(actions.middleware.webSocket.eth.startSocket())
+      yield put(actions.middleware.webSocket.xlm.startStreams())
       yield put(actions.router.push('/home'))
       yield call(coreSagas.settings.fetchSettings)
+      yield call(coreSagas.data.xlm.fetchLedgerDetails)
+      yield call(coreSagas.data.xlm.fetchData)
       yield call(authNabu)
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.loginSuccess())
@@ -487,6 +499,7 @@ export default ({ api, coreSagas }) => {
     yield put(actions.middleware.webSocket.bch.stopSocket())
     yield put(actions.middleware.webSocket.btc.stopSocket())
     yield put(actions.middleware.webSocket.eth.stopSocket())
+    yield put(actions.middleware.webSocket.xlm.stopStreams())
     // only show browser de-auth page to accounts with verified email
     isEmailVerified.getOrElse(0)
       ? yield put(actions.router.push('/logout'))

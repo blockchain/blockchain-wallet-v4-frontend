@@ -19,6 +19,17 @@ export const renewUserDelay = 30000
 let renewSessionTask = null
 let renewUserTask = null
 export default ({ api, coreSagas }) => {
+  const getCampaignData = function*(campaignName) {
+    if (campaignName === 'sunriver') {
+      const xlmAccount = (yield select(
+        selectors.core.kvStore.xlm.getDefaultAccountId
+      )).getOrFail()
+      return { 'x-campaign-address': xlmAccount }
+    }
+
+    return null
+  }
+
   const signIn = function*() {
     try {
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail(
@@ -155,11 +166,13 @@ export default ({ api, coreSagas }) => {
     return token
   }
 
-  const generateAuthCredentials = function*() {
+  const generateAuthCredentials = function*(campaignName, campaignData) {
     const retailToken = yield call(generateRetailToken)
     const { userId, token: lifetimeToken } = yield call(
       api.createUser,
-      retailToken
+      retailToken,
+      campaignName,
+      campaignData
     )
     yield put(
       actions.core.kvStore.userCredentials.setUserCredentials(
@@ -188,6 +201,9 @@ export default ({ api, coreSagas }) => {
     const token = yield select(S.getApiToken)
     if (!Remote.NotAsked.is(token)) return
 
+    const campaignName = yield select(S.getCampaign)
+    const campaignData = yield call(getCampaignData, campaignName)
+
     const userIdR = yield select(
       selectors.core.kvStore.userCredentials.getUserId
     )
@@ -204,7 +220,8 @@ export default ({ api, coreSagas }) => {
     const { userId, lifetimeToken } = yield authCredentialsR
       .map(authCredentials => {
         const { userId, lifetimeToken } = authCredentials
-        if (!userId || !lifetimeToken) return call(generateAuthCredentials)
+        if (!userId || !lifetimeToken)
+          return call(generateAuthCredentials, campaignName, campaignData)
         return authCredentials
       })
       .getOrElse({})
@@ -250,6 +267,7 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
+    getCampaignData,
     signIn,
     clearSession,
     setSession,

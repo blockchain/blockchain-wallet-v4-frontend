@@ -27,7 +27,7 @@ describe('btcTransactions sagas', () => {
     }
 
     it('should initialize the form with initial values', () => {
-      saga.next().put(actions.form.initialize('btcTransactions', initialValues))
+      saga.next().put(actions.form.initialize('transactions', initialValues))
     })
 
     it('should dispatch an action to fetch txs', () => {
@@ -117,7 +117,7 @@ describe('btcTransactions sagas', () => {
     let { formChanged } = btcTransactionsSagas({ coreSagas })
     const action = {
       meta: {
-        form: 'btcTransactions',
+        form: 'transactions',
         field: 'source'
       },
       payload: 'all'
@@ -152,7 +152,7 @@ describe('btcTransactions sagas', () => {
     let { formChanged } = btcTransactionsSagas({ coreSagas })
     const action = {
       meta: {
-        form: 'btcTransactions',
+        form: 'transactions',
         field: 'source'
       },
       payload: {

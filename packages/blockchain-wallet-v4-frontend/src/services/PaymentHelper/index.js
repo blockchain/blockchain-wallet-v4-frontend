@@ -109,3 +109,20 @@ export const ethFromLabel = curry((payment, state) => {
       return from.address
   }
 })
+
+export const xlmFromLabel = curry((payment, state) => {
+  const from = payment.from
+  switch (from.type) {
+    case ADDRESS_TYPES.ACCOUNT:
+      return selectors.core.kvStore.xlm
+        .getAccountLabel(state, from.address)
+        .getOrElse(from.address)
+    case ADDRESS_TYPES.LOCKBOX:
+      return selectors.core.kvStore.lockbox
+        .getLockboxXlmAccount(state, from.address)
+        .map(prop('label'))
+        .getOrElse(from.address)
+    default:
+      return from.address
+  }
+})

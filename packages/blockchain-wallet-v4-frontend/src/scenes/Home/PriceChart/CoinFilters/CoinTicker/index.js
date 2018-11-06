@@ -18,7 +18,12 @@ export class CoinTickerContainer extends React.PureComponent {
 
     return data.cata({
       Success: value => (
-        <Success {...value} selected={selected} handleClick={handleClick} />
+        <Success
+          {...value}
+          selected={selected}
+          handleClick={handleClick}
+          data-e2e={this.props['data-e2e']}
+        />
       ),
       Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,
@@ -36,7 +41,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 CoinTickerContainer.propTypes = {
-  coin: PropTypes.oneOf(['BCH', 'BTC', 'ETH']).isRequired,
+  coin: PropTypes.oneOf(['BCH', 'BTC', 'ETH', 'XLM']).isRequired,
   handleClick: PropTypes.func.isRequired,
   selected: PropTypes.bool.isRequired
 }
