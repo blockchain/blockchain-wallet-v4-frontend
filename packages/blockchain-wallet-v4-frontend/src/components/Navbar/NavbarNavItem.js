@@ -13,7 +13,6 @@ const BaseNavItem = styled.li`
     font-size: 14px;
     font-weight: 400;
     color: ${props => props.theme['white']};
-    text-transform: uppercase;
     text-decoration: none;
     cursor: pointer;
 
