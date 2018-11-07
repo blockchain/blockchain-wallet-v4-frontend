@@ -500,22 +500,17 @@ export default ({ api }) => {
           })
         )
         // uninstall apps to ensure room for firmware
-        // TODO: this is busted now
+        // TODO: this is gross and wont work once all apps dont fit onto device
+        // should just show user not enough space error and have them remove
+        // desired apps themselves
         yield put(A.uninstallApplication('BCH'))
-        yield take([
-          AT.UNINSTALL_APPLICATION_FAILURE,
-          AT.UNINSTALL_APPLICATION_SUCCESS
-        ])
+        yield take([AT.APP_CHANGE_FAILURE, AT.APP_CHANGE_SUCCESS])
         yield put(A.uninstallApplication('ETH'))
-        yield take([
-          AT.UNINSTALL_APPLICATION_FAILURE,
-          AT.UNINSTALL_APPLICATION_SUCCESS
-        ])
+        yield take([AT.APP_CHANGE_FAILURE, AT.APP_CHANGE_SUCCESS])
+        yield put(A.uninstallApplication('XLM'))
+        yield take([AT.APP_CHANGE_FAILURE, AT.APP_CHANGE_SUCCESS])
         yield put(A.uninstallApplication('BTC'))
-        yield take([
-          AT.UNINSTALL_APPLICATION_FAILURE,
-          AT.UNINSTALL_APPLICATION_SUCCESS
-        ])
+        yield take([AT.APP_CHANGE_FAILURE, AT.APP_CHANGE_SUCCESS])
         // fetch base socket domain
         const domainsR = yield select(selectors.core.walletOptions.getDomains)
         const domains = domainsR.getOrElse({
