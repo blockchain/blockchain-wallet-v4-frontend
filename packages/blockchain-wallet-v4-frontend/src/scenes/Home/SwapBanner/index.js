@@ -17,20 +17,20 @@ const Wrapper = styled.div`
   width: 100%;
   height: 150px;
   background: none;
-  background-color: #0D0D42;
+  background-color: #0d0d42;
   border-radius: 4px;
   padding-left: 15px;
   padding-right: 15px;
   margin-top: 15px;
   box-sizing: border-box;
 
-  @media(min-width: 1200px) {
+  @media (min-width: 1200px) {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
     height: 88px;
-    background: #0D0D42 url(${background1});
+    background: #0d0d42 url(${background1});
     background-repeat: no-repeat;
     background-size: auto;
     background-position: -15px -10px;
@@ -40,7 +40,7 @@ const Wrapper = styled.div`
   }
 `
 const Column = styled.div`
-  display: ${(props) => props.hiddenOnMobile ? 'none' : 'flex'};
+  display: ${props => (props.hiddenOnMobile ? 'none' : 'flex')};
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
@@ -50,7 +50,7 @@ const Column = styled.div`
     margin-top: 10px;
   }
 
-  @media(min-width: 1200px) {
+  @media (min-width: 1200px) {
     display: flex;
   }
 `
@@ -69,7 +69,7 @@ const BackgroundImage = styled.img.attrs({
 })`
   display: none;
   height: 100%;
-  @media(min-width: 1200px) {
+  @media (min-width: 1200px) {
     display: block;
   }
 `
@@ -81,41 +81,45 @@ const GetStartedButton = styled(Button).attrs({
   font-weight: 500;
 `
 
-export const SwapBanner = ({ showBanner, verifyIdentity }) => showBanner ? (
-  <Wrapper>
-    <Column >
-      <LargeText>
-        <FormattedMessage
-          defaultMessage="We've improved your Exchange"
-          id='scenes.home.swapbanner.improved'
-        />
-      </LargeText>
-      <MediumText>
-        <FormattedMessage
-          defaultMessage='A faster, smarter way to trade your crypto.'
-          id='scenes.home.swapbanner.faster'
-        />
-      </MediumText>
-    </Column>
-    <Column hiddenOnMobile>
-      <BackgroundImage />
-    </Column>
-    <Column>
-      <GetStartedButton onClick={verifyIdentity}>
-        <FormattedMessage
-          defaultMessage='Get Started'
-          id='scenes.home.swapbanner.getstarted'
-        />
-      </GetStartedButton>
-    </Column>
-  </Wrapper>
-) : <div />
+export const SwapBanner = ({ showBanner, verifyIdentity }) =>
+  showBanner ? (
+    <Wrapper>
+      <Column>
+        <LargeText>
+          <FormattedMessage
+            defaultMessage="We've improved your Exchange"
+            id='scenes.home.swapbanner.improved'
+          />
+        </LargeText>
+        <MediumText>
+          <FormattedMessage
+            defaultMessage='A faster, smarter way to trade your crypto.'
+            id='scenes.home.swapbanner.faster'
+          />
+        </MediumText>
+      </Column>
+      <Column hiddenOnMobile>
+        <BackgroundImage />
+      </Column>
+      <Column>
+        <GetStartedButton onClick={verifyIdentity}>
+          <FormattedMessage
+            defaultMessage='Get Started'
+            id='scenes.home.swapbanner.getstarted'
+          />
+        </GetStartedButton>
+      </Column>
+    </Wrapper>
+  ) : null
 
-const mapStateToProps = (state) => getData(state)
+const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
   verifyIdentity: () =>
     dispatch(actions.components.identityVerification.verifyIdentity())
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SwapBanner)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SwapBanner)

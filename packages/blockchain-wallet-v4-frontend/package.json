@@ -71,7 +71,7 @@
     }
   },
   "dependencies": {
-    "@blockchain-com/components": "^2.0.11",
+    "@blockchain-com/components": "2.5.3",
     "@ledgerhq/hw-app-eth": "4.26.0-beta.ebeb3540",
     "@ledgerhq/hw-app-btc": "4.26.0-beta.ebeb3540",
     "@ledgerhq/hw-app-str": "4.26.0-beta.ebeb3540",

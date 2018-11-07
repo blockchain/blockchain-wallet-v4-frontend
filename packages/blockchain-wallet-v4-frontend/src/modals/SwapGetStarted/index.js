@@ -7,11 +7,7 @@ import { FormattedMessage } from 'react-intl'
 import { actions } from 'data'
 import background from './swap-background-2.svg'
 import modalEnhancer from 'providers/ModalEnhancer'
-import {
-  Modal,
-  Text,
-  Button
-} from 'blockchain-info-components'
+import { Modal, Text, Button } from 'blockchain-info-components'
 
 const Header = styled.div`
   display: flex;
@@ -19,8 +15,8 @@ const Header = styled.div`
   justify-content: center;
   align-items: center;
   height: 200px;
-  background-color: #0D0D42;
-  background: #0D0D42 url(${background});
+  background-color: #0d0d42;
+  background: #0d0d42 url(${background});
   background-repeat: no-repeat;
   background-size: cover;
   background-position: -20px -10px;
@@ -55,7 +51,7 @@ const FooterButton = styled(Button).attrs({
   padding: 15px 0;
 `
 
-class SwapGetStarted extends React.Component {
+class SwapGetStarted extends React.PureComponent {
   componentDidMount () {
     this.props.actions.swapGetStartedInitialized()
   }
@@ -88,7 +84,12 @@ class SwapGetStarted extends React.Component {
           </Text>
         </Body>
         <Footer>
-          <FooterButton nature='primary' size='20px' fullwidth onClick={() => actions.swapGetStartedSubmitClicked()}>
+          <FooterButton
+            nature='primary'
+            size='20px'
+            fullwidth
+            onClick={actions.swapGetStartedSubmitClicked}
+          >
             <FormattedMessage
               defaultMessage='Get Started'
               id='modals.swapgetstarted.getstarted'
@@ -105,7 +106,10 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  connect(undefined, mapDispatchToProps),
+  connect(
+    undefined,
+    mapDispatchToProps
+  ),
   modalEnhancer('SwapGetStarted')
 )
 
