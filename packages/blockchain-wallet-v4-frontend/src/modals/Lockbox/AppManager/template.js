@@ -48,14 +48,12 @@ const CoinIcon = styled(Icon)`
 const CoinInstallStatus = props => {
   const { app, coin, installApp, uninstallApp } = props
   const { name, version } = app
+  const coinLower = coin.toLowerCase()
 
   return (
     <Row>
       <AppDetails>
-        <CoinIcon
-          color={coin.toLowerCase()}
-          name={`${coin.toLowerCase()}-circle-filled`}
-        />
+        <CoinIcon color={coinLower} name={`${coinLower}-circle-filled`} />
         <div>
           <CoinName color={'gray-5'}>{name}</CoinName>
           <Text size='13px' weight={300}>
