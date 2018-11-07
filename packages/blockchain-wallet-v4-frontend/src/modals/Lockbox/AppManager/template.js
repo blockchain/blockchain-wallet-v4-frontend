@@ -2,8 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedHTMLMessage } from 'react-intl'
 
-import { Button, Icon, Text, TextGroup } from 'blockchain-info-components'
-// import { RotateSync } from 'components/RotateSync'
+import { Button, Icon, Text } from 'blockchain-info-components'
 
 const Row = styled.div`
   width: 100%;
@@ -13,7 +12,7 @@ const Row = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 8px;
-  margin: 10px 0;
+  margin: 5px 0;
 `
 const AppDetails = styled.div`
   width: 100%;
@@ -21,7 +20,7 @@ const AppDetails = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: start;
-   justify-items: center;
+  justify-items: center;
   & > :last-child {
     margin-left: 15px;
   }
@@ -37,8 +36,14 @@ const AppActions = styled.div`
     margin-left: 10px;
   }
 `
+
+const CoinName = styled(Text)`
+  font-size: 16px;
+  font-weight: 500;
+`
 const CoinIcon = styled(Icon)`
-  background-color: ${props => props.theme[props.coin]};
+  font-size: 40px;
+  margin-right: 15px;
 `
 const CoinInstallStatus = props => {
   const { app, coin, installApp, uninstallApp } = props
@@ -47,13 +52,14 @@ const CoinInstallStatus = props => {
   return (
     <Row>
       <AppDetails>
-        <CoinIcon name={`${coin.toLowerCase()}-circle`} size='40px' />
+        <CoinIcon
+          color={coin.toLowerCase()}
+          name={`${coin.toLowerCase()}-circle-filled`}
+        />
         <div>
-          <Text size='15px' weight={400}>
-            {name}
-          </Text>
+          <CoinName color={'gray-5'}>{name}</CoinName>
           <Text size='13px' weight={300}>
-            v{version}
+            Version {version}
           </Text>
         </div>
       </AppDetails>
@@ -64,7 +70,7 @@ const CoinInstallStatus = props => {
             defaultMessage='Install'
           />
         </Button>
-        <Button nature='empty' width='75px' onClick={uninstallApp}>
+        <Button nature='empty' width='50px' onClick={uninstallApp}>
           <Icon name='trash' size='18px' />
         </Button>
       </AppActions>

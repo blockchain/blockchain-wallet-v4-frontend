@@ -11,8 +11,7 @@ import {
   Modal,
   ModalBody,
   ModalHeader,
-  Text,
-  TextGroup
+  Text
 } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -23,10 +22,19 @@ const Wrapper = styled(ModalBody)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 25px;
+  padding: 15px;
 `
 const Loader = styled(BlockchainLoader)`
   margin: 25px;
+`
+const LoadingText = styled(Text)`
+  margin-top: 8px;
+`
+const ResultText = styled(Text)`
+  margin-bottom: 8px;
+`
+const ContinueButton = styled(Button)`
+  margin-top: 22px;
 `
 const appNameDict = {
   BTC: 'Bitcoin',
@@ -82,42 +90,68 @@ class AppManagerContainer extends React.PureComponent {
     } = this.props
     const appUpdateStatus = appChangeStatus.cata({
       Success: val => (
-        <React.Fragment>
-          <TextGroup inline>
-            <Text>{this.state.changeType}</Text>
-            <Text>{this.state.appName} Success</Text>
-          </TextGroup>
-          <Button onClick={this.onContinue}>
+        <Wrapper>
+          <ResultText size='18px' weight={400}>
+            <FormattedHTMLMessage
+              id='modals.lockbox.appmanager.successmsg'
+              defaultMessage='{changeType} {appName} was successful!'
+              values={{
+                changeType: this.state.changeType,
+                appName: this.state.appName
+              }}
+            />
+          </ResultText>
+          <ContinueButton onClick={this.onContinue}>
             <FormattedHTMLMessage
               id='modals.lockbox.appmanager.continue'
               defaultMessage='Continue'
             />
-          </Button>
-        </React.Fragment>
+          </ContinueButton>
+        </Wrapper>
       ),
       Failure: val => (
-        <React.Fragment>
-          <TextGroup inline>
-            <Text>{this.state.changeType}</Text>
-            <Text>{this.state.appName} FAILED</Text>
-          </TextGroup>
-          <Text>{val.error()}</Text>
-          <Button onClick={this.onContinue}>
+        <Wrapper>
+          <ResultText size='18px' weight={400}>
+            <FormattedHTMLMessage
+              id='modals.lockbox.appmanager.failuremsg'
+              defaultMessage='{changeType} {appName} failed!'
+              values={{
+                changeType: this.state.changeType,
+                appName: this.state.appName
+              }}
+            />
+          </ResultText>
+          <LoadingText size='15px' weight={400}>
+            {val.error()}
+          </LoadingText>
+          <ContinueButton onClick={this.onContinue}>
             <FormattedHTMLMessage
               id='modals.lockbox.appmanager.continue'
               defaultMessage='Continue'
             />
-          </Button>
-        </React.Fragment>
+          </ContinueButton>
+        </Wrapper>
       ),
       Loading: () => (
-        <React.Fragment>
-          <TextGroup inline>
-            <Text>{this.state.changeType}</Text>
-            <Text>{this.state.appName}</Text>
-          </TextGroup>
-          <BlockchainLoader width='75px' height='75px' />
-        </React.Fragment>
+        <Wrapper>
+          <Loader width='75px' height='75px' />
+          <LoadingText size='18px' weight={400}>
+            <FormattedHTMLMessage
+              id='modals.lockbox.appmanager.loadingmsg'
+              defaultMessage='{changeType} the {appName} application'
+              values={{
+                changeType: this.state.changeType,
+                appName: this.state.appName
+              }}
+            />
+          </LoadingText>
+          <Text size='14px' weight={300}>
+            <FormattedHTMLMessage
+              id='modals.lockbox.appmanager.allowmgr'
+              defaultMessage='Allow the device manager onto the device if prompted.'
+            />
+          </Text>
+        </Wrapper>
       ),
       NotAsked: () => null
     })
@@ -148,7 +182,17 @@ class AppManagerContainer extends React.PureComponent {
           />
         </Text>
       ),
-      Loading: () => <Loader width='75px' height='75px' />,
+      Loading: () => (
+        <Wrapper>
+          <Loader width='75px' height='75px' />
+          <LoadingText size='18px' weight={400}>
+            <FormattedHTMLMessage
+              id='modals.lockbox.appmanager.loadingapps'
+              defaultMessage='Loading application list'
+            />
+          </LoadingText>
+        </Wrapper>
+      ),
       NotAsked: () => <Loader width='75px' height='75px' />
     })
 
