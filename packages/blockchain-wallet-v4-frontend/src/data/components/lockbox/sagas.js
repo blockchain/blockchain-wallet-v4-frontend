@@ -500,6 +500,7 @@ export default ({ api }) => {
           })
         )
         // uninstall apps to ensure room for firmware
+        // TODO: this is busted now
         yield put(A.uninstallApplication('BCH'))
         yield take([
           AT.UNINSTALL_APPLICATION_FAILURE,
