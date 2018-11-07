@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-
+import media from 'services/ResponsiveService'
 import { Link, Icon, TooltipHost } from 'blockchain-info-components'
 
 const FaqLink = styled(Link)`
@@ -15,7 +15,7 @@ const FaqLink = styled(Link)`
     display: none;
   }
 
-  @media only screen and (max-width: 48rem) {
+  ${media.mobile`
     background-color: transparent;
     padding: 0;
 
@@ -26,7 +26,7 @@ const FaqLink = styled(Link)`
     > span:last-child {
       display: flex;
     }
-  }
+  `};
 `
 
 const FaqIcon = props => {

@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import media from 'services/ResponsiveService'
 
 const BaseNavItem = styled.li`
   box-sizing: border-box;
@@ -21,9 +22,9 @@ const BaseNavItem = styled.li`
     }
   }
 
-  @media only screen and (max-width: 48rem) {
+  ${media.mobile`
     margin-right: 20px;
-  }
+  `};
 `
 
 const NavbarNavItem = props => {
