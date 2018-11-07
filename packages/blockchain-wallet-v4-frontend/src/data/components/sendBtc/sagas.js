@@ -322,8 +322,11 @@ export default ({ coreSagas, networks }) => {
     const fromType = path(['fromType'], payment.value())
     try {
       // Sign payment
+      let password
       if (fromType !== ADDRESS_TYPES.LOCKBOX) {
-        let password = yield call(promptForSecondPassword)
+        if (fromType !== ADDRESS_TYPES.WATCH_ONLY) {
+          password = yield call(promptForSecondPassword)
+        }
         payment = yield payment.sign(password)
       } else {
         const deviceR = yield select(
