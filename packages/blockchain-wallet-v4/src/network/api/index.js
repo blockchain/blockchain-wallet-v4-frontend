@@ -98,7 +98,7 @@ export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
       apiUrl,
       get: http.get,
       post: http.post
-    })б
+    }),
     ...xlm({ apiUrl, get: http.get, horizonUrl, network: networks.xlm })
   }
 }
