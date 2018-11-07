@@ -5,7 +5,7 @@
   "license": "AGPL-3.0-or-later",
   "author": {
     "name": "Blockchain.info",
-    "url": "https://blockchain.info"
+    "url": "https://blockchain.com"
   },
   "main": "index.js",
   "scripts": {
@@ -36,9 +36,10 @@
     "collectCoverageFrom": [
       "src/**/*.js",
       "!src/**/rootSaga.js",
+      "!src/data/components/sagas.js",
       "!src/data/*/actions.js",
       "!src/data/*/actionTypes.js",
-      "!src/data/*/sagaRegister.js",
+      "!src/data/**/sagaRegister.js",
       "!src/data/actions.js",
       "!src/data/actionTypes.js",
       "!src/data/rootReducer.js",
