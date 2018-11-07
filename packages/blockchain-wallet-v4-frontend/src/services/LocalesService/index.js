@@ -2,25 +2,27 @@ import { addLocaleData } from 'react-intl'
 import { map, flatten } from 'ramda'
 import * as languageService from 'services/LanguageService'
 
-import localesBG from 'assets/locales/bg.json'
-import localesDA from 'assets/locales/da.json'
+import localesCS from 'assets/locales/cs.json'
 import localesDE from 'assets/locales/de.json'
-import localesEL from 'assets/locales/el.json'
 import localesEN from 'assets/locales/en.json'
+import localesES from 'assets/locales/es.json'
 import localesFR from 'assets/locales/fr.json'
-import localesHI from 'assets/locales/hi.json'
-import localesHU from 'assets/locales/hu.json'
 import localesID from 'assets/locales/id.json'
 import localesIT from 'assets/locales/it.json'
 import localesJA from 'assets/locales/ja.json'
 import localesKO from 'assets/locales/ko.json'
+import localesMS from 'assets/locales/ms.json'
 import localesNL from 'assets/locales/nl.json'
-import localesNO from 'assets/locales/no.json'
 import localesPL from 'assets/locales/pl.json'
 import localesPT from 'assets/locales/pt.json'
-import localesZH from 'assets/locales/zh.json'
-import localesES from 'assets/locales/es.json'
+import localesRO from 'assets/locales/ro.json'
 import localesRU from 'assets/locales/ru.json'
+import localesSV from 'assets/locales/sv.json'
+import localesTH from 'assets/locales/th.json'
+import localesTR from 'assets/locales/tr.json'
+import localesVI from 'assets/locales/vi.json'
+import localesUK from 'assets/locales/uk.json'
+import localesZH from 'assets/locales/zh.json'
 
 const importLocaleData = language =>
   require(`react-intl/locale-data/${language}`)
@@ -33,25 +35,27 @@ function configureLocales (store) {
 
   // We get all the messages
   const messages = {
-    bg: localesBG,
-    da: localesDA,
+    cs: localesCS,
     de: localesDE,
-    el: localesEL,
     en: localesEN,
+    es: localesES,
     fr: localesFR,
-    hi: localesHI,
-    hu: localesHU,
     id: localesID,
     it: localesIT,
     ja: localesJA,
     ko: localesKO,
+    ms: localesMS,
     nl: localesNL,
-    nn: localesNO,
     pl: localesPL,
     pt: localesPT,
-    zh: localesZH,
-    es: localesES,
-    ru: localesRU
+    ro: localesRO,
+    ru: localesRU,
+    sv: localesSV,
+    th: localesTH,
+    tr: localesTR,
+    vi: localesVI,
+    uk: localesUK,
+    zh: localesZH
   }
 
   return { messages }
