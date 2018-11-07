@@ -7,7 +7,7 @@ const INITIAL_STATE = {
   firmware: {},
   appManager: {
     latestAppInfos: Remote.NotAsked,
-    currentInstall: Remote.NotAsked,
+    appChangeStatus: Remote.NotAsked,
     targetId: Remote.NotAsked
   },
   newDeviceSetup: {
@@ -61,19 +61,19 @@ export default (state = INITIAL_STATE, action) => {
         state
       )
     }
-    case AT.INSTALL_APPLICATION: {
-      return assocPath(['appManager', 'currentInstall'], Remote.Loading, state)
+    case AT.APP_CHANGE_LOADING: {
+      return assocPath(['appManager', 'appChangeStatus'], Remote.Loading, state)
     }
-    case AT.INSTALL_APPLICATION_FAILURE: {
+    case AT.APP_CHANGE_FAILURE: {
       return assocPath(
-        ['appManager', 'currentInstall'],
+        ['appManager', 'appChangeStatus'],
         Remote.Failure(payload),
         state
       )
     }
-    case AT.INSTALL_APPLICATION_SUCCESS: {
+    case AT.APP_CHANGE_SUCCESS: {
       return assocPath(
-        ['appManager', 'currentInstall'],
+        ['appManager', 'appChangeStatus'],
         Remote.Success(payload),
         state
       )
@@ -88,8 +88,12 @@ export default (state = INITIAL_STATE, action) => {
         state
       )
     }
-    case AT.RESET_APPS_INSTALL_STATUS: {
-      return assocPath(['appManager', 'currentInstall'], Remote.NotAsked, state)
+    case AT.RESET_APP_CHANGE_STATUS: {
+      return assocPath(
+        ['appManager', 'appChangeStatus'],
+        Remote.NotAsked,
+        state
+      )
     }
     case AT.SET_CONNECTION_INFO: {
       return assoc('connection', payload, state)

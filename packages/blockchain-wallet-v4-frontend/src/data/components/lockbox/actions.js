@@ -34,7 +34,7 @@ export const setConnectionSuccess = () => ({
 })
 export const setDeviceTargetId = targetId => ({
   type: AT.SET_DEVICE_TARGET_ID,
-  payload: { targetId }
+  payload: targetId
 })
 
 // NEW DEVICE SETUP
@@ -136,9 +136,6 @@ export const initializeAppManager = deviceIndex => ({
   type: AT.INITIALIZE_APP_MANAGER,
   payload: { deviceIndex }
 })
-export const appManagerContinue = () => ({
-  type: AT.APP_MANAGER_CONTINUE
-})
 export const setLatestAppInfosLoading = () => ({
   type: AT.SET_LATEST_APP_INFOS_LOADING
 })
@@ -153,36 +150,23 @@ export const installApplication = appName => ({
   type: AT.INSTALL_APPLICATION,
   payload: { appName }
 })
-export const installApplicationLoading = appName => ({
-  type: AT.INSTALL_APPLICATION_LOADING,
-  payload: { appName }
-})
-export const installApplicationSuccess = appName => ({
-  type: AT.INSTALL_APPLICATION_SUCCESS,
-  payload: { appName }
-})
-export const installApplicationFailure = (appName, error) => ({
-  type: AT.INSTALL_APPLICATION_FAILURE,
-  payload: { appName, error }
-})
 export const uninstallApplication = appName => ({
   type: AT.UNINSTALL_APPLICATION,
   payload: { appName }
 })
-export const uninstallApplicationLoading = appName => ({
-  type: AT.UNINSTALL_APPLICATION_LOADING,
-  payload: { appName }
+export const appChangeLoading = () => ({
+  type: AT.APP_CHANGE_LOADING
 })
-export const uninstallApplicationSuccess = appName => ({
-  type: AT.UNINSTALL_APPLICATION_SUCCESS,
-  payload: { appName }
+export const appChangeSuccess = (appName, changeType) => ({
+  type: AT.APP_CHANGE_SUCCESS,
+  payload: { appName, changeType }
 })
-export const uninstallApplicationFailure = (appName, error) => ({
-  type: AT.UNINSTALL_APPLICATION_FAILURE,
-  payload: { appName, error }
+export const appChangeFailure = (appName, changeType, error) => ({
+  type: AT.APP_CHANGE_FAILURE,
+  payload: { appName, changeType, error }
 })
-export const resetAppsInstallStatus = () => ({
-  type: AT.RESET_APPS_INSTALL_STATUS
+export const resetAppChangeStatus = () => ({
+  type: AT.RESET_APP_CHANGE_STATUS
 })
 // new coins
 export const saveCoinMD = (deviceIndex, coin) => ({

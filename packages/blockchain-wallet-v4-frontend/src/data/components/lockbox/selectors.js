@@ -43,9 +43,9 @@ export const getLatestApplicationVersions = path([
   'appManager',
   'latestAppInfos'
 ])
-export const getCurrentInstallStatus = path([
+export const getAppChangeStatus = path([
   'components',
   'lockbox',
   'appManager',
-  'currentInstall'
+  'appChangeStatus'
 ])

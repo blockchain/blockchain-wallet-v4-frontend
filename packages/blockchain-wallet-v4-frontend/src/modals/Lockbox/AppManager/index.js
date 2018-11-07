@@ -7,10 +7,12 @@ import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 
 import {
   BlockchainLoader,
+  Button,
   Modal,
   ModalBody,
   ModalHeader,
-  Text
+  Text,
+  TextGroup
 } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -24,50 +26,103 @@ const Wrapper = styled(ModalBody)`
   padding: 25px;
 `
 const Loader = styled(BlockchainLoader)`
-  padding: 25px;
+  margin: 25px;
 `
-
+const appNameDict = {
+  BTC: 'Bitcoin',
+  BCH: 'Bitcoin Cash',
+  ETH: 'Ethereum',
+  XLM: 'Stellar'
+}
 const getKeyByValue = value => {
-  const appNameDict = {
-    BTC: 'Bitcoin',
-    BCH: 'Bitcoin Cash',
-    ETH: 'Ethereum',
-    XLM: 'Stellar'
-  }
   return Object.keys(appNameDict).find(key => appNameDict[key] === value)
 }
 
 class AppManagerContainer extends React.PureComponent {
-  state = { showApps: false }
+  constructor (props) {
+    super(props)
+    this.state = { appName: '', changeType: '' }
+    this.onAppInstall = this.onAppInstall.bind(this)
+    this.onAppUninstall = this.onAppUninstall.bind(this)
+    this.onContinue = this.onContinue.bind(this)
+  }
 
   componentDidMount () {
     this.props.lockboxActions.initializeAppManager(this.props.deviceIndex)
   }
 
   componentWillUnmount () {
-    this.props.lockboxActions.resetAppsInstallStatus()
+    this.props.lockboxActions.resetAppChangeStatus()
     this.props.lockboxActions.resetConnectionStatus()
+  }
+
+  onAppInstall (appName, coin) {
+    this.setState({ changeType: 'Installing', appName })
+    this.props.lockboxActions.installApplication(coin)
+  }
+
+  onAppUninstall (appName) {
+    this.setState({ changeType: 'Uninstalling', appName })
+    this.props.lockboxActions.uninstallApplication(appName)
+  }
+
+  onContinue () {
+    this.setState({ changeType: '', appName: '' })
+    this.props.lockboxActions.resetAppChangeStatus()
   }
 
   render () {
     const {
-      appVersionInfosR,
+      appChangeStatus,
+      appVersionInfos,
       closeAll,
       connection,
-      installStatusR,
-      lockboxActions,
       position,
       total
     } = this.props
-    const installStatus = installStatusR.cata({
-      Success: val => val,
-      Failure: val => val,
-      Loading: val => val,
-      NotAsked: val => val
+    const appUpdateStatus = appChangeStatus.cata({
+      Success: val => (
+        <React.Fragment>
+          <TextGroup inline>
+            <Text>{this.state.changeType}</Text>
+            <Text>{this.state.appName} Success</Text>
+          </TextGroup>
+          <Button onClick={this.onContinue}>
+            <FormattedHTMLMessage
+              id='modals.lockbox.appmanager.continue'
+              defaultMessage='Continue'
+            />
+          </Button>
+        </React.Fragment>
+      ),
+      Failure: val => (
+        <React.Fragment>
+          <TextGroup inline>
+            <Text>{this.state.changeType}</Text>
+            <Text>{this.state.appName} FAILED</Text>
+          </TextGroup>
+          <Text>{val.error()}</Text>
+          <Button onClick={this.onContinue}>
+            <FormattedHTMLMessage
+              id='modals.lockbox.appmanager.continue'
+              defaultMessage='Continue'
+            />
+          </Button>
+        </React.Fragment>
+      ),
+      Loading: () => (
+        <React.Fragment>
+          <TextGroup inline>
+            <Text>{this.state.changeType}</Text>
+            <Text>{this.state.appName}</Text>
+          </TextGroup>
+          <BlockchainLoader width='75px' height='75px' />
+        </React.Fragment>
+      ),
+      NotAsked: () => null
     })
-    const appListView = appVersionInfosR.cata({
+    const appListView = appVersionInfos.cata({
       Success: apps => {
-        console.info(apps)
         return apps.map((app, i) => {
           const coin = getKeyByValue(app.name)
           return (
@@ -75,11 +130,12 @@ class AppManagerContainer extends React.PureComponent {
               key={i}
               app={app}
               coin={coin}
-              installApp={lockboxActions.installApplication.bind(null, coin)}
-              uninstallApp={lockboxActions.uninstallApplication.bind(
-                null,
-                app.name
-              )}
+              installApp={() => {
+                this.onAppInstall(app.name, coin)
+              }}
+              uninstallApp={() => {
+                this.onAppUninstall(app.name, coin)
+              }}
             />
           )
         })
@@ -113,7 +169,7 @@ class AppManagerContainer extends React.PureComponent {
               />
             </Text>
           ) : (
-            appListView
+            appUpdateStatus || appListView
           )}
         </Wrapper>
       </Modal>
@@ -129,11 +185,11 @@ AppManagerContainer.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  appVersionInfosR: selectors.components.lockbox.getLatestApplicationVersions(
+  appChangeStatus: selectors.components.lockbox.getAppChangeStatus(state),
+  appVersionInfos: selectors.components.lockbox.getLatestApplicationVersions(
     state
   ),
-  connection: selectors.components.lockbox.getCurrentConnection(state),
-  installStatusR: selectors.components.lockbox.getCurrentInstallStatus(state)
+  connection: selectors.components.lockbox.getCurrentConnection(state)
 })
 
 const mapDispatchToProps = dispatch => ({

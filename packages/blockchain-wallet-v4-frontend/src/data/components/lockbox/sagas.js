@@ -645,65 +645,67 @@ export default ({ api }) => {
   // installs requested application on device
   const installApplication = function*(action) {
     const { appName } = action.payload
-    console.info('INSTALL', appName)
-    // try {
-    //   const { transport } = yield select(S.getCurrentConnection)
-    //   const targetId = yield select(S.getDeviceTargetId)
-    //   const latestAppVersions = yield select(S.getLatestApplicationVersions)
-    //   // fetch base socket domain
-    //   const domainsR = yield select(selectors.core.walletOptions.getDomains)
-    //   const domains = domainsR.getOrElse({
-    //     ledgerSocket: 'wss://api.ledgerwallet.com'
-    //   })
-    //   // install application
-    //   yield call(
-    //     Lockbox.apps.installApp,
-    //     transport,
-    //     domains.ledgerSocket,
-    //     targetId,
-    //     app,
-    //     latestAppVersions
-    //   )
-    //   yield put(A.installApplicationSuccess(app))
-    // } catch (e) {
-    //   yield put(A.installApplicationFailure(app, e))
-    //   yield put(
-    //     actions.logs.logErrorMessage(logLocation, 'installApplication', e)
-    //   )
-    // }
+    try {
+      yield put(A.appChangeLoading())
+      const { transport } = yield select(S.getCurrentConnection)
+      const targetId = (yield select(S.getDeviceTargetId)).getOrFail()
+      const latestAppVersions = (yield select(
+        S.getLatestApplicationVersions
+      )).getOrFail()
+      const domains = (yield select(
+        selectors.core.walletOptions.getDomains
+      )).getOrElse({
+        ledgerSocket: 'wss://api.ledgerwallet.com'
+      })
+      // install application
+      yield call(
+        Lockbox.apps.installApp,
+        transport,
+        domains.ledgerSocket,
+        targetId,
+        appName,
+        latestAppVersions
+      )
+      yield put(A.appChangeSuccess(appName, 'install'))
+    } catch (e) {
+      yield put(A.appChangeFailure(appName, 'install', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'installApplication', e)
+      )
+    }
   }
 
   // uninstalls requested application on device
   const uninstallApplication = function*(action) {
     const { appName } = action.payload
-    console.info('UNINSTALL', appName)
-    // try {
-    //   const { transport } = yield select(S.getCurrentConnection)
-    //   const targetId = yield select(S.getDeviceTargetId)
-    //   const latestAppVersions = yield select(S.getLatestApplicationVersions)
-    //   const appInfo = find(propEq('name', Lockbox.constants.appNames[app]))(
-    //     prop('application_versions', latestAppVersions)
-    //   )
-    //   // fetch base socket domain
-    //   const domainsR = yield select(selectors.core.walletOptions.getDomains)
-    //   const domains = domainsR.getOrElse({
-    //     ledgerSocket: 'wss://api.ledgerwallet.com'
-    //   })
-    //   // uninstall application
-    //   yield call(
-    //     Lockbox.apps.uninstallApp,
-    //     transport,
-    //     domains.ledgerSocket,
-    //     targetId,
-    //     appInfo
-    //   )
-    //   yield put(A.uninstallApplicationSuccess(app))
-    // } catch (e) {
-    //   yield put(A.uninstallApplicationFailure(app, e))
-    //   yield put(
-    //     actions.logs.logErrorMessage(logLocation, 'uninstallApplication', e)
-    //   )
-    // }
+    try {
+      yield put(A.appChangeLoading())
+      const { transport } = yield select(S.getCurrentConnection)
+      const targetId = (yield select(S.getDeviceTargetId)).getOrFail()
+      const latestAppVersions = (yield select(
+        S.getLatestApplicationVersions
+      )).getOrFail()
+      const domains = (yield select(
+        selectors.core.walletOptions.getDomains
+      )).getOrElse({
+        ledgerSocket: 'wss://api.ledgerwallet.com'
+      })
+      const appInfo = find(propEq('name', appName), latestAppVersions)
+      // uninstall application
+      yield call(
+        Lockbox.apps.uninstallApp,
+        transport,
+        domains.ledgerSocket,
+        targetId,
+        appInfo
+      )
+      yield put(A.appChangeSuccess(appName, 'uninstall'))
+    } catch (e) {
+      yield put(A.appChangeFailure(appName, 'uninstall', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'uninstallApplication', e)
+      )
+    }
   }
 
   return {
