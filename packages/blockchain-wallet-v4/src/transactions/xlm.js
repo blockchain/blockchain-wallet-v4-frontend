@@ -6,6 +6,8 @@ import {
   curry,
   defaultTo,
   find,
+  intersection,
+  isEmpty,
   map,
   prop,
   propEq
@@ -35,6 +37,14 @@ const getLabel = (accounts, address) =>
     find(propEq('publicKey', address))
   )(accounts)
 
+export const isLumenOperation = operation =>
+  typeof operation.destination === 'function'
+
+export const belongsToCurrentWallet = (accounts, from, to) => {
+  const accountIds = map(prop('publicKey'), accounts)
+  return !isEmpty(intersection([from, to], accountIds))
+}
+
 export const transformTx = curry((accounts, tx, txNotes, operation) => {
   const addresses = map(prop('publicKey'), accounts)
   const operationAmount = getAmount(operation)
@@ -62,7 +72,8 @@ export const transformTx = curry((accounts, tx, txNotes, operation) => {
     memoType,
     time,
     to: getLabel(accounts, to),
-    type
+    type,
+    belongsToWallet: belongsToCurrentWallet(accounts, from, to)
   }
 })
 
