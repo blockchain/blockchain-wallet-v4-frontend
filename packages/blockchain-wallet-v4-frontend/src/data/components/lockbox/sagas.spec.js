@@ -211,7 +211,7 @@ describe('lockbox sagas', () => {
       saga
         .next()
         .next()
-        .take([AT.SET_CONNECTION_INFO, AT.INSTALL_BLOCKCHAIN_APPS])
+        .take([AT.SET_CONNECTION_INFO, AT.INITIALIZE_APP_MANAGER])
     })
   })
 })
