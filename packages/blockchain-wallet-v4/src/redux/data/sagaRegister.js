@@ -6,14 +6,16 @@ import bch from './bch/sagaRegister'
 import misc from './misc/sagaRegister'
 import sfox from './sfox/sagaRegister'
 import shapeShift from './shapeShift/sagaRegister'
+import xlm from './xlm/sagaRegister'
 
-export default ({ api }) =>
+export default ({ api, options, networks }) =>
   function*() {
     yield fork(bitcoin({ api }))
-    yield fork(coinify({ api }))
+    yield fork(coinify({ api, options }))
     yield fork(ethereum({ api }))
     yield fork(bch({ api }))
     yield fork(misc({ api }))
     yield fork(shapeShift({ api }))
-    yield fork(sfox({ api }))
+    yield fork(sfox({ api, options }))
+    yield fork(xlm({ api, networks }))
   }

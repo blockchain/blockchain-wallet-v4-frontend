@@ -10,6 +10,7 @@ import priceChart from './priceChart/reducers'
 import sendBch from './sendBch/reducers'
 import sendBtc from './sendBtc/reducers'
 import sendEth from './sendEth/reducers'
+import sendXlm from './sendXlm/reducers'
 import signMessage from './signMessage/reducers'
 import uploadDocuments from './uploadDocuments/reducers'
 
@@ -25,6 +26,7 @@ export default combineReducers({
   sendBch,
   sendBtc,
   sendEth,
+  sendXlm,
   signMessage,
   uploadDocuments
 })

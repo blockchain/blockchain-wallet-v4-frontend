@@ -1,10 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { compose, isEmpty } from 'ramda'
 
-import { getRemotePropType, getElementsPropType } from 'utils/proptypes'
 import { debounce } from 'utils/helpers'
 import { actions, model } from 'data'
 import {
@@ -29,8 +27,8 @@ const { EXCHANGE_FORM } = model.components.exchange
 
 class ExchangeForm extends React.Component {
   componentDidMount () {
-    const { canUseExchange, actions } = this.props
-    if (canUseExchange) actions.initialize()
+    const { canUseExchange, actions, from, to } = this.props
+    if (canUseExchange) actions.initialize(from, to)
   }
 
   componentDidUpdate (prevProps) {
@@ -46,7 +44,8 @@ class ExchangeForm extends React.Component {
   changeAmount = debounce(this.props.actions.changeAmount, this.debounceTime)
 
   handleRefresh = () => {
-    this.props.actions.initialize()
+    const { actions, from, to } = this.props
+    actions.initialize(from, to)
   }
 
   clearZero = e => {
@@ -81,49 +80,49 @@ class ExchangeForm extends React.Component {
         canUseExchange && isEmpty(value.availablePairs) ? (
           <DataError onClick={this.handleRefresh} />
         ) : (
-            <Success
-              {...value}
-              min={min}
-              max={max}
-              targetFee={targetFee}
-              sourceFee={sourceFee}
-              canUseExchange={canUseExchange}
-              showError={showError}
-              txError={txError}
-              handleMaximum={actions.firstStepMaximumClicked}
-              handleMinimum={actions.firstStepMinimumClicked}
-              onSubmit={actions.showConfirmation}
-              handleSourceChange={compose(
-                actions.changeSource,
-                extractFieldValue
-              )}
-              handleTargetChange={compose(
-                actions.changeTarget,
-                extractFieldValue
-              )}
-              handleAmountChange={compose(
-                formActions.clearSubmitErrors.bind(null, EXCHANGE_FORM),
-                this.changeAmount,
-                extractFieldValue
-              )}
-              handleInputFocus={this.clearZero}
-              handleInputBlur={this.addZero}
-              swapFix={compose(
-                actions.changeFix,
-                swapBaseAndCounter.bind(null, value.fix)
-              )}
-              swapBaseAndCounter={compose(
-                actions.swapBaseAndCounter,
-                swapBaseAndCounter.bind(null, value.fix)
-              )}
-              swapCoinAndFiat={compose(
-                actions.changeFix,
-                swapCoinAndFiat.bind(null, value.fix)
-              )}
-              useMin={actions.useMin}
-              useMax={actions.useMax}
-            />
-          ),
+          <Success
+            {...value}
+            min={min}
+            max={max}
+            targetFee={targetFee}
+            sourceFee={sourceFee}
+            canUseExchange={canUseExchange}
+            showError={showError}
+            txError={txError}
+            handleMaximum={actions.firstStepMaximumClicked}
+            handleMinimum={actions.firstStepMinimumClicked}
+            onSubmit={actions.showConfirmation}
+            handleSourceChange={compose(
+              actions.changeSource,
+              extractFieldValue
+            )}
+            handleTargetChange={compose(
+              actions.changeTarget,
+              extractFieldValue
+            )}
+            handleAmountChange={compose(
+              formActions.clearSubmitErrors.bind(null, EXCHANGE_FORM),
+              this.changeAmount,
+              extractFieldValue
+            )}
+            handleInputFocus={this.clearZero}
+            handleInputBlur={this.addZero}
+            swapFix={compose(
+              actions.changeFix,
+              swapBaseAndCounter.bind(null, value.fix)
+            )}
+            swapBaseAndCounter={compose(
+              actions.swapBaseAndCounter,
+              swapBaseAndCounter.bind(null, value.fix)
+            )}
+            swapCoinAndFiat={compose(
+              actions.changeFix,
+              swapCoinAndFiat.bind(null, value.fix)
+            )}
+            useMin={actions.useMin}
+            useMax={actions.useMax}
+          />
+        ),
       Failure: message => (
         <DataError onClick={this.handleRefresh} message={message} />
       ),
@@ -131,50 +130,6 @@ class ExchangeForm extends React.Component {
       NotAsked: () => <Loading />
     })
   }
-}
-
-const AccountPropType = PropTypes.shape({
-  address: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-  archived: PropTypes.bool.isRequired,
-  balance: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-  label: PropTypes.string.isRequired,
-  coin: PropTypes.string.isRequired
-})
-
-ExchangeForm.propTypes = {
-  data: getRemotePropType(
-    PropTypes.shape({
-      canUseExchange: PropTypes.bool.isRequired,
-      disabled: PropTypes.bool.isRequired,
-      availablePairs: PropTypes.arrayOf(PropTypes.string),
-      fromElements: getElementsPropType(AccountPropType).isRequired,
-      toElements: getElementsPropType(AccountPropType).isRequired,
-      sourceCoin: PropTypes.string.isRequired,
-      targetCoin: PropTypes.string.isRequired,
-      currency: PropTypes.string.isRequired,
-      inputField: PropTypes.string.isRequired,
-      inputSymbol: PropTypes.string.isRequired,
-      complementaryAmount: PropTypes.string.isRequired,
-      complementarySymbol: PropTypes.string.isRequired,
-      sourceAmount: PropTypes.string.isRequired,
-      targetAmount: PropTypes.string.isRequired,
-      targetFiat: PropTypes.string.isRequired,
-      sourceToTargetRate: PropTypes.string.isRequired,
-      sourceToFiatRate: PropTypes.string.isRequired,
-      targetToFiatRate: PropTypes.string.isRequired,
-      sourceActive: PropTypes.bool.isRequired,
-      targetActive: PropTypes.bool.isRequired,
-      coinActive: PropTypes.bool.isRequired,
-      fiatActive: PropTypes.bool.isRequired,
-      fix: PropTypes.string.isRequired,
-      initialValues: PropTypes.shape({
-        source: AccountPropType.isRequired,
-        target: AccountPropType.isRequired,
-        sourceFiat: PropTypes.number.isRequired,
-        fix: PropTypes.string.isRequired
-      }).isRequired
-    })
-  ).isRequired
 }
 
 const mapStateToProps = state => ({

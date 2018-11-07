@@ -2,6 +2,7 @@ import * as activityList from './activityList/actions'
 import * as bchTransactions from './bchTransactions/actions'
 import * as btcTransactions from './btcTransactions/actions'
 import * as ethTransactions from './ethTransactions/actions'
+import * as xlmTransactions from './xlmTransactions/actions'
 import * as exchange from './exchange/actions'
 import * as exchangeHistory from './exchangeHistory/actions'
 import * as identityVerification from './identityVerification/actions'
@@ -17,9 +18,11 @@ import * as refresh from './refresh/actions'
 import * as requestBtc from './requestBtc/actions'
 import * as requestBch from './requestBch/actions'
 import * as requestEth from './requestEth/actions'
+import * as requestXlm from './requestXlm/actions'
 import * as sendBch from './sendBch/actions'
 import * as sendBtc from './sendBtc/actions'
 import * as sendEth from './sendEth/actions'
+import * as sendXlm from './sendXlm/actions'
 import * as settings from './settings/actions'
 import * as signMessage from './signMessage/actions'
 import * as swapGetStarted from './swapGetStarted/actions'
@@ -31,6 +34,7 @@ export {
   bchTransactions,
   btcTransactions,
   ethTransactions,
+  xlmTransactions,
   exchange,
   exchangeHistory,
   identityVerification,
@@ -46,9 +50,11 @@ export {
   requestBtc,
   requestBch,
   requestEth,
+  requestXlm,
   sendBch,
   sendBtc,
   sendEth,
+  sendXlm,
   settings,
   signMessage,
   swapGetStarted,

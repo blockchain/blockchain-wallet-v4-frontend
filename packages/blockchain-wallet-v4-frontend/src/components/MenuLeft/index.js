@@ -58,11 +58,11 @@ export const SubMenu = styled.ul`
   text-transform: none;
   padding: 5px;
   margin-left: 40px;
-  margin-top: -5px;
+  margin-top: -15px;
   margin-bottom: 5px;
 `
 export const SubMenuItem = styled.li`
-  padding: 8px 0;
+  padding: 4px 0;
   box-sizing: border-box;
   text-transform: none;
   font-weight: 300;

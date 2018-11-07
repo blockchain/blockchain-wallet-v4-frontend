@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { path } from 'ramda'
 
 import media from 'services/ResponsiveService'
 import GetStarted from './GetStarted'
@@ -41,16 +42,20 @@ const Column = styled.div`
   width: 100%;
 `
 
-const ExchangeScene = ({ verified }) => (
+const ExchangeScene = ({ verified, location }) => (
   <Wrapper>
-    {verified
-      ? <Container>
+    {verified ? (
+      <Container>
         <Column>
           <Exchange />
         </Column>
       </Container>
-      : <GetStarted />
-    }
+    ) : (
+      <GetStarted
+        from={path(['state', 'from'], location)}
+        to={path(['state', 'to'], location)}
+      />
+    )}
   </Wrapper>
 )
 

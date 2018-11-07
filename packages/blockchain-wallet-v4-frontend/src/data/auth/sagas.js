@@ -1,6 +1,6 @@
 import { call, put, select, take, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { path, prop, assoc, is } from 'ramda'
+import { assoc, find, path, prop, propEq, is } from 'ramda'
 import Either from 'data.either'
 
 import * as actions from '../actions.js'
@@ -30,7 +30,7 @@ export const wrongCaptcha2faErrorMessage = 'Error: Captcha Code Incorrect'
 export const wrongAuthCodeErrorMessage = 'Authentication code is incorrect'
 
 export default ({ api, coreSagas }) => {
-  const upgradeWallet = function* () {
+  const upgradeWallet = function*() {
     try {
       let password = yield call(promptForSecondPassword)
       yield coreSagas.wallet.upgradeToHd({ password })
@@ -42,8 +42,13 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const welcomeSaga = function* (firstLogin) {
-    if (firstLogin) {
+  const welcomeSaga = function*(firstLogin) {
+    const goals = yield select(selectors.goals.getGoals)
+    const referralGoal = find(propEq('name', 'referral'))(goals)
+    if (referralGoal) {
+      // referral modal was displayed in goals saga, now delete
+      yield put(actions.goals.deleteGoal(referralGoal.id))
+    } else if (firstLogin) {
       const walletNUsers = yield call(api.getWalletNUsers)
       const walletMillions = Math.floor(
         walletNUsers.values[walletNUsers.values.length - 1].y / 1e6
@@ -57,12 +62,12 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const upgradeWalletSaga = function* () {
+  const upgradeWalletSaga = function*() {
     yield put(actions.modals.showModal('UpgradeWallet'))
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
   }
 
-  const upgradeAddressLabelsSaga = function* () {
+  const upgradeAddressLabelsSaga = function*() {
     const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
     if (addressLabelSize > 100) {
       yield put(
@@ -79,7 +84,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const transferEthSaga = function* () {
+  const transferEthSaga = function*() {
     const legacyAccountR = yield select(
       selectors.core.kvStore.ethereum.getLegacyAccount
     )
@@ -95,12 +100,12 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const authNabu = function* () {
+  const authNabu = function*() {
     yield put(actions.components.identityVerification.fetchSupportedCountries())
     yield take(
       action =>
         action.type ===
-        actionTypes.components.identityVerification.SET_SUPPORTED_COUNTRIES &&
+          actionTypes.components.identityVerification.SET_SUPPORTED_COUNTRIES &&
         !Remote.Loading.is(action.payload.countries)
     )
     const userFlowSupported = (yield select(
@@ -110,7 +115,7 @@ export default ({ api, coreSagas }) => {
   }
 
   // ======================== START KYC_GET_STARTED ============================
-  const getBtcBalance = function* () {
+  const getBtcBalance = function*() {
     let btcDataR = yield select(selectors.core.data.bitcoin.getBalance)
     if (Remote.Loading.is(btcDataR)) {
       yield take([
@@ -122,7 +127,7 @@ export default ({ api, coreSagas }) => {
     return getBalanceValue(btcDataR)
   }
 
-  const getBchBalance = function* () {
+  const getBchBalance = function*() {
     let bchDataR = yield select(selectors.core.data.bch.getBalance)
     if (Remote.Loading.is(bchDataR)) {
       yield take([
@@ -134,7 +139,7 @@ export default ({ api, coreSagas }) => {
     return getBalanceValue(bchDataR)
   }
 
-  const getEthBalance = function* () {
+  const getEthBalance = function*() {
     let ethDataR = yield select(selectors.core.data.ethereum.getBalance)
     if (Remote.Loading.is(ethDataR)) {
       yield take([
@@ -146,11 +151,13 @@ export default ({ api, coreSagas }) => {
     return getBalanceValue(ethDataR)
   }
 
-  const getBalanceValue = (balanceR) => balanceR.getOrElse(0)
+  const getBalanceValue = balanceR => balanceR.getOrElse(0)
 
-  const kycGetStarted = function* () {
+  const kycGetStarted = function*() {
     // Check if wallet is funded
-    const showKycGetStarted = yield select(selectors.preferences.getShowKycGetStarted)
+    const showKycGetStarted = yield select(
+      selectors.preferences.getShowKycGetStarted
+    )
     // check/wait for balances to be available
     const btcBalance = yield call(getBtcBalance)
     const bchBalance = yield call(getBchBalance)
@@ -162,7 +169,7 @@ export default ({ api, coreSagas }) => {
   }
   // ========================= END KYC_GET_STARTED =============================
 
-  const loginRoutineSaga = function* (mobileLogin, firstLogin) {
+  const loginRoutineSaga = function*(mobileLogin, firstLogin) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
@@ -176,13 +183,20 @@ export default ({ api, coreSagas }) => {
         coreSagas.kvStore.ethereum.fetchMetadataEthereum,
         askSecondPasswordEnhancer
       )
+      yield call(
+        coreSagas.kvStore.xlm.fetchMetadataXlm,
+        askSecondPasswordEnhancer
+      )
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
       yield put(actions.middleware.webSocket.bch.startSocket())
       yield put(actions.middleware.webSocket.btc.startSocket())
       yield put(actions.middleware.webSocket.eth.startSocket())
+      yield put(actions.middleware.webSocket.xlm.startStreams())
       yield put(actions.router.push('/home'))
       yield call(coreSagas.settings.fetchSettings)
+      yield call(coreSagas.data.xlm.fetchLedgerDetails)
+      yield call(coreSagas.data.xlm.fetchData)
       yield call(authNabu)
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.loginSuccess())
@@ -215,7 +229,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const reportStats = function* (mobileLogin) {
+  const reportStats = function*(mobileLogin) {
     if (mobileLogin) {
       yield call(api.incrementLoginViaQrStats)
     } else {
@@ -227,7 +241,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const checkAndHandleVulnerableAddress = function* (data) {
+  const checkAndHandleVulnerableAddress = function*(data) {
     const err = prop('error', data)
     const vulnerableAddress = checkForVulnerableAddressError(err)
     if (vulnerableAddress) {
@@ -246,7 +260,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const checkDataErrors = function* () {
+  const checkDataErrors = function*() {
     const btcDataR = yield select(selectors.core.data.bitcoin.getInfo)
 
     if (Remote.Loading.is(btcDataR)) {
@@ -261,7 +275,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const pollingSession = function* (session, n = 50) {
+  const pollingSession = function*(session, n = 50) {
     if (n === 0) {
       return false
     }
@@ -277,7 +291,7 @@ export default ({ api, coreSagas }) => {
     return yield call(pollingSession, session, n - 1)
   }
 
-  const login = function* (action) {
+  const login = function*(action) {
     let { guid, sharedKey, password, code, mobileLogin } = action.payload
     const safeParse = Either.try(JSON.parse)
     let session = yield select(selectors.session.getSession, guid)
@@ -373,7 +387,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const mobileLogin = function* (action) {
+  const mobileLogin = function*(action) {
     try {
       const { guid, sharedKey, password } = yield call(
         coreSagas.settings.decodePairingCode,
@@ -400,7 +414,7 @@ export default ({ api, coreSagas }) => {
     yield put(actions.modals.closeModal())
   }
 
-  const register = function* (action) {
+  const register = function*(action) {
     try {
       yield put(actions.auth.registerLoading())
       yield put(actions.alerts.displayInfo(C.CREATE_WALLET_INFO))
@@ -415,7 +429,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const restore = function* (action) {
+  const restore = function*(action) {
     try {
       yield put(actions.auth.restoreLoading())
       yield put(actions.alerts.displayInfo(C.RESTORE_WALLET_INFO))
@@ -430,7 +444,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const remindGuid = function* (action) {
+  const remindGuid = function*(action) {
     try {
       yield put(actions.auth.remindGuidLoading())
       yield call(coreSagas.wallet.remindWalletGuidSaga, action.payload)
@@ -448,7 +462,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const reset2fa = function* (action) {
+  const reset2fa = function*(action) {
     try {
       yield put(actions.auth.reset2faLoading())
       const response = yield call(
@@ -499,7 +513,7 @@ export default ({ api, coreSagas }) => {
     })
   }
 
-  const resendSmsLoginCode = function* (action) {
+  const resendSmsLoginCode = function*(action) {
     try {
       const { guid } = action.payload
       const sessionToken = yield select(selectors.session.getSession, guid)
@@ -523,11 +537,11 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const logoutRoutine = function* () {
+  const logoutRoutine = function*() {
     yield call(logout)
   }
 
-  const logout = function* () {
+  const logout = function*() {
     const isEmailVerified = yield select(
       selectors.core.settings.getEmailVerified
     )
@@ -541,13 +555,14 @@ export default ({ api, coreSagas }) => {
     yield put(actions.middleware.webSocket.bch.stopSocket())
     yield put(actions.middleware.webSocket.btc.stopSocket())
     yield put(actions.middleware.webSocket.eth.stopSocket())
+    yield put(actions.middleware.webSocket.xlm.stopStreams())
     // only show browser de-auth page to accounts with verified email
     isEmailVerified.getOrElse(0)
       ? yield put(actions.router.push('/logout'))
       : yield logoutClearReduxStore()
   }
 
-  const deauthorizeBrowser = function* () {
+  const deauthorizeBrowser = function*() {
     try {
       const guid = yield select(selectors.core.wallet.getGuid)
       const sessionToken = yield select(selectors.session.getSession, guid)
@@ -563,7 +578,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const logoutClearReduxStore = function* () {
+  const logoutClearReduxStore = function*() {
     // router will fallback to /login route
     yield window.history.pushState('', '', '#')
     yield window.location.reload(true)

@@ -25,7 +25,7 @@ const Container = styled.div`
 
   @media (min-width: 1200px) {
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: center;
     width: 100%;
   }
 `
@@ -40,7 +40,6 @@ const Column = styled.div`
   box-sizing: border-box;
 
   @media (min-width: 1200px) {
-    height: 100%;
     width: ${props => props.width || 'auto'};
   }
 `
@@ -60,7 +59,7 @@ const Row = styled.div`
   @media (min-width: 1200px) {
     flex-direction: row;
     min-height: 100%;
-    margin-bottom: ${props => props.marginBottom};
+    margin-bottom: ${props => props.marginBottom || 'none'};
   }
 `
 const PreviewImage = styled(Image).attrs({
