@@ -4,9 +4,9 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 
-import InstallApps from './template.js'
+import AppManager from './template.js'
 
-class InstallAppsContainer extends React.PureComponent {
+class AppManagerContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.onInstallClick = this.onInstallClick.bind(this)
@@ -19,7 +19,7 @@ class InstallAppsContainer extends React.PureComponent {
 
   render () {
     return (
-      <InstallApps
+      <AppManager
         onInstallClick={this.onInstallClick}
         isBrowserChrome={this.props.isBrowserChrome}
       />
@@ -27,7 +27,7 @@ class InstallAppsContainer extends React.PureComponent {
   }
 }
 
-InstallAppsContainer.propTypes = {
+AppManagerContainer.propTypes = {
   isBrowserChrome: PropTypes.bool.isRequired
 }
 
@@ -38,4 +38,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   null,
   mapDispatchToProps
-)(InstallAppsContainer)
+)(AppManagerContainer)

@@ -201,7 +201,7 @@ class AppManagerContainer extends React.PureComponent {
         <ModalHeader onClose={closeAll}>
           <FormattedMessage
             id='modals.lockbox.appmanager.title'
-            defaultMessage='App Catalog'
+            defaultMessage='App Manager'
           />
         </ModalHeader>
         <Wrapper>

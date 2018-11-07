@@ -59,7 +59,11 @@ const CoinInstallStatus = props => {
         <div>
           <CoinName color={'gray-5'}>{name}</CoinName>
           <Text size='13px' weight={300}>
-            Version {version}
+            <FormattedHTMLMessage
+              id='modals.lockbox.appmanager.successmsg'
+              defaultMessage='Version {version}'
+              values={{ version }}
+            />
           </Text>
         </div>
       </AppDetails>
