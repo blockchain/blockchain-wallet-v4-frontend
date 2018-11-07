@@ -17,7 +17,7 @@ import { getLockboxXlmAccounts } from '../../kvStore/lockbox/selectors'
 import { xlm } from '../../../transactions'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
 
-const { transformTx, decodeOperations } = xlm
+const { transformTx, decodeOperations, isLumenOperation } = xlm
 
 const digest = type => ({ label, publicKey }) => ({
   coin: 'XLM',
@@ -63,11 +63,11 @@ export const getWalletTransactions = createDeepEqualSelector(
       return unnest(
         map(tx => {
           const operations = decodeOperations(tx)
-          const filteredOps = filter(
-            op => typeof op.destination === 'function',
-            operations
-          )
-          return map(transformTx(accounts, tx, txNotes), filteredOps)
+          return compose(
+            filter(prop('belongsToWallet')),
+            map(transformTx(accounts, tx, txNotes)),
+            filter(isLumenOperation)
+          )(operations)
         }, txList)
       )
     }

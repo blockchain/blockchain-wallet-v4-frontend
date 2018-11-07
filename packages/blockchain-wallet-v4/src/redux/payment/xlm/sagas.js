@@ -16,6 +16,7 @@ import {
 import { isString, isPositiveInteger } from '../../../utils/checks'
 import { convertXlmToXlm } from '../../../exchange'
 import { ADDRESS_TYPES } from '../btc/utils'
+import settingsSagaFactory from '../../../redux/settings/sagas'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -51,6 +52,7 @@ export const NO_SIGNED_ERROR = 'No signed tx'
 export const WRONG_MEMO_FORMAT = 'Bad memo'
 
 export default ({ api }) => {
+  const settingsSagas = settingsSagaFactory({ api })
   // ///////////////////////////////////////////////////////////////////////////
   const calculateTo = destination => {
     if (!destination.type) {
@@ -278,6 +280,7 @@ export default ({ api }) => {
         const signed = prop('signed', p)
         if (!signed) throw new Error(NO_SIGNED_ERROR)
         const tx = yield call(api.pushXlmTx, signed)
+        yield call(settingsSagas.setLastTxTime)
         return makePayment(merge(p, { txId: tx.hash }))
       },
 
