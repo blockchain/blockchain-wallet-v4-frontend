@@ -56,7 +56,12 @@ const Faq = props => (
         />
       </Text>
       <Link href='https://support.blockchain.com/' target='_blank'>
-        <Button nature='primary'>Support Center</Button>
+        <Button nature='primary'>
+          <FormattedMessage
+            id='faq.content.supportcenter'
+            defaultMessage='Support Center'
+          />
+        </Button>
       </Link>
     </ContentHeader>
     <Search>
