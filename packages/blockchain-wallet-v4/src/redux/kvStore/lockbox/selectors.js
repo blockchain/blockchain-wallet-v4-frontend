@@ -3,6 +3,7 @@ import {
   path,
   pathOr,
   prop,
+  propOr,
   map,
   set,
   flatten,
@@ -156,11 +157,11 @@ export const getLatestTxTimestampEth = (state, address) =>
   getDeviceFromEthAddr(state, address).map(path(['eth', 'last_tx_timestamp']))
 
 // XLM
-export const getLockboxXlm = state => getDevices(state).map(map(path(['xlm'])))
+export const getLockboxXlm = state => getDevices(state).map(map(prop('xlm')))
 
 export const getLockboxXlmAccounts = state =>
   getLockboxXlm(state)
-    .map(map(pathOr([], ['accounts'])))
+    .map(map(propOr([], 'accounts')))
     .map(flatten)
 
 export const getLockboxXlmAccount = (state, address) =>
@@ -170,7 +171,7 @@ export const getLockboxXlmAccount = (state, address) =>
 
 export const getLockboxXlmContext = state => {
   return getLockboxXlmAccounts(state).map(accounts => {
-    return accounts ? accounts.map(a => path(['publicKey'], a)) : []
+    return accounts ? accounts.map(prop('publicKey')) : []
   })
 }
 export const getXlmContextForDevice = (state, deviceIndex) =>

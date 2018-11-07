@@ -1878,8 +1878,8 @@
         "id": "scenes.faq.group.coinify.question1"
       },
       {
-        "defaultMessage": "We currently only support buying and selling bitcoin with fiat currency. We’re working on expanding to ether and bitcoin cash soon! In the meantime, you can exchange bitcoin for ether or bitcoin cash in the",
-        "id": "scenes.faq.group.coinify.answer1.one"
+        "defaultMessage": "We currently only support buying and selling bitcoin with fiat currency. We’re working on expanding to ether, bitcoin cash, and stellar soon! In the meantime, you can exchange bitcoin for ether, bitcoin cash, or stellar in the",
+        "id": "scenes.faq.group.coinify.answer1.one.new"
       },
       {
         "defaultMessage": "Exchange tab",
@@ -1978,8 +1978,8 @@
         "id": "scenes.faq.group.coinify.question8"
       },
       {
-        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, and BCH. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
-        "id": "scenes.faq.group.coinify.answer8.one"
+        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, and XLM. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
+        "id": "scenes.faq.group.coinify.answer8.one.new"
       },
       {
         "defaultMessage": "Pro tip: there are minimum and maximum buttons on the dashboard to quickly see your trading limits.",
@@ -1994,8 +1994,8 @@
         "id": "scenes.faq.group.sfox.question1"
       },
       {
-        "defaultMessage": "We currently only support buying and selling bitcoin with fiat currency. We’re working on expanding to ether and bitcoin cash soon! In the meantime, you can exchange bitcoin for ether or bitcoin cash in the",
-        "id": "scenes.faq.group.sfox.answer1.one"
+        "defaultMessage": "We currently only support buying and selling bitcoin with fiat currency. We’re working on expanding to ether and bitcoin cash soon! In the meantime, you can exchange bitcoin for ether, bitcoin cash, or stellar in the",
+        "id": "scenes.faq.group.sfox.answer1.one.new"
       },
       {
         "defaultMessage": "of your wallet.",
@@ -2070,8 +2070,8 @@
         "id": "scenes.faq.group.sfox.question6"
       },
       {
-        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, and BCH. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
-        "id": "scenes.faq.group.sfox.answer6.one"
+        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, and XLM. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
+        "id": "scenes.faq.group.sfox.answer6.one.new"
       },
       {
         "defaultMessage": "Pro tip: there are minimum and maximum buttons on the dashboard to quickly see your trading limits.",
@@ -2094,8 +2094,8 @@
         "id": "scenes.faq.group.noexchange.question2"
       },
       {
-        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, and BCH. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
-        "id": "scenes.faq.group.noexchange.question6.one"
+        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, and XLM. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
+        "id": "scenes.faq.group.noexchange.question6.one.new"
       },
       {
         "defaultMessage": "Pro tip: there are minimum and maximum buttons on the dashboard to quickly see your trading limits.",
@@ -2122,8 +2122,8 @@
         "id": "scenes.faq.group.walletfunctionality.question2"
       },
       {
-        "defaultMessage": "While our wallet is entirely free to use, the small fee included in your transaction goes to the miners, who help power the flow of transactions on the Bitcoin, Ethereum, and Bitcoin Cash networks.",
-        "id": "scenes.faq.group.walletfunctionality.answer2.one"
+        "defaultMessage": "While our wallet is entirely free to use, the small fee included in your transaction goes to the miners, who help power the flow of transactions on the Bitcoin, Ethereum, Bitcoin Cash, and Stellar networks.",
+        "id": "scenes.faq.group.walletfunctionality.answer2.one.new"
       },
       {
         "defaultMessage": "To ensure your transactions confirm consistently and reliably, your wallet will automatically include an appropriate fee based on your transaction’s size and the level of network traffic at the time. If you wish to specify your own fee for bitcoin transactions, you can do so under ‘Customize Fee’.",
@@ -2190,8 +2190,8 @@
         "id": "scenes.faq.group.walletfunctionality.question8"
       },
       {
-        "defaultMessage": "No, unfortunately we are unable to cancel or reverse any transaction. Even advanced cryptocurrency users can recall an incident when they failed to double-check their transaction details and accidentally sent funds to the wrong recipient, or sent the wrong amount. As unfortunate as it is, cryptocurrency transactions on the Bitcoin, Ethereum, and Bitcoin Cash networks are designed to be       irreversible and we have no control over them. Knowing this, it is extremely important to make sure your transaction details are correct before you click send.",
-        "id": "scenes.faq.group.walletfunctionality.answer8.one"
+        "defaultMessage": "No, unfortunately we are unable to cancel or reverse any transaction. Even advanced cryptocurrency users can recall an incident when they failed to double-check their transaction details and accidentally sent funds to the wrong recipient, or sent the wrong amount. As unfortunate as it is, cryptocurrency transactions on the Bitcoin, Ethereum, Bitcoin Cash, and Stellar networks are designed to be irreversible and we have no control over them. Knowing this, it is extremely important to make sure your transaction details are correct before you click send.",
+        "id": "scenes.faq.group.walletfunctionality.answer8.one.new"
       },
       {
         "defaultMessage": "To learn more about why transactions can’t be canceled and how this aspect of bitcoin and other similar cryptocurrencies compares to other methods of payment like credit cards and cash, check out our blog post on",
@@ -2404,6 +2404,14 @@
       {
         "defaultMessage": "Ether is a decentralized digital currency, also known as ETH. In addition to being a tradeable cryptocurrency, ether powers the Ethereum network by paying for transaction fees and computational services. Ether is paving the way for a more intelligent financial platform.",
         "id": "scenes.faq.group.educationalresources.answer4"
+      },
+      {
+        "defaultMessage": "What is stellar?",
+        "id": "scenes.faq.group.educationalresources.whatisstellar"
+      },
+      {
+        "defaultMessage": "Stellar is an open-source, decentralized payment protocol that allows for fast, cross-border transactions between any pair of currencies. Like other cryptocurrencies, it operates using blockchain technology. Its native asset, a digital currency, is called lumen (XLM). XLM powers the Stellar network and all of its operations, similarly to how ether (ETH) powers the Ethereum network.",
+        "id": "scenes.faq.group.educationalresources.stellaranswer"
       },
       {
         "defaultMessage": "What are contract addresses?",
@@ -13451,6 +13459,31 @@
       }
     ],
     "path": "src/scenes/Transactions/Btc/Content/Empty/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "We Now Offer {coinName} ({coin})",
+        "id": "scenes.transaction.content.empty.airdrop.yourcoinwallet"
+      },
+      {
+        "defaultMessage": "{coin} is a token that enables quick, low cost global transactions. Send, receive, and trade {coin} in the Wallet today.",
+        "id": "scenes.transaction.content.empty.airdrop.sendreqexchange"
+      },
+      {
+        "defaultMessage": "Claim Your Free {coin} Now",
+        "id": "scenes.transaction.content.empty.airdrop.claim"
+      },
+      {
+        "defaultMessage": "We've put together a page explaining all of this.",
+        "id": "scenes.transactions.content.empty.explanation"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "scenes.transactions.content.empty.learnmore"
+      }
+    ],
+    "path": "src/scenes/Transactions/Content/Empty/CoinWelcome/template.airdrop.json"
   },
   {
     "descriptors": [
