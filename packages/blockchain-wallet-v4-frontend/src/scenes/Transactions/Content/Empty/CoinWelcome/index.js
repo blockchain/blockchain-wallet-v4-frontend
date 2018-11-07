@@ -2,25 +2,23 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
-
-import { actions, selectors } from 'data'
 import { coinProps } from './model'
+import { actions } from 'data'
+import { getCanBuyBtc, getCanAirdrop, getDomains } from './selectors'
 import Welcome from './template'
+import Airdrop from './template.airdrop'
 
 class CoinWelcomeContainer extends React.PureComponent {
   render () {
-    const { coin, canBuyBtc } = this.props
-    const partnerBtc = canBuyBtc.cata({
-      Success: val => coin === 'BTC' && val,
-      Loading: () => false,
-      Failure: () => false,
-      NotAsked: () => false
-    })
+    const { coin, canAirdrop, domains, partner } = this.props
 
-    return (
+    return canAirdrop ? (
+      <Airdrop coin={coin} domains={domains} />
+    ) : (
       <Welcome
         coin={coin}
-        partner={partnerBtc}
+        domains={domains}
+        partner={partner}
         handleRequest={() =>
           this.props.modalActions.showModal(coinProps[coin].request)
         }
@@ -30,7 +28,9 @@ class CoinWelcomeContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  canBuyBtc: selectors.exchange.getCanTrade(state, 'Buy')
+  canAirdrop: getCanAirdrop(state, ownProps),
+  partner: getCanBuyBtc(state, ownProps),
+  domains: getDomains(state)
 })
 
 const mapDispatchToProps = dispatch => ({
