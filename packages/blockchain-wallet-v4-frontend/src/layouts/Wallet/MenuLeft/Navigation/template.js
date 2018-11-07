@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import { Cartridge } from '@blockchain-com/components'
 import {
   Wrapper,
   MenuItem,
@@ -21,6 +22,10 @@ const HelperTipContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
+`
+const NewCartridge = styled(Cartridge)`
+  color: ${props => props.theme['white']} !important;
+  background-color: ${props => props.theme['brand-secondary']};
 `
 
 const Navigation = props => {
@@ -92,6 +97,21 @@ const Navigation = props => {
             id='layouts.wallet.menuleft.navigation.transactions.bch'
             defaultMessage='Bitcoin Cash'
           />
+        </MenuItem>
+      </LinkContainer>
+      <LinkContainer to='/xlm/transactions' activeClassName='active'>
+        <MenuItem data-e2e='stellarLink'>
+          <Icon name='xlm-circle' />
+          <FormattedMessage
+            id='layouts.wallet.menuleft.navigation.transactions.xlm'
+            defaultMessage='Stellar'
+          />
+          <NewCartridge>
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.transactions.xlm.new'
+              defaultMessage='New'
+            />
+          </NewCartridge>
         </MenuItem>
       </LinkContainer>
       {lockboxEnabled && (

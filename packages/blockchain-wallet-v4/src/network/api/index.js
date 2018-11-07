@@ -14,6 +14,7 @@ import shapeShift from './shapeShift'
 import sfox from './sfox'
 import trades from './trades'
 import wallet from './wallet'
+import xlm from './xlm'
 import fetchService from './fetch'
 import httpService from './http'
 import apiAuthorize from './apiAuthorize'
@@ -23,6 +24,7 @@ export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
   const http = httpService({ apiKey })
   const authorizedHttp = apiAuthorize(http, getAuthCredentials)
   const apiUrl = options.domains.api
+  const horizonUrl = options.domains.horizon
   const ledgerUrl = options.domains.ledger
   const nabuUrl = `${apiUrl}/nabu-gateway`
   const rootUrl = options.domains.root
@@ -80,7 +82,8 @@ export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
       authorizedPut: authorizedHttp.put,
       authorizedGet: authorizedHttp.get,
       get: http.get,
-      post: http.post
+      post: http.post,
+      put: http.put
     }),
     ...sfox(),
     ...settings({
@@ -95,6 +98,7 @@ export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
       apiUrl,
       get: http.get,
       post: http.post
-    })
+    })б
+    ...xlm({ apiUrl, get: http.get, horizonUrl, network: networks.xlm })
   }
 }

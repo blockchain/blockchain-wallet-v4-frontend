@@ -8,7 +8,7 @@ import FaqIcon from './FaqIcon'
 import WhatsNewIcon from './WhatsNewIcon'
 import RefreshIcon from './RefreshIcon'
 import Logout from './Logout'
-import EmailReminder from './EmailReminder'
+import Announcements from './Announcements'
 import ServiceAnnouncement from 'components/ServiceAnnouncement'
 import {
   Navbar,
@@ -25,12 +25,13 @@ const BlockchainLogoImage = styled(Image)`
   margin-left: 10px;
   @media (min-width: 768px) {
     height: 20px;
-    margin-left: 0px;
+    margin-left: 0;
   }
 `
 
 const Header = props => (
   <React.Fragment>
+    <ServiceAnnouncement alertArea='wallet' />
     <Navbar height='60px'>
       <NavbarHeader>
         <NavbarBrand>
@@ -49,13 +50,13 @@ const Header = props => (
         <div />
         <NavbarNav>
           <NavbarNavItem>
-            <FaqIcon />
-          </NavbarNavItem>
-          <NavbarNavItem>
             <WhatsNewIcon />
           </NavbarNavItem>
           <NavbarNavItem>
             <RefreshIcon />
+          </NavbarNavItem>
+          <NavbarNavItem>
+            <FaqIcon />
           </NavbarNavItem>
           <NavbarNavItem>
             <Logout />
@@ -63,8 +64,7 @@ const Header = props => (
         </NavbarNav>
       </NavbarMenu>
     </Navbar>
-    <EmailReminder />
-    <ServiceAnnouncement alertArea='wallet' />
+    <Announcements />
   </React.Fragment>
 )
 

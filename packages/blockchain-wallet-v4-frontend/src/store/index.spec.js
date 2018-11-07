@@ -35,7 +35,8 @@ jest.mock('blockchain-wallet-v4/src/network', () => {
   return {
     Socket: jest.fn().mockImplementation(() => 'FAKE_SOCKET'),
     ApiSocket: jest.fn().mockImplementation(() => 'FAKE_API_SOCKET'),
-    createWalletApi: jest.fn().mockImplementation(() => 'FAKE_WALLET_API')
+    createWalletApi: jest.fn().mockImplementation(() => 'FAKE_WALLET_API'),
+    HorizonStreamingService: jest.fn()
   }
 })
 
@@ -57,6 +58,9 @@ describe('App Store Config', () => {
         },
         ethereum: {
           config: { network: 1 }
+        },
+        xlm: {
+          config: { network: 'public' }
         }
       }
     }

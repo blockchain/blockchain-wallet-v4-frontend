@@ -29,7 +29,6 @@ const Logout = props => {
       size='14px'
       weight={300}
       color='white'
-      uppercase
       onClick={handleLogout}
       data-e2e='logoutLink'
     >
@@ -37,7 +36,7 @@ const Logout = props => {
         id='layouts.wallet.header.logout.signout'
         defaultMessage='Sign Out'
       />
-      <Icon name='switch' size='16px' color='white' />
+      <Icon name='switch' size='18px' color='white' />
     </LogoutLink>
   )
 }

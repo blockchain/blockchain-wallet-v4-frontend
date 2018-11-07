@@ -278,6 +278,10 @@
         "id": "components.alerts.payment_received_eth"
       },
       {
+        "defaultMessage": "You've just received a stellar payment",
+        "id": "components.alerts.payment_received_xlm"
+      },
+      {
         "defaultMessage": "PBKDF2 iterations changed successfully",
         "id": "components.alerts.pbkdf2_update_success"
       },
@@ -368,6 +372,14 @@
       {
         "defaultMessage": "Your ether transaction is now pending",
         "id": "components.alerts.send_eth_success"
+      },
+      {
+        "defaultMessage": "Your stellar transaction failed to send. Please try again.",
+        "id": "components.alerts.send_xlm_error"
+      },
+      {
+        "defaultMessage": "Your stellar transaction is now pending",
+        "id": "components.alerts.send_xlm_success"
       },
       {
         "defaultMessage": "Error sending SMS verification code.",
@@ -526,6 +538,10 @@
         "id": "components.alerts.eth_address_incorrect"
       },
       {
+        "defaultMessage": "Invalid Stellar Address.",
+        "id": "components.alerts.xlm_address_incorrect"
+      },
+      {
         "defaultMessage": "Invalid Private Key.",
         "id": "components.alerts.private_key_incorrect"
       },
@@ -563,6 +579,15 @@
       }
     ],
     "path": "src/components/Alerts/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Click here to add {coin} to your Blockchain Wallet",
+        "id": "components.balances.savecoin"
+      }
+    ],
+    "path": "src/components/Balances/Lockbox.json"
   },
   {
     "descriptors": [
@@ -997,6 +1022,15 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Non-Spendable",
+        "id": "components.selectboxbitcoin.watchonly"
+      }
+    ],
+    "path": "src/components/Form/SelectBoxXlmAddresses/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Buy",
         "id": "components.form.tabmenubuysell.buy"
       },
@@ -1243,8 +1277,16 @@
         "id": "modals.requestether.sharetooltip"
       },
       {
+        "defaultMessage": "Share this address with others, and they can send you XLM directly to your wallet. Your request address will not change.",
+        "id": "modals.requestxlm.sharetooltip"
+      },
+      {
         "defaultMessage": "Ask the sender to scan this QR code with their ether wallet",
         "id": "modals.requestether.scan_tooltip"
+      },
+      {
+        "defaultMessage": "Ask the sender to scan this QR code with their stellar wallet",
+        "id": "modals.requestxlm.scan_tooltip"
       },
       {
         "defaultMessage": "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
@@ -1253,6 +1295,14 @@
       {
         "defaultMessage": "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
         "id": "modals.sendether.firststep.sharetooltip"
+      },
+      {
+        "defaultMessage": "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
+        "id": "modals.sendxlm.firststep.sharetooltip"
+      },
+      {
+        "defaultMessage": "Memos are used to communicate optional information to the recipient.",
+        "id": "modals.sendxlm.firststep.memotooltip"
       },
       {
         "defaultMessage": "The fee charged to execute a trade through SFOX.",
@@ -1486,6 +1536,10 @@
         "id": "components.txlistitem.valueattime"
       },
       {
+        "defaultMessage": "Memo",
+        "id": "components.txlistitem.memo"
+      },
+      {
         "defaultMessage": "Sent From",
         "id": "components.txlistitem.sentfrom"
       },
@@ -1559,6 +1613,40 @@
     "descriptors": [
       {
         "defaultMessage": "Confirm your email address to properly secure your account",
+        "id": "layouts.wallet.header.announcements.emailreminder"
+      },
+      {
+        "defaultMessage": "- An email was sent to {email}",
+        "id": "layouts.wallet.header.announcements.emailreminder.emailsent"
+      },
+      {
+        "defaultMessage": "Resend Email",
+        "id": "layouts.wallet.header.announcements.emailreminder.resend"
+      },
+      {
+        "defaultMessage": "Change Email",
+        "id": "layouts.wallet.header.announcements.emailreminder.change"
+      }
+    ],
+    "path": "src/layouts/Wallet/Header/Announcements/EmailReminder/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Complete your identity verification to claim your XLM.",
+        "id": "layouts.wallet.header.announcements.sunriverkycremdinder.title"
+      },
+      {
+        "defaultMessage": "Complete Now",
+        "id": "layouts.wallet.header.announcements.sunriverkycremdinder.completenow"
+      }
+    ],
+    "path": "src/layouts/Wallet/Header/Announcements/SunRiverKycReminder/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Confirm your email address to properly secure your account",
         "id": "layouts.wallet.header.emailreminder"
       },
       {
@@ -1575,6 +1663,15 @@
       }
     ],
     "path": "src/layouts/Wallet/Header/EmailReminder/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Help?",
+        "id": "faq.help"
+      }
+    ],
+    "path": "src/layouts/Wallet/Header/FaqIcon/template.json"
   },
   {
     "descriptors": [
@@ -1660,6 +1757,14 @@
       {
         "defaultMessage": "Bitcoin Cash",
         "id": "layouts.wallet.menuleft.navigation.transactions.bch"
+      },
+      {
+        "defaultMessage": "Stellar",
+        "id": "layouts.wallet.menuleft.navigation.transactions.xlm"
+      },
+      {
+        "defaultMessage": "New",
+        "id": "layouts.wallet.menuleft.navigation.transactions.xlm.new"
       },
       {
         "defaultMessage": "Storage",
@@ -1813,6 +1918,15 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/LockboxBalance/XlmLockboxBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Pending",
         "id": "layouts.wallet.menutop.balance.walletbalance.pending"
       }
@@ -1841,6 +1955,10 @@
       {
         "defaultMessage": "Bitcoin Cash Balance",
         "id": "scenes.wallet.menutop.balance.bchbalance"
+      },
+      {
+        "defaultMessage": "Stellar Balance",
+        "id": "scenes.wallet.menutop.balance.xlmbalance"
       },
       {
         "defaultMessage": "Lockbox Balance",
@@ -1905,6 +2023,15 @@
         "id": "wallet.menutop.balance.refresh"
       }
     ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/WalletBalance/XlmBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.balance.refresh"
+      }
+    ],
     "path": "src/layouts/Wallet/MenuTop/Balance/WatchOnlyBalance/BchWatchOnlyBalance/template.error.json"
   },
   {
@@ -1936,8 +2063,8 @@
         "id": "scenes.faq.group.coinify.question1"
       },
       {
-        "defaultMessage": "We currently only support buying and selling bitcoin with fiat currency. We’re working on expanding to ether and bitcoin cash soon! In the meantime, you can exchange bitcoin for ether or bitcoin cash in the",
-        "id": "scenes.faq.group.coinify.answer1.one"
+        "defaultMessage": "We currently only support buying and selling bitcoin with fiat currency. We’re working on expanding to ether, bitcoin cash, and stellar soon! In the meantime, you can exchange bitcoin for ether, bitcoin cash, or stellar in the",
+        "id": "scenes.faq.group.coinify.answer1.one.new"
       },
       {
         "defaultMessage": "Exchange tab",
@@ -2036,8 +2163,8 @@
         "id": "scenes.faq.group.coinify.question8"
       },
       {
-        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, and BCH. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
-        "id": "scenes.faq.group.coinify.answer8.one"
+        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, and XLM. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
+        "id": "scenes.faq.group.coinify.answer8.one.new"
       },
       {
         "defaultMessage": "Pro tip: there are minimum and maximum buttons on the dashboard to quickly see your trading limits.",
@@ -2052,8 +2179,8 @@
         "id": "scenes.faq.group.sfox.question1"
       },
       {
-        "defaultMessage": "We currently only support buying and selling bitcoin with fiat currency. We’re working on expanding to ether and bitcoin cash soon! In the meantime, you can exchange bitcoin for ether or bitcoin cash in the",
-        "id": "scenes.faq.group.sfox.answer1.one"
+        "defaultMessage": "We currently only support buying and selling bitcoin with fiat currency. We’re working on expanding to ether and bitcoin cash soon! In the meantime, you can exchange bitcoin for ether, bitcoin cash, or stellar in the",
+        "id": "scenes.faq.group.sfox.answer1.one.new"
       },
       {
         "defaultMessage": "of your wallet.",
@@ -2128,8 +2255,8 @@
         "id": "scenes.faq.group.sfox.question6"
       },
       {
-        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, and BCH. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
-        "id": "scenes.faq.group.sfox.answer6.one"
+        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, and XLM. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
+        "id": "scenes.faq.group.sfox.answer6.one.new"
       },
       {
         "defaultMessage": "Pro tip: there are minimum and maximum buttons on the dashboard to quickly see your trading limits.",
@@ -2152,8 +2279,8 @@
         "id": "scenes.faq.group.noexchange.question2"
       },
       {
-        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, and BCH. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
-        "id": "scenes.faq.group.noexchange.question6.one"
+        "defaultMessage": "We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, BCH, and XLM. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.",
+        "id": "scenes.faq.group.noexchange.question6.one.new"
       },
       {
         "defaultMessage": "Pro tip: there are minimum and maximum buttons on the dashboard to quickly see your trading limits.",
@@ -2180,8 +2307,8 @@
         "id": "scenes.faq.group.walletfunctionality.question2"
       },
       {
-        "defaultMessage": "While our wallet is entirely free to use, the small fee included in your transaction goes to the miners, who help power the flow of transactions on the Bitcoin, Ethereum, and Bitcoin Cash networks.",
-        "id": "scenes.faq.group.walletfunctionality.answer2.one"
+        "defaultMessage": "While our wallet is entirely free to use, the small fee included in your transaction goes to the miners, who help power the flow of transactions on the Bitcoin, Ethereum, Bitcoin Cash, and Stellar networks.",
+        "id": "scenes.faq.group.walletfunctionality.answer2.one.new"
       },
       {
         "defaultMessage": "To ensure your transactions confirm consistently and reliably, your wallet will automatically include an appropriate fee based on your transaction’s size and the level of network traffic at the time. If you wish to specify your own fee for bitcoin transactions, you can do so under ‘Customize Fee’.",
@@ -2248,8 +2375,8 @@
         "id": "scenes.faq.group.walletfunctionality.question8"
       },
       {
-        "defaultMessage": "No, unfortunately we are unable to cancel or reverse any transaction. Even advanced cryptocurrency users can recall an incident when they failed to double-check their transaction details and accidentally sent funds to the wrong recipient, or sent the wrong amount. As unfortunate as it is, cryptocurrency transactions on the Bitcoin, Ethereum, and Bitcoin Cash networks are designed to be       irreversible and we have no control over them. Knowing this, it is extremely important to make sure your transaction details are correct before you click send.",
-        "id": "scenes.faq.group.walletfunctionality.answer8.one"
+        "defaultMessage": "No, unfortunately we are unable to cancel or reverse any transaction. Even advanced cryptocurrency users can recall an incident when they failed to double-check their transaction details and accidentally sent funds to the wrong recipient, or sent the wrong amount. As unfortunate as it is, cryptocurrency transactions on the Bitcoin, Ethereum, Bitcoin Cash, and Stellar networks are designed to be irreversible and we have no control over them. Knowing this, it is extremely important to make sure your transaction details are correct before you click send.",
+        "id": "scenes.faq.group.walletfunctionality.answer8.one.new"
       },
       {
         "defaultMessage": "To learn more about why transactions can’t be canceled and how this aspect of bitcoin and other similar cryptocurrencies compares to other methods of payment like credit cards and cash, check out our blog post on",
@@ -2464,6 +2591,14 @@
         "id": "scenes.faq.group.educationalresources.answer4"
       },
       {
+        "defaultMessage": "What is stellar?",
+        "id": "scenes.faq.group.educationalresources.whatisstellar"
+      },
+      {
+        "defaultMessage": "Stellar is an open-source, decentralized payment protocol that allows for fast, cross-border transactions between any pair of currencies. Like other cryptocurrencies, it operates using blockchain technology. Its native asset, a digital currency, is called lumen (XLM). XLM powers the Stellar network and all of its operations, similarly to how ether (ETH) powers the Ethereum network.",
+        "id": "scenes.faq.group.educationalresources.stellaranswer"
+      },
+      {
         "defaultMessage": "What are contract addresses?",
         "id": "scenes.faq.group.educationalresources.question5"
       },
@@ -2529,6 +2664,19 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Need more help?",
+        "id": "faq.content.help"
+      },
+      {
+        "defaultMessage": "Support Center",
+        "id": "faq.content.supportcenter"
+      }
+    ],
+    "path": "src/layouts/Wallet/TrayRight/Faq/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Frequently Asked Questions",
         "id": "layouts.wallet.trayright.faq"
       },
@@ -2564,6 +2712,68 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "🎉 You're all caught up!",
+        "id": "layouts.wallet.header.whatsnew.whatsnew.empty"
+      },
+      {
+        "defaultMessage": "Our team is always working on new features, but if there's something we can improve please let us know about it <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>here<a/>.",
+        "id": "layouts.wallet.header.whatsnew.whatsnew.in_progress"
+      }
+    ],
+    "path": "src/layouts/Wallet/TrayRight/WhatsNew/WhatsNewContent/EmptyContent.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "We've improved our Exchange",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.improved"
+      },
+      {
+        "defaultMessage": "November 2019",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.november2019"
+      },
+      {
+        "defaultMessage": "The faster, smarter way to trade your crypto.",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.introducing"
+      },
+      {
+        "defaultMessage": "Upgrade now to enjoy the following benefits:",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.upgrade"
+      },
+      {
+        "defaultMessage": "Lower cost",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost"
+      },
+      {
+        "defaultMessage": "Super competitive crypto exchange prices",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost_description"
+      },
+      {
+        "defaultMessage": "Live rates",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates"
+      },
+      {
+        "defaultMessage": "You always get the most up to date price",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates_Description"
+      },
+      {
+        "defaultMessage": "Higher limits",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits"
+      },
+      {
+        "defaultMessage": "Limits from $2,000-$10,000",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits_description"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.started"
+      }
+    ],
+    "path": "src/layouts/Wallet/TrayRight/WhatsNew/WhatsNewContent/ExchangeByBlockchain.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Add New Bitcoin Wallet",
         "id": "modals.addbitcoinwallet.title"
       },
@@ -2577,6 +2787,57 @@
       }
     ],
     "path": "src/modals/AddBtcWallet/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Remove Label?",
+        "id": "modal.deleteaddresslabel.title"
+      },
+      {
+        "defaultMessage": "Removing a label does not delete this address, you can still safely receive funds to it. This action cannot be undone.",
+        "id": "modal.deleteaddresslabel.message"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "modals.deleteaddresslabel.cancel"
+      },
+      {
+        "defaultMessage": "Delete Label",
+        "id": "modal.deleteaddresslabel.delete"
+      }
+    ],
+    "path": "src/modals/Addresses/DeleteAddressLabel/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Are you sure?",
+        "id": "modals.showusedaddresses.title"
+      },
+      {
+        "defaultMessage": "Viewing used addresses can be helpful for debugging purposes, and is recommended for advanced users only. For privacy reasons, we strongly discourage using each address more than once.",
+        "id": "modals.showusedaddresses.message"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "modals.showusedaddresses.cancel"
+      },
+      {
+        "defaultMessage": "Ok",
+        "id": "modals.showusedaddresses.ok"
+      }
+    ],
+    "path": "src/modals/Addresses/ShowUsedAddresses/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Upgrading your wallet. This should take around {duration} seconds.",
+        "id": "modals.upgradeaddresslabels.explain"
+      }
+    ],
+    "path": "src/modals/Addresses/UpgradeAddressLabels/template.json"
   },
   {
     "descriptors": [
@@ -2602,6 +2863,1001 @@
       }
     ],
     "path": "src/modals/AutoDisconnection/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Request Bitcoin Cash",
+        "id": "modals.requestbch.title"
+      }
+    ],
+    "path": "src/modals/Bch/RequestBch/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Currency:",
+        "id": "modals.sendbch.coin"
+      },
+      {
+        "defaultMessage": "Receive to:",
+        "id": "modals.requestbitcoin.firststep.to"
+      },
+      {
+        "defaultMessage": "Copy & Share Address:",
+        "id": "modals.requestbch.share"
+      },
+      {
+        "defaultMessage": "Please confirm this address on your lockbox device by opening your Bitcoin Cash app. On your device the address will be displayed in the legacy format {legacyAddress}. <span class=\"link\">Click here</span> once the Bitcoin Cash app has been opened.",
+        "id": "modals.requestbch.firststep.lockbox"
+      },
+      {
+        "defaultMessage": "Or",
+        "id": "modals.requestbch.or"
+      },
+      {
+        "defaultMessage": "Scan QR Code:",
+        "id": "modals.requestbch.scan"
+      },
+      {
+        "defaultMessage": "Done",
+        "id": "modals.requestbch.done"
+      }
+    ],
+    "path": "src/modals/Bch/RequestBch/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "maximum",
+        "id": "modals.sendbch.maximumamountlink.maximum"
+      }
+    ],
+    "path": "src/modals/Bch/SendBch/FirstStep/MaximumAmountLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Currency:",
+        "id": "modals.sendBch.firststep.coin"
+      },
+      {
+        "defaultMessage": "From:",
+        "id": "modals.sendBch.firststep.from"
+      },
+      {
+        "defaultMessage": "Sending Bitcoin Cash from Lockbox can only be done while using the Chrome browser",
+        "id": "modals.sendbch.firststep.lockboxwarn"
+      },
+      {
+        "defaultMessage": "To:",
+        "id": "modals.sendBch.firststep.to"
+      },
+      {
+        "defaultMessage": "Enter Amount:",
+        "id": "modals.requestbitcoin.firststep.amount"
+      },
+      {
+        "defaultMessage": "Description:",
+        "id": "modals.sendBch.firststep.description"
+      },
+      {
+        "defaultMessage": "Transaction fee:",
+        "id": "modals.sendBch.firststep.fee"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.sendBch.firststep.continue"
+      }
+    ],
+    "path": "src/modals/Bch/SendBch/FirstStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Invalid amount",
+        "id": "modals.sendbch.amountnotzeromessage"
+      },
+      {
+        "defaultMessage": "Not enough funds. Use",
+        "id": "modals.sendbch.maximumamountmessage"
+      },
+      {
+        "defaultMessage": "Insufficient funds",
+        "id": "modals.sendbch.insufficientfundsmessage"
+      }
+    ],
+    "path": "src/modals/Bch/SendBch/FirstStep/validationMessages.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "From:",
+        "id": "modals.sendbch.secondstep.from"
+      },
+      {
+        "defaultMessage": "To:",
+        "id": "modals.sendbch.secondstep.to"
+      },
+      {
+        "defaultMessage": "Note:",
+        "id": "modals.sendbch.secondstep.note"
+      },
+      {
+        "defaultMessage": "Payment:",
+        "id": "modals.sendbch.secondstep.payment"
+      },
+      {
+        "defaultMessage": "Fee:",
+        "id": "modals.sendbch.secondstep.fee"
+      },
+      {
+        "defaultMessage": "Total",
+        "id": "modals.sendbch.secondstep.total"
+      },
+      {
+        "defaultMessage": "Are you sure this is a Bitcoin Cash Address? Sending funds to bitcoin address by accident will result in loss of funds.",
+        "id": "modals.sendbch.secondstep.legacy_addr_warning"
+      },
+      {
+        "defaultMessage": "Send Bitcoin Cash",
+        "id": "modals.sendbch.secondstep.send"
+      },
+      {
+        "defaultMessage": "Go back",
+        "id": "modals.sendbch.secondstep.back"
+      }
+    ],
+    "path": "src/modals/Bch/SendBch/SecondStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Send Bitcoin Cash",
+        "id": "modals.sendbch.title"
+      }
+    ],
+    "path": "src/modals/Bch/SendBch/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Add New Bitcoin Wallet",
+        "id": "modals.addbitcoinwallet.title"
+      },
+      {
+        "defaultMessage": "Wallet Name",
+        "id": "modals.addbitcoinwallet.wallet"
+      },
+      {
+        "defaultMessage": "Create New Bitcoin Wallet",
+        "id": "modals.addbitcoinwallet.button"
+      }
+    ],
+    "path": "src/modals/Btc/AddBtcWallet/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "This is advanced functionality and only suggested for advanced users.",
+        "id": "modals.importbtcaddress.importexternalbitcoinaddress.advanced.message"
+      },
+      {
+        "defaultMessage": "Enter Bitcoin address or private key",
+        "id": "modals.importbtcaddress.importexternalbitcoinaddress.bitcoineither"
+      },
+      {
+        "defaultMessage": "Transfer funds to an existing wallet (optional)",
+        "id": "modals.importbtcaddress.importexternalbitcoinaddress.transfer"
+      }
+    ],
+    "path": "src/modals/Btc/ImportBtcAddress/ImportExternalBtcAddress/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Addresses generated by this wallet should not be imported.",
+        "id": "modals.importbtcaddress.importinternalbitcoinaddress.warning"
+      }
+    ],
+    "path": "src/modals/Btc/ImportBtcAddress/ImportInternalBtcAddress/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Import Existing Bitcoin Address",
+        "id": "modals.importbtcaddress.title"
+      },
+      {
+        "defaultMessage": "What do you want to import?",
+        "id": "modals.importbtcaddress.importtype"
+      },
+      {
+        "defaultMessage": "Existing address generated in <span>this wallet</span>.",
+        "id": "modals.importbtcaddress.generated_in_wallet"
+      },
+      {
+        "defaultMessage": "Existing address generated <span>outside this wallet</span>.",
+        "id": "modals.importbtcaddress.generated_outside_wallet"
+      },
+      {
+        "defaultMessage": "Import",
+        "id": "modals.importbtcaddress.button"
+      }
+    ],
+    "path": "src/modals/Btc/ImportBtcAddress/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Currency:",
+        "id": "modals.sendbitcoin.firststep.coin"
+      },
+      {
+        "defaultMessage": "Copy & Share Address:",
+        "id": "modals.requestbitcoin.firststep.share"
+      },
+      {
+        "defaultMessage": "QR Code",
+        "id": "modals.requestbitcoin.firststep.qrcode"
+      },
+      {
+        "defaultMessage": "Please confirm this address on your lockbox device by opening your Bitcoin app. <span class=\"link\">Click here</span> once the Bitcoin app has been opened.",
+        "id": "modals.requestbitcoin.firststep.lockbox"
+      },
+      {
+        "defaultMessage": "Or",
+        "id": "modals.requestbitcoin.firststep.or"
+      },
+      {
+        "defaultMessage": "Enter Amount:",
+        "id": "modals.requestbitcoin.firststep.amount"
+      },
+      {
+        "defaultMessage": "Receive To:",
+        "id": "modals.requestbitcoin.firststep.to"
+      },
+      {
+        "defaultMessage": "You are about to receive to a watch-only address. You can only spend these funds if you have access to the private key.",
+        "id": "modals.requestbitcoin.firststep.importedwarning"
+      },
+      {
+        "defaultMessage": "Description:",
+        "id": "modals.requestbitcoin.firststep.description"
+      },
+      {
+        "defaultMessage": "Next",
+        "id": "modals.requestbitcoin.firststep.next"
+      }
+    ],
+    "path": "src/modals/Btc/RequestBtc/FirstStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Must be greater than 0",
+        "id": "modals.requestbtc.amountnotminmessage"
+      },
+      {
+        "defaultMessage": "Cannot exceed 21,000,000",
+        "id": "modals.requestbtc.amountnotmaxmessage"
+      }
+    ],
+    "path": "src/modals/Btc/RequestBtc/FirstStep/validationMessages.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Send the link below to your friend or contact and they will be able to send bitcoin directly to your wallet.",
+        "id": "modals.requestbitcoin.secondstep.explain"
+      },
+      {
+        "defaultMessage": "Payment Request:",
+        "id": "modals.requestbitcoin.secondstep.payment"
+      },
+      {
+        "defaultMessage": "For \"{message}\"",
+        "id": "modals.requestbitcoin.secondstep.message"
+      },
+      {
+        "defaultMessage": "Copied!",
+        "id": "modals.requestbitcoin.secondstep.copied"
+      },
+      {
+        "defaultMessage": "Copy Link",
+        "id": "modals.requestbitcoin.secondstep.copy"
+      },
+      {
+        "defaultMessage": "Go Back",
+        "id": "scenes.requestbitcoin.secondstep.back"
+      }
+    ],
+    "path": "src/modals/Btc/RequestBtc/SecondStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Request Bitcoin",
+        "id": "modals.requestbitcoin.title"
+      }
+    ],
+    "path": "src/modals/Btc/RequestBtc/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "maximum",
+        "id": "modals.sendbtc.maximumamountlink.maximum"
+      }
+    ],
+    "path": "src/modals/Btc/SendBtc/FirstStep/MaximumAmountLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Use our recommended upper limit.",
+        "id": "modals.sendbtc.maximumfeelink.userecupperlimit"
+      }
+    ],
+    "path": "src/modals/Btc/SendBtc/FirstStep/MaximumFeeLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "minimum",
+        "id": "modals.sendbtc.minimumamountlink.minimum"
+      }
+    ],
+    "path": "src/modals/Btc/SendBtc/FirstStep/MinimumAmountLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "minimum",
+        "id": "modals.sendbtc.minimumfeelink.minimum"
+      }
+    ],
+    "path": "src/modals/Btc/SendBtc/FirstStep/MinimumFeeLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Priority: {fee}",
+        "id": "modals.sendbtc.priorityfeelink.priority"
+      }
+    ],
+    "path": "src/modals/Btc/SendBtc/FirstStep/PriorityFeeLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Reg: {fee},",
+        "id": "modals.sendbtc.regularfeelink.regular"
+      }
+    ],
+    "path": "src/modals/Btc/SendBtc/FirstStep/RegularFeeLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Regular",
+        "id": "modals.sendbtc.firststep.fee.regular"
+      },
+      {
+        "defaultMessage": "Priority",
+        "id": "modals.sendbtc.firststep.fee.priority"
+      }
+    ],
+    "path": "src/modals/Btc/SendBtc/FirstStep/selectors.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Currency:",
+        "id": "modals.sendbtc.firststep.coin"
+      },
+      {
+        "defaultMessage": "From:",
+        "id": "modals.sendbtc.firststep.from"
+      },
+      {
+        "defaultMessage": "Sending Bitcoin from Lockbox can only be done while using the Chrome browser",
+        "id": "modals.sendbtc.firststep.lockboxwarn"
+      },
+      {
+        "defaultMessage": "To:",
+        "id": "modals.sendbtc.firststep.to"
+      },
+      {
+        "defaultMessage": "Enter Amount:",
+        "id": "modals.sendbtc.firststep.amount"
+      },
+      {
+        "defaultMessage": "Description:",
+        "id": "modals.sendbtc.firststep.description"
+      },
+      {
+        "defaultMessage": "Transaction fee:",
+        "id": "modals.sendbtc.firststep.fee"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "modals.sendbtc.firststep.cancel"
+      },
+      {
+        "defaultMessage": "Customize fee",
+        "id": "modals.sendbtc.firststep.edit"
+      },
+      {
+        "defaultMessage": "Estimated confirmation time 1+ hour",
+        "id": "modals.sendbtc.firststep.estimated"
+      },
+      {
+        "defaultMessage": "Estimated confirmation time 0-60 minutes",
+        "id": "modals.sendbtc.firststep.estimated2"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.sendbtc.firststep.continue"
+      }
+    ],
+    "path": "src/modals/Btc/SendBtc/FirstStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Invalid amount",
+        "id": "modals.sendbtc.amountnotzeromessage"
+      },
+      {
+        "defaultMessage": "Not enough funds. Use",
+        "id": "modals.sendbtc.maximumamountmessage"
+      },
+      {
+        "defaultMessage": "Unnecessarily high fee.",
+        "id": "modals.sendbtc.maximumfeemessage"
+      },
+      {
+        "defaultMessage": "Below minimum amount. Use",
+        "id": "modals.sendbtc.minimumamountmessage"
+      },
+      {
+        "defaultMessage": "Low fee not recommended. Use",
+        "id": "modals.sendbtc.minimumfeemessage"
+      },
+      {
+        "defaultMessage": "Minimum {sat} required",
+        "id": "modals.sendbtc.minimumonesatoshimessage"
+      },
+      {
+        "defaultMessage": "Insufficient funds",
+        "id": "modals.sendbtc.insufficientfundsmessage"
+      },
+      {
+        "defaultMessage": "This private key does not match the watch only address above",
+        "id": "modals.sendbtc.addressprivmismatch"
+      }
+    ],
+    "path": "src/modals/Btc/SendBtc/FirstStep/validationMessages.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "From:",
+        "id": "modals.sendbtc.secondstep.from"
+      },
+      {
+        "defaultMessage": "To:",
+        "id": "modals.sendbtc.secondstep.to"
+      },
+      {
+        "defaultMessage": "Note:",
+        "id": "modals.sendbtc.secondstep.note"
+      },
+      {
+        "defaultMessage": "Payment:",
+        "id": "modals.sendbtc.secondstep.payment"
+      },
+      {
+        "defaultMessage": "Fee:",
+        "id": "modals.sendbtc.secondstep.fee"
+      },
+      {
+        "defaultMessage": "Total",
+        "id": "modals.sendbtc.secontstep.total"
+      },
+      {
+        "defaultMessage": "Send Bitcoin",
+        "id": "modals.sendbtc.secondstep.send"
+      },
+      {
+        "defaultMessage": "Go back",
+        "id": "scenes.sendbtc.secondstep.back"
+      }
+    ],
+    "path": "src/modals/Btc/SendBtc/SecondStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Send Bitcoin",
+        "id": "modals.sendbitcoin.title"
+      }
+    ],
+    "path": "src/modals/Btc/SendBtc/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Warning",
+        "id": "modals.showbtcpriv.warning"
+      },
+      {
+        "defaultMessage": "Don't share your private key with anyone. This may result in a loss of funds.",
+        "id": "modals.showbtcpriv.warning.message"
+      },
+      {
+        "defaultMessage": "Balance",
+        "id": "modals.showbtcpriv.balance"
+      },
+      {
+        "defaultMessage": "Address",
+        "id": "modals.showbtcpriv.address"
+      },
+      {
+        "defaultMessage": "Private Key",
+        "id": "modals.showbtcpriv.priv_key"
+      },
+      {
+        "defaultMessage": "Private Key Format",
+        "id": "modals.showbtcpriv.priv_key_format"
+      },
+      {
+        "defaultMessage": "Private Key",
+        "id": "modals.showbtcpriv.title"
+      },
+      {
+        "defaultMessage": "Close",
+        "id": "modals.showbtcpriv.close"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.showbtcpriv.continue"
+      }
+    ],
+    "path": "src/modals/Btc/ShowBtcPrivateKey/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Delete bank Account?",
+        "id": "modals.coinifydeletebank.title"
+      },
+      {
+        "defaultMessage": "Are you sure you want to delete this bank account?",
+        "id": "modals.coinifydeletebank.explain"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "modals.coinifydeletebank.cancel"
+      },
+      {
+        "defaultMessage": "Delete",
+        "id": "modals.coinifydeletebank.logout"
+      }
+    ],
+    "path": "src/modals/Coinify/CoinifyDeleteBank/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Under the limit",
+        "id": "coinifyexchangedata.confirm.underlimit"
+      },
+      {
+        "defaultMessage": "Over the limit",
+        "id": "coinifyexchangedata.confirm.overlimit"
+      },
+      {
+        "defaultMessage": "Please confirm your order details before we redirect you to our secure payment provider.",
+        "id": "coinifyexchangedata.confirm.subheader"
+      },
+      {
+        "defaultMessage": "Confirm Buy Order",
+        "id": "coinifyexchangedata.confirm.header"
+      },
+      {
+        "defaultMessage": "Amount",
+        "id": "coinifyexchangedata.confirm.amount"
+      },
+      {
+        "defaultMessage": "Payment Fee",
+        "id": "coinifyexchangedata.confirm.fee"
+      },
+      {
+        "defaultMessage": "Total Cost",
+        "id": "coinifyexchangedata.confirm.totalcost"
+      },
+      {
+        "defaultMessage": "Edit Order",
+        "id": "coinifyexchangedata.confirm.editorder"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "coinifyexchangedata.confirm.canceledit"
+      },
+      {
+        "defaultMessage": "Confirm",
+        "id": "coinifyexchangedata.confirm.confirm"
+      },
+      {
+        "defaultMessage": "Update",
+        "id": "coinifyexchangedata.confirm.update"
+      }
+    ],
+    "path": "src/modals/Coinify/CoinifyExchangeData/Confirm/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "What is Coinify?",
+        "id": "coinifysignup.acceptterms.helper1.question"
+      },
+      {
+        "defaultMessage": "Coinify is a trading platform we’ve partnered with to bring you a harmonious buy & sell experience in your Blockchain wallet",
+        "id": "coinifysignup.acceptterms.helper1.answer"
+      },
+      {
+        "defaultMessage": "Create Your Account",
+        "id": "coinifyexchangedata.create.verifyemail.partner.header.createyouraccount"
+      },
+      {
+        "defaultMessage": "We teamed up with Coinify’s exchange platform to offer buy and sell to our customers in Europe. Accept their terms and conditions to start buying and selling.",
+        "id": "coinifyexchangedata.create.accept.partner.header.acceptterms"
+      },
+      {
+        "defaultMessage": "Verified Email Address",
+        "id": "sfoxexchangedata.create.createaccount.partner.verifiedemail"
+      },
+      {
+        "defaultMessage": "edit",
+        "id": "sfoxexchangedata.create.createaccount.partner.edit"
+      },
+      {
+        "defaultMessage": "edit email",
+        "id": "sfoxexchangedata.create.createaccount.partner.editemail"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "coinifyexchangedata.create.continue"
+      },
+      {
+        "defaultMessage": "Unfortunately this email is being used for another account.",
+        "id": "coinifyexchangedata.create.accept.error1"
+      },
+      {
+        "defaultMessage": "Click here",
+        "id": "coinifyexchangedata.create.accept.error2"
+      },
+      {
+        "defaultMessage": "to change it.",
+        "id": "coinifyexchangedata.create.accept.error3"
+      },
+      {
+        "defaultMessage": "We're sorry, but something unexpected went wrong. Please",
+        "id": "coinifyexchangedata.create.accept.unknownError"
+      },
+      {
+        "defaultMessage": "try again",
+        "id": "tryagain"
+      },
+      {
+        "defaultMessage": "or",
+        "id": "or"
+      },
+      {
+        "defaultMessage": "contact support.",
+        "id": "contactsupport"
+      },
+      {
+        "defaultMessage": "Error Description: {errorDescription}",
+        "id": "coinifyexchangedata.create.accept.support_error_description"
+      }
+    ],
+    "path": "src/modals/Coinify/CoinifyExchangeData/Create/AcceptTerms/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "That code doesn't match. {resend} or {changeEmail}.",
+        "id": "coinifyexchangedata.create.verifyemail.helper.error"
+      },
+      {
+        "defaultMessage": "Another code has been sent!",
+        "id": "coinifyexchangedata.create.verifyemail.helper.sentanothercode"
+      },
+      {
+        "defaultMessage": "Didn't receive your email? {resend} or {changeEmail}.",
+        "id": "coinifyexchangedata.create.verifyemail.helper.didntreceive"
+      },
+      {
+        "defaultMessage": "Verify Your Email",
+        "id": "coinifyexchangedata.create.verifyemail.partner.header.verifyemail"
+      },
+      {
+        "defaultMessage": "We teamed up with Coinify’s exchange platform to offer buy and sell to our customers in Europe. We just sent a verification code to your {email} email address.",
+        "id": "coinifyexchangedata.create.verifyemail.partner.subheader.enteremailcode"
+      },
+      {
+        "defaultMessage": "Enter the email address you would like to use with your Coinify account. We'll send you a verification code to make sure it's yours.",
+        "id": "coinifyexchangedata.create.verifyemail.partner.subheader.enteremailaddress"
+      },
+      {
+        "defaultMessage": "Enter your verification code:",
+        "id": "coinifyexchangedata.create.verifyemail.code"
+      },
+      {
+        "defaultMessage": "Enter the email address you'd like to verify:",
+        "id": "coinifyexchangedata.create.verifyemail.enteremail.youwouldlike"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "coinifyexchangedata.create.verifyemail.continue"
+      },
+      {
+        "defaultMessage": "Send Verification Code Email",
+        "id": "coinifyexchangedata.create.verifyemail.sendverificationemail"
+      }
+    ],
+    "path": "src/modals/Coinify/CoinifyExchangeData/Create/VerifyEmail/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Create Account",
+        "id": "modals.coinifyexchangedata.steps.account"
+      },
+      {
+        "defaultMessage": "Identity Verification",
+        "id": "modals.coinifyexchangedata.steps.identityverify"
+      },
+      {
+        "defaultMessage": "Start buying and selling in two simple steps.",
+        "id": "coinifyexchangedata.header.start"
+      }
+    ],
+    "path": "src/modals/Coinify/CoinifyExchangeData/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Why do you need this information?",
+        "id": "scenes.coinify.isx.kycquestion"
+      },
+      {
+        "defaultMessage": "Government anti-money laundering regulations require this verification of identity. The purpose of fulfilling these regulations is to provide you with a secure, smooth, and customized experience.",
+        "id": "scenes.coinify.isx.kycanswer"
+      },
+      {
+        "defaultMessage": "How is my payment method used?",
+        "id": "scenes.coinify.isx.tradequestion"
+      },
+      {
+        "defaultMessage": "Bitcoin is delivered to your Blockchain wallet by using the information you've provided. With that in mind, please double check that your submitted details are error-free. If you pay by credit / debit card, your bitcoin will be delivered within a couple of hours after the transaction is completed, depending on your bank’s transfer policies. If you pay by bank transfer, your bitcoin will be delivered after Coinify has processed your order, which usually takes between 2-3 days.",
+        "id": "scenes.coinify.isx.tradeanswer"
+      },
+      {
+        "defaultMessage": "~{btcValue} BTC",
+        "id": "scenes.buysell.coinify.isx.quoteexpiredbtc"
+      },
+      {
+        "defaultMessage": "({fiatValue})",
+        "id": "scenes.buysell.coinify.isx.quoteexpiredfiat"
+      },
+      {
+        "defaultMessage": "Finish later",
+        "id": "scenes.buysell.coinify.isx.finishlater"
+      },
+      {
+        "defaultMessage": "I'll do this later",
+        "id": "scenes.buysell.coinify.isx.dolater"
+      }
+    ],
+    "path": "src/modals/Coinify/CoinifyExchangeData/ISignThis/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Credit / Debit",
+        "id": "coinifyexchangedata.payment.mediumhelpers.card"
+      },
+      {
+        "defaultMessage": "Receive bitcoin instantly",
+        "id": "coinifyexchangedata.payment.mediumhelpers.card.detail1"
+      },
+      {
+        "defaultMessage": "3% convenience fee",
+        "id": "coinifyexchangedata.payment.mediumhelpers.card.detail2"
+      },
+      {
+        "defaultMessage": "Visa or Mastercard",
+        "id": "coinifyexchangedata.payment.mediumhelpers.card.detail3"
+      },
+      {
+        "defaultMessage": "{amount} {currency} is above your daily credit card limit of {limit} {currency}. Please use a bank transfer or lower your purchase amount.",
+        "id": "coinifyexchangedata.payment.mediumhelpers.card.abovecardlimit"
+      },
+      {
+        "defaultMessage": "Use Credit/Debit card",
+        "id": "coinifyexchangedata.payment.mediumhelpers.card.usecreditdebit"
+      },
+      {
+        "defaultMessage": "Bank Transfer",
+        "id": "coinifyexchangedata.payment.mediumhelpers.bank"
+      },
+      {
+        "defaultMessage": "The quoted amount is more than your current bank limit.",
+        "id": "scenes.buysell.coinifyexchangedata.payment.bank.unavailable_limits"
+      },
+      {
+        "defaultMessage": "Bank transfers are unavailable until Identity Verification has been finished.",
+        "id": "scenes.buysell.coinifyexchangedata.payment.bank.unavailable_kyc"
+      },
+      {
+        "defaultMessage": "Finish Identity Verification",
+        "id": "scenes.buysell.coinifyexchangedata.payment.bank.finishkyc"
+      },
+      {
+        "defaultMessage": "One time ID verification",
+        "id": "coinifyexchangedata.payment.mediumhelpers.bank.detail1"
+      },
+      {
+        "defaultMessage": "Receive bitcoin in 2-3 days",
+        "id": "coinifyexchangedata.payment.mediumhelpers.bank.detail2"
+      },
+      {
+        "defaultMessage": "0.25% Payment Fee",
+        "id": "coinifyexchangedata.payment.mediumhelpers.bank.detail3"
+      }
+    ],
+    "path": "src/modals/Coinify/CoinifyExchangeData/Payment/mediumHelpers.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Are there transaction fees?",
+        "id": "coinifyexchangedata.payment.helper1.question"
+      },
+      {
+        "defaultMessage": "There is a 3% convenience fee when buying bitcoin with a credit card in order to expedite the transaction. Buying or selling through a bank transfer does not include a convenience fee, although there is a small trading fee (0.25%) that Coinify requires in order to mitigate risk.",
+        "id": "coinifyexchangedata.payment.helper1.answer"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "coinifyexchangedata.payment.continue"
+      },
+      {
+        "defaultMessage": "Select Payment Method",
+        "id": "coinifyexchangedata.payment.header"
+      },
+      {
+        "defaultMessage": "You can link your bank account or credit card to buy cryptocurrency. Select the account that you would like to use to fund your purchases. You can always change your payment method.",
+        "id": "coinifyexchangedata.payment.subheader"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "coinifyexchangedata.payment.cancel"
+      }
+    ],
+    "path": "src/modals/Coinify/CoinifyExchangeData/Payment/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Buy Trade Awaiting Funds",
+        "id": "modals.coinifytradedetails.banktransfer.header"
+      },
+      {
+        "defaultMessage": "Close",
+        "id": "close"
+      }
+    ],
+    "path": "src/modals/Coinify/CoinifyTradeDetails/BankTransfer.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Buy & Sell Bitcoin",
+        "id": "modals.coinifytradedetails.kyc.identityverification.header"
+      },
+      {
+        "defaultMessage": "Close",
+        "id": "modals.coinifytradedetails.kyc.close"
+      }
+    ],
+    "path": "src/modals/Coinify/CoinifyTradeDetails/Kyc.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "This is a Recurring Order",
+        "id": "orderdetails.recurring.thisisrecurring"
+      },
+      {
+        "defaultMessage": "Amount:",
+        "id": "orderdetails.recurring.amount"
+      },
+      {
+        "defaultMessage": "Frequency:",
+        "id": "orderdetails.recurring.frequency"
+      },
+      {
+        "defaultMessage": "Today and every {value}",
+        "id": "orderdetails.recurring.frequencybody"
+      },
+      {
+        "defaultMessage": "Duration:",
+        "id": "orderdetails.recurring.duration"
+      },
+      {
+        "defaultMessage": "This order will repeat until {date}",
+        "id": "orderdetails.recurring.duration.endtime"
+      },
+      {
+        "defaultMessage": "Until you cancel or reach your limit, whichever happens first.",
+        "id": "orderdetails.recurring.duration.noendtime"
+      }
+    ],
+    "path": "src/modals/Coinify/CoinifyTradeDetails/Recurring.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Order Details",
+        "id": "orderdetails.orderdetails"
+      },
+      {
+        "defaultMessage": "Coinify Trade ID",
+        "id": "orderdetails.coinifytradeid"
+      },
+      {
+        "defaultMessage": "Date Initialized",
+        "id": "orderdetails.date"
+      },
+      {
+        "defaultMessage": "Bitcoin Purchased",
+        "id": "orderdetails.amounttopurchase"
+      },
+      {
+        "defaultMessage": "Bitcoin Sold",
+        "id": "orderdetails.amounttosell"
+      },
+      {
+        "defaultMessage": "Payout Details",
+        "id": "orderdetails.payoutdetails"
+      },
+      {
+        "defaultMessage": "Bank Account",
+        "id": "orderdetails.bankaccount"
+      },
+      {
+        "defaultMessage": "Total Cost",
+        "id": "orderdetails.totalcost"
+      },
+      {
+        "defaultMessage": "Total To Be Received",
+        "id": "orderdetails.totaltobereceived"
+      },
+      {
+        "defaultMessage": "*Please note: depending on your bank’s tranfers policies, you will see the funds reflected in your account within 1-2 days from the transfer.",
+        "id": "orderdetails.footnote"
+      },
+      {
+        "defaultMessage": "Close",
+        "id": "modals.coinifytradedetails.trade.close"
+      }
+    ],
+    "path": "src/modals/Coinify/CoinifyTradeDetails/Trade.json"
   },
   {
     "descriptors": [
@@ -3170,6 +4426,687 @@
       }
     ],
     "path": "src/modals/EditTxDescription/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Request Ether",
+        "id": "modals.requestether.title"
+      }
+    ],
+    "path": "src/modals/Eth/RequestEth/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Currency:",
+        "id": "modals.requestether.coin"
+      },
+      {
+        "defaultMessage": "Receive to:",
+        "id": "modals.requestbitcoin.firststep.to"
+      },
+      {
+        "defaultMessage": "Copy & Share Address:",
+        "id": "modals.requestether.share"
+      },
+      {
+        "defaultMessage": "Please confirm this address on your lockbox device by opening your Ethereum app. <span class=\"link\">Click here</span> once the Ethereum app has been opened.",
+        "id": "modals.requestether.firststep.lockbox"
+      },
+      {
+        "defaultMessage": "Or",
+        "id": "modals.requestether.or"
+      },
+      {
+        "defaultMessage": "Scan QR Code:",
+        "id": "modals.requestether.scan"
+      },
+      {
+        "defaultMessage": "Done",
+        "id": "modals.requestether.done"
+      }
+    ],
+    "path": "src/modals/Eth/RequestEth/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "maximum",
+        "id": "modals.sendeth.maximumamountlink.maximum"
+      }
+    ],
+    "path": "src/modals/Eth/SendEth/FirstStep/MaximumAmountLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Use our recommended upper limit.",
+        "id": "modals.sendeth.maximumfeelink.userecupperlimit"
+      }
+    ],
+    "path": "src/modals/Eth/SendEth/FirstStep/MaximumFeeLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "minimum",
+        "id": "modals.sendeth.minimumfeelink.minimum"
+      }
+    ],
+    "path": "src/modals/Eth/SendEth/FirstStep/MinimumFeeLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Priority: {fee}",
+        "id": "modals.sendeth.priorityfeelink.priority"
+      }
+    ],
+    "path": "src/modals/Eth/SendEth/FirstStep/PriorityFeeLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Reg: {fee},",
+        "id": "modals.sendeth.regularfeelink.regular"
+      }
+    ],
+    "path": "src/modals/Eth/SendEth/FirstStep/RegularFeeLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Regular",
+        "id": "modals.sendeth.firststep.fee.regular"
+      },
+      {
+        "defaultMessage": "Priority",
+        "id": "modals.sendeth.firststep.fee.priority"
+      }
+    ],
+    "path": "src/modals/Eth/SendEth/FirstStep/selectors.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Currency:",
+        "id": "modals.sendether.firststep.coin"
+      },
+      {
+        "defaultMessage": "From:",
+        "id": "modals.sendEther.firststep.from"
+      },
+      {
+        "defaultMessage": "Sending Ether from Lockbox can only be done while using the Chrome browser",
+        "id": "modals.sendeth.firststep.lockboxwarn"
+      },
+      {
+        "defaultMessage": "To:",
+        "id": "modals.sendether.firststep.to"
+      },
+      {
+        "defaultMessage": "Please wait until your previous transaction confirms.",
+        "id": "modals.sendeth.unconfirmedtransactionmessage"
+      },
+      {
+        "defaultMessage": "Sending to contract addresses is disabled.",
+        "id": "modals.sendeth.contractaddr"
+      },
+      {
+        "defaultMessage": "Enter amount:",
+        "id": "modals.sendether.firststep.amount"
+      },
+      {
+        "defaultMessage": "Description:",
+        "id": "modals.sendether.firststep.description"
+      },
+      {
+        "defaultMessage": "Transaction fee:",
+        "id": "modals.sendether.firststep.txfee"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "modals.sendether.firststep.cancel"
+      },
+      {
+        "defaultMessage": "Customize fee",
+        "id": "modals.sendether.firststep.edit"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.sendether.firststep.continue"
+      }
+    ],
+    "path": "src/modals/Eth/SendEth/FirstStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Invalid amount",
+        "id": "modals.sendeth.amountnotzeromessage"
+      },
+      {
+        "defaultMessage": "Not enough funds. Use",
+        "id": "modals.sendeth.maximumamountmessage"
+      },
+      {
+        "defaultMessage": "Insufficient funds",
+        "id": "modals.sendeth.insufficientfundsmessage"
+      },
+      {
+        "defaultMessage": "Unnecessarily high fee.",
+        "id": "modals.sendeth.maximumfeemessage"
+      },
+      {
+        "defaultMessage": "Low fee not recommended. Use",
+        "id": "modals.sendeth.minimumfeemessage"
+      }
+    ],
+    "path": "src/modals/Eth/SendEth/FirstStep/validationMessages.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "From:",
+        "id": "modals.sendeth.secondstep.from"
+      },
+      {
+        "defaultMessage": "To:",
+        "id": "modals.sendeth.secondstep.to"
+      },
+      {
+        "defaultMessage": "Note:",
+        "id": "modals.sendeth.secondstep.note"
+      },
+      {
+        "defaultMessage": "Payment:",
+        "id": "modals.sendeth.secondstep.payment"
+      },
+      {
+        "defaultMessage": "Fee:",
+        "id": "modals.sendeth.secondstep.fee"
+      },
+      {
+        "defaultMessage": "Total",
+        "id": "modals.sendeth.secondstep.total"
+      },
+      {
+        "defaultMessage": "Send Ether",
+        "id": "modals.sendeth.secondstep.send"
+      },
+      {
+        "defaultMessage": "Go Back",
+        "id": "modals.sendeth.sendconfirm.back"
+      }
+    ],
+    "path": "src/modals/Eth/SendEth/SecondStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Send Ether",
+        "id": "modals.sendether.title"
+      }
+    ],
+    "path": "src/modals/Eth/SendEth/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Warning",
+        "id": "modals.showethpriv.warning"
+      },
+      {
+        "defaultMessage": "Don't share your private key with anyone. This may result in a loss of funds.",
+        "id": "modals.showethpriv.warning.message"
+      },
+      {
+        "defaultMessage": "Balance",
+        "id": "modals.showethpriv.balance"
+      },
+      {
+        "defaultMessage": "Address",
+        "id": "modals.showethpriv.address"
+      },
+      {
+        "defaultMessage": "Private Key",
+        "id": "modals.showethpriv.priv_key"
+      },
+      {
+        "defaultMessage": "Private Key",
+        "id": "modals.showethpriv.title"
+      },
+      {
+        "defaultMessage": "Close",
+        "id": "modals.showethpriv.close"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.showethpriv.continue"
+      }
+    ],
+    "path": "src/modals/Eth/ShowEthPrivateKey/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Your Ether Address",
+        "id": "modals.transfereth.title"
+      },
+      {
+        "defaultMessage": "As we leave our beta program we want to make sure your backup phrase is compatible with other ether wallets.",
+        "id": "modals.transfereth.beta"
+      },
+      {
+        "defaultMessage": "Because of this, we've updated your ether address and are requiring a transfer of your funds.",
+        "id": "modals.transfereth.updated"
+      },
+      {
+        "defaultMessage": "Don't worry, your old address is still valid.",
+        "id": "modals.transfereth.old"
+      },
+      {
+        "defaultMessage": "Send ETH From:",
+        "id": "modals.transfereth.label1"
+      },
+      {
+        "defaultMessage": "To:",
+        "id": "modals.transfereth.label2"
+      },
+      {
+        "defaultMessage": "Amount:",
+        "id": "modals.transfereth.label3"
+      },
+      {
+        "defaultMessage": "Transaction Fee:",
+        "id": "modals.transfereth.label4"
+      },
+      {
+        "defaultMessage": "Confirm",
+        "id": "modals.transfereth.confirm"
+      }
+    ],
+    "path": "src/modals/Eth/TransferEth/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Exchange Completed",
+        "id": "modals.exchangedetails.title.success"
+      },
+      {
+        "defaultMessage": "Trade Refunded",
+        "id": "modals.exchangedetails.title.refunded"
+      },
+      {
+        "defaultMessage": "Trade Failed",
+        "id": "modals.exchangedetails.title.failed"
+      },
+      {
+        "defaultMessage": "Exchange in Progress",
+        "id": "modals.exchangedetails.title.inprogress"
+      },
+      {
+        "defaultMessage": "Your exchange is complete.",
+        "id": "modals.exchangedetails.explain"
+      },
+      {
+        "defaultMessage": "It may take a few minutes for the funds to show in your balance.",
+        "id": "modals.exchangedetails.explain2"
+      },
+      {
+        "defaultMessage": "{coin} Deposited",
+        "id": "modals.exchangedetails.deposited"
+      },
+      {
+        "defaultMessage": "{coin} to be Received",
+        "id": "modals.exchangedetails.received"
+      },
+      {
+        "defaultMessage": "Exchange rate",
+        "id": "modals.exchangedetails.exchangerate"
+      },
+      {
+        "defaultMessage": "Transaction fee",
+        "id": "modals.exchangedetails.fee"
+      },
+      {
+        "defaultMessage": "Order ID",
+        "id": "modals.exchangedetails.orderid"
+      },
+      {
+        "defaultMessage": "Close",
+        "id": "modals.exchangedetails.close"
+      }
+    ],
+    "path": "src/modals/Exchange/ExchangeDetails/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Exchange {coin}",
+        "id": "modals.exchangeresults.exchange"
+      },
+      {
+        "defaultMessage": "{coin} Deposited",
+        "id": "modals.exchangeresults.deposited"
+      },
+      {
+        "defaultMessage": "{coin} Broadcast",
+        "id": "modals.exchangeresults.broadcast"
+      },
+      {
+        "defaultMessage": "{coin} Received",
+        "id": "modals.exchangeresults.received"
+      },
+      {
+        "defaultMessage": "Receive {coin}",
+        "id": "modals.exchangeresults.receive"
+      },
+      {
+        "defaultMessage": "Total refunded",
+        "id": "modals.exchangeresults.totalrefunded"
+      },
+      {
+        "defaultMessage": "Total to be refunded",
+        "id": "modals.exchangeresults.totaltoberefunded"
+      },
+      {
+        "defaultMessage": "Request a refund",
+        "id": "modals.exchangedetails.refund"
+      },
+      {
+        "defaultMessage": "Close",
+        "id": "modals.exchangedetails.close"
+      },
+      {
+        "defaultMessage": "Order",
+        "id": "modals.exchangeresults.order"
+      },
+      {
+        "defaultMessage": "Total Value",
+        "id": "modals.exchangeresults.value"
+      },
+      {
+        "defaultMessage": "(when exchanged)",
+        "id": "modals.exchangeresults.valuenotcie"
+      },
+      {
+        "defaultMessage": "Network Fee",
+        "id": "modals.exchangeresults.fee"
+      },
+      {
+        "defaultMessage": "Exchange rate",
+        "id": "modals.exchangeresults.rate"
+      }
+    ],
+    "path": "src/modals/Exchange/ExchangeResults/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Personal",
+        "id": "modals.identityverification.steps.personal"
+      },
+      {
+        "defaultMessage": "Phone",
+        "id": "modals.identityverification.steps.mobile"
+      },
+      {
+        "defaultMessage": "Verify",
+        "id": "modals.identityverification.steps.verify"
+      }
+    ],
+    "path": "src/modals/Exchange/IdentityVerification/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Enter Address Manually",
+        "id": "identityverification.personal.manualaddress"
+      },
+      {
+        "defaultMessage": "Personal Details",
+        "id": "identityverification.personal.header"
+      },
+      {
+        "defaultMessage": "To get started, we need to verify your identity. It should only take a few minutes.",
+        "id": "identityverification.personal.subheader"
+      },
+      {
+        "defaultMessage": "Select your country of residence",
+        "id": "identityverification.personal.country"
+      },
+      {
+        "defaultMessage": "Select country",
+        "id": "components.selectboxcountry.label"
+      },
+      {
+        "defaultMessage": "State",
+        "id": "identityverification.personal.state"
+      },
+      {
+        "defaultMessage": "Select your state",
+        "id": "identityverification.personal.label.state"
+      },
+      {
+        "defaultMessage": "Unfortunately exchange is not available in your state at this time.",
+        "id": "identityverification.personal.unavailable"
+      },
+      {
+        "defaultMessage": "We will notify you when we expand to your area.",
+        "id": "identityverification.personal.unavailablenotify"
+      },
+      {
+        "defaultMessage": "First Name",
+        "id": "identityverification.personal.firstname"
+      },
+      {
+        "defaultMessage": "Last Name",
+        "id": "identityverification.personal.lastname"
+      },
+      {
+        "defaultMessage": "First & Last Name",
+        "id": "identityverification.personal.faq.name.title"
+      },
+      {
+        "defaultMessage": "They should match exactly the details in your passport or driving license.",
+        "id": "identityverification.personal.faq.name.text"
+      },
+      {
+        "defaultMessage": "Date of Birth - Month",
+        "id": "identityverification.personal.dateofbirthmonth"
+      },
+      {
+        "defaultMessage": "Date",
+        "id": "identityverification.personal.date"
+      },
+      {
+        "defaultMessage": "Year",
+        "id": "identityverification.personal.year"
+      },
+      {
+        "defaultMessage": "Age requirement",
+        "id": "identityverification.personal.faq.dateofbirth.title"
+      },
+      {
+        "defaultMessage": "Users must be at least 18 years old to trade crypto",
+        "id": "identityverification.personal.faq.dateofbirth.text"
+      },
+      {
+        "defaultMessage": "Zip Code",
+        "id": "identityverification.personal.zipcode"
+      },
+      {
+        "defaultMessage": "Postcode",
+        "id": "identityverification.personal.postcode"
+      },
+      {
+        "defaultMessage": "Oops, address lookup failed. {retry}",
+        "id": "identityverification.personal.addressrefetch"
+      },
+      {
+        "defaultMessage": "Address search",
+        "id": "identityverification.personal.faq.postcode.title"
+      },
+      {
+        "defaultMessage": "We try and prefill your address so you don’t have to fill out all the fields",
+        "id": "identityverification.personal.faq.postcode.text"
+      },
+      {
+        "defaultMessage": "Select Address",
+        "id": "identityverification.personal.selectaddress"
+      },
+      {
+        "defaultMessage": "Address",
+        "id": "identityverification.personal.address"
+      },
+      {
+        "defaultMessage": "Address 2",
+        "id": "identityverification.personal.address2"
+      },
+      {
+        "defaultMessage": "City",
+        "id": "identityverification.personal.city"
+      },
+      {
+        "defaultMessage": "Region",
+        "id": "identityverification.personal.region"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "identityverification.personal.continue"
+      }
+    ],
+    "path": "src/modals/Exchange/IdentityVerification/Personal/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Government Issued Passport",
+        "id": "identityverification.verify.passport"
+      },
+      {
+        "defaultMessage": "Driver’s License",
+        "id": "identityverification.verify.driverslicense"
+      },
+      {
+        "defaultMessage": "National Identity Card",
+        "id": "identityverification.verify.natitionalidcard"
+      },
+      {
+        "defaultMessage": "Verify Your Identity",
+        "id": "identityverification.verify.header"
+      },
+      {
+        "defaultMessage": "Last step! We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.",
+        "id": "identityverification.verify.message"
+      },
+      {
+        "defaultMessage": "Back",
+        "id": "identityverification.personal.back"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "identityverification.personal.continue"
+      }
+    ],
+    "path": "src/modals/Exchange/IdentityVerification/Verify/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "That code doesn't match. {resend}.",
+        "id": "identityverification.personal.sms.badcode"
+      },
+      {
+        "defaultMessage": "This number is already in use.",
+        "id": "identityverification.personal.sms.numberexists"
+      },
+      {
+        "defaultMessage": "Updating mobile number failed, please try again",
+        "id": "identityverification.personal.sms.error"
+      },
+      {
+        "defaultMessage": "Didn't get our text? {resend}.",
+        "id": "identityverification.personal.sms.didntreceive"
+      },
+      {
+        "defaultMessage": "Verify your Phone Number",
+        "id": "identityverification.personal.mobile.header"
+      },
+      {
+        "defaultMessage": "We need to verify your mobile number. This will help us to verify your identity today, and also keep your account secure in the future. To do this an SMS will be sent to your phone, with a verification code.",
+        "id": "identityverification.personal.mobile.subheader"
+      },
+      {
+        "defaultMessage": "Enter your mobile number here",
+        "id": "identityverification.personal.mobile.entermobilenumber"
+      },
+      {
+        "defaultMessage": "Please add your phone",
+        "id": "identityverification.mobile.faq.phone.title"
+      },
+      {
+        "defaultMessage": "We will send you a SMS with verification code.",
+        "id": "identityverification.mobile.faq.phone.text"
+      },
+      {
+        "defaultMessage": "Send My Code",
+        "id": "identityverification.personal.mobile.sendmycode"
+      },
+      {
+        "defaultMessage": "Verification code",
+        "id": "identityverification.personal.mobile.entercode"
+      },
+      {
+        "defaultMessage": "We sent you a text message",
+        "id": "identityverification.mobile.faq.code.title"
+      },
+      {
+        "defaultMessage": "Your verification code is on its way. Once you receive it, please enter it.",
+        "id": "identityverification.mobile.faq.code.text"
+      },
+      {
+        "defaultMessage": "Back",
+        "id": "identityverification.personal.back"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "identityverification.personal.continue"
+      }
+    ],
+    "path": "src/modals/Exchange/IdentityVerification/VerifyMobile/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Oops! Looks like we have this email already",
+        "id": "modals.userexists.title"
+      },
+      {
+        "defaultMessage": "You may have started the verification process in a different Blockchain Wallet.",
+        "id": "modals.userexists.emailused"
+      },
+      {
+        "defaultMessage": "In order to complete verification, please consider using another email address.",
+        "id": "modals.userexists.kycnotcomplete"
+      },
+      {
+        "defaultMessage": "If you have already verified your profile on another Blockchain Wallet, we are unable to verify you again on another wallet.",
+        "id": "modals.userexists.kyccomplete"
+      },
+      {
+        "defaultMessage": "Learn more",
+        "id": "modals.userexists.learnmore"
+      },
+      {
+        "defaultMessage": "Change Email",
+        "id": "modals.userexists.changeemail"
+      }
+    ],
+    "path": "src/modals/Exchange/UserExists/index.json"
   },
   {
     "descriptors": [
@@ -3768,6 +5705,381 @@
         "id": "modals.lockboxappinstall.success"
       }
     ],
+    "path": "src/modals/Lockbox/LockboxAppInstall/status.template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Install/Update Lockbox Applications",
+        "id": "modals.lockboxappinstall.title"
+      },
+      {
+        "defaultMessage": "Plug in device, unlock and open the dashboard on your device",
+        "id": "modals.lockboxappinstall.connectdevice"
+      },
+      {
+        "defaultMessage": "Success! Click to Continue",
+        "id": "modals.lockboxsetup.connectdevice.success"
+      },
+      {
+        "defaultMessage": "Connect Your Lockbox",
+        "id": "modals.lockboxsetup.connectdevice.connect"
+      },
+      {
+        "defaultMessage": "Allow the device manager onto the device when prompted.",
+        "id": "modals.lockboxappinstall.allowmanager"
+      },
+      {
+        "defaultMessage": "Do not press any buttons on device until all installations are complete!",
+        "id": "modals.lockboxappinstall.dontpress"
+      },
+      {
+        "defaultMessage": "Application",
+        "id": "modals.lockboxappinstall.application"
+      },
+      {
+        "defaultMessage": "Status",
+        "id": "modals.lockboxappinstall.status"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.lockboxappinstall.finish"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxAppInstall/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Checking for Updates",
+        "id": "modals.lockboxfirmware.checkversionsstep.title"
+      },
+      {
+        "defaultMessage": "A new firmware, version {status}, is available for your device! Click continue to start installing.",
+        "id": "modals.lockboxfirmware.checkversionsstep.updateavailable"
+      },
+      {
+        "defaultMessage": "Please wait while we check for updates for your device.",
+        "id": "modals.lockboxfirmware.checkversionsstep.subtitle"
+      },
+      {
+        "defaultMessage": "Install Update",
+        "id": "modals.lockboxfirmware.checkversionsstep.continue"
+      },
+      {
+        "defaultMessage": "Checking Versions",
+        "id": "modals.lockboxfirmware.checkversionsstep.loading"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxFirmware/CheckVersionsStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Device Up-to-date!",
+        "id": "modals.lockboxfirmware.completestep.uptodate.title"
+      },
+      {
+        "defaultMessage": "Your device is already up-to-date.",
+        "id": "modals.lockboxfirmware.completestep.uptodate.message"
+      },
+      {
+        "defaultMessage": "Update Complete!",
+        "id": "modals.lockboxfirmware.completestep.installsuccess.title"
+      },
+      {
+        "defaultMessage": "Your firmware was successfully updated. You will now need to reinstall the apps on your device.",
+        "id": "modals.lockboxfirmware.completestep.installsuccess.message"
+      },
+      {
+        "defaultMessage": "Update Failed!",
+        "id": "modals.lockboxfirmware.completestep.installerror.title"
+      },
+      {
+        "defaultMessage": "The firmware update failed to install. Please try again or reach out to support if the issue persists.",
+        "id": "modals.lockboxfirmware.completestep.installerror.message"
+      },
+      {
+        "defaultMessage": "Install Apps",
+        "id": "modals.lockboxfirmware.completestep.installApps"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxFirmware/CompleteStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Connect your Lockbox",
+        "id": "modals.lockboxfirmware.connectdevice.title"
+      },
+      {
+        "defaultMessage": "Connect and unlock your Lockbox. Then open the Dashboard app.",
+        "id": "modals.lockboxfirmware.connectdevice.subtitle"
+      },
+      {
+        "defaultMessage": "Connect Your Lockbox",
+        "id": "modals.lockboxfirmware.connectdevice.loading"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxFirmware/ConnectDeviceStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Finalizing Install",
+        "id": "modals.lockboxfirmware.installstep.title"
+      },
+      {
+        "defaultMessage": "Finalizing the update on your Lockbox. Enter your device pin when prompted.",
+        "id": "modals.lockboxfirmware.installstep.message"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxFirmware/InstallFirmwareStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Verify Your Device",
+        "id": "modals.lockboxfirmware.uninstallapps.title"
+      },
+      {
+        "defaultMessage": "Update in progress. Please keep your browser opened, your device opened, and wait while your device's applications are uninstalled for the time being.",
+        "id": "modals.lockboxfirmware.uninstallapps.message1"
+      },
+      {
+        "defaultMessage": "Also, please verify the below on your device before continuing.",
+        "id": "modals.lockboxfirmware.uninstallapps.message2"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxFirmware/UninstallAppsStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Verify Device Authenticity",
+        "id": "modals.lockboxsetup.authenticitystep.title"
+      },
+      {
+        "defaultMessage": "On your Lockbox, tap the RIGHT button to let your Lockbox connect to your Blockchain wallet.",
+        "id": "modals.lockboxsetup.authenticitystep.content"
+      },
+      {
+        "defaultMessage": "Checking Your Devices Authenticity",
+        "id": "modals.lockboxsetup.authenticitystep.authenticating"
+      },
+      {
+        "defaultMessage": "Success! Click to Continue",
+        "id": "modals.lockboxsetup.authenticitystep.success"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxSetup/AuthenticityStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Connect Your Lockbox",
+        "id": "modals.lockboxsetup.setuptypestep.connect"
+      },
+      {
+        "defaultMessage": "1. Insert your Lockbox into your computer",
+        "id": "modals.lockboxsetup.connectdevice.step1"
+      },
+      {
+        "defaultMessage": "2. Press both buttons on your Lockbox to begin",
+        "id": "modals.lockboxsetup.connectdevice.step2"
+      },
+      {
+        "defaultMessage": "3. Set your pin",
+        "id": "modals.lockboxsetup.connectdevice.step3"
+      },
+      {
+        "defaultMessage": "4. Complete backup phrase process",
+        "id": "modals.lockboxsetup.connectdevice.step4"
+      },
+      {
+        "defaultMessage": "Success! Click to Continue",
+        "id": "modals.lockboxsetup.connectdevice.success"
+      },
+      {
+        "defaultMessage": "Connect Your Lockbox",
+        "id": "modals.lockboxsetup.connectdevice.connect"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxSetup/ConnectDeviceStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Whoops!",
+        "id": "modals.lockboxsetup.authenticityerrorstep.title"
+      },
+      {
+        "defaultMessage": "This device appears to be non-genuine. Please try the setup again or contact support if this issue persists.",
+        "id": "modals.lockboxsetup.authenticityerrorstep.subtitle"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.lockboxsetup.authenticityerrorstep.continue"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxSetup/ErrorStep/authenticity.template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Whoops!",
+        "id": "modals.lockboxsetup.duplicatedevice.title"
+      },
+      {
+        "defaultMessage": "This device has already been associated with your Blockchain Wallet. Please connect a new device and restart this process.",
+        "id": "modals.lockboxsetup.duplicatedevice.subtitle"
+      },
+      {
+        "defaultMessage": "OK",
+        "id": "modals.lockboxsetup.duplicatedevice.continue"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxSetup/ErrorStep/duplicate.template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Name Your Lockbox",
+        "id": "modals.lockboxsetup.labelstep.title"
+      },
+      {
+        "defaultMessage": "Personally, we like the name Lockbox but you should name your device something that’s a little more you.",
+        "id": "modals.lockboxsetup.labelstep.body"
+      },
+      {
+        "defaultMessage": "Finish Set Up",
+        "id": "modals.lockboxsetup.labelstep.finish"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxSetup/NameDeviceStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Lockbox + Blockchain Wallet",
+        "id": "modals.lockboxsetup.openbtcappstep.title"
+      },
+      {
+        "defaultMessage": "Now add a Bitcoin wallet to your device.",
+        "id": "modals.lockboxsetup.openbtcappstep.explanation"
+      },
+      {
+        "defaultMessage": "Select \"Bitcoin\" from the picker.",
+        "id": "modals.lockboxsetup.openbtcappstep.selection"
+      },
+      {
+        "defaultMessage": "Note:",
+        "id": "modals.lockboxsetup.openbtcappstep.note"
+      },
+      {
+        "defaultMessage": "If you do not have the Bitcoin app on your device, you can install it",
+        "id": "modals.lockboxsetup.openbtcappstep.installapps"
+      },
+      {
+        "defaultMessage": "here.",
+        "id": "modals.lockboxsetup.openbtcappstep.installappshere"
+      },
+      {
+        "defaultMessage": "Success! Click to Continue",
+        "id": "modals.lockboxsetup.openbtcappstep.success"
+      },
+      {
+        "defaultMessage": "Open Your Bitcoin App",
+        "id": "modals.lockboxsetup.openbtcappstep.loading"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxSetup/OpenBtcAppStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Connect Your Lockbox",
+        "id": "modals.lockboxsetup.setuptypestep.connect"
+      },
+      {
+        "defaultMessage": "Link your new device",
+        "id": "modals.lockboxsetup.firststep.link"
+      },
+      {
+        "defaultMessage": "Restore your device",
+        "id": "modals.lockboxsetup.firststep.restore"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxSetup/SetupTypeStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Connect Your Lockbox",
+        "id": "modals.promptforlockbox.connectcoinapp.title.connect"
+      },
+      {
+        "defaultMessage": "Connect and unlock your hardware device. Then open the {coin} app on the device.",
+        "id": "modals.promptforlockbox.connectcoinapp.content"
+      },
+      {
+        "defaultMessage": "Connect and unlock your hardware device. Then open the {coin} app on the device.",
+        "id": "modals.promptforlockbox.connectcoinapp.contentgeneric"
+      },
+      {
+        "defaultMessage": "Note: If you do not have the {coin} app on your device you can install it via the settings page.",
+        "id": "modals.promptforlockbox.connectcoinapp.contentgenericnote"
+      },
+      {
+        "defaultMessage": "Review Transaction Details",
+        "id": "modals.promptforlockbox.connectcoinapp.title.review"
+      },
+      {
+        "defaultMessage": "Review the transaction details on your device screen. Press the top right button to confirm and sign the transaction.",
+        "id": "modals.promptforlockbox.connectcoinapp.review"
+      },
+      {
+        "defaultMessage": "Your {coin} Transaction Was Sent",
+        "id": "modals.promptforlockbox.connectcoinapp.title.success"
+      },
+      {
+        "defaultMessage": "{coin} Success",
+        "id": "modals.promptforlockbox.connectcoinapp.title.successgeneric"
+      },
+      {
+        "defaultMessage": "Your transaction was sent. Please allow for it to confirm on the network.",
+        "id": "modals.promptforlockbox.connectcoinapp.success"
+      },
+      {
+        "defaultMessage": "{coin} successfully connected.",
+        "id": "modals.promptforlockbox.connectcoinapp.successgeneric"
+      },
+      {
+        "defaultMessage": "Transaction Failed",
+        "id": "modals.promptforlockbox.connectcoinapp.title.error"
+      },
+      {
+        "defaultMessage": "An Error Occurred",
+        "id": "modals.promptforlockbox.connectcoinapp.title.errorgeneric"
+      },
+      {
+        "defaultMessage": "Something went wrong. Please reconnect your device and try again.",
+        "id": "modals.promptforlockbox.connectcoinapp.error"
+      }
+    ],
+    "path": "src/modals/Lockbox/PromptLockbox/model.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Pending",
+        "id": "modals.lockboxappinstall.pending"
+      },
+      {
+        "defaultMessage": "Success",
+        "id": "modals.lockboxappinstall.success"
+      }
+    ],
     "path": "src/modals/LockboxAppInstall/status.template.json"
   },
   {
@@ -4074,6 +6386,109 @@
       }
     ],
     "path": "src/modals/LockboxSetup/SetupTypeStep/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Mobile login",
+        "id": "modals.mobilelogin.title"
+      },
+      {
+        "defaultMessage": "Follow these steps to log into your web wallet using your mobile device",
+        "id": "modals.mobilelogin.explain"
+      },
+      {
+        "defaultMessage": "Logging in with Mobile",
+        "id": "modals.mobilelogin.login"
+      },
+      {
+        "defaultMessage": "Open the Blockchain app on your mobile device",
+        "id": "modals.mobilelogin.openapp"
+      },
+      {
+        "defaultMessage": "Select 'Log in to Web Wallet' from your wallet's side menu",
+        "id": "modals.mobilelogin.tapweb"
+      },
+      {
+        "defaultMessage": "Select 'Show QR Code'",
+        "id": "modals.mobilelogin.showqr"
+      },
+      {
+        "defaultMessage": "Using your computer's camera, scan the QR code that appears",
+        "id": "modals.mobilelogin.scan"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "modals.mobilelogin.cancel"
+      }
+    ],
+    "path": "src/modals/Mobile/MobileLogin/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Change Mobile Number",
+        "id": "modals.mobilenumberchange.changenumbertitle"
+      },
+      {
+        "defaultMessage": "Use your mobile phone to receive a one-time-password after a login attempt.",
+        "id": "modals.mobilenumberchange.explain"
+      },
+      {
+        "defaultMessage": "Mobile number:",
+        "id": "modals.mobilenumberchange.mobile"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "modals.mobilenumberchange.cancel"
+      },
+      {
+        "defaultMessage": "Update",
+        "id": "modals.mobilenumberchange.update"
+      }
+    ],
+    "path": "src/modals/Mobile/MobileNumberChange/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Verify Mobile Number",
+        "id": "modals.mobilenumberverify.title"
+      },
+      {
+        "defaultMessage": "We have sent an SMS message with a verification code to {number}.",
+        "id": "modals.mobilenumberverify.explain"
+      },
+      {
+        "defaultMessage": "Enter code:",
+        "id": "modals.mobilenumberverify.explain2"
+      },
+      {
+        "defaultMessage": "Didn't get the code?",
+        "id": "modals.mobilenumberverify.getcode1"
+      },
+      {
+        "defaultMessage": "Resend",
+        "id": "modals.mobilenumberverify.resend"
+      },
+      {
+        "defaultMessage": "or",
+        "id": "modals.mobilenumberverify.getcode2"
+      },
+      {
+        "defaultMessage": "change mobile number",
+        "id": "modals.mobilenumberverify.change"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "modals.mobilenumberverify.cancel"
+      },
+      {
+        "defaultMessage": "Verify",
+        "id": "modals.mobilenumberverify.verify"
+      }
+    ],
+    "path": "src/modals/Mobile/MobileNumberVerify/template.json"
   },
   {
     "descriptors": [
@@ -5068,6 +7483,788 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Disable Two-Step",
+        "id": "modals.disable2fa.title"
+      },
+      {
+        "defaultMessage": "Are you sure you wish to disable the",
+        "id": "modals.disable2fa.sure"
+      },
+      {
+        "defaultMessage": "Disable",
+        "id": "modals.disable2fa.disable"
+      }
+    ],
+    "path": "src/modals/Settings/ConfirmDisable2FA/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Second password required",
+        "id": "modals.secondpassword.title"
+      },
+      {
+        "defaultMessage": "Please enter your second password",
+        "id": "modals.secondpassword.explain"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "modals.secondpassword.cancel"
+      },
+      {
+        "defaultMessage": "Confirm",
+        "id": "modals.secondpassword.confirm"
+      }
+    ],
+    "path": "src/modals/Settings/SecondPassword/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Enable Two-Step Verification",
+        "id": "modals.twostepgoogleauthenticator.title"
+      },
+      {
+        "defaultMessage": "Scan this QR code with your Google Authenticator app on your mobile phone (download for iOS or Android).",
+        "id": "modals.twostepgoogleauthenticator.explain"
+      },
+      {
+        "defaultMessage": "Once scanned you will be presented with a random 6 digit number.",
+        "id": "modals.twostepgoogleauthenticator.explain2"
+      },
+      {
+        "defaultMessage": "Enter that number to finish the setup process:",
+        "id": "modals.twostepgoogleauthenticator.explain3"
+      },
+      {
+        "defaultMessage": "Go Back",
+        "id": "modals.twostepgoogleauthenticator.back"
+      },
+      {
+        "defaultMessage": "Enable 2FA",
+        "id": "modals.twostepgoogleauthenticator.enable"
+      }
+    ],
+    "path": "src/modals/Settings/TwoStepGoogleAuthenticator/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Disable Two Factor Verification",
+        "id": "modals.twostepsetup.title1"
+      },
+      {
+        "defaultMessage": "Are you sure to disable two factor authentication ?",
+        "id": "modals.twostepsetup"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "modals.twostepsetup.cancel"
+      },
+      {
+        "defaultMessage": "Disable",
+        "id": "modals.twostepsetup.disable"
+      },
+      {
+        "defaultMessage": "Enable Two-Step Verification",
+        "id": "modals.twostepsetup.title2"
+      },
+      {
+        "defaultMessage": "Protect your wallet from unauthorized access by enabling 2-step Setup.",
+        "id": "modals.twostepsetup.explain"
+      },
+      {
+        "defaultMessage": "You can choose to use a free app or your mobile phone number to secure your wallet.",
+        "id": "modals.twostepsetup.explain2"
+      },
+      {
+        "defaultMessage": "Google Authenticator",
+        "id": "modals.twostepsetup.usegoogle"
+      },
+      {
+        "defaultMessage": "Yubikey",
+        "id": "modals.twostepsetup.useyubikey"
+      },
+      {
+        "defaultMessage": "Mobile number",
+        "id": "modals.twostepsetup.usemobile"
+      }
+    ],
+    "path": "src/modals/Settings/TwoStepSetup/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Enable Two-Step Verification",
+        "id": "modals.twostepyubico.title"
+      },
+      {
+        "defaultMessage": "Pair with your yubikey:",
+        "id": "modals.twostepyubico.explain"
+      },
+      {
+        "defaultMessage": "Go Back",
+        "id": "modals.twostepyubico.back"
+      },
+      {
+        "defaultMessage": "Enable 2FA",
+        "id": "modals.twostepyubico.enable"
+      }
+    ],
+    "path": "src/modals/Settings/TwoStepYubico/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "YOU ARE NOW READY TO BUY & SELL",
+        "id": "sfoxmicrodeposits.success"
+      },
+      {
+        "defaultMessage": "Verify Bank Deposits",
+        "id": "sfoxmicrodeposits.header"
+      },
+      {
+        "defaultMessage": "Deposit 1",
+        "id": "sfoxmicrodeposits.deposit1"
+      },
+      {
+        "defaultMessage": "Deposit 2",
+        "id": "sfoxmicrodeposits.deposit2"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "cancel"
+      },
+      {
+        "defaultMessage": "The amounts entered do not match the deposits. {tryAgain}",
+        "id": "sfoxmicrodeposits.error"
+      },
+      {
+        "defaultMessage": "Try again.",
+        "id": "try_again"
+      },
+      {
+        "defaultMessage": "Verify",
+        "id": "verify"
+      }
+    ],
+    "path": "src/modals/Sfox/SfoxEnterMicroDeposits/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "What is SFOX?",
+        "id": "scenes.sfoxsignup.acceptterms.helper1.question"
+      },
+      {
+        "defaultMessage": "SFOX (San Francisco Open Exchange) is a trading platform we’ve partnered with to bring you a harmonious buy & sell experience in your Blockchain wallet.",
+        "id": "scenes.sfoxsignup.acceptterms.helper1.answer"
+      },
+      {
+        "defaultMessage": "How do I change my email address, phone number, or other personal information?",
+        "id": "scenes.sfoxsignup.acceptterms.helper2.question"
+      },
+      {
+        "defaultMessage": "Personal information can be changed by submitting a request to support@sfox.com. Make sure you mention Blockchain in the subject and include the information you want to change. Changing your email or phone number within your Blockchain wallet will not impact your SFOX account.",
+        "id": "scenes.sfoxsignup.acceptterms.helper2.answer"
+      },
+      {
+        "defaultMessage": "Create Your Account",
+        "id": "sfoxexchangedata.create.createaccount.partner.header"
+      },
+      {
+        "defaultMessage": "Your buy and sell experience is being streamlined. We've teamed up with SFOX to make your dreams of simply managing funds a reality.",
+        "id": "sfoxexchangedata.create.createaccount.partner.subheader"
+      },
+      {
+        "defaultMessage": "Rest assured: there are only a few steps separating you from the good stuff. Let's start by confirming your verified email address and phone number.",
+        "id": "sfoxexchangedata.create.createaccount.partner.subheader2"
+      },
+      {
+        "defaultMessage": "Verified Email Address",
+        "id": "sfoxexchangedata.create.createaccount.partner.verifiedemail"
+      },
+      {
+        "defaultMessage": "edit",
+        "id": "sfoxexchangedata.create.createaccount.partner.edit"
+      },
+      {
+        "defaultMessage": "edit email",
+        "id": "sfoxexchangedata.create.createaccount.partner.editemail"
+      },
+      {
+        "defaultMessage": "Verified Phone Number",
+        "id": "sfoxexchangedata.create.createaccount.partner.verifiedmobile"
+      },
+      {
+        "defaultMessage": "edit mobile",
+        "id": "sfoxexchangedata.create.createaccount.partner.editmobile"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "sfoxexchangedata.create.continue"
+      },
+      {
+        "defaultMessage": "Unfortunately this email is being used for another account.",
+        "id": "sfoxexchangedata.create.accept.error"
+      },
+      {
+        "defaultMessage": "Click here",
+        "id": "clickhere"
+      },
+      {
+        "defaultMessage": "to change it.",
+        "id": "sfoxexchangedata.create.accept.tochangeit"
+      },
+      {
+        "defaultMessage": "We're sorry, but something unexpected went wrong. Please",
+        "id": "sfoxexchangedata.create.accept.unknownError"
+      },
+      {
+        "defaultMessage": "try again",
+        "id": "tryagain"
+      },
+      {
+        "defaultMessage": "or",
+        "id": "or"
+      },
+      {
+        "defaultMessage": "contact support.",
+        "id": "contactsupport"
+      }
+    ],
+    "path": "src/modals/Sfox/SfoxExchangeData/Create/AcceptTerms.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "That code doesn't match. {resend} or {changeEmail}.",
+        "id": "sfoxexchangedata.create.verifyemail.helper.error"
+      },
+      {
+        "defaultMessage": "Another code has been sent! {changeEmail}",
+        "id": "sfoxexchangedata.create.verifyemail.helper.sentanothercode"
+      },
+      {
+        "defaultMessage": "Didn't receive your email? {resend} or {changeEmail}.",
+        "id": "sfoxexchangedata.create.verifyemail.helper.didntreceive"
+      },
+      {
+        "defaultMessage": "What's your email?",
+        "id": "sfoxexchangedata.create.verifyemail.partner.header"
+      },
+      {
+        "defaultMessage": "Rest assured: there are only a few steps separating you from the good stuff. Let's start by confirming your verified email address and phone number.",
+        "id": "sfoxexchangedata.create.verifyemail.partner.subheader"
+      },
+      {
+        "defaultMessage": "We emailed a verification code to {email}",
+        "id": "sfoxexchangedata.create.verifyemail.code"
+      },
+      {
+        "defaultMessage": "Confirm Email:",
+        "id": "sfoxexchangedata.create.verifyemail.confirm"
+      },
+      {
+        "defaultMessage": "Send Email Verification Code",
+        "id": "sfoxexchangedata.create.mobile.number"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "sfoxexchangedata.create.verifyemail.continue"
+      }
+    ],
+    "path": "src/modals/Sfox/SfoxExchangeData/Create/VerifyEmail.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "That code doesn't match. {resend} or {changeNumber}.",
+        "id": "sfoxexchangedata.create.mobile.helper.error"
+      },
+      {
+        "defaultMessage": "Another code has been sent!",
+        "id": "sfoxexchangedata.create.mobile.helper.sentanothercode"
+      },
+      {
+        "defaultMessage": "Didn't get our text? {resend}.",
+        "id": "sfoxexchangedata.create.mobile.helper.didntreceive"
+      },
+      {
+        "defaultMessage": "What's Your Number?",
+        "id": "sfoxexchangedata.create.verifymobile.partner.header.mobile"
+      },
+      {
+        "defaultMessage": "Confirming your phone number allows SFOX to secure your account. Don't worry, we won't use your number for anything other than sending your code.",
+        "id": "sfoxexchangedata.create.verifymobile.partner.subheader.mobile"
+      },
+      {
+        "defaultMessage": "Enter your digits here:",
+        "id": "sfoxexchangedata.create.mobile.entermobilenumber"
+      },
+      {
+        "defaultMessage": "Send My Code",
+        "id": "sfoxexchangedata.create.mobile.sendmycode"
+      },
+      {
+        "defaultMessage": "Enter the code we just sent to your phone:",
+        "id": "sfoxexchangedata.create.mobile.entercode"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "sfoxexchangedata.create.mobile.continue"
+      }
+    ],
+    "path": "src/modals/Sfox/SfoxExchangeData/Create/VerifyMobile.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Account",
+        "id": "modals.sfoxexchangedata.steps.createaccount"
+      },
+      {
+        "defaultMessage": "Identity",
+        "id": "modals.sfoxexchangedata.steps.verifyidentity"
+      },
+      {
+        "defaultMessage": "Verification",
+        "id": "modals.sfoxexchangedata.steps.uploadidentitydocs"
+      },
+      {
+        "defaultMessage": "Funding",
+        "id": "modals.sfoxexchangedata.steps.linkbank"
+      }
+    ],
+    "path": "src/modals/Sfox/SfoxExchangeData/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Full Name of Primary Account Holder",
+        "id": "sfoxexchangedata.link.addmanually.accountholdername"
+      },
+      {
+        "defaultMessage": "Bank Account Information",
+        "id": "sfoxexchangedata.link.addmanually.bankaccountinformation"
+      },
+      {
+        "defaultMessage": "Account Type",
+        "id": "sfoxexchangedata.link.addmanually.accounttype"
+      }
+    ],
+    "path": "src/modals/Sfox/SfoxExchangeData/Link/AddManually.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Verify Your Bank Account",
+        "id": "modals.sfoxexchangedata.link.awaitingdeposits.title"
+      },
+      {
+        "defaultMessage": "To verify your bank details, SFOX will send two micro-deposits to your bank account for a few cents each. Once received, select Enter Deposit Details to finish setting up your account.",
+        "id": "modals.sfoxexchangedata.link.awaitingdeposits.body"
+      },
+      {
+        "defaultMessage": "Bear with us: receiving these deposits can take up to 5 business days.",
+        "id": "modals.sfoxexchangedata.link.awaitingdeposits.note"
+      },
+      {
+        "defaultMessage": "Enter Deposit Details",
+        "id": "awaiting_deposits.enter"
+      }
+    ],
+    "path": "src/modals/Sfox/SfoxExchangeData/Link/AwaitingDeposits.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Account Holder",
+        "id": "sfoxexchangedata.link.accountholder"
+      },
+      {
+        "defaultMessage": "First Name",
+        "id": "sfoxexchangedata.link.accountholderfirstname"
+      },
+      {
+        "defaultMessage": "Last Name",
+        "id": "sfoxexchangedata.link.accountholderlastname"
+      }
+    ],
+    "path": "src/modals/Sfox/SfoxExchangeData/Link/BankAccounts.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Verify Your Bank Account",
+        "id": "sfoxexchangedata.link.micro.title"
+      },
+      {
+        "defaultMessage": "To verify your bank details, SFOX will send two micro-deposits to your bank account for a few cents each. Once received, select Enter Deposit Details to finish setting up your account.",
+        "id": "sfoxexchangedata.link.micro.description"
+      },
+      {
+        "defaultMessage": "Bear with us:",
+        "id": "sfoxexchangedata.link.micro.bear"
+      },
+      {
+        "defaultMessage": "receiving these deposits can take up to 5 business days.",
+        "id": "sfoxexchangedata.link.micro.description2"
+      },
+      {
+        "defaultMessage": "Deposit 1",
+        "id": "sfoxexchangedata.link.micro.deposit1"
+      },
+      {
+        "defaultMessage": "Deposit 2",
+        "id": "sfoxexchangedata.link.micro.deposit2"
+      }
+    ],
+    "path": "src/modals/Sfox/SfoxExchangeData/Link/MicroDeposits.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "How will this account be used?",
+        "id": "scenes.buysell.sfoxsignup.link.helper3.question"
+      },
+      {
+        "defaultMessage": "This will be the primary account you buy or sell assets with.",
+        "id": "scenes.buysell.sfoxsignup.link.helper3.answer"
+      },
+      {
+        "defaultMessage": "What if I need to change my linked bank account?",
+        "id": "scenes.buysell.sfoxsignup.link.helper4.question"
+      },
+      {
+        "defaultMessage": "To change account information, or link a new account, please submit a request to support@sfox.com. Make sure you mention Blockchain in the subject and include the information you want to change.",
+        "id": "scenes.buysell.sfoxsignup.link.helper4.answer"
+      },
+      {
+        "defaultMessage": "Can I change my bank account once it’s linked?",
+        "id": "scenes.buysell.sfoxsignup.link.helper1.question"
+      },
+      {
+        "defaultMessage": "Yes, you can change your bank account by emailing support@sfox.com. Make sure you mention Blockchain in the subject and include the information you want to change.",
+        "id": "scenes.buysell.sfoxsignup.link.helper1.answer"
+      },
+      {
+        "defaultMessage": "Which method of linking my bank takes longer?",
+        "id": "scenes.buysell.sfoxsignup.link.helper2.question"
+      },
+      {
+        "defaultMessage": "Adding your account details manually. In order to verify these details belong to you, SFOX sends 2 micro-deposits to your account. This process can take up to 5 days in itself, so we recommend signing directly into your bank if you would like to buy & sell immediately.",
+        "id": "scenes.buysell.sfoxsignup.link.helper2.answer"
+      },
+      {
+        "defaultMessage": "Select Your Account",
+        "id": "sfoxexchangedata.link.title2"
+      },
+      {
+        "defaultMessage": "Connect Your Bank",
+        "id": "sfoxexchangedata.link.title"
+      },
+      {
+        "defaultMessage": "Please select which bank account you'd like to have synced with your SFOX profile.",
+        "id": "sfoxexchangedata.link.subtitle2"
+      },
+      {
+        "defaultMessage": "There are two ways to go about this: Sync your bank account using your login details (a crowd favorite), or manually enter your routing and account number (this may take a couple days).",
+        "id": "sfoxexchangedata.link.subtitle1"
+      },
+      {
+        "defaultMessage": "or",
+        "id": "sfoxexchangedata.link.or"
+      },
+      {
+        "defaultMessage": "Use Routing and Account Number",
+        "id": "sfoxexchangedata.link.userouting"
+      },
+      {
+        "defaultMessage": "Submit for Verification",
+        "id": "sfoxexchangedata.link.microdeposits.submitverification"
+      },
+      {
+        "defaultMessage": "Enter Deposit Details",
+        "id": "sfoxexchangedata.link.microdeposits.enter"
+      },
+      {
+        "defaultMessage": "Try again",
+        "id": "sfoxexchangedata.link.tryagain"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "sfoxexchangedata.link.continue"
+      },
+      {
+        "defaultMessage": "Go Back",
+        "id": "sfoxexchangedata.link.goback"
+      }
+    ],
+    "path": "src/modals/Sfox/SfoxExchangeData/Link/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Capture",
+        "id": "sfoxexchangedata.upload.capture"
+      }
+    ],
+    "path": "src/modals/Sfox/SfoxExchangeData/Upload/camera.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "To further confirm your identity and ensure that you can trade at the maximum limit, we need a picture of your government issued ID. Make sure that your legal name and date of birth are clearly visible.",
+        "id": "sfoxexchangedata.upload.subtitle"
+      },
+      {
+        "defaultMessage": "1. Photo ID Verification",
+        "id": "sfoxexchangedata.upload.id.info"
+      },
+      {
+        "defaultMessage": "- State-issued driver’s license",
+        "id": "sfoxexchangedata.upload.license"
+      },
+      {
+        "defaultMessage": "- Passport",
+        "id": "sfoxexchangedata.upload.passport"
+      },
+      {
+        "defaultMessage": "- State or government-issued identification card",
+        "id": "sfoxexchangedata.upload.govid"
+      },
+      {
+        "defaultMessage": "Selfies are not a valid form of ID Verification",
+        "id": "sfoxexchangedata.upload.selfieswarning"
+      },
+      {
+        "defaultMessage": "The document must be dated within the last 6 months, and should clearly display your address.",
+        "id": "sfoxexchangedata.upload.address.subtitle"
+      },
+      {
+        "defaultMessage": "2. Proof of Address Verification",
+        "id": "sfoxexchangedata.upload.address.id"
+      },
+      {
+        "defaultMessage": "- Utility bill (mobile phone bills not accepted)",
+        "id": "sfoxexchangedata.upload.address.info"
+      },
+      {
+        "defaultMessage": "- First and signature page of your lease or mortgage",
+        "id": "sfoxexchangedata.upload.address.license"
+      },
+      {
+        "defaultMessage": "- First page of your bank statement",
+        "id": "sfoxexchangedata.upload.address.passport"
+      },
+      {
+        "defaultMessage": "- DMV or voter registration form",
+        "id": "sfoxexchangedata.upload.address.govid"
+      },
+      {
+        "defaultMessage": "Uploading your passport or driver's license is not sufficient to verify your address.",
+        "id": "sfoxexchangedata.upload.addresswarning"
+      }
+    ],
+    "path": "src/modals/Sfox/SfoxExchangeData/Upload/strings.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Drag a document here or browse for a document to upload.",
+        "id": "sfoxexchangedata.upload.dragorbrowse"
+      },
+      {
+        "defaultMessage": "Select File",
+        "id": "sfoxexchangedata.upload.selectfile"
+      },
+      {
+        "defaultMessage": "Use Camera Instead",
+        "id": "sfoxexchangedata.upload.usecamera"
+      },
+      {
+        "defaultMessage": "Let’s Get to Know You",
+        "id": "sfoxexchangedata.upload.title"
+      },
+      {
+        "defaultMessage": "Click submit to send the document for approval.",
+        "id": "sfoxexchangedata.upload.sentforreview"
+      },
+      {
+        "defaultMessage": "Click submit to send the image for approval.",
+        "id": "sfoxexchangedata.upload.imgsentforreview"
+      },
+      {
+        "defaultMessage": "Submit For Review",
+        "id": "sfoxexchangedata.upload.submitforreview"
+      },
+      {
+        "defaultMessage": "Try Again",
+        "id": "sfoxexchangedata.upload.tryagain"
+      }
+    ],
+    "path": "src/modals/Sfox/SfoxExchangeData/Upload/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Let's Get to Know You",
+        "id": "sfoxexchangedata.verify.partner.header1"
+      },
+      {
+        "defaultMessage": "There's so much we'd love to know about you, but we only need a few things. Fear not, all of your personal information will be sent directly to SFOX, not saved in your Blockchain wallet.",
+        "id": "sfoxexchangedata.verify.partner.subheader"
+      },
+      {
+        "defaultMessage": "P.O. boxes cannot be used to verify your address.",
+        "id": "sfoxexchangedata.verify.poboxwarning"
+      },
+      {
+        "defaultMessage": "First Name",
+        "id": "sfoxexchangedata.verify.firstname"
+      },
+      {
+        "defaultMessage": "Last Name",
+        "id": "sfoxexchangedata.verify.lastname"
+      },
+      {
+        "defaultMessage": "Address",
+        "id": "sfoxexchangedata.verify.address"
+      },
+      {
+        "defaultMessage": "{message}",
+        "id": "sfoxexchangedata.verify.addressdetail"
+      },
+      {
+        "defaultMessage": "Address Line 2",
+        "id": "sfoxexchangedata.verify.address2"
+      },
+      {
+        "defaultMessage": "City",
+        "id": "sfoxexchangedata.verify.city"
+      },
+      {
+        "defaultMessage": "State",
+        "id": "sfoxexchangedata.verify.state"
+      },
+      {
+        "defaultMessage": "Zipcode",
+        "id": "sfoxexchangedata.verify.zip"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "sfoxexchangedata.verify.continue"
+      }
+    ],
+    "path": "src/modals/Sfox/SfoxExchangeData/Verify/Address.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "The Hidden Details",
+        "id": "sfoxexchangedata.verify.partner.header"
+      },
+      {
+        "defaultMessage": "We know this information is personal, but we need to make sure you're you. As always, this will be sent directly to SFOX and will not be saved in your Blockchain wallet.",
+        "id": "sfoxexchangedata.verify.partner.subheader"
+      },
+      {
+        "defaultMessage": "Your Birthday (MM/DD/YYYY)",
+        "id": "sfoxexchangedata.verify.dateofbirth"
+      },
+      {
+        "defaultMessage": "Social Security Number",
+        "id": "sfoxexchangedata.verify.ssn"
+      },
+      {
+        "defaultMessage": "Hide SSN",
+        "id": "sfoxexchangedata.verify.hidessn"
+      },
+      {
+        "defaultMessage": "View SSN",
+        "id": "sfoxexchangedata.verify.viewssn"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "sfoxexchangedata.verify.continue"
+      },
+      {
+        "defaultMessage": "Unfortunately there was a problem verifying your identity. {clickHere} to start over.",
+        "id": "sfoxexchangedata.verify.identity.error"
+      }
+    ],
+    "path": "src/modals/Sfox/SfoxExchangeData/Verify/Identity.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Why do you need this personal information?",
+        "id": "scenes.buysell.sfoxsignup.verify.address.helper1.question"
+      },
+      {
+        "defaultMessage": "SFOX needs this information to verify your identity and to comply with government regulated anti-money laundering laws.",
+        "id": "scenes.buysell.sfoxsignup.verify.address.helper1.answer"
+      },
+      {
+        "defaultMessage": "Where is this information stored?",
+        "id": "scenes.buysell.sfoxsignup.verify.address.helper2.question"
+      },
+      {
+        "defaultMessage": "We know this information is personal. Don’t worry, it will be securely sent to SFOX and not stored in your Blockchain wallet.",
+        "id": "scenes.buysell.sfoxsignup.verify.address.helper2.answer"
+      }
+    ],
+    "path": "src/modals/Sfox/SfoxExchangeData/Verify/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Your order ID is: SFX-{id}",
+        "id": "sfoxtradedetails.orderdetails.tradeid"
+      },
+      {
+        "defaultMessage": "Payment Method",
+        "id": "sfoxtradedetails.orderdetails.method"
+      },
+      {
+        "defaultMessage": "Receiving Funds Into",
+        "id": "sfoxtradedetails.orderdetails.receivingfundsinto"
+      },
+      {
+        "defaultMessage": "BTC Amount to Purchase",
+        "id": "orderdetails.amounttopurchase"
+      },
+      {
+        "defaultMessage": "BTC Amount to Sell",
+        "id": "orderdetails.amounttosell"
+      },
+      {
+        "defaultMessage": "Trading Fee",
+        "id": "orderdetails.tradingfee"
+      },
+      {
+        "defaultMessage": "Total Cost",
+        "id": "orderdetails.totalcost"
+      },
+      {
+        "defaultMessage": "Total to be Received",
+        "id": "orderdetails.totaltobereceived"
+      },
+      {
+        "defaultMessage": "Estimated Delivery of Funds",
+        "id": "orderdetails.fundsdelivery"
+      },
+      {
+        "defaultMessage": "Close",
+        "id": "sfoxtradedetails.close"
+      }
+    ],
+    "path": "src/modals/Sfox/SfoxTradeDetails/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "YOU ARE NOW READY TO BUY & SELL",
         "id": "sfoxmicrodeposits.success"
       },
@@ -5896,6 +9093,27 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "We've improved",
+        "id": "modals.swapgetstarted.improved"
+      },
+      {
+        "defaultMessage": "your Exchange",
+        "id": "modals.swapgetstarted.exchange"
+      },
+      {
+        "defaultMessage": "The faster, smarter way to trade your crypto. Check it out !",
+        "id": "modals.swapgetstarted.description"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "modals.swapgetstarted.getstarted"
+      }
+    ],
+    "path": "src/modals/SwapGetStarted/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Export {coin} transactions history",
         "id": "modals.transactionreport.export"
       },
@@ -6133,6 +9351,90 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Scan Pairing Code",
+        "id": "modals.pairingcode.title"
+      },
+      {
+        "defaultMessage": "Close",
+        "id": "modals.pairingcode.close"
+      }
+    ],
+    "path": "src/modals/Wallet/PairingCode/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Warning",
+        "id": "modals.xpub.warning"
+      },
+      {
+        "defaultMessage": "Don't share your Extended Public Key (xPub) with an untrusted source. Anyone with access to this can keep track of your payments and may be able to disrupt access to your wallet.",
+        "id": "modals.xpub.warning.message"
+      },
+      {
+        "defaultMessage": "Extended Public Key",
+        "id": "modals.xpub.title"
+      },
+      {
+        "defaultMessage": "Close",
+        "id": "modals.xpub.close"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.xpub.continue"
+      }
+    ],
+    "path": "src/modals/Wallet/ShowXPub/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Welcome to your Blockchain Wallet!",
+        "id": "modals.upgradewallet.title"
+      },
+      {
+        "defaultMessage": "Completely updated design and user experience",
+        "id": "modals.upgradewallet.title1"
+      },
+      {
+        "defaultMessage": "Robust security center",
+        "id": "modals.upgradewallet.title2"
+      },
+      {
+        "defaultMessage": "Simplified backup and recovery",
+        "id": "modals.upgradewallet.title3"
+      },
+      {
+        "defaultMessage": "Customized fund management",
+        "id": "modals.upgradewallet.title4"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.upgradewallet.continue"
+      }
+    ],
+    "path": "src/modals/Wallet/UpgradeWallet/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Welcome to Blockchain!",
+        "id": "modals.welcome.welcome"
+      },
+      {
+        "defaultMessage": "Thanks for joining over {walletMillions} million Blockchain wallet users in helping create an open, accessible, and fair financial future. Your wallet makes transacting with digital currencies simple and secure. Get started now.",
+        "id": "modals.welcome.thanks"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "modals.welcome.continue"
+      }
+    ],
+    "path": "src/modals/Wallet/Welcome/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Welcome to Blockchain!",
         "id": "modals.welcome.welcome"
       },
@@ -6146,6 +9448,362 @@
       }
     ],
     "path": "src/modals/Welcome/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Request Stellar",
+        "id": "modals.requestxlm.title"
+      }
+    ],
+    "path": "src/modals/Xlm/RequestXlm/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Currency:",
+        "id": "modals.requestxlm.coin"
+      },
+      {
+        "defaultMessage": "Receive to:",
+        "id": "modals.requestbitcoin.firststep.to"
+      },
+      {
+        "defaultMessage": "Copy & Share Address:",
+        "id": "modals.requestxlm.share"
+      },
+      {
+        "defaultMessage": "Please confirm this address on your lockbox device by opening your Stellar app. <span class=\"link\">Click here</span> once the Stellar app has been opened.",
+        "id": "modals.requestxlm.firststep.lockbox"
+      },
+      {
+        "defaultMessage": "Or",
+        "id": "modals.requestxlm.or"
+      },
+      {
+        "defaultMessage": "Scan QR Code:",
+        "id": "modals.requestxlm.scan"
+      },
+      {
+        "defaultMessage": "Done",
+        "id": "modals.requestxlm.done"
+      }
+    ],
+    "path": "src/modals/Xlm/RequestXlm/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Your available balance is {currencySymbol}{effectiveBalanceFiat} (minus fee). Learn about Stellar’s minimum balance.",
+        "id": "modals.sendxlm.reserveinfo"
+      }
+    ],
+    "path": "src/modals/Xlm/SendXlm/FirstStep/InfoBanner/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Minimum of 1 XLM needed for new accounts. Learn about Stellar’s minimum balance requirement.",
+        "id": "modals.sendxlm.firststep.noaccount"
+      },
+      {
+        "defaultMessage": "Exchange for XLM",
+        "id": "modals.sendxlm.firststep.exchange"
+      }
+    ],
+    "path": "src/modals/Xlm/SendXlm/FirstStep/NoAccountTemplate/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Currency:",
+        "id": "modals.sendxlm.firststep.coin"
+      },
+      {
+        "defaultMessage": "From:",
+        "id": "modals.sendxlm.firststep.from"
+      },
+      {
+        "defaultMessage": "Sending Stellar from Lockbox can only be done while using the Chrome browser",
+        "id": "modals.sendxlm.firststep.lockboxwarn"
+      },
+      {
+        "defaultMessage": "To:",
+        "id": "modals.sendxlm.firststep.to"
+      },
+      {
+        "defaultMessage": "Enter amount:",
+        "id": "modals.sendxlm.firststep.amount"
+      },
+      {
+        "defaultMessage": "Description:",
+        "id": "modals.sendxlm.firststep.description"
+      },
+      {
+        "defaultMessage": "Memo:",
+        "id": "modals.sendxlm.firststep.memo"
+      },
+      {
+        "defaultMessage": "Transaction Fee:",
+        "id": "modals.sendxlm.firststep.fee"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.sendxlm.firststep.continue"
+      }
+    ],
+    "path": "src/modals/Xlm/SendXlm/FirstStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Invalid amount",
+        "id": "modals.sendxlm.amountnotzeromessage"
+      },
+      {
+        "defaultMessage": "You need to send at least {reserveXlm} XLM to this address",
+        "id": "modals.sendxlm.shouldcreateaccountmessage"
+      },
+      {
+        "defaultMessage": "Your account is at the minimum balance",
+        "id": "modals.sendxlm.nofunds"
+      },
+      {
+        "defaultMessage": "Use total spendable balance",
+        "id": "modals.sendxlm.usespendable"
+      },
+      {
+        "defaultMessage": "Learn about Stellar’s minimum balance requirement.",
+        "id": "modals.sendxlm.learnmore"
+      },
+      {
+        "defaultMessage": "Insufficient funds",
+        "id": "modals.sendxlm.insufficientfundsmessage"
+      },
+      {
+        "defaultMessage": "Memo should be a number",
+        "id": "modals.sendxlm.wrongidmemo"
+      },
+      {
+        "defaultMessage": "Memo should be shorter than 28 symbols",
+        "id": "modals.sendxlm.wrongtextmemo"
+      }
+    ],
+    "path": "src/modals/Xlm/SendXlm/FirstStep/validationMessages.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "From:",
+        "id": "modals.sendxlm.secondstep.from"
+      },
+      {
+        "defaultMessage": "To:",
+        "id": "modals.sendxlm.secondstep.to"
+      },
+      {
+        "defaultMessage": "Note:",
+        "id": "modals.sendxlm.secondstep.note"
+      },
+      {
+        "defaultMessage": "Memo",
+        "id": "modals.sendxlm.secondstep.memo"
+      },
+      {
+        "defaultMessage": "Payment:",
+        "id": "modals.sendxlm.secondstep.payment"
+      },
+      {
+        "defaultMessage": "Fee:",
+        "id": "modals.sendxlm.secondstep.fee"
+      },
+      {
+        "defaultMessage": "Total",
+        "id": "modals.sendxlm.secondstep.total"
+      },
+      {
+        "defaultMessage": "Send Stellar",
+        "id": "modals.sendxlm.secondstep.send"
+      },
+      {
+        "defaultMessage": "Go Back",
+        "id": "modals.sendxlm.sendconfirm.back"
+      }
+    ],
+    "path": "src/modals/Xlm/SendXlm/SecondStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Send Stellar",
+        "id": "modals.sendxlm.title"
+      }
+    ],
+    "path": "src/modals/Xlm/SendXlm/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Warning",
+        "id": "modals.showethpriv.warning"
+      },
+      {
+        "defaultMessage": "Don't share your private key with anyone. This may result in a loss of funds.",
+        "id": "modals.showethpriv.warning.message"
+      },
+      {
+        "defaultMessage": "Balance",
+        "id": "modals.showethpriv.balance"
+      },
+      {
+        "defaultMessage": "Address",
+        "id": "modals.showethpriv.address"
+      },
+      {
+        "defaultMessage": "Private Key",
+        "id": "modals.showethpriv.priv_key"
+      },
+      {
+        "defaultMessage": "Private Key",
+        "id": "modals.showethpriv.title"
+      },
+      {
+        "defaultMessage": "Close",
+        "id": "modals.showethpriv.close"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.showethpriv.continue"
+      }
+    ],
+    "path": "src/modals/Xlm/ShowXlmPrivateKey/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Thank you for already verifying your identity",
+        "id": "modals.xlmairdropwelcome.verified.title"
+      },
+      {
+        "defaultMessage": "Hang tight, your XLM is on its way.",
+        "id": "modals.xlmairdropwelcome.verified.subtitle"
+      },
+      {
+        "defaultMessage": "View Stellar Wallet",
+        "id": "modals.xlmairdropwelcome.verified.seewallet"
+      },
+      {
+        "defaultMessage": "Thank you for completing your Identity Verification",
+        "id": "modals.xlmairdropwelcome.underreview.title"
+      },
+      {
+        "defaultMessage": "Your application is still under review. Once verified, you will receive your XLM.",
+        "id": "modals.xlmairdropwelcome.underreview.subtitle"
+      },
+      {
+        "defaultMessage": "View Stellar Wallet",
+        "id": "modals.xlmairdropwelcome.underreview.seewallet"
+      },
+      {
+        "defaultMessage": "Finish Identity Verification",
+        "id": "modals.xlmairdropwelcome.inprogress.title"
+      },
+      {
+        "defaultMessage": "Complete your Identity Verification to claim your XLM. Once verified, you'll be able to use our next generation trading product, Swap.",
+        "id": "modals.xlmairdropwelcome.inprogress.subtitle"
+      },
+      {
+        "defaultMessage": "Complete Now",
+        "id": "modals.xlmairdropwelcome.inprogress.completenow"
+      },
+      {
+        "defaultMessage": "Start Identity Verification",
+        "id": "modals.xlmairdropwelcome.newuser.title"
+      },
+      {
+        "defaultMessage": "Verify your identity to claim your XLM. It only takes a few minutes. Once verified, you'll be able to use our next generation trading product, Swap.",
+        "id": "modals.xlmairdropwelcome.newuser.subtitle"
+      },
+      {
+        "defaultMessage": "Begin Now",
+        "id": "modals.xlmairdropwelcome.newuser.beginenow"
+      }
+    ],
+    "path": "src/modals/Xlm/SunRiverWelcome/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Back",
+        "id": "modal.createaccountlearn.back"
+      },
+      {
+        "defaultMessage": "Stellar mimimum balance requirement.",
+        "id": "modal.createaccountlearn.title"
+      },
+      {
+        "defaultMessage": "Stellar requires that all Stellar accounts hold a minimum balance of lumens, or XLM. This means you cannot send a balance out of your Stellar Wallet that would leave your Stellar Wallet with less than the minimum balance. This also means that in order to send XLM to a new Stellar account, you must send enough XLM to meet the minimum balance requirement.",
+        "id": "modal.createaccountlearn.info1"
+      },
+      {
+        "defaultMessage": "The current minimum balance requirement is 1 XLM.",
+        "id": "modal.createaccountlearn.info2"
+      },
+      {
+        "defaultMessage": "You can read more information about Stellar’s minimum balance requirement at",
+        "id": "modal.createaccountlearn.info3"
+      },
+      {
+        "defaultMessage": "Stellar.org",
+        "id": "modal.createaccountlearn.link"
+      }
+    ],
+    "path": "src/modals/Xlm/XlmCreateAccountLearn/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Back",
+        "id": "modal.reservelearn.back"
+      },
+      {
+        "defaultMessage": "Stellar mimimum balance requirement.",
+        "id": "modal.reservelearn.title"
+      },
+      {
+        "defaultMessage": "Stellar requires that all Stellar accounts hold a minimum balance of lumens, or XLM. This means you cannot send a balance out of your Stellar Wallet that would leave your Stellar Wallet with less than the minimum balance. This also means that in order to send XLM to new Stellar account, you must send enough XLM to meet the minimum balance requirement.",
+        "id": "modal.reservelearn.info1"
+      },
+      {
+        "defaultMessage": "The current minimum balance requirement is 1 XLM.",
+        "id": "modal.reservelearn.info2"
+      },
+      {
+        "defaultMessage": "You can read more information on the",
+        "id": "modal.reservelearn.info3"
+      },
+      {
+        "defaultMessage": "Stellar (XLM) balance requirements in the official documentation.",
+        "id": "modal.reservelearn.link"
+      },
+      {
+        "defaultMessage": "Total funds",
+        "id": "modal.reservelearn.totalfunds"
+      },
+      {
+        "defaultMessage": "Minimum Balance Requirement",
+        "id": "modal.reservelearn.reservexlm"
+      },
+      {
+        "defaultMessage": "Transaction fee",
+        "id": "modal.reservelearn.fee"
+      },
+      {
+        "defaultMessage": "Available to withdraw or send",
+        "id": "modal.reservelearn.availablefunds"
+      }
+    ],
+    "path": "src/modals/Xlm/XlmReserveLearn/index.json"
   },
   {
     "descriptors": [
@@ -7197,6 +10855,18 @@
       {
         "defaultMessage": "Retry.",
         "id": "scenes.exchange.exchangeform.retry"
+      },
+      {
+        "defaultMessage": "1 XLM is required to create a new account.",
+        "id": "scenes.exchange.exchangeform.error.createtargetxlmaccount"
+      },
+      {
+        "defaultMessage": "Minimum of 1 XLM needed for new accounts. Learn about Stellar’s minimum balance requirement.",
+        "id": "scenes.exchange.exchangeform.nosourcexlmaccount"
+      },
+      {
+        "defaultMessage": "This amount will leave your Wallet with an insufficient balance.",
+        "id": "scenes.exchange.exchangeform.error.reserveoverflow"
       }
     ],
     "path": "src/scenes/Exchange/ExchangeForm/validationMessages.json"
@@ -7302,6 +10972,63 @@
       }
     ],
     "path": "src/scenes/Exchange/GetStarted/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Get Started",
+        "id": "scenes.exchange.getstarted.status.getstarted.button"
+      }
+    ],
+    "path": "src/scenes/Exchange/GetStarted/StatusBar/Statuses/GetStarted.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Continue where you left off",
+        "id": "scenes.exchange.getstarted.status.inprogress.button"
+      }
+    ],
+    "path": "src/scenes/Exchange/GetStarted/StatusBar/Statuses/InProgress.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Account verification in progress",
+        "id": "scenes.exchange.getstarted.status.pending.title"
+      },
+      {
+        "defaultMessage": "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to trade cryptocurrency. You should receive an update within 5 minutes.",
+        "id": "scenes.exchange.getstarted.status.pending.description"
+      }
+    ],
+    "path": "src/scenes/Exchange/GetStarted/StatusBar/Statuses/Pending.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Account verification failed",
+        "id": "scenes.exchange.getstarted.status.rejected.title"
+      },
+      {
+        "defaultMessage": "Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time.",
+        "id": "scenes.exchange.getstarted.status.rejected.description"
+      }
+    ],
+    "path": "src/scenes/Exchange/GetStarted/StatusBar/Statuses/Rejected.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Account verification under review",
+        "id": "scenes.exchange.getstarted.status.underreview.title"
+      },
+      {
+        "defaultMessage": "We had some trouble verifying your account with the documents provided. Our Support team will contact you shortly to help you with the verification process.",
+        "id": "scenes.exchange.getstarted.status.underreview.description"
+      }
+    ],
+    "path": "src/scenes/Exchange/GetStarted/StatusBar/Statuses/UnderReview.json"
   },
   {
     "descriptors": [
@@ -8474,6 +12201,23 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "We've improved your Exchange",
+        "id": "scenes.home.swapbanner.improved"
+      },
+      {
+        "defaultMessage": "A faster, smarter way to trade your crypto.",
+        "id": "scenes.home.swapbanner.faster"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "scenes.home.swapbanner.getstarted"
+      }
+    ],
+    "path": "src/scenes/Home/SwapBanner/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Setup New Device",
         "id": "scenes.lockbox.settings.adddevice.title"
       },
@@ -8521,7 +12265,7 @@
         "id": "scenes.lockbox.settings.installapps.title"
       },
       {
-        "defaultMessage": "Install the latest versions of the Bitcoin, Bitcoin Cash and Ethereum apps",
+        "defaultMessage": "Install the latest versions of the Bitcoin, Bitcoin Cash, Ethereum, and Stellar apps",
         "id": "scenes.lockbox.settings.installapps.description"
       },
       {
@@ -10944,6 +14688,64 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "We Now Offer {coinName} ({coin})",
+        "id": "scenes.transaction.content.empty.airdrop.yourcoinwallet"
+      },
+      {
+        "defaultMessage": "{coin} is a token that enables quick, low cost global transactions. Send, receive, and trade {coin} in the Wallet today.",
+        "id": "scenes.transaction.content.empty.airdrop.sendreqexchange"
+      },
+      {
+        "defaultMessage": "Claim Your Free {coin} Now",
+        "id": "scenes.transaction.content.empty.airdrop.claim"
+      },
+      {
+        "defaultMessage": "We've put together a page explaining all of this.",
+        "id": "scenes.transactions.content.empty.explanation"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "scenes.transactions.content.empty.learnmore"
+      }
+    ],
+    "path": "src/scenes/Transactions/Content/Empty/CoinWelcome/template.airdrop.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Your {coin} Wallet",
+        "id": "scenes.transaction.content.empty.yourcoinwallet"
+      },
+      {
+        "defaultMessage": "Send, Request and Exchange {coinName} ({coin}) directly from your Blockchain Wallet.",
+        "id": "scenes.transaction.content.empty.sendreqexchange"
+      },
+      {
+        "defaultMessage": "Buy {coin}",
+        "id": "scenes.transaction.content.empty.buy"
+      },
+      {
+        "defaultMessage": "Get {coin}",
+        "id": "scenes.transaction.content.empty.getstarted.request"
+      },
+      {
+        "defaultMessage": "Exchange {coin}",
+        "id": "scenes.transaction.content.empty.getstarted.exchange"
+      },
+      {
+        "defaultMessage": "We've put together a page explaining all of this.",
+        "id": "scenes.transactions.content.empty.explanation"
+      },
+      {
+        "defaultMessage": "Learn More",
+        "id": "scenes.transactions.content.empty.learnmore"
+      }
+    ],
+    "path": "src/scenes/Transactions/Content/Empty/CoinWelcome/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Welcome to",
         "id": "scenes.transaction.ether.content.empty.etherwelcome.welcome"
       },
@@ -11019,6 +14821,23 @@
       }
     ],
     "path": "src/scenes/Transactions/Eth/Menu/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Private Keys",
+        "id": "scenes.transactions.menu.ethprivatekeys"
+      },
+      {
+        "defaultMessage": "Export Private Key",
+        "id": "scenes.transactions.export.ethkey"
+      },
+      {
+        "defaultMessage": "Export Archived Private Key",
+        "id": "scenes.transactions.export.ethkeyarchived"
+      }
+    ],
+    "path": "src/scenes/Transactions/Menu/template.json"
   },
   {
     "descriptors": [
@@ -11347,6 +15166,10 @@
       {
         "defaultMessage": "Invalid Ether address",
         "id": "formhelper.invalidetheraddress"
+      },
+      {
+        "defaultMessage": "Invalid Stellar address",
+        "id": "formhelper.invalidxlmaddress"
       },
       {
         "defaultMessage": "Invalid IP list",

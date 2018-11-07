@@ -43,10 +43,8 @@ exports[`ListItemContainer renders correctly 1`] = `
     preferencesActions={
       Object {
         "hideKycCompleted": [Function],
-        "setBitcoinCashWelcome": [Function],
-        "setBitcoinWelcome": [Function],
+        "setCoinShowIntro": [Function],
         "setCulture": [Function],
-        "setEtherWelcome": [Function],
         "setLanguage": [Function],
         "setTheme": [Function],
         "setTotalBalancesDropdown": [Function],
@@ -83,6 +81,17 @@ exports[`ListItemContainer renders correctly 1`] = `
         "setTransactionNote": [Function],
         "setWrapper": [Function],
         "verifyMnemonic": [Function],
+      }
+    }
+    xlmActions={
+      Object {
+        "createMetadataXlm": [Function],
+        "fetchMetadataXlm": [Function],
+        "fetchMetadataXlmFailure": [Function],
+        "fetchMetadataXlmLoading": [Function],
+        "fetchMetadataXlmSuccess": [Function],
+        "setTxNotesXlm": [Function],
+        "updateMetadataXlm": [Function],
       }
     }
   >

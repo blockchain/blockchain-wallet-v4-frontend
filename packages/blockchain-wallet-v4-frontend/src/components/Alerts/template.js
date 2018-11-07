@@ -511,6 +511,13 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage="You've just received an Ethereum payment"
         />
       )
+    case C.PAYMENT_RECEIVED_XLM:
+      return (
+        <FormattedMessage
+          id='components.alerts.payment_received_xlm'
+          defaultMessage="You've just received a stellar payment"
+        />
+      )
     case C.PBKDF2_UPDATE_SUCCESS:
       return (
         <FormattedMessage
@@ -670,6 +677,20 @@ const selectMessage = (message, data = undefined) => {
         <FormattedMessage
           id='components.alerts.send_eth_success'
           defaultMessage='Your ether transaction is now pending'
+        />
+      )
+    case C.SEND_XLM_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.send_xlm_error'
+          defaultMessage='Your stellar transaction failed to send. Please try again.'
+        />
+      )
+    case C.SEND_XLM_SUCCESS:
+      return (
+        <FormattedMessage
+          id='components.alerts.send_xlm_success'
+          defaultMessage='Your stellar transaction is now pending'
         />
       )
     case C.SMS_RESEND_ERROR:
@@ -944,6 +965,13 @@ const selectMessage = (message, data = undefined) => {
         <FormattedMessage
           id='components.alerts.eth_address_incorrect'
           defaultMessage='Invalid Ether Address.'
+        />
+      )
+    case C.XLM_ADDRESS_INVALID:
+      return (
+        <FormattedMessage
+          id='components.alerts.xlm_address_incorrect'
+          defaultMessage='Invalid Stellar Address.'
         />
       )
     case C.PRIVATE_KEY_INVALID:

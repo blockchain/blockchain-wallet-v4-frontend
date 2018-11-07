@@ -52,16 +52,29 @@ export default (state = INITIAL_STATE, action) => {
         lensIndex(parseInt(deviceIndex))
       )
 
+      // TODO: multiple account support
       const accountLabelLens = coin => lensPath([coin, 'accounts', 0, 'label'])
 
       const setDeviceName = compose(
         assoc('device_name', deviceName),
         set(accountLabelLens('btc'), deviceName + ' - BTC Wallet'),
         set(accountLabelLens('bch'), deviceName + ' - BCH Wallet'),
-        set(accountLabelLens('eth'), deviceName + ' - ETH Wallet')
+        set(accountLabelLens('eth'), deviceName + ' - ETH Wallet'),
+        set(accountLabelLens('xlm'), deviceName + ' - XLM Wallet')
       )
 
       return over(valueLens, setDeviceName, state)
+    }
+    case AT.ADD_COIN_ENTRY: {
+      const { coin, account, deviceIndex } = payload
+      let valueLens = compose(
+        mapped,
+        KVStoreEntry.value,
+        lensProp('devices'),
+        lensIndex(parseInt(deviceIndex))
+      )
+      let addCoin = assocPath([coin], account)
+      return over(valueLens, addCoin, state)
     }
     case AT.SET_LATEST_TX_ETH: {
       const { deviceIndex, txHash } = payload

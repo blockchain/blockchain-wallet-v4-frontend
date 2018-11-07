@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { path } from 'ramda'
 
 import media from 'services/ResponsiveService'
 
@@ -69,7 +70,7 @@ const ColumnRight = styled(Column)`
     width: 40%;
   }
 `
-const ExchangeScene = ({ useShapeShift, showGetStarted }) => (
+const ExchangeScene = ({ useShapeShift, location, showGetStarted }) => (
   <Wrapper>
     {useShapeShift && (
       <ShapeshiftContainer>
@@ -82,13 +83,17 @@ const ExchangeScene = ({ useShapeShift, showGetStarted }) => (
       </ShapeshiftContainer>
     )}
     {!useShapeShift && !showGetStarted && <KYCBanner outsideOfProfile />}
-    {!useShapeShift && !showGetStarted && (
-      <Container>
-        <Column>
-          <Exchange />
-        </Column>
-      </Container>
-    )}
+    {!useShapeShift &&
+      !showGetStarted && (
+        <Container>
+          <Column>
+            <Exchange
+              from={path(['state', 'from'], location)}
+              to={path(['state', 'to'], location)}
+            />
+          </Column>
+        </Container>
+      )}
     {!useShapeShift && showGetStarted && <GetStarted />}
   </Wrapper>
 )

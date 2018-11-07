@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 const GroupTitle = styled(Text)`
   font-size: 16px;
   font-weight: 600;
-  padding-bottom: 4px;
+  padding-bottom: 10px;
 `
 
 const FaqGroup = props => (

@@ -58,20 +58,36 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const getXlmBalance = function*() {
+    try {
+      const xlmBalanceR = yield select(selectors.core.data.xlm.getTotalBalance)
+      if (!Remote.Success.is(xlmBalanceR)) {
+        const xlmData = yield take(actionTypes.core.data.xlm.FETCH_DATA_SUCCESS)
+        return pathOr(0, balancePath, xlmData)
+      }
+      return xlmBalanceR.getOrElse(0)
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'getXlmBalance', e))
+    }
+  }
+
   const reportBalanceStats = function*() {
     try {
       const ethT = yield fork(getEthBalance)
       const btcT = yield fork(getBtcBalance)
       const bchT = yield fork(getBchBalance)
+      const xlmT = yield fork(getXlmBalance)
       const btcBalance = yield join(btcT)
       const ethBalance = yield join(ethT)
       const bchBalance = yield join(bchT)
+      const xlmBalance = yield join(xlmT)
 
       yield call(
         api.incrementCurrencyUsageStats,
         btcBalance,
         ethBalance,
-        bchBalance
+        bchBalance,
+        xlmBalance
       )
     } catch (e) {
       yield put(
@@ -88,8 +104,10 @@ export default ({ api, coreSagas }) => {
       if (test(/^bitcoin$/, text)) return yield call(api.logClick, 'btc')
       if (test(/ether/, text)) return yield call(api.logClick, 'eth')
       if (test(/cash/, text)) return yield call(api.logClick, 'bch')
+      if (test(/stellar/, text)) return yield call(api.logClick, 'xlm')
       if (test(/(buy|sell)/, text)) return yield call(api.logClick, 'buysell')
       if (test(/exchange/, text)) return yield call(api.logClick, 'exchange')
+      if (test(/lockbox/, text)) return yield call(api.logClick, 'lockbox')
       if (test(/security/, text)) return yield call(api.logClick, 'security')
       if (test(/settings/, text)) return yield call(api.logClick, 'settings')
       if (test(/general/, text))
@@ -119,7 +137,8 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const logSfoxDropoff = function*(payload) {
+  const logSfoxDropoff = function*(action) {
+    const { payload } = action
     try {
       yield call(api.logSfoxDropoff, prop('step', payload))
     } catch (e) {
@@ -127,13 +146,24 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const logLockboxSetup = function*(action) {
+    const { payload } = action
+    try {
+      yield call(api.logLockboxSetup, prop('step', payload))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'logLockboxSetup', e))
+    }
+  }
+
   return {
     getEthBalance,
     getBtcBalance,
     getBchBalance,
+    getXlmBalance,
     logClick,
-    logLeftNavClick,
     logSfoxDropoff,
+    logLeftNavClick,
+    logLockboxSetup,
     reportBalanceStats
   }
 }

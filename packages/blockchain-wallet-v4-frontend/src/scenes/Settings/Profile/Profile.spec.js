@@ -40,7 +40,7 @@ const ExchangeStub = () => <div />
 const coreSagas = {}
 const api = {
   generateRetailToken: jest.fn(() => ({})),
-  checkUserExistance: jest.fn()
+  checkUserExistence: jest.fn()
 }
 
 describe('Profile Settings', () => {
@@ -119,7 +119,7 @@ describe('Profile Settings', () => {
 
       it('should show KYC modal on button click when checkUser returns error', async () => {
         getUserId.mockReturnValue(Remote.of(''))
-        api.checkUserExistance.mockRejectedValue({})
+        api.checkUserExistence.mockRejectedValue({})
         await wrapper
           .find(IdentityVerification)
           .find('button')
@@ -132,7 +132,7 @@ describe('Profile Settings', () => {
 
       it('should show USER_EXISTS modal on button click when checkUser returns success', async () => {
         getUserId.mockReturnValue(Remote.of(''))
-        api.checkUserExistance.mockResolvedValue('')
+        api.checkUserExistence.mockResolvedValue('')
         await wrapper
           .find(IdentityVerification)
           .find('button')

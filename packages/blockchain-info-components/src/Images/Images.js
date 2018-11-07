@@ -1,3 +1,4 @@
+import airdropWelcome from './img/airdrop-welcome.png'
 import appStoreBadge from './img/app-store-badge.svg'
 import bitcoinNetwork from './img/bitcoin-network.svg'
 import blockchainBlue from './img/blockchain-blue.svg'
@@ -37,6 +38,9 @@ import shapeshiftLogo from './img/shapeshift-logo.png'
 import smartphone from './img/smartphone.png'
 import sfoxLogo from './img/sfox-logo.png'
 import sophisticated from './img/sophisticated.svg'
+import stellarPlanet from './img/stellar-planet.png'
+import stellarPlanet2 from './img/stellar-planet@2x.png'
+import stellarPlanet3 from './img/stellar-planet@3x.png'
 import twitterWhite from './img/twitter-white.svg'
 import v4Welcome from './img/v4-welcome.jpg'
 import walletV3Backup from './img/wallet-v3-backup.jpg'
@@ -82,6 +86,7 @@ import sendReview2 from './img/lockbox/send-review@2x.png'
 import sendReview3 from './img/lockbox/send-review@3x.png'
 
 export default {
+  'airdrop-welcome': airdropWelcome,
   'app-store-badge': appStoreBadge,
   'bitcoin-network': bitcoinNetwork,
   'blockchain-blue': blockchainBlue,
@@ -156,6 +161,9 @@ export default {
   shapeshiftLogo: shapeshiftLogo,
   smartphone: smartphone,
   sophisticated: sophisticated,
+  'stellar-planet': stellarPlanet,
+  'stellar-planet2': stellarPlanet2,
+  'stellar-planet3': stellarPlanet3,
   'twitter-white': twitterWhite,
   'v4-welcome': v4Welcome,
   'wallet-v3-backup': walletV3Backup,

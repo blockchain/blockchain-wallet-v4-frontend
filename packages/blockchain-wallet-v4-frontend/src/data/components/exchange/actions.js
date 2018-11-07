@@ -85,8 +85,9 @@ export const setStep = step => ({
   type: AT.SET_STEP,
   payload: { step }
 })
-export const initialize = () => ({
-  type: AT.INITIALIZE
+export const initialize = (from, to) => ({
+  type: AT.INITIALIZE,
+  payload: { from, to }
 })
 export const changeSource = source => ({
   type: AT.CHANGE_SOURCE,
