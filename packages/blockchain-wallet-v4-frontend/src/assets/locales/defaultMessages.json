@@ -5697,6 +5697,60 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "{changeType} {appName} was successful!",
+        "id": "modals.lockbox.appmanager.successmsg"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.lockbox.appmanager.continue"
+      },
+      {
+        "defaultMessage": "{changeType} {appName} failed!",
+        "id": "modals.lockbox.appmanager.failuremsg"
+      },
+      {
+        "defaultMessage": "{changeType} the {appName} application",
+        "id": "modals.lockbox.appmanager.loadingmsg"
+      },
+      {
+        "defaultMessage": "Allow the device manager onto the device if prompted.",
+        "id": "modals.lockbox.appmanager.allowmgr"
+      },
+      {
+        "defaultMessage": "Failed to load application list. Please try again later.",
+        "id": "modals.lockbox.appmanager.appfailure"
+      },
+      {
+        "defaultMessage": "Loading application list",
+        "id": "modals.lockbox.appmanager.loadingapps"
+      },
+      {
+        "defaultMessage": "App Manager",
+        "id": "modals.lockbox.appmanager.title"
+      },
+      {
+        "defaultMessage": "Plug in device, unlock and open the dashboard on your device",
+        "id": "modals.lockbox.appmanager.connectdevice"
+      }
+    ],
+    "path": "src/modals/Lockbox/AppManager/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Version {version}",
+        "id": "modals.lockbox.appmanager.successmsg"
+      },
+      {
+        "defaultMessage": "Install",
+        "id": "modals.lockbox.appmanager.install"
+      }
+    ],
+    "path": "src/modals/Lockbox/AppManager/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Pending",
         "id": "modals.lockboxappinstall.pending"
       },
@@ -12231,6 +12285,23 @@
       }
     ],
     "path": "src/scenes/Lockbox/Dashboard/Settings/AddDevice/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Manage Apps",
+        "id": "scenes.lockbox.settings.appmanager.title"
+      },
+      {
+        "defaultMessage": "Add, remove and update to the latest versions of the Lockbox applications",
+        "id": "scenes.lockbox.settings.appmanager.description"
+      },
+      {
+        "defaultMessage": "Manage Apps",
+        "id": "scenes.lockbox.settings.appmanager.manageapps"
+      }
+    ],
+    "path": "src/scenes/Lockbox/Dashboard/Settings/AppManager/template.json"
   },
   {
     "descriptors": [
