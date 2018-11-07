@@ -8,6 +8,7 @@ import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import {
   BlockchainLoader,
   Button,
+  Icon,
   Modal,
   ModalBody,
   ModalHeader,
@@ -89,7 +90,7 @@ class AppManagerContainer extends React.PureComponent {
       total
     } = this.props
     const appUpdateStatus = appChangeStatus.cata({
-      Success: val => (
+      Success: () => (
         <Wrapper>
           <ResultText size='18px' weight={400}>
             <FormattedHTMLMessage
@@ -101,7 +102,13 @@ class AppManagerContainer extends React.PureComponent {
               }}
             />
           </ResultText>
-          <ContinueButton onClick={this.onContinue}>
+          <Icon
+            style={{ marginTop: '10px' }}
+            name='checkmark-in-circle-filled'
+            color='success'
+            size='60px'
+          />
+          <ContinueButton onClick={this.onContinue} nature='primary'>
             <FormattedHTMLMessage
               id='modals.lockbox.appmanager.continue'
               defaultMessage='Continue'
@@ -124,7 +131,7 @@ class AppManagerContainer extends React.PureComponent {
           <LoadingText size='15px' weight={400}>
             {val.error()}
           </LoadingText>
-          <ContinueButton onClick={this.onContinue}>
+          <ContinueButton onClick={this.onContinue} nature='primary'>
             <FormattedHTMLMessage
               id='modals.lockbox.appmanager.continue'
               defaultMessage='Continue'
