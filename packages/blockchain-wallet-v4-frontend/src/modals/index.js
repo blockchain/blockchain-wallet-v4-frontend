@@ -77,7 +77,7 @@ const Modals = props => (
     <ExchangeResults />
     <IdentityVerification />
     <ImportBtcAddress />
-    <LockboxAppManager />
+    <LockboxAppManager disableOutsideClose />
     <LockboxFirmware />
     <LockboxSetup />
     <MobileNumberChange />

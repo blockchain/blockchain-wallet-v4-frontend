@@ -16,6 +16,7 @@ import {
 } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+import * as Lockbox from 'services/LockboxService'
 import App from './template'
 
 const Wrapper = styled(ModalBody)`
@@ -37,14 +38,11 @@ const ResultText = styled(Text)`
 const ContinueButton = styled(Button)`
   margin-top: 22px;
 `
-const appNameDict = {
-  BTC: 'Bitcoin',
-  BCH: 'Bitcoin Cash',
-  ETH: 'Ethereum',
-  XLM: 'Stellar'
-}
+
 const getKeyByValue = value => {
-  return Object.keys(appNameDict).find(key => appNameDict[key] === value)
+  return Object.keys(Lockbox.constants.supportedApps).find(
+    key => Lockbox.constants.supportedApps[key] === value
+  )
 }
 
 class AppManagerContainer extends React.PureComponent {
@@ -164,7 +162,7 @@ class AppManagerContainer extends React.PureComponent {
     })
     const appListView = appVersionInfos.cata({
       Success: apps => {
-        return apps.map((app, i) => {
+        const appList = apps.map((app, i) => {
           const coin = getKeyByValue(app.name)
           return (
             <App
@@ -180,6 +178,17 @@ class AppManagerContainer extends React.PureComponent {
             />
           )
         })
+        return (
+          <React.Fragment>
+            {appList}
+            <ContinueButton onClick={closeAll} nature='primary'>
+              <FormattedHTMLMessage
+                id='modals.lockbox.appmanager.close'
+                defaultMessage='Close'
+              />
+            </ContinueButton>
+          </React.Fragment>
+        )
       },
       Failure: () => (
         <Text size='16px' weight={300}>

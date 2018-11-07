@@ -1,5 +1,14 @@
 import { call, put, take, select, takeEvery } from 'redux-saga/effects'
-import { head, contains, find, length, prop, propEq } from 'ramda'
+import {
+  head,
+  contains,
+  filter,
+  find,
+  length,
+  prop,
+  propEq,
+  values
+} from 'ramda'
 import { delay, eventChannel, END } from 'redux-saga'
 import { actionTypes, actions, selectors } from 'data'
 import * as A from './actions'
@@ -627,7 +636,12 @@ export default ({ api }) => {
           current_se_firmware_final_version: seFirmwareVersion.id,
           device_version: deviceVersion.id
         })
-        yield put(A.setLatestAppInfosSuccess(appInfos.application_versions))
+        // limit apps to only the ones we support
+        const appList = filter(
+          item => contains(item.name, values(Lockbox.constants.supportedApps)),
+          appInfos.application_versions
+        )
+        yield put(A.setLatestAppInfosSuccess(appList))
       } catch (e) {
         yield put(A.setLatestAppInfosFailure())
       }
