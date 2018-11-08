@@ -1667,6 +1667,15 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Help?",
+        "id": "faq.help"
+      }
+    ],
+    "path": "src/layouts/Wallet/Header/FaqIcon/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Sign Out",
         "id": "layouts.wallet.header.logout.signout"
       }
@@ -2655,6 +2664,19 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Need more help?",
+        "id": "faq.content.help"
+      },
+      {
+        "defaultMessage": "Support Center",
+        "id": "faq.content.supportcenter"
+      }
+    ],
+    "path": "src/layouts/Wallet/TrayRight/Faq/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Frequently Asked Questions",
         "id": "layouts.wallet.trayright.faq"
       },
@@ -2686,6 +2708,68 @@
       }
     ],
     "path": "src/layouts/Wallet/TrayRight/WhatsNew/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "🎉 You're all caught up!",
+        "id": "layouts.wallet.header.whatsnew.whatsnew.empty"
+      },
+      {
+        "defaultMessage": "Our team is always working on new features, but if there's something we can improve please let us know about it <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>here<a/>.",
+        "id": "layouts.wallet.header.whatsnew.whatsnew.in_progress"
+      }
+    ],
+    "path": "src/layouts/Wallet/TrayRight/WhatsNew/WhatsNewContent/EmptyContent.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "We've improved our Exchange",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.improved"
+      },
+      {
+        "defaultMessage": "November 2019",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.november2019"
+      },
+      {
+        "defaultMessage": "The faster, smarter way to trade your crypto.",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.introducing"
+      },
+      {
+        "defaultMessage": "Upgrade now to enjoy the following benefits:",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.upgrade"
+      },
+      {
+        "defaultMessage": "Lower cost",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost"
+      },
+      {
+        "defaultMessage": "Super competitive crypto exchange prices",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost_description"
+      },
+      {
+        "defaultMessage": "Live rates",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates"
+      },
+      {
+        "defaultMessage": "You always get the most up to date price",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates_Description"
+      },
+      {
+        "defaultMessage": "Higher limits",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits"
+      },
+      {
+        "defaultMessage": "Limits from $2,000-$10,000",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits_description"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.started"
+      }
+    ],
+    "path": "src/layouts/Wallet/TrayRight/WhatsNew/WhatsNewContent/ExchangeByBlockchain.json"
   },
   {
     "descriptors": [
@@ -5609,6 +5693,60 @@
       }
     ],
     "path": "src/modals/ImportBtcAddress/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "{changeType} {appName} was successful!",
+        "id": "modals.lockbox.appmanager.successmsg"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.lockbox.appmanager.continue"
+      },
+      {
+        "defaultMessage": "{changeType} {appName} failed!",
+        "id": "modals.lockbox.appmanager.failuremsg"
+      },
+      {
+        "defaultMessage": "{changeType} the {appName} application",
+        "id": "modals.lockbox.appmanager.loadingmsg"
+      },
+      {
+        "defaultMessage": "Allow the device manager onto the device if prompted.",
+        "id": "modals.lockbox.appmanager.allowmgr"
+      },
+      {
+        "defaultMessage": "Failed to load application list. Please try again later.",
+        "id": "modals.lockbox.appmanager.appfailure"
+      },
+      {
+        "defaultMessage": "Loading application list",
+        "id": "modals.lockbox.appmanager.loadingapps"
+      },
+      {
+        "defaultMessage": "App Manager",
+        "id": "modals.lockbox.appmanager.title"
+      },
+      {
+        "defaultMessage": "Plug in device, unlock and open the dashboard on your device",
+        "id": "modals.lockbox.appmanager.connectdevice"
+      }
+    ],
+    "path": "src/modals/Lockbox/AppManager/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Version {version}",
+        "id": "modals.lockbox.appmanager.successmsg"
+      },
+      {
+        "defaultMessage": "Install",
+        "id": "modals.lockbox.appmanager.install"
+      }
+    ],
+    "path": "src/modals/Lockbox/AppManager/template.json"
   },
   {
     "descriptors": [
@@ -9009,6 +9147,27 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "We've improved",
+        "id": "modals.swapgetstarted.improved"
+      },
+      {
+        "defaultMessage": "your Exchange",
+        "id": "modals.swapgetstarted.exchange"
+      },
+      {
+        "defaultMessage": "The faster, smarter way to trade your crypto. Check it out !",
+        "id": "modals.swapgetstarted.description"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "modals.swapgetstarted.getstarted"
+      }
+    ],
+    "path": "src/modals/SwapGetStarted/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Export {coin} transactions history",
         "id": "modals.transactionreport.export"
       },
@@ -10871,6 +11030,63 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Get Started",
+        "id": "scenes.exchange.getstarted.status.getstarted.button"
+      }
+    ],
+    "path": "src/scenes/Exchange/GetStarted/StatusBar/Statuses/GetStarted.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Continue where you left off",
+        "id": "scenes.exchange.getstarted.status.inprogress.button"
+      }
+    ],
+    "path": "src/scenes/Exchange/GetStarted/StatusBar/Statuses/InProgress.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Account verification in progress",
+        "id": "scenes.exchange.getstarted.status.pending.title"
+      },
+      {
+        "defaultMessage": "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to trade cryptocurrency. You should receive an update within 5 minutes.",
+        "id": "scenes.exchange.getstarted.status.pending.description"
+      }
+    ],
+    "path": "src/scenes/Exchange/GetStarted/StatusBar/Statuses/Pending.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Account verification failed",
+        "id": "scenes.exchange.getstarted.status.rejected.title"
+      },
+      {
+        "defaultMessage": "Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time.",
+        "id": "scenes.exchange.getstarted.status.rejected.description"
+      }
+    ],
+    "path": "src/scenes/Exchange/GetStarted/StatusBar/Statuses/Rejected.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Account verification under review",
+        "id": "scenes.exchange.getstarted.status.underreview.title"
+      },
+      {
+        "defaultMessage": "We had some trouble verifying your account with the documents provided. Our Support team will contact you shortly to help you with the verification process.",
+        "id": "scenes.exchange.getstarted.status.underreview.description"
+      }
+    ],
+    "path": "src/scenes/Exchange/GetStarted/StatusBar/Statuses/UnderReview.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Simple. Seamless. Secure.",
         "id": "scenes.exchange.simple"
       },
@@ -12039,6 +12255,23 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "We've improved your Exchange",
+        "id": "scenes.home.swapbanner.improved"
+      },
+      {
+        "defaultMessage": "A faster, smarter way to trade your crypto.",
+        "id": "scenes.home.swapbanner.faster"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "scenes.home.swapbanner.getstarted"
+      }
+    ],
+    "path": "src/scenes/Home/SwapBanner/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Setup New Device",
         "id": "scenes.lockbox.settings.adddevice.title"
       },
@@ -12052,6 +12285,23 @@
       }
     ],
     "path": "src/scenes/Lockbox/Dashboard/Settings/AddDevice/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Manage Apps",
+        "id": "scenes.lockbox.settings.appmanager.title"
+      },
+      {
+        "defaultMessage": "Add, remove and update to the latest versions of the Lockbox applications",
+        "id": "scenes.lockbox.settings.appmanager.description"
+      },
+      {
+        "defaultMessage": "Manage Apps",
+        "id": "scenes.lockbox.settings.appmanager.manageapps"
+      }
+    ],
+    "path": "src/scenes/Lockbox/Dashboard/Settings/AppManager/template.json"
   },
   {
     "descriptors": [

@@ -19,6 +19,12 @@ export const coinProps = {
   XLM: {
     name: 'Stellar',
     icon: 'xlm-circle',
-    request: 'RequestXlm'
+    request: 'RequestXlm',
+    airdrop: {
+      name: 'SUNRIVER',
+      link:
+        'https://support.blockchain.com/hc/en-us/categories/360001126692-Crypto-Giveaway',
+      image: 'stellar-planet'
+    }
   }
 }

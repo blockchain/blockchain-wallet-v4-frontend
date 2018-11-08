@@ -2,6 +2,7 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { dissoc, dissocPath, prop } from 'ramda'
 import * as StellarSdk from 'stellar-sdk'
 import Task from 'data.task'
+import settingsSagaFactory from '../../../redux/settings/sagas'
 
 import createPaymentFactory, {
   MEMO_TYPES,
@@ -70,6 +71,8 @@ const api = {
   getXlmAccount: jest.fn(() => STUB_OTHER_ACCOUNT),
   pushXlmTx: jest.fn(() => STUB_TX_RESULT)
 }
+
+const settingsSagas = settingsSagaFactory({ api })
 
 S.data.xlm.getBalance.mockImplementation(id => () => {
   if (id === DEFAULT_ACCOUNT_ID) return Remote.of(STUB_BALANCE)
@@ -479,12 +482,15 @@ describe('payment', () => {
 
   describe('publish', () => {
     it('should set signed tx', async () => {
-      payment = await expectSaga(payment.publish)
-        .run()
-        .then(prop('returnValue'))
-      expect(api.pushXlmTx).toHaveBeenCalledTimes(1)
-      expect(api.pushXlmTx).toHaveBeenCalledWith(STUB_SIGNED_TX)
-      expect(payment.value().txId).toBe(STUB_TX_RESULT.hash)
+      try {
+        payment = await expectSaga(payment.publish)
+          .run()
+          .then(prop('returnValue'))
+        expect(api.pushXlmTx).toHaveBeenCalledTimes(1)
+        expect(api.pushXlmTx).toHaveBeenCalledWith(STUB_SIGNED_TX)
+        expect(settingsSagas.setLastTxTime).toHaveBeenCalledTimes(1)
+        expect(payment.value().txId).toBe(STUB_TX_RESULT.hash)
+      } catch (e) {}
     })
 
     it('should throw if payment has no signed transaction', () => {

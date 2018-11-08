@@ -1,10 +1,10 @@
-import { call, select, put, take } from 'redux-saga/effects'
+import { call, select, put } from 'redux-saga/effects'
 import { equals, path, prop, head } from 'ramda'
 import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
 import { FORM } from './model'
-import { actions, actionTypes, model, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import {
   initialize,
   change,
@@ -203,29 +203,6 @@ export default ({ coreSagas }) => {
       yield put(actions.core.data.xlm.fetchData())
       const paymentValue = payment.value()
       yield put(A.paymentUpdated(Remote.of(paymentValue)))
-      // Update metadata
-      if (fromType === ADDRESS_TYPES.LOCKBOX) {
-        const device = (yield select(
-          selectors.core.kvStore.lockbox.getDeviceFromXlmAddr,
-          fromAddress
-        )).getOrFail('missing_device')
-        const deviceIndex = prop('device_index', device)
-        yield put(
-          actions.core.kvStore.lockbox.setLatestTxTimestampEth(
-            deviceIndex,
-            Date.now()
-          )
-        )
-        yield take(
-          actionTypes.core.kvStore.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS
-        )
-        yield put(
-          actions.core.kvStore.lockbox.setLatestTxEth(
-            deviceIndex,
-            paymentValue.txId
-          )
-        )
-      }
       const description = paymentValue.description
       if (description)
         yield put(
