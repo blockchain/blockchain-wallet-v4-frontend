@@ -340,7 +340,7 @@ export default ({ api }) => {
       yield put(A.checkDeviceAuthenticity())
       yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
       // wait for user to install btc app or skip
-      yield take(AT.NEW_DEVICE_BTC_INSTALL_NEXT)
+      yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
       // quick poll for BTC connection in case user cancels setup to install BTC
       pollLength = 5000
       closePoll = false
@@ -352,16 +352,8 @@ export default ({ api }) => {
       yield takeEvery(btcAppChannel, function*(app) {
         yield put(A.pollForDeviceApp(app, null, deviceType, pollLength))
       })
-      const resp = yield take([
-        AT.SET_CONNECTION_INFO,
-        AT.INITIALIZE_APP_MANAGER
-      ])
-      // user requested to install apps, close polling and break
-      if (resp.type === AT.INITIALIZE_APP_MANAGER) {
-        btcAppChannel.close()
-        return
-      }
       // BTC app connection
+      yield take(AT.SET_CONNECTION_INFO)
       const connection = yield select(S.getCurrentConnection)
       // create BTC transport
       const btcConnection = Lockbox.utils.createBtcBchConnection(

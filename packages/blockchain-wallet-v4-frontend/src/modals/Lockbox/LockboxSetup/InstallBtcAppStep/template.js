@@ -18,7 +18,6 @@ const ButtonContainer = styled.div`
   margin-top: 20px;
 `
 
-// TODO: clean up in LB2
 const InstallBtcAppStep = props => {
   const { continueBtnText, children, isInstalling, onContinue } = props
 

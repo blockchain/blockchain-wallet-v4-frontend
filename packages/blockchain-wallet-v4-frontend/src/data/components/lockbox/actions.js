@@ -165,6 +165,9 @@ export const appChangeFailure = (appName, changeType, error) => ({
   type: AT.APP_CHANGE_FAILURE,
   payload: { appName, changeType, error }
 })
+export const newDeviceBtcInstall = () => ({
+  type: AT.NEW_DEVICE_BTC_INSTALL
+})
 export const resetAppChangeStatus = () => ({
   type: AT.RESET_APP_CHANGE_STATUS
 })
@@ -172,12 +175,4 @@ export const resetAppChangeStatus = () => ({
 export const saveCoinMD = (deviceIndex, coin) => ({
   type: AT.SAVE_COIN_MD,
   payload: { deviceIndex, coin }
-})
-
-// TODO: remove in LB2
-export const newDeviceBtcInstall = () => ({
-  type: AT.NEW_DEVICE_BTC_INSTALL
-})
-export const newDeviceBtcInstallNext = () => ({
-  type: AT.NEW_DEVICE_BTC_INSTALL_NEXT
 })
