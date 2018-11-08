@@ -3,89 +3,9 @@
     "web": {
       "application": {
         "enableDomainMigrationRedirects": true,
-        "availability": {
-          "adverts": true,
-          "mobile_login": true
-        },
-        "fraction": 1,
-        "countries": "*",
-        "states": "*",
-        "announcements": {
-          "public": {
-            "id": "domain-move",
-            "type": "",
-            "hideType": "dismiss",
-            "header": {
-              "en": "We’re packing our bags and preparing to move...domains!"
-            },
-            "sections": [
-              {
-                "title": {
-                  "en": ""
-                },
-                "body": {
-                  "en": "To make way for our new and exciting products coming this year, we’re saying hello to our new home. blockchain.info will soon be changing URLs as it's combined with our company site, blockchain.com."
-                }
-              }
-            ],
-            "action": {
-              "title": {
-                "en": "Read more about what to expect."
-              },
-              "link": "https://blog.blockchain.com/2018/06/19/blockchain-infos-moving-domains/"
-            }
-          },
-          "wallet": {
-            "id": "privacy-policy-update",
-            "type": "info",
-            "hideType": "dismiss",
-            "header": {
-              "en": "Updates to Privacy Policy and Cookie Policy"
-            },
-            "sections": [
-              {
-                "title": {
-                  "en": ""
-                },
-                "body": {
-                  "en": "We’re updating our Privacy Policy and Cookie Policy to make it easier for you to understand the limited information we collect and why we collect it. We thrive on collecting the least amount of data on our users. Please review our updated policies."
-                }
-              }
-            ],
-            "action": {
-              "title": {
-                "en": "More details."
-              },
-              "link": "https://www.blockchain.com/privacy"
-            }
-          },
-          "sendBch": {
-            "id": "hardfork",
-            "type": "danger",
-            "hideType": "dismiss",
-            "header": {
-              "en": "Hardfork Warning"
-            },
-            "sections": [
-              {
-                "title": {
-                  "en": ""
-                },
-                "body": {
-                  "en": "There may be a network split on November 15th. If you are not interested in BitcoinSV you don't have to do anything. If you are, we recommend against sending or receiving Bitcoin Cash until further notice."
-                }
-              }
-            ],
-            "action": {
-              "title": {
-                "en": ""
-              },
-              "link": "https://www.blockchain.com/privacy"
-            }
-          }
-        }
+        "announcements": {}
       },
-      "bitcoin": {
+      "btc": {
         "availability": {
           "send": true,
           "request": true,
@@ -93,26 +13,28 @@
           "report": true,
           "fiat": true
         },
-        "fraction": 1,
-        "countries": "*",
-        "states": "*",
         "config": {
           "network": "bitcoin"
         }
       },
-      "buysell": {
+      "eth": {
         "availability": {
-          "buy": true,
-          "sell": true,
-          "history": true
+          "send": true,
+          "request": true,
+          "history": true,
+          "fiat": true
         },
-        "fraction": 1,
-        "countries": ["GB", "NL", "DE", "US"],
-        "states": "*",
-        "config": {}
+        "lastTxFuse": 600,
+        "config": {
+          "network": "mainnet"
+        }
+      },
+      "xlm": {
+        "config": {
+          "network": "public"
+        }
       },
       "coinify": {
-        "fraction": 1,
         "countries": [
           "GB",
           "AT",
@@ -160,11 +82,9 @@
           "SE",
           "CH"
         ],
-        "states": "*",
         "config": {
-          "production": false,
-          "availability": true,
           "partnerId": 24,
+          "production": false,
           "iSignThisDomain": "https://stage-verify.isignthis.com",
           "surveyLinks": [
             "https://blockchain.co1.qualtrics.com/SE/?SID=SV_8pupOEQPGkXx8Kp",
@@ -180,29 +100,7 @@
           ]
         }
       },
-      "ethereum": {
-        "availability": {
-          "send": true,
-          "request": true,
-          "history": true,
-          "fiat": true
-        },
-        "fraction": 1,
-        "countries": "*",
-        "states": "*",
-        "lastTxFuse": 86400,
-        "config": {
-          "network": "mainnet"
-        },
-        "announcements": {}
-      },
-      "xlm": {
-        "config": {
-          "network": "public"
-        }
-      },
       "sfox": {
-        "fraction": 1,
         "countries": ["US"],
         "states": [
           "AR",
@@ -235,7 +133,6 @@
         ],
         "config": {
           "production": false,
-          "availability": true,
           "apiKey": "6CD61A0E965D48A7B1883A860490DC9E",
           "plaid": "0b041cd9e9fbf1e7d93a0d5a39f5b9",
           "plaidEnv": "sandbox",
@@ -245,17 +142,8 @@
             "https://blockchain.co1.qualtrics.com/SE/?SID=SV_4HIEh5KIodM8UTP",
             "https://blockchain.co1.qualtrics.com/SE/?SID=SV_51qOIk4EXHshNFX",
             "https://blockchain.co1.qualtrics.com/SE/?SID=SV_78S6RzM5ipN66fb"
-          ],
-          "service_charge": {
-            "US": {
-              "min_tx_amount": 0,
-              "max_service_charge": 100000,
-              "percent": 0.02,
-              "send_to_miner": true
-            }
-          }
-        },
-        "announcements": {}
+          ]
+        }
       },
       "shapeshift": {
         "availability": {
@@ -263,7 +151,6 @@
           "sell": true,
           "history": true
         },
-        "fraction": 1,
         "countries": "*",
         "states": [
           "AR",
@@ -301,26 +188,7 @@
             "https://blockchain.co1.qualtrics.com/jfe/form/SV_1MuVnVEtWhiVIQl",
             "https://blockchain.co1.qualtrics.com/jfe/form/SV_3QV1OgysGUC0hXD"
           ]
-        },
-        "announcements": {}
-      },
-      "unocoin": {
-        "fraction": 0,
-        "countries": ["IN"],
-        "states": "*",
-        "config": {
-          "production": "REPLACED_BY_DEV_SERVER",
-          "surveyLinks": [
-            "https://blockchain.co1.qualtrics.com/jfe/form/SV_0wAlAEnwlumr4XP",
-            "https://blockchain.co1.qualtrics.com/jfe/form/SV_8jmvSfjqqPzNWVn",
-            "https://blockchain.co1.qualtrics.com/jfe/form/SV_25JUYJLoLoHQ5b7"
-          ],
-          "surveyTradeLinks": [
-            "https://blockchain.co1.qualtrics.com/jfe/form/SV_87YRZx6LVdaF4kR",
-            "https://blockchain.co1.qualtrics.com/jfe/form/SV_bBDOyGwj5WOb0hL"
-          ]
-        },
-        "announcements": {}
+        }
       }
     },
     "ios": {},
@@ -328,11 +196,11 @@
   },
   "domains": {
     "root": "https://blockchain.info",
-    "comRoot": "https://blockchain.com",
     "api": "https://api.blockchain.info",
     "webSocket": "wss://ws.blockchain.info",
-    "comWalletApp": "https://login.blockchain.com",
     "walletHelper": "https://wallet-helper.blockchain.info",
+    "comWalletApp": "https://login.blockchain.com",
+    "comRoot": "https://www.blockchain.com",
     "ledger": "https://manager.api.live.ledger.com",
     "ledgerSocket": "wss://api.ledgerwallet.com",
     "horizon": "https://horizon.stellar.org"
