@@ -20,7 +20,6 @@ import apiAuthorize from './apiAuthorize'
 
 export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
   const http = httpService({ apiKey })
-  const { get, post } = http
   const authorizedHttp = apiAuthorize(http, getAuthCredentials)
   const apiUrl = options.domains.api
   const horizonUrl = options.domains.horizon
@@ -30,36 +29,33 @@ export default ({ options, apiKey, getAuthCredentials, networks } = {}) => {
   const shapeShiftApiKey = options.platforms.web.shapeshift.config.apiKey
 
   return {
-    ...analytics({ rootUrl, apiUrl, get, post }),
-    ...bitcoin({ rootUrl, apiUrl, get, post }),
-    ...delegate({ rootUrl, apiUrl, get, post }),
-    ...ethereum({ rootUrl, apiUrl, get, post }),
-    ...bch({ rootUrl, apiUrl, get, post }),
-    ...kvStore({ apiUrl, networks }),
+    ...analytics({ rootUrl, apiUrl, ...http }),
+    ...bitcoin({ rootUrl, apiUrl, ...http }),
+    ...delegate({ rootUrl, apiUrl, ...http }),
+    ...ethereum({ rootUrl, apiUrl, ...http }),
+    ...bch({ rootUrl, apiUrl, ...http }),
+    ...kvStore({ apiUrl, networks, ...http }),
     ...kyc({
       nabuUrl,
-      get,
-      post,
       authorizedGet: authorizedHttp.get,
-      authorizedPost: authorizedHttp.post
+      authorizedPost: authorizedHttp.post,
+      ...http
     }),
-    ...lockbox({ ledgerUrl, get, post }),
-    ...misc({ rootUrl, apiUrl, get, post }),
+    ...lockbox({ ledgerUrl, ...http }),
+    ...misc({ rootUrl, apiUrl, ...http }),
     ...profile({
       rootUrl,
       nabuUrl,
       authorizedPut: authorizedHttp.put,
       authorizedGet: authorizedHttp.get,
-      get,
-      post,
-      put: http.put
+      ...http
     }),
     ...sfox(),
-    ...settings({ rootUrl, post }),
+    ...settings({ rootUrl, ...http }),
     ...shapeShift({ shapeShiftApiKey, ...http }),
     ...rates({ nabuUrl, ...authorizedHttp }),
     ...trades({ nabuUrl, ...authorizedHttp }),
-    ...wallet({ rootUrl, apiUrl, get, post }),
-    ...xlm({ apiUrl, get, horizonUrl, network: networks.xlm })
+    ...wallet({ rootUrl, apiUrl, ...http }),
+    ...xlm({ apiUrl, horizonUrl, network: networks.xlm, ...http })
   }
 }
