@@ -339,6 +339,12 @@ export default ({ api }) => {
       // check device authenticity
       yield put(A.checkDeviceAuthenticity())
       yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
+
+      // if blockchain device, wait for user to install BTC or skip
+      if (deviceType === 'blockchain') {
+        yield take([AT.APP_CHANGE_SUCCESS, AT.SET_NEW_DEVICE_SETUP_STEP])
+      }
+
       // quick poll for BTC connection in case user cancels setup to install BTC
       pollLength = 5000
       closePoll = false
@@ -390,7 +396,6 @@ export default ({ api }) => {
         yield put(A.changeDeviceSetupStep('open-btc-app', true))
       }
     } catch (e) {
-      // TODO: better error handling, display error, close modal
       yield put(
         actions.logs.logErrorMessage(logLocation, 'initializeNewDeviceSetup', e)
       )

@@ -82,7 +82,7 @@ class AppManagerContainer extends React.PureComponent {
     const {
       appChangeStatus,
       appVersionInfos,
-      closeAll,
+      closeModal,
       connection,
       position,
       total
@@ -182,7 +182,7 @@ class AppManagerContainer extends React.PureComponent {
         return (
           <React.Fragment>
             {appList}
-            <ContinueButton onClick={closeAll} nature='primary'>
+            <ContinueButton onClick={closeModal} nature='primary'>
               <FormattedHTMLMessage
                 id='modals.lockbox.appmanager.close'
                 defaultMessage='Close'
@@ -215,7 +215,7 @@ class AppManagerContainer extends React.PureComponent {
 
     return (
       <Modal size='large' position={position} total={total}>
-        <ModalHeader onClose={closeAll}>
+        <ModalHeader onClose={closeModal}>
           <FormattedMessage
             id='modals.lockbox.appmanager.title'
             defaultMessage='App Manager'
@@ -254,7 +254,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
+  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
+  closeModal: bindActionCreators(actions.modals.closeModal, dispatch)
 })
 
 const enhance = compose(

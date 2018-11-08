@@ -44,7 +44,7 @@ const InstallTexts = styled(TextGroup)`
 `
 
 const OpenBtcAppStep = props => {
-  const { isReady, onInstallApps, onStepChange } = props
+  const { isReady, hideInstallLink, onInstallApps, onStepChange } = props
 
   return (
     <React.Fragment>
@@ -69,26 +69,28 @@ const OpenBtcAppStep = props => {
             defaultMessage='Select &quot;Bitcoin&quot; from the picker.'
           />
         </Text>
-        <InstallTexts inline>
-          <Text size='14px' weight={400}>
-            <FormattedMessage
-              id='modals.lockboxsetup.openbtcappstep.note'
-              defaultMessage='Note:'
-            />
-          </Text>
-          <Text size='14px' weight={300}>
-            <FormattedMessage
-              id='modals.lockboxsetup.openbtcappstep.installapps'
-              defaultMessage='If you do not have the Bitcoin app on your device, you can install it'
-            />
-          </Text>
-          <Link size='14px' weight={400} onClick={onInstallApps}>
-            <FormattedMessage
-              id='modals.lockboxsetup.openbtcappstep.installappshere'
-              defaultMessage='here.'
-            />
-          </Link>
-        </InstallTexts>
+        {!hideInstallLink && (
+          <InstallTexts inline>
+            <Text size='14px' weight={400}>
+              <FormattedMessage
+                id='modals.lockboxsetup.openbtcappstep.note'
+                defaultMessage='Note:'
+              />
+            </Text>
+            <Text size='14px' weight={300}>
+              <FormattedMessage
+                id='modals.lockboxsetup.openbtcappstep.installapps'
+                defaultMessage='If you do not have the Bitcoin app on your device, you can install it'
+              />
+            </Text>
+            <Link size='14px' weight={400} onClick={onInstallApps}>
+              <FormattedMessage
+                id='modals.lockboxsetup.openbtcappstep.installappshere'
+                defaultMessage='here.'
+              />
+            </Link>
+          </InstallTexts>
+        )}
       </Content>
       <ImageContainer>
         <Image
