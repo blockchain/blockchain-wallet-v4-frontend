@@ -162,18 +162,19 @@ class AppManagerContainer extends React.PureComponent {
     })
     const appListView = appVersionInfos.cata({
       Success: apps => {
-        const appList = apps.map((app, i) => {
-          const coin = getKeyByValue(app.name)
+        const appList = apps.map(app => {
+          const name = app.name
+          const coin = getKeyByValue(name)
           return (
             <App
-              key={i}
+              key={name}
               app={app}
               coin={coin}
               installApp={() => {
-                this.onAppInstall(app.name, coin)
+                this.onAppInstall(name, coin)
               }}
               uninstallApp={() => {
-                this.onAppUninstall(app.name, coin)
+                this.onAppUninstall(name, coin)
               }}
             />
           )
