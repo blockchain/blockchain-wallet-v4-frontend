@@ -712,7 +712,7 @@ export default ({ api }) => {
   }
 
   // install BTC for new devices only
-  // TODO: remove in LB2
+  // TODO: refactor the info derivation into separate saga
   const newDeviceBtcInstall = function*() {
     try {
       yield put(A.appChangeLoading())

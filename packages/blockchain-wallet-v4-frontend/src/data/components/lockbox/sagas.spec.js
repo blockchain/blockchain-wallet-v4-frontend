@@ -86,7 +86,6 @@ const mdAccountsEntryMock = {
 describe('lockbox sagas', () => {
   const {
     pollForDeviceTypeChannel,
-    pollForDeviceAppChannel,
     checkDeviceAuthenticity,
     initializeNewDeviceSetup,
     saveNewDeviceKvStore,
@@ -300,14 +299,6 @@ describe('lockbox sagas', () => {
     it('waits for setup step 2', () => {
       saga.next().take(AT.SET_NEW_DEVICE_SETUP_STEP)
     })
-    it('opens a channel and polls for app', () => {
-      saga.next().call(pollForDeviceAppChannel, 'BTC', 5000)
-    })
-    it('waits for set connection info or install apps', () => {
-      saga
-        .next()
-        .next()
-        .take([AT.SET_CONNECTION_INFO, AT.INITIALIZE_APP_MANAGER])
-    })
+    // TODO: unit test rest of saga
   })
 })
