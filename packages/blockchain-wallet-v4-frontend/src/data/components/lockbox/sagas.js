@@ -339,12 +339,8 @@ export default ({ api }) => {
       // check device authenticity
       yield put(A.checkDeviceAuthenticity())
       yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
-
-      // if blockchain device, wait for user to install BTC or skip
-      if (deviceType === 'blockchain') {
-        yield take([AT.APP_CHANGE_SUCCESS, AT.SET_NEW_DEVICE_SETUP_STEP])
-      }
-
+      // wait for user to install btc app or skip
+      yield take(AT.NEW_DEVICE_BTC_INSTALL_NEXT)
       // quick poll for BTC connection in case user cancels setup to install BTC
       pollLength = 5000
       closePoll = false
@@ -723,6 +719,54 @@ export default ({ api }) => {
     }
   }
 
+  // install BTC for new devices only
+  // TODO: remove in LB2
+  const newDeviceBtcInstall = function*() {
+    try {
+      yield put(A.appChangeLoading())
+      const { transport } = yield select(S.getCurrentConnection)
+      // get base device info
+      const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
+      // get full device info via api
+      const deviceVersion = yield call(api.getDeviceVersion, {
+        provider: deviceInfo.providerId,
+        target_id: deviceInfo.targetId
+      })
+      // get full firmware info via api
+      const seFirmwareVersion = yield call(api.getCurrentFirmware, {
+        device_version: deviceVersion.id,
+        version_name: deviceInfo.fullVersion,
+        provider: deviceInfo.providerId
+      })
+      // get latest info on applications
+      const appInfos = yield call(api.getApplications, {
+        provider: deviceInfo.providerId,
+        current_se_firmware_final_version: seFirmwareVersion.id,
+        device_version: deviceVersion.id
+      })
+      // fetch base socket domain
+      const domainsR = yield select(selectors.core.walletOptions.getDomains)
+      const domains = domainsR.getOrElse({
+        ledgerSocket: 'wss://api.ledgerwallet.com'
+      })
+      // install application
+      yield call(
+        Lockbox.apps.installApp,
+        transport,
+        domains.ledgerSocket,
+        deviceInfo.targetId,
+        'BTC',
+        appInfos.application_versions
+      )
+      yield put(A.appChangeSuccess('BTC', 'install'))
+    } catch (e) {
+      yield put(A.appChangeFailure('BTC', 'install', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'newDeviceBtcInstall', e)
+      )
+    }
+  }
+
   return {
     checkDeviceAuthenticity,
     deleteDevice,
@@ -739,6 +783,7 @@ export default ({ api }) => {
     uninstallApplication,
     updateDeviceFirmware,
     updateDeviceName,
-    updateTransactionList
+    updateTransactionList,
+    newDeviceBtcInstall
   }
 }
