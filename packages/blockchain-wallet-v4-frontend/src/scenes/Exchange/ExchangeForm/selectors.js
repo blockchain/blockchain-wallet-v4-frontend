@@ -66,21 +66,11 @@ const {
   getAvailablePairs,
   getMax,
   getMin,
-  getSourceFee,
-  getTargetFee,
   getTxError,
   showError
 } = selectors.components.exchange
 
-export {
-  canUseExchange,
-  getMin,
-  getMax,
-  getTargetFee,
-  getSourceFee,
-  showError,
-  getTxError
-}
+export { canUseExchange, getMin, getMax, showError, getTxError }
 export const getData = createDeepEqualSelector(
   [
     getBlockLockbox,

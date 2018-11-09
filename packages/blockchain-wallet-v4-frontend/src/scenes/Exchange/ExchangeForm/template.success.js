@@ -19,9 +19,11 @@ import { Form, AutosizeTextBox } from 'components/Form'
 import { ResizeableFontInputHOC } from 'components/ResizeableFontInputHOC'
 import StringDisplay from 'components/Display/StringDisplay'
 import { getErrorMessage } from './validationMessages'
-import Summary from './Summary'
+import { Wrapper as SummaryWrapper, Title, Note } from 'components/Exchange'
 import CurrencySelect from './CurrencySelect'
 import { Cell, Row } from './Layout'
+import Summary from './Summary'
+import RatesBox from './RatesBox'
 
 const {
   EXCHANGE_FORM,
@@ -202,6 +204,7 @@ const Success = props => {
     canUseExchange,
     complementaryAmount,
     complementarySymbol,
+    currency,
     dirty,
     disabled,
     error,
@@ -437,7 +440,30 @@ const Success = props => {
         </Form>
       </ColumnLeft>
       <ColumnRight>
-        <Summary {...props} />
+        <SummaryWrapper>
+          <Title>
+            <FormattedMessage
+              id='scenes.exchange.exchangeform.summary.title'
+              defaultMessage='Summary'
+            />
+          </Title>
+          <Summary
+            sourceCoin={sourceCoin}
+            targetCoin={targetCoin}
+            currency={currency}
+          />
+          <Note>
+            <FormattedMessage
+              id='scenes.exchange.exchangeform.summary.note'
+              defaultMessage='All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.'
+            />
+          </Note>
+          <RatesBox
+            sourceCoin={sourceCoin}
+            targetCoin={targetCoin}
+            currency={currency}
+          />
+        </SummaryWrapper>
       </ColumnRight>
     </Wrapper>
   )

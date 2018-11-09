@@ -9,8 +9,6 @@ import {
   getData,
   getMin,
   getMax,
-  getTargetFee,
-  getSourceFee,
   canUseExchange,
   showError,
   getTxError
@@ -69,8 +67,6 @@ class ExchangeForm extends React.Component {
       data,
       min,
       max,
-      targetFee,
-      sourceFee,
       canUseExchange,
       showError,
       txError
@@ -84,8 +80,6 @@ class ExchangeForm extends React.Component {
             {...value}
             min={min}
             max={max}
-            targetFee={targetFee}
-            sourceFee={sourceFee}
             canUseExchange={canUseExchange}
             showError={showError}
             txError={txError}
@@ -132,8 +126,6 @@ const mapStateToProps = state => ({
   canUseExchange: canUseExchange(state),
   min: getMin(state),
   max: getMax(state),
-  targetFee: getTargetFee(state),
-  sourceFee: getSourceFee(state),
   showError: showError(state),
   txError: getTxError(state),
   data: getData(state)
