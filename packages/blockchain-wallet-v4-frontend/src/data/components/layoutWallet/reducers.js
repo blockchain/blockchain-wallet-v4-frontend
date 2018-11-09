@@ -24,9 +24,6 @@ export default (state = INITIAL_STATE, action) => {
         ? merge(state, { trayOpened: true, trayContent: 'whatsnew' })
         : merge(state, { trayOpened: false, trayContent: '' })
     }
-    case AT.LAYOUT_WALLET_TRAY_CLOSE_CLICKED: {
-      return merge(state, { trayOpened: false, trayContent: '' })
-    }
     case AT.SET_BALANCES_CHART_TAB: {
       return assoc('balancesTable', payload, state)
     }
