@@ -12,7 +12,7 @@ import { validPasswordStretchingNumber } from 'services/FormHelper'
 const ButtonWrapper = styled(ButtonGroup)`
   margin-top: 5px;
   & > :first-child {
-    margin-right: 5px;
+    margin-right: 10px;
   }
 `
 

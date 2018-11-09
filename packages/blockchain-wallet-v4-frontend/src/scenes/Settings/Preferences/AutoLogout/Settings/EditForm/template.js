@@ -16,6 +16,12 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
 `
+const ButtonWrapper = styled(ButtonGroup)`
+  margin-top: 5px;
+  & > :first-child {
+    margin-right: 5px;
+  }
+`
 
 const Settings = props => {
   const { handleToggle, handleClick, submitting, invalid } = props
@@ -46,7 +52,7 @@ const Settings = props => {
             />
           </Text>
         </FormGroup>
-        <ButtonGroup>
+        <ButtonWrapper>
           <Button nature='empty' capitalize onClick={handleToggle}>
             <FormattedMessage
               id='scenes.preferences.autologout.settings.updateform.cancel'
@@ -64,7 +70,7 @@ const Settings = props => {
               defaultMessage='Save'
             />
           </Button>
-        </ButtonGroup>
+        </ButtonWrapper>
       </SettingForm>
     </SettingWrapper>
   )
