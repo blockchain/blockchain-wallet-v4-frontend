@@ -90,7 +90,8 @@ describe('lockbox sagas', () => {
     initializeNewDeviceSetup,
     saveNewDeviceKvStore,
     uninstallApplication,
-    installApplication
+    installApplication,
+    deriveLatestAppInfo
   } = lockboxSagas({
     api,
     coreSagas
@@ -292,6 +293,9 @@ describe('lockbox sagas', () => {
       saga
         .next({ payload: { deviceType: 'ledger' } })
         .take(AT.SET_NEW_DEVICE_SETUP_STEP)
+    })
+    it('prefetches app info', () => {
+      saga.next().call(deriveLatestAppInfo)
     })
     it('checks device auth', () => {
       saga.next().put(A.checkDeviceAuthenticity())
