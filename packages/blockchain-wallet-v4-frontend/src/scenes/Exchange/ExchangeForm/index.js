@@ -23,7 +23,7 @@ const extractFieldValue = (e, value) => value
 const { swapCoinAndFiat, swapBaseAndCounter } = model.rates
 const { EXCHANGE_FORM } = model.components.exchange
 
-class ExchangeForm extends React.Component {
+class ExchangeForm extends React.PureComponent {
   componentDidMount () {
     const { canUseExchange, actions, from, to } = this.props
     if (canUseExchange) actions.initialize(from, to)

@@ -38,29 +38,9 @@ const getBlockLockbox = state => {
   )
 }
 
-const getCurrentPair = state => {
-  const { sourceCoin, targetCoin } = getFormValues(state)
-  return formatPair(sourceCoin, targetCoin)
-}
-const nullAmounts = {
-  sourceAmount: 0,
-  targetAmount: 0,
-  sourceFiat: 0,
-  targetFiat: 0
-}
-const fallbackToNullAmounts = adviceAmountsR =>
-  adviceAmountsR.cata({
-    Success: () => adviceAmountsR,
-    Failure: () => Remote.of(nullAmounts),
-    Loading: () => adviceAmountsR,
-    NotAsked: () => Remote.of(nullAmounts)
-  })
-
-const getCurrentPairAmounts = state =>
-  selectors.components.exchange.getAmounts(getCurrentPair(state), state)
-
 const {
   canUseExchange,
+  getAmounts,
   getAvailablePairs,
   getMax,
   getMin,
@@ -75,17 +55,9 @@ export const getData = createDeepEqualSelector(
     selectors.core.settings.getCurrency,
     getFormValues,
     getAvailablePairs,
-    getCurrentPairAmounts,
     canUseExchange
   ],
-  (
-    blockLockbox,
-    currencyR,
-    formValues,
-    availablePairsR,
-    adviceAmountsR,
-    canUseExchange
-  ) => {
+  (blockLockbox, currencyR, formValues, availablePairsR, canUseExchange) => {
     if (!canUseExchange) return Remote.Loading
 
     const { fix, sourceCoin, targetCoin, volume } = formValues
@@ -99,7 +71,6 @@ export const getData = createDeepEqualSelector(
         targetFiat: currency
       }
       const inputCurrency = prop(inputField, fieldCoins)
-      const amountsR = fallbackToNullAmounts(adviceAmountsR)
       const complementaryField = getComplementaryField(inputField)
       const complementaryCurrency = prop(complementaryField, fieldCoins)
 
@@ -111,7 +82,6 @@ export const getData = createDeepEqualSelector(
         complementaryField,
         complementarySymbol: currencySymbolMap[complementaryCurrency],
         currency,
-        disabled: !Remote.Success.is(amountsR),
         fiatActive: fiatActive(fix),
         fix,
         inputField,
@@ -125,4 +95,25 @@ export const getData = createDeepEqualSelector(
     }
     return lift(transform)(currencyR, availablePairsR)
   }
+)
+
+const nullAmounts = {
+  sourceAmount: 0,
+  targetAmount: 0,
+  sourceFiat: 0,
+  targetFiat: 0
+}
+
+const fallbackToNullAmounts = adviceAmountsR =>
+  adviceAmountsR.cata({
+    Success: () => adviceAmountsR,
+    Failure: () => Remote.of(nullAmounts),
+    Loading: () => adviceAmountsR,
+    NotAsked: () => Remote.of(nullAmounts)
+  })
+
+export const getCurrentPairAmounts = createDeepEqualSelector(
+  (state, { sourceCoin, targetCoin }) =>
+    getAmounts(formatPair(sourceCoin, targetCoin), state),
+  amountsR => fallbackToNullAmounts(amountsR)
 )

@@ -8,13 +8,7 @@ import { model } from 'data'
 import media from 'services/ResponsiveService'
 import { formatTextAmount } from 'services/ValidationHelper'
 
-import {
-  Banner,
-  Button,
-  HeartbeatLoader,
-  Icon,
-  Text
-} from 'blockchain-info-components'
+import { Banner, Button, Icon, Text } from 'blockchain-info-components'
 import { Form, AutosizeTextBox } from 'components/Form'
 import { ResizeableFontInputHOC } from 'components/ResizeableFontInputHOC'
 import { getErrorMessage } from './validationMessages'
@@ -22,6 +16,7 @@ import { Wrapper as SummaryWrapper, Title, Note } from 'components/Exchange'
 import CurrencySelect from './CurrencySelect'
 import ComplementaryAmount from './ComplementaryAmount'
 import { Cell, Row } from './Layout'
+import SubmitButton from './SubmitButton'
 import Summary from './Summary'
 import RatesBox from './RatesBox'
 
@@ -153,10 +148,6 @@ const ErrorRow = styled(Row)`
   min-height: 15px;
   padding: 0px;
 `
-const ButtonRow = styled(Row)`
-  border: 1px solid ${props => props.theme['gray-1']}};
-  border-top: none;
-`
 const CurrencyBox = styled(Text)`
   align-self: flex-start;
   margin-top: 10px;
@@ -196,7 +187,6 @@ const Success = props => {
     complementarySymbol,
     currency,
     dirty,
-    disabled,
     error,
     fiatActive,
     handleAmountChange,
@@ -396,37 +386,17 @@ const Success = props => {
               </MinMaxButton>
             </Row>
           </FieldsWrapper>
-          <ButtonRow>
-            <Button
-              type='submit'
-              nature='primary'
-              fullwidth
-              disabled={
-                disabled ||
-                blockLockbox ||
-                asyncValidating ||
-                submitting ||
-                !dirty ||
-                volume === '0' ||
-                !volume ||
-                (volume && error) ||
-                txError
-              }
-            >
-              {!disabled && !asyncValidating && !submitting ? (
-                <FormattedMessage
-                  id='scenes.exchange.exchangeform.exchange'
-                  defaultMessage='Exchange {source} for {target}'
-                  values={{
-                    source: sourceCoin,
-                    target: targetCoin
-                  }}
-                />
-              ) : (
-                <HeartbeatLoader height='20px' width='20px' color='white' />
-              )}
-            </Button>
-          </ButtonRow>
+          <SubmitButton
+            blockLockbox={blockLockbox}
+            sourceCoin={sourceCoin}
+            targetCoin={targetCoin}
+            txError={txError}
+            volume={volume}
+            asyncValidating={asyncValidating}
+            dirty={dirty}
+            error={error}
+            submitting={submitting}
+          />
         </Form>
       </ColumnLeft>
       <ColumnRight>
