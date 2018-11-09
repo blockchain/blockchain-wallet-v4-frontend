@@ -1261,7 +1261,7 @@
         "id": "modals.qrcode.tooltip"
       },
       {
-        "defaultMessage": "Share this address with others, and they can send you Bitcoin Cash directly to your wallet. Your address changes with every payment.",
+        "defaultMessage": "Share this address with others, and they can send you bitcoin cash directly to your wallet. Your address changes with every payment.",
         "id": "modals.requestbch.share_tooltip"
       },
       {
