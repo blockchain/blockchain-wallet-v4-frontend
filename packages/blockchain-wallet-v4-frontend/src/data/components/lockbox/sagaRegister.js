@@ -43,9 +43,5 @@ export default ({ api, coreSagas }) => {
     )
     yield takeLatest(AT.INITIALIZE_DASHBOARD, lockboxSagas.initializeDashboard)
     yield takeLatest(AT.SAVE_COIN_MD, lockboxSagas.saveCoinMD)
-    yield takeLatest(
-      AT.NEW_DEVICE_BTC_INSTALL,
-      lockboxSagas.newDeviceBtcInstall
-    )
   }
 }

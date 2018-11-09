@@ -320,6 +320,45 @@ export default ({ api }) => {
     }
   }
 
+  // fetches info on the latest applications for device
+  const deriveLatestAppInfo = function*() {
+    try {
+      yield put(A.setLatestAppInfosLoading())
+      const { transport } = yield select(S.getCurrentConnection)
+      // get base device info
+      const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
+      yield put(A.setDeviceTargetId(deviceInfo.targetId))
+      // get full device info via api
+      const deviceVersion = yield call(api.getDeviceVersion, {
+        provider: deviceInfo.providerId,
+        target_id: deviceInfo.targetId
+      })
+      // get full firmware info via api
+      const seFirmwareVersion = yield call(api.getCurrentFirmware, {
+        device_version: deviceVersion.id,
+        version_name: deviceInfo.fullVersion,
+        provider: deviceInfo.providerId
+      })
+      // get latest info on applications
+      const appInfos = yield call(api.getApplications, {
+        provider: deviceInfo.providerId,
+        current_se_firmware_final_version: seFirmwareVersion.id,
+        device_version: deviceVersion.id
+      })
+      // limit apps to only the ones we support
+      const appList = filter(
+        item => contains(item.name, values(Lockbox.constants.supportedApps)),
+        appInfos.application_versions
+      )
+      yield put(A.setLatestAppInfosSuccess(appList))
+    } catch (e) {
+      yield put(A.setLatestAppInfosFailure())
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'deriveLatestAppInfo', e)
+      )
+    }
+  }
+
   // new device setup saga
   const initializeNewDeviceSetup = function*() {
     try {
@@ -336,11 +375,21 @@ export default ({ api }) => {
       const { payload } = yield take(AT.SET_CONNECTION_INFO)
       const { deviceType } = payload
       yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
+      // prefetch app infos for future step
+      yield call(deriveLatestAppInfo)
       // check device authenticity
       yield put(A.checkDeviceAuthenticity())
       yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
-      // wait for user to install btc app or skip
-      yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
+      // btc install or skip step
+      const resp = yield take([
+        AT.NEW_DEVICE_BTC_INSTALL,
+        AT.SET_NEW_DEVICE_SETUP_STEP
+      ])
+      if (resp.type === AT.NEW_DEVICE_BTC_INSTALL) {
+        // user installing btc app, wait for confirmation of install
+        yield put(A.installApplication('BTC'))
+        yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
+      }
       // quick poll for BTC connection in case user cancels setup to install BTC
       pollLength = 5000
       closePoll = false
@@ -606,38 +655,7 @@ export default ({ api }) => {
       }
       // device connection made
       yield take(AT.SET_CONNECTION_INFO)
-      yield put(A.setLatestAppInfosLoading())
-      const { transport } = yield select(S.getCurrentConnection)
-      try {
-        // get base device info
-        const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
-        yield put(A.setDeviceTargetId(deviceInfo.targetId))
-        // get full device info via api
-        const deviceVersion = yield call(api.getDeviceVersion, {
-          provider: deviceInfo.providerId,
-          target_id: deviceInfo.targetId
-        })
-        // get full firmware info via api
-        const seFirmwareVersion = yield call(api.getCurrentFirmware, {
-          device_version: deviceVersion.id,
-          version_name: deviceInfo.fullVersion,
-          provider: deviceInfo.providerId
-        })
-        // get latest info on applications
-        const appInfos = yield call(api.getApplications, {
-          provider: deviceInfo.providerId,
-          current_se_firmware_final_version: seFirmwareVersion.id,
-          device_version: deviceVersion.id
-        })
-        // limit apps to only the ones we support
-        const appList = filter(
-          item => contains(item.name, values(Lockbox.constants.supportedApps)),
-          appInfos.application_versions
-        )
-        yield put(A.setLatestAppInfosSuccess(appList))
-      } catch (e) {
-        yield put(A.setLatestAppInfosFailure())
-      }
+      yield call(deriveLatestAppInfo)
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'initializeAppManager', e)
@@ -654,7 +672,7 @@ export default ({ api }) => {
       const targetId = (yield select(S.getDeviceTargetId)).getOrFail()
       const latestAppVersions = (yield select(
         S.getLatestApplicationVersions
-      )).getOrFail()
+      )).getOrFail(6)
       const domains = (yield select(
         selectors.core.walletOptions.getDomains
       )).getOrElse({
@@ -711,54 +729,6 @@ export default ({ api }) => {
     }
   }
 
-  // install BTC for new devices only
-  // TODO: refactor the info derivation into separate saga
-  const newDeviceBtcInstall = function*() {
-    try {
-      yield put(A.appChangeLoading())
-      const { transport } = yield select(S.getCurrentConnection)
-      // get base device info
-      const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
-      // get full device info via api
-      const deviceVersion = yield call(api.getDeviceVersion, {
-        provider: deviceInfo.providerId,
-        target_id: deviceInfo.targetId
-      })
-      // get full firmware info via api
-      const seFirmwareVersion = yield call(api.getCurrentFirmware, {
-        device_version: deviceVersion.id,
-        version_name: deviceInfo.fullVersion,
-        provider: deviceInfo.providerId
-      })
-      // get latest info on applications
-      const appInfos = yield call(api.getApplications, {
-        provider: deviceInfo.providerId,
-        current_se_firmware_final_version: seFirmwareVersion.id,
-        device_version: deviceVersion.id
-      })
-      // fetch base socket domain
-      const domainsR = yield select(selectors.core.walletOptions.getDomains)
-      const domains = domainsR.getOrElse({
-        ledgerSocket: 'wss://api.ledgerwallet.com'
-      })
-      // install application
-      yield call(
-        Lockbox.apps.installApp,
-        transport,
-        domains.ledgerSocket,
-        deviceInfo.targetId,
-        'BTC',
-        appInfos.application_versions
-      )
-      yield put(A.appChangeSuccess('BTC', 'install'))
-    } catch (e) {
-      yield put(A.appChangeFailure('BTC', 'install', e))
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'newDeviceBtcInstall', e)
-      )
-    }
-  }
-
   return {
     checkDeviceAuthenticity,
     deleteDevice,
@@ -775,7 +745,6 @@ export default ({ api }) => {
     uninstallApplication,
     updateDeviceFirmware,
     updateDeviceName,
-    updateTransactionList,
-    newDeviceBtcInstall
+    updateTransactionList
   }
 }

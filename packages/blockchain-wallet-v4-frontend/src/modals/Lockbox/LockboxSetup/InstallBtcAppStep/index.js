@@ -29,15 +29,12 @@ const InstallTexts = styled(TextGroup)`
 `
 
 class InstallBtcAppStepContainer extends React.PureComponent {
-  state = { installRanOrSkipped: false, userAcceptedInstall: false }
-
   componentWillUnmount () {
     this.props.lockboxActions.resetAppChangeStatus()
   }
 
   onInstallBtc = () => {
     this.props.lockboxActions.newDeviceBtcInstall()
-    this.setState({ userAcceptedInstall: true })
   }
 
   onStepChange = () => {
