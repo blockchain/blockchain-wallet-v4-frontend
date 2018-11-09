@@ -13,15 +13,15 @@ import {
   Button,
   HeartbeatLoader,
   Icon,
-  TooltipHost,
   Text
 } from 'blockchain-info-components'
 import { Form, AutosizeTextBox } from 'components/Form'
 import { ResizeableFontInputHOC } from 'components/ResizeableFontInputHOC'
 import StringDisplay from 'components/Display/StringDisplay'
-import SelectBox from './SelectBox'
 import { getErrorMessage } from './validationMessages'
 import Summary from './Summary'
+import CurrencySelect from './CurrencySelect'
+import { Cell, Row } from './Layout'
 
 const {
   EXCHANGE_FORM,
@@ -75,32 +75,13 @@ const ColumnRight = styled.div`
     width: 40%;
   }
 `
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  box-sizing: border-box;
-  align-items: center;
-  padding: 30px;
-  width: 100%;
-`
-const SelectSourceRow = styled(Row)`
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
-`
 const AmountRow = styled(Row)`
   position: relative;
   padding: 10px 30px;
   justify-content: center;
   border: 4px solid transparent;
 `
-const Cell = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: ${props => (props.center ? 'center' : 'flex-start')};
-  width: ${props => (props.size === 'small' ? '10%' : '45%')};
-  height: 100%;
-`
+
 const MinMaxButton = styled(Button)`
   width: 48%;
   font-size: 10px;
@@ -149,17 +130,6 @@ const ComplementaryAmountContaier = styled.div`
   justify-self: center;
   margin: auto;
   margin-top: 10px;
-`
-const CoinSwapIcon = styled(Icon)`
-  font-size: 18px;
-  margin: 0 15px;
-  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
-  color: ${props =>
-    props.disabled ? props.theme['gray-1'] : props.theme['gray-6']};
-  &:hover {
-    color: ${props =>
-      props.disabled ? props.theme['gray-1'] : props.theme['brand-secondary']};
-  }
 `
 const CoinFiatSwapIcon = styled(Icon)`
   font-size: 24px;
@@ -236,13 +206,10 @@ const Success = props => {
     disabled,
     error,
     fiatActive,
-    fromElements,
     handleAmountChange,
     handleInputBlur,
     handleInputFocus,
-    handleSourceChange,
     handleSubmit,
-    handleTargetChange,
     inputField,
     inputSymbol,
     max,
@@ -251,12 +218,10 @@ const Success = props => {
     sourceActive,
     sourceCoin,
     submitting,
-    swapBaseAndCounter,
     swapCoinAndFiat,
     swapFix,
     targetActive,
     targetCoin,
-    toElements,
     txError,
     useMin,
     useMax,
@@ -285,38 +250,11 @@ const Success = props => {
       <ColumnLeft>
         <Form onSubmit={handleSubmit}>
           <FieldsWrapper>
-            <SelectSourceRow height='50px' spaced>
-              <Cell>
-                <Field
-                  name='source'
-                  onChange={handleSourceChange}
-                  component={SelectBox}
-                  elements={fromElements}
-                />
-              </Cell>
-              <TooltipHost id='exchange.changeinput'>
-                <Cell size='small'>
-                  <CoinSwapIcon
-                    name='arrow-switch'
-                    size='24px'
-                    weight={500}
-                    cursor
-                    disabled={swapDisabled}
-                    onClick={() => {
-                      if (!swapDisabled) swapBaseAndCounter()
-                    }}
-                  />
-                </Cell>
-              </TooltipHost>
-              <Cell>
-                <Field
-                  name='target'
-                  onChange={handleTargetChange}
-                  component={SelectBox}
-                  elements={toElements}
-                />
-              </Cell>
-            </SelectSourceRow>
+            <CurrencySelect
+              sourceCoin={sourceCoin}
+              targetCoin={targetCoin}
+              availablePairs={availablePairs}
+            />
             {blockLockbox && (
               <LockboxWarning>
                 <Banner type='warning'>

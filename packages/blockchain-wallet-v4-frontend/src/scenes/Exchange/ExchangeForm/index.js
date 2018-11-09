@@ -111,10 +111,6 @@ class ExchangeForm extends React.Component {
               actions.changeFix,
               swapBaseAndCounter.bind(null, value.fix)
             )}
-            swapBaseAndCounter={compose(
-              actions.swapBaseAndCounter,
-              swapBaseAndCounter.bind(null, value.fix)
-            )}
             swapCoinAndFiat={compose(
               actions.changeFix,
               swapCoinAndFiat.bind(null, value.fix)
