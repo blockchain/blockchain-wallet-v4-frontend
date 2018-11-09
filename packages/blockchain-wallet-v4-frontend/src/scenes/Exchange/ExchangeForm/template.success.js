@@ -2,32 +2,26 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import { contains, equals, gte, isNil, prop } from 'ramda'
+import { contains } from 'ramda'
 
 import { model } from 'data'
 import media from 'services/ResponsiveService'
 import { formatTextAmount } from 'services/ValidationHelper'
 
-import { Banner, Button, Icon, Text } from 'blockchain-info-components'
+import { Banner, Icon, Text } from 'blockchain-info-components'
 import { Form, AutosizeTextBox } from 'components/Form'
 import { ResizeableFontInputHOC } from 'components/ResizeableFontInputHOC'
 import { getErrorMessage } from './validationMessages'
 import { Wrapper as SummaryWrapper, Title, Note } from 'components/Exchange'
+import { Cell, Row } from './Layout'
 import CurrencySelect from './CurrencySelect'
 import ComplementaryAmount from './ComplementaryAmount'
-import { Cell, Row } from './Layout'
+import MinMaxButtons from './MinMaxButtons'
 import SubmitButton from './SubmitButton'
 import Summary from './Summary'
 import RatesBox from './RatesBox'
 
-const {
-  EXCHANGE_FORM,
-  NO_LIMITS_ERROR,
-  REACHED_DAILY_ERROR,
-  REACHED_WEEKLY_ERROR,
-  REACHED_ANNUAL_ERROR,
-  MINIMUM_NO_LINK_ERROR
-} = model.components.exchange
+const { EXCHANGE_FORM } = model.components.exchange
 const { fiatActive, formatPair } = model.rates
 
 const Wrapper = styled.div`
@@ -79,18 +73,6 @@ const AmountRow = styled(Row)`
   border: 4px solid transparent;
 `
 
-const MinMaxButton = styled(Button)`
-  width: 48%;
-  font-size: 10px;
-  justify-content: space-between;
-  > * {
-    color: ${props => props.theme['brand-primary']};
-  }
-`
-const MinMaxValue = styled.div`
-  font-weight: 600;
-  font-size: 14px;
-`
 const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))`
   height: 86px;
   max-width: 100%;
@@ -195,8 +177,6 @@ const Success = props => {
     handleSubmit,
     inputField,
     inputSymbol,
-    max,
-    min,
     showError,
     sourceActive,
     sourceCoin,
@@ -206,27 +186,12 @@ const Success = props => {
     targetActive,
     targetCoin,
     txError,
-    useMin,
-    useMax,
     volume
   } = props
   const swapDisabled = !contains(
     formatPair(targetCoin, sourceCoin),
     availablePairs
   )
-  const minMaxDisabled =
-    contains(error, [
-      NO_LIMITS_ERROR,
-      MINIMUM_NO_LINK_ERROR,
-      REACHED_DAILY_ERROR,
-      REACHED_WEEKLY_ERROR,
-      REACHED_ANNUAL_ERROR
-    ]) ||
-    (equals(prop('symbol', min), prop('symbol', max)) &&
-      gte(prop('amount', min), prop('amount', max))) ||
-    isNil(min) ||
-    isNil(max)
-
   return (
     <Wrapper>
       {!canUseExchange && <Cover />}
@@ -345,46 +310,7 @@ const Success = props => {
                 (error || txError) &&
                 getErrorMessage(txError || error)(props)}
             </ErrorRow>
-            <Row>
-              <MinMaxButton
-                fullwidth
-                disabled={minMaxDisabled}
-                onClick={useMin}
-              >
-                <FormattedMessage
-                  id='scenes.exchange.exchangeform.min'
-                  defaultMessage='MIN'
-                />
-                &nbsp;
-                <MinMaxValue>
-                  {!minMaxDisabled &&
-                    formatAmount(
-                      prop('fiat', max),
-                      prop('symbol', min),
-                      prop('amount', min)
-                    )}
-                </MinMaxValue>
-              </MinMaxButton>
-              <MinMaxButton
-                fullwidth
-                disabled={minMaxDisabled}
-                onClick={useMax}
-              >
-                <FormattedMessage
-                  id='scenes.exchange.exchangeform.max'
-                  defaultMessage='MAX'
-                />
-                &nbsp;
-                <MinMaxValue>
-                  {!minMaxDisabled &&
-                    formatAmount(
-                      prop('fiat', max),
-                      prop('symbol', max),
-                      prop('amount', max)
-                    )}
-                </MinMaxValue>
-              </MinMaxButton>
-            </Row>
+            <MinMaxButtons error={error} />
           </FieldsWrapper>
           <SubmitButton
             blockLockbox={blockLockbox}

@@ -5,14 +5,7 @@ import { compose, isEmpty } from 'ramda'
 
 import { debounce } from 'utils/helpers'
 import { actions, model } from 'data'
-import {
-  getData,
-  getMin,
-  getMax,
-  canUseExchange,
-  showError,
-  getTxError
-} from './selectors'
+import { getData, canUseExchange, showError, getTxError } from './selectors'
 
 import Loading from './template.loading'
 import Success from './template.success'
@@ -65,8 +58,6 @@ class ExchangeForm extends React.PureComponent {
       actions,
       formActions,
       data,
-      min,
-      max,
       canUseExchange,
       showError,
       txError
@@ -78,8 +69,6 @@ class ExchangeForm extends React.PureComponent {
         ) : (
           <Success
             {...value}
-            min={min}
-            max={max}
             canUseExchange={canUseExchange}
             showError={showError}
             txError={txError}
@@ -107,8 +96,6 @@ class ExchangeForm extends React.PureComponent {
               actions.changeFix,
               swapCoinAndFiat.bind(null, value.fix)
             )}
-            useMin={actions.useMin}
-            useMax={actions.useMax}
           />
         ),
       Failure: message => (
@@ -122,8 +109,6 @@ class ExchangeForm extends React.PureComponent {
 
 const mapStateToProps = state => ({
   canUseExchange: canUseExchange(state),
-  min: getMin(state),
-  max: getMax(state),
   showError: showError(state),
   txError: getTxError(state),
   data: getData(state)
