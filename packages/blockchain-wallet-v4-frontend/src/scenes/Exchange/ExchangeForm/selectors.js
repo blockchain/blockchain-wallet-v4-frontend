@@ -42,10 +42,12 @@ const getCurrentPair = state => {
   const { sourceCoin, targetCoin } = getFormValues(state)
   return formatPair(sourceCoin, targetCoin)
 }
-
-const getCurrentPairAmounts = state =>
-  selectors.components.exchange.getAmounts(getCurrentPair(state), state)
-
+const nullAmounts = {
+  sourceAmount: 0,
+  targetAmount: 0,
+  sourceFiat: 0,
+  targetFiat: 0
+}
 const fallbackToNullAmounts = adviceAmountsR =>
   adviceAmountsR.cata({
     Success: () => adviceAmountsR,
@@ -54,12 +56,8 @@ const fallbackToNullAmounts = adviceAmountsR =>
     NotAsked: () => Remote.of(nullAmounts)
   })
 
-const nullAmounts = {
-  sourceAmount: 0,
-  targetAmount: 0,
-  sourceFiat: 0,
-  targetFiat: 0
-}
+const getCurrentPairAmounts = state =>
+  selectors.components.exchange.getAmounts(getCurrentPair(state), state)
 
 const {
   canUseExchange,
@@ -94,7 +92,6 @@ export const getData = createDeepEqualSelector(
 
     const transform = (currency, availablePairs) => {
       const inputField = mapFixToFieldName(fix)
-      const complementaryField = getComplementaryField(inputField)
       const fieldCoins = {
         sourceAmount: sourceCoin,
         sourceFiat: currency,
@@ -103,6 +100,7 @@ export const getData = createDeepEqualSelector(
       }
       const inputCurrency = prop(inputField, fieldCoins)
       const amountsR = fallbackToNullAmounts(adviceAmountsR)
+      const complementaryField = getComplementaryField(inputField)
       const complementaryCurrency = prop(complementaryField, fieldCoins)
 
       return {
@@ -110,7 +108,7 @@ export const getData = createDeepEqualSelector(
         blockLockbox,
         canUseExchange: true,
         coinActive: coinActive(fix),
-        complementaryAmount: amountsR.map(prop(complementaryField)),
+        complementaryField,
         complementarySymbol: currencySymbolMap[complementaryCurrency],
         currency,
         disabled: !Remote.Success.is(amountsR),
@@ -119,12 +117,9 @@ export const getData = createDeepEqualSelector(
         inputField,
         inputSymbol: currencySymbolMap[inputCurrency],
         sourceActive: sourceActive(fix),
-        sourceAmount: amountsR.map(prop('sourceAmount')),
         sourceCoin,
         targetActive: targetActive(fix),
-        targetAmount: amountsR.map(prop('targetAmount')),
         targetCoin,
-        targetFiat: amountsR.map(prop('targetFiat')),
         volume
       }
     }

@@ -17,10 +17,10 @@ import {
 } from 'blockchain-info-components'
 import { Form, AutosizeTextBox } from 'components/Form'
 import { ResizeableFontInputHOC } from 'components/ResizeableFontInputHOC'
-import StringDisplay from 'components/Display/StringDisplay'
 import { getErrorMessage } from './validationMessages'
 import { Wrapper as SummaryWrapper, Title, Note } from 'components/Exchange'
 import CurrencySelect from './CurrencySelect'
+import ComplementaryAmount from './ComplementaryAmount'
 import { Cell, Row } from './Layout'
 import Summary from './Summary'
 import RatesBox from './RatesBox'
@@ -123,16 +123,6 @@ const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))`
     color: ${props => props.theme['gray-5']};
   }
 `
-const ComplementaryAmountContaier = styled.div`
-  font-weight: 200;
-  font-size: 20px;
-  line-height: 24px;
-  position: relative;
-  font-family: 'Montserrat', Helvetica, sans-serif;
-  justify-self: center;
-  margin: auto;
-  margin-top: 10px;
-`
 const CoinFiatSwapIcon = styled(Icon)`
   font-size: 24px;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
@@ -202,7 +192,7 @@ const Success = props => {
     availablePairs,
     blockLockbox,
     canUseExchange,
-    complementaryAmount,
+    complementaryField,
     complementarySymbol,
     currency,
     dirty,
@@ -342,13 +332,13 @@ const Success = props => {
                 cursor
                 disabled
               />
-              <ComplementaryAmountContaier>
-                <StringDisplay>
-                  {complementaryAmount.map(amount =>
-                    formatAmount(!fiatActive, complementarySymbol, amount)
-                  )}
-                </StringDisplay>
-              </ComplementaryAmountContaier>
+              <ComplementaryAmount
+                fiatActive={fiatActive}
+                sourceCoin={sourceCoin}
+                targetCoin={targetCoin}
+                complementaryField={complementaryField}
+                complementarySymbol={complementarySymbol}
+              />
               <CoinFiatSwapIcon
                 name='vertical-arrow-switch'
                 size='28px'

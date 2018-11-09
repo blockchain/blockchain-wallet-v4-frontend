@@ -83,8 +83,6 @@ class ExchangeForm extends React.Component {
             canUseExchange={canUseExchange}
             showError={showError}
             txError={txError}
-            handleMaximum={actions.firstStepMaximumClicked}
-            handleMinimum={actions.firstStepMinimumClicked}
             onSubmit={actions.showConfirmation}
             handleSourceChange={compose(
               actions.changeSource,
