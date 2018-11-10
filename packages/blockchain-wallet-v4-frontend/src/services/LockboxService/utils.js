@@ -257,7 +257,7 @@ const mapSocketError = promise => {
           errMsg: () => (
             <FormattedMessage
               id='lockbox.service.messages.storagespace'
-              defaultMessage='Insufficient storage space on device'
+              defaultMessage='Insufficient storage space on device. Remove other applications to free up space.'
             />
           )
         }
@@ -267,7 +267,7 @@ const mapSocketError = promise => {
           errMsg: () => (
             <FormattedMessage
               id='lockbox.service.messages.appalreadyinstalled'
-              defaultMessage='App already installed'
+              defaultMessage='Application is already installed on device.'
             />
           )
         }

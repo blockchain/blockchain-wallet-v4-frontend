@@ -15340,11 +15340,11 @@
         "id": "lockbox.service.messages.devicelocked"
       },
       {
-        "defaultMessage": "Insufficient storage space on device",
+        "defaultMessage": "Insufficient storage space on device. Remove other applications to free up space.",
         "id": "lockbox.service.messages.storagespace"
       },
       {
-        "defaultMessage": "App already installed",
+        "defaultMessage": "Application is already installed on device.",
         "id": "lockbox.service.messages.appalreadyinstalled"
       },
       {

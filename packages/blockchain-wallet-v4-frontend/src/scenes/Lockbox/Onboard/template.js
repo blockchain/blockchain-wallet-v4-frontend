@@ -23,7 +23,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `
 const IntroContainer = styled.div`
-  padding-top: 50px;
+  padding-top: 20px;
 `
 
 const GetStartedContainer = styled.div`
@@ -71,7 +71,6 @@ const PoweredByContainer = styled.div`
   top: ${containerPadding};
   right: ${containerPadding};
   position: absolute;
-  color: error;
   ${media.mobile`
     top: initial;
     bottom: ${containerPadding};
@@ -90,7 +89,7 @@ const LearnMoreContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: ${containerWidth};
-  margin: 0px auto ${marginContent};
+  margin: 0 auto ${marginContent};
   padding: ${containerPadding};
   box-sizing: border-box;
   border-radius: 3px;

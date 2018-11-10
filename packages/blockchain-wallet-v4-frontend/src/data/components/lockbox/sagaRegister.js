@@ -34,12 +34,12 @@ export default ({ api, coreSagas }) => {
       lockboxSagas.checkDeviceAuthenticity
     )
     yield takeLatest(
-      AT.INSTALL_BLOCKCHAIN_APPS,
-      lockboxSagas.installBlockchainApps
-    )
-    yield takeLatest(
       AT.UNINSTALL_APPLICATION,
       lockboxSagas.uninstallApplication
+    )
+    yield takeLatest(
+      AT.INITIALIZE_APP_MANAGER,
+      lockboxSagas.initializeAppManager
     )
     yield takeLatest(AT.INITIALIZE_DASHBOARD, lockboxSagas.initializeDashboard)
     yield takeLatest(AT.SAVE_COIN_MD, lockboxSagas.saveCoinMD)
