@@ -6,7 +6,6 @@ import { Button, Icon, Text } from 'blockchain-info-components'
 
 const Row = styled.div`
   width: 100%;
-  max-width: 500px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -43,7 +42,7 @@ const CoinName = styled(Text)`
 `
 const CoinIcon = styled(Icon)`
   font-size: 40px;
-  margin-right: 15px;
+  margin-right: 4px;
 `
 const CoinInstallStatus = props => {
   const { app, coin, installApp, uninstallApp } = props
@@ -66,7 +65,7 @@ const CoinInstallStatus = props => {
         </div>
       </AppDetails>
       <AppActions>
-        <Button nature='empty' width='75px' onClick={installApp}>
+        <Button nature='empty-secondary' width='80px' onClick={installApp}>
           <FormattedHTMLMessage
             id='modals.lockbox.appmanager.install'
             defaultMessage='Install'

@@ -9,6 +9,7 @@ import {
   BlockchainLoader,
   Button,
   Icon,
+  Image,
   Modal,
   ModalBody,
   ModalHeader,
@@ -24,19 +25,31 @@ const Wrapper = styled(ModalBody)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 15px;
+  padding: 18px;
+`
+const ConnectStep = styled.div`
+  text-align: center;
+  & > :last-child {
+    margin: 10px 0;
+  }
 `
 const Loader = styled(BlockchainLoader)`
   margin: 25px;
 `
-const LoadingText = styled(Text)`
-  margin-top: 8px;
-`
-const ResultText = styled(Text)`
-  margin-bottom: 8px;
-`
 const ContinueButton = styled(Button)`
   margin-top: 22px;
+`
+const Subtitle = styled(Text)`
+  text-align: center;
+  padding: 5px;
+  margin-bottom: 10px;
+`
+const FailureText = styled(Text)`
+  padding: 14px;
+`
+const LoadingText = styled(Text)`
+  margin-bottom: 20px;
+  text-align: center;
 `
 
 const getKeyByValue = value => {
@@ -90,23 +103,23 @@ class AppManagerContainer extends React.PureComponent {
     const appUpdateStatus = appChangeStatus.cata({
       Success: () => (
         <Wrapper>
-          <ResultText size='18px' weight={400}>
+          <LoadingText size='16px'>
             <FormattedHTMLMessage
-              id='modals.lockbox.appmanager.successmsg'
-              defaultMessage='{changeType} {appName} was successful!'
+              id='modals.lockbox.appmanager.success'
+              defaultMessage='{changeType} the {appName} was successful!'
               values={{
-                changeType: this.state.changeType,
-                appName: this.state.appName
+                appName: this.state.appName.toLowerCase(),
+                changeType: this.state.changeType
               }}
             />
-          </ResultText>
+          </LoadingText>
           <Icon
             style={{ marginTop: '10px' }}
-            name='checkmark-in-circle-filled'
+            name='checkmark-in-circle'
             color='success'
             size='60px'
           />
-          <ContinueButton onClick={this.onContinue} nature='primary'>
+          <ContinueButton onClick={this.onContinue} nature='primary' fullwidth>
             <FormattedHTMLMessage
               id='modals.lockbox.appmanager.continue'
               defaultMessage='Continue'
@@ -116,20 +129,20 @@ class AppManagerContainer extends React.PureComponent {
       ),
       Failure: val => (
         <Wrapper>
-          <ResultText size='18px' weight={400}>
+          <LoadingText size='16px'>
             <FormattedHTMLMessage
-              id='modals.lockbox.appmanager.failuremsg'
-              defaultMessage='{changeType} {appName} failed!'
+              id='modals.lockbox.appmanager.failure'
+              defaultMessage='{changeType} the {appName} application has failed for the following reason:'
               values={{
-                changeType: this.state.changeType,
-                appName: this.state.appName
+                appName: this.state.appName.toLowerCase(),
+                changeType: this.state.changeType
               }}
             />
-          </ResultText>
-          <LoadingText size='15px' weight={400}>
-            {val.error()}
           </LoadingText>
-          <ContinueButton onClick={this.onContinue} nature='primary'>
+          <FailureText size='14px' weight='400' color='gray-4'>
+            {val.error()}
+          </FailureText>
+          <ContinueButton onClick={this.onContinue} nature='primary' fullwidth>
             <FormattedHTMLMessage
               id='modals.lockbox.appmanager.continue'
               defaultMessage='Continue'
@@ -139,23 +152,19 @@ class AppManagerContainer extends React.PureComponent {
       ),
       Loading: () => (
         <Wrapper>
-          <Loader width='75px' height='75px' />
-          <LoadingText size='18px' weight={400}>
+          <LoadingText size='16px'>
             <FormattedHTMLMessage
-              id='modals.lockbox.appmanager.loadingmsg'
-              defaultMessage='{changeType} the {appName} application'
+              id='modals.lockbox.appmanager.installing'
+              defaultMessage='{changeType} the {appName} application {direction} your device. Allow the device manager onto the device if prompted.'
               values={{
+                appName: this.state.appName.toLowerCase(),
                 changeType: this.state.changeType,
-                appName: this.state.appName
+                direction:
+                  this.state.changeType === 'Installing' ? 'onto' : 'from'
               }}
             />
           </LoadingText>
-          <Text size='14px' weight={300}>
-            <FormattedHTMLMessage
-              id='modals.lockbox.appmanager.allowmgr'
-              defaultMessage='Allow the device manager onto the device if prompted.'
-            />
-          </Text>
+          <Loader width='75px' height='75px' />
         </Wrapper>
       ),
       NotAsked: () => null
@@ -181,11 +190,17 @@ class AppManagerContainer extends React.PureComponent {
         })
         return (
           <React.Fragment>
+            <Subtitle size='16px' weight='400'>
+              <FormattedHTMLMessage
+                id='modals.lockbox.appmanager.subtitle'
+                defaultMessage='Install, update and uninstall desired apps from your Lockbox device.'
+              />
+            </Subtitle>
             {appList}
-            <ContinueButton onClick={closeModal} nature='primary'>
+            <ContinueButton onClick={closeModal} nature='primary' fullwidth>
               <FormattedHTMLMessage
                 id='modals.lockbox.appmanager.close'
-                defaultMessage='Close'
+                defaultMessage='Close App Manager'
               />
             </ContinueButton>
           </React.Fragment>
@@ -201,20 +216,20 @@ class AppManagerContainer extends React.PureComponent {
       ),
       Loading: () => (
         <Wrapper>
-          <Loader width='75px' height='75px' />
-          <LoadingText size='18px' weight={400}>
+          <LoadingText size='18px' weight='400'>
             <FormattedHTMLMessage
               id='modals.lockbox.appmanager.loadingapps'
-              defaultMessage='Loading application list'
+              defaultMessage='Loading Application List'
             />
           </LoadingText>
+          <Loader width='75px' height='75px' />
         </Wrapper>
       ),
       NotAsked: () => <Loader width='75px' height='75px' />
     })
 
     return (
-      <Modal size='large' position={position} total={total}>
+      <Modal size='small' position={position} total={total}>
         <ModalHeader onClose={closeModal}>
           <FormattedMessage
             id='modals.lockbox.appmanager.title'
@@ -223,12 +238,22 @@ class AppManagerContainer extends React.PureComponent {
         </ModalHeader>
         <Wrapper>
           {connection.app !== 'DASHBOARD' ? (
-            <Text size='16px' weight={300}>
-              <FormattedHTMLMessage
-                id='modals.lockbox.appmanager.connectdevice'
-                defaultMessage='Plug in device, unlock and open the dashboard on your device'
+            <ConnectStep>
+              <Subtitle size='16px' weight={400} color='gray-4'>
+                <FormattedHTMLMessage
+                  id='modals.lockbox.appmanager.connectdevice'
+                  defaultMessage='Connect and unlock your Lockbox device now.'
+                />
+              </Subtitle>
+              <Image
+                width='350px'
+                name='lockbox-send-connect'
+                srcset={{
+                  'lockbox-send-connect2': '2x',
+                  'lockbox-send-connect3': '3x'
+                }}
               />
-            </Text>
+            </ConnectStep>
           ) : (
             appUpdateStatus || appListView
           )}

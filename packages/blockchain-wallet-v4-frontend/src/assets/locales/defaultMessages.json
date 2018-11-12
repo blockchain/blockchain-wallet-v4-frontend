@@ -5721,7 +5721,7 @@
         "id": "modals.lockbox.appmanager.appfailure"
       },
       {
-        "defaultMessage": "Loading application list",
+        "defaultMessage": "Loading Application List",
         "id": "modals.lockbox.appmanager.loadingapps"
       },
       {
@@ -5729,7 +5729,7 @@
         "id": "modals.lockbox.appmanager.title"
       },
       {
-        "defaultMessage": "Plug in device, unlock and open the dashboard on your device",
+        "defaultMessage": "Connect and unlock your Lockbox device now.",
         "id": "modals.lockbox.appmanager.connectdevice"
       }
     ],
