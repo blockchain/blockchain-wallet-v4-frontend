@@ -62,14 +62,6 @@ class TrayRightContainer extends React.PureComponent {
     this.handleClose = this.handleClose.bind(this)
   }
 
-  componentDidMount () {
-    document.addEventListener('mousedown', this.handleClick)
-  }
-
-  componentWillUnmount () {
-    document.removeEventListener('mousedown', this.handleClick)
-  }
-
   handleClick (e) {
     const trayContainer = ReactDOM.findDOMNode(this.node)
     const blacklist = ['faq-icon', 'whatsnew-icon']
