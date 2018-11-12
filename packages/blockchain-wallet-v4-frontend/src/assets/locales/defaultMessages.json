@@ -13730,7 +13730,7 @@
         "id": "scenes.securitycenter.walletrecoveryphrase.thirdstep.reviewPhrase"
       },
       {
-        "defaultMessage": "Review backup phrase",
+        "defaultMessage": "Review Backup Phrase",
         "id": "modals.recoveryphrase.secondstep.returnReviewPhrase"
       },
       {

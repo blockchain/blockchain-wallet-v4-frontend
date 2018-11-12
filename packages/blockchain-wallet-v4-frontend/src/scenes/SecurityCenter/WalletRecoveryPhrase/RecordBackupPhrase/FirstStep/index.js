@@ -21,7 +21,7 @@ const PrintContainer = styled.div`
     width: 65%;
     flex-direction: row;
     button {
-      margin-top: 0px;
+      margin-top: 0;
     }
     div:first-of-type {
       padding-right: 30px;
