@@ -36,7 +36,7 @@ const InstallBtcAppStep = props => {
         <Button
           fullwidth
           disabled={isInstalling}
-          nature={isInstalling ? 'dark' : 'success'}
+          nature={isInstalling ? 'dark' : 'primary'}
           onClick={onContinue}
         >
           {continueBtnText}

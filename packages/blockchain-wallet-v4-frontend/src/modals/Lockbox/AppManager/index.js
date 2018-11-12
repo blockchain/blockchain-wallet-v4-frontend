@@ -8,12 +8,12 @@ import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import {
   BlockchainLoader,
   Button,
-  Icon,
   Image,
   Modal,
   ModalBody,
   ModalHeader,
-  Text
+  Text,
+  TextGroup
 } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -51,6 +51,13 @@ const LoadingText = styled(Text)`
   margin-bottom: 20px;
   text-align: center;
 `
+const InstallTexts = styled(TextGroup)`
+  text-align: center;
+  margin-top: 12px;
+  & > :last-child {
+    margin-left: -3px;
+  }
+`
 
 const getKeyByValue = value => {
   return Object.keys(Lockbox.constants.supportedApps).find(
@@ -59,13 +66,7 @@ const getKeyByValue = value => {
 }
 
 class AppManagerContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = { appName: '', changeType: '' }
-    this.onAppInstall = this.onAppInstall.bind(this)
-    this.onAppUninstall = this.onAppUninstall.bind(this)
-    this.onContinue = this.onContinue.bind(this)
-  }
+  state = { appName: '', changeType: '' }
 
   componentDidMount () {
     this.props.lockboxActions.initializeAppManager(this.props.deviceIndex)
@@ -76,17 +77,17 @@ class AppManagerContainer extends React.PureComponent {
     this.props.lockboxActions.resetConnectionStatus()
   }
 
-  onAppInstall (appName, coin) {
+  onAppInstall = (appName, coin) => {
     this.setState({ changeType: 'Installing', appName })
     this.props.lockboxActions.installApplication(coin)
   }
 
-  onAppUninstall (appName) {
+  onAppUninstall = appName => {
     this.setState({ changeType: 'Uninstalling', appName })
     this.props.lockboxActions.uninstallApplication(appName)
   }
 
-  onContinue () {
+  onContinue = () => {
     this.setState({ changeType: '', appName: '' })
     this.props.lockboxActions.resetAppChangeStatus()
   }
@@ -106,18 +107,20 @@ class AppManagerContainer extends React.PureComponent {
           <LoadingText size='16px'>
             <FormattedHTMLMessage
               id='modals.lockbox.appmanager.success'
-              defaultMessage='{changeType} the {appName} was successful!'
+              defaultMessage='{changeType} the {appName} application was successful!'
               values={{
-                appName: this.state.appName.toLowerCase(),
+                appName: this.state.appName,
                 changeType: this.state.changeType
               }}
             />
           </LoadingText>
-          <Icon
-            style={{ marginTop: '10px' }}
-            name='checkmark-in-circle'
-            color='success'
-            size='60px'
+          <Image
+            name='lockbox-success'
+            width='330px'
+            srcset={{
+              'lockbox-success2': '2x',
+              'lockbox-success3': '3x'
+            }}
           />
           <ContinueButton onClick={this.onContinue} nature='primary' fullwidth>
             <FormattedHTMLMessage
@@ -132,13 +135,21 @@ class AppManagerContainer extends React.PureComponent {
           <LoadingText size='16px'>
             <FormattedHTMLMessage
               id='modals.lockbox.appmanager.failure'
-              defaultMessage='{changeType} the {appName} application has failed for the following reason:'
+              defaultMessage='{changeType} the {appName} application has failed!'
               values={{
-                appName: this.state.appName.toLowerCase(),
+                appName: this.state.appName,
                 changeType: this.state.changeType
               }}
             />
           </LoadingText>
+          <Image
+            name='lockbox-failed'
+            width='330px'
+            srcset={{
+              'lockbox-failed2': '2x',
+              'lockbox-failed3': '3x'
+            }}
+          />
           <FailureText size='14px' weight='400' color='gray-4'>
             {val.error()}
           </FailureText>
@@ -155,9 +166,9 @@ class AppManagerContainer extends React.PureComponent {
           <LoadingText size='16px'>
             <FormattedHTMLMessage
               id='modals.lockbox.appmanager.installing'
-              defaultMessage='{changeType} the {appName} application {direction} your device. Allow the device manager onto the device if prompted.'
+              defaultMessage='{changeType} the {appName} application {direction} your device.'
               values={{
-                appName: this.state.appName.toLowerCase(),
+                appName: this.state.appName,
                 changeType: this.state.changeType,
                 direction:
                   this.state.changeType === 'Installing' ? 'onto' : 'from'
@@ -165,6 +176,20 @@ class AppManagerContainer extends React.PureComponent {
             />
           </LoadingText>
           <Loader width='75px' height='75px' />
+          <InstallTexts inline>
+            <Text size='14px' weight={400}>
+              <FormattedMessage
+                id='modals.lockbox.appmanager.note'
+                defaultMessage='Note:'
+              />
+            </Text>
+            <Text size='14px' weight={300}>
+              <FormattedMessage
+                id='modals.lockbox.appmanager.notetext'
+                defaultMessage='Allow the device manager onto the device if prompted.'
+              />
+            </Text>
+          </InstallTexts>
         </Wrapper>
       ),
       NotAsked: () => null
@@ -246,7 +271,7 @@ class AppManagerContainer extends React.PureComponent {
                 />
               </Subtitle>
               <Image
-                width='350px'
+                width='330px'
                 name='lockbox-send-connect'
                 srcset={{
                   'lockbox-send-connect2': '2x',
