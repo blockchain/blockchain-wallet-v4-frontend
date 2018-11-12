@@ -10,14 +10,9 @@ import AutoLogoutForm from './template'
 import { actions, selectors } from 'data'
 
 class SettingContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = { updateToggled: false }
-    this.onSubmit = this.onSubmit.bind(this)
-    this.handleToggle = this.handleToggle.bind(this)
-  }
+  state = { updateToggled: false }
 
-  onSubmit () {
+  onSubmit = () => {
     const { autoLogoutTime } = this.props
 
     this.props.settingsActions.updateAutoLogout(
@@ -26,7 +21,7 @@ class SettingContainer extends React.PureComponent {
     this.handleToggle()
   }
 
-  handleToggle () {
+  handleToggle = () => {
     this.setState({
       updateToggled: !this.state.updateToggled
     })

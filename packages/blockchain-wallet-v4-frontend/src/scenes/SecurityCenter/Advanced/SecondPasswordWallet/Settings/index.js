@@ -7,16 +7,9 @@ import { actions, selectors } from 'data'
 import Settings from './template.js'
 
 class SettingsContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = {
-      updateToggled: false
-    }
-    this.onSubmit = this.onSubmit.bind(this)
-    this.handleToggle = this.handleToggle.bind(this)
-  }
+  state = { updateToggled: false }
 
-  onSubmit () {
+  onSubmit = () => {
     const { secondPasswordValue, secondPasswordEnabled } = this.props
     this.props.walletActions.toggleSecondPassword(
       secondPasswordValue,
@@ -26,7 +19,7 @@ class SettingsContainer extends React.PureComponent {
     this.handleToggle()
   }
 
-  handleToggle () {
+  handleToggle = () => {
     this.setState({
       updateToggled: !this.state.updateToggled
     })

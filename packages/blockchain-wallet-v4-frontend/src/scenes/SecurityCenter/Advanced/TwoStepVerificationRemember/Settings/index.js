@@ -6,12 +6,7 @@ import { actions, selectors } from 'data'
 import Settings from './template.js'
 
 class SettingsContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleClick = this.handleClick.bind(this)
-  }
-
-  handleClick () {
+  handleClick = () => {
     this.props.settingsActions.updateTwoStepRemember(
       Number(!this.props.authTypeNeverSave)
     )

@@ -6,12 +6,7 @@ import { actions, selectors } from 'data'
 import WalletAccessTor from './template.js'
 
 class WalletAccessTorContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleClick = this.handleClick.bind(this)
-  }
-
-  handleClick () {
+  handleClick = () => {
     this.props.settingsActions.updateBlockTorIps(
       Number(!this.props.blockTorIps)
     )

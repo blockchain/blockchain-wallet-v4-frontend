@@ -14,7 +14,7 @@ const ButtonWrapper = styled.div`
   flex-direction: row;
   margin-top: 5px;
   & > :first-child {
-    margin-right: 10px;
+    margin-right: 5px;
   }
 `
 const CurrentText = styled(Text)`

@@ -8,7 +8,7 @@ import {
   SettingSummary
 } from 'components/Setting'
 
-const APIAccess = props => {
+const APIAccess = () => {
   return (
     <SettingContainer>
       <SettingSummary>
