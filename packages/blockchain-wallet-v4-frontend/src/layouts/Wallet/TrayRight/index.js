@@ -56,17 +56,7 @@ const Content = styled.div`
 `
 
 class TrayRightContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleClick = this.handleClick.bind(this)
-    this.handleClose = this.handleClose.bind(this)
-  }
-
-  componentWillUnmount () {
-    document.removeEventListener('mousedown', this.handleClick)
-  }
-
-  handleClick (e) {
+  handleClick = e => {
     const trayContainer = ReactDOM.findDOMNode(this.node)
     const blacklist = ['faq-icon', 'whatsnew-icon']
     if (
@@ -78,7 +68,7 @@ class TrayRightContainer extends React.PureComponent {
     }
   }
 
-  handleClose () {
+  handleClose = () => {
     if (this.props.data.opened) {
       this.props.actions.layoutWalletTrayCloseClicked()
     }

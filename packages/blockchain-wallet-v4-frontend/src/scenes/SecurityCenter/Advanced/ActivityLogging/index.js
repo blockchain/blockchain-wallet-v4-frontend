@@ -6,12 +6,7 @@ import { actions, selectors } from 'data'
 import ActivityLogging from './template.js'
 
 class ActivityLoggingContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleClick = this.handleClick.bind(this)
-  }
-
-  handleClick () {
+  handleClick = () => {
     this.props.settingsActions.updateLoggingLevel(
       Number(!this.props.activityLoggingEnabled)
     )
