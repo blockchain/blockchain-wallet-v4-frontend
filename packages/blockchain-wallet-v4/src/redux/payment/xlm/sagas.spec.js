@@ -308,22 +308,6 @@ describe('payment', () => {
         new Error(WRONG_MEMO_FORMAT)
       )
     })
-
-    it('should throw if memo type is id and memo is not a stringified number', () => {
-      let otherPayment = payment.memo('')
-      otherPayment = otherPayment.memoType(MEMO_ID)
-      expect(otherPayment.memo.bind(null, STUB_TEXT_MEMO)).toThrowError(
-        new Error(WRONG_MEMO_FORMAT)
-      )
-    })
-
-    it('should throw if memo type is text and memo is longer than 28 chars', () => {
-      let otherPayment = payment.memo('')
-      otherPayment = otherPayment.memoType(MEMO_TEXT)
-      expect(
-        otherPayment.memo.bind(null, '12345678901234567890123456789')
-      ).toThrowError(new Error(WRONG_MEMO_FORMAT))
-    })
   })
 
   describe('memoType', () => {
