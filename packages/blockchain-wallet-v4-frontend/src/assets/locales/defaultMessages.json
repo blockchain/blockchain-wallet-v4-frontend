@@ -12836,7 +12836,7 @@
         "id": "scenes.reset2fa.secondstep.back"
       },
       {
-        "defaultMessage": "Reset",
+        "defaultMessage": "Submit Request",
         "id": "scenes.reset2fa.secondstep.reset"
       }
     ],

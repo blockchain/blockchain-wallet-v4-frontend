@@ -1812,7 +1812,7 @@
   "scenes.reset2fa.firststep.step1": "Step 1 of 2",
   "scenes.reset2fa.secondstep.back": "Go Back",
   "scenes.reset2fa.secondstep.captcha": "Captcha",
-  "scenes.reset2fa.secondstep.reset": "Reset",
+  "scenes.reset2fa.secondstep.reset": "Submit Request",
   "scenes.reset2fa.secondstep.reset2fa": "Reset 2FA",
   "scenes.reset2fa.secondstep.step3": "Step 2 of 2",
   "scenes.reset2fa.thirdstep.info": "This process usually takes two weeks. If you would like to learn more about the reset process, visit our",
