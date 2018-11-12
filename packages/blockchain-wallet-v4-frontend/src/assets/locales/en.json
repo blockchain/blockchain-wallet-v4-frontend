@@ -1923,7 +1923,7 @@
   "scenes.securitysettings.advancedsecurity.activitylogging.title": "Activity Logging",
   "scenes.securitysettings.advancedsettings.ipwhitelist.description": "Allow login without email authentication from the following list of IP addresses. Enter IP addresses you'd like to whitelist separated by commas. Use % as a wildcard.",
   "scenes.securitysettings.advancedsettings.ipwhitelist.settings.cancel": "Cancel",
-  "scenes.securitysettings.advancedsettings.ipwhitelist.settings.change": "Add",
+  "scenes.securitysettings.advancedsettings.ipwhitelist.settings.change": "Edit",
   "scenes.securitysettings.advancedsettings.ipwhitelist.settings.save": "Save",
   "scenes.securitysettings.advancedsettings.ipwhitelist.title": "IP Whitelist",
   "scenes.securitysettings.advancedsettings.loginiprestriction.description": "Only allow login from IP address in your IP whitelist.",

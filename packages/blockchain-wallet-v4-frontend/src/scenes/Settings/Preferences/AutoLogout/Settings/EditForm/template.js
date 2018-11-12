@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, ButtonGroup, Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import { NumberBox, FormGroup, FormItem } from 'components/Form'
 import { SettingForm, SettingWrapper } from 'components/Setting'
 import { spacing } from 'services/StyleService'
@@ -15,6 +15,14 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+`
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 5px;
+  & > :first-child {
+    margin-right: 5px;
+  }
 `
 
 const Settings = props => {
@@ -46,7 +54,7 @@ const Settings = props => {
             />
           </Text>
         </FormGroup>
-        <ButtonGroup>
+        <ButtonWrapper>
           <Button nature='empty' capitalize onClick={handleToggle}>
             <FormattedMessage
               id='scenes.preferences.autologout.settings.updateform.cancel'
@@ -64,7 +72,7 @@ const Settings = props => {
               defaultMessage='Save'
             />
           </Button>
-        </ButtonGroup>
+        </ButtonWrapper>
       </SettingForm>
     </SettingWrapper>
   )

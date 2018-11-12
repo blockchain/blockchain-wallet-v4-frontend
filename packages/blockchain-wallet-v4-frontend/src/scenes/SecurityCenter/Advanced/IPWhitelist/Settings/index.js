@@ -38,6 +38,7 @@ class SettingsContainer extends React.PureComponent {
   }
 
   handleToggle () {
+    this.props.formActions.reset('settingIPWhitelist')
     this.setState({
       updateToggled: !this.state.updateToggled
     })

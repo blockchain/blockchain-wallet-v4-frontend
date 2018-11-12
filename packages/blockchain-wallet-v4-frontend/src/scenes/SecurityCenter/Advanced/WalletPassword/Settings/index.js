@@ -23,6 +23,7 @@ class SettingsContainer extends React.PureComponent {
   }
 
   handleToggle () {
+    this.props.formActions.reset('settingWalletPassword')
     this.setState({
       updateToggled: !this.state.updateToggled
     })
