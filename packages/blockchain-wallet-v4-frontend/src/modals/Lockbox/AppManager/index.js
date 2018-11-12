@@ -9,6 +9,7 @@ import {
   BlockchainLoader,
   Button,
   Icon,
+  Image,
   Modal,
   ModalBody,
   ModalHeader,
@@ -24,19 +25,30 @@ const Wrapper = styled(ModalBody)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 15px;
+  padding: 18px;
+`
+const ConnectStep = styled.div`
+  text-align: center;
+  & > :last-child {
+    margin: 10px 0;
+  }
 `
 const Loader = styled(BlockchainLoader)`
   margin: 25px;
 `
 const LoadingText = styled(Text)`
-  margin-top: 8px;
+  margin-top: 12px;
 `
 const ResultText = styled(Text)`
   margin-bottom: 8px;
 `
 const ContinueButton = styled(Button)`
   margin-top: 22px;
+`
+const Subtitle = styled(Text)`
+  text-align: center;
+  padding: 8px;
+  margin-bottom: 12px;
 `
 
 const getKeyByValue = value => {
@@ -181,6 +193,12 @@ class AppManagerContainer extends React.PureComponent {
         })
         return (
           <React.Fragment>
+            <Subtitle size='16px' weight='400' color='gray-4'>
+              <FormattedHTMLMessage
+                id='modals.lockbox.appmanager.subtitle'
+                defaultMessage='Install and remove desired apps from your Lockbox device.'
+              />
+            </Subtitle>
             {appList}
             <ContinueButton onClick={closeModal} nature='primary'>
               <FormattedHTMLMessage
@@ -202,10 +220,10 @@ class AppManagerContainer extends React.PureComponent {
       Loading: () => (
         <Wrapper>
           <Loader width='75px' height='75px' />
-          <LoadingText size='18px' weight={400}>
+          <LoadingText size='16px' weight={400} color='gray-4'>
             <FormattedHTMLMessage
               id='modals.lockbox.appmanager.loadingapps'
-              defaultMessage='Loading application list'
+              defaultMessage='Loading Application List'
             />
           </LoadingText>
         </Wrapper>
@@ -214,7 +232,7 @@ class AppManagerContainer extends React.PureComponent {
     })
 
     return (
-      <Modal size='large' position={position} total={total}>
+      <Modal size='small' position={position} total={total}>
         <ModalHeader onClose={closeModal}>
           <FormattedMessage
             id='modals.lockbox.appmanager.title'
@@ -223,12 +241,22 @@ class AppManagerContainer extends React.PureComponent {
         </ModalHeader>
         <Wrapper>
           {connection.app !== 'DASHBOARD' ? (
-            <Text size='16px' weight={300}>
-              <FormattedHTMLMessage
-                id='modals.lockbox.appmanager.connectdevice'
-                defaultMessage='Plug in device, unlock and open the dashboard on your device'
+            <ConnectStep>
+              <Subtitle size='16px' weight={400} color='gray-4'>
+                <FormattedHTMLMessage
+                  id='modals.lockbox.appmanager.connectdevice'
+                  defaultMessage='Connect and unlock your Lockbox device now.'
+                />
+              </Subtitle>
+              <Image
+                width='350px'
+                name='lockbox-send-connect'
+                srcset={{
+                  'lockbox-send-connect2': '2x',
+                  'lockbox-send-connect3': '3x'
+                }}
               />
-            </Text>
+            </ConnectStep>
           ) : (
             appUpdateStatus || appListView
           )}
