@@ -18,8 +18,8 @@ const GraphicContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  padding: 14px;
-  margin-top: 6px;
+  padding: 15px;
+  margin-top: 15px;
 `
 const InstallTexts = styled(TextGroup)`
   margin-top: 12px;
@@ -84,16 +84,13 @@ class InstallBtcAppStepContainer extends React.PureComponent {
         </InstallBtcAppStep>
       ),
       Loading: () => (
-        <InstallBtcAppStep isInstalling continueBtnText={'Installing'}>
+        <InstallBtcAppStep
+          isInstalling
+          continueBtnText={'Installing Application'}
+        >
           <GraphicContainer>
-            <BlockchainLoader width='65px' height='65px' />
+            <BlockchainLoader width='75px' height='75px' />
           </GraphicContainer>
-          <Text size='14px' weight={400} style={{ marginTop: '8px' }}>
-            <FormattedMessage
-              id='modals.lockboxsetup.installbtcappstep.installing'
-              defaultMessage='Installing the Bitcoin application'
-            />
-          </Text>
         </InstallBtcAppStep>
       ),
       NotAsked: () => (
