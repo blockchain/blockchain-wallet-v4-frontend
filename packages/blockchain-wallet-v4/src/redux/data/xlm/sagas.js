@@ -99,7 +99,11 @@ export default ({ api, networks }) => {
       yield put(A.fetchTransactionsSuccess(txs, reset))
     } catch (e) {
       const statusCode = path(['response', 'status'], e)
-      if (statusCode === 404) return yield put(A.fetchTransactionsSuccess([]))
+      if (statusCode === 404) {
+        yield put(A.fetchTransactionsSuccess([]))
+        yield put(A.transactionsAtBound(true))
+        return
+      }
       yield put(A.fetchTransactionsFailure(e.message))
     }
   }
