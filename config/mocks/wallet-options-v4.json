@@ -14,7 +14,8 @@
           "public": {},
           "wallet": {
             "id": "bch-hardfork-wallet",
-            "type": "warn",
+            "type": "info",
+            "icon": "alert-filled",
             "hideType": "collapse",
             "header": {
               "en": "Bitcoin Cash Service Interruption"
@@ -54,7 +55,8 @@
           },
           "sendBch": {
             "id": "bch-hardfork-send",
-            "type": "danger",
+            "type": "info",
+            "icon": "alert-filled",
             "hideType": "collapse",
             "header": {
               "en": "Bitcoin Cash Service Interruption"
@@ -78,7 +80,8 @@
           },
           "receiveBch": {
             "id": "bch-hardfork-recieve",
-            "type": "danger",
+            "type": "info",
+            "icon": "alert-filled",
             "hideType": "collapse",
             "header": {
               "en": "Bitcoin Cash Service Interruption"

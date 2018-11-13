@@ -36,6 +36,14 @@ const AnnouncementBody = styled.div`
     display: none;
   `};
 `
+const Title = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  & > :first-child {
+    margin-right: 8px;
+  }
+`
 const ActionLink = styled(Link)`
   margin: 0 20px;
   white-space: nowrap;
@@ -60,8 +68,8 @@ const selectStyle = type => {
       }
     case 'info':
       return {
-        backgroundColor: 'textBlack',
-        textColor: 'gray-2',
+        backgroundColor: 'info',
+        textColor: 'white',
         uppercase: false
       }
     default:
@@ -88,11 +96,16 @@ const Announcement = props => {
     <Container collapsed={collapsed} backgroundColor={backgroundColor}>
       <AnnouncementWrapper>
         <AnnouncementContent style={{ width: '100%' }}>
-          <Text size='14px' color='white' uppercase={uppercase}>
-            {announcement.header[language]
-              ? announcement.header[language]
-              : announcement.header.en}
-          </Text>
+          <Title>
+            {announcement.icon && (
+              <Icon name={announcement.icon} size='20px' color={textColor} />
+            )}
+            <Text size='14px' color='white' uppercase={uppercase}>
+              {announcement.header[language]
+                ? announcement.header[language]
+                : announcement.header.en}
+            </Text>
+          </Title>
           <AnnouncementBody style={{ display: collapsed ? 'none' : '' }}>
             {announcement.sections.map((section, i) => {
               return (
