@@ -11,36 +11,14 @@
         "countries": "*",
         "states": "*",
         "announcements": {
-          "public": {
-            "id": "domain-move",
-            "type": "",
-            "hideType": "dismiss",
-            "header": {
-              "en": "We’re packing our bags and preparing to move...domains!"
-            },
-            "sections": [
-              {
-                "title": {
-                  "en": ""
-                },
-                "body": {
-                  "en": "To make way for our new and exciting products coming this year, we’re saying hello to our new home. blockchain.info will soon be changing URLs as it's combined with our company site, blockchain.com."
-                }
-              }
-            ],
-            "action": {
-              "title": {
-                "en": "Read more about what to expect."
-              },
-              "link": "https://blog.blockchain.com/2018/06/19/blockchain-infos-moving-domains/"
-            }
-          },
+          "public": {},
           "wallet": {
-            "id": "privacy-policy-update",
+            "id": "bch-hardfork-wallet",
             "type": "info",
-            "hideType": "dismiss",
+            "icon": "alert-filled",
+            "hideType": "collapse",
             "header": {
-              "en": "Updates to Privacy Policy and Cookie Policy"
+              "en": "Bitcoin Cash Service Interruption"
             },
             "sections": [
               {
@@ -48,23 +26,40 @@
                   "en": ""
                 },
                 "body": {
-                  "en": "We’re updating our Privacy Policy and Cookie Policy to make it easier for you to understand the limited information we collect and why we collect it. We thrive on collecting the least amount of data on our users. Please review our updated policies."
+                  "en": "A fork of Bitcoin Cash will take place at 16:40 UTC on Thursday 15th November. The Bitcoin Cash network is currently experiencing stability issues in the run up to the fork - meaning Bitcoin Cash transactions made over the past few days are taking longer to reflect in your wallets."
+                }
+              },
+              {
+                "title": {
+                  "en": ""
+                },
+                "body": {
+                  "en": "Your funds are safe and will reflect in your wallet as soon as the network stabilizes. To ensure they remain safe throughout this time of uncertainty, we will also be temporarily suspending Bitcoin Cash send, request, and exchange functionality roughly 24 hours before the time of the fork until the network stabilizes."
+                }
+              },
+              {
+                "title": {
+                  "en": ""
+                },
+                "body": {
+                  "en": "While no immediate action is required, we encourage you to write down your recovery phrase if you haven't already. During this time, you will still be able to access Bitcoin, Ether and Stellar send & request, transaction history, and balances at the time of the fork, and your recovery phrase. "
                 }
               }
             ],
             "action": {
               "title": {
-                "en": "More details."
+                "en": "Read More"
               },
-              "link": "https://www.blockchain.com/privacy"
+              "link": "https://blog.blockchain.com"
             }
           },
           "sendBch": {
-            "id": "hardfork",
-            "type": "danger",
-            "hideType": "dismiss",
+            "id": "bch-hardfork-send",
+            "type": "info",
+            "icon": "alert-filled",
+            "hideType": "collapse",
             "header": {
-              "en": "Hardfork Warning"
+              "en": "Bitcoin Cash Service Interruption"
             },
             "sections": [
               {
@@ -72,15 +67,40 @@
                   "en": ""
                 },
                 "body": {
-                  "en": "There may be a network split on November 15th. If you are not interested in BitcoinSV you don't have to do anything. If you are, we recommend against sending or receiving Bitcoin Cash until further notice."
+                  "en": "A Bitcoin Cash hard fork will occur at 16:40 UTC on Thursday 15th November. To ensure your funds remain safe throughout this time of uncertainty, we will temporarily be suspending Bitcoin Cash send and request roughly 24 hours before the time of the fork."
                 }
               }
             ],
             "action": {
               "title": {
-                "en": ""
+                "en": "Read More"
               },
-              "link": "https://www.blockchain.com/privacy"
+              "link": "https://blog.blockchain.com"
+            }
+          },
+          "receiveBch": {
+            "id": "bch-hardfork-recieve",
+            "type": "info",
+            "icon": "alert-filled",
+            "hideType": "collapse",
+            "header": {
+              "en": "Bitcoin Cash Service Interruption"
+            },
+            "sections": [
+              {
+                "title": {
+                  "en": ""
+                },
+                "body": {
+                  "en": "A Bitcoin Cash hard fork will occur at 16:40 UTC on Thursday 15th November. To ensure your funds remain safe throughout this time of uncertainty, we will temporarily be suspending Bitcoin Cash send and request roughly 24 hours before the time of the fork."
+                }
+              }
+            ],
+            "action": {
+              "title": {
+                "en": "Read More"
+              },
+              "link": "https://blog.blockchain.com"
             }
           }
         }
