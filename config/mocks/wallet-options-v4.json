@@ -71,9 +71,9 @@
             ],
             "action": {
               "title": {
-                "en": ""
+                "en": "Read More"
               },
-              "link": "https://www.blockchain.com/privacy"
+              "link": "https://blog.blockchain.com"
             }
           },
           "receiveBch": {
@@ -95,9 +95,9 @@
             ],
             "action": {
               "title": {
-                "en": ""
+                "en": "Read More"
               },
-              "link": "https://www.blockchain.com/privacy"
+              "link": "https://blog.blockchain.com"
             }
           }
         }
