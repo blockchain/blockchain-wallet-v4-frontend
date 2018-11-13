@@ -611,7 +611,7 @@
   "modals.importbtcaddress.title": "Import Existing Bitcoin Address",
   "modals.lockbox.appmanager.appfailure": "Failed to load application list. Please try again later.",
   "modals.lockbox.appmanager.close": "Close App Manager",
-  "modals.lockbox.appmanager.connectdevice": "Connect and unlock your Lockbox device now.",
+  "modals.lockbox.appmanager.connectdevice": "Connect, unlock and open the Dashboard on your Lockbox device now.",
   "modals.lockbox.appmanager.continue": "Continue",
   "modals.lockbox.appmanager.failure": "{changeType} the {appName} application has failed!",
   "modals.lockbox.appmanager.install": "Install",
