@@ -131,7 +131,7 @@ const Announcement = props => {
             weight={600}
             color='white'
             onClick={() => {
-              toggleCollapse(announcement.id)
+              toggleCollapse(announcement.id, collapsed)
             }}
           />
         )}

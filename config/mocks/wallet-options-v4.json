@@ -11,12 +11,13 @@
         "countries": "*",
         "states": "*",
         "announcements": {
-          "public": {
-            "id": "domain-move",
-            "type": "",
-            "hideType": "dismiss",
+          "public": {},
+          "wallet": {
+            "id": "bch-hardfork-wallet",
+            "type": "warn",
+            "hideType": "collapse",
             "header": {
-              "en": "We’re packing our bags and preparing to move...domains!"
+              "en": "Upcoming Service Interruption"
             },
             "sections": [
               {
@@ -24,23 +25,31 @@
                   "en": ""
                 },
                 "body": {
-                  "en": "To make way for our new and exciting products coming this year, we’re saying hello to our new home. blockchain.info will soon be changing URLs as it's combined with our company site, blockchain.com."
+                  "en": "A fork of Bitcoin Cash will take place at 16:40 UTC on Thursday 15th November. Your funds are safe. To ensure they remain safe throughout this time of uncertainty, we will temporarily be suspending Bitcoin Cash send, request, and exchange functionality roughly 24 hours before the time of the fork until the network stabilizes."
+                }
+              },
+              {
+                "title": {
+                  "en": ""
+                },
+                "body": {
+                  "en": "While no immediate action is required, we encourage you to write down your recovery phrase if you haven’t already.  During this time, you will still be able to access Bitcoin, Ether and Stellar send & request, transactions, and balances at the time of the fork, and your recovery phrase."
                 }
               }
             ],
             "action": {
               "title": {
-                "en": "Read more about what to expect."
+                "en": "Read More"
               },
-              "link": "https://blog.blockchain.com/2018/06/19/blockchain-infos-moving-domains/"
+              "link": "https://blog.blockchain.com"
             }
           },
-          "wallet": {
-            "id": "privacy-policy-update",
-            "type": "info",
-            "hideType": "dismiss",
+          "sendBch": {
+            "id": "bch-hardfork-send",
+            "type": "danger",
+            "hideType": "collapse",
             "header": {
-              "en": "Updates to Privacy Policy and Cookie Policy"
+              "en": "Hardfork Warning"
             },
             "sections": [
               {
@@ -48,21 +57,21 @@
                   "en": ""
                 },
                 "body": {
-                  "en": "We’re updating our Privacy Policy and Cookie Policy to make it easier for you to understand the limited information we collect and why we collect it. We thrive on collecting the least amount of data on our users. Please review our updated policies."
+                  "en": "There may be a network split on November 15th. If you are not interested in BitcoinSV you don't have to do anything. If you are, we recommend against sending or receiving Bitcoin Cash until further notice."
                 }
               }
             ],
             "action": {
               "title": {
-                "en": "More details."
+                "en": ""
               },
               "link": "https://www.blockchain.com/privacy"
             }
           },
-          "sendBch": {
-            "id": "hardfork",
+          "receiveBch": {
+            "id": "bch-hardfork-recieve",
             "type": "danger",
-            "hideType": "dismiss",
+            "hideType": "collapse",
             "header": {
               "en": "Hardfork Warning"
             },
