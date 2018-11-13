@@ -89,6 +89,7 @@
         "availability": {
           "send": true,
           "request": true,
+          "exchange": true,
           "history": true,
           "report": true,
           "fiat": true
@@ -98,6 +99,16 @@
         "states": "*",
         "config": {
           "network": "bitcoin"
+        }
+      },
+      "bch": {
+        "availability": {
+          "send": false,
+          "request": false,
+          "exchange": false,
+          "history": true,
+          "report": true,
+          "fiat": true
         }
       },
       "buysell": {
@@ -184,6 +195,7 @@
         "availability": {
           "send": true,
           "request": true,
+          "exchange": true,
           "history": true,
           "fiat": true
         },
@@ -197,6 +209,13 @@
         "announcements": {}
       },
       "xlm": {
+        "availability": {
+          "send": true,
+          "request": true,
+          "exchange": true,
+          "history": true,
+          "fiat": true
+        },
         "config": {
           "network": "public"
         }
