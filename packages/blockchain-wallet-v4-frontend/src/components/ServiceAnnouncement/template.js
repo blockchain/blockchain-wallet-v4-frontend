@@ -19,7 +19,7 @@ const Container = styled.div`
   height: ${props => (props.collapsed ? '35px' : '')};
   width: 100%;
 `
-const AnnouncementWrapper = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -28,10 +28,11 @@ const AnnouncementWrapper = styled.div`
     align-items: flex-start;
   `};
 `
-const AnnouncementContent = styled.div`
+const Content = styled.div`
   flex: 2;
+  width: 100%;
 `
-const AnnouncementBody = styled.div`
+const Body = styled.div`
   ${media.mobile`
     display: none;
   `};
@@ -45,14 +46,17 @@ const Title = styled.div`
   }
 `
 const ActionLink = styled(Link)`
-  margin: 0 20px;
   white-space: nowrap;
   text-decoration: underline;
+  & > :first-child {
+    margin: 10px 0 6px;
+  }
   ${media.mobile`
     margin: 0px;
   `};
 `
 const ActionIcon = styled(Icon)`
+  margin-left: 10px;
   &:hover {
     cursor: pointer;
   }
@@ -94,8 +98,8 @@ const Announcement = props => {
 
   return (
     <Container collapsed={collapsed} backgroundColor={backgroundColor}>
-      <AnnouncementWrapper>
-        <AnnouncementContent style={{ width: '100%' }}>
+      <Wrapper>
+        <Content>
           <Title>
             {announcement.icon && (
               <Icon name={announcement.icon} size='20px' color={textColor} />
@@ -106,7 +110,7 @@ const Announcement = props => {
                 : announcement.header.en}
             </Text>
           </Title>
-          <AnnouncementBody style={{ display: collapsed ? 'none' : '' }}>
+          <Body style={{ display: collapsed ? 'none' : '' }}>
             {announcement.sections.map((section, i) => {
               return (
                 <Text
@@ -114,7 +118,7 @@ const Announcement = props => {
                   color={textColor}
                   key={i}
                   size='13px'
-                  style={{ margin: '5px 0px 0px 0px' }}
+                  style={{ margin: '8px 0 0' }}
                 >
                   {section.body[language]
                     ? section.body[language]
@@ -122,20 +126,20 @@ const Announcement = props => {
                 </Text>
               )
             })}
-          </AnnouncementBody>
-        </AnnouncementContent>
-        <ActionLink
-          href={announcement.action.link}
-          color={textColor}
-          target='_blank'
-        >
-          <Text weight={400} color={textColor} size='14px'>
-            {announcement.action.title[language]
-              ? announcement.action.title[language]
-              : announcement.action.title.en}
-          </Text>
-        </ActionLink>
-      </AnnouncementWrapper>
+            <ActionLink
+              href={announcement.action.link}
+              color={textColor}
+              target='_blank'
+            >
+              <Text weight={400} color={textColor} size='14px'>
+                {announcement.action.title[language]
+                  ? announcement.action.title[language]
+                  : announcement.action.title.en}
+              </Text>
+            </ActionLink>
+          </Body>
+        </Content>
+      </Wrapper>
       <div>
         {announcement.hideType === 'collapse' && (
           <ActionIcon
