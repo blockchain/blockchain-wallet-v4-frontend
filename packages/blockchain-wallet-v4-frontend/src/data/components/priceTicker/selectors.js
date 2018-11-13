@@ -43,6 +43,7 @@ const convertCoinToFiat = (coin, rates, currency) => {
     case 'XLM':
       return Exchange.displayXlmToFiat({
         value: 1,
+        digits: 4,
         fromUnit: 'XLM',
         toCurrency: currency,
         rates
