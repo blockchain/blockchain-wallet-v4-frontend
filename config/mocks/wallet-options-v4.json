@@ -17,7 +17,7 @@
             "type": "warn",
             "hideType": "collapse",
             "header": {
-              "en": "Upcoming Service Interruption"
+              "en": "Bitcoin Cash Service Interruption"
             },
             "sections": [
               {
@@ -25,7 +25,7 @@
                   "en": ""
                 },
                 "body": {
-                  "en": "A fork of Bitcoin Cash will take place at 16:40 UTC on Thursday 15th November. Your funds are safe. To ensure they remain safe throughout this time of uncertainty, we will temporarily be suspending Bitcoin Cash send, request, and exchange functionality roughly 24 hours before the time of the fork until the network stabilizes."
+                  "en": "A fork of Bitcoin Cash will take place at 16:40 UTC on Thursday 15th November. The Bitcoin Cash network is currently experiencing stability issues in the run up to the fork - meaning Bitcoin Cash transactions made over the past few days are taking longer to reflect in your wallets."
                 }
               },
               {
@@ -33,7 +33,15 @@
                   "en": ""
                 },
                 "body": {
-                  "en": "While no immediate action is required, we encourage you to write down your recovery phrase if you haven’t already.  During this time, you will still be able to access Bitcoin, Ether and Stellar send & request, transactions, and balances at the time of the fork, and your recovery phrase."
+                  "en": "Your funds are safe and will reflect in your wallet as soon as the network stabilizes. To ensure they remain safe throughout this time of uncertainty, we will also be temporarily suspending Bitcoin Cash send, request, and exchange functionality roughly 24 hours before the time of the fork until the network stabilizes."
+                }
+              },
+              {
+                "title": {
+                  "en": ""
+                },
+                "body": {
+                  "en": "While no immediate action is required, we encourage you to write down your recovery phrase if you haven't already. During this time, you will still be able to access Bitcoin, Ether and Stellar send & request, transaction history, and balances at the time of the fork, and your recovery phrase. "
                 }
               }
             ],
@@ -49,7 +57,7 @@
             "type": "danger",
             "hideType": "collapse",
             "header": {
-              "en": "Hardfork Warning"
+              "en": "Bitcoin Cash Service Interruption"
             },
             "sections": [
               {
@@ -57,7 +65,7 @@
                   "en": ""
                 },
                 "body": {
-                  "en": "There may be a network split on November 15th. If you are not interested in BitcoinSV you don't have to do anything. If you are, we recommend against sending or receiving Bitcoin Cash until further notice."
+                  "en": "A Bitcoin Cash hard fork will occur at 16:40 UTC on Thursday 15th November. To ensure your funds remain safe throughout this time of uncertainty, we will temporarily be suspending Bitcoin Cash send and request roughly 24 hours before the time of the fork."
                 }
               }
             ],
@@ -73,7 +81,7 @@
             "type": "danger",
             "hideType": "collapse",
             "header": {
-              "en": "Hardfork Warning"
+              "en": "Bitcoin Cash Service Interruption"
             },
             "sections": [
               {
@@ -81,7 +89,7 @@
                   "en": ""
                 },
                 "body": {
-                  "en": "There may be a network split on November 15th. If you are not interested in BitcoinSV you don't have to do anything. If you are, we recommend against sending or receiving Bitcoin Cash until further notice."
+                  "en": "A Bitcoin Cash hard fork will occur at 16:40 UTC on Thursday 15th November. To ensure your funds remain safe throughout this time of uncertainty, we will temporarily be suspending Bitcoin Cash send and request roughly 24 hours before the time of the fork."
                 }
               }
             ],
