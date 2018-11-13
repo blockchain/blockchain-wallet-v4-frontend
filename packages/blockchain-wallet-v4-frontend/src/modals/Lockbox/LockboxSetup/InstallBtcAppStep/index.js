@@ -8,6 +8,7 @@ import { actions, selectors } from 'data'
 import {
   BlockchainLoader,
   Icon,
+  Image,
   Link,
   Text,
   TextGroup
@@ -20,6 +21,16 @@ const GraphicContainer = styled.div`
   justify-content: center;
   padding: 15px;
   margin-top: 15px;
+`
+const ImageContainer = styled.div`
+  position: relative;
+  padding-bottom: 57%;
+  margin: 30px 0;
+  img {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
 `
 const InstallTexts = styled(TextGroup)`
   margin-top: 12px;
@@ -56,12 +67,16 @@ class InstallBtcAppStepContainer extends React.PureComponent {
               defaultMessage='Successfully installed the Bitcoin app!'
             />
           </Text>
-          <Icon
-            style={{ marginTop: '18px' }}
-            name='checkmark-in-circle-filled'
-            color='success'
-            size='60px'
-          />
+          <ImageContainer>
+            <Image
+              name='lockbox-success'
+              width='100%'
+              srcset={{
+                'lockbox-success2': '2x',
+                'lockbox-success3': '3x'
+              }}
+            />
+          </ImageContainer>
         </InstallBtcAppStep>
       ),
       Failure: () => (
@@ -72,15 +87,33 @@ class InstallBtcAppStepContainer extends React.PureComponent {
           <Text size='14px' weight={300}>
             <FormattedMessage
               id='modals.lockboxsetup.installbtcappstep.failure'
-              defaultMessage='The attempt to install the Bitcoin app failed. This may be because the app is already on the device.'
+              defaultMessage='It looks like the app may already be installed on your device. Please continue to the next step.'
             />
           </Text>
-          <Text size='14px' weight={300} style={{ marginTop: '10px' }}>
-            <FormattedMessage
-              id='modals.lockboxsetup.installbtcappstep.failurecontact'
-              defaultMessage='Please continue to the next step and if you are unable to proceed, try again later or contact support.'
+          <ImageContainer>
+            <Image
+              name='lockbox-failed'
+              width='100%'
+              srcset={{
+                'lockbox-failed2': '2x',
+                'lockbox-failed3': '3x'
+              }}
             />
-          </Text>
+          </ImageContainer>
+          <InstallTexts inline>
+            <Text size='14px' weight='400'>
+              <FormattedMessage
+                id='modals.lockboxsetup.installbtcappstep.note'
+                defaultMessage='Note:'
+              />
+            </Text>
+            <Text size='14px' weight='300'>
+              <FormattedMessage
+                id='modals.lockboxsetup.installbtcappstep.failurecontact'
+                defaultMessage='If you are unable to install the app or proceed past the next step, please contact support.'
+              />
+            </Text>
+          </InstallTexts>
         </InstallBtcAppStep>
       ),
       Loading: () => (
