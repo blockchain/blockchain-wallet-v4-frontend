@@ -32,11 +32,6 @@ const Content = styled.div`
   flex: 2;
   width: 100%;
 `
-const Body = styled.div`
-  ${media.mobile`
-    display: none;
-  `};
-`
 const Title = styled.div`
   display: flex;
   flex-direction: row;
@@ -110,7 +105,7 @@ const Announcement = props => {
                 : announcement.header.en}
             </Text>
           </Title>
-          <Body style={{ display: collapsed ? 'none' : '' }}>
+          <div style={{ display: collapsed ? 'none' : '' }}>
             {announcement.sections.map((section, i) => {
               return (
                 <Text
@@ -137,7 +132,7 @@ const Announcement = props => {
                   : announcement.action.title.en}
               </Text>
             </ActionLink>
-          </Body>
+          </div>
         </Content>
       </Wrapper>
       <div>
