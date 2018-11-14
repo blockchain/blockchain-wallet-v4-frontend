@@ -41,12 +41,10 @@ const getBlockLockbox = state => {
 const {
   canUseExchange,
   getAmounts,
-  getAvailablePairs,
-  getTxError,
-  showError
+  getAvailablePairs
 } = selectors.components.exchange
 
-export { canUseExchange, showError, getTxError }
+export { canUseExchange }
 export const getData = createDeepEqualSelector(
   [
     getBlockLockbox,
@@ -75,7 +73,6 @@ export const getData = createDeepEqualSelector(
       return {
         availablePairs,
         blockLockbox,
-        canUseExchange: true,
         coinActive: coinActive(fix),
         complementaryField,
         complementarySymbol: currencySymbolMap[complementaryCurrency],

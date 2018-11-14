@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
+import { Field } from 'redux-form'
 import { contains } from 'ramda'
 
 import { model } from 'data'
@@ -11,17 +11,16 @@ import { formatTextAmount } from 'services/ValidationHelper'
 import { Banner, Icon, Text } from 'blockchain-info-components'
 import { Form, AutosizeTextBox } from 'components/Form'
 import { ResizeableFontInputHOC } from 'components/ResizeableFontInputHOC'
-import { getErrorMessage } from './validationMessages'
 import { Wrapper as SummaryWrapper, Title, Note } from 'components/Exchange'
 import { Cell, Row } from './Layout'
 import CurrencySelect from './CurrencySelect'
 import ComplementaryAmount from './ComplementaryAmount'
+import Error from './Error'
 import MinMaxButtons from './MinMaxButtons'
 import SubmitButton from './SubmitButton'
 import Summary from './Summary'
 import RatesBox from './RatesBox'
 
-const { EXCHANGE_FORM } = model.components.exchange
 const { fiatActive, formatPair } = model.rates
 
 const Wrapper = styled.div`
@@ -125,11 +124,6 @@ const ActiveCurrencyButton = styled.div`
 const FieldsWrapper = styled.div`
   border: 1px solid ${props => props.theme['gray-1']}};
 `
-const ErrorRow = styled(Row)`
-  justify-content: center;
-  min-height: 15px;
-  padding: 0px;
-`
 const CurrencyBox = styled(Text)`
   align-self: flex-start;
   margin-top: 10px;
@@ -159,35 +153,28 @@ const normalizeAmount = (value, prevValue, allValues, ...args) => {
 export const formatAmount = (isFiat, symbol, value) =>
   isFiat ? `${symbol}${value}` : `${value} ${symbol}`
 
-const Success = props => {
-  const {
-    asyncValidating,
-    availablePairs,
-    blockLockbox,
-    canUseExchange,
-    complementaryField,
-    complementarySymbol,
-    currency,
-    dirty,
-    error,
-    fiatActive,
-    handleAmountChange,
-    handleInputBlur,
-    handleInputFocus,
-    handleSubmit,
-    inputField,
-    inputSymbol,
-    showError,
-    sourceActive,
-    sourceCoin,
-    submitting,
-    swapCoinAndFiat,
-    swapFix,
-    targetActive,
-    targetCoin,
-    txError,
-    volume
-  } = props
+const Success = ({
+  availablePairs,
+  blockLockbox,
+  canUseExchange,
+  complementaryField,
+  complementarySymbol,
+  currency,
+  fiatActive,
+  inputField,
+  inputSymbol,
+  sourceActive,
+  sourceCoin,
+  targetActive,
+  targetCoin,
+  volume,
+  handleAmountChange,
+  handleInputBlur,
+  handleInputFocus,
+  handleSubmit,
+  swapCoinAndFiat,
+  swapFix
+}) => {
   const swapDisabled = !contains(
     formatPair(targetCoin, sourceCoin),
     availablePairs
@@ -196,7 +183,7 @@ const Success = props => {
     <Wrapper>
       {!canUseExchange && <Cover />}
       <ColumnLeft>
-        <Form onSubmit={handleSubmit}>
+        <Form>
           <FieldsWrapper>
             <CurrencySelect
               sourceCoin={sourceCoin}
@@ -305,23 +292,15 @@ const Success = props => {
                 }}
               />
             </AmountRow>
-            <ErrorRow>
-              {(showError || txError) &&
-                (error || txError) &&
-                getErrorMessage(txError || error)(props)}
-            </ErrorRow>
-            <MinMaxButtons error={error} />
+            <Error />
+            <MinMaxButtons />
           </FieldsWrapper>
           <SubmitButton
             blockLockbox={blockLockbox}
             sourceCoin={sourceCoin}
             targetCoin={targetCoin}
-            txError={txError}
             volume={volume}
-            asyncValidating={asyncValidating}
-            dirty={dirty}
-            error={error}
-            submitting={submitting}
+            handleSubmit={handleSubmit}
           />
         </Form>
       </ColumnLeft>
@@ -355,7 +334,4 @@ const Success = props => {
   )
 }
 
-export default reduxForm({
-  form: EXCHANGE_FORM,
-  destroyOnUnmount: false
-})(Success)
+export default Success

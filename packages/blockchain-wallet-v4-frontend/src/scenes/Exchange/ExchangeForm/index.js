@@ -1,11 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { compose, isEmpty } from 'ramda'
+import { compose, bindActionCreators } from 'redux'
+import { isEmpty } from 'ramda'
+import { reduxForm } from 'redux-form'
 
 import { debounce } from 'utils/helpers'
 import { actions, model } from 'data'
-import { getData, canUseExchange, showError, getTxError } from './selectors'
+import { getData, canUseExchange } from './selectors'
 
 import Loading from './template.loading'
 import Success from './template.success'
@@ -16,10 +17,17 @@ const extractFieldValue = (e, value) => value
 const { swapCoinAndFiat, swapBaseAndCounter } = model.rates
 const { EXCHANGE_FORM } = model.components.exchange
 
-class ExchangeForm extends React.PureComponent {
+class ExchangeForm extends React.Component {
   componentDidMount () {
     const { canUseExchange, actions, from, to } = this.props
     if (canUseExchange) actions.initialize(from, to)
+  }
+
+  shouldComponentUpdate (nextProps) {
+    return (
+      nextProps.data !== this.props.data ||
+      nextProps.canUseExchange !== this.props.canUseExchange
+    )
   }
 
   componentDidUpdate (prevProps) {
@@ -54,14 +62,7 @@ class ExchangeForm extends React.PureComponent {
   }
 
   render () {
-    const {
-      actions,
-      formActions,
-      data,
-      canUseExchange,
-      showError,
-      txError
-    } = this.props
+    const { actions, formActions, data, canUseExchange } = this.props
     return data.cata({
       Success: value =>
         canUseExchange && isEmpty(value.availablePairs) ? (
@@ -70,8 +71,6 @@ class ExchangeForm extends React.PureComponent {
           <Success
             {...value}
             canUseExchange={canUseExchange}
-            showError={showError}
-            txError={txError}
             onSubmit={actions.showConfirmation}
             handleSourceChange={compose(
               actions.changeSource,
@@ -109,8 +108,6 @@ class ExchangeForm extends React.PureComponent {
 
 const mapStateToProps = state => ({
   canUseExchange: canUseExchange(state),
-  showError: showError(state),
-  txError: getTxError(state),
   data: getData(state)
 })
 
@@ -119,7 +116,15 @@ const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ExchangeForm)
+const enhance = compose(
+  reduxForm({
+    form: EXCHANGE_FORM,
+    destroyOnUnmount: false
+  }),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)
+
+export default enhance(ExchangeForm)
