@@ -267,7 +267,7 @@ class AppManagerContainer extends React.PureComponent {
               <Subtitle size='16px' weight={400} color='gray-4'>
                 <FormattedHTMLMessage
                   id='modals.lockbox.appmanager.connectdevice'
-                  defaultMessage='Connect and unlock your Lockbox device now.'
+                  defaultMessage='Connect, unlock and open the Dashboard on your Lockbox device now.'
                 />
               </Subtitle>
               <Image

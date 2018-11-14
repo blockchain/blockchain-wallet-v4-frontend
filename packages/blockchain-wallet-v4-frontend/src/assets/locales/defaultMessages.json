@@ -4418,7 +4418,7 @@
         "id": "modals.lockbox.appmanager.title"
       },
       {
-        "defaultMessage": "Connect and unlock your Lockbox device now.",
+        "defaultMessage": "Connect, unlock and open the Dashboard on your Lockbox device now.",
         "id": "modals.lockbox.appmanager.connectdevice"
       }
     ],
