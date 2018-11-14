@@ -7,7 +7,7 @@ import { compose } from 'ramda'
 
 import { actions } from 'data'
 import { getData, shouldUpdate } from './selectors'
-import SelectBox from '../SelectBox'
+import SelectBox from './SelectBox'
 import { Icon, TooltipHost } from 'blockchain-info-components'
 import { Cell, Row } from '../Layout'
 

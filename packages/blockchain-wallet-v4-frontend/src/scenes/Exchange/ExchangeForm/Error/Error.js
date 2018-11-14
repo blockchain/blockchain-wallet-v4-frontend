@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { getErrorMessage } from '../validationMessages'
+import { getErrorMessage } from './validationMessages'
 
 import { getData } from './selectors'
 import { Row } from '../Layout'
@@ -12,16 +12,16 @@ const ErrorRow = styled(Row)`
   padding: 0px;
 `
 
-class CurrencySelect extends React.PureComponent {
+export class Error extends React.PureComponent {
   render () {
     const { showError, txError, error } = this.props
+    const ErrorMessage = getErrorMessage(txError || error)
     return (
       <ErrorRow>
-        {((showError && error) || txError) &&
-          getErrorMessage(txError || error)(this.props)}
+        {((showError && error) || txError) && <ErrorMessage {...this.props} />}
       </ErrorRow>
     )
   }
 }
 
-export default connect(getData)(CurrencySelect)
+export default connect(getData)(Error)
