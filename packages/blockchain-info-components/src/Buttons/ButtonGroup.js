@@ -14,7 +14,6 @@ const BaseButtonGroup = styled.div`
   & > :first-child {
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
-    border-right: none;
   }
   & > :last-child {
     border-top-left-radius: 0 !important;
