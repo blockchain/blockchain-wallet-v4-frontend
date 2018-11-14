@@ -16,7 +16,7 @@ class EmailAddressContainer extends React.PureComponent {
       updateToggled: false,
       verifyToggled: false,
       successToggled: false,
-      changeEmailToggled: props.changeEmail || false
+      changeEmailToggled: false
     }
 
     this.handleResend = this.handleResend.bind(this)
@@ -25,6 +25,12 @@ class EmailAddressContainer extends React.PureComponent {
     this.handleChangeEmailView = this.handleChangeEmailView.bind(this)
     this.handleEmailChangeCancel = this.handleEmailChangeCancel.bind(this)
     this.handleEmailChangeSubmit = this.handleEmailChangeSubmit.bind(this)
+  }
+
+  componentDidMount () {
+    if (this.props.changeEmail) {
+      this.handleChangeEmailView()
+    }
   }
 
   componentDidUpdate (prevProps) {

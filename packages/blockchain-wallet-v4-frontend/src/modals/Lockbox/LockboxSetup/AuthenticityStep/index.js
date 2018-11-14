@@ -15,7 +15,7 @@ class AuthenticityStepContainer extends React.PureComponent {
   }
 
   changeDeviceSetupStep () {
-    this.props.lockboxActions.changeDeviceSetupStep('open-btc-app')
+    this.props.lockboxActions.changeDeviceSetupStep('install-btc-app')
   }
 
   render () {

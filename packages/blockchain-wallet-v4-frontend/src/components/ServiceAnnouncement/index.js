@@ -10,18 +10,14 @@ import { getData } from './selectors'
 import Announcement from './template.js'
 
 class ServiceAnnouncement extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleDismiss = this.handleDismiss.bind(this)
-    this.toggleCollapse = this.toggleCollapse.bind(this)
-  }
+  state = {}
 
-  handleDismiss (id) {
+  handleDismiss = id => {
     this.props.cacheActions.announcementDismissed(id)
   }
 
-  toggleCollapse (id) {
-    this.props.cacheActions.announcementToggled(id, !this.props.data.collapsed)
+  toggleCollapse = (id, isCollapsed) => {
+    this.props.cacheActions.announcementToggled(id, !isCollapsed)
   }
 
   render () {
@@ -55,7 +51,8 @@ const mapDispatchToProps = dispatch => ({
 })
 
 ServiceAnnouncement.propTypes = {
-  alertArea: PropTypes.oneOf(['public', 'wallet']).isRequired
+  alertArea: PropTypes.oneOf(['public', 'wallet', 'sendBch', 'receiveBch'])
+    .isRequired
 }
 
 export default connect(

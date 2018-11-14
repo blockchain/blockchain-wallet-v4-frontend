@@ -1,4 +1,4 @@
-import { path } from 'ramda'
+import { curry, flip, path, prop } from 'ramda'
 import { walletOptionsPath } from '../paths'
 
 export const getOptions = path([walletOptionsPath])
@@ -19,3 +19,16 @@ export const getAnnouncements = state =>
   )
 export const getEthereumTxFuse = state =>
   getOptions(state).map(path(['platforms', 'web', 'ethereum', 'lastTxFuse']))
+
+const getCoinOptionsName = flip(prop)({
+  BTC: 'bitcoin',
+  BCH: 'bch',
+  ETH: 'ethereum',
+  XLM: 'xlm'
+})
+
+export const getCoinAvailablility = curry((state, coin) =>
+  getOptions(state).map(
+    path(['platforms', 'web', getCoinOptionsName(coin), 'availability'])
+  )
+)

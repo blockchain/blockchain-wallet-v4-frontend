@@ -10,7 +10,7 @@ class CompleteStepContainer extends React.PureComponent {
   onInstallApps = () => {
     this.props.closeAll()
     const deviceIndex = this.props.match.params.deviceIndex
-    this.props.modalActions.showModal('LockboxAppInstall', { deviceIndex })
+    this.props.modalActions.showModal('LockboxAppManager', { deviceIndex })
   }
   render () {
     const { closeAll, status } = this.props

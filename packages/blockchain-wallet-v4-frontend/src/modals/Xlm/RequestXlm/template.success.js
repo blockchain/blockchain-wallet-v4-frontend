@@ -67,7 +67,12 @@ const RequestXlm = ({
             defaultMessage='Currency:'
           />
         </FormLabel>
-        <Field name='coin' component={SelectBoxCoin} validate={[required]} />
+        <Field
+          name='coin'
+          component={SelectBoxCoin}
+          type='request'
+          validate={[required]}
+        />
       </FormItem>
       <FormItem>
         <FormLabel for='to'>

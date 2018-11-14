@@ -29,7 +29,7 @@ import {
   UserExists
 } from './Exchange'
 import {
-  LockboxAppInstall,
+  LockboxAppManager,
   LockboxFirmware,
   LockboxSetup,
   PromptLockbox
@@ -78,7 +78,7 @@ const Modals = props => (
     <ExchangeResults />
     <IdentityVerification />
     <ImportBtcAddress />
-    <LockboxAppInstall />
+    <LockboxAppManager disableOutsideClose />
     <LockboxFirmware />
     <LockboxSetup />
     <MobileNumberChange />

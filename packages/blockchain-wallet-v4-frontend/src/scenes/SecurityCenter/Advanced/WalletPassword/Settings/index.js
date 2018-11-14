@@ -7,22 +7,16 @@ import { actions, selectors } from 'data'
 import Settings from './template.js'
 
 class SettingsContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = {
-      updateToggled: false
-    }
-    this.onSubmit = this.onSubmit.bind(this)
-    this.handleToggle = this.handleToggle.bind(this)
-  }
+  state = { updateToggled: false }
 
-  onSubmit () {
+  onSubmit = () => {
     this.props.walletActions.setMainPassword(this.props.newWalletPasswordValue)
     this.props.formActions.reset('settingWalletPassword')
     this.handleToggle()
   }
 
-  handleToggle () {
+  handleToggle = () => {
+    this.props.formActions.reset('settingWalletPassword')
     this.setState({
       updateToggled: !this.state.updateToggled
     })

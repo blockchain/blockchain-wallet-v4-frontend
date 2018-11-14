@@ -31,7 +31,6 @@ const BlockchainLogoImage = styled(Image)`
 
 const Header = props => (
   <React.Fragment>
-    <ServiceAnnouncement alertArea='wallet' />
     <Navbar height='60px'>
       <NavbarHeader>
         <NavbarBrand>
@@ -50,13 +49,13 @@ const Header = props => (
         <div />
         <NavbarNav>
           <NavbarNavItem>
-            <FaqIcon />
-          </NavbarNavItem>
-          <NavbarNavItem>
             <WhatsNewIcon />
           </NavbarNavItem>
           <NavbarNavItem>
             <RefreshIcon />
+          </NavbarNavItem>
+          <NavbarNavItem>
+            <FaqIcon />
           </NavbarNavItem>
           <NavbarNavItem>
             <Logout />
@@ -64,6 +63,7 @@ const Header = props => (
         </NavbarNav>
       </NavbarMenu>
     </Navbar>
+    <ServiceAnnouncement alertArea='wallet' />
     <Announcements />
   </React.Fragment>
 )

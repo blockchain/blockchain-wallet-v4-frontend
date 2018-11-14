@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, ButtonGroup } from 'blockchain-info-components'
+import { Button } from 'blockchain-info-components'
 import {
   Form,
   FormGroup,
@@ -21,7 +21,9 @@ import {
   isNotCurrentPassword
 } from 'services/FormHelper'
 
-const ButtonWrapper = styled(ButtonGroup)`
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
   margin-top: 5px;
   & > :first-child {
     margin-right: 5px;
@@ -61,12 +63,13 @@ const Settings = props => {
                 />
               </FormLabel>
               <Field
+                noLastPass
                 name='currentPassword'
                 component={PasswordBox}
                 validate={[validCurrentPassword]}
               />
             </FormItem>
-            <FormItem style={{ marginTop: '5px' }}>
+            <FormItem style={{ marginTop: '12px' }}>
               <FormLabel for='newPassword'>
                 <FormattedMessage
                   id='scenes.securitysettings.advanced.walletpassword.settings.new'
@@ -74,13 +77,14 @@ const Settings = props => {
                 />
               </FormLabel>
               <Field
+                noLastPass
                 name='newPassword'
                 component={PasswordBox}
                 validate={[validStrongPassword, isNotCurrentPassword]}
                 score
               />
             </FormItem>
-            <FormItem style={{ marginTop: '5px' }}>
+            <FormItem style={{ marginTop: '12px' }}>
               <FormLabel for='walletPasswordConfirmation'>
                 <FormattedMessage
                   id='scenes.securitysettings.advanced.walletpassword.settings.confirm'
@@ -88,6 +92,7 @@ const Settings = props => {
                 />
               </FormLabel>
               <Field
+                noLastPass
                 name='walletPasswordConfirmation'
                 validate={[required, validatePasswordConfirmation]}
                 component={PasswordBox}

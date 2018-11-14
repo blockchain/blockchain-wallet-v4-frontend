@@ -4,16 +4,21 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, ButtonGroup, Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import { NumberBox } from 'components/Form'
 import { SettingForm, SettingWrapper } from 'components/Setting'
 import { validPasswordStretchingNumber } from 'services/FormHelper'
 
-const ButtonWrapper = styled(ButtonGroup)`
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
   margin-top: 5px;
   & > :first-child {
     margin-right: 5px;
   }
+`
+const CurrentText = styled(Text)`
+  margin-bottom: 10px;
 `
 
 const Settings = props => {
@@ -27,7 +32,7 @@ const Settings = props => {
   } = props
   return (
     <SettingWrapper>
-      {currentStretch && <Text>{currentStretch}</Text>}
+      {currentStretch && <CurrentText>{currentStretch}</CurrentText>}
       {!updateToggled && (
         <Button nature='primary' onClick={handleToggle}>
           <FormattedMessage
