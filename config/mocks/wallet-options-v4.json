@@ -142,7 +142,7 @@
         "config": {
           "production": false,
           "availability": true,
-          "partnerId": 35,
+          "partnerId": 24,
           "iSignThisDomain": "https://stage-verify.isignthis.com",
           "coinifyPaymentDomain": "https://pay.sandbox.coinify.com",
           "surveyLinks": [
