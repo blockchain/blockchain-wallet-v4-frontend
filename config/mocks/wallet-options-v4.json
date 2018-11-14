@@ -142,8 +142,9 @@
         "config": {
           "production": false,
           "availability": true,
-          "partnerId": 24,
+          "partnerId": 35,
           "iSignThisDomain": "https://stage-verify.isignthis.com",
+          "coinifyPaymentDomain": "https://pay.sandbox.coinify.com",
           "surveyLinks": [
             "https://blockchain.co1.qualtrics.com/SE/?SID=SV_8pupOEQPGkXx8Kp",
             "https://blockchain.co1.qualtrics.com/jfe/form/SV_205rqJvYy7mRxnn",
