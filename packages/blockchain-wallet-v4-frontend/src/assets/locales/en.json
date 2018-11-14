@@ -656,7 +656,7 @@
   "modals.lockboxsetup.authenticityerrorstep.subtitle": "This device appears to be non-genuine. Please try the setup again or contact support if this issue persists.",
   "modals.lockboxsetup.authenticityerrorstep.title": "Whoops!",
   "modals.lockboxsetup.authenticitystep.authenticating": "Checking Your Devices Authenticity",
-  "modals.lockboxsetup.authenticitystep.content": "On your Lockbox, tap the RIGHT button to let your Lockbox connect to your Blockchain wallet.",
+  "modals.lockboxsetup.authenticitystep.content": "When prompted on your Lockbox, tap the RIGHT button to let your device connect to your Blockchain Web Wallet.",
   "modals.lockboxsetup.authenticitystep.success": "Success! Click to Continue",
   "modals.lockboxsetup.authenticitystep.title": "Verify Device Authenticity",
   "modals.lockboxsetup.connectdevice.connect": "Connect Your Lockbox",
