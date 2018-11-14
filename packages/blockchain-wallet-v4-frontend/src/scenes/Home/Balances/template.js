@@ -11,8 +11,8 @@ const Wrapper = styled.div`
   flex-direction: column;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-1']};
-  @media (max-width: 480px) {
-    height: 380px;
+  @media (min-width: 480px) {
+    height: 390px;
   }
 `
 
