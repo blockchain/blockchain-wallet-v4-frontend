@@ -4804,12 +4804,12 @@
         "id": "modals.lockboxsetup.openbtcappstep.title"
       },
       {
-        "defaultMessage": "Now add a Bitcoin wallet to your device.",
-        "id": "modals.lockboxsetup.openbtcappstep.explanation"
+        "defaultMessage": "Now let’s select the Bitcoin app on your Lockbox.",
+        "id": "modals.lockboxsetup.openbtcappstep.selection"
       },
       {
-        "defaultMessage": "Select \"Bitcoin\" from the picker.",
-        "id": "modals.lockboxsetup.openbtcappstep.selection"
+        "defaultMessage": "This will pair your Lockbox to your Blockchain Wallet.",
+        "id": "modals.lockboxsetup.openbtcappstep.pair"
       },
       {
         "defaultMessage": "Success! Click to Continue",
@@ -8829,6 +8829,10 @@
       {
         "defaultMessage": "Captcha",
         "id": "scenes.reset2fa.secondstep.captcha"
+      },
+      {
+        "defaultMessage": "Please note that reset requests are fully automated and require a mandatory waiting period before being approved.",
+        "id": "scenes.reset2fa.secondstep.waitingperiod"
       },
       {
         "defaultMessage": "Go Back",
