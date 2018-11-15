@@ -1,11 +1,12 @@
 import { selectors } from 'data'
-import { KYC_STATES } from 'data/modules/profile/model'
 
-export const getData = (state) => {
+export const getData = state => {
   const showKycGetStarted = selectors.preferences.getShowKycGetStarted(state)
-  const kycState = selectors.modules.profile.getUserKYCState(state).getOrElse(null)
+  const userVerified = selectors.modules.profile
+    .isUserVerified(state)
+    .getOrElse(true)
 
   return {
-    showBanner: !showKycGetStarted && kycState !== KYC_STATES.VERIFIED
+    showBanner: !showKycGetStarted && !userVerified
   }
 }

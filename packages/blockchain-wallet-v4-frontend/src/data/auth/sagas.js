@@ -1,6 +1,6 @@
 import { call, put, select, take, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { assoc, find, path, prop, propEq, is } from 'ramda'
+import { assoc, is, path, prop } from 'ramda'
 import Either from 'data.either'
 
 import * as actions from '../actions.js'
@@ -41,27 +41,6 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
     }
   }
-
-  const welcomeSaga = function*(firstLogin) {
-    const goals = yield select(selectors.goals.getGoals)
-    const referralGoal = find(propEq('name', 'referral'))(goals)
-    if (referralGoal) {
-      // referral modal was displayed in goals saga, now delete
-      yield put(actions.goals.deleteGoal(referralGoal.id))
-    } else if (firstLogin) {
-      const walletNUsers = yield call(api.getWalletNUsers)
-      const walletMillions = Math.floor(
-        walletNUsers.values[walletNUsers.values.length - 1].y / 1e6
-      )
-      yield put(actions.modals.showModal('Welcome', { walletMillions }))
-    } else {
-      yield put(
-        actions.logs.logInfoMessage(logLocation, 'welcomeSaga', 'login success')
-      )
-      yield put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
-    }
-  }
-
   const upgradeWalletSaga = function*() {
     yield put(actions.modals.showModal('UpgradeWallet'))
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
@@ -114,61 +93,6 @@ export default ({ api, coreSagas }) => {
     if (userFlowSupported) yield put(actions.modules.profile.signIn())
   }
 
-  // ======================== START KYC_GET_STARTED ============================
-  const getBtcBalance = function*() {
-    let btcDataR = yield select(selectors.core.data.bitcoin.getBalance)
-    if (Remote.Loading.is(btcDataR)) {
-      yield take([
-        actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_SUCCESS,
-        actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_FAILURE
-      ])
-      btcDataR = yield select(selectors.core.data.bitcoin.getBalance)
-    }
-    return getBalanceValue(btcDataR)
-  }
-
-  const getBchBalance = function*() {
-    let bchDataR = yield select(selectors.core.data.bch.getBalance)
-    if (Remote.Loading.is(bchDataR)) {
-      yield take([
-        actionTypes.core.data.bch.FETCH_BCH_DATA_SUCCESS,
-        actionTypes.core.data.bch.FETCH_BCH_DATA_FAILURE
-      ])
-      bchDataR = yield select(selectors.core.data.bch.getBalance)
-    }
-    return getBalanceValue(bchDataR)
-  }
-
-  const getEthBalance = function*() {
-    let ethDataR = yield select(selectors.core.data.ethereum.getBalance)
-    if (Remote.Loading.is(ethDataR)) {
-      yield take([
-        actionTypes.core.data.ethereum.FETCH_ETHEREUM_DATA_SUCCESS,
-        actionTypes.core.data.ethereum.FETCH_ETHEREUM_DATA_FAILURE
-      ])
-      ethDataR = yield select(selectors.core.data.ethereum.getBalance)
-    }
-    return getBalanceValue(ethDataR)
-  }
-
-  const getBalanceValue = balanceR => balanceR.getOrElse(0)
-
-  const kycGetStarted = function*() {
-    // Check if wallet is funded
-    const showKycGetStarted = yield select(
-      selectors.preferences.getShowKycGetStarted
-    )
-    // check/wait for balances to be available
-    const btcBalance = yield call(getBtcBalance)
-    const bchBalance = yield call(getBchBalance)
-    const ethBalance = yield call(getEthBalance)
-    const isFunded = btcBalance !== 0 || bchBalance !== 0 || ethBalance !== 0
-    if (showKycGetStarted && isFunded) {
-      yield put(actions.modals.showModal('SwapGetStarted'))
-    }
-  }
-  // ========================= END KYC_GET_STARTED =============================
-
   const loginRoutineSaga = function*(mobileLogin, firstLogin) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
@@ -211,9 +135,10 @@ export default ({ api, coreSagas }) => {
       const language = yield select(selectors.preferences.getLanguage)
       yield put(actions.modules.settings.updateLanguage(language))
       yield fork(transferEthSaga)
-      yield fork(welcomeSaga, firstLogin)
       yield fork(reportStats, mobileLogin)
-      yield fork(kycGetStarted)
+      yield put(actions.goals.saveGoal('welcome', { firstLogin }))
+      yield put(actions.goals.saveGoal('kyc'))
+      yield put(actions.goals.runGoals())
       yield fork(checkDataErrors)
       yield put(actions.analytics.reportBalanceStats())
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
@@ -589,7 +514,6 @@ export default ({ api, coreSagas }) => {
     checkAndHandleVulnerableAddress,
     checkDataErrors,
     deauthorizeBrowser,
-    kycGetStarted,
     login,
     logout,
     logoutClearReduxStore,
@@ -607,7 +531,6 @@ export default ({ api, coreSagas }) => {
     transferEthSaga,
     upgradeWallet,
     upgradeWalletSaga,
-    upgradeAddressLabelsSaga,
-    welcomeSaga
+    upgradeAddressLabelsSaga
   }
 }

@@ -344,9 +344,7 @@ describe('authSagas', () => {
       setLogoutEventListener,
       transferEthSaga,
       upgradeWalletSaga,
-      welcomeSaga,
-      upgradeAddressLabelsSaga,
-      kycGetStarted
+      upgradeAddressLabelsSaga
     } = authSagas({
       api,
       coreSagas
@@ -481,16 +479,20 @@ describe('authSagas', () => {
       saga.next().fork(transferEthSaga)
     })
 
-    it('should launch welcomeSaga', () => {
-      saga.next().fork(welcomeSaga, firstLogin)
-    })
-
     it('should launch reportStats saga', () => {
       saga.next().fork(reportStats, mobileLogin)
     })
 
-    it('should launch kycGetStarted saga', () => {
-      saga.next().fork(kycGetStarted)
+    it('should add welcome goal', () => {
+      saga.next().put(actions.goals.saveGoal('welcome', { firstLogin }))
+    })
+
+    it('should add kyc goal', () => {
+      saga.next().put(actions.goals.saveGoal('kyc'))
+    })
+
+    it('should run goals', () => {
+      saga.next().put(actions.goals.runGoals())
     })
 
     it('should check for data errors', () => {
@@ -531,7 +533,6 @@ describe('authSagas', () => {
           [select(selectors.core.wallet.isHdWallet), true],
           [select(selectors.core.wallet.getGuid), 12],
           [fork.fn(transferEthSaga), jest.fn],
-          [fork.fn(welcomeSaga), jest.fn],
           [fork.fn(reportStats), jest.fn],
           [call.fn(setLogoutEventListener), jest.fn],
           [fork.fn(logoutRoutine), jest.fn]
