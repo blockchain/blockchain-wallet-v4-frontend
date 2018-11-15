@@ -24,7 +24,7 @@ export const HomeBalanceRow = styled.div`
   &:not(:last-child) {
     border-bottom: 1px solid ${props => props.theme['gray-1']};
   }
-  @media (min-width: 768px) {
+  @media (max-width: 480px) {
     padding: 15px 30px;
   }
 `

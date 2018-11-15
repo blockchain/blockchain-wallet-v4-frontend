@@ -12,7 +12,6 @@ class ThirdStepContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = {
-      hasError: false,
       indexes: []
     }
     this.onSubmit = this.onSubmit.bind(this)
@@ -30,7 +29,7 @@ class ThirdStepContainer extends React.PureComponent {
     this.setState({ indexes })
   }
 
-  onSubmit (values, disptach, props) {
+  onSubmit (values, dispatch, props) {
     const errors = {}
     compose(
       forEach(word => {
@@ -47,7 +46,6 @@ class ThirdStepContainer extends React.PureComponent {
     )(values)
 
     if (keysIn(errors).length) {
-      this.setState({ hasError: true })
       throw new SubmissionError(errors)
     } else {
       this.props.walletActions.verifyMnemonic()
@@ -62,7 +60,6 @@ class ThirdStepContainer extends React.PureComponent {
         {...rest}
         indexes={this.state.indexes}
         onSubmit={this.onSubmit}
-        hasError={this.state.hasError}
       />
     )
   }

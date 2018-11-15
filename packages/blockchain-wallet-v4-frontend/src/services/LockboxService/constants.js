@@ -37,5 +37,11 @@ export default {
     authenticity: '/update/genuine',
     install: '/update/install',
     mcu: '/update/mcu'
+  },
+  supportedApps: {
+    BTC: 'Bitcoin',
+    BCH: 'Bitcoin Cash',
+    ETH: 'Ethereum',
+    XLM: 'Stellar'
   }
 }

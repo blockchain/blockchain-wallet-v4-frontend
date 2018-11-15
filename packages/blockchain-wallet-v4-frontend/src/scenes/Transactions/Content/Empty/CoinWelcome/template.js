@@ -75,8 +75,7 @@ const LearnMoreLink = styled(Link)`
 `
 
 const Welcome = props => {
-  const { coin, partner, ...rest } = props
-  const { handleRequest } = rest
+  const { availability, coin, handleRequest, partner } = props
 
   return (
     <Wrapper>
@@ -99,7 +98,11 @@ const Welcome = props => {
           <ButtonContainer>
             {partner ? (
               <LinkContainer to='/buy-sell'>
-                <Button nature='primary' fullwidth>
+                <Button
+                  nature='primary'
+                  fullwidth
+                  disabled={!availability.exchange}
+                >
                   <FormattedMessage
                     id='scenes.transaction.content.empty.buy'
                     defaultMessage='Buy {coin}'
@@ -108,7 +111,12 @@ const Welcome = props => {
                 </Button>
               </LinkContainer>
             ) : (
-              <Button nature='primary' onClick={handleRequest} fullwidth>
+              <Button
+                nature='primary'
+                onClick={handleRequest}
+                fullwidth
+                disabled={!availability.request}
+              >
                 <FormattedMessage
                   id='scenes.transaction.content.empty.getstarted.request'
                   defaultMessage='Get {coin}'
@@ -122,7 +130,11 @@ const Welcome = props => {
                 state: { from: coin === 'BTC' ? 'ETH' : 'BTC', to: coin }
               }}
             >
-              <Button nature='empty-secondary' fullwidth>
+              <Button
+                nature='empty-secondary'
+                fullwidth
+                disabled={!availability.exchange}
+              >
                 <FormattedMessage
                   id='scenes.transaction.content.empty.getstarted.exchange'
                   defaultMessage='Exchange {coin}'
@@ -168,7 +180,9 @@ const Welcome = props => {
 }
 
 Welcome.propTypes = {
-  displayed: PropTypes.bool.isRequired,
+  availability: PropTypes.object.isRequired,
+  coin: PropTypes.string.isRequired,
+  partner: PropTypes.string.isRequired,
   handleRequest: PropTypes.func.isRequired
 }
 

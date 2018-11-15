@@ -18,14 +18,14 @@ const ReinstallApps = props => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.lockbox.settings.installapps.title'
-            defaultMessage='Install Apps'
+            id='scenes.lockbox.settings.appmanager.title'
+            defaultMessage='Manage Apps'
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.lockbox.settings.installapps.description'
-            defaultMessage='Install the latest versions of the Bitcoin, Bitcoin Cash, Ethereum, and Stellar apps'
+            id='scenes.lockbox.settings.appmanager.description'
+            defaultMessage='Add, remove and update to the latest versions of the Lockbox applications'
           />
         </SettingDescription>
       </SettingSummary>
@@ -36,8 +36,8 @@ const ReinstallApps = props => {
           disabled={!isBrowserChrome}
         >
           <FormattedMessage
-            id='scenes.lockbox.settings.installapps.installapps'
-            defaultMessage='Install Apps'
+            id='scenes.lockbox.settings.appmanager.manageapps'
+            defaultMessage='Manage Apps'
           />
         </Button>
       </SettingComponent>
