@@ -25,6 +25,7 @@ import sendEth from './sendEth/sagaRegister'
 import sendXlm from './sendXlm/sagaRegister'
 import settings from './settings/sagaRegister'
 import signMessage from './signMessage/sagaRegister'
+import swapGetStarted from './swapGetStarted/sagaRegister'
 import transactionReport from './transactionReport/sagaRegister'
 import uploadDocuments from './uploadDocuments/sagaRegister'
 
@@ -56,6 +57,7 @@ export default ({ api, coreSagas, networks, options }) =>
     yield fork(sendXlm({ coreSagas }))
     yield fork(settings({ api, coreSagas }))
     yield fork(signMessage({ coreSagas }))
+    yield fork(swapGetStarted({ coreSagas }))
     yield fork(transactionReport({ coreSagas }))
     yield fork(uploadDocuments({ api }))
   }

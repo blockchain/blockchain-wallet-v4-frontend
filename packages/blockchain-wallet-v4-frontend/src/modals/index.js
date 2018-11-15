@@ -44,6 +44,7 @@ import {
   SfoxTradeDetails
 } from './Sfox'
 import SignMessage from './SignMessage'
+import SwapGetStarted from './SwapGetStarted'
 import TransactionReport from './TransactionReport'
 import {
   ConfirmDisable2FA,
@@ -102,6 +103,7 @@ const Modals = props => (
     <ShowXlmPrivateKey />
     <ShowUsedAddresses />
     <SignMessage />
+    <SwapGetStarted />
     <ShowXPub />
     <SfoxExchangeData />
     <SfoxTradeDetails />

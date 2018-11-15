@@ -734,13 +734,13 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
-"@blockchain-com/components@^2.0.11":
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/@blockchain-com/components/-/components-2.4.2.tgz#265616360f629ae7ec73609f93030c35bc3b782f"
-  integrity sha512-mn21zQfXTR/LM1PP5t/CxjRq3qcS9eq3p0BnX0qZ3CpzRn6YTkG4J7/BWxCesIrvFRSAKyw9/+nmi34GK0A2FA==
+"@blockchain-com/components@2.5.3":
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/@blockchain-com/components/-/components-2.5.3.tgz#8da75f288139b4688fa9695b4b6b35e036dca61a"
+  integrity sha512-b6yz2mj8S2f/2S/1Rxlz16bNQ19EY0CLAs+IQWTDVhdTOdDKAy8tPEZauN9GBx0Vk4aEHyPRK9tf1euXMxzGkg==
   dependencies:
     "@babel/runtime" "7.1.2"
-    react-tooltip "3.8.4"
+    react-tooltip "3.9.0"
 
 "@emotion/babel-utils@^0.6.4":
   version "0.6.10"
@@ -12916,10 +12916,10 @@ react-tooltip@3.8.0:
     classnames "^2.2.5"
     prop-types "^15.6.0"
 
-react-tooltip@3.8.4:
-  version "3.8.4"
-  resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-3.8.4.tgz#7af7994d5a242c08f2a3cf0b86919fede6eb44f2"
-  integrity sha512-i9rP5eihRNXFqYtyw58fhy+oT7OAEox/WC7XJOSED57s31nLU+uOJai5TgADbwNzJ7xamPkijYF36IfrUGJgcQ==
+react-tooltip@3.9.0:
+  version "3.9.0"
+  resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-3.9.0.tgz#d874df922c3b34b2e547ec62ff8b2eef42017b51"
+  integrity sha512-vpn738FVv2oe2LzdwUchped3WqLgZSQwrBow+ceChS1+lFEJBPjOa9KD3JH/L/s0Aorxawi3A20qBcHX7vqaag==
   dependencies:
     classnames "^2.2.5"
     prop-types "^15.6.0"

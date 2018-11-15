@@ -23,6 +23,7 @@ import sendEth from './sendEth/sagas'
 import sendXlm from './sendXlm/sagas'
 import settings from './settings/sagas'
 import signMessage from './signMessage/sagas'
+import swapGetStarted from './swapGetStarted/sagas'
 import transactionReport from './transactionReport/sagas'
 import uploadDocuments from './uploadDocuments/sagas'
 
@@ -52,6 +53,7 @@ export default ({ api, coreSagas, options, networks }) => ({
   sendXlm: sendXlm({ coreSagas }),
   settings: settings({ api, coreSagas }),
   signMessage: signMessage({ coreSagas }),
+  swapGetStarted: swapGetStarted({ coreSagas }),
   transactionReport: transactionReport({ coreSagas }),
   uploadDocument: uploadDocuments({ api })
 })

@@ -130,6 +130,8 @@ const configureStore = () => {
         store.dispatch(actions.core.data.xlm.createTestAccounts())
       }
 
+      store.dispatch(actions.goals.defineGoals())
+
       return {
         store,
         history
