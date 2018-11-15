@@ -546,7 +546,7 @@
         "id": "components.alerts.private_key_incorrect"
       },
       {
-        "defaultMessage": "Not a valid Bitcoin Private Key or Address.",
+        "defaultMessage": "Not a valid bitcoin private key or address.",
         "id": "components.alerts.address_and_private_key_incorrect"
       },
       {
@@ -2776,7 +2776,7 @@
         "id": "modals.importbtcaddress.importexternalbitcoinaddress.advanced.message"
       },
       {
-        "defaultMessage": "Enter Bitcoin address or private key",
+        "defaultMessage": "Enter bitcoin address or private key",
         "id": "modals.importbtcaddress.importexternalbitcoinaddress.bitcoineither"
       },
       {
@@ -10976,7 +10976,7 @@
         "id": "formhelper.invalidbitcoinprivatekey"
       },
       {
-        "defaultMessage": "Not a valid Bitcoin address or private key",
+        "defaultMessage": "Not a valid bitcoin address or private key",
         "id": "formhelper.invalidbitcoinaddressandkey"
       },
       {
