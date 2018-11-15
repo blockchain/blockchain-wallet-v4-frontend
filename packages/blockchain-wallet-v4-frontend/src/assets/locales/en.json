@@ -807,7 +807,7 @@
   "modals.sendbch.secondstep.back": "Go back",
   "modals.sendbch.secondstep.fee": "Fee:",
   "modals.sendbch.secondstep.from": "From:",
-  "modals.sendbch.secondstep.legacy_addr_warning": "Are you sure this is a Bitcoin Cash Address? Sending funds to bitcoin address by accident will result in loss of funds.",
+  "modals.sendbch.secondstep.legacy_addr_warning": "Are you sure this is a bitcoin cash address? Sending funds to a bitcoin address by accident will result in loss of funds.",
   "modals.sendbch.secondstep.note": "Note:",
   "modals.sendbch.secondstep.payment": "Payment:",
   "modals.sendbch.secondstep.send": "Send Bitcoin Cash",
