@@ -6,7 +6,6 @@ import styled, { injectGlobal } from 'styled-components'
 import Header from './Header'
 import Footer from './Footer'
 import Alerts from 'components/Alerts'
-import Container from 'components/Container'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { selectors } from 'data'
 import { isOnDotInfo } from 'services/MigrationService'
@@ -79,7 +78,7 @@ const ContentContainer = styled.div`
 const FooterContainer = styled.div`
   position: relative;
   width: 100%;
-  padding: 20px 0;
+  padding: 20px;
 
   @media (min-width: 768px) {
     position: fixed;
@@ -119,9 +118,7 @@ class PublicLayoutContainer extends React.PureComponent {
                 <Component {...matchProps} />
               </ContentContainer>
               <FooterContainer>
-                <Container>
-                  <Footer />
-                </Container>
+                <Footer />
               </FooterContainer>
             </ErrorBoundary>
           </Wrapper>
