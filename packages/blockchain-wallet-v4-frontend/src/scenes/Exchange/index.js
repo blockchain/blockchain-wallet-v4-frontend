@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { path } from 'ramda'
 
+import { actions, model } from 'data'
 import media from 'services/ResponsiveService'
 import GetStarted from './GetStarted'
 import Exchange from './ExchangeContainer'
@@ -42,21 +43,39 @@ const Column = styled.div`
   width: 100%;
 `
 
-const ExchangeScene = ({ verified, location }) => (
-  <Wrapper>
-    {verified ? (
-      <Container>
-        <Column>
-          <Exchange />
-        </Column>
-      </Container>
-    ) : (
-      <GetStarted
-        from={path(['state', 'from'], location)}
-        to={path(['state', 'to'], location)}
-      />
-    )}
-  </Wrapper>
-)
+const { ENTERED } = model.analytics.EXCHANGE
 
-export default connect(getData)(ExchangeScene)
+class ExchangeScene extends React.PureComponent {
+  componentDidMount () {
+    this.props.logEnterExchange()
+  }
+
+  render () {
+    const { verified, location } = this.props
+    return (
+      <Wrapper>
+        {verified ? (
+          <Container>
+            <Column>
+              <Exchange />
+            </Column>
+          </Container>
+        ) : (
+          <GetStarted
+            from={path(['state', 'from'], location)}
+            to={path(['state', 'to'], location)}
+          />
+        )}
+      </Wrapper>
+    )
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  logEnterExchange: () => dispatch(actions.analytics.logExchangeEvent(ENTERED))
+})
+
+export default connect(
+  getData,
+  mapDispatchToProps
+)(ExchangeScene)

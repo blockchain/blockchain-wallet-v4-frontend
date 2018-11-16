@@ -19,3 +19,11 @@ export const logSfoxDropoff = step => ({
   type: AT.LOG_SFOX_DROPOFF,
   payload: { step }
 })
+export const logKycEvent = event => ({
+  type: AT.LOG_KYC_EVENT,
+  payload: { event }
+})
+export const logExchangeEvent = event => ({
+  type: AT.LOG_EXCHANGE_EVENT,
+  payload: { event }
+})

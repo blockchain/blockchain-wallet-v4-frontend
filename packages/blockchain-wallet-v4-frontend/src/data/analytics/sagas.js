@@ -64,6 +64,26 @@ export default ({ api }) => {
     }
   }
 
+  const logKycEvent = function*({ payload }) {
+    try {
+      const { event } = payload
+      yield call(api.logKycEvent, event)
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'logKycEvent', e))
+    }
+  }
+
+  const logExchangeEvent = function*({ payload }) {
+    try {
+      const { event } = payload
+      yield call(api.logExchangeEvent, event)
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'logExchangeEvent', e)
+      )
+    }
+  }
+
   const logSfoxDropoff = function*(action) {
     const { payload } = action
     try {
@@ -84,6 +104,8 @@ export default ({ api }) => {
 
   return {
     logClick,
+    logKycEvent,
+    logExchangeEvent,
     logSfoxDropoff,
     logLeftNavClick,
     logLockboxSetup,
