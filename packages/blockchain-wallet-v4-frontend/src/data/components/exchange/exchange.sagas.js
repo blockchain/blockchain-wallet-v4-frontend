@@ -53,6 +53,7 @@ import {
 export const logLocation = 'exchange/sagas'
 
 export default ({ api, coreSagas, options, networks }) => {
+  const { SECOND_STEP_SUBMIT, SECOND_STEP_ERROR } = model.analytics.EXCHANGE
   const {
     RESULTS_MODAL,
     formatExchangeTrade
@@ -684,9 +685,11 @@ export default ({ api, coreSagas, options, networks }) => {
         actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))
       )
       yield put(actions.components.refresh.refreshClicked())
+      yield put(actions.analytics.logExchangeEvent(SECOND_STEP_SUBMIT))
     } catch (e) {
       yield put(actions.modals.closeAllModals())
       yield put(actions.form.stopSubmit(CONFIRM_FORM, { _error: e }))
+      yield put(actions.analytics.logExchangeEvent(SECOND_STEP_ERROR))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'confirm', JSON.stringify(e))
       )

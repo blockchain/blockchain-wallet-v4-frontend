@@ -31,6 +31,13 @@ export const failedResendError = 'Failed to resend the code'
 export const userExistsError = 'User already exists'
 
 export default ({ api, coreSagas }) => {
+  const {
+    EMAIL_EXISTS,
+    REENTERED,
+    STARTED,
+    PERSONAL_STEP_COMPLETE,
+    MOBILE_STEP_COMPLETE
+  } = model.analytics.KYC
   const { USER_ACTIVATION_STATES } = model.profile
   const {
     getCampaignData,
@@ -90,14 +97,17 @@ export default ({ api, coreSagas }) => {
         selectors.core.kvStore.userCredentials.getUserId
       )).getOrElse('')
       if (userId) {
+        yield put(actions.analytics.logKycEvent(REENTERED))
         yield put(actions.modals.showModal(KYC_MODAL))
         return false
       }
       const retailToken = yield call(generateRetailToken)
       yield call(api.checkUserExistence, retailToken)
       yield put(actions.modals.showModal(USER_EXISTS_MODAL))
+      yield put(actions.analytics.logKycEvent(EMAIL_EXISTS))
       return true
     } catch (e) {
+      yield put(actions.analytics.logKycEvent(STARTED))
       yield put(actions.modals.showModal(KYC_MODAL))
       return false
     }
@@ -152,6 +162,7 @@ export default ({ api, coreSagas }) => {
       yield call(syncUserWithWallet)
       yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
       yield put(A.setVerificationStep(STEPS.verify))
+      yield put(actions.analytics.logKycEvent(MOBILE_STEP_COMPLETE))
     } catch (e) {
       const description = prop('description', e)
 
@@ -215,6 +226,7 @@ export default ({ api, coreSagas }) => {
 
       if (!smsVerified && !mobileVerified) {
         yield put(actions.form.stopSubmit(PERSONAL_FORM))
+        yield put(actions.analytics.logKycEvent(PERSONAL_STEP_COMPLETE))
         return yield put(A.setVerificationStep(STEPS.mobile))
       }
 
@@ -222,6 +234,7 @@ export default ({ api, coreSagas }) => {
       yield call(syncUserWithWallet)
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
       yield put(A.setVerificationStep(STEPS.verify))
+      yield put(actions.analytics.logKycEvent(PERSONAL_STEP_COMPLETE))
     } catch (e) {
       yield put(actions.form.stopSubmit(PERSONAL_FORM, e))
       yield put(

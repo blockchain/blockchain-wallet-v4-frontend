@@ -24,6 +24,7 @@ const extractFieldValue = (e, value) => value
 
 const { swapCoinAndFiat, swapBaseAndCounter } = model.rates
 const { EXCHANGE_FORM } = model.components.exchange
+const { FIRST_STEP_SUBMIT } = model.analytics.EXCHANGE
 
 class ExchangeForm extends React.Component {
   componentDidMount () {
@@ -66,6 +67,7 @@ class ExchangeForm extends React.Component {
     const {
       actions,
       formActions,
+      logExchangeClick,
       data,
       min,
       max,
@@ -91,7 +93,10 @@ class ExchangeForm extends React.Component {
             txError={txError}
             handleMaximum={actions.firstStepMaximumClicked}
             handleMinimum={actions.firstStepMinimumClicked}
-            onSubmit={actions.showConfirmation}
+            onSubmit={compose(
+              logExchangeClick,
+              actions.showConfirmation
+            )}
             handleSourceChange={compose(
               actions.changeSource,
               extractFieldValue
@@ -144,6 +149,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  logExchangeClick: () =>
+    dispatch(actions.analytics.logExchangeEvent(FIRST_STEP_SUBMIT)),
   actions: bindActionCreators(actions.components.exchange, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

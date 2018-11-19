@@ -26,6 +26,7 @@ import {
   ExchangeDetails,
   ExchangeResults,
   IdentityVerification,
+  SwapGetStarted,
   UserExists
 } from './Exchange'
 import {
@@ -44,7 +45,6 @@ import {
   SfoxTradeDetails
 } from './Sfox'
 import SignMessage from './SignMessage'
-import SwapGetStarted from './SwapGetStarted'
 import TransactionReport from './TransactionReport'
 import {
   ConfirmDisable2FA,
