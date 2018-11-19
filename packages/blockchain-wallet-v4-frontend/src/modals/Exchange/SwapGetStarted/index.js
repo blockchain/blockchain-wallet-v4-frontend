@@ -78,7 +78,7 @@ class SwapGetStarted extends React.PureComponent {
         <Body>
           <Text size='18px' weight={400}>
             <FormattedMessage
-              defaultMessage='The faster, smarter way to trade your crypto. Check it out !'
+              defaultMessage='The faster, smarter way to trade your crypto. Check it out!'
               id='modals.swapgetstarted.description'
             />
           </Text>
