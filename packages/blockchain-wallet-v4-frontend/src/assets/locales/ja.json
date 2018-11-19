@@ -1544,7 +1544,7 @@
   "scenes.faq.group.walletsecurity.answer3.navlink2": "環境設定",
   "scenes.faq.group.walletsecurity.answer3.one": "ブロックチェーンではお客様が完全に資金を管理できる環境を提供しています。当社がパスワードを保管することはなく、よってリセットをすることはできません。ただし、資金へのアクセスを回復するために使用できるバックアップフレーズをユーザーに提供しております。お客様の次の項目へ進む",
   "scenes.faq.group.walletsecurity.answer3.two": "お客様のものを見付けるために。安全なオフラインの場所に保管し、絶対に共有しないようにしてください。",
-  "scenes.faq.group.walletsecurity.answer4.five": "交換パートナー（Coinify、SFOX、Unocoin、Shapeshift）のいずれかのアカウントを作成した場合、サポートチームに連絡して、個人情報を記録から削除するためのヘルプを受けてください。この件に関する支援は、サポートチームにお問い合わせください",
+  "scenes.faq.group.walletsecurity.answer4.five": "交換パートナー（Coinify、SFOX、Shapeshift）のいずれかのアカウントを作成した場合、サポートチームに連絡して、個人情報を記録から削除するためのヘルプを受けてください。この件に関する支援は、サポートチームにお問い合わせください",
   "scenes.faq.group.walletsecurity.answer4.four": "この関連情報を差し替え、インポートされたすべてのアドレスを「アドレス」セクションにアーカイブした後、お客様と関連するすべての情報が削除されます。お客様だけがバックアップフレーズを知っている場合、ウォレットはお客様が再び使用することを決めるまで原則的にミュートになります。ウォレットのバックアップフレーズは、安全な場所に保管しておくことをお薦めします。",
   "scenes.faq.group.walletsecurity.answer4.link": "こちら",
   "scenes.faq.group.walletsecurity.answer4.navlink": "セキュリティセンター",
