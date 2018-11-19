@@ -1080,7 +1080,6 @@
   "modals.userexists.emailused": "You may have started the verification process in a different Blockchain Wallet.",
   "modals.userexists.kyccomplete": "If you have already verified your profile on another Blockchain Wallet, we are unable to verify you again on another wallet.",
   "modals.userexists.kycnotcomplete": "In order to complete verification, please consider using another email address.",
-  "modals.userexists.learnmore": "Learn more",
   "modals.userexists.title": "Oops! Looks like we have this email already",
   "modals.welcome.continue": "Get Started",
   "modals.welcome.thanks": "Thanks for joining over {walletMillions} million Blockchain wallet users in helping create an open, accessible, and fair financial future. Your wallet makes transacting with digital currencies simple and secure. Get started now.",

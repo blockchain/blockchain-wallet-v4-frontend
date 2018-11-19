@@ -5182,10 +5182,6 @@
         "id": "modals.userexists.kyccomplete"
       },
       {
-        "defaultMessage": "Learn more",
-        "id": "modals.userexists.learnmore"
-      },
-      {
         "defaultMessage": "Change Email",
         "id": "modals.userexists.changeemail"
       }
