@@ -1,4 +1,4 @@
-import { map, prop, startsWith, sum, values } from 'ramda'
+import { equals, map, prop, startsWith, sum, values } from 'ramda'
 import { all, call, join, put, select, spawn, take } from 'redux-saga/effects'
 import base64 from 'base-64'
 import bip21 from 'bip21'
@@ -9,6 +9,8 @@ import * as C from 'services/AlertService'
 import { getBtcBalance, getAllBalances } from 'data/balance/sagas'
 
 export default ({ api }) => {
+  const { NONE } = model.profile.KYC_STATES
+
   const logLocation = 'goals/sagas'
 
   const defineReferralGoal = function*(search) {
@@ -106,7 +108,12 @@ export default ({ api }) => {
     // check/wait for balances to be available
     const balances = yield call(getAllBalances)
     const isFunded = sum(values(balances)) !== 0
-    if (isFunded)
+    const kycNotFinished = (yield select(
+      selectors.modules.profile.getUserKYCState
+    ))
+      .map(equals(NONE))
+      .getOrElse(false)
+    if (isFunded && kycNotFinished)
       yield put(actions.goals.addInitialModal('swap', 'SwapGetStarted'))
   }
 
