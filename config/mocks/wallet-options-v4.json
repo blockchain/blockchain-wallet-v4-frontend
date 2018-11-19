@@ -404,24 +404,6 @@
           ]
         },
         "announcements": {}
-      },
-      "unocoin": {
-        "fraction": 0,
-        "countries": ["IN"],
-        "states": "*",
-        "config": {
-          "production": "REPLACED_BY_DEV_SERVER",
-          "surveyLinks": [
-            "https://blockchain.co1.qualtrics.com/jfe/form/SV_0wAlAEnwlumr4XP",
-            "https://blockchain.co1.qualtrics.com/jfe/form/SV_8jmvSfjqqPzNWVn",
-            "https://blockchain.co1.qualtrics.com/jfe/form/SV_25JUYJLoLoHQ5b7"
-          ],
-          "surveyTradeLinks": [
-            "https://blockchain.co1.qualtrics.com/jfe/form/SV_87YRZx6LVdaF4kR",
-            "https://blockchain.co1.qualtrics.com/jfe/form/SV_bBDOyGwj5WOb0hL"
-          ]
-        },
-        "announcements": {}
       }
     },
     "ios": {},

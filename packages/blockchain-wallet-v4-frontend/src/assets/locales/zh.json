@@ -1544,7 +1544,7 @@
   "scenes.faq.group.walletsecurity.answer3.navlink2": "首选项",
   "scenes.faq.group.walletsecurity.answer3.one": "在 Blockchain，我们致力于让客户拥有对他们的资金的完全控制权。本着这种精神，我们决不会看或者存储您的密码，因此，我们也不能为您进行密码重置。然而，我们的确为用户提供备份密钥，用于恢复用户对其资金的取用。前往您的",
   "scenes.faq.group.walletsecurity.answer3.two": "找到您的备份密钥。请确保将备份密钥安全地脱机存储，并且一定不要分享。",
-  "scenes.faq.group.walletsecurity.answer4.five": "若您通过合作的交易所（Coinify、SFOX、Unocoin或Shapeshift）创建了账户，请联系其支持团队，获得从其记录中移除您的个人信息的进一步帮助。对此如需帮助，请联系我们的支持团队，",
+  "scenes.faq.group.walletsecurity.answer4.five": "若您通过合作的交易所（Coinify、SFOX 或Shapeshift）创建了账户，请联系其支持团队，获得从其记录中移除您的个人信息的进一步帮助。对此如需帮助，请联系我们的支持团队，",
   "scenes.faq.group.walletsecurity.answer4.four": "替换相关信息并将“地址”部分中所有已导入的地址存档后，您的所有信息就已移除。若只有您知道您的备份密钥，您的钱包就基本变成静默状态，直至您决定再次使用为止。若您还想回到您的钱包，我们建议将钱包的备份密钥存放在安全之处。",
   "scenes.faq.group.walletsecurity.answer4.link": "点这里",
   "scenes.faq.group.walletsecurity.answer4.navlink": "安全中心",
