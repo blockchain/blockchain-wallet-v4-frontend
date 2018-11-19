@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 
 import { actions } from 'data'
-import background from './swap-background-2.svg'
+import background from './banner.png'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { Modal, Text, Button } from 'blockchain-info-components'
 
@@ -19,7 +19,6 @@ const Header = styled.div`
   background: #0d0d42 url(${background});
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: -20px -10px;
   overflow: hidden;
   border-radius: 4px;
 `

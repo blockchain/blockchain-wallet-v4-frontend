@@ -6,8 +6,8 @@ import { FormattedMessage } from 'react-intl'
 import { Button, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { getData } from './selectors'
-import background1 from './swap-background-1.svg'
-import background2 from './swap-background-2.svg'
+import background1 from './dashboard.png'
+import background2 from './dashboard-right.png'
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,6 +23,7 @@ const Wrapper = styled.div`
   padding-right: 15px;
   margin-top: 15px;
   box-sizing: border-box;
+  overflow: hidden;
 
   @media (min-width: 1200px) {
     display: flex;
@@ -68,7 +69,7 @@ const BackgroundImage = styled.img.attrs({
   src: background2
 })`
   display: none;
-  height: 100%;
+  height: 125%;
   @media (min-width: 1200px) {
     display: block;
   }
