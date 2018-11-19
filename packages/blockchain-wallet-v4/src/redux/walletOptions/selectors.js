@@ -22,7 +22,6 @@ export const getCoinAvailablility = curry((state, coin) =>
   getWebOptions(state).map(path([getCoinOptionsName(coin), 'availability']))
 )
 
-//
 const getCoinOptionsName = flip(prop)({
   BTC: 'btc',
   BCH: 'bch',
