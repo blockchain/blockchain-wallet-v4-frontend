@@ -1391,7 +1391,7 @@
   "scenes.faq.group.walletfunctionality.answer10.three": "另外，您可以导入来自不同钱包提供商（其拥有相应的公钥）的私钥，在您的Blockchain钱包内使用它自由消费。由于您在这些地址内的资金并没有备份到您的恢复密钥中，我们强烈建议将这些地址内的资金“转入”您的主账户内。",
   "scenes.faq.group.walletfunctionality.answer10.two": "只看地址是一个实用的功能，它可以用来监控出入钱包的交易，或者追踪用于重复支付（如收租）的地址。请记住，使用同一地址进行发送和接收会让您的交易历史记录易于追踪。",
   "scenes.faq.group.walletfunctionality.answer11.four": "使用右上角的搜索栏来进一步了解具体的比特币地址、交易Hash和区块号码。",
-  "scenes.faq.group.walletfunctionality.answer11.link": "https://blockchain.info ",
+  "scenes.faq.group.walletfunctionality.answer11.link": "https://www.blockchain.com/explorer",
   "scenes.faq.group.walletfunctionality.answer11.one": "区块浏览器会以显眼、直观的方式让您浏览不同货币的区块链。对于您钱包内的交易，您可以找到该货币的标签页，点击 ? 图标来查看您的交易。",
   "scenes.faq.group.walletfunctionality.answer11.three": "若查找一笔比特币交易，用户可以浏览",
   "scenes.faq.group.walletfunctionality.answer11.two": "Blockchain于2011年8月推出了自己的区块浏览器（针对比特币），其中有关于比特币网络内活动的各种实用图表和统计数据，让大家了解比特币的交易。",

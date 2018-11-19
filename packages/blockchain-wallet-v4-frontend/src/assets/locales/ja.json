@@ -1391,7 +1391,7 @@
   "scenes.faq.group.walletfunctionality.answer10.three": "または、（公開鍵が帰属する）異なるウォレットのプロバイダーから秘密鍵をインポートして、ブロックチェーンウォレット内で自由に使用することもできます。これらのアドレスの資金は、リカバリーフレーズでバックアップされていないため、資金をメインアカウントに「転送」することを強くお薦めします。",
   "scenes.faq.group.walletfunctionality.answer10.two": "ウォッチオンリー・アドレスは、送受信される取引を監視したり、家賃などの繰返し支払いのアドレスを記録するのに便利な機能です。同一のアドレスで送受信することで、取引履歴の追跡が容易になることを留意してください。",
   "scenes.faq.group.walletfunctionality.answer11.four": "また、右上の検索バーを使用することで、特定のビットコインアドレス、取引ハッシュ、ブロック番号の詳細について知ることができます。",
-  "scenes.faq.group.walletfunctionality.answer11.link": "https://blockchain.info ",
+  "scenes.faq.group.walletfunctionality.answer11.link": "https://www.blockchain.com/explorer",
   "scenes.faq.group.walletfunctionality.answer11.one": "ブロックエクスプローラーにより、視覚に訴える直感的な方法で異なるブロックチェーンをナビゲートすることができます。ウォレット内のすべての取引に関して、通貨タブへナビゲートし、「?」アイコンをクリックして取引を表示することができます。",
   "scenes.faq.group.walletfunctionality.answer11.three": "ビットコインの取引を検索するには、ユーザーは次にアクセスできます",
   "scenes.faq.group.walletfunctionality.answer11.two": "ブロックチェーンには、2011年8月に立ち上げられた独自のビットコイン固有のブロックエクスプローラがあります。ここには、ネットワーク上の活動に関する様々な便利なチャートや統計情報があり、誰でもビットコインの取引について学ぶことができるように作成されました。",
