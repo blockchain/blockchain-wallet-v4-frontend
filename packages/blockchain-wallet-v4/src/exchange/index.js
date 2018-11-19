@@ -1,4 +1,4 @@
-import { path, prop } from 'ramda'
+import { assoc, assocPath, path, prop } from 'ramda'
 import * as Currency from './currency'
 import * as Pairs from './pairs'
 import * as Currencies from './currencies'
@@ -121,14 +121,28 @@ const transformFiatToXlm = ({ value, fromCurrency, toUnit, rates }) => {
     .chain(Currency.toUnit(targetUnit))
 }
 
-const transformXlmToFiat = ({ value, fromUnit, toCurrency, rates }) => {
+const transformXlmToFiat = ({
+  value,
+  fromUnit,
+  toCurrency,
+  rates,
+  digits = 2
+}) => {
   const pairs = Pairs.create(XLM.code, rates)
   const targetCurrency = prop(toCurrency, Currencies)
   const targetCurrencyCode = prop('code', targetCurrency)
-  const targetCurrencyUnit = path(['units', targetCurrencyCode], targetCurrency)
+  const updatedTargetCurrency = assocPath(
+    ['units', targetCurrencyCode, 'decimal_digits'],
+    digits,
+    prop(toCurrency, Currencies)
+  )
+  const targetCurrencyUnit = path(
+    ['units', targetCurrencyCode],
+    updatedTargetCurrency
+  )
   const sourceUnit = path(['units', fromUnit], XLM)
   return Currency.fromUnit({ value, unit: sourceUnit })
-    .chain(Currency.convert(pairs, targetCurrency))
+    .chain(Currency.convert(pairs, updatedTargetCurrency))
     .chain(Currency.toUnit(targetCurrencyUnit))
 }
 
@@ -305,8 +319,15 @@ const displayFiatToXlm = ({ value, fromCurrency, toUnit, rates }) => {
     .getOrElse(DefaultDisplay)
 }
 
-const displayXlmToFiat = ({ value, fromUnit, toCurrency, rates }) => {
-  return transformXlmToFiat({ value, fromUnit, toCurrency, rates })
+const displayXlmToFiat = ({
+  value,
+  fromUnit,
+  toCurrency,
+  rates,
+  digits = 2
+}) => {
+  return transformXlmToFiat({ value, fromUnit, toCurrency, rates, digits })
+    .map(assoc('digits', digits))
     .map(Currency.fiatToString)
     .getOrElse(DefaultDisplay)
 }

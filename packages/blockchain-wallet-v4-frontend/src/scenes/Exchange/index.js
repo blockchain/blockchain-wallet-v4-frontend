@@ -3,12 +3,9 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { path } from 'ramda'
 
+import { actions, model } from 'data'
 import media from 'services/ResponsiveService'
-
-import KYCBanner from 'components/IdentityVerification/KYCBanner'
 import GetStarted from './GetStarted'
-import Shapeshift from './Shapeshift'
-import Info from './Info'
 import Exchange from './ExchangeContainer'
 
 import { getData } from './selectors'
@@ -38,9 +35,6 @@ const Container = styled.section`
     padding: 10px;
   `};
 `
-const ShapeshiftContainer = styled(Container)`
-  height: 100%;
-`
 const Column = styled.div`
   display: flex;
   flex-direction: column;
@@ -48,54 +42,40 @@ const Column = styled.div`
   align-items: flex-start;
   width: 100%;
 `
-const ColumnLeft = styled(Column)`
-  align-items: flex-end;
-  margin-right: 10px;
-  & > :first-child {
-    margin-bottom: 10px;
-  }
-  @media (min-width: 992px) {
-    width: 60%;
+
+const { ENTERED } = model.analytics.EXCHANGE
+
+class ExchangeScene extends React.PureComponent {
+  componentDidMount () {
+    this.props.logEnterExchange()
   }
 
-  ${media.mobile`
-    margin-right: 0;
-  `};
-`
-const ColumnRight = styled(Column)`
-  padding: 0;
-  margin-bottom: 10px;
-  box-sizing: border-box;
-  @media (min-width: 992px) {
-    width: 40%;
+  render () {
+    const { verified, location } = this.props
+    return (
+      <Wrapper>
+        {verified ? (
+          <Container>
+            <Column>
+              <Exchange />
+            </Column>
+          </Container>
+        ) : (
+          <GetStarted
+            from={path(['state', 'from'], location)}
+            to={path(['state', 'to'], location)}
+          />
+        )}
+      </Wrapper>
+    )
   }
-`
-const ExchangeScene = ({ useShapeShift, location, showGetStarted }) => (
-  <Wrapper>
-    {useShapeShift && (
-      <ShapeshiftContainer>
-        <ColumnLeft>
-          <Shapeshift />
-        </ColumnLeft>
-        <ColumnRight>
-          <Info />
-        </ColumnRight>
-      </ShapeshiftContainer>
-    )}
-    {!useShapeShift && !showGetStarted && <KYCBanner outsideOfProfile />}
-    {!useShapeShift &&
-      !showGetStarted && (
-        <Container>
-          <Column>
-            <Exchange
-              from={path(['state', 'from'], location)}
-              to={path(['state', 'to'], location)}
-            />
-          </Column>
-        </Container>
-      )}
-    {!useShapeShift && showGetStarted && <GetStarted />}
-  </Wrapper>
-)
+}
 
-export default connect(getData)(ExchangeScene)
+const mapDispatchToProps = dispatch => ({
+  logEnterExchange: () => dispatch(actions.analytics.logExchangeEvent(ENTERED))
+})
+
+export default connect(
+  getData,
+  mapDispatchToProps
+)(ExchangeScene)

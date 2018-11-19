@@ -1,11 +1,11 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.5.1",
+  "version": "4.5.5",
   "license": "AGPL-3.0-or-later",
   "private": true,
   "author": {
     "name": "Blockchain.info",
-    "url": "https://blockchain.info"
+    "url": "https://blockchain.com"
   },
   "homepage": "https://github.com/blockchain/blockchain-wallet-v4-frontend",
   "bugs": {

@@ -261,7 +261,7 @@ describe('fetch transactions saga', () => {
 
   it('should set atBound to false if tx length is bigger or equal to TX_PER_PAGE', () => {
     const fullPage = new Array(TX_PER_PAGE).fill({})
-    expectSaga(fetchTransactions, { payload: {} })
+    return expectSaga(fetchTransactions, { payload: {} })
       .provide([
         [
           select(selectors.kvStore.xlm.getDefaultAccountId),
@@ -282,6 +282,57 @@ describe('fetch transactions saga', () => {
       })
       .put(A.transactionsAtBound(false))
       .put(A.fetchTransactionsSuccess(fullPage))
+      .run()
+  })
+
+  it('should set atBound to true and empty txs on 404 response', () => {
+    api.getXlmTransactions.mockRejectedValueOnce({ response: { status: 404 } })
+    return expectSaga(fetchTransactions, { payload: {} })
+      .provide([
+        [
+          select(selectors.kvStore.xlm.getDefaultAccountId),
+          Remote.of(STUB_ACCOUNT_ID)
+        ],
+        [select(S.getTransactions), []]
+      ])
+      .select(selectors.kvStore.xlm.getDefaultAccountId)
+      .select(S.getTransactions)
+      .select(S.getTransactionsAtBound)
+      .put(A.fetchTransactionsLoading())
+      .call(api.getXlmTransactions, {
+        publicKey: STUB_ACCOUNT_ID,
+        limit: TX_PER_PAGE,
+        pagingToken: null,
+        reset: undefined
+      })
+      .put(A.fetchTransactionsSuccess([]))
+      .put(A.transactionsAtBound(true))
+      .run()
+  })
+
+  it('should set error on error response', () => {
+    const errorMessage = 'message'
+    const error = new Error(errorMessage)
+    api.getXlmTransactions.mockRejectedValueOnce(error)
+    return expectSaga(fetchTransactions, { payload: {} })
+      .provide([
+        [
+          select(selectors.kvStore.xlm.getDefaultAccountId),
+          Remote.of(STUB_ACCOUNT_ID)
+        ],
+        [select(S.getTransactions), []]
+      ])
+      .select(selectors.kvStore.xlm.getDefaultAccountId)
+      .select(S.getTransactions)
+      .select(S.getTransactionsAtBound)
+      .put(A.fetchTransactionsLoading())
+      .call(api.getXlmTransactions, {
+        publicKey: STUB_ACCOUNT_ID,
+        limit: TX_PER_PAGE,
+        pagingToken: null,
+        reset: undefined
+      })
+      .put(A.fetchTransactionsFailure(errorMessage))
       .run()
   })
 })

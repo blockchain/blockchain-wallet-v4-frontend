@@ -10,6 +10,7 @@ import SetupTypeStep from './SetupTypeStep'
 import ConnectDeviceStep from './ConnectDeviceStep'
 import AuthenticityStep from './AuthenticityStep'
 import NameDeviceStep from './NameDeviceStep'
+import InstallBtcAppStep from './InstallBtcAppStep'
 import OpenBtcAppStep from './OpenBtcAppStep'
 import ErrorStep from './ErrorStep'
 
@@ -25,9 +26,10 @@ class LockboxSetupContainer extends React.PureComponent {
       'setup-type': 0,
       'connect-device': 1,
       'auth-check': 2,
-      'open-btc-app': 3,
-      'name-device': 4,
-      'error-step': 5
+      'install-btc-app': 3,
+      'open-btc-app': 4,
+      'name-device': 5,
+      'error-step': 6
     }
     const step = currentStep && currentStep.step ? steps[currentStep.step] : 0
 
@@ -37,15 +39,16 @@ class LockboxSetupContainer extends React.PureComponent {
         position={position}
         closeAll={closeAll}
         handleClose={this.handleClose}
-        totalSteps={4}
+        totalSteps={5}
         step={step}
       >
         {step === 0 && <SetupTypeStep />}
         {step === 1 && <ConnectDeviceStep />}
         {step === 2 && <AuthenticityStep />}
-        {step === 3 && <OpenBtcAppStep done={currentStep.done} />}
-        {step === 4 && <NameDeviceStep />}
-        {step === 5 && <ErrorStep />}
+        {step === 3 && <InstallBtcAppStep />}
+        {step === 4 && <OpenBtcAppStep done={currentStep.done} />}
+        {step === 5 && <NameDeviceStep />}
+        {step === 6 && <ErrorStep />}
       </LockboxSetup>
     )
   }

@@ -99,13 +99,13 @@ export const fromUnit = ({ value, unit }) => {
   )
 }
 
-export const fiatToString = ({ value, unit }) =>
-  `${unit.symbol}${formatFiat(value)}`
+export const fiatToString = ({ value, unit, digits }) =>
+  `${unit.symbol}${formatFiat(value, digits)}`
 
 export const coinToString = ({ value, unit }) => `${value} ${unit.symbol}`
 
-export const formatFiat = value =>
+export const formatFiat = (value, digits = 2) =>
   Number(value).toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits
   })

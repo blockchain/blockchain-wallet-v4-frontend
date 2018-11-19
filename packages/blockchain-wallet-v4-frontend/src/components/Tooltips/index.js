@@ -40,7 +40,7 @@ class Tooltips extends React.PureComponent {
         <Tooltip id='reqBchShare'>
           <FormattedMessage
             id='modals.requestbch.share_tooltip'
-            defaultMessage='Share this address with others, and they can send you Bitcoin Cash directly to your wallet. Your address changes with every payment.'
+            defaultMessage='Share this address with others, and they can send you bitcoin cash directly to your wallet. Your address changes with every payment.'
           />
         </Tooltip>
         <Tooltip id='reqBchQR'>

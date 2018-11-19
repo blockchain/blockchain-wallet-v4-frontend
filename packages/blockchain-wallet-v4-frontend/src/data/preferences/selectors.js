@@ -1,4 +1,4 @@
-import { curry, path } from 'ramda'
+import { path } from 'ramda'
 
 export const getCulture = path(['preferences', 'culture'])
 export const getLanguage = path(['preferences', 'language'])
@@ -10,6 +10,5 @@ export const getTotalBalancesDropdown = path([
   'preferences',
   'totalBalancesDropdown'
 ])
-export const getCoinShowIntro = curry((state, coin) =>
-  path(['preferences', 'coinIntros', coin])(state)
-)
+
+export const getShowKycGetStarted = path(['preferences', 'showKycGetStarted'])

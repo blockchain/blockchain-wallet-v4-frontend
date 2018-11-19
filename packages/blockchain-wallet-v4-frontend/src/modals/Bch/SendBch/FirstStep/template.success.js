@@ -67,7 +67,12 @@ const FirstStep = props => {
               defaultMessage='Currency:'
             />
           </FormLabel>
-          <Field name='coin' component={SelectBoxCoin} validate={[required]} />
+          <Field
+            name='coin'
+            component={SelectBoxCoin}
+            type='send'
+            validate={[required]}
+          />
         </FormItem>
         <FormItem width={'60%'}>
           <FormLabel for='from'>

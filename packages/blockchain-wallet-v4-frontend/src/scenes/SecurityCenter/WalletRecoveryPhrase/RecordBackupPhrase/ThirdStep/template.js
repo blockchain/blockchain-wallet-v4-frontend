@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { reduxForm, Field } from 'redux-form'
 
 import { spacing } from 'services/StyleService'
-import { Button, Link, Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import { Form, TextBox } from 'components/Form'
 import { required } from 'services/FormHelper'
 
@@ -57,24 +57,11 @@ const languageHelper = num => {
 }
 
 const ThirdStep = props => {
-  const { previousStep, submitting, invalid, hasError, ...rest } = props
+  const { previousStep, submitting, invalid, ...rest } = props
   const { indexes, handleSubmit } = rest
 
   return (
     <Wrapper>
-      {hasError ? (
-        <Link
-          size='14px'
-          weight={300}
-          onClick={previousStep}
-          style={{ margin: '10px 0' }}
-        >
-          <FormattedMessage
-            id='scenes.securitycenter.walletrecoveryphrase.thirdstep.reviewPhrase'
-            defaultMessage='Review your backup phrase'
-          />
-        </Link>
-      ) : null}
       <Form onSubmit={handleSubmit}>
         <Container>
           {indexes.map(index => (
@@ -97,7 +84,7 @@ const ThirdStep = props => {
             <Text weight={300} cursor='pointer'>
               <FormattedMessage
                 id='modals.recoveryphrase.secondstep.returnReviewPhrase'
-                defaultMessage='Review backup phrase'
+                defaultMessage='Review Backup Phrase'
               />
             </Text>
           </Button>

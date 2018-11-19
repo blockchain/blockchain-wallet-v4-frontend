@@ -942,7 +942,7 @@ const FaqContent = [
             <br />
             <FormattedMessage
               id='scenes.faq.group.walletsecurity.answer4.five'
-              defaultMessage='If you’ve created an account with one of our exchange partners (Coinify, SFOX, Unocoin or Shapeshift), please reach out to their support teams for further assistance with removing your personal information from their records. For assistance with this, please reach out to our support team'
+              defaultMessage='If you’ve created an account with one of our exchange partners (Coinify, SFOX or Shapeshift), please reach out to their support teams for further assistance with removing your personal information from their records. For assistance with this, please reach out to our support team'
             />
             <span>&nbsp;</span>
             <Link

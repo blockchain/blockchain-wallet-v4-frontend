@@ -3,12 +3,172 @@
     "web": {
       "application": {
         "enableDomainMigrationRedirects": true,
-        "announcements": {}
+        "availability": {
+          "adverts": true,
+          "mobile_login": true
+        },
+        "announcements": {
+          "public": {},
+          "wallet": {
+            "id": "bch-disabled-wallet",
+            "type": "info",
+            "icon": "alert-filled",
+            "hideType": "collapse",
+            "header": {
+              "en": "Ongoing Service Interruption",
+              "de": "",
+              "es": "",
+              "fr": "",
+              "pt": "",
+              "ru": "",
+              "vi": "",
+              "zh-cn": ""
+            },
+            "sections": [
+              {
+                "body": {
+                  "en": "At 16:40 UTC on Thursday 15th November, the Bitcoin Cash network experienced a hard fork.",
+                  "de": "",
+                  "es": "",
+                  "fr": "",
+                  "pt": "",
+                  "ru": "",
+                  "vi": "",
+                  "zh-cn": ""
+                }
+              },
+              {
+                "body": {
+                  "en": "We have temporarily suspended the ability to send, request, and exchange Bitcoin Cash. We strongly recommend that you do not request Bitcoin Cash until the network stabilizes. Any transactions issued at this time may experience prolonged confirmation times and could result in a loss of funds.",
+                  "de": "",
+                  "es": "",
+                  "fr": "",
+                  "pt": "",
+                  "ru": "",
+                  "vi": "",
+                  "zh-cn": ""
+                }
+              }
+            ],
+            "action": {
+              "title": {
+                "en": "Read More",
+                "de": "Mehr Erfahren",
+                "es": "Más Información",
+                "fr": "En Savoir Plus",
+                "pt": "Leia Mais",
+                "ru": "Читать Дальше",
+                "vi": "Đọc Thêm",
+                "zh-cn": "阅读更多"
+              },
+              "link": "https://blog.blockchain.com/2018/11/14/the-bch-hard-fork/"
+            }
+          },
+          "sendBch": {
+            "id": "bch-disabled-send",
+            "type": "info",
+            "icon": "alert-filled",
+            "hideType": "collapse",
+            "header": {
+              "en": "Ongoing Service Interruption",
+              "de": "",
+              "es": "",
+              "fr": "",
+              "pt": "",
+              "ru": "",
+              "vi": "",
+              "zh-cn": ""
+            },
+            "sections": [
+              {
+                "body": {
+                  "en": "At 16:40 UTC on Thursday 15th November, the Bitcoin Cash network experienced a hard fork.",
+                  "de": "",
+                  "es": "",
+                  "fr": "",
+                  "pt": "",
+                  "ru": "",
+                  "vi": "",
+                  "zh-cn": ""
+                }
+              },
+              {
+                "body": {
+                  "en": "We have temporarily suspended the ability to send, request, and exchange Bitcoin Cash. We strongly recommend that you do not request Bitcoin Cash until the network stabilizes. Any transactions issued at this time may experience prolonged confirmation times and could result in a loss of funds.",
+                  "de": "",
+                  "es": "",
+                  "fr": "",
+                  "pt": "",
+                  "ru": "",
+                  "vi": "",
+                  "zh-cn": ""
+                }
+              }
+            ],
+            "action": {
+              "title": {
+                "en": "Read More",
+                "de": "Mehr Erfahren",
+                "es": "Más Información",
+                "fr": "En Savoir Plus",
+                "pt": "Leia Mais",
+                "ru": "Читать Дальше",
+                "vi": "Đọc Thêm",
+                "zh-cn": "阅读更多"
+              },
+              "link": "https://blog.blockchain.com/2018/11/14/the-bch-hard-fork/"
+            }
+          },
+          "receiveBch": {
+            "id": "bch-disabled-receive",
+            "type": "info",
+            "icon": "alert-filled",
+            "hideType": "collapse",
+            "header": {
+              "en": "Ongoing Service Interruption",
+              "de": "",
+              "es": "",
+              "fr": "",
+              "pt": "",
+              "ru": "",
+              "vi": "",
+              "zh-cn": ""
+            },
+            "sections": [
+              {
+                "body": {
+                  "en": "A Bitcoin Cash hard fork will occur at 16:40 UTC on Thursday 15th November. To ensure your funds remain safe throughout this time of uncertainty, we will temporarily be suspending Bitcoin Cash send and request roughly 3 hours before the time of the fork.",
+                  "de": "",
+                  "es": "",
+                  "fr": "",
+                  "pt": "",
+                  "ru": "",
+                  "vi": "",
+                  "zh-cn": ""
+                }
+              }
+            ],
+            "action": {
+              "title": {
+                "en": "Read More",
+                "de": "Mehr Erfahren",
+                "es": "Más Información",
+                "fr": "En Savoir Plus",
+                "pt": "Leia Mais",
+                "ru": "Читать Дальше",
+                "vi": "Đọc Thêm",
+                "zh-cn": "阅读更多"
+              },
+              "link": "https://blog.blockchain.com/2018/11/14/the-bch-hard-fork/"
+            }
+          }
+        }
       },
       "btc": {
         "availability": {
           "send": true,
           "request": true,
+          "exchange": true,
           "history": true,
           "report": true,
           "fiat": true
@@ -17,7 +177,43 @@
           "network": "bitcoin"
         }
       },
+      "bch": {
+        "availability": {
+          "send": true,
+          "request": true,
+          "exchange": true,
+          "history": true,
+          "report": true,
+          "fiat": true
+        }
+      },
       "eth": {
+        "availability": {
+          "send": true,
+          "request": true,
+          "exchange": true,
+          "history": true,
+          "fiat": true
+        },
+        "lastTxFuse": 86400,
+        "config": {
+          "network": "mainnet"
+        },
+        "announcements": {}
+      },
+      "xlm": {
+        "availability": {
+          "send": true,
+          "request": true,
+          "exchange": true,
+          "history": true,
+          "fiat": true
+        },
+        "config": {
+          "network": "public"
+        }
+      },
+      "buysell": {
         "availability": {
           "send": true,
           "request": true,
