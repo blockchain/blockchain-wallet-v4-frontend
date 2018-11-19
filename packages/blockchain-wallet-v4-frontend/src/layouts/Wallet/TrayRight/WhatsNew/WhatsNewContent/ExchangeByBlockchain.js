@@ -32,14 +32,16 @@ const DarkText = styled(Text).attrs({
   size: '16px',
   weight: 300
 })`
+  display: inline;
   @media (max-width: 1200px) {
-    display: ${props => (props.hideOnMobile ? 'none' : 'inline-block')};
+    display: ${props => (props.hideOnMobile ? 'none' : 'inline')};
   }
 `
 const PrimaryText = styled(Text).attrs({
   color: 'brand-primary',
   size: '16px'
 })`
+  display: inline;
   white-space: nowrap;
 `
 const GetStartedButton = styled(Button).attrs({
@@ -55,7 +57,7 @@ const GetStartedButton = styled(Button).attrs({
 export const ExchangeByBlockchain = ({ verifyIdentity }) => (
   <Container>
     <Row marginBottom='24px'>
-      <Text color='brand-primary' size='30px' weight={600}>
+      <Text color='brand-primary' size='18px' weight={600}>
         <FormattedMessage
           defaultMessage="We've improved our Exchange"
           id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.improved'
@@ -95,14 +97,14 @@ export const ExchangeByBlockchain = ({ verifyIdentity }) => (
       </DarkText>
     </Row>
     <Row marginBottom='8px'>
-      <PrimaryText>
-        <FormattedMessage
-          defaultMessage='Lower cost'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost'
-        />
-      </PrimaryText>
-      <DarkText hideOnMobile>{' - '}</DarkText>
       <DarkText>
+        <PrimaryText>
+          <FormattedMessage
+            defaultMessage='Lower cost'
+            id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost'
+          />
+        </PrimaryText>
+        <DarkText hideOnMobile>{' - '}</DarkText>
         <FormattedMessage
           defaultMessage='Super competitive crypto exchange prices'
           id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost_description'
@@ -110,14 +112,14 @@ export const ExchangeByBlockchain = ({ verifyIdentity }) => (
       </DarkText>
     </Row>
     <Row marginBottom='8px'>
-      <PrimaryText>
-        <FormattedMessage
-          defaultMessage='Live rates'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates'
-        />
-      </PrimaryText>
-      <DarkText hideOnMobile>{' - '}</DarkText>
       <DarkText>
+        <PrimaryText>
+          <FormattedMessage
+            defaultMessage='Live rates'
+            id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates'
+          />
+        </PrimaryText>
+        <DarkText hideOnMobile>{' - '}</DarkText>
         <FormattedMessage
           defaultMessage='You always get the most up to date price'
           id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates_Description'
@@ -125,16 +127,16 @@ export const ExchangeByBlockchain = ({ verifyIdentity }) => (
       </DarkText>
     </Row>
     <Row marginBottom='32px'>
-      <PrimaryText>
-        <FormattedMessage
-          defaultMessage='Higher limits'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits'
-        />
-      </PrimaryText>
-      <DarkText hideOnMobile>{' - '}</DarkText>
       <DarkText>
+        <PrimaryText>
+          <FormattedMessage
+            defaultMessage='Higher limits'
+            id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits'
+          />
+        </PrimaryText>
+        <DarkText hideOnMobile>{' - '}</DarkText>
         <FormattedMessage
-          defaultMessage='Limits from $2,000-$10,000'
+          defaultMessage='Limits from $1,000-$25,000'
           id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits_description'
         />
       </DarkText>
@@ -147,7 +149,7 @@ export const ExchangeByBlockchain = ({ verifyIdentity }) => (
         />
       </GetStartedButton>
     </Row>
-  </Container >
+  </Container>
 )
 
 const mapDispatchToProps = dispatch => ({
