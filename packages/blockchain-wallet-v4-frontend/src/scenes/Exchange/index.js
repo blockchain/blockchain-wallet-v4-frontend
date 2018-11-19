@@ -4,17 +4,21 @@ import styled from 'styled-components'
 import { path } from 'ramda'
 
 import { actions, model } from 'data'
+import { BlockchainLoader } from 'blockchain-info-components'
+import { getData } from './selectors'
 import media from 'services/ResponsiveService'
 import GetStarted from './GetStarted'
 import Exchange from './ExchangeContainer'
-
-import { getData } from './selectors'
+import DataError from 'components/DataError'
 
 const Wrapper = styled.div`
   width: 100%;
   height: auto;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 600px;
 `
 
 const Container = styled.section`
@@ -52,26 +56,40 @@ class ExchangeScene extends React.PureComponent {
 
   render () {
     const { verified, location } = this.props
-    return (
-      <Wrapper>
-        {verified ? (
-          <Container>
-            <Column>
-              <Exchange />
-            </Column>
-          </Container>
-        ) : (
-          <GetStarted
-            from={path(['state', 'from'], location)}
-            to={path(['state', 'to'], location)}
-          />
-        )}
-      </Wrapper>
-    )
+    return verified.cata({
+      Success: verified => (
+        <Wrapper>
+          {verified ? (
+            <Container>
+              <Column>
+                <Exchange />
+              </Column>
+            </Container>
+          ) : (
+            <GetStarted
+              from={path(['state', 'from'], location)}
+              to={path(['state', 'to'], location)}
+            />
+          )}
+        </Wrapper>
+      ),
+      Loading: () => (
+        <Wrapper>
+          <BlockchainLoader width='200px' height='200px' />
+        </Wrapper>
+      ),
+      NotAsked: () => (
+        <Wrapper>
+          <BlockchainLoader width='200px' height='200px' />
+        </Wrapper>
+      ),
+      Failure: () => <DataError onClick={this.props.fetchUser} />
+    })
   }
 }
 
 const mapDispatchToProps = dispatch => ({
+  fetchUser: () => dispatch(actions.modules.profile.fetchUser()),
   logEnterExchange: () => dispatch(actions.analytics.logExchangeEvent(ENTERED))
 })
 
