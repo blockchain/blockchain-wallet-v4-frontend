@@ -75,14 +75,16 @@ const DarkText = styled(Text).attrs({
   size: '16px',
   weight: 300
 })`
+  display: inline;
   @media (max-width: 1200px) {
-    display: ${props => (props.hideOnMobile ? 'none' : 'inline-block')};
+    display: ${props => (props.hideOnMobile ? 'none' : 'inline')};
   }
 `
 const PrimaryText = styled(Text).attrs({
   color: 'brand-primary',
   size: '16px'
 })`
+  display: inline;
   white-space: nowrap;
 `
 
@@ -115,14 +117,14 @@ export const GetStarted = () => (
           </DarkText>
         </Row>
         <Row marginBottom='8px'>
-          <PrimaryText>
-            <FormattedMessage
-              defaultMessage='Lower cost'
-              id='scenes.exchange.getstarted.lowercost'
-            />
-          </PrimaryText>
-          <DarkText hideOnMobile>{' - '}</DarkText>
           <DarkText>
+            <PrimaryText>
+              <FormattedMessage
+                defaultMessage='Lower cost'
+                id='scenes.exchange.getstarted.lowercost'
+              />
+            </PrimaryText>
+            <DarkText hideOnMobile>{' - '}</DarkText>
             <FormattedMessage
               defaultMessage='Super competitive crypto exchange prices'
               id='scenes.exchange.getstarted.lowercost_description'
@@ -130,14 +132,14 @@ export const GetStarted = () => (
           </DarkText>
         </Row>
         <Row marginBottom='8px'>
-          <PrimaryText>
-            <FormattedMessage
-              defaultMessage='Live rates'
-              id='scenes.exchange.getstarted.liverates'
-            />
-          </PrimaryText>
-          <DarkText hideOnMobile>{' - '}</DarkText>
           <DarkText>
+            <PrimaryText>
+              <FormattedMessage
+                defaultMessage='Live rates'
+                id='scenes.exchange.getstarted.liverates'
+              />
+            </PrimaryText>
+            <DarkText hideOnMobile>{' - '}</DarkText>
             <FormattedMessage
               defaultMessage='You always get the most up to date price'
               id='scenes.exchange.getstarted.liverates_Description'
@@ -145,16 +147,16 @@ export const GetStarted = () => (
           </DarkText>
         </Row>
         <Row marginBottom='32px'>
-          <PrimaryText>
-            <FormattedMessage
-              defaultMessage='Higher limits'
-              id='scenes.exchange.getstarted.higherlimits'
-            />
-          </PrimaryText>
-          <DarkText hideOnMobile>{' - '}</DarkText>
           <DarkText>
+            <PrimaryText>
+              <FormattedMessage
+                defaultMessage='Higher limits'
+                id='scenes.exchange.getstarted.higherlimits'
+              />
+            </PrimaryText>
+            <DarkText hideOnMobile>{' - '}</DarkText>
             <FormattedMessage
-              defaultMessage='Limits from $2,000-$10,000'
+              defaultMessage='Limits from $1,000-$25,000'
               id='scenes.exchange.getstarted.higherlimits_description'
             />
           </DarkText>
