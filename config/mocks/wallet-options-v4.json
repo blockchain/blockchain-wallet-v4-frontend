@@ -194,8 +194,7 @@
         "lastTxFuse": 86400,
         "config": {
           "network": "mainnet"
-        },
-        "announcements": {}
+        }
       },
       "xlm": {
         "availability": {
