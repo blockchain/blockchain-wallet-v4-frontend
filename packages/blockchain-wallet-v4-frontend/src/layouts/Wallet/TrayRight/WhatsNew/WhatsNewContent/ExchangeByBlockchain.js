@@ -57,9 +57,9 @@ const GetStartedButton = styled(Button).attrs({
 export const ExchangeByBlockchain = ({ verifyIdentity }) => (
   <Container>
     <Row marginBottom='24px'>
-      <Text color='brand-primary' size='18px' weight={600}>
+      <Text color='brand-primary' size='24px' weight={600}>
         <FormattedMessage
-          defaultMessage="We've improved our Exchange"
+          defaultMessage="We've improved your Exchange"
           id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.improved'
         />
       </Text>
@@ -77,14 +77,6 @@ export const ExchangeByBlockchain = ({ verifyIdentity }) => (
         <FormattedMessage
           defaultMessage='The faster, smarter way to trade your crypto.'
           id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.introducing'
-        />
-      </DarkText>
-    </Row>
-    <Row marginBottom='8px'>
-      <DarkText>
-        <FormattedMessage
-          defaultMessage='Upgrade now to enjoy the following benefits:'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.upgrade'
         />
       </DarkText>
     </Row>
