@@ -1505,7 +1505,7 @@
   "scenes.faq.group.walletfunctionality.answer10.three": "아니면 다른 지갑 제공자(공개 키를 가지고 있는)로부터 프라이빗 키를 가져와 블록체인 지갑 내에서 자유롭게 사용할 수 있습니다. 이 주소들의 자금이 복구 구문에 백업되지 않았으므로 이 주소들의 모든 자금을 주 계좌로 ‘이체’할 것을 권합니다.",
   "scenes.faq.group.walletfunctionality.answer10.two": "Watch-only Address는 들어오고 나가는 트랜잭션을 모니터링하거나 임대 등 반복되는 지불 주소를 추적하는 데 유용한 기능입니다. 기억하세요— 같은 주소로 보내고 받는 것은 트랜잭션 이력의 추적을 쉽게 만듭니다.",
   "scenes.faq.group.walletfunctionality.answer11.four": "그리고 오른쪽 위의 검색창을 이용해 특정 비트코인 주소, 트랜잭션 해시, 블록 숫자에 관해 더 알아보세요.",
-  "scenes.faq.group.walletfunctionality.answer11.link": " https://blockchain.info ",
+  "scenes.faq.group.walletfunctionality.answer11.link": "https://www.blockchain.com/explorer",
   "scenes.faq.group.walletfunctionality.answer11.one": "블록 탐색기를 이용해 여러 화폐의 블록체인을 시각적으로 돋보이고 직관적인 방법으로 탐색할 수 있습니다. 지갑 내 어느 트랜잭션이라도 해당 통화의 탭에 들어가 ? 아이콘을 클릭해 트랜잭션을 확인할 수 있습니다.",
   "scenes.faq.group.walletfunctionality.answer11.three": "비트코인 트랜잭션을 찾아 보려면 다음을 방문하세요:",
   "scenes.faq.group.walletfunctionality.answer11.two": "블록체인에는 2011년 8월에 런칭된 당사 고유의 특정 블록 탐색기가 있습니다. 또한 이는 네트워크에 관한 여러 유용한 차트와 통계를 제공하는 비트코인 트랜잭션 연구 수단으로도 만들어졌습니다.",
