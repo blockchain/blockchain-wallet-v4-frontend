@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Text, Button, Link, Icon } from 'blockchain-info-components'
+import { Text, Button, Link } from 'blockchain-info-components'
 import { flex } from 'services/StyleService'
 import Dropzone from 'react-dropzone'
 
@@ -18,11 +18,12 @@ import {
 
 import media from 'services/ResponsiveService'
 
-const LockIcon = styled(Icon)`
-  font-size: 24px;
-  margin-left: 7px;
-`
 const InputContainer = styled.div``
+
+const PageHeader = styled(PartnerHeader)`
+  margin-bottom: 12px;
+`
+
 const InputForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -151,13 +152,12 @@ const Upload = props => {
     <UploadRow>
       <ColLeft>
         <UploadColLeftInner>
-          <PartnerHeader style={{ ...flex('row align/center') }}>
+          <PageHeader style={{ ...flex('row align/center') }}>
             <FormattedMessage
               id='sfoxexchangedata.upload.title'
               defaultMessage='Let’s Get to Know You'
             />
-            <LockIcon name='lock' />
-          </PartnerHeader>
+          </PageHeader>
           <TitleStrings idType={idType} />
         </UploadColLeftInner>
         <InputContainer>
