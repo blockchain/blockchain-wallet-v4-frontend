@@ -1,4 +1,4 @@
-import { curry, flip, path, prop } from 'ramda'
+import { curry, path, toLower } from 'ramda'
 import { walletOptionsPath } from '../paths'
 
 // general
@@ -19,12 +19,5 @@ export const getMigrationRedirects = state =>
     path(['application', 'enableDomainMigrationRedirects'])
   )
 export const getCoinAvailablility = curry((state, coin) =>
-  getWebOptions(state).map(path([getCoinOptionsName(coin), 'availability']))
+  getWebOptions(state).map(path([toLower(coin), 'availability']))
 )
-
-const getCoinOptionsName = flip(prop)({
-  BTC: 'btc',
-  BCH: 'bch',
-  ETH: 'eth',
-  XLM: 'xlm'
-})

@@ -3,10 +3,6 @@
     "web": {
       "application": {
         "enableDomainMigrationRedirects": true,
-        "availability": {
-          "adverts": true,
-          "mobile_login": true
-        },
         "announcements": {
           "public": {},
           "wallet": {
@@ -223,11 +219,6 @@
         "lastTxFuse": 600,
         "config": {
           "network": "mainnet"
-        }
-      },
-      "xlm": {
-        "config": {
-          "network": "public"
         }
       },
       "coinify": {
