@@ -12,14 +12,14 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 16px;
   box-sizing: border-box;
-  background-color: #F26C57;
+  background-color: #f26c57;
   border-radius: 4px;
 
   & > :not(:first-child) {
     margin-top: 8px;
   }
 
-  @media(min-width: 960px) {
+  @media (min-width: 960px) {
     width: 500px;
   }
 `

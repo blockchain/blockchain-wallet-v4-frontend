@@ -84,9 +84,9 @@ const configureStore = () => {
       const getAuthCredentials = () =>
         selectors.modules.profile.getAuthCredentials(store.getState())
       const networks = {
-        btc: Bitcoin.networks[options.platforms.web.bitcoin.config.network],
-        bch: BitcoinCash.networks[options.platforms.web.bitcoin.config.network],
-        eth: options.platforms.web.ethereum.config.network,
+        btc: Bitcoin.networks[options.platforms.web.btc.config.network],
+        bch: BitcoinCash.networks[options.platforms.web.btc.config.network],
+        eth: options.platforms.web.eth.config.network,
         xlm: options.platforms.web.xlm.config.network
       }
       const api = createWalletApi({

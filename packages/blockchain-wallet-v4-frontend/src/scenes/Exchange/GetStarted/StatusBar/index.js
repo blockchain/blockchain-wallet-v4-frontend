@@ -18,7 +18,6 @@ export const Status = ({ step }) => (
   </React.Fragment>
 )
 
-
 const mapStateToProps = state => getData(state)
 
 export default connect(mapStateToProps)(Status)

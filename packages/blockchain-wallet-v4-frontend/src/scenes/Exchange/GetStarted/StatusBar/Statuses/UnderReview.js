@@ -13,14 +13,14 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 16px;
   box-sizing: border-box;
-  background-color: #F5A623;
+  background-color: #f5a623;
   border-radius: 4px;
 
   & > :not(:first-child) {
     margin-top: 8px;
   }
 
-  @media(min-width: 960px) {
+  @media (min-width: 960px) {
     width: 500px;
   }
 `
@@ -35,7 +35,7 @@ const Row = styled.div`
   }
 `
 const Icon = styled(FasExclamationCircle).attrs({ size: '28px' })`
-  fill: ${(props) => props.theme['white']};
+  fill: ${props => props.theme['white']};
 `
 
 export const UnderReview = () => (
