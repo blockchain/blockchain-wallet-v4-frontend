@@ -19,24 +19,13 @@ import { selectors, model } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { getTargetCoinsPairedToSource, getAvailableSourceCoins } from './model'
 
-export const useShapeShift = state =>
-  !selectors.modules.profile.userFlowSupported(state).getOrElse(true)
+export const useShapeShift = state => false
 
 export const canUseExchange = state =>
   selectors.modules.profile.isUserActive(state).getOrElse(false) &&
   selectors.modules.profile.isUserVerified(state).getOrElse(false)
 
 export const getStep = path(['components', 'exchange', 'step'])
-export const getPayment = path(['components', 'exchange', 'payment'])
-export const getOrder = path(['components', 'exchange', 'order'])
-export const getError = path(['components', 'exchange', 'error'])
-export const getFirstStepEnabled = path([
-  'components',
-  'exchange',
-  'firstStepEnabled'
-])
-export const getSecondStep = path(['components', 'exchange', 'secondStep'])
-export const getThirdStep = path(['components', 'exchange', 'thirdStep'])
 export const getLimits = path(['components', 'exchange', 'limits'])
 export const getMin = path(['components', 'exchange', 'min'])
 export const getMax = path(['components', 'exchange', 'max'])

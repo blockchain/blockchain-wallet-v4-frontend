@@ -3,7 +3,7 @@ import bchTransactions from './bchTransactions/sagas'
 import btcTransactions from './btcTransactions/sagas'
 import ethTransactions from './ethTransactions/sagas'
 import xlmTransactions from './xlmTransactions/sagas'
-import exchange from './exchange/shapeshift.sagas'
+import exchange from './exchange/exchange.sagas'
 import exchangeHistory from './exchangeHistory/sagas'
 import identityVerification from './identityVerification/sagas'
 import importBtcAddress from './importBtcAddress/sagas'
@@ -33,7 +33,7 @@ export default ({ api, coreSagas, options, networks }) => ({
   btcTransactions: btcTransactions(),
   ethTransactions: ethTransactions(),
   xlmTransactions: xlmTransactions(),
-  exchange: exchange({ api, coreSagas, options, networks }),
+  exchange: exchange({ api, coreSagas, networks }),
   exchangeHistory: exchangeHistory({ api, coreSagas }),
   identityVerification: identityVerification({ api, coreSagas }),
   onfido: onfido({ api }),
