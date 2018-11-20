@@ -21,6 +21,15 @@ export const setSupportedCountries = countries => ({
   payload: { countries }
 })
 
+export const fetchSupportedDocuments = countryCode => ({
+  type: AT.FETCH_SUPPORTED_DOCUMENTS,
+  payload: { countryCode }
+})
+export const setSupportedDocuments = documentTypes => ({
+  type: AT.SET_SUPPORTED_DOCUMENTS,
+  payload: { documentTypes }
+})
+
 export const fetchStates = () => ({
   type: AT.FETCH_STATES
 })
@@ -54,3 +63,11 @@ export const updateSmsStep = () => ({ type: AT.UPDATE_SMS_STEP })
 export const updateSmsNumber = () => ({ type: AT.UPDATE_SMS_NUMBER })
 export const verifySmsNumber = () => ({ type: AT.VERIFY_SMS_NUMBER })
 export const resendSmsCode = () => ({ type: AT.RESEND_SMS_CODE })
+
+export const createRegisterUserCampaign = (
+  campaignName,
+  needsIdVerification
+) => ({
+  type: AT.CREATE_REGISTER_USER_CAMPAIGN,
+  payload: { campaignName, needsIdVerification }
+})

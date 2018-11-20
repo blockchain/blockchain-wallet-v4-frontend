@@ -40,7 +40,7 @@ class Tooltips extends React.PureComponent {
         <Tooltip id='reqBchShare'>
           <FormattedMessage
             id='modals.requestbch.share_tooltip'
-            defaultMessage='Share this address with others, and they can send you Bitcoin Cash directly to your wallet. Your address changes with every payment.'
+            defaultMessage='Share this address with others, and they can send you bitcoin cash directly to your wallet. Your address changes with every payment.'
           />
         </Tooltip>
         <Tooltip id='reqBchQR'>
@@ -61,10 +61,22 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.'
           />
         </Tooltip>
+        <Tooltip id='reqXlmShare'>
+          <FormattedMessage
+            id='modals.requestxlm.sharetooltip'
+            defaultMessage='Share this address with others, and they can send you XLM directly to your wallet. Your request address will not change.'
+          />
+        </Tooltip>
         <Tooltip id='reqEthScan'>
           <FormattedMessage
             id='modals.requestether.scan_tooltip'
             defaultMessage='Ask the sender to scan this QR code with their ether wallet'
+          />
+        </Tooltip>
+        <Tooltip id='reqXlmScan'>
+          <FormattedMessage
+            id='modals.requestxlm.scan_tooltip'
+            defaultMessage='Ask the sender to scan this QR code with their stellar wallet'
           />
         </Tooltip>
         <Tooltip id='sendBch.firststep.share_tooltip'>
@@ -77,6 +89,18 @@ class Tooltips extends React.PureComponent {
           <FormattedMessage
             id='modals.sendether.firststep.sharetooltip'
             defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
+          />
+        </Tooltip>
+        <Tooltip id='sendxlm.firststep.sharetooltip'>
+          <FormattedMessage
+            id='modals.sendxlm.firststep.sharetooltip'
+            defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
+          />
+        </Tooltip>
+        <Tooltip id='sendxlm.firststep.memotooltip'>
+          <FormattedMessage
+            id='modals.sendxlm.firststep.memotooltip'
+            defaultMessage='Memos are used to communicate optional information to the recipient.'
           />
         </Tooltip>
         <Tooltip id='tradingfee.tooltip'>
@@ -170,6 +194,7 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
           />
         </Tooltip>
+        <Tooltip id='sendxlm.addr' maxWidth='initial' />
         <Tooltip id='signmessage.label.tooltip'>
           <FormattedMessage
             id='modals.signmessage.label'
@@ -203,7 +228,7 @@ class Tooltips extends React.PureComponent {
         <Tooltip id='txlist.change.tooltip'>
           <FormattedMessage
             id='txlist.change.tooltip.description'
-            defaultMessage='This change address belongs to your wallet't
+            defaultMessage='This change address belongs to your wallet'
           />
         </Tooltip>
       </div>

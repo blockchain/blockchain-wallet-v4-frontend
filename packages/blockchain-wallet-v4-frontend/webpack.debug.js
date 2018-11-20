@@ -10,9 +10,9 @@ const fs = require('fs')
 const PATHS = require('../../config/paths')
 const mockWalletOptions = require('../../config/mocks/wallet-options-v4.json')
 const iSignThisDomain =
-  mockWalletOptions.platforms.web.coinify.config.iSignThisDomain;
+  mockWalletOptions.platforms.web.coinify.config.iSignThisDomain
 const coinifyPaymentDomain =
-  mockWalletOptions.platforms.web.coinify.config.coinifyPaymentDomain;
+  mockWalletOptions.platforms.web.coinify.config.coinifyPaymentDomain
 
 let envConfig = {}
 let manifestCacheBust = new Date().getTime()
@@ -200,7 +200,7 @@ module.exports = {
         }
 
         if (process.env.NODE_ENV === 'testnet') {
-          mockWalletOptions.platforms.web.bitcoin.config.network = 'testnet'
+          mockWalletOptions.platforms.web.btc.config.network = 'testnet'
           mockWalletOptions.platforms.web.coinify.config.partnerId = 35
           mockWalletOptions.platforms.web.sfox.config.apiKey =
             '6fbfb80536564af8bbedb7e3be4ec439'
@@ -243,10 +243,12 @@ module.exports = {
         "img-src 'self' data: blob:",
         "script-src 'self'",
         "style-src 'self' 'unsafe-inline'",
-        `frame-src ${iSignThisDomain} ${coinifyPaymentDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${
-          envConfig.ROOT_URL
-        } https://localhost:8080 http://localhost:8080`,
-        `child-src ${iSignThisDomain} ${coinifyPaymentDomain} ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
+        `frame-src ${iSignThisDomain} ${coinifyPaymentDomain} ${
+          envConfig.WALLET_HELPER_DOMAIN
+        } ${envConfig.ROOT_URL} https://localhost:8080 http://localhost:8080`,
+        `child-src ${iSignThisDomain} ${coinifyPaymentDomain} ${
+          envConfig.WALLET_HELPER_DOMAIN
+        } blob:`,
         [
           'connect-src',
           "'self'",

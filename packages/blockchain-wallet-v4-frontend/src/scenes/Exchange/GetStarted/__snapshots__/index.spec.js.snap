@@ -1,0 +1,122 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StatusBar renders correctly 1`] = `
+<GetStarted__Wrapper>
+  <GetStarted__Container>
+    <GetStarted__Column>
+      <GetStarted__Row
+        marginBottom="36px"
+      >
+        <text
+          color="brand-primary"
+          size="30px"
+          weight={600}
+        >
+          <FormattedMessage
+            defaultMessage="A better way to trade crypto"
+            id="scenes.exchange.getstarted.title"
+            values={Object {}}
+          />
+        </text>
+      </GetStarted__Row>
+      <GetStarted__Row
+        marginBottom="24px"
+      >
+        <GetStarted__DarkText>
+          <FormattedMessage
+            defaultMessage="The faster, smarter way to trade your crypto."
+            id="scenes.exchange.getstarted.introducing"
+            values={Object {}}
+          />
+        </GetStarted__DarkText>
+      </GetStarted__Row>
+      <GetStarted__Row
+        marginBottom="8px"
+      >
+        <GetStarted__DarkText>
+          <FormattedMessage
+            defaultMessage="Upgrade now to enjoy the following benefits:"
+            id="scenes.exchange.getstarted.upgrade"
+            values={Object {}}
+          />
+        </GetStarted__DarkText>
+      </GetStarted__Row>
+      <GetStarted__Row
+        marginBottom="8px"
+      >
+        <GetStarted__DarkText>
+          <GetStarted__PrimaryText>
+            <FormattedMessage
+              defaultMessage="Lower cost"
+              id="scenes.exchange.getstarted.lowercost"
+              values={Object {}}
+            />
+          </GetStarted__PrimaryText>
+          <GetStarted__DarkText
+            hideOnMobile={true}
+          >
+             - 
+          </GetStarted__DarkText>
+          <FormattedMessage
+            defaultMessage="Super competitive crypto exchange prices"
+            id="scenes.exchange.getstarted.lowercost_description"
+            values={Object {}}
+          />
+        </GetStarted__DarkText>
+      </GetStarted__Row>
+      <GetStarted__Row
+        marginBottom="8px"
+      >
+        <GetStarted__DarkText>
+          <GetStarted__PrimaryText>
+            <FormattedMessage
+              defaultMessage="Live rates"
+              id="scenes.exchange.getstarted.liverates"
+              values={Object {}}
+            />
+          </GetStarted__PrimaryText>
+          <GetStarted__DarkText
+            hideOnMobile={true}
+          >
+             - 
+          </GetStarted__DarkText>
+          <FormattedMessage
+            defaultMessage="You always get the most up to date price"
+            id="scenes.exchange.getstarted.liverates_Description"
+            values={Object {}}
+          />
+        </GetStarted__DarkText>
+      </GetStarted__Row>
+      <GetStarted__Row
+        marginBottom="32px"
+      >
+        <GetStarted__DarkText>
+          <GetStarted__PrimaryText>
+            <FormattedMessage
+              defaultMessage="Higher limits"
+              id="scenes.exchange.getstarted.higherlimits"
+              values={Object {}}
+            />
+          </GetStarted__PrimaryText>
+          <GetStarted__DarkText
+            hideOnMobile={true}
+          >
+             - 
+          </GetStarted__DarkText>
+          <FormattedMessage
+            defaultMessage="Limits from $1,000-$25,000"
+            id="scenes.exchange.getstarted.higherlimits_description"
+            values={Object {}}
+          />
+        </GetStarted__DarkText>
+      </GetStarted__Row>
+      <GetStarted__Row>
+        <StatusBar />
+      </GetStarted__Row>
+    </GetStarted__Column>
+    <GetStarted__Column>
+      <GetStarted__PreviewImage />
+    </GetStarted__Column>
+  </GetStarted__Container>
+</GetStarted__Wrapper>
+`;

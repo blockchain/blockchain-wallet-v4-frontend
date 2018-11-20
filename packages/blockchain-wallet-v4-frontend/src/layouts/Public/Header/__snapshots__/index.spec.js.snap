@@ -2,6 +2,9 @@
 
 exports[`Public Header Component should match snapshot 1`] = `
 <React.Fragment>
+  <[object Object]
+    alertArea="public"
+  />
   <Navbar
     fluid={false}
     height="90px"
@@ -17,8 +20,5 @@ exports[`Public Header Component should match snapshot 1`] = `
       </>
     </NavbarBrand>
   </Navbar>
-  <[object Object]
-    alertArea="public"
-  />
 </React.Fragment>
 `;

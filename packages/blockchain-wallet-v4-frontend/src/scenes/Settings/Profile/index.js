@@ -1,15 +1,15 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { values } from 'ramda'
 
 import { actions } from 'data'
-import { KYC_STATES } from 'data/modules/profile/model'
 import { getData } from './selectors'
 
 import IdentityVerification from './IdentityVerification'
 import KYCBanner from 'components/IdentityVerification/KYCBanner'
+import DataError from 'components/DataError'
+
+import { BlockchainLoader } from 'blockchain-info-components'
 
 const Wrapper = styled.section`
   width: 100%;
@@ -20,30 +20,34 @@ const Container = styled.div`
   box-sizing: border-box;
 `
 
-export const Profile = ({ kycState, verifyIdentity, userFlowSupported }) => {
-  if (!userFlowSupported) return null
+const Loading = () => (
+  <Wrapper>
+    <BlockchainLoader />
+  </Wrapper>
+)
 
-  return (
-    <Wrapper>
-      <KYCBanner />
-      <Container>
-        <IdentityVerification
-          kycState={kycState}
-          verifyIdentity={verifyIdentity}
-        />
-      </Container>
-    </Wrapper>
-  )
-}
-
-Profile.propTypes = {
-  kycState: PropTypes.oneOf(values(KYC_STATES)).isRequired,
-  userFlowSupported: PropTypes.bool.isRequired
-}
+export const Profile = ({ data, verifyIdentity, fetchUser }) =>
+  data.cata({
+    Success: ({ kycState }) => (
+      <Wrapper>
+        <KYCBanner />
+        <Container>
+          <IdentityVerification
+            kycState={kycState}
+            verifyIdentity={verifyIdentity}
+          />
+        </Container>
+      </Wrapper>
+    ),
+    NotAsked: () => <Loading />,
+    Loading: () => <Loading />,
+    Failure: () => <DataError onClick={fetchUser} />
+  })
 
 const mapDispatchToProps = dispatch => ({
   verifyIdentity: () =>
-    dispatch(actions.components.identityVerification.verifyIdentity())
+    dispatch(actions.components.identityVerification.verifyIdentity()),
+  fetchUser: () => dispatch(actions.modules.profile.fetchUser())
 })
 
 export default connect(

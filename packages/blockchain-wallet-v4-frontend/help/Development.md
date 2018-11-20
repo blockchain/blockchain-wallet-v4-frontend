@@ -92,7 +92,7 @@ This directory contains different modals
 * `QRCodeCapture`
 * `RequestBtc`
 * `SecondPassword`
-* `SendBitcoin`
+* `SendBtc`
 * ....
 
 ### Providers

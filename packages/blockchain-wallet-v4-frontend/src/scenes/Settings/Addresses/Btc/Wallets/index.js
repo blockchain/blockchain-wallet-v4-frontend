@@ -29,7 +29,7 @@ class BitcoinWalletsContainer extends React.Component {
           search={search && search.toLowerCase()}
           onUnarchive={i => coreActions.setAccountArchived(i, false)}
           handleClick={() =>
-            modalActions.showModal('AddBitcoinWallet', {
+            modalActions.showModal('AddBtcWallet', {
               wallets: value
             })
           }
@@ -44,7 +44,7 @@ class BitcoinWalletsContainer extends React.Component {
           search={search && search.toLowerCase()}
           onUnarchive={i => coreActions.setAccountArchived(i, false)}
           handleClick={() =>
-            modalActions.showModal('AddBitcoinWallet', {
+            modalActions.showModal('AddBtcWallet', {
               wallets: walletsWithoutRemoteData
             })
           }

@@ -31,17 +31,21 @@ export const getCurrentConnection = path([
 export const getFirmwareUpdateStep = path(['components', 'lockbox', 'firmware'])
 
 // Application Installs
-export const getApplicationInstalls = path([
+export const getDeviceTargetId = path([
   'components',
   'lockbox',
-  'installs',
-  'apps'
+  'appManager',
+  'targetId'
 ])
-
-// TODO: remove once app store is introduced
-export const getBlockchainInstall = path([
+export const getLatestApplicationVersions = path([
   'components',
   'lockbox',
-  'installs',
-  'blockchain'
+  'appManager',
+  'latestAppInfos'
+])
+export const getAppChangeStatus = path([
+  'components',
+  'lockbox',
+  'appManager',
+  'appChangeStatus'
 ])

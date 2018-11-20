@@ -10,6 +10,7 @@ import * as priceTicker from './priceTicker/selectors'
 import * as sendBch from './sendBch/selectors'
 import * as sendBtc from './sendBtc/selectors'
 import * as sendEth from './sendEth/selectors'
+import * as sendXlm from './sendXlm/selectors'
 import * as signMessage from './signMessage/selectors'
 import * as uploadDocuments from './uploadDocuments/selectors'
 
@@ -26,6 +27,7 @@ export {
   sendBch,
   sendBtc,
   sendEth,
+  sendXlm,
   signMessage,
   uploadDocuments
 }

@@ -1,0 +1,286 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExchangeByBlockchain renders correctly with button 1`] = `
+<ExchangeByBlockchain__Container>
+  <ExchangeByBlockchain__Row
+    marginBottom="24px"
+  >
+    <text
+      color="brand-primary"
+      size="24px"
+      weight={600}
+    >
+      <FormattedMessage
+        defaultMessage="We've improved your Exchange"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.improved"
+        values={Object {}}
+      />
+    </text>
+  </ExchangeByBlockchain__Row>
+  <ExchangeByBlockchain__Row
+    marginBottom="24px"
+  >
+    <ExchangeByBlockchain__DarkText
+      size="14px"
+    >
+      <FormattedMessage
+        defaultMessage="November 2019"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.november2019"
+        values={Object {}}
+      />
+    </ExchangeByBlockchain__DarkText>
+  </ExchangeByBlockchain__Row>
+  <ExchangeByBlockchain__Row
+    marginBottom="24px"
+  >
+    <ExchangeByBlockchain__DarkText>
+      <FormattedMessage
+        defaultMessage="The faster, smarter way to trade your crypto."
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.introducing"
+        values={Object {}}
+      />
+    </ExchangeByBlockchain__DarkText>
+  </ExchangeByBlockchain__Row>
+  <ExchangeByBlockchain__Row
+    marginBottom="8px"
+  >
+    <ExchangeByBlockchain__DarkText>
+      <FormattedMessage
+        defaultMessage="Upgrade now to enjoy the following benefits:"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.upgrade"
+        values={Object {}}
+      />
+    </ExchangeByBlockchain__DarkText>
+  </ExchangeByBlockchain__Row>
+  <ExchangeByBlockchain__Row
+    marginBottom="8px"
+  >
+    <ExchangeByBlockchain__DarkText>
+      <ExchangeByBlockchain__PrimaryText>
+        <FormattedMessage
+          defaultMessage="Lower cost"
+          id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost"
+          values={Object {}}
+        />
+      </ExchangeByBlockchain__PrimaryText>
+      <ExchangeByBlockchain__DarkText
+        hideOnMobile={true}
+      >
+         - 
+      </ExchangeByBlockchain__DarkText>
+      <FormattedMessage
+        defaultMessage="Super competitive crypto exchange prices"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost_description"
+        values={Object {}}
+      />
+    </ExchangeByBlockchain__DarkText>
+  </ExchangeByBlockchain__Row>
+  <ExchangeByBlockchain__Row
+    marginBottom="8px"
+  >
+    <ExchangeByBlockchain__DarkText>
+      <ExchangeByBlockchain__PrimaryText>
+        <FormattedMessage
+          defaultMessage="Live rates"
+          id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates"
+          values={Object {}}
+        />
+      </ExchangeByBlockchain__PrimaryText>
+      <ExchangeByBlockchain__DarkText
+        hideOnMobile={true}
+      >
+         - 
+      </ExchangeByBlockchain__DarkText>
+      <FormattedMessage
+        defaultMessage="You always get the most up to date price"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates_Description"
+        values={Object {}}
+      />
+    </ExchangeByBlockchain__DarkText>
+  </ExchangeByBlockchain__Row>
+  <ExchangeByBlockchain__Row
+    marginBottom="32px"
+  >
+    <ExchangeByBlockchain__DarkText>
+      <ExchangeByBlockchain__PrimaryText>
+        <FormattedMessage
+          defaultMessage="Higher limits"
+          id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits"
+          values={Object {}}
+        />
+      </ExchangeByBlockchain__PrimaryText>
+      <ExchangeByBlockchain__DarkText
+        hideOnMobile={true}
+      >
+         - 
+      </ExchangeByBlockchain__DarkText>
+      <FormattedMessage
+        defaultMessage="Limits from $1,000-$25,000"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits_description"
+        values={Object {}}
+      />
+    </ExchangeByBlockchain__DarkText>
+  </ExchangeByBlockchain__Row>
+  <ExchangeByBlockchain__Row>
+    <ExchangeByBlockchain__GetStartedButton>
+      <FormattedMessage
+        defaultMessage="Get Started"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.started"
+        values={Object {}}
+      />
+    </ExchangeByBlockchain__GetStartedButton>
+  </ExchangeByBlockchain__Row>
+</ExchangeByBlockchain__Container>
+`;
+
+exports[`ExchangeByBlockchain renders correctly with exchange link 1`] = `
+<ExchangeByBlockchain__Container>
+  <ExchangeByBlockchain__Row
+    marginBottom="24px"
+  >
+    <text
+      color="brand-primary"
+      size="30px"
+      weight={600}
+    >
+      <FormattedMessage
+        defaultMessage="We've improved our Exchange"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.improved"
+        values={Object {}}
+      />
+    </text>
+  </ExchangeByBlockchain__Row>
+  <ExchangeByBlockchain__Row
+    marginBottom="24px"
+  >
+    <ExchangeByBlockchain__DarkText
+      size="14px"
+    >
+      <FormattedMessage
+        defaultMessage="November 2019"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.november2019"
+        values={Object {}}
+      />
+    </ExchangeByBlockchain__DarkText>
+  </ExchangeByBlockchain__Row>
+  <ExchangeByBlockchain__Row
+    marginBottom="24px"
+  >
+    <ExchangeByBlockchain__DarkText>
+      <FormattedMessage
+        defaultMessage="The faster, smarter way to trade your crypto."
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.introducing"
+        values={Object {}}
+      />
+    </ExchangeByBlockchain__DarkText>
+  </ExchangeByBlockchain__Row>
+  <ExchangeByBlockchain__Row
+    marginBottom="8px"
+  >
+    <ExchangeByBlockchain__DarkText>
+      <FormattedMessage
+        defaultMessage="Upgrade now to enjoy the following benefits:"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.upgrade"
+        values={Object {}}
+      />
+    </ExchangeByBlockchain__DarkText>
+  </ExchangeByBlockchain__Row>
+  <ExchangeByBlockchain__Row
+    marginBottom="8px"
+  >
+    <ExchangeByBlockchain__DarkText>
+      <FormattedMessage
+        defaultMessage="Upgrade now to enjoy the following benefits:"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.upgrade"
+        values={Object {}}
+      />
+    </ExchangeByBlockchain__DarkText>
+  </ExchangeByBlockchain__Row>
+  <ExchangeByBlockchain__Row
+    marginBottom="8px"
+  >
+    <ExchangeByBlockchain__PrimaryText>
+      <FormattedMessage
+        defaultMessage="Lower cost"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost"
+        values={Object {}}
+      />
+    </ExchangeByBlockchain__PrimaryText>
+    <ExchangeByBlockchain__DarkText
+      hideOnMobile={true}
+    >
+       - 
+    </ExchangeByBlockchain__DarkText>
+    <ExchangeByBlockchain__DarkText>
+      <FormattedMessage
+        defaultMessage="Super competitive crypto exchange prices"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost_description"
+        values={Object {}}
+      />
+    </ExchangeByBlockchain__DarkText>
+  </ExchangeByBlockchain__Row>
+  <ExchangeByBlockchain__Row
+    marginBottom="8px"
+  >
+    <ExchangeByBlockchain__PrimaryText>
+      <FormattedMessage
+        defaultMessage="Live rates"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates"
+        values={Object {}}
+      />
+    </ExchangeByBlockchain__PrimaryText>
+    <ExchangeByBlockchain__DarkText
+      hideOnMobile={true}
+    >
+       - 
+    </ExchangeByBlockchain__DarkText>
+    <ExchangeByBlockchain__DarkText>
+      <FormattedMessage
+        defaultMessage="You always get the most up to date price"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates_Description"
+        values={Object {}}
+      />
+    </ExchangeByBlockchain__DarkText>
+  </ExchangeByBlockchain__Row>
+  <ExchangeByBlockchain__Row
+    marginBottom="32px"
+  >
+    <ExchangeByBlockchain__PrimaryText>
+      <FormattedMessage
+        defaultMessage="Higher limits"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits"
+        values={Object {}}
+      />
+    </ExchangeByBlockchain__PrimaryText>
+    <ExchangeByBlockchain__DarkText
+      hideOnMobile={true}
+    >
+       - 
+    </ExchangeByBlockchain__DarkText>
+    <ExchangeByBlockchain__DarkText>
+      <FormattedMessage
+        defaultMessage="Limits from $2,000-$10,000"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits_description"
+        values={Object {}}
+      />
+    </ExchangeByBlockchain__DarkText>
+  </ExchangeByBlockchain__Row>
+  <ExchangeByBlockchain__Row>
+    <LinkContainer
+      activeClassName="active"
+      exact={false}
+      replace={false}
+      strict={false}
+      to="/exchange"
+    >
+      <ExchangeByBlockchain__GetStartedButton>
+        <FormattedMessage
+          defaultMessage="Go To Exchange"
+          id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.gotoexchange"
+          values={Object {}}
+        />
+      </ExchangeByBlockchain__GetStartedButton>
+    </LinkContainer>
+  </ExchangeByBlockchain__Row>
+</ExchangeByBlockchain__Container>
+`;

@@ -28,7 +28,7 @@ export const InvalidBitcoinPrivateKeyMessage = () => (
 export const InvalidBitcoinAddressAndPrivateKeyMessage = () => (
   <FormattedMessage
     id='formhelper.invalidbitcoinaddressandkey'
-    defaultMessage='Not a valid Bitcoin address or private key'
+    defaultMessage='Not a valid bitcoin address or private key'
   />
 )
 export const InvalidEmailCodeMessage = () => (
@@ -47,6 +47,12 @@ export const InvalidEtherAddressMessage = () => (
   <FormattedMessage
     id='formhelper.invalidetheraddress'
     defaultMessage='Invalid Ether address'
+  />
+)
+export const InvalidXlmAddressMessage = () => (
+  <FormattedMessage
+    id='formhelper.invalidxlmaddress'
+    defaultMessage='Invalid Stellar address'
   />
 )
 export const InvalidIpListMessage = () => (

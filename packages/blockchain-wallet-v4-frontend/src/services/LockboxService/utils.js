@@ -4,6 +4,7 @@ import { prop } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import TransportU2F from '@ledgerhq/hw-transport-u2f'
 import Btc from '@ledgerhq/hw-app-btc'
+import Str from '@ledgerhq/hw-app-str'
 
 import {
   createXpubFromChildAndParent,
@@ -192,7 +193,7 @@ const getDeviceInfo = transport => {
         const { targetId, mcuVersion, flags } = res
         const parsedVersion =
           seVersion.match(
-            /([0-9]+.[0-9])+(.[0-9]+)?((?!-osu)-([a-z]+))?(-osu)?/
+            /([0-9]+.[0-9])+(.[0-9]+)?((?!-osu)-([a-z]+)([0-9]+))?(-osu)?/
           ) || []
         const isOSU = typeof parsedVersion[5] !== 'undefined'
         const providerName = parsedVersion[4] || ''
@@ -201,7 +202,7 @@ const getDeviceInfo = transport => {
         const majMin = parsedVersion[1]
         const patch = parsedVersion[2] || '.0'
         const fullVersion = `${majMin}${patch}${
-          providerName ? `-${providerName}` : ''
+          providerName ? `${parsedVersion[3]}` : ''
         }`
         resolve({
           targetId,
@@ -212,7 +213,7 @@ const getDeviceInfo = transport => {
           providerName,
           providerId,
           flags,
-          fullVersion
+          fullVersion: providerName === 'bc' ? seVersion : fullVersion
         })
       },
       err => {
@@ -256,7 +257,7 @@ const mapSocketError = promise => {
           errMsg: () => (
             <FormattedMessage
               id='lockbox.service.messages.storagespace'
-              defaultMessage='Insufficient storage space on device'
+              defaultMessage='Insufficient storage space on device. Remove other applications to free up space.'
             />
           )
         }
@@ -266,7 +267,7 @@ const mapSocketError = promise => {
           errMsg: () => (
             <FormattedMessage
               id='lockbox.service.messages.appalreadyinstalled'
-              defaultMessage='App already installed'
+              defaultMessage='Application is already installed on device.'
             />
           )
         }
@@ -366,6 +367,24 @@ const generateAccountsMDEntry = (newDevice, deviceName) => {
 }
 
 /**
+ * Generates metadata entry new device save
+ * @param {Strint} deviceName - The device name
+ * @param {String} publicKey - The users xlm publicKey
+ * @returns {Object} the metadata account entry to save
+ */
+export const generateXlmAccountMDEntry = (deviceName, publicKey) => ({
+  default_account_idx: 0,
+  accounts: [
+    {
+      publicKey: publicKey,
+      label: deviceName + ' - XLM Wallet',
+      archived: false
+    }
+  ],
+  tx_notes: {}
+})
+
+/**
  * Creates and returns a new BTC/BCH app connection
  * @param {String} app - The app to connect to (BTC, DASHBOARD, etc)
  * @param {String} deviceType - Either 'ledger' or 'blockchain'
@@ -375,6 +394,19 @@ const generateAccountsMDEntry = (newDevice, deviceName) => {
 const createBtcBchConnection = (app, deviceType, transport) => {
   const scrambleKey = getScrambleKey(app, deviceType)
   return new Btc(transport, scrambleKey)
+}
+
+/**
+ * Gets xlm public key
+ * @async
+ * @param {String} deviceType - Either 'ledger' or 'blockchain'
+ * @param {TransportU2F<Btc>} transport - XLM Transport
+ * @returns {Promise} Returns a XLM public key promise
+ */
+const getXlmPublicKey = (deviceType, transport) => {
+  const scrambleKey = getScrambleKey('XLM', deviceType)
+  const XLM = new Str(transport, scrambleKey)
+  return XLM.getPublicKey("44'/148'/0'")
 }
 
 /**
@@ -412,8 +444,10 @@ export default {
   formatFirmwareDisplayName,
   formatFirmwareHash,
   generateAccountsMDEntry,
+  generateXlmAccountMDEntry,
   getDeviceInfo,
   getScrambleKey,
+  getXlmPublicKey,
   mapSocketError,
   pollForAppConnection
 }

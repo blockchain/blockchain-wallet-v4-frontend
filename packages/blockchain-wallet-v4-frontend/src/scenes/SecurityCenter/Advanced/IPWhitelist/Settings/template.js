@@ -4,12 +4,14 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, ButtonGroup, Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 import { validIpList } from 'services/FormHelper'
 import { SettingForm, SettingWrapper } from 'components/Setting'
 
-const ButtonWrapper = styled(ButtonGroup)`
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
   margin-top: 5px;
   & > :first-child {
     margin-right: 5px;
@@ -36,7 +38,7 @@ const Settings = props => {
         <Button nature='primary' onClick={handleToggle}>
           <FormattedMessage
             id='scenes.securitysettings.advancedsettings.ipwhitelist.settings.change'
-            defaultMessage='Add'
+            defaultMessage='Edit'
           />
         </Button>
       )}

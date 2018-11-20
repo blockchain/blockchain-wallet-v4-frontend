@@ -47,6 +47,7 @@ const filterTransactions = curry((searches, transactions) => {
       ['to'],
       ['coin'],
       ['hash'],
+      ['type'],
       ['outputs', 0, 'address'],
       ['inputs', 0, 'address']
     ])
@@ -71,9 +72,10 @@ const processPages = (pages, coinType) => {
 
 const getTransactionsAtBounds = state => {
   const bchAtBounds = selectors.core.data.bch.getTransactionsAtBound(state)
+  const xlmAtBounds = selectors.core.data.xlm.getTransactionsAtBound(state)
   const btcAtBounds = selectors.core.data.bitcoin.getTransactionsAtBound(state)
   const ethAtBounds = selectors.core.data.ethereum.getTransactionsAtBound(state)
-  return bchAtBounds && btcAtBounds && ethAtBounds
+  return bchAtBounds && btcAtBounds && ethAtBounds && xlmAtBounds
 }
 
 export const getData = createDeepEqualSelector(
@@ -83,6 +85,7 @@ export const getData = createDeepEqualSelector(
     selectors.core.common.btc.getWalletTransactions,
     selectors.core.common.bch.getWalletTransactions,
     selectors.core.common.eth.getWalletTransactions,
+    selectors.core.common.xlm.getWalletTransactions,
     selectors.form.getFormValues('lockboxTransactions')
   ],
   (
@@ -91,6 +94,7 @@ export const getData = createDeepEqualSelector(
     btcPages,
     bchPages,
     ethPages,
+    xlmPages,
     formValues
   ) => {
     const { isLoading: btcIsLoading, pagesR: btcTransactions } = processPages(
@@ -105,19 +109,30 @@ export const getData = createDeepEqualSelector(
       ethPages,
       'ETH'
     )
-    const isLoading = any(x => !!x, [btcIsLoading, bchIsLoading, ethIsLoading])
+    const { isLoading: xlmIsLoading, pagesR: xlmTransactions } = processPages(
+      xlmPages,
+      'XLM'
+    )
+    const isLoading = any(x => !!x, [
+      btcIsLoading,
+      bchIsLoading,
+      ethIsLoading,
+      xlmIsLoading
+    ])
     const search = pathOr([], ['search', 'value'], formValues)
     const searchesApplied = search.map(path(['value']))
     const transform = (
       currency,
       btcTransactions,
       bchTransactions,
-      ethTransactions
+      ethTransactions,
+      xlmTransactions
     ) => {
       const transactions = concatAll(
         btcTransactions,
         bchTransactions,
-        ethTransactions
+        ethTransactions,
+        xlmTransactions
       )
       const filteredTransactions = filterTransactions(searchesApplied)(
         transactions
@@ -134,7 +149,8 @@ export const getData = createDeepEqualSelector(
       currencyR,
       btcTransactions,
       bchTransactions,
-      ethTransactions
+      ethTransactions,
+      xlmTransactions
     )
   }
 )

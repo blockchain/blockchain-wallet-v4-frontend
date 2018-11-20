@@ -42,6 +42,10 @@ const CoinDisplay = props => {
         coin === 'BCH' && (
           <Icon name='bch' size={size} weight={weight} color={color} />
         )}
+      {showIcon &&
+        coin === 'XLM' && (
+          <Icon name='xlm' size={size} weight={weight} color={color} />
+        )}
       <CoinText
         mobileSize={mobileSize}
         size={size}
@@ -57,7 +61,7 @@ const CoinDisplay = props => {
 }
 
 CoinDisplay.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired,
+  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'XLM']).isRequired,
   children: PropTypes.string.isRequired,
   showIcon: PropTypes.bool,
   size: PropTypes.string,

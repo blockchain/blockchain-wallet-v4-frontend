@@ -8,7 +8,6 @@ import LoginIpRestriction from './LoginIpRestriction'
 import PasswordStretching from './PasswordStretching'
 import WalletAccessTor from './WalletAccessTor'
 import TwoStepVerificationRemember from './TwoStepVerificationRemember'
-// import PasswordHint from './PasswordHint'
 import WalletPassword from './WalletPassword'
 import SecondPasswordWallet from './SecondPasswordWallet'
 import { IconButton } from 'blockchain-info-components'
@@ -47,7 +46,6 @@ export default class Advanced extends PureComponent {
           </BackButton>
         )}
         <WalletPassword />
-        {/* <PasswordHint /> */}
         <SecondPasswordWallet />
         <TwoStepVerificationRemember />
         <ActivityLogging />

@@ -44,17 +44,20 @@ const IconWrapper = styled.div`
 const explorers = {
   BTC: 'https://blockchain.info/tx',
   ETH: 'https://www.blockchain.com/eth/tx',
-  BCH: 'https://blockchair.com/bitcoin-cash/transaction'
+  BCH: 'https://blockchair.com/bitcoin-cash/transaction',
+  XLM: 'https://stellarchain.io/tx'
 }
 
 const confirmations = {
   BTC: 3,
   BCH: 3,
-  ETH: 12
+  ETH: 12,
+  XLM: 1
 }
 
 const Confirmations = props => {
-  const minConfirmations = confirmations[props.coin]
+  const { coin } = props
+  const minConfirmations = confirmations[coin]
 
   return (
     <Wrapper>
@@ -87,7 +90,7 @@ const Confirmations = props => {
             <Icon name='question-in-circle' />
           </TransactionTooltip>
         )}
-        <Link href={`${explorers[props.coin]}/${props.hash}`} target='_blank'>
+        <Link href={`${explorers[coin]}/${props.hash}`} target='_blank'>
           <Icon
             name='open-in-new-tab'
             color='marketing-primary'

@@ -1,18 +1,17 @@
-// import { select } from 'redux-saga/effects'
 import { testSaga } from 'redux-saga-test-plan'
-// import { call } from 'redux-saga-test-plan/matchers'
 
-// import rootReducer from '../../rootReducer'
 import { Remote, coreSagasFactory } from 'blockchain-wallet-v4/src'
-// import * as C from 'services/AlertService'
 import * as A from './actions'
 import * as S from './selectors'
 import * as AT from './actionTypes'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
+import * as Lockbox from 'services/LockboxService'
 import lockboxSagas from './sagas'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
+Lockbox.apps.installApp = jest.fn()
+Lockbox.apps.uninstallApp = jest.fn()
 
 const logLocation = 'components/lockbox/sagas'
 const api = {
@@ -87,13 +86,110 @@ const mdAccountsEntryMock = {
 describe('lockbox sagas', () => {
   const {
     pollForDeviceTypeChannel,
-    pollForDeviceAppChannel,
     checkDeviceAuthenticity,
     initializeNewDeviceSetup,
-    saveNewDeviceKvStore
+    saveNewDeviceKvStore,
+    uninstallApplication,
+    installApplication,
+    deriveLatestAppInfo
   } = lockboxSagas({
     api,
     coreSagas
+  })
+
+  describe('installApplication', () => {
+    let payload = { appName: 'BTC' }
+    const saga = testSaga(installApplication, { payload })
+    const mockState = {
+      transport: 'fakeTransport',
+      targetId: 123,
+      latestAppInfos: [{ name: 'BTC' }, { name: 'ETH' }],
+      domains: {
+        ledgerSocket: 'fakeUrl'
+      }
+    }
+
+    it('should set app change status to loading', () => {
+      saga.next().put(A.appChangeLoading())
+    })
+    it('should get transport from getCurrentConnection', () => {
+      saga.next().select(S.getCurrentConnection)
+    })
+    it('should get targetId from getDeviceTargetId', () => {
+      saga.next({ transport: mockState.transport }).select(S.getDeviceTargetId)
+    })
+    it('should get latest appInfos from getLatestApplicationVersions', () => {
+      saga
+        .next(Remote.Success(mockState.targetId))
+        .select(S.getLatestApplicationVersions)
+    })
+    it('should get socket domain', () => {
+      saga
+        .next(Remote.Success(mockState.latestAppInfos))
+        .select(selectors.core.walletOptions.getDomains)
+    })
+    it('should call to install application', () => {
+      saga
+        .next(Remote.Success(mockState.domains))
+        .call(
+          Lockbox.apps.installApp,
+          mockState.transport,
+          mockState.domains.ledgerSocket,
+          mockState.targetId,
+          payload.appName,
+          mockState.latestAppInfos
+        )
+    })
+    it('should mark install success', () => {
+      saga.next().put(A.appChangeSuccess(payload.appName, 'install'))
+    })
+  })
+
+  describe('uninstallApplication', () => {
+    let payload = { appName: 'BTC' }
+    const saga = testSaga(uninstallApplication, { payload })
+    const mockState = {
+      transport: 'fakeTransport',
+      targetId: 123,
+      latestAppInfos: [{ name: 'BTC' }, { name: 'ETH' }],
+      domains: {
+        ledgerSocket: 'fakeUrl'
+      }
+    }
+
+    it('should set app change status to loading', () => {
+      saga.next().put(A.appChangeLoading())
+    })
+    it('should get transport from getCurrentConnection', () => {
+      saga.next().select(S.getCurrentConnection)
+    })
+    it('should get targetId from getDeviceTargetId', () => {
+      saga.next({ transport: mockState.transport }).select(S.getDeviceTargetId)
+    })
+    it('should get latest appInfos from getLatestApplicationVersions', () => {
+      saga
+        .next(Remote.Success(mockState.targetId))
+        .select(S.getLatestApplicationVersions)
+    })
+    it('should get socket domain', () => {
+      saga
+        .next(Remote.Success(mockState.latestAppInfos))
+        .select(selectors.core.walletOptions.getDomains)
+    })
+    it('should call to uninstall application', () => {
+      saga
+        .next(Remote.Success(mockState.domains))
+        .call(
+          Lockbox.apps.uninstallApp,
+          mockState.transport,
+          mockState.domains.ledgerSocket,
+          mockState.targetId,
+          mockState.latestAppInfos[0]
+        )
+    })
+    it('should mark uninstall success', () => {
+      saga.next().put(A.appChangeSuccess(payload.appName, 'uninstall'))
+    })
   })
 
   describe('checkDeviceAuthenticity', () => {
@@ -143,6 +239,8 @@ describe('lockbox sagas', () => {
         .put(actions.core.data.bitcoin.fetchData())
         .next()
         .put(actions.core.data.ethereum.fetchData())
+        .next()
+        .put(actions.core.data.xlm.fetchData())
     })
     it('alerts success', () => {
       saga.next()
@@ -196,20 +294,15 @@ describe('lockbox sagas', () => {
         .next({ payload: { deviceType: 'ledger' } })
         .take(AT.SET_NEW_DEVICE_SETUP_STEP)
     })
+    it('prefetches app info', () => {
+      saga.next().call(deriveLatestAppInfo)
+    })
     it('checks device auth', () => {
       saga.next().put(A.checkDeviceAuthenticity())
     })
     it('waits for setup step 2', () => {
       saga.next().take(AT.SET_NEW_DEVICE_SETUP_STEP)
     })
-    it('opens a channel and polls for app', () => {
-      saga.next().call(pollForDeviceAppChannel, 'BTC', 5000)
-    })
-    it('waits for set connection info or install apps', () => {
-      saga
-        .next()
-        .next()
-        .take([AT.SET_CONNECTION_INFO, AT.INSTALL_BLOCKCHAIN_APPS])
-    })
+    // TODO: unit test rest of saga
   })
 })

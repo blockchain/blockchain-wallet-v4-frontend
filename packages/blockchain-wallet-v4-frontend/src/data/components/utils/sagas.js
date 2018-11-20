@@ -26,6 +26,7 @@ export const selectReceiveAddress = function*(source, networks) {
   const coin = prop('coin', source)
   const type = prop('type', source)
   const address = prop('address', source)
+  if (equals('XLM', coin) && is(String, address)) return address
   if (equals('ETH', coin) && is(String, address))
     return EthUtil.toChecksumAddress(address)
   if (equals('BCH', coin)) {

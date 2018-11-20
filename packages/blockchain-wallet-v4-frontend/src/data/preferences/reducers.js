@@ -7,11 +7,15 @@ const INITIAL_STATE = {
   culture: 'en-GB',
   theme: 'default',
   coinDisplayed: true,
+  coinIntros: {
+    BTC: true,
+    BCH: true,
+    ETH: true
+  },
   showKycCompleted: true,
-  showEtherWelcome: true,
   showBackupReminder: true,
-  showBitcoinWelcome: true,
-  showBitcoinCashWelcome: true,
+  showKycGetStarted: true,
+  showSwapBanner: true,
   totalBalancesDropdown: {
     wallet: true,
     lockbox: false,
@@ -41,17 +45,9 @@ const preferences = (state = INITIAL_STATE, action) => {
     case AT.HIDE_KYC_COMPLETED: {
       return assoc('showKycCompleted', false, state)
     }
-    case AT.SET_ETHER_WELCOME: {
-      const { displayed } = payload
-      return assoc('showEtherWelcome', displayed, state)
-    }
-    case AT.SET_BITCOIN_WELCOME: {
-      const { displayed } = payload
-      return assoc('showBitcoinWelcome', displayed, state)
-    }
-    case AT.SET_BITCOIN_CASH_WELCOME: {
-      const { displayed } = payload
-      return assoc('showBitcoinCashWelcome', displayed, state)
+    case AT.SET_COIN_SHOW_INTRO: {
+      const { coin, displayed } = payload
+      return assocPath(['coinIntros', coin], displayed, state)
     }
     case AT.SET_TOTAL_BALANCES_DROPDOWN: {
       const { key, val } = payload
@@ -64,6 +60,12 @@ const preferences = (state = INITIAL_STATE, action) => {
     case priceChartActionTypes.PRICE_CHART_TIME_CLICKED: {
       const { time } = payload
       return assocPath(['priceChart', 'time'], time, state)
+    }
+    case AT.HIDE_KYC_GET_STARTED: {
+      return assoc('showKycGetStarted', false, state)
+    }
+    case AT.HIDE_SWAP_BANNER: {
+      return assoc('showSwapBanner', false, state)
     }
     default:
       return state

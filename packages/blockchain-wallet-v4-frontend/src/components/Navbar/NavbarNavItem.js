@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
+import media from 'services/ResponsiveService'
 
 const BaseNavItem = styled.li`
   box-sizing: border-box;
-  margin-right: 20px;
+  margin-right: 28px;
   cursor: pointer;
   &:last-child {
     margin-right: 0px;
@@ -13,7 +14,6 @@ const BaseNavItem = styled.li`
     font-size: 14px;
     font-weight: 400;
     color: ${props => props.theme['white']};
-    text-transform: uppercase;
     text-decoration: none;
     cursor: pointer;
 
@@ -21,6 +21,10 @@ const BaseNavItem = styled.li`
       color: ${props => props.theme['white']};
     }
   }
+
+  ${media.mobile`
+    margin-right: 20px;
+  `};
 `
 
 const NavbarNavItem = props => {

@@ -2,17 +2,13 @@ import { assocPath, assoc } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import * as AT from './actionTypes'
 
-// TODO: simplify installs state once app store is introduced
 const INITIAL_STATE = {
   connection: {},
   firmware: {},
-  installs: {
-    apps: {
-      BTC: Remote.NotAsked,
-      BCH: Remote.NotAsked,
-      ETH: Remote.NotAsked
-    },
-    blockchain: Remote.NotAsked
+  appManager: {
+    latestAppInfos: Remote.NotAsked,
+    appChangeStatus: Remote.NotAsked,
+    targetId: Remote.NotAsked
   },
   newDeviceSetup: {
     device: Remote.NotAsked,
@@ -58,49 +54,44 @@ export default (state = INITIAL_STATE, action) => {
     case AT.RESET_FIRMWARE_INFO: {
       return assoc('firmware', {}, state)
     }
-    case AT.INSTALL_APPLICATION: {
-      return assocPath(['installs', 'apps', payload.app], Remote.Loading, state)
-    }
-    case AT.INSTALL_APPLICATION_FAILURE: {
+    case AT.SET_DEVICE_TARGET_ID: {
       return assocPath(
-        ['installs', 'apps', payload.app],
-        Remote.Failure(payload),
-        state
-      )
-    }
-    case AT.INSTALL_APPLICATION_SUCCESS: {
-      return assocPath(
-        ['installs', 'apps', payload.app],
+        ['appManager', 'targetId'],
         Remote.Success(payload),
         state
       )
     }
-    // TODO: remove Blockchain app reducers once app store is introduced
-    case AT.INSTALL_BLOCKCHAIN_APPS: {
-      return assocPath(['installs', 'blockchain'], Remote.Loading, state)
+    case AT.APP_CHANGE_LOADING: {
+      return assocPath(['appManager', 'appChangeStatus'], Remote.Loading, state)
     }
-    case AT.INSTALL_BLOCKCHAIN_APPS_FAILURE: {
+    case AT.APP_CHANGE_FAILURE: {
       return assocPath(
-        ['installs', 'blockchain'],
+        ['appManager', 'appChangeStatus'],
         Remote.Failure(payload),
         state
       )
     }
-    case AT.INSTALL_BLOCKCHAIN_APPS_SUCCESS: {
+    case AT.APP_CHANGE_SUCCESS: {
       return assocPath(
-        ['installs', 'blockchain'],
+        ['appManager', 'appChangeStatus'],
         Remote.Success(payload),
         state
       )
     }
-    case AT.RESET_APPS_INSTALL_STATUS: {
+    case AT.SET_LATEST_APP_INFOS_LOADING: {
+      return assocPath(['appManager', 'latestAppInfos'], Remote.Loading, state)
+    }
+    case AT.SET_LATEST_APP_INFOS_SUCCESS: {
       return assocPath(
-        ['installs', 'apps'],
-        {
-          BTC: Remote.NotAsked,
-          BCH: Remote.NotAsked,
-          ETH: Remote.NotAsked
-        },
+        ['appManager', 'latestAppInfos'],
+        Remote.Success(payload),
+        state
+      )
+    }
+    case AT.RESET_APP_CHANGE_STATUS: {
+      return assocPath(
+        ['appManager', 'appChangeStatus'],
+        Remote.NotAsked,
         state
       )
     }

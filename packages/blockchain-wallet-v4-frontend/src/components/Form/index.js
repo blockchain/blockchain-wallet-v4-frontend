@@ -23,8 +23,9 @@ import RadioButton from './RadioButton'
 import SelectBoxBankAccountType from './SelectBoxBankAccountType'
 import SelectBox from './SelectBox'
 import SelectBoxBtcAddresses from './SelectBoxBtcAddresses'
-import SelectBoxBCHAddresses from './SelectBoxBchAddresses'
+import SelectBoxBchAddresses from './SelectBoxBchAddresses'
 import SelectBoxEthAddresses from './SelectBoxEthAddresses'
+import SelectBoxXlmAddresses from './SelectBoxXlmAddresses'
 import SelectBoxCoin from './SelectBoxCoin'
 import SelectBoxCoinifyCurrency from './SelectBoxCoinifyCurrency'
 import SelectBoxCountry from './SelectBoxCountry'
@@ -66,8 +67,9 @@ export {
   SelectBoxBankAccountType,
   SelectBox,
   SelectBoxBtcAddresses,
-  SelectBoxBCHAddresses,
+  SelectBoxBchAddresses,
   SelectBoxEthAddresses,
+  SelectBoxXlmAddresses,
   SelectBoxCoin,
   SelectBoxCoinifyCurrency,
   SelectBoxCountry,

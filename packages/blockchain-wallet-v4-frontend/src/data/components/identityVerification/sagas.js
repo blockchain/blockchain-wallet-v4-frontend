@@ -29,12 +29,18 @@ export const invalidNumberError = 'Failed to update mobile number'
 export const mobileVerifiedError = 'Failed to verify mobile number'
 export const failedResendError = 'Failed to resend the code'
 export const userExistsError = 'User already exists'
-export const getUserExistsError = email =>
-  `User with email ${email} already exists`
 
 export default ({ api, coreSagas }) => {
+  const {
+    EMAIL_EXISTS,
+    REENTERED,
+    STARTED,
+    PERSONAL_STEP_COMPLETE,
+    MOBILE_STEP_COMPLETE
+  } = model.analytics.KYC
   const { USER_ACTIVATION_STATES } = model.profile
   const {
+    getCampaignData,
     createUser,
     updateUser,
     generateRetailToken,
@@ -45,28 +51,78 @@ export default ({ api, coreSagas }) => {
     coreSagas
   })
 
+  const registerUserCampaign = function*(newUser = false) {
+    const campaignName = yield select(selectors.modules.profile.getCampaign)
+    const campaignData = yield call(getCampaignData, campaignName)
+    const token = (yield select(
+      selectors.modules.profile.getApiToken
+    )).getOrFail()
+
+    yield call(
+      api.registerUserCampaign,
+      token,
+      campaignName,
+      campaignData,
+      newUser
+    )
+  }
+
+  const createRegisterUserCampaign = function*({
+    payload: { needsIdVerification }
+  }) {
+    try {
+      if (!needsIdVerification) return yield call(registerUserCampaign)
+
+      const userId = (yield select(
+        selectors.core.kvStore.userCredentials.getUserId
+      )).getOrElse('')
+      const userWithEmailExists = yield call(verifyIdentity)
+      if (userWithEmailExists) return
+      if (!userId) yield call(createUser)
+      if (userId) yield call(registerUserCampaign, true)
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'createRegisterUserCampaign',
+          e
+        )
+      )
+    }
+  }
+
   const verifyIdentity = function*() {
     try {
       const userId = (yield select(
         selectors.core.kvStore.userCredentials.getUserId
       )).getOrElse('')
       if (userId) {
-        return yield put(actions.modals.showModal(KYC_MODAL))
+        yield put(actions.analytics.logKycEvent(REENTERED))
+        yield put(actions.modals.showModal(KYC_MODAL))
+        return false
       }
       const retailToken = yield call(generateRetailToken)
-      yield call(api.checkUserExistance, retailToken)
+      yield call(api.checkUserExistence, retailToken)
       yield put(actions.modals.showModal(USER_EXISTS_MODAL))
+      yield put(actions.analytics.logKycEvent(EMAIL_EXISTS))
+      return true
     } catch (e) {
+      yield put(actions.analytics.logKycEvent(STARTED))
       yield put(actions.modals.showModal(KYC_MODAL))
+      return false
     }
   }
 
   const initializeStep = function*() {
-    const activationState = yield select(
+    const activationState = (yield select(
       selectors.modules.profile.getUserActivationState
-    )
+    )).getOrElse(USER_ACTIVATION_STATES.NONE)
+    const mobileVerified = (yield select(selectors.modules.profile.getUserData))
+      .map(prop('mobileVerified'))
+      .getOrElse(false)
     if (activationState === USER_ACTIVATION_STATES.NONE)
       return yield put(A.setVerificationStep(STEPS.personal))
+    if (mobileVerified) return yield put(A.setVerificationStep(STEPS.verify))
     if (activationState === USER_ACTIVATION_STATES.CREATED)
       return yield put(A.setVerificationStep(STEPS.mobile))
     if (activationState === USER_ACTIVATION_STATES.ACTIVE)
@@ -106,6 +162,7 @@ export default ({ api, coreSagas }) => {
       yield call(syncUserWithWallet)
       yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
       yield put(A.setVerificationStep(STEPS.verify))
+      yield put(actions.analytics.logKycEvent(MOBILE_STEP_COMPLETE))
     } catch (e) {
       const description = prop('description', e)
 
@@ -169,6 +226,7 @@ export default ({ api, coreSagas }) => {
 
       if (!smsVerified && !mobileVerified) {
         yield put(actions.form.stopSubmit(PERSONAL_FORM))
+        yield put(actions.analytics.logKycEvent(PERSONAL_STEP_COMPLETE))
         return yield put(A.setVerificationStep(STEPS.mobile))
       }
 
@@ -176,6 +234,7 @@ export default ({ api, coreSagas }) => {
       yield call(syncUserWithWallet)
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
       yield put(A.setVerificationStep(STEPS.verify))
+      yield put(actions.analytics.logKycEvent(PERSONAL_STEP_COMPLETE))
     } catch (e) {
       yield put(actions.form.stopSubmit(PERSONAL_FORM, e))
       yield put(
@@ -199,6 +258,27 @@ export default ({ api, coreSagas }) => {
         logLocation,
         'fetchSupportedCountries',
         `Error fetching supported countries: ${e}`
+      )
+    }
+  }
+
+  const fetchSupportedDocuments = function*() {
+    try {
+      yield put(A.setSupportedDocuments(Remote.Loading))
+      const countryCode = (yield select(
+        selectors.modules.profile.getUserCountryCode
+      )).getOrElse('US')
+      const { documentTypes } = yield call(
+        api.getSupportedDocuments,
+        countryCode
+      )
+      yield put(A.setSupportedDocuments(Remote.Success(documentTypes)))
+    } catch (e) {
+      yield put(A.setSupportedDocuments(Remote.Failure(e)))
+      actions.logs.logErrorMessage(
+        logLocation,
+        'fetchSupportedDocuments',
+        `Error fetching supported documents: ${e}`
       )
     }
   }
@@ -306,10 +386,12 @@ export default ({ api, coreSagas }) => {
   return {
     verifyIdentity,
     initializeStep,
-    fetchSupportedCountries,
     fetchStates,
+    fetchSupportedCountries,
+    fetchSupportedDocuments,
     fetchPossibleAddresses,
     resendSmsCode,
+    createRegisterUserCampaign,
     savePersonalData,
     selectAddress,
     updateSmsStep,
