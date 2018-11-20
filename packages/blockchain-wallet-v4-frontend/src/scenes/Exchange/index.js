@@ -49,7 +49,7 @@ const Column = styled.div`
 
 const { ENTERED } = model.analytics.EXCHANGE
 
-class ExchangeScene extends React.PureComponent {
+export class ExchangeScene extends React.PureComponent {
   componentDidMount () {
     this.props.logEnterExchange()
   }
@@ -62,14 +62,14 @@ class ExchangeScene extends React.PureComponent {
           {verified ? (
             <Container>
               <Column>
-                <Exchange />
+                <Exchange
+                  from={path(['state', 'from'], location)}
+                  to={path(['state', 'to'], location)}
+                />
               </Column>
             </Container>
           ) : (
-            <GetStarted
-              from={path(['state', 'from'], location)}
-              to={path(['state', 'to'], location)}
-            />
+            <GetStarted />
           )}
         </Wrapper>
       ),

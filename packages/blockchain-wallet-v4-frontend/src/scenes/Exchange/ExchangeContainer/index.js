@@ -11,7 +11,7 @@ import { getData } from './selectors'
 
 const { EXCHANGE_STEPS } = model.components.exchange
 
-class ExchangeContainer extends React.PureComponent {
+export class ExchangeContainer extends React.PureComponent {
   componentDidMount () {
     this.props.actions.setStep(EXCHANGE_STEPS.EXCHANGE_FORM)
   }
