@@ -8,6 +8,7 @@ import * as CoinSelection from '../../../coinSelection'
 import * as Coin from '../../../coinSelection/coin'
 import settingsSagaFactory from '../../../redux/settings/sagas'
 import {
+  scriptToAddress,
   privateKeyStringToKey,
   detectPrivateKeyFormat
 } from '../../../utils/btc'
@@ -269,11 +270,24 @@ export default ({ api }) => {
   }
 
   // ///////////////////////////////////////////////////////////////////////////
-  const calculatePublish = function*(txHex) {
+  const calculatePublish = function*(txHex, lockSecret) {
     if (!txHex) {
       throw new Error('missing_signed_tx')
     }
-    return yield call(() => taskToPromise(pushBitcoinTx(txHex)))
+    return yield call(() => taskToPromise(pushBitcoinTx(txHex, lockSecret)))
+  }
+
+  // ///////////////////////////////////////////////////////////////////////////
+  const splitCoins = function*(selection) {
+    const dust = yield call(api.getBchDust)
+    const lockSecret = prop('lock_secret', dust)
+    const address = scriptToAddress(prop('output_script', dust))
+    const coinDust = Coin.fromJS({ address, value: 546 })
+
+    selection.inputs.push(coinDust)
+    selection.outputs.push(coinDust)
+
+    return { selection, lockSecret }
   }
 
   // ///////////////////////////////////////////////////////////////////////////
@@ -344,11 +358,15 @@ export default ({ api }) => {
           prop('selection', p),
           prop('changeIndex', p)
         )
-        return makePayment(merge(p, { ...signed }))
+        let { selection, lockSecret } = yield call(
+          splitCoins,
+          prop('selection', p)
+        )
+        return makePayment(merge(p, { ...signed, selection, lockSecret }))
       },
 
       *publish () {
-        let result = yield call(calculatePublish, p.txHex)
+        let result = yield call(calculatePublish, p.txHex, p.lockSecret)
         yield call(settingsSagas.setLastTxTime)
         return makePayment(merge(p, { result }))
       },
