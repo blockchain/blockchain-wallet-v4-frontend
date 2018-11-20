@@ -1167,7 +1167,7 @@
         "id": "components.identityverification.popup.note.unverified"
       },
       {
-        "defaultMessage": "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to buy cryptocurrency,",
+        "defaultMessage": "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to trade cryptocurrency,",
         "id": "components.identityverification.popup.note.inreview"
       },
       {
@@ -1216,7 +1216,7 @@
         "id": "components.identityverification.popup.note.unverified"
       },
       {
-        "defaultMessage": "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to buy cryptocurrency,",
+        "defaultMessage": "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to trade cryptocurrency,",
         "id": "components.identityverification.popup.note.inreview"
       },
       {
