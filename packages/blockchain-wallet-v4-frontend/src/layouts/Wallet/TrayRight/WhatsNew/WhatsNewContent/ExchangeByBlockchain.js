@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
+import { LinkContainer } from 'react-router-bootstrap'
 
 import { actions } from 'data'
 import { Button, Text } from 'blockchain-info-components'
@@ -54,7 +55,7 @@ const GetStartedButton = styled(Button).attrs({
   }
 `
 
-export const ExchangeByBlockchain = ({ verifyIdentity }) => (
+export const ExchangeByBlockchain = ({ kycNotFinished, verifyIdentity }) => (
   <Container>
     <Row marginBottom='24px'>
       <Text color='brand-primary' size='24px' weight={600}>
@@ -134,12 +135,24 @@ export const ExchangeByBlockchain = ({ verifyIdentity }) => (
       </DarkText>
     </Row>
     <Row>
-      <GetStartedButton onClick={verifyIdentity}>
-        <FormattedMessage
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.started'
-          defaultMessage='Get Started'
-        />
-      </GetStartedButton>
+      {kycNotFinished && (
+        <GetStartedButton onClick={verifyIdentity}>
+          <FormattedMessage
+            id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.started'
+            defaultMessage='Get Started'
+          />
+        </GetStartedButton>
+      )}
+      {!kycNotFinished && (
+        <LinkContainer to='/exchange'>
+          <GetStartedButton>
+            <FormattedMessage
+              id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.gotoexchange'
+              defaultMessage='Go To Exchange'
+            />
+          </GetStartedButton>
+        </LinkContainer>
+      )}
     </Row>
   </Container>
 )

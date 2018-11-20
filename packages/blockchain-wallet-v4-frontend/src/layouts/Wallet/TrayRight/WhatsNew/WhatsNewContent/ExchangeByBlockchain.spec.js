@@ -18,7 +18,13 @@ jest.mock('data', () => ({
 }))
 
 describe('ExchangeByBlockchain', () => {
-  it('renders correctly', () => {
+  it('renders correctly with button', () => {
+    const component = shallow(<ExchangeByBlockchain kycNotFinished />)
+    const tree = toJson(component)
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('renders correctly with exchange link', () => {
     const component = shallow(<ExchangeByBlockchain />)
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()

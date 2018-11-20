@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 
 import { Button, Text } from 'blockchain-info-components'
 import { actions } from 'data'
@@ -81,7 +82,12 @@ const GetStartedButton = styled(Button).attrs({
   font-weight: 500;
 `
 
-export const SwapBanner = ({ showBanner, verifyIdentity }) =>
+export const SwapBanner = ({
+  showBanner,
+  kycNotFinished,
+  hideSwapBanner,
+  verifyIdentity
+}) =>
   showBanner ? (
     <Wrapper>
       <Column>
@@ -102,12 +108,24 @@ export const SwapBanner = ({ showBanner, verifyIdentity }) =>
         <BackgroundImage />
       </Column>
       <Column>
-        <GetStartedButton onClick={verifyIdentity}>
-          <FormattedMessage
-            defaultMessage='Get Started'
-            id='scenes.home.swapbanner.getstarted'
-          />
-        </GetStartedButton>
+        {kycNotFinished && (
+          <GetStartedButton onClick={verifyIdentity}>
+            <FormattedMessage
+              id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.started'
+              defaultMessage='Get Started'
+            />
+          </GetStartedButton>
+        )}
+        {!kycNotFinished && (
+          <LinkContainer to='/exchange'>
+            <GetStartedButton onClick={hideSwapBanner}>
+              <FormattedMessage
+                id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.gotoexchange'
+                defaultMessage='Go To Exchange'
+              />
+            </GetStartedButton>
+          </LinkContainer>
+        )}
       </Column>
     </Wrapper>
   ) : null
@@ -116,7 +134,8 @@ const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
   verifyIdentity: () =>
-    dispatch(actions.components.identityVerification.verifyIdentity())
+    dispatch(actions.components.identityVerification.verifyIdentity()),
+  hideSwapBanner: () => dispatch(actions.preferences.hideSwapBanner())
 })
 
 export default connect(
