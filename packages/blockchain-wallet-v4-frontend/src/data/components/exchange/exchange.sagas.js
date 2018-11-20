@@ -52,7 +52,7 @@ import {
 
 export const logLocation = 'exchange/sagas'
 
-export default ({ api, coreSagas, options, networks }) => {
+export default ({ api, coreSagas, networks }) => {
   const { SECOND_STEP_SUBMIT, SECOND_STEP_ERROR } = model.analytics.EXCHANGE
   const {
     RESULTS_MODAL,
@@ -77,9 +77,7 @@ export default ({ api, coreSagas, options, networks }) => {
     validateXlmCreateAccount,
     validateXlmAccountExists
   } = utils({
-    api,
     coreSagas,
-    options,
     networks
   })
   const formValueSelector = selectors.form.getFormValues(EXCHANGE_FORM)
