@@ -17,7 +17,7 @@ const SCALES = {
 const BTCSTART = 1282089600
 const ETHSTART = 1438992000
 const BCHSTART = 1500854400
-const XLMSTART = 1525111466
+const XLMSTART = 1409788800
 
 const start = {
   BTC: BTCSTART,
@@ -58,7 +58,6 @@ export const calculateStart = (coin, time) => {
 }
 
 export const calculateScale = (coin, time) => {
-  if (coin === 'XLM' && time === 'all') return SCALES.DAY
   switch (time) {
     case 'all':
       return SCALES.FIVEDAY

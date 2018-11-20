@@ -6,14 +6,10 @@ import * as actions from './actions'
 const INITIAL_STATE = {
   connection: {},
   firmware: {},
-  installs: {
-    apps: {
-      BTC: Remote.NotAsked,
-      BCH: Remote.NotAsked,
-      ETH: Remote.NotAsked,
-      XLM: Remote.NotAsked
-    },
-    blockchain: Remote.NotAsked
+  appManager: {
+    latestAppInfos: Remote.NotAsked,
+    appChangeStatus: Remote.NotAsked,
+    targetId: Remote.NotAsked
   },
   newDeviceSetup: {
     device: Remote.NotAsked,
@@ -83,33 +79,53 @@ describe('lockbox reducers', () => {
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
   })
 
-  it('should install application', () => {
-    const action = actions.installApplication('BTC')
+  it('should set the device targetId', () => {
+    const action = actions.setDeviceTargetId(123)
     const expectedState = assocPath(
-      ['installs', 'apps', 'BTC'],
+      ['appManager', 'targetId'],
+      Remote.Success(123),
+      INITIAL_STATE
+    )
+    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
+  })
+
+  it('should set app change status to loading', () => {
+    const action = actions.appChangeLoading()
+    const expectedState = assocPath(
+      ['appManager', 'appChangeStatus'],
       Remote.Loading,
       INITIAL_STATE
     )
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
   })
 
-  it('should set install application failure', () => {
-    const PAYLOAD = { app: 'BTC', error: 'error' }
-    const action = actions.installApplicationFailure('BTC', 'error')
+  it('should set app change status to success', () => {
+    const PAYLOAD = { appName: 'BTC', changeType: 'install' }
+    const action = actions.appChangeSuccess('BTC', 'install')
     const expectedState = assocPath(
-      ['installs', 'apps', 'BTC'],
+      ['appManager', 'appChangeStatus'],
+      Remote.Success(PAYLOAD),
+      INITIAL_STATE
+    )
+    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
+  })
+
+  it('should set app change status to failure', () => {
+    const PAYLOAD = { appName: 'ETH', changeType: 'install', error: 'error' }
+    const action = actions.appChangeFailure('ETH', 'install', 'error')
+    const expectedState = assocPath(
+      ['appManager', 'appChangeStatus'],
       Remote.Failure(PAYLOAD),
       INITIAL_STATE
     )
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
   })
 
-  it('should set install application success', () => {
-    const PAYLOAD = { app: 'ETH' }
-    const action = actions.installApplicationSuccess('ETH')
+  it('should reset app change status to not asked', () => {
+    const action = actions.resetAppChangeStatus()
     const expectedState = assocPath(
-      ['installs', 'apps', 'ETH'],
-      Remote.Success(PAYLOAD),
+      ['appManager', 'appChangeStatus'],
+      Remote.NotAsked,
       INITIAL_STATE
     )
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)

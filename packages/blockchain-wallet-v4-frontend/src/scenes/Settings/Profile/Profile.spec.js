@@ -94,12 +94,23 @@ describe('Profile Settings', () => {
 
   describe('Identity Verfication setting', () => {
     describe('KYC_STATE: NONE', () => {
-      it('should trigger verifyIdentity action on button click', () => {
+      it('should trigger log kyc event on button click', () => {
         wrapper
           .find(IdentityVerification)
           .find('button')
           .simulate('click')
         const lastAction = last(init(dispatchSpy.mock.calls))[0]
+        expect(path(['type'], lastAction)).toBe(
+          actionTypes.analytics.LOG_KYC_EVENT
+        )
+      })
+
+      it('should trigger verifyIdentity action on button click', () => {
+        wrapper
+          .find(IdentityVerification)
+          .find('button')
+          .simulate('click')
+        const lastAction = last(init(init(dispatchSpy.mock.calls)))[0]
         expect(path(['type'], lastAction)).toBe(
           actionTypes.components.identityVerification.VERIFY_IDENTITY
         )
@@ -138,7 +149,7 @@ describe('Profile Settings', () => {
           .find('button')
           .simulate('click')
 
-        const lastAction = last(dispatchSpy.mock.calls)[0]
+        const lastAction = last(init(dispatchSpy.mock.calls))[0]
         expect(path(['type'], lastAction)).toBe('SHOW_MODAL')
         expect(path(['payload', 'type'], lastAction)).toBe(USER_EXISTS_MODAL)
       })

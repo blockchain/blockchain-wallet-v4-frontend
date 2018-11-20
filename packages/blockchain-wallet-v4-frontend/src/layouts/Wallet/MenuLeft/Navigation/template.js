@@ -23,6 +23,7 @@ const HelperTipContainer = styled.div`
   display: flex;
   justify-content: flex-end;
 `
+
 const NewCartridge = styled(Cartridge)`
   color: ${props => props.theme['white']} !important;
   background-color: ${props => props.theme['brand-secondary']};
@@ -60,6 +61,12 @@ const Navigation = props => {
             id='layouts.wallet.menuleft.navigation.exchange'
             defaultMessage='Exchange'
           />
+          <NewCartridge>
+            <FormattedMessage
+              defaultMessage='New'
+              id='layouts.wallet.menuleft.navigation.new'
+            />
+          </NewCartridge>
         </MenuItem>
       </LinkContainer>
       <MenuItem>

@@ -1,94 +1,21 @@
-import { call, select, put, fork, join, take } from 'redux-saga/effects'
-import * as selectors from '../selectors.js'
-import * as actions from '../actions'
-import * as actionTypes from '../actionTypes'
+import { call, put } from 'redux-saga/effects'
+import { test, prop, equals } from 'ramda'
+
+import { actions } from 'data'
 import {
   LAYOUT_WALLET_HEADER_FAQ_CLICKED,
   LAYOUT_WALLET_HEADER_WHATSNEW_CLICKED
 } from '../components/layoutWallet/actionTypes'
-import { Remote } from 'blockchain-wallet-v4/src'
-import { test, pathOr, prop, equals } from 'ramda'
+import { getAllBalances } from 'data/balance/sagas'
 
 export const logLocation = 'analytics/sagas'
 export const balancePath = ['payload', 'info', 'final_balance']
 
-export default ({ api, coreSagas }) => {
-  const getEthBalance = function*() {
-    try {
-      const ethBalanceR = yield select(selectors.core.data.ethereum.getBalance)
-      if (!Remote.Success.is(ethBalanceR)) {
-        const ethData = yield take(
-          actionTypes.core.data.ethereum.FETCH_ETHEREUM_DATA_SUCCESS
-        )
-        return pathOr(0, balancePath, ethData)
-      }
-      return ethBalanceR.getOrElse(0)
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'getEthBalance', e))
-    }
-  }
-
-  const getBtcBalance = function*() {
-    try {
-      const btcBalanceR = yield select(selectors.core.data.bitcoin.getBalance)
-      if (!Remote.Success.is(btcBalanceR)) {
-        const btcData = yield take(
-          actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_SUCCESS
-        )
-        return pathOr(0, balancePath, btcData)
-      }
-      return btcBalanceR.getOrElse(0)
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'getBtcBalance', e))
-    }
-  }
-
-  const getBchBalance = function*() {
-    try {
-      const bchBalanceR = yield select(selectors.core.data.bch.getBalance)
-      if (!Remote.Success.is(bchBalanceR)) {
-        const bchData = yield take(
-          actionTypes.core.data.bch.FETCH_BCH_DATA_SUCCESS
-        )
-        return pathOr(0, balancePath, bchData)
-      }
-      return bchBalanceR.getOrElse(0)
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'getBchBalance', e))
-    }
-  }
-
-  const getXlmBalance = function*() {
-    try {
-      const xlmBalanceR = yield select(selectors.core.data.xlm.getTotalBalance)
-      if (!Remote.Success.is(xlmBalanceR)) {
-        const xlmData = yield take(actionTypes.core.data.xlm.FETCH_DATA_SUCCESS)
-        return pathOr(0, balancePath, xlmData)
-      }
-      return xlmBalanceR.getOrElse(0)
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'getXlmBalance', e))
-    }
-  }
-
+export default ({ api }) => {
   const reportBalanceStats = function*() {
     try {
-      const ethT = yield fork(getEthBalance)
-      const btcT = yield fork(getBtcBalance)
-      const bchT = yield fork(getBchBalance)
-      const xlmT = yield fork(getXlmBalance)
-      const btcBalance = yield join(btcT)
-      const ethBalance = yield join(ethT)
-      const bchBalance = yield join(bchT)
-      const xlmBalance = yield join(xlmT)
-
-      yield call(
-        api.incrementCurrencyUsageStats,
-        btcBalance,
-        ethBalance,
-        bchBalance,
-        xlmBalance
-      )
+      const { btc, eth, bch, xlm } = yield call(getAllBalances)
+      yield call(api.incrementCurrencyUsageStats, btc, eth, bch, xlm)
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'reportBalanceStats', e)
@@ -137,6 +64,26 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const logKycEvent = function*({ payload }) {
+    try {
+      const { event } = payload
+      yield call(api.logKycEvent, event)
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'logKycEvent', e))
+    }
+  }
+
+  const logExchangeEvent = function*({ payload }) {
+    try {
+      const { event } = payload
+      yield call(api.logExchangeEvent, event)
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'logExchangeEvent', e)
+      )
+    }
+  }
+
   const logSfoxDropoff = function*(action) {
     const { payload } = action
     try {
@@ -156,11 +103,9 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
-    getEthBalance,
-    getBtcBalance,
-    getBchBalance,
-    getXlmBalance,
     logClick,
+    logKycEvent,
+    logExchangeEvent,
     logSfoxDropoff,
     logLeftNavClick,
     logLockboxSetup,

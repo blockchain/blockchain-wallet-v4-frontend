@@ -31,10 +31,10 @@ const unique = (value, allValues, { wallets }) => {
 }
 
 const AddBtcWallet = props => {
-  const { position, close, submitting, invalid, handleSubmit } = props
+  const { close, handleSubmit, invalid, position, submitting, total } = props
 
   return (
-    <Modal size='large' position={position}>
+    <Modal size='large' position={position} total={total}>
       <Form onSubmit={handleSubmit}>
         <Wrapper>
           <ModalHeader icon='up-arrow-in-circle' onClose={close}>
@@ -57,6 +57,7 @@ const AddBtcWallet = props => {
                   autoFocus
                   validate={[required, unique]}
                   component={TextBox}
+                  maxLength={30}
                 />
               </FormItem>
             </FormGroup>

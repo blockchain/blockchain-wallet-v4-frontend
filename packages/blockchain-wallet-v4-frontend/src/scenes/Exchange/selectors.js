@@ -1,9 +1,6 @@
 import { selectors } from 'data'
-import { USER_ACTIVATION_STATES } from 'data/modules/profile/model'
+import { KYC_STATES } from 'data/modules/profile/model'
 
 export const getData = state => ({
-  useShapeShift: selectors.components.exchange.useShapeShift(state),
-  showGetStarted:
-    selectors.modules.profile.getUserActivationState(state).getOrElse(null) ===
-    USER_ACTIVATION_STATES.NONE
+  verified: selectors.modules.profile.getUserKYCState(state).getOrElse(null) === KYC_STATES.VERIFIED
 })

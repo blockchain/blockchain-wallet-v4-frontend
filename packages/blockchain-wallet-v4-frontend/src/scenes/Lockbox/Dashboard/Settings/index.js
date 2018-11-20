@@ -10,7 +10,7 @@ import ExportXPub from './ExportXPub'
 import AddDevice from './AddDevice'
 import RestoreDevice from './RestoreDevice'
 import UpdateDevice from './UpdateDevice'
-import InstallApps from './InstallApps'
+import AppManager from './AppManager'
 
 const SettingsContainer = styled.div`
   padding: 0 30px;
@@ -42,7 +42,7 @@ export default class LockboxSettings extends React.PureComponent {
           deviceIndex={deviceIndex}
           isBrowserChrome={isBrowserChrome}
         />
-        <InstallApps
+        <AppManager
           deviceIndex={deviceIndex}
           isBrowserChrome={isBrowserChrome}
         />

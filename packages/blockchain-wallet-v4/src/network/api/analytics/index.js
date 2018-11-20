@@ -50,6 +50,20 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       data: { name: `wallet_web_click_${name}` }
     })
 
+  const logKycEvent = event =>
+    get({
+      url: rootUrl,
+      endPoint: '/event',
+      data: { name: `wallet_web_kyc_${event}` }
+    })
+
+  const logExchangeEvent = event =>
+    get({
+      url: rootUrl,
+      endPoint: '/event',
+      data: { name: `wallet_web_exchange_${event}` }
+    })
+
   const logSfoxAccountCreation = () =>
     get({
       url: rootUrl,
@@ -84,6 +98,8 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     incrementSecPasswordStats,
     incrementStat,
     logClick,
+    logKycEvent,
+    logExchangeEvent,
     logLockboxSetup,
     logSfoxAccountCreation,
     logSfoxDropoff,

@@ -8,7 +8,7 @@ import {
   SettingSummary
 } from 'components/Setting'
 
-const APIAccess = props => {
+const APIAccess = () => {
   return (
     <SettingContainer>
       <SettingSummary>
@@ -25,7 +25,7 @@ const APIAccess = props => {
           />
           <Link
             margin-right='0px'
-            href='https://blockchain.info/api'
+            href='https://blockchain.com/api'
             target='_blank'
             rel='noopener noreferrer'
             size='13px'

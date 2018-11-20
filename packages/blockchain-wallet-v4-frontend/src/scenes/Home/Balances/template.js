@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-1']};
   @media (min-width: 480px) {
-    height: 380px;
+    height: 390px;
   }
 `
 

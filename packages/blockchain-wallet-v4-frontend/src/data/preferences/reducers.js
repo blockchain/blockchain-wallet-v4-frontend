@@ -14,6 +14,7 @@ const INITIAL_STATE = {
   },
   showKycCompleted: true,
   showBackupReminder: true,
+  showKycGetStarted: true,
   totalBalancesDropdown: {
     wallet: true,
     lockbox: false,
@@ -58,6 +59,9 @@ const preferences = (state = INITIAL_STATE, action) => {
     case priceChartActionTypes.PRICE_CHART_TIME_CLICKED: {
       const { time } = payload
       return assocPath(['priceChart', 'time'], time, state)
+    }
+    case AT.HIDE_KYC_GET_STARTED: {
+      return assoc('showKycGetStarted', false, state)
     }
     default:
       return state

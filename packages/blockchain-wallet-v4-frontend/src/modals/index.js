@@ -26,10 +26,11 @@ import {
   ExchangeDetails,
   ExchangeResults,
   IdentityVerification,
+  SwapGetStarted,
   UserExists
 } from './Exchange'
 import {
-  LockboxAppInstall,
+  LockboxAppManager,
   LockboxFirmware,
   LockboxSetup,
   PromptLockbox
@@ -77,7 +78,7 @@ const Modals = props => (
     <ExchangeResults />
     <IdentityVerification />
     <ImportBtcAddress />
-    <LockboxAppInstall />
+    <LockboxAppManager disableOutsideClose />
     <LockboxFirmware />
     <LockboxSetup />
     <MobileNumberChange />
@@ -102,6 +103,7 @@ const Modals = props => (
     <ShowXlmPrivateKey />
     <ShowUsedAddresses />
     <SignMessage />
+    <SwapGetStarted />
     <ShowXPub />
     <SfoxExchangeData />
     <SfoxTradeDetails />
