@@ -15,8 +15,7 @@ jest.mock('data', () => ({
       }
     }
   }
-})
-)
+}))
 
 describe('ExchangeByBlockchain', () => {
   it('renders correctly', () => {

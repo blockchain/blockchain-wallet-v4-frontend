@@ -5,17 +5,21 @@ import * as actions from '../../actions'
 export const logLocation = 'components/swapGetStarted/sagas'
 
 export default ({ coreSagas }) => {
-  const swapGetStartedInitialized = function* () {
+  const swapGetStartedInitialized = function*() {
     try {
       yield put(actions.preferences.hideKycGetStarted())
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, 'swapGetStartedSubmitClicked', e)
+        actions.logs.logErrorMessage(
+          logLocation,
+          'swapGetStartedSubmitClicked',
+          e
+        )
       )
     }
   }
 
-  const swapGetStartedSubmitClicked = function* () {
+  const swapGetStartedSubmitClicked = function*() {
     try {
       // Trigger KYC Journey
       yield put(actions.components.identityVerification.verifyIdentity())
@@ -23,7 +27,11 @@ export default ({ coreSagas }) => {
       yield put(actions.modals.closeModal())
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, 'swapGetStartedSubmitClicked', e)
+        actions.logs.logErrorMessage(
+          logLocation,
+          'swapGetStartedSubmitClicked',
+          e
+        )
       )
     }
   }
