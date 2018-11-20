@@ -182,7 +182,7 @@
           "fiat": true
         },
         "config": {
-          "network": "testnet"
+          "network": "bitcoin"
         }
       },
       "bch": {

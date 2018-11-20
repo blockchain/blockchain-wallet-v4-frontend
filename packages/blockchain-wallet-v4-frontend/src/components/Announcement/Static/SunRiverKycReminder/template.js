@@ -3,19 +3,6 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Icon, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import media from 'services/ResponsiveService'
-
-const Wrapper = styled.div`
-  display: flex;
-  padding: 12px 25px;
-  align-items: center;
-  justify-content: space-between;
-  background: ${props => props.theme['marketing-primary']};
-  overflow: hidden;
-  ${media.mobile`
-    display: none;
-  `};
-`
 
 const ItemWrapper = styled.div`
   display: flex;
@@ -32,7 +19,7 @@ const SunRiverKycReminder = props => {
   const { goToKyc } = props
 
   return (
-    <Wrapper>
+    <React.Fragment>
       <ItemWrapper>
         <Icon name='xlm' color='white' weight={600} size='20px' />
         <Text
@@ -55,7 +42,7 @@ const SunRiverKycReminder = props => {
           />
         </Action>
       </ItemWrapper>
-    </Wrapper>
+    </React.Fragment>
   )
 }
 

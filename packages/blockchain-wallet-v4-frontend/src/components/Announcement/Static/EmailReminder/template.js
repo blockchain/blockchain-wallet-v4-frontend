@@ -4,7 +4,6 @@ import styled, { keyframes } from 'styled-components'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Icon, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import media from 'services/ResponsiveService'
 
 const reveal = keyframes`
   0% { top: 30px; }
@@ -14,18 +13,6 @@ const reveal = keyframes`
   75% { top: 0; }
   85% { top: 0; }
   100% { top: -30px; }
-`
-
-const Wrapper = styled.div`
-  display: flex;
-  padding: 12px 25px;
-  align-items: center;
-  justify-content: space-between;
-  background: ${props => props.theme['marketing-primary']};
-  overflow: hidden;
-  ${media.mobile`
-    display: none;
-  `};
 `
 
 const ItemWrapper = styled.div`
@@ -53,7 +40,7 @@ const EmailReminder = props => {
   const { handleResendVerifyEmail, reminded, email } = props
 
   return (
-    <Wrapper>
+    <React.Fragment>
       <ItemWrapper>
         <Icon name='email' color='white' weight={600} />
         <Text
@@ -105,7 +92,7 @@ const EmailReminder = props => {
           </Action>
         </LinkContainer>
       </ItemWrapper>
-    </Wrapper>
+    </React.Fragment>
   )
 }
 
