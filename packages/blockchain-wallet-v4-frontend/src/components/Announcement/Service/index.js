@@ -1,17 +1,14 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
-import { path } from 'ramda'
 import { connect } from 'react-redux'
-import { Remote } from 'blockchain-wallet-v4/src'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
 import { getData } from './selectors'
 import Announcement from './template.js'
 
 class ServiceAnnouncement extends React.PureComponent {
-  state = {}
-
   handleDismiss = id => {
     this.props.cacheActions.announcementDismissed(id)
   }
@@ -24,15 +21,33 @@ class ServiceAnnouncement extends React.PureComponent {
     const { alertArea, data } = this.props
     return data.cata({
       Success: val => {
-        return val.showAnnounce ||
-          path(['announcements', alertArea, 'hideType'], val) === 'collapse' ? (
-          <Announcement
-            announcement={val.announcements[alertArea]}
-            language={val.language}
-            collapsed={val.collapsed}
-            handleDismiss={this.handleDismiss}
-            toggleCollapse={this.toggleCollapse}
-          />
+        return val.showTestnetWarning || val.showAnnounce ? (
+          <React.Fragment>
+            {val.showTestnetWarning && (
+              <Announcement
+                announcement={{
+                  header: {
+                    en:
+                      'Warning! This is the testnet3 blockchain. Testnet coins have no value.'
+                  },
+                  icon: 'alert-filled',
+                  sections: [],
+                  type: 'danger'
+                }}
+                handleDismiss={this.handleDismiss}
+                toggleCollapse={this.toggleCollapse}
+              />
+            )}
+            {val.showAnnounce && (
+              <Announcement
+                announcement={val.announcements[alertArea]}
+                language={val.language}
+                collapsed={val.collapsed}
+                handleDismiss={this.handleDismiss}
+                toggleCollapse={this.toggleCollapse}
+              />
+            )}
+          </React.Fragment>
         ) : null
       },
       Loading: () => <div />,

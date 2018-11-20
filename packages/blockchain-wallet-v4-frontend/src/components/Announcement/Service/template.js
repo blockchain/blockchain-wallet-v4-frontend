@@ -14,9 +14,9 @@ const Container = styled.div`
   -webkit-font-smoothing: antialiased;
   margin: 0 auto;
   overflow: hidden;
-  padding: 10px 25px;
+  padding: 12px 25px;
   box-sizing: border-box;
-  height: ${props => (props.collapsed ? '35px' : '')};
+  height: ${props => (props.collapsed ? '40px' : '')};
   width: 100%;
 `
 const Wrapper = styled.div`
@@ -121,17 +121,19 @@ const Announcement = props => {
                 </Text>
               )
             })}
-            <ActionLink
-              href={announcement.action.link}
-              color={textColor}
-              target='_blank'
-            >
-              <Text weight={400} color={textColor} size='14px'>
-                {announcement.action.title[language]
-                  ? announcement.action.title[language]
-                  : announcement.action.title.en}
-              </Text>
-            </ActionLink>
+            {announcement.action && (
+              <ActionLink
+                href={announcement.action.link}
+                color={textColor}
+                target='_blank'
+              >
+                <Text weight={400} color={textColor} size='14px'>
+                  {announcement.action.title[language]
+                    ? announcement.action.title[language]
+                    : announcement.action.title.en}
+                </Text>
+              </ActionLink>
+            )}
           </div>
         </Content>
       </Wrapper>
@@ -165,7 +167,7 @@ const Announcement = props => {
 
 Announcement.propTypes = {
   announcement: PropTypes.object.isRequired,
-  language: PropTypes.string.isRequired,
+  language: PropTypes.string,
   handleDismiss: PropTypes.func.isRequired
 }
 

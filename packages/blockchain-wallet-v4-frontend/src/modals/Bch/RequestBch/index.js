@@ -12,7 +12,7 @@ import DataError from 'components/DataError'
 import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
-import ServiceAnnouncement from 'components/ServiceAnnouncement'
+import Announcement from 'components/Announcement'
 
 class RequestBchContainer extends React.PureComponent {
   componentWillMount () {
@@ -102,7 +102,7 @@ class RequestBchContainer extends React.PureComponent {
             defaultMessage='Request Bitcoin Cash'
           />
         </ModalHeader>
-        <ServiceAnnouncement alertArea='receiveBch' />
+        <Announcement type='service' alertArea='receiveBch' />
         <ModalBody>{content}</ModalBody>
       </Modal>
     )

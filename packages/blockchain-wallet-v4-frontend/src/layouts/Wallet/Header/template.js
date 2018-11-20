@@ -3,13 +3,12 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 
-import { Icon, Image, Text } from 'blockchain-info-components'
+import { Icon, Image } from 'blockchain-info-components'
 import FaqIcon from './FaqIcon'
 import WhatsNewIcon from './WhatsNewIcon'
 import RefreshIcon from './RefreshIcon'
 import Logout from './Logout'
-import Announcements from './Announcements'
-import ServiceAnnouncement from 'components/ServiceAnnouncement'
+import Announcement from 'components/Announcement'
 import {
   Navbar,
   NavbarBrand,
@@ -18,14 +17,6 @@ import {
   NavbarNav,
   NavbarNavItem
 } from 'components/Navbar'
-
-const Nav = styled(Navbar)`
-  background-color: ${props => (props.isTestnet ? 'red' : '')};
-`
-const TestnetWarn = styled(Text)`
-  color: white;
-  margin: 2px 0 0 8px;
-`
 
 const BlockchainLogoImage = styled(Image)`
   height: 16px;
@@ -38,10 +29,10 @@ const BlockchainLogoImage = styled(Image)`
 `
 
 const Header = props => {
-  const { isTestnet, handleToggle } = props
+  const { handleToggle } = props
   return (
     <React.Fragment>
-      <Nav height='60px' isTestnet={isTestnet}>
+      <Navbar height='60px'>
         <NavbarHeader>
           <NavbarBrand>
             <Icon
@@ -53,11 +44,6 @@ const Header = props => {
             <NavLink to='/home' data-e2e='homeLink'>
               <BlockchainLogoImage name='blockchain-vector' />
             </NavLink>
-            {isTestnet && (
-              <TestnetWarn weight='400' color='white'>
-                TESTNET
-              </TestnetWarn>
-            )}
           </NavbarBrand>
         </NavbarHeader>
         <NavbarMenu>
@@ -77,15 +63,14 @@ const Header = props => {
             </NavbarNavItem>
           </NavbarNav>
         </NavbarMenu>
-      </Nav>
-      <ServiceAnnouncement alertArea='wallet' />
-      <Announcements />
+      </Navbar>
+      <Announcement type='service' alertArea='wallet' />
+      <Announcement type='static' />
     </React.Fragment>
   )
 }
 
 Header.propTypes = {
-  isTestnet: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired
 }
 
