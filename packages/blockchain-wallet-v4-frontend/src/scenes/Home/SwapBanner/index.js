@@ -3,11 +3,9 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Text } from 'blockchain-info-components'
+import { Button, Image, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { getData } from './selectors'
-import background1 from './dashboard.png'
-import background2 from './dashboard-right.png'
 
 const Wrapper = styled.div`
   display: flex;
@@ -31,10 +29,10 @@ const Wrapper = styled.div`
     justify-content: space-between;
     align-items: flex-start;
     height: 88px;
-    background: #0d0d42 url(${background1});
+    background: #0d0d42 url(/img/swap-dashboard-left.png);
     background-repeat: no-repeat;
-    background-size: auto;
-    background-position: -15px -10px;
+    background-size: contain;
+    background-position: -10px 0px;
     padding-left: 75px;
     padding-right: 30px;
     box-sizing: border-box;
@@ -65,9 +63,7 @@ const MediumText = styled(Text).attrs({
   size: '14px',
   weight: 400
 })``
-const BackgroundImage = styled.img.attrs({
-  src: background2
-})`
+const BackgroundImage = styled(Image)`
   display: none;
   height: 125%;
   @media (min-width: 1200px) {
@@ -100,7 +96,7 @@ export const SwapBanner = ({ showBanner, verifyIdentity }) =>
         </MediumText>
       </Column>
       <Column hiddenOnMobile>
-        <BackgroundImage />
+        <BackgroundImage name='swap-dashboard-right' />
       </Column>
       <Column>
         <GetStartedButton onClick={verifyIdentity}>

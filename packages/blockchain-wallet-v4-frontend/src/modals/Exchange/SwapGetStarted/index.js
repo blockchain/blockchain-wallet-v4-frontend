@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 
 import { actions } from 'data'
-import background from './banner.png'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { Modal, Text, Button } from 'blockchain-info-components'
 
@@ -16,7 +15,7 @@ const Header = styled.div`
   align-items: center;
   height: 200px;
   background-color: #0d0d42;
-  background: #0d0d42 url(${background});
+  background: #0d0d42 url(/img/swap-dashboard-right.png);
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
