@@ -7,11 +7,11 @@ exports[`ExchangeByBlockchain renders correctly 1`] = `
   >
     <text
       color="brand-primary"
-      size="18px"
+      size="24px"
       weight={600}
     >
       <FormattedMessage
-        defaultMessage="We've improved our Exchange"
+        defaultMessage="We've improved your Exchange"
         id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.improved"
         values={Object {}}
       />
@@ -37,17 +37,6 @@ exports[`ExchangeByBlockchain renders correctly 1`] = `
       <FormattedMessage
         defaultMessage="The faster, smarter way to trade your crypto."
         id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.introducing"
-        values={Object {}}
-      />
-    </ExchangeByBlockchain__DarkText>
-  </ExchangeByBlockchain__Row>
-  <ExchangeByBlockchain__Row
-    marginBottom="8px"
-  >
-    <ExchangeByBlockchain__DarkText>
-      <FormattedMessage
-        defaultMessage="Upgrade now to enjoy the following benefits:"
-        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.upgrade"
         values={Object {}}
       />
     </ExchangeByBlockchain__DarkText>

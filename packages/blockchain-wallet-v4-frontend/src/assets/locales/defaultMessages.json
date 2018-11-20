@@ -2818,7 +2818,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "We've improved our Exchange",
+        "defaultMessage": "We've improved your Exchange",
         "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.improved"
       },
       {
