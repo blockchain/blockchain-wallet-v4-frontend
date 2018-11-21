@@ -53,10 +53,11 @@ export const signHDWallet = curry(
 )
 
 // signLegacy :: network -> password -> wrapper -> selection -> Task selection
-export const signLegacy = curry((network, secondPassword, wrapper, selection) =>
-  addLegacyWIFS(network, secondPassword, wrapper, selection).map(
-    signWithWIF(network)
-  )
+export const signLegacy = curry(
+  (network, secondPassword, wrapper, selection, coinDust) =>
+    addLegacyWIFS(network, secondPassword, wrapper, selection).map(
+      signWithWIF(network, coinDust)
+    )
 )
 
 export const wifToKeys = curry((network, selection) =>

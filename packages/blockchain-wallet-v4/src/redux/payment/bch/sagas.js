@@ -253,7 +253,9 @@ export default ({ api }) => {
         )
       case ADDRESS_TYPES.LEGACY:
         return yield call(() =>
-          taskToPromise(bch.signLegacy(network, password, wrapper, selection))
+          taskToPromise(
+            bch.signLegacy(network, password, wrapper, selection, coinDust)
+          )
         )
       case ADDRESS_TYPES.WATCH_ONLY:
       case ADDRESS_TYPES.EXTERNAL:
