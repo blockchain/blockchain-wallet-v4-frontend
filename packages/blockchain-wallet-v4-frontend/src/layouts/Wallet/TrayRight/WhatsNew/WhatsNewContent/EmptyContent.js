@@ -5,7 +5,7 @@ import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   >div: first-child {
-    margin- bottom: 10px;
+    margin-bottom: 10px;
   }
   a {
     color: ${props => props.theme['brand-secondary']};
