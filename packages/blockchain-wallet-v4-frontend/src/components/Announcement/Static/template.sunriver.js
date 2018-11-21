@@ -42,8 +42,7 @@ const SunRiverKycReminder = props => {
 }
 
 SunRiverKycReminder.propTypes = {
-  handleClick: PropTypes.func.isRequired,
-  highlighted: PropTypes.bool.isRequired
+  goToKyc: PropTypes.func.isRequired
 }
 
 export default SunRiverKycReminder

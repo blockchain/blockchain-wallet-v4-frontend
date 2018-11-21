@@ -37,7 +37,7 @@ const EmailSentNotification = styled(Text)`
 `
 
 const EmailReminder = props => {
-  const { handleResend, reminded, email } = props
+  const { onEmailResend, emailReminded, email } = props
 
   return (
     <React.Fragment>
@@ -53,7 +53,7 @@ const EmailReminder = props => {
         <EmailSentNotification
           color='white'
           size='14px'
-          className={reminded ? 'active' : ''}
+          className={emailReminded ? 'active' : ''}
         >
           <FormattedMessage
             id='layouts.wallet.header.announcements.emailreminder.emailsent'
@@ -63,7 +63,7 @@ const EmailReminder = props => {
         </EmailSentNotification>
       </ItemWrapper>
       <ItemWrapper>
-        <Action color='white' size='14px' onClick={() => handleResend(email)}>
+        <Action color='white' size='14px' onClick={() => onEmailResend(email)}>
           <FormattedMessage
             id='layouts.wallet.header.announcements.emailreminder.resend'
             defaultMessage='Resend Email'
@@ -87,8 +87,8 @@ const EmailReminder = props => {
 
 EmailReminder.propTypes = {
   email: PropTypes.string.isRequired,
-  reminded: PropTypes.bool.isRequired,
-  handleResend: PropTypes.func.isRequired
+  emailReminded: PropTypes.bool.isRequired,
+  onEmailResend: PropTypes.func.isRequired
 }
 
 export default EmailReminder

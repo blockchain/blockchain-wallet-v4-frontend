@@ -2,9 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
+import { actions } from 'data'
 import { getData } from './selectors'
-import EmailReminder from './EmailReminder'
-import SunRiverKycReminder from './SunRiverKycReminder'
+import EmailReminder from './template.email'
+import SunRiverKycReminder from './template.sunriver'
 import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
@@ -19,7 +20,18 @@ const Wrapper = styled.div`
   `};
 `
 
-class AnnouncementsContainer extends React.PureComponent {
+class StaticAnnouncementsContainer extends React.PureComponent {
+  state = {}
+
+  onEmailResend = email => {
+    if (this.state.emailReminded) return
+    this.props.resendEmail(email)
+    this.setState({ emailReminded: true })
+    setTimeout(() => {
+      this.setState({ emailReminded: false })
+    }, 3000)
+  }
+
   render () {
     const { data } = this.props
 
@@ -29,13 +41,17 @@ class AnnouncementsContainer extends React.PureComponent {
           case 'email':
             return (
               <Wrapper>
-                <EmailReminder email={val.email} />
+                <EmailReminder
+                  onEmailResend={this.onEmailResend}
+                  email={val.email}
+                  emailReminded={this.state.emailReminded}
+                />
               </Wrapper>
             )
           case 'sunRiverKyc':
             return (
               <Wrapper>
-                <SunRiverKycReminder />
+                <SunRiverKycReminder goToKyc={this.props.verifyIdentity} />
               </Wrapper>
             )
           default:
@@ -53,4 +69,14 @@ const mapStateToProps = state => ({
   data: getData(state)
 })
 
-export default connect(mapStateToProps)(AnnouncementsContainer)
+const mapDispatchToProps = dispatch => ({
+  resendEmail: email =>
+    dispatch(actions.modules.securityCenter.resendVerifyEmail(email)),
+  verifyIdentity: () =>
+    dispatch(actions.components.identityVerification.verifyIdentity())
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(StaticAnnouncementsContainer)
