@@ -109,7 +109,6 @@ const Announcement = props => {
             {announcement.sections.map((section, i) => {
               return (
                 <Text
-                  weight={300}
                   color={textColor}
                   key={i}
                   size='13px'
@@ -144,9 +143,7 @@ const Announcement = props => {
             size='14px'
             weight={600}
             color='white'
-            onClick={() => {
-              toggleCollapse(announcement.id, collapsed)
-            }}
+            onClick={() => toggleCollapse(announcement.id, collapsed)}
           />
         )}
         {announcement.hideType === 'dismiss' && (
@@ -155,9 +152,7 @@ const Announcement = props => {
             size='14px'
             weight={600}
             color='white'
-            onClick={() => {
-              handleDismiss(announcement.id)
-            }}
+            onClick={() => handleDismiss(announcement.id)}
           />
         )}
       </div>
@@ -166,9 +161,7 @@ const Announcement = props => {
 }
 
 Announcement.propTypes = {
-  announcement: PropTypes.object.isRequired,
-  language: PropTypes.string,
-  handleDismiss: PropTypes.func.isRequired
+  announcement: PropTypes.object.isRequired
 }
 
 export default Announcement

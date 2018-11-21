@@ -34,8 +34,6 @@ class ServiceAnnouncement extends React.PureComponent {
                   sections: [],
                   type: 'danger'
                 }}
-                handleDismiss={this.handleDismiss}
-                toggleCollapse={this.toggleCollapse}
               />
             )}
             {val.showAnnounce && (
