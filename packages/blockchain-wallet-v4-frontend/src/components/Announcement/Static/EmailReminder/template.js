@@ -37,18 +37,13 @@ const EmailSentNotification = styled(Text)`
 `
 
 const EmailReminder = props => {
-  const { handleResendVerifyEmail, reminded, email } = props
+  const { handleResend, reminded, email } = props
 
   return (
     <React.Fragment>
       <ItemWrapper>
         <Icon name='email' color='white' weight={600} />
-        <Text
-          style={{ marginLeft: '15px' }}
-          color='white'
-          size='14px'
-          weight={300}
-        >
+        <Text style={{ marginLeft: '12px' }} color='white' size='14px'>
           <FormattedMessage
             id='layouts.wallet.header.announcements.emailreminder'
             defaultMessage='Confirm your email address to properly secure your account'
@@ -58,7 +53,6 @@ const EmailReminder = props => {
         <EmailSentNotification
           color='white'
           size='14px'
-          weight={300}
           className={reminded ? 'active' : ''}
         >
           <FormattedMessage
@@ -69,12 +63,7 @@ const EmailReminder = props => {
         </EmailSentNotification>
       </ItemWrapper>
       <ItemWrapper>
-        <Action
-          color='white'
-          size='14px'
-          weight={300}
-          onClick={() => handleResendVerifyEmail(email)}
-        >
+        <Action color='white' size='14px' onClick={() => handleResend(email)}>
           <FormattedMessage
             id='layouts.wallet.header.announcements.emailreminder.resend'
             defaultMessage='Resend Email'
@@ -84,7 +73,7 @@ const EmailReminder = props => {
           style={{ marginLeft: '15px' }}
           to={{ pathname: '/security-center', state: { changeEmail: true } }}
         >
-          <Action color='white' size='14px' weight={300}>
+          <Action color='white' size='14px'>
             <FormattedMessage
               id='layouts.wallet.header.announcements.emailreminder.change'
               defaultMessage='Change Email'
@@ -99,7 +88,7 @@ const EmailReminder = props => {
 EmailReminder.propTypes = {
   email: PropTypes.string.isRequired,
   reminded: PropTypes.bool.isRequired,
-  handleResendVerifyEmail: PropTypes.func.isRequired
+  handleResend: PropTypes.func.isRequired
 }
 
 export default EmailReminder

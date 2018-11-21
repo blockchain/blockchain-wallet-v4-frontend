@@ -22,12 +22,7 @@ const SunRiverKycReminder = props => {
     <React.Fragment>
       <ItemWrapper>
         <Icon name='xlm' color='white' weight={600} size='20px' />
-        <Text
-          style={{ marginLeft: '15px' }}
-          color='white'
-          size='14px'
-          weight={300}
-        >
+        <Text style={{ marginLeft: '15px' }} color='white' size='14px'>
           <FormattedMessage
             id='layouts.wallet.header.announcements.sunriverkycremdinder.title'
             defaultMessage='Complete your identity verification to claim your XLM.'

@@ -6,12 +6,7 @@ import { actions } from 'data'
 import EmailReminder from './template'
 
 class EmailReminderContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = {}
-  }
-
-  onResendVerifyEmail = email => {
+  handleResend = email => {
     if (this.state.reminded) return
     this.props.actions.resendVerifyEmail(email)
     this.setState({ reminded: true })
@@ -25,7 +20,7 @@ class EmailReminderContainer extends React.PureComponent {
       <EmailReminder
         email={this.props.email}
         reminded={this.state.reminded}
-        handleResendVerifyEmail={this.onResendVerifyEmail}
+        handleResend={this.handleResend}
       />
     )
   }
