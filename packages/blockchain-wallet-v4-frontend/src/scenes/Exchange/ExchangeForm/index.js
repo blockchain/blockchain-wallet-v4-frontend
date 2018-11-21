@@ -68,10 +68,6 @@ class ExchangeForm extends React.Component {
       formActions,
       logExchangeClick,
       data,
-      min,
-      max,
-      targetFee,
-      sourceFee,
       canUseExchange,
       showError,
       txError
