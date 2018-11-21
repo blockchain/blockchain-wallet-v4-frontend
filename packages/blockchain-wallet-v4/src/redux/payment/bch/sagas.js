@@ -8,7 +8,6 @@ import * as CoinSelection from '../../../coinSelection'
 import * as Coin from '../../../coinSelection/coin'
 import settingsSagaFactory from '../../../redux/settings/sagas'
 import {
-  scriptToAddress,
   privateKeyStringToKey,
   detectPrivateKeyFormat
 } from '../../../utils/btc'
@@ -237,7 +236,9 @@ export default ({ api }) => {
     scrambleKey,
     fromType,
     selection,
-    changeIndex
+    changeIndex,
+    lockSecret,
+    coinDust
   ) {
     if (!selection) {
       throw new Error('missing_selection')
@@ -246,7 +247,9 @@ export default ({ api }) => {
     switch (fromType) {
       case ADDRESS_TYPES.ACCOUNT:
         return yield call(() =>
-          taskToPromise(bch.signHDWallet(network, password, wrapper, selection))
+          taskToPromise(
+            bch.signHDWallet(network, password, wrapper, selection, coinDust)
+          )
         )
       case ADDRESS_TYPES.LEGACY:
         return yield call(() =>
@@ -275,19 +278,6 @@ export default ({ api }) => {
       throw new Error('missing_signed_tx')
     }
     return yield call(() => taskToPromise(pushBitcoinTx(txHex, lockSecret)))
-  }
-
-  // ///////////////////////////////////////////////////////////////////////////
-  const splitCoins = function*(selection) {
-    const dust = yield call(api.getBchDust)
-    const lockSecret = prop('lock_secret', dust)
-    const address = scriptToAddress(prop('output_script', dust))
-    const coinDust = Coin.fromJS({ address, value: 546 })
-
-    selection.inputs.push(coinDust)
-    selection.outputs.push(coinDust)
-
-    return { selection, lockSecret }
   }
 
   // ///////////////////////////////////////////////////////////////////////////
@@ -347,7 +337,17 @@ export default ({ api }) => {
         return makePayment(merge(p, { selection }))
       },
 
+      *getCoinDust () {
+        const dust = yield call(api.getBchDust)
+        const script = prop('output_script', dust)
+        const lockSecret = prop('lock_secret', dust)
+        const coinDust = Coin.fromJS({ ...dust, script })
+
+        return { coinDust, lockSecret }
+      },
+
       *sign (password, transport, scrambleKey) {
+        const { coinDust, lockSecret } = yield call(this.getCoinDust)
         let signed = yield call(
           calculateSignature,
           network,
@@ -356,13 +356,11 @@ export default ({ api }) => {
           scrambleKey,
           prop('fromType', p),
           prop('selection', p),
-          prop('changeIndex', p)
+          prop('changeIndex', p),
+          lockSecret,
+          coinDust
         )
-        let { selection, lockSecret } = yield call(
-          splitCoins,
-          prop('selection', p)
-        )
-        return makePayment(merge(p, { ...signed, selection, lockSecret }))
+        return makePayment(merge(p, { ...signed, lockSecret }))
       },
 
       *publish () {
