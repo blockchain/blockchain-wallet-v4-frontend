@@ -9,7 +9,7 @@ import * as crypto from '../walletCrypto'
 
 export const signSelection = curry((network, coinDust, selection) => {
   const hashType =
-    BitcoinCash.Transaction.SIGHASH_SINGLE |
+    BitcoinCash.Transaction.SIGHASH_ALL |
     BitcoinCash.Transaction.SIGHASH_BITCOINCASHBIP143
   const tx = new BitcoinCash.TransactionBuilder(network)
   tx.enableBitcoinCash(true)
@@ -72,13 +72,13 @@ export const wifToKeys = curry((network, selection) =>
 )
 
 // signWithWIF :: network -> selection -> selection
-export const signWithWIF = curry((network, coinDust, selection) => {
-  return compose(
+export const signWithWIF = curry((network, coinDust, selection) =>
+  compose(
     signSelection(network, coinDust),
     sortSelection,
     wifToKeys(network)
   )(selection)
-})
+)
 
 export const signWithLockbox = function*(
   selection,
