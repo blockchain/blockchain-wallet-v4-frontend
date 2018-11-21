@@ -8,14 +8,7 @@ import { getData } from './selectors'
 import AcceptTerms from './template'
 
 class AcceptTermsContainer extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      busy: false,
-      acceptedTerms: false
-    }
-    this.onSubmit = this.onSubmit.bind(this)
-  }
+  state = { busy: false, acceptedTerms: false }
 
   componentDidUpdate () {
     /* eslint-disable */
@@ -26,7 +19,7 @@ class AcceptTermsContainer extends Component {
     /* eslint-enable */
   }
 
-  onSubmit () {
+  onSubmit = () => {
     this.setState({ busy: true })
     this.props.coinifyFrontendActions.coinifySignup(this.props.country)
   }

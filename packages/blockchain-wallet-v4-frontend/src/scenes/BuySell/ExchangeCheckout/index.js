@@ -77,11 +77,6 @@ const aboveMinAmount = (value, allValues, props) =>
   value < props.limits.min ? 'min' : undefined
 
 class ExchangeCheckout extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = {}
-  }
-
   componentDidUpdate (prevProps) {
     const { base, quote } = prevProps
     /* eslint-disable */

@@ -46,13 +46,7 @@ const faqQuestions = [
 ]
 
 class VerifyContainer extends Component {
-  constructor (props) {
-    super(props)
-    this.handleReset = this.handleReset.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-
-    this.state = { viewSSN: false }
-  }
+  state = { viewSSN: false }
 
   componentDidUpdate (prevProps) {
     if (
@@ -67,13 +61,13 @@ class VerifyContainer extends Component {
     this.props.formActions.destroy('sfoxAddress')
   }
 
-  handleSubmit (e) {
+  handleSubmit = e => {
     e.preventDefault()
     this.props.updateUI({ busy: true })
     this.props.sfoxFrontendActions.setProfile(this.props.user)
   }
 
-  handleReset () {
+  handleReset = () => {
     this.props.updateUI({ busy: false })
     this.props.updateUI({ verify: 'address' })
     this.props.sfoxFrontendActions.setVerifyError(false)

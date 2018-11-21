@@ -10,12 +10,6 @@ import { getData } from './selectors'
 import Failure from 'components/BuySell/Failure'
 
 class ConfirmContainer extends Component {
-  constructor (props) {
-    super(props)
-
-    this.onSubmit = this.onSubmit.bind(this)
-  }
-
   componentDidUpdate (prevProps) {
     const data = this.props.data.getOrElse(false)
     const prevData = prevProps.data.getOrElse(false)
@@ -27,7 +21,7 @@ class ConfirmContainer extends Component {
     }
   }
 
-  onSubmit () {
+  onSubmit = () => {
     const medium = this.props.medium
     const data = this.props.data.getOrElse(false)
     if (!data) return
