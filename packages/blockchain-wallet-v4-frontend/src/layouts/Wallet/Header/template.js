@@ -8,7 +8,7 @@ import FaqIcon from './FaqIcon'
 import WhatsNewIcon from './WhatsNewIcon'
 import RefreshIcon from './RefreshIcon'
 import Logout from './Logout'
-import Announcement from 'components/Announcement'
+import Announcements from 'components/Announcements'
 import {
   Navbar,
   NavbarBrand,
@@ -64,8 +64,8 @@ const Header = props => {
           </NavbarNav>
         </NavbarMenu>
       </Navbar>
-      <Announcement type='service' alertArea='wallet' />
-      <Announcement type='static' />
+      <Announcements type='service' alertArea='wallet' />
+      <Announcements type='static' />
     </React.Fragment>
   )
 }
