@@ -2,41 +2,55 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Image, Link, Text } from 'blockchain-info-components'
-
-const Wrapper = styled.div``
+import { Icon, Image, Text } from 'blockchain-info-components'
 
 const Title = styled.div`
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 25px;
 `
-
 const Content = styled.div`
   display: flex;
-  justify-content: center;
-`
-
-const Column = styled.div`
-  display: flex;
   flex-direction: column;
-  justify-content: center;
+  width: 350px;
+`
+const Row = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  &:first-child {
-    margin-right: 40px;
+  padding: 25px 0;
+  border-top: 1px solid ${props => props.theme['gray-2']};
+  & :last-child {
+    border-bottom: 1px solid ${props => props.theme['gray-2']};
+  }
+  &:hover {
+    cursor: pointer;
+    & > :last-child {
+      & > :last-child {
+        color: ${props => props.theme['info']};
+      }
+    }
   }
 `
-const ImageContainer = styled.div`
-  height: 72px;
-  margin-bottom: 40px;
+const LeftColumn = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0 20px;
+  & > :last-child {
+    padding-left: 15px;
+  }
 `
-const StyledButton = styled(Button)`
-  width: 200px;
+const RightColumn = styled.div`
+  margin-right: 20px;
 `
 
-const OptionsStep = props => {
-  const { handleStepChange } = props
+const SetupTypeStep = props => {
+  const { handleStepChange, openSupportLink } = props
   return (
-    <Wrapper>
+    <React.Fragment>
       <Title>
         <Text size='16px'>
           <FormattedMessage
@@ -46,40 +60,51 @@ const OptionsStep = props => {
         </Text>
       </Title>
       <Content>
-        <Column>
-          <ImageContainer>
-            <Image name='link-lockbox-icon' />
-          </ImageContainer>
-          <StyledButton
-            nature='primary'
-            fullwidth
-            onClick={() => handleStepChange()}
-          >
-            <FormattedMessage
-              id='modals.lockboxsetup.firststep.link'
-              defaultMessage='Link your new device'
-            />
-          </StyledButton>
-        </Column>
-        <Column>
-          <ImageContainer>
-            <Image name='restore-lockbox-icon' />
-          </ImageContainer>
-          <Link
-            href='https://support.blockchain.com/hc/en-us/articles/360018285872'
-            target='_blank'
-          >
-            <StyledButton nature='primary' fullwidth>
+        <Row onClick={() => handleStepChange('new')}>
+          <LeftColumn>
+            <Icon name='plus' size='22px' color='info' />
+            <Text size='15px'>
               <FormattedMessage
-                id='modals.lockboxsetup.firststep.restore'
-                defaultMessage='Restore your device'
+                id='modals.lockboxsetup.firststep.newdevice'
+                defaultMessage='Setup a brand new device'
               />
-            </StyledButton>
-          </Link>
-        </Column>
+            </Text>
+          </LeftColumn>
+          <RightColumn>
+            <Icon name='short-right-arrow' nature='empty' size='20px' />
+          </RightColumn>
+        </Row>
+        <Row onClick={() => handleStepChange('existing')}>
+          <LeftColumn>
+            <Image width='22px' height='22px' name='link-lockbox-icon' />
+            <Text size='15px'>
+              <FormattedMessage
+                id='modals.lockboxsetup.firststep.existingdevice'
+                defaultMessage='Link an existing device'
+              />
+            </Text>
+          </LeftColumn>
+          <RightColumn>
+            <Icon name='short-right-arrow' nature='empty' size='20px' />
+          </RightColumn>
+        </Row>
+        <Row onClick={() => openSupportLink()}>
+          <LeftColumn>
+            <Icon name='open-in-new-tab' size='22px' color='info' />
+            <Text size='15px'>
+              <FormattedMessage
+                id='modals.lockboxsetup.firststep.restoredevice'
+                defaultMessage='Restore a previous device'
+              />
+            </Text>
+          </LeftColumn>
+          <RightColumn>
+            <Icon name='short-right-arrow' nature='empty' size='20px' />
+          </RightColumn>
+        </Row>
       </Content>
-    </Wrapper>
+    </React.Fragment>
   )
 }
 
-export default OptionsStep
+export default SetupTypeStep

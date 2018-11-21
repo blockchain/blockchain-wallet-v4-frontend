@@ -3,21 +3,24 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
-import Template from './template'
+import SetupTypeStep from './template'
 
-class SetupTypeStep extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.changeDeviceSetupStep = this.changeDeviceSetupStep.bind(this)
+class SetupTypeStepContainer extends React.PureComponent {
+  onChangeStep = () => {
+    this.props.lockboxActions.changeDeviceSetupStep('connect-device')
   }
 
-  changeDeviceSetupStep () {
-    this.props.lockboxActions.changeDeviceSetupStep('connect-device')
+  openSupportLink = () => {
+    window.open('https://support.blockchain.com/hc/en-us/articles/360018285872')
   }
 
   render () {
     return (
-      <Template handleStepChange={this.changeDeviceSetupStep} {...this.props} />
+      <SetupTypeStep
+        handleStepChange={this.onChangeStep}
+        openSupportLink={this.openSupportLink}
+        {...this.props}
+      />
     )
   }
 }
@@ -29,4 +32,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   null,
   mapDispatchToProps
-)(SetupTypeStep)
+)(SetupTypeStepContainer)
