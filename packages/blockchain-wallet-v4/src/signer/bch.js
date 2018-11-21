@@ -25,14 +25,14 @@ export const signSelection = curry((network, coinDust, selection) => {
       coin.value
     )
   const sign = (coin, i) => tx.sign(i, coin.priv, null, hashType, coin.value)
+  forEach(addInput, selection.inputs)
+  forEach(addOutput, selection.outputs)
   tx.addInput(
     coinDust.txHash,
     coinDust.index,
     BitcoinCash.Transaction.DEFAULT_SEQUENCE
   )
   tx.addOutput(coinDust.address, coinDust.value)
-  forEach(addInput, selection.inputs)
-  forEach(addOutput, selection.outputs)
   addIndex(forEach)(sign, selection.inputs)
   const signedTx = tx.buildIncomplete()
   return { txHex: signedTx.toHex(), txId: signedTx.getId() }
