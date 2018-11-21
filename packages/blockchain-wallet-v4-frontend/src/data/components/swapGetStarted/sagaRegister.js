@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default ({ coreSagas }) => {
   const swapGetStartedSagas = sagas({ coreSagas })
 
-  return function* () {
+  return function*() {
     yield takeLatest(
       AT.SWAP_GET_STARTED_INITIALIZED,
       swapGetStartedSagas.swapGetStartedInitialized

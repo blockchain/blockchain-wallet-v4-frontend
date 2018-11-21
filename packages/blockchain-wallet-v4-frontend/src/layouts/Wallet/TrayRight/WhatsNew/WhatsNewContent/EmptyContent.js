@@ -4,11 +4,11 @@ import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
-  > div: first-child {
-  margin - bottom: 10px;
+  >div: first-child {
+    margin-bottom: 10px;
   }
   a {
-    color: ${ props => props.theme['brand-secondary']};
+    color: ${props => props.theme['brand-secondary']};
   }
 `
 

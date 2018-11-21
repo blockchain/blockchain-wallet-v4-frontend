@@ -11,14 +11,12 @@ const mapStateToProps = createDeepEqualSelector(
   [selectors.preferences.getTheme],
   themeName => {
     const oldTheme = Palette(themeName)
-    return ({ theme: merge(theme, oldTheme) })
+    return { theme: merge(theme, oldTheme) }
   }
 )
 
 const CustomThemeProvider = ({ children, theme }) => (
-  <ThemeProvider theme={theme}>
-    {children}
-  </ThemeProvider>
+  <ThemeProvider theme={theme}>{children}</ThemeProvider>
 )
 
 export default connect(mapStateToProps)(CustomThemeProvider)

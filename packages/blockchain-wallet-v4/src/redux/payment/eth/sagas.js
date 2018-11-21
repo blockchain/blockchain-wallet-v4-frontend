@@ -95,7 +95,7 @@ export default ({ api }) => {
     const latestTxTimestamp = latestTxTimestampR.getOrElse(undefined)
 
     if (latestTx) {
-      const ethOptionsR = yield select(S.walletOptions.getEthereumTxFuse)
+      const ethOptionsR = yield select(S.walletOptions.getEthTxFuse)
       const lastTxFuse = ethOptionsR.getOrElse(86400) * 1000
       try {
         const latestTxStatus = yield call(api.getEthereumTransaction, latestTx)

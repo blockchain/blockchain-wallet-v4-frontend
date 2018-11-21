@@ -2,12 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 
-import { Button, Text } from 'blockchain-info-components'
+import { Button, Image, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { getData } from './selectors'
-import background1 from './swap-background-1.svg'
-import background2 from './swap-background-2.svg'
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,6 +22,7 @@ const Wrapper = styled.div`
   padding-right: 15px;
   margin-top: 15px;
   box-sizing: border-box;
+  overflow: hidden;
 
   @media (min-width: 1200px) {
     display: flex;
@@ -30,10 +30,10 @@ const Wrapper = styled.div`
     justify-content: space-between;
     align-items: flex-start;
     height: 88px;
-    background: #0d0d42 url(${background1});
+    background: #0d0d42 url(/img/swap-dashboard-left.png);
     background-repeat: no-repeat;
-    background-size: auto;
-    background-position: -15px -10px;
+    background-size: contain;
+    background-position: -10px 0px;
     padding-left: 75px;
     padding-right: 30px;
     box-sizing: border-box;
@@ -64,11 +64,9 @@ const MediumText = styled(Text).attrs({
   size: '14px',
   weight: 400
 })``
-const BackgroundImage = styled.img.attrs({
-  src: background2
-})`
+const BackgroundImage = styled(Image)`
   display: none;
-  height: 100%;
+  height: 125%;
   @media (min-width: 1200px) {
     display: block;
   }
@@ -81,7 +79,12 @@ const GetStartedButton = styled(Button).attrs({
   font-weight: 500;
 `
 
-export const SwapBanner = ({ showBanner, verifyIdentity }) =>
+export const SwapBanner = ({
+  showBanner,
+  kycNotFinished,
+  hideSwapBanner,
+  verifyIdentity
+}) =>
   showBanner ? (
     <Wrapper>
       <Column>
@@ -99,15 +102,27 @@ export const SwapBanner = ({ showBanner, verifyIdentity }) =>
         </MediumText>
       </Column>
       <Column hiddenOnMobile>
-        <BackgroundImage />
+        <BackgroundImage name='swap-dashboard-right' />
       </Column>
       <Column>
-        <GetStartedButton onClick={verifyIdentity}>
-          <FormattedMessage
-            defaultMessage='Get Started'
-            id='scenes.home.swapbanner.getstarted'
-          />
-        </GetStartedButton>
+        {kycNotFinished && (
+          <GetStartedButton onClick={verifyIdentity}>
+            <FormattedMessage
+              id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.started'
+              defaultMessage='Get Started'
+            />
+          </GetStartedButton>
+        )}
+        {!kycNotFinished && (
+          <LinkContainer to='/exchange'>
+            <GetStartedButton onClick={hideSwapBanner}>
+              <FormattedMessage
+                id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.gotoexchange'
+                defaultMessage='Go To Exchange'
+              />
+            </GetStartedButton>
+          </LinkContainer>
+        )}
       </Column>
     </Wrapper>
   ) : null
@@ -116,7 +131,8 @@ const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
   verifyIdentity: () =>
-    dispatch(actions.components.identityVerification.verifyIdentity())
+    dispatch(actions.components.identityVerification.verifyIdentity()),
+  hideSwapBanner: () => dispatch(actions.preferences.hideSwapBanner())
 })
 
 export default connect(

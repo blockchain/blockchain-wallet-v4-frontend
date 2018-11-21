@@ -5,11 +5,24 @@ import { SwapBanner } from './index'
 
 jest.mock('blockchain-info-components', () => ({
   Button: 'button',
-  Text: 'text'
+  Text: 'text',
+  Image: 'image'
 }))
 
 describe('SwapBanner', () => {
-  it('renders correctly', () => {
+  it('renders null w/o showBanner', () => {
+    const component = shallow(<SwapBanner />)
+    const tree = toJson(component)
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('renders correctly with getstarted button', () => {
+    const component = shallow(<SwapBanner showBanner kycNotFinished />)
+    const tree = toJson(component)
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('renders correctly with exchange link', () => {
     const component = shallow(<SwapBanner showBanner />)
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()

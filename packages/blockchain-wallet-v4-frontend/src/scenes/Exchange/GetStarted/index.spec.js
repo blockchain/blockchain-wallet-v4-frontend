@@ -7,7 +7,7 @@ jest.mock('blockchain-info-components', () => ({
   Image: 'image',
   Text: 'text'
 }))
-jest.mock('./StatusBar', () => "StatusBar")
+jest.mock('./StatusBar', () => 'StatusBar')
 
 describe('StatusBar', () => {
   it('renders correctly', () => {
