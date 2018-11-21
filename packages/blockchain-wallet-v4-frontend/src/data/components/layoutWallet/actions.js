@@ -20,6 +20,7 @@ export const layoutWalletMenuCloseClicked = () => ({
   type: AT.LAYOUT_WALLET_MENU_CLOSE_CLICKED
 })
 
-export const layoutWalletMenuSettingsClicked = () => ({
-  type: AT.LAYOUT_WALLET_MENU_SETTINGS_CLICKED
+export const setBalancesTableTab = payload => ({
+  type: AT.SET_BALANCES_CHART_TAB,
+  payload
 })

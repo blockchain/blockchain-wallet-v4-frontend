@@ -1,6 +1,4 @@
 /* eslint-disable */
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -8,11 +6,14 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const Webpack = require('webpack')
 const PATHS = require('./../../config/paths')
 
-const runBundleAnalyzer = process.env.ANALYZE
 let envConfig = {}
+let manifestCacheBust = new Date().getTime()
 
 module.exports = {
   mode: 'production',
+  node: {
+    fs: 'empty'
+  },
   entry: {
     app: ['babel-polyfill', PATHS.src + '/index.js']
   },
@@ -22,6 +23,7 @@ module.exports = {
     publicPath: '/',
     crossOriginLoading: 'anonymous'
   },
+  stats: 'verbose',
   module: {
     rules: [
       {
@@ -71,8 +73,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: PATHS.src + '/index.html',
       filename: 'index.html'
-    }),
-    ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
+    })
   ],
   optimization: {
     namedModules: true,
@@ -97,7 +98,7 @@ module.exports = {
     ],
     concatenateModules: true,
     runtimeChunk: {
-      name: 'manifest'
+      name: `manifest.${manifestCacheBust}`
     },
     splitChunks: {
       cacheGroups: {

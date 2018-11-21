@@ -1,18 +1,21 @@
 import { call, put, select, take, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { path, prop, assoc, is } from 'ramda'
+import { assoc, is, path, prop } from 'ramda'
 import Either from 'data.either'
 
 import * as actions from '../actions.js'
 import * as actionTypes from '../actionTypes.js'
 import * as selectors from '../selectors.js'
 import * as C from 'services/AlertService'
+import * as CC from 'services/ConfirmService'
 import {
   askSecondPasswordEnhancer,
+  confirm,
   promptForSecondPassword,
   forceSyncWallet
 } from 'services/SagaService'
-import { Types } from 'blockchain-wallet-v4/src'
+import { Types, Remote } from 'blockchain-wallet-v4/src'
+import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 
 export const logLocation = 'auth/sagas'
 export const defaultLoginErrorMessage = 'Error logging into your wallet'
@@ -38,22 +41,6 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
     }
   }
-
-  const welcomeSaga = function*(firstLogin) {
-    if (firstLogin) {
-      const walletNUsers = yield call(api.getWalletNUsers)
-      const walletMillions = Math.floor(
-        walletNUsers.values[walletNUsers.values.length - 1].y / 1e6
-      )
-      yield put(actions.modals.showModal('Welcome', { walletMillions }))
-    } else {
-      yield put(
-        actions.logs.logInfoMessage(logLocation, 'welcomeSaga', 'login success')
-      )
-      yield put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
-    }
-  }
-
   const upgradeWalletSaga = function*() {
     yield put(actions.modals.showModal('UpgradeWallet'))
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
@@ -92,6 +79,20 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const authNabu = function*() {
+    yield put(actions.components.identityVerification.fetchSupportedCountries())
+    yield take(
+      action =>
+        action.type ===
+          actionTypes.components.identityVerification.SET_SUPPORTED_COUNTRIES &&
+        !Remote.Loading.is(action.payload.countries)
+    )
+    const userFlowSupported = (yield select(
+      selectors.modules.profile.userFlowSupported
+    )).getOrElse(false)
+    if (userFlowSupported) yield put(actions.modules.profile.signIn())
+  }
+
   const loginRoutineSaga = function*(mobileLogin, firstLogin) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
@@ -100,22 +101,27 @@ export default ({ api, coreSagas }) => {
         yield call(upgradeWalletSaga)
       }
       yield put(actions.auth.authenticate())
-      yield put(actions.middleware.webSocket.bch.startSocket())
-      yield put(actions.middleware.webSocket.btc.startSocket())
-      yield put(actions.middleware.webSocket.eth.startSocket())
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
       // If there was no ethereum metadata kv store entry, we need to create one and that requires the second password.
       yield call(
         coreSagas.kvStore.ethereum.fetchMetadataEthereum,
         askSecondPasswordEnhancer
       )
+      yield call(
+        coreSagas.kvStore.xlm.fetchMetadataXlm,
+        askSecondPasswordEnhancer
+      )
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
+      yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
+      yield put(actions.middleware.webSocket.bch.startSocket())
+      yield put(actions.middleware.webSocket.btc.startSocket())
+      yield put(actions.middleware.webSocket.eth.startSocket())
+      yield put(actions.middleware.webSocket.xlm.startStreams())
       yield put(actions.router.push('/home'))
       yield call(coreSagas.settings.fetchSettings)
-      const userFlowSupported = (yield select(
-        selectors.modules.profile.userFlowSupported
-      )).getOrElse(false)
-      if (userFlowSupported) yield put(actions.modules.profile.signIn())
+      yield call(coreSagas.data.xlm.fetchLedgerDetails)
+      yield call(coreSagas.data.xlm.fetchData)
+      yield call(authNabu)
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.loginSuccess())
       yield put(actions.auth.startLogoutTimer())
@@ -129,8 +135,11 @@ export default ({ api, coreSagas }) => {
       const language = yield select(selectors.preferences.getLanguage)
       yield put(actions.modules.settings.updateLanguage(language))
       yield fork(transferEthSaga)
-      yield fork(welcomeSaga, firstLogin)
       yield fork(reportStats, mobileLogin)
+      yield put(actions.goals.saveGoal('welcome', { firstLogin }))
+      yield put(actions.goals.saveGoal('kyc'))
+      yield put(actions.goals.runGoals())
+      yield fork(checkDataErrors)
       yield put(actions.analytics.reportBalanceStats())
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
       if (!firstLogin) {
@@ -154,6 +163,40 @@ export default ({ api, coreSagas }) => {
         api.incrementSecPasswordStats,
         Types.Wallet.isDoubleEncrypted(wallet)
       )
+    }
+  }
+
+  const checkAndHandleVulnerableAddress = function*(data) {
+    const err = prop('error', data)
+    const vulnerableAddress = checkForVulnerableAddressError(err)
+    if (vulnerableAddress) {
+      yield put(actions.modals.closeAllModals())
+      const confirmed = yield call(confirm, {
+        title: CC.ARCHIVE_VULNERABLE_ADDRESS_TITLE,
+        message: CC.ARCHIVE_VULNERABLE_ADDRESS_MSG,
+        confirm: CC.ARCHIVE_VULNERABLE_ADDRESS_CONFIRM,
+        cancel: CC.ARCHIVE_VULNERABLE_ADDRESS_CANCEL,
+        messageValues: { vulnerableAddress }
+      })
+      if (confirmed)
+        yield put(
+          actions.core.wallet.setAddressArchived(vulnerableAddress, true)
+        )
+    }
+  }
+
+  const checkDataErrors = function*() {
+    const btcDataR = yield select(selectors.core.data.bitcoin.getInfo)
+
+    if (Remote.Loading.is(btcDataR)) {
+      const btcData = yield take(
+        actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_FAILURE
+      )
+      const error = prop('payload', btcData)
+      yield call(checkAndHandleVulnerableAddress, { error })
+    }
+    if (Remote.Failure.is(btcDataR)) {
+      yield call(checkAndHandleVulnerableAddress, btcDataR)
     }
   }
 
@@ -437,6 +480,7 @@ export default ({ api, coreSagas }) => {
     yield put(actions.middleware.webSocket.bch.stopSocket())
     yield put(actions.middleware.webSocket.btc.stopSocket())
     yield put(actions.middleware.webSocket.eth.stopSocket())
+    yield put(actions.middleware.webSocket.xlm.stopStreams())
     // only show browser de-auth page to accounts with verified email
     isEmailVerified.getOrElse(0)
       ? yield put(actions.router.push('/logout'))
@@ -466,6 +510,9 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
+    authNabu,
+    checkAndHandleVulnerableAddress,
+    checkDataErrors,
     deauthorizeBrowser,
     login,
     logout,
@@ -484,7 +531,6 @@ export default ({ api, coreSagas }) => {
     transferEthSaga,
     upgradeWallet,
     upgradeWalletSaga,
-    upgradeAddressLabelsSaga,
-    welcomeSaga
+    upgradeAddressLabelsSaga
   }
 }

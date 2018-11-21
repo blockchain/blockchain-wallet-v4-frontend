@@ -5,7 +5,8 @@ import styled from 'styled-components'
 const BaseTextInput = styled.input.attrs({
   type: 'text',
   'data-lpignore': props => props.noLastPass,
-  disabled: props => props.disabled
+  disabled: props => props.disabled,
+  maxLength: props => props.maxLength
 })`
   display: block;
   width: 100%;
@@ -79,6 +80,7 @@ class TextInput extends React.Component {
         innerRef={this.refInput}
         borderColor={borderColor}
         disabled={disabled}
+        data-e2e={this.props['data-e2e']}
         {...rest}
       />
     )

@@ -28,7 +28,7 @@ export const InvalidBitcoinPrivateKeyMessage = () => (
 export const InvalidBitcoinAddressAndPrivateKeyMessage = () => (
   <FormattedMessage
     id='formhelper.invalidbitcoinaddressandkey'
-    defaultMessage='Not a valid Bitcoin address or private key'
+    defaultMessage='Not a valid bitcoin address or private key'
   />
 )
 export const InvalidEmailCodeMessage = () => (
@@ -47,6 +47,12 @@ export const InvalidEtherAddressMessage = () => (
   <FormattedMessage
     id='formhelper.invalidetheraddress'
     defaultMessage='Invalid Ether address'
+  />
+)
+export const InvalidXlmAddressMessage = () => (
+  <FormattedMessage
+    id='formhelper.invalidxlmaddress'
+    defaultMessage='Invalid Stellar address'
   />
 )
 export const InvalidIpListMessage = () => (
@@ -136,6 +142,12 @@ export const RequiredNumberMessage = () => (
     defaultMessage='Invalid number'
   />
 )
+export const RequiredPhraseMessage = () => (
+  <FormattedMessage
+    id='formhelper.requiredphrase'
+    defaultMessage='Incorrect phrase'
+  />
+)
 export const RequiredSSNMessage = () => (
   <FormattedMessage
     id='formhelper.requiredssn'
@@ -160,5 +172,12 @@ export const UnacceptedTermsMessage = () => (
   <FormattedMessage
     id='formhelper.unacceptedterms'
     defaultMessage='You must agree to the terms and conditions'
+  />
+)
+
+export const UniqueDeviceName = () => (
+  <FormattedMessage
+    id='formhelper.uniquedevicename'
+    defaultMessage='Device name is already in use.'
   />
 )

@@ -8,16 +8,9 @@ import { actions, selectors } from 'data'
 import Settings from './template.js'
 
 class SettingsContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = {
-      updateToggled: false
-    }
-    this.onSubmit = this.onSubmit.bind(this)
-    this.handleToggle = this.handleToggle.bind(this)
-  }
+  state = { updateToggled: false }
 
-  onSubmit () {
+  onSubmit = () => {
     const { passwordStretchingValue } = this.props
     this.props.walletActions.updatePbkdf2Iterations(
       Number(passwordStretchingValue)
@@ -25,7 +18,8 @@ class SettingsContainer extends React.PureComponent {
     this.handleToggle()
   }
 
-  handleToggle () {
+  handleToggle = () => {
+    this.props.formActions.reset('settingPasswordStretching')
     this.setState({
       updateToggled: !this.state.updateToggled
     })

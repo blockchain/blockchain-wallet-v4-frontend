@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { pathOr, toLower } from 'ramda'
+import { pathOr, prop, toLower } from 'ramda'
 
 import { Icon } from 'blockchain-info-components'
 import { SelectBox } from 'components/Form'
@@ -21,6 +21,7 @@ const ExchangeSelect = styled(SelectBox)`
   }
   .bc__option {
     padding: 8px 0;
+    font-weight: 600;
   }
 
   .bc__single-value {
@@ -70,16 +71,19 @@ const Text = styled.span`
 `
 
 const DisplayIcon = styled(Icon)`
-  font-size: 24px;
+  font-size: 28px;
   color: ${props => props.theme.white};
 `
 
+const selectItemIconColor = props =>
+  props.isSelected ? props.theme.white : props.theme[props.coin]
+
 const ItemIcon = styled(Icon)`
-  font-size: 18px;
-  color: ${props => props.theme[props.coin]} !important;
+  font-size: 24px;
+  color: ${selectItemIconColor} !important;
 `
 
-const getIconName = coin => `exchange-${toLower(coin)}`
+const getIconName = coin => `${toLower(coin)}`
 
 const renderDisplay = (props, children) => {
   const coin = pathOr('', ['value', 'coin'], props)
@@ -93,9 +97,16 @@ const renderDisplay = (props, children) => {
 
 const renderItem = item => {
   const coin = pathOr('', ['value', 'coin'], item)
+  const isSelected = prop('isSelected', item)
   return (
     <ItemWrapper>
-      {<ItemIcon coin={toLower(coin)} name={getIconName(coin)} />}
+      {
+        <ItemIcon
+          coin={toLower(coin)}
+          isSelected={isSelected}
+          name={getIconName(coin)}
+        />
+      }
       <Text>{item.text}</Text>
     </ItemWrapper>
   )

@@ -1,16 +1,16 @@
 import { select } from 'redux-saga/effects'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import { initialize } from 'redux-form'
-import { prop } from 'ramda'
+import { path, prop } from 'ramda'
 import { call } from 'redux-saga-test-plan/matchers'
 
 import rootReducer from '../../rootReducer'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as A from './actions'
 import * as S from './selectors'
+import { FORM } from './model'
 import * as C from 'services/AlertService'
-import * as actions from '../../actions'
-import * as selectors from '../../selectors'
+import { actions, selectors } from 'data'
 import sendBtcSagas, { logLocation } from './sagas'
 import { promptForSecondPassword } from 'services/SagaService'
 
@@ -128,7 +128,7 @@ describe('sendBtc sagas', () => {
       saga.next(defaultIndex)
 
       expect(paymentMock.from).toHaveBeenCalledTimes(1)
-      expect(paymentMock.from).toHaveBeenCalledWith(defaultIndex)
+      expect(paymentMock.from).toHaveBeenCalledWith(defaultIndex, 'ACCOUNT')
     })
 
     it('should update payment fee from value', () => {
@@ -139,7 +139,7 @@ describe('sendBtc sagas', () => {
     })
 
     it('should initialize sendBtc form with correct values', () => {
-      saga.next(paymentMock).put(initialize('sendBtc', initialValues))
+      saga.next(paymentMock).put(initialize(FORM, initialValues))
     })
 
     it('should trigger btc payment updated success action', () => {
@@ -212,10 +212,9 @@ describe('sendBtc sagas', () => {
       })
 
       it('should produce correct form state', () => {
-        expect(resultingState.form.sendBtc.initial).toEqual(
-          resultingState.form.sendBtc.values
-        )
-        expect(resultingState.form.sendBtc.initial).toEqual({
+        const form = path(FORM.split('.'), resultingState.form)
+        expect(form.initial).toEqual(form.values)
+        expect(form.initial).toEqual({
           feePerByte,
           coin: 'BTC',
           amount,
@@ -306,6 +305,10 @@ describe('sendBtc sagas', () => {
       paymentMock.publish.mockClear()
     })
 
+    it('should put start submit action', () => {
+      saga.next().put(actions.form.startSubmit(FORM))
+    })
+
     it('should select payment', () => {
       saga.next().select(S.getPayment)
     })
@@ -322,12 +325,8 @@ describe('sendBtc sagas', () => {
       })
     })
 
-    it('should put action to close all modals', () => {
-      saga.next(secondPassword).put(actions.modals.closeAllModals())
-    })
-
     it('should sign payment with second passowrd', () => {
-      saga.next()
+      saga.next(secondPassword)
       expect(paymentMock.sign).toHaveBeenCalledTimes(1)
       expect(paymentMock.sign).toHaveBeenCalledWith(secondPassword)
     })
@@ -337,14 +336,14 @@ describe('sendBtc sagas', () => {
       expect(paymentMock.publish).toHaveBeenCalledTimes(1)
     })
 
+    it('should put btc fetch data action', () => {
+      saga.next(paymentMock).put(actions.core.data.bitcoin.fetchData())
+    })
+
     it('should put btc payment updated success action', () => {
       saga
         .next(paymentMock)
         .put(A.sendBtcPaymentUpdatedSuccess(paymentMock.value()))
-    })
-
-    it('should put btc fetch data action', () => {
-      saga.next(paymentMock).put(actions.core.data.bitcoin.fetchData())
     })
 
     it('should set transaction note if transaction has description', () => {
@@ -360,16 +359,33 @@ describe('sendBtc sagas', () => {
         .next()
         .put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
         .save(beforeError)
+    })
+
+    it('should destroy form', () => {
+      saga.next().put(actions.form.destroy(FORM))
+    })
+
+    it('should put action to close all modals', () => {
+      saga
+        .next()
+        .put(actions.modals.closeAllModals())
         .next()
         .isDone()
     })
 
     describe('error handling', () => {
       const error = {}
-      it('should log error', () => {
+
+      it('should stop form submit', () => {
         saga
           .restore(beforeError)
           .throw(error)
+          .put(actions.form.stopSubmit(FORM))
+      })
+
+      it('should log error', () => {
+        saga
+          .next()
           .put(
             actions.logs.logErrorMessage(
               logLocation,
@@ -379,12 +395,8 @@ describe('sendBtc sagas', () => {
           )
       })
 
-      it('should display success message', () => {
-        saga
-          .next()
-          .put(actions.alerts.displayError(C.SEND_BTC_ERROR))
-          .next()
-          .isDone()
+      it('should display error message', () => {
+        saga.next().put(actions.alerts.displayError(C.SEND_BTC_ERROR))
       })
     })
 

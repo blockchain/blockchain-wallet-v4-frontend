@@ -29,14 +29,14 @@ const Logout = props => {
       size='14px'
       weight={300}
       color='white'
-      uppercase
       onClick={handleLogout}
+      data-e2e='logoutLink'
     >
       <FormattedMessage
         id='layouts.wallet.header.logout.signout'
-        defaultMessage='Sign out'
+        defaultMessage='Sign Out'
       />
-      <Icon name='switch' size='16px' color='white' />
+      <Icon name='switch' size='18px' color='white' />
     </LogoutLink>
   )
 }

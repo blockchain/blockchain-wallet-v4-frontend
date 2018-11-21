@@ -18,8 +18,8 @@ describe('kvStore ethereum reducers', () => {
           label: 'some label'
         }
       ],
-      last_tx: 'this is the last tx',
-      last_tx_timestamp: 'this is the last tx timestamp',
+      last_tx: { address: 'this is the last tx' },
+      last_tx_timestamp: { address: 'this is the last tx timestamp' },
       legacy_account: 'this is the legacy account',
       tx_notes: {
         someTxHash: 'some someTxHash tx note'

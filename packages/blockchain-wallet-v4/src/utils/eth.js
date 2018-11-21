@@ -50,6 +50,15 @@ export const privateKeyToAddress = pk =>
 export const deriveAddress = (mnemonic, index) =>
   privateKeyToAddress(getPrivateKey(mnemonic, index))
 
+export const deriveAddressFromXpub = xpub => {
+  const ethPublic = EthHd.fromExtendedKey(xpub)
+    .getWallet()
+    .getPublicKey()
+  return EthUtil.toChecksumAddress(
+    EthUtil.publicToAddress(ethPublic).toString('hex')
+  )
+}
+
 export const calculateFee = (gasPrice, gasLimit) => {
   const feeGWei = new BigNumber(gasPrice)
     .mul(new BigNumber(gasLimit))

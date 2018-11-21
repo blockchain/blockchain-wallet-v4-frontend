@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import SelectBox from '../SelectBox'
 import { Icon, Text } from 'blockchain-info-components'
 
+import { getCoins } from './selectors'
+
 const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -26,13 +28,10 @@ const renderItem = props => {
   const { value, text, ...rest } = props
   return (
     <HeaderWrapper {...rest}>
-      {value === 'BTC' && (
-        <Icon name='bitcoin-in-circle' size='14px' weight={300} />
-      )}
-      {value === 'BCH' && <Icon name='bitcoin-cash' size='14px' weight={300} />}
-      {value === 'ETH' && (
-        <Icon name='ethereum-filled' size='14px' weight={300} />
-      )}
+      {value === 'BTC' && <Icon name='btc-circle' size='22px' weight={300} />}
+      {value === 'BCH' && <Icon name='bch-circle' size='22px' weight={300} />}
+      {value === 'ETH' && <Icon name='eth-circle' size='22px' weight={300} />}
+      {value === 'XLM' && <Icon name='xlm-circle' size='22px' weight={300} />}
       <Text size='14px' weight={300} cursor='pointer'>
         {text}
       </Text>
@@ -44,13 +43,10 @@ const renderDisplay = (props, children) => {
   const { value, ...rest } = props
   return (
     <HeaderWrapper {...rest}>
-      {value === 'BTC' && (
-        <Icon name='bitcoin-in-circle' size='14px' weight={300} />
-      )}
-      {value === 'BCH' && <Icon name='bitcoin-cash' size='14px' weight={300} />}
-      {value === 'ETH' && (
-        <Icon name='ethereum-filled' size='14px' weight={300} />
-      )}
+      {value === 'BTC' && <Icon name='btc-circle' size='22px' weight={300} />}
+      {value === 'BCH' && <Icon name='bch-circle' size='22px' weight={300} />}
+      {value === 'ETH' && <Icon name='eth-circle' size='22px' weight={300} />}
+      {value === 'XLM' && <Icon name='xlm-circle' size='22px' weight={300} />}
       <Text size='14px' weight={300} cursor='pointer'>
         {children}
       </Text>
@@ -74,11 +70,7 @@ class SelectBoxCoin extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  coins: [
-    { text: 'Bitcoin', value: 'BTC' },
-    { text: 'Ether', value: 'ETH' },
-    { text: 'Bitcoin Cash', value: 'BCH' }
-  ]
+  coins: getCoins(state, ownProps)
 })
 
 export default connect(mapStateToProps)(SelectBoxCoin)

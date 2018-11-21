@@ -1,11 +1,10 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { values } from 'ramda'
 import { connect } from 'react-redux'
 
-import { MODAL_NAME as KYC_MODAL } from 'data/components/identityVerification/model'
 import { KYC_STATES, USER_ACTIVATION_STATES } from 'data/modules/profile/model'
 import { getData } from './selectors'
 import { actions } from 'data'
@@ -30,12 +29,9 @@ const Container = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: felx-start;
+  justify-content: flex-start;
   width: 500px;
-  min-height: 150px;
-  padding: 30px;
 `
-
 const Header = styled(Text)`
   display: flex;
   align-items: center;
@@ -43,18 +39,17 @@ const Header = styled(Text)`
     margin-left: 4px;
   }
 `
-
-const Content = styled(Text)`
+const Content = styled(Text).attrs({
+  size: '14px',
+  weight: 300,
+  color: 'white'
+})`
   margin-top: 20px;
 `
-
 const ActionButton = styled(Button)`
   margin-top: 30px;
 `
 
-const SubNote = styled(Text)`
-  margin-top: 30px;
-`
 export const NEW_USER = 'NEW_USER'
 
 export const KYCBanner = ({
@@ -63,6 +58,7 @@ export const KYCBanner = ({
   userState,
   verifyIdentity
 }) => {
+  if (!kycState || !userState) return null
   if (outsideOfProfile && kycState === KYC_STATES.VERIFIED) return null
   const isUserStateNone = () => userState === USER_ACTIVATION_STATES.NONE
 
@@ -124,24 +120,11 @@ export const KYCBanner = ({
   }
 
   const notes = {
-    NEW_USER: (
-      <Fragment>
-        <FormattedMessage
-          id='components.identityverification.popup.note.notcreated'
-          defaultMessage="Introducing Blockchain's new and improved crypto exchange function. To begin using this updated feature, please verify your identity. The process only takes a couple of minutes."
-        />
-        <SubNote color='white' size='12px' weight={400}>
-          <FormattedMessage
-            id='components.identityverification.popup.note.personalinfosecure'
-            defaultMessage='Your personal information is secure with us and not shared with any third parties.'
-          />
-        </SubNote>
-      </Fragment>
-    ),
+    NEW_USER: <div />,
     [KYC_STATES.NONE]: (
       <FormattedMessage
         id='components.identityverification.popup.note.unverified'
-        defaultMessage='Complete your profile and identity verification to start buying and selling. Don’t worry, we only need a couple more details.'
+        defaultMessage='Complete your profile and identity verification to start exchanging. Don’t worry, we only need a couple more details.'
       />
     ),
     [KYC_STATES.PENDING]: (
@@ -165,7 +148,7 @@ export const KYCBanner = ({
     [KYC_STATES.VERIFIED]: (
       <FormattedMessage
         id='components.identityverification.popup.note.verified'
-        defaultMessage='Good news – your account is verified. You can now exchange cryptocurrency at any time. '
+        defaultMessage='Good news – your account is verified. You can now exchange cryptocurrency at any time.'
       />
     )
   }
@@ -211,14 +194,18 @@ export const KYCBanner = ({
     )
   }
   return (
-    <Wrapper minHeight={isUserStateNone() ? '250px' : '210px'}>
+    <Wrapper minHeight={isUserStateNone() ? '300px' : '210px'}>
       <Container>
         <Header size='20px' weight={300} color='white'>
           {isUserStateNone() ? headers[NEW_USER] : headers[kycState]}
         </Header>
-        <Content size='14px' weight={300} color='white'>
-          {isUserStateNone() ? notes[NEW_USER] : notes[kycState]}
-        </Content>
+        {isUserStateNone() ? (
+          notes[NEW_USER]
+        ) : (
+          <Content size='14px' weight={300} color='white'>
+            {notes[kycState]}
+          </Content>
+        )}
         {isUserStateNone() ? buttons[NEW_USER] : buttons[kycState]}
       </Container>
     </Wrapper>
@@ -228,9 +215,7 @@ export const KYCBanner = ({
 KYCBanner.propTypes = {
   kycState: PropTypes.oneOf(values(KYC_STATES)).isRequired,
   userState: PropTypes.oneOf(values(USER_ACTIVATION_STATES)).isRequired,
-  outsideOfProfile: PropTypes.bool,
-  canTrade: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
-  verifyIdentity: PropTypes.func.isRequired
+  outsideOfProfile: PropTypes.bool
 }
 
 KYCBanner.defaultProps = {
@@ -238,7 +223,8 @@ KYCBanner.defaultProps = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  verifyIdentity: () => dispatch(actions.modals.showModal(KYC_MODAL))
+  verifyIdentity: () =>
+    dispatch(actions.components.identityVerification.verifyIdentity())
 })
 
 export default connect(

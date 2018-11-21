@@ -1,45 +1,49 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
+import { path } from 'ramda'
 import { connect } from 'react-redux'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 import { actions } from 'data'
 import { getData } from './selectors'
 import Announcement from './template.js'
 
 class ServiceAnnouncement extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleDismiss = this.handleDismiss.bind(this)
-    this.toggleCollapse = this.toggleCollapse.bind(this)
-  }
+  state = {}
 
-  handleDismiss (id) {
+  handleDismiss = id => {
     this.props.cacheActions.announcementDismissed(id)
   }
 
-  toggleCollapse (id) {
-    this.props.cacheActions.announcementToggled(id, !this.props.data.collapsed)
+  toggleCollapse = (id, isCollapsed) => {
+    this.props.cacheActions.announcementToggled(id, !isCollapsed)
   }
 
   render () {
     const { alertArea, data } = this.props
-    return data &&
-      (data.visible ||
-        data.announcements[alertArea].hideType === 'collapse') ? (
-      <Announcement
-        announcement={data.announcements[alertArea]}
-        language={data.language}
-        collapsed={data.collapsed}
-        handleDismiss={this.handleDismiss}
-        toggleCollapse={this.toggleCollapse}
-      />
-    ) : null
+    return data.cata({
+      Success: val => {
+        return val.showAnnounce ||
+          path(['announcements', alertArea, 'hideType'], val) === 'collapse' ? (
+          <Announcement
+            announcement={val.announcements[alertArea]}
+            language={val.language}
+            collapsed={val.collapsed}
+            handleDismiss={this.handleDismiss}
+            toggleCollapse={this.toggleCollapse}
+          />
+        ) : null
+      },
+      Loading: () => <div />,
+      Failure: () => <div />,
+      NotAsked: () => <div />
+    })
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  data: getData(state, ownProps)
+  data: Remote.of(getData(state, ownProps))
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -47,7 +51,8 @@ const mapDispatchToProps = dispatch => ({
 })
 
 ServiceAnnouncement.propTypes = {
-  alertArea: PropTypes.oneOf(['public', 'wallet']).isRequired
+  alertArea: PropTypes.oneOf(['public', 'wallet', 'sendBch', 'receiveBch'])
+    .isRequired
 }
 
 export default connect(

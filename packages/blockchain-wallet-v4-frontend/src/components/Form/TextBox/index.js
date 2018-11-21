@@ -34,6 +34,7 @@ const TextBox = field => {
     center,
     errorBottom,
     noLastPass,
+    maxLength,
     autoFocus,
     borderRightNone
   } = field
@@ -54,6 +55,8 @@ const TextBox = field => {
         placeholder={placeholder}
         center={center}
         noLastPass={noLastPass}
+        maxLength={maxLength}
+        data-e2e={field['data-e2e']}
       />
       {touched &&
         error && (

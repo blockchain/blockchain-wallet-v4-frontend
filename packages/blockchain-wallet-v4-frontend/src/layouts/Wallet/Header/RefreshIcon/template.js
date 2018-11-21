@@ -11,8 +11,9 @@ const RefreshIcon = props => (
       color='white'
       uppercase
       onClick={props.handleRefresh}
+      data-e2e='refreshLink'
     >
-      <Icon name='refresh-filled' color='white' cursor />
+      <Icon name='refresh' size='16px' color='white' cursor />
     </Link>
   </TooltipHost>
 )

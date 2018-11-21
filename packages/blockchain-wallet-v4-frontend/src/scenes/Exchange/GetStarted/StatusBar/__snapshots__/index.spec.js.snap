@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Status renders correctly when step is getstarted 1`] = `
+<React.Fragment>
+  <GetStarted />
+</React.Fragment>
+`;
+
+exports[`Status renders correctly when step is inprogress 1`] = `
+<React.Fragment>
+  <GetStarted />
+</React.Fragment>
+`;
+
+exports[`Status renders correctly when step is pending 1`] = `
+<React.Fragment>
+  <Pending />
+</React.Fragment>
+`;
+
+exports[`Status renders correctly when step is rejected 1`] = `
+<React.Fragment>
+  <Rejected />
+</React.Fragment>
+`;
+
+exports[`Status renders correctly when step is underreview 1`] = `
+<React.Fragment>
+  <UnderReview />
+</React.Fragment>
+`;

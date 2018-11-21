@@ -223,15 +223,17 @@ const selectContent = number => {
             id='scenes.home.didyouknow.content1.one'
             defaultMessage='We never see or store your password, which means if you forget it, we cannot reset it. Be sure to record your 12-word backup phrase in the'
           />
+          <span>&nbsp;</span>
           <NavLink
             to='/security-center'
             style={{ textDecoration: 'none', color: Color('brand-secondary') }}
           >
             <FormattedMessage
               id='scenes.home.didyouknow.content1.navlink'
-              defaultMessage=' Security Center '
+              defaultMessage='Security Center'
             />
           </NavLink>
+          <span>&nbsp;</span>
           <FormattedMessage
             id='scenes.home.didyouknow.content1.two'
             defaultMessage='to ensure you never lose access to your funds.'
@@ -486,7 +488,7 @@ const selectContent = number => {
           </NavLink>
           <FormattedMessage
             id='scenes.home.didyouknow.content19.two'
-            defaultMessage='. It makes backing up a one- time process for all funds except Imported Addresses.'
+            defaultMessage='. It makes backing up a one-time process for all funds except Imported Addresses.'
           />
         </DidYouKnowWrapper>
       )

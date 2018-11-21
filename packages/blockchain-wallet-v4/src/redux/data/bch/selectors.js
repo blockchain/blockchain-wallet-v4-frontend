@@ -1,5 +1,45 @@
-import { curry, path } from 'ramda'
+import {
+  concat,
+  curry,
+  filter,
+  keysIn,
+  map,
+  not,
+  path,
+  prop,
+  reduce,
+  unapply
+} from 'ramda'
+
 import { dataPath } from '../../paths'
+import { getAccounts } from '../../kvStore/bch/selectors'
+import { createDeepEqualSelector } from '../../../utils'
+import * as walletSelectors from '../../wallet/selectors'
+import { getLockboxBchContext } from '../../kvStore/lockbox/selectors'
+
+export const getContext = createDeepEqualSelector(
+  [
+    walletSelectors.getHDAccounts,
+    walletSelectors.getActiveAddresses,
+    getLockboxBchContext,
+    getAccounts
+  ],
+  (btcHDAccounts, activeAddresses, lockboxContextR, metadataAccountsR) => {
+    const transform = metadataAccounts => {
+      const activeAccounts = filter(account => {
+        const index = prop('index', account)
+        const metadataAccount = metadataAccounts[index]
+        return not(prop('archived', metadataAccount))
+      }, btcHDAccounts)
+      return map(prop('xpub'), activeAccounts)
+    }
+    const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
+    const lockboxContext = lockboxContextR.map(x => x).getOrElse([])
+    const addresses = keysIn(activeAddresses)
+    const concatAll = unapply(reduce(concat, []))
+    return concatAll(activeAccounts, addresses, lockboxContext)
+  }
+)
 
 export const getAddresses = path([dataPath, 'bch', 'addresses'])
 
@@ -63,4 +103,10 @@ export const getEffectiveBalance = path([
   'bch',
   'payment',
   'effectiveBalance'
+])
+
+export const getTransactionsAtBound = path([
+  dataPath,
+  'bch',
+  'transactions_at_bound'
 ])

@@ -22,11 +22,13 @@ yarn-error.log
 .eslintcache
 
 # Generated Files
+.cache
 *.log
 CHANGELOG.md
 coverage/
 dist/
 lib/
+package-lock.json
 
 # Package Files
 packages/blockchain-info-components/lib

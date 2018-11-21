@@ -43,34 +43,45 @@ const IconWrapper = styled.div`
 
 const explorers = {
   BTC: 'https://blockchain.info/tx',
-  ETH: 'https://etherscan.io/tx',
-  BCH: 'https://blockchair.com/bitcoin-cash/transaction'
+  ETH: 'https://www.blockchain.com/eth/tx',
+  BCH: 'https://blockchair.com/bitcoin-cash/transaction',
+  XLM: 'https://stellarchain.io/tx'
+}
+
+const confirmations = {
+  BTC: 3,
+  BCH: 3,
+  ETH: 12,
+  XLM: 1
 }
 
 const Confirmations = props => {
+  const { coin } = props
+  const minConfirmations = confirmations[coin]
+
   return (
     <Wrapper>
-      {props.confirmations >= props.minConfirmations ? (
-        <Text size='12px' weight={300} color='received'>
+      {props.confirmations >= minConfirmations ? (
+        <Text size='14px' weight={300} color='received'>
           <FormattedMessage
             id='scenes.transactions.content.pages.listitem.confirmation.confirmed'
             defaultMessage='Transaction Confirmed'
           />
         </Text>
       ) : (
-        <ConfirmationsText size='12px' weight={300} color='gray-3'>
+        <ConfirmationsText size='14px' weight={300} color='gray-3'>
           <FormattedMessage
             id='scenes.transactions.content.pages.listitem.confirmation.unconfirmed'
             defaultMessage='Pending: {count}/{total} Confirmations'
             values={{
               count: toString(props.confirmations),
-              total: props.minConfirmations
+              total: minConfirmations
             }}
           />
         </ConfirmationsText>
       )}
       <IconWrapper>
-        {props.confirmations < props.minConfirmations && (
+        {props.confirmations < minConfirmations && (
           <TransactionTooltip
             id='confirmations'
             data-iscapture='true'
@@ -79,7 +90,7 @@ const Confirmations = props => {
             <Icon name='question-in-circle' />
           </TransactionTooltip>
         )}
-        <Link href={`${explorers[props.coin]}/${props.hash}`} target='_blank'>
+        <Link href={`${explorers[coin]}/${props.hash}`} target='_blank'>
           <Icon
             name='open-in-new-tab'
             color='marketing-primary'
@@ -92,8 +103,9 @@ const Confirmations = props => {
         <FormattedMessage
           id='scenes.transactions.content.list.listitem.transactionunconfirmed'
           defaultMessage='Your transaction will be complete after it has {minConfirmations} confirmations.'
-          values={{ minConfirmations: props.minConfirmations }}
+          values={{ minConfirmations }}
         />
+        <span>&nbsp;</span>
         <Link
           href='https://support.blockchain.com/hc/en-us/articles/217116406-Why-hasn-t-my-transaction-confirmed-yet-'
           target='_blank'

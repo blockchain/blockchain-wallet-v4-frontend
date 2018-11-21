@@ -1,21 +1,24 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { path } from 'ramda'
 
-import media from 'services/ResponsiveService'
-
-import KYCBanner from 'components/IdentityVerification/KYCBanner'
-import Shapeshift from './Shapeshift'
-import Info from './Info'
-import Exchange from './ExchangeContainer'
-
+import { actions, model } from 'data'
+import { BlockchainLoader } from 'blockchain-info-components'
 import { getData } from './selectors'
+import media from 'services/ResponsiveService'
+import GetStarted from './GetStarted'
+import Exchange from './ExchangeContainer'
+import DataError from 'components/DataError'
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 600px;
 `
 
 const Container = styled.section`
@@ -43,49 +46,54 @@ const Column = styled.div`
   align-items: flex-start;
   width: 100%;
 `
-const ColumnLeft = styled(Column)`
-  align-items: flex-end;
-  margin-right: 10px;
-  & > :first-child {
-    margin-bottom: 10px;
-  }
-  @media (min-width: 992px) {
-    width: 60%;
+
+const { ENTERED } = model.analytics.EXCHANGE
+
+export class ExchangeScene extends React.PureComponent {
+  componentDidMount () {
+    this.props.logEnterExchange()
   }
 
-  ${media.mobile`
-    margin-right: 0;
-  `};
-`
-const ColumnRight = styled(Column)`
-  padding: 0;
-  margin-bottom: 10px;
-  box-sizing: border-box;
-  @media (min-width: 992px) {
-    width: 40%;
+  render () {
+    const { verified, location } = this.props
+    return verified.cata({
+      Success: verified => (
+        <Wrapper>
+          {verified ? (
+            <Container>
+              <Column>
+                <Exchange
+                  from={path(['state', 'from'], location)}
+                  to={path(['state', 'to'], location)}
+                />
+              </Column>
+            </Container>
+          ) : (
+            <GetStarted />
+          )}
+        </Wrapper>
+      ),
+      Loading: () => (
+        <Wrapper>
+          <BlockchainLoader width='200px' height='200px' />
+        </Wrapper>
+      ),
+      NotAsked: () => (
+        <Wrapper>
+          <BlockchainLoader width='200px' height='200px' />
+        </Wrapper>
+      ),
+      Failure: () => <DataError onClick={this.props.fetchUser} />
+    })
   }
-`
-const ExchangeScene = ({ useShapeShift }) => (
-  <Wrapper>
-    {useShapeShift && (
-      <Container>
-        <ColumnLeft>
-          <Shapeshift />
-        </ColumnLeft>
-        <ColumnRight>
-          <Info />
-        </ColumnRight>
-      </Container>
-    )}
-    {!useShapeShift && <KYCBanner outsideOfProfile={true} />}
-    {!useShapeShift && (
-      <Container>
-        <Column>
-          <Exchange />
-        </Column>
-      </Container>
-    )}
-  </Wrapper>
-)
+}
 
-export default connect(getData)(ExchangeScene)
+const mapDispatchToProps = dispatch => ({
+  fetchUser: () => dispatch(actions.modules.profile.fetchUser()),
+  logEnterExchange: () => dispatch(actions.analytics.logExchangeEvent(ENTERED))
+})
+
+export default connect(
+  getData,
+  mapDispatchToProps
+)(ExchangeScene)

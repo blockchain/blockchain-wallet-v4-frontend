@@ -1,9 +1,21 @@
-export default ({ nabuUrl, get, authorizedGet, authorizedPost }) => {
+export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
   const getSupportedCountries = () =>
     get({
       url: nabuUrl,
       endPoint: '/countries',
       data: { scope: 'kyc' }
+    })
+
+  const getSupportedDocuments = countryCode =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/kyc/supported-documents/${countryCode}`
+    })
+
+  const getStates = () =>
+    get({
+      url: nabuUrl,
+      endPoint: '/countries/US/states'
     })
 
   const fetchKycAddresses = (filter, cancelToken) =>
@@ -23,6 +35,12 @@ export default ({ nabuUrl, get, authorizedGet, authorizedPost }) => {
       }
     })
 
+  const fetchUploadData = token =>
+    get({
+      url: nabuUrl,
+      endPoint: `/upload/data/${token}`
+    })
+
   const syncOnfido = (applicantId, isSelfie) => {
     return authorizedPost({
       url: nabuUrl,
@@ -35,10 +53,22 @@ export default ({ nabuUrl, get, authorizedGet, authorizedPost }) => {
     })
   }
 
+  const uploadDocuments = (token, data) =>
+    post({
+      contentType: 'application/json',
+      data: { data },
+      endPoint: `/upload/${token}`,
+      url: nabuUrl
+    })
+
   return {
     getSupportedCountries,
+    getSupportedDocuments,
+    getStates,
     fetchKycAddresses,
     fetchOnfidoSDKKey,
-    syncOnfido
+    fetchUploadData,
+    syncOnfido,
+    uploadDocuments
   }
 }

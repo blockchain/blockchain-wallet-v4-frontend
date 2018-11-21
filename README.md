@@ -18,13 +18,14 @@ This repo contains the three codebases/packages listed below.
 
 
 ## Local Development
-1. Ensure Node version >= 10.2 and NPM version >= 6 are installed
+1. Ensure Node version >= 10.2 and Yarn version >= 1.12 are installed
 2. Run the following command to install necessary global packages: `npm install -g yarn babel-cli rimraf cross-env`
 3. Install, link and hoist packages: `yarn`
 4. Start the application in development mode: `yarn start`
 5. The frontend application will now be accessible via browser at `localhost:8080`
 
 If you require the application to run locally over HTTPS, follow the instructions [here](./config/ssl/ssl.md).
+You can disable SSL by setting the `DISABLE_SSL` env param to `true` with any start command. (e.g. `DISABLE_SSL=true yarn start:staging`)
 
 ### Windows Support
 To ensure proper support for Windows, please take the following actions before running the above setup instructions.

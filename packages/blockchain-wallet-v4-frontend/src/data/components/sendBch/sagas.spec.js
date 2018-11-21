@@ -1,16 +1,16 @@
 import { select } from 'redux-saga/effects'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import { initialize } from 'redux-form'
-import { prop } from 'ramda'
+import { path, prop } from 'ramda'
 import { call } from 'redux-saga-test-plan/matchers'
 
 import rootReducer from '../../rootReducer'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as A from './actions'
 import * as S from './selectors'
+import { FORM } from './model'
 import * as C from 'services/AlertService'
-import * as actions from '../../actions'
-import * as selectors from '../../selectors'
+import { actions, selectors } from 'data'
 import sendBchSagas, { logLocation, bchDefaultFee } from './sagas'
 import { promptForSecondPassword } from 'services/SagaService'
 import settings from 'config'
@@ -124,7 +124,7 @@ describe('sendBch sagas', () => {
       saga.next(Remote.of(defaultIndex))
 
       expect(paymentMock.from).toHaveBeenCalledTimes(1)
-      expect(paymentMock.from).toHaveBeenCalledWith(defaultIndex)
+      expect(paymentMock.from).toHaveBeenCalledWith(defaultIndex, 'ACCOUNT')
     })
 
     it('should update payment fee from value', () => {
@@ -135,7 +135,7 @@ describe('sendBch sagas', () => {
     })
 
     it('should initialize sendBch form with correct values', () => {
-      saga.next(paymentMock).put(initialize('sendBch', initialValues))
+      saga.next(paymentMock).put(initialize(FORM, initialValues))
     })
 
     it('should trigger bch payment updated success action', () => {
@@ -205,10 +205,9 @@ describe('sendBch sagas', () => {
       })
 
       it('should produce correct form state', () => {
-        expect(resultingState.form.sendBch.initial).toEqual(
-          resultingState.form.sendBch.values
-        )
-        expect(resultingState.form.sendBch.initial).toEqual({
+        const form = path(FORM.split('.'), resultingState.form)
+        expect(form.initial).toEqual(form.values)
+        expect(form.initial).toEqual({
           coin: 'BCH',
           from: defaultAccount
         })
@@ -297,6 +296,10 @@ describe('sendBch sagas', () => {
       paymentMock.publish.mockClear()
     })
 
+    it('should put start submit action', () => {
+      saga.next().put(actions.form.startSubmit(FORM))
+    })
+
     it('should select payment', () => {
       saga.next().select(S.getPayment)
     })
@@ -313,12 +316,8 @@ describe('sendBch sagas', () => {
       })
     })
 
-    it('should put action to close all modals', () => {
-      saga.next(secondPassword).put(actions.modals.closeAllModals())
-    })
-
     it('should sign payment with second passowrd', () => {
-      saga.next()
+      saga.next(secondPassword)
       expect(paymentMock.sign).toHaveBeenCalledTimes(1)
       expect(paymentMock.sign).toHaveBeenCalledWith(secondPassword)
     })
@@ -326,6 +325,10 @@ describe('sendBch sagas', () => {
     it('should publish payment', () => {
       saga.next(paymentMock)
       expect(paymentMock.publish).toHaveBeenCalledTimes(1)
+    })
+
+    it('should put bch fetch data action', () => {
+      saga.next(paymentMock).put(actions.core.data.bch.fetchData())
     })
 
     it('should put bch payment updated success action', () => {
@@ -338,10 +341,6 @@ describe('sendBch sagas', () => {
       saga.next().put(actions.core.kvStore.bch.setTxNotesBch(txId, description))
     })
 
-    it('should put bch fetch data action', () => {
-      saga.next(paymentMock).put(actions.core.data.bch.fetchData())
-    })
-
     it('should route to bch transactions', () => {
       saga.next().put(actions.router.push('/bch/transactions'))
     })
@@ -351,16 +350,33 @@ describe('sendBch sagas', () => {
         .next()
         .put(actions.alerts.displaySuccess(C.SEND_BCH_SUCCESS))
         .save(beforeError)
+    })
+
+    it('should destroy form', () => {
+      saga.next().put(actions.form.destroy(FORM))
+    })
+
+    it('should put action to close all modals', () => {
+      saga
+        .next()
+        .put(actions.modals.closeAllModals())
         .next()
         .isDone()
     })
 
     describe('error handling', () => {
       const error = {}
-      it('should log error', () => {
+
+      it('should stop form submit', () => {
         saga
           .restore(beforeError)
           .throw(error)
+          .put(actions.form.stopSubmit(FORM))
+      })
+
+      it('should log error', () => {
+        saga
+          .next()
           .put(
             actions.logs.logErrorMessage(
               logLocation,
@@ -370,7 +386,7 @@ describe('sendBch sagas', () => {
           )
       })
 
-      it('should display success message', () => {
+      it('should display error message', () => {
         saga
           .next()
           .put(actions.alerts.displayError(C.SEND_BCH_ERROR))

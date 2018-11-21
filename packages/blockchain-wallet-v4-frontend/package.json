@@ -5,7 +5,7 @@
   "license": "AGPL-3.0-or-later",
   "author": {
     "name": "Blockchain.info",
-    "url": "https://blockchain.info"
+    "url": "https://blockchain.com"
   },
   "main": "index.js",
   "scripts": {
@@ -23,9 +23,11 @@
     "start:prod": "cross-env-shell NODE_ENV=production webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
     "start:staging": "cross-env-shell NODE_ENV=staging webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
     "start:testnet": "cross-env-shell NODE_ENV=testnet webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
-    "test": "cross-env ./../../node_modules/.bin/jest",
+    "test": "cross-env ./../../node_modules/.bin/jest --silent",
+    "debug:prod": "cross-env-shell NODE_ENV=production webpack-dev-server --config webpack.debug.js --progress --colors",
     "test:build": "echo 'No precomplilation required for tests to execute.'",
     "test:debug": "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
+    "test:update": "cross-env ./../../node_modules/.bin/jest -u",
     "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll",
     "manage:translations": "babel-node ./translationRunner.js"
   },
@@ -34,15 +36,27 @@
     "collectCoverageFrom": [
       "src/**/*.js",
       "!src/**/rootSaga.js",
-      "!src/data/*/actions.js",
-      "!src/data/*/actionTypes.js",
-      "!src/data/*/sagaRegister.js",
+      "!src/**/sagaRegister.js",
+      "!src/create-nonce.js",
+      "!src/favicons.js",
+      "!src/index*.js",
+      "!src/create-nonce.js",
       "!src/data/actions.js",
       "!src/data/actionTypes.js",
+      "!src/data/index.js",
+      "!src/data/model.js",
       "!src/data/rootReducer.js",
       "!src/data/sagas.js",
-      "!src/data/sagaRegister.js",
-      "!src/data/selectors.js"
+      "!src/data/selectors.js",
+      "!src/data/components/sagas.js",
+      "!src/data/middleware/actions.js",
+      "!src/data/middleware/actionTypes.js",
+      "!src/data/middleware/selectors.js",
+      "!src/data/middleware/sagas.js",
+      "!src/data/modules/actions.js",
+      "!src/data/modules/actionTypes.js",
+      "!src/data/modules/selectors.js",
+      "!src/data/modules/sagas.js"
     ],
     "coverageDirectory": "<rootDir>/../../coverage/blockchain-wallet-v4-frontend",
     "coverageReporters": [
@@ -61,7 +75,7 @@
       "^.+\\.js$": "<rootDir>/../../node_modules/babel-jest"
     },
     "transformIgnorePatterns": [
-      "node_modules/(?!(blockchain-info-components|blockchain-wallet-v4)/)"
+      "node_modules/(?!(blockchain-info-components|@blockchain-com/components|blockchain-wallet-v4)/)"
     ],
     "moduleNameMapper": {
       "\\.(pdf|jpg|jpeg|png|gif|eot|otf|svg|ttf|woff|woff2)$": "<rootDir>/src/__mocks__/fileMock.js",
@@ -69,6 +83,11 @@
     }
   },
   "dependencies": {
+    "@blockchain-com/components": "2.5.3",
+    "@ledgerhq/hw-app-eth": "4.26.0-beta.ebeb3540",
+    "@ledgerhq/hw-app-btc": "4.26.0-beta.ebeb3540",
+    "@ledgerhq/hw-app-str": "4.26.0-beta.ebeb3540",
+    "@ledgerhq/hw-transport-u2f": "4.26.0-beta.ebeb3540",
     "awesome-phonenumber": "2.2.5",
     "base-64": "0.1.0",
     "bignumber.js": "5.0.0",
@@ -94,13 +113,14 @@
     "postal-codes-js": "^1.0.0",
     "prop-types": "15.6.1",
     "qrcode.react": "0.8.0",
+    "qs": "6.5.2",
     "ramda": "0.25.0",
     "react": "16.4.0",
     "react-animations": "1.0.0",
     "react-copy-to-clipboard": "5.0.1",
     "react-csv": "1.0.14",
     "react-dom": "16.4.0",
-    "react-dropzone": "4.2.11",
+    "react-dropzone": "^6.0.0",
     "react-highcharts": "16.0.2",
     "react-intl": "2.4.0",
     "react-intl-tel-input": "5.0.5",
@@ -120,6 +140,7 @@
     "redux-saga": "0.16.0",
     "redux-ui": "0.1.1",
     "reselect": "3.0.1",
+    "rxjs": "6.3.2",
     "sanitize-html": "1.18.2",
     "styled-components": "3.3.2",
     "zxcvbn": "4.4.2"

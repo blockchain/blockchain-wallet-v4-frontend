@@ -46,7 +46,7 @@ const Square1 = SquareMarketingSecondary.extend`
   animation-delay: 0s;
 `
 const Square2 = SquareMarketingSecondary.extend`
-  animation-delay: 0.5s;
+  animation-delay: 0.05s;
 `
 const Square3 = SquareMarketingSecondary.extend`
   animation-delay: 0.2s;
@@ -59,7 +59,7 @@ const Square5 = SquareTransferred.extend`
 `
 
 const Square6 = SquareMarketingSecondary.extend`
-  animation-delay: 0.5s;
+  animation-delay: 0.05s;
 `
 const Square7 = SquareMarketingSecondary.extend`
   animation-delay: 0.2s;

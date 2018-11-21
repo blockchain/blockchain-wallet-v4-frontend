@@ -131,9 +131,11 @@ const formatPhone = val => val.replace(/[^\d]/g, '')
 const cryptoDecimals = 8
 const fiatDecimals = 2
 
-const formatAmount = (val, isFiat) => {
+const formatTextAmount = (val, isFiat) => {
   const decimals = isFiat ? fiatDecimals : cryptoDecimals
   return val
+    .replace(/^0+(.)/, ($0, $1) => $1)
+    .replace(/^\./, '0.')
     .replace(new RegExp(`(.*\\..{${decimals}}).*`), ($0, $1) => $1)
     .replace('-', '')
 }
@@ -154,5 +156,5 @@ export {
   formatUSZipcode,
   isOverEighteen,
   formatPhone,
-  formatAmount
+  formatTextAmount
 }

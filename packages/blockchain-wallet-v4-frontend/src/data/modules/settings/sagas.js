@@ -11,7 +11,7 @@ import {
 import { Types, utils } from 'blockchain-wallet-v4/src'
 import { contains, toLower, prop, head } from 'ramda'
 
-const taskToPromise = t =>
+export const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export const ipRestrictionError =
@@ -45,22 +45,23 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const showBackupRecovery = function*() {
-    const recoverySaga = function*({ password }) {
-      const getMnemonic = s => selectors.core.wallet.getMnemonic(s, password)
-      try {
-        const mnemonicT = yield select(getMnemonic)
-        const mnemonic = yield call(() => taskToPromise(mnemonicT))
-        const mnemonicArray = mnemonic.split(' ')
-        yield put(
-          actions.modules.settings.addMnemonic({ mnemonic: mnemonicArray })
-        )
-      } catch (e) {
-        yield put(
-          actions.logs.logErrorMessage(logLocation, 'showBackupRecovery', e)
-        )
-      }
+  const recoverySaga = function*({ password }) {
+    const getMnemonic = s => selectors.core.wallet.getMnemonic(s, password)
+    try {
+      const mnemonicT = yield select(getMnemonic)
+      const mnemonic = yield call(() => taskToPromise(mnemonicT))
+      const mnemonicArray = mnemonic.split(' ')
+      yield put(
+        actions.modules.settings.addMnemonic({ mnemonic: mnemonicArray })
+      )
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'showBackupRecovery', e)
+      )
     }
+  }
+
+  const showBackupRecovery = function*() {
     yield call(askSecondPasswordEnhancer(recoverySaga), {})
   }
 
@@ -151,7 +152,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displaySuccess(C.CURRENCY_UPDATE_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateCurrency', e))
-      yield put(actions.alerts.displayErrorC.CURRENCY_UPDATE_ERROR)
+      yield put(actions.alerts.displayError(C.CURRENCY_UPDATE_ERROR))
     }
   }
 
@@ -321,8 +322,8 @@ export default ({ api, coreSagas }) => {
 
   const showEthPrivateKey = function*(action) {
     const { isLegacy } = action.payload
-    const password = yield call(promptForSecondPassword)
     try {
+      const password = yield call(promptForSecondPassword)
       if (isLegacy) {
         const getSeedHex = state =>
           selectors.core.wallet.getSeedHex(state, password)
@@ -347,6 +348,16 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const showXlmPrivateKey = function*() {
+    const password = yield call(promptForSecondPassword)
+    const getMnemonic = state =>
+      selectors.core.wallet.getMnemonic(state, password)
+    const mnemonicT = yield select(getMnemonic)
+    const mnemonic = yield call(() => taskToPromise(mnemonicT))
+    const keyPair = utils.xlm.getKeyPair(mnemonic)
+    yield put(actions.modules.settings.addShownXlmPrivateKey(keyPair.secret()))
+  }
+
   return {
     initSettingsInfo,
     initSettingsPreferences,
@@ -368,7 +379,9 @@ export default ({ api, coreSagas }) => {
     enableTwoStepGoogleAuthenticator,
     enableTwoStepYubikey,
     newHDAccount,
+    recoverySaga,
     showBtcPrivateKey,
-    showEthPrivateKey
+    showEthPrivateKey,
+    showXlmPrivateKey
   }
 }

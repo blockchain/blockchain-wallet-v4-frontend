@@ -2,7 +2,7 @@ import { select } from 'redux-saga/effects'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import { fork, call } from 'redux-saga-test-plan/matchers'
 
-import { askSecondPasswordEnhancer } from 'services/SagaService'
+import { askSecondPasswordEnhancer, confirm } from 'services/SagaService'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as selectors from '../selectors.js'
 import * as actions from '../actions.js'
@@ -24,6 +24,8 @@ const api = {
   obtainSessionToken: jest.fn(),
   deauthorizeBrowser: jest.fn()
 }
+
+const VULNERABLE_ADDRESS = '1BgGZ9tcN4rm9KBzDn7KprQz87SZ26SAMH'
 
 describe('authSagas', () => {
   // Mocking Math.random() to have identical popup ids for action testing
@@ -334,13 +336,14 @@ describe('authSagas', () => {
 
   describe('login routine', () => {
     const {
+      authNabu,
+      checkDataErrors,
       loginRoutineSaga,
       logoutRoutine,
       reportStats,
       setLogoutEventListener,
       transferEthSaga,
       upgradeWalletSaga,
-      welcomeSaga,
       upgradeAddressLabelsSaga
     } = authSagas({
       api,
@@ -350,7 +353,6 @@ describe('authSagas', () => {
     const firstLogin = false
     const saga = testSaga(loginRoutineSaga, mobileLogin, firstLogin)
     const beforeHdCheck = 'beforeHdCheck'
-    const beforeUserFlowCheck = 'beforeUserFlowCheck'
 
     it('should check if wallet is an hd wallet', () => {
       saga
@@ -370,18 +372,6 @@ describe('authSagas', () => {
       saga.next(true).put(actions.auth.authenticate())
     })
 
-    it('should put action to start bitcoin cash socket', () => {
-      saga.next().put(actions.middleware.webSocket.bch.startSocket())
-    })
-
-    it('should put action to start bitcoin socket', () => {
-      saga.next().put(actions.middleware.webSocket.btc.startSocket())
-    })
-
-    it('should put action to start ethereum socket', () => {
-      saga.next().put(actions.middleware.webSocket.eth.startSocket())
-    })
-
     it('should fetch root', () => {
       saga
         .next()
@@ -397,8 +387,34 @@ describe('authSagas', () => {
         )
     })
 
+    it('should fetch stellar metadata', () => {
+      saga
+        .next()
+        .call(coreSagas.kvStore.xlm.fetchMetadataXlm, askSecondPasswordEnhancer)
+    })
+
     it('should fetch bitcoin cash metadata', () => {
       saga.next().call(coreSagas.kvStore.bch.fetchMetadataBch)
+    })
+
+    it('should fetch lockbox metadata', () => {
+      saga.next().call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
+    })
+
+    it('should put action to start bitcoin cash socket', () => {
+      saga.next().put(actions.middleware.webSocket.bch.startSocket())
+    })
+
+    it('should put action to start bitcoin socket', () => {
+      saga.next().put(actions.middleware.webSocket.btc.startSocket())
+    })
+
+    it('should put action to start ethereum socket', () => {
+      saga.next().put(actions.middleware.webSocket.eth.startSocket())
+    })
+
+    it('should put action to start xlm streams', () => {
+      saga.next().put(actions.middleware.webSocket.xlm.startStreams())
     })
 
     it('should redirect to home route', () => {
@@ -409,22 +425,20 @@ describe('authSagas', () => {
       saga.next().call(coreSagas.settings.fetchSettings)
     })
 
-    it('should check if user flow is supported', () => {
-      saga
-        .next()
-        .select(selectors.modules.profile.userFlowSupported)
-        .save(beforeUserFlowCheck)
+    it('should fetch xlm ledger details', () => {
+      saga.next().call(coreSagas.data.xlm.fetchLedgerDetails)
     })
 
-    it('should trigger signin action if user flow is supported', () => {
-      saga
-        .next(Remote.of(true))
-        .put(actions.modules.profile.signIn())
-        .restore(beforeUserFlowCheck)
+    it('should fetch xlm accounts', () => {
+      saga.next().call(coreSagas.data.xlm.fetchData)
+    })
+
+    it('should call auth nabu saga', () => {
+      saga.next().call(authNabu)
     })
 
     it('should call upgrade address labels saga', () => {
-      saga.next(Remote.of(false)).call(upgradeAddressLabelsSaga)
+      saga.next().call(upgradeAddressLabelsSaga)
     })
 
     it('should trigger login success action', () => {
@@ -465,12 +479,24 @@ describe('authSagas', () => {
       saga.next().fork(transferEthSaga)
     })
 
-    it('should launch welcomeSaga', () => {
-      saga.next().fork(welcomeSaga, firstLogin)
-    })
-
     it('should launch reportStats saga', () => {
       saga.next().fork(reportStats, mobileLogin)
+    })
+
+    it('should add welcome goal', () => {
+      saga.next().put(actions.goals.saveGoal('welcome', { firstLogin }))
+    })
+
+    it('should add kyc goal', () => {
+      saga.next().put(actions.goals.saveGoal('kyc'))
+    })
+
+    it('should run goals', () => {
+      saga.next().put(actions.goals.runGoals())
+    })
+
+    it('should check for data errors', () => {
+      saga.next().fork(checkDataErrors)
     })
 
     it('should dispatch action for reportBalanceStats', () => {
@@ -507,7 +533,6 @@ describe('authSagas', () => {
           [select(selectors.core.wallet.isHdWallet), true],
           [select(selectors.core.wallet.getGuid), 12],
           [fork.fn(transferEthSaga), jest.fn],
-          [fork.fn(welcomeSaga), jest.fn],
           [fork.fn(reportStats), jest.fn],
           [call.fn(setLogoutEventListener), jest.fn],
           [fork.fn(logoutRoutine), jest.fn]
@@ -1044,6 +1069,7 @@ describe('authSagas', () => {
         .put(actions.middleware.webSocket.bch.stopSocket())
         .put(actions.middleware.webSocket.btc.stopSocket())
         .put(actions.middleware.webSocket.eth.stopSocket())
+        .put(actions.middleware.webSocket.xlm.stopStreams())
         .put(actions.router.push('/logout'))
         .run()
     })
@@ -1060,6 +1086,7 @@ describe('authSagas', () => {
         .put(actions.middleware.webSocket.bch.stopSocket())
         .put(actions.middleware.webSocket.btc.stopSocket())
         .put(actions.middleware.webSocket.eth.stopSocket())
+        .put(actions.middleware.webSocket.xlm.stopStreams())
         .run()
         .then(() => {
           expect(pushStateSpy).toHaveBeenCalledTimes(1)
@@ -1145,6 +1172,40 @@ describe('authSagas', () => {
       })
 
       pageReloadTest()
+    })
+  })
+
+  const VULNERABLE_ADDRESS_ERROR = `A security issue effects address ${VULNERABLE_ADDRESS}. Please Archive It and Contact support@blockchain.zendesk.com`
+  describe('checkDataErrors', () => {
+    const { checkDataErrors } = authSagas({ api, coreSagas })
+    const saga = testSaga(checkDataErrors)
+    it('should select btc getInfo', () => {
+      saga.next().select(selectors.core.data.bitcoin.getInfo)
+    })
+  })
+
+  describe('checkAndHandleVulnerableAddress', () => {
+    const { checkAndHandleVulnerableAddress } = authSagas({ api, coreSagas })
+    const data = { error: VULNERABLE_ADDRESS_ERROR }
+    const saga = testSaga(checkAndHandleVulnerableAddress, data)
+
+    it('should close all modals', () => {
+      saga.next().put(actions.modals.closeAllModals())
+    })
+
+    it('should call confirm', () => {
+      saga.next().call(confirm, {
+        title: 'archive_vulnerable_address_title',
+        message: 'archive_vulnerable_address_msg',
+        confirm: 'archive_vulnerable_address_confirm',
+        cancel: undefined,
+        messageValues: { vulnerableAddress: VULNERABLE_ADDRESS }
+      })
+    })
+    it('should archive the address', () => {
+      saga
+        .next(true)
+        .put(actions.core.wallet.setAddressArchived(VULNERABLE_ADDRESS, true))
     })
   })
 })

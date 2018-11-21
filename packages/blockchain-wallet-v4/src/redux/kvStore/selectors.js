@@ -6,7 +6,9 @@ import * as contacts from './contacts/selectors.js'
 import * as root from './root/selectors.js'
 import * as bch from './bch/selectors.js'
 import * as btc from './btc/selectors.js'
+import * as lockbox from './lockbox/selectors.js'
 import * as userCredentials from './userCredentials/selectors.js'
+import * as xlm from './xlm/selectors.js'
 
 export {
   root,
@@ -17,5 +19,7 @@ export {
   contacts,
   bch,
   btc,
-  userCredentials
+  lockbox,
+  userCredentials,
+  xlm
 }

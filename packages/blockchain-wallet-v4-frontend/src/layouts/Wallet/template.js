@@ -11,10 +11,9 @@ import TrayRight from './TrayRight'
 import Page from './Page'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
-import BtcMenu from 'scenes/Transactions/Btc/Menu'
-import BchMenu from 'scenes/Transactions/Bch/Menu'
-import EthMenu from 'scenes/Transactions/Eth/Menu'
+import Menu from 'scenes/Transactions/Menu'
 import AddrMenu from 'scenes/Settings/Addresses/Menu'
+import LockboxMenu from '../../scenes/Lockbox/Menu'
 import ExchangeMenu from 'scenes/Exchange/Menu'
 
 import media from 'services/ResponsiveService'
@@ -55,6 +54,8 @@ const Top = styled.div`
   `};
 `
 
+// TODO: @header issue
+// change this so that pages control their own scroll
 const WalletLayout = props => {
   const { location, children } = props
 
@@ -74,13 +75,28 @@ const WalletLayout = props => {
             <Top>
               <MenuTop />
             </Top>
-            {location.pathname === '/btc/transactions' && <BtcMenu />}
-            {location.pathname === '/bch/transactions' && <BchMenu />}
-            {location.pathname === '/eth/transactions' && <EthMenu />}
-            {location.pathname === '/settings/addresses' && <AddrMenu />}
+            {location.pathname === '/settings/addresses/btc' && <AddrMenu />}
             {location.pathname === '/settings/addresses/bch' && <AddrMenu />}
-            {location.pathname === '/exchange' && <ExchangeMenu />}
-            {location.pathname === '/exchange/history' && <ExchangeMenu />}
+            {location.pathname.includes('/btc/transactions') && (
+              <Menu coin='BTC' />
+            )}
+            {location.pathname.includes('/bch/transactions') && (
+              <Menu coin='BCH' />
+            )}
+            {location.pathname.includes('/eth/transactions') && (
+              <Menu coin='ETH' />
+            )}
+            {location.pathname.includes('/xlm/transactions') && (
+              <Menu coin='XLM' />
+            )}
+            {location.pathname.includes('/exchange') && (
+              <ExchangeMenu
+                historySelected={location.pathname.includes(
+                  '/exchange/history'
+                )}
+              />
+            )}
+            {location.pathname.includes('/lockbox') && <LockboxMenu />}
             <Page>{children}</Page>
           </Content>
         </Container>

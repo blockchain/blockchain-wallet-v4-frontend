@@ -30,7 +30,6 @@ class GoogleAuthContainer extends React.PureComponent {
       this.setState({ successToggled: !this.state.successToggled })
       this.props.triggerSuccess()
       this.props.goBackOnSuccess()
-      this.props.handleGoBack()
     }
   }
 

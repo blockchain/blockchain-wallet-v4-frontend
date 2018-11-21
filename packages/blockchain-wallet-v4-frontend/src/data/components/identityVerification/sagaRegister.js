@@ -4,6 +4,7 @@ import sagas from './sagas'
 
 export default ({ api, coreSagas }) => {
   const {
+    verifyIdentity,
     initializeStep,
     updateSmsStep,
     updateSmsNumber,
@@ -12,10 +13,14 @@ export default ({ api, coreSagas }) => {
     savePersonalData,
     selectAddress,
     fetchSupportedCountries,
-    fetchPossibleAddresses
+    fetchSupportedDocuments,
+    fetchStates,
+    fetchPossibleAddresses,
+    createRegisterUserCampaign
   } = sagas({ api, coreSagas })
 
   return function*() {
+    yield takeLatest(AT.VERIFY_IDENTITY, verifyIdentity)
     yield takeLatest(AT.INITIALIZE_STEP, initializeStep)
     yield takeLatest(AT.UPDATE_SMS_STEP, updateSmsStep)
     yield takeLatest(AT.UPDATE_SMS_NUMBER, updateSmsNumber)
@@ -23,7 +28,13 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.RESEND_SMS_CODE, resendSmsCode)
     yield takeLatest(AT.SAVE_PERSONAL_DATA, savePersonalData)
     yield takeLatest(AT.FETCH_SUPPORTED_COUNTRIES, fetchSupportedCountries)
+    yield takeLatest(AT.FETCH_SUPPORTED_DOCUMENTS, fetchSupportedDocuments)
+    yield takeLatest(AT.FETCH_STATES, fetchStates)
     yield takeLatest(AT.FETCH_POSSIBLE_ADDRESSES, fetchPossibleAddresses)
     yield takeLatest(AT.SELECT_ADDRESS, selectAddress)
+    yield takeLatest(
+      AT.CREATE_REGISTER_USER_CAMPAIGN,
+      createRegisterUserCampaign
+    )
   }
 }

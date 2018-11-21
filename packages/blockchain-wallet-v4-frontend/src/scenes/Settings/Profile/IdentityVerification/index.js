@@ -81,7 +81,7 @@ const IdentityVerification = ({ kycState, verifyIdentity }) => {
     [KYC_STATES.NONE]: (
       <FormattedMessage
         id='scenes.profile.identityverification.note.unverified'
-        defaultMessage='Complete our verification process to begin buying and selling cryptocurrency – all within your Blockchain wallet.'
+        defaultMessage='Complete our verification process to begin exchanging cryptocurrency – all within your Blockchain wallet.'
         altFont
         light
       />
@@ -174,8 +174,7 @@ const IdentityVerification = ({ kycState, verifyIdentity }) => {
 
 IdentityVerification.propTypes = {
   kycState: PropTypes.oneOf(values(KYC_STATES)).isRequired,
-  verifyIdentity: PropTypes.func.isRequired,
-  getStarted: PropTypes.func.isRequired
+  verifyIdentity: PropTypes.func.isRequired
 }
 
 export default IdentityVerification

@@ -7,7 +7,9 @@ const INITIAL_STATE = {
   verificationStep: null,
   smsStep: Remote.Loading,
   supportedCountries: Remote.NotAsked,
-  possibleAdresses: []
+  supportedDocuments: Remote.NotAsked,
+  states: Remote.NotAsked,
+  possibleAddresses: []
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -22,6 +24,12 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.SET_SUPPORTED_COUNTRIES: {
       return assoc('supportedCountries', payload.countries, state)
+    }
+    case AT.SET_SUPPORTED_DOCUMENTS: {
+      return assoc('supportedDocuments', payload.documentTypes, state)
+    }
+    case AT.SET_STATES: {
+      return assoc('states', payload.states, state)
     }
     case AT.SET_ADDRESS_REFETCH_VISIBLE: {
       return assoc('addressRefetchVisible', payload.isVisible, state)

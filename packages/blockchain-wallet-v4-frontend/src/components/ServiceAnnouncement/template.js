@@ -1,67 +1,81 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-
-import { Link, Icon, Text, TextGroup } from 'blockchain-info-components'
+import media from 'services/ResponsiveService'
+import { Link, Icon, Text } from 'blockchain-info-components'
 
 const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  background: ${props => props.theme[props.color]};
-  border: 2px solid ${props => props.theme[props.color]};
+  justify-content: space-between;
+  background-color: ${props => props.theme[props.backgroundColor]};
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   margin: 0 auto;
   overflow: hidden;
+  padding: 10px 25px;
+  box-sizing: border-box;
   height: ${props => (props.collapsed ? '35px' : '')};
   width: 100%;
 `
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  ${media.mobile`
+    flex-direction: column;
+    align-items: flex-start;
+  `};
+`
+const Content = styled.div`
+  flex: 2;
+  width: 100%;
+`
+const Title = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  & > :first-child {
+    margin-right: 8px;
+  }
+`
 const ActionLink = styled(Link)`
-  margin-left: 0;
-  margin-top: 0;
-  color: ${props => props.theme['marketing-secondary']};
+  white-space: nowrap;
   text-decoration: underline;
+  & > :first-child {
+    margin: 10px 0 6px;
+  }
+  ${media.mobile`
+    margin: 0px;
+  `};
 `
 const ActionIcon = styled(Icon)`
-  margin-top: 5px;
+  margin-left: 10px;
   &:hover {
     cursor: pointer;
   }
-`
-const IconContainer = styled.div`
-  margin: 0 25px;
 `
 
 const selectStyle = type => {
   switch (type) {
     case 'danger':
       return {
-        color: 'warn',
-        uppercase: true,
-        icon: 'alert-filled',
-        iconColor: 'error'
+        backgroundColor: 'error',
+        textColor: 'white',
+        uppercase: true
       }
     case 'info':
       return {
-        color: 'brand-tertiary',
-        uppercase: false,
-        icon: false,
-        iconColor: null
-      }
-    case 'warning':
-      return {
-        color: 'brand-yellow-lighter',
-        uppercase: false,
-        icon: 'alert-filled',
-        iconColor: 'sent'
+        backgroundColor: 'info',
+        textColor: 'white',
+        uppercase: false
       }
     default:
       return {
-        color: 'brand-tertiary',
-        uppercase: false,
-        icon: false,
-        iconColor: null
+        backgroundColor: 'textBlack',
+        textColor: 'gray-2',
+        uppercase: false
       }
   }
 }
@@ -75,67 +89,76 @@ const Announcement = props => {
     toggleCollapse
   } = props
   const style = selectStyle(announcement.type)
-  const { color, icon, iconColor, uppercase } = style
+  const { backgroundColor, textColor, uppercase } = style
 
   return (
-    <Container color={color} collapsed={collapsed}>
-      <IconContainer>
-        {icon && (
-          <Icon name={icon} size='34px' weight={600} color={iconColor} />
-        )}
-      </IconContainer>
-      <div style={{ width: '100%' }}>
-        <Text
-          weight={300}
-          size='20px'
-          uppercase={uppercase}
-          style={{ margin: '6px 0' }}
-        >
-          {announcement.header[language]
-            ? announcement.header[language]
-            : announcement.header.en}
-        </Text>
-        <TextGroup style={{ display: collapsed ? 'none' : '' }}>
-          {announcement.sections.map((section, i) => {
-            return (
-              <Text key={i} size='13px' style={{ marginBottom: '2px' }}>
-                {section.body[language]
-                  ? section.body[language]
-                  : section.body.en}
-              </Text>
-            )
-          })}
-          <ActionLink href={announcement.action.link} target='_blank'>
-            <Text color='brand-primary' size='13px'>
-              {announcement.action.title[language]
-                ? announcement.action.title[language]
-                : announcement.action.title.en}
+    <Container collapsed={collapsed} backgroundColor={backgroundColor}>
+      <Wrapper>
+        <Content>
+          <Title>
+            {announcement.icon && (
+              <Icon name={announcement.icon} size='20px' color={textColor} />
+            )}
+            <Text size='14px' color='white' uppercase={uppercase}>
+              {announcement.header[language]
+                ? announcement.header[language]
+                : announcement.header.en}
             </Text>
-          </ActionLink>
-        </TextGroup>
-      </div>
-      <IconContainer>
+          </Title>
+          <div style={{ display: collapsed ? 'none' : '' }}>
+            {announcement.sections.map((section, i) => {
+              return (
+                <Text
+                  weight={300}
+                  color={textColor}
+                  key={i}
+                  size='13px'
+                  style={{ margin: '8px 0 0' }}
+                >
+                  {section.body[language]
+                    ? section.body[language]
+                    : section.body.en}
+                </Text>
+              )
+            })}
+            <ActionLink
+              href={announcement.action.link}
+              color={textColor}
+              target='_blank'
+            >
+              <Text weight={400} color={textColor} size='14px'>
+                {announcement.action.title[language]
+                  ? announcement.action.title[language]
+                  : announcement.action.title.en}
+              </Text>
+            </ActionLink>
+          </div>
+        </Content>
+      </Wrapper>
+      <div>
         {announcement.hideType === 'collapse' && (
           <ActionIcon
             name={collapsed ? 'down-arrow' : 'up-arrow'}
-            size='18px'
+            size='14px'
             weight={600}
+            color='white'
             onClick={() => {
-              toggleCollapse(announcement.id)
+              toggleCollapse(announcement.id, collapsed)
             }}
           />
         )}
         {announcement.hideType === 'dismiss' && (
           <ActionIcon
             name='close'
-            size='18px'
+            size='14px'
             weight={600}
+            color='white'
             onClick={() => {
               handleDismiss(announcement.id)
             }}
           />
         )}
-      </IconContainer>
+      </div>
     </Container>
   )
 }
