@@ -39,7 +39,7 @@ class ServiceAnnouncement extends React.PureComponent {
             {val.showAnnounce && (
               <Announcement
                 announcement={val.announcements[alertArea]}
-                language={val.language}
+                lang={val.language}
                 collapsed={val.collapsed}
                 handleDismiss={this.handleDismiss}
                 toggleCollapse={this.toggleCollapse}
