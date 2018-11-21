@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
+import { LinkContainer } from 'react-router-bootstrap'
 
 import { actions } from 'data'
 import { Button, Text } from 'blockchain-info-components'
@@ -54,12 +55,12 @@ const GetStartedButton = styled(Button).attrs({
   }
 `
 
-export const ExchangeByBlockchain = ({ verifyIdentity }) => (
+export const ExchangeByBlockchain = ({ kycNotFinished, verifyIdentity }) => (
   <Container>
     <Row marginBottom='24px'>
-      <Text color='brand-primary' size='18px' weight={600}>
+      <Text color='brand-primary' size='24px' weight={600}>
         <FormattedMessage
-          defaultMessage="We've improved our Exchange"
+          defaultMessage="We've improved your Exchange"
           id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.improved'
         />
       </Text>
@@ -77,14 +78,6 @@ export const ExchangeByBlockchain = ({ verifyIdentity }) => (
         <FormattedMessage
           defaultMessage='The faster, smarter way to trade your crypto.'
           id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.introducing'
-        />
-      </DarkText>
-    </Row>
-    <Row marginBottom='8px'>
-      <DarkText>
-        <FormattedMessage
-          defaultMessage='Upgrade now to enjoy the following benefits:'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.upgrade'
         />
       </DarkText>
     </Row>
@@ -142,12 +135,24 @@ export const ExchangeByBlockchain = ({ verifyIdentity }) => (
       </DarkText>
     </Row>
     <Row>
-      <GetStartedButton onClick={verifyIdentity}>
-        <FormattedMessage
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.started'
-          defaultMessage='Get Started'
-        />
-      </GetStartedButton>
+      {kycNotFinished && (
+        <GetStartedButton onClick={verifyIdentity}>
+          <FormattedMessage
+            id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.started'
+            defaultMessage='Get Started'
+          />
+        </GetStartedButton>
+      )}
+      {!kycNotFinished && (
+        <LinkContainer to='/exchange'>
+          <GetStartedButton>
+            <FormattedMessage
+              id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.gotoexchange'
+              defaultMessage='Go To Exchange'
+            />
+          </GetStartedButton>
+        </LinkContainer>
+      )}
     </Row>
   </Container>
 )

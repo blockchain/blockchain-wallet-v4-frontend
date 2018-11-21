@@ -36,7 +36,7 @@ export default ({ api, coreSagas, networks, options }) =>
     yield fork(btcTransactions())
     yield fork(ethTransactions())
     yield fork(xlmTransactions())
-    yield fork(exchange({ api, coreSagas, networks, options }))
+    yield fork(exchange({ api, coreSagas, networks }))
     yield fork(exchangeHistory({ api, coreSagas }))
     yield fork(identityVerification({ api, coreSagas }))
     yield fork(lockbox({ api, coreSagas }))
