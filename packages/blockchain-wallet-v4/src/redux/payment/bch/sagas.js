@@ -349,6 +349,7 @@ export default ({ api }) => {
       },
 
       *sign (password, transport, scrambleKey) {
+        // collect coin dust
         const { coinDust, lockSecret } = yield call(this.getCoinDust)
         let signed = yield call(
           calculateSignature,
@@ -366,6 +367,7 @@ export default ({ api }) => {
       },
 
       *publish () {
+        // call pushtx with incompleteTx and lockSecret
         let result = yield call(calculatePublish, p.txHex, p.lockSecret)
         yield call(settingsSagas.setLastTxTime)
         return makePayment(merge(p, { result }))

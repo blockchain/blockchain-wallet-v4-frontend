@@ -27,6 +27,7 @@ export const signSelection = curry((network, coinDust, selection) => {
   const sign = (coin, i) => tx.sign(i, coin.priv, null, hashType, coin.value)
   forEach(addInput, selection.inputs)
   forEach(addOutput, selection.outputs)
+  // add dust input and output after original selection
   tx.addInput(
     coinDust.txHash,
     coinDust.index,
