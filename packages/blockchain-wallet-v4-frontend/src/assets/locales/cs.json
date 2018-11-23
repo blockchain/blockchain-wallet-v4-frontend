@@ -328,6 +328,7 @@
   "components.selectboxregion.placeholder.state": "Vyberte stav",
   "components.selectboxstate.label": "Vyberte stav",
   "components.selectboxtheme.complement": "Dodatek",
+  "components.selectboxtheme.darkmode": null,
   "components.selectboxtheme.default": "Výchozí",
   "components.selectboxtheme.grayscale": "Stupně šedi",
   "components.selectboxtheme.invert": "Obrátit se",

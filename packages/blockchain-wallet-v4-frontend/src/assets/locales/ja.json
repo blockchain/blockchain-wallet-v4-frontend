@@ -328,6 +328,7 @@
   "components.selectboxregion.placeholder.state": "国を選択",
   "components.selectboxstate.label": "国を選択",
   "components.selectboxtheme.complement": "補完",
+  "components.selectboxtheme.darkmode": null,
   "components.selectboxtheme.default": "既定",
   "components.selectboxtheme.grayscale": "グレースケール",
   "components.selectboxtheme.invert": "反転",

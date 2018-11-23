@@ -328,6 +328,7 @@
   "components.selectboxregion.placeholder.state": "Välj land",
   "components.selectboxstate.label": "Välj land",
   "components.selectboxtheme.complement": "Komplement",
+  "components.selectboxtheme.darkmode": null,
   "components.selectboxtheme.default": "Standard",
   "components.selectboxtheme.grayscale": "Gråskala",
   "components.selectboxtheme.invert": "Invertera",

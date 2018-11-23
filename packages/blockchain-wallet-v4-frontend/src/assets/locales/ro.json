@@ -328,6 +328,7 @@
   "components.selectboxregion.placeholder.state": "Selectați țara",
   "components.selectboxstate.label": "Selectați țara",
   "components.selectboxtheme.complement": "Completare",
+  "components.selectboxtheme.darkmode": null,
   "components.selectboxtheme.default": "Mod implicit",
   "components.selectboxtheme.grayscale": "Alb-negru",
   "components.selectboxtheme.invert": "Inversare",

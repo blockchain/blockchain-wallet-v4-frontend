@@ -328,6 +328,7 @@
   "components.selectboxregion.placeholder.state": "Ülke seç",
   "components.selectboxstate.label": "Ülke seç",
   "components.selectboxtheme.complement": "Tamamlayıcı",
+  "components.selectboxtheme.darkmode": null,
   "components.selectboxtheme.default": "Varsayılan",
   "components.selectboxtheme.grayscale": "Gri Skala",
   "components.selectboxtheme.invert": "Çevir",

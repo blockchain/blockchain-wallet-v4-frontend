@@ -328,6 +328,7 @@
   "components.selectboxregion.placeholder.state": "Виберіть стан",
   "components.selectboxstate.label": "Виберіть стан",
   "components.selectboxtheme.complement": "Доповнення",
+  "components.selectboxtheme.darkmode": null,
   "components.selectboxtheme.default": "За замовчуванням",
   "components.selectboxtheme.grayscale": "Градація сірого",
   "components.selectboxtheme.invert": "Інвертувати",

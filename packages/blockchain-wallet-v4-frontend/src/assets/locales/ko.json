@@ -328,6 +328,7 @@
   "components.selectboxregion.placeholder.state": "국가 선택",
   "components.selectboxstate.label": "국가 선택",
   "components.selectboxtheme.complement": "보완",
+  "components.selectboxtheme.darkmode": null,
   "components.selectboxtheme.default": "디폴트",
   "components.selectboxtheme.grayscale": "흑백",
   "components.selectboxtheme.invert": "반전",

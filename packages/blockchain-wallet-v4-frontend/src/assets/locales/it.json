@@ -328,6 +328,7 @@
   "components.selectboxregion.placeholder.state": "Selezioni la nazione",
   "components.selectboxstate.label": "Selezioni la nazione",
   "components.selectboxtheme.complement": "Complemento",
+  "components.selectboxtheme.darkmode": null,
   "components.selectboxtheme.default": "Predefinito",
   "components.selectboxtheme.grayscale": "Toni di grigio",
   "components.selectboxtheme.invert": "Inverta",

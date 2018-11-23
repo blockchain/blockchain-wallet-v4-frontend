@@ -328,6 +328,7 @@
   "components.selectboxregion.placeholder.state": "Pilih keadaan",
   "components.selectboxstate.label": "Pilih keadaan",
   "components.selectboxtheme.complement": "Pelengkap",
+  "components.selectboxtheme.darkmode": null,
   "components.selectboxtheme.default": "Lalai",
   "components.selectboxtheme.grayscale": "Skala kelabu",
   "components.selectboxtheme.invert": "Invert",
