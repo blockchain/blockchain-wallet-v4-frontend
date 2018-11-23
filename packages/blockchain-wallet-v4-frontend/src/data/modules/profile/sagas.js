@@ -10,8 +10,6 @@ import * as S from './selectors'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
 
 export const logLocation = 'modules/profile/sagas'
-export const authCredentialsGenerationError =
-  'Failed to generate auth credentials'
 export const userRequiresRestoreError = 'User restored'
 export const authRetryDelay = 5000
 export const renewUserDelay = 30000
@@ -24,6 +22,10 @@ export default ({ api, coreSagas }) => {
       const xlmAccount = (yield select(
         selectors.core.kvStore.xlm.getDefaultAccountId
       )).getOrFail()
+      const campaignReferralData = (yield select(
+        selectors.components.identityVerification.getCampaignReferralData
+      )).getOrFail()
+      debugger
       return { 'x-campaign-address': xlmAccount }
     }
 

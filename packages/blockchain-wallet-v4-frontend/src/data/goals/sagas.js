@@ -15,7 +15,11 @@ export default ({ api }) => {
 
   const defineReferralGoal = function*(search) {
     const params = new URLSearchParams(search)
-    const data = { campaignName: params.get('campaign') }
+    const data = {
+      campaignName: params.get('campaign'),
+      campaignCode: params.get('campaign_code'),
+      campaignEmail: params.get('campaign_email')
+    }
     yield put(actions.goals.saveGoal('referral', data))
     const destination = params.get('newUser') ? '/signup' : '/login'
     yield put(actions.router.push(destination))
