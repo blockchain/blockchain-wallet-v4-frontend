@@ -28,7 +28,6 @@ export default ({
   const createUser = (retailToken, campaignName, campaignData) => {
     const headers = campaignName ? { 'X-CAMPAIGN': campaignName } : null
     const metaData = campaignName ? { ...campaignData } : {}
-    console.info('HERE:', metaData)
     return post({
       url: nabuUrl,
       endPoint: '/users',

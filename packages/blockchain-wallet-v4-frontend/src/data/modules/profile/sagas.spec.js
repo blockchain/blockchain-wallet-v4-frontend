@@ -107,8 +107,10 @@ const stubbedSignin = expectSaga(signIn).provide([
   ],
   [fork.fn(renewSession), jest.fn()]
 ])
+
 const stubbedCreateUser = expectSaga(createUser).provide([
   [select(S.getApiToken), Remote.NotAsked],
+  [select(S.getCampaign), {}],
   [select(selectors.core.wallet.getGuid), stubGuid],
   [select(selectors.core.settings.getEmail), Remote.of(stubEmail)],
   [
@@ -330,6 +332,7 @@ describe('create user credentials saga', () => {
   it('should select guid from wallet, email form settings, user id and lifetime token from kvStore and call startSession', () =>
     stubbedCreateUser
       .select(S.getApiToken)
+      .select(S.getCampaign)
       .select(selectors.core.settings.getEmail)
       .select(selectors.core.wallet.getGuid)
       .select(selectors.core.kvStore.userCredentials.getUserId)
@@ -347,6 +350,7 @@ describe('create user credentials saga', () => {
     return expectSaga(createUser)
       .provide([
         [select(S.getApiToken), Remote.NotAsked],
+        [select(S.getCampaign), {}],
         [select(selectors.core.wallet.getGuid), stubGuid],
         [select(selectors.core.wallet.getSharedKey), stubSharedKey],
         [select(selectors.core.settings.getEmail), Remote.of(stubEmail)],
