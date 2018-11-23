@@ -1138,6 +1138,104 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "You're Almost There",
+        "id": "components.identityverification.popup.header.unverified"
+      },
+      {
+        "defaultMessage": "Account In Review",
+        "id": "components.identityverification.popup.header.inreview"
+      },
+      {
+        "defaultMessage": "Verification Under Review",
+        "id": "components.identityverification.popup.header.underreview"
+      },
+      {
+        "defaultMessage": "Verification Completed",
+        "id": "components.identityverification.popup.header.verified"
+      },
+      {
+        "defaultMessage": "Complete your profile and identity verification to start buying and selling. Don’t worry, we only need a couple more details.",
+        "id": "components.identityverification.popup.note.unverified"
+      },
+      {
+        "defaultMessage": "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to trade cryptocurrency,",
+        "id": "components.identityverification.popup.note.inreview"
+      },
+      {
+        "defaultMessage": "We had some trouble verifying your account with the documents provided. Our Support team will contact you shortly to help you with the verification process.",
+        "id": "components.identityverification.popup.note.underreview"
+      },
+      {
+        "defaultMessage": "Good news – your account is verified. You can now buy, sell, and exchange cryptocurrency at any time.",
+        "id": "components.identityverification.popup.note.verified"
+      },
+      {
+        "defaultMessage": "Verify My Identity",
+        "id": "components.identityverification.popup.button.verify"
+      },
+      {
+        "defaultMessage": "Check Your Application Status",
+        "id": "components.identityverification.popup.button.checkstatus"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "components.identityverification.popup.button.getstarted"
+      }
+    ],
+    "path": "src/components/IdentityVerification/Popup.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "You're Almost There",
+        "id": "components.identityverification.popup.header.unverified"
+      },
+      {
+        "defaultMessage": "Account In Review",
+        "id": "components.identityverification.popup.header.inreview"
+      },
+      {
+        "defaultMessage": "Verification Under Review {icon}",
+        "id": "components.identityverification.popup.header.underreview"
+      },
+      {
+        "defaultMessage": "Verification Completed",
+        "id": "components.identityverification.popup.header.verified"
+      },
+      {
+        "defaultMessage": "Complete your profile and identity verification to start buying and selling. Don’t worry, we only need a couple more details.",
+        "id": "components.identityverification.popup.note.unverified"
+      },
+      {
+        "defaultMessage": "We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to trade cryptocurrency,",
+        "id": "components.identityverification.popup.note.inreview"
+      },
+      {
+        "defaultMessage": "We had some trouble verifying your account with the documents provided. Our Support team will contact you shortly to help you with the verification process.",
+        "id": "components.identityverification.popup.note.underreview"
+      },
+      {
+        "defaultMessage": "Good news – your account is verified. You can now buy, sell, and exchange cryptocurrency at any time.",
+        "id": "components.identityverification.popup.note.verified"
+      },
+      {
+        "defaultMessage": "Verify My Identity",
+        "id": "components.identityverification.popup.button.verify"
+      },
+      {
+        "defaultMessage": "Check Your Application Status",
+        "id": "components.identityverification.popup.button.checkstatus"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "components.identityverification.popup.button.getstarted"
+      }
+    ],
+    "path": "src/components/IdentityVerification/Popup/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Complete",
         "id": "scenes.exchangehistory.list.orderstatus.complete"
       },
@@ -5955,7 +6053,7 @@
         "id": "modals.lockboxsetup.authenticitystep.title"
       },
       {
-        "defaultMessage": "When prompted on your Lockbox, tap the RIGHT button to let your device connect to your Blockchain Web Wallet.",
+        "defaultMessage": "When prompted on your Lockbox, tap the RIGHT button to let your device connect to your Blockchain Web Wallet. This may take a few moments.",
         "id": "modals.lockboxsetup.authenticitystep.content"
       },
       {
@@ -6364,7 +6462,7 @@
         "id": "modals.lockboxsetup.authenticitystep.title"
       },
       {
-        "defaultMessage": "On your Lockbox, tap the RIGHT button to let your Lockbox connect to your Blockchain wallet.",
+        "defaultMessage": "When prompted on your Lockbox, tap the RIGHT button to let your device connect to your Blockchain Web Wallet. This may take a few moments.",
         "id": "modals.lockboxsetup.authenticitystep.content"
       },
       {
@@ -6473,7 +6571,7 @@
         "id": "modals.lockboxsetup.openbtcappstep.explanation"
       },
       {
-        "defaultMessage": "Select \"Bitcoin\" from the picker.",
+        "defaultMessage": "Now let’s select the Bitcoin app on your Lockbox.",
         "id": "modals.lockboxsetup.openbtcappstep.selection"
       },
       {
