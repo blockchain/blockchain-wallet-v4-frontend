@@ -15,12 +15,13 @@ export default ({ api }) => {
 
   const defineReferralGoal = function*(search) {
     const params = new URLSearchParams(search)
-    const data = {
-      campaignName: params.get('campaign'),
-      campaignCode: params.get('campaign_code'),
-      campaignEmail: params.get('campaign_email')
-    }
-    yield put(actions.goals.saveGoal('referral', data))
+    yield put(
+      actions.goals.saveGoal('referral', {
+        name: params.get('campaign'),
+        code: params.get('campaign_code'),
+        email: params.get('campaign_email')
+      })
+    )
     const destination = params.get('newUser') ? '/signup' : '/login'
     yield put(actions.router.push(destination))
   }
@@ -90,10 +91,10 @@ export default ({ api }) => {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
 
-    switch (data.campaignName) {
+    switch (data.name) {
       case 'sunriver':
         yield put(actions.goals.addInitialModal('sunriver', 'SunRiverWelcome'))
-        yield put(actions.modules.profile.setCampaign('sunriver'))
+        yield put(actions.modules.profile.setCampaign(data))
         break
       default:
         break

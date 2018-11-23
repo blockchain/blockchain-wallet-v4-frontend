@@ -52,16 +52,15 @@ export default ({ api, coreSagas }) => {
   })
 
   const registerUserCampaign = function*(newUser = false) {
-    const campaignName = yield select(selectors.modules.profile.getCampaign)
-    const campaignData = yield call(getCampaignData, campaignName)
+    const campaign = yield select(selectors.modules.profile.getCampaign)
+    const campaignData = yield call(getCampaignData, campaign)
     const token = (yield select(
       selectors.modules.profile.getApiToken
     )).getOrFail()
-
     yield call(
       api.registerUserCampaign,
       token,
-      campaignName,
+      campaign.name,
       campaignData,
       newUser
     )

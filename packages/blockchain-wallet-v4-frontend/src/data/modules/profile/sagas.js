@@ -17,16 +17,16 @@ export const renewUserDelay = 30000
 let renewSessionTask = null
 let renewUserTask = null
 export default ({ api, coreSagas }) => {
-  const getCampaignData = function*(campaignName) {
-    if (campaignName === 'sunriver') {
+  const getCampaignData = function*(campaign) {
+    if (campaign.name === 'sunriver') {
       const xlmAccount = (yield select(
         selectors.core.kvStore.xlm.getDefaultAccountId
       )).getOrFail()
-      const campaignReferralData = (yield select(
-        selectors.components.identityVerification.getCampaignReferralData
-      )).getOrFail()
-      debugger
-      return { 'x-campaign-address': xlmAccount }
+      return {
+        'x-campaign-address': xlmAccount,
+        'x-campaign-code': campaign.code,
+        'x-campaign-email': campaign.email
+      }
     }
 
     return null
@@ -203,8 +203,8 @@ export default ({ api, coreSagas }) => {
     const token = yield select(S.getApiToken)
     if (!Remote.NotAsked.is(token)) return
 
-    const campaignName = yield select(S.getCampaign)
-    const campaignData = yield call(getCampaignData, campaignName)
+    const campaign = yield select(S.getCampaign)
+    const campaignData = yield call(getCampaignData, campaign)
 
     const userIdR = yield select(
       selectors.core.kvStore.userCredentials.getUserId
@@ -223,7 +223,7 @@ export default ({ api, coreSagas }) => {
       .map(authCredentials => {
         const { userId, lifetimeToken } = authCredentials
         if (!userId || !lifetimeToken)
-          return call(generateAuthCredentials, campaignName, campaignData)
+          return call(generateAuthCredentials, campaign.name, campaignData)
         return authCredentials
       })
       .getOrElse({})
