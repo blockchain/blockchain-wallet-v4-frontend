@@ -10,6 +10,14 @@ const StyledSelect = styled(Select)`
   font-family: 'Montserrat', sans-serif;
   font-size: ${props => (props.fontSize === 'small' ? '12px' : '14px')};
 
+  .bc__menu {
+    background-color: ${props => props.theme['white']};
+  }
+
+  .bc__group-heading {
+    color: ${props => props.theme['gray-3']};
+  }
+
   .bc__control {
     box-shadow: none;
     color: ${props => props.theme['gray-5']};
@@ -59,6 +67,10 @@ const StyledSelect = styled(Select)`
     * {
       color: ${props => props.theme['gray-5']};
     }
+  }
+
+  .bc__single-value {
+    color: ${props => props.theme['gray-5']};
   }
 `
 
