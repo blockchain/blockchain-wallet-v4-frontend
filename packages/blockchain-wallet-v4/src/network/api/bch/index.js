@@ -67,7 +67,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   const getBchDust = () =>
     get({
       url: apiUrl,
-      endPoint: '/dust'
+      endPoint: '/bch/dust'
     })
 
   return {
