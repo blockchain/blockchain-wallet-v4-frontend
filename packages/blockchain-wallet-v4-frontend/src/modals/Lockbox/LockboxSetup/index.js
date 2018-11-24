@@ -50,7 +50,6 @@ class LockboxSetupContainer extends React.PureComponent {
       currentStep && currentStep.step
         ? steps[currentStep.step]
         : steps['setup-type']
-    // console.info(setupType, steps, currentStep, step)
 
     return (
       <LockboxSetup
