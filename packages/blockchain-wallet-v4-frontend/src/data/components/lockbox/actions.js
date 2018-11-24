@@ -41,26 +41,15 @@ export const setDeviceTargetId = targetId => ({
 export const initializeNewDeviceSetup = () => ({
   type: AT.INITIALIZE_NEW_DEVICE_SETUP
 })
-
-// CREATE
 export const changeDeviceSetupStep = (step, done, error) => ({
   type: AT.SET_NEW_DEVICE_SETUP_STEP,
   payload: { step, done, error }
 })
-export const checkDeviceAuthenticity = () => ({
-  type: AT.CHECK_DEVICE_AUTHENTICITY
+export const setDeviceSetupType = type => ({
+  type: AT.SET_DEVICE_SETUP_TYPE,
+  payload: type
 })
-export const checkDeviceAuthenticityLoading = () => ({
-  type: AT.CHECK_DEVICE_AUTHENTICITY_LOADING
-})
-export const checkDeviceAuthenticityFailure = failure => ({
-  type: AT.CHECK_DEVICE_AUTHENTICITY_FAILURE,
-  payload: { failure }
-})
-export const checkDeviceAuthenticitySuccess = isAuthentic => ({
-  type: AT.CHECK_DEVICE_AUTHENTICITY_SUCCESS,
-  payload: { isAuthentic }
-})
+
 export const setNewDeviceInfo = deviceInfo => ({
   type: AT.SET_NEW_DEVICE_INFO,
   payload: { deviceInfo }
@@ -78,6 +67,21 @@ export const saveNewDeviceKvStoreSuccess = () => ({
 export const saveNewDeviceKvStoreFailure = payload => ({
   type: AT.SAVE_NEW_DEVICE_KVSTORE_FAILURE,
   payload
+})
+// NEW DEVICE AUTHENTICITY
+export const checkDeviceAuthenticity = () => ({
+  type: AT.CHECK_DEVICE_AUTHENTICITY
+})
+export const checkDeviceAuthenticityLoading = () => ({
+  type: AT.CHECK_DEVICE_AUTHENTICITY_LOADING
+})
+export const checkDeviceAuthenticityFailure = failure => ({
+  type: AT.CHECK_DEVICE_AUTHENTICITY_FAILURE,
+  payload: { failure }
+})
+export const checkDeviceAuthenticitySuccess = isAuthentic => ({
+  type: AT.CHECK_DEVICE_AUTHENTICITY_SUCCESS,
+  payload: { isAuthentic }
 })
 
 // UPDATE

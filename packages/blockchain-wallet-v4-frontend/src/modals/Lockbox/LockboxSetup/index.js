@@ -21,7 +21,7 @@ class LockboxSetupContainer extends React.PureComponent {
   }
 
   render () {
-    const { currentStep, position, total, closeAll } = this.props
+    const { currentStep, position, total, closeAll, setupType } = this.props
     const steps = {
       'setup-type': 0,
       'connect-device': 1,
@@ -61,7 +61,8 @@ LockboxSetupContainer.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  currentStep: selectors.components.lockbox.getNewDeviceSetupStep(state)
+  currentStep: selectors.components.lockbox.getNewDeviceSetupStep(state),
+  setupType: selectors.components.lockbox.getNewDeviceSetupType(state)
 })
 
 const mapDispatchToProps = dispatch => ({

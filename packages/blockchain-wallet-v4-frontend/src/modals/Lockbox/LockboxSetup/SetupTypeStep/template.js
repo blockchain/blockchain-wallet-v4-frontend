@@ -11,7 +11,7 @@ const Title = styled.div`
 const Content = styled.div`
   display: flex;
   flex-direction: column;
-  width: 350px;
+  width: 375px;
 `
 const Row = styled.div`
   width: 100%;
@@ -40,7 +40,7 @@ const LeftColumn = styled.div`
   align-items: center;
   margin: 0 20px;
   & > :last-child {
-    padding-left: 15px;
+    padding-left: 20px;
   }
 `
 const RightColumn = styled.div`
