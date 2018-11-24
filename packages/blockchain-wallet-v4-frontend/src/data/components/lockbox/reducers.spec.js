@@ -13,7 +13,8 @@ const INITIAL_STATE = {
   },
   newDeviceSetup: {
     device: Remote.NotAsked,
-    isAuthentic: Remote.NotAsked
+    isAuthentic: Remote.NotAsked,
+    setupType: null
   }
 }
 
