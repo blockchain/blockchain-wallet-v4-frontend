@@ -39,7 +39,8 @@ const {
   setSession,
   renewApiSockets,
   renewSession,
-  recoverUser
+  recoverUser,
+  getCampaignData
 } = sagas({
   api,
   coreSagas
@@ -86,6 +87,11 @@ const newAddress = {
   country: 'United Kingdom',
   state: 'England',
   postCode: 'E145AX'
+}
+const stubCampaign = {
+  name: 'fake-campaign',
+  code: '123',
+  email: 'f@ke.com'
 }
 
 api.getUser.mockReturnValue(newUserData)
@@ -350,7 +356,7 @@ describe('create user credentials saga', () => {
     return expectSaga(createUser)
       .provide([
         [select(S.getApiToken), Remote.NotAsked],
-        [select(S.getCampaign), {}],
+        [select(S.getCampaign), stubCampaign],
         [select(selectors.core.wallet.getGuid), stubGuid],
         [select(selectors.core.wallet.getSharedKey), stubSharedKey],
         [select(selectors.core.settings.getEmail), Remote.of(stubEmail)],
@@ -364,7 +370,8 @@ describe('create user credentials saga', () => {
         ],
         [call.fn(setSession), jest.fn()]
       ])
-      .call(generateAuthCredentials, null, null)
+      .call(getCampaignData, stubCampaign)
+      .call(generateAuthCredentials, stubCampaign.name, null)
       .call(generateRetailToken)
       .select(selectors.core.wallet.getSharedKey)
       .call(setSession, stubUserId, stubLifetimeToken, stubEmail, stubGuid)
@@ -376,7 +383,11 @@ describe('create user credentials saga', () => {
           stubSharedKey
         )
         expect(api.createUser).toHaveBeenCalledTimes(1)
-        expect(api.createUser).toHaveBeenCalledWith(stubRetailToken, null, null)
+        expect(api.createUser).toHaveBeenCalledWith(
+          stubRetailToken,
+          stubCampaign.name,
+          null
+        )
       })
   })
 })
