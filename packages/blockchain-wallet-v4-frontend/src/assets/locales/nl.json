@@ -328,6 +328,7 @@
   "components.selectboxregion.placeholder.state": "Land selecteren",
   "components.selectboxstate.label": "Land selecteren",
   "components.selectboxtheme.complement": "Aanvulling",
+  "components.selectboxtheme.darkmode": null,
   "components.selectboxtheme.default": "Standaard",
   "components.selectboxtheme.grayscale": "Grayscale",
   "components.selectboxtheme.invert": "Omdraaien",

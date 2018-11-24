@@ -328,6 +328,7 @@
   "components.selectboxregion.placeholder.state": "Pilih negara",
   "components.selectboxstate.label": "Pilih negara",
   "components.selectboxtheme.complement": "Komplemen",
+  "components.selectboxtheme.darkmode": null,
   "components.selectboxtheme.default": "Default",
   "components.selectboxtheme.grayscale": "Grayscale",
   "components.selectboxtheme.invert": "Inversi",

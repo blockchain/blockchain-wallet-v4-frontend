@@ -328,6 +328,7 @@
   "components.selectboxregion.placeholder.state": "เลือกประเทศ",
   "components.selectboxstate.label": "เลือกประเทศ",
   "components.selectboxtheme.complement": "ส่วนเติมเต็ม",
+  "components.selectboxtheme.darkmode": null,
   "components.selectboxtheme.default": "ค่าเริ่มต้น",
   "components.selectboxtheme.grayscale": "สเกลสีเทา",
   "components.selectboxtheme.invert": "สับเปลี่ยน",

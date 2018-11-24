@@ -328,6 +328,7 @@
   "components.selectboxregion.placeholder.state": "Выбрать страну",
   "components.selectboxstate.label": "Выбрать страну",
   "components.selectboxtheme.complement": "Дополнение",
+  "components.selectboxtheme.darkmode": null,
   "components.selectboxtheme.default": "По умолчанию",
   "components.selectboxtheme.grayscale": "Оттенки серого",
   "components.selectboxtheme.invert": "Перевернуть",

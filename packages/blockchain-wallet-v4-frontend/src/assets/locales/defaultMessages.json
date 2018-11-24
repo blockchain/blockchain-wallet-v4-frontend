@@ -1006,6 +1006,10 @@
       {
         "defaultMessage": "Invert",
         "id": "components.selectboxtheme.invert"
+      },
+      {
+        "defaultMessage": "DarkMode",
+        "id": "components.selectboxtheme.darkmode"
       }
     ],
     "path": "src/components/Form/SelectBoxTheme/index.json"
@@ -5955,7 +5959,7 @@
         "id": "modals.lockboxsetup.authenticitystep.title"
       },
       {
-        "defaultMessage": "When prompted on your Lockbox, tap the RIGHT button to let your device connect to your Blockchain Web Wallet.",
+        "defaultMessage": "When prompted on your Lockbox, tap the RIGHT button to let your device connect to your Blockchain Web Wallet. This may take a few moments.",
         "id": "modals.lockboxsetup.authenticitystep.content"
       },
       {

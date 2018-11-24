@@ -51,7 +51,7 @@ const BannerContainer = styled.div`
   .link {
     cursor: pointer;
     text-decoration: underline;
-    color: ${props => props.theme['brrand-primary']};
+    color: ${props => props.theme['brand-primary']};
   }
 `
 

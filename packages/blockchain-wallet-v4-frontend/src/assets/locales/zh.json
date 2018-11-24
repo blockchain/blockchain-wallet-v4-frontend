@@ -328,6 +328,7 @@
   "components.selectboxregion.placeholder.state": null,
   "components.selectboxstate.label": "选择国家",
   "components.selectboxtheme.complement": "补足",
+  "components.selectboxtheme.darkmode": null,
   "components.selectboxtheme.default": "默认",
   "components.selectboxtheme.grayscale": "灰度",
   "components.selectboxtheme.invert": "反转",

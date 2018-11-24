@@ -328,6 +328,7 @@
   "components.selectboxregion.placeholder.state": "Selecione o país",
   "components.selectboxstate.label": "Selecione o país",
   "components.selectboxtheme.complement": "Complemento",
+  "components.selectboxtheme.darkmode": null,
   "components.selectboxtheme.default": "Padrão",
   "components.selectboxtheme.grayscale": "Escala de cinza",
   "components.selectboxtheme.invert": "Inverter",
