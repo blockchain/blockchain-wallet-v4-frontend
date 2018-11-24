@@ -6,7 +6,7 @@ import { actions } from 'data'
 import SetupTypeStep from './template'
 
 class SetupTypeStepContainer extends React.PureComponent {
-  onChangeStep = (setupType) => {
+  onChangeStep = setupType => {
     this.props.lockboxActions.changeDeviceSetupStep('connect-device')
     this.props.lockboxActions.setDeviceSetupType(setupType)
   }
