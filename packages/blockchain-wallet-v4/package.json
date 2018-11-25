@@ -12,6 +12,7 @@
   "scripts": {
     "ci:test": "yarn test --runInBand",
     "ci:coverage:core": "yarn coverage --runInBand",
+    "clean": "cross-env rimraf node_modules && rimraf lib",
     "compile": "babel -d lib/ --ignore spec.js src/ --copy-files",
     "coverage": "cross-env ./../../node_modules/.bin/jest --coverage",
     "link:resolved:paths": "ln -sf $(pwd)/src/** ./node_modules && ln -sf $(pwd)/../../packages/blockchain-wallet-v4-frontend ./node_modules",

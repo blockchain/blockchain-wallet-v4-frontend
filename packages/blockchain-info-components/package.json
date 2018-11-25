@@ -12,6 +12,7 @@
   "scripts": {
     "ci:test": "yarn test --runInBand",
     "ci:coverage:components": "yarn coverage --runInBand",
+    "clean": "cross-env rimraf node_modules && rimraf lib",
     "coverage": "cross-env ./../../node_modules/.bin/jest --coverage",
     "deploy-storybook": "storybook-to-ghpages",
     "publish": "rm -rf lib && babel --out-dir lib --ignore spec.js --copy-files src",
