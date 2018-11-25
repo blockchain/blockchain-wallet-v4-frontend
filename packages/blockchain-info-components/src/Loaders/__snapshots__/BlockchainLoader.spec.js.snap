@@ -1,36 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`BlockchainLoader component default renders correctly 1`] = `
-<styled.div
+<BlockchainLoader__Wrapper
   height="10px"
   width="10px"
 >
-  <styled.div>
-    <styled.div />
-    <styled.div />
-    <styled.div />
-    <styled.div />
-    <styled.div />
-    <styled.div />
-    <styled.div />
-    <styled.div />
-    <styled.div />
-    <styled.div />
-    <styled.div />
-    <styled.div />
-    <styled.div />
-    <styled.div />
-    <styled.div />
-    <styled.div />
-    <styled.div />
-    <styled.div />
-    <styled.div />
-    <styled.div />
-    <styled.div />
-    <styled.div />
-    <styled.div />
-    <styled.div />
-    <styled.div />
-  </styled.div>
-</styled.div>
+  <BlockchainLoader__Container>
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+    <BlockchainLoader__Square />
+  </BlockchainLoader__Container>
+</BlockchainLoader__Wrapper>
 `;

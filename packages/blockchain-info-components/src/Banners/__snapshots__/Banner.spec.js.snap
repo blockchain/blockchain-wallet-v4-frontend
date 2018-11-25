@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Banner component type alert renders correctly 1`] = `
-<styled.div
+<Banner__Container
   color="brand-secondary"
 >
   <Icon
@@ -19,11 +19,11 @@ exports[`Banner component type alert renders correctly 1`] = `
   >
     ALERT
   </Styled(Text)>
-</styled.div>
+</Banner__Container>
 `;
 
 exports[`Banner component type caution renders correctly 1`] = `
-<styled.div
+<Banner__Container
   color="brand-yellow"
   width="130%"
 >
@@ -42,11 +42,11 @@ exports[`Banner component type caution renders correctly 1`] = `
   >
     ALERT
   </Styled(Text)>
-</styled.div>
+</Banner__Container>
 `;
 
 exports[`Banner component type standard renders correctly 1`] = `
-<styled.div
+<Banner__Container
   color="brand-secondary"
 >
   <Styled(Text)
@@ -57,11 +57,11 @@ exports[`Banner component type standard renders correctly 1`] = `
   >
     STANDARD
   </Styled(Text)>
-</styled.div>
+</Banner__Container>
 `;
 
 exports[`Banner component type success renders correctly 1`] = `
-<styled.div
+<Banner__Container
   color="success"
 >
   <Icon
@@ -79,11 +79,11 @@ exports[`Banner component type success renders correctly 1`] = `
   >
     SUCCESS
   </Styled(Text)>
-</styled.div>
+</Banner__Container>
 `;
 
 exports[`Banner component type warning renders correctly 1`] = `
-<styled.div
+<Banner__Container
   color="error"
 >
   <Icon
@@ -101,5 +101,5 @@ exports[`Banner component type warning renders correctly 1`] = `
   >
     WARNING
   </Styled(Text)>
-</styled.div>
+</Banner__Container>
 `;

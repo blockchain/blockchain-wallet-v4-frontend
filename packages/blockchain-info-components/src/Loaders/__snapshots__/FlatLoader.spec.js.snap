@@ -1,24 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FlatLoader component default renders correctly 1`] = `
-<styled.div
+<FlatLoader__Container
   height="10px"
   width="10px"
 >
-  <Styled(styled.div)
+  <Styled(FlatLoader__Rectangle)
     color="brand-primary"
   />
-  <Styled(styled.div)
+  <Styled(FlatLoader__Rectangle)
     color="brand-primary"
   />
-  <Styled(styled.div)
+  <Styled(FlatLoader__Rectangle)
     color="brand-primary"
   />
-  <Styled(styled.div)
+  <Styled(FlatLoader__Rectangle)
     color="brand-primary"
   />
-  <Styled(styled.div)
+  <Styled(FlatLoader__Rectangle)
     color="brand-primary"
   />
-</styled.div>
+</FlatLoader__Container>
 `;
