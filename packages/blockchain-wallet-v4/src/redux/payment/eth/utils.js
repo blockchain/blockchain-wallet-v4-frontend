@@ -1,4 +1,4 @@
-import { select } from 'redux-saga'
+import { select } from 'redux-saga/effects'
 import * as S from '../../selectors'
 
 // TODO: Better way to test that ?
