@@ -1,7 +1,7 @@
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { lift, memoize } from 'ramda'
+import { lift, memoizeWith } from 'ramda'
 
-export const getData = memoize((coin, amount) => {
+export const getData = memoizeWith((coin, amount) => {
   const convert = (c, a) => {
     switch (c) {
       case 'ETH':
