@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Link from './template'
@@ -7,7 +7,7 @@ import { merge, path, append, prop, head } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { getData } from './selectors';
 
-class LinkContainer extends Component {
+class LinkContainer extends PureComponent {
   state = {
     enablePlaid: false,
     id: '',

@@ -262,9 +262,9 @@ const BankLink = props => {
 
   const helpersHelper = () => {
     if (selectBank) {
-      return <React.Fragment>{renderFaq(selectBankQuestions)}</React.Fragment>
+      return <Fragment>{renderFaq(selectBankQuestions)}</Fragment>
     }
-    return <React.Fragment>{renderFaq(faqQuestions)}</React.Fragment>
+    return <Fragment>{renderFaq(faqQuestions)}</Fragment>
   }
 
   const buttonHelper = () => {
