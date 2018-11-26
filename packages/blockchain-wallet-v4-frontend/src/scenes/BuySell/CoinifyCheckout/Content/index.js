@@ -2,11 +2,14 @@ import React from 'react'
 import Buy from './Buy'
 import Sell from './Sell'
 import OrderHistory from './OrderHistory'
+import EmailVerification from './EmailVerification'
 
 class Checkout extends React.Component {
   render () {
-    const { type } = this.props
+    const { type, countrySelection } = this.props
     switch (type) {
+      case 'emailVerify':
+        return <EmailVerification country={countrySelection} />
       case 'buy':
         return <Buy />
       case 'sell':
