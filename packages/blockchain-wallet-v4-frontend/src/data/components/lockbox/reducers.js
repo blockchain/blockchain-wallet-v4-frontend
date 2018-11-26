@@ -59,6 +59,13 @@ export default (state = INITIAL_STATE, action) => {
         state
       )
     }
+    case AT.RESET_DEVICE_AUTHENTICITY: {
+      return assocPath(
+        ['newDeviceSetup', 'isAuthentic'],
+        Remote.NotAsked,
+        state
+      )
+    }
     case AT.SET_FIRMWARE_UPDATE_STEP: {
       return assoc('firmware', payload.step, state)
     }

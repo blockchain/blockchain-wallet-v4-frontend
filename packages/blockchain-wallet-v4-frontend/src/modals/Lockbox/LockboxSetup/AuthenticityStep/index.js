@@ -9,6 +9,10 @@ class AuthenticityStepContainer extends React.PureComponent {
     this.props.analytics.logLockboxSetup('verify_device')
   }
 
+  componentWillUnmount () {
+    this.props.lockboxActions.resetDeviceAuthenticity()
+  }
+
   changeDeviceSetupStep = () => {
     this.props.setupType === 'new'
       ? this.props.lockboxActions.changeDeviceSetupStep('install-btc-app')

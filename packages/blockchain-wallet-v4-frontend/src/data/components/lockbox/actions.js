@@ -68,6 +68,7 @@ export const saveNewDeviceKvStoreFailure = payload => ({
   type: AT.SAVE_NEW_DEVICE_KVSTORE_FAILURE,
   payload
 })
+
 // NEW DEVICE AUTHENTICITY
 export const checkDeviceAuthenticity = () => ({
   type: AT.CHECK_DEVICE_AUTHENTICITY
@@ -82,6 +83,9 @@ export const checkDeviceAuthenticityFailure = failure => ({
 export const checkDeviceAuthenticitySuccess = isAuthentic => ({
   type: AT.CHECK_DEVICE_AUTHENTICITY_SUCCESS,
   payload: { isAuthentic }
+})
+export const resetDeviceAuthenticity = () => ({
+  type: AT.RESET_DEVICE_AUTHENTICITY
 })
 
 // UPDATE
