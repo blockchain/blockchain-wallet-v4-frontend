@@ -102,10 +102,12 @@ const SelectPartner = props => {
       props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
     }
     if (coinifyCountries.includes(country)) {
-      props.modalActions.showModal('CoinifyExchangeData', {
-        step: 'account',
-        country
-      })
+      // props.modalActions.showModal('CoinifyExchangeData', {
+      //   step: 'account',
+      //   country
+      // })
+      // for homebrew, do not open modal, but go to email verification flow not in modal
+      props.triggerCoinifyEmailVerification(country)
     }
   }
 

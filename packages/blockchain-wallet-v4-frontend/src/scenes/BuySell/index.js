@@ -47,6 +47,11 @@ class BuySellContainer extends React.PureComponent {
     this.submitEmail = this.submitEmail.bind(this)
   }
 
+  state = {
+    doCoinifyHomebrewFlow: false,
+    countrySelection: null
+  }
+
   componentDidMount () {
     this.props.formActions.initialize('buySellTabStatus', { status: 'buy' })
     this.props.data.map(data =>
@@ -56,6 +61,10 @@ class BuySellContainer extends React.PureComponent {
         data.countryCode
       )
     )
+  }
+
+  triggerCoinifyEmailVerification = (country) => {
+    this.setState({doCoinifyHomebrewFlow: true, countrySelection: country})
   }
 
   /**
@@ -89,6 +98,7 @@ class BuySellContainer extends React.PureComponent {
           value={buySell}
           onSubmit={this.onSubmit}
           submitEmail={this.submitEmail}
+          triggerCoinifyEmailVerification={this.triggerCoinifyEmailVerification}
           {...this.props}
         />
       ),
@@ -116,6 +126,10 @@ class BuySellContainer extends React.PureComponent {
 
   render () {
     const { data, fields } = this.props
+
+    if (this.state.doCoinifyHomebrewFlow) {
+      return <CoinifyCheckout type={'emailVerify'} countrySelection={this.state.countrySelection} />
+    }
 
     const view = data.cata({
       Success: value =>
