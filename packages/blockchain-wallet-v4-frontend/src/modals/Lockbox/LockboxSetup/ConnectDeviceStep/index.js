@@ -18,6 +18,7 @@ class ConnectDeviceStepContainer extends React.PureComponent {
     return (
       <Template
         isConnected={this.props.connection.app}
+        isNewSetup={this.props.setupType === 'new'}
         handleStepChange={this.changeDeviceSetupStep}
       />
     )
