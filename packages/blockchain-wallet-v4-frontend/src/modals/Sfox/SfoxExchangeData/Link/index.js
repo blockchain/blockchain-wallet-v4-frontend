@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Link from './template'
 import { actions } from 'data'
-import { merge, path, append, prop, head } from 'ramda'
+import { merge, path, prop, head } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { getData } from './selectors';
 
@@ -59,8 +59,8 @@ class LinkContainer extends PureComponent {
   }
 
   submitMicroDeposits = () => {
-    const amount1 = parseFloat(this.props.data.deposit1)
-    const amount2 = parseFloat(this.props.data.deposit2)
+    const amount1 = parseFloat(this.props.deposit1)
+    const amount2 = parseFloat(this.props.deposit2)
     this.props.sfoxFrontendActions.submitMicroDeposits({ amount1, amount2 })
   }
 
@@ -83,8 +83,8 @@ class LinkContainer extends PureComponent {
       const bankChoice = merge(
         {
           id: this.state.id,
-          firstname: this.props.data.accountHolderFirst,
-          lastname: this.props.data.accountHolderLast
+          firstname: this.props.accountHolderFirst,
+          lastname: this.props.accountHolderLast
         },
         { token: this.state.token }
       )
@@ -93,10 +93,9 @@ class LinkContainer extends PureComponent {
   }
 
   render () {
-    const { data, sfoxFrontendActions, plaidBaseUrl, plaidKey, plaidEnv } = this.props
-    const { accounts, bankAccounts, busyStatus } = data
+    const { sfoxFrontendActions, modalActions, accounts, bankAccounts, busyStatus, plaidBaseUrl, plaidKey, plaidEnv } = this.props
     const { sfoxNotAsked } = sfoxFrontendActions
-    const { showModal } = this.props.modalActions
+    const { showModal } = modalActions
     const plaidUrl = `${plaidBaseUrl}/wallet-helper/plaid/#/key/${plaidKey}/env/${plaidEnv}`
 
     let awaitingDeposits = false
@@ -148,23 +147,7 @@ class LinkContainer extends PureComponent {
   }
 }
 
-const basePath = [
-  'walletOptionsPath',
-  'data',
-  'platforms',
-  'web',
-  'sfox',
-  'config'
-]
-const plaidPath = append('plaid', basePath)
-const plaidEnvPath = append('plaidEnv', basePath)
-
-const mapStateToProps = state => ({
-  plaidKey: path(plaidPath, state),
-  plaidEnv: path(plaidEnvPath, state),
-  plaidBaseUrl: path(['walletOptionsPath', 'data', 'domains', 'walletHelper'], state),
-  data: getData(state)
-})
+const mapStateToProps = getData
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
