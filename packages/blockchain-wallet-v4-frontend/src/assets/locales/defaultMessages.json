@@ -583,6 +583,40 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Confirm your email address to properly secure your account",
+        "id": "layouts.wallet.header.announcements.emailreminder"
+      },
+      {
+        "defaultMessage": "- An email was sent to {email}",
+        "id": "layouts.wallet.header.announcements.emailreminder.emailsent"
+      },
+      {
+        "defaultMessage": "Resend Email",
+        "id": "layouts.wallet.header.announcements.emailreminder.resend"
+      },
+      {
+        "defaultMessage": "Change Email",
+        "id": "layouts.wallet.header.announcements.emailreminder.change"
+      }
+    ],
+    "path": "src/components/Announcements/Static/template.email.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Complete your identity verification to claim your XLM.",
+        "id": "layouts.wallet.header.announcements.sunriverkycremdinder.title"
+      },
+      {
+        "defaultMessage": "Complete Now",
+        "id": "layouts.wallet.header.announcements.sunriverkycremdinder.completenow"
+      }
+    ],
+    "path": "src/components/Announcements/Static/template.sunriver.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Click here to add {coin} to your Blockchain Wallet",
         "id": "components.balances.savecoin"
       }
