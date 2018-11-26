@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled, { keyframes } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Icon, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
@@ -15,7 +15,9 @@ const reveal = keyframes`
   85% { top: 0; }
   100% { top: -30px; }
 `
-
+const revealAnimation = css`
+  ${reveal} 3s 1;
+`
 const Wrapper = styled.div`
   display: flex;
   padding: 12px 25px;
@@ -40,7 +42,7 @@ const Action = styled(Text)`
 `
 const EmailSentNotification = styled(Text)`
   &.active {
-    animation: ${reveal} 3s 1;
+    animation: ${revealAnimation};
   }
   position: relative;
   top: -30px;

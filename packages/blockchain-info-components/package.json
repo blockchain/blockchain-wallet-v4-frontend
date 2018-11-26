@@ -67,7 +67,7 @@
     "react-intl": "2.7.2",
     "react-onclickoutside": "6.7.1",
     "react-select": "2.1.2",
-    "styled-components": "3.3.2",
+    "styled-components": "4.1.1",
     "universal-cookie": "3.0.4"
   }
 }

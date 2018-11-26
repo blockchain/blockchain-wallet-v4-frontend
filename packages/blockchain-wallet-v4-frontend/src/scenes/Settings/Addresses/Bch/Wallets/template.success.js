@@ -19,7 +19,7 @@ import media from 'services/ResponsiveService'
 const Wrapper = styled.section`
   box-sizing: border-box;
 `
-const BchWalletsAddressesSettingHeader = SettingHeader.extend`
+const BchWalletsAddressesSettingHeader = styled(SettingHeader)`
   justify-content: flex-start;
 `
 const WalletTableCell = styled(TableCell)`
@@ -119,18 +119,17 @@ const Success = props => {
                   />
                 </ClickableText>
               ),
-              !isDefault &&
-                !isArchived && (
-                  <ClickableText
-                    size='small'
-                    onClick={() => onMakeDefault(wallet.value)}
-                  >
-                    <FormattedMessage
-                      id='scenes.settings.addresses.bch.make_default'
-                      defaultMessage='Make Default'
-                    />
-                  </ClickableText>
-                ),
+              !isDefault && !isArchived && (
+                <ClickableText
+                  size='small'
+                  onClick={() => onMakeDefault(wallet.value)}
+                >
+                  <FormattedMessage
+                    id='scenes.settings.addresses.bch.make_default'
+                    defaultMessage='Make Default'
+                  />
+                </ClickableText>
+              ),
               !isDefault &&
                 (isArchived ? (
                   <ClickableText

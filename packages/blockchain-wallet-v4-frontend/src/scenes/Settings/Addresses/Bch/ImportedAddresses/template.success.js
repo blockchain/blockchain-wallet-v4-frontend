@@ -15,7 +15,7 @@ import {
 const Wrapper = styled.section`
   box-sizing: border-box;
 `
-const ImportedAddressesSettingHeader = SettingHeader.extend`
+const ImportedAddressesSettingHeader = styled(SettingHeader)`
   justify-content: flex-start;
   margin-top: 30px;
 `

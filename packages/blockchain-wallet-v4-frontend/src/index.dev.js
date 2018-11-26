@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 
+import { IconGlobalStyles, FontGlobalStyles } from 'blockchain-info-components'
 import './favicons'
 import configureStore from 'store'
 import configureLocales from 'services/LocalesService'
@@ -15,6 +16,8 @@ const renderApp = (Component, store, history) => {
     ReactDOM.render(
       <AppContainer key={Math.random()} warnings={false}>
         <Component store={store} history={history} messages={messages} />
+        <IconGlobalStyles />
+        <FontGlobalStyles />
       </AppContainer>,
       document.getElementById('app')
     )
@@ -32,7 +35,14 @@ const renderApp = (Component, store, history) => {
 const renderError = e => {
   // eslint-disable-next-line no-console
   console.error(e)
-  ReactDOM.render(<Error />, document.getElementById('app'))
+  ReactDOM.render(
+    <React.Fragment>
+      <Error />
+      <IconGlobalStyles />
+      <FontGlobalStyles />
+    </React.Fragment>,
+    document.getElementById('app')
+  )
 }
 
 // =============================================================================
