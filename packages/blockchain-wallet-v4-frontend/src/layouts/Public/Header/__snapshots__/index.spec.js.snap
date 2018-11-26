@@ -20,5 +20,9 @@ exports[`Public Header Component should match snapshot 1`] = `
       </Component>
     </NavbarBrand>
   </Navbar>
+  <[object Object]
+    alertArea="public"
+    type="service"
+  />
 </Fragment>
 `;

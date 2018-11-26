@@ -3,7 +3,7 @@ import { shallow } from 'enzyme'
 import toJson from 'enzyme-to-json'
 import Header from './index'
 
-jest.mock('components/ServiceAnnouncement', () => ({
+jest.mock('components/Announcements', () => ({
   ServiceAnnouncement: ''
 }))
 jest.mock('blockchain-info-components', () => ({ Image: '', Link: '' }))
