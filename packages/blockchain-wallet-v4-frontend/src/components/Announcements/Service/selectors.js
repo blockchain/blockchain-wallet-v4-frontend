@@ -7,14 +7,11 @@ export const getData = (state, ownProps) =>
     [
       selectors.core.walletOptions.getAnnouncements,
       selectors.cache.getLastAnnouncementState,
-      selectors.preferences.getLanguage,
-      selectors.core.walletOptions.getBtcNetwork
+      selectors.preferences.getLanguage
     ],
-    (announcementsR, announcementCached, language, networkR) => {
+    (announcementsR, announcementCached, language) => {
       const announcements = announcementsR.getOrElse({})
-      const network = networkR.getOrElse('bitcoin')
       const announcement = prop(ownProps.alertArea, announcements)
-      const showTestnetWarning = network !== 'bitcoin'
       if (keys(announcement).length) {
         const announcement = announcements[ownProps.alertArea]
         const cachedState =
@@ -28,7 +25,6 @@ export const getData = (state, ownProps) =>
               ? cachedState.collapsed
               : false,
           language: language,
-          showTestnetWarning,
           showAnnounce: !isCacheLoaded
             ? false
             : announcementCached[announcement.id]
@@ -36,10 +32,7 @@ export const getData = (state, ownProps) =>
               : true
         }
       } else {
-        return {
-          announcements: {},
-          showTestnetWarning
-        }
+        return { announcements: {} }
       }
     }
   )(state, ownProps)

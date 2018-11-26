@@ -21,31 +21,14 @@ class ServiceAnnouncement extends React.PureComponent {
     const { alertArea, data } = this.props
     return data.cata({
       Success: val => {
-        return val.showTestnetWarning || val.showAnnounce ? (
-          <React.Fragment>
-            {val.showTestnetWarning && (
-              <Announcement
-                announcement={{
-                  header: {
-                    en:
-                      'Warning! This is the testnet3 blockchain. Testnet coins have no value.'
-                  },
-                  icon: 'alert-filled',
-                  sections: [],
-                  type: 'danger'
-                }}
-              />
-            )}
-            {val.showAnnounce && (
-              <Announcement
-                announcement={val.announcements[alertArea]}
-                lang={val.language}
-                collapsed={val.collapsed}
-                handleDismiss={this.handleDismiss}
-                toggleCollapse={this.toggleCollapse}
-              />
-            )}
-          </React.Fragment>
+        return val.showAnnounce ? (
+          <Announcement
+            announcement={val.announcements[alertArea]}
+            lang={val.language}
+            collapsed={val.collapsed}
+            handleDismiss={this.handleDismiss}
+            toggleCollapse={this.toggleCollapse}
+          />
         ) : null
       },
       Loading: () => <div />,
