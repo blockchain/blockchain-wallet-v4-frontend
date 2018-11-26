@@ -2,13 +2,19 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { BlockchainLoader, Text } from 'blockchain-info-components'
-import { LogoWrapper } from 'components/Public'
 
 const Wrapper = styled.div`
   display: flex;
   text-align: center;
   align-items: center;
   flex-direction: column;
+`
+const LogoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  > div:last-child {
+    margin-left: 15px;
+  }
 `
 
 const Loading = props => {

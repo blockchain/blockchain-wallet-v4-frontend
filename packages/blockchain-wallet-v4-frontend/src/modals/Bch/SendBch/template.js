@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import ServiceAnnouncement from 'components/ServiceAnnouncement'
+import Announcements from 'components/Announcements'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
 const SendBch = props => (
@@ -12,7 +12,7 @@ const SendBch = props => (
         defaultMessage='Send Bitcoin Cash'
       />
     </ModalHeader>
-    <ServiceAnnouncement alertArea='sendBch' />
+    <Announcements type='service' alertArea='sendBch' />
     <ModalBody>{props.children}</ModalBody>
   </Modal>
 )

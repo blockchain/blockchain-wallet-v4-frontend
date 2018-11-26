@@ -4,7 +4,6 @@ import styled, { keyframes } from 'styled-components'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Icon, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import media from 'services/ResponsiveService'
 
 const reveal = keyframes`
   0% { top: 30px; }
@@ -14,18 +13,6 @@ const reveal = keyframes`
   75% { top: 0; }
   85% { top: 0; }
   100% { top: -30px; }
-`
-
-const Wrapper = styled.div`
-  display: flex;
-  padding: 12px 25px;
-  align-items: center;
-  justify-content: space-between;
-  background: ${props => props.theme['marketing-primary']};
-  overflow: hidden;
-  ${media.mobile`
-    display: none;
-  `};
 `
 
 const ItemWrapper = styled.div`
@@ -50,18 +37,13 @@ const EmailSentNotification = styled(Text)`
 `
 
 const EmailReminder = props => {
-  const { handleResendVerifyEmail, reminded, email } = props
+  const { onEmailResend, emailReminded, email } = props
 
   return (
-    <Wrapper>
+    <React.Fragment>
       <ItemWrapper>
         <Icon name='email' color='white' weight={600} />
-        <Text
-          style={{ marginLeft: '15px' }}
-          color='white'
-          size='14px'
-          weight={300}
-        >
+        <Text style={{ marginLeft: '12px' }} color='white' size='14px'>
           <FormattedMessage
             id='layouts.wallet.header.announcements.emailreminder'
             defaultMessage='Confirm your email address to properly secure your account'
@@ -71,8 +53,7 @@ const EmailReminder = props => {
         <EmailSentNotification
           color='white'
           size='14px'
-          weight={300}
-          className={reminded ? 'active' : ''}
+          className={emailReminded ? 'active' : ''}
         >
           <FormattedMessage
             id='layouts.wallet.header.announcements.emailreminder.emailsent'
@@ -82,12 +63,7 @@ const EmailReminder = props => {
         </EmailSentNotification>
       </ItemWrapper>
       <ItemWrapper>
-        <Action
-          color='white'
-          size='14px'
-          weight={300}
-          onClick={() => handleResendVerifyEmail(email)}
-        >
+        <Action color='white' size='14px' onClick={() => onEmailResend(email)}>
           <FormattedMessage
             id='layouts.wallet.header.announcements.emailreminder.resend'
             defaultMessage='Resend Email'
@@ -97,7 +73,7 @@ const EmailReminder = props => {
           style={{ marginLeft: '15px' }}
           to={{ pathname: '/security-center', state: { changeEmail: true } }}
         >
-          <Action color='white' size='14px' weight={300}>
+          <Action color='white' size='14px'>
             <FormattedMessage
               id='layouts.wallet.header.announcements.emailreminder.change'
               defaultMessage='Change Email'
@@ -105,14 +81,14 @@ const EmailReminder = props => {
           </Action>
         </LinkContainer>
       </ItemWrapper>
-    </Wrapper>
+    </React.Fragment>
   )
 }
 
 EmailReminder.propTypes = {
   email: PropTypes.string.isRequired,
-  reminded: PropTypes.bool.isRequired,
-  handleResendVerifyEmail: PropTypes.func.isRequired
+  emailReminded: PropTypes.bool.isRequired,
+  onEmailResend: PropTypes.func.isRequired
 }
 
 export default EmailReminder
