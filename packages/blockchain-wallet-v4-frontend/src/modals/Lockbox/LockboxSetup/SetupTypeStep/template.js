@@ -20,8 +20,8 @@ const Row = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 25px 0;
-  border-top: 1px solid ${props => props.theme['gray-2']};
-  & :last-child {
+  & :nth-child(2) {
+    border-top: 1px solid ${props => props.theme['gray-2']};
     border-bottom: 1px solid ${props => props.theme['gray-2']};
   }
   &:hover {
