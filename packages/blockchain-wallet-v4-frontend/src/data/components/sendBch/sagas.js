@@ -21,7 +21,7 @@ import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 export const logLocation = 'components/sendBch/sagas'
 // TODO: Check how to retrieve Bitcoin cash default fee
-export const bchDefaultFee = 2
+export const bchDefaultFee = 4
 
 export default ({ coreSagas }) => {
   const initialized = function*() {
