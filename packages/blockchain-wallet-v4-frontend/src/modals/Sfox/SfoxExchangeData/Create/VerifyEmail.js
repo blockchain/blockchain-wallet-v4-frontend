@@ -185,7 +185,7 @@ class VerifyEmail extends Component {
                 <Text
                   size='14px'
                   weight={400}
-                  style={{ 'margin-bottom': '5px' }}
+                  style={{ 'marginBottom': '5px' }}
                 >
                   <FormattedMessage
                     id='sfoxexchangedata.create.verifyemail.code'
@@ -209,7 +209,7 @@ class VerifyEmail extends Component {
                 <Text
                   size='14px'
                   weight={400}
-                  style={{ 'margin-bottom': '5px' }}
+                  style={{ 'marginBottom': '5px' }}
                 >
                   <FormattedMessage
                     id='sfoxexchangedata.create.verifyemail.confirm'

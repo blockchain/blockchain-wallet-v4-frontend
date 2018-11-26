@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import Link from './template'
-import { actions, selectors } from 'data'
-import { formValueSelector } from 'redux-form'
+import { actions } from 'data'
 import { merge, path, append, prop, head } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { getData } from './selectors';
 
 class LinkContainer extends Component {
   state = {
@@ -59,8 +59,8 @@ class LinkContainer extends Component {
   }
 
   submitMicroDeposits = () => {
-    const amount1 = parseFloat(this.props.deposit1)
-    const amount2 = parseFloat(this.props.deposit2)
+    const amount1 = parseFloat(this.props.data.deposit1)
+    const amount2 = parseFloat(this.props.data.deposit2)
     this.props.sfoxFrontendActions.submitMicroDeposits({ amount1, amount2 })
   }
 
@@ -83,8 +83,8 @@ class LinkContainer extends Component {
       const bankChoice = merge(
         {
           id: this.state.id,
-          firstname: this.props.accountHolderFirst,
-          lastname: this.props.accountHolderLast
+          firstname: this.props.data.accountHolderFirst,
+          lastname: this.props.data.accountHolderLast
         },
         { token: this.state.token }
       )
@@ -93,16 +93,11 @@ class LinkContainer extends Component {
   }
 
   render () {
-    const {
-      bankAccounts,
-      accounts,
-      linkStatus,
-      sfoxFrontendActions
-    } = this.props
-    const { plaidBaseUrl, plaidPath, plaidEnv } = this.props
+    const { data, sfoxFrontendActions, plaidBaseUrl, plaidKey, plaidEnv } = this.props
+    const { accounts, bankAccounts, busyStatus } = data
     const { sfoxNotAsked } = sfoxFrontendActions
-    const plaidUrl = `${plaidBaseUrl}/wallet-helper/plaid/#/key/${plaidPath}/env/${plaidEnv}`
     const { showModal } = this.props.modalActions
+    const plaidUrl = `${plaidBaseUrl}/wallet-helper/plaid/#/key/${plaidKey}/env/${plaidEnv}`
 
     let awaitingDeposits = false
     if (Remote.Success.is(accounts)) {
@@ -110,7 +105,7 @@ class LinkContainer extends Component {
         prop('status', head(accounts.getOrElse())) === 'pending'
     }
 
-    const { sfoxBusy, err } = linkStatus.cata({
+    const { sfoxBusy, err } = busyStatus.cata({
       Success: () => ({ sfoxBusy: false }),
       Loading: () => ({ sfoxBusy: true }),
       Failure: err => ({ sfoxBusy: false, err }),
@@ -165,22 +160,10 @@ const plaidPath = append('plaid', basePath)
 const plaidEnvPath = append('plaidEnv', basePath)
 
 const mapStateToProps = state => ({
-  plaidPath: path(plaidPath, state),
+  plaidKey: path(plaidPath, state),
   plaidEnv: path(plaidEnvPath, state),
-  plaidBaseUrl: path(
-    ['walletOptionsPath', 'data', 'domains', 'walletHelper'],
-    state
-  ),
-  bankAccounts: selectors.core.data.sfox.getBankAccounts(state),
-  accounts: selectors.core.data.sfox.getAccounts(state),
-  deposit1: formValueSelector('sfoxLink')(state, 'deposit1'),
-  deposit2: formValueSelector('sfoxLink')(state, 'deposit2'),
-  accountHolderFirst: formValueSelector('sfoxLink')(
-    state,
-    'accountHolderFirst'
-  ),
-  accountHolderLast: formValueSelector('sfoxLink')(state, 'accountHolderLast'),
-  linkStatus: path(['sfoxSignup', 'sfoxBusy'], state)
+  plaidBaseUrl: path(['walletOptionsPath', 'data', 'domains', 'walletHelper'], state),
+  data: getData(state)
 })
 
 const mapDispatchToProps = dispatch => ({

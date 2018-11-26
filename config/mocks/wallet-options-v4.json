@@ -306,10 +306,10 @@
           "WV"
         ],
         "config": {
-          "production": true,
-          "apiKey": "f31614a7-5074-49f2-8c2a-bfb8e55de2bd",
+          "production": false,
+          "apiKey": "6fbfb80536564af8bbedb7e3be4ec439",
           "plaid": "0b041cd9e9fbf1e7d93a0d5a39f5b9",
-          "plaidEnv": "production",
+          "plaidEnv": "sandbox",
           "siftScience": "a19cc360a1"
         }
       },
