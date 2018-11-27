@@ -17,7 +17,8 @@ import {
   PHONE_EXISTS_ERROR,
   UPDATE_FAILURE,
   KYC_MODAL,
-  USER_EXISTS_MODAL
+  USER_EXISTS_MODAL,
+  SUNRIVER_LINK_ERROR_MODAL
 } from './model'
 
 export const logLocation = 'components/identityVerification/sagas'
@@ -57,13 +58,20 @@ export default ({ api, coreSagas }) => {
     const token = (yield select(
       selectors.modules.profile.getApiToken
     )).getOrFail()
-    yield call(
-      api.registerUserCampaign,
-      token,
-      campaign.name,
-      campaignData,
-      newUser
-    )
+    try {
+      yield call(
+        api.registerUserCampaign,
+        token,
+        campaign.name,
+        campaignData,
+        newUser
+      )
+    } catch (e) {
+      yield put(actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'registerUserCampaign', e)
+      )
+    }
   }
 
   const createRegisterUserCampaign = function*({

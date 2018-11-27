@@ -2,6 +2,7 @@ import { contains, compose, propOr } from 'ramda'
 
 export const KYC_MODAL = '@KYC.IdentityVerification'
 export const USER_EXISTS_MODAL = '@KYC.UserExists'
+export const SUNRIVER_LINK_ERROR_MODAL = '@KYC.SunRiverLinkError'
 
 export const STEPS = {
   personal: 'personal',
