@@ -2,15 +2,13 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { bindActionCreators, compose } from 'redux'
-import ui from 'redux-ui'
-import { actions, selectors } from 'data'
+import { bindActionCreators } from 'redux'
 import { FormattedMessage } from 'react-intl'
 import { formValueSelector, Field } from 'redux-form'
 
+import { actions, selectors } from 'data'
 import { TextBox } from 'components/Form'
 import { Text, Button } from 'blockchain-info-components'
-
 import { required } from 'services/FormHelper'
 import {
   Form,
@@ -38,16 +36,8 @@ const VerifyEmailForm = styled(Form)`
 `
 
 class VerifyEmail extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {}
-
-    this.onSubmit = this.onSubmit.bind(this)
-    this.resendCode = this.resendCode.bind(this)
-  }
-
   componentDidMount () {
-    if (this.props.ui.create === 'enter_email_code') {
+    if (this.state.create === 'enter_email_code') {
       this.props.securityCenterActions.sendConfirmationCodeEmail(
         this.props.oldEmail
       )
@@ -60,33 +50,35 @@ class VerifyEmail extends Component {
     this.props.sfoxFrontendActions.sfoxNotAsked()
   }
 
+  /* eslint-disable react/no-did-update-set-state */
   componentDidUpdate (prevProps) {
     if (this.props.emailVerified && !prevProps.emailVerified) {
-      this.props.updateUI({ create: 'change_mobile' })
+      this.setState({ create: 'change_mobile' })
     }
     if (
       this.props.emailVerified &&
-      this.props.ui.uniqueEmail &&
+      this.state.uniqueEmail &&
       !this.props.editVerifiedEmail
     ) {
-      this.props.updateUI({ create: 'change_mobile' })
+      this.setState({ create: 'change_mobile' })
     }
   }
+  /* eslint-enable react/no-did-update-set-state */
 
-  resendCode () {
-    this.props.updateUI({ codeSent: true })
+  resendCode = () => {
+    this.setState({ codeSent: true })
     this.props.securityCenterActions.sendConfirmationCodeEmail(
       this.props.emailAddress
     )
   }
 
-  onSubmit (e) {
+  onSubmit = e => {
     e.preventDefault()
-    if (this.props.ui.create === 'enter_email_code') {
+    if (this.state.create === 'enter_email_code') {
       this.props.sfoxFrontendActions.clearSignupError()
       this.props.securityCenterActions.verifyEmailCode(this.props.emailCode)
     } else {
-      this.props.updateUI({ create: 'enter_email_code' })
+      this.setState({ create: 'enter_email_code' })
       this.props.securityCenterActions.updateEmail(
         this.props.emailAddress,
         true
@@ -95,13 +87,7 @@ class VerifyEmail extends Component {
   }
 
   render () {
-    const {
-      ui,
-      invalid,
-      emailVerifiedError,
-      emailAddress,
-      emailCode
-    } = this.props
+    const { invalid, emailVerifiedError, emailAddress, emailCode } = this.props
 
     let emailHelper = () => {
       switch (true) {
@@ -113,36 +99,28 @@ class VerifyEmail extends Component {
               values={{
                 resend: <a onClick={this.resendCode}>Resend</a>,
                 changeEmail: (
-                  <a
-                    onClick={() =>
-                      this.props.updateUI({ create: 'change_email' })
-                    }
-                  >
+                  <a onClick={() => this.setState({ create: 'change_email' })}>
                     change email
                   </a>
                 )
               }}
             />
           )
-        case ui.codeSent:
+        case this.state.codeSent:
           return (
             <FormattedMessage
               id='sfoxexchangedata.create.verifyemail.helper.sentanothercode'
               defaultMessage='Another code has been sent! {changeEmail}'
               values={{
                 changeEmail: (
-                  <a
-                    onClick={() =>
-                      this.props.updateUI({ create: 'change_email' })
-                    }
-                  >
+                  <a onClick={() => this.setState({ create: 'change_email' })}>
                     change email
                   </a>
                 )
               }}
             />
           )
-        case !ui.codeSent:
+        case !this.state.codeSent:
           return (
             <FormattedMessage
               id='sfoxexchangedata.create.verifyemail.helper.didntreceive'
@@ -150,11 +128,7 @@ class VerifyEmail extends Component {
               values={{
                 resend: <a onClick={this.resendCode}>Resend</a>,
                 changeEmail: (
-                  <a
-                    onClick={() =>
-                      this.props.updateUI({ create: 'change_email' })
-                    }
-                  >
+                  <a onClick={() => this.setState({ create: 'change_email' })}>
                     change email
                   </a>
                 )
@@ -180,7 +154,7 @@ class VerifyEmail extends Component {
                 defaultMessage="Rest assured: there are only a few steps separating you from the good stuff. Let's start by confirming your verified email address and phone number."
               />
             </PartnerSubHeader>
-            {ui.create === 'enter_email_code' ? (
+            {this.state.create === 'enter_email_code' ? (
               <EmailInput>
                 <Text
                   size='14px'
@@ -195,7 +169,7 @@ class VerifyEmail extends Component {
                 </Text>
                 <Field
                   name='emailCode'
-                  onChange={() => this.props.updateUI({ uniqueEmail: true })}
+                  onChange={() => this.setState({ uniqueEmail: true })}
                   component={TextBox}
                   errorBottom
                   validate={[required]}
@@ -245,7 +219,9 @@ class VerifyEmail extends Component {
                 nature='primary'
                 fullwidth
                 disabled={
-                  invalid || ui.create !== 'enter_email_code' || !emailCode
+                  invalid ||
+                  this.state.create !== 'enter_email_code' ||
+                  !emailCode
                 }
               >
                 <FormattedMessage
@@ -262,9 +238,7 @@ class VerifyEmail extends Component {
 }
 
 VerifyEmail.propTypes = {
-  ui: PropTypes.object,
-  invalid: PropTypes.boolean,
-  updateUI: PropTypes.function,
+  invalid: PropTypes.bool,
   emailAddress: PropTypes.string,
   formActions: PropTypes.object,
   emailCode: PropTypes.string,
@@ -286,12 +260,7 @@ const mapDispatchToProps = dispatch => ({
   )
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({ state: { codeSent: false } })
-)
-
-export default enhance(VerifyEmail)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(VerifyEmail)

@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux'
-import { reducer as reduxUiReducer } from 'redux-ui'
 import { coreReducers, paths } from 'blockchain-wallet-v4/src'
 import componentsReducer from './components/reducers'
 import formReducer from './form/reducers'
@@ -35,7 +34,6 @@ const rootReducer = combineReducers({
   cache: cacheReducer,
   scroll: scrollReducer,
   session: sessionReducer,
-  ui: reduxUiReducer,
   wizard: wizardReducer,
   securityCenter: settingsReducer,
   sfoxSignup: sfoxSignupReducer,
