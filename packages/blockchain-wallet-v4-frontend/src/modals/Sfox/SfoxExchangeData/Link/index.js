@@ -1,21 +1,21 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
-import ui from 'redux-ui'
-import Link from './template'
-import { actions, selectors } from 'data'
+import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 import { merge, path, append, prop, head } from 'ramda'
+
+import Link from './template'
+import { actions, selectors } from 'data'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 class LinkContainer extends Component {
-  constructor (props) {
-    super(props)
-    this.onSetBankAccount = this.onSetBankAccount.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
-    this.submitMicroDeposits = this.submitMicroDeposits.bind(this)
-
-    this.state = { enablePlaid: false, id: '' }
+  state = {
+    enablePlaid: false,
+    id: '',
+    microDeposits: false,
+    microStep: 'welcome',
+    isToggled: false,
+    selectBank: false
   }
 
   componentDidMount () {
@@ -33,21 +33,17 @@ class LinkContainer extends Component {
       }
       if (e.data.command === 'getBankAccounts' && e.data.msg) {
         this.props.sfoxDataActions.getBankAccounts(e.data.msg)
-        this.setState({ enablePlaid: false, token: e.data.msg })
-        this.props.updateUI({ selectBank: true })
+        this.setState({
+          enablePlaid: false,
+          token: e.data.msg,
+          selectBank: true
+        })
       }
     }
     window.addEventListener('message', receiveMessage, false)
   }
 
   componentWillUnmount () {
-    this.props.updateUI({
-      toggleManual: false,
-      selectBank: false,
-      microDeposits: false,
-      microStep: 'welcome',
-      busy: false
-    })
     this.props.sfoxDataActions.wipeBankAccounts()
   }
 
@@ -56,25 +52,21 @@ class LinkContainer extends Component {
     this.props.sfoxFrontendActions.sfoxNotAsked()
   }
 
-  onSetBankAccount (data) {
+  onSetBankAccount = (data) => {
     const bankChoice = merge(data, { token: this.state.token })
     this.props.sfoxFrontendActions.setBankAccount(bankChoice)
   }
 
-  submitMicroDeposits () {
+  submitMicroDeposits = () => {
     const amount1 = parseFloat(this.props.deposit1)
     const amount2 = parseFloat(this.props.deposit2)
     this.props.sfoxFrontendActions.submitMicroDeposits({ amount1, amount2 })
   }
 
-  onSubmit () {
-    if (
-      this.props.ui.toggleManual &&
-      this.state.routingNumber &&
-      this.state.accountNumber
-    ) {
+  onSubmit = () => {
+    const { fullName, routingNumber, accountNumber, accountType, toggleManual } = this.state
+    if (toggleManual && routingNumber && accountNumber) {
       this.props.sfoxFrontendActions.sfoxLoading()
-      const { fullName, routingNumber, accountNumber, accountType } = this.state
       this.props.sfoxFrontendActions.setBankManually(
         routingNumber,
         accountNumber,
@@ -99,11 +91,20 @@ class LinkContainer extends Component {
     const {
       bankAccounts,
       accounts,
-      ui,
       linkStatus,
-      sfoxFrontendActions
+      sfoxFrontendActions,
+      plaidBaseUrl,
+      plaidPath,
+      plaidEnv
     } = this.props
-    const { plaidBaseUrl, plaidPath, plaidEnv } = this.props
+    const {
+      microDeposits,
+      microStep,
+      enablePlaid,
+      selectBank,
+      isToggled
+    } = this.state
+
     const { sfoxNotAsked } = sfoxFrontendActions
     const plaidUrl = `${plaidBaseUrl}/wallet-helper/plaid/#/key/${plaidPath}/env/${plaidEnv}`
     const { showModal } = this.props.modalActions
@@ -125,14 +126,12 @@ class LinkContainer extends Component {
       <Link
         onSubmit={this.onSubmit}
         plaidUrl={plaidUrl}
-        enablePlaid={this.state.enablePlaid}
         bankAccounts={bankAccounts}
         accounts={accounts}
         onSetBankAccount={this.onSetBankAccount}
         toggleManual={() =>
-          this.props.updateUI({ toggleManual: !ui.toggleManual })
+          this.setState({ toggleManual: !this.state.toggleManual })
         }
-        ui={ui}
         handleBankSelection={id => this.setState({ id })}
         onNameChange={name => this.setState({ holderName: name })}
         handleFullName={e => this.setState({ fullName: e.target.value })}
@@ -143,8 +142,7 @@ class LinkContainer extends Component {
           this.setState({ accountNumber: e.target.value })
         }
         handleAccountType={(e, val) => this.setState({ accountType: val })}
-        microStep={ui.microStep}
-        goToMicroDepositStep={step => this.props.updateUI({ microStep: step })}
+        goToMicroDepositStep={step => this.setState({ microStep: step })}
         submitMicroDeposits={this.submitMicroDeposits}
         awaitingDeposits={awaitingDeposits}
         showModal={showModal}
@@ -152,6 +150,11 @@ class LinkContainer extends Component {
         setNotAsked={sfoxNotAsked}
         linkError={err && path(['message'], err)}
         resetAccountHolder={this.resetAccountHolder}
+        microDeposits={microDeposits}
+        microStep={microStep}
+        enablePlaid={enablePlaid}
+        selectBank={selectBank}
+        isToggled={isToggled}
       />
     )
   }
@@ -194,20 +197,7 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({
-    state: {
-      toggleManual: false,
-      selectBank: false,
-      microDeposits: false,
-      microStep: 'welcome',
-      busy: false
-    }
-  })
-)
-
-export default enhance(LinkContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LinkContainer)

@@ -37,9 +37,7 @@ const devToolsConfig = {
     // '@@redux-form/FOCUS',
     // '@@redux-form/BLUR',
     // '@@redux-form/DESTROY',
-    // '@@redux-form/RESET',
-    // '@@redux-ui/MOUNT_UI_STATE',
-    // '@@redux-ui/UNMOUNT_UI_STATE'
+    // '@@redux-form/RESET'
   ]
 }
 

@@ -9,6 +9,7 @@ import MicroDeposits from './MicroDeposits'
 import PlaidFrame from './iframe.js'
 import AwaitingDeposits from './AwaitingDeposits'
 import { Remote } from 'blockchain-wallet-v4/src'
+// TODO: ensure old ui props are working...
 
 import renderFaq from 'components/FaqDropdown'
 import {
@@ -51,7 +52,7 @@ const ButtonContainer = styled.div`
 `
 const OrText = styled.p`
   color: rgba(151, 151, 151, 0.5);
-  margin: 10px 0px 15px 0px;
+  margin: 10px 0 15px;
   line-height: 0.5;
   text-align: center;
   span {
@@ -152,7 +153,6 @@ const BankLink = props => {
     enablePlaid,
     bankAccounts,
     onSetBankAccount,
-    ui,
     toggleManual,
     handleSubmit,
     invalid,
@@ -171,21 +171,24 @@ const BankLink = props => {
     linkError,
     setNotAsked,
     awaitingDeposits,
-    resetAccountHolder
+    resetAccountHolder,
+    microDeposits,
+    selectBank,
+    isToggled
   } = props
 
   const titleHelper = () => {
     switch (true) {
-      case ui.microDeposits:
+      case microDeposits:
         return null
-      case ui.selectBank:
+      case selectBank:
         return (
           <FormattedMessage
             id='sfoxexchangedata.link.title2'
             defaultMessage='Select Your Account'
           />
         )
-      case !ui.selectBank:
+      case !selectBank:
         return (
           <FormattedMessage
             id='sfoxexchangedata.link.title'
@@ -197,16 +200,16 @@ const BankLink = props => {
 
   const subtitleHelper = () => {
     switch (true) {
-      case ui.microDeposits:
+      case microDeposits:
         return null
-      case ui.selectBank:
+      case selectBank:
         return (
           <FormattedMessage
             id='sfoxexchangedata.link.subtitle2'
             defaultMessage="Please select which bank account you'd like to have synced with your SFOX profile."
           />
         )
-      case !ui.selectBank:
+      case !selectBank:
         return (
           <FormattedMessage
             id='sfoxexchangedata.link.subtitle1'
@@ -217,7 +220,7 @@ const BankLink = props => {
   }
 
   const bankHelper = () => {
-    if (ui.toggleManual) {
+    if (isToggled) {
       return (
         <AddManually
           handleFullName={handleFullName}
@@ -236,7 +239,7 @@ const BankLink = props => {
           handleNameChange={onNameChange}
         />
       )
-    } else if (ui.microDeposits) {
+    } else if (microDeposits) {
       return <MicroDeposits onStep={microStep} />
     } else {
       return (
@@ -260,14 +263,14 @@ const BankLink = props => {
   }
 
   const helpersHelper = () => {
-    if (ui.selectBank) {
+    if (selectBank) {
       return <React.Fragment>{renderFaq(selectBankQuestions)}</React.Fragment>
     }
     return <React.Fragment>{renderFaq(faqQuestions)}</React.Fragment>
   }
 
   const buttonHelper = () => {
-    if (ui.microDeposits) {
+    if (microDeposits) {
       if (microStep === 'amounts') {
         return (
           <Button
@@ -336,7 +339,7 @@ const BankLink = props => {
             )}
           </Button>
         )}
-        {ui.toggleManual && !linkError ? (
+        {isToggled && !linkError ? (
           <GoBackLink onClick={toggleManual}>
             <FormattedMessage
               id='sfoxexchangedata.link.goback'
