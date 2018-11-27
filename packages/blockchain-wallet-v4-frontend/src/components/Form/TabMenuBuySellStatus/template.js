@@ -34,6 +34,11 @@ const Partner = styled(TextGroup)`
     display: none;
   }
 `
+const CoinifyLink = styled(Link)`
+  display: flex;
+  padding-left: 5px;
+  margin-bottom: 0px;
+`
 
 const TabMenuBuySellStatus = props => {
   const { handleClick, partner, value } = props
@@ -83,9 +88,9 @@ const TabMenuBuySellStatus = props => {
               <Image name='sfox-logo' width='60px' height='25px' />
             </Link>
           ) : (
-            <Link href='https://www.coinify.com' target='_blank'>
+            <CoinifyLink href='https://www.coinify.com' target='_blank'>
               <Image name='coinify-logo' width='60px' height='25px' />
-            </Link>
+            </CoinifyLink>
           )}
         </Partner>
       )}
