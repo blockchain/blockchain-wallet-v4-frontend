@@ -2767,7 +2767,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "We've improved your Exchange",
+        "defaultMessage": "We've Improved Your Exchange",
         "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.improved"
       },
       {
@@ -5128,7 +5128,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "We've improved",
+        "defaultMessage": "We've Improved",
         "id": "modals.swapgetstarted.improved"
       },
       {
@@ -9272,7 +9272,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "We've improved",
+        "defaultMessage": "We've Improved",
         "id": "modals.swapgetstarted.improved"
       },
       {
@@ -9280,7 +9280,7 @@
         "id": "modals.swapgetstarted.exchange"
       },
       {
-        "defaultMessage": "The faster, smarter way to trade your crypto. Check it out !",
+        "defaultMessage": "The faster, smarter way to trade your crypto. Check it out!",
         "id": "modals.swapgetstarted.description"
       },
       {
@@ -12548,7 +12548,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "We've improved your Exchange",
+        "defaultMessage": "We've Improved Your Exchange",
         "id": "scenes.home.swapbanner.improved"
       },
       {
