@@ -7,6 +7,7 @@ import { bindActionCreators, compose } from 'redux'
 import { actions } from 'data'
 import { getData } from './selectors'
 import Create from './template'
+import { COINIFY_SIGNUP_STATES } from 'data/modules/coinify/model'
 
 class CreateContainer extends Component {
   componentDidMount () {
@@ -30,7 +31,7 @@ class CreateContainer extends Component {
   }
 
   render () {
-    const { handleSignup, oldEmail, signupError, ui, updateUI } = this.props
+    const { handleSignup, oldEmail, signupError, ui, updateUI, coinifyFrontendActions } = this.props
     return (
       <Create
         handleSignup={handleSignup}
@@ -39,6 +40,7 @@ class CreateContainer extends Component {
         ui={ui}
         updateUI={updateUI}
         country={this.props.country}
+        onGoBack={() => coinifyFrontendActions.coinifyNextStep(COINIFY_SIGNUP_STATES.NONE)}
       />
     )
   }
