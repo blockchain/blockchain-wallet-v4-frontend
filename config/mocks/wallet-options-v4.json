@@ -269,8 +269,8 @@
           "CH"
         ],
         "config": {
-          "partnerId": 19,
-          "production": true,
+          "partnerId": 24,
+          "production": false,
           "iSignThisDomain": "https://verify.isignthis.com"
         }
       },
