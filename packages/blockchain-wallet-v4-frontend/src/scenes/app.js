@@ -3,6 +3,7 @@ import { Redirect, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 
+import { IconGlobalStyles, FontGlobalStyles } from 'blockchain-info-components'
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import ConnectedIntlProvider from 'providers/ConnectedIntlProvider'
 import ThemeProvider from 'providers/ThemeProvider'
@@ -144,6 +145,8 @@ class App extends React.PureComponent {
                   <Redirect from='/' to='/login' />
                 </Switch>
               </ConnectedRouter>
+              <FontGlobalStyles />
+              <IconGlobalStyles />
             </MediaContextProvider>
           </ThemeProvider>
         </ConnectedIntlProvider>

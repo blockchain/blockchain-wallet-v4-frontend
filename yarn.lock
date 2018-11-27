@@ -887,10 +887,10 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
-"@blockchain-com/components@2.6.2":
-  version "2.6.2"
-  resolved "https://registry.yarnpkg.com/@blockchain-com/components/-/components-2.6.2.tgz#f3361a96f9f1441a186c742eb0479c5269d6a374"
-  integrity sha512-0vuoGCnnWJRkdFa0Su8DTPtmlUGC149g626Fvg7HA57WQFQeFP17SliKGwO9LEnQgeqtElbFDb3J/v2gNK0Rpg==
+"@blockchain-com/components@3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@blockchain-com/components/-/components-3.0.0.tgz#4d0a8bdccebf6ed4995fd08fc1fa75477739ac52"
+  integrity sha512-n4BTrBKr0r9Of9nTHVcSHNKBiWcSWb0t7UwQiY1ae2lYdzdyDkS3xp8KY6bGqsaA8U161TSmivBost8LE9W74g==
   dependencies:
     "@babel/runtime" "7.1.5"
     react-tooltip "3.9.0"
