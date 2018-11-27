@@ -6,6 +6,7 @@ import { getData } from './selectors'
 import Success from './template.success'
 import Loading from 'components/BuySell/Loading'
 import Failure from 'components/BuySell/Failure'
+import { KYC_MODAL } from 'data/components/identityVerification/model'
 
 class CoinifyBuyContainer extends React.Component {
   constructor (props) {
@@ -49,7 +50,7 @@ class CoinifyBuyContainer extends React.Component {
     const { step, checkoutBusy, coinifyBusy, subscriptions, trades } = rest
     const { fetchQuote, refreshBuyQuote } = coinifyDataActions
     const { showModal } = modalActions
-    const { coinifyNotAsked, openKYC, coinifyNextCheckoutStep } = coinifyActions
+    const { coinifyNotAsked, coinifyNextCheckoutStep } = coinifyActions
     const { change } = formActions
 
     const busy = coinifyBusy.cata({
@@ -81,9 +82,9 @@ class CoinifyBuyContainer extends React.Component {
           initiateBuy={this.startBuy}
           step={step}
           busy={busy}
-          clearTradeError={() => coinifyNotAsked()}
+          clearTradeError={coinifyNotAsked}
           trade={trade}
-          handleKycAction={kyc => openKYC(kyc)}
+          handleKycAction={() => showModal(KYC_MODAL)}
           changeTab={tab => change('buySellTabStatus', 'status', tab)}
           coinifyNextCheckoutStep={step => coinifyNextCheckoutStep(step)}
           canTrade={canTrade}
