@@ -583,6 +583,40 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Confirm your email address to properly secure your account",
+        "id": "layouts.wallet.header.announcements.emailreminder"
+      },
+      {
+        "defaultMessage": "- An email was sent to {email}",
+        "id": "layouts.wallet.header.announcements.emailreminder.emailsent"
+      },
+      {
+        "defaultMessage": "Resend Email",
+        "id": "layouts.wallet.header.announcements.emailreminder.resend"
+      },
+      {
+        "defaultMessage": "Change Email",
+        "id": "layouts.wallet.header.announcements.emailreminder.change"
+      }
+    ],
+    "path": "src/components/Announcements/Static/template.email.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Complete your identity verification to claim your XLM.",
+        "id": "layouts.wallet.header.announcements.sunriverkycremdinder.title"
+      },
+      {
+        "defaultMessage": "Complete Now",
+        "id": "layouts.wallet.header.announcements.sunriverkycremdinder.completenow"
+      }
+    ],
+    "path": "src/components/Announcements/Static/template.sunriver.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Click here to add {coin} to your Blockchain Wallet",
         "id": "components.balances.savecoin"
       }
@@ -1006,6 +1040,10 @@
       {
         "defaultMessage": "Invert",
         "id": "components.selectboxtheme.invert"
+      },
+      {
+        "defaultMessage": "DarkMode",
+        "id": "components.selectboxtheme.darkmode"
       }
     ],
     "path": "src/components/Form/SelectBoxTheme/index.json"
@@ -5955,7 +5993,7 @@
         "id": "modals.lockboxsetup.authenticitystep.title"
       },
       {
-        "defaultMessage": "When prompted on your Lockbox, tap the RIGHT button to let your device connect to your Blockchain Web Wallet.",
+        "defaultMessage": "When prompted on your Lockbox, tap the RIGHT button to let your device connect to your Blockchain Web Wallet. This may take a few moments.",
         "id": "modals.lockboxsetup.authenticitystep.content"
       },
       {
@@ -5977,19 +6015,35 @@
       },
       {
         "defaultMessage": "1. Insert your Lockbox into your computer",
-        "id": "modals.lockboxsetup.connectdevice.step1"
+        "id": "modals.lockboxsetup.connectdevice.new.step1"
       },
       {
         "defaultMessage": "2. Press both buttons on your Lockbox to begin",
-        "id": "modals.lockboxsetup.connectdevice.step2"
+        "id": "modals.lockboxsetup.connectdevice.new.step2"
       },
       {
         "defaultMessage": "3. Set your pin",
-        "id": "modals.lockboxsetup.connectdevice.step3"
+        "id": "modals.lockboxsetup.connectdevice.new.step3"
       },
       {
         "defaultMessage": "4. Complete backup phrase process",
-        "id": "modals.lockboxsetup.connectdevice.step4"
+        "id": "modals.lockboxsetup.connectdevice.new.step4"
+      },
+      {
+        "defaultMessage": "1. Insert your Lockbox into your computer",
+        "id": "modals.lockboxsetup.connectdevice.existing.step1"
+      },
+      {
+        "defaultMessage": "2. Press both buttons on your Lockbox to begin",
+        "id": "modals.lockboxsetup.connectdevice.existing.step2"
+      },
+      {
+        "defaultMessage": "3. Enter your pin",
+        "id": "modals.lockboxsetup.connectdevice.existing.step3"
+      },
+      {
+        "defaultMessage": "4. Ensure the Dashboard is open",
+        "id": "modals.lockboxsetup.connectdevice.existing.step4"
       },
       {
         "defaultMessage": "Success! Click to Continue",
@@ -6061,14 +6115,6 @@
       {
         "defaultMessage": "Click button below to start the install process.",
         "id": "modals.lockboxsetup.installbtcappstep.selection"
-      },
-      {
-        "defaultMessage": "If this device has already been setup and it has the Bitcoin app installed, click",
-        "id": "modals.lockboxsetup.installbtcappstep.skipinstall"
-      },
-      {
-        "defaultMessage": "here.",
-        "id": "modals.lockboxsetup.installbtcappstep.skipinstallhere"
       }
     ],
     "path": "src/modals/Lockbox/LockboxSetup/InstallBtcAppStep/index.json"
@@ -6131,12 +6177,16 @@
         "id": "modals.lockboxsetup.setuptypestep.connect"
       },
       {
-        "defaultMessage": "Link your new device",
-        "id": "modals.lockboxsetup.firststep.link"
+        "defaultMessage": "Setup a brand new device",
+        "id": "modals.lockboxsetup.firststep.newdevice"
       },
       {
-        "defaultMessage": "Restore your device",
-        "id": "modals.lockboxsetup.firststep.restore"
+        "defaultMessage": "Link an existing device",
+        "id": "modals.lockboxsetup.firststep.existingdevice"
+      },
+      {
+        "defaultMessage": "Restore a previous device",
+        "id": "modals.lockboxsetup.firststep.restoredevice"
       }
     ],
     "path": "src/modals/Lockbox/LockboxSetup/SetupTypeStep/template.json"

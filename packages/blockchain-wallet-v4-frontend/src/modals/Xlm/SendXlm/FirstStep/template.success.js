@@ -277,7 +277,6 @@ const FirstStep = props => {
                */
               onMouseDown={submit}
               nature='primary'
-              uppercase
               disabled={
                 pristine ||
                 submitting ||
