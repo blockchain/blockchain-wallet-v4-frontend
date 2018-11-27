@@ -5128,11 +5128,28 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Whoops!",
+        "id": "modals.sunriverlinkerror.title"
+      },
+      {
+        "defaultMessage": "Your referral link is either invalid or has already been used to claim XLM.",
+        "id": "modals.sunriverlinkerror.linkused"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.sunriverlinkerror.continue"
+      }
+    ],
+    "path": "src/modals/Exchange/SunRiverLinkError/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "We've Improved",
         "id": "modals.swapgetstarted.improved"
       },
       {
-        "defaultMessage": "your Exchange",
+        "defaultMessage": "Your Exchange",
         "id": "modals.swapgetstarted.exchange"
       },
       {
@@ -9272,7 +9289,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "We've Improved",
+        "defaultMessage": "We've improved",
         "id": "modals.swapgetstarted.improved"
       },
       {
@@ -9280,7 +9297,7 @@
         "id": "modals.swapgetstarted.exchange"
       },
       {
-        "defaultMessage": "The faster, smarter way to trade your crypto. Check it out!",
+        "defaultMessage": "The faster, smarter way to trade your crypto. Check it out !",
         "id": "modals.swapgetstarted.description"
       },
       {
