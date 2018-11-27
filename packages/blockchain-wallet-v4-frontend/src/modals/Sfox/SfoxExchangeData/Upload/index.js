@@ -36,9 +36,9 @@ class UploadContainer extends Component {
       Success: value => (
         <Upload
           data={value}
-          handleSubmit={(e) => e.preventDefault()}
+          handleSubmit={e => e.preventDefault()}
           onDrop={() => this.setState({ file: file[0] })}
-          onClickUpload={(e) => e.preventDefault()}
+          onClickUpload={e => e.preventDefault()}
           toggleCamera={() => this.setState({ camera: true })}
           file={this.state.file}
           showCamera={this.state.camera}

@@ -55,14 +55,12 @@ class ConfirmContainer extends Component {
           editingAmount={editingAmount}
           isEditing={this.state.isEditing}
           limitsError={this.state.limitsError}
-          toggleEdit={() =>
-            this.setState({ isEditing: !this.state.isEditing })
-          }
+          toggleEdit={() => this.setState({ isEditing: !this.state.isEditing })}
         />
       ),
       Failure: msg => <Failure error={msg} />,
-      Loading: () => <div/>,
-      NotAsked: () => <div/>
+      Loading: () => <div />,
+      NotAsked: () => <div />
     })
   }
 }
