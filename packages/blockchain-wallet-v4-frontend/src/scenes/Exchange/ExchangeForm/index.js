@@ -84,7 +84,7 @@ class ExchangeForm extends React.Component {
             txError={txError}
             handleMaximum={actions.firstStepMaximumClicked}
             handleMinimum={actions.firstStepMinimumClicked}
-            onSubmit={compose(
+            handleSubmit={compose(
               logExchangeClick,
               actions.showConfirmation
             )}

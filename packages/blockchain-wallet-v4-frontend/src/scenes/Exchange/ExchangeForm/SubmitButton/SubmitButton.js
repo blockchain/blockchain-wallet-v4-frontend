@@ -24,14 +24,15 @@ class SubmitButton extends React.PureComponent {
       asyncValidating,
       dirty,
       error,
-      submitting
+      submitting,
+      handleSubmit
     } = this.props
     return (
       <ButtonRow>
         <Button
-          type='submit'
           nature='primary'
           fullwidth
+          onClick={handleSubmit}
           disabled={
             disabled ||
             blockLockbox ||
