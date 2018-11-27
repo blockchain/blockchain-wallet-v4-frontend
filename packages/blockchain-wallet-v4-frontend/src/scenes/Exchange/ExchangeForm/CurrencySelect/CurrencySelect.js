@@ -29,7 +29,7 @@ const CoinSwapIcon = styled(Icon)`
 
 const extractFieldValue = (e, value) => value
 
-class CurrencySelect extends React.Component {
+export class CurrencySelect extends React.Component {
   shouldComponentUpdate (nextProps) {
     return shouldUpdate(this.props, nextProps)
   }
