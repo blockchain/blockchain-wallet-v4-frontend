@@ -19,14 +19,14 @@ const ComplementaryAmountContaier = styled.div`
 export const formatAmount = (isFiat, symbol, value) =>
   isFiat ? `${symbol}${value}` : `${value} ${symbol}`
 
-class ComplementaryAmount extends React.PureComponent {
+export class ComplementaryAmount extends React.PureComponent {
   render () {
-    const { complementaryAmount, fiatActive, complementarySymbol } = this.props
+    const { complementaryAmount, isFiat, complementarySymbol } = this.props
     return (
       <ComplementaryAmountContaier>
         <StringDisplay>
           {complementaryAmount.map(amount =>
-            formatAmount(!fiatActive, complementarySymbol, amount)
+            formatAmount(isFiat, complementarySymbol, amount)
           )}
         </StringDisplay>
       </ComplementaryAmountContaier>

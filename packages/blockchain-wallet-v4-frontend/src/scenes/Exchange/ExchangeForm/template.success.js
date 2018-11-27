@@ -275,7 +275,7 @@ const Success = ({
                 disabled
               />
               <ComplementaryAmount
-                fiatActive={fiatActive}
+                isFiat={!fiatActive}
                 sourceCoin={sourceCoin}
                 targetCoin={targetCoin}
                 complementaryField={complementaryField}
