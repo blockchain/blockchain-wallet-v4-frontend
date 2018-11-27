@@ -6,5 +6,6 @@ export const getData = state => ({
   emailVerified: selectors.core.settings
     .getEmailVerified(state)
     .getOrElse(undefined),
-  emailVerifiedError: path(['securityCenter', 'emailVerifiedError'], state)
+  emailVerifiedError: path(['securityCenter', 'emailVerifiedError'], state),
+  signupError: selectors.modules.coinify.getSignupError(state)
 })
