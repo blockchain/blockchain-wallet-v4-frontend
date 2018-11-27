@@ -3,7 +3,9 @@ import Buy from './Buy'
 import Sell from './Sell'
 import OrderHistory from './OrderHistory'
 import EmailVerification from './EmailVerification'
-import { COINIFY_SIGNUP_STATES } from 'data/modules/coinify/model'
+import { model } from 'data'
+
+const { COINIFY_SIGNUP_STATES } = model.coinify
 
 class Checkout extends React.Component {
   render () {

@@ -6,7 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 import ui from 'redux-ui'
 import { path, prop, equals } from 'ramda'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { TabMenuBuySellStatus } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
 import Loading from 'components/BuySell/Loading'
@@ -15,7 +15,8 @@ import SfoxCheckout from './SfoxCheckout'
 import CoinifyCheckout from './CoinifyCheckout'
 import { getData, getFields } from './selectors'
 import SelectPartner from './template.success'
-import { COINIFY_SIGNUP_STATES } from 'data/modules/coinify/model'
+
+const { COINIFY_SIGNUP_STATES } = model.coinify
 
 const Wrapper = styled.div`
   width: 100%;
@@ -49,7 +50,6 @@ class BuySellContainer extends React.PureComponent {
   }
 
   state = {
-    doCoinifyHomebrewFlow: false,
     countrySelection: null
   }
 
@@ -91,7 +91,7 @@ class BuySellContainer extends React.PureComponent {
     if (path(['coinify', 'offline_token'], buySell)) { // if a coinify account already exists
       return {
         component: (
-          <CoinifyCheckout type={COINIFY_SIGNUP_STATES.BUY} options={options} value={buySell} />
+          <CoinifyCheckout type={type} options={options} value={buySell} />
         ),
         partner: 'coinify'
       }

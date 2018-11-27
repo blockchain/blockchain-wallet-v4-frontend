@@ -18,7 +18,8 @@ class CoinifyBuyContainer extends React.Component {
   componentDidMount () {
     this.props.coinifyActions.initializeCheckoutForm('buy')
     this.props.coinifyDataActions.fetchTrades()
-    this.props.coinifyDataActions.getKyc()
+    // no longer need to get KYC from coinify
+    // this.props.coinifyDataActions.getKyc()
     this.props.coinifyDataActions.fetchSubscriptions()
     if (this.props.step === 'isx') {
       this.props.coinifyActions.coinifyNextCheckoutStep('checkout')
@@ -47,7 +48,7 @@ class CoinifyBuyContainer extends React.Component {
       canTrade,
       ...rest
     } = this.props
-    const { step, checkoutBusy, coinifyBusy, subscriptions, trades } = rest
+    const { step, checkoutBusy, coinifyBusy, subscriptions, trades, kycNotFinished, kycPending, kycVerified } = rest
     const { fetchQuote, refreshBuyQuote } = coinifyDataActions
     const { showModal } = modalActions
     const { coinifyNotAsked, coinifyNextCheckoutStep } = coinifyActions
@@ -90,6 +91,9 @@ class CoinifyBuyContainer extends React.Component {
           canTrade={canTrade}
           subscriptions={subscriptions}
           trades={trades}
+          kycNotFinished={kycNotFinished}
+          kycPending={kycPending}
+          kycVerified={kycVerified}
         />
       ),
       Failure: e => <Failure error={e} />,
