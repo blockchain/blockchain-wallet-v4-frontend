@@ -90,7 +90,7 @@ export const SwapBanner = ({
       <Column>
         <LargeText>
           <FormattedMessage
-            defaultMessage="We've improved your Exchange"
+            defaultMessage="We've Improved Your Exchange"
             id='scenes.home.swapbanner.improved'
           />
         </LargeText>
