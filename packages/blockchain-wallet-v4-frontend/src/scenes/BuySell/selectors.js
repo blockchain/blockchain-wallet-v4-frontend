@@ -7,14 +7,16 @@ export const getData = createDeepEqualSelector(
   [
     selectors.core.walletOptions.getOptions,
     selectors.core.kvStore.buySell.getMetadata,
-    selectors.core.settings.getCountryCode
+    selectors.core.settings.getCountryCode,
+    selectors.modules.coinify.getCoinifySignupStep
   ],
-  (optionsR, buySellR, countryCodeR) => {
+  (optionsR, buySellR, countryCodeR, coinifySignupStep) => {
     const transform = (options, buySell, countryCode) => {
       return {
         options,
         buySell,
-        countryCode
+        countryCode,
+        coinifySignupStep
       }
     }
     return lift(transform)(optionsR, buySellR, countryCodeR)

@@ -1,12 +1,13 @@
 import * as AT from './actionTypes'
 import { assoc } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { COINIFY_SIGNUP_STATES } from './model'
 
 const INITIAL_STATE = {
   checkoutBusy: false,
   checkoutError: false,
   coinifyBusy: Remote.NotAsked,
-  step: null,
+  signupStep: COINIFY_SIGNUP_STATES.NONE,
   checkoutStep: 'checkout',
   signupComplete: null,
   payment: Remote.NotAsked

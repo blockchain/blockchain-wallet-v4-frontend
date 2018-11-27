@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 import ui from 'redux-ui'
-import { path, prop } from 'ramda'
+import { path, prop, equals } from 'ramda'
 
 import { actions } from 'data'
 import { TabMenuBuySellStatus } from 'components/Form'
@@ -15,6 +15,7 @@ import SfoxCheckout from './SfoxCheckout'
 import CoinifyCheckout from './CoinifyCheckout'
 import { getData, getFields } from './selectors'
 import SelectPartner from './template.success'
+import { COINIFY_SIGNUP_STATES } from 'data/modules/coinify/model'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -63,8 +64,13 @@ class BuySellContainer extends React.PureComponent {
     )
   }
 
+  componentWillUnmount () {
+    this.props.coinifyActions.coinifyNextStep(COINIFY_SIGNUP_STATES.NONE)
+  }
+
   triggerCoinifyEmailVerification = (country) => {
-    this.setState({doCoinifyHomebrewFlow: true, countrySelection: country})
+    this.props.coinifyActions.coinifyNextStep(COINIFY_SIGNUP_STATES.EMAIL)
+    this.setState({countrySelection: country})
   }
 
   /**
@@ -73,7 +79,7 @@ class BuySellContainer extends React.PureComponent {
    * If not, open the tray and send user through the signup flow.
    */
 
-  selectPartner (buySell, options, type) {
+  selectPartner (buySell, options, type, value) {
     if (path(['sfox', 'account_token'], buySell)) {
       return {
         component: (
@@ -82,10 +88,18 @@ class BuySellContainer extends React.PureComponent {
         partner: 'sfox'
       }
     }
-    if (path(['coinify', 'offline_token'], buySell)) {
+    if (path(['coinify', 'offline_token'], buySell)) { // if a coinify account already exists
       return {
         component: (
-          <CoinifyCheckout type={type} options={options} value={buySell} />
+          <CoinifyCheckout type={COINIFY_SIGNUP_STATES.BUY} options={options} value={buySell} />
+        ),
+        partner: 'coinify'
+      }
+    }
+    if (equals(value.coinifySignupStep, COINIFY_SIGNUP_STATES.EMAIL)) { // if new coinify user
+      return {
+        component: (
+          <CoinifyCheckout type={value.coinifySignupStep} countrySelection={this.state.countrySelection} />
         ),
         partner: 'coinify'
       }
@@ -127,18 +141,8 @@ class BuySellContainer extends React.PureComponent {
   render () {
     const { data, fields } = this.props
 
-    if (this.state.doCoinifyHomebrewFlow) {
-      return <CoinifyCheckout type={'emailVerify'} countrySelection={this.state.countrySelection} />
-    }
-
     const view = data.cata({
-      Success: value =>
-        this.selectPartner(
-          path(['buySell', 'value'], value),
-          value.options,
-          path(['type'], fields),
-          fields
-        ),
+      Success: value => this.selectPartner(path(['buySell', 'value'], value), value.options, prop('type', fields), value),
       Failure: message => <div>failure: {message}</div>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -168,7 +172,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
 })
 
 const enhance = compose(
