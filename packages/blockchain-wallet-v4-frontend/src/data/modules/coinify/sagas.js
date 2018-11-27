@@ -8,6 +8,8 @@ import * as C from 'services/AlertService'
 import * as service from 'services/CoinifyService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { KYC_MODAL } from 'data/components/identityVerification/model'
+import { COINIFY_SIGNUP_STATES } from './model'
 
 export const sellDescription = `Exchange Trade CNY-`
 export const logLocation = 'modules/coinify/sagas'
@@ -19,8 +21,10 @@ export default ({ coreSagas, networks }) => {
       yield call(coreSagas.data.coinify.signup, country)
       const profile = yield select(selectors.core.data.coinify.getProfile)
       if (!profile.error) {
-        yield call(coreSagas.data.coinify.triggerKYC)
-        yield put(A.coinifyNextStep('isx'))
+        // open homebrew/kyc modal instead of iSignThis kyc
+        yield put(actions.modals.showModal(KYC_MODAL))
+        // move step from EMAIL --> BUY
+        yield put(A.coinifyNextStep(COINIFY_SIGNUP_STATES.BUY))
       } else {
         yield put(A.coinifySignupFailure(JSON.parse(profile.error)))
       }
