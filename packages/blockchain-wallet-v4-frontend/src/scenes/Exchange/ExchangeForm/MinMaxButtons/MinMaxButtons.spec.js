@@ -22,7 +22,6 @@ const EXPECTED_VALUES = {
 }
 
 describe('Exchange MinMaxButtons', () => {
-  beforeEach(() => {})
   it('should have disabled buttons without values when disabled is true', () => {
     const wrapper = shallow(<MinMaxButtons disabled actions={actions} />)
     const minButton = wrapper.find(MinMaxButton).at(0)

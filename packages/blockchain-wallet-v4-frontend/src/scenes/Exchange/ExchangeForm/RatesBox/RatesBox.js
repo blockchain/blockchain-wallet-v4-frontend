@@ -26,7 +26,7 @@ const RatesTitle = styled(RatesRow)`
   margin-bottom: 12px;
 `
 
-const RatesBox = ({
+export const RatesBox = ({
   sourceCoin,
   targetCoin,
   currency,
