@@ -152,7 +152,9 @@ const BankLink = props => {
     enablePlaid,
     bankAccounts,
     onSetBankAccount,
-    componentState,
+    microDeposits,
+    selectBank,
+    addBankManually,
     toggleManual,
     handleSubmit,
     invalid,
@@ -173,7 +175,6 @@ const BankLink = props => {
     awaitingDeposits,
     resetAccountHolder
   } = props
-  const { microDeposits, selectBank, addBankManually } = componentState
 
   const titleHelper = () => {
     switch (true) {

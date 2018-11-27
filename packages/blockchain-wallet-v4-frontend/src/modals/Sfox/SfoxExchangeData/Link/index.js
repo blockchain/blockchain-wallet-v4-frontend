@@ -141,7 +141,7 @@ class LinkContainer extends PureComponent {
         setNotAsked={sfoxNotAsked}
         linkError={err && path(['message'], err)}
         resetAccountHolder={this.resetAccountHolder}
-        componentState={this.state}
+        {...this.state}
       />
     )
   }
