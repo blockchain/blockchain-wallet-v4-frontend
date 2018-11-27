@@ -4,10 +4,11 @@ import { connect } from 'react-redux'
 import ui from 'redux-ui'
 import { bindActionCreators, compose } from 'redux'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { getData } from './selectors'
 import Create from './template'
-import { COINIFY_SIGNUP_STATES } from 'data/modules/coinify/model'
+
+const { COINIFY_SIGNUP_STATES } = model.coinify
 
 class CreateContainer extends Component {
   componentDidMount () {
