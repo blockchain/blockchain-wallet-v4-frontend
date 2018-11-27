@@ -68,6 +68,9 @@ export default ({ api, coreSagas }) => {
       )
     } catch (e) {
       yield put(actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'registerUserCampaign', e)
+      )
     }
   }
 
