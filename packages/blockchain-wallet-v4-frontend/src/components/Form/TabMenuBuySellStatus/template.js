@@ -39,6 +39,9 @@ const CoinifyLink = styled(Link)`
   padding-left: 5px;
   margin-bottom: 0px;
 `
+const PoweredByText = styled(Text)`
+  margin-bottom: 0px
+`
 
 const TabMenuBuySellStatus = props => {
   const { handleClick, partner, value } = props
@@ -77,12 +80,12 @@ const TabMenuBuySellStatus = props => {
       </TabMenu>
       {partner && (
         <Partner>
-          <Text size='12px' weight={300}>
+          <PoweredByText size='12px' weight={300}>
             <FormattedMessage
               id='scenes.exchange.menutop.poweredby'
               defaultMessage='Powered by'
             />
-          </Text>
+          </PoweredByText>
           {partner === 'sfox' ? (
             <Link href='https://www.sfox.com' target='_blank'>
               <Image name='sfox-logo' width='60px' height='25px' />

@@ -24,6 +24,9 @@ class CreateContainer extends Component {
     if (!prevProps.emailVerified && this.props.emailVerified) {
       this.props.updateUI({ create: 'create_account' })
     }
+    if (prevProps.signupError && !prevProps.emailVerified && this.props.emailVerified) {
+      this.props.coinifyFrontendActions.coinifyClearSignupError()
+    }
   }
 
   render () {
@@ -52,6 +55,7 @@ CreateContainer.propTypes = {
 const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
+  coinifyFrontendActions: bindActionCreators(actions.modules.coinify, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   securityCenterActions: bindActionCreators(
     actions.modules.securityCenter,
