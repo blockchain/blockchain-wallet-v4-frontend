@@ -16,7 +16,7 @@ import {
 
 const add = (augend, addend) => new BigNumber(augend).add(addend).toString()
 
-class Summary extends React.PureComponent {
+export class Summary extends React.PureComponent {
   render () {
     const {
       currency,
