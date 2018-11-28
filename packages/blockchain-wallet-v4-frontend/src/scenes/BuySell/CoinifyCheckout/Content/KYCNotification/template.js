@@ -8,7 +8,7 @@ import {
   kycNotificationButtonHelper
 } from 'services/CoinifyService'
 import { spacing } from 'services/StyleService'
-import { path, or, equals, includes } from 'ramda'
+import { path, or, equals } from 'ramda'
 import media from 'services/ResponsiveService'
 import { model } from 'data'
 
@@ -88,7 +88,7 @@ const KYCNotification = props => {
         <Text size='13px' weight={300} style={spacing('mb-20')}>
           {path(['text'], body)}
         </Text>
-        {includes(kycState, [EXPIRED, REJECTED, NONE]) ? (
+        {[EXPIRED, REJECTED, NONE].includes(kycState) ? (
           <Button onClick={() => onTrigger(kyc)} nature='empty-secondary'>
             <Text size='13px' color='brand-secondary'>
               {path(['text'], kycNotificationButtonHelper(kycState))}
