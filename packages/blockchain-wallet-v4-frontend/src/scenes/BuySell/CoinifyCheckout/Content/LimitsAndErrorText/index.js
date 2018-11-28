@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom'
 import { Link, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 import media from 'services/ResponsiveService'
-import { gt, equals, prop, not } from 'ramda'
+import { equals, prop } from 'ramda'
 
 const Error = styled(Text)`
   position: absolute;
@@ -139,7 +139,9 @@ const LimitsAndErrorText = ({
   changeTab,
   level,
   increaseLimit,
-  kyc
+  kyc,
+  kycPending,
+  kycNotFinished
 }) => {
   const getSellLimits = () => {
     let effBal = limits.effectiveMax / 1e8
@@ -219,15 +221,16 @@ const LimitsAndErrorText = ({
             />
           </LimitsWrapper>
         )}
-        {gt(2, prop('name', level)) &&
-          not(equals(prop('state', kyc), 'reviewing')) ? (
-            <a onClick={() => increaseLimit()}>
+        {
+          kycNotFinished && !kycPending
+            ? <a onClick={() => increaseLimit()}>
               <FormattedMessage
                 id='buysell.quote_input.increase_limits'
                 defaultMessage=' Increase your limit.'
               />
             </a>
-          ) : null}
+            : null
+        }
       </LimitsHelper>
     )
   }
