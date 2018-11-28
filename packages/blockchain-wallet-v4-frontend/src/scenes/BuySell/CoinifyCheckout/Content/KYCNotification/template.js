@@ -8,8 +8,17 @@ import {
   kycNotificationButtonHelper
 } from 'services/CoinifyService'
 import { spacing } from 'services/StyleService'
-import { path } from 'ramda'
+import { path, or, equals, contains } from 'ramda'
 import media from 'services/ResponsiveService'
+import { model } from 'data'
+
+const {
+  NONE,
+  PENDING,
+  UNDER_REVIEW,
+  REJECTED,
+  EXPIRED
+} = model.profile.KYC_STATES
 
 const ISXContainer = styled.div`
   display: flex;
@@ -31,34 +40,35 @@ const LimitsNotice = styled.div`
 `
 
 const KYCNotification = props => {
-  const { kyc, onTrigger, symbol, limits, type, canTrade } = props
+  const { kyc, onTrigger, symbol, limits, type, canTrade, kycState } = props
 
-  const status = path(['state'], kyc)
-  const header = kycHeaderHelper(status)
-  const body = kycNotificationBodyHelper(status)
+  const header = kycHeaderHelper(kycState)
+  const body = kycNotificationBodyHelper(kycState)
 
   let effBal = limits.effectiveMax / 1e8
   let sellMax = Math.min(effBal, limits.max)
 
   return (
     <Wrapper>
-      {(status === 'pending' || status === 'reviewing') && canTrade ? (
+      {(or(equals(kycState, PENDING), equals(kycState, UNDER_REVIEW))) && canTrade ? (
         <LimitsNotice>
           <Text size='12px' weight={300}>
             {type === 'sell' ? (
               <Fragment>
                 <FormattedMessage
                   id='scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.sell'
-                  defaultMessage='While your identity gets verified, you can sell up to '
+                  defaultMessage='While your identity gets verified, you can sell up to'
                 />
+                {' '}
                 {sellMax} BTC.
               </Fragment>
             ) : (
               <Fragment>
                 <FormattedMessage
                   id='scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.buy'
-                  defaultMessage='While your identity gets verified, you can buy up to '
+                  defaultMessage='While your identity gets verified, you can buy up to'
                 />
+                {' '}
                 {symbol}
                 {limits.max}.
               </Fragment>
@@ -78,12 +88,10 @@ const KYCNotification = props => {
         <Text size='13px' weight={300} style={spacing('mb-20')}>
           {path(['text'], body)}
         </Text>
-        {status === 'pending' ||
-        status === 'rejected' ||
-        status === 'expired' ? (
+        {contains(kycState, [EXPIRED, REJECTED, NONE]) ? (
           <Button onClick={() => onTrigger(kyc)} nature='empty-secondary'>
             <Text size='13px' color='brand-secondary'>
-              {path(['text'], kycNotificationButtonHelper(status))}
+              {path(['text'], kycNotificationButtonHelper(kycState))}
             </Text>
           </Button>
         ) : null}
