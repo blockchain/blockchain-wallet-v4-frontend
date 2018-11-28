@@ -77,7 +77,8 @@ const FirstStep = props => {
     regularFee,
     priorityFee,
     handleFeeToggle,
-    balanceStatus
+    balanceStatus,
+    excludeLockbox
   } = props
   const disableLockboxSend =
     from &&
@@ -145,6 +146,7 @@ const FirstStep = props => {
                 includeAll={false}
                 hideIndicator
                 hideErrors
+                excludeLockbox={excludeLockbox}
               />
             )}
             {!toToggled && (

@@ -18,6 +18,6 @@ export const getMigrationRedirects = state =>
   getWebOptions(state).map(
     path(['application', 'enableDomainMigrationRedirects'])
   )
-export const getCoinAvailablility = curry((state, coin) =>
+export const getCoinAvailability = curry((state, coin) =>
   getWebOptions(state).map(path([toLower(coin), 'availability']))
 )

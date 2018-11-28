@@ -5,167 +5,57 @@
         "enableDomainMigrationRedirects": true,
         "announcements": {
           "public": {},
-          "wallet": {
-            "id": "bch-disabled-wallet",
-            "type": "info",
-            "icon": "alert-filled",
-            "hideType": "collapse",
-            "header": {
-              "en": "Ongoing Service Interruption",
-              "de": "Aktuelle Service-Störung",
-              "es": "Interrupción del servicio en curso",
-              "fr": "Interruption des services en cours",
-              "pt": "Interrupção de Serviço em Curso",
-              "ru": "Текущий перерыв в обслуживании",
-              "vi": "Đang xảy ra sự cố gián đoạn dịch vụ",
-              "zh-cn": "正在发生的服务中断"
-            },
-            "sections": [
-              {
-                "body": {
-                  "en": "At 16:40 UTC on Thursday 15th November, the Bitcoin Cash network experienced a hard fork.",
-                  "de": "Um 16:40 Uhr UTC am Donnerstag, den 15. November, erfolgte eine Hard Fork des Bitcoin-Cash-Netzwerks.",
-                  "es": "A las 16:40 horas (UTC) del jueves 15 de noviembre, la red Bitcoin Cash ha sufrido una bifurcación fuerte.",
-                  "fr": "Le jeudi 15 novembre à 16 h 40 (UTC), le réseau de Bitcoin Cash a subi un hard fork.",
-                  "pt": "No dia 15 de novembro, quinta-feira, às 16:40 UTC, a rede do Bitcoin Cash teve um hard fork.",
-                  "ru": "В четверг 15 ноября в 16:40 UTC в сети Bitcoin Cash был произведен хардфорк.",
-                  "vi": "Vào lúc 16:40 UTC (23:40 theo giờ Việt Nam) thứ Năm, ngày 15 tháng 11, sẽ diễn ra hoạt động phân tách trên mạng lưới Bitcoin Cash.",
-                  "zh-cn": "在 11 月 15 日星期四 16:40 UTC,比特币现金 (Bitcoin Cash) 网络经历了一次硬分叉。"
-                }
-              },
-              {
-                "body": {
-                  "en": "To keep your funds safe, we have temporarily suspended the ability to send, request, and exchange Bitcoin Cash. We will reintroduce these features as soon as the network stabilizes.",
-                  "de": "Um Ihr Guthaben schützen können, ist das Überweisen, Empfangen und Tauschen von Bitcoin Cash vorübergehend nicht möglich. Diese Funktionen machen wir wieder verfügbar, sobald sich das Netzwerk stabilisiert hat.",
-                  "es": "Para garantizar que sus fondos se mantengan a salvo, se ha desactivado la posibilidad de realizar envíos, solicitudes e intercambios de Bitcoin Cash. Se restablecerán estas funciones en cuanto se estabilice la red.",
-                  "fr": "Pour garantir la sécurité de vos fonds, nous avons temporairement bloqué les fonctionnalités d'envoi, de demande et d'échange de Bitcoin Cash. Nous les rétablirons dès que le réseau sera de nouveau stable.",
-                  "pt": "Para manter os seus fundos em segurança, estamos a suspender temporariamente a capacidade de enviar, solicitar e trocar Bitcoin Cash. Vamos reintroduzir essas funcionalidades assim que a rede estabilizar.",
-                  "ru": "Чтобы обеспечить безопасность ваших средств, мы временно приостановили возможность отправки, запроса и обмена Bitcoin Cash. Мы возобновим эти функции сразу после стабилизации сети.",
-                  "vi": "Nhằm đảm bảo an toàn cho tiền của bạn, chúng tôi đã tạm ngưng chức năng gửi, yêu cầu và trao đổi Bitcoin Cash. Chúng tôi sẽ khôi phục các tính năng này ngay sau khi mạng lưới ổn định trở lại.",
-                  "zh-cn": "为了保证您的资金安全,我们暂停了比特币现金的付款,收款和兑换功能。一旦网络稳定,我们将重新恢复这些功能。"
-                }
-              }
-            ],
-            "action": {
-              "title": {
-                "en": "Read More",
-                "de": "Mehr Erfahren",
-                "es": "Más Información",
-                "fr": "En Savoir Plus",
-                "pt": "Leia Mais",
-                "ru": "Читать Дальше",
-                "vi": "Đọc Thêm",
-                "zh-cn": "阅读更多"
-              },
-              "link": "https://blog.blockchain.com/2018/11/14/the-bch-hard-fork/"
-            }
-          },
+          "wallet": {},
           "sendBch": {
-            "id": "bch-disabled-send",
+            "id": "bch-disabled-lockbox-send",
             "type": "info",
             "icon": "alert-filled",
             "hideType": "collapse",
             "header": {
-              "en": "Ongoing Service Interruption",
-              "de": "Aktuelle Service-Störung",
-              "es": "Interrupción del servicio en curso",
-              "fr": "Interruption des services en cours",
-              "pt": "Interrupção de Serviço em Curso",
-              "ru": "Текущий перерыв в обслуживании",
-              "vi": "Đang xảy ra sự cố gián đoạn dịch vụ",
-              "zh-cn": "正在发生的服务中断"
+              "en": "Ongoing Service Interruption"
             },
             "sections": [
               {
                 "body": {
-                  "en": "At 16:40 UTC on Thursday 15th November, the Bitcoin Cash network experienced a hard fork.",
-                  "de": "Um 16:40 Uhr UTC am Donnerstag, den 15. November, erfolgte eine Hard Fork des Bitcoin-Cash-Netzwerks.",
-                  "es": "A las 16:40 horas (UTC) del jueves 15 de noviembre, la red Bitcoin Cash ha sufrido una bifurcación fuerte.",
-                  "fr": "Le jeudi 15 novembre à 16 h 40 (UTC), le réseau de Bitcoin Cash a subi un hard fork.",
-                  "pt": "No dia 15 de novembro, quinta-feira, às 16:40 UTC, a rede do Bitcoin Cash teve um hard fork.",
-                  "ru": "В четверг 15 ноября в 16:40 UTC в сети Bitcoin Cash был произведен хардфорк.",
-                  "vi": "Vào lúc 16:40 UTC (23:40 theo giờ Việt Nam) thứ Năm, ngày 15 tháng 11, sẽ diễn ra hoạt động phân tách trên mạng lưới Bitcoin Cash.",
-                  "zh-cn": "在 11 月 15 日星期四 16:40 UTC,比特币现金 (Bitcoin Cash) 网络经历了一次硬分叉。"
+                  "en": "At 16:40 UTC on Thursday 15th November, the Bitcoin Cash network experienced a hard fork."
                 }
               },
               {
                 "body": {
-                  "en": "To keep your funds safe, we have temporarily suspended the ability to send, request, and exchange Bitcoin Cash. We will reintroduce these features as soon as the network stabilizes.",
-                  "de": "Um Ihr Guthaben schützen können, ist das Überweisen, Empfangen und Tauschen von Bitcoin Cash vorübergehend nicht möglich. Diese Funktionen machen wir wieder verfügbar, sobald sich das Netzwerk stabilisiert hat.",
-                  "es": "Para garantizar que sus fondos se mantengan a salvo, se ha desactivado la posibilidad de realizar envíos, solicitudes e intercambios de Bitcoin Cash. Se restablecerán estas funciones en cuanto se estabilice la red.",
-                  "fr": "Pour garantir la sécurité de vos fonds, nous avons temporairement bloqué les fonctionnalités d'envoi, de demande et d'échange de Bitcoin Cash. Nous les rétablirons dès que le réseau sera de nouveau stable.",
-                  "pt": "Para manter os seus fundos em segurança, estamos a suspender temporariamente a capacidade de enviar, solicitar e trocar Bitcoin Cash. Vamos reintroduzir essas funcionalidades assim que a rede estabilizar.",
-                  "ru": "Чтобы обеспечить безопасность ваших средств, мы временно приостановили возможность отправки, запроса и обмена Bitcoin Cash. Мы возобновим эти функции сразу после стабилизации сети.",
-                  "vi": "Nhằm đảm bảo an toàn cho tiền của bạn, chúng tôi đã tạm ngưng chức năng gửi, yêu cầu và trao đổi Bitcoin Cash. Chúng tôi sẽ khôi phục các tính năng này ngay sau khi mạng lưới ổn định trở lại.",
-                  "zh-cn": "为了保证您的资金安全,我们暂停了比特币现金的付款,收款和兑换功能。一旦网络稳定,我们将重新恢复这些功能。"
+                  "en": "To keep your funds safe, we have temporarily suspended the ability to send, request, and exchange Bitcoin Cash for Lockbox devices only. We will reintroduce these features as soon as the network stabilizes."
                 }
               }
             ],
             "action": {
               "title": {
-                "en": "Read More",
-                "de": "Mehr Erfahren",
-                "es": "Más Información",
-                "fr": "En Savoir Plus",
-                "pt": "Leia Mais",
-                "ru": "Читать Дальше",
-                "vi": "Đọc Thêm",
-                "zh-cn": "阅读更多"
+                "en": "Read More"
               },
               "link": "https://blog.blockchain.com/2018/11/14/the-bch-hard-fork/"
             }
           },
           "receiveBch": {
-            "id": "bch-disabled-receive",
+            "id": "bch-disabled-lockbox-receive",
             "type": "info",
             "icon": "alert-filled",
             "hideType": "collapse",
             "header": {
-              "en": "Ongoing Service Interruption",
-              "de": "Aktuelle Service-Störung",
-              "es": "Interrupción del servicio en curso",
-              "fr": "Interruption des services en cours",
-              "pt": "Interrupção de Serviço em Curso",
-              "ru": "Текущий перерыв в обслуживании",
-              "vi": "Đang xảy ra sự cố gián đoạn dịch vụ",
-              "zh-cn": "正在发生的服务中断"
+              "en": "Ongoing Service Interruption"
             },
             "sections": [
               {
                 "body": {
-                  "en": "At 16:40 UTC on Thursday 15th November, the Bitcoin Cash network experienced a hard fork.",
-                  "de": "Um 16:40 Uhr UTC am Donnerstag, den 15. November, erfolgte eine Hard Fork des Bitcoin-Cash-Netzwerks.",
-                  "es": "A las 16:40 horas (UTC) del jueves 15 de noviembre, la red Bitcoin Cash ha sufrido una bifurcación fuerte.",
-                  "fr": "Le jeudi 15 novembre à 16 h 40 (UTC), le réseau de Bitcoin Cash a subi un hard fork.",
-                  "pt": "No dia 15 de novembro, quinta-feira, às 16:40 UTC, a rede do Bitcoin Cash teve um hard fork.",
-                  "ru": "В четверг 15 ноября в 16:40 UTC в сети Bitcoin Cash был произведен хардфорк.",
-                  "vi": "Vào lúc 16:40 UTC (23:40 theo giờ Việt Nam) thứ Năm, ngày 15 tháng 11, sẽ diễn ra hoạt động phân tách trên mạng lưới Bitcoin Cash.",
-                  "zh-cn": "在 11 月 15 日星期四 16:40 UTC,比特币现金 (Bitcoin Cash) 网络经历了一次硬分叉。"
+                  "en": "At 16:40 UTC on Thursday 15th November, the Bitcoin Cash network experienced a hard fork."
                 }
               },
               {
                 "body": {
-                  "en": "To keep your funds safe, we have temporarily suspended the ability to send, request, and exchange Bitcoin Cash. We will reintroduce these features as soon as the network stabilizes.",
-                  "de": "Um Ihr Guthaben schützen können, ist das Überweisen, Empfangen und Tauschen von Bitcoin Cash vorübergehend nicht möglich. Diese Funktionen machen wir wieder verfügbar, sobald sich das Netzwerk stabilisiert hat.",
-                  "es": "Para garantizar que sus fondos se mantengan a salvo, se ha desactivado la posibilidad de realizar envíos, solicitudes e intercambios de Bitcoin Cash. Se restablecerán estas funciones en cuanto se estabilice la red.",
-                  "fr": "Pour garantir la sécurité de vos fonds, nous avons temporairement bloqué les fonctionnalités d'envoi, de demande et d'échange de Bitcoin Cash. Nous les rétablirons dès que le réseau sera de nouveau stable.",
-                  "pt": "Para manter os seus fundos em segurança, estamos a suspender temporariamente a capacidade de enviar, solicitar e trocar Bitcoin Cash. Vamos reintroduzir essas funcionalidades assim que a rede estabilizar.",
-                  "ru": "Чтобы обеспечить безопасность ваших средств, мы временно приостановили возможность отправки, запроса и обмена Bitcoin Cash. Мы возобновим эти функции сразу после стабилизации сети.",
-                  "vi": "Nhằm đảm bảo an toàn cho tiền của bạn, chúng tôi đã tạm ngưng chức năng gửi, yêu cầu và trao đổi Bitcoin Cash. Chúng tôi sẽ khôi phục các tính năng này ngay sau khi mạng lưới ổn định trở lại.",
-                  "zh-cn": "为了保证您的资金安全,我们暂停了比特币现金的付款,收款和兑换功能。一旦网络稳定,我们将重新恢复这些功能。"
+                  "en": "To keep your funds safe, we have temporarily suspended the ability to send, request, and exchange Bitcoin Cash for Lockbox devices only. We will reintroduce these features as soon as the network stabilizes."
                 }
               }
             ],
             "action": {
               "title": {
-                "en": "Read More",
-                "de": "Mehr Erfahren",
-                "es": "Más Información",
-                "fr": "En Savoir Plus",
-                "pt": "Leia Mais",
-                "ru": "Читать Дальше",
-                "vi": "Đọc Thêm",
-                "zh-cn": "阅读更多"
+                "en": "Read More"
               },
               "link": "https://blog.blockchain.com/2018/11/14/the-bch-hard-fork/"
             }
@@ -176,10 +66,8 @@
         "availability": {
           "send": true,
           "request": true,
-          "exchange": true,
-          "history": true,
-          "report": true,
-          "fiat": true
+          "lockbox": true,
+          "exchange": true
         },
         "config": {
           "network": "bitcoin"
@@ -189,19 +77,16 @@
         "availability": {
           "send": true,
           "request": true,
-          "exchange": true,
-          "history": true,
-          "report": true,
-          "fiat": true
+          "lockbox": false,
+          "exchange": true
         }
       },
       "eth": {
         "availability": {
           "send": true,
           "request": true,
-          "exchange": true,
-          "history": true,
-          "fiat": true
+          "lockbox": true,
+          "exchange": true
         },
         "lastTxFuse": 86400,
         "config": {
@@ -212,9 +97,8 @@
         "availability": {
           "send": true,
           "request": true,
-          "exchange": true,
-          "history": true,
-          "fiat": true
+          "lockbox": true,
+          "exchange": true
         },
         "config": {
           "network": "public"

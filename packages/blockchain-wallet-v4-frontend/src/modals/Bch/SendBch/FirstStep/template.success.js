@@ -50,7 +50,8 @@ const FirstStep = props => {
     handleToToggle,
     handleSubmit,
     totalFee,
-    pristine
+    pristine,
+    excludeLockbox
   } = props
   const disableLockboxSend =
     from &&
@@ -87,6 +88,7 @@ const FirstStep = props => {
             component={SelectBoxBchAddresses}
             includeAll={false}
             excludeWatchOnly
+            excludeLockbox={excludeLockbox}
             validate={[required]}
           />
         </FormItem>

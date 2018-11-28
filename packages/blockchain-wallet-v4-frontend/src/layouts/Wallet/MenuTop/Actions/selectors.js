@@ -6,12 +6,12 @@ import { selectors } from 'data'
 export const getData = createSelector(
   [
     path(['router', 'location', 'pathname']),
-    state => selectors.core.walletOptions.getCoinAvailablility(state)
+    state => selectors.core.walletOptions.getCoinAvailability(state)
   ],
-  (pathname, getCoinAvailablility) => {
+  (pathname, getCoinAvailability) => {
     const params = pathname.split('/')
     const coin = params[1]
-    const availability = getCoinAvailablility(toUpper(coin))
+    const availability = getCoinAvailability(toUpper(coin))
     return {
       coin,
       sendAvailable: availability.map(propOr(true, 'send')).getOrElse(false),

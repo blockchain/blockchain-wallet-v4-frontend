@@ -85,7 +85,8 @@ const FirstStep = props => {
     regularFeePerByte,
     priorityFeePerByte,
     isPriorityFeePerByte,
-    totalFee
+    totalFee,
+    excludeLockbox
   } = rest
   const disableLockboxSend =
     from &&
@@ -171,6 +172,7 @@ const FirstStep = props => {
                 exclude={[from.label]}
                 validate={[required]}
                 includeAll={false}
+                excludeLockbox={excludeLockbox}
                 hideIndicator
                 hideErrors
               />

@@ -52,7 +52,13 @@ const BannerContainer = styled.div`
 `
 
 const RequestEth = props => {
-  const { handleSubmit, handleOpenLockbox, address, type } = props
+  const {
+    handleSubmit,
+    handleOpenLockbox,
+    address,
+    type,
+    excludeLockbox
+  } = props
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -83,6 +89,7 @@ const RequestEth = props => {
             component={SelectBoxEthAddresses}
             includeAll={false}
             validate={[required]}
+            excludeLockbox={excludeLockbox}
           />
         </FormItem>
       </FormGroup>
