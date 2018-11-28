@@ -96,6 +96,8 @@ class IdentityVerification extends React.PureComponent {
 
   getStepComponent = step => {
     const { actions, modalActions, position, total } = this.props
+    if (step === STEPS.coinify)
+      return <div>COINIFY EMAIL VERIFICATION</div>
     if (step === STEPS.personal)
       return (
         <Personal
