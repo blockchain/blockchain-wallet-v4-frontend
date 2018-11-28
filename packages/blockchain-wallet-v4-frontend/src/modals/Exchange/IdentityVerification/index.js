@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { keys, pickBy } from 'ramda'
+import { keys, pickBy, fromPairs, prepend, test } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
 import { actions, model } from 'data'
@@ -54,25 +54,40 @@ const IdentityVerificationTray = styled(Tray)`
 
 const { STEPS, KYC_MODAL } = model.components.identityVerification
 
-const stepMap = {
-  [STEPS.personal]: (
+const stepMap = (props) => {
+  const coinifyStep = [
+    STEPS.coinify,
     <FormattedMessage
-      id='modals.identityverification.steps.personal'
-      defaultMessage='Personal'
+      id='modals.identityverification.steps.coinify'
+      defaultMessage='Email'
     />
-  ),
-  [STEPS.mobile]: (
-    <FormattedMessage
-      id='modals.identityverification.steps.mobile'
-      defaultMessage='Phone'
-    />
-  ),
-  [STEPS.verify]: (
-    <FormattedMessage
-      id='modals.identityverification.steps.verify'
-      defaultMessage='Verify'
-    />
-  )
+  ]
+  const baseSteps = [
+    [
+      STEPS.personal,
+      <FormattedMessage
+        id='modals.identityverification.steps.personal'
+        defaultMessage='Personal'
+      />
+    ],
+    [
+      STEPS.mobile,
+      <FormattedMessage
+        id='modals.identityverification.steps.mobile'
+        defaultMessage='Phone'
+      />
+    ],
+    [
+      STEPS.verify,
+      <FormattedMessage
+        id='modals.identityverification.steps.verify'
+        defaultMessage='Verify'
+      />
+    ]
+  ]
+  if (test(/buy-sell/, props.path)) // if we're on buy-sell route, include coinify in stepMap
+    return fromPairs(prepend(coinifyStep, baseSteps))
+  return fromPairs(baseSteps)
 }
 
 const filterSteps = smsVerified => (stepText, step) =>
@@ -87,7 +102,7 @@ class IdentityVerification extends React.PureComponent {
     /* eslint-enable */
     const { actions, smsVerified } = this.props
     actions.initializeStep()
-    this.steps = pickBy(filterSteps(smsVerified), stepMap)
+    this.steps = pickBy(filterSteps(smsVerified), stepMap(this.props))
   }
 
   componentWillUnmount () {

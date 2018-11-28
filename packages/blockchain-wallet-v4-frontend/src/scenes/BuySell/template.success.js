@@ -104,7 +104,7 @@ const SelectPartner = props => {
       // for homebrew, do not open modal, but go to email verification flow not in modal
       // props.triggerCoinifyEmailVerification(country)
 
-      // TODO: open kyc modal with coinifyFlow flag already set
+      // TODO: open kyc modal with coinifyFlow step already set
       props.identityActions.setVerificationStep('coinify')
       props.modalActions.showModal(KYC_MODAL)
     }

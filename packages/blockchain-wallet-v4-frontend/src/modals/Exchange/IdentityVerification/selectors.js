@@ -9,6 +9,7 @@ export const getData = state => {
       state
     ),
     smsVerified,
-    step: selectors.components.identityVerification.getVerificationStep(state)
+    step: selectors.components.identityVerification.getVerificationStep(state),
+    path: selectors.router.getPathname(state)
   }
 }
