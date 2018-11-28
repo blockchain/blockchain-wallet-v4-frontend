@@ -114,6 +114,7 @@ const FirstStep = props => {
             component={SelectBoxEthAddresses}
             includeAll={false}
             validate={[required]}
+            excludeLockbox={excludeLockbox}
           />
         </FormItem>
       </FormGroup>
@@ -146,7 +147,6 @@ const FirstStep = props => {
                 includeAll={false}
                 hideIndicator
                 hideErrors
-                excludeLockbox={excludeLockbox}
               />
             )}
             {!toToggled && (

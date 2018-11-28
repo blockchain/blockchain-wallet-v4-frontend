@@ -1,4 +1,4 @@
-import { length, prop, propOr, path, isEmpty } from 'ramda'
+import { length, prop, path, isEmpty } from 'ramda'
 import { model, selectors } from 'data'
 import { formValueSelector } from 'redux-form'
 import Bitcoin from 'bitcoinjs-lib'
@@ -13,9 +13,7 @@ export const getData = state => {
     state,
     'BCH'
   )
-  const excludeLockbox = !availability
-    .map(propOr(true, 'lockbox'))
-    .getOrElse(true)
+  const excludeLockbox = !availability.map(prop('lockbox')).getOrElse(true)
   const networkType = selectors.core.walletOptions
     .getBtcNetwork(state)
     .getOrElse('bitcoin')

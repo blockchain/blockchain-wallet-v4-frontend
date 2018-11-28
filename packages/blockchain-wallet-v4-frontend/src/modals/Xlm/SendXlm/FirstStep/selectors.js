@@ -25,13 +25,13 @@ export const getData = createDeepEqualSelector(
     formValues,
     activeField,
     noAccount,
-    getCoinAvailability
+    coinAvailabilityR
   ) => {
     const enableToggle = !isEmpty(lockboxDevicesR.getOrElse([]))
-    const excludeLockbox = !getCoinAvailability('XLM')
-      .map(propOr(true, 'lockbox'))
-      .getOrElse(true)
-
+    const excludeLockbox = !prop(
+      'lockbox',
+      coinAvailabilityR('XLM').getOrElse({})
+    )
     const transform = (payment, currency, rates) => {
       const effectiveBalance = propOr('0', 'effectiveBalance', payment)
       const reserve = propOr('0', 'reserve', payment)

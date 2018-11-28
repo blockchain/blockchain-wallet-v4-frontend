@@ -122,6 +122,7 @@ const FirstStep = props => {
             component={SelectBoxBtcAddresses}
             validate={[required]}
             includeAll={false}
+            excludeLockbox={excludeLockbox}
           />
           {watchOnly && (
             <Row>
@@ -172,7 +173,6 @@ const FirstStep = props => {
                 exclude={[from.label]}
                 validate={[required]}
                 includeAll={false}
-                excludeLockbox={excludeLockbox}
                 hideIndicator
                 hideErrors
               />
