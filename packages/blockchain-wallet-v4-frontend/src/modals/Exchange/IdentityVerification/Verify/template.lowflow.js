@@ -7,17 +7,16 @@ import media from 'services/ResponsiveService'
 
 import { model } from 'data'
 import { map, flip, prop } from 'ramda'
-import { Button, Image } from 'blockchain-info-components'
+import { Button } from 'blockchain-info-components'
 import { FooterShadowWrapper } from 'components/Form'
 import {
   BackButton,
   IdentityVerificationForm,
   ColLeft,
-  ColRight,
   InputWrapper,
+  IdentityVerificationImage,
   IdentityVerificationHeader,
-  IdentityVerificationSubHeader,
-  ColRightInner
+  IdentityVerificationSubHeader
 } from 'components/IdentityVerification'
 
 const Footer = styled.div`
@@ -51,18 +50,21 @@ const { SUPPORTED_DOCUMENTS } = model.components.identityVerification
 const docMap = {
   [SUPPORTED_DOCUMENTS['PASSPORT']]: (
     <FormattedMessage
+      key='passport'
       id='identityverification.verify.passport'
       defaultMessage='Government Issued Passport'
     />
   ),
   [SUPPORTED_DOCUMENTS['DRIVING_LICENCE']]: (
     <FormattedMessage
+      key='deivingLicence'
       id='identityverification.verify.driverslicense'
       defaultMessage='Driver’s License'
     />
   ),
   [SUPPORTED_DOCUMENTS['NATIONAL_IDENTITY_CARD']]: (
     <FormattedMessage
+      key='id'
       id='identityverification.verify.natitionalidcard'
       defaultMessage='National Identity Card'
     />
@@ -79,13 +81,14 @@ const Verify = ({ handleSubmit, onBack, supportedDocuments }) => (
               <IdentityVerificationHeader>
                 <FormattedMessage
                   id='identityverification.verify.header'
-                  defaultMessage='Verify Your Identity'
+                  defaultMessage='Last Step. Verify Your ID'
                 />
               </IdentityVerificationHeader>
+              <IdentityVerificationImage name='identity-verification' />
               <IdentityVerificationSubHeader>
                 <FormattedMessage
                   id='identityverification.verify.message'
-                  defaultMessage='Last step! We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.'
+                  defaultMessage='We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.'
                 />
               </IdentityVerificationSubHeader>
               <DocumentsWrapper>
@@ -93,11 +96,6 @@ const Verify = ({ handleSubmit, onBack, supportedDocuments }) => (
               </DocumentsWrapper>
             </InputWrapper>
           </ColLeft>
-          <ColRight>
-            <ColRightInner>
-              <Image name='identity-verification' width='100%' />
-            </ColRightInner>
-          </ColRight>
         </VerifyWrapper>
       }
       footer={

@@ -2,23 +2,32 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { getData } from './selectors'
 
-import Verify from './template.success'
+import LowFlow from './template.lowflow'
+import HighFlow from './template.highflow'
 import Loading from './template.loading'
+
+const { FLOW_TYPES } = model.components.identityVerification
 
 class VerifyContainer extends React.PureComponent {
   componentDidMount () {
     const { actions } = this.props
     actions.fetchSupportedDocuments()
+    actions.checkKycFlow()
   }
 
   render () {
-    const { data, ...rest } = this.props
+    const { data, actions, ...rest } = this.props
 
     return data.cata({
-      Success: val => <Verify supportedDocuments={val} {...rest} />,
+      Success: ({ docTypes, flowType, mobile }) =>
+        flowType === FLOW_TYPES.LOW ? (
+          <LowFlow supportedDocuments={docTypes} {...rest} />
+        ) : (
+          <HighFlow mobile={mobile} resend={actions.resendDeeplink} {...rest} />
+        ),
       Loading: () => <Loading />,
       NotAsked: () => null,
       Failure: () => null
