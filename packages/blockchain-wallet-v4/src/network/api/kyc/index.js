@@ -61,14 +61,30 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
       url: nabuUrl
     })
 
+  const fetchKycConfig = () =>
+    authorizedGet({
+      url: nabuUrl,
+      contentType: 'application/json',
+      endPoint: '/kyc/configuration'
+    })
+
+  const resendDeeplink = () =>
+    authorizedPost({
+      url: nabuUrl,
+      contentType: 'application/json',
+      endPoint: '/kyc/resendDeeplink'
+    })
+
   return {
     getSupportedCountries,
     getSupportedDocuments,
     getStates,
     fetchKycAddresses,
+    fetchKycConfig,
     fetchOnfidoSDKKey,
     fetchUploadData,
     syncOnfido,
+    resendDeeplink,
     uploadDocuments
   }
 }

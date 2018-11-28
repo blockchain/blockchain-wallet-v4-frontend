@@ -5042,11 +5042,11 @@
         "id": "identityverification.verify.natitionalidcard"
       },
       {
-        "defaultMessage": "Verify Your Identity",
+        "defaultMessage": "Last Step. Verify Your ID",
         "id": "identityverification.verify.header"
       },
       {
-        "defaultMessage": "Last step! We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.",
+        "defaultMessage": "We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.",
         "id": "identityverification.verify.message"
       },
       {
@@ -5574,11 +5574,11 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Verify Your Identity",
+        "defaultMessage": "Last Step. Verify Your ID",
         "id": "identityverification.verify.header"
       },
       {
-        "defaultMessage": "Last step! We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.",
+        "defaultMessage": "We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.",
         "id": "identityverification.verify.message"
       },
       {
@@ -5603,11 +5603,11 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Verify Your Identity",
+        "defaultMessage": "Last Step. Verify Your ID",
         "id": "identityverification.verify.header"
       },
       {
-        "defaultMessage": "Last step! We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.",
+        "defaultMessage": "We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.",
         "id": "identityverification.verify.message"
       },
       {
@@ -5644,11 +5644,11 @@
         "id": "identityverification.verify.natitionalidcard"
       },
       {
-        "defaultMessage": "Verify Your Identity",
+        "defaultMessage": "Last Step. Verify Your ID",
         "id": "identityverification.verify.header"
       },
       {
-        "defaultMessage": "Last step! We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.",
+        "defaultMessage": "We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.",
         "id": "identityverification.verify.message"
       },
       {
