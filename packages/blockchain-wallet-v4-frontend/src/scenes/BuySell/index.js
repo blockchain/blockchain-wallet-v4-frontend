@@ -173,7 +173,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
-  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
+  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch),
+  identityActions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 
 const enhance = compose(

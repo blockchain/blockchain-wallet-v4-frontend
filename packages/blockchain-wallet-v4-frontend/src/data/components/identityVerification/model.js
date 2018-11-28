@@ -4,6 +4,7 @@ export const KYC_MODAL = '@KYC.IdentityVerification'
 export const USER_EXISTS_MODAL = '@KYC.UserExists'
 
 export const STEPS = {
+  coinify: 'coinify',
   personal: 'personal',
   mobile: 'mobile',
   verify: 'verify'

@@ -90,6 +90,11 @@ class IdentityVerification extends React.PureComponent {
     this.steps = pickBy(filterSteps(smsVerified), stepMap)
   }
 
+  componentWillUnmount () {
+    // must clear the coinify step
+    this.props.actions.setVerificationStep(null)
+  }
+
   steps = {}
 
   handleClose = () => {
@@ -99,6 +104,8 @@ class IdentityVerification extends React.PureComponent {
 
   getStepComponent = step => {
     const { actions, modalActions, position, total } = this.props
+    if (step === STEPS.coinify)
+      return <div>COINIFY EMAIL VERIFICATION</div>
     if (step === STEPS.personal)
       return <Personal handleSubmit={actions.savePersonalData} />
 

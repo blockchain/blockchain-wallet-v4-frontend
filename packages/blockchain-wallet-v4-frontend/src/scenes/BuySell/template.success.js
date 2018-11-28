@@ -21,6 +21,7 @@ import {
 } from 'services/FormHelper'
 import BuySellAnimation from './BuySellAnimation'
 import media from 'services/ResponsiveService'
+import { KYC_MODAL } from 'data/components/identityVerification/model'
 
 const Row = styled.div`
   display: flex;
@@ -100,12 +101,12 @@ const SelectPartner = props => {
       props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
     }
     if (coinifyCountries.includes(country)) {
-      // props.modalActions.showModal('CoinifyExchangeData', {
-      //   step: 'account',
-      //   country
-      // })
       // for homebrew, do not open modal, but go to email verification flow not in modal
-      props.triggerCoinifyEmailVerification(country)
+      // props.triggerCoinifyEmailVerification(country)
+
+      // TODO: open kyc modal with coinifyFlow flag already set
+      props.identityActions.setVerificationStep('coinify')
+      props.modalActions.showModal(KYC_MODAL)
     }
   }
 

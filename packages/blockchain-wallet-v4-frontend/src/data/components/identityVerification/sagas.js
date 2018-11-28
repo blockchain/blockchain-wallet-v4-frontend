@@ -8,6 +8,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import * as C from 'services/AlertService'
 
 import * as A from './actions'
+import * as S from './selectors'
 import {
   STEPS,
   SMS_STEPS,
@@ -113,12 +114,15 @@ export default ({ api, coreSagas }) => {
   }
 
   const initializeStep = function*() {
+    const verificationStep = yield select(S.getVerificationStep)
     const activationState = (yield select(
       selectors.modules.profile.getUserActivationState
     )).getOrElse(USER_ACTIVATION_STATES.NONE)
     const mobileVerified = (yield select(selectors.modules.profile.getUserData))
       .map(prop('mobileVerified'))
       .getOrElse(false)
+    if (verificationStep === 'coinify')
+      return yield put(A.setVerificationStep(STEPS.coinify))
     if (activationState === USER_ACTIVATION_STATES.NONE)
       return yield put(A.setVerificationStep(STEPS.personal))
     if (mobileVerified) return yield put(A.setVerificationStep(STEPS.verify))
