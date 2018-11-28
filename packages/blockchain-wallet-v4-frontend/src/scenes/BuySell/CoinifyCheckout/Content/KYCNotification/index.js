@@ -24,9 +24,9 @@ class KYCNotificationContainer extends React.Component {
       onTrigger,
       showKycCompleted,
       symbol,
-      type
+      type,
+      kycState
     } = this.props
-
     return showKycCompleted || !equals(prop('state', kyc), 'completed') ? (
       <Success
         kyc={kyc}
@@ -36,6 +36,7 @@ class KYCNotificationContainer extends React.Component {
         showKycCompleted={showKycCompleted}
         symbol={symbol}
         type={type}
+        kycState={kycState}
       />
     ) : null
   }

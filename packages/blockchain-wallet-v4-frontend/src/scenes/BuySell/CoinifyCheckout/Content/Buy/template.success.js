@@ -56,7 +56,8 @@ const CoinifyBuy = props => {
     canTrade,
     subscriptions,
     trades,
-    kycNotFinished
+    kycState,
+    kycVerified
   } = props
 
   const profile = Remote.of(prop('profile', value)).getOrElse({
@@ -99,14 +100,14 @@ const CoinifyBuy = props => {
                   manageOrder={() => changeTab('order_history')}
                 />
               ) : null}
-              {kycNotFinished ? (
+              {!kycVerified ? (
                 <KYCNotification
                   kyc={kyc}
                   limits={limits.buy}
                   symbol={symbol}
                   onTrigger={kyc => handleKycAction(kyc)}
                   canTrade={canTrade}
-                  kycNotFinished={kycNotFinished}
+                  kycState={kycState}
                 />
               ) : null}
             </RightContainer>

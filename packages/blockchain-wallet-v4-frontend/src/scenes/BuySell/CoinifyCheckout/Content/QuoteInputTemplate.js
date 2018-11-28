@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
-import { equals, prop } from 'ramda'
+import { equals } from 'ramda'
 
 import { Icon } from 'blockchain-info-components'
 import { SelectBoxCoinifyCurrency, NumberBoxDebounced } from 'components/Form'

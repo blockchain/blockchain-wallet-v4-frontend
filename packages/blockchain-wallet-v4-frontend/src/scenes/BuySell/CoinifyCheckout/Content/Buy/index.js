@@ -48,7 +48,7 @@ class CoinifyBuyContainer extends React.Component {
       canTrade,
       ...rest
     } = this.props
-    const { step, checkoutBusy, coinifyBusy, subscriptions, trades, kycNotFinished, kycPending, kycVerified } = rest
+    const { step, checkoutBusy, coinifyBusy, subscriptions, trades, kycState } = rest
     const { fetchQuote, refreshBuyQuote } = coinifyDataActions
     const { showModal } = modalActions
     const { coinifyNotAsked, coinifyNextCheckoutStep } = coinifyActions
@@ -91,9 +91,7 @@ class CoinifyBuyContainer extends React.Component {
           canTrade={canTrade}
           subscriptions={subscriptions}
           trades={trades}
-          kycNotFinished={kycNotFinished}
-          kycPending={kycPending}
-          kycVerified={kycVerified}
+          kycState={kycState}
         />
       ),
       Failure: e => <Failure error={e} />,
