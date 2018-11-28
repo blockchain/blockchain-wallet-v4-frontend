@@ -4,20 +4,17 @@ import styled from 'styled-components'
 import { Text, Button } from 'blockchain-info-components'
 import {
   kycHeaderHelper,
-  kycNotificationBodyHelper,
-  kycNotificationButtonHelper
+  kycNotificationBodyHelper
 } from 'services/CoinifyService'
 import { spacing } from 'services/StyleService'
-import { path, or, equals } from 'ramda'
+import { prop, or, equals } from 'ramda'
 import media from 'services/ResponsiveService'
 import { model } from 'data'
 
 const {
   NONE,
   PENDING,
-  UNDER_REVIEW,
-  REJECTED,
-  EXPIRED
+  UNDER_REVIEW
 } = model.profile.KYC_STATES
 
 const ISXContainer = styled.div`
@@ -79,19 +76,22 @@ const KYCNotification = props => {
       <ISXContainer>
         <Text
           size='13px'
-          color='brand-primary'
+          color={prop('color', header)}
           weight={400}
           style={spacing('mb-20')}
         >
-          {path(['text'], header)}
+          {prop('text', header)}
         </Text>
         <Text size='13px' weight={300} style={spacing('mb-20')}>
-          {path(['text'], body)}
+          {prop('text', body)}
         </Text>
-        {[EXPIRED, REJECTED, NONE].includes(kycState) ? (
+        {equals(NONE, kycState) ? (
           <Button onClick={() => onTrigger(kyc)} nature='empty-secondary'>
             <Text size='13px' color='brand-secondary'>
-              {path(['text'], kycNotificationButtonHelper(kycState))}
+              <FormattedMessage
+                id='scenes.buy_sell.kyc_notification.complete'
+                defaultMessage='Complete Verification'
+              />
             </Text>
           </Button>
         ) : null}
