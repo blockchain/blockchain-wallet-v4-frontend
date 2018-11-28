@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { equals, length, prop, path, pathOr, isEmpty } from 'ramda'
+import { equals, length, prop, propOr, path, pathOr, isEmpty } from 'ramda'
 import { model, selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import Bitcoin from 'bitcoinjs-lib'
@@ -14,7 +14,8 @@ export const getData = createDeepEqualSelector(
     selectors.core.common.btc.getActiveAddresses,
     selectors.core.kvStore.lockbox.getDevices,
     selectors.core.walletOptions.getBtcNetwork,
-    selectors.form.getFormValues(model.components.sendBtc.FORM)
+    selectors.form.getFormValues(model.components.sendBtc.FORM),
+    selectors.core.walletOptions.getCoinAvailability
   ],
   (
     toToggled,
@@ -24,11 +25,15 @@ export const getData = createDeepEqualSelector(
     btcAddressesR,
     lockboxDevicesR,
     networkTypeR,
-    formValues
+    formValues,
+    getCoinAvailability
   ) => {
     const btcAccountsLength = length(btcAccountsR.getOrElse([]))
     const btcAddressesLength = length(btcAddressesR.getOrElse([]))
     const networkType = networkTypeR.getOrElse('bitcoin')
+    const excludeLockbox = !getCoinAvailability('BTC')
+      .map(propOr(true, 'lockbox'))
+      .getOrElse(true)
     const enableToggle =
       btcAccountsLength + btcAddressesLength > 1 ||
       !isEmpty(lockboxDevicesR.getOrElse([]))
@@ -90,7 +95,8 @@ export const getData = createDeepEqualSelector(
         isPriorityFeePerByte,
         destination,
         totalFee,
-        watchOnly
+        watchOnly,
+        excludeLockbox
       }
     }
 
