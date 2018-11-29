@@ -5,11 +5,9 @@ import { selectors, model } from 'data'
 
 const {
   getSupportedCountries,
-  getStates,
-  getPossibleAddresses,
-  isAddressRefetchVisible
+  getStates
 } = selectors.components.identityVerification
-const { getApiToken, getUserData } = selectors.modules.profile
+const { getUserData } = selectors.modules.profile
 
 const {
   PERSONAL_FORM,
@@ -54,15 +52,11 @@ const getCountryData = state =>
   )
 
 export const getData = state => ({
-  addressRefetchVisible:
-    isAddressRefetchVisible(state) || getApiToken(state).error,
   initialCountryCode: selectors.core.settings
     .getCountryCode(state)
     .getOrElse(null),
-  possibleAddresses: getPossibleAddresses(state),
   countryCode: prop('code', formValSelector(state, 'country')),
   postCode: formValSelector(state, 'postCode'),
-  address: formValSelector(state, 'address'),
   countryAndStateSelected: isCountryAndStateSelected(state),
   stateSupported: stateSupported(state),
   countryData: getCountryData(state),

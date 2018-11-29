@@ -11,11 +11,9 @@ export default ({ api, coreSagas }) => {
     verifySmsNumber,
     resendSmsCode,
     savePersonalData,
-    selectAddress,
     fetchSupportedCountries,
     fetchSupportedDocuments,
     fetchStates,
-    fetchPossibleAddresses,
     createRegisterUserCampaign
   } = sagas({ api, coreSagas })
 
@@ -30,8 +28,6 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.FETCH_SUPPORTED_COUNTRIES, fetchSupportedCountries)
     yield takeLatest(AT.FETCH_SUPPORTED_DOCUMENTS, fetchSupportedDocuments)
     yield takeLatest(AT.FETCH_STATES, fetchStates)
-    yield takeLatest(AT.FETCH_POSSIBLE_ADDRESSES, fetchPossibleAddresses)
-    yield takeLatest(AT.SELECT_ADDRESS, selectAddress)
     yield takeLatest(
       AT.CREATE_REGISTER_USER_CAMPAIGN,
       createRegisterUserCampaign

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
-import { defaultTo, equals, replace } from 'ramda'
+import { defaultTo, replace } from 'ramda'
 
 import {
   required,
@@ -30,11 +30,11 @@ import {
   SelectBox
 } from 'components/Form'
 import {
+  EmailHelper,
   IdentityVerificationForm,
   InputWrapper,
   IdentityVerificationHeader,
   IdentityVerificationSubHeader,
-  EmailHelper,
   FaqFormMessage,
   FaqFormGroup,
   Label
@@ -138,10 +138,7 @@ const ErrorBanner = styled(Banner)`
 const addTrailingZero = string => (string.length >= 2 ? string : `0${string}`)
 const removeTrailingZero = replace(/^0/, '')
 const { AddressPropType, CountryPropType } = model.profile
-const {
-  PERSONAL_FORM,
-  MANUAL_ADDRESS_ITEM
-} = model.components.identityVerification
+const { PERSONAL_FORM } = model.components.identityVerification
 const objectToDOB = ({ date = '', month = '', year = '' }) =>
   `${year}-${month}-${addTrailingZero(date)}`
 const DOBToObject = value => {
@@ -154,71 +151,19 @@ const DOBToObject = value => {
 }
 const countryUsesZipcode = code => code === 'US'
 
-const retainItemFilter = item => (candidate, input) => {
-  if (equals(item.value, candidate.value)) return true
-  if (input)
-    return new RegExp(`.*${input.toLowerCase()}.*`).test(
-      candidate.label.toLowerCase()
-    )
-  return true
-}
-
-const ManualAddressText = styled(Text)`
-  span {
-    font-weight: 300;
-    font-size: 14px;
-    color: ${props =>
-      props.isSelected
-        ? props.theme['white']
-        : props.theme['brand-secondary']} !important;
-  }
-`
-const renderAddressItem = props => {
-  if (props.text === MANUAL_ADDRESS_ITEM.text)
-    return (
-      <ManualAddressText isSelected={props.isSelected}>
-        <FormattedMessage
-          id='identityverification.personal.manualaddress'
-          defaultMessage='Enter Address Manually'
-        />
-      </ManualAddressText>
-    )
-  return props.text
-}
-
-const renderAddressDisplay = (props, children) => {
-  if (props.text === MANUAL_ADDRESS_ITEM.text) {
-    return (
-      <React.Fragment>
-        <FormattedMessage
-          id='identityverification.personal.manualaddress'
-          defaultMessage='Enter Address Manually'
-        />
-        <div hidden>{children}</div>
-      </React.Fragment>
-    )
-  }
-  return children
-}
-
 const Personal = ({
   invalid,
   submitting,
-  postCode,
-  addressRefetchVisible,
+  error,
   supportedCountries,
   states,
-  possibleAddresses,
   countryCode,
   showStateSelect,
   showStateError,
   showPersonal,
-  showAddress,
   activeField,
   onCountrySelect,
   onStateSelect,
-  onAddressSelect,
-  onPostCodeChange,
   handleSubmit
 }) => (
   <IdentityVerificationForm onSubmit={handleSubmit}>
@@ -412,103 +357,6 @@ const Personal = ({
                   </FaqFormGroup>
                 )}
                 {showPersonal && (
-                  <FaqFormGroup>
-                    <FormItem>
-                      <Label>
-                        {countryUsesZipcode(countryCode) ? (
-                          <FormattedMessage
-                            id='identityverification.personal.zipcode'
-                            defaultMessage='Zip Code'
-                          />
-                        ) : (
-                          <FormattedMessage
-                            id='identityverification.personal.postcode'
-                            defaultMessage='Postcode'
-                          />
-                        )}
-                      </Label>
-                      <Field
-                        name='postCode'
-                        onChange={onPostCodeChange}
-                        errorBottom
-                        validate={requiredZipCode}
-                        component={TextBox}
-                      />
-                      {showPersonal &&
-                        addressRefetchVisible &&
-                        !mobile && (
-                          <EmailHelper error={true}>
-                            <FormattedMessage
-                              id='identityverification.personal.addressrefetch'
-                              defaultMessage='Oops, address lookup failed. {retry}'
-                              values={{
-                                retry: (
-                                  <a
-                                    onClick={onPostCodeChange.bind(
-                                      null,
-                                      null,
-                                      postCode
-                                    )}
-                                  >
-                                    Try again?
-                                  </a>
-                                )
-                              }}
-                            />
-                          </EmailHelper>
-                        )}
-                    </FormItem>
-                    {activeField === 'postCode' && (
-                      <FaqFormMessage
-                        icon='map-marker-alt-regular'
-                        title={
-                          <FormattedMessage
-                            id='identityverification.personal.faq.postcode.title'
-                            defaultMessage='Address search'
-                          />
-                        }
-                        text={
-                          <FormattedMessage
-                            id='identityverification.personal.faq.postcode.text'
-                            defaultMessage='We try and prefill your address so you don’t have to fill out all the fields'
-                          />
-                        }
-                      />
-                    )}
-                  </FaqFormGroup>
-                )}
-                {showPersonal &&
-                  Boolean(possibleAddresses[0].items.length) && (
-                    <FaqFormGroup>
-                      <FormItem>
-                        <Label>
-                          <FormattedMessage
-                            id='identityverification.personal.selectaddress'
-                            defaultMessage='Select Address'
-                          />
-                        </Label>
-                        <Field
-                          name='address'
-                          validate={required}
-                          elements={possibleAddresses}
-                          onChange={onAddressSelect}
-                          templateDisplay={renderAddressDisplay}
-                          templateItem={renderAddressItem}
-                          component={SelectBox}
-                          filterOption={retainItemFilter(MANUAL_ADDRESS_ITEM)}
-                          menuPlacement='auto'
-                          openMenuOnFocus={true}
-                          label={
-                            <FormattedMessage
-                              id='identityverification.personal.selectaddress'
-                              defaultMessage='Select Address'
-                            />
-                          }
-                        />
-                      </FormItem>
-                    </FaqFormGroup>
-                  )}
-                {showAddress && (
                   <div>
                     <FaqFormGroup>
                       <FormItem>
@@ -574,6 +422,29 @@ const Personal = ({
                         </FormItem>
                       </FaqFormGroup>
                     )}
+                    <FaqFormGroup>
+                      <FormItem>
+                        <Label>
+                          {countryUsesZipcode(countryCode) ? (
+                            <FormattedMessage
+                              id='identityverification.personal.zipcode'
+                              defaultMessage='Zip Code'
+                            />
+                          ) : (
+                            <FormattedMessage
+                              id='identityverification.personal.postcode'
+                              defaultMessage='Postcode'
+                            />
+                          )}
+                        </Label>
+                        <Field
+                          name='postCode'
+                          errorBottom
+                          validate={requiredZipCode}
+                          component={TextBox}
+                        />
+                      </FormItem>
+                    </FaqFormGroup>
                   </div>
                 )}
               </FormContainer>
@@ -586,6 +457,14 @@ const Personal = ({
           <TermsText>
             <Terms company='blockchain-kyc' />
           </TermsText>
+          {error && (
+            <EmailHelper error={true}>
+              <FormattedMessage
+                id='identityverification.personal.error'
+                defaultMessage='Failed to save personal data. Please try again'
+              />
+            </EmailHelper>
+          )}
           <Button
             nature='primary'
             type='submit'
@@ -608,13 +487,9 @@ const Personal = ({
 
 Personal.propTypes = {
   address: AddressPropType,
-  addressRefetchVisible: PropTypes.bool.isRequired,
   supportedCountries: getElementsPropType(CountryPropType),
-  possibleAddresses: getElementsPropType(AddressPropType),
   countryCode: PropTypes.string.isRequired,
   activeField: PropTypes.string,
-  onAddressSelect: PropTypes.func.isRequired,
-  onPostCodeChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired
 }
 

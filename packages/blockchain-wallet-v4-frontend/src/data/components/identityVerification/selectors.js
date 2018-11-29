@@ -24,15 +24,3 @@ export const getSupportedDocuments = path([
 ])
 
 export const getStates = path(['components', 'identityVerification', 'states'])
-
-export const getPossibleAddresses = path([
-  'components',
-  'identityVerification',
-  'possibleAddresses'
-])
-
-export const isAddressRefetchVisible = path([
-  'components',
-  'identityVerification',
-  'addressRefetchVisible'
-])

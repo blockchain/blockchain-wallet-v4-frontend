@@ -8,8 +8,7 @@ const INITIAL_STATE = {
   smsStep: Remote.Loading,
   supportedCountries: Remote.NotAsked,
   supportedDocuments: Remote.NotAsked,
-  states: Remote.NotAsked,
-  possibleAddresses: []
+  states: Remote.NotAsked
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -33,9 +32,6 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.SET_ADDRESS_REFETCH_VISIBLE: {
       return assoc('addressRefetchVisible', payload.isVisible, state)
-    }
-    case AT.SET_POSSIBLE_ADDRESSES: {
-      return assoc('possibleAddresses', payload.addresses, state)
     }
     default:
       return state
