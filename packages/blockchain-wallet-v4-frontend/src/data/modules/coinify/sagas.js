@@ -6,25 +6,27 @@ import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
 import * as C from 'services/AlertService'
 import * as service from 'services/CoinifyService'
+import * as S from './selectors'
+import * as model from '../../model'
 import { promptForSecondPassword } from 'services/SagaService'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { KYC_MODAL } from 'data/components/identityVerification/model'
-import { COINIFY_SIGNUP_STATES } from './model'
+
+const { STEPS } = model.components.identityVerification
 
 export const sellDescription = `Exchange Trade CNY-`
 export const logLocation = 'modules/coinify/sagas'
 
 export default ({ coreSagas, networks }) => {
   const coinifySignup = function*(data) {
-    const country = data.payload
     try {
+      const country = yield select(S.getCoinifyCountry)
       yield call(coreSagas.data.coinify.signup, country)
       const profile = yield select(selectors.core.data.coinify.getProfile)
       if (!profile.error) {
-        // open homebrew/kyc modal instead of iSignThis kyc
-        yield put(actions.modals.showModal(KYC_MODAL))
-        // move step from EMAIL --> BUY
-        yield put(A.coinifyNextStep(COINIFY_SIGNUP_STATES.BUY))
+        // move the identityVerification step from coinify --> personal
+        yield put(actions.components.identityVerification.setVerificationStep(STEPS.personal))
+        // TODO: pass userId (profile.user) to Nabu (profile.getOrElse())
+        console.log('after coinify signup', profile)
       } else {
         yield put(A.coinifySignupFailure(JSON.parse(profile.error)))
       }
