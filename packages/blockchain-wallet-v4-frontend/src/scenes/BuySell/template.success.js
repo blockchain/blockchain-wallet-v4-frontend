@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { reduxForm, Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import { concat, equals, path, prop } from 'ramda'
+import { equals, prop } from 'ramda'
 
 import { Text, Button } from 'blockchain-info-components'
 import {
@@ -21,7 +21,6 @@ import {
 } from 'services/FormHelper'
 import BuySellAnimation from './BuySellAnimation'
 import media from 'services/ResponsiveService'
-import { KYC_MODAL } from 'data/components/identityVerification/model'
 
 const Row = styled.div`
   display: flex;
@@ -80,41 +79,19 @@ const SubmittedWrapper = styled.span`
 `
 
 const SelectPartner = props => {
-  const { invalid, options, pristine, submitEmail, ui, fields } = props
+  const { invalid, options, pristine, submitEmail, ui, fields, sfoxStates, allCountries, handleSubmit } = props
   const { country, stateSelection, email } = fields
-  const sfoxStates = path(['platforms', 'web', 'sfox', 'states'], options)
-  const sfoxCountries = path(['platforms', 'web', 'sfox', 'countries'], options)
-  const coinifyCountries = path(
-    ['platforms', 'web', 'coinify', 'countries'],
-    options
-  )
-  const countries = concat(sfoxCountries, coinifyCountries)
 
   const onSfoxWhitelist = usState =>
     prop('code', usState) && sfoxStates.includes(usState.code)
       ? undefined
       : 'This service is not yet available in your state.'
 
-  const handleSubmit = e => {
-    e.preventDefault()
-    if (sfoxCountries.indexOf(country) >= 0) {
-      props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
-    }
-    if (coinifyCountries.includes(country)) {
-      // for homebrew, do not open modal, but go to email verification flow not in modal
-      // props.triggerCoinifyEmailVerification(country)
-
-      // TODO: open kyc modal with coinifyFlow step already set
-      props.identityActions.setVerificationStep('coinify')
-      props.modalActions.showModal(KYC_MODAL)
-    }
-  }
-
   const renderColLeft = () => {
     if (
       !pristine &&
       ((country &&
-        onPartnerCountryWhitelist(country, null, null, null, countries)) ||
+        onPartnerCountryWhitelist(country, null, null, null, allCountries)) ||
         (stateSelection && onSfoxWhitelist(stateSelection)))
     ) {
       return (
