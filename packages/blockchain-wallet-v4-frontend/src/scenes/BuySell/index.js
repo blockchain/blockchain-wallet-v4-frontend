@@ -17,6 +17,7 @@ import { getData, getFields } from './selectors'
 import SelectPartner from './template.success'
 
 const { COINIFY_SIGNUP_STATES } = model.coinify
+const { KYC_MODAL } = model.components.identityVerification
 
 const Wrapper = styled.div`
   width: 100%;
@@ -73,6 +74,23 @@ class BuySellContainer extends React.PureComponent {
     this.setState({countrySelection: country})
   }
 
+  onSubmit = () => {
+    const { identityActions, modalActions, fields, data } = this.props
+    const { showModal } = modalActions
+    const { setVerificationStep } = identityActions
+    const { country } = fields
+    const { sfoxCountries, coinifyCountries } = data.getOrFail('Missing partner countries.')
+
+    if (sfoxCountries.indexOf(country) >= 0) {
+      showModal('SfoxExchangeData', { step: 'account' })
+    }
+    if (coinifyCountries.includes(country)) {
+      // open kyc modal with coinify step only set from this call
+      setVerificationStep('coinify')
+      showModal(KYC_MODAL)
+    }
+  }
+
   /**
    * The idea here is that we will call .cata which passes a metadata value to a selectPartner method.
    * If there is a token (evidence of signup), show the Checkout view.
@@ -96,14 +114,6 @@ class BuySellContainer extends React.PureComponent {
         partner: 'coinify'
       }
     }
-    if (equals(value.coinifySignupStep, COINIFY_SIGNUP_STATES.EMAIL)) { // if new coinify user
-      return {
-        component: (
-          <CoinifyCheckout type={value.coinifySignupStep} countrySelection={this.state.countrySelection} />
-        ),
-        partner: 'coinify'
-      }
-    }
     return {
       component: (
         <SelectPartner
@@ -114,6 +124,7 @@ class BuySellContainer extends React.PureComponent {
           submitEmail={this.submitEmail}
           triggerCoinifyEmailVerification={this.triggerCoinifyEmailVerification}
           {...this.props}
+          {...value}
         />
       ),
       partner: ''

@@ -21,3 +21,8 @@ export const getMigrationRedirects = state =>
 export const getCoinAvailablility = curry((state, coin) =>
   getWebOptions(state).map(path([toLower(coin), 'availability']))
 )
+
+// partners
+export const getSFOXCountries = state => getWebOptions(state).map(path(['sfox', 'countries']))
+export const getSFOXStates = state => getWebOptions(state).map(path(['sfox', 'states']))
+export const getCoinifyCountries = state => getWebOptions(state).map(path(['coinify', 'countries']))
