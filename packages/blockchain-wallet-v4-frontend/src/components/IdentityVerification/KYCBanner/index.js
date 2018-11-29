@@ -142,7 +142,7 @@ export const KYCBanner = ({
     [KYC_STATES.REJECTED]: (
       <FormattedMessage
         id='components.identityverification.popup.note.rejected'
-        defaultMessage='Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time.'
+        defaultMessage='Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verify your account at this time.'
       />
     ),
     [KYC_STATES.VERIFIED]: (

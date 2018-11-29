@@ -1147,7 +1147,7 @@
         "id": "components.identityverification.popup.note.underreview"
       },
       {
-        "defaultMessage": "Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time.",
+        "defaultMessage": "Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verify your account at this time.",
         "id": "components.identityverification.popup.note.rejected"
       },
       {
@@ -11379,7 +11379,7 @@
         "id": "scenes.exchange.getstarted.status.rejected.title"
       },
       {
-        "defaultMessage": "Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time.",
+        "defaultMessage": "Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verify your account at this time.",
         "id": "scenes.exchange.getstarted.status.rejected.description"
       }
     ],
@@ -14962,7 +14962,7 @@
         "id": "scenes.profile.identityverification.note.underreview"
       },
       {
-        "defaultMessage": "Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time.",
+        "defaultMessage": "Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verify your account at this time.",
         "id": "scenes.profile.identityverification.note.rejected"
       },
       {

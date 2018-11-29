@@ -35,7 +35,7 @@ export const Rejected = () => (
     <Text size='14px' weight={300}>
       <FormattedMessage
         id='scenes.exchange.getstarted.status.rejected.description'
-        defaultMessage='Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time. '
+        defaultMessage='Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verify your account at this time. '
       />
     </Text>
   </Wrapper>
