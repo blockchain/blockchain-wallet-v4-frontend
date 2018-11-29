@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 import ui from 'redux-ui'
-import { path, prop, equals } from 'ramda'
+import { path, prop } from 'ramda'
 
 import { actions, model } from 'data'
 import { TabMenuBuySellStatus } from 'components/Form'
