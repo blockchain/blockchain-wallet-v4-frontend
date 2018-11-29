@@ -115,3 +115,7 @@ export const coinifySellBtcPaymentUpdatedFailure = err => ({
   type: AT.COINIFY_SELL_BTC_PAYMENT_UPDATED_FAILURE,
   payload: err
 })
+export const setCountry = country => ({
+  type: AT.COINIFY_SET_COUNTRY,
+  payload: country
+})

@@ -17,6 +17,7 @@ import StepIndicator from 'components/StepIndicator'
 import Personal from './Personal'
 import VerifyMobile from './VerifyMobile'
 import Verify from './Verify'
+import CoinifyCreate from '../../Coinify/CoinifyExchangeData/Create'
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -113,7 +114,7 @@ class IdentityVerification extends React.PureComponent {
   getStepComponent = step => {
     const { actions, modalActions, position, total } = this.props
     if (step === STEPS.coinify)
-      return <div>COINIFY EMAIL VERIFICATION</div>
+      return <CoinifyCreate />
     if (step === STEPS.personal)
       return (
         <Personal

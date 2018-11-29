@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { isNil, find, map, prepend, prop, propEq } from 'ramda'
+import { isNil, find, map, prepend, prop, propEq, test, head } from 'ramda'
 
 import { debounce } from 'utils/helpers'
 import { actions, model } from 'data'
@@ -51,6 +51,14 @@ const {
 class PersonalContainer extends React.PureComponent {
   componentDidMount () {
     this.fetchData()
+    // change form field on mount to coinify country if on buy-sell since we're skipping country selection
+    if (test(/buy-sell/, this.props.pathName)) {
+      const { coinifyUserCountry, formActions, countryData } = this.props
+      const supportedCountries = prop('supportedCountries', countryData.getOrElse())
+      const isUserCountry = propEq('code', coinifyUserCountry)      
+      const countryObject = head(supportedCountries.filter(isUserCountry))
+      if (countryObject) formActions.change(PERSONAL_FORM, 'country', countryObject)
+    }
   }
 
   fetchData = () => {

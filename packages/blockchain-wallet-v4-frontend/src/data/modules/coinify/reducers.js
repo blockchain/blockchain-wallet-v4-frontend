@@ -10,7 +10,8 @@ const INITIAL_STATE = {
   signupStep: COINIFY_SIGNUP_STATES.NONE,
   checkoutStep: 'checkout',
   signupComplete: null,
-  payment: Remote.NotAsked
+  payment: Remote.NotAsked,
+  country: null
 }
 
 const coinify = (state = INITIAL_STATE, action) => {
@@ -73,6 +74,9 @@ const coinify = (state = INITIAL_STATE, action) => {
     }
     case AT.COINIFY_SELL_BTC_PAYMENT_UPDATED_FAILURE: {
       return assoc('payment', Remote.Failure(payload), state)
+    }
+    case AT.COINIFY_SET_COUNTRY: {
+      return assoc('country', payload, state)
     }
     default:
       return state

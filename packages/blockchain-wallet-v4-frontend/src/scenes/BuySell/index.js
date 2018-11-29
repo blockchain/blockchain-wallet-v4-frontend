@@ -75,9 +75,10 @@ class BuySellContainer extends React.PureComponent {
   }
 
   onSubmit = () => {
-    const { identityActions, modalActions, fields, data } = this.props
+    const { identityActions, modalActions, coinifyActions, fields, data } = this.props
     const { showModal } = modalActions
     const { setVerificationStep } = identityActions
+    const { setCountry } = coinifyActions
     const { country } = fields
     const { sfoxCountries, coinifyCountries } = data.getOrFail('Missing partner countries.')
 
@@ -85,6 +86,8 @@ class BuySellContainer extends React.PureComponent {
       showModal('SfoxExchangeData', { step: 'account' })
     }
     if (coinifyCountries.includes(country)) {
+      // set country in redux so we can skip KYC country selection
+      setCountry(country)
       // open kyc modal with coinify step only set from this call
       setVerificationStep('coinify')
       showModal(KYC_MODAL)
