@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import styled from 'styled-components'
+import QRCodeReact from 'qrcode.react'
 
 import media from 'services/ResponsiveService'
 
-import { Link, Text } from 'blockchain-info-components'
+import { Button, Link, Text } from 'blockchain-info-components'
 import { FooterShadowWrapper } from 'components/Form'
 import {
   BackButton,
@@ -16,12 +17,19 @@ import {
   IdentityVerificationSubHeader,
   IdentityVerificationImage
 } from 'components/IdentityVerification'
+import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
 const Footer = styled.div`
   width: 60%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+`
+const ColumnSubHeader = styled(IdentityVerificationSubHeader)`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  ustify-content: flex-start;
 `
 const VerifyWrapper = styled.div`
   display: flex;
@@ -30,6 +38,9 @@ const VerifyWrapper = styled.div`
     flex-direction: column;
   `};
 `
+const CenterWrapper = styled.div`
+  align-self: center;
+`
 
 class Verify extends React.PureComponent {
   componentDidMount () {
@@ -37,53 +48,87 @@ class Verify extends React.PureComponent {
   }
 
   render () {
-    const { send, onBack, mobile } = this.props
+    const { onBack, done, deeplink, email } = this.props
     return (
       <IdentityVerificationForm>
         <FooterShadowWrapper
           fields={
-            <VerifyWrapper>
-              <ColLeft>
-                <InputWrapper>
-                  <IdentityVerificationHeader>
-                    <FormattedMessage
-                      id='identityverification.highflow.header'
-                      defaultMessage='Last Step. Continue your verification on mobile'
-                    />
-                  </IdentityVerificationHeader>
-                  <IdentityVerificationImage name='identity-verification' />
-                  <IdentityVerificationSubHeader>
-                    <Text>
-                      <FormattedMessage
-                        id='identityverification.highflow.message'
-                        defaultMessage='We need to confirm your identity by taking a selfie video'
-                      />
-                    </Text>
-                    <br />
-                    <Text>
-                      <FormattedMessage
-                        id='identityverification.highflow.sentlink'
-                        defaultMessage='- We just sent you an SMS to {mobile} with a link to complete KYC on your mobile device'
-                        values={{ mobile }}
-                      />
-                    </Text>
-                    <Text>
-                      <FormattedMessage
-                        id='identityverification.highflow.getidready'
-                        defaultMessage='- Get your ID or Passport ready'
-                      />
-                    </Text>
-                    <br />
-                    <Link onClick={send}>
-                      <FormattedMessage
-                        id='identityverification.highflow.resend'
-                        defaultMessage='Resend link'
-                      />
-                    </Link>
-                  </IdentityVerificationSubHeader>
-                </InputWrapper>
-              </ColLeft>
-            </VerifyWrapper>
+            <MediaContextConsumer>
+              {({ mobile }) => (
+                <VerifyWrapper>
+                  <ColLeft>
+                    <InputWrapper>
+                      <IdentityVerificationHeader>
+                        <FormattedMessage
+                          id='identityverification.highflow.header'
+                          defaultMessage='Last Step. Continue your verification on mobile'
+                        />
+                      </IdentityVerificationHeader>
+                      <IdentityVerificationImage name='identity-verification' />
+                      <ColumnSubHeader>
+                        <Text weight={300}>
+                          <FormattedMessage
+                            id='identityverification.highflow.message'
+                            defaultMessage='We need you to continue your verification on our mobile app.  
+                        Follow these steps:'
+                          />
+                        </Text>
+                        <Text size='14px' weight={300}>
+                          <FormattedMessage
+                            id='identityverification.highflow.sentlink'
+                            defaultMessage='*We’ve also sent you an email with these instructions to {email}'
+                            values={{ email }}
+                          />
+                        </Text>
+                        <br />
+                        {mobile && (
+                          <React.Fragment>
+                            <Text weight={300}>
+                              <FormattedHTMLMessage
+                                id='identityverification.highflow.followlink'
+                                defaultMessage='1 - <b>Follow this link</b> to log in to or download our mobile app.'
+                              />
+                            </Text>
+                            <br />
+                            <CenterWrapper>
+                              <Link href={deeplink} target='_blank'>
+                                <Button nature='primary'>
+                                  <FormattedMessage
+                                    id='identityverification.highflow.continueonmobile'
+                                    defaultMessage='Continue on mobile'
+                                  />
+                                </Button>
+                              </Link>
+                            </CenterWrapper>
+                          </React.Fragment>
+                        )}
+                        {!mobile && (
+                          <React.Fragment>
+                            <Text weight={300}>
+                              <FormattedHTMLMessage
+                                id='identityverification.highflow.scanqr'
+                                defaultMessage='1 - <b>Scan this QR code</b> with your phone to log in to this wallet or download our mobile app. '
+                              />
+                            </Text>
+                            <br />
+                            <CenterWrapper>
+                              <QRCodeReact value={deeplink} size={108} />
+                            </CenterWrapper>
+                          </React.Fragment>
+                        )}
+                        <br />
+                        <Text weight={300}>
+                          <FormattedHTMLMessage
+                            id='identityverification.highflow.getidready'
+                            defaultMessage='2 - Get your <b>Identity documents</b> (eg. Passport) and be ready to take a selfie video. '
+                          />
+                        </Text>
+                      </ColumnSubHeader>
+                    </InputWrapper>
+                  </ColLeft>
+                </VerifyWrapper>
+              )}
+            </MediaContextConsumer>
           }
           footer={
             <Footer>
@@ -93,6 +138,12 @@ class Verify extends React.PureComponent {
                   defaultMessage='Back'
                 />
               </BackButton>
+              <Button nature='primary' onClick={done}>
+                <FormattedMessage
+                  id='identityverification.personal.done'
+                  defaultMessage="I'm done"
+                />
+              </Button>
             </Footer>
           }
         />
