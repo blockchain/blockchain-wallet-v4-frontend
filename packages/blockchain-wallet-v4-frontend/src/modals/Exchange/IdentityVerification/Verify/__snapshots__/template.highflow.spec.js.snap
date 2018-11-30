@@ -4,108 +4,9 @@ exports[`HighFlow should render correctly 1`] = `
 <IdentityVerification__IdentityVerificationForm>
   <FooterShadowWrapper
     fields={
-      <templatehighflow__VerifyWrapper>
-        <IdentityVerification__ColLeft>
-          <IdentityVerification__InputWrapper>
-            <IdentityVerification__IdentityVerificationHeader>
-              <FormattedMessage
-                defaultMessage="Last Step. Continue your verification on mobile"
-                id="identityverification.highflow.header"
-                values={Object {}}
-              />
-            </IdentityVerification__IdentityVerificationHeader>
-            <IdentityVerification__IdentityVerificationImage
-              name="identity-verification"
-            />
-            <IdentityVerification__IdentityVerificationSubHeader>
-              <Text
-                altFont={false}
-                capitalize={false}
-                color="gray-5"
-                cursor="inherit"
-                italic={false}
-                opacity={1}
-                size="16px"
-                uppercase={false}
-                weight={400}
-              >
-                <FormattedMessage
-                  defaultMessage="We need to confirm your identity by taking a selfie video"
-                  id="identityverification.highflow.message"
-                  values={Object {}}
-                />
-              </Text>
-              <br />
-              <Text
-                altFont={false}
-                capitalize={false}
-                color="gray-5"
-                cursor="inherit"
-                italic={false}
-                opacity={1}
-                size="16px"
-                uppercase={false}
-                weight={400}
-              >
-                <FormattedMessage
-                  defaultMessage="- We just sent you an SMS to {mobile} with a link to complete KYC on your mobile device"
-                  id="identityverification.highflow.sentlink"
-                  values={
-                    Object {
-                      "mobile": "1234567890",
-                    }
-                  }
-                />
-              </Text>
-              <Text
-                altFont={false}
-                capitalize={false}
-                color="gray-5"
-                cursor="inherit"
-                italic={false}
-                opacity={1}
-                size="16px"
-                uppercase={false}
-                weight={400}
-              >
-                <FormattedMessage
-                  defaultMessage="- Get your ID or Passport ready"
-                  id="identityverification.highflow.getidready"
-                  values={Object {}}
-                />
-              </Text>
-              <br />
-              <Link
-                bold={false}
-                capitalize={false}
-                color="brand-secondary"
-                onClick={
-                  [MockFunction] {
-                    "calls": Array [
-                      Array [],
-                    ],
-                    "results": Array [
-                      Object {
-                        "isThrow": false,
-                        "value": undefined,
-                      },
-                    ],
-                  }
-                }
-                size="16px"
-                uppercase={false}
-                weight={400}
-              >
-                <FormattedMessage
-                  defaultMessage="Resend link"
-                  id="identityverification.highflow.resend"
-                  values={Object {}}
-                />
-              </Link>
-            </IdentityVerification__IdentityVerificationSubHeader>
-          </IdentityVerification__InputWrapper>
-        </IdentityVerification__ColLeft>
-      </templatehighflow__VerifyWrapper>
+      <Context.Consumer>
+        [Function]
+      </Context.Consumer>
     }
     footer={
       <templatehighflow__Footer>
@@ -118,6 +19,24 @@ exports[`HighFlow should render correctly 1`] = `
             values={Object {}}
           />
         </IdentityVerification__BackButton>
+        <Button
+          bold={false}
+          capitalize={false}
+          disabled={false}
+          fullwidth={false}
+          height="40px"
+          nature="primary"
+          onClick={[MockFunction]}
+          rounded={false}
+          small={false}
+          uppercase={false}
+        >
+          <FormattedMessage
+            defaultMessage="I'm done"
+            id="identityverification.personal.done"
+            values={Object {}}
+          />
+        </Button>
       </templatehighflow__Footer>
     }
   />
