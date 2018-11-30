@@ -18,6 +18,7 @@ import {
   UPDATE_FAILURE,
   KYC_MODAL,
   USER_EXISTS_MODAL,
+  FLOW_TYPES,
   SUNRIVER_LINK_ERROR_MODAL
 } from './model'
 
