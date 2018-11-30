@@ -10,68 +10,26 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
+import {
+  Wrapper,
+  IntroContainer,
+  GetStartedContainer,
+  GetStartedContent,
+  GetStartedHeader,
+  GetStartedText
+} from 'components/FeatureLandingPage'
 import media from 'services/ResponsiveService'
 
 const containerWidth = '650px'
 const containerPadding = '25px'
 const marginContent = '25px'
 
-const Wrapper = styled.div`
-  width: 100%;
-  height: 90%;
-  padding: 30px;
-  box-sizing: border-box;
-`
-const IntroContainer = styled.div`
-  padding-top: 20px;
-`
-
-const GetStartedContainer = styled.div`
-  position: relative;
-  margin: 0 auto ${marginContent};
-  padding: ${containerPadding};
-  width: ${containerWidth};
-  box-sizing: border-box;
-  height: 325px;
-  border: 1px solid ${props => props.theme['brand-quaternary']};
-  border-radius: 3px;
-  background-image: url('/img/lockbox@2x.png');
-  background-repeat: no-repeat;
-  background-size: auto 100%;
-  background-position: right;
-  ${media.mobile`
-    width: 100%;
-    background-image: none;
-  `};
-`
-
-const GetStartedContent = styled.div`
-  width: 300px;
-  ${media.mobile`
-    width: 100%;
-  `};
-`
-
-const GetStartedHeader = styled(Text)`
-  width: 200px;
-  margin-bottom: ${marginContent};
-  ${media.mobile`
-    width: 100%;
-  `};
-`
 const GetStartedButton = styled(Button)`
   width: 250px;
   margin: 45px 0 0 35px;
   ${media.mobile`
     width: 100%;
     margin: 0;
-  `};
-`
-const GetStartedText = styled(Text)`
-  width: 350px;
-  margin-bottom: ${marginContent};
-  ${media.mobile`
-    width: 100%;
   `};
 `
 const PoweredByContainer = styled.div`
@@ -125,9 +83,9 @@ const Onboard = props => {
   return (
     <Wrapper>
       <IntroContainer>
-        <GetStartedContainer>
+        <GetStartedContainer height='325px' url='url(/img/lockbox@2x.png)'>
           <GetStartedContent>
-            <GetStartedHeader size='26px' weight={400} color='brand-primary'>
+            <GetStartedHeader size='26px' weight={400} color='brand-primary' width='200px'>
               <FormattedMessage
                 id='scenes.lockbox.welcome.title'
                 defaultMessage='Secure Your Crypto Offline'
