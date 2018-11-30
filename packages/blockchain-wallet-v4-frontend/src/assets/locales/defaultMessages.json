@@ -4233,7 +4233,7 @@
         "id": "identityverification.highflow.header"
       },
       {
-        "defaultMessage": "We need you to continue your verification on our mobile app.  \n                        Follow these steps:",
+        "defaultMessage": "We need you to continue your verification on our mobile app. Follow these steps:",
         "id": "identityverification.highflow.message"
       },
       {
@@ -4253,7 +4253,11 @@
         "id": "identityverification.highflow.scanqr"
       },
       {
-        "defaultMessage": "2 - Get your <b>Identity documents</b> (eg. Passport) and be ready to take a selfie video.",
+        "defaultMessage": "2 - Continue your verification from the <b>Dashboard</b> (you can also continue from <b>Exchange</b>)",
+        "id": "identityverification.highflow.gotodashboard"
+      },
+      {
+        "defaultMessage": "3 - Get your <b>Identity documents</b> (e.g. Passport) and be ready to take a selfie video.",
         "id": "identityverification.highflow.getidready"
       },
       {
@@ -4299,6 +4303,39 @@
       }
     ],
     "path": "src/modals/Exchange/IdentityVerification/Verify/template.lowflow.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Government Issued Passport",
+        "id": "identityverification.verify.passport"
+      },
+      {
+        "defaultMessage": "Driver’s License",
+        "id": "identityverification.verify.driverslicense"
+      },
+      {
+        "defaultMessage": "National Identity Card",
+        "id": "identityverification.verify.natitionalidcard"
+      },
+      {
+        "defaultMessage": "Verify Your Identity",
+        "id": "identityverification.verify.header"
+      },
+      {
+        "defaultMessage": "Last step! We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.",
+        "id": "identityverification.verify.message"
+      },
+      {
+        "defaultMessage": "Back",
+        "id": "identityverification.personal.back"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "identityverification.personal.continue"
+      }
+    ],
+    "path": "src/modals/Exchange/IdentityVerification/Verify/template.success.json"
   },
   {
     "descriptors": [
@@ -4723,12 +4760,12 @@
         "id": "modals.lockboxsetup.openbtcappstep.title"
       },
       {
-        "defaultMessage": "Now let’s select the Bitcoin app on your Lockbox.",
-        "id": "modals.lockboxsetup.openbtcappstep.selection"
+        "defaultMessage": "Now add a Bitcoin wallet to your device.",
+        "id": "modals.lockboxsetup.openbtcappstep.explanation"
       },
       {
-        "defaultMessage": "This will pair your Lockbox to your Blockchain Wallet.",
-        "id": "modals.lockboxsetup.openbtcappstep.pair"
+        "defaultMessage": "Select \"Bitcoin\" from the picker.",
+        "id": "modals.lockboxsetup.openbtcappstep.selection"
       },
       {
         "defaultMessage": "Success! Click to Continue",
@@ -8694,10 +8731,6 @@
       {
         "defaultMessage": "Captcha",
         "id": "scenes.reset2fa.secondstep.captcha"
-      },
-      {
-        "defaultMessage": "Please note that reset requests are fully automated and require a mandatory waiting period before being approved.",
-        "id": "scenes.reset2fa.secondstep.waitingperiod"
       },
       {
         "defaultMessage": "Go Back",
