@@ -19,14 +19,20 @@ class VerifyContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, actions, ...rest } = this.props
+    const { data, actions, modalActions, ...rest } = this.props
 
     return data.cata({
-      Success: ({ docTypes, flowType, mobile }) =>
+      Success: ({ docTypes, flowType, email, deeplink }) =>
         flowType === FLOW_TYPES.LOW ? (
           <LowFlow supportedDocuments={docTypes} {...rest} />
         ) : (
-          <HighFlow mobile={mobile} send={actions.sendDeeplink} {...rest} />
+          <HighFlow
+            email={email}
+            deeplink={deeplink}
+            send={actions.sendDeeplink}
+            done={modalActions.closeAllModals}
+            {...rest}
+          />
         ),
       Loading: () => <Loading />,
       NotAsked: () => null,
@@ -40,7 +46,11 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.identityVerification, dispatch)
+  actions: bindActionCreators(
+    actions.components.identityVerification,
+    dispatch
+  ),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(

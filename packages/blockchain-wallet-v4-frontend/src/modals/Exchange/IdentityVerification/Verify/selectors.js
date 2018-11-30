@@ -7,12 +7,13 @@ const {
   getKycFLowType
 } = selectors.components.identityVerification
 
-const { getUserData } = selectors.modules.profile
+const { getEmail } = selectors.core.settings
 
 export const getData = state => {
-  return lift(({ mobile }, docTypes, flowType) => ({
-    mobile,
+  return lift((email, docTypes, flowType) => ({
+    email,
+    deeplink: 'https://blockchainwallet.page.link/dashboard',
     docTypes,
     flowType
-  }))(getUserData(state), getSupportedDocuments(state), getKycFLowType(state))
+  }))(getEmail(state), getSupportedDocuments(state), getKycFLowType(state))
 }
