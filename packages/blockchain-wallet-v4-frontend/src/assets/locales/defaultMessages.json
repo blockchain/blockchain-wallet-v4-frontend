@@ -4241,7 +4241,7 @@
         "id": "identityverification.highflow.sentlink"
       },
       {
-        "defaultMessage": "1 - <b>Follow this link</b> to log in to or download our mobile app.",
+        "defaultMessage": "1 - <b>Follow this link</b> to log into or download our mobile app.",
         "id": "identityverification.highflow.followlink"
       },
       {
@@ -4249,8 +4249,16 @@
         "id": "identityverification.highflow.continueonmobile"
       },
       {
-        "defaultMessage": "1 - <b>Scan this QR code</b> with your phone to log in to this wallet or download our mobile app.",
+        "defaultMessage": "1 - <b>Scan this QR code</b> with your phone to log into this wallet or download our mobile app.",
         "id": "identityverification.highflow.scanqr"
+      },
+      {
+        "defaultMessage": "2 - Continue your verification from the <b>Dashboard</b> (you can also continue from <b>Exchange</b>).",
+        "id": "identityverification.highflow.gotodashboard"
+      },
+      {
+        "defaultMessage": "3 - Get your <b>Identity documents</b> (e.g. Passport) and be ready to take a selfie video.",
+        "id": "identityverification.highflow.getidready"
       },
       {
         "defaultMessage": "Back",
