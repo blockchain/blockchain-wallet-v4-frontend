@@ -47,7 +47,7 @@ describe('HighFlow', () => {
     expect(onBack).toHaveBeenCalledTimes(1)
   })
 
-  it('should trigger resend on resend link click', () => {
+  it('should trigger submit on submit click', () => {
     const component = shallow(
       <LowFlow
         supportedDocuments={supportedDocuments}

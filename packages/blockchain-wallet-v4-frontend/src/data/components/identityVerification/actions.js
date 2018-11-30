@@ -79,6 +79,6 @@ export const setKycFlow = flowType => ({
   type: AT.SET_KYCFLOW,
   payload: { flowType }
 })
-export const resendDeeplink = () => ({
-  type: AT.RESEND_DEEP_LINK
+export const sendDeeplink = () => ({
+  type: AT.SEND_DEEP_LINK
 })

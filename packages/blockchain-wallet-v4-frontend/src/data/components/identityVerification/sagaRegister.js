@@ -32,6 +32,6 @@ export default ({ api, coreSagas }) => {
       exchange.createRegisterUserCampaign
     )
     yield takeLatest(AT.CHECK_KYC_FLOW, exchange.checkKycFlow)
-    yield takeLatest(AT.RESEND_DEEP_LINK, exchange.resendDeeplink)
+    yield takeLatest(AT.SEND_DEEP_LINK, exchange.sendDeeplink)
   }
 }
