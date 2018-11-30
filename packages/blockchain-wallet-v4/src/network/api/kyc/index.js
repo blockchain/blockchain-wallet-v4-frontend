@@ -68,11 +68,11 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
       endPoint: '/kyc/configuration'
     })
 
-  const resendDeeplink = () =>
+  const sendDeeplink = () =>
     authorizedPost({
       url: nabuUrl,
       contentType: 'application/json',
-      endPoint: '/kyc/resendDeeplink'
+      endPoint: '/kyc/verifications/mobile-email'
     })
 
   return {
@@ -84,7 +84,7 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
     fetchOnfidoSDKKey,
     fetchUploadData,
     syncOnfido,
-    resendDeeplink,
+    sendDeeplink,
     uploadDocuments
   }
 }

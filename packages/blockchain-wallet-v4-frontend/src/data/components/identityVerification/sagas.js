@@ -385,11 +385,11 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const resendDeeplink = function*() {
+  const sendDeeplink = function*() {
     try {
-      yield call(api.resendDeeplink)
+      yield call(api.sendDeeplink)
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'resendDeeplink', e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'sendDeeplink', e))
     }
   }
 
@@ -408,6 +408,6 @@ export default ({ api, coreSagas }) => {
     updateSmsNumber,
     verifySmsNumber,
     checkKycFlow,
-    resendDeeplink
+    sendDeeplink
   }
 }

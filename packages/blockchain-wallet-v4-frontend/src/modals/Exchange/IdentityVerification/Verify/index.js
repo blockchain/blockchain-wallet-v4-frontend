@@ -26,7 +26,7 @@ class VerifyContainer extends React.PureComponent {
         flowType === FLOW_TYPES.LOW ? (
           <LowFlow supportedDocuments={docTypes} {...rest} />
         ) : (
-          <HighFlow mobile={mobile} resend={actions.resendDeeplink} {...rest} />
+          <HighFlow mobile={mobile} send={actions.sendDeeplink} {...rest} />
         ),
       Loading: () => <Loading />,
       NotAsked: () => null,
