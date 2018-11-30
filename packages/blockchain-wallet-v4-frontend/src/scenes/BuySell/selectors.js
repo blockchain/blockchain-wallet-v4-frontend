@@ -1,4 +1,4 @@
-import { lift, pathOr, takeWhile, concat } from 'ramda'
+import { lift, pathOr, takeWhile } from 'ramda'
 import { formValueSelector } from 'redux-form'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { selectors } from 'data'
@@ -15,7 +15,6 @@ export const getData = createDeepEqualSelector(
   ],
   (optionsR, buySellR, countryCodeR, coinifySignupStep, sfoxCountriesR, sfoxStatesR, coinifyCountriesR) => {
     const transform = (options, buySell, countryCode, sfoxCountries, sfoxStates, coinifyCountries) => {
-      const allCountries = concat(sfoxCountries, coinifyCountries)
       return {
         options,
         buySell,
@@ -23,8 +22,7 @@ export const getData = createDeepEqualSelector(
         coinifySignupStep,
         sfoxCountries,
         sfoxStates,
-        coinifyCountries,
-        allCountries
+        coinifyCountries
       }
     }
     return lift(transform)(optionsR, buySellR, countryCodeR, sfoxCountriesR, sfoxStatesR, coinifyCountriesR)
