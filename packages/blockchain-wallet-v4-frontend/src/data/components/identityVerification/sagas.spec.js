@@ -7,7 +7,7 @@ import sagas, { wrongFlowTypeError } from './sagas'
 
 const api = {
   fetchKycConfig: jest.fn(),
-  resendDeeplink: jest.fn()
+  sendDeeplink: jest.fn()
 }
 
 const coreSagas = {}

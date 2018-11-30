@@ -79,7 +79,19 @@ exports[`HighFlow should render correctly 1`] = `
                 bold={false}
                 capitalize={false}
                 color="brand-secondary"
-                onClick={[MockFunction]}
+                onClick={
+                  [MockFunction] {
+                    "calls": Array [
+                      Array [],
+                    ],
+                    "results": Array [
+                      Object {
+                        "isThrow": false,
+                        "value": undefined,
+                      },
+                    ],
+                  }
+                }
                 size="16px"
                 uppercase={false}
                 weight={400}
