@@ -44,3 +44,8 @@ export const isStateSupported = compose(
   contains('KYC'),
   propOr([], 'scopes')
 )
+
+export const FLOW_TYPES = {
+  HIGH: 'HIGH',
+  LOW: 'LOW'
+}
