@@ -104,6 +104,9 @@ const ErrorBanner = styled(Banner)`
     font-size: 14px;
   }
 `
+const AddressWrapper = styled.div`
+  margin-bottom: 120px;
+`
 
 const addTrailingZero = string => (string.length >= 2 ? string : `0${string}`)
 const removeTrailingZero = replace(/^0/, '')
@@ -311,7 +314,7 @@ const Personal = ({
                   </FaqFormGroup>
                 )}
                 {showPersonal && (
-                  <div>
+                  <AddressWrapper>
                     <FaqFormGroup>
                       <FormItem>
                         <Label>
@@ -399,7 +402,7 @@ const Personal = ({
                         />
                       </FormItem>
                     </FaqFormGroup>
-                  </div>
+                  </AddressWrapper>
                 )}
               </FormContainer>
             </InputWrapper>

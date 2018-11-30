@@ -145,6 +145,7 @@ export const FieldMimic = styled.div`
 `
 
 export const IdentityVerificationForm = styled(Form)`
+  margin-top: 12px;
   height: 100%;
 `
 
