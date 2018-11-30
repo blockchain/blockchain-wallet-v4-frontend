@@ -1504,15 +1504,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Archive Address",
-        "id": "scenes.settings.addresses.btc.wallets.addresserror"
-      }
-    ],
-    "path": "src/components/VulnerableAddressError/index.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Data",
         "id": "layouts.public.footer.explorer"
       },
@@ -2498,15 +2489,6 @@
       }
     ],
     "path": "src/layouts/Wallet/TrayRight/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Learn More",
-        "id": "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore"
-      }
-    ],
-    "path": "src/layouts/Wallet/TrayRight/WhatsNew/FaqLink/index.json"
   },
   {
     "descriptors": [
@@ -4247,6 +4229,47 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Last Step. Continue your verification on mobile",
+        "id": "identityverification.highflow.header"
+      },
+      {
+        "defaultMessage": "We need you to continue your verification on our mobile app.  \n                        Follow these steps:",
+        "id": "identityverification.highflow.message"
+      },
+      {
+        "defaultMessage": "*We’ve also sent you an email with these instructions to {email}",
+        "id": "identityverification.highflow.sentlink"
+      },
+      {
+        "defaultMessage": "1 - <b>Follow this link</b> to log in to or download our mobile app.",
+        "id": "identityverification.highflow.followlink"
+      },
+      {
+        "defaultMessage": "Continue on mobile",
+        "id": "identityverification.highflow.continueonmobile"
+      },
+      {
+        "defaultMessage": "1 - <b>Scan this QR code</b> with your phone to log in to this wallet or download our mobile app.",
+        "id": "identityverification.highflow.scanqr"
+      },
+      {
+        "defaultMessage": "2 - Get your <b>Identity documents</b> (eg. Passport) and be ready to take a selfie video.",
+        "id": "identityverification.highflow.getidready"
+      },
+      {
+        "defaultMessage": "Back",
+        "id": "identityverification.personal.back"
+      },
+      {
+        "defaultMessage": "I'm done",
+        "id": "identityverification.personal.done"
+      }
+    ],
+    "path": "src/modals/Exchange/IdentityVerification/Verify/template.highflow.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Government Issued Passport",
         "id": "identityverification.verify.passport"
       },
@@ -4259,11 +4282,11 @@
         "id": "identityverification.verify.natitionalidcard"
       },
       {
-        "defaultMessage": "Verify Your Identity",
+        "defaultMessage": "Last Step. Verify Your ID",
         "id": "identityverification.verify.header"
       },
       {
-        "defaultMessage": "Last step! We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.",
+        "defaultMessage": "We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.",
         "id": "identityverification.verify.message"
       },
       {
@@ -4275,7 +4298,7 @@
         "id": "identityverification.personal.continue"
       }
     ],
-    "path": "src/modals/Exchange/IdentityVerification/Verify/template.success.json"
+    "path": "src/modals/Exchange/IdentityVerification/Verify/template.lowflow.json"
   },
   {
     "descriptors": [
@@ -4436,60 +4459,6 @@
       }
     ],
     "path": "src/modals/Lockbox/AppManager/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Pending",
-        "id": "modals.lockboxappinstall.pending"
-      },
-      {
-        "defaultMessage": "Success",
-        "id": "modals.lockboxappinstall.success"
-      }
-    ],
-    "path": "src/modals/Lockbox/LockboxAppInstall/status.template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Install/Update Lockbox Applications",
-        "id": "modals.lockboxappinstall.title"
-      },
-      {
-        "defaultMessage": "Plug in device, unlock and open the dashboard on your device",
-        "id": "modals.lockboxappinstall.connectdevice"
-      },
-      {
-        "defaultMessage": "Success! Click to Continue",
-        "id": "modals.lockboxsetup.connectdevice.success"
-      },
-      {
-        "defaultMessage": "Connect Your Lockbox",
-        "id": "modals.lockboxsetup.connectdevice.connect"
-      },
-      {
-        "defaultMessage": "Allow the device manager onto the device when prompted.",
-        "id": "modals.lockboxappinstall.allowmanager"
-      },
-      {
-        "defaultMessage": "Do not press any buttons on device until all installations are complete!",
-        "id": "modals.lockboxappinstall.dontpress"
-      },
-      {
-        "defaultMessage": "Application",
-        "id": "modals.lockboxappinstall.application"
-      },
-      {
-        "defaultMessage": "Status",
-        "id": "modals.lockboxappinstall.status"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "modals.lockboxappinstall.finish"
-      }
-    ],
-    "path": "src/modals/Lockbox/LockboxAppInstall/template.json"
   },
   {
     "descriptors": [
@@ -4750,66 +4719,16 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Successfully installed the Bitcoin app!",
-        "id": "modals.lockboxsetup.installbtcappstep.success"
-      },
-      {
-        "defaultMessage": "The attempt to install the Bitcoin app failed. This may be because the app is already on the device.",
-        "id": "modals.lockboxsetup.installbtcappstep.failure"
-      },
-      {
-        "defaultMessage": "Please continue to the next step and if you are unable to proceed, try again later or contact support.",
-        "id": "modals.lockboxsetup.installbtcappstep.failurecontact"
-      },
-      {
-        "defaultMessage": "Installing the Bitcoin application",
-        "id": "modals.lockboxsetup.installbtcappstep.installing"
-      },
-      {
-        "defaultMessage": "Now let's install the Bitcoin app to your device.",
-        "id": "modals.lockboxsetup.installbtcappstep.explanation"
-      },
-      {
-        "defaultMessage": "Click button below to start the install process.",
-        "id": "modals.lockboxsetup.installbtcappstep.selection"
-      },
-      {
-        "defaultMessage": "Note:",
-        "id": "modals.lockboxsetup.installbtcappstep.note"
-      },
-      {
-        "defaultMessage": "If this device has already been setup and it has the Bitcoin app installed, click",
-        "id": "modals.lockboxsetup.installbtcappstep.skipinstall"
-      },
-      {
-        "defaultMessage": "here.",
-        "id": "modals.lockboxsetup.installbtcappstep.skipinstallhere"
-      }
-    ],
-    "path": "src/modals/Lockbox/LockboxSetup/OpenBtcAppStep/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Lockbox + Blockchain Wallet",
-        "id": "modals.lockboxsetup.installbtcappstep.title"
-      }
-    ],
-    "path": "src/modals/Lockbox/LockboxSetup/OpenBtcAppStep/template.install.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Lockbox + Blockchain Wallet",
         "id": "modals.lockboxsetup.openbtcappstep.title"
       },
       {
-        "defaultMessage": "Now add a Bitcoin wallet to your device.",
-        "id": "modals.lockboxsetup.openbtcappstep.explanation"
+        "defaultMessage": "Now let’s select the Bitcoin app on your Lockbox.",
+        "id": "modals.lockboxsetup.openbtcappstep.selection"
       },
       {
-        "defaultMessage": "Select \"Bitcoin\" from the picker.",
-        "id": "modals.lockboxsetup.openbtcappstep.selection"
+        "defaultMessage": "This will pair your Lockbox to your Blockchain Wallet.",
+        "id": "modals.lockboxsetup.openbtcappstep.pair"
       },
       {
         "defaultMessage": "Success! Click to Continue",
@@ -4821,43 +4740,6 @@
       }
     ],
     "path": "src/modals/Lockbox/LockboxSetup/OpenBtcAppStep/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Lockbox + Blockchain Wallet",
-        "id": "modals.lockboxsetup.openbtcappstep.title"
-      },
-      {
-        "defaultMessage": "Now add a Bitcoin wallet to your device.",
-        "id": "modals.lockboxsetup.openbtcappstep.explanation"
-      },
-      {
-        "defaultMessage": "Select \"Bitcoin\" from the picker.",
-        "id": "modals.lockboxsetup.openbtcappstep.selection"
-      },
-      {
-        "defaultMessage": "Note:",
-        "id": "modals.lockboxsetup.openbtcappstep.note"
-      },
-      {
-        "defaultMessage": "If you do not have the Bitcoin app on your device, you can install it",
-        "id": "modals.lockboxsetup.openbtcappstep.installapps"
-      },
-      {
-        "defaultMessage": "here.",
-        "id": "modals.lockboxsetup.openbtcappstep.installappshere"
-      },
-      {
-        "defaultMessage": "Success! Click to Continue",
-        "id": "modals.lockboxsetup.openbtcappstep.success"
-      },
-      {
-        "defaultMessage": "Open Your Bitcoin App",
-        "id": "modals.lockboxsetup.openbtcappstep.loading"
-      }
-    ],
-    "path": "src/modals/Lockbox/LockboxSetup/OpenBtcAppStep/template.open.json"
   },
   {
     "descriptors": [
@@ -8331,23 +8213,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Install Apps",
-        "id": "scenes.lockbox.settings.installapps.title"
-      },
-      {
-        "defaultMessage": "Install the latest versions of the Bitcoin, Bitcoin Cash, Ethereum, and Stellar apps",
-        "id": "scenes.lockbox.settings.installapps.description"
-      },
-      {
-        "defaultMessage": "Install Apps",
-        "id": "scenes.lockbox.settings.installapps.installapps"
-      }
-    ],
-    "path": "src/scenes/Lockbox/Dashboard/Settings/InstallApps/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Remove Device",
         "id": "scenes.lockbox.settings.removedevice.title"
       },
@@ -8831,6 +8696,10 @@
         "id": "scenes.reset2fa.secondstep.captcha"
       },
       {
+        "defaultMessage": "Please note that reset requests are fully automated and require a mandatory waiting period before being approved.",
+        "id": "scenes.reset2fa.secondstep.waitingperiod"
+      },
+      {
         "defaultMessage": "Go Back",
         "id": "scenes.reset2fa.secondstep.back"
       },
@@ -9022,48 +8891,6 @@
       }
     ],
     "path": "src/scenes/SecurityCenter/Advanced/LoginIpRestriction/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Change",
-        "id": "scenes.securitysettings.basicsecurity.passwordhint.settings.change"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel"
-      },
-      {
-        "defaultMessage": "Change",
-        "id": "scenes.securitysettings.basicsecurity.passwordhint.settings.save"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/Advanced/PasswordHint/Settings/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Password Hint",
-        "id": "scenes.settings.passwordhint.title"
-      },
-      {
-        "defaultMessage": "Hint Stored",
-        "id": "scenes.security.passwordhint.stored"
-      },
-      {
-        "defaultMessage": "Not Stored",
-        "id": "scenes.security.passwordhint.notstored"
-      },
-      {
-        "defaultMessage": "Blockchain cannot reset your password.",
-        "id": "scenes.settings.passwordhint.description1"
-      },
-      {
-        "defaultMessage": "Create a memorable password hint that we can send to your verified email address in case you forget your password.",
-        "id": "scenes.settings.passwordhint.description2"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/Advanced/PasswordHint/template.json"
   },
   {
     "descriptors": [
@@ -10213,44 +10040,6 @@
       }
     ],
     "path": "src/scenes/Settings/Preferences/AutoLogout/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Minutes",
-        "id": "scenes.settings.preferences.autologout.updateform.minutes"
-      },
-      {
-        "defaultMessage": "Must be between 1 and 1440 minutes.",
-        "id": "scenes.preferences.autologout.settings.updateform.bounds"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "scenes.preferences.autologout.settings.updateform.cancel"
-      },
-      {
-        "defaultMessage": "Save",
-        "id": "scenes.preferences.autologout.settings.updateform.save"
-      }
-    ],
-    "path": "src/scenes/Settings/Preferences/AutoLogout/Settings/EditForm/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Please set a valid time",
-        "id": "settings.preferences.autologout.settings.invalid"
-      },
-      {
-        "defaultMessage": "Please set a duration greater than 1 minute.",
-        "id": "settings.preferences.autologout.settings.invalid2"
-      },
-      {
-        "defaultMessage": "Please set a duration less than 1440 minutes",
-        "id": "settings.preferences.autologout.settings.invalid3"
-      }
-    ],
-    "path": "src/scenes/Settings/Preferences/AutoLogout/Settings/EditForm/validationMessages.json"
   },
   {
     "descriptors": [
