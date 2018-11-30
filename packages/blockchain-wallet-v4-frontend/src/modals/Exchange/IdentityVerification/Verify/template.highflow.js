@@ -69,8 +69,7 @@ class Verify extends React.PureComponent {
                         <Text weight={300}>
                           <FormattedMessage
                             id='identityverification.highflow.message'
-                            defaultMessage='We need you to continue your verification on our mobile app.  
-                        Follow these steps:'
+                            defaultMessage='We need you to continue your verification on our mobile app. Follow these steps:'
                           />
                         </Text>
                         <Text size='14px' weight={300}>
@@ -119,8 +118,15 @@ class Verify extends React.PureComponent {
                         <br />
                         <Text weight={300}>
                           <FormattedHTMLMessage
+                            id='identityverification.highflow.gotodashboard'
+                            defaultMessage='2 - Continue your verification from the <b>Dashboard</b> (you can also continue from <b>Exchange</b>)'
+                          />
+                        </Text>
+                        <br />
+                        <Text weight={300}>
+                          <FormattedHTMLMessage
                             id='identityverification.highflow.getidready'
-                            defaultMessage='2 - Get your <b>Identity documents</b> (eg. Passport) and be ready to take a selfie video. '
+                            defaultMessage='3 - Get your <b>Identity documents</b> (e.g. Passport) and be ready to take a selfie video. '
                           />
                         </Text>
                       </ColumnSubHeader>
