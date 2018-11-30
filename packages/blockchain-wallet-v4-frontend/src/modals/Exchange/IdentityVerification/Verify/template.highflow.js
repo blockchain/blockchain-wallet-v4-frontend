@@ -61,7 +61,7 @@ class Verify extends React.PureComponent {
                       <IdentityVerificationHeader>
                         <FormattedMessage
                           id='identityverification.highflow.header'
-                          defaultMessage='Last Step. Continue your verification on mobile'
+                          defaultMessage='Last Step - continue your verification on mobile'
                         />
                       </IdentityVerificationHeader>
                       <IdentityVerificationImage name='identity-verification' />
@@ -85,7 +85,7 @@ class Verify extends React.PureComponent {
                             <Text weight={300}>
                               <FormattedHTMLMessage
                                 id='identityverification.highflow.followlink'
-                                defaultMessage='1 - <b>Follow this link</b> to log in to or download our mobile app.'
+                                defaultMessage='1 - <b>Follow this link</b> to log into or download our mobile app.'
                               />
                             </Text>
                             <br />
@@ -106,7 +106,7 @@ class Verify extends React.PureComponent {
                             <Text weight={300}>
                               <FormattedHTMLMessage
                                 id='identityverification.highflow.scanqr'
-                                defaultMessage='1 - <b>Scan this QR code</b> with your phone to log in to this wallet or download our mobile app. '
+                                defaultMessage='1 - <b>Scan this QR code</b> with your phone to log into this wallet or download our mobile app. '
                               />
                             </Text>
                             <br />
@@ -119,7 +119,7 @@ class Verify extends React.PureComponent {
                         <Text weight={300}>
                           <FormattedHTMLMessage
                             id='identityverification.highflow.gotodashboard'
-                            defaultMessage='2 - Continue your verification from the <b>Dashboard</b> (you can also continue from <b>Exchange</b>)'
+                            defaultMessage='2 - Continue your verification from the <b>Dashboard</b> (you can also continue from <b>Exchange</b>).'
                           />
                         </Text>
                         <br />

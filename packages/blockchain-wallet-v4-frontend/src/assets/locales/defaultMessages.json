@@ -4229,7 +4229,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Last Step. Continue your verification on mobile",
+        "defaultMessage": "Last Step - continue your verification on mobile",
         "id": "identityverification.highflow.header"
       },
       {
@@ -4251,14 +4251,6 @@
       {
         "defaultMessage": "1 - <b>Scan this QR code</b> with your phone to log in to this wallet or download our mobile app.",
         "id": "identityverification.highflow.scanqr"
-      },
-      {
-        "defaultMessage": "2 - Continue your verification from the <b>Dashboard</b> (you can also continue from <b>Exchange</b>)",
-        "id": "identityverification.highflow.gotodashboard"
-      },
-      {
-        "defaultMessage": "3 - Get your <b>Identity documents</b> (e.g. Passport) and be ready to take a selfie video.",
-        "id": "identityverification.highflow.getidready"
       },
       {
         "defaultMessage": "Back",
