@@ -10,17 +10,14 @@ import {
   FormGroup,
   FormItem,
   SelectBoxUSState,
-  SelectBoxCountry,
-  TextBox
+  SelectBoxCountry
 } from 'components/Form'
 import { spacing } from 'services/StyleService'
 import {
   required,
   onPartnerCountryWhitelist,
-  onPartnerStateWhitelist,
-  validEmail
+  onPartnerStateWhitelist
 } from 'services/FormHelper'
-import BuySellAnimation from './BuySellAnimation'
 import media from 'services/ResponsiveService'
 import {
   Wrapper,
@@ -47,31 +44,24 @@ const PoweredByContainer = styled.div`
     right: 5px;
   `};
 `
-const SelectionContainer = Intro.extend`
-  margin-top: 25px;
-`
 const FieldWrapper = Intro.extend`
   margin-top: 5px;
   width: 75%;
 `
-const UnavailableContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 75%;
-`
-const SubmittedWrapper = styled.span`
-  text-align: center;
-  margin-top: 35px;
+const PoweredByText = styled(Text)`
+  padding-bottom: 5px;
 `
 
 const SelectPartner = props => {
-  const { invalid, options, pristine, submitEmail, ui, fields, sfoxStates, allCountries, handleSubmit } = props
-  const { country, stateSelection, email } = fields
+  const { invalid, pristine, fields, sfoxStates, handleSubmit } = props
+  const { country, stateSelection } = fields
 
-  const onSfoxWhitelist = usState =>
-    prop('code', usState) && sfoxStates.includes(usState.code)
-      ? undefined
-      : 'This service is not yet available in your state.'
+  const onSfoxWhitelist = usState => country === 'US' && prop('code', usState) && sfoxStates.includes(usState.code)
+  const isCoinifyCountry = country => props.coinifyCountries.includes(country)
+  const getPartner = () => {
+    if (onSfoxWhitelist(stateSelection)) return 'SFOX'
+    if (isCoinifyCountry(country)) return 'COINIFY'
+  }
 
   return (
     <Wrapper>
@@ -141,90 +131,24 @@ const SelectPartner = props => {
             </Text>
           </CountryFAQText>
         </GetStartedContent>
-        <PoweredByContainer>
-          <Text size='11px' weight={300} color='brand-primary'>
-            <FormattedMessage
-              id='scenes.buysell.selectpartner.poweredby'
-              defaultMessage='Powered By'
-            />
-          </Text>
-          <Image
-            width='100%'
-            name='coinify-logo'
-          />
-        </PoweredByContainer>
+        {
+          getPartner() !== 'COINIFY' || getPartner() !== 'SFOX'
+            ? <PoweredByContainer>
+              <PoweredByText size='11px' weight={300} color='brand-primary'>
+                <FormattedMessage
+                  id='scenes.buysell.selectpartner.poweredby'
+                  defaultMessage='Powered By'
+                />
+              </PoweredByText>
+              <Image
+                width='100%'
+                name={getPartner() === 'COINIFY' ? 'coinify-logo' : getPartner() === 'SFOX' ? 'sfox-logo' : null}
+              />
+            </PoweredByContainer>
+            : null
+        }
       </GetStartedContainer>
     </Wrapper>
-    // <Row>
-    //   <ColLeft>{renderColLeft()}</ColLeft>
-    //   <ColRight>
-    //     <Intro>
-    //       <PartnerHeader>
-    //         <FormattedMessage
-    //           id='scenes.buysell.selectpartner.header'
-    //           defaultMessage='Introducing Buy & Sell'
-    //         />
-    //       </PartnerHeader>
-    //       <PartnerSubHeader>
-    //         <FormattedMessage
-    //           id='scenes.buysell.selectpartner.subheader'
-    //           defaultMessage='You can now buy & sell bitcoin directly from your wallet and have the exchanged funds deposited into your bank account.'
-    //         />
-    //       </PartnerSubHeader>
-    //       <PartnerSubHeader style={spacing('mt-15')}>
-    //         <FormattedMessage
-    //           id='scenes.buysell.selectpartner.subheader2'
-    //           defaultMessage="Select your location below, verify your identity, and before you know it, you'll be on your way to making your crypto dreams a reality!"
-    //         />
-    //       </PartnerSubHeader>
-    //     </Intro>
-    //     <SelectionContainer>
-    //       <Text size='14px'>
-    //         <FormattedMessage
-    //           id='scenes.buysell.selectpartner.selectcountry'
-    //           defaultMessage='Select your country:'
-    //         />
-    //       </Text>
-    //       <FieldWrapper>
-    //         <form onSubmit={handleSubmit}>
-    //           <FormGroup>
-    //             <FormItem>
-    //               <Field
-    //                 name='country'
-    //                 validate={[required, onPartnerCountryWhitelist]}
-    //                 component={SelectBoxCountry}
-    //                 errorBottom
-    //               />
-    //             </FormItem>
-    //           </FormGroup>
-    //           {equals(country, 'US') ? (
-    //             <FormGroup style={spacing('mt-5')}>
-    //               <FormItem>
-    //                 <Field
-    //                   name='state'
-    //                   validate={[required, onPartnerStateWhitelist]}
-    //                   component={SelectBoxUSState}
-    //                   errorBottom
-    //                 />
-    //               </FormItem>
-    //             </FormGroup>
-    //           ) : null}
-    //           <Button
-    //             nature='primary'
-    //             type='submit'
-    //             disabled={invalid || pristine}
-    //             style={spacing('mt-35')}
-    //           >
-    //             <FormattedMessage
-    //               id='scenes.buysell.selectpartner.getstarted'
-    //               defaultMessage='Get Started'
-    //             />
-    //           </Button>
-    //         </form>
-    //       </FieldWrapper>
-    //     </SelectionContainer>
-    //   </ColRight>
-    // </Row>
   )
 }
 

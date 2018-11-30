@@ -1,9 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import { Field, reduxForm } from 'redux-form'
-import ui from 'redux-ui'
 import { path, prop } from 'ramda'
 
 import { actions, model } from 'data'
@@ -16,7 +15,6 @@ import CoinifyCheckout from './CoinifyCheckout'
 import { getData, getFields } from './selectors'
 import SelectPartner from './template.success'
 
-const { COINIFY_SIGNUP_STATES } = model.coinify
 const { KYC_MODAL } = model.components.identityVerification
 
 const Wrapper = styled.div`
@@ -44,12 +42,6 @@ const CheckoutWrapper = styled.div`
 const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
 
 class BuySellContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.selectPartner = this.selectPartner.bind(this)
-    this.submitEmail = this.submitEmail.bind(this)
-  }
-
   state = {
     countrySelection: null
   }
@@ -63,15 +55,6 @@ class BuySellContainer extends React.PureComponent {
         data.countryCode
       )
     )
-  }
-
-  componentWillUnmount () {
-    this.props.coinifyActions.coinifyNextStep(COINIFY_SIGNUP_STATES.NONE)
-  }
-
-  triggerCoinifyEmailVerification = (country) => {
-    this.props.coinifyActions.coinifyNextStep(COINIFY_SIGNUP_STATES.EMAIL)
-    this.setState({countrySelection: country})
   }
 
   onSubmit = () => {
@@ -100,7 +83,7 @@ class BuySellContainer extends React.PureComponent {
    * If not, open the tray and send user through the signup flow.
    */
 
-  selectPartner (buySell, options, type, value) {
+  selectPartner = (buySell, options, type, value) => {
     if (path(['sfox', 'account_token'], buySell)) {
       return {
         component: (
@@ -124,7 +107,6 @@ class BuySellContainer extends React.PureComponent {
           options={options}
           value={buySell}
           onSubmit={this.onSubmit}
-          submitEmail={this.submitEmail}
           triggerCoinifyEmailVerification={this.triggerCoinifyEmailVerification}
           {...this.props}
           {...value}
@@ -132,24 +114,6 @@ class BuySellContainer extends React.PureComponent {
       ),
       partner: ''
     }
-  }
-
-  submitEmail () {
-    this.props.updateUI({ submittedEmail: true })
-    let email = encodeURIComponent(path(['fields', 'email'], this.props))
-    let country = path(['fields', 'country'], this.props)
-    let state =
-      path(['fields', 'country'], this.props) === 'US'
-        ? path(['fields', 'stateSelection', 'name'], this.props)
-        : undefined
-    let url =
-      'https://docs.google.com/forms/d/e/1FAIpQLSeYiTe7YsqEIvaQ-P1NScFLCSPlxRh24zv06FFpNcxY_Hs0Ow/viewform?entry.1192956638=' +
-      email +
-      '&entry.644018680=' +
-      country +
-      '&entry.387129390=' +
-      state
-    window.open(url, '_blank')
   }
 
   render () {
@@ -191,12 +155,4 @@ const mapDispatchToProps = dispatch => ({
   identityActions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  ui({ state: { submittedEmail: false } })
-)
-
-export default enhance(BuySellContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(BuySellContainer)
