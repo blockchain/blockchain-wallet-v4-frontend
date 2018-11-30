@@ -51,7 +51,7 @@ const Header = styled.div`
 const Content = styled.div`
   width: 100%;
   overflow: scroll;
-  height: calc(100% - 150px);
+  height: calc(100% - 60px);
   background-color: ${props => props.theme['white']};
 `
 

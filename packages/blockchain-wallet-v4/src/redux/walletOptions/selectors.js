@@ -1,34 +1,23 @@
-import { curry, flip, path, prop } from 'ramda'
+import { curry, path, toLower } from 'ramda'
 import { walletOptionsPath } from '../paths'
 
+// general
 export const getOptions = path([walletOptionsPath])
 export const getDomains = state => getOptions(state).map(path(['domains']))
+export const getWebOptions = state =>
+  getOptions(state).map(path(['platforms', 'web']))
+
+// specific
 export const getBtcNetwork = state =>
-  getOptions(state).map(
-    path(['platforms', 'web', 'bitcoin', 'config', 'network'])
-  )
-export const getMigrationRedirects = state =>
-  getOptions(state).map(
-    path(['platforms', 'web', 'application', 'enableDomainMigrationRedirects'])
-  )
-export const getShapeshiftStates = state =>
-  getOptions(state).map(path(['platforms', 'web', 'shapeshift', 'states']))
+  getWebOptions(state).map(path(['btc', 'config', 'network']))
+export const getEthTxFuse = state =>
+  getWebOptions(state).map(path(['eth', 'lastTxFuse']))
 export const getAnnouncements = state =>
-  getOptions(state).map(
-    path(['platforms', 'web', 'application', 'announcements'])
+  getWebOptions(state).map(path(['application', 'announcements']))
+export const getMigrationRedirects = state =>
+  getWebOptions(state).map(
+    path(['application', 'enableDomainMigrationRedirects'])
   )
-export const getEthereumTxFuse = state =>
-  getOptions(state).map(path(['platforms', 'web', 'ethereum', 'lastTxFuse']))
-
-const getCoinOptionsName = flip(prop)({
-  BTC: 'bitcoin',
-  BCH: 'bch',
-  ETH: 'ethereum',
-  XLM: 'xlm'
-})
-
 export const getCoinAvailablility = curry((state, coin) =>
-  getOptions(state).map(
-    path(['platforms', 'web', getCoinOptionsName(coin), 'availability'])
-  )
+  getWebOptions(state).map(path([toLower(coin), 'availability']))
 )

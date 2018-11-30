@@ -51,7 +51,7 @@ const AuthenticityStep = props => {
         <Text size='14px' weight={300}>
           <FormattedHTMLMessage
             id='modals.lockboxsetup.authenticitystep.content'
-            defaultMessage='On your Lockbox, tap the RIGHT button to let your Lockbox connect to your Blockchain wallet.'
+            defaultMessage='When prompted on your Lockbox, tap the RIGHT button to let your device connect to your Blockchain Web Wallet. This may take a few moments.'
           />
         </Text>
       </Content>

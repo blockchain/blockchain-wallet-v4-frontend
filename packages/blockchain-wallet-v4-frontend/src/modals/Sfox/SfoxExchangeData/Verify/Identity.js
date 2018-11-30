@@ -3,13 +3,7 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { FormGroup, FormItem, TextBox, PasswordBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
-import {
-  Button,
-  HeartbeatLoader,
-  Icon,
-  Text,
-  Link
-} from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Text, Link } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
 
 import {
@@ -31,18 +25,13 @@ import {
 } from 'components/IdentityVerification'
 import media from 'services/ResponsiveService'
 
-const LockIcon = styled(Icon)`
-  display: flex;
-  align-items: center;
-  font-size: 24px;
-  margin-left: 7px;
-`
 const FormContainer = styled.div`
   margin-top: 25px;
 `
 const IconHeader = styled(PartnerHeader)`
   display: flex;
   flex-direction: row;
+  margin-bottom: 12px;
 `
 const IdentityForm = styled(Form)`
   ${media.mobile`
@@ -75,7 +64,6 @@ const Identity = props => {
               id='sfoxexchangedata.verify.partner.header'
               defaultMessage='The Hidden Details'
             />
-            <LockIcon name='lock' />
           </IconHeader>
           <PartnerSubHeader>
             <FormattedMessage

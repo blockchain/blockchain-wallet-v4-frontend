@@ -25,6 +25,7 @@ import * as sendEth from './sendEth/actions'
 import * as sendXlm from './sendXlm/actions'
 import * as settings from './settings/actions'
 import * as signMessage from './signMessage/actions'
+import * as swapGetStarted from './swapGetStarted/actions'
 import * as transactionReport from './transactionReport/actions'
 import * as uploadDocuments from './uploadDocuments/actions'
 
@@ -56,6 +57,7 @@ export {
   sendXlm,
   settings,
   signMessage,
+  swapGetStarted,
   transactionReport,
   uploadDocuments
 }

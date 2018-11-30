@@ -1,10 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { connect } from 'react-redux'
 
-import { actions } from 'data'
-import { Button, Image, Text } from 'blockchain-info-components'
+import { Image, Text } from 'blockchain-info-components'
+import StatusBar from './StatusBar'
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,12 +19,13 @@ const Container = styled.div`
   display: flex;
   flex-direction: column-reverse;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  width: 100%;
   height: auto;
 
   @media (min-width: 1200px) {
     flex-direction: row;
-    align-items: flex-start;
+    justify-content: center;
     width: 100%;
   }
 `
@@ -49,7 +49,7 @@ const Row = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   flex-wrap: wrap;
 
   & > :not(:last-child) {
@@ -58,14 +58,14 @@ const Row = styled.div`
 
   @media (min-width: 1200px) {
     flex-direction: row;
-    margin-bottom: ${props => (props.marginBottom ? '30px' : 'none')};
+    min-height: 100%;
+    margin-bottom: ${props => props.marginBottom || 'none'};
   }
 `
 const PreviewImage = styled(Image).attrs({
   name: 'kyc-get-started'
 })`
-  width: 100%;
-  max-width: 411px;
+  width: 410px;
   @media (max-width: 1200px) {
     width: 350px;
   }
@@ -75,33 +75,24 @@ const DarkText = styled(Text).attrs({
   size: '16px',
   weight: 300
 })`
+  display: inline;
   @media (max-width: 1200px) {
-    display: ${props => (props.hideOnMobile ? 'none' : 'inline-block')};
+    display: ${props => (props.hideOnMobile ? 'none' : 'inline')};
   }
 `
 const PrimaryText = styled(Text).attrs({
   color: 'brand-primary',
   size: '16px'
 })`
+  display: inline;
   white-space: nowrap;
 `
-const GetStartedButton = styled(Button).attrs({
-  nature: 'primary',
-  width: '250px',
-  weight: 600
-})`
-  margin-top: 20px;
 
-  @media (max-width: 1200px) {
-    width: 100%;
-  }
-`
-
-const GetStarted = ({ verifyIdentity }) => (
+export const GetStarted = () => (
   <Wrapper>
     <Container>
       <Column>
-        <Row marginBottom>
+        <Row marginBottom='36px'>
           <Text color='brand-primary' size='30px' weight={600}>
             <FormattedMessage
               defaultMessage='A better way to trade crypto'
@@ -109,7 +100,7 @@ const GetStarted = ({ verifyIdentity }) => (
             />
           </Text>
         </Row>
-        <Row marginBottom>
+        <Row marginBottom='24px'>
           <DarkText>
             <FormattedMessage
               defaultMessage='The faster, smarter way to trade your crypto.'
@@ -117,7 +108,7 @@ const GetStarted = ({ verifyIdentity }) => (
             />
           </DarkText>
         </Row>
-        <Row>
+        <Row marginBottom='8px'>
           <DarkText>
             <FormattedMessage
               defaultMessage='Upgrade now to enjoy the following benefits:'
@@ -125,73 +116,60 @@ const GetStarted = ({ verifyIdentity }) => (
             />
           </DarkText>
         </Row>
-        <Row>
-          <PrimaryText>
-            <FormattedMessage
-              defaultMessage='Lower cost'
-              id='scenes.exchange.getstarted.lowercost'
-            />
-          </PrimaryText>
-          <DarkText hideOnMobile>{' - '}</DarkText>
+        <Row marginBottom='8px'>
           <DarkText>
+            <PrimaryText>
+              <FormattedMessage
+                defaultMessage='Lower cost'
+                id='scenes.exchange.getstarted.lowercost'
+              />
+            </PrimaryText>
+            <DarkText hideOnMobile>{' - '}</DarkText>
             <FormattedMessage
               defaultMessage='Super competitive crypto exchange prices'
               id='scenes.exchange.getstarted.lowercost_description'
             />
           </DarkText>
         </Row>
-        <Row>
-          <PrimaryText>
-            <FormattedMessage
-              defaultMessage='Live rates'
-              id='scenes.exchange.getstarted.liverates'
-            />
-          </PrimaryText>
-          <DarkText hideOnMobile>{' - '}</DarkText>
+        <Row marginBottom='8px'>
           <DarkText>
+            <PrimaryText>
+              <FormattedMessage
+                defaultMessage='Live rates'
+                id='scenes.exchange.getstarted.liverates'
+              />
+            </PrimaryText>
+            <DarkText hideOnMobile>{' - '}</DarkText>
             <FormattedMessage
               defaultMessage='You always get the most up to date price'
               id='scenes.exchange.getstarted.liverates_Description'
             />
           </DarkText>
         </Row>
-        <Row marginBottom>
-          <PrimaryText>
-            <FormattedMessage
-              defaultMessage='Higher limits'
-              id='scenes.exchange.getstarted.higherlimits'
-            />
-          </PrimaryText>
-          <DarkText hideOnMobile>{' - '}</DarkText>
+        <Row marginBottom='32px'>
           <DarkText>
+            <PrimaryText>
+              <FormattedMessage
+                defaultMessage='Higher limits'
+                id='scenes.exchange.getstarted.higherlimits'
+              />
+            </PrimaryText>
+            <DarkText hideOnMobile>{' - '}</DarkText>
             <FormattedMessage
-              defaultMessage='Limits from $2,000-$10,000'
+              defaultMessage='Limits from $1,000-$25,000'
               id='scenes.exchange.getstarted.higherlimits_description'
             />
           </DarkText>
         </Row>
         <Row>
-          <GetStartedButton onClick={verifyIdentity}>
-            <FormattedMessage
-              id='scenes.exchange.getstarted.started'
-              defaultMessage='Get Started'
-            />
-          </GetStartedButton>
+          <StatusBar />
         </Row>
       </Column>
-      <Column width='40%'>
+      <Column>
         <PreviewImage />
       </Column>
     </Container>
   </Wrapper>
 )
 
-const mapDispatchToProps = dispatch => ({
-  verifyIdentity: () =>
-    dispatch(actions.components.identityVerification.verifyIdentity())
-})
-
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(GetStarted)
+export default GetStarted

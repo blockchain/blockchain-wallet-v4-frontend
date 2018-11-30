@@ -34,7 +34,7 @@ const RotateSyncContainer = styled(RotateSync)`
 `
 
 const ConnectDeviceStep = props => {
-  const { isConnected } = props
+  const { isConnected, isNewSetup } = props
 
   return (
     <Wrapper>
@@ -46,32 +46,62 @@ const ConnectDeviceStep = props => {
           />
         </Text>
       </Title>
-      <TextGroup>
-        <StepText size='14px' weight={300}>
-          <FormattedHTMLMessage
-            id='modals.lockboxsetup.connectdevice.step1'
-            defaultMessage='1. Insert your Lockbox into your computer'
-          />
-        </StepText>
-        <StepText size='14px' weight={300}>
-          <FormattedHTMLMessage
-            id='modals.lockboxsetup.connectdevice.step2'
-            defaultMessage='2. Press both buttons on your Lockbox to begin'
-          />
-        </StepText>
-        <StepText size='14px' weight={300}>
-          <FormattedHTMLMessage
-            id='modals.lockboxsetup.connectdevice.step3'
-            defaultMessage='3. Set your pin'
-          />
-        </StepText>
-        <StepText size='14px' weight={300}>
-          <FormattedHTMLMessage
-            id='modals.lockboxsetup.connectdevice.step4'
-            defaultMessage='4. Complete backup phrase process'
-          />
-        </StepText>
-      </TextGroup>
+      {isNewSetup ? (
+        <TextGroup>
+          <StepText size='14px' weight={300}>
+            <FormattedHTMLMessage
+              id='modals.lockboxsetup.connectdevice.new.step1'
+              defaultMessage='1. Insert your Lockbox into your computer'
+            />
+          </StepText>
+          <StepText size='14px' weight={300}>
+            <FormattedHTMLMessage
+              id='modals.lockboxsetup.connectdevice.new.step2'
+              defaultMessage='2. Press both buttons on your Lockbox to begin'
+            />
+          </StepText>
+          <StepText size='14px' weight={300}>
+            <FormattedHTMLMessage
+              id='modals.lockboxsetup.connectdevice.new.step3'
+              defaultMessage='3. Set your pin'
+            />
+          </StepText>
+          <StepText size='14px' weight={300}>
+            <FormattedHTMLMessage
+              id='modals.lockboxsetup.connectdevice.new.step4'
+              defaultMessage='4. Complete backup phrase process'
+            />
+          </StepText>
+        </TextGroup>
+      ) : (
+        <TextGroup>
+          <StepText size='14px' weight={300}>
+            <FormattedHTMLMessage
+              id='modals.lockboxsetup.connectdevice.existing.step1'
+              defaultMessage='1. Insert your Lockbox into your computer'
+            />
+          </StepText>
+          <StepText size='14px' weight={300}>
+            <FormattedHTMLMessage
+              id='modals.lockboxsetup.connectdevice.existing.step2'
+              defaultMessage='2. Press both buttons on your Lockbox to begin'
+            />
+          </StepText>
+          <StepText size='14px' weight={300}>
+            <FormattedHTMLMessage
+              id='modals.lockboxsetup.connectdevice.existing.step3'
+              defaultMessage='3. Enter your pin'
+            />
+          </StepText>
+          <StepText size='14px' weight={300}>
+            <FormattedHTMLMessage
+              id='modals.lockboxsetup.connectdevice.existing.step4'
+              defaultMessage='4. Ensure the Dashboard is open'
+            />
+          </StepText>
+        </TextGroup>
+      )}
+
       <ImageContainer>
         <Image
           name='lockbox-onboard-link'

@@ -34,7 +34,7 @@ import { isValidBitcoinAddress } from '../../../utils/btc'
 import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
 
-const transformTx = transactions.bitcoin.transformTx
+const transformTx = transactions.bch.transformTx
 
 export const getLockboxBchBalances = state => {
   const digest = (addresses, account) => ({

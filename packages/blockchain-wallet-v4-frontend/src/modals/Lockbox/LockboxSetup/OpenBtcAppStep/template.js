@@ -47,14 +47,14 @@ const OpenBtcAppStep = props => {
       <Content>
         <Text size='14px' weight={300}>
           <FormattedMessage
-            id='modals.lockboxsetup.openbtcappstep.explanation'
-            defaultMessage='Now add a Bitcoin wallet to your device.'
+            id='modals.lockboxsetup.openbtcappstep.selection'
+            defaultMessage='Now let’s select the Bitcoin app on your Lockbox.'
           />
         </Text>
         <Text size='14px' weight={300}>
           <FormattedMessage
-            id='modals.lockboxsetup.openbtcappstep.selection'
-            defaultMessage='Select &quot;Bitcoin&quot; from the picker.'
+            id='modals.lockboxsetup.openbtcappstep.pair'
+            defaultMessage='This will pair your Lockbox to your Blockchain Wallet.'
           />
         </Text>
       </Content>

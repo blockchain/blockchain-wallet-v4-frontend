@@ -12,7 +12,6 @@ import AuthorizeLogin from './AuthorizeLogin'
 import BuySell from './BuySell'
 import Exchange from './Exchange'
 import ExchangeHistory from './ExchangeHistory'
-import Goals from './Goals'
 import Help from './Help'
 import Home from './Home'
 import Lockbox from './Lockbox'
@@ -47,7 +46,6 @@ class App extends React.PureComponent {
             <MediaContextProvider>
               <ConnectedRouter history={history}>
                 <Switch>
-                  <PublicLayout path='/open/:payload' component={Goals} />
                   <PublicLayout path='/login' component={Login} />
                   <PublicLayout path='/logout' component={Logout} />
                   <PublicLayout path='/help' component={Help} />

@@ -24,7 +24,7 @@ import halfBitcoin from './img/half-bitcoin.svg'
 import halfBitcoincash from './img/half-bitcoincash.svg'
 import halfEther from './img/half-ether.svg'
 import identityVerification from './img/identity-verification.svg'
-import kycGetStarted from './img/kyc-get-started@2x.png'
+import kycGetStarted from './img/kyc-get-started.png'
 import linkLockboxIcon from './img/link-lockbox-icon.svg'
 import linkedinWhite from './img/linkedin-white.svg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
@@ -41,6 +41,8 @@ import sophisticated from './img/sophisticated.svg'
 import stellarPlanet from './img/stellar-planet.png'
 import stellarPlanet2 from './img/stellar-planet@2x.png'
 import stellarPlanet3 from './img/stellar-planet@3x.png'
+import swapDashboardLeft from './img/swap-dashboard-left.png'
+import swapDashboardRight from './img/swap-dashboard-right.png'
 import twitterWhite from './img/twitter-white.svg'
 import v4Welcome from './img/v4-welcome.jpg'
 import walletV3Backup from './img/wallet-v3-backup.jpg'
@@ -164,6 +166,8 @@ export default {
   'stellar-planet': stellarPlanet,
   'stellar-planet2': stellarPlanet2,
   'stellar-planet3': stellarPlanet3,
+  'swap-dashboard-left': swapDashboardLeft,
+  'swap-dashboard-right': swapDashboardRight,
   'twitter-white': twitterWhite,
   'v4-welcome': v4Welcome,
   'wallet-v3-backup': walletV3Backup,
