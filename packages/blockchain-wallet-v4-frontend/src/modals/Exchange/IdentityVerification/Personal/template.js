@@ -81,36 +81,6 @@ const TermsText = styled(Text)`
   font-weight: 300px;
   font-size: 12px;
 `
-const DobLabelRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-`
-const MonthLabel = styled(Label)`
-  width: 50%;
-  margin-right: 15px;
-  ${media.mobile`
-    width: 100%;
-  `};
-`
-const DobLabelWrapper = styled.div`
-  width: 50%;
-  display: flex;
-  flex-direction: row;
-  ${media.mobile`
-    position: absolute;
-    top: 94px;
-    left: 0;
-    width: 100%;
-  `};
-`
-const DobLabel = styled(Label)`
-  width: 50%;
-  justify-content: flex-end;
-  & :first-child {
-    margin-right: 15px;
-  }
-`
 const LabeledDateInputBox = styled(DateInputBox)`
   ${media.mobile`
     .inputs-wrapper {
@@ -303,28 +273,12 @@ const Personal = ({
                 {showPersonal && (
                   <FaqFormGroup>
                     <FormItem>
-                      <DobLabelRow>
-                        <MonthLabel>
-                          <FormattedMessage
-                            id='identityverification.personal.dateofbirthmonth'
-                            defaultMessage='Date of Birth - Month'
-                          />
-                        </MonthLabel>
-                        <DobLabelWrapper>
-                          <DobLabel>
-                            <FormattedMessage
-                              id='identityverification.personal.date'
-                              defaultMessage='Date'
-                            />
-                          </DobLabel>
-                          <DobLabel>
-                            <FormattedMessage
-                              id='identityverification.personal.year'
-                              defaultMessage='Year'
-                            />
-                          </DobLabel>
-                        </DobLabelWrapper>
-                      </DobLabelRow>
+                      <Label>
+                        <FormattedMessage
+                          id='identityverification.personal.dateofbirth'
+                          defaultMessage='Date of Birth'
+                        />
+                      </Label>
                       <Field
                         name='dob'
                         validate={[requiredDOB, ageOverEighteen]}
