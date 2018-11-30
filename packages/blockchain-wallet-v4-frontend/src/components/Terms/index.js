@@ -143,6 +143,7 @@ const Terms = props => {
           </Text>
           <Link
             href='https://www.blockchain.com/legal/terms'
+            tabIndex='-1'
             target='_blank'
             size='12px'
             weight={300}
@@ -157,6 +158,7 @@ const Terms = props => {
           &nbsp;
           <Link
             href='https://www.blockchain.com/legal/privacy'
+            tabIndex='-1'
             target='_blank'
             size='12px'
             weight={300}
