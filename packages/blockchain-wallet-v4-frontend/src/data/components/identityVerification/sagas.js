@@ -69,6 +69,8 @@ export default ({ api, coreSagas }) => {
         newUser
       )
     } catch (e) {
+      // Todo: use generic confirm modal
+      // Should NOT be specific to sunriver
       yield put(actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'registerUserCampaign', e)
