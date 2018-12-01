@@ -2732,15 +2732,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Learn More",
-        "id": "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore"
-      }
-    ],
-    "path": "src/layouts/Wallet/TrayRight/WhatsNew/FaqLink/index.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "🎉 You're all caught up!",
         "id": "layouts.wallet.header.whatsnew.whatsnew.empty"
       },
@@ -13346,48 +13337,6 @@
     "descriptors": [
       {
         "defaultMessage": "Change",
-        "id": "scenes.securitysettings.basicsecurity.passwordhint.settings.change"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel"
-      },
-      {
-        "defaultMessage": "Change",
-        "id": "scenes.securitysettings.basicsecurity.passwordhint.settings.save"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/Advanced/PasswordHint/Settings/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Password Hint",
-        "id": "scenes.settings.passwordhint.title"
-      },
-      {
-        "defaultMessage": "Hint Stored",
-        "id": "scenes.security.passwordhint.stored"
-      },
-      {
-        "defaultMessage": "Not Stored",
-        "id": "scenes.security.passwordhint.notstored"
-      },
-      {
-        "defaultMessage": "Blockchain cannot reset your password.",
-        "id": "scenes.settings.passwordhint.description1"
-      },
-      {
-        "defaultMessage": "Create a memorable password hint that we can send to your verified email address in case you forget your password.",
-        "id": "scenes.settings.passwordhint.description2"
-      }
-    ],
-    "path": "src/scenes/SecurityCenter/Advanced/PasswordHint/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Change",
         "id": "scenes.securitysettings.advancedsettings.passwordstretching.settings.change"
       },
       {
@@ -14613,44 +14562,6 @@
       }
     ],
     "path": "src/scenes/Settings/Preferences/AutoLogout/index.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Minutes",
-        "id": "scenes.settings.preferences.autologout.updateform.minutes"
-      },
-      {
-        "defaultMessage": "Must be between 1 and 1440 minutes.",
-        "id": "scenes.preferences.autologout.settings.updateform.bounds"
-      },
-      {
-        "defaultMessage": "Cancel",
-        "id": "scenes.preferences.autologout.settings.updateform.cancel"
-      },
-      {
-        "defaultMessage": "Save",
-        "id": "scenes.preferences.autologout.settings.updateform.save"
-      }
-    ],
-    "path": "src/scenes/Settings/Preferences/AutoLogout/Settings/EditForm/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Please set a valid time",
-        "id": "settings.preferences.autologout.settings.invalid"
-      },
-      {
-        "defaultMessage": "Please set a duration greater than 1 minute.",
-        "id": "settings.preferences.autologout.settings.invalid2"
-      },
-      {
-        "defaultMessage": "Please set a duration less than 1440 minutes",
-        "id": "settings.preferences.autologout.settings.invalid3"
-      }
-    ],
-    "path": "src/scenes/Settings/Preferences/AutoLogout/Settings/EditForm/validationMessages.json"
   },
   {
     "descriptors": [
