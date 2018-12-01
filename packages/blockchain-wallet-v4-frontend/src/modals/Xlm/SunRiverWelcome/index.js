@@ -34,6 +34,10 @@ const Container = styled.div`
 
 class SunRiverWelcomeContainer extends React.PureComponent {
   determineKycState (userState, kycState) {
+    if (userState !== USER_ACTIVATION_STATES.NONE) {
+      this.props.registerSunRiverUser()
+    }
+
     if (kycState === KYC_STATES.VERIFIED) {
       return (
         <Container>
@@ -52,10 +56,7 @@ class SunRiverWelcomeContainer extends React.PureComponent {
           <Button
             nature='primary'
             fullwidth
-            onClick={() => {
-              this.props.viewStellarWallet()
-              this.props.registerSunRiverUser()
-            }}
+            onClick={this.props.viewStellarWallet}
           >
             <FormattedMessage
               id='modals.xlmairdropwelcome.verified.seewallet'
@@ -85,10 +86,7 @@ class SunRiverWelcomeContainer extends React.PureComponent {
           <Button
             nature='primary'
             fullwidth
-            onClick={() => {
-              this.props.viewStellarWallet()
-              this.props.registerSunRiverUser()
-            }}
+            onClick={this.props.viewStellarWallet}
           >
             <FormattedMessage
               id='modals.xlmairdropwelcome.underreview.seewallet'

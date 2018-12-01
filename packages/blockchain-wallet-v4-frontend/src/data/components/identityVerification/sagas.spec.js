@@ -1,6 +1,7 @@
-import { expectSaga } from 'redux-saga-test-plan'
+import { expectSaga, testSaga } from 'redux-saga-test-plan'
 
 import { Remote } from 'blockchain-wallet-v4/src'
+import { selectors } from 'data'
 import * as A from './actions'
 import { FLOW_TYPES } from './model'
 import sagas, { wrongFlowTypeError } from './sagas'
@@ -12,7 +13,12 @@ const api = {
 
 const coreSagas = {}
 
-const { checkKycFlow } = sagas({ api, coreSagas })
+const {
+  checkKycFlow,
+  createRegisterUserCampaign,
+  registerUserCampaign,
+  verifyIdentity
+} = sagas({ api, coreSagas })
 
 describe('checkKycFlow saga', () => {
   it('should set flow type', () => {
@@ -43,5 +49,36 @@ describe('checkKycFlow saga', () => {
       .call(api.fetchKycConfig)
       .put(A.setKycFlow(Remote.Failure(error)))
       .run()
+  })
+})
+
+describe('createRegisterUserCampaign', () => {
+  it('should return registerUserCampaign saga if user does not need verification', () => {
+    const saga = testSaga(createRegisterUserCampaign, {
+      payload: { needsIdVerification: false }
+    })
+    saga
+      .next()
+      .call(registerUserCampaign)
+      .next()
+      .isDone()
+  })
+  describe('should get user id if user needs verification', () => {
+    const saga = testSaga(createRegisterUserCampaign, {
+      payload: { needsIdVerification: true }
+    })
+    it('should get user creds', () => {
+      saga.next().select(selectors.core.kvStore.userCredentials.getUserId)
+    })
+    it('should attempt to verify id', () => {
+      saga.next(Remote.of(1234)).call(verifyIdentity)
+    })
+    it('should always register user campaign', () => {
+      saga
+        .next()
+        .call(registerUserCampaign, true)
+        .next()
+        .isDone()
+    })
   })
 })

@@ -88,7 +88,7 @@ export default ({ api, coreSagas }) => {
       const userWithEmailExists = yield call(verifyIdentity)
       if (userWithEmailExists) return
       if (!userId) yield call(createUser)
-      if (userId) yield call(registerUserCampaign, true)
+      yield call(registerUserCampaign, true)
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
@@ -421,6 +421,7 @@ export default ({ api, coreSagas }) => {
     fetchSupportedDocuments,
     fetchPossibleAddresses,
     resendSmsCode,
+    registerUserCampaign,
     createRegisterUserCampaign,
     savePersonalData,
     selectAddress,
