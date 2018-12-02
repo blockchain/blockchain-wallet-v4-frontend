@@ -142,7 +142,7 @@ export const KYCBanner = ({
     [KYC_STATES.REJECTED]: (
       <FormattedMessage
         id='components.identityverification.popup.note.rejected'
-        defaultMessage='Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time.'
+        defaultMessage='Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verify your account at this time.'
       />
     ),
     [KYC_STATES.VERIFIED]: (
@@ -213,8 +213,8 @@ export const KYCBanner = ({
 }
 
 KYCBanner.propTypes = {
-  kycState: PropTypes.oneOf(values(KYC_STATES)),
-  userState: PropTypes.oneOf(values(USER_ACTIVATION_STATES)),
+  kycState: PropTypes.oneOf(values(KYC_STATES)).isRequired,
+  userState: PropTypes.oneOf(values(USER_ACTIVATION_STATES)).isRequired,
   outsideOfProfile: PropTypes.bool
 }
 

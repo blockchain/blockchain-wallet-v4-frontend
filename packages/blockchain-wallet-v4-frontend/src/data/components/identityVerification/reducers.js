@@ -9,7 +9,8 @@ const INITIAL_STATE = {
   supportedCountries: Remote.NotAsked,
   supportedDocuments: Remote.NotAsked,
   states: Remote.NotAsked,
-  possibleAddresses: []
+  possibleAddresses: [],
+  flowType: Remote.NotAsked
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -36,6 +37,9 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.SET_POSSIBLE_ADDRESSES: {
       return assoc('possibleAddresses', payload.addresses, state)
+    }
+    case AT.SET_KYCFLOW: {
+      return assoc('flowType', payload.flowType, state)
     }
     default:
       return state

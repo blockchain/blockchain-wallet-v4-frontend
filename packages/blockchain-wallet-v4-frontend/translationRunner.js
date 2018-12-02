@@ -1,7 +1,10 @@
 import manageTranslations from 'react-intl-translations-manager'
 import bcManageTranslations from 'react-intl-translations-manager-bc'
+import { languages } from 'services/LanguageService'
+import { reject, prop } from 'ramda'
 
-// TODO: fork and publish version of react-intl-translations-manager
+const isEnglish = code => code === 'en'
+const codes = reject(isEnglish, languages.map(prop('language')))
 
 // react-intl-translations-manager sets the defaultMessage as the value
 // for translations that are not yet set. one hour needs only the en.json
@@ -12,9 +15,7 @@ manageTranslations({
   translationsDirectory: './src/assets/locales',
   whitelistsDirectory: './src/assets/locales/whitelists',
   singleMessagesFile: true,
-  languages: [
-    'en'
-  ]
+  languages: ['en']
 })
 
 bcManageTranslations({
@@ -22,30 +23,5 @@ bcManageTranslations({
   translationsDirectory: './src/assets/locales',
   whitelistsDirectory: './src/assets/locales/whitelists',
   singleMessagesFile: true,
-  languages: [
-    'bg',
-    'da',
-    'de',
-    'el',
-    'es',
-    'fr',
-    'hi',
-    'hu',
-    'id',
-    'it',
-    'ja',
-    'ko',
-    'nl',
-    'no',
-    'pl',
-    'pt',
-    'ro',
-    'ru',
-    'sl',
-    'sv',
-    'th',
-    'tr',
-    'vi',
-    'zh'
-  ]
+  languages: codes
 })

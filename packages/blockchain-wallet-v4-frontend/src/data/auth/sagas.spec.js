@@ -344,7 +344,6 @@ describe('authSagas', () => {
       setLogoutEventListener,
       transferEthSaga,
       upgradeWalletSaga,
-      welcomeSaga,
       upgradeAddressLabelsSaga
     } = authSagas({
       api,
@@ -354,7 +353,6 @@ describe('authSagas', () => {
     const firstLogin = false
     const saga = testSaga(loginRoutineSaga, mobileLogin, firstLogin)
     const beforeHdCheck = 'beforeHdCheck'
-    const beforeUserFlowCheck = 'beforeUserFlowCheck'
 
     it('should check if wallet is an hd wallet', () => {
       saga
@@ -389,6 +387,12 @@ describe('authSagas', () => {
         )
     })
 
+    it('should fetch stellar metadata', () => {
+      saga
+        .next()
+        .call(coreSagas.kvStore.xlm.fetchMetadataXlm, askSecondPasswordEnhancer)
+    })
+
     it('should fetch bitcoin cash metadata', () => {
       saga.next().call(coreSagas.kvStore.bch.fetchMetadataBch)
     })
@@ -409,6 +413,10 @@ describe('authSagas', () => {
       saga.next().put(actions.middleware.webSocket.eth.startSocket())
     })
 
+    it('should put action to start xlm streams', () => {
+      saga.next().put(actions.middleware.webSocket.xlm.startStreams())
+    })
+
     it('should redirect to home route', () => {
       saga.next().put(actions.router.push('/home'))
     })
@@ -417,15 +425,20 @@ describe('authSagas', () => {
       saga.next().call(coreSagas.settings.fetchSettings)
     })
 
+    it('should fetch xlm ledger details', () => {
+      saga.next().call(coreSagas.data.xlm.fetchLedgerDetails)
+    })
+
+    it('should fetch xlm accounts', () => {
+      saga.next().call(coreSagas.data.xlm.fetchData)
+    })
+
     it('should call auth nabu saga', () => {
-      saga
-        .next()
-        .call(authNabu)
-        .save(beforeUserFlowCheck)
+      saga.next().call(authNabu)
     })
 
     it('should call upgrade address labels saga', () => {
-      saga.next(Remote.of(false)).call(upgradeAddressLabelsSaga)
+      saga.next().call(upgradeAddressLabelsSaga)
     })
 
     it('should trigger login success action', () => {
@@ -466,12 +479,20 @@ describe('authSagas', () => {
       saga.next().fork(transferEthSaga)
     })
 
-    it('should launch welcomeSaga', () => {
-      saga.next().fork(welcomeSaga, firstLogin)
-    })
-
     it('should launch reportStats saga', () => {
       saga.next().fork(reportStats, mobileLogin)
+    })
+
+    it('should add welcome goal', () => {
+      saga.next().put(actions.goals.saveGoal('welcome', { firstLogin }))
+    })
+
+    it('should add kyc goal', () => {
+      saga.next().put(actions.goals.saveGoal('kyc'))
+    })
+
+    it('should run goals', () => {
+      saga.next().put(actions.goals.runGoals())
     })
 
     it('should check for data errors', () => {
@@ -512,7 +533,6 @@ describe('authSagas', () => {
           [select(selectors.core.wallet.isHdWallet), true],
           [select(selectors.core.wallet.getGuid), 12],
           [fork.fn(transferEthSaga), jest.fn],
-          [fork.fn(welcomeSaga), jest.fn],
           [fork.fn(reportStats), jest.fn],
           [call.fn(setLogoutEventListener), jest.fn],
           [fork.fn(logoutRoutine), jest.fn]
@@ -1049,6 +1069,7 @@ describe('authSagas', () => {
         .put(actions.middleware.webSocket.bch.stopSocket())
         .put(actions.middleware.webSocket.btc.stopSocket())
         .put(actions.middleware.webSocket.eth.stopSocket())
+        .put(actions.middleware.webSocket.xlm.stopStreams())
         .put(actions.router.push('/logout'))
         .run()
     })
@@ -1065,6 +1086,7 @@ describe('authSagas', () => {
         .put(actions.middleware.webSocket.bch.stopSocket())
         .put(actions.middleware.webSocket.btc.stopSocket())
         .put(actions.middleware.webSocket.eth.stopSocket())
+        .put(actions.middleware.webSocket.xlm.stopStreams())
         .run()
         .then(() => {
           expect(pushStateSpy).toHaveBeenCalledTimes(1)

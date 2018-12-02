@@ -33,7 +33,10 @@ const SecondStepForm = styled(Form)`
   margin-top: 10px;
 `
 const CaptchaText = styled(Text)`
-  margin-top: 6px;
+  margin: 6px 0 4px 0;
+`
+const WaitingText = styled(Text)`
+  margin-top: 5px;
 `
 const BackLink = styled(Link)`
   margin-right: 15px;
@@ -79,6 +82,12 @@ const SecondStep = props => {
           validate={[required]}
           component={CaptchaBox}
         />
+        <WaitingText size='12px' weight={300}>
+          <FormattedMessage
+            id='scenes.reset2fa.secondstep.waitingperiod'
+            defaultMessage='Please note that reset requests are fully automated and require a mandatory waiting period before being approved.'
+          />
+        </WaitingText>
         <Footer>
           <BackLink onClick={previousStep} size='13px' weight={300}>
             <FormattedMessage
@@ -92,7 +101,7 @@ const SecondStep = props => {
             ) : (
               <FormattedMessage
                 id='scenes.reset2fa.secondstep.reset'
-                defaultMessage='Reset'
+                defaultMessage='Submit Request'
               />
             )}
           </Button>

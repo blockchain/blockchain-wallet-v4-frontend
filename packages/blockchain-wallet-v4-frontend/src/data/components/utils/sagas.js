@@ -7,25 +7,12 @@ import settings from 'config'
 
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
-export const selectRates = function*(coin) {
-  const bchRatesR = yield select(selectors.core.data.bch.getRates)
-  const btcRatesR = yield select(selectors.core.data.bitcoin.getRates)
-  const ethRatesR = yield select(selectors.core.data.ethereum.getRates)
-  switch (coin) {
-    case 'BCH':
-      return bchRatesR.getOrFail('Could not find bitcoin cash rates.')
-    case 'BTC':
-      return btcRatesR.getOrFail('Could not find bitcoin rates.')
-    case 'ETH':
-      return ethRatesR.getOrFail('Could not find ethereum rates.')
-  }
-}
-
 export const selectReceiveAddress = function*(source, networks) {
   const appState = yield select(identity)
   const coin = prop('coin', source)
   const type = prop('type', source)
   const address = prop('address', source)
+  if (equals('XLM', coin) && is(String, address)) return address
   if (equals('ETH', coin) && is(String, address))
     return EthUtil.toChecksumAddress(address)
   if (equals('BCH', coin)) {

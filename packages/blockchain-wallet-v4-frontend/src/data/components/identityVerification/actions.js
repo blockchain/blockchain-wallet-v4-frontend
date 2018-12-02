@@ -63,3 +63,22 @@ export const updateSmsStep = () => ({ type: AT.UPDATE_SMS_STEP })
 export const updateSmsNumber = () => ({ type: AT.UPDATE_SMS_NUMBER })
 export const verifySmsNumber = () => ({ type: AT.VERIFY_SMS_NUMBER })
 export const resendSmsCode = () => ({ type: AT.RESEND_SMS_CODE })
+
+export const createRegisterUserCampaign = (
+  campaignName,
+  needsIdVerification
+) => ({
+  type: AT.CREATE_REGISTER_USER_CAMPAIGN,
+  payload: { campaignName, needsIdVerification }
+})
+
+export const checkKycFlow = () => ({
+  type: AT.CHECK_KYC_FLOW
+})
+export const setKycFlow = flowType => ({
+  type: AT.SET_KYCFLOW,
+  payload: { flowType }
+})
+export const sendDeeplink = () => ({
+  type: AT.SEND_DEEP_LINK
+})

@@ -23,7 +23,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `
 const IntroContainer = styled.div`
-  padding-top: 50px;
+  padding-top: 20px;
 `
 
 const GetStartedContainer = styled.div`
@@ -59,7 +59,14 @@ const GetStartedHeader = styled(Text)`
     width: 100%;
   `};
 `
-
+const GetStartedButton = styled(Button)`
+  width: 250px;
+  margin: 45px 0 0 35px;
+  ${media.mobile`
+    width: 100%;
+    margin: 0;
+  `};
+`
 const GetStartedText = styled(Text)`
   width: 350px;
   margin-bottom: ${marginContent};
@@ -71,10 +78,8 @@ const PoweredByContainer = styled.div`
   top: ${containerPadding};
   right: ${containerPadding};
   position: absolute;
-  color: error;
   ${media.mobile`
-    top: initial;
-    bottom: ${containerPadding};
+    right: 5px;
   `};
 `
 
@@ -90,7 +95,7 @@ const LearnMoreContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: ${containerWidth};
-  margin: 0px auto ${marginContent};
+  margin: 0 auto ${marginContent};
   padding: ${containerPadding};
   box-sizing: border-box;
   border-radius: 3px;
@@ -134,7 +139,7 @@ const Onboard = props => {
                 defaultMessage='Trade, send and receive straight from your offline hardware wallet. Blockchain Lockbox works seamlessly with your Blockchain Wallet.'
               />
             </GetStartedText>
-            <Button
+            <GetStartedButton
               nature='primary'
               disabled={disableSetup}
               onClick={launchLockboxSetup}
@@ -143,7 +148,7 @@ const Onboard = props => {
                 id='scenes.lockbox.welcome.getstarted'
                 defaultMessage='Get Started'
               />
-            </Button>
+            </GetStartedButton>
           </GetStartedContent>
           <PoweredByContainer>
             <PoweredByText size='11px' weight={300} color='brand-primary'>

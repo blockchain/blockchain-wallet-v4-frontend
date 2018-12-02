@@ -2,7 +2,7 @@ import { select, put } from 'redux-saga/effects'
 import { equals, path, prop } from 'ramda'
 import { actions, selectors } from 'data'
 
-export default ({ coreSagas }) => {
+export default () => {
   const logLocation = 'components/bchTransactions/sagas'
 
   const initialized = function*() {
@@ -13,7 +13,7 @@ export default ({ coreSagas }) => {
         status: '',
         search: ''
       }
-      yield put(actions.form.initialize('bchTransactions', initialValues))
+      yield put(actions.form.initialize('transactions', initialValues))
       yield put(actions.core.data.bch.fetchTransactions('', true))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
@@ -33,7 +33,7 @@ export default ({ coreSagas }) => {
       const pathname = yield select(selectors.router.getPathname)
       if (!equals(pathname, '/bch/transactions')) return
       const formValues = yield select(
-        selectors.form.getFormValues('bchTransactions')
+        selectors.form.getFormValues('transactions')
       )
       const source = prop('source', formValues)
       const threshold = 250
@@ -54,7 +54,7 @@ export default ({ coreSagas }) => {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      if (!equals('bchTransactions', form)) return
+      if (!equals('transactions', form)) return
 
       switch (field) {
         case 'source':

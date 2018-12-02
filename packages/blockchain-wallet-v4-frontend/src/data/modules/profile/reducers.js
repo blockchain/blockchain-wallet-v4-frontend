@@ -5,7 +5,8 @@ import { Remote } from 'blockchain-wallet-v4'
 
 const INITIAL_STATE = {
   userData: Remote.NotAsked,
-  apiToken: Remote.NotAsked
+  apiToken: Remote.NotAsked,
+  campaign: {}
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -25,6 +26,8 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('userData', Remote.Failure(payload.error), state)
     case AT.SET_API_TOKEN:
       return assoc('apiToken', payload.token, state)
+    case AT.SET_CAMPAIGN:
+      return assoc('campaign', payload.campaign, state)
     default:
       return state
   }

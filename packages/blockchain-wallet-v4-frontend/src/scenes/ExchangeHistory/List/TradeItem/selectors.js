@@ -2,7 +2,7 @@ import moment from 'moment'
 import { ifElse } from 'ramda'
 
 import { getCoinFromPair } from 'services/ShapeshiftService'
-import { model, selectors } from 'data'
+import { model } from 'data'
 
 const {
   DATE_FORMAT,
@@ -32,7 +32,3 @@ export const formatTrade = ifElse(
   formatShapeshiftTrade,
   formatExchangeTrade
 )
-
-export const getData = state => ({
-  useShapeShift: selectors.components.exchange.useShapeShift(state)
-})

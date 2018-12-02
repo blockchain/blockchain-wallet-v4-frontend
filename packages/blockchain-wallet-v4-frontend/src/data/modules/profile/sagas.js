@@ -10,8 +10,6 @@ import * as S from './selectors'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
 
 export const logLocation = 'modules/profile/sagas'
-export const authCredentialsGenerationError =
-  'Failed to generate auth credentials'
 export const userRequiresRestoreError = 'User restored'
 export const authRetryDelay = 5000
 export const renewUserDelay = 30000
@@ -19,6 +17,21 @@ export const renewUserDelay = 30000
 let renewSessionTask = null
 let renewUserTask = null
 export default ({ api, coreSagas }) => {
+  const getCampaignData = function*(campaign) {
+    if (campaign.name === 'sunriver') {
+      const xlmAccount = (yield select(
+        selectors.core.kvStore.xlm.getDefaultAccountId
+      )).getOrFail()
+      return {
+        'x-campaign-address': xlmAccount,
+        'x-campaign-code': campaign.code,
+        'x-campaign-email': campaign.email
+      }
+    }
+
+    return null
+  }
+
   const signIn = function*() {
     try {
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail(
@@ -155,11 +168,13 @@ export default ({ api, coreSagas }) => {
     return token
   }
 
-  const generateAuthCredentials = function*() {
+  const generateAuthCredentials = function*(campaignName, campaignData) {
     const retailToken = yield call(generateRetailToken)
     const { userId, token: lifetimeToken } = yield call(
       api.createUser,
-      retailToken
+      retailToken,
+      campaignName,
+      campaignData
     )
     yield put(
       actions.core.kvStore.userCredentials.setUserCredentials(
@@ -188,6 +203,9 @@ export default ({ api, coreSagas }) => {
     const token = yield select(S.getApiToken)
     if (!Remote.NotAsked.is(token)) return
 
+    const campaign = yield select(S.getCampaign)
+    const campaignData = yield call(getCampaignData, campaign)
+
     const userIdR = yield select(
       selectors.core.kvStore.userCredentials.getUserId
     )
@@ -204,7 +222,8 @@ export default ({ api, coreSagas }) => {
     const { userId, lifetimeToken } = yield authCredentialsR
       .map(authCredentials => {
         const { userId, lifetimeToken } = authCredentials
-        if (!userId || !lifetimeToken) return call(generateAuthCredentials)
+        if (!userId || !lifetimeToken)
+          return call(generateAuthCredentials, campaign.name, campaignData)
         return authCredentials
       })
       .getOrElse({})
@@ -250,6 +269,7 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
+    getCampaignData,
     signIn,
     clearSession,
     setSession,

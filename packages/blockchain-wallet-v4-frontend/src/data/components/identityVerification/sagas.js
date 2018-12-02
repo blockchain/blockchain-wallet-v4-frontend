@@ -1,5 +1,5 @@
 import { join, put, select, call, spawn } from 'redux-saga/effects'
-import { isEmpty, prop } from 'ramda'
+import { isEmpty, prop, toUpper } from 'ramda'
 
 import { callLatest } from 'utils/effects'
 import { actions, selectors, model } from 'data'
@@ -17,7 +17,9 @@ import {
   PHONE_EXISTS_ERROR,
   UPDATE_FAILURE,
   KYC_MODAL,
-  USER_EXISTS_MODAL
+  USER_EXISTS_MODAL,
+  FLOW_TYPES,
+  SUNRIVER_LINK_ERROR_MODAL
 } from './model'
 
 export const logLocation = 'components/identityVerification/sagas'
@@ -29,12 +31,19 @@ export const invalidNumberError = 'Failed to update mobile number'
 export const mobileVerifiedError = 'Failed to verify mobile number'
 export const failedResendError = 'Failed to resend the code'
 export const userExistsError = 'User already exists'
-export const getUserExistsError = email =>
-  `User with email ${email} already exists`
+export const wrongFlowTypeError = 'Wrong flow type'
 
 export default ({ api, coreSagas }) => {
+  const {
+    EMAIL_EXISTS,
+    REENTERED,
+    STARTED,
+    PERSONAL_STEP_COMPLETE,
+    MOBILE_STEP_COMPLETE
+  } = model.analytics.KYC
   const { USER_ACTIVATION_STATES } = model.profile
   const {
+    getCampaignData,
     createUser,
     updateUser,
     generateRetailToken,
@@ -45,19 +54,71 @@ export default ({ api, coreSagas }) => {
     coreSagas
   })
 
+  const registerUserCampaign = function*(newUser = false) {
+    const campaign = yield select(selectors.modules.profile.getCampaign)
+    const campaignData = yield call(getCampaignData, campaign)
+    const token = (yield select(
+      selectors.modules.profile.getApiToken
+    )).getOrFail()
+    try {
+      yield call(
+        api.registerUserCampaign,
+        token,
+        campaign.name,
+        campaignData,
+        newUser
+      )
+    } catch (e) {
+      yield put(actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'registerUserCampaign', e)
+      )
+    }
+  }
+
+  const createRegisterUserCampaign = function*({
+    payload: { needsIdVerification }
+  }) {
+    try {
+      if (!needsIdVerification) return yield call(registerUserCampaign)
+
+      const userId = (yield select(
+        selectors.core.kvStore.userCredentials.getUserId
+      )).getOrElse('')
+      const userWithEmailExists = yield call(verifyIdentity)
+      if (userWithEmailExists) return
+      if (!userId) yield call(createUser)
+      if (userId) yield call(registerUserCampaign, true)
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'createRegisterUserCampaign',
+          e
+        )
+      )
+    }
+  }
+
   const verifyIdentity = function*() {
     try {
       const userId = (yield select(
         selectors.core.kvStore.userCredentials.getUserId
       )).getOrElse('')
       if (userId) {
-        return yield put(actions.modals.showModal(KYC_MODAL))
+        yield put(actions.analytics.logKycEvent(REENTERED))
+        yield put(actions.modals.showModal(KYC_MODAL))
+        return false
       }
       const retailToken = yield call(generateRetailToken)
-      yield call(api.checkUserExistance, retailToken)
+      yield call(api.checkUserExistence, retailToken)
       yield put(actions.modals.showModal(USER_EXISTS_MODAL))
+      yield put(actions.analytics.logKycEvent(EMAIL_EXISTS))
+      return true
     } catch (e) {
+      yield put(actions.analytics.logKycEvent(STARTED))
       yield put(actions.modals.showModal(KYC_MODAL))
+      return false
     }
   }
 
@@ -65,8 +126,12 @@ export default ({ api, coreSagas }) => {
     const activationState = (yield select(
       selectors.modules.profile.getUserActivationState
     )).getOrElse(USER_ACTIVATION_STATES.NONE)
+    const mobileVerified = (yield select(selectors.modules.profile.getUserData))
+      .map(prop('mobileVerified'))
+      .getOrElse(false)
     if (activationState === USER_ACTIVATION_STATES.NONE)
       return yield put(A.setVerificationStep(STEPS.personal))
+    if (mobileVerified) return yield put(A.setVerificationStep(STEPS.verify))
     if (activationState === USER_ACTIVATION_STATES.CREATED)
       return yield put(A.setVerificationStep(STEPS.mobile))
     if (activationState === USER_ACTIVATION_STATES.ACTIVE)
@@ -106,6 +171,7 @@ export default ({ api, coreSagas }) => {
       yield call(syncUserWithWallet)
       yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
       yield put(A.setVerificationStep(STEPS.verify))
+      yield put(actions.analytics.logKycEvent(MOBILE_STEP_COMPLETE))
     } catch (e) {
       const description = prop('description', e)
 
@@ -169,6 +235,7 @@ export default ({ api, coreSagas }) => {
 
       if (!smsVerified && !mobileVerified) {
         yield put(actions.form.stopSubmit(PERSONAL_FORM))
+        yield put(actions.analytics.logKycEvent(PERSONAL_STEP_COMPLETE))
         return yield put(A.setVerificationStep(STEPS.mobile))
       }
 
@@ -176,6 +243,7 @@ export default ({ api, coreSagas }) => {
       yield call(syncUserWithWallet)
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
       yield put(A.setVerificationStep(STEPS.verify))
+      yield put(actions.analytics.logKycEvent(PERSONAL_STEP_COMPLETE))
     } catch (e) {
       yield put(actions.form.stopSubmit(PERSONAL_FORM, e))
       yield put(
@@ -324,6 +392,27 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const checkKycFlow = function*() {
+    try {
+      yield put(A.setKycFlow(Remote.Loading))
+      const { flowType } = yield call(api.fetchKycConfig)
+      const type = FLOW_TYPES[toUpper(flowType)]
+      if (!type) throw wrongFlowTypeError
+
+      yield put(A.setKycFlow(Remote.of(type)))
+    } catch (e) {
+      yield put(A.setKycFlow(Remote.Failure(e)))
+    }
+  }
+
+  const sendDeeplink = function*() {
+    try {
+      yield call(api.sendDeeplink)
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'sendDeeplink', e))
+    }
+  }
+
   return {
     verifyIdentity,
     initializeStep,
@@ -332,10 +421,13 @@ export default ({ api, coreSagas }) => {
     fetchSupportedDocuments,
     fetchPossibleAddresses,
     resendSmsCode,
+    createRegisterUserCampaign,
     savePersonalData,
     selectAddress,
     updateSmsStep,
     updateSmsNumber,
-    verifySmsNumber
+    verifySmsNumber,
+    checkKycFlow,
+    sendDeeplink
   }
 }

@@ -29,7 +29,7 @@ const ProfileStub = () => <div />
 const coreSagas = {}
 const api = {
   generateRetailToken: jest.fn(() => ({})),
-  checkUserExistance: jest.fn()
+  checkUserExistence: jest.fn()
 }
 
 describe('Profile Settings', () => {
@@ -75,10 +75,19 @@ describe('Profile Settings', () => {
         wrapper.unmount().mount()
       })
 
-      it('should trigger verifyIdentity action on button click', () => {
+      it('should trigger log kyc event on button click', () => {
         wrapper.find('button').simulate('click')
 
         const lastAction = last(init(dispatchSpy.mock.calls))[0]
+        expect(path(['type'], lastAction)).toBe(
+          actionTypes.analytics.LOG_KYC_EVENT
+        )
+      })
+
+      it('should trigger verifyIdentity action on button click', () => {
+        wrapper.find('button').simulate('click')
+
+        const lastAction = last(init(init(dispatchSpy.mock.calls)))[0]
         expect(path(['type'], lastAction)).toBe(
           actionTypes.components.identityVerification.VERIFY_IDENTITY
         )
@@ -95,7 +104,7 @@ describe('Profile Settings', () => {
 
       it('should show KYC modal on button click when checkUser returns error', async () => {
         getUserId.mockReturnValue(Remote.of(''))
-        api.checkUserExistance.mockRejectedValue({})
+        api.checkUserExistence.mockRejectedValue({})
         await wrapper.find('button').simulate('click')
 
         const lastAction = last(dispatchSpy.mock.calls)[0]
@@ -105,10 +114,10 @@ describe('Profile Settings', () => {
 
       it('should show USER_EXISTS modal on button click when checkUser returns success', async () => {
         getUserId.mockReturnValue(Remote.of(''))
-        api.checkUserExistance.mockResolvedValue('')
+        api.checkUserExistence.mockResolvedValue('')
         await wrapper.find('button').simulate('click')
 
-        const lastAction = last(dispatchSpy.mock.calls)[0]
+        const lastAction = last(init(dispatchSpy.mock.calls))[0]
         expect(path(['type'], lastAction)).toBe('SHOW_MODAL')
         expect(path(['payload', 'type'], lastAction)).toBe(USER_EXISTS_MODAL)
       })

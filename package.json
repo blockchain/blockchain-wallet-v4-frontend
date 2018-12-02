@@ -1,11 +1,11 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.3.67",
+  "version": "4.6.7",
   "license": "AGPL-3.0-or-later",
   "private": true,
   "author": {
     "name": "Blockchain.info",
-    "url": "https://blockchain.info"
+    "url": "https://blockchain.com"
   },
   "homepage": "https://github.com/blockchain/blockchain-wallet-v4-frontend",
   "bugs": {
@@ -95,14 +95,14 @@
     "test": "cross-env yarn wsrun test:build --fast-exit && yarn wsrun test",
     "test:components": "yarn workspace blockchain-info-components test",
     "test:components:debug": "yarn workspace blockchain-info-components test:debug",
-    "test:components:update": "yarn workspace blockchain-info-components test -u",
+    "test:components:update": "yarn workspace blockchain-info-components test:update",
     "test:components:watch": "yarn workspace blockchain-info-components test:watch",
     "test:core": "yarn workspace blockchain-wallet-v4 test",
     "test:core:debug": "yarn workspace blockchain-wallet-v4 test:debug",
     "test:core:watch": "yarn workspace blockchain-wallet-v4 test:watch",
     "test:frontend": "yarn workspace blockchain-wallet-v4-frontend test",
     "test:frontend:debug": "yarn workspace blockchain-wallet-v4-frontend test:debug",
-    "test:frontend:update": "yarn workspace blockchain-wallet-v4-frontend test -u",
+    "test:frontend:update": "yarn workspace blockchain-wallet-v4-frontend test:update",
     "test:frontend:watch": "yarn workspace blockchain-wallet-v4-frontend test:watch",
     "debug:prod": "yarn workspace blockchain-wallet-v4-frontend debug:prod",
     "manage:translations": "yarn workspace blockchain-wallet-v4-frontend manage:translations",
@@ -189,7 +189,7 @@
     "react-test-renderer": "16.4.2",
     "redux-mock-store": "1.5.3",
     "redux-saga-test-plan": "3.7.0",
-    "release-it": "7.6.2",
+    "release-it": "8.0.1",
     "rimraf": "2.6.2",
     "standard": "12.0.1",
     "style-loader": "0.22.1",

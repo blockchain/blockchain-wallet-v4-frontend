@@ -12,7 +12,6 @@ import AuthorizeLogin from './AuthorizeLogin'
 import BuySell from './BuySell'
 import Exchange from './Exchange'
 import ExchangeHistory from './ExchangeHistory'
-import Goals from './Goals'
 import Help from './Help'
 import Home from './Home'
 import Lockbox from './Lockbox'
@@ -25,6 +24,7 @@ import Reminder from './Reminder'
 import Reset2FA from './Reset2FA'
 import Reset2FAToken from './Reset2FAToken'
 import UploadDocuments from './UploadDocuments'
+import UploadDocumentsSuccess from './UploadDocuments/Success'
 import VerifyEmailToken from './VerifyEmailToken'
 import Register from './Register'
 import SecurityCenter from './SecurityCenter'
@@ -34,10 +34,7 @@ import BtcManageAddresses from './Settings/Addresses/Btc/ManageAddresses'
 import General from './Settings/General'
 import Profile from './Settings/Profile'
 import Preferences from './Settings/Preferences'
-import BitcoinTransactions from './Transactions/Btc'
-import EtherTransactions from './Transactions/Eth'
-import BchTransactions from './Transactions/Bch'
-import UploadDocumentsSuccess from './UploadDocuments/Success'
+import Transactions from './Transactions'
 
 class App extends React.PureComponent {
   render () {
@@ -49,7 +46,6 @@ class App extends React.PureComponent {
             <MediaContextProvider>
               <ConnectedRouter history={history}>
                 <Switch>
-                  <PublicLayout path='/open/:payload' component={Goals} />
                   <PublicLayout path='/login' component={Login} />
                   <PublicLayout path='/logout' component={Logout} />
                   <PublicLayout path='/help' component={Help} />
@@ -80,18 +76,26 @@ class App extends React.PureComponent {
                   />
                   <PublicLayout path='/wallet' component={Login} />
                   <WalletLayout path='/home' component={Home} />
+                  <WalletLayout path='/buy-sell' component={BuySell} />
                   <WalletLayout
                     path='/btc/transactions'
-                    component={BitcoinTransactions}
+                    component={Transactions}
+                    coin='BTC'
                   />
                   <WalletLayout
                     path='/eth/transactions'
-                    component={EtherTransactions}
+                    component={Transactions}
+                    coin='ETH'
                   />
-                  <WalletLayout path='/buy-sell' component={BuySell} />
                   <WalletLayout
                     path='/bch/transactions'
-                    component={BchTransactions}
+                    component={Transactions}
+                    coin='BCH'
+                  />
+                  <WalletLayout
+                    path='/xlm/transactions'
+                    component={Transactions}
+                    coin='XLM'
                   />
                   <WalletLayout
                     path='/exchange/history'

@@ -26,7 +26,7 @@ import {
   TextBox
 } from 'components/Form'
 import Modals from 'modals'
-import MobileLogin from 'modals/MobileLogin'
+import MobileLogin from 'modals/Mobile/MobileLogin'
 
 const isSupportedBrowser =
   check({ safari: '8', chrome: '45', firefox: '45', opera: '20' }) && !msie

@@ -1,4 +1,3 @@
-import { darken } from 'polished'
 import styled from 'styled-components'
 
 export const Wrapper = styled.div`
@@ -23,7 +22,7 @@ export const MenuItem = styled.li`
   font-weight: 300;
   font-size: 15px;
   width: 100%;
-  & > * {
+  & > *:not(div) {
     cursor: pointer;
     transition: color 0.3s;
     color: ${props => props.theme['gray-5']};
@@ -37,14 +36,14 @@ export const MenuItem = styled.li`
   &.active {
     font-weight: 400;
 
-    & > * {
+    & > *:not(div) {
       color: ${props => props.theme['marketing-primary']};
     }
   }
 
   &:hover {
-    & > * {
-      color: ${props => darken(0.9, props.theme['marketing-primary'])};
+    & > *:not(div) {
+      color: ${props => props.theme['textBlack']};
     }
   }
 `
@@ -58,11 +57,11 @@ export const SubMenu = styled.ul`
   text-transform: none;
   padding: 5px;
   margin-left: 40px;
-  margin-top: -5px;
+  margin-top: -15px;
   margin-bottom: 5px;
 `
 export const SubMenuItem = styled.li`
-  padding: 8px 0;
+  padding: 4px 0;
   box-sizing: border-box;
   text-transform: none;
   font-weight: 300;
