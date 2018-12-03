@@ -132,7 +132,7 @@ const SelectPartner = props => {
           </CountryFAQText>
         </GetStartedContent>
         {
-          getPartner() !== 'COINIFY' || getPartner() !== 'SFOX'
+          getPartner() === 'COINIFY' || getPartner() === 'SFOX'
             ? <PoweredByContainer>
               <PoweredByText size='11px' weight={300} color='brand-primary'>
                 <FormattedMessage
