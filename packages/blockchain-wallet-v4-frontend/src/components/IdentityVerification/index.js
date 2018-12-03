@@ -193,3 +193,12 @@ export const IdentityVerificationImage = styled(Image)`
   margin-top: 40px;
   margin-bottom: 40px;
 `
+export const Footer = styled.div`
+  width: 60%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  ${media.mobile`
+    width: 100%;
+  `};
+`

@@ -4349,7 +4349,7 @@
         "id": "identityverification.highflow.sentlink"
       },
       {
-        "defaultMessage": "1 - <b>Follow this link</b> to log into or download our mobile app.",
+        "defaultMessage": "1 - <b>Follow the link above</b> to log into or download our mobile app.",
         "id": "identityverification.highflow.followlink"
       },
       {

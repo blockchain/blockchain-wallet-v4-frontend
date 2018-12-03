@@ -37,7 +37,8 @@ import {
   IdentityVerificationSubHeader,
   FaqFormMessage,
   FaqFormGroup,
-  Label
+  Label,
+  Footer
 } from 'components/IdentityVerification'
 import Terms from 'components/Terms'
 
@@ -65,15 +66,6 @@ const PersonalField = styled.div`
       margin-right: 0;
       margin-bottom: 24px;
     }
-  `};
-`
-const Footer = styled.div`
-  width: 60%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  ${media.mobile`
-    width: 100%;
   `};
 `
 const TermsText = styled(Text)`

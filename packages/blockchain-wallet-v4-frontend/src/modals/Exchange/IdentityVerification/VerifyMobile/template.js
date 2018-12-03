@@ -24,18 +24,13 @@ import {
   EmailHelper,
   FaqFormMessage,
   FaqFormGroup,
-  Label
+  Label,
+  Footer
 } from 'components/IdentityVerification'
 
 const FormContainer = styled.div`
   margin-top: 25px;
   margin-bottom: 198px;
-`
-const Footer = styled.div`
-  width: 60%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
 `
 const ButtonFormItem = styled(FormItem)`
   display: flex;
