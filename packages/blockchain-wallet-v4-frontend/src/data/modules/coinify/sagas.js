@@ -16,7 +16,7 @@ const { STEPS } = model.components.identityVerification
 export const sellDescription = `Exchange Trade CNY-`
 export const logLocation = 'modules/coinify/sagas'
 
-export default ({ coreSagas, networks }) => {
+export default ({ api, coreSagas, networks }) => {
   const coinifySignup = function*(data) {
     try {
       const country = yield select(S.getCoinifyCountry)
@@ -25,8 +25,10 @@ export default ({ coreSagas, networks }) => {
       if (!profile.error) {
         // move the identityVerification step from coinify --> personal
         yield put(actions.components.identityVerification.setVerificationStep(STEPS.personal))
-        // TODO: pass userId (profile.user) to Nabu (profile.getOrElse())
-        console.log('after coinify signup', profile)
+        // TODO: need to check IdentityVerification status and call Nabu with CNY userId if verified
+        const isUserVerified = yield select(S.modules.profile.isUserVerified)
+        if (isUserVerified) yield call(api.sendCoinifyKyc, prop('userId', profile))
+        console.log('after coinify signup', profile, isUserVerified)
       } else {
         yield put(A.coinifySignupFailure(JSON.parse(profile.error)))
       }
