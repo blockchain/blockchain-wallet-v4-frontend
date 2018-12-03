@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { bchTx, createMockWalletState, walletV3 } from '../../data'
 import { _transformTx } from './bch'
 import { Types } from '../../src'

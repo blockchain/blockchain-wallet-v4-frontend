@@ -51,22 +51,7 @@ export default {
         config: {
           network: 'public'
         }
-      },
-      coinify: {},
-      sfox: {}
-    },
-    ios: {},
-    android: {}
-  },
-  domains: {
-    root: 'https://blockchain.info',
-    api: 'https://api.blockchain.info',
-    webSocket: 'wss://ws.blockchain.info',
-    walletHelper: 'https://wallet-helper.blockchain.com',
-    comWalletApp: 'https://login.blockchain.com',
-    comRoot: 'https://www.blockchain.com',
-    ledger: 'https://manager.api.live.ledger.com',
-    ledgerSocket: 'wss://api.ledgerwallet.com',
-    horizon: 'https://horizon.stellar.org'
+      }
+    }
   }
 }
