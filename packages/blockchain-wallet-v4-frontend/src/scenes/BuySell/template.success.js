@@ -59,13 +59,30 @@ const SelectPartner = props => {
   const onSfoxWhitelist = usState => country === 'US' && prop('code', usState) && sfoxStates.includes(usState.code)
   const isCoinifyCountry = country => props.coinifyCountries.includes(country)
   const getPartner = () => {
-    if (onSfoxWhitelist(stateSelection)) return 'SFOX'
-    if (isCoinifyCountry(country)) return 'COINIFY'
+    if (onSfoxWhitelist(stateSelection)) {
+      return {
+        name: 'SFOX',
+        url: 'url(/img/sfox-landing.png)',
+        logo: 'sfox-logo',
+        backgroundSize: 'auto 80%',
+        backgroundPosition: 'right 25px bottom 100%'
+      }
+    }
+    if (isCoinifyCountry(country)) {
+      return {
+        name: 'COINIFY',
+        url: 'url(/img/coinify-landing.svg)',
+        backgroundSize: 'auto 60%',
+        backgroundPosition: 'right 25px bottom 65%',
+        logo: 'coinify-logo'
+      }
+    }
+    return {}
   }
 
   return (
-    <Wrapper>
-      <GetStartedContainer>
+    <Wrapper noPadding>
+      <GetStartedContainer url={getPartner().url} backgroundSize={getPartner().backgroundSize} backgroundPosition={getPartner().backgroundPosition}>
         <GetStartedContent>
           <GetStartedHeader size='26px' weight={400} color='brand-primary' width='300px'>
             <FormattedMessage
@@ -132,7 +149,7 @@ const SelectPartner = props => {
           </CountryFAQText>
         </GetStartedContent>
         {
-          getPartner() === 'COINIFY' || getPartner() === 'SFOX'
+          getPartner().name
             ? <PoweredByContainer>
               <PoweredByText size='11px' weight={300} color='brand-primary'>
                 <FormattedMessage
@@ -142,7 +159,7 @@ const SelectPartner = props => {
               </PoweredByText>
               <Image
                 width='100%'
-                name={getPartner() === 'COINIFY' ? 'coinify-logo' : getPartner() === 'SFOX' ? 'sfox-logo' : null}
+                name={getPartner().logo}
               />
             </PoweredByContainer>
             : null

@@ -14,6 +14,7 @@ import buySellSellBtc from './img/buy-sell-sell-btc.svg'
 import buySellSellEth from './img/buy-sell-sell-eth.svg'
 import chartPlaceholder from './img/chart-placeholder.png'
 import checkHelper from './img/check-helper.svg'
+import coinifyLanding from './img/coinify-landing.svg'
 import coinifyLogo from './img/coinify-logo.svg'
 import emptySearch from './img/empty-search.svg'
 import emptyTx from './img/empty-tx.svg'
@@ -36,6 +37,7 @@ import search from './img/search.svg'
 import selectArrow from './img/select-arrow.png'
 import shapeshiftLogo from './img/shapeshift-logo.png'
 import smartphone from './img/smartphone.png'
+import sfoxLanding from './img/sfox-landing.png'
 import sfoxLogo from './img/sfox-logo.png'
 import sophisticated from './img/sophisticated.svg'
 import stellarPlanet from './img/stellar-planet.png'
@@ -104,6 +106,7 @@ export default {
   'buy-sell-sell-eth': buySellSellEth,
   'chart-placeholder': chartPlaceholder,
   'check-helper': checkHelper,
+  'coinify-landing': coinifyLanding,
   'coinify-logo': coinifyLogo,
   'empty-search': emptySearch,
   'empty-tx': emptyTx,
@@ -159,6 +162,7 @@ export default {
   rocket: rocket,
   search: search,
   'select-arrow': selectArrow,
+  'sfox-landing': sfoxLanding,
   'sfox-logo': sfoxLogo,
   shapeshiftLogo: shapeshiftLogo,
   smartphone: smartphone,
