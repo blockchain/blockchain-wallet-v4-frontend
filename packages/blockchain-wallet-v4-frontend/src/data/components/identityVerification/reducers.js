@@ -8,7 +8,8 @@ const INITIAL_STATE = {
   smsStep: Remote.Loading,
   supportedCountries: Remote.NotAsked,
   supportedDocuments: Remote.NotAsked,
-  states: Remote.NotAsked
+  states: Remote.NotAsked,
+  flowType: Remote.NotAsked
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -30,8 +31,8 @@ export default (state = INITIAL_STATE, action) => {
     case AT.SET_STATES: {
       return assoc('states', payload.states, state)
     }
-    case AT.SET_ADDRESS_REFETCH_VISIBLE: {
-      return assoc('addressRefetchVisible', payload.isVisible, state)
+    case AT.SET_KYCFLOW: {
+      return assoc('flowType', payload.flowType, state)
     }
     default:
       return state

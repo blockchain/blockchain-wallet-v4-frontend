@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import media from 'services/ResponsiveService'
-import { Button, Text } from 'blockchain-info-components'
+import { Button, Image, Text } from 'blockchain-info-components'
 import { FaqMessage, FormGroup } from 'components/Form'
 
 export const Form = styled.form`
@@ -187,4 +187,9 @@ export const BackButton = styled(Button)`
   color: ${props => props.theme['white']};
   background-color: ${props => props.theme['gray-2']};
   border-color: ${props => props.theme['gray-2']};
+`
+
+export const IdentityVerificationImage = styled(Image)`
+  margin-top: 40px;
+  margin-bottom: 40px;
 `

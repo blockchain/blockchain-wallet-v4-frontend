@@ -24,3 +24,9 @@ export const getSupportedDocuments = path([
 ])
 
 export const getStates = path(['components', 'identityVerification', 'states'])
+
+export const getKycFLowType = path([
+  'components',
+  'identityVerification',
+  'flowType'
+])

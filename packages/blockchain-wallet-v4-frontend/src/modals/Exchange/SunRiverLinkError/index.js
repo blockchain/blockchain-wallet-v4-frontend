@@ -30,10 +30,10 @@ const Header = styled(ModalHeader)`
 
 const { SUNRIVER_LINK_ERROR_MODAL } = model.components.identityVerification
 
-export const SunRiverLinkError = ({ position, total, email, close }) => {
+export const SunRiverLinkError = ({ position, total, email, closeAll }) => {
   return (
     <Modal size='medium' position={position} total={total}>
-      <Header onClose={close}>
+      <Header onClose={closeAll}>
         <FormattedMessage
           id='modals.sunriverlinkerror.title'
           defaultMessage='Whoops!'
@@ -48,7 +48,7 @@ export const SunRiverLinkError = ({ position, total, email, close }) => {
         </Row>
       </ModalBody>
       <Footer>
-        <Button nature='primary' onClick={close}>
+        <Button nature='primary' onClick={closeAll}>
           <FormattedMessage
             id='modals.sunriverlinkerror.continue'
             defaultMessage='Continue'
