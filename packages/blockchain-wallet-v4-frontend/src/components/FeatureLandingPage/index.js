@@ -9,7 +9,7 @@ const marginContent = '25px'
 export const Wrapper = styled.div`
   width: 100%;
   height: 90%;
-  padding: 30px;
+  padding: ${props => props.noPadding ? '0px' : '30px'};
   box-sizing: border-box;
 `
 export const IntroContainer = styled.div`
@@ -26,8 +26,8 @@ export const GetStartedContainer = styled.div`
   border-radius: 3px;
   background-image: ${props => props.url};
   background-repeat: no-repeat;
-  background-size: auto 100%;
-  background-position: right;
+  background-size: ${props => props.backgroundSize || 'auto 100%'};
+  background-position: ${props => props.backgroundPosition || 'right'};
   ${media.mobile`
     width: 100%;
     background-image: none;
