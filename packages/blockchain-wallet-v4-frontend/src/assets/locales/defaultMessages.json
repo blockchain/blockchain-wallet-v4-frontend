@@ -617,7 +617,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Click here to add {coin} to your Blockchain Wallet",
+        "defaultMessage": "Click here to add {coin} to your Lockbox",
         "id": "components.balances.savecoin"
       }
     ],
