@@ -5,7 +5,6 @@ import {
   ShowUsedAddresses,
   UpgradeAddressLabels
 } from './Addresses'
-import AutoDisconnection from './AutoDisconnection'
 import { RequestBch, SendBch } from './Bch'
 import {
   AddBtcWallet,
@@ -19,8 +18,6 @@ import {
   CoinifyExchangeData,
   CoinifyTradeDetails
 } from './Coinify'
-import Confirm from './Confirm'
-import EditTxDescription from './EditTxDescription'
 import { RequestEth, SendEth, ShowEthPrivateKey, TransferEth } from './Eth'
 import {
   ExchangeDetails,
@@ -30,6 +27,7 @@ import {
   UserExists,
   SunRiverLinkError
 } from './Exchange'
+import { Confirm, PromptInput } from './Generic'
 import {
   LockboxAppManager,
   LockboxFirmware,
@@ -38,7 +36,6 @@ import {
 } from './Lockbox'
 import { MobileLogin, MobileNumberChange, MobileNumberVerify } from './Mobile'
 import Onfido from './Onfido'
-import PromptInput from './PromptInput'
 import QRCode from './QRCode'
 import {
   SfoxEnterMicroDeposits,
@@ -46,8 +43,9 @@ import {
   SfoxTradeDetails
 } from './Sfox'
 import SignMessage from './SignMessage'
-import TransactionReport from './TransactionReport'
+import { EditTxDescription, TransactionReport } from './Transactions'
 import {
+  AutoDisconnection,
   ConfirmDisable2FA,
   SecondPassword,
   TwoStepGoogleAuthenticator,
