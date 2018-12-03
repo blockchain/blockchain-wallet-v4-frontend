@@ -61,6 +61,14 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
       url: nabuUrl
     })
 
+  const sendCoinifyKyc = coinifyTraderId =>
+    post({
+      url: nabuUrl,
+      endPoint: `/send-coinify-kyc`,
+      contentType: `application/json`,
+      data: { coinifyTraderId }
+    })
+
   return {
     getSupportedCountries,
     getSupportedDocuments,
@@ -68,6 +76,7 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
     fetchKycAddresses,
     fetchOnfidoSDKKey,
     fetchUploadData,
+    sendCoinifyKyc,
     syncOnfido,
     uploadDocuments
   }
