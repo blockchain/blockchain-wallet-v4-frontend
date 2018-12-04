@@ -9,6 +9,7 @@ import * as sfoxActions from './actions.js'
 import * as selectors from '../../selectors.js'
 import sfoxSagas, { logLocation } from './sagas'
 import * as C from 'services/AlertService'
+import * as CC from 'services/ConfirmService'
 import { promptForSecondPassword, confirm } from 'services/SagaService'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
@@ -828,6 +829,37 @@ describe('sfoxSagas', () => {
             )
           )
       })
+    })
+  })
+
+  describe('confirm phone call', () => {
+    const SMS_NUMBER = Remote.of('5555555555')
+    const trade = {
+      id: 1
+    }
+    let { __confirmPhoneCall } = sfoxSagas({ coreSagas, networks })
+
+    let saga = testSaga(__confirmPhoneCall, trade)
+
+    it('should select the smsNumber', () => {
+      saga.next().select(selectors.core.settings.getSmsNumber)
+    })
+
+    it('should call the confirm modal', () => {
+      saga.next(SMS_NUMBER).call(confirm, {
+        title: CC.PHONE_CALL_TITLE,
+        message: CC.PHONE_CALL_MSG,
+        confirm: CC.CONFIRM_PHONE_CALL,
+        cancel: CC.CANCEL_PHONE_CALL,
+        messageValues: { smsNumber: '5555555555' }
+      })
+    })
+
+    it('should set sfoxPhoneCall to true', () => {
+      saga.next(true).put(actions.core.kvStore.buySell.sfoxSetPhoneCall(true))
+    })
+    it('should select the profile', () => {
+      saga.next().select(selectors.core.data.sfox.getProfile)
     })
   })
 })
