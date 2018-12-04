@@ -782,4 +782,52 @@ describe('sfoxSagas', () => {
       })
     })
   })
+
+  describe('sfox initialize', () => {
+    const quote = { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }
+    let { sfoxInitialize } = sfoxSagas({ coreSagas, networks })
+
+    let saga = testSaga(sfoxInitialize)
+
+    it('should fetch trades', () => {
+      saga.next().put(actions.core.data.sfox.fetchTrades())
+    })
+    it('should fetch the profile', () => {
+      saga.next().put(actions.core.data.sfox.fetchProfile())
+    })
+    it('should fetch accounts', () => {
+      saga.next().put(actions.core.data.sfox.sfoxFetchAccounts())
+    })
+    it('should fetch a buy quote', () => {
+      saga.next().put(actions.core.data.sfox.fetchQuote({
+        quote
+      }))
+    })
+    it('should fetch a sell quote', () => {
+      saga.next().put(actions.core.data.sfox.fetchSellQuote({ quote }))
+    })
+    it('should initialize the payment', () => {
+      saga.next().put(sfoxActions.initializePayment())
+    })
+    it('should set the sfox busy status to not asked', () => {
+      saga.next().put(sfoxActions.sfoxNotAsked())
+    })
+
+    describe('error handling', () => {
+      const error = { error: 'ERROR' }
+      it('should log the error', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'sfoxInitialize',
+              error
+            )
+          )
+      })
+    })
+  })
 })
