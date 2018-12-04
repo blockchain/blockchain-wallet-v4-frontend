@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { reduxForm, Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { equals, prop } from 'ramda'
-
+import BuySellAnimation from './BuySellAnimation'
 import { Text, Button, Image } from 'blockchain-info-components'
 import {
   Form,
@@ -48,12 +48,9 @@ const FieldWrapper = Intro.extend`
   margin-top: 5px;
   width: 75%;
 `
-const PoweredByText = styled(Text)`
-  padding-bottom: 5px;
-`
 
 const SelectPartner = props => {
-  const { invalid, pristine, fields, sfoxStates, handleSubmit } = props
+  const { invalid, pristine, fields, sfoxStates, handleSubmit, options } = props
   const { country, stateSelection } = fields
 
   const onSfoxWhitelist = usState => country === 'US' && prop('code', usState) && sfoxStates.includes(usState.code)
@@ -63,7 +60,7 @@ const SelectPartner = props => {
       return {
         name: 'SFOX',
         url: 'url(/img/sfox-landing.png)',
-        logo: 'sfox-logo',
+        logo: 'powered-by-plaid',
         backgroundSize: 'auto 80%',
         backgroundPosition: 'right 25px bottom 100%'
       }
@@ -74,7 +71,7 @@ const SelectPartner = props => {
         url: 'url(/img/coinify-landing.svg)',
         backgroundSize: 'auto 60%',
         backgroundPosition: 'right 25px bottom 65%',
-        logo: 'coinify-logo'
+        logo: 'powered-by-coinify'
       }
     }
     return {}
@@ -149,14 +146,13 @@ const SelectPartner = props => {
           </CountryFAQText>
         </GetStartedContent>
         {
+          !getPartner().name
+            ? <BuySellAnimation country={country} options={options} />
+            : null
+        }
+        {
           getPartner().name
             ? <PoweredByContainer>
-              <PoweredByText size='11px' weight={300} color='brand-primary'>
-                <FormattedMessage
-                  id='scenes.buysell.selectpartner.poweredby'
-                  defaultMessage='Powered By'
-                />
-              </PoweredByText>
               <Image
                 width='100%'
                 name={getPartner().logo}

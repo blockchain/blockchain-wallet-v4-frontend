@@ -1,57 +1,58 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 
-import { getData } from './selectors'
 import AcceptTerms from './template'
 
-class AcceptTermsContainer extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      busy: false,
-      acceptedTerms: false
-    }
-    this.onSubmit = this.onSubmit.bind(this)
+class AcceptTermsContainer extends PureComponent {
+  state = {
+    busy: false
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.signupError) {
+  componentDidUpdate (prevProps) {
+    if (this.props.signupError && !prevProps.signupError) {
+      // eslint-disable-next-line
       this.setState({ busy: false })
-      this.props.updateUI({ uniqueEmail: false })
+      this.props.updateUniqueEmail(false)
     }
   }
 
-  onSubmit () {
+  handleResend = () => {
+    this.props.securityCenterActions.updateEmail(this.props.email)
+  }
+
+  onSubmit = () => {
     this.setState({ busy: true })
     this.props.coinifyFrontendActions.coinifySignup(this.props.country)
   }
 
   render () {
-    const { busy } = this.state
     const {
       invalid,
       email,
+      emailVerified,
       signupError,
-      updateUI,
-      coinifyFrontendActions
+      coinifyFrontendActions,
+      create
     } = this.props
     const { coinifyClearSignupError } = coinifyFrontendActions
 
     return (
       <AcceptTerms
-        busy={busy}
+        busy={this.state.busy}
         email={email}
+        emailVerified={emailVerified}
         invalid={invalid}
         onSubmit={this.onSubmit}
         signupError={signupError}
-        updateUI={updateUI}
         editEmail={() => {
-          this.props.updateUI({ create: 'change_email' })
+          this.props.updateCreate('change_email')
         }}
         clearError={() => coinifyClearSignupError()}
+        create={create}
+        handleResend={this.handleResend}
       />
     )
   }
@@ -59,22 +60,16 @@ class AcceptTermsContainer extends Component {
 
 AcceptTermsContainer.propTypes = {
   invalid: PropTypes.bool,
-  updateUI: PropTypes.function,
   email: PropTypes.string.isRequired,
   country: PropTypes.string
 }
 
-const mapStateToProps = state => getData(state)
-
 const mapDispatchToProps = dispatch => ({
-  coinifyFrontendActions: bindActionCreators(actions.modules.coinify, dispatch)
+  coinifyFrontendActions: bindActionCreators(actions.modules.coinify, dispatch),
+  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)
-
-export default enhance(AcceptTermsContainer)
+export default connect(
+  null,
+  mapDispatchToProps
+)(AcceptTermsContainer)

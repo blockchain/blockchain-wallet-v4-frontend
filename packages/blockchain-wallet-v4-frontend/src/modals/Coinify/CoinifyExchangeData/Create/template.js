@@ -1,53 +1,58 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Icon } from 'blockchain-info-components'
 import AcceptTerms from './AcceptTerms'
 import VerifyEmail from './VerifyEmail'
-import { Row } from 'components/IdentityVerification'
+import { FormattedMessage } from 'react-intl'
+import {
+  PartnerHeader,
+  PartnerSubHeader
+} from 'components/IdentityVerification'
 
-const GoBackContainer = styled.div`
-  position: absolute;
-  top: 10px;
-  cursor: pointer;
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 20px 15%;
 `
 
 const Create = props => {
-  const { handleSignup, oldEmail, signupError, ui, updateUI, country, onGoBack } = props
+  const { create } = props
 
   const determineStep = () => {
-    if (ui.create === 'change_email' || ui.create === 'enter_email_code') {
+
+    if (create === 'change_email' || create === 'enter_email_code') {
       return 'email'
     }
     return 'terms'
   }
 
   return (
-    <Row>
-      <GoBackContainer onClick={onGoBack}>
-        <Icon
-          name='left-arrow'
-          size='20px'
+    <Container>
+      <PartnerHeader>
+        <FormattedMessage
+          id='coinifyexchangedata.create.header.createaccount'
+          defaultMessage='Create Account'
         />
-      </GoBackContainer>
+      </PartnerHeader>
+      <PartnerSubHeader>
+        <FormattedMessage
+          id='coinifyexchangedata.create.subheader.teamedup'
+          defaultMessage="We teamed up with Coinify's exchange platform to offer buy and sell to our customers."
+        />
+      </PartnerSubHeader>
       {determineStep() === 'email' && (
-        <VerifyEmail oldEmail={oldEmail} updateUI={updateUI} ui={ui} />
+        <VerifyEmail create={create} {...props} />
       )}
       {determineStep() === 'terms' && (
-        <AcceptTerms
-          handleSignup={handleSignup}
-          signupError={signupError}
-          updateUI={updateUI}
-          country={country}
-        />
+        <AcceptTerms create={create} {...props} />
       )}
-    </Row>
+    </Container>
   )
 }
 
 Create.propTypes = {
   handleSignup: PropTypes.func.isRequired,
-  smsNumber: PropTypes.string
+  create: PropTypes.string.isRequired
 }
 
 export default Create
