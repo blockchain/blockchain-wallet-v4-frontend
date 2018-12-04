@@ -4,10 +4,16 @@ export const verifyIdentity = () => ({
   type: AT.VERIFY_IDENTITY
 })
 
-export const initializeStep = () => ({
-  type: AT.INITIALIZE_STEP
+export const initializeVerification = (isCoinify, desiredTier) => ({
+  type: AT.INITIALIZE_VERIFICATION,
+  payload: { isCoinify, desiredTier }
 })
-
+export const goToPrevStep = () => ({
+  type: AT.GO_TO_PREV_STEP
+})
+export const goToNextStep = () => ({
+  type: AT.GO_TO_NEXT_STEP
+})
 export const setVerificationStep = step => ({
   type: AT.SET_VERIFICATION_STEP,
   payload: { step }
@@ -81,4 +87,14 @@ export const setKycFlow = flowType => ({
 })
 export const sendDeeplink = () => ({
   type: AT.SEND_DEEP_LINK
+})
+
+export const setCoinify = isCoinify => ({
+  type: AT.SET_COINIFY,
+  payload: { isCoinify }
+})
+
+export const setDesiredTier = tier => ({
+  type: AT.SET_DESIRED_TIER,
+  payload: { tier }
 })

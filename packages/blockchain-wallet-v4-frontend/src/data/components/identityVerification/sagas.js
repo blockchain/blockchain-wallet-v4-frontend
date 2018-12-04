@@ -1,5 +1,5 @@
 import { join, put, select, call, spawn } from 'redux-saga/effects'
-import { isEmpty, prop, toUpper } from 'ramda'
+import { isEmpty, head, prop, toUpper } from 'ramda'
 
 import { callLatest } from 'utils/effects'
 import { actions, selectors, model } from 'data'
@@ -8,6 +8,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import * as C from 'services/AlertService'
 
 import * as A from './actions'
+import * as S from './selectors'
 import {
   STEPS,
   SMS_STEPS,
@@ -41,7 +42,7 @@ export default ({ api, coreSagas }) => {
     PERSONAL_STEP_COMPLETE,
     MOBILE_STEP_COMPLETE
   } = model.analytics.KYC
-  const { USER_ACTIVATION_STATES } = model.profile
+  const { USER_ACTIVATION_STATES, TIERS } = model.profile
   const {
     getCampaignData,
     createUser,
@@ -124,6 +125,14 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const initializeVerification = function*({
+    payload: { isCoinify = false, desiredTier = TIERS[2] }
+  }) {
+    yield put(A.setCoinify(isCoinify))
+    yield put(A.setDesiredTier(desiredTier))
+    yield call(initializeStep)
+  }
+
   const initializeStep = function*() {
     const activationState = (yield select(
       selectors.modules.profile.getUserActivationState
@@ -131,13 +140,36 @@ export default ({ api, coreSagas }) => {
     const mobileVerified = (yield select(selectors.modules.profile.getUserData))
       .map(prop('mobileVerified'))
       .getOrElse(false)
+    const steps = yield select(S.getSteps)
     if (activationState === USER_ACTIVATION_STATES.NONE)
-      return yield put(A.setVerificationStep(STEPS.personal))
+      return yield put(A.setVerificationStep(head(steps)))
     if (mobileVerified) return yield put(A.setVerificationStep(STEPS.verify))
     if (activationState === USER_ACTIVATION_STATES.CREATED)
       return yield put(A.setVerificationStep(STEPS.mobile))
     if (activationState === USER_ACTIVATION_STATES.ACTIVE)
       return yield put(A.setVerificationStep(STEPS.verify))
+  }
+
+  const goToPrevStep = function*() {
+    const steps = yield select(S.getSteps)
+    const currentStep = yield select(S.getVerificationStep)
+    const currentStepIndex = steps.indexOf(currentStep)
+    const step = steps[currentStepIndex - 1]
+
+    if (step) return yield put(A.setVerificationStep(step))
+
+    yield put(actions.modals.closeAllModals())
+  }
+
+  const goToNextStep = function*() {
+    const steps = yield select(S.getSteps)
+    const currentStep = yield select(S.getVerificationStep)
+    const currentStepIndex = steps.indexOf(currentStep)
+    const step = steps[currentStepIndex + 1]
+
+    if (step) return yield put(A.setVerificationStep(step))
+
+    yield put(actions.modals.closeAllModals())
   }
 
   const updateSmsStep = ({ smsNumber, smsVerified }) => {
@@ -172,7 +204,7 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.settings.setMobileVerified, { code })
       yield call(syncUserWithWallet)
       yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
-      yield put(A.setVerificationStep(STEPS.verify))
+      yield call(goToNextStep)
       yield put(actions.analytics.logKycEvent(MOBILE_STEP_COMPLETE))
     } catch (e) {
       const description = prop('description', e)
@@ -238,13 +270,13 @@ export default ({ api, coreSagas }) => {
       if (!smsVerified && !mobileVerified) {
         yield put(actions.form.stopSubmit(PERSONAL_FORM))
         yield put(actions.analytics.logKycEvent(PERSONAL_STEP_COMPLETE))
-        return yield put(A.setVerificationStep(STEPS.mobile))
+        return yield call(goToNextStep)
       }
 
       // Skipping mobile verification step
       yield call(syncUserWithWallet)
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
-      yield put(A.setVerificationStep(STEPS.verify))
+      yield call(goToNextStep)
       yield put(actions.analytics.logKycEvent(PERSONAL_STEP_COMPLETE))
     } catch (e) {
       yield put(actions.form.stopSubmit(PERSONAL_FORM, e))
@@ -417,11 +449,14 @@ export default ({ api, coreSagas }) => {
 
   return {
     verifyIdentity,
+    initializeVerification,
     initializeStep,
     fetchStates,
     fetchSupportedCountries,
     fetchSupportedDocuments,
     fetchPossibleAddresses,
+    goToNextStep,
+    goToPrevStep,
     resendSmsCode,
     registerUserCampaign,
     createRegisterUserCampaign,
