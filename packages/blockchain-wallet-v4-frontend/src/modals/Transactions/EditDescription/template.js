@@ -44,7 +44,7 @@ const EditTxDescription = props => {
                     defaultMessage='Description'
                   />
                 </Label>
-                <Field name='description' component={TextBox} />
+                <Field name='description' component={TextBox} maxLength={100} />
               </FormItem>
             </FormGroup>
           </ModalBody>

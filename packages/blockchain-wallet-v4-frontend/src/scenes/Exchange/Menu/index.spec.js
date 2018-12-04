@@ -7,15 +7,33 @@ jest.mock('blockchain-info-components', () => ({ Images: '', TextGroup: '' }))
 
 describe('MenuTop Component', () => {
   it('should render with correct links and without error', () => {
-    const comp = shallow(<MenuTop />)
-    const tabMenu = comp.getElement().props.children[0]
-    expect(tabMenu.props.children[0].props.to).toEqual('/exchange')
-    expect(tabMenu.props.children[1].props.to).toEqual('/exchange/history')
+    const component = shallow(<MenuTop />)
+    const LinkContainer = component.find('LinkContainer')
+    expect(LinkContainer.at(0).prop('to')).toBe('/exchange')
+    expect(LinkContainer.at(1).prop('to')).toBe('/exchange/history')
   })
 
   it('matches snapshot', () => {
     const component = shallow(<MenuTop />)
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
+  })
+
+  it('should have correct item selected', () => {
+    const component = shallow(<MenuTop historySelected={false} />)
+    const exchangeItem = component
+      .find('LinkContainer')
+      .at(0)
+      .children()
+      .first()
+    expect(exchangeItem.prop('selected')).toBe(true)
+
+    component.setProps({ historySelected: true })
+    const historyItem = component
+      .find('LinkContainer')
+      .at(1)
+      .children()
+      .first()
+    expect(historyItem.prop('selected')).toBe(true)
   })
 })

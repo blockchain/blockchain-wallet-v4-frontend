@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 
 import { actions } from 'data'
-import background from './swap-background-2.svg'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { Modal, Text, Button } from 'blockchain-info-components'
 
@@ -16,10 +15,9 @@ const Header = styled.div`
   align-items: center;
   height: 200px;
   background-color: #0d0d42;
-  background: #0d0d42 url(${background});
+  background: #0d0d42 url(/img/swap-dashboard-right.png);
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: -20px -10px;
   overflow: hidden;
   border-radius: 4px;
 `
@@ -62,15 +60,15 @@ class SwapGetStarted extends React.PureComponent {
     return (
       <Modal size='small' position={position} total={total}>
         <Header>
-          <Text color='white' size='24px' weight={500} uppercase>
+          <Text color='white' size='24px' weight={500}>
             <FormattedMessage
-              defaultMessage="We've improved"
+              defaultMessage="We've Improved"
               id='modals.swapgetstarted.improved'
             />
           </Text>
-          <Text color='white' size='24px' weight={500} uppercase>
+          <Text color='white' size='24px' weight={500}>
             <FormattedMessage
-              defaultMessage='your Exchange'
+              defaultMessage='Your Exchange'
               id='modals.swapgetstarted.exchange'
             />
           </Text>

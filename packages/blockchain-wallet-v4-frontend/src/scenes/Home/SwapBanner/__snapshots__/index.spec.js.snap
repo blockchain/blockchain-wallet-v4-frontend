@@ -5,7 +5,7 @@ exports[`SwapBanner renders correctly with exchange link 1`] = `
   <SwapBanner__Column>
     <SwapBanner__LargeText>
       <FormattedMessage
-        defaultMessage="We've improved your Exchange"
+        defaultMessage="We've Improved Your Exchange"
         id="scenes.home.swapbanner.improved"
         values={Object {}}
       />
@@ -21,7 +21,9 @@ exports[`SwapBanner renders correctly with exchange link 1`] = `
   <SwapBanner__Column
     hiddenOnMobile={true}
   >
-    <SwapBanner__BackgroundImage />
+    <SwapBanner__BackgroundImage
+      name="swap-dashboard-right"
+    />
   </SwapBanner__Column>
   <SwapBanner__Column>
     <LinkContainer
@@ -48,7 +50,7 @@ exports[`SwapBanner renders correctly with getstarted button 1`] = `
   <SwapBanner__Column>
     <SwapBanner__LargeText>
       <FormattedMessage
-        defaultMessage="We've improved your Exchange"
+        defaultMessage="We've Improved Your Exchange"
         id="scenes.home.swapbanner.improved"
         values={Object {}}
       />
@@ -64,7 +66,9 @@ exports[`SwapBanner renders correctly with getstarted button 1`] = `
   <SwapBanner__Column
     hiddenOnMobile={true}
   >
-    <SwapBanner__BackgroundImage />
+    <SwapBanner__BackgroundImage
+      name="swap-dashboard-right"
+    />
   </SwapBanner__Column>
   <SwapBanner__Column>
     <SwapBanner__GetStartedButton>

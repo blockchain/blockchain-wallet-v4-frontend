@@ -1,9 +1,9 @@
 import { BigNumber } from 'bignumber.js'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { assoc, compose, curry, path, pathOr, prop, toLower, map } from 'ramda'
+import { assoc, compose, curry, path, pathOr, prop, map } from 'ramda'
 
 import { currencySymbolMap } from 'services/CoinifyService'
-import { formatPair, FIX_TYPES } from 'data/modules/rates/model'
+import { formatPair } from 'data/modules/rates/model'
 import {
   MINIMUM_NO_LINK_ERROR,
   // REACHED_DAILY_ERROR,
@@ -16,94 +16,6 @@ import {
   // ANNUAL_ERROR,
   ORDER_ERROR
 } from './model'
-const { BASE, BASE_IN_FIAT, COUNTER, COUNTER_IN_FIAT } = FIX_TYPES
-
-export const getPairFromCoin = (coinSource, coinTarget) =>
-  `${toLower(coinSource)}_${toLower(coinTarget)}`
-
-export const getCoinFromPair = pair => {
-  switch (pair) {
-    case 'btc_eth':
-      return { coinSource: 'BTC', targetCoin: 'ETH' }
-    case 'btc_bch':
-      return { coinSource: 'BTC', targetCoin: 'BCH' }
-    case 'bch_btc':
-      return { coinSource: 'BCH', targetCoin: 'BTC' }
-    case 'bch_eth':
-      return { coinSource: 'BCH', targetCoin: 'ETH' }
-    case 'eth_btc':
-      return { coinSource: 'ETH', targetCoin: 'BTC' }
-    case 'eth_bch':
-      return { coinSource: 'ETH', targetCoin: 'BCH' }
-    default:
-      throw new Error('Could not retrieve coins from pair.')
-  }
-}
-
-export const convertCoinToFiat = (
-  value,
-  fromCoin,
-  fromUnit,
-  toCurrency,
-  rates
-) => {
-  switch (fromCoin) {
-    case 'BCH':
-      return Exchange.convertBchToFiat({ value, fromUnit, toCurrency, rates })
-    case 'BTC':
-      return Exchange.convertBitcoinToFiat({
-        value,
-        fromUnit,
-        toCurrency,
-        rates
-      })
-    case 'ETH':
-      return Exchange.convertEtherToFiat({
-        value,
-        fromUnit,
-        toCurrency,
-        rates
-      })
-    default:
-      throw new Error('Could not convert coin to fiat.')
-  }
-}
-
-export const convertFiatToCoin = (
-  value,
-  fromCurrency,
-  toCoin,
-  toUnit,
-  rates
-) => {
-  switch (toCoin) {
-    case 'BCH':
-      return Exchange.convertFiatToBch({ value, fromCurrency, toUnit, rates })
-    case 'BTC':
-      return Exchange.convertFiatToBitcoin({
-        value,
-        fromCurrency,
-        toUnit,
-        rates
-      })
-    case 'ETH':
-      return Exchange.convertFiatToEther({
-        value,
-        fromCurrency,
-        toUnit,
-        rates
-      })
-    case 'XLM':
-      return Exchange.convertFiatToXlm({
-        value,
-        fromCurrency,
-        toUnit,
-        rates
-      })
-    default:
-      throw new Error('Could not convert fiat to coin.')
-  }
-}
 
 export const convertBaseToStandard = (coin, value) => {
   switch (coin) {
@@ -161,55 +73,9 @@ export const convertStandardToBase = (coin, value) => {
   }
 }
 
-export const getEffectiveBalance = effectiveBalance => {
-  return new BigNumber(effectiveBalance).toString()
-}
-
-export const getMinimum = shapeshiftMinimum =>
-  new BigNumber(shapeshiftMinimum).toString()
-
-export const getMaximum = (
-  shapeshiftMaximum,
-  effectiveBalance,
-  regulationLimit
-) => {
-  const shapeshiftMaximumB = new BigNumber(shapeshiftMaximum)
-  const effectiveBalanceB = new BigNumber(effectiveBalance)
-  const regulationLimitB = new BigNumber(regulationLimit)
-  if (
-    shapeshiftMaximumB.lessThanOrEqualTo(effectiveBalanceB) &&
-    shapeshiftMaximumB.lessThanOrEqualTo(regulationLimitB)
-  ) {
-    return shapeshiftMaximumB.toString()
-  } else if (
-    effectiveBalanceB.lessThanOrEqualTo(shapeshiftMaximumB) &&
-    effectiveBalanceB.lessThanOrEqualTo(regulationLimitB)
-  ) {
-    return effectiveBalanceB.toString()
-  } else {
-    return regulationLimitB.toString()
-  }
-}
-
-export const getMinimumStandard = minimum => {
-  return new BigNumber(minimum).toString()
-}
-
 export const getEffectiveBalanceStandard = (coin, effectiveBalance) => {
   const effectiveBalanceStandard = convertBaseToStandard(coin, effectiveBalance)
   return new BigNumber(effectiveBalanceStandard).toString()
-}
-
-export const getMaximumStandard = (coin, maximum, effectiveBalance) => {
-  const maximumB = new BigNumber(maximum)
-  const effectiveBalanceStandard = getEffectiveBalanceStandard(
-    coin,
-    effectiveBalance
-  )
-  const effectiveBalanceB = new BigNumber(effectiveBalanceStandard)
-  return maximumB.lessThanOrEqualTo(effectiveBalanceB)
-    ? maximumB.toString()
-    : effectiveBalanceB.toString()
 }
 
 export const isAmountBelowMinimum = (value, minimum) => {
@@ -218,15 +84,6 @@ export const isAmountBelowMinimum = (value, minimum) => {
 
 export const isAmountAboveMaximum = (value, maximum) => {
   return new BigNumber(value).greaterThan(new BigNumber(maximum))
-}
-
-export const isUndefinedOrEqualsToZero = value => {
-  const amount = value || 0
-  return new BigNumber(amount).equals(new BigNumber(0))
-}
-
-export const isMinimumGreaterThanMaximum = (minimum, maximum) => {
-  return new BigNumber(minimum).greaterThan(new BigNumber(maximum))
 }
 
 export const calculateFinalAmount = (value, fee) => {
@@ -341,15 +198,6 @@ const getRate = (rates, source, target) =>
     pathOr(0, [formatPair(source, target), 'price'])
   )(rates)
 
-export const convertTargetToFiat = (form, fiatCurrency, rates, amount) => {
-  const targetCoin = path(['target', 'coin'], form)
-
-  return compose(
-    toFixed(8, false),
-    multiply(getRate(rates, targetCoin, fiatCurrency))
-  )(amount)
-}
-
 export const convertSourceToTarget = (form, rates, amount) => {
   const sourceCoin = path(['source', 'coin'], form)
   const targetCoin = path(['target', 'coin'], form)
@@ -358,60 +206,4 @@ export const convertSourceToTarget = (form, rates, amount) => {
     toFixed(8, false),
     multiply(getRate(rates, targetCoin, sourceCoin))
   )(amount)
-}
-
-export const getCurrentMin = (form, fiatCurrency, rates, sourceFiatMin) => {
-  const fix = prop('fix', form)
-  const sourceCoin = path(['source', 'coin'], form)
-  const targetCoin = path(['target', 'coin'], form)
-  switch (fix) {
-    case BASE_IN_FIAT:
-      return toFixed(2, false, sourceFiatMin)
-    case BASE:
-      return compose(
-        toFixed(8, false),
-        divideBy(getRate(rates, sourceCoin, fiatCurrency))
-      )(sourceFiatMin)
-    case COUNTER:
-      return compose(
-        toFixed(8, false),
-        divideBy(getRate(rates, sourceCoin, fiatCurrency)),
-        divideBy(getRate(rates, targetCoin, sourceCoin))
-      )(sourceFiatMin)
-    case COUNTER_IN_FIAT:
-      return compose(
-        toFixed(2, false),
-        divideBy(getRate(rates, sourceCoin, fiatCurrency)),
-        divideBy(getRate(rates, targetCoin, sourceCoin)),
-        divideBy(getRate(rates, fiatCurrency, targetCoin))
-      )(sourceFiatMin)
-  }
-}
-
-export const getCurrentMax = (form, fiatCurrency, rates, sourceFiatMax) => {
-  const fix = prop('fix', form)
-  const sourceCoin = path(['source', 'coin'], form)
-  const targetCoin = path(['target', 'coin'], form)
-  switch (fix) {
-    case BASE_IN_FIAT:
-      return toFixed(2, true, sourceFiatMax)
-    case BASE:
-      return compose(
-        toFixed(8, true),
-        multiply(getRate(rates, fiatCurrency, sourceCoin))
-      )(sourceFiatMax)
-    case COUNTER:
-      return compose(
-        toFixed(8, true),
-        multiply(getRate(rates, fiatCurrency, sourceCoin)),
-        multiply(getRate(rates, sourceCoin, targetCoin))
-      )(sourceFiatMax)
-    case COUNTER_IN_FIAT:
-      return compose(
-        toFixed(2, true),
-        multiply(getRate(rates, fiatCurrency, sourceCoin)),
-        multiply(getRate(rates, sourceCoin, targetCoin)),
-        multiply(getRate(rates, targetCoin, fiatCurrency))
-      )(sourceFiatMax)
-  }
 }

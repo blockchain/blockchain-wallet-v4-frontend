@@ -32,9 +32,7 @@ export const getData = (state, ownProps) =>
               : true
         }
       } else {
-        return {
-          announcements: {}
-        }
+        return { announcements: {} }
       }
     }
   )(state, ownProps)

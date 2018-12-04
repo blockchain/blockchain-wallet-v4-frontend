@@ -12,7 +12,8 @@ const INITIAL_STATE = {
   },
   newDeviceSetup: {
     device: Remote.NotAsked,
-    isAuthentic: Remote.NotAsked
+    isAuthentic: Remote.NotAsked,
+    setupType: null
   }
 }
 
@@ -23,11 +24,21 @@ export default (state = INITIAL_STATE, action) => {
     case AT.RESET_CONNECTION_STATUS: {
       return assoc('connection', {}, state)
     }
+    case AT.SET_NEW_DEVICE_INFO: {
+      return assocPath(
+        ['newDeviceSetup', 'device'],
+        Remote.Success(payload.deviceInfo),
+        state
+      )
+    }
+    case AT.SET_DEVICE_SETUP_TYPE: {
+      return assocPath(['newDeviceSetup', 'setupType'], payload, state)
+    }
     case AT.SET_NEW_DEVICE_SETUP_STEP: {
-      const { step, done, error } = payload
+      const { done, error, step } = payload
       return assocPath(
         ['newDeviceSetup', 'currentStep'],
-        { step, done, error },
+        { done, error, step },
         state
       )
     }
@@ -45,6 +56,13 @@ export default (state = INITIAL_STATE, action) => {
       return assocPath(
         ['newDeviceSetup', 'isAuthentic'],
         Remote.Success(payload),
+        state
+      )
+    }
+    case AT.RESET_DEVICE_AUTHENTICITY: {
+      return assocPath(
+        ['newDeviceSetup', 'isAuthentic'],
+        Remote.NotAsked,
         state
       )
     }
@@ -100,13 +118,6 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.SET_CONNECTION_ERROR: {
       return assocPath(['connection', 'error'], payload.error, state)
-    }
-    case AT.SET_NEW_DEVICE_INFO: {
-      return assocPath(
-        ['newDeviceSetup', 'device'],
-        Remote.Success(payload.deviceInfo),
-        state
-      )
     }
     case AT.SET_CONNECTION_READY: {
       return assocPath(['connection', 'ready'], true, state)

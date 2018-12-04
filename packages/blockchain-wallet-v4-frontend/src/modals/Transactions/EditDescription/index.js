@@ -7,18 +7,13 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import EditTxDescription from './template.js'
 
 class EditTxDescriptionContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.onSubmit = this.onSubmit.bind(this)
-  }
-
   componentDidMount () {
     this.props.formActions.initialize('editTransactionDescription', {
       description: this.props.value
     })
   }
 
-  onSubmit () {
+  onSubmit = () => {
     this.props.close()
     this.props.handleConfirm(this.props.description)
   }

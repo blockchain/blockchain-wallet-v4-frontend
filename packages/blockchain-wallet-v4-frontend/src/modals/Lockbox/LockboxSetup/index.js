@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { actions, selectors } from 'data'
+import { merge } from 'ramda'
 
 import modalEnhancer from 'providers/ModalEnhancer'
 import LockboxSetup from './template'
@@ -21,17 +22,34 @@ class LockboxSetupContainer extends React.PureComponent {
   }
 
   render () {
-    const { currentStep, position, total, closeAll } = this.props
-    const steps = {
-      'setup-type': 0,
-      'connect-device': 1,
-      'auth-check': 2,
-      'install-btc-app': 3,
-      'open-btc-app': 4,
-      'name-device': 5,
-      'error-step': 6
+    const { currentStep, position, total, closeAll, setupType } = this.props
+    let steps = {
+      'setup-type': { num: 0, template: () => <SetupTypeStep /> },
+      'connect-device': { num: 1, template: () => <ConnectDeviceStep /> },
+      'auth-check': { num: 2, template: () => <AuthenticityStep /> },
+      'install-btc-app': { num: 3, template: () => <InstallBtcAppStep /> },
+      'open-btc-app': {
+        num: 4,
+        template: () => <OpenBtcAppStep done={currentStep.done} />
+      },
+      'name-device': { num: 5, template: () => <NameDeviceStep /> },
+      'error-step': { num: 6, template: () => <ErrorStep /> }
     }
-    const step = currentStep && currentStep.step ? steps[currentStep.step] : 0
+    if (setupType === 'existing') {
+      steps = merge(steps, {
+        'install-btc-app': { num: 3, template: () => <InstallBtcAppStep /> },
+        'open-btc-app': {
+          num: 3,
+          template: () => <OpenBtcAppStep done={currentStep.done} />
+        },
+        'name-device': { num: 4, template: () => <NameDeviceStep /> }
+      })
+    }
+
+    const step =
+      currentStep && currentStep.step
+        ? steps[currentStep.step]
+        : steps['setup-type']
 
     return (
       <LockboxSetup
@@ -39,16 +57,10 @@ class LockboxSetupContainer extends React.PureComponent {
         position={position}
         closeAll={closeAll}
         handleClose={this.handleClose}
-        totalSteps={5}
-        step={step}
+        totalSteps={setupType === 'existing' ? 4 : 5}
+        step={step.num}
       >
-        {step === 0 && <SetupTypeStep />}
-        {step === 1 && <ConnectDeviceStep />}
-        {step === 2 && <AuthenticityStep />}
-        {step === 3 && <InstallBtcAppStep />}
-        {step === 4 && <OpenBtcAppStep done={currentStep.done} />}
-        {step === 5 && <NameDeviceStep />}
-        {step === 6 && <ErrorStep />}
+        {step.template()}
       </LockboxSetup>
     )
   }
@@ -61,7 +73,8 @@ LockboxSetupContainer.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  currentStep: selectors.components.lockbox.getNewDeviceSetupStep(state)
+  currentStep: selectors.components.lockbox.getNewDeviceSetupStep(state),
+  setupType: selectors.components.lockbox.getNewDeviceSetupType(state)
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -11,7 +11,7 @@ exports[`ExchangeByBlockchain renders correctly with button 1`] = `
       weight={600}
     >
       <FormattedMessage
-        defaultMessage="We've improved your Exchange"
+        defaultMessage="We've Improved Your Exchange"
         id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.improved"
         values={Object {}}
       />
@@ -144,7 +144,7 @@ exports[`ExchangeByBlockchain renders correctly with exchange link 1`] = `
       weight={600}
     >
       <FormattedMessage
-        defaultMessage="We've improved your Exchange"
+        defaultMessage="We've Improved Your Exchange"
         id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.improved"
         values={Object {}}
       />
