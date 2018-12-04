@@ -985,7 +985,7 @@ const selectMessage = (message, data = undefined) => {
       return (
         <FormattedMessage
           id='components.alerts.address_and_private_key_incorrect'
-          defaultMessage='Not a valid Bitcoin Private Key or Address.'
+          defaultMessage='Not a valid bitcoin private key or address.'
         />
       )
     case C.LOCKBOX_SETUP_SUCCESS:

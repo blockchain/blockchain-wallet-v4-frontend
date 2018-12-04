@@ -75,7 +75,7 @@
       "^.+\\.js$": "<rootDir>/../../node_modules/babel-jest"
     },
     "transformIgnorePatterns": [
-      "node_modules/(?!(blockchain-info-components|blockchain-wallet-v4)/)"
+      "node_modules/(?!(blockchain-info-components|@blockchain-com/components|blockchain-wallet-v4)/)"
     ],
     "moduleNameMapper": {
       "\\.(pdf|jpg|jpeg|png|gif|eot|otf|svg|ttf|woff|woff2)$": "<rootDir>/src/__mocks__/fileMock.js",
@@ -83,7 +83,7 @@
     }
   },
   "dependencies": {
-    "@blockchain-com/components": "^2.0.11",
+    "@blockchain-com/components": "2.5.3",
     "@ledgerhq/hw-app-eth": "4.26.0-beta.ebeb3540",
     "@ledgerhq/hw-app-btc": "4.26.0-beta.ebeb3540",
     "@ledgerhq/hw-app-str": "4.26.0-beta.ebeb3540",

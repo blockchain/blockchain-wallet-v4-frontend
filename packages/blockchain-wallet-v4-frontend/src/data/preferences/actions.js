@@ -19,3 +19,6 @@ export const setTotalBalancesDropdown = payload => ({
   type: AT.SET_TOTAL_BALANCES_DROPDOWN,
   payload
 })
+
+export const hideKycGetStarted = () => ({ type: AT.HIDE_KYC_GET_STARTED })
+export const hideSwapBanner = () => ({ type: AT.HIDE_SWAP_BANNER })

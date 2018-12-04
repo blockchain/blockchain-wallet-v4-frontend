@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SwapBanner renders correctly with exchange link 1`] = `
+<SwapBanner__Wrapper>
+  <SwapBanner__Column>
+    <SwapBanner__LargeText>
+      <FormattedMessage
+        defaultMessage="We've Improved Your Exchange"
+        id="scenes.home.swapbanner.improved"
+        values={Object {}}
+      />
+    </SwapBanner__LargeText>
+    <SwapBanner__MediumText>
+      <FormattedMessage
+        defaultMessage="A faster, smarter way to trade your crypto."
+        id="scenes.home.swapbanner.faster"
+        values={Object {}}
+      />
+    </SwapBanner__MediumText>
+  </SwapBanner__Column>
+  <SwapBanner__Column
+    hiddenOnMobile={true}
+  >
+    <SwapBanner__BackgroundImage
+      name="swap-dashboard-right"
+    />
+  </SwapBanner__Column>
+  <SwapBanner__Column>
+    <LinkContainer
+      activeClassName="active"
+      exact={false}
+      replace={false}
+      strict={false}
+      to="/exchange"
+    >
+      <SwapBanner__GetStartedButton>
+        <FormattedMessage
+          defaultMessage="Go To Exchange"
+          id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.gotoexchange"
+          values={Object {}}
+        />
+      </SwapBanner__GetStartedButton>
+    </LinkContainer>
+  </SwapBanner__Column>
+</SwapBanner__Wrapper>
+`;
+
+exports[`SwapBanner renders correctly with getstarted button 1`] = `
+<SwapBanner__Wrapper>
+  <SwapBanner__Column>
+    <SwapBanner__LargeText>
+      <FormattedMessage
+        defaultMessage="We've Improved Your Exchange"
+        id="scenes.home.swapbanner.improved"
+        values={Object {}}
+      />
+    </SwapBanner__LargeText>
+    <SwapBanner__MediumText>
+      <FormattedMessage
+        defaultMessage="A faster, smarter way to trade your crypto."
+        id="scenes.home.swapbanner.faster"
+        values={Object {}}
+      />
+    </SwapBanner__MediumText>
+  </SwapBanner__Column>
+  <SwapBanner__Column
+    hiddenOnMobile={true}
+  >
+    <SwapBanner__BackgroundImage
+      name="swap-dashboard-right"
+    />
+  </SwapBanner__Column>
+  <SwapBanner__Column>
+    <SwapBanner__GetStartedButton>
+      <FormattedMessage
+        defaultMessage="Get Started"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.started"
+        values={Object {}}
+      />
+    </SwapBanner__GetStartedButton>
+  </SwapBanner__Column>
+</SwapBanner__Wrapper>
+`;
+
+exports[`SwapBanner renders null w/o showBanner 1`] = `""`;

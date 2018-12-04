@@ -29,6 +29,9 @@ import media from 'services/ResponsiveService'
 const FormContainer = styled.div`
   margin-top: 25px;
 `
+const PageHeader = styled(PartnerHeader)`
+  margin-bottom: 12px;
+`
 const AddressLabel = styled(Text)`
   span:last-of-type {
     margin-left: 3px;
@@ -70,12 +73,12 @@ const Address = props => {
     <AddressForm onSubmit={handleSubmit}>
       <ColLeft>
         <InputWrapper>
-          <PartnerHeader>
+          <PageHeader>
             <FormattedMessage
               id='sfoxexchangedata.verify.partner.header1'
               defaultMessage="Let's Get to Know You"
             />
-          </PartnerHeader>
+          </PageHeader>
           <PartnerSubHeader>
             <FormattedMessage
               id='sfoxexchangedata.verify.partner.subheader'

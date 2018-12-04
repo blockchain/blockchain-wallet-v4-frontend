@@ -71,7 +71,7 @@ const LearnMoreLink = styled(Link)`
   display: inline-flex;
 `
 
-const Welcome = props => {
+const WelcomeAirdrop = props => {
   const { coin, domains } = props
 
   return (
@@ -146,9 +146,9 @@ const Welcome = props => {
   )
 }
 
-Welcome.propTypes = {
-  displayed: PropTypes.bool.isRequired,
-  handleRequest: PropTypes.func.isRequired
+WelcomeAirdrop.propTypes = {
+  coin: PropTypes.string.isRequired,
+  domains: PropTypes.object.isRequired
 }
 
-export default Welcome
+export default WelcomeAirdrop

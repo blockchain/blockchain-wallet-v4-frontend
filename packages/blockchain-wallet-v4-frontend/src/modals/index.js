@@ -26,7 +26,9 @@ import {
   ExchangeDetails,
   ExchangeResults,
   IdentityVerification,
-  UserExists
+  SwapGetStarted,
+  UserExists,
+  SunRiverLinkError
 } from './Exchange'
 import {
   LockboxAppManager,
@@ -106,6 +108,8 @@ const Modals = props => (
     <SfoxExchangeData />
     <SfoxTradeDetails />
     <SfoxEnterMicroDeposits />
+    <SunRiverLinkError />
+    <SwapGetStarted />
     <TransactionReport />
     <TransferEth />
     <TwoStepGoogleAuthenticator />

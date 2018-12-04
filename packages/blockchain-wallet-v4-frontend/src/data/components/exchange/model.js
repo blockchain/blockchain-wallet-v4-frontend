@@ -23,7 +23,6 @@ export const EXCHANGE_STEPS = {
 
 export const EXCHANGE_FORM = '@EXCHANGE.EXCHANGE_FORM'
 export const CONFIRM_FORM = '@EXCHANGE.CONFIRM_FORM'
-export const SHAPESHIFT_FORM = '@EXCHANGE.SHAPESHIFT_FORM'
 
 export const SHAPESHIFT_PAIRS = Remote.of([
   'BTC-BCH',

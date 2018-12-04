@@ -34,8 +34,11 @@ const Container = styled.div`
 
 class SunRiverWelcomeContainer extends React.PureComponent {
   determineKycState (userState, kycState) {
-    if (kycState === KYC_STATES.VERIFIED) {
+    if (userState !== USER_ACTIVATION_STATES.NONE) {
       this.props.registerSunRiverUser()
+    }
+
+    if (kycState === KYC_STATES.VERIFIED) {
       return (
         <Container>
           <Text size='26px' weight={300}>
@@ -66,7 +69,6 @@ class SunRiverWelcomeContainer extends React.PureComponent {
       userState === USER_ACTIVATION_STATES.ACTIVE &&
       kycState === KYC_STATES.UNDER_REVIEW
     ) {
-      this.props.registerSunRiverUser()
       return (
         <Container>
           <Text size='26px' weight={300}>

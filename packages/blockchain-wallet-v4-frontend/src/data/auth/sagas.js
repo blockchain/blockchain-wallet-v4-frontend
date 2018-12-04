@@ -1,6 +1,6 @@
 import { call, put, select, take, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { assoc, find, path, prop, propEq, is } from 'ramda'
+import { assoc, is, path, prop } from 'ramda'
 import Either from 'data.either'
 
 import * as actions from '../actions.js'
@@ -41,27 +41,6 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
     }
   }
-
-  const welcomeSaga = function*(firstLogin) {
-    const goals = yield select(selectors.goals.getGoals)
-    const referralGoal = find(propEq('name', 'referral'))(goals)
-    if (referralGoal) {
-      // referral modal was displayed in goals saga, now delete
-      yield put(actions.goals.deleteGoal(referralGoal.id))
-    } else if (firstLogin) {
-      const walletNUsers = yield call(api.getWalletNUsers)
-      const walletMillions = Math.floor(
-        walletNUsers.values[walletNUsers.values.length - 1].y / 1e6
-      )
-      yield put(actions.modals.showModal('Welcome', { walletMillions }))
-    } else {
-      yield put(
-        actions.logs.logInfoMessage(logLocation, 'welcomeSaga', 'login success')
-      )
-      yield put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
-    }
-  }
-
   const upgradeWalletSaga = function*() {
     yield put(actions.modals.showModal('UpgradeWallet'))
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
@@ -156,8 +135,10 @@ export default ({ api, coreSagas }) => {
       const language = yield select(selectors.preferences.getLanguage)
       yield put(actions.modules.settings.updateLanguage(language))
       yield fork(transferEthSaga)
-      yield fork(welcomeSaga, firstLogin)
       yield fork(reportStats, mobileLogin)
+      yield put(actions.goals.saveGoal('welcome', { firstLogin }))
+      yield put(actions.goals.saveGoal('kyc'))
+      yield put(actions.goals.runGoals())
       yield fork(checkDataErrors)
       yield put(actions.analytics.reportBalanceStats())
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
@@ -550,7 +531,6 @@ export default ({ api, coreSagas }) => {
     transferEthSaga,
     upgradeWallet,
     upgradeWalletSaga,
-    upgradeAddressLabelsSaga,
-    welcomeSaga
+    upgradeAddressLabelsSaga
   }
 }
