@@ -11,6 +11,11 @@ exports[`EmailRequired component renders correctly 1`] = `
   <TextGroup
     inline={true}
     nowrap={false}
+    style={
+      Object {
+        "marginTop": "10px",
+      }
+    }
   >
     <Text
       altFont={false}
