@@ -133,7 +133,7 @@ export const FieldMimic = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 85%;
+  width: ${props => props.width || '85%'};
   justify-content: space-between;
   ${media.mobile`
     border: none;

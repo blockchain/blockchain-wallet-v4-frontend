@@ -29,6 +29,8 @@ import kycGetStarted from './img/kyc-get-started.png'
 import linkLockboxIcon from './img/link-lockbox-icon.svg'
 import linkedinWhite from './img/linkedin-white.svg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
+import poweredByCoinify from './img/powered_by_coinify.svg'
+import poweredByPlaid from './img/powered_by_plaid.svg'
 import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
 import restoreLockboxIcon from './img/restore-lockbox-icon.svg'
@@ -156,6 +158,8 @@ export default {
   'lockbox-send-review2': sendReview2,
   'lockbox-send-review3': sendReview3,
   'micro-deposits-whole': microDepositsWhole,
+  'powered-by-coinify': poweredByCoinify,
+  'powered-by-plaid': poweredByPlaid,
   printer: printer,
   'restore-lockbox-icon': restoreLockboxIcon,
   'qr-code': qrCode,
