@@ -10,13 +10,14 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 40px;
   width: 100%;
 `
 
 const EmailRequired = () => (
   <Wrapper>
     <Image name='empty-search' width='260px' />
-    <TextGroup inline>
+    <TextGroup inline style={{ marginTop: '10px' }}>
       <Text size='18px' weight={300}>
         <FormattedMessage
           id='components.emailrequired.emailrequired'
