@@ -40,6 +40,8 @@ const CheckoutWrapper = styled.div`
 const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
 
 class BuySellContainer extends React.PureComponent {
+  state = {}
+
   componentDidMount () {
     this.props.formActions.initialize('buySellTabStatus', { status: 'buy' })
     this.props.data.map(data =>

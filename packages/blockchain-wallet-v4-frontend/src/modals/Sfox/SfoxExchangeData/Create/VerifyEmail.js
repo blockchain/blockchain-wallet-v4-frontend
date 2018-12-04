@@ -36,6 +36,8 @@ const VerifyEmailForm = styled(Form)`
 `
 
 class VerifyEmail extends Component {
+  state = {}
+
   componentDidMount () {
     if (this.state.create === 'enter_email_code') {
       this.props.securityCenterActions.sendConfirmationCodeEmail(

@@ -43,6 +43,8 @@ const VerifyMobileForm = styled(Form)`
 `
 
 class VerifyMobile extends Component {
+  state = {}
+
   componentDidMount () {
     this.props.sfoxFrontendActions.sfoxNotAsked()
   }

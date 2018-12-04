@@ -8,6 +8,8 @@ import { getData } from './selectors'
 import VerifyEmail from './template'
 
 class VerifyEmailContainer extends Component {
+  state = {}
+
   componentDidMount () {
     this.props.formActions.change(
       'coinifyVerifyEmail',
