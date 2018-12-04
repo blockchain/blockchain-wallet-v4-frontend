@@ -1,17 +1,14 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
-import { path } from 'ramda'
 import { connect } from 'react-redux'
-import { Remote } from 'blockchain-wallet-v4/src'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
 import { getData } from './selectors'
 import Announcement from './template.js'
 
 class ServiceAnnouncement extends React.PureComponent {
-  state = {}
-
   handleDismiss = id => {
     this.props.cacheActions.announcementDismissed(id)
   }
@@ -24,11 +21,10 @@ class ServiceAnnouncement extends React.PureComponent {
     const { alertArea, data } = this.props
     return data.cata({
       Success: val => {
-        return val.showAnnounce ||
-          path(['announcements', alertArea, 'hideType'], val) === 'collapse' ? (
+        return val.showAnnounce ? (
           <Announcement
             announcement={val.announcements[alertArea]}
-            language={val.language}
+            lang={val.language}
             collapsed={val.collapsed}
             handleDismiss={this.handleDismiss}
             toggleCollapse={this.toggleCollapse}

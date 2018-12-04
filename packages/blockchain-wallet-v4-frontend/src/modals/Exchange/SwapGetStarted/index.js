@@ -60,15 +60,15 @@ class SwapGetStarted extends React.PureComponent {
     return (
       <Modal size='small' position={position} total={total}>
         <Header>
-          <Text color='white' size='24px' weight={500} uppercase>
+          <Text color='white' size='24px' weight={500}>
             <FormattedMessage
-              defaultMessage="We've improved"
+              defaultMessage="We've Improved"
               id='modals.swapgetstarted.improved'
             />
           </Text>
-          <Text color='white' size='24px' weight={500} uppercase>
+          <Text color='white' size='24px' weight={500}>
             <FormattedMessage
-              defaultMessage='your Exchange'
+              defaultMessage='Your Exchange'
               id='modals.swapgetstarted.exchange'
             />
           </Text>
