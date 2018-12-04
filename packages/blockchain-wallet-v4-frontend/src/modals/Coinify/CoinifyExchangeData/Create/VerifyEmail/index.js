@@ -7,15 +7,7 @@ import { actions } from 'data'
 import { getData } from './selectors'
 import VerifyEmail from './template'
 
-// TODO: remove updateUI
 class VerifyEmailContainer extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {}
-    this.onSubmit = this.onSubmit.bind(this)
-    this.resendCode = this.resendCode.bind(this)
-  }
-
   componentDidMount () {
     this.props.formActions.change(
       'coinifyVerifyEmail',
@@ -24,25 +16,33 @@ class VerifyEmailContainer extends Component {
     )
   }
 
-  resendCode () {
-    this.props.updateUI({ codeSent: true })
+  resendCode = () => {
+    this.props.updateState({ codeSent: true })
     this.props.securityCenterActions.sendConfirmationCodeEmail(
       this.props.emailAddress
     )
   }
 
-  onSubmit () {
-    if (this.props.ui.create === 'enter_email_code') {
+  onSubmit = () => {
+    if (this.props.create === 'enter_email_code') {
       this.props.coinifyActions.coinifyClearSignupError()
       this.props.securityCenterActions.verifyEmailCode(this.props.emailCode)
     } else {
-      this.props.updateUI({ create: 'enter_email_code' })
+      this.props.updateState({ create: 'enter_email_code' })
       this.props.securityCenterActions.updateEmail(this.props.emailAddress)
     }
   }
 
   render () {
-    const { emailVerifiedError, invalid, ui, updateUI } = this.props
+    const {
+      codeSent,
+      create,
+      emailAddress,
+      emailVerifiedError,
+      oldEmail,
+      invalid,
+      updateState
+    } = this.props
 
     return (
       <VerifyEmail
@@ -50,19 +50,17 @@ class VerifyEmailContainer extends Component {
         invalid={invalid}
         onSubmit={this.onSubmit}
         resendCode={this.resendCode}
-        ui={ui}
-        updateUI={updateUI}
-        email={this.props.oldEmail}
-        newEmail={this.props.emailAddress}
+        create={create}
+        codeSent={codeSent}
+        updateState={updateState}
+        email={oldEmail}
+        newEmail={emailAddress}
       />
     )
   }
 }
 
 VerifyEmailContainer.propTypes = {
-  ui: PropTypes.object,
-  invalid: PropTypes.boolean,
-  updateUI: PropTypes.function,
   emailAddress: PropTypes.string,
   formActions: PropTypes.object,
   emailCode: PropTypes.string,

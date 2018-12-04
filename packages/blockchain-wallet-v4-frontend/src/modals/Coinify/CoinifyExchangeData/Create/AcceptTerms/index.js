@@ -2,55 +2,49 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { actions } from 'data'
 
+import { actions } from 'data'
 import { getData } from './selectors'
 import AcceptTerms from './template'
 
-// TODO: remove updateUI
 class AcceptTermsContainer extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      busy: false,
-      acceptedTerms: false
-    }
-    this.onSubmit = this.onSubmit.bind(this)
+  state = {
+    busy: false,
+    acceptedTerms: false
   }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.signupError) {
       this.setState({ busy: false })
-      this.props.updateUI({ uniqueEmail: false })
+      this.props.updateState({ uniqueEmail: false })
     }
   }
 
-  onSubmit () {
+  onSubmit = () => {
     this.setState({ busy: true })
     this.props.coinifyFrontendActions.coinifySignup(this.props.country)
   }
 
   render () {
-    const { busy } = this.state
     const {
       invalid,
       email,
       signupError,
-      updateUI,
+      updateState,
       coinifyFrontendActions
     } = this.props
     const { coinifyClearSignupError } = coinifyFrontendActions
 
     return (
       <AcceptTerms
-        busy={busy}
+        busy={this.state.busy}
         email={email}
         invalid={invalid}
         onSubmit={this.onSubmit}
         signupError={signupError}
-        updateUI={updateUI}
+        updateState={updateState}
         editEmail={() => {
-          this.props.updateUI({ create: 'change_email' })
+          this.props.updateState({ create: 'change_email' })
         }}
         clearError={() => coinifyClearSignupError()}
       />
@@ -60,7 +54,6 @@ class AcceptTermsContainer extends Component {
 
 AcceptTermsContainer.propTypes = {
   invalid: PropTypes.bool,
-  updateUI: PropTypes.function,
   email: PropTypes.string.isRequired,
   country: PropTypes.string
 }

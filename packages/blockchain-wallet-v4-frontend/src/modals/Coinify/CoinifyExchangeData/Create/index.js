@@ -7,10 +7,10 @@ import { actions } from 'data'
 import { getData } from './selectors'
 import Create from './template'
 
-// TODO: remove updateUI
 class CreateContainer extends Component {
   state = { create: '', uniqueEmail: true, codeSent: false }
 
+  /* eslint-disable react/no-did-mount-set-state, react/no-did-update-set-state */
   componentDidMount () {
     if (this.props.emailVerified) {
       this.setState({ create: 'create_account' })
@@ -27,6 +27,11 @@ class CreateContainer extends Component {
       this.setState({ create: 'create_account' })
     }
   }
+  /* eslint-enable react/no-did-mount-set-state, react/no-did-update-set-state */
+
+  updateState = newState => {
+    this.setState(newState)
+  }
 
   render () {
     const { handleSignup, oldEmail, signupError } = this.props
@@ -35,9 +40,10 @@ class CreateContainer extends Component {
         handleSignup={handleSignup}
         oldEmail={oldEmail}
         signupError={signupError}
-        ui={ui}
-        updateUI={updateUI}
+        updateState={this.updateState}
         country={this.props.country}
+        create={this.state.create}
+        codeSent={this.state.codeSent}
       />
     )
   }
