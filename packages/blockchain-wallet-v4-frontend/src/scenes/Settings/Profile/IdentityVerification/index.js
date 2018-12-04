@@ -116,7 +116,7 @@ const IdentityVerification = ({ kycState, verifyIdentity }) => {
     [KYC_STATES.REJECTED]: (
       <FormattedMessage
         id='scenes.profile.identityverification.note.rejected'
-        defaultMessage='Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time.'
+        defaultMessage='Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verify your account at this time.'
         altFont
         light
       />

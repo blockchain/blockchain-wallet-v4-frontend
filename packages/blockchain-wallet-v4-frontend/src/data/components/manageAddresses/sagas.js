@@ -186,7 +186,8 @@ export default ({ api, networks }) => {
     try {
       yield put(A.editAddressLabelLoading(accountIndex))
       let newLabel = yield call(promptForInput, {
-        title: 'Rename Address Label'
+        title: 'Rename Address Label',
+        maxLength: 50
       })
       yield put(
         actions.core.wallet.setHdAddressLabel(

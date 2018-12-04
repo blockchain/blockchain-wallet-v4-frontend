@@ -45,7 +45,7 @@ export default ({
     campaignName,
     campaignData,
     newUser = false
-  ) => {
+  ) =>
     put({
       url: nabuUrl,
       endPoint: '/users/register-campaign',
@@ -61,7 +61,6 @@ export default ({
         newUser
       }
     })
-  }
 
   const recoverUser = (userId, lifetimeToken, retailToken) =>
     post({
