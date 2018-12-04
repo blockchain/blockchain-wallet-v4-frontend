@@ -83,11 +83,11 @@
     }
   },
   "dependencies": {
-    "@blockchain-com/components": "3.0.0",
+    "@blockchain-com/components": "3.2.0",
     "@ledgerhq/hw-app-eth": "4.26.0-beta.ebeb3540",
     "@ledgerhq/hw-app-btc": "4.30.0",
     "@ledgerhq/hw-app-str": "4.26.0-beta.ebeb3540",
-    "@ledgerhq/hw-transport-u2f": "4.28.0",
+    "@ledgerhq/hw-transport-u2f": "4.31.0",
     "awesome-phonenumber": "2.2.6",
     "base-64": "0.1.0",
     "bignumber.js": "8.0.1",
@@ -100,7 +100,7 @@
     "bowser": "1.9.3",
     "browser-locale": "1.0.3",
     "connected-react-router": "4.3.0",
-    "country-region-data": "1.4.4",
+    "country-region-data": "1.4.5",
     "data.either": "1.5.2",
     "data.maybe": "1.2.3",
     "es6-promise": "4.2.5",
@@ -114,7 +114,7 @@
     "prop-types": "15.6.2",
     "qrcode.react": "0.8.0",
     "qs": "6.6.0",
-    "ramda": "0.26.0",
+    "ramda": "0.26.1",
     "react": "16.6.3",
     "react-animations": "1.0.0",
     "react-copy-to-clipboard": "5.0.1",
@@ -141,8 +141,8 @@
     "redux-ui": "0.1.1",
     "reselect": "4.0.0",
     "rxjs": "6.3.3",
-    "sanitize-html": "1.19.1",
-    "styled-components": "4.1.1",
+    "sanitize-html": "1.19.2",
+    "styled-components": "4.1.2",
     "zxcvbn": "4.4.2"
   }
 }
