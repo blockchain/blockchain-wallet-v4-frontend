@@ -7,6 +7,7 @@ import { actions } from 'data'
 import { getData } from './selectors'
 import Create from './template'
 
+// TODO: remove updateUI
 class CreateContainer extends Component {
   state = { create: '', uniqueEmail: true, codeSent: false }
 
@@ -27,7 +28,6 @@ class CreateContainer extends Component {
     }
   }
 
-  // TODO
   render () {
     const { handleSignup, oldEmail, signupError } = this.props
     return (

@@ -7,6 +7,7 @@ import { actions } from 'data'
 import { getData } from './selectors'
 import AcceptTerms from './template'
 
+// TODO: remove updateUI
 class AcceptTermsContainer extends Component {
   constructor (props) {
     super(props)

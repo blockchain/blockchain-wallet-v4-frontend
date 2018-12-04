@@ -61,16 +61,10 @@ const AddressFormGroup = styled(FormGroup)`
 `
 
 const Address = props => {
-  const { invalid, submitting } = props
-  const { busy } = props.ui
-
-  const handleSubmit = e => {
-    e.preventDefault()
-    props.updateUI({ verify: 'identity' })
-  }
+  const { busy, handleAddressSubmit, invalid, submitting } = props
 
   return (
-    <AddressForm onSubmit={handleSubmit}>
+    <AddressForm onSubmit={handleAddressSubmit}>
       <ColLeft>
         <InputWrapper>
           <PageHeader>

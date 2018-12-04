@@ -7,6 +7,7 @@ import { actions } from 'data'
 import { getData } from './selectors'
 import VerifyEmail from './template'
 
+// TODO: remove updateUI
 class VerifyEmailContainer extends Component {
   constructor (props) {
     super(props)
