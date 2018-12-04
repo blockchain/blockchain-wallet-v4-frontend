@@ -19,7 +19,6 @@ const Create = props => {
   const { create } = props
 
   const determineStep = () => {
-
     if (create === 'change_email' || create === 'enter_email_code') {
       return 'email'
     }
