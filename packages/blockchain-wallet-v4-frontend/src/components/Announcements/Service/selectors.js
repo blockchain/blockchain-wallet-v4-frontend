@@ -28,13 +28,11 @@ export const getData = (state, ownProps) =>
           showAnnounce: !isCacheLoaded
             ? false
             : announcementCached[announcement.id]
-              ? !announcementCached[announcement.id].dismissed
-              : true
+            ? !announcementCached[announcement.id].dismissed
+            : true
         }
       } else {
-        return {
-          announcements: {}
-        }
+        return { announcements: {} }
       }
     }
   )(state, ownProps)

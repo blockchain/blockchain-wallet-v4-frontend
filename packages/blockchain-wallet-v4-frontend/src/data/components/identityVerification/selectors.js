@@ -36,3 +36,9 @@ export const isAddressRefetchVisible = path([
   'identityVerification',
   'addressRefetchVisible'
 ])
+
+export const getKycFLowType = path([
+  'components',
+  'identityVerification',
+  'flowType'
+])

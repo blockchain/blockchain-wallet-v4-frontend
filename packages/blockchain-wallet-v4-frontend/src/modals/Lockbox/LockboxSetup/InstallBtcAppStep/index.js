@@ -9,7 +9,6 @@ import {
   BlockchainLoader,
   Icon,
   Image,
-  Link,
   Text,
   TextGroup
 } from 'blockchain-info-components'
@@ -146,26 +145,6 @@ class InstallBtcAppStepContainer extends React.PureComponent {
           <GraphicContainer>
             <Icon color={'btc'} name={`btc-circle-filled`} size='75px' />
           </GraphicContainer>
-          <InstallTexts inline>
-            <Text size='14px' weight={400}>
-              <FormattedMessage
-                id='modals.lockboxsetup.installbtcappstep.note'
-                defaultMessage='Note:'
-              />
-            </Text>
-            <Text size='14px' weight={300}>
-              <FormattedMessage
-                id='modals.lockboxsetup.installbtcappstep.skipinstall'
-                defaultMessage='If this device has already been setup and it has the Bitcoin app installed, click'
-              />
-            </Text>
-            <Link size='14px' weight={400} onClick={this.onStepChange}>
-              <FormattedMessage
-                id='modals.lockboxsetup.installbtcappstep.skipinstallhere'
-                defaultMessage='here.'
-              />
-            </Link>
-          </InstallTexts>
         </InstallBtcAppStep>
       )
     })

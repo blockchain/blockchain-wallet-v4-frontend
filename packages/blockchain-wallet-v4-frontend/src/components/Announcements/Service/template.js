@@ -14,9 +14,9 @@ const Container = styled.div`
   -webkit-font-smoothing: antialiased;
   margin: 0 auto;
   overflow: hidden;
-  padding: 10px 25px;
+  padding: 12px 25px;
   box-sizing: border-box;
-  height: ${props => (props.collapsed ? '35px' : '')};
+  height: ${props => (props.collapsed ? '40px' : '')};
   width: 100%;
 `
 const Wrapper = styled.div`
@@ -81,81 +81,60 @@ const selectStyle = type => {
 }
 
 const Announcement = props => {
-  const {
-    announcement,
-    collapsed,
-    language,
-    handleDismiss,
-    toggleCollapse
-  } = props
-  const style = selectStyle(announcement.type)
-  const { backgroundColor, textColor, uppercase } = style
+  const { announcement, collapsed, lang, handleDismiss, toggleCollapse } = props
+  const { action, header, hideType, id, icon, sections, type } = announcement
+  const { backgroundColor, textColor, uppercase } = selectStyle(type)
 
   return (
     <Container collapsed={collapsed} backgroundColor={backgroundColor}>
       <Wrapper>
         <Content>
           <Title>
-            {announcement.icon && (
-              <Icon name={announcement.icon} size='20px' color={textColor} />
-            )}
+            {icon && <Icon name={icon} size='20px' color={textColor} />}
             <Text size='14px' color='white' uppercase={uppercase}>
-              {announcement.header[language]
-                ? announcement.header[language]
-                : announcement.header.en}
+              {header[lang] ? header[lang] : header.en}
             </Text>
           </Title>
           <div style={{ display: collapsed ? 'none' : '' }}>
-            {announcement.sections.map((section, i) => {
+            {sections.map((section, i) => {
               return (
                 <Text
-                  weight={300}
                   color={textColor}
                   key={i}
                   size='13px'
                   style={{ margin: '8px 0 0' }}
                 >
-                  {section.body[language]
-                    ? section.body[language]
-                    : section.body.en}
+                  {section.body[lang] ? section.body[lang] : section.body.en}
                 </Text>
               )
             })}
-            <ActionLink
-              href={announcement.action.link}
-              color={textColor}
-              target='_blank'
-            >
-              <Text weight={400} color={textColor} size='14px'>
-                {announcement.action.title[language]
-                  ? announcement.action.title[language]
-                  : announcement.action.title.en}
-              </Text>
-            </ActionLink>
+            {action.title && (
+              <ActionLink href={action.link} color={textColor} target='_blank'>
+                <Text weight={400} color={textColor} size='14px'>
+                  {action.title[lang] ? action.title[lang] : action.title.en}
+                </Text>
+              </ActionLink>
+            )}
           </div>
         </Content>
       </Wrapper>
       <div>
-        {announcement.hideType === 'collapse' && (
+        {hideType === 'collapse' && (
           <ActionIcon
             name={collapsed ? 'down-arrow' : 'up-arrow'}
             size='14px'
             weight={600}
             color='white'
-            onClick={() => {
-              toggleCollapse(announcement.id, collapsed)
-            }}
+            onClick={() => toggleCollapse(id, collapsed)}
           />
         )}
-        {announcement.hideType === 'dismiss' && (
+        {hideType === 'dismiss' && (
           <ActionIcon
             name='close'
             size='14px'
             weight={600}
             color='white'
-            onClick={() => {
-              handleDismiss(announcement.id)
-            }}
+            onClick={() => handleDismiss(id)}
           />
         )}
       </div>
@@ -164,9 +143,7 @@ const Announcement = props => {
 }
 
 Announcement.propTypes = {
-  announcement: PropTypes.object.isRequired,
-  language: PropTypes.string.isRequired,
-  handleDismiss: PropTypes.func.isRequired
+  announcement: PropTypes.object.isRequired
 }
 
 export default Announcement

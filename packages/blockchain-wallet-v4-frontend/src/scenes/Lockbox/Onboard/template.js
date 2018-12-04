@@ -59,7 +59,14 @@ const GetStartedHeader = styled(Text)`
     width: 100%;
   `};
 `
-
+const GetStartedButton = styled(Button)`
+  width: 250px;
+  margin: 45px 0 0 35px;
+  ${media.mobile`
+    width: 100%;
+    margin: 0;
+  `};
+`
 const GetStartedText = styled(Text)`
   width: 350px;
   margin-bottom: ${marginContent};
@@ -72,8 +79,7 @@ const PoweredByContainer = styled.div`
   right: ${containerPadding};
   position: absolute;
   ${media.mobile`
-    top: initial;
-    bottom: ${containerPadding};
+    right: 5px;
   `};
 `
 
@@ -133,7 +139,7 @@ const Onboard = props => {
                 defaultMessage='Trade, send and receive straight from your offline hardware wallet. Blockchain Lockbox works seamlessly with your Blockchain Wallet.'
               />
             </GetStartedText>
-            <Button
+            <GetStartedButton
               nature='primary'
               disabled={disableSetup}
               onClick={launchLockboxSetup}
@@ -142,7 +148,7 @@ const Onboard = props => {
                 id='scenes.lockbox.welcome.getstarted'
                 defaultMessage='Get Started'
               />
-            </Button>
+            </GetStartedButton>
           </GetStartedContent>
           <PoweredByContainer>
             <PoweredByText size='11px' weight={300} color='brand-primary'>

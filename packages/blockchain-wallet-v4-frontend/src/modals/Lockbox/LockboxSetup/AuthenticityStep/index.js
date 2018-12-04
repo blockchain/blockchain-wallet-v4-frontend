@@ -5,17 +5,18 @@ import { actions, selectors } from 'data'
 import Template from './template'
 
 class AuthenticityStepContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.changeDeviceSetupStep = this.changeDeviceSetupStep.bind(this)
-  }
-
   componentDidMount () {
     this.props.analytics.logLockboxSetup('verify_device')
   }
 
-  changeDeviceSetupStep () {
-    this.props.lockboxActions.changeDeviceSetupStep('install-btc-app')
+  componentWillUnmount () {
+    this.props.lockboxActions.resetDeviceAuthenticity()
+  }
+
+  changeDeviceSetupStep = () => {
+    this.props.setupType === 'new'
+      ? this.props.lockboxActions.changeDeviceSetupStep('install-btc-app')
+      : this.props.lockboxActions.changeDeviceSetupStep('open-btc-app')
   }
 
   render () {
@@ -39,7 +40,8 @@ class AuthenticityStepContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  authenticity: selectors.components.lockbox.getNewDeviceAuthenticity(state)
+  authenticity: selectors.components.lockbox.getNewDeviceAuthenticity(state),
+  setupType: selectors.components.lockbox.getNewDeviceSetupType(state)
 })
 
 const mapDispatchToProps = dispatch => ({

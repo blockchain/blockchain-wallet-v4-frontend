@@ -60,7 +60,7 @@ export const ExchangeByBlockchain = ({ kycNotFinished, verifyIdentity }) => (
     <Row marginBottom='24px'>
       <Text color='brand-primary' size='24px' weight={600}>
         <FormattedMessage
-          defaultMessage="We've improved your Exchange"
+          defaultMessage="We've Improved Your Exchange"
           id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.improved'
         />
       </Text>

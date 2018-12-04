@@ -6,7 +6,7 @@ import { Remote } from 'blockchain-wallet-v4'
 const INITIAL_STATE = {
   userData: Remote.NotAsked,
   apiToken: Remote.NotAsked,
-  campaign: null
+  campaign: {}
 }
 
 export default (state = INITIAL_STATE, action) => {

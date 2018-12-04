@@ -108,27 +108,28 @@ const Success = props => {
             color={'gray-5'}
             selectedComponent={<Manage />}
             components={[
-              <ClickableText
-                size='small'
-                onClick={() => onEditBchAccountLabel(wallet.value)}
-              >
-                <FormattedMessage
-                  id='scenes.settings.addresses.bch.edit_name'
-                  defaultMessage='Edit Wallet Name'
-                />
-              </ClickableText>,
-              !isDefault &&
-                !isArchived && (
-                  <ClickableText
-                    size='small'
-                    onClick={() => onMakeDefault(wallet.value)}
-                  >
-                    <FormattedMessage
-                      id='scenes.settings.addresses.bch.make_default'
-                      defaultMessage='Make Default'
-                    />
-                  </ClickableText>
-                ),
+              !isArchived && (
+                <ClickableText
+                  size='small'
+                  onClick={() => onEditBchAccountLabel(wallet.value)}
+                >
+                  <FormattedMessage
+                    id='scenes.settings.addresses.bch.edit_name'
+                    defaultMessage='Edit Wallet Name'
+                  />
+                </ClickableText>
+              ),
+              !isDefault && !isArchived && (
+                <ClickableText
+                  size='small'
+                  onClick={() => onMakeDefault(wallet.value)}
+                >
+                  <FormattedMessage
+                    id='scenes.settings.addresses.bch.make_default'
+                    defaultMessage='Make Default'
+                  />
+                </ClickableText>
+              ),
               !isDefault &&
                 (isArchived ? (
                   <ClickableText
@@ -162,15 +163,17 @@ const Success = props => {
                   />
                 </ClickableText>
               ),
-              <ClickableText
-                size='small'
-                onClick={() => onShowChangeAddrs(wallet.value)}
-              >
-                <FormattedMessage
-                  id='scenes.settings.addresses.bch.showchangeaddrs'
-                  defaultMessage='Show Change Addresses'
-                />
-              </ClickableText>
+              !isArchived && (
+                <ClickableText
+                  size='small'
+                  onClick={() => onShowChangeAddrs(wallet.value)}
+                >
+                  <FormattedMessage
+                    id='scenes.settings.addresses.bch.showchangeaddrs'
+                    defaultMessage='Show Change Addresses'
+                  />
+                </ClickableText>
+              )
             ].filter(x => x)}
           />
         </TableCell>

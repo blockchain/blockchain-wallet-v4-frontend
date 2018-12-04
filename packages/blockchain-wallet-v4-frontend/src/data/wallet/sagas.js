@@ -54,7 +54,8 @@ export default ({ coreSagas }) => {
       let { index, label } = action.payload
       let newLabel = yield call(promptForInput, {
         title: 'Rename Bitcoin Wallet',
-        initial: label
+        initial: label,
+        maxLength: 30
       })
       yield put(actions.core.wallet.setAccountLabel(index, newLabel))
       yield put(actions.alerts.displaySuccess(C.RENAME_BTC_WALLET_SUCCESS))

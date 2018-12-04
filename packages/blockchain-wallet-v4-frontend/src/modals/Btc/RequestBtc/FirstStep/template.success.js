@@ -51,7 +51,7 @@ const BannerContainer = styled.div`
   .link {
     cursor: pointer;
     text-decoration: underline;
-    color: ${props => props.theme['brrand-primary']};
+    color: ${props => props.theme['brand-primary']};
   }
 `
 
@@ -119,7 +119,7 @@ const FirstStep = props => {
           <Banner type='alert'>
             <FormattedHTMLMessage
               id='modals.requestbitcoin.firststep.lockbox'
-              defaultMessage='Please confirm this address on your lockbox device by opening your Bitcoin app. <span class=&quot;link&quot;>Click here</span> once the Bitcoin app has been opened.'
+              defaultMessage='Please confirm this address on your lockbox device by opening your Bitcoin app. <span class="link">Click here</span> once the Bitcoin app has been opened.'
             />
           </Banner>
         </BannerContainer>

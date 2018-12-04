@@ -1,5 +1,5 @@
 import { join, put, select, call, spawn } from 'redux-saga/effects'
-import { isEmpty, prop } from 'ramda'
+import { isEmpty, prop, toUpper } from 'ramda'
 
 import { callLatest } from 'utils/effects'
 import { actions, selectors, model } from 'data'
@@ -17,7 +17,9 @@ import {
   PHONE_EXISTS_ERROR,
   UPDATE_FAILURE,
   KYC_MODAL,
-  USER_EXISTS_MODAL
+  USER_EXISTS_MODAL,
+  FLOW_TYPES,
+  SUNRIVER_LINK_ERROR_MODAL
 } from './model'
 
 export const logLocation = 'components/identityVerification/sagas'
@@ -29,6 +31,7 @@ export const invalidNumberError = 'Failed to update mobile number'
 export const mobileVerifiedError = 'Failed to verify mobile number'
 export const failedResendError = 'Failed to resend the code'
 export const userExistsError = 'User already exists'
+export const wrongFlowTypeError = 'Wrong flow type'
 
 export default ({ api, coreSagas }) => {
   const {
@@ -52,19 +55,27 @@ export default ({ api, coreSagas }) => {
   })
 
   const registerUserCampaign = function*(newUser = false) {
-    const campaignName = yield select(selectors.modules.profile.getCampaign)
-    const campaignData = yield call(getCampaignData, campaignName)
+    const campaign = yield select(selectors.modules.profile.getCampaign)
+    const campaignData = yield call(getCampaignData, campaign)
     const token = (yield select(
       selectors.modules.profile.getApiToken
     )).getOrFail()
-
-    yield call(
-      api.registerUserCampaign,
-      token,
-      campaignName,
-      campaignData,
-      newUser
-    )
+    try {
+      yield call(
+        api.registerUserCampaign,
+        token,
+        campaign.name,
+        campaignData,
+        newUser
+      )
+    } catch (e) {
+      // Todo: use generic confirm modal
+      // Should NOT be specific to sunriver
+      yield put(actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'registerUserCampaign', e)
+      )
+    }
   }
 
   const createRegisterUserCampaign = function*({
@@ -79,7 +90,7 @@ export default ({ api, coreSagas }) => {
       const userWithEmailExists = yield call(verifyIdentity)
       if (userWithEmailExists) return
       if (!userId) yield call(createUser)
-      if (userId) yield call(registerUserCampaign, true)
+      yield call(registerUserCampaign, true)
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
@@ -383,6 +394,27 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const checkKycFlow = function*() {
+    try {
+      yield put(A.setKycFlow(Remote.Loading))
+      const { flowType } = yield call(api.fetchKycConfig)
+      const type = FLOW_TYPES[toUpper(flowType)]
+      if (!type) throw wrongFlowTypeError
+
+      yield put(A.setKycFlow(Remote.of(type)))
+    } catch (e) {
+      yield put(A.setKycFlow(Remote.Failure(e)))
+    }
+  }
+
+  const sendDeeplink = function*() {
+    try {
+      yield call(api.sendDeeplink)
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'sendDeeplink', e))
+    }
+  }
+
   return {
     verifyIdentity,
     initializeStep,
@@ -391,11 +423,14 @@ export default ({ api, coreSagas }) => {
     fetchSupportedDocuments,
     fetchPossibleAddresses,
     resendSmsCode,
+    registerUserCampaign,
     createRegisterUserCampaign,
     savePersonalData,
     selectAddress,
     updateSmsStep,
     updateSmsNumber,
-    verifySmsNumber
+    verifySmsNumber,
+    checkKycFlow,
+    sendDeeplink
   }
 }
