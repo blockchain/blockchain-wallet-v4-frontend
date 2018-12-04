@@ -7,7 +7,6 @@ import VerifyEmail from './VerifyEmail'
 import VerifyMobile from './VerifyMobile'
 import { Row } from 'components/IdentityVerification'
 
-// TODO: ensure old ui props are working...
 const Create = props => {
   const { create, handleSignup, signupError } = props
 
