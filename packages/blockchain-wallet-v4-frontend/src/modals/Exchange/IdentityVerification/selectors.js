@@ -7,6 +7,5 @@ export const getData = state => ({
     state
   ),
   step: selectors.components.identityVerification.getVerificationStep(state),
-  steps: selectors.components.identityVerification.getSteps(state),
-  path: selectors.router.getPathname(state)
+  steps: selectors.components.identityVerification.getSteps(state)
 })
