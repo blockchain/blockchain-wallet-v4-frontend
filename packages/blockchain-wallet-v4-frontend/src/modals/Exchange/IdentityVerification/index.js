@@ -64,36 +64,23 @@ const stepMap = {
   ),
   [STEPS.personal]: (
     <FormattedMessage
-      id='modals.identityverification.steps.coinify'
-      defaultMessage='Email'
+      id='modals.identityverification.steps.personal'
+      defaultMessage='Personal'
     />
-  ]
-  const baseSteps = [
-    [
-      STEPS.personal,
-      <FormattedMessage
-        id='modals.identityverification.steps.personal'
-        defaultMessage='Personal'
-      />
-    ],
-    [
-      STEPS.mobile,
-      <FormattedMessage
-        id='modals.identityverification.steps.mobile'
-        defaultMessage='Phone'
-      />
-    ],
-    [
-      STEPS.verify,
-      <FormattedMessage
-        id='modals.identityverification.steps.verify'
-        defaultMessage='Verify'
-      />
-    ]
-  ]
-  if (test(/buy-sell/, props.path)) // if we're on buy-sell route, include coinify in stepMap
-    return fromPairs(prepend(coinifyStep, baseSteps))
-  return fromPairs(baseSteps)
+  ),
+  [STEPS.mobile]: (
+    <FormattedMessage
+      id='modals.identityverification.steps.mobile'
+      defaultMessage='Phone'
+    />
+  ),
+  [STEPS.verify]: (
+    <FormattedMessage
+      id='modals.identityverification.steps.verify'
+      defaultMessage='Verify'
+    />
+  )
+
 }
 
 class IdentityVerification extends React.PureComponent {
