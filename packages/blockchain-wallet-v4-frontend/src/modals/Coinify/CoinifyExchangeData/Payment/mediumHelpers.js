@@ -183,8 +183,10 @@ export const bankOptionHelper = (
   isChecked,
   handlePaymentClick,
   bankDisabled,
-  openPendingKyc,
-  kyc,
+  triggerKyc,
+  kycVerified,
+  kycPending,
+  kycRejected,
   level
 ) => {
   const PaymentRadioBank = ({ isChecked, handlePaymentClick }) => (
@@ -245,12 +247,12 @@ export const bankOptionHelper = (
                 id='scenes.buysell.coinifyexchangedata.payment.bank.unavailable_kyc'
                 defaultMessage='Bank transfers are unavailable until Identity Verification has been finished.'
               />
-              {equals(path(['state'], kyc), 'pending') ? (
+              {(!kycVerified || !kycPending) && !kycRejected ? (
                 <Link
                   size='12px'
                   weight={300}
                   style={spacing('mt-10')}
-                  onClick={() => openPendingKyc(kyc)}
+                  onClick={triggerKyc}
                 >
                   <FormattedMessage
                     id='scenes.buysell.coinifyexchangedata.payment.bank.finishkyc'

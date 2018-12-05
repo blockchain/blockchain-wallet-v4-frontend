@@ -2,21 +2,16 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { getData, getQuote } from './selectors'
 import Success from './template.success'
-import { path } from 'ramda'
 import Loading from 'components/BuySell/Loading'
 import Failure from 'components/BuySell/Failure'
+import { KYC_MODAL } from 'data/components/identityVerification/model'
 
 class PaymentContainer extends Component {
-  constructor (props) {
-    super(props)
-
-    this.handlePaymentClick = this.handlePaymentClick.bind(this)
-    this.triggerKyc = this.triggerKyc.bind(this)
-
-    this.state = { medium: '' }
+  state = {
+    medium: ''
   }
 
   componentDidMount () {
@@ -28,19 +23,15 @@ class PaymentContainer extends Component {
     this.props.coinifyActions.coinifyNotAsked()
   }
 
-  triggerKyc () {
-    this.props.coinifyActions.coinifyLoading()
-    this.props.coinifyActions.triggerKYC()
-  }
-
-  handlePaymentClick (medium) {
+  handlePaymentClick = (medium) => {
     this.setState({ medium })
     this.props.coinifyActions.saveMedium(medium)
   }
 
   render () {
-    const { data, coinifyBusy, coinifyActions } = this.props
-    const { openKYC, checkoutCardMax } = coinifyActions
+    const { data, coinifyBusy, coinifyActions, modalActions } = this.props
+    const { checkoutCardMax } = coinifyActions
+    const { showModal } = modalActions
 
     const busy = coinifyBusy.cata({
       Success: () => false,
@@ -57,9 +48,8 @@ class PaymentContainer extends Component {
           handlePaymentClick={this.handlePaymentClick}
           medium={this.state.medium}
           quote={this.props.quote}
-          triggerKyc={this.triggerKyc}
+          triggerKyc={() => showModal(KYC_MODAL)}
           busy={busy}
-          openPendingKyc={openKYC}
           handlePrefillCardMax={limits => checkoutCardMax(limits)}
         />
       ),
@@ -77,13 +67,14 @@ PaymentContainer.propTypes = {
 const mapStateToProps = state => ({
   data: getData(state),
   quote: getQuote(state).getOrElse(null),
-  coinifyBusy: path(['coinify', 'coinifyBusy'], state)
+  coinifyBusy: selectors.modules.coinify.getCoinifyBusy(state)
 })
 
 const mapDispatchToProps = dispatch => ({
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
+  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(

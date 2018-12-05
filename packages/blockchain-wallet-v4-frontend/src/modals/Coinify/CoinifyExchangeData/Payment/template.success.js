@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { spacing } from 'services/StyleService'
 import renderFaq from 'components/FaqDropdown'
 import { StepTransition } from 'components/Utilities/Stepper'
-import { equals, path } from 'ramda'
+import { path, prop } from 'ramda'
 
 import { Button, HeartbeatLoader, Link } from 'blockchain-info-components'
 import {
@@ -99,11 +99,8 @@ const isCardDisabled = (q, l) => {
     return Math.abs(q.quoteAmount) > l.card.inRemaining[q.quoteCurrency]
   } else return Math.abs(q.baseAmount) > l.card.inRemaining[q.baseCurrency]
 }
-const isBankDisabled = (q, l, kyc) => {
-  const disableForKyc =
-    equals(kyc, 'reviewing') ||
-    equals(kyc, 'pending') ||
-    equals(kyc, 'processing')
+const isBankDisabled = (q, l, kycVerified) => {
+  const disableForKyc = !kycVerified
   const disableForLimits =
     q.baseCurrency === 'BTC'
       ? Math.abs(q.quoteAmount) >
@@ -122,19 +119,17 @@ const Payment = props => {
     handlePaymentClick,
     medium,
     triggerKyc,
-    openPendingKyc,
     quote,
     handlePrefillCardMax
   } = props
-  const { limits, level, kyc } = value
-  const kycState = path(['state'], kyc)
+  const { limits, level, kycPending, kycRejected, kycVerified } = value
   const cardDisabled = isCardDisabled(quote, limits)
-  const bankDisabled = isBankDisabled(quote, limits, kycState)
+  const bankDisabled = isBankDisabled(quote, limits, kycVerified)
   if (bankDisabled && medium !== 'card') handlePaymentClick('card')
   const prefillCardMax = limits => handlePrefillCardMax(limits)
 
   const isChecked = type => medium === type
-
+  console.log('payment step', props)
   return (
     <PaymentForm>
       <PaymentColLeft>
@@ -160,8 +155,10 @@ const Payment = props => {
               isChecked('bank'),
               handlePaymentClick,
               bankDisabled,
-              openPendingKyc,
-              kyc,
+              triggerKyc,
+              kycVerified,
+              kycPending,
+              kycRejected,
               level
             )}
             {cardOptionHelper(
@@ -178,7 +175,7 @@ const Payment = props => {
       <PaymentColRight>
         <PaymentColRightInner>
           <ButtonContainer>
-            {path(['name'], level) < 2 && medium === 'bank' ? (
+            {prop('name', level) < 2 && medium === 'bank' ? (
               <Button
                 nature='primary'
                 fullwidth
