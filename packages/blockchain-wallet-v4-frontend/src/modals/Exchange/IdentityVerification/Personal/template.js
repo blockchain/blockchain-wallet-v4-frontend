@@ -167,7 +167,7 @@ const Personal = ({
                       onChange={onCountrySelect}
                       label={
                         <FormattedMessage
-                          id='components.selectboxcountry.label'
+                          id='identityverification.personal.country.label'
                           defaultMessage='Select country'
                         />
                       }

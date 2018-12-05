@@ -111,7 +111,10 @@ const SelectAccounts = props => {
           </StepTransition>
           <CancelWrapper>
             <StepTransition prev Component={Link}>
-              <FormattedMessage id='back' defaultMessage='Back' />
+              <FormattedMessage
+                id='coinifyexchangedata.selectaccounts.back'
+                defaultMessage='Back'
+              />
             </StepTransition>
           </CancelWrapper>
         </ColRightInner>

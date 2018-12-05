@@ -26,7 +26,7 @@ const Success = props =>
     <LinkContainer to='/home'>
       <Wrapper>
         <FormattedMessage
-          id='scenes.wallet.menutop.balance.totalbalance'
+          id='scenes.wallet.menutop.balance.totalbalance.total'
           defaultMessage='Total Balance'
         />
         <span>&nbsp;</span>

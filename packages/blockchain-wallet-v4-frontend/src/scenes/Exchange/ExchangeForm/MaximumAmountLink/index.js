@@ -9,7 +9,7 @@ import { Link } from 'blockchain-info-components'
 const MaximumAmountLink = props => (
   <React.Fragment>
     <FormattedMessage
-      id='modals.exchange.maximumamountmessage2'
+      id='modals.exchange.maximumamountmessage.use'
       defaultMessage='Use'
     />
     &nbsp;

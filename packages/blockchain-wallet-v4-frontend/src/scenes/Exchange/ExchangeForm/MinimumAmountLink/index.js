@@ -9,7 +9,7 @@ import { Link } from 'blockchain-info-components'
 const MinimumAmountLink = props => (
   <React.Fragment>
     <FormattedMessage
-      id='modals.exchange.maximumamountmessage2'
+      id='modals.exchange.minimumamountlink.use'
       defaultMessage='Use'
     />
     &nbsp;
