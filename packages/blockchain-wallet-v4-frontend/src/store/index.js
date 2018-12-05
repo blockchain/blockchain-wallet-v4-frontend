@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
-import { persistStore, autoRehydrate } from 'redux-persist'
+import { persistStore, persistCombineReducers } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 import { createHashHistory } from 'history'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import appConfig from 'config'
@@ -46,7 +47,6 @@ const devToolsConfig = {
 const configureStore = () => {
   const history = createHashHistory()
   const sagaMiddleware = createSagaMiddleware()
-  // TODO: should these tools be allowed in upper environments!?
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(devToolsConfig)
     : compose
@@ -97,7 +97,16 @@ const configureStore = () => {
       })
 
       const store = createStore(
-        connectRouter(history)(rootReducer),
+        connectRouter(history)(
+          persistCombineReducers(
+            {
+              key: 'primary',
+              storage,
+              whitelist: ['session', 'preferences', 'cache']
+            },
+            rootReducer
+          )
+        ),
         composeEnhancers(
           applyMiddleware(
             sagaMiddleware,
@@ -110,11 +119,11 @@ const configureStore = () => {
             webSocketRates(ratesSocket),
             coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
             autoDisconnection()
-          ),
-          autoRehydrate()
+          )
         )
       )
-      persistStore(store, { whitelist: ['session', 'preferences', 'cache'] })
+      const persistor = persistStore(store, null)
+
       sagaMiddleware.run(rootSaga, {
         api,
         bchSocket,
@@ -125,7 +134,7 @@ const configureStore = () => {
         options
       })
 
-      // TODO: remove in production
+      // expose globals here
       window.createTestXlmAccounts = () => {
         store.dispatch(actions.core.data.xlm.createTestAccounts())
       }
@@ -134,7 +143,8 @@ const configureStore = () => {
 
       return {
         store,
-        history
+        history,
+        persistor
       }
     })
 }

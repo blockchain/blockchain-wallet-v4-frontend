@@ -136,7 +136,7 @@
     "redux": "3.6.0",
     "redux-form": "7.3.0",
     "redux-logger": "3.0.6",
-    "redux-persist": "4.8.3",
+    "redux-persist": "5.7.0",
     "redux-saga": "0.16.0",
     "redux-ui": "0.1.1",
     "reselect": "3.0.1",
