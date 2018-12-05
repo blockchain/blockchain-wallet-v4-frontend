@@ -154,8 +154,8 @@ const faqQuestions = [
     ),
     answer: (
       <FormattedMessage
-        id='scenes.buysell.sfoxsignup.link.helper2.answer'
-        defaultMessage='Adding your account details manually take longer. In order to verify these details belong to you, SFOX sends 2 micro-deposits to your account. This process can take up to 5 days in itself, so we recommend signing directly into your bank if you would like to buy & sell immediately.'
+        id='scenes.buysell.sfoxsignup.link.helper2.answer1'
+        defaultMessage='Adding your account details manually takes longer. In order to verify these details belong to you, SFOX sends 2 micro-deposits to your account. This process can take up to 5 days in itself, so we recommend signing directly into your bank if you would like to buy & sell immediately.'
       />
     )
   }

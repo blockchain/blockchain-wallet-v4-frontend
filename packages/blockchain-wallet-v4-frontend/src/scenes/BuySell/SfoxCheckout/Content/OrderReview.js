@@ -79,7 +79,7 @@ const faqQuestions = [
     ),
     answer: (
       <FormattedMessage
-        id='scenes.buysell.sfoxcheckout.orderreview.helper3.answer'
+        id='scenes.buysell.sfoxcheckout.orderreview.helper3.answer1'
         defaultMessage='Once you submit your trade here, it will move into a pending state. With that said, please be sure to verify the information here carefully before submitting. Once pending, your trade cannot be reversed, cancelled or changed.'
       />
     )
