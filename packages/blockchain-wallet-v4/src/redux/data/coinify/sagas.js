@@ -382,7 +382,6 @@ export default ({ api, options }) => {
       const subs = yield apply(coinify, coinify.getSubscriptions)
       yield put(A.fetchSubscriptionsSuccess(subs))
     } catch (e) {
-      console.warn('fetch subscriptions failure', e)
       yield put(A.fetchSubscriptionsFailure(e))
     }
   }

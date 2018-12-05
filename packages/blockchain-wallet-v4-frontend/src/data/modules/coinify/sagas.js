@@ -21,16 +21,16 @@ export default ({ api, coreSagas, networks }) => {
     try {
       const country = yield select(S.getCoinifyCountry)
       yield call(coreSagas.data.coinify.signup, country)
-      const profile = yield select(selectors.core.data.coinify.getProfile)
-      if (!profile.error) {
+      const profileR = yield select(selectors.core.data.coinify.getProfile)
+      if (!profileR.error) {
+        const profile = profileR.getOrElse()
+        const isUserVerified = yield select(selectors.modules.profile.isUserVerified)
+        if (isUserVerified.getOrElse(false)) yield call(api.sendCoinifyKyc, prop('user', profile))
+
         // move the identityVerification step from coinify --> personal
         yield put(actions.components.identityVerification.setVerificationStep(STEPS.personal))
-        // TODO: need to check IdentityVerification status and call Nabu with CNY userId if verified
-        const isUserVerified = yield select(S.modules.profile.isUserVerified)
-        if (isUserVerified) yield call(api.sendCoinifyKyc, prop('userId', profile))
-        console.log('after coinify signup', profile, isUserVerified)
       } else {
-        yield put(A.coinifySignupFailure(JSON.parse(profile.error)))
+        yield put(A.coinifySignupFailure(JSON.parse(profileR.error)))
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'coinifySignup', e))

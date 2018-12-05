@@ -11,7 +11,7 @@ import sfox from './sfox/sagaRegister'
 export default ({ api, coreSagas, networks }) =>
   function*() {
     yield fork(addressesBch({ coreSagas, networks }))
-    yield fork(coinify({ coreSagas, networks }))
+    yield fork(coinify({ api, coreSagas, networks }))
     yield fork(profile({ api, coreSagas }))
     yield fork(rates({ api }))
     yield fork(settings({ api, coreSagas }))
