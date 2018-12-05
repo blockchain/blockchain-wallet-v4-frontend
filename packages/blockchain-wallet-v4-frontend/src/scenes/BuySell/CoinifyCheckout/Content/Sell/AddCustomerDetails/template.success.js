@@ -123,7 +123,10 @@ const AddBankDetails = props => {
           </StepTransition>
           <CancelWrapper>
             <StepTransition prev Component={Link}>
-              <FormattedMessage id='back' defaultMessage='Back' />
+              <FormattedMessage
+                id='coinifyexchangedata.addcustomerdetails.back'
+                defaultMessage='Back'
+              />
             </StepTransition>
           </CancelWrapper>
         </ColRightInner>

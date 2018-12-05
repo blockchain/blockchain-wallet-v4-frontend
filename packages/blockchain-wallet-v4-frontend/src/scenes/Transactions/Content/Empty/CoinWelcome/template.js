@@ -156,14 +156,14 @@ const Welcome = props => {
         <LearnMoreContainer href={coinProps[coin].link} target='_blank'>
           <Text size='15px'>
             <FormattedMessage
-              id='scenes.transactions.content.empty.explanation'
+              id='scenes.transaction.content.empty.getstarted.explanation'
               defaultMessage="We've put together a page explaining all of this."
             />
           </Text>
           <LearnMoreLink>
             <LearnMoreText size='15px'>
               <FormattedMessage
-                id='scenes.transactions.content.empty.learnmore'
+                id='scenes.transaction.content.empty.getstarted.learnmore'
                 defaultMessage='Learn More'
               />
             </LearnMoreText>

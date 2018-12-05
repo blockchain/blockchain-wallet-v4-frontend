@@ -29,7 +29,7 @@
     "test:debug": "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "test:update": "cross-env ./../../node_modules/.bin/jest -u",
     "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll",
-    "manage:translations": "babel-node ./translationRunner.js"
+    "manage:translations": "yarn build:prod && babel-node ./translationRunner.js"
   },
   "jest": {
     "automock": false,

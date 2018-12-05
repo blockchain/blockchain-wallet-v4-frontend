@@ -156,7 +156,7 @@ const FirstStep = props => {
         <FormItem>
           <FormLabel for='amount'>
             <FormattedMessage
-              id='modals.requestbitcoin.firststep.amount'
+              id='modals.sendbch.firststep.amount'
               defaultMessage='Enter Amount:'
             />
           </FormLabel>

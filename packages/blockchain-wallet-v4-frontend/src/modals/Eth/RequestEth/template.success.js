@@ -74,7 +74,7 @@ const RequestEth = props => {
         <FormItem>
           <FormLabel for='to'>
             <FormattedMessage
-              id='modals.requestbitcoin.firststep.to'
+              id='modals.requesteth.firststep.to'
               defaultMessage='Receive to:'
             />
           </FormLabel>

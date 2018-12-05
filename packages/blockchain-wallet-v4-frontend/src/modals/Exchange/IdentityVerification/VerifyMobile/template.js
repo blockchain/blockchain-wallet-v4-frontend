@@ -228,7 +228,7 @@ const VerifyMobile = ({
           >
             {!submitting ? (
               <FormattedMessage
-                id='identityverification.personal.continue'
+                id='identityverification.mobile.personal.continue'
                 defaultMessage='Continue'
               />
             ) : (
