@@ -33,22 +33,26 @@ const Container = styled.div`
 `
 
 class SunRiverWelcomeContainer extends React.PureComponent {
+  // Only for users that are created but have not finished verification
   continueVerification = () => {
     this.props.modalActions.closeModal()
     this.props.identityVerificationActions.verifyIdentity()
   }
 
+  // Only for new users that have not started verification
   goToIdentityVerification = () => {
     this.props.modalActions.closeModal()
     this.props.identityVerificationActions.createRegisterUserCampaign()
   }
 
+  // Only for users who have completed/pending/under_review verification
   viewStellarWallet = () => {
     this.props.modalActions.closeModal()
     this.props.routerActions.push('/xlm/transactions')
   }
 
   determineKycState (userState, kycState) {
+    // always register the campaign as quickly as possible if user has been created
     if (userState !== USER_ACTIVATION_STATES.NONE) {
       this.props.identityVerificationActions.registerUserCampaign()
     }
