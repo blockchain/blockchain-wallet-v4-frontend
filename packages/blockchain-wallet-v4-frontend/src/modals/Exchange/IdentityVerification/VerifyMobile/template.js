@@ -101,7 +101,7 @@ const VerifyMobile = ({
     <FooterShadowWrapper
       fields={
         <MediaContextConsumer>
-          {({ mobile }) => (
+          {({ mobile, tablet }) => (
             <InputWrapper>
               <IdentityVerificationHeader>
                 <FormattedMessage
@@ -135,7 +135,8 @@ const VerifyMobile = ({
                     />
                   </FormItem>
                   {activeField === 'smsNumber' &&
-                    !mobile && (
+                    !mobile &&
+                    !tablet && (
                       <FaqFormMessage
                         icon='phone-regular'
                         title={
@@ -189,7 +190,8 @@ const VerifyMobile = ({
                       </EmailHelper>
                     </FormItem>
                     {activeField === 'code' &&
-                      !mobile && (
+                      !mobile &&
+                      !tablet && (
                         <FaqFormMessage
                           icon='comment-alt-regular'
                           title={

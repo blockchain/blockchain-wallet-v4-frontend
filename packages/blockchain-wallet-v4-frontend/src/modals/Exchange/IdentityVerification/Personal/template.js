@@ -73,13 +73,6 @@ const TermsText = styled(Text)`
   font-weight: 300px;
   font-size: 12px;
 `
-const LabeledDateInputBox = styled(DateInputBox)`
-  ${media.mobile`
-    .inputs-wrapper {
-      margin-top: 54px;
-    }
-  `};
-`
 const ErrorBanner = styled(Banner)`
   width: 60%;
   max-width: 800px;
@@ -135,7 +128,7 @@ const Personal = ({
     <FooterShadowWrapper
       fields={
         <MediaContextConsumer>
-          {({ mobile }) => (
+          {({ mobile, tablet }) => (
             <InputWrapper>
               <IdentityVerificationHeader>
                 <FormattedMessage
@@ -246,7 +239,8 @@ const Personal = ({
                     </PersonalItem>
                     {(activeField === 'firstName' ||
                       activeField === 'lastName') &&
-                      !mobile && (
+                      !mobile &&
+                      !tablet && (
                         <FaqFormMessage
                           icon='id-card'
                           title={
@@ -277,7 +271,7 @@ const Personal = ({
                       <Field
                         name='dob'
                         validate={[requiredDOB, ageOverEighteen]}
-                        component={LabeledDateInputBox}
+                        component={DateInputBox}
                         fullwidth
                         label
                         errorBottom
@@ -286,7 +280,8 @@ const Personal = ({
                       />
                     </FormItem>
                     {activeField === 'dob' &&
-                      !mobile && (
+                      !mobile &&
+                      !tablet && (
                         <FaqFormMessage
                           icon='birthday-cake-light'
                           title={
@@ -317,6 +312,7 @@ const Personal = ({
                         </Label>
                         <Field
                           name='line1'
+                          errorBottom
                           validate={required}
                           component={TextBox}
                           placeholder='Street Address'
@@ -333,6 +329,7 @@ const Personal = ({
                         </Label>
                         <Field
                           name='line2'
+                          errorBottom
                           component={TextBox}
                           placeholder='Apartment, unit, floor, etc..'
                         />
@@ -348,6 +345,7 @@ const Personal = ({
                         </Label>
                         <Field
                           name='city'
+                          errorBottom
                           validate={required}
                           component={TextBox}
                         />
@@ -364,6 +362,7 @@ const Personal = ({
                           </Label>
                           <Field
                             name='state'
+                            errorBottom
                             validate={required}
                             countryCode={countryCode}
                             component={TextBox}
