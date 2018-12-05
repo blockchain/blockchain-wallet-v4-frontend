@@ -100,7 +100,7 @@ const configureStore = () => {
         connectRouter(history)(
           persistCombineReducers(
             {
-              key: 'primary',
+              key: 'root',
               storage,
               whitelist: ['session', 'preferences', 'cache']
             },
