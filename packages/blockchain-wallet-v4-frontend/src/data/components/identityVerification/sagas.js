@@ -4,6 +4,7 @@ import { isEmpty, head, prop, toUpper } from 'ramda'
 import { callLatest } from 'utils/effects'
 import { actions, selectors, model } from 'data'
 import profileSagas from 'data/modules/profile/sagas'
+import coinifySagas from 'data/modules/coinify/sagas'
 import { Remote } from 'blockchain-wallet-v4/src'
 import * as C from 'services/AlertService'
 
@@ -54,6 +55,9 @@ export default ({ api, coreSagas }) => {
     api,
     coreSagas
   })
+  const {
+    sendCoinifyKYC
+  } = coinifySagas({ api, coreSagas })
 
   const registerUserCampaign = function*(newUser = false) {
     const campaign = yield select(selectors.modules.profile.getCampaign)
@@ -260,6 +264,7 @@ export default ({ api, coreSagas }) => {
       if (address.country === 'US') address.state = address.state.code
       yield put(actions.form.startSubmit(PERSONAL_FORM))
       yield call(updateUser, { payload: { data: personalData } })
+      yield call(sendCoinifyKYC) // check for coinify user and call backend if present
       const { mobileVerified } = yield call(updateUserAddress, {
         payload: { address }
       })

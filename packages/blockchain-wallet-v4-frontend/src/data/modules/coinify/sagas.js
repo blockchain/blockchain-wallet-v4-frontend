@@ -548,6 +548,18 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const sendCoinifyKYC = function*() {
+    try {
+      const coinifyUserR = yield select(selectors.core.kvStore.buySell.getCoinifyUser)
+      const user = coinifyUserR.getOrElse()
+      if (user) yield call(api.sendCoinifyKyc, user)
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'sendCoinifyKyc', e)
+      )
+    }
+  }
+
   return {
     buy,
     cancelISX,
@@ -565,6 +577,7 @@ export default ({ api, coreSagas, networks }) => {
     openKYC,
     prepareAddress,
     sell,
+    sendCoinifyKYC,
     triggerKYC
   }
 }
