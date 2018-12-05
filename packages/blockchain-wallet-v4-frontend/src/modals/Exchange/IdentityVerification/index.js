@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
-import { contains, keys, pickBy, fromPairs, prepend, test } from 'ramda'
+import { contains, keys, pickBy } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
 import { actions, model } from 'data'
@@ -56,40 +55,31 @@ const IdentityVerificationTray = styled(Tray)`
 
 const { STEPS, KYC_MODAL } = model.components.identityVerification
 
-const stepMap = (props) => {
-  const coinifyStep = [
-    STEPS.coinify,
+const stepMap = {
+  [STEPS.coinify]: (
     <FormattedMessage
       id='modals.identityverification.steps.coinify'
-      defaultMessage='Email'
+      defaultMessage='Account'
     />
-  ]
-  const baseSteps = [
-    [
-      STEPS.personal,
-      <FormattedMessage
-        id='modals.identityverification.steps.personal'
-        defaultMessage='Personal'
-      />
-    ],
-    [
-      STEPS.mobile,
-      <FormattedMessage
-        id='modals.identityverification.steps.mobile'
-        defaultMessage='Phone'
-      />
-    ],
-    [
-      STEPS.verify,
-      <FormattedMessage
-        id='modals.identityverification.steps.verify'
-        defaultMessage='Verify'
-      />
-    ]
-  ]
-  if (test(/buy-sell/, props.path)) // if we're on buy-sell route, include coinify in stepMap
-    return fromPairs(prepend(coinifyStep, baseSteps))
-  return fromPairs(baseSteps)
+  ),
+  [STEPS.personal]: (
+    <FormattedMessage
+      id='modals.identityverification.steps.personal'
+      defaultMessage='Personal'
+    />
+  ),
+  [STEPS.mobile]: (
+    <FormattedMessage
+      id='modals.identityverification.steps.mobile'
+      defaultMessage='Phone'
+    />
+  ),
+  [STEPS.verify]: (
+    <FormattedMessage
+      id='modals.identityverification.steps.verify'
+      defaultMessage='Verify'
+    />
+  )
 }
 
 class IdentityVerification extends React.PureComponent {

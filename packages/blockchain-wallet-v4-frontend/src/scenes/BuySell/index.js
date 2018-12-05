@@ -73,7 +73,7 @@ class BuySellContainer extends React.PureComponent {
       setCountry(country)
       // open kyc modal with coinify step only set from this call
       setVerificationStep('coinify')
-      showModal(KYC_MODAL)
+      showModal(KYC_MODAL, { isCoinify: true })
     }
   }
 
