@@ -99,6 +99,7 @@ const configureStore = () => {
       })
       const persistWhitelist = ['session', 'preferences', 'cache']
 
+      // TODO: remove getStoredStateMigrateV4 someday (at least a year from now)
       const store = createStore(
         connectRouter(history)(
           persistCombineReducers(
