@@ -2,8 +2,13 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import { persistStore, persistCombineReducers } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStateMigrateV4'
 import { createHashHistory } from 'history'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
+import { head } from 'ramda'
+import Bitcoin from 'bitcoinjs-lib'
+import BitcoinCash from 'bitcoinforksjs-lib'
+
 import appConfig from 'config'
 import { coreMiddleware } from 'blockchain-wallet-v4/src'
 import {
@@ -22,9 +27,6 @@ import {
   webSocketEth,
   webSocketRates
 } from '../middleware'
-import { head } from 'ramda'
-import Bitcoin from 'bitcoinjs-lib'
-import BitcoinCash from 'bitcoinforksjs-lib'
 
 const devToolsConfig = {
   maxAge: 1000,
@@ -95,14 +97,18 @@ const configureStore = () => {
         getAuthCredentials,
         networks
       })
+      const persistWhitelist = ['session', 'preferences', 'cache']
 
       const store = createStore(
         connectRouter(history)(
           persistCombineReducers(
             {
+              getStoredState: getStoredStateMigrateV4({
+                whitelist: persistWhitelist
+              }),
               key: 'root',
               storage,
-              whitelist: ['session', 'preferences', 'cache']
+              whitelist: persistWhitelist
             },
             rootReducer
           )
