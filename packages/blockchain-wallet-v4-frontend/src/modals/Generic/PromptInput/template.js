@@ -32,7 +32,8 @@ const PromptTemplate = ({
   invalid,
   title,
   secret = false,
-  handleSubmit
+  handleSubmit,
+  maxLength
 }) => (
   <Modal size='large' position={position} total={total}>
     <Form onSubmit={handleSubmit}>
@@ -47,6 +48,7 @@ const PromptTemplate = ({
                 name='value'
                 validate={[required]}
                 component={secret ? PasswordBox : TextBox}
+                maxLength={maxLength}
               />
             </FormItem>
           </FormGroup>

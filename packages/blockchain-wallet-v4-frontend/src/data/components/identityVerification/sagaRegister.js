@@ -26,11 +26,6 @@ export default ({ api, coreSagas }) => {
     )
     yield takeLatest(AT.FETCH_STATES, exchange.fetchStates)
     yield takeLatest(
-      AT.FETCH_POSSIBLE_ADDRESSES,
-      exchange.fetchPossibleAddresses
-    )
-    yield takeLatest(AT.SELECT_ADDRESS, exchange.selectAddress)
-    yield takeLatest(
       AT.CREATE_REGISTER_USER_CAMPAIGN,
       exchange.createRegisterUserCampaign
     )

@@ -16,15 +16,10 @@ import {
   InputWrapper,
   IdentityVerificationImage,
   IdentityVerificationHeader,
-  IdentityVerificationSubHeader
+  IdentityVerificationSubHeader,
+  Footer
 } from 'components/IdentityVerification'
 
-const Footer = styled.div`
-  width: 60%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`
 const VerifyWrapper = styled.div`
   display: flex;
   flex-direction: row;
