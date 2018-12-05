@@ -46,7 +46,7 @@ exports[`HighFlow should render correctly 1`] = `
       </templatelowflow__VerifyWrapper>
     }
     footer={
-      <templatelowflow__Footer>
+      <IdentityVerification__Footer>
         <IdentityVerification__BackButton
           data-e2e="lowflowBackButton"
           onClick={[MockFunction]}
@@ -76,7 +76,7 @@ exports[`HighFlow should render correctly 1`] = `
             values={Object {}}
           />
         </Button>
-      </templatelowflow__Footer>
+      </IdentityVerification__Footer>
     }
   />
 </IdentityVerification__IdentityVerificationForm>

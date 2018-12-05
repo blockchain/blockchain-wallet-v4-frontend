@@ -151,7 +151,7 @@ class DateInputBox extends React.PureComponent {
               <NumberBox
                 placeholder={intl.formatMessage({
                   id: 'components.DateInputBox.placeholder.day',
-                  defaultMessage: 'Date (DD)'
+                  defaultMessage: 'Day'
                 })}
                 input={{
                   name: 'date',
@@ -167,7 +167,7 @@ class DateInputBox extends React.PureComponent {
               <NumberBox
                 placeholder={intl.formatMessage({
                   id: 'components.DateInputBox.placeholder.year',
-                  defaultMessage: 'Year (YYYY)'
+                  defaultMessage: 'Year'
                 })}
                 input={{
                   name: 'year',

@@ -23,6 +23,7 @@ const FROM = 'BTC'
 const TO = 'ETH'
 
 const props = {
+  hasEmail: true,
   logEnterExchange: jest.fn(),
   fetchUser: jest.fn(),
   location: {
@@ -36,6 +37,11 @@ const props = {
 describe('ExchangeScene', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+  })
+  it('renders email required screen correctly', () => {
+    const component = shallow(<ExchangeScene {...props} hasEmail={false} />)
+    const tree = toJson(component)
+    expect(tree).toMatchSnapshot()
   })
   it('renders loading correctly', () => {
     const component = shallow(
