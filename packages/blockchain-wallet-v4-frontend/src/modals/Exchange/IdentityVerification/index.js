@@ -98,7 +98,7 @@ class IdentityVerification extends React.PureComponent {
   }
 
   getStepComponent = step => {
-    const { actions, modalActions, position, total } = this.props
+    const { actions } = this.props
     if (step === STEPS.personal)
       return <Personal handleSubmit={actions.savePersonalData} />
 
@@ -113,15 +113,6 @@ class IdentityVerification extends React.PureComponent {
     if (step === STEPS.verify)
       return (
         <Verify
-          handleSubmit={modalActions.showModal.bind(
-            null,
-            'Onfido',
-            {
-              position: position + 1,
-              total: total + 1
-            },
-            {}
-          )}
           onBack={
             this.steps.mobile
               ? actions.setVerificationStep.bind(null, STEPS.mobile)
@@ -171,11 +162,7 @@ IdentityVerification.defaultProps = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(
-    actions.components.identityVerification,
-    dispatch
-  ),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  actions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 
 const enhance = compose(

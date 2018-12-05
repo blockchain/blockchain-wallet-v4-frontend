@@ -11,6 +11,7 @@ exports[`HighFlow should render correctly 1`] = `
     footer={
       <templatehighflow__Footer>
         <IdentityVerification__BackButton
+          data-e2e="highflowBackButton"
           onClick={[MockFunction]}
         >
           <FormattedMessage
@@ -22,6 +23,7 @@ exports[`HighFlow should render correctly 1`] = `
         <Button
           bold={false}
           capitalize={false}
+          data-e2e="highflowDoneButton"
           disabled={false}
           fullwidth={false}
           height="40px"

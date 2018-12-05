@@ -18,6 +18,7 @@ import {
   IdentityVerificationHeader,
   IdentityVerificationSubHeader
 } from 'components/IdentityVerification'
+import Veriff from '../Veriff'
 
 const Footer = styled.div`
   width: 60%;
@@ -27,6 +28,7 @@ const Footer = styled.div`
 `
 const VerifyWrapper = styled.div`
   display: flex;
+  height: 100%;
   flex-direction: row;
   ${media.mobile`
     flex-direction: column;
@@ -71,47 +73,56 @@ const docMap = {
   )
 }
 
-const Verify = ({ handleSubmit, onBack, supportedDocuments }) => (
+const Verify = ({ handleSubmit, onBack, supportedDocuments, showVeriff }) => (
   <IdentityVerificationForm>
     <FooterShadowWrapper
       fields={
         <VerifyWrapper>
-          <ColLeft>
-            <InputWrapper>
-              <IdentityVerificationHeader>
-                <FormattedMessage
-                  id='identityverification.verify.header'
-                  defaultMessage='Last Step. Verify Your ID'
-                />
-              </IdentityVerificationHeader>
-              <IdentityVerificationImage name='identity-verification' />
-              <IdentityVerificationSubHeader>
-                <FormattedMessage
-                  id='identityverification.verify.message'
-                  defaultMessage='We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.'
-                />
-              </IdentityVerificationSubHeader>
-              <DocumentsWrapper>
-                {map(flip(prop)(docMap), supportedDocuments)}
-              </DocumentsWrapper>
-            </InputWrapper>
-          </ColLeft>
+          {showVeriff && <Veriff />}
+          {!showVeriff && (
+            <ColLeft>
+              <InputWrapper>
+                <IdentityVerificationHeader>
+                  <FormattedMessage
+                    id='identityverification.verify.header'
+                    defaultMessage='Last Step. Verify Your ID'
+                  />
+                </IdentityVerificationHeader>
+                <IdentityVerificationImage name='identity-verification' />
+                <IdentityVerificationSubHeader>
+                  <FormattedMessage
+                    id='identityverification.verify.message'
+                    defaultMessage='We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.'
+                  />
+                </IdentityVerificationSubHeader>
+                <DocumentsWrapper>
+                  {map(flip(prop)(docMap), supportedDocuments)}
+                </DocumentsWrapper>
+              </InputWrapper>
+            </ColLeft>
+          )}
         </VerifyWrapper>
       }
       footer={
         <Footer>
-          <BackButton onClick={onBack}>
+          <BackButton data-e2e='lowflowBackButton' onClick={onBack}>
             <FormattedMessage
               id='identityverification.personal.back'
               defaultMessage='Back'
             />
           </BackButton>
-          <Button nature='primary' onClick={handleSubmit}>
-            <FormattedMessage
-              id='identityverification.personal.continue'
-              defaultMessage='Continue'
-            />
-          </Button>
+          {!showVeriff && (
+            <Button
+              nature='primary'
+              data-e2e='lowflowContinueButton'
+              onClick={handleSubmit}
+            >
+              <FormattedMessage
+                id='identityverification.personal.continue'
+                defaultMessage='Continue'
+              />
+            </Button>
+          )}
         </Footer>
       }
     />
