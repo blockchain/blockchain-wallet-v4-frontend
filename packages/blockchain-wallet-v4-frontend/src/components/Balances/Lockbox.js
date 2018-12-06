@@ -58,7 +58,7 @@ export const CurrencyItem = props => {
       ) : (
         <Link size='12px' weight={300}>
           <FormattedMessage
-            id='components.balances.savecoin'
+            id='components.balances.savecointolockbox'
             defaultMessage='Click here to add {coin} to your Lockbox'
             values={{ coin: props.coin.toUpperCase() }}
           />

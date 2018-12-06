@@ -271,7 +271,7 @@
   "components.alerts.yubikey_enable_success": "2FA (Yubikey) has been successfully enabled",
   "components.alerts.yubikey_verify_error": "Failed to verify Yubikey",
   "components.alerts.yubikey_verify_success": "Yubikey verified",
-  "components.balances.savecoin": "Click here to add {coin} to your Lockbox",
+  "components.balances.savecoin": "Click here to add {coin} to your Blockchain Wallet",
   "components.copyclipboard.copied": "Copied!",
   "components.copyclipboard.copy": "Copy",
   "components.dataerror.archiveaddress": "Archive Address",
