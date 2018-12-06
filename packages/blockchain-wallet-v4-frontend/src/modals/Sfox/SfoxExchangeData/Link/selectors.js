@@ -12,12 +12,8 @@ export const getData = state => {
   const accountHolderFirst = getFormValues(state, 'accountHolderFirst')
   const accountHolderLast = getFormValues(state, 'accountHolderLast')
 
-  const plaidKey = selectors.core.walletOptions
-    .getPlaidKey(state)
-    .getOrElse()
-  const plaidEnv = selectors.core.walletOptions
-    .getPlaidEnv(state)
-    .getOrElse()
+  const plaidKey = selectors.core.walletOptions.getPlaidKey(state).getOrElse()
+  const plaidEnv = selectors.core.walletOptions.getPlaidEnv(state).getOrElse()
   const plaidBaseUrl = selectors.core.walletOptions
     .getWalletHelperUrl(state)
     .getOrElse('https://wallet-helper.blockchain.info') // fallback to production

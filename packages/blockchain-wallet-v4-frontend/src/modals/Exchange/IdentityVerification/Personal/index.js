@@ -55,6 +55,7 @@ class PersonalContainer extends React.PureComponent {
     stateSupported,
     postCode,
     activeField,
+    activeFieldError,
     addressRefetchVisible,
     user,
     supportedCountries,
@@ -81,6 +82,7 @@ class PersonalContainer extends React.PureComponent {
       states={getCountryElements(states)}
       addressRefetchVisible={addressRefetchVisible}
       activeField={activeField}
+      activeFieldError={activeFieldError}
       onAddressSelect={this.selectAddress}
       onCountrySelect={this.onCountryChange}
       onSubmit={handleSubmit}

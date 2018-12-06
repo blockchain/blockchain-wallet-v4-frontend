@@ -5,7 +5,7 @@ import Link from './template'
 import { actions } from 'data'
 import { merge, path, prop, head } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { getData } from './selectors';
+import { getData } from './selectors'
 
 class LinkContainer extends PureComponent {
   state = {
@@ -32,7 +32,11 @@ class LinkContainer extends PureComponent {
       }
       if (e.data.command === 'getBankAccounts' && e.data.msg) {
         this.props.sfoxDataActions.getBankAccounts(e.data.msg)
-        this.setState({ enablePlaid: false, token: e.data.msg, selectBank: true })
+        this.setState({
+          enablePlaid: false,
+          token: e.data.msg,
+          selectBank: true
+        })
       }
     }
     window.addEventListener('message', receiveMessage, false)
@@ -43,7 +47,7 @@ class LinkContainer extends PureComponent {
       addBankManually: false,
       selectBank: false,
       microDeposits: false,
-      microStep: 'welcome',
+      microStep: 'welcome'
     })
     this.props.sfoxDataActions.wipeBankAccounts()
   }
@@ -53,7 +57,7 @@ class LinkContainer extends PureComponent {
     this.props.sfoxFrontendActions.sfoxNotAsked()
   }
 
-  onSetBankAccount = (data) => {
+  onSetBankAccount = data => {
     const bankChoice = merge(data, { token: this.state.token })
     this.props.sfoxFrontendActions.setBankAccount(bankChoice)
   }
@@ -93,7 +97,16 @@ class LinkContainer extends PureComponent {
   }
 
   render () {
-    const { sfoxFrontendActions, modalActions, accounts, bankAccounts, busyStatus, plaidBaseUrl, plaidKey, plaidEnv } = this.props
+    const {
+      sfoxFrontendActions,
+      modalActions,
+      accounts,
+      bankAccounts,
+      busyStatus,
+      plaidBaseUrl,
+      plaidKey,
+      plaidEnv
+    } = this.props
     const { sfoxNotAsked } = sfoxFrontendActions
     const { showModal } = modalActions
     const plaidUrl = `${plaidBaseUrl}/wallet-helper/plaid/#/key/${plaidKey}/env/${plaidEnv}`
@@ -156,4 +169,7 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(LinkContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LinkContainer)

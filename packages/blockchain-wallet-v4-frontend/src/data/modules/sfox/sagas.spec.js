@@ -800,9 +800,11 @@ describe('sfoxSagas', () => {
       saga.next().put(actions.core.data.sfox.sfoxFetchAccounts())
     })
     it('should fetch a buy quote', () => {
-      saga.next().put(actions.core.data.sfox.fetchQuote({
-        quote
-      }))
+      saga.next().put(
+        actions.core.data.sfox.fetchQuote({
+          quote
+        })
+      )
     })
     it('should fetch a sell quote', () => {
       saga.next().put(actions.core.data.sfox.fetchSellQuote({ quote }))
@@ -822,11 +824,7 @@ describe('sfoxSagas', () => {
           .next()
           .throw(error)
           .put(
-            actions.logs.logErrorMessage(
-              logLocation,
-              'sfoxInitialize',
-              error
-            )
+            actions.logs.logErrorMessage(logLocation, 'sfoxInitialize', error)
           )
       })
     })

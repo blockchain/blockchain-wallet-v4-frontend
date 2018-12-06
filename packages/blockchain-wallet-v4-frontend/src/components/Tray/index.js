@@ -30,7 +30,7 @@ const TrayModal = styled(Modal)`
     padding: 60px 40px 60px 60px;
     > span:last-child {
       top: 30px;
-      right: 40px;
+      right: 30px;
       position: absolute;
     }
     @media (max-width: 991px) {
