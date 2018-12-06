@@ -129,7 +129,6 @@ const Payment = props => {
   const prefillCardMax = limits => handlePrefillCardMax(limits)
 
   const isChecked = type => medium === type
-  console.log('payment step', props)
   return (
     <PaymentForm>
       <PaymentColLeft>
