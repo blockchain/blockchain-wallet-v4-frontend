@@ -188,7 +188,17 @@ export default ({ api }) => {
   }
 
   return {
+    defineActionGoal,
+    defineSendBtcGoal,
+    defineReferralGoal,
+    defineDeepLinkGoals,
     defineGoals,
-    runGoals
+    runGoal,
+    runGoals,
+    runKycGoal,
+    runWelcomeGoal,
+    runReferralGoal,
+    runSendBtcGoal,
+    showInitialModal
   }
 }
