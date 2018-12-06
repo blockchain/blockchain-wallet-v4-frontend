@@ -43,8 +43,9 @@ const IdentityVerificationTray = styled(Tray)`
   > div:first-child {
     padding: 20px;
     > span:last-child {
-      top: 18px;
-      right: 12px;
+      top: 0;
+      right: 0;
+      margin: 20px;
     }
   }
   > div:last-child {
@@ -60,6 +61,7 @@ const KycStepIndicator = styled(StepIndicator)`
     display: none;
   }
   > img {
+    margin-left: 0;
     margin-right: 10px;
     height: 32px;
   }
