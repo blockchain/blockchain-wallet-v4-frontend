@@ -150,7 +150,7 @@ export const OrderNote = ({ status }) => {
     case EXPIRED:
       return (
         <FormattedMessage
-          id='components.orderstatus.note.expired'
+          id='components.orderstatus.note.expired_exchange'
           defaultMessage='This exchange has expired as we have still not received your funds. If we receive your funds we will complete your trade. If you require further assistance please contact support.'
         />
       )
