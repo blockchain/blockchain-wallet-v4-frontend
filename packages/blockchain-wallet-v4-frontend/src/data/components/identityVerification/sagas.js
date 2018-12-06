@@ -147,7 +147,7 @@ export default ({ api, coreSagas }) => {
     const steps = yield select(S.getSteps)
     if (activationState === USER_ACTIVATION_STATES.NONE)
       return yield put(A.setVerificationStep(head(steps)))
-    if (mobileVerified) return yield put(A.setVerificationStep(STEPS.verify))
+    if (mobileVerified && !isCoinify) return yield put(A.setVerificationStep(STEPS.verify))
     if (activationState === USER_ACTIVATION_STATES.CREATED)
       return yield put(A.setVerificationStep(STEPS.mobile))
     if (activationState === USER_ACTIVATION_STATES.ACTIVE) {
