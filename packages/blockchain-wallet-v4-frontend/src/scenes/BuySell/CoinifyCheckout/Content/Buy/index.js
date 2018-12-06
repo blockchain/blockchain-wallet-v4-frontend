@@ -17,7 +17,7 @@ class CoinifyBuyContainer extends React.Component {
 
   componentDidMount () {
     this.props.coinifyActions.initializeCheckoutForm('buy')
-    this.props.coinifyActions.fetchData()
+    this.props.coinifyActions.fetchCoinifyData()
     if (this.props.step === 'isx') {
       this.props.coinifyActions.coinifyNextCheckoutStep('checkout')
     }
