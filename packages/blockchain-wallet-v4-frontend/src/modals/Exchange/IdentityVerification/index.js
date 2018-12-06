@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { keys, pickBy } from 'ramda'
+import { contains, keys, pickBy } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
 import { actions, model } from 'data'
@@ -105,9 +105,6 @@ const stepMap = {
   )
 }
 
-const filterSteps = smsVerified => (stepText, step) =>
-  step !== STEPS.mobile || !smsVerified
-
 class IdentityVerification extends React.PureComponent {
   state = { show: false }
 
@@ -115,12 +112,12 @@ class IdentityVerification extends React.PureComponent {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
-    const { actions, smsVerified } = this.props
-    actions.initializeStep()
-    this.steps = pickBy(filterSteps(smsVerified), stepMap)
+    const { isCoinify, desiredTier } = this.props
+    this.props.actions.initializeVerification(isCoinify, desiredTier)
   }
 
-  steps = {}
+  getSteps = () =>
+    pickBy((_, step) => contains(step, this.props.steps), stepMap)
 
   handleClose = () => {
     this.setState({ show: false })
@@ -130,13 +127,18 @@ class IdentityVerification extends React.PureComponent {
   getStepComponent = step => {
     const { actions, modalActions, position, total } = this.props
     if (step === STEPS.personal)
-      return <Personal handleSubmit={actions.savePersonalData} />
+      return (
+        <Personal
+          handleSubmit={actions.savePersonalData}
+          onBack={actions.goToPrevStep}
+        />
+      )
 
     if (step === STEPS.mobile)
       return (
         <VerifyMobile
           handleSubmit={actions.verifySmsNumber}
-          onBack={actions.setVerificationStep.bind(null, STEPS.personal)}
+          onBack={actions.goToPrevStep}
         />
       )
 
@@ -152,11 +154,7 @@ class IdentityVerification extends React.PureComponent {
             },
             {}
           )}
-          onBack={
-            this.steps.mobile
-              ? actions.setVerificationStep.bind(null, STEPS.mobile)
-              : actions.setVerificationStep.bind(null, STEPS.personal)
-          }
+          onBack={actions.goToPrevStep}
         />
       )
   }
@@ -182,7 +180,7 @@ class IdentityVerification extends React.PureComponent {
               flexEnd
               maxWidth='none'
               step={step}
-              stepMap={this.steps}
+              stepMap={this.getSteps()}
             />
           </HeaderWrapper>
         </StepHeader>

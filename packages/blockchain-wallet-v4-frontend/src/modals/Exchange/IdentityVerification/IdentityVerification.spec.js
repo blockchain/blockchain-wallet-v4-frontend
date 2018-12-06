@@ -15,6 +15,7 @@ import identityVerificationReducer from 'data/components/identityVerification/re
 import {
   getSupportedCountries,
   getStates,
+  getSteps,
   getVerificationStep,
   getSmsStep
 } from 'data/components/identityVerification/selectors'
@@ -114,6 +115,7 @@ getSupportedCountries.mockImplementation(() =>
   Remote.Success(SUPPORTED_COUNTRIES)
 )
 getStates.mockImplementation(() => Remote.Success([]))
+getSteps.mockReturnValue(['personal', 'mobile', 'verify'])
 
 profileSagas.createUser = jest.fn()
 
