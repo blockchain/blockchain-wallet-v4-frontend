@@ -86,7 +86,8 @@ const FirstStep = props => {
     handleToToggle,
     error,
     handleSubmit,
-    submit
+    submit,
+    excludeLockbox
   } = props
   const amountActive = activeField === 'amount'
   const disableLockboxSend =
@@ -122,6 +123,7 @@ const FirstStep = props => {
             component={SelectBoxXlmAddresses}
             includeAll={false}
             validate={[required]}
+            excludeLockbox={excludeLockbox}
           />
         </FormItem>
       </FormGroup>

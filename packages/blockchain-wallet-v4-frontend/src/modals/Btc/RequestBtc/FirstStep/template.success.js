@@ -64,7 +64,8 @@ const FirstStep = props => {
     receiveAddress,
     handleClickQRCode,
     handleOpenLockbox,
-    importedAddresses
+    importedAddresses,
+    excludeLockbox
   } = props
 
   return (
@@ -160,6 +161,7 @@ const FirstStep = props => {
           <Field
             name='to'
             component={SelectBoxBtcAddresses}
+            excludeLockbox={excludeLockbox}
             includeAll={false}
             validate={[required]}
           />
