@@ -158,8 +158,8 @@ const getButton = (status, close) => {
         >
           <Button nature='primary' size='13px' weight={300}>
             <FormattedMessage
-              id='modals.exchangedetails.refund'
-              defaultMessage='Request a refund'
+              id='modals.exchangedetails.support'
+              defaultMessage='Contact Support'
             />
           </Button>
         </Link>
