@@ -59,7 +59,7 @@ const Addresses = styled.div`
   margin-left: 0px;
   margin-right: 15px;
   @media (min-width: 1200px) {
-    width: 360px;
+    width: 300px;
   }
 `
 const Status = styled.div`
