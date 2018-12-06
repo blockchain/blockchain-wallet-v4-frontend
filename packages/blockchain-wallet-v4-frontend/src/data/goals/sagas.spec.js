@@ -1,9 +1,18 @@
 import { testSaga } from 'redux-saga-test-plan'
 
-import { actions, selectors } from 'data'
+import { Remote } from 'blockchain-wallet-v4/src'
+import * as C from 'services/AlertService'
+import * as selectors from '../selectors'
+import * as actions from '../actions'
+import { model } from 'data'
 import goalsSagas from './sagas'
+import { getAllBalances } from 'data/balance/sagas'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
+jest.mock('data/balance/sagas', () => ({
+  getBtcBalance: jest.fn(),
+  getAllBalances: jest.fn()
+}))
 const api = {
   getWalletNUsers: jest.fn()
 }
@@ -23,6 +32,8 @@ describe('goals sagas', () => {
     defineReferralGoal
   } = goalsSagas({ api })
   const mathCopy = global.Math
+  const mockGoalId = '4h96hsvbcj'
+  const mockLogLocation = 'goals/sagas'
 
   beforeAll(() => {
     const mockMath = Object.create(global.Math)
@@ -124,6 +135,51 @@ describe('goals sagas', () => {
     })
   })
 
+  describe('defineActionGoal saga', () => {
+    it('should save action goal and route to /wallet', () => {
+      const mockUrlEncoded =
+        'eyJuYW1lIjoiL29wZW4vYWN0aW9uIiwiZGF0YSI6Ij9uYW1lPWZha2VBY3Rpb24mZGF0YT1pZGsifQ=='
+      const saga = testSaga(defineActionGoal, mockUrlEncoded, '')
+
+      saga
+        .next()
+        .put(
+          actions.goals.saveGoal('/open/action', '?name=fakeAction&data=idk')
+        )
+        .next()
+        .put(actions.router.push('/wallet'))
+        .next()
+        .isDone()
+    })
+  })
+
+  describe('defineSendBtcGoal saga', () => {
+    // btc/payment_request
+    // ?address=12ms1QW9SNobD5CmBN59zWxcMKs1spB86s&amount=0.00275134&message=test
+    it('should save payment goal and route to /wallet', () => {
+      const mockPathnameEncoded = 'bitcoin%3A12ms1QW9SNobD5CmBN59zWxcMKs1spB86s'
+      const mockSearchEncoded = '%3Famount%3D0.00275134%26message%3Dtest'
+      const saga = testSaga(
+        defineSendBtcGoal,
+        mockPathnameEncoded,
+        mockSearchEncoded
+      )
+
+      saga
+        .next()
+        .put(
+          actions.goals.saveGoal('payment', {
+            address: '12ms1QW9SNobD5CmBN59zWxcMKs1spB86s',
+            amount: 0.00275134,
+            description: 'test'
+          })
+        )
+        .next()
+        .put(actions.router.push('/wallet'))
+        .next()
+        .isDone()
+    })
+  })
   describe('defineReferralGoal saga', () => {
     const mockSearch =
       '?campaign=sunriver&campaign_code=123&campaign_email=test@test.com'
@@ -210,6 +266,111 @@ describe('goals sagas', () => {
         saga.next().call(runKycGoal, mockGoal)
         saga.next().isDone()
       })
+    })
+  })
+
+  describe('runReferralGoal saga', () => {
+    const mockGoalData = { name: 'sunriver' }
+    const saga = testSaga(runReferralGoal, {
+      id: mockGoalId,
+      data: mockGoalData
+    })
+
+    it('should delete goal', () => {
+      saga.next().put(actions.goals.deleteGoal(mockGoalId))
+    })
+
+    it('should add initial modal and set campaign', () => {
+      saga
+        .next()
+        .put(actions.goals.addInitialModal('sunriver', 'SunRiverWelcome'))
+        .next()
+        .put(actions.modules.profile.setCampaign(mockGoalData))
+        .next()
+        .isDone()
+    })
+  })
+
+  describe('runWelcomeGoal saga', () => {
+    describe('should not show welcome modal if not first login', () => {
+      const saga = testSaga(runWelcomeGoal, {
+        id: mockGoalId,
+        data: { firstLogin: false }
+      })
+
+      it('should delete goal and show login success', () => {
+        saga
+          .next()
+          .put(actions.goals.deleteGoal(mockGoalId))
+          .next()
+          .put(
+            actions.logs.logInfoMessage(
+              mockLogLocation,
+              'runWelcomeGoal',
+              'login success'
+            )
+          )
+          .next()
+          .put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
+          .next()
+          .isDone()
+      })
+    })
+
+    describe('should show welcome modal on first login', () => {
+      const saga = testSaga(runWelcomeGoal, {
+        id: mockGoalId,
+        data: { firstLogin: true }
+      })
+
+      it('should delete goal and show welcome modal', () => {
+        saga
+          .next()
+          .put(actions.goals.deleteGoal(mockGoalId))
+          .next()
+          .call(api.getWalletNUsers)
+          .next({ values: [{ y: 26000000 }] })
+          .put(
+            actions.goals.addInitialModal('welcome', 'Welcome', {
+              walletMillions: 26
+            })
+          )
+          .next()
+          .isDone()
+      })
+    })
+  })
+
+  describe('runKycGoal saga', () => {
+    it('should not show modal if it has already been seen', () => {
+      const saga = testSaga(runKycGoal, { id: mockGoalId })
+
+      saga
+        .next()
+        .put(actions.goals.deleteGoal(mockGoalId))
+        .next()
+        .select(selectors.preferences.getShowKycGetStarted)
+        .next(false)
+        .isDone()
+    })
+
+    it('should show modal if wallet has funds and kyc not completed', () => {
+      const saga = testSaga(runKycGoal, { id: mockGoalId })
+      selectors.modules.profile = { getUserKYCState: () => Remote.of(false) }
+
+      saga
+        .next()
+        .put(actions.goals.deleteGoal(mockGoalId))
+        .next()
+        .select(selectors.preferences.getShowKycGetStarted)
+        .next(true)
+        .call(getAllBalances)
+        .next({ btc: 33234, eth: 534 })
+        .select(selectors.modules.profile.getUserKYCState)
+        .next(Remote.of(model.profile.KYC_STATES.NONE))
+        .put(actions.goals.addInitialModal('swap', 'SwapGetStarted'))
+        .next()
+        .isDone()
     })
   })
 
