@@ -182,11 +182,7 @@ class VerifyEmail extends Component {
             </PartnerSubHeader>
             {ui.create === 'enter_email_code' ? (
               <EmailInput>
-                <Text
-                  size='14px'
-                  weight={400}
-                  style={{ 'margin-bottom': '5px' }}
-                >
+                <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
                     id='sfoxexchangedata.create.verifyemail.code'
                     defaultMessage='We emailed a verification code to {email}'
@@ -206,11 +202,7 @@ class VerifyEmail extends Component {
               </EmailInput>
             ) : (
               <EmailInput>
-                <Text
-                  size='14px'
-                  weight={400}
-                  style={{ 'margin-bottom': '5px' }}
-                >
+                <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
                     id='sfoxexchangedata.create.verifyemail.confirm'
                     defaultMessage='Confirm Email:'

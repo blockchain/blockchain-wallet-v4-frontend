@@ -52,6 +52,7 @@ const BannerContainer = styled.div`
 `
 
 const RequestXlm = ({
+  excludeLockbox,
   handleSubmit,
   handleOpenLockbox,
   address,
@@ -86,6 +87,7 @@ const RequestXlm = ({
           component={SelectBoxXlmAddresses}
           includeAll={false}
           validate={[required]}
+          excludeLockbox
         />
       </FormItem>
     </FormGroup>

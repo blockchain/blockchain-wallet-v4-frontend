@@ -49,6 +49,8 @@ const ButtonContainer = styled.div`
     }
   `};
 `
+const FaqWrapper = styled.div``
+
 const OrText = styled.p`
   color: rgba(151, 151, 151, 0.5);
   margin: 10px 0px 15px 0px;
@@ -124,10 +126,23 @@ const faqQuestions = [
       />
     ),
     answer: (
-      <FormattedMessage
-        id='scenes.buysell.sfoxsignup.link.helper1.answer'
-        defaultMessage='Yes, you can change your bank account by emailing support@sfox.com. Make sure you mention Blockchain in the subject and include the information you want to change.'
-      />
+      <FaqWrapper>
+        <FormattedMessage
+          id='scenes.buysell.sfoxsignup.link.helper1.answer1'
+          defaultMessage='Yes, you can change your bank account by emailing'
+        />
+        <span>&nbsp;</span>
+        <Link href='mailto:support@sfox.com' size='13px' weight={200}>
+          <FormattedMessage
+            id='scenes.buysell.sfoxsignup.link.helper1.link'
+            defaultMessage='support@sfox.com'
+          />
+        </Link>
+        <FormattedMessage
+          id='scenes.buysell.sfoxsignup.link.helper1.answer2'
+          defaultMessage='. Make sure you mention Blockchain in the subject and include the information you want to change.'
+        />
+      </FaqWrapper>
     )
   },
   {
@@ -139,8 +154,8 @@ const faqQuestions = [
     ),
     answer: (
       <FormattedMessage
-        id='scenes.buysell.sfoxsignup.link.helper2.answer'
-        defaultMessage='Adding your account details manually. In order to verify these details belong to you, SFOX sends 2 micro-deposits to your account. This process can take up to 5 days in itself, so we recommend signing directly into your bank if you would like to buy & sell immediately.'
+        id='scenes.buysell.sfoxsignup.link.helper2.answer1'
+        defaultMessage='Adding your account details manually takes longer. In order to verify these details belong to you, SFOX sends 2 micro-deposits to your account. This process can take up to 5 days in itself, so we recommend signing directly into your bank if you would like to buy & sell immediately.'
       />
     )
   }
@@ -152,7 +167,9 @@ const BankLink = props => {
     enablePlaid,
     bankAccounts,
     onSetBankAccount,
-    ui,
+    microDeposits,
+    selectBank,
+    addBankManually,
     toggleManual,
     handleSubmit,
     invalid,
@@ -176,16 +193,16 @@ const BankLink = props => {
 
   const titleHelper = () => {
     switch (true) {
-      case ui.microDeposits:
+      case microDeposits:
         return null
-      case ui.selectBank:
+      case selectBank:
         return (
           <FormattedMessage
             id='sfoxexchangedata.link.title2'
             defaultMessage='Select Your Account'
           />
         )
-      case !ui.selectBank:
+      case !selectBank:
         return (
           <FormattedMessage
             id='sfoxexchangedata.link.title'
@@ -197,16 +214,16 @@ const BankLink = props => {
 
   const subtitleHelper = () => {
     switch (true) {
-      case ui.microDeposits:
+      case microDeposits:
         return null
-      case ui.selectBank:
+      case selectBank:
         return (
           <FormattedMessage
             id='sfoxexchangedata.link.subtitle2'
             defaultMessage="Please select which bank account you'd like to have synced with your SFOX profile."
           />
         )
-      case !ui.selectBank:
+      case !selectBank:
         return (
           <FormattedMessage
             id='sfoxexchangedata.link.subtitle1'
@@ -217,7 +234,7 @@ const BankLink = props => {
   }
 
   const bankHelper = () => {
-    if (ui.toggleManual) {
+    if (addBankManually) {
       return (
         <AddManually
           handleFullName={handleFullName}
@@ -236,7 +253,7 @@ const BankLink = props => {
           handleNameChange={onNameChange}
         />
       )
-    } else if (ui.microDeposits) {
+    } else if (microDeposits) {
       return <MicroDeposits onStep={microStep} />
     } else {
       return (
@@ -260,14 +277,14 @@ const BankLink = props => {
   }
 
   const helpersHelper = () => {
-    if (ui.selectBank) {
-      return <React.Fragment>{renderFaq(selectBankQuestions)}</React.Fragment>
+    if (selectBank) {
+      return <Fragment>{renderFaq(selectBankQuestions)}</Fragment>
     }
-    return <React.Fragment>{renderFaq(faqQuestions)}</React.Fragment>
+    return <Fragment>{renderFaq(faqQuestions)}</Fragment>
   }
 
   const buttonHelper = () => {
-    if (ui.microDeposits) {
+    if (microDeposits) {
       if (microStep === 'amounts') {
         return (
           <Button
@@ -336,7 +353,7 @@ const BankLink = props => {
             )}
           </Button>
         )}
-        {ui.toggleManual && !linkError ? (
+        {addBankManually && !linkError ? (
           <GoBackLink onClick={toggleManual}>
             <FormattedMessage
               id='sfoxexchangedata.link.goback'

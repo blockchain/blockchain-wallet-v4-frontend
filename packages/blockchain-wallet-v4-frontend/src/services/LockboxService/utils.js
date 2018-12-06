@@ -386,7 +386,7 @@ export const generateXlmAccountMDEntry = (deviceName, publicKey) => ({
 
 /**
  * Creates and returns a new BTC/BCH app connection
- * @param {String} app - The app to connect to (BTC, DASHBOARD, etc)
+ * @param {String} app - The app to connect to (BTC or BCH)
  * @param {String} deviceType - Either 'ledger' or 'blockchain'
  * @param {TransportU2F<Btc>} transport - Transport with BTC/BCH as scrambleKey
  * @returns {Btc} Returns a BTC/BCH connection

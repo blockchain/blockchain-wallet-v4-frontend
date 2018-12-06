@@ -19,6 +19,7 @@ export default {
   'checkmark-in-circle': '\\e95c',
   'checkmark-in-circle-filled': '\\e90b',
   close: '\\e93f',
+  'close-bold': '\\e90f',
   'close-filled': '\\e90d',
   'close-in-circle': '\\e97a',
   'comment-alt-regular': '\\e982',

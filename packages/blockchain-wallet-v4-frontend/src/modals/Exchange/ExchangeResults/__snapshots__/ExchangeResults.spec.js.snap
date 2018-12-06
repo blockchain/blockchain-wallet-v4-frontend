@@ -103,8 +103,8 @@ exports[`Exchange Results EXPIRED renders correctly 1`] = `
         weight={300}
       >
         <FormattedMessage
-          defaultMessage="Request a refund"
-          id="modals.exchangedetails.refund"
+          defaultMessage="Contact Support"
+          id="modals.exchangedetails.support"
           values={Object {}}
         />
       </Button>

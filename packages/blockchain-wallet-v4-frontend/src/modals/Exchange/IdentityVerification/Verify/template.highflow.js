@@ -4,13 +4,10 @@ import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import styled from 'styled-components'
 import QRCodeReact from 'qrcode.react'
 
-import media from 'services/ResponsiveService'
-
 import { Button, Link, Text } from 'blockchain-info-components'
 import { FooterShadowWrapper } from 'components/Form'
 import {
   BackButton,
-  ColLeft,
   IdentityVerificationForm,
   InputWrapper,
   IdentityVerificationHeader,
@@ -25,13 +22,6 @@ const ColumnSubHeader = styled(IdentityVerificationSubHeader)`
   flex-direction: column;
   align-items: flex-start;
   ustify-content: flex-start;
-`
-const VerifyWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  ${media.mobile`
-    flex-direction: column;
-  `};
 `
 const CenterWrapper = styled.div`
   align-self: center;
@@ -58,87 +48,83 @@ class Verify extends React.PureComponent {
           fields={
             <MediaContextConsumer>
               {({ mobile }) => (
-                <VerifyWrapper>
-                  <ColLeft>
-                    <InputWrapper>
-                      <IdentityVerificationHeader>
-                        <FormattedMessage
-                          id='identityverification.highflow.header'
-                          defaultMessage='Last Step - continue your verification on mobile'
-                        />
-                      </IdentityVerificationHeader>
-                      <IdentityVerificationImage name='identity-verification' />
-                      <ColumnSubHeader>
-                        <Text weight={300}>
-                          <FormattedMessage
-                            id='identityverification.highflow.message'
-                            defaultMessage='We need you to continue your verification on our mobile app. Follow these steps:'
-                          />
-                        </Text>
-                        <Text size='14px' weight={300}>
-                          <FormattedMessage
-                            id='identityverification.highflow.sentlink'
-                            defaultMessage='*We’ve also sent you an email with these instructions to {email}'
-                            values={{ email }}
-                          />
-                        </Text>
-                        <br />
-                        {mobile && (
-                          <React.Fragment>
-                            <CenterWrapper>
-                              <Link href={deeplink} target='_blank'>
-                                <Button nature='primary'>
-                                  <FormattedMessage
-                                    id='identityverification.highflow.continueonmobile'
-                                    defaultMessage='Continue on mobile'
-                                  />
-                                </Button>
-                              </Link>
-                            </CenterWrapper>
-                            <br />
-                            <Text weight={300}>
-                              <FormattedHTMLMessage
-                                id='identityverification.highflow.followlink'
-                                defaultMessage='1 - <b>Follow the link above</b> to log into or download our mobile app.'
+                <InputWrapper>
+                  <IdentityVerificationHeader>
+                    <FormattedMessage
+                      id='identityverification.highflow.header'
+                      defaultMessage='Last Step - continue your verification on mobile'
+                    />
+                  </IdentityVerificationHeader>
+                  <IdentityVerificationImage name='identity-verification' />
+                  <ColumnSubHeader>
+                    <Text weight={300}>
+                      <FormattedMessage
+                        id='identityverification.highflow.message'
+                        defaultMessage='We need you to continue your verification on our mobile app. Follow these steps:'
+                      />
+                    </Text>
+                    <Text size='14px' weight={300}>
+                      <FormattedMessage
+                        id='identityverification.highflow.sentlink'
+                        defaultMessage='*We’ve also sent you an email with these instructions to {email}'
+                        values={{ email }}
+                      />
+                    </Text>
+                    <br />
+                    {mobile && (
+                      <React.Fragment>
+                        <CenterWrapper>
+                          <Link href={deeplink} target='_blank'>
+                            <Button nature='primary'>
+                              <FormattedMessage
+                                id='identityverification.highflow.continueonmobile'
+                                defaultMessage='Continue on mobile'
                               />
-                            </Text>
-                            <br />
-                            <Text weight={300}>
-                              <FormattedHTMLMessage
-                                id='identityverification.highflow.gotodashboard'
-                                defaultMessage='2 - Continue your verification from the <b>Dashboard</b> (you can also continue from <b>Exchange</b>).'
-                              />
-                            </Text>
-                          </React.Fragment>
-                        )}
-                        {!mobile && (
-                          <QrWrapper>
-                            <Text weight={300}>
-                              <FormattedHTMLMessage
-                                id='identityverification.highflow.scanqr'
-                                defaultMessage='1 - <b>Scan this QR code</b> with your phone to log into this wallet or download our mobile app. '
-                              />
-                              <br />
-                              <br />
-                              <FormattedHTMLMessage
-                                id='identityverification.highflow.gotodashboard'
-                                defaultMessage='2 - Continue your verification from the <b>Dashboard</b> (you can also continue from <b>Exchange</b>).'
-                              />
-                            </Text>
-                            <QrCode value={deeplink} size={108} />
-                          </QrWrapper>
-                        )}
+                            </Button>
+                          </Link>
+                        </CenterWrapper>
                         <br />
                         <Text weight={300}>
                           <FormattedHTMLMessage
-                            id='identityverification.highflow.getidready'
-                            defaultMessage='3 - Get your <b>Identity documents</b> (e.g. Passport) and be ready to take a selfie video. '
+                            id='identityverification.highflow.followlink'
+                            defaultMessage='1 - <b>Follow the link above</b> to log into or download our mobile app.'
                           />
                         </Text>
-                      </ColumnSubHeader>
-                    </InputWrapper>
-                  </ColLeft>
-                </VerifyWrapper>
+                        <br />
+                        <Text weight={300}>
+                          <FormattedHTMLMessage
+                            id='identityverification.highflow.gotodashboard'
+                            defaultMessage='2 - Continue your verification from the <b>Dashboard</b> (you can also continue from <b>Exchange</b>).'
+                          />
+                        </Text>
+                      </React.Fragment>
+                    )}
+                    {!mobile && (
+                      <QrWrapper>
+                        <Text weight={300}>
+                          <FormattedHTMLMessage
+                            id='identityverification.highflow.scanqr'
+                            defaultMessage='1 - <b>Scan this QR code</b> with your phone to log into this wallet or download our mobile app. '
+                          />
+                          <br />
+                          <br />
+                          <FormattedHTMLMessage
+                            id='identityverification.highflow.gotodashboard'
+                            defaultMessage='2 - Continue your verification from the <b>Dashboard</b> (you can also continue from <b>Exchange</b>).'
+                          />
+                        </Text>
+                        <QrCode value={deeplink} size={108} />
+                      </QrWrapper>
+                    )}
+                    <br />
+                    <Text weight={300}>
+                      <FormattedHTMLMessage
+                        id='identityverification.highflow.getidready'
+                        defaultMessage='3 - Get your <b>Identity documents</b> (e.g. Passport) and be ready to take a selfie video. '
+                      />
+                    </Text>
+                  </ColumnSubHeader>
+                </InputWrapper>
               )}
             </MediaContextConsumer>
           }

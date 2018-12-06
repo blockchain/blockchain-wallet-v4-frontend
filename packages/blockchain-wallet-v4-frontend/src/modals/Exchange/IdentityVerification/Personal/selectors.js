@@ -1,5 +1,5 @@
 import { formValueSelector } from 'redux-form'
-import { compose, lift, prop, test } from 'ramda'
+import { compose, lift, prop, test, contains, keys, path } from 'ramda'
 
 import { selectors, model } from 'data'
 
@@ -16,6 +16,8 @@ const {
 
 const formValSelector = formValueSelector(PERSONAL_FORM)
 const activeFieldSelector = selectors.form.getActiveField(PERSONAL_FORM)
+const formErrorSelector = selectors.form.getFormSyncErrors(PERSONAL_FORM)
+const formMetaSelector = selectors.form.getFormMeta(PERSONAL_FORM)
 
 const formatUserData = ({
   state,
@@ -69,20 +71,26 @@ const getCountryData = state =>
     getStates(state)
   )
 
-export const getData = state => ({
-  initialCountryCode: selectors.core.settings
-    .getCountryCode(state)
-    .getOrElse(null),
-  countryCode: prop('code', formValSelector(state, 'country')),
-  postCode: formValSelector(state, 'postCode'),
-  countryAndStateSelected: isCountryAndStateSelected(state),
-  stateSupported: stateSupported(state),
-  countryData: getCountryData(state),
-  activeField: activeFieldSelector(state),
-  userData: compose(
-    lift(formatUserData),
-    getUserData
-  )(state),
-  coinifyUserCountry: getCoinifyUserCountry(state),
-  pathName: selectors.router.getPathname(state)
-})
+export const getData = state => {
+  const activeField = activeFieldSelector(state)
+  return {
+    initialCountryCode: selectors.core.settings
+      .getCountryCode(state)
+      .getOrElse(null),
+    countryCode: prop('code', formValSelector(state, 'country')),
+    postCode: formValSelector(state, 'postCode'),
+    countryAndStateSelected: isCountryAndStateSelected(state),
+    stateSupported: stateSupported(state),
+    countryData: getCountryData(state),
+    activeField,
+    activeFieldError:
+      path([activeField, 'touched'], formMetaSelector(state)) &&
+      contains(activeField, keys(formErrorSelector(state))),
+    userData: compose(
+      lift(formatUserData),
+      getUserData
+    )(state),
+    coinifyUserCountry: getCoinifyUserCountry(state),
+    pathName: selectors.router.getPathname(state)
+  }
+}
