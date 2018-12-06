@@ -101,8 +101,8 @@ exports[`Exchange Results EXPIRED renders correctly 1`] = `
         weight={300}
       >
         <FormattedMessage
-          defaultMessage="Request a refund"
-          id="modals.exchangedetails.refund"
+          defaultMessage="Contact Support"
+          id="modals.exchangedetails.support"
           values={Object {}}
         />
       </Button>
@@ -203,7 +203,7 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
     >
       <FormattedMessage
         defaultMessage="Close"
-        id="modals.exchangedetails.close"
+        id="modals.exchange.exchangeresults.close"
         values={Object {}}
       />
     </Button>
@@ -330,7 +330,7 @@ exports[`Exchange Results FINISHED renders correctly 1`] = `
     >
       <FormattedMessage
         defaultMessage="Close"
-        id="modals.exchangedetails.close"
+        id="modals.exchange.exchangeresults.close"
         values={Object {}}
       />
     </Button>
@@ -456,7 +456,7 @@ exports[`Exchange Results PENDING_DEPOSIT renders correctly 1`] = `
     >
       <FormattedMessage
         defaultMessage="Close"
-        id="modals.exchangedetails.close"
+        id="modals.exchange.exchangeresults.close"
         values={Object {}}
       />
     </Button>
@@ -582,7 +582,7 @@ exports[`Exchange Results PENDING_EXECUTION renders correctly 1`] = `
     >
       <FormattedMessage
         defaultMessage="Close"
-        id="modals.exchangedetails.close"
+        id="modals.exchange.exchangeresults.close"
         values={Object {}}
       />
     </Button>
@@ -680,7 +680,7 @@ exports[`Exchange Results PENDING_REFUND renders correctly 1`] = `
     >
       <FormattedMessage
         defaultMessage="Close"
-        id="modals.exchangedetails.close"
+        id="modals.exchange.exchangeresults.close"
         values={Object {}}
       />
     </Button>
@@ -806,7 +806,7 @@ exports[`Exchange Results PENDING_WITHDRAWAL renders correctly 1`] = `
     >
       <FormattedMessage
         defaultMessage="Close"
-        id="modals.exchangedetails.close"
+        id="modals.exchange.exchangeresults.close"
         values={Object {}}
       />
     </Button>
@@ -904,7 +904,7 @@ exports[`Exchange Results REFUNDED renders correctly 1`] = `
     >
       <FormattedMessage
         defaultMessage="Close"
-        id="modals.exchangedetails.close"
+        id="modals.exchange.exchangeresults.close"
         values={Object {}}
       />
     </Button>

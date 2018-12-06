@@ -59,7 +59,8 @@ const RequestBch = props => {
     receiveAddress,
     handleOpenLockbox,
     legacyAddress,
-    type
+    type,
+    excludeLockbox
   } = props
 
   return (
@@ -82,7 +83,7 @@ const RequestBch = props => {
         <FormItem>
           <FormLabel for='to'>
             <FormattedMessage
-              id='modals.requestbitcoin.firststep.to'
+              id='modals.requestbch.firststep.to'
               defaultMessage='Receive to:'
             />
           </FormLabel>
@@ -90,6 +91,7 @@ const RequestBch = props => {
             name='to'
             coin='BCH'
             component={SelectBoxBchAddresses}
+            excludeLockbox={excludeLockbox}
             includeAll={false}
             validate={[required]}
           />

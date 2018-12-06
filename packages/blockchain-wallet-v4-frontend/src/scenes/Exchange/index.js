@@ -10,6 +10,7 @@ import media from 'services/ResponsiveService'
 import GetStarted from './GetStarted'
 import Exchange from './ExchangeContainer'
 import DataError from 'components/DataError'
+import EmailRequired from 'components/EmailRequired'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -55,7 +56,10 @@ export class ExchangeScene extends React.PureComponent {
   }
 
   render () {
-    const { verified, location } = this.props
+    const { verified, hasEmail, location } = this.props
+
+    if (!hasEmail) return <EmailRequired />
+
     return verified.cata({
       Success: verified => (
         <Wrapper>

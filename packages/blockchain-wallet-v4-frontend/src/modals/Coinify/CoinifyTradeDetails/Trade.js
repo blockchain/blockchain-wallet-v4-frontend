@@ -63,7 +63,7 @@ const Trade = ({ trade, close, status, subscriptions }) => {
         </Text>
         <TableTitle size='13px' weight={400}>
           <FormattedMessage
-            id='orderdetails.orderdetails'
+            id='coinifytradedetails.orderdetails.orderdetails'
             defaultMessage='Order Details'
           />
         </TableTitle>
@@ -71,7 +71,7 @@ const Trade = ({ trade, close, status, subscriptions }) => {
           <OrderDetailsRow>
             <Text size='13px' weight={300}>
               <FormattedMessage
-                id='orderdetails.coinifytradeid'
+                id='coinifytradedetails.orderdetails.coinifytradeid'
                 defaultMessage='Coinify Trade ID'
               />
             </Text>
@@ -80,7 +80,7 @@ const Trade = ({ trade, close, status, subscriptions }) => {
           <OrderDetailsRow>
             <Text size='13px' weight={300}>
               <FormattedMessage
-                id='orderdetails.date'
+                id='coinifytradedetails.orderdetails.date'
                 defaultMessage='Date Initialized'
               />
             </Text>
@@ -92,14 +92,14 @@ const Trade = ({ trade, close, status, subscriptions }) => {
             {trade.isBuy ? (
               <Text size='13px' weight={300}>
                 <FormattedMessage
-                  id='orderdetails.amounttopurchase'
+                  id='coinifytradedetails.orderdetails.amounttopurchase'
                   defaultMessage='Bitcoin Purchased'
                 />
               </Text>
             ) : (
               <Text size='13px' weight={300}>
                 <FormattedMessage
-                  id='orderdetails.amounttosell'
+                  id='coinifytradedetails.orderdetails.amounttosell'
                   defaultMessage='Bitcoin Sold'
                 />
               </Text>
@@ -111,7 +111,7 @@ const Trade = ({ trade, close, status, subscriptions }) => {
         </StyledOrderDetailsTable>
         <TableTitle size='13px' weight={400}>
           <FormattedMessage
-            id='orderdetails.payoutdetails'
+            id='coinifytradedetails.orderdetails.payoutdetails'
             defaultMessage='Payout Details'
           />
         </TableTitle>
@@ -120,7 +120,7 @@ const Trade = ({ trade, close, status, subscriptions }) => {
             <OrderDetailsRow>
               <Text size='13px' weight={300}>
                 <FormattedMessage
-                  id='orderdetails.bankaccount'
+                  id='coinifytradedetails.orderdetails.bankaccount'
                   defaultMessage='Bank Account'
                 />
               </Text>
@@ -133,14 +133,14 @@ const Trade = ({ trade, close, status, subscriptions }) => {
             {trade.isBuy ? (
               <Text size='13px' weight={300}>
                 <FormattedMessage
-                  id='orderdetails.totalcost'
+                  id='coinifytradedetails.orderdetails.totalcost'
                   defaultMessage='Total Cost'
                 />
               </Text>
             ) : (
               <Text size='13px' weight={300}>
                 <FormattedMessage
-                  id='orderdetails.totaltobereceived'
+                  id='coinifytradedetails.orderdetails.totaltobereceived'
                   defaultMessage='Total To Be Received'
                 />
               </Text>
@@ -153,7 +153,7 @@ const Trade = ({ trade, close, status, subscriptions }) => {
         {isPendingSell && (
           <Text size='12px' weight={300}>
             <FormattedMessage
-              id='orderdetails.footnote'
+              id='coinifytradedetails.orderdetails.footnote'
               defaultMessage='*Please note: depending on your bank’s tranfers policies, you will see the funds reflected in your account within 1-2 days from the transfer. '
             />
           </Text>

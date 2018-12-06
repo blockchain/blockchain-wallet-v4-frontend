@@ -16,20 +16,12 @@ export const getData = (state, ownProps) =>
         const announcement = announcements[ownProps.alertArea]
         const cachedState =
           announcementCached && announcementCached[announcement.id]
-        const isCacheLoaded = announcementCached !== undefined
 
         return {
           announcements: announcements,
-          collapsed:
-            cachedState && cachedState.collapsed
-              ? cachedState.collapsed
-              : false,
+          collapsed: cachedState && cachedState.collapsed,
           language: language,
-          showAnnounce: !isCacheLoaded
-            ? false
-            : announcementCached[announcement.id]
-            ? !announcementCached[announcement.id].dismissed
-            : true
+          showAnnounce: !(cachedState && cachedState.dismissed)
         }
       } else {
         return { announcements: {} }

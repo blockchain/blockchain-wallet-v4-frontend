@@ -18,7 +18,7 @@ const defaultDomains = {
 
 const GlobalStyles = createGlobalStyle`
   html, body, #app, #app > div {padding: 0; margin: 0; height: 100%;}
-  body {overflow: hidden;}
+  html, body {overflow: hidden;}
 `
 
 const Wrapper = styled.div`

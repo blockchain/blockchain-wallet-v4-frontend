@@ -30,7 +30,7 @@
     "test:debug": "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "test:update": "cross-env ./../../node_modules/.bin/jest -u",
     "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll",
-    "manage:translations": "babel-node ./translationRunner.js"
+    "manage:translations": "yarn build:prod && babel-node ./translationRunner.js"
   },
   "jest": {
     "automock": false,
@@ -136,8 +136,8 @@
     "redux": "4.0.1",
     "redux-form": "7.4.2",
     "redux-logger": "3.0.6",
-    "redux-persist": "4.8.3",
-    "redux-saga": "0.16.2",
+    "redux-persist": "5.7.0",
+    "redux-saga": "0.16.0",
     "redux-ui": "0.1.1",
     "reselect": "4.0.0",
     "rxjs": "6.3.3",

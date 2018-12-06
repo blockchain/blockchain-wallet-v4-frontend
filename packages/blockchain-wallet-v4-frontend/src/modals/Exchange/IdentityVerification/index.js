@@ -26,29 +26,59 @@ const HeaderWrapper = styled.div`
 `
 
 const StepHeader = styled(ModalHeader)`
+  padding: 12px !important;
   > div {
     width: 100%;
     > div {
       width: 100%;
     }
   }
+  & > :first-child {
+    margin-right: 42px;
+  }
 `
 const IdentityVerificationTray = styled(Tray)`
+  margin-top: 0;
+  border-radius: 0;
   > div:first-child {
     padding: 20px;
+    > span:last-child {
+      top: 0;
+      right: 0;
+      margin: 20px;
+    }
   }
   > div:last-child {
     overflow: hidden;
-    padding: 28px 50px;
-    height: calc(100% - 91px);
-    ${media.tablet`
-      padding: 18px;
-      height: calc(100% - 151px);
-    `};
-    ${media.mobile`
-      padding: 18px;
-      height: calc(100% - 215px);
-    `};
+    padding: 0;
+    height: calc(100% - 57px);
+  }
+`
+
+const KycStepIndicator = styled(StepIndicator)`
+  justify-content: space-between;
+  span {
+    display: none;
+  }
+  > img {
+    margin-left: 0;
+    margin-right: 10px;
+    height: 32px;
+  }
+  > div {
+    flex: 1;
+    height: 8px;
+    max-width: 840px;
+    margin: auto;
+    padding: 0;
+    border-radius: 4px;
+    border: none;
+    background-color: ${props => props.theme['gray-2']};
+    &:after {
+      bottom: 0px;
+      border-radius: 4px;
+      background-color: ${props => props.theme['brand-secondary']};
+    }
   }
 `
 
@@ -145,9 +175,10 @@ class IdentityVerification extends React.PureComponent {
       >
         <StepHeader tray paddingHorizontal='15%' onClose={this.handleClose}>
           <HeaderWrapper>
-            <StepIndicator
+            <KycStepIndicator
               adjuster={0.1667}
               barFullWidth
+              horizontalMobile
               flexEnd
               maxWidth='none'
               step={step}

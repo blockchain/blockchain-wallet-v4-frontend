@@ -32,7 +32,7 @@ const MarqueeContainer = styled.marquee.attrs({
 `
 
 const PromptLockbox = props => {
-  const { position, total, close, ...rest } = props
+  const { position, total, ...rest } = props
   const { coin, currentConnection, marquees, isTx } = rest
   const { error, ready, success } = currentConnection
 

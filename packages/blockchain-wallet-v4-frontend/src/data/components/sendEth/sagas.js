@@ -257,7 +257,7 @@ export default ({ coreSagas }) => {
       // Display success
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionSuccess())
-        yield delay(1500)
+        yield delay(4000)
         const device = (yield select(
           selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
           fromAddress

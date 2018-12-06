@@ -36,7 +36,7 @@ exports[`SwapBanner renders correctly with exchange link 1`] = `
       <SwapBanner__GetStartedButton>
         <FormattedMessage
           defaultMessage="Go To Exchange"
-          id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.gotoexchange"
+          id="scenes.home.swapbanner.faster.gotoexchange"
           values={Object {}}
         />
       </SwapBanner__GetStartedButton>
@@ -74,7 +74,7 @@ exports[`SwapBanner renders correctly with getstarted button 1`] = `
     <SwapBanner__GetStartedButton>
       <FormattedMessage
         defaultMessage="Get Started"
-        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.started"
+        id="scenes.home.swapbanner.faster.started"
         values={Object {}}
       />
     </SwapBanner__GetStartedButton>

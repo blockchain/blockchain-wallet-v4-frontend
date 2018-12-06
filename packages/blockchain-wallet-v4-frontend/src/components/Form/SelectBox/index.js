@@ -32,6 +32,14 @@ class SelectBox extends React.PureComponent {
     if (node) this.selectRef = node
   }
 
+  onKeyPressed = evt => {
+    const event = evt || window.event
+    if (event.keyCode === 27) {
+      event.stopPropagation()
+      this.selectRef.blur()
+    }
+  }
+
   render () {
     const {
       input,
@@ -50,6 +58,7 @@ class SelectBox extends React.PureComponent {
           {...input}
           {...meta}
           {...rest}
+          onKeyDown={this.onKeyPressed}
           getRef={this.getSelectRef}
           errorState={errorState}
         />

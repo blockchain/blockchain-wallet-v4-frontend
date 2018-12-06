@@ -14,7 +14,6 @@ import {
   ModalBody,
   ModalHeader,
   ModalFooter,
-  Link,
   Text,
   Button
 } from 'blockchain-info-components'
@@ -24,10 +23,6 @@ const Row = styled(Text)`
   &:last-child {
     margin-bottom: 0;
   }
-`
-const TextLink = styled(Link)`
-  font-size: 14px;
-  font-weight: 300;
 `
 const Footer = styled(ModalFooter)`
   > div {
@@ -68,13 +63,6 @@ export const UserExists = ({ position, total, email, closeAll }) => {
             id='modals.userexists.kyccomplete'
             defaultMessage='If you have already verified your profile on another Blockchain Wallet, we are unable to verify you again on another wallet.'
           />
-          &nbsp;
-          <TextLink target='_blank' href=''>
-            <FormattedMessage
-              id='modals.userexists.learnmore'
-              defaultMessage='Learn more'
-            />
-          </TextLink>
         </Row>
       </ModalBody>
       <Footer>
