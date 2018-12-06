@@ -9,12 +9,6 @@ import Failure from 'components/BuySell/Failure'
 import { KYC_MODAL } from 'data/components/identityVerification/model'
 
 class CoinifyBuyContainer extends React.Component {
-  constructor (props) {
-    super(props)
-
-    this.startBuy = this.startBuy.bind(this)
-  }
-
   componentDidMount () {
     this.props.coinifyActions.initializeCheckoutForm('buy')
     this.props.coinifyActions.fetchCoinifyData()
@@ -23,7 +17,7 @@ class CoinifyBuyContainer extends React.Component {
     }
   }
 
-  startBuy () {
+  startBuy = () => {
     const { buyQuoteR, paymentMedium, coinifyActions } = this.props
     coinifyActions.coinifyLoading()
     buyQuoteR.map(q =>
@@ -98,8 +92,6 @@ class CoinifyBuyContainer extends React.Component {
   }
 }
 
-const mapStateToProps = state => getData(state)
-
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
@@ -108,6 +100,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(
-  mapStateToProps,
+  getData,
   mapDispatchToProps
 )(CoinifyBuyContainer)

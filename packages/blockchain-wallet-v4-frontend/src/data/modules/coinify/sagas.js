@@ -23,10 +23,9 @@ export default ({ api, coreSagas, networks }) => {
       yield call(coreSagas.data.coinify.signup, country)
       const profileR = yield select(selectors.core.data.coinify.getProfile)
       if (!profileR.error) {
-        const profile = profileR.getOrElse()
-        const isUserVerified = yield select(selectors.modules.profile.isUserVerified)
-        if (isUserVerified.getOrElse(false)) {
-          yield call(api.sendCoinifyKyc, prop('user', profile))
+        const isUserVerifiedR = yield select(selectors.modules.profile.isUserVerified)
+        if (isUserVerifiedR.getOrElse(false)) {
+          yield call(api.sendCoinifyKyc, prop('user', profileR.getOrElse()))
           yield put(actions.modals.closeAllModals())
           yield put(A.fetchCoinifyData())
         } else {

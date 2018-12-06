@@ -143,14 +143,17 @@ export default ({ api, coreSagas }) => {
     const mobileVerified = (yield select(selectors.modules.profile.getUserData))
       .map(prop('mobileVerified'))
       .getOrElse(false)
+    const isCoinify = yield select(S.isCoinifyKyc)
     const steps = yield select(S.getSteps)
     if (activationState === USER_ACTIVATION_STATES.NONE)
       return yield put(A.setVerificationStep(head(steps)))
     if (mobileVerified) return yield put(A.setVerificationStep(STEPS.verify))
     if (activationState === USER_ACTIVATION_STATES.CREATED)
       return yield put(A.setVerificationStep(STEPS.mobile))
-    if (activationState === USER_ACTIVATION_STATES.ACTIVE)
+    if (activationState === USER_ACTIVATION_STATES.ACTIVE) {
+      if (isCoinify) return yield put(A.setVerificationStep(STEPS.coinify))
       return yield put(A.setVerificationStep(STEPS.verify))
+    }
   }
 
   const goToPrevStep = function*() {
