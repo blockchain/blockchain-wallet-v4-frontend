@@ -16,7 +16,7 @@ const BaseTabMenuItem = styled.span`
   cursor: pointer;
 
   &:not(:last-child) {
-    margin-right: 20px;
+    margin-right: 15px;
   }
 
   &:hover {
