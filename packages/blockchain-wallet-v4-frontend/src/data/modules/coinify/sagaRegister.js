@@ -29,5 +29,9 @@ export default ({ api, coreSagas, networks }) => {
       AT.COINIFY_INITIALIZE_PAYMENT,
       coinifySagas.initializePayment
     )
+    yield takeLatest(
+      AT.FETCH_COINIFY_DATA,
+      coinifySagas.fetchCoinifyData
+    )
   }
 }

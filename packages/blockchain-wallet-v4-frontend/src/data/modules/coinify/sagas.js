@@ -25,10 +25,13 @@ export default ({ api, coreSagas, networks }) => {
       if (!profileR.error) {
         const profile = profileR.getOrElse()
         const isUserVerified = yield select(selectors.modules.profile.isUserVerified)
-        if (isUserVerified.getOrElse(false)) yield call(api.sendCoinifyKyc, prop('user', profile))
-
-        // move the identityVerification step from coinify --> personal
-        yield put(actions.components.identityVerification.setVerificationStep(STEPS.personal))
+        if (isUserVerified.getOrElse(false)) {
+          yield call(api.sendCoinifyKyc, prop('user', profile))
+          yield put(actions.modals.closeAllModals())
+          yield put(A.fetchCoinifyData())
+        } else {
+          yield put(actions.components.identityVerification.setVerificationStep(STEPS.personal))
+        }
       } else {
         yield put(A.coinifySignupFailure(JSON.parse(profileR.error)))
       }
@@ -560,6 +563,18 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const fetchCoinifyData = function*() {
+    try {
+      yield put(actions.core.data.coinify.fetchTrades())
+      yield put(actions.core.data.coinify.getKyc())
+      yield put(actions.core.data.coinify.fetchSubscriptions())
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'fetchCoinifyData', e)
+      )
+    }
+  }
+
   return {
     buy,
     cancelISX,
@@ -569,6 +584,7 @@ export default ({ api, coreSagas, networks }) => {
     coinifySaveMedium,
     coinifySignup,
     deleteBankAccount,
+    fetchCoinifyData,
     finishTrade,
     fromISX,
     handleChange,

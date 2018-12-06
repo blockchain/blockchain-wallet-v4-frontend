@@ -17,10 +17,7 @@ class CoinifyBuyContainer extends React.Component {
 
   componentDidMount () {
     this.props.coinifyActions.initializeCheckoutForm('buy')
-    this.props.coinifyDataActions.fetchTrades()
-    // no longer need to get KYC from coinify -- keep for now until replaced in checkout and payment step
-    this.props.coinifyDataActions.getKyc()
-    this.props.coinifyDataActions.fetchSubscriptions()
+    this.props.coinifyActions.fetchData()
     if (this.props.step === 'isx') {
       this.props.coinifyActions.coinifyNextCheckoutStep('checkout')
     }

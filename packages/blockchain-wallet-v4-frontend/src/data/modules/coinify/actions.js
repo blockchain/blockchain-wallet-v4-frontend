@@ -119,3 +119,7 @@ export const setCountry = country => ({
   type: AT.COINIFY_SET_COUNTRY,
   payload: country
 })
+
+export const fetchCoinifyData = () => ({
+  type: AT.FETCH_COINIFY_DATA
+})
