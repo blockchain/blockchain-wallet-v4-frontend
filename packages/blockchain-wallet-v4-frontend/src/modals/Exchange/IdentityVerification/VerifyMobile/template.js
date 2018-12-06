@@ -97,7 +97,7 @@ const VerifyMobile = ({
   handleSubmit,
   onBack
 }) => (
-  <IdentityVerificationForm onSubmit={handleSubmit}>
+  <IdentityVerificationForm activeField={activeField} onSubmit={handleSubmit}>
     <FooterShadowWrapper
       fields={
         <MediaContextConsumer>
@@ -118,7 +118,7 @@ const VerifyMobile = ({
               <FormContainer>
                 <FaqFormGroup>
                   <FormItem>
-                    <Label>
+                    <Label for='smsNumber'>
                       <FormattedMessage
                         id='identityverification.personal.mobile.entermobilenumber'
                         defaultMessage='Enter your mobile number here'
@@ -173,7 +173,7 @@ const VerifyMobile = ({
                 {step === SMS_STEPS.verify && (
                   <FaqFormGroup>
                     <FormItem>
-                      <Label>
+                      <Label for='code'>
                         <FormattedMessage
                           id='identityverification.personal.mobile.entercode'
                           defaultMessage='Verification code'

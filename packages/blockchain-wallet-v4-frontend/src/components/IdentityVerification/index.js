@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import media from 'services/ResponsiveService'
-import { Button, Image, Text } from 'blockchain-info-components'
+import { Button, Image } from 'blockchain-info-components'
 import { FaqMessage, FormGroup } from 'components/Form'
 
 export const Form = styled.form`
@@ -154,6 +154,14 @@ export const FieldMimic = styled.div`
 
 export const IdentityVerificationForm = styled(Form)`
   height: 100%;
+  label[for='${props => props.activeField}'] {
+    color: ${props => props.theme['brand-primary']};
+  }
+  label[for='${props => props.activeField}'] + div {
+    .bc__control, input {
+      border-color: ${props => props.theme['brand-primary']};
+    }
+  }
 `
 
 export const IdentityVerificationHeader = styled(PartnerHeader)`
@@ -196,10 +204,11 @@ export const FaqFormGroup = styled(FormGroup)`
   `};
 `
 
-export const Label = styled(Text)`
+export const Label = styled.label`
   font-size: 16px;
   font-weight: 300;
   margin-bottom: 12px;
+  display: block;
 `
 
 export const BackButton = styled(Button)`

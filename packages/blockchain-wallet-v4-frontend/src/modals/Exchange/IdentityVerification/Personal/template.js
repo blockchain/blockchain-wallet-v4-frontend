@@ -124,7 +124,7 @@ const Personal = ({
   onStateSelect,
   handleSubmit
 }) => (
-  <IdentityVerificationForm onSubmit={handleSubmit}>
+  <IdentityVerificationForm activeField={activeField} onSubmit={handleSubmit}>
     <FooterShadowWrapper
       fields={
         <MediaContextConsumer>
@@ -145,7 +145,7 @@ const Personal = ({
               <FormContainer>
                 <FaqFormGroup>
                   <FormItem>
-                    <Label>
+                    <Label htmlFor='country'>
                       <FormattedMessage
                         id='identityverification.personal.country'
                         defaultMessage='Select your country of residence'
@@ -170,7 +170,7 @@ const Personal = ({
                 {showStateSelect && (
                   <FaqFormGroup>
                     <FormItem>
-                      <Label>
+                      <Label htmlFor='state'>
                         <FormattedMessage
                           id='identityverification.personal.state'
                           defaultMessage='State'
@@ -209,7 +209,7 @@ const Personal = ({
                   <FaqFormGroup>
                     <PersonalItem>
                       <PersonalField>
-                        <Label>
+                        <Label htmlFor='firstName'>
                           <FormattedMessage
                             id='identityverification.personal.firstname'
                             defaultMessage='First Name'
@@ -223,7 +223,7 @@ const Personal = ({
                         />
                       </PersonalField>
                       <PersonalField>
-                        <Label>
+                        <Label htmlFor='lastName'>
                           <FormattedMessage
                             id='identityverification.personal.lastname'
                             defaultMessage='Last Name'
@@ -262,7 +262,7 @@ const Personal = ({
                 {showPersonal && (
                   <FaqFormGroup>
                     <FormItem>
-                      <Label>
+                      <Label htmlFor='dob'>
                         <FormattedMessage
                           id='identityverification.personal.dateofbirth'
                           defaultMessage='Date of Birth'
@@ -304,7 +304,7 @@ const Personal = ({
                   <AddressWrapper>
                     <FaqFormGroup>
                       <FormItem>
-                        <Label>
+                        <Label htmlFor='line1'>
                           <FormattedMessage
                             id='identityverification.personal.address'
                             defaultMessage='Address'
@@ -321,7 +321,7 @@ const Personal = ({
                     </FaqFormGroup>
                     <FaqFormGroup>
                       <FormItem>
-                        <Label>
+                        <Label htmlFor='line2'>
                           <FormattedMessage
                             id='identityverification.personal.address2'
                             defaultMessage='Address 2'
@@ -337,7 +337,7 @@ const Personal = ({
                     </FaqFormGroup>
                     <FaqFormGroup>
                       <FormItem>
-                        <Label>
+                        <Label htmlFor='city'>
                           <FormattedMessage
                             id='identityverification.personal.city'
                             defaultMessage='City'
@@ -354,7 +354,7 @@ const Personal = ({
                     {!showStateSelect && (
                       <FaqFormGroup>
                         <FormItem>
-                          <Label>
+                          <Label htmlFor='state'>
                             <FormattedMessage
                               id='identityverification.personal.region'
                               defaultMessage='Region'
@@ -372,7 +372,7 @@ const Personal = ({
                     )}
                     <FaqFormGroup>
                       <FormItem>
-                        <Label>
+                        <Label htmlFor='postCode'>
                           {countryUsesZipcode(countryCode) ? (
                             <FormattedMessage
                               id='identityverification.personal.zipcode'
