@@ -536,8 +536,8 @@ export const kycHeaderHelper = status => {
         color: 'error',
         text: (
           <FormattedMessage
-            id='scenes.buysell.coinify.kyc.header.rejected'
-            defaultMessage='Identity Verification Rejected'
+            id='scenes.buysell.coinify.kyc.header.failed'
+            defaultMessage='Identity Verification Failed'
           />
         )
       }
