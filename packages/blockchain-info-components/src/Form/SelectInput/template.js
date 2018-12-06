@@ -156,6 +156,7 @@ const SelectInput = props => {
     onFocus,
     grouped,
     onBlur,
+    onKeyDown,
     getRef,
     filterOption
   } = props
@@ -190,6 +191,7 @@ const SelectInput = props => {
       onChange={handleChange}
       onFocus={onFocus}
       onBlur={onBlur}
+      onKeyDown={onKeyDown}
       menuIsOpen={menuIsOpen}
       openMenuOnFocus={openMenuOnFocus}
       innerRef={getRef}
