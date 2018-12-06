@@ -31,7 +31,10 @@ const BankTransfer = ({ trade, close }) => {
         <BankTransferDetails trade={trade} inModal />
         <ButtonRow>
           <Button width='100px' onClick={close} nature='primary'>
-            <FormattedMessage id='close' defaultMessage='Close' />
+            <FormattedMessage
+              id='modals.coinifytradedetails.banktransfer.close'
+              defaultMessage='Close'
+            />
           </Button>
         </ButtonRow>
       </ModalBody>

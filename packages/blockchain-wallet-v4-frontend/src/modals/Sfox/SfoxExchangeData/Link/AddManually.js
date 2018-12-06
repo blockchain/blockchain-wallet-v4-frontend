@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { reduxForm, Field } from 'redux-form'
+import { Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { TextBox, SelectBoxBankAccountType, Form } from 'components/Form'
 import { required } from 'services/FormHelper'
@@ -105,4 +105,4 @@ AddManually.propTypes = {
   handleAccountType: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'sfoxLink' })(AddManually)
+export default AddManually

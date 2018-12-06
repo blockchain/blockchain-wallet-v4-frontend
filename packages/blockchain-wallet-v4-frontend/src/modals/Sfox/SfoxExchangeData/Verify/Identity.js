@@ -61,13 +61,13 @@ const Identity = props => {
         <InputWrapper>
           <IconHeader>
             <FormattedMessage
-              id='sfoxexchangedata.verify.partner.header'
+              id='sfoxexchangedata.verify.identity.header'
               defaultMessage='The Hidden Details'
             />
           </IconHeader>
           <PartnerSubHeader>
             <FormattedMessage
-              id='sfoxexchangedata.verify.partner.subheader'
+              id='sfoxexchangedata.verify.identity.subheader'
               defaultMessage="We know this information is personal, but we need to make sure you're you. As always, this will be sent directly to SFOX and will not be saved in your Blockchain wallet."
             />
           </PartnerSubHeader>
@@ -157,7 +157,7 @@ const Identity = props => {
           >
             {!busy ? (
               <FormattedMessage
-                id='sfoxexchangedata.verify.continue'
+                id='sfoxexchangedata.verify.identity.continue'
                 defaultMessage='Continue'
               />
             ) : (

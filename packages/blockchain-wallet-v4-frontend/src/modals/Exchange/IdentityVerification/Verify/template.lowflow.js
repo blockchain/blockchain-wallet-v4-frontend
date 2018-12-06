@@ -83,13 +83,13 @@ const Verify = ({ handleSubmit, onBack, supportedDocuments }) => (
         <Footer>
           <BackButton onClick={onBack}>
             <FormattedMessage
-              id='identityverification.personal.back'
+              id='identityverification.lowflow.personal.back'
               defaultMessage='Back'
             />
           </BackButton>
           <Button nature='primary' onClick={handleSubmit}>
             <FormattedMessage
-              id='identityverification.personal.continue'
+              id='identityverification.lowflow.personal.continue'
               defaultMessage='Continue'
             />
           </Button>

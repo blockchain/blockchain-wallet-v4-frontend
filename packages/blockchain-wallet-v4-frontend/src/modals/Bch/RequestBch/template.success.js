@@ -82,7 +82,7 @@ const RequestBch = props => {
         <FormItem>
           <FormLabel for='to'>
             <FormattedMessage
-              id='modals.requestbitcoin.firststep.to'
+              id='modals.requestbch.firststep.to'
               defaultMessage='Receive to:'
             />
           </FormLabel>
