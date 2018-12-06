@@ -12,24 +12,35 @@ import { promptForSecondPassword } from 'services/SagaService'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 const { STEPS } = model.components.identityVerification
+const { NONE } = model.profile.KYC_STATES
 
 export const sellDescription = `Exchange Trade CNY-`
 export const logLocation = 'modules/coinify/sagas'
 
 export default ({ api, coreSagas, networks }) => {
+  const handleAfterSignup = function*(user) {
+    try {
+      yield call(api.sendCoinifyKyc, user)
+      yield put(actions.modals.closeAllModals())
+      yield put(A.fetchCoinifyData())
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'handleAfterSignup', e))
+    }
+  }
+
   const coinifySignup = function*(data) {
     try {
       const country = yield select(S.getCoinifyCountry)
       yield call(coreSagas.data.coinify.signup, country)
       const profileR = yield select(selectors.core.data.coinify.getProfile)
       if (!profileR.error) {
-        const isUserVerifiedR = yield select(selectors.modules.profile.isUserVerified)
-        if (isUserVerifiedR.getOrElse(false)) {
-          yield call(api.sendCoinifyKyc, prop('user', profileR.getOrElse()))
-          yield put(actions.modals.closeAllModals())
-          yield put(A.fetchCoinifyData())
-        } else {
+        const userKYCState = (yield select(selectors.modules.profile.getUserKYCState)).getOrElse()
+        const isNone = equals(userKYCState, NONE)
+        if (isNone) {
           yield put(actions.components.identityVerification.setVerificationStep(STEPS.personal))
+        } else { // if KYC is anything but NONE, call backend and send user to coinify checkout
+          const user = prop('user', profileR.getOrFail('Missing Coinify Profile'))
+          yield call(handleAfterSignup, user)
         }
       } else {
         yield put(A.coinifySignupFailure(JSON.parse(profileR.error)))
