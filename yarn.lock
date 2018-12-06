@@ -9995,7 +9995,7 @@ locate-path@^3.0.0:
     p-locate "^3.0.0"
     path-exists "^3.0.0"
 
-lodash-es@^4.17.10, lodash-es@^4.17.4, lodash-es@^4.2.1:
+lodash-es@^4.17.10, lodash-es@^4.2.1:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.11.tgz#145ab4a7ac5c5e52a3531fb4f310255a152b4be0"
   integrity sha512-DHb1ub+rMjjrxqlB3H56/6MXtm1lSksDp2rA2cNWjG8mlDUYFhUj3Di2Zn5IwSU87xLv8tNIQ7sSwE/YOX/D/Q==
@@ -12824,14 +12824,10 @@ redux-mock-store@1.5.3:
   dependencies:
     lodash.isplainobject "^4.0.6"
 
-redux-persist@4.8.3:
-  version "4.8.3"
-  resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-4.8.3.tgz#fbad95e7582483635c91a3dd83da4789e7a09107"
-  integrity sha512-d5hkgy+Ue+p82o8DAUsWTRZfPmA2ecduaDKNU9FppJiIoXGn2qU+5igb8CwzJ6Xm7y3oQbADiGc+TEIxnyPo6g==
-  dependencies:
-    json-stringify-safe "^5.0.1"
-    lodash "^4.17.4"
-    lodash-es "^4.17.4"
+redux-persist@5.7.0:
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-5.7.0.tgz#b2d9a7c885b1ba29dd802106899970943072390d"
+  integrity sha512-syOx6uBbDf6nmU9YdwviGRTP5xTnDMvQokUtPt8mU0ohiOgr/FqiEZN1hsQ8DdkX9vbB8kETAh5o/jduwKTTig==
 
 redux-saga-test-plan@3.7.0:
   version "3.7.0"
@@ -12844,6 +12840,11 @@ redux-saga-test-plan@3.7.0:
     lodash.ismatch "^4.4.0"
     object-assign "^4.1.0"
     util-inspect "^0.1.8"
+
+redux-saga@0.16.0:
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.16.0.tgz#0a231db0a1489301dd980f6f2f88d8ced418f724"
+  integrity sha1-CiMdsKFIkwHdmA9vL4jYztQY9yQ=
 
 redux-saga@0.16.2:
   version "0.16.2"
