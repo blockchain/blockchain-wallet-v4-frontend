@@ -159,7 +159,10 @@ export const IdentityVerificationForm = styled(Form)`
   }
   label[for='${props => props.activeField}'] + div {
     .bc__control, input {
-      border-color: ${props => props.theme['brand-primary']};
+      border-color: ${props =>
+        props.activeFieldError
+          ? props.theme.error
+          : props.theme['brand-primary']};
     }
   }
 `
@@ -174,7 +177,7 @@ export const IdentityVerificationHeader = styled(PartnerHeader)`
 `
 
 export const IdentityVerificationSubHeader = styled(PartnerSubHeader)`
-  font-weight: 200;
+  font-weight: 300;
   ${media.mobile`
     font-size: 16px;
   `};

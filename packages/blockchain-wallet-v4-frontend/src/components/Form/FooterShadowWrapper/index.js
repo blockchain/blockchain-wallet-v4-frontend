@@ -16,7 +16,7 @@ const Fields = styled.div`
 `
 const Footer = styled.div`
   padding: 22px 0;
-  border-top: 1px solid ${props => props.theme['gray-2']};
+  border-top: 1px solid ${props => props.theme['gray-1']};
   z-index: 1;
 `
 

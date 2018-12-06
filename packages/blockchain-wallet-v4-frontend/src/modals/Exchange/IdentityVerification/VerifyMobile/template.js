@@ -89,6 +89,7 @@ const VerifyMobile = ({
   error,
   step,
   activeField,
+  activeFieldError,
   countryCode,
   smsNumber,
   editSmsNumber,
@@ -97,7 +98,11 @@ const VerifyMobile = ({
   handleSubmit,
   onBack
 }) => (
-  <IdentityVerificationForm activeField={activeField} onSubmit={handleSubmit}>
+  <IdentityVerificationForm
+    activeFieldError={activeFieldError}
+    activeField={activeField}
+    onSubmit={handleSubmit}
+  >
     <FooterShadowWrapper
       fields={
         <MediaContextConsumer>

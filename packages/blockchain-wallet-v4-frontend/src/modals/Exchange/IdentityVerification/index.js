@@ -28,11 +28,13 @@ const HeaderWrapper = styled.div`
 const StepHeader = styled(ModalHeader)`
   padding: 12px !important;
   > div {
-    margin-right: 32px;
     width: 100%;
     > div {
       width: 100%;
     }
+  }
+  & > :first-child {
+    margin-right: 42px;
   }
 `
 const IdentityVerificationTray = styled(Tray)`
@@ -58,7 +60,7 @@ const KycStepIndicator = styled(StepIndicator)`
     display: none;
   }
   > img {
-    margin: 0;
+    margin-right: 10px;
     height: 32px;
   }
   > div {
