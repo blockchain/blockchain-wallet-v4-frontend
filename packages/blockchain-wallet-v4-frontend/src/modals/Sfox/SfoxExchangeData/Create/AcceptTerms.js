@@ -321,12 +321,15 @@ class AcceptTerms extends Component {
                   </Text>
                   <Link size='12px' weight={300} onClick={() => sfoxNotAsked()}>
                     <FormattedMessage
-                      id='tryagain'
+                      id='sfoxexchangedata.create.accept.tryagain'
                       defaultMessage='try again'
                     />
                   </Link>
                   <Text size='12px' color='error' weight={300}>
-                    <FormattedMessage id='or' defaultMessage='or' />
+                    <FormattedMessage
+                      id='sfoxexchangedata.create.accept.or'
+                      defaultMessage='or'
+                    />
                   </Text>
                   <Link
                     target='_blank'
@@ -335,7 +338,7 @@ class AcceptTerms extends Component {
                     weight={300}
                   >
                     <FormattedMessage
-                      id='contactsupport'
+                      id='sfoxexchangedata.create.accept.contactsupport'
                       defaultMessage='contact support.'
                     />
                   </Link>

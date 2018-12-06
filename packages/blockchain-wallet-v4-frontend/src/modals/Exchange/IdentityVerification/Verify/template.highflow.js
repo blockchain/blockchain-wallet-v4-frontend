@@ -15,16 +15,11 @@ import {
   InputWrapper,
   IdentityVerificationHeader,
   IdentityVerificationSubHeader,
-  IdentityVerificationImage
+  IdentityVerificationImage,
+  Footer
 } from 'components/IdentityVerification'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
-const Footer = styled.div`
-  width: 60%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`
 const ColumnSubHeader = styled(IdentityVerificationSubHeader)`
   display: flex;
   flex-direction: column;
@@ -40,6 +35,14 @@ const VerifyWrapper = styled.div`
 `
 const CenterWrapper = styled.div`
   align-self: center;
+`
+
+const QrWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+const QrCode = styled(QRCodeReact)`
+  padding: 0 40px;
 `
 
 class Verify extends React.PureComponent {
@@ -82,13 +85,6 @@ class Verify extends React.PureComponent {
                         <br />
                         {mobile && (
                           <React.Fragment>
-                            <Text weight={300}>
-                              <FormattedHTMLMessage
-                                id='identityverification.highflow.followlink'
-                                defaultMessage='1 - <b>Follow this link</b> to log into or download our mobile app.'
-                              />
-                            </Text>
-                            <br />
                             <CenterWrapper>
                               <Link href={deeplink} target='_blank'>
                                 <Button nature='primary'>
@@ -99,29 +95,39 @@ class Verify extends React.PureComponent {
                                 </Button>
                               </Link>
                             </CenterWrapper>
+                            <br />
+                            <Text weight={300}>
+                              <FormattedHTMLMessage
+                                id='identityverification.highflow.followlink'
+                                defaultMessage='1 - <b>Follow the link above</b> to log into or download our mobile app.'
+                              />
+                            </Text>
+                            <br />
+                            <Text weight={300}>
+                              <FormattedHTMLMessage
+                                id='identityverification.highflow.gotodashboard'
+                                defaultMessage='2 - Continue your verification from the <b>Dashboard</b> (you can also continue from <b>Exchange</b>).'
+                              />
+                            </Text>
                           </React.Fragment>
                         )}
                         {!mobile && (
-                          <React.Fragment>
+                          <QrWrapper>
                             <Text weight={300}>
                               <FormattedHTMLMessage
                                 id='identityverification.highflow.scanqr'
                                 defaultMessage='1 - <b>Scan this QR code</b> with your phone to log into this wallet or download our mobile app. '
                               />
+                              <br />
+                              <br />
+                              <FormattedHTMLMessage
+                                id='identityverification.highflow.gotodashboard'
+                                defaultMessage='2 - Continue your verification from the <b>Dashboard</b> (you can also continue from <b>Exchange</b>).'
+                              />
                             </Text>
-                            <br />
-                            <CenterWrapper>
-                              <QRCodeReact value={deeplink} size={108} />
-                            </CenterWrapper>
-                          </React.Fragment>
+                            <QrCode value={deeplink} size={108} />
+                          </QrWrapper>
                         )}
-                        <br />
-                        <Text weight={300}>
-                          <FormattedHTMLMessage
-                            id='identityverification.highflow.gotodashboard'
-                            defaultMessage='2 - Continue your verification from the <b>Dashboard</b> (you can also continue from <b>Exchange</b>).'
-                          />
-                        </Text>
                         <br />
                         <Text weight={300}>
                           <FormattedHTMLMessage
@@ -140,7 +146,7 @@ class Verify extends React.PureComponent {
             <Footer>
               <BackButton onClick={onBack}>
                 <FormattedMessage
-                  id='identityverification.personal.back'
+                  id='identityverification.highflow.personal.back'
                   defaultMessage='Back'
                 />
               </BackButton>

@@ -2,9 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { isNil, find, map, prepend, prop, propEq, test, head } from 'ramda'
+import { find, map, prop, propEq, test, head } from 'ramda'
 
-import { debounce } from 'utils/helpers'
 import { actions, model } from 'data'
 import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4'
@@ -26,27 +25,7 @@ const getCountryElements = countries => [
   }
 ]
 
-const getAddressElements = addresses => [
-  {
-    group: '',
-    items: prepend(
-      MANUAL_ADDRESS_ITEM,
-      map(address => {
-        const { line1, line2, postCode, city, state } = address
-        return {
-          value: address,
-          text: `${line1} ${line2} ${postCode}, ${city}, ${state}`
-        }
-      }, addresses)
-    )
-  }
-]
-
-const { AddressPropType } = model.profile
-const {
-  PERSONAL_FORM,
-  MANUAL_ADDRESS_ITEM
-} = model.components.identityVerification
+const { PERSONAL_FORM } = model.components.identityVerification
 
 class PersonalContainer extends React.PureComponent {
   componentDidMount () {
@@ -69,13 +48,6 @@ class PersonalContainer extends React.PureComponent {
     this.props.actions.fetchStates()
   }
 
-  onPostCodeChange = debounce((_, postCode) => {
-    const { countryCode, actions, formActions } = this.props
-
-    formActions.touch(PERSONAL_FORM, 'postCode')
-    actions.fetchPossibleAddresses(postCode, countryCode)
-  }, 200)
-
   selectAddress = (e, address) => {
     e.preventDefault()
     this.props.actions.selectAddress(address)
@@ -84,7 +56,6 @@ class PersonalContainer extends React.PureComponent {
   onCountryChange = (e, value) => {
     e.preventDefault()
     this.props.formActions.change(PERSONAL_FORM, 'country', value)
-    this.props.actions.setPossibleAddresses([])
     this.props.formActions.clearFields(PERSONAL_FORM, false, false, 'state')
   }
 
@@ -93,12 +64,9 @@ class PersonalContainer extends React.PureComponent {
     countryCode,
     countryAndStateSelected,
     stateSupported,
-    possibleAddresses,
-    address,
     postCode,
     activeField,
     addressRefetchVisible,
-    actions,
     user,
     supportedCountries,
     states,
@@ -119,21 +87,13 @@ class PersonalContainer extends React.PureComponent {
       showStateSelect={countryCode && countryCode === 'US'}
       showStateError={countryAndStateSelected && !stateSupported}
       showPersonal={countryAndStateSelected && stateSupported}
-      showAddress={
-        countryAndStateSelected &&
-        stateSupported &&
-        !isNil(prop('line1', address))
-      }
       postCode={postCode}
       supportedCountries={getCountryElements(supportedCountries)}
       states={getCountryElements(states)}
-      possibleAddresses={getAddressElements(possibleAddresses)}
       addressRefetchVisible={addressRefetchVisible}
       activeField={activeField}
       onAddressSelect={this.selectAddress}
       onCountrySelect={this.onCountryChange}
-      onStateSelect={actions.setPossibleAddresses.bind(null, [])}
-      onPostCodeChange={this.onPostCodeChange}
       onSubmit={handleSubmit}
     />
   )
@@ -161,18 +121,12 @@ PersonalContainer.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   initialCountryCode: PropTypes.string,
   supportedCountries: PropTypes.instanceOf(Remote).isRequired,
-  possibleAddresses: PropTypes.arrayOf(AddressPropType),
-  countryCode: PropTypes.string,
-  address: AddressPropType,
-  addressRefetchVisible: PropTypes.bool
+  countryCode: PropTypes.string
 }
 
 PersonalContainer.defaultProps = {
-  addressRefetchVisible: false,
   initialCountryCode: '',
-  possibleAddresses: [],
-  countryCode: '',
-  address: null
+  countryCode: ''
 }
 
 const mapDispatchToProps = dispatch => ({

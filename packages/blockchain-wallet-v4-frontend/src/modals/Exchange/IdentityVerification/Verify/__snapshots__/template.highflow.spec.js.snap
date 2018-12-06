@@ -9,13 +9,13 @@ exports[`HighFlow should render correctly 1`] = `
       </Context.Consumer>
     }
     footer={
-      <templatehighflow__Footer>
+      <IdentityVerification__Footer>
         <IdentityVerification__BackButton
           onClick={[MockFunction]}
         >
           <FormattedMessage
             defaultMessage="Back"
-            id="identityverification.personal.back"
+            id="identityverification.highflow.personal.back"
             values={Object {}}
           />
         </IdentityVerification__BackButton>
@@ -37,7 +37,7 @@ exports[`HighFlow should render correctly 1`] = `
             values={Object {}}
           />
         </Button>
-      </templatehighflow__Footer>
+      </IdentityVerification__Footer>
     }
   />
 </IdentityVerification__IdentityVerificationForm>

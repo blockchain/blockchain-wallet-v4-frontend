@@ -16,15 +16,10 @@ import {
   InputWrapper,
   IdentityVerificationImage,
   IdentityVerificationHeader,
-  IdentityVerificationSubHeader
+  IdentityVerificationSubHeader,
+  Footer
 } from 'components/IdentityVerification'
 
-const Footer = styled.div`
-  width: 60%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`
 const VerifyWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -102,13 +97,13 @@ const Verify = ({ handleSubmit, onBack, supportedDocuments }) => (
         <Footer>
           <BackButton onClick={onBack}>
             <FormattedMessage
-              id='identityverification.personal.back'
+              id='identityverification.lowflow.personal.back'
               defaultMessage='Back'
             />
           </BackButton>
           <Button nature='primary' onClick={handleSubmit}>
             <FormattedMessage
-              id='identityverification.personal.continue'
+              id='identityverification.lowflow.personal.continue'
               defaultMessage='Continue'
             />
           </Button>

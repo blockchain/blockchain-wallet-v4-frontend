@@ -77,7 +77,7 @@ const RequestXlm = ({
       <FormItem>
         <FormLabel for='to'>
           <FormattedMessage
-            id='modals.requestbitcoin.firststep.to'
+            id='modals.requestxlm.firststep.to'
             defaultMessage='Receive to:'
           />
         </FormLabel>
