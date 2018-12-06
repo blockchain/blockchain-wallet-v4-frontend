@@ -1,4 +1,4 @@
-import { curry, path, toLower } from 'ramda'
+import { curry, path, toLower, prop } from 'ramda'
 import { walletOptionsPath } from '../paths'
 
 // general
@@ -21,3 +21,13 @@ export const getMigrationRedirects = state =>
 export const getCoinAvailablility = curry((state, coin) =>
   getWebOptions(state).map(path([toLower(coin), 'availability']))
 )
+
+// wallet helper
+export const getWalletHelperUrl = state =>
+  getDomains(state).map(prop('walletHelper'))
+
+// SFOX / plaid
+export const getPlaidKey = state =>
+  getWebOptions(state).map(path(['sfox', 'config', 'plaid']))
+export const getPlaidEnv = state =>
+  getWebOptions(state).map(path(['sfox', 'config', 'plaidEnv']))

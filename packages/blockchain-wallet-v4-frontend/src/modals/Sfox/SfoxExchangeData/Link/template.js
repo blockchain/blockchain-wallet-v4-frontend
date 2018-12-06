@@ -167,7 +167,9 @@ const BankLink = props => {
     enablePlaid,
     bankAccounts,
     onSetBankAccount,
-    ui,
+    microDeposits,
+    selectBank,
+    addBankManually,
     toggleManual,
     handleSubmit,
     invalid,
@@ -191,16 +193,16 @@ const BankLink = props => {
 
   const titleHelper = () => {
     switch (true) {
-      case ui.microDeposits:
+      case microDeposits:
         return null
-      case ui.selectBank:
+      case selectBank:
         return (
           <FormattedMessage
             id='sfoxexchangedata.link.title2'
             defaultMessage='Select Your Account'
           />
         )
-      case !ui.selectBank:
+      case !selectBank:
         return (
           <FormattedMessage
             id='sfoxexchangedata.link.title'
@@ -212,16 +214,16 @@ const BankLink = props => {
 
   const subtitleHelper = () => {
     switch (true) {
-      case ui.microDeposits:
+      case microDeposits:
         return null
-      case ui.selectBank:
+      case selectBank:
         return (
           <FormattedMessage
             id='sfoxexchangedata.link.subtitle2'
             defaultMessage="Please select which bank account you'd like to have synced with your SFOX profile."
           />
         )
-      case !ui.selectBank:
+      case !selectBank:
         return (
           <FormattedMessage
             id='sfoxexchangedata.link.subtitle1'
@@ -232,7 +234,7 @@ const BankLink = props => {
   }
 
   const bankHelper = () => {
-    if (ui.toggleManual) {
+    if (addBankManually) {
       return (
         <AddManually
           handleFullName={handleFullName}
@@ -251,7 +253,7 @@ const BankLink = props => {
           handleNameChange={onNameChange}
         />
       )
-    } else if (ui.microDeposits) {
+    } else if (microDeposits) {
       return <MicroDeposits onStep={microStep} />
     } else {
       return (
@@ -275,14 +277,14 @@ const BankLink = props => {
   }
 
   const helpersHelper = () => {
-    if (ui.selectBank) {
-      return <React.Fragment>{renderFaq(selectBankQuestions)}</React.Fragment>
+    if (selectBank) {
+      return <Fragment>{renderFaq(selectBankQuestions)}</Fragment>
     }
-    return <React.Fragment>{renderFaq(faqQuestions)}</React.Fragment>
+    return <Fragment>{renderFaq(faqQuestions)}</Fragment>
   }
 
   const buttonHelper = () => {
-    if (ui.microDeposits) {
+    if (microDeposits) {
       if (microStep === 'amounts') {
         return (
           <Button
@@ -351,7 +353,7 @@ const BankLink = props => {
             )}
           </Button>
         )}
-        {ui.toggleManual && !linkError ? (
+        {addBankManually && !linkError ? (
           <GoBackLink onClick={toggleManual}>
             <FormattedMessage
               id='sfoxexchangedata.link.goback'
