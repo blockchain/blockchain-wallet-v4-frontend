@@ -41,6 +41,7 @@ const Controls = styled.div`
 
   & input {
     border: 1px solid ${props => props.theme['gray-2']}!important;
+    margin-right: 100px;
   }
   & button {
     border: 1px solid ${props => props.theme['gray-2']}!important;
@@ -56,6 +57,7 @@ const Controls = styled.div`
 const Addresses = styled.div`
   width: 100%;
   margin-left: 0px;
+  margin-right: 15px;
   @media (min-width: 1200px) {
     width: 360px;
   }

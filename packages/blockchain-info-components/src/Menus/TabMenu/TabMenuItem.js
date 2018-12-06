@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 const BaseTabMenuItem = styled.span`
   padding: 6px 8px;
-  background-color: ${props => (props.selected ? 'rgba(0,0,0,0.05)' : 'none')};
+  background-color: ${props => (props.selected ? 'rgba(0,0,0,0.04)' : 'none')};
   border-radius: ${props => (props.selected ? '4px' : 'none')};
   text-transform: uppercase;
   font-family: 'Montserrat', sans-serif;
