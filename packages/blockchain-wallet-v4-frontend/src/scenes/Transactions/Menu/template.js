@@ -39,9 +39,6 @@ const Controls = styled.div`
   align-items: flex-start;
   width: 100%;
 
-  & > * {
-    margin-left: 5px;
-  }
   & input {
     border: 1px solid ${props => props.theme['gray-2']}!important;
   }
