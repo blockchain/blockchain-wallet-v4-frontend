@@ -75,12 +75,12 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
       endPoint: '/kyc/verifications/mobile-email'
     })
 
-  const sendCoinifyKyc = coinifyTraderId =>
+  const sendCoinifyKyc = id =>
     post({
       url: nabuUrl,
-      endPoint: `/send-coinify-kyc`,
+      endPoint: `/kyc/update-coinify-id`,
       contentType: `application/json`,
-      data: { coinifyTraderId }
+      data: { id }
     })
 
   return {
