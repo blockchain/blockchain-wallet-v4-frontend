@@ -33,5 +33,9 @@ export default ({ api, coreSagas, networks }) => {
       AT.FETCH_COINIFY_DATA,
       coinifySagas.fetchCoinifyData
     )
+    yield takeLatest(
+      AT.COMPARE_COINIFY_KYC,
+      coinifySagas.compareKyc
+    )
   }
 }

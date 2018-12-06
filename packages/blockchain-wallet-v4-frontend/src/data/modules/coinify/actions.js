@@ -123,3 +123,6 @@ export const setCountry = country => ({
 export const fetchCoinifyData = () => ({
   type: AT.FETCH_COINIFY_DATA
 })
+export const compareCoinifyKyc = () => ({
+  type: AT.COMPARE_COINIFY_KYC
+})

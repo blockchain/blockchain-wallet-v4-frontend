@@ -12,7 +12,7 @@ import { promptForSecondPassword } from 'services/SagaService'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 const { STEPS } = model.components.identityVerification
-const { NONE } = model.profile.KYC_STATES
+const { NONE, VERIFIED } = model.profile.KYC_STATES
 
 export const sellDescription = `Exchange Trade CNY-`
 export const logLocation = 'modules/coinify/sagas'
@@ -585,6 +585,22 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const compareKyc = function*() {
+    try {
+      const userKYCState = (yield select(selectors.modules.profile.getUserKYCState)).getOrElse(NONE)
+      const profileLevel = (yield select(selectors.core.data.coinify.getLevel)).getOrElse()
+      const levelName = prop('name', profileLevel)
+      if (equals(userKYCState, VERIFIED) && equals(levelName, '1')) {
+        const user = (yield select(selectors.core.data.coinify.getUserId)).getOrElse(null)
+        if (user) yield call(api.sendCoinifyKyc, user)
+      }
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'compareKyc', e)
+      )
+    }
+  }
+
   return {
     buy,
     cancelISX,
@@ -593,6 +609,7 @@ export default ({ api, coreSagas, networks }) => {
     checkoutCardMax,
     coinifySaveMedium,
     coinifySignup,
+    compareKyc,
     deleteBankAccount,
     fetchCoinifyData,
     finishTrade,

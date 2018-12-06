@@ -54,3 +54,6 @@ export const getBankAccounts = state =>
 
 export const getCountry = state =>
   getProfile(state).map(prop('_country'))
+
+export const getUserId = state =>
+  getProfile(state).map(prop('_user'))
