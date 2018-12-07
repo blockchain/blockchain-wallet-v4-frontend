@@ -15,7 +15,6 @@ import {
 } from './Btc'
 import {
   CoinifyDeleteBank,
-  CoinifyExchangeData,
   CoinifyTradeDetails
 } from './Coinify'
 import { RequestEth, SendEth, ShowEthPrivateKey, TransferEth } from './Eth'
@@ -67,7 +66,6 @@ const Modals = props => (
     <AddBtcWallet />
     <AutoDisconnection />
     <CoinifyDeleteBank />
-    <CoinifyExchangeData />
     <CoinifyTradeDetails />
     <Confirm />
     <ConfirmDisable2FA />
