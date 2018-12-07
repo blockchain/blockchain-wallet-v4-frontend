@@ -9,7 +9,7 @@ import { OrderDetails, OrderSubmit } from '../OrderReview'
 import AddBankDetails from './AddBankDetails'
 import AddCustomerDetails from './AddCustomerDetails'
 import SelectAccounts from './SelectAccounts'
-import ISignThis from 'modals/Coinify/CoinifyExchangeData/ISignThis'
+import ISignThis from 'components/BuySell/Coinify/ISignThis'
 import KYCNotification from '../KYCNotification'
 import {
   ColLeft,

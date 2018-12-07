@@ -16,7 +16,7 @@ import StepIndicator from 'components/StepIndicator'
 import Personal from './Personal'
 import VerifyMobile from './VerifyMobile'
 import Verify from './Verify'
-import CoinifyCreate from '../../Coinify/CoinifyExchangeData/Create'
+import CoinifyCreate from 'components/BuySell/Coinify/Create'
 
 const HeaderWrapper = styled.div`
   display: flex;
