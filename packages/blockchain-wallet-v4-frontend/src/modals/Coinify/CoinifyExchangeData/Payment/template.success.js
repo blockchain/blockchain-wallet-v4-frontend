@@ -122,7 +122,7 @@ const Payment = props => {
     quote,
     handlePrefillCardMax
   } = props
-  const { limits, level, kycPending, kycRejected, kycVerified } = value
+  const { limits, level, kycVerified, kycNone } = value
   const cardDisabled = isCardDisabled(quote, limits)
   const bankDisabled = isBankDisabled(quote, limits, kycVerified)
   if (bankDisabled && medium !== 'card') handlePaymentClick('card')
@@ -155,9 +155,7 @@ const Payment = props => {
               handlePaymentClick,
               bankDisabled,
               triggerKyc,
-              kycVerified,
-              kycPending,
-              kycRejected,
+              kycNone,
               level
             )}
             {cardOptionHelper(
