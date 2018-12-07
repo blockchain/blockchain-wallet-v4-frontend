@@ -7,7 +7,10 @@ export default ({ api, coreSagas }) => {
 
   return function*() {
     yield takeLatest(AT.VERIFY_IDENTITY, exchange.verifyIdentity)
-    yield takeLatest(AT.INITIALIZE_STEP, exchange.initializeStep)
+    yield takeLatest(
+      AT.INITIALIZE_VERIFICATION,
+      exchange.initializeVerification
+    )
     yield takeLatest(AT.UPDATE_SMS_STEP, exchange.updateSmsStep)
     yield takeLatest(AT.UPDATE_SMS_NUMBER, exchange.updateSmsNumber)
     yield takeLatest(AT.VERIFY_SMS_NUMBER, exchange.verifySmsNumber)
@@ -23,14 +26,11 @@ export default ({ api, coreSagas }) => {
     )
     yield takeLatest(AT.FETCH_STATES, exchange.fetchStates)
     yield takeLatest(
-      AT.FETCH_POSSIBLE_ADDRESSES,
-      exchange.fetchPossibleAddresses
-    )
-    yield takeLatest(AT.SELECT_ADDRESS, exchange.selectAddress)
-    yield takeLatest(
       AT.CREATE_REGISTER_USER_CAMPAIGN,
       exchange.createRegisterUserCampaign
     )
+    yield takeLatest(AT.GO_TO_PREV_STEP, exchange.goToPrevStep)
+    yield takeLatest(AT.GO_TO_NEXT_STEP, exchange.goToNextStep)
     yield takeLatest(AT.CHECK_KYC_FLOW, exchange.checkKycFlow)
     yield takeLatest(AT.SEND_DEEP_LINK, exchange.sendDeeplink)
   }

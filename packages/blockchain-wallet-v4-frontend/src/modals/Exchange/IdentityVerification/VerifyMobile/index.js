@@ -20,6 +20,7 @@ class VerifyMobileContainer extends React.PureComponent {
   render () {
     const {
       activeField,
+      activeFieldError,
       smsNumber,
       step,
       countryCode,
@@ -33,6 +34,7 @@ class VerifyMobileContainer extends React.PureComponent {
         initialValues={{ smsNumber }}
         smsNumber={smsNumber}
         activeField={activeField}
+        activeFieldError={activeFieldError}
         step={step}
         countryCode={countryCode}
         editSmsNumber={actions.setSmsStep.bind(null, SMS_STEPS.edit)}

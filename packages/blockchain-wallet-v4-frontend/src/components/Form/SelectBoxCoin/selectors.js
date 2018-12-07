@@ -14,7 +14,7 @@ export const getCoins = (state, { type }) =>
     { text: 'Stellar', value: 'XLM' }
   ].filter(({ value }) =>
     selectors.core.walletOptions
-      .getCoinAvailablility(state, value)
+      .getCoinAvailability(state, value)
       .map(prop(type))
       .getOrElse(false)
   )

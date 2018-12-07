@@ -74,6 +74,7 @@ class RequestEthContainer extends React.PureComponent {
           address={val.address}
           onSubmit={this.onSubmit}
           handleOpenLockbox={this.handleOpenLockbox}
+          excludeLockbox={val.excludeLockbox}
         />
       ),
       NotAsked: () => <DataError onClick={this.handleRefresh} />,

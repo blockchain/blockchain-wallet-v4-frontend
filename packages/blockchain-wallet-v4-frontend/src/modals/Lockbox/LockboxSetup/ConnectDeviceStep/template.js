@@ -41,7 +41,7 @@ const ConnectDeviceStep = props => {
       <Title>
         <Text>
           <FormattedMessage
-            id='modals.lockboxsetup.setuptypestep.connect'
+            id='modals.lockboxsetup.connectdevice.connect'
             defaultMessage='Connect Your Lockbox'
           />
         </Text>

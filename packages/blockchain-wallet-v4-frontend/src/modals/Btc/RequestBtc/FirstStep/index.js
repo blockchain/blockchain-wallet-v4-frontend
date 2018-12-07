@@ -95,6 +95,7 @@ class FirstStepContainer extends React.PureComponent {
           handleClickQRCode={() => this.handleClickQRCode(value)}
           handleSubmit={this.handleSubmit}
           importedAddresses={importedAddresses}
+          excludeLockbox={value.excludeLockbox}
         />
       ),
       NotAsked: () => <DataError onClick={this.handleRefresh} />,

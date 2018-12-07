@@ -16,6 +16,12 @@ export const KYC_STATES = {
   EXPIRED: 'EXPIRED'
 }
 
+export const TIERS = {
+  0: 0,
+  1: 1,
+  2: 2
+}
+
 export const AddressPropType = PropTypes.shape({
   city: PropTypes.string.isRequired,
   line1: PropTypes.string.isRequired,

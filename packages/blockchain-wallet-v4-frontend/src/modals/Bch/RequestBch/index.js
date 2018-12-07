@@ -80,6 +80,7 @@ class RequestBchContainer extends React.PureComponent {
           handleSubmit={this.handleSubmit}
           type={value.type}
           closeAll={closeAll}
+          excludeLockbox={value.excludeLockbox}
         />
       ),
       NotAsked: () => <DataError onClick={this.handleRefresh} />,
