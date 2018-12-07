@@ -57,7 +57,8 @@ const CoinifyBuy = props => {
     subscriptions,
     trades,
     kycState,
-    kycVerified
+    kycVerified,
+    level
   } = props
 
   const profile = Remote.of(prop('profile', value)).getOrElse({
@@ -69,8 +70,8 @@ const CoinifyBuy = props => {
   const defaultCurrency = contains(currency, buyCurrencies) ? currency : 'EUR' // profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
   const activeSubscriptions = subscriptions.filter(s => s.isActive)
-
   const limits = service.getLimits(profile._limits, defaultCurrency)
+  const levelName = prop('name', level.getOrElse())
 
   if (step === 'checkout') {
     return (
@@ -100,7 +101,7 @@ const CoinifyBuy = props => {
                   manageOrder={() => changeTab('order_history')}
                 />
               ) : null}
-              {!kycVerified ? (
+              {!kycVerified && levelName < 2 ? (
                 <KYCNotification
                   kyc={kyc}
                   limits={limits.buy}

@@ -99,8 +99,8 @@ const isCardDisabled = (q, l) => {
     return Math.abs(q.quoteAmount) > l.card.inRemaining[q.quoteCurrency]
   } else return Math.abs(q.baseAmount) > l.card.inRemaining[q.baseCurrency]
 }
-const isBankDisabled = (q, l, kycVerified) => {
-  const disableForKyc = !kycVerified
+const isBankDisabled = (q, l, kycVerified, isCoinifyKycVerified) => {
+  const disableForKyc = !kycVerified && !isCoinifyKycVerified
   const disableForLimits =
     q.baseCurrency === 'BTC'
       ? Math.abs(q.quoteAmount) >
@@ -122,9 +122,9 @@ const Payment = props => {
     quote,
     handlePrefillCardMax
   } = props
-  const { limits, level, kycVerified, kycNone } = value
+  const { limits, level, kycVerified, kycNone, isCoinifyKycVerified } = value
   const cardDisabled = isCardDisabled(quote, limits)
-  const bankDisabled = isBankDisabled(quote, limits, kycVerified)
+  const bankDisabled = isBankDisabled(quote, limits, kycVerified, isCoinifyKycVerified)
   if (bankDisabled && medium !== 'card') handlePaymentClick('card')
   const prefillCardMax = limits => handlePrefillCardMax(limits)
 
@@ -156,7 +156,7 @@ const Payment = props => {
               bankDisabled,
               triggerKyc,
               kycNone,
-              level
+              isCoinifyKycVerified
             )}
             {cardOptionHelper(
               quote,
@@ -172,7 +172,7 @@ const Payment = props => {
       <PaymentColRight>
         <PaymentColRightInner>
           <ButtonContainer>
-            {prop('name', level) < 2 && medium === 'bank' ? (
+            {!isCoinifyKycVerified && medium === 'bank' ? (
               <Button
                 nature='primary'
                 fullwidth

@@ -1,4 +1,4 @@
-import { lift, equals } from 'ramda'
+import { lift, equals, prop } from 'ramda'
 import { selectors, model } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
@@ -16,13 +16,15 @@ export const getData = createDeepEqualSelector(
     const transform = (profile, limits, level, mediums, kycState) => {
       const kycVerified = equals(kycState, VERIFIED)
       const kycNone = equals(kycState, NONE)
+      const isCoinifyKycVerified = prop('name', level) > 1
       return {
         profile,
         limits,
         level,
         mediums,
         kycVerified,
-        kycNone
+        kycNone,
+        isCoinifyKycVerified
       }
     }
     return lift(transform)(profileR, limitsR, levelR, mediumsR, kycStateR)

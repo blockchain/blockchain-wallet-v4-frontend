@@ -1,5 +1,5 @@
 import { formValueSelector } from 'redux-form'
-import { lift, path, equals } from 'ramda'
+import { lift, equals } from 'ramda'
 import { model, selectors } from 'data'
 
 const { VERIFIED } = model.profile.KYC_STATES
@@ -22,24 +22,16 @@ export const getQuote = state => selectors.core.data.coinify.getQuote(state)
 
 export const getCurrency = state => selectors.core.data.coinify.getLevel(state)
 
-export const getBase = state =>
-  path(['form', 'exchangeCheckout', 'active'], state)
-
-export const getErrors = state =>
-  path(['form', 'exchangeCheckout', 'syncErrors'], state)
-
 export const getData = state => {
   const kycState = selectors.modules.profile.getUserKYCState(state).getOrElse(false)
   const kycVerified = equals(kycState, VERIFIED)
 
   return {
-    base: getBase(state),
     data: getProfileData(state),
     buyQuoteR: getQuote(state),
     trades: getTrades(state),
     subscriptions: getSubscriptions(state),
     trade: getTrade(state),
-    errors: getErrors(state),
     currency: formValueSelector('coinifyCheckoutBuy')(state, 'currency'),
     defaultCurrency: getCurrency(state),
     checkoutBusy: selectors.modules.coinify.getCoinifyCheckoutBusy(state),
@@ -48,6 +40,7 @@ export const getData = state => {
     coinifyBusy: selectors.modules.coinify.getCoinifyBusy(state),
     canTrade: selectors.core.data.coinify.canTrade(state).getOrElse(false),
     kycState,
-    kycVerified
+    kycVerified,
+    level: selectors.core.data.coinify.getLevel(state)
   }
 }

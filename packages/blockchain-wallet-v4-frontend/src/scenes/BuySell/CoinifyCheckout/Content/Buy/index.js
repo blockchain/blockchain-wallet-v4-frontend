@@ -38,6 +38,7 @@ class CoinifyBuyContainer extends React.Component {
       trade,
       formActions,
       canTrade,
+      level,
       ...rest
     } = this.props
     const { step, checkoutBusy, coinifyBusy, subscriptions, trades, kycState } = rest
@@ -84,6 +85,7 @@ class CoinifyBuyContainer extends React.Component {
           subscriptions={subscriptions}
           trades={trades}
           kycState={kycState}
+          level={level}
         />
       ),
       Failure: e => <Failure error={e} />,
