@@ -45,7 +45,7 @@ const CoinFilters = props => {
 }
 
 CoinFilters.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired,
+  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'XLM']).isRequired,
   handleClick: PropTypes.func.isRequired
 }
 

@@ -75,7 +75,7 @@ const StatusColumn = styled.div`
   `};
 `
 const BannerWrapper = styled.div`
-  margin-top: 10px;
+  margin-top: 8px;
 `
 const AddressesColumn = styled.div`
   display: none;
@@ -132,7 +132,7 @@ const TransactionListItem = ({
         </MediaContextConsumer>
         {(transaction.fromWatchOnly || transaction.toWatchOnly) && (
           <BannerWrapper>
-            <Banner type='informational'>
+            <Banner label='true' type='informational'>
               <FormattedMessage
                 id='components.txlistitem.watchonly'
                 defaultMessage='Non-Spendable'
@@ -142,7 +142,7 @@ const TransactionListItem = ({
         )}
         {transaction.rbf && (
           <BannerWrapper>
-            <Banner type='informational'>
+            <Banner label='true' type='informational'>
               <FormattedMessage
                 id='components.txlistitem.rbf'
                 defaultMessage='Replace-By-Fee'
@@ -321,8 +321,9 @@ TransactionListItem.propTypes = {
   coin: PropTypes.string.isRequired,
   transaction: PropTypes.shape({
     type: PropTypes.string.isRequired,
-    amount: PropTypes.number.isRequired,
-    time: PropTypes.number.isRequired,
+    amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      .isRequired,
+    time: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     to: PropTypes.string.isRequired,
     from: PropTypes.string.isRequired,
     description: PropTypes.string,

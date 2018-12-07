@@ -97,7 +97,7 @@ SelectBox.propTypes = {
             PropTypes.object.isRequired
           ])
         })
-      ).isRequired
+      )
     })
   ).isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
