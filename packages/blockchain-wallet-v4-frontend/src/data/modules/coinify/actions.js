@@ -71,10 +71,6 @@ export const coinifyFailure = error => ({
 
 export const fromISX = state => ({ type: AT.COINIFY_FROM_ISX, payload: state })
 
-export const triggerKYC = () => ({ type: AT.COINIFY_TRIGGER_KYC })
-
-export const openKYC = kyc => ({ type: AT.OPEN_KYC, payload: kyc })
-
 export const deleteBankAccount = account => ({
   type: AT.COINIFY_DELETE_BANK_ACCOUNT,
   payload: account

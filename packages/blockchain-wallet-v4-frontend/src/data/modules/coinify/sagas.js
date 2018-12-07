@@ -1,6 +1,5 @@
 import { put, call, select } from 'redux-saga/effects'
-import { any, merge, path, prop, equals, head } from 'ramda'
-import { delay } from 'redux-saga'
+import { any, merge, path, prop, equals } from 'ramda'
 import * as A from './actions'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
@@ -400,15 +399,10 @@ export default ({ api, coreSagas, networks }) => {
   const fromISX = function*(action) {
     const status = action.payload
     try {
-      const modals = yield select(selectors.modals.getModals)
       const tradeR = yield select(selectors.core.data.coinify.getTrade)
       const trade = tradeR.getOrElse({})
 
-      if (path(['type'], head(modals)) === 'CoinifyExchangeData') {
-        yield put(A.coinifySignupComplete())
-        yield call(delay, 500)
-        yield put(actions.modals.closeAllModals())
-      } else if (path(['constructor', 'name'], trade) !== 'Trade') {
+      if (path(['constructor', 'name'], trade) !== 'Trade') {
         yield put(actions.form.change('buySellTabStatus', 'status', 'buy'))
       } else {
         yield put(
@@ -422,43 +416,8 @@ export default ({ api, coreSagas, networks }) => {
           status: status
         })
       )
-      yield call(coreSagas.data.coinify.getKYC)
-      yield put(actions.core.data.coinify.pollKYCPending())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'fromISX', e))
-    }
-  }
-
-  const triggerKYC = function*() {
-    try {
-      yield call(coreSagas.data.coinify.triggerKYC)
-      yield put(A.coinifyNextCheckoutStep('isx'))
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'triggerKYC', e))
-    }
-  }
-
-  const openKYC = function*(data) {
-    let kyc = data.payload
-    const recentKycR = yield select(selectors.core.data.coinify.getKyc)
-    const recentKyc = recentKycR.getOrElse(undefined)
-
-    try {
-      if (!data.payload && !equals(prop('state', recentKyc), 'pending')) {
-        yield call(triggerKYC)
-      } else if (
-        equals(prop('state', kyc), 'pending') ||
-        equals(prop('state', recentKyc), 'pending')
-      ) {
-        yield call(coreSagas.data.coinify.kycAsTrade, {
-          kyc: kyc || recentKyc
-        }) // if no kyc was given, take the most recent
-        yield put(A.coinifyNextCheckoutStep('isx'))
-      } else {
-        yield call(triggerKYC)
-      }
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'openKYC', e))
     }
   }
 
@@ -498,13 +457,10 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const cancelISX = function*() {
-    const modals = yield select(selectors.modals.getModals)
     const tradeR = yield select(selectors.core.data.coinify.getTrade)
     const trade = tradeR.getOrElse({})
 
-    if (path(['type'], head(modals)) === 'CoinifyExchangeData') {
-      yield put(actions.modals.closeAllModals())
-    } else if (prop('state', trade) === 'awaiting_transfer_in') {
+    if (prop('state', trade) === 'awaiting_transfer_in') {
       yield put(
         actions.form.change('buySellTabStatus', 'status', 'order_history')
       )
@@ -617,10 +573,8 @@ export default ({ api, coreSagas, networks }) => {
     handleChange,
     initialized,
     initializePayment,
-    openKYC,
     prepareAddress,
     sell,
-    sendCoinifyKYC,
-    triggerKYC
+    sendCoinifyKYC
   }
 }

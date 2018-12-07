@@ -1,13 +1,11 @@
 import * as AT from './actionTypes'
 import { assoc } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { COINIFY_SIGNUP_STATES } from './model'
 
 const INITIAL_STATE = {
   checkoutBusy: false,
   checkoutError: false,
   coinifyBusy: Remote.NotAsked,
-  signupStep: COINIFY_SIGNUP_STATES.NONE,
   checkoutStep: 'checkout',
   signupComplete: null,
   payment: Remote.NotAsked,
@@ -18,9 +16,6 @@ const coinify = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case AT.COINIFY_NEXT_STEP: {
-      return assoc('signupStep', payload, state)
-    }
     case AT.COINIFY_NEXT_CHECKOUT_STEP: {
       return assoc('checkoutStep', payload, state)
     }

@@ -155,7 +155,7 @@
         "config": {
           "partnerId": 24,
           "production": false,
-          "iSignThisDomain": "https://verify.isignthis.com"
+          "iSignThisDomain": "https://stage-verify.isignthis.com"
         }
       },
       "sfox": {

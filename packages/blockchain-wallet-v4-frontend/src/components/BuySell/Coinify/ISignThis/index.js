@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions } from 'data'
-import { equals, path, prop } from 'ramda'
+import { path, prop } from 'ramda'
 import { Button, Text, TooltipHost, Icon } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 
@@ -55,22 +55,6 @@ const ISignThisIframe = styled.iframe`
   border: ${props => `1px solid ${props.theme['gray-1']}`};
 `
 
-const kycQuestions = [
-  {
-    question: (
-      <FormattedMessage
-        id='scenes.coinify.isx.kycquestion'
-        defaultMessage='Why do you need this information?'
-      />
-    ),
-    answer: (
-      <FormattedMessage
-        id='scenes.coinify.isx.kycanswer'
-        defaultMessage='Government anti-money laundering regulations require this verification of identity. The purpose of fulfilling these regulations is to provide you with a secure, smooth, and customized experience.'
-      />
-    )
-  }
-]
 const tradeQuestions = [
   {
     question: (
@@ -313,30 +297,19 @@ class ISignThisContainer extends Component {
               onClick={() => coinifyActions.cancelISX()}
             >
               <Text size='13px' weight={300} color='brand-secondary'>
-                {equals(isxType, 'Trade') ? (
-                  <FormattedMessage
-                    id='scenes.buysell.coinify.isx.finishlater'
-                    defaultMessage='Finish later'
-                  />
-                ) : (
-                  <FormattedMessage
-                    id='scenes.buysell.coinify.isx.dolater'
-                    defaultMessage="I'll do this later"
-                  />
-                )}
+                {<FormattedMessage
+                  id='scenes.buysell.coinify.isx.finishlater'
+                  defaultMessage='Finish later'
+                />}
               </Text>
             </Button>
-            {equals(isxType, 'Trade')
-              ? renderFaq(tradeQuestions)
-              : renderFaq(kycQuestions)}
+            {renderFaq(tradeQuestions)}
           </ButtonContainer>
         </ISXContainer>
       </Fragment>
     )
   }
 }
-
-const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
@@ -345,6 +318,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(
-  mapStateToProps,
+  getData,
   mapDispatchToProps
 )(ISignThisContainer)
