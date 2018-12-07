@@ -7,7 +7,6 @@ import { Modal } from 'blockchain-info-components'
 
 import BankTransfer from './BankTransfer'
 import Trade from './Trade'
-import Kyc from './Kyc'
 
 class CoinifyTradeDetails extends React.PureComponent {
   render () {
@@ -27,8 +26,6 @@ class CoinifyTradeDetails extends React.PureComponent {
             />
           )
         }
-      } else {
-        return <Kyc status={status} close={this.props.close} />
       }
     }
 
