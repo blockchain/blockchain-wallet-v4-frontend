@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { spacing } from 'services/StyleService'
 import renderFaq from 'components/FaqDropdown'
 import { StepTransition } from 'components/Utilities/Stepper'
-import { path, prop } from 'ramda'
+import { path } from 'ramda'
 
 import { Button, HeartbeatLoader, Link } from 'blockchain-info-components'
 import {
@@ -122,7 +122,7 @@ const Payment = props => {
     quote,
     handlePrefillCardMax
   } = props
-  const { limits, level, kycVerified, kycNone, isCoinifyKycVerified } = value
+  const { limits, kycVerified, kycNone, isCoinifyKycVerified } = value
   const cardDisabled = isCardDisabled(quote, limits)
   const bankDisabled = isBankDisabled(quote, limits, kycVerified, isCoinifyKycVerified)
   if (bankDisabled && medium !== 'card') handlePaymentClick('card')

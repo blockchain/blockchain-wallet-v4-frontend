@@ -1,5 +1,5 @@
-import { join, put, select, call, spawn } from 'redux-saga/effects'
-import { isEmpty, head, prop, toUpper } from 'ramda'
+import { put, select, call } from 'redux-saga/effects'
+import { head, prop, toUpper } from 'ramda'
 
 import { actions, selectors, model } from 'data'
 import profileSagas from 'data/modules/profile/sagas'
