@@ -10,15 +10,15 @@ class SelectInputContainer extends React.PureComponent {
     search: ''
   }
 
+  /* eslint-disable react/no-did-update-set-state */
   componentDidUpdate () {
-    /* eslint-disable */
     if (!equals(this.props.value, this.state.value)) {
       this.setState({
         value: this.props.value
       })
     }
-    /* eslint-enable */
   }
+  /* eslint-enable react/no-did-update-set-state */
 
   handleChange = item => {
     const value = prop('value', item)
@@ -48,15 +48,7 @@ class SelectInputContainer extends React.PureComponent {
   onBlur = () => this.props.onBlur()
 
   render () {
-    const {
-      elements,
-      label,
-      searchEnabled,
-      components,
-      disabled,
-      grouped,
-      ...rest
-    } = this.props
+    const { elements, label, disabled, grouped, ...rest } = this.props
     const { search } = this.state
     const items = grouped ? elements : this.transform(elements, search)
 
@@ -69,8 +61,8 @@ class SelectInputContainer extends React.PureComponent {
         handleChange={this.handleChange}
         searchEnabled={this.props.searchEnabled}
         grouped={grouped}
-        {...rest}
         onBlur={this.onBlur}
+        {...rest}
       />
     )
   }
