@@ -35,6 +35,7 @@ export default ({ api }) => {
     const data = { address, amount, description: message }
     yield put(actions.goals.saveGoal('payment', data))
     yield put(actions.router.push('/wallet'))
+    yield put(actions.alerts.displayInfo(C.PLEASE_LOGIN))
   }
 
   const defineActionGoal = function*(pathname, search) {
