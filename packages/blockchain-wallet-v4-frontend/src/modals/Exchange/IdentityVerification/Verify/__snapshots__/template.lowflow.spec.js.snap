@@ -5,44 +5,42 @@ exports[`HighFlow should render correctly 1`] = `
   <FooterShadowWrapper
     fields={
       <templatelowflow__VerifyWrapper>
-        <IdentityVerification__ColLeft>
-          <IdentityVerification__InputWrapper>
-            <IdentityVerification__IdentityVerificationHeader>
-              <FormattedMessage
-                defaultMessage="Last Step. Verify Your ID"
-                id="identityverification.verify.header"
-                values={Object {}}
-              />
-            </IdentityVerification__IdentityVerificationHeader>
-            <IdentityVerification__IdentityVerificationImage
-              name="identity-verification"
+        <IdentityVerification__InputWrapper>
+          <IdentityVerification__IdentityVerificationHeader>
+            <FormattedMessage
+              defaultMessage="Last Step. Verify Your ID"
+              id="identityverification.verify.header"
+              values={Object {}}
             />
-            <IdentityVerification__IdentityVerificationSubHeader>
-              <FormattedMessage
-                defaultMessage="We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy."
-                id="identityverification.verify.message"
-                values={Object {}}
-              />
-            </IdentityVerification__IdentityVerificationSubHeader>
-            <templatelowflow__DocumentsWrapper>
-              <FormattedMessage
-                defaultMessage="Government Issued Passport"
-                id="identityverification.verify.passport"
-                values={Object {}}
-              />
-              <FormattedMessage
-                defaultMessage="Driver’s License"
-                id="identityverification.verify.driverslicense"
-                values={Object {}}
-              />
-              <FormattedMessage
-                defaultMessage="National Identity Card"
-                id="identityverification.verify.natitionalidcard"
-                values={Object {}}
-              />
-            </templatelowflow__DocumentsWrapper>
-          </IdentityVerification__InputWrapper>
-        </IdentityVerification__ColLeft>
+          </IdentityVerification__IdentityVerificationHeader>
+          <IdentityVerification__IdentityVerificationImage
+            name="identity-verification"
+          />
+          <IdentityVerification__IdentityVerificationSubHeader>
+            <FormattedMessage
+              defaultMessage="We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy."
+              id="identityverification.verify.message"
+              values={Object {}}
+            />
+          </IdentityVerification__IdentityVerificationSubHeader>
+          <templatelowflow__DocumentsWrapper>
+            <FormattedMessage
+              defaultMessage="Government Issued Passport"
+              id="identityverification.verify.passport"
+              values={Object {}}
+            />
+            <FormattedMessage
+              defaultMessage="Driver’s License"
+              id="identityverification.verify.driverslicense"
+              values={Object {}}
+            />
+            <FormattedMessage
+              defaultMessage="National Identity Card"
+              id="identityverification.verify.natitionalidcard"
+              values={Object {}}
+            />
+          </templatelowflow__DocumentsWrapper>
+        </IdentityVerification__InputWrapper>
       </templatelowflow__VerifyWrapper>
     }
     footer={
@@ -53,7 +51,7 @@ exports[`HighFlow should render correctly 1`] = `
         >
           <FormattedMessage
             defaultMessage="Back"
-            id="identityverification.personal.back"
+            id="identityverification.lowflow.personal.back"
             values={Object {}}
           />
         </IdentityVerification__BackButton>
@@ -72,7 +70,7 @@ exports[`HighFlow should render correctly 1`] = `
         >
           <FormattedMessage
             defaultMessage="Continue"
-            id="identityverification.personal.continue"
+            id="identityverification.lowflow.personal.continue"
             values={Object {}}
           />
         </Button>

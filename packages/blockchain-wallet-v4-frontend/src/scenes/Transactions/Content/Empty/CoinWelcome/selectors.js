@@ -21,7 +21,7 @@ export const getCanBuyBtc = (state, ownProps) => {
 }
 
 export const getAvailability = (state, ownProps) => {
-  const availability = selectors.core.walletOptions.getCoinAvailablility(
+  const availability = selectors.core.walletOptions.getCoinAvailability(
     state,
     toUpper(ownProps.coin)
   )

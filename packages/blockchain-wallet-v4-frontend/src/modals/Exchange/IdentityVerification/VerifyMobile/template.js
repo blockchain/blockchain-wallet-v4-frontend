@@ -89,6 +89,7 @@ const VerifyMobile = ({
   error,
   step,
   activeField,
+  activeFieldError,
   countryCode,
   smsNumber,
   editSmsNumber,
@@ -97,11 +98,15 @@ const VerifyMobile = ({
   handleSubmit,
   onBack
 }) => (
-  <IdentityVerificationForm onSubmit={handleSubmit}>
+  <IdentityVerificationForm
+    activeFieldError={activeFieldError}
+    activeField={activeField}
+    onSubmit={handleSubmit}
+  >
     <FooterShadowWrapper
       fields={
         <MediaContextConsumer>
-          {({ mobile }) => (
+          {({ mobile, tablet }) => (
             <InputWrapper>
               <IdentityVerificationHeader>
                 <FormattedMessage
@@ -118,7 +123,7 @@ const VerifyMobile = ({
               <FormContainer>
                 <FaqFormGroup>
                   <FormItem>
-                    <Label>
+                    <Label for='smsNumber'>
                       <FormattedMessage
                         id='identityverification.personal.mobile.entermobilenumber'
                         defaultMessage='Enter your mobile number here'
@@ -135,7 +140,8 @@ const VerifyMobile = ({
                     />
                   </FormItem>
                   {activeField === 'smsNumber' &&
-                    !mobile && (
+                    !mobile &&
+                    !tablet && (
                       <FaqFormMessage
                         icon='phone-regular'
                         title={
@@ -172,7 +178,7 @@ const VerifyMobile = ({
                 {step === SMS_STEPS.verify && (
                   <FaqFormGroup>
                     <FormItem>
-                      <Label>
+                      <Label for='code'>
                         <FormattedMessage
                           id='identityverification.personal.mobile.entercode'
                           defaultMessage='Verification code'
@@ -189,7 +195,8 @@ const VerifyMobile = ({
                       </EmailHelper>
                     </FormItem>
                     {activeField === 'code' &&
-                      !mobile && (
+                      !mobile &&
+                      !tablet && (
                         <FaqFormMessage
                           icon='comment-alt-regular'
                           title={
@@ -228,7 +235,7 @@ const VerifyMobile = ({
           >
             {!submitting ? (
               <FormattedMessage
-                id='identityverification.personal.continue'
+                id='identityverification.mobile.personal.continue'
                 defaultMessage='Continue'
               />
             ) : (

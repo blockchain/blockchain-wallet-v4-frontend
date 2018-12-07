@@ -105,7 +105,7 @@ export default ({ api }) => {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
-    // Check if wallet is funded
+    // check if user has already seen kyc modal
     const showKycGetStarted = yield select(
       selectors.preferences.getShowKycGetStarted
     )
@@ -188,7 +188,17 @@ export default ({ api }) => {
   }
 
   return {
+    defineActionGoal,
+    defineSendBtcGoal,
+    defineReferralGoal,
+    defineDeepLinkGoals,
     defineGoals,
-    runGoals
+    runGoal,
+    runGoals,
+    runKycGoal,
+    runWelcomeGoal,
+    runReferralGoal,
+    runSendBtcGoal,
+    showInitialModal
   }
 }

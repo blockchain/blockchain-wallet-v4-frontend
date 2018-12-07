@@ -1,7 +1,11 @@
 import { assocPath, merge } from 'ramda'
 import Remote from '../../../remote'
 import * as selectors from './selectors'
-import { createMockState, walletV3, walletV3WithLegacy } from '../../../../data'
+import {
+  createMockWalletState,
+  walletV3,
+  walletV3WithLegacy
+} from '../../../../data'
 
 describe('kvstore bch selectors', () => {
   const accounts = [
@@ -26,9 +30,9 @@ describe('kvstore bch selectors', () => {
     }
   }
 
-  const mockState = merge(createMockState(walletV3), successState)
+  const mockState = merge(createMockWalletState(walletV3), successState)
   const mockStateLegacy = merge(
-    createMockState(walletV3WithLegacy),
+    createMockWalletState(walletV3WithLegacy),
     successState
   )
 

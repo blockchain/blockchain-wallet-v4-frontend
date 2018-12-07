@@ -51,7 +51,10 @@ const Terms = props => {
             href='https://www.blockchain.com/terms/index.html'
             target='_blank'
           >
-            <FormattedMessage id='tos' defaultMessage='Terms of Service' />
+            <FormattedMessage
+              id='components.terms.bc.tos'
+              defaultMessage='Terms of Service'
+            />
           </Link>
           <span>,</span>
           <span>&nbsp;</span>
@@ -65,7 +68,10 @@ const Terms = props => {
             href='https://www.coinify.com/legal'
             target='_blank'
           >
-            <FormattedMessage id='tos' defaultMessage='Terms of Service' />
+            <FormattedMessage
+              id='components.terms.coinify.tos'
+              defaultMessage='Terms of Service'
+            />
           </Link>
           <span>&nbsp;</span>
           {`&`}
@@ -77,7 +83,7 @@ const Terms = props => {
             target='_blank'
           >
             <FormattedMessage
-              id='privacypolicy'
+              id='components.terms.coinify.privacypolicy'
               defaultMessage='Privacy Policy.'
             />
           </Link>
@@ -99,7 +105,10 @@ const Terms = props => {
             href='https://www.blockchain.com/terms/index.html'
             target='_blank'
           >
-            <FormattedMessage id='tos' defaultMessage='Terms of Service' />
+            <FormattedMessage
+              id='components.terms.bc.sfox.tos'
+              defaultMessage='Terms of Service'
+            />
           </Link>
           <span>,</span>
           <span>&nbsp;</span>
@@ -113,7 +122,10 @@ const Terms = props => {
             href='https://www.sfox.com/terms.html'
             target='_blank'
           >
-            <FormattedMessage id='tos' defaultMessage='Terms of Service' />
+            <FormattedMessage
+              id='components.terms.sfox.tos'
+              defaultMessage='Terms of Service'
+            />
           </Link>
           <span>&nbsp;</span>
           {`&`}
@@ -125,7 +137,7 @@ const Terms = props => {
             target='_blank'
           >
             <FormattedMessage
-              id='privacypolicy'
+              id='components.terms.sfox.privacypolicy'
               defaultMessage='Privacy Policy.'
             />
           </Link>
@@ -164,7 +176,7 @@ const Terms = props => {
             weight={300}
           >
             <FormattedMessage
-              id='privacypolicy'
+              id='scenes.register.registerform.blockchain.privacypolicy'
               defaultMessage='Privacy Policy.'
             />
           </Link>
@@ -188,7 +200,7 @@ const Terms = props => {
             data-e2e='blockchainTermsLink'
           >
             <FormattedMessage
-              id='scenes.register.registerform.blockchain.terms'
+              id='scenes.register.registerform.blockchain.default.terms'
               defaultMessage='Terms of Service'
             />
           </Link>
@@ -205,7 +217,7 @@ const Terms = props => {
             data-e2e='blockchainPrivacyLink'
           >
             <FormattedMessage
-              id='privacypolicy'
+              id='scenes.register.registerform.blockchain.default.privacypolicy'
               defaultMessage='Privacy Policy.'
             />
           </Link>

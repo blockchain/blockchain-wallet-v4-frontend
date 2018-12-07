@@ -39,6 +39,7 @@ class VerifyContainer extends React.PureComponent {
                 supportedDocuments={docTypes}
                 showVeriff={this.state.showVeriff}
                 handleSubmit={this.showVeriff}
+                {...rest}
               />
             ) : (
               <HighFlow

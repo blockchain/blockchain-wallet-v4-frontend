@@ -1,14 +1,11 @@
 import { path } from 'ramda'
 import { selectors } from 'data'
 
-export const getData = state => {
-  const smsVerified = selectors.core.settings.getSmsVerified(state).getOrElse(0)
-  return {
-    helperDomain: path(
-      ['walletOptionsPath', 'data', 'domains', 'walletHelper'],
-      state
-    ),
-    smsVerified,
-    step: selectors.components.identityVerification.getVerificationStep(state)
-  }
-}
+export const getData = state => ({
+  helperDomain: path(
+    ['walletOptionsPath', 'data', 'domains', 'walletHelper'],
+    state
+  ),
+  step: selectors.components.identityVerification.getVerificationStep(state),
+  steps: selectors.components.identityVerification.getSteps(state)
+})

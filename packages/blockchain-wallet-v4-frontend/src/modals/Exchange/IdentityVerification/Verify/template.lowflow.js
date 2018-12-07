@@ -4,7 +4,6 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import media from 'services/ResponsiveService'
-
 import { model } from 'data'
 import { map, flip, prop } from 'ramda'
 import { Button } from 'blockchain-info-components'
@@ -12,7 +11,6 @@ import { FooterShadowWrapper } from 'components/Form'
 import {
   BackButton,
   IdentityVerificationForm,
-  ColLeft,
   InputWrapper,
   IdentityVerificationImage,
   IdentityVerificationHeader,
@@ -75,26 +73,24 @@ const Verify = ({ handleSubmit, onBack, supportedDocuments, showVeriff }) => (
         <VerifyWrapper>
           {showVeriff && <Veriff />}
           {!showVeriff && (
-            <ColLeft>
-              <InputWrapper>
-                <IdentityVerificationHeader>
-                  <FormattedMessage
-                    id='identityverification.verify.header'
-                    defaultMessage='Last Step. Verify Your ID'
-                  />
-                </IdentityVerificationHeader>
-                <IdentityVerificationImage name='identity-verification' />
-                <IdentityVerificationSubHeader>
-                  <FormattedMessage
-                    id='identityverification.verify.message'
-                    defaultMessage='We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.'
-                  />
-                </IdentityVerificationSubHeader>
-                <DocumentsWrapper>
-                  {map(flip(prop)(docMap), supportedDocuments)}
-                </DocumentsWrapper>
-              </InputWrapper>
-            </ColLeft>
+            <InputWrapper>
+              <IdentityVerificationHeader>
+                <FormattedMessage
+                  id='identityverification.verify.header'
+                  defaultMessage='Last Step. Verify Your ID'
+                />
+              </IdentityVerificationHeader>
+              <IdentityVerificationImage name='identity-verification' />
+              <IdentityVerificationSubHeader>
+                <FormattedMessage
+                  id='identityverification.verify.message'
+                  defaultMessage='We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.'
+                />
+              </IdentityVerificationSubHeader>
+              <DocumentsWrapper>
+                {map(flip(prop)(docMap), supportedDocuments)}
+              </DocumentsWrapper>
+            </InputWrapper>
           )}
         </VerifyWrapper>
       }
@@ -102,7 +98,7 @@ const Verify = ({ handleSubmit, onBack, supportedDocuments, showVeriff }) => (
         <Footer>
           <BackButton data-e2e='lowflowBackButton' onClick={onBack}>
             <FormattedMessage
-              id='identityverification.personal.back'
+              id='identityverification.lowflow.personal.back'
               defaultMessage='Back'
             />
           </BackButton>
@@ -113,7 +109,7 @@ const Verify = ({ handleSubmit, onBack, supportedDocuments, showVeriff }) => (
               onClick={handleSubmit}
             >
               <FormattedMessage
-                id='identityverification.personal.continue'
+                id='identityverification.lowflow.personal.continue'
                 defaultMessage='Continue'
               />
             </Button>

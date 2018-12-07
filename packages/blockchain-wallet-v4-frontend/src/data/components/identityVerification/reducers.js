@@ -9,7 +9,9 @@ const INITIAL_STATE = {
   supportedCountries: Remote.NotAsked,
   supportedDocuments: Remote.NotAsked,
   states: Remote.NotAsked,
-  flowType: Remote.NotAsked
+  flowType: Remote.NotAsked,
+  isCoinify: false,
+  desiredTier: -1
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -33,6 +35,12 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.SET_KYCFLOW: {
       return assoc('flowType', payload.flowType, state)
+    }
+    case AT.SET_COINIFY: {
+      return assoc('isCoinify', payload.isCoinify, state)
+    }
+    case AT.SET_DESIRED_TIER: {
+      return assoc('desiredTier', payload.tier, state)
     }
     default:
       return state

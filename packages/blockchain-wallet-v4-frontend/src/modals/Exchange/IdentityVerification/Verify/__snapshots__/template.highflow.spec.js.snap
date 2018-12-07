@@ -16,7 +16,7 @@ exports[`HighFlow should render correctly 1`] = `
         >
           <FormattedMessage
             defaultMessage="Back"
-            id="identityverification.personal.back"
+            id="identityverification.highflow.personal.back"
             values={Object {}}
           />
         </IdentityVerification__BackButton>

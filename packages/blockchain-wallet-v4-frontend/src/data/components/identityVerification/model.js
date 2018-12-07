@@ -1,14 +1,26 @@
 import { contains, compose, propOr } from 'ramda'
 
+import { TIERS } from '../../modules/profile/model'
+
 export const KYC_MODAL = '@KYC.IdentityVerification'
 export const USER_EXISTS_MODAL = '@KYC.UserExists'
 export const SUNRIVER_LINK_ERROR_MODAL = '@KYC.SunRiverLinkError'
 
 export const STEPS = {
+  coinify: 'coinify',
   personal: 'personal',
   mobile: 'mobile',
   verify: 'verify'
 }
+
+export const STEP_TIERS = {
+  coinify: TIERS[1],
+  personal: TIERS[1],
+  mobile: TIERS[2],
+  verify: TIERS[2]
+}
+
+export const COINIFY_STEP = 'coinify'
 
 export const SMS_STEPS = {
   edit: 'edit',

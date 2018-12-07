@@ -153,7 +153,7 @@ const ExchangeConfirm = ({
       <TableRow>
         <ExchangeText>
           <FormattedMessage
-            id='scenes.exchange.exchangeform.summary.rates'
+            id='scenes.exchange.exchange.confirm.summary.rates'
             defaultMessage='Rate'
           />
         </ExchangeText>
@@ -164,7 +164,7 @@ const ExchangeConfirm = ({
       <TableRow>
         <ExchangeText>
           <FormattedMessage
-            id='scenes.exchange.exchangeform.summary.sourceFee'
+            id='scenes.exchange.exchange.confirm.summary.sourceFee'
             defaultMessage='Network Fee'
           />
         </ExchangeText>
@@ -200,7 +200,7 @@ const ExchangeConfirm = ({
       <Delimiter />
       <Note>
         <FormattedMessage
-          id='scenes.exchange.exchangeform.summary.note'
+          id='scenes.exchange.confirm.summary.note'
           defaultMessage='All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.'
         />
       </Note>
