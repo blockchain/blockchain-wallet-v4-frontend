@@ -83,7 +83,7 @@ SelectBox.propTypes = {
   }).isRequired,
   elements: PropTypes.arrayOf(
     PropTypes.shape({
-      group: PropTypes.string.isRequired,
+      group: PropTypes.string,
       items: PropTypes.arrayOf(
         PropTypes.shape({
           text: PropTypes.oneOfType([
