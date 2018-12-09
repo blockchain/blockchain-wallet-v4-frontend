@@ -44,15 +44,7 @@ class SelectInputContainer extends React.PureComponent {
   onBlur = () => this.props.onBlur()
 
   render () {
-    const {
-      elements,
-      label,
-      searchEnabled,
-      components,
-      disabled,
-      grouped,
-      ...rest
-    } = this.props
+    const { elements, label, disabled, grouped, ...rest } = this.props
     const { search } = this.state
     const items = grouped ? elements : this.transform(elements, search)
 
@@ -65,8 +57,8 @@ class SelectInputContainer extends React.PureComponent {
         handleChange={this.handleChange}
         searchEnabled={this.props.searchEnabled}
         grouped={grouped}
-        {...rest}
         onBlur={this.onBlur}
+        {...rest}
       />
     )
   }
@@ -75,8 +67,8 @@ class SelectInputContainer extends React.PureComponent {
 SelectInputContainer.propTypes = {
   elements: PropTypes.arrayOf(
     PropTypes.shape({
-      group: PropTypes.string.isRequired,
-      items: PropTypes.array.isRequired
+      group: PropTypes.string,
+      items: PropTypes.array
     })
   ).isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
