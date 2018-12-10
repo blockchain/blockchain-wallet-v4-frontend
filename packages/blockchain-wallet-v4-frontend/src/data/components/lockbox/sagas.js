@@ -245,7 +245,20 @@ export default ({ api }) => {
             deviceType,
             transport
           )
-          entry = Lockbox.utils.generateXlmAccountMDEntry(deviceName, publicKey)
+          if (publicKey) {
+            entry = Lockbox.utils.generateXlmAccountMDEntry(
+              deviceName,
+              publicKey
+            )
+
+            yield put(
+              actions.core.kvStore.lockbox.addCoinEntry(
+                deviceIndex,
+                coin,
+                entry
+              )
+            )
+          }
           yield put(actions.components.lockbox.setConnectionSuccess())
           yield delay(2000)
           yield put(actions.modals.closeAllModals())
@@ -253,9 +266,6 @@ export default ({ api }) => {
         default:
           throw new Error('unknown coin type')
       }
-      yield put(
-        actions.core.kvStore.lockbox.addCoinEntry(deviceIndex, coin, entry)
-      )
       yield take(
         actionTypes.core.kvStore.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS
       )
