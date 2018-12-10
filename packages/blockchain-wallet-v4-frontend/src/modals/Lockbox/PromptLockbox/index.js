@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { actions, selectors } from 'data'
 import { bindActionCreators, compose } from 'redux'
 import modalEnhancer from 'providers/ModalEnhancer'
-import PromptForLockbox from './template.js'
+import PromptForLockbox from './template'
 
 class PromptLockboxContainer extends React.PureComponent {
   componentWillUnmount () {

@@ -98,6 +98,12 @@ export const getLockboxBchContext = state => {
   })
 }
 
+export const getLockboxBchXpub = (state, deviceIndex) =>
+  getDevice(state, deviceIndex)
+    .map(path(['bch', 'accounts']))
+    .map(head)
+    .map(prop('xpub'))
+
 export const getBchContextForDevice = (state, deviceIndex) =>
   getDevice(state, deviceIndex)
     .map(path(['bch', 'accounts']))

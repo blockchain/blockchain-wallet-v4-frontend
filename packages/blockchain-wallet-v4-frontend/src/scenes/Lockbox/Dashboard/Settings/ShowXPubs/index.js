@@ -4,27 +4,28 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { prop } from 'ramda'
 
-import ExportXPub from './template.js'
+import ShowXpubs from './template'
 
-class ExportXPubContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.onClick = this.onClick.bind(this)
-  }
-
-  onClick () {
-    this.props.modalActions.showModal('ShowXPub', { xpub: this.props.xpub })
+class ShowXPubsContainer extends React.PureComponent {
+  onShowXPubs = () => {
+    this.props.modalActions.showModal('ShowLockboxXPubs', {
+      btcXPub: this.props.btcXPub,
+      bchXPub: this.props.bchXPub
+    })
   }
 
   render () {
-    return <ExportXPub onClick={this.onClick} />
+    return <ShowXpubs onShowXPubs={this.onShowXPubs} />
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  xpub: selectors.core.kvStore.lockbox
+  btcXPub: selectors.core.kvStore.lockbox
     .getLockboxBtcDefaultAccount(state, ownProps.deviceIndex)
     .map(prop('xpub'))
+    .getOrFail(),
+  bchXPub: selectors.core.kvStore.lockbox
+    .getLockboxBchXpub(state, ownProps.deviceIndex)
     .getOrFail()
 })
 
@@ -35,4 +36,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ExportXPubContainer)
+)(ShowXPubsContainer)

@@ -32,7 +32,8 @@ import {
   LockboxAppManager,
   LockboxFirmware,
   LockboxSetup,
-  PromptLockbox
+  PromptLockbox,
+  ShowLockboxXPubs
 } from './Lockbox'
 import { MobileLogin, MobileNumberChange, MobileNumberVerify } from './Mobile'
 import Onfido from './Onfido'
@@ -103,6 +104,7 @@ const Modals = props => (
     <ShowUsedAddresses />
     <SignMessage />
     <ShowXPub />
+    <ShowLockboxXPubs />
     <SfoxExchangeData />
     <SfoxTradeDetails />
     <SfoxEnterMicroDeposits />
