@@ -223,7 +223,7 @@ const LimitsAndErrorText = ({
         )}
         {
           kycNotFinished && !kycPending && prop('name', level) < 2
-            ? <a onClick={() => increaseLimit()}>
+            ? <a onClick={increaseLimit}>
               <FormattedMessage
                 id='buysell.quote_input.increase_limits'
                 defaultMessage=' Increase your limit.'
