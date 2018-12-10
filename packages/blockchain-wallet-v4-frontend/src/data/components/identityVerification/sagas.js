@@ -54,7 +54,8 @@ export default ({ api, coreSagas }) => {
     coreSagas
   })
 
-  const registerUserCampaign = function*(newUser = false) {
+  const registerUserCampaign = function*(payload) {
+    const { newUser = false } = payload
     const campaign = yield select(selectors.modules.profile.getCampaign)
     const campaignData = yield call(getCampaignData, campaign)
     const token = (yield select(
@@ -78,19 +79,12 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const createRegisterUserCampaign = function*({
-    payload: { needsIdVerification }
-  }) {
+  const createRegisterUserCampaign = function*() {
     try {
-      if (!needsIdVerification) return yield call(registerUserCampaign)
-
-      const userId = (yield select(
-        selectors.core.kvStore.userCredentials.getUserId
-      )).getOrElse('')
       const userWithEmailExists = yield call(verifyIdentity)
       if (userWithEmailExists) return
-      if (!userId) yield call(createUser)
-      yield call(registerUserCampaign, true)
+      yield call(createUser)
+      yield call(registerUserCampaign, { newUser: true })
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
@@ -424,6 +418,7 @@ export default ({ api, coreSagas }) => {
     fetchPossibleAddresses,
     resendSmsCode,
     registerUserCampaign,
+    createUser,
     createRegisterUserCampaign,
     savePersonalData,
     selectAddress,
