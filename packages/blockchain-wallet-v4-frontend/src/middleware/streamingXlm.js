@@ -1,4 +1,14 @@
-import { compose, head, indexBy, map, pathOr, prop, unnest } from 'ramda'
+import {
+  compose,
+  head,
+  indexBy,
+  isNil,
+  map,
+  pathOr,
+  prop,
+  reject,
+  unnest
+} from 'ramda'
 import { actions, actionTypes } from 'data'
 
 const logLocation = 'middleware/streamingXlm'
@@ -50,7 +60,7 @@ const streamingMiddleware = (streamingService, api) => {
         map(prop('publicKey')),
         pathOr([], ['value', 'accounts'])
       )(payload)
-      addStreams(accountIds)
+      addStreams(reject(id => isNil(id), accountIds))
     }
     if (
       type === actionTypes.core.kvStore.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS
@@ -61,7 +71,7 @@ const streamingMiddleware = (streamingService, api) => {
         map(pathOr([], ['xlm', 'accounts'])),
         pathOr([], ['value', 'devices'])
       )(payload)
-      addStreams(accountIds)
+      addStreams(reject(id => isNil(id), accountIds))
     }
     if (type === actionTypes.middleware.webSocket.xlm.STOP_STREAMS) {
       streamingService.close()
