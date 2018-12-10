@@ -29,7 +29,7 @@ import * as actionTypes from 'data/actionTypes'
 import IdentityVerification from './index'
 import Tray from 'components/Tray'
 import { ModalHeader } from 'blockchain-info-components'
-import { last, values, pickAll, compose, head } from 'ramda'
+import { last, values, pickAll, compose, head, find, pathEq, path } from 'ramda'
 import {
   getUserId,
   getLifetimeToken
@@ -112,7 +112,7 @@ getUserId.mockImplementation(() => Remote.of(123))
 getLifetimeToken.mockImplementation(() => Remote.of(456))
 getSmsVerified.mockImplementation(() => Remote.of(0))
 getSmsNumber.mockImplementation(() => Remote.of(''))
-getEmail.mockImplementation(() => Remote.of('email@email.com'))
+getEmail.mockImplementation(() => Remote.of(stubMail))
 getEmailVerified.mockImplementation(() => Remote.of(1))
 getGuid.mockImplementation(() => Remote.of('123-abc-456-def'))
 getCountryCode.mockImplementation(() => Remote.of('FR'))
@@ -486,18 +486,22 @@ describe('IdentityVerification Modal', () => {
     })
   })
 
-  // describe('coinify signup step - unverified email', () => {
-  //   beforeEach(() => {
-  //     getVerificationStep.mockImplementation(() => STEPS.coinify)
-  //     store.dispatch(actions.modals.showModal(KYC_MODAL, { isCoinify: true }))
-  //     coreSagas.settings.sendConfirmationCodeEmail.mockClear()
-  //     getEmailVerified.mockImplementation(() => Remote.of(1))
-  //     wrapper.update()
-  //   })
+  describe('coinify signup step - unverified email', () => {
+    beforeEach(() => {
+      getVerificationStep.mockImplementation(() => STEPS.coinify)
+      store.dispatch(actions.modals.showModal(KYC_MODAL, { isCoinify: true }))
+      coreSagas.settings.sendConfirmationCodeEmail.mockClear()
+      getEmailVerified.mockImplementation(() => Remote.of(0))
+      wrapper.update()
+    })
 
-  //   it('should have the submit button enabled when email is verified', async () => {
-  //     wrapper.unmount().mount()
-  //     expect(wrapper.find('button').props().disabled).toBe(false)
-  //   })
-  // })
+    it('should render the Send Again button and also send a verification email', async () => {
+      wrapper.unmount().mount()
+      expect(wrapper.find('button').first().props().children.props.defaultMessage).toEqual('Send Again')
+      let calls = dispatchSpy.mock.calls
+      let findUpdateEmailAction = find(pathEq([0, 'type'], actionTypes.modules.securityCenter.UPDATE_EMAIL))
+      let updateEmailAction = findUpdateEmailAction(calls)
+      expect(path(['payload', 'email'], head(updateEmailAction))).toEqual(stubMail)
+    })
+  })
 })
