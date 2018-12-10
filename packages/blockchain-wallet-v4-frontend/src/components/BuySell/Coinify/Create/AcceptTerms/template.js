@@ -61,7 +61,7 @@ const TermsContainer = styled.div`
   justify-content: space-between;
   margin-top: 50px;
 `
-const TermsText = styled(Text)`
+export const TermsText = styled(Text)`
   width: 50%;
 `
 const SquaredButton = styled(Button)`
