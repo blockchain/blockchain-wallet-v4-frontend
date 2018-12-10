@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -31,6 +31,9 @@ const ColRightEnd = styled(ColRight)`
   display: flex;
   align-items: flex-end;
 `
+const WideInputWrapper = styled(InputWrapper)`
+  width: 100%;
+`
 
 const VerifyEmail = props => {
   const {
@@ -41,53 +44,55 @@ const VerifyEmail = props => {
   } = props
 
   return (
-    <CreateForm onSubmit={handleSubmit}>
-      <ColLeft>
-        <InputWrapper>
-          <EmailInput>
-            <Text size='14px' weight={400} style={{ 'margin-bottom': '5px' }}>
-              <FormattedMessage
-                id='coinifyexchangedata.create.verifyemail.enteremail.youwouldlike'
-                defaultMessage="Enter the email address you'd like to verify:"
+    <Fragment>
+      <CreateForm onSubmit={handleSubmit}>
+        <ColLeft>
+          <WideInputWrapper>
+            <EmailInput>
+              <Text size='14px' weight={400} style={{ 'margin-bottom': '5px' }}>
+                <FormattedMessage
+                  id='coinifyexchangedata.create.verifyemail.enteremail.youwouldlike'
+                  defaultMessage="Enter the email address you'd like to verify:"
+                />
+              </Text>
+              <Field
+                name='emailAddress'
+                component={TextBox}
+                validate={[required]}
               />
-            </Text>
-            <Field
-              name='emailAddress'
-              component={TextBox}
-              validate={[required]}
+            </EmailInput>
+          </WideInputWrapper>
+        </ColLeft>
+        <ColRightEnd>
+          <ColRightInner>
+            <ButtonWrapper>
+              <Button
+                type='submit'
+                nature='primary'
+                fullwidth
+                disabled={invalid}
+              >
+                <FormattedMessage
+                  id='coinifyexchangedata.create.verifyemail.sendverifyemail'
+                  defaultMessage='Send Verification Email'
+                />
+              </Button>
+            </ButtonWrapper>
+          </ColRightInner>
+        </ColRightEnd>
+      </CreateForm>
+      {
+        codeSent
+          ? <EmailHelper>
+            <FormattedMessage
+              id='coinifyexchangedata.create.verifyemail.helper.sentverificationemail'
+              defaultMessage="Another verification email has been sent! Don't see it? {resend}"
+              values={{ resend: <a onClick={resend}>Resend</a> }}
             />
-            {
-              codeSent
-                ? <EmailHelper>
-                  <FormattedMessage
-                    id='coinifyexchangedata.create.verifyemail.helper.sentverificationemail'
-                    defaultMessage="Another verification email has been sent! Don't see it? {resend}"
-                    values={{ resend: <a onClick={resend}>Resend</a> }}
-                  />
-                </EmailHelper>
-                : null
-            }
-          </EmailInput>
-        </InputWrapper>
-      </ColLeft>
-      <ColRightEnd>
-        <ColRightInner>
-          <ButtonWrapper>
-            <Button
-              type='submit'
-              nature='primary'
-              fullwidth
-              disabled={invalid}
-            >
-              <FormattedMessage
-                id='coinifyexchangedata.create.verifyemail.sendverifyemail'
-                defaultMessage='Send Verification Email'
-              />
-            </Button>
-          </ButtonWrapper>
-        </ColRightInner>
-      </ColRightEnd>
-    </CreateForm>
+          </EmailHelper>
+          : null
+      }
+    </Fragment>
   )
 }
 
