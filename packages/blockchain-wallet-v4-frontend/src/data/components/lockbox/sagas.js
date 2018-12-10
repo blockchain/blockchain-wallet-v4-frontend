@@ -245,6 +245,7 @@ export default ({ api }) => {
             deviceType,
             transport
           )
+          if (!publicKey) throw new Error('No XLM public key found')
           entry = Lockbox.utils.generateXlmAccountMDEntry(deviceName, publicKey)
           yield put(actions.components.lockbox.setConnectionSuccess())
           yield delay(2000)
