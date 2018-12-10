@@ -3,9 +3,11 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import QRCodeReact from 'qrcode.react'
 import { FormattedMessage } from 'react-intl'
+import { keys } from 'ramda'
 
 import {
   Banner,
+  Icon,
   Modal,
   ModalHeader,
   ModalBody,
@@ -14,35 +16,74 @@ import {
   Button
 } from 'blockchain-info-components'
 
-const CoinName = styled(Text)`
-  margin-bottom: 5px;
-`
-const CoinRow = styled.div`
+const Content = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
-  justify-content: space-between;
-`
-const XPubTextWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  height: 120px;
-  min-height: 120px;
-  margin-right: 20px;
+  align-items: center;
 `
 const WarningBanner = styled(Banner)`
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 `
 const XPubText = styled(Text)`
   background-color: ${props => props.theme['white-blue']};
-  padding: 25px 15px 0;
+  padding: 25px;
   margin-bottom: 20px;
-  color: #4b4d4e;
   word-break: break-all;
+  width: 80%;
+`
+const Tabs = styled.div`
+  display: flex;
+  border-bottom: 2px solid ${props => props.theme['gray-1']};
+  margin-bottom: 35px;
+`
+const Tab = styled.div`
+  width: 33%;
+  display: flex;
+  padding: 10px 5px;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  @media (min-width: 768px) {
+    padding: 15px 5px;
+  }
+  &:after {
+    display: block;
+    content: '';
+    width: 100%;
+    left: 0;
+    bottom: -2px;
+    position: absolute;
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    border-bottom: solid 2px ${props => props.theme['gray-6']};
+  }
+  > * {
+    transition: color 0.3s;
+  }
+  &.active,
+  &:hover {
+    &:after {
+      transform: scaleX(1);
+    }
+  }
+`
+const TabHeader = styled(Text)`
+  font-weight: 300;
+  @media (min-width: 768px) {
+    font-size: 20px;
+  }
+`
+const TabIcon = styled(Icon)`
+  margin-right: 10px;
+  @media (min-width: 768px) {
+    font-size: ${props => props.size || '20px'};
+  }
 `
 
 const PromptLockbox = props => {
-  const { btcXPub, bchXPub, closeAll, position, total } = props
+  const { activeTab, coins, setActive, closeAll, position, total } = props
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -61,24 +102,49 @@ const PromptLockbox = props => {
             />
           </Text>
         </WarningBanner>
-        <CoinName>Bitcoin (BTC)</CoinName>
-        <CoinRow style={{ marginBottom: '20px' }}>
-          <XPubTextWrapper>
+        <Tabs>
+          {keys(coins).map(coin => {
+            return (
+              <Tab
+                className={activeTab === coin ? 'active' : ''}
+                onClick={() => setActive(coin)}
+              >
+                <TabIcon
+                  name={coin + '-circle-filled'}
+                  size='28px'
+                  color={coin}
+                />
+                <TabHeader>
+                  <span>{coin.toUpperCase()}</span>
+                </TabHeader>
+              </Tab>
+            )
+          })}
+        </Tabs>
+        {coins[activeTab] ? (
+          <Content>
             <XPubText size='12px' weight='300'>
-              {btcXPub}
+              {coins[activeTab]}
             </XPubText>
-          </XPubTextWrapper>
-          <QRCodeReact value={btcXPub} size={100} />
-        </CoinRow>
-        <CoinName>Bitcoin Cash (BCH)</CoinName>
-        <CoinRow>
-          <XPubTextWrapper>
-            <XPubText size='12px' weight='300'>
-              {bchXPub}
-            </XPubText>
-          </XPubTextWrapper>
-          <QRCodeReact value={bchXPub} size={100} />
-        </CoinRow>
+            <QRCodeReact value={coins[activeTab]} size={150} />
+          </Content>
+        ) : (
+          <Content style={{ textAlign: 'center' }}>
+            <Text size='16px'>
+              <FormattedMessage
+                id='modals.lockbox.showxpubs.notfound'
+                defaultMessage='Failed to derive the xPub!'
+              />
+            </Text>
+            <Text size='16px' style={{ marginTop: '10px' }}>
+              <FormattedMessage
+                id='modals.lockbox.showxpubs.notfound2'
+                defaultMessage='Ensure {coin} has been added to your Lockbox.'
+                values={{ coin: activeTab.toUpperCase() }}
+              />
+            </Text>
+          </Content>
+        )}
       </ModalBody>
       <ModalFooter align='right'>
         <Button nature='primary' onClick={closeAll}>

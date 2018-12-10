@@ -13,27 +13,21 @@ import {
   Text
 } from 'blockchain-info-components'
 
-const Wrapper = styled.div`
+const Content = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
-`
-const XPubTextWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  height: 120px;
-  min-height: 120px;
-  margin-right: 20px;
-`
-const WarningBanner = styled(Banner)`
-  margin-bottom: 25px;
+  align-items: center;
 `
 const XPubText = styled(Text)`
   background-color: ${props => props.theme['white-blue']};
-  padding: 25px 15px 0;
+  padding: 25px;
   margin-bottom: 20px;
-  color: #4b4d4e;
   word-break: break-all;
+  width: 80%;
+`
+const WarningBanner = styled(Banner)`
+  margin-bottom: 25px;
 `
 
 const ShowXPubTemplate = ({ position, total, closeAll, xpub }) => (
@@ -53,14 +47,12 @@ const ShowXPubTemplate = ({ position, total, closeAll, xpub }) => (
           />
         </Text>
       </WarningBanner>
-      <Wrapper>
-        <XPubTextWrapper>
-          <XPubText size='12px' weight='300'>
-            {xpub}
-          </XPubText>
-        </XPubTextWrapper>
-        <QRCodeReact value={xpub} size={100} />
-      </Wrapper>
+      <Content>
+        <XPubText size='12px' weight='300'>
+          {xpub}
+        </XPubText>
+        <QRCodeReact value={xpub} size={150} />
+      </Content>
     </ModalBody>
     <ModalFooter align='right'>
       <Button nature='primary' onClick={closeAll}>
