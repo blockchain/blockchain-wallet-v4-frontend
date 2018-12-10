@@ -11,6 +11,7 @@ class ImportedAddressesContainer extends React.Component {
   constructor (props) {
     super(props)
     this.handleClickImport = this.handleClickImport.bind(this)
+    this.handleClickVerify = this.handleClickVerify.bind(this)
     this.handleToggleArchived = this.handleToggleArchived.bind(this)
     this.handleShowPriv = this.handleShowPriv.bind(this)
     this.handleSignMessage = this.handleSignMessage.bind(this)
@@ -22,6 +23,10 @@ class ImportedAddressesContainer extends React.Component {
 
   handleClickImport () {
     this.props.modalsActions.showModal('ImportBtcAddress')
+  }
+
+  handleClickVerify () {
+    this.props.modalsActions.showModal('VerifyMessage')
   }
 
   handleShowPriv (address) {
@@ -49,6 +54,7 @@ class ImportedAddressesContainer extends React.Component {
         <Success
           importedAddresses={value}
           onClickImport={this.handleClickImport}
+          onClickVerify={this.handleClickVerify}
           search={search && search.toLowerCase()}
           onToggleArchived={this.handleToggleArchived}
           onShowPriv={this.handleShowPriv}
@@ -60,6 +66,7 @@ class ImportedAddressesContainer extends React.Component {
           failure
           importedAddresses={values(addressesWithoutRemoteData)}
           onClickImport={this.handleClickImport}
+          onClickVerify={this.handleClickVerify}
           search={search && search.toLowerCase()}
           onToggleArchived={this.handleToggleArchived}
           onShowSignMessage={this.handleSignMessage}
