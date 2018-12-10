@@ -9,6 +9,7 @@ import * as C from 'services/AlertService'
 import * as A from './actions'
 import * as S from './selectors'
 import {
+  EMAIL_STEPS,
   STEPS,
   SMS_STEPS,
   SMS_NUMBER_FORM,
@@ -129,6 +130,7 @@ export default ({ api, coreSagas }) => {
   }) {
     yield put(A.setCoinify(isCoinify))
     yield put(A.setDesiredTier(desiredTier))
+    yield put(A.setEmailStep(EMAIL_STEPS.edit))
     yield call(initializeStep)
   }
 
@@ -362,6 +364,43 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const sendEmailVerification = function*({ payload }) {
+    try {
+      yield put(actions.form.startAsyncValidation(PERSONAL_FORM))
+      const { email } = payload
+      yield call(coreSagas.settings.resendVerifyEmail, { email })
+      yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
+    } catch (e) {
+      yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'resendVerifyEmail', e)
+      )
+    } finally {
+      yield put(actions.form.stopAsyncValidation(PERSONAL_FORM))
+    }
+  }
+
+  const updateEmail = function*({ payload }) {
+    try {
+      yield put(actions.form.startAsyncValidation(PERSONAL_FORM))
+      const prevEmail = (yield select(
+        selectors.core.settings.getEmail
+      )).getOrElse('')
+      const { email } = payload
+      if (prevEmail === email)
+        yield call(coreSagas.settings.resendVerifyEmail, { email })
+      else yield call(coreSagas.settings.setEmail, { email })
+      yield put(actions.form.stopAsyncValidation(PERSONAL_FORM))
+      yield put(A.setEmailStep(EMAIL_STEPS.verify))
+    } catch (e) {
+      yield put(
+        actions.form.stopAsyncValidation(PERSONAL_FORM, {
+          email: userExistsError
+        })
+      )
+    }
+  }
+
   return {
     verifyIdentity,
     initializeVerification,
@@ -379,6 +418,8 @@ export default ({ api, coreSagas }) => {
     updateSmsNumber,
     verifySmsNumber,
     checkKycFlow,
-    sendDeeplink
+    sendDeeplink,
+    sendEmailVerification,
+    updateEmail
   }
 }

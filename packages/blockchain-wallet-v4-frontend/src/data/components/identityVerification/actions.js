@@ -81,3 +81,16 @@ export const setDesiredTier = tier => ({
   type: AT.SET_DESIRED_TIER,
   payload: { tier }
 })
+
+export const updateEmail = email => ({
+  type: AT.UPDATE_EMAIL,
+  payload: { email }
+})
+export const sendEmailVerification = email => ({
+  type: AT.SEND_EMAIL_VERIFICATION,
+  payload: { email }
+})
+export const setEmailStep = step => ({
+  type: AT.SET_EMAIL_STEP,
+  payload: { step }
+})
