@@ -60,7 +60,7 @@ const streamingMiddleware = (streamingService, api) => {
         map(prop('publicKey')),
         pathOr([], ['value', 'accounts'])
       )(payload)
-      addStreams(reject(id => isNil(id), accountIds))
+      addStreams(reject(isNil, accountIds))
     }
     if (
       type === actionTypes.core.kvStore.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS
@@ -71,7 +71,7 @@ const streamingMiddleware = (streamingService, api) => {
         map(pathOr([], ['xlm', 'accounts'])),
         pathOr([], ['value', 'devices'])
       )(payload)
-      addStreams(reject(id => isNil(id), accountIds))
+      addStreams(reject(isNil, accountIds))
     }
     if (type === actionTypes.middleware.webSocket.xlm.STOP_STREAMS) {
       streamingService.close()
