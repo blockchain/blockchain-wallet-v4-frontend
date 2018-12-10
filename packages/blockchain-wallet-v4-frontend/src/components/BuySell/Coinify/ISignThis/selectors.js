@@ -1,8 +1,8 @@
-import { path } from 'ramda'
 import { selectors } from 'data'
 
 export const getData = state => ({
-  walletOptions: path(['walletOptionsPath'], state),
   quoteR: selectors.core.data.coinify.getQuote(state),
-  trade: selectors.core.data.coinify.getTrade(state)
+  trade: selectors.core.data.coinify.getTrade(state),
+  iSignThisDomainR: selectors.core.walletOptions.getISignThisDomain(state),
+  coinifyPaymentDomainR: selectors.core.walletOptions.getCoinifyPaymentDomain(state)
 })

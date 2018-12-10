@@ -544,8 +544,20 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const cancelISX = function* () {
+    const tradeR = yield select(selectors.core.data.coinify.getTrade)
+    const trade = tradeR.getOrElse({})
+    if (prop('state', trade) === 'awaiting_transfer_in') {
+      yield put(
+        actions.form.change('buySellTabStatus', 'status', 'order_history')
+      )
+    }
+    yield put(A.coinifyNextCheckoutStep('checkout'))
+  }
+
   return {
     buy,
+    cancelISX,
     cancelSubscription,
     cancelTrade,
     checkoutCardMax,

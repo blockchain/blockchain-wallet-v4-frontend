@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -78,12 +78,11 @@ const getExpiredFiatValues = q =>
     ? `${Currency.formatFiat(Math.abs(q.baseAmount))} ${q.baseCurrency}`
     : `${Currency.formatFiat(Math.abs(q.quoteAmount))} ${q.quoteCurrency}`
 
-class ISignThisContainer extends Component {
-  constructor (props) {
-    super(props)
-    this.state = { quoteExpired: false }
-    this.onQuoteExpiration = this.onQuoteExpiration.bind(this)
+class ISignThisContainer extends PureComponent {
+  state = {
+    quoteExpired: false
   }
+
   componentDidMount () {
     window.addEventListener('message', function (e) {})
 
@@ -92,9 +91,8 @@ class ISignThisContainer extends Component {
     }
 
     var e = document.getElementById('isx-iframe')
-    const iSignThisDomain = this.props.walletOptions
-      .map(path(['platforms', 'web', 'coinify', 'config', 'iSignThisDomain']))
-      .getOrElse(null)
+    const coinifyPaymentDomain = this.props.coinifyPaymentDomainR.getOrElse()
+    const iSignThisDomain = this.props.iSignThisDomainR.getOrElse()
 
     var _isx = {
       transactionId: '',
@@ -154,8 +152,8 @@ class ISignThisContainer extends Component {
         function (e) {
           // Check for the domain who sent the messageEvent
           let origin = e.origin || e.originalEvent.origin
-          if (origin !== iSignThisDomain) {
-            // Event not generated from ISX, simply return
+          if (![iSignThisDomain, coinifyPaymentDomain].includes(origin)) {
+            // Event not generated from ISX or coinifyPaymentDomain, simply return
             return
           }
 
@@ -198,7 +196,6 @@ class ISignThisContainer extends Component {
     }
 
     var setState = state => {
-      // console.log('V4 ISX_COMPONENT: setState', state)
       switch (state) {
         case 'SUCCESS':
           onComplete('processing')
@@ -231,19 +228,20 @@ class ISignThisContainer extends Component {
       .publish()
   }
 
-  onQuoteExpiration () {
+  onQuoteExpiration = () => {
     this.setState({ quoteExpired: true })
   }
 
   render () {
-    const { options, iSignThisId, coinifyActions, trade, quoteR } = this.props
-    const walletOpts = options || this.props.walletOptions.getOrElse(null)
-    const iSignThisDomain = path(
-      ['platforms', 'web', 'coinify', 'config', 'iSignThisDomain'],
-      walletOpts
-    )
-    const srcUrl = `${iSignThisDomain}/landing/${iSignThisId}?embed=true`
+    const { iSignThisDomainR, coinifyPaymentDomainR, iSignThisId, coinifyActions, trade, quoteR } = this.props
+    const coinifyPaymentDomain = coinifyPaymentDomainR.getOrElse()
+    const iSignThisDomain = iSignThisDomainR.getOrElse()
     const isxType = path(['data', 'constructor', 'name'], trade)
+
+    const srcUrl =
+      isxType === 'Trade'
+        ? `${iSignThisDomain}/landing/${iSignThisId}?embed=true` // Url for KYC TODO: we won't need this anymore
+        : `${coinifyPaymentDomain}` // Url for payment
 
     return (
       <Fragment>

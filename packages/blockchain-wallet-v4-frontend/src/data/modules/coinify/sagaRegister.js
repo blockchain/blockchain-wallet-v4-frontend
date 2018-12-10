@@ -18,7 +18,6 @@ export default ({ api, coreSagas, networks }) => {
       AT.COINIFY_DELETE_BANK_ACCOUNT,
       coinifySagas.deleteBankAccount
     )
-    yield takeLatest(AT.CANCEL_ISX, coinifySagas.cancelISX)
     yield takeLatest(AT.FINISH_TRADE, coinifySagas.finishTrade)
     yield takeLatest(AT.CANCEL_TRADE, coinifySagas.cancelTrade)
     yield takeLatest(AT.CANCEL_SUBSCRIPTION, coinifySagas.cancelSubscription)
@@ -35,5 +34,6 @@ export default ({ api, coreSagas, networks }) => {
       AT.COMPARE_COINIFY_KYC,
       coinifySagas.compareKyc
     )
+    yield takeLatest(AT.CANCEL_ISX, coinifySagas.cancelISX)
   }
 }
