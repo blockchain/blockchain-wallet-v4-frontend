@@ -16,6 +16,7 @@ const api = {
 const coreSagas = {}
 
 const {
+  createUser,
   checkKycFlow,
   createRegisterUserCampaign,
   goToNextStep,
@@ -202,30 +203,26 @@ describe('checkKycFlow saga', () => {
 })
 
 describe('createRegisterUserCampaign', () => {
-  it('should return registerUserCampaign saga if user does not need verification', () => {
-    const saga = testSaga(createRegisterUserCampaign, {
-      payload: { needsIdVerification: false }
-    })
+  it('should return if user exists', () => {
+    const saga = testSaga(createRegisterUserCampaign)
     saga
       .next()
-      .call(registerUserCampaign)
-      .next()
+      .call(verifyIdentity)
+      .next(true)
       .isDone()
   })
   describe('should get user id if user needs verification', () => {
-    const saga = testSaga(createRegisterUserCampaign, {
-      payload: { needsIdVerification: true }
-    })
-    it('should get user creds', () => {
-      saga.next().select(selectors.core.kvStore.userCredentials.getUserId)
-    })
+    const saga = testSaga(createRegisterUserCampaign)
     it('should attempt to verify id', () => {
-      saga.next(Remote.of(1234)).call(verifyIdentity)
+      saga.next().call(verifyIdentity)
     })
-    it('should always register user campaign', () => {
+    it('should createUser', () => {
+      saga.next(false).call(createUser)
+    })
+    it('should register user campaign', () => {
       saga
         .next()
-        .call(registerUserCampaign, true)
+        .call(registerUserCampaign, { newUser: true })
         .next()
         .isDone()
     })

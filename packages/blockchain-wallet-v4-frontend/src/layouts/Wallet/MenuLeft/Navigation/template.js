@@ -153,6 +153,7 @@ const Navigation = props => {
                 const deviceName = device.device_name
                 return (
                   <LinkContainer
+                    key={index}
                     activeClassName='active'
                     to={`/lockbox/dashboard/${index}`}
                     isActive={() => rest.pathname.includes(index)}

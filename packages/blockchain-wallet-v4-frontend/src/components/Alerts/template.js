@@ -525,6 +525,13 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage='PBKDF2 iterations changed successfully'
         />
       )
+    case C.PLEASE_LOGIN:
+      return (
+        <FormattedMessage
+          id='components.alerts.please_login'
+          defaultMessage='Please login to your wallet to proceed'
+        />
+      )
     case C.QR_SCANNER_NOT_ALLOWED:
       return (
         <FormattedMessage

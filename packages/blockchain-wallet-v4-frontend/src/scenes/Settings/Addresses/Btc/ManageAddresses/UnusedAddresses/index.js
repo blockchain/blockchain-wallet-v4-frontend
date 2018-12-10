@@ -207,7 +207,7 @@ class UnusedAddressesContainer extends React.PureComponent {
 }
 
 UnusedAddressesContainer.propTypes = {
-  index: PropTypes.number.required
+  walletIndex: PropTypes.number
 }
 
 const mapStateToProps = (state, ownProps) => {
