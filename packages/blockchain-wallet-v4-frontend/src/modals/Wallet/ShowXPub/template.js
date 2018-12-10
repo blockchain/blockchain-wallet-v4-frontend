@@ -2,92 +2,73 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import QRCodeReact from 'qrcode.react'
+
 import {
+  Banner,
+  Button,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Text,
-  Button
+  Text
 } from 'blockchain-info-components'
 
-const XPubTextBox = styled.div`
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+`
+const XPubTextWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 120px;
+  min-height: 120px;
+  margin-right: 20px;
+`
+const WarningBanner = styled(Banner)`
+  margin-bottom: 25px;
+`
+const XPubText = styled(Text)`
   background-color: ${props => props.theme['white-blue']};
-  padding: 10px;
-  font-family: 'Courier New', monospace;
+  padding: 25px 15px 0;
   margin-bottom: 20px;
-  font-size: 10pt;
   color: #4b4d4e;
   word-break: break-all;
 `
-const ClickableText = styled(Text)`
-  cursor: pointer;
-`
 
-const FirstStep = () => (
-  <div>
-    <Text size='13px' color='error' weight={500} uppercase>
-      <FormattedMessage id='modals.xpub.warning' defaultMessage='Warning' />
-    </Text>
-    <Text size='14px' style={{ marginTop: 10 }} weight={300}>
-      <FormattedMessage
-        id='modals.xpub.warning.message'
-        defaultMessage="Don't share your Extended Public Key (xPub) with an untrusted source. Anyone with access to this can keep track of your payments and may be able to disrupt access to your wallet."
-      />
-    </Text>
-  </div>
-)
-
-const SecondStep = ({ xpub }) => (
-  <div>
-    <XPubTextBox>{xpub}</XPubTextBox>
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}
-    >
-      <QRCodeReact value={xpub} size={200} />
-    </div>
-  </div>
-)
-
-const ShowXPubTemplate = ({
-  position,
-  total,
-  close,
-  step,
-  xpub,
-  onContinue
-}) => (
+const ShowXPubTemplate = ({ position, total, closeAll, xpub }) => (
   <Modal size='large' position={position} total={total}>
-    <ModalHeader icon='lock' closeButton={false}>
+    <ModalHeader icon='lock' onClose={closeAll}>
       <FormattedMessage
-        id='modals.xpub.title'
+        id='modals.wallet.showxpub.title'
         defaultMessage='Extended Public Key'
       />
     </ModalHeader>
     <ModalBody>
-      {step === 0 ? <FirstStep /> : <SecondStep xpub={xpub} />}
+      <WarningBanner type='warning'>
+        <Text size='13px' color='error'>
+          <FormattedMessage
+            id='modals.wallet.showxpub.warning'
+            defaultMessage="Don't share your Extended Public Key (xPub) with an untrusted source. Anyone with access to this key can keep track of your payments and may be able to disrupt access to your wallet."
+          />
+        </Text>
+      </WarningBanner>
+      <Wrapper>
+        <XPubTextWrapper>
+          <XPubText size='12px' weight='300'>
+            {xpub}
+          </XPubText>
+        </XPubTextWrapper>
+        <QRCodeReact value={xpub} size={100} />
+      </Wrapper>
     </ModalBody>
     <ModalFooter align='right'>
-      <ClickableText
-        size='small'
-        weight={300}
-        style={{ marginRight: 15 }}
-        onClick={close}
-      >
-        <FormattedMessage id='modals.xpub.close' defaultMessage='Close' />
-      </ClickableText>
-      {step === 0 && (
-        <Button nature='primary' onClick={onContinue}>
-          <FormattedMessage
-            id='modals.xpub.continue'
-            defaultMessage='Continue'
-          />
-        </Button>
-      )}
+      <Button nature='primary' onClick={closeAll}>
+        <FormattedMessage
+          id='modals.wallet.showxpub.close'
+          defaultMessage='Close'
+        />
+      </Button>
     </ModalFooter>
   </Modal>
 )
