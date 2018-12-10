@@ -8,10 +8,15 @@ import * as selectors from '../../selectors.js'
 import coinifySagas, { logLocation, sellDescription } from './sagas'
 import * as C from 'services/AlertService'
 import { merge } from 'ramda'
+import * as model from '../../model'
+const { STEPS } = model.components.identityVerification
+const { VERIFIED } = model.profile.KYC_STATES
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const coreSagas = coreSagasFactory()
 const networks = { btc: 'bitcoin' }
+
+const api = { sendCoinifyKyc: jest.fn() }
 
 describe('coinifySagas', () => {
   beforeAll(() => {
@@ -71,39 +76,40 @@ describe('coinifySagas', () => {
     return paymentMock
   })
 
-  describe('coinify signup', () => {
+  describe('coinify signup - new KYC user', () => {
     let { coinifySignup } = coinifySagas({
       coreSagas,
       networks
     })
 
-    const data = {
-      payload: {
-        country: 'FR'
-      }
-    }
+    const COUNTRY = 'GB'
+    const USER_KYC_STATE = Remote.of('NONE')
+    const PROFILE = Remote.of({ id: '5' })
 
-    let saga = testSaga(coinifySignup, data)
+    let saga = testSaga(coinifySignup)
     const beforeDetermine = 'beforeDetermine'
 
+    it('should select the country from state', () => {
+      saga.next().select(selectors.modules.coinify.getCoinifyCountry)
+    })
+
     it('should call core signup with the payload', () => {
-      saga.next().call(coreSagas.data.coinify.signup, data.payload)
+      saga.next(COUNTRY).call(coreSagas.data.coinify.signup, COUNTRY)
     })
 
     it('should select the profile', () => {
       saga
         .next()
-        .select(selectors.core.data.coinify.getProfile())
+        .select(selectors.core.data.coinify.getProfile)
         .save(beforeDetermine)
     })
 
-    it('should go to ISX step if no error', () => {
-      const profile = { id: 1 }
-      saga
-        .next(profile)
-        .call(coreSagas.data.coinify.triggerKYC)
-        .next()
-        .put(coinifyActions.coinifyNextStep('isx'))
+    it('should select the user KYC state', () => {
+      saga.next(PROFILE).select(selectors.modules.profile.getUserKYCState)
+    })
+
+    it('should set verification step to personal if state is NONE', () => {
+      saga.next(USER_KYC_STATE).put(actions.components.identityVerification.setVerificationStep(STEPS.personal))
     })
 
     it('should handle an error', () => {
@@ -132,29 +138,50 @@ describe('coinifySagas', () => {
     })
   })
 
-  describe('triggerKYC', () => {
-    let { triggerKYC } = coinifySagas({
+  describe('coinify signup - existing KYC user', () => {
+    let { coinifySignup, handleAfterSignup } = coinifySagas({
       coreSagas,
       networks
     })
 
-    let saga = testSaga(triggerKYC)
+    const COUNTRY = 'GB'
+    const USER_KYC_STATE = Remote.of('ACTIVE')
+    const PROFILE = Remote.of({ user: '5' })
 
-    it('should call core triggerKYC', () => {
-      saga.next().call(coreSagas.data.coinify.triggerKYC)
+    let saga = testSaga(coinifySignup)
+    const beforeDetermine = 'beforeDetermine'
+
+    it('should select the country from state', () => {
+      saga.next().select(selectors.modules.coinify.getCoinifyCountry)
     })
 
-    it('should go to the next step', () => {
-      saga.next().put(coinifyActions.coinifyNextCheckoutStep('isx'))
+    it('should call core signup with the payload', () => {
+      saga.next(COUNTRY).call(coreSagas.data.coinify.signup, COUNTRY)
+    })
+
+    it('should select the profile', () => {
+      saga
+        .next()
+        .select(selectors.core.data.coinify.getProfile)
+        .save(beforeDetermine)
+    })
+
+    it('should select the user KYC state', () => {
+      saga.next(PROFILE).select(selectors.modules.profile.getUserKYCState)
+    })
+
+    it('should call handleAfterSignup with the userId', () => {
+      saga.next(USER_KYC_STATE).call(handleAfterSignup, '5')
     })
 
     it('should handle an error', () => {
-      const error = new Error('ERROR')
+      const errorProfile = { error: '{"error": "signup_error"}' }
       saga
-        .restart()
-        .next()
-        .throw(error)
-        .put(actions.logs.logErrorMessage(logLocation, 'triggerKYC', error))
+        .restore(beforeDetermine)
+        .next(errorProfile)
+        .put(
+          coinifyActions.coinifySignupFailure(JSON.parse(errorProfile.error))
+        )
     })
   })
 
@@ -169,18 +196,6 @@ describe('coinifySagas', () => {
         status: 'complete'
       }
     }
-
-    it('should call signupComplete if modal type is CoinifyExchangeData', () => {
-      const modals = [{ type: 'CoinifyExchangeData' }]
-      const trade = Remote.of({})
-      return expectSaga(fromISX, action)
-        .provide([
-          [select(selectors.modals.getModals), modals],
-          [select(selectors.core.data.coinify.getTrade), trade]
-        ])
-        .put(coinifyActions.coinifySignupComplete())
-        .run()
-    })
 
     it('should change the form if constructor is not Trade', () => {
       const modals = [{ type: 'other' }]
@@ -204,73 +219,6 @@ describe('coinifySagas', () => {
         ])
         .put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
         .run()
-    })
-  })
-
-  describe('openKYC', () => {
-    let { openKYC } = coinifySagas({
-      coreSagas,
-      networks
-    })
-
-    const data = {
-      payload: {
-        kyc: {
-          id: 1,
-          state: 'pending'
-        }
-      }
-    }
-
-    let saga = testSaga(openKYC, data)
-
-    const saveToRestore = 'saveToRestore'
-
-    it('should select kyc', () => {
-      saga.next().select(selectors.core.data.coinify.getKyc)
-    })
-
-    it('should call the core kycAsTrade', () => {
-      const recentKyc = Remote.of({ state: 'pending' })
-      saga
-        .next(recentKyc)
-        .call(coreSagas.data.coinify.kycAsTrade, { kyc: data.payload })
-        .save(saveToRestore)
-    })
-
-    it('should go to isx step', () => {
-      saga.next().put(coinifyActions.coinifyNextCheckoutStep('isx'))
-    })
-
-    describe('error handling', () => {
-      const error = 'ERROR'
-      it('should log the error', () => {
-        saga
-          .restore(saveToRestore)
-          .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'openKYC', error))
-      })
-    })
-  })
-
-  describe('openKYC - empty payload', () => {
-    let { openKYC, triggerKYC } = coinifySagas({
-      coreSagas,
-      networks
-    })
-
-    const data = {
-      payload: null
-    }
-
-    let saga = testSaga(openKYC, data)
-
-    it('should select kyc', () => {
-      saga.next().select(selectors.core.data.coinify.getKyc)
-    })
-
-    it('should trigger KYC', () => {
-      saga.next(Remote.of({ state: 'completed' })).call(triggerKYC)
     })
   })
 
@@ -874,57 +822,6 @@ describe('coinifySagas', () => {
     })
   })
 
-  describe('cancelISX', () => {
-    let { cancelISX } = coinifySagas({
-      coreSagas,
-      networks
-    })
-
-    let saga = testSaga(cancelISX)
-
-    it('should select modals', () => {
-      saga.next().select(selectors.modals.getModals)
-    })
-
-    it('should select trade', () => {
-      const modals = [{ type: 'CoinifyExchangeData' }]
-      saga.next(modals).select(selectors.core.data.coinify.getTrade)
-    })
-
-    it('should close the modal if modal is CoinifyExchangeData', () => {
-      const trade = Remote.of({ state: 'awaiting_transfer_in' })
-      saga.next(trade).put(actions.modals.closeAllModals())
-    })
-
-    it('should go to order history if trade state is awaiting_transfer_in', () => {
-      const trade = Remote.of({ state: 'awaiting_transfer_in' })
-      const modals = []
-      saga
-        .restart()
-        .next()
-        .select(selectors.modals.getModals)
-        .next(modals)
-        .select(selectors.core.data.coinify.getTrade)
-        .next(trade)
-        .put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
-        .next()
-        .put(coinifyActions.coinifyNextCheckoutStep('checkout'))
-    })
-
-    it('should go to checkout if trade state is not awaiting_transfer_in', () => {
-      const trade = Remote.of({ state: 'processing' })
-      const modals = []
-      saga
-        .restart()
-        .next()
-        .select(selectors.modals.getModals)
-        .next(modals)
-        .select(selectors.core.data.coinify.getTrade)
-        .next(trade)
-        .put(coinifyActions.coinifyNextCheckoutStep('checkout'))
-    })
-  })
-
   describe('cancelTrade', () => {
     let { cancelTrade } = coinifySagas({
       coreSagas,
@@ -1232,6 +1129,114 @@ describe('coinifySagas', () => {
           .put(coinifyActions.coinifyFailure(error))
           .next()
           .put(actions.logs.logErrorMessage(logLocation, 'sell', error))
+      })
+    })
+  })
+
+  describe('sendCoinifyKYC', () => {
+    let { sendCoinifyKYC } = coinifySagas({
+      api,
+      coreSagas,
+      networks
+    })
+
+    const USER = Remote.of({ user: '1' })
+
+    let saga = testSaga(sendCoinifyKYC)
+
+    it('should selet the coinify user from metadata', () => {
+      saga.next().select(selectors.core.kvStore.buySell.getCoinifyUser)
+    })
+
+    it('should call the backend if the user is present', () => {
+      saga.next(USER).call(api.sendCoinifyKyc, USER.getOrElse())
+    })
+
+    describe('error handling', () => {
+      const error = new Error('ERROR')
+      it('should log an error', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(
+            actions.logs.logErrorMessage(logLocation, 'sendCoinifyKyc', error)
+          )
+      })
+    })
+  })
+
+  describe('fetchCoinifyData', () => {
+    let { fetchCoinifyData } = coinifySagas({
+      api, coreSagas, networks
+    })
+
+    let saga = testSaga(fetchCoinifyData)
+
+    it('should fetch trades', () => {
+      saga.next().put(actions.core.data.coinify.fetchTrades())
+    })
+
+    it('should getKyc', () => {
+      saga.next().put(actions.core.data.coinify.getKyc())
+    })
+
+    it('should fetch subscriptions', () => {
+      saga.next().put(actions.core.data.coinify.fetchSubscriptions())
+    })
+
+    describe('error handling', () => {
+      const error = new Error('ERROR')
+      it('should log an error', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(
+            actions.logs.logErrorMessage(logLocation, 'fetchCoinifyData', error)
+          )
+      })
+    })
+  })
+
+  describe('compareKyc', () => {
+    let { compareKyc } = coinifySagas({
+      api,
+      coreSagas,
+      networks
+    })
+
+    const USER = Remote.of('12345')
+    const LEVEL = Remote.of({ name: '1' })
+
+    let saga = testSaga(compareKyc)
+
+    it('should select the user KYC state', () => {
+      saga.next().select(selectors.modules.profile.getUserKYCState)
+    })
+
+    it('should select the coinify profile level', () => {
+      saga.next(Remote.of(VERIFIED)).select(selectors.core.data.coinify.getLevel)
+    })
+
+    it('should select the user id if coinify is level 1 and user is KYC Verified', () => {
+      saga.next(LEVEL).select(selectors.core.data.coinify.getUserId)
+    })
+
+    it('should call the backend to sync with coinify KYC', () => {
+      saga.next(USER).call(api.sendCoinifyKyc, USER.getOrElse())
+    })
+
+    describe('error handling', () => {
+      const error = new Error('ERROR')
+      it('should log an error', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(
+            actions.logs.logErrorMessage(logLocation, 'compareKyc', error)
+          )
       })
     })
   })

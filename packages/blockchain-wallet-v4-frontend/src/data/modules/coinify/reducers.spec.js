@@ -7,10 +7,10 @@ const INITIAL_STATE = {
   checkoutBusy: false,
   checkoutError: false,
   coinifyBusy: Remote.NotAsked,
-  step: null,
   checkoutStep: 'checkout',
   signupComplete: null,
-  payment: Remote.NotAsked
+  payment: Remote.NotAsked,
+  country: null
 }
 
 const ERROR = 'error'
@@ -18,12 +18,6 @@ const ERROR = 'error'
 describe('coinify reducers', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toEqual(INITIAL_STATE)
-  })
-
-  it('should handle COINIFY_NEXT_STEP', () => {
-    const action = actions.coinifyNextStep('isx')
-    const expectedState = assoc('signupStep', 'isx', INITIAL_STATE)
-    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
   })
 
   it('should handle COINIFY_NEXT_CHECKOUT_STEP', () => {

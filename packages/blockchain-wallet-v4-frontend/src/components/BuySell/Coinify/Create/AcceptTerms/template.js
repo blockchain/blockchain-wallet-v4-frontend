@@ -43,7 +43,7 @@ const IconContainer = styled.div`
     margin-left: 10px;
   }
 `
-const AcceptTermsForm = styled(Form)`
+export const AcceptTermsForm = styled(Form)`
   ${media.mobile`
     flex-direction: column;
   `};

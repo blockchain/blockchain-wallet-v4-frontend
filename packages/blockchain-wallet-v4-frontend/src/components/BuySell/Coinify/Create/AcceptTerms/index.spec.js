@@ -8,6 +8,7 @@ import { coreReducers, paths } from 'blockchain-wallet-v4/src'
 import modalsReducer from 'data/modals/reducers'
 
 import AcceptTerms from './index'
+import { AcceptTermsForm } from './template'
 
 const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 
@@ -34,17 +35,7 @@ describe('Coinify AcceptTerms Modal', () => {
 
   describe('modal rendering', () => {
     it('should render', () => {
-      expect(wrapper.find('Field[name="terms"]')).toHaveLength(1)
-    })
-
-    it('should should be disabled with terms not clicked', () => {
-      expect(
-        wrapper
-          .find('Field[name="terms"]')
-          .find('input')
-          .props().checked
-      ).toBe(false)
-      expect(wrapper.find('button').props().disabled).toBe(true)
+      expect(wrapper.find(AcceptTermsForm)).toHaveLength(1)
     })
   })
 })
