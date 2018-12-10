@@ -3,8 +3,8 @@ import * as AT from './actionTypes'
 import * as actionTypes from '../../actionTypes'
 import sagas from './sagas'
 
-export default ({ coreSagas }) => {
-  const bchTransactionsSagas = sagas({ coreSagas })
+export default () => {
+  const bchTransactionsSagas = sagas()
 
   return function*() {
     yield takeEvery(

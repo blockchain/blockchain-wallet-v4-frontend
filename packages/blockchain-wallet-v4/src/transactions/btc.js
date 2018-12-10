@@ -276,6 +276,7 @@ export const _transformTx = (
 
   return {
     double_spend: tx.double_spend,
+    rbf: tx.rbf,
     hash: tx.hash,
     amount: computeAmount(type, inputData, outputData),
     type: toLower(type),

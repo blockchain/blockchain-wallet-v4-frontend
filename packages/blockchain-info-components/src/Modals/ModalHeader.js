@@ -49,6 +49,7 @@ const ModalHeader = props => {
           weight={300}
           color='gray-5'
           className='headerText'
+          data-e2e='modalHeaderText'
           capitalize
         >
           {children}
@@ -56,10 +57,11 @@ const ModalHeader = props => {
       </Header>
       {closeButton && (
         <Icon
-          name='close'
-          size='20px'
+          name='close-bold'
+          size='16px'
           weight={300}
           color='gray-5'
+          data-e2e='modalCloseButton'
           cursor
           onClick={onClose}
         />

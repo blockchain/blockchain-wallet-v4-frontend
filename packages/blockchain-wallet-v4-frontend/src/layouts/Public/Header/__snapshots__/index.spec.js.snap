@@ -19,6 +19,7 @@ exports[`Public Header Component should match snapshot 1`] = `
   </Navbar>
   <[object Object]
     alertArea="public"
+    type="service"
   />
 </React.Fragment>
 `;

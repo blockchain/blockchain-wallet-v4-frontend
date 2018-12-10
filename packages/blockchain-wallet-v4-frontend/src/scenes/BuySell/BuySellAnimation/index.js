@@ -129,10 +129,6 @@ class BuySellAnimation extends React.PureComponent {
       ['options', 'platforms', 'web', 'sfox', 'countries'],
       nextProps
     )
-    const unocoinCountries = path(
-      ['options', 'platforms', 'web', 'unocoin', 'countries'],
-      nextProps
-    )
     const coinifyCountries = path(
       ['options', 'platforms', 'web', 'coinify', 'countries'],
       nextProps
@@ -149,13 +145,6 @@ class BuySellAnimation extends React.PureComponent {
       case coinifyCountries.includes(nextProps.country): {
         return {
           btc: 'buy sell',
-          bch: '',
-          eth: ''
-        }
-      }
-      case unocoinCountries.includes(nextProps.country): {
-        return {
-          btc: 'buy',
           bch: '',
           eth: ''
         }

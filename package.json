@@ -1,11 +1,11 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.3.62",
+  "version": "4.6.8",
   "license": "AGPL-3.0-or-later",
   "private": true,
   "author": {
     "name": "Blockchain.info",
-    "url": "https://blockchain.info"
+    "url": "https://blockchain.com"
   },
   "homepage": "https://github.com/blockchain/blockchain-wallet-v4-frontend",
   "bugs": {
@@ -21,11 +21,17 @@
     "wallet"
   ],
   "engines": {
-    "node": ">= 10.2"
+    "node": ">= 10.2",
+    "yarn": ">= 1.12"
   },
   "workspaces": [
     "packages/*"
   ],
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
@@ -89,14 +95,14 @@
     "test": "cross-env yarn wsrun test:build --fast-exit && yarn wsrun test",
     "test:components": "yarn workspace blockchain-info-components test",
     "test:components:debug": "yarn workspace blockchain-info-components test:debug",
-    "test:components:update": "yarn workspace blockchain-info-components test -- -u",
+    "test:components:update": "yarn workspace blockchain-info-components test:update",
     "test:components:watch": "yarn workspace blockchain-info-components test:watch",
     "test:core": "yarn workspace blockchain-wallet-v4 test",
     "test:core:debug": "yarn workspace blockchain-wallet-v4 test:debug",
     "test:core:watch": "yarn workspace blockchain-wallet-v4 test:watch",
     "test:frontend": "yarn workspace blockchain-wallet-v4-frontend test",
     "test:frontend:debug": "yarn workspace blockchain-wallet-v4-frontend test:debug",
-    "test:frontend:update": "yarn workspace blockchain-wallet-v4-frontend test -- -u",
+    "test:frontend:update": "yarn workspace blockchain-wallet-v4-frontend test:update",
     "test:frontend:watch": "yarn workspace blockchain-wallet-v4-frontend test:watch",
     "debug:prod": "yarn workspace blockchain-wallet-v4-frontend debug:prod",
     "manage:translations": "yarn workspace blockchain-wallet-v4-frontend manage:translations",
@@ -107,11 +113,11 @@
     "onetime": "https://registry.npmjs.org/onetime/-/onetime-1.1.0.tgz"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "4.0.0-alpha.16",
-    "@storybook/addon-info": "4.0.0-alpha.16",
-    "@storybook/addon-links": "4.0.0-alpha.16",
-    "@storybook/cli": "4.0.0-alpha.16",
-    "@storybook/react": "4.0.0-alpha.16",
+    "@storybook/addon-actions": "4.0.0",
+    "@storybook/addon-info": "4.0.0",
+    "@storybook/addon-links": "4.0.0",
+    "@storybook/cli": "4.0.0",
+    "@storybook/react": "4.0.0",
     "@storybook/storybook-deployer": "2.3.0",
     "@svgr/webpack": "2.2.0",
     "babel-cli": "6.26.0",
@@ -140,8 +146,8 @@
     "case-sensitive-paths-webpack-plugin": "2.1.2",
     "chalk": "2.4.1",
     "clean-webpack-plugin": "0.1.19",
-    "copy-webpack-plugin": "4.5.2",
-    "commitizen": "2.10.1",
+    "copy-webpack-plugin": "4.5.4",
+    "commitizen": "3.0.4",
     "coveralls": "3.0.2",
     "cross-env": "5.2.0",
     "css-loader": "0.28.10",
@@ -149,55 +155,50 @@
     "enzyme": "3.4.1",
     "enzyme-adapter-react-16": "1.2.0",
     "enzyme-to-json": "3.3.4",
-    "eslint": "4.19.1",
-    "eslint-config-prettier": "2.9.0",
-    "eslint-config-standard": "11.0.0",
-    "eslint-loader": "2.1.0",
-    "eslint-plugin-babel": "5.1.0",
+    "eslint": "5.8.0",
+    "eslint-config-prettier": "3.1.0",
+    "eslint-config-standard": "12.0.0",
+    "eslint-loader": "2.1.1",
+    "eslint-plugin-babel": "5.2.1",
     "eslint-plugin-import": "2.14.0",
-    "eslint-plugin-jest": "21.21.0",
+    "eslint-plugin-jest": "21.26.2",
     "eslint-plugin-json": "1.2.1",
-    "eslint-plugin-node": "6.0.1",
+    "eslint-plugin-node": "8.0.0",
     "eslint-plugin-react": "7.11.1",
-    "eslint-plugin-standard": "3.1.0",
-    "eslint-watch": "3.1.3",
-    "express": "4.16.3",
+    "eslint-plugin-standard": "4.0.0",
+    "eslint-watch": "4.0.2",
+    "express": "4.16.4",
     "file-loader": "1.1.11",
     "generate-changelog": "1.7.1",
     "html-webpack-plugin": "3.2.0",
-    "husky": "1.0.0-rc.13",
+    "husky": "1.1.2",
     "identity-obj-proxy": "3.0.0",
     "istanbul": "github:Xesenix/istanbul",
     "istanbul-coveralls": "1.0.3",
-    "jest": "23.5.0",
-    "jest-cli": "23.5.0",
+    "jest": "23.6.0",
+    "jest-cli": "23.6.0",
     "jest-css-modules": "1.1.0",
-    "jest-fetch-mock": "1.6.5",
-    "jest-styled-components": "5.0.1",
+    "jest-fetch-mock": "1.6.6",
+    "jest-styled-components": "6.2.2",
     "lint-staged": "7.2.2",
-    "mock-socket": "7.1.0",
-    "prettier": "1.14.2",
+    "mock-socket": "8.0.5",
+    "prettier": "1.14.3",
     "react-hot-loader": "4.3.4",
     "react-intl-translations-manager": "5.0.3",
     "react-intl-translations-manager-bc": "5.0.3-1",
     "react-test-renderer": "16.4.2",
     "redux-mock-store": "1.5.3",
     "redux-saga-test-plan": "3.7.0",
-    "release-it": "7.6.1",
+    "release-it": "8.0.1",
     "rimraf": "2.6.2",
-    "standard": "11.0.1",
+    "standard": "12.0.1",
     "style-loader": "0.22.1",
     "thread-loader": "1.2.0",
     "uglifyjs-webpack-plugin": "1.3.0",
-    "webpack": "4.16.5",
-    "webpack-bundle-analyzer": "2.13.1",
-    "webpack-cli": "3.1.0",
-    "webpack-dev-server": "3.1.5",
+    "webpack": "4.23.1",
+    "webpack-bundle-analyzer": "3.0.3",
+    "webpack-cli": "3.1.2",
+    "webpack-dev-server": "3.1.10",
     "wsrun": "2.2.1"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
   }
 }

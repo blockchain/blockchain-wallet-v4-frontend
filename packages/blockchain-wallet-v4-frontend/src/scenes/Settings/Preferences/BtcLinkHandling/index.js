@@ -3,18 +3,14 @@ import React from 'react'
 import BitcoinLinkHandling from './template.js'
 
 class BitcoinLinkHandlingContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = { warningDisplayed: false }
-    this.handleClick = this.handleClick.bind(this)
-  }
+  state = { warningDisplayed: false }
 
-  handleClick () {
+  handleClick = () => {
     this.setState({ warningDisplayed: !this.state.warningDisplayed })
     // Register bitcoin links
     window.navigator.registerProtocolHandler(
       'bitcoin',
-      '/open/%s',
+      '/#/open/%s',
       'Blockchain'
     )
   }

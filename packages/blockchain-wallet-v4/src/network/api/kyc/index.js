@@ -6,6 +6,12 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
       data: { scope: 'kyc' }
     })
 
+  const getSupportedDocuments = countryCode =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/kyc/supported-documents/${countryCode}`
+    })
+
   const getStates = () =>
     get({
       url: nabuUrl,
@@ -55,13 +61,30 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
       url: nabuUrl
     })
 
+  const fetchKycConfig = () =>
+    authorizedGet({
+      url: nabuUrl,
+      contentType: 'application/json',
+      endPoint: '/kyc/configuration'
+    })
+
+  const sendDeeplink = () =>
+    authorizedPost({
+      url: nabuUrl,
+      contentType: 'application/json',
+      endPoint: '/kyc/verifications/mobile-email'
+    })
+
   return {
     getSupportedCountries,
+    getSupportedDocuments,
     getStates,
     fetchKycAddresses,
+    fetchKycConfig,
     fetchOnfidoSDKKey,
     fetchUploadData,
     syncOnfido,
+    sendDeeplink,
     uploadDocuments
   }
 }

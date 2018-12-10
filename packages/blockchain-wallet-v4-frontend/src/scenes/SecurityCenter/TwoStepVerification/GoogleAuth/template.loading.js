@@ -15,22 +15,22 @@ const EmailAddress = props => {
       <SecuritySummary>
         <SecurityHeader>
           <FormattedMessage
-            id='scenes.preferences.email.title'
+            id='scenes.preferences.loading.email.title'
             defaultMessage='Email address'
           />
           <FlatLoader width='50px' height='14px' />
         </SecurityHeader>
         <SecurityDescription>
           <FormattedMessage
-            id='scenes.preferences.email.description'
+            id='scenes.preferences.loading.email.description'
             defaultMessage='Your verified email address is used to send login codes when suspicious or unusual activity is detected,'
           />
           <FormattedMessage
-            id='scenes.preferences.email.description2'
+            id='scenes.preferences.loading.email.description2'
             defaultMessage='to remind you of your wallet login ID,'
           />
           <FormattedMessage
-            id='scenes.preferences.email.description3'
+            id='scenes.preferences.loading.email.description3'
             defaultMessage='and to send bitcoin payment alerts when you receive funds.'
           />
         </SecurityDescription>

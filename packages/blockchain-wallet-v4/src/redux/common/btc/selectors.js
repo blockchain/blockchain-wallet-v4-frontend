@@ -39,7 +39,7 @@ import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
 
-const transformTx = transactions.bitcoin.transformTx
+const transformTx = transactions.btc.transformTx
 
 const _getAccounts = selector => state => {
   const balancesR = getAddresses(state)

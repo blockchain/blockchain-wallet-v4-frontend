@@ -14,7 +14,7 @@ import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
 import Remote from '../../../remote'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
 
-const transformTx = transactions.ethereum.transformTx
+const transformTx = transactions.eth.transformTx
 
 export const getAccountBalances = state => {
   const digest = (addresses, account) => ({

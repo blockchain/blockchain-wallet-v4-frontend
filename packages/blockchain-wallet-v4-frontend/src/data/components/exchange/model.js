@@ -7,7 +7,8 @@ import {
   head,
   last,
   map,
-  sortBy
+  sortBy,
+  uniq
 } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4'
@@ -22,7 +23,6 @@ export const EXCHANGE_STEPS = {
 
 export const EXCHANGE_FORM = '@EXCHANGE.EXCHANGE_FORM'
 export const CONFIRM_FORM = '@EXCHANGE.CONFIRM_FORM'
-export const SHAPESHIFT_FORM = '@EXCHANGE.SHAPESHIFT_FORM'
 
 export const SHAPESHIFT_PAIRS = Remote.of([
   'BTC-BCH',
@@ -51,8 +51,11 @@ export const LATEST_TX_ERROR = 'Unconfirmed tx pending'
 export const LATEST_TX_FETCH_FAILED_ERROR = 'Failed to fetch latest tx data'
 export const MISSING_DEVICE_ERROR = 'missing_device'
 export const NO_TRADE_PERMISSION = 'NO_TRADE_PERMISSION'
+export const CREATE_ACCOUNT_ERROR = 'Not enough funds to create new account'
+export const NO_ACCOUNT_ERROR = 'Account does not exist'
+export const RESERVE_ERROR = 'Reserve exceeds remaining funds'
 
-const currenciesOrder = ['BTC', 'BCH', 'ETH']
+const currenciesOrder = ['BTC', 'ETH', 'BCH', 'XLM']
 export const sortByOrder = sortBy(flip(indexOf)(currenciesOrder))
 
 const getPairedCoins = curry(
@@ -66,3 +69,13 @@ const getPairedCoins = curry(
 )
 export const getTargetCoinsPairedToSource = getPairedCoins(last, head)
 export const getSourceCoinsPairedToTarget = getPairedCoins(head, last)
+
+const getAvailableCoin = headOrLast => availablePairs =>
+  compose(
+    sortByOrder,
+    uniq,
+    map(headOrLast),
+    map(splitPair)
+  )(availablePairs)
+export const getAvailableSourceCoins = getAvailableCoin(head)
+export const getAvailableTargetCoins = getAvailableCoin(last)

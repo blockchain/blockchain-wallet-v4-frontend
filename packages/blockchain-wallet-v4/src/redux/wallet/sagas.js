@@ -135,7 +135,8 @@ export default ({ api, networks }) => {
       let upgradeWallet = Wallet.upgradeToHd(
         mnemonic,
         'My Bitcoin Wallet',
-        password
+        password,
+        networks.btc
       )
       let nextWrapper = Wrapper.traverseWallet(Task.of, upgradeWallet, wrapper)
       yield call(runTask, nextWrapper, A.wallet.setWrapper)

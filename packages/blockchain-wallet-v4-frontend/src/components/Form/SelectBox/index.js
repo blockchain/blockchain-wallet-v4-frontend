@@ -32,6 +32,14 @@ class SelectBox extends React.PureComponent {
     if (node) this.selectRef = node
   }
 
+  onKeyPressed = evt => {
+    const event = evt || window.event
+    if (event.keyCode === 27) {
+      event.stopPropagation()
+      this.selectRef.blur()
+    }
+  }
+
   render () {
     const {
       input,
@@ -50,6 +58,7 @@ class SelectBox extends React.PureComponent {
           {...input}
           {...meta}
           {...rest}
+          onKeyDown={this.onKeyPressed}
           getRef={this.getSelectRef}
           errorState={errorState}
         />
@@ -74,7 +83,7 @@ SelectBox.propTypes = {
   }).isRequired,
   elements: PropTypes.arrayOf(
     PropTypes.shape({
-      group: PropTypes.string.isRequired,
+      group: PropTypes.string,
       items: PropTypes.arrayOf(
         PropTypes.shape({
           text: PropTypes.oneOfType([
@@ -88,7 +97,7 @@ SelectBox.propTypes = {
             PropTypes.object.isRequired
           ])
         })
-      ).isRequired
+      )
     })
   ).isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),

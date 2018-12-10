@@ -1,4 +1,4 @@
-import { add, lift, pathOr, reduce } from 'ramda'
+import { lift, map, sum, pathOr } from 'ramda'
 import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { Exchange } from 'blockchain-wallet-v4/src'
@@ -14,7 +14,7 @@ export const getLockboxBtcBalance = createDeepEqualSelector(
       return lockboxContext.map(a => pathOr(0, [a, 'final_balance'], balances))
     }
     const balancesR = lift(contextToBalances)(lockboxBtcContextR, addressesR)
-    return balancesR.map(reduce(add, 0))
+    return balancesR.map(sum)
   }
 )
 
@@ -28,7 +28,7 @@ export const getLockboxBchBalance = createDeepEqualSelector(
       return lockboxContext.map(a => pathOr(0, [a, 'final_balance'], balances))
     }
     const balancesR = lift(contextToBalances)(lockboxBtcContextR, addressesR)
-    return balancesR.map(reduce(add, 0))
+    return balancesR.map(sum)
   }
 )
 
@@ -42,9 +42,19 @@ export const getLockboxEthBalance = createDeepEqualSelector(
       return lockboxContext.map(a => pathOr(0, [a, 'balance'], balances))
     }
     const balancesR = lift(contextToBalances)(lockboxBtcContextR, addressesR)
-    return balancesR.map(reduce(add, 0))
+    return balancesR.map(sum)
   }
 )
+
+export const getLockboxXlmBalance = state =>
+  selectors.core.kvStore.lockbox
+    .getLockboxXlmContext(state)
+    .map(
+      map(accountId =>
+        selectors.core.data.xlm.getBalance(accountId, state).getOrElse(0)
+      )
+    )
+    .map(sum)
 
 export const getBtcBalanceInfo = createDeepEqualSelector(
   [
@@ -92,17 +102,51 @@ export const getEthBalanceInfo = createDeepEqualSelector(
   }
 )
 
+export const getXlmBalanceInfo = createDeepEqualSelector(
+  [
+    getLockboxXlmBalance,
+    selectors.core.data.xlm.getRates,
+    selectors.core.settings.getCurrency
+  ],
+  (xlmBalanceR, xlmRatesR, currencyR) => {
+    const transform = (value, rates, toCurrency) =>
+      Exchange.convertXlmToFiat({
+        value,
+        fromUnit: 'STROOP',
+        toCurrency,
+        rates
+      }).value
+    return lift(transform)(xlmBalanceR, xlmRatesR, currencyR)
+  }
+)
+
 export const getTotalBalance = createDeepEqualSelector(
   [
     getBchBalanceInfo,
     getBtcBalanceInfo,
     getEthBalanceInfo,
+    getXlmBalanceInfo,
     selectors.core.settings.getCurrency
   ],
-  (btcBalanceInfoR, bchBalanceInfoR, ethBalanceInfoR, currency) => {
-    const transform = (bchBalance, btcBalance, ethBalance, currency) => {
+  (
+    btcBalanceInfoR,
+    bchBalanceInfoR,
+    ethBalanceInfoR,
+    xlmBalanceInfoR,
+    currency
+  ) => {
+    const transform = (
+      bchBalance,
+      btcBalance,
+      ethBalance,
+      xlmBalance,
+      currency
+    ) => {
       const total = Currency.formatFiat(
-        Number(btcBalance) + Number(ethBalance) + Number(bchBalance)
+        Number(btcBalance) +
+          Number(ethBalance) +
+          Number(bchBalance) +
+          Number(xlmBalance)
       )
       const totalBalance = `${Exchange.getSymbol(currency)}${total}`
       return { totalBalance }
@@ -111,6 +155,7 @@ export const getTotalBalance = createDeepEqualSelector(
       bchBalanceInfoR,
       btcBalanceInfoR,
       ethBalanceInfoR,
+      xlmBalanceInfoR,
       currency
     )
   }
@@ -121,16 +166,30 @@ export const getCoinAndTotalBalances = createDeepEqualSelector(
     getLockboxBtcBalance,
     getLockboxBchBalance,
     getLockboxEthBalance,
+    getLockboxXlmBalance,
     getTotalBalance
   ],
-  (btcBalanceInfoR, bchBalanceInfoR, ethBalanceInfoR, getTotalBalanceR) => {
-    const transform = (btcBalance, bchBalance, ethBalance, totalBalance) => {
-      return { btcBalance, bchBalance, ethBalance, totalBalance }
+  (
+    btcBalanceInfoR,
+    bchBalanceInfoR,
+    ethBalanceInfoR,
+    xlmBalanceInfoR,
+    getTotalBalanceR
+  ) => {
+    const transform = (
+      btcBalance,
+      bchBalance,
+      ethBalance,
+      xlmBalance,
+      totalBalance
+    ) => {
+      return { btcBalance, bchBalance, ethBalance, xlmBalance, totalBalance }
     }
     return lift(transform)(
       btcBalanceInfoR,
       bchBalanceInfoR,
       ethBalanceInfoR,
+      xlmBalanceInfoR,
       getTotalBalanceR
     )
   }

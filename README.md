@@ -18,7 +18,7 @@ This repo contains the three codebases/packages listed below.
 
 
 ## Local Development
-1. Ensure Node version >= 10.2 and NPM version >= 6 are installed
+1. Ensure Node version >= 10.2 and Yarn version >= 1.12 are installed
 2. Run the following command to install necessary global packages: `npm install -g yarn babel-cli rimraf cross-env`
 3. Install, link and hoist packages: `yarn`
 4. Start the application in development mode: `yarn start`
@@ -54,7 +54,7 @@ Notes:
  * Custom application runtimes are possible by modifying the corresponding environment files found in the `config/env` folder
  
 ### Useful Chrome Extensions
- * [React Developer Tools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) Inspect the React component tree
+ * [React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en) Inspect the React component tree
  * [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) View/debug Redux state changes
 
 

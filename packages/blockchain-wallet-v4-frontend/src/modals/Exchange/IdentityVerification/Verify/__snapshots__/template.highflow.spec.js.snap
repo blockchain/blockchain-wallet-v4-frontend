@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HighFlow should render correctly 1`] = `
+<IdentityVerification__IdentityVerificationForm>
+  <FooterShadowWrapper
+    fields={
+      <Context.Consumer>
+        [Function]
+      </Context.Consumer>
+    }
+    footer={
+      <IdentityVerification__Footer>
+        <IdentityVerification__BackButton
+          onClick={[MockFunction]}
+        >
+          <FormattedMessage
+            defaultMessage="Back"
+            id="identityverification.highflow.personal.back"
+            values={Object {}}
+          />
+        </IdentityVerification__BackButton>
+        <Button
+          bold={false}
+          capitalize={false}
+          disabled={false}
+          fullwidth={false}
+          height="40px"
+          nature="primary"
+          onClick={[MockFunction]}
+          rounded={false}
+          small={false}
+          uppercase={false}
+        >
+          <FormattedMessage
+            defaultMessage="I'm done"
+            id="identityverification.personal.done"
+            values={Object {}}
+          />
+        </Button>
+      </IdentityVerification__Footer>
+    }
+  />
+</IdentityVerification__IdentityVerificationForm>
+`;

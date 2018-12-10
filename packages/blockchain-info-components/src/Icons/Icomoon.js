@@ -19,6 +19,7 @@ export default {
   'checkmark-in-circle': '\\e95c',
   'checkmark-in-circle-filled': '\\e90b',
   close: '\\e93f',
+  'close-bold': '\\e90f',
   'close-filled': '\\e90d',
   'close-in-circle': '\\e97a',
   'comment-alt-regular': '\\e982',
@@ -86,5 +87,8 @@ export default {
   user: '\\e955',
   'vertical-arrow-switch': '\\e980',
   wallet: '\\e956',
-  'wallet-filled': '\\e939'
+  'wallet-filled': '\\e939',
+  xlm: '\\e90a',
+  'xlm-circle': '\\e909',
+  'xlm-circle-filled': '\\e90c'
 }

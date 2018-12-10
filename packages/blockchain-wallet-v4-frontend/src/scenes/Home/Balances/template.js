@@ -12,22 +12,18 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-1']};
   @media (min-width: 480px) {
-    height: 380px;
+    height: 390px;
   }
 `
 
 const BalancesTable = props => {
-  const { currentTab, lockboxEnabled } = props
-  return lockboxEnabled ? (
+  const { currentTab } = props
+  return (
     <Wrapper>
       <Tabs {...props} />
       {currentTab === 'total' && <Table viewType='Total' />}
       {currentTab === 'wallet' && <Table viewType='Wallet' />}
       {currentTab === 'lockbox' && <Table viewType='Lockbox' />}
-    </Wrapper>
-  ) : (
-    <Wrapper>
-      <Table viewType='Wallet' />
     </Wrapper>
   )
 }

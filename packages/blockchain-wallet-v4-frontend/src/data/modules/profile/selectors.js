@@ -2,6 +2,7 @@ import {
   and,
   any,
   path,
+  pathOr,
   compose,
   converge,
   equals,
@@ -10,29 +11,38 @@ import {
   propEq
 } from 'ramda'
 import { selectors } from 'data'
-import { USER_ACTIVATION_STATES, KYC_STATES } from './model'
+import { USER_ACTIVATION_STATES, TIERS, KYC_STATES } from './model'
 
 export const getUserData = path(['profile', 'userData'])
 export const getUserActivationState = compose(
-  prop('state'),
+  lift(prop('state')),
   getUserData
 )
 export const getUserKYCState = compose(
-  prop('kycState'),
+  lift(prop('kycState')),
   getUserData
 )
 export const isUserActive = compose(
-  equals(USER_ACTIVATION_STATES.ACTIVE),
+  lift(equals(USER_ACTIVATION_STATES.ACTIVE)),
   getUserActivationState
 )
 export const isUserVerified = compose(
-  equals(KYC_STATES.VERIFIED),
+  lift(equals(KYC_STATES.VERIFIED)),
   getUserKYCState
 )
 export const getUserCountryCode = compose(
-  path(['address', 'country']),
+  lift(path(['address', 'country'])),
   getUserData
 )
+
+// TODO: remove when BE ships the TIER field
+export const defineUserTier = (userState, kycState) => {
+  if (userState !== USER_ACTIVATION_STATES.CREATED) return TIERS[0]
+  if (kycState !== KYC_STATES.VERIFIED) return TIERS[1]
+  return TIERS[2]
+}
+export const getUserTier = state =>
+  lift(defineUserTier)(getUserActivationState(state), getUserKYCState(state))
 
 export const isCountrySupported = (countryCode, supportedCountries) =>
   any(propEq('code', countryCode), supportedCountries)
@@ -57,3 +67,5 @@ export const getAuthCredentials = state => ({
   email: selectors.core.settings.getEmail(state).getOrElse(''),
   guid: selectors.core.wallet.getGuid(state)
 })
+
+export const getCampaign = pathOr(null, ['profile', 'campaign'])

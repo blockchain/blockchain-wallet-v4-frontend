@@ -6,14 +6,7 @@ import { connect } from 'react-redux'
 import { getData } from './selectors'
 
 import { LinkContainer } from 'react-router-bootstrap'
-import {
-  Image,
-  Link,
-  TabMenu,
-  TabMenuItem,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
+import { TabMenu, TabMenuItem } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -30,53 +23,31 @@ const Wrapper = styled.div`
     padding-left: 0;
   }
 `
-const Shapeshift = styled(TextGroup)`
-  display: flex;
-  flex-direction: row;
-  padding-top: 11px;
-  align-self: flex-end;
-  align-items: center;
-  width: 170px;
 
-  @media (max-width: 992px) {
-    display: none;
-  }
-`
-
-export const MenuTop = ({ historySelected, useShapeShift }) => (
-  <Wrapper>
-    <TabMenu>
-      <LinkContainer to='/exchange' exact>
-        <TabMenuItem selected={!historySelected}>
-          <FormattedMessage
-            id='scenes.exchange.menutop.exchange'
-            defaultMessage='Exchange'
-          />
-        </TabMenuItem>
-      </LinkContainer>
-      <LinkContainer to='/exchange/history'>
-        <TabMenuItem selected={historySelected}>
-          <FormattedMessage
-            id='scenes.exchange.menutop.history'
-            defaultMessage='Order History'
-          />
-        </TabMenuItem>
-      </LinkContainer>
-    </TabMenu>
-    {useShapeShift && (
-      <Shapeshift>
-        <Text size='12px' weight={300}>
-          <FormattedMessage
-            id='scenes.exchange.menutop.poweredby'
-            defaultMessage='Powered by'
-          />
-        </Text>
-        <Link href='https://www.shapeshift.io' target='_blank'>
-          <Image name='shapeshiftLogo' width='60px' height='25px' />
-        </Link>
-      </Shapeshift>
-    )}
-  </Wrapper>
-)
+export const MenuTop = ({ historySelected, showGetStarted }) =>
+  !showGetStarted ? (
+    <Wrapper>
+      <TabMenu>
+        <LinkContainer to='/exchange' exact>
+          <TabMenuItem selected={!historySelected}>
+            <FormattedMessage
+              id='scenes.exchange.menutop.exchange'
+              defaultMessage='Exchange'
+            />
+          </TabMenuItem>
+        </LinkContainer>
+        <LinkContainer to='/exchange/history'>
+          <TabMenuItem selected={historySelected}>
+            <FormattedMessage
+              id='scenes.exchange.menutop.history'
+              defaultMessage='Order History'
+            />
+          </TabMenuItem>
+        </LinkContainer>
+      </TabMenu>
+    </Wrapper>
+  ) : (
+    <div />
+  )
 
 export default connect(getData)(MenuTop)

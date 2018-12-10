@@ -2,7 +2,7 @@ import { takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import sagas from './sagas'
 
-export default ({ api, coreSagas }) => {
+export default ({ api }) => {
   const { fetchData, upload } = sagas({ api })
 
   return function*() {

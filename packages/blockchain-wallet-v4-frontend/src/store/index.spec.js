@@ -7,44 +7,33 @@ import {
   ApiSocket,
   Socket
 } from 'blockchain-wallet-v4/src/network'
-import { persistStore, autoRehydrate } from 'redux-persist'
+import { persistStore } from 'redux-persist'
 // setup mocks
-jest.mock('redux-saga', () => () => {
-  return {
-    run: () => {
-      jest.fn()
-    }
-  }
-})
+jest.mock('redux-saga', () => () => ({
+  run: () => jest.fn()
+}))
 
-jest.mock('redux-persist', () => {
-  return {
-    autoRehydrate: jest.fn(),
-    persistStore: jest.fn()
-  }
-})
+jest.mock('redux-persist', () => ({
+  persistCombineReducers: jest.fn(),
+  persistStore: jest.fn()
+}))
 
-jest.mock('connected-react-router', () => {
-  return {
-    connectRouter: () => () => jest.fn(),
-    routerMiddleware: jest.fn()
-  }
-})
+jest.mock('connected-react-router', () => ({
+  connectRouter: () => () => jest.fn(),
+  routerMiddleware: jest.fn()
+}))
 
-jest.mock('blockchain-wallet-v4/src/network', () => {
-  return {
-    Socket: jest.fn().mockImplementation(() => 'FAKE_SOCKET'),
-    ApiSocket: jest.fn().mockImplementation(() => 'FAKE_API_SOCKET'),
-    createWalletApi: jest.fn().mockImplementation(() => 'FAKE_WALLET_API')
-  }
-})
+jest.mock('blockchain-wallet-v4/src/network', () => ({
+  Socket: jest.fn().mockImplementation(() => 'FAKE_SOCKET'),
+  ApiSocket: jest.fn().mockImplementation(() => 'FAKE_API_SOCKET'),
+  createWalletApi: jest.fn().mockImplementation(() => 'FAKE_WALLET_API'),
+  HorizonStreamingService: jest.fn()
+}))
 
-jest.mock('config', () => {
-  return {
-    WALLET_PAYLOAD_PATH: 'MOCK_WALLET_PATH',
-    WALLET_KVSTORE_PATH: 'MOCK_KVSTORE_PATH'
-  }
-})
+jest.mock('config', () => ({
+  WALLET_PAYLOAD_PATH: 'MOCK_WALLET_PATH',
+  WALLET_KVSTORE_PATH: 'MOCK_KVSTORE_PATH'
+}))
 
 describe('App Store Config', () => {
   let apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
@@ -52,11 +41,14 @@ describe('App Store Config', () => {
     domains: { webSocket: 'MOCK_SOCKET', root: 'MOCK_ROOT' },
     platforms: {
       web: {
-        bitcoin: {
+        btc: {
           config: { network: 'bitcoin' }
         },
-        ethereum: {
+        eth: {
           config: { network: 1 }
+        },
+        xlm: {
+          config: { network: 'public' }
         }
       }
     }
@@ -164,14 +156,11 @@ describe('App Store Config', () => {
     // middleware compose
     expect(composeSpy).toHaveBeenCalledTimes(1)
     expect(applyMiddlewareSpy).toHaveBeenCalledTimes(1)
-    expect(autoRehydrate.mock.calls.length).toBe(1)
     // store creation
     expect(createStoreSpy).toHaveBeenCalledTimes(1)
     expect(persistStore.mock.calls.length).toBe(1)
     expect(persistStore.mock.calls[0][0]).toEqual(expect.any(Object))
-    expect(persistStore.mock.calls[0][1]).toEqual({
-      whitelist: ['session', 'preferences', 'cache']
-    })
+    expect(persistStore.mock.calls[0][1]).toEqual(null)
     expect(mockStore.history).toBeDefined()
     expect(mockStore.store).toBeDefined()
   })
