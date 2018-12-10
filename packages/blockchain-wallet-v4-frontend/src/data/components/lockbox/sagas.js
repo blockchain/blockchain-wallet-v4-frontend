@@ -245,19 +245,8 @@ export default ({ api }) => {
             deviceType,
             transport
           )
-          if (publicKey) {
-            entry = Lockbox.utils.generateXlmAccountMDEntry(
-              deviceName,
-              publicKey
-            )
-            yield put(
-              actions.core.kvStore.lockbox.addCoinEntry(
-                deviceIndex,
-                coin,
-                entry
-              )
-            )
-          }
+          if (!publicKey) throw new Error('No XLM public key found')
+          entry = Lockbox.utils.generateXlmAccountMDEntry(deviceName, publicKey)
           yield put(actions.components.lockbox.setConnectionSuccess())
           yield delay(2000)
           yield put(actions.modals.closeAllModals())
@@ -265,6 +254,9 @@ export default ({ api }) => {
         default:
           throw new Error('unknown coin type')
       }
+      yield put(
+        actions.core.kvStore.lockbox.addCoinEntry(deviceIndex, coin, entry)
+      )
       yield take(
         actionTypes.core.kvStore.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS
       )
