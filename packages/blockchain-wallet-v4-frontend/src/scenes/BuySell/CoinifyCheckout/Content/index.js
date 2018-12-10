@@ -2,17 +2,14 @@ import React from 'react'
 import Buy from './Buy'
 import Sell from './Sell'
 import OrderHistory from './OrderHistory'
-import { model } from 'data'
 
-const { COINIFY_SIGNUP_STATES } = model.coinify
-
-class Checkout extends React.Component {
+class Checkout extends React.PureComponent {
   render () {
     const { type } = this.props
     switch (type) {
-      case COINIFY_SIGNUP_STATES.BUY:
+      case 'buy':
         return <Buy />
-      case COINIFY_SIGNUP_STATES.SELL:
+      case 'sell':
         return <Sell />
       default:
         return <OrderHistory />

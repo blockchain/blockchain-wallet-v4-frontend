@@ -9,9 +9,11 @@ import * as S from './selectors'
 import * as model from '../../model'
 import { promptForSecondPassword } from 'services/SagaService'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import * as coinifyModel from './model'
 
 const { STEPS } = model.components.identityVerification
 const { NONE, VERIFIED } = model.profile.KYC_STATES
+const { COINIFY_CHECKOUT_STEPS, TRADE_DETAILS_MODAL, PAYMENT_PATH, COINIFY_BUY_FORM, COINIFY_SELL_FORM } = coinifyModel
 
 export const sellDescription = `Exchange Trade CNY-`
 export const logLocation = 'modules/coinify/sagas'
@@ -74,9 +76,9 @@ export default ({ api, coreSagas, networks }) => {
       }
 
       if (buyTrade.medium === 'bank') {
-        yield put(A.coinifyNextCheckoutStep('bankTransferDetails'))
+        yield put(A.coinifyNextCheckoutStep(COINIFY_CHECKOUT_STEPS.BANK))
       } else {
-        yield put(A.coinifyNextCheckoutStep('isx'))
+        yield put(A.coinifyNextCheckoutStep(COINIFY_CHECKOUT_STEPS.ISX))
       }
       yield put(A.coinifyNotAsked())
     } catch (e) {
@@ -123,7 +125,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(A.coinifyFailure(parsed))
         return
       }
-      const p = path(['coinify', 'payment'], state)
+      const p = path(PAYMENT_PATH, state)
       let payment = yield coreSagas.payment.btc.create({
         payment: p.getOrElse({}),
         network: networks.btc
@@ -162,7 +164,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(
         actions.form.change('buySellTabStatus', 'status', 'order_history')
       )
-      yield put(actions.modals.showModal('CoinifyTradeDetails', { trade }))
+      yield put(actions.modals.showModal(TRADE_DETAILS_MODAL, { trade }))
       yield put(A.initializePayment())
     } catch (e) {
       yield put(A.coinifyFailure(e))
@@ -185,9 +187,9 @@ export default ({ api, coreSagas, networks }) => {
       let error = false
 
       if (type === 'buy') {
-        yield put(actions.form.initialize('coinifyCheckoutBuy', initialValues))
+        yield put(actions.form.initialize(COINIFY_BUY_FORM, initialValues))
       } else {
-        yield put(actions.form.initialize('coinifyCheckoutSell', initialValues))
+        yield put(actions.form.initialize(COINIFY_SELL_FORM, initialValues))
         const limitsR = yield select(selectors.core.data.coinify.getLimits)
         const limits = limitsR.getOrElse(undefined)
         const defaultIndex = yield select(
@@ -224,7 +226,7 @@ export default ({ api, coreSagas, networks }) => {
       const levelR = yield select(selectors.core.data.coinify.getLevel)
       const currency = levelR.map(l => l.currency).getOrElse('EUR')
       const cardMax = path([currency], card.inRemaining)
-      yield put(actions.form.change('coinifyCheckoutBuy', 'leftVal', cardMax))
+      yield put(actions.form.change(COINIFY_BUY_FORM, 'leftVal', cardMax))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'checkoutCardMax', e))
     }
@@ -235,7 +237,7 @@ export default ({ api, coreSagas, networks }) => {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      if (!any(equals(form))(['coinifyCheckoutBuy', 'coinifyCheckoutSell'])) {
+      if (!any(equals(form))([COINIFY_BUY_FORM, COINIFY_SELL_FORM])) {
         return
       }
       yield put(A.coinifyCheckoutBusyOn())
@@ -244,7 +246,7 @@ export default ({ api, coreSagas, networks }) => {
       const limitsR = yield select(selectors.core.data.coinify.getLimits)
       const limits = limitsR.getOrElse(undefined)
       const values = yield select(selectors.form.getFormValues(form))
-      const type = form === 'coinifyCheckoutBuy' ? 'buy' : 'sell'
+      const type = form === COINIFY_BUY_FORM ? 'buy' : 'sell'
       const isSell = type === 'sell'
       const state = yield select()
 
@@ -277,7 +279,7 @@ export default ({ api, coreSagas, networks }) => {
 
           if (isSell) {
             let btcAmt = amount / 1e8
-            const payment = path(['coinify', 'payment'], state)
+            const payment = path(PAYMENT_PATH, state)
             const effectiveBalance = prop(
               'effectiveBalance',
               payment.getOrElse(undefined)
@@ -315,7 +317,7 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'rightVal':
           if (isSell) {
-            const payment = path(['coinify', 'payment'], state)
+            const payment = path(PAYMENT_PATH, state)
             const effectiveBalance = prop(
               'effectiveBalance',
               payment.getOrElse(undefined)
@@ -410,9 +412,9 @@ export default ({ api, coreSagas, networks }) => {
           actions.form.change('buySellTabStatus', 'status', 'order_history')
         )
       }
-      yield put(A.coinifyNextCheckoutStep('checkout'))
+      yield put(A.coinifyNextCheckoutStep(COINIFY_CHECKOUT_STEPS.CHECKOUT))
       yield put(
-        actions.modals.showModal('CoinifyTradeDetails', {
+        actions.modals.showModal(TRADE_DETAILS_MODAL, {
           trade: trade,
           status: status
         })
@@ -443,10 +445,10 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.core.data.coinify.handleTradeSuccess(tradeToFinish))
         if (tradeToFinish.medium === 'card') {
           yield call(coreSagas.data.coinify.kycAsTrade, { kyc: tradeToFinish }) // core expects obj key to be 'kyc'
-          yield put(A.coinifyNextCheckoutStep('isx'))
+          yield put(A.coinifyNextCheckoutStep(COINIFY_CHECKOUT_STEPS.ISX))
         } else if (tradeToFinish.medium === 'bank') {
           yield put(
-            actions.modals.showModal('CoinifyTradeDetails', {
+            actions.modals.showModal(TRADE_DETAILS_MODAL, {
               trade: tradeToFinish
             })
           )
@@ -552,7 +554,7 @@ export default ({ api, coreSagas, networks }) => {
         actions.form.change('buySellTabStatus', 'status', 'order_history')
       )
     }
-    yield put(A.coinifyNextCheckoutStep('checkout'))
+    yield put(A.coinifyNextCheckoutStep(COINIFY_CHECKOUT_STEPS.CHECKOUT))
   }
 
   return {
