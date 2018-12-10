@@ -53,12 +53,12 @@ export const updateSmsNumber = () => ({ type: AT.UPDATE_SMS_NUMBER })
 export const verifySmsNumber = () => ({ type: AT.VERIFY_SMS_NUMBER })
 export const resendSmsCode = () => ({ type: AT.RESEND_SMS_CODE })
 
-export const createRegisterUserCampaign = (
-  campaignName,
-  needsIdVerification
-) => ({
-  type: AT.CREATE_REGISTER_USER_CAMPAIGN,
-  payload: { campaignName, needsIdVerification }
+export const registerUserCampaign = newUser => ({
+  type: AT.REGISTER_USER_CAMPAIGN,
+  newUser
+})
+export const createRegisterUserCampaign = () => ({
+  type: AT.CREATE_REGISTER_USER_CAMPAIGN
 })
 
 export const checkKycFlow = () => ({
