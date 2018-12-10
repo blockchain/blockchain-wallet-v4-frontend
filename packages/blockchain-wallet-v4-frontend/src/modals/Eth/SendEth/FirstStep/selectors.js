@@ -11,10 +11,23 @@ export const getData = createDeepEqualSelector(
     selectors.components.sendEth.getFeeToggled,
     selectors.core.data.ethereum.getCurrentBalance,
     selectors.core.kvStore.lockbox.getDevices,
-    selectors.form.getFormValues(model.components.sendEth.FORM)
+    selectors.form.getFormValues(model.components.sendEth.FORM),
+    selectors.core.walletOptions.getCoinAvailability
   ],
-  (paymentR, toToggled, feeToggled, balanceR, lockboxDevicesR, formValues) => {
+  (
+    paymentR,
+    toToggled,
+    feeToggled,
+    balanceR,
+    lockboxDevicesR,
+    formValues,
+    coinAvailabilityR
+  ) => {
     const enableToggle = !isEmpty(lockboxDevicesR.getOrElse([]))
+    const excludeLockbox = !prop(
+      'lockbox',
+      coinAvailabilityR('ETH').getOrElse({})
+    )
 
     const transform = payment => {
       const effectiveBalance = propOr('0', 'effectiveBalance', payment)
@@ -68,7 +81,8 @@ export const getData = createDeepEqualSelector(
         minFee,
         maxFee,
         feeElements,
-        balanceStatus: balanceR
+        balanceStatus: balanceR,
+        excludeLockbox
       }
     }
     return paymentR.map(transform)

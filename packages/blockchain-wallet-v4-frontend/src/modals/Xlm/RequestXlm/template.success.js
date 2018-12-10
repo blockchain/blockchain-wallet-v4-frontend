@@ -52,6 +52,7 @@ const BannerContainer = styled.div`
 `
 
 const RequestXlm = ({
+  excludeLockbox,
   handleSubmit,
   handleOpenLockbox,
   address,
@@ -77,7 +78,7 @@ const RequestXlm = ({
       <FormItem>
         <FormLabel for='to'>
           <FormattedMessage
-            id='modals.requestbitcoin.firststep.to'
+            id='modals.requestxlm.firststep.to'
             defaultMessage='Receive to:'
           />
         </FormLabel>
@@ -86,6 +87,7 @@ const RequestXlm = ({
           component={SelectBoxXlmAddresses}
           includeAll={false}
           validate={[required]}
+          excludeLockbox
         />
       </FormItem>
     </FormGroup>

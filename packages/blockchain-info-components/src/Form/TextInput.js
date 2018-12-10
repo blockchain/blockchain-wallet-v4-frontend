@@ -71,6 +71,14 @@ class TextInput extends React.Component {
     this.input = input
   }
 
+  onKeyPressed = evt => {
+    const event = evt || window.event
+    if (event.keyCode === 27) {
+      event.stopPropagation()
+      this.input.blur()
+    }
+  }
+
   render () {
     const { errorState, disabled, ...rest } = this.props
     const borderColor = selectBorderColor(errorState)
@@ -81,6 +89,7 @@ class TextInput extends React.Component {
         borderColor={borderColor}
         disabled={disabled}
         data-e2e={this.props['data-e2e']}
+        onKeyDown={this.onKeyPressed}
         {...rest}
       />
     )

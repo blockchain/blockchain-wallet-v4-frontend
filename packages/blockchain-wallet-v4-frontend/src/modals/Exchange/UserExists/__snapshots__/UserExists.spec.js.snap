@@ -47,17 +47,6 @@ exports[`User Exists modal Renders correctly 1`] = `
         id="modals.userexists.kyccomplete"
         values={Object {}}
       />
-       
-      <UserExists__TextLink
-        href=""
-        target="_blank"
-      >
-        <FormattedMessage
-          defaultMessage="Learn more"
-          id="modals.userexists.learnmore"
-          values={Object {}}
-        />
-      </UserExists__TextLink>
     </UserExists__Row>
   </ModalBody>
   <UserExists__Footer>

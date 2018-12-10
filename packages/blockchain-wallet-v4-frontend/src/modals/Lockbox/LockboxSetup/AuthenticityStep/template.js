@@ -75,7 +75,7 @@ const AuthenticityStep = props => {
           {isAuthenticating ? (
             <FormattedMessage
               id='modals.lockboxsetup.authenticitystep.authenticating'
-              defaultMessage='Checking Your Devices Authenticity'
+              defaultMessage='Checking Your Device’s Authenticity'
             />
           ) : (
             <FormattedMessage

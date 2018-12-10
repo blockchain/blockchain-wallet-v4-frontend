@@ -661,7 +661,7 @@ export default ({ api, coreSagas, networks }) => {
           scrambleKey
         )).publish()
         yield put(actions.components.lockbox.setConnectionSuccess())
-        yield delay(1500)
+        yield delay(4000)
         yield put(actions.modals.closeAllModals())
       }
       // Update metadat

@@ -705,24 +705,26 @@ const FaqContent = [
         question: (
           <FormattedMessage
             id='scenes.faq.group.walletfunctionality.question10'
-            defaultMessage='What is a watch-only address?'
+            defaultMessage='What is a non-spendable address?'
           />
         ),
         answer: (
           <FaqDescription>
             <FormattedMessage
               id='scenes.faq.group.walletfunctionality.answer10.one'
-              defaultMessage='A watch-only address is a public key that you’ve imported into your wallet by navigating to Settings > Addresses > Import. With every public key, there is a private key behind it, and you need this key in order to spend the funds attached to the account. You can think of this private key as the ‘password’ to your public key.'
+              defaultMessage='A non-spendable address is a public key that you’ve imported into your wallet by navigating to Settings > Addresses > Import. With every public key, there is a private key behind it, and you need this key in order to spend the funds attached to the account. You can think of this private key as the ‘password’ to your public key.'
             />
-            <span>&nbsp;</span>
+            <br />
+            <br />
             <FormattedMessage
               id='scenes.faq.group.walletfunctionality.answer10.two'
-              defaultMessage='Watch-only addresses are a useful feature to monitor incoming and outgoing transactions or to keep track of an address for repeated payments like rent. Keep in mind— sending and receiving to the same address makes your transaction history easy to trace.'
+              defaultMessage='Non-spendable addresses are a useful feature to monitor incoming and outgoing transactions or to keep track of an address for repeated payments like rent. Keep in mind that sending and receiving to the same address makes your transaction history easy to trace. Alternatively, you can import a private key from a different wallet provider (which has your public key attached) and spend from it freely within your Blockchain wallet.'
             />
-            <span>&nbsp;</span>
+            <br />
+            <br />
             <FormattedMessage
               id='scenes.faq.group.walletfunctionality.answer10.three'
-              defaultMessage='Alternatively, you can import a private key from a different wallet provider (which has your public key attached) and spend from it freely within your Blockchain wallet. Since your funds in these addresses are not backed up in your recovery phrase, we strongly recommend ‘transferring’ any funds from these addresses into your main accounts.'
+              defaultMessage='Since your funds in these addresses are not backed up in your recovery phrase, we strongly recommend ‘transferring’ any funds from these addresses into your main accounts. In the past, you may have seen these accounts labelled ’watch-only’. In response to scams taking place due to lack of knowledge about the feature, we changed the label to ’non-spendable’ for clarity’s sake.'
             />
           </FaqDescription>
         )
@@ -752,17 +754,19 @@ const FaqContent = [
               id='scenes.faq.group.walletfunctionality.answer11.three'
               defaultMessage='To look up a bitcoin transaction, users can visit'
             />
+            <span>&nbsp;</span>
             <Link
               href='https://blockchain.info'
               target='_blank'
               size='13px'
-              weight={200}
+              weight={300}
             >
               <FormattedMessage
                 id='scenes.faq.group.walletfunctionality.answer11.link'
-                defaultMessage=' https://blockchain.info '
+                defaultMessage='https://www.blockchain.com/explorer'
               />
             </Link>
+            <span>&nbsp;</span>
             <FormattedMessage
               id='scenes.faq.group.walletfunctionality.answer11.four'
               defaultMessage='and use the search bar on the upper right to learn more about a particular bitcoin address, transaction hash, or block number.'

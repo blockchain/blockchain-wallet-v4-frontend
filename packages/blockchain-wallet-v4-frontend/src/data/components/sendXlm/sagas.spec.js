@@ -1,6 +1,7 @@
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import { initialize, touch } from 'redux-form'
 import { path, prop } from 'ramda'
+import { combineReducers } from 'redux'
 
 import rootReducer from '../../rootReducer'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
@@ -151,7 +152,7 @@ describe('sendXlm sagas', () => {
 
       beforeEach(async () => {
         resultingState = await expectSaga(initialized, { payload })
-          .withReducer(rootReducer)
+          .withReducer(combineReducers(rootReducer))
           .run()
           .then(prop('storeState'))
       })

@@ -1,5 +1,5 @@
 import { formValueSelector } from 'redux-form'
-import { prop, lift, head, nth } from 'ramda'
+import { prop, propOr, lift, head, nth } from 'ramda'
 import settings from 'config'
 import { selectors } from 'data'
 import { Remote, utils } from 'blockchain-wallet-v4/src'
@@ -18,6 +18,13 @@ const extractAddress = (walletSelector, lockboxSelector, value) => {
 }
 
 export const getData = (state, ownProps) => {
+  const availability = selectors.core.walletOptions.getCoinAvailability(
+    state,
+    'BCH'
+  )
+  const excludeLockbox = !availability
+    .map(propOr(true, 'lockbox'))
+    .getOrElse(true)
   const getReceiveAddressWallet = index =>
     selectors.core.common.bch.getNextAvailableReceiveAddress(
       settings.NETWORK_BCH,
@@ -49,8 +56,10 @@ export const getData = (state, ownProps) => {
     coin,
     receiveAddress,
     initialValues,
-    legacyAddress: fromCashAddr(receiveAddress)
+    legacyAddress: fromCashAddr(receiveAddress),
+    excludeLockbox
   })
+
   return lift(transform)(receiveAddressR, initialValuesR)
 }
 

@@ -4,8 +4,8 @@ import { fork, call } from 'redux-saga-test-plan/matchers'
 
 import { askSecondPasswordEnhancer, confirm } from 'services/SagaService'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
-import * as selectors from '../selectors.js'
-import * as actions from '../actions.js'
+import * as selectors from '../selectors'
+import * as actions from '../actions'
 import authSagas, {
   defaultLoginErrorMessage,
   logLocation,

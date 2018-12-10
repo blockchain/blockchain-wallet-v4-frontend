@@ -77,7 +77,8 @@ const FirstStep = props => {
     regularFee,
     priorityFee,
     handleFeeToggle,
-    balanceStatus
+    balanceStatus,
+    excludeLockbox
   } = props
   const disableLockboxSend =
     from &&
@@ -113,6 +114,7 @@ const FirstStep = props => {
             component={SelectBoxEthAddresses}
             includeAll={false}
             validate={[required]}
+            excludeLockbox={excludeLockbox}
           />
         </FormItem>
       </FormGroup>
