@@ -18,7 +18,7 @@ import {
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import * as Lockbox from 'services/LockboxService'
-import App from './template'
+import LockboxAppManager from './template'
 
 const Wrapper = styled(ModalBody)`
   width: 100%;
@@ -65,7 +65,7 @@ const getKeyByValue = value => {
   )
 }
 
-class AppManagerContainer extends React.PureComponent {
+class LockboxAppManagerContainer extends React.PureComponent {
   state = { appName: '', changeType: '' }
 
   componentDidMount () {
@@ -200,7 +200,7 @@ class AppManagerContainer extends React.PureComponent {
           const name = app.name
           const coin = getKeyByValue(name)
           return (
-            <App
+            <LockboxAppManager
               key={name}
               app={app}
               coin={coin}
@@ -288,7 +288,7 @@ class AppManagerContainer extends React.PureComponent {
   }
 }
 
-AppManagerContainer.propTypes = {
+LockboxAppManagerContainer.propTypes = {
   deviceIndex: PropTypes.string.isRequired,
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
@@ -316,4 +316,4 @@ const enhance = compose(
   )
 )
 
-export default enhance(AppManagerContainer)
+export default enhance(LockboxAppManagerContainer)

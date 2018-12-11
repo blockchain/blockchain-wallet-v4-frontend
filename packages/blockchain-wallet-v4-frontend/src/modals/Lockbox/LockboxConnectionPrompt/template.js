@@ -31,7 +31,7 @@ const MarqueeContainer = styled.marquee.attrs({
   top: 50%;
 `
 
-const PromptLockbox = props => {
+const LockboxConnectionPrompt = props => {
   const { position, total, ...rest } = props
   const { coin, currentConnection, marquees, isTx } = rest
   const { error, ready, success } = currentConnection
@@ -79,8 +79,8 @@ const PromptLockbox = props => {
   )
 }
 
-PromptLockbox.propTypes = {
+LockboxConnectionPrompt.propTypes = {
   coin: PropTypes.string
 }
 
-export default PromptLockbox
+export default LockboxConnectionPrompt

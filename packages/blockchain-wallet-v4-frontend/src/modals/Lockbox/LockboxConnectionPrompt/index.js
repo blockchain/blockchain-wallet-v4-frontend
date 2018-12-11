@@ -3,15 +3,15 @@ import { connect } from 'react-redux'
 import { actions, selectors } from 'data'
 import { bindActionCreators, compose } from 'redux'
 import modalEnhancer from 'providers/ModalEnhancer'
-import PromptForLockbox from './template.js'
+import LockboxConnectionPrompt from './template'
 
-class PromptLockboxContainer extends React.PureComponent {
+class LockboxConnectionPromptContainer extends React.PureComponent {
   componentWillUnmount () {
     this.props.lockboxActions.resetConnectionStatus()
   }
 
   render () {
-    return <PromptForLockbox {...this.props} />
+    return <LockboxConnectionPrompt {...this.props} />
   }
 }
 
@@ -24,11 +24,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('PromptLockbox'),
+  modalEnhancer('LockboxConnectionPrompt'),
   connect(
     mapStateToProps,
     mapDispatchToProps
   )
 )
 
-export default enhance(PromptLockboxContainer)
+export default enhance(LockboxConnectionPromptContainer)

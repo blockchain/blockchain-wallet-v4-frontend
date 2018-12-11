@@ -44,7 +44,7 @@ const CoinIcon = styled(Icon)`
   font-size: 40px;
   margin-right: 4px;
 `
-const CoinInstallStatus = props => {
+const LockboxAppManager = props => {
   const { app, coin, installApp, uninstallApp } = props
   const { name, version } = app
   const coinLower = coin.toLowerCase()
@@ -79,4 +79,4 @@ const CoinInstallStatus = props => {
   )
 }
 
-export default CoinInstallStatus
+export default LockboxAppManager

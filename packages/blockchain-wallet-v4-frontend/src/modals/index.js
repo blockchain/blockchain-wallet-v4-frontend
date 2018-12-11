@@ -32,7 +32,7 @@ import {
   LockboxAppManager,
   LockboxFirmware,
   LockboxSetup,
-  PromptLockbox
+  LockboxConnectionPrompt
 } from './Lockbox'
 import { MobileLogin, MobileNumberChange, MobileNumberVerify } from './Mobile'
 import Onfido from './Onfido'
@@ -78,9 +78,9 @@ const Modals = props => (
     <IdentityVerification />
     <ImportBtcAddress />
     <LockboxAppManager disableOutsideClose />
+    <LockboxConnectionPrompt disableOutsideClose />
     <LockboxFirmware disableOutsideClose />
     <LockboxSetup disableOutsideClose />
-    <PromptLockbox disableOutsideClose />
     <MobileNumberChange />
     <MobileNumberVerify />
     <MobileLogin />
