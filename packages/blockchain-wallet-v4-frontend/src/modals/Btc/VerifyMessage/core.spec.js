@@ -1,13 +1,13 @@
 import * as core from './core'
 
 describe(`showResult`, () => {
-  it(`none`, () => {
+  it(`should return false when all inputs are empty`, () => {
     expect(
       core.showResult({ address: ``, message: ``, signature: `` })
     ).toEqual(false)
   })
 
-  it(`some`, () => {
+  it(`should return false when some inputs are empty`, () => {
     expect(
       core.showResult({
         address: `address`,
@@ -17,7 +17,7 @@ describe(`showResult`, () => {
     ).toEqual(false)
   })
 
-  it(`all`, () => {
+  it(`return true when all inputs are provided`, () => {
     expect(
       core.showResult({
         address: `address`,
@@ -29,7 +29,7 @@ describe(`showResult`, () => {
 })
 
 describe(`verifySignature`, () => {
-  it(`happy`, () => {
+  it(`good signature`, () => {
     expect(
       core.verifySignature({
         address: `15WJg3bnKkuzeLxCKUGCKjRM42d3LgWg9u`,
