@@ -78,15 +78,15 @@ const Modals = props => (
     <IdentityVerification />
     <ImportBtcAddress />
     <LockboxAppManager disableOutsideClose />
-    <LockboxFirmware />
-    <LockboxSetup />
+    <LockboxFirmware disableOutsideClose />
+    <LockboxSetup disableOutsideClose />
+    <PromptLockbox disableOutsideClose />
     <MobileNumberChange />
     <MobileNumberVerify />
     <MobileLogin />
     <Onfido />
     <PairingCode />
     <PromptInput />
-    <PromptLockbox />
     <QRCode />
     <RequestBch />
     <RequestBtc />
