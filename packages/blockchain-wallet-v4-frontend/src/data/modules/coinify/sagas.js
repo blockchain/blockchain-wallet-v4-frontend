@@ -29,10 +29,11 @@ export default ({ api, coreSagas, networks }) => {
   const handleAfterSignup = function*(user) {
     try {
       yield call(api.sendCoinifyKyc, user)
-      yield put(actions.modals.closeAllModals())
-      yield put(A.fetchCoinifyData())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'handleAfterSignup', e))
+    } finally {
+      yield put(actions.modals.closeAllModals())
+      yield put(A.fetchCoinifyData())
     }
   }
 
