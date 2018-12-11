@@ -486,7 +486,9 @@ const Personal = ({
             <Button
               nature='primary'
               type='submit'
-              disabled={invalid || submitting || showStateError}
+              disabled={
+                invalid || submitting || showStateError || !emailVerified
+              }
             >
               {!submitting ? (
                 <FormattedMessage
