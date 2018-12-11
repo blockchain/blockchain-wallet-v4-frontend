@@ -68,7 +68,7 @@ const SecuritySteps = props => {
         <Wrapper>
           <StepSection
             success={emailSuccess}
-            radius={emailSuccess ? twoFactorSuccess : undefined}
+            radius={emailSuccess ? twoFactorSuccess.toString() : undefined}
           >
             <Circle className={emailSuccess ? 'active' : ''}>
               {emailSuccess ? (
@@ -101,8 +101,8 @@ const SecuritySteps = props => {
           </StepSection>
           <StepSection
             success={twoFactorSuccess}
-            leftRadius={twoFactorSuccess && emailSuccess}
-            rightRadius={twoFactorSuccess && isMnemonicVerified}
+            leftRadius={twoFactorSuccess && emailSuccess ? 'true' : undefined}
+            rightRadius={twoFactorSuccess && emailSuccess ? 'true' : undefined}
           >
             <Circle className={twoFactorSuccess ? 'active' : ''}>
               {twoFactorSuccess ? (
@@ -135,7 +135,9 @@ const SecuritySteps = props => {
           </StepSection>
           <StepSection
             success={isMnemonicVerified}
-            radius={isMnemonicVerified ? twoFactorSuccess : undefined}
+            radius={
+              isMnemonicVerified ? twoFactorSuccess.toString() : undefined
+            }
           >
             <Circle className={isMnemonicVerified ? 'active' : ''}>
               {isMnemonicVerified ? (

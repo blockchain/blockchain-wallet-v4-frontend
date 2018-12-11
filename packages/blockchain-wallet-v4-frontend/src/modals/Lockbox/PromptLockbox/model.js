@@ -83,7 +83,7 @@ export const CONFIRM_STEPS = {
       isTx ? (
         <FormattedMessage
           id='modals.promptforlockbox.connectcoinapp.success'
-          defaultMessage='Your transaction was sent. Please allow for it to confirm on the network.'
+          defaultMessage='Please allow for it to confirm on the network.'
         />
       ) : (
         <FormattedMessage

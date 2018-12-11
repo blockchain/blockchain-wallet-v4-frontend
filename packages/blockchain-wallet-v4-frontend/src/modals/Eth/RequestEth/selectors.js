@@ -1,5 +1,5 @@
 import { selectors } from 'data'
-import { head, lift, prop, nth } from 'ramda'
+import { head, lift, prop, propOr, nth } from 'ramda'
 import { formValueSelector } from 'redux-form'
 
 const extractAddress = addr => prop('addr', head(addr))
@@ -7,9 +7,18 @@ const extractAddress = addr => prop('addr', head(addr))
 export const getData = state => {
   const to = formValueSelector('requestEth')(state, 'to')
   const accountsR = selectors.core.kvStore.ethereum.getAccounts(state)
+  const availability = selectors.core.walletOptions.getCoinAvailability(
+    state,
+    'ETH'
+  )
+  const excludeLockbox = !availability
+    .map(propOr(true, 'lockbox'))
+    .getOrElse(true)
+
   const transform = accounts => ({
     type: prop('type', to),
-    address: to ? prop('address', to) : extractAddress(accounts)
+    address: to ? prop('address', to) : extractAddress(accounts),
+    excludeLockbox
   })
 
   return lift(transform)(accountsR)

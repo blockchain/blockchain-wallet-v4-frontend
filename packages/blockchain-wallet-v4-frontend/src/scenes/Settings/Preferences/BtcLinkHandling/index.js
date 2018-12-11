@@ -10,7 +10,7 @@ class BitcoinLinkHandlingContainer extends React.PureComponent {
     // Register bitcoin links
     window.navigator.registerProtocolHandler(
       'bitcoin',
-      '/open/%s',
+      '/#/open/%s',
       'Blockchain'
     )
   }

@@ -7,13 +7,7 @@ import { getData } from './selectors'
 import Actions from './template.js'
 
 class ActionsContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleSend = this.handleSend.bind(this)
-    this.handleRequest = this.handleRequest.bind(this)
-  }
-
-  handleSend () {
+  handleSend = () => {
     this.props.analytics.logClick('send')
     const { coin, lockboxPath, lockboxDeviceId } = this.props
 
@@ -34,7 +28,7 @@ class ActionsContainer extends React.PureComponent {
     }
   }
 
-  handleRequest () {
+  handleRequest = () => {
     this.props.analytics.logClick('request')
     const { coin, lockboxPath, lockboxDeviceId } = this.props
 

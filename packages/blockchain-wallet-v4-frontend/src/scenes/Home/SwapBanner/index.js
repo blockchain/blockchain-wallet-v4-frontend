@@ -90,7 +90,7 @@ export const SwapBanner = ({
       <Column>
         <LargeText>
           <FormattedMessage
-            defaultMessage="We've improved your Exchange"
+            defaultMessage="We've Improved Your Exchange"
             id='scenes.home.swapbanner.improved'
           />
         </LargeText>
@@ -108,7 +108,7 @@ export const SwapBanner = ({
         {kycNotFinished && (
           <GetStartedButton onClick={verifyIdentity}>
             <FormattedMessage
-              id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.started'
+              id='scenes.home.swapbanner.faster.started'
               defaultMessage='Get Started'
             />
           </GetStartedButton>
@@ -117,7 +117,7 @@ export const SwapBanner = ({
           <LinkContainer to='/exchange'>
             <GetStartedButton onClick={hideSwapBanner}>
               <FormattedMessage
-                id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.gotoexchange'
+                id='scenes.home.swapbanner.faster.gotoexchange'
                 defaultMessage='Go To Exchange'
               />
             </GetStartedButton>

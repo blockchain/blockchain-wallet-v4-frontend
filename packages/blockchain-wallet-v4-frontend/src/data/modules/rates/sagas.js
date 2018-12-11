@@ -42,13 +42,13 @@ export default ({ api }) => {
     try {
       yield put(A.availablePairsLoading())
       const { pairs } = yield call(api.fetchAvailablePairs)
-      const getCoinAvailablility = yield select(
-        selectors.core.walletOptions.getCoinAvailablility
+      const getCoinAvailability = yield select(
+        selectors.core.walletOptions.getCoinAvailability
       )
       const walletAvailablePairs = pairs.filter(
         compose(
           all(coin =>
-            getCoinAvailablility(coin)
+            getCoinAvailability(coin)
               .map(prop('exchange'))
               .getOrElse(false)
           ),

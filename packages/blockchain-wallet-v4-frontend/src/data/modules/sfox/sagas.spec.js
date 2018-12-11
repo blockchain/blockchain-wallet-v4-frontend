@@ -9,6 +9,7 @@ import * as sfoxActions from './actions.js'
 import * as selectors from '../../selectors.js'
 import sfoxSagas, { logLocation } from './sagas'
 import * as C from 'services/AlertService'
+import * as CC from 'services/ConfirmService'
 import { promptForSecondPassword, confirm } from 'services/SagaService'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
@@ -780,6 +781,83 @@ describe('sfoxSagas', () => {
             )
           )
       })
+    })
+  })
+
+  describe('sfox initialize', () => {
+    const quote = { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }
+    let { sfoxInitialize } = sfoxSagas({ coreSagas, networks })
+
+    let saga = testSaga(sfoxInitialize)
+
+    it('should fetch trades', () => {
+      saga.next().put(actions.core.data.sfox.fetchTrades())
+    })
+    it('should fetch the profile', () => {
+      saga.next().put(actions.core.data.sfox.fetchProfile())
+    })
+    it('should fetch accounts', () => {
+      saga.next().put(actions.core.data.sfox.sfoxFetchAccounts())
+    })
+    it('should fetch a buy quote', () => {
+      saga.next().put(
+        actions.core.data.sfox.fetchQuote({
+          quote
+        })
+      )
+    })
+    it('should fetch a sell quote', () => {
+      saga.next().put(actions.core.data.sfox.fetchSellQuote({ quote }))
+    })
+    it('should initialize the payment', () => {
+      saga.next().put(sfoxActions.initializePayment())
+    })
+    it('should set the sfox busy status to not asked', () => {
+      saga.next().put(sfoxActions.sfoxNotAsked())
+    })
+
+    describe('error handling', () => {
+      const error = { error: 'ERROR' }
+      it('should log the error', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(
+            actions.logs.logErrorMessage(logLocation, 'sfoxInitialize', error)
+          )
+      })
+    })
+  })
+
+  describe('confirm phone call', () => {
+    const SMS_NUMBER = Remote.of('5555555555')
+    const trade = {
+      id: 1
+    }
+    let { __confirmPhoneCall } = sfoxSagas({ coreSagas, networks })
+
+    let saga = testSaga(__confirmPhoneCall, trade)
+
+    it('should select the smsNumber', () => {
+      saga.next().select(selectors.core.settings.getSmsNumber)
+    })
+
+    it('should call the confirm modal', () => {
+      saga.next(SMS_NUMBER).call(confirm, {
+        title: CC.PHONE_CALL_TITLE,
+        message: CC.PHONE_CALL_MSG,
+        confirm: CC.CONFIRM_PHONE_CALL,
+        cancel: CC.CANCEL_PHONE_CALL,
+        messageValues: { smsNumber: '5555555555' }
+      })
+    })
+
+    it('should set sfoxPhoneCall to true', () => {
+      saga.next(true).put(actions.core.kvStore.buySell.sfoxSetPhoneCall(true))
+    })
+    it('should select the profile', () => {
+      saga.next().select(selectors.core.data.sfox.getProfile)
     })
   })
 })

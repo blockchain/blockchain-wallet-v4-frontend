@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ExchangeScene renders email required screen correctly 1`] = `<EmailRequired />`;
+
 exports[`ExchangeScene renders exchange correctly 1`] = `
 <Exchange__Wrapper>
   <Exchange__Container>
