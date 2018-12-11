@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions } from 'data'
-import { path, prop } from 'ramda'
+import { prop } from 'ramda'
 import { Button, Text, TooltipHost, Icon } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 
@@ -83,172 +83,21 @@ class ISignThisContainer extends PureComponent {
     quoteExpired: false
   }
 
-  componentDidMount () {
-    window.addEventListener('message', function (e) {})
-
-    const onComplete = e => {
-      this.props.coinifyActions.fromISX(e)
-    }
-
-    var e = document.getElementById('isx-iframe')
-    const coinifyPaymentDomain = this.props.coinifyPaymentDomainR.getOrElse()
-    const iSignThisDomain = this.props.iSignThisDomainR.getOrElse()
-
-    var _isx = {
-      transactionId: '',
-      version: '1.0.0',
-      configOptions: null
-    }
-
-    _isx.applyContainerStyles = function (c) {
-      c.style['width'] = '100%'
-      if (this.configOptions.height) {
-        c.style['height'] = this.configOptions.height
-      } else {
-        c.style['height'] = '700px'
-      }
-      c.style['overflow'] = 'hidden'
-    }
-
-    _isx.setup = function (setup) {
-      this.transactionId = setup.transaction_id
-      this.configOptions = setup
-
-      return this
-    }
-
-    _isx.done = function (_completeListener) {
-      this.completeListener = _completeListener
-      return this
-    }
-
-    _isx.fail = function (_errorListener) {
-      this.errorListener = _errorListener
-      return this
-    }
-
-    _isx.route = function (_routeListener) {
-      this.routeListener = _routeListener
-      return this
-    }
-
-    _isx.resized = function (_resizeListener) {
-      this.resizeListener = _resizeListener
-      return this
-    }
-
-    _isx.publish = function () {
-      this.iframe = e
-      // Create IE + others compatible event handler
-      let eventMethod = window.addEventListener
-        ? 'addEventListener'
-        : 'attachEvent'
-      let eventer = window[eventMethod]
-      let messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message'
-      let self = this
-      // Listen to message from child window
-      eventer(
-        messageEvent,
-        function (e) {
-          // Check for the domain who sent the messageEvent
-          let origin = e.origin || e.originalEvent.origin
-          if (![iSignThisDomain, coinifyPaymentDomain].includes(origin)) {
-            // Event not generated from ISX or coinifyPaymentDomain, simply return
-            return
-          }
-
-          let frame = document.getElementById('isx-iframe')
-          if (e.source !== prop('contentWindow', frame)) {
-            // Source of message isn't from the iframe
-            return
-          }
-
-          try {
-            let d = JSON.parse(e.data.split('[ISX-Embed]')[1])
-
-            if (d.event.toLowerCase() === 'complete') {
-              if (self.completeListener) {
-                self.completeListener(d)
-              }
-            } else if (d.event.toLowerCase() === 'route') {
-              if (self.routeListener) {
-                self.routeListener(d)
-              }
-            } else if (d.event.toLowerCase() === 'error') {
-              if (self.errorListener) {
-                self.errorListener(d)
-              }
-            } else if (d.event.toLowerCase() === 'resized') {
-              if (self.resizeListener) {
-                self.resizeListener(d)
-              }
-            }
-          } catch (err) {}
-        },
-        false
-      )
-
-      return this
-    }
-    var widget = {
-      transaction_id: this.props.iSignThisId,
-      container_id: 'isx-iframe'
-    }
-
-    var setState = state => {
-      switch (state) {
-        case 'SUCCESS':
-          onComplete('processing')
-          break
-        case 'CANCELLED':
-          onComplete('cancelled')
-          break
-        case 'EXPIRED':
-          onComplete('expired')
-          break
-        case 'DECLINED':
-        case 'FAILED':
-        case 'REJECTED':
-          onComplete('rejected')
-          break
-        case 'PENDING':
-          onComplete('reviewing')
-          break
-      }
-    }
-
-    _isx
-      .setup(widget)
-      .done(function (e) {
-        setState(e.state)
-      })
-      .fail(function (e) {})
-      .resized(function (e) {})
-      .route(function (e) {})
-      .publish()
-  }
-
   onQuoteExpiration = () => {
     this.setState({ quoteExpired: true })
   }
 
   render () {
-    const { iSignThisDomainR, coinifyPaymentDomainR, iSignThisId, coinifyActions, trade, quoteR } = this.props
-    const coinifyPaymentDomain = coinifyPaymentDomainR.getOrElse()
-    const iSignThisDomain = iSignThisDomainR.getOrElse()
-    const isxType = path(['data', 'constructor', 'name'], trade)
-
-    const srcUrl =
-      isxType === 'Trade'
-        ? `${iSignThisDomain}/landing/${iSignThisId}?embed=true` // Url for KYC TODO: we won't need this anymore
-        : `${coinifyPaymentDomain}` // Url for payment
+    const { iSignThisId, coinifyActions, trade, quoteR } = this.props
+    // NOTE: iSignThisId is now a payment URL for the new payment provider
+    // see here: https://github.com/blockchain/bitcoin-coinify-client/pull/32/files#diff-a17a0bd50a25f6c13d0f93c7155ca029R144
+    const srcUrl = iSignThisId
 
     return (
       <Fragment>
         <TimerContainer>
           {quoteR
             .map(q => {
-              if (isxType && isxType !== 'Trade') return null
               if (this.state.quoteExpired) {
                 return (
                   <Fragment>
@@ -310,8 +159,6 @@ class ISignThisContainer extends PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  formActions: bindActionCreators(actions.form, dispatch),
-  coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
 })
 
