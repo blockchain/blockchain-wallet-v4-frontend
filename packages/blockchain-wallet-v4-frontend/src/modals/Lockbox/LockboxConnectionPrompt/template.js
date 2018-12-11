@@ -1,11 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+
 import ModalStepper from 'components/ModalStepper'
 import { CONFIRM_STEPS } from './model'
 import { prop } from 'ramda'
 
-import { Image, Modal, ModalBody, Text } from 'blockchain-info-components'
+import {
+  Image,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  Text
+} from 'blockchain-info-components'
 
 const Title = styled.div`
   text-align: center;
@@ -32,7 +40,7 @@ const MarqueeContainer = styled.marquee.attrs({
 `
 
 const LockboxConnectionPrompt = props => {
-  const { position, total, ...rest } = props
+  const { position, total, onClose, ...rest } = props
   const { coin, currentConnection, marquees, isTx } = rest
   const { error, ready, success } = currentConnection
 
@@ -50,7 +58,13 @@ const LockboxConnectionPrompt = props => {
   let currentStep = prop('index', CONFIRM_STEPS[step])
 
   return (
-    <Modal size='small' position={position} total={total} closeButton={false}>
+    <Modal size='small' position={position} total={total}>
+      <ModalHeader onClose={onClose}>
+        <FormattedMessage
+          id='modals.promptforlockbox.title'
+          defaultMessage='Lockbox Connection'
+        />
+      </ModalHeader>
       <ModalStepper currentStep={currentStep} totalSteps={isTx ? 3 : 2} />
       <ModalBody>
         <Title>

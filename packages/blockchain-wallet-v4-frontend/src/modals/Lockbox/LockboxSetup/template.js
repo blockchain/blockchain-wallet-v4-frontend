@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
+
 import ModalStepper from 'components/ModalStepper'
 import { Modal, ModalBody, ModalHeader } from 'blockchain-info-components'
 
@@ -9,7 +11,12 @@ const LockboxSetup = props => {
 
   return (
     <Modal size={atBounds ? 'auto' : 'small'} position={position} total={total}>
-      <ModalHeader onClose={onClose} />
+      <ModalHeader onClose={onClose}>
+        <FormattedMessage
+          id='modals.lockbox.setup.title'
+          defaultMessage='Lockbox Setup'
+        />
+      </ModalHeader>
       {!atBounds && <ModalStepper currentStep={step} totalSteps={totalSteps} />}
       <ModalBody>{children}</ModalBody>
     </Modal>

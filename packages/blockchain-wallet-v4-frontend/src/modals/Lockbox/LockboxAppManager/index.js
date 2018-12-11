@@ -87,6 +87,11 @@ class LockboxAppManagerContainer extends React.PureComponent {
     this.props.lockboxActions.uninstallApplication(appName)
   }
 
+  onClose = () => {
+    this.props.lockboxActions.lockboxModalClose()
+    this.props.closeAll()
+  }
+
   onContinue = () => {
     this.setState({ changeType: '', appName: '' })
     this.props.lockboxActions.resetAppChangeStatus()
@@ -96,7 +101,6 @@ class LockboxAppManagerContainer extends React.PureComponent {
     const {
       appChangeStatus,
       appVersionInfos,
-      closeModal,
       connection,
       position,
       total
@@ -222,7 +226,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
               />
             </Subtitle>
             {appList}
-            <ContinueButton onClick={closeModal} nature='primary' fullwidth>
+            <ContinueButton onClick={this.onClose} nature='primary' fullwidth>
               <FormattedHTMLMessage
                 id='modals.lockbox.appmanager.close'
                 defaultMessage='Close App Manager'
@@ -255,7 +259,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
 
     return (
       <Modal size='small' position={position} total={total}>
-        <ModalHeader onClose={closeModal}>
+        <ModalHeader onClose={this.onClose}>
           <FormattedMessage
             id='modals.lockbox.appmanager.title'
             defaultMessage='App Manager'
@@ -304,8 +308,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
-  closeModal: bindActionCreators(actions.modals.closeModal, dispatch)
+  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
 const enhance = compose(

@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { actions, selectors } from 'data'
 import { bindActionCreators, compose } from 'redux'
+
+import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import LockboxConnectionPrompt from './template'
 
@@ -10,8 +11,13 @@ class LockboxConnectionPromptContainer extends React.PureComponent {
     this.props.lockboxActions.resetConnectionStatus()
   }
 
+  onClose = () => {
+    this.props.lockboxActions.lockboxModalClose()
+    this.props.closeAll()
+  }
+
   render () {
-    return <LockboxConnectionPrompt {...this.props} />
+    return <LockboxConnectionPrompt onClose={this.onClose} {...this.props} />
   }
 }
 
