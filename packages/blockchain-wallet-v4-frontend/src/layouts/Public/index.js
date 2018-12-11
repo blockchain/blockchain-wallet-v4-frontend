@@ -6,6 +6,7 @@ import styled, { injectGlobal } from 'styled-components'
 import Header from './Header'
 import Footer from './Footer'
 import Alerts from 'components/Alerts'
+import PageViewTracker from 'providers/PageViewTracker'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { selectors } from 'data'
 import { isOnDotInfo } from 'services/MigrationService'
@@ -109,6 +110,7 @@ class PublicLayoutContainer extends React.PureComponent {
         {...rest}
         render={matchProps => (
           <Wrapper>
+            <PageViewTracker />
             <ErrorBoundary>
               <Alerts />
               <HeaderContainer>
