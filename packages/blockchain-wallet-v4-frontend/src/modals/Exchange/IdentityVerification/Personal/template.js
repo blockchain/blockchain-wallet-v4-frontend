@@ -179,15 +179,16 @@ const Personal = ({
                   />
                 </IdentityVerificationSubHeader>
                 <FormContainer>
-                  {!emailVerified && (
-                    <EmailVerificationLabel htmlFor='email'>
-                      <FormattedMessage
-                        id='identityverification.personal.verifyemail'
-                        defaultMessage='Verify Your Email Address'
-                      />
-                    </EmailVerificationLabel>
-                  )}
-                  {!showEmail && (
+                  {showEmail &&
+                    !emailVerified && (
+                      <EmailVerificationLabel htmlFor='email'>
+                        <FormattedMessage
+                          id='identityverification.personal.verifyemail'
+                          defaultMessage='Verify Your Email Address'
+                        />
+                      </EmailVerificationLabel>
+                    )}
+                  {showEmail && (
                     <React.Fragment>
                       <FaqFormGroup>
                         <FormItem>

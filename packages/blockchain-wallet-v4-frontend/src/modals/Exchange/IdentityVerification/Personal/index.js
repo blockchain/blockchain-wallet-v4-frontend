@@ -87,7 +87,7 @@ class PersonalContainer extends React.PureComponent {
           find(propEq('code', initialCountryCode), supportedCountries),
         email: initialEmail
       }}
-      showEmail={this.state.initialEmailVerified}
+      showEmail={!this.state.initialEmailVerified}
       emailVerified={emailVerified}
       email={email}
       emailStep={emailStep}
