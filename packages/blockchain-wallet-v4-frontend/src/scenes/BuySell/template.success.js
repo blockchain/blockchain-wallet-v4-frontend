@@ -29,6 +29,7 @@ import {
 
 const CountryFAQText = styled.div`
   padding-top: 25px;
+  width: 70%;
 `
 const Intro = styled.div`
   display: flex;
@@ -60,9 +61,9 @@ const SelectPartner = props => {
       return {
         name: 'SFOX',
         url: 'url(/img/sfox-landing.png)',
-        logo: 'powered-by-plaid',
+        logo: 'powered-by-sfox',
         backgroundSize: 'auto 80%',
-        backgroundPosition: 'right 25px bottom 100%'
+        backgroundPosition: 'right 70px bottom 0%'
       }
     }
     if (isCoinifyCountry(country)) {

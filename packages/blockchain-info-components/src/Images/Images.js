@@ -30,7 +30,7 @@ import linkLockboxIcon from './img/link-lockbox-icon.svg'
 import linkedinWhite from './img/linkedin-white.svg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
 import poweredByCoinify from './img/powered_by_coinify.svg'
-import poweredByPlaid from './img/powered_by_plaid.svg'
+import poweredBySfox from './img/powered_by_sfox.svg'
 import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
 import restoreLockboxIcon from './img/restore-lockbox-icon.svg'
@@ -159,7 +159,7 @@ export default {
   'lockbox-send-review3': sendReview3,
   'micro-deposits-whole': microDepositsWhole,
   'powered-by-coinify': poweredByCoinify,
-  'powered-by-plaid': poweredByPlaid,
+  'powered-by-sfox': poweredBySfox,
   printer: printer,
   'restore-lockbox-icon': restoreLockboxIcon,
   'qr-code': qrCode,
