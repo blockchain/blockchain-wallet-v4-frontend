@@ -8,7 +8,7 @@ import Loading from 'components/BuySell/Loading'
 import Failure from 'components/BuySell/Failure'
 import { KYC_MODAL } from 'data/components/identityVerification/model'
 
-class CoinifyBuyContainer extends React.Component {
+class CoinifyBuyContainer extends React.PureComponent {
   componentDidMount () {
     this.props.coinifyActions.initializeCheckoutForm('buy')
     this.props.coinifyActions.fetchCoinifyData()
@@ -90,7 +90,7 @@ class CoinifyBuyContainer extends React.Component {
       ),
       Failure: e => <Failure error={e} />,
       Loading: () => <Loading />,
-      NotAsked: () => <div>Not Asked</div>
+      NotAsked: () => <Loading />
     })
   }
 }

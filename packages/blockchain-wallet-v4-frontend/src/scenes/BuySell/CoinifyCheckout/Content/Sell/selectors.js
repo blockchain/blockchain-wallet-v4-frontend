@@ -1,15 +1,15 @@
 import { formValueSelector } from 'redux-form'
-import { lift, path } from 'ramda'
-import { selectors } from 'data'
+import { lift, equals } from 'ramda'
+import { selectors, model } from 'data'
+
+const { VERIFIED } = model.profile.KYC_STATES
 
 export const getUserData = state => {
   const profile = selectors.core.data.coinify.getProfile(state)
-  const payment = path(['coinify', 'payment'], state)
-  const kyc = selectors.core.data.coinify.getKyc(state)
-  return lift((profile, payment, kyc) => ({ profile, payment, kyc }))(
+  const payment = selectors.modules.coinify.getCoinifyPayment(state)
+  return lift((profile, payment) => ({ profile, payment }))(
     profile,
-    payment,
-    kyc
+    payment
   )
 }
 
@@ -23,24 +23,25 @@ export const getQuote = state => selectors.core.data.coinify.getQuote(state)
 
 export const getCurrency = state => selectors.core.data.coinify.getLevel(state)
 
-export const getBase = state =>
-  path(['form', 'exchangeCheckout', 'active'], state)
-
-export const getErrors = state =>
-  path(['form', 'exchangeCheckout', 'syncErrors'], state)
-
-export const getData = state => ({
-  base: getBase(state),
-  data: getUserData(state),
-  sellQuoteR: getQuote(state),
-  trade: getTrade(state),
-  errors: getErrors(state),
-  currency: formValueSelector('coinifyCheckoutSell')(state, 'currency'),
-  defaultCurrency: getCurrency(state),
-  checkoutBusy: path(['coinify', 'checkoutBusy'], state),
-  paymentMedium: path(['coinify', 'medium'], state),
-  step: path(['coinify', 'checkoutStep'], state),
-  coinifyBusy: path(['coinify', 'coinifyBusy'], state),
-  checkoutError: path(['coinify', 'checkoutError'], state),
-  canTrade: selectors.core.data.coinify.canTrade(state).getOrElse(false)
-})
+export const getData = state => {
+  const kycState = selectors.modules.profile
+    .getUserKYCState(state)
+    .getOrElse(false)
+  const kycVerified = equals(kycState, VERIFIED)
+  return {
+    data: getUserData(state),
+    sellQuoteR: getQuote(state),
+    trade: getTrade(state),
+    currency: formValueSelector('coinifyCheckoutSell')(state, 'currency'),
+    defaultCurrency: getCurrency(state),
+    checkoutBusy: selectors.modules.coinify.getCoinifyCheckoutBusy(state),
+    paymentMedium: selectors.modules.coinify.getCoinifyMedium(state),
+    step: selectors.modules.coinify.getCoinifyCheckoutStep(state),
+    coinifyBusy: selectors.modules.coinify.getCoinifyBusy(state),
+    checkoutError: selectors.modules.coinify.getCoinifyCheckoutError(state),
+    canTrade: selectors.core.data.coinify.canTrade(state).getOrElse(false),
+    kycState,
+    kycVerified,
+    level: selectors.core.data.coinify.getLevel(state)
+  }
+}

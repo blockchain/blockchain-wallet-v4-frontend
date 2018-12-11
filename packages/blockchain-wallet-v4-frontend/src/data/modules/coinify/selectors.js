@@ -8,3 +8,4 @@ export const getCoinifyCheckoutBusy = compose(prop('checkoutBusy'), getCoinifyDa
 export const getCoinifyMedium = compose(prop('medium'), getCoinifyData)
 export const getCoinifyCheckoutStep = compose(prop('checkoutStep'), getCoinifyData)
 export const getCoinifyCountry = compose(prop('country'), getCoinifyData)
+export const getCoinifyCheckoutError = compose(prop('checkoutError'), getCoinifyData)

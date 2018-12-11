@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { contains, path, prop } from 'ramda'
+import { contains, prop } from 'ramda'
 
 import { Button } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
@@ -65,7 +65,6 @@ const CoinifyBuy = props => {
     _limits: service.mockedLimits,
     _level: { currency: 'EUR' }
   })
-  const kyc = prop('kyc', value)
   const buyCurrencies = ['EUR', 'DKK', 'GBP', 'USD']
   const defaultCurrency = contains(currency, buyCurrencies) ? currency : 'EUR' // profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
@@ -103,7 +102,6 @@ const CoinifyBuy = props => {
               ) : null}
               {!kycVerified && levelName < 2 ? (
                 <KYCNotification
-                  kyc={kyc}
                   limits={limits.buy}
                   symbol={symbol}
                   onTrigger={handleKycAction}
@@ -141,7 +139,7 @@ const CoinifyBuy = props => {
   } else if (step === 'isx') {
     return (
       <ISignThis
-        iSignThisId={path(['iSignThisID'], trade)}
+        iSignThisId={prop('iSignThisID', trade)}
         options={props.options}
       />
     )

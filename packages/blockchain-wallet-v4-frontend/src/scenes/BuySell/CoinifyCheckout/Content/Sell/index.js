@@ -6,21 +6,16 @@ import { getData } from './selectors'
 import Success from './template.success'
 import Loading from 'components/BuySell/Loading'
 import Failure from 'components/BuySell/Failure'
+import { KYC_MODAL } from 'data/components/identityVerification/model'
 
 class SellContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.submitQuote = this.submitQuote.bind(this)
-    this.startSell = this.startSell.bind(this)
-  }
-
   componentDidMount () {
     this.props.coinifyDataActions.getKyc()
     this.props.coinifyActions.initializePayment()
     this.props.coinifyActions.initializeCheckoutForm('sell')
   }
 
-  submitQuote () {
+  submitQuote = () => {
     const { sellQuoteR } = this.props
     sellQuoteR.map(quote =>
       this.props.coinifyDataActions.getMediumsWithBankAccounts(quote)
@@ -28,7 +23,7 @@ class SellContainer extends React.Component {
     this.props.coinifyActions.saveMedium('blockchain')
   }
 
-  startSell () {
+  startSell = () => {
     const { coinifyActions } = this.props
     coinifyActions.initiateSell()
   }
@@ -44,12 +39,13 @@ class SellContainer extends React.Component {
       currency,
       paymentMedium,
       trade,
+      level,
       ...rest
     } = this.props
-    const { canTrade, step, checkoutBusy, coinifyBusy, checkoutError } = rest
+    const { canTrade, step, checkoutBusy, coinifyBusy, checkoutError, kycState } = rest
     const { fetchQuote, refreshSellQuote } = coinifyDataActions
     const { showModal } = modalActions
-    const { coinifyNotAsked, openKYC } = coinifyActions
+    const { coinifyNotAsked } = coinifyActions
     const { change } = formActions
 
     const busy = coinifyBusy.cata({
@@ -82,28 +78,27 @@ class SellContainer extends React.Component {
           trade={trade}
           onOrderCheckoutSubmit={this.submitQuote}
           checkoutError={checkoutError}
-          handleKycAction={kyc => openKYC(kyc)}
+          handleKycAction={() => showModal(KYC_MODAL)}
           refreshQuote={refreshSellQuote}
+          level={level}
+          kycState={kycState}
         />
       ),
-      Failure: msg => <div>Failure: {msg.error}</div>,
+      Failure: e => <Failure error={e} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
   }
 }
 
-const mapStateToProps = state => getData(state)
-
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  sendBtcActions: bindActionCreators(actions.components.sendBtc, dispatch),
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
 })
 
 export default connect(
-  mapStateToProps,
+  getData,
   mapDispatchToProps
 )(SellContainer)

@@ -37,7 +37,7 @@ const LimitsNotice = styled.div`
 `
 
 const KYCNotification = props => {
-  const { kyc, onTrigger, symbol, limits, type, canTrade, kycState } = props
+  const { onTrigger, symbol, limits, type, canTrade, kycState } = props
 
   const header = kycHeaderHelper(kycState)
   const body = kycNotificationBodyHelper(kycState)
@@ -86,7 +86,7 @@ const KYCNotification = props => {
           {prop('text', body)}
         </Text>
         {equals(NONE, kycState) ? (
-          <Button onClick={() => onTrigger(kyc)} nature='empty-secondary'>
+          <Button onClick={onTrigger} nature='empty-secondary'>
             <Text size='13px' color='brand-secondary'>
               <FormattedMessage
                 id='scenes.buy_sell.kyc_notification.complete'

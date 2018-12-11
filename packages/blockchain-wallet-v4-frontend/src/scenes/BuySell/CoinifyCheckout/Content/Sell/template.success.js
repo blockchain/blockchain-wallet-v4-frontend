@@ -49,18 +49,20 @@ const Sell = props => {
     value,
     onOrderCheckoutSubmit,
     checkoutError,
-    handleKycAction
+    handleKycAction,
+    kycState,
+    kycVerified,
+    level
   } = props
 
   const profile = value.profile || {
     _limits: service.mockedLimits,
     _level: { currency: 'EUR' }
   }
-  const kyc = prop('kyc', value)
   const sellCurrencies = ['EUR', 'DKK', 'GBP']
   const defaultCurrency = contains(currency, sellCurrencies) ? currency : 'EUR' // profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
-
+  const levelName = prop('name', level.getOrElse())
   const limits = service.getLimits(
     profile._limits,
     defaultCurrency,
@@ -91,14 +93,14 @@ const Sell = props => {
               />
             </div>
             <div>
-              {kyc ? (
+              {!kycVerified && levelName < 2 ? (
                 <KYCNotification
-                  kyc={kyc}
                   limits={limits.sell}
                   symbol={symbol}
-                  onTrigger={kyc => handleKycAction(kyc)}
+                  onTrigger={handleKycAction}
                   type='sell'
                   canTrade={canTrade}
+                  kycState={kycState}
                 />
               ) : null}
             </div>
@@ -141,7 +143,7 @@ const Sell = props => {
   } else if (step === 'isx') {
     return (
       <ISignThis
-        iSignThisId={path(['iSignThisID'], trade)}
+        iSignThisId={prop('iSignThisID', trade)}
         options={props.options}
       />
     )
