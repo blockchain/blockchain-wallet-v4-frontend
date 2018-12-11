@@ -159,7 +159,7 @@ export const IdentityVerificationForm = styled(Form)`
   }
   label[for='${props => props.activeField}'] + div {
     .bc__control, input {
-      border-color: ${props =>
+      border: 1px solid ${props =>
         props.activeFieldError
           ? props.theme.error
           : props.theme['brand-primary']};

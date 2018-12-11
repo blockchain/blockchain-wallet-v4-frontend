@@ -9,7 +9,8 @@ import {
   required,
   requiredDOB,
   ageOverEighteen,
-  requiredZipCode
+  requiredZipCode,
+  validEmail
 } from 'services/FormHelper'
 import { model } from 'data'
 import media from 'services/ResponsiveService'
@@ -17,17 +18,19 @@ import { getElementsPropType } from 'utils/proptypes'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
 import {
-  Button,
-  Text,
   Banner,
-  HeartbeatLoader
+  Button,
+  HeartbeatLoader,
+  Separator,
+  Text
 } from 'blockchain-info-components'
 import {
   DateInputBox,
   FooterShadowWrapper,
   FormItem,
-  TextBox,
-  SelectBox
+  EmailVerification,
+  SelectBox,
+  TextBox
 } from 'components/Form'
 import {
   EmailHelper,
@@ -92,11 +95,32 @@ const ErrorBanner = styled(Banner)`
 const AddressWrapper = styled.div`
   margin-bottom: 120px;
 `
+const EmailVerificationLabel = styled(Text)`
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 16px;
+  display: block;
+`
+
+const KycEmailVerification = styled(EmailVerification)`
+  label {
+    font-size: 16px;
+    font-weight: 300;
+    margin-bottom: 12px;
+    display: block;
+  }
+`
+
+const KycSeparator = styled(Separator)`
+  max-width: 576px;
+  width: calc(100% - 260px);
+  margin: 32px 0;
+`
 
 const addTrailingZero = string => (string.length >= 2 ? string : `0${string}`)
 const removeTrailingZero = replace(/^0/, '')
 const { AddressPropType, CountryPropType } = model.profile
-const { PERSONAL_FORM } = model.components.identityVerification
+const { PERSONAL_FORM, EMAIL_STEPS } = model.components.identityVerification
 const objectToDOB = ({ date = '', month = '', year = '' }) =>
   `${year}-${month}-${addTrailingZero(date)}`
 const DOBToObject = value => {
@@ -113,6 +137,9 @@ const Personal = ({
   invalid,
   submitting,
   error,
+  showEmail,
+  emailVerified,
+  emailStep,
   supportedCountries,
   states,
   countryCode,
@@ -123,7 +150,10 @@ const Personal = ({
   activeFieldError,
   onCountrySelect,
   onStateSelect,
-  handleSubmit
+  handleSubmit,
+  sendEmailVerification,
+  editEmail,
+  updateEmail
 }) => {
   return (
     <IdentityVerificationForm
@@ -149,6 +179,36 @@ const Personal = ({
                   />
                 </IdentityVerificationSubHeader>
                 <FormContainer>
+                  {showEmail &&
+                    !emailVerified && (
+                      <EmailVerificationLabel htmlFor='email'>
+                        <FormattedMessage
+                          id='identityverification.personal.verifyemail'
+                          defaultMessage='Verify Your Email Address'
+                        />
+                      </EmailVerificationLabel>
+                    )}
+                  {showEmail && (
+                    <React.Fragment>
+                      <FaqFormGroup>
+                        <FormItem>
+                          <Field
+                            name='email'
+                            component={KycEmailVerification}
+                            validate={[required, validEmail]}
+                            verificationSent={emailStep === EMAIL_STEPS.verify}
+                            verified={emailVerified}
+                            onVerificationSend={sendEmailVerification}
+                            onUpdate={updateEmail}
+                            onEdit={editEmail}
+                            errorBottom
+                            label
+                          />
+                        </FormItem>
+                      </FaqFormGroup>
+                      <KycSeparator />
+                    </React.Fragment>
+                  )}
                   <FaqFormGroup>
                     <FormItem>
                       <Label htmlFor='country'>
@@ -212,58 +272,61 @@ const Personal = ({
                     </ErrorBanner>
                   )}
                   {showPersonal && (
-                    <FaqFormGroup>
-                      <PersonalItem>
-                        <PersonalField>
-                          <Label htmlFor='firstName'>
-                            <FormattedMessage
-                              id='identityverification.personal.firstname'
-                              defaultMessage='First Name'
-                            />
-                          </Label>
-                          <Field
-                            name='firstName'
-                            validate={required}
-                            component={TextBox}
-                            errorBottom
-                          />
-                        </PersonalField>
-                        <PersonalField>
-                          <Label htmlFor='lastName'>
-                            <FormattedMessage
-                              id='identityverification.personal.lastname'
-                              defaultMessage='Last Name'
-                            />
-                          </Label>
-                          <Field
-                            name='lastName'
-                            validate={required}
-                            component={TextBox}
-                            errorBottom
-                          />
-                        </PersonalField>
-                      </PersonalItem>
-                      {(activeField === 'firstName' ||
-                        activeField === 'lastName') &&
-                        !mobile &&
-                        !tablet && (
-                          <FaqFormMessage
-                            icon='id-card'
-                            title={
+                    <React.Fragment>
+                      <KycSeparator />
+                      <FaqFormGroup>
+                        <PersonalItem>
+                          <PersonalField>
+                            <Label htmlFor='firstName'>
                               <FormattedMessage
-                                id='identityverification.personal.faq.name.title'
-                                defaultMessage='First & Last Name'
+                                id='identityverification.personal.firstname'
+                                defaultMessage='First Name'
                               />
-                            }
-                            text={
+                            </Label>
+                            <Field
+                              name='firstName'
+                              validate={required}
+                              component={TextBox}
+                              errorBottom
+                            />
+                          </PersonalField>
+                          <PersonalField>
+                            <Label htmlFor='lastName'>
                               <FormattedMessage
-                                id='identityverification.personal.faq.name.text'
-                                defaultMessage='They should match exactly the details in your passport or driving license.'
+                                id='identityverification.personal.lastname'
+                                defaultMessage='Last Name'
                               />
-                            }
-                          />
-                        )}
-                    </FaqFormGroup>
+                            </Label>
+                            <Field
+                              name='lastName'
+                              validate={required}
+                              component={TextBox}
+                              errorBottom
+                            />
+                          </PersonalField>
+                        </PersonalItem>
+                        {(activeField === 'firstName' ||
+                          activeField === 'lastName') &&
+                          !mobile &&
+                          !tablet && (
+                            <FaqFormMessage
+                              icon='id-card'
+                              title={
+                                <FormattedMessage
+                                  id='identityverification.personal.faq.name.title'
+                                  defaultMessage='First & Last Name'
+                                />
+                              }
+                              text={
+                                <FormattedMessage
+                                  id='identityverification.personal.faq.name.text'
+                                  defaultMessage='They should match exactly the details in your passport or driving license.'
+                                />
+                              }
+                            />
+                          )}
+                      </FaqFormGroup>
+                    </React.Fragment>
                   )}
                   {showPersonal && (
                     <FaqFormGroup>
@@ -308,12 +371,13 @@ const Personal = ({
                   )}
                   {showPersonal && (
                     <AddressWrapper>
+                      <KycSeparator />
                       <FaqFormGroup>
                         <FormItem>
                           <Label htmlFor='line1'>
                             <FormattedMessage
-                              id='identityverification.personal.address'
-                              defaultMessage='Address'
+                              id='identityverification.personal.streetline1'
+                              defaultMessage='Street Line 1'
                             />
                           </Label>
                           <Field
@@ -329,8 +393,8 @@ const Personal = ({
                         <FormItem>
                           <Label htmlFor='line2'>
                             <FormattedMessage
-                              id='identityverification.personal.address2'
-                              defaultMessage='Address 2'
+                              id='identityverification.personal.streetline2'
+                              defaultMessage='Street Line 2'
                             />
                           </Label>
                           <Field

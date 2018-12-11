@@ -36,6 +36,7 @@ import {
 } from 'blockchain-wallet-v4/src/redux/kvStore/userCredentials/selectors'
 import {
   getEmail,
+  getEmailVerified,
   getSmsVerified,
   getCountryCode,
   getSmsNumber,

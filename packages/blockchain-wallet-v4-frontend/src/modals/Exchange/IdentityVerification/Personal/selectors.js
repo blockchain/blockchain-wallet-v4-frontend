@@ -4,6 +4,7 @@ import { compose, lift, prop, test, contains, keys, path } from 'ramda'
 import { selectors, model } from 'data'
 
 const {
+  getEmailStep,
   getSupportedCountries,
   getStates
 } = selectors.components.identityVerification
@@ -77,6 +78,12 @@ export const getData = state => {
     initialCountryCode: selectors.core.settings
       .getCountryCode(state)
       .getOrElse(null),
+    initialEmail: selectors.core.settings.getEmail(state).getOrElse(null),
+    emailVerified: selectors.core.settings
+      .getEmailVerified(state)
+      .getOrElse(false),
+    email: prop('code', formValSelector(state, 'email')),
+    emailStep: getEmailStep(state),
     countryCode: prop('code', formValSelector(state, 'country')),
     postCode: formValSelector(state, 'postCode'),
     countryAndStateSelected: isCountryAndStateSelected(state),

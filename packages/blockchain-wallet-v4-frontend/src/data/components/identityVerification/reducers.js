@@ -1,11 +1,14 @@
 import { Remote } from 'blockchain-wallet-v4/src'
 import { assoc } from 'ramda'
+
 import * as AT from './actionTypes'
+import { EMAIL_STEPS } from './model'
 
 const INITIAL_STATE = {
   addressRefetchVisible: false,
   verificationStep: null,
   smsStep: Remote.Loading,
+  emailStep: EMAIL_STEPS.edit,
   supportedCountries: Remote.NotAsked,
   supportedDocuments: Remote.NotAsked,
   states: Remote.NotAsked,
@@ -23,6 +26,9 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.SET_SMS_STEP: {
       return assoc('smsStep', Remote.of(payload.step), state)
+    }
+    case AT.SET_EMAIL_STEP: {
+      return assoc('emailStep', payload.step, state)
     }
     case AT.SET_SUPPORTED_COUNTRIES: {
       return assoc('supportedCountries', payload.countries, state)

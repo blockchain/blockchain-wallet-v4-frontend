@@ -15,6 +15,7 @@ export default {
   caret: '\\e917',
   cart: '\\e988',
   chart: '\\e95b',
+  check: '\\e910',
   checkmark: '\\e95d',
   'checkmark-in-circle': '\\e95c',
   'checkmark-in-circle-filled': '\\e90b',

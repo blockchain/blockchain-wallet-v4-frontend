@@ -12,6 +12,11 @@ export const getSmsStep = path([
   'identityVerification',
   'smsStep'
 ])
+export const getEmailStep = path([
+  'components',
+  'identityVerification',
+  'emailStep'
+])
 
 export const getSupportedCountries = path([
   'components',
