@@ -17,63 +17,85 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { validBitcoinAddress } from 'services/FormHelper'
+import styled from 'styled-components'
 
-const getItem = (label, input) => (
-  <FormItem style={{ marginBottom: `15px` }}>
+const Item = styled(FormItem)`
+  margin-bottom: 15px;
+`
+
+// For some reason we couldn't style FormattedMessage directly.
+const LabelMessage = styled.div`
+  margin-bottom: 5px;
+`
+
+const ItemAddress = ({ address, network, onChange }) => (
+  <Item>
     <FormLabel>
-      <div style={{ marginBottom: `5px` }}>{label}</div>
-      {input}
+      <LabelMessage>
+        <FormattedMessage
+          id='modals.verifyMessage.address'
+          defaultMessage='Bitcoin Address:'
+        />
+      </LabelMessage>
+      <TextBox
+        input={{
+          onChange,
+          name: 'address'
+        }}
+        meta={{
+          error: validBitcoinAddress(address, null, { network }),
+          touched: address !== ``
+        }}
+      />
     </FormLabel>
-  </FormItem>
+  </Item>
 )
 
-const ItemAddress = ({ address, network, onChange }) =>
-  getItem(
-    <FormattedMessage
-      id='modals.verifyMessage.address'
-      defaultMessage='Bitcoin Address:'
-    />,
-    <TextBox
-      input={{
-        onChange,
-        name: 'address'
-      }}
-      meta={{
-        error: validBitcoinAddress(address, null, { network }),
-        touched: address !== ``
-      }}
-    />
-  )
+const ItemMessage = ({ onChange }) => (
+  <Item>
+    <FormLabel>
+      <LabelMessage>
+        <FormattedMessage
+          id='modals.verifyMessage.message'
+          defaultMessage='Message:'
+        />
+      </LabelMessage>
+      <TextArea
+        input={{
+          name: 'message',
+          onChange
+        }}
+        meta={{}}
+      />
+    </FormLabel>
+  </Item>
+)
 
-const ItemMessage = ({ onChange }) =>
-  getItem(
-    <FormattedMessage
-      id='modals.verifyMessage.message'
-      defaultMessage='Message:'
-    />,
-    <TextArea
-      input={{
-        name: 'message',
-        onChange
-      }}
-      meta={{}}
-    />
-  )
+const ItemSignature = ({ onChange }) => (
+  <Item>
+    <FormLabel>
+      <LabelMessage>
+        <FormattedMessage
+          id='modals.verifyMessage.signature'
+          defaultMessage='Signature:'
+        />
+      </LabelMessage>
+      <TextArea
+        input={{
+          name: 'signature',
+          onChange
+        }}
+        meta={{}}
+      />
+    </FormLabel>
+  </Item>
+)
 
-const ItemSignature = ({ onChange }) =>
-  getItem(
-    <FormattedMessage
-      id='modals.verifyMessage.signature'
-      defaultMessage='Signature:'
-    />,
-    <TextArea
-      input={{
-        name: 'signature',
-        onChange
-      }}
-      meta={{}}
-    />
-  )
+const Result = styled.div`
+  display: flex;
+  justify-content: center;
+  visibility: ${({ visible }) => (visible ? `visible` : `hidden`)};
+`
 
 class VerifyMessage extends React.PureComponent {
   constructor (props) {
@@ -108,11 +130,7 @@ class VerifyMessage extends React.PureComponent {
           />
           <ItemMessage onChange={this.onChange} />
           <ItemSignature onChange={this.onChange} />
-          <div
-            style={{
-              visibility: services.showResult(this.state) ? `visible` : `hidden`
-            }}
-          >
+          <Result visible={services.showResult(this.state)}>
             {services.verifySignature(this.state) ? (
               <Banner type='success'>
                 <FormattedMessage
@@ -128,7 +146,7 @@ class VerifyMessage extends React.PureComponent {
                 />
               </Banner>
             )}
-          </div>
+          </Result>
         </ModalBody>
         <ModalFooter align='right'>
           <Button onClick={close} nature='primary'>
