@@ -21,7 +21,7 @@ const InputRow = styled(Row)`
   }
 `
 
-const LoadingButton = ({ loading, children, ...rest }) => (
+export const LoadingButton = ({ loading, children, ...rest }) => (
   <Button disabled={loading} {...rest}>
     {loading ? (
       <HeartbeatLoader height='20px' width='20px' color='white' />
@@ -31,7 +31,7 @@ const LoadingButton = ({ loading, children, ...rest }) => (
   </Button>
 )
 
-const ChangeButton = styled(LoadingButton)`
+export const ChangeButton = styled(LoadingButton)`
   margin-right: 16px;
 `
 
@@ -170,7 +170,7 @@ export default class EmailVerification extends React.PureComponent {
       return (
         <EmailSent
           {...{
-            email: input.value,
+            email,
             sendVerification,
             changeEmail,
             className,
