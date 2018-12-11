@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   right: 20px;
 `
 const BaseImage = styled(Image)`
-  width: 370px;
+  width: 280px;
   height: auto;
   color: auto;
 `

@@ -69,7 +69,7 @@ const SelectPartner = props => {
       return {
         name: 'COINIFY',
         url: 'url(/img/coinify-landing.svg)',
-        backgroundSize: 'auto 60%',
+        backgroundSize: 'auto 50%',
         backgroundPosition: 'right 25px bottom 65%',
         logo: 'powered-by-coinify'
       }

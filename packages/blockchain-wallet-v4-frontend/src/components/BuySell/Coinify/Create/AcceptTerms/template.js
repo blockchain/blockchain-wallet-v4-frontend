@@ -70,6 +70,9 @@ const SquaredButton = styled(Button)`
 const SentEmailText = styled(Text)`
   margin-top: 15px;
 `
+const WideInputWrapper = styled(InputWrapper)`
+  width: 100%;
+`
 
 const AcceptTerms = props => {
   const {
@@ -86,7 +89,7 @@ const AcceptTerms = props => {
   return (
     <AcceptTermsForm onSubmit={handleSubmit}>
       <ColLeft>
-        <InputWrapper>
+        <WideInputWrapper>
           <FieldContainer>
             <VerifiedText>
               <FormattedMessage
@@ -234,7 +237,7 @@ const AcceptTerms = props => {
                   : null}
             </ErrorWrapper>
           </FieldContainer>
-        </InputWrapper>
+        </WideInputWrapper>
       </ColLeft>
     </AcceptTermsForm>
   )
