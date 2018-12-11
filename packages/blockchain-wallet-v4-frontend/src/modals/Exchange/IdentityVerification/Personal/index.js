@@ -29,7 +29,7 @@ const { PERSONAL_FORM, EMAIL_STEPS } = model.components.identityVerification
 
 class PersonalContainer extends React.PureComponent {
   state = {
-    initialEmailVerified: this.props.isEmailVerified()
+    initialEmailVerified: this.props.emailVerified
   }
 
   componentDidMount () {

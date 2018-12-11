@@ -61,8 +61,6 @@ export const getData = state => {
       .getCountryCode(state)
       .getOrElse(null),
     initialEmail: selectors.core.settings.getEmail(state).getOrElse(null),
-    isEmailVerified: () =>
-      selectors.core.settings.getEmailVerified(state).getOrElse(false),
     emailVerified: selectors.core.settings
       .getEmailVerified(state)
       .getOrElse(false),

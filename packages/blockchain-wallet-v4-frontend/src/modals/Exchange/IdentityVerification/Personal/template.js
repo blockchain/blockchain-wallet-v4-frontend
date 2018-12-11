@@ -376,8 +376,8 @@ const Personal = ({
                         <FormItem>
                           <Label htmlFor='line1'>
                             <FormattedMessage
-                              id='identityverification.personal.address'
-                              defaultMessage='Address'
+                              id='identityverification.personal.streetline1'
+                              defaultMessage='Street Line 1'
                             />
                           </Label>
                           <Field
@@ -393,8 +393,8 @@ const Personal = ({
                         <FormItem>
                           <Label htmlFor='line2'>
                             <FormattedMessage
-                              id='identityverification.personal.address2'
-                              defaultMessage='Address 2'
+                              id='identityverification.personal.streetline2'
+                              defaultMessage='Street Line 2'
                             />
                           </Label>
                           <Field
