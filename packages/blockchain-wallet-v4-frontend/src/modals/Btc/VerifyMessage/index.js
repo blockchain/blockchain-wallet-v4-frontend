@@ -19,9 +19,9 @@ import { FormattedMessage } from 'react-intl'
 import { validBitcoinAddress } from 'services/FormHelper'
 
 const getItem = (label, input) => (
-  <FormItem style={{ marginBottom: `1rem` }}>
+  <FormItem style={{ marginBottom: `15px` }}>
     <FormLabel>
-      <div style={{ marginBottom: `0.5rem` }}>{label}</div>
+      <div style={{ marginBottom: `5px` }}>{label}</div>
       {input}
     </FormLabel>
   </FormItem>
