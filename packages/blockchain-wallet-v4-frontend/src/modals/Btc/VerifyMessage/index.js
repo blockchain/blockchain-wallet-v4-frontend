@@ -101,8 +101,9 @@ class VerifyMessage extends React.PureComponent {
   constructor (props) {
     super(props)
     this.onChange = this.onChange.bind(this)
-    this.state = { address: ``, message: ``, signature: `` }
   }
+
+  state = { address: ``, message: ``, signature: `` }
 
   onChange ({ target: { name, value } }) {
     this.setState({ [name]: value })
