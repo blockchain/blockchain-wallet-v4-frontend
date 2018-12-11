@@ -649,9 +649,9 @@ export default ({ api }) => {
       )
     } finally {
       if (yield cancelled()) {
-        actions.logs.updateDeviceFirmware(
+        actions.logs.logInfoMessage(
           logLocation,
-          'pollForDeviceApp',
+          'updateDeviceFirmware',
           sagaCancelledMsg
         )
       }
