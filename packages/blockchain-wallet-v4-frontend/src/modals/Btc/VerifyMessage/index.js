@@ -18,7 +18,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { validBitcoinAddress } from 'services/FormHelper'
 
-const item = (label, input) => (
+const getItem = (label, input) => (
   <FormItem style={{ marginBottom: `1rem` }}>
     <FormLabel>
       <div style={{ marginBottom: `0.5rem` }}>{label}</div>
@@ -28,7 +28,7 @@ const item = (label, input) => (
 )
 
 const ItemAddress = ({ address, network, onChange }) =>
-  item(
+  getItem(
     <FormattedMessage
       id='modals.verifyMessage.address'
       defaultMessage='Bitcoin Address:'
@@ -46,7 +46,7 @@ const ItemAddress = ({ address, network, onChange }) =>
   )
 
 const ItemMessage = ({ onChange }) =>
-  item(
+  getItem(
     <FormattedMessage
       id='modals.verifyMessage.message'
       defaultMessage='Message:'
@@ -61,7 +61,7 @@ const ItemMessage = ({ onChange }) =>
   )
 
 const ItemSignature = ({ onChange }) =>
-  item(
+  getItem(
     <FormattedMessage
       id='modals.verifyMessage.signature'
       defaultMessage='Signature:'
