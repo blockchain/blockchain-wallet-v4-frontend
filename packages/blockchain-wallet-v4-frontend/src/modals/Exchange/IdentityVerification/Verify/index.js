@@ -34,19 +34,19 @@ class VerifyContainer extends React.PureComponent {
       Success: ({ docTypes, flowType, email, deeplink }) => (
         <MediaContextConsumer>
           {({ mobile }) =>
-            flowType === FLOW_TYPES.LOW && !mobile ? (
-              <LowFlow
-                supportedDocuments={docTypes}
-                showVeriff={this.state.showVeriff}
-                handleSubmit={this.showVeriff}
-                {...rest}
-              />
-            ) : (
+            flowType === FLOW_TYPES.HIGH && mobile ? (
               <HighFlow
                 email={email}
                 deeplink={deeplink}
                 send={actions.sendDeeplink}
                 done={modalActions.closeAllModals}
+                {...rest}
+              />
+            ) : (
+              <LowFlow
+                supportedDocuments={docTypes}
+                showVeriff={this.state.showVeriff}
+                handleSubmit={this.showVeriff}
                 {...rest}
               />
             )

@@ -33,9 +33,10 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
     })
 
   const fetchVeriffUrl = () =>
-    authorizedPost({
+    authorizedGet({
       url: nabuUrl,
-      endPoint: '/kyc/credentials/VERIFF'
+      endPoint: '/kyc/credentials/veriff',
+      headers: { 'x-client-type': 'WEB' }
     })
 
   const syncVeriff = applicantId =>
