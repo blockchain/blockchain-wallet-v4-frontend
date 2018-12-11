@@ -12,7 +12,7 @@ import {
 } from 'blockchain-info-components'
 
 import { FormItem, FormLabel, TextArea, TextBox } from 'components/Form'
-import * as core from './core'
+import * as services from './services'
 import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
@@ -109,10 +109,10 @@ class VerifyMessage extends React.PureComponent {
           <ItemSignature onChange={onChange} />
           <div
             style={{
-              visibility: core.showResult(this.state) ? `visible` : `hidden`
+              visibility: services.showResult(this.state) ? `visible` : `hidden`
             }}
           >
-            {core.verifySignature(this.state) ? (
+            {services.verifySignature(this.state) ? (
               <Banner type='success'>
                 <FormattedMessage
                   id='modals.verifyMessage.success'
