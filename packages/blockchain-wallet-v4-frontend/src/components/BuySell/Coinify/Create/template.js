@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import AcceptTerms from './AcceptTerms'
 import VerifyEmail from './VerifyEmail'
 import { FormattedMessage } from 'react-intl'
+import { model } from 'data'
 import {
   FaqFormMessage,
   PartnerHeader,
@@ -11,6 +12,9 @@ import {
 } from 'components/IdentityVerification'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 import media from 'services/ResponsiveService'
+
+const { CHANGE } = model.coinify.REGISTER_STATES
+const { EMAIL, TERMS } = model.coinify.REGISTER_STEPS
 
 const CoinifyFaqFormMessage = styled(FaqFormMessage)`
   left: 60%;
@@ -32,12 +36,7 @@ const SubHeader = styled(PartnerSubHeader)`
 const Create = props => {
   const { create } = props
 
-  const determineStep = () => {
-    if (create === 'change_email' || create === 'enter_email_code') {
-      return 'email'
-    }
-    return 'terms'
-  }
+  const determineStep = create === CHANGE ? EMAIL : TERMS
 
   return (
     <Container>
@@ -56,14 +55,14 @@ const Create = props => {
                 defaultMessage="We teamed up with Coinify's exchange platform to offer buy and sell to our customers."
               />
             </SubHeader>
-            {determineStep() === 'email' && (
+            {determineStep === EMAIL && (
               <VerifyEmail create={create} {...props} />
             )}
-            {determineStep() === 'terms' && (
+            {determineStep === TERMS && (
               <AcceptTerms create={create} {...props} />
             )}
             {
-              !mobile && determineStep() === 'terms'
+              !mobile && determineStep === TERMS
                 ? <CoinifyFaqFormMessage
                   icon='cart'
                   title={

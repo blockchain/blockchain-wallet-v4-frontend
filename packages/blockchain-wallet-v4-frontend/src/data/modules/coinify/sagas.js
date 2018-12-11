@@ -13,7 +13,14 @@ import * as coinifyModel from './model'
 
 const { STEPS } = model.components.identityVerification
 const { NONE, VERIFIED } = model.profile.KYC_STATES
-const { COINIFY_CHECKOUT_STEPS, TRADE_DETAILS_MODAL, PAYMENT_PATH, COINIFY_BUY_FORM, COINIFY_SELL_FORM } = coinifyModel
+const {
+  COINIFY_CHECKOUT_STEPS,
+  TRADE_DETAILS_MODAL,
+  PAYMENT_PATH,
+  COINIFY_BUY_FORM,
+  COINIFY_SELL_FORM,
+  COINIFY_USER_LEVELS
+} = coinifyModel
 
 export const sellDescription = `Exchange Trade CNY-`
 export const logLocation = 'modules/coinify/sagas'
@@ -34,19 +41,20 @@ export default ({ api, coreSagas, networks }) => {
       const country = yield select(S.getCoinifyCountry)
       yield call(coreSagas.data.coinify.signup, country)
       const profileR = yield select(selectors.core.data.coinify.getProfile)
-      if (!profileR.error) {
-        const userKYCStateR = yield select(selectors.modules.profile.getUserKYCState)
-        const userKYCState = userKYCStateR.getOrElse()
-        const isNone = equals(userKYCState, NONE)
-        if (isNone) {
-          yield put(actions.components.identityVerification.setVerificationStep(STEPS.personal))
-        } else { // if KYC is anything but NONE, call backend and send user to coinify checkout
-          const user = prop('user', profileR.getOrFail('Missing Coinify Profile'))
-          yield call(handleAfterSignup, user)
-        }
-      } else {
-        yield put(A.coinifySignupFailure(JSON.parse(profileR.error)))
-      }
+
+      if (profileR.error)
+        return yield put(A.coinifySignupFailure(JSON.parse(profileR.error)))
+
+      const userKYCStateR = yield select(selectors.modules.profile.getUserKYCState)
+      const userKYCState = userKYCStateR.getOrElse()
+      const isNone = equals(userKYCState, NONE)
+
+      if (isNone)
+        return yield put(actions.components.identityVerification.setVerificationStep(STEPS.personal))
+
+      // if KYC is anything but NONE, call backend and send user to coinify checkout
+      const user = prop('user', profileR.getOrFail('Missing Coinify Profile'))
+      yield call(handleAfterSignup, user)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'coinifySignup', e))
       yield put(actions.alerts.displayError(C.COINIFY_SIGNUP_ERROR))
@@ -509,7 +517,7 @@ export default ({ api, coreSagas, networks }) => {
   const sendCoinifyKYC = function*() {
     try {
       const coinifyUserR = yield select(selectors.core.kvStore.buySell.getCoinifyUser)
-      const user = coinifyUserR.getOrElse()
+      const user = coinifyUserR.getOrElse(null)
       if (user) yield call(api.sendCoinifyKyc, user)
     } catch (e) {
       yield put(
@@ -533,9 +541,9 @@ export default ({ api, coreSagas, networks }) => {
   const compareKyc = function*() {
     try {
       const userKYCState = (yield select(selectors.modules.profile.getUserKYCState)).getOrElse(NONE)
-      const profileLevel = (yield select(selectors.core.data.coinify.getLevel)).getOrElse()
+      const profileLevel = (yield select(selectors.core.data.coinify.getLevel)).getOrElse(null)
       const levelName = prop('name', profileLevel)
-      if (equals(userKYCState, VERIFIED) && equals(levelName, '1')) {
+      if (equals(userKYCState, VERIFIED) && equals(levelName, COINIFY_USER_LEVELS.ONE)) {
         const user = (yield select(selectors.core.data.coinify.getUserId)).getOrElse(null)
         if (user) yield call(api.sendCoinifyKyc, user)
       }

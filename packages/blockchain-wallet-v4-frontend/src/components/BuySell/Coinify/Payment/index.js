@@ -50,7 +50,7 @@ class PaymentContainer extends Component {
           quote={this.props.quote}
           triggerKyc={() => showModal(KYC_MODAL)}
           busy={busy}
-          handlePrefillCardMax={limits => checkoutCardMax(limits)}
+          handlePrefillCardMax={checkoutCardMax}
         />
       ),
       Failure: msg => <Failure error={msg} />,

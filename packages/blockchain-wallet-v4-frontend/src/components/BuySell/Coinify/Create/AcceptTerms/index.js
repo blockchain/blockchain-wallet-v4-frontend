@@ -2,9 +2,10 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { actions } from 'data'
-
+import { actions, model } from 'data'
 import AcceptTerms from './template'
+
+const { CHANGE } = model.coinify.REGISTER_STATES
 
 class AcceptTermsContainer extends PureComponent {
   state = {
@@ -15,7 +16,6 @@ class AcceptTermsContainer extends PureComponent {
     if (this.props.signupError && !prevProps.signupError) {
       // eslint-disable-next-line
       this.setState({ busy: false })
-      this.props.updateUniqueEmail(false)
     }
   }
 
@@ -48,7 +48,7 @@ class AcceptTermsContainer extends PureComponent {
         onSubmit={this.onSubmit}
         signupError={signupError}
         editEmail={() => {
-          this.props.updateCreate('change_email')
+          this.props.updateCreate(CHANGE)
         }}
         clearError={() => coinifyClearSignupError()}
         create={create}

@@ -3,9 +3,11 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { getData } from './selectors'
 import Create from './template'
+
+const { CREATE, VERIFY } = model.coinify.REGISTER_STATES
 
 class CreateContainer extends PureComponent {
   state = {
@@ -16,10 +18,10 @@ class CreateContainer extends PureComponent {
   componentDidMount () {
     if (this.props.emailVerified) {
       // eslint-disable-next-line
-      this.setState({ create: 'create_account' })
+      this.setState({ create: CREATE })
     } else {
       // eslint-disable-next-line
-      this.setState({ create: 'verify_email' })
+      this.setState({ create: VERIFY })
       this.props.securityCenterActions.updateEmail(this.props.email)
     }
   }
@@ -27,7 +29,7 @@ class CreateContainer extends PureComponent {
   componentDidUpdate (prevProps) {
     if (!prevProps.emailVerified && this.props.emailVerified) {
       // eslint-disable-next-line
-      this.setState({ create: 'create_account' })
+      this.setState({ create: CREATE })
     }
     if (prevProps.signupError && !prevProps.emailVerified && this.props.emailVerified) {
       this.props.coinifyFrontendActions.coinifyClearSignupError()

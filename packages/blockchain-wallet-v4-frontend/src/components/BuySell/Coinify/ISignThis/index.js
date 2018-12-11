@@ -97,7 +97,7 @@ class ISignThisContainer extends PureComponent {
       <Fragment>
         <TimerContainer>
           {quoteR
-            .map(q => {
+            .map(quote => {
               if (this.state.quoteExpired) {
                 return (
                   <Fragment>
@@ -105,12 +105,12 @@ class ISignThisContainer extends PureComponent {
                       <FormattedMessage
                         id='scenes.buysell.coinify.isx.quoteexpiredbtc'
                         defaultMessage='~{btcValue} BTC'
-                        values={{ btcValue: getExpiredBtcValues(q) }}
+                        values={{ btcValue: getExpiredBtcValues(quote) }}
                       />
                       <FormattedMessage
                         id='scenes.buysell.coinify.isx.quoteexpiredfiat'
                         defaultMessage='({fiatValue})'
-                        values={{ fiatValue: getExpiredFiatValues(q) }}
+                        values={{ fiatValue: getExpiredFiatValues(quote) }}
                       />
                     </QuoteExpiredText>
                     <TooltipHost id='isx.expiredtooltip'>
@@ -123,7 +123,7 @@ class ISignThisContainer extends PureComponent {
                   <CountdownTimer
                     expiryDate={trade
                       .map(prop('quoteExpireTime'))
-                      .getOrElse(q.expiresAt.getTime())}
+                      .getOrElse(quote.expiresAt.getTime())}
                     handleExpiry={this.onQuoteExpiration}
                     tooltipExpiryTime='15 minutes'
                     hideTooltip
@@ -141,13 +141,13 @@ class ISignThisContainer extends PureComponent {
             <Button
               nature='empty-secondary'
               fullwidth
-              onClick={() => coinifyActions.cancelISX()}
+              onClick={coinifyActions.cancelISX}
             >
               <Text size='13px' weight={300} color='brand-secondary'>
-                {<FormattedMessage
+                <FormattedMessage
                   id='scenes.buysell.coinify.isx.finishlater'
                   defaultMessage='Finish later'
-                />}
+                />
               </Text>
             </Button>
             {renderFaq(tradeQuestions)}

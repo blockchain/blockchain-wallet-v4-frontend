@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { reduxForm } from 'redux-form'
-
+import { model } from 'data'
 import {
   Button,
   HeartbeatLoader,
@@ -20,6 +20,8 @@ import {
 } from 'components/IdentityVerification'
 import { prop } from 'ramda'
 import media from 'services/ResponsiveService'
+
+const { VERIFY } = model.coinify.REGISTER_STATES
 
 export const EMAIL_IN_USE_ERROR = 'email_address_and_partner_id_in_use'
 
@@ -104,7 +106,7 @@ const AcceptTerms = props => {
                 </Text>
               </FieldMimic>
               {
-                create === 'verify_email'
+                create === VERIFY
                   ? <SquaredButton nature='primary' onClick={handleResend}>
                     <FormattedMessage
                       id='coinifyexchangedata.create.createaccount.partner.sendagain'
@@ -115,7 +117,7 @@ const AcceptTerms = props => {
               }
             </VerifiedContainer>
             {
-              create === 'verify_email'
+              create === VERIFY
                 ? <SentEmailText size='14px' weight={300}>
                   <FormattedMessage
                     id='coinifyexchangedata.create.createaccount.partner.checkyourinbox'
@@ -172,7 +174,7 @@ const AcceptTerms = props => {
               }
             </TermsContainer>
             <ErrorWrapper>
-              {signupError && (prop('error', signupError) === EMAIL_IN_USE_ERROR) && create !== 'verify_email'
+              {prop('error', signupError) === EMAIL_IN_USE_ERROR && create !== VERIFY
                 ? <TextGroup inline>
                   <Text size='12px' color='error' weight={300}>
                     <FormattedMessage
@@ -198,7 +200,7 @@ const AcceptTerms = props => {
                     />
                   </Text>
                 </TextGroup>
-                : signupError && create !== 'verify_email'
+                : signupError && create !== VERIFY
                   ? <TextGroup inline>
                     <Text size='12px' color='error' weight={300}>
                       <FormattedMessage

@@ -13,20 +13,17 @@ class CoinifyTradeDetails extends React.PureComponent {
     const { trade, status, subscriptions } = this.props
 
     const renderComponent = trade => {
-      if (trade.constructor.name === 'Trade') {
-        if (trade.medium === 'bank' && trade.state === 'awaiting_transfer_in') {
-          return <BankTransfer trade={trade} close={this.props.close} />
-        } else {
-          return (
-            <Trade
-              status={status}
-              trade={trade}
-              close={this.props.close}
-              subscriptions={subscriptions}
-            />
-          )
-        }
-      }
+      if (trade.medium === 'bank' && trade.state === 'awaiting_transfer_in')
+        return <BankTransfer trade={trade} close={this.props.close} />
+
+      return (
+        <Trade
+          status={status}
+          trade={trade}
+          close={this.props.close}
+          subscriptions={subscriptions}
+        />
+      )
     }
 
     return (
