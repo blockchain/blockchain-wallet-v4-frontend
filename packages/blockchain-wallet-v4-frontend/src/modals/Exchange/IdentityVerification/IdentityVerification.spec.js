@@ -39,8 +39,7 @@ import {
   getEmailVerified,
   getSmsVerified,
   getCountryCode,
-  getSmsNumber,
-  getEmailVerified
+  getSmsNumber
 } from 'blockchain-wallet-v4/src/redux/settings/selectors'
 import { getGuid } from 'blockchain-wallet-v4/src/redux/wallet/selectors'
 import { getCountry, getProfile } from 'blockchain-wallet-v4/src/redux/data/coinify/selectors'
