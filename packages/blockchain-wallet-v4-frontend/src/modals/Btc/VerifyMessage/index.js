@@ -78,15 +78,16 @@ const ItemSignature = ({ onChange }) =>
 class VerifyMessage extends React.PureComponent {
   constructor (props) {
     super(props)
+    this.onChange = this.onChange.bind(this)
     this.state = { address: ``, message: ``, signature: `` }
+  }
+
+  onChange ({ target: { name, value } }) {
+    this.setState({ [name]: value })
   }
 
   render () {
     const { close, network } = this.props
-
-    const onChange = ({ target: { name, value } }) => {
-      this.setState({ [name]: value })
-    }
 
     return (
       <Modal>
@@ -103,10 +104,10 @@ class VerifyMessage extends React.PureComponent {
           <ItemAddress
             address={this.state.address}
             network={network}
-            onChange={onChange}
+            onChange={this.onChange}
           />
-          <ItemMessage onChange={onChange} />
-          <ItemSignature onChange={onChange} />
+          <ItemMessage onChange={this.onChange} />
+          <ItemSignature onChange={this.onChange} />
           <div
             style={{
               visibility: services.showResult(this.state) ? `visible` : `hidden`
