@@ -1,2 +1,1 @@
-import CurrencySelect from './CurrencySelect'
-export default CurrencySelect
+export { default } from './CurrencySelect'

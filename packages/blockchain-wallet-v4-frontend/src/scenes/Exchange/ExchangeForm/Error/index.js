@@ -1,2 +1,1 @@
-import Error from './Error'
-export default Error
+export { default } from './Error'

@@ -1,2 +1,1 @@
-import MinMaxButtons from './MinMaxButtons'
-export default MinMaxButtons
+export { default } from './MinMaxButtons'
