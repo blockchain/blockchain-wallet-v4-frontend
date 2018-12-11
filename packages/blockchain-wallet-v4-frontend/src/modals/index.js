@@ -11,7 +11,8 @@ import {
   ImportBtcAddress,
   RequestBtc,
   SendBtc,
-  ShowBtcPrivateKey
+  ShowBtcPrivateKey,
+  VerifyMessage
 } from './Btc'
 import {
   CoinifyDeleteBank,
@@ -120,6 +121,7 @@ const Modals = props => (
     <XlmCreateAccountLearn />
     <XlmReserveLearn />
     <SunRiverWelcome disableOutsideClose />
+    <VerifyMessage />
   </div>
 )
 
