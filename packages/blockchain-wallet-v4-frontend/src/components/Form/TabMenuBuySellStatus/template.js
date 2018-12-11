@@ -50,7 +50,6 @@ const TabMenuBuySellStatus = props => {
     <Wrapper>
       <TabMenu>
         <TabMenuItem
-          style={{ paddingLeft: '0px' }}
           selected={value === 'buy'}
           onClick={() => handleClick('buy')}
         >
