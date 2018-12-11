@@ -11,7 +11,6 @@ class ImportedAddressesContainer extends React.Component {
   constructor (props) {
     super(props)
     this.handleClickImport = this.handleClickImport.bind(this)
-    this.handleClickVerify = this.handleClickVerify.bind(this)
     this.handleToggleArchived = this.handleToggleArchived.bind(this)
     this.handleShowPriv = this.handleShowPriv.bind(this)
     this.handleSignMessage = this.handleSignMessage.bind(this)
@@ -25,7 +24,7 @@ class ImportedAddressesContainer extends React.Component {
     this.props.modalsActions.showModal('ImportBtcAddress')
   }
 
-  handleClickVerify () {
+  handleClickVerify = () => {
     this.props.modalsActions.showModal('VerifyMessage')
   }
 

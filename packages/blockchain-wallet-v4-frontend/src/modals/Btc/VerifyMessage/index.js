@@ -98,14 +98,9 @@ const Result = styled.div`
 `
 
 class VerifyMessage extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.onChange = this.onChange.bind(this)
-  }
-
   state = { address: ``, message: ``, signature: `` }
 
-  onChange ({ target: { name, value } }) {
+  onChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value })
   }
 
