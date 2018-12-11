@@ -32,8 +32,9 @@ class ExchangeForm extends React.Component {
   }
 
   componentDidUpdate (prevProps) {
-    const { canUseExchange, actions } = this.props
-    if (!prevProps.canUseExchange && canUseExchange) actions.initialize()
+    const { canUseExchange, actions, from, to } = this.props
+    if (!prevProps.canUseExchange && canUseExchange)
+      actions.initialize(from, to)
   }
 
   componentWillUnmount () {
