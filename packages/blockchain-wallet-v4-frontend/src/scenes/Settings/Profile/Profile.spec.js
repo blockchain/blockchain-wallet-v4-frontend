@@ -21,7 +21,7 @@ import {
 import identityVerificationSaga from 'data/components/identityVerification/sagaRegister'
 import { getUserId } from 'blockchain-wallet-v4/src/redux/kvStore/userCredentials/selectors'
 import { Remote } from 'blockchain-wallet-v4'
-import KYCBanner from 'components/IdentityVerification/KYCBanner'
+import TierCard from 'components/IdentityVerification/TierCard'
 
 import ProfileContainer, { Profile } from './index'
 import IdentityVerification from './IdentityVerification'
@@ -80,15 +80,17 @@ describe('Profile Settings', () => {
     it('should have KYC_STATE: NONE by default', () => {
       expect(wrapper.find(Profile).prop('data')).toEqual(
         Remote.of({
-          kycState: KYC_STATES.NONE
+          userData: {
+            kycState: KYC_STATES.NONE
+          }
         })
       )
     })
   })
 
   describe('banner', () => {
-    it('should render KYCBanner', () => {
-      expect(wrapper.find(KYCBanner)).toHaveLength(1)
+    it('should render Tier Cards', () => {
+      expect(wrapper.find(TierCard)).toHaveLength(2)
     })
   })
 
@@ -97,7 +99,9 @@ describe('Profile Settings', () => {
       it('should trigger log kyc event on button click', () => {
         wrapper
           .find(IdentityVerification)
+          .at(0)
           .find('button')
+          .at(0)
           .simulate('click')
         const lastAction = last(init(dispatchSpy.mock.calls))[0]
         expect(path(['type'], lastAction)).toBe(
@@ -108,7 +112,9 @@ describe('Profile Settings', () => {
       it('should trigger verifyIdentity action on button click', () => {
         wrapper
           .find(IdentityVerification)
+          .at(0)
           .find('button')
+          .at(0)
           .simulate('click')
         const lastAction = last(init(init(dispatchSpy.mock.calls)))[0]
         expect(path(['type'], lastAction)).toBe(
@@ -120,7 +126,9 @@ describe('Profile Settings', () => {
         getUserId.mockReturnValue(Remote.of('userId'))
         wrapper
           .find(IdentityVerification)
+          .at(0)
           .find('button')
+          .at(0)
           .simulate('click')
 
         const lastAction = last(dispatchSpy.mock.calls)[0]
@@ -133,7 +141,9 @@ describe('Profile Settings', () => {
         api.checkUserExistence.mockRejectedValue({})
         await wrapper
           .find(IdentityVerification)
+          .at(0)
           .find('button')
+          .at(0)
           .simulate('click')
 
         const lastAction = last(dispatchSpy.mock.calls)[0]
@@ -146,7 +156,9 @@ describe('Profile Settings', () => {
         api.checkUserExistence.mockResolvedValue('')
         await wrapper
           .find(IdentityVerification)
+          .at(0)
           .find('button')
+          .at(0)
           .simulate('click')
 
         const lastAction = last(init(dispatchSpy.mock.calls))[0]
@@ -163,14 +175,6 @@ describe('Profile Settings', () => {
           })
         )
         wrapper.update()
-      })
-
-      it('should lead to exchange if user can not trade', () => {
-        wrapper
-          .find(IdentityVerification)
-          .find('button')
-          .simulate('click', { button: 0 })
-        expect(wrapper.find(ExchangeStub)).toHaveLength(1)
       })
     })
   })

@@ -6,7 +6,6 @@ import { actions } from 'data'
 import { getData } from './selectors'
 
 import IdentityVerification from './IdentityVerification'
-import KYCBanner from 'components/IdentityVerification/KYCBanner'
 import DataError from 'components/DataError'
 
 import { BlockchainLoader } from 'blockchain-info-components'
@@ -28,12 +27,11 @@ const Loading = () => (
 
 export const Profile = ({ data, verifyIdentity, fetchUser }) =>
   data.cata({
-    Success: ({ kycState }) => (
+    Success: ({ userData }) => (
       <Wrapper>
-        <KYCBanner />
         <Container>
           <IdentityVerification
-            kycState={kycState}
+            userData={userData}
             verifyIdentity={verifyIdentity}
           />
         </Container>
