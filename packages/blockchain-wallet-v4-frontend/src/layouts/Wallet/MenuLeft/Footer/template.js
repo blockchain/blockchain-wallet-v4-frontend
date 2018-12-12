@@ -9,7 +9,7 @@ const Footer = props => {
 
   return (
     <Wrapper>
-      <LinkContainer to='/security-center/basic' activeClassName='active'>
+      <LinkContainer to='/security-center' activeClassName='active'>
         <MenuItem data-e2e='securityCenterLink'>
           <Icon name='security' />
           <FormattedMessage
@@ -59,7 +59,7 @@ const Footer = props => {
               />
             </SubMenuItem>
           </LinkContainer>
-          <LinkContainer to='/settings/addresses/btc' activeClassName='active'>
+          <LinkContainer to='/settings/addresses' activeClassName='active'>
             <SubMenuItem data-e2e='settings_walletsLink'>
               <FormattedMessage
                 id='layouts.wallet.menuleft.footer.addresses'

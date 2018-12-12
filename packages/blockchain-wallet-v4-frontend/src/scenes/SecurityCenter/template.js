@@ -5,8 +5,6 @@ import styled from 'styled-components'
 import { Icon, Text } from 'blockchain-info-components'
 import media from 'services/ResponsiveService'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
-import BasicSecurity from './BasicSecurity'
-import AdvancedSecurity from './AdvancedSecurity'
 
 const Wrapper = styled.div`
   padding: 10px 30px 30px;
@@ -89,7 +87,13 @@ const StepText = styled(Text)`
   `};
 `
 const SecurityCenter = props => {
-  const { emailVerified, authType, isMnemonicVerified, progress } = props
+  const {
+    children,
+    emailVerified,
+    authType,
+    isMnemonicVerified,
+    progress
+  } = props
   const emailSuccess = emailVerified > 0
   const twoFactorSuccess = authType > 0
 
@@ -217,11 +221,7 @@ const SecurityCenter = props => {
           )}
         </MediaContextConsumer>
       </StatusWrapper>
-      {location.href.includes('/advanced') ? (
-        <AdvancedSecurity />
-      ) : (
-        <BasicSecurity />
-      )}
+      {children}
     </Wrapper>
   )
 }

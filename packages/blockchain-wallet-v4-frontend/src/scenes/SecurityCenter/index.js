@@ -1,12 +1,14 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { withRouter, Route, Redirect, Switch } from 'react-router-dom'
 
 import { actions, selectors } from 'data'
 import Menu from './Menu'
 import SecurityCenter from './template'
+import BasicSecurity from './BasicSecurity'
+import AdvancedSecurity from './AdvancedSecurity'
 
 const Wrapper = styled.div`
   display: flex;
@@ -28,7 +30,16 @@ class SecurityCenterContainer extends React.PureComponent {
     return (
       <Wrapper>
         <Menu location={this.props.location} />
-        <SecurityCenter progress={this.determineProgress()} {...this.props} />
+        <SecurityCenter progress={this.determineProgress()} {...this.props}>
+          <Switch>
+            <Route path='/security-center/basic' component={BasicSecurity} />
+            <Route
+              path='/security-center/advanced'
+              component={AdvancedSecurity}
+            />
+            <Redirect from='/security-center' to='/security-center/basic' />
+          </Switch>
+        </SecurityCenter>
       </Wrapper>
     )
   }
