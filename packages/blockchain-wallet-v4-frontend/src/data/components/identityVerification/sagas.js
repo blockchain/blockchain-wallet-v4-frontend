@@ -32,6 +32,7 @@ export const invalidNumberError = 'Failed to update mobile number'
 export const mobileVerifiedError = 'Failed to verify mobile number'
 export const failedResendError = 'Failed to resend the code'
 export const userExistsError = 'User already exists'
+export const emailExistsError = 'User with this email already exists'
 export const wrongFlowTypeError = 'Wrong flow type'
 
 export default ({ api, coreSagas }) => {
@@ -389,7 +390,7 @@ export default ({ api, coreSagas }) => {
     } catch (e) {
       yield put(
         actions.form.stopAsyncValidation(PERSONAL_FORM, {
-          email: userExistsError
+          email: emailExistsError
         })
       )
     }

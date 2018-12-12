@@ -232,6 +232,12 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Refresh'
           />
         </Tooltip>
+        <Tooltip id='verifyMessage'>
+          <FormattedMessage
+            id='modals.verifymessage.tooltip'
+            defaultMessage='Verify a message signed by the owner of a particular Bitcoin address.'
+          />
+        </Tooltip>
         <Tooltip id='whatsnew.tooltip'>
           <FormattedMessage
             id='whatsnew.tooltip.description'
