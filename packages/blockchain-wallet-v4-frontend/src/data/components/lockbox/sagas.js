@@ -1,4 +1,11 @@
-import { call, put, take, select, takeEvery } from 'redux-saga/effects'
+import {
+  call,
+  cancelled,
+  put,
+  take,
+  select,
+  takeEvery
+} from 'redux-saga/effects'
 import {
   head,
   contains,
@@ -20,6 +27,7 @@ import * as Lockbox from 'services/LockboxService'
 import { confirm, promptForLockbox } from 'services/SagaService'
 
 const logLocation = 'components/lockbox/sagas'
+const sagaCancelledMsg = 'Saga cancelled from user modal close'
 
 export default ({ api }) => {
   // variables for deviceType and app polling during new device setup
@@ -104,7 +112,17 @@ export default ({ api }) => {
       closePoll = true
     } catch (e) {
       yield put(A.setConnectionError(e))
-      yield put(actions.logs.logErrorMessage(logLocation, 'connectDevice', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'pollForDeviceApp', e)
+      )
+    } finally {
+      if (yield cancelled()) {
+        actions.logs.logInfoMessage(
+          logLocation,
+          'pollForDeviceApp',
+          sagaCancelledMsg
+        )
+      }
     }
   }
 
@@ -226,6 +244,7 @@ export default ({ api }) => {
     }
   }
 
+  // saves xPubs/addresses for requested coin to kvStore
   const saveCoinMD = function*(action) {
     try {
       const { deviceIndex, coin } = action.payload
@@ -434,6 +453,16 @@ export default ({ api }) => {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'initializeNewDeviceSetup', e)
       )
+    } finally {
+      if (yield cancelled()) {
+        yield put(A.resetConnectionStatus())
+        yield put(A.resetDeviceAuthenticity())
+        actions.logs.logInfoMessage(
+          logLocation,
+          'initializeNewDeviceSetup',
+          sagaCancelledMsg
+        )
+      }
     }
   }
 
@@ -618,6 +647,14 @@ export default ({ api }) => {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'updateDeviceFirmware', e)
       )
+    } finally {
+      if (yield cancelled()) {
+        actions.logs.logInfoMessage(
+          logLocation,
+          'updateDeviceFirmware',
+          sagaCancelledMsg
+        )
+      }
     }
   }
 

@@ -33,7 +33,7 @@ import {
   LockboxAppManager,
   LockboxFirmware,
   LockboxSetup,
-  PromptLockbox
+  LockboxConnectionPrompt
 } from './Lockbox'
 import { MobileLogin, MobileNumberChange, MobileNumberVerify } from './Mobile'
 import QRCode from './QRCode'
@@ -78,14 +78,14 @@ const Modals = props => (
     <IdentityVerification />
     <ImportBtcAddress />
     <LockboxAppManager disableOutsideClose />
-    <LockboxFirmware />
-    <LockboxSetup />
+    <LockboxConnectionPrompt disableOutsideClose />
+    <LockboxFirmware disableOutsideClose />
+    <LockboxSetup disableOutsideClose />
     <MobileNumberChange />
     <MobileNumberVerify />
     <MobileLogin />
     <PairingCode />
     <PromptInput />
-    <PromptLockbox />
     <QRCode />
     <RequestBch />
     <RequestBtc />
