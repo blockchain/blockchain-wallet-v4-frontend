@@ -13,10 +13,11 @@ const api = {
   fetchVeriffUrl: jest.fn(),
   syncVeriff: jest.fn()
 }
+const coreSagas = {}
 
-api.fetchVeriffUrl.mockReturnValue({ url, applicantId })
+api.fetchVeriffUrl.mockReturnValue({ data: { url }, applicantId })
 
-const { fetchVeriffUrl, syncVeriff } = sagas({ api })
+const { fetchVeriffUrl, syncVeriff } = sagas({ api, coreSagas })
 
 const { COMPLETE } = model.analytics.KYC
 

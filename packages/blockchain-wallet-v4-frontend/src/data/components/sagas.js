@@ -55,5 +55,5 @@ export default ({ api, coreSagas, options, networks }) => ({
   swapGetStarted: swapGetStarted({ coreSagas }),
   transactionReport: transactionReport({ coreSagas }),
   uploadDocument: uploadDocuments({ api }),
-  veriff: veriff({ api })
+  veriff: veriff({ api, coreSagas })
 })

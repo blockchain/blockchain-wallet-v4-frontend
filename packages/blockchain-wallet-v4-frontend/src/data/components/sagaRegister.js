@@ -59,5 +59,5 @@ export default ({ api, coreSagas, networks, options }) =>
     yield fork(swapGetStarted({ coreSagas }))
     yield fork(transactionReport({ coreSagas }))
     yield fork(uploadDocuments({ api }))
-    yield fork(veriff({ api }))
+    yield fork(veriff({ api, coreSagas }))
   }
