@@ -44,6 +44,7 @@ import {
   Footer
 } from 'components/IdentityVerification'
 import Terms from 'components/Terms'
+import { getValidationMessage } from './validationMessages'
 
 const FormContainer = styled.div`
   margin-top: 25px;
@@ -115,6 +116,14 @@ const KycSeparator = styled(Separator)`
   max-width: 576px;
   width: calc(100% - 260px);
   margin: 32px 0;
+  ${media.mobile`
+    width: 100%;
+    max-width: 100%;
+  `};
+  ${media.tablet`
+    width: 100%;
+    max-width: 100%;
+  `};
 `
 
 const addTrailingZero = string => (string.length >= 2 ? string : `0${string}`)
@@ -138,6 +147,7 @@ const Personal = ({
   submitting,
   error,
   showEmail,
+  email,
   emailVerified,
   emailStep,
   supportedCountries,
@@ -476,11 +486,8 @@ const Personal = ({
               <Terms company='blockchain-kyc' />
             </TermsText>
             {error && (
-              <EmailHelper error={true}>
-                <FormattedMessage
-                  id='identityverification.personal.error'
-                  defaultMessage='Failed to save personal data. Please try again'
-                />
+              <EmailHelper error>
+                {getValidationMessage(error, email)}
               </EmailHelper>
             )}
             <Button

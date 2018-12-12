@@ -60,7 +60,6 @@ class PersonalContainer extends React.PureComponent {
     actions,
     initialCountryCode,
     initialEmail,
-    email,
     emailVerified,
     emailStep,
     countryCode,
@@ -89,7 +88,7 @@ class PersonalContainer extends React.PureComponent {
       }}
       showEmail={!this.state.initialEmailVerified}
       emailVerified={emailVerified}
-      email={email}
+      email={initialEmail}
       emailStep={emailStep}
       countryCode={countryCode}
       showStateSelect={countryCode && countryCode === 'US'}

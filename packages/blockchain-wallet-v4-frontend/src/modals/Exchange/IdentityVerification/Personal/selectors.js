@@ -64,7 +64,6 @@ export const getData = state => {
     emailVerified: selectors.core.settings
       .getEmailVerified(state)
       .getOrElse(false),
-    email: prop('code', formValSelector(state, 'email')),
     emailStep: getEmailStep(state),
     countryCode: prop('code', formValSelector(state, 'country')),
     postCode: formValSelector(state, 'postCode'),

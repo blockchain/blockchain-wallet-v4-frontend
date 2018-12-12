@@ -1,5 +1,5 @@
 import { put, select, call } from 'redux-saga/effects'
-import { head, prop, toUpper } from 'ramda'
+import { head, prop, propEq, toUpper } from 'ramda'
 
 import { actions, selectors, model } from 'data'
 import profileSagas from 'data/modules/profile/sagas'
@@ -14,6 +14,7 @@ import {
   SMS_STEPS,
   SMS_NUMBER_FORM,
   PERSONAL_FORM,
+  EMAIL_EXISTS_ERROR,
   BAD_CODE_ERROR,
   PHONE_EXISTS_ERROR,
   UPDATE_FAILURE,
@@ -257,25 +258,19 @@ export default ({ api, coreSagas }) => {
       }
       if (address.country === 'US') address.state = address.state.code
       yield call(updateUser, { payload: { data: personalData } })
-      const { mobileVerified } = yield call(updateUserAddress, {
+      yield call(updateUserAddress, {
         payload: { address }
       })
-      const smsVerified = (yield select(
-        selectors.core.settings.getSmsVerified
-      )).getOrElse(0)
 
-      if (!smsVerified && !mobileVerified) {
-        yield put(actions.form.stopSubmit(PERSONAL_FORM))
-        yield put(actions.analytics.logKycEvent(PERSONAL_STEP_COMPLETE))
-        return yield call(goToNextStep)
-      }
-
-      // Skipping mobile verification step
       yield call(syncUserWithWallet)
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
       yield call(goToNextStep)
       yield put(actions.analytics.logKycEvent(PERSONAL_STEP_COMPLETE))
     } catch (e) {
+      if (propEq('description', userExistsError, e))
+        return yield put(
+          actions.form.stopSubmit(PERSONAL_FORM, { _error: EMAIL_EXISTS_ERROR })
+        )
       yield put(actions.form.stopSubmit(PERSONAL_FORM, { _error: e }))
       yield put(
         actions.logs.logErrorMessage(
