@@ -12,6 +12,8 @@ import { BlockchainLoader } from 'blockchain-info-components'
 
 const Wrapper = styled.section`
   width: 100%;
+  height: 100%;
+  justify-content: center;
 `
 const Container = styled.div`
   padding: 30px;
@@ -25,15 +27,12 @@ const Loading = () => (
   </Wrapper>
 )
 
-export const Profile = ({ data, verifyIdentity, fetchUser }) =>
+export const Profile = ({ data, fetchUser }) =>
   data.cata({
-    Success: ({ userData }) => (
+    Success: ({ userData, userTiers }) => (
       <Wrapper>
         <Container>
-          <IdentityVerification
-            userData={userData}
-            verifyIdentity={verifyIdentity}
-          />
+          <IdentityVerification userData={userData} userTiers={userTiers} />
         </Container>
       </Wrapper>
     ),
@@ -43,8 +42,6 @@ export const Profile = ({ data, verifyIdentity, fetchUser }) =>
   })
 
 const mapDispatchToProps = dispatch => ({
-  verifyIdentity: () =>
-    dispatch(actions.components.identityVerification.verifyIdentity()),
   fetchUser: () => dispatch(actions.modules.profile.fetchUser())
 })
 

@@ -5,7 +5,7 @@ import { head, init, last, path } from 'ramda'
 import { combineReducers } from 'redux'
 
 import { actions, actionTypes } from 'data'
-import { KYC_STATES } from 'data/modules/profile/model'
+import { KYC_STATES, INITIAL_TIERS } from 'data/modules/profile/model'
 import {
   KYC_MODAL,
   USER_EXISTS_MODAL
@@ -82,7 +82,8 @@ describe('Profile Settings', () => {
         Remote.of({
           userData: {
             kycState: KYC_STATES.NONE
-          }
+          },
+          userTiers: INITIAL_TIERS
         })
       )
     })
