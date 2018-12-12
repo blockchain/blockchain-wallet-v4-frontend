@@ -155,7 +155,7 @@
         "config": {
           "partnerId": 24,
           "production": false,
-          "iSignThisDomain": "https://stage-verify.isignthis.com",
+          "iSignThisDomain": "https://stage-coinify-verify.isignthis.com",
           "coinifyPaymentDomain": "https://pay.sandbox.coinify.com"
         }
       },
