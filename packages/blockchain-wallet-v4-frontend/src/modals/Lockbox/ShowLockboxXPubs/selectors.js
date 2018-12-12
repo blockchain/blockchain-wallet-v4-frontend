@@ -16,6 +16,7 @@ export const getData = (state, deviceIndex) =>
       const bch = bchR.getOrElse({})
       const eth = ethR.getOrElse([])
       const xlm = xlmR.getOrElse([])
+
       return Remote.of({
         btc: btc.xpub,
         bch,
