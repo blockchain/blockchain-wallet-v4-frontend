@@ -16,9 +16,11 @@ const ComplementaryAmountContaier = styled.div`
   margin-top: 10px;
 `
 
-export const formatAmount = (isFiat, symbol, value) =>
-  isFiat ? `${symbol}${value}` : `${value} ${symbol}`
+export const formatAmount = (isFiat, symbol, value) => {
+  if (!value) return ''
 
+  return isFiat ? `${symbol}${value}` : `${value} ${symbol}`
+}
 export class ComplementaryAmount extends React.PureComponent {
   render () {
     const { complementaryAmount, isFiat, complementarySymbol } = this.props
