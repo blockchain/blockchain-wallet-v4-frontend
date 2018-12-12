@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import AddressesLayout from 'layouts/Addresses'
 import Wallets from './Wallets'
 
 const Wrapper = styled.section`
@@ -13,11 +12,9 @@ const Wrapper = styled.section`
 export default class BsvAddressesContainer extends React.PureComponent {
   render () {
     return (
-      <AddressesLayout>
-        <Wrapper>
-          <Wallets />
-        </Wrapper>
-      </AddressesLayout>
+      <Wrapper>
+        <Wallets />
+      </Wrapper>
     )
   }
 }
