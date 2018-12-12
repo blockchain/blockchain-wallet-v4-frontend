@@ -24,7 +24,7 @@ const Success = props => {
           {balances.totalBalance.totalBalance}
         </HomeBalanceAmount>
       </HomeBalanceRow>
-      <HomeBalanceRow>
+      <HomeBalanceRow data-e2e='balanceTableBtc'>
         <TxLink to={viewType === 'Lockbox' ? '/lockbox' : '/btc/transactions'}>
           <div>
             <HomeCoinBalanceCell
@@ -36,7 +36,7 @@ const Success = props => {
           </div>
         </TxLink>
       </HomeBalanceRow>
-      <HomeBalanceRow>
+      <HomeBalanceRow data-e2e='balanceTableEth'>
         <TxLink to={viewType === 'Lockbox' ? '/lockbox' : '/eth/transactions'}>
           <div>
             <HomeCoinBalanceCell
@@ -48,7 +48,7 @@ const Success = props => {
           </div>
         </TxLink>
       </HomeBalanceRow>
-      <HomeBalanceRow>
+      <HomeBalanceRow data-e2e='balanceTableBch'>
         <TxLink to={viewType === 'Lockbox' ? '/lockbox' : '/bch/transactions'}>
           <div>
             <HomeCoinBalanceCell
@@ -60,7 +60,7 @@ const Success = props => {
           </div>
         </TxLink>
       </HomeBalanceRow>
-      <HomeBalanceRow>
+      <HomeBalanceRow data-e2e='balanceTableXlm'>
         <TxLink to={viewType === 'Lockbox' ? '/lockbox' : '/xlm/transactions'}>
           <div>
             <HomeCoinBalanceCell

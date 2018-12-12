@@ -19,7 +19,7 @@ const BaseText = styled.div`
 `
 
 const Text = ({ children, ...props }) => {
-  return <BaseText {...props}>{children} </BaseText>
+  return <BaseText data-e2e={props['data-e2e']} {...props}>{children} </BaseText>
 }
 
 Text.propTypes = {
