@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
+
 import { Icon, TabMenu, TabMenuItem } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 

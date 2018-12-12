@@ -43,8 +43,6 @@ const IntroText = styled.div`
   }
 `
 class SecurityCenterContainer extends React.PureComponent {
-  state = { activeTab: 'basic' }
-
   determineProgress = () => {
     const { authType, emailVerified, isMnemonicVerified } = this.props
     let progress = 0
@@ -54,18 +52,13 @@ class SecurityCenterContainer extends React.PureComponent {
     return progress
   }
 
-  setActiveTab = tab => {
-    this.setState({ activeTab: tab })
-  }
-
   render () {
-    const { authType, emailVerified, isMnemonicVerified } = this.props
-    const { activeTab } = this.state
+    const { authType, emailVerified, isMnemonicVerified, location } = this.props
     const progress = this.determineProgress()
 
     return (
       <Wrapper>
-        <Menu activeTab={activeTab} setActiveTab={this.setActiveTab} />
+        <Menu location={location} />
         <ContentWrapper>
           <StatusWrapper>
             <IntroText>
@@ -91,7 +84,11 @@ class SecurityCenterContainer extends React.PureComponent {
               />
             }
           </StatusWrapper>
-          {activeTab === 'basic' ? <BasicSettings /> : <AdvancedSettings />}
+          {location.pathname.includes('/advanced') ? (
+            <AdvancedSettings />
+          ) : (
+            <BasicSettings />
+          )}
         </ContentWrapper>
       </Wrapper>
     )

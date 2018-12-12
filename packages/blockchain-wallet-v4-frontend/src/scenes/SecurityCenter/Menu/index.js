@@ -1,63 +1,55 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+import { LinkContainer } from 'react-router-bootstrap'
 
-import { Text } from 'blockchain-info-components'
+import { TabMenu, TabMenuItem } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  background-color: ${props => props.theme['white-blue']};
   width: 100%;
-  height: 50px;
-  border-bottom: 1px solid #eaeaea;
-  padding: 0 30px;
+  padding: 8px 30px;
+  box-sizing: border-box;
+  background-color: ${props => props.theme['white-blue']};
+  border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
-const TabList = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  div:first-of-type {
-    margin-right: 25px;
+const LinkItem = styled(TabMenuItem)`
+  &.active {
+    & :after {
+      position: absolute;
+      content: '';
+      top: 36px;
+      left: 0;
+      width: 100%;
+      border-bottom: 4px solid ${props => props.theme['brand-secondary']};
+    }
   }
-`
-const Tab = styled(Text)`
-  cursor: pointer;
-  border-bottom: ${props => (props.active ? '1px solid black' : null)};
-  opacity: ${props => (props.active ? 1 : 0.3)};
-  text-transform: uppercase;
 `
 
 class MenuContainer extends React.PureComponent {
   render () {
-    const { activeTab, setActiveTab } = this.props
-
     return (
       <Wrapper>
-        <TabList>
-          <Tab
-            active={activeTab === 'basic'}
-            onClick={() => {
-              setActiveTab('basic')
-            }}
+        <TabMenu>
+          <LinkContainer to='/security-center/basic' activeClassName='active'>
+            <LinkItem>
+              <FormattedMessage
+                id='scenes.securitycenter.menu.basic'
+                defaultMessage='Basic'
+              />
+            </LinkItem>
+          </LinkContainer>
+          <LinkContainer
+            to='/security-center/advanced'
+            activeClassName='active'
           >
-            <FormattedMessage
-              id='scenes.securitycenter.menu.basic'
-              defaultMessage='Basic'
-            />
-          </Tab>
-          <Tab
-            active={activeTab === 'advanced'}
-            onClick={() => {
-              setActiveTab('advanced')
-            }}
-          >
-            <FormattedMessage
-              id='scenes.securitycenter.menu.advanced'
-              defaultMessage='Advanced'
-            />
-          </Tab>
-        </TabList>
+            <LinkItem>
+              <FormattedMessage
+                id='scenes.securitycenter.menu.advanced'
+                defaultMessage='Advanced'
+              />
+            </LinkItem>
+          </LinkContainer>
+        </TabMenu>
       </Wrapper>
     )
   }

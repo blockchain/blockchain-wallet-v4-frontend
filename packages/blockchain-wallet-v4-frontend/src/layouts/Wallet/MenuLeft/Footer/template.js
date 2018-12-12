@@ -9,7 +9,7 @@ const Footer = props => {
 
   return (
     <Wrapper>
-      <LinkContainer to='/security-center' activeClassName='active'>
+      <LinkContainer to='/security-center/basic' activeClassName='active'>
         <MenuItem data-e2e='securityCenterLink'>
           <Icon name='security' />
           <FormattedMessage
