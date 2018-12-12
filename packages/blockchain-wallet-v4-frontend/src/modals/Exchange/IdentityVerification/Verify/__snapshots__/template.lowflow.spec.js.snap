@@ -4,46 +4,49 @@ exports[`HighFlow should render correctly 1`] = `
 <IdentityVerification__IdentityVerificationForm>
   <FooterShadowWrapper
     fields={
-      <IdentityVerification__InputWrapper>
-        <IdentityVerification__IdentityVerificationHeader>
-          <FormattedMessage
-            defaultMessage="Last Step. Verify Your ID"
-            id="identityverification.verify.header"
-            values={Object {}}
+      <templatelowflow__VerifyWrapper>
+        <IdentityVerification__InputWrapper>
+          <IdentityVerification__IdentityVerificationHeader>
+            <FormattedMessage
+              defaultMessage="Last Step. Verify Your ID"
+              id="identityverification.verify.header"
+              values={Object {}}
+            />
+          </IdentityVerification__IdentityVerificationHeader>
+          <IdentityVerification__IdentityVerificationImage
+            name="identity-verification"
           />
-        </IdentityVerification__IdentityVerificationHeader>
-        <IdentityVerification__IdentityVerificationImage
-          name="identity-verification"
-        />
-        <IdentityVerification__IdentityVerificationSubHeader>
-          <FormattedMessage
-            defaultMessage="We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy."
-            id="identityverification.verify.message"
-            values={Object {}}
-          />
-        </IdentityVerification__IdentityVerificationSubHeader>
-        <templatelowflow__DocumentsWrapper>
-          <FormattedMessage
-            defaultMessage="Government Issued Passport"
-            id="identityverification.verify.passport"
-            values={Object {}}
-          />
-          <FormattedMessage
-            defaultMessage="Driver’s License"
-            id="identityverification.verify.driverslicense"
-            values={Object {}}
-          />
-          <FormattedMessage
-            defaultMessage="National Identity Card"
-            id="identityverification.verify.natitionalidcard"
-            values={Object {}}
-          />
-        </templatelowflow__DocumentsWrapper>
-      </IdentityVerification__InputWrapper>
+          <IdentityVerification__IdentityVerificationSubHeader>
+            <FormattedMessage
+              defaultMessage="We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy."
+              id="identityverification.verify.message"
+              values={Object {}}
+            />
+          </IdentityVerification__IdentityVerificationSubHeader>
+          <templatelowflow__DocumentsWrapper>
+            <FormattedMessage
+              defaultMessage="Government Issued Passport"
+              id="identityverification.verify.passport"
+              values={Object {}}
+            />
+            <FormattedMessage
+              defaultMessage="Driver’s License"
+              id="identityverification.verify.driverslicense"
+              values={Object {}}
+            />
+            <FormattedMessage
+              defaultMessage="National Identity Card"
+              id="identityverification.verify.natitionalidcard"
+              values={Object {}}
+            />
+          </templatelowflow__DocumentsWrapper>
+        </IdentityVerification__InputWrapper>
+      </templatelowflow__VerifyWrapper>
     }
     footer={
       <IdentityVerification__Footer>
         <IdentityVerification__BackButton
+          data-e2e="lowflowBackButton"
           onClick={[MockFunction]}
         >
           <FormattedMessage
@@ -55,6 +58,7 @@ exports[`HighFlow should render correctly 1`] = `
         <Button
           bold={false}
           capitalize={false}
+          data-e2e="lowflowContinueButton"
           disabled={false}
           fullwidth={false}
           height="40px"
