@@ -33,10 +33,9 @@ import {
   LockboxAppManager,
   LockboxFirmware,
   LockboxSetup,
-  PromptLockbox
+  LockboxConnectionPrompt
 } from './Lockbox'
 import { MobileLogin, MobileNumberChange, MobileNumberVerify } from './Mobile'
-import Onfido from './Onfido'
 import QRCode from './QRCode'
 import {
   SfoxEnterMicroDeposits,
@@ -79,15 +78,14 @@ const Modals = props => (
     <IdentityVerification />
     <ImportBtcAddress />
     <LockboxAppManager disableOutsideClose />
-    <LockboxFirmware />
-    <LockboxSetup />
+    <LockboxConnectionPrompt disableOutsideClose />
+    <LockboxFirmware disableOutsideClose />
+    <LockboxSetup disableOutsideClose />
     <MobileNumberChange />
     <MobileNumberVerify />
     <MobileLogin />
-    <Onfido />
     <PairingCode />
     <PromptInput />
-    <PromptLockbox />
     <QRCode />
     <RequestBch />
     <RequestBtc />
