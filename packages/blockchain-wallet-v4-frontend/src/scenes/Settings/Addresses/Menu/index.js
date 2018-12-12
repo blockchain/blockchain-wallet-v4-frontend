@@ -26,7 +26,6 @@ const Container = styled.div`
   }
 `
 
-const Controls = styled.div``
 const Search = styled.div`
   position: relative;
   display: flex;
@@ -43,34 +42,47 @@ const SearchIcon = styled(Icon)`
   top: 10px;
   right: 10px;
 `
-
+const LinkItem = styled(TabMenuItem)`
+  &.active {
+    text-decoration: none;
+    padding: 6px 8px;
+    background-color: rgba(0, 0, 0, 0.04);
+    border-radius: 4px;
+    font-weight: 500;
+    > span {
+      color: #545456;
+    }
+  }
+`
 const MenuTop = () => (
   <Wrapper>
     <Container>
-      <Controls>
-        <TabMenu>
-          <LinkContainer
-            to='/settings/addresses/btc'
-            activeClassName='active'
-            exact
-          >
-            <TabMenuItem>
-              <FormattedMessage
-                id='scenes.settings.addresses.menutop.btc'
-                defaultMessage='Bitcoin'
-              />
-            </TabMenuItem>
-          </LinkContainer>
-          <LinkContainer to='/settings/addresses/bch' activeClassName='active'>
-            <TabMenuItem>
-              <FormattedMessage
-                id='scenes.settings.addresses.menutop.bch'
-                defaultMessage='Bitcoin Cash'
-              />
-            </TabMenuItem>
-          </LinkContainer>
-        </TabMenu>
-      </Controls>
+      <TabMenu>
+        <LinkContainer to='/settings/addresses/btc' activeClassName='active'>
+          <LinkItem>
+            <FormattedMessage
+              id='scenes.settings.addresses.menutop.btc'
+              defaultMessage='Bitcoin'
+            />
+          </LinkItem>
+        </LinkContainer>
+        <LinkContainer to='/settings/addresses/bch' activeClassName='active'>
+          <LinkItem>
+            <FormattedMessage
+              id='scenes.settings.addresses.menutop.bch'
+              defaultMessage='Bitcoin Cash'
+            />
+          </LinkItem>
+        </LinkContainer>
+        <LinkContainer to='/settings/addresses/bsv' activeClassName='active'>
+          <LinkItem>
+            <FormattedMessage
+              id='scenes.settings.addresses.menutop.bsv'
+              defaultMessage='Bitcoin SV'
+            />
+          </LinkItem>
+        </LinkContainer>
+      </TabMenu>
       <Search>
         <Field name='search' component={TextBox} />
         <SearchIcon name='search' size='20px' />

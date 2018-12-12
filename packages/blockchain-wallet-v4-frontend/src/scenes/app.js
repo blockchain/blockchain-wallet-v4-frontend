@@ -31,6 +31,7 @@ import Register from './Register'
 import SecurityCenter from './SecurityCenter'
 import Addresses from './Settings/Addresses/Btc'
 import BchAddresses from './Settings/Addresses/Bch'
+import BsvAddresses from './Settings/Addresses/Bsv'
 import BtcManageAddresses from './Settings/Addresses/Btc/ManageAddresses'
 import General from './Settings/General'
 import Profile from './Settings/Profile'
@@ -128,6 +129,10 @@ class App extends React.PureComponent {
                     <WalletLayout
                       path='/settings/addresses/bch'
                       component={BchAddresses}
+                    />
+                    <WalletLayout
+                      path='/settings/addresses/bsv'
+                      component={BsvAddresses}
                     />
                     <WalletLayout
                       path='/settings/general'
