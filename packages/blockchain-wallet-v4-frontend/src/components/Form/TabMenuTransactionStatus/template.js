@@ -10,7 +10,10 @@ const TabMenuTransactionStatus = props => {
   return (
     <TabMenu>
       {statuses.indexOf('') > -1 && (
-        <TabMenuItem selected={value === ''} onClick={() => handleClick('')}>
+        <TabMenuItem
+          className={value === '' ? 'active' : ''}
+          onClick={() => handleClick('')}
+        >
           <FormattedMessage
             id='components.form.tabmenutransactionstatus.all'
             defaultMessage='All'
@@ -19,7 +22,7 @@ const TabMenuTransactionStatus = props => {
       )}
       {statuses.indexOf('received') > -1 && (
         <TabMenuItem
-          selected={value === 'received'}
+          className={value === 'received' ? 'active' : ''}
           onClick={() => handleClick('received')}
         >
           <FormattedMessage
@@ -30,7 +33,7 @@ const TabMenuTransactionStatus = props => {
       )}
       {statuses.indexOf('sent') > -1 && (
         <TabMenuItem
-          selected={value === 'sent'}
+          className={value === 'sent' ? 'active' : ''}
           onClick={() => handleClick('sent')}
         >
           <FormattedMessage
@@ -41,7 +44,7 @@ const TabMenuTransactionStatus = props => {
       )}
       {statuses.indexOf('transferred') > -1 && (
         <TabMenuItem
-          selected={value === 'transferred'}
+          className={value === 'transferred' ? 'active' : ''}
           onClick={() => handleClick('transferred')}
         >
           <FormattedMessage

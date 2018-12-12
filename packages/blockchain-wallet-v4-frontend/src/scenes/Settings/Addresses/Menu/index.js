@@ -44,13 +44,13 @@ const SearchIcon = styled(Icon)`
 `
 const LinkItem = styled(TabMenuItem)`
   &.active {
-    text-decoration: none;
-    padding: 6px 8px;
-    background-color: rgba(0, 0, 0, 0.04);
-    border-radius: 4px;
-    font-weight: 500;
-    > span {
-      color: #545456;
+    & :after {
+      position: absolute;
+      content: '';
+      top: 40px;
+      left: 0;
+      width: 100%;
+      border-bottom: 4px solid ${props => props.theme['brand-secondary']};
     }
   }
 `
