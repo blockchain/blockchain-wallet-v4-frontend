@@ -1,13 +1,12 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { pathOr } from 'ramda'
 
 import { actions, selectors } from 'data'
-import BasicSettings from './template'
+import BasicSecurity from './template'
 
-class SecurityCenterContainer extends React.PureComponent {
+class BasicSecurityContainer extends React.PureComponent {
   state = {
     editing: false,
     enabling: false,
@@ -31,7 +30,7 @@ class SecurityCenterContainer extends React.PureComponent {
 
   render () {
     return (
-      <BasicSettings
+      <BasicSecurity
         progress={1}
         data={this.props}
         editing={this.state.editing}
@@ -55,9 +54,7 @@ const mapDispatchToProps = dispatch => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(SecurityCenterContainer)
-)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BasicSecurityContainer)

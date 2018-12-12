@@ -21,7 +21,7 @@ const IconContainer = styled.div`
   margin-bottom: 15px;
 `
 
-const SecurityCenter = props => {
+const BasicSecurity = props => {
   const { handleEnable, enabling, changeEmail, onClose } = props
 
   const renderSteps = () => {
@@ -84,4 +84,4 @@ const SecurityCenter = props => {
   )
 }
 
-export default SecurityCenter
+export default BasicSecurity

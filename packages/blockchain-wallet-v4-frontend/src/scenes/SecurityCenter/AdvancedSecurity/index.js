@@ -11,15 +11,15 @@ import TwoStepVerificationRemember from './TwoStepVerificationRemember'
 import WalletPassword from './WalletPassword'
 import SecondPasswordWallet from './SecondPasswordWallet'
 
-const AdvancedContainer = styled.div`
+const Wrapper = styled.div`
   margin-top: 20px;
   border-top: 1px solid #eaeaea;
 `
 
-export default class Advanced extends React.PureComponent {
+export default class AdvancedSecurity extends React.PureComponent {
   render () {
     return (
-      <AdvancedContainer>
+      <Wrapper>
         <WalletPassword />
         <SecondPasswordWallet />
         <TwoStepVerificationRemember />
@@ -29,7 +29,7 @@ export default class Advanced extends React.PureComponent {
         <WalletAccessTor />
         <PasswordStretching />
         <APIAccess />
-      </AdvancedContainer>
+      </Wrapper>
     )
   }
 }
