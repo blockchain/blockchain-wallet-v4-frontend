@@ -18,7 +18,7 @@ import GoogleAuth from './GoogleAuth'
 import Yubikey from './Yubikey'
 import SmsAuth from './SMS'
 import { pulse } from 'react-animations'
-import Choices from '../Components/Choices/index'
+import Choices from './Choices'
 import { spacing } from 'services/StyleService'
 import media from 'services/ResponsiveService'
 

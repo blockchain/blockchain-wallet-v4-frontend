@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import ActivityLogging from './ActivityLogging'
@@ -10,41 +10,16 @@ import WalletAccessTor from './WalletAccessTor'
 import TwoStepVerificationRemember from './TwoStepVerificationRemember'
 import WalletPassword from './WalletPassword'
 import SecondPasswordWallet from './SecondPasswordWallet'
-import { IconButton } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
 
 const AdvancedContainer = styled.div`
-  margin-top: 0 !important;
-`
-const BackButton = styled(IconButton)`
-  margin-bottom: 6px;
+  margin-top: 20px;
+  border-top: 1px solid #eaeaea;
 `
 
-export default class Advanced extends PureComponent {
-  componentDidMount () {
-    if (!this.props.showTabs) {
-      const button = document.getElementById('advanced-button')
-      const alignToTop = false
-      button.scrollIntoView(alignToTop)
-    }
-  }
-
+export default class Advanced extends React.PureComponent {
   render () {
     return (
       <AdvancedContainer>
-        {!this.props.showTabs && (
-          <BackButton
-            name='left-arrow'
-            nature='empty'
-            onClick={() => this.props.setView('security')}
-            id='advanced-button'
-          >
-            <FormattedMessage
-              id='scenes.securitycenter.advanced.back'
-              defaultMessage='Back'
-            />
-          </BackButton>
-        )}
         <WalletPassword />
         <SecondPasswordWallet />
         <TwoStepVerificationRemember />

@@ -13,7 +13,7 @@ import {
   IconContainer
 } from 'components/Security'
 
-import ChangeEmailSteps from '../Components/ChangeEmailSteps'
+import ChangeEmailSteps from './ChangeEmailSteps'
 import media from 'services/ResponsiveService'
 
 const EmailExplanation = styled.div``
