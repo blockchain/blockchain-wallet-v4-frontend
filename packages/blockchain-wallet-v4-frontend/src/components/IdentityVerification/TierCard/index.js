@@ -92,8 +92,14 @@ const ActionButton = styled(Button)`
   margin-top: 20px;
 `
 
-export const TierCard = ({ userData, userTiers, tier, ...rest }) => {
-  const { verifyIdentity, column } = rest
+export const TierCard = ({
+  userData,
+  userTiers,
+  emailVerified,
+  mobileVerified,
+  ...rest
+}) => {
+  const { verifyIdentity, column, tier } = rest
   const tierData = head(userTiers.filter(propEq('index', tier)))
   return (
     <Wrapper className={column ? 'column' : ''}>
@@ -134,7 +140,12 @@ export const TierCard = ({ userData, userTiers, tier, ...rest }) => {
               {path([tier, 'requirements'], TIERS).map((requirement, i) => (
                 <TextGroup inline key={i} style={{ marginBottom: '8px' }}>
                   {messages[requirement.name]}
-                  {requirement.complete(userData, userTiers) && (
+                  {requirement.complete({
+                    userData,
+                    userTiers,
+                    mobileVerified,
+                    emailVerified
+                  }) && (
                     <Icon
                       style={{ marginLeft: '5px' }}
                       color='success'

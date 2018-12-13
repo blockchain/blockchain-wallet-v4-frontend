@@ -34,10 +34,10 @@ const Loading = () => (
 
 export const Profile = ({ data, fetchUser }) =>
   data.cata({
-    Success: ({ userData, userTiers }) => (
+    Success: () => (
       <Wrapper>
         <Container>
-          <IdentityVerification userData={userData} userTiers={userTiers} />
+          <IdentityVerification />
         </Container>
       </Wrapper>
     ),

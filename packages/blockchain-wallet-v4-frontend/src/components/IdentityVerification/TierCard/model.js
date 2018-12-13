@@ -7,20 +7,20 @@ export const TIERS = {
     requirements: [
       {
         name: 'EMAIL',
-        complete: prop('email')
+        complete: ({ emailVerified }) => emailVerified === 1
       },
       {
         name: 'NAME',
-        complete: userData =>
+        complete: ({ userData }) =>
           prop('firstName', userData) && prop('lastName', userData)
       },
       {
         name: 'DOB',
-        complete: prop('dob')
+        complete: ({ userData }) => prop('dob', userData)
       },
       {
         name: 'ADDRESS',
-        complete: userData =>
+        complete: ({ userData }) =>
           path(['address', 'city'], userData) &&
           path(['address', 'country'], userData) &&
           path(['address', 'line1'], userData)
@@ -33,19 +33,19 @@ export const TIERS = {
     requirements: [
       {
         name: 'TIER1',
-        complete: (userData, tiersData) => tiersData[1].state === 'verified'
+        complete: ({ userTiers }) => userTiers[1].state === 'verified'
       },
       {
         name: 'MOBILE',
-        complete: prop('mobileVerified')
+        complete: ({ mobileVerified }) => mobileVerified === 1
       },
       {
         name: 'GOVID',
-        complete: userData => prop('kycState', userData) !== 'NONE'
+        complete: ({ userData }) => prop('kycState', userData) !== 'NONE'
       },
       {
         name: 'SELFIE',
-        complete: userData => prop('kycState', userData) !== 'NONE'
+        complete: ({ userData }) => prop('kycState', userData) !== 'NONE'
       }
     ]
   }

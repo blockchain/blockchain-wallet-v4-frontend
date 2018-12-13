@@ -68,7 +68,7 @@ const TierRow = styled(Row)`
   > div {
     margin: 0 15px;
   }
-  margin-top: 30px;
+  margin-top: 10px;
   @media (min-width: 1200px) {
     align-items: flex-end;
   }
