@@ -102,7 +102,7 @@ describe('Profile Settings', () => {
     })
   })
 
-  describe('Identity Verfication setting', () => {
+  describe('Identity Verification setting', () => {
     describe('KYC_STATE: NONE', () => {
       it('should trigger log kyc event on button click', () => {
         wrapper

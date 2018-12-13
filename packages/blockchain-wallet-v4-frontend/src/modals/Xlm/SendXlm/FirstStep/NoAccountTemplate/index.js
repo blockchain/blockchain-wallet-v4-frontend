@@ -12,7 +12,7 @@ const { CREATE_ACCOUNT_LEARN_MODAL } = model.components.sendXlm
 export const NoAccountTemplate = () => (
   <React.Fragment>
     <FormGroup>
-      <Banner type='info'>
+      <Banner type='info' data-e2e='sendXlmNoAccount'>
         <Text color='warning' size='12px'>
           <FormattedMessage
             id='modals.sendxlm.firststep.noaccount'

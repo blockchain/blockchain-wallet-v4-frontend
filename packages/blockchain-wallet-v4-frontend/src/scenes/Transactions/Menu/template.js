@@ -179,7 +179,7 @@ const Menu = props => {
                     ]}
                   />
                 ) : (
-                  <Link size={'12px'} weight={300} onClick={onShowPrivateKey}>
+                  <Link size={'12px'} weight={300} onClick={onShowPrivateKey} data-e2e='exportPrivateKeyLink'>
                     <FormattedMessage
                       id='scenes.transactions.export.ethkey'
                       defaultMessage='Export Private Key'
@@ -195,7 +195,7 @@ const Menu = props => {
                 onClick={handleClickReporting}
               />
             )}
-            <Field name='search' component={TextBox} />
+            <Field name='search' component={TextBox} data-e2e='transactionsMenuSearchBox' />
             <SearchIcon name='search' size='20px' />
           </Search>
         </Controls>
