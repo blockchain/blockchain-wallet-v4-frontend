@@ -7,7 +7,7 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import sagas, { userRequiresRestoreError, renewUserDelay } from './sagas'
-import { USER_ACTIVATION_STATES, KYC_STATES } from './model'
+import { USER_ACTIVATION_STATES, KYC_STATES, INITIAL_TIERS } from './model'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
@@ -16,6 +16,7 @@ const coreSagas = coreSagasFactory()
 const api = {
   generateRetailToken: jest.fn(),
   createUser: jest.fn(),
+  fetchTiers: jest.fn(),
   generateUserId: jest.fn(),
   generateLifetimeToken: jest.fn(),
   generateSession: jest.fn(),
@@ -29,6 +30,7 @@ const api = {
 const {
   signIn,
   fetchUser,
+  fetchTiers,
   updateUser,
   updateUserAddress,
   createUser,
@@ -200,6 +202,7 @@ describe('fetch user saga', () => {
       .provide([[spawn.fn(renewUser), jest.fn()]])
       .not.spawn(renewUser)
       .put(A.fetchUserDataSuccess(newUserData))
+      .call(fetchTiers)
       .returns(newUserData)
       .run()
       .then(() => {
@@ -218,6 +221,18 @@ describe('fetch user saga', () => {
         ...newUserData,
         kycState: KYC_STATES.PENDING
       })
+      .run()
+  })
+})
+
+describe('fetch tiers saga', () => {
+  it('should call fetchTiers api and update state', () => {
+    api.fetchTiers.mockReturnValueOnce(INITIAL_TIERS)
+    return expectSaga(fetchTiers)
+      .put(A.fetchTiersLoading())
+      .call(api.fetchTiers)
+      .put(A.fetchTiersSuccess(INITIAL_TIERS.tiers))
+      .returns()
       .run()
   })
 })
