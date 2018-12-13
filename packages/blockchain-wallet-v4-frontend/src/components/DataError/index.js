@@ -34,7 +34,9 @@ const MessageText = styled(Text)`
   margin-bottom: 20px;
 `
 
-const DataErrorContainer = ({ message, onClick, onArchive }) => {
+const DataErrorContainer = props => {
+  const { message, onClick, onArchive } = props
+  const e2e = props['data-e2e']
   const renderErrorHandling = msg => {
     const vulnerableAddress = checkForVulnerableAddressError(msg)
     if (vulnerableAddress) {
@@ -62,7 +64,11 @@ const DataErrorContainer = ({ message, onClick, onArchive }) => {
               defaultMessage='Please '
             />
           </Text>
-          <Link size='18px' onClick={onClick}>
+          <Link
+            size='18px'
+            data-e2e={e2e ? `${e2e}Link` : ''}
+            onClick={onClick}
+          >
             <FormattedMessage
               id='components.dataerror.click'
               defaultMessage='click here'

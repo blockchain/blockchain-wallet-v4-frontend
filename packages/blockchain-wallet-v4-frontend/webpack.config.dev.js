@@ -203,6 +203,7 @@ module.exports = {
           api: envConfig.API_DOMAIN,
           webSocket: envConfig.WEB_SOCKET_URL,
           walletHelper: envConfig.WALLET_HELPER_DOMAIN,
+          veriff: envConfig.VERIFF_URL,
           comWalletApp: envConfig.COM_WALLET_APP,
           comRoot: envConfig.COM_ROOT,
           ledgerSocket: envConfig.LEDGER_SOCKET_URL,
@@ -256,7 +257,7 @@ module.exports = {
         "style-src 'self' 'unsafe-inline'",
         `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${
           envConfig.ROOT_URL
-        } https://localhost:8080 http://localhost:8080`,
+        } https://magic.veriff.me https://localhost:8080 http://localhost:8080`,
         `child-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         [
           'connect-src',
@@ -272,6 +273,7 @@ module.exports = {
           envConfig.LEDGER_URL,
           envConfig.LEDGER_SOCKET_URL,
           envConfig.HORIZON_URL,
+          envConfig.VERIFF_URL,
           'https://friendbot.stellar.org',
           'https://app-api.coinify.com',
           'https://app-api.sandbox.coinify.com',

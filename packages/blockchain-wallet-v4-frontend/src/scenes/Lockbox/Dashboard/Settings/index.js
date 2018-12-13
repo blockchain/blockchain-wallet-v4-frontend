@@ -6,7 +6,7 @@ import * as bowser from 'bowser'
 import { Banner, Text } from 'blockchain-info-components'
 import RenameDevice from './RenameDevice'
 import RemoveDevice from './RemoveDevice'
-import ExportXPub from './ExportXPub'
+import ShowXPubs from './ShowXPubs'
 import AddDevice from './AddDevice'
 import RestoreDevice from './RestoreDevice'
 import UpdateDevice from './UpdateDevice'
@@ -48,7 +48,7 @@ export default class LockboxSettings extends React.PureComponent {
         />
         <AddDevice isBrowserChrome={isBrowserChrome} />
         <RestoreDevice />
-        <ExportXPub deviceIndex={deviceIndex} />
+        <ShowXPubs deviceIndex={deviceIndex} />
         <RemoveDevice deviceIndex={deviceIndex} />
       </SettingsContainer>
     )

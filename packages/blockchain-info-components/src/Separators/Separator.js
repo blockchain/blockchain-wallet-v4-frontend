@@ -28,16 +28,16 @@ const BaseSeparator = styled.div`
 `
 
 const Separator = props => {
-  const { children, align } = props
+  const { children, align, className, margin } = props
 
   return children ? (
-    <Wrapper>
-      {align !== 'right' && <BaseSeparator margin={props.margin} />}
+    <Wrapper className={className}>
+      {align !== 'right' && <BaseSeparator margin={margin} />}
       <Content align={align}>{children}</Content>
-      {align !== 'left' && <BaseSeparator margin={props.margin} />}
+      {align !== 'left' && <BaseSeparator margin={margin} />}
     </Wrapper>
   ) : (
-    <BaseSeparator />
+    <BaseSeparator className={className} margin={margin} />
   )
 }
 

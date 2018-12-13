@@ -26,7 +26,7 @@ export const InvalidAmountMessage = () => (
 )
 
 export const MaximumAmountMessage = () => (
-  <Wrapper>
+  <Wrapper data-e2e='sendBtcNotEnoughFunds'>
     <FormattedMessage
       id='modals.sendbtc.maximumamountmessage'
       defaultMessage='Not enough funds. Use'
