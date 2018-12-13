@@ -31,6 +31,8 @@ import MobileLogin from 'modals/Mobile/MobileLogin'
 const isSupportedBrowser =
   check({ safari: '8', chrome: '45', firefox: '45', opera: '20' }) && !msie
 
+export const removeWhitespace = string => string.replace(/\s/g, ``)
+
 const Wrapper = styled.div`
   width: 100%;
   padding: 35px;
@@ -149,6 +151,7 @@ const Login = props => {
             </FormLabel>
             <Field
               name='guid'
+              normalize={removeWhitespace}
               validate={[required]}
               component={TextBox}
               borderColor={guidError ? 'invalid' : undefined}
