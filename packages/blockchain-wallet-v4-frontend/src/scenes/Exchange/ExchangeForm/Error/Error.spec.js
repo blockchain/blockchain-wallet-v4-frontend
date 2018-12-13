@@ -23,7 +23,7 @@ import {
   ReserveOverflowMessage,
   NoAdviceMessage
 } from './validationMessages'
-import { formatAmount } from '../template.success.js'
+import { formatAmount } from '../services'
 
 const {
   NO_LIMITS_ERROR,
@@ -143,7 +143,7 @@ jest.spyOn(selectors.form, 'getFormError').mockReturnValue(null)
 jest.spyOn(selectors.components.exchange, 'getTxError').mockReturnValue(null)
 jest.spyOn(selectors.components.exchange, 'showError').mockReturnValue(null)
 
-jest.mock('../template.success.js')
+jest.mock('../services')
 
 describe('Exchange Error', () => {
   it('should not show error if showError and txError is falsy', () => {

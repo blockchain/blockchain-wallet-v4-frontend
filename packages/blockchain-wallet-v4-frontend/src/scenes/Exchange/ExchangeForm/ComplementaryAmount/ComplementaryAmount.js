@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 
 import { getData } from './selectors'
+import { formatAmount } from '../services'
 import StringDisplay from 'components/Display/StringDisplay'
 
-import { setMinDecimals } from 'blockchain-wallet-v4/src/utils/bigNumber'
 const ComplementaryAmountContaier = styled.div`
   font-weight: 300;
   font-size: 20px;
@@ -17,11 +17,6 @@ const ComplementaryAmountContaier = styled.div`
   margin-top: 10px;
 `
 
-export const formatAmount = (isFiat, symbol, value) => {
-  return isFiat
-    ? `${symbol}${setMinDecimals(value, 2)}`
-    : `${setMinDecimals(value, 2)} ${symbol}`
-}
 export class ComplementaryAmount extends React.PureComponent {
   render () {
     const { complementaryAmount, isFiat, complementarySymbol } = this.props

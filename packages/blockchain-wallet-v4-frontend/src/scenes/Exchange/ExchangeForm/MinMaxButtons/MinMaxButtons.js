@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 
 import { actions } from 'data'
 import { getData } from './selectors'
+import { formatAmount } from '../services'
 import { Row } from '../Layout'
 import { Button } from 'blockchain-info-components'
 
@@ -28,10 +29,6 @@ export const MinMaxValue = styled.div`
 const MixMaxRow = styled(Row)`
   padding-bottom: 0;
 `
-
-const formatAmount = (isFiat, symbol, value) =>
-  isFiat ? `${symbol}${value}` : `${value} ${symbol}`
-
 export class MinMaxButtons extends React.PureComponent {
   render () {
     const {

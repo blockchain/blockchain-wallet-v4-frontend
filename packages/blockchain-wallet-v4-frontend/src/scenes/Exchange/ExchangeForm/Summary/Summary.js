@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { BigNumber } from 'bignumber.js'
 
-import { setMinDecimals } from 'blockchain-wallet-v4/src/utils/bigNumber'
+import { coinToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { getData } from './selectors'
 import {
   ExchangeText,
@@ -41,12 +41,12 @@ export class Summary extends React.PureComponent {
           </AmountHeader>
           <ExchangeAmount>
             <StringDisplay>
-              {sourceAmount.map(
-                amount =>
-                  `${setMinDecimals(
-                    add(amount, sourceFee.source),
-                    2
-                  )} ${sourceCoin}`
+              {sourceAmount.map(amount =>
+                coinToString({
+                  value: add(amount, sourceFee.source),
+                  unit: { symbol: sourceCoin },
+                  minDigits: 2
+                })
               )}
             </StringDisplay>
           </ExchangeAmount>
@@ -63,8 +63,12 @@ export class Summary extends React.PureComponent {
           </AmountHeader>
           <ExchangeAmount>
             <StringDisplay>
-              {targetAmount.map(
-                amount => `${setMinDecimals(amount, 2)} ${targetCoin}`
+              {targetAmount.map(amount =>
+                coinToString({
+                  value: amount,
+                  unit: { symbol: targetCoin },
+                  minDigits: 2
+                })
               )}
             </StringDisplay>
           </ExchangeAmount>
@@ -78,7 +82,11 @@ export class Summary extends React.PureComponent {
             />
           </ExchangeText>
           <ExchangeAmount>
-            {setMinDecimals(sourceFee.source, 2)} {sourceCoin}
+            {coinToString({
+              value: sourceFee.source,
+              unit: { symbol: sourceCoin },
+              minDigits: 2
+            })}
           </ExchangeAmount>
         </TableRow>
         <TableRow>
@@ -90,8 +98,13 @@ export class Summary extends React.PureComponent {
           </ExchangeText>
           <ExchangeAmount>
             <StringDisplay>
-              {targetFiat.map(
-                amount => `${setMinDecimals(amount, 2)} ${currency}`
+              {targetFiat.map(amount =>
+                coinToString({
+                  value: amount,
+                  unit: { symbol: currency },
+                  minDigits: 2,
+                  maxDigits: 2
+                })
               )}
             </StringDisplay>
           </ExchangeAmount>

@@ -44,9 +44,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -108,9 +106,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -172,9 +168,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -236,9 +230,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -300,9 +292,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -364,9 +354,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -428,9 +416,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -492,9 +478,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -556,9 +540,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -620,9 +602,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -684,9 +664,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -748,9 +726,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -812,9 +788,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -876,9 +850,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -940,9 +912,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1004,9 +974,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1068,9 +1036,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1132,9 +1098,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1196,9 +1160,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1260,9 +1222,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1324,9 +1284,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1388,9 +1346,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1452,9 +1408,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1516,9 +1470,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1580,9 +1532,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1644,9 +1594,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1708,9 +1656,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1772,9 +1718,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1836,9 +1780,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1900,9 +1842,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -1964,9 +1904,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2028,9 +1966,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2092,9 +2028,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2156,9 +2090,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2220,9 +2152,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2284,9 +2214,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2348,9 +2276,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2412,9 +2338,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2476,9 +2400,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2540,9 +2462,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2604,9 +2524,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2668,9 +2586,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2732,9 +2648,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2796,9 +2710,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2860,9 +2772,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2924,9 +2834,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -2988,9 +2896,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -3052,9 +2958,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -3116,9 +3020,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -3180,9 +3082,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -3244,9 +3144,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -3308,9 +3206,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -3372,9 +3268,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -3436,9 +3330,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -3500,9 +3392,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -3564,9 +3454,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -3628,9 +3516,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -3692,9 +3578,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -3756,9 +3640,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -3820,9 +3702,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -3884,9 +3764,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -3948,9 +3826,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -4012,9 +3888,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>
@@ -4076,9 +3950,7 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
       />
     </Exchange__ExchangeText>
     <Exchange__ExchangeAmount>
-      1.00
-       
-      BTC
+      1.00 BTC
     </Exchange__ExchangeAmount>
   </Exchange__TableRow>
   <Exchange__TableRow>

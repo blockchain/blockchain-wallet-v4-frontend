@@ -159,9 +159,6 @@ const normalizeAmount = (value, prevValue, allValues, ...args) => {
   return formatTextAmount(value, fiatActive(allValues.fix))
 }
 
-export const formatAmount = (isFiat, symbol, value) =>
-  isFiat ? `${symbol}${value}` : `${value} ${symbol}`
-
 const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
   const amountRowNode = inputNode.closest('#amount-row')
   const currencyNode = isFiat
