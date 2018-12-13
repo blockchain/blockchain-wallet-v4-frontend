@@ -12,7 +12,6 @@ import Page from './Page'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
 import Menu from 'scenes/Transactions/Menu'
-import AddrMenu from 'scenes/Settings/Addresses/Menu'
 import LockboxMenu from '../../scenes/Lockbox/Menu'
 import ExchangeMenu from 'scenes/Exchange/Menu'
 
@@ -75,8 +74,6 @@ const WalletLayout = props => {
             <Top>
               <MenuTop />
             </Top>
-            {location.pathname === '/settings/addresses/btc' && <AddrMenu />}
-            {location.pathname === '/settings/addresses/bch' && <AddrMenu />}
             {location.pathname.includes('/btc/transactions') && (
               <Menu coin='BTC' />
             )}

@@ -12,6 +12,11 @@ export const getSmsStep = path([
   'identityVerification',
   'smsStep'
 ])
+export const getEmailStep = path([
+  'components',
+  'identityVerification',
+  'emailStep'
+])
 
 export const getSupportedCountries = path([
   'components',
@@ -58,7 +63,9 @@ export const getSteps = state => {
     .map(prop('mobileVerified'))
     .getOrElse(false)
   const smsVerified = selectors.core.settings.getSmsVerified(state).getOrElse(0)
-  const skipMobile = smsVerified || mobileVerified
+  const currentStep = getVerificationStep(state)
+  const skipMobile =
+    currentStep !== STEPS.mobile && (smsVerified || mobileVerified)
 
   const isStepRequired = step => {
     if (!isCoinify && step === STEPS.coinify) return false

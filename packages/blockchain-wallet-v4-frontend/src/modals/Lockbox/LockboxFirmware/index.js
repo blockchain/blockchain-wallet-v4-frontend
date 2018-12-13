@@ -25,8 +25,13 @@ class LockboxFirmwareContainer extends React.PureComponent {
     })
   }
 
+  onClose = () => {
+    this.props.lockboxActions.lockboxModalClose()
+    this.props.closeAll()
+  }
+
   render () {
-    const { closeAll, currentStep, deviceIndex, position, total } = this.props
+    const { currentStep, deviceIndex, position, total } = this.props
     const steps = {
       'connect-device': 1,
       'check-versions': 2,
@@ -41,7 +46,7 @@ class LockboxFirmwareContainer extends React.PureComponent {
       <FirmwareContainer
         position={position}
         total={total}
-        closeAll={closeAll}
+        onClose={this.onClose}
         step={step}
         totalSteps={5}
       >
@@ -49,7 +54,7 @@ class LockboxFirmwareContainer extends React.PureComponent {
         {step === 2 && <CheckVersionsStep status={status} />}
         {step === 3 && <UninstallAppsStep status={status} />}
         {step === 4 && <InstallFirmwareStep status={status} />}
-        {step === 5 && <CompleteStep status={status} closeAll={closeAll} />}
+        {step === 5 && <CompleteStep status={status} onClose={this.onClose} />}
       </FirmwareContainer>
     )
   }
@@ -58,8 +63,7 @@ class LockboxFirmwareContainer extends React.PureComponent {
 LockboxFirmwareContainer.propTypes = {
   deviceIndex: PropTypes.string.isRequired,
   position: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired,
-  closeAll: PropTypes.func.isRequired
+  total: PropTypes.number.isRequired
 }
 
 const mapStateToProps = state => ({

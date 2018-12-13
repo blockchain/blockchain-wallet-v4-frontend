@@ -54,7 +54,7 @@ class AcceptTermsContainer extends Component {
 
 AcceptTermsContainer.propTypes = {
   invalid: PropTypes.bool,
-  updateUI: PropTypes.function,
+  updateUI: PropTypes.func,
   email: PropTypes.string.isRequired,
   country: PropTypes.string
 }

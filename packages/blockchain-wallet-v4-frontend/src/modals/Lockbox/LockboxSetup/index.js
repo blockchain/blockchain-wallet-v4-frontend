@@ -20,9 +20,13 @@ class LockboxSetupContainer extends React.PureComponent {
     this.props.lockboxActions.resetConnectionStatus()
     this.props.lockboxActions.changeDeviceSetupStep('setup-type')
   }
+  onClose = () => {
+    this.props.lockboxActions.lockboxModalClose()
+    this.props.closeAll()
+  }
 
   render () {
-    const { currentStep, position, total, closeAll, setupType } = this.props
+    const { currentStep, position, total, setupType } = this.props
     let steps = {
       'setup-type': { num: 0, template: () => <SetupTypeStep /> },
       'connect-device': { num: 1, template: () => <ConnectDeviceStep /> },
@@ -55,8 +59,7 @@ class LockboxSetupContainer extends React.PureComponent {
       <LockboxSetup
         total={total}
         position={position}
-        closeAll={closeAll}
-        handleClose={this.handleClose}
+        onClose={this.onClose}
         totalSteps={setupType === 'existing' ? 4 : 5}
         step={step.num}
       >

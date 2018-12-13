@@ -1,9 +1,9 @@
-import { curry, path, toLower, prop } from 'ramda'
+import { curry, path, prop, toLower } from 'ramda'
 import { walletOptionsPath } from '../paths'
 
 // general
 export const getOptions = path([walletOptionsPath])
-export const getDomains = state => getOptions(state).map(path(['domains']))
+export const getDomains = state => getOptions(state).map(prop('domains'))
 export const getWebOptions = state =>
   getOptions(state).map(path(['platforms', 'web']))
 
@@ -22,6 +22,7 @@ export const getCoinAvailability = curry((state, coin) =>
   getWebOptions(state).map(path([toLower(coin), 'availability']))
 )
 
+export const getVeriffDomain = state => getDomains(state).map(prop('veriff'))
 // wallet helper
 export const getWalletHelperUrl = state =>
   getDomains(state).map(prop('walletHelper'))

@@ -9,6 +9,7 @@ import * as C from 'services/AlertService'
 import * as A from './actions'
 import * as S from './selectors'
 import {
+  EMAIL_STEPS,
   STEPS,
   SMS_STEPS,
   SMS_NUMBER_FORM,
@@ -31,6 +32,7 @@ export const invalidNumberError = 'Failed to update mobile number'
 export const mobileVerifiedError = 'Failed to verify mobile number'
 export const failedResendError = 'Failed to resend the code'
 export const userExistsError = 'User already exists'
+export const emailExistsError = 'User with this email already exists'
 export const wrongFlowTypeError = 'Wrong flow type'
 
 export default ({ api, coreSagas }) => {
@@ -54,7 +56,8 @@ export default ({ api, coreSagas }) => {
     coreSagas
   })
 
-  const registerUserCampaign = function*(newUser = false) {
+  const registerUserCampaign = function*(payload) {
+    const { newUser = false } = payload
     const campaign = yield select(selectors.modules.profile.getCampaign)
     const campaignData = yield call(getCampaignData, campaign)
     const token = (yield select(
@@ -78,19 +81,12 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const createRegisterUserCampaign = function*({
-    payload: { needsIdVerification }
-  }) {
+  const createRegisterUserCampaign = function*() {
     try {
-      if (!needsIdVerification) return yield call(registerUserCampaign)
-
-      const userId = (yield select(
-        selectors.core.kvStore.userCredentials.getUserId
-      )).getOrElse('')
       const userWithEmailExists = yield call(verifyIdentity)
       if (userWithEmailExists) return
-      if (!userId) yield call(createUser)
-      yield call(registerUserCampaign, true)
+      yield call(createUser)
+      yield call(registerUserCampaign, { newUser: true })
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
@@ -129,6 +125,7 @@ export default ({ api, coreSagas }) => {
   }) {
     yield put(A.setCoinify(isCoinify))
     yield put(A.setDesiredTier(desiredTier))
+    yield put(A.setEmailStep(EMAIL_STEPS.edit))
     yield call(initializeStep)
   }
 
@@ -362,6 +359,43 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const sendEmailVerification = function*({ payload }) {
+    try {
+      yield put(actions.form.startAsyncValidation(PERSONAL_FORM))
+      const { email } = payload
+      yield call(coreSagas.settings.resendVerifyEmail, { email })
+      yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
+    } catch (e) {
+      yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'resendVerifyEmail', e)
+      )
+    } finally {
+      yield put(actions.form.stopAsyncValidation(PERSONAL_FORM))
+    }
+  }
+
+  const updateEmail = function*({ payload }) {
+    try {
+      yield put(actions.form.startAsyncValidation(PERSONAL_FORM))
+      const prevEmail = (yield select(
+        selectors.core.settings.getEmail
+      )).getOrElse('')
+      const { email } = payload
+      if (prevEmail === email)
+        yield call(coreSagas.settings.resendVerifyEmail, { email })
+      else yield call(coreSagas.settings.setEmail, { email })
+      yield put(actions.form.stopAsyncValidation(PERSONAL_FORM))
+      yield put(A.setEmailStep(EMAIL_STEPS.verify))
+    } catch (e) {
+      yield put(
+        actions.form.stopAsyncValidation(PERSONAL_FORM, {
+          email: emailExistsError
+        })
+      )
+    }
+  }
+
   return {
     verifyIdentity,
     initializeVerification,
@@ -373,12 +407,15 @@ export default ({ api, coreSagas }) => {
     goToPrevStep,
     resendSmsCode,
     registerUserCampaign,
+    createUser,
     createRegisterUserCampaign,
     savePersonalData,
     updateSmsStep,
     updateSmsNumber,
     verifySmsNumber,
     checkKycFlow,
-    sendDeeplink
+    sendDeeplink,
+    sendEmailVerification,
+    updateEmail
   }
 }

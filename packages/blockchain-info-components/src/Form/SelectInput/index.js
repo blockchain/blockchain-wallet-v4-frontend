@@ -71,8 +71,8 @@ class SelectInputContainer extends React.PureComponent {
 SelectInputContainer.propTypes = {
   elements: PropTypes.arrayOf(
     PropTypes.shape({
-      group: PropTypes.string.isRequired,
-      items: PropTypes.array.isRequired
+      group: PropTypes.string,
+      items: PropTypes.array
     })
   ).isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),

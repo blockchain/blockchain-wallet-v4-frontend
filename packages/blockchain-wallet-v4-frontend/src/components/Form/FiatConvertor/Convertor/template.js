@@ -116,6 +116,7 @@ const Convertor = props => {
             weight={300}
             color='error'
             className='error'
+            data-e2e='fiatConvertorError'
           >
             {meta.error}
           </Error>

@@ -154,8 +154,6 @@ describe('goals sagas', () => {
   })
 
   describe('defineSendBtcGoal saga', () => {
-    // btc/payment_request
-    // ?address=12ms1QW9SNobD5CmBN59zWxcMKs1spB86s&amount=0.00275134&message=test
     it('should save payment goal and route to /wallet', () => {
       const mockPathnameEncoded = 'bitcoin%3A12ms1QW9SNobD5CmBN59zWxcMKs1spB86s'
       const mockSearchEncoded = '%3Famount%3D0.00275134%26message%3Dtest'
@@ -176,6 +174,8 @@ describe('goals sagas', () => {
         )
         .next()
         .put(actions.router.push('/wallet'))
+        .next()
+        .put(actions.alerts.displayInfo(C.PLEASE_LOGIN))
         .next()
         .isDone()
     })

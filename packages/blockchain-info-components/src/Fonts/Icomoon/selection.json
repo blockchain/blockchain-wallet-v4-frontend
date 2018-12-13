@@ -11,7 +11,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["xlm-circle"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [{}, {}],
       "properties": {
@@ -34,7 +35,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["xlm"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [{}],
       "properties": {
@@ -53,13 +55,14 @@
         "paths": [
           "M1024 512c0 282.77-229.23 512-512 512s-512-229.23-512-512c0-282.77 229.23-512 512-512s512 229.23 512 512zM707.145 506.589c52.303-65.034 48.762-156.788 41.994-205.696-2.471-17.829-6.183-35.692-10.461-50.294-6.396-21.784-10.433-25.078-12.451-26.518l-0.185-0.134c-1.961-1.398-6.044-4.301-29.044-3.003-15 0.845-32.861 3.312-50.286 6.942-44.083 9.192-76.448 23.57-95.825 34.020-36.655 19.777-64.465 45.064-82.643 75.201-23.71 39.284-46.358 78.338-65.987 112.833-50.796-7.379-121.24 6.26-191.537 96.683-3.629 4.683-5.425 11.743 4.439 8.661 22.561-7.038 68.045-15.015 123.359 8.671-0.423 0.75-0.819 1.449-1.164 2.048-4.5 7.889-9.921 19.887-4.892 32.973 3.029 7.877 9.307 14.954 20.76 23.381-4.043 3.742-7.761 7.966-11.045 12.676-0.376 0.542-0.713 1.097-1.050 1.654-0.203 0.335-0.406 0.672-0.618 1.004-43.057 63.797-50.306 134.439-15.73 159.031 34.572 24.615 97.977-6.075 142.927-68.519 0.24-0.315 0.486-0.624 0.735-0.931 0.402-0.498 0.805-0.998 1.178-1.536 3.318-4.762 6.016-9.767 8.153-14.927 12.495 8.779 21.618 12.65 30.362 12.885h0.813c5.281-0.012 10.466-1.416 15.045-4.072 4.545-2.595 8.921-6.424 13.383-11.709 0.685-0.817 1.532-1.808 2.491-2.932 41.966 44.101 49.934 89.891 50.932 113.489 0.423 10.193 6.424 6.187 9.563 1.264 62.257-97.611 49.361-168.7 24.279-213.309 25.444-30.064 54.044-64.416 82.509-99.834zM462.078 699.681c-0.14 0.195-0.274 0.402-0.414 0.599-0.293 0.408-0.608 0.786-0.928 1.164-0.148 0.177-0.297 0.354-0.443 0.536-31.651 42.967-76.081 64.242-100.147 47.525-24.078-16.727-18.735-65.176 11.62-109.058 0.132-0.205 0.26-0.414 0.386-0.624 0.242-0.4 0.486-0.803 0.78-1.199 0.276-0.392 0.569-0.772 0.861-1.152 0.081-0.102 0.16-0.205 0.238-0.309l2.688 1.902 40.995 29.103c16.209 11.518 32.447 23.054 44.363 31.514zM543.053 377.49c8.554-12.256 21.908-20.73 36.632-23.251 3.228-0.565 6.52-0.847 9.789-0.847h0.028c11.727 0.004 22.987 3.596 32.555 10.39 25.586 18.058 31.746 53.587 13.696 79.23-8.728 12.39-21.754 20.641-36.667 23.223-14.935 2.588-29.958-0.809-42.331-9.541-25.565-18.054-31.712-53.583-13.702-79.204z"
         ],
-        "attrs": [{}],
+        "attrs": [],
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["xlm-circle-filled"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
-      "attrs": [{}],
+      "attrs": [],
       "properties": {
         "order": 2,
         "id": 2,
@@ -80,7 +83,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["bch-circle-filled"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [{}],
       "properties": {
@@ -103,7 +107,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["btc-circle-filled"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [{}],
       "properties": {
@@ -126,7 +131,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["eth-circle-filled"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [{}],
       "properties": {
@@ -149,7 +155,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["info"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [{}],
       "properties": {
@@ -172,7 +179,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["sync-regular"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -205,7 +213,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["usb-icon"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [
         {
@@ -238,7 +247,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["caret"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -261,7 +271,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["forbidden"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -284,7 +295,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["pending"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -307,7 +319,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["nav-switch"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -330,7 +343,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["eth"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -353,7 +367,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["btc"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -376,7 +391,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["bch"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -399,7 +415,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["security"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -422,7 +439,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["nav-buy"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -446,7 +464,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["eth-circle"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -470,7 +489,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["btc-circle"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -494,7 +514,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["bch-circle"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -518,7 +539,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["arrow-switch"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -541,7 +563,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["short-right-arrow"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -566,7 +589,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["vertical-arrow-switch"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -598,7 +622,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["close-in-circle"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [
         {
@@ -629,7 +654,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["open-in-new-tab"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -654,7 +680,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["shapeshift-switch"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -677,7 +704,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["alert-filled"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -705,7 +733,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["bank-filled"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -728,7 +757,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["cart-filled"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -751,7 +781,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["checkmark-in-circle-filled"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -774,7 +805,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["close-filled"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -798,7 +830,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["credit-card-filled"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -821,7 +854,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["down-arrow-filled"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -845,7 +879,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["download-filled"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -871,7 +906,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["hamburger-menu"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -894,7 +930,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["left-arrow-filled"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -917,7 +954,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["paper-airplane-filled-2"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -942,7 +980,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["pencil-filled"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -972,7 +1011,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["present-filled"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -996,7 +1036,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["request-filled"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1020,7 +1061,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["send-filled"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1043,7 +1085,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["settings-filled"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1072,7 +1115,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["wallet-filled"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1100,7 +1144,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["bell"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [
         {
@@ -1130,7 +1175,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["camera"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1154,7 +1200,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["chart"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1178,7 +1225,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["checkmark-in-circle"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1201,7 +1249,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["checkmark"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1224,7 +1273,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["close"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1248,7 +1298,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["credit-card"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1274,7 +1325,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["dollars"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1298,7 +1350,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["down-arrow-in-circle"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1321,7 +1374,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["down-arrow"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1342,7 +1396,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["down-triangle"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1366,7 +1421,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["download"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1389,7 +1445,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["email"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1414,7 +1471,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["exchange"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1437,7 +1495,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["globe"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1460,7 +1519,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["home"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1483,7 +1543,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["left-arrow"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1509,7 +1570,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["lightbulb"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1532,7 +1594,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["lock"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1556,7 +1619,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["map-pin"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1581,7 +1645,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["mobile"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1606,7 +1671,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["open-source"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1629,7 +1695,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["paper-airplane"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1652,7 +1719,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["pencil"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1676,7 +1744,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["phone-in-circle"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1699,7 +1768,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["phone"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1722,7 +1792,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["present"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1749,7 +1820,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["question-in-circle"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [
         {
@@ -1780,7 +1852,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["refresh"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [
         {
@@ -1807,7 +1880,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["right-arrow"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1833,7 +1907,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["safe"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1856,7 +1931,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["search"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1879,7 +1955,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["settings"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1902,7 +1979,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["stack-of-coins-2"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1933,7 +2011,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["transactions"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1958,7 +2037,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["trash"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -1982,7 +2062,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["up-arrow-in-circle"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -2005,7 +2086,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["up-arrow"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -2028,7 +2110,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["user"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -2052,7 +2135,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["wallet"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -2076,7 +2160,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["id-card"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -2100,7 +2185,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["comment-alt-regular"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -2124,7 +2210,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["map-marker-alt-regular"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -2148,7 +2235,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["envelope-regular"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -2171,7 +2259,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["phone-regular"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -2195,7 +2284,8 @@
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["birthday-cake-light"],
-        "grid": 0
+        "grid": 0,
+        "colorPermutations": {}
       },
       "attrs": [],
       "properties": {
@@ -2214,29 +2304,15 @@
         "paths": [
           "M584.282 512.002l373.459 373.459c4.016 4.016 6.024 9.537 6.024 16.565s-2.008 12.549-6.024 16.565l-69.271 69.271c-4.016 4.016-9.537 6.024-16.565 6.024s-12.549-2.008-16.565-6.024l-373.459-373.459-373.459 373.459c-4.016 4.016-9.537 6.024-16.565 6.024s-12.549-2.008-16.565-6.024l-69.271-69.271c-4.016-4.016-6.024-9.537-6.024-16.565s2.008-12.549 6.024-16.565l373.459-373.459-373.459-373.459c-4.016-4.016-6.024-9.537-6.024-16.565s2.008-12.549 6.024-16.565l69.271-69.271c4.016-4.016 9.537-6.024 16.565-6.024s12.549 2.008 16.565 6.024l373.459 373.459 373.459-373.459c4.016-4.016 9.537-6.024 16.565-6.024s12.549 2.008 16.565 6.024l69.271 69.271c4.016 4.016 6.024 9.537 6.024 16.565s-2.008 12.549-6.024 16.565l-373.459 373.459z"
         ],
-        "attrs": [
-          {
-            "fill": "rgb(127, 127, 127)"
-          }
-        ],
+        "attrs": [],
         "width": 964,
         "isMulticolor": false,
         "isMulticolor2": false,
         "grid": 0,
         "tags": ["close-bold"],
-        "colorPermutations": {
-          "12712712718484861": [
-            {
-              "f": 1
-            }
-          ]
-        }
+        "colorPermutations": {}
       },
-      "attrs": [
-        {
-          "fill": "rgb(127, 127, 127)"
-        }
-      ],
+      "attrs": [],
       "properties": {
         "order": 4,
         "id": 90,
@@ -2247,6 +2323,31 @@
       "setIdx": 0,
       "setId": 1,
       "iconIdx": 90
+    },
+    {
+      "icon": {
+        "paths": [
+          "M560.273 1003.892l785.067-789.585c26.658-26.812 26.658-70.286 0-97.098l-96.542-97.097c-26.658-26.816-69.884-26.816-96.546 0l-640.252 643.932-298.918-300.639c-26.658-26.812-69.884-26.812-96.546 0l-96.542 97.098c-26.658 26.811-26.658 70.286 0 97.097l443.733 446.287c26.662 26.816 69.884 26.816 96.546 0.004z"
+        ],
+        "attrs": [],
+        "width": 1365,
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "grid": 0,
+        "tags": ["check"],
+        "colorPermutations": {}
+      },
+      "attrs": [],
+      "properties": {
+        "order": 185,
+        "id": 91,
+        "name": "check",
+        "prevSize": 32,
+        "code": 59664
+      },
+      "setIdx": 0,
+      "setId": 1,
+      "iconIdx": 91
     },
     {
       "icon": {

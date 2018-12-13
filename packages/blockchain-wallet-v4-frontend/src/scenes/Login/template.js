@@ -299,7 +299,7 @@ const Login = props => {
               <HeartbeatLoader height='20px' width='20px' color='white' />
             ) : (
               <FormattedMessage
-                id='scenes.login.submit'
+                id='scenes.login.login'
                 defaultMessage='Log In'
               />
             )}
