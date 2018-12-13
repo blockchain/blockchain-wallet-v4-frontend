@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { head, path, propEq } from 'ramda'
+import { head, path, propEq, toLower } from 'ramda'
 import { connect } from 'react-redux'
 
 import { actions } from 'data'
@@ -11,7 +11,8 @@ import media from 'services/ResponsiveService'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
-import { TIERS, getTiming } from './model'
+import { TIERS } from './model'
+import { messages, limits, status } from './services'
 
 const Wrapper = styled.div`
   display: flex;
@@ -115,21 +116,21 @@ export const TierCard = ({ userData, userTiers, tier, ...rest }) => {
               <Text size='28px' color='marketing-secondary'>
                 {Exchange.getSymbol(tierData.limits.currency) +
                   Currency.formatFiat(
-                    tierData.limits[path([tier, 'limit', 'type'], TIERS)],
+                    tierData.limits[toLower(path([tier, 'limit'], TIERS))],
                     0
                   )}
               </Text>
               <Text size='14px' color='textBlack' style={{ marginTop: '8px' }}>
-                {path([tier, 'limit', 'message'], TIERS)}
+                {limits[path([tier, 'limit'], TIERS)]}
               </Text>
               <Text size='14px' color='gray-3' style={{ marginTop: '7px' }}>
-                {getTiming(tierData.state, tier)}
+                {status(tierData.state, path([tier, 'time'], TIERS))}
               </Text>
             </Column>
             <Column>
               {path([tier, 'requirements'], TIERS).map((requirement, i) => (
                 <TextGroup inline key={i} style={{ marginBottom: '8px' }}>
-                  {requirement.message}
+                  {messages[requirement.name]}
                   {requirement.complete(userData, userTiers) && (
                     <Icon
                       style={{ marginLeft: '5px' }}
