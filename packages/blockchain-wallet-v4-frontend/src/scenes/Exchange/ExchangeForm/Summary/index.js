@@ -64,7 +64,7 @@ const Summary = ({
         }}
       />
     </AmountHeader>
-    <ExchangeAmount>
+    <ExchangeAmount data-e2e='exchangeSummaryDepositAmount'>
       <StringDisplay>
         {sourceAmount.map(
           amount => `${add(amount, sourceFee.source)} ${sourceCoin}`
@@ -80,7 +80,7 @@ const Summary = ({
         }}
       />
     </AmountHeader>
-    <ExchangeAmount>
+    <ExchangeAmount data-e2e='exchangeSummaryReceiveAmount'>
       <StringDisplay>
         {targetAmount.map(amount => `${amount} ${targetCoin}`)}
       </StringDisplay>
