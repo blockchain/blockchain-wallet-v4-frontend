@@ -164,14 +164,6 @@ describe('Profile Settings', () => {
         )
         wrapper.update()
       })
-
-      it('should lead to exchange if user can not trade', () => {
-        wrapper
-          .find(IdentityVerification)
-          .find('button')
-          .simulate('click', { button: 0 })
-        expect(wrapper.find(ExchangeStub)).toHaveLength(1)
-      })
     })
   })
 })

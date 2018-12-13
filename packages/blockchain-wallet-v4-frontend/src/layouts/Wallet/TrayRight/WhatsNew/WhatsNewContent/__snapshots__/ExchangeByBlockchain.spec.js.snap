@@ -264,8 +264,8 @@ exports[`ExchangeByBlockchain renders correctly with exchange link 1`] = `
     >
       <ExchangeByBlockchain__GetStartedButton>
         <FormattedMessage
-          defaultMessage="Go To Exchange"
-          id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.gotoexchange"
+          defaultMessage="Make Swap"
+          id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.makeswap"
           values={Object {}}
         />
       </ExchangeByBlockchain__GetStartedButton>

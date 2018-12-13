@@ -5,15 +5,15 @@ exports[`SwapBanner renders correctly with exchange link 1`] = `
   <SwapBanner__Column>
     <SwapBanner__LargeText>
       <FormattedMessage
-        defaultMessage="We've Improved Your Exchange"
-        id="scenes.home.swapbanner.improved"
+        defaultMessage="It's Your Crypto"
+        id="scenes.home.swapbanner.its_your_crypto"
         values={Object {}}
       />
     </SwapBanner__LargeText>
     <SwapBanner__MediumText>
       <FormattedMessage
-        defaultMessage="A faster, smarter way to trade your crypto."
-        id="scenes.home.swapbanner.faster"
+        defaultMessage="Swap Your Crypto"
+        id="scenes.home.swapbanner.swap_your_crypto"
         values={Object {}}
       />
     </SwapBanner__MediumText>
@@ -50,15 +50,15 @@ exports[`SwapBanner renders correctly with getstarted button 1`] = `
   <SwapBanner__Column>
     <SwapBanner__LargeText>
       <FormattedMessage
-        defaultMessage="We've Improved Your Exchange"
-        id="scenes.home.swapbanner.improved"
+        defaultMessage="It's Your Crypto"
+        id="scenes.home.swapbanner.its_your_crypto"
         values={Object {}}
       />
     </SwapBanner__LargeText>
     <SwapBanner__MediumText>
       <FormattedMessage
-        defaultMessage="A faster, smarter way to trade your crypto."
-        id="scenes.home.swapbanner.faster"
+        defaultMessage="Swap Your Crypto"
+        id="scenes.home.swapbanner.swap_your_crypto"
         values={Object {}}
       />
     </SwapBanner__MediumText>
