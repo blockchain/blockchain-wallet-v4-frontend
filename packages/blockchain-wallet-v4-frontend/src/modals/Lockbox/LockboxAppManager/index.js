@@ -18,7 +18,7 @@ import {
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import * as Lockbox from 'services/LockboxService'
-import App from './template'
+import LockboxAppManager from './template'
 
 const Wrapper = styled(ModalBody)`
   width: 100%;
@@ -65,7 +65,7 @@ const getKeyByValue = value => {
   )
 }
 
-class AppManagerContainer extends React.PureComponent {
+class LockboxAppManagerContainer extends React.PureComponent {
   state = { appName: '', changeType: '' }
 
   componentDidMount () {
@@ -87,6 +87,11 @@ class AppManagerContainer extends React.PureComponent {
     this.props.lockboxActions.uninstallApplication(appName)
   }
 
+  onClose = () => {
+    this.props.lockboxActions.lockboxModalClose()
+    this.props.closeAll()
+  }
+
   onContinue = () => {
     this.setState({ changeType: '', appName: '' })
     this.props.lockboxActions.resetAppChangeStatus()
@@ -96,7 +101,6 @@ class AppManagerContainer extends React.PureComponent {
     const {
       appChangeStatus,
       appVersionInfos,
-      closeModal,
       connection,
       position,
       total
@@ -200,7 +204,7 @@ class AppManagerContainer extends React.PureComponent {
           const name = app.name
           const coin = getKeyByValue(name)
           return (
-            <App
+            <LockboxAppManager
               key={name}
               app={app}
               coin={coin}
@@ -222,7 +226,7 @@ class AppManagerContainer extends React.PureComponent {
               />
             </Subtitle>
             {appList}
-            <ContinueButton onClick={closeModal} nature='primary' fullwidth>
+            <ContinueButton onClick={this.onClose} nature='primary' fullwidth>
               <FormattedHTMLMessage
                 id='modals.lockbox.appmanager.close'
                 defaultMessage='Close App Manager'
@@ -255,7 +259,7 @@ class AppManagerContainer extends React.PureComponent {
 
     return (
       <Modal size='small' position={position} total={total}>
-        <ModalHeader onClose={closeModal}>
+        <ModalHeader onClose={this.onClose}>
           <FormattedMessage
             id='modals.lockbox.appmanager.title'
             defaultMessage='App Manager'
@@ -288,7 +292,7 @@ class AppManagerContainer extends React.PureComponent {
   }
 }
 
-AppManagerContainer.propTypes = {
+LockboxAppManagerContainer.propTypes = {
   deviceIndex: PropTypes.string.isRequired,
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
@@ -304,8 +308,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
-  closeModal: bindActionCreators(actions.modals.closeModal, dispatch)
+  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
 const enhance = compose(
@@ -316,4 +319,4 @@ const enhance = compose(
   )
 )
 
-export default enhance(AppManagerContainer)
+export default enhance(LockboxAppManagerContainer)

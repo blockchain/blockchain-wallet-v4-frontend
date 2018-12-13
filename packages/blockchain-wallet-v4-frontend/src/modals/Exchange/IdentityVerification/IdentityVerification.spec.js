@@ -36,6 +36,7 @@ import {
 } from 'blockchain-wallet-v4/src/redux/kvStore/userCredentials/selectors'
 import {
   getEmail,
+  getEmailVerified,
   getSmsVerified,
   getCountryCode,
   getSmsNumber
@@ -109,6 +110,7 @@ getLifetimeToken.mockImplementation(() => Remote.of(456))
 getSmsVerified.mockImplementation(() => Remote.of(0))
 getSmsNumber.mockImplementation(() => Remote.of(''))
 getEmail.mockImplementation(() => Remote.of('email@email.com'))
+getEmailVerified.mockImplementation(() => Remote.of(true))
 getGuid.mockImplementation(() => Remote.of('123-abc-456-def'))
 getCountryCode.mockImplementation(() => Remote.of('FR'))
 getSupportedCountries.mockImplementation(() =>

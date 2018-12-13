@@ -1,17 +1,23 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { actions, selectors } from 'data'
 import { bindActionCreators, compose } from 'redux'
-import modalEnhancer from 'providers/ModalEnhancer'
-import PromptForLockbox from './template'
 
-class PromptLockboxContainer extends React.PureComponent {
+import { actions, selectors } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+import LockboxConnectionPrompt from './template'
+
+class LockboxConnectionPromptContainer extends React.PureComponent {
   componentWillUnmount () {
     this.props.lockboxActions.resetConnectionStatus()
   }
 
+  onClose = () => {
+    this.props.lockboxActions.lockboxModalClose()
+    this.props.closeAll()
+  }
+
   render () {
-    return <PromptForLockbox {...this.props} />
+    return <LockboxConnectionPrompt onClose={this.onClose} {...this.props} />
   }
 }
 
@@ -24,11 +30,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('PromptLockbox'),
+  modalEnhancer('LockboxConnectionPrompt'),
   connect(
     mapStateToProps,
     mapDispatchToProps
   )
 )
 
-export default enhance(PromptLockboxContainer)
+export default enhance(LockboxConnectionPromptContainer)

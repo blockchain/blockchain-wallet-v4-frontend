@@ -1,13 +1,13 @@
-import AppManager from './AppManager'
+import LockboxAppManager from './LockboxAppManager'
 import LockboxFirmware from './LockboxFirmware'
 import LockboxSetup from './LockboxSetup'
-import PromptLockbox from './PromptLockbox'
 import ShowLockboxXPubs from './ShowLockboxXPubs'
+import LockboxConnectionPrompt from './LockboxConnectionPrompt'
 
 export {
-  AppManager as LockboxAppManager,
+  LockboxAppManager,
   LockboxFirmware,
   LockboxSetup,
-  PromptLockbox,
+  LockboxConnectionPrompt,
   ShowLockboxXPubs
 }
