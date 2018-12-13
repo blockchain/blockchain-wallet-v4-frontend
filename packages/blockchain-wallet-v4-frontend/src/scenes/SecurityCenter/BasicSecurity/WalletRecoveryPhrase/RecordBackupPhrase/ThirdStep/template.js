@@ -83,7 +83,7 @@ const ThirdStep = props => {
           <Button onClick={previousStep} nature='empty'>
             <Text weight={300} cursor='pointer'>
               <FormattedMessage
-                id='modals.recoveryphrase.secondstep.returnReviewPhrase'
+                id='scenes.securitycenter.walletrecoveryphrase.thirdstep.review'
                 defaultMessage='Review Backup Phrase'
               />
             </Text>
