@@ -156,6 +156,7 @@ class IdentityVerification extends React.PureComponent {
         position={position}
         total={total}
         onClose={this.handleClose}
+        data-e2e='identityVerificationModal'
       >
         <StepHeader tray paddingHorizontal='15%' onClose={this.handleClose}>
           <HeaderWrapper>

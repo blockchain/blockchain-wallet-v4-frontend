@@ -81,7 +81,7 @@ const SecondStep = ({ addr, balance, priv }) => (
         </DetailRowText>
         {':'}
         &nbsp;
-        <DataRowText size='14px' weight={300}>
+        <DataRowText size='14px' weight={300} data-e2e='ethPrivateKeyModalAddress'>
           {addr}
         </DataRowText>
       </DetailRow>
@@ -94,7 +94,7 @@ const SecondStep = ({ addr, balance, priv }) => (
         </DetailRowText>
         {':'}
         &nbsp;
-        <DataRowText size='14px' weight={300}>
+        <DataRowText size='14px' weight={300} data-e2e='ethPrivateKeyModalPrivKey'>
           {priv}
         </DataRowText>
       </DetailRow>
@@ -111,7 +111,7 @@ const ShowEthPrivateKeyTemplate = ({
   ...rest
 }) => (
   <Modal size='large' position={position} total={total}>
-    <ModalHeader icon='lock' closeButton={false}>
+    <ModalHeader icon='lock' closeButton={false} data-e2e='ethPrivateKeyModalHeader'>
       <FormattedMessage
         id='modals.showethpriv.title'
         defaultMessage='Private Key'
@@ -127,6 +127,7 @@ const ShowEthPrivateKeyTemplate = ({
         weight={300}
         style={spacing('mr-15')}
         onClick={close}
+        data-e2e='ethPrivateKeyModalClose'
       >
         <FormattedMessage
           id='modals.showethpriv.close'
@@ -134,7 +135,7 @@ const ShowEthPrivateKeyTemplate = ({
         />
       </Text>
       {step === 0 && (
-        <Button nature='primary' onClick={onContinue}>
+        <Button nature='primary' onClick={onContinue} data-e2e='ethPrivateKeyModalContinue'>
           <FormattedMessage
             id='modals.showethpriv.continue'
             defaultMessage='Continue'
