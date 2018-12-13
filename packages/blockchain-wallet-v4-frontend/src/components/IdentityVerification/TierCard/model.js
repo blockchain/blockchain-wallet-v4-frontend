@@ -1,9 +1,8 @@
-import { path, prop, propEq } from 'ramda'
+import { path, prop } from 'ramda'
 
 export const TIERS = {
   1: {
     time: '3',
-    isActive: propEq('state', 'ACTIVE'),
     limit: 'ANNUAL',
     requirements: [
       {
@@ -30,7 +29,6 @@ export const TIERS = {
   },
   2: {
     time: '10',
-    isActive: propEq('kycState', 'VERIFIED'),
     limit: 'DAILY',
     requirements: [
       {
