@@ -34,7 +34,7 @@ import {
   LockboxFirmware,
   LockboxSetup,
   LockboxConnectionPrompt,
-  ShowLockboxXPubs
+  LockboxShowXPubs
 } from './Lockbox'
 import { MobileLogin, MobileNumberChange, MobileNumberVerify } from './Mobile'
 import QRCode from './QRCode'
@@ -82,6 +82,7 @@ const Modals = props => (
     <LockboxConnectionPrompt disableOutsideClose />
     <LockboxFirmware disableOutsideClose />
     <LockboxSetup disableOutsideClose />
+    <LockboxShowXPubs />
     <MobileNumberChange />
     <MobileNumberVerify />
     <MobileLogin />
@@ -103,7 +104,6 @@ const Modals = props => (
     <ShowUsedAddresses />
     <SignMessage />
     <ShowXPub />
-    <ShowLockboxXPubs />
     <SfoxExchangeData />
     <SfoxTradeDetails />
     <SfoxEnterMicroDeposits />

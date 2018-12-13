@@ -87,7 +87,7 @@ const TabIcon = styled(Icon)`
   }
 `
 
-class ShowLockboxXPubs extends React.PureComponent {
+export class LockboxShowXPubs extends React.PureComponent {
   state = {
     activeTab: 'btc'
   }
@@ -122,6 +122,7 @@ class ShowLockboxXPubs extends React.PureComponent {
               {keys(coins).map(coin => {
                 return (
                   <Tab
+                    key={coin}
                     className={activeTab === coin ? 'active' : ''}
                     onClick={() => this.setActive(coin)}
                   >
@@ -148,13 +149,13 @@ class ShowLockboxXPubs extends React.PureComponent {
               <Content style={{ textAlign: 'center' }}>
                 <Text size='16px'>
                   <FormattedMessage
-                    id='modals.lockbox.showxpubs.notfound'
+                    id='modals.lockbox.showxpubs.failedtoderive'
                     defaultMessage='Failed to derive the xPub!'
                   />
                 </Text>
                 <Text size='16px' style={{ marginTop: '10px' }}>
                   <FormattedMessage
-                    id='modals.lockbox.showxpubs.notfound2'
+                    id='modals.lockbox.showxpubs.ensurecoinadded'
                     defaultMessage='Ensure {coin} has been added to your Lockbox.'
                     values={{ coin: activeTab.toUpperCase() }}
                   />
@@ -188,11 +189,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('ShowLockboxXPubs'),
+  modalEnhancer('LockboxShowXPubs'),
   connect(
     mapStateToProps,
     mapDispatchToProps
   )
 )
 
-export default enhance(ShowLockboxXPubs)
+export default enhance(LockboxShowXPubs)

@@ -7,7 +7,7 @@ import ShowXpubs from './template'
 
 class ShowXPubsContainer extends React.PureComponent {
   onShowXPubs = () => {
-    this.props.modalActions.showModal('ShowLockboxXPubs', {
+    this.props.modalActions.showModal('LockboxShowXPubs', {
       deviceIndex: this.props.deviceIndex
     })
   }

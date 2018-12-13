@@ -1,7 +1,7 @@
 import LockboxAppManager from './LockboxAppManager'
 import LockboxFirmware from './LockboxFirmware'
 import LockboxSetup from './LockboxSetup'
-import ShowLockboxXPubs from './ShowLockboxXPubs'
+import LockboxShowXPubs from './LockboxShowXPubs'
 import LockboxConnectionPrompt from './LockboxConnectionPrompt'
 
 export {
@@ -9,5 +9,5 @@ export {
   LockboxFirmware,
   LockboxSetup,
   LockboxConnectionPrompt,
-  ShowLockboxXPubs
+  LockboxShowXPubs
 }
