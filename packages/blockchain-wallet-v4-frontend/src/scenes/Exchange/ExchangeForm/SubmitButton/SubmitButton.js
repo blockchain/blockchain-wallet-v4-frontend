@@ -8,8 +8,13 @@ import { Row } from '../Layout'
 import { Button, HeartbeatLoader } from 'blockchain-info-components'
 
 const ButtonRow = styled(Row)`
-  border: 1px solid ${props => props.theme['gray-1']}};
-  border-top: none;
+  padding: 23px 32px;
+`
+const BigButton = styled(Button)`
+  height: 72px;
+  border-radius: 6px;
+  font-size: 17px;
+  font-weight: 400;
 `
 
 class SubmitButton extends React.PureComponent {
@@ -29,7 +34,7 @@ class SubmitButton extends React.PureComponent {
     } = this.props
     return (
       <ButtonRow>
-        <Button
+        <BigButton
           nature='primary'
           fullwidth
           onClick={handleSubmit}
@@ -57,7 +62,7 @@ class SubmitButton extends React.PureComponent {
           ) : (
             <HeartbeatLoader height='20px' width='20px' color='white' />
           )}
-        </Button>
+        </BigButton>
       </ButtonRow>
     )
   }

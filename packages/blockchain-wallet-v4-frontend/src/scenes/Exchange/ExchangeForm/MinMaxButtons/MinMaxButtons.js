@@ -12,14 +12,21 @@ import { Button } from 'blockchain-info-components'
 export const MinMaxButton = styled(Button)`
   width: 48%;
   font-size: 10px;
+  height: 48px;
+  border-radius: 4px;
   justify-content: space-between;
+  border-color: ${props => props.theme['gray-2']};
   > * {
     color: ${props => props.theme['brand-primary']};
+    font-weight: 500;
   }
 `
 export const MinMaxValue = styled.div`
-  font-weight: 600;
+  font-weight: 500;
   font-size: 14px;
+`
+const MixMaxRow = styled(Row)`
+  padding-bottom: 0;
 `
 
 const formatAmount = (isFiat, symbol, value) =>
@@ -39,7 +46,7 @@ export class MinMaxButtons extends React.PureComponent {
     } = this.props
 
     return (
-      <Row>
+      <MixMaxRow>
         <MinMaxButton fullwidth disabled={disabled} onClick={actions.useMin}>
           <FormattedMessage
             id='scenes.exchange.exchangeform.min'
@@ -60,7 +67,7 @@ export class MinMaxButtons extends React.PureComponent {
             {!disabled && formatAmount(maxIsFiat, maxSymbol, maxAmount)}
           </MinMaxValue>
         </MinMaxButton>
-      </Row>
+      </MixMaxRow>
     )
   }
 }

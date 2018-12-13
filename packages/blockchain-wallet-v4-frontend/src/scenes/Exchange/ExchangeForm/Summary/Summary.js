@@ -3,8 +3,7 @@ import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { BigNumber } from 'bignumber.js'
 
-import StringDisplay from 'components/Display/StringDisplay'
-
+import { setMinDecimals } from 'blockchain-wallet-v4/src/utils/bigNumber'
 import { getData } from './selectors'
 import {
   ExchangeText,
@@ -13,6 +12,7 @@ import {
   Delimiter,
   TableRow
 } from 'components/Exchange'
+import StringDisplay from 'components/Display/StringDisplay'
 
 const add = (augend, addend) => new BigNumber(augend).add(addend).toString()
 
@@ -29,36 +29,46 @@ export class Summary extends React.PureComponent {
     } = this.props
     return (
       <React.Fragment>
-        <AmountHeader>
-          <FormattedMessage
-            id='scenes.exchange.exchangeform.summary.deposit'
-            defaultMessage='Exchange {coin}'
-            values={{
-              coin: sourceCoin
-            }}
-          />
-        </AmountHeader>
-        <ExchangeAmount>
-          <StringDisplay>
-            {sourceAmount.map(
-              amount => `${add(amount, sourceFee.source)} ${sourceCoin}`
-            )}
-          </StringDisplay>
-        </ExchangeAmount>
-        <AmountHeader>
-          <FormattedMessage
-            id='scenes.exchange.exchangeform.summary.receive'
-            defaultMessage='Receive {coin}'
-            values={{
-              coin: targetCoin
-            }}
-          />
-        </AmountHeader>
-        <ExchangeAmount>
-          <StringDisplay>
-            {targetAmount.map(amount => `${amount} ${targetCoin}`)}
-          </StringDisplay>
-        </ExchangeAmount>
+        <TableRow>
+          <AmountHeader>
+            <FormattedMessage
+              id='scenes.exchange.exchangeform.summary.deposit'
+              defaultMessage='Exchange {coin}'
+              values={{
+                coin: sourceCoin
+              }}
+            />
+          </AmountHeader>
+          <ExchangeAmount>
+            <StringDisplay>
+              {sourceAmount.map(
+                amount =>
+                  `${setMinDecimals(
+                    add(amount, sourceFee.source),
+                    2
+                  )} ${sourceCoin}`
+              )}
+            </StringDisplay>
+          </ExchangeAmount>
+        </TableRow>
+        <TableRow>
+          <AmountHeader>
+            <FormattedMessage
+              id='scenes.exchange.exchangeform.summary.receive'
+              defaultMessage='Receive {coin}'
+              values={{
+                coin: targetCoin
+              }}
+            />
+          </AmountHeader>
+          <ExchangeAmount>
+            <StringDisplay>
+              {targetAmount.map(
+                amount => `${setMinDecimals(amount, 2)} ${targetCoin}`
+              )}
+            </StringDisplay>
+          </ExchangeAmount>
+        </TableRow>
         <Delimiter />
         <TableRow>
           <ExchangeText>
@@ -67,9 +77,9 @@ export class Summary extends React.PureComponent {
               defaultMessage='Network Fee'
             />
           </ExchangeText>
-          <ExchangeText weight={300}>
-            {sourceFee.source} {sourceCoin}
-          </ExchangeText>
+          <ExchangeAmount>
+            {setMinDecimals(sourceFee.source, 2)} {sourceCoin}
+          </ExchangeAmount>
         </TableRow>
         <TableRow>
           <ExchangeText>
@@ -78,11 +88,13 @@ export class Summary extends React.PureComponent {
               defaultMessage='~ Total Value'
             />
           </ExchangeText>
-          <ExchangeText weight={300}>
+          <ExchangeAmount>
             <StringDisplay>
-              {targetFiat.map(amount => `${amount} ${currency}`)}
+              {targetFiat.map(
+                amount => `${setMinDecimals(amount, 2)} ${currency}`
+              )}
             </StringDisplay>
-          </ExchangeText>
+          </ExchangeAmount>
         </TableRow>
       </React.Fragment>
     )
