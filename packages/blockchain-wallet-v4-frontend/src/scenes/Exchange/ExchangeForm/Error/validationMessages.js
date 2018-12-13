@@ -9,7 +9,7 @@ import LimitsUpdateLink from './LimitsUpdateLink'
 import MaximumAmountLink from './MaximumAmountLink'
 import MinimumAmountLink from './MinimumAmountLink'
 import CheckConfirmationLink from './CheckConfirmationLink'
-import { formatAmount } from './template.success'
+import { formatAmount } from '../template.success'
 
 const {
   NO_LIMITS_ERROR,
@@ -45,7 +45,7 @@ const Wrapper = styled.div`
   }
 `
 
-const NoAdviceMessage = () => (
+export const NoAdviceMessage = () => (
   <Text size='12px' weight={300} color='error'>
     <FormattedMessage
       id='scenes.exchange.exchangeform.error.noadvicemessage'
@@ -54,7 +54,7 @@ const NoAdviceMessage = () => (
   </Text>
 )
 
-const NoLimitsMessage = () => (
+export const NoLimitsMessage = () => (
   <Wrapper>
     <Text size='12px' weight={300} color='error'>
       <FormattedMessage
@@ -67,7 +67,7 @@ const NoLimitsMessage = () => (
   </Wrapper>
 )
 
-const MinimumNoLinkMessage = ({ min }) => (
+export const MinimumNoLinkMessage = ({ min }) => (
   <Wrapper>
     <Text size='12px' weight={300} color='error'>
       {min ? (
@@ -92,7 +92,7 @@ const MinimumNoLinkMessage = ({ min }) => (
   </Wrapper>
 )
 
-const ReachedDailyLimitMessage = () => (
+export const ReachedDailyLimitMessage = () => (
   <Wrapper>
     <Text size='12px' weight={300} color='error'>
       <FormattedMessage
@@ -103,7 +103,7 @@ const ReachedDailyLimitMessage = () => (
   </Wrapper>
 )
 
-const ReachedWeeklyLimitMessage = () => (
+export const ReachedWeeklyLimitMessage = () => (
   <Wrapper>
     <Text size='12px' weight={300} color='error'>
       <FormattedMessage
@@ -114,7 +114,7 @@ const ReachedWeeklyLimitMessage = () => (
   </Wrapper>
 )
 
-const ReachedAnnualLimitMessage = () => (
+export const ReachedAnnualLimitMessage = () => (
   <Wrapper>
     <Text size='12px' weight={300} color='error'>
       <FormattedMessage
@@ -125,7 +125,7 @@ const ReachedAnnualLimitMessage = () => (
   </Wrapper>
 )
 
-const MinimumAmountMessage = () => (
+export const MinimumAmountMessage = () => (
   <Wrapper>
     <Text size='12px' weight={300} color='error'>
       <FormattedMessage
@@ -138,7 +138,7 @@ const MinimumAmountMessage = () => (
   </Wrapper>
 )
 
-const MaximumAmountMessage = () => (
+export const MaximumAmountMessage = () => (
   <Wrapper>
     <Text size='12px' weight={300} color='error'>
       <FormattedMessage
@@ -151,7 +151,7 @@ const MaximumAmountMessage = () => (
   </Wrapper>
 )
 
-const BalanceLimitMessage = () => (
+export const BalanceLimitMessage = () => (
   <Wrapper>
     <Text size='12px' weight={300} color='error'>
       <FormattedMessage
@@ -164,7 +164,7 @@ const BalanceLimitMessage = () => (
   </Wrapper>
 )
 
-const DailyLimitMessage = () => (
+export const DailyLimitMessage = () => (
   <Wrapper>
     <Text size='12px' weight={300} color='error'>
       <FormattedMessage
@@ -177,7 +177,7 @@ const DailyLimitMessage = () => (
   </Wrapper>
 )
 
-const WeeklyLimitMessage = () => (
+export const WeeklyLimitMessage = () => (
   <Wrapper>
     <Text size='12px' weight={300} color='error'>
       <FormattedMessage
@@ -190,7 +190,7 @@ const WeeklyLimitMessage = () => (
   </Wrapper>
 )
 
-const AnnualLimitMessage = () => (
+export const AnnualLimitMessage = () => (
   <Wrapper>
     <Text size='12px' weight={300} color='error'>
       <FormattedMessage
@@ -203,7 +203,7 @@ const AnnualLimitMessage = () => (
   </Wrapper>
 )
 
-const OrderLimitMessage = () => (
+export const OrderLimitMessage = () => (
   <Wrapper>
     <Text size='12px' weight={300} color='error'>
       <FormattedMessage
@@ -216,7 +216,7 @@ const OrderLimitMessage = () => (
   </Wrapper>
 )
 
-const LatestTxMessage = () => (
+export const LatestTxMessage = () => (
   <Wrapper>
     <Text size='12px' weight={300} color='error'>
       <FormattedMessage
@@ -234,7 +234,7 @@ const LatestTxMessage = () => (
   </Wrapper>
 )
 
-const LatestTxFetchFailedMessage = () => (
+export const LatestTxFetchFailedMessage = () => (
   <Wrapper>
     <Text size='12px' weight={300} color='error'>
       <FormattedMessage
@@ -252,7 +252,7 @@ const LatestTxFetchFailedMessage = () => (
   </Wrapper>
 )
 
-const CreateTargetXlmAccountMessage = () => (
+export const CreateTargetXlmAccountMessage = () => (
   <Wrapper>
     <Text size='12px' weight={300} color='error'>
       <FormattedMessage
@@ -263,7 +263,7 @@ const CreateTargetXlmAccountMessage = () => (
   </Wrapper>
 )
 
-const NoSourceXlmAccountMessage = () => (
+export const NoSourceXlmAccountMessage = () => (
   <Wrapper>
     <Text size='12px' weight={300} color='error'>
       <FormattedMessage
@@ -274,7 +274,7 @@ const NoSourceXlmAccountMessage = () => (
   </Wrapper>
 )
 
-const ReserveOverflowMessage = () => (
+export const ReserveOverflowMessage = () => (
   <Wrapper>
     <Text size='12px' weight={300} color='error'>
       <FormattedMessage

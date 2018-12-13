@@ -705,6 +705,7 @@ export default ({ api, coreSagas, networks }) => {
       yield all(
         pairs.map(({ pair }) => put(actions.modules.rates.removeAdvice(pair)))
       )
+      yield put(A.setSourceFee({ source: 0, target: 0 }))
       yield put(actions.modules.rates.unsubscribeFromRates())
       yield put(actions.form.reset(EXCHANGE_FORM))
     } catch (e) {

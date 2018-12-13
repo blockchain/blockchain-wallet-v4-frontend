@@ -1,20 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { compose, isEmpty } from 'ramda'
+import { compose, bindActionCreators } from 'redux'
+import { isEmpty } from 'ramda'
+import { reduxForm } from 'redux-form'
 
 import { debounce } from 'utils/helpers'
 import { actions, model } from 'data'
-import {
-  getData,
-  getMin,
-  getMax,
-  getTargetFee,
-  getSourceFee,
-  canUseExchange,
-  showError,
-  getTxError
-} from './selectors'
+import { getData, canUseExchange } from './selectors'
 
 import Loading from './template.loading'
 import Success from './template.success'
@@ -32,9 +24,17 @@ class ExchangeForm extends React.Component {
     if (canUseExchange) actions.initialize(from, to)
   }
 
+  shouldComponentUpdate (nextProps) {
+    return (
+      nextProps.data !== this.props.data ||
+      nextProps.canUseExchange !== this.props.canUseExchange
+    )
+  }
+
   componentDidUpdate (prevProps) {
-    const { canUseExchange, actions } = this.props
-    if (!prevProps.canUseExchange && canUseExchange) actions.initialize()
+    const { canUseExchange, actions, from, to } = this.props
+    if (!prevProps.canUseExchange && canUseExchange)
+      actions.initialize(from, to)
   }
 
   componentWillUnmount () {
@@ -69,10 +69,6 @@ class ExchangeForm extends React.Component {
       formActions,
       logExchangeClick,
       data,
-      min,
-      max,
-      targetFee,
-      sourceFee,
       canUseExchange,
       showError,
       txError
@@ -84,16 +80,12 @@ class ExchangeForm extends React.Component {
         ) : (
           <Success
             {...value}
-            min={min}
-            max={max}
-            targetFee={targetFee}
-            sourceFee={sourceFee}
             canUseExchange={canUseExchange}
             showError={showError}
             txError={txError}
             handleMaximum={actions.firstStepMaximumClicked}
             handleMinimum={actions.firstStepMinimumClicked}
-            onSubmit={compose(
+            handleSubmit={compose(
               logExchangeClick,
               actions.showConfirmation
             )}
@@ -116,16 +108,10 @@ class ExchangeForm extends React.Component {
               actions.changeFix,
               swapBaseAndCounter.bind(null, value.fix)
             )}
-            swapBaseAndCounter={compose(
-              actions.swapBaseAndCounter,
-              swapBaseAndCounter.bind(null, value.fix)
-            )}
             swapCoinAndFiat={compose(
               actions.changeFix,
               swapCoinAndFiat.bind(null, value.fix)
             )}
-            useMin={actions.useMin}
-            useMax={actions.useMax}
           />
         ),
       Failure: message => (
@@ -139,12 +125,6 @@ class ExchangeForm extends React.Component {
 
 const mapStateToProps = state => ({
   canUseExchange: canUseExchange(state),
-  min: getMin(state),
-  max: getMax(state),
-  targetFee: getTargetFee(state),
-  sourceFee: getSourceFee(state),
-  showError: showError(state),
-  txError: getTxError(state),
   data: getData(state)
 })
 
@@ -155,7 +135,15 @@ const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ExchangeForm)
+const enhance = compose(
+  reduxForm({
+    form: EXCHANGE_FORM,
+    destroyOnUnmount: false
+  }),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)
+
+export default enhance(ExchangeForm)
