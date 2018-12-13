@@ -6,6 +6,7 @@ import { combineReducers } from 'redux'
 
 import { actions, actionTypes } from 'data'
 import { KYC_STATES, INITIAL_TIERS } from 'data/modules/profile/model'
+import { coreReducers, paths } from 'blockchain-wallet-v4/src'
 import {
   KYC_MODAL,
   USER_EXISTS_MODAL
@@ -16,7 +17,9 @@ import identityVerificationReducer from 'data/components/identityVerification/re
 import { eeaCountryCodes } from 'services/IdentityVerificationService'
 import {
   getInvitations,
-  getCountryCode
+  getCountryCode,
+  getEmailVerified,
+  getSmsVerified
 } from 'blockchain-wallet-v4/src/redux/settings/selectors'
 import identityVerificationSaga from 'data/components/identityVerification/sagaRegister'
 import { getUserId } from 'blockchain-wallet-v4/src/redux/kvStore/userCredentials/selectors'
@@ -34,6 +37,8 @@ jest.mock('blockchain-wallet-v4/src/redux/wallet/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/kvStore/userCredentials/selectors')
 getInvitations.mockImplementation(() => Remote.of({ kyc: true }))
 getCountryCode.mockImplementation(() => Remote.of(head(eeaCountryCodes)))
+getEmailVerified.mockImplementation(() => Remote.of(0))
+getSmsVerified.mockImplementation(() => Remote.of(0))
 
 const BuySellStub = () => <div />
 const ExchangeStub = () => <div />
@@ -51,6 +56,7 @@ describe('Profile Settings', () => {
     spy: spyReducer,
     modals: modalsReducer,
     profile: profileReducer,
+    [paths.settingsPath]: coreReducers.settings,
     components: combineReducers({
       identityVerification: identityVerificationReducer
     })
@@ -65,6 +71,7 @@ describe('Profile Settings', () => {
         kycState: KYC_STATES.NONE
       })
     )
+    store.dispatch(actions.core.settings.setMobileVerified())
     wrapper = mount(
       <TestBed withRouter={true} store={store}>
         <Switch>
@@ -89,7 +96,7 @@ describe('Profile Settings', () => {
     })
   })
 
-  describe('banner', () => {
+  describe('page', () => {
     it('should render Tier Cards', () => {
       expect(wrapper.find(TierCard)).toHaveLength(2)
     })

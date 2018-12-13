@@ -1,10 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { values } from 'ramda'
 import styled from 'styled-components'
-
-import { KYC_STATES } from 'data/modules/profile/model'
 
 import {
   Icon,
@@ -180,7 +177,6 @@ const IdentityVerification = () => {
 }
 
 IdentityVerification.propTypes = {
-  kycState: PropTypes.oneOf(values(KYC_STATES)).isRequired,
   verifyIdentity: PropTypes.func.isRequired
 }
 
