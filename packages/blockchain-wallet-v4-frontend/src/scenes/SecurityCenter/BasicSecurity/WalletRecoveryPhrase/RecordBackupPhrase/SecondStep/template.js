@@ -54,7 +54,14 @@ const SecondStep = props => {
         })}
       </Container>
       <Buttons>
-        {step === 1 ? null : (
+        {step === 1 ? (
+          <Button nature='empty' onClick={props.handleClose}>
+            <FormattedMessage
+              id='scenes.security.2fa.cancel'
+              defaultMessage='Cancel'
+            />
+          </Button>
+        ) : (
           <Button onClick={handleClickPrevious} nature='empty'>
             <FormattedMessage
               id='modals.recoveryphrase.secondstep.prevfourwords'
@@ -73,7 +80,7 @@ const SecondStep = props => {
           <Button
             onClick={handleClickNext}
             style={spacing('ml-15')}
-            nature='empty-secondary'
+            nature='primary'
           >
             <FormattedMessage
               id='modals.recoveryphrase.secondstep.nextfourwords'

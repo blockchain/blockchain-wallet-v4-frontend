@@ -24,7 +24,7 @@ const Button = styled.div`
 `
 const DropdownIcon = styled(Icon)`
   cursor: pointer;
-  padding-left: 2px;
+  padding-left: 4px;
 `
 const DropdownList = styled.ul`
   background-clip: padding-box;
@@ -90,7 +90,7 @@ const Dropdown = props => {
       </DropdownList>
       <ButtonContainer color={color} onClick={handleClick}>
         <Button>{selectedComponent}</Button>
-        <DropdownIcon name='down-arrow' size='8px' />
+        <DropdownIcon name='down-arrow' size='12px' />
       </ButtonContainer>
     </Wrapper>
   )

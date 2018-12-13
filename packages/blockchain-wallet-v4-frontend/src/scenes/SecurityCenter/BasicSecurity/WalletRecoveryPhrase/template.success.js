@@ -32,7 +32,7 @@ const IconAndHeaderContainer = styled.div`
 const BackupButton = styled(Button)`
   width: 100px;
   font-size: 12px;
-  min-width: 0px;
+  min-width: 0;
   height: auto;
   span {
     white-space: initial;
@@ -43,13 +43,13 @@ const BackupButton = styled(Button)`
   }
   @media (min-width: 1224px) {
     width: 140px;
-    min-width: 0px;
+    min-width: 0;
     font-size: 14px;
   }
 `
 
 const WalletRecoveryPhrase = props => {
-  const { ui, recoveryPhrase, changeDescription, data, alone } = props
+  const { ui, recoveryPhrase, changeDescription, data } = props
   const { isMnemonicVerified } = data
 
   const buttonHelper = () => {
@@ -57,7 +57,7 @@ const WalletRecoveryPhrase = props => {
       <SecurityComponent>{components}</SecurityComponent>
     )
     if (!ui.nextStepToggled) {
-      if (!alone && isMnemonicVerified) {
+      if (!ui.descriptionToggled && isMnemonicVerified) {
         const againBtn = (
           <BackupButton nature='primary' onClick={props.toggleNextStep}>
             <FormattedMessage
@@ -67,7 +67,7 @@ const WalletRecoveryPhrase = props => {
           </BackupButton>
         )
         return securityComponent(againBtn)
-      } else if (!alone) {
+      } else if (!ui.descriptionToggled) {
         const backupBtn = (
           <BackupButton nature='primary' onClick={props.toggleNextStep}>
             <FormattedMessage
@@ -119,9 +119,8 @@ const WalletRecoveryPhrase = props => {
             </SecurityDescription>
           </SecuritySummary>
         </IconAndHeaderContainer>
-
         {buttonHelper()}
-        {alone || ui.nextStepToggled ? (
+        {ui.nextStepToggled && (
           <React.Fragment>
             <div />
             <RecordBackupPhrase
@@ -129,13 +128,11 @@ const WalletRecoveryPhrase = props => {
               phrase={recoveryPhrase}
               triggerCopyChange={changeDescription}
               isMnemonicVerified={isMnemonicVerified}
-              goBackOnSuccess={props.goBackOnSuccess}
-              inline={!alone}
             />
           </React.Fragment>
-        ) : null}
+        )}
       </SecurityGridContainer>
-      {alone ? (
+      {ui.nextStepToggled && (
         <SecurityTipContainer>
           <Text
             color='brand-primary'
@@ -155,7 +152,7 @@ const WalletRecoveryPhrase = props => {
             />
           </Text>
         </SecurityTipContainer>
-      ) : null}
+      )}
     </React.Fragment>
   )
 }

@@ -11,7 +11,7 @@ const TabMenuTransactionStatus = props => {
     <TabMenu>
       {statuses.indexOf('') > -1 && (
         <TabMenuItem
-          selected={value === ''}
+          className={value === '' ? 'active' : ''}
           onClick={() => handleClick('')}
           data-e2e='transactionTabMenuAll'
         >
@@ -23,7 +23,7 @@ const TabMenuTransactionStatus = props => {
       )}
       {statuses.indexOf('received') > -1 && (
         <TabMenuItem
-          selected={value === 'received'}
+          className={value === 'received' ? 'active' : ''}
           onClick={() => handleClick('received')}
           data-e2e='transactionTabMenuReceived'
         >
@@ -35,7 +35,7 @@ const TabMenuTransactionStatus = props => {
       )}
       {statuses.indexOf('sent') > -1 && (
         <TabMenuItem
-          selected={value === 'sent'}
+          className={value === 'sent' ? 'active' : ''}
           onClick={() => handleClick('sent')}
           data-e2e='transactionTabMenuSent'
         >
@@ -47,7 +47,7 @@ const TabMenuTransactionStatus = props => {
       )}
       {statuses.indexOf('transferred') > -1 && (
         <TabMenuItem
-          selected={value === 'transferred'}
+          className={value === 'transferred' ? 'active' : ''}
           onClick={() => handleClick('transferred')}
           data-e2e='transactionTabMenuTransferred'
         >

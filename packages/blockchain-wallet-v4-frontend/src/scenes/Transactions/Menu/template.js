@@ -56,7 +56,7 @@ const Controls = styled.div`
 `
 const Addresses = styled.div`
   width: 100%;
-  margin-left: 0px;
+  margin-left: 0;
   margin-right: 15px;
   @media (min-width: 1200px) {
     width: 300px;
