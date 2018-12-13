@@ -67,7 +67,13 @@ export const promptForLockbox = function*(
   if (marquees && !Array.isArray(marquees)) {
     throw new Error('MARQUEES_NEEDS_TO_BE_ARRAY')
   }
-  yield put(actions.modals.showModal('PromptLockbox', { coin, marquees, isTx }))
+  yield put(
+    actions.modals.showModal('LockboxConnectionPrompt', {
+      coin,
+      marquees,
+      isTx
+    })
+  )
   yield put(actions.components.lockbox.pollForDeviceApp(coin, null, deviceType))
   let { canceled } = yield race({
     response: take(actionTypes.components.lockbox.SET_CONNECTION_INFO),

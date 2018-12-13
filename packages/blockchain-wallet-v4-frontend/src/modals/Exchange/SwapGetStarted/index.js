@@ -73,7 +73,7 @@ class SwapGetStarted extends React.PureComponent {
             />
           </Text>
         </Header>
-        <Body>
+        <Body data-e2e='swapGetStarted'>
           <Text size='18px' weight={400}>
             <FormattedMessage
               defaultMessage='Announcing Swap by Blockchain - the faster, smarter way to Swap your crypto.'

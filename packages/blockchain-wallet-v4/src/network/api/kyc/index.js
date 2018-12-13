@@ -26,32 +26,27 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
       cancelToken
     })
 
-  const fetchOnfidoSDKKey = () =>
-    authorizedGet({
-      url: nabuUrl,
-      endPoint: '/kyc/credentials/ONFIDO',
-      headers: {
-        'x-client-type': 'WEB'
-      }
-    })
-
   const fetchUploadData = token =>
     get({
       url: nabuUrl,
       endPoint: `/upload/data/${token}`
     })
 
-  const syncOnfido = (applicantId, isSelfie) => {
-    return authorizedPost({
+  const fetchVeriffUrl = () =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/kyc/credentials/veriff',
+      headers: { 'x-client-type': 'WEB' }
+    })
+
+  const syncVeriff = applicantId =>
+    authorizedPost({
       url: nabuUrl,
       endPoint: '/kyc/verifications',
       contentType: 'application/json',
       data: { applicantId },
-      headers: {
-        'x-client-type': isSelfie ? 'WEB' : 'APP'
-      }
+      headers: { 'x-client-type': 'WEB' }
     })
-  }
 
   const uploadDocuments = (token, data) =>
     post({
@@ -81,9 +76,9 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
     getStates,
     fetchKycAddresses,
     fetchKycConfig,
-    fetchOnfidoSDKKey,
     fetchUploadData,
-    syncOnfido,
+    fetchVeriffUrl,
+    syncVeriff,
     sendDeeplink,
     uploadDocuments
   }

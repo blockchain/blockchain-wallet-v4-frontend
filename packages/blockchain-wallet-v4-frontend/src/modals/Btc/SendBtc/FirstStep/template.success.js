@@ -184,6 +184,7 @@ const FirstStep = props => {
                 component={TextBox}
                 validate={[required, validBitcoinAddress]}
                 autoFocus
+                data-e2e='sendBtcAddressTextBox'
               />
             )}
             <QRCodeCapture

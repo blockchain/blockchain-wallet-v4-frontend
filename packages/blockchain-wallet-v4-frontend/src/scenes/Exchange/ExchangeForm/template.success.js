@@ -202,6 +202,7 @@ const Success = ({
             <SwapReceiveRow>
               <Cell>
                 <ActiveCurrencyButton
+                  data-e2e='exchangeExchangeRadioButton'
                   onClick={() => {
                     if (!sourceActive) swapFix()
                   }}
@@ -209,6 +210,7 @@ const Success = ({
                   coin={sourceCoin.toLowerCase()}
                 />
                 <ClickableText
+                  data-e2e='exchangeExchangeRadioText'
                   onClick={() => {
                     if (!sourceActive) swapFix()
                   }}
@@ -225,6 +227,7 @@ const Success = ({
               <Cell>
                 {
                   <ActiveCurrencyButton
+                    data-e2e='exchangeReceiveRadioButton'
                     onClick={() => {
                       if (!targetActive) swapFix()
                     }}
@@ -233,6 +236,7 @@ const Success = ({
                   />
                 }
                 <ClickableText
+                  data-e2e='exchangeReceiveRadioText'
                   onClick={() => {
                     if (!targetActive) swapFix()
                   }}
@@ -278,6 +282,7 @@ const Success = ({
                 component={AmountTextBox}
                 fiatActive={fiatActive}
                 maxFontSize='72px'
+                data-e2e='exchangeAmountInput'
               />
               {!fiatActive && <CurrencyBox>{inputSymbol}</CurrencyBox>}
             </AmountRow>
@@ -306,6 +311,7 @@ const Success = ({
                 onClick={() => {
                   if (!swapDisabled) swapCoinAndFiat()
                 }}
+                data-e2e='exchangeCoinFiatSwapButton'
               />
             </ComplementaryRow>
             <Error />

@@ -206,7 +206,12 @@ const ExchangeConfirm = ({
       </Note>
     </ConfirmWrapper>
     <ErrorRow>{error && getErrorMessage(error)}</ErrorRow>
-    <ExchangeButton type='submit' nature='primary' disabled={submitting}>
+    <ExchangeButton
+      type='submit'
+      nature='primary'
+      disabled={submitting}
+      data-e2e='exchangeCompleteOrderButton'
+    >
       {!submitting && (
         <FormattedMessage
           id='scenes.exchange.confirm.submit'
@@ -217,7 +222,11 @@ const ExchangeConfirm = ({
         <HeartbeatLoader height='20px' width='20px' color='white' />
       )}
     </ExchangeButton>
-    <CancelButton disabled={submitting} onClick={onBack}>
+    <CancelButton
+      disabled={submitting}
+      onClick={onBack}
+      data-e2e='exchangeCancelOrderButton'
+    >
       {!submitting && (
         <FormattedMessage
           id='scenes.exchange.confirm.cancel'

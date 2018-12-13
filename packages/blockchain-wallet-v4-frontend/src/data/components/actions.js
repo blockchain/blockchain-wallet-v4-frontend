@@ -11,7 +11,6 @@ import * as layoutWallet from './layoutWallet/actions'
 import * as lockbox from './lockbox/actions'
 import * as login from './login/actions'
 import * as manageAddresses from './manageAddresses/actions'
-import * as onfido from './onfido/actions'
 import * as priceChart from './priceChart/actions'
 import * as priceTicker from './priceTicker/actions'
 import * as refresh from './refresh/actions'
@@ -28,6 +27,7 @@ import * as signMessage from './signMessage/actions'
 import * as swapGetStarted from './swapGetStarted/actions'
 import * as transactionReport from './transactionReport/actions'
 import * as uploadDocuments from './uploadDocuments/actions'
+import * as veriff from './veriff/actions'
 
 export {
   activityList,
@@ -40,7 +40,6 @@ export {
   identityVerification,
   importBtcAddress,
   manageAddresses,
-  onfido,
   layoutWallet,
   lockbox,
   login,
@@ -59,5 +58,6 @@ export {
   signMessage,
   swapGetStarted,
   transactionReport,
-  uploadDocuments
+  uploadDocuments,
+  veriff
 }

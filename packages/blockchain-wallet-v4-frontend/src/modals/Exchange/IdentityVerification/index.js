@@ -125,7 +125,7 @@ class IdentityVerification extends React.PureComponent {
   }
 
   getStepComponent = step => {
-    const { actions, modalActions, position, total } = this.props
+    const { actions } = this.props
     if (step === STEPS.personal)
       return (
         <Personal
@@ -142,21 +142,7 @@ class IdentityVerification extends React.PureComponent {
         />
       )
 
-    if (step === STEPS.verify)
-      return (
-        <Verify
-          handleSubmit={modalActions.showModal.bind(
-            null,
-            'Onfido',
-            {
-              position: position + 1,
-              total: total + 1
-            },
-            {}
-          )}
-          onBack={actions.goToPrevStep}
-        />
-      )
+    if (step === STEPS.verify) return <Verify onBack={actions.goToPrevStep} />
   }
 
   render () {
@@ -170,6 +156,7 @@ class IdentityVerification extends React.PureComponent {
         position={position}
         total={total}
         onClose={this.handleClose}
+        data-e2e='identityVerificationModal'
       >
         <StepHeader tray paddingHorizontal='15%' onClose={this.handleClose}>
           <HeaderWrapper>
@@ -200,11 +187,7 @@ IdentityVerification.defaultProps = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(
-    actions.components.identityVerification,
-    dispatch
-  ),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  actions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 
 const enhance = compose(

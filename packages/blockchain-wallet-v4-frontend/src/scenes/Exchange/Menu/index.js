@@ -29,7 +29,10 @@ export const MenuTop = ({ historySelected, showGetStarted }) =>
     <Wrapper>
       <TabMenu>
         <LinkContainer to='/swap' exact>
-          <TabMenuItem selected={!historySelected}>
+          <TabMenuItem
+            selected={!historySelected}
+            data-e2e='exchangeTabMenuExchange'
+          >
             <FormattedMessage
               id='scenes.exchange.menutop.swap'
               defaultMessage='Swap'
@@ -37,7 +40,10 @@ export const MenuTop = ({ historySelected, showGetStarted }) =>
           </TabMenuItem>
         </LinkContainer>
         <LinkContainer to='/swap/history'>
-          <TabMenuItem selected={historySelected}>
+          <TabMenuItem
+            selected={historySelected}
+            data-e2e='exchangeTabMenuOrderHistory'
+          >
             <FormattedMessage
               id='scenes.exchange.menutop.history'
               defaultMessage='Order History'
