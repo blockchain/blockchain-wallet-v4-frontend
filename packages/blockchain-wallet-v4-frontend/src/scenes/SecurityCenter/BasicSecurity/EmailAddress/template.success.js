@@ -13,7 +13,7 @@ import {
   IconContainer
 } from 'components/Security'
 
-import ChangeEmailSteps from '../Components/ChangeEmailSteps'
+import ChangeEmailSteps from './ChangeEmailSteps'
 import media from 'services/ResponsiveService'
 
 const EmailExplanation = styled.div``
@@ -83,11 +83,10 @@ const EmailAddress = props => {
   const { email, verified } = data
   const isVerified = verified === 1
 
-  const uiHelper = () =>
-    !uiState.verifyToggled && !uiState.changeEmailToggled && !props.alone
+  const uiHelper = () => !uiState.verifyToggled && !uiState.isEditing
 
   const securityHeaderHelper = () => {
-    if (!uiState.verifyToggled && !uiState.changeEmailToggled && !props.alone) {
+    if (!uiState.verifyToggled && !uiState.isEditing) {
       if (isVerified) {
         return (
           <FormattedMessage
@@ -103,7 +102,7 @@ const EmailAddress = props => {
         />
       )
     }
-    if (uiState.changeEmailToggled) {
+    if (uiState.isEditing) {
       return (
         <FormattedMessage
           id='scenes.security.email.verifiedemail.change'
@@ -120,7 +119,7 @@ const EmailAddress = props => {
   }
 
   const securityDescriptionHelper = () => {
-    if (!uiState.verifyToggled && !uiState.changeEmailToggled && !props.alone) {
+    if (!uiState.verifyToggled && !uiState.isEditing) {
       if (isVerified) {
         return (
           <React.Fragment>
@@ -144,7 +143,7 @@ const EmailAddress = props => {
         </EmailExplanation>
       )
     }
-    if (uiState.changeEmailToggled) {
+    if (uiState.isEditing) {
       return (
         <FormattedMessage
           id='scenes.security.email.yourverifiedemailaddress'
@@ -155,9 +154,8 @@ const EmailAddress = props => {
   }
 
   const renderFields = () => {
-    if (!uiState.verifyToggled && !uiState.changeEmailToggled && !props.alone)
-      return null
-    else if (uiState.changeEmailToggled) {
+    if (!uiState.verifyToggled && !uiState.isEditing) return null
+    else if (uiState.isEditing) {
       return (
         <ChangeEmailSteps
           handleEmailChangeCancel={props.handleEmailChangeCancel}
