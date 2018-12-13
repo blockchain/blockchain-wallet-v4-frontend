@@ -5,7 +5,6 @@ import { withRouter, Route, Redirect, Switch } from 'react-router-dom'
 import Menu from './Menu'
 import Btc from './Btc'
 import BtcManage from './Btc/ManageAddresses'
-import Bsv from './Bsv'
 import Bch from './Bch'
 
 const Wrapper = styled.div`
@@ -31,7 +30,6 @@ class AddressesContainer extends React.PureComponent {
             />
             <Route path='/settings/addresses/btc' component={Btc} exact />
             <Route path='/settings/addresses/bch' component={Bch} />
-            <Route path='/settings/addresses/bsv' component={Bsv} />
             <Redirect from='/settings/addresses' to='/settings/addresses/btc' />
           </Switch>
         </ContentWrapper>
