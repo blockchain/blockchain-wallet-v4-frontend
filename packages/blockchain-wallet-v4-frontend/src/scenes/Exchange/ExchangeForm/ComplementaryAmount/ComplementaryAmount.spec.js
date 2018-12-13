@@ -44,7 +44,7 @@ describe('Exchange RatesBox', () => {
         complementaryAmount={Remote.of(STUB_AMOUNT)}
       />
     )
-    expect(component.find('StringDisplayContainer').text()).toBe('$100')
+    expect(component.find('StringDisplayContainer').text()).toBe('$100.00')
   })
 
   it('should render crypto value correctly', () => {
@@ -55,6 +55,6 @@ describe('Exchange RatesBox', () => {
         complementaryAmount={Remote.of(STUB_AMOUNT)}
       />
     )
-    expect(component.find('StringDisplayContainer').text()).toBe('100 BTC')
+    expect(component.find('StringDisplayContainer').text()).toBe('100.00 BTC')
   })
 })

@@ -70,7 +70,7 @@ describe('Profile Settings', () => {
         <Switch>
           <Route exact path='/' component={ProfileContainer} />
           <Route path='/buy-sell' component={BuySellStub} />
-          <Route path='/exchange' component={ExchangeStub} />
+          <Route path='/swap' component={ExchangeStub} />
         </Switch>
       </TestBed>
     )
@@ -163,14 +163,6 @@ describe('Profile Settings', () => {
           })
         )
         wrapper.update()
-      })
-
-      it('should lead to exchange if user can not trade', () => {
-        wrapper
-          .find(IdentityVerification)
-          .find('button')
-          .simulate('click', { button: 0 })
-        expect(wrapper.find(ExchangeStub)).toHaveLength(1)
       })
     })
   })

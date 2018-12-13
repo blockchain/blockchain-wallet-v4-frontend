@@ -10,7 +10,11 @@ const TabMenuTransactionStatus = props => {
   return (
     <TabMenu>
       {statuses.indexOf('') > -1 && (
-        <TabMenuItem selected={value === ''} onClick={() => handleClick('')} data-e2e='transactionTabMenuAll'>
+        <TabMenuItem
+          selected={value === ''}
+          onClick={() => handleClick('')}
+          data-e2e='transactionTabMenuAll'
+        >
           <FormattedMessage
             id='components.form.tabmenutransactionstatus.all'
             defaultMessage='All'

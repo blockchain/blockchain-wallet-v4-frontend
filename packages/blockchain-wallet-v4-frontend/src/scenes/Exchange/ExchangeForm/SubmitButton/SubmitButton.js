@@ -8,8 +8,13 @@ import { Row } from '../Layout'
 import { Button, HeartbeatLoader } from 'blockchain-info-components'
 
 const ButtonRow = styled(Row)`
-  border: 1px solid ${props => props.theme['gray-1']}};
-  border-top: none;
+  padding: 23px 32px;
+`
+const BigButton = styled(Button)`
+  height: 72px;
+  border-radius: 6px;
+  font-size: 17px;
+  font-weight: 400;
 `
 
 class SubmitButton extends React.PureComponent {
@@ -17,8 +22,6 @@ class SubmitButton extends React.PureComponent {
     const {
       blockLockbox,
       disabled,
-      sourceCoin,
-      targetCoin,
       txError,
       volume,
       asyncValidating,
@@ -29,7 +32,7 @@ class SubmitButton extends React.PureComponent {
     } = this.props
     return (
       <ButtonRow>
-        <Button
+        <BigButton
           nature='primary'
           fullwidth
           onClick={handleSubmit}
@@ -47,17 +50,13 @@ class SubmitButton extends React.PureComponent {
         >
           {!disabled && !asyncValidating && !submitting ? (
             <FormattedMessage
-              id='scenes.exchange.exchangeform.exchange'
-              defaultMessage='Exchange {source} for {target}'
-              values={{
-                source: sourceCoin,
-                target: targetCoin
-              }}
+              id='scenes.exchange.exchangeform.swap'
+              defaultMessage='Swap'
             />
           ) : (
             <HeartbeatLoader height='20px' width='20px' color='white' />
           )}
-        </Button>
+        </BigButton>
       </ButtonRow>
     )
   }

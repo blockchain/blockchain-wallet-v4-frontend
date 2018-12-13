@@ -9,8 +9,8 @@ describe('MenuTop Component', () => {
   it('should render with correct links and without error', () => {
     const component = shallow(<MenuTop />)
     const LinkContainer = component.find('LinkContainer')
-    expect(LinkContainer.at(0).prop('to')).toBe('/exchange')
-    expect(LinkContainer.at(1).prop('to')).toBe('/exchange/history')
+    expect(LinkContainer.at(0).prop('to')).toBe('/swap')
+    expect(LinkContainer.at(1).prop('to')).toBe('/swap/history')
   })
 
   it('matches snapshot', () => {

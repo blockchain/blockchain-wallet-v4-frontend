@@ -52,7 +52,7 @@ describe('Profile Settings', () => {
         <TestBed withRouter={true} store={store}>
           <Switch>
             <Route exact path='/' children={() => <Banner />} />
-            <Route path='/exchange' component={ExchangeStub} />
+            <Route path='/swap' component={ExchangeStub} />
           </Switch>
         </TestBed>
       )
