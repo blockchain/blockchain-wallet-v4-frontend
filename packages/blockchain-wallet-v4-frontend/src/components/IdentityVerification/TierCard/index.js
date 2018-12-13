@@ -5,7 +5,6 @@ import { head, path, propEq, toLower } from 'ramda'
 import { connect } from 'react-redux'
 
 import { actions } from 'data'
-import { LinkContainer } from 'react-router-bootstrap'
 import { Button, Text, TextGroup, Icon } from 'blockchain-info-components'
 import media from 'services/ResponsiveService'
 import { Exchange } from 'blockchain-wallet-v4/src'
@@ -27,6 +26,9 @@ const Wrapper = styled.div`
   }
   ${media.laptop`
     width: 100%;
+    &.column {
+      width: 100%;
+    }
   `};
 `
 const Container = styled.div`
@@ -45,7 +47,7 @@ const Header = styled(Text)`
   width: 50%;
   ${Wrapper}.column & {
     width: 100%;
-    justify-content: flex-center;
+    justify-content: center;
   }
 `
 const Row = styled.div`
@@ -144,29 +146,18 @@ export const TierCard = ({ userData, userTiers, tier, ...rest }) => {
             </Column>
           </Row>
         </Content>
-        {path([tier, 'isActive'], TIERS)(userData) ? (
-          <LinkContainer to={'/exchange'}>
-            <ActionButton jumbo fullwidth nature='empty-secondary'>
-              <FormattedMessage
-                id='components.identityverification.tiercard.makeaswap'
-                defaultMessage='Make a Swap'
-              />
-            </ActionButton>
-          </LinkContainer>
-        ) : (
-          tierData.state !== 'pending' && (
-            <ActionButton
-              jumbo
-              fullwidth
-              nature='primary'
-              onClick={verifyIdentity}
-            >
-              <FormattedMessage
-                id='components.identityverification.tiercard.getstarted'
-                defaultMessage='Get Started'
-              />
-            </ActionButton>
-          )
+        {tierData.state === 'none' && (
+          <ActionButton
+            jumbo
+            fullwidth
+            nature='primary'
+            onClick={verifyIdentity}
+          >
+            <FormattedMessage
+              id='components.identityverification.tiercard.getstarted'
+              defaultMessage='Get Started'
+            />
+          </ActionButton>
         )}
       </Container>
     </Wrapper>

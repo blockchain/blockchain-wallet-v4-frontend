@@ -12,6 +12,7 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
+import { LinkContainer } from 'react-router-bootstrap'
 import TierCard from 'components/IdentityVerification/TierCard'
 import media from 'services/ResponsiveService'
 
@@ -20,6 +21,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   width: 100%;
   height: auto;
+  position: relative;
   box-sizing: border-box;
 `
 const Container = styled.div`
@@ -101,10 +103,35 @@ const SecurityColumn = styled(Column)`
   margin: 0 auto;
   text-align: center;
 `
+const GoBackLink = styled.div`
+  border: 1px solid ${props => props.theme['gray-1']};
+  border-radius: 5px;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  padding: 20px;
+  left: 0;
+  top: 0;
+  box-shadow: 0px;
+  transition: box-shadow 0.3s;
+  span {
+    transform: rotate(90deg);
+  }
+  &:hover {
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.21);
+  }
+`
 
 const IdentityVerification = ({ userData, userTiers }) => {
   return (
     <Wrapper>
+      <GoBackLink>
+        <LinkContainer to='/exchange'>
+          <Icon name='down-arrow-filled' color='brand-secondary' />
+        </LinkContainer>
+      </GoBackLink>
       <Container>
         <Row>
           <Column>
