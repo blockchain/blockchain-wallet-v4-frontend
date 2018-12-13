@@ -2,7 +2,7 @@
 
 exports[`MenuTop Component matches snapshot 1`] = `
 <Menu__Wrapper>
-  <Component>
+  <>
     <LinkContainer
       activeClassName="active"
       exact={true}
@@ -10,15 +10,16 @@ exports[`MenuTop Component matches snapshot 1`] = `
       strict={false}
       to="/exchange"
     >
-      <Component
-        selected={true}
+      <Menu__LinkItem
+        activeClassName="active"
+        data-e2e="exchangeTabMenuExchange"
       >
         <FormattedMessage
           defaultMessage="Exchange"
           id="scenes.exchange.menutop.exchange"
           values={Object {}}
         />
-      </Component>
+      </Menu__LinkItem>
     </LinkContainer>
     <LinkContainer
       activeClassName="active"
@@ -27,14 +28,17 @@ exports[`MenuTop Component matches snapshot 1`] = `
       strict={false}
       to="/exchange/history"
     >
-      <Component>
+      <Menu__LinkItem
+        activeClassName="active"
+        data-e2e="exchangeTabMenuOrderHistory"
+      >
         <FormattedMessage
           defaultMessage="Order History"
           id="scenes.exchange.menutop.history"
           values={Object {}}
         />
-      </Component>
+      </Menu__LinkItem>
     </LinkContainer>
-  </Component>
+  </>
 </Menu__Wrapper>
 `;

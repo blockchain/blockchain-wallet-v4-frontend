@@ -11,7 +11,8 @@ import {
   ImportBtcAddress,
   RequestBtc,
   SendBtc,
-  ShowBtcPrivateKey
+  ShowBtcPrivateKey,
+  VerifyMessage
 } from './Btc'
 import {
   CoinifyDeleteBank,
@@ -32,10 +33,10 @@ import {
   LockboxAppManager,
   LockboxFirmware,
   LockboxSetup,
-  PromptLockbox
+  LockboxConnectionPrompt,
+  LockboxShowXPubs
 } from './Lockbox'
 import { MobileLogin, MobileNumberChange, MobileNumberVerify } from './Mobile'
-import Onfido from './Onfido'
 import QRCode from './QRCode'
 import {
   SfoxEnterMicroDeposits,
@@ -78,15 +79,15 @@ const Modals = props => (
     <IdentityVerification />
     <ImportBtcAddress />
     <LockboxAppManager disableOutsideClose />
-    <LockboxFirmware />
-    <LockboxSetup />
+    <LockboxConnectionPrompt disableOutsideClose />
+    <LockboxFirmware disableOutsideClose />
+    <LockboxSetup disableOutsideClose />
+    <LockboxShowXPubs />
     <MobileNumberChange />
     <MobileNumberVerify />
     <MobileLogin />
-    <Onfido />
     <PairingCode />
     <PromptInput />
-    <PromptLockbox />
     <QRCode />
     <RequestBch />
     <RequestBtc />
@@ -120,6 +121,7 @@ const Modals = props => (
     <XlmCreateAccountLearn />
     <XlmReserveLearn />
     <SunRiverWelcome disableOutsideClose />
+    <VerifyMessage />
   </div>
 )
 

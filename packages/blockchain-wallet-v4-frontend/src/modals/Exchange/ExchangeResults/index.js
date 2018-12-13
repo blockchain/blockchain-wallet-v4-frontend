@@ -154,7 +154,7 @@ const getButton = (status, close) => {
       return (
         <Link
           target='_blank'
-          href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000014686'
+          href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000180551'
         >
           <Button nature='primary' size='13px' weight={300}>
             <FormattedMessage

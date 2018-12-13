@@ -63,7 +63,7 @@ const Success = ({
           <WalletTableCell width='50%'>
             <LabelCell size='13px'>{wallet.label}</LabelCell>
             {wallet.default && (
-              <Banner label>
+              <Banner label='true'>
                 <FormattedMessage
                   id='scenes.settings.addresses.btc.wallets.defaultlabel'
                   defaultMessage='Default'
@@ -71,7 +71,7 @@ const Success = ({
               </Banner>
             )}
             {wallet.archived && (
-              <Banner label type='informational'>
+              <Banner label={'true'} type='informational'>
                 <FormattedMessage
                   id='scenes.settings.addresses.btc.wallets.archivedlabel'
                   defaultMessage='Archived'
@@ -103,7 +103,7 @@ const Success = ({
               </Link>
             ) : (
               <LinkContainer to={`/settings/addresses/btc/${wallet.index}`}>
-                <Link weight={200} size='small'>
+                <Link weight={400} size='13px'>
                   <FormattedMessage
                     id='scenes.settings.addresses.btc.wallets.manage'
                     defaultMessage='Manage'

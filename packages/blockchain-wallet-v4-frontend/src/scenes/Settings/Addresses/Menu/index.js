@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
+
 import { Icon, TabMenu, TabMenuItem } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 
@@ -26,7 +27,6 @@ const Container = styled.div`
   }
 `
 
-const Controls = styled.div``
 const Search = styled.div`
   position: relative;
   display: flex;
@@ -43,34 +43,39 @@ const SearchIcon = styled(Icon)`
   top: 10px;
   right: 10px;
 `
-
+const LinkItem = styled(TabMenuItem)`
+  &.active {
+    & :after {
+      position: absolute;
+      content: '';
+      top: 40px;
+      left: 0;
+      width: 100%;
+      border-bottom: 4px solid ${props => props.theme['brand-secondary']};
+    }
+  }
+`
 const MenuTop = () => (
   <Wrapper>
     <Container>
-      <Controls>
-        <TabMenu>
-          <LinkContainer
-            to='/settings/addresses/btc'
-            activeClassName='active'
-            exact
-          >
-            <TabMenuItem>
-              <FormattedMessage
-                id='scenes.settings.addresses.menutop.btc'
-                defaultMessage='Bitcoin'
-              />
-            </TabMenuItem>
-          </LinkContainer>
-          <LinkContainer to='/settings/addresses/bch' activeClassName='active'>
-            <TabMenuItem>
-              <FormattedMessage
-                id='scenes.settings.addresses.menutop.bch'
-                defaultMessage='Bitcoin Cash'
-              />
-            </TabMenuItem>
-          </LinkContainer>
-        </TabMenu>
-      </Controls>
+      <TabMenu>
+        <LinkContainer to='/settings/addresses/btc' activeClassName='active'>
+          <LinkItem>
+            <FormattedMessage
+              id='scenes.settings.addresses.menutop.btc'
+              defaultMessage='Bitcoin'
+            />
+          </LinkItem>
+        </LinkContainer>
+        <LinkContainer to='/settings/addresses/bch' activeClassName='active'>
+          <LinkItem>
+            <FormattedMessage
+              id='scenes.settings.addresses.menutop.bch'
+              defaultMessage='Bitcoin Cash'
+            />
+          </LinkItem>
+        </LinkContainer>
+      </TabMenu>
       <Search>
         <Field name='search' component={TextBox} />
         <SearchIcon name='search' size='20px' />

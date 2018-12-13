@@ -24,6 +24,10 @@ class ImportedAddressesContainer extends React.Component {
     this.props.modalsActions.showModal('ImportBtcAddress')
   }
 
+  handleClickVerify = () => {
+    this.props.modalsActions.showModal('VerifyMessage')
+  }
+
   handleShowPriv (address) {
     this.props.modalsActions.showModal('ShowBtcPrivateKey', {
       addr: address.addr,
@@ -49,6 +53,7 @@ class ImportedAddressesContainer extends React.Component {
         <Success
           importedAddresses={value}
           onClickImport={this.handleClickImport}
+          onClickVerify={this.handleClickVerify}
           search={search && search.toLowerCase()}
           onToggleArchived={this.handleToggleArchived}
           onShowPriv={this.handleShowPriv}
@@ -60,6 +65,7 @@ class ImportedAddressesContainer extends React.Component {
           failure
           importedAddresses={values(addressesWithoutRemoteData)}
           onClickImport={this.handleClickImport}
+          onClickVerify={this.handleClickVerify}
           search={search && search.toLowerCase()}
           onToggleArchived={this.handleToggleArchived}
           onShowSignMessage={this.handleSignMessage}

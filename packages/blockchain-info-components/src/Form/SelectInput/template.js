@@ -44,6 +44,10 @@ const StyledSelect = styled(Select)`
     .bc__value-container {
       overflow: hidden;
     }
+
+    input {
+      border: none !important;
+    }
   }
 
   .bc__option {

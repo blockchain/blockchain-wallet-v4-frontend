@@ -7,6 +7,7 @@ import CreatableInputField from './CreatableInputField'
 import DateBox from './DateBox'
 import DateBoxDebounced from './DateBoxDebounced'
 import DateInputBox from './DateInputBox'
+import EmailVerification from './EmailVerification'
 import FaqMessage from './FaqMessage'
 import FiatConvertor from './FiatConvertor'
 import FooterShadowWrapper from './FooterShadowWrapper'
@@ -51,6 +52,7 @@ export {
   DateBox,
   DateBoxDebounced,
   DateInputBox,
+  EmailVerification,
   FaqMessage,
   FiatConvertor,
   FooterShadowWrapper,

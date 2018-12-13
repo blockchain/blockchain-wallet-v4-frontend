@@ -55,7 +55,7 @@ const QRCode = props => {
         <CopyClipboard address={bitcoinAddress} />
       </ModalBody>
       <ModalFooter>
-        <Link onClick={close} size='13px' weight={300}>
+        <Link onClick={close} size='13px' weight={300} data-e2e='qrModalGoBack'>
           <FormattedMessage id='modals.qrcode.back' defaultMessage='Go back' />
         </Link>
       </ModalFooter>

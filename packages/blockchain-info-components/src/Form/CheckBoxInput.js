@@ -82,8 +82,8 @@ const CheckBoxInput = props => {
 CheckBoxInput.propTypes = {
   name: PropTypes.string.isRequired,
   children: PropTypes.node,
-  checked: PropTypes.bool,
-  disabled: PropTypes.string
+  checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
 }
 
 export default CheckBoxInput

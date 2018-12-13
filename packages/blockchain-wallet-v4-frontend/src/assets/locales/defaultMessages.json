@@ -286,6 +286,10 @@
         "id": "components.alerts.pbkdf2_update_success"
       },
       {
+        "defaultMessage": "Please login to your wallet to proceed",
+        "id": "components.alerts.please_login"
+      },
+      {
         "defaultMessage": "Please enable camera to use this feature",
         "id": "components.alerts.qr_scanner_not_allowed"
       },
@@ -617,8 +621,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Click here to add {coin} to your Blockchain Wallet",
-        "id": "components.balances.savecoin"
+        "defaultMessage": "Click here to add {coin} to your Lockbox",
+        "id": "components.balances.savecointolockbox"
       }
     ],
     "path": "src/components/Balances/Lockbox.json"
@@ -1017,6 +1021,15 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Non-Spendable",
+        "id": "components.selectboxbitcoin.watchonly"
+      }
+    ],
+    "path": "src/components/Form/SelectBoxEthAddresses/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Select state",
         "id": "components.selectboxregion.placeholder.state"
       },
@@ -1060,6 +1073,15 @@
       }
     ],
     "path": "src/components/Form/SelectBoxUSState/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Non-Spendable",
+        "id": "components.selectboxbitcoin.watchonly"
+      }
+    ],
+    "path": "src/components/Form/SelectBoxXlmAddresses/template.json"
   },
   {
     "descriptors": [
@@ -1219,8 +1241,8 @@
         "id": "components.orderstatus.note.refunded"
       },
       {
-        "defaultMessage": "This trade has expired. Any funds broadcast from your wallet will be refunded minus the network fee. Please Contact Support stating your order ID to request a refund.",
-        "id": "components.orderstatus.note.expired"
+        "defaultMessage": "This exchange has expired as we have still not received your funds. If we receive your funds we will complete your trade. If you require further assistance please contact support.",
+        "id": "components.orderstatus.note.expired_exchange"
       }
     ],
     "path": "src/components/OrderStatus/index.json"
@@ -1526,6 +1548,10 @@
       {
         "defaultMessage": "Non-Spendable",
         "id": "components.txlistitem.watchonly"
+      },
+      {
+        "defaultMessage": "Replace-By-Fee",
+        "id": "components.txlistitem.rbf"
       },
       {
         "defaultMessage": "Description",
@@ -2524,6 +2550,19 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "🎉 You're all caught up!",
+        "id": "layouts.wallet.header.whatsnew.whatsnew.empty"
+      },
+      {
+        "defaultMessage": "Our team is always working on new features, but if there's something we can improve please let us know about it <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>here<a/>.",
+        "id": "layouts.wallet.header.whatsnew.whatsnew.in_progress"
+      }
+    ],
+    "path": "src/layouts/Wallet/TrayRight/WhatsNew/WhatsNewContent/EmptyContent.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "We've Improved Your Exchange",
         "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.improved"
       },
@@ -2624,6 +2663,31 @@
       }
     ],
     "path": "src/modals/Addresses/UpgradeAddressLabels/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Are you still there?",
+        "id": "modals.autodisconnection.title"
+      },
+      {
+        "defaultMessage": "You've been inactive for {duration} minutes.",
+        "id": "modals.autodisconnection.explain"
+      },
+      {
+        "defaultMessage": "Click 'Cancel' if you don't want to be logged out automatically.",
+        "id": "modals.autodisconnection.explain2"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "modals.autodisconnection.cancel"
+      },
+      {
+        "defaultMessage": "Log me out",
+        "id": "modals.autodisconnection.logout"
+      }
+    ],
+    "path": "src/modals/AutoDisconnection/template.json"
   },
   {
     "descriptors": [
@@ -3623,6 +3687,104 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Verify Your Identity",
+        "id": "modals.confirm.title.verify_identity"
+      },
+      {
+        "defaultMessage": "Trade In Progress",
+        "id": "modals.confirm.title.phone_call"
+      },
+      {
+        "defaultMessage": "Unpair Device",
+        "id": "modals.confirm.title.lockbox"
+      },
+      {
+        "defaultMessage": "Archive Vulnerable Address",
+        "id": "modals.confirm.title.archive_address"
+      },
+      {
+        "defaultMessage": "Confirm",
+        "id": "modals.confirm.title"
+      },
+      {
+        "defaultMessage": "Verifying your identity will raise your buy and sell limits, allowing you to trade higher amounts. It will also speed up waiting times for trades. It only takes a few minutes to go through the process.",
+        "id": "modals.confirm.message.verify_identity"
+      },
+      {
+        "defaultMessage": "Would you like to speed up the process?",
+        "id": "modals.confirm.message.phone_call"
+      },
+      {
+        "defaultMessage": "You can receive your funds in only 3 business days by a quick and painless phone call to verify your identity.",
+        "id": "modals.confirm.message.phone_call_1"
+      },
+      {
+        "defaultMessage": "If this sounds good to you, you will receive a call within the next 24 hours to <b>{smsNumber}</b>.",
+        "id": "modals.confirm.message.phone_call_2"
+      },
+      {
+        "defaultMessage": "Are you sure you want to unpair your device? You will lose all balance, transaction, and account data.",
+        "id": "modals.confirm.message.lockbox"
+      },
+      {
+        "defaultMessage": "A security issue effects address {addr}. Please Archive it, and if you continue to have issues contact {support}.",
+        "id": "modals.confirm.title.archive_address_msg"
+      },
+      {
+        "defaultMessage": "Please confirm.",
+        "id": "modals.confirm.message"
+      },
+      {
+        "defaultMessage": "I'll Do This Later",
+        "id": "modals.confirm.cancel.verify_identity"
+      },
+      {
+        "defaultMessage": "No, Thanks",
+        "id": "modals.confirm.cancel.phone_call"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "modals.confirm.button.cancel"
+      },
+      {
+        "defaultMessage": "Verify My Identity",
+        "id": "modals.confirm.confirm.verify_identity"
+      },
+      {
+        "defaultMessage": "Archive Address",
+        "id": "modals.confirm.title.archive_address_confirm"
+      },
+      {
+        "defaultMessage": "Give Me A Call",
+        "id": "modals.confirm.confirm.phone_call"
+      },
+      {
+        "defaultMessage": "OK",
+        "id": "modals.confirm.button"
+      }
+    ],
+    "path": "src/modals/Confirm/helpers.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Edit Transaction Description",
+        "id": "modals.edittransactiondesc.title"
+      },
+      {
+        "defaultMessage": "Description",
+        "id": "modals.edittransactiondesc.description"
+      },
+      {
+        "defaultMessage": "Change Description",
+        "id": "modals.edittransactiondesc.button"
+      }
+    ],
+    "path": "src/modals/EditTxDescription/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Request Ether",
         "id": "modals.requestether.title"
       }
@@ -4006,8 +4168,8 @@
         "id": "modals.exchangeresults.totaltoberefunded"
       },
       {
-        "defaultMessage": "Request a refund",
-        "id": "modals.exchangedetails.refund"
+        "defaultMessage": "Contact Support",
+        "id": "modals.exchangedetails.support"
       },
       {
         "defaultMessage": "Close",
@@ -4069,7 +4231,7 @@
       },
       {
         "defaultMessage": "Select country",
-        "id": "identityverification.personal.country.label"
+        "id": "components.selectboxcountry.label"
       },
       {
         "defaultMessage": "State",
@@ -4227,6 +4389,39 @@
       }
     ],
     "path": "src/modals/Exchange/IdentityVerification/Verify/template.lowflow.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Government Issued Passport",
+        "id": "identityverification.verify.passport"
+      },
+      {
+        "defaultMessage": "Driver’s License",
+        "id": "identityverification.verify.driverslicense"
+      },
+      {
+        "defaultMessage": "National Identity Card",
+        "id": "identityverification.verify.natitionalidcard"
+      },
+      {
+        "defaultMessage": "Verify Your Identity",
+        "id": "identityverification.verify.header"
+      },
+      {
+        "defaultMessage": "Last step! We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.",
+        "id": "identityverification.verify.message"
+      },
+      {
+        "defaultMessage": "Back",
+        "id": "identityverification.personal.back"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "identityverification.personal.continue"
+      }
+    ],
+    "path": "src/modals/Exchange/IdentityVerification/Verify/template.success.json"
   },
   {
     "descriptors": [
@@ -4628,7 +4823,7 @@
         "id": "modals.lockboxsetup.authenticitystep.content"
       },
       {
-        "defaultMessage": "Checking Your Devices Authenticity",
+        "defaultMessage": "Checking Your Device’s Authenticity",
         "id": "modals.lockboxsetup.authenticitystep.authenticating"
       },
       {
@@ -4853,7 +5048,7 @@
         "id": "modals.promptforlockbox.connectcoinapp.title.successgeneric"
       },
       {
-        "defaultMessage": "Your transaction was sent. Please allow for it to confirm on the network.",
+        "defaultMessage": "Please allow for it to confirm on the network.",
         "id": "modals.promptforlockbox.connectcoinapp.success"
       },
       {
@@ -4977,6 +5172,15 @@
       }
     ],
     "path": "src/modals/Mobile/MobileNumberVerify/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Submit",
+        "id": "modals.prompt.button"
+      }
+    ],
+    "path": "src/modals/PromptInput/template.json"
   },
   {
     "descriptors": [
@@ -5205,8 +5409,16 @@
         "id": "scenes.sfoxsignup.acceptterms.helper2.question"
       },
       {
-        "defaultMessage": "Personal information can be changed by submitting a request to support@sfox.com. Make sure you mention Blockchain in the subject and include the information you want to change. Changing your email or phone number within your Blockchain wallet will not impact your SFOX account.",
-        "id": "scenes.sfoxsignup.acceptterms.helper2.answer"
+        "defaultMessage": "Personal information can be changed by submitting a request to",
+        "id": "scenes.sfoxsignup.acceptterms.helper2.answer1"
+      },
+      {
+        "defaultMessage": "support@sfox.com",
+        "id": "scenes.sfoxsignup.acceptterms.helper2.link"
+      },
+      {
+        "defaultMessage": ". Make sure you mention Blockchain in the subject and include the information you want to change. Changing your email or phone number within your Blockchain wallet will not impact your SFOX account.",
+        "id": "scenes.sfoxsignup.acceptterms.helper2.answer2"
       },
       {
         "defaultMessage": "Create Your Account",
@@ -5485,16 +5697,24 @@
         "id": "scenes.buysell.sfoxsignup.link.helper1.question"
       },
       {
-        "defaultMessage": "Yes, you can change your bank account by emailing support@sfox.com. Make sure you mention Blockchain in the subject and include the information you want to change.",
-        "id": "scenes.buysell.sfoxsignup.link.helper1.answer"
+        "defaultMessage": "Yes, you can change your bank account by emailing",
+        "id": "scenes.buysell.sfoxsignup.link.helper1.answer1"
+      },
+      {
+        "defaultMessage": "support@sfox.com",
+        "id": "scenes.buysell.sfoxsignup.link.helper1.link"
+      },
+      {
+        "defaultMessage": ". Make sure you mention Blockchain in the subject and include the information you want to change.",
+        "id": "scenes.buysell.sfoxsignup.link.helper1.answer2"
       },
       {
         "defaultMessage": "Which method of linking my bank takes longer?",
         "id": "scenes.buysell.sfoxsignup.link.helper2.question"
       },
       {
-        "defaultMessage": "Adding your account details manually. In order to verify these details belong to you, SFOX sends 2 micro-deposits to your account. This process can take up to 5 days in itself, so we recommend signing directly into your bank if you would like to buy & sell immediately.",
-        "id": "scenes.buysell.sfoxsignup.link.helper2.answer"
+        "defaultMessage": "Adding your account details manually takes longer. In order to verify these details belong to you, SFOX sends 2 micro-deposits to your account. This process can take up to 5 days in itself, so we recommend signing directly into your bank if you would like to buy & sell immediately.",
+        "id": "scenes.buysell.sfoxsignup.link.helper2.answer1"
       },
       {
         "defaultMessage": "Select Your Account",
@@ -5743,8 +5963,16 @@
         "id": "scenes.buysell.sfoxsignup.verify.address.helper1.question"
       },
       {
-        "defaultMessage": "SFOX needs this information to verify your identity and to comply with government regulated anti-money laundering laws.",
+        "defaultMessage": "SFOX needs this information to verify your identity and to comply with government regulated anti-money laundering laws. To read more about how SFOX protects this information, please visit their",
         "id": "scenes.buysell.sfoxsignup.verify.address.helper1.answer"
+      },
+      {
+        "defaultMessage": "privacy policy",
+        "id": "scenes.buysell.sfoxsignup.verify.address.helper1.link"
+      },
+      {
+        "defaultMessage": ".",
+        "id": "scenes.buysell.sfoxsignup.verify.address.helper1.answer2"
       },
       {
         "defaultMessage": "Where is this information stored?",
@@ -5856,6 +6084,40 @@
       }
     ],
     "path": "src/modals/SignMessage/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Export {coin} transactions history",
+        "id": "modals.transactionreport.export"
+      },
+      {
+        "defaultMessage": "Select wallet",
+        "id": "modals.transactionreport.selectwallet"
+      },
+      {
+        "defaultMessage": "Select time range",
+        "id": "modals.transactionreport.selecttimerange"
+      },
+      {
+        "defaultMessage": "Close",
+        "id": "modals.transactionreport.firststep.close"
+      },
+      {
+        "defaultMessage": "Export CSV",
+        "id": "modals.transactionreport.firststep.generate"
+      }
+    ],
+    "path": "src/modals/TransactionReport/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Invalid date",
+        "id": "modals.transactionreport.invalid"
+      }
+    ],
+    "path": "src/modals/TransactionReport/validationMessages.json"
   },
   {
     "descriptors": [
@@ -7012,8 +7274,8 @@
         "id": "scenes.buysell.sfoxcheckout.orderreview.helper3.question"
       },
       {
-        "defaultMessage": "Once you submit your trade here, it will move into a pending state, and cannot be reversed, cancelled or changed. Please be sure to verify the information here carefully before submitting.",
-        "id": "scenes.buysell.sfoxcheckout.orderreview.helper3.answer"
+        "defaultMessage": "Once you submit your trade here, it will move into a pending state. With that said, please be sure to verify the information here carefully before submitting. Once pending, your trade cannot be reversed, cancelled or changed.",
+        "id": "scenes.buysell.sfoxcheckout.orderreview.helper3.answer1"
       },
       {
         "defaultMessage": "You're almost there",
@@ -7103,7 +7365,7 @@
         "id": "scenes.buysell.sfoxcheckout.cyo.helper2.question"
       },
       {
-        "defaultMessage": "These rates are determined by the market; the broader ecosystem of other buyers and sellers. We fetch the most recent exchange rate and guarantee it for 30 seconds. The quote will automatically refresh every 30 seconds until you select ‘Submit’.",
+        "defaultMessage": "These rates are determined by the market, the broader ecosystem of other buyers and sellers. We fetch the most recent exchange rate and guarantee it for 30 seconds. The quote will automatically refresh every 30 seconds until you select ‘Submit’.",
         "id": "scenes.buysell.sfoxcheckout.cyo.helper2.answer"
       },
       {
@@ -7111,7 +7373,7 @@
         "id": "scenes.buysell.sfoxcheckout.cyo.helper3.question"
       },
       {
-        "defaultMessage": "Daily limits are determined by how much information has been submitted to, and verified by, SFOX— the highest daily limit being $10,000. Keep in mind: Your daily buy and sell limits directly impact each other (for example, If your limit is $10,000 and you decide to sell $5,000, you will have a limit to buy $5,000).",
+        "defaultMessage": "Daily limits are determined by how much information has been submitted to, and verified by, SFOX— the highest daily limit being $10,000. Keep in mind: your daily buy and sell limits directly impact each other (for example, If your limit is $10,000 and you decide to sell $6,000, you will have a limit to buy $4,000).",
         "id": "scenes.buysell.sfoxcheckout.cyo.helper3.answer"
       },
       {

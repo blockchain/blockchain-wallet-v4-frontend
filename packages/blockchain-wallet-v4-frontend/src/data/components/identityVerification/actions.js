@@ -4,10 +4,16 @@ export const verifyIdentity = () => ({
   type: AT.VERIFY_IDENTITY
 })
 
-export const initializeStep = () => ({
-  type: AT.INITIALIZE_STEP
+export const initializeVerification = (isCoinify, desiredTier) => ({
+  type: AT.INITIALIZE_VERIFICATION,
+  payload: { isCoinify, desiredTier }
 })
-
+export const goToPrevStep = () => ({
+  type: AT.GO_TO_PREV_STEP
+})
+export const goToNextStep = () => ({
+  type: AT.GO_TO_NEXT_STEP
+})
 export const setVerificationStep = step => ({
   type: AT.SET_VERIFICATION_STEP,
   payload: { step }
@@ -47,12 +53,12 @@ export const updateSmsNumber = () => ({ type: AT.UPDATE_SMS_NUMBER })
 export const verifySmsNumber = () => ({ type: AT.VERIFY_SMS_NUMBER })
 export const resendSmsCode = () => ({ type: AT.RESEND_SMS_CODE })
 
-export const createRegisterUserCampaign = (
-  campaignName,
-  needsIdVerification
-) => ({
-  type: AT.CREATE_REGISTER_USER_CAMPAIGN,
-  payload: { campaignName, needsIdVerification }
+export const registerUserCampaign = newUser => ({
+  type: AT.REGISTER_USER_CAMPAIGN,
+  newUser
+})
+export const createRegisterUserCampaign = () => ({
+  type: AT.CREATE_REGISTER_USER_CAMPAIGN
 })
 
 export const checkKycFlow = () => ({
@@ -64,4 +70,27 @@ export const setKycFlow = flowType => ({
 })
 export const sendDeeplink = () => ({
   type: AT.SEND_DEEP_LINK
+})
+
+export const setCoinify = isCoinify => ({
+  type: AT.SET_COINIFY,
+  payload: { isCoinify }
+})
+
+export const setDesiredTier = tier => ({
+  type: AT.SET_DESIRED_TIER,
+  payload: { tier }
+})
+
+export const updateEmail = email => ({
+  type: AT.UPDATE_EMAIL,
+  payload: { email }
+})
+export const sendEmailVerification = email => ({
+  type: AT.SEND_EMAIL_VERIFICATION,
+  payload: { email }
+})
+export const setEmailStep = step => ({
+  type: AT.SET_EMAIL_STEP,
+  payload: { step }
 })
