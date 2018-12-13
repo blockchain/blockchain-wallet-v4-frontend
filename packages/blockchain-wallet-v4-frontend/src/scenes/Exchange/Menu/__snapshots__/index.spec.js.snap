@@ -12,6 +12,7 @@ exports[`MenuTop Component matches snapshot 1`] = `
     >
       <Menu__LinkItem
         activeClassName="active"
+        data-e2e="exchangeTabMenuExchange"
       >
         <FormattedMessage
           defaultMessage="Exchange"
@@ -29,6 +30,7 @@ exports[`MenuTop Component matches snapshot 1`] = `
     >
       <Menu__LinkItem
         activeClassName="active"
+        data-e2e="exchangeTabMenuOrderHistory"
       >
         <FormattedMessage
           defaultMessage="Order History"
