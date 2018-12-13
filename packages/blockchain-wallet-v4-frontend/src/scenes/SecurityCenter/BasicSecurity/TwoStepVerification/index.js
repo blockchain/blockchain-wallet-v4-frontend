@@ -57,7 +57,6 @@ class TwoStepVerificationContainer extends React.PureComponent {
     this.setState({
       verifyToggled: !this.state.verifyToggled
     })
-    this.props.handleEnable()
   }
 
   handleDisableClick () {

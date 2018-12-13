@@ -109,7 +109,6 @@ ThirdStep.propTypes = {
   indexes: PropTypes.array.isRequired,
   recoveryPhrase: PropTypes.array.isRequired,
   previousStep: PropTypes.func.isRequired,
-  goBackOnSuccess: PropTypes.func,
   invalid: PropTypes.bool.isRequired,
   handleClose: PropTypes.func,
   inline: PropTypes.bool.isRequired

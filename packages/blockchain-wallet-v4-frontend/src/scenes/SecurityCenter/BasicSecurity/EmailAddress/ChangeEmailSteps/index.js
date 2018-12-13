@@ -11,10 +11,6 @@ import { validEmail } from 'services/FormHelper'
 const ChangeEmailWrapper = styled.div`
   width: 100%;
 `
-const CancelText = styled(Text)`
-  cursor: pointer;
-  margin-left: 10px;
-`
 const ChangeEmailInputWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -53,13 +49,12 @@ function ChangeEmailSteps (props) {
                 defaultMessage='Change'
               />
             </Button>
-            <CancelText
-              weight={300}
-              size='12px'
-              onClick={props.handleEmailChangeCancel}
-            >
-              Cancel
-            </CancelText>
+            <Button nature='empty' onClick={props.handleEmailChangeCancel}>
+              <FormattedMessage
+                id='scenes.preferences.email.settings.updateform.cancel'
+                defaultMessage='Cancel'
+              />
+            </Button>
           </ButtonContainer>
         </ChangeEmailInputWrapper>
         <Text size='12px' color='gray-4' weight={200}>

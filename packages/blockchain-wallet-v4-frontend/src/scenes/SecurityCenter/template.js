@@ -87,22 +87,20 @@ const StepText = styled(Text)`
   `};
 `
 const SecurityCenter = props => {
+  const { children, progress } = props
   const {
-    children,
-    emailVerified,
-    authType,
-    isMnemonicVerified,
-    progress
-  } = props
-  const emailSuccess = emailVerified > 0
-  const twoFactorSuccess = authType > 0
+    twoFactorComplete,
+    emailComplete,
+    mnemonicComplete,
+    overallProgress
+  } = progress
 
   return (
     <Wrapper>
       <StatusWrapper>
         <IntroText>
           <Text size='14px' weight={300}>
-            {progress < 3 ? (
+            {overallProgress < 3 ? (
               <FormattedMessage
                 id='scenes.securitycenter.introtextnone'
                 defaultMessage='Complete the steps below to help prevent unauthorized access to your wallet. Add additional verification to access your funds at any time.'
@@ -119,11 +117,11 @@ const SecurityCenter = props => {
           {({ mobile }) => (
             <SecurityStepsWrapper>
               <StepSection
-                success={emailSuccess}
-                radius={emailSuccess ? twoFactorSuccess.toString() : undefined}
+                success={emailComplete}
+                radius={emailComplete ? twoFactorComplete : undefined}
               >
-                <Circle className={emailSuccess ? 'active' : ''}>
-                  {emailSuccess ? (
+                <Circle className={emailComplete ? 'active' : ''}>
+                  {emailComplete ? (
                     <Icon
                       color='success'
                       name='checkmark-in-circle-filled'
@@ -134,7 +132,7 @@ const SecurityCenter = props => {
                   )}
                 </Circle>
                 <StepText
-                  success={emailSuccess}
+                  success={emailComplete}
                   size={mobile ? '12px' : '14px'}
                   weight={300}
                 >
@@ -152,16 +150,16 @@ const SecurityCenter = props => {
                 </StepText>
               </StepSection>
               <StepSection
-                success={twoFactorSuccess}
+                success={twoFactorComplete}
                 leftRadius={
-                  twoFactorSuccess && emailSuccess ? 'true' : undefined
+                  twoFactorComplete && emailComplete ? 'true' : undefined
                 }
                 rightRadius={
-                  twoFactorSuccess && emailSuccess ? 'true' : undefined
+                  twoFactorComplete && emailComplete ? 'true' : undefined
                 }
               >
-                <Circle className={twoFactorSuccess ? 'active' : ''}>
-                  {twoFactorSuccess ? (
+                <Circle className={twoFactorComplete ? 'active' : ''}>
+                  {twoFactorComplete ? (
                     <Icon
                       color='success'
                       name='checkmark-in-circle-filled'
@@ -172,7 +170,7 @@ const SecurityCenter = props => {
                   )}
                 </Circle>
                 <StepText
-                  success={twoFactorSuccess}
+                  success={twoFactorComplete}
                   size={mobile ? '12px' : '14px'}
                   weight={300}
                 >
@@ -190,13 +188,11 @@ const SecurityCenter = props => {
                 </StepText>
               </StepSection>
               <StepSection
-                success={isMnemonicVerified}
-                radius={
-                  isMnemonicVerified ? twoFactorSuccess.toString() : undefined
-                }
+                success={mnemonicComplete}
+                radius={mnemonicComplete ? twoFactorComplete : undefined}
               >
-                <Circle className={isMnemonicVerified ? 'active' : ''}>
-                  {isMnemonicVerified ? (
+                <Circle className={mnemonicComplete ? 'active' : ''}>
+                  {mnemonicComplete ? (
                     <Icon
                       color='success'
                       name='checkmark-in-circle-filled'
@@ -207,7 +203,7 @@ const SecurityCenter = props => {
                   )}
                 </Circle>
                 <StepText
-                  success={isMnemonicVerified}
+                  success={mnemonicComplete}
                   size={mobile ? '12px' : '14px'}
                   weight={300}
                 >

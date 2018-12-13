@@ -16,11 +16,10 @@ class EmailAddressContainer extends React.PureComponent {
       updateToggled: false,
       verifyToggled: false,
       successToggled: false,
-      changeEmailToggled: false
+      isEditing: false
     }
 
     this.handleResend = this.handleResend.bind(this)
-    this.handleUpdate = this.handleUpdate.bind(this)
     this.handleVerifyClick = this.handleVerifyClick.bind(this)
     this.handleChangeEmailView = this.handleChangeEmailView.bind(this)
     this.handleEmailChangeCancel = this.handleEmailChangeCancel.bind(this)
@@ -33,21 +32,18 @@ class EmailAddressContainer extends React.PureComponent {
     }
   }
 
+  /* eslint-disable react/no-did-update-set-state */
   componentDidUpdate (prevProps) {
     const next = this.props.data.getOrElse({})
     const prev = prevProps.data.getOrElse({})
     if (next.verified && !prev.verified) {
-      this.handleUpdate()
-      prevProps.goBackOnSuccess()
+      this.setState({
+        successToggled: false,
+        verifyToggled: false
+      })
     }
   }
-
-  handleUpdate () {
-    this.setState({
-      successToggled: false,
-      verifyToggled: !this.state.verifyToggled
-    })
-  }
+  /* eslint-enable react/no-did-update-set-state */
 
   handleVerifyClick () {
     this.handleResend()
@@ -61,21 +57,21 @@ class EmailAddressContainer extends React.PureComponent {
   handleChangeEmailView () {
     const { email } = this.props.data.getOrElse({})
     this.setState({
-      changeEmailToggled: !this.state.changeEmailToggled
+      isEditing: !this.state.isEditing
     })
     this.props.formActions.change('securityEmailAddress', 'changeEmail', email)
   }
 
   handleEmailChangeCancel () {
     this.setState({
-      changeEmailToggled: !this.state.changeEmailToggled
+      isEditing: !this.state.isEditing
     })
   }
 
   handleEmailChangeSubmit () {
     this.props.securityCenterActions.updateEmail(this.props.updatedEmail)
     this.setState({
-      changeEmailToggled: !this.state.changeEmailToggled
+      isEditing: !this.state.isEditing
     })
   }
 
@@ -90,7 +86,6 @@ class EmailAddressContainer extends React.PureComponent {
           data={value}
           handleVerifyClick={this.handleVerifyClick}
           handleResend={this.handleResend}
-          handleSubmitVerification={this.handleSubmitVerification}
           handleChangeEmailView={this.handleChangeEmailView}
           handleEmailChangeCancel={this.handleEmailChangeCancel}
           handleEmailChangeSubmit={this.handleEmailChangeSubmit}

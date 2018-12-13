@@ -4,8 +4,9 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { withRouter, Route, Redirect, Switch } from 'react-router-dom'
 
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import Menu from './Menu'
+import { getData } from './selectors'
 import SecurityCenter from './template'
 import BasicSecurity from './BasicSecurity'
 import AdvancedSecurity from './AdvancedSecurity'
@@ -17,38 +18,37 @@ const Wrapper = styled.div`
 `
 
 class SecurityCenterContainer extends React.PureComponent {
-  determineProgress = () => {
-    const { authType, emailVerified, isMnemonicVerified } = this.props
-    let progress = 0
-    if (authType.getOrElse(0) > 0) progress++
-    if (emailVerified.getOrElse(0) > 0) progress++
-    if (isMnemonicVerified) progress++
-    return progress
-  }
-
   render () {
     return (
       <Wrapper>
         <Menu location={this.props.location} />
-        <SecurityCenter progress={this.determineProgress()} {...this.props}>
-          <Switch>
-            <Route path='/security-center/basic' component={BasicSecurity} />
-            <Route
-              path='/security-center/advanced'
-              component={AdvancedSecurity}
-            />
-            <Redirect from='/security-center' to='/security-center/basic' />
-          </Switch>
-        </SecurityCenter>
+        {this.props.data.cata({
+          Success: progress => (
+            <SecurityCenter progress={progress} {...this.props}>
+              <Switch>
+                <Route
+                  path='/security-center/basic'
+                  component={BasicSecurity}
+                />
+                <Route
+                  path='/security-center/advanced'
+                  component={AdvancedSecurity}
+                />
+                <Redirect from='/security-center' to='/security-center/basic' />
+              </Switch>
+            </SecurityCenter>
+          ),
+          Failure: () => <div />,
+          Loading: () => <div />,
+          NotAsked: () => <div />
+        })}
       </Wrapper>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  authType: selectors.core.settings.getAuthType(state),
-  emailVerified: selectors.core.settings.getEmailVerified(state),
-  isMnemonicVerified: selectors.core.wallet.isMnemonicVerified(state)
+  data: getData(state)
 })
 
 const mapDispatchToProps = dispatch => ({

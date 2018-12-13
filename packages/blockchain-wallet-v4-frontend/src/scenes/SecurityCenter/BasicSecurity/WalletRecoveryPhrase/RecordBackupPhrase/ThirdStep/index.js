@@ -49,7 +49,7 @@ class ThirdStepContainer extends React.PureComponent {
       throw new SubmissionError(errors)
     } else {
       this.props.walletActions.verifyMnemonic()
-      this.props.goBackOnSuccess()
+      this.props.handleClose()
     }
   }
 

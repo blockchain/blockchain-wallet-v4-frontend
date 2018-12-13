@@ -105,19 +105,27 @@ const TipText = styled(Text)`
 `
 
 const TwoStepVerification = props => {
-  const { uiState, twoStepChoice, data, editing, handleGoBack, ...rest } = props
+  const {
+    uiState,
+    twoStepChoice,
+    data,
+    editing,
+    handleGoBack,
+    handleClick,
+    ...rest
+  } = props
   const { smsVerified, authType, smsNumber } = data
   const twoFAEnabled = authType > 0
 
   const renderVerificationChoice = () => {
     if (twoStepChoice === 'google') {
-      return <GoogleAuth {...rest} />
+      return <GoogleAuth goBackOnSuccess={handleClick} {...rest} />
     }
     if (twoStepChoice === 'yubikey') {
-      return <Yubikey {...rest} />
+      return <Yubikey goBackOnSuccess={handleClick} {...rest} />
     }
     if (twoStepChoice === 'sms') {
-      return <SmsAuth {...rest} />
+      return <SmsAuth goBackOnSuccess={handleClick} {...rest} />
     }
     return (
       <SecuritySummaryChoice>
@@ -127,6 +135,12 @@ const TwoStepVerification = props => {
           chooseMethod={props.chooseMethod}
           pulseText={props.pulseText}
         />
+        <Button nature='empty' onClick={props.handleClick}>
+          <FormattedMessage
+            id='scenes.security.2fa.cancel'
+            defaultMessage='Cancel'
+          />
+        </Button>
       </SecuritySummaryChoice>
     )
   }
@@ -197,7 +211,7 @@ const TwoStepVerification = props => {
   }
 
   const renderDescription = () => {
-    if (!twoFAEnabled && !props.alone) {
+    if (!twoFAEnabled) {
       return (
         <React.Fragment>
           <Text size='14px'>
@@ -231,7 +245,10 @@ const TwoStepVerification = props => {
             defaultMessage='Two-Step Verification - Authenticator App'
           />
           <Link size='14px' onClick={handleGoBack}>
-            Change
+            <FormattedMessage
+              id='scenes.security.twostepverification.cancel'
+              defaultMessage='Cancel'
+            />
           </Link>
         </React.Fragment>
       )
@@ -244,7 +261,10 @@ const TwoStepVerification = props => {
             defaultMessage='Two-Step Verification - Yubikey'
           />
           <Link size='14px' onClick={handleGoBack}>
-            Change
+            <FormattedMessage
+              id='scenes.security.twostepverification.cancel'
+              defaultMessage='Cancel'
+            />
           </Link>
         </React.Fragment>
       )
@@ -257,7 +277,10 @@ const TwoStepVerification = props => {
             defaultMessage='Two-Step Verification - Mobile Phone Number'
           />
           <Link size='14px' onClick={handleGoBack}>
-            Change
+            <FormattedMessage
+              id='scenes.security.twostepverification.cancel'
+              defaultMessage='Cancel'
+            />
           </Link>
         </React.Fragment>
       )
@@ -271,7 +294,7 @@ const TwoStepVerification = props => {
   }
 
   const renderChoices = () =>
-    !uiState.verifyToggled && !props.alone ? null : renderVerificationChoice()
+    !uiState.verifyToggled ? null : renderVerificationChoice()
 
   return (
     <Fragment>
@@ -286,7 +309,7 @@ const TwoStepVerification = props => {
           </SecuritySummary>
           {renderDisable()}
         </IconAndHeaderContainer>
-        {!uiState.verifyToggled && !props.alone ? (
+        {!uiState.verifyToggled ? (
           <SecurityComponent>
             {!twoFAEnabled ? (
               <TwoStepButton nature='primary' onClick={props.handleClick}>
@@ -312,7 +335,7 @@ const TwoStepVerification = props => {
         )}
         {renderChoices()}
       </SecurityTwoStepContainer>
-      {uiState.verifyToggled || props.alone ? (
+      {uiState.verifyToggled ? (
         <SecurityTip>
           <TipText weight={200} size='12px'>
             <FormattedMessage
