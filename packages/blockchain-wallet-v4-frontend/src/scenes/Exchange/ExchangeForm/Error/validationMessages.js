@@ -9,7 +9,7 @@ import LimitsUpdateLink from './LimitsUpdateLink'
 import MaximumAmountLink from './MaximumAmountLink'
 import MinimumAmountLink from './MinimumAmountLink'
 import CheckConfirmationLink from './CheckConfirmationLink'
-import { formatAmount } from '../template.success'
+import { formatAmount } from '../services'
 
 const {
   NO_LIMITS_ERROR,

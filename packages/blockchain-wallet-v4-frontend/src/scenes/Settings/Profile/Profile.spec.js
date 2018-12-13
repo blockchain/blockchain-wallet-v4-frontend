@@ -77,7 +77,7 @@ describe('Profile Settings', () => {
         <Switch>
           <Route exact path='/' component={ProfileContainer} />
           <Route path='/buy-sell' component={BuySellStub} />
-          <Route path='/exchange' component={ExchangeStub} />
+          <Route path='/swap' component={ExchangeStub} />
         </Switch>
       </TestBed>
     )

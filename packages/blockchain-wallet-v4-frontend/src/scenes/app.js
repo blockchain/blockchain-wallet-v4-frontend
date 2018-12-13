@@ -99,14 +99,14 @@ class App extends React.PureComponent {
                       coin='XLM'
                     />
                     <WalletLayout
-                      path='/exchange/history'
+                      path='/swap/history'
                       component={ExchangeHistory}
                     />
                     <WalletLayout
-                      path='/exchange/profile'
+                      path='/swap/profile'
                       component={ExchangeProfile}
                     />
-                    <WalletLayout path='/exchange' component={Exchange} exact />
+                    <WalletLayout path='/swap' component={Exchange} exact />
                     <WalletLayout
                       path='/security-center'
                       component={SecurityCenter}
