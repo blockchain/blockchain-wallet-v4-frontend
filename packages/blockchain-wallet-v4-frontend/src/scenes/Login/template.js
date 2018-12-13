@@ -266,6 +266,7 @@ const Login = props => {
               </FormLabel>
               <Field
                 name='code'
+                normalize={removeWhitespace}
                 validate={[required]}
                 component={authType === 1 ? PasswordBox : TextBox}
                 noLastPass
