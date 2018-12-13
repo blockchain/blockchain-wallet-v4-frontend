@@ -235,6 +235,14 @@ const TwoStepVerification = props => {
       />
     )
   }
+  const goBackLink = () => (
+    <Link size='14px' onClick={handleGoBack}>
+      <FormattedMessage
+        id='scenes.security.twostepverification.cancel'
+        defaultMessage='Cancel'
+      />
+    </Link>
+  )
 
   const renderHeader = () => {
     if (twoStepChoice === 'google') {
@@ -244,12 +252,7 @@ const TwoStepVerification = props => {
             id='scenes.security.twostepverification.authenticator.title'
             defaultMessage='Two-Step Verification - Authenticator App'
           />
-          <Link size='14px' onClick={handleGoBack}>
-            <FormattedMessage
-              id='scenes.security.twostepverification.cancel'
-              defaultMessage='Cancel'
-            />
-          </Link>
+          {goBackLink()}
         </React.Fragment>
       )
     }
@@ -260,12 +263,7 @@ const TwoStepVerification = props => {
             id='scenes.security.twostepverification.yubi.title'
             defaultMessage='Two-Step Verification - Yubikey'
           />
-          <Link size='14px' onClick={handleGoBack}>
-            <FormattedMessage
-              id='scenes.security.twostepverification.cancel'
-              defaultMessage='Cancel'
-            />
-          </Link>
+          {goBackLink()}
         </React.Fragment>
       )
     }
@@ -276,12 +274,7 @@ const TwoStepVerification = props => {
             id='scenes.security.twostepverification.mobile.title'
             defaultMessage='Two-Step Verification - Mobile Phone Number'
           />
-          <Link size='14px' onClick={handleGoBack}>
-            <FormattedMessage
-              id='scenes.security.twostepverification.cancel'
-              defaultMessage='Cancel'
-            />
-          </Link>
+          {goBackLink()}
         </React.Fragment>
       )
     }
