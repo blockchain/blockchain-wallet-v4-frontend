@@ -117,7 +117,7 @@ export const OrderNote = ({ status }) => {
       return (
         <FormattedMessage
           id='components.orderstatus.note.failed'
-          defaultMessage='This trade has failed. If any funds have been broadcast from your wallet, they will be returned automatically minus the network fee. Please return to the exchange tab to start a new trade.'
+          defaultMessage='This trade has failed. If any funds have been broadcast from your wallet, they will be returned automatically minus the network fee. Please return to the swap tab to start a new trade.'
         />
       )
     case 'no_deposits':
@@ -144,14 +144,14 @@ export const OrderNote = ({ status }) => {
       return (
         <FormattedMessage
           id='components.orderstatus.note.refunded'
-          defaultMessage='We have refunded your wallet after the trade failed.  Please return to the exchange tab to start a new trade.'
+          defaultMessage='We have refunded your wallet after the trade failed.  Please return to the swap tab to start a new trade.'
         />
       )
     case EXPIRED:
       return (
         <FormattedMessage
           id='components.orderstatus.note.expired_exchange'
-          defaultMessage='This exchange has expired as we have still not received your funds. If we receive your funds we will complete your trade. If you require further assistance please contact support.'
+          defaultMessage='This swap has expired as we have still not received your funds. If we receive your funds we will complete your trade. If you require further assistance please contact support.'
         />
       )
     default:

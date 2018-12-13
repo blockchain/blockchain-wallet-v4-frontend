@@ -31,12 +31,12 @@ exports[`SwapBanner renders correctly with exchange link 1`] = `
       exact={false}
       replace={false}
       strict={false}
-      to="/exchange"
+      to="/swap"
     >
       <SwapBanner__GetStartedButton>
         <FormattedMessage
-          defaultMessage="Go To Exchange"
-          id="scenes.home.swapbanner.faster.gotoexchange"
+          defaultMessage="Make Swap"
+          id="scenes.home.swapbanner.faster.makeswap"
           values={Object {}}
         />
       </SwapBanner__GetStartedButton>

@@ -22,8 +22,6 @@ class SubmitButton extends React.PureComponent {
     const {
       blockLockbox,
       disabled,
-      sourceCoin,
-      targetCoin,
       txError,
       volume,
       asyncValidating,
@@ -52,12 +50,8 @@ class SubmitButton extends React.PureComponent {
         >
           {!disabled && !asyncValidating && !submitting ? (
             <FormattedMessage
-              id='scenes.exchange.exchangeform.exchange'
-              defaultMessage='Exchange {source} for {target}'
-              values={{
-                source: sourceCoin,
-                target: targetCoin
-              }}
+              id='scenes.exchange.exchangeform.swap'
+              defaultMessage='Swap'
             />
           ) : (
             <HeartbeatLoader height='20px' width='20px' color='white' />

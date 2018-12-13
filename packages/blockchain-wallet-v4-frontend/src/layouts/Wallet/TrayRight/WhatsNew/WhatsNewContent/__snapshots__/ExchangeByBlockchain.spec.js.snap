@@ -260,7 +260,7 @@ exports[`ExchangeByBlockchain renders correctly with exchange link 1`] = `
       exact={false}
       replace={false}
       strict={false}
-      to="/exchange"
+      to="/swap"
     >
       <ExchangeByBlockchain__GetStartedButton>
         <FormattedMessage

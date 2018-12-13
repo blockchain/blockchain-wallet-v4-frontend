@@ -216,8 +216,8 @@ const Success = ({
                   weight={400}
                 >
                   <FormattedMessage
-                    id='scenes.exchange.exchangeform.from'
-                    defaultMessage='Exchange'
+                    id='scenes.exchange.exchangeform.swap'
+                    defaultMessage='Swap'
                   />
                 </ClickableText>
               </Cell>
@@ -313,8 +313,6 @@ const Success = ({
           </FieldsWrapper>
           <SubmitButton
             blockLockbox={blockLockbox}
-            sourceCoin={sourceCoin}
-            targetCoin={targetCoin}
             volume={volume}
             handleSubmit={handleSubmit}
           />

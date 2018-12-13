@@ -33,7 +33,7 @@ export default ({ api }) => {
       if (test(/cash/, text)) return yield call(api.logClick, 'bch')
       if (test(/stellar/, text)) return yield call(api.logClick, 'xlm')
       if (test(/(buy|sell)/, text)) return yield call(api.logClick, 'buysell')
-      if (test(/exchange/, text)) return yield call(api.logClick, 'exchange')
+      if (test(/swap/, text)) return yield call(api.logClick, 'swap')
       if (test(/lockbox/, text)) return yield call(api.logClick, 'lockbox')
       if (test(/security/, text)) return yield call(api.logClick, 'security')
       if (test(/settings/, text)) return yield call(api.logClick, 'settings')

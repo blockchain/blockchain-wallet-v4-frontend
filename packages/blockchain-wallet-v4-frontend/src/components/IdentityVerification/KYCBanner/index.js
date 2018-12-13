@@ -183,7 +183,7 @@ export const KYCBanner = ({
     [KYC_STATES.UNDER_REVIEW]: null,
     [KYC_STATES.REJECTED]: null,
     [KYC_STATES.VERIFIED]: (
-      <LinkContainer to={'/exchange'}>
+      <LinkContainer to={'/swap'}>
         <ActionButton nature='primary'>
           <FormattedMessage
             id='components.identityverification.popup.button.getstarted'

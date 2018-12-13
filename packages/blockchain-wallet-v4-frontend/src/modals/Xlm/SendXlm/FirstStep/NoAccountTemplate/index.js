@@ -24,12 +24,12 @@ export const NoAccountTemplate = () => (
     </FormGroup>
     <FormGroup>
       <LinkContainer
-        to={{ pathname: '/exchange', state: { from: 'BTC', to: 'XLM' } }}
+        to={{ pathname: '/swap', state: { from: 'BTC', to: 'XLM' } }}
       >
         <Button type='submit' nature='primary' uppercase fullwidth>
           <FormattedMessage
-            id='modals.sendxlm.firststep.exchange'
-            defaultMessage='Exchange for XLM'
+            id='modals.sendxlm.firststep.swap'
+            defaultMessage='Swap for XLM'
           />
         </Button>
       </LinkContainer>

@@ -32,11 +32,8 @@ export class Summary extends React.PureComponent {
         <TableRow>
           <AmountHeader>
             <FormattedMessage
-              id='scenes.exchange.exchangeform.summary.deposit'
-              defaultMessage='Exchange {coin}'
-              values={{
-                coin: sourceCoin
-              }}
+              id='scenes.exchange.exchangeform.summary.swap'
+              defaultMessage='Swap'
             />
           </AmountHeader>
           <ExchangeAmount>
@@ -54,11 +51,8 @@ export class Summary extends React.PureComponent {
         <TableRow>
           <AmountHeader>
             <FormattedMessage
-              id='scenes.exchange.exchangeform.summary.receive'
-              defaultMessage='Receive {coin}'
-              values={{
-                coin: targetCoin
-              }}
+              id='scenes.exchange.exchangeform.summary.to'
+              defaultMessage='Receive'
             />
           </AmountHeader>
           <ExchangeAmount>
@@ -77,8 +71,8 @@ export class Summary extends React.PureComponent {
         <TableRow>
           <ExchangeText>
             <FormattedMessage
-              id='scenes.exchange.exchangeform.summary.fee'
-              defaultMessage='Network Fee'
+              id='scenes.exchange.exchangeform.summary.fees'
+              defaultMessage='Fees'
             />
           </ExchangeText>
           <ExchangeAmount>
@@ -92,8 +86,8 @@ export class Summary extends React.PureComponent {
         <TableRow>
           <ExchangeText>
             <FormattedMessage
-              id='scenes.exchange.exchangeform.summary.value'
-              defaultMessage='~ Total Value'
+              id='scenes.exchange.exchangeform.summary.swapvalue'
+              defaultMessage='Swap Value'
             />
           </ExchangeText>
           <ExchangeAmount>
