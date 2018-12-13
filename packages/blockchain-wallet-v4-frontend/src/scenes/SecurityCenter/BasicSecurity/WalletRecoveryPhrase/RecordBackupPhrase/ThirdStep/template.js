@@ -83,7 +83,7 @@ const ThirdStep = props => {
           <Button onClick={previousStep} nature='empty'>
             <Text weight={300} cursor='pointer'>
               <FormattedMessage
-                id='modals.recoveryphrase.secondstep.returnReviewPhrase'
+                id='scenes.securitycenter.walletrecoveryphrase.thirdstep.review'
                 defaultMessage='Review Backup Phrase'
               />
             </Text>
@@ -109,7 +109,6 @@ ThirdStep.propTypes = {
   indexes: PropTypes.array.isRequired,
   recoveryPhrase: PropTypes.array.isRequired,
   previousStep: PropTypes.func.isRequired,
-  goBackOnSuccess: PropTypes.func,
   invalid: PropTypes.bool.isRequired,
   handleClose: PropTypes.func,
   inline: PropTypes.bool.isRequired

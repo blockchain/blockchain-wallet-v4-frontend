@@ -40,15 +40,6 @@ const LabelCell = styled(Text)`
   margin-right: 6px;
 `
 
-const Manage = () => (
-  <Link weight={200} size='small'>
-    <FormattedMessage
-      id='scenes.settings.addresses.bch.wallets.manage'
-      defaultMessage='Manage Wallet'
-    />
-  </Link>
-)
-
 const Success = props => {
   const { bchAccounts, wallets, defaultIndex } = props.data
   const {
@@ -106,7 +97,14 @@ const Success = props => {
             down
             forceSelected
             color={'gray-5'}
-            selectedComponent={<Manage />}
+            selectedComponent={
+              <Link weight={400} size='13px'>
+                <FormattedMessage
+                  id='scenes.settings.addresses.bch.wallets.manage'
+                  defaultMessage='Manage Wallet'
+                />
+              </Link>
+            }
             components={[
               !isArchived && (
                 <ClickableText

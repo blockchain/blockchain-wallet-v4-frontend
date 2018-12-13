@@ -40,10 +40,13 @@ const FirstStepContainer = styled.div`
 `
 const Buttons = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   margin-top: 10px;
+  & > :first-child {
+    margin-right: 14px;
+  }
   a {
     margin-top: 15px;
   }
@@ -80,6 +83,12 @@ const FirstStep = props => {
         </Link>
       </PrintContainer>
       <Buttons>
+        <Button nature='empty' onClick={props.handleClose}>
+          <FormattedMessage
+            id='scenes.security.2fa.cancel'
+            defaultMessage='Cancel'
+          />
+        </Button>
         <Button nature='primary' onClick={nextStep}>
           <FormattedMessage
             id='modals.recoveryphrase.firststep.backup'

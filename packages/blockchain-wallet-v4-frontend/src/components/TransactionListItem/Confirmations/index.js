@@ -90,7 +90,11 @@ const Confirmations = props => {
             <Icon name='question-in-circle' />
           </TransactionTooltip>
         )}
-        <Link href={`${explorers[coin]}/${props.hash}`} target='_blank' data-e2e='transactionListItemExplorerLink'>
+        <Link
+          href={`${explorers[coin]}/${props.hash}`}
+          target='_blank'
+          data-e2e='transactionListItemExplorerLink'
+        >
           <Icon
             name='open-in-new-tab'
             color='marketing-primary'

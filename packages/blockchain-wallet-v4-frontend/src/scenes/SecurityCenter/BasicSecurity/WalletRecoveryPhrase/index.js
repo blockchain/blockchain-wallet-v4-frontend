@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { path } from 'ramda'
 import { getData } from './selectors'
-import Success from './template.success'
+import WalletRecoveryPhrase from './template.success'
 
 import { actions } from 'data'
 
@@ -23,7 +23,6 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
   componentWillReceiveProps (nextProps) {
     if (nextProps.recoveryPhrase && this.props.recoveryPhrase === undefined) {
       this.setState({ nextStepToggled: true })
-      this.props.handleEnable()
     }
   }
 
@@ -32,7 +31,6 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
       this.props.settingsActions.showBackupRecovery()
     } else {
       this.setState({ nextStepToggled: true })
-      this.props.handleEnable()
     }
   }
 
@@ -49,7 +47,7 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
   render () {
     const { data, ...rest } = this.props
     return (
-      <Success
+      <WalletRecoveryPhrase
         {...rest}
         ui={this.state}
         data={data}

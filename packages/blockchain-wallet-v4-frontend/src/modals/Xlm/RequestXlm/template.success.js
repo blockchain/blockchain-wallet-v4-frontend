@@ -136,7 +136,12 @@ const RequestXlm = ({
       </ScanMessage>
       <QRCodeReact value={xlmURI} size={150} />
     </QRCodeContainer>
-    <Button type='submit' nature='primary' fullwidth data-e2e='requestXlmDoneButton'>
+    <Button
+      type='submit'
+      nature='primary'
+      fullwidth
+      data-e2e='requestXlmDoneButton'
+    >
       <FormattedMessage id='modals.requestxlm.done' defaultMessage='Done' />
     </Button>
   </Form>

@@ -10,7 +10,7 @@ import { FormattedMessage } from 'react-intl'
 import * as C from 'services/AlertService'
 import { actions, selectors } from 'data'
 import { Types } from 'blockchain-wallet-v4'
-import UnusedAddressesTemplate from './template.success'
+import UnusedAddresses from './template'
 
 import {
   Banner,
@@ -28,15 +28,6 @@ const WalletLabelCell = styled.div`
 const ClickableText = styled(Text)`
   cursor: pointer;
 `
-
-const MoreOptions = () => (
-  <Link weight={200} size='small'>
-    <FormattedMessage
-      id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.moreoptions'
-      defaultMessage='More Options'
-    />
-  </Link>
-)
 
 class UnusedAddressesContainer extends React.PureComponent {
   componentWillMount () {
@@ -126,7 +117,14 @@ class UnusedAddressesContainer extends React.PureComponent {
             down
             forceSelected
             color={'gray-5'}
-            selectedComponent={<MoreOptions />}
+            selectedComponent={
+              <Link weight={400} size='13px'>
+                <FormattedMessage
+                  id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.moreoptions'
+                  defaultMessage='More Options'
+                />
+              </Link>
+            }
             components={[
               <ClickableText size='small' onClick={onEditBtcAccountLabel}>
                 <FormattedMessage
@@ -178,8 +176,8 @@ class UnusedAddressesContainer extends React.PureComponent {
         {!unusedAddresses
           ? null
           : unusedAddresses.cata({
-              Success: value => (
-                <UnusedAddressesTemplate {...props} unusedAddresses={value} />
+              Success: unusedAddresses => (
+                <UnusedAddresses {...props} unusedAddresses={unusedAddresses} />
               ),
               Failure: () => <div />,
               Loading: () => (

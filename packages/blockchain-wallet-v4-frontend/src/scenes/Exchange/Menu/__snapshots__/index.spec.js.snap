@@ -1,3 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MenuTop Component matches snapshot 1`] = `<Menu__Wrapper />`;
+exports[`MenuTop Component matches snapshot 1`] = `
+<Menu__Wrapper>
+  <>
+    <LinkContainer
+      activeClassName="active"
+      exact={true}
+      replace={false}
+      strict={false}
+      to="/exchange"
+    >
+      <Menu__LinkItem
+        activeClassName="active"
+        data-e2e="exchangeTabMenuExchange"
+      >
+        <FormattedMessage
+          defaultMessage="Exchange"
+          id="scenes.exchange.menutop.exchange"
+          values={Object {}}
+        />
+      </Menu__LinkItem>
+    </LinkContainer>
+    <LinkContainer
+      activeClassName="active"
+      exact={false}
+      replace={false}
+      strict={false}
+      to="/exchange/history"
+    >
+      <Menu__LinkItem
+        activeClassName="active"
+        data-e2e="exchangeTabMenuOrderHistory"
+      >
+        <FormattedMessage
+          defaultMessage="Order History"
+          id="scenes.exchange.menutop.history"
+          values={Object {}}
+        />
+      </Menu__LinkItem>
+    </LinkContainer>
+  </>
+</Menu__Wrapper>
+`;
