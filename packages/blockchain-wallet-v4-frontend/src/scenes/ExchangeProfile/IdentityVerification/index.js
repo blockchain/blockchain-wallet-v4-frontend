@@ -124,7 +124,7 @@ const GoBackLink = styled.div`
   }
 `
 
-const IdentityVerification = ({ userData, userTiers }) => {
+const IdentityVerification = () => {
   return (
     <Wrapper>
       <GoBackLink>
@@ -150,16 +150,11 @@ const IdentityVerification = ({ userData, userTiers }) => {
           </Column>
         </Row>
         <TierRow>
-          <TierCard tier={1} userData={userData} userTiers={userTiers} column />
+          <TierCard tier={1} column />
           <br />
           <br />
           <TierWrapper>
-            <TierCard
-              tier={2}
-              userData={userData}
-              userTiers={userTiers}
-              column
-            />
+            <TierCard tier={2} column />
             <TooltipHost id='swaplimit.airdrops.tooltip' data-place='right'>
               <TooltipIcon
                 size='24px'

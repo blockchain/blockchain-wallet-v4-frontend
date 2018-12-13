@@ -12,7 +12,12 @@ import { BlockchainLoader } from 'blockchain-info-components'
 
 const Wrapper = styled.section`
   width: 100%;
+`
+const LoadingWrapper = styled.div`
+  width: 100%;
   height: 100%;
+  display: flex;
+  align-items: center;
   justify-content: center;
 `
 const Container = styled.div`
@@ -22,9 +27,9 @@ const Container = styled.div`
 `
 
 const Loading = () => (
-  <Wrapper>
+  <LoadingWrapper>
     <BlockchainLoader />
-  </Wrapper>
+  </LoadingWrapper>
 )
 
 export const Profile = ({ data, fetchUser }) =>

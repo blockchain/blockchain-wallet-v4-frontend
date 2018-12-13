@@ -5,6 +5,7 @@ import { head, path, propEq, toLower } from 'ramda'
 import { connect } from 'react-redux'
 
 import { actions } from 'data'
+import { getData } from './selectors'
 import { Button, Text, TextGroup, Icon } from 'blockchain-info-components'
 import media from 'services/ResponsiveService'
 import { Exchange } from 'blockchain-wallet-v4/src'
@@ -174,6 +175,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(
-  undefined,
+  getData,
   mapDispatchToProps
 )(TierCard)

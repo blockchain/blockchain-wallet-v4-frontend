@@ -88,7 +88,7 @@ const LearnMoreContainer = styled.div`
   margin-top: 40px;
 `
 
-const IdentityVerification = ({ userData, userTiers }) => {
+const IdentityVerification = () => {
   return (
     <Wrapper>
       <Container>
@@ -124,11 +124,11 @@ const IdentityVerification = ({ userData, userTiers }) => {
         </Row>
         <Row width='60%'>
           <Column>
-            <TierCard tier={1} userData={userData} userTiers={userTiers} />
+            <TierCard tier={1} />
             <br />
             <br />
             <TierWrapper>
-              <TierCard tier={2} userData={userData} userTiers={userTiers} />
+              <TierCard tier={2} />
               <TooltipHost id='swaplimit.airdrops.tooltip' data-place='right'>
                 <TooltipIcon
                   size='24px'
