@@ -305,6 +305,7 @@ const Success = props => {
                     onClick={() => {
                       if (!swapDisabled) swapBaseAndCounter()
                     }}
+                    data-e2e='exchangeCoinSwapIcon'
                   />
                 </Cell>
               </TooltipHost>
@@ -332,6 +333,7 @@ const Success = props => {
             <Row>
               <Cell center>
                 <ActiveCurrencyButton
+                  data-e2e='exchangeExchangeRadioButton'
                   onClick={() => {
                     if (!sourceActive) swapFix()
                   }}
@@ -339,6 +341,7 @@ const Success = props => {
                   coin={sourceCoin.toLowerCase()}
                 />
                 <ClickableText
+                  data-e2e='exchangeExchangeRadioText'
                   onClick={() => {
                     if (!sourceActive) swapFix()
                   }}
@@ -355,6 +358,7 @@ const Success = props => {
               <Cell center>
                 {
                   <ActiveCurrencyButton
+                    data-e2e='exchangeReceiveRadioButton'
                     onClick={() => {
                       if (!targetActive) swapFix()
                     }}
@@ -363,6 +367,7 @@ const Success = props => {
                   />
                 }
                 <ClickableText
+                  data-e2e='exchangeReceiveRadioText'
                   onClick={() => {
                     if (!targetActive) swapFix()
                   }}
@@ -389,6 +394,7 @@ const Success = props => {
                 normalize={normalizeAmount}
                 component={AmountTextBox}
                 maxFontSize='72px'
+                data-e2e='exchangeAmountInput'
               />
               {!fiatActive && <CurrencyBox>{inputSymbol}</CurrencyBox>}
             </AmountRow>
@@ -417,6 +423,7 @@ const Success = props => {
                 onClick={() => {
                   if (!swapDisabled) swapCoinAndFiat()
                 }}
+                data-e2e='exchangeCoinFiatSwapButton'
               />
             </AmountRow>
             <ErrorRow>
@@ -429,6 +436,7 @@ const Success = props => {
                 fullwidth
                 disabled={minMaxDisabled}
                 onClick={useMin}
+                data-e2e='exchangeMinButton'
               >
                 <FormattedMessage
                   id='scenes.exchange.exchangeform.min'
@@ -448,6 +456,7 @@ const Success = props => {
                 fullwidth
                 disabled={minMaxDisabled}
                 onClick={useMax}
+                data-e2e='exchangeMaxButton'
               >
                 <FormattedMessage
                   id='scenes.exchange.exchangeform.max'
@@ -481,6 +490,7 @@ const Success = props => {
                 (volume && error) ||
                 txError
               }
+              data-e2e='exchangeSubmitButton'
             >
               {!disabled && !asyncValidating && !submitting ? (
                 <FormattedMessage

@@ -26,14 +26,16 @@ const ErrorBanner = styled(Banner)`
 `
 
 export const InvalidAmountMessage = () => (
-  <FormattedMessage
-    id='modals.sendxlm.amountnotzeromessage'
-    defaultMessage='Invalid amount'
-  />
+  <div data-e2e='sendXlmInvalidAmount'>
+    <FormattedMessage
+      id='modals.sendxlm.amountnotzeromessage'
+      defaultMessage='Invalid amount'
+    />
+  </div>
 )
 
 export const ShouldCreateAccountMessage = props => (
-  <ErrorBanner type='warning'>
+  <ErrorBanner type='warning' data-e2e='sendXlmErrorSendAtLeast'>
     <FormattedMessage
       id='modals.sendxlm.shouldcreateaccountmessage'
       defaultMessage='You need to send at least {reserveXlm} XLM to this address'
@@ -54,7 +56,7 @@ export const NoFundsMessage = props => (
 )
 
 export const ReserveMessage = props => (
-  <ErrorBanner type='warning'>
+  <ErrorBanner type='warning' data-e2e='sendXlmUseTotalBalance'>
     <div>
       <FormattedMessage
         id='modals.sendxlm.usespendable'
@@ -80,15 +82,19 @@ export const InsufficientFundsMessage = () => (
 )
 
 export const WrongIdMemoFormat = () => (
-  <FormattedMessage
-    id='modals.sendxlm.wrongidmemo'
-    defaultMessage='Memo should be a number'
-  />
+  <div data-e2e='sendXlmWrongIdMemoFormat'>
+    <FormattedMessage
+      id='modals.sendxlm.wrongidmemo'
+      defaultMessage='Memo should be a number'
+    />
+  </div>
 )
 
 export const WrongTextMemoFormat = () => (
-  <FormattedMessage
-    id='modals.sendxlm.wrongtextmemo'
-    defaultMessage='Memo should be shorter than 28 symbols'
-  />
+  <div data-e2e='sendXlmWrongTextMemoFormat'>
+    <FormattedMessage
+      id='modals.sendxlm.wrongtextmemo'
+      defaultMessage='Memo should be shorter than 28 symbols'
+    />
+  </div>
 )

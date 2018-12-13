@@ -81,7 +81,11 @@ const SecondStep = ({ addr, balance, priv }) => (
         </DetailRowText>
         {':'}
         &nbsp;
-        <DataRowText size='14px' weight={300}>
+        <DataRowText
+          size='14px'
+          weight={300}
+          data-e2e='xlmPrivateKeyModalAddress'
+        >
           {addr}
         </DataRowText>
       </DetailRow>
@@ -94,7 +98,11 @@ const SecondStep = ({ addr, balance, priv }) => (
         </DetailRowText>
         {':'}
         &nbsp;
-        <DataRowText size='14px' weight={300}>
+        <DataRowText
+          size='14px'
+          weight={300}
+          data-e2e='xlmPrivateKeyModalPrivKey'
+        >
           {priv}
         </DataRowText>
       </DetailRow>
@@ -111,7 +119,11 @@ const ShowPrivateKeyTemplate = ({
   ...rest
 }) => (
   <Modal size='large' position={position} total={total}>
-    <ModalHeader icon='lock' closeButton={false}>
+    <ModalHeader
+      icon='lock'
+      closeButton={false}
+      data-e2e='xlmPrivateKeyModalHeader'
+    >
       <FormattedMessage
         id='modals.showxlmpriv.title'
         defaultMessage='Private Key'
@@ -127,6 +139,7 @@ const ShowPrivateKeyTemplate = ({
         weight={300}
         style={spacing('mr-15')}
         onClick={close}
+        data-e2e='xlmPrivateKeyModalClose'
       >
         <FormattedMessage
           id='modals.showxlmpriv.close'
@@ -134,7 +147,11 @@ const ShowPrivateKeyTemplate = ({
         />
       </Text>
       {step === 0 && (
-        <Button nature='primary' onClick={onContinue}>
+        <Button
+          nature='primary'
+          onClick={onContinue}
+          data-e2e='xlmPrivateKeyModalContinue'
+        >
           <FormattedMessage
             id='modals.showxlmpriv.continue'
             defaultMessage='Continue'

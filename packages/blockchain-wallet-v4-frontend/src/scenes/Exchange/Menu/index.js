@@ -37,7 +37,7 @@ export const MenuTop = ({ historySelected, showGetStarted }) =>
     <Wrapper>
       <TabMenu>
         <LinkContainer to='/exchange' exact>
-          <LinkItem activeClassName='active'>
+          <LinkItem activeClassName='active' data-e2e='exchangeTabMenuExchange'>
             <FormattedMessage
               id='scenes.exchange.menutop.exchange'
               defaultMessage='Exchange'
@@ -45,7 +45,10 @@ export const MenuTop = ({ historySelected, showGetStarted }) =>
           </LinkItem>
         </LinkContainer>
         <LinkContainer to='/exchange/history'>
-          <LinkItem activeClassName='active'>
+          <LinkItem
+            activeClassName='active'
+            data-e2e='exchangeTabMenuOrderHistory'
+          >
             <FormattedMessage
               id='scenes.exchange.menutop.history'
               defaultMessage='Order History'

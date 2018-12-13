@@ -12,6 +12,7 @@ const TabMenuTransactionStatus = props => {
       {statuses.indexOf('') > -1 && (
         <TabMenuItem
           className={value === '' ? 'active' : ''}
+          data-e2e='transactionTabMenuAll'
           onClick={() => handleClick('')}
         >
           <FormattedMessage
@@ -24,6 +25,7 @@ const TabMenuTransactionStatus = props => {
         <TabMenuItem
           className={value === 'received' ? 'active' : ''}
           onClick={() => handleClick('received')}
+          data-e2e='transactionTabMenuReceived'
         >
           <FormattedMessage
             id='components.form.tabmenutransactionstatus.received'
@@ -35,6 +37,7 @@ const TabMenuTransactionStatus = props => {
         <TabMenuItem
           className={value === 'sent' ? 'active' : ''}
           onClick={() => handleClick('sent')}
+          data-e2e='transactionTabMenuSent'
         >
           <FormattedMessage
             id='components.form.tabmenutransactionstatus.sent'
@@ -46,6 +49,7 @@ const TabMenuTransactionStatus = props => {
         <TabMenuItem
           className={value === 'transferred' ? 'active' : ''}
           onClick={() => handleClick('transferred')}
+          data-e2e='transactionTabMenuTransferred'
         >
           <FormattedMessage
             id='components.form.tabmenutransactionstatus.transferred'
