@@ -1,5 +1,5 @@
 import { call, put } from 'redux-saga/effects'
-import { test, prop, equals } from 'ramda'
+import { prop, equals } from 'ramda'
 
 import { actions } from 'data'
 import {
@@ -20,33 +20,6 @@ export default ({ api }) => {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'reportBalanceStats', e)
       )
-    }
-  }
-
-  const logLeftNavClick = function*({ payload }) {
-    try {
-      const { text } = payload
-
-      if (test(/dashboard/, text)) return yield call(api.logClick, 'dashboard')
-      if (test(/^bitcoin$/, text)) return yield call(api.logClick, 'btc')
-      if (test(/ether/, text)) return yield call(api.logClick, 'eth')
-      if (test(/cash/, text)) return yield call(api.logClick, 'bch')
-      if (test(/stellar/, text)) return yield call(api.logClick, 'xlm')
-      if (test(/(buy|sell)/, text)) return yield call(api.logClick, 'buysell')
-      if (test(/exchange/, text)) return yield call(api.logClick, 'exchange')
-      if (test(/lockbox/, text)) return yield call(api.logClick, 'lockbox')
-      if (test(/security/, text)) return yield call(api.logClick, 'security')
-      if (test(/settings/, text)) return yield call(api.logClick, 'settings')
-      if (test(/general/, text))
-        return yield call(api.logClick, 'settings_general')
-      if (test(/profile/, text))
-        return yield call(api.logClick, 'settings_profile')
-      if (test(/preferences/, text))
-        return yield call(api.logClick, 'settings_preferences')
-      if (test(/wallets/, text))
-        return yield call(api.logClick, 'settings_wallets')
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'logLeftNavClick', e))
     }
   }
 
@@ -107,7 +80,6 @@ export default ({ api }) => {
     logKycEvent,
     logExchangeEvent,
     logSfoxDropoff,
-    logLeftNavClick,
     logLockboxSetup,
     reportBalanceStats
   }

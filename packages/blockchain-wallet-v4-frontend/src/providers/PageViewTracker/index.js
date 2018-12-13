@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { selectors } from 'data'
 import styled from 'styled-components'
+import { head } from 'ramda'
 
 const Iframe = styled.iframe`
   position: absolute;
@@ -15,12 +16,19 @@ const Iframe = styled.iframe`
 
 class PageViewTracker extends React.PureComponent {
   componentDidUpdate (prevProps) {
-    const { location } = this.props
-    const { location: prevLocation } = prevProps
+    const { analytics, location } = this.props
+    const { analytics: prevAnalytics, location: prevLocation } = prevProps
     const node = ReactDOM.findDOMNode(this)
     if (location.pathname !== prevLocation.pathname) {
       node.contentWindow.postMessage(
         { method: 'trackPageView', trackingData: [location.pathname] },
+        '*'
+      )
+    }
+    if (head(prevAnalytics) !== head(analytics)) {
+      const { trackingData } = head(analytics)
+      node.contentWindow.postMessage(
+        { method: 'trackEvent', trackingData: [trackingData] },
         '*'
       )
     }
@@ -42,7 +50,7 @@ const mapStateToProps = state => ({
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({
     walletHelper: 'https://wallet-helper.blockchain.com'
   }),
-  logs: selectors.logs.getLogs(state)
+  analytics: selectors.analytics.getAnalytics(state)
 })
 
 export default compose(

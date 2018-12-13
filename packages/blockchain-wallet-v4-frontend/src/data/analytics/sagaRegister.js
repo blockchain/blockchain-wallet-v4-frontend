@@ -10,7 +10,6 @@ export default ({ api, coreSagas }) => {
   const analyticsSagas = sagas({ api, coreSagas })
   return function*() {
     yield takeLatest(AT.REPORT_BALANCE_STATS, analyticsSagas.reportBalanceStats)
-    yield takeLatest(AT.LOG_LEFT_NAV_CLICK, analyticsSagas.logLeftNavClick)
     yield takeLatest(AT.LOG_LOCKBOX_SETUP, analyticsSagas.logLockboxSetup)
     yield takeLatest(LAYOUT_WALLET_HEADER_FAQ_CLICKED, analyticsSagas.logClick)
     yield takeLatest(

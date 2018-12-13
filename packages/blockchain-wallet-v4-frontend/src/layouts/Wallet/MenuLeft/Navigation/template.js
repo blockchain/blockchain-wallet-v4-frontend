@@ -30,12 +30,11 @@ const NewCartridge = styled(Cartridge)`
 `
 
 const Navigation = props => {
-  const { logClick, ...rest } = props
+  const { ...rest } = props
   const { lockboxOpened, lockboxDevices, lockboxEnabled } = rest
 
   return (
-    <Wrapper {...rest} onClick={logClick}>
-      {/* If updating navigation item names dont forget to update analytics saga */}
+    <Wrapper {...rest}>
       <LinkContainer to='/home' activeClassName='active'>
         <MenuItem data-e2e='dashboardLink'>
           <Icon name='nav-home' />
