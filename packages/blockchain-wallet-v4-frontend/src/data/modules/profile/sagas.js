@@ -120,6 +120,7 @@ export default ({ api, coreSagas }) => {
     try {
       const user = yield call(api.getUser)
       yield put(A.fetchUserDataSuccess(user))
+      yield call(fetchTiers)
       if (!renewUserTask && user.kycState === KYC_STATES.PENDING)
         renewUserTask = yield spawn(renewUser, renewUserDelay)
 
@@ -262,6 +263,16 @@ export default ({ api, coreSagas }) => {
     yield put(A.fetchUserDataSuccess(userData))
   }
 
+  const fetchTiers = function*() {
+    try {
+      yield put(A.fetchTiersLoading())
+      const tiersData = yield call(api.fetchTiers)
+      yield put(A.fetchTiersSuccess(tiersData.tiers))
+    } catch (e) {
+      yield put(A.fetchTiersFailure(e))
+    }
+  }
+
   return {
     getCampaignData,
     signIn,
@@ -274,6 +285,7 @@ export default ({ api, coreSagas }) => {
     updateUser,
     updateUserAddress,
     fetchUser,
+    fetchTiers,
     renewApiSockets,
     renewUser,
     syncUserWithWallet,

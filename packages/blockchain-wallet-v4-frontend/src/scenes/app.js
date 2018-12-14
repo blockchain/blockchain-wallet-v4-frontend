@@ -13,6 +13,7 @@ import AuthorizeLogin from './AuthorizeLogin'
 import BuySell from './BuySell'
 import Exchange from './Exchange'
 import ExchangeHistory from './ExchangeHistory'
+import ExchangeProfile from './ExchangeProfile'
 import Help from './Help'
 import Home from './Home'
 import Lockbox from './Lockbox'
@@ -100,6 +101,10 @@ class App extends React.PureComponent {
                     <WalletLayout
                       path='/exchange/history'
                       component={ExchangeHistory}
+                    />
+                    <WalletLayout
+                      path='/exchange/profile'
+                      component={ExchangeProfile}
                     />
                     <WalletLayout path='/exchange' component={Exchange} exact />
                     <WalletLayout

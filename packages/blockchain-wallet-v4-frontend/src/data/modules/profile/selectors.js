@@ -34,6 +34,7 @@ export const getUserCountryCode = compose(
   lift(path(['address', 'country'])),
   getUserData
 )
+export const getTiers = path(['profile', 'userTiers'])
 
 // TODO: remove when BE ships the TIER field
 export const defineUserTier = (userState, kycState) => {

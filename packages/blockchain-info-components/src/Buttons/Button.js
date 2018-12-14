@@ -13,7 +13,7 @@ const BaseButton = styled.button.attrs({
   width: ${props =>
     props.fullwidth ? '100%' : props.width ? props.width : 'auto'};
   min-width: ${props => (props.width ? props.width : '140px')};
-  height: ${props => props.height};
+  height: ${props => (props.jumbo ? '56px' : props.height)};
   padding: ${props => (props.padding ? props.padding : '10px 15px')};
   margin: ${props => props.margin};
   box-sizing: border-box;
@@ -28,8 +28,8 @@ const BaseButton = styled.button.attrs({
   text-transform: ${props =>
     props.uppercase ? 'uppercase' : props.capitalize ? 'capitalize' : 'none'};
   font-family: 'Montserrat', Helvetica, sans-serif;
-  font-size: ${props => (props.size ? props.size : '14px')};
-  font-weight: ${props => (props.bold ? '700' : '300')};
+  font-size: ${props => (props.jumbo ? '16px' : props.size)};
+  font-weight: ${props => (props.jumbo ? '500' : '300')};
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   opacity: ${props => (props.disabled ? 0.5 : 1)};
   color: ${props => props.theme[props.color]};
@@ -180,6 +180,7 @@ Button.defaultProps = {
   small: false,
   rounded: false,
   bold: false,
+  size: '14px',
   uppercase: false,
   capitalize: false,
   height: '40px'

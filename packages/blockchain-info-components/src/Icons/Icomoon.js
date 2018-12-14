@@ -66,6 +66,7 @@ export default {
   plus: '\\ea0a',
   present: '\\e96d',
   'question-in-circle': '\\e96e',
+  'question-in-circle-filled': '\\e912',
   refresh: '\\e94c',
   request: '\\e92a',
   'right-arrow': '\\e94e',
