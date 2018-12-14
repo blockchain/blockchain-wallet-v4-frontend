@@ -81,7 +81,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 ContentContainer.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'BCH', 'ETH', 'XLM']).isRequired
+  coin: PropTypes.oneOf(['BTC', 'BCH', 'BSV', 'ETH', 'XLM']).isRequired
 }
 
 export default connect(
