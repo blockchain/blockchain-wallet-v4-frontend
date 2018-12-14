@@ -3,10 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const BaseTabMenuItem = styled.span`
+  position: relative;
   padding: 6px 8px;
-  background-color: ${props => (props.selected ? 'rgba(0,0,0,0.04)' : 'none')};
-  border-radius: ${props => (props.selected ? '4px' : 'none')};
-  text-transform: uppercase;
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
   font-size: 14px;
@@ -24,8 +22,15 @@ const BaseTabMenuItem = styled.span`
   }
 
   &.active {
-    text-decoration: underline;
     color: ${props => props.theme['gray-5']};
+    & :after {
+      position: absolute;
+      content: '';
+      top: 40px;
+      left: 0;
+      width: 100%;
+      border-bottom: 4px solid ${props => props.theme['brand-secondary']};
+    }
   }
   @media (max-width: 480px) {
     font-size: 13px;

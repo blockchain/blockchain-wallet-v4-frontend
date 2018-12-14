@@ -59,7 +59,7 @@ const Footer = props => {
               />
             </SubMenuItem>
           </LinkContainer>
-          <LinkContainer to='/settings/addresses/btc' activeClassName='active'>
+          <LinkContainer to='/settings/addresses' activeClassName='active'>
             <SubMenuItem data-e2e='settings_walletsLink'>
               <FormattedMessage
                 id='layouts.wallet.menuleft.footer.addresses'

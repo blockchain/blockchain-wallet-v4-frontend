@@ -63,6 +63,13 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
       endPoint: '/kyc/configuration'
     })
 
+  const fetchTiers = () =>
+    authorizedGet({
+      url: nabuUrl,
+      contentType: 'application/json',
+      endPoint: '/kyc/tiers'
+    })
+
   const sendDeeplink = () =>
     authorizedPost({
       url: nabuUrl,
@@ -77,6 +84,7 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
     fetchKycAddresses,
     fetchKycConfig,
     fetchUploadData,
+    fetchTiers,
     fetchVeriffUrl,
     syncVeriff,
     sendDeeplink,

@@ -31,7 +31,11 @@ const EditDescription = props => {
     <Wrapper onClick={handleChange}>
       {value ? (
         <DisplayContainer>
-          <Text size='14px' weight={300} data-e2e='transactionListItemDescription'>
+          <Text
+            size='14px'
+            weight={300}
+            data-e2e='transactionListItemDescription'
+          >
             {value}
           </Text>
           <PencilIcon name='pencil' color='received' size='14px' cursor />

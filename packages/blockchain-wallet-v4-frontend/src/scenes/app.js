@@ -13,6 +13,7 @@ import AuthorizeLogin from './AuthorizeLogin'
 import BuySell from './BuySell'
 import Exchange from './Exchange'
 import ExchangeHistory from './ExchangeHistory'
+import ExchangeProfile from './ExchangeProfile'
 import Help from './Help'
 import Home from './Home'
 import Lockbox from './Lockbox'
@@ -29,9 +30,7 @@ import UploadDocumentsSuccess from './UploadDocuments/Success'
 import VerifyEmailToken from './VerifyEmailToken'
 import Register from './Register'
 import SecurityCenter from './SecurityCenter'
-import Addresses from './Settings/Addresses/Btc'
-import BchAddresses from './Settings/Addresses/Bch'
-import BtcManageAddresses from './Settings/Addresses/Btc/ManageAddresses'
+import Addresses from './Settings/Addresses'
 import General from './Settings/General'
 import Profile from './Settings/Profile'
 import Preferences from './Settings/Preferences'
@@ -103,6 +102,10 @@ class App extends React.PureComponent {
                       path='/exchange/history'
                       component={ExchangeHistory}
                     />
+                    <WalletLayout
+                      path='/exchange/profile'
+                      component={ExchangeProfile}
+                    />
                     <WalletLayout path='/exchange' component={Exchange} exact />
                     <WalletLayout
                       path='/security-center'
@@ -117,17 +120,8 @@ class App extends React.PureComponent {
                       component={Preferences}
                     />
                     <WalletLayout
-                      path='/settings/addresses/btc/:index'
-                      component={BtcManageAddresses}
-                    />
-                    <WalletLayout
-                      path='/settings/addresses/btc'
+                      path='/settings/addresses'
                       component={Addresses}
-                      exact
-                    />
-                    <WalletLayout
-                      path='/settings/addresses/bch'
-                      component={BchAddresses}
                     />
                     <WalletLayout
                       path='/settings/general'

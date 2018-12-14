@@ -103,7 +103,7 @@ const Success = ({
               </Link>
             ) : (
               <LinkContainer to={`/settings/addresses/btc/${wallet.index}`}>
-                <Link weight={200} size='small'>
+                <Link weight={400} size='13px'>
                   <FormattedMessage
                     id='scenes.settings.addresses.btc.wallets.manage'
                     defaultMessage='Manage'

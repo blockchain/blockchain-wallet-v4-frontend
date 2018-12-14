@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 import { getData } from './selectors'
-import Success from './template.success'
+import Wallets from './template'
 import { formValueSelector } from 'redux-form'
 import { Remote } from 'blockchain-wallet-v4/src'
 
@@ -45,7 +45,7 @@ class BchWalletsContainer extends React.Component {
 
     return data.cata({
       Success: value => (
-        <Success
+        <Wallets
           search={search && search.toLowerCase()}
           data={value}
           {...props}
