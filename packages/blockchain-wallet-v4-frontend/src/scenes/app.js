@@ -32,6 +32,7 @@ import Register from './Register'
 import SecurityCenter from './SecurityCenter'
 import Addresses from './Settings/Addresses'
 import General from './Settings/General'
+import Profile from './Settings/Profile'
 import Preferences from './Settings/Preferences'
 import Transactions from './Transactions'
 
@@ -113,6 +114,10 @@ class App extends React.PureComponent {
                     <WalletLayout
                       path='/settings/preferences'
                       component={Preferences}
+                    />
+                    <WalletLayout
+                      path='/settings/profile'
+                      component={Profile}
                     />
                     <WalletLayout
                       path='/settings/addresses'
