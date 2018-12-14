@@ -341,11 +341,11 @@ export default ({ api, coreSagas }) => {
   const checkKycFlow = function*() {
     try {
       yield put(A.setKycFlow(Remote.Loading))
-      const { flowType } = yield call(api.fetchKycConfig)
+      const { flowType, kycProvider } = yield call(api.fetchKycConfig)
       const type = FLOW_TYPES[toUpper(flowType)]
       if (!type) throw wrongFlowTypeError
 
-      yield put(A.setKycFlow(Remote.of(type)))
+      yield put(A.setKycFlow(Remote.of({ flowType, kycProvider })))
     } catch (e) {
       yield put(A.setKycFlow(Remote.Failure(e)))
     }

@@ -56,3 +56,8 @@ export const FLOW_TYPES = {
   HIGH: 'HIGH',
   LOW: 'LOW'
 }
+
+export const KYC_PROVIDERS = {
+  ONFIDO: 'ONFIDO',
+  VERIFF: 'VERIFF'
+}
