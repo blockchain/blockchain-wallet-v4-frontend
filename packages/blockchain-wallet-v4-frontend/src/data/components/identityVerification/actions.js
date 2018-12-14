@@ -1,7 +1,9 @@
+import { TIERS } from '../../modules/profile/model'
 import * as AT from './actionTypes'
 
-export const verifyIdentity = () => ({
-  type: AT.VERIFY_IDENTITY
+export const verifyIdentity = (tier = TIERS[2]) => ({
+  type: AT.VERIFY_IDENTITY,
+  payload: { tier }
 })
 
 export const initializeVerification = (isCoinify, desiredTier) => ({

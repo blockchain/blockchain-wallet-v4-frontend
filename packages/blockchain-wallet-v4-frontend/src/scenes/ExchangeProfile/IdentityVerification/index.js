@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
@@ -174,10 +173,6 @@ const IdentityVerification = () => {
       </Container>
     </Wrapper>
   )
-}
-
-IdentityVerification.propTypes = {
-  verifyIdentity: PropTypes.func.isRequired
 }
 
 export default IdentityVerification

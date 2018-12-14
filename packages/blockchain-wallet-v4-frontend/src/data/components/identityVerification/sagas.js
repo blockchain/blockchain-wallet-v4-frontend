@@ -98,25 +98,42 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const verifyIdentity = function*() {
+  const selectTier = function*(tier = 2) {
+    const { selected } = yield select(selectors.modules.profile.getUserTiers)
+    if (selected === tier)
+      return yield put(actions.analytics.logKycEvent(REENTERED))
+    yield call(api.selectTier, tier)
+    yield put(actions.analytics.logKycEvent(STARTED))
+  }
+
+  const checkUserExistance = function*() {
+    const userId = (yield select(
+      selectors.core.kvStore.userCredentials.getUserId
+    )).getOrElse('')
+
+    if (userId) return false
     try {
-      const userId = (yield select(
-        selectors.core.kvStore.userCredentials.getUserId
-      )).getOrElse('')
-      if (userId) {
-        yield put(actions.analytics.logKycEvent(REENTERED))
-        yield put(actions.modals.showModal(KYC_MODAL))
-        return false
-      }
       const retailToken = yield call(generateRetailToken)
       yield call(api.checkUserExistence, retailToken)
-      yield put(actions.modals.showModal(USER_EXISTS_MODAL))
-      yield put(actions.analytics.logKycEvent(EMAIL_EXISTS))
       return true
     } catch (e) {
-      yield put(actions.analytics.logKycEvent(STARTED))
-      yield put(actions.modals.showModal(KYC_MODAL))
       return false
+    }
+  }
+
+  const verifyIdentity = function*({ payload }) {
+    const { tier } = payload
+    const userExists = yield call(checkUserExistance)
+    if (userExists) {
+      yield put(actions.modals.showModal(USER_EXISTS_MODAL))
+      return yield put(actions.analytics.logKycEvent(EMAIL_EXISTS))
+    }
+    try {
+      yield call(selectTier, tier)
+      yield put(actions.modals.showModal(KYC_MODAL, { desiredTier: tier }))
+    } catch (e) {
+      yield put(actions.alerts.displayError(C.KYC_START_ERROR))
+      yield put(actions.logs.logErrorMessage(logLocation, 'verifyIdentity', e))
     }
   }
 

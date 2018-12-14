@@ -16,6 +16,15 @@ export const KYC_STATES = {
   EXPIRED: 'EXPIRED'
 }
 
+export const TIERS_STATES = {
+  NONE: 'NONE',
+  PENDING: 'PENDING',
+  UNDER_REVIEW: 'UNDER_REVIEW',
+  REJECTED: 'REJECTED',
+  VERIFIED: 'VERIFIED',
+  EXPIRED: 'EXPIRED'
+}
+
 export const TIERS = {
   0: 0,
   1: 1,

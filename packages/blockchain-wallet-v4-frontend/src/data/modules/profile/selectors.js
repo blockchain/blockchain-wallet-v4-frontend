@@ -1,12 +1,14 @@
 import {
   and,
   any,
-  path,
-  pathOr,
   compose,
   converge,
+  curry,
   equals,
+  find,
   lift,
+  path,
+  pathOr,
   prop,
   propEq
 } from 'ramda'
@@ -34,7 +36,14 @@ export const getUserCountryCode = compose(
   lift(path(['address', 'country'])),
   getUserData
 )
-export const getTiers = path(['profile', 'userTiers'])
+export const getUserTiers = compose(
+  lift(prop('tiers')),
+  getUserData
+)
+export const getUserLimits = compose(
+  lift(prop('limits')),
+  getUserData
+)
 
 // TODO: remove when BE ships the TIER field
 export const defineUserTier = (userState, kycState) => {
@@ -44,6 +53,11 @@ export const defineUserTier = (userState, kycState) => {
 }
 export const getUserTier = state =>
   lift(defineUserTier)(getUserActivationState(state), getUserKYCState(state))
+
+export const getTiers = path(['profile', 'userTiers'])
+export const getTier = curry((tierIndex, state) =>
+  lift(find(propEq('index', tierIndex)))(getTiers(state))
+)
 
 export const isCountrySupported = (countryCode, supportedCountries) =>
   any(propEq('code', countryCode), supportedCountries)

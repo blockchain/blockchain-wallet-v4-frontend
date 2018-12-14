@@ -16,6 +16,7 @@ import { Cell, Row } from './Layout'
 import CurrencySelect from './CurrencySelect'
 import ComplementaryAmount from './ComplementaryAmount'
 import Error from './Error'
+import LimitInfo from './LimitInfo'
 import MinMaxButtons from './MinMaxButtons'
 import SubmitButton from './SubmitButton'
 import Summary from './Summary'
@@ -322,6 +323,7 @@ const Success = ({
             volume={volume}
             handleSubmit={handleSubmit}
           />
+          <LimitInfo />
         </Form>
       </ColumnLeft>
       <ColumnRight>
