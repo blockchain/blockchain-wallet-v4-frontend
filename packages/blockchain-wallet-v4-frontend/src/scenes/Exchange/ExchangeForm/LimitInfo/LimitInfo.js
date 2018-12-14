@@ -35,6 +35,105 @@ const TierIcon = styled(Icon)`
   font-weight: 800;
 `
 
+const LimitMessage = ({
+  currencySymbol,
+  limit,
+  showLimit,
+  showPending,
+  upgradeRequired
+}) => {
+  if (upgradeRequired)
+    return (
+      <LimitText color='btc'>
+        &nbsp;
+        <FormattedMessage
+          id='scenes.exchange.exchangeform.limit_info.under_review'
+          defaultMessage='In Review - Documents Needed'
+        />
+      </LimitText>
+    )
+
+  if (showPending)
+    return (
+      <LimitText color='btc'>
+        &nbsp;
+        <FormattedMessage
+          id='scenes.exchange.exchangeform.limit_info.in_review'
+          defaultMessage='In Review'
+        />
+      </LimitText>
+    )
+
+  if (showLimit)
+    return (
+      <LimitText color='success'>
+        &nbsp;
+        <FormattedMessage
+          id='scenes.exchange.exchangeform.limit_info.amount_available'
+          defaultMessage='{amount} Available'
+          values={{
+            amount: fiatToString({
+              value: limit,
+              unit: { symbol: currencySymbol }
+            })
+          }}
+        />
+      </LimitText>
+    )
+
+  return null
+}
+
+export const LimitAction = ({
+  nextTier,
+  nextTierAvailable,
+  nextTierInReview,
+  upgradeRequired,
+  upgradeTier
+}) => {
+  if (upgradeRequired)
+    return (
+      <TierLink onClick={upgradeTier}>
+        <LimitText color='brand-secondary'>
+          <FormattedMessage
+            id='scenes.exchange.exchangeform.limit_info.continue'
+            defaultMessage='Continue'
+          />
+        </LimitText>
+        <TierIcon name='down-arrow-filled' color='brand-secondary' />
+      </TierLink>
+    )
+
+  if (nextTierAvailable)
+    return (
+      <TierLink onClick={upgradeTier}>
+        <LimitText color='brand-secondary'>
+          <FormattedMessage
+            id='scenes.exchange.exchangeform.limit_info.upgrade'
+            defaultMessage='Upgrade'
+          />
+        </LimitText>
+        <TierIcon name='down-arrow-filled' color='brand-secondary' />
+      </TierLink>
+    )
+  if (nextTierInReview)
+    return (
+      <LinkContainer to='/swap/profile'>
+        <TierLink>
+          <LimitText color='btc'>
+            <FormattedMessage
+              id='scenes.exchange.exchangeform.limit_info.tier_in_review'
+              defaultMessage='Tier {tierIndex} In Review'
+              values={{ tierIndex: nextTier }}
+            />
+          </LimitText>
+          <TierIcon name='down-arrow-filled' color='btc' />
+        </TierLink>
+      </LinkContainer>
+    )
+
+  return null
+}
 export class LimitInfo extends React.PureComponent {
   upgradeTier = () => {
     const { actions, nextTier } = this.props
@@ -43,17 +142,19 @@ export class LimitInfo extends React.PureComponent {
 
   render () {
     const {
-      currentTier,
+      tier,
       nextTier,
       limit,
       showLimit,
-      showTier,
+      showPending,
+      hideTier,
       currencySymbol,
       nextTierAvailable,
-      nextTierInReview
+      nextTierInReview,
+      upgradeRequired
     } = this.props
 
-    if (!showTier) return null
+    if (hideTier) return null
 
     return (
       <LimitRow>
@@ -62,51 +163,25 @@ export class LimitInfo extends React.PureComponent {
             <FormattedMessage
               id='scenes.exchange.exchangeform.limit_info.tier'
               defaultMessage='Tier {tierIndex}'
-              values={{ tierIndex: currentTier }}
+              values={{ tierIndex: tier }}
             />
-            {showLimit && ' -'}
+            {(showLimit || upgradeRequired || showPending) && ' -'}
           </LimitText>
-          {showLimit && (
-            <LimitText color='success'>
-              &nbsp;
-              <FormattedMessage
-                id='scenes.exchange.exchangeform.limit_info.amount_available'
-                defaultMessage='{amount} Available'
-                values={{
-                  amount: fiatToString({
-                    value: limit,
-                    unit: { symbol: currencySymbol }
-                  })
-                }}
-              />
-            </LimitText>
-          )}
+          <LimitMessage
+            currencySymbol={currencySymbol}
+            limit={limit}
+            showLimit={showLimit}
+            showPending={showPending}
+            upgradeRequired={upgradeRequired}
+          />
         </Group>
-        {nextTierAvailable && (
-          <TierLink onClick={this.upgradeTier}>
-            <LimitText color='brand-secondary'>
-              <FormattedMessage
-                id='scenes.exchange.exchangeform.limit_info.upgrade'
-                defaultMessage='Upgrade'
-              />
-            </LimitText>
-            <TierIcon name='down-arrow-filled' color='brand-secondary' />
-          </TierLink>
-        )}
-        {nextTierInReview && (
-          <LinkContainer to='/swap/profile'>
-            <TierLink>
-              <LimitText color='brand-yellow'>
-                <FormattedMessage
-                  id='scenes.exchange.exchangeform.limit_info.tier_in_review'
-                  defaultMessage='Tier {tierIndex} In Review'
-                  values={{ tierIndex: nextTier }}
-                />
-              </LimitText>
-              <TierIcon name='down-arrow-filled' color='brand-yellow' />
-            </TierLink>
-          </LinkContainer>
-        )}
+        <LimitAction
+          nextTier={nextTier}
+          nextTierAvailable={nextTierAvailable}
+          nextTierInReview={nextTierInReview}
+          upgradeRequired={upgradeRequired}
+          upgradeTier={this.upgradeTier}
+        />
       </LimitRow>
     )
   }

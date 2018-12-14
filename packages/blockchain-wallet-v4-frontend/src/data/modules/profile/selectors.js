@@ -2,10 +2,12 @@ import {
   and,
   any,
   compose,
+  complement,
   converge,
   curry,
   equals,
   find,
+  findLast,
   lift,
   path,
   pathOr,
@@ -13,7 +15,12 @@ import {
   propEq
 } from 'ramda'
 import { selectors } from 'data'
-import { USER_ACTIVATION_STATES, TIERS, KYC_STATES } from './model'
+import {
+  USER_ACTIVATION_STATES,
+  TIERS,
+  KYC_STATES,
+  TIERS_STATES
+} from './model'
 
 export const getUserData = path(['profile', 'userData'])
 export const getUserActivationState = compose(
@@ -57,6 +64,10 @@ export const getUserTier = state =>
 export const getTiers = path(['profile', 'userTiers'])
 export const getTier = curry((tierIndex, state) =>
   lift(find(propEq('index', tierIndex)))(getTiers(state))
+)
+export const getLastAttemptedTier = compose(
+  lift(findLast(complement(propEq('state', TIERS_STATES.NONE)))),
+  getTiers
 )
 
 export const isCountrySupported = (countryCode, supportedCountries) =>

@@ -17,12 +17,12 @@ export const KYC_STATES = {
 }
 
 export const TIERS_STATES = {
-  NONE: 'NONE',
-  PENDING: 'PENDING',
-  UNDER_REVIEW: 'UNDER_REVIEW',
-  REJECTED: 'REJECTED',
-  VERIFIED: 'VERIFIED',
-  EXPIRED: 'EXPIRED'
+  NONE: 'none',
+  PENDING: 'pending',
+  UNDER_REVIEW: 'under_review',
+  REJECTED: 'rejected',
+  VERIFIED: 'verified',
+  EXPIRED: 'expired'
 }
 
 export const TIERS = {

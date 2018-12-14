@@ -1,4 +1,4 @@
-import { compose, isNil, map, max, prop, reduce } from 'ramda'
+import { compose, isNil, map, max, prop, propEq, reduce } from 'ramda'
 
 import { selectors, model } from 'data'
 import { currencySymbolMap } from 'services/CoinifyService'
@@ -23,33 +23,59 @@ const getMinLimit = limits => {
   return minLimit
 }
 
+const checkPreviousTiersRejection = (state, selected) => {
+  let tier = selected - 1
+  while (tier >= 1) {
+    const tierRejected = selectors.modules.profile
+      .getTier(tier, state)
+      .map(propEq('state', TIERS_STATES.REJECTED))
+      .getOrElse(true)
+
+    if (!tierRejected) return false
+    tier--
+  }
+
+  return true
+}
+
 export const getData = state => {
-  const { current, next } = selectors.modules.profile
+  const { next, selected } = selectors.modules.profile
     .getUserTiers(state)
     .getOrElse({})
   const userLimits = selectors.modules.profile
     .getUserLimits(state)
     .getOrElse({})
-  const nextTier = selectors.modules.profile
-    .getTier(next, state)
-    .getOrElse(null)
-  const currentTier = selectors.modules.profile
-    .getTier(current, state)
-    .getOrElse(null)
+  const lastAttemptedTier = selectors.modules.profile
+    .getLastAttemptedTier(state)
+    .getOrElse(null) || { index: 0, state: TIERS_STATES.NONE }
+  const lastAttemptedTierState = prop('state', lastAttemptedTier)
   const limit = compose(
     reduce(max, 0),
     map(getMinLimit)
   )(userLimits)
+  const nextTierAvailable = next > lastAttemptedTier.index
+  const lastTierRejected = lastAttemptedTierState === TIERS_STATES.REJECTED
+  const allPreviousTiersRejected = checkPreviousTiersRejection(state, selected)
 
   return {
-    currentTier: current,
+    tier: lastAttemptedTier.index,
     nextTier: next,
-    showTier:
-      current > 0 && prop('state', currentTier) !== TIERS_STATES.REJECTED,
+    hideTier:
+      lastAttemptedTier.index === 0 || (lastTierRejected && !nextTierAvailable),
     limit,
-    showLimit: limit !== Infinity && userLimits[0].currency,
+    lastTierState: lastAttemptedTierState,
+    showPending:
+      allPreviousTiersRejected &&
+      lastAttemptedTierState === TIERS_STATES.PENDING,
+    showLimit:
+      lastAttemptedTierState === TIERS_STATES.ACTIVE &&
+      limit !== Infinity &&
+      userLimits[0].currency,
     currencySymbol: currencySymbolMap[userLimits[0].currency],
-    nextTierAvailable: next > current,
-    nextTierInReview: prop('state', nextTier) === TIERS_STATES.PENDING
+    nextTierAvailable,
+    nextTierInReview:
+      !allPreviousTiersRejected &&
+      lastAttemptedTierState === TIERS_STATES.PENDING,
+    upgradeRequired: lastTierRejected && nextTierAvailable
   }
 }
