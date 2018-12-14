@@ -68,8 +68,8 @@ export const ExchangeByBlockchain = ({ kycNotFinished, verifyIdentity }) => (
     <Row marginBottom='24px'>
       <DarkText size='14px'>
         <FormattedMessage
-          defaultMessage='November 2019'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.november2019'
+          defaultMessage='November 2018'
+          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.november2018'
         />
       </DarkText>
     </Row>

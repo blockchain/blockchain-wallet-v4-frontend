@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Whats New renders correctly 1`] = `
-<WhatsNew__Wrapper>
-  <WhatsNew__Container>
-    <exchangeByBlockchain />
-  </WhatsNew__Container>
-</WhatsNew__Wrapper>
-`;

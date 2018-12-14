@@ -8,16 +8,24 @@ import WhatsNewIcon from './template'
 
 class WhatsNewIconContainer extends React.PureComponent {
   render () {
-    return (
-      <WhatsNewIcon
-        highlighted={this.props.highlighted}
-        handleClick={this.props.actions.layoutWalletWhatsnewClicked}
-      />
-    )
+    return this.props.data.cata({
+      Success: val => (
+        <WhatsNewIcon
+          highlighted={val.highlighted}
+          handleClick={this.props.actions.layoutWalletWhatsnewClicked}
+          numOfNewAnnouncements={val.numOfNewAnnouncements}
+        />
+      ),
+      Failure: () => <WhatsNewIcon numOfNewAnnouncements={0} />,
+      Loading: () => <WhatsNewIcon numOfNewAnnouncements={0} />,
+      NotAsked: () => <WhatsNewIcon numOfNewAnnouncements={0} />
+    })
   }
 }
 
-const mapStateToProps = state => getData(state)
+const mapStateToProps = state => ({
+  data: getData(state)
+})
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.layoutWallet, dispatch)
