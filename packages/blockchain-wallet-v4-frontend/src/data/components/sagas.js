@@ -9,6 +9,7 @@ import identityVerification from './identityVerification/sagas'
 import importBtcAddress from './importBtcAddress/sagas'
 import login from './login/sagas'
 import manageAddresses from './manageAddresses/sagas'
+import onfido from './onfido/sagas'
 import priceChart from './priceChart/sagas'
 import priceTicker from './priceTicker/sagas'
 import refresh from './refresh/sagas'
@@ -39,6 +40,7 @@ export default ({ api, coreSagas, options, networks }) => ({
   importBtcAddress: importBtcAddress({ api, coreSagas, networks }),
   login: login(),
   manageAddresses: manageAddresses({ api, networks }),
+  onfido: onfido({ api }),
   priceChart: priceChart({ coreSagas }),
   priceTicker: priceTicker({ coreSagas }),
   refresh: refresh(),
