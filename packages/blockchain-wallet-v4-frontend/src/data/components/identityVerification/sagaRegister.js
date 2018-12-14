@@ -25,6 +25,7 @@ export default ({ api, coreSagas }) => {
       exchange.fetchSupportedDocuments
     )
     yield takeLatest(AT.FETCH_STATES, exchange.fetchStates)
+    yield takeLatest(AT.REGISTER_USER_CAMPAIGN, exchange.registerUserCampaign)
     yield takeLatest(
       AT.CREATE_REGISTER_USER_CAMPAIGN,
       exchange.createRegisterUserCampaign
