@@ -165,7 +165,7 @@ const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
       const exchangeLink = (
         <NavLink to='/swap' style={{ textDecoration: 'none' }}>
           <FormattedMessage
-            id='buy.quote_input.effective_max_under_min5'
+            id='buy.quote_input.effective_max_under_min5swap'
             defaultMessage='swapping'
           />
         </NavLink>

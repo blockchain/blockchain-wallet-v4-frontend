@@ -26,7 +26,7 @@ export const MinMaxValue = styled.div`
   font-weight: 500;
   font-size: 14px;
 `
-const MixMaxRow = styled(Row)`
+const MinMaxRow = styled(Row)`
   padding-bottom: 0;
 `
 export class MinMaxButtons extends React.PureComponent {
@@ -43,7 +43,7 @@ export class MinMaxButtons extends React.PureComponent {
     } = this.props
 
     return (
-      <MixMaxRow>
+      <MinMaxRow>
         <MinMaxButton fullwidth disabled={disabled} onClick={actions.useMin}>
           <FormattedMessage
             id='scenes.exchange.exchangeform.min'
@@ -64,7 +64,7 @@ export class MinMaxButtons extends React.PureComponent {
             {!disabled && formatAmount(maxIsFiat, maxSymbol, maxAmount)}
           </MinMaxValue>
         </MinMaxButton>
-      </MixMaxRow>
+      </MinMaxRow>
     )
   }
 }
