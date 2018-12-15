@@ -81,7 +81,8 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
     authorizedGet({
       url: nabuUrl,
       contentType: 'application/json',
-      endPoint: '/kyc/configuration'
+      endPoint: '/kyc/configuration',
+      headers: { 'x-client-type': 'WEB' }
     })
 
   const fetchTiers = () =>
