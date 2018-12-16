@@ -7,7 +7,7 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import sagas, { userRequiresRestoreError, renewUserDelay } from './sagas'
-import { USER_ACTIVATION_STATES, KYC_STATES } from './model'
+import { USER_ACTIVATION_STATES, KYC_STATES, INITIAL_TIERS } from './model'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
@@ -16,6 +16,7 @@ const coreSagas = coreSagasFactory()
 const api = {
   generateRetailToken: jest.fn(),
   createUser: jest.fn(),
+  fetchTiers: jest.fn(),
   generateUserId: jest.fn(),
   generateLifetimeToken: jest.fn(),
   generateSession: jest.fn(),
@@ -29,6 +30,7 @@ const api = {
 const {
   signIn,
   fetchUser,
+  fetchTiers,
   updateUser,
   updateUserAddress,
   createUser,
@@ -39,8 +41,7 @@ const {
   setSession,
   renewApiSockets,
   renewSession,
-  recoverUser,
-  getCampaignData
+  recoverUser
 } = sagas({
   api,
   coreSagas
@@ -88,11 +89,6 @@ const newAddress = {
   state: 'England',
   postCode: 'E145AX'
 }
-const stubCampaign = {
-  name: 'fake-campaign',
-  code: '123',
-  email: 'f@ke.com'
-}
 
 api.getUser.mockReturnValue(newUserData)
 api.generateSession.mockReturnValue({
@@ -116,7 +112,6 @@ const stubbedSignin = expectSaga(signIn).provide([
 
 const stubbedCreateUser = expectSaga(createUser).provide([
   [select(S.getApiToken), Remote.NotAsked],
-  [select(S.getCampaign), {}],
   [select(selectors.core.wallet.getGuid), stubGuid],
   [select(selectors.core.settings.getEmail), Remote.of(stubEmail)],
   [
@@ -207,6 +202,7 @@ describe('fetch user saga', () => {
       .provide([[spawn.fn(renewUser), jest.fn()]])
       .not.spawn(renewUser)
       .put(A.fetchUserDataSuccess(newUserData))
+      .call(fetchTiers)
       .returns(newUserData)
       .run()
       .then(() => {
@@ -225,6 +221,18 @@ describe('fetch user saga', () => {
         ...newUserData,
         kycState: KYC_STATES.PENDING
       })
+      .run()
+  })
+})
+
+describe('fetch tiers saga', () => {
+  it('should call fetchTiers api and update state', () => {
+    api.fetchTiers.mockReturnValueOnce(INITIAL_TIERS)
+    return expectSaga(fetchTiers)
+      .put(A.fetchTiersLoading())
+      .call(api.fetchTiers)
+      .put(A.fetchTiersSuccess(INITIAL_TIERS.tiers))
+      .returns()
       .run()
   })
 })
@@ -338,7 +346,6 @@ describe('create user credentials saga', () => {
   it('should select guid from wallet, email form settings, user id and lifetime token from kvStore and call startSession', () =>
     stubbedCreateUser
       .select(S.getApiToken)
-      .select(S.getCampaign)
       .select(selectors.core.settings.getEmail)
       .select(selectors.core.wallet.getGuid)
       .select(selectors.core.kvStore.userCredentials.getUserId)
@@ -356,7 +363,6 @@ describe('create user credentials saga', () => {
     return expectSaga(createUser)
       .provide([
         [select(S.getApiToken), Remote.NotAsked],
-        [select(S.getCampaign), stubCampaign],
         [select(selectors.core.wallet.getGuid), stubGuid],
         [select(selectors.core.wallet.getSharedKey), stubSharedKey],
         [select(selectors.core.settings.getEmail), Remote.of(stubEmail)],
@@ -370,8 +376,7 @@ describe('create user credentials saga', () => {
         ],
         [call.fn(setSession), jest.fn()]
       ])
-      .call(getCampaignData, stubCampaign)
-      .call(generateAuthCredentials, stubCampaign.name, null)
+      .call(generateAuthCredentials)
       .call(generateRetailToken)
       .select(selectors.core.wallet.getSharedKey)
       .call(setSession, stubUserId, stubLifetimeToken, stubEmail, stubGuid)
@@ -383,11 +388,7 @@ describe('create user credentials saga', () => {
           stubSharedKey
         )
         expect(api.createUser).toHaveBeenCalledTimes(1)
-        expect(api.createUser).toHaveBeenCalledWith(
-          stubRetailToken,
-          stubCampaign.name,
-          null
-        )
+        expect(api.createUser).toHaveBeenCalledWith(stubRetailToken)
       })
   })
 })

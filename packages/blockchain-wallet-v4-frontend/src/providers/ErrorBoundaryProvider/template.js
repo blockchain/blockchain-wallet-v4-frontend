@@ -38,10 +38,15 @@ const ErrorDetails = styled.details`
 `
 
 const ErrorBoundary = props => {
-  const { error, errorInfo, onSubmit } = props
+  const { error, errorInfo, onSubmit, position, total } = props
 
   return (
-    <Modal size='large' style={{ zIndex: 999 }}>
+    <Modal
+      size='large'
+      style={{ zIndex: 999 }}
+      position={position}
+      total={total}
+    >
       <ModalHeader closeButton={false}>
         <TitleGroup inline>
           <Icon name='alert-filled' size='28px' color='brand-primary' />

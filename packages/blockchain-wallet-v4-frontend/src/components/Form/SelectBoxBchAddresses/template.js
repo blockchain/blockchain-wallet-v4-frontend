@@ -55,7 +55,7 @@ const renderItem = item => {
       {path(['value', 'watchOnly'], item) && (
         <Banner type='informational' inline>
           <FormattedMessage
-            id='components.selectboxbitcoin.watchonly'
+            id='components.selectboxbchaddresses.watchonly'
             defaultMessage='Non-Spendable'
           />
         </Banner>

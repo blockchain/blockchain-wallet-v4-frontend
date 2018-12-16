@@ -133,7 +133,6 @@ export default ({ coreSagas, networks }) => {
           }
           break
         case 'from':
-          yield put(A.sendBtcFirstStepToToggled(false))
           const fromType = prop('type', payload)
           if (is(String, payload)) {
             yield payment.from(payload, fromType)
@@ -362,7 +361,7 @@ export default ({ coreSagas, networks }) => {
       // Redirect to tx list, display success
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionSuccess())
-        yield delay(1500)
+        yield delay(4000)
         const fromXPubs = path(['from'], payment.value())
         const device = (yield select(
           selectors.core.kvStore.lockbox.getDeviceFromBtcXpubs,

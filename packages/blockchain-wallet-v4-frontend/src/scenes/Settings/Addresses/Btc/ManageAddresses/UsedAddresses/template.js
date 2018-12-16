@@ -25,7 +25,7 @@ const UsedAddressesTemplate = ({
             defaultMessage='Used Addresses'
           />
         </Text>
-        <Link weight={200} size='12px' onClick={onShowUsedAddresses}>
+        <Link weight={400} size='13px' onClick={onShowUsedAddresses}>
           {usedAddressesVisible ? (
             <FormattedMessage
               id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.hide'

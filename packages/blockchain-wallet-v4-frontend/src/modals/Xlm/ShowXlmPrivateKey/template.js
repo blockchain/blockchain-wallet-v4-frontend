@@ -40,13 +40,13 @@ const FirstStep = () => (
   <div>
     <Text size='13px' color='error' weight={500} uppercase>
       <FormattedMessage
-        id='modals.showethpriv.warning'
+        id='modals.showxlmpriv.warning'
         defaultMessage='Warning'
       />
     </Text>
     <Text size='14px' style={spacing('mt-10')} weight={300}>
       <FormattedMessage
-        id='modals.showethpriv.warning.message'
+        id='modals.showxlmpriv.warning.message'
         defaultMessage="Don't share your private key with anyone. This may result in a loss of funds."
       />
     </Text>
@@ -62,7 +62,7 @@ const SecondStep = ({ addr, balance, priv }) => (
       <DetailRow>
         <DetailRowText size='14px' weight={400}>
           <FormattedMessage
-            id='modals.showethpriv.balance'
+            id='modals.showxlmpriv.balance'
             defaultMessage='Balance'
           />
         </DetailRowText>
@@ -75,26 +75,34 @@ const SecondStep = ({ addr, balance, priv }) => (
       <DetailRow>
         <DetailRowText size='14px' weight={400}>
           <FormattedMessage
-            id='modals.showethpriv.address'
+            id='modals.showxlmpriv.address'
             defaultMessage='Address'
           />
         </DetailRowText>
         {':'}
         &nbsp;
-        <DataRowText size='14px' weight={300}>
+        <DataRowText
+          size='14px'
+          weight={300}
+          data-e2e='xlmPrivateKeyModalAddress'
+        >
           {addr}
         </DataRowText>
       </DetailRow>
       <DetailRow>
         <DetailRowText size='14px' weight={400}>
           <FormattedMessage
-            id='modals.showethpriv.priv_key'
+            id='modals.showxlmpriv.priv_key'
             defaultMessage='Private Key'
           />
         </DetailRowText>
         {':'}
         &nbsp;
-        <DataRowText size='14px' weight={300}>
+        <DataRowText
+          size='14px'
+          weight={300}
+          data-e2e='xlmPrivateKeyModalPrivKey'
+        >
           {priv}
         </DataRowText>
       </DetailRow>
@@ -111,9 +119,13 @@ const ShowPrivateKeyTemplate = ({
   ...rest
 }) => (
   <Modal size='large' position={position} total={total}>
-    <ModalHeader icon='lock' closeButton={false}>
+    <ModalHeader
+      icon='lock'
+      closeButton={false}
+      data-e2e='xlmPrivateKeyModalHeader'
+    >
       <FormattedMessage
-        id='modals.showethpriv.title'
+        id='modals.showxlmpriv.title'
         defaultMessage='Private Key'
       />
     </ModalHeader>
@@ -127,16 +139,21 @@ const ShowPrivateKeyTemplate = ({
         weight={300}
         style={spacing('mr-15')}
         onClick={close}
+        data-e2e='xlmPrivateKeyModalClose'
       >
         <FormattedMessage
-          id='modals.showethpriv.close'
+          id='modals.showxlmpriv.close'
           defaultMessage='Close'
         />
       </Text>
       {step === 0 && (
-        <Button nature='primary' onClick={onContinue}>
+        <Button
+          nature='primary'
+          onClick={onContinue}
+          data-e2e='xlmPrivateKeyModalContinue'
+        >
           <FormattedMessage
-            id='modals.showethpriv.continue'
+            id='modals.showxlmpriv.continue'
             defaultMessage='Continue'
           />
         </Button>

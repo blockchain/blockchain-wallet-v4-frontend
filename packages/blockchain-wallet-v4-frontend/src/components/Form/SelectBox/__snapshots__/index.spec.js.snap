@@ -36,6 +36,7 @@ exports[`SelectBox renders correctly 1`] = `
     onBlur={[MockFunction]}
     onChange={[MockFunction]}
     onFocus={[MockFunction]}
+    onKeyDown={[Function]}
     value=""
   />
 </div>

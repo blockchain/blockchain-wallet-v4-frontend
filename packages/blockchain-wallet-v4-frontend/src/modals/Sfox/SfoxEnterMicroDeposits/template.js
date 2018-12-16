@@ -111,7 +111,10 @@ const MicroDeposits = props => {
         </Form>
         <ButtonRow>
           <Button onClick={close}>
-            <FormattedMessage id='cancel' defaultMessage='Cancel' />
+            <FormattedMessage
+              id='sfoxmicrodeposits.cancel'
+              defaultMessage='Cancel'
+            />
           </Button>
           {status instanceof Error ? (
             <ErrorText size='13px' weight={300}>

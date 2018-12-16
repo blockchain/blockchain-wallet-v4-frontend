@@ -65,6 +65,7 @@ const TextBox = field => {
             weight={300}
             color='error'
             errorBottom={errorBottom}
+            data-e2e='textBoxError'
           >
             {error}
           </Error>

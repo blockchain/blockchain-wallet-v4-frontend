@@ -31,11 +31,11 @@ const TransactionRowContainer = styled.div`
   align-items: flex-start;
   width: 100%;
   box-shadow: none;
-  padding: 25px 25px 0px 25px;
+  padding: 25px 25px 0;
   box-sizing: border-box;
   transition: box-shadow 0.3s;
   &.active {
-    box-shadow: 0px 5px 30px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 30px 0 rgba(0, 0, 0, 0.1);
   }
 `
 const TransactionRow = styled.div`
@@ -52,7 +52,7 @@ const DetailsRow = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 25px 0px;
+  padding: 25px 0;
 `
 const DetailsColumn = styled.div`
   display: flex;
@@ -75,7 +75,7 @@ const StatusColumn = styled.div`
   `};
 `
 const BannerWrapper = styled.div`
-  margin-top: 5px;
+  margin-top: 8px;
 `
 const AddressesColumn = styled.div`
   display: none;
@@ -132,10 +132,20 @@ const TransactionListItem = ({
         </MediaContextConsumer>
         {(transaction.fromWatchOnly || transaction.toWatchOnly) && (
           <BannerWrapper>
-            <Banner type='informational'>
+            <Banner label='true' type='informational'>
               <FormattedMessage
                 id='components.txlistitem.watchonly'
                 defaultMessage='Non-Spendable'
+              />
+            </Banner>
+          </BannerWrapper>
+        )}
+        {transaction.rbf && (
+          <BannerWrapper>
+            <Banner label='true' type='informational'>
+              <FormattedMessage
+                id='components.txlistitem.rbf'
+                defaultMessage='Replace-By-Fee'
               />
             </Banner>
           </BannerWrapper>
@@ -311,8 +321,9 @@ TransactionListItem.propTypes = {
   coin: PropTypes.string.isRequired,
   transaction: PropTypes.shape({
     type: PropTypes.string.isRequired,
-    amount: PropTypes.number.isRequired,
-    time: PropTypes.number.isRequired,
+    amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      .isRequired,
+    time: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     to: PropTypes.string.isRequired,
     from: PropTypes.string.isRequired,
     description: PropTypes.string,

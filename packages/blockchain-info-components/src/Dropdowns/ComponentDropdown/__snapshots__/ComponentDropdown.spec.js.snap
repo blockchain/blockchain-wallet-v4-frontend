@@ -20,7 +20,7 @@ exports[`ComponentDropdown component default renders correctly 1`] = `
     <styled.div />
     <Styled(Icon)
       name="down-arrow"
-      size="8px"
+      size="12px"
     />
   </styled.div>
 </styled.div>

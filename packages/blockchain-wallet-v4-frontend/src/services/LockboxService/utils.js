@@ -46,14 +46,14 @@ const pollForAppConnection = (deviceType, app, timeout = 45000) => {
       // transport.setDebugMode(true)
       transport.setExchangeTimeout(timeout)
       transport.setScrambleKey(scrambleKey)
-      //console.info('POLL:START', deviceType, scrambleKey, app, timeout)
+      console.info('POLL:START', deviceType, scrambleKey, app, timeout)
       // send NO_OP cmd until response is received (success) or timeout is hit (reject)
       transport.send(...constants.apdus.no_op).then(
         () => {},
         res => {
           // since no_op wont be recognized by any app as a valid cmd, this is always going
           // to fail but a response, means a device is connected and unlocked
-          //console.info('POLL:END', deviceType, scrambleKey, app, timeout)
+          console.info('POLL:END', deviceType, scrambleKey, app, timeout)
           if (res.originalError) {
             reject(res.originalError.metaData)
           }
@@ -83,16 +83,16 @@ const createDeviceSocket = (transport, url) => {
     }
 
     ws.onopen = () => {
-      //console.info('OPENED', { url })
+      console.info('OPENED', { url })
     }
 
     ws.onerror = e => {
-      //console.info('ERROR', { message: e.message, stack: e.stack })
+      console.info('ERROR', { message: e.message, stack: e.stack })
       o.error(e.message, { url })
     }
 
     ws.onclose = () => {
-      //console.info('CLOSE')
+      console.info('CLOSE')
       o.next(lastMessage || '')
       o.complete()
     }
@@ -103,10 +103,10 @@ const createDeviceSocket = (transport, url) => {
         if (!(msg.query in handlers)) {
           throw new Error({ message: 's0ck3t' }, { url })
         }
-        //console.info('RECEIVE', msg)
+        console.info('RECEIVE', msg)
         await handlers[msg.query](msg)
       } catch (err) {
-        //console.info('ERROR', { message: err.message, stack: err.stack })
+        console.info('ERROR', { message: err.message, stack: err.stack })
         o.error(err)
       }
     }
@@ -117,7 +117,7 @@ const createDeviceSocket = (transport, url) => {
         response,
         data
       }
-      //console.info('SEND', msg)
+      console.info('SEND', msg)
       const strMsg = JSON.stringify(msg)
       ws.send(strMsg)
     }
@@ -163,7 +163,7 @@ const createDeviceSocket = (transport, url) => {
       },
 
       error: msg => {
-        //console.info('ERROR', { data: msg.data })
+        console.info('ERROR', { data: msg.data })
         ws.close()
         throw new Error(msg.data, { url })
       }
@@ -386,7 +386,7 @@ export const generateXlmAccountMDEntry = (deviceName, publicKey) => ({
 
 /**
  * Creates and returns a new BTC/BCH app connection
- * @param {String} app - The app to connect to (BTC, DASHBOARD, etc)
+ * @param {String} app - The app to connect to (BTC or BCH)
  * @param {String} deviceType - Either 'ledger' or 'blockchain'
  * @param {TransportU2F<Btc>} transport - Transport with BTC/BCH as scrambleKey
  * @returns {Btc} Returns a BTC/BCH connection

@@ -23,7 +23,7 @@ const Addresses = props => {
             defaultMessage='To: '
           />
         </Text>
-        <Text size='14px' weight={400}>
+        <Text size='14px' weight={400} data-e2e='transactionListItemTo'>
           {to}
         </Text>
       </TextGroup>
@@ -34,7 +34,7 @@ const Addresses = props => {
             defaultMessage='From: '
           />
         </Text>
-        <Text size='14px' weight={300}>
+        <Text size='14px' weight={300} data-e2e='transactionListItemFrom'>
           {from}
         </Text>
       </TextGroup>

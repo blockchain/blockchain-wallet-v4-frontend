@@ -8,16 +8,14 @@ import CompleteStep from './template'
 
 class CompleteStepContainer extends React.PureComponent {
   onInstallApps = () => {
-    this.props.closeAll()
+    this.props.onClose()
     const deviceIndex = this.props.match.params.deviceIndex
     this.props.modalActions.showModal('LockboxAppManager', { deviceIndex })
   }
   render () {
-    const { closeAll, status } = this.props
     return (
       <CompleteStep
-        closeAll={closeAll}
-        status={status}
+        status={this.props.status}
         onInstallApps={this.onInstallApps}
       />
     )

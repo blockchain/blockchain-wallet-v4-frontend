@@ -661,7 +661,7 @@ export default ({ api, coreSagas, networks }) => {
           scrambleKey
         )).publish()
         yield put(actions.components.lockbox.setConnectionSuccess())
-        yield delay(1500)
+        yield delay(4000)
         yield put(actions.modals.closeAllModals())
       }
       // Update metadat
@@ -705,6 +705,7 @@ export default ({ api, coreSagas, networks }) => {
       yield all(
         pairs.map(({ pair }) => put(actions.modules.rates.removeAdvice(pair)))
       )
+      yield put(A.setSourceFee({ source: 0, target: 0 }))
       yield put(actions.modules.rates.unsubscribeFromRates())
       yield put(actions.form.reset(EXCHANGE_FORM))
     } catch (e) {

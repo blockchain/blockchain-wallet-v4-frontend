@@ -120,6 +120,7 @@ export default ({ api, coreSagas }) => {
     try {
       const user = yield call(api.getUser)
       yield put(A.fetchUserDataSuccess(user))
+      yield call(fetchTiers)
       if (!renewUserTask && user.kycState === KYC_STATES.PENDING)
         renewUserTask = yield spawn(renewUser, renewUserDelay)
 
@@ -168,13 +169,11 @@ export default ({ api, coreSagas }) => {
     return token
   }
 
-  const generateAuthCredentials = function*(campaignName, campaignData) {
+  const generateAuthCredentials = function*() {
     const retailToken = yield call(generateRetailToken)
     const { userId, token: lifetimeToken } = yield call(
       api.createUser,
-      retailToken,
-      campaignName,
-      campaignData
+      retailToken
     )
     yield put(
       actions.core.kvStore.userCredentials.setUserCredentials(
@@ -203,9 +202,6 @@ export default ({ api, coreSagas }) => {
     const token = yield select(S.getApiToken)
     if (!Remote.NotAsked.is(token)) return
 
-    const campaign = yield select(S.getCampaign)
-    const campaignData = yield call(getCampaignData, campaign)
-
     const userIdR = yield select(
       selectors.core.kvStore.userCredentials.getUserId
     )
@@ -222,8 +218,7 @@ export default ({ api, coreSagas }) => {
     const { userId, lifetimeToken } = yield authCredentialsR
       .map(authCredentials => {
         const { userId, lifetimeToken } = authCredentials
-        if (!userId || !lifetimeToken)
-          return call(generateAuthCredentials, campaign.name, campaignData)
+        if (!userId || !lifetimeToken) return call(generateAuthCredentials)
         return authCredentials
       })
       .getOrElse({})
@@ -268,6 +263,16 @@ export default ({ api, coreSagas }) => {
     yield put(A.fetchUserDataSuccess(userData))
   }
 
+  const fetchTiers = function*() {
+    try {
+      yield put(A.fetchTiersLoading())
+      const tiersData = yield call(api.fetchTiers)
+      yield put(A.fetchTiersSuccess(tiersData.tiers))
+    } catch (e) {
+      yield put(A.fetchTiersFailure(e))
+    }
+  }
+
   return {
     getCampaignData,
     signIn,
@@ -280,6 +285,7 @@ export default ({ api, coreSagas }) => {
     updateUser,
     updateUserAddress,
     fetchUser,
+    fetchTiers,
     renewApiSockets,
     renewUser,
     syncUserWithWallet,

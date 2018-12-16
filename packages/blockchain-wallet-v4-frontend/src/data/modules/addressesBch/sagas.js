@@ -15,7 +15,8 @@ export default ({ coreSagas, networks }) => {
       const { index, label } = action.payload
       const newLabel = yield call(promptForInput, {
         title: 'Rename Bitcoin Cash Wallet',
-        initial: label
+        initial: label,
+        maxLength: 30
       })
       yield put(actions.core.kvStore.bch.setAccountLabel(index, newLabel))
       yield put(actions.alerts.displaySuccess(C.RENAME_BCH_WALLET_SUCCESS))

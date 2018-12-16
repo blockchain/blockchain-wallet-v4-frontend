@@ -16,6 +16,28 @@ export const KYC_STATES = {
   EXPIRED: 'EXPIRED'
 }
 
+export const TIERS = {
+  0: 0,
+  1: 1,
+  2: 2
+}
+
+export const INITIAL_TIERS = [
+  { index: 0, name: 'Tier 0', state: 'none', limits: null },
+  {
+    index: 1,
+    name: 'Tier 1',
+    state: 'none',
+    limits: { type: 'CRYPTO', currency: 'USD', daily: null, annual: 1000.0 }
+  },
+  {
+    index: 2,
+    name: 'Tier 2',
+    state: 'none',
+    limits: { type: 'CRYPTO', currency: 'USD', daily: 25000.0, annual: null }
+  }
+]
+
 export const AddressPropType = PropTypes.shape({
   city: PropTypes.string.isRequired,
   line1: PropTypes.string.isRequired,
