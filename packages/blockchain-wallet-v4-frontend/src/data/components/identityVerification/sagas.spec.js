@@ -16,7 +16,6 @@ const api = {
 const coreSagas = {}
 
 const {
-  createUser,
   checkKycFlow,
   createRegisterUserCampaign,
   goToNextStep,
@@ -203,28 +202,14 @@ describe('checkKycFlow saga', () => {
 })
 
 describe('createRegisterUserCampaign', () => {
-  it('should return if user exists', () => {
+  it('should call verify identity and register user campaign', () => {
     const saga = testSaga(createRegisterUserCampaign)
     saga
       .next()
       .call(verifyIdentity)
-      .next(true)
+      .next()
+      .call(registerUserCampaign, { newUser: true })
+      .next()
       .isDone()
-  })
-  describe('should get user id if user needs verification', () => {
-    const saga = testSaga(createRegisterUserCampaign)
-    it('should attempt to verify id', () => {
-      saga.next().call(verifyIdentity)
-    })
-    it('should createUser', () => {
-      saga.next(false).call(createUser)
-    })
-    it('should register user campaign', () => {
-      saga
-        .next()
-        .call(registerUserCampaign, { newUser: true })
-        .next()
-        .isDone()
-    })
   })
 })

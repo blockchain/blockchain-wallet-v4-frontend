@@ -227,12 +227,11 @@ describe('fetch user saga', () => {
 
 describe('fetch tiers saga', () => {
   it('should call fetchTiers api and update state', () => {
-    api.fetchTiers.mockReturnValueOnce(INITIAL_TIERS)
+    api.fetchTiers.mockReturnValueOnce({ tiers: INITIAL_TIERS })
     return expectSaga(fetchTiers)
       .put(A.fetchTiersLoading())
       .call(api.fetchTiers)
-      .put(A.fetchTiersSuccess(INITIAL_TIERS.tiers))
-      .returns()
+      .put(A.fetchTiersSuccess(INITIAL_TIERS))
       .run()
   })
 })

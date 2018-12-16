@@ -12,8 +12,8 @@ const TabMenuTransactionStatus = props => {
       {statuses.indexOf('') > -1 && (
         <TabMenuItem
           className={value === '' ? 'active' : ''}
-          data-e2e='transactionTabMenuAll'
           onClick={() => handleClick('')}
+          data-e2e='transactionTabMenuAll'
         >
           <FormattedMessage
             id='components.form.tabmenutransactionstatus.all'

@@ -90,14 +90,14 @@ export const SwapBanner = ({
       <Column>
         <LargeText>
           <FormattedMessage
-            defaultMessage="We've Improved Your Exchange"
-            id='scenes.home.swapbanner.improved'
+            defaultMessage="It's Your Crypto"
+            id='scenes.home.swapbanner.its_your_crypto'
           />
         </LargeText>
         <MediumText>
           <FormattedMessage
-            defaultMessage='A faster, smarter way to trade your crypto.'
-            id='scenes.home.swapbanner.faster'
+            defaultMessage='Swap Your Crypto'
+            id='scenes.home.swapbanner.swap_your_crypto'
           />
         </MediumText>
       </Column>
@@ -114,11 +114,11 @@ export const SwapBanner = ({
           </GetStartedButton>
         )}
         {!kycNotFinished && (
-          <LinkContainer to='/exchange'>
+          <LinkContainer to='/swap'>
             <GetStartedButton onClick={hideSwapBanner}>
               <FormattedMessage
-                id='scenes.home.swapbanner.faster.gotoexchange'
-                defaultMessage='Go To Exchange'
+                id='scenes.home.swapbanner.faster.makeswap'
+                defaultMessage='Make Swap'
               />
             </GetStartedButton>
           </LinkContainer>

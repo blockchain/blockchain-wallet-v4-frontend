@@ -1,17 +1,26 @@
 import {
   and,
   any,
+  compose,
+  complement,
+  converge,
+  curry,
+  equals,
+  find,
+  findLast,
+  lift,
   path,
   pathOr,
-  compose,
-  converge,
-  equals,
-  lift,
   prop,
   propEq
 } from 'ramda'
 import { selectors } from 'data'
-import { USER_ACTIVATION_STATES, TIERS, KYC_STATES } from './model'
+import {
+  USER_ACTIVATION_STATES,
+  TIERS,
+  KYC_STATES,
+  TIERS_STATES
+} from './model'
 
 export const getUserData = path(['profile', 'userData'])
 export const getUserActivationState = compose(
@@ -34,7 +43,14 @@ export const getUserCountryCode = compose(
   lift(path(['address', 'country'])),
   getUserData
 )
-export const getTiers = path(['profile', 'userTiers'])
+export const getUserTiers = compose(
+  lift(prop('tiers')),
+  getUserData
+)
+export const getUserLimits = compose(
+  lift(prop('limits')),
+  getUserData
+)
 
 // TODO: remove when BE ships the TIER field
 export const defineUserTier = (userState, kycState) => {
@@ -44,6 +60,15 @@ export const defineUserTier = (userState, kycState) => {
 }
 export const getUserTier = state =>
   lift(defineUserTier)(getUserActivationState(state), getUserKYCState(state))
+
+export const getTiers = path(['profile', 'userTiers'])
+export const getTier = curry((tierIndex, state) =>
+  lift(find(propEq('index', tierIndex)))(getTiers(state))
+)
+export const getLastAttemptedTier = compose(
+  lift(findLast(complement(propEq('state', TIERS_STATES.NONE)))),
+  getTiers
+)
 
 export const isCountrySupported = (countryCode, supportedCountries) =>
   any(propEq('code', countryCode), supportedCountries)

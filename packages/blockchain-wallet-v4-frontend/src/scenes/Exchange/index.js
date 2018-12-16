@@ -56,14 +56,14 @@ export class ExchangeScene extends React.PureComponent {
   }
 
   render () {
-    const { verified, hasEmail, location } = this.props
+    const { userCreated, hasEmail, location } = this.props
 
     if (!hasEmail) return <EmailRequired />
 
-    return verified.cata({
-      Success: verified => (
+    return userCreated.cata({
+      Success: userCreated => (
         <Wrapper>
-          {verified ? (
+          {userCreated ? (
             <Container>
               <Column>
                 <Exchange

@@ -62,22 +62,22 @@ class SwapGetStarted extends React.PureComponent {
         <Header>
           <Text color='white' size='24px' weight={500}>
             <FormattedMessage
-              defaultMessage="We've Improved"
-              id='modals.swapgetstarted.improved'
+              defaultMessage="It's Your Crypto"
+              id='modals.swapgetstarted.its_your_crypto'
             />
           </Text>
           <Text color='white' size='24px' weight={500}>
             <FormattedMessage
-              defaultMessage='Your Exchange'
-              id='modals.swapgetstarted.exchange'
+              defaultMessage='Swap Your Crypto'
+              id='modals.swapgetstarted.swap_your_crypto'
             />
           </Text>
         </Header>
         <Body data-e2e='swapGetStarted'>
           <Text size='18px' weight={400}>
             <FormattedMessage
-              defaultMessage='The faster, smarter way to trade your crypto. Check it out!'
-              id='modals.swapgetstarted.description'
+              defaultMessage='Announcing Swap by Blockchain - the faster, smarter way to Swap your crypto.'
+              id='modals.swapgetstarted.announcement'
             />
           </Text>
         </Body>
