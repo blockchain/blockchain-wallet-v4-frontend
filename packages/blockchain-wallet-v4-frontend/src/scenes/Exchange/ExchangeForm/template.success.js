@@ -11,12 +11,13 @@ import { formatTextAmount } from 'services/ValidationHelper'
 import { Banner, Icon, Text } from 'blockchain-info-components'
 import { Form, AutosizeTextBox } from 'components/Form'
 import { ResizeableFontInputHOC } from 'components/ResizeableFontInputHOC'
-import { Wrapper as SummaryWrapper, Title, Note } from 'components/Exchange'
+import { Wrapper as BorderWrapper, Title, Note } from 'components/Exchange'
 import { Cell, Row } from './Layout'
 import CurrencySelect from './CurrencySelect'
 import ComplementaryAmount from './ComplementaryAmount'
 import Error from './Error'
 import LimitInfo from './LimitInfo'
+import VerificationInfo from './VerificationInfo'
 import MinMaxButtons from './MinMaxButtons'
 import SubmitButton from './SubmitButton'
 import Summary from './Summary'
@@ -52,7 +53,6 @@ const ColumnLeft = styled.div`
   margin-right: 34px;
   max-width: 450px;
   width: 60%;
-  border: 1px solid ${props => props.theme['gray-1']}};
   border-radius: 8px;
   ${media.mobile`
     margin-right: 0;
@@ -135,7 +135,9 @@ const ActiveCurrencyButton = styled.div`
     ${props =>
       props.checked ? props.theme[props.coin] : props.theme['gray-4']};
 `
-const FieldsWrapper = styled.div``
+const FormWrapper = styled(BorderWrapper)`
+  padding: 0;
+`
 const CurrencyBox = styled(Text)`
   align-self: flex-start;
   display: flex;
@@ -198,8 +200,8 @@ const Success = ({
     <Wrapper>
       {!canUseExchange && <Cover />}
       <ColumnLeft>
-        <Form>
-          <FieldsWrapper>
+        <FormWrapper>
+          <Form>
             <SwapReceiveRow>
               <Cell>
                 <ActiveCurrencyButton
@@ -317,17 +319,18 @@ const Success = ({
             </ComplementaryRow>
             <Error />
             <MinMaxButtons />
-          </FieldsWrapper>
-          <SubmitButton
-            blockLockbox={blockLockbox}
-            volume={volume}
-            handleSubmit={handleSubmit}
-          />
-          <LimitInfo />
-        </Form>
+            <SubmitButton
+              blockLockbox={blockLockbox}
+              volume={volume}
+              handleSubmit={handleSubmit}
+            />
+            <LimitInfo />
+          </Form>
+        </FormWrapper>
+        <VerificationInfo />
       </ColumnLeft>
       <ColumnRight>
-        <SummaryWrapper>
+        <BorderWrapper>
           <Title>
             <FormattedMessage
               id='scenes.exchange.exchangeform.summary.title'
@@ -350,7 +353,7 @@ const Success = ({
             targetCoin={targetCoin}
             currency={currency}
           />
-        </SummaryWrapper>
+        </BorderWrapper>
       </ColumnRight>
     </Wrapper>
   )

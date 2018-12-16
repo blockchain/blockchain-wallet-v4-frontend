@@ -53,17 +53,6 @@ const LimitMessage = ({
       </LimitText>
     )
 
-  if (showPending)
-    return (
-      <LimitText color='btc'>
-        &nbsp;
-        <FormattedMessage
-          id='scenes.exchange.exchangeform.limit_info.in_review'
-          defaultMessage='In Review'
-        />
-      </LimitText>
-    )
-
   if (showLimit)
     return (
       <LimitText color='success'>
@@ -81,13 +70,24 @@ const LimitMessage = ({
       </LimitText>
     )
 
+  if (showPending)
+    return (
+      <LimitText color='btc'>
+        &nbsp;
+        <FormattedMessage
+          id='scenes.exchange.exchangeform.limit_info.in_review'
+          defaultMessage='In Review'
+        />
+      </LimitText>
+    )
+
   return null
 }
 
 export const LimitAction = ({
   nextTier,
   nextTierAvailable,
-  nextTierInReview,
+  lastTierInReview,
   upgradeRequired,
   upgradeTier
 }) => {
@@ -116,7 +116,7 @@ export const LimitAction = ({
         <TierIcon name='down-arrow-filled' color='brand-secondary' />
       </TierLink>
     )
-  if (nextTierInReview)
+  if (lastTierInReview)
     return (
       <LinkContainer to='/swap/profile'>
         <TierLink>
@@ -150,7 +150,7 @@ export class LimitInfo extends React.PureComponent {
       hideTier,
       currencySymbol,
       nextTierAvailable,
-      nextTierInReview,
+      lastTierInReview,
       upgradeRequired
     } = this.props
 
@@ -178,7 +178,7 @@ export class LimitInfo extends React.PureComponent {
         <LimitAction
           nextTier={nextTier}
           nextTierAvailable={nextTierAvailable}
-          nextTierInReview={nextTierInReview}
+          lastTierInReview={lastTierInReview}
           upgradeRequired={upgradeRequired}
           upgradeTier={this.upgradeTier}
         />

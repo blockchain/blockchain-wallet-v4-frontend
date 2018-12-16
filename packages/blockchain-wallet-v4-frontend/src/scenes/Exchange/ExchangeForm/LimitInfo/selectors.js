@@ -1,9 +1,15 @@
-import { compose, isNil, map, max, prop, propEq, reduce } from 'ramda'
+import { compose, isNil, map, max, path, prop, reduce, take } from 'ramda'
 
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { selectors, model } from 'data'
 import { currencySymbolMap } from 'services/CoinifyService'
 
-const { TIERS_STATES } = model.profile
+const {
+  TIERS_STATES,
+  getLastAttemptedTier,
+  getLastUnrejectedTier,
+  getLastVerifiedTier
+} = model.profile
 
 const getLimit = compose(
   limit => (isNil(limit) ? Infinity : limit),
@@ -23,59 +29,57 @@ const getMinLimit = limits => {
   return minLimit
 }
 
-const checkPreviousTiersRejection = (state, selected) => {
-  let tier = selected - 1
-  while (tier >= 1) {
-    const tierRejected = selectors.modules.profile
-      .getTier(tier, state)
-      .map(propEq('state', TIERS_STATES.REJECTED))
-      .getOrElse(true)
+export const getData = createDeepEqualSelector(
+  [
+    state => selectors.modules.profile.getUserTiers(state).getOrElse({}),
+    state => selectors.modules.profile.getUserLimits(state).getOrElse([]),
+    state => selectors.modules.profile.getTiers(state).getOrElse([])
+  ],
+  (userTiers, userLimits, tiers) => {
+    const { next, selected } = userTiers
 
-    if (!tierRejected) return false
-    tier--
+    const currency = path([0, 'currency'], userLimits)
+
+    const lastAttemptedTier = getLastAttemptedTier(tiers) || {
+      index: 0,
+      state: TIERS_STATES.NONE
+    }
+    const lastAttemptedTierState = prop('state', lastAttemptedTier)
+    const last = lastAttemptedTier.index
+
+    const lastUnrejectedTier = getLastUnrejectedTier(take(last, tiers))
+    const allAttemptedTiersRejected = !lastUnrejectedTier
+
+    const lastVerifiedTier = getLastVerifiedTier(tiers)
+
+    const limit = compose(
+      reduce(max, 0),
+      map(getMinLimit)
+    )(userLimits)
+
+    const nextTierAvailable = next > last
+
+    const allPreviousTiersRejected = !getLastUnrejectedTier(
+      take(selected - 1, tiers)
+    )
+
+    return {
+      tier: (lastVerifiedTier || lastAttemptedTier).index,
+      nextTier: next,
+      hideTier: last === 0 || (allAttemptedTiersRejected && !nextTierAvailable),
+      limit,
+      lastTierState: lastAttemptedTierState,
+      showPending:
+        allPreviousTiersRejected &&
+        lastAttemptedTierState === TIERS_STATES.PENDING,
+      showLimit:
+        Boolean(lastVerifiedTier) && limit !== Infinity && Boolean(currency),
+      currencySymbol: currencySymbolMap[currency],
+      nextTierAvailable,
+      lastTierInReview:
+        !allPreviousTiersRejected &&
+        lastAttemptedTierState === TIERS_STATES.PENDING,
+      upgradeRequired: allAttemptedTiersRejected && nextTierAvailable
+    }
   }
-
-  return true
-}
-
-export const getData = state => {
-  const { next, selected } = selectors.modules.profile
-    .getUserTiers(state)
-    .getOrElse({})
-  const userLimits = selectors.modules.profile
-    .getUserLimits(state)
-    .getOrElse({})
-  const lastAttemptedTier = selectors.modules.profile
-    .getLastAttemptedTier(state)
-    .getOrElse(null) || { index: 0, state: TIERS_STATES.NONE }
-  const lastAttemptedTierState = prop('state', lastAttemptedTier)
-  const limit = compose(
-    reduce(max, 0),
-    map(getMinLimit)
-  )(userLimits)
-  const nextTierAvailable = next > lastAttemptedTier.index
-  const lastTierRejected = lastAttemptedTierState === TIERS_STATES.REJECTED
-  const allPreviousTiersRejected = checkPreviousTiersRejection(state, selected)
-
-  return {
-    tier: lastAttemptedTier.index,
-    nextTier: next,
-    hideTier:
-      lastAttemptedTier.index === 0 || (lastTierRejected && !nextTierAvailable),
-    limit,
-    lastTierState: lastAttemptedTierState,
-    showPending:
-      allPreviousTiersRejected &&
-      lastAttemptedTierState === TIERS_STATES.PENDING,
-    showLimit:
-      lastAttemptedTierState === TIERS_STATES.ACTIVE &&
-      limit !== Infinity &&
-      userLimits[0].currency,
-    currencySymbol: currencySymbolMap[userLimits[0].currency],
-    nextTierAvailable,
-    nextTierInReview:
-      !allPreviousTiersRejected &&
-      lastAttemptedTierState === TIERS_STATES.PENDING,
-    upgradeRequired: lastTierRejected && nextTierAvailable
-  }
-}
+)

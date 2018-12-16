@@ -22,6 +22,8 @@ class SubmitButton extends React.PureComponent {
     const {
       blockLockbox,
       disabled,
+      disabledPending,
+      hide,
       txError,
       volume,
       asyncValidating,
@@ -30,6 +32,9 @@ class SubmitButton extends React.PureComponent {
       submitting,
       handleSubmit
     } = this.props
+
+    if (hide) return null
+
     return (
       <ButtonRow>
         <BigButton
@@ -37,6 +42,7 @@ class SubmitButton extends React.PureComponent {
           fullwidth
           onClick={handleSubmit}
           disabled={
+            disabledPending ||
             disabled ||
             blockLockbox ||
             asyncValidating ||
