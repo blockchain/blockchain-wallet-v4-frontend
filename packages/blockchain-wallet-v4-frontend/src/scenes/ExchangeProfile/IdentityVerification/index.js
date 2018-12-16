@@ -123,11 +123,11 @@ const GoBackLink = styled.div`
 const IdentityVerification = () => {
   return (
     <Wrapper>
-      <GoBackLink>
-        <LinkContainer to='/swap'>
+      <LinkContainer to='/swap'>
+        <GoBackLink>
           <Icon name='down-arrow-filled' color='brand-secondary' />
-        </LinkContainer>
-      </GoBackLink>
+        </GoBackLink>
+      </LinkContainer>
       <Container>
         <Row>
           <Column>
