@@ -124,7 +124,7 @@ const IdentityVerification = () => {
   return (
     <Wrapper>
       <GoBackLink>
-        <LinkContainer to='/exchange'>
+        <LinkContainer to='/swap'>
           <Icon name='down-arrow-filled' color='brand-secondary' />
         </LinkContainer>
       </GoBackLink>

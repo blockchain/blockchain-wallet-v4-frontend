@@ -15,6 +15,13 @@ const BigButton = styled(Button)`
   border-radius: 6px;
   font-size: 17px;
   font-weight: 400;
+  transition: box-shadow 0.3s;
+  &:hover {
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.21);
+    &:disabled {
+      box-shadow: none;
+    }
+  }
 `
 
 class SubmitButton extends React.PureComponent {
