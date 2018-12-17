@@ -118,7 +118,7 @@ export const LimitAction = ({
     )
   if (lastTierInReview)
     return (
-      <LinkContainer to='/swap/profile'>
+      <LinkContainer to='/swap/account'>
         <TierLink>
           <LimitText color='btc'>
             <FormattedMessage

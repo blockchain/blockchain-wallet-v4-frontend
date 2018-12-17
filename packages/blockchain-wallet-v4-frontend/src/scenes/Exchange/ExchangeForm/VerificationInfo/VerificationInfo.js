@@ -40,7 +40,7 @@ const VerificationInfo = ({ showNotification }) => {
           defaultMessage='We had trouble approving your identity. Your Swap feature has been disabled at this time.'
         />
         &nbsp;
-        <LinkContainer to='/swap/profile'>
+        <LinkContainer to='/swap/account'>
           <InfoLink>
             <ExchangeText color='brand-secondary'>
               <FormattedMessage
