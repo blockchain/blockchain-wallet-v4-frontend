@@ -10,17 +10,25 @@ import { TabMenu, TabMenuItem } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
-  padding: 10px 30px;
+  padding: 12px 30px;
   box-sizing: border-box;
   background-color: ${props => props.theme['white-blue']};
   border-bottom: 1px solid ${props => props.theme['gray-1']};
-
-  > div > span:first-child {
-    padding-left: 0;
+`
+const LinkItem = styled(TabMenuItem)`
+  &.active {
+    & :after {
+      position: absolute;
+      content: '';
+      top: 37px;
+      left: 0;
+      width: 100%;
+      border-bottom: 4px solid ${props => props.theme['brand-secondary']};
+    }
   }
 `
 
@@ -28,21 +36,24 @@ export const MenuTop = ({ historySelected, showGetStarted }) =>
   !showGetStarted ? (
     <Wrapper>
       <TabMenu>
-        <LinkContainer to='/exchange' exact>
-          <TabMenuItem selected={!historySelected}>
+        <LinkContainer to='/swap' exact>
+          <LinkItem activeClassName='active' data-e2e='exchangeTabMenuExchange'>
             <FormattedMessage
-              id='scenes.exchange.menutop.exchange'
-              defaultMessage='Exchange'
+              id='scenes.exchange.menutop.swap'
+              defaultMessage='Swap'
             />
-          </TabMenuItem>
+          </LinkItem>
         </LinkContainer>
-        <LinkContainer to='/exchange/history'>
-          <TabMenuItem selected={historySelected}>
+        <LinkContainer to='/swap/history'>
+          <LinkItem
+            activeClassName='active'
+            data-e2e='exchangeTabMenuOrderHistory'
+          >
             <FormattedMessage
               id='scenes.exchange.menutop.history'
               defaultMessage='Order History'
             />
-          </TabMenuItem>
+          </LinkItem>
         </LinkContainer>
       </TabMenu>
     </Wrapper>

@@ -677,7 +677,7 @@ export default ({ api, coreSagas, networks }) => {
       }
 
       yield put(actions.form.stopSubmit(CONFIRM_FORM))
-      yield put(actions.router.push('/exchange/history'))
+      yield put(actions.router.push('/swap/history'))
       yield put(A.setStep(EXCHANGE_STEPS.EXCHANGE_FORM))
       yield put(
         actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))
@@ -705,6 +705,7 @@ export default ({ api, coreSagas, networks }) => {
       yield all(
         pairs.map(({ pair }) => put(actions.modules.rates.removeAdvice(pair)))
       )
+      yield put(A.setSourceFee({ source: 0, target: 0 }))
       yield put(actions.modules.rates.unsubscribeFromRates())
       yield put(actions.form.reset(EXCHANGE_FORM))
     } catch (e) {

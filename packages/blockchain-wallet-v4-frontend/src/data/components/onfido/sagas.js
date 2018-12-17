@@ -1,11 +1,8 @@
 import { put, call, select } from 'redux-saga/effects'
 import { actions, model } from 'data'
-
 import * as A from './actions'
 import * as S from './selectors'
-
 export const logLocation = 'components/identityVerification/sagas'
-
 export default ({ api }) => {
   const { COMPLETE } = model.analytics.KYC
   const fetchOnfidoSDKKey = function*() {
@@ -18,7 +15,6 @@ export default ({ api }) => {
       yield put(A.fetchOnfidoSDKKeyError(error))
     }
   }
-
   const syncOnfido = function*({ payload }) {
     try {
       const { isSelfie } = payload
@@ -34,7 +30,6 @@ export default ({ api }) => {
       yield put(A.syncOnfidoError(error))
     }
   }
-
   return {
     fetchOnfidoSDKKey,
     syncOnfido

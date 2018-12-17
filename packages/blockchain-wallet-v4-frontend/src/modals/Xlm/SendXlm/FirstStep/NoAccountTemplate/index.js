@@ -12,7 +12,7 @@ const { CREATE_ACCOUNT_LEARN_MODAL } = model.components.sendXlm
 export const NoAccountTemplate = () => (
   <React.Fragment>
     <FormGroup>
-      <Banner type='info'>
+      <Banner type='info' data-e2e='sendXlmNoAccount'>
         <Text color='warning' size='12px'>
           <FormattedMessage
             id='modals.sendxlm.firststep.noaccount'
@@ -24,12 +24,12 @@ export const NoAccountTemplate = () => (
     </FormGroup>
     <FormGroup>
       <LinkContainer
-        to={{ pathname: '/exchange', state: { from: 'BTC', to: 'XLM' } }}
+        to={{ pathname: '/swap', state: { from: 'BTC', to: 'XLM' } }}
       >
         <Button type='submit' nature='primary' uppercase fullwidth>
           <FormattedMessage
-            id='modals.sendxlm.firststep.exchange'
-            defaultMessage='Exchange for XLM'
+            id='modals.sendxlm.firststep.swap'
+            defaultMessage='Swap for XLM'
           />
         </Button>
       </LinkContainer>

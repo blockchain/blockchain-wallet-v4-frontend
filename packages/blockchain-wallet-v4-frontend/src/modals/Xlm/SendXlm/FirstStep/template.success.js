@@ -168,6 +168,7 @@ const FirstStep = props => {
                     component={TextBox}
                     validate={[required, validXlmAddress]}
                     autoFocus
+                    data-e2e='sendXlmToAddress'
                   />
                 )}
                 <QRCodeCapture
@@ -180,11 +181,11 @@ const FirstStep = props => {
                 />
                 {enableToggle ? (
                   !toToggled ? (
-                    <AddressButton onClick={handleToToggle}>
+                    <AddressButton onClick={() => handleToToggle()}>
                       <Icon name='down-arrow' size='11px' cursor />
                     </AddressButton>
                   ) : (
-                    <AddressButton onClick={handleToToggle}>
+                    <AddressButton onClick={() => handleToToggle()}>
                       <Icon name='pencil' size='13px' cursor />
                     </AddressButton>
                   )
@@ -206,6 +207,7 @@ const FirstStep = props => {
                 error={error}
                 coin='XLM'
                 validate={[required, invalidAmount, insufficientFunds]}
+                data-e2e='sendXlm'
               />
             </FormItem>
           </FormGroup>
@@ -227,6 +229,7 @@ const FirstStep = props => {
                 component={TextAreaDebounced}
                 placeholder="What's this transaction for? (optional)"
                 fullwidth
+                data-e2e='sendXlmDescription'
               />
             </FormItem>
           </FormGroup>
@@ -248,12 +251,14 @@ const FirstStep = props => {
                   validate={validateMemo}
                   component={TextBox}
                   placeholder='Enter text or ID for recipient (optional)'
+                  data-e2e='sendXlmMemoText'
                 />
                 <Field
                   name='memoType'
                   errorBottom
                   validate={validateMemoType}
                   component={SelectBoxMemo}
+                  data-e2e='sendXlmMemoType'
                 />
               </MemoField>
             </FormItem>

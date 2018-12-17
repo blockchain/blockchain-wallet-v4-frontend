@@ -135,7 +135,6 @@ export default ({ coreSagas, networks }) => {
           }
           break
         case 'from':
-          yield put(A.sendBtcFirstStepToToggled(false))
           yield put(actions.analytics.logEvent([SEND_BTC, 'click', 'from']))
           const fromType = prop('type', payload)
           if (is(String, payload)) {

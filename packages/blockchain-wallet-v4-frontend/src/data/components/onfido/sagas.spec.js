@@ -1,15 +1,12 @@
 import { select } from 'redux-saga/effects'
 import { expectSaga } from 'redux-saga-test-plan'
-
 import { actions, model } from 'data'
 import * as A from './actions'
 import * as S from './selectors'
 import sagas from './sagas'
-
 const api = {
   syncOnfido: jest.fn()
 }
-
 const { syncOnfido } = sagas({ api })
 const { COMPLETE } = model.analytics.KYC
 const isSelfie = true
@@ -19,7 +16,6 @@ const action = {
     isSelfie
   }
 }
-
 describe('syncOnfido', () => {
   it('should sync with backend, redirect user to the exchange and log kyc complete event', () => {
     return expectSaga(syncOnfido, action)
@@ -33,7 +29,6 @@ describe('syncOnfido', () => {
       .put(actions.analytics.logKycEvent(COMPLETE))
       .run()
   })
-
   it('should save error state if sync fails', () => {
     const error = {}
     api.syncOnfido.mockRejectedValue(error)

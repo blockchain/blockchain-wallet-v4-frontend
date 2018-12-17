@@ -45,21 +45,21 @@ describe('ExchangeScene', () => {
   })
   it('renders loading correctly', () => {
     const component = shallow(
-      <ExchangeScene verified={Remote.Loading} {...props} />
+      <ExchangeScene userCreated={Remote.Loading} {...props} />
     )
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })
   it('renders not asked correctly', () => {
     const component = shallow(
-      <ExchangeScene verified={Remote.NotAsked} {...props} />
+      <ExchangeScene userCreated={Remote.NotAsked} {...props} />
     )
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })
   it('renders exchange correctly', () => {
     const component = shallow(
-      <ExchangeScene verified={Remote.Success(true)} {...props} />
+      <ExchangeScene userCreated={Remote.Success(true)} {...props} />
     )
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
@@ -69,14 +69,14 @@ describe('ExchangeScene', () => {
   })
   it('renders getstarted correctly', () => {
     const component = shallow(
-      <ExchangeScene verified={Remote.Success(false)} {...props} />
+      <ExchangeScene userCreated={Remote.Success(false)} {...props} />
     )
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })
   it('renders failure correctly', () => {
     const component = shallow(
-      <ExchangeScene verified={Remote.Failure({})} {...props} />
+      <ExchangeScene userCreated={Remote.Failure({})} {...props} />
     )
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
@@ -85,7 +85,7 @@ describe('ExchangeScene', () => {
     expect(props.fetchUser).toHaveBeenCalledTimes(1)
   })
   it('logs enter events on mount', () => {
-    shallow(<ExchangeScene verified={Remote.Failure({})} {...props} />)
+    shallow(<ExchangeScene userCreated={Remote.Failure({})} {...props} />)
     expect(props.logEnterExchange).toHaveBeenCalledTimes(1)
   })
 })
