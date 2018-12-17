@@ -14,6 +14,20 @@ jest.mock('data', () => ({
         verifyIdentity: jest.fn()
       }
     }
+  },
+  selectors: {
+    modules: {
+      profiles: {
+        getUserKYCState: jest.fn()
+      }
+    }
+  },
+  model: {
+    profile: {
+      KYC_STATES: {
+        NONE: 'NONE'
+      }
+    }
   }
 }))
 

@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ExchangeByBlockchain renders correctly with button 1`] = `
-<ExchangeByBlockchain__Container>
-  <ExchangeByBlockchain__Row
-    marginBottom="24px"
+<WhatsNew__Container>
+  <WhatsNew__Row
+    marginBottom="10px"
   >
     <text
       color="brand-primary"
@@ -16,8 +16,8 @@ exports[`ExchangeByBlockchain renders correctly with button 1`] = `
         values={Object {}}
       />
     </text>
-  </ExchangeByBlockchain__Row>
-  <ExchangeByBlockchain__Row
+  </WhatsNew__Row>
+  <WhatsNew__Row
     marginBottom="24px"
   >
     <ExchangeByBlockchain__DarkText
@@ -29,8 +29,8 @@ exports[`ExchangeByBlockchain renders correctly with button 1`] = `
         values={Object {}}
       />
     </ExchangeByBlockchain__DarkText>
-  </ExchangeByBlockchain__Row>
-  <ExchangeByBlockchain__Row
+  </WhatsNew__Row>
+  <WhatsNew__Row
     marginBottom="24px"
   >
     <ExchangeByBlockchain__DarkText>
@@ -40,8 +40,8 @@ exports[`ExchangeByBlockchain renders correctly with button 1`] = `
         values={Object {}}
       />
     </ExchangeByBlockchain__DarkText>
-  </ExchangeByBlockchain__Row>
-  <ExchangeByBlockchain__Row
+  </WhatsNew__Row>
+  <WhatsNew__Row
     marginBottom="8px"
   >
     <ExchangeByBlockchain__DarkText>
@@ -51,8 +51,8 @@ exports[`ExchangeByBlockchain renders correctly with button 1`] = `
         values={Object {}}
       />
     </ExchangeByBlockchain__DarkText>
-  </ExchangeByBlockchain__Row>
-  <ExchangeByBlockchain__Row
+  </WhatsNew__Row>
+  <WhatsNew__Row
     marginBottom="8px"
   >
     <ExchangeByBlockchain__DarkText>
@@ -74,8 +74,8 @@ exports[`ExchangeByBlockchain renders correctly with button 1`] = `
         values={Object {}}
       />
     </ExchangeByBlockchain__DarkText>
-  </ExchangeByBlockchain__Row>
-  <ExchangeByBlockchain__Row
+  </WhatsNew__Row>
+  <WhatsNew__Row
     marginBottom="8px"
   >
     <ExchangeByBlockchain__DarkText>
@@ -97,8 +97,8 @@ exports[`ExchangeByBlockchain renders correctly with button 1`] = `
         values={Object {}}
       />
     </ExchangeByBlockchain__DarkText>
-  </ExchangeByBlockchain__Row>
-  <ExchangeByBlockchain__Row
+  </WhatsNew__Row>
+  <WhatsNew__Row
     marginBottom="32px"
   >
     <ExchangeByBlockchain__DarkText>
@@ -120,8 +120,8 @@ exports[`ExchangeByBlockchain renders correctly with button 1`] = `
         values={Object {}}
       />
     </ExchangeByBlockchain__DarkText>
-  </ExchangeByBlockchain__Row>
-  <ExchangeByBlockchain__Row>
+  </WhatsNew__Row>
+  <WhatsNew__Row>
     <ExchangeByBlockchain__GetStartedButton>
       <FormattedMessage
         defaultMessage="Get Started"
@@ -129,14 +129,14 @@ exports[`ExchangeByBlockchain renders correctly with button 1`] = `
         values={Object {}}
       />
     </ExchangeByBlockchain__GetStartedButton>
-  </ExchangeByBlockchain__Row>
-</ExchangeByBlockchain__Container>
+  </WhatsNew__Row>
+</WhatsNew__Container>
 `;
 
 exports[`ExchangeByBlockchain renders correctly with exchange link 1`] = `
-<ExchangeByBlockchain__Container>
-  <ExchangeByBlockchain__Row
-    marginBottom="24px"
+<WhatsNew__Container>
+  <WhatsNew__Row
+    marginBottom="10px"
   >
     <text
       color="brand-primary"
@@ -149,8 +149,8 @@ exports[`ExchangeByBlockchain renders correctly with exchange link 1`] = `
         values={Object {}}
       />
     </text>
-  </ExchangeByBlockchain__Row>
-  <ExchangeByBlockchain__Row
+  </WhatsNew__Row>
+  <WhatsNew__Row
     marginBottom="24px"
   >
     <ExchangeByBlockchain__DarkText
@@ -162,8 +162,8 @@ exports[`ExchangeByBlockchain renders correctly with exchange link 1`] = `
         values={Object {}}
       />
     </ExchangeByBlockchain__DarkText>
-  </ExchangeByBlockchain__Row>
-  <ExchangeByBlockchain__Row
+  </WhatsNew__Row>
+  <WhatsNew__Row
     marginBottom="24px"
   >
     <ExchangeByBlockchain__DarkText>
@@ -173,8 +173,8 @@ exports[`ExchangeByBlockchain renders correctly with exchange link 1`] = `
         values={Object {}}
       />
     </ExchangeByBlockchain__DarkText>
-  </ExchangeByBlockchain__Row>
-  <ExchangeByBlockchain__Row
+  </WhatsNew__Row>
+  <WhatsNew__Row
     marginBottom="8px"
   >
     <ExchangeByBlockchain__DarkText>
@@ -184,8 +184,8 @@ exports[`ExchangeByBlockchain renders correctly with exchange link 1`] = `
         values={Object {}}
       />
     </ExchangeByBlockchain__DarkText>
-  </ExchangeByBlockchain__Row>
-  <ExchangeByBlockchain__Row
+  </WhatsNew__Row>
+  <WhatsNew__Row
     marginBottom="8px"
   >
     <ExchangeByBlockchain__DarkText>
@@ -207,8 +207,8 @@ exports[`ExchangeByBlockchain renders correctly with exchange link 1`] = `
         values={Object {}}
       />
     </ExchangeByBlockchain__DarkText>
-  </ExchangeByBlockchain__Row>
-  <ExchangeByBlockchain__Row
+  </WhatsNew__Row>
+  <WhatsNew__Row
     marginBottom="8px"
   >
     <ExchangeByBlockchain__DarkText>
@@ -230,8 +230,8 @@ exports[`ExchangeByBlockchain renders correctly with exchange link 1`] = `
         values={Object {}}
       />
     </ExchangeByBlockchain__DarkText>
-  </ExchangeByBlockchain__Row>
-  <ExchangeByBlockchain__Row
+  </WhatsNew__Row>
+  <WhatsNew__Row
     marginBottom="32px"
   >
     <ExchangeByBlockchain__DarkText>
@@ -253,8 +253,8 @@ exports[`ExchangeByBlockchain renders correctly with exchange link 1`] = `
         values={Object {}}
       />
     </ExchangeByBlockchain__DarkText>
-  </ExchangeByBlockchain__Row>
-  <ExchangeByBlockchain__Row>
+  </WhatsNew__Row>
+  <WhatsNew__Row>
     <LinkContainer
       activeClassName="active"
       exact={false}
@@ -270,6 +270,6 @@ exports[`ExchangeByBlockchain renders correctly with exchange link 1`] = `
         />
       </ExchangeByBlockchain__GetStartedButton>
     </LinkContainer>
-  </ExchangeByBlockchain__Row>
-</ExchangeByBlockchain__Container>
+  </WhatsNew__Row>
+</WhatsNew__Container>
 `;

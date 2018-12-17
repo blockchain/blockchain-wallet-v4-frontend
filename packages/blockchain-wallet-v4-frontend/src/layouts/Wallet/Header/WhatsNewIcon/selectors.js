@@ -14,7 +14,7 @@ export const getData = createDeepEqualSelector(
     const transform = (lastViewed) => {
       const highlighted = opened && content === 'whatsnew'
       const latestAnnouncements = Announcements.filter(announcement => {
-        return moment(prop('date', announcement)).isAfter(moment(lastViewed))
+        return moment(prop('date', announcement)).isBetween(moment(lastViewed), moment())
       })
       return {
         highlighted,

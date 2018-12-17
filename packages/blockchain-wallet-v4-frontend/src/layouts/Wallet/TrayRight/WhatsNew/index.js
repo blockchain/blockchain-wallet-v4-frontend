@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 import { getData } from './selectors'
 import EmptyContent from 'services/WhatsNewService/WhatsNewContent/EmptyContent'
+import { prop } from 'ramda'
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -32,9 +33,9 @@ class WhatsNewContainer extends React.PureComponent {
       <Wrapper>
         <Container>
           {
-            !latestAnnouncements.length
+            !prop('length', latestAnnouncements)
               ? <EmptyContent />
-              : latestAnnouncements.map(announcement => announcement.content)
+              : latestAnnouncements.map(prop('content'))
           }
         </Container>
       </Wrapper>

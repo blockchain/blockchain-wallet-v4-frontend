@@ -3,31 +3,12 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-
-import { actions } from 'data'
+import { actions, model, selectors } from 'data'
 import { Button, Text } from 'blockchain-info-components'
+import { Container, Row } from 'components/WhatsNew'
+import { equals } from 'ramda'
+const { NONE } = model.profile.KYC_STATES
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 100%;
-  height: auto;
-`
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 100%;
-  margin-bottom: 15px;
-  margin-bottom: ${props => props.marginBottom};
-
-  & > :not(:last-child) {
-    margin-right: 10px;
-  }
-`
 const DarkText = styled(Text).attrs({
   color: 'gray-5',
   size: '16px',
@@ -57,7 +38,7 @@ const GetStartedButton = styled(Button).attrs({
 
 export const ExchangeByBlockchain = ({ kycNotFinished, verifyIdentity }) => (
   <Container>
-    <Row marginBottom='24px'>
+    <Row marginBottom='10px'>
       <Text color='brand-primary' size='24px' weight={600}>
         <FormattedMessage
           defaultMessage="We've Improved Your Exchange"
@@ -157,12 +138,19 @@ export const ExchangeByBlockchain = ({ kycNotFinished, verifyIdentity }) => (
   </Container>
 )
 
+const mapStateToProps = state => ({
+  kycNotFinished: selectors.modules.profile
+    .getUserKYCState(state)
+    .map(equals(NONE))
+    .getOrElse(false)
+})
+
 const mapDispatchToProps = dispatch => ({
   verifyIdentity: () =>
     dispatch(actions.components.identityVerification.verifyIdentity())
 })
 
 export default connect(
-  undefined,
+  mapStateToProps,
   mapDispatchToProps
 )(ExchangeByBlockchain)
