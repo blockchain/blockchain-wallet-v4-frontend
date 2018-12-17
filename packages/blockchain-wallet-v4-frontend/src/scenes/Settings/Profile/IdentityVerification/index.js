@@ -96,7 +96,7 @@ const IdentityVerification = () => {
                 defaultMessage='Swap Limits'
               />
             </SwapText>
-            <SwapText>
+            <SwapText weight={300}>
               <FormattedMessage
                 id='scenes.profile.identityverification.swaplimit.explaination'
                 defaultMessage='Your Swap Limit is how much digital currency you can trade each day. This is all a security precaution for local compliance and fraud prevention.'
@@ -109,7 +109,7 @@ const IdentityVerification = () => {
                   defaultMessage='Want to learn more?'
                 />
               </SwapText>
-              <SwapText size='14px'>
+              <SwapText size='14px' weight={300}>
                 <FormattedHTMLMessage
                   id='scenes.profile.identityverification.swaplimit.learnmore'
                   defaultMessage="We've put together an article explaining how Swap Limits works. <a href='https://support.blockchain.com' rel='noopener noreferrer' target='_blank'>Read now.</a>"
