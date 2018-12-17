@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import QRCodeReact from 'qrcode.react'
+import QRCodeWrapper from 'components/QRCodeWrapper'
 import {
   Modal,
   ModalHeader,
@@ -56,7 +56,7 @@ const FirstStep = () => (
 const SecondStep = ({ addr, balance, priv }) => (
   <div style={flex('row')}>
     <div style={spacing('mr-25')}>
-      <QRCodeReact value={priv} size={120} />
+      <QRCodeWrapper value={priv} size={120} />
     </div>
     <DetailTable>
       <DetailRow>
