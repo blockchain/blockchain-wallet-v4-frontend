@@ -47,7 +47,6 @@ describe('ExchangeScene', () => {
     const component = shallow(<ExchangeScene {...props} hasEmail={false} />)
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
-    expect(props.fetchUser).toHaveBeenCalledTimes(1)
   })
   it('renders loading correctly', () => {
     const component = shallow(
@@ -88,7 +87,7 @@ describe('ExchangeScene', () => {
     expect(tree).toMatchSnapshot()
     const dataError = component.find(DataError)
     dataError.prop('onClick')()
-    expect(props.fetchUser).toHaveBeenCalledTimes(2)
+    expect(props.fetchUser).toHaveBeenCalledTimes(1)
   })
   it('logs enter events on mount', () => {
     shallow(<ExchangeScene userCreated={Remote.Failure({})} {...props} />)

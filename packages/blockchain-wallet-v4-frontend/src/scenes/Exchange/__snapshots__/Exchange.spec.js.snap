@@ -19,19 +19,7 @@ exports[`ExchangeScene renders exchange correctly 1`] = `
 
 exports[`ExchangeScene renders failure correctly 1`] = `
 <DataErrorContainer
-  onClick={
-    [MockFunction] {
-      "calls": Array [
-        Array [],
-      ],
-      "results": Array [
-        Object {
-          "isThrow": false,
-          "value": undefined,
-        },
-      ],
-    }
-  }
+  onClick={[MockFunction]}
 />
 `;
 
