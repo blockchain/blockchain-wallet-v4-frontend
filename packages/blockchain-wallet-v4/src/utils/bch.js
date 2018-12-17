@@ -5,6 +5,9 @@ import { head, propOr } from 'ramda'
 import BigNumber from 'bignumber.js'
 import * as Exchange from '../exchange'
 
+export const TX_PER_PAGE = 10
+export const BCH_FORK_TIME = 1501590000
+
 export const calculateBalanceSatoshi = (coins, feePerByte) => {
   const { outputs, fee } = selectAll(feePerByte, coins)
   const effectiveBalance = propOr(0, 'value', head(outputs))
@@ -93,3 +96,6 @@ export const isCashAddr = address => {
     return false
   }
 }
+
+export const convertFromCashAddrIfCashAddr = addr =>
+  isCashAddr(addr) ? fromCashAddr(addr) : addr

@@ -4,23 +4,15 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
-import { fromCashAddr, isCashAddr } from '../../../utils/bch'
-
-// TODO?
-const convertFromCashAddrIfCashAddr = addr =>
-  isCashAddr(addr) ? fromCashAddr(addr) : addr
-
-// increased for BSV only
-const TX_PER_PAGE = 1000
-
-// TODO?
-const BCH_FORK_TIME = 1501590000
+import { TX_PER_PAGE, BSV_FORK_TIME } from '../../../utils/bsv'
+import { convertFromCashAddrIfCashAddr } from '../../../utils/bch'
 
 export default ({ api }) => {
   const fetchData = function*() {
     try {
       yield put(A.fetchDataLoading())
       const context = yield select(S.getContext)
+      // TODO: wire in API
       const data = yield call(api.fetchBsvData, context, { n: 1 })
       const bchData = {
         addresses: indexBy(prop('address'), prop('addresses', data)),
@@ -36,6 +28,7 @@ export default ({ api }) => {
   const fetchFee = function*() {
     try {
       yield put(A.fetchFeeLoading())
+      // TODO: wire in API
       const data = yield call(api.getBsvFee)
       yield put(A.fetchFeeSuccess(data))
     } catch (e) {
@@ -46,6 +39,7 @@ export default ({ api }) => {
   const fetchRates = function*() {
     try {
       yield put(A.fetchRatesLoading())
+      // TODO: wire in API
       const data = yield call(api.getBsvTicker)
       yield put(A.fetchRatesSuccess(data))
     } catch (e) {
@@ -70,15 +64,14 @@ export default ({ api }) => {
       yield put(A.fetchTransactionsLoading(reset))
       const walletContext = yield select(selectors.wallet.getWalletContext)
       const context = yield select(S.getContext)
-      // TODO?
       const convertedAddress = convertFromCashAddrIfCashAddr(address)
+      // TODO: wire in API
       const data = yield call(api.fetchBsvData, context, {
         n: TX_PER_PAGE,
         onlyShow: convertedAddress || walletContext.join('|'),
         offset
       })
-      // TODO?
-      const filteredTxs = data.txs.filter(tx => tx.time > BCH_FORK_TIME)
+      const filteredTxs = data.txs.filter(tx => tx.time > BSV_FORK_TIME)
       const atBounds = length(filteredTxs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
       yield put(A.fetchTransactionsSuccess(filteredTxs, reset))

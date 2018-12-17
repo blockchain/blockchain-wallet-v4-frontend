@@ -20,7 +20,7 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_METADATA_BSV_FAILURE: {
       return Remote.Failure(payload)
     }
-    case AT.SET_TRANSACTION_NOTE_BCH: {
+    case AT.SET_TRANSACTION_NOTE_BSV: {
       const { txHash, txNote } = action.payload
       let valueLens = compose(
         mapped,
