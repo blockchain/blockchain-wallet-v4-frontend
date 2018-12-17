@@ -487,6 +487,10 @@ describe('authSagas', () => {
       saga.next().put(actions.goals.saveGoal('welcome', { firstLogin }))
     })
 
+    it('should add swap upgrade goal', () => {
+      saga.next().put(actions.goals.saveGoal('swapUpgrade'))
+    })
+
     it('should add kyc goal', () => {
       saga.next().put(actions.goals.saveGoal('kyc'))
     })
