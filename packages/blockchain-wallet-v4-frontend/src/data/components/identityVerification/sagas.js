@@ -10,7 +10,6 @@ import * as A from './actions'
 import * as S from './selectors'
 import {
   EMAIL_STEPS,
-  STEPS,
   SMS_STEPS,
   SMS_NUMBER_FORM,
   PERSONAL_FORM,
@@ -44,7 +43,7 @@ export default ({ api, coreSagas }) => {
     PERSONAL_STEP_COMPLETE,
     MOBILE_STEP_COMPLETE
   } = model.analytics.KYC
-  const { USER_ACTIVATION_STATES, TIERS } = model.profile
+  const { TIERS } = model.profile
   const {
     getCampaignData,
     fetchUser,
@@ -176,20 +175,8 @@ export default ({ api, coreSagas }) => {
   }
 
   const initializeStep = function*() {
-    const activationState = (yield select(
-      selectors.modules.profile.getUserActivationState
-    )).getOrElse(USER_ACTIVATION_STATES.NONE)
-    const mobileVerified = (yield select(selectors.modules.profile.getUserData))
-      .map(prop('mobileVerified'))
-      .getOrElse(false)
     const steps = (yield select(S.getSteps)).getOrElse([])
-    if (activationState === USER_ACTIVATION_STATES.NONE)
-      return yield put(A.setVerificationStep(head(steps)))
-    if (mobileVerified) return yield put(A.setVerificationStep(STEPS.verify))
-    if (activationState === USER_ACTIVATION_STATES.CREATED)
-      return yield put(A.setVerificationStep(STEPS.mobile))
-    if (activationState === USER_ACTIVATION_STATES.ACTIVE)
-      return yield put(A.setVerificationStep(STEPS.verify))
+    return yield put(A.setVerificationStep(head(steps)))
   }
 
   const goToPrevStep = function*() {

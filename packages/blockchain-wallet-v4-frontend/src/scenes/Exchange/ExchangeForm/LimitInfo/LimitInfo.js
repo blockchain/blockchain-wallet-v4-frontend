@@ -136,8 +136,8 @@ export const LimitAction = ({
 }
 export class LimitInfo extends React.PureComponent {
   upgradeTier = () => {
-    const { actions, nextTier } = this.props
-    actions.verifyIdentity(nextTier)
+    const { actions, nextTier, upgradeRequired } = this.props
+    actions.verifyIdentity(nextTier, false, upgradeRequired)
   }
 
   render () {

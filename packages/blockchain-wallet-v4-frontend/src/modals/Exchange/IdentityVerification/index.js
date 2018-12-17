@@ -18,6 +18,7 @@ import Loading from './template.loading'
 import Personal from './Personal'
 import VerifyMobile from './VerifyMobile'
 import Verify from './Verify'
+import MoreInfo from './MoreInfo'
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -93,6 +94,12 @@ const stepMap = {
       defaultMessage='Personal'
     />
   ),
+  [STEPS.moreInfo]: (
+    <FormattedMessage
+      id='modals.identityverification.steps.more_info'
+      defaultMessage='Info'
+    />
+  ),
   [STEPS.mobile]: (
     <FormattedMessage
       id='modals.identityverification.steps.mobile'
@@ -138,6 +145,8 @@ class IdentityVerification extends React.PureComponent {
           onBack={actions.goToPrevStep}
         />
       )
+
+    if (step === STEPS.moreInfo) return <MoreInfo />
 
     if (step === STEPS.mobile)
       return (

@@ -9,7 +9,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, model, selectors } from 'data'
 import * as A from './actions'
 import * as S from './selectors'
-import { EMAIL_STEPS, FLOW_TYPES, STEPS } from './model'
+import { EMAIL_STEPS, FLOW_TYPES } from './model'
 import sagas, { wrongFlowTypeError } from './sagas'
 
 const api = {
@@ -39,10 +39,7 @@ const {
   verifyIdentity
 } = sagas({ api, coreSagas })
 
-const { USER_ACTIVATION_STATES, TIERS } = model.profile
-const { NONE, CREATED, ACTIVE } = USER_ACTIVATION_STATES
-
-const { getUserActivationState } = selectors.modules.profile
+const { TIERS } = model.profile
 
 getSmsVerified.mockReturnValue(Remote.of(false))
 getUserTiers.mockReturnValue(Remote.NotAsked)
@@ -105,69 +102,11 @@ describe('defineSteps saga', () => {
 
 describe('initializeStep saga', () => {
   const steps = ['personal', 'mobile', 'verify']
-  it('should initialize first of the steps by default', () =>
+  it('should select steps and initialize first step', () =>
     expectSaga(initializeStep)
-      .provide([
-        [select(getUserActivationState), Remote.NotAsked],
-        [select(getUserData), Remote.NotAsked],
-        [select(S.getSteps), Remote.of(steps)]
-      ])
-      .select(getUserActivationState)
-      .select(getUserData)
+      .provide([[select(S.getSteps), Remote.of(steps)]])
       .select(S.getSteps)
       .put(A.setVerificationStep(steps[0]))
-      .run())
-
-  it('should initialize first of the steps if userState is NONE', () =>
-    expectSaga(initializeStep)
-      .provide([
-        [select(getUserActivationState), Remote.of(NONE)],
-        [select(getUserData), Remote.NotAsked],
-        [select(S.getSteps), Remote.of(steps)]
-      ])
-      .select(getUserActivationState)
-      .select(getUserData)
-      .select(S.getSteps)
-      .put(A.setVerificationStep(steps[0]))
-      .run())
-
-  it('should initialize with verify step if userState is not NONE and mobileVerified is true', () =>
-    expectSaga(initializeStep)
-      .provide([
-        [select(getUserActivationState), Remote.of(CREATED)],
-        [select(getUserData), Remote.of({ mobileVerified: true })],
-        [select(S.getSteps), Remote.of(steps)]
-      ])
-      .select(getUserActivationState)
-      .select(getUserData)
-      .select(S.getSteps)
-      .put(A.setVerificationStep(STEPS.verify))
-      .run())
-
-  it('should initialize mobile step if userState is CREATED and mobileVerified is false', () =>
-    expectSaga(initializeStep)
-      .provide([
-        [select(getUserActivationState), Remote.of(CREATED)],
-        [select(getUserData), Remote.of({ mobileVerified: false })],
-        [select(S.getSteps), Remote.of(steps)]
-      ])
-      .select(getUserActivationState)
-      .select(getUserData)
-      .select(S.getSteps)
-      .put(A.setVerificationStep(STEPS.mobile))
-      .run())
-
-  it('should initialize verify step if userState is ACTIVE and mobileVerified is false', () =>
-    expectSaga(initializeStep)
-      .provide([
-        [select(getUserActivationState), Remote.of(ACTIVE)],
-        [select(getUserData), Remote.of({ mobileVerified: false })],
-        [select(S.getSteps), Remote.of(steps)]
-      ])
-      .select(getUserActivationState)
-      .select(getUserData)
-      .select(S.getSteps)
-      .put(A.setVerificationStep(STEPS.verify))
       .run())
 })
 
