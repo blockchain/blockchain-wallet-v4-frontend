@@ -8,15 +8,15 @@ exports[`MenuTop Component matches snapshot 1`] = `
       exact={true}
       replace={false}
       strict={false}
-      to="/exchange"
+      to="/swap"
     >
       <Menu__LinkItem
         activeClassName="active"
         data-e2e="exchangeTabMenuExchange"
       >
         <FormattedMessage
-          defaultMessage="Exchange"
-          id="scenes.exchange.menutop.exchange"
+          defaultMessage="Swap"
+          id="scenes.exchange.menutop.swap"
           values={Object {}}
         />
       </Menu__LinkItem>
@@ -26,7 +26,7 @@ exports[`MenuTop Component matches snapshot 1`] = `
       exact={false}
       replace={false}
       strict={false}
-      to="/exchange/history"
+      to="/swap/history"
     >
       <Menu__LinkItem
         activeClassName="active"

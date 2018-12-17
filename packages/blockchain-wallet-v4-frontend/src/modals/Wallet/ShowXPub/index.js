@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import QRCodeReact from 'qrcode.react'
+import QRCodeWrapper from 'components/QRCodeWrapper'
 
 import {
   Banner,
@@ -56,7 +56,7 @@ class ShowXPubContainer extends Component {
             <XPubText size='12px' weight='300'>
               {xpub}
             </XPubText>
-            <QRCodeReact value={xpub} size={150} />
+            <QRCodeWrapper value={xpub} size={150} />
           </Content>
         </ModalBody>
         <ModalFooter align='right'>

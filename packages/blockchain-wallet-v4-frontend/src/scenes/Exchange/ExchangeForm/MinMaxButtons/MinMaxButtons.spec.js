@@ -17,7 +17,7 @@ const props = {
   maxAmount: '0.12345678'
 }
 const EXPECTED_VALUES = {
-  MIN: `${props.minSymbol}${props.minAmount}`,
+  MIN: `${props.minSymbol}${props.minAmount}.00`,
   MAX: `${props.maxAmount} ${props.maxSymbol}`
 }
 

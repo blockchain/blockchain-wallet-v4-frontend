@@ -180,9 +180,9 @@ TierCard.defaultProps = {
   outsideOfProfile: false
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, { tier }) => ({
   verifyIdentity: () =>
-    dispatch(actions.components.identityVerification.verifyIdentity())
+    dispatch(actions.components.identityVerification.verifyIdentity(tier))
 })
 
 export default connect(

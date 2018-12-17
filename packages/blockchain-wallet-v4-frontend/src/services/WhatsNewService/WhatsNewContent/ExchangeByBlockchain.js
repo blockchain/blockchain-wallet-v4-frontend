@@ -125,11 +125,11 @@ export const ExchangeByBlockchain = ({ kycNotFinished, verifyIdentity }) => (
         </GetStartedButton>
       )}
       {!kycNotFinished && (
-        <LinkContainer to='/exchange'>
+        <LinkContainer to='/swap'>
           <GetStartedButton>
             <FormattedMessage
-              id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.gotoexchange'
-              defaultMessage='Go To Exchange'
+              id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.makeswap'
+              defaultMessage='Make Swap'
             />
           </GetStartedButton>
         </LinkContainer>
@@ -147,7 +147,11 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   verifyIdentity: () =>
-    dispatch(actions.components.identityVerification.verifyIdentity())
+    dispatch(
+      actions.components.identityVerification.verifyIdentity(
+        model.profile.TIERS[2]
+      )
+    )
 })
 
 export default connect(

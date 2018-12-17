@@ -6,7 +6,7 @@ import { reduxForm } from 'redux-form'
 
 import { debounce } from 'utils/helpers'
 import { actions, model } from 'data'
-import { getData, canUseExchange } from './selectors'
+import { getData } from './selectors'
 
 import Loading from './template.loading'
 import Success from './template.success'
@@ -20,21 +20,12 @@ const { FIRST_STEP_SUBMIT } = model.analytics.EXCHANGE
 
 class ExchangeForm extends React.Component {
   componentDidMount () {
-    const { canUseExchange, actions, from, to } = this.props
-    if (canUseExchange) actions.initialize(from, to)
+    const { actions, from, to } = this.props
+    actions.initialize(from, to)
   }
 
   shouldComponentUpdate (nextProps) {
-    return (
-      nextProps.data !== this.props.data ||
-      nextProps.canUseExchange !== this.props.canUseExchange
-    )
-  }
-
-  componentDidUpdate (prevProps) {
-    const { canUseExchange, actions, from, to } = this.props
-    if (!prevProps.canUseExchange && canUseExchange)
-      actions.initialize(from, to)
+    return nextProps.data !== this.props.data
   }
 
   componentWillUnmount () {
@@ -69,18 +60,16 @@ class ExchangeForm extends React.Component {
       formActions,
       logExchangeClick,
       data,
-      canUseExchange,
       showError,
       txError
     } = this.props
     return data.cata({
       Success: value =>
-        canUseExchange && isEmpty(value.availablePairs) ? (
+        isEmpty(value.availablePairs) ? (
           <DataError onClick={this.handleRefresh} />
         ) : (
           <Success
             {...value}
-            canUseExchange={canUseExchange}
             showError={showError}
             txError={txError}
             handleMaximum={actions.firstStepMaximumClicked}
@@ -124,7 +113,6 @@ class ExchangeForm extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  canUseExchange: canUseExchange(state),
   data: getData(state)
 })
 
