@@ -1,29 +1,25 @@
 import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { lift, prop } from 'ramda'
-import Announcements from 'services/WhatsNewService/WhatsNewContent'
-import moment from 'moment'
+import { filterAnnouncements } from 'services/WhatsNewService/WhatsNewContent'
 
 export const getData = createDeepEqualSelector(
   [
     selectors.components.layoutWallet.getTrayOpened,
     selectors.components.layoutWallet.getTrayContent,
-    selectors.core.kvStore.whatsNew.getLastViewed
+    selectors.core.kvStore.whatsNew.getLastViewed,
+    selectors.core.settings.getCountryCode,
+    selectors.modules.profile.getUserKYCState
   ],
-  (opened, content, lastViewedR) => {
-    const transform = (lastViewed) => {
+  (opened, content, lastViewedR, countryR, kycStateR) => {
+    const transform = (lastViewed, country, kycState) => {
       const highlighted = opened && content === 'whatsnew'
-      const latestAnnouncements = Announcements.filter(announcement => {
-        return moment(prop('date', announcement)).isBetween(moment(lastViewed), moment())
-      })
+      const latestAnnouncements = filterAnnouncements(lastViewed, country, kycState)
       return {
         highlighted,
-        opened,
-        content,
-        lastViewed,
         numOfNewAnnouncements: prop('length', latestAnnouncements)
       }
     }
-    return lift(transform)(lastViewedR)
+    return lift(transform)(lastViewedR, countryR, kycStateR)
   }
 )
