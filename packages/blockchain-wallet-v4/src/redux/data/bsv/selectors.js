@@ -12,19 +12,17 @@ import {
 } from 'ramda'
 
 import { dataPath } from '../../paths'
-import { getAccounts } from '../../kvStore/bch/selectors'
+import { getAccounts } from '../../kvStore/bsv/selectors'
 import { createDeepEqualSelector } from '../../../utils'
 import * as walletSelectors from '../../wallet/selectors'
-import { getLockboxBchContext } from '../../kvStore/lockbox/selectors'
 
 export const getContext = createDeepEqualSelector(
   [
     walletSelectors.getHDAccounts,
     walletSelectors.getActiveAddresses,
-    getLockboxBchContext,
     getAccounts
   ],
-  (btcHDAccounts, activeAddresses, lockboxContextR, metadataAccountsR) => {
+  (btcHDAccounts, activeAddresses, metadataAccountsR) => {
     const transform = metadataAccounts => {
       const activeAccounts = filter(account => {
         const index = prop('index', account)
@@ -34,34 +32,26 @@ export const getContext = createDeepEqualSelector(
       return map(prop('xpub'), activeAccounts)
     }
     const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
-    const lockboxContext = lockboxContextR.map(x => x).getOrElse([])
     const addresses = keysIn(activeAddresses)
     const concatAll = unapply(reduce(concat, []))
-    return concatAll(activeAccounts, addresses, lockboxContext)
+    return concatAll(activeAccounts, addresses)
   }
 )
 
-export const getAddresses = path([dataPath, 'bch', 'addresses'])
+export const getAddresses = path([dataPath, 'bsv', 'addresses'])
 
-export const getFee = path([dataPath, 'bch', 'fee'])
+export const getFee = path([dataPath, 'bsv', 'fee'])
 
-export const getInfo = path([dataPath, 'bch', 'info'])
+export const getInfo = path([dataPath, 'bsv', 'info'])
 
-export const getLatestBlock = path([dataPath, 'bch', 'latest_block'])
+export const getLatestBlock = path([dataPath, 'bsv', 'latest_block'])
 
-export const getRates = path([dataPath, 'bch', 'rates'])
+export const getRates = path([dataPath, 'bsv', 'rates'])
 
-export const getTransactions = path([dataPath, 'bch', 'transactions'])
+export const getTransactions = path([dataPath, 'bsv', 'transactions'])
 
-export const getTransactionHistory = path([
-  dataPath,
-  'bch',
-  'transaction_history'
-])
+export const getCoins = path([dataPath, 'bsv', 'payment', 'coins'])
 
-export const getCoins = path([dataPath, 'bch', 'payment', 'coins'])
-
-// Specific
 export const getChangeIndex = curry((xpub, state) =>
   getAddresses(state).map(path([xpub, 'change_index']))
 )
@@ -93,17 +83,17 @@ export const getHash = state => getLatestBlock(state).map(path(['hash']))
 export const getIndex = state =>
   getLatestBlock(state).map(path(['block_index']))
 
-export const getSelection = path([dataPath, 'bch', 'payment', 'selection'])
+export const getSelection = path([dataPath, 'bsv', 'payment', 'selection'])
 
 export const getEffectiveBalance = path([
   dataPath,
-  'bch',
+  'bsv',
   'payment',
   'effectiveBalance'
 ])
 
 export const getTransactionsAtBound = path([
   dataPath,
-  'bch',
+  'bsv',
   'transactions_at_bound'
 ])
