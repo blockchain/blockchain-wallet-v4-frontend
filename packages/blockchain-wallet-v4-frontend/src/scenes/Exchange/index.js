@@ -53,7 +53,6 @@ const { ENTERED } = model.analytics.EXCHANGE
 export class ExchangeScene extends React.PureComponent {
   componentDidMount () {
     this.props.logEnterExchange()
-    this.props.fetchUser()
   }
 
   render () {
