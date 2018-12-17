@@ -43,7 +43,6 @@ class Veriff extends React.PureComponent {
         <VeriffIframe
           data-e2e='veriffIframe'
           src={url}
-          sandbox='allow-same-origin allow-scripts'
           scrolling='no'
           id='veriff-iframe'
         />

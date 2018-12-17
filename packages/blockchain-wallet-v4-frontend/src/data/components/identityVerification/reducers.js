@@ -11,8 +11,8 @@ const INITIAL_STATE = {
   emailStep: EMAIL_STEPS.edit,
   supportedCountries: Remote.NotAsked,
   supportedDocuments: Remote.NotAsked,
+  flowConfig: Remote.NotAsked,
   states: Remote.NotAsked,
-  flowType: Remote.NotAsked,
   steps: Remote.NotAsked
 }
 
@@ -38,8 +38,8 @@ export default (state = INITIAL_STATE, action) => {
     case AT.SET_STATES: {
       return assoc('states', payload.states, state)
     }
-    case AT.SET_KYCFLOW: {
-      return assoc('flowType', payload.flowType, state)
+    case AT.SET_KYC_FLOW_CONFIG: {
+      return assoc('flowConfig', payload.flowConfig, state)
     }
     case AT.SET_STEPS_LOADING: {
       return assoc('steps', Remote.Loading, state)

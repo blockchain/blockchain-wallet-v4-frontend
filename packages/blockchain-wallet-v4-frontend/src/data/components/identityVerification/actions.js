@@ -70,9 +70,9 @@ export const createRegisterUserCampaign = () => ({
 export const checkKycFlow = () => ({
   type: AT.CHECK_KYC_FLOW
 })
-export const setKycFlow = flowType => ({
-  type: AT.SET_KYCFLOW,
-  payload: { flowType }
+export const setKycFlow = flowConfig => ({
+  type: AT.SET_KYC_FLOW_CONFIG,
+  payload: { flowConfig }
 })
 export const sendDeeplink = () => ({
   type: AT.SEND_DEEP_LINK

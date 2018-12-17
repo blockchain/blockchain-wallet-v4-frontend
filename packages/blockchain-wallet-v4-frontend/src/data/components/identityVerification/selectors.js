@@ -30,10 +30,10 @@ export const getSupportedDocuments = path([
 
 export const getStates = path(['components', 'identityVerification', 'states'])
 
-export const getKycFLowType = path([
+export const getKycFlowConfig = path([
   'components',
   'identityVerification',
-  'flowType'
+  'flowConfig'
 ])
 
 export const getSteps = path(['components', 'identityVerification', 'steps'])

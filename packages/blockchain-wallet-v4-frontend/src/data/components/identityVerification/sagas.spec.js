@@ -9,7 +9,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, model, selectors } from 'data'
 import * as A from './actions'
 import * as S from './selectors'
-import { EMAIL_STEPS, FLOW_TYPES } from './model'
+import { EMAIL_STEPS, FLOW_TYPES, KYC_PROVIDERS } from './model'
 import sagas, { wrongFlowTypeError } from './sagas'
 
 const api = {
@@ -159,13 +159,14 @@ describe('goToNextStep saga', () => {
 })
 
 describe('checkKycFlow saga', () => {
-  it('should set flow type', () => {
+  it('should set flow config', () => {
     const flowType = FLOW_TYPES.LOW
-    api.fetchKycConfig.mockResolvedValue({ flowType })
+    const kycProvider = KYC_PROVIDERS.ONFIDO
+    api.fetchKycConfig.mockResolvedValue({ flowType, kycProvider })
     return expectSaga(checkKycFlow)
       .put(A.setKycFlow(Remote.Loading))
       .call(api.fetchKycConfig)
-      .put(A.setKycFlow(Remote.of(flowType)))
+      .put(A.setKycFlow(Remote.of({ flowType, kycProvider })))
       .run()
   })
 
