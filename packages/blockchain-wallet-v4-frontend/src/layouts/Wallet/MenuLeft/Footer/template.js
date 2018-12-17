@@ -41,11 +41,11 @@ const Footer = props => {
               />
             </SubMenuItem>
           </LinkContainer>
-          <LinkContainer to='/settings/profile' activeClassName='active'>
+          <LinkContainer to='/settings/account' activeClassName='active'>
             <SubMenuItem data-e2e='settings_profileLink'>
               <FormattedMessage
-                id='layouts.wallet.menuleft.footer.profile'
-                defaultMessage='Profile'
+                id='layouts.wallet.menuleft.footer.account'
+                defaultMessage='Account'
               />
             </SubMenuItem>
           </LinkContainer>

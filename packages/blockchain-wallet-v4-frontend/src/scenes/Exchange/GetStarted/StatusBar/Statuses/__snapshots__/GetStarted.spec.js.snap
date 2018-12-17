@@ -6,7 +6,7 @@ exports[`GetStarted renders correctly 1`] = `
   exact={false}
   replace={false}
   strict={false}
-  to="/swap/profile"
+  to="/swap/account"
 >
   <GetStarted__ActionButton>
     <FormattedMessage
