@@ -268,6 +268,8 @@ describe('sendBtc sagas', () => {
       saga
         .next(paymentMock)
         .put(A.sendBtcPaymentUpdatedSuccess(paymentMock.value()))
+        .next()
+        .put(actions.analytics.logEvent(['send_btc', 'click', 'first_step_submit']))
         .save(beforeError)
         .next()
         .isDone()
@@ -370,6 +372,8 @@ describe('sendBtc sagas', () => {
       saga
         .next()
         .put(actions.modals.closeAllModals())
+        .next()
+        .put(actions.analytics.logEvent(['send_btc', 'click', 'second_step_submit']))
         .next()
         .isDone()
     })
