@@ -1,5 +1,7 @@
 import * as AT from './actionTypes'
-import { insert } from 'ramda'
+import { insert, path } from 'ramda'
+import assert from 'assert'
+import { TRACKING_ACTIONS } from './model'
 
 const INITIAL_STATE = []
 
@@ -8,6 +10,10 @@ const analytics = (state = INITIAL_STATE, action) => {
 
   switch (type) {
     case AT.LOG_EVENT: {
+      assert(path(['trackingData', 'length'], payload), 'trackingData cannot be empty')
+      const trackingAction = path(['trackingData', 1], payload)
+      assert(TRACKING_ACTIONS.indexOf(trackingAction) > -1, `tracking action: ${trackingAction} is not recognized`)
+
       return insert(0, payload, state)
     }
     default:

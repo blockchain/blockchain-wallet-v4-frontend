@@ -16,3 +16,5 @@ export const KYC = {
   ONFIDO_STARTED: 'onfido_started',
   COMPLETE: 'complete'
 }
+
+export const TRACKING_ACTIONS = ['click', 'change']

@@ -14,7 +14,7 @@ const Iframe = styled.iframe`
   opacity: 0;
 `
 
-class PageViewTracker extends React.PureComponent {
+class AnalyticsTracker extends React.PureComponent {
   componentDidUpdate (prevProps) {
     const { analytics, location } = this.props
     const { analytics: prevAnalytics, location: prevLocation } = prevProps
@@ -56,4 +56,4 @@ const mapStateToProps = state => ({
 export default compose(
   withRouter,
   connect(mapStateToProps)
-)(PageViewTracker)
+)(AnalyticsTracker)
