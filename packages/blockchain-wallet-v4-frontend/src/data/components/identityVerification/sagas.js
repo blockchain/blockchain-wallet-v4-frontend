@@ -22,6 +22,7 @@ import {
   FLOW_TYPES,
   SUNRIVER_LINK_ERROR_MODAL
 } from './model'
+import { computeSteps } from './services'
 
 export const logLocation = 'components/identityVerification/sagas'
 
@@ -123,28 +124,54 @@ export default ({ api, coreSagas }) => {
   }
 
   const verifyIdentity = function*({ payload }) {
-    const { tier } = payload
+    const { tier, isCoinify, needMoreInfo } = payload
     const unique = yield call(checkUserUniqueness)
     if (!unique) {
       yield put(actions.modals.showModal(USER_EXISTS_MODAL))
       return yield put(actions.analytics.logKycEvent(EMAIL_EXISTS))
     }
+    yield put(
+      actions.modals.showModal(KYC_MODAL, { tier, isCoinify, needMoreInfo })
+    )
+  }
+
+  const defineSteps = function*(tier, isCoinify, needMoreInfo) {
+    yield put(A.setStepsLoading())
     try {
       yield call(createUser)
       yield call(selectTier, tier)
-      yield put(actions.modals.showModal(KYC_MODAL, { desiredTier: tier }))
     } catch (e) {
-      yield put(actions.alerts.displayError(C.KYC_START_ERROR))
-      yield put(actions.logs.logErrorMessage(logLocation, 'verifyIdentity', e))
+      return yield put(A.setStepsFailure(e))
     }
+    const tiers = (yield select(
+      selectors.modules.profile.getUserTiers
+    )).getOrElse({
+      next: 0,
+      selected: 2
+    })
+    const mobileVerified = (yield select(selectors.modules.profile.getUserData))
+      .map(prop('mobileVerified'))
+      .getOrElse(false)
+    const smsVerified = (yield select(
+      selectors.core.settings.getSmsVerified
+    )).getOrElse(0)
+    const currentStep = yield select(S.getVerificationStep)
+    const steps = computeSteps({
+      tiers,
+      mobileVerified,
+      smsVerified,
+      currentStep,
+      isCoinify,
+      needMoreInfo
+    })
+
+    yield put(A.setStepsSuccess(steps))
   }
 
-  const initializeVerification = function*({
-    payload: { isCoinify = false, desiredTier = TIERS[2] }
-  }) {
-    yield put(A.setCoinify(isCoinify))
-    yield put(A.setDesiredTier(desiredTier))
+  const initializeVerification = function*({ payload }) {
+    const { tier = TIERS[2], isCoinify = false, needMoreInfo = false } = payload
     yield put(A.setEmailStep(EMAIL_STEPS.edit))
+    yield call(defineSteps, tier, isCoinify, needMoreInfo)
     yield call(initializeStep)
   }
 
@@ -155,7 +182,7 @@ export default ({ api, coreSagas }) => {
     const mobileVerified = (yield select(selectors.modules.profile.getUserData))
       .map(prop('mobileVerified'))
       .getOrElse(false)
-    const steps = yield select(S.getSteps)
+    const steps = (yield select(S.getSteps)).getOrElse([])
     if (activationState === USER_ACTIVATION_STATES.NONE)
       return yield put(A.setVerificationStep(head(steps)))
     if (mobileVerified) return yield put(A.setVerificationStep(STEPS.verify))
@@ -166,7 +193,7 @@ export default ({ api, coreSagas }) => {
   }
 
   const goToPrevStep = function*() {
-    const steps = yield select(S.getSteps)
+    const steps = (yield select(S.getSteps)).getOrElse([])
     const currentStep = yield select(S.getVerificationStep)
     const currentStepIndex = steps.indexOf(currentStep)
     const step = steps[currentStepIndex - 1]
@@ -177,7 +204,7 @@ export default ({ api, coreSagas }) => {
   }
 
   const goToNextStep = function*() {
-    const steps = yield select(S.getSteps)
+    const steps = (yield select(S.getSteps)).getOrElse([])
     const currentStep = yield select(S.getVerificationStep)
     const currentStepIndex = steps.indexOf(currentStep)
     const step = steps[currentStepIndex + 1]
@@ -415,6 +442,7 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
+    defineSteps,
     verifyIdentity,
     initializeVerification,
     initializeStep,
@@ -434,6 +462,7 @@ export default ({ api, coreSagas }) => {
     checkKycFlow,
     sendDeeplink,
     sendEmailVerification,
+    selectTier,
     updateEmail
   }
 }

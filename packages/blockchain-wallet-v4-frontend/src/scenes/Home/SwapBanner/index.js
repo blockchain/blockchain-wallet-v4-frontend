@@ -5,8 +5,10 @@ import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { Button, Image, Text } from 'blockchain-info-components'
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { getData } from './selectors'
+
+const { TIERS } = model.profile
 
 const Wrapper = styled.div`
   display: flex;
@@ -131,7 +133,7 @@ const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
   verifyIdentity: () =>
-    dispatch(actions.components.identityVerification.verifyIdentity()),
+    dispatch(actions.components.identityVerification.verifyIdentity(TIERS[2])),
   hideSwapBanner: () => dispatch(actions.preferences.hideSwapBanner())
 })
 

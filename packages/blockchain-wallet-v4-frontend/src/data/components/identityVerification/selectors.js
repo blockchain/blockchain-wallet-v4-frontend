@@ -1,6 +1,4 @@
-import { both, compose, filter, flip, gte, lt, path, prop, values } from 'ramda'
-import { model, selectors } from 'data'
-import { STEPS, STEP_TIERS } from './model'
+import { path } from 'ramda'
 
 export const getVerificationStep = path([
   'components',
@@ -38,43 +36,4 @@ export const getKycFLowType = path([
   'flowType'
 ])
 
-export const isCoinifyKyc = path([
-  'components',
-  'identityVerification',
-  'isCoinify'
-])
-
-export const getDesiredTier = path([
-  'components',
-  'identityVerification',
-  'desiredTier'
-])
-
-export const getSteps = state => {
-  const { TIERS } = model.profile
-  const getStepTier = flip(prop)(STEP_TIERS)
-  const isCoinify = isCoinifyKyc(state)
-  const desiredTier = getDesiredTier(state)
-  const userTier = selectors.modules.profile
-    .getUserTier(state)
-    .getOrElse(TIERS[0])
-  const mobileVerified = selectors.modules.profile
-    .getUserData(state)
-    .map(prop('mobileVerified'))
-    .getOrElse(false)
-  const smsVerified = selectors.core.settings.getSmsVerified(state).getOrElse(0)
-  const currentStep = getVerificationStep(state)
-  const skipMobile =
-    currentStep !== STEPS.mobile && (smsVerified || mobileVerified)
-
-  const isStepRequired = step => {
-    if (!isCoinify && step === STEPS.coinify) return false
-    if (skipMobile && step === STEPS.mobile) return false
-
-    return compose(
-      both(lt(userTier), gte(desiredTier)),
-      getStepTier
-    )(step)
-  }
-  return filter(isStepRequired, values(STEPS))
-}
+export const getSteps = path(['components', 'identityVerification', 'steps'])

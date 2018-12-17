@@ -13,6 +13,8 @@ import media from 'services/ResponsiveService'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
 import Tray, { duration } from 'components/Tray'
 import StepIndicator from 'components/StepIndicator'
+import DataError from 'components/DataError'
+import Loading from './template.loading'
 import Personal from './Personal'
 import VerifyMobile from './VerifyMobile'
 import Verify from './Verify'
@@ -112,16 +114,19 @@ class IdentityVerification extends React.PureComponent {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
-    const { isCoinify, desiredTier } = this.props
-    this.props.actions.initializeVerification(isCoinify, desiredTier)
+    this.initializeVerification()
   }
 
-  getSteps = () =>
-    pickBy((_, step) => contains(step, this.props.steps), stepMap)
+  getSteps = steps => pickBy((_, step) => contains(step, steps), stepMap)
 
   handleClose = () => {
     this.setState({ show: false })
     setTimeout(this.props.close, duration)
+  }
+
+  initializeVerification = () => {
+    const { tier, isCoinify, needMoreInfo } = this.props
+    this.props.actions.initializeVerification(tier, isCoinify, needMoreInfo)
   }
 
   getStepComponent = step => {
@@ -147,7 +152,7 @@ class IdentityVerification extends React.PureComponent {
 
   render () {
     const { show } = this.state
-    const { step, position, total } = this.props
+    const { step, steps, position, total } = this.props
 
     return (
       <IdentityVerificationTray
@@ -158,20 +163,33 @@ class IdentityVerification extends React.PureComponent {
         onClose={this.handleClose}
         data-e2e='identityVerificationModal'
       >
-        <StepHeader tray paddingHorizontal='15%' onClose={this.handleClose}>
-          <HeaderWrapper>
-            <KycStepIndicator
-              adjuster={0.1667}
-              barFullWidth
-              horizontalMobile
-              flexEnd
-              maxWidth='none'
-              step={step}
-              stepMap={this.getSteps()}
-            />
-          </HeaderWrapper>
-        </StepHeader>
-        <ModalBody>{this.getStepComponent(step)}</ModalBody>
+        {steps.cata({
+          Success: steps => (
+            <React.Fragment>
+              <StepHeader
+                tray
+                paddingHorizontal='15%'
+                onClose={this.handleClose}
+              >
+                <HeaderWrapper>
+                  <KycStepIndicator
+                    adjuster={0.1667}
+                    barFullWidth
+                    horizontalMobile
+                    flexEnd
+                    maxWidth='none'
+                    step={step}
+                    stepMap={this.getSteps(steps)}
+                  />
+                </HeaderWrapper>
+              </StepHeader>
+              <ModalBody>{this.getStepComponent(step)}</ModalBody>
+            </React.Fragment>
+          ),
+          Loading: () => <Loading />,
+          NotAsked: () => <Loading />,
+          Failure: () => <DataError onClick={this.initializeVerification} />
+        })}
       </IdentityVerificationTray>
     )
   }

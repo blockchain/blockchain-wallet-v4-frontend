@@ -41,14 +41,6 @@ const Wrapper = styled.div`
   `};
 `
 
-const Cover = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  background-color: rgba(255, 255, 255, 0.6);
-`
-
 const ColumnLeft = styled.div`
   margin-right: 34px;
   max-width: 450px;
@@ -173,7 +165,6 @@ const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
 const Success = ({
   availablePairs,
   blockLockbox,
-  canUseExchange,
   complementaryField,
   complementarySymbol,
   currency,
@@ -198,7 +189,6 @@ const Success = ({
   )
   return (
     <Wrapper>
-      {!canUseExchange && <Cover />}
       <ColumnLeft>
         <FormWrapper>
           <Form>

@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { KYC_STATES, USER_ACTIVATION_STATES } from 'data/modules/profile/model'
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { getData } from './selectors'
 import modalEnhancer from 'providers/ModalEnhancer'
 
@@ -17,6 +17,8 @@ import {
   ModalBody,
   Text
 } from 'blockchain-info-components'
+
+const { TIERS } = model.profile
 
 const WelcomeModalHeader = styled(ModalHeader)`
   position: absolute;
@@ -36,7 +38,7 @@ class SunRiverWelcomeContainer extends React.PureComponent {
   // Only for users that are created but have not finished verification
   continueVerification = () => {
     this.props.modalActions.closeModal()
-    this.props.identityVerificationActions.verifyIdentity()
+    this.props.identityVerificationActions.verifyIdentity(TIERS[2])
   }
 
   // Only for new users that have not started verification
