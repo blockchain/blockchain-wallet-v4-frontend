@@ -1,11 +1,15 @@
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga-test-plan/matchers'
+import { throwError } from 'redux-saga-test-plan/providers'
 
+import profileSagas from 'data/modules/profile/sagas'
+import { getUserTiers, getUserData } from 'data/modules/profile/selectors'
+import { getSmsVerified } from 'blockchain-wallet-v4/src/redux/settings/selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, model, selectors } from 'data'
 import * as A from './actions'
 import * as S from './selectors'
-import { FLOW_TYPES, STEPS } from './model'
+import { EMAIL_STEPS, FLOW_TYPES } from './model'
 import sagas, { wrongFlowTypeError } from './sagas'
 
 const api = {
@@ -15,109 +19,94 @@ const api = {
 
 const coreSagas = {}
 
+jest.mock('blockchain-wallet-v4/src/redux/settings/selectors')
+jest.mock('data/modules/profile/sagas')
+jest.mock('data/modules/profile/selectors')
+
+const createUser = jest.fn()
+profileSagas.mockReturnValue({ createUser })
+
 const {
   checkKycFlow,
   createRegisterUserCampaign,
+  defineSteps,
   goToNextStep,
   goToPrevStep,
   initializeVerification,
   initializeStep,
   registerUserCampaign,
+  selectTier,
   verifyIdentity
 } = sagas({ api, coreSagas })
 
-const { USER_ACTIVATION_STATES, TIERS } = model.profile
-const { NONE, CREATED, ACTIVE } = USER_ACTIVATION_STATES
+const { TIERS } = model.profile
 
-const { getUserActivationState, getUserData } = selectors.modules.profile
+getSmsVerified.mockReturnValue(Remote.of(false))
+getUserTiers.mockReturnValue(Remote.NotAsked)
+getUserData.mockReturnValue(Remote.of({ mobileVerified: false }))
 
 describe('initializeVerification saga', () => {
-  it('should set default values: non-coinify kyc and "2" as desired tier', () =>
+  it('should set default values: non-coinify kyc, need more info as false, and "2" as desired tier', () =>
     expectSaga(initializeVerification, { payload: {} })
-      .provide([[call.fn(initializeStep), jest.fn()]])
-      .put(A.setCoinify(false))
-      .put(A.setDesiredTier(2))
+      .provide([
+        [call.fn(initializeStep), jest.fn()],
+        [call.fn(defineSteps), jest.fn()]
+      ])
+      .call(defineSteps, TIERS[2], false, false)
+      .call(initializeStep)
       .run())
 
   it("should define if it's coinify kyc, set desired tier, and determine initial step", () => {
     const isCoinify = true
-    const desiredTier = TIERS[1]
+    const needMoreInfo = true
+    const tier = TIERS[1]
     return expectSaga(initializeVerification, {
-      payload: { isCoinify, desiredTier }
+      payload: { tier, isCoinify, needMoreInfo }
     })
-      .provide([[call.fn(initializeStep), jest.fn()]])
-      .put(A.setCoinify(isCoinify))
-      .put(A.setDesiredTier(desiredTier))
+      .provide([
+        [call.fn(initializeStep), jest.fn()],
+        [call.fn(defineSteps), jest.fn()]
+      ])
+      .put(A.setEmailStep(EMAIL_STEPS.edit))
+      .call(defineSteps, tier, isCoinify, needMoreInfo)
       .call(initializeStep)
+      .run()
+  })
+})
+
+describe('defineSteps saga', () => {
+  it('should put steps loading action, call createUser and selectTier', () =>
+    expectSaga(defineSteps, TIERS[2], false, false)
+      .provide([[call.fn(selectTier), jest.fn()]])
+      .put(A.setStepsLoading())
+      .call(createUser)
+      .call(selectTier, TIERS[2])
+      .select(selectors.modules.profile.getUserTiers)
+      .select(selectors.modules.profile.getUserData)
+      .select(selectors.core.settings.getSmsVerified)
+      .select(S.getVerificationStep)
+      .put(A.setStepsSuccess(['personal', 'mobile', 'verify']))
+      .run())
+
+  it('should put steps loading failure if selectTier fails', () => {
+    const error = 'error'
+    return expectSaga(defineSteps, TIERS[2], false, false)
+      .provide([[call.fn(selectTier), throwError(error)]])
+      .put(A.setStepsLoading())
+      .call(createUser)
+      .call(selectTier, TIERS[2])
+      .put(A.setStepsFailure(error))
       .run()
   })
 })
 
 describe('initializeStep saga', () => {
   const steps = ['personal', 'mobile', 'verify']
-  it('should initialize first of the steps by default', () =>
+  it('should select steps and initialize first step', () =>
     expectSaga(initializeStep)
-      .provide([
-        [select(getUserActivationState), Remote.NotAsked],
-        [select(getUserData), Remote.NotAsked],
-        [select(S.getSteps), steps]
-      ])
-      .select(getUserActivationState)
-      .select(getUserData)
+      .provide([[select(S.getSteps), Remote.of(steps)]])
       .select(S.getSteps)
       .put(A.setVerificationStep(steps[0]))
-      .run())
-
-  it('should initialize first of the steps if userState is NONE', () =>
-    expectSaga(initializeStep)
-      .provide([
-        [select(getUserActivationState), Remote.of(NONE)],
-        [select(getUserData), Remote.NotAsked],
-        [select(S.getSteps), steps]
-      ])
-      .select(getUserActivationState)
-      .select(getUserData)
-      .select(S.getSteps)
-      .put(A.setVerificationStep(steps[0]))
-      .run())
-
-  it('should initialize with verify step if userState is not NONE and mobileVerified is true', () =>
-    expectSaga(initializeStep)
-      .provide([
-        [select(getUserActivationState), Remote.of(CREATED)],
-        [select(getUserData), Remote.of({ mobileVerified: true })],
-        [select(S.getSteps), steps]
-      ])
-      .select(getUserActivationState)
-      .select(getUserData)
-      .select(S.getSteps)
-      .put(A.setVerificationStep(STEPS.verify))
-      .run())
-
-  it('should initialize mobile step if userState is CREATED and mobileVerified is false', () =>
-    expectSaga(initializeStep)
-      .provide([
-        [select(getUserActivationState), Remote.of(CREATED)],
-        [select(getUserData), Remote.of({ mobileVerified: false })],
-        [select(S.getSteps), steps]
-      ])
-      .select(getUserActivationState)
-      .select(getUserData)
-      .select(S.getSteps)
-      .put(A.setVerificationStep(STEPS.mobile))
-      .run())
-
-  it('should initialize verify step if userState is ACTIVE and mobileVerified is false', () =>
-    expectSaga(initializeStep)
-      .provide([
-        [select(getUserActivationState), Remote.of(ACTIVE)],
-        [select(getUserData), Remote.of({ mobileVerified: false })],
-        [select(S.getSteps), steps]
-      ])
-      .select(getUserActivationState)
-      .select(getUserData)
-      .select(S.getSteps)
-      .put(A.setVerificationStep(STEPS.verify))
       .run())
 })
 
@@ -127,7 +116,7 @@ describe('goToPrevStep saga', () => {
     expectSaga(goToPrevStep)
       .provide([
         [select(S.getVerificationStep), steps[1]],
-        [select(S.getSteps), steps]
+        [select(S.getSteps), Remote.of(steps)]
       ])
       .select(S.getSteps)
       .select(S.getVerificationStep)
@@ -137,7 +126,7 @@ describe('goToPrevStep saga', () => {
     expectSaga(goToPrevStep)
       .provide([
         [select(S.getVerificationStep), steps[0]],
-        [select(S.getSteps), steps]
+        [select(S.getSteps), Remote.of(steps)]
       ])
       .select(S.getSteps)
       .select(S.getVerificationStep)
@@ -151,7 +140,7 @@ describe('goToNextStep saga', () => {
     expectSaga(goToNextStep)
       .provide([
         [select(S.getVerificationStep), steps[0]],
-        [select(S.getSteps), steps]
+        [select(S.getSteps), Remote.of(steps)]
       ])
       .select(S.getSteps)
       .select(S.getVerificationStep)
@@ -161,7 +150,7 @@ describe('goToNextStep saga', () => {
     expectSaga(goToNextStep)
       .provide([
         [select(S.getVerificationStep), steps[1]],
-        [select(S.getSteps), steps]
+        [select(S.getSteps), Remote.of(steps)]
       ])
       .select(S.getSteps)
       .select(S.getVerificationStep)

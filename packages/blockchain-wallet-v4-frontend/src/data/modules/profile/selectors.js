@@ -15,12 +15,7 @@ import {
   propEq
 } from 'ramda'
 import { selectors } from 'data'
-import {
-  USER_ACTIVATION_STATES,
-  TIERS,
-  KYC_STATES,
-  TIERS_STATES
-} from './model'
+import { USER_ACTIVATION_STATES, KYC_STATES, TIERS_STATES } from './model'
 
 export const getUserData = path(['profile', 'userData'])
 export const getUserActivationState = compose(
@@ -30,6 +25,10 @@ export const getUserActivationState = compose(
 export const getUserKYCState = compose(
   lift(prop('kycState')),
   getUserData
+)
+export const isUserCreated = compose(
+  lift(equals(USER_ACTIVATION_STATES.CREATED)),
+  getUserActivationState
 )
 export const isUserActive = compose(
   lift(equals(USER_ACTIVATION_STATES.ACTIVE)),
@@ -51,15 +50,6 @@ export const getUserLimits = compose(
   lift(prop('limits')),
   getUserData
 )
-
-// TODO: remove when BE ships the TIER field
-export const defineUserTier = (userState, kycState) => {
-  if (userState !== USER_ACTIVATION_STATES.CREATED) return TIERS[0]
-  if (kycState !== KYC_STATES.VERIFIED) return TIERS[1]
-  return TIERS[2]
-}
-export const getUserTier = state =>
-  lift(defineUserTier)(getUserActivationState(state), getUserKYCState(state))
 
 export const getTiers = path(['profile', 'userTiers'])
 export const getTier = curry((tierIndex, state) =>

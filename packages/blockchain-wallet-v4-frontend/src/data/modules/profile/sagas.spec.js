@@ -1,6 +1,7 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import { call, fork, spawn } from 'redux-saga-test-plan/matchers'
 import { select } from 'redux-saga/effects'
+import { tail } from 'ramda'
 
 import { selectors } from 'data'
 import * as A from './actions'
@@ -231,7 +232,7 @@ describe('fetch tiers saga', () => {
     return expectSaga(fetchTiers)
       .put(A.fetchTiersLoading())
       .call(api.fetchTiers)
-      .put(A.fetchTiersSuccess(INITIAL_TIERS))
+      .put(A.fetchTiersSuccess(tail(INITIAL_TIERS)))
       .run()
   })
 })
