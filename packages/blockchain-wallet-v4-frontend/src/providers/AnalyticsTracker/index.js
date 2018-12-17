@@ -12,6 +12,8 @@ const Iframe = styled.iframe`
   left: -1000px;
   top: -1000px;
   opacity: 0;
+  height: 0px;
+  width: 0px;
 `
 
 class AnalyticsTracker extends React.PureComponent {
