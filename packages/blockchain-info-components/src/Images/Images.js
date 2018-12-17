@@ -18,6 +18,7 @@ import coinifyLogo from './img/coinify-logo.svg'
 import emptySearch from './img/empty-search.svg'
 import emptyTx from './img/empty-tx.svg'
 import facebookWhite from './img/facebook-white.svg'
+import failedKyc from './img/failed-kyc.png'
 import googleAuthenticator from './img/google-authenticator.png'
 import googlePlayBadge from './img/google-play-badge.png'
 import halfBitcoin from './img/half-bitcoin.svg'
@@ -108,6 +109,7 @@ export default {
   'empty-search': emptySearch,
   'empty-tx': emptyTx,
   'facebook-white': facebookWhite,
+  'failed-kyc': failedKyc,
   'google-authenticator': googleAuthenticator,
   'google-play-badge': googlePlayBadge,
   'half-bitcoin': halfBitcoin,

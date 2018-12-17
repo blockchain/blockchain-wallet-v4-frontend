@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Exchange CurrencySelct should render correctly 1`] = `
-<CurrencySelect__SelectSourceRow
+<CurrencySelect__CurrencyRow
   height="50px"
   spaced={true}
 >
@@ -71,5 +71,5 @@ exports[`Exchange CurrencySelct should render correctly 1`] = `
       onChange={[Function]}
     />
   </Layout__Cell>
-</CurrencySelect__SelectSourceRow>
+</CurrencySelect__CurrencyRow>
 `;

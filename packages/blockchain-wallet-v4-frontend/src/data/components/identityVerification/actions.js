@@ -1,12 +1,18 @@
+import { TIERS } from '../../modules/profile/model'
 import * as AT from './actionTypes'
 
-export const verifyIdentity = () => ({
-  type: AT.VERIFY_IDENTITY
+export const verifyIdentity = (
+  tier = TIERS[2],
+  isCoinify = false,
+  needMoreInfo = false
+) => ({
+  type: AT.VERIFY_IDENTITY,
+  payload: { tier, isCoinify, needMoreInfo }
 })
 
-export const initializeVerification = (isCoinify, desiredTier) => ({
+export const initializeVerification = (tier, isCoinify, needMoreInfo) => ({
   type: AT.INITIALIZE_VERIFICATION,
-  payload: { isCoinify, desiredTier }
+  payload: { tier, isCoinify, needMoreInfo }
 })
 export const goToPrevStep = () => ({
   type: AT.GO_TO_PREV_STEP
@@ -64,22 +70,24 @@ export const createRegisterUserCampaign = () => ({
 export const checkKycFlow = () => ({
   type: AT.CHECK_KYC_FLOW
 })
-export const setKycFlow = flowType => ({
-  type: AT.SET_KYCFLOW,
-  payload: { flowType }
+export const setKycFlow = flowConfig => ({
+  type: AT.SET_KYC_FLOW_CONFIG,
+  payload: { flowConfig }
 })
 export const sendDeeplink = () => ({
   type: AT.SEND_DEEP_LINK
 })
 
-export const setCoinify = isCoinify => ({
-  type: AT.SET_COINIFY,
-  payload: { isCoinify }
+export const setStepsLoading = () => ({
+  type: AT.SET_STEPS_LOADING
 })
-
-export const setDesiredTier = tier => ({
-  type: AT.SET_DESIRED_TIER,
-  payload: { tier }
+export const setStepsFailure = error => ({
+  type: AT.SET_STEPS_FAILURE,
+  payload: { error }
+})
+export const setStepsSuccess = steps => ({
+  type: AT.SET_STEPS_SUCCESS,
+  payload: { steps }
 })
 
 export const updateEmail = email => ({

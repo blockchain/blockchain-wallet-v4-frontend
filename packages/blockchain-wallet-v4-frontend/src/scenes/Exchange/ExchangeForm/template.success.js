@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
-import { contains } from 'ramda'
+import { contains, head, last } from 'ramda'
 
 import { model } from 'data'
 import media from 'services/ResponsiveService'
@@ -11,11 +11,13 @@ import { formatTextAmount } from 'services/ValidationHelper'
 import { Banner, Icon, Text } from 'blockchain-info-components'
 import { Form, AutosizeTextBox } from 'components/Form'
 import { ResizeableFontInputHOC } from 'components/ResizeableFontInputHOC'
-import { Wrapper as SummaryWrapper, Title, Note } from 'components/Exchange'
+import { Wrapper as BorderWrapper, Title, Note } from 'components/Exchange'
 import { Cell, Row } from './Layout'
 import CurrencySelect from './CurrencySelect'
 import ComplementaryAmount from './ComplementaryAmount'
 import Error from './Error'
+import LimitInfo from './LimitInfo'
+import VerificationInfo from './VerificationInfo'
 import MinMaxButtons from './MinMaxButtons'
 import SubmitButton from './SubmitButton'
 import Summary from './Summary'
@@ -39,18 +41,11 @@ const Wrapper = styled.div`
   `};
 `
 
-const Cover = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  background-color: rgba(255, 255, 255, 0.6);
-`
-
 const ColumnLeft = styled.div`
   margin-right: 34px;
-  max-width: 550px;
+  max-width: 450px;
   width: 60%;
+  border-radius: 8px;
   ${media.mobile`
     margin-right: 0;
     margin-bottom: 20px;
@@ -58,23 +53,34 @@ const ColumnLeft = styled.div`
   `};
 `
 const ColumnRight = styled.div`
-  max-width: 450px;
+  max-width: 350px;
   width: 100%;
+  align-self: center;
   @media (min-width: 992px) {
+    align-self: flex-start;
     max-width: 345px;
     width: 40%;
   }
 `
+const SwapReceiveRow = styled(Row)`
+  padding-bottom: 0;
+`
+const SwapReceiveGap = styled(Cell)`
+  min-width: 50px;
+`
 const AmountRow = styled(Row)`
   position: relative;
-  padding: 10px 30px;
+  padding: 16px 32px 0 32px;
   justify-content: center;
   border: 4px solid transparent;
+`
+const ComplementaryRow = styled(Row)`
+  padding: 0 32px;
 `
 
 const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))`
   height: 86px;
-  max-width: 100%;
+  max-width: ${({ fiatActive }) => (fiatActive ? '100%' : '80%')};
   > div {
     border: none;
     height: 100%;
@@ -88,14 +94,15 @@ const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))`
     position: relative;
     font-weight: 300;
     font-size: 72px;
-    line-height: 86px;
-    height: 86px;
+    line-height: 88px;
+    height: 88px;
     padding: 0;
     width: 100%;
     min-width: 45px;
     max-width: 100%;
     border: none;
     text-align: center;
+    font-family: Montserrat;
     color: ${props => props.theme['gray-5']};
   }
 `
@@ -111,30 +118,27 @@ const CoinFiatSwapIcon = styled(Icon)`
 `
 const ActiveCurrencyButton = styled.div`
   cursor: pointer;
-  height: 12px;
-  width: 12px;
+  height: 11px;
+  width: 11px;
   background-color: ${props => props.checked && props.theme[props.coin]};
   border-radius: 8px;
-  border: ${props => props.checked && '2px solid'}
-    ${props => props.theme['white']};
-  border-color: ;
   margin-right: 8px;
-  box-shadow: 0 0 0 1px ${props => props.theme[props.coin]};
+  border: 1px solid
+    ${props =>
+      props.checked ? props.theme[props.coin] : props.theme['gray-4']};
 `
-const FieldsWrapper = styled.div`
-  border: 1px solid ${props => props.theme['gray-1']}};
+const FormWrapper = styled(BorderWrapper)`
+  padding: 0;
 `
 const CurrencyBox = styled(Text)`
   align-self: flex-start;
-  margin-top: 10px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  height: 38px;
-  font-size: ${props => (props.coinActive ? '20px' : '32px')};
+  height: 88px;
+  font-size: 72px;
   font-weight: 300;
-  transform: uppercase;
   background-color: ${props =>
     props.disabled ? props.theme['gray-1'] : props.theme['white']};
 `
@@ -150,13 +154,17 @@ const normalizeAmount = (value, prevValue, allValues, ...args) => {
   return formatTextAmount(value, fiatActive(allValues.fix))
 }
 
-export const formatAmount = (isFiat, symbol, value) =>
-  isFiat ? `${symbol}${value}` : `${value} ${symbol}`
+const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
+  const amountRowNode = inputNode.closest('#amount-row')
+  const currencyNode = isFiat
+    ? head(amountRowNode.children)
+    : last(amountRowNode.children)
+  currencyNode.style.fontSize = `${fontSizeNumber * fontSizeRatio}px`
+}
 
 const Success = ({
   availablePairs,
   blockLockbox,
-  canUseExchange,
   complementaryField,
   complementarySymbol,
   currency,
@@ -181,29 +189,11 @@ const Success = ({
   )
   return (
     <Wrapper>
-      {!canUseExchange && <Cover />}
       <ColumnLeft>
-        <Form>
-          <FieldsWrapper>
-            <CurrencySelect
-              sourceCoin={sourceCoin}
-              targetCoin={targetCoin}
-              availablePairs={availablePairs}
-            />
-            {blockLockbox && (
-              <LockboxWarning>
-                <Banner type='warning'>
-                  <Text color='warning' size='12px'>
-                    <FormattedMessage
-                      id='scenes.exchange.exchangeform.blocklockbox'
-                      defaultMessage='Sending from Lockbox can only be done while using the Chrome browser'
-                    />
-                  </Text>
-                </Banner>
-              </LockboxWarning>
-            )}
-            <Row>
-              <Cell center>
+        <FormWrapper>
+          <Form>
+            <SwapReceiveRow>
+              <Cell>
                 <ActiveCurrencyButton
                   data-e2e='exchangeExchangeRadioButton'
                   onClick={() => {
@@ -221,13 +211,13 @@ const Success = ({
                   weight={400}
                 >
                   <FormattedMessage
-                    id='scenes.exchange.exchangeform.from'
-                    defaultMessage='Exchange'
+                    id='scenes.exchange.exchangeform.swap'
+                    defaultMessage='Swap'
                   />
                 </ClickableText>
               </Cell>
-              <Cell size='small' />
-              <Cell center>
+              <SwapReceiveGap size='small' />
+              <Cell>
                 {
                   <ActiveCurrencyButton
                     data-e2e='exchangeReceiveRadioButton'
@@ -252,8 +242,25 @@ const Success = ({
                   />
                 </ClickableText>
               </Cell>
-            </Row>
-            <AmountRow>
+            </SwapReceiveRow>
+            <CurrencySelect
+              sourceCoin={sourceCoin}
+              targetCoin={targetCoin}
+              availablePairs={availablePairs}
+            />
+            {blockLockbox && (
+              <LockboxWarning>
+                <Banner type='warning'>
+                  <Text color='warning' size='12px'>
+                    <FormattedMessage
+                      id='scenes.exchange.exchangeform.blocklockbox'
+                      defaultMessage='Sending from Lockbox can only be done while using the Chrome browser'
+                    />
+                  </Text>
+                </Banner>
+              </LockboxWarning>
+            )}
+            <AmountRow id='amount-row'>
               {fiatActive && <CurrencyBox>{inputSymbol}</CurrencyBox>}
               <Field
                 name={inputField}
@@ -264,13 +271,15 @@ const Success = ({
                 onFocus={handleInputFocus}
                 onBlur={handleInputBlur}
                 normalize={normalizeAmount}
+                onUpdate={resizeSymbol.bind(null, fiatActive)}
                 component={AmountTextBox}
+                fiatActive={fiatActive}
                 maxFontSize='72px'
                 data-e2e='exchangeAmountInput'
               />
               {!fiatActive && <CurrencyBox>{inputSymbol}</CurrencyBox>}
             </AmountRow>
-            <AmountRow>
+            <ComplementaryRow>
               <CoinFiatSwapIcon
                 style={{ visibility: 'hidden' }}
                 name='vertical-arrow-switch'
@@ -297,21 +306,21 @@ const Success = ({
                 }}
                 data-e2e='exchangeCoinFiatSwapButton'
               />
-            </AmountRow>
+            </ComplementaryRow>
             <Error />
             <MinMaxButtons />
-          </FieldsWrapper>
-          <SubmitButton
-            blockLockbox={blockLockbox}
-            sourceCoin={sourceCoin}
-            targetCoin={targetCoin}
-            volume={volume}
-            handleSubmit={handleSubmit}
-          />
-        </Form>
+            <SubmitButton
+              blockLockbox={blockLockbox}
+              volume={volume}
+              handleSubmit={handleSubmit}
+            />
+            <LimitInfo />
+          </Form>
+        </FormWrapper>
+        <VerificationInfo />
       </ColumnLeft>
       <ColumnRight>
-        <SummaryWrapper>
+        <BorderWrapper>
           <Title>
             <FormattedMessage
               id='scenes.exchange.exchangeform.summary.title'
@@ -334,7 +343,7 @@ const Success = ({
             targetCoin={targetCoin}
             currency={currency}
           />
-        </SummaryWrapper>
+        </BorderWrapper>
       </ColumnRight>
     </Wrapper>
   )

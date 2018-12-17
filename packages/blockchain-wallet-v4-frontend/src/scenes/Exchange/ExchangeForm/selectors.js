@@ -38,24 +38,16 @@ const getBlockLockbox = state => {
   )
 }
 
-const {
-  canUseExchange,
-  getAmounts,
-  getAvailablePairs
-} = selectors.components.exchange
+const { getAmounts, getAvailablePairs } = selectors.components.exchange
 
-export { canUseExchange }
 export const getData = createDeepEqualSelector(
   [
     getBlockLockbox,
     selectors.core.settings.getCurrency,
     getFormValues,
-    getAvailablePairs,
-    canUseExchange
+    getAvailablePairs
   ],
-  (blockLockbox, currencyR, formValues, availablePairsR, canUseExchange) => {
-    if (!canUseExchange) return Remote.Loading
-
+  (blockLockbox, currencyR, formValues, availablePairsR) => {
     const { fix, sourceCoin, targetCoin, volume } = formValues
 
     const transform = (currency, availablePairs) => {

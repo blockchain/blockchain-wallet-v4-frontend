@@ -37,7 +37,7 @@ const FaqContent = [
             />
             <span>&nbsp;</span>
             <NavLink
-              to='/exchange'
+              to='/swap'
               style={{
                 textDecoration: 'none',
                 color: Color('brand-secondary')
@@ -260,7 +260,7 @@ const FaqContent = [
             />
             <span>&nbsp;</span>
             <NavLink
-              to='/exchange'
+              to='/swap'
               style={{
                 textDecoration: 'none',
                 color: Color('brand-secondary')

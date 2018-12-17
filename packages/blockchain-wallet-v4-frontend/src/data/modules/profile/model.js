@@ -1,3 +1,4 @@
+import { complement, findLast, propEq } from 'ramda'
 import PropTypes from 'prop-types'
 
 export const USER_ACTIVATION_STATES = {
@@ -14,6 +15,15 @@ export const KYC_STATES = {
   REJECTED: 'REJECTED',
   VERIFIED: 'VERIFIED',
   EXPIRED: 'EXPIRED'
+}
+
+export const TIERS_STATES = {
+  NONE: 'none',
+  PENDING: 'pending',
+  UNDER_REVIEW: 'under_review',
+  REJECTED: 'rejected',
+  VERIFIED: 'verified',
+  EXPIRED: 'expired'
 }
 
 export const TIERS = {
@@ -53,3 +63,15 @@ export const CountryPropType = PropTypes.shape({
   regions: PropTypes.arrayOf(PropTypes.string),
   scopes: PropTypes.arrayOf(PropTypes.string)
 })
+
+export const getLastAttemptedTier = findLast(
+  complement(propEq('state', TIERS_STATES.NONE))
+)
+
+export const getLastUnrejectedTier = findLast(
+  complement(propEq('state', TIERS_STATES.REJECTED))
+)
+
+export const getLastVerifiedTier = findLast(
+  propEq('state', TIERS_STATES.VERIFIED)
+)

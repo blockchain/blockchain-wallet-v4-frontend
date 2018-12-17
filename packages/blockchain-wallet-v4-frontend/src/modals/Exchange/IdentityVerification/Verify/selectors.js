@@ -4,16 +4,16 @@ import { selectors } from 'data'
 
 const {
   getSupportedDocuments,
-  getKycFLowType
+  getKycFlowConfig
 } = selectors.components.identityVerification
 
 const { getEmail } = selectors.core.settings
 
 export const getData = state => {
-  return lift((email, docTypes, flowType) => ({
+  return lift((email, docTypes, flowConfig) => ({
     email,
     deeplink: 'https://blockchainwallet.page.link/dashboard',
     docTypes,
-    flowType
-  }))(getEmail(state), getSupportedDocuments(state), getKycFLowType(state))
+    flowConfig
+  }))(getEmail(state), getSupportedDocuments(state), getKycFlowConfig(state))
 }
