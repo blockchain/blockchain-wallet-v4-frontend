@@ -1,6 +1,7 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import { call, fork, spawn } from 'redux-saga-test-plan/matchers'
 import { select } from 'redux-saga/effects'
+import { tail } from 'ramda'
 
 import { selectors } from 'data'
 import * as A from './actions'
@@ -227,12 +228,11 @@ describe('fetch user saga', () => {
 
 describe('fetch tiers saga', () => {
   it('should call fetchTiers api and update state', () => {
-    api.fetchTiers.mockReturnValueOnce(INITIAL_TIERS)
+    api.fetchTiers.mockReturnValueOnce({ tiers: INITIAL_TIERS })
     return expectSaga(fetchTiers)
       .put(A.fetchTiersLoading())
       .call(api.fetchTiers)
-      .put(A.fetchTiersSuccess(INITIAL_TIERS.tiers))
-      .returns()
+      .put(A.fetchTiersSuccess(tail(INITIAL_TIERS)))
       .run()
   })
 })

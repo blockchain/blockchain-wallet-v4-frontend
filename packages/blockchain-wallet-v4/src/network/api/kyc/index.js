@@ -92,6 +92,15 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
       endPoint: '/kyc/tiers'
     })
 
+  const selectTier = selectedTier =>
+    authorizedPost({
+      url: nabuUrl,
+      contentType: 'application/json',
+      endPoint: '/kyc/tiers',
+      ignoreQueryParams: true,
+      data: { selectedTier }
+    })
+
   const sendDeeplink = () =>
     authorizedPost({
       url: nabuUrl,
@@ -109,9 +118,10 @@ export default ({ nabuUrl, get, post, authorizedGet, authorizedPost }) => {
     fetchUploadData,
     fetchTiers,
     fetchVeriffUrl,
+    selectTier,
+    sendDeeplink,
     syncOnfido,
     syncVeriff,
-    sendDeeplink,
     uploadDocuments
   }
 }

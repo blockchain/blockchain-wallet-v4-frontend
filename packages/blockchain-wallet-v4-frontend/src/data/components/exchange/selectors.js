@@ -8,6 +8,7 @@ import {
   head,
   last,
   lift,
+  lt,
   path,
   pathOr,
   prop,
@@ -19,11 +20,16 @@ import { selectors, model } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { getTargetCoinsPairedToSource, getAvailableSourceCoins } from './model'
 
-export const useShapeShift = state => false
-
 export const canUseExchange = state =>
-  selectors.modules.profile.isUserActive(state).getOrElse(false) &&
-  selectors.modules.profile.isUserVerified(state).getOrElse(false)
+  selectors.modules.profile
+    .getTiers(state)
+    .map(
+      compose(
+        lt(0),
+        prop('current')
+      )
+    )
+    .getOrElse(false)
 
 export const getStep = path(['components', 'exchange', 'step'])
 export const getLimits = path(['components', 'exchange', 'limits'])

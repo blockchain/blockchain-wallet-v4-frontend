@@ -350,6 +350,13 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage='IP whitelist has been successfully updated'
         />
       )
+    case C.KYC_START_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.kyc_start_error'
+          defaultMessage='Failed to update a tier. Please try again'
+        />
+      )
     case C.LANGUAGE_UPDATE_ERROR:
       return (
         <FormattedMessage
