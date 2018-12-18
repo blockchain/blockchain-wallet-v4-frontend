@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { head, path, propEq, toLower } from 'ramda'
+import { all, head, path, propEq, toLower } from 'ramda'
 import { connect } from 'react-redux'
 
 import { actions } from 'data'
@@ -24,6 +24,11 @@ const Wrapper = styled.div`
   width: 375px;
   &.column {
     width: 260px;
+  }
+  &.rejected {
+    filter: grayscale(100%);
+    box-shadow: none;
+    opacity: 0.9;
   }
   ${media.laptop`
     width: 100%;
@@ -101,8 +106,22 @@ export const TierCard = ({
 }) => {
   const { verifyIdentity, column, tier } = rest
   const tierData = head(userTiers.filter(propEq('index', tier)))
+  const symbol =
+    Exchange.getSymbol(tierData.limits.currency) +
+    Currency.formatFiat(
+      tierData.limits[toLower(path([tier, 'limit'], TIERS))],
+      0
+    )
+  const tierLimit = limits[path([tier, 'limit'], TIERS)]
+  const tierStatus = status(tier, userTiers, path([tier, 'time'], TIERS))
+  const isRejected = all(propEq('state', 'rejected'), userTiers)
+
+  let className = ''
+  if (column) className += ' column'
+  if (isRejected) className += ' rejected'
+
   return (
-    <Wrapper className={column ? 'column' : ''}>
+    <Wrapper className={className}>
       {tier === 2 && (
         <Announcement uppercase weight={500} size='16px' color='white'>
           <FormattedMessage
@@ -123,17 +142,13 @@ export const TierCard = ({
           <Row>
             <Column>
               <Text size='28px' color='marketing-secondary'>
-                {Exchange.getSymbol(tierData.limits.currency) +
-                  Currency.formatFiat(
-                    tierData.limits[toLower(path([tier, 'limit'], TIERS))],
-                    0
-                  )}
+                {symbol}
               </Text>
               <Text size='14px' color='textBlack' style={{ marginTop: '8px' }}>
-                {limits[path([tier, 'limit'], TIERS)]}
+                {tierLimit}
               </Text>
               <Text size='14px' color='gray-3' style={{ marginTop: '7px' }}>
-                {status(tierData.state, path([tier, 'time'], TIERS))}
+                {tierStatus}
               </Text>
             </Column>
             <Column>
