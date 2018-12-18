@@ -7,7 +7,7 @@ import { FormattedMessage } from 'react-intl'
 import { actions } from 'data'
 import TransactionList from 'scenes/Transactions/Content'
 import { SettingHeader } from 'components/Setting'
-import { TableCell, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -16,16 +16,22 @@ const Title = styled(SettingHeader)`
   justify-content: flex-start;
   margin-bottom: 10px;
 `
-const Table = styled.table`
+const Table = styled.div`
   width: 100%;
   border: 1px solid ${props => props.theme['gray-2']};
 `
-const TableHeader = styled.tr`
-  width: 100%;
+const TableHeader = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  padding: 8px 15px;
+  box-sizing: border-box;
   border-bottom: 1px solid ${props => props.theme['gray-2']};
+  background-color: ${props => props.theme['brand-quaternary']};
 `
+const TableCell = styled.div``
 
 class BsvTransactionsContainer extends React.Component {
   render () {
@@ -39,7 +45,7 @@ class BsvTransactionsContainer extends React.Component {
         </Title>
         <Table>
           <TableHeader>
-            <TableCell width='50%'>
+            <TableCell style={{ flexBasis: '45%' }}>
               <Text size='13px' weight={500}>
                 <FormattedMessage
                   id='scenes.settings.addresses.bsv.tx.type'
@@ -47,7 +53,7 @@ class BsvTransactionsContainer extends React.Component {
                 />
               </Text>
             </TableCell>
-            <TableCell width='30%'>
+            <TableCell style={{ flexBasis: '35%' }}>
               <Text size='13px' weight={500}>
                 <FormattedMessage
                   id='scenes.settings.addresses.bsv.tx.addresses'
@@ -56,8 +62,11 @@ class BsvTransactionsContainer extends React.Component {
               </Text>
             </TableCell>
             <TableCell
-              width='20%'
-              style={{ display: 'flex', justifyContent: 'flex-end' }}
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                flexBasis: '20%'
+              }}
             >
               <Text size='13px' weight={500}>
                 <FormattedMessage

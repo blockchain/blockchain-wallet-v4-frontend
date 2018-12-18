@@ -16,15 +16,10 @@ const Wrapper = styled.div`
 `
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
-
-  @media (min-width: 1200px) {
-    flex-direction: row;
-    justify-content: space-between;
-  }
 `
 
 const Search = styled.div`
@@ -33,9 +28,9 @@ const Search = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  width: 100%;
-  @media (min-width: 1200px) {
-    width: auto;
+  width: auto;
+  @media (min-width: 900px) {
+    width: 300px;
   }
 `
 const SearchIcon = styled(Icon)`

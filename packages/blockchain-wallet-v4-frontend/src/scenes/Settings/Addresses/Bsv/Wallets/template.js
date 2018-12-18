@@ -69,7 +69,7 @@ const Success = props => {
       </SettingDescription>
       <Table>
         <TableHeader>
-          <TableCell width='50%'>
+          <TableCell style={{ flexBasis: '45%' }}>
             <Text size='13px' weight={500}>
               <FormattedMessage
                 id='scenes.settings.addresses.bsv.wallets.name'
@@ -77,7 +77,7 @@ const Success = props => {
               />
             </Text>
           </TableCell>
-          <TableCell width='30%'>
+          <TableCell style={{ flexBasis: '35%' }}>
             <Text size='13px' weight={500}>
               <FormattedMessage
                 id='scenes.settings.addresses.bsv.wallets.balance'
@@ -86,8 +86,11 @@ const Success = props => {
             </Text>
           </TableCell>
           <TableCell
-            width='20%'
-            style={{ display: 'flex', justifyContent: 'flex-end' }}
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              flexBasis: '20%'
+            }}
           >
             <Text size='13px' weight={500}>
               <FormattedMessage
@@ -102,7 +105,7 @@ const Success = props => {
 
           return (
             <TableRow key={i}>
-              <WalletTableCell width='50%'>
+              <WalletTableCell style={{ flexBasis: '45%' }}>
                 <LabelCell size='13px'>{wallet.label}</LabelCell>
                 {isDefault && (
                   <Banner label>
@@ -113,14 +116,17 @@ const Success = props => {
                   </Banner>
                 )}
               </WalletTableCell>
-              <TableCell width='30%'>
+              <TableCell style={{ flexBasis: '35%' }}>
                 <SwitchableDisplay size='13px' coin='BSV'>
                   {wallet.value.balance}
                 </SwitchableDisplay>
               </TableCell>
               <TableCell
-                width='20%'
-                style={{ display: 'flex', justifyContent: 'flex-end' }}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  flexBasis: '20%'
+                }}
               >
                 <ClickableText weight={400} size='13px' onClick={onSendBsv}>
                   <FormattedMessage
