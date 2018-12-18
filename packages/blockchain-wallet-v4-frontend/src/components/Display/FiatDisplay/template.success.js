@@ -51,7 +51,7 @@ const FiatDisplay = props => {
 }
 
 FiatDisplay.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'XLM']).isRequired,
+  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH', 'BSV', 'XLM']).isRequired,
   children: PropTypes.string.isRequired,
   showIcon: PropTypes.bool,
   size: PropTypes.string,

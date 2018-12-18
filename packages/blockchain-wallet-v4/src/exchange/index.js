@@ -103,7 +103,7 @@ const transformBchToFiat = ({ value, fromUnit, toCurrency, rates }) => {
 }
 
 const transformBsvToFiat = ({ value, fromUnit, toCurrency, rates }) => {
-  const pairs = Pairs.create(BCH.code, rates)
+  const pairs = Pairs.create(BSV.code, rates)
   const targetCurrency = prop(toCurrency, Currencies)
   const targetCurrencyCode = prop('code', targetCurrency)
   const targetCurrencyUnit = path(['units', targetCurrencyCode], targetCurrency)
