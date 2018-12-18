@@ -112,6 +112,7 @@ export default ({ api, coreSagas }) => {
         askSecondPasswordEnhancer
       )
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
+      // yield call(coreSagas.kvStore.bsv.fetchMetadataBsv)
       yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
       yield put(actions.middleware.webSocket.bch.startSocket())
       yield put(actions.middleware.webSocket.btc.startSocket())

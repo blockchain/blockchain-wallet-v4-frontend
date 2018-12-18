@@ -14,8 +14,11 @@ const Wrapper = styled.div`
 `
 class BsvContainer extends React.PureComponent {
   componentDidMount () {
+    // TODO
     this.props.bsvKvStore.fetchMetadataBsv()
-    this.props.bsv.fetchData()
+    setTimeout(() => {
+      this.props.bsv.fetchData()
+    }, 5000)
   }
 
   render () {

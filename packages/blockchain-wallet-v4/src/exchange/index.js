@@ -3,7 +3,7 @@ import * as Currency from './currency'
 import * as Pairs from './pairs'
 import * as Currencies from './currencies'
 
-const { BCH, BTC, ETH, XLM } = Currencies
+const { BCH, BTC, BSV, ETH, XLM } = Currencies
 
 const DefaultConversion = {
   value: '0',
@@ -102,9 +102,28 @@ const transformBchToFiat = ({ value, fromUnit, toCurrency, rates }) => {
     .chain(Currency.toUnit(targetCurrencyUnit))
 }
 
+const transformBsvToFiat = ({ value, fromUnit, toCurrency, rates }) => {
+  const pairs = Pairs.create(BCH.code, rates)
+  const targetCurrency = prop(toCurrency, Currencies)
+  const targetCurrencyCode = prop('code', targetCurrency)
+  const targetCurrencyUnit = path(['units', targetCurrencyCode], targetCurrency)
+  const sourceUnit = path(['units', fromUnit], BSV)
+  return Currency.fromUnit({ value, unit: sourceUnit })
+    .chain(Currency.convert(pairs, targetCurrency))
+    .chain(Currency.toUnit(targetCurrencyUnit))
+}
+
 const transformBchToBch = ({ value, fromUnit, toUnit }) => {
   const sourceUnit = path(['units', fromUnit], BCH)
   const targetUnit = path(['units', toUnit], BCH)
+  return Currency.fromUnit({ value, unit: sourceUnit }).chain(
+    Currency.toUnit(targetUnit)
+  )
+}
+
+const transformBsvToBsv = ({ value, fromUnit, toUnit }) => {
+  const sourceUnit = path(['units', fromUnit], BSV)
+  const targetUnit = path(['units', toUnit], BSV)
   return Currency.fromUnit({ value, unit: sourceUnit }).chain(
     Currency.toUnit(targetUnit)
   )
@@ -217,6 +236,12 @@ const convertBchToBch = ({ value, fromUnit, toUnit }) => {
   )
 }
 
+const convertBsvToBsv = ({ value, fromUnit, toUnit }) => {
+  return transformBsvToBsv({ value, fromUnit, toUnit }).getOrElse(
+    DefaultConversion
+  )
+}
+
 const convertFiatToXlm = ({ value, fromCurrency, toUnit, rates }) => {
   return transformFiatToXlm({ value, fromCurrency, toUnit, rates }).getOrElse(
     DefaultConversion
@@ -249,6 +274,10 @@ const convertCoinToCoin = ({ value, coin, baseToStandard }) => {
       return baseToStandard
         ? convertBchToBch({ value, fromUnit: 'SAT', toUnit: 'BCH' })
         : convertBchToBch({ value, fromUnit: 'BCH', toUnit: 'SAT' })
+    case 'BSV':
+      return baseToStandard
+        ? convertBsvToBsv({ value, fromUnit: 'SAT', toUnit: 'BSV' })
+        : convertBsvToBsv({ value, fromUnit: 'BSV', toUnit: 'SAT' })
     case 'XLM':
       return baseToStandard
         ? convertXlmToXlm({ value, fromUnit: 'STROOP', toUnit: 'XLM' })
@@ -307,8 +336,19 @@ const displayBchToFiat = ({ value, fromUnit, toCurrency, rates }) => {
     .getOrElse(DefaultDisplay)
 }
 
+const displayBsvToFiat = ({ value, fromUnit, toCurrency, rates }) => {
+  return transformBsvToFiat({ value, fromUnit, toCurrency, rates })
+    .map(Currency.fiatToString)
+    .getOrElse(DefaultDisplay)
+}
+
 const displayBchToBch = ({ value, fromUnit, toUnit }) => {
   return transformBchToBch({ value, fromUnit, toUnit })
+    .map(Currency.coinToString)
+    .getOrElse(DefaultDisplay)
+}
+const displayBsvToBsv = ({ value, fromUnit, toUnit }) => {
+  return transformBsvToBsv({ value, fromUnit, toUnit })
     .map(Currency.coinToString)
     .getOrElse(DefaultDisplay)
 }
@@ -352,6 +392,10 @@ const displayCoinToCoin = ({ value, coin, baseToStandard }) => {
       return baseToStandard
         ? displayBchToBch({ value, fromUnit: 'SAT', toUnit: 'BCH' })
         : displayBchToBch({ value, fromUnit: 'BCH', toUnit: 'SAT' })
+    case 'BSV':
+      return baseToStandard
+        ? displayBsvToBsv({ value, fromUnit: 'SAT', toUnit: 'BSV' })
+        : displayBsvToBsv({ value, fromUnit: 'BSV', toUnit: 'SAT' })
     case 'XLM':
       return baseToStandard
         ? displayXlmToXlm({ value, fromUnit: 'STROOP', toUnit: 'XLM' })
@@ -373,6 +417,8 @@ const displayCoinToFiat = ({
       return displayEtherToFiat({ value, fromUnit, toCurrency, rates })
     case 'BCH':
       return displayBchToFiat({ value, fromUnit, toCurrency, rates })
+    case 'BSV':
+      return displayBsvToFiat({ value, fromUnit, toCurrency, rates })
     case 'XLM':
       return displayXlmToFiat({ value, fromUnit, toCurrency, rates })
   }
@@ -413,6 +459,7 @@ export {
   displayFiatToBch,
   displayBchToFiat,
   displayBchToBch,
+  displayBsvToBsv,
   displayFiatToXlm,
   displayXlmToFiat,
   displayXlmToXlm,

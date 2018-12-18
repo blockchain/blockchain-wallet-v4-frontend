@@ -102,7 +102,6 @@ const Success = props => {
         </TableHeader>
         {filter(isMatch, take(accounts.length, wallets)).map((wallet, i) => {
           const isDefault = i === defaultIndex
-
           return (
             <TableRow key={i}>
               <WalletTableCell style={{ flexBasis: '45%' }}>
