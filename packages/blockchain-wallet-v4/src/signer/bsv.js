@@ -4,8 +4,6 @@ import BitcoinCash from 'bitcoinforksjs-lib'
 import * as Coin from '../coinSelection/coin'
 import { fromCashAddr, isCashAddr } from '../utils/bch'
 import { addHDWalletWIFS, addLegacyWIFS } from './wifs'
-import Btc from '@ledgerhq/hw-app-btc'
-import * as crypto from '../walletCrypto'
 
 export const signSelection = curry((network, coinDust, selection) => {
   const hashType =
@@ -81,58 +79,3 @@ export const signWithWIF = curry((network, coinDust, selection) =>
     wifToKeys(network)
   )(selection)
 )
-
-export const signWithLockbox = function*(
-  selection,
-  transport,
-  scrambleKey,
-  changeIndex,
-  api
-) {
-  const BTC = new Btc(transport, scrambleKey)
-  let inputs = []
-  let paths = []
-  const changePath = `44'/145'/0'/M/1/${changeIndex}`
-  for (let i in selection.inputs) {
-    const coin = selection.inputs[i]
-    const txHex = yield api.getBchRawTx(coin.txHash)
-    inputs.push([BTC.splitTransaction(txHex), coin.index])
-    paths.push("44'/145'/0'" + coin.path.split('M')[1])
-  }
-
-  const intToHex = i => {
-    const hex = i.toString(16)
-    return hex.length > 1 ? hex : '0' + hex
-  }
-
-  let outputs = intToHex(selection.outputs.length)
-  selection.outputs.map(coin => {
-    let amount = Buffer.alloc(8)
-    amount.writeUInt32LE(coin.value)
-    outputs +=
-      amount.toString('hex') +
-      intToHex(coin.script.length) +
-      coin.script.toString('hex')
-  })
-
-  const hashType =
-    BitcoinCash.Transaction.SIGHASH_ALL |
-    BitcoinCash.Transaction.SIGHASH_BITCOINCASHBIP143
-
-  const txHex = yield BTC.createPaymentTransactionNew(
-    inputs,
-    paths,
-    changePath,
-    outputs,
-    undefined,
-    hashType,
-    undefined,
-    undefined,
-    ['abc']
-  )
-  const txId = crypto
-    .sha256(crypto.sha256(Buffer.from(txHex, 'hex')))
-    .reverse()
-    .toString('hex')
-  return { txHex, txId }
-}

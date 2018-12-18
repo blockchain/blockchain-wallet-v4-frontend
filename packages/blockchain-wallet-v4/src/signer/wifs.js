@@ -2,7 +2,7 @@ import { curry, compose, lensProp, set } from 'ramda'
 import { traversed, traverseOf } from 'ramda-lens'
 import Task from 'data.task'
 import { Wrapper, Wallet } from '../types'
-import * as Coin from '../coinSelection/coin.js'
+import * as Coin from '../coinSelection/coin'
 
 // addHDWalletWIFS :: network -> password -> wrapper -> selection -> Task selection
 export const addHDWalletWIFS = curry(

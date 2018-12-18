@@ -12,7 +12,6 @@ export default ({ api }) => {
     try {
       yield put(A.fetchDataLoading())
       const context = yield select(S.getContext)
-      // TODO: wire in API
       const data = yield call(api.fetchBsvData, context, { n: 1 })
       const bchData = {
         addresses: indexBy(prop('address'), prop('addresses', data)),
@@ -28,7 +27,6 @@ export default ({ api }) => {
   const fetchFee = function*() {
     try {
       yield put(A.fetchFeeLoading())
-      // TODO: wire in API
       const data = yield call(api.getBsvFee)
       yield put(A.fetchFeeSuccess(data))
     } catch (e) {
@@ -39,7 +37,6 @@ export default ({ api }) => {
   const fetchRates = function*() {
     try {
       yield put(A.fetchRatesLoading())
-      // TODO: wire in API
       const data = yield call(api.getBsvTicker)
       yield put(A.fetchRatesSuccess(data))
     } catch (e) {
@@ -65,7 +62,6 @@ export default ({ api }) => {
       const walletContext = yield select(selectors.wallet.getWalletContext)
       const context = yield select(S.getContext)
       const convertedAddress = convertFromCashAddrIfCashAddr(address)
-      // TODO: wire in API
       const data = yield call(api.fetchBsvData, context, {
         n: TX_PER_PAGE,
         onlyShow: convertedAddress || walletContext.join('|'),
