@@ -32,7 +32,7 @@ export default ({ api, networks }) => {
     )
   }
 
-  const createBch = function*(kv, hdAccounts, bsvAccounts) {
+  const createBsv = function*(kv, hdAccounts, bsvAccounts) {
     const createAccountEntry = x => ({
       label: `My Bitcoin SV Wallet${x > 0 ? ` ${x + 1}` : ''}`,
       archived: pathOr(false, [x, 'archived'], hdAccounts)
@@ -65,7 +65,7 @@ export default ({ api, networks }) => {
         isEmpty(newKv.value) ||
         gt(length(hdAccounts), length(bsvAccounts))
       ) {
-        return yield call(createBch, newKv, hdAccounts, bsvAccounts)
+        return yield call(createBsv, newKv, hdAccounts, bsvAccounts)
       }
       yield put(A.fetchMetadataBsvSuccess(newKv))
     } catch (e) {

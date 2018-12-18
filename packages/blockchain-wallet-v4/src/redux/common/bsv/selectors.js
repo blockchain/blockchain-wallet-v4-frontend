@@ -25,12 +25,11 @@ import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
 import { getAccountsList, getBsvTxNote } from '../../kvStore/bsv/selectors'
-import { toCashAddr } from '../../../utils/bch'
+import { toCashAddr } from '../../../utils/bsv'
 import { isValidBitcoinAddress } from '../../../utils/btc'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
 
-// TODO?
-const transformTx = transactions.bch.transformTx
+const transformTx = transactions.bsv.transformTx
 
 // getActiveHDAccounts :: state -> Remote ([hdacountsWithInfo])
 export const getActiveHDAccounts = state => {
@@ -127,7 +126,6 @@ export const getAccountsInfo = state => {
   return accountsR.map(map(digest))
 }
 
-// TODO??
 export const getAddressesInfo = state => {
   const legacyAddresses = compose(
     values,
@@ -188,11 +186,11 @@ export const getWalletTransactions = state => {
   // Remote(blockHeight)
   const blockHeightR = getHeight(state)
   // Remote(lockboxXpubs)
-  const accountListR = [] // getLockboxBchAccounts(state).map(HDAccountList.fromJS)
+  const accountListR = Remote.of([])
   // [Remote([tx])] == [Page] == Pages
   const getDescription = hash => getBsvTxNote(state, hash).getOrElse('')
   const pages = getTransactions(state)
-  const getPartnerLabel = hash => false // getShapeshiftTxHashMatch(state, hash)
+  const getPartnerLabel = hash => false
   // transformTx :: wallet -> blockHeight -> Tx
   // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
 

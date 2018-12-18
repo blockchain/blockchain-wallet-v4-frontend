@@ -3,10 +3,12 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { filter, take } from 'ramda'
 
+import { LinkContainer } from 'react-router-bootstrap'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 import {
   Banner,
+  Link,
   Table,
   TableHeader,
   TableCell,
@@ -36,9 +38,17 @@ const LabelCell = styled(Text)`
   margin-right: 6px;
 `
 
+const ClickableText = styled(Text)`
+  margin-right: 8px;
+  color: ${props => props.theme['brand-secondary']};
+  :hover {
+    cursor: pointer;
+  }
+`
+
 const Success = props => {
   const { accounts, wallets, defaultIndex } = props.data
-  const { search } = props
+  const { search, onSendBsv } = props
 
   const isMatch = wallet =>
     !search || wallet.label.toLowerCase().indexOf(search) > -1
@@ -111,7 +121,22 @@ const Success = props => {
               <TableCell
                 width='20%'
                 style={{ display: 'flex', justifyContent: 'flex-end' }}
-              />
+              >
+                <ClickableText weight={400} size='13px' onClick={onSendBsv}>
+                  <FormattedMessage
+                    id='scenes.settings.addresses.bsv.wallets.send'
+                    defaultMessage='Send'
+                  />
+                </ClickableText>
+                <LinkContainer to={'/swap'}>
+                  <Link weight={400} size='13px'>
+                    <FormattedMessage
+                      id='scenes.settings.addresses.bsv.wallets.swap'
+                      defaultMessage='Swap'
+                    />
+                  </Link>
+                </LinkContainer>
+              </TableCell>
             </TableRow>
           )
         })}

@@ -4,8 +4,11 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
-import { TX_PER_PAGE, BSV_FORK_TIME } from '../../../utils/bsv'
-import { convertFromCashAddrIfCashAddr } from '../../../utils/bch'
+import {
+  TX_PER_PAGE,
+  BSV_FORK_TIME,
+  convertFromCashAddrIfCashAddr
+} from '../../../utils/bsv'
 
 export default ({ api }) => {
   const fetchData = function*() {
@@ -13,12 +16,12 @@ export default ({ api }) => {
       yield put(A.fetchDataLoading())
       const context = yield select(S.getContext)
       const data = yield call(api.fetchBsvData, context, { n: 1 })
-      const bchData = {
+      const bsvData = {
         addresses: indexBy(prop('address'), prop('addresses', data)),
         info: path(['wallet'], data),
         latest_block: path(['info', 'latest_block'], data)
       }
-      yield put(A.fetchDataSuccess(bchData))
+      yield put(A.fetchDataSuccess(bsvData))
     } catch (e) {
       yield put(A.fetchDataFailure(e.message))
     }

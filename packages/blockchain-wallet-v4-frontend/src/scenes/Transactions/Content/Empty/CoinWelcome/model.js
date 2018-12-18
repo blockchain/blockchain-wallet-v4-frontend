@@ -10,6 +10,11 @@ export const coinProps = {
     icon: 'bch-circle',
     request: 'RequestBch'
   },
+  BSV: {
+    name: 'Bitcoin SV',
+    icon: 'bch-circle',
+    request: 'TODO'
+  },
   ETH: {
     name: 'Ethereum',
     icon: 'eth-circle',

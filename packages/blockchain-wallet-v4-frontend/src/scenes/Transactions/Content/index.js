@@ -59,6 +59,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           dispatch
         )
       }
+    case 'BSV':
+      return {
+        dataActions: bindActionCreators(actions.core.data.bsv, dispatch),
+        txActions: bindActionCreators(
+          actions.components.bsvTransactions,
+          dispatch
+        )
+      }
     case 'ETH':
       return {
         dataActions: bindActionCreators(actions.core.data.ethereum, dispatch),

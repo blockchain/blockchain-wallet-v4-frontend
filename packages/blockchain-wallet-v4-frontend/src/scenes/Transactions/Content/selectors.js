@@ -52,6 +52,7 @@ const coinSelectorMap = {
   ETH: selectors.core.common.eth.getWalletTransactions,
   BTC: selectors.core.common.btc.getWalletTransactions,
   BCH: selectors.core.common.bch.getWalletTransactions,
+  BSV: selectors.core.common.bsv.getWalletTransactions,
   XLM: selectors.core.common.xlm.getWalletTransactions
 }
 

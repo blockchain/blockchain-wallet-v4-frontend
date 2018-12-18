@@ -13,7 +13,9 @@ class BsvWalletsContainer extends React.Component {
     return !Remote.Loading.is(nextProps.data)
   }
 
-  onSendBsv = account => {}
+  onSendBsv = account => {
+    // window.alert('SEND BSV')
+  }
 
   onSwapBsv = account => {}
 
@@ -21,14 +23,16 @@ class BsvWalletsContainer extends React.Component {
     const { data, search } = this.props
 
     return data.cata({
-      Success: value => (
-        <Wallets
-          search={search && search.toLowerCase()}
-          data={value}
-          onSendBsv={this.onSendBsv}
-          onSwapBsv={this.onSwapBsv}
-        />
-      ),
+      Success: value => {
+        return (
+          <Wallets
+            search={search && search.toLowerCase()}
+            data={value}
+            onSendBsv={this.onSendBsv}
+            onSwapBsv={this.onSwapBsv}
+          />
+        )
+      },
       Failure: () => <div />,
       Loading: () => <div />,
       NotAsked: () => <div />

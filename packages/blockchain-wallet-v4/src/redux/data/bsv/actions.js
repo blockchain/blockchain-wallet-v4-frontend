@@ -1,6 +1,5 @@
 import * as AT from './actionTypes'
 
-// TODO: Do we need BSV latest block info?
 export const setBSVLatestBlock = (block_index, hash, height, time) => ({
   type: AT.SET_BSV_LATEST_BLOCK,
   payload: { block_index, hash, height, time }

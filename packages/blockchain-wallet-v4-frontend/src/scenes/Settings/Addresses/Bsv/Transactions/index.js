@@ -67,7 +67,7 @@ class BsvTransactionsContainer extends React.Component {
               </Text>
             </TableCell>
           </TableHeader>
-          <TransactionList coin='BCH' />
+          <TransactionList coin='BSV' />
         </Table>
       </Wrapper>
     )
