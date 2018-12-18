@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { head, path, propEq, toLower } from 'ramda'
+import { all, head, path, propEq, toLower } from 'ramda'
 import { connect } from 'react-redux'
 
 import { actions } from 'data'
@@ -24,6 +24,11 @@ const Wrapper = styled.div`
   width: 375px;
   &.column {
     width: 260px;
+  }
+  &.rejected {
+    filter: grayscale(100%);
+    box-shadow: none;
+    opacity: 0.9;
   }
   ${media.laptop`
     width: 100%;
@@ -109,9 +114,14 @@ export const TierCard = ({
     )
   const tierLimit = limits[path([tier, 'limit'], TIERS)]
   const tierStatus = status(tier, userTiers, path([tier, 'time'], TIERS))
+  const isRejected = all(propEq('state', 'rejected'), userTiers)
+
+  let className = ''
+  if (column) className += ' column'
+  if (isRejected) className += ' rejected'
 
   return (
-    <Wrapper className={column ? 'column' : ''}>
+    <Wrapper className={className}>
       {tier === 2 && (
         <Announcement uppercase weight={500} size='16px' color='white'>
           <FormattedMessage

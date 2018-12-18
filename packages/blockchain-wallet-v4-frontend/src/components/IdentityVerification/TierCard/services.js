@@ -128,16 +128,16 @@ export const status = (tier, userTiers, time) => {
             </Text>
           )
         }
-      }
-      if (propEq('state', 'verified', nextTier)) {
-        return (
-          <Text size='14px' color='success'>
-            <FormattedMessage
-              id='components.identityverification.tiercard.verified'
-              defaultMessage='Approved!'
-            />
-          </Text>
-        )
+        if (propEq('state', 'verified', nextTier)) {
+          return (
+            <Text size='14px' color='success'>
+              <FormattedMessage
+                id='components.identityverification.tiercard.verified'
+                defaultMessage='Approved!'
+              />
+            </Text>
+          )
+        }
       }
       return (
         <Text size='14px' color='error'>

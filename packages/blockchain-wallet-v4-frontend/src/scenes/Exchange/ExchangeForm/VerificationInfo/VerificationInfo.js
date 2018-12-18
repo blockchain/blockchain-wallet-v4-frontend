@@ -33,7 +33,13 @@ const VerificationInfo = ({ showNotification }) => {
 
   return (
     <InfoRow>
-      <InfoImage name='failed-kyc' />
+      <InfoImage
+        name='failed-kyc'
+        srcset={{
+          'failed-kyc2': '2x',
+          'failed-kyc3': '3x'
+        }}
+      />
       <ExchangeText>
         <FormattedMessage
           id='scenes.exchange.exchangeform.verification_info.notificatoin'
