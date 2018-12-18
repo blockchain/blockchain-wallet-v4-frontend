@@ -31,7 +31,7 @@ export default ({ api, coreSagas }) => {
       yield call(api.syncVeriff, applicantId)
       yield call(fetchUser)
       yield put(actions.modals.closeAllModals())
-      yield put(actions.router.push('/exchange'))
+      yield put(actions.router.push('/swap'))
       yield put(actions.analytics.logKycEvent(COMPLETE))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'syncVeriff', e))

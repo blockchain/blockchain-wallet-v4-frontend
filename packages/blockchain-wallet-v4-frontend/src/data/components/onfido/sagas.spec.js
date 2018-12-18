@@ -25,7 +25,7 @@ describe('syncOnfido', () => {
       .put(A.syncOnfidoSuccess())
       .put(actions.modules.profile.fetchUser())
       .put(actions.modals.closeAllModals())
-      .put(actions.router.push('/exchange'))
+      .put(actions.router.push('/swap'))
       .put(actions.analytics.logKycEvent(COMPLETE))
       .run()
   })
