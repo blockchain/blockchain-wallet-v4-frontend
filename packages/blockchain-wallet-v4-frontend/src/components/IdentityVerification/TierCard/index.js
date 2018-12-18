@@ -51,6 +51,9 @@ const Header = styled(Text)`
   align-items: center
   letter-spacing: 2px;
   width: 50%;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 4px;
   ${Wrapper}.column & {
     width: 100%;
     justify-content: center;
@@ -123,7 +126,7 @@ export const TierCard = ({
   return (
     <Wrapper className={className}>
       {tier === 2 && (
-        <Announcement uppercase weight={500} size='16px' color='white'>
+        <Announcement uppercase weight={500} size='18px' color='white'>
           <FormattedMessage
             id='components.identityverification.tiercard.getfreecrypto'
             defaultMessage='Get Free Crypto'
@@ -131,7 +134,7 @@ export const TierCard = ({
         </Announcement>
       )}
       <Container>
-        <Header size='16px' weight={400} color='marketing-primary' uppercase>
+        <Header color='marketing-primary' uppercase>
           <FormattedMessage
             id='components.identityverification.tiercard.tierheader'
             defaultMessage='Tier {tier} Verification'
@@ -141,7 +144,7 @@ export const TierCard = ({
         <Content>
           <Row>
             <Column>
-              <Text size='28px' color='marketing-secondary'>
+              <Text size='32px' color='marketing-secondary'>
                 {symbol}
               </Text>
               <Text size='14px' color='textBlack' style={{ marginTop: '8px' }}>

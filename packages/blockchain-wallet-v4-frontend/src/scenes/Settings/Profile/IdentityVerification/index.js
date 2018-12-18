@@ -42,7 +42,7 @@ const Column = styled.div`
 `
 const Row = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
@@ -57,7 +57,7 @@ const Row = styled.div`
     flex-direction: row;
     min-height: 100%;
     width: ${props => props.width || '100%'};
-    margin-bottom: ${props => props.marginBottom || 'none'};
+    margin-bottom: 'none';
   }
 `
 
@@ -71,7 +71,11 @@ const SwapText = styled(Text)`
 const TierWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  > div:last-child {
+  margin: 16px;
+  ${media.mobile`
+    margin: 16px 0;
+  `};
+  > div:not(:first-child) {
     height: 24px;
     margin-top: 14px;
     margin-left: 4px;
@@ -82,6 +86,9 @@ const TierWrapper = styled.div`
 `
 const LearnMoreContainer = styled.div`
   margin-top: 40px;
+  ${media.mobile`
+    margin-top: 10px;
+  `};
 `
 
 const IdentityVerification = () => {
@@ -120,9 +127,9 @@ const IdentityVerification = () => {
         </Row>
         <Row width='60%'>
           <Column>
-            <TierCard tier={1} />
-            <br />
-            <br />
+            <TierWrapper>
+              <TierCard tier={1} />
+            </TierWrapper>
             <TierWrapper>
               <TierCard tier={2} />
               <TooltipHost id='swaplimit.airdrops.tooltip' data-place='right'>
