@@ -26,7 +26,7 @@ const Wrapper = styled.div`
 
 export const Menu = ({ userTiers }) => {
   const isRejected = all(propEq('state', 'rejected'), userTiers)
-  return isRejected ? (
+  return !isRejected ? null : (
     <Wrapper>
       <TabMenu>
         <Image
@@ -45,8 +45,6 @@ export const Menu = ({ userTiers }) => {
         </Text>
       </TabMenu>
     </Wrapper>
-  ) : (
-    <div />
   )
 }
 
