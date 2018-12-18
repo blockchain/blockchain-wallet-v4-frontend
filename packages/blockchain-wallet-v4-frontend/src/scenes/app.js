@@ -103,7 +103,7 @@ class App extends React.PureComponent {
                       component={ExchangeHistory}
                     />
                     <WalletLayout
-                      path='/swap/account'
+                      path='/swap/profile'
                       component={ExchangeProfile}
                     />
                     <WalletLayout path='/swap' component={Exchange} exact />
@@ -116,7 +116,7 @@ class App extends React.PureComponent {
                       component={Preferences}
                     />
                     <WalletLayout
-                      path='/settings/account'
+                      path='/settings/profile'
                       component={Profile}
                     />
                     <WalletLayout
