@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
+import { path, prop, propEq, or } from 'ramda'
 
 export const messages = {
   EMAIL: (
@@ -88,7 +89,9 @@ export const limits = {
   )
 }
 
-export const status = (state, time) => {
+export const status = (tier, userTiers, time) => {
+  const state = path([tier - 1, 'state'], userTiers)
+  const nextTier = prop(tier, userTiers)
   switch (state) {
     case 'verified':
       return (
@@ -109,6 +112,33 @@ export const status = (state, time) => {
         </Text>
       )
     case 'rejected':
+      if (nextTier) {
+        if (
+          or(
+            propEq('state', 'none', nextTier),
+            propEq('state', 'pending', nextTier)
+          )
+        ) {
+          return (
+            <Text size='14px' color='btc'>
+              <FormattedMessage
+                id='components.identityverification.tiercard.pending'
+                defaultMessage='In Review'
+              />
+            </Text>
+          )
+        }
+      }
+      if (propEq('state', 'verified', nextTier)) {
+        return (
+          <Text size='14px' color='success'>
+            <FormattedMessage
+              id='components.identityverification.tiercard.verified'
+              defaultMessage='Approved!'
+            />
+          </Text>
+        )
+      }
       return (
         <Text size='14px' color='error'>
           <FormattedMessage

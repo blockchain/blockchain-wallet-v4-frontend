@@ -101,6 +101,15 @@ export const TierCard = ({
 }) => {
   const { verifyIdentity, column, tier } = rest
   const tierData = head(userTiers.filter(propEq('index', tier)))
+  const symbol =
+    Exchange.getSymbol(tierData.limits.currency) +
+    Currency.formatFiat(
+      tierData.limits[toLower(path([tier, 'limit'], TIERS))],
+      0
+    )
+  const tierLimit = limits[path([tier, 'limit'], TIERS)]
+  const tierStatus = status(tier, userTiers, path([tier, 'time'], TIERS))
+
   return (
     <Wrapper className={column ? 'column' : ''}>
       {tier === 2 && (
@@ -123,17 +132,13 @@ export const TierCard = ({
           <Row>
             <Column>
               <Text size='28px' color='marketing-secondary'>
-                {Exchange.getSymbol(tierData.limits.currency) +
-                  Currency.formatFiat(
-                    tierData.limits[toLower(path([tier, 'limit'], TIERS))],
-                    0
-                  )}
+                {symbol}
               </Text>
               <Text size='14px' color='textBlack' style={{ marginTop: '8px' }}>
-                {limits[path([tier, 'limit'], TIERS)]}
+                {tierLimit}
               </Text>
               <Text size='14px' color='gray-3' style={{ marginTop: '7px' }}>
-                {status(tierData.state, path([tier, 'time'], TIERS))}
+                {tierStatus}
               </Text>
             </Column>
             <Column>
