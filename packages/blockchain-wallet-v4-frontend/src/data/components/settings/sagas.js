@@ -6,7 +6,16 @@ import * as selectors from '../../selectors'
 export default ({ coreSagas }) => {
   const logLocation = 'components/settings/sagas'
 
-  const notificationsInitialized = function*(action) {
+  const initializeBsv = function*() {
+    try {
+      yield call(coreSagas.kvStore.bsv.fetchMetadataBsv)
+      yield call(coreSagas.data.bsv.fetchData)
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'initializeBsv', e))
+    }
+  }
+
+  const notificationsInitialized = function*() {
     try {
       const typesR = yield select(selectors.core.settings.getNotificationsType)
       const types = typesR.getOrElse([])
@@ -44,6 +53,7 @@ export default ({ coreSagas }) => {
   }
 
   return {
+    initializeBsv,
     notificationsInitialized,
     notificationsFormChanged
   }

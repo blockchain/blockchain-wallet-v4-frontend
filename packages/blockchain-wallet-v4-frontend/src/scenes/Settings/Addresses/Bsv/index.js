@@ -14,11 +14,7 @@ const Wrapper = styled.div`
 `
 class BsvContainer extends React.PureComponent {
   componentDidMount () {
-    // TODO
-    this.props.bsvKvStore.fetchMetadataBsv()
-    setTimeout(() => {
-      this.props.bsv.fetchData()
-    }, 5000)
+    this.props.settings.initializeBsv()
   }
 
   render () {
@@ -32,8 +28,7 @@ class BsvContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  bsvKvStore: bindActionCreators(actions.core.kvStore.bsv, dispatch),
-  bsv: bindActionCreators(actions.core.data.bsv, dispatch)
+  settings: bindActionCreators(actions.components.settings, dispatch)
 })
 
 export default connect(
