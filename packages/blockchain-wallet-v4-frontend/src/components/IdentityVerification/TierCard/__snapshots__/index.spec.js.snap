@@ -2,7 +2,7 @@
 
 exports[`TierCard renders correctly with column view 1`] = `
 <TierCard__Wrapper
-  className="column"
+  className=" column"
 >
   <TierCard__Announcement
     color="white"
