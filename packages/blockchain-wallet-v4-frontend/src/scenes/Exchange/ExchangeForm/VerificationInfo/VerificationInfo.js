@@ -2,7 +2,6 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { LinkContainer } from 'react-router-bootstrap'
 
 import { getData } from './selectors'
 import { Icon, Image, Link } from 'blockchain-info-components'
@@ -46,17 +45,18 @@ const VerificationInfo = ({ showNotification }) => {
           defaultMessage='We had trouble approving your identity. Your Swap feature has been disabled at this time.'
         />
         &nbsp;
-        <LinkContainer to='/swap/profile'>
-          <InfoLink>
-            <ExchangeText color='brand-secondary'>
-              <FormattedMessage
-                id='scenes.exchange.exchangeform.limit_info.learn_more'
-                defaultMessage='Learn more'
-              />
-              <InfoIcon name='down-arrow-filled' color='brand-secondary' />
-            </ExchangeText>
-          </InfoLink>
-        </LinkContainer>
+        <InfoLink
+          href='https://support.blockchain.com/hc/en-us/articles/360018080352-Why-has-my-ID-submission-been-rejected-'
+          target='_blank'
+        >
+          <ExchangeText color='brand-secondary'>
+            <FormattedMessage
+              id='scenes.exchange.exchangeform.limit_info.learn_more'
+              defaultMessage='Learn more'
+            />
+            <InfoIcon name='down-arrow-filled' color='brand-secondary' />
+          </ExchangeText>
+        </InfoLink>
       </ExchangeText>
     </InfoRow>
   )
