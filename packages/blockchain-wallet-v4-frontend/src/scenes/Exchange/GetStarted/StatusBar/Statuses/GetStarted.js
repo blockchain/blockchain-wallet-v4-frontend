@@ -10,7 +10,7 @@ const ActionButton = styled(Button).attrs({ nature: 'primary' })`
 `
 
 export const GetStarted = () => (
-  <LinkContainer to='/swap/account'>
+  <LinkContainer to='/swap/profile'>
     <ActionButton>
       <FormattedMessage
         id='scenes.exchange.getstarted.status.getstarted.button'
