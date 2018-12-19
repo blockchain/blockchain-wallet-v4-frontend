@@ -119,6 +119,8 @@ export const TierCard = ({
   const tierStatus = status(tier, userTiers, path([tier, 'time'], TIERS))
   const isRejected = all(propEq('state', 'rejected'), userTiers)
 
+  const tierStarted = path(['tiers', 'selected'], userData) >= tier
+
   let className = ''
   if (column) className += ' column'
   if (isRejected) className += ' rejected'
@@ -183,10 +185,17 @@ export const TierCard = ({
             nature='primary'
             onClick={verifyIdentity}
           >
-            <FormattedMessage
-              id='components.identityverification.tiercard.getstarted'
-              defaultMessage='Get Started'
-            />
+            {tierStarted ? (
+              <FormattedMessage
+                id='components.identityverification.tiercard.continue'
+                defaultMessage='Continue'
+              />
+            ) : (
+              <FormattedMessage
+                id='components.identityverification.tiercard.getstarted'
+                defaultMessage='Get Started'
+              />
+            )}
           </ActionButton>
         )}
       </Container>
