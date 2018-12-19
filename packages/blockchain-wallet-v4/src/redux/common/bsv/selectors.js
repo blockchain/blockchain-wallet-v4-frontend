@@ -67,7 +67,6 @@ export const getActiveAddresses = state => {
     balancesRD
       .map(prop(prop('addr', address)))
       .map(x => assoc('info', x, address))
-  // TODO??
   const convertToCashAddr = address =>
     assoc('addr', toCashAddr(address.addr, true), address)
 

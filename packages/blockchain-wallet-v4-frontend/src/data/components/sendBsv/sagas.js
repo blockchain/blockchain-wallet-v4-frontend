@@ -18,26 +18,26 @@ import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 export const logLocation = 'components/sendBsv/sagas'
-export const bchDefaultFee = 4
+export const bsvDefaultFee = 4
 
 export default ({ coreSagas }) => {
   const initialized = function*() {
     try {
       yield put(A.sendBsvPaymentUpdated(Remote.Loading))
-      let payment = coreSagas.payment.bch.create({
+      let payment = coreSagas.payment.bsv.create({
         network: settings.NETWORK_BSV
       })
       payment = yield payment.init()
       const accountsR = yield select(
-        selectors.core.common.bch.getAccountsBalances
+        selectors.core.common.bsv.getAccountsBalances
       )
       const defaultIndexR = yield select(
-        selectors.core.kvStore.bch.getDefaultAccountIndex
+        selectors.core.kvStore.bsv.getDefaultAccountIndex
       )
       const defaultIndex = defaultIndexR.getOrElse(0)
       const defaultAccountR = accountsR.map(nth(defaultIndex))
       payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
-      payment = yield payment.fee(bchDefaultFee)
+      payment = yield payment.fee(bsvDefaultFee)
       const initialValues = {
         coin: 'BSV',
         from: defaultAccountR.getOrElse()
@@ -59,7 +59,7 @@ export default ({ coreSagas }) => {
     try {
       let p = yield select(S.getPayment)
       yield put(A.sendBsvPaymentUpdated(Remote.Loading))
-      let payment = coreSagas.payment.bch.create({
+      let payment = coreSagas.payment.bsv.create({
         payment: p.getOrElse({}),
         network: settings.NETWORK_BSV
       })
@@ -80,7 +80,7 @@ export default ({ coreSagas }) => {
       if (!equals(FORM, form)) return
 
       let p = yield select(S.getPayment)
-      let payment = coreSagas.payment.bch.create({
+      let payment = coreSagas.payment.bsv.create({
         payment: p.getOrElse({}),
         network: settings.NETWORK_BSV
       })
@@ -137,9 +137,9 @@ export default ({ coreSagas }) => {
           }
           break
         case 'amount':
-          const bchAmount = prop('coin', payload)
+          const bsvAmount = prop('coin', payload)
           const satAmount = Exchange.convertBsvToBsv({
-            value: bchAmount,
+            value: bsvAmount,
             fromUnit: 'BSV',
             toUnit: 'SAT'
           }).value
@@ -172,7 +172,7 @@ export default ({ coreSagas }) => {
       const currency = selectors.core.settings
         .getCurrency(appState)
         .getOrFail('Can not retrieve currency.')
-      const bchRates = selectors.core.data.bch
+      const bsvRates = selectors.core.data.bsv
         .getRates(appState)
         .getOrFail('Can not retrieve bitcoin cash rates.')
       const p = yield select(S.getPayment)
@@ -187,7 +187,7 @@ export default ({ coreSagas }) => {
         value: effectiveBalance,
         fromUnit: 'SAT',
         toCurrency: currency,
-        rates: bchRates
+        rates: bsvRates
       }).value
       yield put(change(FORM, 'amount', { coin, fiat }))
     } catch (e) {
@@ -200,7 +200,7 @@ export default ({ coreSagas }) => {
   const secondStepSubmitClicked = function*() {
     yield put(startSubmit(FORM))
     let p = yield select(S.getPayment)
-    let payment = coreSagas.payment.bch.create({
+    let payment = coreSagas.payment.bsv.create({
       payment: p.getOrElse({}),
       network: settings.NETWORK_BSV
     })
@@ -210,12 +210,12 @@ export default ({ coreSagas }) => {
       payment = yield payment.sign(password)
       // Publish payment
       payment = yield payment.publish()
-      yield put(actions.core.data.bch.fetchData())
+      yield put(actions.core.data.bsv.fetchData())
       yield put(A.sendBsvPaymentUpdated(Remote.of(payment.value())))
       // Set tx note
       if (path(['description', 'length'], payment.value())) {
         yield put(
-          actions.core.kvStore.bch.setTxNotesBsv(
+          actions.core.kvStore.bsv.setTxNotesBsv(
             payment.value().txId,
             payment.value().description
           )
