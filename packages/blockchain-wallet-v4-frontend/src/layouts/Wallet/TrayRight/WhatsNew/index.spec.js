@@ -9,6 +9,7 @@ import EmptyContent from 'services/WhatsNewService/WhatsNewContent/EmptyContent'
 import layoutWalletReducer from 'data/components/layoutWallet/reducers'
 import WhatsNew, { Wrapper } from './index'
 import { getLastViewed } from 'blockchain-wallet-v4/src/redux/kvStore/whatsNew/selectors'
+import { getCountryCode } from 'blockchain-wallet-v4/src/redux/settings/selectors'
 import { getUserKYCState } from 'data/modules/profile/selectors'
 import { KYC_STATES } from 'data/modules/profile/model'
 const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
@@ -16,9 +17,11 @@ const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 jest.useFakeTimers()
 
 jest.mock('blockchain-wallet-v4/src/redux/kvStore/whatsNew/selectors')
+jest.mock('blockchain-wallet-v4/src/redux/settings/selectors')
 jest.mock('data/modules/profile/selectors')
 
 getUserKYCState.mockImplementation(() => Remote.of(KYC_STATES.NONE))
+getCountryCode.mockImplementation(() => Remote.of('US'))
 
 describe('WhatsNew', () => {
   beforeEach(() => {
