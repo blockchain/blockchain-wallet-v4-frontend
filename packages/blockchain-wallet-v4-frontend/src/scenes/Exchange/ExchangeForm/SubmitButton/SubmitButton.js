@@ -8,7 +8,7 @@ import { Row } from '../Layout'
 import { Button, HeartbeatLoader } from 'blockchain-info-components'
 
 const ButtonRow = styled(Row)`
-  padding: 23px 32px;
+  padding: 0px 32px 23px 32px;
 `
 const BigButton = styled(Button)`
   height: 72px;
@@ -16,11 +16,12 @@ const BigButton = styled(Button)`
   font-size: 17px;
   font-weight: 400;
   transition: box-shadow 0.3s;
-  &:hover {
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.21);
-    &:disabled {
-      box-shadow: none;
-    }
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.21);
+  &:disabled {
+    box-shadow: none;
+  }
+  &:active {
+    box-shadow: none;
   }
 `
 

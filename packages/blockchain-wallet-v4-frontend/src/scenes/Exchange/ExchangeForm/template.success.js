@@ -104,6 +104,7 @@ const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))`
     text-align: center;
     font-family: Montserrat;
     color: ${props => props.theme['gray-5']};
+    background-color: ${props => props.theme['white']};
   }
 `
 const CoinFiatSwapIcon = styled(Icon)`

@@ -26,6 +26,7 @@ import {
   ExchangeResults,
   IdentityVerification,
   SwapGetStarted,
+  SwapUpgrade,
   UserExists,
   SunRiverLinkError
 } from './Exchange'
@@ -113,6 +114,7 @@ const Modals = props => (
     <SfoxEnterMicroDeposits />
     <SunRiverLinkError />
     <SwapGetStarted />
+    <SwapUpgrade />
     <TransactionReport />
     <TransferEth />
     <TwoStepGoogleAuthenticator />

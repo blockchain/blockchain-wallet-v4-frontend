@@ -138,6 +138,7 @@ export default ({ api, coreSagas }) => {
       yield fork(transferEthSaga)
       yield fork(reportStats, mobileLogin)
       yield put(actions.goals.saveGoal('welcome', { firstLogin }))
+      yield put(actions.goals.saveGoal('swapUpgrade'))
       yield put(actions.goals.saveGoal('kyc'))
       yield put(actions.goals.runGoals())
       yield fork(checkDataErrors)

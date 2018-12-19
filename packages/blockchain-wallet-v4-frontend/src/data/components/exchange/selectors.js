@@ -22,7 +22,7 @@ import { getTargetCoinsPairedToSource, getAvailableSourceCoins } from './model'
 
 export const canUseExchange = state =>
   selectors.modules.profile
-    .getTiers(state)
+    .getUserTiers(state)
     .map(
       compose(
         lt(0),
