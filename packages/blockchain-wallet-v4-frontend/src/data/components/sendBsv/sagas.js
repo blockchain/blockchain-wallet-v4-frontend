@@ -1,6 +1,5 @@
 import { call, select, put } from 'redux-saga/effects'
 import { equals, path, prop, nth, is, identity } from 'ramda'
-import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
 import { FORM } from './model'
@@ -14,8 +13,7 @@ import {
   destroy
 } from 'redux-form'
 import * as C from 'services/AlertService'
-import * as Lockbox from 'services/LockboxService'
-import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
+import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
@@ -123,9 +121,6 @@ export default ({ coreSagas }) => {
             case ADDRESS_TYPES.ACCOUNT:
               payment = yield payment.from(payload.index, fromType)
               break
-            case ADDRESS_TYPES.LOCKBOX:
-              payment = yield payment.from(payload.xpub, fromType)
-              break
             default:
               payment = yield payment.from(payload.address, fromType)
           }
@@ -135,9 +130,6 @@ export default ({ coreSagas }) => {
           switch (toType) {
             case ADDRESS_TYPES.ACCOUNT:
               payment = yield payment.to(payload.index, toType)
-              break
-            case ADDRESS_TYPES.LOCKBOX:
-              payment = yield payment.to(payload.xpub, toType)
               break
             default:
               const address = prop('address', payload) || payload
@@ -212,30 +204,10 @@ export default ({ coreSagas }) => {
       payment: p.getOrElse({}),
       network: settings.NETWORK_BSV
     })
-    const fromType = path(['fromType'], payment.value())
     try {
       // Sign payment
-      if (fromType !== ADDRESS_TYPES.LOCKBOX) {
-        let password = yield call(promptForSecondPassword)
-        payment = yield payment.sign(password)
-      } else {
-        const deviceR = yield select(
-          selectors.core.kvStore.lockbox.getDeviceFromBsvXpubs,
-          prop('from', p.getOrElse({}))
-        )
-        const device = deviceR.getOrFail('missing_device')
-        const deviceType = prop('device_type', device)
-        const outputs = path(['selection', 'outputs'], payment.value())
-          .filter(o => !o.change)
-          .map(prop('address'))
-        yield call(promptForLockbox, 'BSV', deviceType, outputs)
-        let connection = yield select(
-          selectors.components.lockbox.getCurrentConnection
-        )
-        const transport = prop('transport', connection)
-        const scrambleKey = Lockbox.utils.getScrambleKey('BSV', deviceType)
-        payment = yield payment.sign(null, transport, scrambleKey)
-      }
+      let password = yield call(promptForSecondPassword)
+      payment = yield payment.sign(password)
       // Publish payment
       payment = yield payment.publish()
       yield put(actions.core.data.bch.fetchData())
@@ -250,38 +222,18 @@ export default ({ coreSagas }) => {
         )
       }
       // Redirect to tx list, display success
-      if (fromType === ADDRESS_TYPES.LOCKBOX) {
-        yield put(actions.components.lockbox.setConnectionSuccess())
-        yield delay(4000)
-        const fromXPubs = path(['from'], payment.value())
-        const device = (yield select(
-          selectors.core.kvStore.lockbox.getDeviceFromBsvXpubs,
-          fromXPubs
-        )).getOrFail('missing_device')
-        const deviceIndex = prop('device_index', device)
-        yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
-      } else {
-        yield put(actions.router.push('/bch/transactions'))
-        yield put(actions.alerts.displaySuccess(C.SEND_BSV_SUCCESS))
-      }
+      yield put(actions.router.push('/settings/addresses/bsv'))
+      yield put(actions.alerts.displaySuccess(C.SEND_BSV_SUCCESS))
       yield put(destroy(FORM))
       // Close modals
       yield put(actions.modals.closeAllModals())
     } catch (e) {
       yield put(stopSubmit(FORM))
       // Set errors
-      if (fromType === ADDRESS_TYPES.LOCKBOX) {
-        yield put(actions.components.lockbox.setConnectionError(e))
-      } else {
-        yield put(
-          actions.logs.logErrorMessage(
-            logLocation,
-            'secondStepSubmitClicked',
-            e
-          )
-        )
-        yield put(actions.alerts.displayError(C.SEND_BSV_ERROR))
-      }
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e)
+      )
+      yield put(actions.alerts.displayError(C.SEND_BSV_ERROR))
     }
   }
 

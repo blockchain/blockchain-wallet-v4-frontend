@@ -1,5 +1,6 @@
 import { selectors } from 'data'
 import { lift } from 'ramda'
+import { Remote } from 'blockchain-wallet-v4'
 
 export const getData = (state, ownProps) => {
   const currencyR = selectors.core.settings.getCurrency(state)
@@ -9,7 +10,6 @@ export const getData = (state, ownProps) => {
   const xlmRatesR = selectors.core.data.xlm.getRates(state)
   const bsvRatesR = selectors.core.data.bsv.getRates(state)
 
-  // TODO: error in bsvRates selector!
   const transform = (
     currency,
     btcRates,
@@ -18,7 +18,6 @@ export const getData = (state, ownProps) => {
     xlmRates,
     bsvRates
   ) => {
-    // console.info(currency, btcRates, ethRates, bchRates, xlmRates, bsvRates)
     return {
       unit: ownProps.coin,
       currency,
@@ -36,6 +35,6 @@ export const getData = (state, ownProps) => {
     ethRatesR,
     bchRatesR,
     xlmRatesR,
-    bsvRatesR
+    bsvRatesR.getOrElse(Remote.of({}))
   )
 }

@@ -1,19 +1,8 @@
 import Bitcoin from 'bitcoinjs-lib'
 import cashaddress from 'cashaddress'
-import { selectAll } from '../coinSelection'
-import { head, propOr } from 'ramda'
-import BigNumber from 'bignumber.js'
-// import * as Exchange from '../exchange'
 
 export const TX_PER_PAGE = 1000
 export const BSV_FORK_TIME = 1542300000
-
-export const calculateBalanceSatoshi = (coins, feePerByte) => {
-  const { outputs, fee } = selectAll(feePerByte, coins)
-  const effectiveBalance = propOr(0, 'value', head(outputs))
-  const balance = new BigNumber(effectiveBalance).add(new BigNumber(fee))
-  return { balance, fee, effectiveBalance }
-}
 
 const formatAddr = (address, displayOnly) => {
   return displayOnly ? address.split('bitcoincash:')[1] : address
