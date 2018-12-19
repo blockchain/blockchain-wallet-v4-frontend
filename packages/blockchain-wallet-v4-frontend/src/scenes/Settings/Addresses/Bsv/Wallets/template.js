@@ -127,7 +127,11 @@ const Success = props => {
                   flexBasis: '20%'
                 }}
               >
-                <ClickableText weight={400} size='13px' onClick={onSendBsv}>
+                <ClickableText
+                  weight={400}
+                  size='13px'
+                  onClick={() => onSendBsv(wallet)}
+                >
                   <FormattedMessage
                     id='scenes.settings.addresses.bsv.wallets.send'
                     defaultMessage='Send'

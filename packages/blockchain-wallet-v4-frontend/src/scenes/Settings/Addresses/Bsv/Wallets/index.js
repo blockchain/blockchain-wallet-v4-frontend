@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
 import { Remote } from 'blockchain-wallet-v4/src'
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { getData } from './selectors'
 import Wallets from './template'
 
@@ -13,8 +13,10 @@ class BsvWalletsContainer extends React.Component {
     return !Remote.Loading.is(nextProps.data)
   }
 
-  onSendBsv = account => {
-    // window.alert('SEND BSV')
+  onSendBsv = wallet => {
+    this.props.modalActions.showModal(model.components.sendBsv.MODAL, {
+      wallet
+    })
   }
 
   onSwapBsv = account => {}
@@ -46,7 +48,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  modalsActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(

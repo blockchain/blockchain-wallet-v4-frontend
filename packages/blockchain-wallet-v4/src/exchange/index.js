@@ -446,6 +446,7 @@ export {
   convertFiatToBch,
   convertBchToFiat,
   convertBchToBch,
+  convertBsvToBsv,
   convertFiatToXlm,
   convertXlmToFiat,
   convertXlmToXlm,

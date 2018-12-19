@@ -14,6 +14,7 @@ import {
   ShowBtcPrivateKey,
   VerifyMessage
 } from './Btc'
+import { SendBsv } from './Bsv'
 import {
   CoinifyDeleteBank,
   CoinifyExchangeData,
@@ -98,6 +99,7 @@ const Modals = props => (
     <SecondPassword />
     <SendBch />
     <SendBtc />
+    <SendBsv />
     <SendEth />
     <SendXlm />
     <ShowBtcPrivateKey />
