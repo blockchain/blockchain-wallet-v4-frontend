@@ -7,7 +7,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import { actions, model, selectors } from 'data'
 import SendBsv from './template'
 import FirstStep from './FirstStep'
-// import SecondStep from './SecondStep'
+import SecondStep from './SecondStep'
 
 class SendBsvContainer extends React.PureComponent {
   componentDidMount () {
@@ -23,7 +23,7 @@ class SendBsvContainer extends React.PureComponent {
     return (
       <SendBsv position={position} total={total} closeAll={closeAll}>
         {step === 1 && <FirstStep />}
-        {step === 2 && <FirstStep />}
+        {step === 2 && <SecondStep />}
       </SendBsv>
     )
   }

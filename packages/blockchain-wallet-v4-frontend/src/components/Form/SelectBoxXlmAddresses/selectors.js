@@ -8,7 +8,7 @@ export const getData = (state, ownProps) => {
     if (has('balance', wallet)) {
       let xlmDisplay = Exchange.displayXlmToXlm({
         value: wallet.balance,
-        fromUnit: 'SAT',
+        fromUnit: 'STROOP',
         toUnit: 'XLM'
       })
       return wallet.label + ` (${xlmDisplay})`
