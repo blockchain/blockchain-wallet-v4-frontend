@@ -85,3 +85,14 @@ export const getAuthCredentials = state => ({
 })
 
 export const getCampaign = pathOr(null, ['profile', 'campaign'])
+
+export const CLOSE_TO_AMOUNT = 0.8
+export const closeToTier1Limit = state =>
+  lift(
+    (userData, tiers) =>
+      path([0, 'state'], tiers) === TIERS_STATES.VERIFIED &&
+      path([1, 'state'], tiers) === TIERS_STATES.NONE &&
+      pathOr(0, [0, 'limits', 'annual'], tiers)[0].limits.annual *
+        CLOSE_TO_AMOUNT <
+        pathOr(0, ['limits', 'annual'], userData)
+  )(getUserData(state), getTiers(state))

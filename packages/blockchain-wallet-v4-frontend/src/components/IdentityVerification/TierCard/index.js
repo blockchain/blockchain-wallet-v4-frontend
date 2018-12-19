@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { head, path, propEq, toLower } from 'ramda'
+import { all, head, path, propEq, toLower } from 'ramda'
 import { connect } from 'react-redux'
 
 import { actions } from 'data'
@@ -25,6 +25,11 @@ const Wrapper = styled.div`
   &.column {
     width: 260px;
   }
+  &.rejected {
+    filter: grayscale(100%);
+    box-shadow: none;
+    opacity: 0.9;
+  }
   ${media.laptop`
     width: 100%;
     &.column {
@@ -46,6 +51,9 @@ const Header = styled(Text)`
   align-items: center
   letter-spacing: 2px;
   width: 50%;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 4px;
   ${Wrapper}.column & {
     width: 100%;
     justify-content: center;
@@ -101,10 +109,26 @@ export const TierCard = ({
 }) => {
   const { verifyIdentity, column, tier } = rest
   const tierData = head(userTiers.filter(propEq('index', tier)))
+  const symbol =
+    Exchange.getSymbol(tierData.limits.currency) +
+    Currency.formatFiat(
+      tierData.limits[toLower(path([tier, 'limit'], TIERS))],
+      0
+    )
+  const tierLimit = limits[path([tier, 'limit'], TIERS)]
+  const tierStatus = status(tier, userTiers, path([tier, 'time'], TIERS))
+  const isRejected = all(propEq('state', 'rejected'), userTiers)
+
+  const tierStarted = path(['tiers', 'selected'], userData) >= tier
+
+  let className = ''
+  if (column) className += ' column'
+  if (isRejected) className += ' rejected'
+
   return (
-    <Wrapper className={column ? 'column' : ''}>
+    <Wrapper className={className}>
       {tier === 2 && (
-        <Announcement uppercase weight={500} size='16px' color='white'>
+        <Announcement uppercase weight={500} size='18px' color='white'>
           <FormattedMessage
             id='components.identityverification.tiercard.getfreecrypto'
             defaultMessage='Get Free Crypto'
@@ -112,7 +136,7 @@ export const TierCard = ({
         </Announcement>
       )}
       <Container>
-        <Header size='16px' weight={400} color='marketing-primary' uppercase>
+        <Header color='marketing-primary' uppercase>
           <FormattedMessage
             id='components.identityverification.tiercard.tierheader'
             defaultMessage='Tier {tier} Verification'
@@ -122,18 +146,14 @@ export const TierCard = ({
         <Content>
           <Row>
             <Column>
-              <Text size='28px' color='marketing-secondary'>
-                {Exchange.getSymbol(tierData.limits.currency) +
-                  Currency.formatFiat(
-                    tierData.limits[toLower(path([tier, 'limit'], TIERS))],
-                    0
-                  )}
+              <Text size='32px' color='marketing-secondary'>
+                {symbol}
               </Text>
               <Text size='14px' color='textBlack' style={{ marginTop: '8px' }}>
-                {limits[path([tier, 'limit'], TIERS)]}
+                {tierLimit}
               </Text>
               <Text size='14px' color='gray-3' style={{ marginTop: '7px' }}>
-                {status(tierData.state, path([tier, 'time'], TIERS))}
+                {tierStatus}
               </Text>
             </Column>
             <Column>
@@ -165,10 +185,17 @@ export const TierCard = ({
             nature='primary'
             onClick={verifyIdentity}
           >
-            <FormattedMessage
-              id='components.identityverification.tiercard.getstarted'
-              defaultMessage='Get Started'
-            />
+            {tierStarted ? (
+              <FormattedMessage
+                id='components.identityverification.tiercard.continue'
+                defaultMessage='Continue'
+              />
+            ) : (
+              <FormattedMessage
+                id='components.identityverification.tiercard.getstarted'
+                defaultMessage='Get Started'
+              />
+            )}
           </ActionButton>
         )}
       </Container>

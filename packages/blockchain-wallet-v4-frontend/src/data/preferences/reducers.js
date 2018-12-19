@@ -16,6 +16,7 @@ const INITIAL_STATE = {
   showBackupReminder: true,
   showKycGetStarted: true,
   showSwapBanner: true,
+  showSwapUpgradeModal: true,
   totalBalancesDropdown: {
     wallet: true,
     lockbox: false,
@@ -66,6 +67,9 @@ const preferences = (state = INITIAL_STATE, action) => {
     }
     case AT.HIDE_SWAP_BANNER: {
       return assoc('showSwapBanner', false, state)
+    }
+    case AT.HIDE_SWAP_UPGRADE_MODAL: {
+      return assoc('showSwapUpgradeModal', false, state)
     }
     default:
       return state

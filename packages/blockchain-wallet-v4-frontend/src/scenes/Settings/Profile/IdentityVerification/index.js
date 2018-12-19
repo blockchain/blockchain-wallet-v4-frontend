@@ -42,7 +42,7 @@ const Column = styled.div`
 `
 const Row = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
@@ -57,7 +57,7 @@ const Row = styled.div`
     flex-direction: row;
     min-height: 100%;
     width: ${props => props.width || '100%'};
-    margin-bottom: ${props => props.marginBottom || 'none'};
+    margin-bottom: 'none';
   }
 `
 
@@ -71,7 +71,11 @@ const SwapText = styled(Text)`
 const TierWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  > div:last-child {
+  margin: 16px;
+  ${media.mobile`
+    margin: 16px 0;
+  `};
+  > div:not(:first-child) {
     height: 24px;
     margin-top: 14px;
     margin-left: 4px;
@@ -82,6 +86,9 @@ const TierWrapper = styled.div`
 `
 const LearnMoreContainer = styled.div`
   margin-top: 40px;
+  ${media.mobile`
+    margin-top: 10px;
+  `};
 `
 
 const IdentityVerification = () => {
@@ -96,7 +103,7 @@ const IdentityVerification = () => {
                 defaultMessage='Swap Limits'
               />
             </SwapText>
-            <SwapText>
+            <SwapText weight={300}>
               <FormattedMessage
                 id='scenes.profile.identityverification.swaplimit.explaination'
                 defaultMessage='Your Swap Limit is how much digital currency you can trade each day. This is all a security precaution for local compliance and fraud prevention.'
@@ -109,10 +116,10 @@ const IdentityVerification = () => {
                   defaultMessage='Want to learn more?'
                 />
               </SwapText>
-              <SwapText size='14px'>
+              <SwapText size='14px' weight={300}>
                 <FormattedHTMLMessage
                   id='scenes.profile.identityverification.swaplimit.learnmore'
-                  defaultMessage="We've put together an article explaining how Swap Limits works. <a href='https://support.blockchain.com' rel='noopener noreferrer' target='_blank'>Read now.</a>"
+                  defaultMessage="We've put together an article explaining how Swap Limits works. <a href='https://support.blockchain.com/hc/en-us/categories/360001135512-Identity-Verification' rel='noopener noreferrer' target='_blank'>Read now.</a>"
                 />
               </SwapText>
             </LearnMoreContainer>
@@ -120,9 +127,9 @@ const IdentityVerification = () => {
         </Row>
         <Row width='60%'>
           <Column>
-            <TierCard tier={1} />
-            <br />
-            <br />
+            <TierWrapper>
+              <TierCard tier={1} />
+            </TierWrapper>
             <TierWrapper>
               <TierCard tier={2} />
               <TooltipHost id='swaplimit.airdrops.tooltip' data-place='right'>

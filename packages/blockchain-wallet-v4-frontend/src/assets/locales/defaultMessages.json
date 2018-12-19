@@ -5584,7 +5584,7 @@
       },
       {
         "defaultMessage": "Verification code",
-        "id": "identityverification.personal.mobile.entercode"
+        "id": "identityverification.personal.mobile.entercode.verification_code"
       },
       {
         "defaultMessage": "We sent you a text message",
@@ -5642,6 +5642,23 @@
       }
     ],
     "path": "src/modals/Exchange/SwapGetStarted/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Heads up! You have <b>{amount}</b> left to Swap",
+        "id": "modals.swap_upgrade.heads_up"
+      },
+      {
+        "defaultMessage": "Upgrade to Tier {tierIndex} and Swap up to {amount} every day.",
+        "id": "modals.swap_upgrade.amount_after_upgrade"
+      },
+      {
+        "defaultMessage": "Upgrade Now",
+        "id": "modals.swap_upgrade.upgrade_now"
+      }
+    ],
+    "path": "src/modals/Exchange/SwapUpgrade/SwapUpgrade.json"
   },
   {
     "descriptors": [
@@ -17364,7 +17381,7 @@
         "id": "scenes.profile.identityverification.swaplimit.wanttolearnmore"
       },
       {
-        "defaultMessage": "We've put together an article explaining how Swap Limits works. <a href='https://support.blockchain.com' rel='noopener noreferrer' target='_blank'>Read now.</a>",
+        "defaultMessage": "We've put together an article explaining how Swap Limits works. <a href='https://support.blockchain.com/hc/en-us/categories/360001135512-Identity-Verification' rel='noopener noreferrer' target='_blank'>Read now.</a>",
         "id": "scenes.profile.identityverification.swaplimit.learnmore"
       }
     ],
@@ -17382,6 +17399,15 @@
       }
     ],
     "path": "src/scenes/Settings/Profile/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "We had trouble verifying your identity. Your Swap feature has been disabled at this time. <a href='https://support.blockchain.com/hc/en-us/articles/360018080352-Why-has-my-ID-submission-been-rejected-' target='_blank' rel='noopener noreferrer'>Learn more</a>",
+        "id": "scenes.settings.profile.menu.failedkyc"
+      }
+    ],
+    "path": "src/scenes/Settings/Profile/Menu/index.json"
   },
   {
     "descriptors": [
