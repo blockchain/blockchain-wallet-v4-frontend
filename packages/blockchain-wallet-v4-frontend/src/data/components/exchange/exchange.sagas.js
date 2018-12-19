@@ -524,6 +524,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(A.setShowError(true))
       yield call(changeSubscription)
       yield call(updateSourceFee)
+      yield put(actions.analytics.setSwapStartTime(Date.now()))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'changeAmount', e))
     }

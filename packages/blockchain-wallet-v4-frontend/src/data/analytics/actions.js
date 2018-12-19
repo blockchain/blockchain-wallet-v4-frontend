@@ -28,3 +28,8 @@ export const logEvent = (trackingData) => ({
   type: AT.LOG_EVENT,
   payload: { trackingData }
 })
+
+export const setSwapStartTime = (payload) => ({
+  type: AT.SET_SWAP_START_TIME,
+  payload
+})

@@ -17,4 +17,4 @@ export const KYC = {
   COMPLETE: 'complete'
 }
 
-export const TRACKING_ACTIONS = ['click', 'change']
+export const TRACKING_ACTIONS = ['click', 'change', 'timing']

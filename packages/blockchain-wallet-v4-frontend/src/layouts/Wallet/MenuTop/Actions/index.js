@@ -29,7 +29,7 @@ class ActionsContainer extends React.PureComponent {
   }
 
   handleRequest = () => {
-    this.props.analytics.logEvent([this.props.pathname, 'click', 'send'])
+    this.props.analytics.logEvent([this.props.pathname, 'click', 'request'])
     const { coin, lockboxPath, lockboxDeviceId } = this.props
 
     switch (coin) {
