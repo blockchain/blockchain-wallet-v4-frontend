@@ -35,7 +35,6 @@ export const getData = (state, ownProps) => {
   const isActive = filter(x => !x.archived)
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
-
   const toGroup = curry((label, options) => [{ label, options }])
 
   const formatAddress = addressData => {
