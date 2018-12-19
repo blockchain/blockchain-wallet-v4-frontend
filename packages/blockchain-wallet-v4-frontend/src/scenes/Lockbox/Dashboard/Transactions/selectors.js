@@ -78,7 +78,6 @@ const getTransactionsAtBounds = state => {
   return bchAtBounds && btcAtBounds && ethAtBounds && xlmAtBounds
 }
 
-// TODO?
 export const getData = createDeepEqualSelector(
   [
     getTransactionsAtBounds,

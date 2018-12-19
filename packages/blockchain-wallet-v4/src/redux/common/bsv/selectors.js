@@ -185,8 +185,6 @@ export const getWalletTransactions = state => {
   const walletR = Remote.of(walletSelectors.getWallet(state))
   // Remote(blockHeight)
   const blockHeightR = getHeight(state)
-  // Remote(lockboxXpubs)
-  const accountListR = Remote.of([])
   // [Remote([tx])] == [Page] == Pages
   const getDescription = hash => getBsvTxNote(state, hash).getOrElse('')
   const pages = getTransactions(state)
@@ -207,7 +205,7 @@ export const getWalletTransactions = state => {
       txList
     )
   // ProcessRemotePage :: Page -> Page
-  const ProcessPage = lift(ProcessTxs)(walletR, blockHeightR, accountListR)
+  const ProcessPage = lift(ProcessTxs)(walletR, blockHeightR, Remote.of([]))
   const txs = map(ProcessPage, pages)
   return map(
     txListR => lift(addFromToBsv)(walletR, getAccountsList(state), txListR),
