@@ -8,7 +8,7 @@ import { getData } from './selectors'
 import ShowPrivateKeyTemplate from './template'
 
 class ShowXlmPrivateKeyContainer extends Component {
-  componentDidUnmount () {
+  componentWillUnmount () {
     this.props.actions.clearShownEthPrivateKey()
   }
 
