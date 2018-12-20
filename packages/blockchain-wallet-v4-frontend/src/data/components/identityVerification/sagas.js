@@ -1,5 +1,5 @@
 import { put, select, call } from 'redux-saga/effects'
-import { head, prop, toUpper } from 'ramda'
+import { head, isEmpty, prop, toUpper } from 'ramda'
 
 import { actions, selectors, model } from 'data'
 import profileSagas from 'data/modules/profile/sagas'
@@ -60,6 +60,7 @@ export default ({ api, coreSagas }) => {
   const registerUserCampaign = function*(payload) {
     const { newUser = false } = payload
     const campaign = yield select(selectors.modules.profile.getCampaign)
+    if (!campaign || isEmpty(campaign)) return
     const campaignData = yield call(getCampaignData, campaign)
     const token = (yield select(
       selectors.modules.profile.getApiToken
@@ -86,7 +87,6 @@ export default ({ api, coreSagas }) => {
   const createRegisterUserCampaign = function*() {
     try {
       yield call(verifyIdentity, { payload: { tier: TIERS[2] } })
-      yield call(registerUserCampaign, { newUser: true })
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
@@ -139,6 +139,7 @@ export default ({ api, coreSagas }) => {
     try {
       yield call(createUser)
       yield call(selectTier, tier)
+      yield call(registerUserCampaign, { newUser: true })
     } catch (e) {
       return yield put(A.setStepsFailure(e))
     }
