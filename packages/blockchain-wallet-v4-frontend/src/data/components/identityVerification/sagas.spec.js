@@ -15,7 +15,12 @@ import {
   KYC_PROVIDERS,
   SUNRIVER_LINK_ERROR_MODAL
 } from './model'
-import sagas, { logLocation, wrongFlowTypeError } from './sagas'
+import sagas, {
+  logLocation,
+  wrongFlowTypeError,
+  noCampaignDataError,
+  noTokenError
+} from './sagas'
 
 const api = {
   fetchKycConfig: jest.fn(),
@@ -249,11 +254,27 @@ describe('registerUserCampaign', () => {
       .next()
       .select(selectors.modules.profile.getCampaign)
       .next(null)
+      .put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'registerUserCampaign',
+          noCampaignDataError
+        )
+      )
+      .next()
       .isDone()
     testSaga(registerUserCampaign, { newUser })
       .next()
       .select(selectors.modules.profile.getCampaign)
       .next({})
+      .put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'registerUserCampaign',
+          noCampaignDataError
+        )
+      )
+      .next()
       .isDone()
   })
   it("should not continue past selection of token if there's no token", () => {
@@ -266,6 +287,14 @@ describe('registerUserCampaign', () => {
       .next(campaignData)
       .select(selectors.modules.profile.getApiToken)
       .next(Remote.of(null))
+      .put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'registerUserCampaign',
+          noTokenError
+        )
+      )
+      .next()
       .isDone()
   })
   it('should show error modal and log error if registering fails', () => {
@@ -288,10 +317,6 @@ describe('registerUserCampaign', () => {
       )
       .throw(error)
       .put(actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL))
-      .next()
-      .put(
-        actions.logs.logErrorMessage(logLocation, 'registerUserCampaign', error)
-      )
       .next()
       .isDone()
   })
