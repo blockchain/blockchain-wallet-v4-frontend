@@ -3,9 +3,9 @@ import { contains, equals, path, prop } from 'ramda'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 
-export default ({ coreSagas }) => {
-  const logLocation = 'components/settings/sagas'
+export const logLocation = 'components/settings/sagas'
 
+export default ({ coreSagas }) => {
   const initializeBsv = function*() {
     try {
       yield call(coreSagas.kvStore.bsv.fetchMetadataBsv)
