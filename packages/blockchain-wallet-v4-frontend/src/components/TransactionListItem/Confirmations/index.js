@@ -44,7 +44,7 @@ const IconWrapper = styled.div`
 const explorers = {
   BCH: 'https://blockchair.com/bitcoin-cash/transaction',
   BTC: 'https://blockchain.info/tx',
-  BSV: 'https://bsvexplorer.info/#/tx',
+  BSV: 'https://www.svblox.com/tx',
   ETH: 'https://www.blockchain.com/eth/tx',
   XLM: 'https://stellarchain.io/tx'
 }
