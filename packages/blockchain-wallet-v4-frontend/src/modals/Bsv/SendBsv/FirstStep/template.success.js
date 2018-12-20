@@ -163,7 +163,7 @@ const FirstStep = props => {
           <FormLabel>
             <FormattedMessage
               id='modals.sendBsv.firststep.fee'
-              defaultMessage='Transaction fee:'
+              defaultMessage='Transaction Fee:'
             />
           </FormLabel>
           <ComboDisplay coin='BSV'>{totalFee}</ComboDisplay>

@@ -221,15 +221,12 @@ export default ({ coreSagas }) => {
           )
         )
       }
-      // Redirect to tx list, display success
       yield put(actions.router.push('/settings/addresses/bsv'))
       yield put(actions.alerts.displaySuccess(C.SEND_BSV_SUCCESS))
       yield put(destroy(FORM))
-      // Close modals
       yield put(actions.modals.closeAllModals())
     } catch (e) {
       yield put(stopSubmit(FORM))
-      // Set errors
       yield put(
         actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e)
       )

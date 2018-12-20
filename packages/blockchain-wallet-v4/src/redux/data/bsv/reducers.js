@@ -18,8 +18,7 @@ const INITIAL_STATE = {
   latest_block: Remote.NotAsked,
   rates: Remote.NotAsked,
   transactions: [],
-  transactions_at_bound: false,
-  transaction_history: Remote.NotAsked
+  transactions_at_bound: false
 }
 
 const bsvReducer = (state = INITIAL_STATE, action) => {

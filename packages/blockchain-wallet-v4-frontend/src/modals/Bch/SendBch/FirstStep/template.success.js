@@ -200,8 +200,8 @@ const FirstStep = props => {
         <FormItem>
           <FormLabel>
             <FormattedMessage
-              id='modals.sendBch.firststep.fee'
-              defaultMessage='Transaction fee:'
+              id='modals.sendBch.firststep.txfee'
+              defaultMessage='Transaction Fee:'
             />
           </FormLabel>
           <ComboDisplay coin='BCH'>{totalFee}</ComboDisplay>

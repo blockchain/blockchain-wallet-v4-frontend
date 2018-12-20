@@ -255,8 +255,8 @@ const FirstStep = props => {
           <FeeFormContainer toggled={feePerByteToggled}>
             <FeeFormLabel>
               <FormattedMessage
-                id='modals.sendbtc.firststep.fee'
-                defaultMessage='Transaction fee:'
+                id='modals.sendbtc.firststep.txfee'
+                defaultMessage='Transaction Fee:'
               />
               <span>&nbsp;</span>
               {!feePerByteToggled && (

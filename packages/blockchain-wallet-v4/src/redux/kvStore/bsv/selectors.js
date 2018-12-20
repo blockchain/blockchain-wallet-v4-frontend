@@ -1,4 +1,14 @@
-import { concat, filter, not, lift, map, path, prop, values } from 'ramda'
+import {
+  concat,
+  curry,
+  filter,
+  not,
+  lift,
+  map,
+  path,
+  prop,
+  values
+} from 'ramda'
 import { BSV } from '../config'
 import { kvStorePath } from '../../paths'
 import * as walletSelectors from '../../wallet/selectors'
@@ -15,6 +25,10 @@ export const getAccountsList = state => {
   const accountsObj = getAccounts(state)
   return lift(values)(accountsObj)
 }
+
+export const getAccountLabel = curry((state, index) =>
+  getAccounts(state).map(path([index, 'label']))
+)
 
 export const getSpendableContext = createDeepEqualSelector(
   [
@@ -41,9 +55,6 @@ export const getUnspendableContext = state =>
 
 export const getDefaultAccountIndex = state =>
   getMetadata(state).map(path(['value', 'default_account_idx']))
-
-export const getBsvTxNotes = state =>
-  getMetadata(state).map(path(['value', 'tx_notes']))
 
 export const getBsvTxNote = (state, txHash) =>
   getMetadata(state).map(path(['value', 'tx_notes', txHash]))

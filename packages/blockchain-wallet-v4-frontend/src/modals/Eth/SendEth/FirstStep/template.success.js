@@ -242,8 +242,8 @@ const FirstStep = props => {
           <FeeFormContainer toggled={feeToggled}>
             <FeeFormLabel>
               <FormattedMessage
-                id='modals.sendether.firststep.txfee'
-                defaultMessage='Transaction fee:'
+                id='modals.sendether.firststep.fee'
+                defaultMessage='Transaction Fee:'
               />
               <span>&nbsp;</span>
               {!feeToggled && (

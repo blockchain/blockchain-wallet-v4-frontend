@@ -1,6 +1,6 @@
 import { selectors } from 'data'
 import { lift } from 'ramda'
-import { Remote } from 'blockchain-wallet-v4'
+// import { Remote } from 'blockchain-wallet-v4'
 
 export const getData = (state, ownProps) => {
   const currencyR = selectors.core.settings.getCurrency(state)
@@ -35,6 +35,6 @@ export const getData = (state, ownProps) => {
     ethRatesR,
     bchRatesR,
     xlmRatesR,
-    bsvRatesR.getOrElse(Remote.of({}))
+    bsvRatesR
   )
 }

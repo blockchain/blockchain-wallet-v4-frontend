@@ -40,9 +40,6 @@ export default ({ api }) => {
   const fetchRates = function*() {
     try {
       yield put(A.fetchRatesLoading())
-      // TODO might need these?
-      // yield call(coreSagas.kvStore.bsv.fetchMetadataBsv)
-      // yield call(fetchData)
       const data = yield call(api.getBsvTicker)
       yield put(A.fetchRatesSuccess(data))
     } catch (e) {
