@@ -51,7 +51,6 @@ export default ({ api, networks }) => {
       const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId, networks.btc)
       yield put(A.fetchMetadataShapeshiftLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
-      yield put(A.fetchMetadataShapeshiftSuccess(newkv))
       if (isNil(newkv.value) || isEmpty(newkv.value)) {
         yield call(createShapeshift, newkv)
       } else {

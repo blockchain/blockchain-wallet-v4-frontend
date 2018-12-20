@@ -35,7 +35,6 @@ export default ({ api, networks }) => {
       const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId, networks.btc)
       yield put(A.fetchMetadataLockboxLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
-      yield put(A.fetchMetadataLockboxSuccess(newkv))
       if (isNil(newkv.value) || isEmpty(newkv.value)) {
         yield call(createLockbox, newkv)
       } else {
