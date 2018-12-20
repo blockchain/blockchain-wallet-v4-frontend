@@ -1,5 +1,5 @@
 import { put, select, call } from 'redux-saga/effects'
-import { head, prop, toUpper } from 'ramda'
+import { head, isEmpty, prop, toUpper } from 'ramda'
 
 import { actions, selectors, model } from 'data'
 import profileSagas from 'data/modules/profile/sagas'
@@ -34,6 +34,9 @@ export const failedResendError = 'Failed to resend the code'
 export const userExistsError = 'User already exists'
 export const emailExistsError = 'User with this email already exists'
 export const wrongFlowTypeError = 'Wrong flow type'
+export const noCampaignDataError = 'User did not come from campaign'
+export const noTokenError = 'User has not been created'
+export const invalidLinkError = 'Invalid campaign one time link'
 
 export default ({ api, coreSagas }) => {
   const {
@@ -60,33 +63,41 @@ export default ({ api, coreSagas }) => {
   const registerUserCampaign = function*(payload) {
     const { newUser = false } = payload
     const campaign = yield select(selectors.modules.profile.getCampaign)
-    const campaignData = yield call(getCampaignData, campaign)
-    const token = (yield select(
-      selectors.modules.profile.getApiToken
-    )).getOrElse(null)
-    if (!token) return
     try {
-      yield call(
-        api.registerUserCampaign,
-        token,
-        campaign.name,
-        campaignData,
-        newUser
-      )
+      if (!campaign || isEmpty(campaign)) throw new Error(noCampaignDataError)
+      const campaignData = yield call(getCampaignData, campaign)
+      const token = (yield select(
+        selectors.modules.profile.getApiToken
+      )).getOrElse(null)
+      if (!token) throw new Error(noTokenError)
+      try {
+        yield call(
+          api.registerUserCampaign,
+          token,
+          campaign.name,
+          campaignData,
+          newUser
+        )
+      } catch (e) {
+        // Todo: use generic confirm modal
+        // Should NOT be specific to sunriver
+        yield put(actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL))
+        throw new Error(invalidLinkError)
+      }
     } catch (e) {
-      // Todo: use generic confirm modal
-      // Should NOT be specific to sunriver
-      yield put(actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL))
       yield put(
-        actions.logs.logErrorMessage(logLocation, 'registerUserCampaign', e)
+        actions.logs.logErrorMessage(
+          logLocation,
+          'registerUserCampaign',
+          e.message
+        )
       )
     }
   }
 
   const createRegisterUserCampaign = function*() {
     try {
-      yield call(verifyIdentity)
-      yield call(registerUserCampaign, { newUser: true })
+      yield call(verifyIdentity, { payload: { tier: TIERS[2] } })
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
@@ -139,6 +150,7 @@ export default ({ api, coreSagas }) => {
     try {
       yield call(createUser)
       yield call(selectTier, tier)
+      yield call(registerUserCampaign, { newUser: true })
     } catch (e) {
       return yield put(A.setStepsFailure(e))
     }

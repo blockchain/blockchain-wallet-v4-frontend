@@ -9,12 +9,24 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, model, selectors } from 'data'
 import * as A from './actions'
 import * as S from './selectors'
-import { EMAIL_STEPS, FLOW_TYPES, KYC_PROVIDERS } from './model'
-import sagas, { wrongFlowTypeError } from './sagas'
+import {
+  EMAIL_STEPS,
+  FLOW_TYPES,
+  KYC_PROVIDERS,
+  SUNRIVER_LINK_ERROR_MODAL
+} from './model'
+import sagas, {
+  logLocation,
+  wrongFlowTypeError,
+  noCampaignDataError,
+  noTokenError,
+  invalidLinkError
+} from './sagas'
 
 const api = {
   fetchKycConfig: jest.fn(),
-  sendDeeplink: jest.fn()
+  sendDeeplink: jest.fn(),
+  registerUserCampaign: jest.fn()
 }
 
 const coreSagas = {}
@@ -24,7 +36,8 @@ jest.mock('data/modules/profile/sagas')
 jest.mock('data/modules/profile/selectors')
 
 const createUser = jest.fn()
-profileSagas.mockReturnValue({ createUser })
+const getCampaignData = jest.fn()
+profileSagas.mockReturnValue({ createUser, getCampaignData })
 
 const {
   checkKycFlow,
@@ -196,9 +209,123 @@ describe('createRegisterUserCampaign', () => {
     const saga = testSaga(createRegisterUserCampaign)
     saga
       .next()
-      .call(verifyIdentity)
+      .call(verifyIdentity, { payload: { tier: TIERS[2] } })
       .next()
-      .call(registerUserCampaign, { newUser: true })
+      .isDone()
+  })
+})
+
+describe('registerUserCampaign', () => {
+  const newUser = true
+  const token =
+    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJyZXRhaWwtY29yZSIsImV4cCI6MTUzNDA0NTg2MywiaWF0IjoxNTM0MDAyNjYzLCJ1c2VySUQiOiIzZDQ0OGFkNy0wZTJjLTRiNjUtOTFiMC1jMTQ5ODkyZTI0M2MiLCJqdGkiOiJkMGIyMDc3My03NDg3LTRhM2EtOWE1MC0zYmEzNzBlZWU4NjkifQ.O24d8dozP4KjNFMHPYaBNMISvQZXC3gPhSCXDIP-Eok'
+  const campaign = {
+    name: 'sunriver',
+    code: '1234',
+    email: 'f@ke.mail'
+  }
+  const campaignData = {
+    'x-campaign-address':
+      'GDRXE2BQUC3AZNPVFSCEZ76NJ3WWL25FYFK6RGZGIEKWE4SOOHSUJUJ6',
+    'x-campaign-code': campaign.code,
+    'x-campaign-email': campaign.email
+  }
+  it('should select campaign, resolve campaign data, select api token and register user campaign', () => {
+    const saga = testSaga(registerUserCampaign, { newUser })
+    saga
+      .next()
+      .select(selectors.modules.profile.getCampaign)
+      .next(campaign)
+      .call(getCampaignData, campaign)
+      .next(campaignData)
+      .select(selectors.modules.profile.getApiToken)
+      .next(Remote.of(token))
+      .call(
+        api.registerUserCampaign,
+        token,
+        campaign.name,
+        campaignData,
+        newUser
+      )
+      .next()
+      .isDone()
+  })
+  it("should not continue past selection of campaign if there's no campaign or campaign is empty", () => {
+    testSaga(registerUserCampaign, { newUser })
+      .next()
+      .select(selectors.modules.profile.getCampaign)
+      .next(null)
+      .put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'registerUserCampaign',
+          noCampaignDataError
+        )
+      )
+      .next()
+      .isDone()
+    testSaga(registerUserCampaign, { newUser })
+      .next()
+      .select(selectors.modules.profile.getCampaign)
+      .next({})
+      .put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'registerUserCampaign',
+          noCampaignDataError
+        )
+      )
+      .next()
+      .isDone()
+  })
+  it("should not continue past selection of token if there's no token", () => {
+    const saga = testSaga(registerUserCampaign, { newUser })
+    saga
+      .next()
+      .select(selectors.modules.profile.getCampaign)
+      .next(campaign)
+      .call(getCampaignData, campaign)
+      .next(campaignData)
+      .select(selectors.modules.profile.getApiToken)
+      .next(Remote.of(null))
+      .put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'registerUserCampaign',
+          noTokenError
+        )
+      )
+      .next()
+      .isDone()
+  })
+  it('should show error modal and log error if registering fails', () => {
+    const saga = testSaga(registerUserCampaign, { newUser })
+    const error = new Error()
+    saga
+      .next()
+      .select(selectors.modules.profile.getCampaign)
+      .next(campaign)
+      .call(getCampaignData, campaign)
+      .next(campaignData)
+      .select(selectors.modules.profile.getApiToken)
+      .next(Remote.of(token))
+      .call(
+        api.registerUserCampaign,
+        token,
+        campaign.name,
+        campaignData,
+        newUser
+      )
+      .throw(error)
+      .put(actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL))
+      .next()
+      .put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'registerUserCampaign',
+          invalidLinkError
+        )
+      )
       .next()
       .isDone()
   })
