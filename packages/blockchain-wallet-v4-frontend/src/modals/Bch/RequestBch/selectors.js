@@ -42,14 +42,16 @@ export const getData = (state, ownProps) => {
   const type = prop('type', to)
 
   const initialValuesR = getInitialValues(state, ownProps)
-  const receiveAddressR = extractAddress(
-    getReceiveAddressWallet,
-    getReceiveAddressLockbox,
-    to
-  ).map(
-    address =>
-      address && isCashAddr(address) ? address : toCashAddr(address, true)
-  )
+  const receiveAddressR = !prop('requestToImportedAddress', ownProps)
+    ? extractAddress(
+      getReceiveAddressWallet,
+      getReceiveAddressLockbox,
+      to
+    ).map(
+      address =>
+        address && isCashAddr(address) ? address : toCashAddr(address, true)
+    )
+    : Remote.of(prop('requestToImportedAddress', ownProps))
 
   const transform = (receiveAddress, initialValues) => ({
     type,

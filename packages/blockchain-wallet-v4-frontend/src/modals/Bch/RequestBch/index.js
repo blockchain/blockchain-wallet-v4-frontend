@@ -84,6 +84,7 @@ class RequestBchContainer extends React.PureComponent {
           type={value.type}
           closeAll={closeAll}
           excludeLockbox={value.excludeLockbox}
+          requestToImportedAddress={this.props.requestToImportedAddress}
         />
       ),
       NotAsked: () => <DataError onClick={this.handleRefresh} />,

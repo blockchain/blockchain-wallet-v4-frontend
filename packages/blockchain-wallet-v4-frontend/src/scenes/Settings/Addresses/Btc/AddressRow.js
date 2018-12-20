@@ -37,11 +37,15 @@ const MoreOptions = () => (
   </Link>
 )
 
-const AddressRow = ({ address, archived, coin, renderOptions }) => {
+const AddressRow = ({ address, archived, coin, renderOptions, onAddressClick }) => {
   return (
     <TableRow>
       <AddressTableCell width='50%'>
-        <AddressCell size='13px'>{address.addr}</AddressCell>
+        <AddressCell>
+          <Link size='13px' weight={300} onClick={onAddressClick}>
+            {address.addr}
+          </Link>
+        </AddressCell>
         {address.priv == null && (
           <Banner label type='informational'>
             <FormattedMessage

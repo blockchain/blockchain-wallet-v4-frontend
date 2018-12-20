@@ -5,22 +5,20 @@ import { connect } from 'react-redux'
 import Success from './template.success'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { formValueSelector } from 'redux-form'
-import { values } from 'ramda'
+import { values, prop } from 'ramda'
 
 class ImportedAddressesContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.handleClickImport = this.handleClickImport.bind(this)
-    this.handleToggleArchived = this.handleToggleArchived.bind(this)
-    this.handleShowPriv = this.handleShowPriv.bind(this)
-    this.handleSignMessage = this.handleSignMessage.bind(this)
-  }
-
   shouldComponentUpdate (nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
 
-  handleClickImport () {
+  handleAddressClick = (address) => {
+    this.props.modalsActions.showModal('RequestBtc', {
+      requestToImportedAddress: prop('addr', address)
+    })
+  }
+
+  handleClickImport = () => {
     this.props.modalsActions.showModal('ImportBtcAddress')
   }
 
@@ -28,20 +26,20 @@ class ImportedAddressesContainer extends React.Component {
     this.props.modalsActions.showModal('VerifyMessage')
   }
 
-  handleShowPriv (address) {
+  handleShowPriv = (address) => {
     this.props.modalsActions.showModal('ShowBtcPrivateKey', {
       addr: address.addr,
       balance: address.info.final_balance
     })
   }
 
-  handleSignMessage (address) {
+  handleSignMessage = (address) => {
     this.props.modalsActions.showModal('SignMessage', {
       address: address.addr
     })
   }
 
-  handleToggleArchived (address) {
+  handleToggleArchived = (address) => {
     let isArchived = address.tag === 2
     this.props.coreActions.setAddressArchived(address.addr, !isArchived)
   }
@@ -51,6 +49,7 @@ class ImportedAddressesContainer extends React.Component {
     return this.props.activeAddresses.cata({
       Success: value => (
         <Success
+          handleAddressClick={this.handleAddressClick}
           importedAddresses={value}
           onClickImport={this.handleClickImport}
           onClickVerify={this.handleClickVerify}

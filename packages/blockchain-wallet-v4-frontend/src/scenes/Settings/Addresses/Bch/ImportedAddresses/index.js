@@ -6,16 +6,23 @@ import { getData } from './selectors'
 import Success from './template.success'
 import { formValueSelector } from 'redux-form'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { prop } from 'ramda'
 
 class ImportedAddressesContainer extends React.Component {
   shouldComponentUpdate (nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
 
+  handleAddressClick = (address) => {
+    this.props.actions.showModal('RequestBch', {
+      requestToImportedAddress: prop('addr', address)
+    })
+  }
+
   render () {
     const { data, ...rest } = this.props
     return data.cata({
-      Success: value => <Success importedAddresses={value} {...rest} />,
+      Success: value => <Success importedAddresses={value} handleAddressClick={this.handleAddressClick} {...rest} />,
       Failure: message => <div>{message}</div>,
       Loading: () => <div />,
       NotAsked: () => <div />

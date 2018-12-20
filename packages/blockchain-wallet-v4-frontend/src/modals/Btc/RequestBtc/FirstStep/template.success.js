@@ -65,7 +65,8 @@ const FirstStep = props => {
     handleClickQRCode,
     handleOpenLockbox,
     importedAddresses,
-    excludeLockbox
+    excludeLockbox,
+    requestToImportedAddress
   } = props
 
   return (
@@ -125,6 +126,16 @@ const FirstStep = props => {
           </Banner>
         </BannerContainer>
       )}
+      {contains(receiveAddress, importedAddresses) && (
+        <BannerContainer>
+          <Banner type='warning'>
+            <FormattedMessage
+              id='modals.requestbitcoin.firststep.importedwarning'
+              defaultMessage='You are about to receive to a watch-only address. You can only spend these funds if you have access to the private key.'
+            />
+          </Banner>
+        </BannerContainer>
+      )}
       <Separator margin={'20px 0'}>
         <Text size='14px' weight={300} uppercase>
           <FormattedMessage
@@ -165,16 +176,6 @@ const FirstStep = props => {
             includeAll={false}
             validate={[required]}
           />
-          {contains(receiveAddress, importedAddresses) && (
-            <BannerContainer>
-              <Banner type='warning'>
-                <FormattedMessage
-                  id='modals.requestbitcoin.firststep.importedwarning'
-                  defaultMessage='You are about to receive to a watch-only address. You can only spend these funds if you have access to the private key.'
-                />
-              </Banner>
-            </BannerContainer>
-          )}
         </FormItem>
       </FormGroup>
       <FormGroup margin={'20px'}>

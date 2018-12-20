@@ -28,14 +28,14 @@ const WarningWrapper = styled.div`
 `
 
 const Success = props => {
-  const { importedAddresses, search } = props
+  const { importedAddresses, search, handleAddressClick } = props
 
   const isMatch = address =>
     !search || address.addr.toLowerCase().indexOf(search) > -1
 
   const importedAddressesTableRows = filter(isMatch, importedAddresses).map(
     address => {
-      return <AddressRow key={address.addr} address={address} coin='BCH' />
+      return <AddressRow key={address.addr} address={address} onAddressClick={() => handleAddressClick(address)} coin="BCH" />
     }
   )
 

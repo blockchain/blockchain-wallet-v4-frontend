@@ -36,6 +36,7 @@ const ClickableText = styled(Text)`
 `
 
 const Success = ({
+  handleAddressClick,
   importedAddresses,
   onClickImport,
   onClickVerify,
@@ -52,6 +53,7 @@ const Success = ({
       <AddressRow
         key={address.addr}
         address={address}
+        onAddressClick={() => handleAddressClick(address)}
         renderOptions={() =>
           [
             <ClickableText
@@ -67,27 +69,27 @@ const Success = ({
             !address.priv
               ? []
               : [
-                  !failure && (
-                    <ClickableText
-                      size='small'
-                      onClick={() => onShowPriv(address)}
-                    >
-                      <FormattedMessage
-                        id='scenes.settings.addresses.show_priv'
-                        defaultMessage='Private Key'
-                      />
-                    </ClickableText>
-                  ),
+                !failure && (
                   <ClickableText
                     size='small'
-                    onClick={() => onShowSignMessage(address)}
+                    onClick={() => onShowPriv(address)}
                   >
                     <FormattedMessage
-                      id='scenes.settings.addresses.sign_message'
-                      defaultMessage='Sign Message'
+                      id='scenes.settings.addresses.show_priv'
+                      defaultMessage='Private Key'
                     />
                   </ClickableText>
-                ]
+                ),
+                <ClickableText
+                  size='small'
+                  onClick={() => onShowSignMessage(address)}
+                >
+                  <FormattedMessage
+                    id='scenes.settings.addresses.sign_message'
+                    defaultMessage='Sign Message'
+                  />
+                </ClickableText>
+              ]
           )
         }
       />
