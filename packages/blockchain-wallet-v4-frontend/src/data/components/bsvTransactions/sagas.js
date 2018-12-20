@@ -23,7 +23,7 @@ export default () => {
   const scrollUpdated = function*(action) {
     try {
       const pathname = yield select(selectors.router.getPathname)
-      if (!equals(pathname, '/bsv/transactions')) return
+      if (!equals(pathname, '/settings/addresses/bsv')) return
       const formValues = yield select(
         selectors.form.getFormValues('transactions')
       )
