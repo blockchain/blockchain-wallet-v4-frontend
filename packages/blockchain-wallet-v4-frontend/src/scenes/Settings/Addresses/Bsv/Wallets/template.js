@@ -34,6 +34,13 @@ const WalletTableCell = styled(TableCell)`
     align-items: flex-start;
   `};
 `
+const NoSearchMatchCell = styled(WalletTableCell)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+`
 const LabelCell = styled(Text)`
   margin-right: 6px;
 `
@@ -49,9 +56,9 @@ const ClickableText = styled(Text)`
 const Success = props => {
   const { accounts, wallets, defaultIndex } = props.data
   const { search, onSendBsv } = props
-
   const isMatch = wallet =>
     !search || wallet.label.toLowerCase().indexOf(search) > -1
+  const matchedWallets = filter(isMatch, take(accounts.length, wallets))
 
   return (
     <Wrapper>
@@ -100,55 +107,70 @@ const Success = props => {
             </Text>
           </TableCell>
         </TableHeader>
-        {filter(isMatch, take(accounts.length, wallets)).map((wallet, i) => {
-          const isDefault = i === defaultIndex
-          return (
-            <TableRow key={i}>
-              <WalletTableCell style={{ flexBasis: '45%' }}>
-                <LabelCell size='13px'>{wallet.label}</LabelCell>
-                {isDefault && (
-                  <Banner label>
-                    <FormattedMessage
-                      id='scenes.settings.addresses.bsv.wallets.defaultlabel'
-                      defaultMessage='Default'
-                    />
-                  </Banner>
-                )}
-              </WalletTableCell>
-              <TableCell style={{ flexBasis: '35%' }}>
-                <SwitchableDisplay size='13px' coin='BSV'>
-                  {wallet.value.balance}
-                </SwitchableDisplay>
-              </TableCell>
-              <TableCell
-                style={{
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  flexBasis: '20%'
-                }}
-              >
-                <ClickableText
-                  weight={400}
-                  size='13px'
-                  onClick={() => onSendBsv(wallet)}
-                >
+        {search && !matchedWallets.length ? (
+          <TableRow>
+            <NoSearchMatchCell>
+              <LabelCell size='13px'>
+                <Text size='13px' weight={500}>
                   <FormattedMessage
-                    id='scenes.settings.addresses.bsv.wallets.send'
-                    defaultMessage='Send'
+                    id='scenes.settings.addresses.bsv.wallets.nomatch'
+                    defaultMessage='No wallets matched your search'
                   />
-                </ClickableText>
-                <LinkContainer to={'/swap'}>
-                  <Link weight={400} size='13px'>
+                </Text>
+              </LabelCell>
+            </NoSearchMatchCell>
+          </TableRow>
+        ) : (
+          matchedWallets.map((wallet, i) => {
+            const isDefault = i === defaultIndex
+            return (
+              <TableRow key={i}>
+                <WalletTableCell style={{ flexBasis: '45%' }}>
+                  <LabelCell size='13px'>{wallet.label}</LabelCell>
+                  {isDefault && (
+                    <Banner label>
+                      <FormattedMessage
+                        id='scenes.settings.addresses.bsv.wallets.defaultlabel'
+                        defaultMessage='Default'
+                      />
+                    </Banner>
+                  )}
+                </WalletTableCell>
+                <TableCell style={{ flexBasis: '35%' }}>
+                  <SwitchableDisplay size='13px' coin='BSV'>
+                    {wallet.value.balance}
+                  </SwitchableDisplay>
+                </TableCell>
+                <TableCell
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    flexBasis: '20%'
+                  }}
+                >
+                  <ClickableText
+                    weight={400}
+                    size='13px'
+                    onClick={() => onSendBsv(wallet)}
+                  >
                     <FormattedMessage
-                      id='scenes.settings.addresses.bsv.wallets.swap'
-                      defaultMessage='Swap'
+                      id='scenes.settings.addresses.bsv.wallets.send'
+                      defaultMessage='Send'
                     />
-                  </Link>
-                </LinkContainer>
-              </TableCell>
-            </TableRow>
-          )
-        })}
+                  </ClickableText>
+                  <LinkContainer to={'/swap'}>
+                    <Link weight={400} size='13px'>
+                      <FormattedMessage
+                        id='scenes.settings.addresses.bsv.wallets.swap'
+                        defaultMessage='Swap'
+                      />
+                    </Link>
+                  </LinkContainer>
+                </TableCell>
+              </TableRow>
+            )
+          })
+        )}
       </Table>
     </Wrapper>
   )
