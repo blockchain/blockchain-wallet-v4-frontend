@@ -18,20 +18,21 @@ const Iframe = styled.iframe`
 
 class AnalyticsTracker extends React.PureComponent {
   componentDidUpdate (prevProps) {
-    const { analytics, location } = this.props
+    const { analytics, location, domains } = this.props
     const { analytics: prevAnalytics, location: prevLocation } = prevProps
+    const targetOrigin = domains.walletHelper
     const node = ReactDOM.findDOMNode(this)
     if (location.pathname !== prevLocation.pathname) {
       node.contentWindow.postMessage(
         { method: 'trackPageView', trackingData: [location.pathname] },
-        '*'
+        targetOrigin
       )
     }
     if (head(prevAnalytics) !== head(analytics)) {
       const { trackingData } = head(analytics)
       node.contentWindow.postMessage(
         { method: 'trackEvent', trackingData: [trackingData] },
-        '*'
+        targetOrigin
       )
     }
   }
