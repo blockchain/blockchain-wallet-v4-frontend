@@ -36,6 +36,7 @@ export const emailExistsError = 'User with this email already exists'
 export const wrongFlowTypeError = 'Wrong flow type'
 export const noCampaignDataError = 'User did not come from campaign'
 export const noTokenError = 'User has not been created'
+export const invalidLinkError = 'Invalid campaign one time link'
 
 export default ({ api, coreSagas }) => {
   const {
@@ -81,6 +82,7 @@ export default ({ api, coreSagas }) => {
         // Todo: use generic confirm modal
         // Should NOT be specific to sunriver
         yield put(actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL))
+        throw new Error(invalidLinkError)
       }
     } catch (e) {
       yield put(

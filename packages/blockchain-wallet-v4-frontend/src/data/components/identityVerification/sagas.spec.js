@@ -19,7 +19,8 @@ import sagas, {
   logLocation,
   wrongFlowTypeError,
   noCampaignDataError,
-  noTokenError
+  noTokenError,
+  invalidLinkError
 } from './sagas'
 
 const api = {
@@ -317,6 +318,14 @@ describe('registerUserCampaign', () => {
       )
       .throw(error)
       .put(actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL))
+      .next()
+      .put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'registerUserCampaign',
+          invalidLinkError
+        )
+      )
       .next()
       .isDone()
   })
