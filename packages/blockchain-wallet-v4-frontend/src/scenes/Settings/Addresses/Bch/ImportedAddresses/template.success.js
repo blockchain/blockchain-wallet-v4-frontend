@@ -35,7 +35,7 @@ const Success = props => {
 
   const importedAddressesTableRows = filter(isMatch, importedAddresses).map(
     address => {
-      return <AddressRow key={address.addr} address={address} onAddressClick={() => handleAddressClick(address)} coin="BCH" />
+      return <AddressRow key={address.addr} address={address} onAddressClick={() => handleAddressClick(address)} coin='BCH' />
     }
   )
 
