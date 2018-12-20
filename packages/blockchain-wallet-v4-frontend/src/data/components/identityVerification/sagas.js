@@ -85,7 +85,7 @@ export default ({ api, coreSagas }) => {
 
   const createRegisterUserCampaign = function*() {
     try {
-      yield call(verifyIdentity)
+      yield call(verifyIdentity, { payload: { tier: TIERS[2] } })
       yield call(registerUserCampaign, { newUser: true })
     } catch (e) {
       yield put(

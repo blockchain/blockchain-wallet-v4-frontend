@@ -196,7 +196,7 @@ describe('createRegisterUserCampaign', () => {
     const saga = testSaga(createRegisterUserCampaign)
     saga
       .next()
-      .call(verifyIdentity)
+      .call(verifyIdentity, { payload: { tier: TIERS[2] } })
       .next()
       .call(registerUserCampaign, { newUser: true })
       .next()
