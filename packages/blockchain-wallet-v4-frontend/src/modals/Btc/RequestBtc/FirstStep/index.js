@@ -99,7 +99,7 @@ class FirstStepContainer extends React.PureComponent {
           handleSubmit={this.handleSubmit}
           importedAddresses={importedAddresses}
           excludeLockbox={value.excludeLockbox}
-          requestToImportedAddress={this.props.requestToImportedAddress}
+          receiveAddressFromProps={this.props.receiveAddressFromProps}
         />
       ),
       NotAsked: () => <DataError onClick={this.handleRefresh} />,

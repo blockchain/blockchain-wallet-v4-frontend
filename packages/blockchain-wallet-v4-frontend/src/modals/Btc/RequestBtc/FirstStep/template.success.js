@@ -65,8 +65,7 @@ const FirstStep = props => {
     handleClickQRCode,
     handleOpenLockbox,
     importedAddresses,
-    excludeLockbox,
-    requestToImportedAddress
+    excludeLockbox
   } = props
 
   return (

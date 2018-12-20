@@ -15,7 +15,7 @@ class ImportedAddressesContainer extends React.Component {
 
   handleAddressClick = (address) => {
     this.props.actions.showModal('RequestBch', {
-      requestToImportedAddress: prop('addr', address)
+      receiveAddressFromProps: prop('addr', address)
     })
   }
 

@@ -14,7 +14,7 @@ class ImportedAddressesContainer extends React.Component {
 
   handleAddressClick = (address) => {
     this.props.modalsActions.showModal('RequestBtc', {
-      requestToImportedAddress: prop('addr', address)
+      receiveAddressFromProps: prop('addr', address)
     })
   }
 

@@ -79,9 +79,9 @@ export const getData = (state, ownProps) => {
     getReceiveIdxLockbox,
     to
   )
-  const receiveAddressR = !prop('requestToImportedAddress', ownProps)
+  const receiveAddressR = !prop('receiveAddressFromProps', ownProps)
     ? extractAddress(getReceiveAddressWallet, getReceiveAddressLockbox, to)
-    : Remote.of(prop('requestToImportedAddress', ownProps))
+    : Remote.of(prop('receiveAddressFromProps', ownProps))
 
   const transform = (receiveAddress, accountIdx, addressIdx) => ({
     type,
