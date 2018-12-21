@@ -4,6 +4,7 @@ import { flushPromises } from 'utils/test.utils'
 import { mount } from 'enzyme'
 import { combineReducers } from 'redux'
 // import { actions, model } from 'data'
+import * as actionTypes from 'data/actionTypes'
 
 import {
   coreReducers,
@@ -17,7 +18,7 @@ import modalsReducer from 'data/modals/reducers'
 import sendBtcSaga from 'data/components/sendBtc/sagaRegister'
 import settingsSagas from 'data/modules/settings/sagaRegister'
 import SendBtc from './index'
-import { curry } from 'ramda'
+import { curry, compose, head, values, pickAll } from 'ramda'
 
 // SELECTORS
 import { getCurrency, getSettings } from 'blockchain-wallet-v4/src/redux/settings/selectors'
@@ -48,6 +49,7 @@ const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 
 jest.useFakeTimers()
 
+jest.mock('blockchain-wallet-v4/src/redux/sagas')
 jest.mock('blockchain-wallet-v4/src/redux/settings/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/walletOptions/selectors')
 jest.mock('data/components/sendBtc/selectors')
@@ -72,7 +74,6 @@ const networks = {
   }
 }
 const coreSagas = coreSagasFactory({ api: {}, networks })
-const api = {}
 
 const paymentMock = {
   change: '123changeaddress',
@@ -84,7 +85,19 @@ const paymentMock = {
     'xpub6Cw9c97kckjdTay1mZDRmcNAN5M3xnExCwpH7dS7nwcm5SN69E7AhoZnaaldsjffhnvCDRse234roasdfFZtVsUj4gxzJTG33N'
   ],
   fromAccountIdx: 0,
-  fromType: 'ACCOUNT'
+  fromType: 'ACCOUNT',
+  value: jest.fn(() => paymentMock),
+  init: jest.fn(() => paymentMock),
+  to: jest.fn(() => paymentMock),
+  amount: jest.fn(() => paymentMock),
+  from: jest.fn(() => paymentMock),
+  fee: jest.fn(() => paymentMock),
+  build: jest.fn(() => paymentMock),
+  buildSweep: jest.fn(() => paymentMock),
+  sign: jest.fn(() => paymentMock),
+  publish: jest.fn(() => paymentMock),
+  description: jest.fn(() => paymentMock),
+  chain: jest.fn()
 }
 
 const btcAccountsMock = [
@@ -179,7 +192,7 @@ describe('SendBtc Modal', () => {
     [paths.settingsPath]: coreReducers.settings
   }
   const sagas = [
-    sendBtcSaga({ coreSagas, api }),
+    sendBtcSaga({ coreSagas, networks }),
     settingsSagas({ coreSagas })
   ]
   let store
@@ -193,10 +206,31 @@ describe('SendBtc Modal', () => {
     )
   })
 
-  describe('Modal behaviour', () => {
+  describe('Send Modal behaviour', () => {
+    beforeEach(() => {
+      coreSagas.payment.btc.create.mockImplementation(({ payment, network }) => paymentMock)
+      wrapper.update()
+    })
     it('should render', async () => {
       expect(wrapper.find(Form)).toHaveLength(1)
       await flushPromises()
+    })
+
+    it('should trigger a payment update success action when the amount changes', async () => {
+      wrapper.unmount().mount()
+      wrapper
+        .find('input[data-e2e="sendBtcFiatAmount"]')
+        .simulate('change', { target: { value: '1' } })
+
+      let pickIndex = compose(
+        values,
+        pickAll
+      )
+      let calls = dispatchSpy.mock.calls
+      expect(head(pickIndex([calls.length - 2], calls)[0]).type)
+        .toEqual(
+          actionTypes.components.sendBtc.SEND_BTC_PAYMENT_UPDATED_SUCCESS
+        )
     })
   })
 })
