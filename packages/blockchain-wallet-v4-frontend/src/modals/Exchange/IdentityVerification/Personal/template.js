@@ -114,6 +114,11 @@ const KycSeparator = styled(Separator)`
   max-width: 576px;
   width: calc(100% - 260px);
   margin: 32px 0;
+  ${media.mobile`
+    width: 100%;
+  `} ${media.tablet`
+    width: 100%;
+  `};
 `
 
 const addTrailingZero = string => (string.length >= 2 ? string : `0${string}`)
