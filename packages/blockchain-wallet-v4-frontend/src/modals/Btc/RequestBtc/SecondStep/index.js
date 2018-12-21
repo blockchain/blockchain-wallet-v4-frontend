@@ -11,7 +11,7 @@ import Success from './template.success'
 class SecondStepContainer extends React.PureComponent {
   state = { active: false }
 
-  componentDidUnmount () {
+  componentWillUnmount () {
     clearTimeout(this.timeout)
   }
 
