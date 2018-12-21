@@ -373,10 +373,17 @@ const Personal = ({
                       <FaqFormGroup>
                         <FormItem>
                           <Label htmlFor='line1'>
-                            <FormattedMessage
-                              id='identityverification.personal.streetline1'
-                              defaultMessage='Street Line 1'
-                            />
+                            {countryIsUS ? (
+                              <FormattedMessage
+                                id='identityverification.personal.address_line1'
+                                defaultMessage='Address Line 1'
+                              />
+                            ) : (
+                              <FormattedMessage
+                                id='identityverification.personal.streetline1'
+                                defaultMessage='Street Line 1'
+                              />
+                            )}
                           </Label>
                           <Field
                             name='line1'
@@ -389,10 +396,17 @@ const Personal = ({
                       <FaqFormGroup>
                         <FormItem>
                           <Label htmlFor='line2'>
-                            <FormattedMessage
-                              id='identityverification.personal.streetline2'
-                              defaultMessage='Street Line 2'
-                            />
+                            {countryIsUS ? (
+                              <FormattedMessage
+                                id='identityverification.personal.address_line2'
+                                defaultMessage='Address Line 2'
+                              />
+                            ) : (
+                              <FormattedMessage
+                                id='identityverification.personal.streetline2'
+                                defaultMessage='Street Line 2'
+                              />
+                            )}
                           </Label>
                           <Field name='line2' errorBottom component={TextBox} />
                         </FormItem>
