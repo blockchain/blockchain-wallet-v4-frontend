@@ -8,6 +8,7 @@ import { derivationMap, BCH } from '../config'
 import { set } from 'ramda-lens'
 import { getMetadataXpriv } from '../root/selectors'
 import { getHDAccounts } from '../../wallet/selectors'
+import * as bchActions from '../../data/bch/actions'
 
 const api = {
   fetchKVStore: () => {}
@@ -50,13 +51,14 @@ describe('kvStore bch sagas', () => {
         .next()
         .put(A.createMetadataBch(newkv))
         .next()
+        .put(bchActions.fetchData())
         .next()
         .isDone()
     })
   })
   describe('fetchMetadataBch', () => {
+    const saga = testSaga(fetchMetadataBch)
     it('fetches users metadata', () => {
-      const saga = testSaga(fetchMetadataBch)
       saga
         .next()
         .select(getMetadataXpriv)
@@ -66,10 +68,26 @@ describe('kvStore bch sagas', () => {
         // .next()
         // .call(api.fetchKVStore(mockKvStoreEntry))
         .next()
+        .save('before fetch')
         .next(newkv)
         .select(getHDAccounts)
         .next(accounts)
         .put(A.fetchMetadataBchSuccess(newkv))
+    })
+    it('creates entry if value is empty', () => {
+      const nullKv = set(KVStoreEntry.value, null, mockKvStoreEntry)
+      saga
+        .restore('before fetch')
+        .next(nullKv)
+        .select(getHDAccounts)
+        .next(accounts)
+        .call(createBch, nullKv, accounts, [])
+    })
+    it('sets fail state', () => {
+      saga
+        .restore('before fetch')
+        .throw({ message: 'failed to fetch' })
+        .put(A.fetchMetadataBchFailure('failed to fetch'))
     })
   })
 })
