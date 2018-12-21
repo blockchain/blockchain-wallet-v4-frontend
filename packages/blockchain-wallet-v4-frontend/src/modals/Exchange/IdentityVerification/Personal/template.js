@@ -378,7 +378,6 @@ const Personal = ({
                             errorBottom
                             validate={required}
                             component={TextBox}
-                            placeholder='Street Address'
                           />
                         </FormItem>
                       </FaqFormGroup>
@@ -390,12 +389,7 @@ const Personal = ({
                               defaultMessage='Street Line 2'
                             />
                           </Label>
-                          <Field
-                            name='line2'
-                            errorBottom
-                            component={TextBox}
-                            placeholder='Apartment, unit, floor, etc..'
-                          />
+                          <Field name='line2' errorBottom component={TextBox} />
                         </FormItem>
                       </FaqFormGroup>
                       <FaqFormGroup>
