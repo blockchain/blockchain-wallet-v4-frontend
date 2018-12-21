@@ -37,7 +37,6 @@ import {
   IdentityVerificationForm,
   InputWrapper,
   IdentityVerificationHeader,
-  IdentityVerificationSubHeader,
   FaqFormMessage,
   FaqFormGroup,
   Label,
@@ -172,12 +171,6 @@ const Personal = ({
                     defaultMessage='Personal Details'
                   />
                 </IdentityVerificationHeader>
-                <IdentityVerificationSubHeader>
-                  <FormattedMessage
-                    id='identityverification.personal.subheader'
-                    defaultMessage='To get started, we need to verify your identity. It should only take a few minutes.'
-                  />
-                </IdentityVerificationSubHeader>
                 <FormContainer>
                   {showEmail &&
                     !emailVerified && (
