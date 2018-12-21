@@ -78,6 +78,7 @@ export default ({ api, networks }) => {
   }
 
   return {
+    createBch,
     fetchMetadataBch,
     refetchContextData
   }
