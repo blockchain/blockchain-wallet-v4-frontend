@@ -95,24 +95,16 @@ export const GetStarted = () => (
         <Row marginBottom='36px'>
           <Text color='brand-primary' size='30px' weight={600}>
             <FormattedMessage
-              defaultMessage='A better way to trade crypto'
-              id='scenes.exchange.getstarted.title'
+              defaultMessage="Trading your crypto doesn't mean trading away control"
+              id='scenes.exchange.getstarted.header'
             />
           </Text>
         </Row>
         <Row marginBottom='24px'>
           <DarkText>
             <FormattedMessage
-              defaultMessage='The faster, smarter way to trade your crypto.'
-              id='scenes.exchange.getstarted.introducing'
-            />
-          </DarkText>
-        </Row>
-        <Row marginBottom='8px'>
-          <DarkText>
-            <FormattedMessage
-              defaultMessage='Upgrade now to enjoy the following benefits:'
-              id='scenes.exchange.getstarted.upgrade'
+              defaultMessage='Swap enables you to trade crypto with the best prices and quick settlement, all while maintaining full control of your funds.'
+              id='scenes.exchange.getstarted.description'
             />
           </DarkText>
         </Row>
@@ -120,14 +112,14 @@ export const GetStarted = () => (
           <DarkText>
             <PrimaryText>
               <FormattedMessage
-                defaultMessage='Lower cost'
-                id='scenes.exchange.getstarted.lowercost'
+                defaultMessage='Low Fees'
+                id='scenes.exchange.getstarted.low_fees'
               />
             </PrimaryText>
             <DarkText hideOnMobile>{' - '}</DarkText>
             <FormattedMessage
-              defaultMessage='Super competitive crypto exchange prices'
-              id='scenes.exchange.getstarted.lowercost_description'
+              defaultMessage='Great news! Get the best prices without having to leave the security of your Wallet.'
+              id='scenes.exchange.getstarted.low_fees_description'
             />
           </DarkText>
         </Row>
@@ -135,14 +127,14 @@ export const GetStarted = () => (
           <DarkText>
             <PrimaryText>
               <FormattedMessage
-                defaultMessage='Live rates'
-                id='scenes.exchange.getstarted.liverates'
+                defaultMessage='Higher Limits'
+                id='scenes.exchange.getstarted.higher_limits'
               />
             </PrimaryText>
             <DarkText hideOnMobile>{' - '}</DarkText>
             <FormattedMessage
-              defaultMessage='You always get the most up to date price'
-              id='scenes.exchange.getstarted.liverates_Description'
+              defaultMessage='Like to trade big? Get access to limits of up to $25,000 per day.'
+              id='scenes.exchange.getstarted.higher_lits_description'
             />
           </DarkText>
         </Row>
@@ -150,14 +142,14 @@ export const GetStarted = () => (
           <DarkText>
             <PrimaryText>
               <FormattedMessage
-                defaultMessage='Higher limits'
-                id='scenes.exchange.getstarted.higherlimits'
+                defaultMessage='Easy to use'
+                id='scenes.exchange.getstarted.easy_to_use'
               />
             </PrimaryText>
             <DarkText hideOnMobile>{' - '}</DarkText>
             <FormattedMessage
-              defaultMessage='Limits from $1,000-$25,000'
-              id='scenes.exchange.getstarted.higherlimits_description'
+              defaultMessage='Get started in just a few steps.'
+              id='scenes.exchange.getstarted.easy_to_use_description'
             />
           </DarkText>
         </Row>
