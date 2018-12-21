@@ -3,7 +3,7 @@ import { TestBed, getDispatchSpyReducer, createTestStore } from 'utils/testbed'
 import { flushPromises } from 'utils/test.utils'
 import { mount } from 'enzyme'
 import { combineReducers } from 'redux'
-import { actions, model } from 'data'
+// import { actions, model } from 'data'
 
 import {
   coreReducers,
@@ -17,7 +17,7 @@ import modalsReducer from 'data/modals/reducers'
 import sendBtcSaga from 'data/components/sendBtc/sagaRegister'
 import settingsSagas from 'data/modules/settings/sagaRegister'
 import SendBtc from './index'
-import { last, values, pickAll, compose, head, curry } from 'ramda'
+import { curry } from 'ramda'
 
 // SELECTORS
 import { getCurrency, getSettings } from 'blockchain-wallet-v4/src/redux/settings/selectors'
@@ -194,8 +194,9 @@ describe('SendBtc Modal', () => {
   })
 
   describe('Modal behaviour', () => {
-    it('should render', () => {
+    it('should render', async () => {
       expect(wrapper.find(Form)).toHaveLength(1)
+      await flushPromises()
     })
   })
 })
