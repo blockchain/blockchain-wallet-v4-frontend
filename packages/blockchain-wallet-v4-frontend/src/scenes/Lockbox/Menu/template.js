@@ -75,14 +75,7 @@ const multiValueContainer = props => {
 }
 
 const Menu = props => {
-  const {
-    btcBalance,
-    bchBalance,
-    ethBalance,
-    deviceInfo,
-    deviceIndex,
-    ...rest
-  } = props
+  const { deviceInfo, deviceIndex, ...rest } = props
   const { location, formValues } = rest
   const onDashboard = location.pathname.includes('/lockbox/dashboard')
 

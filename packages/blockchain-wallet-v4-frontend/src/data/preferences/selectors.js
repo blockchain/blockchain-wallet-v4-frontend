@@ -13,3 +13,4 @@ export const getTotalBalancesDropdown = path([
 
 export const getShowKycGetStarted = path(['preferences', 'showKycGetStarted'])
 export const getShowSwapBanner = path(['preferences', 'showSwapBanner'])
+export const getShowSwapUpgrade = path(['preferences', 'showSwapUpgradeModal'])

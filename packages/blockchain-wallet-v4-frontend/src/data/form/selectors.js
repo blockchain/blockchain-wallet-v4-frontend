@@ -16,7 +16,16 @@ import {
   hasSubmitSucceeded,
   hasSubmitFailed
 } from 'redux-form'
-import { propEq, compose, pickBy, keys, head, defaultTo } from 'ramda'
+import {
+  compose,
+  head,
+  defaultTo,
+  keys,
+  path,
+  propEq,
+  pickBy,
+  split
+} from 'ramda'
 
 const getActiveField = formName => state =>
   compose(
@@ -26,6 +35,11 @@ const getActiveField = formName => state =>
     pickBy(propEq('active', true)),
     getFormMeta(formName)
   )(state)
+
+const isAsyncValidating = formName => state => {
+  const formPath = split('.', formName)
+  return path(['form', ...formPath, 'asyncValidating'], state)
+}
 
 export {
   getActiveField,
@@ -43,6 +57,7 @@ export {
   isValid,
   isInvalid,
   isSubmitting,
+  isAsyncValidating,
   hasSubmitSucceeded,
   hasSubmitFailed
 }

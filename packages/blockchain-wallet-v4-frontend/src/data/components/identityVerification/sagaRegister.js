@@ -25,6 +25,7 @@ export default ({ api, coreSagas }) => {
       exchange.fetchSupportedDocuments
     )
     yield takeLatest(AT.FETCH_STATES, exchange.fetchStates)
+    yield takeLatest(AT.REGISTER_USER_CAMPAIGN, exchange.registerUserCampaign)
     yield takeLatest(
       AT.CREATE_REGISTER_USER_CAMPAIGN,
       exchange.createRegisterUserCampaign
@@ -33,5 +34,7 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.GO_TO_NEXT_STEP, exchange.goToNextStep)
     yield takeLatest(AT.CHECK_KYC_FLOW, exchange.checkKycFlow)
     yield takeLatest(AT.SEND_DEEP_LINK, exchange.sendDeeplink)
+    yield takeLatest(AT.UPDATE_EMAIL, exchange.updateEmail)
+    yield takeLatest(AT.SEND_EMAIL_VERIFICATION, exchange.sendEmailVerification)
   }
 }

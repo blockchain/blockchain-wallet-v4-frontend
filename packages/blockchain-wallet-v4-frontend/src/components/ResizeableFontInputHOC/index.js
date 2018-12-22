@@ -27,6 +27,10 @@ const getValueLength = value => {
  */
 export const ResizeableFontInputHOC = Component =>
   class ResizeableInput extends React.PureComponent {
+    static defaultProps = {
+      onUpdate: () => {}
+    }
+
     componentDidMount () {
       window.addEventListener('resize', this.resizeInputFont)
     }
@@ -62,7 +66,7 @@ export const ResizeableFontInputHOC = Component =>
       const input = this.selectInput()
       if (!input) return
 
-      const { maxFontSize } = this.props
+      const { maxFontSize, onUpdate } = this.props
       const fontSizeNumber = fontSizeToNumber(maxFontSize)
       let fontSizeRatio = calculateFontSizeRatio(
         input.offsetWidth,
@@ -72,6 +76,7 @@ export const ResizeableFontInputHOC = Component =>
       )
       if (fontSizeRatio > 1) fontSizeRatio = 1
       input.style.fontSize = `${fontSizeNumber * fontSizeRatio}px`
+      onUpdate(input, fontSizeRatio, fontSizeNumber)
     }
 
     updateValueLength = () => {

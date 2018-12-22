@@ -11,7 +11,12 @@ const ModalIcon = styled(Icon)`
 `
 
 const ModalIconContainer = ({ showModal, className }) => (
-  <ModalIcon onMouseDown={showModal} name='right-arrow' className={className} />
+  <ModalIcon
+    onMouseDown={showModal}
+    name='right-arrow'
+    className={className}
+    data-e2e='sendXlmRightArrow'
+  />
 )
 
 const mapDispatchToProps = (dispatch, props) => ({

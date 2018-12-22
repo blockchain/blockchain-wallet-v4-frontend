@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 import {
+  Button,
   Icon,
   IconButton,
   Table,
@@ -18,7 +19,8 @@ const Wrapper = styled.section`
   box-sizing: border-box;
 `
 const ImportedAddressesSettingHeader = SettingHeader.extend`
-  justify-content: flex-start;
+  align-items: flex-start;
+  justify-content: space-between;
   margin-top: 30px;
 `
 
@@ -36,6 +38,7 @@ const ClickableText = styled(Text)`
 const Success = ({
   importedAddresses,
   onClickImport,
+  onClickVerify,
   onToggleArchived,
   onShowPriv,
   onShowSignMessage,
@@ -94,25 +97,33 @@ const Success = ({
   return (
     <Wrapper>
       <ImportedAddressesSettingHeader>
-        <FormattedMessage
-          id='scenes.settings.addresses.btc.importedaddresses.success.title'
-          defaultMessage='Imported Bitcoin Addresses'
-        />
-      </ImportedAddressesSettingHeader>
-      <SettingDescription style={spacing('mb-10')}>
-        <WarningWrapper>
-          <Icon
-            name='alert-filled'
-            size='20px'
-            className={'warning-icon'}
-            color='brand-yellow'
-          />
+        <div>
           <FormattedMessage
-            id='scenes.settings.addresses.btc.importedaddresses.success.description'
-            defaultMessage='Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.'
+            id='scenes.settings.addresses.btc.importedaddresses.success.title'
+            defaultMessage='Imported Bitcoin Addresses'
           />
-        </WarningWrapper>
-      </SettingDescription>
+          <SettingDescription style={spacing('mb-10')}>
+            <WarningWrapper>
+              <Icon
+                name='alert-filled'
+                size='20px'
+                className={'warning-icon'}
+                color='brand-yellow'
+              />
+              <FormattedMessage
+                id='scenes.settings.addresses.btc.importedaddresses.success.description'
+                defaultMessage='Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.'
+              />
+            </WarningWrapper>
+          </SettingDescription>
+        </div>
+        <Button onClick={onClickVerify}>
+          <FormattedMessage
+            id='scenes.settings.addresses.btc.importedaddresses.success.verifymessage'
+            defaultMessage='Verify Message'
+          />
+        </Button>
+      </ImportedAddressesSettingHeader>
       {importedAddressesTableRows.length > 0 && (
         <Table>
           <TableHeader>

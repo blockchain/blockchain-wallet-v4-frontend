@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import QRCodeReact from 'qrcode.react'
+import QRCodeWrapper from 'components/QRCodeWrapper'
 
 import {
   Button,
@@ -58,7 +58,7 @@ const TwoStepGoogleAuthenticator = props => {
         </ModalHeader>
         <ModalBody>
           <QRCode>
-            <QRCodeReact value={googleAuthenticatorSecretUrl} size={256} />
+            <QRCodeWrapper value={googleAuthenticatorSecretUrl} size={256} />
           </QRCode>
           <Text size='14px' weight={300}>
             <FormattedMessage
