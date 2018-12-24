@@ -15,7 +15,7 @@ import { spacing } from 'services/StyleService'
 import AddressRow from '../AddressRow'
 import { filter } from 'ramda'
 
-const Wrapper = styled.section`
+export const Wrapper = styled.section`
   box-sizing: border-box;
 `
 const ImportedAddressesSettingHeader = SettingHeader.extend`
