@@ -319,6 +319,8 @@ describe('registerUserCampaign', () => {
       .throw(error)
       .put(actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL))
       .next()
+      .put(actions.modules.profile.setCampaign({}))
+      .next()
       .put(
         actions.logs.logErrorMessage(
           logLocation,
