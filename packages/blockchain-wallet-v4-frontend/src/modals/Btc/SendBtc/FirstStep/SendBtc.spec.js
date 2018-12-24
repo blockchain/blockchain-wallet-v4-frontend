@@ -3,7 +3,6 @@ import { TestBed, getDispatchSpyReducer, createTestStore } from 'utils/testbed'
 import { flushPromises } from 'utils/test.utils'
 import { mount } from 'enzyme'
 import { combineReducers } from 'redux'
-// import { actions, model } from 'data'
 import * as actionTypes from 'data/actionTypes'
 
 import {
@@ -81,9 +80,9 @@ const paymentMock = {
   effectiveBalance: 100000,
   fee: 5,
   fees: { regular: 5, priority: 25, limits: { max: 30, min: 2 } },
-  from: [
-    'xpub6Cw9c97kckjdTay1mZDRmcNAN5M3xnExCwpH7dS7nwcm5SN69E7AhoZnaaldsjffhnvCDRse234roasdfFZtVsUj4gxzJTG33N'
-  ],
+  // from: [
+  //   'xpub6Cw9c97kckjdTay1mZDRmcNAN5M3xnExCwpH7dS7nwcm5SN69E7AhoZnaaldsjffhnvCDRse234roasdfFZtVsUj4gxzJTG33N'
+  // ],
   fromAccountIdx: 0,
   fromType: 'ACCOUNT',
   value: jest.fn(() => paymentMock),
@@ -91,7 +90,6 @@ const paymentMock = {
   to: jest.fn(() => paymentMock),
   amount: jest.fn(() => paymentMock),
   from: jest.fn(() => paymentMock),
-  fee: jest.fn(() => paymentMock),
   build: jest.fn(() => paymentMock),
   buildSweep: jest.fn(() => paymentMock),
   sign: jest.fn(() => paymentMock),
@@ -108,28 +106,16 @@ const btcAccountsMock = [
     info: {
       account_index: 1,
       change_index: 1,
-      final_balance: 100000
+      final_balance: 1000000
     }
   }
 ]
 
-const addressesMock = [
-  {
-    addr: '1LPdummZYKMmZ8FkFHzdSGtrFkvgGs7hcE',
-    tag: 0,
-    created_device_name: 'wallet-web',
-    created_device_version: 'v4',
-    info: {
-      account_index: 0,
-      change_index: 0,
-      final_balance: 0
-    }
-  }
-]
+const addressesMock = []
 
 const accountBalanceMock = [
   {
-    balance: 71687,
+    balance: 701687,
     coin: 'BTC',
     index: 0,
     label: 'My Bitcoin Wallet',
@@ -142,10 +128,10 @@ const accountBalanceMock = [
 
 const ratesMock = {
   USD: {
-    '15m': 100,
-    last: 100,
-    buy: 100,
-    sell: 100,
+    '15m': 4000,
+    last: 4000,
+    buy: 4000,
+    sell: 4000,
     symbol: '$'
   }
 }
@@ -231,6 +217,35 @@ describe('SendBtc Modal', () => {
         .toEqual(
           actionTypes.components.sendBtc.SEND_BTC_PAYMENT_UPDATED_SUCCESS
         )
+    })
+
+    it('should enable the Continue button if all required fields have input', async () => {
+      wrapper.unmount().mount()
+      wrapper
+        .find('input[data-e2e="sendBtcFiatAmount"]')
+        .simulate('change', { target: { value: '0.5' } })
+      wrapper
+        .find('input[data-e2e="sendBtcAddressTextBox"]')
+        .simulate('change', { target: { value: '14uvrESf3q9xpny1ERb6iXX8WZd9RTZwKZ' } })
+
+      wrapper
+        .find('Field[name="coin"]')
+        .find('SelectBoxCoin')
+        .prop('input')
+        .onChange({ value: 'BTC' })
+
+      wrapper
+        .find('Field[name="from"]')
+        .find('SelectBoxBtcAddresses')
+        .prop('input')
+        .onChange({ value: btcAccountsMock })
+
+      await jest.runAllTimers()
+      await flushPromises()
+      wrapper.update()
+      expect(
+        wrapper.find('button').first().props().disabled
+      ).toEqual(false)
     })
   })
 })
