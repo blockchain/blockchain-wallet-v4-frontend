@@ -154,12 +154,12 @@ const getButton = (status, close) => {
       return (
         <Link
           target='_blank'
-          href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000014686'
+          href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000180551'
         >
           <Button nature='primary' size='13px' weight={300}>
             <FormattedMessage
-              id='modals.exchangedetails.refund'
-              defaultMessage='Request a refund'
+              id='modals.exchangedetails.support'
+              defaultMessage='Contact Support'
             />
           </Button>
         </Link>
@@ -168,7 +168,7 @@ const getButton = (status, close) => {
       return (
         <Button nature='primary' size='13px' weight={300} onClick={close}>
           <FormattedMessage
-            id='modals.exchangedetails.close'
+            id='modals.exchange.exchangeresults.close'
             defaultMessage='Close'
           />
         </Button>

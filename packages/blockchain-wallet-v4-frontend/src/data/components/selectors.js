@@ -13,6 +13,7 @@ import * as sendEth from './sendEth/selectors'
 import * as sendXlm from './sendXlm/selectors'
 import * as signMessage from './signMessage/selectors'
 import * as uploadDocuments from './uploadDocuments/selectors'
+import * as veriff from './veriff/selectors'
 
 export {
   identityVerification,
@@ -29,5 +30,6 @@ export {
   sendEth,
   sendXlm,
   signMessage,
-  uploadDocuments
+  uploadDocuments,
+  veriff
 }

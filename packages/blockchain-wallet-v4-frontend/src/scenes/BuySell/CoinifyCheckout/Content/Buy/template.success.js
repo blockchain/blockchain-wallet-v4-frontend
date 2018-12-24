@@ -154,7 +154,10 @@ const CoinifyBuy = props => {
               coinifyNextCheckoutStep('checkout')
             }}
           >
-            <FormattedMessage id='close' defaultMessage='Close' />
+            <FormattedMessage
+              id='scenes.buysell.coinifycheckout.content.buy.close'
+              defaultMessage='Close'
+            />
           </Button>
         </RightContainer>
       </CheckoutWrapper>

@@ -15,7 +15,7 @@ export default props => (
   <Wrapper>
     <ErrorLink size='12px' weight={300} onClick={() => props.onRefresh()}>
       <FormattedMessage
-        id='wallet.menutop.balance.refresh'
+        id='wallet.menutop.btcbalance.error.refresh'
         defaultMessage='Refresh {curr} data'
         values={{ curr: 'Bitcoin' }}
       />

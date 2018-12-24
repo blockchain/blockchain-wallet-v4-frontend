@@ -1,9 +1,8 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import { has, path, prop } from 'ramda'
+import { has, prop } from 'ramda'
 
-import { Banner, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import { SelectBox } from 'components/Form'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
@@ -51,14 +50,6 @@ const renderItem = item => {
             )
           </Text>
         </BalanceContainer>
-      )}
-      {path(['value', 'watchOnly'], item) && (
-        <Banner type='informational' inline>
-          <FormattedMessage
-            id='components.selectboxbitcoin.watchonly'
-            defaultMessage='Non-Spendable'
-          />
-        </Banner>
       )}
     </ItemWrapper>
   )

@@ -9,7 +9,8 @@ import * as C from 'services/AlertService'
 import { getBtcBalance, getAllBalances } from 'data/balance/sagas'
 
 export default ({ api }) => {
-  const { NONE } = model.profile.KYC_STATES
+  const { TIERS, KYC_STATES } = model.profile
+  const { NONE } = KYC_STATES
 
   const logLocation = 'goals/sagas'
 
@@ -35,6 +36,7 @@ export default ({ api }) => {
     const data = { address, amount, description: message }
     yield put(actions.goals.saveGoal('payment', data))
     yield put(actions.router.push('/wallet'))
+    yield put(actions.alerts.displayInfo(C.PLEASE_LOGIN))
   }
 
   const defineActionGoal = function*(pathname, search) {
@@ -101,11 +103,31 @@ export default ({ api }) => {
     }
   }
 
+  const runSwapUpgradeGoal = function*(goal) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    const showSwapUpgrade = yield select(
+      selectors.preferences.getShowSwapUpgrade
+    )
+    if (!showSwapUpgrade) return
+    const closeToTier1Limit = (yield select(
+      selectors.modules.profile.closeToTier1Limit
+    )).getOrElse(false)
+    if (closeToTier1Limit)
+      return yield put(
+        actions.goals.addInitialModal('swapUpgrade', 'SwapUpgrade', {
+          nextTier: TIERS[2],
+          currentTier: TIERS[1]
+        })
+      )
+  }
+
   const runKycGoal = function*(goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
-    // Check if wallet is funded
+    // check if user has already seen kyc modal
     const showKycGetStarted = yield select(
       selectors.preferences.getShowKycGetStarted
     )
@@ -149,12 +171,16 @@ export default ({ api }) => {
 
   const showInitialModal = function*() {
     const initialModals = yield select(selectors.goals.getInitialModals)
-    const { sunriver, payment, swap, welcome } = initialModals
+    const { sunriver, payment, swap, swapUpgrade, welcome } = initialModals
     if (sunriver)
       return yield put(actions.modals.showModal(sunriver.name, sunriver.data))
     if (payment)
       return yield put(actions.modals.showModal(payment.name, payment.data))
     if (swap) return yield put(actions.modals.showModal(swap.name, swap.data))
+    if (swapUpgrade)
+      return yield put(
+        actions.modals.showModal(swapUpgrade.name, swapUpgrade.data)
+      )
     if (welcome)
       return yield put(actions.modals.showModal(welcome.name, welcome.data))
   }
@@ -170,6 +196,9 @@ export default ({ api }) => {
           break
         case 'welcome':
           yield call(runWelcomeGoal, goal)
+          break
+        case 'swapUpgrade':
+          yield call(runSwapUpgradeGoal, goal)
           break
         case 'kyc':
           yield call(runKycGoal, goal)
@@ -188,7 +217,18 @@ export default ({ api }) => {
   }
 
   return {
+    defineActionGoal,
+    defineSendBtcGoal,
+    defineReferralGoal,
+    defineDeepLinkGoals,
     defineGoals,
-    runGoals
+    runGoal,
+    runGoals,
+    runKycGoal,
+    runSwapUpgradeGoal,
+    runWelcomeGoal,
+    runReferralGoal,
+    runSendBtcGoal,
+    showInitialModal
   }
 }

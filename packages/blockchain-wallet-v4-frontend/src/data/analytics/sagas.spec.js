@@ -112,11 +112,11 @@ describe('analyticsSagas', () => {
     })
     describe('Exchange clicked', () => {
       let { logLeftNavClick } = analyticsSagas({ api })
-      let payload = makeAction('Exchange')
+      let payload = makeAction('Swap')
       let saga = testSaga(logLeftNavClick, payload)
 
       it('should call api.logClick with exchange', () => {
-        saga.next().call(api.logClick, 'exchange')
+        saga.next().call(api.logClick, 'swap')
       })
     })
     describe('Security Center clicked', () => {

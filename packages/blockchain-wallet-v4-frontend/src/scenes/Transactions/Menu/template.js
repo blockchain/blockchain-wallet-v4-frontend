@@ -39,11 +39,9 @@ const Controls = styled.div`
   align-items: flex-start;
   width: 100%;
 
-  & > * {
-    margin-left: 5px;
-  }
   & input {
     border: 1px solid ${props => props.theme['gray-2']}!important;
+    margin-right: 100px;
   }
   & button {
     border: 1px solid ${props => props.theme['gray-2']}!important;
@@ -58,9 +56,10 @@ const Controls = styled.div`
 `
 const Addresses = styled.div`
   width: 100%;
-  margin-left: 0px;
+  margin-left: 0;
+  margin-right: 15px;
   @media (min-width: 1200px) {
-    width: 360px;
+    width: 300px;
   }
 `
 const Status = styled.div`
@@ -180,7 +179,12 @@ const Menu = props => {
                     ]}
                   />
                 ) : (
-                  <Link size={'12px'} weight={300} onClick={onShowPrivateKey}>
+                  <Link
+                    size={'12px'}
+                    weight={300}
+                    onClick={onShowPrivateKey}
+                    data-e2e='exportPrivateKeyLink'
+                  >
                     <FormattedMessage
                       id='scenes.transactions.export.ethkey'
                       defaultMessage='Export Private Key'
@@ -196,7 +200,11 @@ const Menu = props => {
                 onClick={handleClickReporting}
               />
             )}
-            <Field name='search' component={TextBox} />
+            <Field
+              name='search'
+              component={TextBox}
+              data-e2e='transactionsMenuSearchBox'
+            />
             <SearchIcon name='search' size='20px' />
           </Search>
         </Controls>

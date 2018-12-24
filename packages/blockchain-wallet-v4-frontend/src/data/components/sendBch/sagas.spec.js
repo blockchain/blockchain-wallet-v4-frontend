@@ -3,6 +3,7 @@ import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import { initialize } from 'redux-form'
 import { path, prop } from 'ramda'
 import { call } from 'redux-saga-test-plan/matchers'
+import { combineReducers } from 'redux'
 
 import rootReducer from '../../rootReducer'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
@@ -189,7 +190,7 @@ describe('sendBch sagas', () => {
 
       beforeEach(async () => {
         resultingState = await expectSaga(initialized, { payload })
-          .withReducer(rootReducer)
+          .withReducer(combineReducers(rootReducer))
           .provide([
             [
               select(selectors.core.common.bch.getAccountsBalances),

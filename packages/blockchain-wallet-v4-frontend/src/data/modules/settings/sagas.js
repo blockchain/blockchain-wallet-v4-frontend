@@ -349,13 +349,21 @@ export default ({ api, coreSagas }) => {
   }
 
   const showXlmPrivateKey = function*() {
-    const password = yield call(promptForSecondPassword)
-    const getMnemonic = state =>
-      selectors.core.wallet.getMnemonic(state, password)
-    const mnemonicT = yield select(getMnemonic)
-    const mnemonic = yield call(() => taskToPromise(mnemonicT))
-    const keyPair = utils.xlm.getKeyPair(mnemonic)
-    yield put(actions.modules.settings.addShownXlmPrivateKey(keyPair.secret()))
+    try {
+      const password = yield call(promptForSecondPassword)
+      const getMnemonic = state =>
+        selectors.core.wallet.getMnemonic(state, password)
+      const mnemonicT = yield select(getMnemonic)
+      const mnemonic = yield call(() => taskToPromise(mnemonicT))
+      const keyPair = utils.xlm.getKeyPair(mnemonic)
+      yield put(
+        actions.modules.settings.addShownXlmPrivateKey(keyPair.secret())
+      )
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'showXlmPrivateKey', e)
+      )
+    }
   }
 
   return {

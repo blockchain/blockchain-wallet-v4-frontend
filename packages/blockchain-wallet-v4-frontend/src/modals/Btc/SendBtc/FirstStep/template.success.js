@@ -85,7 +85,8 @@ const FirstStep = props => {
     regularFeePerByte,
     priorityFeePerByte,
     isPriorityFeePerByte,
-    totalFee
+    totalFee,
+    excludeLockbox
   } = rest
   const disableLockboxSend =
     from &&
@@ -121,6 +122,7 @@ const FirstStep = props => {
             component={SelectBoxBtcAddresses}
             validate={[required]}
             includeAll={false}
+            excludeLockbox={excludeLockbox}
           />
           {watchOnly && (
             <Row>
@@ -182,6 +184,7 @@ const FirstStep = props => {
                 component={TextBox}
                 validate={[required, validBitcoinAddress]}
                 autoFocus
+                data-e2e='sendBtcAddressTextBox'
               />
             )}
             <QRCodeCapture

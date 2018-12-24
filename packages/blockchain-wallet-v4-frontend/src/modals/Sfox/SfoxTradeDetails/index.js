@@ -118,14 +118,14 @@ class SfoxTradeDetails extends React.PureComponent {
               {isBuy ? (
                 <Text size='13px' weight={300}>
                   <FormattedMessage
-                    id='orderdetails.amounttopurchase'
+                    id='sfoxtradedetails.orderdetails.amounttopurchase'
                     defaultMessage='BTC Amount to Purchase'
                   />
                 </Text>
               ) : (
                 <Text size='13px' weight={300}>
                   <FormattedMessage
-                    id='orderdetails.amounttosell'
+                    id='sfoxtradedetails.orderdetails.amounttosell'
                     defaultMessage='BTC Amount to Sell'
                   />
                 </Text>
@@ -138,7 +138,7 @@ class SfoxTradeDetails extends React.PureComponent {
               <ToolTipWrapper>
                 <Text size='13px' weight={300}>
                   <FormattedMessage
-                    id='orderdetails.tradingfee'
+                    id='sfoxtradedetails.orderdetails.tradingfee'
                     defaultMessage='Trading Fee'
                   />
                   <TooltipHost id='tradingfee.tooltip'>
@@ -152,14 +152,14 @@ class SfoxTradeDetails extends React.PureComponent {
               {isBuy ? (
                 <Text size='13px' weight={300}>
                   <FormattedMessage
-                    id='orderdetails.totalcost'
+                    id='sfoxtradedetails.orderdetails.totalcost'
                     defaultMessage='Total Cost'
                   />
                 </Text>
               ) : (
                 <Text size='13px' weight={300}>
                   <FormattedMessage
-                    id='orderdetails.totaltobereceived'
+                    id='sfoxtradedetails.orderdetails.totaltobereceived'
                     defaultMessage='Total to be Received'
                   />
                 </Text>
@@ -172,7 +172,7 @@ class SfoxTradeDetails extends React.PureComponent {
               <OrderDetailsRow>
                 <Text size='13px' weight={300}>
                   <FormattedMessage
-                    id='orderdetails.fundsdelivery'
+                    id='sfoxtradedetails.orderdetails.fundsdelivery'
                     defaultMessage='Estimated Delivery of Funds'
                   />
                 </Text>
