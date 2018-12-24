@@ -10,6 +10,7 @@ export default ({ coreSagas }) => {
     try {
       yield call(coreSagas.kvStore.bsv.fetchMetadataBsv)
       yield call(coreSagas.data.bsv.fetchData)
+      yield call(coreSagas.data.bsv.fetchRates)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initializeBsv', e))
     }

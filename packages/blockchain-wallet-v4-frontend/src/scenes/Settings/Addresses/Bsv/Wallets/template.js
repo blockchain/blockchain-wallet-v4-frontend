@@ -70,8 +70,8 @@ const Success = props => {
       </BchWalletsAddressesSettingHeader>
       <SettingDescription>
         <FormattedMessage
-          id='scenes.settings.addresses.bsv.wallets.description'
-          defaultMessage='Need some copy...'
+          id='scenes.settings.addresses.bsv.wallets.desc'
+          defaultMessage='Bitcoin SV was a fork of Bitcoin Cash. Send or Swap your BSV today.'
         />
       </SettingDescription>
       <Table>
@@ -148,11 +148,7 @@ const Success = props => {
                     flexBasis: '20%'
                   }}
                 >
-                  <ClickableText
-                    weight={400}
-                    size='13px'
-                    onClick={() => onSendBsv(wallet)}
-                  >
+                  <ClickableText weight={400} size='13px' onClick={onSendBsv}>
                     <FormattedMessage
                       id='scenes.settings.addresses.bsv.wallets.send'
                       defaultMessage='Send'

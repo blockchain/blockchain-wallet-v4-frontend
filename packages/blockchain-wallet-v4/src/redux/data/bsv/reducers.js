@@ -16,7 +16,7 @@ const INITIAL_STATE = {
   fee: Remote.NotAsked,
   info: Remote.NotAsked,
   latest_block: Remote.NotAsked,
-  rates: Remote.NotAsked,
+  rates: Remote.of({}),
   transactions: [],
   transactions_at_bound: false
 }

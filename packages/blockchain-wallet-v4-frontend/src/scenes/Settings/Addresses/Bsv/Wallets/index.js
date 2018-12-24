@@ -13,10 +13,8 @@ class BsvWalletsContainer extends React.Component {
     return !Remote.Loading.is(nextProps.data)
   }
 
-  onSendBsv = wallet => {
-    this.props.modalActions.showModal(model.components.sendBsv.MODAL, {
-      wallet
-    })
+  onSendBsv = () => {
+    this.props.modalActions.showModal(model.components.sendBsv.MODAL)
   }
 
   onSwapBsv = account => {}
