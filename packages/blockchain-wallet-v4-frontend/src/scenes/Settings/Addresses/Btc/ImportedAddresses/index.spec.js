@@ -7,7 +7,10 @@ import {
 } from 'blockchain-wallet-v4/src'
 import modalsReducer from 'data/modals/reducers'
 import ImportedAddresses from './index'
-import { Wrapper } from './template.success'
+import { Wrapper, ClickableText } from './template.success'
+import { last, head } from 'ramda'
+import * as AT from 'data/actionTypes'
+import { MoreOptions } from '../AddressRow'
 
 // SELECTORS
 import { getSettings } from 'blockchain-wallet-v4/src/redux/settings/selectors'
@@ -30,6 +33,8 @@ jest.mock('blockchain-wallet-v4/src/redux/data/btc/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/data/eth/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/data/bch/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/data/xlm/selectors')
+
+const getAction = calls => head(last(calls))
 
 const addressesMock = [
   {
@@ -121,6 +126,31 @@ describe('ImportedAddresses', () => {
           <span>Non-Spendable</span>
         )
       ).toBeTruthy()
+    })
+
+    it('should open the request modal when the address is clicked', async () => {
+      let calls = dispatchSpy.mock.calls
+      wrapper.find('Link').first().simulate('click')
+      const action = getAction(calls)
+      expect(action.type).toEqual(AT.modals.SHOW_MODAL)
+      expect(action.payload.type).toEqual('RequestBtc')
+    })
+
+    it('should archive an address', async () => {
+      let calls = dispatchSpy.mock.calls
+      wrapper.find(MoreOptions).first().simulate('click')
+      wrapper.find(ClickableText).first().simulate('click')
+      const action = getAction(calls)
+      expect(action.type).toEqual(AT.core.wallet.SET_ADDRESS_ARCHIVED)
+    })
+
+    it('should show the private key', async () => {
+      let calls = dispatchSpy.mock.calls
+      wrapper.find(MoreOptions).first().simulate('click')
+      wrapper.find(ClickableText).at(1).simulate('click')
+      const action = getAction(calls)
+      expect(action.type).toEqual(AT.modals.SHOW_MODAL)
+      expect(action.payload.type).toEqual('ShowBtcPrivateKey')
     })
   })
 })

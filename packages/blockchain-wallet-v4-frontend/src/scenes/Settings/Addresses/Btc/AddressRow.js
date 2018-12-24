@@ -28,7 +28,7 @@ const AddressCell = styled(Text)`
   word-break: break-all;
 `
 
-const MoreOptions = () => (
+export const MoreOptions = () => (
   <Link weight={200} size='small'>
     <FormattedMessage
       id='scenes.settings.addresses.btc.addressrow.moreoptions'

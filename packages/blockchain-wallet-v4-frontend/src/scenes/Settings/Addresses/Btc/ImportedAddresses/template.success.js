@@ -31,7 +31,7 @@ const WarningWrapper = styled.div`
     float: left;
   }
 `
-const ClickableText = styled(Text)`
+export const ClickableText = styled(Text)`
   cursor: pointer;
 `
 
