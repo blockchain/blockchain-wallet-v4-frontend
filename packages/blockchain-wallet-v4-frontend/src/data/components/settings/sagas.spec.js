@@ -27,6 +27,10 @@ describe('settings sagas', () => {
       saga.next().call(coreSagas.data.bsv.fetchData)
     })
 
+    it('should call to fetch bsv rates', () => {
+      saga.next().call(coreSagas.data.bsv.fetchRates)
+    })
+
     it('should end', () => {
       saga.next().isDone()
     })
