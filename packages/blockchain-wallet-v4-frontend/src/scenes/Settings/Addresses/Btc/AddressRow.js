@@ -27,6 +27,13 @@ const AddressCell = styled(Text)`
   margin-right: 6px;
   word-break: break-all;
 `
+const AddressLink = styled(Link)`
+  color: ${props => props.archived && props.theme['gray-5']};
+  &:hover {
+    color: ${props => props.archived && props.theme['gray-5']};
+    cursor: ${props => props.archived && 'default'};
+  }
+`
 
 export const MoreOptions = () => (
   <Link weight={200} size='small'>
@@ -42,9 +49,9 @@ const AddressRow = ({ address, archived, coin, renderOptions, onAddressClick }) 
     <TableRow>
       <AddressTableCell width='50%'>
         <AddressCell>
-          <Link size='13px' weight={300} onClick={onAddressClick}>
+          <AddressLink size='13px' weight={300} onClick={onAddressClick} archived={archived}>
             {address.addr}
-          </Link>
+          </AddressLink>
         </AddressCell>
         {address.priv == null && (
           <Banner label type='informational'>

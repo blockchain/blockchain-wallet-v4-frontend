@@ -32,7 +32,7 @@ const extractAccountIdx = value =>
         : Remote.of(value.xpub)
     : Remote.NotAsked
 
-export const getData = (state, ownProps) => {
+export const getData = (state) => {
   const networkR = selectors.core.walletOptions.getBtcNetwork(state)
   const network = networkR.getOrElse('bitcoin')
   const availability = selectors.core.walletOptions.getCoinAvailability(
@@ -79,9 +79,11 @@ export const getData = (state, ownProps) => {
     getReceiveIdxLockbox,
     to
   )
-  const receiveAddressR = !prop('receiveAddressFromProps', ownProps)
-    ? extractAddress(getReceiveAddressWallet, getReceiveAddressLockbox, to)
-    : Remote.of(prop('receiveAddressFromProps', ownProps))
+  const receiveAddressR = extractAddress(
+    getReceiveAddressWallet,
+    getReceiveAddressLockbox,
+    to
+  )
 
   const transform = (receiveAddress, accountIdx, addressIdx) => ({
     type,

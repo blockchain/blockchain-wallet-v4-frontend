@@ -93,13 +93,12 @@ class FirstStepContainer extends React.PureComponent {
           message={value.message}
           addressIdx={value.addressIdx}
           accountIdx={value.accountIdx}
-          receiveAddress={value.receiveAddress}
+          receiveAddress={this.props.receiveAddressFromProps || value.receiveAddress}
           handleOpenLockbox={this.handleOpenLockbox}
           handleClickQRCode={() => this.handleClickQRCode(value)}
           handleSubmit={this.handleSubmit}
           importedAddresses={importedAddresses}
           excludeLockbox={value.excludeLockbox}
-          receiveAddressFromProps={this.props.receiveAddressFromProps}
         />
       ),
       NotAsked: () => <DataError onClick={this.handleRefresh} />,
@@ -111,7 +110,7 @@ class FirstStepContainer extends React.PureComponent {
 
 const mapStateToProps = (state, ownProps) => ({
   initialValues: getInitialValues(state, ownProps),
-  data: getData(state, ownProps),
+  data: getData(state),
   importedAddresses: getImportedAddresses(state)
 })
 
