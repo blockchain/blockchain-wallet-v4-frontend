@@ -14,7 +14,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 export const MODAL_NAME = 'Onfido'
 export const { ONFIDO_STARTED } = model.analytics.KYC
 const OnfidoIframe = styled.iframe.attrs({
-  allow: 'camera'
+  allow: 'camera; microphone'
 })`
   width: 100%;
   height: 604px;
