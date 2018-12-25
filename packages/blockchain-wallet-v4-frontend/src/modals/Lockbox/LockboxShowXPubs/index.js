@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { keys } from 'ramda'
 import styled from 'styled-components'
-import QRCodeReact from 'qrcode.react'
+import QRCodeWrapper from 'components/QRCodeWrapper'
 import { FormattedMessage } from 'react-intl'
 
 import { actions } from 'data'
@@ -143,7 +143,7 @@ export class LockboxShowXPubs extends React.PureComponent {
                 <XPubText size='12px' weight='300'>
                   {coins[activeTab]}
                 </XPubText>
-                <QRCodeReact value={coins[activeTab]} size={150} />
+                <QRCodeWrapper value={coins[activeTab]} size={150} />
               </Content>
             ) : (
               <Content style={{ textAlign: 'center' }}>

@@ -1,7 +1,7 @@
 import { delay } from 'redux-saga'
 import { put, select, call, fork, cancel, spawn } from 'redux-saga/effects'
 import moment from 'moment'
-import { equals, lift, prop } from 'ramda'
+import { compose, equals, lift, prop, sortBy, tail } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4'
 import { selectors, actions } from 'data'
@@ -120,6 +120,7 @@ export default ({ api, coreSagas }) => {
     try {
       const user = yield call(api.getUser)
       yield put(A.fetchUserDataSuccess(user))
+      yield call(fetchTiers)
       if (!renewUserTask && user.kycState === KYC_STATES.PENDING)
         renewUserTask = yield spawn(renewUser, renewUserDelay)
 
@@ -262,6 +263,24 @@ export default ({ api, coreSagas }) => {
     yield put(A.fetchUserDataSuccess(userData))
   }
 
+  const fetchTiers = function*() {
+    try {
+      const tiers = yield select(S.getTiers)
+      if (!Remote.Success.is(tiers)) yield put(A.fetchTiersLoading())
+      const tiersData = yield call(api.fetchTiers)
+      yield put(
+        A.fetchTiersSuccess(
+          compose(
+            tail,
+            sortBy(prop('index'))
+          )(tiersData.tiers)
+        )
+      )
+    } catch (e) {
+      yield put(A.fetchTiersFailure(e))
+    }
+  }
+
   return {
     getCampaignData,
     signIn,
@@ -274,6 +293,7 @@ export default ({ api, coreSagas }) => {
     updateUser,
     updateUserAddress,
     fetchUser,
+    fetchTiers,
     renewApiSockets,
     renewUser,
     syncUserWithWallet,

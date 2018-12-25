@@ -181,11 +181,11 @@ const FirstStep = props => {
                 />
                 {enableToggle ? (
                   !toToggled ? (
-                    <AddressButton onClick={handleToToggle}>
+                    <AddressButton onClick={() => handleToToggle()}>
                       <Icon name='down-arrow' size='11px' cursor />
                     </AddressButton>
                   ) : (
-                    <AddressButton onClick={handleToToggle}>
+                    <AddressButton onClick={() => handleToToggle()}>
                       <Icon name='pencil' size='13px' cursor />
                     </AddressButton>
                   )

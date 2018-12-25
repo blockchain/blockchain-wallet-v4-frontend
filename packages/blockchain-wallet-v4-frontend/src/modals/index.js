@@ -25,6 +25,7 @@ import {
   ExchangeResults,
   IdentityVerification,
   SwapGetStarted,
+  SwapUpgrade,
   UserExists,
   SunRiverLinkError
 } from './Exchange'
@@ -37,6 +38,7 @@ import {
   LockboxShowXPubs
 } from './Lockbox'
 import { MobileLogin, MobileNumberChange, MobileNumberVerify } from './Mobile'
+import Onfido from './Onfido'
 import QRCode from './QRCode'
 import {
   SfoxEnterMicroDeposits,
@@ -86,6 +88,7 @@ const Modals = props => (
     <MobileNumberChange />
     <MobileNumberVerify />
     <MobileLogin />
+    <Onfido />
     <PairingCode />
     <PromptInput />
     <QRCode />
@@ -109,6 +112,7 @@ const Modals = props => (
     <SfoxEnterMicroDeposits />
     <SunRiverLinkError />
     <SwapGetStarted />
+    <SwapUpgrade />
     <TransactionReport />
     <TransferEth />
     <TwoStepGoogleAuthenticator />

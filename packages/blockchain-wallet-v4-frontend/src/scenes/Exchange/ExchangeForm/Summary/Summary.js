@@ -3,8 +3,7 @@ import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { BigNumber } from 'bignumber.js'
 
-import StringDisplay from 'components/Display/StringDisplay'
-
+import { coinToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { getData } from './selectors'
 import {
   ExchangeText,
@@ -13,6 +12,7 @@ import {
   Delimiter,
   TableRow
 } from 'components/Exchange'
+import StringDisplay from 'components/Display/StringDisplay'
 
 const add = (augend, addend) => new BigNumber(augend).add(addend).toString()
 
@@ -29,60 +29,79 @@ export class Summary extends React.PureComponent {
     } = this.props
     return (
       <React.Fragment>
-        <AmountHeader>
-          <FormattedMessage
-            id='scenes.exchange.exchangeform.summary.deposit'
-            defaultMessage='Exchange {coin}'
-            values={{
-              coin: sourceCoin
-            }}
-          />
-        </AmountHeader>
-        <ExchangeAmount>
-          <StringDisplay>
-            {sourceAmount.map(
-              amount => `${add(amount, sourceFee.source)} ${sourceCoin}`
-            )}
-          </StringDisplay>
-        </ExchangeAmount>
-        <AmountHeader>
-          <FormattedMessage
-            id='scenes.exchange.exchangeform.summary.receive'
-            defaultMessage='Receive {coin}'
-            values={{
-              coin: targetCoin
-            }}
-          />
-        </AmountHeader>
-        <ExchangeAmount>
-          <StringDisplay>
-            {targetAmount.map(amount => `${amount} ${targetCoin}`)}
-          </StringDisplay>
-        </ExchangeAmount>
+        <TableRow>
+          <AmountHeader>
+            <FormattedMessage
+              id='scenes.exchange.exchangeform.summary.swap'
+              defaultMessage='Swap'
+            />
+          </AmountHeader>
+          <ExchangeAmount>
+            <StringDisplay>
+              {sourceAmount.map(amount =>
+                coinToString({
+                  value: add(amount, sourceFee.source),
+                  unit: { symbol: sourceCoin },
+                  minDigits: 2
+                })
+              )}
+            </StringDisplay>
+          </ExchangeAmount>
+        </TableRow>
+        <TableRow>
+          <AmountHeader>
+            <FormattedMessage
+              id='scenes.exchange.exchangeform.summary.to'
+              defaultMessage='Receive'
+            />
+          </AmountHeader>
+          <ExchangeAmount>
+            <StringDisplay>
+              {targetAmount.map(amount =>
+                coinToString({
+                  value: amount,
+                  unit: { symbol: targetCoin },
+                  minDigits: 2
+                })
+              )}
+            </StringDisplay>
+          </ExchangeAmount>
+        </TableRow>
         <Delimiter />
         <TableRow>
           <ExchangeText>
             <FormattedMessage
-              id='scenes.exchange.exchangeform.summary.fee'
-              defaultMessage='Network Fee'
+              id='scenes.exchange.exchangeform.summary.fees'
+              defaultMessage='Fees'
             />
           </ExchangeText>
-          <ExchangeText weight={300}>
-            {sourceFee.source} {sourceCoin}
-          </ExchangeText>
+          <ExchangeAmount>
+            {coinToString({
+              value: sourceFee.source,
+              unit: { symbol: sourceCoin },
+              minDigits: 2
+            })}
+          </ExchangeAmount>
         </TableRow>
         <TableRow>
           <ExchangeText>
             <FormattedMessage
-              id='scenes.exchange.exchangeform.summary.value'
-              defaultMessage='~ Total Value'
+              id='scenes.exchange.exchangeform.summary.swapvalue'
+              defaultMessage='Swap Value'
             />
           </ExchangeText>
-          <ExchangeText weight={300}>
+          <ExchangeAmount>
             <StringDisplay>
-              {targetFiat.map(amount => `${amount} ${currency}`)}
+              {targetFiat.map(amount =>
+                coinToString({
+                  value: amount,
+                  unit: { symbol: currency },
+                  minDigits: 2,
+                  maxDigits: 2
+                })
+              )}
             </StringDisplay>
-          </ExchangeText>
+          </ExchangeAmount>
         </TableRow>
       </React.Fragment>
     )

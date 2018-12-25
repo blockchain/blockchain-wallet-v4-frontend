@@ -15,6 +15,6 @@ export const Row = styled.div`
   justify-content: space-between;
   box-sizing: border-box;
   align-items: center;
-  padding: 30px;
+  padding: 32px;
   width: 100%;
 `

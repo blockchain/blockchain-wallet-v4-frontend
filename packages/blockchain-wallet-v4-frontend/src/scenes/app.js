@@ -13,6 +13,7 @@ import AuthorizeLogin from './AuthorizeLogin'
 import BuySell from './BuySell'
 import Exchange from './Exchange'
 import ExchangeHistory from './ExchangeHistory'
+import ExchangeProfile from './ExchangeProfile'
 import Help from './Help'
 import Home from './Home'
 import Lockbox from './Lockbox'
@@ -98,21 +99,25 @@ class App extends React.PureComponent {
                       coin='XLM'
                     />
                     <WalletLayout
-                      path='/exchange/history'
+                      path='/swap/history'
                       component={ExchangeHistory}
                     />
-                    <WalletLayout path='/exchange' component={Exchange} exact />
+                    <WalletLayout
+                      path='/swap/profile'
+                      component={ExchangeProfile}
+                    />
+                    <WalletLayout path='/swap' component={Exchange} exact />
                     <WalletLayout
                       path='/security-center'
                       component={SecurityCenter}
                     />
                     <WalletLayout
-                      path='/settings/profile'
-                      component={Profile}
-                    />
-                    <WalletLayout
                       path='/settings/preferences'
                       component={Preferences}
+                    />
+                    <WalletLayout
+                      path='/settings/profile'
+                      component={Profile}
                     />
                     <WalletLayout
                       path='/settings/addresses'

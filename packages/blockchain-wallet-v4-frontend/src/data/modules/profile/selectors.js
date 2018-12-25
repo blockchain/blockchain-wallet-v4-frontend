@@ -1,17 +1,21 @@
 import {
   and,
   any,
+  compose,
+  complement,
+  converge,
+  curry,
+  equals,
+  find,
+  findLast,
+  lift,
   path,
   pathOr,
-  compose,
-  converge,
-  equals,
-  lift,
   prop,
   propEq
 } from 'ramda'
 import { selectors } from 'data'
-import { USER_ACTIVATION_STATES, TIERS, KYC_STATES } from './model'
+import { USER_ACTIVATION_STATES, KYC_STATES, TIERS_STATES } from './model'
 
 export const getUserData = path(['profile', 'userData'])
 export const getUserActivationState = compose(
@@ -21,6 +25,10 @@ export const getUserActivationState = compose(
 export const getUserKYCState = compose(
   lift(prop('kycState')),
   getUserData
+)
+export const isUserCreated = compose(
+  lift(equals(USER_ACTIVATION_STATES.CREATED)),
+  getUserActivationState
 )
 export const isUserActive = compose(
   lift(equals(USER_ACTIVATION_STATES.ACTIVE)),
@@ -34,15 +42,23 @@ export const getUserCountryCode = compose(
   lift(path(['address', 'country'])),
   getUserData
 )
+export const getUserTiers = compose(
+  lift(prop('tiers')),
+  getUserData
+)
+export const getUserLimits = compose(
+  lift(prop('limits')),
+  getUserData
+)
 
-// TODO: remove when BE ships the TIER field
-export const defineUserTier = (userState, kycState) => {
-  if (userState !== USER_ACTIVATION_STATES.CREATED) return TIERS[0]
-  if (kycState !== KYC_STATES.VERIFIED) return TIERS[1]
-  return TIERS[2]
-}
-export const getUserTier = state =>
-  lift(defineUserTier)(getUserActivationState(state), getUserKYCState(state))
+export const getTiers = path(['profile', 'userTiers'])
+export const getTier = curry((tierIndex, state) =>
+  lift(find(propEq('index', tierIndex)))(getTiers(state))
+)
+export const getLastAttemptedTier = compose(
+  lift(findLast(complement(propEq('state', TIERS_STATES.NONE)))),
+  getTiers
+)
 
 export const isCountrySupported = (countryCode, supportedCountries) =>
   any(propEq('code', countryCode), supportedCountries)
@@ -69,3 +85,14 @@ export const getAuthCredentials = state => ({
 })
 
 export const getCampaign = pathOr(null, ['profile', 'campaign'])
+
+export const CLOSE_TO_AMOUNT = 0.8
+export const closeToTier1Limit = state =>
+  lift(
+    (userData, tiers) =>
+      path([0, 'state'], tiers) === TIERS_STATES.VERIFIED &&
+      path([1, 'state'], tiers) === TIERS_STATES.NONE &&
+      pathOr(0, [0, 'limits', 'annual'], tiers)[0].limits.annual *
+        CLOSE_TO_AMOUNT <
+        pathOr(0, ['limits', 'annual'], userData)
+  )(getUserData(state), getTiers(state))

@@ -3,10 +3,11 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 
 import { getData } from './selectors'
+import { formatAmount } from '../services'
 import StringDisplay from 'components/Display/StringDisplay'
 
 const ComplementaryAmountContaier = styled.div`
-  font-weight: 200;
+  font-weight: 300;
   font-size: 20px;
   line-height: 24px;
   position: relative;
@@ -16,11 +17,6 @@ const ComplementaryAmountContaier = styled.div`
   margin-top: 10px;
 `
 
-export const formatAmount = (isFiat, symbol, value) => {
-  if (!value) return ''
-
-  return isFiat ? `${symbol}${value}` : `${value} ${symbol}`
-}
 export class ComplementaryAmount extends React.PureComponent {
   render () {
     const { complementaryAmount, isFiat, complementarySymbol } = this.props
