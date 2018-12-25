@@ -21,12 +21,14 @@ const Wrapper = styled.div`
 
 const Success = props =>
   props.large ? (
-    <Wrapper large>{props.totalBalance}</Wrapper>
+    <Wrapper large data-e2e='topBalanceTotal'>
+      {props.totalBalance}
+    </Wrapper>
   ) : (
     <LinkContainer to='/home'>
       <Wrapper>
         <FormattedMessage
-          id='scenes.wallet.menutop.balance.totalbalance'
+          id='scenes.wallet.menutop.balance.totalbalance.total'
           defaultMessage='Total Balance'
         />
         <span>&nbsp;</span>

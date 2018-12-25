@@ -211,7 +211,7 @@ export default ({ coreSagas }) => {
       // Display success
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionSuccess())
-        yield delay(1500)
+        yield delay(4000)
         const device = (yield select(
           selectors.core.kvStore.lockbox.getDeviceFromXlmAddr,
           fromAddress
@@ -260,7 +260,7 @@ export default ({ coreSagas }) => {
 
   const toToggled = function*() {
     try {
-      yield put(change('sendXlm', 'to', ''))
+      yield put(change(FORM, 'to', ''))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'toToggled', e))
     }

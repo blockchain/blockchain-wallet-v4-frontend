@@ -350,6 +350,13 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage='IP whitelist has been successfully updated'
         />
       )
+    case C.KYC_START_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.kyc_start_error'
+          defaultMessage='Failed to update a tier. Please try again'
+        />
+      )
     case C.LANGUAGE_UPDATE_ERROR:
       return (
         <FormattedMessage
@@ -523,6 +530,13 @@ const selectMessage = (message, data = undefined) => {
         <FormattedMessage
           id='components.alerts.pbkdf2_update_success'
           defaultMessage='PBKDF2 iterations changed successfully'
+        />
+      )
+    case C.PLEASE_LOGIN:
+      return (
+        <FormattedMessage
+          id='components.alerts.please_login'
+          defaultMessage='Please login to your wallet to proceed'
         />
       )
     case C.QR_SCANNER_NOT_ALLOWED:

@@ -9,7 +9,6 @@ import MicroDeposits from './MicroDeposits'
 import PlaidFrame from './iframe.js'
 import AwaitingDeposits from './AwaitingDeposits'
 import { Remote } from 'blockchain-wallet-v4/src'
-// TODO: ensure old ui props are working...
 
 import renderFaq from 'components/FaqDropdown'
 import {
@@ -50,6 +49,8 @@ const ButtonContainer = styled.div`
     }
   `};
 `
+const FaqWrapper = styled.div``
+
 const OrText = styled.p`
   color: rgba(151, 151, 151, 0.5);
   margin: 10px 0 15px;
@@ -125,10 +126,23 @@ const faqQuestions = [
       />
     ),
     answer: (
-      <FormattedMessage
-        id='scenes.buysell.sfoxsignup.link.helper1.answer'
-        defaultMessage='Yes, you can change your bank account by emailing support@sfox.com. Make sure you mention Blockchain in the subject and include the information you want to change.'
-      />
+      <FaqWrapper>
+        <FormattedMessage
+          id='scenes.buysell.sfoxsignup.link.helper1.answer1'
+          defaultMessage='Yes, you can change your bank account by emailing'
+        />
+        <span>&nbsp;</span>
+        <Link href='mailto:support@sfox.com' size='13px' weight={200}>
+          <FormattedMessage
+            id='scenes.buysell.sfoxsignup.link.helper1.link'
+            defaultMessage='support@sfox.com'
+          />
+        </Link>
+        <FormattedMessage
+          id='scenes.buysell.sfoxsignup.link.helper1.answer2'
+          defaultMessage='. Make sure you mention Blockchain in the subject and include the information you want to change.'
+        />
+      </FaqWrapper>
     )
   },
   {
@@ -140,8 +154,8 @@ const faqQuestions = [
     ),
     answer: (
       <FormattedMessage
-        id='scenes.buysell.sfoxsignup.link.helper2.answer'
-        defaultMessage='Adding your account details manually. In order to verify these details belong to you, SFOX sends 2 micro-deposits to your account. This process can take up to 5 days in itself, so we recommend signing directly into your bank if you would like to buy & sell immediately.'
+        id='scenes.buysell.sfoxsignup.link.helper2.answer1'
+        defaultMessage='Adding your account details manually takes longer. In order to verify these details belong to you, SFOX sends 2 micro-deposits to your account. This process can take up to 5 days in itself, so we recommend signing directly into your bank if you would like to buy & sell immediately.'
       />
     )
   }
@@ -153,6 +167,9 @@ const BankLink = props => {
     enablePlaid,
     bankAccounts,
     onSetBankAccount,
+    microDeposits,
+    selectBank,
+    addBankManually,
     toggleManual,
     handleSubmit,
     invalid,
@@ -171,10 +188,7 @@ const BankLink = props => {
     linkError,
     setNotAsked,
     awaitingDeposits,
-    resetAccountHolder,
-    microDeposits,
-    selectBank,
-    isToggled
+    resetAccountHolder
   } = props
 
   const titleHelper = () => {
@@ -220,7 +234,7 @@ const BankLink = props => {
   }
 
   const bankHelper = () => {
-    if (isToggled) {
+    if (addBankManually) {
       return (
         <AddManually
           handleFullName={handleFullName}
@@ -264,9 +278,9 @@ const BankLink = props => {
 
   const helpersHelper = () => {
     if (selectBank) {
-      return <React.Fragment>{renderFaq(selectBankQuestions)}</React.Fragment>
+      return <Fragment>{renderFaq(selectBankQuestions)}</Fragment>
     }
-    return <React.Fragment>{renderFaq(faqQuestions)}</React.Fragment>
+    return <Fragment>{renderFaq(faqQuestions)}</Fragment>
   }
 
   const buttonHelper = () => {
@@ -339,7 +353,7 @@ const BankLink = props => {
             )}
           </Button>
         )}
-        {isToggled && !linkError ? (
+        {addBankManually && !linkError ? (
           <GoBackLink onClick={toggleManual}>
             <FormattedMessage
               id='sfoxexchangedata.link.goback'

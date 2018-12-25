@@ -22,3 +22,4 @@ export const setTotalBalancesDropdown = payload => ({
 
 export const hideKycGetStarted = () => ({ type: AT.HIDE_KYC_GET_STARTED })
 export const hideSwapBanner = () => ({ type: AT.HIDE_SWAP_BANNER })
+export const hideSwapUpgradeModal = () => ({ type: AT.HIDE_SWAP_UPGRADE_MODAL })

@@ -1,21 +1,20 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { formValueSelector } from 'redux-form'
-import { merge, path, append, prop, head } from 'ramda'
-
 import Link from './template'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
+import { merge, path, prop, head } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { getData } from './selectors'
 
-class LinkContainer extends Component {
+class LinkContainer extends PureComponent {
   state = {
     enablePlaid: false,
     id: '',
+    addBankManually: false,
+    selectBank: false,
     microDeposits: false,
-    microStep: 'welcome',
-    isToggled: false,
-    selectBank: false
+    microStep: 'welcome'
   }
 
   componentDidMount () {
@@ -44,6 +43,12 @@ class LinkContainer extends Component {
   }
 
   componentWillUnmount () {
+    this.setState({
+      addBankManually: false,
+      selectBank: false,
+      microDeposits: false,
+      microStep: 'welcome'
+    })
     this.props.sfoxDataActions.wipeBankAccounts()
   }
 
@@ -64,15 +69,13 @@ class LinkContainer extends Component {
   }
 
   onSubmit = () => {
-    const {
-      fullName,
-      routingNumber,
-      accountNumber,
-      accountType,
-      toggleManual
-    } = this.state
-    if (toggleManual && routingNumber && accountNumber) {
+    if (
+      this.state.addBankManually &&
+      this.state.routingNumber &&
+      this.state.accountNumber
+    ) {
       this.props.sfoxFrontendActions.sfoxLoading()
+      const { fullName, routingNumber, accountNumber, accountType } = this.state
       this.props.sfoxFrontendActions.setBankManually(
         routingNumber,
         accountNumber,
@@ -95,25 +98,18 @@ class LinkContainer extends Component {
 
   render () {
     const {
-      bankAccounts,
-      accounts,
-      linkStatus,
       sfoxFrontendActions,
+      modalActions,
+      accounts,
+      bankAccounts,
+      busyStatus,
       plaidBaseUrl,
-      plaidPath,
+      plaidKey,
       plaidEnv
     } = this.props
-    const {
-      microDeposits,
-      microStep,
-      enablePlaid,
-      selectBank,
-      isToggled
-    } = this.state
-
     const { sfoxNotAsked } = sfoxFrontendActions
-    const plaidUrl = `${plaidBaseUrl}/wallet-helper/plaid/#/key/${plaidPath}/env/${plaidEnv}`
-    const { showModal } = this.props.modalActions
+    const { showModal } = modalActions
+    const plaidUrl = `${plaidBaseUrl}/wallet-helper/plaid/#/key/${plaidKey}/env/${plaidEnv}`
 
     let awaitingDeposits = false
     if (Remote.Success.is(accounts)) {
@@ -121,7 +117,7 @@ class LinkContainer extends Component {
         prop('status', head(accounts.getOrElse())) === 'pending'
     }
 
-    const { sfoxBusy, err } = linkStatus.cata({
+    const { sfoxBusy, err } = busyStatus.cata({
       Success: () => ({ sfoxBusy: false }),
       Loading: () => ({ sfoxBusy: true }),
       Failure: err => ({ sfoxBusy: false, err }),
@@ -132,11 +128,12 @@ class LinkContainer extends Component {
       <Link
         onSubmit={this.onSubmit}
         plaidUrl={plaidUrl}
+        enablePlaid={this.state.enablePlaid}
         bankAccounts={bankAccounts}
         accounts={accounts}
         onSetBankAccount={this.onSetBankAccount}
         toggleManual={() =>
-          this.setState({ toggleManual: !this.state.toggleManual })
+          this.setState({ addBankManually: !this.state.addBankManually })
         }
         handleBankSelection={id => this.setState({ id })}
         onNameChange={name => this.setState({ holderName: name })}
@@ -148,6 +145,7 @@ class LinkContainer extends Component {
           this.setState({ accountNumber: e.target.value })
         }
         handleAccountType={(e, val) => this.setState({ accountType: val })}
+        microStep={this.state.microStep}
         goToMicroDepositStep={step => this.setState({ microStep: step })}
         submitMicroDeposits={this.submitMicroDeposits}
         awaitingDeposits={awaitingDeposits}
@@ -156,45 +154,13 @@ class LinkContainer extends Component {
         setNotAsked={sfoxNotAsked}
         linkError={err && path(['message'], err)}
         resetAccountHolder={this.resetAccountHolder}
-        microDeposits={microDeposits}
-        microStep={microStep}
-        enablePlaid={enablePlaid}
-        selectBank={selectBank}
-        isToggled={isToggled}
+        {...this.state}
       />
     )
   }
 }
 
-const basePath = [
-  'walletOptionsPath',
-  'data',
-  'platforms',
-  'web',
-  'sfox',
-  'config'
-]
-const plaidPath = append('plaid', basePath)
-const plaidEnvPath = append('plaidEnv', basePath)
-
-const mapStateToProps = state => ({
-  plaidPath: path(plaidPath, state),
-  plaidEnv: path(plaidEnvPath, state),
-  plaidBaseUrl: path(
-    ['walletOptionsPath', 'data', 'domains', 'walletHelper'],
-    state
-  ),
-  bankAccounts: selectors.core.data.sfox.getBankAccounts(state),
-  accounts: selectors.core.data.sfox.getAccounts(state),
-  deposit1: formValueSelector('sfoxLink')(state, 'deposit1'),
-  deposit2: formValueSelector('sfoxLink')(state, 'deposit2'),
-  accountHolderFirst: formValueSelector('sfoxLink')(
-    state,
-    'accountHolderFirst'
-  ),
-  accountHolderLast: formValueSelector('sfoxLink')(state, 'accountHolderLast'),
-  linkStatus: path(['sfoxSignup', 'sfoxBusy'], state)
-})
+const mapStateToProps = getData
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),

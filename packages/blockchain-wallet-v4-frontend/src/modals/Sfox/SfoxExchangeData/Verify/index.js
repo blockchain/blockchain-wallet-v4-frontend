@@ -4,13 +4,17 @@ import { FormattedMessage } from 'react-intl'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 import { path, equals } from 'ramda'
+import styled from 'styled-components'
 
 import { actions } from 'data'
 import Upload from '../Upload'
 import Jumio from '../Jumio'
+import { Link } from 'blockchain-info-components'
 import renderFaq from 'components/FaqDropdown'
 import Address from './Address'
 import Identity from './Identity'
+
+const FaqWrapper = styled.div``
 
 const faqQuestions = [
   {
@@ -21,10 +25,28 @@ const faqQuestions = [
       />
     ),
     answer: (
-      <FormattedMessage
-        id='scenes.buysell.sfoxsignup.verify.address.helper1.answer'
-        defaultMessage='SFOX needs this information to verify your identity and to comply with government regulated anti-money laundering laws.'
-      />
+      <FaqWrapper>
+        <FormattedMessage
+          id='scenes.buysell.sfoxsignup.verify.address.helper1.answer'
+          defaultMessage='SFOX needs this information to verify your identity and to comply with government regulated anti-money laundering laws. To read more about how SFOX protects this information, please visit their'
+        />
+        <span>&nbsp;</span>
+        <Link
+          href='https://www.sfox.com/privacy.html'
+          target='_blank'
+          size='12px'
+          weight={200}
+        >
+          <FormattedMessage
+            id='scenes.buysell.sfoxsignup.verify.address.helper1.link'
+            defaultMessage='privacy policy'
+          />
+        </Link>
+        <FormattedMessage
+          id='scenes.buysell.sfoxsignup.verify.address.helper1.answer2'
+          defaultMessage='.'
+        />
+      </FaqWrapper>
     )
   },
   {

@@ -152,7 +152,7 @@ export default ({ api, coreSagas, networks }) => {
       )
       const phoneCallRequestSent = phoneCallRequestSentR.getOrElse(true)
       if (trade.speedupAvailable && !phoneCallRequestSent) {
-        yield call(confirmPhoneCall, trade)
+        yield call(__confirmPhoneCall, trade)
       }
       yield put(
         actions.form.change('buySellTabStatus', 'status', 'order_history')
@@ -281,7 +281,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const confirmPhoneCall = function*(trade) {
+  const __confirmPhoneCall = function*(trade) {
     const smsNumberR = yield select(selectors.core.settings.getSmsNumber)
     const smsNumber = smsNumberR.getOrElse(null)
     try {
@@ -412,6 +412,7 @@ export default ({ api, coreSagas, networks }) => {
 
   return {
     checkProfileStatus,
+    __confirmPhoneCall,
     initializePayment,
     prepareAddress,
     setBankManually,

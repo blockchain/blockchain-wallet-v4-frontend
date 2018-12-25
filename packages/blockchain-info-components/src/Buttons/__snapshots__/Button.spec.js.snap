@@ -11,6 +11,7 @@ exports[`Button component default renders correctly 1`] = `
   fullwidth={false}
   height="40px"
   rounded={false}
+  size="14px"
   uppercase={false}
 />
 `;

@@ -1,16 +1,13 @@
 import { assoc } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import * as AT from './actionTypes'
-
 export const INITIAL_STATE = {
   onfidoSDKKey: Remote.NotAsked,
   onfidoSyncStatus: Remote.NotAsked,
   applicantId: ''
 }
-
 export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
-
   switch (type) {
     case AT.FETCH_ONFIDO_SDK_KEY_ERROR: {
       return assoc('onfidoSDKKey', Remote.Failure(payload.message), state)

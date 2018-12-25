@@ -5,7 +5,7 @@ import { Icon } from 'blockchain-info-components'
 import { Wrapper, MenuItem, SubMenu, SubMenuItem } from 'components/MenuLeft'
 
 const Footer = props => {
-  const { settingsOpened, userFlowSupported } = props.data
+  const { settingsOpened } = props.data
 
   return (
     <Wrapper>
@@ -41,16 +41,14 @@ const Footer = props => {
               />
             </SubMenuItem>
           </LinkContainer>
-          {userFlowSupported && (
-            <LinkContainer to='/settings/profile' activeClassName='active'>
-              <SubMenuItem data-e2e='settings_profileLink'>
-                <FormattedMessage
-                  id='layouts.wallet.menuleft.footer.profile'
-                  defaultMessage='Profile'
-                />
-              </SubMenuItem>
-            </LinkContainer>
-          )}
+          <LinkContainer to='/settings/profile' activeClassName='active'>
+            <SubMenuItem data-e2e='settings_profileLink'>
+              <FormattedMessage
+                id='layouts.wallet.menuleft.footer.profile'
+                defaultMessage='Profile'
+              />
+            </SubMenuItem>
+          </LinkContainer>
           <LinkContainer to='/settings/preferences' activeClassName='active'>
             <SubMenuItem data-e2e='settings_preferencesLink'>
               <FormattedMessage
@@ -59,7 +57,7 @@ const Footer = props => {
               />
             </SubMenuItem>
           </LinkContainer>
-          <LinkContainer to='/settings/addresses/btc' activeClassName='active'>
+          <LinkContainer to='/settings/addresses' activeClassName='active'>
             <SubMenuItem data-e2e='settings_walletsLink'>
               <FormattedMessage
                 id='layouts.wallet.menuleft.footer.addresses'

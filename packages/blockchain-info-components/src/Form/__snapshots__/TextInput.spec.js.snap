@@ -7,5 +7,6 @@ exports[`TextInput component default renders correctly 1`] = `
   height="40px"
   innerRef={[Function]}
   minHeight="40px"
+  onKeyDown={[Function]}
 />
 `;

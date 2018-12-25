@@ -43,6 +43,7 @@ import {
   Row,
   ColLeft,
   ColRight,
+  CustomFeeAlertBanner,
   FeeFormContainer,
   FeeFormGroup,
   FeeFormLabel,
@@ -77,7 +78,8 @@ const FirstStep = props => {
     regularFee,
     priorityFee,
     handleFeeToggle,
-    balanceStatus
+    balanceStatus,
+    excludeLockbox
   } = props
   const disableLockboxSend =
     from &&
@@ -113,6 +115,7 @@ const FirstStep = props => {
             component={SelectBoxEthAddresses}
             includeAll={false}
             validate={[required]}
+            excludeLockbox={excludeLockbox}
           />
         </FormItem>
       </FormGroup>
@@ -293,6 +296,16 @@ const FirstStep = props => {
           </Link>
         </ColRight>
       </FeeFormGroup>
+      {feeToggled ? (
+        <CustomFeeAlertBanner type='alert'>
+          <Text size='12px'>
+            <FormattedMessage
+              id='modals.sendether.firststep.customfeeinfo'
+              defaultMessage='This feature is recommended for advanced users only. By choosing a custom fee, you risk overpaying or your transaction never being confirmed.'
+            />
+          </Text>
+        </CustomFeeAlertBanner>
+      ) : null}
       <FormGroup>
         <Button
           type='submit'

@@ -28,6 +28,7 @@ import * as signMessage from './signMessage/actions'
 import * as swapGetStarted from './swapGetStarted/actions'
 import * as transactionReport from './transactionReport/actions'
 import * as uploadDocuments from './uploadDocuments/actions'
+import * as veriff from './veriff/actions'
 
 export {
   activityList,
@@ -59,5 +60,6 @@ export {
   signMessage,
   swapGetStarted,
   transactionReport,
-  uploadDocuments
+  uploadDocuments,
+  veriff
 }

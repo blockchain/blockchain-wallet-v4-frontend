@@ -49,6 +49,7 @@ import {
   Row,
   ColLeft,
   ColRight,
+  CustomFeeAlertBanner,
   AddressButton,
   FeeFormContainer,
   FeeFormGroup,
@@ -64,6 +65,7 @@ import ComboDisplay from 'components/Display/ComboDisplay'
 const BrowserWarning = styled(Banner)`
   margin: -4px 0 8px;
 `
+
 const FirstStep = props => {
   const {
     invalid,
@@ -85,7 +87,8 @@ const FirstStep = props => {
     regularFeePerByte,
     priorityFeePerByte,
     isPriorityFeePerByte,
-    totalFee
+    totalFee,
+    excludeLockbox
   } = rest
   const disableLockboxSend =
     from &&
@@ -121,6 +124,7 @@ const FirstStep = props => {
             component={SelectBoxBtcAddresses}
             validate={[required]}
             includeAll={false}
+            excludeLockbox={excludeLockbox}
           />
           {watchOnly && (
             <Row>
@@ -182,6 +186,7 @@ const FirstStep = props => {
                 component={TextBox}
                 validate={[required, validBitcoinAddress]}
                 autoFocus
+                data-e2e='sendBtcAddressTextBox'
               />
             )}
             <QRCodeCapture
@@ -312,6 +317,16 @@ const FirstStep = props => {
           </Link>
         </ColRight>
       </FeeFormGroup>
+      {feePerByteToggled ? (
+        <CustomFeeAlertBanner type='alert'>
+          <Text size='12px'>
+            <FormattedMessage
+              id='modals.sendbtc.firststep.customfeeinfo'
+              defaultMessage='This feature is recommended for advanced users only. By choosing a custom fee, you risk overpaying or your transaction never being confirmed.'
+            />
+          </Text>
+        </CustomFeeAlertBanner>
+      ) : null}
       <FormGroup margin={'15px'}>
         <Text size='13px' weight={300}>
           {!isPriorityFeePerByte && (

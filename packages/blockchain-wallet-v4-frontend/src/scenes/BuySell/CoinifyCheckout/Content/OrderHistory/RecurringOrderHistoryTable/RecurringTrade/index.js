@@ -67,7 +67,7 @@ const RecurringTradeItem = props => {
               onClick={() => handleFinish(trade)}
             >
               <FormattedMessage
-                id='buysell.orderhistory.finishtrade'
+                id='buysell.recurringtrade.orderhistory.finishtrade'
                 defaultMessage='Finish Trade'
               />
             </Link>
@@ -79,7 +79,7 @@ const RecurringTradeItem = props => {
               onClick={() => handleClick(trade)}
             >
               <FormattedMessage
-                id='buysell.orderhistory.list.details'
+                id='buysell.recurringtrade.orderhistory.list.details'
                 defaultMessage='View details'
               />
             </Link>

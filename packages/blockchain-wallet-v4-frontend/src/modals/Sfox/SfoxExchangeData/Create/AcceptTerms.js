@@ -33,6 +33,8 @@ import { spacing } from 'services/StyleService'
 import Terms from 'components/Terms'
 import media from 'services/ResponsiveService'
 
+const FaqWrapper = styled.div``
+
 const checkboxShouldBeChecked = value =>
   value ? undefined : 'You must agree to the terms and conditions'
 
@@ -59,10 +61,23 @@ const faqQuestions = [
       />
     ),
     answer: (
-      <FormattedMessage
-        id='scenes.sfoxsignup.acceptterms.helper2.answer'
-        defaultMessage='Personal information can be changed by submitting a request to support@sfox.com. Make sure you mention Blockchain in the subject and include the information you want to change. Changing your email or phone number within your Blockchain wallet will not impact your SFOX account.'
-      />
+      <FaqWrapper>
+        <FormattedMessage
+          id='scenes.sfoxsignup.acceptterms.helper2.answer1'
+          defaultMessage='Personal information can be changed by submitting a request to'
+        />
+        <span>&nbsp;</span>
+        <Link href='mailto:support@sfox.com' size='13px' weight={200}>
+          <FormattedMessage
+            id='scenes.sfoxsignup.acceptterms.helper2.link'
+            defaultMessage='support@sfox.com'
+          />
+        </Link>
+        <FormattedMessage
+          id='scenes.sfoxsignup.acceptterms.helper2.answer2'
+          defaultMessage='. Make sure you mention Blockchain in the subject and include the information you want to change. Changing your email or phone number within your Blockchain wallet will not impact your SFOX account.'
+        />
+      </FaqWrapper>
     )
   }
 ]
@@ -317,12 +332,15 @@ class AcceptTerms extends Component {
                   </Text>
                   <Link size='12px' weight={300} onClick={() => sfoxNotAsked()}>
                     <FormattedMessage
-                      id='tryagain'
+                      id='sfoxexchangedata.create.accept.tryagain'
                       defaultMessage='try again'
                     />
                   </Link>
                   <Text size='12px' color='error' weight={300}>
-                    <FormattedMessage id='or' defaultMessage='or' />
+                    <FormattedMessage
+                      id='sfoxexchangedata.create.accept.or'
+                      defaultMessage='or'
+                    />
                   </Text>
                   <Link
                     target='_blank'
@@ -331,7 +349,7 @@ class AcceptTerms extends Component {
                     weight={300}
                   >
                     <FormattedMessage
-                      id='contactsupport'
+                      id='sfoxexchangedata.create.accept.contactsupport'
                       defaultMessage='contact support.'
                     />
                   </Link>
