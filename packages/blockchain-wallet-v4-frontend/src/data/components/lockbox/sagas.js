@@ -397,9 +397,6 @@ export default ({ api }) => {
       yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
       // prefetch app infos for future step
       yield call(deriveLatestAppInfo)
-      // check device authenticity
-      yield put(A.checkDeviceAuthenticity())
-      yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
       const setupType = yield select(S.getNewDeviceSetupType)
       if (setupType === 'new') {
         // installing btc app, wait for confirmation of install
