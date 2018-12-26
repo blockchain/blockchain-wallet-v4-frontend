@@ -1,4 +1,4 @@
-import { takeEvery } from 'redux-saga/effects'
+import { takeEvery, takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import sagas from './sagas'
 
@@ -9,6 +9,10 @@ export default () => {
     yield takeEvery(
       AT.TRANSACTIONS_INITIALIZED,
       xlmTransactionsSagas.initialized
+    )
+    yield takeLatest(
+      AT.XLM_TRANSACTIONS_LOAD_MORE,
+      xlmTransactionsSagas.loadMore
     )
     yield takeEvery(
       AT.TRANSACTIONS_REPORT_CLICKED,

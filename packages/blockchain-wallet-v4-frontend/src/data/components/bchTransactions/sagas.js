@@ -1,6 +1,6 @@
-import { put } from 'redux-saga/effects'
+import { select, put } from 'redux-saga/effects'
 import { equals, path, prop } from 'ramda'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 
 export default () => {
   const logLocation = 'components/bchTransactions/sagas'
@@ -28,6 +28,21 @@ export default () => {
     }
   }
 
+  const loadMore = function*() {
+    try {
+      const formValues = yield select(
+        selectors.form.getFormValues('transactions')
+      )
+      const source = prop('source', formValues)
+      const onlyShow = equals(source, 'all')
+        ? ''
+        : source.xpub || source.address
+      yield put(actions.core.data.bch.fetchTransactions(onlyShow, false))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'loadMore', e))
+    }
+  }
+
   const formChanged = function*(action) {
     try {
       const form = path(['meta', 'form'], action)
@@ -50,6 +65,7 @@ export default () => {
   return {
     initialized,
     reportClicked,
-    formChanged
+    formChanged,
+    loadMore
   }
 }

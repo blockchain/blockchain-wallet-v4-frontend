@@ -11,7 +11,7 @@ class SwitchableDisplayContainer extends React.PureComponent {
     return this.props.coinDisplayed ? (
       <CoinDisplay {...this.props}>{this.props.children}</CoinDisplay>
     ) : (
-      <FiatDisplay>{this.props.children}</FiatDisplay>
+      <FiatDisplay {...this.props}>{this.props.children}</FiatDisplay>
     )
   }
 }

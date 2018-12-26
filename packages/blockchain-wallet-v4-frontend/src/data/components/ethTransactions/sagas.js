@@ -17,6 +17,14 @@ export default () => {
     }
   }
 
+  const loadMore = function*() {
+    try {
+      yield put(actions.core.data.ethereum.fetchTransactions())
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'loadMore', e))
+    }
+  }
+
   const formChanged = function*(action) {
     try {
       const form = path(['meta', 'form'], action)
@@ -33,6 +41,7 @@ export default () => {
 
   return {
     initialized,
-    formChanged
+    formChanged,
+    loadMore
   }
 }

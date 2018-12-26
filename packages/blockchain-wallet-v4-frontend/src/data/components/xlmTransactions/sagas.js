@@ -12,6 +12,14 @@ export default () => {
     }
   }
 
+  const loadMore = function*() {
+    try {
+      yield put(actions.core.data.xlm.fetchTransactions())
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'loadMore', e))
+    }
+  }
+
   const reportClicked = function*() {
     try {
       yield put(actions.modals.showModal('TransactionReport', { coin: 'XLM' }))
@@ -22,6 +30,7 @@ export default () => {
 
   return {
     initialized,
-    reportClicked
+    reportClicked,
+    loadMore
   }
 }
