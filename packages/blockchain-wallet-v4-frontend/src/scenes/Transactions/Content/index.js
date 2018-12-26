@@ -20,6 +20,12 @@ class ContentContainer extends React.PureComponent {
     this.props.txActions.initialized()
   }
 
+  componentDidUpdate (prevProps) {
+    if (prevProps.location.pathname !== this.props.location.pathname) {
+      this.props.txActions.initialized()
+    }
+  }
+
   handleLoadMore = () => {
     this.props.txActions.loadMore()
   }

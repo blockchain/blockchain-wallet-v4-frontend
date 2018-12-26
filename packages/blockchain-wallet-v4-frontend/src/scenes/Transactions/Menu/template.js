@@ -201,4 +201,7 @@ const Menu = props => {
   )
 }
 
-export default reduxForm({ form: 'transactions' })(Menu)
+export default reduxForm({
+  form: 'transactions',
+  initialValues: { source: 'all' }
+})(Menu)
