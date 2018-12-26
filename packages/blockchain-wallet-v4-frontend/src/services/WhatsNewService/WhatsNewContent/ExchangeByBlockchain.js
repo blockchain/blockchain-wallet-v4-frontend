@@ -3,40 +3,22 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-
-import { actions, model } from 'data'
+import { actions, model, selectors } from 'data'
 import { Button, Text } from 'blockchain-info-components'
+import { Container, Row } from 'components/WhatsNew'
+import { equals } from 'ramda'
+import media from 'services/ResponsiveService'
+const { NONE } = model.profile.KYC_STATES
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 100%;
-  height: auto;
-`
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 100%;
-  margin-bottom: 15px;
-  margin-bottom: ${props => props.marginBottom};
-
-  & > :not(:last-child) {
-    margin-right: 10px;
-  }
-`
 const DarkText = styled(Text).attrs({
   color: 'gray-5',
   size: '16px',
   weight: 300
 })`
   display: inline;
-  @media (max-width: 1200px) {
+  ${media.laptop`
     display: ${props => (props.hideOnMobile ? 'none' : 'inline')};
-  }
+  `}
 `
 const PrimaryText = styled(Text).attrs({
   color: 'brand-primary',
@@ -50,14 +32,14 @@ const GetStartedButton = styled(Button).attrs({
   fullwidth: true
 })`
   font-weight: 500;
-  @media (max-width: 1200px) {
+  ${media.laptop`
     width: 100%;
-  }
+  `}
 `
 
 export const ExchangeByBlockchain = ({ kycNotFinished, verifyIdentity }) => (
   <Container>
-    <Row marginBottom='24px'>
+    <Row marginBottom='10px'>
       <Text color='brand-primary' size='24px' weight={600}>
         <FormattedMessage
           defaultMessage="We've Improved Your Exchange"
@@ -68,8 +50,8 @@ export const ExchangeByBlockchain = ({ kycNotFinished, verifyIdentity }) => (
     <Row marginBottom='24px'>
       <DarkText size='14px'>
         <FormattedMessage
-          defaultMessage='November 2019'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.november2019'
+          defaultMessage='November 2018'
+          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.november2018'
         />
       </DarkText>
     </Row>
@@ -157,6 +139,13 @@ export const ExchangeByBlockchain = ({ kycNotFinished, verifyIdentity }) => (
   </Container>
 )
 
+const mapStateToProps = state => ({
+  kycNotFinished: selectors.modules.profile
+    .getUserKYCState(state)
+    .map(equals(NONE))
+    .getOrElse(false)
+})
+
 const mapDispatchToProps = dispatch => ({
   verifyIdentity: () =>
     dispatch(
@@ -167,6 +156,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(
-  undefined,
+  mapStateToProps,
   mapDispatchToProps
 )(ExchangeByBlockchain)
