@@ -1,6 +1,6 @@
-import { select, put } from 'redux-saga/effects'
+import { put } from 'redux-saga/effects'
 import { equals, path, prop } from 'ramda'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 
 export default () => {
   const logLocation = 'components/bsvTransactions/sagas'
@@ -17,27 +17,6 @@ export default () => {
       yield put(actions.core.data.bsv.fetchTransactions('', true))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
-    }
-  }
-
-  const scrollUpdated = function*(action) {
-    try {
-      const pathname = yield select(selectors.router.getPathname)
-      if (!equals(pathname, '/settings/addresses/bsv')) return
-      const formValues = yield select(
-        selectors.form.getFormValues('transactions')
-      )
-      const source = prop('source', formValues)
-      const threshold = 250
-      const { yMax, yOffset } = action.payload
-      if (yMax - yOffset < threshold) {
-        const onlyShow = equals(source, 'all')
-          ? ''
-          : source.xpub || source.address
-        yield put(actions.core.data.bsv.fetchTransactions(onlyShow, false))
-      }
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'scrollUpdated', e))
     }
   }
 
@@ -62,7 +41,6 @@ export default () => {
 
   return {
     initialized,
-    formChanged,
-    scrollUpdated
+    formChanged
   }
 }

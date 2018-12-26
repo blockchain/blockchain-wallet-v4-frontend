@@ -1,6 +1,6 @@
-import { select, put } from 'redux-saga/effects'
+import { put } from 'redux-saga/effects'
 import { equals, path, prop } from 'ramda'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 
 export default () => {
   const logLocation = 'components/bchTransactions/sagas'
@@ -28,27 +28,6 @@ export default () => {
     }
   }
 
-  const scrollUpdated = function*(action) {
-    try {
-      const pathname = yield select(selectors.router.getPathname)
-      if (!equals(pathname, '/bch/transactions')) return
-      const formValues = yield select(
-        selectors.form.getFormValues('transactions')
-      )
-      const source = prop('source', formValues)
-      const threshold = 250
-      const { yMax, yOffset } = action.payload
-      if (yMax - yOffset < threshold) {
-        const onlyShow = equals(source, 'all')
-          ? ''
-          : source.xpub || source.address
-        yield put(actions.core.data.bch.fetchTransactions(onlyShow, false))
-      }
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'scrollUpdated', e))
-    }
-  }
-
   const formChanged = function*(action) {
     try {
       const form = path(['meta', 'form'], action)
@@ -71,7 +50,6 @@ export default () => {
   return {
     initialized,
     reportClicked,
-    formChanged,
-    scrollUpdated
+    formChanged
   }
 }

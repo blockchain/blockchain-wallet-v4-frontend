@@ -12,9 +12,5 @@ export default () => {
       ethTransactionsSagas.initialized
     )
     yield takeEvery(actionTypes.form.CHANGE, ethTransactionsSagas.formChanged)
-    yield takeEvery(
-      actionTypes.scroll.UPDATE_SCROLL,
-      ethTransactionsSagas.scrollUpdated
-    )
   }
 }

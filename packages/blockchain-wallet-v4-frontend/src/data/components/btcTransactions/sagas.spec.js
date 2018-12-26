@@ -1,17 +1,11 @@
 import { testSaga } from 'redux-saga-test-plan'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import * as actions from '../../actions'
-import * as selectors from '../../selectors.js'
 import btcTransactionsSagas, { logLocation } from './sagas'
 
 const coreSagas = coreSagasFactory()
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
-
-const PATHNAME = '/btc/transactions'
-const FORM_VALUES = {
-  source: 'all'
-}
 
 describe('btcTransactions sagas', () => {
   describe('initialized', () => {
@@ -65,49 +59,6 @@ describe('btcTransactions sagas', () => {
           .throw(error)
           .put(
             actions.logs.logErrorMessage(logLocation, 'reportClicked', error)
-          )
-      })
-    })
-  })
-
-  describe('scrollUpdated', () => {
-    let { scrollUpdated } = btcTransactionsSagas({ coreSagas })
-    const action = {
-      payload: {
-        yMax: 100,
-        yOffset: 25
-      }
-    }
-    let saga = testSaga(scrollUpdated, action)
-
-    it('should select the path name', () => {
-      saga.next().select(selectors.router.getPathname)
-    })
-
-    it('should select the form values', () => {
-      saga.next(PATHNAME)
-    })
-
-    it('should fetch transactions', () => {
-      saga
-        .next(FORM_VALUES)
-        .put(
-          actions.core.data.bitcoin.fetchTransactions(
-            FORM_VALUES.source === 'all' ? '' : 'some_address',
-            false
-          )
-        )
-    })
-
-    describe('error handling', () => {
-      const error = new Error()
-      it('should log the error', () => {
-        saga
-          .restart()
-          .next()
-          .throw(error)
-          .put(
-            actions.logs.logErrorMessage(logLocation, 'scrollUpdated', error)
           )
       })
     })

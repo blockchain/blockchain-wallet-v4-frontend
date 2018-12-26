@@ -16,9 +16,5 @@ export default () => {
       bchTransactionsSagas.reportClicked
     )
     yield takeEvery(actionTypes.form.CHANGE, bchTransactionsSagas.formChanged)
-    yield takeEvery(
-      actionTypes.scroll.UPDATE_SCROLL,
-      bchTransactionsSagas.scrollUpdated
-    )
   }
 }

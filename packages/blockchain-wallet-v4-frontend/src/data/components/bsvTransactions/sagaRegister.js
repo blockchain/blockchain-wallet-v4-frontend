@@ -12,9 +12,5 @@ export default () => {
       bsvTransactionsSagas.initialized
     )
     yield takeEvery(actionTypes.form.CHANGE, bsvTransactionsSagas.formChanged)
-    yield takeEvery(
-      actionTypes.scroll.UPDATE_SCROLL,
-      bsvTransactionsSagas.scrollUpdated
-    )
   }
 }
