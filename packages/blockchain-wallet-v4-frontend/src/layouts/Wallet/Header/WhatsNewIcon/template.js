@@ -24,7 +24,7 @@ const NotificationBadge = styled.div`
 `
 
 const WhatsNewIcon = props => {
-  const { handleClick, numOfNewAnnouncements, highlighted } = props
+  const { handleClick, numOfNewAnnouncements = 0, highlighted } = props
   return (
     <TooltipHost id='whatsnew.tooltip'>
       <WhatsNewLink

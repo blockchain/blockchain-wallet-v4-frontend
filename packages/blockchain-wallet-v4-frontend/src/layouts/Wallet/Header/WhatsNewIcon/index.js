@@ -16,9 +16,9 @@ class WhatsNewIconContainer extends React.PureComponent {
           numOfNewAnnouncements={val.numOfNewAnnouncements}
         />
       ),
-      Failure: () => <WhatsNewIcon numOfNewAnnouncements={0} />,
-      Loading: () => <WhatsNewIcon numOfNewAnnouncements={0} />,
-      NotAsked: () => <WhatsNewIcon numOfNewAnnouncements={0} />
+      Failure: () => <WhatsNewIcon />,
+      Loading: () => <WhatsNewIcon />,
+      NotAsked: () => <WhatsNewIcon />
     })
   }
 }

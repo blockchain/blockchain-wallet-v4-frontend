@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Button, Text } from 'blockchain-info-components'
 import { Container, Row } from 'components/WhatsNew'
+import media from 'services/ResponsiveService'
 
 const DarkText = styled(Text).attrs({
   color: 'gray-5',
@@ -11,18 +12,18 @@ const DarkText = styled(Text).attrs({
   weight: 300
 })`
   display: inline;
-  @media (max-width: 1200px) {
+  ${media.laptop`
     display: ${props => (props.hideOnMobile ? 'none' : 'inline')};
-  }
+  `};
 `
 const GetStartedButton = styled(Button).attrs({
   nature: 'primary',
   fullwidth: true
 })`
   font-weight: 500;
-  @media (max-width: 1200px) {
+  ${media.laptop`
     width: 100%;
-  }
+  `};
 `
 
 export const BitcoinCashSVSupport = () => (
@@ -38,8 +39,8 @@ export const BitcoinCashSVSupport = () => (
     <Row marginBottom='24px'>
       <DarkText size='14px'>
         <FormattedMessage
-          defaultMessage='December 2018'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.december2018'
+          defaultMessage='January 2019'
+          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.january2019'
         />
       </DarkText>
     </Row>
