@@ -24,8 +24,8 @@ exports[`EmptyContent renders correctly 1`] = `
       size="14px"
     >
       <FormattedMessage
-        defaultMessage="December 2018"
-        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.december2018"
+        defaultMessage="January 2019"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.january2019"
         values={Object {}}
       />
     </BitcoinCashSVSupport__DarkText>
