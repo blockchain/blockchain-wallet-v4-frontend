@@ -9,7 +9,7 @@ import { callTask } from '../../../utils/functional'
 
 export default ({ api, networks }) => {
   const createBuySell = function*(kv) {
-    const newBuysellEntry = {
+    const newBuySellEntry = {
       sfox: {
         trades: []
       },
@@ -17,7 +17,7 @@ export default ({ api, networks }) => {
         trades: []
       }
     }
-    const newkv = set(KVStoreEntry.value, newBuysellEntry, kv)
+    const newkv = set(KVStoreEntry.value, newBuySellEntry, kv)
     yield put(A.createMetadataBuySell(newkv))
   }
 
