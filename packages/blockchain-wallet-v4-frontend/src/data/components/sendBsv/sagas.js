@@ -149,7 +149,7 @@ export default ({ coreSagas }) => {
         .getOrFail('Can not retrieve currency.')
       const bsvRates = selectors.core.data.bsv
         .getRates(appState)
-        .getOrFail('Can not retrieve bitcoin cash rates.')
+        .getOrFail('Can not retrieve Bitcoin SV rates.')
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
       const effectiveBalance = prop('effectiveBalance', payment)
