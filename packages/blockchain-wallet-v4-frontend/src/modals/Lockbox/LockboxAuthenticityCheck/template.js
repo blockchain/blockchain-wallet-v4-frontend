@@ -40,7 +40,7 @@ const Loader = styled(BlockchainLoader)`
 
 const AuthenticityStep = props => {
   const { authenticity, connection, position, onClose, total } = props
-  const { isAuthenticating } = authenticity
+  const { isAuthenticating, isAuthentic } = authenticity
 
   return (
     <Modal size='small' position={position} total={total}>
@@ -95,26 +95,47 @@ const AuthenticityStep = props => {
           </ContentWrapper>
         ) : (
           <ContentWrapper>
-            <Text size='18px' style={{ marginBottom: '5px' }}>
-              <FormattedHTMLMessage
-                id='modals.lockbox.authenticity.success1'
-                defaultMessage='Congratulations!'
-              />
-            </Text>
-            <Text size='16px' style={{ marginBottom: '16px' }}>
-              <FormattedHTMLMessage
-                id='modals.lockbox.authenticity.success2'
-                defaultMessage='Your device appears to be genuine!'
-              />
-            </Text>
-            <Image
-              name='lockbox-success'
-              width='340px'
-              srcset={{
-                'lockbox-success2': '2x',
-                'lockbox-success3': '3x'
-              }}
-            />
+            {isAuthentic ? (
+              <React.Fragment>
+                <Text size='18px' style={{ marginBottom: '5px' }}>
+                  <FormattedHTMLMessage
+                    id='modals.lockbox.authenticity.success1'
+                    defaultMessage='Congratulations!'
+                  />
+                </Text>
+                <Text size='16px' style={{ marginBottom: '16px' }}>
+                  <FormattedHTMLMessage
+                    id='modals.lockbox.authenticity.success2'
+                    defaultMessage='Your device appears to be genuine!'
+                  />
+                </Text>
+                <Image
+                  name='lockbox-success'
+                  width='340px'
+                  srcset={{
+                    'lockbox-success2': '2x',
+                    'lockbox-success3': '3x'
+                  }}
+                />
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <Text size='16px' style={{ marginBottom: '16px' }}>
+                  <FormattedHTMLMessage
+                    id='modals.lockbox.authenticity.failed'
+                    defaultMessage='Your device does not appear to be genuine. Please reach out to our support team before using this device.'
+                  />
+                </Text>
+                <Image
+                  name='lockbox-failed'
+                  width='340px'
+                  srcset={{
+                    'lockbox-failed2': '2x',
+                    'lockbox-failed3': '3x'
+                  }}
+                />
+              </React.Fragment>
+            )}
             <CloseButton onClick={onClose} nature='primary' fullwidth>
               <FormattedHTMLMessage
                 id='modals.lockbox.authenticity.close'

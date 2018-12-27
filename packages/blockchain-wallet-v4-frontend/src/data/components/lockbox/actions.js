@@ -72,9 +72,9 @@ export const checkDeviceAuthenticity = deviceIndex => ({
 export const checkDeviceAuthenticityLoading = () => ({
   type: AT.CHECK_DEVICE_AUTHENTICITY_LOADING
 })
-export const checkDeviceAuthenticityFailure = failure => ({
+export const checkDeviceAuthenticityFailure = isAuthentic => ({
   type: AT.CHECK_DEVICE_AUTHENTICITY_FAILURE,
-  payload: { failure }
+  payload: { isAuthentic }
 })
 export const checkDeviceAuthenticitySuccess = isAuthentic => ({
   type: AT.CHECK_DEVICE_AUTHENTICITY_SUCCESS,

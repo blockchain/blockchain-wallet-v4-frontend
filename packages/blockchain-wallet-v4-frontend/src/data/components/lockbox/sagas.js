@@ -170,11 +170,9 @@ export default ({ api }) => {
           perso: firmware.perso
         }
       )
-
       yield put(A.checkDeviceAuthenticitySuccess(isDeviceAuthentic))
     } catch (e) {
-      yield put(A.changeDeviceSetupStep('error-step', true, 'authenticity'))
-      yield put(A.checkDeviceAuthenticityFailure(e))
+      yield put(A.checkDeviceAuthenticityFailure(false))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'checkDeviceAuthenticity', e)
       )
