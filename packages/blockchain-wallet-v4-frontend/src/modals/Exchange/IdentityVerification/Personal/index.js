@@ -92,7 +92,7 @@ class PersonalContainer extends React.PureComponent {
       email={email}
       emailStep={emailStep}
       countryCode={countryCode}
-      showStateSelect={countryCode && countryCode === 'US'}
+      countryIsUS={countryCode && countryCode === 'US'}
       showStateError={countryAndStateSelected && !stateSupported}
       showPersonal={countryAndStateSelected && stateSupported}
       postCode={postCode}

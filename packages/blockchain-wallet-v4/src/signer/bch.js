@@ -1,10 +1,10 @@
 import { curry, compose, lensProp, forEach, addIndex, over } from 'ramda'
 import { mapped } from 'ramda-lens'
 import BitcoinCash from 'bitcoinforksjs-lib'
+import * as Coin from '../coinSelection/coin'
 import { addressToScript } from '../utils/btc'
-import * as Coin from '../coinSelection/coin.js'
 import { fromCashAddr, isCashAddr } from '../utils/bch'
-import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
+import { addHDWalletWIFS, addLegacyWIFS } from './wifs'
 import Btc from '@ledgerhq/hw-app-btc'
 import * as crypto from '../walletCrypto'
 

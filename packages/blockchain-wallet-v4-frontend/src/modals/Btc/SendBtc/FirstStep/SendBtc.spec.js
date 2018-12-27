@@ -20,11 +20,15 @@ import SendBtc from './index'
 import { curry, compose, head, values, pickAll } from 'ramda'
 
 // SELECTORS
-import { getCurrency, getSettings } from 'blockchain-wallet-v4/src/redux/settings/selectors'
+import {
+  getCurrency,
+  getSettings
+} from 'blockchain-wallet-v4/src/redux/settings/selectors'
 import { getRates as getBtcRates } from 'blockchain-wallet-v4/src/redux/data/btc/selectors'
 import { getRates as getEthRates } from 'blockchain-wallet-v4/src/redux/data/eth/selectors'
 import { getRates as getBchRates } from 'blockchain-wallet-v4/src/redux/data/bch/selectors'
 import { getRates as getXlmRates } from 'blockchain-wallet-v4/src/redux/data/xlm/selectors'
+import { getRates as getBsvRates } from 'blockchain-wallet-v4/src/redux/data/bsv/selectors'
 import {
   getToToggled,
   getFeePerByteToggled,
@@ -37,10 +41,11 @@ import {
   getAddressesBalances,
   getLockboxBtcBalances
 } from 'blockchain-wallet-v4/src/redux/common/btc/selectors'
+import { getDevices } from 'blockchain-wallet-v4/src/redux/kvStore/lockbox/selectors'
 import {
-  getDevices
-} from 'blockchain-wallet-v4/src/redux/kvStore/lockbox/selectors'
-import { getCoinAvailability, getBtcNetwork } from 'blockchain-wallet-v4/src/redux/walletOptions/selectors'
+  getCoinAvailability,
+  getBtcNetwork
+} from 'blockchain-wallet-v4/src/redux/walletOptions/selectors'
 
 import { Form } from 'components/Form'
 
@@ -58,6 +63,7 @@ jest.mock('blockchain-wallet-v4/src/redux/data/btc/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/data/eth/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/data/bch/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/data/xlm/selectors')
+jest.mock('blockchain-wallet-v4/src/redux/data/bsv/selectors')
 
 const networks = {
   btc: {
@@ -102,7 +108,8 @@ const btcAccountsMock = [
   {
     index: 0,
     label: 'My Bitcoin Wallet',
-    xpub: 'xpub6Cw9c97kckjdTay1mZDRmcNAN5M3xnExCwpH7dS7nwcm5SN69E7AhoZnaaldsjffhnvCDRse234roasdfFZtVsUj4gxzJTG33N',
+    xpub:
+      'xpub6Cw9c97kckjdTay1mZDRmcNAN5M3xnExCwpH7dS7nwcm5SN69E7AhoZnaaldsjffhnvCDRse234roasdfFZtVsUj4gxzJTG33N',
     info: {
       account_index: 1,
       change_index: 1,
@@ -152,9 +159,13 @@ getFeePerByteToggled.mockImplementation(() => false)
 getPayment.mockImplementation(() => Remote.of(paymentMock))
 getActiveHDAccounts.mockImplementation(() => Remote.of(btcAccountsMock))
 getActiveAddresses.mockImplementation(() => Remote.of(addressesMock))
-getActiveAccountsBalances.mockImplementation(() => Remote.of(accountBalanceMock))
+getActiveAccountsBalances.mockImplementation(() =>
+  Remote.of(accountBalanceMock)
+)
 getDevices.mockImplementation(() => Remote.of([]))
-getCoinAvailability.mockImplementation(curry((state, value) => Remote.of(coinAvailability)))
+getCoinAvailability.mockImplementation(
+  curry((state, value) => Remote.of(coinAvailability))
+)
 getBtcNetwork.mockImplementation(() => Remote.of('bitcoin'))
 getAddressesBalances.mockImplementation(() => Remote.of(accountBalanceMock))
 getLockboxBtcBalances.mockImplementation(() => Remote.of([]))
@@ -162,6 +173,7 @@ getBtcRates.mockImplementation(() => Remote.of(ratesMock))
 getEthRates.mockImplementation(() => Remote.of(ratesMock))
 getBchRates.mockImplementation(() => Remote.of(ratesMock))
 getXlmRates.mockImplementation(() => Remote.of(ratesMock))
+getBsvRates.mockImplementation(() => Remote.of(ratesMock))
 getCurrency.mockImplementation(() => Remote.of('USD'))
 getSettings.mockImplementation(() => Remote.of(settingsMock))
 
@@ -194,7 +206,9 @@ describe('SendBtc Modal', () => {
 
   describe('Send Modal behaviour', () => {
     beforeEach(() => {
-      coreSagas.payment.btc.create.mockImplementation(({ payment, network }) => paymentMock)
+      coreSagas.payment.btc.create.mockImplementation(
+        ({ payment, network }) => paymentMock
+      )
       wrapper.update()
     })
     it('should render', async () => {
@@ -213,10 +227,9 @@ describe('SendBtc Modal', () => {
         pickAll
       )
       let calls = dispatchSpy.mock.calls
-      expect(head(pickIndex([calls.length - 2], calls)[0]).type)
-        .toEqual(
-          actionTypes.components.sendBtc.SEND_BTC_PAYMENT_UPDATED_SUCCESS
-        )
+      expect(head(pickIndex([calls.length - 2], calls)[0]).type).toEqual(
+        actionTypes.components.sendBtc.SEND_BTC_PAYMENT_UPDATED_SUCCESS
+      )
     })
 
     it('should enable the Continue button if all required fields have input', async () => {
@@ -226,7 +239,9 @@ describe('SendBtc Modal', () => {
         .simulate('change', { target: { value: '0.5' } })
       wrapper
         .find('input[data-e2e="sendBtcAddressTextBox"]')
-        .simulate('change', { target: { value: '14uvrESf3q9xpny1ERb6iXX8WZd9RTZwKZ' } })
+        .simulate('change', {
+          target: { value: '14uvrESf3q9xpny1ERb6iXX8WZd9RTZwKZ' }
+        })
 
       wrapper
         .find('Field[name="coin"]')
@@ -244,7 +259,10 @@ describe('SendBtc Modal', () => {
       await flushPromises()
       wrapper.update()
       expect(
-        wrapper.find('button').first().props().disabled
+        wrapper
+          .find('button')
+          .first()
+          .props().disabled
       ).toEqual(false)
     })
   })
