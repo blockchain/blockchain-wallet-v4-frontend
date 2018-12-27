@@ -34,16 +34,10 @@ const enhance = connect(
   mapDispatchToProps
 )
 
-export default type => Component =>
+export default (type, options = {}) => Component =>
   enhance(
     class Modal extends PureComponent {
-      constructor (props) {
-        super(props)
-        this.handleClick = this.handleClick.bind(this)
-        this.onKeyPressed = this.onKeyPressed.bind(this)
-      }
-
-      handleClick (e) {
+      handleClick = e => {
         const modalContainer = ReactDOM.findDOMNode(this.node)
         if (
           modalContainer &&
@@ -54,9 +48,9 @@ export default type => Component =>
         }
       }
 
-      onKeyPressed (evt) {
+      onKeyPressed = evt => {
         const event = evt || window.event
-        if (event.keyCode === 27) {
+        if (event.keyCode === 27 && !options.preventEscapeClose) {
           this.props.close()
         }
       }
