@@ -3,7 +3,7 @@ import { equals, path, prop, nth, is, identity } from 'ramda'
 import * as A from './actions'
 import * as S from './selectors'
 import { FORM } from './model'
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 import settings from 'config'
 import {
   initialize,
@@ -86,31 +86,6 @@ export default ({ coreSagas }) => {
       })
 
       switch (field) {
-        case 'coin':
-          switch (payload) {
-            case 'BTC': {
-              yield put(actions.modals.closeAllModals())
-              yield put(
-                actions.modals.showModal(model.components.sendBtc.MODAL)
-              )
-              break
-            }
-            case 'ETH': {
-              yield put(actions.modals.closeAllModals())
-              yield put(
-                actions.modals.showModal(model.components.sendEth.MODAL)
-              )
-              break
-            }
-            case 'XLM': {
-              yield put(actions.modals.closeAllModals())
-              yield put(
-                actions.modals.showModal(model.components.sendXlm.MODAL)
-              )
-              break
-            }
-          }
-          break
         case 'from':
           const fromType = prop('type', payload)
           if (is(String, payload)) {
