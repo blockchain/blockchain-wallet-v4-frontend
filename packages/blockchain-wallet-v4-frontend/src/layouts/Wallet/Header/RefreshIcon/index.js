@@ -9,25 +9,29 @@ const ANIMATE_TIME = 0.5
 
 class RefreshContainer extends React.PureComponent {
   state = {
-    rotate: false
+    rotating: false
   }
 
   handleRotate = () => {
-    this.setState({ rotate: true })
+    this.setState({ rotating: true })
     setTimeout(() => {
-      this.setState({ rotate: false })
+      this.setState({ rotating: false })
     }, ANIMATE_TIME * 1000)
   }
 
   render () {
-    return <Refresh
-      handleRefresh={() => {
-        this.handleRotate()
-        this.props.actions.refreshClicked()
-      }}
-      rotate={this.state.rotate}
-      animateTime={ANIMATE_TIME}
-    />
+    return (
+      <Refresh
+        handleRefresh={() => {
+          if (!this.state.rotating) {
+            this.handleRotate()
+            this.props.actions.refreshClicked()
+          }
+        }}
+        rotating={this.state.rotating}
+        animateTime={ANIMATE_TIME}
+      />
+    )
   }
 }
 

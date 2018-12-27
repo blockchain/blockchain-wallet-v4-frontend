@@ -10,10 +10,11 @@ const rotation = keyframes`
 `
 
 export const SpinningIcon = styled(Icon)`
-  animation: ${({ rotate, animateTime }) => rotate && `${rotation} ${animateTime}s linear`};
+  animation: ${({ rotating, animateTime }) =>
+    rotating && `${rotation} ${animateTime}s linear`};
 `
 
-const RefreshIcon = ({ handleRefresh, rotate, animateTime }) => (
+const RefreshIcon = ({ handleRefresh, rotating, animateTime }) => (
   <TooltipHost id='refresh.tooltip'>
     <Link
       size='14px'
@@ -23,7 +24,14 @@ const RefreshIcon = ({ handleRefresh, rotate, animateTime }) => (
       onClick={handleRefresh}
       data-e2e='refreshLink'
     >
-      <SpinningIcon name='refresh' size='16px' color='white' cursor rotate={rotate} animateTime={animateTime} />
+      <SpinningIcon
+        name='refresh'
+        size='16px'
+        color='white'
+        cursor
+        rotating={rotating}
+        animateTime={animateTime}
+      />
     </Link>
   </TooltipHost>
 )
