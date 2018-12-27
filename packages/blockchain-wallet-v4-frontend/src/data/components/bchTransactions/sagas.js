@@ -28,24 +28,18 @@ export default () => {
     }
   }
 
-  const scrollUpdated = function*(action) {
+  const loadMore = function*() {
     try {
-      const pathname = yield select(selectors.router.getPathname)
-      if (!equals(pathname, '/bch/transactions')) return
       const formValues = yield select(
         selectors.form.getFormValues('transactions')
       )
       const source = prop('source', formValues)
-      const threshold = 250
-      const { yMax, yOffset } = action.payload
-      if (yMax - yOffset < threshold) {
-        const onlyShow = equals(source, 'all')
-          ? ''
-          : source.xpub || source.address
-        yield put(actions.core.data.bch.fetchTransactions(onlyShow, false))
-      }
+      const onlyShow = equals(source, 'all')
+        ? ''
+        : source.xpub || source.address
+      yield put(actions.core.data.bch.fetchTransactions(onlyShow, false))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'scrollUpdated', e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'loadMore', e))
     }
   }
 
@@ -72,6 +66,6 @@ export default () => {
     initialized,
     reportClicked,
     formChanged,
-    scrollUpdated
+    loadMore
   }
 }
