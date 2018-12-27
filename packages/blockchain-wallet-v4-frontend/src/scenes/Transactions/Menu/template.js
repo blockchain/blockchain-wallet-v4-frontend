@@ -21,23 +21,18 @@ const Wrapper = styled.div`
 `
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
-
-  @media (min-width: 1200px) {
-    flex-direction: row;
-    justify-content: space-between;
-  }
 `
 const Controls = styled.div`
   position: relative;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: auto;
 
   & input {
     border: 1px solid ${props => props.theme['gray-2']}!important;
@@ -46,17 +41,10 @@ const Controls = styled.div`
   & button {
     border: 1px solid ${props => props.theme['gray-2']}!important;
   }
-
-  @media (min-width: 1200px) {
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: auto;
-  }
 `
 const Addresses = styled.div`
   width: 100%;
-  margin-left: 0px;
+  margin-left: 0;
   margin-right: 15px;
   @media (min-width: 1200px) {
     width: 300px;
@@ -74,9 +62,9 @@ const Search = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  width: 100%;
-  @media (min-width: 1200px) {
-    width: auto;
+  width: auto;
+  @media (min-width: 900px) {
+    width: 300px;
   }
 `
 const EthPrivateKeysWrapper = styled.div`
@@ -179,7 +167,12 @@ const Menu = props => {
                     ]}
                   />
                 ) : (
-                  <Link size={'12px'} weight={300} onClick={onShowPrivateKey}>
+                  <Link
+                    size={'12px'}
+                    weight={300}
+                    onClick={onShowPrivateKey}
+                    data-e2e='exportPrivateKeyLink'
+                  >
                     <FormattedMessage
                       id='scenes.transactions.export.ethkey'
                       defaultMessage='Export Private Key'
@@ -195,7 +188,11 @@ const Menu = props => {
                 onClick={handleClickReporting}
               />
             )}
-            <Field name='search' component={TextBox} />
+            <Field
+              name='search'
+              component={TextBox}
+              data-e2e='transactionsMenuSearchBox'
+            />
             <SearchIcon name='search' size='20px' />
           </Search>
         </Controls>
@@ -204,4 +201,7 @@ const Menu = props => {
   )
 }
 
-export default reduxForm({ form: 'transactions' })(Menu)
+export default reduxForm({
+  form: 'transactions',
+  initialValues: { source: 'all' }
+})(Menu)

@@ -11,7 +11,9 @@ class ConnectDeviceStepContainer extends React.PureComponent {
   }
 
   changeDeviceSetupStep = () => {
-    this.props.lockboxActions.changeDeviceSetupStep('auth-check')
+    this.props.setupType === 'new'
+      ? this.props.lockboxActions.changeDeviceSetupStep('install-btc-app')
+      : this.props.lockboxActions.changeDeviceSetupStep('open-btc-app')
   }
 
   render () {
@@ -26,7 +28,8 @@ class ConnectDeviceStepContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  connection: selectors.components.lockbox.getCurrentConnection(state)
+  connection: selectors.components.lockbox.getCurrentConnection(state),
+  setupType: selectors.components.lockbox.getNewDeviceSetupType(state)
 })
 
 const mapDispatchToProps = dispatch => ({

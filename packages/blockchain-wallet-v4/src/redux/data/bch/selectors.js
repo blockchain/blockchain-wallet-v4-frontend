@@ -80,9 +80,6 @@ export const getFinalBalance = curry((address, state) =>
     .map(x => x || 0)
 )
 
-// TODO: Import fee from wallet-options
-// export const getFees = ...
-
 export const getBalance = state => getInfo(state).map(path(['final_balance']))
 
 export const getNumberTransactions = state => getInfo(state).map(path(['n_tx']))

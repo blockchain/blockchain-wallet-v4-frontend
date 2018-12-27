@@ -5,6 +5,7 @@ import {
   compose,
   concat,
   filter,
+  has,
   isNil,
   lift,
   map,
@@ -14,7 +15,7 @@ import {
   sequence,
   reduce
 } from 'ramda'
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
@@ -26,9 +27,20 @@ export const getData = (state, ownProps) => {
     excludeWatchOnly,
     excludeLockbox
   } = ownProps
+  const buildDisplay = wallet => {
+    if (has('balance', wallet)) {
+      let bchDisplay = Exchange.displayBchToBch({
+        value: wallet.balance,
+        fromUnit: 'SAT',
+        toUnit: 'BCH'
+      })
+      return wallet.label + ` (${bchDisplay})`
+    }
+    return wallet.label
+  }
   const isActive = filter(x => !x.archived)
   const excluded = filter(x => !exclude.includes(x.label))
-  const toDropdown = map(x => ({ label: x.label, value: x }))
+  const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options }])
 
   const formatAddress = addressData => {

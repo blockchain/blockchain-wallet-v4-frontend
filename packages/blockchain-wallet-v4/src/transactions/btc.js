@@ -162,7 +162,7 @@ const reduceCoins = (acc, taggedCoin) => {
   }
 }
 
-var appender = curry((tagger, acc, coin) => {
+let appender = curry((tagger, acc, coin) => {
   const taggedCoin = tagger(coin)
   return [reduceCoins(acc, taggedCoin), taggedCoin]
 })

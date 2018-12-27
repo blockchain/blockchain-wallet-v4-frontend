@@ -3,10 +3,8 @@ import { TestBed, getDispatchSpyReducer, createTestStore } from 'utils/testbed'
 import { mount } from 'enzyme'
 import { combineReducers } from 'redux'
 
-// import { actions } from 'data'
 import { coreReducers, paths } from 'blockchain-wallet-v4/src'
 import modalsReducer from 'data/modals/reducers'
-
 import AcceptTerms from './index'
 import { AcceptTermsForm } from './template'
 

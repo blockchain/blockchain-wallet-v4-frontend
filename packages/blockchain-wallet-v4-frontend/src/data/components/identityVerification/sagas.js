@@ -1,5 +1,5 @@
 import { put, select, call } from 'redux-saga/effects'
-import { head, prop, toUpper } from 'ramda'
+import { head, isEmpty, prop, toUpper } from 'ramda'
 
 import { actions, selectors, model } from 'data'
 import profileSagas from 'data/modules/profile/sagas'
@@ -11,7 +11,6 @@ import * as A from './actions'
 import * as S from './selectors'
 import {
   EMAIL_STEPS,
-  STEPS,
   SMS_STEPS,
   SMS_NUMBER_FORM,
   PERSONAL_FORM,
@@ -23,6 +22,7 @@ import {
   FLOW_TYPES,
   SUNRIVER_LINK_ERROR_MODAL
 } from './model'
+import { computeSteps } from './services'
 
 export const logLocation = 'components/identityVerification/sagas'
 
@@ -33,7 +33,11 @@ export const invalidNumberError = 'Failed to update mobile number'
 export const mobileVerifiedError = 'Failed to verify mobile number'
 export const failedResendError = 'Failed to resend the code'
 export const userExistsError = 'User already exists'
+export const emailExistsError = 'User with this email already exists'
 export const wrongFlowTypeError = 'Wrong flow type'
+export const noCampaignDataError = 'User did not come from campaign'
+export const noTokenError = 'User has not been created'
+export const invalidLinkError = 'Invalid campaign one time link'
 
 export default ({ api, coreSagas }) => {
   const {
@@ -43,9 +47,10 @@ export default ({ api, coreSagas }) => {
     PERSONAL_STEP_COMPLETE,
     MOBILE_STEP_COMPLETE
   } = model.analytics.KYC
-  const { USER_ACTIVATION_STATES, TIERS } = model.profile
+  const { TIERS } = model.profile
   const {
     getCampaignData,
+    fetchUser,
     createUser,
     updateUser,
     generateRetailToken,
@@ -55,41 +60,47 @@ export default ({ api, coreSagas }) => {
     api,
     coreSagas
   })
-  const {
-    sendCoinifyKYC
-  } = coinifySagas({ api, coreSagas })
+  const { sendCoinifyKYC } = coinifySagas({ api, coreSagas })
 
   const registerUserCampaign = function*(payload) {
     const { newUser = false } = payload
     const campaign = yield select(selectors.modules.profile.getCampaign)
-    const campaignData = yield call(getCampaignData, campaign)
-    const token = (yield select(
-      selectors.modules.profile.getApiToken
-    )).getOrFail()
     try {
-      yield call(
-        api.registerUserCampaign,
-        token,
-        campaign.name,
-        campaignData,
-        newUser
-      )
+      if (!campaign || isEmpty(campaign)) throw new Error(noCampaignDataError)
+      const campaignData = yield call(getCampaignData, campaign)
+      const token = (yield select(
+        selectors.modules.profile.getApiToken
+      )).getOrElse(null)
+      if (!token) throw new Error(noTokenError)
+      try {
+        yield call(
+          api.registerUserCampaign,
+          token,
+          campaign.name,
+          campaignData,
+          newUser
+        )
+      } catch (e) {
+        // Todo: use generic confirm modal
+        // Should NOT be specific to sunriver
+        yield put(actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL))
+        yield put(actions.modules.profile.setCampaign({}))
+        throw new Error(invalidLinkError)
+      }
     } catch (e) {
-      // Todo: use generic confirm modal
-      // Should NOT be specific to sunriver
-      yield put(actions.modals.showModal(SUNRIVER_LINK_ERROR_MODAL))
       yield put(
-        actions.logs.logErrorMessage(logLocation, 'registerUserCampaign', e)
+        actions.logs.logErrorMessage(
+          logLocation,
+          'registerUserCampaign',
+          e.message
+        )
       )
     }
   }
 
   const createRegisterUserCampaign = function*() {
     try {
-      const userWithEmailExists = yield call(verifyIdentity)
-      if (userWithEmailExists) return
-      yield call(createUser)
-      yield call(registerUserCampaign, { newUser: true })
+      yield call(verifyIdentity, { payload: { tier: TIERS[2] } })
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
@@ -101,59 +112,90 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const verifyIdentity = function*() {
+  const selectTier = function*(tier = 2) {
+    const { selected } = yield select(selectors.modules.profile.getUserTiers)
+    if (selected === tier)
+      return yield put(actions.analytics.logKycEvent(REENTERED))
+    yield call(api.selectTier, tier)
+    yield call(fetchUser)
+    yield put(actions.analytics.logKycEvent(STARTED))
+  }
+
+  const checkUserUniqueness = function*() {
+    const userId = (yield select(
+      selectors.core.kvStore.userCredentials.getUserId
+    )).getOrElse('')
+
+    if (userId) return true
     try {
-      const userId = (yield select(
-        selectors.core.kvStore.userCredentials.getUserId
-      )).getOrElse('')
-      if (userId) {
-        yield put(actions.analytics.logKycEvent(REENTERED))
-        yield put(actions.modals.showModal(KYC_MODAL))
-        return false
-      }
       const retailToken = yield call(generateRetailToken)
       yield call(api.checkUserExistence, retailToken)
-      yield put(actions.modals.showModal(USER_EXISTS_MODAL))
-      yield put(actions.analytics.logKycEvent(EMAIL_EXISTS))
-      return true
-    } catch (e) {
-      yield put(actions.analytics.logKycEvent(STARTED))
-      yield put(actions.modals.showModal(KYC_MODAL))
       return false
+    } catch (e) {
+      return true
     }
   }
 
-  const initializeVerification = function*({
-    payload: { isCoinify = false, desiredTier = TIERS[2] }
-  }) {
-    yield put(A.setCoinify(isCoinify))
-    yield put(A.setDesiredTier(desiredTier))
+  const verifyIdentity = function*({ payload }) {
+    const { tier, isCoinify, needMoreInfo } = payload
+    const unique = yield call(checkUserUniqueness)
+    if (!unique) {
+      yield put(actions.modals.showModal(USER_EXISTS_MODAL))
+      return yield put(actions.analytics.logKycEvent(EMAIL_EXISTS))
+    }
+    yield put(
+      actions.modals.showModal(KYC_MODAL, { tier, isCoinify, needMoreInfo })
+    )
+  }
+
+  const defineSteps = function*(tier, isCoinify, needMoreInfo) {
+    yield put(A.setStepsLoading())
+    try {
+      yield call(createUser)
+      yield call(selectTier, tier)
+      yield call(registerUserCampaign, { newUser: true })
+    } catch (e) {
+      return yield put(A.setStepsFailure(e))
+    }
+    const tiers = (yield select(
+      selectors.modules.profile.getUserTiers
+    )).getOrElse({
+      next: 0,
+      selected: 2
+    })
+    const mobileVerified = (yield select(selectors.modules.profile.getUserData))
+      .map(prop('mobileVerified'))
+      .getOrElse(false)
+    const smsVerified = (yield select(
+      selectors.core.settings.getSmsVerified
+    )).getOrElse(0)
+    const currentStep = yield select(S.getVerificationStep)
+    const steps = computeSteps({
+      tiers,
+      mobileVerified,
+      smsVerified,
+      currentStep,
+      isCoinify,
+      needMoreInfo
+    })
+
+    yield put(A.setStepsSuccess(steps))
+  }
+
+  const initializeVerification = function*({ payload }) {
+    const { tier = TIERS[2], isCoinify = false, needMoreInfo = false } = payload
     yield put(A.setEmailStep(EMAIL_STEPS.edit))
+    yield call(defineSteps, tier, isCoinify, needMoreInfo)
     yield call(initializeStep)
   }
 
   const initializeStep = function*() {
-    const activationState = (yield select(
-      selectors.modules.profile.getUserActivationState
-    )).getOrElse(USER_ACTIVATION_STATES.NONE)
-    const mobileVerified = (yield select(selectors.modules.profile.getUserData))
-      .map(prop('mobileVerified'))
-      .getOrElse(false)
-    const isCoinify = yield select(S.isCoinifyKyc)
-    const steps = yield select(S.getSteps)
-    if (activationState === USER_ACTIVATION_STATES.NONE)
-      return yield put(A.setVerificationStep(head(steps)))
-    if (mobileVerified && !isCoinify) return yield put(A.setVerificationStep(STEPS.verify))
-    if (activationState === USER_ACTIVATION_STATES.CREATED)
-      return yield put(A.setVerificationStep(STEPS.mobile))
-    if (activationState === USER_ACTIVATION_STATES.ACTIVE) {
-      if (isCoinify) return yield put(A.setVerificationStep(STEPS.coinify))
-      return yield put(A.setVerificationStep(STEPS.verify))
-    }
+    const steps = (yield select(S.getSteps)).getOrElse([])
+    return yield put(A.setVerificationStep(head(steps)))
   }
 
   const goToPrevStep = function*() {
-    const steps = yield select(S.getSteps)
+    const steps = (yield select(S.getSteps)).getOrElse([])
     const currentStep = yield select(S.getVerificationStep)
     const currentStepIndex = steps.indexOf(currentStep)
     const step = steps[currentStepIndex - 1]
@@ -164,7 +206,7 @@ export default ({ api, coreSagas }) => {
   }
 
   const goToNextStep = function*() {
-    const steps = yield select(S.getSteps)
+    const steps = (yield select(S.getSteps)).getOrElse([])
     const currentStep = yield select(S.getVerificationStep)
     const currentStepIndex = steps.indexOf(currentStep)
     const step = steps[currentStepIndex + 1]
@@ -240,7 +282,7 @@ export default ({ api, coreSagas }) => {
   const savePersonalData = function*() {
     try {
       yield put(actions.form.startSubmit(PERSONAL_FORM))
-      yield call(createUser)
+      yield call(syncUserWithWallet)
       const {
         firstName,
         lastName,
@@ -263,22 +305,11 @@ export default ({ api, coreSagas }) => {
       }
       if (address.country === 'US') address.state = address.state.code
       yield call(updateUser, { payload: { data: personalData } })
-      yield call(sendCoinifyKYC) // check for coinify user and call backend if present
-      const { mobileVerified } = yield call(updateUserAddress, {
+      yield call(updateUserAddress, {
         payload: { address }
       })
-      const smsVerified = (yield select(
-        selectors.core.settings.getSmsVerified
-      )).getOrElse(0)
+      yield call(sendCoinifyKYC) // check for coinify user and call backend if present
 
-      if (!smsVerified && !mobileVerified) {
-        yield put(actions.form.stopSubmit(PERSONAL_FORM))
-        yield put(actions.analytics.logKycEvent(PERSONAL_STEP_COMPLETE))
-        return yield call(goToNextStep)
-      }
-
-      // Skipping mobile verification step
-      yield call(syncUserWithWallet)
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
       yield call(goToNextStep)
       yield put(actions.analytics.logKycEvent(PERSONAL_STEP_COMPLETE))
@@ -348,11 +379,11 @@ export default ({ api, coreSagas }) => {
   const checkKycFlow = function*() {
     try {
       yield put(A.setKycFlow(Remote.Loading))
-      const { flowType } = yield call(api.fetchKycConfig)
+      const { flowType, kycProvider } = yield call(api.fetchKycConfig)
       const type = FLOW_TYPES[toUpper(flowType)]
       if (!type) throw wrongFlowTypeError
 
-      yield put(A.setKycFlow(Remote.of(type)))
+      yield put(A.setKycFlow(Remote.of({ flowType, kycProvider })))
     } catch (e) {
       yield put(A.setKycFlow(Remote.Failure(e)))
     }
@@ -397,13 +428,14 @@ export default ({ api, coreSagas }) => {
     } catch (e) {
       yield put(
         actions.form.stopAsyncValidation(PERSONAL_FORM, {
-          email: userExistsError
+          email: emailExistsError
         })
       )
     }
   }
 
   return {
+    defineSteps,
     verifyIdentity,
     initializeVerification,
     initializeStep,
@@ -423,6 +455,7 @@ export default ({ api, coreSagas }) => {
     checkKycFlow,
     sendDeeplink,
     sendEmailVerification,
+    selectTier,
     updateEmail
   }
 }

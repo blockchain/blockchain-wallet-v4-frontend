@@ -26,6 +26,7 @@ describe('goals sagas', () => {
     runReferralGoal,
     runWelcomeGoal,
     runKycGoal,
+    runSwapUpgradeGoal,
     defineDeepLinkGoals,
     defineActionGoal,
     defineSendBtcGoal,
@@ -369,6 +370,42 @@ describe('goals sagas', () => {
         .select(selectors.modules.profile.getUserKYCState)
         .next(Remote.of(model.profile.KYC_STATES.NONE))
         .put(actions.goals.addInitialModal('swap', 'SwapGetStarted'))
+        .next()
+        .isDone()
+    })
+  })
+
+  describe('runSwapUpgradeGoal saga', () => {
+    it('should not show modal if it has already been seen', () => {
+      const saga = testSaga(runSwapUpgradeGoal, { id: mockGoalId })
+
+      saga
+        .next()
+        .put(actions.goals.deleteGoal(mockGoalId))
+        .next()
+        .select(selectors.preferences.getShowSwapUpgrade)
+        .next(false)
+        .isDone()
+    })
+
+    it("should show modal if wallet has balance that's close to the tier 1 limit", () => {
+      const saga = testSaga(runSwapUpgradeGoal, { id: mockGoalId })
+      selectors.modules.profile = { closeToTier1Limit: () => Remote.of(true) }
+
+      saga
+        .next()
+        .put(actions.goals.deleteGoal(mockGoalId))
+        .next()
+        .select(selectors.preferences.getShowSwapUpgrade)
+        .next(true)
+        .select(selectors.modules.profile.closeToTier1Limit)
+        .next(Remote.of(true))
+        .put(
+          actions.goals.addInitialModal('swapUpgrade', 'SwapUpgrade', {
+            nextTier: model.profile.TIERS[2],
+            currentTier: model.profile.TIERS[1]
+          })
+        )
         .next()
         .isDone()
     })

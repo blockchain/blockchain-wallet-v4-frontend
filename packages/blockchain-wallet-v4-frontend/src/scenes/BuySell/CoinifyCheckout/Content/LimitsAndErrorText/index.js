@@ -103,10 +103,10 @@ const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
         </Link>
       )
       const exchangeLink = (
-        <NavLink to='/exchange' style={{ textDecoration: 'none' }}>
+        <NavLink to='/swap' style={{ textDecoration: 'none' }}>
           <FormattedMessage
-            id='buy.quote_input.effective_max_under_min5'
-            defaultMessage='exchanging'
+            id='buy.quote_input.effective_max_under_min5swap'
+            defaultMessage='swapping'
           />
         </NavLink>
       )
@@ -165,14 +165,7 @@ const LimitsAndErrorText = ({
   } else if (checkoutError) {
     return (
       <Error size='13px' weight={300} color='error'>
-        {getLimitsError(
-          checkoutError,
-          limits,
-          curr,
-          setMax,
-          setMin,
-          changeTab
-        )}
+        {getLimitsError(checkoutError, limits, curr, setMax, setMin, changeTab)}
       </Error>
     )
   } else {
@@ -221,16 +214,14 @@ const LimitsAndErrorText = ({
             />
           </LimitsWrapper>
         )}
-        {
-          kycNotFinished && !kycPending && prop('name', level) < 2
-            ? <a onClick={increaseLimit}>
-              <FormattedMessage
-                id='buysell.quote_input.increase_limits'
-                defaultMessage=' Increase your limit.'
-              />
-            </a>
-            : null
-        }
+        {kycNotFinished && !kycPending && prop('name', level) < 2 ? (
+          <a onClick={increaseLimit}>
+            <FormattedMessage
+              id='buysell.quote_input.increase_limits'
+              defaultMessage=' Increase your limit.'
+            />
+          </a>
+        ) : null}
       </LimitsHelper>
     )
   }

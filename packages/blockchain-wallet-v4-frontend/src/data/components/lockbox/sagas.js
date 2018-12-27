@@ -1,4 +1,11 @@
-import { call, put, take, select, takeEvery } from 'redux-saga/effects'
+import {
+  call,
+  cancelled,
+  put,
+  take,
+  select,
+  takeEvery
+} from 'redux-saga/effects'
 import {
   head,
   contains,
@@ -20,6 +27,7 @@ import * as Lockbox from 'services/LockboxService'
 import { confirm, promptForLockbox } from 'services/SagaService'
 
 const logLocation = 'components/lockbox/sagas'
+const sagaCancelledMsg = 'Saga cancelled from user modal close'
 
 export default ({ api }) => {
   // variables for deviceType and app polling during new device setup
@@ -104,19 +112,34 @@ export default ({ api }) => {
       closePoll = true
     } catch (e) {
       yield put(A.setConnectionError(e))
-      yield put(actions.logs.logErrorMessage(logLocation, 'connectDevice', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'pollForDeviceApp', e)
+      )
+    } finally {
+      if (yield cancelled()) {
+        actions.logs.logInfoMessage(
+          logLocation,
+          'pollForDeviceApp',
+          sagaCancelledMsg
+        )
+      }
     }
   }
 
   // determines if lockbox is authentic
-  const checkDeviceAuthenticity = function*() {
+  const checkDeviceAuthenticity = function*(action) {
     try {
-      yield put(A.checkDeviceAuthenticityLoading())
-      const { deviceType } = yield select(S.getCurrentConnection)
-      // reset connection with default timeout
+      const { deviceIndex } = action.payload
+      const deviceR = yield select(
+        selectors.core.kvStore.lockbox.getDevice,
+        deviceIndex
+      )
+      const deviceType = prop('device_type', deviceR.getOrFail())
+      // poll for device connection on dashboard
       yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType))
-      // take new transport
+      // device connection made
       yield take(AT.SET_CONNECTION_INFO)
+      yield put(A.checkDeviceAuthenticityLoading())
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
       const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
@@ -147,11 +170,9 @@ export default ({ api }) => {
           perso: firmware.perso
         }
       )
-
       yield put(A.checkDeviceAuthenticitySuccess(isDeviceAuthentic))
     } catch (e) {
-      yield put(A.changeDeviceSetupStep('error-step', true, 'authenticity'))
-      yield put(A.checkDeviceAuthenticityFailure(e))
+      yield put(A.checkDeviceAuthenticityFailure(false))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'checkDeviceAuthenticity', e)
       )
@@ -226,6 +247,7 @@ export default ({ api }) => {
     }
   }
 
+  // saves xPubs/addresses for requested coin to kvStore
   const saveCoinMD = function*(action) {
     try {
       const { deviceIndex, coin } = action.payload
@@ -378,9 +400,6 @@ export default ({ api }) => {
       yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
       // prefetch app infos for future step
       yield call(deriveLatestAppInfo)
-      // check device authenticity
-      yield put(A.checkDeviceAuthenticity())
-      yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
       const setupType = yield select(S.getNewDeviceSetupType)
       if (setupType === 'new') {
         // installing btc app, wait for confirmation of install
@@ -434,6 +453,16 @@ export default ({ api }) => {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'initializeNewDeviceSetup', e)
       )
+    } finally {
+      if (yield cancelled()) {
+        yield put(A.resetConnectionStatus())
+        yield put(A.resetDeviceAuthenticity())
+        actions.logs.logInfoMessage(
+          logLocation,
+          'initializeNewDeviceSetup',
+          sagaCancelledMsg
+        )
+      }
     }
   }
 
@@ -618,6 +647,14 @@ export default ({ api }) => {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'updateDeviceFirmware', e)
       )
+    } finally {
+      if (yield cancelled()) {
+        actions.logs.logInfoMessage(
+          logLocation,
+          'updateDeviceFirmware',
+          sagaCancelledMsg
+        )
+      }
     }
   }
 

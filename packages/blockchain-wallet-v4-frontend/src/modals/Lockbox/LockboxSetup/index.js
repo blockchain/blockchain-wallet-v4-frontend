@@ -9,7 +9,6 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import LockboxSetup from './template'
 import SetupTypeStep from './SetupTypeStep'
 import ConnectDeviceStep from './ConnectDeviceStep'
-import AuthenticityStep from './AuthenticityStep'
 import NameDeviceStep from './NameDeviceStep'
 import InstallBtcAppStep from './InstallBtcAppStep'
 import OpenBtcAppStep from './OpenBtcAppStep'
@@ -20,29 +19,32 @@ class LockboxSetupContainer extends React.PureComponent {
     this.props.lockboxActions.resetConnectionStatus()
     this.props.lockboxActions.changeDeviceSetupStep('setup-type')
   }
+  onClose = () => {
+    this.props.lockboxActions.lockboxModalClose()
+    this.props.closeAll()
+  }
 
   render () {
-    const { currentStep, position, total, closeAll, setupType } = this.props
+    const { currentStep, position, total, setupType } = this.props
     let steps = {
       'setup-type': { num: 0, template: () => <SetupTypeStep /> },
       'connect-device': { num: 1, template: () => <ConnectDeviceStep /> },
-      'auth-check': { num: 2, template: () => <AuthenticityStep /> },
-      'install-btc-app': { num: 3, template: () => <InstallBtcAppStep /> },
+      'install-btc-app': { num: 2, template: () => <InstallBtcAppStep /> },
       'open-btc-app': {
-        num: 4,
+        num: 3,
         template: () => <OpenBtcAppStep done={currentStep.done} />
       },
-      'name-device': { num: 5, template: () => <NameDeviceStep /> },
-      'error-step': { num: 6, template: () => <ErrorStep /> }
+      'name-device': { num: 4, template: () => <NameDeviceStep /> },
+      'error-step': { num: 5, template: () => <ErrorStep /> }
     }
     if (setupType === 'existing') {
       steps = merge(steps, {
-        'install-btc-app': { num: 3, template: () => <InstallBtcAppStep /> },
+        'install-btc-app': { num: 2, template: () => <InstallBtcAppStep /> },
         'open-btc-app': {
-          num: 3,
+          num: 2,
           template: () => <OpenBtcAppStep done={currentStep.done} />
         },
-        'name-device': { num: 4, template: () => <NameDeviceStep /> }
+        'name-device': { num: 3, template: () => <NameDeviceStep /> }
       })
     }
 
@@ -55,9 +57,8 @@ class LockboxSetupContainer extends React.PureComponent {
       <LockboxSetup
         total={total}
         position={position}
-        closeAll={closeAll}
-        handleClose={this.handleClose}
-        totalSteps={setupType === 'existing' ? 4 : 5}
+        onClose={this.onClose}
+        totalSteps={setupType === 'existing' ? 3 : 4}
         step={step.num}
       >
         {step.template()}

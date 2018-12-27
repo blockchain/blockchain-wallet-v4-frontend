@@ -350,6 +350,13 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage='IP whitelist has been successfully updated'
         />
       )
+    case C.KYC_START_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.kyc_start_error'
+          defaultMessage='Failed to update a tier. Please try again'
+        />
+      )
     case C.LANGUAGE_UPDATE_ERROR:
       return (
         <FormattedMessage
@@ -656,6 +663,20 @@ const selectMessage = (message, data = undefined) => {
         <FormattedMessage
           id='components.alerts.send_bch_success'
           defaultMessage='Your bitcoin cash transaction is now pending'
+        />
+      )
+    case C.SEND_BSV_ERROR:
+      return (
+        <FormattedMessage
+          id='components.alerts.send_bsv_error'
+          defaultMessage='Your Bitcoin SV transaction failed to send. Please try again.'
+        />
+      )
+    case C.SEND_BSV_SUCCESS:
+      return (
+        <FormattedMessage
+          id='components.alerts.send_bsv_success'
+          defaultMessage='Your Bitcoin SV transaction is now pending'
         />
       )
     case C.SEND_BTC_ERROR:

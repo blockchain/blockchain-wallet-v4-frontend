@@ -1,9 +1,9 @@
-import { curry, path, toLower, prop } from 'ramda'
+import { curry, path, prop, toLower } from 'ramda'
 import { walletOptionsPath } from '../paths'
 
 // general
 export const getOptions = path([walletOptionsPath])
-export const getDomains = state => getOptions(state).map(path(['domains']))
+export const getDomains = state => getOptions(state).map(prop('domains'))
 export const getWebOptions = state =>
   getOptions(state).map(path(['platforms', 'web']))
 
@@ -28,11 +28,13 @@ export const getSFOXStates = state => getWebOptions(state).map(path(['sfox', 'st
 export const getCoinifyCountries = state => getWebOptions(state).map(path(['coinify', 'countries']))
 export const getISignThisDomain = state => getWebOptions(state).map(path(['coinify', 'config', 'iSignThisDomain']))
 export const getCoinifyPaymentDomain = state => getWebOptions(state).map(path(['coinify', 'config', 'coinifyPaymentDomain']))
+export const getVeriffDomain = state => getDomains(state).map(prop('veriff'))
+// wallet helper
+export const getWalletHelperUrl = state =>
+  getDomains(state).map(prop('walletHelper'))
+
+// SFOX / plaid
 export const getPlaidKey = state =>
   getWebOptions(state).map(path(['sfox', 'config', 'plaid']))
 export const getPlaidEnv = state =>
   getWebOptions(state).map(path(['sfox', 'config', 'plaidEnv']))
-
-// wallet helper
-export const getWalletHelperUrl = state =>
-  getDomains(state).map(prop('walletHelper'))
