@@ -6,6 +6,7 @@ export const convertFiatToCoin = (
   currency,
   bchRates,
   btcRates,
+  bsvRates,
   ethRates,
   xlmRates
 ) => {
@@ -40,6 +41,16 @@ export const convertFiatToCoin = (
         }).value,
         fiat: value
       }
+    case 'BSV':
+      return {
+        coin: Exchange.convertFiatToBsv({
+          value,
+          fromCurrency: currency,
+          toUnit: unit,
+          rates: bsvRates
+        }).value,
+        fiat: value
+      }
     case 'XLM':
       return {
         coin: Exchange.convertFiatToXlm({
@@ -59,6 +70,7 @@ export const convertCoinToFiat = (
   currency,
   bchRates,
   btcRates,
+  bsvRates,
   ethRates,
   xlmRates
 ) => {
@@ -91,6 +103,16 @@ export const convertCoinToFiat = (
           fromUnit: unit,
           toCurrency: currency,
           rates: bchRates
+        }).value
+      }
+    case 'BSV':
+      return {
+        coin: value,
+        fiat: Exchange.convertBsvToFiat({
+          value,
+          fromUnit: unit,
+          toCurrency: currency,
+          rates: bsvRates
         }).value
       }
     case 'XLM':
