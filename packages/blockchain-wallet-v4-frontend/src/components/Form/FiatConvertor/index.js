@@ -10,7 +10,6 @@ import Convertor from './Convertor'
 class FiatConvertorContainer extends React.PureComponent {
   render () {
     const { input, meta, data, disabled, errorBottom, className } = this.props
-    // console.info(data)
 
     return data.cata({
       Success: value => (
