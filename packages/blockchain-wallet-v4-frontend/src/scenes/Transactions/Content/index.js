@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { path } from 'ramda'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { getData } from './selectors'
@@ -21,7 +22,10 @@ class ContentContainer extends React.PureComponent {
   }
 
   componentDidUpdate (prevProps) {
-    if (prevProps.location.pathname !== this.props.location.pathname) {
+    if (
+      path(['location', 'pathname'], prevProps) !==
+      path(['location', 'pathname'], this.props)
+    ) {
       this.props.txActions.initialized()
     }
   }
