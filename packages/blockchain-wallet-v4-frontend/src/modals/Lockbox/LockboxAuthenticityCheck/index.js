@@ -9,7 +9,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 
 class AuthenticityContainer extends React.PureComponent {
   componentDidMount () {
-    // this.props.lockboxActions.initializeAppManager(this.props.deviceIndex)
+    this.props.lockboxActions.checkDeviceAuthenticity(this.props.deviceIndex)
   }
 
   componentWillUnmount () {
@@ -22,7 +22,7 @@ class AuthenticityContainer extends React.PureComponent {
   }
 
   render () {
-    const { currentStep, position, total } = this.props
+    const { currentStep, connection, position, total } = this.props
     const authenticity = this.props.authenticity.cata({
       Success: res => ({
         isAuthenticating: false,
@@ -39,6 +39,7 @@ class AuthenticityContainer extends React.PureComponent {
         position={position}
         total={total}
         authenticity={authenticity}
+        connection={connection}
         handleStepChange={this.changeDeviceSetupStep}
         onClose={this.onClose}
       />
@@ -54,7 +55,8 @@ AuthenticityContainer.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  authenticity: selectors.components.lockbox.getNewDeviceAuthenticity(state)
+  authenticity: selectors.components.lockbox.getNewDeviceAuthenticity(state),
+  connection: selectors.components.lockbox.getCurrentConnection(state)
 })
 
 const mapDispatchToProps = dispatch => ({

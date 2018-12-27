@@ -4,91 +4,125 @@ import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 
 import {
   Button,
+  BlockchainLoader,
   Image,
   Modal,
   ModalBody,
   ModalHeader,
-  Text
+  Text,
+  TextGroup
 } from 'blockchain-info-components'
-import { RotateSync } from 'components/RotateSync'
 
-const Content = styled.div`
+const ConnectStep = styled.div`
+  text-align: center;
+  & > :last-child {
+    margin: 10px 0;
+  }
+`
+const ConnectSubtitle = styled(Text)`
+  text-align: center;
+  padding: 5px;
+  margin-bottom: 10px;
+`
+const ContentWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: 15px;
 `
-const ImageContainer = styled.div`
-  position: relative;
-  padding-bottom: 57%;
-  img {
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
+const CloseButton = styled(Button)`
+  margin: 16px 4px 0;
 `
-const ButtonContainer = styled.div`
-  margin-top: 20px;
-`
-const RotateSyncContainer = styled(RotateSync)`
-  margin-left: 15px;
+const Loader = styled(BlockchainLoader)`
+  margin: 40px 0;
 `
 
 const AuthenticityStep = props => {
-  const { authenticity, position, onClose, total } = props
+  const { authenticity, connection, position, onClose, total } = props
   const { isAuthenticating } = authenticity
 
   return (
-    <Modal position={position} total={total}>
+    <Modal size='small' position={position} total={total}>
       <ModalHeader onClose={onClose}>
         <FormattedMessage
           id='modals.lockbox.authenticity.title'
-          defaultMessage='Verify Device Authenticity'
+          defaultMessage='Authenticate Device'
         />
       </ModalHeader>
       <ModalBody>
-        <Content>
-          <Text size='14px' weight={300}>
-            <FormattedHTMLMessage
-              id='modals.lockbox.authenticity.content'
-              defaultMessage='When prompted on your Lockbox, tap the RIGHT button to let your device connect to your Blockchain Web Wallet. This may take a few moments.'
+        {connection.app !== 'DASHBOARD' ? (
+          <ConnectStep>
+            <ConnectSubtitle size='16px' weight={400} color='gray-4'>
+              <FormattedHTMLMessage
+                id='modals.lockbox.appmanager.connectdevice'
+                defaultMessage='Connect, unlock and open the Dashboard on your Lockbox device now.'
+              />
+            </ConnectSubtitle>
+            <Image
+              width='330px'
+              name='lockbox-send-connect'
+              srcset={{
+                'lockbox-send-connect2': '2x',
+                'lockbox-send-connect3': '3x'
+              }}
             />
-          </Text>
-        </Content>
-        <ImageContainer>
-          <Image
-            name='lockbox-onboard-verify'
-            width='100%'
-            srcset={{
-              'lockbox-onboard-verify2': '2x',
-              'lockbox-onboard-verify3': '3x'
-            }}
-          />
-        </ImageContainer>
-        <ButtonContainer>
-          <Button
-            fullwidth
-            disabled={isAuthenticating}
-            nature={isAuthenticating ? 'gray' : 'success'}
-          >
-            {isAuthenticating ? (
-              <FormattedMessage
-                id='modals.lockbox.authenticity.authenticating'
-                defaultMessage='Checking Your Device’s Authenticity'
+          </ConnectStep>
+        ) : isAuthenticating ? (
+          <ContentWrapper>
+            <Text size='16px'>
+              <FormattedHTMLMessage
+                id='modals.lockbox.authenticity.content'
+                defaultMessage="Verifying your device's authenticity"
               />
-            ) : (
-              <FormattedMessage
-                id='modals.lockbox.authenticity.success'
-                defaultMessage='Success! Click to Continue'
+              &hellip;
+            </Text>
+            <Loader width='100px' height='100px' />
+            <TextGroup inline>
+              <Text size='14px' weight={400}>
+                <FormattedMessage
+                  id='modals.lockbox.authenticity.note'
+                  defaultMessage='Note:'
+                />
+              </Text>
+              <Text size='14px' weight={300}>
+                <FormattedMessage
+                  id='modals.lockbox.authenticity.notetext'
+                  defaultMessage='Allow the device manager onto the device if prompted.'
+                />
+              </Text>
+            </TextGroup>
+          </ContentWrapper>
+        ) : (
+          <ContentWrapper>
+            <Text size='18px' style={{ marginBottom: '5px' }}>
+              <FormattedHTMLMessage
+                id='modals.lockbox.authenticity.success1'
+                defaultMessage='Congratulations!'
               />
-            )}
-            {isAuthenticating && (
-              <RotateSyncContainer size='16px' color='white' />
-            )}
-          </Button>
-        </ButtonContainer>
+            </Text>
+            <Text size='16px' style={{ marginBottom: '16px' }}>
+              <FormattedHTMLMessage
+                id='modals.lockbox.authenticity.success2'
+                defaultMessage='Your device appears to be genuine!'
+              />
+            </Text>
+            <Image
+              name='lockbox-success'
+              width='340px'
+              srcset={{
+                'lockbox-success2': '2x',
+                'lockbox-success3': '3x'
+              }}
+            />
+            <CloseButton onClick={onClose} nature='primary' fullwidth>
+              <FormattedHTMLMessage
+                id='modals.lockbox.authenticity.close'
+                defaultMessage='Close'
+              />
+            </CloseButton>
+          </ContentWrapper>
+        )}
       </ModalBody>
     </Modal>
   )

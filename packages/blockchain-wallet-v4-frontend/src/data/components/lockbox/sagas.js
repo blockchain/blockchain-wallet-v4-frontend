@@ -127,14 +127,19 @@ export default ({ api }) => {
   }
 
   // determines if lockbox is authentic
-  const checkDeviceAuthenticity = function*() {
+  const checkDeviceAuthenticity = function*(action) {
     try {
-      yield put(A.checkDeviceAuthenticityLoading())
-      const { deviceType } = yield select(S.getCurrentConnection)
-      // reset connection with default timeout
+      const { deviceIndex } = action.payload
+      const deviceR = yield select(
+        selectors.core.kvStore.lockbox.getDevice,
+        deviceIndex
+      )
+      const deviceType = prop('device_type', deviceR.getOrFail())
+      // poll for device connection on dashboard
       yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType))
-      // take new transport
+      // device connection made
       yield take(AT.SET_CONNECTION_INFO)
+      yield put(A.checkDeviceAuthenticityLoading())
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
       const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
