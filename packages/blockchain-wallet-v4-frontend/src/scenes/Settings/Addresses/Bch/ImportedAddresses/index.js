@@ -13,16 +13,22 @@ class ImportedAddressesContainer extends React.Component {
     return !Remote.Loading.is(nextProps.data)
   }
 
-  handleAddressClick = (address) => {
+  handleAddressClick = address => {
     this.props.actions.showModal('RequestBch', {
-      receiveAddressFromProps: prop('addr', address)
+      receiveAddress: prop('addr', address)
     })
   }
 
   render () {
     const { data, ...rest } = this.props
     return data.cata({
-      Success: value => <Success importedAddresses={value} handleAddressClick={this.handleAddressClick} {...rest} />,
+      Success: value => (
+        <Success
+          importedAddresses={value}
+          handleAddressClick={this.handleAddressClick}
+          {...rest}
+        />
+      ),
       Failure: message => <div>{message}</div>,
       Loading: () => <div />,
       NotAsked: () => <div />

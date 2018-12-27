@@ -12,9 +12,9 @@ class ImportedAddressesContainer extends React.Component {
     return !Remote.Loading.is(nextProps.data)
   }
 
-  handleAddressClick = (address) => {
+  handleAddressClick = address => {
     this.props.modalsActions.showModal('RequestBtc', {
-      receiveAddressFromProps: prop('addr', address)
+      receiveAddress: prop('addr', address)
     })
   }
 
@@ -26,20 +26,20 @@ class ImportedAddressesContainer extends React.Component {
     this.props.modalsActions.showModal('VerifyMessage')
   }
 
-  handleShowPriv = (address) => {
+  handleShowPriv = address => {
     this.props.modalsActions.showModal('ShowBtcPrivateKey', {
       addr: address.addr,
       balance: address.info.final_balance
     })
   }
 
-  handleSignMessage = (address) => {
+  handleSignMessage = address => {
     this.props.modalsActions.showModal('SignMessage', {
       address: address.addr
     })
   }
 
-  handleToggleArchived = (address) => {
+  handleToggleArchived = address => {
     let isArchived = address.tag === 2
     this.props.coreActions.setAddressArchived(address.addr, !isArchived)
   }

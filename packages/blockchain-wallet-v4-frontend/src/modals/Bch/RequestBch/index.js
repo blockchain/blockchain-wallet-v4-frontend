@@ -78,7 +78,7 @@ class RequestBchContainer extends React.PureComponent {
       Success: value => (
         <Success
           handleOpenLockbox={this.handleOpenLockbox}
-          receiveAddress={this.props.receiveAddressFromProps || value.receiveAddress}
+          receiveAddress={this.props.receiveAddress || value.receiveAddress}
           legacyAddress={value.legacyAddress}
           handleSubmit={this.handleSubmit}
           type={value.type}

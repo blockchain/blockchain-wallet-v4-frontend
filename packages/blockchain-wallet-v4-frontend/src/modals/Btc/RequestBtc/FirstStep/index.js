@@ -93,7 +93,7 @@ class FirstStepContainer extends React.PureComponent {
           message={value.message}
           addressIdx={value.addressIdx}
           accountIdx={value.accountIdx}
-          receiveAddress={this.props.receiveAddressFromProps || value.receiveAddress}
+          receiveAddress={this.props.receiveAddress || value.receiveAddress}
           handleOpenLockbox={this.handleOpenLockbox}
           handleClickQRCode={() => this.handleClickQRCode(value)}
           handleSubmit={this.handleSubmit}
