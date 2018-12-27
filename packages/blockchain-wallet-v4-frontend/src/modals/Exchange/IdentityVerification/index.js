@@ -119,7 +119,6 @@ const stepMap = {
       defaultMessage='Verify'
     />
   )
-
 }
 
 class IdentityVerification extends React.PureComponent {
@@ -145,9 +144,8 @@ class IdentityVerification extends React.PureComponent {
   }
 
   getStepComponent = step => {
-    const { actions, modalActions, position, total } = this.props
-    if (step === STEPS.coinify)
-      return <CoinifyCreate />
+    const { actions } = this.props
+    if (step === STEPS.coinify) return <CoinifyCreate />
 
     if (step === STEPS.personal)
       return (
