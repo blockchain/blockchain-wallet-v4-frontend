@@ -342,6 +342,7 @@ const Personal = ({
                           fullwidth
                           label
                           errorBottom
+                          countryIsUS={countryIsUS}
                           parse={objectToDOB}
                           format={DOBToObject}
                         />
