@@ -6,23 +6,24 @@ import PropTypes from 'prop-types'
 
 import AppManager from './template'
 
-class AppManagerContainer extends React.PureComponent {
-  onInstallClick = () => {
-    const deviceIndex = this.props.deviceIndex
-    this.props.modalActions.showModal('LockboxAppManager', { deviceIndex })
+class AuthenticateDeviceContainer extends React.PureComponent {
+  onStartCheck = () => {
+    this.props.modalActions.showModal('LockboxDeviceAuthenticity', {
+      deviceIndex: this.props.deviceIndex
+    })
   }
 
   render () {
     return (
       <AppManager
-        onInstallClick={this.onInstallClick}
         isBrowserChrome={this.props.isBrowserChrome}
+        onStartCheck={this.onStartCheck}
       />
     )
   }
 }
 
-AppManagerContainer.propTypes = {
+AuthenticateDeviceContainer.propTypes = {
   isBrowserChrome: PropTypes.bool.isRequired
 }
 
@@ -33,4 +34,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   null,
   mapDispatchToProps
-)(AppManagerContainer)
+)(AuthenticateDeviceContainer)
