@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WhatsNewIcon renders correctly 1`] = `
+<tooltiphost
+  id="whatsnew.tooltip"
+>
+  <template__WhatsNewLink
+    data-e2e="notificationsLink"
+  >
+    <icon
+      color="white"
+      cursor={true}
+      id="whatsnew-icon"
+      name="bell"
+      size="18px"
+    />
+  </template__WhatsNewLink>
+</tooltiphost>
+`;

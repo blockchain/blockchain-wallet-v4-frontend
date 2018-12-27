@@ -14,6 +14,7 @@ import {
   ShowBtcPrivateKey,
   VerifyMessage
 } from './Btc'
+import { SendBsv } from './Bsv'
 import {
   CoinifyDeleteBank,
   CoinifyExchangeData,
@@ -32,6 +33,7 @@ import {
 import { Confirm, PromptInput } from './Generic'
 import {
   LockboxAppManager,
+  LockboxAuthenticityCheck,
   LockboxFirmware,
   LockboxSetup,
   LockboxConnectionPrompt,
@@ -65,7 +67,7 @@ import {
   XlmReserveLearn
 } from './Xlm'
 
-const Modals = props => (
+const Modals = () => (
   <div>
     <AddBtcWallet />
     <AutoDisconnection />
@@ -80,6 +82,7 @@ const Modals = props => (
     <ExchangeResults />
     <IdentityVerification />
     <ImportBtcAddress />
+    <LockboxAuthenticityCheck disableOutsideClose />
     <LockboxAppManager disableOutsideClose />
     <LockboxConnectionPrompt disableOutsideClose />
     <LockboxFirmware disableOutsideClose />
@@ -99,6 +102,7 @@ const Modals = props => (
     <SecondPassword />
     <SendBch />
     <SendBtc />
+    <SendBsv />
     <SendEth />
     <SendXlm />
     <ShowBtcPrivateKey />

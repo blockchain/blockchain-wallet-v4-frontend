@@ -21,7 +21,7 @@ export const getMetadata = path([kvStorePath, LOCKBOX])
 
 export const getDevices = state =>
   getMetadata(state)
-    .map(path(['value', 'devices']))
+    .map(pathOr([], ['value', 'devices']))
     .map(devices => {
       const mapIndexed = addIndex(map)
       const deviceIndexLens = lensProp('device_index')
