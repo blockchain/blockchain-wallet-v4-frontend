@@ -3,9 +3,11 @@ import { path, prop, groupBy, compose, map, head } from 'ramda'
 import { createTestStore, getDispatchSpyReducer } from 'utils/testbed'
 import { actions, selectors, model } from 'data'
 import ratesSagas from './sagaRegister'
-import ratesSocketSagas from 'data/middleware/webSocket/rates/sagaRegister'
-import { socketAuthRetryDelay } from 'data/middleware/webSocket/rates/sagas'
-import webSocketRates, { fallbackInterval } from 'middleware/webSocketRates'
+import ratesSocketSagas from 'data/middleware/webSocket/publicRates/sagaRegister'
+import rateSocketSwitch from 'middleware/rateSocketSwitch'
+import webSocketPublicRates, {
+  fallbackInterval
+} from 'middleware/webSocketPublicRates'
 import ratesReducer from './reducers'
 import profileReducer from 'data/modules/profile/reducers'
 import { Remote } from 'blockchain-wallet-v4'
@@ -76,16 +78,13 @@ api.fetchAdvice.mockReturnValue({ ratio: stubAdvice.currencyRatio })
 
 const sagas = [ratesSagas({ api }), ratesSocketSagas({ api, ratesSocket })]
 
-const middlewares = [webSocketRates(ratesSocket)]
-
-const stubToken =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJyZXRhaWwtY29yZSIsImV4cCI6MTUzNDgyMTgwNCwiaWF0IjoxNTM0Nzc4NjA0LCJ1c2VySUQiOiJmM2M5YWEyNy1mMDgwLTRiZDQtOTI0ZS1iMWQzOWQ4OWE0OTEiLCJqdGkiOiI4NWZkNmVhNC0yNzI1LTQ5NzUtOTQzOC01Mjg4MDliNTJhYmIifQ.wd_RucCDBc7D6snalfb1piI06J_lOD7rXjJ3z38nc3U'
+const middlewares = [rateSocketSwitch, webSocketPublicRates(ratesSocket)]
 
 describe('rates service', () => {
   let store
   beforeEach(() => {
     store = createTestStore(reducers, sagas, middlewares)
-    store.dispatch(actions.middleware.webSocket.rates.startSocket())
+    store.dispatch(actions.middleware.webSocket.publicRates.startSocket())
     dispatchSpy.mockClear()
     api.fetchAdvice.mockClear()
     jest.clearAllTimers()
@@ -96,23 +95,8 @@ describe('rates service', () => {
   })
 
   it('should close ratesSocket on stop', () => {
-    store.dispatch(actions.middleware.webSocket.rates.stopSocket())
+    store.dispatch(actions.middleware.webSocket.publicRates.stopSocket())
     expect(ratesSocket.close).toHaveBeenCalledTimes(1)
-  })
-
-  describe('authentication', () => {
-    beforeEach(() => {
-      ratesSocket.send.mockClear()
-      store.dispatch(actions.modules.profile.setApiToken(Remote.of(stubToken)))
-      store.dispatch(actions.middleware.webSocket.rates.authenticateSocket())
-    })
-
-    it('should send authentication message to ratesSocket', () => {
-      expect(ratesSocket.send).toHaveBeenCalledTimes(1)
-      expect(ratesSocket.send).toHaveBeenCalledWith(
-        model.rates.getAuthMessage(stubToken)
-      )
-    })
   })
 
   describe('new advice subscriptions', () => {
@@ -135,7 +119,7 @@ describe('rates service', () => {
       ).toEqual({ volume, fix, fiatCurrency })
     })
 
-    it('should set send subscription socket message upon new subscription', () => {
+    it('should send subscription socket message upon new subscription', () => {
       expect(ratesSocket.send).toHaveBeenCalledTimes(1)
       expect(ratesSocket.send).toHaveBeenCalledWith(
         model.rates.getAdviceSubscribeMessage(pair, volume, fix, fiatCurrency)
@@ -239,7 +223,7 @@ describe('rates service', () => {
       ).toEqual(Remote.of(stubAdvice.currencyRatio))
     })
 
-    it('should set pair rate to success upon advice message if fix does not match', () => {
+    it('should not update pair state upon advice message if fix does not match', () => {
       ratesSocket.triggerMessage({
         ...model.rates.ADVICE_UPDATED_MESSAGE,
         quote: { ...stubAdvice, fix: 'base' }
@@ -249,7 +233,7 @@ describe('rates service', () => {
       ).toEqual(Remote.NotAsked)
     })
 
-    it('should set pair rate to success upon advice message if volume does not match', () => {
+    it('should not update pair state advice message if volume does not match', () => {
       ratesSocket.triggerMessage({
         ...model.rates.ADVICE_UPDATED_MESSAGE,
         quote: { ...stubAdvice, volume: volume + 1 }
@@ -273,13 +257,6 @@ describe('rates service', () => {
       expect(selectors.modules.rates.getBestRates(store.getState())).toEqual(
         Remote.Success(resultRates)
       )
-    })
-
-    it('should retry authentication after delay', async () => {
-      ratesSocket.triggerMessage(model.rates.AUTH_ERROR_MESSAGE)
-      expect(ratesSocket.send).toHaveBeenCalledTimes(0)
-      await jest.advanceTimersByTime(socketAuthRetryDelay)
-      expect(ratesSocket.send).toHaveBeenCalledTimes(1)
     })
   })
 
@@ -306,14 +283,11 @@ describe('rates service', () => {
 
     it('should set rates error when request fails', () => {
       const stubError = new Error('stubError')
-      api.fetchAdvice.mockImplementation(() => {
-        throw stubError
-      })
+      api.fetchAdvice.mockReturnValue({ error: stubError })
       jest.advanceTimersByTime(fallbackInterval)
       expect(
         selectors.modules.rates.getPairAdvice(pair, store.getState())
       ).toEqual(Remote.Failure(stubError))
-      api.fetchAdvice.mockReturnValue(stubAdvice.currencyRatio)
     })
   })
 })

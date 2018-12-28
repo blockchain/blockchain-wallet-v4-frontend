@@ -120,8 +120,13 @@ describe('App Store Config', () => {
       options: fakeWalletOptions,
       url: `${fakeWalletOptions.domains.webSocket}/eth/inv`
     })
-    expect(ApiSocket).toHaveBeenCalledTimes(1)
-    expect(ApiSocket).toHaveBeenCalledWith({
+    expect(ApiSocket).toHaveBeenCalledTimes(2)
+    expect(ApiSocket.mock.calls[0][0]).toEqual({
+      options: fakeWalletOptions,
+      url: `${fakeWalletOptions.domains.webSocket}/nabu-gateway/markets/quotes`,
+      maxReconnects: 3
+    })
+    expect(ApiSocket.mock.calls[1][0]).toEqual({
       options: fakeWalletOptions,
       url: `${fakeWalletOptions.domains.webSocket}/nabu-gateway/markets/quotes`,
       maxReconnects: 3

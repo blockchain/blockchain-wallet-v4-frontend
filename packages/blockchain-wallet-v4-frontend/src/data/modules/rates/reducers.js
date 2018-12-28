@@ -8,7 +8,6 @@ import {
   set
 } from 'ramda'
 
-import * as socketActionTypes from 'data/middleware/webSocket/rates/actionTypes'
 import * as AT from './actionTypes'
 import { FIX_TYPES, MIN_ERROR, MAX_ERROR } from './model'
 import { Remote } from 'blockchain-wallet-v4'
@@ -63,7 +62,7 @@ export default (state = INITIAL_STATE, action) => {
       )
     case AT.SUBSCRIBE_TO_ADVICE:
       return setPairProp(quoteLens, Remote.Loading, payload.pair, state)
-    case socketActionTypes.ADVICE_SUBSCRIBE_ERROR:
+    case AT.SET_PAIR_QUOTE_ERROR:
       return setPairProp(
         quoteLens,
         Remote.Failure(getError(payload.error)),
@@ -75,7 +74,7 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.SUBSCRIBE_TO_RATES:
       return set(bestRatesLens, Remote.Loading, state)
-    case socketActionTypes.RATES_SUBSCRIBE_ERROR:
+    case AT.SET_BEST_RATES_ERROR:
       return set(bestRatesLens, Remote.Failure(payload.error), state)
     case AT.UNSUBSCRIBE_FROM_RATES:
       return set(bestRatesLens, Remote.NotAsked, state)

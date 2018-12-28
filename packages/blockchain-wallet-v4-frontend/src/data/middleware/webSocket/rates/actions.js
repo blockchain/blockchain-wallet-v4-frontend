@@ -29,29 +29,3 @@ export const closeAdviceChannel = pair => ({
   type: AT.CLOSE_ADVICE_CHANNEL,
   payload: { pair }
 })
-
-export const adviceSubscribeSuccess = pair => ({
-  type: AT.ADVICE_SUBSCRIBE_SUCCESS,
-  payload: { pair }
-})
-export const adviceUnsubscribeSuccess = pair => ({
-  type: AT.ADVICE_UNSUBSCRIBE_SUCCESS,
-  payload: { pair }
-})
-export const adviceSubscribeError = (pair, error) => ({
-  type: AT.ADVICE_SUBSCRIBE_ERROR,
-  payload: { pair, error }
-})
-
-export const ratesSubscribeSuccess = pairs => ({
-  type: AT.RATES_SUBSCRIBE_SUCCESS,
-  payload: { pairs }
-})
-export const ratesUnsubscribeSuccess = pairs => ({
-  type: AT.RATES_UNSUBSCRIBE_SUCCESS,
-  payload: { pairs }
-})
-export const ratesSubscribeError = (pairs, error) => ({
-  type: AT.RATES_SUBSCRIBE_ERROR,
-  payload: { pairs, error }
-})

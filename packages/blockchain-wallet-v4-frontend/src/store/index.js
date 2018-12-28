@@ -124,10 +124,10 @@ const configureStore = () => {
         ),
         composeEnhancers(
           applyMiddleware(
+            rateSocketSwitch,
             sagaMiddleware,
             routerMiddleware(history),
             coreMiddleware.kvStore({ isAuthenticated, api, kvStorePath }),
-            rateSocketSwitch,
             webSocketBtc(btcSocket),
             webSocketBch(bchSocket),
             webSocketEth(ethSocket),

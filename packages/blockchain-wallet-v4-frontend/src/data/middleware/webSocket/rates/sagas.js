@@ -18,7 +18,6 @@ import { delay } from 'redux-saga'
 import moment from 'moment'
 
 import { selectors, model, actions } from 'data'
-import * as A from './actions'
 
 export const socketAuthRetryDelay = 5000
 const openChannels = {
@@ -29,17 +28,9 @@ const openChannels = {
 export default ({ api, ratesSocket }) => {
   const isAuthError = whereEq(model.rates.AUTH_ERROR_MESSAGE)
 
-  const isAdviceSubscribeSuccess = whereEq(
-    model.rates.ADVICE_SUBSCRIBE_SUCCESS_MESSAGE
-  )
-
-  const isAdviceSubscribeError = either(
-    whereEq(model.rates.ADVICE_SUBSCRIBE_ERROR_MESSAGE),
-    both(whereEq(model.rates.ADVICE_UPDATED_MESSAGE), has('error'))
-  )
-
-  const isAdviceUnsubscribeSuccess = whereEq(
-    model.rates.ADVICE_UNSUBSCRIBE_SUCCESS_MESSAGE
+  const isAdviceSubscribeError = both(
+    whereEq(model.rates.ADVICE_UPDATED_MESSAGE),
+    has('error')
   )
 
   const isAdviceMessage = both(
@@ -50,16 +41,8 @@ export default ({ api, ratesSocket }) => {
     complement(has('error'))
   )
 
-  const isRatesSubscribeSuccess = whereEq(
-    model.rates.RATES_SUBSCRIBE_SUCCESS_MESSAGE
-  )
-
   const isRatesSubscribeError = whereEq(
     model.rates.RATES_SUBSCRIBE_ERROR_MESSAGE
-  )
-
-  const isRatesUnubscribeSuccess = whereEq(
-    model.rates.RATES_UNSUBSCRIBE_SUCCESS_MESSAGE
   )
 
   const isRatesMessage = either(
@@ -82,20 +65,16 @@ export default ({ api, ratesSocket }) => {
       yield delay(socketAuthRetryDelay)
       yield call(authenticateSocket)
     }
-    if (isAdviceSubscribeSuccess(message))
-      yield put(A.adviceSubscribeSuccess(message.pair))
     if (isAdviceSubscribeError(message))
-      yield put(A.adviceSubscribeError(message.pair, message.error))
-    if (isAdviceUnsubscribeSuccess(message))
-      yield put(A.adviceUnsubscribeSuccess(message.pair))
+      yield put(
+        actions.modules.rates.setPairQuoteError(message.pair, message.error)
+      )
     if (isAdviceMessage(message))
       yield put(actions.modules.rates.updateAdvice(message.quote))
-    if (isRatesSubscribeSuccess(message))
-      yield put(A.ratesSubscribeSuccess(message.pairs))
     if (isRatesSubscribeError(message))
-      yield put(A.ratesSubscribeError(message.pairs, message.error))
-    if (isRatesUnubscribeSuccess(message))
-      yield put(A.ratesUnsubscribeSuccess(message.pairs))
+      yield put(
+        actions.modules.rates.setBestRatesError(message.pairs, message.error)
+      )
     if (isRatesMessage(message))
       yield put(
         actions.modules.rates.updateBestRates(
@@ -152,7 +131,7 @@ export default ({ api, ratesSocket }) => {
         })
       )
     } catch (e) {
-      yield put(A.adviceSubscribeError(pair, e))
+      yield put(actions.modules.rates.setPairQuoteError(pair, e))
     }
   }
 
@@ -168,7 +147,7 @@ export default ({ api, ratesSocket }) => {
         )
       )
     } catch (e) {
-      yield put(A.ratesSubscribeError(pairs, e))
+      yield put(actions.modules.rates.setBestRatesError(pairs, e))
     }
   }
 

@@ -21,6 +21,10 @@ export const setPairQuote = (pair, quote) => ({
   type: AT.SET_PAIR_QUOTE,
   payload: { pair, quote }
 })
+export const setPairQuoteError = (pair, error) => ({
+  type: AT.SET_PAIR_QUOTE_ERROR,
+  payload: { pair, error }
+})
 export const pairUpdated = pair => ({
   type: AT.PAIR_UPDATED,
   payload: { pair }
@@ -52,6 +56,10 @@ export const unsubscribeFromRates = () => ({
 export const updateBestRates = rates => ({
   type: AT.UPDATE_BEST_RATES,
   payload: { rates }
+})
+export const setBestRatesError = (pairs, error) => ({
+  type: AT.SET_BEST_RATES_ERROR,
+  payload: { pairs, error }
 })
 
 export const removeAdvice = pair => ({

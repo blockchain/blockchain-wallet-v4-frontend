@@ -9,21 +9,6 @@ export const AUTH_ERROR_MESSAGE = {
   description: 'Can not process auth request, token can not be found'
 }
 
-export const ADVICE_SUBSCRIBE_SUCCESS_MESSAGE = {
-  channel: 'conversion',
-  event: 'subscribed'
-}
-
-export const ADVICE_SUBSCRIBE_ERROR_MESSAGE = {
-  channel: 'conversion',
-  event: 'rejcted'
-}
-
-export const ADVICE_UNSUBSCRIBE_SUCCESS_MESSAGE = {
-  channel: 'conversion',
-  event: 'unsubscribed'
-}
-
 export const ADVICE_SNAPSHOT_MESSAGE = {
   channel: 'conversion',
   event: 'snapshot'
@@ -34,19 +19,9 @@ export const ADVICE_UPDATED_MESSAGE = {
   event: 'updated'
 }
 
-export const RATES_SUBSCRIBE_SUCCESS_MESSAGE = {
-  channel: 'exchange_rate',
-  event: 'subscribed'
-}
-
 export const RATES_SUBSCRIBE_ERROR_MESSAGE = {
   channel: 'exchange_rate',
   event: 'error'
-}
-
-export const RATES_UNSUBSCRIBE_SUCCESS_MESSAGE = {
-  channel: 'exchange_rate',
-  event: 'unsubscribed'
 }
 
 export const RATES_SNAPSHOT_MESSAGE = {

@@ -24,7 +24,7 @@ export const createTestStore = (
     prferences: preferencesReducer,
     ...reducers
   })
-  const createTestStore = applyMiddleware(sagaMiddleware, ...middlewares)(
+  const createTestStore = applyMiddleware(...middlewares, sagaMiddleware)(
     createStore
   )
   const testStore = createTestStore(combinedReducers)
