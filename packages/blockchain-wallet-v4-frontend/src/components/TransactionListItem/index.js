@@ -6,18 +6,13 @@ import { actions } from 'data'
 import TransactionListItem from './template.js'
 
 class ListItemContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = { isToggled: false }
-    this.handleToggle = this.handleToggle.bind(this)
-    this.handleEditDescription = this.handleEditDescription.bind(this)
-  }
+  state = { isToggled: false }
 
-  handleToggle () {
+  handleToggle = () => {
     this.setState({ isToggled: !this.state.isToggled })
   }
 
-  handleEditDescription (value) {
+  handleEditDescription = value => {
     switch (this.props.coin) {
       case 'ETH': {
         this.props.ethereumActions.setTxNotesEthereum(
@@ -35,6 +30,10 @@ class ListItemContainer extends React.PureComponent {
       }
       case 'BCH': {
         this.props.bchActions.setTxNotesBch(this.props.transaction.hash, value)
+        break
+      }
+      case 'BSV': {
+        this.props.bsvActions.setTxNotesBsv(this.props.transaction.hash, value)
         break
       }
       case 'XLM': {
@@ -63,6 +62,7 @@ const mapDispatchToProps = dispatch => ({
   walletActions: bindActionCreators(actions.core.wallet, dispatch),
   ethereumActions: bindActionCreators(actions.core.kvStore.ethereum, dispatch),
   bchActions: bindActionCreators(actions.core.kvStore.bch, dispatch),
+  bsvActions: bindActionCreators(actions.core.kvStore.bsv, dispatch),
   xlmActions: bindActionCreators(actions.core.kvStore.xlm, dispatch)
 })
 

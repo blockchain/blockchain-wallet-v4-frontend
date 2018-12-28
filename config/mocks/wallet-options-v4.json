@@ -77,7 +77,7 @@
         "availability": {
           "send": true,
           "request": true,
-          "lockbox": false,
+          "lockbox": true,
           "exchange": true
         }
       },

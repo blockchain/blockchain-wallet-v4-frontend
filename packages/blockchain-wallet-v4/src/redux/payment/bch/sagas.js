@@ -263,6 +263,7 @@ export default ({ api }) => {
         return yield call(
           bch.signWithLockbox,
           selection,
+          coinDust,
           transport,
           scrambleKey,
           changeIndex,

@@ -127,14 +127,19 @@ export default ({ api }) => {
   }
 
   // determines if lockbox is authentic
-  const checkDeviceAuthenticity = function*() {
+  const checkDeviceAuthenticity = function*(action) {
     try {
-      yield put(A.checkDeviceAuthenticityLoading())
-      const { deviceType } = yield select(S.getCurrentConnection)
-      // reset connection with default timeout
+      const { deviceIndex } = action.payload
+      const deviceR = yield select(
+        selectors.core.kvStore.lockbox.getDevice,
+        deviceIndex
+      )
+      const deviceType = prop('device_type', deviceR.getOrFail())
+      // poll for device connection on dashboard
       yield put(A.pollForDeviceApp('DASHBOARD', null, deviceType))
-      // take new transport
+      // device connection made
       yield take(AT.SET_CONNECTION_INFO)
+      yield put(A.checkDeviceAuthenticityLoading())
       const { transport } = yield select(S.getCurrentConnection)
       // get base device info
       const deviceInfo = yield call(Lockbox.utils.getDeviceInfo, transport)
@@ -165,11 +170,9 @@ export default ({ api }) => {
           perso: firmware.perso
         }
       )
-
       yield put(A.checkDeviceAuthenticitySuccess(isDeviceAuthentic))
     } catch (e) {
-      yield put(A.changeDeviceSetupStep('error-step', true, 'authenticity'))
-      yield put(A.checkDeviceAuthenticityFailure(e))
+      yield put(A.checkDeviceAuthenticityFailure(false))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'checkDeviceAuthenticity', e)
       )
@@ -397,9 +400,6 @@ export default ({ api }) => {
       yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
       // prefetch app infos for future step
       yield call(deriveLatestAppInfo)
-      // check device authenticity
-      yield put(A.checkDeviceAuthenticity())
-      yield take(AT.SET_NEW_DEVICE_SETUP_STEP)
       const setupType = yield select(S.getNewDeviceSetupType)
       if (setupType === 'new') {
         // installing btc app, wait for confirmation of install

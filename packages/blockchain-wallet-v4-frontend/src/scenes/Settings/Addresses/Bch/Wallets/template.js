@@ -33,6 +33,13 @@ const WalletTableCell = styled(TableCell)`
     align-items: flex-start;
   `};
 `
+const NoSearchMatchCell = styled(WalletTableCell)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+`
 const ClickableText = styled(Text)`
   cursor: pointer;
 `
@@ -50,14 +57,11 @@ const Success = props => {
     onShowXPub,
     search
   } = props
-
   const isMatch = wallet =>
     !search || wallet.label.toLowerCase().indexOf(search) > -1
+  const matchedWallets = filter(isMatch, take(bchAccounts.length, wallets))
 
-  const walletTableRows = filter(
-    isMatch,
-    take(bchAccounts.length, wallets)
-  ).map((wallet, i) => {
+  const walletTableRows = matchedWallets.map((wallet, i) => {
     const isDefault = i === defaultIndex
     const isArchived = bchAccounts[i].archived
 
@@ -224,7 +228,22 @@ const Success = props => {
             </Text>
           </TableCell>
         </TableHeader>
-        {walletTableRows}
+        {search && !matchedWallets.length ? (
+          <TableRow>
+            <NoSearchMatchCell>
+              <LabelCell size='13px'>
+                <Text size='13px' weight={500}>
+                  <FormattedMessage
+                    id='scenes.settings.addresses.bch.wallets.nomatch'
+                    defaultMessage='No wallets matched your search'
+                  />
+                </Text>
+              </LabelCell>
+            </NoSearchMatchCell>
+          </TableRow>
+        ) : (
+          walletTableRows
+        )}
       </Table>
     </Wrapper>
   )
