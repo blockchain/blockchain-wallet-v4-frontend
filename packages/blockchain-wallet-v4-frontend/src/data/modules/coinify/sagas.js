@@ -125,8 +125,6 @@ export default ({ api, coreSagas, networks }) => {
       yield put(A.coinifyLoading())
       const trade = yield call(coreSagas.data.coinify.sell)
 
-      const state = yield select()
-
       if (!trade) {
         const trade = yield select(selectors.core.data.coinify.getTrade)
         const parsed = JSON.parse(trade.error)
@@ -134,6 +132,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(A.coinifyFailure(parsed))
         return
       }
+      const state = yield select()
       const p = path(PAYMENT_PATH, state)
       let payment = yield coreSagas.payment.btc.create({
         payment: p.getOrElse({}),

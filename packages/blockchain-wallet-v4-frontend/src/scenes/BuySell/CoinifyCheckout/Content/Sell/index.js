@@ -50,7 +50,7 @@ class SellContainer extends React.Component {
 
     const busy = coinifyBusy.cata({
       Success: () => false,
-      Failure: err => <Failure error={err} />,
+      Failure: err => err,
       Loading: () => true,
       NotAsked: () => false
     })

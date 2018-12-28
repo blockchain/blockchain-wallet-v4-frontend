@@ -286,6 +286,7 @@ export const OrderSubmit = props => {
               id='scenes.buysell.orderreview.wrong'
               defaultMessage='Sorry, something went wrong with your trade:'
             />
+            {' '}
             {busy.error_description}
           </Text>
           <span>
