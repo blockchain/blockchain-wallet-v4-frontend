@@ -9,5 +9,6 @@ export default {
   WALLET_OPTIONS_PATH: 'wallet.options',
   WALLET_KVSTORE_PATH: 'wallet.kvstore',
   NETWORK_ETH: 1,
-  NETWORK_BCH: BitcoinCash.networks[isTestnet ? 'testnet' : 'bitcoin']
+  NETWORK_BCH: BitcoinCash.networks[isTestnet ? 'testnet' : 'bitcoin'],
+  NETWORK_BSV: BitcoinCash.networks[isTestnet ? 'testnet' : 'bitcoin']
 }

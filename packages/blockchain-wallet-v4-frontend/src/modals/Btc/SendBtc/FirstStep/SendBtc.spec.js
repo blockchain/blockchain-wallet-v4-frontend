@@ -28,6 +28,7 @@ import { getRates as getBtcRates } from 'blockchain-wallet-v4/src/redux/data/btc
 import { getRates as getEthRates } from 'blockchain-wallet-v4/src/redux/data/eth/selectors'
 import { getRates as getBchRates } from 'blockchain-wallet-v4/src/redux/data/bch/selectors'
 import { getRates as getXlmRates } from 'blockchain-wallet-v4/src/redux/data/xlm/selectors'
+import { getRates as getBsvRates } from 'blockchain-wallet-v4/src/redux/data/bsv/selectors'
 import {
   getToToggled,
   getFeePerByteToggled,
@@ -62,6 +63,7 @@ jest.mock('blockchain-wallet-v4/src/redux/data/btc/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/data/eth/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/data/bch/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/data/xlm/selectors')
+jest.mock('blockchain-wallet-v4/src/redux/data/bsv/selectors')
 
 const networks = {
   btc: {
@@ -171,6 +173,7 @@ getBtcRates.mockImplementation(() => Remote.of(ratesMock))
 getEthRates.mockImplementation(() => Remote.of(ratesMock))
 getBchRates.mockImplementation(() => Remote.of(ratesMock))
 getXlmRates.mockImplementation(() => Remote.of(ratesMock))
+getBsvRates.mockImplementation(() => Remote.of(ratesMock))
 getCurrency.mockImplementation(() => Remote.of('USD'))
 getSettings.mockImplementation(() => Remote.of(settingsMock))
 

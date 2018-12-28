@@ -276,18 +276,10 @@ exports[`EmailVerification component rendering should render verified state corr
       weight="400"
     />
   </EmailVerification__SuccessLabel>
-  <Text
-    altFont={false}
-    capitalize={false}
-    color="gray-5"
-    cursor="inherit"
-    italic={false}
-    opacity={1}
-    size="16px"
-    uppercase={false}
+  <EmailVerification__EmailLabel
     weight="400"
   >
     f@ke.mail
-  </Text>
+  </EmailVerification__EmailLabel>
 </EmailVerification__Container>
 `;

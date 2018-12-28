@@ -11,7 +11,6 @@ import modalsReducer from './modals/reducers.js'
 import preferencesReducer from './preferences/reducers.js'
 import profileReducer from './modules/profile/reducers.js'
 import ratesReducer from './modules/rates/reducers.js'
-import scrollReducer from './scroll/reducers.js'
 import sessionReducer from './session/reducers.js'
 import wizardReducer from './wizard/reducers.js'
 import settingsReducer from './modules/settings/reducers.js'
@@ -31,7 +30,6 @@ const rootReducer = {
   profile: profileReducer,
   rates: ratesReducer,
   cache: cacheReducer,
-  scroll: scrollReducer,
   session: sessionReducer,
   wizard: wizardReducer,
   securityCenter: settingsReducer,
