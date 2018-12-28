@@ -15,7 +15,7 @@ import {
   propEq
 } from 'ramda'
 import { selectors } from 'data'
-import { USER_ACTIVATION_STATES, KYC_STATES, TIERS_STATES } from './model'
+import { TIERS_STATES } from './model'
 
 export const getUserData = path(['profile', 'userData'])
 export const getUserActivationState = compose(
@@ -25,18 +25,6 @@ export const getUserActivationState = compose(
 export const getUserKYCState = compose(
   lift(prop('kycState')),
   getUserData
-)
-export const isUserCreated = compose(
-  lift(equals(USER_ACTIVATION_STATES.CREATED)),
-  getUserActivationState
-)
-export const isUserActive = compose(
-  lift(equals(USER_ACTIVATION_STATES.ACTIVE)),
-  getUserActivationState
-)
-export const isUserVerified = compose(
-  lift(equals(KYC_STATES.VERIFIED)),
-  getUserKYCState
 )
 export const getUserCountryCode = compose(
   lift(path(['address', 'country'])),
@@ -57,6 +45,16 @@ export const getTier = curry((tierIndex, state) =>
 )
 export const getLastAttemptedTier = compose(
   lift(findLast(complement(propEq('state', TIERS_STATES.NONE)))),
+  getTiers
+)
+
+export const isUserCreated = compose(
+  lift(complement(equals(TIERS_STATES.NONE))),
+  lift(path([0, 'state'])),
+  getTiers
+)
+export const isUserVerified = compose(
+  lift(any(propEq('state', TIERS_STATES.VERIFIED))),
   getTiers
 )
 

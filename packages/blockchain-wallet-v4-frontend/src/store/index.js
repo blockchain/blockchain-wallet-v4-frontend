@@ -21,11 +21,13 @@ import { serializer } from 'blockchain-wallet-v4/src/types'
 import { actions, rootSaga, rootReducer, selectors } from 'data'
 import {
   autoDisconnection,
+  rateSocketSwitch,
   streamingXlm,
   webSocketBch,
   webSocketBtc,
   webSocketEth,
-  webSocketRates
+  webSocketRates,
+  webSocketPublicRates
 } from '../middleware'
 
 const devToolsConfig = {
@@ -75,6 +77,11 @@ const configureStore = () => {
         options,
         url: `${socketUrl}/eth/inv`
       })
+      const publicRatesSocket = new ApiSocket({
+        options,
+        url: `${socketUrl}/nabu-gateway/markets/quotes`,
+        maxReconnects: 3
+      })
       const ratesSocket = new ApiSocket({
         options,
         url: `${socketUrl}/nabu-gateway/markets/quotes`,
@@ -120,11 +127,13 @@ const configureStore = () => {
             sagaMiddleware,
             routerMiddleware(history),
             coreMiddleware.kvStore({ isAuthenticated, api, kvStorePath }),
+            rateSocketSwitch,
             webSocketBtc(btcSocket),
             webSocketBch(bchSocket),
             webSocketEth(ethSocket),
             streamingXlm(xlmStreamingService, api),
             webSocketRates(ratesSocket),
+            webSocketPublicRates(publicRatesSocket),
             coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
             autoDisconnection()
           )
@@ -138,6 +147,7 @@ const configureStore = () => {
         btcSocket,
         ethSocket,
         ratesSocket,
+        publicRatesSocket,
         networks,
         options
       })

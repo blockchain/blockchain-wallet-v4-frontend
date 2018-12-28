@@ -47,6 +47,7 @@ export default ({ api, coreSagas }) => {
         selectors.core.kvStore.userCredentials.getLifetimeToken
       )).getOrElse(null)
       if (!userId || !lifetimeToken) {
+        yield call(renewApiSockets)
         return yield put(
           A.fetchUserDataSuccess({
             state: USER_ACTIVATION_STATES.NONE,

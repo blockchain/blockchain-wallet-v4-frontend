@@ -57,7 +57,6 @@ export class ExchangeScene extends React.PureComponent {
 
   render () {
     const { userCreated, hasEmail, location } = this.props
-
     if (!hasEmail) return <EmailRequired />
 
     return userCreated.cata({

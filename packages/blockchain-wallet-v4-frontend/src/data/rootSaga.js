@@ -59,6 +59,7 @@ export default function*({
   btcSocket,
   ethSocket,
   ratesSocket,
+  publicRatesSocket,
   networks,
   options
 }) {
@@ -74,7 +75,16 @@ export default function*({
     fork(preferences()),
     fork(goals({ api })),
     fork(wallet({ coreSagas })),
-    fork(middleware({ api, bchSocket, btcSocket, ethSocket, ratesSocket })),
+    fork(
+      middleware({
+        api,
+        bchSocket,
+        btcSocket,
+        ethSocket,
+        ratesSocket,
+        publicRatesSocket
+      })
+    ),
     fork(coreRootSagaFactory({ api, networks, options })),
     fork(router()),
     call(languageInitSaga)
