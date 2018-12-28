@@ -8,8 +8,21 @@ import { Row } from '../Layout'
 import { Button, HeartbeatLoader } from 'blockchain-info-components'
 
 const ButtonRow = styled(Row)`
-  border: 1px solid ${props => props.theme['gray-1']}};
-  border-top: none;
+  padding: 0px 32px 23px 32px;
+`
+const BigButton = styled(Button)`
+  height: 72px;
+  border-radius: 6px;
+  font-size: 17px;
+  font-weight: 400;
+  transition: box-shadow 0.3s;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.21);
+  &:disabled {
+    box-shadow: none;
+  }
+  &:active {
+    box-shadow: none;
+  }
 `
 
 class SubmitButton extends React.PureComponent {
@@ -17,8 +30,8 @@ class SubmitButton extends React.PureComponent {
     const {
       blockLockbox,
       disabled,
-      sourceCoin,
-      targetCoin,
+      disabledPending,
+      hide,
       txError,
       volume,
       asyncValidating,
@@ -27,13 +40,17 @@ class SubmitButton extends React.PureComponent {
       submitting,
       handleSubmit
     } = this.props
+
+    if (hide) return null
+
     return (
       <ButtonRow>
-        <Button
+        <BigButton
           nature='primary'
           fullwidth
           onClick={handleSubmit}
           disabled={
+            disabledPending ||
             disabled ||
             blockLockbox ||
             asyncValidating ||
@@ -47,17 +64,13 @@ class SubmitButton extends React.PureComponent {
         >
           {!disabled && !asyncValidating && !submitting ? (
             <FormattedMessage
-              id='scenes.exchange.exchangeform.exchange'
-              defaultMessage='Exchange {source} for {target}'
-              values={{
-                source: sourceCoin,
-                target: targetCoin
-              }}
+              id='scenes.exchange.exchangeform.swap'
+              defaultMessage='Swap'
             />
           ) : (
             <HeartbeatLoader height='20px' width='20px' color='white' />
           )}
-        </Button>
+        </BigButton>
       </ButtonRow>
     )
   }

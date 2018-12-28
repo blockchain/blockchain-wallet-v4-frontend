@@ -397,6 +397,10 @@ describe('authSagas', () => {
       saga.next().call(coreSagas.kvStore.bch.fetchMetadataBch)
     })
 
+    it('should fetch bsv metadata', () => {
+      saga.next().call(coreSagas.kvStore.bsv.fetchMetadataBsv)
+    })
+
     it('should fetch lockbox metadata', () => {
       saga.next().call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
     })
@@ -485,6 +489,10 @@ describe('authSagas', () => {
 
     it('should add welcome goal', () => {
       saga.next().put(actions.goals.saveGoal('welcome', { firstLogin }))
+    })
+
+    it('should add swap upgrade goal', () => {
+      saga.next().put(actions.goals.saveGoal('swapUpgrade'))
     })
 
     it('should add kyc goal', () => {

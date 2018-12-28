@@ -1,6 +1,6 @@
-import { select, put } from 'redux-saga/effects'
+import { put } from 'redux-saga/effects'
 import { equals, path } from 'ramda'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 
 export default () => {
   const logLocation = 'components/ethTransactions/sagas'
@@ -17,18 +17,11 @@ export default () => {
     }
   }
 
-  const scrollUpdated = function*(action) {
+  const loadMore = function*() {
     try {
-      const pathname = yield select(selectors.router.getPathname)
-      if (!equals(pathname, '/eth/transactions')) return
-      const threshold = 250
-      const { yMax, yOffset } = action.payload
-
-      if (yMax - yOffset < threshold) {
-        yield put(actions.core.data.ethereum.fetchTransactions())
-      }
+      yield put(actions.core.data.ethereum.fetchTransactions())
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'scrollUpdated', e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'loadMore', e))
     }
   }
 
@@ -49,6 +42,6 @@ export default () => {
   return {
     initialized,
     formChanged,
-    scrollUpdated
+    loadMore
   }
 }

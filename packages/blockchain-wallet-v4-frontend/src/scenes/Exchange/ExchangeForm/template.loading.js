@@ -25,7 +25,6 @@ const stubEthAccount = {
 }
 
 const stubProps = {
-  canUseExchange: false,
   availablePairs: [],
   fromElements: [
     {

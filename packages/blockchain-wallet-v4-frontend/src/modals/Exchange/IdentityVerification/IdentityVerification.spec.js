@@ -117,7 +117,7 @@ getSupportedCountries.mockImplementation(() =>
   Remote.Success(SUPPORTED_COUNTRIES)
 )
 getStates.mockImplementation(() => Remote.Success([]))
-getSteps.mockReturnValue(['personal', 'mobile', 'verify'])
+getSteps.mockReturnValue(Remote.of(['personal', 'mobile', 'verify']))
 
 profileSagas.createUser = jest.fn()
 

@@ -2,6 +2,7 @@ import { fork } from 'redux-saga/effects'
 import activityList from './activityList/sagaRegister'
 import bchTransactions from './bchTransactions/sagaRegister'
 import btcTransactions from './btcTransactions/sagaRegister'
+import bsvTransactions from './bsvTransactions/sagaRegister'
 import ethTransactions from './ethTransactions/sagaRegister'
 import xlmTransactions from './xlmTransactions/sagaRegister'
 import exchange from './exchange/sagaRegister'
@@ -11,6 +12,7 @@ import importBtcAddress from './importBtcAddress/sagaRegister'
 import lockbox from './lockbox/sagaRegister'
 import login from './login/sagaRegister'
 import manageAddresses from './manageAddresses/sagaRegister'
+import onfido from './onfido/sagaRegister'
 import priceChart from './priceChart/sagaRegister'
 import priceTicker from './priceTicker/sagaRegister'
 import refresh from './refresh/sagaRegister'
@@ -20,6 +22,7 @@ import requestEth from './requestEth/sagaRegister'
 import requestXlm from './requestXlm/sagaRegister'
 import sendBch from './sendBch/sagaRegister'
 import sendBtc from './sendBtc/sagaRegister'
+import sendBsv from './sendBsv/sagaRegister'
 import sendEth from './sendEth/sagaRegister'
 import sendXlm from './sendXlm/sagaRegister'
 import settings from './settings/sagaRegister'
@@ -34,6 +37,7 @@ export default ({ api, coreSagas, networks, options }) =>
     yield fork(activityList())
     yield fork(bchTransactions())
     yield fork(btcTransactions())
+    yield fork(bsvTransactions())
     yield fork(ethTransactions())
     yield fork(xlmTransactions())
     yield fork(exchange({ api, coreSagas, networks }))
@@ -43,6 +47,7 @@ export default ({ api, coreSagas, networks, options }) =>
     yield fork(importBtcAddress({ api, coreSagas, networks }))
     yield fork(login())
     yield fork(manageAddresses({ api, networks }))
+    yield fork(onfido({ api, coreSagas }))
     yield fork(priceChart({ coreSagas }))
     yield fork(priceTicker({ coreSagas }))
     yield fork(refresh())
@@ -52,6 +57,7 @@ export default ({ api, coreSagas, networks, options }) =>
     yield fork(requestXlm())
     yield fork(sendBch({ api, coreSagas }))
     yield fork(sendBtc({ api, coreSagas, networks }))
+    yield fork(sendBsv({ api, coreSagas }))
     yield fork(sendEth({ api, coreSagas }))
     yield fork(sendXlm({ coreSagas }))
     yield fork(settings({ api, coreSagas }))

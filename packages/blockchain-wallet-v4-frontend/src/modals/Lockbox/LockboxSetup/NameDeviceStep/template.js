@@ -72,8 +72,8 @@ const NameDeviceStep = props => {
         <FormGroup>
           <Button type='submit' nature='primary' disabled={invalid}>
             <FormattedMessage
-              id='modals.lockboxsetup.labelstep.finish'
-              defaultMessage='Finish Set Up'
+              id='modals.lockboxsetup.labelstep.finishsetup'
+              defaultMessage='Finish Setup'
             />
           </Button>
         </FormGroup>

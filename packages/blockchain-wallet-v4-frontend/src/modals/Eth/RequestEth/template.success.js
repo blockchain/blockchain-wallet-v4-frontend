@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import QRCodeReact from 'qrcode.react'
+import QRCodeWrapper from 'components/QRCodeWrapper'
 
 import { required } from 'services/FormHelper'
 import {
@@ -114,7 +114,7 @@ const RequestEth = props => {
           <Banner type='alert'>
             <FormattedHTMLMessage
               id='modals.requestether.firststep.lockbox'
-              defaultMessage='Please confirm this address on your lockbox device by opening your Ethereum app. <span class=&quot;link&quot;>Click here</span> once the Ethereum app has been opened.'
+              defaultMessage='Please confirm this address on your lockbox device by opening your Ethereum app. <span class="link">Click here</span> once the Ethereum app has been opened.'
             />
           </Banner>
         </BannerContainer>
@@ -136,7 +136,7 @@ const RequestEth = props => {
             </TooltipHost>
           </Text>
         </ScanMessage>
-        <QRCodeReact value={address} size={150} />
+        <QRCodeWrapper value={address} size={150} />
       </QRCodeContainer>
       <Button
         type='submit'

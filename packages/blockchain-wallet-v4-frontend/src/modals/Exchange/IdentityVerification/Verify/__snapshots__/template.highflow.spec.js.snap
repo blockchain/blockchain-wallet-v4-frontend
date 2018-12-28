@@ -30,6 +30,7 @@ exports[`HighFlow should render correctly 1`] = `
           nature="primary"
           onClick={[MockFunction]}
           rounded={false}
+          size="14px"
           small={false}
           uppercase={false}
         >

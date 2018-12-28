@@ -12,11 +12,15 @@ import lockboxSagas from './sagas'
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 Lockbox.apps.installApp = jest.fn()
 Lockbox.apps.uninstallApp = jest.fn()
+Lockbox.utils.getDeviceInfo = jest.fn()
+Lockbox.firmware.checkDeviceAuthenticity = jest.fn()
 
 const logLocation = 'components/lockbox/sagas'
 const api = {
   obtainSessionToken: jest.fn(),
-  deauthorizeBrowser: jest.fn()
+  deauthorizeBrowser: jest.fn(),
+  getDeviceVersion: jest.fn(),
+  getCurrentFirmware: jest.fn()
 }
 const coreSagas = coreSagasFactory({ api })
 const newDeviceInfoMock = {
@@ -193,18 +197,102 @@ describe('lockbox sagas', () => {
   })
 
   describe('checkDeviceAuthenticity', () => {
-    const saga = testSaga(checkDeviceAuthenticity)
+    const payload = { deviceIndex: 0 }
+    const saga = testSaga(checkDeviceAuthenticity, { payload })
+    const mockTransport = { timeout: 60 }
+    const mockDeviceInfo = {
+      providerId: 1,
+      targetId: 2,
+      fullVersion: '1.4.3'
+    }
+    const mockDeviceVersion = { id: 3 }
+    const mockLedgerSocketUrl = 'wss://api.ledgerwallet.fakedotcom'
+    const mockFirmware = { perso: 11 }
+
+    it('should select deviceType from kvStore', () => {
+      saga.next().select(selectors.core.kvStore.lockbox.getDevice, 0)
+    })
+
+    it('should poll for device dashboard', () => {
+      saga
+        .next(Remote.of({ device_type: 'ledger' }))
+        .put(A.pollForDeviceApp('DASHBOARD', null, 'ledger'))
+    })
+
+    it('should take the device connection', () => {
+      saga.next().take(AT.SET_CONNECTION_INFO)
+    })
 
     it('should set checkDeviceAuthenticity to loading', () => {
       saga.next().put(A.checkDeviceAuthenticityLoading())
     })
+
     it('should get deviceType from getCurrentConnection', () => {
       saga.next().select(S.getCurrentConnection)
     })
-    it('should poll for deviceApp with deviceType', () => {
+
+    it('should call to get base device info', () => {
       saga
-        .next({ deviceType: 'ledger' })
-        .put(A.pollForDeviceApp('DASHBOARD', null, 'ledger'))
+        .next({ transport: mockTransport })
+        .call(Lockbox.utils.getDeviceInfo, mockTransport)
+    })
+
+    it('should call to get full device info from api', () => {
+      saga.next(mockDeviceInfo).call(api.getDeviceVersion, {
+        provider: mockDeviceInfo.providerId,
+        target_id: mockDeviceInfo.targetId
+      })
+    })
+
+    it('should call to get full firmware info from api', () => {
+      saga.next(mockDeviceVersion).call(api.getCurrentFirmware, {
+        device_version: mockDeviceVersion.id,
+        version_name: mockDeviceInfo.fullVersion,
+        provider: mockDeviceInfo.providerId
+      })
+    })
+
+    it('should select ledger socket url', () => {
+      saga.next(mockFirmware).select(selectors.core.walletOptions.getDomains)
+    })
+
+    it('should call to confirm device authenticity', () => {
+      saga
+        .next(Remote.of({ ledgerSocket: mockLedgerSocketUrl }))
+        .call(
+          Lockbox.firmware.checkDeviceAuthenticity,
+          mockTransport,
+          mockLedgerSocketUrl,
+          { targetId: mockDeviceInfo.targetId, perso: mockFirmware.perso }
+        )
+    })
+
+    it('should put device auth success action', () => {
+      saga.next(true).put(A.checkDeviceAuthenticitySuccess(true))
+    })
+
+    it('should end', () => {
+      saga.next().isDone()
+    })
+
+    it('should handle errors', () => {
+      const error = { message: 'device auth failed' }
+
+      saga
+        .restart()
+        .next()
+        .throw(error)
+        .put(A.checkDeviceAuthenticityFailure(false))
+        .next()
+        .put(
+          actions.logs.logErrorMessage(
+            logLocation,
+            'checkDeviceAuthenticity',
+            error
+          )
+        )
+        .next()
+        .isDone()
     })
   })
 
@@ -274,7 +362,7 @@ describe('lockbox sagas', () => {
     })
   })
 
-  describe('initializeNewDeviceSetup()', () => {
+  describe('initializeNewDeviceSetup', () => {
     const saga = testSaga(initializeNewDeviceSetup)
 
     it('changes device setup step', () => {
@@ -296,12 +384,6 @@ describe('lockbox sagas', () => {
     })
     it('prefetches app info', () => {
       saga.next().call(deriveLatestAppInfo)
-    })
-    it('checks device auth', () => {
-      saga.next().put(A.checkDeviceAuthenticity())
-    })
-    it('waits for setup step 2', () => {
-      saga.next().take(AT.SET_NEW_DEVICE_SETUP_STEP)
     })
     // TODO: unit test rest of saga
   })

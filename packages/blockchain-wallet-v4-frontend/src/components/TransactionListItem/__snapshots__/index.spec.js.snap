@@ -27,6 +27,16 @@ exports[`ListItemContainer renders correctly 1`] = `
         "setTxNotesBch": [Function],
       }
     }
+    bsvActions={
+      Object {
+        "createMetadataBsv": [Function],
+        "fetchMetadataBsv": [Function],
+        "fetchMetadataBsvFailure": [Function],
+        "fetchMetadataBsvLoading": [Function],
+        "fetchMetadataBsvSuccess": [Function],
+        "setTxNotesBsv": [Function],
+      }
+    }
     ethereumActions={
       Object {
         "createMetadataEthereum": [Function],
@@ -45,6 +55,7 @@ exports[`ListItemContainer renders correctly 1`] = `
         "hideKycCompleted": [Function],
         "hideKycGetStarted": [Function],
         "hideSwapBanner": [Function],
+        "hideSwapUpgradeModal": [Function],
         "setCoinShowIntro": [Function],
         "setCulture": [Function],
         "setLanguage": [Function],

@@ -19,6 +19,9 @@ const VeriffIframe = styled.iframe.attrs({
 `
 
 class Veriff extends React.PureComponent {
+  state = {
+    loading: false
+  }
   componentDidMount () {
     this.props.actions.fetchVeriffUrl()
     this.props.analytics.logKycEvent(ONFIDO_STARTED)
@@ -26,6 +29,7 @@ class Veriff extends React.PureComponent {
   }
 
   componentWillUnmount () {
+    this.setState({ loading: false })
     window.removeEventListener('message', this.handleVeriffMessage)
   }
 
@@ -33,20 +37,18 @@ class Veriff extends React.PureComponent {
     const { veriffDomain, actions } = this.props
     if (origin !== veriffDomain) return
     if (data.status !== 'finished') return
+    this.setState({ loading: true })
     actions.syncVeriff()
   }
 
   render () {
     const { veriffUrl, actions } = this.props
+
+    if (this.state.loading) return <Loading />
+
     return veriffUrl.cata({
       Success: url => (
-        <VeriffIframe
-          data-e2e='veriffIframe'
-          src={url}
-          sandbox='allow-same-origin allow-scripts'
-          scrolling='no'
-          id='veriff-iframe'
-        />
+        <VeriffIframe data-e2e='veriffIframe' src={url} id='veriff-iframe' />
       ),
       Loading: () => <Loading />,
       Failure: () => (

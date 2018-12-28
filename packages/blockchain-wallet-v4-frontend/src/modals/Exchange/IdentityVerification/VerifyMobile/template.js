@@ -139,25 +139,23 @@ const VerifyMobile = ({
                       errorBottom
                     />
                   </FormItem>
-                  {activeField === 'smsNumber' &&
-                    !mobile &&
-                    !tablet && (
-                      <FaqFormMessage
-                        icon='phone-regular'
-                        title={
-                          <FormattedMessage
-                            id='identityverification.mobile.faq.phone.title'
-                            defaultMessage='Please add your phone'
-                          />
-                        }
-                        text={
-                          <FormattedMessage
-                            id='identityverification.mobile.faq.phone.text'
-                            defaultMessage='We will send you a SMS with verification code.'
-                          />
-                        }
-                      />
-                    )}
+                  {activeField === 'smsNumber' && !mobile && !tablet && (
+                    <FaqFormMessage
+                      icon='phone-regular'
+                      title={
+                        <FormattedMessage
+                          id='identityverification.mobile.faq.phone.title'
+                          defaultMessage='Please add your phone'
+                        />
+                      }
+                      text={
+                        <FormattedMessage
+                          id='identityverification.mobile.faq.phone.text'
+                          defaultMessage='We will send you a SMS with verification code.'
+                        />
+                      }
+                    />
+                  )}
                 </FaqFormGroup>
                 {step === SMS_STEPS.edit && (
                   <FaqFormGroup>
@@ -180,7 +178,7 @@ const VerifyMobile = ({
                     <FormItem>
                       <Label for='code'>
                         <FormattedMessage
-                          id='identityverification.personal.mobile.entercode'
+                          id='identityverification.personal.mobile.entercode.verification_code'
                           defaultMessage='Verification code'
                         />
                       </Label>
@@ -194,25 +192,23 @@ const VerifyMobile = ({
                         {smsHelper(error, resendCode)}
                       </EmailHelper>
                     </FormItem>
-                    {activeField === 'code' &&
-                      !mobile &&
-                      !tablet && (
-                        <FaqFormMessage
-                          icon='comment-alt-regular'
-                          title={
-                            <FormattedMessage
-                              id='identityverification.mobile.faq.code.title'
-                              defaultMessage='We sent you a text message'
-                            />
-                          }
-                          text={
-                            <FormattedMessage
-                              id='identityverification.mobile.faq.code.text'
-                              defaultMessage='Your verification code is on its way. Once you receive it, please enter it.'
-                            />
-                          }
-                        />
-                      )}
+                    {activeField === 'code' && !mobile && !tablet && (
+                      <FaqFormMessage
+                        icon='comment-alt-regular'
+                        title={
+                          <FormattedMessage
+                            id='identityverification.mobile.faq.code.title'
+                            defaultMessage='We sent you a text message'
+                          />
+                        }
+                        text={
+                          <FormattedMessage
+                            id='identityverification.mobile.faq.code.text'
+                            defaultMessage='Your verification code is on its way. Once you receive it, please enter it.'
+                          />
+                        }
+                      />
+                    )}
                   </FaqFormGroup>
                 )}
               </FormContainer>

@@ -1,14 +1,16 @@
-import { equals } from 'ramda'
+import { complement, equals, path } from 'ramda'
 
-import { selectors } from 'data'
-import { KYC_STATES } from 'data/modules/profile/model'
+import { model, selectors } from 'data'
+
+const { TIERS_STATES } = model.profile
 
 export const getData = state => ({
   hasEmail: selectors.core.settings
     .getEmail(state)
     .map(Boolean)
     .getOrElse(false),
-  verified: selectors.modules.profile
-    .getUserKYCState(state)
-    .map(equals(KYC_STATES.VERIFIED))
+  userCreated: selectors.modules.profile
+    .getTiers(state)
+    .map(path([0, 'state']))
+    .map(complement(equals(TIERS_STATES.NONE)))
 })

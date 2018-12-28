@@ -11,6 +11,7 @@ export default ({ coreSagas }) => {
       AT.SETTINGS_NOTIFICATIONS_INITIALIZED,
       settingsSaga.notificationsInitialized
     )
+    yield takeLatest(AT.SETTINGS_INITIALIZE_BSV, settingsSaga.initializeBsv)
     yield takeEvery(
       actionTypes.form.CHANGE,
       settingsSaga.notificationsFormChanged

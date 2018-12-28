@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import QRCodeReact from 'qrcode.react'
+import QRCodeWrapper from 'components/QRCodeWrapper'
 
 import { required } from 'services/FormHelper'
 import {
@@ -112,7 +112,7 @@ const RequestXlm = ({
         <Banner type='alert'>
           <FormattedHTMLMessage
             id='modals.requestxlm.firststep.lockbox'
-            defaultMessage='Please confirm this address on your lockbox device by opening your Stellar app. <span class=&quot;link&quot;>Click here</span> once the Stellar app has been opened.'
+            defaultMessage='Please confirm this address on your lockbox device by opening your Stellar app. <span class="link">Click here</span> once the Stellar app has been opened.'
           />
         </Banner>
       </BannerContainer>
@@ -134,7 +134,7 @@ const RequestXlm = ({
           </TooltipHost>
         </Text>
       </ScanMessage>
-      <QRCodeReact value={xlmURI} size={150} />
+      <QRCodeWrapper value={xlmURI} size={150} />
     </QRCodeContainer>
     <Button
       type='submit'
