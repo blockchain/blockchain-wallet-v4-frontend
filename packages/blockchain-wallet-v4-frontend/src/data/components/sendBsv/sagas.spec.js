@@ -229,18 +229,16 @@ describe('sendBsv sagas', () => {
     const saga = testSaga(firstStepSubmitClicked)
     const beforeError = 'beforeError'
 
+    it('should put loading action', () => {
+      saga.next().put(A.sendBsvPaymentUpdated(Remote.Loading))
+    })
+
     it('should select payment', () => {
       saga.next().select(S.getPayment)
     })
 
-    it('should put loading action', () => {
-      saga
-        .next(Remote.of(paymentMock))
-        .put(A.sendBsvPaymentUpdated(Remote.Loading))
-    })
-
     it('should create payment from state value', () => {
-      saga.next()
+      saga.next(Remote.of(paymentMock))
       expect(coreSagas.payment.bsv.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.bsv.create).toHaveBeenCalledWith({
         payment: paymentMock,
