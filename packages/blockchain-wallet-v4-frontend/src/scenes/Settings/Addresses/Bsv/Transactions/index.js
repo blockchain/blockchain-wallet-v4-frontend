@@ -8,7 +8,7 @@ import { actions } from 'data'
 import TransactionList from 'scenes/Transactions/Content'
 import { SettingHeader } from 'components/Setting'
 import { Text } from 'blockchain-info-components'
-import { getHasTransactions } from './selectors'
+import { getAreThereBsvTransactions } from './selectors'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -37,7 +37,7 @@ const NoBsv = styled.div`
   margin: 20px;
 `
 
-class BsvTransactionsContainer extends React.Component {
+class BsvTransactionsContainer extends React.PureComponent {
   componentDidMount () {
     this.props.txActions.initialized()
   }
@@ -84,7 +84,7 @@ class BsvTransactionsContainer extends React.Component {
               </Text>
             </TableCell>
           </TableHeader>
-          {this.props.hasTransactions ? (
+          {this.props.areThereBsvTransactions ? (
             <TransactionList coin='BSV' />
           ) : (
             <NoBsv>
@@ -107,7 +107,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const mapStateToProps = state => ({
-  hasTransactions: getHasTransactions(state)
+  areThereBsvTransactions: getAreThereBsvTransactions(state)
 })
 
 export default connect(
