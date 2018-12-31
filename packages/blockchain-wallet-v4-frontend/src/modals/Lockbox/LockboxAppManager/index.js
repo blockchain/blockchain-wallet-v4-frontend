@@ -247,11 +247,12 @@ class LockboxAppManagerContainer extends React.PureComponent {
         <Wrapper>
           <LoadingText size='18px' weight='400'>
             <FormattedHTMLMessage
-              id='modals.lockbox.appmanager.loadingapps'
-              defaultMessage='Loading Application List'
+              id='modals.lockbox.appmanager.loadingapplist'
+              defaultMessage='Loading application list'
             />
+            &hellip;
           </LoadingText>
-          <Loader width='75px' height='75px' />
+          <Loader width='100px' height='100px' />
         </Wrapper>
       ),
       NotAsked: () => <Loader width='75px' height='75px' />

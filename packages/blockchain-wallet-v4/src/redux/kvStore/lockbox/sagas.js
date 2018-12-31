@@ -1,25 +1,14 @@
 import { call, put, select } from 'redux-saga/effects'
-import { compose, isNil, isEmpty } from 'ramda'
+import { isNil, isEmpty } from 'ramda'
 import { set } from 'ramda-lens'
 
 import * as A from './actions'
 import { KVStoreEntry } from '../../../types'
 import { derivationMap, LOCKBOX } from '../config'
 import { getMetadataXpriv } from '../root/selectors'
-
-const taskToPromise = t =>
-  new Promise((resolve, reject) => t.fork(reject, resolve))
+import { callTask } from '../../../utils/functional'
 
 export default ({ api, networks }) => {
-  const callTask = function*(task) {
-    return yield call(
-      compose(
-        taskToPromise,
-        () => task
-      )
-    )
-  }
-
   const createLockbox = function*(kv) {
     const newLockboxEntry = {
       devices: []
@@ -35,7 +24,6 @@ export default ({ api, networks }) => {
       const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId, networks.btc)
       yield put(A.fetchMetadataLockboxLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
-      yield put(A.fetchMetadataLockboxSuccess(newkv))
       if (isNil(newkv.value) || isEmpty(newkv.value)) {
         yield call(createLockbox, newkv)
       } else {
@@ -48,6 +36,7 @@ export default ({ api, networks }) => {
   }
 
   return {
+    createLockbox,
     fetchMetadataLockbox
   }
 }

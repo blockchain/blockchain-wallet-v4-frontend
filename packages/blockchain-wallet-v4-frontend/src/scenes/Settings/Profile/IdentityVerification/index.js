@@ -106,8 +106,8 @@ const IdentityVerification = () => {
             </SwapText>
             <SwapText size='14px' weight={300}>
               <FormattedMessage
-                id='scenes.profile.identityverification.swaplimit.explaination'
-                defaultMessage='Your Swap Limit is how much digital currency you can trade each day. This is all a security precaution for local compliance and fraud prevention.'
+                id='scenes.profile.identityverification.swaplimit.sawp_limit'
+                defaultMessage='Your Swap Limit is how much crypto you can trade each day. Swap Limits are necessary for compliance and fraud prevention.'
               />
             </SwapText>
             <LearnMoreContainer>
@@ -119,8 +119,8 @@ const IdentityVerification = () => {
               </SwapText>
               <SwapText size='12px' weight={300}>
                 <FormattedHTMLMessage
-                  id='scenes.profile.identityverification.swaplimit.learnmore'
-                  defaultMessage="We've put together an article explaining how Swap Limits works. <a href='https://support.blockchain.com/hc/en-us/categories/360001135512-Identity-Verification' rel='noopener noreferrer' target='_blank'>Read now.</a>"
+                  id='scenes.profile.identityverification.swaplimit.learn_more'
+                  defaultMessage="We’ve put together an article on Swap Limits. <a href='https://support.blockchain.com/hc/en-us/categories/360001135512-Identity-Verification' rel='noopener noreferrer' target='_blank'>Read now.</a>"
                 />
               </SwapText>
             </LearnMoreContainer>

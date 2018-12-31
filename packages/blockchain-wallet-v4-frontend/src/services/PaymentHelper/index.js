@@ -46,7 +46,7 @@ export const btcFromLabel = curry((payment, state) => {
   }
 })
 
-export const isBchLegacyAddress = curry((payment, state) => {
+export const isBchLegacyAddress = curry(payment => {
   const target = payment.to[0]
   return (
     target.type === ADDRESS_TYPES.ADDRESS &&
@@ -90,6 +90,35 @@ export const bchFromLabel = curry((payment, state) => {
         .getOrElse(payment.from[0])
     default:
       return payment.from[0]
+  }
+})
+
+export const bsvFromLabel = curry((payment, state) => {
+  switch (payment.fromType) {
+    case ADDRESS_TYPES.ACCOUNT:
+      return selectors.core.kvStore.bsv
+        .getAccountLabel(state)(payment.fromAccountIdx)
+        .getOrElse(payment.from[0])
+    case ADDRESS_TYPES.LEGACY:
+      return utils.bsv.toCashAddr(payment.from[0], true)
+    case ADDRESS_TYPES.WATCH_ONLY:
+      return utils.bsv.toCashAddr(payment.from[0], true)
+    case ADDRESS_TYPES.EXTERNAL:
+      return utils.bsv.toCashAddr(payment.from[0], true)
+    default:
+      return payment.from[0]
+  }
+})
+
+export const bsvToLabel = curry((payment, state) => {
+  const target = payment.to[0]
+  switch (target.type) {
+    case ADDRESS_TYPES.ACCOUNT:
+      return selectors.core.kvStore.bsv
+        .getAccountLabel(state)(target.accountIndex)
+        .getOrElse(target.address)
+    default:
+      return target.address
   }
 })
 

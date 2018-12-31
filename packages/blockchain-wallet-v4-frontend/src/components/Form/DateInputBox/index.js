@@ -24,6 +24,9 @@ const RowWrapper = styled.div`
   ${media.mobile`
     flex-direction: column;
     margin-bottom: 0;
+    >:not(:first-child) {
+      margin-top: 16px;
+    }
   `};
 `
 const LabelWrapper = styled.div`
@@ -40,25 +43,15 @@ const MonthWrapper = styled(LabelWrapper)`
     width: 100%;
   `};
 `
-const InputsWrapper = styled.div`
-  width: 50%;
-  display: flex;
-  flex-direction: row;
-  ${media.mobile`
-    flex-direction: column;
-    width: 100%;
-  `};
-`
 const InputWrapper = styled(LabelWrapper)`
-  width: 50%;
-  &:first-child {
-    margin-right: 15px;
+  width: calc(25% - 8px);
+  &.first {
+    margin-right: 16px;
   }
   ${media.mobile`
-    &:first-child {
+    &.first {
       margin-right: 0;
     }
-    margin-top: 16px;
     width: 100%;
   `};
 `
@@ -87,6 +80,67 @@ const removeExtraDigits = maxDigits =>
   replace(new RegExp(`(.{${maxDigits}}).*`), ($0, $1) => $1)
 const formatDate = removeExtraDigits(2)
 const formatYear = removeExtraDigits(4)
+
+const MonthBox = ({ input, otherMeta, onBlur, onMonthChange, onFocus }) => (
+  <MonthWrapper>
+    <SelectBox
+      label={
+        <FormattedMessage
+          id='components.DateInputBox.placeholder.month'
+          defaultMessage='Month'
+        />
+      }
+      menuPlacement='auto'
+      elements={monthElements}
+      input={{
+        name: 'month',
+        value: input.value.month,
+        onBlur: onBlur.bind(this, 'month'),
+        onChange: onMonthChange,
+        onFocus: onFocus
+      }}
+      meta={otherMeta}
+    />
+  </MonthWrapper>
+)
+
+const DateBox = ({ intl, input, otherMeta, onBlur, onDateChange, onFocus }) => (
+  <InputWrapper className='first'>
+    <NumberBox
+      placeholder={intl.formatMessage({
+        id: 'components.DateInputBox.placeholder.day',
+        defaultMessage: 'Day'
+      })}
+      input={{
+        name: 'date',
+        value: input.value.date,
+        onBlur: onBlur.bind(this, 'date'),
+        onChange: onDateChange,
+        onFocus: onFocus
+      }}
+      meta={otherMeta}
+    />
+  </InputWrapper>
+)
+
+const YearBox = ({ intl, input, otherMeta, onBlur, onYearChange, onFocus }) => (
+  <InputWrapper>
+    <NumberBox
+      placeholder={intl.formatMessage({
+        id: 'components.DateInputBox.placeholder.year',
+        defaultMessage: 'Year'
+      })}
+      input={{
+        name: 'year',
+        value: input.value.year,
+        onBlur: onBlur.bind(this, 'year'),
+        onChange: onYearChange,
+        onFocus: onFocus
+      }}
+      meta={otherMeta}
+    />
+  </InputWrapper>
+)
 
 class DateInputBox extends React.PureComponent {
   state = {
@@ -127,67 +181,44 @@ class DateInputBox extends React.PureComponent {
     })
 
   render () {
-    const { input, meta, errorBottom, intl, className } = this.props
+    const {
+      input,
+      meta,
+      errorBottom,
+      intl,
+      className,
+      countryIsUS
+    } = this.props
     const { error, ...otherMeta } = meta
+    const { onBlur, onDateChange, onMonthChange, onYearChange, onFocus } = this
 
     return (
       <Container className={className}>
-        <RowWrapper>
-          <MonthWrapper>
-            <SelectBox
-              label={
-                <FormattedMessage
-                  id='components.DateInputBox.placeholder.month'
-                  defaultMessage='Month'
-                />
-              }
-              menuPlacement='auto'
-              elements={monthElements}
-              input={{
-                name: 'month',
-                value: input.value.month,
-                onBlur: this.onBlur.bind(this, 'month'),
-                onChange: this.onMonthChange,
-                onFocus: this.onFocus
-              }}
-              meta={otherMeta}
+        {countryIsUS ? (
+          <RowWrapper>
+            <MonthBox
+              {...{ input, otherMeta, onBlur, onMonthChange, onFocus }}
             />
-          </MonthWrapper>
-          <InputsWrapper className='inputs-wrapper'>
-            <InputWrapper>
-              <NumberBox
-                placeholder={intl.formatMessage({
-                  id: 'components.DateInputBox.placeholder.day',
-                  defaultMessage: 'Day'
-                })}
-                input={{
-                  name: 'date',
-                  value: input.value.date,
-                  onBlur: this.onBlur.bind(this, 'date'),
-                  onChange: this.onDateChange,
-                  onFocus: this.onFocus
-                }}
-                meta={otherMeta}
-              />
-            </InputWrapper>
-            <InputWrapper>
-              <NumberBox
-                placeholder={intl.formatMessage({
-                  id: 'components.DateInputBox.placeholder.year',
-                  defaultMessage: 'Year'
-                })}
-                input={{
-                  name: 'year',
-                  value: input.value.year,
-                  onBlur: this.onBlur.bind(this, 'year'),
-                  onChange: this.onYearChange,
-                  onFocus: this.onFocus
-                }}
-                meta={otherMeta}
-              />
-            </InputWrapper>
-          </InputsWrapper>
-        </RowWrapper>
+            <DateBox
+              {...{ intl, input, onBlur, onDateChange, onFocus, otherMeta }}
+            />
+            <YearBox
+              {...{ intl, input, onBlur, onYearChange, onFocus, otherMeta }}
+            />
+          </RowWrapper>
+        ) : (
+          <RowWrapper>
+            <DateBox
+              {...{ intl, input, onBlur, onDateChange, onFocus, otherMeta }}
+            />
+            <MonthBox
+              {...{ input, otherMeta, onBlur, onMonthChange, onFocus }}
+            />
+            <YearBox
+              {...{ intl, input, onBlur, onYearChange, onFocus, otherMeta }}
+            />
+          </RowWrapper>
+        )}
 
         {meta.touched &&
           error && (
