@@ -11,7 +11,7 @@ import SecondStep from './SecondStep'
 
 class SendBsvContainer extends React.PureComponent {
   componentDidMount () {
-    this.props.actions.initialized()
+    this.props.actions.initialized(this.props.index)
   }
 
   componentWillUnmount () {
