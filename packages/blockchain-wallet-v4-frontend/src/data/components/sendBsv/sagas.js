@@ -21,8 +21,10 @@ export const logLocation = 'components/sendBsv/sagas'
 export const bsvDefaultFee = 4
 
 export default ({ coreSagas }) => {
-  const initialized = function*() {
+  const initialized = function*(action) {
     try {
+      const { payload } = action
+      const { index } = payload
       yield put(A.sendBsvPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.bsv.create({
         network: settings.NETWORK_BSV
@@ -34,7 +36,7 @@ export default ({ coreSagas }) => {
       const defaultIndexR = yield select(
         selectors.core.kvStore.bsv.getDefaultAccountIndex
       )
-      const defaultIndex = defaultIndexR.getOrElse(0)
+      const defaultIndex = index || defaultIndexR.getOrElse(0)
       const defaultAccountR = accountsR.map(nth(defaultIndex))
       payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
       payment = yield payment.fee(bsvDefaultFee)
