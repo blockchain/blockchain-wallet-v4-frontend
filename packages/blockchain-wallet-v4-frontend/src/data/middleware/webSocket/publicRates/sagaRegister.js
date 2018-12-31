@@ -1,18 +1,30 @@
 import { takeEvery } from 'redux-saga/effects'
 import * as AT from './actionTypes'
-import sagasFactory from './sagas'
+import sagas from './sagas'
 
 export default ({ api, ratesSocket }) => {
-  const sagas = sagasFactory({ api, ratesSocket })
+  const publicRatesSocketSagas = sagas({ api, ratesSocket })
 
-  return function*() {
-    yield takeEvery(AT.OPEN_SOCKET, sagas.onOpen)
-    yield takeEvery(AT.MESSAGE_SOCKET, sagas.onMessage)
-    yield takeEvery(AT.CLOSE_SOCKET, sagas.onClose)
-    yield takeEvery(AT.REST_FALLBACK, sagas.restFallback)
-    yield takeEvery(AT.OPEN_ADVICE_CHANNEL, sagas.openAdviceChannel)
-    yield takeEvery(AT.CLOSE_ADVICE_CHANNEL, sagas.closeAdviceChannel)
-    yield takeEvery(AT.OPEN_RATES_CHANNEL, sagas.openRatesChannel)
-    yield takeEvery(AT.CLOSE_RATES_CHANNEL, sagas.closeRatesChannel)
+  return function* publicRatesSocketSaga () {
+    yield takeEvery(AT.OPEN_SOCKET, publicRatesSocketSagas.onOpen)
+    yield takeEvery(AT.MESSAGE_SOCKET, publicRatesSocketSagas.onMessage)
+    yield takeEvery(AT.CLOSE_SOCKET, publicRatesSocketSagas.onClose)
+    yield takeEvery(AT.REST_FALLBACK, publicRatesSocketSagas.restFallback)
+    yield takeEvery(
+      AT.OPEN_ADVICE_CHANNEL,
+      publicRatesSocketSagas.openAdviceChannel
+    )
+    yield takeEvery(
+      AT.CLOSE_ADVICE_CHANNEL,
+      publicRatesSocketSagas.closeAdviceChannel
+    )
+    yield takeEvery(
+      AT.OPEN_RATES_CHANNEL,
+      publicRatesSocketSagas.openRatesChannel
+    )
+    yield takeEvery(
+      AT.CLOSE_RATES_CHANNEL,
+      publicRatesSocketSagas.closeRatesChannel
+    )
   }
 }
