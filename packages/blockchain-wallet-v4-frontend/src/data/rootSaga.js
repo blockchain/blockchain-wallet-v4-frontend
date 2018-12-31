@@ -53,7 +53,7 @@ const languageInitSaga = function*() {
   }
 }
 
-export default function*({
+export default function* rootSaga ({
   api,
   bchSocket,
   btcSocket,
@@ -68,7 +68,7 @@ export default function*({
   yield all([
     call(welcomeSaga),
     fork(alerts),
-    fork(analytics({ api, coreSagas })),
+    fork(analytics({ api })),
     fork(auth({ api, coreSagas })),
     fork(components({ api, coreSagas, networks, options })),
     fork(modules({ api, coreSagas, networks })),

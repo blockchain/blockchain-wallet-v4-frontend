@@ -9,7 +9,7 @@ export default ({
   ratesSocket,
   publicRatesSocket
 }) =>
-  function*() {
+  function* middlewareSaga () {
     yield fork(
       webSocket({
         api,

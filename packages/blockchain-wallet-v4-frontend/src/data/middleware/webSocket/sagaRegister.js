@@ -14,7 +14,7 @@ export default ({
   ratesSocket,
   publicRatesSocket
 }) =>
-  function*() {
+  function* webSocketSaga () {
     yield fork(bch({ api, bchSocket }))
     yield fork(btc({ api, btcSocket }))
     yield fork(eth({ api, ethSocket }))
