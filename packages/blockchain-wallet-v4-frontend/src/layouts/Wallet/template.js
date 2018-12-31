@@ -94,7 +94,7 @@ const WalletLayout = props => {
               />
             )}
             {location.pathname.includes('/settings/addresses') && (
-              <SettingsAddressesMenu />
+              <SettingsAddressesMenu location={location} />
             )}
             {location.pathname.includes('/settings/profile') && (
               <ExchangeProfileMenu />
