@@ -42,7 +42,7 @@ class BsvWalletsContainer extends React.Component {
 
 const mapStateToProps = state => ({
   data: getData(state),
-  search: formValueSelector('settingsAddresses')(state, 'search')
+  search: formValueSelector('walletTxSearch')(state, 'search')
 })
 
 const mapDispatchToProps = dispatch => ({

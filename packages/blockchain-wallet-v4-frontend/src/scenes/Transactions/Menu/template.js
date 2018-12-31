@@ -202,6 +202,6 @@ const Menu = props => {
 }
 
 export default reduxForm({
-  form: 'transactions',
+  form: 'walletTxSearch',
   initialValues: { source: 'all' }
 })(Menu)

@@ -79,7 +79,7 @@ class ImportedAddressesContainer extends React.Component {
 
 const mapStateToProps = state => ({
   activeAddresses: selectors.core.common.btc.getActiveAddresses(state),
-  search: formValueSelector('settingsAddresses')(state, 'search'),
+  search: formValueSelector('walletTxSearch')(state, 'search'),
   addressesWithoutRemoteData: selectors.core.wallet.getAddresses(state)
 })
 

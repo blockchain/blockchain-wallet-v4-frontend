@@ -57,10 +57,10 @@ export default ({ coreSagas }) => {
 
   const firstStepSubmitClicked = function*() {
     try {
-      let p = yield select(S.getPayment)
       yield put(A.sendBsvPaymentUpdated(Remote.Loading))
-      let payment = coreSagas.payment.bsv.create({
-        payment: p.getOrElse({}),
+      let payment = (yield select(S.getPayment)).getOrElse({})
+      payment = coreSagas.payment.bsv.create({
+        payment,
         network: settings.NETWORK_BSV
       })
       payment = yield payment.build()
@@ -79,9 +79,9 @@ export default ({ coreSagas }) => {
       const payload = prop('payload', action)
       if (!equals(FORM, form)) return
 
-      let p = yield select(S.getPayment)
-      let payment = coreSagas.payment.bsv.create({
-        payment: p.getOrElse({}),
+      let payment = (yield select(S.getPayment)).getOrElse({})
+      payment = coreSagas.payment.bsv.create({
+        payment,
         network: settings.NETWORK_BSV
       })
 
