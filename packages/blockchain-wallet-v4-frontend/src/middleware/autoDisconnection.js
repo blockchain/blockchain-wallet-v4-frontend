@@ -38,9 +38,15 @@ let blackListedActivityTypes = [
   actionTypes.core.data.bch.FETCH_BCH_DATA_FAILURE,
   // RATES
   actionTypes.middleware.webSocket.rates.MESSAGE_SOCKET,
+  actionTypes.middleware.webSocket.publicRates.MESSAGE_SOCKET,
+  actionTypes.modules.rates.UPDATE_ADVICE,
+  actionTypes.modules.rates.SET_PAIR_QUOTE,
+  actionTypes.modules.rates.SET_PAIR_QUOTE_ERROR,
+  actionTypes.modules.rates.UPDATE_BEST_RATES,
+  actionTypes.modules.rates.SET_BEST_RATES_ERROR,
+  actionTypes.modules.rates.PAIR_UPDATED,
   actionTypes.components.exchange.FETCH_LIMITS_SUCCESS,
   actionTypes.components.exchange.SET_MIN_MAX,
-  actionTypes.modules.rates.UPDATE_BEST_RATES,
   // TODO: consider if we really need this
   '@@redux-form/CLEAR_SUBMIT_ERRORS',
   '@@redux-form/STOP_ASYNC_VALIDATION',
