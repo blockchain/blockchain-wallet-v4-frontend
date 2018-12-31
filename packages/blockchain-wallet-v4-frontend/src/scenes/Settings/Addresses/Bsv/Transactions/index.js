@@ -8,6 +8,7 @@ import { actions } from 'data'
 import TransactionList from 'scenes/Transactions/Content'
 import { SettingHeader } from 'components/Setting'
 import { Text } from 'blockchain-info-components'
+import { getHasTransactions } from './selectors'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -32,8 +33,15 @@ const TableHeader = styled.div`
   background-color: ${props => props.theme['brand-quaternary']};
 `
 const TableCell = styled.div``
+const NoBsv = styled.div`
+  margin: 20px;
+`
 
 class BsvTransactionsContainer extends React.Component {
+  componentDidMount () {
+    this.props.txActions.initialized()
+  }
+
   render () {
     return (
       <Wrapper>
@@ -70,13 +78,24 @@ class BsvTransactionsContainer extends React.Component {
             >
               <Text size='13px' weight={500}>
                 <FormattedMessage
-                  id='scenes.settings.addresses.bch.wallets.amount'
+                  id='scenes.settings.addresses.bsv.wallets.amount'
                   defaultMessage='Amount'
                 />
               </Text>
             </TableCell>
           </TableHeader>
-          <TransactionList coin='BSV' />
+          {this.props.hasTransactions ? (
+            <TransactionList coin='BSV' />
+          ) : (
+            <NoBsv>
+              <Text size='14px'>
+                <FormattedMessage
+                  id='scenes.settings.addresses.bsv.empty'
+                  defaultMessage='No Transactions Found'
+                />
+              </Text>
+            </NoBsv>
+          )}
         </Table>
       </Wrapper>
     )
@@ -84,15 +103,14 @@ class BsvTransactionsContainer extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  kvStoreBchActions: bindActionCreators(actions.core.kvStore.bch, dispatch),
-  addressesBchActions: bindActionCreators(
-    actions.modules.addressesBch,
-    dispatch
-  ),
-  modalsActions: bindActionCreators(actions.modals, dispatch)
+  txActions: bindActionCreators(actions.components.bsvTransactions, dispatch)
+})
+
+const mapStateToProps = state => ({
+  hasTransactions: getHasTransactions(state)
 })
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(BsvTransactionsContainer)
