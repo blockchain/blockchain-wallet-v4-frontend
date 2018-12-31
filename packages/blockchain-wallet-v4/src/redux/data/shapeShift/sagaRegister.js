@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default ({ api } = {}) => {
   const dataShapeshiftSagas = sagas({ api })
 
-  return function*() {
+  return function* coreDataShapeshiftSaga () {
     yield takeEvery(AT.FETCH_PAIR, dataShapeshiftSagas.fetchPair)
     yield takeLatest(AT.FETCH_SHAPESHIFT_ORDER, dataShapeshiftSagas.fetchOrder)
     yield takeLatest(
