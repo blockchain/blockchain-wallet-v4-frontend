@@ -20,6 +20,6 @@ class ManageAddressesContainer extends React.PureComponent {
   }
 }
 
-export default reduxForm({ form: 'settingsAddresses' })(
-  ManageAddressesContainer
-)
+export default reduxForm({
+  form: 'walletTxSearch'
+})(ManageAddressesContainer)

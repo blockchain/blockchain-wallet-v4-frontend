@@ -62,7 +62,10 @@ const Row = styled.div`
 const TierRow = styled(Row)`
   margin-top: 10px;
   @media (min-width: 1200px) {
-    align-items: flex-end;
+    align-items: flex-start;
+    > :first-child {
+      padding-top: 50px;
+    }
   }
 `
 const SwapText = styled(Text)`

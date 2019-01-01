@@ -87,4 +87,6 @@ const MenuTop = () => (
   </Wrapper>
 )
 
-export default reduxForm({ form: 'settingsAddresses' })(MenuTop)
+export default reduxForm({
+  form: 'walletTxSearch'
+})(MenuTop)

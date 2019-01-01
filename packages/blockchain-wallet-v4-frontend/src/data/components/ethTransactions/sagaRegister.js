@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default () => {
   const ethTransactionsSagas = sagas()
 
-  return function*() {
+  return function* ethTransactionsSaga () {
     yield takeEvery(
       AT.ETH_TRANSACTIONS_INITIALIZED,
       ethTransactionsSagas.initialized

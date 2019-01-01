@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { withRouter, Route, Redirect, Switch } from 'react-router-dom'
 
-import Menu from './Menu'
 import Btc from './Btc'
 import BtcManage from './Btc/ManageAddresses'
 import Bch from './Bch'
@@ -22,7 +21,6 @@ class AddressesContainer extends React.PureComponent {
   render () {
     return (
       <Wrapper>
-        <Menu location={this.props.location} />
         <ContentWrapper>
           <Switch>
             <Route
