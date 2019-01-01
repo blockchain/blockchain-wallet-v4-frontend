@@ -15,6 +15,7 @@ import Menu from 'scenes/Transactions/Menu'
 import LockboxMenu from '../../scenes/Lockbox/Menu'
 import ExchangeMenu from 'scenes/Exchange/Menu'
 import ExchangeProfileMenu from 'scenes/Settings/Profile/Menu'
+import SettingsAddressesMenu from 'scenes/Settings/Addresses/Menu'
 
 import media from 'services/ResponsiveService'
 
@@ -91,6 +92,9 @@ const WalletLayout = props => {
               <ExchangeMenu
                 historySelected={location.pathname.includes('/swap/history')}
               />
+            )}
+            {location.pathname.includes('/settings/addresses') && (
+              <SettingsAddressesMenu location={location} />
             )}
             {location.pathname.includes('/settings/profile') && (
               <ExchangeProfileMenu />
