@@ -122,6 +122,7 @@ const Success = props => {
         ) : (
           matchedWallets.map((wallet, i) => {
             const isDefault = i === defaultIndex
+            const isArchived = wallet.value.archived
             return (
               <TableRow key={i}>
                 <WalletTableCell style={{ flexBasis: '45%' }}>
@@ -134,7 +135,7 @@ const Success = props => {
                       />
                     </Banner>
                   )}
-                  {wallet.archived && (
+                  {isArchived && (
                     <Banner label type='informational'>
                       <FormattedMessage
                         id='scenes.settings.addresses.bsv.wallets.archivedlabel'
@@ -155,7 +156,7 @@ const Success = props => {
                     flexBasis: '20%'
                   }}
                 >
-                  {wallet.archived ? (
+                  {isArchived ? (
                     <ClickableText
                       weight={400}
                       size='13px'

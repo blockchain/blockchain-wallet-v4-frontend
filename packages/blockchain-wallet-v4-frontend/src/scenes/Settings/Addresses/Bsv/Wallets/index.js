@@ -14,7 +14,7 @@ class BsvWalletsContainer extends React.Component {
   }
 
   onUnarchiveWallet = index => {
-    // this.props.bsvActions
+    this.props.bsvActions.setAccountUnarchived(index)
   }
 
   onSendBsv = index => {
@@ -51,6 +51,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  bsvActions: bindActionCreators(actions.core.kvStore.bsv, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
