@@ -88,7 +88,8 @@ const FirstStep = props => {
     priorityFeePerByte,
     isPriorityFeePerByte,
     totalFee,
-    excludeLockbox
+    excludeLockbox,
+    excludeHDWallets
   } = rest
   const disableLockboxSend =
     from &&
@@ -121,9 +122,10 @@ const FirstStep = props => {
           </FormLabel>
           <Field
             name='from'
-            component={SelectBoxBtcAddresses}
-            validate={[required]}
             includeAll={false}
+            validate={[required]}
+            component={SelectBoxBtcAddresses}
+            excludeHDWallets={excludeHDWallets}
             excludeLockbox={excludeLockbox}
           />
           {watchOnly && (
@@ -317,18 +319,16 @@ const FirstStep = props => {
           </Link>
         </ColRight>
       </FeeFormGroup>
-      {
-        feePerByteToggled
-          ? <CustomFeeAlertBanner type='alert'>
-            <Text size='12px'>
-              <FormattedMessage
-                id='modals.sendbtc.firststep.customfeeinfo'
-                defaultMessage='This feature is recommended for advanced users only. By choosing a custom fee, you risk overpaying or your transaction never being confirmed.'
-              />
-            </Text>
-          </CustomFeeAlertBanner>
-          : null
-      }
+      {feePerByteToggled ? (
+        <CustomFeeAlertBanner type='alert'>
+          <Text size='12px'>
+            <FormattedMessage
+              id='modals.sendbtc.firststep.customfeeinfo'
+              defaultMessage='This feature is recommended for advanced users only. By choosing a custom fee, you risk overpaying or your transaction never being confirmed.'
+            />
+          </Text>
+        </CustomFeeAlertBanner>
+      ) : null}
       <FormGroup margin={'15px'}>
         <Text size='13px' weight={300}>
           {!isPriorityFeePerByte && (

@@ -9,42 +9,41 @@ import { values } from 'ramda'
 const { WALLET_TX_SEARCH } = model.form
 
 class ImportedAddressesContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.handleClickImport = this.handleClickImport.bind(this)
-    this.handleToggleArchived = this.handleToggleArchived.bind(this)
-    this.handleShowPriv = this.handleShowPriv.bind(this)
-    this.handleSignMessage = this.handleSignMessage.bind(this)
-  }
-
   shouldComponentUpdate (nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
 
-  handleClickImport () {
-    this.props.modalsActions.showModal('ImportBtcAddress')
+  handleClickImport = () => {
+    this.props.modalActions.showModal('ImportBtcAddress')
   }
 
   handleClickVerify = () => {
-    this.props.modalsActions.showModal('VerifyMessage')
+    this.props.modalActions.showModal('VerifyMessage')
   }
 
-  handleShowPriv (address) {
-    this.props.modalsActions.showModal('ShowBtcPrivateKey', {
+  handleShowPriv = address => {
+    this.props.modalActions.showModal('ShowBtcPrivateKey', {
       addr: address.addr,
       balance: address.info.final_balance
     })
   }
 
-  handleSignMessage (address) {
-    this.props.modalsActions.showModal('SignMessage', {
+  handleSignMessage = address => {
+    this.props.modalActions.showModal('SignMessage', {
       address: address.addr
     })
   }
 
-  handleToggleArchived (address) {
+  handleToggleArchived = address => {
     let isArchived = address.tag === 2
     this.props.coreActions.setAddressArchived(address.addr, !isArchived)
+  }
+
+  handleTransferAll = () => {
+    this.props.modalActions.showModal(model.components.sendBtc.MODAL, {
+      from: 'allImportedAddresses',
+      excludeHDWallets: true
+    })
   }
 
   render () {
@@ -57,11 +56,12 @@ class ImportedAddressesContainer extends React.Component {
           onClickVerify={this.handleClickVerify}
           search={search && search.toLowerCase()}
           onToggleArchived={this.handleToggleArchived}
+          onTransferAll={this.handleTransferAll}
           onShowPriv={this.handleShowPriv}
           onShowSignMessage={this.handleSignMessage}
         />
       ),
-      Failure: message => (
+      Failure: () => (
         <Success
           failure
           importedAddresses={values(addressesWithoutRemoteData)}
@@ -69,6 +69,7 @@ class ImportedAddressesContainer extends React.Component {
           onClickVerify={this.handleClickVerify}
           search={search && search.toLowerCase()}
           onToggleArchived={this.handleToggleArchived}
+          onTransferAll={this.handleTransferAll}
           onShowSignMessage={this.handleSignMessage}
         />
       ),
@@ -86,7 +87,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   coreActions: bindActionCreators(actions.core.wallet, dispatch),
-  modalsActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(
