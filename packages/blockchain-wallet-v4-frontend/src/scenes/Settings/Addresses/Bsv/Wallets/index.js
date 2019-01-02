@@ -7,6 +7,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, model } from 'data'
 import { getData } from './selectors'
 import Wallets from './template'
+const { WALLET_TX_SEARCH } = model.form
 
 class BsvWalletsContainer extends React.Component {
   shouldComponentUpdate (nextProps) {
@@ -42,7 +43,7 @@ class BsvWalletsContainer extends React.Component {
 
 const mapStateToProps = state => ({
   data: getData(state),
-  search: formValueSelector('walletTxSearch')(state, 'search')
+  search: formValueSelector(WALLET_TX_SEARCH)(state, 'search')
 })
 
 const mapDispatchToProps = dispatch => ({
