@@ -59,24 +59,15 @@ const coinSelectorMap = {
 export const getData = (state, coin) =>
   createSelector(
     [
-      selectors.form.getFormValues('transactions'),
-      selectors.form.getFormValues('settingsAddresses'),
+      selectors.form.getFormValues('walletTxSearch'),
       coinSelectorMap[coin],
       selectors.core.kvStore.buySell.getMetadata,
       selectors.core.settings.getCurrency
     ],
-    (txSearch, bsvSearch, pages, buySellMetadata, currencyR) => {
+    (userSearch, pages, buySellMetadata, currencyR) => {
       const empty = page => isEmpty(page.data)
-      let search, status
-      // use different search form for BSV txs
-      if (coin === 'BSV') {
-        search = propOr('', 'search', bsvSearch)
-        status = propOr('', 'status', bsvSearch)
-      } else {
-        search = propOr('', 'search', txSearch)
-        status = propOr('', 'status', txSearch)
-      }
-
+      const search = propOr('', 'search', userSearch)
+      const status = propOr('', 'status', userSearch)
       const filteredPages = !isEmpty(pages)
         ? pages.map(map(filterTransactions(status, search)))
         : []

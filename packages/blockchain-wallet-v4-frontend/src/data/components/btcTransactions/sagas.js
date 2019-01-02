@@ -31,7 +31,7 @@ export default () => {
   const loadMore = function*() {
     try {
       const formValues = yield select(
-        selectors.form.getFormValues('transactions')
+        selectors.form.getFormValues('walletTxSearch')
       )
       const source = prop('source', formValues)
       const onlyShow = equals(source, 'all')

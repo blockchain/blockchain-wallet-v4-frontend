@@ -13,8 +13,8 @@ class BsvWalletsContainer extends React.Component {
     return !Remote.Loading.is(nextProps.data)
   }
 
-  onSendBsv = () => {
-    this.props.modalActions.showModal(model.components.sendBsv.MODAL)
+  onSendBsv = index => {
+    this.props.modalActions.showModal(model.components.sendBsv.MODAL, { index })
   }
 
   onSwapBsv = account => {}
@@ -42,7 +42,7 @@ class BsvWalletsContainer extends React.Component {
 
 const mapStateToProps = state => ({
   data: getData(state),
-  search: formValueSelector('settingsAddresses')(state, 'search')
+  search: formValueSelector('walletTxSearch')(state, 'search')
 })
 
 const mapDispatchToProps = dispatch => ({

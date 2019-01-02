@@ -16,7 +16,7 @@ import { messages, limits, status } from './services'
 
 const Wrapper = styled.div`
   display: flex;
-  border-radius: 6px;
+  border-radius: 8px;
   position: relative;
   flex-direction: column;
   border: 1px solid ${props => props.theme['gray-1']};
@@ -87,7 +87,7 @@ const Column = styled.div`
 const Announcement = styled(Text)`
   display: flex;
   background: linear-gradient(180deg, #162241 0%, #324069 100%);
-  border-radius: 6px 6px 0 0;
+  border-radius: 8px 8px 0 0;
   justify-content: center;
   align-items: center;
   letter-spacing: 2px;
