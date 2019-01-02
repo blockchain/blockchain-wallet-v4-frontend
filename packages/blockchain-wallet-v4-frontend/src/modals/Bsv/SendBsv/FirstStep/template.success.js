@@ -97,7 +97,7 @@ const FirstStep = props => {
               />
             )}
             <QRCodeCapture
-              scanType='bchAddress'
+              scanType='bsvAddress'
               border={
                 enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']
               }
