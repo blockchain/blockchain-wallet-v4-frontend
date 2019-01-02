@@ -3,7 +3,7 @@ import { actions, actionTypes, selectors } from 'data'
 
 let timer, counter, interval
 // Actions that won't refresh the autodisconnection timer
-let blackListedActivityTypes = [
+export const BLACKLISTED_ACTION_TYPES = [
   // ETH
   actionTypes.middleware.webSocket.eth.MESSAGE_SOCKET,
   actionTypes.core.data.ethereum.FETCH_ETHEREUM_LATEST_BLOCK_SUCCESS,
@@ -53,13 +53,16 @@ let blackListedActivityTypes = [
   '@@redux-form/START_ASYNC_VALIDATION'
 ]
 
+// (Default: 10min )
+export const DEFAULT_LOGOUT_TIME = 600000
+
 const AutoDisconnectionMiddleware = () => store => next => action => {
   // We start the timer
   if (action.type === actionTypes.auth.START_LOGOUT_TIMER) {
     startTimer(store)
   }
   // We reset the timer if the action is not in the blacklist
-  if (!contains(action.type, blackListedActivityTypes)) {
+  if (!contains(action.type, BLACKLISTED_ACTION_TYPES)) {
     resetTimer()
   }
 
@@ -69,7 +72,7 @@ const AutoDisconnectionMiddleware = () => store => next => action => {
 const startTimer = store => {
   counter = timer =
     parseInt(selectors.core.wallet.getLogoutTime(store.getState()) / 1000) ||
-    600 // (Default: 10min )
+    DEFAULT_LOGOUT_TIME / 1000
   if (interval) {
     clearInterval(interval)
   }
@@ -81,6 +84,7 @@ const resetTimer = () => {
 }
 
 const refreshTimer = store => {
+  counter--
   if (counter === 0) {
     if (interval) {
       clearInterval(interval)
@@ -89,7 +93,6 @@ const refreshTimer = store => {
       actions.modals.showModal('AutoDisconnection', { duration: timer / 60 })
     )
   }
-  counter--
 }
 
 export default AutoDisconnectionMiddleware
