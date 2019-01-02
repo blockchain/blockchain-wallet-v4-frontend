@@ -5,6 +5,7 @@ import * as selectors from '../../../selectors'
 import * as T from 'services/AlertService'
 import { Wrapper } from 'blockchain-wallet-v4/src/types'
 import { Socket } from 'blockchain-wallet-v4/src/network'
+import { WALLET_TX_SEARCH } from '../../../form/model'
 
 export default ({ api, btcSocket }) => {
   const send = btcSocket.send.bind(btcSocket)
@@ -81,12 +82,12 @@ export default ({ api, btcSocket }) => {
           const pathname = yield select(selectors.router.getPathname)
           if (equals(pathname, '/btc/transactions')) {
             const formValues = yield select(
-              selectors.form.getFormValues('btcTransactions')
+              selectors.form.getFormValues(WALLET_TX_SEARCH)
             )
             const source = prop('source', formValues)
             const onlyShow = equals(source, 'all')
               ? ''
-              : source.xpub || source.address
+              : prop('xpub', source) || prop('address', source)
             yield put(
               actions.core.data.bitcoin.fetchTransactions(onlyShow, true)
             )
