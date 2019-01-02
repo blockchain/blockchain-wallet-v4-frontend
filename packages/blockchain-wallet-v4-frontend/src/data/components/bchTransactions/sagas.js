@@ -1,10 +1,10 @@
 import { select, put } from 'redux-saga/effects'
 import { equals, path, prop } from 'ramda'
 import { actions, selectors, model } from 'data'
+export const logLocation = 'components/bchTransactions/sagas'
 
 export default () => {
   const { WALLET_TX_SEARCH } = model.form
-  const logLocation = 'components/bchTransactions/sagas'
 
   const initialized = function*() {
     try {
