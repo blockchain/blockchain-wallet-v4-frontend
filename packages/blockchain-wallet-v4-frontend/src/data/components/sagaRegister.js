@@ -33,7 +33,7 @@ import uploadDocuments from './uploadDocuments/sagaRegister'
 import veriff from './veriff/sagaRegister'
 
 export default ({ api, coreSagas, networks, options }) =>
-  function*() {
+  function* componentsSaga () {
     yield fork(activityList())
     yield fork(bchTransactions())
     yield fork(btcTransactions())
@@ -55,12 +55,12 @@ export default ({ api, coreSagas, networks, options }) =>
     yield fork(requestBch({ networks }))
     yield fork(requestEth({ networks }))
     yield fork(requestXlm())
-    yield fork(sendBch({ api, coreSagas }))
-    yield fork(sendBtc({ api, coreSagas, networks }))
-    yield fork(sendBsv({ api, coreSagas }))
-    yield fork(sendEth({ api, coreSagas }))
+    yield fork(sendBch({ coreSagas }))
+    yield fork(sendBtc({ coreSagas, networks }))
+    yield fork(sendBsv({ coreSagas }))
+    yield fork(sendEth({ coreSagas }))
     yield fork(sendXlm({ coreSagas }))
-    yield fork(settings({ api, coreSagas }))
+    yield fork(settings({ coreSagas }))
     yield fork(signMessage({ coreSagas }))
     yield fork(swapGetStarted({ coreSagas }))
     yield fork(transactionReport({ coreSagas }))

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { contains, flatten, prop } from 'ramda'
 import { FormattedMessage } from 'react-intl'
-
+import { model } from 'data'
 import { ComponentDropdown, Icon, Link, Text } from 'blockchain-info-components'
 import {
   SelectBoxBtcAddresses,
@@ -11,6 +11,8 @@ import {
   TextBox,
   TabMenuTransactionStatus
 } from 'components/Form'
+
+const { WALLET_TX_SEARCH } = model.form
 
 const Wrapper = styled.div`
   width: 100%;
@@ -202,6 +204,6 @@ const Menu = props => {
 }
 
 export default reduxForm({
-  form: 'transactions',
+  form: WALLET_TX_SEARCH,
   initialValues: { source: 'all' }
 })(Menu)

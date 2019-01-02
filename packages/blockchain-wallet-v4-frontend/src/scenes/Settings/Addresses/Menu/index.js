@@ -6,6 +6,8 @@ import { LinkContainer } from 'react-router-bootstrap'
 
 import { Icon, TabMenu, TabMenuItem } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
+import { model } from 'data'
+const { WALLET_TX_SEARCH } = model.form
 
 const Wrapper = styled.div`
   width: 100%;
@@ -87,4 +89,6 @@ const MenuTop = () => (
   </Wrapper>
 )
 
-export default reduxForm({ form: 'settingsAddresses' })(MenuTop)
+export default reduxForm({
+  form: WALLET_TX_SEARCH
+})(MenuTop)
