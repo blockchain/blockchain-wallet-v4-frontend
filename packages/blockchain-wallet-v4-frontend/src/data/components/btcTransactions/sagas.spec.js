@@ -2,6 +2,7 @@ import { testSaga } from 'redux-saga-test-plan'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import * as actions from '../../actions'
 import btcTransactionsSagas, { logLocation } from './sagas'
+import { model } from 'data'
 
 const coreSagas = coreSagasFactory()
 
@@ -21,7 +22,7 @@ describe('btcTransactions sagas', () => {
     }
 
     it('should initialize the form with initial values', () => {
-      saga.next().put(actions.form.initialize('transactions', initialValues))
+      saga.next().put(actions.form.initialize(model.form.WALLET_TX_SEARCH, initialValues))
     })
 
     it('should dispatch an action to fetch txs', () => {
@@ -68,7 +69,7 @@ describe('btcTransactions sagas', () => {
     let { formChanged } = btcTransactionsSagas({ coreSagas })
     const action = {
       meta: {
-        form: 'transactions',
+        form: model.form.WALLET_TX_SEARCH,
         field: 'source'
       },
       payload: 'all'
@@ -103,7 +104,7 @@ describe('btcTransactions sagas', () => {
     let { formChanged } = btcTransactionsSagas({ coreSagas })
     const action = {
       meta: {
-        form: 'transactions',
+        form: model.form.WALLET_TX_SEARCH,
         field: 'source'
       },
       payload: {

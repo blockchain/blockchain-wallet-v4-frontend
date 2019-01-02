@@ -4,6 +4,7 @@ import * as actions from '../../../actions'
 import * as selectors from '../../../selectors'
 import * as T from 'services/AlertService'
 import { Socket } from 'blockchain-wallet-v4/src/network'
+import { WALLET_TX_SEARCH } from '../../../form/model'
 
 // TO REVIEW
 export default ({ api, bchSocket }) => {
@@ -69,12 +70,12 @@ export default ({ api, bchSocket }) => {
           const pathname = yield select(selectors.router.getPathname)
           if (equals(pathname, '/bch/transactions')) {
             const formValues = yield select(
-              selectors.form.getFormValues('bchTransactions')
+              selectors.form.getFormValues(WALLET_TX_SEARCH)
             )
             const source = prop('source', formValues)
             const onlyShow = equals(source, 'all')
               ? ''
-              : source.xpub || source.address
+              : prop('xpub', source) || prop('address', source)
             yield put(actions.core.data.bch.fetchTransactions(onlyShow, true))
           }
           break

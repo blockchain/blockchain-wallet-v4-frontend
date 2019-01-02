@@ -1,11 +1,12 @@
 import React from 'react'
-import { actions, selectors } from 'data'
+import { actions, selectors, model } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Success from './template.success'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { formValueSelector } from 'redux-form'
 import { values } from 'ramda'
+const { WALLET_TX_SEARCH } = model.form
 
 class ImportedAddressesContainer extends React.Component {
   constructor (props) {
@@ -79,7 +80,7 @@ class ImportedAddressesContainer extends React.Component {
 
 const mapStateToProps = state => ({
   activeAddresses: selectors.core.common.btc.getActiveAddresses(state),
-  search: formValueSelector('walletTxSearch')(state, 'search'),
+  search: formValueSelector(WALLET_TX_SEARCH)(state, 'search'),
   addressesWithoutRemoteData: selectors.core.wallet.getAddresses(state)
 })
 
