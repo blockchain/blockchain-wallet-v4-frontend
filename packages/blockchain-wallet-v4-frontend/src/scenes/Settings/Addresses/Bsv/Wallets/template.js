@@ -46,7 +46,6 @@ const LabelCell = styled(Text)`
 `
 
 const ClickableText = styled(Text)`
-  margin-right: 8px;
   color: ${props => props.theme['brand-secondary']};
   :hover {
     cursor: pointer;
@@ -55,7 +54,7 @@ const ClickableText = styled(Text)`
 
 const Success = props => {
   const { accounts, wallets, defaultIndex } = props.data
-  const { search, onSendBsv } = props
+  const { search, onSendBsv, onUnarchiveWallet } = props
   const isMatch = wallet =>
     !search || wallet.label.toLowerCase().indexOf(search) > -1
   const matchedWallets = filter(isMatch, take(accounts.length, wallets))
@@ -135,6 +134,14 @@ const Success = props => {
                       />
                     </Banner>
                   )}
+                  {wallet.archived && (
+                    <Banner label type='informational'>
+                      <FormattedMessage
+                        id='scenes.settings.addresses.bsv.wallets.archivedlabel'
+                        defaultMessage='Archived'
+                      />
+                    </Banner>
+                  )}
                 </WalletTableCell>
                 <TableCell style={{ flexBasis: '35%' }}>
                   <SwitchableDisplay size='13px' coin='BSV'>
@@ -148,24 +155,40 @@ const Success = props => {
                     flexBasis: '20%'
                   }}
                 >
-                  <ClickableText
-                    weight={400}
-                    size='13px'
-                    onClick={() => onSendBsv(i)}
-                  >
-                    <FormattedMessage
-                      id='scenes.settings.addresses.bsv.wallets.send'
-                      defaultMessage='Send'
-                    />
-                  </ClickableText>
-                  <LinkContainer to={'/swap'}>
-                    <Link weight={400} size='13px'>
+                  {wallet.archived ? (
+                    <ClickableText
+                      weight={400}
+                      size='13px'
+                      onClick={() => onUnarchiveWallet(i)}
+                    >
                       <FormattedMessage
-                        id='scenes.settings.addresses.bsv.wallets.swap'
-                        defaultMessage='Swap'
+                        id='scenes.settings.addresses.bsv.wallets.unarchive'
+                        defaultMessage='Unarchive'
                       />
-                    </Link>
-                  </LinkContainer>
+                    </ClickableText>
+                  ) : (
+                    <React.Fragment>
+                      <ClickableText
+                        weight={400}
+                        size='13px'
+                        onClick={() => onSendBsv(i)}
+                        style={{ marginRight: '8px' }}
+                      >
+                        <FormattedMessage
+                          id='scenes.settings.addresses.bsv.wallets.send'
+                          defaultMessage='Send'
+                        />
+                      </ClickableText>
+                      <LinkContainer to={'/swap'}>
+                        <Link weight={400} size='13px'>
+                          <FormattedMessage
+                            id='scenes.settings.addresses.bsv.wallets.swap'
+                            defaultMessage='Swap'
+                          />
+                        </Link>
+                      </LinkContainer>
+                    </React.Fragment>
+                  )}
                 </TableCell>
               </TableRow>
             )
