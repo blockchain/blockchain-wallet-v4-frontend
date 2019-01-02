@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
@@ -17,20 +16,26 @@ const Iframe = styled.iframe`
 `
 
 class AnalyticsTracker extends React.PureComponent {
+  constructor () {
+    super()
+    this.iframe = React.createRef()
+  }
+
   componentDidUpdate (prevProps) {
+    if (!this.iframe.current) return
     const { analytics, location, domains } = this.props
     const { analytics: prevAnalytics, location: prevLocation } = prevProps
     const targetOrigin = domains.walletHelper
-    const node = ReactDOM.findDOMNode(this)
+
     if (location.pathname !== prevLocation.pathname) {
-      node.contentWindow.postMessage(
+      this.iframe.current.contentWindow.postMessage(
         { method: 'trackPageView', trackingData: [location.pathname] },
         targetOrigin
       )
     }
     if (head(prevAnalytics) !== head(analytics)) {
       const { trackingData } = head(analytics)
-      node.contentWindow.postMessage(
+      this.iframe.current.contentWindow.postMessage(
         { method: 'trackEvent', trackingData: [trackingData] },
         targetOrigin
       )
@@ -44,6 +49,7 @@ class AnalyticsTracker extends React.PureComponent {
       <Iframe
         id='matomo-iframe'
         src={walletHelper + '/wallet-helper/matomo/#/'}
+        innerRef={this.iframe}
       />
     )
   }
