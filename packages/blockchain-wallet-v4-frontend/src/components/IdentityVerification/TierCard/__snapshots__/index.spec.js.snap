@@ -2,11 +2,11 @@
 
 exports[`TierCard renders correctly with column view 1`] = `
 <TierCard__Wrapper
-  className="column"
+  className=" column"
 >
   <TierCard__Announcement
     color="white"
-    size="16px"
+    size="18px"
     uppercase={true}
     weight={500}
   >
@@ -19,9 +19,7 @@ exports[`TierCard renders correctly with column view 1`] = `
   <TierCard__Container>
     <TierCard__Header
       color="marketing-primary"
-      size="16px"
       uppercase={true}
-      weight={400}
     >
       <FormattedMessage
         defaultMessage="Tier {tier} Verification"
@@ -43,7 +41,7 @@ exports[`TierCard renders correctly with column view 1`] = `
             cursor="inherit"
             italic={false}
             opacity={1}
-            size="28px"
+            size="32px"
             uppercase={false}
             weight={400}
           >
@@ -128,7 +126,7 @@ exports[`TierCard renders correctly with column view 1`] = `
               cursor="inherit"
               italic={false}
               opacity={1}
-              size="14px"
+              size="12px"
               uppercase={false}
               weight={400}
             >
@@ -156,7 +154,7 @@ exports[`TierCard renders correctly with column view 1`] = `
               cursor="inherit"
               italic={false}
               opacity={1}
-              size="14px"
+              size="12px"
               uppercase={false}
               weight={400}
             >
@@ -184,7 +182,7 @@ exports[`TierCard renders correctly with column view 1`] = `
               cursor="inherit"
               italic={false}
               opacity={1}
-              size="14px"
+              size="12px"
               uppercase={false}
               weight={400}
             >
@@ -224,7 +222,7 @@ exports[`TierCard renders correctly with column view 1`] = `
               cursor="inherit"
               italic={false}
               opacity={1}
-              size="14px"
+              size="12px"
               uppercase={false}
               weight={400}
             >
@@ -272,9 +270,7 @@ exports[`TierCard renders null w/o showBanner 1`] = `
   <TierCard__Container>
     <TierCard__Header
       color="marketing-primary"
-      size="16px"
       uppercase={true}
-      weight={400}
     >
       <FormattedMessage
         defaultMessage="Tier {tier} Verification"
@@ -296,7 +292,7 @@ exports[`TierCard renders null w/o showBanner 1`] = `
             cursor="inherit"
             italic={false}
             opacity={1}
-            size="28px"
+            size="32px"
             uppercase={false}
             weight={400}
           >
@@ -381,7 +377,7 @@ exports[`TierCard renders null w/o showBanner 1`] = `
               cursor="inherit"
               italic={false}
               opacity={1}
-              size="14px"
+              size="12px"
               uppercase={false}
               weight={400}
             >
@@ -409,7 +405,7 @@ exports[`TierCard renders null w/o showBanner 1`] = `
               cursor="inherit"
               italic={false}
               opacity={1}
-              size="14px"
+              size="12px"
               uppercase={false}
               weight={400}
             >
@@ -437,7 +433,7 @@ exports[`TierCard renders null w/o showBanner 1`] = `
               cursor="inherit"
               italic={false}
               opacity={1}
-              size="14px"
+              size="12px"
               uppercase={false}
               weight={400}
             >
@@ -465,7 +461,7 @@ exports[`TierCard renders null w/o showBanner 1`] = `
               cursor="inherit"
               italic={false}
               opacity={1}
-              size="14px"
+              size="12px"
               uppercase={false}
               weight={400}
             >

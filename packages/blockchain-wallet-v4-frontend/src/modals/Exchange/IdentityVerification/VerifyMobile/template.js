@@ -180,7 +180,7 @@ const VerifyMobile = ({
                     <FormItem>
                       <Label for='code'>
                         <FormattedMessage
-                          id='identityverification.personal.mobile.entercode'
+                          id='identityverification.personal.mobile.entercode.verification_code'
                           defaultMessage='Verification code'
                         />
                       </Label>

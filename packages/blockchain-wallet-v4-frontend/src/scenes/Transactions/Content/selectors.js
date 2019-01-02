@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { selectors } from 'data'
+import { selectors, model } from 'data'
 import {
   all,
   curry,
@@ -17,6 +17,8 @@ import {
   propOr
 } from 'ramda'
 import { hasAccount } from 'services/ExchangeService'
+
+const { WALLET_TX_SEARCH } = model.form
 
 const filterTransactions = curry((status, criteria, transactions) => {
   const isOfType = curry((filter, tx) =>
@@ -52,21 +54,22 @@ const coinSelectorMap = {
   ETH: selectors.core.common.eth.getWalletTransactions,
   BTC: selectors.core.common.btc.getWalletTransactions,
   BCH: selectors.core.common.bch.getWalletTransactions,
+  BSV: selectors.core.common.bsv.getWalletTransactions,
   XLM: selectors.core.common.xlm.getWalletTransactions
 }
 
 export const getData = (state, coin) =>
   createSelector(
     [
-      selectors.form.getFormValues('transactions'),
+      selectors.form.getFormValues(WALLET_TX_SEARCH),
       coinSelectorMap[coin],
       selectors.core.kvStore.buySell.getMetadata,
       selectors.core.settings.getCurrency
     ],
-    (formValues, pages, buySellMetadata, currencyR) => {
+    (userSearch, pages, buySellMetadata, currencyR) => {
       const empty = page => isEmpty(page.data)
-      const search = propOr('', 'search', formValues)
-      const status = propOr('', 'status', formValues)
+      const search = propOr('', 'search', userSearch)
+      const status = propOr('', 'status', userSearch)
       const filteredPages = !isEmpty(pages)
         ? pages.map(map(filterTransactions(status, search)))
         : []

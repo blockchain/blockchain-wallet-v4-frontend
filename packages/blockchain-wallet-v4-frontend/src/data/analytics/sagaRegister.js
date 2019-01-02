@@ -6,9 +6,9 @@ import {
   LAYOUT_WALLET_HEADER_WHATSNEW_CLICKED
 } from '../components/layoutWallet/actionTypes'
 
-export default ({ api, coreSagas }) => {
-  const analyticsSagas = sagas({ api, coreSagas })
-  return function*() {
+export default ({ api }) => {
+  const analyticsSagas = sagas({ api })
+  return function* analyticsSaga () {
     yield takeLatest(AT.REPORT_BALANCE_STATS, analyticsSagas.reportBalanceStats)
     yield takeLatest(AT.LOG_LOCKBOX_SETUP, analyticsSagas.logLockboxSetup)
     yield takeLatest(LAYOUT_WALLET_HEADER_FAQ_CLICKED, analyticsSagas.logClick)

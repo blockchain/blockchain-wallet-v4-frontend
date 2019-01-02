@@ -41,7 +41,7 @@ const Column = styled.div`
   box-sizing: border-box;
 
   @media (min-width: 1200px) {
-    width: ${props => props.width || 'auto'};
+    width: 'auto';
   }
 `
 const Row = styled.div`
@@ -55,18 +55,17 @@ const Row = styled.div`
 
   @media (min-width: 1200px) {
     flex-direction: row;
-    min-height: 100%;
-    width: ${props => props.width || '100%'};
-    margin-bottom: ${props => props.marginBottom || 'none'};
+    width: '100%';
+    margin-bottom: 'none';
   }
 `
 const TierRow = styled(Row)`
-  > div {
-    margin: 0 15px;
-  }
   margin-top: 10px;
   @media (min-width: 1200px) {
-    align-items: flex-end;
+    align-items: flex-start;
+    > :first-child {
+      padding-top: 50px;
+    }
   }
 `
 const SwapText = styled(Text)`
@@ -80,9 +79,10 @@ const TierWrapper = styled.div`
   display: flex;
   flex-direction: row;
   position: relative;
+  margin: 16px;
   ${media.laptop`
     width: 100%;
-  `} > div:last-child {
+  `} > div:not(:first-child) {
     top: 14px;
     right: -40px;
     height: 24px;
@@ -118,6 +118,9 @@ const GoBackLink = styled.div`
   &:hover {
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.21);
   }
+  ${media.mobile`
+    display: none;
+  `};
 `
 
 const IdentityVerification = () => {
@@ -146,9 +149,9 @@ const IdentityVerification = () => {
           </Column>
         </Row>
         <TierRow>
-          <TierCard tier={1} column />
-          <br />
-          <br />
+          <TierWrapper>
+            <TierCard tier={1} column />
+          </TierWrapper>
           <TierWrapper>
             <TierCard tier={2} column />
             <TooltipHost id='swaplimit.airdrops.tooltip' data-place='right'>

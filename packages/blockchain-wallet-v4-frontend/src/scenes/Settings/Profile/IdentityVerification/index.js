@@ -25,7 +25,7 @@ const Container = styled.div`
 
   @media (min-width: 1024px) {
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
     width: 100%;
   }
 `
@@ -42,7 +42,7 @@ const Column = styled.div`
 `
 const Row = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
@@ -50,6 +50,7 @@ const Row = styled.div`
   flex-wrap: wrap;
 
   &:not(:last-child) {
+    max-width: 416px;
     margin-right: 40px;
   }
 
@@ -57,7 +58,7 @@ const Row = styled.div`
     flex-direction: row;
     min-height: 100%;
     width: ${props => props.width || '100%'};
-    margin-bottom: ${props => props.marginBottom || 'none'};
+    margin-bottom: 'none';
   }
 `
 
@@ -71,7 +72,11 @@ const SwapText = styled(Text)`
 const TierWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  > div:last-child {
+  margin: 16px;
+  ${media.mobile`
+    margin: 16px 0;
+  `};
+  > div:not(:first-child) {
     height: 24px;
     margin-top: 14px;
     margin-left: 4px;
@@ -81,7 +86,10 @@ const TierWrapper = styled.div`
   }
 `
 const LearnMoreContainer = styled.div`
-  margin-top: 40px;
+  margin-top: 22px;
+  ${media.mobile`
+    margin-top: 10px;
+  `};
 `
 
 const IdentityVerification = () => {
@@ -90,29 +98,29 @@ const IdentityVerification = () => {
       <Container>
         <Row width='40%'>
           <Column>
-            <SwapText size='20px' color='textBlack'>
+            <SwapText size='17px' color='textBlack'>
               <FormattedMessage
                 id='scenes.profile.identityverification.pagetitle'
                 defaultMessage='Swap Limits'
               />
             </SwapText>
-            <SwapText>
+            <SwapText size='14px' weight={300}>
               <FormattedMessage
-                id='scenes.profile.identityverification.swaplimit.explaination'
-                defaultMessage='Your Swap Limit is how much digital currency you can trade each day. This is all a security precaution for local compliance and fraud prevention.'
+                id='scenes.profile.identityverification.swaplimit.sawp_limit'
+                defaultMessage='Your Swap Limit is how much crypto you can trade each day. Swap Limits are necessary for compliance and fraud prevention.'
               />
             </SwapText>
             <LearnMoreContainer>
-              <SwapText size='14px' color='textBlack'>
+              <SwapText size='12px' color='textBlack'>
                 <FormattedMessage
                   id='scenes.profile.identityverification.swaplimit.wanttolearnmore'
                   defaultMessage='Want to learn more?'
                 />
               </SwapText>
-              <SwapText size='14px'>
+              <SwapText size='12px' weight={300}>
                 <FormattedHTMLMessage
-                  id='scenes.profile.identityverification.swaplimit.learnmore'
-                  defaultMessage="We've put together an article explaining how Swap Limits works. <a href='https://support.blockchain.com' rel='noopener noreferrer' target='_blank'>Read now.</a>"
+                  id='scenes.profile.identityverification.swaplimit.learn_more'
+                  defaultMessage="We’ve put together an article on Swap Limits. <a href='https://support.blockchain.com/hc/en-us/categories/360001135512-Identity-Verification' rel='noopener noreferrer' target='_blank'>Read now.</a>"
                 />
               </SwapText>
             </LearnMoreContainer>
@@ -120,9 +128,9 @@ const IdentityVerification = () => {
         </Row>
         <Row width='60%'>
           <Column>
-            <TierCard tier={1} />
-            <br />
-            <br />
+            <TierWrapper>
+              <TierCard tier={1} />
+            </TierWrapper>
             <TierWrapper>
               <TierCard tier={2} />
               <TooltipHost id='swaplimit.airdrops.tooltip' data-place='right'>

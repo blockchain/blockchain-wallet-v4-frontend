@@ -1,3 +1,0 @@
-export const UPDATE_SCROLL = 'UPDATE_SCROLL'
-
-export const RESET_SCROLL = 'RESET_SCROLL'

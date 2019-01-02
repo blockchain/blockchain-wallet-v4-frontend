@@ -47,7 +47,7 @@ describe('syncVeriff', () => {
       .select(S.getApplicantId)
       .call(api.syncVeriff, applicantId)
       .put(actions.modals.closeAllModals())
-      .put(actions.router.push('/exchange'))
+      .put(actions.router.push('/swap'))
       .put(actions.analytics.logKycEvent(COMPLETE))
       .run())
 })
