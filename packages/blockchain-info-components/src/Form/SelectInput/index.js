@@ -11,8 +11,8 @@ class SelectInputContainer extends React.PureComponent {
   }
 
   /* eslint-disable react/no-did-update-set-state */
-  componentDidUpdate () {
-    if (!equals(this.props.value, this.state.value)) {
+  componentDidUpdate (prevProps, prevState) {
+    if (!equals(this.props.value, prevProps.value)) {
       this.setState({
         value: this.props.value
       })
