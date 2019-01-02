@@ -1,8 +1,9 @@
 import { select, put } from 'redux-saga/effects'
 import { equals, path, prop } from 'ramda'
-import { actions, selectors } from 'data'
+import { actions, selectors, model } from 'data'
 
 export default () => {
+  const { WALLET_TX_SEARCH } = model.form
   const logLocation = 'components/bsvTransactions/sagas'
 
   const initialized = function*() {
@@ -13,7 +14,7 @@ export default () => {
         status: '',
         search: ''
       }
-      yield put(actions.form.initialize('walletTxSearch', initialValues))
+      yield put(actions.form.initialize(WALLET_TX_SEARCH, initialValues))
       yield put(actions.core.data.bsv.fetchTransactions('', true))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
@@ -23,7 +24,7 @@ export default () => {
   const loadMore = function*() {
     try {
       const formValues = yield select(
-        selectors.form.getFormValues('walletTxSearch')
+        selectors.form.getFormValues(WALLET_TX_SEARCH)
       )
       const source = prop('source', formValues)
       const onlyShow = equals(source, 'all')
@@ -40,7 +41,7 @@ export default () => {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      if (!equals('walletTxSearch', form)) return
+      if (!equals(WALLET_TX_SEARCH, form)) return
 
       switch (field) {
         case 'source':

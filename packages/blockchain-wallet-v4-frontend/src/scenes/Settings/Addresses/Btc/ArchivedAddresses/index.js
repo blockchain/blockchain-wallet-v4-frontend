@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { actions, selectors } from 'data'
+import { actions, selectors, model } from 'data'
 import Success from './template.success'
 import { Types } from 'blockchain-wallet-v4/src'
 import { formValueSelector } from 'redux-form'
+const { WALLET_TX_SEARCH } = model.form
 
 class ArchivedAddressesContainer extends React.PureComponent {
   constructor (props) {
@@ -43,7 +44,7 @@ const selectArchived = compose(
 
 const mapStateToProps = state => ({
   archivedAddresses: selectArchived(state).toArray(),
-  search: formValueSelector('walletTxSearch')(state, 'search')
+  search: formValueSelector(WALLET_TX_SEARCH)(state, 'search')
 })
 
 const mapDispatchToProps = dispatch => ({
