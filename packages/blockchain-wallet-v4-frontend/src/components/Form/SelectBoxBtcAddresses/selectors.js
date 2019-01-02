@@ -21,9 +21,20 @@ const allWallets = {
   ]
 }
 
+const allImportedAddresses = {
+  label: 'Imported Addresses',
+  options: [
+    {
+      label: 'All Imported Bitcoin Addresses',
+      value: 'allImportedAddresses'
+    }
+  ]
+}
+
 export const getData = (state, ownProps) => {
   const {
     exclude = [],
+    excludeHDWallets,
     excludeImported,
     excludeLockbox,
     includeAll = true
@@ -66,9 +77,9 @@ export const getData = (state, ownProps) => {
     ]).map(([b1, b2, b3]) => {
       const data = reduce(concat, [], [b1, b2, b3])
       if (includeAll) {
-        return {
-          data: prepend(allWallets, data)
-        }
+        return { data: prepend(allWallets, data) }
+      } else if (excludeHDWallets) {
+        return { data: [allImportedAddresses] }
       } else {
         return { data }
       }

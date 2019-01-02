@@ -1,5 +1,5 @@
 import React from 'react'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Success from './template.success'
@@ -13,22 +13,22 @@ class ImportedAddressesContainer extends React.Component {
   }
 
   handleClickImport = () => {
-    this.props.modalsActions.showModal('ImportBtcAddress')
+    this.props.modalActions.showModal('ImportBtcAddress')
   }
 
   handleClickVerify = () => {
-    this.props.modalsActions.showModal('VerifyMessage')
+    this.props.modalActions.showModal('VerifyMessage')
   }
 
   handleShowPriv = address => {
-    this.props.modalsActions.showModal('ShowBtcPrivateKey', {
+    this.props.modalActions.showModal('ShowBtcPrivateKey', {
       addr: address.addr,
       balance: address.info.final_balance
     })
   }
 
   handleSignMessage = address => {
-    this.props.modalsActions.showModal('SignMessage', {
+    this.props.modalActions.showModal('SignMessage', {
       address: address.addr
     })
   }
@@ -38,7 +38,12 @@ class ImportedAddressesContainer extends React.Component {
     this.props.coreActions.setAddressArchived(address.addr, !isArchived)
   }
 
-  handleTransferAll = () => {}
+  handleTransferAll = () => {
+    this.props.modalActions.showModal(model.components.sendBtc.MODAL, {
+      from: 'allImportedAddresses',
+      excludeHDWallets: true
+    })
+  }
 
   render () {
     const { search, addressesWithoutRemoteData } = this.props
@@ -81,7 +86,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   coreActions: bindActionCreators(actions.core.wallet, dispatch),
-  modalsActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(
