@@ -29,15 +29,15 @@ export default (state = INITIAL_STATE, action) => {
       let setNote = assocPath(['tx_notes', txHash], txNote)
       return over(valueLens, setNote, state)
     }
-    case AT.SET_BSV_ACCOUNT_UNARCHIVED: {
-      const { accountIdx } = action.payload
+    case AT.SET_BSV_ACCOUNT_ARCHIVED: {
+      const { accountIdx, archived } = action.payload
       const valueLens = compose(
         mapped,
         KVStoreEntry.value
       )
       const setAccountArchived = assocPath(
         ['accounts', accountIdx, 'archived'],
-        false
+        archived
       )
       return over(valueLens, setAccountArchived, state)
     }

@@ -14,7 +14,7 @@ class BsvWalletsContainer extends React.Component {
   }
 
   onUnarchiveWallet = index => {
-    this.props.bsvActions.setAccountUnarchived(index)
+    this.props.bsvActions.setAccountArchived(index, false)
   }
 
   onSendBsv = index => {
