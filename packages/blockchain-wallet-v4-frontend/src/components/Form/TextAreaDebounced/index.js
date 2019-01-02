@@ -84,6 +84,7 @@ class TextAreaDebounced extends React.Component {
           disabled={disabled}
           placeholder={placeholder}
           rows={rows}
+          resize={false}
           onChange={this.handleChange}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}

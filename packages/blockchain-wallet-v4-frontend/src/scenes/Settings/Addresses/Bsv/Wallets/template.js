@@ -75,7 +75,7 @@ const Success = props => {
       </SettingDescription>
       <Table>
         <TableHeader>
-          <TableCell style={{ flexBasis: '45%' }}>
+          <TableCell style={{ flexBasis: '55%' }}>
             <Text size='13px' weight={500}>
               <FormattedMessage
                 id='scenes.settings.addresses.bsv.wallets.name'
@@ -125,7 +125,7 @@ const Success = props => {
             const isArchived = wallet.value.archived
             return (
               <TableRow key={i}>
-                <WalletTableCell style={{ flexBasis: '45%' }}>
+                <WalletTableCell style={{ flexBasis: '55%' }}>
                   <LabelCell size='13px'>{wallet.label}</LabelCell>
                   {isDefault && (
                     <Banner label>
