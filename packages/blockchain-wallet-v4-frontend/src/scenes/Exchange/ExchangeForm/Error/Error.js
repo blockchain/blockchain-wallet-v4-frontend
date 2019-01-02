@@ -8,7 +8,7 @@ import { Row } from '../Layout'
 
 const ErrorRow = styled(Row)`
   justify-content: center;
-  min-height: 15px;
+  min-height: 16px;
   padding: 0px;
 `
 

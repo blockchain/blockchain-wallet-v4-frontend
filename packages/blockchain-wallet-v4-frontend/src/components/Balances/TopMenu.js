@@ -7,7 +7,7 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 export const BalancesWrapper = styled.div`
-  max-height: 0px;
+  max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s;
   &.active {

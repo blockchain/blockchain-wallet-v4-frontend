@@ -1,4 +1,4 @@
-import { takeEvery } from 'redux-saga/effects'
+import { takeEvery, takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import * as actionTypes from '../../actionTypes'
 import sagas from './sagas'
@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default () => {
   const bchTransactionsSagas = sagas()
 
-  return function*() {
+  return function* btcTransactionsSaga () {
     yield takeEvery(
       AT.BCH_TRANSACTIONS_INITIALIZED,
       bchTransactionsSagas.initialized
@@ -15,10 +15,10 @@ export default () => {
       AT.BCH_TRANSACTIONS_REPORT_CLICKED,
       bchTransactionsSagas.reportClicked
     )
-    yield takeEvery(actionTypes.form.CHANGE, bchTransactionsSagas.formChanged)
-    yield takeEvery(
-      actionTypes.scroll.UPDATE_SCROLL,
-      bchTransactionsSagas.scrollUpdated
+    yield takeLatest(
+      AT.BCH_TRANSACTIONS_LOAD_MORE,
+      bchTransactionsSagas.loadMore
     )
+    yield takeEvery(actionTypes.form.CHANGE, bchTransactionsSagas.formChanged)
   }
 }

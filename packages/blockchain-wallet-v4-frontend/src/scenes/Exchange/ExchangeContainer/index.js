@@ -13,6 +13,7 @@ const { EXCHANGE_STEPS } = model.components.exchange
 
 export class ExchangeContainer extends React.PureComponent {
   componentDidMount () {
+    this.props.profileActions.fetchUser()
     this.props.actions.setStep(EXCHANGE_STEPS.EXCHANGE_FORM)
   }
 
@@ -38,7 +39,8 @@ ExchangeContainer.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.exchange, dispatch)
+  actions: bindActionCreators(actions.components.exchange, dispatch),
+  profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })
 
 export default connect(

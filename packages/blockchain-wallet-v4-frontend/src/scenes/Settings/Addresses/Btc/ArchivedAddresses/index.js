@@ -43,7 +43,7 @@ const selectArchived = compose(
 
 const mapStateToProps = state => ({
   archivedAddresses: selectArchived(state).toArray(),
-  search: formValueSelector('settingsAddresses')(state, 'search')
+  search: formValueSelector('walletTxSearch')(state, 'search')
 })
 
 const mapDispatchToProps = dispatch => ({

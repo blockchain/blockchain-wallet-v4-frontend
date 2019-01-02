@@ -65,7 +65,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   data: getData(state),
-  search: formValueSelector('settingsAddresses')(state, 'search'),
+  search: formValueSelector('walletTxSearch')(state, 'search'),
   walletsWithoutRemoteData: getWalletsWithoutRemoteData(state)
 })
 

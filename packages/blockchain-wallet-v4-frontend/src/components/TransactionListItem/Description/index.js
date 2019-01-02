@@ -6,20 +6,15 @@ import { bindActionCreators } from 'redux'
 import EditDescription from './template'
 
 class EditDescriptionContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = { value: props.value }
-    this.handleChange = this.handleChange.bind(this)
-    this.handleConfirm = this.handleConfirm.bind(this)
-  }
+  state = { value: this.props.value }
 
-  handleConfirm (desc) {
+  handleConfirm = desc => {
     const { handleEditDescription } = this.props
     this.setState({ value: desc })
     handleEditDescription(desc)
   }
 
-  handleChange (e) {
+  handleChange = () => {
     const { value } = this.props
     this.props.modalActions.showModal('EditTxDescription', {
       handleConfirm: this.handleConfirm,

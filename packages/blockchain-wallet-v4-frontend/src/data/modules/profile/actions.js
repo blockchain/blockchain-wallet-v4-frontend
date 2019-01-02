@@ -26,9 +26,6 @@ export const fetchTiersFailure = error => ({
   type: AT.FETCH_TIERS_FAILURE,
   payload: { error }
 })
-export const fetchTiers = () => ({
-  type: AT.FETCH_TIERS
-})
 
 export const setApiToken = token => ({
   type: AT.SET_API_TOKEN,

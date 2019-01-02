@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Button, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
-import QRCodeReact from 'qrcode.react'
+import QRCodeWrapper from 'components/QRCodeWrapper'
 import { Field, reduxForm } from 'redux-form'
 import { TextBox } from 'components/Form'
 import { required } from 'services/FormHelper'
@@ -53,7 +53,7 @@ const Google = props => {
         <QRCodeContainer>
           {data.googleSecret ? (
             <QRCode>
-              <QRCodeReact value={data.googleSecret} size={115} />
+              <QRCodeWrapper value={data.googleSecret} size={115} />
             </QRCode>
           ) : null}
           <QRCodeCopy>

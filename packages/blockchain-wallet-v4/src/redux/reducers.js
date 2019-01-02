@@ -1,7 +1,7 @@
-import data from './data/reducers.js'
-import wallet from './wallet/reducers.js'
-import settings from './settings/reducers.js'
-import walletOptions from './walletOptions/reducers.js'
-import kvStore from './kvStore/reducers.js'
+import data from './data/reducers'
+import wallet from './wallet/reducers'
+import settings from './settings/reducers'
+import walletOptions from './walletOptions/reducers'
+import kvStore from './kvStore/reducers'
 
 export { data, wallet, settings, walletOptions, kvStore }

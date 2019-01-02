@@ -11,10 +11,6 @@ import SelectBox from './SelectBox'
 import { Icon, TooltipHost } from 'blockchain-info-components'
 import { Cell, Row } from '../Layout'
 
-const SelectSourceRow = styled(Row)`
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
-`
-
 const CoinSwapIcon = styled(Icon)`
   font-size: 18px;
   margin: 0 15px;
@@ -27,6 +23,10 @@ const CoinSwapIcon = styled(Icon)`
   }
 `
 
+const CurrencyRow = styled(Row)`
+  padding-top: 8px;
+`
+
 const extractFieldValue = (e, value) => value
 
 export class CurrencySelect extends React.Component {
@@ -37,7 +37,7 @@ export class CurrencySelect extends React.Component {
   render () {
     const { swapDisabled, fromElements, toElements, actions } = this.props
     return (
-      <SelectSourceRow height='50px' spaced>
+      <CurrencyRow height='50px' spaced>
         <Cell>
           <Field
             name='source'
@@ -74,7 +74,7 @@ export class CurrencySelect extends React.Component {
             elements={toElements}
           />
         </Cell>
-      </SelectSourceRow>
+      </CurrencyRow>
     )
   }
 }

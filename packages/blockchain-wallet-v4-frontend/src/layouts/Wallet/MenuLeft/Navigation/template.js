@@ -19,14 +19,15 @@ import {
 } from 'blockchain-info-components'
 
 const HelperTipContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
+  margin-left: auto;
 `
 
 const NewCartridge = styled(Cartridge)`
   color: ${props => props.theme['white']} !important;
   background-color: ${props => props.theme['brand-secondary']};
+  text-transform: capitalize;
+  margin-left: auto;
+  margin-right: 5px;
 `
 
 const Navigation = props => {
@@ -54,18 +55,20 @@ const Navigation = props => {
           />
         </MenuItem>
       </LinkContainer>
-      <LinkContainer to='/exchange' activeClassName='active'>
+      <LinkContainer to='/swap' activeClassName='active'>
         <MenuItem data-e2e='exchangeLink'>
           <Icon name='nav-switch' />
           <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.exchange'
-            defaultMessage='Exchange'
+            id='layouts.wallet.menuleft.navigation.swap'
+            defaultMessage='Swap'
           />
           <NewCartridge>
-            <FormattedMessage
-              defaultMessage='New'
-              id='layouts.wallet.menuleft.navigation.new'
-            />
+            <Text color='white' size='12' weight='300'>
+              <FormattedMessage
+                defaultMessage='New'
+                id='layouts.wallet.menuleft.navigation.new'
+              />
+            </Text>
           </NewCartridge>
         </MenuItem>
       </LinkContainer>
@@ -114,10 +117,12 @@ const Navigation = props => {
             defaultMessage='Stellar'
           />
           <NewCartridge>
-            <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.transactions.xlm.new'
-              defaultMessage='New'
-            />
+            <Text color='white' size='12' weight='300'>
+              <FormattedMessage
+                id='layouts.wallet.menuleft.navigation.transactions.xlm.new'
+                defaultMessage='New'
+              />
+            </Text>
           </NewCartridge>
         </MenuItem>
       </LinkContainer>

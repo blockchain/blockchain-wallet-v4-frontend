@@ -6,25 +6,29 @@ import { connect } from 'react-redux'
 
 import { actions } from 'data'
 import { getData } from './selectors'
+import { formatAmount } from '../services'
 import { Row } from '../Layout'
 import { Button } from 'blockchain-info-components'
 
 export const MinMaxButton = styled(Button)`
   width: 48%;
   font-size: 10px;
+  height: 48px;
+  border-radius: 4px;
   justify-content: space-between;
+  border-color: ${props => props.theme['gray-2']};
   > * {
     color: ${props => props.theme['brand-primary']};
+    font-weight: 500;
   }
 `
 export const MinMaxValue = styled.div`
-  font-weight: 600;
+  font-weight: 500;
   font-size: 14px;
 `
-
-const formatAmount = (isFiat, symbol, value) =>
-  isFiat ? `${symbol}${value}` : `${value} ${symbol}`
-
+const MinMaxRow = styled(Row)`
+  padding-bottom: 23px;
+`
 export class MinMaxButtons extends React.PureComponent {
   render () {
     const {
@@ -39,7 +43,7 @@ export class MinMaxButtons extends React.PureComponent {
     } = this.props
 
     return (
-      <Row>
+      <MinMaxRow>
         <MinMaxButton fullwidth disabled={disabled} onClick={actions.useMin}>
           <FormattedMessage
             id='scenes.exchange.exchangeform.min'
@@ -60,7 +64,7 @@ export class MinMaxButtons extends React.PureComponent {
             {!disabled && formatAmount(maxIsFiat, maxSymbol, maxAmount)}
           </MinMaxValue>
         </MinMaxButton>
-      </Row>
+      </MinMaxRow>
     )
   }
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import QRCodeReact from 'qrcode.react'
+import QRCodeWrapper from 'components/QRCodeWrapper'
 
 import {
   Link,
@@ -50,7 +50,7 @@ const QRCode = props => {
           </TooltipHost>
         </Text>
         <QRCodeContainer>
-          <QRCodeReact value={bitcoinAddress} size={256} />
+          <QRCodeWrapper value={bitcoinAddress} size={256} />
         </QRCodeContainer>
         <CopyClipboard address={bitcoinAddress} />
       </ModalBody>

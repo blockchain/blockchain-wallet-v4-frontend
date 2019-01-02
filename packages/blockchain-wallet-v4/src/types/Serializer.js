@@ -18,9 +18,13 @@ import * as KVStoreEntry from './KVStoreEntry'
 import Remote from '../remote'
 
 const serializer = {
-  // Remove all functions from the state
   replacer: function (key, value) {
+    // Remove all functions from the state
     if (value && typeof value === 'function') {
+      return ''
+    }
+    // Remove redux form syncErrors from the state
+    if (key === 'syncErrors') {
       return ''
     }
     return value
