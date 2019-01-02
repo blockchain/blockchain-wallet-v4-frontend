@@ -14,6 +14,10 @@ class BsvWalletsContainer extends React.Component {
     return !Remote.Loading.is(nextProps.data)
   }
 
+  onUnarchiveWallet = index => {
+    this.props.bsvActions.setAccountArchived(index, false)
+  }
+
   onSendBsv = index => {
     this.props.modalActions.showModal(model.components.sendBsv.MODAL, { index })
   }
@@ -29,6 +33,7 @@ class BsvWalletsContainer extends React.Component {
           <Wallets
             search={search && search.toLowerCase()}
             data={value}
+            onUnarchiveWallet={this.onUnarchiveWallet}
             onSendBsv={this.onSendBsv}
             onSwapBsv={this.onSwapBsv}
           />
@@ -47,6 +52,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  bsvActions: bindActionCreators(actions.core.kvStore.bsv, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
