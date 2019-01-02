@@ -69,6 +69,7 @@ class ImportExternalBitcoinAddress extends React.PureComponent {
               component={SelectBoxBtcAddresses}
               optional
               excludeImported
+              includeAll={false}
               disabled={!this.props.priv}
             />
           </FormItem>

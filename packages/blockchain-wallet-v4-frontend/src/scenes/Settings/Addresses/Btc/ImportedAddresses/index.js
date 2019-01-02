@@ -8,19 +8,11 @@ import { formValueSelector } from 'redux-form'
 import { values } from 'ramda'
 
 class ImportedAddressesContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.handleClickImport = this.handleClickImport.bind(this)
-    this.handleToggleArchived = this.handleToggleArchived.bind(this)
-    this.handleShowPriv = this.handleShowPriv.bind(this)
-    this.handleSignMessage = this.handleSignMessage.bind(this)
-  }
-
   shouldComponentUpdate (nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
 
-  handleClickImport () {
+  handleClickImport = () => {
     this.props.modalsActions.showModal('ImportBtcAddress')
   }
 
@@ -28,23 +20,25 @@ class ImportedAddressesContainer extends React.Component {
     this.props.modalsActions.showModal('VerifyMessage')
   }
 
-  handleShowPriv (address) {
+  handleShowPriv = address => {
     this.props.modalsActions.showModal('ShowBtcPrivateKey', {
       addr: address.addr,
       balance: address.info.final_balance
     })
   }
 
-  handleSignMessage (address) {
+  handleSignMessage = address => {
     this.props.modalsActions.showModal('SignMessage', {
       address: address.addr
     })
   }
 
-  handleToggleArchived (address) {
+  handleToggleArchived = address => {
     let isArchived = address.tag === 2
     this.props.coreActions.setAddressArchived(address.addr, !isArchived)
   }
+
+  handleTransferAll = () => {}
 
   render () {
     const { search, addressesWithoutRemoteData } = this.props
@@ -56,11 +50,12 @@ class ImportedAddressesContainer extends React.Component {
           onClickVerify={this.handleClickVerify}
           search={search && search.toLowerCase()}
           onToggleArchived={this.handleToggleArchived}
+          onTransferAll={this.handleTransferAll}
           onShowPriv={this.handleShowPriv}
           onShowSignMessage={this.handleSignMessage}
         />
       ),
-      Failure: message => (
+      Failure: () => (
         <Success
           failure
           importedAddresses={values(addressesWithoutRemoteData)}
@@ -68,6 +63,7 @@ class ImportedAddressesContainer extends React.Component {
           onClickVerify={this.handleClickVerify}
           search={search && search.toLowerCase()}
           onToggleArchived={this.handleToggleArchived}
+          onTransferAll={this.handleTransferAll}
           onShowSignMessage={this.handleSignMessage}
         />
       ),

@@ -13,7 +13,7 @@ export default () => {
         status: '',
         search: ''
       }
-      yield put(actions.form.initialize('transactions', initialValues))
+      yield put(actions.form.initialize('walletTxSearch', initialValues))
       yield put(actions.core.data.bitcoin.fetchTransactions('', true))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
@@ -48,7 +48,7 @@ export default () => {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      if (!equals('transactions', form)) return
+      if (!equals('walletTxSearch', form)) return
 
       switch (field) {
         case 'source':

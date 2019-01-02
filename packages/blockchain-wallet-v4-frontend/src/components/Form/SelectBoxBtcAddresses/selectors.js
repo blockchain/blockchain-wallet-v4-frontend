@@ -1,9 +1,33 @@
-import { concat, curry, filter, has, map, sequence, reduce } from 'ramda'
+import {
+  concat,
+  curry,
+  filter,
+  has,
+  map,
+  sequence,
+  reduce,
+  prepend
+} from 'ramda'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 
+const allWallets = {
+  label: 'All',
+  options: [
+    {
+      label: 'All Bitcoin Wallets',
+      value: 'all'
+    }
+  ]
+}
+
 export const getData = (state, ownProps) => {
-  const { exclude = [], excludeImported, excludeLockbox } = ownProps
+  const {
+    exclude = [],
+    excludeImported,
+    excludeLockbox,
+    includeAll = true
+  } = ownProps
   const buildDisplay = wallet => {
     if (has('balance', wallet)) {
       let btcDisplay = Exchange.displayBitcoinToBitcoin({
@@ -39,7 +63,16 @@ export const getData = (state, ownProps) => {
             .map(excluded)
             .map(toDropdown)
             .map(toGroup('Lockbox'))
-    ]).map(([b1, b2, b3]) => ({ data: reduce(concat, [], [b1, b2, b3]) }))
+    ]).map(([b1, b2, b3]) => {
+      const data = reduce(concat, [], [b1, b2, b3])
+      if (includeAll) {
+        return {
+          data: prepend(allWallets, data)
+        }
+      } else {
+        return { data }
+      }
+    })
   }
   return getAddressesData()
 }
