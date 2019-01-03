@@ -6,7 +6,7 @@ const { TIERS_STATES } = model.profile
 
 export const getProfileData = state => {
   const profile = selectors.core.data.coinify.getProfile(state)
-  return lift((profile) => ({ profile }))(profile)
+  return lift(profile => ({ profile }))(profile)
 }
 
 export const getTrades = state =>
@@ -23,9 +23,10 @@ export const getQuote = state => selectors.core.data.coinify.getQuote(state)
 export const getCurrency = state => selectors.core.data.coinify.getLevel(state)
 
 export const getData = state => {
-  const kycState = selectors.modules.profile.getUserKYCState(state).getOrElse(false)
+  const kycState = selectors.modules.profile
+    .getUserKYCState(state)
+    .getOrElse(false)
   const tier2Data = selectors.modules.profile.getTier(2, state).getOrElse(null)
-  // const kycVerified = equals(kycState, KYC_STATES.VERIFIED)
   const kycVerified = equals(prop('state', tier2Data), TIERS_STATES.VERIFIED)
 
   return {

@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom'
 import { Link, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 import media from 'services/ResponsiveService'
-import { prop } from 'ramda'
 
 const Error = styled(Text)`
   position: absolute;
@@ -167,19 +166,20 @@ const LimitsAndErrorText = ({
         id='buy.quote_input.verification_pending'
         defaultMessage='Trading is disabled while your identity verification is in review.'
       />
-    return <Fragment>
-      <FormattedMessage
-        id='buy.quote_input.not_verified'
-        defaultMessage='Complete your identity verification to start buying & selling.'
-      />
-      {<br />}
-      <a onClick={increaseLimit}>
+    if (!verified)
+      return <Fragment>
         <FormattedMessage
-          id='buysell.quote_input.finish_verification'
-          defaultMessage='Finish now'
+          id='buy.quote_input.not_verified'
+          defaultMessage='Complete your identity verification to start buying & selling.'
         />
-      </a>
-    </Fragment>
+        {<br />}
+        <a onClick={increaseLimit}>
+          <FormattedMessage
+            id='buysell.quote_input.finish_verification'
+            defaultMessage='Finish now'
+          />
+        </a>
+      </Fragment>
   }
 
   if (!isSell && !canTrade) {
@@ -197,7 +197,7 @@ const LimitsAndErrorText = ({
   } else {
     return (
       <LimitsHelper>
-        {verified ? (
+        {verified && !isSell ? (
           <LimitsWrapper size='12px' weight={300}>
             <FormattedMessage
               id='buy.quote_input.remaining_card_buy_limit'

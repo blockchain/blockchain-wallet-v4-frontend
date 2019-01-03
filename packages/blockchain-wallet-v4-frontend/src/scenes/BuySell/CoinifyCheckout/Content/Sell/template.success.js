@@ -90,6 +90,7 @@ const Sell = props => {
                 onOrderCheckoutSubmit={onOrderCheckoutSubmit}
                 checkoutError={checkoutError}
                 increaseLimit={handleKycAction}
+                verified={kycVerified}
               />
             </div>
             <div>

@@ -41,7 +41,7 @@ class CoinifyBuyContainer extends React.PureComponent {
       level,
       ...rest
     } = this.props
-    const { step, checkoutBusy, coinifyBusy, subscriptions, trades, kycState } = rest
+    const { step, checkoutBusy, coinifyBusy, subscriptions, trades, kycState, kycVerified } = rest
     const { fetchQuote, refreshBuyQuote } = coinifyDataActions
     const { showModal } = modalActions
     const { coinifyNotAsked, coinifyNextCheckoutStep } = coinifyActions
@@ -57,35 +57,36 @@ class CoinifyBuyContainer extends React.PureComponent {
     return data.cata({
       Success: value => (
         <Success
-          value={value}
-          showModal={showModal}
+          busy={busy}
           buyQuoteR={buyQuoteR}
+          canTrade={canTrade}
+          clearTradeError={coinifyNotAsked}
+          changeTab={tab => change('buySellTabStatus', 'status', tab)}
+          checkoutBusy={checkoutBusy}
+          coinifyNextCheckoutStep={step => coinifyNextCheckoutStep(step)}
+          currency={currency}
           fetchBuyQuote={quote =>
             fetchQuote({ quote, nextAddress: value.nextAddress })
           }
+          handleKycAction={() => showModal(KYC_MODAL)}
+          initiateBuy={this.startBuy}
+          kycState={kycState}
+          kycVerified={kycVerified}
+          level={level}
+          paymentMedium={paymentMedium}
           refreshQuote={refreshBuyQuote}
-          currency={currency}
-          checkoutBusy={checkoutBusy}
           setMax={amt =>
             formActions.change('coinifyCheckoutBuy', 'leftVal', amt)
           }
           setMin={amt =>
             formActions.change('coinifyCheckoutBuy', 'leftVal', amt)
           }
-          paymentMedium={paymentMedium}
-          initiateBuy={this.startBuy}
+          showModal={showModal}
           step={step}
-          busy={busy}
-          clearTradeError={coinifyNotAsked}
-          trade={trade}
-          handleKycAction={() => showModal(KYC_MODAL)}
-          changeTab={tab => change('buySellTabStatus', 'status', tab)}
-          coinifyNextCheckoutStep={step => coinifyNextCheckoutStep(step)}
-          canTrade={canTrade}
           subscriptions={subscriptions}
+          trade={trade}
           trades={trades}
-          kycState={kycState}
-          level={level}
+          value={value}
         />
       ),
       Failure: e => <Failure error={e} />,

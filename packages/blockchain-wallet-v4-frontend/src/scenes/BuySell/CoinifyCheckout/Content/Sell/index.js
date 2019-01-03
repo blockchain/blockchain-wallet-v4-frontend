@@ -42,7 +42,7 @@ class SellContainer extends React.Component {
       level,
       ...rest
     } = this.props
-    const { canTrade, step, checkoutBusy, coinifyBusy, checkoutError, kycState } = rest
+    const { canTrade, step, checkoutBusy, coinifyBusy, checkoutError, kycState, kycVerified } = rest
     const { fetchQuote, refreshSellQuote } = coinifyDataActions
     const { showModal } = modalActions
     const { coinifyNotAsked } = coinifyActions
@@ -82,6 +82,7 @@ class SellContainer extends React.Component {
           refreshQuote={refreshSellQuote}
           level={level}
           kycState={kycState}
+          kycVerified={kycVerified}
         />
       ),
       Failure: e => <Failure error={e} />,
