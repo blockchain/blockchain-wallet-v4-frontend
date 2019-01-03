@@ -81,7 +81,7 @@ const FiatConvertor = props => {
     form,
     verified
   } = props
-  const { kyc, canTrade, cannotTradeReason, canTradeAfter, kycNotFinished, kycPending } = val
+  const { canTrade, cannotTradeReason, canTradeAfter, kycPending, kycRejected } = val
   const currency = 'BTC'
   const level = val.level || { name: 1 }
   const isSell = form === 'coinifyCheckoutSell'
@@ -137,9 +137,8 @@ const FiatConvertor = props => {
         changeTab={changeTab}
         level={level}
         increaseLimit={increaseLimit}
-        kyc={kyc}
-        kycNotFinished={kycNotFinished}
         kycPending={kycPending}
+        kycRejected={kycRejected}
         verified={verified}
       />
     </Wrapper>

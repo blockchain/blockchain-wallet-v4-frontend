@@ -140,7 +140,7 @@ const LimitsAndErrorText = ({
   level,
   increaseLimit,
   kycPending,
-  kycNotFinished,
+  kycRejected,
   verified
 }) => {
   const getSellLimits = () => {
@@ -154,6 +154,32 @@ const LimitsAndErrorText = ({
         values={{ max: <a onClick={() => setMax(max)}>{max} BTC</a> }}
       />
     )
+  }
+
+  const getNotVerifiedMessage = () => {
+    if (kycRejected)
+      return <FormattedMessage
+        id='buy.quote_input.verification_rejected'
+        defaultMessage='Trading is disabled because identity verification failed.'
+      />
+    if (kycPending)
+      return <FormattedMessage
+        id='buy.quote_input.verification_pending'
+        defaultMessage='Trading is disabled while your identity verification is in review.'
+      />
+    return <Fragment>
+      <FormattedMessage
+        id='buy.quote_input.not_verified'
+        defaultMessage='Complete your identity verification to start buying & selling.'
+      />
+      {<br />}
+      <a onClick={increaseLimit}>
+        <FormattedMessage
+          id='buysell.quote_input.finish_verification'
+          defaultMessage='Finish now'
+        />
+      </a>
+    </Fragment>
   }
 
   if (!isSell && !canTrade) {
@@ -171,59 +197,36 @@ const LimitsAndErrorText = ({
   } else {
     return (
       <LimitsHelper>
-        {
-          verified ? (
-            <LimitsWrapper size='12px' weight={300}>
-              <FormattedMessage
-                id='buy.quote_input.remaining_card_buy_limit'
-                defaultMessage='Your remaining card buy limit is {cardMax}'
-                values={{
-                  cardMax: (
-                    <a onClick={() => setMax(limits.cardMax)}>
-                      {curr}
-                      {limits.cardMax}
-                    </a>
-                  )
-                }}
-              />
-              <FormattedMessage
-                id='buy.quote_input.remaining_bank_buy_limit'
-                defaultMessage='Your remaining bank buy limit is {bankMax}'
-                values={{
-                  bankMax: (
-                    <a onClick={() => setMax(limits.bankMax)}>
-                      {curr}
-                      {limits.bankMax}
-                    </a>
-                  )
-                }}
-              />
-            </LimitsWrapper>
-          ) : null
-        }
-        {!verified && !kycPending ? (
-          <FormattedMessage
-            id='buy.quote_input.not_verified'
-            defaultMessage='Complete your identity verification to start buying & selling.'
-          />
-        ) : !verified && kycPending ? (
-          <FormattedMessage
-            id='buy.quote_input.verification_pending'
-            defaultMessage='Trading is disabled while your identity verification is in review.'
-          />
+        {verified ? (
+          <LimitsWrapper size='12px' weight={300}>
+            <FormattedMessage
+              id='buy.quote_input.remaining_card_buy_limit'
+              defaultMessage='Your remaining card buy limit is {cardMax}'
+              values={{
+                cardMax: (
+                  <a onClick={() => setMax(limits.cardMax)}>
+                    {curr}
+                    {limits.cardMax}
+                  </a>
+                )
+              }}
+            />
+            <FormattedMessage
+              id='buy.quote_input.remaining_bank_buy_limit'
+              defaultMessage='Your remaining bank buy limit is {bankMax}'
+              values={{
+                bankMax: (
+                  <a onClick={() => setMax(limits.bankMax)}>
+                    {curr}
+                    {limits.bankMax}
+                  </a>
+                )
+              }}
+            />
+          </LimitsWrapper>
         ) : null}
-        {isSell && verified ? getSellLimits() : null}
-        {kycNotFinished && !kycPending && prop('name', level) < 2 ? (
-          <Fragment>
-            {<br />}
-            <a onClick={increaseLimit}>
-              <FormattedMessage
-                id='buysell.quote_input.finish_verification'
-                defaultMessage='Finish now'
-              />
-            </a>
-          </Fragment>
-        ) : null}
+        { verified && isSell ? getSellLimits() : null }
+        { !verified ? getNotVerifiedMessage() : null }
       </LimitsHelper>
     )
   }

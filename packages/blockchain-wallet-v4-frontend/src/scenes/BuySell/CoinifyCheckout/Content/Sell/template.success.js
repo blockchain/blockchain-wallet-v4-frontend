@@ -21,8 +21,8 @@ import media from 'services/ResponsiveService'
 
 const CheckoutWrapper = styled.div`
   display: grid;
-  grid-template-columns: 55% 35%;
-  grid-gap: 10%;
+  grid-template-columns: 55% 40%;
+  grid-gap: 5%;
   ${media.mobile`
     display: flex;
     flex-direction: column;
