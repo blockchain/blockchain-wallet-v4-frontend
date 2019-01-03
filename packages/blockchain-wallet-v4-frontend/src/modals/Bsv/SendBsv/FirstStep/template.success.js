@@ -5,6 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { model } from 'data'
 import { required, validBitcoinCashAddress } from 'services/FormHelper'
+import { removeWhitespace } from 'services/FormHelper/normalizers'
 import {
   Button,
   Icon,
@@ -92,6 +93,7 @@ const FirstStep = props => {
                 name='to'
                 placeholder='Paste or scan an address, or select a destination'
                 component={TextBox}
+                normalize={removeWhitespace}
                 validate={[required, validBitcoinCashAddress]}
                 autoFocus
               />

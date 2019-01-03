@@ -10,6 +10,7 @@ import {
 } from 'components/Form'
 import QRCodeCapture from 'components/QRCodeCapture'
 import { required, validBitcoinAddressOrPrivateKey } from 'services/FormHelper'
+import { removeWhitespace } from 'services/FormHelper/normalizers'
 import { spacing } from 'services/StyleService'
 import { Banner } from 'blockchain-info-components'
 
@@ -49,6 +50,7 @@ class ImportExternalBitcoinAddress extends React.PureComponent {
               <Field
                 name='addrOrPriv'
                 validate={[validBitcoinAddressOrPrivateKey, required]}
+                normalize={removeWhitespace}
                 component={TextBox}
               />
               <QRCodeCapture

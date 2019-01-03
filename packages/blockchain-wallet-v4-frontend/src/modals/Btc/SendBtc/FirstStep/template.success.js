@@ -61,6 +61,7 @@ import QRCodeCapture from 'components/QRCodeCapture'
 import RegularFeeLink from './RegularFeeLink'
 import PriorityFeeLink from './PriorityFeeLink'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import { removeWhitespace } from 'services/FormHelper/normalizers'
 
 const BrowserWarning = styled(Banner)`
   margin: -4px 0 8px;
@@ -186,6 +187,7 @@ const FirstStep = props => {
                 name='to'
                 placeholder='Paste or scan an address, or select a destination'
                 component={TextBox}
+                normalize={removeWhitespace}
                 validate={[required, validBitcoinAddress]}
                 autoFocus
                 data-e2e='sendBtcAddressTextBox'
