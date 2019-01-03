@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 import Wallets from './Wallets'
 import Transactions from './Transactions'
+import ImportedAddresses from './ImportedAddresses'
 
 const Wrapper = styled.div`
   & > :last-child {
@@ -21,6 +22,7 @@ class BsvContainer extends React.PureComponent {
     return (
       <Wrapper>
         <Wallets />
+        <ImportedAddresses />
         <Transactions />
       </Wrapper>
     )

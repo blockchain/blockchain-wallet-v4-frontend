@@ -11,8 +11,14 @@ import SecondStep from './SecondStep'
 
 class SendBtcContainer extends React.PureComponent {
   componentDidMount () {
-    const { to, description, amount, lockboxIndex } = this.props
-    this.props.actions.initialized({ to, description, amount, lockboxIndex })
+    const { from, to, description, amount, lockboxIndex } = this.props
+    this.props.actions.initialized({
+      from,
+      to,
+      description,
+      amount,
+      lockboxIndex
+    })
   }
 
   componentWillUnmount () {
@@ -21,19 +27,25 @@ class SendBtcContainer extends React.PureComponent {
 
   render () {
     const {
-      step,
-      position,
-      total,
-      closeAll,
       to,
+      step,
+      total,
+      amount,
+      position,
+      closeAll,
       description,
-      amount
+      excludeHDWallets
     } = this.props
 
     return (
       <SendBtc position={position} total={total} closeAll={closeAll}>
         {step === 1 && (
-          <FirstStep to={to} description={description} amount={amount} />
+          <FirstStep
+            to={to}
+            amount={amount}
+            description={description}
+            excludeHDWallets={excludeHDWallets}
+          />
         )}
         {step === 2 && <SecondStep />}
       </SendBtc>
