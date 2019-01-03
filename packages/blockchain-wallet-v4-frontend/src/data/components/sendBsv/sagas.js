@@ -59,8 +59,8 @@ export default ({ coreSagas }) => {
 
   const firstStepSubmitClicked = function*() {
     try {
-      yield put(A.sendBsvPaymentUpdated(Remote.Loading))
       let payment = (yield select(S.getPayment)).getOrElse({})
+      yield put(A.sendBsvPaymentUpdated(Remote.Loading))
       payment = coreSagas.payment.bsv.create({
         payment,
         network: settings.NETWORK_BSV
