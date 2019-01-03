@@ -28,7 +28,8 @@ class QuoteInput extends Component {
       defaultCurrency,
       limits,
       disabled,
-      type
+      type,
+      verified
     } = this.props
     return data.cata({
       Success: value => {
@@ -48,6 +49,7 @@ class QuoteInput extends Component {
             setMin={setMin}
             checkoutError={checkoutError}
             increaseLimit={increaseLimit}
+            verified={verified}
           />
         )
       },

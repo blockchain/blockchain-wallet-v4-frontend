@@ -78,7 +78,8 @@ const FiatConvertor = props => {
     defaultCurrency,
     symbol,
     increaseLimit,
-    form
+    form,
+    verified
   } = props
   const { kyc, canTrade, cannotTradeReason, canTradeAfter, kycNotFinished, kycPending } = val
   const currency = 'BTC'
@@ -87,9 +88,10 @@ const FiatConvertor = props => {
   const curr = isSell ? 'BTC' : symbol
 
   const reasonExplanation =
-    cannotTradeReason && getReasonExplanation(cannotTradeReason, canTradeAfter)
+    (cannotTradeReason || !verified) && getReasonExplanation(cannotTradeReason, canTradeAfter, verified)
 
   const inputsDisabled =
+    !verified ||
     disabled ||
     (!canTrade && !isSell) ||
     equals(checkoutError, 'effective_max_under_min')
@@ -138,6 +140,7 @@ const FiatConvertor = props => {
         kyc={kyc}
         kycNotFinished={kycNotFinished}
         kycPending={kycPending}
+        verified={verified}
       />
     </Wrapper>
   )

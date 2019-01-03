@@ -635,7 +635,13 @@ export const kycNotificationBodyHelper = status => {
 export const showKycStatus = state =>
   any(equals(state), ['pending', 'rejected']) ? state : false
 
-export const getReasonExplanation = (reason, time) => {
+export const getReasonExplanation = (reason, time, verified) => {
+  if (!verified)
+    return <FormattedMessage
+      id='scenes.coinify.cannottradereason.notverified'
+      defaultMessage='Trading is disabled because you have not completed identity verification.'
+    />
+
   const ONE_DAY_MS = 86400000
   const canTradeAfter = time
   const days = isNaN(canTradeAfter)

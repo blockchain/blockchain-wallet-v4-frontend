@@ -90,6 +90,7 @@ const CoinifyBuy = props => {
                 setMax={setMax}
                 setMin={setMin}
                 increaseLimit={handleKycAction}
+                verified={kycVerified}
               />
             </LeftContainer>
             <RightContainer>

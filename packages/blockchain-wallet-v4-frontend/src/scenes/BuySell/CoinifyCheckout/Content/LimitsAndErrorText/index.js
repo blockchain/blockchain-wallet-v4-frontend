@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import { Link, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 import media from 'services/ResponsiveService'
-import { equals, prop } from 'ramda'
+import { prop } from 'ramda'
 
 const Error = styled(Text)`
   position: absolute;
@@ -139,9 +139,9 @@ const LimitsAndErrorText = ({
   changeTab,
   level,
   increaseLimit,
-  kyc,
   kycPending,
-  kycNotFinished
+  kycNotFinished,
+  verified
 }) => {
   const getSellLimits = () => {
     let effBal = limits.effectiveMax / 1e8
@@ -171,20 +171,10 @@ const LimitsAndErrorText = ({
   } else {
     return (
       <LimitsHelper>
-        {isSell ? (
-          getSellLimits()
-        ) : equals(prop('name', level), '1') ? (
+        {!verified ? (
           <FormattedMessage
-            id='buy.quote_input.remaining_buy_limit'
-            defaultMessage='Your remaining buy limit is {max}'
-            values={{
-              max: (
-                <a onClick={() => setMax(limits.max)}>
-                  {curr}
-                  {limits.max}
-                </a>
-              )
-            }}
+            id='buy.quote_input.not_verified'
+            defaultMessage='Complete your identity verification to start buying & selling.'
           />
         ) : (
           <LimitsWrapper size='12px' weight={300}>
@@ -214,13 +204,17 @@ const LimitsAndErrorText = ({
             />
           </LimitsWrapper>
         )}
+        {isSell && verified ? getSellLimits() : null}
         {kycNotFinished && !kycPending && prop('name', level) < 2 ? (
-          <a onClick={increaseLimit}>
-            <FormattedMessage
-              id='buysell.quote_input.increase_limits'
-              defaultMessage=' Increase your limit.'
-            />
-          </a>
+          <Fragment>
+            {<br />}
+            <a onClick={increaseLimit}>
+              <FormattedMessage
+                id='buysell.quote_input.finish_verification'
+                defaultMessage='Finish now'
+              />
+            </a>
+          </Fragment>
         ) : null}
       </LimitsHelper>
     )

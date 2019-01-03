@@ -28,7 +28,8 @@ const OrderCheckout = ({
   setMax,
   setMin,
   increaseLimit,
-  onOrderCheckoutSubmit
+  onOrderCheckoutSubmit,
+  verified
 }) => {
   const quoteInputSpec = {
     method: type, // buy or sell
@@ -136,6 +137,7 @@ const OrderCheckout = ({
               setMax={setMax}
               setMin={setMin}
               increaseLimit={increaseLimit}
+              verified={verified}
             />
           </div>
         </Fragment>
