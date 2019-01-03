@@ -62,7 +62,7 @@ export default ({ api }) => {
       const transactionsAtBound = yield select(S.getTransactionsAtBound)
       if (transactionsAtBound && !reset) return
       yield put(A.fetchTransactionsLoading(reset))
-      const walletContext = yield select(selectors.wallet.getWalletContext)
+      const walletContext = yield select(S.getWalletContext)
       const context = yield select(S.getContext)
       const convertedAddress = convertFromCashAddrIfCashAddr(address)
       const data = yield call(api.fetchBchData, context, {

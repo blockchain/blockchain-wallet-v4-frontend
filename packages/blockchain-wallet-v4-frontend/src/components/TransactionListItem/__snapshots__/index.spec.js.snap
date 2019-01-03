@@ -34,6 +34,7 @@ exports[`ListItemContainer renders correctly 1`] = `
         "fetchMetadataBsvFailure": [Function],
         "fetchMetadataBsvLoading": [Function],
         "fetchMetadataBsvSuccess": [Function],
+        "setAccountArchived": [Function],
         "setTxNotesBsv": [Function],
       }
     }
