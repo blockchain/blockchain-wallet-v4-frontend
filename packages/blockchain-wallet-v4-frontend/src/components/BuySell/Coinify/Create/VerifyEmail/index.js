@@ -54,7 +54,7 @@ VerifyEmailContainer.propTypes = {
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch),
+  coinifyActions: bindActionCreators(actions.components.coinify, dispatch),
   securityCenterActions: bindActionCreators(
     actions.modules.securityCenter,
     dispatch

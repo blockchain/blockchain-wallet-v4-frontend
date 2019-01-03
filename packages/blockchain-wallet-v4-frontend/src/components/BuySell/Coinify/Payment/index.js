@@ -67,13 +67,13 @@ PaymentContainer.propTypes = {
 const mapStateToProps = state => ({
   data: getData(state),
   quote: getQuote(state).getOrElse(null),
-  coinifyBusy: selectors.modules.coinify.getCoinifyBusy(state)
+  coinifyBusy: selectors.components.coinify.getCoinifyBusy(state)
 })
 
 const mapDispatchToProps = dispatch => ({
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch),
+  coinifyActions: bindActionCreators(actions.components.coinify, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

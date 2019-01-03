@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import coinify from './coinify/reducers'
 import identityVerification from './identityVerification/reducers'
 import exchange from './exchange/reducers'
 import lockbox from './lockbox/reducers'
@@ -17,6 +18,7 @@ import uploadDocuments from './uploadDocuments/reducers'
 import veriff from './veriff/reducers'
 
 export default combineReducers({
+  coinify,
   identityVerification,
   exchange,
   exchangeHistory,

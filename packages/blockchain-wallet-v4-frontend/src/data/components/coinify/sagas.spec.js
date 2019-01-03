@@ -90,7 +90,7 @@ describe('coinifySagas', () => {
     const beforeDetermine = 'beforeDetermine'
 
     it('should select the country from state', () => {
-      saga.next().select(selectors.modules.coinify.getCoinifyCountry)
+      saga.next().select(selectors.components.coinify.getCoinifyCountry)
     })
 
     it('should call core signup with the payload', () => {
@@ -152,7 +152,7 @@ describe('coinifySagas', () => {
     const beforeDetermine = 'beforeDetermine'
 
     it('should select the country from state', () => {
-      saga.next().select(selectors.modules.coinify.getCoinifyCountry)
+      saga.next().select(selectors.components.coinify.getCoinifyCountry)
     })
 
     it('should call core signup with the payload', () => {

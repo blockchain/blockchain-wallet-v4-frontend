@@ -3,6 +3,7 @@ import activityList from './activityList/sagaRegister'
 import bchTransactions from './bchTransactions/sagaRegister'
 import btcTransactions from './btcTransactions/sagaRegister'
 import bsvTransactions from './bsvTransactions/sagaRegister'
+import coinify from './coinify/sagaRegister'
 import ethTransactions from './ethTransactions/sagaRegister'
 import xlmTransactions from './xlmTransactions/sagaRegister'
 import exchange from './exchange/sagaRegister'
@@ -38,6 +39,7 @@ export default ({ api, coreSagas, networks, options }) =>
     yield fork(bchTransactions())
     yield fork(btcTransactions())
     yield fork(bsvTransactions())
+    yield fork(coinify({ api, coreSagas, networks }))
     yield fork(ethTransactions())
     yield fork(xlmTransactions())
     yield fork(exchange({ api, coreSagas, networks }))

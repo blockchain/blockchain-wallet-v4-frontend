@@ -37,7 +37,7 @@ const getCoinifyUserCountry = state => {
   const profileCountry = selectors.core.data.coinify
     .getCountry(state)
     .getOrElse(null)
-  const userSelectedCountry = selectors.modules.coinify.getCoinifyCountry(state)
+  const userSelectedCountry = selectors.components.coinify.getCoinifyCountry(state)
   return userSelectedCountry || profileCountry
 }
 

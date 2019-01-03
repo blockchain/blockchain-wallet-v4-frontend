@@ -36,7 +36,7 @@ TabMenuBuySellStatusContainer.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
+  coinifyActions: bindActionCreators(actions.components.coinify, dispatch)
 })
 
 export default connect(

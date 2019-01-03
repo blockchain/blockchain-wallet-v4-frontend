@@ -5,7 +5,6 @@ import formReducer from './form/reducers'
 import alertsReducer from './alerts/reducers.js'
 import authReducer from './auth/reducers.js'
 import cacheReducer from './cache/reducers.js'
-import coinifyReducer from './modules/coinify/reducers.js'
 import goalsReducer from './goals/reducers.js'
 import logsReducer from './logs/reducers'
 import modalsReducer from './modals/reducers.js'
@@ -21,7 +20,6 @@ import qaReducer from './modules/qa/reducers.js'
 const rootReducer = {
   alerts: alertsReducer,
   auth: authReducer,
-  coinify: coinifyReducer,
   components: componentsReducer,
   form: formReducer,
   goals: goalsReducer,

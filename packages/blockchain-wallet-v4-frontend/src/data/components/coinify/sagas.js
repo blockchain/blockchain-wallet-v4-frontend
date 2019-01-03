@@ -16,7 +16,6 @@ const { NONE, VERIFIED } = model.profile.KYC_STATES
 const {
   COINIFY_CHECKOUT_STEPS,
   TRADE_DETAILS_MODAL,
-  PAYMENT_PATH,
   COINIFY_BUY_FORM,
   COINIFY_SELL_FORM,
   COINIFY_USER_LEVELS
@@ -133,7 +132,7 @@ export default ({ api, coreSagas, networks }) => {
         return
       }
       const state = yield select()
-      const p = path(PAYMENT_PATH, state)
+      const p = yield select(S.getCoinifyPayment)
       let payment = yield coreSagas.payment.btc.create({
         payment: p.getOrElse({}),
         network: networks.btc
@@ -208,7 +207,7 @@ export default ({ api, coreSagas, networks }) => {
           .chain()
           .init()
           .fee('priority')
-          .from(defaultIndex)
+          .from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
           .done()
         const effectiveBalance = prop('effectiveBalance', payment.value())
         const isMinOverEffectiveMax = service.isMinOverEffectiveMax(
@@ -256,7 +255,6 @@ export default ({ api, coreSagas, networks }) => {
       const values = yield select(selectors.form.getFormValues(form))
       const type = form === COINIFY_BUY_FORM ? 'buy' : 'sell'
       const isSell = type === 'sell'
-      const state = yield select()
 
       switch (field) {
         case 'leftVal':
@@ -287,7 +285,7 @@ export default ({ api, coreSagas, networks }) => {
 
           if (isSell) {
             let btcAmt = amount / 1e8
-            const payment = path(PAYMENT_PATH, state)
+            const payment = yield select(S.getCoinifyPayment)
             const effectiveBalance = prop(
               'effectiveBalance',
               payment.getOrElse(undefined)
@@ -325,7 +323,7 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'rightVal':
           if (isSell) {
-            const payment = path(PAYMENT_PATH, state)
+            const payment = yield select(S.getCoinifyPayment)
             const effectiveBalance = prop(
               'effectiveBalance',
               payment.getOrElse(undefined)

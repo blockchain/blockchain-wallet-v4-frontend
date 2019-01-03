@@ -96,7 +96,7 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
+  coinifyActions: bindActionCreators(actions.components.coinify, dispatch)
 })
 
 export default connect(

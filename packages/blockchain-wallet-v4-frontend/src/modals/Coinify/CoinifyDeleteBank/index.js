@@ -24,7 +24,7 @@ class CoinifyDeleteBankContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
+  coinifyActions: bindActionCreators(actions.components.coinify, dispatch)
 })
 
 const enhance = compose(

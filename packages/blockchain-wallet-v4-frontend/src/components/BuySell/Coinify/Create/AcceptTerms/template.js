@@ -21,7 +21,7 @@ import {
 import { prop } from 'ramda'
 import media from 'services/ResponsiveService'
 
-const { VERIFY } = model.coinify.REGISTER_STATES
+const { VERIFY } = model.components.coinify.REGISTER_STATES
 
 export const EMAIL_IN_USE_ERROR = 'email_address_and_partner_id_in_use'
 

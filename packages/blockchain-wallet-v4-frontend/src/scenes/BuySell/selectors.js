@@ -8,7 +8,7 @@ export const getData = createDeepEqualSelector(
     selectors.core.walletOptions.getOptions,
     selectors.core.kvStore.buySell.getMetadata,
     selectors.core.settings.getCountryCode,
-    selectors.modules.coinify.getCoinifySignupStep,
+    selectors.components.coinify.getCoinifySignupStep,
     selectors.core.walletOptions.getSFOXCountries,
     selectors.core.walletOptions.getSFOXStates,
     selectors.core.walletOptions.getCoinifyCountries

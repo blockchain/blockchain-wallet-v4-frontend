@@ -13,8 +13,8 @@ import {
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 import media from 'services/ResponsiveService'
 
-const { CHANGE } = model.coinify.REGISTER_STATES
-const { EMAIL, TERMS } = model.coinify.REGISTER_STEPS
+const { CHANGE } = model.components.coinify.REGISTER_STATES
+const { EMAIL, TERMS } = model.components.coinify.REGISTER_STEPS
 
 const CoinifyFaqFormMessage = styled(FaqFormMessage)`
   left: 60%;

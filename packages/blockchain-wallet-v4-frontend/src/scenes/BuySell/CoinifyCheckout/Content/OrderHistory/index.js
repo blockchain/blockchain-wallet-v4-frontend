@@ -1,5 +1,5 @@
 import React from 'react'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { getData, getTrade } from './selectors'
@@ -67,15 +67,15 @@ class OrderHistoryContainer extends React.Component {
 const mapStateToProps = state => ({
   data: getData(state),
   trade: getTrade(state),
-  step: path(['coinify', 'checkoutStep'], state),
-  busy: path(['coinify', 'coinifyBusy'], state),
-  cancelTradeId: path(['coinify', 'cancelTradeId'], state)
+  step: selectors.components.coinify.getCoinifyCheckoutStep(state),
+  busy: selectors.components.coinify.getCoinifyBusy(state),
+  cancelTradeId: selectors.components.coinify.getCoinifyCancelTradeId(state)
 })
 
 const mapDispatchToProps = dispatch => ({
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
-  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch),
+  coinifyActions: bindActionCreators(actions.components.coinify, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 

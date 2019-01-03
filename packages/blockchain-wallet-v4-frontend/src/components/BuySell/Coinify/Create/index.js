@@ -7,7 +7,7 @@ import { actions, model } from 'data'
 import { getData } from './selectors'
 import Create from './template'
 
-const { CREATE, VERIFY } = model.coinify.REGISTER_STATES
+const { CREATE, VERIFY } = model.components.coinify.REGISTER_STATES
 
 class CreateContainer extends PureComponent {
   state = {
@@ -61,7 +61,7 @@ CreateContainer.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  coinifyFrontendActions: bindActionCreators(actions.modules.coinify, dispatch),
+  coinifyFrontendActions: bindActionCreators(actions.components.coinify, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   securityCenterActions: bindActionCreators(
     actions.modules.securityCenter,

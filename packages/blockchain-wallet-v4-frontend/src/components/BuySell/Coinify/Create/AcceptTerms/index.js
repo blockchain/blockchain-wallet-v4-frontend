@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { actions, model } from 'data'
 import AcceptTerms from './template'
 
-const { CHANGE } = model.coinify.REGISTER_STATES
+const { CHANGE } = model.components.coinify.REGISTER_STATES
 
 class AcceptTermsContainer extends PureComponent {
   state = {
@@ -65,7 +65,7 @@ AcceptTermsContainer.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  coinifyFrontendActions: bindActionCreators(actions.modules.coinify, dispatch),
+  coinifyFrontendActions: bindActionCreators(actions.components.coinify, dispatch),
   securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
 })
 
