@@ -52,7 +52,7 @@ class VerifyContainer extends React.PureComponent {
         return (
           <MediaContextConsumer>
             {({ mobile }) =>
-              flowType === FLOW_TYPES.HIGH && mobile ? (
+              flowType === FLOW_TYPES.HIGH || mobile ? (
                 <HighFlow
                   email={email}
                   deeplink={deeplink}
