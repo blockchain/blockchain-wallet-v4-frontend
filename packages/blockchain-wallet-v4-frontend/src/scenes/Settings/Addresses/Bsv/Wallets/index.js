@@ -30,7 +30,10 @@ class BsvWalletsContainer extends React.Component {
 
   onSwapBsv = index => {
     this.setState({ toSwap: true }, () => {
-      this.props.routerActions.push('/swap')
+      this.props.routerActions.push({
+        pathname: '/swap',
+        state: { from: 'BSV', to: 'BTC' }
+      })
     })
   }
 
