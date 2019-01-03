@@ -112,13 +112,14 @@ const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
       return (
         <div>
           <FormattedMessage
-            id='buy.quote_input.effective_max_under_min1'
-            defaultMessage='Your balance is less than the minimum sell amount minus priority fee {min} BTC. '
+            id='buy.quote_input.sell_effective_max_under_min1'
+            defaultMessage="You don't have enough funds to sell the minimum amount, {min} BTC."
             values={{ min: limits.min }}
           />
+          {' '}
           <FormattedMessage
-            id='buy.quote_input.effective_max_under_min2'
-            defaultMessage='Fund your wallet by {buyLink} or {exchangeLink} before selling.'
+            id='buy.quote_input.sell_effective_max_under_min2'
+            defaultMessage='Add funds by {buyLink} or {exchangeLink}.'
             values={{ buyLink, exchangeLink }}
           />
         </div>
@@ -164,7 +165,7 @@ const LimitsAndErrorText = ({
     if (kycPending)
       return <FormattedMessage
         id='buy.quote_input.verification_pending'
-        defaultMessage='Trading is disabled while your identity verification is in review.'
+        defaultMessage='Trading is disabled while your identity verification is pending.'
       />
     if (!verified)
       return <Fragment>

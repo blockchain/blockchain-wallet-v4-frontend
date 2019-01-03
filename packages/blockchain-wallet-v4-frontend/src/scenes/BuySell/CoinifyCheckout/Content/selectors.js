@@ -2,7 +2,7 @@ import { lift, equals, or } from 'ramda'
 
 import { selectors, model } from 'data'
 
-const { PENDING, UNDER_REVIEW, VERIFIED, REJECTED } = model.profile.KYC_STATES
+const { PENDING, UNDER_REVIEW, VERIFIED, REJECTED, EXPIRED } = model.profile.KYC_STATES
 
 export const getQuoteInputData = state => {
   const kycState = selectors.modules.profile.getUserKYCState(state)
@@ -13,7 +13,7 @@ export const getQuoteInputData = state => {
 
   const kycPending = kycState.map(kyc => or(equals(kyc, PENDING), equals(kyc, UNDER_REVIEW))).getOrElse(false)
   const kycVerified = kycState.map(equals(VERIFIED)).getOrElse(false)
-  const kycRejected = kycState.map(equals(REJECTED)).getOrElse(false)
+  const kycRejected = kycState.map(kyc => or(equals(kyc, REJECTED), equals(kyc, EXPIRED))).getOrElse(false)
 
   return lift((level, canTrade, cannotTradeReason, canTradeAfter) => ({
     level,
