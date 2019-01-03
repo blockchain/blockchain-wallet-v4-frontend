@@ -13,22 +13,22 @@ import {
 } from 'services/CoinifyService'
 
 const OrderCheckout = ({
-  changeTab,
-  quoteR,
   account,
-  onFetchQuote,
-  reason,
-  limits,
-  checkoutError,
-  type,
-  defaultCurrency,
-  symbol,
-  checkoutBusy,
   busy,
+  changeTab,
+  checkoutBusy,
+  checkoutError,
+  defaultCurrency,
+  onFetchQuote,
+  increaseLimit,
+  limits,
+  onOrderCheckoutSubmit,
+  quoteR,
+  reason,
   setMax,
   setMin,
-  increaseLimit,
-  onOrderCheckoutSubmit,
+  symbol,
+  type,
   verified
 }) => {
   const quoteInputSpec = {

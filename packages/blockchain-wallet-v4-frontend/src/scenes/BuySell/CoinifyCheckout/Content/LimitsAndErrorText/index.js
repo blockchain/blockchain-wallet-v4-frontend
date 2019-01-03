@@ -171,39 +171,47 @@ const LimitsAndErrorText = ({
   } else {
     return (
       <LimitsHelper>
-        {!verified ? (
+        {
+          verified ? (
+            <LimitsWrapper size='12px' weight={300}>
+              <FormattedMessage
+                id='buy.quote_input.remaining_card_buy_limit'
+                defaultMessage='Your remaining card buy limit is {cardMax}'
+                values={{
+                  cardMax: (
+                    <a onClick={() => setMax(limits.cardMax)}>
+                      {curr}
+                      {limits.cardMax}
+                    </a>
+                  )
+                }}
+              />
+              <FormattedMessage
+                id='buy.quote_input.remaining_bank_buy_limit'
+                defaultMessage='Your remaining bank buy limit is {bankMax}'
+                values={{
+                  bankMax: (
+                    <a onClick={() => setMax(limits.bankMax)}>
+                      {curr}
+                      {limits.bankMax}
+                    </a>
+                  )
+                }}
+              />
+            </LimitsWrapper>
+          ) : null
+        }
+        {!verified && !kycPending ? (
           <FormattedMessage
             id='buy.quote_input.not_verified'
             defaultMessage='Complete your identity verification to start buying & selling.'
           />
-        ) : (
-          <LimitsWrapper size='12px' weight={300}>
-            <FormattedMessage
-              id='buy.quote_input.remaining_card_buy_limit'
-              defaultMessage='Your remaining card buy limit is {cardMax}'
-              values={{
-                cardMax: (
-                  <a onClick={() => setMax(limits.cardMax)}>
-                    {curr}
-                    {limits.cardMax}
-                  </a>
-                )
-              }}
-            />
-            <FormattedMessage
-              id='buy.quote_input.remaining_bank_buy_limit'
-              defaultMessage='Your remaining bank buy limit is {bankMax}'
-              values={{
-                bankMax: (
-                  <a onClick={() => setMax(limits.bankMax)}>
-                    {curr}
-                    {limits.bankMax}
-                  </a>
-                )
-              }}
-            />
-          </LimitsWrapper>
-        )}
+        ) : !verified && kycPending ? (
+          <FormattedMessage
+            id='buy.quote_input.verification_pending'
+            defaultMessage='Trading is disabled while your identity verification is in review.'
+          />
+        ) : null}
         {isSell && verified ? getSellLimits() : null}
         {kycNotFinished && !kycPending && prop('name', level) < 2 ? (
           <Fragment>

@@ -1,8 +1,8 @@
 import { formValueSelector } from 'redux-form'
-import { lift, equals } from 'ramda'
+import { lift, equals, prop } from 'ramda'
 import { model, selectors } from 'data'
 
-const { VERIFIED } = model.profile.KYC_STATES
+const { TIERS_STATES } = model.profile
 
 export const getProfileData = state => {
   const profile = selectors.core.data.coinify.getProfile(state)
@@ -24,7 +24,9 @@ export const getCurrency = state => selectors.core.data.coinify.getLevel(state)
 
 export const getData = state => {
   const kycState = selectors.modules.profile.getUserKYCState(state).getOrElse(false)
-  const kycVerified = equals(kycState, VERIFIED)
+  const tier2Data = selectors.modules.profile.getTier(2, state).getOrElse(null)
+  // const kycVerified = equals(kycState, KYC_STATES.VERIFIED)
+  const kycVerified = equals(prop('state', tier2Data), TIERS_STATES.VERIFIED)
 
   return {
     data: getProfileData(state),
