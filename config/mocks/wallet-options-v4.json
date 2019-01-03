@@ -81,6 +81,14 @@
           "exchange": true
         }
       },
+      "bsv": {
+        "availability": {
+          "send": true,
+          "request": false,
+          "lockbox": false,
+          "exchange": true
+        }
+      },
       "eth": {
         "availability": {
           "send": true,
