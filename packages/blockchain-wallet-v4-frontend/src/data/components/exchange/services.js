@@ -23,7 +23,7 @@ export const convertBaseToStandard = (coin, value) => {
       return Exchange.convertBchToBch({ value, fromUnit: 'SAT', toUnit: 'BCH' })
         .value
     case 'BSV':
-      return Exchange.convertBsvToBsv({ value, fromUnit: 'SAT', toUnit: 'BCH' })
+      return Exchange.convertBsvToBsv({ value, fromUnit: 'SAT', toUnit: 'BSV' })
         .value
     case 'BTC':
       return Exchange.convertBitcoinToBitcoin({
@@ -54,7 +54,7 @@ export const convertStandardToBase = (coin, value) => {
       return Exchange.convertBchToBch({ value, fromUnit: 'BCH', toUnit: 'SAT' })
         .value
     case 'BSV':
-      return Exchange.convertBsvToBsv({ value, fromUnit: 'BCH', toUnit: 'SAT' })
+      return Exchange.convertBsvToBsv({ value, fromUnit: 'BSV', toUnit: 'SAT' })
         .value
     case 'BTC':
       return Exchange.convertBitcoinToBitcoin({
