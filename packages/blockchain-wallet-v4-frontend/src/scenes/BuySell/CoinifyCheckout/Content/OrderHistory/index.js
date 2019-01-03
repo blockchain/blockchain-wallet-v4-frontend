@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux'
 import { getData, getTrade } from './selectors'
 import Success from './template.success.js'
 import Loading from 'components/BuySell/Loading'
-import { path } from 'ramda'
 import Failure from 'components/BuySell/Failure'
 
 class OrderHistoryContainer extends React.Component {
