@@ -7,10 +7,15 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, model } from 'data'
 import { getData } from './selectors'
 import Wallets from './template'
+const { WALLET_TX_SEARCH } = model.form
 
 class BsvWalletsContainer extends React.Component {
   shouldComponentUpdate (nextProps) {
     return !Remote.Loading.is(nextProps.data)
+  }
+
+  onUnarchiveWallet = index => {
+    this.props.bsvActions.setAccountArchived(index, false)
   }
 
   onSendBsv = index => {
@@ -28,6 +33,7 @@ class BsvWalletsContainer extends React.Component {
           <Wallets
             search={search && search.toLowerCase()}
             data={value}
+            onUnarchiveWallet={this.onUnarchiveWallet}
             onSendBsv={this.onSendBsv}
             onSwapBsv={this.onSwapBsv}
           />
@@ -42,10 +48,11 @@ class BsvWalletsContainer extends React.Component {
 
 const mapStateToProps = state => ({
   data: getData(state),
-  search: formValueSelector('walletTxSearch')(state, 'search')
+  search: formValueSelector(WALLET_TX_SEARCH)(state, 'search')
 })
 
 const mapDispatchToProps = dispatch => ({
+  bsvActions: bindActionCreators(actions.core.kvStore.bsv, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

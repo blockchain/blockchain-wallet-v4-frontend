@@ -97,20 +97,31 @@ const Success = props => {
           width='20%'
           style={{ display: 'flex', justifyContent: 'flex-end' }}
         >
-          <ComponentDropdown
-            down
-            forceSelected
-            color={'gray-5'}
-            selectedComponent={
-              <Link weight={400} size='13px'>
-                <FormattedMessage
-                  id='scenes.settings.addresses.bch.wallets.manage'
-                  defaultMessage='Manage Wallet'
-                />
-              </Link>
-            }
-            components={[
-              !isArchived && (
+          {isArchived ? (
+            <Link
+              weight={400}
+              size='13px'
+              onClick={() => onSetArchived(wallet.value, false)}
+            >
+              <FormattedMessage
+                id='scenes.settings.addresses.bch.unarchive'
+                defaultMessage='Unarchive'
+              />
+            </Link>
+          ) : (
+            <ComponentDropdown
+              down
+              forceSelected
+              color={'gray-5'}
+              selectedComponent={
+                <Link weight={400} size='13px'>
+                  <FormattedMessage
+                    id='scenes.settings.addresses.bch.wallets.manage'
+                    defaultMessage='Manage Wallet'
+                  />
+                </Link>
+              }
+              components={[
                 <ClickableText
                   size='small'
                   onClick={() => onEditBchAccountLabel(wallet.value)}
@@ -119,10 +130,8 @@ const Success = props => {
                     id='scenes.settings.addresses.bch.edit_name'
                     defaultMessage='Edit Wallet Name'
                   />
-                </ClickableText>
-              ),
-              !isDefault &&
-                !isArchived && (
+                </ClickableText>,
+                !isDefault && (
                   <ClickableText
                     size='small'
                     onClick={() => onMakeDefault(wallet.value)}
@@ -133,18 +142,7 @@ const Success = props => {
                     />
                   </ClickableText>
                 ),
-              !isDefault &&
-                (isArchived ? (
-                  <ClickableText
-                    size='small'
-                    onClick={() => onSetArchived(wallet.value, false)}
-                  >
-                    <FormattedMessage
-                      id='scenes.settings.addresses.bch.unarchive'
-                      defaultMessage='Unarchive'
-                    />
-                  </ClickableText>
-                ) : (
+                !isDefault && (
                   <ClickableText
                     size='small'
                     onClick={() => onSetArchived(wallet.value, true)}
@@ -154,8 +152,7 @@ const Success = props => {
                       defaultMessage='Archive'
                     />
                   </ClickableText>
-                )),
-              !isArchived && (
+                ),
                 <ClickableText
                   size='small'
                   onClick={() => onShowXPub(wallet.value)}
@@ -164,9 +161,7 @@ const Success = props => {
                     id='scenes.settings.addresses.bch.show_xpub'
                     defaultMessage='Show xPub'
                   />
-                </ClickableText>
-              ),
-              !isArchived && (
+                </ClickableText>,
                 <ClickableText
                   size='small'
                   onClick={() => onShowChangeAddrs(wallet.value)}
@@ -176,9 +171,9 @@ const Success = props => {
                     defaultMessage='Show Change Addresses'
                   />
                 </ClickableText>
-              )
-            ].filter(x => x)}
-          />
+              ].filter(x => x)}
+            />
+          )}
         </TableCell>
       </TableRow>
     )
