@@ -29,14 +29,15 @@ const PaymentOptionContainer = styled.div`
 const PaymentOption = styled.div`
   display: flex;
   flex-direction: column;
-  border: 2px solid #004a7c;
+  border: 1px solid ${props => props.theme['gray-1']};
   padding: 15px;
   border-radius: 4px;
   width: 130px;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   background-color: ${props =>
-    props.isChecked ? props.theme['brand-primary'] : 'white'};
+    props.isChecked ? props.theme['brand-secondary'] : 'white'};
   opacity: ${props => (props.disabled ? 0.3 : 1)};
+  margin-right: ${props => props.marginRight};
 `
 const OptionLabel = styled.label`
   display: flex;
@@ -108,7 +109,7 @@ export const cardOptionHelper = (
   const renderContainer = (isChecked, handlePaymentClick) => (
     <PaymentOptionContainer>
       {renderField()}
-      <Text size='14px' weight={300}>
+      <Text size='12px' weight={300}>
         <FormattedMessage
           id='coinifyexchangedata.payment.mediumhelpers.card.detail1'
           defaultMessage='Receive bitcoin instantly'
@@ -130,7 +131,7 @@ export const cardOptionHelper = (
   const renderText = (currency, amount, limit) => (
     <PaymentOptionContainer>
       {renderField()}
-      <Text size='14px' weight={300} style={spacing('mt-25 mb-15')}>
+      <Text size='12px' weight={300} style={spacing('mt-25 mb-15')}>
         <FormattedMessage
           id='coinifyexchangedata.payment.mediumhelpers.card.abovecardlimit'
           defaultMessage='{amount} {currency} is above your daily credit card limit of {limit} {currency}. Please use a bank transfer or lower your purchase amount.'
@@ -192,6 +193,7 @@ export const bankOptionHelper = (
       isChecked={isChecked}
       onClick={() => handlePaymentClick('bank')}
       disabled={bankDisabled}
+      marginRight='25px'
     >
       <input
         type='radio'
@@ -227,89 +229,38 @@ export const bankOptionHelper = (
         component={PaymentRadioBank}
         validate={[required]}
       />
-      {bankDisabled ? (
-        <BankDisabledText
-          size='14px'
-          weight={300}
-          color='gray-2'
-          style={spacing('mt-25')}
-        >
-          {equals(bankDisabled, 'disable_limits') ? (
-            <FormattedMessage
-              id='scenes.buysell.coinifyexchangedata.payment.bank.unavailable_limits'
-              defaultMessage='The quoted amount is more than your current bank limit.'
-            />
-          ) : (
-            <Fragment>
-              <FormattedMessage
-                id='scenes.buysell.coinifyexchangedata.payment.bank.unavailable_kyc'
-                defaultMessage='Bank transfers are unavailable until Identity Verification has been finished.'
-              />
-              {kycNone && !isCoinifyKycVerified ? (
-                <Link
-                  size='12px'
-                  weight={300}
-                  style={spacing('mt-10')}
-                  onClick={triggerKyc}
-                >
-                  <FormattedMessage
-                    id='scenes.buysell.coinifyexchangedata.payment.bank.finishkyc'
-                    defaultMessage='Finish Identity Verification'
-                  />
-                  <br />
-                </Link>
-              ) : null}
-            </Fragment>
-          )}
-        </BankDisabledText>
-      ) : (
-        <Text size='14px' weight={300}>
-          {!isCoinifyKycVerified ? (
-            <Fragment>
-              <FormattedMessage
-                id='coinifyexchangedata.payment.mediumhelpers.bank.detail1'
-                defaultMessage='One time ID verification'
-              />{' '}
-              <br />
-            </Fragment>
-          ) : null}
-          <FormattedMessage
-            id='coinifyexchangedata.payment.mediumhelpers.bank.detail2'
-            defaultMessage='Receive bitcoin in 2-3 days'
-          />
-          <br />
-          <FormattedMessage
-            id='coinifyexchangedata.payment.mediumhelpers.bank.detail3'
-            defaultMessage='0.25% Payment Fee'
-          />
-        </Text>
-      )}
+      <Text size='12px' weight={300}>
+        <FormattedMessage
+          id='coinifyexchangedata.payment.mediumhelpers.bank.detail2'
+          defaultMessage='Receive bitcoin in 2-3 days'
+        />
+        <br />
+        <FormattedMessage
+          id='coinifyexchangedata.payment.mediumhelpers.bank.detail3'
+          defaultMessage='0.25% Payment Fee'
+        />
+      </Text>
     </PaymentOptionContainer>
   )
 
-  const renderText = () => (
-    <PaymentOptionContainer>
-      <Text>Can't use bank medium</Text>
-    </PaymentOptionContainer>
-  )
-
-  if (quote.baseCurrency === 'BTC') {
-    if (
-      Math.abs(quote.quoteAmount) >=
-      limits.bank.minimumInAmounts[quote.quoteCurrency]
-    ) {
-      return renderContainer(isChecked, handlePaymentClick)
-    } else {
-      renderText()
-    }
-  } else {
-    if (
-      Math.abs(quote.baseAmount) >=
-      limits.bank.minimumInAmounts[quote.baseCurrency]
-    ) {
-      return renderContainer(isChecked, handlePaymentClick)
-    } else {
-      renderText()
-    }
-  }
+  return renderContainer(isChecked, handlePaymentClick)
+  // if (quote.baseCurrency === 'BTC') {
+  //   if (
+  //     Math.abs(quote.quoteAmount) >=
+  //     limits.bank.minimumInAmounts[quote.quoteCurrency]
+  //   ) {
+  //     return renderContainer(isChecked, handlePaymentClick)
+  //   } else {
+  //     renderText()
+  //   }
+  // } else {
+  //   if (
+  //     Math.abs(quote.baseAmount) >=
+  //     limits.bank.minimumInAmounts[quote.baseCurrency]
+  //   ) {
+  //     return renderContainer(isChecked, handlePaymentClick)
+  //   } else {
+  //     renderText()
+  //   }
+  // }
 }

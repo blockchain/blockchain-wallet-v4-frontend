@@ -8,7 +8,13 @@ import renderFaq from 'components/FaqDropdown'
 import { StepTransition } from 'components/Utilities/Stepper'
 import { path } from 'ramda'
 
-import { Button, HeartbeatLoader, Link } from 'blockchain-info-components'
+import {
+  Button,
+  HeartbeatLoader,
+  Link,
+  Text,
+  Icon
+} from 'blockchain-info-components'
 import {
   Form,
   CancelWrapper,
@@ -23,6 +29,7 @@ import { cardOptionHelper, bankOptionHelper } from './mediumHelpers'
 import media from 'services/ResponsiveService'
 
 const PaymentForm = styled(Form)`
+  justify-content: center;
   ${media.mobile`
     flex-direction: column;
   `};
@@ -67,23 +74,48 @@ const PaymentColRightInner = styled(ColRightInner)`
     padding-left: 0px;
   `};
 `
-
-const faqQuestions = [
-  {
-    question: (
-      <FormattedMessage
-        id='coinifyexchangedata.payment.helper1.question'
-        defaultMessage='Are there transaction fees?'
-      />
-    ),
-    answer: (
-      <FormattedMessage
-        id='coinifyexchangedata.payment.helper1.answer'
-        defaultMessage='There is a 3% convenience fee when buying bitcoin with a credit card in order to expedite the transaction. Buying or selling through a bank transfer does not include a convenience fee, although there is a small trading fee (0.25%) that Coinify requires in order to mitigate risk.'
-      />
-    )
-  }
-]
+const PaymentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+const PaymentHeaderContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 65%;
+  text-align: center;
+  margin-bottom: 50px;
+  margin-top: 20px;
+  ${media.mobile`
+    width: 100%;
+    margin-bottom: 20px;
+  `};
+`
+const HeaderText = styled(Text)`
+  margin-bottom: 15px;
+`
+const PaymentMediumsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 400px;
+  ${media.mobile`
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  `};
+`
+const BackButton = styled.div`
+  height: 70px;
+  width: 70px;
+  border: 1px solid ${props => props.theme['gray-1']};
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 30px;
+  cursor: pointer;
+`
 
 const busyHelper = busy =>
   !busy ? (
@@ -124,14 +156,66 @@ const Payment = props => {
   } = props
   const { limits, kycVerified, kycNone, isCoinifyKycVerified } = value
   const cardDisabled = isCardDisabled(quote, limits)
-  const bankDisabled = isBankDisabled(quote, limits, kycVerified, isCoinifyKycVerified)
-  if (bankDisabled && medium !== 'card') handlePaymentClick('card')
+  const bankDisabled = false
+  // const bankDisabled = isBankDisabled(
+  //   quote,
+  //   limits,
+  //   kycVerified,
+  //   isCoinifyKycVerified
+  // )
+  // if (bankDisabled && medium !== 'card') handlePaymentClick('card')
   const prefillCardMax = limits => handlePrefillCardMax(limits)
 
   const isChecked = type => medium === type
+
   return (
     <PaymentForm>
-      <PaymentColLeft>
+      <PaymentContainer>
+        <StepTransition prev Component={BackButton}>
+          <Icon name='left-arrow' size='20px' color='brand-secondary' cursor />
+        </StepTransition>
+        <PaymentHeaderContainer>
+          <HeaderText size='32px' weight={500} color='brand-primary'>
+            <FormattedMessage
+              id='components.buysell.coinify.payment.header'
+              defaultMessage='Select a Payment Method'
+            />
+          </HeaderText>
+          <Text size='16px' weight={300}>
+            <FormattedMessage
+              id='components.buysell.coinify.payment.sub_header1'
+              defaultMessage='You can link your bank account or credit card to buy cryptocurrency.'
+            />
+          </Text>
+          <Text size='16px' weight={300}>
+            <FormattedMessage
+              id='components.buysell.coinify.payment.sub_header2'
+              defaultMessage='Select the account that you would like to use to fund your purchases. You can always change your payment method.'
+            />
+          </Text>
+        </PaymentHeaderContainer>
+        <PaymentMediumsContainer>
+          {bankOptionHelper(
+            quote,
+            limits,
+            isChecked('bank'),
+            handlePaymentClick,
+            bankDisabled,
+            triggerKyc,
+            kycNone,
+            isCoinifyKycVerified
+          )}
+          {cardOptionHelper(
+            quote,
+            limits,
+            isChecked('card'),
+            handlePaymentClick,
+            cardDisabled,
+            prefillCardMax
+          )}
+        </PaymentMediumsContainer>
+      </PaymentContainer>
+      {/* <PaymentColLeft>
         <BorderBox>
           <InputWrapper style={spacing('mb-40')}>
             <PartnerHeader>
@@ -168,8 +252,8 @@ const Payment = props => {
             )}
           </PaymentWrapper>
         </BorderBox>
-      </PaymentColLeft>
-      <PaymentColRight>
+      </PaymentColLeft> */}
+      {/* <PaymentColRight>
         <PaymentColRightInner>
           <ButtonContainer>
             {!isCoinifyKycVerified && medium === 'bank' ? (
@@ -203,7 +287,7 @@ const Payment = props => {
           </CancelWrapper>
           <FaqWrapper>{renderFaq(faqQuestions)}</FaqWrapper>
         </PaymentColRightInner>
-      </PaymentColRight>
+      </PaymentColRight> */}
     </PaymentForm>
   )
 }
