@@ -3,7 +3,7 @@ import { insert, path, assoc } from 'ramda'
 import { SHOW_CONFIRMATION } from '../components/exchange/actionTypes'
 import moment from 'moment'
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   swapTiming: null,
   events: []
 }
