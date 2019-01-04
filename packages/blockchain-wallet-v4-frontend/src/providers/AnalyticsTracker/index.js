@@ -36,7 +36,7 @@ class AnalyticsTracker extends React.PureComponent {
     if (head(prevAnalytics) !== head(analytics)) {
       const { trackingData } = head(analytics)
       this.iframe.current.contentWindow.postMessage(
-        { method: 'trackEvent', trackingData: [trackingData] },
+        { method: 'trackEvent', trackingData },
         targetOrigin
       )
     }

@@ -1,6 +1,5 @@
 import * as AT from './actionTypes'
-import { insert, path, contains, assoc } from 'ramda'
-import { TRACKING_ACTIONS } from './model'
+import { insert, path, assoc } from 'ramda'
 import { SHOW_CONFIRMATION } from '../components/exchange/actionTypes'
 import moment from 'moment'
 
@@ -15,11 +14,7 @@ const analytics = (state = INITIAL_STATE, action) => {
   switch (type) {
     case AT.LOG_EVENT: {
       const pathIsValid = path(['trackingData', 'length'], payload) > 0
-      const actionIsValid = contains(
-        path(['trackingData', 1], payload),
-        TRACKING_ACTIONS
-      )
-      if (pathIsValid && actionIsValid) {
+      if (pathIsValid) {
         const newEvents = insert(0, payload, state.events)
         return assoc('events', newEvents, state)
       }
