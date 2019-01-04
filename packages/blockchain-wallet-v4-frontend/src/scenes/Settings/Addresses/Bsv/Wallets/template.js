@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { filter, take } from 'ramda'
 
-import { LinkContainer } from 'react-router-bootstrap'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 import {
@@ -54,7 +53,7 @@ const ClickableText = styled(Text)`
 
 const Success = props => {
   const { accounts, wallets, defaultIndex } = props.data
-  const { search, onSendBsv, onUnarchiveWallet } = props
+  const { search, onSendBsv, onSwapBsv, onUnarchiveWallet } = props
   const isMatch = wallet =>
     !search || wallet.label.toLowerCase().indexOf(search) > -1
   const matchedWallets = filter(isMatch, take(accounts.length, wallets))
@@ -180,14 +179,19 @@ const Success = props => {
                           defaultMessage='Send'
                         />
                       </ClickableText>
-                      <LinkContainer to={'/swap'}>
+                      <ClickableText
+                        weight={400}
+                        size='13px'
+                        onClick={onSwapBsv}
+                        style={{ marginRight: '8px' }}
+                      >
                         <Link weight={400} size='13px'>
                           <FormattedMessage
                             id='scenes.settings.addresses.bsv.wallets.swap'
                             defaultMessage='Swap'
                           />
                         </Link>
-                      </LinkContainer>
+                      </ClickableText>
                     </React.Fragment>
                   )}
                 </TableCell>

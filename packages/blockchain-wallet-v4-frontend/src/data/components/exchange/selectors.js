@@ -94,6 +94,35 @@ export const getActiveBchAccounts = createDeepEqualSelector(
   }
 )
 
+export const getActiveBsvAccounts = createDeepEqualSelector(
+  [
+    coreSelectors.wallet.getHDAccounts,
+    coreSelectors.data.bsv.getAddresses,
+    coreSelectors.kvStore.bsv.getAccounts
+  ],
+  (bsvAccounts, bsvDataR, bsvMetadataR) => {
+    const transform = (bsvData, bsvMetadata) =>
+      bsvAccounts
+        .map(acc => {
+          const index = prop('index', acc)
+          const xpub = prop('xpub', acc)
+          const data = prop(xpub, bsvData)
+          const metadata = bsvMetadata[index]
+
+          return {
+            archived: prop('archived', metadata),
+            coin: 'BSV',
+            label: prop('label', metadata) || xpub,
+            address: index,
+            balance: prop('final_balance', data),
+            type: ADDRESS_TYPES.ACCOUNT
+          }
+        })
+        .filter(isActive)
+    return lift(transform)(bsvDataR, bsvMetadataR)
+  }
+)
+
 export const getActiveBtcAccounts = createDeepEqualSelector(
   [
     coreSelectors.wallet.getHDAccounts,
@@ -184,6 +213,7 @@ export const getActiveXlmAccounts = createDeepEqualSelector(
 export const getActiveAccounts = state => ({
   BTC: getActiveBtcAccounts(state).getOrElse([]),
   BCH: getActiveBchAccounts(state).getOrElse([]),
+  BSV: getActiveBsvAccounts(state).getOrElse([]),
   ETH: getActiveEthAccounts(state).getOrElse([]),
   XLM: getActiveXlmAccounts(state).getOrElse([])
 })
