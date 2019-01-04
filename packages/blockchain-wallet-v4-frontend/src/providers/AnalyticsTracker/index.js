@@ -24,8 +24,9 @@ class AnalyticsTracker extends React.PureComponent {
 
   componentDidUpdate (prevProps) {
     if (!this.iframe.current) return
-    const { analytics, location, targetOrigin } = this.props
+    const { analytics, location, domains } = this.props
     const { analytics: prevAnalytics, location: prevLocation } = prevProps
+    const targetOrigin = domains.walletHelper
 
     // SET USER ID
     this.iframe.current.contentWindow.postMessage(
