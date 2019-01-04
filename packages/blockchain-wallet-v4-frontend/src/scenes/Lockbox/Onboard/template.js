@@ -19,7 +19,7 @@ const marginContent = '25px'
 const Wrapper = styled.div`
   width: 100%;
   height: 90%;
-  padding: 30px;
+  padding: 10px;
   box-sizing: border-box;
 `
 const IntroContainer = styled.div`
@@ -28,7 +28,7 @@ const IntroContainer = styled.div`
 
 const GetStartedContainer = styled.div`
   position: relative;
-  margin: 0 auto ${marginContent};
+  margin: 0 auto 10px;
   padding: ${containerPadding};
   width: ${containerWidth};
   box-sizing: border-box;
@@ -60,16 +60,11 @@ const GetStartedHeader = styled(Text)`
   `};
 `
 const GetStartedButton = styled(Button)`
-  width: 250px;
-  margin: 45px 0 0 35px;
-  ${media.mobile`
-    width: 100%;
-    margin: 0;
-  `};
+  width: 100%;
+  margin: 25px 0 15px;
 `
 const GetStartedText = styled(Text)`
   width: 350px;
-  margin-bottom: ${marginContent};
   ${media.mobile`
     width: 100%;
   `};
@@ -105,18 +100,22 @@ const LearnMoreContainer = styled.div`
     flex-direction: column;
   `};
 `
-
+const SetupGuideContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`
 const LearnMoreLink = styled(Link)`
   display: inline-flex;
 `
-
 const LearnMoreText = styled(Text)`
   margin-right: 15px;
   color: ${props => props.theme['brand-secondary']};
 `
-
+const SetupGuideText = styled(Text)`
+  margin: 0 4px;
+  color: ${props => props.theme['brand-secondary']};
+`
 const BrowserWarning = styled(Banner)``
-
 const disableSetup = !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
 
 const Onboard = props => {
@@ -149,6 +148,32 @@ const Onboard = props => {
                 defaultMessage='Get Started'
               />
             </GetStartedButton>
+            <SetupGuideContainer>
+              <Text size='13px' weight={300}>
+                <FormattedMessage
+                  id='scenes.lockbox.welcome.trouble'
+                  defaultMessage='Having trouble? View our'
+                />
+              </Text>
+              {/* TODO: where does this link? */}
+              <LearnMoreLink
+                href={domains['comRoot'] + '/lockbox'}
+                target='_blank'
+              >
+                <SetupGuideText size='13px' weight={300}>
+                  <FormattedMessage
+                    id='scenes.lockbox.welcome.setupguide'
+                    defaultMessage='Setup Guide'
+                  />
+                </SetupGuideText>
+                <Icon
+                  name='short-right-arrow'
+                  color='brand-secondary'
+                  size='13px'
+                  style={{ marginTop: '2px' }}
+                />
+              </LearnMoreLink>
+            </SetupGuideContainer>
           </GetStartedContent>
           <PoweredByContainer>
             <PoweredByText size='11px' weight={300} color='brand-primary'>
