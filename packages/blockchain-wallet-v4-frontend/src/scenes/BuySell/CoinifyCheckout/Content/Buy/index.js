@@ -32,16 +32,10 @@ class CoinifyBuyContainer extends React.PureComponent {
       modalActions,
       coinifyActions,
       coinifyDataActions,
-      buyQuoteR,
-      currency,
-      paymentMedium,
-      trade,
       formActions,
-      canTrade,
-      level,
+      coinifyBusy,
       ...rest
     } = this.props
-    const { step, checkoutBusy, coinifyBusy, subscriptions, trades, kycState, kycVerified } = rest
     const { fetchQuote, refreshBuyQuote } = coinifyDataActions
     const { showModal } = modalActions
     const { coinifyNotAsked, coinifyNextCheckoutStep } = coinifyActions
@@ -58,22 +52,14 @@ class CoinifyBuyContainer extends React.PureComponent {
       Success: value => (
         <Success
           busy={busy}
-          buyQuoteR={buyQuoteR}
-          canTrade={canTrade}
           clearTradeError={coinifyNotAsked}
           changeTab={tab => change('buySellTabStatus', 'status', tab)}
-          checkoutBusy={checkoutBusy}
           coinifyNextCheckoutStep={step => coinifyNextCheckoutStep(step)}
-          currency={currency}
           fetchBuyQuote={quote =>
             fetchQuote({ quote, nextAddress: value.nextAddress })
           }
           handleKycAction={() => showModal(KYC_MODAL)}
           initiateBuy={this.startBuy}
-          kycState={kycState}
-          kycVerified={kycVerified}
-          level={level}
-          paymentMedium={paymentMedium}
           refreshQuote={refreshBuyQuote}
           setMax={amt =>
             formActions.change('coinifyCheckoutBuy', 'leftVal', amt)
@@ -82,11 +68,8 @@ class CoinifyBuyContainer extends React.PureComponent {
             formActions.change('coinifyCheckoutBuy', 'leftVal', amt)
           }
           showModal={showModal}
-          step={step}
-          subscriptions={subscriptions}
-          trade={trade}
-          trades={trades}
           value={value}
+          {...rest}
         />
       ),
       Failure: e => <Failure error={e} />,

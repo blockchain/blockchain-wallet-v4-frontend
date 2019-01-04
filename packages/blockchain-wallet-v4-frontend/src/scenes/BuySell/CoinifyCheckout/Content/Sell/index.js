@@ -30,19 +30,14 @@ class SellContainer extends React.Component {
 
   render () {
     const {
+      coinifyBusy,
       data,
       modalActions,
       coinifyActions,
       coinifyDataActions,
       formActions,
-      sellQuoteR,
-      currency,
-      paymentMedium,
-      trade,
-      level,
       ...rest
     } = this.props
-    const { canTrade, step, checkoutBusy, coinifyBusy, checkoutError, kycState, kycVerified } = rest
     const { fetchQuote, refreshSellQuote } = coinifyDataActions
     const { showModal } = modalActions
     const { coinifyNotAsked } = coinifyActions
@@ -59,30 +54,20 @@ class SellContainer extends React.Component {
       Success: value => (
         <Success
           value={value}
-          canTrade={canTrade}
+          busy={busy}
           changeTab={tab => change('buySellTabStatus', 'status', tab)}
           showModal={showModal}
-          sellQuoteR={sellQuoteR}
           fetchSellQuote={quote =>
             fetchQuote({ quote, nextAddress: value.nextAddress })
           }
-          currency={currency}
-          checkoutBusy={checkoutBusy}
           setMax={btcAmt => change('coinifyCheckoutSell', 'rightVal', btcAmt)}
           setMin={btcAmt => change('coinifyCheckoutSell', 'rightVal', btcAmt)}
-          paymentMedium={paymentMedium}
           initiateSell={this.startSell}
-          step={step}
-          busy={busy}
           clearTradeError={() => coinifyNotAsked()}
-          trade={trade}
           onOrderCheckoutSubmit={this.submitQuote}
-          checkoutError={checkoutError}
           handleKycAction={() => showModal(KYC_MODAL)}
           refreshQuote={refreshSellQuote}
-          level={level}
-          kycState={kycState}
-          kycVerified={kycVerified}
+          {...rest}
         />
       ),
       Failure: e => <Failure error={e} />,

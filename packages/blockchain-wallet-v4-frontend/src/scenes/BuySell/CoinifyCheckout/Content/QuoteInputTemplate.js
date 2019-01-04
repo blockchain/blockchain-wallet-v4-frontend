@@ -3,18 +3,12 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { equals } from 'ramda'
-
-import { Icon } from 'blockchain-info-components'
 import { SelectBoxCoinifyCurrency, NumberBoxDebounced } from 'components/Form'
-import { getReasonExplanation } from 'services/CoinifyService'
 import media from 'services/ResponsiveService'
-import LimitsAndErrorText from './LimitsAndErrorText'
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 40px;
   display: flex;
-  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
@@ -27,6 +21,7 @@ const FiatConvertorInput = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   width: 100%;
   height: 100%;
   margin-bottom: 0px;
@@ -45,56 +40,38 @@ const Container = styled.div`
 `
 const Unit = styled.span`
   padding: 0 15px;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 300;
   position: absolute;
-  color: ${props => props.theme['gray-4']};
-`
-const ArrowLeft = styled(Icon)`
-  margin-left: 10px;
-  color: #bbb;
-  ${media.mobile`
-    display: none;
-  `};
-`
-const ArrowRight = styled(Icon)`
-  margin-left: -10px;
-  margin-right: 10px;
-  color: #bbb;
-  ${media.mobile`
-    display: none;
-  `};
+  color: ${props => props.theme['gray-2']};
+  padding-right: 42px;
 `
 
 const FiatConvertor = props => {
   const {
     val,
-    changeTab,
     disabled,
-    setMax,
-    setMin,
-    limits,
     checkoutError,
     defaultCurrency,
-    symbol,
-    increaseLimit,
     form,
     verified
   } = props
-  const { canTrade, cannotTradeReason, canTradeAfter, kycPending, kycRejected } = val
+  const {
+    canTrade
+  } = val
   const currency = 'BTC'
-  const level = val.level || { name: 1 }
   const isSell = form === 'coinifyCheckoutSell'
-  const curr = isSell ? 'BTC' : symbol
-
-  const reasonExplanation =
-    (cannotTradeReason || !verified) && getReasonExplanation(cannotTradeReason, canTradeAfter, verified)
 
   const inputsDisabled =
     !verified ||
     disabled ||
     (!canTrade && !isSell) ||
     equals(checkoutError, 'effective_max_under_min')
+
+  const BORDER_COLOR = 'gray-1'
+  const HEIGHT = '72px'
+  const FONT_SIZE = '18px'
+  const FONT_COLOR = checkoutError ? 'error' : 'brand-primary'
 
   return (
     <Wrapper>
@@ -106,41 +83,35 @@ const FiatConvertor = props => {
             disabled={inputsDisabled}
             borderRightNone={1}
             currency
+            height={HEIGHT}
+            color={FONT_COLOR}
+            size={FONT_SIZE}
+            borderColor={BORDER_COLOR}
+            paddingLeft='25px'
           />
           <Field
             name='currency'
             component={SelectBoxCoinifyCurrency}
             defaultDisplay={defaultCurrency}
             isSell={isSell}
+            borderColor={BORDER_COLOR}
+            disabled={inputsDisabled}
           />
         </Container>
-        <ArrowLeft size='16px' name='left-arrow' />
-        <ArrowRight size='16px' name='right-arrow' />
         <Container>
           <Field
             name='rightVal'
             component={NumberBoxDebounced}
             disabled={inputsDisabled}
+            height={HEIGHT}
+            borderTopNone
+            color={FONT_COLOR}
+            size={FONT_SIZE}
+            borderColor={BORDER_COLOR}
           />
           <Unit>{currency}</Unit>
         </Container>
       </FiatConvertorInput>
-      <LimitsAndErrorText
-        isSell={isSell}
-        canTrade={canTrade}
-        reasonExplanation={reasonExplanation}
-        checkoutError={checkoutError}
-        limits={limits}
-        curr={curr}
-        setMax={setMax}
-        setMin={setMin}
-        changeTab={changeTab}
-        level={level}
-        increaseLimit={increaseLimit}
-        kycPending={kycPending}
-        kycRejected={kycRejected}
-        verified={verified}
-      />
     </Wrapper>
   )
 }

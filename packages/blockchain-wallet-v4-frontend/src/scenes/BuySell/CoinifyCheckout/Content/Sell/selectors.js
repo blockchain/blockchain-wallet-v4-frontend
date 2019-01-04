@@ -37,7 +37,9 @@ export const getData = state => {
     step: selectors.components.coinify.getCoinifyCheckoutStep(state),
     coinifyBusy: selectors.components.coinify.getCoinifyBusy(state),
     checkoutError: selectors.components.coinify.getCoinifyCheckoutError(state),
-    canTrade: selectors.core.data.coinify.canTrade(state).getOrElse(false),
+    canTrade: selectors.core.data.coinify.canTrade(state),
+    cannotTradeReason: selectors.core.data.coinify.cannotTradeReason(state),
+    canTradeAfter: selectors.core.data.coinify.canTradeAfter(state),
     kycState,
     kycVerified,
     level: selectors.core.data.coinify.getLevel(state)

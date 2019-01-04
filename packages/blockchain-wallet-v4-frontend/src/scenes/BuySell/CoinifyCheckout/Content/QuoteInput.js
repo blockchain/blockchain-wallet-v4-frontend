@@ -18,12 +18,7 @@ class QuoteInput extends Component {
   render () {
     const {
       data,
-      changeTab,
-      symbol,
-      setMax,
-      setMin,
       checkoutError,
-      increaseLimit,
       defaultCurrency,
       limits,
       disabled,
@@ -37,17 +32,10 @@ class QuoteInput extends Component {
         return (
           <QuoteInputTemplate
             val={value}
-            changeTab={changeTab}
             disabled={disabled}
-            unit={'__required__'}
-            currency={'__required__'}
             limits={limits}
             defaultCurrency={defaultCurrency}
-            symbol={symbol}
-            setMax={setMax}
-            setMin={setMin}
             checkoutError={checkoutError}
-            increaseLimit={increaseLimit}
             verified={verified}
           />
         )

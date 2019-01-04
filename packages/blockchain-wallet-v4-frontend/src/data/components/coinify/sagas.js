@@ -22,7 +22,7 @@ const {
 } = coinifyModel
 
 export const sellDescription = `Exchange Trade CNY-`
-export const logLocation = 'modules/coinify/sagas'
+export const logLocation = 'components/coinify/sagas'
 
 export default ({ api, coreSagas, networks }) => {
   const handleAfterSignup = function*(user) {

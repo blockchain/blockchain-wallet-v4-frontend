@@ -493,11 +493,11 @@ export const kycHeaderHelper = status => {
   switch (status) {
     case NONE:
       return {
-        color: 'brand-primary',
+        color: 'error',
         text: (
           <FormattedMessage
-            id='scenes.coinify_details_modal.kyc.header.incomplete'
-            defaultMessage='Identity Verification Incomplete'
+            id='scenes.buy_sell.coinify.kyc.header.incomplete'
+            defaultMessage='Incomplete'
           />
         )
       }
@@ -506,8 +506,8 @@ export const kycHeaderHelper = status => {
         color: 'brand-primary',
         text: (
           <FormattedMessage
-            id='scenes.coinify_details_modal.kyc.header.pending'
-            defaultMessage='Identity Verification Pending'
+            id='scenes.buy_sell.coinify.kyc.header.pending'
+            defaultMessage='Pending'
           />
         )
       }
@@ -516,18 +516,18 @@ export const kycHeaderHelper = status => {
         color: 'brand-primary',
         text: (
           <FormattedMessage
-            id='scenes.coinify_details_modal.kyc.header.reviewing'
-            defaultMessage='Identity Verification In Review'
+            id='scenes.buy_sell.coinify.kyc.header.reviewing'
+            defaultMessage='In Review'
           />
         )
       }
     case VERIFIED:
       return {
-        color: 'brand-primary',
+        color: 'success',
         text: (
           <FormattedMessage
-            id='scenes.coinify_details_modal.kyc.header.completed'
-            defaultMessage='Identity Verification Completed'
+            id='scenes.buy_sell.coinify.kyc.header.completed'
+            defaultMessage='Completed'
           />
         )
       }
@@ -536,8 +536,8 @@ export const kycHeaderHelper = status => {
         color: 'error',
         text: (
           <FormattedMessage
-            id='scenes.buysell.coinify.kyc.header.failed'
-            defaultMessage='Identity Verification Failed'
+            id='scenes.buy_sell.coinify.kyc.header.failed'
+            defaultMessage='Failed'
           />
         )
       }
@@ -546,8 +546,8 @@ export const kycHeaderHelper = status => {
         color: 'error',
         text: (
           <FormattedMessage
-            id='scenes.buysell.coinify.kyc.header.expired'
-            defaultMessage='Identity Verification Expired'
+            id='scenes.buy_sell.coinify.kyc.header.expired'
+            defaultMessage='Expired'
           />
         )
       }

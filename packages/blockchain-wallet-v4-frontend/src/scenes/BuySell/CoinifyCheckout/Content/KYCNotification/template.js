@@ -12,15 +12,29 @@ import { model } from 'data'
 
 const { NONE } = model.profile.KYC_STATES
 
-const ISXContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 12px 15px;
-  border: 1px solid #dddddd;
-`
 const Wrapper = styled.div`
+  padding: 30px;
+  border: 1px solid ${props => props.theme['gray-1']};
+  border-radius: 10px;
+`
+const KycContainer = styled.div`
   display: flex;
   flex-direction: column;
+`
+const Header = styled.div`
+  flex-direction: column;
+  display: flex;
+  div:first-child {
+    margin-bottom: 5px;
+  }
+`
+const Divider = styled.div`
+  border-bottom: 1px solid ${props => props.theme['gray-1']};
+  padding-top: 20px;
+  margin-bottom: 20px;
+`
+const CompleteButton = styled(Button)`
+  border-radius: 6px;
 `
 
 const KYCNotification = props => {
@@ -31,29 +45,33 @@ const KYCNotification = props => {
 
   return (
     <Wrapper>
-      <ISXContainer>
-        <Text
-          size='13px'
-          color={prop('color', header)}
-          weight={400}
-          style={spacing('mb-20')}
-        >
-          {prop('text', header)}
-        </Text>
+      <KycContainer>
+        <Header>
+          <Text size='14px'>
+            <FormattedMessage
+              id='scenes.buy_sell.kyc_notification.header'
+              defaultMessage='Identity Verification'
+            />
+          </Text>
+          <Text size='13px' color={prop('color', header)} weight={400}>
+            {prop('text', header)}
+          </Text>
+        </Header>
+        <Divider />
         <Text size='13px' weight={300} style={spacing('mb-20')}>
           {prop('text', body)}
         </Text>
         {equals(NONE, kycState) ? (
-          <Button onClick={onTrigger} nature='empty-secondary'>
+          <CompleteButton onClick={onTrigger} nature='empty-secondary'>
             <Text size='13px' color='brand-secondary'>
               <FormattedMessage
                 id='scenes.buy_sell.kyc_notification.complete'
                 defaultMessage='Complete Verification'
               />
             </Text>
-          </Button>
+          </CompleteButton>
         ) : null}
-      </ISXContainer>
+      </KycContainer>
     </Wrapper>
   )
 }

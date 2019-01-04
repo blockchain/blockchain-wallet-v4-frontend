@@ -19,7 +19,7 @@ import media from 'services/ResponsiveService'
 
 const CheckoutWrapper = styled.div`
   display: grid;
-  grid-template-columns: 55% 40%;
+  grid-template-columns: 35% 30%;
   grid-gap: 5%;
   ${media.mobile`
     display: flex;
@@ -40,9 +40,12 @@ const CoinifyBuy = props => {
     fetchBuyQuote,
     refreshQuote,
     buyQuoteR,
+    cannotTradeReason,
+    canTradeAfter,
     clearTradeError,
     currency,
     checkoutBusy,
+    checkoutError,
     setMax,
     setMin,
     paymentMedium,
@@ -79,17 +82,21 @@ const CoinifyBuy = props => {
           <CheckoutWrapper>
             <LeftContainer>
               <OrderCheckout
-                quoteR={buyQuoteR}
-                onFetchQuote={fetchBuyQuote}
-                limits={limits.buy}
-                type={'buy'}
-                reason={'has_remaining'} // placeholder for now - coinify does not require a reason
-                defaultCurrency={defaultCurrency}
-                symbol={symbol}
+                cannotTradeReason={cannotTradeReason}
+                canTrade={canTrade}
+                canTradeAfter={canTradeAfter}
                 checkoutBusy={checkoutBusy}
+                checkoutError={checkoutError}
+                defaultCurrency={defaultCurrency}
+                increaseLimit={handleKycAction}
+                limits={limits.buy}
+                onFetchQuote={fetchBuyQuote}
+                quoteR={buyQuoteR}
+                reason={'has_remaining'} // placeholder for now - coinify does not require a reason
+                symbol={symbol}
                 setMax={setMax}
                 setMin={setMin}
-                increaseLimit={handleKycAction}
+                type={'buy'}
                 verified={kycVerified}
               />
             </LeftContainer>

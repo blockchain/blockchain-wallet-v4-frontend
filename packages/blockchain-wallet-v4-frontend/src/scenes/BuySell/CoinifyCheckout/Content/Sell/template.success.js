@@ -21,7 +21,7 @@ import media from 'services/ResponsiveService'
 
 const CheckoutWrapper = styled.div`
   display: grid;
-  grid-template-columns: 55% 40%;
+  grid-template-columns: 35% 30%;
   grid-gap: 5%;
   ${media.mobile`
     display: flex;
@@ -32,6 +32,8 @@ const CheckoutWrapper = styled.div`
 const Sell = props => {
   const {
     canTrade,
+    cannotTradeReason,
+    canTradeAfter,
     changeTab,
     fetchSellQuote,
     refreshQuote,
@@ -76,6 +78,7 @@ const Sell = props => {
           <CheckoutWrapper>
             <div>
               <OrderCheckout
+                canTrade={canTrade}
                 changeTab={changeTab}
                 quoteR={sellQuoteR}
                 onFetchQuote={fetchSellQuote}
@@ -91,6 +94,8 @@ const Sell = props => {
                 checkoutError={checkoutError}
                 increaseLimit={handleKycAction}
                 verified={kycVerified}
+                cannotTradeReason={cannotTradeReason}
+                canTradeAfter={canTradeAfter}
               />
             </div>
             <div>
