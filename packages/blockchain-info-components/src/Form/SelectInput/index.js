@@ -57,8 +57,8 @@ class SelectInputContainer extends React.PureComponent {
         handleChange={this.handleChange}
         searchEnabled={this.props.searchEnabled}
         grouped={grouped}
-        onBlur={this.onBlur}
         {...rest}
+        onBlur={this.onBlur}
       />
     )
   }

@@ -1,11 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { getData } from './selectors'
-import Success from './template.success'
+import Wallets from './template'
 import { formValueSelector } from 'redux-form'
 import { Remote } from 'blockchain-wallet-v4/src'
+const { WALLET_TX_SEARCH } = model.form
 
 class BchWalletsContainer extends React.Component {
   shouldComponentUpdate (nextProps) {
@@ -45,7 +46,7 @@ class BchWalletsContainer extends React.Component {
 
     return data.cata({
       Success: value => (
-        <Success
+        <Wallets
           search={search && search.toLowerCase()}
           data={value}
           {...props}
@@ -61,7 +62,7 @@ class BchWalletsContainer extends React.Component {
 
 const mapStateToProps = state => ({
   data: getData(state),
-  search: formValueSelector('settingsAddresses')(state, 'search')
+  search: formValueSelector(WALLET_TX_SEARCH)(state, 'search')
 })
 
 const mapDispatchToProps = dispatch => ({

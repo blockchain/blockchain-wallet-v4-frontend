@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default ({ coreSagas }) => {
   const transferEthSagas = sagas({ coreSagas })
 
-  return function*() {
+  return function* transferEthSaga () {
     yield takeLatest(
       AT.CONFIRM_TRANSFER_ETH,
       transferEthSagas.confirmTransferEth

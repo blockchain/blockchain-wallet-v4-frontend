@@ -8,13 +8,9 @@ import ErrorModal from './template'
 import { selectors } from '../../data'
 
 class ErrorBoundary extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      error: null,
-      errorInfo: null
-    }
-    this.onSubmit = this.onSubmit.bind(this)
+  state = {
+    error: null,
+    errorInfo: null
   }
 
   componentDidCatch (error, info) {
@@ -24,7 +20,7 @@ class ErrorBoundary extends React.Component {
     })
   }
 
-  onSubmit () {
+  onSubmit = () => {
     this.setState({ error: null, errorInfo: null })
     if (this.props.isAuthenticated) {
       this.props.history.push('/home')
@@ -41,6 +37,7 @@ class ErrorBoundary extends React.Component {
           error={this.state.error}
           errorInfo={this.state.errorInfo}
           onSubmit={this.onSubmit}
+          {...this.props}
         />
       )
     }

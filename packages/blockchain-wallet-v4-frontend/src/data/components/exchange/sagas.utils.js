@@ -36,6 +36,7 @@ export default ({ coreSagas, networks }) => {
 
   const btcOptions = [settings.NETWORK_BTC, PROVISIONAL_BTC_SCRIPT]
   const bchOptions = [settings.NETWORK_BCH, PROVISIONAL_BCH_SCRIPT]
+  const bsvOptions = [settings.NETWORK_BCH, PROVISIONAL_BCH_SCRIPT]
   const ethOptions = [settings.NETWORK_ETH, null]
   const xlmOptions = [null, null]
   const calculateProvisionalPayment = function*(source, amount) {
@@ -46,6 +47,7 @@ export default ({ coreSagas, networks }) => {
       const [network, provisionalScript] = prop(coin, {
         BTC: btcOptions,
         BCH: bchOptions,
+        BSV: bsvOptions,
         ETH: ethOptions,
         XLM: xlmOptions
       })
@@ -92,6 +94,15 @@ export default ({ coreSagas, networks }) => {
     switch (coin) {
       case 'BCH':
         payment = yield coreSagas.payment.bch
+          .create({ network: settings.NETWORK_BCH })
+          .chain()
+          .init()
+          .fee('priority')
+          .from(addressOrIndex, addressType)
+          .done()
+        break
+      case 'BSV':
+        payment = yield coreSagas.payment.bsv
           .create({ network: settings.NETWORK_BCH })
           .chain()
           .init()
@@ -156,6 +167,14 @@ export default ({ coreSagas, networks }) => {
           .fee('priority')
           .amount(parseInt(amount))
         break
+      case 'BSV':
+        payment = coreSagas.payment.bsv
+          .create({ network: settings.NETWORK_BCH })
+          .chain()
+          .init()
+          .fee('priority')
+          .amount(parseInt(amount))
+        break
       case 'BTC':
         payment = coreSagas.payment.btc
           .create({ network: networks.btc })
@@ -208,6 +227,11 @@ export default ({ coreSagas, networks }) => {
     return head(bchAccounts.getOrFail('Could not get BCH HD accounts.'))
   }
 
+  const getDefaultBsvAccountValue = function*() {
+    const bsvAccounts = yield select(S.getActiveBsvAccounts)
+    return head(bsvAccounts.getOrFail('Could not get BSV HD accounts.'))
+  }
+
   const getDefaultBtcAccountValue = function*() {
     const btcAccounts = yield select(S.getActiveBtcAccounts)
     return head(btcAccounts.getOrFail('Could not get BTC HD accounts.'))
@@ -227,6 +251,8 @@ export default ({ coreSagas, networks }) => {
     switch (coin) {
       case 'BCH':
         return yield call(getDefaultBchAccountValue)
+      case 'BSV':
+        return yield call(getDefaultBsvAccountValue)
       case 'BTC':
         return yield call(getDefaultBtcAccountValue)
       case 'ETH':

@@ -77,6 +77,14 @@
         "availability": {
           "send": true,
           "request": true,
+          "lockbox": true,
+          "exchange": true
+        }
+      },
+      "bsv": {
+        "availability": {
+          "send": true,
+          "request": false,
           "lockbox": false,
           "exchange": true
         }
@@ -251,6 +259,7 @@
     "comRoot": "https://www.blockchain.com",
     "ledger": "https://manager.api.live.ledger.com",
     "ledgerSocket": "wss://api.ledgerwallet.com",
-    "horizon": "https://horizon.stellar.org"
+    "horizon": "https://horizon.stellar.org",
+    "veriff": "https://magic.veriff.me"
   }
 }

@@ -260,7 +260,7 @@ export default ({ coreSagas }) => {
 
   const toToggled = function*() {
     try {
-      yield put(change('sendXlm', 'to', ''))
+      yield put(change(FORM, 'to', ''))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'toToggled', e))
     }

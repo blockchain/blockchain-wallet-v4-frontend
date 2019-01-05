@@ -12,9 +12,10 @@ import Page from './Page'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
 import Menu from 'scenes/Transactions/Menu'
-import AddrMenu from 'scenes/Settings/Addresses/Menu'
 import LockboxMenu from '../../scenes/Lockbox/Menu'
 import ExchangeMenu from 'scenes/Exchange/Menu'
+import ExchangeProfileMenu from 'scenes/Settings/Profile/Menu'
+import SettingsAddressesMenu from 'scenes/Settings/Addresses/Menu'
 
 import media from 'services/ResponsiveService'
 
@@ -75,8 +76,6 @@ const WalletLayout = props => {
             <Top>
               <MenuTop />
             </Top>
-            {location.pathname === '/settings/addresses/btc' && <AddrMenu />}
-            {location.pathname === '/settings/addresses/bch' && <AddrMenu />}
             {location.pathname.includes('/btc/transactions') && (
               <Menu coin='BTC' />
             )}
@@ -89,12 +88,16 @@ const WalletLayout = props => {
             {location.pathname.includes('/xlm/transactions') && (
               <Menu coin='XLM' />
             )}
-            {location.pathname.includes('/exchange') && (
+            {location.pathname.includes('/swap') && (
               <ExchangeMenu
-                historySelected={location.pathname.includes(
-                  '/exchange/history'
-                )}
+                historySelected={location.pathname.includes('/swap/history')}
               />
+            )}
+            {location.pathname.includes('/settings/addresses') && (
+              <SettingsAddressesMenu location={location} />
+            )}
+            {location.pathname.includes('/settings/profile') && (
+              <ExchangeProfileMenu />
             )}
             {location.pathname.includes('/lockbox') && <LockboxMenu />}
             <Page>{children}</Page>

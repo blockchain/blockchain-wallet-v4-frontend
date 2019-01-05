@@ -65,6 +65,7 @@ exports[`User Exists modal Renders correctly 1`] = `
         height="40px"
         nature="primary"
         rounded={false}
+        size="14px"
         small={false}
         uppercase={false}
       >

@@ -115,7 +115,6 @@ export default ({ coreSagas }) => {
           }
           break
         case 'from':
-          yield put(A.sendBchFirstStepToToggled(false))
           const fromType = prop('type', payload)
           if (is(String, payload)) {
             yield payment.from(payload, fromType)

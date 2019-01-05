@@ -194,12 +194,37 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
           />
         </Tooltip>
+        <Tooltip id='sendBsv.firststep.share_tooltip'>
+          <FormattedMessage
+            id='modals.sendBsv.firststep.share_tooltip'
+            defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
+          />
+        </Tooltip>
         <Tooltip id='sendxlm.addr' maxWidth='initial' />
         <Tooltip id='signmessage.label.tooltip'>
           <FormattedMessage
             id='modals.signmessage.label'
             defaultMessage="By signing a message, you can prove that you own this bitcoin address. You can verify signed messages by clicking on 'More Actions' > 'Verify Message'."
           />
+        </Tooltip>
+        <Tooltip id='swaplimit.airdrops.tooltip'>
+          <TextGroup inline>
+            <FormattedMessage
+              id='scenes.profile.identityverification.swaplimit.airdrops'
+              defaultMessage='By completing Tier 2 you are automatically eligible for our airdrop program.'
+            />
+            <Link
+              size='12px'
+              weight={300}
+              href='https://support.blockchain.com/hc/en-us/categories/360001126692-Airdrop-Program'
+              target='_blank'
+            >
+              <FormattedMessage
+                id='scenes.profile.identityverification.swaplimit.airdrops.learnmore'
+                defaultMessage='Learn more.'
+              />
+            </Link>
+          </TextGroup>
         </Tooltip>
         <Tooltip id='faq.tooltip'>
           <FormattedMessage
@@ -211,6 +236,12 @@ class Tooltips extends React.PureComponent {
           <FormattedMessage
             id='refresh.tooltip.description'
             defaultMessage='Refresh'
+          />
+        </Tooltip>
+        <Tooltip id='verifyMessage'>
+          <FormattedMessage
+            id='modals.verifymessage.tooltip'
+            defaultMessage='Verify a message signed by the owner of a particular Bitcoin address.'
           />
         </Tooltip>
         <Tooltip id='whatsnew.tooltip'>

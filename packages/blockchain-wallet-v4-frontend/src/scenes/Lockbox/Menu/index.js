@@ -18,9 +18,9 @@ class LockboxMenuContainer extends React.PureComponent {
           {...rest}
         />
       ),
-      Loading: () => <div>Loading</div>,
-      Failure: () => <div>Failure</div>,
-      NotAsked: () => null
+      Loading: () => <div />,
+      Failure: () => <div />,
+      NotAsked: () => <div />
     })
   }
 }

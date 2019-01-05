@@ -1,10 +1,5 @@
 import * as AT from './actionTypes'
 
-// ROUTING
-export const determineLockboxRoute = () => ({
-  type: AT.DETERMINE_LOCKBOX_ROUTE
-})
-
 // CONNECTIONS
 export const pollForDeviceApp = (
   appRequested,
@@ -70,15 +65,16 @@ export const saveNewDeviceKvStoreFailure = payload => ({
 })
 
 // NEW DEVICE AUTHENTICITY
-export const checkDeviceAuthenticity = () => ({
-  type: AT.CHECK_DEVICE_AUTHENTICITY
+export const checkDeviceAuthenticity = deviceIndex => ({
+  type: AT.CHECK_DEVICE_AUTHENTICITY,
+  payload: { deviceIndex }
 })
 export const checkDeviceAuthenticityLoading = () => ({
   type: AT.CHECK_DEVICE_AUTHENTICITY_LOADING
 })
-export const checkDeviceAuthenticityFailure = failure => ({
+export const checkDeviceAuthenticityFailure = isAuthentic => ({
   type: AT.CHECK_DEVICE_AUTHENTICITY_FAILURE,
-  payload: { failure }
+  payload: { isAuthentic }
 })
 export const checkDeviceAuthenticitySuccess = isAuthentic => ({
   type: AT.CHECK_DEVICE_AUTHENTICITY_SUCCESS,
@@ -179,8 +175,15 @@ export const newDeviceBtcInstall = () => ({
 export const resetAppChangeStatus = () => ({
   type: AT.RESET_APP_CHANGE_STATUS
 })
-// new coins
+
+// MISC
+export const determineLockboxRoute = () => ({
+  type: AT.DETERMINE_LOCKBOX_ROUTE
+})
 export const saveCoinMD = (deviceIndex, coin) => ({
   type: AT.SAVE_COIN_MD,
   payload: { deviceIndex, coin }
+})
+export const lockboxModalClose = () => ({
+  type: AT.LOCKBOX_MODAL_CLOSE
 })

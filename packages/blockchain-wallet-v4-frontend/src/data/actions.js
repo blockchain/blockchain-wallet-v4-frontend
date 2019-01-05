@@ -12,7 +12,6 @@ import * as modules from './modules/actions'
 import * as form from './form/actions'
 import * as preferences from './preferences/actions'
 import { routerActions as router } from 'connected-react-router'
-import * as scroll from './scroll/actions'
 import * as session from './session/actions'
 import * as wizard from './wizard/actions'
 import * as wallet from './wallet/actions'
@@ -32,7 +31,6 @@ export {
   modules,
   preferences,
   router,
-  scroll,
   session,
   wizard,
   wallet

@@ -1,6 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
 import {
-  compose,
   concat,
   gt,
   isNil,
@@ -18,20 +17,9 @@ import { KVStoreEntry } from '../../../types'
 import { derivationMap, BCH } from '../config'
 import { getMetadataXpriv } from '../root/selectors'
 import { getHDAccounts } from '../../wallet/selectors'
-
-const taskToPromise = t =>
-  new Promise((resolve, reject) => t.fork(reject, resolve))
+import { callTask } from '../../../utils/functional'
 
 export default ({ api, networks }) => {
-  const callTask = function*(task) {
-    return yield call(
-      compose(
-        taskToPromise,
-        () => task
-      )
-    )
-  }
-
   const createBch = function*(kv, hdAccounts, bchAccounts) {
     const createAccountEntry = x => ({
       label: `My Bitcoin Cash Wallet${x > 0 ? ` ${x + 1}` : ''}`,
@@ -48,7 +36,7 @@ export default ({ api, networks }) => {
 
     const newkv = set(KVStoreEntry.value, newBchEntry, kv)
     yield put(A.createMetadataBch(newkv))
-    yield refetchContextData()
+    yield put(bchActions.fetchData())
   }
 
   const fetchMetadataBch = function*() {
@@ -73,12 +61,8 @@ export default ({ api, networks }) => {
     }
   }
 
-  const refetchContextData = function*() {
-    yield put(bchActions.fetchData())
-  }
-
   return {
-    fetchMetadataBch,
-    refetchContextData
+    createBch,
+    fetchMetadataBch
   }
 }

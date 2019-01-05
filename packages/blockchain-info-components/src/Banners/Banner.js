@@ -65,6 +65,7 @@ const Banner = props => {
       width={width}
       inline={inline}
       label={label}
+      data-e2e={props['data-e2e']}
     >
       {icon && <Icon name={icon} size='18px' weight={300} color={color} />}
       <BannerContent

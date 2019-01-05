@@ -1,7 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { CurrencyItem } from 'components/Balances'
+import * as bowser from 'bowser'
 import { any, equals, toLower, prop, isEmpty } from 'ramda'
+
+import { CurrencyItem } from 'components/Balances'
 
 const CurrencyList = styled.div`
   display: flex;
@@ -10,7 +12,7 @@ const CurrencyList = styled.div`
   overflow-x: scroll;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
-
+const isBrowserChrome = bowser.name === 'Chrome' || bowser.name === 'Chromium'
 const Success = props => {
   const { data, formValues, ...rest } = props
   const { coinContexts, handleCoinSelection, handleSaveCoinMD } = rest
@@ -53,11 +55,12 @@ const Success = props => {
         balance={data.xlmBalance}
         isActive={isActive('xlm')}
         isSaved={prop('xlm', coinContexts) > 0}
+        disableClick={!(prop('xlm', coinContexts) > 0) && !isBrowserChrome}
         isInactive={!isEmpty(formValues) && !isActive('xlm')}
         onClick={() =>
           prop('xlm', coinContexts) > 0
             ? handleCoinSelection('XLM')
-            : handleSaveCoinMD('xlm')
+            : isBrowserChrome && handleSaveCoinMD('xlm')
         }
       />
     </CurrencyList>

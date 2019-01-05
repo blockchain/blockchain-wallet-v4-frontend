@@ -49,6 +49,7 @@ import {
   Row,
   ColLeft,
   ColRight,
+  CustomFeeAlertBanner,
   AddressButton,
   FeeFormContainer,
   FeeFormGroup,
@@ -60,10 +61,12 @@ import QRCodeCapture from 'components/QRCodeCapture'
 import RegularFeeLink from './RegularFeeLink'
 import PriorityFeeLink from './PriorityFeeLink'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import { removeWhitespace } from 'services/FormHelper/normalizers'
 
 const BrowserWarning = styled(Banner)`
   margin: -4px 0 8px;
 `
+
 const FirstStep = props => {
   const {
     invalid,
@@ -86,7 +89,8 @@ const FirstStep = props => {
     priorityFeePerByte,
     isPriorityFeePerByte,
     totalFee,
-    excludeLockbox
+    excludeLockbox,
+    excludeHDWallets
   } = rest
   const disableLockboxSend =
     from &&
@@ -119,9 +123,10 @@ const FirstStep = props => {
           </FormLabel>
           <Field
             name='from'
-            component={SelectBoxBtcAddresses}
-            validate={[required]}
             includeAll={false}
+            validate={[required]}
+            component={SelectBoxBtcAddresses}
+            excludeHDWallets={excludeHDWallets}
             excludeLockbox={excludeLockbox}
           />
           {watchOnly && (
@@ -182,8 +187,10 @@ const FirstStep = props => {
                 name='to'
                 placeholder='Paste or scan an address, or select a destination'
                 component={TextBox}
+                normalize={removeWhitespace}
                 validate={[required, validBitcoinAddress]}
                 autoFocus
+                data-e2e='sendBtcAddressTextBox'
               />
             )}
             <QRCodeCapture
@@ -254,8 +261,8 @@ const FirstStep = props => {
           <FeeFormContainer toggled={feePerByteToggled}>
             <FeeFormLabel>
               <FormattedMessage
-                id='modals.sendbtc.firststep.fee'
-                defaultMessage='Transaction fee:'
+                id='modals.sendbtc.firststep.txfee'
+                defaultMessage='Transaction Fee:'
               />
               <span>&nbsp;</span>
               {!feePerByteToggled && (
@@ -314,6 +321,16 @@ const FirstStep = props => {
           </Link>
         </ColRight>
       </FeeFormGroup>
+      {feePerByteToggled ? (
+        <CustomFeeAlertBanner type='alert'>
+          <Text size='12px'>
+            <FormattedMessage
+              id='modals.sendbtc.firststep.customfeeinfo'
+              defaultMessage='This feature is recommended for advanced users only. By choosing a custom fee, you risk overpaying or your transaction never being confirmed.'
+            />
+          </Text>
+        </CustomFeeAlertBanner>
+      ) : null}
       <FormGroup margin={'15px'}>
         <Text size='13px' weight={300}>
           {!isPriorityFeePerByte && (

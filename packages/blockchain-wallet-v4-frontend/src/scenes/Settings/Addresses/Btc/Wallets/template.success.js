@@ -14,7 +14,7 @@ import {
   IconButton,
   Link
 } from 'blockchain-info-components'
-import { filter } from 'ramda'
+import { take, filter } from 'ramda'
 import media from 'services/ResponsiveService'
 
 const Wrapper = styled.section`
@@ -33,6 +33,13 @@ const WalletTableCell = styled(TableCell)`
     flex-direction: column;
     align-items: flex-start;
   `};
+`
+const NoSearchMatchCell = styled(WalletTableCell)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
 `
 const LabelCell = styled(Text)`
   margin-right: 6px;
@@ -54,67 +61,66 @@ const Success = ({
 }) => {
   const isMatch = wallet =>
     !search || wallet.label.toLowerCase().indexOf(search) > -1
+  const matchedWallets = filter(isMatch, take(wallets.length, wallets))
 
-  const walletTableRows =
-    wallets &&
-    filter(isMatch, wallets).map(wallet => {
-      return (
-        <TableRow key={wallet.index}>
-          <WalletTableCell width='50%'>
-            <LabelCell size='13px'>{wallet.label}</LabelCell>
-            {wallet.default && (
-              <Banner label='true'>
+  const walletTableRows = matchedWallets.map(wallet => {
+    return (
+      <TableRow key={wallet.index}>
+        <WalletTableCell width='50%'>
+          <LabelCell size='13px'>{wallet.label}</LabelCell>
+          {wallet.default && (
+            <Banner label='true'>
+              <FormattedMessage
+                id='scenes.settings.addresses.btc.wallets.defaultlabel'
+                defaultMessage='Default'
+              />
+            </Banner>
+          )}
+          {wallet.archived && (
+            <Banner label={'true'} type='informational'>
+              <FormattedMessage
+                id='scenes.settings.addresses.btc.wallets.archivedlabel'
+                defaultMessage='Archived'
+              />
+            </Banner>
+          )}
+        </WalletTableCell>
+        <TableCell width='30%'>
+          {!wallet.archived && (
+            <SwitchableDisplay size='13px' coin='BTC'>
+              {wallet.balance}
+            </SwitchableDisplay>
+          )}
+        </TableCell>
+        <TableCell
+          width='20%'
+          style={{ display: 'flex', justifyContent: 'flex-end' }}
+        >
+          {wallet.archived ? (
+            <Link
+              weight={400}
+              size='13px'
+              onClick={() => onUnarchive(wallet.index)}
+            >
+              <FormattedMessage
+                id='scenes.settings.addresses.btc.wallets.unarchive'
+                defaultMessage='Unarchive'
+              />
+            </Link>
+          ) : (
+            <LinkContainer to={`/settings/addresses/btc/${wallet.index}`}>
+              <Link weight={400} size='13px'>
                 <FormattedMessage
-                  id='scenes.settings.addresses.btc.wallets.defaultlabel'
-                  defaultMessage='Default'
-                />
-              </Banner>
-            )}
-            {wallet.archived && (
-              <Banner label={'true'} type='informational'>
-                <FormattedMessage
-                  id='scenes.settings.addresses.btc.wallets.archivedlabel'
-                  defaultMessage='Archived'
-                />
-              </Banner>
-            )}
-          </WalletTableCell>
-          <TableCell width='30%'>
-            {!wallet.archived && (
-              <SwitchableDisplay size='13px' coin='BTC'>
-                {wallet.balance}
-              </SwitchableDisplay>
-            )}
-          </TableCell>
-          <TableCell
-            width='20%'
-            style={{ display: 'flex', justifyContent: 'flex-end' }}
-          >
-            {wallet.archived ? (
-              <Link
-                weight={200}
-                size='small'
-                onClick={() => onUnarchive(wallet.index)}
-              >
-                <FormattedMessage
-                  id='scenes.settings.addresses.btc.wallets.unarchive'
-                  defaultMessage='Unarchive'
+                  id='scenes.settings.addresses.btc.wallets.manage'
+                  defaultMessage='Manage'
                 />
               </Link>
-            ) : (
-              <LinkContainer to={`/settings/addresses/btc/${wallet.index}`}>
-                <Link weight={200} size='small'>
-                  <FormattedMessage
-                    id='scenes.settings.addresses.btc.wallets.manage'
-                    defaultMessage='Manage'
-                  />
-                </Link>
-              </LinkContainer>
-            )}
-          </TableCell>
-        </TableRow>
-      )
-    })
+            </LinkContainer>
+          )}
+        </TableCell>
+      </TableRow>
+    )
+  })
 
   return (
     <Wrapper>
@@ -193,7 +199,22 @@ const Success = ({
             </Text>
           </TableCell>
         </TableHeader>
-        {walletTableRows}
+        {search && !matchedWallets.length ? (
+          <TableRow>
+            <NoSearchMatchCell>
+              <LabelCell size='13px'>
+                <Text size='13px' weight={500}>
+                  <FormattedMessage
+                    id='scenes.settings.addresses.btc.wallets.nomatch'
+                    defaultMessage='No wallets matched your search'
+                  />
+                </Text>
+              </LabelCell>
+            </NoSearchMatchCell>
+          </TableRow>
+        ) : (
+          walletTableRows
+        )}
       </Table>
       <IconButton style={{ marginTop: 10 }} name='plus' onClick={handleClick}>
         <FormattedMessage

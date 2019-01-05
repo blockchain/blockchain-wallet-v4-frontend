@@ -11,8 +11,10 @@ import {
   ImportBtcAddress,
   RequestBtc,
   SendBtc,
-  ShowBtcPrivateKey
+  ShowBtcPrivateKey,
+  VerifyMessage
 } from './Btc'
+import { SendBsv } from './Bsv'
 import {
   CoinifyDeleteBank,
   CoinifyExchangeData,
@@ -24,15 +26,18 @@ import {
   ExchangeResults,
   IdentityVerification,
   SwapGetStarted,
+  SwapUpgrade,
   UserExists,
   SunRiverLinkError
 } from './Exchange'
 import { Confirm, PromptInput } from './Generic'
 import {
   LockboxAppManager,
+  LockboxAuthenticityCheck,
   LockboxFirmware,
   LockboxSetup,
-  PromptLockbox
+  LockboxConnectionPrompt,
+  LockboxShowXPubs
 } from './Lockbox'
 import { MobileLogin, MobileNumberChange, MobileNumberVerify } from './Mobile'
 import Onfido from './Onfido'
@@ -62,7 +67,7 @@ import {
   XlmReserveLearn
 } from './Xlm'
 
-const Modals = props => (
+const Modals = () => (
   <div>
     <AddBtcWallet />
     <AutoDisconnection />
@@ -77,16 +82,18 @@ const Modals = props => (
     <ExchangeResults />
     <IdentityVerification />
     <ImportBtcAddress />
+    <LockboxAuthenticityCheck disableOutsideClose />
     <LockboxAppManager disableOutsideClose />
-    <LockboxFirmware />
-    <LockboxSetup />
+    <LockboxConnectionPrompt disableOutsideClose />
+    <LockboxFirmware disableOutsideClose />
+    <LockboxSetup disableOutsideClose />
+    <LockboxShowXPubs />
     <MobileNumberChange />
     <MobileNumberVerify />
     <MobileLogin />
     <Onfido />
     <PairingCode />
     <PromptInput />
-    <PromptLockbox />
     <QRCode />
     <RequestBch />
     <RequestBtc />
@@ -95,6 +102,7 @@ const Modals = props => (
     <SecondPassword />
     <SendBch />
     <SendBtc />
+    <SendBsv />
     <SendEth />
     <SendXlm />
     <ShowBtcPrivateKey />
@@ -108,6 +116,7 @@ const Modals = props => (
     <SfoxEnterMicroDeposits />
     <SunRiverLinkError />
     <SwapGetStarted />
+    <SwapUpgrade />
     <TransactionReport />
     <TransferEth />
     <TwoStepGoogleAuthenticator />
@@ -120,6 +129,7 @@ const Modals = props => (
     <XlmCreateAccountLearn />
     <XlmReserveLearn />
     <SunRiverWelcome disableOutsideClose />
+    <VerifyMessage />
   </div>
 )
 

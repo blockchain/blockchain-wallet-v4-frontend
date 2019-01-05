@@ -6,14 +6,14 @@ import { currencySymbolMap } from 'services/CoinifyService'
 import { formatPair } from 'data/modules/rates/model'
 import {
   MINIMUM_NO_LINK_ERROR,
-  // REACHED_DAILY_ERROR,
+  REACHED_DAILY_ERROR,
   // REACHED_WEEKLY_ERROR,
-  // REACHED_ANNUAL_ERROR,
+  REACHED_ANNUAL_ERROR,
   MINIMUM_ERROR,
   BALANCE_ERROR,
-  // DAILY_ERROR,
+  DAILY_ERROR,
   // WEEKLY_ERROR,
-  // ANNUAL_ERROR,
+  ANNUAL_ERROR,
   ORDER_ERROR
 } from './model'
 
@@ -21,6 +21,9 @@ export const convertBaseToStandard = (coin, value) => {
   switch (coin) {
     case 'BCH':
       return Exchange.convertBchToBch({ value, fromUnit: 'SAT', toUnit: 'BCH' })
+        .value
+    case 'BSV':
+      return Exchange.convertBsvToBsv({ value, fromUnit: 'SAT', toUnit: 'BSV' })
         .value
     case 'BTC':
       return Exchange.convertBitcoinToBitcoin({
@@ -49,6 +52,9 @@ export const convertStandardToBase = (coin, value) => {
   switch (coin) {
     case 'BCH':
       return Exchange.convertBchToBch({ value, fromUnit: 'BCH', toUnit: 'SAT' })
+        .value
+    case 'BSV':
+      return Exchange.convertBsvToBsv({ value, fromUnit: 'BSV', toUnit: 'SAT' })
         .value
     case 'BTC':
       return Exchange.convertBitcoinToBitcoin({
@@ -116,6 +122,8 @@ export const selectFee = (coin, payment) => {
   switch (coin) {
     case 'BCH':
       return path(['selection', 'fee'], payment)
+    case 'BSV':
+      return path(['selection', 'fee'], payment)
     case 'BTC':
       return path(['selection', 'fee'], payment)
     case 'ETH':
@@ -130,11 +138,14 @@ export const validateMinMax = limits => {
   const maxSymbol = path(['maxPossibleOrder', 'symbol'], limits)
   const minOrder = path(['minOrder', 'amount'], limits)
   const maxPossible = path(['maxPossibleOrder', 'amount'], limits)
+  const dailyMax = path(['daily', 'amount', 'available'], limits)
+  // const weeklyMax = path(['weekly', 'amount', 'available'], limits)
+  const annualMax = path(['annual', 'amount', 'available'], limits)
 
   if (minSymbol === maxSymbol && isAmountAboveMaximum(minOrder, maxPossible)) {
-    // if (isAmountAboveMaximum(minOrder, annualMax)) throw REACHED_ANNUAL_ERROR
+    if (isAmountAboveMaximum(minOrder, annualMax)) throw REACHED_ANNUAL_ERROR
     // if (isAmountAboveMaximum(minOrder, weeklyMax)) throw REACHED_WEEKLY_ERROR
-    // if (isAmountAboveMaximum(minOrder, dailyMax)) throw REACHED_DAILY_ERROR
+    if (isAmountAboveMaximum(minOrder, dailyMax)) throw REACHED_DAILY_ERROR
     throw MINIMUM_NO_LINK_ERROR
   }
 }
@@ -147,15 +158,15 @@ export const validateVolume = (
   const minOrder = path(['minOrder', 'amount'], limits)
   const balanceMax = path(['balanceMax', 'amount'], limits)
   const maxOrder = path(['maxOrder', 'amount'], limits)
-  // const dailyMax = path(['daily', 'available'], limits)
-  // const weeklyMax = path(['weekly', 'available'], limits)
-  // const annualMax = path(['annual', 'available'], limits)
+  const dailyMax = path(['daily', 'amount', 'available'], limits)
+  // const weeklyMax = path(['weekly', 'amount', 'available'], limits)
+  const annualMax = path(['annual', 'amount', 'available'], limits)
 
   if (isAmountBelowMinimum(sourceFiatVolume, minOrder)) throw MINIMUM_ERROR
   if (isAmountAboveMaximum(sourceCryptoVolume, balanceMax)) throw BALANCE_ERROR
-  // if (isAmountAboveMaximum(sourceFiatVolume, dailyMax)) throw DAILY_ERROR
+  if (isAmountAboveMaximum(sourceFiatVolume, dailyMax)) throw DAILY_ERROR
   // if (isAmountAboveMaximum(sourceFiatVolume, weeklyMax)) throw WEEKLY_ERROR
-  // if (isAmountAboveMaximum(sourceFiatVolume, annualMax)) throw ANNUAL_ERROR
+  if (isAmountAboveMaximum(sourceFiatVolume, annualMax)) throw ANNUAL_ERROR
   if (isAmountAboveMaximum(sourceFiatVolume, maxOrder)) throw ORDER_ERROR
 }
 

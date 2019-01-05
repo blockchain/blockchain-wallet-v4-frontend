@@ -4,15 +4,10 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 
-import AppManager from './template.js'
+import AppManager from './template'
 
 class AppManagerContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.onInstallClick = this.onInstallClick.bind(this)
-  }
-
-  onInstallClick () {
+  onInstallClick = () => {
     const deviceIndex = this.props.deviceIndex
     this.props.modalActions.showModal('LockboxAppManager', { deviceIndex })
   }

@@ -9,13 +9,14 @@ export const SUNRIVER_LINK_ERROR_MODAL = '@KYC.SunRiverLinkError'
 export const STEPS = {
   coinify: 'coinify',
   personal: 'personal',
+  moreInfo: 'moreInfo',
   mobile: 'mobile',
   verify: 'verify'
 }
 
 export const STEP_TIERS = {
-  coinify: TIERS[1],
   personal: TIERS[1],
+  moreInfo: TIERS[2],
   mobile: TIERS[2],
   verify: TIERS[2]
 }
@@ -23,6 +24,11 @@ export const STEP_TIERS = {
 export const COINIFY_STEP = 'coinify'
 
 export const SMS_STEPS = {
+  edit: 'edit',
+  verify: 'verify'
+}
+
+export const EMAIL_STEPS = {
   edit: 'edit',
   verify: 'verify'
 }
@@ -50,4 +56,9 @@ export const isStateSupported = compose(
 export const FLOW_TYPES = {
   HIGH: 'HIGH',
   LOW: 'LOW'
+}
+
+export const KYC_PROVIDERS = {
+  ONFIDO: 'ONFIDO',
+  VERIFF: 'VERIFF'
 }

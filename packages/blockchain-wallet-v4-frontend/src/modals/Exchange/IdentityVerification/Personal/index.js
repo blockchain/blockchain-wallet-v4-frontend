@@ -25,9 +25,13 @@ const getCountryElements = countries => [
   }
 ]
 
-const { PERSONAL_FORM } = model.components.identityVerification
+const { PERSONAL_FORM, EMAIL_STEPS } = model.components.identityVerification
 
 class PersonalContainer extends React.PureComponent {
+  state = {
+    initialEmailVerified: this.props.emailVerified
+  }
+
   componentDidMount () {
     this.fetchData()
   }
@@ -48,8 +52,17 @@ class PersonalContainer extends React.PureComponent {
     this.props.formActions.clearFields(PERSONAL_FORM, false, false, 'state')
   }
 
+  editEmail = () => {
+    this.props.actions.setEmailStep(EMAIL_STEPS.edit)
+  }
+
   renderForm = ({
+    actions,
     initialCountryCode,
+    initialEmail,
+    email,
+    emailVerified,
+    emailStep,
     countryCode,
     countryAndStateSelected,
     stateSupported,
@@ -71,10 +84,15 @@ class PersonalContainer extends React.PureComponent {
             : user.state,
         country:
           find(propEq('code', user.country), supportedCountries) ||
-          find(propEq('code', initialCountryCode), supportedCountries)
+          find(propEq('code', initialCountryCode), supportedCountries),
+        email: initialEmail
       }}
+      showEmail={!this.state.initialEmailVerified}
+      emailVerified={emailVerified}
+      email={email}
+      emailStep={emailStep}
       countryCode={countryCode}
-      showStateSelect={countryCode && countryCode === 'US'}
+      countryIsUS={countryCode && countryCode === 'US'}
       showStateError={countryAndStateSelected && !stateSupported}
       showPersonal={countryAndStateSelected && stateSupported}
       postCode={postCode}
@@ -83,6 +101,9 @@ class PersonalContainer extends React.PureComponent {
       addressRefetchVisible={addressRefetchVisible}
       activeField={activeField}
       activeFieldError={activeFieldError}
+      editEmail={this.editEmail}
+      updateEmail={actions.updateEmail}
+      sendEmailVerification={actions.sendEmailVerification}
       onAddressSelect={this.selectAddress}
       onCountrySelect={this.onCountryChange}
       onSubmit={handleSubmit}

@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { compose } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { KYC_STATES, USER_ACTIVATION_STATES } from 'data/modules/profile/model'
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { getData } from './selectors'
 import modalEnhancer from 'providers/ModalEnhancer'
 
@@ -17,6 +17,8 @@ import {
   ModalBody,
   Text
 } from 'blockchain-info-components'
+
+const { TIERS } = model.profile
 
 const WelcomeModalHeader = styled(ModalHeader)`
   position: absolute;
@@ -33,9 +35,28 @@ const Container = styled.div`
 `
 
 class SunRiverWelcomeContainer extends React.PureComponent {
+  // Only for users that are created but have not finished verification
+  continueVerification = () => {
+    this.props.modalActions.closeModal()
+    this.props.identityVerificationActions.verifyIdentity(TIERS[2])
+  }
+
+  // Only for new users that have not started verification
+  goToIdentityVerification = () => {
+    this.props.modalActions.closeModal()
+    this.props.identityVerificationActions.createRegisterUserCampaign()
+  }
+
+  // Only for users who have completed/pending/under_review verification
+  viewStellarWallet = () => {
+    this.props.modalActions.closeModal()
+    this.props.routerActions.push('/xlm/transactions')
+  }
+
   determineKycState (userState, kycState) {
+    // always register the campaign as quickly as possible if user has been created
     if (userState !== USER_ACTIVATION_STATES.NONE) {
-      this.props.registerSunRiverUser()
+      this.props.identityVerificationActions.registerUserCampaign()
     }
 
     if (kycState === KYC_STATES.VERIFIED) {
@@ -53,11 +74,7 @@ class SunRiverWelcomeContainer extends React.PureComponent {
               defaultMessage='Hang tight, your XLM is on its way.'
             />
           </Text>
-          <Button
-            nature='primary'
-            fullwidth
-            onClick={this.props.viewStellarWallet}
-          >
+          <Button nature='primary' fullwidth onClick={this.viewStellarWallet}>
             <FormattedMessage
               id='modals.xlmairdropwelcome.verified.seewallet'
               defaultMessage='View Stellar Wallet'
@@ -67,7 +84,7 @@ class SunRiverWelcomeContainer extends React.PureComponent {
       )
     } else if (
       userState === USER_ACTIVATION_STATES.ACTIVE &&
-      kycState === KYC_STATES.UNDER_REVIEW
+      (kycState === KYC_STATES.UNDER_REVIEW || kycState === KYC_STATES.PENDING)
     ) {
       return (
         <Container>
@@ -83,11 +100,7 @@ class SunRiverWelcomeContainer extends React.PureComponent {
               defaultMessage='Your application is still under review. Once verified, you will receive your XLM.'
             />
           </Text>
-          <Button
-            nature='primary'
-            fullwidth
-            onClick={this.props.viewStellarWallet}
-          >
+          <Button nature='primary' fullwidth onClick={this.viewStellarWallet}>
             <FormattedMessage
               id='modals.xlmairdropwelcome.underreview.seewallet'
               defaultMessage='View Stellar Wallet'
@@ -116,7 +129,7 @@ class SunRiverWelcomeContainer extends React.PureComponent {
           <Button
             nature='primary'
             fullwidth
-            onClick={this.props.goToIdentityVerification}
+            onClick={this.continueVerification}
           >
             <FormattedMessage
               id='modals.xlmairdropwelcome.inprogress.completenow'
@@ -143,7 +156,7 @@ class SunRiverWelcomeContainer extends React.PureComponent {
           <Button
             nature='primary'
             fullwidth
-            onClick={this.props.goToIdentityVerification}
+            onClick={this.goToIdentityVerification}
           >
             <FormattedMessage
               id='modals.xlmairdropwelcome.newuser.beginenow'
@@ -175,26 +188,12 @@ class SunRiverWelcomeContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  registerSunRiverUser: () => {
-    dispatch(
-      actions.components.identityVerification.createRegisterUserCampaign(
-        'sunriver'
-      )
-    )
-  },
-  viewStellarWallet: () => {
-    dispatch(actions.modals.closeModal())
-    dispatch(actions.router.push('/xlm/transactions'))
-  },
-  goToIdentityVerification: () => {
-    dispatch(actions.modals.closeModal())
-    dispatch(
-      actions.components.identityVerification.createRegisterUserCampaign(
-        'sunriver',
-        true
-      )
-    )
-  }
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch),
+  identityVerificationActions: bindActionCreators(
+    actions.components.identityVerification,
+    dispatch
+  )
 })
 
 const enhance = compose(

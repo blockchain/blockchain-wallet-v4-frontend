@@ -1,4 +1,4 @@
-import { compose, head, prop, isNil, isEmpty } from 'ramda'
+import { head, prop, isNil, isEmpty } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 import { set } from 'ramda-lens'
 import * as A from './actions'
@@ -8,25 +8,14 @@ import { getMetadataXpriv } from '../root/selectors'
 import { derivationMap, ETHEREUM } from '../config'
 import * as eth from '../../../utils/eth'
 import { getMnemonic } from '../../wallet/selectors'
-
-const taskToPromise = t =>
-  new Promise((resolve, reject) => t.fork(reject, resolve))
+import { callTask } from '../../../utils/functional'
 
 export default ({ api, networks } = {}) => {
-  const callTask = function*(task) {
-    return yield call(
-      compose(
-        taskToPromise,
-        () => task
-      )
-    )
-  }
-
   const deriveAccount = function*(password) {
     try {
       const obtainMnemonic = state => getMnemonic(state, password)
       const mnemonicT = yield select(obtainMnemonic)
-      const mnemonic = yield call(() => taskToPromise(mnemonicT))
+      const mnemonic = yield callTask(mnemonicT)
       const defaultIndex = 0
       const addr = eth.deriveAddress(mnemonic, defaultIndex)
 
@@ -93,6 +82,8 @@ export default ({ api, networks } = {}) => {
 
   return {
     createEthereum,
-    fetchMetadataEthereum
+    deriveAccount,
+    fetchMetadataEthereum,
+    transitionFromLegacy
   }
 }

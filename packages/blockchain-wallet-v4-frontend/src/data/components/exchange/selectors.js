@@ -8,6 +8,7 @@ import {
   head,
   last,
   lift,
+  lt,
   path,
   pathOr,
   prop,
@@ -19,11 +20,16 @@ import { selectors, model } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { getTargetCoinsPairedToSource, getAvailableSourceCoins } from './model'
 
-export const useShapeShift = state => false
-
 export const canUseExchange = state =>
-  selectors.modules.profile.isUserActive(state).getOrElse(false) &&
-  selectors.modules.profile.isUserVerified(state).getOrElse(false)
+  selectors.modules.profile
+    .getUserTiers(state)
+    .map(
+      compose(
+        lt(0),
+        prop('current')
+      )
+    )
+    .getOrElse(false)
 
 export const getStep = path(['components', 'exchange', 'step'])
 export const getLimits = path(['components', 'exchange', 'limits'])
@@ -85,6 +91,35 @@ export const getActiveBchAccounts = createDeepEqualSelector(
         .filter(isActive)
         .concat(lockboxBchAccounts)
     return lift(transform)(bchDataR, bchMetadataR, lockboxBchAccountsR)
+  }
+)
+
+export const getActiveBsvAccounts = createDeepEqualSelector(
+  [
+    coreSelectors.wallet.getHDAccounts,
+    coreSelectors.data.bsv.getAddresses,
+    coreSelectors.kvStore.bsv.getAccounts
+  ],
+  (bsvAccounts, bsvDataR, bsvMetadataR) => {
+    const transform = (bsvData, bsvMetadata) =>
+      bsvAccounts
+        .map(acc => {
+          const index = prop('index', acc)
+          const xpub = prop('xpub', acc)
+          const data = prop(xpub, bsvData)
+          const metadata = bsvMetadata[index]
+
+          return {
+            archived: prop('archived', metadata),
+            coin: 'BSV',
+            label: prop('label', metadata) || xpub,
+            address: index,
+            balance: prop('final_balance', data),
+            type: ADDRESS_TYPES.ACCOUNT
+          }
+        })
+        .filter(isActive)
+    return lift(transform)(bsvDataR, bsvMetadataR)
   }
 )
 
@@ -178,6 +213,7 @@ export const getActiveXlmAccounts = createDeepEqualSelector(
 export const getActiveAccounts = state => ({
   BTC: getActiveBtcAccounts(state).getOrElse([]),
   BCH: getActiveBchAccounts(state).getOrElse([]),
+  BSV: getActiveBsvAccounts(state).getOrElse([]),
   ETH: getActiveEthAccounts(state).getOrElse([]),
   XLM: getActiveXlmAccounts(state).getOrElse([])
 })

@@ -9,10 +9,12 @@ import onfido from './onfido/reducers'
 import priceChart from './priceChart/reducers'
 import sendBch from './sendBch/reducers'
 import sendBtc from './sendBtc/reducers'
+import sendBsv from './sendBsv/reducers'
 import sendEth from './sendEth/reducers'
 import sendXlm from './sendXlm/reducers'
 import signMessage from './signMessage/reducers'
 import uploadDocuments from './uploadDocuments/reducers'
+import veriff from './veriff/reducers'
 
 export default combineReducers({
   identityVerification,
@@ -25,8 +27,10 @@ export default combineReducers({
   priceChart,
   sendBch,
   sendBtc,
+  sendBsv,
   sendEth,
   sendXlm,
   signMessage,
-  uploadDocuments
+  uploadDocuments,
+  veriff
 })
