@@ -102,7 +102,7 @@ export default ({ coreSagas, networks }) => {
         break
       case 'BSV':
         payment = yield coreSagas.payment.bsv
-          .create({ network: networks.bch })
+          .create({ network: networks.bsv })
           .chain()
           .init()
           .fee('priority')
@@ -168,7 +168,7 @@ export default ({ coreSagas, networks }) => {
         break
       case 'BSV':
         payment = coreSagas.payment.bsv
-          .create({ network: networks.bch })
+          .create({ network: networks.bsv })
           .chain()
           .init()
           .fee('priority')
