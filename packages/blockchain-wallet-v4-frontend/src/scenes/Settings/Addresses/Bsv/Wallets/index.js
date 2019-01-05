@@ -10,15 +10,32 @@ import Wallets from './template'
 const { WALLET_TX_SEARCH } = model.form
 
 class BsvWalletsContainer extends React.Component {
+  state = { toSwap: false }
+
   shouldComponentUpdate (nextProps) {
     return !Remote.Loading.is(nextProps.data)
+  }
+
+  componentWillUnmount () {
+    if (!this.state.toSwap) this.props.bsvDataActions.resetData()
+  }
+
+  onUnarchiveWallet = index => {
+    this.props.bsvActions.setAccountArchived(index, false)
   }
 
   onSendBsv = index => {
     this.props.modalActions.showModal(model.components.sendBsv.MODAL, { index })
   }
 
-  onSwapBsv = account => {}
+  onSwapBsv = index => {
+    this.setState({ toSwap: true }, () => {
+      this.props.routerActions.push({
+        pathname: '/swap',
+        state: { from: 'BSV', to: 'BTC' }
+      })
+    })
+  }
 
   render () {
     const { data, search } = this.props
@@ -27,8 +44,9 @@ class BsvWalletsContainer extends React.Component {
       Success: value => {
         return (
           <Wallets
-            search={search && search.toLowerCase()}
             data={value}
+            search={search && search.toLowerCase()}
+            onUnarchiveWallet={this.onUnarchiveWallet}
             onSendBsv={this.onSendBsv}
             onSwapBsv={this.onSwapBsv}
           />
@@ -47,6 +65,9 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  bsvDataActions: bindActionCreators(actions.core.data.bsv, dispatch),
+  bsvActions: bindActionCreators(actions.core.kvStore.bsv, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

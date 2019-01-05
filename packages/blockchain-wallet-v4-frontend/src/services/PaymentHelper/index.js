@@ -1,4 +1,4 @@
-import { selectors } from 'data'
+import { model, selectors } from 'data'
 import { curry, prop } from 'ramda'
 import { utils } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
@@ -33,7 +33,15 @@ export const btcFromLabel = curry((payment, state) => {
       const label = selectors.core.wallet.getLegacyAddressLabel(state)(
         payment.from[0]
       )
-      return label || payment.from[0]
+      const formValues = selectors.form.getFormValues(
+        model.components.sendBtc.FORM
+      )(state)
+      const { from } = formValues
+      if (from === 'allImportedAddresses') {
+        return 'All Imported Bitcoin Addresses'
+      } else {
+        return label || payment.from[0]
+      }
     case ADDRESS_TYPES.LOCKBOX:
       return selectors.core.kvStore.lockbox
         .getLockboxBtcAccount(state, payment.from[0])
