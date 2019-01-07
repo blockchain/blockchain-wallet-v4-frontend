@@ -210,22 +210,28 @@ export default ({ api }) => {
   }
 
   // saves new device to KvStore
-  const saveNewDeviceKvStore = function*(action) {
+  const saveNewDeviceKvStore = function*() {
     try {
-      const { deviceName } = action.payload
+      let newDeviceName = 'My Lockbox'
       yield put(A.saveNewDeviceKvStoreLoading())
+      const deviceList  = (yield select(
+        selectors.core.kvStore.lockbox.getDevices
+      )).getOrElse([])
+      const deviceCount = length(deviceList.map(d => d.device_name))
+      if (deviceCount > 0) {
+        newDeviceName = `My Lockbox ${deviceCount + 1}`
+      }
       const newDeviceR = yield select(S.getNewDeviceInfo)
       const newDevice = newDeviceR.getOrFail('missing_device')
       const mdAccountsEntry = Lockbox.utils.generateAccountsMDEntry(
         newDevice,
-        deviceName
+        newDeviceName
       )
       // store device in kvStore
       yield put(
         actions.core.kvStore.lockbox.createNewDeviceEntry(mdAccountsEntry)
       )
       yield put(A.saveNewDeviceKvStoreSuccess())
-      yield put(actions.modals.closeModal())
       yield put(actions.core.data.bch.fetchData())
       yield put(actions.core.data.bitcoin.fetchData())
       yield put(actions.core.data.ethereum.fetchData())
@@ -447,7 +453,7 @@ export default ({ api }) => {
       if (contains(newDeviceBtcContext, storedDevicesBtcContext)) {
         yield put(A.changeDeviceSetupStep('error-step', true, 'duplicate'))
       } else {
-        yield put(A.changeDeviceSetupStep('open-btc-app', true))
+        yield put(A.changeDeviceSetupStep('pair-device', true))
       }
     } catch (e) {
       yield put(

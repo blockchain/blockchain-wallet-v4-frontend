@@ -3,18 +3,18 @@ import PropTypes from 'prop-types'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { actions, selectors } from 'data'
-import { merge } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
 import modalEnhancer from 'providers/ModalEnhancer'
-import LockboxSetup from './template'
-import DeviceSelectStep from './DeviceSelectStep'
-import SetupTypeStep from './SetupTypeStep'
-import ConnectDeviceStep from './ConnectDeviceStep'
-import NameDeviceStep from './NameDeviceStep'
 import AppManagerStep from './AppManagerStep'
-import OpenBtcAppStep from './OpenBtcAppStep'
+import ConnectDeviceStep from './ConnectDeviceStep'
+import CustomizeStep from './CustomizeStep'
+import DeviceSelectStep from './DeviceSelectStep'
 import ErrorStep from './ErrorStep'
+import FinishSetupStep from './FinishSetupStep'
+import LockboxSetup from './template'
+import PairDeviceStep from './PairDeviceStep'
+import SetupTypeStep from './SetupTypeStep'
 
 class LockboxSetupContainer extends React.PureComponent {
   componentWillUnmount () {
@@ -30,17 +30,15 @@ class LockboxSetupContainer extends React.PureComponent {
     const { currentStep, position, total, setupType } = this.props
     let steps = {
       'device-select': {
-        num: 0,
         title: () => (
           <FormattedMessage
             id='modals.lockbox.setup.deviceselect.title'
-            defaultMessage='Select Your Device Type'
+            defaultMessage='Select Your Device'
           />
         ),
         template: () => <DeviceSelectStep />
       },
       'setup-type': {
-        num: 1,
         title: () => (
           <FormattedMessage
             id='modals.lockbox.setup.setuptype.title'
@@ -50,41 +48,59 @@ class LockboxSetupContainer extends React.PureComponent {
         template: () => <SetupTypeStep />
       },
       'connect-device': {
-        num: 2,
         title: () => (
           <FormattedMessage
-            id='modals.lockbox.setup.connectdevice.title'
+            id='modals.lockbox.setup.connect.title'
             defaultMessage='Connect Your Device'
           />
         ),
         template: () => <ConnectDeviceStep />
       },
       'customize-device': {
-        num: 3,
         title: () => (
           <FormattedMessage
-            id='modals.lockbox.setup.install.title'
+            id='modals.lockbox.setup.customize.title'
             defaultMessage='Customize Your Device'
+          />
+        ),
+        template: () => <CustomizeStep />
+      },
+      'app-manager-step': {
+        title: () => (
+          <FormattedMessage
+            id='modals.lockbox.setup.appmanager.title'
+            defaultMessage='App Manager'
           />
         ),
         template: () => <AppManagerStep />
       },
-      'open-btc-app': {
-        num: 4,
-        template: () => <OpenBtcAppStep done={currentStep.done} />
+      'pair-device': {
+        title: () => (
+          <FormattedMessage
+            id='modals.lockbox.setup.connectdevice.title'
+            defaultMessage='Pair Device'
+          />
+        ),
+        template: () => <PairDeviceStep done={currentStep.done} />
       },
-      'name-device': { num: 5, template: () => <NameDeviceStep /> },
-      'error-step': { num: 6, template: () => <ErrorStep /> }
-    }
-    if (setupType === 'existing') {
-      steps = merge(steps, {
-        'customize-device': { num: 3, template: () => <AppManagerStep /> },
-        'open-btc-app': {
-          num: 3,
-          template: () => <OpenBtcAppStep done={currentStep.done} />
-        },
-        'name-device': { num: 4, template: () => <NameDeviceStep /> }
-      })
+      'finish-step': {
+        title: () => (
+          <FormattedMessage
+            id='modals.lockbox.setup.finish.title'
+            defaultMessage='Setup Complete'
+          />
+        ),
+        template: () => <FinishSetupStep onClose={this.onClose} />
+      },
+      'error-step': {
+        title: () => (
+          <FormattedMessage
+            id='modals.lockbox.setup.error.title'
+            defaultMessage='Error'
+          />
+        ),
+        template: () => <ErrorStep onClose={this.onClose} />
+      }
     }
 
     const step =

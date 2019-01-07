@@ -7,7 +7,9 @@ import SetupTypeStep from './template'
 
 class DeviceSelectStepContainer extends React.PureComponent {
   onChangeStep = deviceType => {
-    this.props.lockboxActions.setDeviceSetupType(deviceType)
+    this.props.lockboxActions.setDeviceSetupType(
+      deviceType === 'ledger' ? 'Nano S' : 'Lockbox'
+    )
     this.props.lockboxActions.changeDeviceSetupStep('setup-type')
   }
 

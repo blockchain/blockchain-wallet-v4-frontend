@@ -48,7 +48,7 @@ class AppManagerStepContainer extends React.PureComponent {
   }
 
   onStepChange = () => {
-    this.props.lockboxActions.changeDeviceSetupStep('open-btc-app')
+    this.props.lockboxActions.changeDeviceSetupStep('pair-device')
   }
 
   render () {

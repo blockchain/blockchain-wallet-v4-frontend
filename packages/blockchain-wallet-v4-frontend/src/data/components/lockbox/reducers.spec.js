@@ -30,10 +30,10 @@ describe('lockbox reducers', () => {
   })
 
   it('should set new device setup step', () => {
-    const action = actions.changeDeviceSetupStep('open-btc-app', true)
+    const action = actions.changeDeviceSetupStep('pair-device', true)
     const expectedState = assocPath(
       ['newDeviceSetup', 'currentStep'],
-      { step: 'open-btc-app', done: true },
+      { step: 'pair-device', done: true },
       INITIAL_STATE
     )
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)

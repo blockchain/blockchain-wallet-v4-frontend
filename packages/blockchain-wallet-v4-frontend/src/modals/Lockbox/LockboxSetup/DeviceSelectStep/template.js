@@ -62,7 +62,7 @@ const DeviceSelectStep = props => {
       <IntroText size='14px' weight={300}>
         <FormattedMessage
           id='modals.lockboxsetup.deviceselect.intro'
-          defaultMessage='Your Blockchain wallet works with Lockbox and the Ledger Nano S devices.'
+          defaultMessage='Your Blockchain wallet works with Lockbox and Ledger Nano S devices.'
         />
       </IntroText>
       <SelectDeviceWrapper>
@@ -72,13 +72,13 @@ const DeviceSelectStep = props => {
             name='firmware-connect'
             srcset={{ 'ledger-lockbox': '1x' }}
           />
-          <Text size='16px' weight={400} style={{ marginTop: '5px' }}>
+          <Text size='14px' weight={400} style={{ marginTop: '5px' }}>
             <FormattedMessage
               id='modals.lockboxsetup.deviceselect.lockbox'
               defaultMessage='Lockbox'
             />
           </Text>
-          <Text size='14px' weight={300}>
+          <Text size='12px' weight={300}>
             <FormattedMessage
               id='modals.lockboxsetup.deviceselect.blockchain'
               defaultMessage='Blockchain'
@@ -91,13 +91,13 @@ const DeviceSelectStep = props => {
             name='firmware-connect'
             srcset={{ 'ledger-lockbox': '1x' }}
           />
-          <Text size='16px' weight={400} style={{ marginTop: '5px' }}>
+          <Text size='14px' weight={400} style={{ marginTop: '5px' }}>
             <FormattedMessage
               id='modals.lockboxsetup.deviceselect.nanos'
               defaultMessage='Nano S'
             />
           </Text>
-          <Text size='14px' weight={300}>
+          <Text size='12px' weight={300}>
             <FormattedMessage
               id='modals.lockboxsetup.deviceselect.ledger'
               defaultMessage='Ledger'

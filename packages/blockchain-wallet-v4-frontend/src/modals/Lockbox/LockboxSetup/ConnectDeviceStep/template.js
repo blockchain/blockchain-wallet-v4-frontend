@@ -5,119 +5,89 @@ import { Button, Image, TextGroup, Text } from 'blockchain-info-components'
 import { RotateSync } from 'components/RotateSync'
 
 const Wrapper = styled.div``
-
-const Title = styled.div`
-  text-align: center;
-  margin-bottom: 20px;
+const Instructions = styled(TextGroup)`
+  margin-top: 12px;
 `
-
 const StepText = styled(Text)`
-  margin-bottom: 20px;
+  margin-bottom: 8px;
 `
-
-const ImageContainer = styled.div`
-  position: relative;
-  padding-bottom: 57%;
-  img {
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-`
-
 const ButtonContainer = styled.div`
-  margin-top: 20px;
+  margin-top: 30px;
 `
-
-const RotateSyncContainer = styled(RotateSync)`
-  margin-left: 15px;
-`
-
 const ConnectDeviceStep = props => {
-  const { isConnected, isNewSetup } = props
+  const { deviceType, isConnected, isNewSetup, handleStepChange } = props
 
   return (
     <Wrapper>
-      <Title>
-        <Text>
-          <FormattedMessage
-            id='modals.lockboxsetup.connectdevice.connect'
-            defaultMessage='Connect Your Lockbox'
-          />
-        </Text>
-      </Title>
+      <Image
+        name='lockbox-onboard-link'
+        width='100%'
+        srcset={{ 'lockbox-onboard-link': '1x' }}
+      />
       {isNewSetup ? (
-        <TextGroup>
-          <StepText size='14px' weight={300}>
+        <Instructions>
+          <StepText size='13px' weight={300}>
             <FormattedHTMLMessage
-              id='modals.lockboxsetup.connectdevice.new.step1'
-              defaultMessage='1. Insert your Lockbox into your computer'
+              id='modals.lockboxsetup.connectdevice.new.stepone'
+              defaultMessage='1. Connect your {deviceType} to your computer with the supplied USB cable.'
+              values={{ deviceType }}
             />
           </StepText>
-          <StepText size='14px' weight={300}>
+          <StepText size='13px' weight={300}>
             <FormattedHTMLMessage
-              id='modals.lockboxsetup.connectdevice.new.step2'
-              defaultMessage='2. Press both buttons on your Lockbox to begin'
+              id='modals.lockboxsetup.connectdevice.new.steptwo'
+              defaultMessage='2. Press both buttons on the top of your {deviceType} to begin.'
+              values={{ deviceType }}
             />
           </StepText>
-          <StepText size='14px' weight={300}>
+          <StepText size='13px' weight={300}>
             <FormattedHTMLMessage
-              id='modals.lockboxsetup.connectdevice.new.step3'
-              defaultMessage='3. Set your pin'
+              id='modals.lockboxsetup.connectdevice.new.stepthree'
+              defaultMessage='3. Set a pin for your device.'
             />
           </StepText>
-          <StepText size='14px' weight={300}>
+          <StepText size='13px' weight={300}>
             <FormattedHTMLMessage
-              id='modals.lockboxsetup.connectdevice.new.step4'
-              defaultMessage='4. Complete backup phrase process'
+              id='modals.lockboxsetup.connectdevice.new.stepfour'
+              defaultMessage='4. Complete backup phrase process.'
             />
           </StepText>
-        </TextGroup>
+          <StepText size='13px' weight={300}>
+            <FormattedHTMLMessage
+              id='modals.lockboxsetup.connectdevice.new.stepfive'
+              defaultMessage="5. Ensure your device's dashboard is open. Hint: You should see the settings icon."
+            />
+          </StepText>
+        </Instructions>
       ) : (
-        <TextGroup>
-          <StepText size='14px' weight={300}>
+        <Instructions>
+          <StepText size='13px' weight={300}>
             <FormattedHTMLMessage
-              id='modals.lockboxsetup.connectdevice.existing.step1'
-              defaultMessage='1. Insert your Lockbox into your computer'
+              id='modals.lockboxsetup.connectdevice.existing.stepone'
+              defaultMessage='1. Connect your {deviceType} to your computer with the supplied USB cable.'
+              values={{ deviceType }}
             />
           </StepText>
-          <StepText size='14px' weight={300}>
+          <StepText size='13px' weight={300}>
             <FormattedHTMLMessage
-              id='modals.lockboxsetup.connectdevice.existing.step2'
-              defaultMessage='2. Press both buttons on your Lockbox to begin'
+              id='modals.lockboxsetup.connectdevice.existing.steptwo'
+              defaultMessage='2. Enter your pin for your device.'
             />
           </StepText>
-          <StepText size='14px' weight={300}>
+          <StepText size='13px' weight={300}>
             <FormattedHTMLMessage
-              id='modals.lockboxsetup.connectdevice.existing.step3'
-              defaultMessage='3. Enter your pin'
+              id='modals.lockboxsetup.connectdevice.existing.stepthree'
+              defaultMessage='3. Ensure the device dashboard is open and you are not in an application.'
             />
           </StepText>
-          <StepText size='14px' weight={300}>
-            <FormattedHTMLMessage
-              id='modals.lockboxsetup.connectdevice.existing.step4'
-              defaultMessage='4. Ensure the Dashboard is open'
-            />
-          </StepText>
-        </TextGroup>
+        </Instructions>
       )}
-
-      <ImageContainer>
-        <Image
-          name='lockbox-onboard-link'
-          width='100%'
-          srcset={{
-            'lockbox-onboard-link2': '2x',
-            'lockbox-onboard-link3': '3x'
-          }}
-        />
-      </ImageContainer>
       <ButtonContainer>
         <Button
           fullwidth
           disabled={!isConnected}
-          onClick={() => props.handleStepChange()}
-          nature={isConnected ? 'success' : 'dark'}
+          onClick={handleStepChange}
+          nature={isConnected ? 'primary' : 'dark'}
         >
           {isConnected ? (
             <FormattedMessage
@@ -126,11 +96,10 @@ const ConnectDeviceStep = props => {
             />
           ) : (
             <FormattedMessage
-              id='modals.lockboxsetup.connectdevice.connect'
-              defaultMessage='Connect Your Lockbox'
+              id='modals.lockboxsetup.connectdevice.waiting'
+              defaultMessage='Waiting...'
             />
           )}
-          {!isConnected && <RotateSyncContainer size='14px' color='white' />}
         </Button>
       </ButtonContainer>
     </Wrapper>
