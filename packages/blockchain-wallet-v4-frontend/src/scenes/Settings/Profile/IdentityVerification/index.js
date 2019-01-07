@@ -119,7 +119,7 @@ const IdentityVerification = () => {
               <SwapText size='14px' weight={300}>
                 <FormattedHTMLMessage
                   id='scenes.profile.identityverification.swaplimit.learn_more'
-                  defaultMessage="We’ve put together an article on Swap Limits. <a href='https://support.blockchain.com/hc/en-us/categories/360001135512-Identity-Verification' rel='noopener noreferrer' target='_blank'>Read now.</a>"
+                  defaultMessage="We’ve put together an article on Swap Limits. <a href='https://support.blockchain.com/hc/en-us/categories/360001135512-Identity-Verification' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
                 />
               </SwapText>
             </LearnMoreContainer>
