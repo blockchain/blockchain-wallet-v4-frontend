@@ -46,7 +46,6 @@ export const getData = state => {
     step: selectors.components.coinify.getCoinifyCheckoutStep(state),
     coinifyBusy: selectors.components.coinify.getCoinifyBusy(state),
     kycState,
-    kycVerified,
-    level: selectors.core.data.coinify.getLevel(state)
+    kycVerified
   }
 }

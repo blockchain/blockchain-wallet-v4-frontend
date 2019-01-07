@@ -9,7 +9,8 @@ const INITIAL_STATE = {
   checkoutStep: 'checkout',
   signupComplete: null,
   payment: Remote.NotAsked,
-  country: null
+  country: null,
+  medium: null
 }
 
 const coinify = (state = INITIAL_STATE, action) => {
@@ -28,7 +29,7 @@ const coinify = (state = INITIAL_STATE, action) => {
     case AT.COINIFY_SAVE_QUOTE: {
       return assoc('quote', payload, state)
     }
-    case AT.COINIFY_SAVE_MEDIUM_SUCCESS: {
+    case AT.COINIFY_SET_MEDIUM: {
       return assoc('medium', payload, state)
     }
     case AT.COINIFY_CHECKOUT_BUSY_ON: {

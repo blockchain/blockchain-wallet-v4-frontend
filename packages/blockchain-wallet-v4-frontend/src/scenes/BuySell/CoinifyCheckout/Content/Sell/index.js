@@ -20,7 +20,7 @@ class SellContainer extends React.Component {
     sellQuoteR.map(quote =>
       this.props.coinifyDataActions.getMediumsWithBankAccounts(quote)
     )
-    this.props.coinifyActions.saveMedium('blockchain')
+    this.props.coinifyActions.setMedium('blockchain')
   }
 
   startSell = () => {

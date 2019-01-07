@@ -63,8 +63,7 @@ const CoinifyBuy = props => {
     subscriptions,
     trades,
     kycState,
-    kycVerified,
-    level
+    kycVerified
   } = props
 
   const profile = Remote.of(prop('profile', value)).getOrElse({
@@ -76,7 +75,6 @@ const CoinifyBuy = props => {
   const symbol = service.currencySymbolMap[defaultCurrency]
   const activeSubscriptions = subscriptions.filter(s => s.isActive)
   const limits = service.getLimits(profile._limits, defaultCurrency)
-  const levelName = prop('name', level.getOrElse())
 
   if (step === 'checkout') {
     return (
@@ -125,23 +123,21 @@ const CoinifyBuy = props => {
           <Payment />
         </StepView>
         <StepView step={2}>
-          <CheckoutWrapper>
-            <OrderDetails
+          <OrderDetails
+            quoteR={buyQuoteR}
+            onRefreshQuote={refreshQuote}
+            type={'buy'}
+            medium={paymentMedium}
+          />
+          <OrderSubmitWrapper>
+            <OrderSubmit
               quoteR={buyQuoteR}
-              onRefreshQuote={refreshQuote}
+              onSubmit={initiateBuy}
+              busy={busy}
               type={'buy'}
-              medium={paymentMedium}
+              clearTradeError={clearTradeError}
             />
-            <OrderSubmitWrapper>
-              <OrderSubmit
-                quoteR={buyQuoteR}
-                onSubmit={initiateBuy}
-                busy={busy}
-                type={'buy'}
-                clearTradeError={clearTradeError}
-              />
-            </OrderSubmitWrapper>
-          </CheckoutWrapper>
+          </OrderSubmitWrapper>
         </StepView>
       </Stepper>
     )

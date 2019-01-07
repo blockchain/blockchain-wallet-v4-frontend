@@ -19,7 +19,7 @@ class PaymentContainer extends PureComponent {
   }
 
   handlePaymentClick = (medium) => {
-    this.props.coinifyActions.saveMedium(medium)
+    this.props.coinifyActions.setMedium(medium)
   }
 
   render () {

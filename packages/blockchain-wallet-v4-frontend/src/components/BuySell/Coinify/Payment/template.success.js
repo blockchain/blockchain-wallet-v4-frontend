@@ -11,6 +11,7 @@ import {
 import { Form } from 'components/IdentityVerification'
 import { BankOption, CardOption } from './mediumHelpers'
 import media from 'services/ResponsiveService'
+import { BackButton } from 'components/BuySell/styled'
 
 const PaymentForm = styled(Form)`
   justify-content: center;
@@ -55,22 +56,7 @@ const PaymentMediumsContainer = styled.div`
     width: 100%;
   `};
 `
-const BackButton = styled.div`
-  height: 70px;
-  width: 70px;
-  border: 1px solid ${props => props.theme['gray-1']};
-  border-radius: 6px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  left: 30px;
-  cursor: pointer;
-  ${media.mobile`
-    height: 30px;
-    width: 30px;
-  `};
-`
+
 const MediumWrapper = styled.div``
 
 const Payment = props => {
@@ -109,14 +95,14 @@ const Payment = props => {
         <PaymentMediumsContainer>
           {disabledMedium.medium === 'bank' ? (
             <BankOption
-              handlePaymentClick={handlePaymentClick}
+              handlePaymentClick={() => { }}
               disabled={disabledMedium}
             />
           ) : (
             <StepTransition next Component={MediumWrapper}>
               <BankOption
                 disabled={disabledMedium}
-                handlePaymentClick={() => {}}
+                handlePaymentClick={handlePaymentClick}
               />
             </StepTransition>
           )}

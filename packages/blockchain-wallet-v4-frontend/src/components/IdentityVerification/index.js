@@ -53,6 +53,7 @@ export const InputWrapper = styled.div`
 export const PartnerHeader = styled.div`
   font-size: 30px;
   font-weight: 600;
+  color: ${props => props.color && props.theme[props.color]};
   ${media.mobile`
     font-size: 20px;
     font-weight: 500;

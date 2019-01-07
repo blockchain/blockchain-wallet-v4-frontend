@@ -61,11 +61,6 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const coinifySaveMedium = function*(data) {
-    const medium = data.payload
-    yield put(A.saveMediumSuccess(medium))
-  }
-
   const buy = function*(payload) {
     try {
       const nextAddressData = yield call(prepareAddress)
@@ -569,7 +564,6 @@ export default ({ api, coreSagas, networks }) => {
     cancelSubscription,
     cancelTrade,
     checkoutCardMax,
-    coinifySaveMedium,
     coinifySignup,
     compareKyc,
     deleteBankAccount,

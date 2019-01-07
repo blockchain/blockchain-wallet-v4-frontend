@@ -2,16 +2,22 @@ import React from 'react'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Text } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4/src'
 
-import { CancelWrapper, CenteredWrapper } from 'components/IdentityVerification'
+import { CenteredWrapper } from 'components/IdentityVerification'
+import { SubmitButton } from 'components/BuySell/styled'
 import { CheckBox } from 'components/Form'
-import { StepTransition } from 'components/Utilities/Stepper'
 import { required } from 'services/FormHelper'
+import media from 'services/ResponsiveService'
 
 const OrderSubmitForm = styled.form`
+  width: 450px;
   margin-bottom: 30px;
+  margin: 0 auto;
+  ${media.mobile`
+    width: 90%;
+  `}
 `
 const TermsWrapper = styled.div`
   display: flex;
@@ -19,6 +25,9 @@ const TermsWrapper = styled.div`
 `
 const TermsLabel = styled.label`
   padding-top: 3px;
+`
+const MarginCenteredWrapper = styled(CenteredWrapper)`
+  margin-bottom: 50px;
 `
 
 const ReviewForm = props => {
@@ -42,8 +51,8 @@ const ReviewForm = props => {
           </Text>
         </TermsLabel>
       </TermsWrapper>
-      <CenteredWrapper>
-        <Button
+      <MarginCenteredWrapper>
+        <SubmitButton
           nature='primary'
           fullwidth
           disabled={submitting || invalid || !Remote.Success.is(quoteR) || busy}
@@ -54,16 +63,8 @@ const ReviewForm = props => {
           ) : (
             <FormattedMessage id='submit' defaultMessage='Submit' />
           )}
-        </Button>
-      </CenteredWrapper>
-      <CancelWrapper>
-        <StepTransition restart Component={Link}>
-          <FormattedMessage
-            id='scenes.buysell.coinify.sell.orderreview.cancel'
-            defaultMessage='Cancel'
-          />
-        </StepTransition>
-      </CancelWrapper>
+        </SubmitButton>
+      </MarginCenteredWrapper>
     </OrderSubmitForm>
   )
 }

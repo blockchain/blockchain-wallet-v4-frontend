@@ -82,7 +82,7 @@ const PaymentRadioCard = ({ handlePaymentClick, disabled }) => (
 
 export function CardOption ({ handlePaymentClick, disabled }) {
   return (
-    <PaymentOptionContainer>
+    <PaymentOptionContainer onClick={() => handlePaymentClick('card')}>
       <Field
         name='inMedium'
         value='card'
@@ -123,8 +123,8 @@ export function CardOption ({ handlePaymentClick, disabled }) {
   )
 }
 
-const PaymentRadioBank = ({ handlePaymentClick }) => (
-  <PaymentOption onClick={() => handlePaymentClick('bank')}>
+const PaymentRadioBank = () => (
+  <PaymentOption>
     <input
       type='radio'
       name='inMedium'
@@ -144,27 +144,39 @@ const PaymentRadioBank = ({ handlePaymentClick }) => (
   </PaymentOption>
 )
 
-export function BankOption ({ handlePaymentClick }) {
+export function BankOption ({ handlePaymentClick, disabled }) {
   return (
-    <PaymentOptionContainer>
+    <PaymentOptionContainer onClick={() => handlePaymentClick('bank')}>
       <Field
         name='inMedium'
         value='bank'
-        handlePaymentClick={handlePaymentClick}
         component={PaymentRadioBank}
         validate={[required]}
+        disabled={prop('medium', disabled) === 'bank'}
       />
-      <Text size='12px' weight={300}>
-        <FormattedMessage
-          id='coinifyexchangedata.payment.mediumhelpers.bank.detail2'
-          defaultMessage='Receive bitcoin in 2-3 days'
-        />
-        <br />
-        <FormattedMessage
-          id='coinifyexchangedata.payment.mediumhelpers.bank.detail3'
-          defaultMessage='0.25% Payment Fee'
-        />
-      </Text>
+      {prop('medium', disabled) === 'bank' ? (
+        <Fragment>
+          <FormattedMessage
+            id='coinifyexchangedata.payment.mediumhelpers.bank.disabled'
+            defaultMessage='The order amount is over your bank limit of {bankLimit}'
+            values={{ bankLimit: prop('limit', disabled) }}
+          />
+        </Fragment>
+      ) : (
+        <Fragment>
+          <Text size='12px' weight={300}>
+            <FormattedMessage
+              id='coinifyexchangedata.payment.mediumhelpers.bank.detail2'
+              defaultMessage='Receive bitcoin in 2-3 days'
+            />
+            <br />
+            <FormattedMessage
+              id='coinifyexchangedata.payment.mediumhelpers.bank.detail3'
+              defaultMessage='0.25% Payment Fee'
+            />
+          </Text>
+        </Fragment>
+      )}
     </PaymentOptionContainer>
   )
 }

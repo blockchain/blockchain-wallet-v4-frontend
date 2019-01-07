@@ -28,12 +28,8 @@ export const saveQuote = quote => ({
   payload: quote
 })
 
-export const saveMedium = medium => ({
-  type: AT.COINIFY_SAVE_MEDIUM,
-  payload: medium
-})
-export const saveMediumSuccess = medium => ({
-  type: AT.COINIFY_SAVE_MEDIUM_SUCCESS,
+export const setMedium = medium => ({
+  type: AT.COINIFY_SET_MEDIUM,
   payload: medium
 })
 

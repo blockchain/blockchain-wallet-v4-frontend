@@ -7,22 +7,12 @@ import {
   getRateFromQuote,
   currencySymbolMap
 } from 'services/CoinifyService'
-import { HeartbeatLoader, Link, Button, Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import { SubmitButton } from 'components/BuySell/styled'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { StepTransition } from 'components/Utilities/Stepper'
 import media from 'services/ResponsiveService'
 
-const CheckoutButton = styled(Button)`
-  border-radius: 6px;
-  transition: box-shadow 0.3s;
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.21);
-  &:disabled {
-    box-shadow: none;
-  }
-  &:active {
-    box-shadow: none;
-  }
-`
 const Error = styled(Text)`
   display: block;
   font-size: 13px;
@@ -171,7 +161,7 @@ export const submitButtonHelper = (
   return reason.indexOf('has_remaining') > -1 ? (
     <StepTransition
       next
-      Component={CheckoutButton}
+      Component={SubmitButton}
       onClick={onOrderCheckoutSubmit}
       nature='primary'
       fullwidth

@@ -35,11 +35,11 @@ const CustomSelectBox = styled(SelectBox)`
       }
     }
     &:hover {
-      border: 1px solid ${props => props.theme['gray-2']};
+      border: 1px solid ${props => props.theme['gray-1']};
       border-left: none;
     }
     &:active {
-      border: 1px solid ${props => props.theme['gray-2']};
+      border: 1px solid ${props => props.theme['gray-1']};
       border-left: none;
     }
   }

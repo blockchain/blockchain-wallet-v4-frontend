@@ -48,8 +48,8 @@ describe('coinify reducers', () => {
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
   })
 
-  it('should handle COINIFY_SAVE_MEDIUM_SUCCESS', () => {
-    const action = actions.saveMediumSuccess('card')
+  it('should handle COINIFY_SET_MEDIUM', () => {
+    const action = actions.setMedium('card')
     const expectedState = assoc('medium', 'card', INITIAL_STATE)
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
   })
