@@ -78,7 +78,7 @@ class LockboxSetupContainer extends React.PureComponent {
     }
     if (setupType === 'existing') {
       steps = merge(steps, {
-        'install-btc-app': { num: 3, template: () => <AppManagerStep /> },
+        'customize-device': { num: 3, template: () => <AppManagerStep /> },
         'open-btc-app': {
           num: 3,
           template: () => <OpenBtcAppStep done={currentStep.done} />

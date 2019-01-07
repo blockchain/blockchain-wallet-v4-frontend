@@ -40,8 +40,12 @@ export const changeDeviceSetupStep = (step, done, error) => ({
   type: AT.SET_NEW_DEVICE_SETUP_STEP,
   payload: { step, done, error }
 })
+export const setSetupNewOrExisting = type => ({
+  type: AT.SET_SETUP_NEW_OR_EXISTING,
+  payload: type
+})
 export const setDeviceSetupType = type => ({
-  type: AT.SET_DEVICE_SETUP_TYPE,
+  type: AT.SET_SETUP_DEVICE_TYPE,
   payload: type
 })
 

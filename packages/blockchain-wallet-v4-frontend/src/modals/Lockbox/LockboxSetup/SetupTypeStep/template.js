@@ -2,108 +2,116 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Icon, Image, Text } from 'blockchain-info-components'
+import { Button, Image, Text, TextGroup } from 'blockchain-info-components'
 
-const Title = styled.div`
-  text-align: center;
-  margin-bottom: 25px;
-`
-const Content = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 375px;
-`
-const Row = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   align-items: center;
-  padding: 25px 0;
-  & :nth-child(2) {
-    border-top: 1px solid ${props => props.theme['gray-2']};
-    border-bottom: 1px solid ${props => props.theme['gray-2']};
-  }
-  &:hover {
-    cursor: pointer;
-    & > :last-child {
-      & > :last-child {
-        color: ${props => props.theme['info']};
-      }
-    }
-  }
 `
-const LeftColumn = styled.div`
+const DeviceWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin: 0 20px;
-  & > :last-child {
-    padding-left: 20px;
-  }
+  height: 175px;
+  width: 175px;
 `
-const RightColumn = styled.div`
-  margin-right: 20px;
+const NewButton = styled(Button)`
+  height: 55px;
+  margin: 20px 0 10px;
+`
+const ExistingButton = styled(Button)`
+  height: 55px;
 `
 
 const SetupTypeStep = props => {
-  const { handleStepChange, openSupportLink } = props
+  const { handleStepChange, deviceType } = props
   return (
-    <React.Fragment>
-      <Title>
-        <Text size='16px'>
-          <FormattedMessage
-            id='modals.lockboxsetup.firststep.connect'
-            defaultMessage='Connect Your Lockbox'
+    <Wrapper>
+      {deviceType === 'ledger' ? (
+        <DeviceWrapper>
+          <Image
+            width='65%'
+            name='firmware-connect'
+            srcset={{ 'ledger-lockbox': '1x' }}
           />
-        </Text>
-      </Title>
-      <Content>
-        <Row onClick={() => handleStepChange('new')}>
-          <LeftColumn>
-            <Icon name='plus' size='22px' color='info' />
-            <Text size='15px'>
-              <FormattedMessage
-                id='modals.lockboxsetup.firststep.newdevice'
-                defaultMessage='Setup a brand new device'
-              />
-            </Text>
-          </LeftColumn>
-          <RightColumn>
-            <Icon name='short-right-arrow' nature='empty' size='20px' />
-          </RightColumn>
-        </Row>
-        <Row onClick={() => handleStepChange('existing')}>
-          <LeftColumn>
-            <Image width='22px' height='22px' name='link-lockbox-icon' />
-            <Text size='15px'>
-              <FormattedMessage
-                id='modals.lockboxsetup.firststep.existingdevice'
-                defaultMessage='Link an existing device'
-              />
-            </Text>
-          </LeftColumn>
-          <RightColumn>
-            <Icon name='short-right-arrow' nature='empty' size='20px' />
-          </RightColumn>
-        </Row>
-        <Row onClick={() => openSupportLink()}>
-          <LeftColumn>
-            <Icon name='open-in-new-tab' size='22px' color='info' />
-            <Text size='15px'>
-              <FormattedMessage
-                id='modals.lockboxsetup.firststep.restoredevice'
-                defaultMessage='Restore a previous device'
-              />
-            </Text>
-          </LeftColumn>
-          <RightColumn>
-            <Icon name='short-right-arrow' nature='empty' size='20px' />
-          </RightColumn>
-        </Row>
-      </Content>
-    </React.Fragment>
+          <Text size='16px' weight={400} style={{ marginTop: '10px' }}>
+            <FormattedMessage
+              id='modals.lockboxsetup.setuptypestep.nanos'
+              defaultMessage='Nano S'
+            />
+          </Text>
+          <Text size='14px' weight={300}>
+            <FormattedMessage
+              id='modals.lockboxsetup.setuptypestep.ledger'
+              defaultMessage='Ledger'
+            />
+          </Text>
+        </DeviceWrapper>
+      ) : (
+        <DeviceWrapper>
+          <Image
+            width='65%'
+            name='firmware-connect'
+            srcset={{ 'ledger-lockbox': '1x' }}
+          />
+          <Text size='16px' weight={400} style={{ marginTop: '10px' }}>
+            <FormattedMessage
+              id='modals.lockboxsetup.setuptypestep.lockbox'
+              defaultMessage='Lockbox'
+            />
+          </Text>
+          <Text size='14px' weight={300}>
+            <FormattedMessage
+              id='modals.lockboxsetup.setuptypestep.blockchain'
+              defaultMessage='Blockchain'
+            />
+          </Text>
+        </DeviceWrapper>
+      )}
+      <NewButton
+        nature='primary'
+        fullwidth
+        onClick={() => handleStepChange('new')}
+      >
+        <TextGroup>
+          <Text size='13px' weight={300} color='white'>
+            <FormattedMessage
+              id='modals.lockboxsetup.setuptypestep.new'
+              defaultMessage='Setup A New Device'
+            />
+          </Text>
+          <Text size='11px' weight={300} color='white'>
+            <FormattedMessage
+              id='modals.lockboxsetup.setuptypestep.newlength'
+              defaultMessage='10-15 Minutes'
+            />
+          </Text>
+        </TextGroup>
+      </NewButton>
+      <ExistingButton
+        nature='received'
+        fullwidth
+        onClick={() => handleStepChange('existing')}
+      >
+        <TextGroup>
+          <Text size='13px' weight={300} color='white'>
+            <FormattedMessage
+              id='modals.lockboxsetup.setuptypestep.existing'
+              defaultMessage='Sign In With PIN'
+            />
+          </Text>
+          <Text size='11px' weight={300} color='white'>
+            <FormattedMessage
+              id='modals.lockboxsetup.setuptypestep.existinglength'
+              defaultMessage='2-3 Minutes'
+            />
+          </Text>
+        </TextGroup>
+      </ExistingButton>
+    </Wrapper>
   )
 }
 

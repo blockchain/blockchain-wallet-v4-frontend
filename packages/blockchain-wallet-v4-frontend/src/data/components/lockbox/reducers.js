@@ -12,7 +12,8 @@ const INITIAL_STATE = {
   },
   newDeviceSetup: {
     device: Remote.NotAsked,
-    setupType: null
+    deviceType: null,
+    newOrExisting: null
   },
   isAuthentic: Remote.NotAsked
 }
@@ -31,8 +32,11 @@ export default (state = INITIAL_STATE, action) => {
         state
       )
     }
-    case AT.SET_DEVICE_SETUP_TYPE: {
-      return assocPath(['newDeviceSetup', 'setupType'], payload, state)
+    case AT.SET_SETUP_NEW_OR_EXISTING: {
+      return assocPath(['newDeviceSetup', 'newOrExisting'], payload, state)
+    }
+    case AT.SET_SETUP_DEVICE_TYPE: {
+      return assocPath(['newDeviceSetup', 'deviceType'], payload, state)
     }
     case AT.SET_NEW_DEVICE_SETUP_STEP: {
       const { done, error, step } = payload

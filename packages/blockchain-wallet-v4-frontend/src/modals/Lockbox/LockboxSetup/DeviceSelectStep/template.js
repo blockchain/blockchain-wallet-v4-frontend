@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Icon, Link, Text } from 'blockchain-info-components'
+import { Link, Icon, Image, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -67,7 +67,12 @@ const DeviceSelectStep = props => {
       </IntroText>
       <SelectDeviceWrapper>
         <DeviceWrapper onClick={() => handleStepChange('blockchain')}>
-          <Text size='16px' weight={400}>
+          <Image
+            width='50%'
+            name='firmware-connect'
+            srcset={{ 'ledger-lockbox': '1x' }}
+          />
+          <Text size='16px' weight={400} style={{ marginTop: '5px' }}>
             <FormattedMessage
               id='modals.lockboxsetup.deviceselect.lockbox'
               defaultMessage='Lockbox'
@@ -81,7 +86,12 @@ const DeviceSelectStep = props => {
           </Text>
         </DeviceWrapper>
         <DeviceWrapper onClick={() => handleStepChange('ledger')}>
-          <Text size='16px' weight={400}>
+          <Image
+            width='50%'
+            name='firmware-connect'
+            srcset={{ 'ledger-lockbox': '1x' }}
+          />
+          <Text size='16px' weight={400} style={{ marginTop: '5px' }}>
             <FormattedMessage
               id='modals.lockboxsetup.deviceselect.nanos'
               defaultMessage='Nano S'
