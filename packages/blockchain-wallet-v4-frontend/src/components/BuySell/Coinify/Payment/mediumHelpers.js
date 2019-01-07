@@ -52,10 +52,7 @@ const PaymentText = styled(Text)`
 `
 
 const PaymentRadioCard = ({ handlePaymentClick, disabled }) => (
-  <PaymentOption
-    onClick={() => handlePaymentClick('card', disabled)}
-    disabled={disabled}
-  >
+  <PaymentOption onClick={() => handlePaymentClick('card')} disabled={disabled}>
     <input
       type='radio'
       name='inMedium'
@@ -93,15 +90,15 @@ export function CardOption ({ handlePaymentClick, disabled }) {
       />
       <Text size='12px' weight={300}>
         {prop('medium', disabled) === 'card' ? (
-          <Fragment>
+          <Text size='12px' weight={300}>
             <FormattedMessage
               id='coinifyexchangedata.payment.mediumhelpers.card.disabled'
               defaultMessage='Orders over {cardLimit} can only be processed through bank transfer.'
               values={{ cardLimit: prop('limit', disabled) }}
             />
-          </Fragment>
+          </Text>
         ) : (
-          <Fragment>
+          <Text size='12px' weight={300}>
             <FormattedMessage
               id='coinifyexchangedata.payment.mediumhelpers.card.detail1'
               defaultMessage='Receive bitcoin instantly'
@@ -116,15 +113,15 @@ export function CardOption ({ handlePaymentClick, disabled }) {
               id='coinifyexchangedata.payment.mediumhelpers.card.detail3'
               defaultMessage='Visa or Mastercard'
             />
-          </Fragment>
+          </Text>
         )}
       </Text>
     </PaymentOptionContainer>
   )
 }
 
-const PaymentRadioBank = () => (
-  <PaymentOption>
+const PaymentRadioBank = ({ disabled }) => (
+  <PaymentOption disabled={disabled}>
     <input
       type='radio'
       name='inMedium'
@@ -132,8 +129,8 @@ const PaymentRadioBank = () => (
       value='bank'
       style={{ display: 'none' }}
     />
-    <OptionLabel htmlFor='bank'>
-      <PaymentIcon name='bank-filled' cursor size='50px' />
+    <OptionLabel htmlFor='bank' disabled={disabled}>
+      <PaymentIcon name='bank-filled' cursor size='50px' disabled={disabled} />
       <PaymentText>
         <FormattedMessage
           id='coinifyexchangedata.payment.mediumhelpers.bank'
@@ -155,27 +152,25 @@ export function BankOption ({ handlePaymentClick, disabled }) {
         disabled={prop('medium', disabled) === 'bank'}
       />
       {prop('medium', disabled) === 'bank' ? (
-        <Fragment>
+        <Text size='12px' weight={300}>
           <FormattedMessage
             id='coinifyexchangedata.payment.mediumhelpers.bank.disabled'
             defaultMessage='The order amount is over your bank limit of {bankLimit}'
             values={{ bankLimit: prop('limit', disabled) }}
           />
-        </Fragment>
+        </Text>
       ) : (
-        <Fragment>
-          <Text size='12px' weight={300}>
-            <FormattedMessage
-              id='coinifyexchangedata.payment.mediumhelpers.bank.detail2'
-              defaultMessage='Receive bitcoin in 2-3 days'
-            />
-            <br />
-            <FormattedMessage
-              id='coinifyexchangedata.payment.mediumhelpers.bank.detail3'
-              defaultMessage='0.25% Payment Fee'
-            />
-          </Text>
-        </Fragment>
+        <Text size='12px' weight={300}>
+          <FormattedMessage
+            id='coinifyexchangedata.payment.mediumhelpers.bank.detail2'
+            defaultMessage='Receive bitcoin in 2-3 days'
+          />
+          <br />
+          <FormattedMessage
+            id='coinifyexchangedata.payment.mediumhelpers.bank.detail3'
+            defaultMessage='0.25% Payment Fee'
+          />
+        </Text>
       )}
     </PaymentOptionContainer>
   )

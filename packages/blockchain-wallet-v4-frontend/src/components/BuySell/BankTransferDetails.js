@@ -8,9 +8,9 @@ import PropTypes from 'prop-types'
 const BankTransferDetailsTable = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1px solid ${props => props.theme['gray-2']};
-  background-color: ${props => props.theme['white-blue']};
+  border: 1px solid ${props => props.theme['gray-1']};
   padding: 15px;
+  border-radius: 6px;
 `
 const DetailsRow = styled.div`
   display: flex;
@@ -26,6 +26,7 @@ const BankTransferDetailsWrapper = styled.div`
   padding: ${props => (props.inModal ? `0px` : `30px`)};
   border: ${props =>
     props.inModal ? `none` : `1px solid ${props.theme['gray-1']}`};
+  margin-bottom: 15px;
 `
 
 const BankTransferDetails = ({ trade, inModal }) => {

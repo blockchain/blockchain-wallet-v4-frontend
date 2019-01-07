@@ -35,6 +35,13 @@ const OrderSubmitWrapper = styled.div`
   flex-direction: column;
   width: 100%;
 `
+const BankTransferWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 450px;
+  margin: 0 auto;
+  align-items: center;
+`
 const RightContainer = styled.div``
 
 const CoinifyBuy = props => {
@@ -150,24 +157,22 @@ const CoinifyBuy = props => {
     )
   } else if (step === 'bankTransferDetails') {
     return (
-      <CheckoutWrapper>
+      <BankTransferWrapper>
         <BankTransferDetails trade={trade} />
-        <RightContainer>
-          <Button
-            nature='primary'
-            width='85%'
-            onClick={() => {
-              changeTab('order_history')
-              coinifyNextCheckoutStep('checkout')
-            }}
-          >
-            <FormattedMessage
-              id='scenes.buysell.coinifycheckout.content.buy.close'
-              defaultMessage='Close'
-            />
-          </Button>
-        </RightContainer>
-      </CheckoutWrapper>
+        <Button
+          nature='primary'
+          width='85%'
+          onClick={() => {
+            changeTab('order_history')
+            coinifyNextCheckoutStep('checkout')
+          }}
+        >
+          <FormattedMessage
+            id='scenes.buysell.coinifycheckout.content.buy.close'
+            defaultMessage='Close'
+          />
+        </Button>
+      </BankTransferWrapper>
     )
   }
 }
