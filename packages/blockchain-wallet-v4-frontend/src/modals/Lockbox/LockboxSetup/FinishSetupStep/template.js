@@ -37,17 +37,17 @@ const FinishSetupStep = props => {
           values={{ deviceType }}
         />
       </IntroText>
-      <SkipTourText size='11px' weight={400} onClick={() => onFinishSetup(false)}>
+      <SkipTourText
+        size='11px'
+        weight={400}
+        onClick={() => onFinishSetup(false)}
+      >
         <FormattedHTMLMessage
           id='modals.lockboxsetup.finishstep.skiptour'
           defaultMessage='Skip Tour'
         />
       </SkipTourText>
-      <Button
-        fullwidth
-        onClick={() => onFinishSetup(true)}
-        nature={'primary'}
-      >
+      <Button fullwidth onClick={() => onFinishSetup(true)} nature={'primary'}>
         <FormattedHTMLMessage
           id='modals.lockboxsetup.finishstep.starttour'
           defaultMessage='Start Tour'
@@ -58,4 +58,3 @@ const FinishSetupStep = props => {
 }
 
 export default FinishSetupStep
-

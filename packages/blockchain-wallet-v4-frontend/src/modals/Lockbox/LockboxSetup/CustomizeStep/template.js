@@ -40,11 +40,7 @@ const FinishSetupStep = props => {
           defaultMessage="Don't worry you can always change them later."
         />
       </ReminderText>
-      <Button
-        fullwidth
-        onClick={onNextStep}
-        nature={'primary'}
-      >
+      <Button fullwidth onClick={onNextStep} nature={'primary'}>
         <FormattedMessage
           id='modals.lockboxsetup.customizestep.addapps'
           defaultMessage='Add Apps'
@@ -55,4 +51,3 @@ const FinishSetupStep = props => {
 }
 
 export default FinishSetupStep
-

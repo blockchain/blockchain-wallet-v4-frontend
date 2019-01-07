@@ -17,15 +17,17 @@ class FinishSetupStepContainer extends React.PureComponent {
   }
 
   render () {
-    return <FinishSetupStep
-      deviceType={this.props.deviceType}
-      onFinishSetup={this.onFinishSetup}
-    />
+    return (
+      <FinishSetupStep
+        deviceType={this.props.deviceType}
+        onFinishSetup={this.onFinishSetup}
+      />
+    )
   }
 }
 
 FinishSetupStepContainer.propTypes = {
-  onClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({

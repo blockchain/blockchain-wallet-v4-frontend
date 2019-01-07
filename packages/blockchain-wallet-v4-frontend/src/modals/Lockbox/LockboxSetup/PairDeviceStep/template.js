@@ -37,7 +37,7 @@ const PairDeviceStep = props => {
           values={{ deviceType }}
         />
       </IntroText>
-      <TextGroup inline style={{marginBottom: '10px'}}>
+      <TextGroup inline style={{ marginBottom: '10px' }}>
         <InstallReminderText size='11px' weight={300}>
           <FormattedHTMLMessage
             id='modals.lockboxsetup.pairdevice.install'
