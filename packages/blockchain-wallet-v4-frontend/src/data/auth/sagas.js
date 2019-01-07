@@ -14,7 +14,7 @@ import {
   promptForSecondPassword,
   forceSyncWallet
 } from 'services/SagaService'
-import { Types, Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 
 export const logLocation = 'auth/sagas'
@@ -136,7 +136,8 @@ export default ({ api, coreSagas }) => {
       const language = yield select(selectors.preferences.getLanguage)
       yield put(actions.modules.settings.updateLanguage(language))
       yield fork(transferEthSaga)
-      yield fork(reportStats, mobileLogin)
+      // TODO @analytics.logEvent login flow
+      // yield fork(reportStats, mobileLogin)
       yield put(actions.goals.saveGoal('welcome', { firstLogin }))
       yield put(actions.goals.saveGoal('swapUpgrade'))
       yield put(actions.goals.saveGoal('kyc'))
@@ -153,18 +154,6 @@ export default ({ api, coreSagas }) => {
       )
       // Redirect to error page instead of notification
       yield put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
-    }
-  }
-
-  const reportStats = function*(mobileLogin) {
-    if (mobileLogin) {
-      yield call(api.incrementLoginViaQrStats)
-    } else {
-      const wallet = yield select(selectors.core.wallet.getWallet)
-      yield call(
-        api.incrementSecPasswordStats,
-        Types.Wallet.isDoubleEncrypted(wallet)
-      )
     }
   }
 
@@ -528,7 +517,6 @@ export default ({ api, coreSagas }) => {
     reset2fa,
     resendSmsLoginCode,
     restore,
-    reportStats,
     setLogoutEventListener,
     transferEthSaga,
     upgradeWallet,

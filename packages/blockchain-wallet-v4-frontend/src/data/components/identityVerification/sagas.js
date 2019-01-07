@@ -113,10 +113,10 @@ export default ({ api, coreSagas }) => {
   const selectTier = function*(tier = 2) {
     const { selected } = yield select(selectors.modules.profile.getUserTiers)
     if (selected === tier)
-      return yield put(actions.analytics.logKycEvent(REENTERED))
+      return yield put(actions.analytics.logEvent(REENTERED))
     yield call(api.selectTier, tier)
     yield call(fetchUser)
-    yield put(actions.analytics.logKycEvent(STARTED))
+    yield put(actions.analytics.logEvent(STARTED))
   }
 
   const checkUserUniqueness = function*() {
@@ -139,7 +139,7 @@ export default ({ api, coreSagas }) => {
     const unique = yield call(checkUserUniqueness)
     if (!unique) {
       yield put(actions.modals.showModal(USER_EXISTS_MODAL))
-      return yield put(actions.analytics.logKycEvent(EMAIL_EXISTS))
+      return yield put(actions.analytics.logEvent(EMAIL_EXISTS))
     }
     yield put(
       actions.modals.showModal(KYC_MODAL, { tier, isCoinify, needMoreInfo })
@@ -247,7 +247,7 @@ export default ({ api, coreSagas }) => {
       yield call(syncUserWithWallet)
       yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
       yield call(goToNextStep)
-      yield put(actions.analytics.logKycEvent(MOBILE_STEP_COMPLETE))
+      yield put(actions.analytics.logEvent(MOBILE_STEP_COMPLETE))
     } catch (e) {
       const description = prop('description', e)
 
@@ -309,7 +309,7 @@ export default ({ api, coreSagas }) => {
 
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
       yield call(goToNextStep)
-      yield put(actions.analytics.logKycEvent(PERSONAL_STEP_COMPLETE))
+      yield put(actions.analytics.logEvent(PERSONAL_STEP_COMPLETE))
     } catch (e) {
       yield put(actions.form.stopSubmit(PERSONAL_FORM, { _error: e }))
       yield put(

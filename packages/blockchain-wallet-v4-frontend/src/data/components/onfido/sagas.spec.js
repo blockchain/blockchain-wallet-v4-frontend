@@ -26,7 +26,7 @@ describe('syncOnfido', () => {
       .put(actions.modules.profile.fetchUser())
       .put(actions.modals.closeAllModals())
       .put(actions.router.push('/swap'))
-      .put(actions.analytics.logKycEvent(COMPLETE))
+      .put(actions.analytics.logEvent(COMPLETE))
       .run()
   })
   it('should save error state if sync fails', () => {
