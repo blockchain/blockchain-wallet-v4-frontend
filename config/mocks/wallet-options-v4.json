@@ -98,7 +98,7 @@
         },
         "lastTxFuse": 86400,
         "config": {
-          "network": "mainnet"
+          "network": 1
         }
       },
       "xlm": {

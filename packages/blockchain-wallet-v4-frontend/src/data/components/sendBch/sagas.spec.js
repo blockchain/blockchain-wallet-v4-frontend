@@ -14,7 +14,7 @@ import * as C from 'services/AlertService'
 import { actions, selectors } from 'data'
 import sendBchSagas, { logLocation, bchDefaultFee } from './sagas'
 import { promptForSecondPassword } from 'services/SagaService'
-import settings from 'config'
+import BitcoinCash from 'bitcoinforksjs-lib'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const api = {
@@ -22,6 +22,9 @@ const api = {
   deauthorizeBrowser: jest.fn()
 }
 const coreSagas = coreSagasFactory({ api })
+const networks = {
+  bch: BitcoinCash.networks['bitcoin']
+}
 
 describe('sendBch sagas', () => {
   // Mocking Math.random() to have identical popup ids for action testing
@@ -46,7 +49,7 @@ describe('sendBch sagas', () => {
     initialized,
     firstStepSubmitClicked,
     secondStepSubmitClicked
-  } = sendBchSagas({ api, coreSagas })
+  } = sendBchSagas({ api, coreSagas, networks })
 
   const feeType = 'regular'
   const feePerByte = 1
@@ -104,7 +107,7 @@ describe('sendBch sagas', () => {
       saga.next()
       expect(coreSagas.payment.bch.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.bch.create).toHaveBeenCalledWith({
-        network: settings.NETWORK_BCH
+        network: networks.bch
       })
       expect(paymentMock.init).toHaveBeenCalledTimes(1)
     })
@@ -247,7 +250,7 @@ describe('sendBch sagas', () => {
       expect(coreSagas.payment.bch.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.bch.create).toHaveBeenCalledWith({
         payment: paymentMock,
-        network: settings.NETWORK_BCH
+        network: networks.bch
       })
     })
 
@@ -313,7 +316,7 @@ describe('sendBch sagas', () => {
       expect(coreSagas.payment.bch.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.bch.create).toHaveBeenCalledWith({
         payment: paymentMock,
-        network: settings.NETWORK_BCH
+        network: networks.bch
       })
     })
 
