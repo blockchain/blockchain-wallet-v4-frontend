@@ -9511,8 +9511,8 @@
         "id": "scenes.lockbox.welcome.poweredby"
       },
       {
-        "defaultMessage": "Don't have a Lockbox? Secure your crypto now for $99.",
-        "id": "scenes.lockbox.welcome.explanation"
+        "defaultMessage": "Don't have a Lockbox? Secure your crypto now.",
+        "id": "scenes.lockbox.welcome.explanation.secure"
       },
       {
         "defaultMessage": "Learn More",

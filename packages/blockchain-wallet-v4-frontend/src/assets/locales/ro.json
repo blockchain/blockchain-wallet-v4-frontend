@@ -1752,7 +1752,7 @@
   "scenes.lockbox.settings.updatedevice.description": "Verificați actualizările de firmware pentru dispozitivul dvs.",
   "scenes.lockbox.settings.updatedevice.title": "Actualizarea firmware-ului",
   "scenes.lockbox.welcome.browserblock": "Configurarea nouă a dispozitivului poate fi efectuată numai în timpul utilizării browserului Chrome",
-  "scenes.lockbox.welcome.explanation": "Nu aveți un Lockbox? Asigurați-vă cripto acum pentru 99 dolari.",
+  "scenes.lockbox.welcome.explanation.secure": null,
   "scenes.lockbox.welcome.getstarted": "Incepe",
   "scenes.lockbox.welcome.learnmore": "Aflați mai multe",
   "scenes.lockbox.welcome.poweredby": "Cu sprijinul",

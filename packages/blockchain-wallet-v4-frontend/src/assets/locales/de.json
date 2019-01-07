@@ -1752,7 +1752,7 @@
   "scenes.lockbox.settings.updatedevice.description": "Nach Firmware-Akltualisierungen für Ihr Gerät suchen",
   "scenes.lockbox.settings.updatedevice.title": "Firmware-Aktualisierung",
   "scenes.lockbox.welcome.browserblock": "Die Einrichtung neuer Geräte ist nur mit dem Chrome-Browser möglich.",
-  "scenes.lockbox.welcome.explanation": "Sie haben keine Lockbox? Sichern Sie Ihre Cryptos jetzt für $ 99.",
+  "scenes.lockbox.welcome.explanation.secure": null,
   "scenes.lockbox.welcome.getstarted": "Sich aufmachen",
   "scenes.lockbox.welcome.learnmore": "Mehr dazu",
   "scenes.lockbox.welcome.poweredby": "Betrieben von",

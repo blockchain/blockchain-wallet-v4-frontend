@@ -1752,7 +1752,7 @@
   "scenes.lockbox.settings.updatedevice.description": "Cihazınız için ürün yazılımı güncellemelerini kontrol edin",
   "scenes.lockbox.settings.updatedevice.title": "Yazılım güncellemesi",
   "scenes.lockbox.welcome.browserblock": "Yeni cihaz kurulumu yalnızca Chrome tarayıcı kullanılırken yapılabilir",
-  "scenes.lockbox.welcome.explanation": "Kilitli Kutunuz yok mu? Şifreni şimdi 99 $ için güvende tut.",
+  "scenes.lockbox.welcome.explanation.secure": null,
   "scenes.lockbox.welcome.getstarted": "Başla",
   "scenes.lockbox.welcome.learnmore": "Daha Fazlasını Öğren",
   "scenes.lockbox.welcome.poweredby": "Tarafından desteklenmektedir",

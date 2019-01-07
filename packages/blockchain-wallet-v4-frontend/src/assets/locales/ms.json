@@ -1752,7 +1752,7 @@
   "scenes.lockbox.settings.updatedevice.description": "Semak kemas kini perisian tegar untuk peranti anda",
   "scenes.lockbox.settings.updatedevice.title": "Kemas kini Perisian",
   "scenes.lockbox.welcome.browserblock": "Persediaan peranti baru hanya boleh dilakukan semasa menggunakan penyemak imbas Chrome",
-  "scenes.lockbox.welcome.explanation": "Tidak mempunyai Lockbox? Selamatkan crypto anda sekarang untuk $ 99.",
+  "scenes.lockbox.welcome.explanation.secure": null,
   "scenes.lockbox.welcome.getstarted": "Bermula",
   "scenes.lockbox.welcome.learnmore": "Ketahui lebih lanjut",
   "scenes.lockbox.welcome.poweredby": "Dikuasai oleh",

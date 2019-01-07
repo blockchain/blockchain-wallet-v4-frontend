@@ -1752,7 +1752,7 @@
   "scenes.lockbox.settings.updatedevice.description": "お使いのデバイスのファームウェアアップデートを確認する",
   "scenes.lockbox.settings.updatedevice.title": "ファームウェアアップデート",
   "scenes.lockbox.welcome.browserblock": "新しいデバイスの設定は、Chromeブラウザを使用している間のみ行うことができます",
-  "scenes.lockbox.welcome.explanation": "ロックボックスはありませんか？今あなたの暗号を$ 99で安全にしてください。",
+  "scenes.lockbox.welcome.explanation.secure": null,
   "scenes.lockbox.welcome.getstarted": "利用を開始する",
   "scenes.lockbox.welcome.learnmore": "さらに詳しく",
   "scenes.lockbox.welcome.poweredby": "搭載",

@@ -1752,7 +1752,7 @@
   "scenes.lockbox.settings.updatedevice.description": "Zkontrolujte aktualizace firmwaru zařízení",
   "scenes.lockbox.settings.updatedevice.title": "Aktualizace firmware",
   "scenes.lockbox.welcome.browserblock": "Nové nastavení zařízení lze provést pouze při používání prohlížeče Chrome",
-  "scenes.lockbox.welcome.explanation": "Nemáte Lockbox? Zabezpečte svůj krypt za 99 dolarů.",
+  "scenes.lockbox.welcome.explanation.secure": null,
   "scenes.lockbox.welcome.getstarted": "Začít",
   "scenes.lockbox.welcome.learnmore": "Zjistit více",
   "scenes.lockbox.welcome.poweredby": "Poháněno",

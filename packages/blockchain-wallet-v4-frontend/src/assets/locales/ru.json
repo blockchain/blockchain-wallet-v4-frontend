@@ -1752,7 +1752,7 @@
   "scenes.lockbox.settings.updatedevice.description": "Проверка обновлений прошивки для вашего устройства",
   "scenes.lockbox.settings.updatedevice.title": "Обновление прошивки",
   "scenes.lockbox.welcome.browserblock": "Настройка нового устройства может быть выполнена только при использовании браузера Chrome",
-  "scenes.lockbox.welcome.explanation": "У вас нет Lockbox? Защитите криптовалюту за 99$.",
+  "scenes.lockbox.welcome.explanation.secure": null,
   "scenes.lockbox.welcome.getstarted": "Начать",
   "scenes.lockbox.welcome.learnmore": "Подробнее",
   "scenes.lockbox.welcome.poweredby": "При поддержке",

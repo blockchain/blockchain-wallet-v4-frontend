@@ -1752,7 +1752,7 @@
   "scenes.lockbox.settings.updatedevice.description": "Controleer op firmware-updates voor uw apparaat",
   "scenes.lockbox.settings.updatedevice.title": "Firmware update",
   "scenes.lockbox.welcome.browserblock": "Nieuwe apparaatconfiguratie kan alleen worden uitgevoerd tijdens gebruik van de Chrome-browser",
-  "scenes.lockbox.welcome.explanation": "Heb je geen Lockbox? Beveilig nu uw crypto voor $ 99.",
+  "scenes.lockbox.welcome.explanation.secure": null,
   "scenes.lockbox.welcome.getstarted": "Begin",
   "scenes.lockbox.welcome.learnmore": "Kom meer te weten",
   "scenes.lockbox.welcome.poweredby": "Aangedreven door",

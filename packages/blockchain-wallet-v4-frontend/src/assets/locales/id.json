@@ -1752,7 +1752,7 @@
   "scenes.lockbox.settings.updatedevice.description": "Periksa pembaruan firmware untuk perangkat Anda",
   "scenes.lockbox.settings.updatedevice.title": "Pembaruan Firmware",
   "scenes.lockbox.welcome.browserblock": "Pengaturan perangkat baru hanya dapat dilakukan saat menggunakan browser Chrome",
-  "scenes.lockbox.welcome.explanation": "Tidak punya Lockbox? Amankan crypto Anda sekarang seharga $ 99.",
+  "scenes.lockbox.welcome.explanation.secure": null,
   "scenes.lockbox.welcome.getstarted": "Memulai",
   "scenes.lockbox.welcome.learnmore": "Ketahui Selengkapnya",
   "scenes.lockbox.welcome.poweredby": "Dipersembahkan oleh",

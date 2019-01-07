@@ -1752,7 +1752,7 @@
   "scenes.lockbox.settings.updatedevice.description": "Vérifiez les mises à jour du micrologiciel de votre appareil",
   "scenes.lockbox.settings.updatedevice.title": "Mettre à jour du micrologiciel",
   "scenes.lockbox.welcome.browserblock": "La configuration d'un nouvel appareil ne peut se faire qu'en utilisant le navigateur Chrome.",
-  "scenes.lockbox.welcome.explanation": "Vous ne disposez pas d'un Lockbox? Sécurisez votre crypto maintenant à 99 $.",
+  "scenes.lockbox.welcome.explanation.secure": null,
   "scenes.lockbox.welcome.getstarted": "Démarrer",
   "scenes.lockbox.welcome.learnmore": "En savoir plus",
   "scenes.lockbox.welcome.poweredby": "Optimisé par",

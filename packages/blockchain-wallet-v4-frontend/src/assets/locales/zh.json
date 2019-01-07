@@ -1752,7 +1752,7 @@
   "scenes.lockbox.settings.updatedevice.description": "检查设备的固件更新",
   "scenes.lockbox.settings.updatedevice.title": "固件更新",
   "scenes.lockbox.welcome.browserblock": "新设备仅可在使用 Chrome 浏览器时完成设置",
-  "scenes.lockbox.welcome.explanation": "没有 Lockbox？立即花费 99 美金保护您的 crypto。",
+  "scenes.lockbox.welcome.explanation.secure": null,
   "scenes.lockbox.welcome.getstarted": "开始",
   "scenes.lockbox.welcome.learnmore": "了解更多",
   "scenes.lockbox.welcome.poweredby": "技术支持方",

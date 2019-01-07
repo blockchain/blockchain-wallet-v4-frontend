@@ -1752,7 +1752,7 @@
   "scenes.lockbox.settings.updatedevice.description": "장치의 펌웨어 업데이트 확인",
   "scenes.lockbox.settings.updatedevice.title": "펌웨어 업데이트",
   "scenes.lockbox.welcome.browserblock": "새로운 기기 설정은 Chrome 브라우저를 사용하는 동안에 만 수행 할 수 있습니다.",
-  "scenes.lockbox.welcome.explanation": "Lockbox가 없습니까? 지금 99 달러에 당신의 암호를 안전하게하십시오.",
+  "scenes.lockbox.welcome.explanation.secure": null,
   "scenes.lockbox.welcome.getstarted": "시작하다",
   "scenes.lockbox.welcome.learnmore": "더 배우기",
   "scenes.lockbox.welcome.poweredby": "Powered by",

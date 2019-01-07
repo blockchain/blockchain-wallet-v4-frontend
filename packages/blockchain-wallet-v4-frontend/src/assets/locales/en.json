@@ -1752,7 +1752,7 @@
   "scenes.lockbox.settings.updatedevice.description": "Check for firmware updates for your device",
   "scenes.lockbox.settings.updatedevice.title": "Firmware Update",
   "scenes.lockbox.welcome.browserblock": "New device setup can only be done while using the Chrome browser",
-  "scenes.lockbox.welcome.explanation": "Don't have a Lockbox? Secure your crypto now for $99.",
+  "scenes.lockbox.welcome.explanation.secure": "Don't have a Lockbox? Secure your crypto now.",
   "scenes.lockbox.welcome.getstarted": "Get Started",
   "scenes.lockbox.welcome.learnmore": "Learn More",
   "scenes.lockbox.welcome.poweredby": "Powered By",

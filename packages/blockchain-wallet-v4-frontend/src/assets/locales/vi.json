@@ -1752,7 +1752,7 @@
   "scenes.lockbox.settings.updatedevice.description": "Kiểm tra bản cập nhật phần mềm điều khiển dành cho thiết bị của bạn",
   "scenes.lockbox.settings.updatedevice.title": "Cập nhật Phần mềm điều khiển",
   "scenes.lockbox.welcome.browserblock": "Chỉ có thể hoàn thành thiết lập thiết bị mới khi sử dụng trình duyệt Chrome",
-  "scenes.lockbox.welcome.explanation": "Bạn không có Lockbox? Hãy bảo vệ tiền kỹ thuật số của bạn ngay với 99 USD.",
+  "scenes.lockbox.welcome.explanation.secure": null,
   "scenes.lockbox.welcome.getstarted": "Bắt Đầu",
   "scenes.lockbox.welcome.learnmore": "Tìm hiểu thêm",
   "scenes.lockbox.welcome.poweredby": "Tài trợ bởi",

@@ -1752,7 +1752,7 @@
   "scenes.lockbox.settings.updatedevice.description": "Kontrollera efter uppdateringar av firmware för enheten",
   "scenes.lockbox.settings.updatedevice.title": "Firmware Update",
   "scenes.lockbox.welcome.browserblock": "Ny enhetens inställning kan bara göras när du använder Chrome-webbläsaren",
-  "scenes.lockbox.welcome.explanation": "Har du inte en Lockbox? Säkra din krypto nu för $ 99.",
+  "scenes.lockbox.welcome.explanation.secure": null,
   "scenes.lockbox.welcome.getstarted": "Komma igång",
   "scenes.lockbox.welcome.learnmore": "Läs mer",
   "scenes.lockbox.welcome.poweredby": "Drivs av",

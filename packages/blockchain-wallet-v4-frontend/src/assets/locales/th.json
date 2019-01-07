@@ -1752,7 +1752,7 @@
   "scenes.lockbox.settings.updatedevice.description": "ตรวจหาการอัปเดตเฟิร์มแวร์สำหรับอุปกรณ์ของคุณ",
   "scenes.lockbox.settings.updatedevice.title": "อัพเดตเฟิร์มแวร์",
   "scenes.lockbox.welcome.browserblock": "การตั้งค่าอุปกรณ์ใหม่ทำได้เฉพาะในขณะที่ใช้เบราว์เซอร์ Chrome",
-  "scenes.lockbox.welcome.explanation": "ไม่มี Lockbox หรือไม่? ปลอดภัย crypto ของคุณตอนนี้ราคา $ 99",
+  "scenes.lockbox.welcome.explanation.secure": null,
   "scenes.lockbox.welcome.getstarted": "เริ่มกันเลย",
   "scenes.lockbox.welcome.learnmore": "เรียนรู้เพิ่มเติม",
   "scenes.lockbox.welcome.poweredby": "ขับเคลื่อนด้วย",

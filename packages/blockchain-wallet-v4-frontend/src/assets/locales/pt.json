@@ -1752,7 +1752,7 @@
   "scenes.lockbox.settings.updatedevice.description": "Verifique se há atualizações de firmware para o seu dispositivo",
   "scenes.lockbox.settings.updatedevice.title": "Atualização de Firmware",
   "scenes.lockbox.welcome.browserblock": "A nova configuração do dispositivo só pode ser feita durante o uso do navegador Google Chrome",
-  "scenes.lockbox.welcome.explanation": "Não tem um Lockbox? Proteja a sua criptografia agora por $99.",
+  "scenes.lockbox.welcome.explanation.secure": null,
   "scenes.lockbox.welcome.getstarted": "Comece já",
   "scenes.lockbox.welcome.learnmore": "Saiba Mais",
   "scenes.lockbox.welcome.poweredby": "Desenvolvida por",

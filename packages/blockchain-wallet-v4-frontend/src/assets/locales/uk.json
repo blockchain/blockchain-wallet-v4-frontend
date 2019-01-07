@@ -1752,7 +1752,7 @@
   "scenes.lockbox.settings.updatedevice.description": "Перевірте наявність оновлень прошивки свого пристрою",
   "scenes.lockbox.settings.updatedevice.title": "Оновлення мікропрограми",
   "scenes.lockbox.welcome.browserblock": "Налаштування нового пристрою можна зробити лише під час використання веб-переглядача Chrome",
-  "scenes.lockbox.welcome.explanation": "Не маєте Lockbox? Захистіть свій крипто зараз за 99 доларів.",
+  "scenes.lockbox.welcome.explanation.secure": null,
   "scenes.lockbox.welcome.getstarted": "Почати",
   "scenes.lockbox.welcome.learnmore": "Дізнатись більше",
   "scenes.lockbox.welcome.poweredby": "Powered By",
