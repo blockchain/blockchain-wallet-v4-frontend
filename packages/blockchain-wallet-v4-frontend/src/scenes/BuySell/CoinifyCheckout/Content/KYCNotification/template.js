@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { Text, Button } from 'blockchain-info-components'
@@ -36,6 +36,9 @@ const Divider = styled.div`
 const CompleteButton = styled(Button)`
   border-radius: 6px;
 `
+const VerificationText = styled(Text)`
+  margin-top: 20px;
+`
 
 const KYCNotification = props => {
   const { onTrigger, kycState } = props
@@ -62,14 +65,22 @@ const KYCNotification = props => {
           {prop('text', body)}
         </Text>
         {equals(NONE, kycState) ? (
-          <CompleteButton onClick={onTrigger} nature='empty-secondary'>
-            <Text size='13px' color='brand-secondary'>
+          <Fragment>
+            <CompleteButton onClick={onTrigger} nature='empty-secondary'>
+              <Text size='13px' color='brand-secondary'>
+                <FormattedMessage
+                  id='scenes.buy_sell.kyc_notification.complete'
+                  defaultMessage='Complete Verification'
+                />
+              </Text>
+            </CompleteButton>
+            <VerificationText size='12px' weight={300}>
               <FormattedMessage
-                id='scenes.buy_sell.kyc_notification.complete'
-                defaultMessage='Complete Verification'
+                id='scenes.buy_sell.kyc_notification.note'
+                defaultMessage='*Please note, users who have verified their identity with Coinify before November 2018 will need to verify their identity with us again. We apologize for the inconvenience.'
               />
-            </Text>
-          </CompleteButton>
+            </VerificationText>
+          </Fragment>
         ) : null}
       </KycContainer>
     </Wrapper>

@@ -70,7 +70,7 @@ const SelectPartner = props => {
       return {
         name: 'COINIFY',
         url: 'url(/img/coinify-landing.svg)',
-        backgroundSize: 'auto 50%',
+        backgroundSize: 'auto 45%',
         backgroundPosition: 'right 25px bottom 65%',
         logo: 'powered-by-coinify'
       }
@@ -84,15 +84,27 @@ const SelectPartner = props => {
         <GetStartedContent>
           <GetStartedHeader size='26px' weight={400} color='brand-primary' width='300px'>
             <FormattedMessage
-              id='scenes.buysell.selectpartner.header'
-              defaultMessage='Introducing Buy & Sell'
+              id='scenes.buysell.selectpartner.header.buy_bitcoin'
+              defaultMessage='Buy & Sell Bitcoin'
             />
           </GetStartedHeader>
           <GetStartedText size='17px' weight={300}>
-            <FormattedMessage
-              id='scenes.buysell.selectpartner.subtitle'
-              defaultMessage='You can now buy & sell Bitcoin (BTC) directly from your Blockchain Wallet.'
-            />
+            {
+              getPartner().name === 'COINIFY'
+                ? <FormattedMessage
+                  id='scenes.buysell.selectpartner.subheader_coinify'
+                  defaultMessage='You can buy & sell Bitcoin (BTC) using your credit card or bank account from your Wallet through our partner Coinify.'
+                />
+                : getPartner().name === 'SFOX'
+                  ? <FormattedMessage
+                    id='scenes.buysell.selectpartner.subheader_sfox'
+                    defaultMessage='You can buy & sell Bitcoin (BTC) using your linked bank account from your Wallet through our partner SFOX.'
+                  />
+                  : <FormattedMessage
+                    id='scenes.buysell.selectpartner.subheader_nopartner'
+                    defaultMessage='You can buy & sell Bitcoin (BTC) from your Wallet.'
+                  />
+            }
           </GetStartedText>
           <FieldWrapper>
             <Form onSubmit={handleSubmit}>

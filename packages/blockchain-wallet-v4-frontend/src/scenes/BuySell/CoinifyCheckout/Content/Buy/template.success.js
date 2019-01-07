@@ -19,8 +19,12 @@ import media from 'services/ResponsiveService'
 
 const CheckoutWrapper = styled.div`
   display: grid;
-  grid-template-columns: 450px 30%;
+  grid-template-columns: 450px 300px;
   grid-gap: 5%;
+  grid-auto-rows: 1fr;
+  ${media.laptop`
+    grid-template-columns: 50% 45%;
+  `};
   ${media.mobile`
     display: flex;
     flex-direction: column;
@@ -32,7 +36,6 @@ const OrderSubmitWrapper = styled.div`
   width: 100%;
 `
 const RightContainer = styled.div``
-const LeftContainer = styled.div``
 
 const CoinifyBuy = props => {
   const {
@@ -80,26 +83,24 @@ const CoinifyBuy = props => {
       <Stepper initialStep={0}>
         <StepView step={0}>
           <CheckoutWrapper>
-            <LeftContainer>
-              <OrderCheckout
-                cannotTradeReason={cannotTradeReason}
-                canTrade={canTrade}
-                canTradeAfter={canTradeAfter}
-                checkoutBusy={checkoutBusy}
-                checkoutError={checkoutError}
-                defaultCurrency={defaultCurrency}
-                increaseLimit={handleKycAction}
-                limits={limits.buy}
-                onFetchQuote={fetchBuyQuote}
-                quoteR={buyQuoteR}
-                reason={'has_remaining'} // placeholder for now - coinify does not require a reason
-                symbol={symbol}
-                setMax={setMax}
-                setMin={setMin}
-                type={'buy'}
-                verified={kycVerified}
-              />
-            </LeftContainer>
+            <OrderCheckout
+              cannotTradeReason={cannotTradeReason}
+              canTrade={canTrade}
+              canTradeAfter={canTradeAfter}
+              checkoutBusy={checkoutBusy}
+              checkoutError={checkoutError}
+              defaultCurrency={defaultCurrency}
+              increaseLimit={handleKycAction}
+              limits={limits.buy}
+              onFetchQuote={fetchBuyQuote}
+              quoteR={buyQuoteR}
+              reason={'has_remaining'} // placeholder for now - coinify does not require a reason
+              symbol={symbol}
+              setMax={setMax}
+              setMin={setMin}
+              type={'buy'}
+              verified={kycVerified}
+            />
             <RightContainer>
               {activeSubscriptions.length > 0 ? (
                 <NextSubscription
