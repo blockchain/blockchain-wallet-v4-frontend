@@ -11,22 +11,12 @@ import AddCustomerDetails from './AddCustomerDetails'
 import SelectAccounts from './SelectAccounts'
 import ISignThis from 'components/BuySell/Coinify/ISignThis'
 import KYCNotification from '../KYCNotification'
-import {
-  ColLeft,
-  ColRight,
-  ColRightInner,
-  Row
-} from 'components/IdentityVerification'
-import media from 'services/ResponsiveService'
+import { CheckoutWrapper } from '../Buy/template.success'
 
-const CheckoutWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 35% 30%;
-  grid-gap: 5%;
-  ${media.mobile`
-    display: flex;
-    flex-direction: column;
-  `};
+const OrderSubmitWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 `
 
 const Sell = props => {
@@ -122,27 +112,21 @@ const Sell = props => {
           <AddCustomerDetails />
         </StepView>
         <StepView step={4}>
-          <Row>
-            <ColLeft>
-              <OrderDetails
-                quoteR={sellQuoteR}
-                onRefreshQuote={refreshQuote}
-                type={'sell'}
-                medium={paymentMedium}
-              />
-            </ColLeft>
-            <ColRight>
-              <ColRightInner>
-                <OrderSubmit
-                  quoteR={sellQuoteR}
-                  onSubmit={initiateSell}
-                  busy={busy}
-                  type='sell'
-                  clearTradeError={clearTradeError}
-                />
-              </ColRightInner>
-            </ColRight>
-          </Row>
+          <OrderDetails
+            quoteR={sellQuoteR}
+            onRefreshQuote={refreshQuote}
+            type={'sell'}
+            medium={paymentMedium}
+          />
+          <OrderSubmitWrapper>
+            <OrderSubmit
+              quoteR={sellQuoteR}
+              onSubmit={initiateSell}
+              busy={busy}
+              type='sell'
+              clearTradeError={clearTradeError}
+            />
+          </OrderSubmitWrapper>
         </StepView>
       </Stepper>
     )

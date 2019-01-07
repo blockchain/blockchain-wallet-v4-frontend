@@ -73,10 +73,17 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
         />
       </Header>
       <CenteredPartnerSubHeader weight={300}>
-        <FormattedMessage
-          id='scenes.buysell.coinifycheckout.content.orderreview.buy.revieworder.subheader'
-          defaultMessage='Please confirm your order details before we direct you to our secure payment provider.'
-        />
+        {
+          type === 'buy'
+            ? <FormattedMessage
+              id='scenes.buysell.coinifycheckout.content.orderreview.buy.revieworder.subheader'
+              defaultMessage='Please confirm your order details before we direct you to our secure payment provider.'
+            />
+            : <FormattedMessage
+              id='scenes.buysell.coinifycheckout.content.orderreview.sell.revieworder.subheader'
+              defaultMessage='Please confirm your order details.'
+            />
+        }
       </CenteredPartnerSubHeader>
       <OrderDetailsTable>
         <OrderDetailsRow short noPaddingTop noBorderBottom>
@@ -194,7 +201,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
             <Text size={FONT_SIZE} weight={400}>
               <FormattedMessage
                 id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.total_to_receive'
-                defaultMessage='Total Received'
+                defaultMessage='To Receive'
               />
             </Text>
           )}
@@ -210,7 +217,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
 )
 
 export const OrderSubmit = props => {
-  const { busy, clearTradeError, onSubmit, quoteR, type } = props
+  const { busy, clearTradeError, onSubmit, quoteR } = props
 
   return (
     <Fragment>

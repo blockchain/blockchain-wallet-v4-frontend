@@ -17,7 +17,7 @@ import NextSubscription from '../NextSubscription'
 import BankTransferDetails from 'components/BuySell/BankTransferDetails'
 import media from 'services/ResponsiveService'
 
-const CheckoutWrapper = styled.div`
+export const CheckoutWrapper = styled.div`
   display: grid;
   grid-template-columns: 450px 300px;
   grid-gap: 5%;
