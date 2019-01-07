@@ -243,7 +243,7 @@ export default ({ api }) => {
       yield put(actions.logs.logErrorMessage(logLocation, 'storeDeviceName', e))
     } finally {
       // reset new device setup to step 1
-      yield put(A.changeDeviceSetupStep('setup-type'))
+      yield put(A.changeDeviceSetupStep('device-select'))
     }
   }
 

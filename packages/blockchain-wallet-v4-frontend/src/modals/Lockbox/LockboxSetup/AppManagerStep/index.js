@@ -12,7 +12,7 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import InstallBtcAppStep from './template'
+import AppManagerStep from './template'
 
 const GraphicContainer = styled.div`
   display: flex;
@@ -38,7 +38,7 @@ const InstallTexts = styled(TextGroup)`
   }
 `
 
-class InstallBtcAppStepContainer extends React.PureComponent {
+class AppManagerStepContainer extends React.PureComponent {
   componentWillUnmount () {
     this.props.lockboxActions.resetAppChangeStatus()
   }
@@ -56,7 +56,7 @@ class InstallBtcAppStepContainer extends React.PureComponent {
 
     return appChangeStatus.cata({
       Success: () => (
-        <InstallBtcAppStep
+        <AppManagerStep
           onContinue={this.onStepChange}
           continueBtnText={'Continue'}
         >
@@ -76,10 +76,10 @@ class InstallBtcAppStepContainer extends React.PureComponent {
               }}
             />
           </ImageContainer>
-        </InstallBtcAppStep>
+        </AppManagerStep>
       ),
       Failure: () => (
-        <InstallBtcAppStep
+        <AppManagerStep
           onContinue={this.onStepChange}
           continueBtnText={'Continue'}
         >
@@ -113,20 +113,17 @@ class InstallBtcAppStepContainer extends React.PureComponent {
               />
             </Text>
           </InstallTexts>
-        </InstallBtcAppStep>
+        </AppManagerStep>
       ),
       Loading: () => (
-        <InstallBtcAppStep
-          isInstalling
-          continueBtnText={'Installing Application'}
-        >
+        <AppManagerStep isInstalling continueBtnText={'Installing Application'}>
           <GraphicContainer>
             <BlockchainLoader width='75px' height='75px' />
           </GraphicContainer>
-        </InstallBtcAppStep>
+        </AppManagerStep>
       ),
       NotAsked: () => (
-        <InstallBtcAppStep
+        <AppManagerStep
           onContinue={this.onInstallBtc}
           continueBtnText={'Install Application'}
         >
@@ -145,7 +142,7 @@ class InstallBtcAppStepContainer extends React.PureComponent {
           <GraphicContainer>
             <Icon color={'btc'} name={`btc-circle-filled`} size='75px' />
           </GraphicContainer>
-        </InstallBtcAppStep>
+        </AppManagerStep>
       )
     })
   }
@@ -163,4 +160,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(InstallBtcAppStepContainer)
+)(AppManagerStepContainer)

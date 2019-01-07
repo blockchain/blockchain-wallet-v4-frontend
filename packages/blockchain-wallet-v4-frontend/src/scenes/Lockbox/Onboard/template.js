@@ -85,7 +85,6 @@ const WarningContent = styled.div`
   width: ${containerWidth};
   margin: 0 auto;
 `
-
 const LearnMoreContainer = styled.div`
   display: flex;
   justify-content: space-between;
