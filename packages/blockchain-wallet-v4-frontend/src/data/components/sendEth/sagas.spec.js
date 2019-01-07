@@ -12,7 +12,6 @@ import { actions, actionTypes, selectors } from 'data'
 import { FORM } from './model'
 import sendEthSagas, { logLocation } from './sagas'
 import { promptForSecondPassword } from 'services/SagaService'
-import settings from 'config'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const api = {
@@ -20,6 +19,7 @@ const api = {
   deauthorizeBrowser: jest.fn()
 }
 const coreSagas = coreSagasFactory({ api })
+const networks = { eth: 1 }
 
 describe('sendEth sagas', () => {
   // Mocking Math.random() to have identical popup ids for action testing
@@ -48,7 +48,7 @@ describe('sendEth sagas', () => {
     initialized,
     firstStepSubmitClicked,
     secondStepSubmitClicked
-  } = sendEthSagas({ api, coreSagas })
+  } = sendEthSagas({ api, networks, coreSagas })
 
   const paymentMock = {
     value: jest.fn(),
@@ -96,7 +96,7 @@ describe('sendEth sagas', () => {
       saga.next()
       expect(coreSagas.payment.eth.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.eth.create).toHaveBeenCalledWith({
-        network: settings.NETWORK_ETH
+        network: networks.eth
       })
       expect(paymentMock.init).toHaveBeenCalledTimes(1)
     })
@@ -220,7 +220,7 @@ describe('sendEth sagas', () => {
       expect(coreSagas.payment.eth.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.eth.create).toHaveBeenCalledWith({
         payment: paymentMock,
-        network: settings.NETWORK_ETH
+        network: networks.eth
       })
     })
 
@@ -287,7 +287,7 @@ describe('sendEth sagas', () => {
       expect(coreSagas.payment.eth.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.eth.create).toHaveBeenCalledWith({
         payment: paymentMock,
-        network: settings.NETWORK_ETH
+        network: networks.eth
       })
     })
 
