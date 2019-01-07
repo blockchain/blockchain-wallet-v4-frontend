@@ -19,7 +19,7 @@ import media from 'services/ResponsiveService'
 
 const CheckoutWrapper = styled.div`
   display: grid;
-  grid-template-columns: 35% 30%;
+  grid-template-columns: 450px 30%;
   grid-gap: 5%;
   ${media.mobile`
     display: flex;
@@ -108,7 +108,7 @@ const CoinifyBuy = props => {
                   manageOrder={() => changeTab('order_history')}
                 />
               ) : null}
-              {!kycVerified && levelName < 2 ? (
+              {!kycVerified ? (
                 <KYCNotification
                   limits={limits.buy}
                   symbol={symbol}

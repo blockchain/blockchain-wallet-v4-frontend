@@ -1,13 +1,11 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import {
-  Text,
-  Icon
-} from 'blockchain-info-components'
+import { Text, Icon } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import QuoteInput from './QuoteInput'
 import { getReasonExplanation } from 'services/CoinifyService'
 import { submitButtonHelper, wantToHelper, rateHelper } from './Helpers'
+import media from 'services/ResponsiveService'
 
 const ExchangeCheckoutWrapper = styled.div`
   padding: 30px;
@@ -30,6 +28,11 @@ const QuoteInputWrapper = styled.div`
 `
 const SubmitButtonWrapper = styled.div`
   margin-top: 35px;
+`
+const WantToText = styled(Text)`
+  ${media.mobile`
+    margin-bottom: 20px;
+  `};
 `
 
 const OrderCheckout = ({
@@ -71,7 +74,7 @@ const OrderCheckout = ({
       </TopContainer>
       {reason.indexOf('has_remaining') > -1 ? (
         <Fragment>
-          <Text size='14px'>{wantToHelper(type)}</Text>
+          <WantToText size='14px'>{wantToHelper(type)}</WantToText>
           <QuoteInputWrapper>
             <QuoteInput
               limits={limits}

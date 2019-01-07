@@ -13,7 +13,8 @@ const CustomSelectBox = styled(SelectBox)`
     border-left: none;
   }
   .bc__control {
-    background-color: ${props => props.disabled && props.theme['gray-1']};
+    background-color: ${props => props.theme['white']};
+    cursor: ${props => props.disabled && 'not-allowed'};
     border: 1px solid ${props => props.theme[props.borderColor]};
     border-left: none;
     min-height: 72px;

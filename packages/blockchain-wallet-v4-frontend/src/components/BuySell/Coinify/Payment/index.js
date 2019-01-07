@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -7,13 +7,8 @@ import { getData, getQuote } from './selectors'
 import Success from './template.success'
 import Loading from 'components/BuySell/Loading'
 import Failure from 'components/BuySell/Failure'
-import { KYC_MODAL } from 'data/components/identityVerification/model'
 
-class PaymentContainer extends Component {
-  state = {
-    medium: ''
-  }
-
+class PaymentContainer extends PureComponent {
   componentDidMount () {
     const quote = this.props.quote
     if (quote) this.props.coinifyDataActions.getPaymentMediums(quote)
@@ -24,14 +19,11 @@ class PaymentContainer extends Component {
   }
 
   handlePaymentClick = (medium) => {
-    this.setState({ medium })
     this.props.coinifyActions.saveMedium(medium)
   }
 
   render () {
-    const { data, coinifyBusy, coinifyActions, modalActions } = this.props
-    const { checkoutCardMax } = coinifyActions
-    const { showModal } = modalActions
+    const { data, coinifyBusy } = this.props
 
     const busy = coinifyBusy.cata({
       Success: () => false,
@@ -44,13 +36,8 @@ class PaymentContainer extends Component {
       Success: value => (
         <Success
           value={value}
-          getAccounts={this.getAccounts}
           handlePaymentClick={this.handlePaymentClick}
-          medium={this.state.medium}
-          quote={this.props.quote}
-          triggerKyc={() => showModal(KYC_MODAL)}
           busy={busy}
-          handlePrefillCardMax={checkoutCardMax}
         />
       ),
       Failure: msg => <Failure error={msg} />,
@@ -73,8 +60,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  coinifyActions: bindActionCreators(actions.components.coinify, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  coinifyActions: bindActionCreators(actions.components.coinify, dispatch)
 })
 
 export default connect(

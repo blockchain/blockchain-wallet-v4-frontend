@@ -1,33 +1,57 @@
-import { lift, equals, prop } from 'ramda'
-import { selectors, model } from 'data'
+import { lift, prop, path } from 'ramda'
+import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-
-const { VERIFIED, NONE } = model.profile.KYC_STATES
+import { currencySymbolMap } from 'services/CoinifyService'
 
 export const getData = createDeepEqualSelector(
   [
-    selectors.core.data.coinify.getProfile,
     selectors.core.data.coinify.getLimits,
-    selectors.core.data.coinify.getLevel,
     selectors.core.data.coinify.getMediums,
-    selectors.modules.profile.getUserKYCState
+    selectors.core.data.coinify.getQuote
   ],
-  (profileR, limitsR, levelR, mediumsR, kycStateR) => {
-    const transform = (profile, limits, level, mediums, kycState) => {
-      const kycVerified = equals(kycState, VERIFIED)
-      const kycNone = equals(kycState, NONE)
-      const isCoinifyKycVerified = prop('name', level) > 1
+  (limitsR, mediumsR, quoteR) => {
+    const isMediumDisabled = (quote, mediums, limits) => {
+      const fiatAmount =
+        quote.quoteCurrency === 'BTC'
+          ? Math.abs(quote.baseAmount)
+          : Math.abs(quote.quoteAmount)
+      const fiatCurrency =
+        quote.quoteCurrency === 'BTC' ? quote.baseCurrency : quote.quoteCurrency
+
+      const getMax = medium => path(
+        ['limitInAmounts', fiatCurrency],
+        prop(medium, mediums)
+      )
+
+      const checkForLimitError = medium => {
+        if (fiatAmount > getMax(medium))
+          return {
+            medium,
+            limit: `${currencySymbolMap[fiatCurrency]}${getMax(medium)}`
+          }
+        return false
+      }
+
+      const cardDisabled = checkForLimitError('card')
+      const bankDisabled = checkForLimitError('bank')
+
+      return cardDisabled || bankDisabled
+    }
+
+    const transform = (limits, mediums, quote) => {
+      const disabledMedium = isMediumDisabled(quote, mediums, limits)
       return {
-        profile,
         limits,
-        level,
         mediums,
-        kycVerified,
-        kycNone,
-        isCoinifyKycVerified
+        quote,
+        disabledMedium
       }
     }
-    return lift(transform)(profileR, limitsR, levelR, mediumsR, kycStateR)
+    return lift(transform)(
+      limitsR,
+      mediumsR,
+      quoteR
+    )
   }
 )
 
