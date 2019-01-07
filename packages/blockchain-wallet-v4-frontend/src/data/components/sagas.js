@@ -30,7 +30,7 @@ import transactionReport from './transactionReport/sagas'
 import uploadDocuments from './uploadDocuments/sagas'
 import veriff from './veriff/sagas'
 
-export default ({ api, coreSagas, options, networks }) => ({
+export default ({ api, coreSagas, networks }) => ({
   activityList: activityList(),
   bchTransactions: bchTransactions(),
   btcTransactions: btcTransactions(),
@@ -51,10 +51,10 @@ export default ({ api, coreSagas, options, networks }) => ({
   requestBch: requestBch(),
   requestEth: requestEth(),
   requestXlm: requestXlm(),
-  sendBch: sendBch({ coreSagas }),
+  sendBch: sendBch({ coreSagas, networks }),
   sendBtc: sendBtc({ coreSagas, networks }),
-  sendBsv: sendBsv({ coreSagas }),
-  sendEth: sendEth({ coreSagas }),
+  sendBsv: sendBsv({ coreSagas, networks }),
+  sendEth: sendEth({ coreSagas, networks }),
   sendXlm: sendXlm({ coreSagas }),
   settings: settings({ coreSagas }),
   signMessage: signMessage({ coreSagas }),

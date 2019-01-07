@@ -14,7 +14,7 @@ import * as C from 'services/AlertService'
 import { actions, selectors } from 'data'
 import sendBsvSagas, { logLocation, bsvDefaultFee } from './sagas'
 import { promptForSecondPassword } from 'services/SagaService'
-import settings from 'config'
+import BitcoinCash from 'bitcoinforksjs-lib'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const api = {
@@ -22,6 +22,9 @@ const api = {
   deauthorizeBrowser: jest.fn()
 }
 const coreSagas = coreSagasFactory({ api })
+const networks = {
+  bsv: BitcoinCash.networks['bitcoin']
+}
 
 describe('sendBsv sagas', () => {
   const originalMath = Object.create(Math)
@@ -45,7 +48,7 @@ describe('sendBsv sagas', () => {
     initialized,
     firstStepSubmitClicked,
     secondStepSubmitClicked
-  } = sendBsvSagas({ api, coreSagas })
+  } = sendBsvSagas({ api, coreSagas, networks })
 
   const feeType = 'regular'
   const feePerByte = 1
@@ -102,7 +105,7 @@ describe('sendBsv sagas', () => {
       saga.next()
       expect(coreSagas.payment.bsv.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.bsv.create).toHaveBeenCalledWith({
-        network: settings.NETWORK_BSV
+        network: networks.bsv
       })
       expect(paymentMock.init).toHaveBeenCalledTimes(1)
     })
@@ -229,20 +232,22 @@ describe('sendBsv sagas', () => {
     const saga = testSaga(firstStepSubmitClicked)
     const beforeError = 'beforeError'
 
-    it('should put loading action', () => {
-      saga.next().put(A.sendBsvPaymentUpdated(Remote.Loading))
-    })
-
     it('should select payment', () => {
       saga.next().select(S.getPayment)
     })
 
+    it('should put loading action', () => {
+      saga
+        .next(Remote.of(paymentMock))
+        .put(A.sendBsvPaymentUpdated(Remote.Loading))
+    })
+
     it('should create payment from state value', () => {
-      saga.next(Remote.of(paymentMock))
+      saga.next()
       expect(coreSagas.payment.bsv.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.bsv.create).toHaveBeenCalledWith({
         payment: paymentMock,
-        network: settings.NETWORK_BSV
+        network: networks.bsv
       })
     })
 
@@ -308,7 +313,7 @@ describe('sendBsv sagas', () => {
       expect(coreSagas.payment.bsv.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.bsv.create).toHaveBeenCalledWith({
         payment: paymentMock,
-        network: settings.NETWORK_BSV
+        network: networks.bsv
       })
     })
 

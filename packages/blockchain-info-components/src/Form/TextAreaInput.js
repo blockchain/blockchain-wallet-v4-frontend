@@ -13,6 +13,7 @@ const BaseTextAreaInput = styled.textarea`
   outline-width: 0;
   user-select: text;
   font-family: 'Montserrat', Helvetica, sans-serif;
+  resize: ${props => (props.resize ? 'initial' : 'none')};
   border: 1px solid ${props => props.theme['gray-2']};
 
   &::-webkit-input-placeholder {
@@ -37,6 +38,10 @@ const TextAreaInput = props => {
   const { errorState, ...rest } = props
   const borderColor = selectBorderColor(errorState)
   return <BaseTextAreaInput borderColor={borderColor} {...rest} />
+}
+
+TextAreaInput.defaultProps = {
+  resize: true
 }
 
 export default TextAreaInput

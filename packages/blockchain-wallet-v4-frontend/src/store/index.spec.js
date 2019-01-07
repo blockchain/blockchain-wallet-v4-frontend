@@ -30,11 +30,6 @@ jest.mock('blockchain-wallet-v4/src/network', () => ({
   HorizonStreamingService: jest.fn()
 }))
 
-jest.mock('config', () => ({
-  WALLET_PAYLOAD_PATH: 'MOCK_WALLET_PATH',
-  WALLET_KVSTORE_PATH: 'MOCK_KVSTORE_PATH'
-}))
-
 describe('App Store Config', () => {
   let apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
   let fakeWalletOptions = {
@@ -143,7 +138,7 @@ describe('App Store Config', () => {
     expect(kvStoreSpy).toHaveBeenCalledWith({
       isAuthenticated: expect.any(Function),
       api: 'FAKE_WALLET_API',
-      kvStorePath: 'MOCK_KVSTORE_PATH'
+      kvStorePath: 'wallet.kvstore'
     })
     expect(btcSocketSpy).toHaveBeenCalledTimes(1)
     expect(btcSocketSpy).toHaveBeenCalledWith(expect.any(Object))
@@ -155,7 +150,7 @@ describe('App Store Config', () => {
     expect(walletSyncSpy).toHaveBeenCalledWith({
       isAuthenticated: expect.any(Function),
       api: 'FAKE_WALLET_API',
-      walletPath: 'MOCK_WALLET_PATH'
+      walletPath: 'wallet.payload'
     })
     expect(autoDisconnectSpy).toHaveBeenCalledTimes(1)
     // middleware compose

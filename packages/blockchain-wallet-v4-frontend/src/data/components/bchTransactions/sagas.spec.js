@@ -1,16 +1,16 @@
 import { testSaga } from 'redux-saga-test-plan'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import * as actions from '../../actions'
-import btcTransactionsSagas, { logLocation } from './sagas'
+import bchTransactionsSagas, { logLocation } from './sagas'
 import { model } from 'data'
 
 const coreSagas = coreSagasFactory()
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 
-describe('btcTransactions sagas', () => {
+describe('bchTransactions sagas', () => {
   describe('initialized', () => {
-    let { initialized } = btcTransactionsSagas({ coreSagas })
+    let { initialized } = bchTransactionsSagas({ coreSagas })
 
     let saga = testSaga(initialized)
 
@@ -22,11 +22,15 @@ describe('btcTransactions sagas', () => {
     }
 
     it('should initialize the form with initial values', () => {
-      saga.next().put(actions.form.initialize(model.form.WALLET_TX_SEARCH, initialValues))
+      saga
+        .next()
+        .put(
+          actions.form.initialize(model.form.WALLET_TX_SEARCH, initialValues)
+        )
     })
 
     it('should dispatch an action to fetch txs', () => {
-      saga.next().put(actions.core.data.bitcoin.fetchTransactions('', true))
+      saga.next().put(actions.core.data.bch.fetchTransactions('', true))
     })
 
     describe('error handling', () => {
@@ -42,13 +46,13 @@ describe('btcTransactions sagas', () => {
   })
 
   describe('reportClicked', () => {
-    let { reportClicked } = btcTransactionsSagas({ coreSagas })
+    let { reportClicked } = bchTransactionsSagas({ coreSagas })
     let saga = testSaga(reportClicked)
 
     it('should open the modal', () => {
       saga
         .next()
-        .put(actions.modals.showModal('TransactionReport', { coin: 'BTC' }))
+        .put(actions.modals.showModal('TransactionReport', { coin: 'BCH' }))
     })
 
     describe('error handling', () => {
@@ -66,7 +70,7 @@ describe('btcTransactions sagas', () => {
   })
 
   describe('formChanged with show all', () => {
-    let { formChanged } = btcTransactionsSagas({ coreSagas })
+    let { formChanged } = bchTransactionsSagas({ coreSagas })
     const action = {
       meta: {
         form: model.form.WALLET_TX_SEARCH,
@@ -81,7 +85,7 @@ describe('btcTransactions sagas', () => {
       saga
         .next()
         .put(
-          actions.core.data.bitcoin.fetchTransactions(
+          actions.core.data.bch.fetchTransactions(
             action.payload === 'all' ? '' : 'some_address',
             true
           )
@@ -101,7 +105,7 @@ describe('btcTransactions sagas', () => {
   })
 
   describe('formChanged with show one address', () => {
-    let { formChanged } = btcTransactionsSagas({ coreSagas })
+    let { formChanged } = bchTransactionsSagas({ coreSagas })
     const action = {
       meta: {
         form: model.form.WALLET_TX_SEARCH,
@@ -118,7 +122,7 @@ describe('btcTransactions sagas', () => {
       saga
         .next()
         .put(
-          actions.core.data.bitcoin.fetchTransactions(
+          actions.core.data.bch.fetchTransactions(
             action.payload === 'all' ? '' : 'some_address',
             true
           )

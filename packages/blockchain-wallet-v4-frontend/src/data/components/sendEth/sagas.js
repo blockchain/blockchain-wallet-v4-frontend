@@ -5,7 +5,6 @@ import * as A from './actions'
 import * as S from './selectors'
 import { FORM } from './model'
 import { actions, actionTypes, selectors, model } from 'data'
-import settings from 'config'
 import {
   initialize,
   change,
@@ -21,14 +20,14 @@ import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 export const logLocation = 'components/sendEth/sagas'
 
-export default ({ coreSagas }) => {
+export default ({ coreSagas, networks }) => {
   const initialized = function*(action) {
     try {
       const from = path(['payload', 'from'], action)
       const type = path(['payload', 'type'], action)
       yield put(A.sendEthPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.eth.create({
-        network: settings.NETWORK_ETH
+        network: networks.eth
       })
       payment = yield payment.init()
       payment =
@@ -62,7 +61,7 @@ export default ({ coreSagas }) => {
       yield put(A.sendEthPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.eth.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_ETH
+        network: networks.eth
       })
       payment = yield payment.build()
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
@@ -82,7 +81,7 @@ export default ({ coreSagas }) => {
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.eth.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_ETH
+        network: networks.eth
       })
 
       switch (field) {
@@ -179,7 +178,7 @@ export default ({ coreSagas }) => {
     let p = yield select(S.getPayment)
     let payment = coreSagas.payment.eth.create({
       payment: p.getOrElse({}),
-      network: settings.NETWORK_ETH
+      network: networks.eth
     })
     const fromType = path(['from', 'type'], payment.value())
     const toAddress = path(['to', 'address'], payment.value())

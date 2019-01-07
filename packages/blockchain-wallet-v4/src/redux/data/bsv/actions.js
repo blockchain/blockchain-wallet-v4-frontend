@@ -16,6 +16,7 @@ export const fetchDataFailure = error => ({
   type: AT.FETCH_BSV_DATA_FAILURE,
   payload: error
 })
+export const resetData = () => ({ type: AT.RESET_BSV_DATA })
 
 // FETCH_BSV_FEE
 export const fetchFee = () => ({ type: AT.FETCH_BSV_FEE })
