@@ -1,9 +1,10 @@
 import React from 'react'
 import { Redirect, Switch } from 'react-router-dom'
-import { Provider } from 'react-redux'
+import { connect, Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import { PersistGate } from 'redux-persist/integration/react'
 
+import { selectors } from 'data'
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import ConnectedIntlProvider from 'providers/ConnectedIntlProvider'
 import ThemeProvider from 'providers/ThemeProvider'
@@ -38,7 +39,7 @@ import Transactions from './Transactions'
 
 class App extends React.PureComponent {
   render () {
-    const { store, history, messages, persistor } = this.props
+    const { store, history, messages, persistor, isAuthenticated } = this.props
     return (
       <Provider store={store}>
         <ConnectedIntlProvider messages={messages}>
@@ -143,7 +144,11 @@ class App extends React.PureComponent {
                       component={LockboxDashboard}
                       exact
                     />
-                    <Redirect from='/' to='/login' />
+                    {isAuthenticated ? (
+                      <Redirect from='/' to='/home' />
+                    ) : (
+                      <Redirect from='/' to='/login' />
+                    )}
                   </Switch>
                 </ConnectedRouter>
               </MediaContextProvider>
@@ -155,4 +160,8 @@ class App extends React.PureComponent {
   }
 }
 
-export default App
+const mapStateToProps = state => ({
+  isAuthenticated: selectors.auth.isAuthenticated(state)
+})
+
+export default connect(mapStateToProps)(App)

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { contains, flatten, prop } from 'ramda'
 import { FormattedMessage } from 'react-intl'
-
+import { model } from 'data'
 import { ComponentDropdown, Icon, Link, Text } from 'blockchain-info-components'
 import {
   SelectBoxBtcAddresses,
@@ -11,6 +11,8 @@ import {
   TextBox,
   TabMenuTransactionStatus
 } from 'components/Form'
+
+const { WALLET_TX_SEARCH } = model.form
 
 const Wrapper = styled.div`
   width: 100%;
@@ -21,23 +23,18 @@ const Wrapper = styled.div`
 `
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
-
-  @media (min-width: 1200px) {
-    flex-direction: row;
-    justify-content: space-between;
-  }
 `
 const Controls = styled.div`
   position: relative;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: auto;
 
   & input {
     border: 1px solid ${props => props.theme['gray-2']}!important;
@@ -45,13 +42,6 @@ const Controls = styled.div`
   }
   & button {
     border: 1px solid ${props => props.theme['gray-2']}!important;
-  }
-
-  @media (min-width: 1200px) {
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: auto;
   }
 `
 const Addresses = styled.div`
@@ -74,9 +64,9 @@ const Search = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  width: 100%;
-  @media (min-width: 1200px) {
-    width: auto;
+  width: auto;
+  @media (min-width: 900px) {
+    width: 300px;
   }
 `
 const EthPrivateKeysWrapper = styled.div`
@@ -213,4 +203,7 @@ const Menu = props => {
   )
 }
 
-export default reduxForm({ form: 'transactions' })(Menu)
+export default reduxForm({
+  form: WALLET_TX_SEARCH,
+  initialValues: { source: 'all' }
+})(Menu)

@@ -366,6 +366,14 @@
         "id": "components.alerts.send_bch_success"
       },
       {
+        "defaultMessage": "Your Bitcoin SV transaction failed to send. Please try again.",
+        "id": "components.alerts.send_bsv_error"
+      },
+      {
+        "defaultMessage": "Your Bitcoin SV transaction is now pending",
+        "id": "components.alerts.send_bsv_success"
+      },
+      {
         "defaultMessage": "Your bitcoin transaction failed to send. Please try again.",
         "id": "components.alerts.send_btc_error"
       },
@@ -1255,27 +1263,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Approved!",
-        "id": "components.identityverification.tiercard.verified"
-      },
-      {
-        "defaultMessage": "In Review",
-        "id": "components.identityverification.tiercard.pending"
-      },
-      {
-        "defaultMessage": "Rejected",
-        "id": "components.identityverification.tiercard.rejected"
-      },
-      {
-        "defaultMessage": "Takes {time} min",
-        "id": "components.identityverification.tiercard.timing"
-      }
-    ],
-    "path": "src/components/IdentityVerification/TierCard/model.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Verified Email",
         "id": "components.identityverification.tiercard.email"
       },
@@ -1584,6 +1571,10 @@
         "id": "modals.sendbtc.firststep.sharetooltip"
       },
       {
+        "defaultMessage": "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
+        "id": "modals.sendBsv.firststep.share_tooltip"
+      },
+      {
         "defaultMessage": "By signing a message, you can prove that you own this bitcoin address. You can verify signed messages by clicking on 'More Actions' > 'Verify Message'.",
         "id": "modals.signmessage.label"
       },
@@ -1743,15 +1734,6 @@
       }
     ],
     "path": "src/components/TransactionListItem/template.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Archive Address",
-        "id": "scenes.settings.addresses.btc.wallets.addresserror"
-      }
-    ],
-    "path": "src/components/VulnerableAddressError/index.json"
   },
   {
     "descriptors": [
@@ -1982,6 +1964,10 @@
         "id": "scenes.wallet.menutop.balance.bchbalance"
       },
       {
+        "defaultMessage": "Bitcoin SV Balance",
+        "id": "scenes.wallet.menutop.balance.bsvbalance"
+      },
+      {
         "defaultMessage": "Stellar Balance",
         "id": "scenes.wallet.menutop.balance.xlmbalance"
       },
@@ -2013,6 +1999,15 @@
       }
     ],
     "path": "src/layouts/Wallet/MenuTop/Balance/WalletBalance/BchBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Refresh {curr} data",
+        "id": "wallet.menutop.bsvbalance.error.refresh"
+      }
+    ],
+    "path": "src/layouts/Wallet/MenuTop/Balance/WalletBalance/BsvBalance/template.error.json"
   },
   {
     "descriptors": [
@@ -2715,15 +2710,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Learn More",
-        "id": "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore"
-      }
-    ],
-    "path": "src/layouts/Wallet/TrayRight/WhatsNew/FaqLink/index.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "🎉 You're all caught up!",
         "id": "layouts.wallet.header.whatsnew.whatsnew.empty"
       },
@@ -2941,8 +2927,8 @@
         "id": "modals.sendBch.firststep.description"
       },
       {
-        "defaultMessage": "Transaction fee:",
-        "id": "modals.sendBch.firststep.fee"
+        "defaultMessage": "Transaction Fee:",
+        "id": "modals.sendBch.firststep.txfee"
       },
       {
         "defaultMessage": "Continue",
@@ -3017,6 +3003,111 @@
       }
     ],
     "path": "src/modals/Bch/SendBch/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "maximum",
+        "id": "modals.sendbsv.maximumamountlink.maximum"
+      }
+    ],
+    "path": "src/modals/Bsv/SendBsv/FirstStep/MaximumAmountLink/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "From:",
+        "id": "modals.sendBsv.firststep.from"
+      },
+      {
+        "defaultMessage": "To:",
+        "id": "modals.sendBsv.firststep.to"
+      },
+      {
+        "defaultMessage": "Enter Amount:",
+        "id": "modals.sendbsv.firststep.amount"
+      },
+      {
+        "defaultMessage": "Description:",
+        "id": "modals.sendBsv.firststep.description"
+      },
+      {
+        "defaultMessage": "Transaction Fee:",
+        "id": "modals.sendBsv.firststep.fee"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.sendBsv.firststep.continue"
+      }
+    ],
+    "path": "src/modals/Bsv/SendBsv/FirstStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Invalid amount",
+        "id": "modals.sendbsv.amountnotzeromessage"
+      },
+      {
+        "defaultMessage": "Not enough funds. Use",
+        "id": "modals.sendbsv.maximumamountmessage"
+      },
+      {
+        "defaultMessage": "Insufficient funds",
+        "id": "modals.sendbsv.insufficientfundsmessage"
+      }
+    ],
+    "path": "src/modals/Bsv/SendBsv/FirstStep/validationMessages.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "From:",
+        "id": "modals.sendbsv.secondstep.from"
+      },
+      {
+        "defaultMessage": "To:",
+        "id": "modals.sendbsv.secondstep.to"
+      },
+      {
+        "defaultMessage": "Note:",
+        "id": "modals.sendbsv.secondstep.note"
+      },
+      {
+        "defaultMessage": "Payment:",
+        "id": "modals.sendbsv.secondstep.payment"
+      },
+      {
+        "defaultMessage": "Fee:",
+        "id": "modals.sendbsv.secondstep.fee"
+      },
+      {
+        "defaultMessage": "Total",
+        "id": "modals.sendbsv.secondstep.total"
+      },
+      {
+        "defaultMessage": "Are you sure this is a bitcoin sv address? Sending funds to a bitcoin address by accident will result in loss of funds.",
+        "id": "modals.sendbsv.secondstep.legacy_addr_warning"
+      },
+      {
+        "defaultMessage": "Send Bitcoin SV",
+        "id": "modals.sendbsv.secondstep.send"
+      },
+      {
+        "defaultMessage": "Go Back",
+        "id": "modals.sendbsv.secondstep.back"
+      }
+    ],
+    "path": "src/modals/Bsv/SendBsv/SecondStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Send Bitcoin SV",
+        "id": "modals.sendbsv.title"
+      }
+    ],
+    "path": "src/modals/Bsv/SendBsv/template.json"
   },
   {
     "descriptors": [
@@ -3276,8 +3367,8 @@
         "id": "modals.sendbtc.firststep.description"
       },
       {
-        "defaultMessage": "Transaction fee:",
-        "id": "modals.sendbtc.firststep.fee"
+        "defaultMessage": "Transaction Fee:",
+        "id": "modals.sendbtc.firststep.txfee"
       },
       {
         "defaultMessage": "Cancel",
@@ -3286,6 +3377,10 @@
       {
         "defaultMessage": "Customize fee",
         "id": "modals.sendbtc.firststep.edit"
+      },
+      {
+        "defaultMessage": "This feature is recommended for advanced users only. By choosing a custom fee, you risk overpaying or your transaction never being confirmed.",
+        "id": "modals.sendbtc.firststep.customfeeinfo"
       },
       {
         "defaultMessage": "Estimated confirmation time 1+ hour",
@@ -4124,8 +4219,8 @@
         "id": "modals.sendether.firststep.description"
       },
       {
-        "defaultMessage": "Transaction fee:",
-        "id": "modals.sendether.firststep.txfee"
+        "defaultMessage": "Transaction Fee:",
+        "id": "modals.sendether.firststep.fee"
       },
       {
         "defaultMessage": "Cancel",
@@ -4134,6 +4229,10 @@
       {
         "defaultMessage": "Customize fee",
         "id": "modals.sendether.firststep.edit"
+      },
+      {
+        "defaultMessage": "This feature is recommended for advanced users only. By choosing a custom fee, you risk overpaying or your transaction never being confirmed.",
+        "id": "modals.sendether.firststep.customfeeinfo"
       },
       {
         "defaultMessage": "Continue",
@@ -4458,10 +4557,6 @@
         "id": "identityverification.personal.header"
       },
       {
-        "defaultMessage": "To get started, we need to verify your identity. It should only take a few minutes.",
-        "id": "identityverification.personal.subheader"
-      },
-      {
         "defaultMessage": "Verify Your Email Address",
         "id": "identityverification.personal.verifyemail"
       },
@@ -4518,8 +4613,16 @@
         "id": "identityverification.personal.faq.dateofbirth.text"
       },
       {
+        "defaultMessage": "Address Line 1",
+        "id": "identityverification.personal.address_line1"
+      },
+      {
         "defaultMessage": "Street Line 1",
         "id": "identityverification.personal.streetline1"
+      },
+      {
+        "defaultMessage": "Address Line 2",
+        "id": "identityverification.personal.address_line2"
       },
       {
         "defaultMessage": "Street Line 2",
@@ -4629,39 +4732,6 @@
       }
     ],
     "path": "src/modals/Exchange/IdentityVerification/Verify/template.lowflow.json"
-  },
-  {
-    "descriptors": [
-      {
-        "defaultMessage": "Government Issued Passport",
-        "id": "identityverification.verify.passport"
-      },
-      {
-        "defaultMessage": "Driver’s License",
-        "id": "identityverification.verify.driverslicense"
-      },
-      {
-        "defaultMessage": "National Identity Card",
-        "id": "identityverification.verify.natitionalidcard"
-      },
-      {
-        "defaultMessage": "Verify Your Identity",
-        "id": "identityverification.verify.header"
-      },
-      {
-        "defaultMessage": "Last step! We need to confirm your identity with a government issued ID. Before proceeding, make sure you have one of the following forms of ID handy.",
-        "id": "identityverification.verify.message"
-      },
-      {
-        "defaultMessage": "Back",
-        "id": "identityverification.personal.back"
-      },
-      {
-        "defaultMessage": "Continue",
-        "id": "identityverification.personal.continue"
-      }
-    ],
-    "path": "src/modals/Exchange/IdentityVerification/Verify/template.success.json"
   },
   {
     "descriptors": [
@@ -5003,8 +5073,8 @@
         "id": "modals.lockbox.appmanager.appfailure"
       },
       {
-        "defaultMessage": "Loading Application List",
-        "id": "modals.lockbox.appmanager.loadingapps"
+        "defaultMessage": "Loading application list",
+        "id": "modals.lockbox.appmanager.loadingapplist"
       },
       {
         "defaultMessage": "App Manager",
@@ -5029,6 +5099,47 @@
       }
     ],
     "path": "src/modals/Lockbox/LockboxAppManager/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Authenticate Device",
+        "id": "modals.lockbox.authenticity.title"
+      },
+      {
+        "defaultMessage": "Connect, unlock and open the Dashboard on your Lockbox device now.",
+        "id": "modals.lockbox.appmanager.connectdevice"
+      },
+      {
+        "defaultMessage": "Verifying your device's authenticity",
+        "id": "modals.lockbox.authenticity.content"
+      },
+      {
+        "defaultMessage": "Note:",
+        "id": "modals.lockbox.authenticity.note"
+      },
+      {
+        "defaultMessage": "Allow the device manager onto the device if prompted.",
+        "id": "modals.lockbox.authenticity.notetext"
+      },
+      {
+        "defaultMessage": "Congratulations!",
+        "id": "modals.lockbox.authenticity.success1"
+      },
+      {
+        "defaultMessage": "Your device appears to be genuine!",
+        "id": "modals.lockbox.authenticity.success2"
+      },
+      {
+        "defaultMessage": "Your device does not appear to be genuine. Please reach out to our support team before using this device.",
+        "id": "modals.lockbox.authenticity.failed"
+      },
+      {
+        "defaultMessage": "Close",
+        "id": "modals.lockbox.authenticity.close"
+      }
+    ],
+    "path": "src/modals/Lockbox/LockboxAuthenticityCheck/template.json"
   },
   {
     "descriptors": [
@@ -5359,8 +5470,8 @@
         "id": "modals.lockboxsetup.labelstep.body"
       },
       {
-        "defaultMessage": "Finish Set Up",
-        "id": "modals.lockboxsetup.labelstep.finish"
+        "defaultMessage": "Finish Setup",
+        "id": "modals.lockboxsetup.labelstep.finishsetup"
       }
     ],
     "path": "src/modals/Lockbox/LockboxSetup/NameDeviceStep/template.json"
@@ -5480,7 +5591,7 @@
         "id": "modals.promptforlockbox.connectcoinapp.title.successgeneric"
       },
       {
-        "defaultMessage": "Please allow for it to confirm on the network.",
+        "defaultMessage": "Your transaction was sent. Please allow for it to confirm on the network.",
         "id": "modals.promptforlockbox.connectcoinapp.success"
       },
       {
@@ -8100,7 +8211,7 @@
     "descriptors": [
       {
         "defaultMessage": "Use",
-        "id": "modals.exchange.maximumamountmessage.use"
+        "id": "modals.exchange.maximumamountmessage2"
       },
       {
         "defaultMessage": "maximum",
@@ -8113,7 +8224,7 @@
     "descriptors": [
       {
         "defaultMessage": "Use",
-        "id": "modals.exchange.minimumamountlink.use"
+        "id": "modals.exchange.maximumamountmessage2"
       },
       {
         "defaultMessage": "minimum",
@@ -8337,40 +8448,36 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "A better way to trade crypto",
-        "id": "scenes.exchange.getstarted.title"
+        "defaultMessage": "Trading your crypto doesn't mean trading away control",
+        "id": "scenes.exchange.getstarted.header"
       },
       {
-        "defaultMessage": "The faster, smarter way to trade your crypto.",
-        "id": "scenes.exchange.getstarted.introducing"
+        "defaultMessage": "Swap enables you to trade crypto with the best prices and quick settlement, all while maintaining full control of your funds.",
+        "id": "scenes.exchange.getstarted.description"
       },
       {
-        "defaultMessage": "Upgrade now to enjoy the following benefits:",
-        "id": "scenes.exchange.getstarted.upgrade"
+        "defaultMessage": "Low Fees",
+        "id": "scenes.exchange.getstarted.low_fees"
       },
       {
-        "defaultMessage": "Lower cost",
-        "id": "scenes.exchange.getstarted.lowercost"
+        "defaultMessage": "Great news! Get the best prices without having to leave the security of your Wallet.",
+        "id": "scenes.exchange.getstarted.low_fees_description"
       },
       {
-        "defaultMessage": "Super competitive crypto exchange prices",
-        "id": "scenes.exchange.getstarted.lowercost_description"
+        "defaultMessage": "Higher Limits",
+        "id": "scenes.exchange.getstarted.higher_limits"
       },
       {
-        "defaultMessage": "Live rates",
-        "id": "scenes.exchange.getstarted.liverates"
+        "defaultMessage": "Like to trade big? Get access to limits of up to $25,000 per day.",
+        "id": "scenes.exchange.getstarted.higher_lits_description"
       },
       {
-        "defaultMessage": "You always get the most up to date price",
-        "id": "scenes.exchange.getstarted.liverates_Description"
+        "defaultMessage": "Easy to use",
+        "id": "scenes.exchange.getstarted.easy_to_use"
       },
       {
-        "defaultMessage": "Higher limits",
-        "id": "scenes.exchange.getstarted.higherlimits"
-      },
-      {
-        "defaultMessage": "Limits from $1,000-$25,000",
-        "id": "scenes.exchange.getstarted.higherlimits_description"
+        "defaultMessage": "Get started in just a few steps.",
+        "id": "scenes.exchange.getstarted.easy_to_use_description"
       }
     ],
     "path": "src/scenes/Exchange/GetStarted/index.json"
@@ -8974,6 +9081,23 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Authenticate Device",
+        "id": "scenes.lockbox.settings.authenticate.title"
+      },
+      {
+        "defaultMessage": "Ensure your device is genuine, and not fraudulent or counterfeit",
+        "id": "scenes.lockbox.settings.authenticate.description"
+      },
+      {
+        "defaultMessage": "Authenticate",
+        "id": "scenes.lockbox.settings.authenticate.start"
+      }
+    ],
+    "path": "src/scenes/Lockbox/Dashboard/Settings/AuthenticateDevice/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Show xPub",
         "id": "scenes.lockbox.settings.exportxpub.title"
       },
@@ -8991,7 +9115,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Adding new devices, installing applications and updating firmware can only be done while using the Chrome browser.",
+        "defaultMessage": "Adding new devices or applications, verifying authenticity and updating firmware can only be done while using the Chrome browser.",
         "id": "scenes.lockbox.settings.browserwarn"
       }
     ],
@@ -10935,19 +11059,19 @@
     "descriptors": [
       {
         "defaultMessage": "Email address",
-        "id": "scenes.preferences.loading.email.title"
+        "id": "scenes.preferences.email.title"
       },
       {
         "defaultMessage": "Your verified email address is used to send login codes when suspicious or unusual activity is detected,",
-        "id": "scenes.preferences.loading.email.description"
+        "id": "scenes.preferences.email.description"
       },
       {
         "defaultMessage": "to remind you of your wallet login ID,",
-        "id": "scenes.preferences.loading.email.description2"
+        "id": "scenes.preferences.email.description2"
       },
       {
         "defaultMessage": "and to send bitcoin payment alerts when you receive funds.",
-        "id": "scenes.preferences.loading.email.description3"
+        "id": "scenes.preferences.email.description3"
       }
     ],
     "path": "src/scenes/SecurityCenter/TwoStepVerification/GoogleAuth/template.loading.json"
@@ -11219,6 +11343,10 @@
         "id": "scenes.settings.addresses.bch.wallets.archivedlabel"
       },
       {
+        "defaultMessage": "Unarchive",
+        "id": "scenes.settings.addresses.bch.unarchive"
+      },
+      {
         "defaultMessage": "Manage Wallet",
         "id": "scenes.settings.addresses.bch.wallets.manage"
       },
@@ -11229,10 +11357,6 @@
       {
         "defaultMessage": "Make Default",
         "id": "scenes.settings.addresses.bch.make_default"
-      },
-      {
-        "defaultMessage": "Unarchive",
-        "id": "scenes.settings.addresses.bch.unarchive"
       },
       {
         "defaultMessage": "Archive",
@@ -11265,6 +11389,10 @@
       {
         "defaultMessage": "Actions",
         "id": "scenes.settings.addresses.bch.wallets.actions"
+      },
+      {
+        "defaultMessage": "No wallets matched your search",
+        "id": "scenes.settings.addresses.bch.wallets.nomatch"
       }
     ],
     "path": "src/scenes/Settings/Addresses/Bch/Wallets/template.json"
@@ -11333,32 +11461,94 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Imported Bitcoin SV Addresses",
+        "id": "scenes.settings.addresses.bsv.importedaddresses.title"
+      },
+      {
+        "defaultMessage": "Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.",
+        "id": "scenes.settings.addresses.bsv.importedaddresses.description"
+      },
+      {
+        "defaultMessage": "Address",
+        "id": "scenes.settings.addresses.bsv.importedaddresses.address"
+      },
+      {
+        "defaultMessage": "Balance",
+        "id": "scenes.settings.addresses.bsv.importedaddresses.balance"
+      }
+    ],
+    "path": "src/scenes/Settings/Addresses/Bsv/ImportedAddresses/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Bitcoin SV Transactions",
+        "id": "scenes.settings.addresses.bsv.tx.title"
+      },
+      {
+        "defaultMessage": "Type",
+        "id": "scenes.settings.addresses.bsv.tx.type"
+      },
+      {
+        "defaultMessage": "Addresses",
+        "id": "scenes.settings.addresses.bsv.tx.addresses"
+      },
+      {
+        "defaultMessage": "Amount",
+        "id": "scenes.settings.addresses.bsv.wallets.amount"
+      },
+      {
+        "defaultMessage": "No Transactions Found",
+        "id": "scenes.settings.addresses.bsv.empty"
+      }
+    ],
+    "path": "src/scenes/Settings/Addresses/Bsv/Transactions/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Bitcoin SV Wallets",
         "id": "scenes.settings.addresses.bsv.wallets.title"
       },
       {
-        "defaultMessage": "Bitcoin SV was a fork of Bitcoin Cash. Claim your shitcoins today.",
-        "id": "scenes.settings.addresses.bsv.wallets.description"
+        "defaultMessage": "Bitcoin SV was a fork of Bitcoin Cash. Send or Swap your BSV today.",
+        "id": "scenes.settings.addresses.bsv.wallets.desc"
       },
       {
         "defaultMessage": "Wallet Name",
-        "id": "scenes.settings.addresses.bch.wallets.walletname"
+        "id": "scenes.settings.addresses.bsv.wallets.name"
       },
       {
         "defaultMessage": "Balance",
-        "id": "scenes.settings.addresses.bch.wallets.balance"
+        "id": "scenes.settings.addresses.bsv.wallets.balance"
       },
       {
         "defaultMessage": "Actions",
-        "id": "scenes.settings.addresses.bch.wallets.actions"
+        "id": "scenes.settings.addresses.bsv.wallets.actions"
+      },
+      {
+        "defaultMessage": "No wallets matched your search",
+        "id": "scenes.settings.addresses.bsv.wallets.nomatch"
+      },
+      {
+        "defaultMessage": "Default",
+        "id": "scenes.settings.addresses.bsv.wallets.defaultlabel"
+      },
+      {
+        "defaultMessage": "Archived",
+        "id": "scenes.settings.addresses.bsv.wallets.archivedlabel"
+      },
+      {
+        "defaultMessage": "Unarchive",
+        "id": "scenes.settings.addresses.bsv.wallets.unarchive"
       },
       {
         "defaultMessage": "Send",
-        "id": "scenes.settings.addresses.bsv.send"
+        "id": "scenes.settings.addresses.bsv.wallets.send"
       },
       {
         "defaultMessage": "Swap",
-        "id": "scenes.settings.addresses.bsv.swap"
+        "id": "scenes.settings.addresses.bsv.wallets.swap"
       }
     ],
     "path": "src/scenes/Settings/Addresses/Bsv/Wallets/template.json"
@@ -11434,6 +11624,10 @@
       {
         "defaultMessage": "Verify Message",
         "id": "scenes.settings.addresses.btc.importedaddresses.success.verifymessage"
+      },
+      {
+        "defaultMessage": "Transfer All",
+        "id": "scenes.settings.addresses.btc.importedaddresses.success.transferall"
       },
       {
         "defaultMessage": "Address",
@@ -11635,6 +11829,10 @@
         "id": "scenes.settings.addresses.btc.wallets.actions"
       },
       {
+        "defaultMessage": "No wallets matched your search",
+        "id": "scenes.settings.addresses.btc.wallets.nomatch"
+      },
+      {
         "defaultMessage": "New Wallet",
         "id": "scenes.settings.addresses.btc.wallets.newhdaccount"
       }
@@ -11650,6 +11848,10 @@
       {
         "defaultMessage": "Bitcoin Cash",
         "id": "scenes.settings.addresses.menutop.bch"
+      },
+      {
+        "defaultMessage": "Bitcoin SV",
+        "id": "scenes.settings.addresses.menutop.bsv"
       }
     ],
     "path": "src/scenes/Settings/Addresses/Menu/index.json"
@@ -12043,16 +12245,16 @@
         "id": "scenes.profile.identityverification.pagetitle"
       },
       {
-        "defaultMessage": "Your Swap Limit is how much digital currency you can trade each day. This is all a security precaution for local compliance and fraud prevention.",
-        "id": "scenes.profile.identityverification.swaplimit.explaination"
+        "defaultMessage": "Your Swap Limit is how much crypto you can trade each day. Swap Limits are necessary for compliance and fraud prevention.",
+        "id": "scenes.profile.identityverification.swaplimit.sawp_limit"
       },
       {
         "defaultMessage": "Want to learn more?",
         "id": "scenes.profile.identityverification.swaplimit.wanttolearnmore"
       },
       {
-        "defaultMessage": "We've put together an article explaining how Swap Limits works. <a href='https://support.blockchain.com/hc/en-us/categories/360001135512-Identity-Verification' rel='noopener noreferrer' target='_blank'>Read now.</a>",
-        "id": "scenes.profile.identityverification.swaplimit.learnmore"
+        "defaultMessage": "We’ve put together an article on Swap Limits. <a href='https://support.blockchain.com/hc/en-us/categories/360001135512-Identity-Verification' rel='noopener noreferrer' target='_blank'>Read now.</a>",
+        "id": "scenes.profile.identityverification.swaplimit.learn_more"
       }
     ],
     "path": "src/scenes/Settings/Profile/IdentityVerification/index.json"
@@ -12123,6 +12325,15 @@
       }
     ],
     "path": "src/scenes/Transactions/Content/Empty/CoinWelcome/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "No Transactions Found",
+        "id": "scenes.transaction.content.empty.nobsv"
+      }
+    ],
+    "path": "src/scenes/Transactions/Content/Empty/index.json"
   },
   {
     "descriptors": [
@@ -12653,5 +12864,92 @@
       }
     ],
     "path": "src/services/SfoxService/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Now Supporting Bitcoin Cash SV!",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.title"
+      },
+      {
+        "defaultMessage": "January 2019",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.january2019"
+      },
+      {
+        "defaultMessage": "Visit Settings to view your balance, exchange BSV for BTC, BCH, ETH, and XLM, or send BSV to any address.",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.visitsettings"
+      },
+      {
+        "defaultMessage": "Check it out!",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.checkitout"
+      }
+    ],
+    "path": "src/services/WhatsNewService/WhatsNewContent/BitcoinCashSVSupport.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "🎉 You're all caught up!",
+        "id": "layouts.wallet.header.whatsnew.whatsnew.empty"
+      },
+      {
+        "defaultMessage": "Our team is always working on new features, but if there's something we can improve please let us know about it <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>here<a/>.",
+        "id": "layouts.wallet.header.whatsnew.whatsnew.in_progress"
+      }
+    ],
+    "path": "src/services/WhatsNewService/WhatsNewContent/EmptyContent.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "We've Improved Your Exchange",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.improved"
+      },
+      {
+        "defaultMessage": "November 2018",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.november2018"
+      },
+      {
+        "defaultMessage": "The faster, smarter way to trade your crypto.",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.introducing"
+      },
+      {
+        "defaultMessage": "Upgrade now to enjoy the following benefits:",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.upgrade"
+      },
+      {
+        "defaultMessage": "Lower cost",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost"
+      },
+      {
+        "defaultMessage": "Super competitive crypto exchange prices",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost_description"
+      },
+      {
+        "defaultMessage": "Live rates",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates"
+      },
+      {
+        "defaultMessage": "You always get the most up to date price",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates_Description"
+      },
+      {
+        "defaultMessage": "Higher limits",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits"
+      },
+      {
+        "defaultMessage": "Limits from $1,000-$25,000",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits_description"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.started"
+      },
+      {
+        "defaultMessage": "Make Swap",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.makeswap"
+      }
+    ],
+    "path": "src/services/WhatsNewService/WhatsNewContent/ExchangeByBlockchain.json"
   }
 ]

@@ -49,6 +49,7 @@ export default {
   // Coins
   btc: '#FF9B22',
   bch: '#3EDC89',
+  bsv: '#EAB300',
   eth: '#473BCB',
   xlm: '#08b5e5'
 }

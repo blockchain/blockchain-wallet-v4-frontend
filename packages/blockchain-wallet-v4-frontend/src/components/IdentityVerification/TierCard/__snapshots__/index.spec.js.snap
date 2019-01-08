@@ -126,7 +126,7 @@ exports[`TierCard renders correctly with column view 1`] = `
               cursor="inherit"
               italic={false}
               opacity={1}
-              size="14px"
+              size="12px"
               uppercase={false}
               weight={400}
             >
@@ -154,7 +154,7 @@ exports[`TierCard renders correctly with column view 1`] = `
               cursor="inherit"
               italic={false}
               opacity={1}
-              size="14px"
+              size="12px"
               uppercase={false}
               weight={400}
             >
@@ -182,7 +182,7 @@ exports[`TierCard renders correctly with column view 1`] = `
               cursor="inherit"
               italic={false}
               opacity={1}
-              size="14px"
+              size="12px"
               uppercase={false}
               weight={400}
             >
@@ -222,7 +222,7 @@ exports[`TierCard renders correctly with column view 1`] = `
               cursor="inherit"
               italic={false}
               opacity={1}
-              size="14px"
+              size="12px"
               uppercase={false}
               weight={400}
             >
@@ -377,7 +377,7 @@ exports[`TierCard renders null w/o showBanner 1`] = `
               cursor="inherit"
               italic={false}
               opacity={1}
-              size="14px"
+              size="12px"
               uppercase={false}
               weight={400}
             >
@@ -405,7 +405,7 @@ exports[`TierCard renders null w/o showBanner 1`] = `
               cursor="inherit"
               italic={false}
               opacity={1}
-              size="14px"
+              size="12px"
               uppercase={false}
               weight={400}
             >
@@ -433,7 +433,7 @@ exports[`TierCard renders null w/o showBanner 1`] = `
               cursor="inherit"
               italic={false}
               opacity={1}
-              size="14px"
+              size="12px"
               uppercase={false}
               weight={400}
             >
@@ -461,7 +461,7 @@ exports[`TierCard renders null w/o showBanner 1`] = `
               cursor="inherit"
               italic={false}
               opacity={1}
-              size="14px"
+              size="12px"
               uppercase={false}
               weight={400}
             >

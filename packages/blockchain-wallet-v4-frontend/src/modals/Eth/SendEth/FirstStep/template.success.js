@@ -43,6 +43,7 @@ import {
   Row,
   ColLeft,
   ColRight,
+  CustomFeeAlertBanner,
   FeeFormContainer,
   FeeFormGroup,
   FeeFormLabel,
@@ -54,6 +55,7 @@ import QRCodeCapture from 'components/QRCodeCapture'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import RegularFeeLink from './RegularFeeLink'
 import PriorityFeeLink from './PriorityFeeLink'
+import { removeWhitespace } from 'services/FormHelper/normalizers'
 
 const BrowserWarning = styled(Banner)`
   margin: -4px 0 8px;
@@ -154,6 +156,7 @@ const FirstStep = props => {
                 name='to'
                 placeholder='Paste or scan an address, or select a destination'
                 component={TextBox}
+                normalize={removeWhitespace}
                 validate={[required, validEtherAddress]}
                 autoFocus
               />
@@ -242,8 +245,8 @@ const FirstStep = props => {
           <FeeFormContainer toggled={feeToggled}>
             <FeeFormLabel>
               <FormattedMessage
-                id='modals.sendether.firststep.txfee'
-                defaultMessage='Transaction fee:'
+                id='modals.sendether.firststep.fee'
+                defaultMessage='Transaction Fee:'
               />
               <span>&nbsp;</span>
               {!feeToggled && (
@@ -295,6 +298,16 @@ const FirstStep = props => {
           </Link>
         </ColRight>
       </FeeFormGroup>
+      {feeToggled ? (
+        <CustomFeeAlertBanner type='alert'>
+          <Text size='12px'>
+            <FormattedMessage
+              id='modals.sendether.firststep.customfeeinfo'
+              defaultMessage='This feature is recommended for advanced users only. By choosing a custom fee, you risk overpaying or your transaction never being confirmed.'
+            />
+          </Text>
+        </CustomFeeAlertBanner>
+      ) : null}
       <FormGroup>
         <Button
           type='submit'

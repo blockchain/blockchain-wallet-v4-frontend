@@ -1,6 +1,6 @@
 import { call, put, select } from 'redux-saga/effects'
-import { contains, equals, prop } from 'ramda'
-import { actions, model, selectors } from 'data'
+import { contains } from 'ramda'
+import { actions, selectors } from 'data'
 
 export default () => {
   const refreshClicked = function*() {
@@ -21,6 +21,9 @@ export default () => {
         case contains('/btc/transactions', pathname):
           yield call(refreshBtcTransactions)
           break
+        case contains('/settings/addresses/bsv', pathname):
+          yield call(refreshBsvTransactions)
+          break
         case contains('/eth/transactions', pathname):
           yield call(refreshEthTransactions)
           break
@@ -31,9 +34,9 @@ export default () => {
           yield put(actions.lockbox.initializeDashboard(pathname.split('/')[3]))
           break
         default:
+          yield put(actions.core.data.bch.fetchTransactions('', true))
           yield put(actions.core.data.bitcoin.fetchTransactions('', true))
           yield put(actions.core.data.ethereum.fetchTransactions(null, true))
-          yield put(actions.core.data.bch.fetchTransactions('', true))
           yield put(actions.core.data.xlm.fetchTransactions('', true))
       }
     } catch (e) {
@@ -48,21 +51,15 @@ export default () => {
   }
 
   const refreshBchTransactions = function*() {
-    const formValues = yield select(
-      selectors.form.getFormValues(model.components.btcTransactions.FORM)
-    )
-    const source = prop('source', formValues)
-    const onlyShow = equals(source, 'all') ? '' : source.xpub || source.address
-    yield put(actions.core.data.bch.fetchTransactions(onlyShow, true))
+    yield put(actions.core.data.bch.fetchTransactions('', true))
   }
 
   const refreshBtcTransactions = function*() {
-    const formValues = yield select(
-      selectors.form.getFormValues(model.components.bchTransactions.FORM)
-    )
-    const source = prop('source', formValues)
-    const onlyShow = equals(source, 'all') ? '' : source.xpub || source.address
-    yield put(actions.core.data.bitcoin.fetchTransactions(onlyShow, true))
+    yield put(actions.core.data.bitcoin.fetchTransactions('', true))
+  }
+
+  const refreshBsvTransactions = function*() {
+    yield put(actions.core.data.bsv.fetchTransactions('', true))
   }
 
   const refreshEthTransactions = function*() {

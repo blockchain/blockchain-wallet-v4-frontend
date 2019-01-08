@@ -6,7 +6,7 @@
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 # Blockchain Wallet v4
-Be Your Own Bank at [blockchain.info/wallet](https://blockchain.info/wallet).
+Be Your Own Bank at [login.blockchain.com](https://login.blockchain.com).
 Please [contact support](https://support.blockchain.com) if you have any issues using the wallet.
 
 ## About
