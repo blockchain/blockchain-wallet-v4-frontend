@@ -13,11 +13,6 @@ class PairDeviceStepContainer extends React.PureComponent {
     this.startBtcOpenTimeout()
   }
 
-  componentWillUnmount () {
-    // TODO: think we can get rid of resetAppChangeStatus completely
-    this.props.lockboxActions.resetAppChangeStatus()
-  }
-
   onStepChange = requestedStep => {
     this.props.lockboxActions.changeDeviceSetupStep(requestedStep)
   }

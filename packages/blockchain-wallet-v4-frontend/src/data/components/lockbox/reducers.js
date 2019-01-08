@@ -81,6 +81,13 @@ export default (state = INITIAL_STATE, action) => {
         state
       )
     }
+    case AT.APP_CHANGE_NOTASKED: {
+      return assocPath(
+        ['appManager', 'appChangeStatus'],
+        Remote.NotAsked(),
+        state
+      )
+    }
     case AT.APP_CHANGE_SUCCESS: {
       return assocPath(
         ['appManager', 'appChangeStatus'],

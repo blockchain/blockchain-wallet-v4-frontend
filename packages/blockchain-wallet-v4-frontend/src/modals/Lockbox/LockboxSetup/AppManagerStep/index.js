@@ -13,6 +13,7 @@ import {
   TextGroup
 } from 'blockchain-info-components'
 import AppManagerStep from './template'
+// import LockboxAppManager from './../../LockboxAppManager/template'
 
 const GraphicContainer = styled.div`
   display: flex;

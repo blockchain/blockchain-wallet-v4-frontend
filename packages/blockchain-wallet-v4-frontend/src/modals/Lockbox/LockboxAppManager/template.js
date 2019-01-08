@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedHTMLMessage } from 'react-intl'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, HeartbeatLoader, Text } from 'blockchain-info-components'
 
 const Row = styled.div`
   width: 100%;
@@ -35,17 +35,37 @@ const AppActions = styled.div`
     margin-left: 10px;
   }
 `
-
-const CoinName = styled(Text)`
-  font-size: 16px;
-  font-weight: 500;
-`
 const CoinIcon = styled(Icon)`
   font-size: 40px;
   margin-right: 4px;
 `
+const InstallButton = styled(Button)`
+  border-radius: 20px;
+  height: 40px;
+  width: 40px;
+  &:hover {
+    background-color: ${props =>
+      !props.disabled && props.theme['brand-quaternary']};
+  }
+`
+const UninstallButton = styled(Button)`
+  border-radius: 100px;
+  height: 40px;
+  width: 30px;
+  max-width: 30px;
+`
+const StatusText = styled(Text)`
+  margin-right: 8px;
+`
 const LockboxAppManager = props => {
-  const { app, coin, installApp, uninstallApp } = props
+  const {
+    app,
+    coin,
+    coinState,
+    disableUpdates,
+    installApp,
+    uninstallApp
+  } = props
   const { name, version } = app
   const coinLower = coin.toLowerCase()
 
@@ -54,8 +74,10 @@ const LockboxAppManager = props => {
       <AppDetails>
         <CoinIcon color={coinLower} name={`${coinLower}-circle-filled`} />
         <div>
-          <CoinName color={'gray-5'}>{name}</CoinName>
-          <Text size='13px' weight={300}>
+          <Text size='13px' weight={400} color={'gray-5'}>
+            {name}
+          </Text>
+          <Text size='11px' weight={300}>
             <FormattedHTMLMessage
               id='modals.lockbox.appmanager.successmsg'
               defaultMessage='Version {version}'
@@ -64,17 +86,72 @@ const LockboxAppManager = props => {
           </Text>
         </div>
       </AppDetails>
-      <AppActions>
-        <Button nature='empty-secondary' width='80px' onClick={installApp}>
-          <FormattedHTMLMessage
-            id='modals.lockbox.appmanager.install'
-            defaultMessage='Install'
-          />
-        </Button>
-        <Button nature='empty' width='50px' onClick={uninstallApp}>
-          <Icon name='trash' size='18px' />
-        </Button>
-      </AppActions>
+      {(function () {
+        switch (coinState && coinState.status) {
+          case 'Updating':
+            return (
+              <AppActions>
+                <HeartbeatLoader
+                  style={{ marginRight: '8px' }}
+                  height='34px'
+                  width='34px'
+                />
+              </AppActions>
+            )
+          case 'Error':
+            return (
+              <AppActions>
+                <Icon name='alert-filled' color='error' size='34px' />
+                <StatusText weight={400} size='18px'>
+                  <FormattedHTMLMessage
+                    id='modals.lockbox.appmanager.error'
+                    defaultMessage='Error'
+                  />
+                </StatusText>
+              </AppActions>
+            )
+          case 'Success':
+            return (
+              <AppActions>
+                <Icon
+                  name='checkmark-in-circle-filled'
+                  color='success'
+                  size='34px'
+                />
+                <StatusText weight={400} size='18px'>
+                  <FormattedHTMLMessage
+                    id='modals.lockbox.appmanager.success'
+                    defaultMessage='Success'
+                  />
+                </StatusText>
+              </AppActions>
+            )
+          default:
+            return (
+              <AppActions>
+                <InstallButton
+                  nature='empty-secondary'
+                  width='80px'
+                  onClick={!disableUpdates && installApp}
+                  disabled={disableUpdates}
+                >
+                  <FormattedHTMLMessage
+                    id='modals.lockbox.appmanager.install'
+                    defaultMessage='Install'
+                  />
+                </InstallButton>
+                <UninstallButton
+                  nature='empty'
+                  width='50px'
+                  onClick={!disableUpdates && uninstallApp}
+                  disabled={disableUpdates}
+                >
+                  <Icon name='trash' size='18px' />
+                </UninstallButton>
+              </AppActions>
+            )
+        }
+      })()}
     </Row>
   )
 }
