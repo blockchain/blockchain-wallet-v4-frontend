@@ -20,7 +20,7 @@ const DeviceWrapper = styled.div`
 `
 const NewButton = styled(Button)`
   height: 55px;
-  margin: 20px 0 10px;
+  margin: 30px 0 6px;
 `
 const ExistingButton = styled(Button)`
   height: 55px;
@@ -30,23 +30,23 @@ const SetupTypeStep = props => {
   const { handleStepChange, deviceType } = props
   return (
     <Wrapper>
-      {deviceType === 'ledger' ? (
+      {deviceType === 'Lockbox' ? (
         <DeviceWrapper>
           <Image
             width='65%'
             name='firmware-connect'
             srcset={{ 'ledger-lockbox': '1x' }}
           />
-          <Text size='16px' weight={400} style={{ marginTop: '10px' }}>
+          <Text size='20px' weight={400} style={{ marginTop: '14px' }}>
             <FormattedMessage
-              id='modals.lockboxsetup.setuptypestep.nanos'
-              defaultMessage='Nano S'
+              id='modals.lockboxsetup.setuptypestep.lockbox'
+              defaultMessage='Lockbox'
             />
           </Text>
           <Text size='14px' weight={300}>
             <FormattedMessage
-              id='modals.lockboxsetup.setuptypestep.ledger'
-              defaultMessage='Ledger'
+              id='modals.lockboxsetup.setuptypestep.blockchain'
+              defaultMessage='Blockchain'
             />
           </Text>
         </DeviceWrapper>
@@ -57,16 +57,16 @@ const SetupTypeStep = props => {
             name='firmware-connect'
             srcset={{ 'ledger-lockbox': '1x' }}
           />
-          <Text size='16px' weight={400} style={{ marginTop: '10px' }}>
+          <Text size='20px' weight={400} style={{ marginTop: '14px' }}>
             <FormattedMessage
-              id='modals.lockboxsetup.setuptypestep.lockbox'
-              defaultMessage='Lockbox'
+              id='modals.lockboxsetup.setuptypestep.nanos'
+              defaultMessage='Nano S'
             />
           </Text>
           <Text size='14px' weight={300}>
             <FormattedMessage
-              id='modals.lockboxsetup.setuptypestep.blockchain'
-              defaultMessage='Blockchain'
+              id='modals.lockboxsetup.setuptypestep.ledger'
+              defaultMessage='Ledger'
             />
           </Text>
         </DeviceWrapper>

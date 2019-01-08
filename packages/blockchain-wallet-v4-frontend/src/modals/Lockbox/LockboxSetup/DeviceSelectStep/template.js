@@ -29,6 +29,7 @@ const DeviceWrapper = styled.div`
   border-radius: 3px;
   &:hover {
     cursor: pointer;
+    border-color: ${props => props.theme['brand-tertiary']};
     box-shadow: 0 0 2px 0 ${props => props.theme['brand-secondary']} inset;
   }
 `
@@ -38,20 +39,21 @@ const RestoreDeviceWrapper = styled.div`
   justify-content: space-between;
   width: 100%;
   margin-top: 18px;
-  padding: 14px 8px;
+  padding: 14px 12px;
   box-sizing: border-box;
   border-radius: 3px;
   background-color: ${props => props.theme['white-blue']};
   &:hover {
     cursor: pointer;
+    border-color: ${props => props.theme['brand-tertiary']};
     box-shadow: 0 0 2px 0 ${props => props.theme['brand-secondary']} inset;
   }
 `
-const LearnMoreLink = styled(Link)`
+const LearnHowLink = styled(Link)`
   display: inline-flex;
 `
-const LearnMoreText = styled(Text)`
-  margin-right: 10px;
+const LearnHowText = styled(Text)`
+  margin-right: 6px;
   color: ${props => props.theme['brand-secondary']};
 `
 
@@ -112,15 +114,15 @@ const DeviceSelectStep = props => {
             defaultMessage='Restore a device'
           />
         </Text>
-        <LearnMoreLink href={'/lockbox'} target='_blank'>
-          <LearnMoreText size='14px'>
+        <LearnHowLink href={'/lockbox'} target='_blank'>
+          <LearnHowText size='14px'>
             <FormattedMessage
-              id='modals.lockboxsetup.deviceselect.learnmore'
-              defaultMessage='Learn More'
+              id='modals.lockboxsetup.deviceselect.learhow'
+              defaultMessage='Learn How'
             />
-          </LearnMoreText>
+          </LearnHowText>
           <Icon name='short-right-arrow' color='brand-secondary' size='18px' />
-        </LearnMoreLink>
+        </LearnHowLink>
       </RestoreDeviceWrapper>
     </Wrapper>
   )
