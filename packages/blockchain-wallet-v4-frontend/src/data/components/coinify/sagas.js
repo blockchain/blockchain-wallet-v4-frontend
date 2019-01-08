@@ -539,15 +539,16 @@ export default ({ api, coreSagas, networks }) => {
 
   const compareKyc = function*() {
     try {
-      const userKYCState = (yield select(
-        selectors.modules.profile.getUserKYCState
-      )).getOrElse(NONE)
+      const tier2DataR = yield select(selectors.modules.profile.getTier(2))
+      const tier2State = prop('state', tier2DataR.getOrElse(null))
       const profileLevel = (yield select(
         selectors.core.data.coinify.getLevel
       )).getOrElse(null)
       const levelName = prop('name', profileLevel)
+
+      // if wallet says user is tier 2 verified but coinify says they are level 1, we tell backend to update
       if (
-        equals(userKYCState, VERIFIED) &&
+        equals(tier2State, VERIFIED) &&
         equals(levelName, COINIFY_USER_LEVELS.ONE)
       ) {
         const user = (yield select(
