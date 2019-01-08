@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { Field } from 'redux-form'
@@ -78,6 +78,7 @@ const PaymentRadioCard = ({ handlePaymentClick, disabled }) => (
 )
 
 export function CardOption ({ handlePaymentClick, disabled }) {
+  const isDisabled = prop('medium', disabled) === 'card'
   return (
     <PaymentOptionContainer onClick={() => handlePaymentClick('card')}>
       <Field
@@ -86,16 +87,27 @@ export function CardOption ({ handlePaymentClick, disabled }) {
         handlePaymentClick={handlePaymentClick}
         component={PaymentRadioCard}
         validate={[required]}
-        disabled={prop('medium', disabled) === 'card'}
+        disabled={isDisabled}
       />
       <Text size='12px' weight={300}>
-        {prop('medium', disabled) === 'card' ? (
+        {isDisabled ? (
           <Text size='12px' weight={300}>
-            <FormattedMessage
-              id='coinifyexchangedata.payment.mediumhelpers.card.disabled'
-              defaultMessage='Orders over {cardLimit} can only be processed through bank transfer.'
-              values={{ cardLimit: prop('limit', disabled) }}
-            />
+            {prop('type', disabled) === 'under_card'
+              ? <FormattedMessage
+                id='coinifyexchangedata.payment.mediumhelpers.card.disabled_min'
+                defaultMessage='The order amount is less than the credit card minimum of {cardMin}.'
+                values={{ cardMin: prop('limit', disabled) }}
+              />
+              : prop('type', disabled) === 'over_card'
+                ? <FormattedMessage
+                  id='coinifyexchangedata.payment.mediumhelpers.card.disabled_max'
+                  defaultMessage='Orders over {cardLimit} can only be processed through bank transfer.'
+                  values={{ cardLimit: prop('limit', disabled) }}
+                />
+                : <FormattedMessage
+                  id='coinifyexchangedata.payment.mediumhelpers.card.disabled_other'
+                  defaultMessage='Credit card payment is not available for this order.'
+                />}
           </Text>
         ) : (
           <Text size='12px' weight={300}>
@@ -142,6 +154,7 @@ const PaymentRadioBank = ({ disabled }) => (
 )
 
 export function BankOption ({ handlePaymentClick, disabled }) {
+  const isDisabled = prop('medium', disabled) === 'bank'
   return (
     <PaymentOptionContainer onClick={() => handlePaymentClick('bank')}>
       <Field
@@ -149,15 +162,28 @@ export function BankOption ({ handlePaymentClick, disabled }) {
         value='bank'
         component={PaymentRadioBank}
         validate={[required]}
-        disabled={prop('medium', disabled) === 'bank'}
+        disabled={isDisabled}
       />
-      {prop('medium', disabled) === 'bank' ? (
+      {isDisabled ? (
         <Text size='12px' weight={300}>
-          <FormattedMessage
-            id='coinifyexchangedata.payment.mediumhelpers.bank.disabled'
-            defaultMessage='The order amount is over your bank limit of {bankLimit}'
-            values={{ bankLimit: prop('limit', disabled) }}
-          />
+          {prop('type', disabled) === 'under_bank' ? (
+            <FormattedMessage
+              id='coinifyexchangedata.payment.mediumhelpers.bank.disabled_min'
+              defaultMessage='The order amount is less than the bank minimum of {bankMin}.'
+              values={{ bankMin: prop('limit', disabled) }}
+            />
+          ) : prop('type', disabled) === 'over_bank' ? (
+            <FormattedMessage
+              id='coinifyexchangedata.payment.mediumhelpers.bank.disabled_max'
+              defaultMessage='The order amount is over your bank limit of {bankLimit}.'
+              values={{ bankLimit: prop('limit', disabled) }}
+            />
+          ) : (
+            <FormattedMessage
+              id='coinifyexchangedata.payment.mediumhelpers.bank.disabled_other'
+              defaultMessage='Bank transfers are not available for this order.'
+            />
+          )}
         </Text>
       ) : (
         <Text size='12px' weight={300}>

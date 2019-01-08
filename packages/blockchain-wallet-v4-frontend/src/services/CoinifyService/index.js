@@ -10,18 +10,12 @@ import {
   toLower,
   mapObjIndexed
 } from 'ramda'
+import { Link } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import * as Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { KYC_STATES } from '../../data/modules/profile/model'
-const {
-  NONE,
-  PENDING,
-  UNDER_REVIEW,
-  VERIFIED,
-  REJECTED,
-  EXPIRED
-} = KYC_STATES
+const { NONE, PENDING, UNDER_REVIEW, VERIFIED, REJECTED, EXPIRED } = KYC_STATES
 
 export const getLimits = (profileLimits, curr, effectiveBalance) => {
   const limits = profileLimits || mockedLimits
@@ -575,7 +569,9 @@ export const kycNotificationBodyHelper = status => {
         text: (
           <FormattedMessage
             id='scenes.buysell.coinify.kyc.pending'
-            defaultMessage={'We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to buy & sell cryptocurrency.\n {note} In some cases it can take up to 2 hours to get verified.'}
+            defaultMessage={
+              'We are currently reviewing your application. Hang tight! In just a few minutes you will be all set to buy & sell cryptocurrency.\n {note} In some cases it can take up to 2 hours to get verified.'
+            }
             values={{
               note: (
                 <strong>
@@ -610,8 +606,24 @@ export const kycNotificationBodyHelper = status => {
       return {
         text: (
           <FormattedMessage
-            id='scenes.buysell.coinify.kyc.rejected'
-            defaultMessage='Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time.'
+            id='scenes.buysell.coinify.kyc.rejected_learn_more'
+            defaultMessage='Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time. {learnMore}'
+            values={{
+              learnMore: (
+                <Link
+                  size='13px'
+                  weight={300}
+                  href='https://support.blockchain.com/hc/en-us/articles/360018080352-Why-has-my-ID-submission-been-rejected-'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  <FormattedMessage
+                    id='scenes.buysell.coinify.kyc.learn_more'
+                    defaultMessage='Learn more.'
+                  />
+                </Link>
+              )
+            }}
           />
         )
       }
@@ -637,10 +649,12 @@ export const showKycStatus = state =>
 
 export const getReasonExplanation = (reason, time, verified) => {
   if (!verified)
-    return <FormattedMessage
-      id='scenes.coinify.cannottradereason.notverified'
-      defaultMessage='Trading is disabled because you have not completed identity verification.'
-    />
+    return (
+      <FormattedMessage
+        id='scenes.coinify.cannottradereason.notverified'
+        defaultMessage='Trading is disabled because you have not completed identity verification.'
+      />
+    )
 
   const ONE_DAY_MS = 86400000
   const canTradeAfter = time

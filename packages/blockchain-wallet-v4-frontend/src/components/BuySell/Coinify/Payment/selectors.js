@@ -1,4 +1,4 @@
-import { lift, prop, path } from 'ramda'
+import { lift, prop, path, contains } from 'ramda'
 import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { currencySymbolMap } from 'services/CoinifyService'
@@ -18,17 +18,22 @@ export const getData = createDeepEqualSelector(
       const fiatCurrency =
         quote.quoteCurrency === 'BTC' ? quote.baseCurrency : quote.quoteCurrency
 
-      const getMax = medium => path(
-        ['limitInAmounts', fiatCurrency],
-        prop(medium, mediums)
-      )
+      const getMax = medium =>
+        path(['limitInAmounts', fiatCurrency], prop(medium, mediums))
+      const getMin = medium =>
+        path(['minimumInAmounts', fiatCurrency], prop(medium, mediums))
+
+      const createLimitError = (medium, type) => ({
+        medium,
+        type,
+        limit: `${currencySymbolMap[fiatCurrency]}${contains('over', type) ? getMax(medium) : getMin(medium)}`
+      })
 
       const checkForLimitError = medium => {
         if (fiatAmount > getMax(medium))
-          return {
-            medium,
-            limit: `${currencySymbolMap[fiatCurrency]}${getMax(medium)}`
-          }
+          return createLimitError(medium, `over_${medium}`)
+        if (fiatAmount < getMin(medium))
+          return createLimitError(medium, `under_${medium}`)
         return false
       }
 
@@ -47,11 +52,7 @@ export const getData = createDeepEqualSelector(
         disabledMedium
       }
     }
-    return lift(transform)(
-      limitsR,
-      mediumsR,
-      quoteR
-    )
+    return lift(transform)(limitsR, mediumsR, quoteR)
   }
 )
 
