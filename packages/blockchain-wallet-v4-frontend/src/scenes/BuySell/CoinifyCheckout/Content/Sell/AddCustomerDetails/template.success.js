@@ -8,7 +8,6 @@ import { required } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
 import { StepTransition } from 'components/Utilities/Stepper'
 import {
-  BorderBox,
   Form,
   CancelWrapper,
   ColLeft,
@@ -19,6 +18,7 @@ import {
   PartnerSubHeader
 } from 'components/IdentityVerification'
 import { SelectBoxCountry, TextBox } from 'components/Form'
+import { SellContainer } from 'components/BuySell/styled'
 
 const SpaceRow = styled.div`
   width: 100%;
@@ -39,7 +39,7 @@ const AddBankDetails = props => {
   return (
     <Form>
       <ColLeft>
-        <BorderBox>
+        <SellContainer>
           <InputWrapper style={spacing('mb-40')}>
             <PartnerHeader>
               <FormattedMessage
@@ -103,7 +103,7 @@ const AddBankDetails = props => {
               component={SelectBoxCountry}
             />
           </InputWrapper>
-        </BorderBox>
+        </SellContainer>
       </ColLeft>
       <ColRight>
         <ColRightInner>

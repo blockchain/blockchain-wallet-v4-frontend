@@ -66,40 +66,36 @@ const Sell = props => {
       <Stepper initialStep={0}>
         <StepView step={0}>
           <CheckoutWrapper>
-            <div>
-              <OrderCheckout
-                canTrade={canTrade}
-                changeTab={changeTab}
-                quoteR={sellQuoteR}
-                onFetchQuote={fetchSellQuote}
+            <OrderCheckout
+              canTrade={canTrade}
+              changeTab={changeTab}
+              quoteR={sellQuoteR}
+              onFetchQuote={fetchSellQuote}
+              limits={limits.sell}
+              type={'sell'}
+              reason={'has_remaining'} // placeholder for now - coinify does not require a reason
+              defaultCurrency={defaultCurrency}
+              symbol={symbol}
+              checkoutBusy={checkoutBusy}
+              setMax={setMax}
+              setMin={setMin}
+              onOrderCheckoutSubmit={onOrderCheckoutSubmit}
+              checkoutError={checkoutError}
+              increaseLimit={handleKycAction}
+              verified={kycVerified}
+              cannotTradeReason={cannotTradeReason}
+              canTradeAfter={canTradeAfter}
+            />
+            {!kycVerified && levelName < 2 ? (
+              <KYCNotification
                 limits={limits.sell}
-                type={'sell'}
-                reason={'has_remaining'} // placeholder for now - coinify does not require a reason
-                defaultCurrency={defaultCurrency}
                 symbol={symbol}
-                checkoutBusy={checkoutBusy}
-                setMax={setMax}
-                setMin={setMin}
-                onOrderCheckoutSubmit={onOrderCheckoutSubmit}
-                checkoutError={checkoutError}
-                increaseLimit={handleKycAction}
-                verified={kycVerified}
-                cannotTradeReason={cannotTradeReason}
-                canTradeAfter={canTradeAfter}
+                onTrigger={handleKycAction}
+                type='sell'
+                canTrade={canTrade}
+                kycState={kycState}
               />
-            </div>
-            <div>
-              {!kycVerified && levelName < 2 ? (
-                <KYCNotification
-                  limits={limits.sell}
-                  symbol={symbol}
-                  onTrigger={handleKycAction}
-                  type='sell'
-                  canTrade={canTrade}
-                  kycState={kycState}
-                />
-              ) : null}
-            </div>
+            ) : null}
           </CheckoutWrapper>
         </StepView>
         <StepView step={1}>

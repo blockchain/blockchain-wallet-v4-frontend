@@ -9,7 +9,6 @@ import { required, validIban, validBIC } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
 import { StepTransition } from 'components/Utilities/Stepper'
 import {
-  BorderBox,
   Form,
   ColLeft,
   InputWrapper,
@@ -19,6 +18,7 @@ import {
   ColRightInner
 } from 'components/IdentityVerification'
 import { TextBox } from 'components/Form'
+import { SellContainer } from 'components/BuySell/styled'
 
 const CancelWrapper = styled.div`
   display: flex;
@@ -49,7 +49,7 @@ const AddBankDetails = props => {
   return (
     <Form>
       <ColLeft>
-        <BorderBox>
+        <SellContainer>
           <InputWrapper>
             <PartnerHeader>
               <FormattedMessage
@@ -113,7 +113,7 @@ const AddBankDetails = props => {
               />
             </Text>
           </InputWrapper>
-        </BorderBox>
+        </SellContainer>
       </ColLeft>
       <ColRight>
         <ColRightInner>
