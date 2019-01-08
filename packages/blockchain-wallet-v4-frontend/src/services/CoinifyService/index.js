@@ -250,7 +250,7 @@ export const statusHelper = status => {
     case 'awaiting_transfer_in':
     case 'processing':
       return {
-        color: 'transferred',
+        color: 'btc',
         text: (
           <FormattedMessage
             id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.processing'
@@ -337,12 +337,7 @@ export const bodyStatusHelper = (status, isBuy) => {
         }
       case 'completed':
         return {
-          text: (
-            <FormattedMessage
-              id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.completed'
-              defaultMessage='Your buy trade is complete!'
-            />
-          )
+          text: ''
         }
       case 'rejected':
         return {
