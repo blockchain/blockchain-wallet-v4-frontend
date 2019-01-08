@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux'
 import { actions, selectors } from 'data'
 import PropTypes from 'prop-types'
 
-import { requireUniqueDeviceName } from 'services/FormHelper'
 import FinishSetupStep from './template'
 
 class FinishSetupStepContainer extends React.PureComponent {

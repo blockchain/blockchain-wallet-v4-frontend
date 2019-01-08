@@ -27,7 +27,7 @@ const StepText = styled(Text)`
   margin-bottom: 8px;
 `
 const ButtonContainer = styled.div`
-  margin-top: 30px;
+  margin-top: 18px;
 `
 const TimeoutText = styled(Text)`
   margin: 10px 0 25px;

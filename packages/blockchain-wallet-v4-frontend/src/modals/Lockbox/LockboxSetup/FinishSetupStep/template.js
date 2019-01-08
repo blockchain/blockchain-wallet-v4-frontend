@@ -1,10 +1,8 @@
 import React from 'react'
-
 import styled from 'styled-components'
-import { required } from 'services/FormHelper'
-import { Button, Image, Text } from 'blockchain-info-components'
 import { FormattedHTMLMessage } from 'react-intl'
-import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
+
+import { Button, Image, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;

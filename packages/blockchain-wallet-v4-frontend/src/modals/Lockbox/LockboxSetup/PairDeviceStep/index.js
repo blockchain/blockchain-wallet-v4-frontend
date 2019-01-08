@@ -1,31 +1,58 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import PropTypes from 'prop-types'
 
 import PairDeviceStep from './template'
 import { actions, selectors } from 'data'
 
 class PairDeviceStepContainer extends React.PureComponent {
-  state = { installRanOrSkipped: false, userAcceptedInstall: false }
+  state = { btcOpenTimeout: false }
+
+  componentDidMount () {
+    this.startBtcOpenTimeout()
+  }
 
   componentWillUnmount () {
+    // TODO: think we can get rid of resetAppChangeStatus completely
     this.props.lockboxActions.resetAppChangeStatus()
   }
 
-  onStepChange = () => {
-    this.props.lockboxActions.changeDeviceSetupStep('finish-step')
+  onStepChange = requestedStep => {
+    this.props.lockboxActions.changeDeviceSetupStep(requestedStep)
+  }
+
+  onTimeoutAccept = () => {
+    this.setState({ btcOpenTimeout: false })
+    this.startBtcOpenTimeout()
+    this.props.formActions.reset('pairLockboxChecklist')
+  }
+
+  // 2 minute app timeout
+  startBtcOpenTimeout = () => {
+    setTimeout(() => {
+      this.setState({ btcOpenTimeout: true })
+    }, 1000) // 120000
   }
 
   render () {
+    const { deviceType, done, supportLink } = this.props
+
     return (
       <PairDeviceStep
-        deviceType={this.props.deviceType}
-        isReady={this.props.done}
-        onInstallApps={this.onInstallApps}
+        btcOpenTimeout={this.state.btcOpenTimeout}
+        deviceType={deviceType}
+        isReady={done}
+        onTimeoutAccept={this.onTimeoutAccept}
         onStepChange={this.onStepChange}
+        supportLink={supportLink}
       />
     )
   }
+}
+
+PairDeviceStepContainer.propTypes = {
+  supportLink: PropTypes.string.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -33,8 +60,9 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch),
+  lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(

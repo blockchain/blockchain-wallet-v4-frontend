@@ -27,8 +27,10 @@ class LockboxSetupContainer extends React.PureComponent {
   }
 
   render () {
-    const { currentStep, position, total, setupType } = this.props
-    let steps = {
+    const { currentStep, position, total } = this.props
+    const supportLink =
+      'https://blockchain.zendesk.com/hc/en-us/requests/new?ticket_form_id=360000154811'
+    const steps = {
       'device-select': {
         title: () => (
           <FormattedMessage
@@ -54,7 +56,7 @@ class LockboxSetupContainer extends React.PureComponent {
             defaultMessage='Connect Your Device'
           />
         ),
-        template: () => <ConnectDeviceStep />
+        template: () => <ConnectDeviceStep supportLink={supportLink} />
       },
       'customize-device': {
         title: () => (
@@ -81,7 +83,9 @@ class LockboxSetupContainer extends React.PureComponent {
             defaultMessage='Pair Device'
           />
         ),
-        template: () => <PairDeviceStep done={currentStep.done} />
+        template: () => (
+          <PairDeviceStep done={currentStep.done} supportLink={supportLink} />
+        )
       },
       'finish-step': {
         title: () => (
@@ -102,7 +106,6 @@ class LockboxSetupContainer extends React.PureComponent {
         template: () => <ErrorStep onClose={this.onClose} />
       }
     }
-
     const step =
       currentStep && currentStep.step
         ? steps[currentStep.step]

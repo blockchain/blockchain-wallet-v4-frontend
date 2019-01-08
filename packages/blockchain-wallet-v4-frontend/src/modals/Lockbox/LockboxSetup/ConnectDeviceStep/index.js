@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import PropTypes from 'prop-types'
+
 import { actions, selectors } from 'data'
 import Template from './template'
 
@@ -31,20 +33,24 @@ class ConnectDeviceStepContainer extends React.PureComponent {
   }
 
   render () {
+    const { deviceType, connection, setupType, supportLink } = this.props
+
     return (
       <Template
         connectTimeout={this.state.connectTimeout}
-        deviceType={this.props.deviceType}
-        isConnected={this.props.connection.app}
-        isNewSetup={this.props.setupType === 'new'}
+        deviceType={deviceType}
+        isConnected={connection.app}
+        isNewSetup={setupType === 'new'}
         handleStepChange={this.changeDeviceSetupStep}
         onTimeoutAccept={this.onTimeoutAccept}
-        supportLink={
-          'https://blockchain.zendesk.com/hc/en-us/requests/new?ticket_form_id=360000154811'
-        }
+        supportLink={supportLink}
       />
     )
   }
+}
+
+ConnectDeviceStepContainer.propTypes = {
+  supportLink: PropTypes.string.isRequired
 }
 
 const mapStateToProps = state => ({

@@ -1,9 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 
-import { requireUniqueDeviceName } from 'services/FormHelper'
 import CustomizeStep from './template'
 
 class CustomizeStepContainer extends React.PureComponent {
