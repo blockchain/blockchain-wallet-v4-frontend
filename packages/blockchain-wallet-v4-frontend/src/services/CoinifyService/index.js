@@ -507,7 +507,7 @@ export const kycHeaderHelper = status => {
       }
     case UNDER_REVIEW:
       return {
-        color: 'brand-primary',
+        color: 'btc',
         text: (
           <FormattedMessage
             id='scenes.buy_sell.coinify.kyc.header.reviewing'
