@@ -6,7 +6,6 @@ import VerifyEmail from './VerifyEmail'
 import { FormattedMessage } from 'react-intl'
 import { model } from 'data'
 import {
-  FaqFormMessage,
   PartnerHeader,
   PartnerSubHeader
 } from 'components/IdentityVerification'
@@ -16,11 +15,6 @@ import media from 'services/ResponsiveService'
 const { CHANGE } = model.components.coinify.REGISTER_STATES
 const { EMAIL, TERMS } = model.components.coinify.REGISTER_STEPS
 
-const CoinifyFaqFormMessage = styled(FaqFormMessage)`
-  left: 60%;
-  top: 10%;
-  margin-left: 20px;
-`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -51,8 +45,8 @@ const Create = props => {
             </PartnerHeader>
             <SubHeader>
               <FormattedMessage
-                id='coinifyexchangedata.create.subheader.teamedup'
-                defaultMessage="We teamed up with Coinify's exchange platform to offer buy and sell to our customers."
+                id='coinifyexchangedata.create.subheader.get_started'
+                defaultMessage="To get started, create and verify your account in a matter of minutes. We'll need your email, personal info, phone and ID"
               />
             </SubHeader>
             {determineStep === EMAIL && (
@@ -61,25 +55,6 @@ const Create = props => {
             {determineStep === TERMS && (
               <AcceptTerms create={create} {...props} />
             )}
-            {
-              !mobile && determineStep === TERMS
-                ? <CoinifyFaqFormMessage
-                  icon='cart'
-                  title={
-                    <FormattedMessage
-                      id='coinifyexchangedata.create.faq.title'
-                      defaultMessage="What's Coinify?"
-                    />
-                  }
-                  text={
-                    <FormattedMessage
-                      id='coinifyexchangedata.create.faq.text'
-                      defaultMessage="Coinify is a trading platform we've partnered with to bring you a harmonious buy & sell experience in your Blockchain wallet."
-                    />
-                  }
-                />
-                : null
-            }
           </Fragment>
         )}
       </MediaContextConsumer>

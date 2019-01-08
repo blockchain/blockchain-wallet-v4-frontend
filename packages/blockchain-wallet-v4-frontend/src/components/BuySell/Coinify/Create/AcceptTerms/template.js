@@ -94,10 +94,17 @@ const AcceptTerms = props => {
         <WideInputWrapper>
           <FieldContainer>
             <VerifiedText>
-              <FormattedMessage
-                id='coinifyexchangedata.create.createaccount.partner.emailaddress'
-                defaultMessage='Email Address'
-              />
+              {
+                emailVerified
+                  ? <FormattedMessage
+                    id='coinifyexchangedata.create.createaccount.partner.email_verified'
+                    defaultMessage='Verified Email'
+                  />
+                  : <FormattedMessage
+                    id='coinifyexchangedata.create.createaccount.partner.email_no_verify'
+                    defaultMessage='Verify Email'
+                  />
+              }
             </VerifiedText>
             <VerifiedContainer>
               <FieldMimic width='100%'>
@@ -148,13 +155,7 @@ const AcceptTerms = props => {
               {
                 emailVerified
                   ? <Fragment>
-                    <TermsText size='12px' weight={300}>
-                      <FormattedMessage
-                        id='coinifyexchangedata.create.createaccount.partner.byclicking'
-                        defaultMessage="By clicking continue, I agree to Coinify's {ToS} & {Privacy}"
-                        values={{ ToS: <Link href='https://www.coinify.com/legal' size='12px' weight={300} rel='noreferrer noopener' target='_blank'>Terms of Service</Link>, Privacy: <Link href='https://www.coinify.com/legal/policy' size='12px' weight={300} rel='noreferrer noopener' target='_blank'>Privacy Policy</Link> }}
-                      />
-                    </TermsText>
+                    <TermsText size='12px' weight={300} />
                     <Button nature='primary' type='submit' disabled={invalid || busy || signupError}>
                       {
                         !busy ? (
