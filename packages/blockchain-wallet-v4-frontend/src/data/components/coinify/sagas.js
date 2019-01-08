@@ -13,6 +13,7 @@ import * as coinifyModel from './model'
 
 const { STEPS } = model.components.identityVerification
 const { NONE, VERIFIED } = model.profile.KYC_STATES
+const { TIERS_STATES } = model.profile
 const {
   COINIFY_CHECKOUT_STEPS,
   TRADE_DETAILS_MODAL,
@@ -29,7 +30,9 @@ export default ({ api, coreSagas, networks }) => {
     try {
       yield call(api.sendCoinifyKyc, user)
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'handleAfterSignup', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'handleAfterSignup', e)
+      )
     } finally {
       yield put(actions.modals.closeAllModals())
       yield put(A.fetchCoinifyData())
@@ -45,14 +48,17 @@ export default ({ api, coreSagas, networks }) => {
       if (profileR.error)
         return yield put(A.coinifySignupFailure(JSON.parse(profileR.error)))
 
-      const userKYCStateR = yield select(selectors.modules.profile.getUserKYCState)
-      const userKYCState = userKYCStateR.getOrElse()
-      const isNone = equals(userKYCState, NONE)
+      const tier2DataR = yield select(selectors.modules.profile.getTier(2))
+      const tier2Data = tier2DataR.getOrElse(null)
+      const kycIsNone = equals(prop('state', tier2Data), TIERS_STATES.NONE)
+      if (kycIsNone)
+        return yield put(
+          actions.components.identityVerification.setVerificationStep(
+            STEPS.personal
+          )
+        )
 
-      if (isNone)
-        return yield put(actions.components.identityVerification.setVerificationStep(STEPS.personal))
-
-      // if KYC is anything but NONE, call backend and send user to coinify checkout
+      // if not NONE, tell backend about signup and send user to coinify checkout - user is either verified, pending, failed, etc..
       const user = prop('user', profileR.getOrFail('Missing Coinify Profile'))
       yield call(handleAfterSignup, user)
     } catch (e) {
@@ -509,13 +515,13 @@ export default ({ api, coreSagas, networks }) => {
 
   const sendCoinifyKYC = function*() {
     try {
-      const coinifyUserR = yield select(selectors.core.kvStore.buySell.getCoinifyUser)
+      const coinifyUserR = yield select(
+        selectors.core.kvStore.buySell.getCoinifyUser
+      )
       const user = coinifyUserR.getOrElse(null)
       if (user) yield call(api.sendCoinifyKyc, user)
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'sendCoinifyKyc', e)
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'sendCoinifyKyc', e))
     }
   }
 
@@ -533,21 +539,28 @@ export default ({ api, coreSagas, networks }) => {
 
   const compareKyc = function*() {
     try {
-      const userKYCState = (yield select(selectors.modules.profile.getUserKYCState)).getOrElse(NONE)
-      const profileLevel = (yield select(selectors.core.data.coinify.getLevel)).getOrElse(null)
+      const userKYCState = (yield select(
+        selectors.modules.profile.getUserKYCState
+      )).getOrElse(NONE)
+      const profileLevel = (yield select(
+        selectors.core.data.coinify.getLevel
+      )).getOrElse(null)
       const levelName = prop('name', profileLevel)
-      if (equals(userKYCState, VERIFIED) && equals(levelName, COINIFY_USER_LEVELS.ONE)) {
-        const user = (yield select(selectors.core.data.coinify.getUserId)).getOrElse(null)
+      if (
+        equals(userKYCState, VERIFIED) &&
+        equals(levelName, COINIFY_USER_LEVELS.ONE)
+      ) {
+        const user = (yield select(
+          selectors.core.data.coinify.getUserId
+        )).getOrElse(null)
         if (user) yield call(api.sendCoinifyKyc, user)
       }
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'compareKyc', e)
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'compareKyc', e))
     }
   }
 
-  const cancelISX = function* () {
+  const cancelISX = function*() {
     const tradeR = yield select(selectors.core.data.coinify.getTrade)
     const trade = tradeR.getOrElse({})
     if (prop('state', trade) === 'awaiting_transfer_in') {

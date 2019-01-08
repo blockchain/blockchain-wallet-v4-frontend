@@ -7,9 +7,9 @@ export const OrderDetailsTable = styled.div`
   border-radius: 6px;
   border: 1px solid ${props => props.theme['gray-1']};
   background-color: ${props => props.theme['white']};
-  padding: 30px;
+  padding: ${props => props.padding || '0px'};
   margin: 20px 0px 15px 0px;
-  width: 400px;
+  width: ${props => props.width || 'auto'};
   & > :last-child {
     border-bottom: none;
   }

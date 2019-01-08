@@ -85,7 +85,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
             />
         }
       </CenteredPartnerSubHeader>
-      <OrderDetailsTable>
+      <OrderDetailsTable width='400px' padding='30px'>
         <OrderDetailsRow short noPaddingTop noBorderBottom>
           <Text size={FONT_SIZE} weight={400}>
             <FormattedMessage
