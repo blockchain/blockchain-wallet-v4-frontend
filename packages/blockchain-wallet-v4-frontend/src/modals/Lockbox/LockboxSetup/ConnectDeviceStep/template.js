@@ -78,9 +78,9 @@ const ConnectDeviceStep = props => {
   ) : (
     <Wrapper>
       <Image
-        name='lockbox-onboard-link'
+        style={{ marginBottom: '18px' }}
+        name='lockbox-onboard-connect'
         width='100%'
-        srcset={{ 'lockbox-onboard-link': '1x' }}
       />
       {isNewSetup ? (
         <Instructions>

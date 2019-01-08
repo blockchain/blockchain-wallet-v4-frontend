@@ -22,9 +22,9 @@ const FinishSetupStep = props => {
   return (
     <Wrapper>
       <Image
-        name='lockbox-onboard-name'
+        style={{ marginBottom: '18px' }}
+        name='lockbox-onboard-customize'
         width='100%'
-        srcset={{ 'lockbox-onboard-name': '1x' }}
       />
       <IntroText size='13px' weight={300}>
         <FormattedMessage

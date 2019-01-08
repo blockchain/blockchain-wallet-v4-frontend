@@ -188,9 +188,9 @@ const PairDeviceStep = props => {
   ) : (
     <Wrapper>
       <Image
-        name='lockbox-onboard-name'
+        style={{ marginBottom: '18px' }}
+        name='lockbox-onboard-pairdevice'
         width='100%'
-        srcset={{ 'lockbox-onboard-name': '1x' }}
       />
       <IntroText size='13px' weight={300}>
         <FormattedHTMLMessage

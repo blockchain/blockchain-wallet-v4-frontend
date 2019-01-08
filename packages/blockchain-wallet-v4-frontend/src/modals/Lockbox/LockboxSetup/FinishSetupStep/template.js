@@ -24,9 +24,9 @@ const FinishSetupStep = props => {
   return (
     <Wrapper>
       <Image
-        name='lockbox-onboard-name'
+        style={{ marginBottom: '18px' }}
+        name='lockbox-onboard-complete'
         width='100%'
-        srcset={{ 'lockbox-onboard-name': '1x' }}
       />
       <IntroText size='13px' weight={300}>
         <FormattedHTMLMessage
@@ -45,7 +45,7 @@ const FinishSetupStep = props => {
           defaultMessage='Skip Tour'
         />
       </SkipTourText>
-      <Button fullwidth onClick={() => onFinishSetup(true)} nature={'primary'}>
+      <Button fullwidth onClick={() => onFinishSetup(true)} nature='primary'>
         <FormattedHTMLMessage
           id='modals.lockboxsetup.finishstep.starttour'
           defaultMessage='Start Tour'

@@ -32,7 +32,7 @@ class PairDeviceStepContainer extends React.PureComponent {
   startBtcOpenTimeout = () => {
     setTimeout(() => {
       this.setState({ btcOpenTimeout: true })
-    }, 1000) // 120000
+    }, 120000)
   }
 
   render () {
