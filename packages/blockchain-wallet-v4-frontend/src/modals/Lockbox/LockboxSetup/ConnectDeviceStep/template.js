@@ -1,10 +1,25 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import { Button, Image, TextGroup, Text } from 'blockchain-info-components'
-import { RotateSync } from 'components/RotateSync'
 
-const Wrapper = styled.div``
+import {
+  Button,
+  Icon,
+  Image,
+  Link,
+  TextGroup,
+  Text
+} from 'blockchain-info-components'
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`
+const TimeoutWrapper = styled(Wrapper)`
+  align-items: center;
+  justify-content: center;
+`
 const Instructions = styled(TextGroup)`
   margin-top: 12px;
 `
@@ -14,10 +29,53 @@ const StepText = styled(Text)`
 const ButtonContainer = styled.div`
   margin-top: 30px;
 `
+const TimeoutText = styled(Text)`
+  margin: 10px 0 25px;
+`
+const SupportText = styled(Link)`
+  margin: 35px 0 8px;
+`
 const ConnectDeviceStep = props => {
-  const { deviceType, isConnected, isNewSetup, handleStepChange } = props
+  const {
+    connectTimeout,
+    deviceType,
+    isConnected,
+    isNewSetup,
+    handleStepChange,
+    onTimeoutAccept,
+    supportLink
+  } = props
 
-  return (
+  return connectTimeout ? (
+    <TimeoutWrapper>
+      <Icon name='pending' weight='400' size='40px' color='warn' />
+      <TimeoutText size='20px' weight={400}>
+        <FormattedMessage
+          id='modals.lockboxsetup.connectdevice.timeout.header'
+          defaultMessage='Are you still here?'
+        />
+      </TimeoutText>
+      <TimeoutText size='13px' weight={300}>
+        <FormattedHTMLMessage
+          id='modals.lockboxsetup.connectdevice.timeout.intro'
+          defaultMessage="It looks like you may be having trouble setting up your {deviceType}. If you're still setting up the device, click the 'Continue' button and continue working or contact support for assistance."
+          values={{ deviceType }}
+        />
+      </TimeoutText>
+      <SupportText href={supportLink} target='_blank' size='11px' weight={400}>
+        <FormattedMessage
+          id='modals.lockboxsetup.connectdevice.timeout.support'
+          defaultMessage='Contact Support'
+        />
+      </SupportText>
+      <Button fullwidth onClick={onTimeoutAccept} nature={'primary'}>
+        <FormattedMessage
+          id='modals.lockboxsetup.connectdevice.timeout.continue'
+          defaultMessage='Continue Setup'
+        />
+      </Button>
+    </TimeoutWrapper>
+  ) : (
     <Wrapper>
       <Image
         name='lockbox-onboard-link'

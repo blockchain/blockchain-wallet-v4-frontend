@@ -5,8 +5,11 @@ import { actions, selectors } from 'data'
 import Template from './template'
 
 class ConnectDeviceStepContainer extends React.PureComponent {
+  state = { connectTimeout: false }
+
   componentDidMount () {
     this.props.lockboxActions.initializeNewDeviceSetup()
+    this.startConnectionTimeout()
   }
 
   changeDeviceSetupStep = () => {
@@ -15,13 +18,30 @@ class ConnectDeviceStepContainer extends React.PureComponent {
       : this.props.lockboxActions.changeDeviceSetupStep('pair-device')
   }
 
+  onTimeoutAccept = () => {
+    this.setState({ connectTimeout: false })
+    this.startConnectionTimeout()
+  }
+
+  // 15 minute setup timeout
+  startConnectionTimeout = () => {
+    setTimeout(() => {
+      this.setState({ connectTimeout: true })
+    }, 900000)
+  }
+
   render () {
     return (
       <Template
+        connectTimeout={this.state.connectTimeout}
         deviceType={this.props.deviceType}
         isConnected={this.props.connection.app}
         isNewSetup={this.props.setupType === 'new'}
         handleStepChange={this.changeDeviceSetupStep}
+        onTimeoutAccept={this.onTimeoutAccept}
+        supportLink={
+          'https://blockchain.zendesk.com/hc/en-us/requests/new?ticket_form_id=360000154811'
+        }
       />
     )
   }
