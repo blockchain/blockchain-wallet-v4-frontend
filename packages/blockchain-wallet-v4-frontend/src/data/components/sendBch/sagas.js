@@ -15,7 +15,7 @@ import {
 import * as C from 'services/AlertService'
 import * as Lockbox from 'services/LockboxService'
 import { promptForSecondPassword, promptForLockbox } from 'services/SagaService'
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { Exchange, Remote, utils } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 
 export const logLocation = 'components/sendBch/sagas'
@@ -23,8 +23,9 @@ export const logLocation = 'components/sendBch/sagas'
 export const bchDefaultFee = 4
 
 export default ({ coreSagas, networks }) => {
-  const initialized = function*() {
+  const initialized = function*(action) {
     try {
+      const { from } = action.payload
       yield put(A.sendBchPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.bch.create({
         network: networks.bch
@@ -38,11 +39,23 @@ export default ({ coreSagas, networks }) => {
       )
       const defaultIndex = defaultIndexR.getOrElse(0)
       const defaultAccountR = accountsR.map(nth(defaultIndex))
-      payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
+      if (from === 'allImportedAddresses') {
+        const addressesR = yield select(
+          selectors.core.common.bch.getActiveAddresses
+        )
+        const addresses = addressesR
+          .getOrElse([])
+          .filter(prop('priv'))
+          .map(prop('addr'))
+          .map(utils.bch.fromCashAddr)
+        payment = yield payment.from(addresses, ADDRESS_TYPES.LEGACY)
+      } else {
+        payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
+      }
       payment = yield payment.fee(bchDefaultFee)
       const initialValues = {
         coin: 'BCH',
-        from: defaultAccountR.getOrElse()
+        from: from || defaultAccountR.getOrElse()
       }
       yield put(initialize(FORM, initialValues))
       yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
