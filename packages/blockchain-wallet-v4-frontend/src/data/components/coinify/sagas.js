@@ -134,6 +134,7 @@ export default ({ api, coreSagas, networks }) => {
       }
       const state = yield select()
       const p = yield select(S.getCoinifyPayment)
+
       let payment = yield coreSagas.payment.btc.create({
         payment: p.getOrElse({}),
         network: networks.btc
@@ -551,10 +552,10 @@ export default ({ api, coreSagas, networks }) => {
         equals(tier2State, VERIFIED) &&
         equals(levelName, COINIFY_USER_LEVELS.ONE)
       ) {
-        const user = (yield select(
+        const user = yield select(
           selectors.core.data.coinify.getUserId
-        )).getOrElse(null)
-        if (user) yield call(api.sendCoinifyKyc, user)
+        )
+        if (user.getOrElse(null)) yield call(api.sendCoinifyKyc, user)
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'compareKyc', e))

@@ -10,7 +10,8 @@ const INITIAL_STATE = {
   checkoutStep: 'checkout',
   signupComplete: null,
   payment: Remote.NotAsked,
-  country: null
+  country: null,
+  medium: null
 }
 
 const ERROR = 'error'

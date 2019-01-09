@@ -10,8 +10,6 @@ import * as C from 'services/AlertService'
 import { merge } from 'ramda'
 import * as model from '../../model'
 const { STEPS } = model.components.identityVerification
-const { VERIFIED } = model.profile.KYC_STATES
-
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const coreSagas = coreSagasFactory()
 const networks = { btc: 'bitcoin' }
@@ -83,7 +81,6 @@ describe('coinifySagas', () => {
     })
 
     const COUNTRY = 'GB'
-    const USER_KYC_STATE = Remote.of('NONE')
     const PROFILE = Remote.of({ id: '5' })
 
     let saga = testSaga(coinifySignup)
@@ -104,12 +101,19 @@ describe('coinifySagas', () => {
         .save(beforeDetermine)
     })
 
-    it('should select the user KYC state', () => {
-      saga.next(PROFILE).select(selectors.modules.profile.getUserKYCState)
+    it('should get tier 2 data', () => {
+      saga.next(PROFILE)
     })
 
     it('should set verification step to personal if state is NONE', () => {
-      saga.next(USER_KYC_STATE).put(actions.components.identityVerification.setVerificationStep(STEPS.personal))
+      const tier2Data = Remote.of({ state: 'none' })
+      saga
+        .next(tier2Data)
+        .put(
+          actions.components.identityVerification.setVerificationStep(
+            STEPS.personal
+          )
+        )
     })
 
     it('should handle an error', () => {
@@ -145,7 +149,6 @@ describe('coinifySagas', () => {
     })
 
     const COUNTRY = 'GB'
-    const USER_KYC_STATE = Remote.of('ACTIVE')
     const PROFILE = Remote.of({ user: '5' })
 
     let saga = testSaga(coinifySignup)
@@ -166,12 +169,13 @@ describe('coinifySagas', () => {
         .save(beforeDetermine)
     })
 
-    it('should select the user KYC state', () => {
-      saga.next(PROFILE).select(selectors.modules.profile.getUserKYCState)
+    it('should get tier 2 data', () => {
+      saga.next(PROFILE)
     })
 
     it('should call handleAfterSignup with the userId', () => {
-      saga.next(USER_KYC_STATE).call(handleAfterSignup, '5')
+      const tier2Data = Remote.of({ state: 'verified' })
+      saga.next(tier2Data).call(handleAfterSignup, '5')
     })
 
     it('should handle an error', () => {
@@ -504,11 +508,6 @@ describe('coinifySagas', () => {
       saga.next(limits)
     })
 
-    it('should select the state', () => {
-      const values = { currency: 'GBP' }
-      saga.next(values).select()
-    })
-
     it('should dispatch an action to fetch a rate quote with the new currency', () => {
       const values = { currency: 'GBP' }
       saga.next(values).put(actions.core.data.coinify.fetchRateQuote('GBP'))
@@ -560,11 +559,6 @@ describe('coinifySagas', () => {
     it('should select the form values', () => {
       const limits = mockedLimits
       saga.next(limits)
-    })
-
-    it('should select the state', () => {
-      const values = { currency: 'EUR' }
-      saga.next(values).select()
     })
 
     it('should clear coinifyCheckoutError', () => {
@@ -635,11 +629,6 @@ describe('coinifySagas', () => {
       saga.next(limits)
     })
 
-    it('should select the state', () => {
-      const values = { currency: 'EUR' }
-      saga.next(values).select()
-    })
-
     it('should fetch a quote', () => {
       const values = { currency: 'EUR' }
       saga.next(values).call(coreSagas.data.coinify.fetchQuote, {
@@ -706,18 +695,9 @@ describe('coinifySagas', () => {
       saga.next(limits)
     })
 
-    it('should select the state', () => {
-      const values = { currency: 'EUR' }
-      saga.next(values).select()
-    })
-
     it('should fetch a quote', () => {
-      const state = {
-        coinify: {
-          payment: Remote.of({ effectiveBalance: 250000000 })
-        }
-      }
-      saga.next(state).call(coreSagas.data.coinify.fetchQuote, {
+      const values = { currency: 'EUR' }
+      saga.next(values).call(coreSagas.data.coinify.fetchQuote, {
         quote: {
           amount: action.payload * 100,
           baseCurrency: 'EUR',
@@ -727,9 +707,16 @@ describe('coinifySagas', () => {
       })
     })
 
-    it('should clear any checkout error', () => {
+    it('should select the payment', () => {
       const leftResult = { quoteAmount: 200000 }
-      saga.next(leftResult).put(coinifyActions.clearCoinifyCheckoutError())
+      saga
+        .next(leftResult)
+        .select(selectors.components.coinify.getCoinifyPayment)
+    })
+
+    it('should clear any checkout error', () => {
+      const payment = Remote.of({ effectiveBalance: 250000000 })
+      saga.next(payment).put(coinifyActions.clearCoinifyCheckoutError())
     })
 
     it('should initialize the form with the new values', () => {
@@ -782,32 +769,28 @@ describe('coinifySagas', () => {
       saga.next(limits)
     })
 
-    it('should select the state', () => {
+    it('should select the payment', () => {
       const values = { currency: 'EUR' }
       saga
         .next(values)
-        .select()
+        .select(selectors.components.coinify.getCoinifyPayment)
         .save(saveToRestore)
     })
 
     it('should clear checkout error', () => {
-      const state = {
-        coinify: {
-          payment: Remote.of({ effectiveBalance: 250000000 })
-        }
-      }
-      saga.next(state).put(coinifyActions.setCoinifyCheckoutError('under_min'))
+      const payment = Remote.of({ effectiveBalance: 250000000 })
+
+      saga
+        .next(payment)
+        .put(coinifyActions.setCoinifyCheckoutError('under_min'))
     })
 
     it('should set limits error', () => {
-      const state = {
-        coinify: {
-          payment: Remote.of({ effectiveBalance: 0.0123 })
-        }
-      }
+      const payment = Remote.of({ effectiveBalance: 0.0123 })
+
       saga
         .restore(saveToRestore)
-        .next(state)
+        .next(payment)
         .put(coinifyActions.setCoinifyCheckoutError('effective_max_under_min'))
     })
 
@@ -1030,16 +1013,21 @@ describe('coinifySagas', () => {
       saga.next(trade).select()
     })
 
-    it('should create payment', () => {
+    it('should select the payment', () => {
       const state = {
         coinify: {
           payment: Remote.of(null)
         }
       }
-      saga.next(state)
+      saga.next(state).select(selectors.components.coinify.getCoinifyPayment)
+    })
+
+    it('should create payment', () => {
+      const p = Remote.of(null)
+      saga.next(p)
       expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
-        payment: state.coinify.payment.getOrElse({}),
+        payment: p.getOrElse({}),
         network: networks.btc
       })
     })
@@ -1168,7 +1156,9 @@ describe('coinifySagas', () => {
 
   describe('fetchCoinifyData', () => {
     let { fetchCoinifyData } = coinifySagas({
-      api, coreSagas, networks
+      api,
+      coreSagas,
+      networks
     })
 
     let saga = testSaga(fetchCoinifyData)
@@ -1208,15 +1198,16 @@ describe('coinifySagas', () => {
 
     const USER = Remote.of('12345')
     const LEVEL = Remote.of({ name: '1' })
+    const TIER_TWO = Remote.of({ state: 'verified' })
 
     let saga = testSaga(compareKyc)
 
-    it('should select the user KYC state', () => {
-      saga.next().select(selectors.modules.profile.getUserKYCState)
+    it('should select tier 2 data', () => {
+      saga.next()
     })
 
     it('should select the coinify profile level', () => {
-      saga.next(Remote.of(VERIFIED)).select(selectors.core.data.coinify.getLevel)
+      saga.next(TIER_TWO).select(selectors.core.data.coinify.getLevel)
     })
 
     it('should select the user id if coinify is level 1 and user is KYC Verified', () => {
@@ -1234,9 +1225,7 @@ describe('coinifySagas', () => {
           .restart()
           .next()
           .throw(error)
-          .put(
-            actions.logs.logErrorMessage(logLocation, 'compareKyc', error)
-          )
+          .put(actions.logs.logErrorMessage(logLocation, 'compareKyc', error))
       })
     })
   })

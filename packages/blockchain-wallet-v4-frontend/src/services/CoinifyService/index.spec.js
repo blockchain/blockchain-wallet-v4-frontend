@@ -213,9 +213,7 @@ describe('CoinifyService', () => {
     })
     it('should return the correct text for completed status', () => {
       const status = CoinifyService.bodyStatusHelper('completed', 'buy')
-      expect(status.text.props.defaultMessage).toEqual(
-        'Your buy trade is complete!'
-      )
+      expect(status.text).toEqual('')
     })
     it('should return the correct text for rejected status', () => {
       const status = CoinifyService.bodyStatusHelper('rejected', 'buy')
@@ -228,37 +226,37 @@ describe('CoinifyService', () => {
     it('should return the correct object for NONE status', () => {
       const status = CoinifyService.kycHeaderHelper(NONE)
       expect(status.text.props.defaultMessage).toEqual(
-        'Identity Verification Incomplete'
+        'Incomplete'
       )
     })
     it('should return the correct object for PENDING status', () => {
       const status = CoinifyService.kycHeaderHelper(PENDING)
       expect(status.text.props.defaultMessage).toEqual(
-        'Identity Verification Pending'
+        'Pending'
       )
     })
     it('should return the correct object for UNDER_REVIEW status', () => {
       const status = CoinifyService.kycHeaderHelper(UNDER_REVIEW)
       expect(status.text.props.defaultMessage).toEqual(
-        'Identity Verification In Review'
+        'In Review'
       )
     })
     it('should return the correct object for VERIFIED status', () => {
       const status = CoinifyService.kycHeaderHelper(VERIFIED)
       expect(status.text.props.defaultMessage).toEqual(
-        'Identity Verification Completed'
+        'Completed'
       )
     })
     it('should return the correct object for REJECTED status', () => {
       const status = CoinifyService.kycHeaderHelper(REJECTED)
       expect(status.text.props.defaultMessage).toEqual(
-        'Identity Verification Failed'
+        'Failed'
       )
     })
     it('should return the correct object for EXPIRED status', () => {
       const status = CoinifyService.kycHeaderHelper(EXPIRED)
       expect(status.text.props.defaultMessage).toEqual(
-        'Identity Verification Expired'
+        'Expired'
       )
     })
     it('should return the correct object for default', () => {
@@ -341,7 +339,7 @@ describe('CoinifyService', () => {
     })
     it('should return the correct object for REJECTED', () => {
       const status = CoinifyService.kycNotificationBodyHelper(REJECTED)
-      expect(status.text.props.defaultMessage).toEqual('Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time.')
+      expect(status.text.props.defaultMessage).toEqual('Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time. {learnMore}')
     })
     it('should return the correct object for default', () => {
       const status = CoinifyService.kycNotificationBodyHelper('unknown')
