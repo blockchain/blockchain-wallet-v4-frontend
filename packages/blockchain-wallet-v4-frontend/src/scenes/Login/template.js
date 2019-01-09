@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { check, msie } from 'bowser'
-
+import media from 'services/ResponsiveService'
 import { required } from 'services/FormHelper'
 import {
   Banner,
@@ -34,14 +34,13 @@ const isSupportedBrowser =
 export const removeWhitespace = string => string.replace(/\s/g, ``)
 
 const Wrapper = styled.div`
-  width: 100%;
+  width: 550px;
   padding: 35px;
   box-sizing: border-box;
   background-color: ${props => props.theme['white']};
-
-  @media (min-width: 768px) {
-    width: 550px;
-  }
+  ${media.tablet`
+    width: 100%;
+  `};
 `
 const Header = styled.div`
   display: flex;
@@ -50,16 +49,15 @@ const Header = styled.div`
 `
 const Footer = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
   margin-top: 15px;
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  ${media.tablet`
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  `};
 `
 const LoginForm = styled(Form)`
   margin: 20px 0;
