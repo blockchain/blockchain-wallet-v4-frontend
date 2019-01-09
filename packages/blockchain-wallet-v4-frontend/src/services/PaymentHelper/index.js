@@ -116,7 +116,15 @@ export const bsvFromLabel = curry((payment, state) => {
         .getAccountLabel(state)(payment.fromAccountIdx)
         .getOrElse(payment.from[0])
     case ADDRESS_TYPES.LEGACY:
-      return utils.bsv.toCashAddr(payment.from[0], true)
+      const formValues = selectors.form.getFormValues(
+        model.components.sendBsv.FORM
+      )(state)
+      const { from } = formValues
+      if (from === 'allImportedAddresses') {
+        return 'All Imported Bitcoin SV Addresses'
+      } else {
+        return utils.bsv.toCashAddr(payment.from[0], true)
+      }
     case ADDRESS_TYPES.WATCH_ONLY:
       return utils.bsv.toCashAddr(payment.from[0], true)
     case ADDRESS_TYPES.EXTERNAL:
