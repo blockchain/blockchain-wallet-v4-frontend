@@ -160,12 +160,6 @@ class LockboxAppManagerContainer extends React.PureComponent {
         })
         return (
           <React.Fragment>
-            <Subtitle size='14px' weight='400'>
-              <FormattedHTMLMessage
-                id='modals.lockbox.appmanager.subtitle'
-                defaultMessage='Install, update and uninstall desired apps from your Lockbox device.'
-              />
-            </Subtitle>
             {appList}
             <ContinueButton
               disabled={disableButtons}

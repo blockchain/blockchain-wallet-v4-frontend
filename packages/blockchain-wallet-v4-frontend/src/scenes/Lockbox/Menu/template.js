@@ -22,12 +22,12 @@ const TitleBarWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 30px;
+  padding: 10px 30px;
 `
 const StyledCreatableInputContainer = styled.div`
   display: flex;
   min-height: 40px;
-  padding: 15px 30px;
+  padding: 10px 30px;
   align-items: center;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
   > div:last-child {
@@ -66,7 +66,6 @@ const SearchLabel = styled.div`
         : props.theme['gray-5']};
   }
 `
-const CurrencyListContainer = styled.div``
 
 const multiValueContainer = props => {
   return (
@@ -91,13 +90,13 @@ const Menu = props => {
         </TitleBarWrapper>
       </TitleBar>
       {onDashboard && (
-        <CurrencyListContainer>
+        <div>
           <CurrencyList
             deviceIndex={deviceIndex}
             deviceInfo={deviceInfo}
             formValues={formValues}
           />
-        </CurrencyListContainer>
+        </div>
       )}
       {deviceInfo && (
         <StyledCreatableInputContainer>

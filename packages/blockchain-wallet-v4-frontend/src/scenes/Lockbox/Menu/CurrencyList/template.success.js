@@ -8,9 +8,13 @@ import { CurrencyItem } from 'components/Balances'
 const CurrencyList = styled.div`
   display: flex;
   width: 100%;
-  padding: 20px 30px;
+  padding: 10px 30px;
   overflow-x: scroll;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
+`
+const Coin = styled(CurrencyItem)`
+  padding: 10px;
+  margin-right: 10px;
 `
 const isBrowserChrome = bowser.name === 'Chrome' || bowser.name === 'Chromium'
 const Success = props => {
@@ -22,7 +26,7 @@ const Success = props => {
 
   return (
     <CurrencyList>
-      <CurrencyItem
+      <Coin
         coin='btc'
         icon='btc'
         balance={data.btcBalance}
@@ -31,7 +35,7 @@ const Success = props => {
         isInactive={!isEmpty(formValues) && !isActive('btc')}
         onClick={() => handleCoinSelection('BTC')}
       />
-      <CurrencyItem
+      <Coin
         coin='eth'
         icon='eth'
         balance={data.ethBalance}
@@ -40,7 +44,7 @@ const Success = props => {
         isInactive={!isEmpty(formValues) && !isActive('eth')}
         onClick={() => handleCoinSelection('ETH')}
       />
-      <CurrencyItem
+      <Coin
         coin='bch'
         icon='bch'
         balance={data.bchBalance}
@@ -49,7 +53,7 @@ const Success = props => {
         isInactive={!isEmpty(formValues) && !isActive('bch')}
         onClick={() => handleCoinSelection('BCH')}
       />
-      <CurrencyItem
+      <Coin
         coin='xlm'
         icon='xlm'
         balance={data.xlmBalance}
