@@ -83,7 +83,7 @@ export const isAmountBelowMinimum = (value, minimum) => {
 }
 
 export const isAmountAboveMaximum = (value, maximum) => {
-  return new BigNumber(value).greaterThan(new BigNumber(maximum))
+  return maximum && new BigNumber(value).greaterThan(new BigNumber(maximum))
 }
 
 export const calculateFinalAmount = (value, fee) => {
