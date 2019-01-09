@@ -33,9 +33,9 @@ const SetupTypeStep = props => {
       {deviceType === 'Lockbox' ? (
         <DeviceWrapper>
           <Image
-            width='65%'
-            name='firmware-connect'
-            srcset={{ 'ledger-lockbox': '1x' }}
+            width='95%'
+            name='lockbox-device'
+            srcset={{ 'lockbox-device': '1x' }}
           />
           <Text size='20px' weight={400} style={{ marginTop: '14px' }}>
             <FormattedMessage
@@ -53,11 +53,11 @@ const SetupTypeStep = props => {
       ) : (
         <DeviceWrapper>
           <Image
-            width='65%'
-            name='firmware-connect'
-            srcset={{ 'ledger-lockbox': '1x' }}
+            width='95%'
+            name='ledger-nano-s'
+            srcset={{ 'ledger-nano-s': '1x' }}
           />
-          <Text size='20px' weight={400} style={{ marginTop: '14px' }}>
+          <Text size='20px' weight={400} style={{ marginTop: '10px' }}>
             <FormattedMessage
               id='modals.lockboxsetup.setuptypestep.nanos'
               defaultMessage='Nano S'

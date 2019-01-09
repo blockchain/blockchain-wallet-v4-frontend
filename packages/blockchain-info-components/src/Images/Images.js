@@ -54,6 +54,8 @@ import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
 import walletV3SecurityUpgrade from './img/wallet-v3-security-upgrade.jpg'
 import yubikey from './img/yubikey.svg'
 // Lockbox
+import deviceNanoS from './img/lockbox/device-nano.png'
+import deviceLockbox from './img/lockbox/device-lockbox.png'
 import firmwareConnect from './img/lockbox/firmware-connect.png'
 import firmwareConnect2 from './img/lockbox/firmware-connect@2x.png'
 import firmwareConnect3 from './img/lockbox/firmware-connect@3x.png'
@@ -126,6 +128,8 @@ export default {
   'ledger-logo': ledgerLogo,
   'ledger-logo2': ledgerLogo2,
   'ledger-logo3': ledgerLogo3,
+  'ledger-nano-s': deviceNanoS,
+  'lockbox-device': deviceLockbox,
   'lockbox-onboard-complete': onboardComplete,
   'lockbox-onboard-connect': onboardConnect,
   'lockbox-onboard-customize': onboardCustomize,

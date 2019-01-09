@@ -37,8 +37,8 @@ const GetStartedContainer = styled.div`
   border-radius: 3px;
   background-image: url('/img/lockbox@2x.png');
   background-repeat: no-repeat;
-  background-size: auto 100%;
-  background-position: right;
+  background-size: auto 95%;
+  background-position: top right 24px;
   ${media.mobile`
     width: 100%;
     background-image: none;
@@ -118,7 +118,7 @@ const BrowserWarning = styled(Banner)``
 const disableSetup = !(bowser.name === 'Chrome' || bowser.name === 'Chromium')
 
 const Onboard = props => {
-  const { domains, launchLockboxSetup } = props
+  const { launchLockboxSetup } = props
 
   return (
     <Wrapper>
@@ -154,9 +154,10 @@ const Onboard = props => {
                   defaultMessage='Having trouble? View our'
                 />
               </Text>
-              {/* TODO: where does this link? */}
               <LearnMoreLink
-                href={domains['comRoot'] + '/lockbox'}
+                href={
+                  'https://blockchain.zendesk.com/hc/en-us/sections/360002593291-Setting-Up-Lockbox'
+                }
                 target='_blank'
               >
                 <SetupGuideText size='13px' weight={300}>
@@ -198,7 +199,10 @@ const Onboard = props => {
               defaultMessage="Don't have a Lockbox? Secure your crypto now for $99."
             />
           </Text>
-          <LearnMoreLink href={domains['comRoot'] + '/lockbox'} target='_blank'>
+          <LearnMoreLink
+            href={'https://www.blockchain.com/lockbox'}
+            target='_blank'
+          >
             <LearnMoreText size='15px'>
               <FormattedMessage
                 id='scenes.lockbox.welcome.learnmore'

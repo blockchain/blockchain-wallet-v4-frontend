@@ -70,11 +70,11 @@ const DeviceSelectStep = props => {
       <SelectDeviceWrapper>
         <DeviceWrapper onClick={() => handleStepChange('blockchain')}>
           <Image
-            width='50%'
-            name='firmware-connect'
-            srcset={{ 'ledger-lockbox': '1x' }}
+            width='75%'
+            name='lockbox-device'
+            srcset={{ 'lockbox-device': '1x' }}
           />
-          <Text size='14px' weight={400} style={{ marginTop: '5px' }}>
+          <Text size='14px' weight={400} style={{ marginTop: '15px' }}>
             <FormattedMessage
               id='modals.lockboxsetup.deviceselect.lockbox'
               defaultMessage='Lockbox'
@@ -89,9 +89,9 @@ const DeviceSelectStep = props => {
         </DeviceWrapper>
         <DeviceWrapper onClick={() => handleStepChange('ledger')}>
           <Image
-            width='50%'
-            name='firmware-connect'
-            srcset={{ 'ledger-lockbox': '1x' }}
+            width='75%'
+            name='ledger-nano-s'
+            srcset={{ 'ledger-nano-s': '1x' }}
           />
           <Text size='14px' weight={400} style={{ marginTop: '5px' }}>
             <FormattedMessage

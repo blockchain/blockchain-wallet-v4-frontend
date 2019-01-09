@@ -2,7 +2,7 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import Setup from './template.js'
 
 class OnboardContainer extends React.PureComponent {
@@ -11,18 +11,9 @@ class OnboardContainer extends React.PureComponent {
   }
 
   render () {
-    const { domainsR } = this.props
-    const domains = domainsR.getOrElse({ comRoot: 'https://blockchain.com' })
-
-    return (
-      <Setup launchLockboxSetup={this.launchLockboxSetup} domains={domains} />
-    )
+    return <Setup launchLockboxSetup={this.launchLockboxSetup} />
   }
 }
-
-const mapStateToProps = state => ({
-  domainsR: selectors.core.walletOptions.getDomains(state)
-})
 
 const mapDispatchToProps = dispatch => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
@@ -30,6 +21,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(OnboardContainer)
