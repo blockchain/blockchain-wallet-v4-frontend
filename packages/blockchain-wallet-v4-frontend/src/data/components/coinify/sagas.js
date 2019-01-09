@@ -12,7 +12,6 @@ import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import * as coinifyModel from './model'
 
 const { STEPS } = model.components.identityVerification
-const { NONE, VERIFIED } = model.profile.KYC_STATES
 const { TIERS_STATES } = model.profile
 const {
   COINIFY_CHECKOUT_STEPS,
@@ -549,7 +548,7 @@ export default ({ api, coreSagas, networks }) => {
 
       // if wallet says user is tier 2 verified but coinify says they are level 1, we tell backend to update
       if (
-        equals(tier2State, VERIFIED) &&
+        equals(tier2State, TIERS_STATES.VERIFIED) &&
         equals(levelName, COINIFY_USER_LEVELS.ONE)
       ) {
         const user = yield select(

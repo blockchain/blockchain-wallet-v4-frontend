@@ -60,7 +60,6 @@ export default ({ api, coreSagas }) => {
     api,
     coreSagas
   })
-  const { sendCoinifyKYC } = coinifySagas({ api, coreSagas })
 
   const registerUserCampaign = function*(payload) {
     const { newUser = false } = payload
@@ -308,7 +307,6 @@ export default ({ api, coreSagas }) => {
       yield call(updateUserAddress, {
         payload: { address }
       })
-      yield call(sendCoinifyKYC) // check for coinify user and call backend if present
 
       yield put(actions.form.stopSubmit(PERSONAL_FORM))
       yield call(goToNextStep)
