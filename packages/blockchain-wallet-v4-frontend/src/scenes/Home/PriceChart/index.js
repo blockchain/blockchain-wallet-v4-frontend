@@ -6,7 +6,7 @@ import { Text } from 'blockchain-info-components'
 import Chart from './Chart'
 import CoinFilters from './CoinFilters'
 import TimeFilters from './TimeFilters'
-
+import media from 'services/ResponsiveService'
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -30,19 +30,19 @@ const Row = styled.div`
 `
 const TitleRow = styled(Row)`
   display: flex;
-  flex-direction: column;
-  @media (min-width: 480px) {
-    flex-direction: row;
-  }
+  flex-direction: row;
+  ${media.mobile`
+    flex-direction: column;
+  `};
 `
 const TitleText = styled(Text)`
-  font-size: 22px;
-  margin-bottom: 10px;
   font-weight: 300;
-  @media (min-width: 480px) {
-    font-size: 24px;
-    margin: 0;
-  }
+  font-size: 24px;
+  margin: 0;
+  ${media.mobile`
+    font-size: 22px;
+    margin-bottom: 10px;
+  `};
 `
 const PriceChart = () => (
   <Wrapper>

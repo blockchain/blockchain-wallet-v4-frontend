@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-
+import media from 'services/ResponsiveService'
 import { Icon, Image } from 'blockchain-info-components'
 import FaqIcon from './FaqIcon'
 import WhatsNewIcon from './WhatsNewIcon'
@@ -19,13 +19,13 @@ import {
 } from 'components/Navbar'
 
 const BlockchainLogoImage = styled(Image)`
-  height: 16px;
   display: block;
-  margin-left: 10px;
-  @media (min-width: 768px) {
-    height: 20px;
-    margin-left: 0;
-  }
+  height: 20px;
+  margin-left: 0;
+  ${media.tablet`
+    height: 16px;
+    margin-left: 10px;
+  `};
 `
 
 const Header = props => {

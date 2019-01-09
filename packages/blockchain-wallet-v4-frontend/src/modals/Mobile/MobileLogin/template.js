@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import QRReader from 'components/QRReader'
-
+import media from 'services/ResponsiveService'
 import {
   Badge,
   Link,
@@ -16,36 +16,33 @@ import {
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-    justify-content: space-between;
-  }
+  flex-direction: row;
+  justify-content: space-between;
+  ${media.tablet`
+    flex-direction: column;
+    justify-content: flex-start;
+  `};
 `
 const QRCodeContainer = styled.div`
   flex: 1;
-  width: 100%;
+  width: 50%;
   padding: 15px;
   & > section > video {
     width: 100%;
   }
-
-  @media (min-width: 768px) {
-    width: 50%;
-  }
+  ${media.tablet`
+    width: 100%;
+  `};
 `
 const InstructionsContainer = styled.div`
   flex: 1;
-  width: 100%;
+  width: 50%;
   padding: 15px;
   flex-direction: column;
   justify-content: flex-start;
-
-  @media (min-width: 768px) {
-    width: 50%;
-  }
+  ${media.tablet`
+    width: 100%;
+  `};
 `
 const InstructionList = styled.ol`
   padding-left: 10px;

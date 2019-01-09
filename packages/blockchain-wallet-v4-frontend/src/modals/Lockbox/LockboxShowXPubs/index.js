@@ -9,7 +9,7 @@ import { FormattedMessage } from 'react-intl'
 import { actions } from 'data'
 import { getData } from './selectors'
 import modalEnhancer from 'providers/ModalEnhancer'
-
+import media from 'services/ResponsiveService'
 import {
   Banner,
   Icon,
@@ -45,14 +45,11 @@ const Tabs = styled.div`
 const Tab = styled.div`
   width: 33%;
   display: flex;
-  padding: 10px 5px;
+  padding: 15px 5px;
   position: relative;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  @media (min-width: 768px) {
-    padding: 15px 5px;
-  }
   &:after {
     display: block;
     content: '';
@@ -73,18 +70,22 @@ const Tab = styled.div`
       transform: scaleX(1);
     }
   }
+  ${media.tablet`
+    padding: 10px 5px;
+  `};
 `
 const TabHeader = styled(Text)`
   font-weight: 300;
-  @media (min-width: 768px) {
-    font-size: 20px;
-  }
+  font-size: 20px;
+  ${media.tablet`
+    font-size: 16px;
+  `};
 `
 const TabIcon = styled(Icon)`
   margin-right: 10px;
-  @media (min-width: 768px) {
+  ${media.tablet`
     font-size: ${props => props.size || '20px'};
-  }
+  `};
 `
 
 export class LockboxShowXPubs extends React.PureComponent {

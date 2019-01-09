@@ -23,24 +23,22 @@ const Choice = styled.div`
 const ChoiceDescription = styled.div`
   display: flex;
   flex-direction: column;
-  @media (min-width: 1224px) {
-    padding-left: 10px;
-  }
+  padding-left: 5px;
 `
 const TwoStepChoicesWrapper = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: space-evenly;
-  @media (min-width: 480px) {
-    flex-direction: row;
-  }
-
-  @media (min-width: 1224px) {
-    width: 100%;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    justify-content: space-evenly;
-  }
+  flex-direction: row;
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  ${media.mobile`
+    flex-direction: column;
+  `};
+  ${media.tablet`
+    margin-top: 10px;
+    margin-bottom: 10px;
+  `}'
 `
 const YubikeyWrapper = styled.div`
   ${media.mobile`

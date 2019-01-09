@@ -9,7 +9,7 @@ import Alerts from 'components/Alerts'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { selectors } from 'data'
 import { isOnDotInfo } from 'services/MigrationService'
-
+import media from 'services/ResponsiveService'
 injectGlobal`
   html, body, #app, #app > div {padding: 0; margin: 0; height: 100%;}
   html, body {overflow: hidden;}
@@ -28,28 +28,28 @@ injectGlobal`
 
 const Wrapper = styled.div`
   background-color: ${props => props.theme['brand-primary']};
-  height: auto;
   min-height: 100%;
   width: 100%;
   overflow: auto;
 
-  @media (min-width: 768px) {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+
+  ${media.tablet`
+    height: auto;
+  `};
 `
 const HeaderContainer = styled.div`
-  position: relative;
   width: 100%;
-
-  @media (min-width: 768px) {
-    position: fixed;
-    top: 0;
-    left: 0;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  ${media.tablet`
+    position: relative;
+  `};
 `
 const ContentContainer = styled.div`
   display: flex;
@@ -76,15 +76,14 @@ const ContentContainer = styled.div`
   }
 `
 const FooterContainer = styled.div`
-  position: relative;
   width: 100%;
   padding: 20px;
-
-  @media (min-width: 768px) {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-  }
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  ${media.tablet`
+    position: relative;
+  `};
 `
 
 class PublicLayoutContainer extends React.PureComponent {

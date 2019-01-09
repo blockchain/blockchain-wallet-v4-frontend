@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
-
+import media from 'services/ResponsiveService'
 import { Icon, Text, TextGroup, Link, Color } from 'blockchain-info-components'
 
 const DidYouKnowWrapper = styled.div`
@@ -24,22 +24,22 @@ const Wrapper = styled.div`
 `
 
 const TitleText = styled(Text)`
-  font-size: 20px;
-  @media (min-width: 480px) {
-    font-size: 24px;
-  }
+  font-size: 24px;
+  ${media.mobile`
+    font-size: 20px;
+  `};
 `
 const SubtitleText = styled(Text)`
-  font-size: 14px;
-  @media (min-width: 480px) {
-    font-size: 18px;
-  }
+  font-size: 18px;
+  ${media.mobile`
+    font-size: 14px;
+  `};
 `
 const ContentText = styled(Text)`
-  font-size: 12px;
-  @media (min-width: 480px) {
-    font-size: 14px;
-  }
+  font-size: 14px;
+  ${media.mobile`
+    font-size: 12px;
+  `};
 `
 
 const Content = styled.div`
@@ -48,12 +48,12 @@ const Content = styled.div`
   }
 `
 const PaddedIcon = styled(Icon)`
-  padding: 0 5px 5px 0;
-  font-size: 12px;
-  @media (min-width: 480px) {
-    font-size: 14px;
-    padding: 5px;
-  }
+  font-size: 14px;
+  padding: 5px;
+  ${media.mobile`
+    padding: 0 5px 5px 0;
+    font-size: 12px;
+  `};
 `
 const selectTitle = number => {
   switch (number) {

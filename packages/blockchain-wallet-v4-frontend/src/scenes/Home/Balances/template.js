@@ -1,19 +1,19 @@
 import React from 'react'
 import styled from 'styled-components'
-
+import media from 'services/ResponsiveService'
 import Tabs from './Tabs'
 import Table from './Table'
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 400px;
+  height: 390px;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-1']};
-  @media (min-width: 480px) {
-    height: 390px;
-  }
+  ${media.mobile`
+    height: 400px;
+  `}
 `
 
 const BalancesTable = props => {
