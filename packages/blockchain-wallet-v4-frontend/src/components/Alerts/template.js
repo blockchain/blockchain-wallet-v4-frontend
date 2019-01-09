@@ -4,27 +4,26 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Toast } from 'blockchain-info-components'
 import * as C from 'services/AlertService'
+import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 100%;
   display: flex;
   flex-direction: column-reverse;
   justify-content: flex-start;
   align-items: flex-start;
   z-index: 1050;
-
+  bottom: 5px;
+  right: 5px;
+  width: auto;
   & > * {
     margin-top: 5px;
   }
-
-  @media (min-width: 768px) {
-    bottom: 5px;
-    right: 5px;
-    width: auto;
-  }
+  ${media.tablet`
+    bottom: 0;
+    right: 0;
+    width: 100%;
+  `};
 `
 
 const selectHeader = nature => {

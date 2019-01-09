@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-
+import media from 'services/ResponsiveService'
 import {
   Icon,
   SkeletonCircle,
@@ -62,11 +62,11 @@ const Info = styled.div`
 `
 
 const RecentActivityText = styled(Text)`
-  font-size: 12px;
   font-weight: 300;
-  @media (min-width: 480px) {
-    font-size: 14px;
-  }
+  font-size: 14px;
+  ${media.mobile`
+    font-size: 12px;
+  `};
 `
 
 const Label = styled(Text)`

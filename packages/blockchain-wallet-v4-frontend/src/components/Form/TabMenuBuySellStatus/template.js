@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-
+import media from 'services/ResponsiveService'
 import {
   Image,
   Link,
@@ -17,10 +17,12 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   width: 100%;
-  @media (min-width: 992px) {
-    flex-direction: row;
-    justify-content: space-between;
-  }
+  flex-direction: row;
+  justify-content: space-between;
+  ${media.tablet`
+    flex-direction: column;
+    justify-content: flex-start;
+  `};
 `
 const PartnerWrapper = styled.div`
   display: flex;
@@ -29,9 +31,9 @@ const PartnerWrapper = styled.div`
   align-items: center;
   width: 100%;
   margin-top: 4px;
-  @media (max-width: 992px) {
+  ${media.tablet`
     display: none;
-  }
+  `};
 `
 const PartnerLink = styled(Link)`
   padding: 5px 8px 0;

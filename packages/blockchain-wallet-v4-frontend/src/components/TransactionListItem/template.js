@@ -84,10 +84,10 @@ const AddressesColumn = styled.div`
   align-items: flex-start;
   white-space: nowrap;
   width: 33.333%;
-
-  @media (min-width: 992px) {
-    display: flex;
-  }
+  display: flex;
+  ${media.tablet`
+    display: none;
+  `};
 `
 const AmountColumn = styled.div`
   display: flex;

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Icon, Text } from 'blockchain-info-components'
-
+import media from 'services/ResponsiveService'
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -10,10 +10,10 @@ const Wrapper = styled.div`
   align-items: center;
 `
 const CoinText = styled(Text)`
-  font-size: ${props => props.mobileSize};
-  @media (min-width: 480px) {
-    font-size: ${props => props.size};
-  }
+  font-size: ${props => props.size};
+  ${media.mobile`
+    font-size: ${props => props.mobileSize};
+  `};
 `
 
 const CoinDisplay = props => {

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { transparentize } from 'polished'
+import media from '../MediaSizes'
 
 const ModalBackground = styled.div`
   position: absolute;
@@ -15,27 +16,26 @@ const ModalBackground = styled.div`
   align-items: flex-start;
   background-color: ${props => transparentize(0.5, props.theme['black'])};
   z-index: 1040;
-
-  @media (min-width: 768px) {
-    align-items: center;
-  }
+  align-items: center;
+  ${media.tablet`
+    align-items: flex-start
+  `};
 `
 
 const BaseModal = styled.div`
   display: ${props => (props.isLast ? 'block' : 'none')};
   position: relative;
-  width: 100%;
-  margin-top: 60px;
   z-index: ${props => (props.type === 'tray' ? 1039 : 1040)};
   background-color: ${props => props.theme['white']};
-  box-shadow: none;
   border-radius: 4px;
-
-  @media (min-width: 768px) {
-    width: ${props => props.width};
-    margin-top: initial;
-    box-shadow: 0 5px 15px ${props => transparentize(0.5, props.theme['black'])};
-  }
+  width: ${props => props.width};
+  margin-top: initial;
+  box-shadow: 0 5px 15px ${props => transparentize(0.5, props.theme['black'])};
+  ${media.tablet`
+    width: 100%;
+    margin-top: 60px;
+    box-shadow: none;
+  `};
 `
 
 const selectWidth = size => {

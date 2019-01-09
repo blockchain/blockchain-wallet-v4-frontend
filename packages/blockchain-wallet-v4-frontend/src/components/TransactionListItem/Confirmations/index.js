@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { toString } from 'ramda'
-
+import media from 'services/ResponsiveService'
 import {
   Icon,
   Link,
@@ -17,9 +17,10 @@ const Wrapper = styled.div`
   align-items: center;
   flex-direction: column;
   z-index: 9;
-  @media (min-width: 480px) {
-    flex-direction: row;
-  }
+  flex-direction: row;
+  ${media.mobile`
+    flex-direction: column;
+  `};
 `
 const ConfirmationsText = styled(Text)`
   * {

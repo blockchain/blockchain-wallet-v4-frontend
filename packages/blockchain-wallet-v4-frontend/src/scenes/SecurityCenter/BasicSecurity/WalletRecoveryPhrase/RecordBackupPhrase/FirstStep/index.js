@@ -1,58 +1,60 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-
+import media from 'services/ResponsiveService'
 import { Button, Image, Link, Text } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
 import recoveryPdf from './recovery.pdf'
 
 const PrintContainer = styled.div`
   display: flex;
-
   justify-content: center;
   align-items: center;
   padding: 20px 0;
   width: 65%;
-  flex-direction: column;
+  flex-direction: row;
   button {
-    margin-top: 20px;
+    margin-top: 0;
   }
-  @media (min-width: 992px) {
+  div:first-of-type {
+    padding-right: 30px;
+  }
+  ${media.tablet`
     width: 65%;
-    flex-direction: row;
+    flex-direction: column;
     button {
-      margin-top: 0;
+      margin-top: 20px;
     }
     div:first-of-type {
-      padding-right: 30px;
+      padding-right: 0px;
     }
-  }
+  `};
 `
 const FirstStepContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  @media (min-width: 480px) {
-    width: 118%;
-  }
+  width: 118%;
+  ${media.mobile`
+    width: 100%;
+  `};
 `
 const Buttons = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 30px;
   & > :first-child {
     margin-right: 14px;
   }
   a {
     margin-top: 15px;
   }
-  @media (min-width: 992px) {
-    margin-top: 30px;
-  }
+  ${media.tablet`
+    margin-top: 10px;
+  `};
 `
 
 const FirstStep = props => {

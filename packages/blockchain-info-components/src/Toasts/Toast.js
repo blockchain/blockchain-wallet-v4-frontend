@@ -2,17 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { transparentize, darken } from 'polished'
-
+import media from '../MediaSizes'
 import { Icon } from '../Icons'
 
 const Wrapper = styled.div`
   height: 65px;
-  width: 100%;
   background-color: ${props => props.theme['white']};
-
-  @media (min-width: 768px) {
-    width: 500px;
-  }
+  width: 500px;
+  ${media.tablet`
+    width: 100%;
+  `};
 `
 const Container = styled.div`
   position: relative;
@@ -36,7 +35,6 @@ const Container = styled.div`
   -webkit-font-smoothing: antialiased;
 `
 const Content = styled.div`
-  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
@@ -46,13 +44,11 @@ const Content = styled.div`
 
   & > :first-child {
     text-transform: uppercase;
+    display: none;
   }
-
-  @media (min-width: 768px) {
-    & > :first-child {
-      display: none;
-    }
-  }
+  ${media.tablet`
+    display: flex;
+  `};
 `
 const Close = styled(Icon)`
   &:hover {
