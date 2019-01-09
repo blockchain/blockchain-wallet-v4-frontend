@@ -35,9 +35,10 @@ const AppActions = styled.div`
     margin-left: 10px;
   }
 `
-const CoinIcon = styled(Icon)`
-  font-size: 40px;
-  margin-right: 4px;
+const IconBox = styled.div`
+  padding: 5px;
+  border-radius: 3px;
+  background-color: ${props => props.theme[props.coin]};
 `
 const InstallButton = styled(Button)`
   border-radius: 20px;
@@ -72,7 +73,9 @@ const LockboxAppManager = props => {
   return (
     <Row>
       <AppDetails>
-        <CoinIcon color={coinLower} name={`${coinLower}-circle-filled`} />
+        <IconBox coin={coinLower}>
+          <Icon size='34px' color='white' name={`${coinLower}`} />
+        </IconBox>
         <div>
           <Text size='13px' weight={400} color={'gray-5'}>
             {name}

@@ -34,7 +34,7 @@ const ConnectStep = styled.div`
   }
 `
 const Loader = styled(BlockchainLoader)`
-  margin: 25px;
+  margin: 20px;
 `
 const ContinueButton = styled(Button)`
   margin-top: 22px;
@@ -43,10 +43,6 @@ const Subtitle = styled(Text)`
   text-align: center;
   padding: 5px;
   margin-bottom: 10px;
-`
-const LoadingText = styled(Text)`
-  margin-bottom: 20px;
-  text-align: center;
 `
 
 const getKeyByValue = value => {
@@ -59,12 +55,12 @@ class LockboxAppManagerContainer extends React.PureComponent {
   state = {}
 
   componentDidMount () {
+    // TODO: if not setup mode
     this.props.lockboxActions.initializeAppManager(this.props.deviceIndex)
   }
 
   componentWillUnmount () {
     this.props.lockboxActions.resetAppChangeStatus()
-    this.props.lockboxActions.resetConnectionStatus()
   }
 
   onAppInstall = (appName, coin) => {
@@ -195,13 +191,6 @@ class LockboxAppManagerContainer extends React.PureComponent {
       ),
       Loading: () => (
         <Wrapper>
-          <LoadingText size='18px' weight='400'>
-            <FormattedHTMLMessage
-              id='modals.lockbox.appmanager.loadingapplist'
-              defaultMessage='Loading application list'
-            />
-            &hellip;
-          </LoadingText>
           <Loader width='100px' height='100px' />
         </Wrapper>
       ),
