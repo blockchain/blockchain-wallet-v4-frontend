@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import { HeartbeatLoader, Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Text, Link } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 import { CenteredWrapper } from 'components/IdentityVerification'
@@ -45,8 +45,21 @@ const ReviewForm = props => {
         <TermsLabel htmlFor='terms'>
           <Text size='11px' weight={300}>
             <FormattedMessage
-              id='scenes.buysell.coinify.sell.orderreview.checkboxtext'
-              defaultMessage='I accept that Coinify will process my order upon completion of the bitcoin transaction, and that bitcoin will be traded at the available exchange rate at the time, which may differ from the displayed rate.'
+              id='scenes.buysell.coinify.sell.orderreview.accept_terms'
+              defaultMessage="By clicking here, I accept that Coinify will process my order upon receipt of funds, and that the order will be executed at the available exchange rate at that time, which may differ from the displayed rate. I also accept Coinify's {terms}."
+              values={{
+                terms: <Link
+                  size='11px'
+                  weight={300}
+                  href='https://www.coinify.com/legal'
+                  target='_blank'
+                  rel='noreferrer noopener'
+                >
+                  <FormattedMessage
+                    id='components.terms.coinify.tos'
+                    defaultMessage='Terms of Service'
+                  />
+                </Link> }}
             />
           </Text>
         </TermsLabel>

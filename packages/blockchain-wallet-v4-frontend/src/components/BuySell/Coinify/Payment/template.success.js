@@ -30,7 +30,6 @@ const PaymentHeaderContainer = styled.div`
   width: 65%;
   text-align: center;
   margin-bottom: 50px;
-  margin-top: 20px;
   ${media.mobile`
     width: 100%;
     margin-bottom: 20px;

@@ -50,12 +50,15 @@ export default ({ api, coreSagas, networks }) => {
       const tier2DataR = yield select(selectors.modules.profile.getTier(2))
       const tier2Data = tier2DataR.getOrElse(null)
       const kycIsNone = equals(prop('state', tier2Data), TIERS_STATES.NONE)
-      if (kycIsNone)
+      if (kycIsNone) {
+        // we need to tell Nabu about the new user so it can handle the user being verified later on
+        yield call(sendCoinifyKYC)
         return yield put(
           actions.components.identityVerification.setVerificationStep(
             STEPS.personal
           )
         )
+      }
 
       // if not NONE, tell backend about signup and send user to coinify checkout - user is either verified, pending, failed, etc..
       const user = prop('user', profileR.getOrFail('Missing Coinify Profile'))
@@ -68,6 +71,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const buy = function*(payload) {
     try {
+      // TODO: if no trade history, make call to Nabu to initiate full upload of kyc docs
       const nextAddressData = yield call(prepareAddress)
       const buyTrade = yield call(
         coreSagas.data.coinify.buy,
@@ -120,6 +124,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const sell = function*() {
     try {
+      // TODO: if no trade history, make call to Nabu to initiate full upload of kyc docs
       const password = yield call(promptForSecondPassword)
       yield put(A.coinifyLoading())
       const trade = yield call(coreSagas.data.coinify.sell)
@@ -551,9 +556,7 @@ export default ({ api, coreSagas, networks }) => {
         equals(tier2State, TIERS_STATES.VERIFIED) &&
         equals(levelName, COINIFY_USER_LEVELS.ONE)
       ) {
-        const user = yield select(
-          selectors.core.data.coinify.getUserId
-        )
+        const user = yield select(selectors.core.data.coinify.getUserId)
         if (user.getOrElse(null)) yield call(api.sendCoinifyKyc, user)
       }
     } catch (e) {
