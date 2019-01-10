@@ -1,14 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Text } from 'blockchain-info-components'
+import { Media, Text } from 'blockchain-info-components'
 import Actions from './Actions'
 import Balance from './Balance'
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 100%;
@@ -16,12 +16,10 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
   z-index: 10;
-
-  @media (min-width: 850px) {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
+  ${Media.tablet`
+    flex-direction: column;
+    justify-content: flex-start;
+  `};
 `
 const Container = styled.div`
   display: flex;
@@ -31,23 +29,24 @@ const Container = styled.div`
   height: 100%;
 `
 const LeftContainer = styled(Container)`
-  order: 2;
-  @media (min-width: 850px) {
-    order: 1;
-  }
+  order: 1;
+  ${Media.tablet`
+    order: 2;
+  `};
 `
 const RightContainer = styled(Container)`
-  order: 1;
-  @media (min-width: 850px) {
-    order: 2;
-  }
+  order: 2;
+  ${Media.tablet`
+    order: 1;
+  `};
 `
 const TextContainer = styled.div`
-  display: none;
+  display: flex;
   margin-left: -2px;
-  @media (min-width: 850px) {
-    display: flex;
-  }
+  ${Media.tablet`
+    display: none;
+    margin-left: 0px;
+  `};
 `
 
 const MenuTop = props => (

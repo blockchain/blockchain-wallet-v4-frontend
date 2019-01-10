@@ -25,10 +25,8 @@ const Container = styled.div`
   flex-direction: column;
   width: 100%;
   height: auto;
-
   @media (min-width: 1024px) {
     justify-content: center;
-    width: 100%;
   }
 `
 const Column = styled.div`

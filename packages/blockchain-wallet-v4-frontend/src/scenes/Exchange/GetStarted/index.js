@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Image, Text } from 'blockchain-info-components'
+import { Image, Text, Media } from 'blockchain-info-components'
 import StatusBar from './StatusBar'
 
 const Wrapper = styled.div`
@@ -17,58 +17,54 @@ const Wrapper = styled.div`
 `
 const Container = styled.div`
   display: flex;
-  flex-direction: column-reverse;
-  justify-content: center;
   align-items: flex-start;
   width: 100%;
   height: auto;
+  flex-direction: row;
+  justify-content: center;
 
-  @media (min-width: 1200px) {
-    flex-direction: row;
+  ${Media.laptop`
+    flex-direction: column-reverse;
     justify-content: center;
-    width: 100%;
-  }
+  `};
 `
 const Column = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
   height: auto;
   padding: 15px;
   box-sizing: border-box;
-
-  @media (min-width: 1200px) {
-    width: ${props => props.width || 'auto'};
-  }
+  width: ${props => props.width || 'auto'};
+  ${Media.laptop`
+    width: 100%;
+  `};
 `
 const Row = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  margin-bottom: 15px;
   flex-wrap: wrap;
-
+  flex-direction: row;
+  min-height: 100%;
+  margin-bottom: ${props => props.marginBottom || 'none'};
   & > :not(:last-child) {
     margin-right: 10px;
   }
-
-  @media (min-width: 1200px) {
-    flex-direction: row;
-    min-height: 100%;
-    margin-bottom: ${props => props.marginBottom || 'none'};
-  }
+  ${Media.laptop`
+    flex-direction: column;
+    margin-bottom: 15px;
+  `};
 `
 const PreviewImage = styled(Image).attrs({
   name: 'kyc-get-started'
 })`
   width: 410px;
-  @media (max-width: 1200px) {
+  ${Media.laptop`
     width: 350px;
-  }
+  `};
 `
 const DarkText = styled(Text).attrs({
   color: 'gray-5',
