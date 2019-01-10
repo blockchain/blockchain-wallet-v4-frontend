@@ -3,7 +3,6 @@ import { head, isEmpty, prop, toUpper } from 'ramda'
 
 import { actions, selectors, model } from 'data'
 import profileSagas from 'data/modules/profile/sagas'
-import coinifySagas from 'data/components/coinify/sagas'
 import { Remote } from 'blockchain-wallet-v4/src'
 import * as C from 'services/AlertService'
 
