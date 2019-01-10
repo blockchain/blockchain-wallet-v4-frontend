@@ -1,5 +1,5 @@
 import { put, call, select } from 'redux-saga/effects'
-import { any, merge, path, prop, equals } from 'ramda'
+import { any, merge, path, prop, equals, length } from 'ramda'
 import * as A from './actions'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
@@ -51,6 +51,7 @@ export default ({ api, coreSagas, networks }) => {
       const tier2Data = tier2DataR.getOrElse(null)
       const kycIsNone = equals(prop('state', tier2Data), TIERS_STATES.NONE)
       if (kycIsNone) {
+        // TODO: might need to remove this Nabu call
         // we need to tell Nabu about the new user so it can handle the user being verified later on
         yield call(sendCoinifyKYC)
         return yield put(
@@ -60,6 +61,7 @@ export default ({ api, coreSagas, networks }) => {
         )
       }
 
+      // TODO: might need to remove this Nabu call and just close the modal and refetch here
       // if not NONE, tell backend about signup and send user to coinify checkout - user is either verified, pending, failed, etc..
       const user = prop('user', profileR.getOrFail('Missing Coinify Profile'))
       yield call(handleAfterSignup, user)
@@ -69,9 +71,14 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const checkIfFirstTrade = function*() {
+    const trades = yield select(selectors.core.data.coinify.getTrades)
+    if (length(trades) === 0) yield call(sendCoinifyKYC)
+  }
+
   const buy = function*(payload) {
     try {
-      // TODO: if no trade history, make call to Nabu to initiate full upload of kyc docs
+      yield call(checkIfFirstTrade)
       const nextAddressData = yield call(prepareAddress)
       const buyTrade = yield call(
         coreSagas.data.coinify.buy,
@@ -124,7 +131,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const sell = function*() {
     try {
-      // TODO: if no trade history, make call to Nabu to initiate full upload of kyc docs
+      yield call(checkIfFirstTrade)
       const password = yield call(promptForSecondPassword)
       yield put(A.coinifyLoading())
       const trade = yield call(coreSagas.data.coinify.sell)
