@@ -6,12 +6,11 @@ import { bindActionCreators } from 'redux'
 import { FormattedMessage } from 'react-intl'
 import { contains } from 'ramda'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Icon, Media, Text } from 'blockchain-info-components'
 import Faq from './Faq'
 import WhatsNew from './WhatsNew'
 import { actions } from 'data'
 import { getData } from './selectors'
-import media from 'services/ResponsiveService'
 
 const AnimationWrapper = styled.div`
   position: absolute;
@@ -22,16 +21,16 @@ const AnimationWrapper = styled.div`
   box-shadow: -5px 5px 20px ${props => props.theme['gray-4']};
   z-index: 20;
 
-  @media (max-width: 991px) {
+  ${Media.laptop`
     width: calc(50%);
     right: ${props => (props.opened ? '0' : 'calc(-75%)')};
-  }
-
-  ${media.tablet`
+  `};
+  ${Media.tablet`
     width: calc(100%);
     right: ${props => (props.opened ? '0' : 'calc(-110%)')};
     display: ${props => (props.opened ? 'inline' : 'none')};
-  `} ${media.mobile`
+  `};
+  ${Media.mobile`
     width: calc(100%);
     right: ${props => (props.opened ? '0' : 'calc(-110%)')};
     display: ${props => (props.opened ? 'inline' : 'none')};

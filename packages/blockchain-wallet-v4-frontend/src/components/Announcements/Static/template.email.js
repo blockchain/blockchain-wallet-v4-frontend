@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled, { keyframes } from 'styled-components'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Icon, Text } from 'blockchain-info-components'
+import { Icon, Text, Media } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 
 const reveal = keyframes`
@@ -31,9 +31,9 @@ const EmailSentNotification = styled(Text)`
   }
   position: relative;
   top: -30px;
-  @media (max-width: 1023px) {
+  ${Media.laptop`
     display: none;
-  }
+  `};
 `
 
 const EmailReminder = props => {

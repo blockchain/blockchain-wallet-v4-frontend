@@ -2,8 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
+import { Button, HeartbeatLoader, Icon, Text, Media } from 'blockchain-info-components'
 import TextBox from '../TextBox'
 
 const Container = styled.div``
@@ -17,7 +16,7 @@ const InputRow = styled(Row)`
   button {
     border-radius: 0;
   }
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
   `};
   input {
@@ -39,7 +38,7 @@ export const LoadingButton = ({ loading, children, ...rest }) => (
 
 export const ChangeButton = styled(LoadingButton)`
   margin-right: 16px;
-  ${media.mobile`
+  ${Media.mobile`
     margin-right: 0;
     margin-bottom: 16px;
   `};
@@ -48,7 +47,7 @@ export const ChangeButton = styled(LoadingButton)`
 const EmailLabel = styled(Text)`
   margin-bottom: 32px;
   word-break: break-all;
-  ${media.mobile`
+  ${Media.mobile`
     margin-bottom: 16px;
   `};
 `

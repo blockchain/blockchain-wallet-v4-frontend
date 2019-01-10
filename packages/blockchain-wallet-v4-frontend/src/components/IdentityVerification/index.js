@@ -1,6 +1,5 @@
 import styled from 'styled-components'
-import media from 'services/ResponsiveService'
-import { Button, Image } from 'blockchain-info-components'
+import { Button, Image, Media } from 'blockchain-info-components'
 import { FaqMessage, FormGroup } from 'components/Form'
 
 export const Form = styled.form`
@@ -17,7 +16,7 @@ export const Row = styled.div`
 
 export const ColLeft = styled.div`
   width: 50%;
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
   `};
 `
@@ -28,7 +27,7 @@ export const ColLeftInner = styled.div`
 
 export const ColRight = styled.div`
   width: 50%;
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
   `};
 `
@@ -42,10 +41,10 @@ export const InputWrapper = styled.div`
   width: 90%;
   max-width: 840px;
   margin: 0 auto;
-  ${media.tablet`
+  ${Media.tablet`
     max-width: 568px;
   `};
-  ${media.mobile`
+  ${Media.mobile`
     max-width: 432px;
   `};
 `
@@ -53,7 +52,7 @@ export const InputWrapper = styled.div`
 export const PartnerHeader = styled.div`
   font-size: 30px;
   font-weight: 600;
-  ${media.mobile`
+  ${Media.mobile`
     font-size: 20px;
     font-weight: 500;
   `};
@@ -62,7 +61,7 @@ export const PartnerHeader = styled.div`
 export const PartnerSubHeader = styled.div`
   margin-top: 5px;
   font-size: 16px;
-  ${media.mobile`
+  ${Media.mobile`
     font-size: 14px;
   `};
 `
@@ -96,7 +95,7 @@ export const ColRightInner = styled.div`
   flex-direction: column;
   width: 80%;
   padding-left: 20%;
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
     padding-left: 0px;
   `};
@@ -143,7 +142,7 @@ export const FieldMimic = styled.div`
   align-items: center;
   width: 85%;
   justify-content: space-between;
-  ${media.mobile`
+  ${Media.mobile`
     border: none;
     width: 100%;
     padding: 0px;
@@ -170,7 +169,7 @@ export const IdentityVerificationForm = styled(Form)`
 export const IdentityVerificationHeader = styled(PartnerHeader)`
   margin-top: 40px;
   font-weight: 400;
-  ${media.mobile`
+  ${Media.mobile`
     margin-top: 32px;
     font-size: 24px;
   `};
@@ -178,7 +177,7 @@ export const IdentityVerificationHeader = styled(PartnerHeader)`
 
 export const IdentityVerificationSubHeader = styled(PartnerSubHeader)`
   font-weight: 300;
-  ${media.mobile`
+  ${Media.mobile`
     font-size: 16px;
   `};
 `
@@ -196,12 +195,12 @@ export const FaqFormGroup = styled(FormGroup)`
   max-width: 576px;
   width: calc(100% - 260px);
   padding-right: 24px;
-  ${media.tablet`
+  ${Media.tablet`
     max-width: 768px;
     padding-right: 0;
     width: 100%;
   `};
-  ${media.mobile`
+  ${Media.mobile`
     padding-right: 0;
     width: 100%;
   `};
@@ -231,10 +230,10 @@ export const Footer = styled.div`
   width: 90%;
   max-width: 840px;
   margin: 0 auto;
-  ${media.tablet`
+  ${Media.tablet`
     max-width: 568px;
   `};
-  ${media.mobile`
+  ${Media.mobile`
     max-width: 432px;
     flex-direction: column-reverse;
     align-items: center;

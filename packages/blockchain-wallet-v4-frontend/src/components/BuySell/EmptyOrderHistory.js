@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Image, Link, Text, TextGroup } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
+import { Image, Link, Text, TextGroup, Media } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -17,7 +16,7 @@ const Empty = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 50px;
-  ${media.mobile`
+  ${Media.mobile`
     margin-top: 0px;
   `};
 `

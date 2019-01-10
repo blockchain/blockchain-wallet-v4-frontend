@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Icon } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
+import { Icon, Media } from 'blockchain-info-components'
 
 const Circle = styled.div`
   justify-content: center;
@@ -16,7 +15,7 @@ const Circle = styled.div`
   &.active {
     background: ${props => props.theme['white-blue']};
   }
-  ${media.mobile`
+  ${Media.mobile`
     display: none;
   `};
 `

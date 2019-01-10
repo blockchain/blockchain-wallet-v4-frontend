@@ -3,10 +3,9 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import media from 'services/ResponsiveService'
 import { model } from 'data'
 import { map, flip, prop } from 'ramda'
-import { Button } from 'blockchain-info-components'
+import { Button, Media } from 'blockchain-info-components'
 import { FooterShadowWrapper } from 'components/Form'
 import {
   BackButton,
@@ -23,7 +22,7 @@ const VerifyWrapper = styled.div`
   display: flex;
   height: 100%;
   flex-direction: row;
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
   `};
 `

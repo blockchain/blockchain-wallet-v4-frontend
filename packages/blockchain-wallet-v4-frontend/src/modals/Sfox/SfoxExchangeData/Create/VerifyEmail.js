@@ -9,7 +9,7 @@ import { FormattedMessage } from 'react-intl'
 import { formValueSelector, Field } from 'redux-form'
 
 import { TextBox } from 'components/Form'
-import { Text, Button } from 'blockchain-info-components'
+import { Media, Text, Button } from 'blockchain-info-components'
 
 import { required } from 'services/FormHelper'
 import {
@@ -24,7 +24,6 @@ import {
   EmailHelper
 } from 'components/IdentityVerification'
 import { spacing } from 'services/StyleService'
-import media from 'services/ResponsiveService'
 
 const EmailInput = styled.div`
   display: flex;
@@ -32,7 +31,7 @@ const EmailInput = styled.div`
   flex-direction: column;
 `
 const VerifyEmailForm = styled(Form)`
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
   `};
 `

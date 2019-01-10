@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Text, Button } from 'blockchain-info-components'
+import { Text, Button, Media } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 import { required } from 'services/FormHelper'
 import {
@@ -17,7 +17,6 @@ import {
   ButtonWrapper,
   EmailHelper
 } from 'components/IdentityVerification'
-import media from 'services/ResponsiveService'
 
 const EmailInput = styled.div`
   display: flex;
@@ -25,7 +24,7 @@ const EmailInput = styled.div`
   flex-direction: column;
 `
 const CreateForm = styled(Form)`
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
   `};
 `

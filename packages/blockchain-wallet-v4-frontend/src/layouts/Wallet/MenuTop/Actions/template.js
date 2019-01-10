@@ -3,9 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Text, IconButton } from 'blockchain-info-components'
+import { Media, Text, IconButton } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
-import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,12 +14,12 @@ const Wrapper = styled.div`
   padding-top: 10px;
   width: auto;
   margin-top: 0px;
-  ${media.tablet`
+  ${Media.tablet`
     margin-top: 8px;
   `};
 `
 const ActionButton = styled(IconButton)`
-  ${media.mobile`
+  ${Media.mobile`
     padding: 10px 10px;
     div:last-of-type {
       font-size: 13px;

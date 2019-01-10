@@ -13,7 +13,6 @@ import {
   validEmail
 } from 'services/FormHelper'
 import { model } from 'data'
-import media from 'services/ResponsiveService'
 import { getElementsPropType } from 'utils/proptypes'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
@@ -21,6 +20,7 @@ import {
   Banner,
   Button,
   HeartbeatLoader,
+  Media,
   Separator,
   Text
 } from 'blockchain-info-components'
@@ -47,14 +47,14 @@ import Terms from 'components/Terms'
 const FormContainer = styled.div`
   margin-top: 25px;
   margin-bottom: 25px;
-  ${media.mobile`
+  ${Media.mobile`
     margin-bottom: 40px;
   `};
 `
 const PersonalItem = styled(FormItem)`
   display: flex;
   flex-direction: row;
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
   `};
 `
@@ -63,7 +63,7 @@ const PersonalField = styled.div`
   :first-of-type {
     margin-right: 15px;
   }
-  ${media.mobile`
+  ${Media.mobile`
     :first-of-type {
       margin-right: 0;
       margin-bottom: 24px;
@@ -114,9 +114,9 @@ const KycSeparator = styled(Separator)`
   max-width: 576px;
   width: calc(100% - 260px);
   margin: 32px 0;
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
-  `} ${media.tablet`
+  `} ${Media.tablet`
     width: 100%;
   `};
 `

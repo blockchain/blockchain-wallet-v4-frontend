@@ -10,22 +10,21 @@ import { selectors } from 'data'
 import Create from './Create'
 import Confirm from './Confirm'
 import ISignThis from './ISignThis'
-import { ModalHeader, ModalBody, Text } from 'blockchain-info-components'
+import { Media, ModalHeader, ModalBody, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { path } from 'ramda'
-import media from 'services/ResponsiveService'
 
 const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
   `};
 `
 const HeaderText = styled(Text)`
   font-size: 20px;
-  ${media.mobile`
+  ${Media.mobile`
     display: none;
   `};
 `

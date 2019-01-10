@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import media from 'services/ResponsiveService'
-import { Icon, Image } from 'blockchain-info-components'
+import { Icon, Image, Media } from 'blockchain-info-components'
 import FaqIcon from './FaqIcon'
 import WhatsNewIcon from './WhatsNewIcon'
 import RefreshIcon from './RefreshIcon'
@@ -22,7 +21,7 @@ const BlockchainLogoImage = styled(Image)`
   display: block;
   height: 20px;
   margin-left: 0;
-  ${media.tablet`
+  ${Media.tablet`
     height: 16px;
     margin-left: 10px;
   `};

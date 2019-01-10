@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import media from 'services/ResponsiveService'
 import Footer from './Footer'
 import Navigation from './Navigation'
+import { Media } from 'blockchain-info-components'
 
 export const Container = styled.div`
   display: flex;
@@ -25,7 +25,7 @@ export const Container = styled.div`
   ::-webkit-scrollbar {
     display: none;
   }
-  ${media.tablet`
+  ${Media.tablet`
     position: absolute;
     left: ${props => (props.toggled ? '0' : '-270px')};
   `};

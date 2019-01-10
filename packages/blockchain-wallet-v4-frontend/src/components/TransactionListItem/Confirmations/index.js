@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { toString } from 'ramda'
-import media from 'services/ResponsiveService'
 import {
   Icon,
   Link,
+  Media,
   Text,
   TooltipHost,
   Tooltip
@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   z-index: 9;
   flex-direction: row;
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
   `};
 `

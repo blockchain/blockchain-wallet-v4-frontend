@@ -5,7 +5,7 @@ import { bindActionCreators, compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 import ui from 'redux-ui'
 import { path, prop } from 'ramda'
-
+import media from 'services/ResponsiveService'
 import { actions } from 'data'
 import { TabMenuBuySellStatus } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
@@ -34,9 +34,9 @@ const CheckoutWrapper = styled.div`
   @media (min-height: 800px) {
     height: 70%;
   }
-  @media (max-width: 480px) {
+  ${media.mobile`
     padding: 20px;
-  }
+  `};
 `
 const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
 

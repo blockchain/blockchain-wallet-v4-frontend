@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import media from 'services/ResponsiveService'
 import {
   Image,
   Link,
+  Media,
   TabMenu,
   TabMenuItem,
   Text
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   width: 100%;
   flex-direction: row;
   justify-content: space-between;
-  ${media.tablet`
+  ${Media.tablet`
     flex-direction: column;
     justify-content: flex-start;
   `};
@@ -31,7 +31,7 @@ const PartnerWrapper = styled.div`
   align-items: center;
   width: 100%;
   margin-top: 4px;
-  ${media.tablet`
+  ${Media.tablet`
     display: none;
   `};
 `

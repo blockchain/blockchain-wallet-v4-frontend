@@ -11,6 +11,7 @@ import { FormattedMessage } from 'react-intl'
 import {
   Button,
   HeartbeatLoader,
+  Media,
   Text,
   Link,
   Icon
@@ -30,7 +31,6 @@ import {
 } from 'components/IdentityVerification'
 import { spacing } from 'services/StyleService'
 import Terms from 'components/Terms'
-import media from 'services/ResponsiveService'
 
 const FaqWrapper = styled.div``
 
@@ -110,7 +110,7 @@ const IconContainer = styled.div`
   display: flex;
   align-items: center;
   margin-left: 10px;
-  ${media.mobile`
+  ${Media.mobile`
     align-items: flex-start;
   `};
 `
@@ -121,13 +121,13 @@ const InlineTextWrapper = styled.div`
   }
 `
 const AcceptTermsForm = styled(Form)`
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
   `};
 `
 const EditLink = styled(Link)`
   font-size: 12px;
-  ${media.mobile`
+  ${Media.mobile`
     margin-top: 5px;
     font-size: 12px;
   `};

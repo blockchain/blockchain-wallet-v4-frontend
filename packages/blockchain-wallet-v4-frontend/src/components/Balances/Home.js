@@ -1,9 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Icon, Text } from 'blockchain-info-components'
+import { Icon, Text, Media } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-
 export const HomeBalanceTable = styled.div`
   display: flex;
   flex-direction: column;
@@ -24,9 +23,9 @@ export const HomeBalanceRow = styled.div`
   &:not(:last-child) {
     border-bottom: 1px solid ${props => props.theme['gray-1']};
   }
-  @media (max-width: 480px) {
+  ${Media.mobile`
     padding: 15px 30px;
-  }
+  `};
 `
 
 export const HomeBalanceAmount = styled(Text)`

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-
+import { media } from '../../MediaSizes'
 const BaseTabMenuItem = styled.span`
   position: relative;
   padding: 6px 8px;
@@ -32,9 +32,9 @@ const BaseTabMenuItem = styled.span`
       border-bottom: 4px solid ${props => props.theme['brand-secondary']};
     }
   }
-  @media (max-width: 480px) {
+  ${media.mobile`
     font-size: 13px;
-  }
+  `};
 `
 
 const TabMenuItem = props => {

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import media from 'services/ResponsiveService'
+import { Media } from 'blockchain-info-components'
 
 const SecurityContainer = styled.div`
   display: grid;
@@ -11,7 +11,7 @@ const SecurityContainer = styled.div`
     display: block;
     width: auto;
   }
-  ${media.mobile`
+  ${Media.mobile`
     padding: 0px;
   `};
 `

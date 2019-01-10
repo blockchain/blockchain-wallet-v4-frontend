@@ -12,21 +12,21 @@ import {
   Text,
   Link,
   Icon,
-  HeartbeatLoader
+  HeartbeatLoader,
+  Media
 } from 'blockchain-info-components'
 import OrderStatus from '../OrderStatus'
-import media from 'services/ResponsiveService'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
 export const OrderHistoryText = styled(Text)`
   font-size: 13px;
-  ${media.mobile`
+  ${Media.mobile`
     font-size: 12px;
   `};
 `
 export const OrderHistoryLink = styled(Link)`
   font-size: 13px;
-  ${media.mobile`
+  ${Media.mobile`
     font-size: 12px;
   `};
 `

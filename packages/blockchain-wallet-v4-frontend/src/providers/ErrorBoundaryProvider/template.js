@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-
+import media from 'services/ResponsiveService'
 import {
   Button,
   Icon,
@@ -27,9 +27,9 @@ const ErrorDetails = styled.details`
   ::-webkit-scrollbar {
     display: none;
   }
-  @media (max-width: 768px) {
+  ${media.tablet`
     max-height: 200px;
-  }
+  `};
   > summary {
     &:hover {
       cursor: pointer;

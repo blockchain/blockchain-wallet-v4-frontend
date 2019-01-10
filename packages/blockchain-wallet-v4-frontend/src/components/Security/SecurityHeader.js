@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import media from 'services/ResponsiveService'
+import { Media } from 'blockchain-info-components'
 const SecurityHeader = styled.div`
   display: flex;
   flex-direction: row;
@@ -13,7 +13,7 @@ const SecurityHeader = styled.div`
   & > * {
     margin-right: 10px;
   }
-  ${media.mobile`
+  ${Media.mobile`
     font-size: 18px;
   `};
 `

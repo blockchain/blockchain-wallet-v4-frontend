@@ -29,6 +29,7 @@ export {
   FlatLoader2,
   HeartbeatLoader
 } from './Loaders'
+export { media as Media } from './MediaSizes'
 export { TabMenu, TabMenuItem } from './Menus'
 export { Modal, ModalHeader, ModalBody, ModalFooter } from './Modals'
 export { Pagination, PaginationItem } from './Paginations'

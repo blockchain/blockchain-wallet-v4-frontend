@@ -1,7 +1,6 @@
 import styled from 'styled-components'
-import media from 'services/ResponsiveService'
 import { FormGroup, FormLabel } from 'components/Form'
-import { Banner } from 'blockchain-info-components'
+import { Banner, Media } from 'blockchain-info-components'
 
 export const Row = styled.div`
   display: flex;
@@ -16,7 +15,7 @@ export const ColLeft = styled.div`
   justify-content: center;
   align-items: flex-start;
   width: 50%;
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
   `};
 `
@@ -45,7 +44,7 @@ export const FeeFormContainer = styled.div`
   width: 100%;
 `
 export const FeeFormGroup = styled(FormGroup)`
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
   `};
 `

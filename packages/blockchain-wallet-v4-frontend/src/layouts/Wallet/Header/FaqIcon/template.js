@@ -2,8 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import media from 'services/ResponsiveService'
-import { Link, Icon, TooltipHost } from 'blockchain-info-components'
+import { Link, Icon, Media, TooltipHost } from 'blockchain-info-components'
 
 const FaqLink = styled(Link)`
   position: relative;
@@ -15,7 +14,7 @@ const FaqLink = styled(Link)`
     display: none;
   }
 
-  ${media.mobile`
+  ${Media.mobile`
     background-color: transparent;
     padding: 0;
 

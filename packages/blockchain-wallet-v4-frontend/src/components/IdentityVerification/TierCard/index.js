@@ -6,8 +6,7 @@ import { connect } from 'react-redux'
 
 import { actions } from 'data'
 import { getData } from './selectors'
-import { Button, Text, TextGroup, Icon } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
+import { Button, Media, Text, TextGroup, Icon } from 'blockchain-info-components'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
@@ -30,7 +29,7 @@ const Wrapper = styled.div`
     box-shadow: none;
     opacity: 0.9;
   }
-  ${media.laptop`
+  ${Media.laptop`
     width: 100%;
     &.column {
       width: 100%;

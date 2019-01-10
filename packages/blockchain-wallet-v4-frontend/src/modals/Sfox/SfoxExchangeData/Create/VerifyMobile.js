@@ -8,7 +8,7 @@ import { actions, selectors } from 'data'
 import { formValueSelector, Field } from 'redux-form'
 
 import { PhoneNumberBox, TextBox } from 'components/Form'
-import { Text, Button } from 'blockchain-info-components'
+import { Media, Text, Button } from 'blockchain-info-components'
 import {
   required,
   normalizePhone,
@@ -26,7 +26,6 @@ import {
   EmailHelper
 } from 'components/IdentityVerification'
 import { spacing } from 'services/StyleService'
-import media from 'services/ResponsiveService'
 
 const MobileInput = styled.div`
   display: flex;
@@ -37,7 +36,7 @@ const MobileCodeContainer = MobileInput.extend`
   margin-top: 25px;
 `
 const VerifyMobileForm = styled(Form)`
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
     height: 100vh;
   `};

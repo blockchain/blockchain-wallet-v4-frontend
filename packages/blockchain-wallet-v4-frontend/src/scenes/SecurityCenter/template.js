@@ -16,25 +16,22 @@ const StatusWrapper = styled.div`
   width: 100%;
   justify-content: space-between;
   align-items: center;
-
-  @media (max-width: 992px) {
+  ${media.laptop`
     flex-direction: column;
     text-align: center;
-  }
+  `};
 `
 const IntroText = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  width: 100%;
-
+  width: 40%;
   & :first-child {
     padding: 20px 0;
   }
-
-  @media (min-width: 992px) {
-    width: 40%;
-  }
+  ${media.laptop`
+    width: 100%;
+  `};
 `
 const SecurityStepsWrapper = styled.div`
   display: flex;

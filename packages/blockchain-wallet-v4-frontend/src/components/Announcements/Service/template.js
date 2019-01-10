@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import media from 'services/ResponsiveService'
-import { Link, Icon, Text } from 'blockchain-info-components'
+import { Link, Icon, Text, Media } from 'blockchain-info-components'
 
 const Container = styled.div`
   display: flex;
@@ -23,7 +22,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
     align-items: flex-start;
   `};
@@ -46,7 +45,7 @@ const ActionLink = styled(Link)`
   & > :first-child {
     margin: 10px 0 6px;
   }
-  ${media.mobile`
+  ${Media.mobile`
     margin: 0px;
   `};
 `

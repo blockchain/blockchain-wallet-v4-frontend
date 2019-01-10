@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl'
 import { prop, path, sortBy, reverse, head } from 'ramda'
 import moment from 'moment'
 import RecurringTradeItem from '../RecurringTrade'
-import media from 'services/ResponsiveService'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 import { RecurringTableHeader } from '../components'
 import {
@@ -13,6 +12,7 @@ import {
   TableRow,
   Text,
   Link,
+  Media,
   Icon,
   Button
 } from 'blockchain-info-components'
@@ -22,7 +22,7 @@ const ToggleIcon = styled(Icon)`
   transform: rotate(-90deg);
   transition: transform 0.3s;
   transform: ${props => props.toggled && 'rotate(0deg)'};
-  ${media.mobile`
+  ${Media.mobile`
     display: none;
   `};
 `
@@ -43,14 +43,14 @@ const RecurringCancelWrapper = styled.div`
 `
 const StatusText = styled(Text)`
   margin-left: 10px;
-  ${media.mobile`
+  ${Media.mobile`
     margin-left: 0px;
   `};
 `
 const StatusContainer = styled(TableCell)`
   display: flex;
   flex-basis: 30%;
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
     width: 25%;
   `};

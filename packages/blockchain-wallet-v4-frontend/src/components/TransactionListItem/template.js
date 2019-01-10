@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import moment from 'moment'
 import {
   Banner,
+  Media,
   Text,
   TooltipIcon,
   TooltipHost
@@ -19,7 +20,6 @@ import Confirmations from './Confirmations'
 import FiatAtTime from './FiatAtTime'
 import Status from './Status'
 import PartnerLabel from './PartnerLabel'
-import media from 'services/ResponsiveService'
 import { prop } from 'ramda'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
@@ -70,7 +70,7 @@ const StatusColumn = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 33.333%;
-  ${media.mobile`
+  ${Media.mobile`
     width: 50%;
   `};
 `
@@ -85,7 +85,7 @@ const AddressesColumn = styled.div`
   white-space: nowrap;
   width: 33.333%;
   display: flex;
-  ${media.tablet`
+  ${Media.tablet`
     display: none;
   `};
 `
@@ -96,7 +96,7 @@ const AmountColumn = styled.div`
   width: 33.333%;
   min-width: 200px;
   align-items: flex-end;
-  ${media.mobile`
+  ${Media.mobile`
     min-width: 50%;
   `};
 `

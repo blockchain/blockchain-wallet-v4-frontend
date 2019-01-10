@@ -3,9 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
-import media from 'services/ResponsiveService'
 import { actions } from 'data'
-import { Button } from 'blockchain-info-components'
+import { Media, Button } from 'blockchain-info-components'
 import { FooterShadowWrapper } from 'components/Form'
 import {
   BackButton,
@@ -21,7 +20,7 @@ const MoreInfoWrapper = styled.div`
   display: flex;
   height: 100%;
   flex-direction: row;
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
   `};
 `

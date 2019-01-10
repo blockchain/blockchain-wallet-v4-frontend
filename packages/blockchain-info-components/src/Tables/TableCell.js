@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-
+import { media } from '../MediaSizes'
 const Wrapper = styled.div`
   flex-basis: ${props => props.width};
   display: flex;
   flex-direction: row;
   box-sizing: border-box;
-  @media (max-width: 480px) {
+  ${media.mobile`
     flex-basis: ${props => props.mobileWidth};
     display: ${props => (props.hideMobile ? `none` : `flex`)};
-  }
+  `};
 `
 
 const TableCell = ({ children, ...rest }) => (

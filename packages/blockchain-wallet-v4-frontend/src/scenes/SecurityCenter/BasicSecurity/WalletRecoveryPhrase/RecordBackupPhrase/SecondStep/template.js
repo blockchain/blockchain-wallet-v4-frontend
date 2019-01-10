@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-
+import media from 'services/ResponsiveService'
 import { Button, Text } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
 
@@ -39,9 +39,10 @@ const Buttons = styled.div`
   a {
     margin-top: 50px;
   }
-  @media (max-width: 991px) {
-    padding-bottom: 15px;
-  }
+  padding-bottom: 15px;
+  ${media.laptop`
+    padding-bottom: 0px;
+  `};
 `
 
 const SecondStep = props => {

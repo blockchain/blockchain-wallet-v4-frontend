@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import media from 'services/ResponsiveService'
+import { Media } from 'blockchain-info-components'
 const Wrapper = styled.div`
   width: 100%;
   padding: 8px 30px;
@@ -15,7 +15,7 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: space-between;
 
-  ${media.tablet`
+  ${Media.tablet`
     flex-direction: column;
     justify-content: flex-start;
   `};

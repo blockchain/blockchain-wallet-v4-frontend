@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Modal } from 'blockchain-info-components'
+import { Media, Modal } from 'blockchain-info-components'
 import Transition from 'react-transition-group/Transition'
-import media from 'services/ResponsiveService'
 
 // TODO: refactor to not use react-transition-group. then remove that dependency all together
 export const duration = 500
@@ -33,11 +32,11 @@ const TrayModal = styled(Modal)`
       right: 30px;
       position: absolute;
     }
-    @media (max-width: 991px) {
+    ${Media.laptop`
       padding: 50px;
       justify-content: center;
-    }
-    ${media.mobile`
+    `};
+    ${Media.mobile`
       padding-top: 20px;
       padding-bottom: 20px;
       > span:last-child {
@@ -50,15 +49,15 @@ const TrayModal = styled(Modal)`
     overflow: auto;
     padding: 60px 15%;
     height: calc(100% - 160px);
-    @media (max-width: 480px) {
+    ${Media.mobile`
       padding: 20px 10%;
-    }
+    `};
   }
-  ${media.tablet`
+  ${Media.tablet`
     width: 100%;
     left: 0px;
   `};
-  ${media.mobile`
+  ${Media.mobile`
     height: calc(100vh - 60px):
     padding-top: 20px;
     padding-bottom: 20px;
@@ -68,7 +67,6 @@ const TrayModal = styled(Modal)`
 class Tray extends React.PureComponent {
   handleClickOutside () {
     this.props.onClose()
-    // TODO: may need to check something about the modal stack here
   }
 
   render () {

@@ -2,8 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { prop, head } from 'ramda'
-import media from 'services/ResponsiveService'
-import { Text, TooltipHost, Icon } from 'blockchain-info-components'
+import { Media, Text, TooltipHost, Icon } from 'blockchain-info-components'
 import { recurringTimeHelper, recurringFee } from 'services/CoinifyService'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
@@ -22,7 +21,7 @@ const RecurringRow = styled.div`
   display: flex;
   flex-direction: row;
   padding: 5px 8px;
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
   `};
 `

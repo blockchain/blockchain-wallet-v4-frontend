@@ -6,7 +6,7 @@ import { actions, model } from 'data'
 import { getData } from './selectors'
 import EmailReminder from './template.email'
 import SunRiverKycReminder from './template.sunriver'
-import media from 'services/ResponsiveService'
+import { Media } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   background: ${props => props.theme['marketing-primary']};
   overflow: hidden;
-  ${media.mobile`
+  ${Media.mobile`
     display: none;
   `};
 `

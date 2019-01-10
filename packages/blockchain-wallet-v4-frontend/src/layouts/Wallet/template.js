@@ -16,8 +16,7 @@ import LockboxMenu from '../../scenes/Lockbox/Menu'
 import ExchangeMenu from 'scenes/Exchange/Menu'
 import ExchangeProfileMenu from 'scenes/Settings/Profile/Menu'
 import SettingsAddressesMenu from 'scenes/Settings/Addresses/Menu'
-
-import media from 'services/ResponsiveService'
+import { Media } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -42,15 +41,14 @@ const Content = styled.div`
   align-items: flex-start;
   width: calc(100% - 270px);
   background-color: ${props => props.theme['white']};
-
-  @media (max-width: 768px) {
+  ${Media.tablet`
     width: 100%;
-  }
+  `};
 `
 const Top = styled.div`
   height: 115px;
   width: 100%;
-  ${media.mobile`
+  ${Media.mobile`
     height: 150px;
   `};
 `

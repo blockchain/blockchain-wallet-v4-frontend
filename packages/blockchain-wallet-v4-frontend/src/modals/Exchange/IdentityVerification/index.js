@@ -9,8 +9,7 @@ import { FormattedMessage } from 'react-intl'
 import { actions, model } from 'data'
 import { getData } from './selectors'
 import modalEnhancer from 'providers/ModalEnhancer'
-import media from 'services/ResponsiveService'
-import { ModalHeader, ModalBody } from 'blockchain-info-components'
+import { Media, ModalHeader, ModalBody } from 'blockchain-info-components'
 import Tray, { duration } from 'components/Tray'
 import StepIndicator from 'components/StepIndicator'
 import DataError from 'components/DataError'
@@ -23,7 +22,7 @@ import MoreInfo from './MoreInfo'
 const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
   `};
 `

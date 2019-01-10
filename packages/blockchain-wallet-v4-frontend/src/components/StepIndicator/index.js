@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Image } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
+import { Image, Media } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -31,7 +30,7 @@ const Steps = styled.div`
     width: ${props => props.width * 100}%;
     background: ${props => props.theme['brand-primary']};
   }
-  ${media.mobile`
+  ${Media.mobile`
     border-bottom: 0;
     padding-bottom: 0px;
     flex-direction: column;
@@ -59,17 +58,17 @@ const Step = styled.span`
   text-align: center;
   white-space: nowrap;
   color: ${props => props.theme['brand-primary']};
-  ${media.tablet`
+  ${Media.tablet`
     margin: 0 20px;
   `};
-  ${media.mobile`
+  ${Media.mobile`
     margin: 10px;
   `};
 `
 
 const Logo = styled(Image)`
   margin-right: 60px;
-  ${media.mobile`
+  ${Media.mobile`
     margin-right: 0px;
     margin-left: 30px;
   `};

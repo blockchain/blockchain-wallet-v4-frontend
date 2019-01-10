@@ -12,7 +12,8 @@ import {
   Text,
   TextGroup,
   Link,
-  Icon
+  Icon,
+  Media
 } from 'blockchain-info-components'
 import {
   Form,
@@ -27,7 +28,6 @@ import {
   ColRightInner
 } from 'components/IdentityVerification'
 import { prop } from 'ramda'
-import media from 'services/ResponsiveService'
 
 export const EMAIL_IN_USE_ERROR = 'email_address_and_partner_id_in_use'
 
@@ -48,7 +48,7 @@ const FieldsContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 20px;
-  ${media.mobile`
+  ${Media.mobile`
     margin-top: 10px;
   `};
 `
@@ -67,13 +67,13 @@ const IconContainer = styled.div`
   margin-left: 10px;
 `
 const AcceptTermsForm = styled(Form)`
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
   `};
 `
 const EditLink = styled(Link)`
   font-size: 12px;
-  ${media.mobile`
+  ${Media.mobile`
     margin-top: 5px;
     font-size: 12px;
   `};
@@ -81,7 +81,7 @@ const EditLink = styled(Link)`
 const VerifiedText = styled(Text)`
   font-size: 14px;
   margin-bottom: 10px;
-  ${media.mobile`
+  ${Media.mobile`
     margin-bottom: 5px;
   `};
 `

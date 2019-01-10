@@ -1,9 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Image, Text, Button } from 'blockchain-info-components'
+import { Media, Image, Text, Button } from 'blockchain-info-components'
 import PropTypes from 'prop-types'
-import media from 'services/ResponsiveService'
 import { PartnerHeader } from 'components/IdentityVerification'
 
 const Container = styled.div`
@@ -11,7 +10,7 @@ const Container = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
     height: 100vh;
   `};
@@ -23,7 +22,7 @@ const LeftCol = styled.div`
   > div {
     margin: 15px 0px;
   }
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
   `};
 `
@@ -31,7 +30,7 @@ const RightCol = styled.div`
   width: 40%;
   display: flex;
   justify-content: center;
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
   `};
 `
@@ -42,7 +41,7 @@ const ImageWrapper = styled.div`
 `
 const DepositsImage = styled(Image)`
   width: 215px;
-  ${media.mobile`
+  ${Media.mobile`
     width: 150px;
   `};
 `

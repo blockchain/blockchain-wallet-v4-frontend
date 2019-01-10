@@ -2,9 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Toast } from 'blockchain-info-components'
+import { Toast, Media } from 'blockchain-info-components'
 import * as C from 'services/AlertService'
-import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   position: absolute;
@@ -19,7 +18,7 @@ const Wrapper = styled.div`
   & > * {
     margin-top: 5px;
   }
-  ${media.tablet`
+  ${Media.tablet`
     bottom: 0;
     right: 0;
     width: 100%;

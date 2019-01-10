@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
-
+import media from 'services/ResponsiveService'
 import Empty from './Empty'
 import ListItem from './ListItem'
 
@@ -25,9 +25,9 @@ const Wrapper = styled.div`
   @media (max-height: 800px) {
     margin-bottom: 30px;
   }
-  @media (max-width: 992px) {
+  ${media.laptop`
     margin-bottom: 0;
-  }
+  `};
 `
 const headerHeight = '29px'
 const Header = styled.div`

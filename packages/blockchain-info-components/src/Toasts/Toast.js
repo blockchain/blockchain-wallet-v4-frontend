@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { transparentize, darken } from 'polished'
-import media from '../MediaSizes'
+import { media } from '../MediaSizes'
 import { Icon } from '../Icons'
 
 const Wrapper = styled.div`

@@ -8,7 +8,7 @@ import renderFaq from 'components/FaqDropdown'
 import { StepTransition } from 'components/Utilities/Stepper'
 import { equals, path } from 'ramda'
 
-import { Button, HeartbeatLoader, Link } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Link, Media } from 'blockchain-info-components'
 import {
   Form,
   CancelWrapper,
@@ -20,27 +20,26 @@ import {
   PartnerSubHeader
 } from 'components/IdentityVerification'
 import { cardOptionHelper, bankOptionHelper } from './mediumHelpers'
-import media from 'services/ResponsiveService'
 
 const PaymentForm = styled(Form)`
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
   `};
 `
 const PaymentColLeft = styled(ColLeft)`
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
   `};
 `
 const PaymentColRight = styled(ColRight)`
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
   `};
 `
 const PaymentWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
     align-items: center;
   `};
@@ -48,7 +47,7 @@ const PaymentWrapper = styled.div`
 const BorderBox = styled.div`
   border: 1px solid ${props => props.theme['gray-1']};
   padding: 30px;
-  ${media.mobile`
+  ${Media.mobile`
     padding: 20px;
   `};
 `
@@ -57,12 +56,12 @@ const FaqWrapper = styled.div`
 `
 const ButtonContainer = styled.div`
   margin-top: 45px;
-  ${media.mobile`
+  ${Media.mobile`
     margin-top: 20px;
   `};
 `
 const PaymentColRightInner = styled(ColRightInner)`
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
     padding-left: 0px;
   `};

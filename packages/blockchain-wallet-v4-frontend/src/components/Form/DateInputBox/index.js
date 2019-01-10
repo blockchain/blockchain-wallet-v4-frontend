@@ -3,10 +3,7 @@ import styled from 'styled-components'
 import moment from 'moment'
 import { replace } from 'ramda'
 import { FormattedMessage, injectIntl } from 'react-intl'
-
-import media from 'services/ResponsiveService'
-
-import { Text } from 'blockchain-info-components'
+import { Text, Media } from 'blockchain-info-components'
 import SelectBox from '../SelectBox'
 import NumberBox from '../NumberBox'
 
@@ -21,7 +18,7 @@ const Container = styled.div`
 const RowWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
     margin-bottom: 0;
     >:not(:first-child) {
@@ -38,7 +35,7 @@ const LabelWrapper = styled.div`
 const MonthWrapper = styled(LabelWrapper)`
   width: 50%;
   margin-right: 15px;
-  ${media.mobile`
+  ${Media.mobile`
     margin: 0;
     width: 100%;
   `};
@@ -48,7 +45,7 @@ const InputWrapper = styled(LabelWrapper)`
   &.first {
     margin-right: 16px;
   }
-  ${media.mobile`
+  ${Media.mobile`
     &.first {
       margin-right: 0;
     }

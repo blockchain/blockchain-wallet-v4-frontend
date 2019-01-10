@@ -4,26 +4,25 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 import { equals, path, prop } from 'ramda'
-import { Button, Text, TooltipHost, Icon } from 'blockchain-info-components'
+import { Button, Media, Text, TooltipHost, Icon } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 
 import renderFaq from 'components/FaqDropdown'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
-import media from 'services/ResponsiveService'
 import { getData } from './selectors'
 
 const ISXContainer = styled.div`
   display: flex;
   flex-direction: row;
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
   `};
 `
 const ButtonContainer = styled.div`
   margin-left: 5%;
   width: 20%;
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
     margin-left: 0%;
     margin-top: 20px;
@@ -45,7 +44,7 @@ const QuoteExpiredText = styled(Text)`
 `
 const IframeWrapper = styled.div`
   width: 65%;
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
   `};
 `

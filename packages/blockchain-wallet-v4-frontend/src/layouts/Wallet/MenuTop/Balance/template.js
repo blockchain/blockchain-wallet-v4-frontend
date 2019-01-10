@@ -13,27 +13,25 @@ import BsvBalance from './WalletBalance/BsvBalance'
 import EthBalance from './WalletBalance/EthBalance'
 import XlmBalance from './WalletBalance/XlmBalance'
 import CurrencySwitch from './CurrencySwitch'
-
 import { FormattedMessage } from 'react-intl'
-import { ComponentDropdown, Text } from 'blockchain-info-components'
+import { ComponentDropdown, Media, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   cursor: pointer;
   position: relative;
-
-  @media (min-width: 850px) {
-    align-items: flex-end;
-  }
+  ${Media.tablet`
+    align-items: center;
+  `};
 `
 const BalanceText = styled(Text)`
   font-size: 20px;
-  @media (max-width: 767px) {
+  ${Media.tablet`
     font-size: 16px;
-  }
+  `};
 `
 const BalanceDropdown = styled.div`
   margin-top: 4px;

@@ -9,10 +9,10 @@ import { FormattedMessage } from 'react-intl'
 import { actions } from 'data'
 import { getData } from './selectors'
 import modalEnhancer from 'providers/ModalEnhancer'
-import media from 'services/ResponsiveService'
 import {
   Banner,
   Icon,
+  Media,
   Modal,
   ModalHeader,
   ModalBody,
@@ -70,20 +70,20 @@ const Tab = styled.div`
       transform: scaleX(1);
     }
   }
-  ${media.tablet`
+  ${Media.tablet`
     padding: 10px 5px;
   `};
 `
 const TabHeader = styled(Text)`
   font-weight: 300;
   font-size: 20px;
-  ${media.tablet`
+  ${Media.tablet`
     font-size: 16px;
   `};
 `
 const TabIcon = styled(Icon)`
   margin-right: 10px;
-  ${media.tablet`
+  ${Media.tablet`
     font-size: ${props => props.size || '20px'};
   `};
 `

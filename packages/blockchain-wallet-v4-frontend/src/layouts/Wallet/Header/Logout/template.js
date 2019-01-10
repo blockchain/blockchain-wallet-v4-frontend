@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Icon, Link } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
+import { Icon, Link, Media } from 'blockchain-info-components'
 
 const LogoutLink = styled(Link)`
   > span:first-child {
@@ -12,7 +11,7 @@ const LogoutLink = styled(Link)`
   > span:last-child {
     display: none;
   }
-  ${media.tablet`
+  ${Media.tablet`
     > span:first-child {
       display: none;
     }

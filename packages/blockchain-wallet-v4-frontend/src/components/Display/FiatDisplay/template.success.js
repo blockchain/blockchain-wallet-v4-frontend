@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { toLower } from 'ramda'
-import media from 'services/ResponsiveService'
-import { Icon, Text } from 'blockchain-info-components'
+import { Icon, Text, Media } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,7 +12,7 @@ const Wrapper = styled.div`
 `
 const FiatText = styled(Text)`
   font-size: ${props => props.size};
-  ${media.mobile`
+  ${Media.mobile`
     font-size: ${props => props.mobileSize};
   `};
 `
