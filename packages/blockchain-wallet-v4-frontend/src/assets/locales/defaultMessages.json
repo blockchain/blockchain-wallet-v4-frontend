@@ -5322,47 +5322,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Authenticate Device",
-        "id": "modals.lockbox.authenticity.title"
-      },
-      {
-        "defaultMessage": "Connect, unlock and open the Dashboard on your Lockbox device now.",
-        "id": "modals.lockbox.appmanager.connectdevice"
-      },
-      {
-        "defaultMessage": "Verifying your device's authenticity",
-        "id": "modals.lockbox.authenticity.content"
-      },
-      {
-        "defaultMessage": "Note:",
-        "id": "modals.lockbox.authenticity.note"
-      },
-      {
-        "defaultMessage": "Allow the device manager onto the device if prompted.",
-        "id": "modals.lockbox.authenticity.notetext"
-      },
-      {
-        "defaultMessage": "Congratulations!",
-        "id": "modals.lockbox.authenticity.success1"
-      },
-      {
-        "defaultMessage": "Your device appears to be genuine!",
-        "id": "modals.lockbox.authenticity.success2"
-      },
-      {
-        "defaultMessage": "Your device does not appear to be genuine. Please reach out to our support team before using this device.",
-        "id": "modals.lockbox.authenticity.failed"
-      },
-      {
-        "defaultMessage": "Close",
-        "id": "modals.lockbox.authenticity.close"
-      }
-    ],
-    "path": "src/modals/Lockbox/LockboxAuthenticityCheck/template.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Connect Your Lockbox",
         "id": "modals.promptforlockbox.connectcoinapp.title.connect"
       },
@@ -5810,7 +5769,7 @@
         "id": "modals.promptforlockbox.connectcoinapp.title.successgeneric"
       },
       {
-        "defaultMessage": "Your transaction was sent. Please allow for it to confirm on the network.",
+        "defaultMessage": "Please allow for it to confirm on the network.",
         "id": "modals.promptforlockbox.connectcoinapp.success"
       },
       {
@@ -8548,7 +8507,7 @@
     "descriptors": [
       {
         "defaultMessage": "Use",
-        "id": "modals.exchange.maximumamountmessage2"
+        "id": "modals.exchange.maximumamountmessage.use"
       },
       {
         "defaultMessage": "maximum",
@@ -8561,7 +8520,7 @@
     "descriptors": [
       {
         "defaultMessage": "Use",
-        "id": "modals.exchange.maximumamountmessage2"
+        "id": "modals.exchange.minimumamountlink.use"
       },
       {
         "defaultMessage": "minimum",
@@ -9363,12 +9322,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "It's Your Crypto",
-        "id": "scenes.home.swapbanner.its_your_crypto"
-      },
-      {
         "defaultMessage": "Swap Your Crypto",
         "id": "scenes.home.swapbanner.swap_your_crypto"
+      },
+      {
+        "defaultMessage": "Trading your crypto doesn't mean trading away control.",
+        "id": "scenes.home.swapbanner.trading_your_crypto"
       },
       {
         "defaultMessage": "Get Started",
@@ -11396,19 +11355,19 @@
     "descriptors": [
       {
         "defaultMessage": "Email address",
-        "id": "scenes.preferences.email.title"
+        "id": "scenes.preferences.loading.email.title"
       },
       {
         "defaultMessage": "Your verified email address is used to send login codes when suspicious or unusual activity is detected,",
-        "id": "scenes.preferences.email.description"
+        "id": "scenes.preferences.loading.email.description"
       },
       {
         "defaultMessage": "to remind you of your wallet login ID,",
-        "id": "scenes.preferences.email.description2"
+        "id": "scenes.preferences.loading.email.description2"
       },
       {
         "defaultMessage": "and to send bitcoin payment alerts when you receive funds.",
-        "id": "scenes.preferences.email.description3"
+        "id": "scenes.preferences.loading.email.description3"
       }
     ],
     "path": "src/scenes/SecurityCenter/TwoStepVerification/GoogleAuth/template.loading.json"
@@ -11659,6 +11618,10 @@
         "id": "scenes.settings.addresses.bch.importedaddresses.description"
       },
       {
+        "defaultMessage": "Transfer All",
+        "id": "scenes.settings.addresses.bch.importedaddresses.success.transferall"
+      },
+      {
         "defaultMessage": "Address",
         "id": "scenes.settings.addresses.bch.importedaddresses.address"
       },
@@ -11804,6 +11767,10 @@
       {
         "defaultMessage": "Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.",
         "id": "scenes.settings.addresses.bsv.importedaddresses.description"
+      },
+      {
+        "defaultMessage": "Transfer All",
+        "id": "scenes.settings.addresses.bch.importedaddresses.success.transferall"
       },
       {
         "defaultMessage": "Address",
@@ -13239,44 +13206,40 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "We've Improved Your Exchange",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.improved"
+        "defaultMessage": "Trading your crypto doesn't mean trading away control.",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.trading_your_crypto"
       },
       {
         "defaultMessage": "November 2018",
         "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.november2018"
       },
       {
-        "defaultMessage": "The faster, smarter way to trade your crypto.",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.introducing"
+        "defaultMessage": "Swap enables you to trade crypto with the best prices and quick settlement, all while maintaining full control of your funds.",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.swap_enables_trade"
       },
       {
-        "defaultMessage": "Upgrade now to enjoy the following benefits:",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.upgrade"
+        "defaultMessage": "Low fees",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.low_fees"
       },
       {
-        "defaultMessage": "Lower cost",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost"
+        "defaultMessage": "Great news! Get the best prices without having to leave the security of your Wallet.",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.best_prices"
       },
       {
-        "defaultMessage": "Super competitive crypto exchange prices",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.lowercost_description"
+        "defaultMessage": "Higher Limits",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higher_limits"
       },
       {
-        "defaultMessage": "Live rates",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates"
+        "defaultMessage": "Like to trade big? Get access to limits of up to $25,000 per day.",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.trade_big"
       },
       {
-        "defaultMessage": "You always get the most up to date price",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.liverates_Description"
+        "defaultMessage": "Easy to use",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.easy_to_use"
       },
       {
-        "defaultMessage": "Higher limits",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits"
-      },
-      {
-        "defaultMessage": "Limits from $1,000-$25,000",
-        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higherlimits_description"
+        "defaultMessage": "Get started in just a few steps.",
+        "id": "layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.get_started"
       },
       {
         "defaultMessage": "Get Started",
