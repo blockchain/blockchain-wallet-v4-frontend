@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
-
+import media from 'services/ResponsiveService'
 import { required, validMnemonic } from 'services/FormHelper'
 import {
   Button,
@@ -15,14 +15,13 @@ import {
 import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
 
 const Wrapper = styled.div`
-  width: 100%;
   padding: 40px;
   box-sizing: border-box;
   background-color: ${props => props.theme['white']};
-
-  @media (min-width: 768px) {
-    width: 550px;
-  }
+  width: 550px;
+  ${media.tablet`
+    width: 100%;
+  `};
 `
 const Header = styled.div`
   display: flex;

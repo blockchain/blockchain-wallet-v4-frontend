@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
 import { check, msie } from 'bowser'
-
+import media from 'services/ResponsiveService'
 import {
   validPasswordConfirmation,
   validStrongPassword,
@@ -35,14 +35,13 @@ const isSupportedBrowser =
   check({ safari: '8', chrome: '45', firefox: '45', opera: '20' }) && !msie
 
 const Wrapper = styled.div`
-  width: 100%;
   padding: 35px;
   box-sizing: border-box;
   background-color: ${props => props.theme['white']};
-
-  @media (min-width: 768px) {
-    width: 550px;
-  }
+  width: 550px;
+  ${media.tablet`
+    width: 100%;
+  `};
 `
 const Header = styled.div`
   display: flex;

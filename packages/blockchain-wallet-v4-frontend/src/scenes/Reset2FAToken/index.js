@@ -7,16 +7,16 @@ import { bindActionCreators } from 'redux'
 import Loading from './template.loading'
 import Success from './template.success'
 import Error from './template.error'
+import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
-  width: 100%;
+  width: 550px;
   padding: 35px;
   box-sizing: border-box;
   background-color: ${props => props.theme['white']};
-
-  @media (min-width: 768px) {
-    width: 550px;
-  }
+  ${media.tablet`
+    width: 100%;
+  `};
 `
 
 class Reset2FAToken extends React.PureComponent {

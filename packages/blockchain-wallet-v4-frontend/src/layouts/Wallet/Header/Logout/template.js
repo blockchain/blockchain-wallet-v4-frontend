@@ -3,22 +3,23 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Link } from 'blockchain-info-components'
+import media from 'services/ResponsiveService'
 
 const LogoutLink = styled(Link)`
   > span:first-child {
-    display: none;
+    display: flex;
   }
   > span:last-child {
-    display: inherit;
+    display: none;
   }
-  @media (min-width: 768px) {
+  ${media.tablet`
     > span:first-child {
-      display: flex;
-    }
-    > span:last-child {
       display: none;
     }
-  }
+    > span:last-child {
+      display: inherit;
+    }
+  `};
 `
 
 const Logout = props => {

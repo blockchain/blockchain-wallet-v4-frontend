@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { FormattedMessage } from 'react-intl'
-
+import media from 'services/ResponsiveService'
 import { Icon, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 
@@ -14,14 +14,14 @@ const Tabs = styled.div`
 const Tab = styled.div`
   width: 33%;
   display: flex;
-  padding: 10px 5px;
+  padding: 15px 5px;
   position: relative;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  @media (min-width: 768px) {
-    padding: 15px 5px;
-  }
+  ${media.tablet`
+    padding: 10px 5px;
+  `};
   &:after {
     display: block;
     content: '';
@@ -49,15 +49,17 @@ const Tab = styled.div`
 `
 const TabHeader = styled(Text)`
   font-weight: 300;
-  @media (min-width: 768px) {
-    font-size: 20px;
-  }
+  font-size: 20px;
+  ${media.tablet`
+    font-size: 16px;
+  `};
 `
 const TabIcon = styled(Icon)`
   margin-right: 10px;
-  @media (min-width: 768px) {
-    font-size: ${props => props.size || '20px'};
-  }
+  font-size: ${props => props.size || '20px'};
+  ${media.tablet`
+    font-size: 16px;
+  `};
 `
 
 class TabsContainer extends React.PureComponent {
