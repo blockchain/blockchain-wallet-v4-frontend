@@ -9,7 +9,6 @@ import {
   BlockchainLoader,
   Button,
   Image,
-  ModalBody,
   Text
 } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
@@ -17,12 +16,11 @@ import * as Lockbox from 'services/LockboxService'
 import LockboxAppManager from './template'
 import { Remote } from 'blockchain-wallet-v4'
 
-const Wrapper = styled(ModalBody)`
+const Wrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 18px;
 `
 const ConnectStep = styled.div`
   text-align: center;
@@ -52,7 +50,6 @@ class LockboxAppManagerContainer extends React.PureComponent {
   state = {}
 
   componentDidMount () {
-    // TODO: if not setup mode
     this.props.lockboxActions.initializeAppManager(this.props.deviceIndex)
   }
 
@@ -80,11 +77,6 @@ class LockboxAppManagerContainer extends React.PureComponent {
       }
     })
     this.props.lockboxActions.uninstallApplication(appName)
-  }
-
-  onClose = () => {
-    this.props.lockboxActions.lockboxModalClose()
-    this.props.closeAll()
   }
 
   render () {
@@ -146,6 +138,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
               }}
               coinState={this.state[appName]}
               disableUpdates={disableButtons}
+              requireBtc={this.props.newDevice}
             />
           )
         })
@@ -154,14 +147,11 @@ class LockboxAppManagerContainer extends React.PureComponent {
             {appList}
             <ContinueButton
               disabled={disableButtons}
-              onClick={this.onClose}
+              onClick={this.props.onClose}
               nature='primary'
               fullwidth
             >
-              <FormattedHTMLMessage
-                id='modals.lockbox.appmanager.close'
-                defaultMessage='Close App Manager'
-              />
+              {this.props.mainButtonText()}
             </ContinueButton>
           </React.Fragment>
         )
@@ -169,7 +159,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
       Failure: () => (
         <Text size='16px' weight={300}>
           <FormattedHTMLMessage
-            id='modals.lockbox.appmanager.appfailure'
+            id='components.lockbox.appmanager.appfailure'
             defaultMessage='Failed to load application list. Please try again later.'
           />
         </Text>
@@ -188,7 +178,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
           <ConnectStep>
             <Subtitle size='16px' weight={400} color='gray-4'>
               <FormattedHTMLMessage
-                id='modals.lockbox.appmanager.connectdevice'
+                id='components.lockbox.appmanager.connectdevice'
                 defaultMessage='Connect, unlock and open the Dashboard on your Lockbox device now.'
               />
             </Subtitle>
@@ -203,7 +193,10 @@ class LockboxAppManagerContainer extends React.PureComponent {
 }
 
 LockboxAppManagerContainer.propTypes = {
-  deviceIndex: PropTypes.string.isRequired
+  deviceIndex: PropTypes.string,
+  mainButtonText: PropTypes.func.isRequired,
+  newDevice: PropTypes.bool,
+  onClose: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({

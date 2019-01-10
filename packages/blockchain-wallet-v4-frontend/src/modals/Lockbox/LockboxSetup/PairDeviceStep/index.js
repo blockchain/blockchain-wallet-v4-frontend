@@ -14,6 +14,7 @@ class PairDeviceStepContainer extends React.PureComponent {
   }
 
   onStepChange = requestedStep => {
+    this.props.lockboxActions.resetConnectionStatus()
     this.props.lockboxActions.changeDeviceSetupStep(requestedStep)
   }
 
@@ -31,13 +32,12 @@ class PairDeviceStepContainer extends React.PureComponent {
   }
 
   render () {
-    const { deviceType, done, supportLink } = this.props
+    const { deviceType, supportLink } = this.props
 
     return (
       <PairDeviceStep
         btcOpenTimeout={this.state.btcOpenTimeout}
         deviceType={deviceType}
-        isReady={done}
         onTimeoutAccept={this.onTimeoutAccept}
         onStepChange={this.onStepChange}
         supportLink={supportLink}

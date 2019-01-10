@@ -60,7 +60,6 @@ const PairDeviceStep = props => {
     btcOpenTimeout,
     deviceType,
     invalid,
-    isReady,
     onTimeoutAccept,
     onStepChange,
     supportLink
@@ -209,7 +208,7 @@ const PairDeviceStep = props => {
         </InstallReminderText>
         <ClickableText
           size='11px'
-          onClick={() => onStepChange('app-manager-step')}
+          onClick={() => onStepChange('customize-device')}
         >
           <FormattedHTMLMessage
             id='modals.lockboxsetup.pairdevice.here'
@@ -217,23 +216,11 @@ const PairDeviceStep = props => {
           />
         </ClickableText>
       </TextGroup>
-      <Button
-        fullwidth
-        disabled={!isReady}
-        nature={isReady ? 'primary' : 'dark'}
-        onClick={() => onStepChange('finish-step')}
-      >
-        {isReady ? (
-          <FormattedHTMLMessage
-            id='modals.lockboxsetup.openbtcappstep.success'
-            defaultMessage='Success! Click to Continue'
-          />
-        ) : (
-          <FormattedHTMLMessage
-            id='modals.lockboxsetup.openbtcappstep.waiting'
-            defaultMessage='Waiting...'
-          />
-        )}
+      <Button fullwidth disabled nature='dark'>
+        <FormattedHTMLMessage
+          id='modals.lockboxsetup.openbtcappstep.waiting'
+          defaultMessage='Waiting...'
+        />
       </Button>
     </Wrapper>
   )

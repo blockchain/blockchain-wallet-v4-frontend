@@ -7,8 +7,12 @@ import PropTypes from 'prop-types'
 import FinishSetupStep from './template'
 
 class FinishSetupStepContainer extends React.PureComponent {
-  onFinishSetup = showTour => {
+  componentDidMount () {
     this.props.lockboxActions.saveNewDeviceKvStore()
+  }
+
+  onFinishSetup = showTour => {
+    this.props.lockboxActions.routeNewDeviceToDashboard()
     this.props.onClose()
     if (showTour) {
       // TODO: start tour

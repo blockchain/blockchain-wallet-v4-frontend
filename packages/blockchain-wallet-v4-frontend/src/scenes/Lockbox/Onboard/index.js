@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import { actions } from 'data'
-import Setup from './template.js'
+import Setup from './template'
 
 class OnboardContainer extends React.PureComponent {
   launchLockboxSetup = () => {

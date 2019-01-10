@@ -4,14 +4,12 @@ import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 
-import { Modal, ModalHeader } from 'blockchain-info-components'
+import { Modal, ModalBody, ModalHeader } from 'blockchain-info-components'
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { AppManager } from 'components/Lockbox'
 
 class LockboxAppManagerModal extends React.PureComponent {
-  state = {}
-
   onClose = () => {
     this.props.lockboxActions.lockboxModalClose()
     this.props.closeAll()
@@ -27,7 +25,18 @@ class LockboxAppManagerModal extends React.PureComponent {
             defaultMessage='App Manager'
           />
         </ModalHeader>
-        <AppManager deviceIndex={deviceIndex} />
+        <ModalBody style={{ padding: '18px' }}>
+          <AppManager
+            deviceIndex={deviceIndex}
+            mainButtonText={() => (
+              <FormattedMessage
+                id='modals.lockbox.appmanager.close'
+                defaultMessage='Close App Manager'
+              />
+            )}
+            onClose={this.onClose}
+          />
+        </ModalBody>
       </Modal>
     )
   }

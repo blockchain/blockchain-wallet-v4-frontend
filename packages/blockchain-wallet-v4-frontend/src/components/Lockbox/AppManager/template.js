@@ -1,8 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedHTMLMessage } from 'react-intl'
-
-import { Button, Icon, HeartbeatLoader, Text } from 'blockchain-info-components'
+import { equals, prop } from 'ramda'
+import {
+  Banner,
+  Button,
+  Icon,
+  HeartbeatLoader,
+  Text
+} from 'blockchain-info-components'
 
 const Row = styled.div`
   width: 100%;
@@ -58,6 +64,25 @@ const UninstallButton = styled(Button)`
 const StatusText = styled(Text)`
   margin-right: 8px;
 `
+const RequiredBadge = styled(Banner)`
+  width: 46px;
+  height: 10px;
+  padding: 4px;
+  margin: -2px 0 0 5px;
+  background: none;
+  border: 1px solid ${props => props.theme['brand-primary']};
+  border-radius: 6px;
+  color: ${props => props.theme['brand-primary']};
+  & > :first-child {
+    font-size: 10px;
+  }
+`
+const NameContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 5px;
+`
 const LockboxAppManager = props => {
   const {
     app,
@@ -65,6 +90,7 @@ const LockboxAppManager = props => {
     coinState,
     disableUpdates,
     installApp,
+    requireBtc,
     uninstallApp
   } = props
   const { name, version } = app
@@ -77,12 +103,27 @@ const LockboxAppManager = props => {
           <Icon size='34px' color='white' name={`${coinLower}`} />
         </IconBox>
         <div>
-          <Text size='13px' weight={400} color={'gray-5'}>
-            {name}
-          </Text>
+          <NameContainer>
+            <Text size='14px' weight={400} color={'gray-5'}>
+              {name}
+            </Text>
+            {equals('btc', coinLower) &&
+              requireBtc && (
+                <RequiredBadge
+                  label='true'
+                  type='informational'
+                  style={{ margin: '4px 0' }}
+                >
+                  <FormattedHTMLMessage
+                    id='components.lockbox.appmanager.required'
+                    defaultMessage='Required'
+                  />
+                </RequiredBadge>
+              )}
+          </NameContainer>
           <Text size='11px' weight={300}>
             <FormattedHTMLMessage
-              id='modals.lockbox.appmanager.successmsg'
+              id='components.lockbox.appmanager.successmsg'
               defaultMessage='Version {version}'
               values={{ version }}
             />
@@ -90,7 +131,7 @@ const LockboxAppManager = props => {
         </div>
       </AppDetails>
       {(function () {
-        switch (coinState && coinState.status) {
+        switch (prop('status', coinState)) {
           case 'Updating':
             return (
               <AppActions>
@@ -107,7 +148,7 @@ const LockboxAppManager = props => {
                 <Icon name='alert-filled' color='error' size='34px' />
                 <StatusText weight={400} size='18px'>
                   <FormattedHTMLMessage
-                    id='modals.lockbox.appmanager.error'
+                    id='components.lockbox.appmanager.error'
                     defaultMessage='Error'
                   />
                 </StatusText>
@@ -123,7 +164,7 @@ const LockboxAppManager = props => {
                 />
                 <StatusText weight={400} size='18px'>
                   <FormattedHTMLMessage
-                    id='modals.lockbox.appmanager.success'
+                    id='components.lockbox.appmanager.success'
                     defaultMessage='Success'
                   />
                 </StatusText>
@@ -135,18 +176,18 @@ const LockboxAppManager = props => {
                 <InstallButton
                   nature='empty-secondary'
                   width='80px'
-                  onClick={!disableUpdates && installApp}
+                  onClick={!disableUpdates ? installApp : undefined}
                   disabled={disableUpdates}
                 >
                   <FormattedHTMLMessage
-                    id='modals.lockbox.appmanager.install'
+                    id='components.lockbox.appmanager.install'
                     defaultMessage='Install'
                   />
                 </InstallButton>
                 <UninstallButton
                   nature='empty'
                   width='50px'
-                  onClick={!disableUpdates && uninstallApp}
+                  onClick={!disableUpdates ? uninstallApp : undefined}
                   disabled={disableUpdates}
                 >
                   <Icon name='trash' size='18px' />

@@ -83,9 +83,7 @@ class LockboxSetupContainer extends React.PureComponent {
             defaultMessage='Pair Device'
           />
         ),
-        template: () => (
-          <PairDeviceStep done={currentStep.done} supportLink={supportLink} />
-        )
+        template: () => <PairDeviceStep supportLink={supportLink} />
       },
       'finish-step': {
         title: () => (
@@ -94,7 +92,7 @@ class LockboxSetupContainer extends React.PureComponent {
             defaultMessage='Setup Complete'
           />
         ),
-        template: () => <FinishSetupStep onClose={this.onClose} />
+        template: () => <FinishSetupStep onClose={this.props.closeAll} />
       },
       'error-step': {
         title: () => (
