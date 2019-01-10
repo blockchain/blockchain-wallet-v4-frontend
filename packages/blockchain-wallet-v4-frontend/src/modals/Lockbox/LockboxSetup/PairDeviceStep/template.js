@@ -118,7 +118,7 @@ const PairDeviceStep = props => {
                 <AppManagerLink
                   size='12px'
                   weight={300}
-                  onClick={() => onStepChange('app-manager-step')}
+                  onClick={() => onStepChange('customize-device')}
                 >
                   <FormattedHTMLMessage
                     id='modals.lockboxsetup.pairdevice.timeout.issue2.part2'

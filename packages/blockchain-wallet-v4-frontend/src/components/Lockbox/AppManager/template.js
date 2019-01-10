@@ -16,8 +16,8 @@ const Row = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 8px;
-  margin: 5px 0;
+  padding: 4px;
+  margin: 2px 0;
 `
 const AppDetails = styled.div`
   width: 100%;

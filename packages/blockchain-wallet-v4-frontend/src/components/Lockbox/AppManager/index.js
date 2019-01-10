@@ -39,6 +39,14 @@ const Subtitle = styled(Text)`
   padding: 5px;
   margin-bottom: 10px;
 `
+const AllowManagerText = styled(Text)`
+  margin: -2px 0 14px;
+  text-align: center;
+`
+const BtcRequiredText = styled(Text)`
+  margin: 15px 0 -10px;
+  text-align: center;
+`
 
 const getKeyByValue = value => {
   return Object.keys(Lockbox.constants.supportedApps).find(
@@ -144,7 +152,21 @@ class LockboxAppManagerContainer extends React.PureComponent {
         })
         return (
           <React.Fragment>
+            <AllowManagerText size='14px' weight={300}>
+              <FormattedHTMLMessage
+                id='components.lockbox.appmanager.prompt'
+                defaultMessage='If prompted, be sure to allow the &quot;Device Manager&quot; onto the device during app updates.'
+              />
+            </AllowManagerText>
             {appList}
+            {this.props.newDevice && (
+              <BtcRequiredText size='11px' weight={300}>
+                <FormattedHTMLMessage
+                  id='components.lockbox.appmanager.btcrequired'
+                  defaultMessage='The Bitcoin app is required to pair your device with your Blockchain wallet.'
+                />
+              </BtcRequiredText>
+            )}
             <ContinueButton
               disabled={disableButtons}
               onClick={this.props.onClose}
@@ -169,7 +191,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
           <Loader width='100px' height='100px' />
         </Wrapper>
       ),
-      NotAsked: () => <Loader width='75px' height='75px' />
+      NotAsked: () => {}
     })
 
     return (
