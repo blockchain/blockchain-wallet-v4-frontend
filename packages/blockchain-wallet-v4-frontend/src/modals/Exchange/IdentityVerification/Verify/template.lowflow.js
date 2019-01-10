@@ -4,7 +4,6 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import media from 'services/ResponsiveService'
-
 import { model } from 'data'
 import { map, flip, prop } from 'ramda'
 import { Button } from 'blockchain-info-components'
@@ -12,21 +11,17 @@ import { FooterShadowWrapper } from 'components/Form'
 import {
   BackButton,
   IdentityVerificationForm,
-  ColLeft,
   InputWrapper,
   IdentityVerificationImage,
   IdentityVerificationHeader,
-  IdentityVerificationSubHeader
+  IdentityVerificationSubHeader,
+  Footer
 } from 'components/IdentityVerification'
+import Veriff from '../Veriff'
 
-const Footer = styled.div`
-  width: 60%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`
 const VerifyWrapper = styled.div`
   display: flex;
+  height: 100%;
   flex-direction: row;
   ${media.mobile`
     flex-direction: column;
@@ -71,12 +66,13 @@ const docMap = {
   )
 }
 
-const Verify = ({ handleSubmit, onBack, supportedDocuments }) => (
+const Verify = ({ handleSubmit, onBack, supportedDocuments, showVeriff }) => (
   <IdentityVerificationForm>
     <FooterShadowWrapper
       fields={
         <VerifyWrapper>
-          <ColLeft>
+          {showVeriff && <Veriff />}
+          {!showVeriff && (
             <InputWrapper>
               <IdentityVerificationHeader>
                 <FormattedMessage
@@ -95,23 +91,29 @@ const Verify = ({ handleSubmit, onBack, supportedDocuments }) => (
                 {map(flip(prop)(docMap), supportedDocuments)}
               </DocumentsWrapper>
             </InputWrapper>
-          </ColLeft>
+          )}
         </VerifyWrapper>
       }
       footer={
         <Footer>
-          <BackButton onClick={onBack}>
+          <BackButton data-e2e='lowflowBackButton' onClick={onBack}>
             <FormattedMessage
-              id='identityverification.personal.back'
+              id='identityverification.lowflow.personal.back'
               defaultMessage='Back'
             />
           </BackButton>
-          <Button nature='primary' onClick={handleSubmit}>
-            <FormattedMessage
-              id='identityverification.personal.continue'
-              defaultMessage='Continue'
-            />
-          </Button>
+          {!showVeriff && (
+            <Button
+              nature='primary'
+              data-e2e='lowflowContinueButton'
+              onClick={handleSubmit}
+            >
+              <FormattedMessage
+                id='identityverification.lowflow.personal.continue'
+                defaultMessage='Continue'
+              />
+            </Button>
+          )}
         </Footer>
       }
     />

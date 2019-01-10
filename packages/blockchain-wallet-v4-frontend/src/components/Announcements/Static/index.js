@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { getData } from './selectors'
 import EmailReminder from './template.email'
 import SunRiverKycReminder from './template.sunriver'
@@ -19,6 +19,8 @@ const Wrapper = styled.div`
     display: none;
   `};
 `
+
+const { TIERS } = model.profile
 
 class StaticAnnouncementsContainer extends React.PureComponent {
   state = {}
@@ -73,7 +75,7 @@ const mapDispatchToProps = dispatch => ({
   resendEmail: email =>
     dispatch(actions.modules.securityCenter.resendVerifyEmail(email)),
   verifyIdentity: () =>
-    dispatch(actions.components.identityVerification.verifyIdentity())
+    dispatch(actions.components.identityVerification.verifyIdentity(TIERS[2]))
 })
 
 export default connect(

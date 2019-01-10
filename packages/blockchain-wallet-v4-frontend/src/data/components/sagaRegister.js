@@ -28,6 +28,7 @@ import signMessage from './signMessage/sagaRegister'
 import swapGetStarted from './swapGetStarted/sagaRegister'
 import transactionReport from './transactionReport/sagaRegister'
 import uploadDocuments from './uploadDocuments/sagaRegister'
+import veriff from './veriff/sagaRegister'
 
 export default ({ api, coreSagas, networks, options }) =>
   function*() {
@@ -60,4 +61,5 @@ export default ({ api, coreSagas, networks, options }) =>
     yield fork(swapGetStarted({ coreSagas }))
     yield fork(transactionReport({ coreSagas }))
     yield fork(uploadDocuments({ api }))
+    yield fork(veriff({ api, coreSagas }))
   }

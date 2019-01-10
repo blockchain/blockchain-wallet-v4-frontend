@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { Button, Text } from 'blockchain-info-components'
 
 const Container = styled.div`
@@ -144,11 +144,11 @@ export const ExchangeByBlockchain = ({ kycNotFinished, verifyIdentity }) => (
         </GetStartedButton>
       )}
       {!kycNotFinished && (
-        <LinkContainer to='/exchange'>
+        <LinkContainer to='/swap'>
           <GetStartedButton>
             <FormattedMessage
-              id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.gotoexchange'
-              defaultMessage='Go To Exchange'
+              id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.makeswap'
+              defaultMessage='Make Swap'
             />
           </GetStartedButton>
         </LinkContainer>
@@ -159,7 +159,11 @@ export const ExchangeByBlockchain = ({ kycNotFinished, verifyIdentity }) => (
 
 const mapDispatchToProps = dispatch => ({
   verifyIdentity: () =>
-    dispatch(actions.components.identityVerification.verifyIdentity())
+    dispatch(
+      actions.components.identityVerification.verifyIdentity(
+        model.profile.TIERS[2]
+      )
+    )
 })
 
 export default connect(

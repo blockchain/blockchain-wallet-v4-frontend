@@ -19,9 +19,6 @@ class WalletLayoutContainer extends React.PureComponent {
       path,
       computedMatch,
       component: Component,
-      kvStoreWhatsNewActions,
-      kvStoreShapeshiftActions,
-      kvStoreBuySellActions,
       ...rest
     } = this.props
 

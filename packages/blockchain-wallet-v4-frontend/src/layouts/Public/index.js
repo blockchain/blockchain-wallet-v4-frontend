@@ -12,7 +12,7 @@ import { isOnDotInfo } from 'services/MigrationService'
 
 injectGlobal`
   html, body, #app, #app > div {padding: 0; margin: 0; height: 100%;}
-  body {overflow: hidden;}
+  html, body {overflow: hidden;}
 `
 
 const defaultDomains = {

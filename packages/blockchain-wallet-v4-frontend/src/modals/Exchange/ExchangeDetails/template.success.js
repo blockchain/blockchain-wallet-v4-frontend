@@ -213,7 +213,7 @@ const ExchangeDetails = props => {
       <ModalFooter align='right'>
         <Button nature='primary' size='13px' weight={300} onClick={close}>
           <FormattedMessage
-            id='modals.exchangedetails.close'
+            id='modals.exchange.exchangedetails.close'
             defaultMessage='Close'
           />
         </Button>

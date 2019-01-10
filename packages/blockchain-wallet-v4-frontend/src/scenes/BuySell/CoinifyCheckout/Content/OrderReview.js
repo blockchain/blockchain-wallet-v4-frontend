@@ -61,14 +61,14 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
           {type === 'buy' ? (
             <Text size='13px' weight={300}>
               <FormattedMessage
-                id='orderdetails.amounttopurchase'
+                id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.amounttopurchase'
                 defaultMessage='BTC Amount to Purchase'
               />
             </Text>
           ) : (
             <Text size='13px' weight={300}>
               <FormattedMessage
-                id='orderdetails.amounttosell'
+                id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.amounttosell'
                 defaultMessage='BTC Amount to Sell'
               />
             </Text>
@@ -81,7 +81,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
           <OrderDetailsRow short noBorderBottom>
             <Text size='13px' weight={300}>
               <FormattedMessage
-                id='orderdetails.btctransactionfee'
+                id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.btctransactionfee'
                 defaultMessage='BTC Transaction Fee'
               />
             </Text>
@@ -98,7 +98,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
           <OrderDetailsRow short>
             <Text size='13px' weight={300}>
               <FormattedMessage
-                id='orderdetails.btctobereceived'
+                id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.btctobereceived'
                 defaultMessage='BTC to be Received'
               />
             </Text>
@@ -113,7 +113,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
         <OrderDetailsRow short noBorderBottom>
           <Text size='13px' weight={300}>
             <FormattedMessage
-              id='orderdetails.amount'
+              id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.amount'
               defaultMessage='Amount'
             />
           </Text>
@@ -124,7 +124,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
         <OrderDetailsRow short noBorderBottom>
           <Text size='13px' weight={300}>
             <FormattedMessage
-              id='orderdetails.tradingfee'
+              id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.tradingfee'
               defaultMessage='Trading Fee'
             />
           </Text>
@@ -138,14 +138,14 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
           {type === 'buy' ? (
             <Text size='13px' weight={400}>
               <FormattedMessage
-                id='orderdetails.totalcost'
+                id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.totalcost'
                 defaultMessage='Total Cost'
               />
             </Text>
           ) : (
             <Text size='13px' weight={400} color='success'>
               <FormattedMessage
-                id='orderdetails.totaltobereceived'
+                id='scenes.buysell.coinifycheckout.content.orderreview.orderdetails.totaltobereceived'
                 defaultMessage='Total to be Received'
               />
             </Text>
@@ -232,7 +232,7 @@ const faqQuestions = [
               rel='noreferrer noopener'
             >
               <FormattedMessage
-                id='privacypolicy'
+                id='coinifyexchangedata.cyo.helper3.privacypolicy'
                 defaultMessage='Privacy Policy'
               />
             </Link>
@@ -246,7 +246,7 @@ const faqQuestions = [
               weight={300}
             >
               <FormattedMessage
-                id='contactsupport'
+                id='coinifyexchangedata.cyo.contactsupport'
                 defaultMessage='contact support'
               />
             </Link>
@@ -290,7 +290,10 @@ export const OrderSubmit = props => {
           </Text>
           <span>
             <StepTransition restart Component={Link} weight={300} size='13px'>
-              <FormattedMessage id='try_again' defaultMessage='Try again' />
+              <FormattedMessage
+                id='scenes.buysell.orderreview.try_again'
+                defaultMessage='Try again'
+              />
             </StepTransition>
           </span>
         </div>

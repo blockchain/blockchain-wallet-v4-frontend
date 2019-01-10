@@ -1,13 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Icon, Link } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import * as bowser from 'bowser'
+
+import { Icon, Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { FormattedMessage } from 'react-intl'
 
 const Wrapper = styled.div`
   display: flex;
-  opacity: 1;
   padding: 15px;
   max-width: 200px;
   margin-right: 25px;
@@ -19,9 +20,9 @@ const Wrapper = styled.div`
   background-color: ${props => props.theme['white-blue']};
   box-shadow: ${props =>
     props.isActive ? '0px 5px 30px 0px rgba(0,0,0,0.1)' : 'none'};
-  cursor: pointer;
+  cursor: ${props => (props.disableClick ? 'not-allowed' : 'pointer')};
   * {
-    cursor: pointer;
+    cursor: ${props => (props.disableClick ? 'not-allowed' : 'pointer')};
   }
 `
 const IconBox = styled.div`
@@ -35,6 +36,7 @@ const Balance = styled.div`
     margin-bottom: 3px;
   }
 `
+const isBrowserChrome = bowser.name === 'Chrome' || bowser.name === 'Chromium'
 
 export const CurrencyItem = props => {
   return (
@@ -42,6 +44,7 @@ export const CurrencyItem = props => {
       onClick={props.onClick}
       isActive={props.isActive}
       isInactive={props.isInactive}
+      disableClick={props.disableClick}
     >
       <IconBox coin={props.coin}>
         <Icon size='32px' color='white' name={props.icon} />
@@ -55,14 +58,22 @@ export const CurrencyItem = props => {
             {props.balance}
           </CoinDisplay>
         </Balance>
-      ) : (
+      ) : isBrowserChrome ? (
         <Link size='12px' weight={300}>
           <FormattedMessage
-            id='components.balances.savecoin'
-            defaultMessage='Click here to add {coin} to your Blockchain Wallet'
+            id='components.balances.savecointolockbox'
+            defaultMessage='Click here to add {coin} to your Lockbox'
             values={{ coin: props.coin.toUpperCase() }}
           />
         </Link>
+      ) : (
+        <Text size='12px' weight={300}>
+          <FormattedMessage
+            id='components.balances.savecointolockboxbrowser'
+            defaultMessage='Use the Chrome browser to add {coin} to your Lockbox'
+            values={{ coin: props.coin.toUpperCase() }}
+          />
+        </Text>
       )}
     </Wrapper>
   )

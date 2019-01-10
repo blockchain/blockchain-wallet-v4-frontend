@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import QRCodeReact from 'qrcode.react'
+import QRCodeWrapper from 'components/QRCodeWrapper'
 
 import { required } from 'services/FormHelper'
 import {
@@ -52,6 +52,7 @@ const BannerContainer = styled.div`
 `
 
 const RequestXlm = ({
+  excludeLockbox,
   handleSubmit,
   handleOpenLockbox,
   address,
@@ -77,7 +78,7 @@ const RequestXlm = ({
       <FormItem>
         <FormLabel for='to'>
           <FormattedMessage
-            id='modals.requestbitcoin.firststep.to'
+            id='modals.requestxlm.firststep.to'
             defaultMessage='Receive to:'
           />
         </FormLabel>
@@ -86,6 +87,7 @@ const RequestXlm = ({
           component={SelectBoxXlmAddresses}
           includeAll={false}
           validate={[required]}
+          excludeLockbox
         />
       </FormItem>
     </FormGroup>
@@ -102,7 +104,7 @@ const RequestXlm = ({
         </FormLabel>
       </FormItem>
       <AddressContainer>
-        <CopyClipboard address={address} />
+        <CopyClipboard address={address} data-e2e='requestXlm' />
       </AddressContainer>
     </FormGroup>
     {type === 'LOCKBOX' && (
@@ -132,9 +134,14 @@ const RequestXlm = ({
           </TooltipHost>
         </Text>
       </ScanMessage>
-      <QRCodeReact value={xlmURI} size={150} />
+      <QRCodeWrapper value={xlmURI} size={150} />
     </QRCodeContainer>
-    <Button type='submit' nature='primary' fullwidth>
+    <Button
+      type='submit'
+      nature='primary'
+      fullwidth
+      data-e2e='requestXlmDoneButton'
+    >
       <FormattedMessage id='modals.requestxlm.done' defaultMessage='Done' />
     </Button>
   </Form>

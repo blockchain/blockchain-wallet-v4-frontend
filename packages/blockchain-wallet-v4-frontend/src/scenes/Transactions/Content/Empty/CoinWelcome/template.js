@@ -90,8 +90,8 @@ const Welcome = props => {
           </Text>
           <Content weight={300}>
             <FormattedMessage
-              id='scenes.transaction.content.empty.sendreqexchange'
-              defaultMessage='Send, Request and Exchange {coinName} ({coin}) directly from your Blockchain Wallet.'
+              id='scenes.transaction.content.empty.sendreqswap'
+              defaultMessage='Send, Request and Swap {coinName} ({coin}) directly from your Blockchain Wallet.'
               values={{ coinName: coinProps[coin].name, coin }}
             />
           </Content>
@@ -126,7 +126,7 @@ const Welcome = props => {
             )}
             <LinkContainer
               to={{
-                pathname: '/exchange',
+                pathname: '/swap',
                 state: { from: coin === 'BTC' ? 'ETH' : 'BTC', to: coin }
               }}
             >
@@ -136,8 +136,8 @@ const Welcome = props => {
                 disabled={!availability.exchange}
               >
                 <FormattedMessage
-                  id='scenes.transaction.content.empty.getstarted.exchange'
-                  defaultMessage='Exchange {coin}'
+                  id='scenes.transaction.content.empty.getstarted.swap'
+                  defaultMessage='Swap {coin}'
                   values={{ coin }}
                 />
               </Button>
@@ -156,14 +156,14 @@ const Welcome = props => {
         <LearnMoreContainer href={coinProps[coin].link} target='_blank'>
           <Text size='15px'>
             <FormattedMessage
-              id='scenes.transactions.content.empty.explanation'
+              id='scenes.transaction.content.empty.getstarted.explanation'
               defaultMessage="We've put together a page explaining all of this."
             />
           </Text>
           <LearnMoreLink>
             <LearnMoreText size='15px'>
               <FormattedMessage
-                id='scenes.transactions.content.empty.learnmore'
+                id='scenes.transaction.content.empty.getstarted.learnmore'
                 defaultMessage='Learn More'
               />
             </LearnMoreText>

@@ -45,15 +45,22 @@ const InputsWrapper = styled.div`
   display: flex;
   flex-direction: row;
   ${media.mobile`
+    flex-direction: column;
     width: 100%;
-    margin-top: 24px;
   `};
 `
 const InputWrapper = styled(LabelWrapper)`
   width: 50%;
-  & :first-child {
+  &:first-child {
     margin-right: 15px;
   }
+  ${media.mobile`
+    &:first-child {
+      margin-right: 0;
+    }
+    margin-top: 16px;
+    width: 100%;
+  `};
 `
 const Error = styled(Text)`
   position: absolute;
@@ -151,7 +158,7 @@ class DateInputBox extends React.PureComponent {
               <NumberBox
                 placeholder={intl.formatMessage({
                   id: 'components.DateInputBox.placeholder.day',
-                  defaultMessage: 'Date (DD)'
+                  defaultMessage: 'Day'
                 })}
                 input={{
                   name: 'date',
@@ -167,7 +174,7 @@ class DateInputBox extends React.PureComponent {
               <NumberBox
                 placeholder={intl.formatMessage({
                   id: 'components.DateInputBox.placeholder.year',
-                  defaultMessage: 'Year (YYYY)'
+                  defaultMessage: 'Year'
                 })}
                 input={{
                   name: 'year',

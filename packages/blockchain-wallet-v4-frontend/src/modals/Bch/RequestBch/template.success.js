@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import QRCodeReact from 'qrcode.react'
+import QRCodeWrapper from 'components/QRCodeWrapper'
 
 import { required } from 'services/FormHelper'
 import {
@@ -59,7 +59,8 @@ const RequestBch = props => {
     receiveAddress,
     handleOpenLockbox,
     legacyAddress,
-    type
+    type,
+    excludeLockbox
   } = props
 
   return (
@@ -82,7 +83,7 @@ const RequestBch = props => {
         <FormItem>
           <FormLabel for='to'>
             <FormattedMessage
-              id='modals.requestbitcoin.firststep.to'
+              id='modals.requestbch.firststep.to'
               defaultMessage='Receive to:'
             />
           </FormLabel>
@@ -90,6 +91,7 @@ const RequestBch = props => {
             name='to'
             coin='BCH'
             component={SelectBoxBchAddresses}
+            excludeLockbox={excludeLockbox}
             includeAll={false}
             validate={[required]}
           />
@@ -139,7 +141,7 @@ const RequestBch = props => {
             </TooltipHost>
           </Text>
         </ScanMessage>
-        <QRCodeReact value={receiveAddress} size={150} />
+        <QRCodeWrapper value={receiveAddress} size={150} />
       </QRCodeContainer>
       <Button
         type='submit'

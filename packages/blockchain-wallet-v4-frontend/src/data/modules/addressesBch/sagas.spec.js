@@ -1,6 +1,6 @@
 import addressesBchSagas from './sagas'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
-import { createMockState, walletV3 } from 'blockchain-wallet-v4/data'
+import { createMockWalletState, walletV3 } from 'blockchain-wallet-v4/data'
 import Bitcoin from 'bitcoinjs-lib'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
@@ -14,7 +14,7 @@ describe('addressesBchSagas', () => {
       networks
     })
 
-    let mockState = createMockState(walletV3)
+    let mockState = createMockWalletState(walletV3)
 
     it('should select the minimum amount of change addresses', () => {
       expect(selectChangeAddresses(0, 1, 100, mockState)).toEqual([
