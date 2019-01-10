@@ -28,15 +28,15 @@ class WhatsNewContainer extends React.PureComponent {
     this.props.kvStoreWhatsNewActions.updateMetadataWhatsNew(Date.now())
   }
   render () {
-    const { latestAnnouncements } = this.props
+    const { announcements } = this.props
     return (
       <Wrapper>
         <Container>
-          {
-            !prop('length', latestAnnouncements)
-              ? <EmptyContent />
-              : latestAnnouncements.map(prop('content'))
-          }
+          {!prop('length', announcements) ? (
+            <EmptyContent />
+          ) : (
+            announcements.map(prop('content'))
+          )}
         </Container>
       </Wrapper>
     )
@@ -44,7 +44,10 @@ class WhatsNewContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  kvStoreWhatsNewActions: bindActionCreators(actions.core.kvStore.whatsNew, dispatch)
+  kvStoreWhatsNewActions: bindActionCreators(
+    actions.core.kvStore.whatsNew,
+    dispatch
+  )
 })
 
 export default connect(
