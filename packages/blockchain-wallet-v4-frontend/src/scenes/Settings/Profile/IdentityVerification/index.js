@@ -2,7 +2,12 @@ import React from 'react'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Media, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import {
+  Media,
+  Text,
+  TooltipHost,
+  TooltipIcon
+} from 'blockchain-info-components'
 import TierCard from 'components/IdentityVerification/TierCard'
 
 const Wrapper = styled.div`
@@ -16,17 +21,15 @@ const Wrapper = styled.div`
 `
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: flex-start;
   width: 100%;
   height: auto;
-
-  @media (min-width: 1024px) {
-    flex-direction: row;
-    justify-content: flex-start;
-    width: 100%;
-  }
+  flex-direction: row;
+  justify-content: flex-start;
+  ${Media.laptop`
+    flex-direction: column;
+    justify-content: center;
+  `};
 `
 const Column = styled.div`
   display: flex;

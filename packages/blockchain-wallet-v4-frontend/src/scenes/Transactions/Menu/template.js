@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form'
 import { contains, flatten, prop } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { model } from 'data'
-import { ComponentDropdown, Icon, Link, Text } from 'blockchain-info-components'
+import { ComponentDropdown, Media, Icon, Link, Text } from 'blockchain-info-components'
 import {
   SelectBoxBtcAddresses,
   SelectBoxBchAddresses,
@@ -27,6 +27,9 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  ${Media.mobile`
+    flex-direction: column;
+  `};
 `
 const Controls = styled.div`
   position: relative;
@@ -43,14 +46,18 @@ const Controls = styled.div`
   & button {
     border: 1px solid ${props => props.theme['gray-2']}!important;
   }
+  ${Media.mobile`
+    flex-direction: column;
+    width: 100%;
+  `};
 `
 const Addresses = styled.div`
-  width: 100%;
+  width: 300px;
   margin-left: 0;
   margin-right: 15px;
-  @media (min-width: 1200px) {
-    width: 300px;
-  }
+  ${Media.laptop`
+    width: 100%;
+  `};
 `
 const Status = styled.div`
   width: 100%;
@@ -64,10 +71,13 @@ const Search = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  width: auto;
-  @media (min-width: 900px) {
-    width: 300px;
-  }
+  width: 300px;
+  ${Media.laptop`
+    width: 100%;
+  `};
+  ${Media.mobile`
+    margin-top: 25px;
+  `};
 `
 const EthPrivateKeysWrapper = styled.div`
   display: flex;

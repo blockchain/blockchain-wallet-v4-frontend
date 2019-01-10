@@ -6,6 +6,7 @@ import {
   Button,
   Image,
   Link,
+  Media,
   Modal,
   ModalHeader,
   ModalBody,
@@ -16,15 +17,14 @@ import {
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-around;
   align-items: center;
   padding: 20px 0;
   box-sizing: border-box;
-
-  @media (min-width: 540px) {
-    flex-direction: row;
-  }
+  ${Media.mobile`
+    flex-direction: column;
+  `};
 `
 const Container = styled.div`
   position: relative;
@@ -33,7 +33,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   background-color: ${props => props.theme['white']};
-  width: 100%;
+  width: 30%;
   cursor: pointer;
   text-align: center;
 
@@ -46,10 +46,9 @@ const Container = styled.div`
   &:hover {
     background-color: ${props => props.theme['gray-1']};
   }
-
-  @media (min-width: 540px) {
-    width: 30%;
-  }
+  ${Media.mobile`
+    width: 100%;
+  `};
 `
 
 const TwoStepSetup = props => {

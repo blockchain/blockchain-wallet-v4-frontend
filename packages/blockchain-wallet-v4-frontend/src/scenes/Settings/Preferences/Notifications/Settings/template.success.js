@@ -4,18 +4,17 @@ import styled from 'styled-components'
 import { reduxForm, Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
+import { Media, Text } from 'blockchain-info-components'
 import { CheckBox } from 'components/Form'
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
-  @media (min-width: 992px) {
-    align-items: flex-end;
-  }
-
+  align-items: flex-end;
+  ${Media.laptop`
+    align-items: flex-start;
+  `};
   & > * {
     padding: 10px 0;
   }
