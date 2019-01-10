@@ -5,10 +5,10 @@ import { FormattedMessage } from 'react-intl'
 import Dropzone from 'react-dropzone'
 import { FasIdBadge, FasIdCard, FasPassport } from '@blockchain-com/components'
 import { prop } from 'ramda'
-import media from 'services/ResponsiveService'
 import {
   Button,
   HeartbeatLoader,
+  Media,
   Link,
   Text,
   TextGroup
@@ -85,7 +85,7 @@ const Wrapper = styled.div`
   padding: 35px;
   box-sizing: border-box;
   background-color: ${props => props.theme['white-blue']};
-  ${media.tablet`
+  ${Media.tablet`
     flex-direction: column;
   `};
 `

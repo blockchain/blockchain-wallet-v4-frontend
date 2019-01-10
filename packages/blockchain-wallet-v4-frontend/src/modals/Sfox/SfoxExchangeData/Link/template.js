@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Link, Media, Text } from 'blockchain-info-components'
 import BankAccounts from './BankAccounts'
 import AddManually from './AddManually'
 import MicroDeposits from './MicroDeposits'
@@ -18,14 +18,13 @@ import {
   PartnerSubHeader,
   ColRightInner
 } from 'components/IdentityVerification'
-import media from 'services/ResponsiveService'
 import { equals } from 'ramda'
 
 const Form = styled.form`
   width: 100%;
   display: flex;
   flex-direction: row;
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
   `};
 `
@@ -33,7 +32,7 @@ const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 75%;
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
   `};
 `
@@ -42,7 +41,7 @@ const ButtonContainer = styled.div`
   flex-direction: column;
   width: 75%;
   margin-top: 20px;
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
     button:last-of-type {
       margin-bottom: 20px;

@@ -2,9 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import media from 'services/ResponsiveService'
 
-import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
+import { Button, Icon, Image, Link, Text, Media } from 'blockchain-info-components'
 import { coinProps } from './model'
 
 const Wrapper = styled.div`
@@ -19,7 +18,7 @@ const Container = styled.div`
   box-sizing: border-box;
   border-radius: 3px;
   border: 1px solid ${props => props.theme['brand-quaternary']};
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
     width: 100%;
   `};
@@ -27,7 +26,7 @@ const Container = styled.div`
 const Row = styled.div`
   width: 50%;
   padding: 25px;
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
     box-sizing: border-box;
   `};
@@ -42,7 +41,7 @@ const CoinRow = styled.div`
   position: relative;
   align-items: center;
   justify-content: center;
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
   `};
 `

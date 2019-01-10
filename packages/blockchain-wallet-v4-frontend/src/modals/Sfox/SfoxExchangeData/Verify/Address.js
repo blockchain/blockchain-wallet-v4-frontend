@@ -7,7 +7,8 @@ import {
   Text,
   Button,
   HeartbeatLoader,
-  Banner
+  Banner,
+  Media
 } from 'blockchain-info-components'
 
 import {
@@ -24,7 +25,6 @@ import {
   PartnerSubHeader,
   ColRightInner
 } from 'components/IdentityVerification'
-import media from 'services/ResponsiveService'
 
 const FormContainer = styled.div`
   margin-top: 25px;
@@ -42,12 +42,12 @@ const BannerWrapper = styled.div`
   margin-top: 10px;
 `
 const AddressForm = styled(Form)`
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
   `};
 `
 const AddressFormGroup = styled(FormGroup)`
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
     div:first-of-type {
       margin-bottom: 10px;

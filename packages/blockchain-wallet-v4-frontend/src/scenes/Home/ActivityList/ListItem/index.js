@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import media from 'services/ResponsiveService'
 import {
   Icon,
+  Media,
   SkeletonCircle,
   Text,
   TooltipHost
@@ -64,7 +64,7 @@ const Info = styled.div`
 const RecentActivityText = styled(Text)`
   font-weight: 300;
   font-size: 14px;
-  ${media.mobile`
+  ${Media.mobile`
     font-size: 12px;
   `};
 `

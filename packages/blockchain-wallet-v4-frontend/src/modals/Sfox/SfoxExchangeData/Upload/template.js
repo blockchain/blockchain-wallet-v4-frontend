@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Text, Button, Link } from 'blockchain-info-components'
+import { Text, Media, Button, Link } from 'blockchain-info-components'
 import { flex } from 'services/StyleService'
 import Dropzone from 'react-dropzone'
 
@@ -15,8 +15,6 @@ import {
   ColLeftInner,
   PartnerHeader
 } from 'components/IdentityVerification'
-
-import media from 'services/ResponsiveService'
 
 const InputContainer = styled.div``
 
@@ -80,13 +78,13 @@ const CameraLink = styled(Link)`
   margin-top: 15px;
 `
 const UploadRow = styled(Row)`
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
     height: 130vh;
   `};
 `
 const UploadColLeftInner = styled(ColLeftInner)`
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
   `};
 `

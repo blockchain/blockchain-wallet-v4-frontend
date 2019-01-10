@@ -2,11 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
+import { Media, Text } from 'blockchain-info-components'
 import Chart from './Chart'
 import CoinFilters from './CoinFilters'
 import TimeFilters from './TimeFilters'
-import media from 'services/ResponsiveService'
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -31,7 +31,7 @@ const Row = styled.div`
 const TitleRow = styled(Row)`
   display: flex;
   flex-direction: row;
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
   `};
 `
@@ -39,7 +39,7 @@ const TitleText = styled(Text)`
   font-weight: 300;
   font-size: 24px;
   margin: 0;
-  ${media.mobile`
+  ${Media.mobile`
     font-size: 22px;
     margin-bottom: 10px;
   `};

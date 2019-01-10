@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Text, Button, Link } from 'blockchain-info-components'
+import { Media, Text, Button, Link } from 'blockchain-info-components'
 import styled, { keyframes } from 'styled-components'
 import { reduxForm } from 'redux-form'
 import {
@@ -20,7 +20,6 @@ import SmsAuth from './SMS'
 import { pulse } from 'react-animations'
 import Choices from './Choices'
 import { spacing } from 'services/StyleService'
-import media from 'services/ResponsiveService'
 
 const pulseAnimation = keyframes`${pulse}`
 
@@ -34,7 +33,7 @@ const SecurityTwoStepContainer = SecurityContainer.extend`
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
   grid-template-columns: 85% 15%;
-  ${media.mobile`
+  ${Media.mobile`
     padding: 0px;
   `};
 `

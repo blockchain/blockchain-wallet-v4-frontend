@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Text } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
+import { Media, Text } from 'blockchain-info-components'
 import Empty from './Empty'
 import ListItem from './ListItem'
 
@@ -25,7 +24,7 @@ const Wrapper = styled.div`
   @media (max-height: 800px) {
     margin-bottom: 30px;
   }
-  ${media.laptop`
+  ${Media.laptop`
     margin-bottom: 0;
   `};
 `

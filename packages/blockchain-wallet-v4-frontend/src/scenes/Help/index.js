@@ -2,15 +2,14 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import media from 'services/ResponsiveService'
-import { Button, Link, Separator, Text } from 'blockchain-info-components'
+import { Button, Link, Media, Separator, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   padding: 40px;
   box-sizing: border-box;
   background-color: ${props => props.theme['white']};
   width: 550px;
-  ${media.tablet`
+  ${Media.tablet`
     width: 100%;
   `};
 `

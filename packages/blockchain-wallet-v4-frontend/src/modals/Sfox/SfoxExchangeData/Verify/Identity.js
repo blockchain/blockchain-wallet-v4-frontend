@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { FormGroup, FormItem, TextBox, PasswordBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
-import { Button, HeartbeatLoader, Text, Link } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Text, Link, Media } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
 
 import {
@@ -23,7 +23,6 @@ import {
   ErrorWrapper,
   ColRightInner
 } from 'components/IdentityVerification'
-import media from 'services/ResponsiveService'
 
 const FormContainer = styled.div`
   margin-top: 25px;
@@ -34,7 +33,7 @@ const IconHeader = styled(PartnerHeader)`
   margin-bottom: 12px;
 `
 const IdentityForm = styled(Form)`
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
     div:last-of-type {
       margin-bottom: 15px;

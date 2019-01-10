@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import styled from 'styled-components'
 import { reduxForm } from 'redux-form'
-import { Button, Text } from 'blockchain-info-components'
+import { Button, Media, Text } from 'blockchain-info-components'
 import {
   SecurityComponent,
   SecurityContainer,
@@ -14,7 +14,6 @@ import {
 } from 'components/Security'
 
 import ChangeEmailSteps from './ChangeEmailSteps'
-import media from 'services/ResponsiveService'
 
 const EmailExplanation = styled.div``
 const ChangeEmailText = styled(Text)`
@@ -56,25 +55,25 @@ const IconAndHeaderContainer = styled.div`
   opacity: ${props => (props.success ? 0.3 : 1)};
   display: grid;
   grid-template-columns: 15% 85%;
-  ${media.mobile`
+  ${Media.mobile`
     display: flex;
   `};
 `
 const GridContainer = styled(SecurityContainer)`
   grid-template-columns: 85% 15%;
-  ${media.mobile`
+  ${Media.mobile`
     padding: 0px;
   `};
 `
 const FieldsContainer = styled.div`
   display: grid;
   grid-template-columns: 15% 85%;
-  ${media.mobile`
+  ${Media.mobile`
     display: flex;
   `};
 `
 const EmailSecuritySummary = styled(SecuritySummary)`
-  ${media.mobile`
+  ${Media.mobile`
     display: inline;
   `};
 `

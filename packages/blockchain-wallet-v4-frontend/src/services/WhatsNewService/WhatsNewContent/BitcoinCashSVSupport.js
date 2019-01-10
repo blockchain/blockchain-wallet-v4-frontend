@@ -2,9 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Button, Text } from 'blockchain-info-components'
+import { Button, Media, Text } from 'blockchain-info-components'
 import { Container, Row } from 'components/WhatsNew'
-import media from 'services/ResponsiveService'
 
 const DarkText = styled(Text).attrs({
   color: 'gray-5',
@@ -12,7 +11,7 @@ const DarkText = styled(Text).attrs({
   weight: 300
 })`
   display: inline;
-  ${media.laptop`
+  ${Media.laptop`
     display: ${props => (props.hideOnMobile ? 'none' : 'inline')};
   `};
 `
@@ -21,7 +20,7 @@ const GetStartedButton = styled(Button).attrs({
   fullwidth: true
 })`
   font-weight: 500;
-  ${media.laptop`
+  ${Media.laptop`
     width: 100%;
   `};
 `

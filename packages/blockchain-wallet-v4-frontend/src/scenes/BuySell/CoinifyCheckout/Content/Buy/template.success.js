@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { contains, path, prop } from 'ramda'
 
-import { Button } from 'blockchain-info-components'
+import { Button, Media } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -15,13 +15,12 @@ import ISignThis from 'modals/Coinify/CoinifyExchangeData/ISignThis'
 import KYCNotification from '../KYCNotification'
 import NextSubscription from '../NextSubscription'
 import BankTransferDetails from 'components/BuySell/BankTransferDetails'
-import media from 'services/ResponsiveService'
 
 const CheckoutWrapper = styled.div`
   display: grid;
   grid-template-columns: 55% 40%;
   grid-gap: 5%;
-  ${media.mobile`
+  ${Media.mobile`
     display: flex;
     flex-direction: column;
   `};

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import media from 'services/ResponsiveService'
+import { Media } from 'blockchain-info-components'
 import Tabs from './Tabs'
 import Table from './Table'
 
@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-1']};
-  ${media.mobile`
+  ${Media.mobile`
     height: 400px;
   `}
 `

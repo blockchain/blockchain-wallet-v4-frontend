@@ -5,10 +5,9 @@ import { Field } from 'redux-form'
 import { contains, head, last } from 'ramda'
 
 import { model } from 'data'
-import media from 'services/ResponsiveService'
 import { formatTextAmount } from 'services/ValidationHelper'
 
-import { Banner, Icon, Text } from 'blockchain-info-components'
+import { Banner, Icon, Media, Text } from 'blockchain-info-components'
 import { Form, AutosizeTextBox } from 'components/Form'
 import { ResizeableFontInputHOC } from 'components/ResizeableFontInputHOC'
 import { Wrapper as BorderWrapper, Title, Note } from 'components/Exchange'
@@ -34,7 +33,7 @@ const Wrapper = styled.div`
   width: 100%;
   box-sizing: border-box;
 
-  ${media.mobile`
+  ${Media.mobile`
     border: 0px;
     padding: 0;
     flex-direction: column;
@@ -46,7 +45,7 @@ const ColumnLeft = styled.div`
   max-width: 450px;
   width: 60%;
   border-radius: 8px;
-  ${media.mobile`
+  ${Media.mobile`
     margin-right: 0;
     margin-bottom: 20px;
     width: 100%;

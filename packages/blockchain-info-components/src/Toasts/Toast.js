@@ -2,14 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { transparentize, darken } from 'polished'
-import { media } from '../MediaSizes'
+import { Media } from '../MediaSizes'
 import { Icon } from '../Icons'
 
 const Wrapper = styled.div`
   height: 65px;
   background-color: ${props => props.theme['white']};
   width: 500px;
-  ${media.tablet`
+  ${Media.tablet`
     width: 100%;
   `};
 `
@@ -46,7 +46,7 @@ const Content = styled.div`
     text-transform: uppercase;
     display: none;
   }
-  ${media.tablet`
+  ${Media.tablet`
     display: flex;
   `};
 `

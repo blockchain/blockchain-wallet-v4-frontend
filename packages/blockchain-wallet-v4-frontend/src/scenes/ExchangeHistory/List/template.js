@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl'
 
 import {
   HeartbeatLoader,
+  Media,
   Table,
   TableCell,
   TableRow,
@@ -14,7 +15,6 @@ import {
 import { spacing } from 'services/StyleService'
 import TradeItem from './TradeItem'
 import LazyLoadContainer from 'components/LazyLoadContainer'
-import media from 'services/ResponsiveService'
 
 const LazyLoadWrapper = styled(LazyLoadContainer)`
   display: flex;
@@ -25,7 +25,7 @@ const LazyLoadWrapper = styled(LazyLoadContainer)`
   padding: 30px;
   box-sizing: border-box;
 
-  ${media.mobile`
+  ${Media.mobile`
     padding: 10px
   `};
 `

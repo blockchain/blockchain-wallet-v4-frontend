@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import media from 'services/ResponsiveService'
 import {
   Button,
   Icon,
+  Media,
   Modal,
   ModalHeader,
   ModalBody,
@@ -27,7 +27,7 @@ const ErrorDetails = styled.details`
   ::-webkit-scrollbar {
     display: none;
   }
-  ${media.tablet`
+  ${Media.tablet`
     max-height: 200px;
   `};
   > summary {

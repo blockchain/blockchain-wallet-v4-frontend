@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import { Text, Button } from 'blockchain-info-components'
+import { Text, Button, Media } from 'blockchain-info-components'
 import {
   kycHeaderHelper,
   kycNotificationBodyHelper,
@@ -9,7 +9,6 @@ import {
 } from 'services/CoinifyService'
 import { spacing } from 'services/StyleService'
 import { path } from 'ramda'
-import media from 'services/ResponsiveService'
 
 const ISXContainer = styled.div`
   display: flex;
@@ -25,7 +24,7 @@ const LimitsNotice = styled.div`
   background-color: #ffe6b4;
   padding: 12px 15px;
   margin-bottom: 20px;
-  ${media.mobile`
+  ${Media.mobile`
     margin: 10px 0px;
   `};
 `

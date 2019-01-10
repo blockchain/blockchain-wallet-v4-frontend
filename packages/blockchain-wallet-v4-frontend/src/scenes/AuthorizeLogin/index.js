@@ -7,13 +7,14 @@ import { bindActionCreators } from 'redux'
 import Loading from './template.loading'
 import Success from './template.success'
 import Error from './template.error'
-import media from 'services/ResponsiveService'
+import { Media } from 'blockchain-info-components'
+
 const Wrapper = styled.div`
   padding: 35px;
   box-sizing: border-box;
   background-color: ${props => props.theme['white']};
   width: 550px;
-  ${media.tablet`
+  ${Media.tablet`
     width: 100%;
   `};
 `

@@ -4,13 +4,13 @@ import styled from 'styled-components'
 
 import {
   Icon,
+  Media,
   Text,
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
 import { LinkContainer } from 'react-router-bootstrap'
 import TierCard from 'components/IdentityVerification/TierCard'
-import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
@@ -80,7 +80,7 @@ const TierWrapper = styled.div`
   flex-direction: row;
   position: relative;
   margin: 16px;
-  ${media.laptop`
+  ${Media.laptop`
     width: 100%;
   `} > div:not(:first-child) {
     top: 14px;
@@ -88,7 +88,7 @@ const TierWrapper = styled.div`
     height: 24px;
     margin-left: 4px;
     position: absolute;
-    ${media.laptop`
+    ${Media.laptop`
       display: none;
     `};
   }
@@ -118,7 +118,7 @@ const GoBackLink = styled.div`
   &:hover {
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.21);
   }
-  ${media.mobile`
+  ${Media.mobile`
     display: none;
   `};
 `

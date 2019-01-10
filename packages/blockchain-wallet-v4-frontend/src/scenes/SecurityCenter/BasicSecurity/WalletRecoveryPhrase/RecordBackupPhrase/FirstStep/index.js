@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import media from 'services/ResponsiveService'
-import { Button, Image, Link, Text } from 'blockchain-info-components'
+import { Button, Image, Link, Text, Media } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
 import recoveryPdf from './recovery.pdf'
 
@@ -19,7 +18,7 @@ const PrintContainer = styled.div`
   div:first-of-type {
     padding-right: 30px;
   }
-  ${media.tablet`
+  ${Media.tablet`
     width: 65%;
     flex-direction: column;
     button {
@@ -36,7 +35,7 @@ const FirstStepContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: 118%;
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
   `};
 `
@@ -52,7 +51,7 @@ const Buttons = styled.div`
   a {
     margin-top: 15px;
   }
-  ${media.tablet`
+  ${Media.tablet`
     margin-top: 10px;
   `};
 `

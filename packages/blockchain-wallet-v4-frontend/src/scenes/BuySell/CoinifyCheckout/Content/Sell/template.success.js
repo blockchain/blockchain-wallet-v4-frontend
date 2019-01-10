@@ -17,13 +17,13 @@ import {
   ColRightInner,
   Row
 } from 'components/IdentityVerification'
-import media from 'services/ResponsiveService'
+import { Media } from 'blockchain-info-components'
 
 const CheckoutWrapper = styled.div`
   display: grid;
   grid-template-columns: 55% 35%;
   grid-gap: 10%;
-  ${media.mobile`
+  ${Media.mobile`
     display: flex;
     flex-direction: column;
   `};

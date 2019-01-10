@@ -1,13 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import media from 'services/ResponsiveService'
-import { SkeletonRectangle } from 'blockchain-info-components'
+import { Media, SkeletonRectangle } from 'blockchain-info-components'
 
 const BalanceSkeleton = styled.div`
   flex: 1;
   display: flex;
   padding: 15px 30px;
-  ${media.tablet`
+  ${Media.tablet`
     padding: 10px 20px;
   `};
 `

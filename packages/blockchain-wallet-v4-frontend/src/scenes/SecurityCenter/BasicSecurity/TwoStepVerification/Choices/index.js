@@ -1,8 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Text, Icon, Image } from 'blockchain-info-components'
+import { Media, Text, Icon, Image } from 'blockchain-info-components'
 import styled from 'styled-components'
-import media from 'services/ResponsiveService'
 
 const Choice = styled.div`
   display: flex;
@@ -16,7 +15,7 @@ const Choice = styled.div`
   div * {
     cursor: pointer;
   }
-  ${media.mobile`
+  ${Media.mobile`
     margin-bottom: 10px;
   `};
 `
@@ -32,23 +31,23 @@ const TwoStepChoicesWrapper = styled.div`
   width: 100%;
   margin-top: 30px;
   margin-bottom: 30px;
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
   `};
-  ${media.tablet`
+  ${Media.tablet`
     margin-top: 10px;
     margin-bottom: 10px;
   `}'
 `
 const YubikeyWrapper = styled.div`
-  ${media.mobile`
+  ${Media.mobile`
     display: flex;
     align-items: center;
     margin-right: 3px;
   `};
 `
 const SecurityIcon = styled(Icon)`
-  ${media.mobile`
+  ${Media.mobile`
     display: flex;
     align-items: center;
     margin-right: 3px;

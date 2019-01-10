@@ -5,14 +5,13 @@ import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 
 import { model } from 'data'
-import { TableCell, TableRow, Text, Link } from 'blockchain-info-components'
+import { Media, TableCell, TableRow, Text, Link } from 'blockchain-info-components'
 import { selectColor, OrderStatus } from 'components/OrderStatus'
-import media from 'services/ResponsiveService'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
 const StatusContainer = styled(TableCell)`
   display: flex;
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
     width: 25%;
   `};

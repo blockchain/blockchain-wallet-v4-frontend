@@ -2,14 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { BlockchainLoader } from '../Loaders'
-import { media } from '../MediaSizes'
+import { Media } from '../MediaSizes'
 
 const BaseModalBody = styled.div`
   position: relative;
   width: 100%;
   padding: ${props => (props.tray ? '60px 15%' : '25px 30px')};
   box-sizing: border-box;
-  ${media.mobile`
+  ${Media.mobile`
     padding-top: 20px;
     padding-bottom: 20px;  
   `};

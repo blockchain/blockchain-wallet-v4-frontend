@@ -7,8 +7,7 @@ import { StepTransition } from 'components/Utilities/Stepper'
 import { spacing } from 'services/StyleService'
 import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { Icon, TextInput, Text, Button } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
+import { Icon, Media, TextInput, Text, Button } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -26,7 +25,7 @@ const FiatConvertorInput = styled.div`
   width: 100%;
   height: 100%;
   margin-bottom: 0px;
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
     div:first-of-type {
       margin-bottom: 25px;
@@ -52,7 +51,7 @@ const Unit = styled.span`
 const ArrowLeft = styled(Icon)`
   margin-left: 10px;
   color: #bbb;
-  ${media.mobile`
+  ${Media.mobile`
     display: none;
   `};
 `
@@ -60,7 +59,7 @@ const ArrowRight = styled(Icon)`
   margin-left: -10px;
   margin-right: 10px;
   color: #bbb;
-  ${media.mobile`
+  ${Media.mobile`
     display: none;
   `};
 `

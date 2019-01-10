@@ -4,9 +4,8 @@ import styled from 'styled-components'
 import { path } from 'ramda'
 
 import { actions, model } from 'data'
-import { BlockchainLoader } from 'blockchain-info-components'
+import { BlockchainLoader, Media } from 'blockchain-info-components'
 import { getData } from './selectors'
-import media from 'services/ResponsiveService'
 import GetStarted from './GetStarted'
 import Exchange from './ExchangeContainer'
 import DataError from 'components/DataError'
@@ -35,7 +34,7 @@ const Container = styled.section`
     flex-direction: row;
   }
 
-  ${media.mobile`
+  ${Media.mobile`
     align-items: center;
     padding: 10px;
   `};

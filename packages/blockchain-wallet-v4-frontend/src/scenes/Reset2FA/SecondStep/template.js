@@ -2,11 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
-import media from 'services/ResponsiveService'
 import { required } from 'services/FormHelper'
 import {
   Button,
   HeartbeatLoader,
+  Media,
   Link,
   Separator,
   Text
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   background-color: ${props => props.theme['white']};
   width: 550px;
-  ${media.tablet`
+  ${Media.tablet`
     width: 100%;
   `};
 `

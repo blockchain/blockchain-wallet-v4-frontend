@@ -12,10 +12,10 @@ import {
   TableRow,
   Text,
   IconButton,
-  Link
+  Link,
+  Media
 } from 'blockchain-info-components'
 import { take, filter } from 'ramda'
-import media from 'services/ResponsiveService'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -29,7 +29,7 @@ const WalletTableCell = styled(TableCell)`
   align-items: center;
   min-height: 23px;
 
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
     align-items: flex-start;
   `};

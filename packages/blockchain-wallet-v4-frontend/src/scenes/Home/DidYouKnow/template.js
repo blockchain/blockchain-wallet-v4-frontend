@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
-import media from 'services/ResponsiveService'
-import { Icon, Text, TextGroup, Link, Color } from 'blockchain-info-components'
+import { Media, Icon, Text, TextGroup, Link, Color } from 'blockchain-info-components'
 
 const DidYouKnowWrapper = styled.div`
   & > * {
@@ -25,19 +24,19 @@ const Wrapper = styled.div`
 
 const TitleText = styled(Text)`
   font-size: 24px;
-  ${media.mobile`
+  ${Media.mobile`
     font-size: 20px;
   `};
 `
 const SubtitleText = styled(Text)`
   font-size: 18px;
-  ${media.mobile`
+  ${Media.mobile`
     font-size: 14px;
   `};
 `
 const ContentText = styled(Text)`
   font-size: 14px;
-  ${media.mobile`
+  ${Media.mobile`
     font-size: 12px;
   `};
 `
@@ -50,7 +49,7 @@ const Content = styled.div`
 const PaddedIcon = styled(Icon)`
   font-size: 14px;
   padding: 5px;
-  ${media.mobile`
+  ${Media.mobile`
     padding: 0 5px 5px 0;
     font-size: 12px;
   `};

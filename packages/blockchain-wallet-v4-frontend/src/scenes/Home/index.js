@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import ReactHighcharts from 'react-highcharts'
-import media from 'services/ResponsiveService'
+import { Media } from 'blockchain-info-components'
 import ActivityList from './ActivityList'
 import DidYouKnow from './DidYouKnow'
 import PriceChart from './PriceChart'
@@ -14,10 +14,10 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100%;
   margin: 0 30px;
-  ${media.tablet`
+  ${Media.tablet`
     margin: 0 10px;
   `};
-  ${media.mobile`
+  ${Media.mobile`
     margin: 0 5px;
   `};
 `
@@ -27,7 +27,7 @@ const ColumnWrapper = styled.section`
   height: 100%;
   width: 100%;
   flex-direction: row;
-  ${media.laptop`
+  ${Media.laptop`
     flex-direction: column;
   `};
 `
@@ -46,7 +46,7 @@ const Column = styled.div`
 `
 const ColumnLeft = styled(Column)`
   padding: 15px 10px 10px 0;
-  ${media.laptop`
+  ${Media.laptop`
     padding: 15px 0 0 0;
   `};
 `

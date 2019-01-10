@@ -8,13 +8,13 @@ import { SettingDescription, SettingHeader } from 'components/Setting'
 import {
   Banner,
   Link,
+  Media,
   Table,
   TableHeader,
   TableCell,
   TableRow,
   Text
 } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -28,7 +28,7 @@ const WalletTableCell = styled(TableCell)`
   align-items: center;
   min-height: 23px;
 
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
     align-items: flex-start;
   `};

@@ -4,7 +4,6 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
 import { check, msie } from 'bowser'
-import media from 'services/ResponsiveService'
 import {
   validPasswordConfirmation,
   validStrongPassword,
@@ -18,7 +17,8 @@ import {
   HeartbeatLoader,
   Separator,
   Text,
-  TextGroup
+  TextGroup,
+  Media
 } from 'blockchain-info-components'
 import {
   CheckBox,
@@ -39,7 +39,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   background-color: ${props => props.theme['white']};
   width: 550px;
-  ${media.tablet`
+  ${Media.tablet`
     width: 100%;
   `};
 `

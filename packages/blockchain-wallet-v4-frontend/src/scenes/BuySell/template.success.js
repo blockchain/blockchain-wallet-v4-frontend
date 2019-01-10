@@ -4,7 +4,7 @@ import { reduxForm, Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { concat, equals, path, prop } from 'ramda'
 
-import { Text, Button } from 'blockchain-info-components'
+import { Text, Button, Media } from 'blockchain-info-components'
 import {
   FormGroup,
   FormItem,
@@ -20,14 +20,13 @@ import {
   validEmail
 } from 'services/FormHelper'
 import BuySellAnimation from './BuySellAnimation'
-import media from 'services/ResponsiveService'
 
 const Row = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
   width: 100%;
-  ${media.laptop`
+  ${Media.laptop`
     align-items: flex-start;
   `};
 `
@@ -35,14 +34,14 @@ const ColLeft = styled.div`
   width: 50%;
   margin-right: 5%;
   margin-top: -28px;
-  ${media.laptop`
+  ${Media.laptop`
     display: none;
   `};
 `
 const ColRight = styled.div`
   width: 40%;
   margin-top: -56px;
-  ${media.laptop`
+  ${Media.laptop`
     width: 100%;
     margin-top: 30px;
   `};
@@ -50,7 +49,7 @@ const ColRight = styled.div`
 const PartnerHeader = styled.div`
   font-size: 30px;
   font-weight: 600;
-  ${media.mobile`
+  ${Media.mobile`
     font-size: 20px;
   `};
 `

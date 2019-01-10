@@ -5,12 +5,12 @@ import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { check, msie } from 'bowser'
-import media from 'services/ResponsiveService'
 import { required } from 'services/FormHelper'
 import {
   Banner,
   Button,
   Link,
+  Media,
   Separator,
   Text,
   TextGroup,
@@ -38,7 +38,7 @@ const Wrapper = styled.div`
   padding: 35px;
   box-sizing: border-box;
   background-color: ${props => props.theme['white']};
-  ${media.tablet`
+  ${Media.tablet`
     width: 100%;
   `};
 `
@@ -53,7 +53,7 @@ const Footer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  ${media.tablet`
+  ${Media.tablet`
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;

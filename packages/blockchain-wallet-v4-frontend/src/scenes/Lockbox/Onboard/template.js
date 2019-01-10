@@ -8,9 +8,9 @@ import {
   Icon,
   Image,
   Link,
-  Text
+  Text,
+  Media
 } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
 
 const containerWidth = '650px'
 const containerPadding = '25px'
@@ -39,7 +39,7 @@ const GetStartedContainer = styled.div`
   background-repeat: no-repeat;
   background-size: auto 100%;
   background-position: right;
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
     background-image: none;
   `};
@@ -47,7 +47,7 @@ const GetStartedContainer = styled.div`
 
 const GetStartedContent = styled.div`
   width: 300px;
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
   `};
 `
@@ -55,14 +55,14 @@ const GetStartedContent = styled.div`
 const GetStartedHeader = styled(Text)`
   width: 200px;
   margin-bottom: ${marginContent};
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
   `};
 `
 const GetStartedButton = styled(Button)`
   width: 250px;
   margin: 45px 0 0 35px;
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
     margin: 0;
   `};
@@ -70,7 +70,7 @@ const GetStartedButton = styled(Button)`
 const GetStartedText = styled(Text)`
   width: 350px;
   margin-bottom: ${marginContent};
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
   `};
 `
@@ -78,7 +78,7 @@ const PoweredByContainer = styled.div`
   top: ${containerPadding};
   right: ${containerPadding};
   position: absolute;
-  ${media.mobile`
+  ${Media.mobile`
     right: 5px;
   `};
 `
@@ -100,7 +100,7 @@ const LearnMoreContainer = styled.div`
   box-sizing: border-box;
   border-radius: 3px;
   background-color: ${props => props.theme['white-blue']};
-  ${media.mobile`
+  ${Media.mobile`
     width: 100%;
     flex-direction: column;
   `};

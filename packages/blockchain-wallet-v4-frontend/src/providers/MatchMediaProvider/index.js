@@ -2,12 +2,11 @@ import React from 'react'
 import { map, forEachObjIndexed, assoc } from 'ramda'
 import 'matchmedia-polyfill'
 import 'matchmedia-polyfill/matchMedia.addListener'
-
-import { sizes } from 'services/ResponsiveService'
+import { Sizes } from 'blockchain-info-components'
 
 const mediaMatchers = map(
   size => window.matchMedia(`(max-width: ${size}px)`),
-  sizes
+  Sizes
 )
 const getMediaMatches = () => map(({ matches }) => matches, mediaMatchers)
 

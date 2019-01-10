@@ -4,10 +4,9 @@ import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { actions, model, selectors } from 'data'
-import { Button, Text } from 'blockchain-info-components'
+import { Button, Media, Text } from 'blockchain-info-components'
 import { Container, Row } from 'components/WhatsNew'
 import { equals } from 'ramda'
-import media from 'services/ResponsiveService'
 const { NONE } = model.profile.KYC_STATES
 
 const DarkText = styled(Text).attrs({
@@ -16,7 +15,7 @@ const DarkText = styled(Text).attrs({
   weight: 300
 })`
   display: inline;
-  ${media.laptop`
+  ${Media.laptop`
     display: ${props => (props.hideOnMobile ? 'none' : 'inline')};
   `};
 `
@@ -32,7 +31,7 @@ const GetStartedButton = styled(Button).attrs({
   fullwidth: true
 })`
   font-weight: 500;
-  ${media.laptop`
+  ${Media.laptop`
     width: 100%;
   `};
 `

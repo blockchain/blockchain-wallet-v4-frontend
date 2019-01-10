@@ -2,9 +2,8 @@ import React from 'react'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import { Media, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import TierCard from 'components/IdentityVerification/TierCard'
-import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
@@ -73,21 +72,21 @@ const TierWrapper = styled.div`
   display: flex;
   flex-direction: row;
   margin: 16px;
-  ${media.mobile`
+  ${Media.mobile`
     margin: 16px 0;
   `};
   > div:not(:first-child) {
     height: 24px;
     margin-top: 14px;
     margin-left: 4px;
-    ${media.laptop`
+    ${Media.laptop`
       display: none;
     `};
   }
 `
 const LearnMoreContainer = styled.div`
   margin-top: 22px;
-  ${media.mobile`
+  ${Media.mobile`
     margin-top: 10px;
   `};
 `

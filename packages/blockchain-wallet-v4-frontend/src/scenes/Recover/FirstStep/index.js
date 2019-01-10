@@ -3,14 +3,14 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
-import media from 'services/ResponsiveService'
 import { required, validMnemonic } from 'services/FormHelper'
 import {
   Button,
   Link,
   Separator,
   Text,
-  TextGroup
+  TextGroup,
+  Media
 } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
 
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   background-color: ${props => props.theme['white']};
   width: 550px;
-  ${media.tablet`
+  ${Media.tablet`
     width: 100%;
   `};
 `

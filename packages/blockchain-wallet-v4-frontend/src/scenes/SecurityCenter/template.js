@@ -2,8 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Icon, Text } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
+import { Media, Icon, Text } from 'blockchain-info-components'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
 const Wrapper = styled.div`
@@ -16,7 +15,7 @@ const StatusWrapper = styled.div`
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  ${media.laptop`
+  ${Media.laptop`
     flex-direction: column;
     text-align: center;
   `};
@@ -29,7 +28,7 @@ const IntroText = styled.div`
   & :first-child {
     padding: 20px 0;
   }
-  ${media.laptop`
+  ${Media.laptop`
     width: 100%;
   `};
 `
@@ -47,7 +46,7 @@ const StepSection = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  ${media.mobile`
+  ${Media.mobile`
     width: 33.5%;
   `};
 `
@@ -62,7 +61,7 @@ const Circle = styled.div`
   border: 5px solid ${props => props.theme['brand-primary']};
   transition: background-color 0.4s, border 0.4s;
   border-radius: 50px;
-  ${media.mobile`
+  ${Media.mobile`
     width: 35px;
     height: 25px;
     min-width: 25px;
@@ -79,7 +78,7 @@ const StepText = styled(Text)`
   margin-left: 10px;
   margin-right: 20px;
   word-break: break-word;
-  ${media.mobile`
+  ${Media.mobile`
     word-break: initial;
   `};
 `

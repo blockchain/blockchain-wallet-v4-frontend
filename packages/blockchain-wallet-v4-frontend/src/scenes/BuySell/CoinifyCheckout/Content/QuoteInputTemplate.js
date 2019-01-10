@@ -6,10 +6,9 @@ import { NavLink } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
 import { equals, gt, not, prop } from 'ramda'
 
-import { Icon, Link, Text } from 'blockchain-info-components'
+import { Media, Icon, Link, Text } from 'blockchain-info-components'
 import { SelectBoxCoinifyCurrency, NumberBoxDebounced } from 'components/Form'
 import { getReasonExplanation } from 'services/CoinifyService'
-import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -20,7 +19,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: flex-start;
   font-family: 'Montserrat', Helvetica, sans-serif;
-  ${media.mobile`
+  ${Media.mobile`
     height: 100px;
   `};
 `
@@ -31,7 +30,7 @@ const FiatConvertorInput = styled.div`
   width: 100%;
   height: 100%;
   margin-bottom: 0px;
-  ${media.mobile`
+  ${Media.mobile`
     flex-direction: column;
   `};
 `
@@ -54,7 +53,7 @@ const Unit = styled.span`
 const ArrowLeft = styled(Icon)`
   margin-left: 10px;
   color: #bbb;
-  ${media.mobile`
+  ${Media.mobile`
     display: none;
   `};
 `
@@ -62,7 +61,7 @@ const ArrowRight = styled(Icon)`
   margin-left: -10px;
   margin-right: 10px;
   color: #bbb;
-  ${media.mobile`
+  ${Media.mobile`
     display: none;
   `};
 `
@@ -78,7 +77,7 @@ const Error = styled(Text)`
     color: ${props => props.theme['brand-secondary']};
     cursor: pointer;
   }
-  ${media.mobile`
+  ${Media.mobile`
     top: 100px;
   `};
 `
@@ -96,7 +95,7 @@ const LimitsHelper = styled.div`
   span:first-of-type {
     padding-right: 5px;
   }
-  ${media.mobile`
+  ${Media.mobile`
     top: 100px;
   `};
 `
