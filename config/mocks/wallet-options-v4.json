@@ -79,7 +79,7 @@
           "send": true,
           "request": true,
           "lockbox": true,
-          "exchangeTo": false,
+          "exchangeTo": true,
           "exchangeFrom": true
         }
       },
