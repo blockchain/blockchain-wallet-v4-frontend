@@ -52,7 +52,8 @@ const FirstStep = props => {
     handleSubmit,
     totalFee,
     pristine,
-    excludeLockbox
+    excludeLockbox,
+    excludeHDWallets
   } = props
   const disableLockboxSend =
     from &&
@@ -86,11 +87,12 @@ const FirstStep = props => {
           <Field
             name='from'
             coin='BCH'
-            component={SelectBoxBchAddresses}
             includeAll={false}
-            excludeWatchOnly
-            excludeLockbox={excludeLockbox}
             validate={[required]}
+            component={SelectBoxBchAddresses}
+            excludeHDWallets={excludeHDWallets}
+            excludeLockbox={excludeLockbox}
+            excludeWatchOnly
           />
         </FormItem>
       </FormGroup>
