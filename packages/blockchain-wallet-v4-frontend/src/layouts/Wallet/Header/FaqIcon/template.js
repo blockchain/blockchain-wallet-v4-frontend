@@ -9,7 +9,7 @@ const FaqLink = styled(Link)`
   position: relative;
   padding: 5px 10px;
   border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, ${props => props.highlighted ? '0.2' : '0'});
 
   > span:last-child {
     display: none;

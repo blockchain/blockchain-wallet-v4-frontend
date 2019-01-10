@@ -27,6 +27,17 @@ exports[`ListItemContainer renders correctly 1`] = `
         "setTxNotesBch": [Function],
       }
     }
+    bsvActions={
+      Object {
+        "createMetadataBsv": [Function],
+        "fetchMetadataBsv": [Function],
+        "fetchMetadataBsvFailure": [Function],
+        "fetchMetadataBsvLoading": [Function],
+        "fetchMetadataBsvSuccess": [Function],
+        "setAccountArchived": [Function],
+        "setTxNotesBsv": [Function],
+      }
+    }
     ethereumActions={
       Object {
         "createMetadataEthereum": [Function],

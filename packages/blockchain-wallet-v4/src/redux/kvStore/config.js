@@ -1,6 +1,7 @@
 export const BCH = 'bch'
 export const BUYSELL = 'buySell'
 export const BTC = 'btc'
+export const BSV = 'bsv'
 export const CONTACTS = 'contacts'
 export const ETHEREUM = 'ethereum'
 export const LOCKBOX = 'lockbox'
@@ -21,5 +22,6 @@ export const derivationMap = {
   [BTC]: 8,
   [LOCKBOX]: 9,
   [USER_CREDENTIALS]: 10,
-  [XLM]: 11
+  [XLM]: 11,
+  [BSV]: 12
 }

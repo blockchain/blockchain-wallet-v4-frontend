@@ -4,6 +4,8 @@ import { reduxForm } from 'redux-form'
 
 import UnusedAddresses from './UnusedAddresses'
 import UsedAddresses from './UsedAddresses'
+import { model } from 'data'
+const { WALLET_TX_SEARCH } = model.form
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -20,6 +22,6 @@ class ManageAddressesContainer extends React.PureComponent {
   }
 }
 
-export default reduxForm({ form: 'settingsAddresses' })(
-  ManageAddressesContainer
-)
+export default reduxForm({
+  form: WALLET_TX_SEARCH
+})(ManageAddressesContainer)

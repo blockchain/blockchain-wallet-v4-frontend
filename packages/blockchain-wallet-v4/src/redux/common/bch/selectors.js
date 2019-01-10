@@ -20,11 +20,11 @@ import {
   getReceiveIndex,
   getHeight,
   getTransactions
-} from '../../data/bch/selectors.js'
+} from '../../data/bch/selectors'
 import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
-import { getAccountsList, getBchTxNote } from '../../kvStore/bch/selectors.js'
+import { getAccountsList, getBchTxNote } from '../../kvStore/bch/selectors'
 import {
   getLockboxBchAccounts,
   getLockboxBchAccount

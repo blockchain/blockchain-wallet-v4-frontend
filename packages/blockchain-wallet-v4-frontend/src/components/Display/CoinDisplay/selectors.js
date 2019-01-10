@@ -18,6 +18,12 @@ export const getData = memoize((coin, amount) => {
           fromUnit: 'SAT',
           toUnit: 'BTC'
         })
+      case 'BSV':
+        return Exchange.displayBsvToBsv({
+          value: a,
+          fromUnit: 'SAT',
+          toUnit: 'BSV'
+        })
       case 'XLM':
         return Exchange.displayXlmToXlm({
           value: a,

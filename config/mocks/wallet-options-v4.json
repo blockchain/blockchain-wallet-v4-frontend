@@ -77,6 +77,14 @@
         "availability": {
           "send": true,
           "request": true,
+          "lockbox": true,
+          "exchange": true
+        }
+      },
+      "bsv": {
+        "availability": {
+          "send": true,
+          "request": false,
           "lockbox": false,
           "exchange": true
         }
@@ -90,7 +98,7 @@
         },
         "lastTxFuse": 86400,
         "config": {
-          "network": "mainnet"
+          "network": 1
         }
       },
       "xlm": {

@@ -9,6 +9,7 @@ import PendingBalance from './PendingBalance'
 import WatchOnlyBalance from './WatchOnlyBalance'
 import BtcBalance from './WalletBalance/BtcBalance'
 import BchBalance from './WalletBalance/BchBalance'
+import BsvBalance from './WalletBalance/BsvBalance'
 import EthBalance from './WalletBalance/EthBalance'
 import XlmBalance from './WalletBalance/XlmBalance'
 import CurrencySwitch from './CurrencySwitch'
@@ -66,6 +67,8 @@ const getSelectedComponent = path => {
       return <EthBalance large />
     case path.includes('bch'):
       return <BchBalance large />
+    case path.includes('bsv'):
+      return <BsvBalance large />
     case path.includes('xlm'):
       return <XlmBalance large />
     case path.includes('lockbox'):
@@ -96,6 +99,13 @@ const getBalanceMessage = path => {
         <FormattedMessage
           id='scenes.wallet.menutop.balance.bchbalance'
           defaultMessage='Bitcoin Cash Balance'
+        />
+      )
+    case path.includes('bsv'):
+      return (
+        <FormattedMessage
+          id='scenes.wallet.menutop.balance.bsvbalance'
+          defaultMessage='Bitcoin SV Balance'
         />
       )
     case path.includes('xlm'):

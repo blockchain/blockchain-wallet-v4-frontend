@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import media from 'services/ResponsiveService'
 import TextBox from '../TextBox'
 
 const Container = styled.div``
@@ -16,8 +17,13 @@ const InputRow = styled(Row)`
   button {
     border-radius: 0;
   }
+  ${media.mobile`
+    flex-direction: column;
+  `};
   input {
-    border-right: none;
+    @media screen and (min-width: 480px) {
+      border-right: none;
+    }
   }
 `
 
@@ -33,10 +39,18 @@ export const LoadingButton = ({ loading, children, ...rest }) => (
 
 export const ChangeButton = styled(LoadingButton)`
   margin-right: 16px;
+  ${media.mobile`
+    margin-right: 0;
+    margin-bottom: 16px;
+  `};
 `
 
 const EmailLabel = styled(Text)`
   margin-bottom: 32px;
+  word-break: break-all;
+  ${media.mobile`
+    margin-bottom: 16px;
+  `};
 `
 
 const SuccessLabel = styled(Text)`
@@ -58,7 +72,7 @@ const Verified = ({ email, className }) => (
       />
       <Icon name='check' weight='400' size='13px' color='success' />
     </SuccessLabel>
-    <Text weight='400'>{email}</Text>
+    <EmailLabel weight='400'>{email}</EmailLabel>
   </Container>
 )
 

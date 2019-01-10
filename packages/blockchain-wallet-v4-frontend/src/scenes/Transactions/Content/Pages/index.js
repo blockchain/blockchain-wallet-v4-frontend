@@ -12,9 +12,9 @@ class Pages extends React.PureComponent {
     return data.cata({
       Success: value => (
         <Success
-          transactions={value}
           coin={coin}
           currency={currency}
+          transactions={value}
           buySellPartner={buySellPartner}
         />
       ),
@@ -32,7 +32,7 @@ class Pages extends React.PureComponent {
 }
 
 Pages.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'BCH', 'ETH', 'XLM']).isRequired
+  coin: PropTypes.oneOf(['BTC', 'BCH', 'BSV', 'ETH', 'XLM']).isRequired
 }
 
 export default Pages

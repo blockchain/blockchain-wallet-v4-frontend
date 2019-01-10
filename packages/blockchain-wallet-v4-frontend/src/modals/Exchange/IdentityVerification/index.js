@@ -218,7 +218,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer(KYC_MODAL),
+  modalEnhancer(KYC_MODAL, { preventEscapeClose: true }),
   connect(
     getData,
     mapDispatchToProps

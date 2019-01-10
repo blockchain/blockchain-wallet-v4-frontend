@@ -43,6 +43,7 @@ class FirstStep extends React.Component {
           handleFeePerByteToggle={actions.sendBtcFirstStepFeePerByteToggled}
           handleToToggle={this.handleToToggle}
           excludeLockbox={value.excludeLockbox}
+          excludeHDWallets={this.props.excludeHDWallets}
         />
       ),
       Failure: () => <DataError onClick={() => this.handleRefresh} />,
