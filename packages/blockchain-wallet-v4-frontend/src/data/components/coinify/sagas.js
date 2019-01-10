@@ -240,18 +240,6 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const checkoutCardMax = function*(action) {
-    try {
-      const { card } = action.payload
-      const levelR = yield select(selectors.core.data.coinify.getLevel)
-      const currency = levelR.map(l => l.currency).getOrElse('EUR')
-      const cardMax = path([currency], card.inRemaining)
-      yield put(actions.form.change(COINIFY_BUY_FORM, 'leftVal', cardMax))
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'checkoutCardMax', e))
-    }
-  }
-
   const handleChange = function*(action) {
     try {
       const form = path(['meta', 'form'], action)
@@ -587,7 +575,6 @@ export default ({ api, coreSagas, networks }) => {
     cancelISX,
     cancelSubscription,
     cancelTrade,
-    checkoutCardMax,
     coinifySignup,
     compareKyc,
     deleteBankAccount,

@@ -43,12 +43,6 @@ describe('coinify reducers', () => {
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
   })
 
-  it('should handle COINIFY_SAVE_QUOTE', () => {
-    const action = actions.saveQuote({ id: 1 })
-    const expectedState = assoc('quote', { id: 1 }, INITIAL_STATE)
-    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
-  })
-
   it('should handle COINIFY_SET_MEDIUM', () => {
     const action = actions.setMedium('card')
     const expectedState = assoc('medium', 'card', INITIAL_STATE)
@@ -114,12 +108,6 @@ describe('coinify reducers', () => {
   it('should handle SET_CANCEL_TRADE_ID', () => {
     const action = actions.setCancelTradeId(5)
     const expectedState = assoc('cancelTradeId', 5, INITIAL_STATE)
-    expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
-  })
-
-  it('should handle COINIFY_SIGNUP_COMPLETE', () => {
-    const action = actions.coinifySignupComplete()
-    const expectedState = assoc('signupComplete', true, INITIAL_STATE)
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
   })
 })

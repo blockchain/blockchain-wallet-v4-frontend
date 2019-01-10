@@ -1,19 +1,12 @@
 import * as AT from './actionTypes'
 
 export const coinifySignup = country => ({ type: AT.SIGNUP, payload: country })
-export const coinifySignupComplete = () => ({
-  type: AT.COINIFY_SIGNUP_COMPLETE
-})
 
 export const coinifySignupFailure = error => ({
   type: AT.COINIFY_SIGNUP_FAILURE,
   payload: error
 })
 
-export const coinifyNextStep = step => ({
-  type: AT.COINIFY_NEXT_STEP,
-  payload: step
-})
 export const coinifyNextCheckoutStep = step => ({
   type: AT.COINIFY_NEXT_CHECKOUT_STEP,
   payload: step
@@ -21,11 +14,6 @@ export const coinifyNextCheckoutStep = step => ({
 
 export const coinifyClearSignupError = () => ({
   type: AT.COINIFY_CLEAR_SIGNUP_ERROR
-})
-
-export const saveQuote = quote => ({
-  type: AT.COINIFY_SAVE_QUOTE,
-  payload: quote
 })
 
 export const setMedium = medium => ({
@@ -85,11 +73,6 @@ export const cancelTrade = trade => ({ type: AT.CANCEL_TRADE, payload: trade })
 export const cancelSubscription = subscription => ({
   type: AT.CANCEL_SUBSCRIPTION,
   payload: subscription
-})
-
-export const checkoutCardMax = limits => ({
-  type: AT.CHECKOUT_CARD_MAX,
-  payload: limits
 })
 
 export const initializePayment = () => ({

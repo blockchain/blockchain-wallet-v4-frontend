@@ -944,47 +944,6 @@ describe('coinifySagas', () => {
     })
   })
 
-  describe('checkoutCardMax', () => {
-    let { checkoutCardMax } = coinifySagas({
-      coreSagas,
-      networks
-    })
-    const action = {
-      payload: {
-        card: { inRemaining: { EUR: 300, GBP: 250 } }
-      }
-    }
-
-    let saga = testSaga(checkoutCardMax, action)
-    let saveToRestore = 'saveToRestore'
-
-    it('should select the level', () => {
-      saga
-        .next()
-        .select(selectors.core.data.coinify.getLevel)
-        .save(saveToRestore)
-    })
-
-    it('should change the form to use max', () => {
-      const level = { currency: 'EUR' }
-      saga
-        .next(Remote.of(level))
-        .put(actions.form.change('coinifyCheckoutBuy', 'leftVal', 300))
-    })
-
-    describe('error handling', () => {
-      const error = 'ERROR'
-      it('should log the error', () => {
-        saga
-          .restore(saveToRestore)
-          .throw(error)
-          .put(
-            actions.logs.logErrorMessage(logLocation, 'checkoutCardMax', error)
-          )
-      })
-    })
-  })
-
   describe('sell', () => {
     let { sell } = coinifySagas({
       coreSagas,
