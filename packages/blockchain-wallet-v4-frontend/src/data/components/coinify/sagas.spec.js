@@ -1,6 +1,5 @@
-import { select } from 'redux-saga/effects'
 import { promptForSecondPassword } from 'services/SagaService'
-import { expectSaga, testSaga } from 'redux-saga-test-plan'
+import { testSaga } from 'redux-saga-test-plan'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as actions from '../../actions'
 import * as coinifyActions from './actions.js'

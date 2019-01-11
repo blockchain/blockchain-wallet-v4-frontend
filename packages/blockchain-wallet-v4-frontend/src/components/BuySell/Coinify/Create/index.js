@@ -21,10 +21,6 @@ class CreateContainer extends PureComponent {
   }
 
   componentDidUpdate (prevProps) {
-    if (!prevProps.emailVerified && this.props.emailVerified) {
-      // eslint-disable-next-line
-      this.setState({ create: CREATE })
-    }
     if (
       !prevProps.emailVerified &&
       this.props.emailVerified
