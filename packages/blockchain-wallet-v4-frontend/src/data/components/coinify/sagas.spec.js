@@ -189,43 +189,6 @@ describe('coinifySagas', () => {
     })
   })
 
-  describe('fromISX', () => {
-    let { fromISX } = coinifySagas({
-      coreSagas,
-      networks
-    })
-
-    const action = {
-      payload: {
-        status: 'complete'
-      }
-    }
-
-    it('should change the form if constructor is not Trade', () => {
-      const modals = [{ type: 'other' }]
-      const trade = Remote.of({ constructor: { name: 'ISX' } })
-      return expectSaga(fromISX, action)
-        .provide([
-          [select(selectors.modals.getModals), modals],
-          [select(selectors.core.data.coinify.getTrade), trade]
-        ])
-        .put(actions.form.change('buySellTabStatus', 'status', 'buy'))
-        .run()
-    })
-
-    it('should change the form to order history', () => {
-      const modals = [{ type: 'other' }]
-      const trade = Remote.of({ constructor: { name: 'Trade' } })
-      return expectSaga(fromISX, action)
-        .provide([
-          [select(selectors.modals.getModals), modals],
-          [select(selectors.core.data.coinify.getTrade), trade]
-        ])
-        .put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
-        .run()
-    })
-  })
-
   describe('finishTrade', () => {
     let { finishTrade } = coinifySagas({
       coreSagas,

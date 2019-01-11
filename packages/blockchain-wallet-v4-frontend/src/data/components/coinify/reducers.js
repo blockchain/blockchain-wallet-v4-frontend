@@ -20,12 +20,6 @@ const coinify = (state = INITIAL_STATE, action) => {
     case AT.COINIFY_NEXT_CHECKOUT_STEP: {
       return assoc('checkoutStep', payload, state)
     }
-    case AT.COINIFY_SIGNUP_FAILURE: {
-      return assoc('signupError', payload, state)
-    }
-    case AT.COINIFY_CLEAR_SIGNUP_ERROR: {
-      return assoc('signupError', null, state)
-    }
     case AT.COINIFY_SAVE_QUOTE: {
       return assoc('quote', payload, state)
     }

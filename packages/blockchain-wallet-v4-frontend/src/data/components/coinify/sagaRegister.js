@@ -12,7 +12,6 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.COINIFY_SELL, coinifySagas.sell)
     yield takeLatest(actionTypes.CHANGE, coinifySagas.handleChange)
     yield takeLatest(AT.COINIFY_INITIALIZED, coinifySagas.initialized)
-    yield takeLatest(AT.COINIFY_FROM_ISX, coinifySagas.fromISX)
     yield takeLatest(
       AT.COINIFY_DELETE_BANK_ACCOUNT,
       coinifySagas.deleteBankAccount

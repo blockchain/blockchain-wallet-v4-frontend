@@ -11,19 +11,13 @@ const { CREATE, VERIFY } = model.components.coinify.REGISTER_STATES
 
 class CreateContainer extends PureComponent {
   state = {
-    create: '',
+    create: this.props.emailVerified ? CREATE : VERIFY,
     uniqueEmail: true,
     codeSent: false
   }
   componentDidMount () {
-    if (this.props.emailVerified) {
-      // eslint-disable-next-line
-      this.setState({ create: CREATE })
-    } else {
-      // eslint-disable-next-line
-      this.setState({ create: VERIFY })
+    if (!this.props.emailVerified)
       this.props.securityCenterActions.updateEmail(this.props.email)
-    }
   }
 
   componentDidUpdate (prevProps) {
@@ -31,8 +25,11 @@ class CreateContainer extends PureComponent {
       // eslint-disable-next-line
       this.setState({ create: CREATE })
     }
-    if (prevProps.signupError && !prevProps.emailVerified && this.props.emailVerified) {
-      this.props.coinifyFrontendActions.coinifyClearSignupError()
+    if (
+      !prevProps.emailVerified &&
+      this.props.emailVerified
+    ) {
+      this.props.coinifyFrontendActions.coinifyNotAsked()
     }
   }
 
@@ -42,7 +39,6 @@ class CreateContainer extends PureComponent {
       <Create
         handleSignup={handleSignup}
         email={email}
-        signupError={signupError}
         country={this.props.country}
         updateCreate={step => this.setState({ create: step })}
         updateUniqueEmail={unique => this.setState({ uniqueEmail: unique })}
@@ -61,7 +57,10 @@ CreateContainer.propTypes = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  coinifyFrontendActions: bindActionCreators(actions.components.coinify, dispatch),
+  coinifyFrontendActions: bindActionCreators(
+    actions.components.coinify,
+    dispatch
+  ),
   formActions: bindActionCreators(actions.form, dispatch),
   securityCenterActions: bindActionCreators(
     actions.modules.securityCenter,

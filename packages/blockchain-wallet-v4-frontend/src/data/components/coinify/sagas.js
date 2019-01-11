@@ -40,17 +40,19 @@ export default ({ api, coreSagas, networks }) => {
 
   const coinifySignup = function*() {
     try {
+      yield put(A.coinifyLoading())
       const country = yield select(S.getCoinifyCountry)
       yield call(coreSagas.data.coinify.signup, country)
       const profileR = yield select(selectors.core.data.coinify.getProfile)
 
       if (profileR.error)
-        return yield put(A.coinifySignupFailure(JSON.parse(profileR.error)))
+        return yield put(A.coinifyFailure(JSON.parse(profileR.error)))
 
       const tier2DataR = yield select(selectors.modules.profile.getTier(2))
       const tier2Data = tier2DataR.getOrElse(null)
       const kycIsNone = equals(prop('state', tier2Data), TIERS_STATES.NONE)
       if (kycIsNone) {
+        yield put(A.coinifyNotAsked())
         // TODO: might need to remove this Nabu call
         // we need to tell Nabu about the new user so it can handle the user being verified later on
         yield call(sendCoinifyKYC)
@@ -61,6 +63,7 @@ export default ({ api, coreSagas, networks }) => {
         )
       }
 
+      yield put(A.coinifyNotAsked())
       // TODO: might need to remove this Nabu call and just close the modal and refetch here
       // if not NONE, tell backend about signup and send user to coinify checkout - user is either verified, pending, failed, etc..
       const user = prop('user', profileR.getOrFail('Missing Coinify Profile'))
@@ -406,31 +409,6 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const fromISX = function*(action) {
-    const status = action.payload
-    try {
-      const tradeR = yield select(selectors.core.data.coinify.getTrade)
-      const trade = tradeR.getOrElse({})
-
-      if (path(['constructor', 'name'], trade) !== 'Trade') {
-        yield put(actions.form.change('buySellTabStatus', 'status', 'buy'))
-      } else {
-        yield put(
-          actions.form.change('buySellTabStatus', 'status', 'order_history')
-        )
-      }
-      yield put(A.coinifyNextCheckoutStep(COINIFY_CHECKOUT_STEPS.CHECKOUT))
-      yield put(
-        actions.modals.showModal(TRADE_DETAILS_MODAL, {
-          trade: trade,
-          status: status
-        })
-      )
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'fromISX', e))
-    }
-  }
-
   const deleteBankAccount = function*(payload) {
     try {
       yield call(coreSagas.data.coinify.deleteBankAccount, payload)
@@ -580,7 +558,6 @@ export default ({ api, coreSagas, networks }) => {
     deleteBankAccount,
     fetchCoinifyData,
     finishTrade,
-    fromISX,
     handleAfterSignup,
     handleChange,
     initialized,

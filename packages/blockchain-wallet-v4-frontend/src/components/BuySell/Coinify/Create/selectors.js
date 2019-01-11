@@ -7,5 +7,5 @@ export const getData = state => ({
     .getEmailVerified(state)
     .getOrElse(undefined),
   emailVerifiedError: path(['securityCenter', 'emailVerifiedError'], state),
-  signupError: selectors.components.coinify.getSignupError(state)
+  coinifyBusy: selectors.components.coinify.getCoinifyBusy(state)
 })

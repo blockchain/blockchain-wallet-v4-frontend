@@ -209,7 +209,7 @@ const AcceptTerms = props => {
                         defaultMessage="We're sorry, but something unexpected went wrong. Please "
                       />
                     </Text>
-                    <Link size='12px' weight={300} onClick={() => clearError()}>
+                    <Link size='12px' weight={300} onClick={clearError}>
                       <FormattedMessage id='tryagain' defaultMessage='try again' />
                     </Link>
                     <Text size='12px' color='error' weight={300}>

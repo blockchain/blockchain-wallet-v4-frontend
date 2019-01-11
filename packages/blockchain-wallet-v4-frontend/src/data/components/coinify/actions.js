@@ -2,18 +2,9 @@ import * as AT from './actionTypes'
 
 export const coinifySignup = country => ({ type: AT.SIGNUP, payload: country })
 
-export const coinifySignupFailure = error => ({
-  type: AT.COINIFY_SIGNUP_FAILURE,
-  payload: error
-})
-
 export const coinifyNextCheckoutStep = step => ({
   type: AT.COINIFY_NEXT_CHECKOUT_STEP,
   payload: step
-})
-
-export const coinifyClearSignupError = () => ({
-  type: AT.COINIFY_CLEAR_SIGNUP_ERROR
 })
 
 export const setMedium = medium => ({
@@ -52,8 +43,6 @@ export const coinifyFailure = error => ({
   type: AT.COINIFY_FAILURE,
   payload: error
 })
-
-export const fromISX = state => ({ type: AT.COINIFY_FROM_ISX, payload: state })
 
 export const deleteBankAccount = account => ({
   type: AT.COINIFY_DELETE_BANK_ACCOUNT,
