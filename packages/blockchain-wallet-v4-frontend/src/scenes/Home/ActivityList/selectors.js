@@ -95,17 +95,10 @@ export const getXlmTransactions = createDeepEqualSelector(
 export const concatAll = unapply(reduce(concat, []))
 
 export const getData = createDeepEqualSelector(
-  [
-    getLogs,
-    getBtcTransactions,
-    getBchTransactions,
-    getEthTransactions,
-    getXlmTransactions,
-    getNumber
-  ],
-  (logs, btcR, bchR, ethR, xlmR, number) => {
-    const transform = (logs, btc, bch, eth, xlm) => {
-      const allActivities = concatAll(logs, btc, bch, eth, xlm)
+  [getLogs, getBtcTransactions, getNumber],
+  (logs, btcR, number) => {
+    const transform = (logs, btc) => {
+      const allActivities = concatAll(logs, btc)
       const filterByTime = sort(descend(prop('time')))
       const take8 = take(8)
       return compose(
@@ -113,6 +106,6 @@ export const getData = createDeepEqualSelector(
         filterByTime
       )(allActivities)
     }
-    return lift(transform)(logs, btcR, bchR, ethR, xlmR)
+    return lift(transform)(logs, btcR)
   }
 )
