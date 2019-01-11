@@ -26,13 +26,13 @@ const GetStartedButton = styled(Button).attrs({
   `};
 `
 
-export const BitcoinCashSVSupport = () => (
+export const BSVSupport = () => (
   <Container>
     <Row marginBottom='10px'>
       <Text color='brand-primary' size='24px' weight={600}>
         <FormattedMessage
-          defaultMessage='Now Supporting Bitcoin Cash SV!'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.title'
+          defaultMessage='Now Supporting Bitcoin SV (BSV)!'
+          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.now_supporting_sv'
         />
       </Text>
     </Row>
@@ -53,7 +53,7 @@ export const BitcoinCashSVSupport = () => (
       </DarkText>
     </Row>
     <Row>
-      <LinkContainer to='/settings/general'>
+      <LinkContainer to='/settings/addresses/bsv'>
         <GetStartedButton>
           <FormattedMessage
             id='layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.checkitout'
@@ -65,4 +65,4 @@ export const BitcoinCashSVSupport = () => (
   </Container>
 )
 
-export default BitcoinCashSVSupport
+export default BSVSupport
