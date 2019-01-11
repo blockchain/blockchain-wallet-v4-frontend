@@ -95,7 +95,8 @@ describe('lockbox sagas', () => {
     saveNewDeviceKvStore,
     uninstallApplication,
     installApplication,
-    deriveLatestAppInfo
+    deriveLatestAppInfo,
+    determineLockboxRoute
   } = lockboxSagas({
     api,
     coreSagas
@@ -358,6 +359,60 @@ describe('lockbox sagas', () => {
           .put(
             actions.logs.logErrorMessage(logLocation, 'storeDeviceName', error)
           )
+      })
+    })
+  })
+
+  describe('determineLockboxRoute', () => {
+    const saga = testSaga(determineLockboxRoute)
+
+    describe('no devices', () => {
+      it('selects devices', () => {
+        saga.next().select(selectors.core.kvStore.lockbox.getDevices)
+      })
+      it('routes user to onboarding if no devices exist', () => {
+        saga.next(Remote.of([])).put(actions.router.push('/lockbox/onboard'))
+      })
+      it('should end', () => {
+        saga.next().isDone()
+      })
+    })
+
+    describe('one device', () => {
+      it('selects devices', () => {
+        saga
+          .restart()
+          .next()
+          .select(selectors.core.kvStore.lockbox.getDevices)
+      })
+      it('inits first device page dashboard', () => {
+        saga.next(Remote.of([{}])).put(A.initializeDashboard(0))
+      })
+      it('routes user to first device page', () => {
+        saga.next().put(actions.router.push('/lockbox/dashboard/0'))
+      })
+      it('should end', () => {
+        saga.next().isDone()
+      })
+    })
+
+    describe('failure', () => {
+      const error = new Error('error')
+
+      it('alerts failure and logs error', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'determineLockboxRoute',
+              error
+            )
+          )
+          .next()
+          .isDone()
       })
     })
   })
