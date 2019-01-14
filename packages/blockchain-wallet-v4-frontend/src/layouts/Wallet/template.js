@@ -9,6 +9,7 @@ import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
 import TrayRight from './TrayRight'
 import Page from './Page'
+import AnalyticsTracker from 'providers/AnalyticsTracker'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
 import Menu from 'scenes/Transactions/Menu'
@@ -62,6 +63,7 @@ const WalletLayout = props => {
 
   return (
     <Wrapper>
+      <AnalyticsTracker />
       <ErrorBoundary>
         <Alerts />
         <Tooltips />
