@@ -206,7 +206,6 @@ export default ({ api }) => {
     try {
       yield put(A.saveNewDeviceKvStoreLoading())
       let newDeviceName = 'My Lockbox'
-      yield put(A.saveNewDeviceKvStoreLoading())
       const deviceList = (yield select(
         selectors.core.kvStore.lockbox.getDevices
       )).getOrElse([])

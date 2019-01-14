@@ -45,11 +45,11 @@ const newDeviceInfoMock = {
 }
 const mdAccountsEntryMock = {
   device_type: 'ledger',
-  device_name: 'My Lockbox Device',
+  device_name: 'My Lockbox',
   btc: {
     accounts: [
       {
-        label: 'My Lockbox Device - BTC Wallet',
+        label: 'My Lockbox - BTC Wallet',
         archived: false,
         xpriv: '',
         xpub:
@@ -67,7 +67,7 @@ const mdAccountsEntryMock = {
   bch: {
     accounts: [
       {
-        label: 'My Lockbox Device - BCH Wallet',
+        label: 'My Lockbox - BCH Wallet',
         archived: false,
         xpriv: '',
         xpub:
@@ -85,7 +85,7 @@ const mdAccountsEntryMock = {
   eth: {
     accounts: [
       {
-        label: 'My Lockbox Device - ETH Wallet',
+        label: 'My Lockbox - ETH Wallet',
         archived: false,
         correct: true,
         addr: '0xd379c32a70A6e2D2698cA9890484340279e96DAA'
@@ -315,14 +315,16 @@ describe('lockbox sagas', () => {
   })
 
   describe('saveNewDeviceKvStore', () => {
-    let payload = { deviceName: 'My Lockbox Device' }
-    const saga = testSaga(saveNewDeviceKvStore, { payload })
+    const saga = testSaga(saveNewDeviceKvStore)
 
     it('sets saveNewDeviceKvStore to loading', () => {
       saga.next().put(A.saveNewDeviceKvStoreLoading())
     })
-    it('selects deviceInfo from state', () => {
-      saga.next().select(S.getNewDeviceInfo)
+    it('selects devices list from state', () => {
+      saga.next().select(selectors.core.kvStore.lockbox.getDevices)
+    })
+    it('gets new device info', () => {
+      saga.next(Remote.of([])).select(S.getNewDeviceInfo)
     })
     it('creates a new device entry', () => {
       saga
@@ -334,10 +336,7 @@ describe('lockbox sagas', () => {
     it('sets saveNewDeviceKvStore to success', () => {
       saga.next().put(A.saveNewDeviceKvStoreSuccess())
     })
-    it('closes the modal', () => {
-      saga.next().put(actions.modals.closeModal())
-    })
-    it('fetches multiaddr data for all coins', () => {
+    it('fetches data for all coins', () => {
       saga
         .next()
         .put(actions.core.data.bch.fetchData())
@@ -348,33 +347,30 @@ describe('lockbox sagas', () => {
         .next()
         .put(actions.core.data.xlm.fetchData())
     })
-    it('alerts success', () => {
-      saga.next()
-    })
-    it('selects devices from kvStore', () => {
-      saga.next().select(selectors.core.kvStore.lockbox.getDevices)
-    })
-    it('inits dashboard at index', () => {
-      saga.next(Remote.of([mdAccountsEntryMock])).put(A.initializeDashboard(0))
-    })
-    it('redirects to lockbox dashboard', () => {
-      saga.next().put(actions.router.push('/lockbox/dashboard/0'))
+    it('alerts success and finishes', () => {
+      saga
+        .next()
+        .next()
+        .isDone()
     })
 
     describe('failure', () => {
-      const error = new TypeError(
-        "Cannot read property 'deviceName' of undefined"
-      )
-      const saga = testSaga(saveNewDeviceKvStore, {})
-      it('throws if deviceName is not passed', () => {
-        saga.next().put(A.saveNewDeviceKvStoreFailure(error))
-      })
+      const error = new Error('Error')
+
       it('alerts failure and logs error', () => {
         saga
+          .restart()
           .next()
+          .throw(error)
+          .next()
+          .put(A.saveNewDeviceKvStoreFailure(error))
           .next()
           .put(
-            actions.logs.logErrorMessage(logLocation, 'storeDeviceName', error)
+            actions.logs.logErrorMessage(
+              logLocation,
+              'saveNewDeviceKvStore',
+              error
+            )
           )
       })
     })
