@@ -103,10 +103,12 @@ describe('lockbox sagas', () => {
     initializeNewDeviceSetup,
     installApplication,
     pollForDeviceTypeChannel,
+    routeNewDeviceToDashboard,
     saveCoinMD,
     saveNewDeviceKvStore,
     uninstallApplication,
-    updateDeviceName
+    updateDeviceName,
+    updateTransactionList
   } = lockboxSagas({
     api,
     coreSagas
@@ -731,6 +733,39 @@ describe('lockbox sagas', () => {
           actions.logs.logErrorMessage(
             logLocation,
             'deriveLatestAppInfo',
+            error
+          )
+        )
+        .next()
+        .isDone()
+    })
+  })
+
+  describe('routeNewDeviceToDashboard', () => {
+    const error = new Error('error')
+    const saga = testSaga(routeNewDeviceToDashboard)
+
+    it('selects devices from kvStore', () => {
+      saga.next().select(selectors.core.kvStore.lockbox.getDevices)
+    })
+    it('inits dashboard', () => {
+      saga.next(Remote.of([{}])).put(A.initializeDashboard(0))
+    })
+    it('routes to dashboard page', () => {
+      saga.next().put(actions.router.push('/lockbox/dashboard/0'))
+    })
+    it('should end', () => {
+      saga.next().isDone()
+    })
+    it('logs failure', () => {
+      saga
+        .restart()
+        .next()
+        .throw(error)
+        .put(
+          actions.logs.logErrorMessage(
+            logLocation,
+            'routeNewDeviceToDashboard',
             error
           )
         )
