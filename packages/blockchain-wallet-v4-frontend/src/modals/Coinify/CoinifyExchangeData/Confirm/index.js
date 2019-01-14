@@ -10,24 +10,18 @@ import { getData } from './selectors'
 import Failure from 'components/BuySell/Failure'
 
 class ConfirmContainer extends Component {
-  constructor (props) {
-    super(props)
-
-    this.onSubmit = this.onSubmit.bind(this)
-  }
-
-  componentWillReceiveProps (nextProps) {
+  componentDidUpdate (prevProps) {
     const data = this.props.data.getOrElse(false)
-    const nextData = nextProps.data.getOrElse(false)
-    if (data && nextData) {
+    const prevData = prevProps.data.getOrElse(false)
+    if (prevData && data) {
       // so it doesn't complain when hot reloading
-      if (data.quote.baseAmount !== nextData.quote.baseAmount) {
+      if (prevData.quote.baseAmount !== data.quote.baseAmount) {
         this.props.updateUI({ editing: false })
       }
     }
   }
 
-  onSubmit () {
+  onSubmit = () => {
     const medium = this.props.medium
     const data = this.props.data.getOrElse(false)
     if (!data) return

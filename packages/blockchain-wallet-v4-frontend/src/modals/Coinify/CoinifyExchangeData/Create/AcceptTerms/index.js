@@ -8,23 +8,18 @@ import { getData } from './selectors'
 import AcceptTerms from './template'
 
 class AcceptTermsContainer extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      busy: false,
-      acceptedTerms: false
-    }
-    this.onSubmit = this.onSubmit.bind(this)
-  }
+  state = { busy: false, acceptedTerms: false }
 
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.signupError) {
+  componentDidUpdate () {
+    /* eslint-disable */
+    if (this.props.signupError && this.state.busy) {
       this.setState({ busy: false })
       this.props.updateUI({ uniqueEmail: false })
     }
+    /* eslint-enable */
   }
 
-  onSubmit () {
+  onSubmit = () => {
     this.setState({ busy: true })
     this.props.coinifyFrontendActions.coinifySignup(this.props.country)
   }

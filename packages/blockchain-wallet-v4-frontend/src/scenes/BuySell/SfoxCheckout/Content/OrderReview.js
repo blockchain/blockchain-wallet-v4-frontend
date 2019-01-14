@@ -8,7 +8,6 @@ import {
   TooltipHost
 } from 'blockchain-info-components'
 import CountdownTimer from 'components/Form/CountdownTimer'
-import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'
 import { reviewOrder } from 'services/SfoxService'
 import { FormattedMessage } from 'react-intl'
@@ -26,6 +25,10 @@ import renderFaq from 'components/FaqDropdown'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import ReviewForm from './orderReviewForm'
 
+const Wrapper = styled.div`
+  padding: 30px;
+  border: 1px solid ${props => props.theme['gray-1']};
+`
 const MethodContainer = styled.div`
   width: 100%;
   display: flex;
@@ -87,7 +90,7 @@ const faqQuestions = [
 ]
 
 export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
-  <ExchangeCheckoutWrapper>
+  <Wrapper>
     <PartnerHeader size='32px' weight={600} style={spacing('mb-10')}>
       <FormattedMessage
         id='buy.sfoxcheckout.almostthere'
@@ -228,7 +231,7 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
         />
       ))
       .getOrElse(null)}
-  </ExchangeCheckoutWrapper>
+  </Wrapper>
 )
 
 export const OrderSubmit = ({
