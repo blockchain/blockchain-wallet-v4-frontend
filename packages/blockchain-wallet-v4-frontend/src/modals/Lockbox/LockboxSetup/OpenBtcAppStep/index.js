@@ -9,7 +9,11 @@ class OpenBtcAppStepContainer extends React.PureComponent {
   state = { installRanOrSkipped: false, userAcceptedInstall: false }
 
   componentDidMount () {
-    this.props.analytics.logLockboxSetup('open_btc')
+    this.props.analytics.logEvent([
+      'lockbox',
+      'setup',
+      'lockbox_btc_app_opened'
+    ])
   }
 
   componentWillUnmount () {

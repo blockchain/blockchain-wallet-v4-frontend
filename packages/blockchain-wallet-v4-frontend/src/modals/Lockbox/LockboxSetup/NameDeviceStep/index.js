@@ -9,7 +9,7 @@ import NameDeviceStep from './template'
 
 class NameDeviceStepContainer extends React.PureComponent {
   componentDidMount () {
-    this.props.analytics.logLockboxSetup('name_device')
+    this.props.analytics.logEvent(['lockbox', 'setup', 'lockbox_device_named'])
   }
 
   onSubmit = () => {

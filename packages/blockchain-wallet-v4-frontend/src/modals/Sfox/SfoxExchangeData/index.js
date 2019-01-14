@@ -58,8 +58,8 @@ class SfoxExchangeData extends React.PureComponent {
     this.setState({ show: false })
     setTimeout(this.props.close, 500)
     this.props.sfoxFrontendActions.handleModalClose()
-    const step = this.props.signupStep || this.props.step
-    this.props.analytics.logSfoxDropoff(step)
+    // const step = this.props.signupStep || this.props.step
+    // TODO @analytics.logEvent sfox signup funnel
   }
 
   getStepComponent (step) {
