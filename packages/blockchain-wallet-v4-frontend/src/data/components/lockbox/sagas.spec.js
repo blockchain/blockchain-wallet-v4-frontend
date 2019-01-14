@@ -101,6 +101,7 @@ describe('lockbox sagas', () => {
     deriveLatestAppInfo,
     determineLockboxRoute,
     initializeNewDeviceSetup,
+    initializeAppManager,
     installApplication,
     pollForDeviceTypeChannel,
     routeNewDeviceToDashboard,
@@ -821,26 +822,63 @@ describe('lockbox sagas', () => {
   describe('initializeNewDeviceSetup', () => {
     const saga = testSaga(initializeNewDeviceSetup)
 
-    it('changes device setup step', () => {
-      saga.next().put(A.changeDeviceSetupStep('connect-device'))
-    })
-    it('opens a channel and polls for device', () => {
+    it('calls for device type channel polling', () => {
       saga.next().call(pollForDeviceTypeChannel, 2500)
     })
-    it('sets the connection info', () => {
+    it('should end', () => {
       saga
         .next()
         .next()
-        .take(AT.SET_CONNECTION_INFO)
+        .next()
+        .isDone()
     })
-    it('waits for setup step 1', () => {
+  })
+
+  describe('finalizeNewDeviceSetup', () => {})
+
+  describe('initializeAppManager', () => {
+    const deviceIndex = 1
+    const mockDeviceType = 'ledger'
+    const error = new Error('error')
+    let payload = { deviceIndex }
+    const saga = testSaga(initializeAppManager, { payload })
+
+    it('should get transport from getCurrentConnection', () => {
+      saga.next().select(S.getCurrentConnection)
+    })
+    it('should get devices', () => {
       saga
-        .next({ payload: { deviceType: 'ledger' } })
-        .take(AT.SET_NEW_DEVICE_SETUP_STEP)
+        .next({ app: 'BTC' })
+        .select(selectors.core.kvStore.lockbox.getDevice, deviceIndex)
     })
-    it('prefetches app info', () => {
+    it('should poll for device connection', () => {
+      saga
+        .next(Remote.of({ device_type: mockDeviceType }))
+        .put(A.pollForDeviceApp('DASHBOARD', null, mockDeviceType))
+    })
+    it('should wait dashboard connection', () => {
+      saga.next().take(AT.SET_CONNECTION_INFO)
+    })
+    it('should call to fetch app info', () => {
       saga.next().call(deriveLatestAppInfo)
     })
-    // TODO: unit test rest of saga
+    it('should end', () => {
+      saga.next().isDone()
+    })
+    it('logs failure', () => {
+      saga
+        .restart()
+        .next()
+        .throw(error)
+        .put(
+          actions.logs.logErrorMessage(
+            logLocation,
+            'initializeAppManager',
+            error
+          )
+        )
+        .next()
+        .isDone()
+    })
   })
 })
