@@ -50,7 +50,10 @@ export default ({ coreSagas, networks }) => {
         const addressesR = yield select(
           selectors.core.common.btc.getActiveAddresses
         )
-        const addresses = addressesR.getOrElse([]).map(prop('addr'))
+        const addresses = addressesR
+          .getOrElse([])
+          .filter(prop('priv'))
+          .map(prop('addr'))
         payment = yield payment.from(addresses, ADDRESS_TYPES.LEGACY)
       } else {
         const accountsR = yield select(

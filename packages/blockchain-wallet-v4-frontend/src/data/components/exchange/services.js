@@ -22,6 +22,9 @@ export const convertBaseToStandard = (coin, value) => {
     case 'BCH':
       return Exchange.convertBchToBch({ value, fromUnit: 'SAT', toUnit: 'BCH' })
         .value
+    case 'BSV':
+      return Exchange.convertBsvToBsv({ value, fromUnit: 'SAT', toUnit: 'BSV' })
+        .value
     case 'BTC':
       return Exchange.convertBitcoinToBitcoin({
         value,
@@ -49,6 +52,9 @@ export const convertStandardToBase = (coin, value) => {
   switch (coin) {
     case 'BCH':
       return Exchange.convertBchToBch({ value, fromUnit: 'BCH', toUnit: 'SAT' })
+        .value
+    case 'BSV':
+      return Exchange.convertBsvToBsv({ value, fromUnit: 'BSV', toUnit: 'SAT' })
         .value
     case 'BTC':
       return Exchange.convertBitcoinToBitcoin({
@@ -83,7 +89,7 @@ export const isAmountBelowMinimum = (value, minimum) => {
 }
 
 export const isAmountAboveMaximum = (value, maximum) => {
-  return new BigNumber(value).greaterThan(new BigNumber(maximum))
+  return maximum && new BigNumber(value).greaterThan(new BigNumber(maximum))
 }
 
 export const calculateFinalAmount = (value, fee) => {
@@ -115,6 +121,8 @@ export const minimum = (val1, val2) => {
 export const selectFee = (coin, payment) => {
   switch (coin) {
     case 'BCH':
+      return path(['selection', 'fee'], payment)
+    case 'BSV':
       return path(['selection', 'fee'], payment)
     case 'BTC':
       return path(['selection', 'fee'], payment)
