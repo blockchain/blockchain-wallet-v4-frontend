@@ -774,6 +774,50 @@ describe('lockbox sagas', () => {
     })
   })
 
+  describe('updateTransactionList', () => {
+    const deviceIndex = 1
+    let payload = { deviceIndex, reset: false }
+    const saga = testSaga(updateTransactionList, { payload })
+
+    it('selects coin contexts', () => {
+      saga
+        .next()
+        .select(
+          selectors.core.kvStore.lockbox.getBtcContextForDevice,
+          deviceIndex
+        )
+        .next(Remote.of({}))
+        .select(
+          selectors.core.kvStore.lockbox.getBchContextForDevice,
+          deviceIndex
+        )
+        .next(Remote.of({}))
+        .select(
+          selectors.core.kvStore.lockbox.getEthContextForDevice,
+          deviceIndex
+        )
+        .next(Remote.of({}))
+        .select(
+          selectors.core.kvStore.lockbox.getXlmContextForDevice,
+          deviceIndex
+        )
+    })
+    it('fetches transactions', () => {
+      saga
+        .next(Remote.of({}))
+        .put(actions.core.data.bitcoin.fetchTransactions({}, false))
+        .next()
+        .put(actions.core.data.ethereum.fetchTransactions({}, false))
+        .next()
+        .put(actions.core.data.bch.fetchTransactions({}, false))
+        .next()
+        .put(actions.core.data.xlm.fetchTransactionsSuccess([], true))
+    })
+    it('should end', () => {
+      saga.next().isDone()
+    })
+  })
+
   describe('initializeNewDeviceSetup', () => {
     const saga = testSaga(initializeNewDeviceSetup)
 
