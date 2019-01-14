@@ -11,14 +11,14 @@ import Failure from 'components/BuySell/Failure'
 
 class ConfirmContainer extends Component {
   state = { isEditing: false, limitsError: '' }
-
-  componentWillReceiveProps (nextProps) {
+  componentDidUpdate (prevProps) {
     const data = this.props.data.getOrElse(false)
-    const nextData = nextProps.data.getOrElse(false)
-    if (data && nextData) {
-      // so it doesn't complain when hot reloading
-      if (data.quote.baseAmount !== nextData.quote.baseAmount) {
+    const prevData = prevProps.data.getOrElse(false)
+    if (prevData && data) {
+      if (prevData.quote.baseAmount !== data.quote.baseAmount) {
+        /* eslint-disable */
         this.setState({ isEditing: false })
+        /* eslint-enable */
       }
     }
   }

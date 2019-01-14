@@ -8,21 +8,21 @@ import { actions } from 'data'
 import Settings from './template.js'
 
 class SettingsContainer extends React.PureComponent {
-  componentWillMount () {
+  componentDidMount () {
     this.props.formActions.initialize('settingLanguage', {
       language: this.props.language
     })
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentDidUpdate (prevProps) {
     const { language, newLanguage } = this.props
     if (
-      !isNil(nextProps.newLanguage) &&
-      !equals(language, nextProps.newLanguage) &&
-      !equals(newLanguage, nextProps.newLanguage)
+      !isNil(newLanguage) &&
+      !equals(language, newLanguage) &&
+      !equals(prevProps.newLanguage, newLanguage)
     ) {
-      this.props.settingsActions.updateLanguage(nextProps.newLanguage)
-      this.props.preferencesActions.setLanguage(nextProps.newLanguage, true)
+      this.props.settingsActions.updateLanguage(newLanguage)
+      this.props.preferencesActions.setLanguage(newLanguage, true)
     }
   }
 

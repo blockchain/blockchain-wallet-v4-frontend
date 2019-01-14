@@ -44,6 +44,7 @@ import { ErrorBanner } from './ErrorBanner'
 import { XlmFiatConvertor } from './XlmFiatConvertor'
 import { InfoBanner } from './InfoBanner'
 import { SelectBoxMemo } from './SelectBoxMemo'
+import { removeWhitespace } from 'services/FormHelper/normalizers'
 
 const BrowserWarning = styled(Banner)`
   margin-bottom: 15px;
@@ -166,6 +167,7 @@ const FirstStep = props => {
                     name='to'
                     placeholder='Paste or scan an address, or select a destination'
                     component={TextBox}
+                    normalize={removeWhitespace}
                     validate={[required, validXlmAddress]}
                     autoFocus
                     data-e2e='sendXlmToAddress'

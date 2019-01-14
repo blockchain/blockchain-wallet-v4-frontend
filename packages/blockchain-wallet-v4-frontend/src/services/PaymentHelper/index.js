@@ -1,4 +1,4 @@
-import { selectors } from 'data'
+import { model, selectors } from 'data'
 import { curry, prop } from 'ramda'
 import { utils } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
@@ -33,7 +33,15 @@ export const btcFromLabel = curry((payment, state) => {
       const label = selectors.core.wallet.getLegacyAddressLabel(state)(
         payment.from[0]
       )
-      return label || payment.from[0]
+      const formValues = selectors.form.getFormValues(
+        model.components.sendBtc.FORM
+      )(state)
+      const { from } = formValues
+      if (from === 'allImportedAddresses') {
+        return 'All Imported Bitcoin Addresses'
+      } else {
+        return label || payment.from[0]
+      }
     case ADDRESS_TYPES.LOCKBOX:
       return selectors.core.kvStore.lockbox
         .getLockboxBtcAccount(state, payment.from[0])
@@ -78,7 +86,15 @@ export const bchFromLabel = curry((payment, state) => {
         .getAccountLabel(state)(payment.fromAccountIdx)
         .getOrElse(payment.from[0])
     case ADDRESS_TYPES.LEGACY:
-      return utils.bch.toCashAddr(payment.from[0], true)
+      const formValues = selectors.form.getFormValues(
+        model.components.sendBch.FORM
+      )(state)
+      const { from } = formValues
+      if (from === 'allImportedAddresses') {
+        return 'All Imported Bitcoin Cash Addresses'
+      } else {
+        return utils.bch.toCashAddr(payment.from[0], true)
+      }
     case ADDRESS_TYPES.WATCH_ONLY:
       return utils.bch.toCashAddr(payment.from[0], true)
     case ADDRESS_TYPES.EXTERNAL:
@@ -100,7 +116,15 @@ export const bsvFromLabel = curry((payment, state) => {
         .getAccountLabel(state)(payment.fromAccountIdx)
         .getOrElse(payment.from[0])
     case ADDRESS_TYPES.LEGACY:
-      return utils.bsv.toCashAddr(payment.from[0], true)
+      const formValues = selectors.form.getFormValues(
+        model.components.sendBsv.FORM
+      )(state)
+      const { from } = formValues
+      if (from === 'allImportedAddresses') {
+        return 'All Imported Bitcoin SV Addresses'
+      } else {
+        return utils.bsv.toCashAddr(payment.from[0], true)
+      }
     case ADDRESS_TYPES.WATCH_ONLY:
       return utils.bsv.toCashAddr(payment.from[0], true)
     case ADDRESS_TYPES.EXTERNAL:

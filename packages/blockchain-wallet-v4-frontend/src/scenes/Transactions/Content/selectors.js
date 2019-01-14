@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { selectors } from 'data'
+import { selectors, model } from 'data'
 import {
   all,
   curry,
@@ -17,6 +17,8 @@ import {
   propOr
 } from 'ramda'
 import { hasAccount } from 'services/ExchangeService'
+
+const { WALLET_TX_SEARCH } = model.form
 
 const filterTransactions = curry((status, criteria, transactions) => {
   const isOfType = curry((filter, tx) =>
@@ -59,7 +61,7 @@ const coinSelectorMap = {
 export const getData = (state, coin) =>
   createSelector(
     [
-      selectors.form.getFormValues('walletTxSearch'),
+      selectors.form.getFormValues(WALLET_TX_SEARCH),
       coinSelectorMap[coin],
       selectors.core.kvStore.buySell.getMetadata,
       selectors.core.settings.getCurrency

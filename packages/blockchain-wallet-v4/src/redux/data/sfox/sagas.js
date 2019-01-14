@@ -1,5 +1,5 @@
 import { apply, fork, call, put, select, take } from 'redux-saga/effects'
-import { path, prepend, prop } from 'ramda'
+import { path, prepend } from 'ramda'
 
 import ExchangeDelegate from '../../../exchange/delegate'
 import * as S from './selectors'
@@ -61,9 +61,6 @@ export default ({ api, options }) => {
         quoteCurrency
       ])
       yield put(A.fetchQuoteSuccess(quote))
-      baseCurrency === 'BTC'
-        ? yield call(api.logSfoxQuote, 'sfox_quote_buy_btc_usd')
-        : yield call(api.logSfoxQuote, 'sfox_quote_buy_usd_btc')
       yield fork(waitForRefreshQuote, data.payload)
     } catch (e) {
       yield put(A.fetchQuoteFailure(e))
@@ -81,9 +78,6 @@ export default ({ api, options }) => {
         quoteCurrency
       ])
       yield put(A.fetchSellQuoteSuccess(quote))
-      baseCurrency === 'BTC'
-        ? yield call(api.logSfoxQuote, 'sfox_quote_sell_btc_usd')
-        : yield call(api.logSfoxQuote, 'sfox_quote_sell_usd_btc')
       yield fork(waitForRefreshSellQuote, data.payload)
     } catch (e) {
       yield put(A.fetchSellQuoteFailure(e))
@@ -271,10 +265,6 @@ export default ({ api, options }) => {
 
   const handleTrade = function*(quote, addressData) {
     try {
-      prop('baseCurrency', quote) === 'BTC'
-        ? yield call(api.logSfoxTrade, 'sfox_trade_buy_btc_usd_created')
-        : yield call(api.logSfoxTrade, 'sfox_trade_buy_usd_btc_created')
-
       yield put(A.handleTradeLoading())
       const accountsR = yield select(S.getAccounts)
       const accounts = accountsR.getOrElse([])
@@ -319,9 +309,6 @@ export default ({ api, options }) => {
 
   const handleSellTrade = function*(quote) {
     try {
-      prop('baseCurrency', quote) === 'BTC'
-        ? yield call(api.logSfoxTrade, 'sfox_trade_sell_btc_usd_created')
-        : yield call(api.logSfoxTrade, 'sfox_trade_sell_usd_btc_created')
       yield put(A.handleTradeLoading())
       const accountsR = yield select(S.getAccounts)
       const accounts = accountsR.getOrElse([])

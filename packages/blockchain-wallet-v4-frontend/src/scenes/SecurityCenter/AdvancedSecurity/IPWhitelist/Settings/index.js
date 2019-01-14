@@ -11,7 +11,7 @@ import Settings from './template.js'
 class SettingsContainer extends React.PureComponent {
   state = { updateToggled: false }
 
-  componentWillMount () {
+  componentDidMount (prevProps) {
     if (!isEmpty(this.props.currentWhitelist)) {
       this.props.formActions.initialize('settingIPWhitelist', {
         IPWhitelist: this.props.currentWhitelist
@@ -19,9 +19,9 @@ class SettingsContainer extends React.PureComponent {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (!equals(this.props.currentWhitelist, nextProps.currentWhitelist)) {
-      this.handleToggle()
+  componentDidUpdate (prevProps) {
+    if (!equals(this.props.currentWhitelist, prevProps.currentWhitelist)) {
+      this.props.updateUI({ updateToggled: false })
     }
   }
 

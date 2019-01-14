@@ -11,8 +11,8 @@ exports[`EmptyContent renders correctly 1`] = `
       weight={600}
     >
       <FormattedMessage
-        defaultMessage="Now Supporting Bitcoin Cash SV!"
-        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.title"
+        defaultMessage="Now Supporting Bitcoin SV (BSV)!"
+        id="layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.now_supporting_sv"
         values={Object {}}
       />
     </text>
@@ -20,7 +20,7 @@ exports[`EmptyContent renders correctly 1`] = `
   <WhatsNew__Row
     marginBottom="24px"
   >
-    <BitcoinCashSVSupport__DarkText
+    <BSVSupport__DarkText
       size="14px"
     >
       <FormattedMessage
@@ -28,18 +28,18 @@ exports[`EmptyContent renders correctly 1`] = `
         id="layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.january2019"
         values={Object {}}
       />
-    </BitcoinCashSVSupport__DarkText>
+    </BSVSupport__DarkText>
   </WhatsNew__Row>
   <WhatsNew__Row
     marginBottom="24px"
   >
-    <BitcoinCashSVSupport__DarkText>
+    <BSVSupport__DarkText>
       <FormattedMessage
         defaultMessage="Visit Settings to view your balance, exchange BSV for BTC, BCH, ETH, and XLM, or send BSV to any address."
         id="layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.visitsettings"
         values={Object {}}
       />
-    </BitcoinCashSVSupport__DarkText>
+    </BSVSupport__DarkText>
   </WhatsNew__Row>
   <WhatsNew__Row>
     <LinkContainer
@@ -47,15 +47,15 @@ exports[`EmptyContent renders correctly 1`] = `
       exact={false}
       replace={false}
       strict={false}
-      to="/settings/general"
+      to="/settings/addresses/bsv"
     >
-      <BitcoinCashSVSupport__GetStartedButton>
+      <BSVSupport__GetStartedButton>
         <FormattedMessage
           defaultMessage="Check it out!"
           id="layouts.wallet.trayright.whatsnew.whatsnewcontent.bitcoincashsvsupport.checkitout"
           values={Object {}}
         />
-      </BitcoinCashSVSupport__GetStartedButton>
+      </BSVSupport__GetStartedButton>
     </LinkContainer>
   </WhatsNew__Row>
 </WhatsNew__Container>

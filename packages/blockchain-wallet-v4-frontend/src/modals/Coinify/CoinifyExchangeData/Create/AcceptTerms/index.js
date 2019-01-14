@@ -8,16 +8,15 @@ import { getData } from './selectors'
 import AcceptTerms from './template'
 
 class AcceptTermsContainer extends Component {
-  state = {
-    busy: false,
-    acceptedTerms: false
-  }
+  state = { busy: false, acceptedTerms: false }
 
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.signupError) {
+  componentDidUpdate () {
+    /* eslint-disable */
+    if (this.props.signupError && this.state.busy) {
       this.setState({ busy: false })
       this.props.updateState({ uniqueEmail: false })
     }
+    /* eslint-enable */
   }
 
   onSubmit = () => {

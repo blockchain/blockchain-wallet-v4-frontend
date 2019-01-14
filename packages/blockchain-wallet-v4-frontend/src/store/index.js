@@ -9,7 +9,6 @@ import { head } from 'ramda'
 import Bitcoin from 'bitcoinjs-lib'
 import BitcoinCash from 'bitcoinforksjs-lib'
 
-import appConfig from 'config'
 import { coreMiddleware } from 'blockchain-wallet-v4/src'
 import {
   createWalletApi,
@@ -50,8 +49,8 @@ const configureStore = () => {
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(devToolsConfig)
     : compose
-  const walletPath = appConfig.WALLET_PAYLOAD_PATH
-  const kvStorePath = appConfig.WALLET_KVSTORE_PATH
+  const walletPath = 'wallet.payload'
+  const kvStorePath = 'wallet.kvstore'
   const isAuthenticated = selectors.auth.isAuthenticated
 
   return fetch('/Resources/wallet-options-v4.json')

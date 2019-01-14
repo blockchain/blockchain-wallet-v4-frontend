@@ -20,3 +20,7 @@ export const setTxNotesBsv = (txHash, txNote) => ({
   type: AT.SET_TRANSACTION_NOTE_BSV,
   payload: { txHash, txNote }
 })
+export const setAccountArchived = (accountIdx, archived) => ({
+  type: AT.SET_BSV_ACCOUNT_ARCHIVED,
+  payload: { accountIdx, archived }
+})
