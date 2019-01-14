@@ -9,12 +9,7 @@ import Success from './template.success'
 import { LoadingBalance } from 'components/Balances'
 
 class BchWatchOnlyBalance extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleRefresh = this.handleRefresh.bind(this)
-  }
-
-  handleRefresh () {
+  handleRefresh = () => {
     this.props.actions.fetchData()
   }
 
@@ -23,7 +18,7 @@ class BchWatchOnlyBalance extends React.PureComponent {
 
     return data.cata({
       Success: value => <Success balance={value} />,
-      Failure: message => <Error onRefresh={this.handleRefresh} />,
+      Failure: () => <Error onRefresh={this.handleRefresh} />,
       Loading: () => <LoadingBalance coin='BCH' />,
       NotAsked: () => <LoadingBalance coin='BCH' />
     })
