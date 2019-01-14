@@ -5,15 +5,19 @@ import * as A from './actions'
 import * as S from './selectors'
 import * as AT from './actionTypes'
 import * as actions from '../../actions'
+import * as actionTypes from '../../actionTypes'
 import * as selectors from '../../selectors'
 import * as Lockbox from 'services/LockboxService'
 import lockboxSagas from './sagas'
+import * as SagaService from 'services/SagaService'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 Lockbox.apps.installApp = jest.fn()
 Lockbox.apps.uninstallApp = jest.fn()
 Lockbox.utils.getDeviceInfo = jest.fn()
+Lockbox.utils.getXlmPublicKey = jest.fn()
 Lockbox.firmware.checkDeviceAuthenticity = jest.fn()
+SagaService.promptForLockbox = jest.fn()
 
 const logLocation = 'components/lockbox/sagas'
 const api = {
@@ -89,14 +93,15 @@ const mdAccountsEntryMock = {
 
 describe('lockbox sagas', () => {
   const {
-    pollForDeviceTypeChannel,
     checkDeviceAuthenticity,
-    initializeNewDeviceSetup,
-    saveNewDeviceKvStore,
-    uninstallApplication,
-    installApplication,
     deriveLatestAppInfo,
-    determineLockboxRoute
+    determineLockboxRoute,
+    initializeNewDeviceSetup,
+    installApplication,
+    pollForDeviceTypeChannel,
+    saveCoinMD,
+    saveNewDeviceKvStore,
+    uninstallApplication
   } = lockboxSagas({
     api,
     coreSagas
@@ -411,6 +416,130 @@ describe('lockbox sagas', () => {
               error
             )
           )
+          .next()
+          .isDone()
+      })
+    })
+  })
+
+  describe('saveCoinMD', () => {
+    describe('xlm', () => {
+      const deviceType = 'ledger'
+      const deviceIndex = 1
+      const mockTransport = 'tport'
+      const coin = 'xlm'
+      const mockPubKeyXlm =
+        'ZZ4GRUK7IVYKTDJLIQO3VRYCUQG4SZZFM767Z7C77DLY5JXDFMTKYH3I'
+      const mockMdEntry = { coin, publicKey: mockPubKeyXlm }
+      let payload = { deviceIndex, coin }
+      const saga = testSaga(saveCoinMD, { payload })
+
+      it('selects device from index', () => {
+        saga
+          .next()
+          .select(selectors.core.kvStore.lockbox.getDevice, deviceIndex)
+      })
+      it('prompts for Lockbox connection', () => {
+        saga
+          .next(
+            Remote.of({
+              device_type: deviceType,
+              deviceName: 'test'
+            })
+          )
+          .call(
+            SagaService.promptForLockbox,
+            coin.toUpperCase(),
+            deviceType,
+            [],
+            false
+          )
+      })
+      it('selects current connection', () => {
+        saga.next().select(S.getCurrentConnection)
+      })
+      it('retrieves xlm public key', () => {
+        saga
+          .next({ transport: mockTransport })
+          .call(Lockbox.utils.getXlmPublicKey, deviceType, mockTransport)
+      })
+      it('generates xlm account metadata entry', () => {
+        saga
+          .next({ publicKey: mockPubKeyXlm, entry: mockMdEntry })
+          .put(actions.components.lockbox.setConnectionSuccess())
+      })
+      it('should close modal', () => {
+        saga
+          .next()
+          .next()
+          .put(actions.modals.closeAllModals())
+      })
+      it('should store new coin', () => {
+        saga.next().put(
+          actions.core.kvStore.lockbox.addCoinEntry(deviceIndex, coin, {
+            default_account_idx: 0,
+            accounts: [
+              {
+                publicKey: mockPubKeyXlm,
+                label: 'undefined - XLM Wallet',
+                archived: false
+              }
+            ],
+            tx_notes: {}
+          })
+        )
+      })
+      it('should wait for lockbox metadata fetch success', () => {
+        saga
+          .next()
+          .take(actionTypes.core.kvStore.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS)
+      })
+      it('should init dashboard', () => {
+        saga.next().put(A.initializeDashboard(deviceIndex))
+      })
+      it('should end', () => {
+        saga.next().isDone()
+      })
+    })
+
+    describe('default no coin error', () => {
+      const deviceType = 'ledger'
+      const deviceIndex = 1
+      const coin = 'neo'
+      const error = new Error('unknown coin type')
+      let payload = { deviceIndex, coin }
+      const saga = testSaga(saveCoinMD, { payload })
+
+      it('selects device from index', () => {
+        saga
+          .next()
+          .select(selectors.core.kvStore.lockbox.getDevice, deviceIndex)
+      })
+      it('throws unknown coin error', () => {
+        saga
+          .next(
+            Remote.of({
+              device_type: deviceType,
+              deviceName: 'test'
+            })
+          )
+          .put(actions.logs.logErrorMessage(logLocation, 'saveCoinMD', error))
+      })
+      it('should end', () => {
+        saga.next().isDone()
+      })
+    })
+
+    describe('failure', () => {
+      let payload = { deviceIndex: 1, coin: 'xlm' }
+      const saga = testSaga(saveCoinMD, { payload })
+      const error = new Error('error')
+
+      it('alerts failure and logs error', () => {
+        saga
+          .next()
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'saveCoinMD', error))
           .next()
           .isDone()
       })
