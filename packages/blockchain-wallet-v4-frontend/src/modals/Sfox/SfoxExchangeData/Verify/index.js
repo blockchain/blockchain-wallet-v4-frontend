@@ -66,7 +66,7 @@ const faqQuestions = [
 ]
 
 class VerifyContainer extends Component {
-  state = { viewSSN: false }
+  state = { verify: 'address', error: false, busy: false, viewSSN: false }
 
   componentDidUpdate (prevProps) {
     if (
