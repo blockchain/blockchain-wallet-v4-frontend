@@ -2,6 +2,7 @@ import { testSaga } from 'redux-saga-test-plan'
 
 import { Remote, coreSagasFactory } from 'blockchain-wallet-v4/src'
 import * as A from './actions'
+import * as CC from 'services/ConfirmService'
 import * as S from './selectors'
 import * as AT from './actionTypes'
 import * as actions from '../../actions'
@@ -18,6 +19,7 @@ Lockbox.utils.getDeviceInfo = jest.fn()
 Lockbox.utils.getXlmPublicKey = jest.fn()
 Lockbox.firmware.checkDeviceAuthenticity = jest.fn()
 SagaService.promptForLockbox = jest.fn()
+SagaService.confirm = jest.fn()
 
 const logLocation = 'components/lockbox/sagas'
 const api = {
@@ -94,6 +96,7 @@ const mdAccountsEntryMock = {
 describe('lockbox sagas', () => {
   const {
     checkDeviceAuthenticity,
+    deleteDevice,
     deriveLatestAppInfo,
     determineLockboxRoute,
     initializeNewDeviceSetup,
@@ -101,7 +104,8 @@ describe('lockbox sagas', () => {
     pollForDeviceTypeChannel,
     saveCoinMD,
     saveNewDeviceKvStore,
-    uninstallApplication
+    uninstallApplication,
+    updateDeviceName
   } = lockboxSagas({
     api,
     coreSagas
@@ -540,6 +544,116 @@ describe('lockbox sagas', () => {
           .next()
           .throw(error)
           .put(actions.logs.logErrorMessage(logLocation, 'saveCoinMD', error))
+          .next()
+          .isDone()
+      })
+    })
+  })
+
+  describe('updateDeviceName', () => {
+    const deviceName = 'Test'
+    const deviceIndex = 1
+    let payload = { deviceIndex, deviceName }
+    const saga = testSaga(updateDeviceName, { payload })
+
+    describe('success', () => {
+      it('sets update device name loading', () => {
+        saga.next().put(A.updateDeviceNameLoading())
+      })
+      it('stores new device name', () => {
+        saga
+          .next()
+          .put(
+            actions.core.kvStore.lockbox.updateDeviceName(
+              deviceIndex,
+              deviceName
+            )
+          )
+      })
+      it('sets update device name success', () => {
+        saga.next().put(A.updateDeviceNameSuccess())
+      })
+      it('should end', () => {
+        saga
+          .next()
+          .next()
+          .isDone()
+      })
+    })
+
+    describe('failure', () => {
+      const error = new Error('error')
+
+      it('alerts failure and logs error', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(A.updateDeviceNameFailure())
+          .next()
+          .next()
+          .put(
+            actions.logs.logErrorMessage(logLocation, 'updateDeviceName', error)
+          )
+          .next()
+          .isDone()
+      })
+    })
+  })
+
+  describe('deleteDevice', () => {
+    const deviceIndex = 1
+    let payload = { deviceIndex }
+    const saga = testSaga(deleteDevice, { payload })
+
+    describe('success', () => {
+      it('calls for device connection', () => {
+        saga.next().call(SagaService.confirm, {
+          title: CC.CONFIRM_DELETE_LOCKBOX_TITLE,
+          message: CC.CONFIRM_DELETE_LOCKBOX_MESSAGE,
+          nature: 'warning'
+        })
+      })
+      it('sets delete device loading', () => {
+        saga.next(true).put(A.deleteDeviceLoading())
+      })
+      it('calls to delete device', () => {
+        saga
+          .next()
+          .put(actions.core.kvStore.lockbox.deleteDeviceLockbox(deviceIndex))
+      })
+      it('routes to lockbox page', () => {
+        saga.next().put(actions.router.push('/lockbox'))
+      })
+      it('sets delete device success', () => {
+        saga.next().put(A.deleteDeviceSuccess())
+      })
+      it('fetches latest transactions', () => {
+        saga
+          .next()
+          .next()
+          .put(actions.core.data.bitcoin.fetchTransactions('', true))
+          .next()
+          .put(actions.core.data.ethereum.fetchTransactions('', true))
+          .next()
+          .put(actions.core.data.bch.fetchTransactions('', true))
+          .next()
+          .put(actions.core.data.xlm.fetchTransactions('', true))
+      })
+      it('should end', () => {
+        saga.next().isDone()
+      })
+    })
+
+    describe('failure', () => {
+      const error = new Error('error')
+
+      it('alerts failure and logs error', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'deleteDevice', error))
           .next()
           .isDone()
       })

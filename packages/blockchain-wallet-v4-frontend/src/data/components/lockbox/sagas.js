@@ -285,7 +285,7 @@ export default ({ api }) => {
       const { deviceIndex, deviceName } = action.payload
       yield put(A.updateDeviceNameLoading())
       yield put(
-        actions.core.kvStore.lockbox.storeDeviceName(deviceIndex, deviceName)
+        actions.core.kvStore.lockbox.updateDeviceName(deviceIndex, deviceName)
       )
       yield put(A.updateDeviceNameSuccess())
       yield put(actions.alerts.displaySuccess(C.LOCKBOX_UPDATE_SUCCESS))
