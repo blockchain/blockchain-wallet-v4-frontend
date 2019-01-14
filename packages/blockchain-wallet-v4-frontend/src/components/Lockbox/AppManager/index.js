@@ -32,19 +32,19 @@ const Loader = styled(BlockchainLoader)`
   margin: 20px;
 `
 const ContinueButton = styled(Button)`
-  margin-top: 22px;
+  margin-top: 12px;
 `
-const Subtitle = styled(Text)`
+const ConnectInstructions = styled(Text)`
   text-align: center;
   padding: 5px;
-  margin-bottom: 10px;
+  margin: 30px 0 36px;
 `
 const AllowManagerText = styled(Text)`
-  margin: -2px 0 14px;
+  margin: 20px 0;
   text-align: center;
 `
 const BtcRequiredText = styled(Text)`
-  margin: 15px 0 -10px;
+  margin-top: 8px;
   text-align: center;
 `
 
@@ -103,11 +103,12 @@ class LockboxAppManagerContainer extends React.PureComponent {
             status: 'Success'
           }
         })
+        // clears the status text after 5 seconds
         setTimeout(() => {
           this.setState({
             [AppName]: { status: null }
           })
-        }, 4000)
+        }, 5000)
       },
       Failure: val => {
         // install/uninstall APIs use different keys for appName
@@ -118,6 +119,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
         this.setState({
           [AppName]: { status: 'Error' }
         })
+        // clears the status text after 10 seconds
         setTimeout(() => {
           this.setState({
             [AppName]: { changeType: '', status: null }
@@ -152,18 +154,18 @@ class LockboxAppManagerContainer extends React.PureComponent {
         })
         return (
           <React.Fragment>
-            <AllowManagerText size='14px' weight={300}>
+            {appList}
+            <AllowManagerText size='11px' weight={300}>
               <FormattedHTMLMessage
                 id='components.lockbox.appmanager.prompt'
                 defaultMessage='If prompted, be sure to allow the &quot;Device Manager&quot; onto the device during app updates.'
               />
             </AllowManagerText>
-            {appList}
             {this.props.newDevice && (
-              <BtcRequiredText size='11px' weight={300}>
+              <BtcRequiredText size='10px' weight={300}>
                 <FormattedHTMLMessage
                   id='components.lockbox.appmanager.btcrequired'
-                  defaultMessage='The Bitcoin app is required to pair your device with your Blockchain wallet.'
+                  defaultMessage='The Bitcoin app is needed to connect your Lockbox to your wallet.'
                 />
               </BtcRequiredText>
             )}
@@ -188,7 +190,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
       ),
       Loading: () => (
         <Wrapper>
-          <Loader width='100px' height='100px' />
+          <Loader style={{ margin: '32px' }} width='75px' height='75px' />
         </Wrapper>
       ),
       NotAsked: () => {}
@@ -198,13 +200,19 @@ class LockboxAppManagerContainer extends React.PureComponent {
       <Wrapper>
         {connection.app !== 'DASHBOARD' ? (
           <ConnectStep>
-            <Subtitle size='16px' weight={400} color='gray-4'>
+            <Image width='100%' name='lockbox-onboard-connect' />
+            <ConnectInstructions size='14px' weight={300}>
               <FormattedHTMLMessage
                 id='components.lockbox.appmanager.connectdevice'
                 defaultMessage='Connect, unlock and open the Dashboard on your Lockbox device now.'
               />
-            </Subtitle>
-            <Image width='100%' name='lockbox-onboard-connect' />
+            </ConnectInstructions>
+            <ContinueButton disabled nature='primary' fullwidth>
+              <FormattedHTMLMessage
+                id='components.lockbox.appmanager.waiting'
+                defaultMessage='Waiting...'
+              />
+            </ContinueButton>
           </ConnectStep>
         ) : (
           appListView

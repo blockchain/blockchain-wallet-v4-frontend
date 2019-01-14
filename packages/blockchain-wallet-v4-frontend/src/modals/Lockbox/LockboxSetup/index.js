@@ -44,7 +44,7 @@ class LockboxSetupContainer extends React.PureComponent {
         title: () => (
           <FormattedMessage
             id='modals.lockbox.setup.setuptype.title'
-            defaultMessage='Select Setup Type'
+            defaultMessage="Let's Get Started"
           />
         ),
         template: () => <SetupTypeStep />

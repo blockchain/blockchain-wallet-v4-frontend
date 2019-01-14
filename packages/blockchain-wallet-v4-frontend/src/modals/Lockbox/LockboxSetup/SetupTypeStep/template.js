@@ -16,11 +16,12 @@ const DeviceWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 175px;
-  width: 175px;
+  width: 100%;
 `
 const NewButton = styled(Button)`
+  position: relative;
   height: 55px;
-  margin: 30px 0 6px;
+  margin: 30px 0 12px;
 `
 const ExistingButton = styled(Button)`
   height: 55px;
@@ -33,40 +34,28 @@ const SetupTypeStep = props => {
       {deviceType === 'Lockbox' ? (
         <DeviceWrapper>
           <Image
-            width='95%'
+            width='60%'
             name='lockbox-device'
             srcset={{ 'lockbox-device': '1x' }}
           />
-          <Text size='20px' weight={400} style={{ marginTop: '14px' }}>
+          <Text size='16px' weight={500} style={{ marginTop: '20px' }}>
             <FormattedMessage
-              id='modals.lockboxsetup.setuptypestep.lockbox'
-              defaultMessage='Lockbox'
-            />
-          </Text>
-          <Text size='14px' weight={300}>
-            <FormattedMessage
-              id='modals.lockboxsetup.setuptypestep.blockchain'
-              defaultMessage='Blockchain'
+              id='modals.lockboxsetup.setuptypestep.connectlockbox'
+              defaultMessage='Connect your Blockchain Lockbox'
             />
           </Text>
         </DeviceWrapper>
       ) : (
         <DeviceWrapper>
           <Image
-            width='95%'
+            width='55%'
             name='ledger-nano-s'
             srcset={{ 'ledger-nano-s': '1x' }}
           />
-          <Text size='20px' weight={400} style={{ marginTop: '10px' }}>
+          <Text size='16px' weight={500} style={{ marginTop: '24px' }}>
             <FormattedMessage
-              id='modals.lockboxsetup.setuptypestep.nanos'
-              defaultMessage='Nano S'
-            />
-          </Text>
-          <Text size='14px' weight={300}>
-            <FormattedMessage
-              id='modals.lockboxsetup.setuptypestep.ledger'
-              defaultMessage='Ledger'
+              id='modals.lockboxsetup.setuptypestep.connectnanos'
+              defaultMessage='Connect your Ledger Nano S'
             />
           </Text>
         </DeviceWrapper>
@@ -77,13 +66,13 @@ const SetupTypeStep = props => {
         onClick={() => handleStepChange('new')}
       >
         <TextGroup>
-          <Text size='13px' weight={300} color='white'>
+          <Text size='14px' weight={300} color='white'>
             <FormattedMessage
               id='modals.lockboxsetup.setuptypestep.new'
-              defaultMessage='Setup A New Device'
+              defaultMessage='Set up new device'
             />
           </Text>
-          <Text size='11px' weight={300} color='white'>
+          <Text size='10px' weight={300} color='white'>
             <FormattedMessage
               id='modals.lockboxsetup.setuptypestep.newlength'
               defaultMessage='10-15 Minutes'
@@ -97,13 +86,13 @@ const SetupTypeStep = props => {
         onClick={() => handleStepChange('existing')}
       >
         <TextGroup>
-          <Text size='13px' weight={300} color='white'>
+          <Text size='14px' weight={300} color='white'>
             <FormattedMessage
               id='modals.lockboxsetup.setuptypestep.existing'
-              defaultMessage='Sign In With PIN'
+              defaultMessage='Sign in with PIN'
             />
           </Text>
-          <Text size='11px' weight={300} color='white'>
+          <Text size='10px' weight={300} color='white'>
             <FormattedMessage
               id='modals.lockboxsetup.setuptypestep.existinglength'
               defaultMessage='2-3 Minutes'

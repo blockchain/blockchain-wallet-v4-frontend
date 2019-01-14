@@ -11,10 +11,11 @@ const Wrapper = styled.div`
   align-items: center;
 `
 const IntroText = styled(Text)`
-  margin: 20px 0;
+  margin: 12px 0 20px;
+  text-align: center;
 `
 const ReminderText = styled(Text)`
-  margin: 35px 0 8px;
+  margin: 35px 0 14px;
 `
 const FinishSetupStep = props => {
   const { onNextStep } = props
@@ -29,10 +30,10 @@ const FinishSetupStep = props => {
       <IntroText size='13px' weight={300}>
         <FormattedMessage
           id='modals.lockboxsetup.pairdevice.intro'
-          defaultMessage='Now it is time to add apps to your device. You will need to install an app for each asset that you would like to store on the device.'
+          defaultMessage='Now the fun starts. It’s time to add apps to your device. You will need to install an app for each asset that you store on your device.'
         />
       </IntroText>
-      <ReminderText size='11px' weight={300}>
+      <ReminderText size='10px' weight={300}>
         <FormattedMessage
           id='modals.lockboxsetup.customizestep.reminder'
           defaultMessage="Don't worry you can always change them later."

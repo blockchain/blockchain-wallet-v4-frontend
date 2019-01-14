@@ -7,7 +7,6 @@ import { required } from 'services/FormHelper'
 import { CheckBox, Form, FormGroup, FormItem } from 'components/Form'
 import {
   Button,
-  Icon,
   Image,
   Link,
   Text,
@@ -21,10 +20,8 @@ const Wrapper = styled.div`
   align-items: center;
 `
 const IntroText = styled(Text)`
-  margin: 20px 0 30px;
-`
-const InstallReminderText = styled(Text)`
-  margin: 20px 0 40px;
+  margin: 16px 0 40px;
+  text-align: center;
 `
 const ClickableText = styled(Text)`
   color: ${props => props.theme['brand-secondary']};
@@ -39,13 +36,13 @@ const TimeoutHeader = styled.div`
   flex-direction: column;
   width: 100%;
   align-items: center;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
 `
 const SupportText = styled(Link)`
   margin: 35px 0 8px;
 `
 const ContactSupportText = styled(TextGroup)`
-  margin: 24px 0 8px;
+  margin: 32px 0 12px;
 `
 const SupportListItem = styled(FormItem)`
   display: flex;
@@ -68,8 +65,7 @@ const PairDeviceStep = props => {
   return btcOpenTimeout ? (
     <Wrapper>
       <TimeoutHeader>
-        <Icon name='pending' weight='400' size='40px' color='warn' />
-        <Text size='20px' weight={400} style={{ marginTop: '8px' }}>
+        <Text size='20px' weight={400} style={{ marginTop: '10px' }}>
           <FormattedHTMLMessage
             id='modals.lockboxsetup.pairdevice.timeout.header'
             defaultMessage='Are you having issues?'
@@ -78,7 +74,7 @@ const PairDeviceStep = props => {
         <Text size='15px' weight={300} style={{ marginTop: '4px' }}>
           <FormattedHTMLMessage
             id='modals.lockboxsetup.pairdevice.timeout.subheader'
-            defaultMessage='Ensure the following items are completed:'
+            defaultMessage='Check the following errors:'
           />
         </Text>
       </TimeoutHeader>
@@ -189,25 +185,25 @@ const PairDeviceStep = props => {
       <Image
         style={{ marginBottom: '18px' }}
         name='lockbox-onboard-pairdevice'
-        width='100%'
+        width='95%'
       />
-      <IntroText size='13px' weight={300}>
+      <IntroText size='12px' weight={300}>
         <FormattedHTMLMessage
           id='modals.lockboxsetup.pairdevice.intro'
           defaultMessage='Open the Bitcoin app on your {deviceType}. This will pair your device with your Blockchain wallet so that you can always view the balance of your Lockbox.'
           values={{ deviceType }}
         />
       </IntroText>
-      <TextGroup inline style={{ marginBottom: '10px' }}>
-        <InstallReminderText size='11px' weight={300}>
+      <TextGroup inline style={{ marginBottom: '14px' }}>
+        <Text size='10px' weight={300}>
           <FormattedHTMLMessage
             id='modals.lockboxsetup.pairdevice.install'
             defaultMessage="Don't have the Bitcoin app on your {deviceType}? Install it"
             values={{ deviceType }}
           />
-        </InstallReminderText>
+        </Text>
         <ClickableText
-          size='11px'
+          size='10px'
           onClick={() => onStepChange('customize-device')}
         >
           <FormattedHTMLMessage

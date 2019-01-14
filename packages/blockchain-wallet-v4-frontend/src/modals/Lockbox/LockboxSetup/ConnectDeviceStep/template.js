@@ -19,6 +19,17 @@ const Wrapper = styled.div`
 const TimeoutWrapper = styled(Wrapper)`
   align-items: center;
   justify-content: center;
+  text-align: center;
+  margin-top: 20px;
+`
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-bottom: 10px;
+  & > :first-child {
+    margin-right: 14px;
+  }
 `
 const Instructions = styled(TextGroup)`
   margin-top: 12px;
@@ -27,13 +38,13 @@ const StepText = styled(Text)`
   margin-bottom: 8px;
 `
 const ButtonContainer = styled.div`
-  margin-top: 28px;
+  margin-top: 20px;
 `
 const TimeoutText = styled(Text)`
-  margin: 10px 0 25px;
+  margin: 34px 0 25px;
 `
 const SupportText = styled(Link)`
-  margin: 35px 0 8px;
+  margin: 52px 0 12px;
 `
 const ConnectDeviceStep = props => {
   const {
@@ -49,20 +60,26 @@ const ConnectDeviceStep = props => {
   return connectTimeout ? (
     <TimeoutWrapper>
       <Icon name='pending' weight='400' size='40px' color='warn' />
-      <TimeoutText size='20px' weight={400}>
+      <TimeoutText size='20px' weight={500}>
         <FormattedMessage
           id='modals.lockboxsetup.connectdevice.timeout.header'
-          defaultMessage='Are you still here?'
+          defaultMessage='Are you still there?'
         />
       </TimeoutText>
-      <TimeoutText size='13px' weight={300}>
+      <Text size='12px' weight={300}>
         <FormattedHTMLMessage
-          id='modals.lockboxsetup.connectdevice.timeout.intro'
-          defaultMessage="It looks like you may be having trouble setting up your {deviceType}. If you're still setting up the device, click the 'Continue' button and continue working or contact support for assistance."
+          id='modals.lockboxsetup.connectdevice.timeout.trouble'
+          defaultMessage="Looks like you're having trouble setting up your {deviceType}."
           values={{ deviceType }}
         />
-      </TimeoutText>
-      <SupportText href={supportLink} target='_blank' size='11px' weight={400}>
+      </Text>
+      <Text size='12px' weight={300}>
+        <FormattedMessage
+          id='modals.lockboxsetup.connectdevice.timeout.assistance'
+          defaultMessage='Please contact support for assistance or try again.'
+        />
+      </Text>
+      <SupportText href={supportLink} target='_blank' size='10px' weight={400}>
         <FormattedMessage
           id='modals.lockboxsetup.connectdevice.timeout.support'
           defaultMessage='Contact Support'
@@ -70,8 +87,8 @@ const ConnectDeviceStep = props => {
       </SupportText>
       <Button fullwidth onClick={onTimeoutAccept} nature={'primary'}>
         <FormattedMessage
-          id='modals.lockboxsetup.connectdevice.timeout.continue'
-          defaultMessage='Continue Setup'
+          id='modals.lockboxsetup.connectdevice.timeout.retry'
+          defaultMessage='Retry'
         />
       </Button>
     </TimeoutWrapper>
@@ -83,40 +100,80 @@ const ConnectDeviceStep = props => {
         width='100%'
       />
       {isNewSetup ? (
-        <Instructions>
-          <StepText size='13px' weight={300}>
-            <FormattedHTMLMessage
-              id='modals.lockboxsetup.connectdevice.new.stepone'
-              defaultMessage='1. Connect your {deviceType} to your computer with the supplied USB cable.'
-              values={{ deviceType }}
-            />
-          </StepText>
-          <StepText size='13px' weight={300}>
-            <FormattedHTMLMessage
-              id='modals.lockboxsetup.connectdevice.new.steptwo'
-              defaultMessage='2. Press both buttons on the top of your {deviceType} to begin.'
-              values={{ deviceType }}
-            />
-          </StepText>
-          <StepText size='13px' weight={300}>
-            <FormattedHTMLMessage
-              id='modals.lockboxsetup.connectdevice.new.stepthree'
-              defaultMessage='3. Set a pin for your device.'
-            />
-          </StepText>
-          <StepText size='13px' weight={300}>
-            <FormattedHTMLMessage
-              id='modals.lockboxsetup.connectdevice.new.stepfour'
-              defaultMessage='4. Complete backup phrase process.'
-            />
-          </StepText>
-          <StepText size='13px' weight={300}>
-            <FormattedHTMLMessage
-              id='modals.lockboxsetup.connectdevice.new.stepfive'
-              defaultMessage="5. Ensure your device's dashboard is open. Hint: You should see the settings icon."
-            />
-          </StepText>
-        </Instructions>
+        <React.Fragment>
+          <Row>
+            <Text size='14px' weight={600}>
+              <FormattedHTMLMessage
+                id='modals.lockboxsetup.connectdevice.new.one'
+                defaultMessage='1.'
+              />
+            </Text>
+            <Text size='13px' weight={300}>
+              <FormattedHTMLMessage
+                id='modals.lockboxsetup.connectdevice.new.stepone'
+                defaultMessage='Connect your {deviceType} to your computer with the supplied USB cable.'
+                values={{ deviceType }}
+              />
+            </Text>
+          </Row>
+          <Row>
+            <Text size='14px' weight={600}>
+              <FormattedHTMLMessage
+                id='modals.lockboxsetup.connectdevice.new.two'
+                defaultMessage='2.'
+              />
+            </Text>
+            <Text size='13px' weight={300}>
+              <FormattedHTMLMessage
+                id='modals.lockboxsetup.connectdevice.new.steptwo'
+                defaultMessage='Press both buttons on the top of your {deviceType} to begin.'
+                values={{ deviceType }}
+              />
+            </Text>
+          </Row>
+          <Row>
+            <Text size='14px' weight={600}>
+              <FormattedHTMLMessage
+                id='modals.lockboxsetup.connectdevice.new.three'
+                defaultMessage='3.'
+              />
+            </Text>
+            <Text size='13px' weight={300}>
+              <FormattedHTMLMessage
+                id='modals.lockboxsetup.connectdevice.new.stepthree'
+                defaultMessage='Set a pin for your device.'
+              />
+            </Text>
+          </Row>
+          <Row>
+            <Text size='14px' weight={600}>
+              <FormattedHTMLMessage
+                id='modals.lockboxsetup.connectdevice.new.four'
+                defaultMessage='4.'
+              />
+            </Text>
+            <Text size='13px' weight={300}>
+              <FormattedHTMLMessage
+                id='modals.lockboxsetup.connectdevice.new.stepfour'
+                defaultMessage='Complete backup phrase process.'
+              />
+            </Text>
+          </Row>
+          <Row>
+            <Text size='14px' weight={600}>
+              <FormattedHTMLMessage
+                id='modals.lockboxsetup.connectdevice.new.five'
+                defaultMessage='5.'
+              />
+            </Text>
+            <Text size='13px' weight={300}>
+              <FormattedHTMLMessage
+                id='modals.lockboxsetup.connectdevice.new.stepfive'
+                defaultMessage="Ensure your device's dashboard is open. Hint: You should see the settings icon."
+              />
+            </Text>
+          </Row>
+        </React.Fragment>
       ) : (
         <Instructions>
           <StepText size='13px' weight={300}>
@@ -145,7 +202,7 @@ const ConnectDeviceStep = props => {
           fullwidth
           disabled={!isConnected}
           onClick={handleStepChange}
-          nature={isConnected ? 'primary' : 'dark'}
+          nature='primary'
         >
           {isConnected ? (
             <FormattedMessage

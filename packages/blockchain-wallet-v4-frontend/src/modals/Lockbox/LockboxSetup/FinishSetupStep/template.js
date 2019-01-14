@@ -11,15 +11,16 @@ const Wrapper = styled.div`
   align-items: center;
 `
 const IntroText = styled(Text)`
-  margin: 20px 0 30px;
+  margin: 24px 0 32px;
+  text-align: center;
 `
 const SkipTourText = styled(Text)`
   cursor: pointer;
   color: ${props => props.theme['brand-secondary']};
-  margin: 25px 0 8px;
+  margin: 25px 0 12px;
 `
 const FinishSetupStep = props => {
-  const { deviceType, onFinishSetup } = props
+  const { onFinishSetup } = props
 
   return (
     <Wrapper>
@@ -28,16 +29,15 @@ const FinishSetupStep = props => {
         name='lockbox-onboard-complete'
         width='100%'
       />
-      <IntroText size='13px' weight={300}>
+      <IntroText size='12px' weight={300}>
         <FormattedHTMLMessage
           id='modals.lockboxsetup.finishstep.intro'
-          defaultMessage="Congratulations your {deviceType} is now ready to use! You'll now be able to view the balances on your device at any time. However, your device will need to be connected whenever you send funds. Start a tour now to learn more!"
-          values={{ deviceType }}
+          defaultMessage="Congratulations! Your Lockbox is ready. You'll be able to view your Lockbox balance in your Wallet any time, but will need your device connected to transfer funds."
         />
       </IntroText>
       <SkipTourText
         size='11px'
-        weight={400}
+        weight={300}
         onClick={() => onFinishSetup(false)}
       >
         <FormattedHTMLMessage

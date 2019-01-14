@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import PropTypes from 'prop-types'
 
 import FinishSetupStep from './template'
@@ -20,12 +20,7 @@ class FinishSetupStepContainer extends React.PureComponent {
   }
 
   render () {
-    return (
-      <FinishSetupStep
-        deviceType={this.props.deviceType}
-        onFinishSetup={this.onFinishSetup}
-      />
-    )
+    return <FinishSetupStep onFinishSetup={this.onFinishSetup} />
   }
 }
 
@@ -33,15 +28,11 @@ FinishSetupStepContainer.propTypes = {
   onClose: PropTypes.func.isRequired
 }
 
-const mapStateToProps = state => ({
-  deviceType: selectors.components.lockbox.getNewDeviceType(state)
-})
-
 const mapDispatchToProps = dispatch => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(FinishSetupStepContainer)

@@ -8,9 +8,15 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
-const IntroText = styled(Text)`
-  margin-bottom: 20px;
+const IntroTextWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-content: space-around;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  width: 90%;
+  margin: 6px 0 32px 16px;
 `
 const SelectDeviceWrapper = styled.div`
   display: flex;
@@ -23,7 +29,7 @@ const DeviceWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 150px;
+  height: 170px;
   width: 160px;
   border: 1px solid ${props => props.theme['gray-2']};
   border-radius: 3px;
@@ -38,8 +44,8 @@ const RestoreDeviceWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
-  margin-top: 18px;
-  padding: 14px 12px;
+  margin-top: 16px;
+  padding: 20px 18px;
   box-sizing: border-box;
   border-radius: 3px;
   background-color: ${props => props.theme['white-blue']};
@@ -61,12 +67,14 @@ const DeviceSelectStep = props => {
   const { handleStepChange } = props
   return (
     <Wrapper>
-      <IntroText size='14px' weight={300}>
-        <FormattedMessage
-          id='modals.lockboxsetup.deviceselect.intro'
-          defaultMessage='Your Blockchain wallet works with Lockbox and Ledger Nano S devices.'
-        />
-      </IntroText>
+      <IntroTextWrapper>
+        <Text size='14px' weight={300}>
+          <FormattedMessage
+            id='modals.lockboxsetup.deviceselect.intro'
+            defaultMessage='Your Blockchain wallet works with Lockbox and Ledger Nano S devices.'
+          />
+        </Text>
+      </IntroTextWrapper>
       <SelectDeviceWrapper>
         <DeviceWrapper onClick={() => handleStepChange('blockchain')}>
           <Image
@@ -74,7 +82,7 @@ const DeviceSelectStep = props => {
             name='lockbox-device'
             srcset={{ 'lockbox-device': '1x' }}
           />
-          <Text size='14px' weight={400} style={{ marginTop: '15px' }}>
+          <Text size='16px' weight={400} style={{ marginTop: '18px' }}>
             <FormattedMessage
               id='modals.lockboxsetup.deviceselect.lockbox'
               defaultMessage='Lockbox'
@@ -93,7 +101,7 @@ const DeviceSelectStep = props => {
             name='ledger-nano-s'
             srcset={{ 'ledger-nano-s': '1x' }}
           />
-          <Text size='14px' weight={400} style={{ marginTop: '5px' }}>
+          <Text size='16px' weight={400} style={{ marginTop: '10px' }}>
             <FormattedMessage
               id='modals.lockboxsetup.deviceselect.nanos'
               defaultMessage='Nano S'
@@ -108,20 +116,25 @@ const DeviceSelectStep = props => {
         </DeviceWrapper>
       </SelectDeviceWrapper>
       <RestoreDeviceWrapper>
-        <Text size='15px'>
+        <Text size='16px'>
           <FormattedMessage
             id='modals.lockboxsetup.deviceselect.restore'
             defaultMessage='Restore a device'
           />
         </Text>
         <LearnHowLink href={'/lockbox'} target='_blank'>
-          <LearnHowText size='14px'>
+          <LearnHowText size='15px'>
             <FormattedMessage
               id='modals.lockboxsetup.deviceselect.learhow'
               defaultMessage='Learn How'
             />
           </LearnHowText>
-          <Icon name='short-right-arrow' color='brand-secondary' size='18px' />
+          <Icon
+            name='short-right-arrow'
+            color='brand-secondary'
+            size='16px'
+            style={{ marginTop: '1px' }}
+          />
         </LearnHowLink>
       </RestoreDeviceWrapper>
     </Wrapper>

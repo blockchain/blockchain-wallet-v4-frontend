@@ -17,7 +17,7 @@ const Row = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 4px;
-  margin: 2px 0;
+  margin: 6px 0;
 `
 const AppDetails = styled.div`
   width: 100%;
@@ -61,20 +61,20 @@ const UninstallButton = styled(Button)`
   width: 30px;
   max-width: 30px;
 `
-const StatusText = styled(Text)`
-  margin-right: 8px;
+const StatusIcon = styled(Icon)`
+  margin-right: 6px;
 `
 const RequiredBadge = styled(Banner)`
-  width: 46px;
+  width: 38px;
   height: 10px;
   padding: 4px;
   margin: -2px 0 0 5px;
   background: none;
-  border: 1px solid ${props => props.theme['brand-primary']};
+  border: 1px solid #3558a8;
   border-radius: 6px;
-  color: ${props => props.theme['brand-primary']};
   & > :first-child {
-    font-size: 10px;
+    font-size: 8px;
+    color: #3558a8;
   }
 `
 const NameContainer = styled.div`
@@ -122,11 +122,19 @@ const LockboxAppManager = props => {
               )}
           </NameContainer>
           <Text size='11px' weight={300}>
-            <FormattedHTMLMessage
-              id='components.lockbox.appmanager.successmsg'
-              defaultMessage='Version {version}'
-              values={{ version }}
-            />
+            {equals('Updating', prop('status', coinState)) ? (
+              <FormattedHTMLMessage
+                id='components.lockbox.appmanager.changeType'
+                defaultMessage='{changeType}...'
+                values={{ changeType: coinState.changeType }}
+              />
+            ) : (
+              <FormattedHTMLMessage
+                id='components.lockbox.appmanager.successmsg'
+                defaultMessage='Version {version}'
+                values={{ version }}
+              />
+            )}
           </Text>
         </div>
       </AppDetails>
@@ -137,37 +145,25 @@ const LockboxAppManager = props => {
               <AppActions>
                 <HeartbeatLoader
                   style={{ marginRight: '8px' }}
-                  height='34px'
-                  width='34px'
+                  height='36px'
+                  width='36px'
                 />
               </AppActions>
             )
           case 'Error':
             return (
               <AppActions>
-                <Icon name='alert-filled' color='error' size='34px' />
-                <StatusText weight={400} size='18px'>
-                  <FormattedHTMLMessage
-                    id='components.lockbox.appmanager.error'
-                    defaultMessage='Error'
-                  />
-                </StatusText>
+                <StatusIcon name='alert-filled' color='error' size='40px' />
               </AppActions>
             )
           case 'Success':
             return (
               <AppActions>
-                <Icon
+                <StatusIcon
+                  color='bch'
                   name='checkmark-in-circle-filled'
-                  color='success'
-                  size='34px'
+                  size='40px'
                 />
-                <StatusText weight={400} size='18px'>
-                  <FormattedHTMLMessage
-                    id='components.lockbox.appmanager.success'
-                    defaultMessage='Success'
-                  />
-                </StatusText>
               </AppActions>
             )
           default:
