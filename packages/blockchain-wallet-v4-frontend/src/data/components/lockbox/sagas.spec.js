@@ -25,6 +25,7 @@ const logLocation = 'components/lockbox/sagas'
 const api = {
   obtainSessionToken: jest.fn(),
   deauthorizeBrowser: jest.fn(),
+  getApplications: jest.fn(),
   getDeviceVersion: jest.fn(),
   getCurrentFirmware: jest.fn()
 }
@@ -657,6 +658,84 @@ describe('lockbox sagas', () => {
           .next()
           .isDone()
       })
+    })
+  })
+
+  describe('deriveLatestAppInfo', () => {
+    const error = new Error('error')
+    const mockDeviceInfo = {
+      targetId: 923,
+      providerId: 11,
+      fullVersion: '1.3.2'
+    }
+    const mockFirmwareInfo = { id: 4 }
+    const mockSeFirmwareVersion = { id: 7 }
+    const saga = testSaga(deriveLatestAppInfo)
+
+    it('sets app info loading', () => {
+      saga.next().put(A.setLatestAppInfosLoading())
+    })
+    it('gets current connection', () => {
+      saga.next().select(S.getCurrentConnection)
+    })
+    it('gets current device info', () => {
+      saga.next({ transport: {} }).call(Lockbox.utils.getDeviceInfo, {})
+    })
+    it('sets device targetId', () => {
+      saga
+        .next(mockDeviceInfo)
+        .put(A.setDeviceTargetId(mockDeviceInfo.targetId))
+    })
+    it('calls api to get device version info', () => {
+      saga.next().call(api.getDeviceVersion, {
+        provider: mockDeviceInfo.providerId,
+        target_id: mockDeviceInfo.targetId
+      })
+    })
+    it('calls api to get device firmware info', () => {
+      saga.next(mockFirmwareInfo).call(api.getCurrentFirmware, {
+        device_version: mockFirmwareInfo.id,
+        version_name: mockDeviceInfo.fullVersion,
+        provider: mockDeviceInfo.providerId
+      })
+    })
+    it('calls api to get app information', () => {
+      saga.next(mockSeFirmwareVersion).call(api.getApplications, {
+        provider: mockDeviceInfo.providerId,
+        current_se_firmware_final_version: mockSeFirmwareVersion.id,
+        device_version: mockFirmwareInfo.id
+      })
+    })
+    it('filters app list and sets data success', () => {
+      const mockAppInfo = {
+        application_versions: [
+          { application_versions: 7, name: 'Bitcoin' },
+          { application_versions: 7, name: 'NEO' }
+        ]
+      }
+      saga
+        .next(mockAppInfo)
+        .put(A.setLatestAppInfosSuccess([mockAppInfo.application_versions[0]]))
+    })
+    it('should end', () => {
+      saga.next().isDone()
+    })
+    it('logs failure', () => {
+      saga
+        .restart()
+        .next()
+        .throw(error)
+        .put(A.setLatestAppInfosFailure())
+        .next()
+        .put(
+          actions.logs.logErrorMessage(
+            logLocation,
+            'deriveLatestAppInfo',
+            error
+          )
+        )
+        .next()
+        .isDone()
     })
   })
 
