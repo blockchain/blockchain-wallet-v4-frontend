@@ -13,7 +13,7 @@ import { hasAccount } from 'services/ExchangeService'
 import SfoxCheckout from './SfoxCheckout'
 import CoinifyCheckout from './CoinifyCheckout'
 import { getData, getFields } from './selectors'
-import SelectPartner from './template.success'
+import SelectPartner from './template'
 
 const { KYC_MODAL } = model.components.identityVerification
 

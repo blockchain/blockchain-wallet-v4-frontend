@@ -1,4 +1,3 @@
-import { reducer as reduxUiReducer } from 'redux-ui'
 import { coreReducers, paths } from 'blockchain-wallet-v4/src'
 import analyticsReducer from './analytics/reducers'
 import componentsReducer from './components/reducers'
@@ -32,7 +31,6 @@ const rootReducer = {
   rates: ratesReducer,
   cache: cacheReducer,
   session: sessionReducer,
-  ui: reduxUiReducer,
   wizard: wizardReducer,
   securityCenter: settingsReducer,
   sfoxSignup: sfoxSignupReducer,
