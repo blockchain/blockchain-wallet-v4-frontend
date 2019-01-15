@@ -17,7 +17,14 @@ import { getData } from './selectors'
 import { actions } from 'data'
 
 class SfoxExchangeData extends React.PureComponent {
-  state = { show: true }
+  state = { show: false }
+
+  componentDidMount () {
+    /* eslint-disable */
+    this.setState({ show: true })
+    /* eslint-enable */
+  }
+
   stepMap = {
     account: (
       <FormattedMessage
