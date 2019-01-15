@@ -3,7 +3,7 @@ import { call, select, put } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as S from './selectors'
-import { FORM } from './model'
+import { FORM, ANALYTICS } from './model'
 import { actions, model, selectors } from 'data'
 import {
   initialize,
@@ -21,6 +21,7 @@ import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 const DUST = 546
 const DUST_BTC = '0.00000546'
 export const logLocation = 'components/sendBtc/sagas'
+const { SEND_BTC } = ANALYTICS
 
 export default ({ coreSagas, networks }) => {
   const initialized = function*(action) {
@@ -50,7 +51,10 @@ export default ({ coreSagas, networks }) => {
         const addressesR = yield select(
           selectors.core.common.btc.getActiveAddresses
         )
-        const addresses = addressesR.getOrElse([]).map(prop('addr'))
+        const addresses = addressesR
+          .getOrElse([])
+          .filter(prop('priv'))
+          .map(prop('addr'))
         payment = yield payment.from(addresses, ADDRESS_TYPES.LEGACY)
       } else {
         const accountsR = yield select(
@@ -99,6 +103,7 @@ export default ({ coreSagas, networks }) => {
       })
       payment = yield payment.build()
       yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
+      yield put(actions.analytics.logEvent([SEND_BTC, 'click', 'first_step_submit']))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e)
@@ -146,6 +151,7 @@ export default ({ coreSagas, networks }) => {
           }
           break
         case 'from':
+          yield put(actions.analytics.logEvent([SEND_BTC, 'click', 'from']))
           const fromType = prop('type', payload)
           if (is(String, payload)) {
             yield payment.from(payload, fromType)
@@ -192,9 +198,11 @@ export default ({ coreSagas, networks }) => {
           payment = yield payment.amount(parseInt(satAmount))
           break
         case 'description':
+          yield put(actions.analytics.logEvent([SEND_BTC, 'change', 'description']))
           payment = yield payment.description(payload)
           break
         case 'feePerByte':
+          yield put(actions.analytics.logEvent([SEND_BTC, 'change', 'feePerByte']))
           payment = yield payment.fee(parseInt(payload))
           break
       }
@@ -234,6 +242,7 @@ export default ({ coreSagas, networks }) => {
         rates: btcRates
       }).value
       yield put(change(FORM, 'amount', { coin, fiat }))
+      yield put(actions.analytics.logEvent([SEND_BTC, 'click', 'min_amount']))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'minimumAmountClicked', e)
@@ -265,6 +274,7 @@ export default ({ coreSagas, networks }) => {
         rates: btcRates
       }).value
       yield put(change(FORM, 'amount', { coin, fiat }))
+      yield put(actions.analytics.logEvent([SEND_BTC, 'click', 'max_amount']))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'maximumAmountClicked', e)
@@ -278,6 +288,7 @@ export default ({ coreSagas, networks }) => {
       const payment = p.getOrElse({})
       const minFeePerByte = path(['fees', 'limits', 'min'], payment)
       yield put(change(FORM, 'feePerByte', minFeePerByte))
+      yield put(actions.analytics.logEvent([SEND_BTC, 'click', 'min_fee']))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'minimumFeeClicked', e)
@@ -291,6 +302,7 @@ export default ({ coreSagas, networks }) => {
       const payment = p.getOrElse({})
       const maxFeePerByte = path(['fees', 'limits', 'max'], payment)
       yield put(change(FORM, 'feePerByte', maxFeePerByte))
+      yield put(actions.analytics.logEvent([SEND_BTC, 'click', 'max_fee']))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'maximumFeeClicked', e)
@@ -304,6 +316,7 @@ export default ({ coreSagas, networks }) => {
       const payment = p.getOrElse({})
       const regularFeePerByte = path(['fees', 'regular'], payment)
       yield put(change(FORM, 'feePerByte', regularFeePerByte))
+      yield put(actions.analytics.logEvent([SEND_BTC, 'click', 'regular_fee']))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'regularFeeClicked', e)
@@ -317,6 +330,7 @@ export default ({ coreSagas, networks }) => {
       const payment = p.getOrElse({})
       const priorityFeePerByte = path(['fees', 'priority'], payment)
       yield put(change(FORM, 'feePerByte', priorityFeePerByte))
+      yield put(actions.analytics.logEvent([SEND_BTC, 'click', 'priority_fee']))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'priorityFeeClicked', e)
@@ -389,6 +403,7 @@ export default ({ coreSagas, networks }) => {
       yield put(destroy(FORM))
       // Close modals
       yield put(actions.modals.closeAllModals())
+      yield put(actions.analytics.logEvent([SEND_BTC, 'click', 'second_step_submit']))
     } catch (e) {
       yield put(stopSubmit(FORM))
       // Set errors

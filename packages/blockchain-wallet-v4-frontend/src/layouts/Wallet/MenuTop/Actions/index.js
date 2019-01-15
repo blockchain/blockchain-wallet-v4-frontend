@@ -8,7 +8,6 @@ import Actions from './template.js'
 
 class ActionsContainer extends React.PureComponent {
   handleSend = () => {
-    this.props.analytics.logClick('send')
     const { coin, lockboxPath, lockboxDeviceId } = this.props
 
     switch (coin) {
@@ -29,7 +28,6 @@ class ActionsContainer extends React.PureComponent {
   }
 
   handleRequest = () => {
-    this.props.analytics.logClick('request')
     const { coin, lockboxPath, lockboxDeviceId } = this.props
 
     switch (coin) {

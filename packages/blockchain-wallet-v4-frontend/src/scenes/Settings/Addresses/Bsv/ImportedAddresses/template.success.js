@@ -5,6 +5,7 @@ import AddressRow from '../../Btc/AddressRow'
 import { FormattedMessage } from 'react-intl'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 import {
+  Button,
   Icon,
   Table,
   TableHeader,
@@ -16,8 +17,15 @@ const Wrapper = styled.section`
   box-sizing: border-box;
 `
 const ImportedAddressesSettingHeader = SettingHeader.extend`
-  justify-content: flex-start;
+  align-items: flex-start;
+  justify-content: space-between;
   margin-top: 30px;
+`
+const ImportedActions = styled.div`
+  display: flex;
+  > button {
+    margin-left: 10px;
+  }
 `
 const WarningWrapper = styled.div`
   display: flex;
@@ -28,7 +36,7 @@ const WarningWrapper = styled.div`
 `
 
 const Success = props => {
-  const { importedAddresses, search } = props
+  const { importedAddresses, onTransferAll, search } = props
 
   const isMatch = address =>
     !search || address.addr.toLowerCase().indexOf(search) > -1
@@ -42,25 +50,35 @@ const Success = props => {
   return (
     <Wrapper>
       <ImportedAddressesSettingHeader>
-        <FormattedMessage
-          id='scenes.settings.addresses.bsv.importedaddresses.title'
-          defaultMessage='Imported Bitcoin SV Addresses'
-        />
-      </ImportedAddressesSettingHeader>
-      <SettingDescription>
-        <WarningWrapper>
-          <Icon
-            name='alert-filled'
-            size='22px'
-            className={'warning-icon'}
-            color='brand-yellow'
-          />
+        <div>
           <FormattedMessage
-            id='scenes.settings.addresses.bsv.importedaddresses.description'
-            defaultMessage='Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.'
+            id='scenes.settings.addresses.bsv.importedaddresses.title'
+            defaultMessage='Imported Bitcoin SV Addresses'
           />
-        </WarningWrapper>
-      </SettingDescription>
+          <SettingDescription>
+            <WarningWrapper>
+              <Icon
+                name='alert-filled'
+                size='22px'
+                className={'warning-icon'}
+                color='brand-yellow'
+              />
+              <FormattedMessage
+                id='scenes.settings.addresses.bsv.importedaddresses.description'
+                defaultMessage='Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.'
+              />
+            </WarningWrapper>
+          </SettingDescription>
+        </div>
+        <ImportedActions>
+          <Button onClick={onTransferAll} nature='primary'>
+            <FormattedMessage
+              id='scenes.settings.addresses.bch.importedaddresses.success.transferall'
+              defaultMessage='Transfer All'
+            />
+          </Button>
+        </ImportedActions>
+      </ImportedAddressesSettingHeader>
       {importedAddressesTableRows.length > 0 && (
         <Table>
           <TableHeader>

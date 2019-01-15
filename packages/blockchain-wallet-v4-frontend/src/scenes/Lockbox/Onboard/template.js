@@ -128,8 +128,8 @@ const Onboard = props => {
         <LearnMoreContainer>
           <Text size='15px'>
             <FormattedMessage
-              id='scenes.lockbox.welcome.explanation'
-              defaultMessage="Don't have a Lockbox? Secure your crypto now for $99."
+              id='scenes.lockbox.welcome.explanation.secure'
+              defaultMessage="Don't have a Lockbox? Secure your crypto now."
             />
           </Text>
           <LearnMoreLink href={domains['comRoot'] + '/lockbox'} target='_blank'>
