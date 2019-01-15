@@ -4,6 +4,7 @@ import { connect, Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import { PersistGate } from 'redux-persist/integration/react'
 import { IconGlobalStyles, FontGlobalStyles } from 'blockchain-info-components'
+import { createGlobalStyle } from 'styled-components'
 
 import { selectors } from 'data'
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
@@ -37,6 +38,11 @@ import General from './Settings/General'
 import Profile from './Settings/Profile'
 import Preferences from './Settings/Preferences'
 import Transactions from './Transactions'
+
+const GlobalStyle = createGlobalStyle`
+  html, body, #app, #app > div {padding: 0; margin: 0; height: 100%;}
+  html, body {overflow: hidden;}
+`
 
 class App extends React.PureComponent {
   render () {
@@ -154,6 +160,7 @@ class App extends React.PureComponent {
                 </ConnectedRouter>
                 <FontGlobalStyles />
                 <IconGlobalStyles />
+                <GlobalStyle />
               </MediaContextProvider>
             </ThemeProvider>
           </PersistGate>

@@ -93,7 +93,7 @@ export const isAmountAboveMaximum = (value, maximum) => {
 }
 
 export const calculateFinalAmount = (value, fee) => {
-  return new BigNumber(value).add(new BigNumber(fee)).toString()
+  return new BigNumber.sum(value, new BigNumber(fee)).toString()
 }
 
 export const divide = curry((dividend, divisor, decimals = 8) => {

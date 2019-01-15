@@ -81,7 +81,7 @@ export const calculateEffectiveBalance = (balance, fee) => {
 }
 
 export const calculateTransactionAmount = (amount, fee) => {
-  return new BigNumber(amount).add(new BigNumber(fee)).toString()
+  return new BigNumber.sum(amount, new BigNumber(fee)).toString()
 }
 
 export const convertGweiToWei = amount => {

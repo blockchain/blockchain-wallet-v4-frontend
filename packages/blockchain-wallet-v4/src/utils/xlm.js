@@ -29,7 +29,7 @@ export const overflowsEffectiveBalance = (amount, effectiveBalance) =>
 export const isValidAddress = StellarSdk.StrKey.isValidEd25519PublicKey
 
 export const calculateTransactionAmount = (amount, fee) =>
-  new BigNumber(amount).add(fee).toString()
+  new BigNumber.sum(amount, fee).toString()
 
 export const encodeXlmURI = (address, memo, amount, note) => {
   let data = {}
