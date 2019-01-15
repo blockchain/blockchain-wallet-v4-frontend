@@ -13,6 +13,12 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
     descriptionToggled: false
   }
 
+  componentDidUpdate (prevProps) {
+    if (!prevProps.recoveryPhrase && this.props.recoveryPhrase) {
+      this.toggleNextStep()
+    }
+  }
+
   toggleNextStep = () => {
     if (this.props.recoveryPhrase === undefined) {
       this.props.settingsActions.showBackupRecovery()
