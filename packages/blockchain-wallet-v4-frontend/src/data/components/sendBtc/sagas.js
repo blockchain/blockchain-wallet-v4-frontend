@@ -103,7 +103,9 @@ export default ({ coreSagas, networks }) => {
       })
       payment = yield payment.build()
       yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
-      yield put(actions.analytics.logEvent([SEND_BTC, 'click', 'first_step_submit']))
+      yield put(
+        actions.analytics.logEvent([SEND_BTC, 'click', 'first_step_submit'])
+      )
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e)
@@ -198,11 +200,15 @@ export default ({ coreSagas, networks }) => {
           payment = yield payment.amount(parseInt(satAmount))
           break
         case 'description':
-          yield put(actions.analytics.logEvent([SEND_BTC, 'change', 'description']))
+          yield put(
+            actions.analytics.logEvent([SEND_BTC, 'change', 'description'])
+          )
           payment = yield payment.description(payload)
           break
         case 'feePerByte':
-          yield put(actions.analytics.logEvent([SEND_BTC, 'change', 'feePerByte']))
+          yield put(
+            actions.analytics.logEvent([SEND_BTC, 'change', 'feePerByte'])
+          )
           payment = yield payment.fee(parseInt(payload))
           break
       }
@@ -403,7 +409,9 @@ export default ({ coreSagas, networks }) => {
       yield put(destroy(FORM))
       // Close modals
       yield put(actions.modals.closeAllModals())
-      yield put(actions.analytics.logEvent([SEND_BTC, 'click', 'second_step_submit']))
+      yield put(
+        actions.analytics.logEvent([SEND_BTC, 'click', 'second_step_submit'])
+      )
     } catch (e) {
       yield put(stopSubmit(FORM))
       // Set errors

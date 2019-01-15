@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { actions } from 'data'
 
+import { actions } from 'data'
 import { getData } from './selectors'
 import AcceptTerms from './template'
 
@@ -14,7 +14,7 @@ class AcceptTermsContainer extends Component {
     /* eslint-disable */
     if (this.props.signupError && this.state.busy) {
       this.setState({ busy: false })
-      this.props.updateUI({ uniqueEmail: false })
+      this.props.updateState({ uniqueEmail: false })
     }
     /* eslint-enable */
   }
@@ -25,26 +25,25 @@ class AcceptTermsContainer extends Component {
   }
 
   render () {
-    const { busy } = this.state
     const {
       invalid,
       email,
       signupError,
-      updateUI,
+      updateState,
       coinifyFrontendActions
     } = this.props
     const { coinifyClearSignupError } = coinifyFrontendActions
 
     return (
       <AcceptTerms
-        busy={busy}
+        busy={this.state.busy}
         email={email}
         invalid={invalid}
         onSubmit={this.onSubmit}
         signupError={signupError}
-        updateUI={updateUI}
+        updateState={updateState}
         editEmail={() => {
-          this.props.updateUI({ create: 'change_email' })
+          this.props.updateState({ create: 'change_email' })
         }}
         clearError={() => coinifyClearSignupError()}
       />
@@ -54,7 +53,6 @@ class AcceptTermsContainer extends Component {
 
 AcceptTermsContainer.propTypes = {
   invalid: PropTypes.bool,
-  updateUI: PropTypes.func,
   email: PropTypes.string.isRequired,
   country: PropTypes.string
 }
