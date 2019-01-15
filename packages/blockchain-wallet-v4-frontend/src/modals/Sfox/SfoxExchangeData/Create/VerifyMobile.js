@@ -8,11 +8,7 @@ import { formValueSelector, Field } from 'redux-form'
 import { actions, selectors } from 'data'
 import { PhoneNumberBox, TextBox } from 'components/Form'
 import { Text, Button } from 'blockchain-info-components'
-import {
-  required,
-  normalizePhone,
-  validMobileNumber
-} from 'services/FormHelper'
+import { required, validMobileNumber } from 'services/FormHelper'
 import {
   Form,
   ColLeft,
@@ -52,16 +48,16 @@ class VerifyMobile extends Component {
   /* eslint-disable react/no-did-update-set-state */
   componentDidUpdate (prevProps) {
     if (this.props.smsVerified && !prevProps.smsVerified) {
-      this.setState({ create: 'create_account' })
+      this.props.updateStep('create_account')
     }
     if (this.props.smsVerified && !this.props.editVerifiedMobile) {
-      this.setState({ create: 'create_account' })
+      this.props.updateStep('create_account')
     }
   }
   /* eslint-enable react/no-did-update-set-state */
 
   updateMobileNumber = () => {
-    this.setState({ create: 'enter_mobile_code' })
+    this.props.updateStep('enter_mobile_code')
     this.props.settingsActions.updateMobile(this.props.mobileNumber)
   }
 
@@ -72,7 +68,7 @@ class VerifyMobile extends Component {
 
   onSubmit = e => {
     e.preventDefault()
-    if (this.state.create !== 'enter_mobile_code') {
+    if (this.props.create !== 'enter_mobile_code') {
       this.props.settingsActions.clearMobileFailure()
       this.updateMobileNumber()
     } else {
@@ -99,7 +95,7 @@ class VerifyMobile extends Component {
               values={{
                 resend: <a onClick={this.resendCode}>Resend</a>,
                 changeNumber: (
-                  <a onClick={() => this.setState({ create: 'change_mobile' })}>
+                  <a onClick={() => this.props.updateStep('change_mobile')}>
                     change number
                   </a>
                 )
@@ -152,11 +148,10 @@ class VerifyMobile extends Component {
                 defaultValue={smsNumber}
                 component={PhoneNumberBox}
                 validate={[required, validMobileNumber]}
-                normalize={normalizePhone}
                 countryCode={countryCode}
                 errorBottom
               />
-              {this.state.create === 'change_mobile' && (
+              {this.props.create === 'change_mobile' && (
                 <Button
                   nature='primary'
                   type='submit'
@@ -170,7 +165,7 @@ class VerifyMobile extends Component {
                 </Button>
               )}
             </MobileInput>
-            {this.state.create === 'enter_mobile_code' && (
+            {this.props.create === 'enter_mobile_code' && (
               <MobileCodeContainer>
                 <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
@@ -193,7 +188,7 @@ class VerifyMobile extends Component {
         </ColLeft>
         <ColRight>
           <ColRightInner>
-            {this.state.create !== 'enter_mobile_code' ? null : (
+            {this.props.create !== 'enter_mobile_code' ? null : (
               <ButtonWrapper>
                 <Button
                   type='submit'

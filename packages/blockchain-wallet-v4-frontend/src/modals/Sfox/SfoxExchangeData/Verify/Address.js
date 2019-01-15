@@ -61,10 +61,10 @@ const AddressFormGroup = styled(FormGroup)`
 `
 
 const Address = props => {
-  const { busy, handleAddressSubmit, invalid, submitting } = props
+  const { busy, handleSubmit, invalid, submitting } = props
 
   return (
-    <AddressForm onSubmit={handleAddressSubmit}>
+    <AddressForm onSubmit={handleSubmit}>
       <ColLeft>
         <InputWrapper>
           <PageHeader>

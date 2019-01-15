@@ -71,7 +71,7 @@ class VerifyContainer extends Component {
   componentDidUpdate (prevProps) {
     if (
       !equals(this.props.verificationError, prevProps.verificationError) &&
-      prevProps.verificationError
+      this.props.verificationError
     ) {
       /* eslint-disable */
       this.setState({ busy: false })
@@ -83,13 +83,11 @@ class VerifyContainer extends Component {
     this.props.formActions.destroy('sfoxAddress')
   }
 
-  handleSubmit = e => {
-    e.preventDefault()
+  handleAddressSubmit = () => {
     this.setState({ verify: 'identity' })
   }
 
-  handleSubmit = e => {
-    e.preventDefault()
+  handleVerifySubmit = () => {
     this.setState({ busy: true })
     this.props.sfoxFrontendActions.setProfile(this.props.user)
   }
@@ -108,7 +106,7 @@ class VerifyContainer extends Component {
         <Address
           {...this.props}
           {...this.state}
-          handleSubmit={this.handleSubmit}
+          onSubmit={this.handleAddressSubmit}
           faqs={renderFaq(faqQuestions)}
         />
       )
@@ -119,7 +117,7 @@ class VerifyContainer extends Component {
           {...this.state}
           toggleSSN={() => this.setState({ viewSSN: !this.state.viewSSN })}
           faqs={renderFaq(faqQuestions)}
-          handleSubmit={this.handleSubmit}
+          onSubmit={this.handleVerifySubmit}
           handleReset={this.handleReset}
         />
       )

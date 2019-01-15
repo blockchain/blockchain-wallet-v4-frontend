@@ -78,7 +78,6 @@ export default ({ coreSagas }) => {
   const verifyEmailCode = function*(action) {
     try {
       yield call(coreSagas.settings.verifyEmailCode, action.payload)
-      yield put(actions.alerts.displaySuccess(C.EMAIL_VERIFY_SUCCESS))
     } catch (e) {
       yield put(actions.modules.settings.verifyEmailCodeFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'verifyEmailCode', e))

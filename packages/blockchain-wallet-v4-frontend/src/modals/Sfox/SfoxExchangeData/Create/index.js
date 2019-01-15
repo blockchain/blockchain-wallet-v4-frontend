@@ -16,20 +16,23 @@ class CreateContainer extends Component {
     editVerifiedMobile: false
   }
 
-  /* eslint-disable react/no-did-mount-set-state */
   componentDidMount () {
     if (this.props.emailVerified && this.props.smsVerified) {
-      this.setState({ create: 'create_account' })
+      this.updateStep('create_account')
     } else if (this.props.emailVerified) {
-      this.setState({ create: 'change_mobile' })
-    } else this.setState({ create: 'enter_email_code' })
+      this.updateStep('change_mobile')
+    } else this.updateStep('enter_email_code')
   }
-  /* eslint-enable react/no-did-mount-set-state */
+
+  updateStep = step => {
+    this.setState({ create: step })
+  }
 
   render () {
     return (
       <Create
         create={this.state.create}
+        updateStep={this.updateStep}
         countryCode={this.props.data.countryCode}
         editVerifiedEmail={this.state.editVerifiedEmail}
         editVerifiedMobile={this.state.editVerifiedMobile}

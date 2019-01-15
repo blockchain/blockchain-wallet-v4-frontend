@@ -39,7 +39,7 @@ class VerifyEmail extends Component {
   state = {}
 
   componentDidMount () {
-    if (this.state.create === 'enter_email_code') {
+    if (this.props.create === 'enter_email_code') {
       this.props.securityCenterActions.sendConfirmationCodeEmail(
         this.props.oldEmail
       )
@@ -52,17 +52,16 @@ class VerifyEmail extends Component {
     this.props.sfoxFrontendActions.sfoxNotAsked()
   }
 
-  /* eslint-disable react/no-did-update-set-state */
   componentDidUpdate (prevProps) {
     if (this.props.emailVerified && !prevProps.emailVerified) {
-      this.setState({ create: 'change_mobile' })
+      this.props.updateStep('change_mobile')
     }
     if (
       this.props.emailVerified &&
       this.state.uniqueEmail &&
       !this.props.editVerifiedEmail
     ) {
-      this.setState({ create: 'change_mobile' })
+      this.props.updateStep('change_mobile')
     }
   }
   /* eslint-enable react/no-did-update-set-state */
@@ -76,11 +75,11 @@ class VerifyEmail extends Component {
 
   onSubmit = e => {
     e.preventDefault()
-    if (this.state.create === 'enter_email_code') {
+    if (this.props.create === 'enter_email_code') {
       this.props.sfoxFrontendActions.clearSignupError()
       this.props.securityCenterActions.verifyEmailCode(this.props.emailCode)
     } else {
-      this.setState({ create: 'enter_email_code' })
+      this.props.updateStep('enter_email_code')
       this.props.securityCenterActions.updateEmail(
         this.props.emailAddress,
         true
@@ -101,21 +100,21 @@ class VerifyEmail extends Component {
               values={{
                 resend: <a onClick={this.resendCode}>Resend</a>,
                 changeEmail: (
-                  <a onClick={() => this.setState({ create: 'change_email' })}>
+                  <a onClick={() => this.updateStep('change_email')}>
                     change email
                   </a>
                 )
               }}
             />
           )
-        case this.state.codeSent:
+        case this.props.codeSent:
           return (
             <FormattedMessage
               id='sfoxexchangedata.create.verifyemail.helper.sentanothercode'
               defaultMessage='Another code has been sent! {changeEmail}'
               values={{
                 changeEmail: (
-                  <a onClick={() => this.setState({ create: 'change_email' })}>
+                  <a onClick={() => this.updateStep('change_email')}>
                     change email
                   </a>
                 )
@@ -130,7 +129,7 @@ class VerifyEmail extends Component {
               values={{
                 resend: <a onClick={this.resendCode}>Resend</a>,
                 changeEmail: (
-                  <a onClick={() => this.setState({ create: 'change_email' })}>
+                  <a onClick={() => this.updateStep('change_email')}>
                     change email
                   </a>
                 )
@@ -156,7 +155,7 @@ class VerifyEmail extends Component {
                 defaultMessage="Rest assured: there are only a few steps separating you from the good stuff. Let's start by confirming your verified email address and phone number."
               />
             </PartnerSubHeader>
-            {this.state.create === 'enter_email_code' ? (
+            {this.props.create === 'enter_email_code' ? (
               <EmailInput>
                 <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
@@ -214,7 +213,7 @@ class VerifyEmail extends Component {
                 fullwidth
                 disabled={
                   invalid ||
-                  this.state.create !== 'enter_email_code' ||
+                  this.props.create !== 'enter_email_code' ||
                   !emailCode
                 }
               >

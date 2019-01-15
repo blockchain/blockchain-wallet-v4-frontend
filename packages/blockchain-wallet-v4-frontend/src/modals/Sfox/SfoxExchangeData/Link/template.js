@@ -347,7 +347,7 @@ const BankLink = props => {
               <HeartbeatLoader height='20px' width='20px' color='white' />
             ) : (
               <FormattedMessage
-                id='sfoxexchangedata.link.continue'
+                id='sfoxexchangedata.button.continue'
                 defaultMessage='Continue'
               />
             )}
