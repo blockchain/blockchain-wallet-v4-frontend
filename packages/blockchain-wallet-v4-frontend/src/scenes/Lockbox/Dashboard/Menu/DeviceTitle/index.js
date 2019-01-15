@@ -9,6 +9,18 @@ import * as bowser from 'bowser'
 import { actions } from 'data'
 import { Button, Icon, Text } from 'blockchain-info-components'
 
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(100% - 330px);
+  padding: 10px 30px;
+  @media (max-width: 770px) {
+    width: 100%;
+    padding: 10px 15px;
+  }
+`
 const ToggleIcon = styled(Icon)`
   transition: color 0.3s;
   &:hover {
@@ -41,7 +53,7 @@ class DeviceTitle extends React.PureComponent {
     const icon = onDashboard ? 'settings-filled' : 'transactions'
 
     return deviceInfo ? (
-      <React.Fragment>
+      <Wrapper>
         <Text size='24px' weight={400} className='tour-step1'>
           {deviceInfo.device_name}
         </Text>
@@ -62,7 +74,7 @@ class DeviceTitle extends React.PureComponent {
             <ToggleIcon name={icon} size={'24px'} />
           </LinkContainer>
         </RightCol>
-      </React.Fragment>
+      </Wrapper>
     ) : (
       <Text size='24px' weight={400}>
         Lockbox

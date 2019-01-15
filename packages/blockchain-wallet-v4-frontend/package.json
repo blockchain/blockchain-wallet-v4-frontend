@@ -84,8 +84,8 @@
   },
   "dependencies": {
     "@blockchain-com/components": "2.5.3",
-    "@ledgerhq/hw-app-eth": "4.26.0-beta.ebeb3540",
     "@ledgerhq/hw-app-btc": "4.26.0-beta.ebeb3540",
+    "@ledgerhq/hw-app-eth": "4.26.0-beta.ebeb3540",
     "@ledgerhq/hw-app-str": "4.26.0-beta.ebeb3540",
     "@ledgerhq/hw-transport-u2f": "4.26.0-beta.ebeb3540",
     "awesome-phonenumber": "2.2.5",
@@ -124,6 +124,7 @@
     "react-highcharts": "16.0.2",
     "react-intl": "2.4.0",
     "react-intl-tel-input": "5.0.5",
+    "react-joyride": "^2.0.2",
     "react-onclickoutside": "6.7.1",
     "react-qr-reader": "2.1.0",
     "react-redux": "5.0.7",

@@ -13,7 +13,7 @@ const Container = styled.div`
   width: 100%;
   position: fixed;
   background-color: ${props => props.theme['white']};
-  z-index: 999;
+  z-index: 99;
 `
 const TitleBar = styled.div`
   width: 100%;
@@ -24,7 +24,6 @@ const TitleBarWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 30px;
 `
 const StyledCreatableInputContainer = styled.div`
   display: flex;

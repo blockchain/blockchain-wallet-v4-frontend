@@ -18,6 +18,9 @@ const Wrapper = styled.div`
     width: 100%;
   }
 `
+const Header = styled(Menu)`
+  width: 100%;
+`
 const ContentWrapper = styled.div`
   height: 100%;
   position: relative;
@@ -38,7 +41,7 @@ class LockboxDashboardContainer extends React.PureComponent {
 
     return (
       <Wrapper>
-        <Menu />
+        <Header />
         <ContentWrapper>
           {onDashboard ? (
             <Transactions deviceIndex={deviceIndex} />
