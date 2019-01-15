@@ -2,25 +2,42 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { withRouter, Route, Switch } from 'react-router-dom'
+
 import { actions } from 'data'
-import { FlatLoader } from 'blockchain-info-components'
+import LockboxDashboard from './Dashboard'
+import LockboxOnboard from './Onboard'
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin: 30px;
   width: 100%;
 `
 class LockboxContainer extends React.PureComponent {
-  componentDidMount () {
-    this.props.lockboxActions.determineLockboxRoute()
+  componentWillMount () {
+    // only find route on entry from menu click
+    if (this.props.location.pathname === '/lockbox') {
+      this.props.lockboxActions.determineLockboxRoute()
+    }
   }
 
   render () {
     return (
       <Wrapper>
-        <FlatLoader width='150px' height='20px' />
+        <Switch>
+          <Route
+            path='/lockbox/dashboard/:deviceIndex'
+            component={LockboxDashboard}
+            exact
+          />
+          <Route
+            path='/lockbox/settings/:deviceIndex'
+            component={LockboxDashboard}
+            exact
+          />
+          <Route path='/lockbox/onboard' component={LockboxOnboard} exact />
+        </Switch>
       </Wrapper>
     )
   }
@@ -30,7 +47,9 @@ const mapDispatchToProps = dispatch => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(LockboxContainer)
+export default withRouter(
+  connect(
+    null,
+    mapDispatchToProps
+  )(LockboxContainer)
+)

@@ -11,10 +11,12 @@ import DeviceTitle from './DeviceTitle'
 
 const Container = styled.div`
   width: 100%;
+  position: fixed;
+  background-color: ${props => props.theme['white']};
+  z-index: 999;
 `
 const TitleBar = styled.div`
   width: 100%;
-  background-color: ${props => props.theme['white']};
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 const TitleBarWrapper = styled.div`

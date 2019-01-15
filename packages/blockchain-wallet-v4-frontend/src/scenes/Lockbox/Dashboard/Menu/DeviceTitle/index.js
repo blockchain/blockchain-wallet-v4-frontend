@@ -42,7 +42,7 @@ class DeviceTitle extends React.PureComponent {
 
     return deviceInfo ? (
       <React.Fragment>
-        <Text size='24px' weight={400}>
+        <Text size='24px' weight={400} className='tour-step1'>
           {deviceInfo.device_name}
         </Text>
         <RightCol>
@@ -51,6 +51,7 @@ class DeviceTitle extends React.PureComponent {
             rounded
             onClick={this.onOpenAppManager}
             disabled={!isBrowserChrome}
+            className='tour-step2'
           >
             <FormattedMessage
               id='scenes.lockbox.menu.devicetitle.apps'

@@ -7,13 +7,21 @@ import { withRouter } from 'react-router-dom'
 import Transactions from './Transactions'
 import Settings from './Settings'
 import { actions } from 'data'
+import Menu from './Menu'
 
 const Wrapper = styled.div`
   height: 100%;
-  width: 100%;
+  width: calc(100% - 270px);
+  position: fixed;
+
+  @media (max-width: 770px) {
+    width: 100%;
+  }
 `
 const ContentWrapper = styled.div`
   height: 100%;
+  position: relative;
+  top: 206px;
 `
 class LockboxDashboardContainer extends React.PureComponent {
   componentDidUpdate (prevProps) {
@@ -30,6 +38,7 @@ class LockboxDashboardContainer extends React.PureComponent {
 
     return (
       <Wrapper>
+        <Menu />
         <ContentWrapper>
           {onDashboard ? (
             <Transactions deviceIndex={deviceIndex} />
