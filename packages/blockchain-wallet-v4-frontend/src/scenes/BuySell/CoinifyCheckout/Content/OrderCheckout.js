@@ -1,16 +1,21 @@
 import React, { Fragment } from 'react'
+import styled from 'styled-components'
 import { Text, Icon, Button, HeartbeatLoader } from 'blockchain-info-components'
-import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'
 import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { StepTransition } from 'components/Utilities/Stepper'
 import QuoteInput from './QuoteInput'
-import { MethodContainer } from 'components/BuySell/styled.js'
+import { MethodContainer } from 'components/BuySell/styled'
 import {
   checkoutButtonLimitsHelper,
   getRateFromQuote
 } from 'services/CoinifyService'
+
+const Wrapper = styled.div`
+  padding: 30px;
+  border: 1px solid ${props => props.theme['gray-1']};
+`
 
 const OrderCheckout = ({
   changeTab,
@@ -96,7 +101,7 @@ const OrderCheckout = ({
     ) : null
 
   return (
-    <ExchangeCheckoutWrapper>
+    <Wrapper>
       <Text style={spacing('ml-10')} size='16px' weight={600}>
         {wantToHelper()}
       </Text>
@@ -141,7 +146,7 @@ const OrderCheckout = ({
         </Fragment>
       ) : null}
       {submitButtonHelper()}
-    </ExchangeCheckoutWrapper>
+    </Wrapper>
   )
 }
 

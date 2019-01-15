@@ -56,7 +56,6 @@ const withinLimits = (val, allValues, { medium, value: { limits, quote } }) => {
 
 const Confirm = props => {
   const {
-    ui,
     value,
     handleSubmit,
     busy,
@@ -64,12 +63,13 @@ const Confirm = props => {
     submitting,
     medium,
     toggleEdit,
-    editingAmount
+    editingAmount,
+    isEditing,
+    limitsError
   } = props
   const { quote, mediums, limits } = value
   const { quoteAmount, baseAmount, baseCurrency } = quote
   const { total, fee } = mediums[medium]
-  const { editing, limitsError } = ui
 
   const subHeaderHelper = () => {
     const curr = quote.baseCurrency
@@ -138,7 +138,7 @@ const Confirm = props => {
                 defaultMessage='Amount'
               />
             </Text>
-            {!editing ? (
+            {!isEditing ? (
               <Text size='13px' weight={300}>
                 {baseAmount * -1}
               </Text>
@@ -179,7 +179,7 @@ const Confirm = props => {
         </SummaryWrapper>
         <RateContainer style={spacing('mt-10')}>
           <Link size='12px' weight={300} onClick={toggleEdit}>
-            {!editing ? (
+            {!isEditing ? (
               <FormattedMessage
                 id='coinifyexchangedata.confirm.editorder'
                 defaultMessage='Edit Order'
@@ -202,15 +202,15 @@ const Confirm = props => {
             invalid ||
             submitting ||
             busy ||
-            (editing && (limitsError || !editingAmount))
+            (isEditing && (limitsError || !editingAmount))
           }
         >
-          {!busy && !editing ? (
+          {!busy && !isEditing ? (
             <FormattedMessage
               id='coinifyexchangedata.confirm.confirm'
               defaultMessage='Confirm'
             />
-          ) : editing ? (
+          ) : isEditing ? (
             <FormattedMessage
               id='coinifyexchangedata.confirm.update'
               defaultMessage='Update'
@@ -219,8 +219,6 @@ const Confirm = props => {
             <HeartbeatLoader height='20px' width='20px' color='white' />
           )}
         </Button>
-        {/* <FAQ1 />
-        <FAQ2 /> */}
       </ColRight>
     </Form>
   )

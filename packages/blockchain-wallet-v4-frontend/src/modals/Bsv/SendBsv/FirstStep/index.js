@@ -28,8 +28,9 @@ class FirstStep extends React.Component {
             enableToggle={value.enableToggle}
             effectiveBalance={value.effectiveBalance}
             totalFee={value.totalFee}
-            onSubmit={actions.sendBsvFirstStepSubmitClicked}
             handleToToggle={this.handleToToggle}
+            onSubmit={actions.sendBsvFirstStepSubmitClicked}
+            excludeHDWallets={this.props.excludeHDWallets}
           />
         )
       },

@@ -3,38 +3,62 @@ import * as AT from './actionTypes'
 import sagas from './sagas'
 
 export default ({ api, coreSagas }) => {
-  const exchange = sagas({ api, coreSagas })
+  const identityVerificationSagas = sagas({ api, coreSagas })
 
-  return function*() {
-    yield takeLatest(AT.VERIFY_IDENTITY, exchange.verifyIdentity)
+  return function* identityVerificationSaga () {
+    yield takeLatest(
+      AT.VERIFY_IDENTITY,
+      identityVerificationSagas.verifyIdentity
+    )
     yield takeLatest(
       AT.INITIALIZE_VERIFICATION,
-      exchange.initializeVerification
+      identityVerificationSagas.initializeVerification
     )
-    yield takeLatest(AT.UPDATE_SMS_STEP, exchange.updateSmsStep)
-    yield takeLatest(AT.UPDATE_SMS_NUMBER, exchange.updateSmsNumber)
-    yield takeLatest(AT.VERIFY_SMS_NUMBER, exchange.verifySmsNumber)
-    yield takeLatest(AT.RESEND_SMS_CODE, exchange.resendSmsCode)
-    yield takeLatest(AT.SAVE_PERSONAL_DATA, exchange.savePersonalData)
+    yield takeLatest(
+      AT.UPDATE_SMS_STEP,
+      identityVerificationSagas.updateSmsStep
+    )
+    yield takeLatest(
+      AT.UPDATE_SMS_NUMBER,
+      identityVerificationSagas.updateSmsNumber
+    )
+    yield takeLatest(
+      AT.VERIFY_SMS_NUMBER,
+      identityVerificationSagas.verifySmsNumber
+    )
+    yield takeLatest(
+      AT.RESEND_SMS_CODE,
+      identityVerificationSagas.resendSmsCode
+    )
+    yield takeLatest(
+      AT.SAVE_PERSONAL_DATA,
+      identityVerificationSagas.savePersonalData
+    )
     yield takeLatest(
       AT.FETCH_SUPPORTED_COUNTRIES,
-      exchange.fetchSupportedCountries
+      identityVerificationSagas.fetchSupportedCountries
     )
     yield takeLatest(
       AT.FETCH_SUPPORTED_DOCUMENTS,
-      exchange.fetchSupportedDocuments
+      identityVerificationSagas.fetchSupportedDocuments
     )
-    yield takeLatest(AT.FETCH_STATES, exchange.fetchStates)
-    yield takeLatest(AT.REGISTER_USER_CAMPAIGN, exchange.registerUserCampaign)
+    yield takeLatest(AT.FETCH_STATES, identityVerificationSagas.fetchStates)
+    yield takeLatest(
+      AT.REGISTER_USER_CAMPAIGN,
+      identityVerificationSagas.registerUserCampaign
+    )
     yield takeLatest(
       AT.CREATE_REGISTER_USER_CAMPAIGN,
-      exchange.createRegisterUserCampaign
+      identityVerificationSagas.createRegisterUserCampaign
     )
-    yield takeLatest(AT.GO_TO_PREV_STEP, exchange.goToPrevStep)
-    yield takeLatest(AT.GO_TO_NEXT_STEP, exchange.goToNextStep)
-    yield takeLatest(AT.CHECK_KYC_FLOW, exchange.checkKycFlow)
-    yield takeLatest(AT.SEND_DEEP_LINK, exchange.sendDeeplink)
-    yield takeLatest(AT.UPDATE_EMAIL, exchange.updateEmail)
-    yield takeLatest(AT.SEND_EMAIL_VERIFICATION, exchange.sendEmailVerification)
+    yield takeLatest(AT.GO_TO_PREV_STEP, identityVerificationSagas.goToPrevStep)
+    yield takeLatest(AT.GO_TO_NEXT_STEP, identityVerificationSagas.goToNextStep)
+    yield takeLatest(AT.CHECK_KYC_FLOW, identityVerificationSagas.checkKycFlow)
+    yield takeLatest(AT.SEND_DEEP_LINK, identityVerificationSagas.sendDeeplink)
+    yield takeLatest(AT.UPDATE_EMAIL, identityVerificationSagas.updateEmail)
+    yield takeLatest(
+      AT.SEND_EMAIL_VERIFICATION,
+      identityVerificationSagas.sendEmailVerification
+    )
   }
 }

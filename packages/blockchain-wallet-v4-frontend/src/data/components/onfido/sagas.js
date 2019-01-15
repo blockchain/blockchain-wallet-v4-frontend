@@ -25,7 +25,7 @@ export default ({ api }) => {
       yield put(actions.modules.profile.fetchUser())
       yield put(actions.modals.closeAllModals())
       yield put(actions.router.push('/swap'))
-      yield put(actions.analytics.logKycEvent(COMPLETE))
+      yield put(actions.analytics.logEvent(COMPLETE))
     } catch (error) {
       yield put(A.syncOnfidoError(error))
     }

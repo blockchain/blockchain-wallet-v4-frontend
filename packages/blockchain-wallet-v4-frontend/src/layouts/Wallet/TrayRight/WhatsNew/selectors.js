@@ -1,4 +1,5 @@
 import { filterAnnouncements } from 'services/WhatsNewService/WhatsNewContent'
+import { prop } from 'ramda'
 import { selectors } from 'data'
 import moment from 'moment'
 
@@ -18,10 +19,10 @@ export const getData = state => {
     .getOrElse(null)
 
   return {
-    latestAnnouncements: filterAnnouncements(
+    announcements: filterAnnouncements(
       lastViewed,
       userCountry,
       userKycState
-    )
+    ).filter(prop('display'))
   }
 }

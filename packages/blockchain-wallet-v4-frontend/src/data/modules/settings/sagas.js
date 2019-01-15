@@ -9,7 +9,7 @@ import {
   promptForSecondPassword
 } from 'services/SagaService'
 import { Types, utils } from 'blockchain-wallet-v4/src'
-import { contains, toLower, prop, head } from 'ramda'
+import { contains, toLower, prop, propEq, head } from 'ramda'
 
 export const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -96,6 +96,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displaySuccess(C.MOBILE_UPDATE_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateMobile', e))
+      if (propEq('type', 'UNKNOWN_USER', e)) return
       yield put(actions.alerts.displayError(C.MOBILE_UPDATE_ERROR))
     }
   }
@@ -130,6 +131,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displaySuccess(C.MOBILE_VERIFY_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'verifyMobile', e))
+      if (propEq('type', 'UNKNOWN_USER', e)) return
       yield put(actions.alerts.displayError(C.MOBILE_VERIFY_ERROR))
       yield put(actions.modules.settings.verifyMobileFailure())
     }

@@ -9,11 +9,11 @@ import SecondStep from './SecondStep'
 import ThirdStep from './ThirdStep'
 
 class RecoveryPhraseContainer extends React.PureComponent {
-  componentWillMount () {
+  componentDidMount () {
     this.props.resetStep()
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentDidUpdate (nextProps) {
     if (
       nextProps.step === 3 ||
       (nextProps.step === 2 && this.props.step === 3)

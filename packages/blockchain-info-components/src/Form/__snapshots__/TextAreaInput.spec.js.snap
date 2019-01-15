@@ -3,5 +3,6 @@
 exports[`TextAreaInput component default renders correctly 1`] = `
 <TextAreaInput__BaseTextAreaInput
   borderColor="red"
+  resize={true}
 />
 `;

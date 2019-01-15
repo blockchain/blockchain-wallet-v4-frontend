@@ -98,8 +98,8 @@ const Success = ({
         >
           {wallet.archived ? (
             <Link
-              weight={200}
-              size='small'
+              weight={400}
+              size='13px'
               onClick={() => onUnarchive(wallet.index)}
             >
               <FormattedMessage

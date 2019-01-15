@@ -1,9 +1,9 @@
 import { formValueSelector } from 'redux-form'
 import { prop, propOr, lift, head, nth } from 'ramda'
-import settings from 'config'
 import { selectors } from 'data'
 import { Remote, utils } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import BitcoinCash from 'bitcoinforksjs-lib'
 const { fromCashAddr, isCashAddr, toCashAddr } = utils.bch
 
 // extractAddress :: (Int -> Remote(String)) -> Int -> Remote(String)
@@ -12,12 +12,14 @@ const extractAddress = (walletSelector, lockboxSelector, value) => {
     ? value.address && value.type !== ADDRESS_TYPES.LOCKBOX
       ? Remote.of(value.address)
       : value.index !== undefined
-        ? walletSelector(value.index)
-        : lockboxSelector(value.xpub)
+      ? walletSelector(value.index)
+      : lockboxSelector(value.xpub)
     : Remote.Loading
 }
 
 export const getData = (state, ownProps) => {
+  const networkR = selectors.core.walletOptions.getBtcNetwork(state)
+  const network = networkR.getOrElse('bitcoin')
   const availability = selectors.core.walletOptions.getCoinAvailability(
     state,
     'BCH'
@@ -27,13 +29,13 @@ export const getData = (state, ownProps) => {
     .getOrElse(true)
   const getReceiveAddressWallet = index =>
     selectors.core.common.bch.getNextAvailableReceiveAddress(
-      settings.NETWORK_BCH,
+      BitcoinCash.networks[network],
       index,
       state
     )
   const getReceiveAddressLockbox = index =>
     selectors.core.common.bch.getNextAvailableReceiveAddressLockbox(
-      settings.NETWORK_BCH,
+      BitcoinCash.networks[network],
       index,
       state
     )
@@ -46,9 +48,8 @@ export const getData = (state, ownProps) => {
     getReceiveAddressWallet,
     getReceiveAddressLockbox,
     to
-  ).map(
-    address =>
-      address && isCashAddr(address) ? address : toCashAddr(address, true)
+  ).map(address =>
+    address && isCashAddr(address) ? address : toCashAddr(address, true)
   )
 
   const transform = (receiveAddress, initialValues) => ({

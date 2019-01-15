@@ -39,7 +39,7 @@ class Select extends PureComponent {
     this.onChange = this.onChange.bind(this)
   }
 
-  static getDerivedStateFromProps (nextProps, prevState) {
+  static getDerivedStateFromProps (nextProps) {
     if (nextProps.value) {
       return {
         val: nextProps.value

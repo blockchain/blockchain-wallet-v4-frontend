@@ -23,7 +23,12 @@ const ImportedAddressesSettingHeader = styled(SettingHeader)`
   justify-content: space-between;
   margin-top: 30px;
 `
-
+const ImportedActions = styled.div`
+  display: flex;
+  > button {
+    margin-left: 10px;
+  }
+`
 const WarningWrapper = styled.div`
   display: flex;
   .warning-icon {
@@ -40,6 +45,7 @@ const Success = ({
   onClickImport,
   onClickVerify,
   onToggleArchived,
+  onTransferAll,
   onShowPriv,
   onShowSignMessage,
   search,
@@ -117,12 +123,20 @@ const Success = ({
             </WarningWrapper>
           </SettingDescription>
         </div>
-        <Button onClick={onClickVerify}>
-          <FormattedMessage
-            id='scenes.settings.addresses.btc.importedaddresses.success.verifymessage'
-            defaultMessage='Verify Message'
-          />
-        </Button>
+        <ImportedActions>
+          <Button onClick={onClickVerify}>
+            <FormattedMessage
+              id='scenes.settings.addresses.btc.importedaddresses.success.verifymessage'
+              defaultMessage='Verify Message'
+            />
+          </Button>
+          <Button onClick={onTransferAll} nature='primary'>
+            <FormattedMessage
+              id='scenes.settings.addresses.btc.importedaddresses.success.transferall'
+              defaultMessage='Transfer All'
+            />
+          </Button>
+        </ImportedActions>
       </ImportedAddressesSettingHeader>
       {importedAddressesTableRows.length > 0 && (
         <Table>

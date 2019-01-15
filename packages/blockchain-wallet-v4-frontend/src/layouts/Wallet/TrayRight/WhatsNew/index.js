@@ -28,14 +28,14 @@ class WhatsNewContainer extends React.PureComponent {
     this.props.kvStoreWhatsNewActions.updateMetadataWhatsNew(Date.now())
   }
   render () {
-    const { latestAnnouncements } = this.props
+    const { announcements } = this.props
     return (
       <Wrapper>
         <Container>
-          {!prop('length', latestAnnouncements) ? (
+          {!prop('length', announcements) ? (
             <EmptyContent />
           ) : (
-            latestAnnouncements.map(prop('content'))
+            announcements.map(prop('content'))
           )}
         </Container>
       </Wrapper>
