@@ -32,10 +32,20 @@ const PaymentOption = styled.div`
   border-radius: 4px;
   width: 130px;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
-  background-color: ${props =>
-    props.isChecked ? props.theme['brand-secondary'] : 'white'};
+  background-color: ${props => props.theme['white']};
   opacity: ${props => (props.disabled ? 0.3 : 1)};
   margin-right: ${props => props.marginRight};
+  :hover {
+    background-color: ${props => props.theme['brand-secondary']};
+    label {
+      > span {
+        color: ${props => props.theme['white']};
+      }
+      > div {
+        color: ${props => props.theme['white']};
+      }
+    }
+  }
 `
 const OptionLabel = styled.label`
   display: flex;
@@ -44,11 +54,11 @@ const OptionLabel = styled.label`
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
 `
 const PaymentIcon = styled(Icon)`
-  color: ${props => (props.isChecked ? 'white' : props.theme['brand-primary'])};
+  color: ${props => props.theme['brand-primary']};
   cursor: ${props => props.disabled && 'not-allowed'};
 `
 const PaymentText = styled(Text)`
-  color: ${props => (props.isChecked ? 'white' : props.theme['brand-primary'])};
+  color: ${props => props.theme['brand-primary']};
 `
 
 const PaymentRadioCard = ({ handlePaymentClick, disabled }) => (
@@ -92,22 +102,24 @@ export function CardOption ({ handlePaymentClick, disabled }) {
       <Text size='12px' weight={300}>
         {isDisabled ? (
           <Text size='12px' weight={300}>
-            {prop('type', disabled) === 'under_card'
-              ? <FormattedMessage
+            {prop('type', disabled) === 'under_card' ? (
+              <FormattedMessage
                 id='coinifyexchangedata.payment.mediumhelpers.card.disabled_min'
                 defaultMessage='The order amount is less than the credit card minimum of {cardMin}.'
                 values={{ cardMin: prop('limit', disabled) }}
               />
-              : prop('type', disabled) === 'over_card'
-                ? <FormattedMessage
-                  id='coinifyexchangedata.payment.mediumhelpers.card.disabled_max'
-                  defaultMessage='Orders over {cardLimit} can only be processed through bank transfer.'
-                  values={{ cardLimit: prop('limit', disabled) }}
-                />
-                : <FormattedMessage
-                  id='coinifyexchangedata.payment.mediumhelpers.card.disabled_other'
-                  defaultMessage='Credit card payment is not available for this order.'
-                />}
+            ) : prop('type', disabled) === 'over_card' ? (
+              <FormattedMessage
+                id='coinifyexchangedata.payment.mediumhelpers.card.disabled_max'
+                defaultMessage='Orders over {cardLimit} can only be processed through bank transfer.'
+                values={{ cardLimit: prop('limit', disabled) }}
+              />
+            ) : (
+              <FormattedMessage
+                id='coinifyexchangedata.payment.mediumhelpers.card.disabled_other'
+                defaultMessage='Credit card payment is not available for this order.'
+              />
+            )}
           </Text>
         ) : (
           <Text size='12px' weight={300}>
