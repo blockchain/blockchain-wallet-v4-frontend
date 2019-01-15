@@ -4,7 +4,9 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { withRouter, Route, Switch } from 'react-router-dom'
 import Joyride from 'react-joyride'
+import { FormattedMessage } from 'react-intl'
 
+import { Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import LockboxDashboard from './Dashboard'
 import LockboxOnboard from './Onboard'
@@ -35,37 +37,123 @@ class LockboxContainer extends React.PureComponent {
         {
           target: '.tour-step1',
           content: (
-            <div>
-              You can interact with your own components through the spotlight.
-              <br />
-              Click the menu above!
-            </div>
+            <React.Fragment>
+              <Text size='18px' weight={400} style={{marginBottom: '16px'}}>
+                <FormattedMessage
+                  id='scenes.lockbox.tour.stepone.title'
+                  defaultMessage='Welcome to your Lockbox!'
+                />
+              </Text>
+              <Text size='14px' weight={300}>
+                <FormattedMessage
+                  id='scenes.lockbox.tour.stepone.content'
+                  defaultMessage="Lockbox is organized by asset. Select an asset to view it's transaction history."
+                />
+              </Text>
+            </React.Fragment>
           ),
-          textAlign: 'center',
           placement: 'bottom',
           disableBeacon: true,
+          disableOverlayClose: true,
           hideCloseButton: true,
-          styles: {
-            options: {
-              zIndex: 10000
-            }
-          },
-          title: 'Menu'
+          spotlightClicks: true
+        },
+        {
+          target: '.tour-step2',
+          content: (
+            <React.Fragment>
+              <Text size='18px' weight={400} style={{marginBottom: '16px'}}>
+                <FormattedMessage
+                  id='scenes.lockbox.tour.steptwo.title'
+                  defaultMessage='Asset List'
+                />
+              </Text>
+              <Text size='14px' weight={300}>
+                <FormattedMessage
+                  id='scenes.lockbox.tour.steptwo.content'
+                  defaultMessage="These are the assets available to your Lockbox.  Your balances are shown by default.  Clicking on an asset with filter the transaction list to show just that asset."
+                />
+              </Text>
+            </React.Fragment>
+          ),
+          placement: 'bottom',
+          disableBeacon: true,
+          disableOverlayClose: true,
+          hideCloseButton: true,
+          spotlightClicks: true
+        },
+        {
+          target: '.tour-step3',
+          content: (
+            <React.Fragment>
+              <Text size='18px' weight={400} style={{marginBottom: '16px'}}>
+                <FormattedMessage
+                  id='scenes.lockbox.tour.stepthree.title'
+                  defaultMessage='Transaction Search'
+                />
+              </Text>
+              <Text size='14px' weight={300}>
+                <FormattedMessage
+                  id='scenes.lockbox.tour.stepthree.content'
+                  defaultMessage="Here you can search for any transaction made with your Lockbox by entering coin names, addresses or descriptions."
+                />
+              </Text>
+            </React.Fragment>
+          ),
+          placement: 'bottom',
+          disableBeacon: true,
+          disableOverlayClose: true,
+          hideCloseButton: true,
+          spotlightClicks: true
+        },
+        {
+          target: '.tour-step4',
+          content: (
+            <React.Fragment>
+              <Text size='18px' weight={400} style={{marginBottom: '16px'}}>
+                <FormattedMessage
+                  id='scenes.lockbox.tour.stepfour.title'
+                  defaultMessage='App Manager'
+                />
+              </Text>
+              <Text size='14px' weight={300}>
+                <FormattedMessage
+                  id='scenes.lockbox.tour.stepfour.content'
+                  defaultMessage="Want to add, update or remove applications?  Click here to manage all applications on your device."
+                />
+              </Text>
+            </React.Fragment>
+          ),
+          placement: 'bottom-end',
+          disableBeacon: true,
+          disableOverlayClose: true,
+          hideCloseButton: true,
+          spotlightClicks: true
+        },
+        {
+          target: '.tour-step5',
+          content: (
+            <React.Fragment>
+              <Text size='18px' weight={400} style={{marginBottom: '16px'}}>
+                <FormattedMessage
+                  id='scenes.lockbox.tour.stepfive.title'
+                  defaultMessage='Lockbox Settings'
+                />
+              </Text>
+              <Text size='14px' weight={300}>
+                <FormattedMessage
+                  id='scenes.lockbox.tour.stepfive.content'
+                  defaultMessage="Clicking here will bring you to the settings page where you can rename your device, install firmware updates, verify your devices authenticity and much more!"
+                />
+              </Text>
+            </React.Fragment>
+          ),
+          placement: 'bottom-end',
+          disableBeacon: true,
+          disableOverlayClose: true,
+          hideCloseButton: true,
+          spotlightClicks: true
         }
-        // {
-        //   target: '.tour-step2',
-        //   content: 'This is our sidebar, you can find everything you need here',
-        //   textAlign: 'left',
-        //   placement: 'right',
-        //   disableBeacon: true,
-        //   hideCloseButton: true,
-        //   styles: {
-        //     options: {
-        //       zIndex: 10000
-        //     }
-        //   },
-        //   title: 'Sidebar'
-        // },
       ]
     })
   }
@@ -79,8 +167,13 @@ class LockboxContainer extends React.PureComponent {
           continuous
           run={run}
           scrollToFirstStep
-          showProgress
           showSkipButton
+          styles={{
+            options: {
+              primaryColor: '#004A7C',
+              zIndex: 1000,
+            }
+          }}
         />
         <Switch>
           <Route

@@ -7,7 +7,7 @@ import { CurrencyItem } from 'components/Balances'
 
 const CurrencyList = styled.div`
   display: flex;
-  width: 100%;
+  width: calc(100% - 340px);
   padding: 10px 30px;
   overflow-x: scroll;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
@@ -31,7 +31,7 @@ const Success = props => {
     any(val => equals(toLower(prop('label', val)), toLower(coin)), formValues)
 
   return (
-    <CurrencyList>
+    <CurrencyList className='tour-step2'>
       <Coin
         coin='btc'
         icon='btc'

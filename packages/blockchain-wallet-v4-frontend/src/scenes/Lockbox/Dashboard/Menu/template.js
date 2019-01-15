@@ -31,6 +31,12 @@ const StyledCreatableInputContainer = styled.div`
   padding: 10px 30px;
   align-items: center;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
+`
+const SearchContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 500px;
   > div:last-child {
     width: 100%;
   }
@@ -43,6 +49,7 @@ const StyledCreatableInputContainer = styled.div`
   .bc__placeholder {
     font-size: 13px;
     font-style: italic;
+    padding-top: 2px;
   }
   .bc__multi-value {
     cursor: auto;
@@ -69,9 +76,7 @@ const SearchLabel = styled.div`
 `
 
 const multiValueContainer = props => {
-  return (
-    <SearchLabel background={props.data.value}>{props.children}</SearchLabel>
-  )
+  return <SearchLabel background={props.data.value}>{props.children}</SearchLabel>
 }
 
 const Menu = props => {
@@ -101,33 +106,35 @@ const Menu = props => {
       )}
       {deviceInfo && (
         <StyledCreatableInputContainer>
-          <Text size='20px' weight={400}>
-            {onDashboard ? (
-              <FormattedMessage
-                id='scenes.lockbox.menu.transactions'
-                defaultMessage='Transactions'
+          {onDashboard ? (
+            <SearchContainer className='tour-step3'>
+              <Text size='20px' weight={400}>
+                <FormattedMessage
+                  id='scenes.lockbox.menu.transactions'
+                  defaultMessage='Transactions'
+                />
+              </Text>
+              <Field
+                name='search'
+                autoFocus
+                defaultValue={formValues}
+                component={CreatableInputField}
+                multiValueContainer={multiValueContainer}
+                placeholder={
+                  <FormattedMessage
+                    id='scenes.lockbox.menu.transactions.search.placeholder'
+                    defaultMessage='Search by coin, address, or description'
+                  />
+                }
               />
-            ) : (
+            </SearchContainer>
+          ) : (
+            <Text size='20px' weight={400}>
               <FormattedMessage
                 id='scenes.lockbox.menu.settings'
                 defaultMessage='Settings'
               />
-            )}
-          </Text>
-          {onDashboard && (
-            <Field
-              name='search'
-              autoFocus
-              defaultValue={formValues}
-              component={CreatableInputField}
-              multiValueContainer={multiValueContainer}
-              placeholder={
-                <FormattedMessage
-                  id='scenes.lockbox.menu.transactions.search.placeholder'
-                  defaultMessage='Search by coin, address, or description'
-                />
-              }
-            />
+            </Text>
           )}
         </StyledCreatableInputContainer>
       )}

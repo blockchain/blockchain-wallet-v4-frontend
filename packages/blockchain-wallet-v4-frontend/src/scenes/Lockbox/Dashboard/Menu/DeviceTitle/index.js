@@ -63,14 +63,14 @@ class DeviceTitle extends React.PureComponent {
             rounded
             onClick={this.onOpenAppManager}
             disabled={!isBrowserChrome}
-            className='tour-step2'
+            className='tour-step4'
           >
             <FormattedMessage
               id='scenes.lockbox.menu.devicetitle.apps'
               defaultMessage='Manage Apps'
             />
           </Button>
-          <LinkContainer to={linkTo}>
+          <LinkContainer to={linkTo} className='tour-step5'>
             <ToggleIcon name={icon} size={'24px'} />
           </LinkContainer>
         </RightCol>
