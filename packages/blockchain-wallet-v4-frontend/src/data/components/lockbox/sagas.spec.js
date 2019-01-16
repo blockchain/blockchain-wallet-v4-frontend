@@ -627,7 +627,7 @@ describe('lockbox sagas', () => {
           .put(actions.core.kvStore.lockbox.deleteDeviceLockbox(deviceIndex))
       })
       it('routes to lockbox page', () => {
-        saga.next().put(actions.router.push('/lockbox'))
+        saga.next().put(actions.router.push('/lockbox/onboard'))
       })
       it('sets delete device success', () => {
         saga.next().put(A.deleteDeviceSuccess())
