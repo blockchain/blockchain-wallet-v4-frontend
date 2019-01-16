@@ -15,7 +15,8 @@ const INITIAL_STATE = {
     deviceType: null,
     newOrExisting: null
   },
-  isAuthentic: Remote.NotAsked
+  isAuthentic: Remote.NotAsked,
+  showProductTour: false
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -104,6 +105,9 @@ export default (state = INITIAL_STATE, action) => {
         Remote.NotAsked,
         state
       )
+    }
+    case AT.SET_PRODUCT_TOUR_VISIBILITY: {
+      return assoc('showProductTour', payload, state)
     }
     case AT.SET_CONNECTION_INFO: {
       return assoc('connection', payload, state)

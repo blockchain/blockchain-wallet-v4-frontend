@@ -313,7 +313,7 @@ export default ({ api }) => {
           yield put(
             actions.core.kvStore.lockbox.deleteDeviceLockbox(deviceIndex)
           )
-          yield put(actions.router.push('/lockbox'))
+          yield put(actions.router.push('/lockbox/onboard'))
           yield put(A.deleteDeviceSuccess())
           yield put(actions.alerts.displaySuccess(C.LOCKBOX_DELETE_SUCCESS))
           yield put(actions.core.data.bitcoin.fetchTransactions('', true))
@@ -463,13 +463,15 @@ export default ({ api }) => {
   }
 
   // routes new device to dashboard
-  const routeNewDeviceToDashboard = function*() {
+  const routeNewDeviceToDashboard = function*(action) {
     try {
+      const { startTour } = action.payload
       const devices = (yield select(
         selectors.core.kvStore.lockbox.getDevices
       )).getOrElse([])
       const index = length(devices) - 1
       yield put(A.initializeDashboard(index))
+      yield put(A.setProductTourVisibility(startTour))
       yield put(actions.router.push(`/lockbox/dashboard/${index}`))
     } catch (e) {
       yield put(

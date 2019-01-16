@@ -3,11 +3,10 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { withRouter, Route, Switch } from 'react-router-dom'
-import Joyride from 'react-joyride'
-import { FormattedMessage } from 'react-intl'
+import Joyride, { ACTIONS, EVENTS, STATUS } from 'react-joyride'
 
-import { Text } from 'blockchain-info-components'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
+import { TOUR_STEPS } from 'model'
 import LockboxDashboard from './Dashboard'
 import LockboxOnboard from './Onboard'
 
@@ -18,146 +17,39 @@ const Wrapper = styled.div`
   width: 100%;
 `
 class LockboxContainer extends React.PureComponent {
-  state = {
-    run: false,
-    steps: []
-  }
+  state = { run: false, steps: [] }
 
   componentWillMount () {
-    // only find route on entry from menu click
+    // only find route on entry from side menu click
     if (this.props.location.pathname === '/lockbox') {
       this.props.lockboxActions.determineLockboxRoute()
     }
   }
 
-  componentDidMount () {
-    /* eslint-disable react/no-did-mount-set-state */
+  componentDidUpdate (prevProps) {
+    if (this.props !== prevProps && this.props.showProductTour) {
+      this.onStartTour()
+    }
+  }
+
+  onStartTour = () => {
     this.setState({
       run: true,
-      steps: [
-        {
-          target: '.tour-step1',
-          content: (
-            <React.Fragment>
-              <Text size='18px' weight={400} style={{ marginBottom: '16px' }}>
-                <FormattedMessage
-                  id='scenes.lockbox.tour.stepone.title'
-                  defaultMessage='Welcome to your Lockbox!'
-                />
-              </Text>
-              <Text size='14px' weight={300}>
-                <FormattedMessage
-                  id='scenes.lockbox.tour.stepone.content'
-                  defaultMessage="Lockbox is organized by asset. Select an asset to view it's transaction history."
-                />
-              </Text>
-            </React.Fragment>
-          ),
-          placement: 'bottom',
-          disableBeacon: true,
-          disableOverlayClose: true,
-          hideCloseButton: true,
-          spotlightClicks: true
-        },
-        {
-          target: '.tour-step2',
-          content: (
-            <React.Fragment>
-              <Text size='18px' weight={400} style={{ marginBottom: '16px' }}>
-                <FormattedMessage
-                  id='scenes.lockbox.tour.steptwo.title'
-                  defaultMessage='Asset List'
-                />
-              </Text>
-              <Text size='14px' weight={300}>
-                <FormattedMessage
-                  id='scenes.lockbox.tour.steptwo.content'
-                  defaultMessage='These are the assets available to your Lockbox.  Your balances are shown by default.  Clicking on an asset with filter the transaction list to show just that asset.'
-                />
-              </Text>
-            </React.Fragment>
-          ),
-          placement: 'bottom',
-          disableBeacon: true,
-          disableOverlayClose: true,
-          hideCloseButton: true,
-          spotlightClicks: true
-        },
-        {
-          target: '.tour-step3',
-          content: (
-            <React.Fragment>
-              <Text size='18px' weight={400} style={{ marginBottom: '16px' }}>
-                <FormattedMessage
-                  id='scenes.lockbox.tour.stepthree.title'
-                  defaultMessage='Transaction Search'
-                />
-              </Text>
-              <Text size='14px' weight={300}>
-                <FormattedMessage
-                  id='scenes.lockbox.tour.stepthree.content'
-                  defaultMessage='Here you can search for any transaction made with your Lockbox by entering coin names, addresses or descriptions.'
-                />
-              </Text>
-            </React.Fragment>
-          ),
-          placement: 'bottom',
-          disableBeacon: true,
-          disableOverlayClose: true,
-          hideCloseButton: true,
-          spotlightClicks: true
-        },
-        {
-          target: '.tour-step4',
-          content: (
-            <React.Fragment>
-              <Text size='18px' weight={400} style={{ marginBottom: '16px' }}>
-                <FormattedMessage
-                  id='scenes.lockbox.tour.stepfour.title'
-                  defaultMessage='App Manager'
-                />
-              </Text>
-              <Text size='14px' weight={300}>
-                <FormattedMessage
-                  id='scenes.lockbox.tour.stepfour.content'
-                  defaultMessage='Want to add, update or remove applications?  Click here to manage all applications on your device.'
-                />
-              </Text>
-            </React.Fragment>
-          ),
-          placement: 'bottom-end',
-          disableBeacon: true,
-          disableOverlayClose: true,
-          hideCloseButton: true,
-          spotlightClicks: true
-        },
-        {
-          target: '.tour-step5',
-          content: (
-            <React.Fragment>
-              <Text size='18px' weight={400} style={{ marginBottom: '16px' }}>
-                <FormattedMessage
-                  id='scenes.lockbox.tour.stepfive.title'
-                  defaultMessage='Lockbox Settings'
-                />
-              </Text>
-              <Text size='14px' weight={300}>
-                <FormattedMessage
-                  id='scenes.lockbox.tour.stepfive.content'
-                  defaultMessage='Clicking here will bring you to the settings page where you can rename your device, install firmware updates, verify your devices authenticity and much more!'
-                />
-              </Text>
-            </React.Fragment>
-          ),
-          placement: 'bottom-end',
-          disableBeacon: true,
-          disableOverlayClose: true,
-          hideCloseButton: true,
-          spotlightClicks: true
-        }
-      ]
+      steps: TOUR_STEPS
     })
-    /* eslint-enable react/no-did-mount-set-state */
+  }
+
+  handleTourCallbacks = data => {
+    if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(data.type)) {
+      // advance current step
+      this.setState({
+        stepIndex: data.index + (data.action === ACTIONS.PREV ? -1 : 1)
+      })
+    } else if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
+      // end tour
+      this.setState({ run: false })
+      this.props.lockboxActions.setProductTourVisibility(false)
+    }
   }
 
   render () {
@@ -170,6 +62,7 @@ class LockboxContainer extends React.PureComponent {
           run={run}
           scrollToFirstStep
           showSkipButton
+          callback={this.handleTourCallbacks}
           styles={{
             options: {
               primaryColor: '#004A7C',
@@ -195,13 +88,17 @@ class LockboxContainer extends React.PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  showProductTour: selectors.components.lockbox.getProductTourVisibility(state)
+})
+
 const mapDispatchToProps = dispatch => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
 export default withRouter(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
   )(LockboxContainer)
 )

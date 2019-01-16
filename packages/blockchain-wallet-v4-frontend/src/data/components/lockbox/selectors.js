@@ -60,3 +60,10 @@ export const getAppChangeStatus = path([
   'appManager',
   'appChangeStatus'
 ])
+
+// Misc
+export const getProductTourVisibility = path([
+  'components',
+  'lockbox',
+  'showProductTour'
+])

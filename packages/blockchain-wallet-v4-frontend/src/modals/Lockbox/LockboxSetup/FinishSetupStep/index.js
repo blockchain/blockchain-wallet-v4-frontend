@@ -11,12 +11,9 @@ class FinishSetupStepContainer extends React.PureComponent {
     this.props.lockboxActions.saveNewDeviceKvStore()
   }
 
-  onFinishSetup = showTour => {
-    this.props.lockboxActions.routeNewDeviceToDashboard()
+  onFinishSetup = startTour => {
+    this.props.lockboxActions.routeNewDeviceToDashboard({ startTour })
     this.props.onClose()
-    if (showTour) {
-      // TODO: start tour
-    }
   }
 
   render () {

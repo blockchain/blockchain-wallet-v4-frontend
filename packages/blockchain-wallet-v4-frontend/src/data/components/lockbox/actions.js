@@ -39,8 +39,9 @@ export const initializeNewDeviceSetup = () => ({
 export const finalizeNewDeviceSetup = () => ({
   type: AT.FINALIZE_NEW_DEVICE_SETUP
 })
-export const routeNewDeviceToDashboard = () => ({
-  type: AT.ROUTE_NEW_DEVICE_DASHBOARD
+export const routeNewDeviceToDashboard = startTour => ({
+  type: AT.ROUTE_NEW_DEVICE_DASHBOARD,
+  payload: { startTour }
 })
 export const changeDeviceSetupStep = (step, done, error) => ({
   type: AT.SET_NEW_DEVICE_SETUP_STEP,
@@ -193,4 +194,8 @@ export const saveCoinMD = (deviceIndex, coin) => ({
 })
 export const lockboxModalClose = () => ({
   type: AT.LOCKBOX_MODAL_CLOSE
+})
+export const setProductTourVisibility = visibility => ({
+  type: AT.SET_PRODUCT_TOUR_VISIBILITY,
+  payload: visibility
 })
