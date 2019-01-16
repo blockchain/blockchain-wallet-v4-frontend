@@ -6,7 +6,7 @@ import { withRouter, Route, Switch } from 'react-router-dom'
 import Joyride, { ACTIONS, EVENTS, STATUS } from 'react-joyride'
 
 import { actions, selectors } from 'data'
-import { TOUR_STEPS } from './model'
+import { TourTooltip, TOUR_STEPS } from './tour.model'
 import LockboxDashboard from './Dashboard'
 import LockboxOnboard from './Onboard'
 
@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   width: 100%;
 `
 class LockboxContainer extends React.PureComponent {
-  state = { run: false, steps: [] }
+  state = { run: false, steps: TOUR_STEPS }
 
   componentWillMount () {
     // only find route on entry from side menu click
@@ -33,10 +33,7 @@ class LockboxContainer extends React.PureComponent {
   }
 
   onStartTour = () => {
-    this.setState({
-      run: true,
-      steps: TOUR_STEPS
-    })
+    this.setState({ run: true })
   }
 
   handleTourCallbacks = data => {
@@ -54,21 +51,15 @@ class LockboxContainer extends React.PureComponent {
 
   render () {
     const { steps, run } = this.state
+
     return (
       <Wrapper>
         <Joyride
-          steps={steps}
-          continuous
           run={run}
-          scrollToFirstStep
-          showSkipButton
+          steps={steps}
           callback={this.handleTourCallbacks}
-          styles={{
-            options: {
-              primaryColor: '#004A7C',
-              zIndex: 1000
-            }
-          }}
+          tooltipComponent={TourTooltip}
+          {...this.props.Joyride}
         />
         <Switch>
           <Route

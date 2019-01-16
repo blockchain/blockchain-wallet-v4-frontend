@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
+import { equals } from 'ramda'
 
 import PairDeviceStep from './template'
 import { actions, selectors } from 'data'
@@ -10,6 +11,9 @@ class PairDeviceStepContainer extends React.PureComponent {
   state = { btcOpenTimeout: false }
 
   componentDidMount () {
+    if (equals('existing', this.props.setupType)) {
+      this.props.lockboxActions.finalizeNewDeviceSetup()
+    }
     this.startBtcOpenTimeout()
   }
 
@@ -51,7 +55,8 @@ PairDeviceStepContainer.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  deviceType: selectors.components.lockbox.getNewDeviceType(state)
+  deviceType: selectors.components.lockbox.getNewDeviceType(state),
+  setupType: selectors.components.lockbox.getNewDeviceSetupType(state)
 })
 
 const mapDispatchToProps = dispatch => ({

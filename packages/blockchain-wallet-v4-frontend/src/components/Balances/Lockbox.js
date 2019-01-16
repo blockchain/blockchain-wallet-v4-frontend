@@ -27,6 +27,9 @@ const Wrapper = styled.div`
   @media (max-width: 770px) {
     margin-right: 15px;
   }
+  &:last-child {
+    margin-right: 0;
+  }
 `
 const IconBox = styled.div`
   padding: 5px;

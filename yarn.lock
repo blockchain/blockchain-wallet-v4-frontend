@@ -12815,7 +12815,7 @@ react-is@^16.7.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.7.0.tgz#c1bd21c64f1f1364c6f70695ec02d69392f41bfa"
   integrity sha512-Z0VRQdF4NPDoI0tsXVMLkJLiwEBa+RP66g0xDHxgxysxSoCUccSten4RTF/UFvZF1dZvZ9Zu1sx+MDXwcOR34g==
 
-react-joyride@^2.0.2:
+react-joyride@2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/react-joyride/-/react-joyride-2.0.2.tgz#01f39990ff46a69f2cbfe1a8a2880dcc0f64d0c7"
   integrity sha512-XJQB4QOPJoC48IU0LkCXwMZIu4Lvgw0AZ5iLyE7xL6l2TXQyk2eN+VOPjLWrRQfk7HBArezHKnc1Fd1jE/KNpA==

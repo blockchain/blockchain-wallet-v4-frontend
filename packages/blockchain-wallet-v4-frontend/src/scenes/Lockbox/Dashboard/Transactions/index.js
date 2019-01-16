@@ -17,7 +17,6 @@ class TransactionsContainer extends React.PureComponent {
     return data.cata({
       Success: val => (
         <Success
-          className='tour-step2'
           currency={val.currency}
           loadMore={this.loadMore}
           isLoading={val.isLoading}
