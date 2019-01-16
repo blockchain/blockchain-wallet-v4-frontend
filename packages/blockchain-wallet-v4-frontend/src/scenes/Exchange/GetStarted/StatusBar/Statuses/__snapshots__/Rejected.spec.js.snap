@@ -18,7 +18,7 @@ exports[`Rejected renders correctly 1`] = `
     weight={300}
   >
     <FormattedMessage
-      defaultMessage="Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verifiy your account at this time. "
+      defaultMessage="Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verify your account at this time. "
       id="scenes.exchange.getstarted.status.rejected.description"
       values={Object {}}
     />

@@ -2,9 +2,6 @@
 
 exports[`Public Header Component should match snapshot 1`] = `
 <Fragment>
-  <[object Object]
-    alertArea="public"
-  />
   <Navbar
     fluid={false}
     height="90px"
