@@ -743,14 +743,18 @@ describe('lockbox sagas', () => {
   })
 
   describe('routeNewDeviceToDashboard', () => {
+    let payload = { startTour: true }
     const error = new Error('error')
-    const saga = testSaga(routeNewDeviceToDashboard)
+    const saga = testSaga(routeNewDeviceToDashboard, { payload })
 
     it('selects devices from kvStore', () => {
       saga.next().select(selectors.core.kvStore.lockbox.getDevices)
     })
     it('inits dashboard', () => {
       saga.next(Remote.of([{}])).put(A.initializeDashboard(0))
+    })
+    it('sets product tour visibility to true', () => {
+      saga.next().put(A.setProductTourVisibility(true))
     })
     it('routes to dashboard page', () => {
       saga.next().put(actions.router.push('/lockbox/dashboard/0'))

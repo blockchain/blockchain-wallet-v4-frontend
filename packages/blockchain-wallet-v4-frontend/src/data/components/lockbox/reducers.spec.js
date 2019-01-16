@@ -16,7 +16,8 @@ const INITIAL_STATE = {
     deviceType: null,
     newOrExisting: null
   },
-  isAuthentic: Remote.NotAsked
+  isAuthentic: Remote.NotAsked,
+  showProductTour: false
 }
 
 describe('lockbox reducers', () => {
