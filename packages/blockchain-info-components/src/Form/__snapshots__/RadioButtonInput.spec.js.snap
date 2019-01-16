@@ -2,7 +2,7 @@
 
 exports[`RadioButtonInput component default renders correctly 1`] = `
 <RadioButtonInput__Wrapper>
-  <styled.input
+  <RadioButtonInput__BaseRadioButtonInput
     checked={true}
     disabled="false"
     name="test"

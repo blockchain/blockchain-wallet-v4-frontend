@@ -20,7 +20,7 @@ exports[`ComponentDropdown component default renders correctly 1`] = `
     onClick={[Function]}
   >
     <template__Button />
-    <Styled(Icon)
+    <template__DropdownIcon
       name="down-arrow"
       size="12px"
     />

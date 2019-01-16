@@ -6,7 +6,7 @@ exports[`Carousel component default renders correctly 1`] = `
     height={12}
     total={12}
   >
-    <Styled(Icon)
+    <template__Arrow
       left={true}
     />
     <template__Slider
@@ -14,7 +14,7 @@ exports[`Carousel component default renders correctly 1`] = `
       index={4}
       total={12}
     />
-    <Styled(Icon) />
+    <template__Arrow />
   </template__Content>
 </template__Wrapper>
 `;

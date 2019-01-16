@@ -11,14 +11,14 @@ exports[`Banner component type alert renders correctly 1`] = `
     size="18px"
     weight={300}
   />
-  <Styled(Text)
+  <Banner__BannerContent
     color="brand-secondary"
     size="12px"
     uppercase={false}
     weight={400}
   >
     ALERT
-  </Styled(Text)>
+  </Banner__BannerContent>
 </Banner__Container>
 `;
 
@@ -34,14 +34,14 @@ exports[`Banner component type caution renders correctly 1`] = `
     size="18px"
     weight={300}
   />
-  <Styled(Text)
+  <Banner__BannerContent
     color="brand-yellow"
     size="12px"
     uppercase={false}
     weight={400}
   >
     ALERT
-  </Styled(Text)>
+  </Banner__BannerContent>
 </Banner__Container>
 `;
 
@@ -49,14 +49,14 @@ exports[`Banner component type standard renders correctly 1`] = `
 <Banner__Container
   color="brand-secondary"
 >
-  <Styled(Text)
+  <Banner__BannerContent
     color="brand-secondary"
     size="12px"
     uppercase={false}
     weight={400}
   >
     STANDARD
-  </Styled(Text)>
+  </Banner__BannerContent>
 </Banner__Container>
 `;
 
@@ -71,14 +71,14 @@ exports[`Banner component type success renders correctly 1`] = `
     size="18px"
     weight={300}
   />
-  <Styled(Text)
+  <Banner__BannerContent
     color="success"
     size="12px"
     uppercase={false}
     weight={400}
   >
     SUCCESS
-  </Styled(Text)>
+  </Banner__BannerContent>
 </Banner__Container>
 `;
 
@@ -93,13 +93,13 @@ exports[`Banner component type warning renders correctly 1`] = `
     size="18px"
     weight={300}
   />
-  <Styled(Text)
+  <Banner__BannerContent
     color="error"
     size="12px"
     uppercase={true}
     weight={400}
   >
     WARNING
-  </Styled(Text)>
+  </Banner__BannerContent>
 </Banner__Container>
 `;

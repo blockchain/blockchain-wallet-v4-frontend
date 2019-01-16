@@ -5,19 +5,19 @@ exports[`FlatLoader component default renders correctly 1`] = `
   height="10px"
   width="10px"
 >
-  <Styled(FlatLoader__Rectangle)
+  <FlatLoader__Rectangle1
     color="brand-primary"
   />
-  <Styled(FlatLoader__Rectangle)
+  <FlatLoader__Rectangle2
     color="brand-primary"
   />
-  <Styled(FlatLoader__Rectangle)
+  <FlatLoader__Rectangle3
     color="brand-primary"
   />
-  <Styled(FlatLoader__Rectangle)
+  <FlatLoader__Rectangle4
     color="brand-primary"
   />
-  <Styled(FlatLoader__Rectangle)
+  <FlatLoader__Rectangle5
     color="brand-primary"
   />
 </FlatLoader__Container>

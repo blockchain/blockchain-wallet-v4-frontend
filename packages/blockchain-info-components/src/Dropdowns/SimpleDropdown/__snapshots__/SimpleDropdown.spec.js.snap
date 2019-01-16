@@ -22,7 +22,7 @@ exports[`SimpleDropdown component default renders correctly 1`] = `
     <template__Button>
       test
     </template__Button>
-    <Styled(Icon)
+    <template__DropdownIcon
       name="down-arrow"
       size="8px"
     />

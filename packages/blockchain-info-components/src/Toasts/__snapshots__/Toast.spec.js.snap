@@ -10,7 +10,7 @@ exports[`Toast component default renders correctly 1`] = `
         Default
       </span>
     </Toast__Content>
-    <Styled(Icon)
+    <Toast__Close
       color="brand-secondary"
       cursor={true}
       name="close"
@@ -32,7 +32,7 @@ exports[`Toast component error renders correctly 1`] = `
         Default
       </span>
     </Toast__Content>
-    <Styled(Icon)
+    <Toast__Close
       color="error"
       cursor={true}
       name="close"
@@ -54,7 +54,7 @@ exports[`Toast component success renders correctly 1`] = `
         Default
       </span>
     </Toast__Content>
-    <Styled(Icon)
+    <Toast__Close
       color="success"
       cursor={true}
       name="close"

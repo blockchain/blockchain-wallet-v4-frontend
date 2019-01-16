@@ -2,7 +2,7 @@
 
 exports[`SecurityGauge component default renders correctly 1`] = `
 <SecurityGauge__Progress>
-  <Styled(Icon)
+  <SecurityGauge__SecurityIcon
     name="checkmark-in-circle"
     size="16px"
   />

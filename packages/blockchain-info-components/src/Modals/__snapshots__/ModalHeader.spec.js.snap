@@ -7,7 +7,7 @@ exports[`ModalHeader component default renders correctly 1`] = `
   onClose={[Function]}
 >
   <ModalHeader__Header>
-    <Styled(Icon)
+    <ModalHeader__HeaderIcon
       color="gray-5"
       name="x"
       size="28px"

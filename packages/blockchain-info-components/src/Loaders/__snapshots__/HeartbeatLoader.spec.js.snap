@@ -8,7 +8,7 @@ exports[`HeartbeatLoader component default renders correctly 1`] = `
   <HeartbeatLoader__Circle1
     color="brand-primary"
   />
-  <Styled(HeartbeatLoader__Circle1)
+  <HeartbeatLoader__Circle2
     color="brand-primary"
   />
 </HeartbeatLoader__Container>

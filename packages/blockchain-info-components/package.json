@@ -53,8 +53,7 @@
       "./lib"
     ],
     "transform": {
-      "^.+\\.jsx$": "<rootDir>/../../node_modules/babel-jest",
-      "^.+\\.js$": "<rootDir>/../../node_modules/babel-jest"
+      "^.+\\.(js|jsx)$": "babel-jest"
     }
   },
   "dependencies": {

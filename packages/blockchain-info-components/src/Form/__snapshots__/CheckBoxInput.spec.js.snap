@@ -2,7 +2,7 @@
 
 exports[`CheckBoxInput component default renders correctly 1`] = `
 <CheckBoxInput__Wrapper>
-  <styled.input
+  <CheckBoxInput__BaseCheckBoxInput
     checked={true}
     disabled="false"
     id="terms"
