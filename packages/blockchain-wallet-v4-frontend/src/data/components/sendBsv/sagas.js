@@ -4,7 +4,6 @@ import * as A from './actions'
 import * as S from './selectors'
 import { FORM } from './model'
 import { actions, selectors } from 'data'
-import settings from 'config'
 import {
   initialize,
   change,
@@ -20,12 +19,14 @@ import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 export const logLocation = 'components/sendBsv/sagas'
 export const bsvDefaultFee = 4
 
-export default ({ coreSagas }) => {
-  const initialized = function*() {
+export default ({ coreSagas, networks }) => {
+  const initialized = function*(action) {
     try {
+      const { payload } = action
+      const { index } = payload
       yield put(A.sendBsvPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.bsv.create({
-        network: settings.NETWORK_BSV
+        network: networks.bsv
       })
       payment = yield payment.init()
       const accountsR = yield select(
@@ -34,7 +35,7 @@ export default ({ coreSagas }) => {
       const defaultIndexR = yield select(
         selectors.core.kvStore.bsv.getDefaultAccountIndex
       )
-      const defaultIndex = defaultIndexR.getOrElse(0)
+      const defaultIndex = index || defaultIndexR.getOrElse(0)
       const defaultAccountR = accountsR.map(nth(defaultIndex))
       payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
       payment = yield payment.fee(bsvDefaultFee)
@@ -57,11 +58,11 @@ export default ({ coreSagas }) => {
 
   const firstStepSubmitClicked = function*() {
     try {
-      let p = yield select(S.getPayment)
+      let payment = (yield select(S.getPayment)).getOrElse({})
       yield put(A.sendBsvPaymentUpdated(Remote.Loading))
-      let payment = coreSagas.payment.bsv.create({
-        payment: p.getOrElse({}),
-        network: settings.NETWORK_BSV
+      payment = coreSagas.payment.bsv.create({
+        payment,
+        network: networks.bsv
       })
       payment = yield payment.build()
       yield put(A.sendBsvPaymentUpdated(Remote.of(payment.value())))
@@ -79,10 +80,10 @@ export default ({ coreSagas }) => {
       const payload = prop('payload', action)
       if (!equals(FORM, form)) return
 
-      let p = yield select(S.getPayment)
-      let payment = coreSagas.payment.bsv.create({
-        payment: p.getOrElse({}),
-        network: settings.NETWORK_BSV
+      let payment = (yield select(S.getPayment)).getOrElse({})
+      payment = coreSagas.payment.bsv.create({
+        payment,
+        network: networks.bsv
       })
 
       switch (field) {
@@ -177,7 +178,7 @@ export default ({ coreSagas }) => {
     let p = yield select(S.getPayment)
     let payment = coreSagas.payment.bsv.create({
       payment: p.getOrElse({}),
-      network: settings.NETWORK_BSV
+      network: networks.bsv
     })
     try {
       // Sign payment

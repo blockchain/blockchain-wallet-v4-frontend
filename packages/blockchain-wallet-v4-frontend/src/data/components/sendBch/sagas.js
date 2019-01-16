@@ -5,7 +5,6 @@ import * as A from './actions'
 import * as S from './selectors'
 import { FORM } from './model'
 import { actions, model, selectors } from 'data'
-import settings from 'config'
 import {
   initialize,
   change,
@@ -23,12 +22,12 @@ export const logLocation = 'components/sendBch/sagas'
 // TODO: Check how to retrieve Bitcoin cash default fee
 export const bchDefaultFee = 4
 
-export default ({ coreSagas }) => {
+export default ({ coreSagas, networks }) => {
   const initialized = function*() {
     try {
       yield put(A.sendBchPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.bch.create({
-        network: settings.NETWORK_BCH
+        network: networks.bch
       })
       payment = yield payment.init()
       const accountsR = yield select(
@@ -64,7 +63,7 @@ export default ({ coreSagas }) => {
       yield put(A.sendBchPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.bch.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_BCH
+        network: networks.bch
       })
       payment = yield payment.build()
       yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
@@ -85,7 +84,7 @@ export default ({ coreSagas }) => {
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.bch.create({
         payment: p.getOrElse({}),
-        network: settings.NETWORK_BCH
+        network: networks.bch
       })
 
       switch (field) {
@@ -211,7 +210,7 @@ export default ({ coreSagas }) => {
     let p = yield select(S.getPayment)
     let payment = coreSagas.payment.bch.create({
       payment: p.getOrElse({}),
-      network: settings.NETWORK_BCH
+      network: networks.bch
     })
     const fromType = path(['fromType'], payment.value())
     try {

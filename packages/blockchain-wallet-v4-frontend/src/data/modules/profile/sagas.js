@@ -7,7 +7,7 @@ import { Remote } from 'blockchain-wallet-v4'
 import { selectors, actions } from 'data'
 import * as A from './actions'
 import * as S from './selectors'
-import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
+import { KYC_STATES, UNCREATED_USER_DATA } from './model'
 
 export const logLocation = 'modules/profile/sagas'
 export const userRequiresRestoreError = 'User restored'
@@ -48,12 +48,7 @@ export default ({ api, coreSagas }) => {
       )).getOrElse(null)
       if (!userId || !lifetimeToken) {
         yield call(renewApiSockets)
-        return yield put(
-          A.fetchUserDataSuccess({
-            state: USER_ACTIVATION_STATES.NONE,
-            kycState: KYC_STATES.NONE
-          })
-        )
+        return yield put(A.fetchUserDataSuccess(UNCREATED_USER_DATA))
       }
 
       yield put(A.setApiToken(Remote.Loading))

@@ -25,14 +25,34 @@ export const logLocation = 'components/sendBtc/sagas'
 export default ({ coreSagas, networks }) => {
   const initialized = function*(action) {
     try {
-      const { to, description, amount, feeType, lockboxIndex } = action.payload
+      const {
+        from,
+        to,
+        amount,
+        feeType,
+        description,
+        lockboxIndex
+      } = action.payload
       yield put(A.sendBtcPaymentUpdatedLoading())
       let payment = coreSagas.payment.btc.create({
         network: networks.btc
       })
       payment = yield payment.init()
       let defaultAccountR
-      if (lockboxIndex == null) {
+      if (lockboxIndex && lockboxIndex >= 0) {
+        const accountsR = yield select(
+          selectors.core.common.btc.getLockboxBtcBalances
+        )
+        defaultAccountR = accountsR.map(nth(lockboxIndex))
+        const xpub = defaultAccountR.map(prop('xpub')).getOrFail()
+        payment = yield payment.from(xpub, ADDRESS_TYPES.LOCKBOX)
+      } else if (from === 'allImportedAddresses') {
+        const addressesR = yield select(
+          selectors.core.common.btc.getActiveAddresses
+        )
+        const addresses = addressesR.getOrElse([]).map(prop('addr'))
+        payment = yield payment.from(addresses, ADDRESS_TYPES.LEGACY)
+      } else {
         const accountsR = yield select(
           selectors.core.common.btc.getAccountsBalances
         )
@@ -41,13 +61,6 @@ export default ({ coreSagas, networks }) => {
         )
         defaultAccountR = accountsR.map(nth(defaultIndex))
         payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
-      } else {
-        const accountsR = yield select(
-          selectors.core.common.btc.getLockboxBtcBalances
-        )
-        defaultAccountR = accountsR.map(nth(lockboxIndex))
-        const xpub = defaultAccountR.map(prop('xpub')).getOrFail()
-        payment = yield payment.from(xpub, ADDRESS_TYPES.LOCKBOX)
       }
       const defaultFeePerByte = path(
         ['fees', feeType || 'regular'],
@@ -59,7 +72,7 @@ export default ({ coreSagas, networks }) => {
         coin: 'BTC',
         amount,
         description,
-        from: defaultAccountR.getOrElse(),
+        from: from || defaultAccountR.getOrElse(),
         feePerByte: defaultFeePerByte
       }
       yield put(initialize(FORM, initialValues))

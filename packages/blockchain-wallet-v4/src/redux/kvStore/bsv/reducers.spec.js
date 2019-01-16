@@ -67,4 +67,19 @@ describe('kvStore bsv reducers', () => {
     const expectedState = over(valueLens, setTxNote, bsvMetadataSuccess)
     expect(reducer(bsvMetadataSuccess, action)).toEqual(expectedState)
   })
+
+  it('should handle SET_BSV_ACCOUNT_ARCHIVED', () => {
+    const accountIdx = 2
+    const action = actions.setAccountArchived(accountIdx, false)
+    const setAccountArchived = assocPath(
+      ['accounts', accountIdx, 'archived'],
+      false
+    )
+    const expectedState = over(
+      valueLens,
+      setAccountArchived,
+      bsvMetadataSuccess
+    )
+    expect(reducer(bsvMetadataSuccess, action)).toEqual(expectedState)
+  })
 })

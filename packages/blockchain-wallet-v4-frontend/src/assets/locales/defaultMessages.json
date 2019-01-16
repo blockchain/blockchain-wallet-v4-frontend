@@ -1571,6 +1571,10 @@
         "id": "modals.sendbtc.firststep.sharetooltip"
       },
       {
+        "defaultMessage": "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
+        "id": "modals.sendBsv.firststep.share_tooltip"
+      },
+      {
         "defaultMessage": "By signing a message, you can prove that you own this bitcoin address. You can verify signed messages by clicking on 'More Actions' > 'Verify Message'.",
         "id": "modals.signmessage.label"
       },
@@ -11339,6 +11343,10 @@
         "id": "scenes.settings.addresses.bch.wallets.archivedlabel"
       },
       {
+        "defaultMessage": "Unarchive",
+        "id": "scenes.settings.addresses.bch.unarchive"
+      },
+      {
         "defaultMessage": "Manage Wallet",
         "id": "scenes.settings.addresses.bch.wallets.manage"
       },
@@ -11349,10 +11357,6 @@
       {
         "defaultMessage": "Make Default",
         "id": "scenes.settings.addresses.bch.make_default"
-      },
-      {
-        "defaultMessage": "Unarchive",
-        "id": "scenes.settings.addresses.bch.unarchive"
       },
       {
         "defaultMessage": "Archive",
@@ -11457,6 +11461,27 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Imported Bitcoin SV Addresses",
+        "id": "scenes.settings.addresses.bsv.importedaddresses.title"
+      },
+      {
+        "defaultMessage": "Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.",
+        "id": "scenes.settings.addresses.bsv.importedaddresses.description"
+      },
+      {
+        "defaultMessage": "Address",
+        "id": "scenes.settings.addresses.bsv.importedaddresses.address"
+      },
+      {
+        "defaultMessage": "Balance",
+        "id": "scenes.settings.addresses.bsv.importedaddresses.balance"
+      }
+    ],
+    "path": "src/scenes/Settings/Addresses/Bsv/ImportedAddresses/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Bitcoin SV Transactions",
         "id": "scenes.settings.addresses.bsv.tx.title"
       },
@@ -11470,7 +11495,11 @@
       },
       {
         "defaultMessage": "Amount",
-        "id": "scenes.settings.addresses.bch.wallets.amount"
+        "id": "scenes.settings.addresses.bsv.wallets.amount"
+      },
+      {
+        "defaultMessage": "No Transactions Found",
+        "id": "scenes.settings.addresses.bsv.empty"
       }
     ],
     "path": "src/scenes/Settings/Addresses/Bsv/Transactions/index.json"
@@ -11504,6 +11533,14 @@
       {
         "defaultMessage": "Default",
         "id": "scenes.settings.addresses.bsv.wallets.defaultlabel"
+      },
+      {
+        "defaultMessage": "Archived",
+        "id": "scenes.settings.addresses.bsv.wallets.archivedlabel"
+      },
+      {
+        "defaultMessage": "Unarchive",
+        "id": "scenes.settings.addresses.bsv.wallets.unarchive"
       },
       {
         "defaultMessage": "Send",
@@ -11587,6 +11624,10 @@
       {
         "defaultMessage": "Verify Message",
         "id": "scenes.settings.addresses.btc.importedaddresses.success.verifymessage"
+      },
+      {
+        "defaultMessage": "Transfer All",
+        "id": "scenes.settings.addresses.btc.importedaddresses.success.transferall"
       },
       {
         "defaultMessage": "Address",

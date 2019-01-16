@@ -48,6 +48,13 @@ export const INITIAL_TIERS = [
   }
 ]
 
+export const UNCREATED_USER_DATA = {
+  state: USER_ACTIVATION_STATES.NONE,
+  kycState: KYC_STATES.NONE,
+  tiers: {},
+  limits: []
+}
+
 export const AddressPropType = PropTypes.shape({
   city: PropTypes.string.isRequired,
   line1: PropTypes.string.isRequired,

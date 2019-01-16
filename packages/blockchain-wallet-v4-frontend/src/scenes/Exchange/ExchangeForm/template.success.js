@@ -15,6 +15,7 @@ import { Wrapper as BorderWrapper } from 'components/Exchange'
 import { Cell, Row } from './Layout'
 import CurrencySelect from './CurrencySelect'
 import ComplementaryAmount from './ComplementaryAmount'
+import DemoHeader from './DemoHeader'
 import Error from './Error'
 import LimitInfo from './LimitInfo'
 import VerificationInfo from './VerificationInfo'
@@ -27,15 +28,32 @@ const { fiatActive, formatPair } = model.rates
 const Wrapper = styled.div`
   position: relative;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
+  background-repeat: no-repeat;
+  background-size: 160px;
   box-sizing: border-box;
+  padding: 30px;
 
   ${media.mobile`
-    border: 0px;
-    padding: 0;
+  `};
+
+  ${({ isDemo }) =>
+    isDemo ? "background-image: url('/img/exchange-demo-badge.png');" : ''};
+
+  ${media.mobile`
+    align-items: center;
+    padding: 10px;
+  `};
+`
+const Container = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  ${media.mobile`
     flex-direction: column;
   `};
 `
@@ -190,145 +208,148 @@ const Success = ({
     availablePairs
   )
   return (
-    <Wrapper>
-      <ColumnLeft>
-        <FormWrapper>
-          <Form>
-            <SwapReceiveRow>
-              <Cell>
-                <ActiveCurrencyButton
-                  data-e2e='exchangeExchangeRadioButton'
-                  onClick={() => {
-                    if (!sourceActive) swapFix()
-                  }}
-                  checked={sourceActive}
-                  coin={sourceCoin.toLowerCase()}
-                />
-                <ClickableText
-                  data-e2e='exchangeExchangeRadioText'
-                  onClick={() => {
-                    if (!sourceActive) swapFix()
-                  }}
-                  size='14px'
-                  weight={400}
-                >
-                  <FormattedMessage
-                    id='scenes.exchange.exchangeform.swap'
-                    defaultMessage='Swap'
-                  />
-                </ClickableText>
-              </Cell>
-              <SwapReceiveGap size='small' />
-              <Cell>
-                {
+    <Wrapper isDemo={isDemo}>
+      {isDemo && <DemoHeader />}
+      <Container>
+        <ColumnLeft>
+          <FormWrapper>
+            <Form>
+              <SwapReceiveRow>
+                <Cell>
                   <ActiveCurrencyButton
-                    data-e2e='exchangeReceiveRadioButton'
+                    data-e2e='exchangeExchangeRadioButton'
+                    onClick={() => {
+                      if (!sourceActive) swapFix()
+                    }}
+                    checked={sourceActive}
+                    coin={sourceCoin.toLowerCase()}
+                  />
+                  <ClickableText
+                    data-e2e='exchangeExchangeRadioText'
+                    onClick={() => {
+                      if (!sourceActive) swapFix()
+                    }}
+                    size='14px'
+                    weight={400}
+                  >
+                    <FormattedMessage
+                      id='scenes.exchange.exchangeform.swap'
+                      defaultMessage='Swap'
+                    />
+                  </ClickableText>
+                </Cell>
+                <SwapReceiveGap size='small' />
+                <Cell>
+                  {
+                    <ActiveCurrencyButton
+                      data-e2e='exchangeReceiveRadioButton'
+                      onClick={() => {
+                        if (!targetActive) swapFix()
+                      }}
+                      checked={targetActive}
+                      coin={targetCoin.toLowerCase()}
+                    />
+                  }
+                  <ClickableText
+                    data-e2e='exchangeReceiveRadioText'
                     onClick={() => {
                       if (!targetActive) swapFix()
                     }}
-                    checked={targetActive}
-                    coin={targetCoin.toLowerCase()}
-                  />
-                }
-                <ClickableText
-                  data-e2e='exchangeReceiveRadioText'
-                  onClick={() => {
-                    if (!targetActive) swapFix()
-                  }}
-                  size='14px'
-                  weight={400}
-                >
-                  <FormattedMessage
-                    id='scenes.exchange.exchangeform.to'
-                    defaultMessage='Receive'
-                  />
-                </ClickableText>
-              </Cell>
-            </SwapReceiveRow>
-            <CurrencySelect
-              sourceCoin={sourceCoin}
-              targetCoin={targetCoin}
-              availablePairs={availablePairs}
-            />
-            {blockLockbox && (
-              <LockboxWarning>
-                <Banner type='warning'>
-                  <Text color='warning' size='12px'>
+                    size='14px'
+                    weight={400}
+                  >
                     <FormattedMessage
-                      id='scenes.exchange.exchangeform.blocklockbox'
-                      defaultMessage='Sending from Lockbox can only be done while using the Chrome browser'
+                      id='scenes.exchange.exchangeform.to'
+                      defaultMessage='Receive'
                     />
-                  </Text>
-                </Banner>
-              </LockboxWarning>
-            )}
-            <AmountRow id='amount-row'>
-              {fiatActive && <CurrencyBox>{inputSymbol}</CurrencyBox>}
-              <Field
-                name={inputField}
-                autoComplete='off'
-                noLastPass
-                placeholder='0'
-                onChange={handleAmountChange}
-                onFocus={handleInputFocus}
-                onBlur={handleInputBlur}
-                normalize={normalizeAmount}
-                onUpdate={resizeSymbol.bind(null, fiatActive)}
-                component={AmountTextBox}
-                fiatActive={fiatActive}
-                maxFontSize='72px'
-                data-e2e='exchangeAmountInput'
-              />
-              {!fiatActive && <CurrencyBox>{inputSymbol}</CurrencyBox>}
-            </AmountRow>
-            <ComplementaryRow>
-              <CoinFiatSwapIcon
-                style={{ visibility: 'hidden' }}
-                name='vertical-arrow-switch'
-                size='28px'
-                weight={500}
-                cursor
-                disabled
-              />
-              <ComplementaryAmount
-                isFiat={!fiatActive}
+                  </ClickableText>
+                </Cell>
+              </SwapReceiveRow>
+              <CurrencySelect
                 sourceCoin={sourceCoin}
                 targetCoin={targetCoin}
-                complementaryField={complementaryField}
-                complementarySymbol={complementarySymbol}
+                availablePairs={availablePairs}
               />
-              <CoinFiatSwapIcon
-                name='vertical-arrow-switch'
-                size='28px'
-                weight={500}
-                cursor
-                disabled={swapDisabled}
-                onClick={() => {
-                  if (!swapDisabled) swapCoinAndFiat()
-                }}
-                data-e2e='exchangeCoinFiatSwapButton'
+              {blockLockbox && (
+                <LockboxWarning>
+                  <Banner type='warning'>
+                    <Text color='warning' size='12px'>
+                      <FormattedMessage
+                        id='scenes.exchange.exchangeform.blocklockbox'
+                        defaultMessage='Sending from Lockbox can only be done while using the Chrome browser'
+                      />
+                    </Text>
+                  </Banner>
+                </LockboxWarning>
+              )}
+              <AmountRow id='amount-row'>
+                {fiatActive && <CurrencyBox>{inputSymbol}</CurrencyBox>}
+                <Field
+                  name={inputField}
+                  autoComplete='off'
+                  noLastPass
+                  placeholder='0'
+                  onChange={handleAmountChange}
+                  onFocus={handleInputFocus}
+                  onBlur={handleInputBlur}
+                  normalize={normalizeAmount}
+                  onUpdate={resizeSymbol.bind(null, fiatActive)}
+                  component={AmountTextBox}
+                  fiatActive={fiatActive}
+                  maxFontSize='72px'
+                  data-e2e='exchangeAmountInput'
+                />
+                {!fiatActive && <CurrencyBox>{inputSymbol}</CurrencyBox>}
+              </AmountRow>
+              <ComplementaryRow>
+                <CoinFiatSwapIcon
+                  style={{ visibility: 'hidden' }}
+                  name='vertical-arrow-switch'
+                  size='28px'
+                  weight={500}
+                  cursor
+                  disabled
+                />
+                <ComplementaryAmount
+                  isFiat={!fiatActive}
+                  sourceCoin={sourceCoin}
+                  targetCoin={targetCoin}
+                  complementaryField={complementaryField}
+                  complementarySymbol={complementarySymbol}
+                />
+                <CoinFiatSwapIcon
+                  name='vertical-arrow-switch'
+                  size='28px'
+                  weight={500}
+                  cursor
+                  disabled={swapDisabled}
+                  onClick={() => {
+                    if (!swapDisabled) swapCoinAndFiat()
+                  }}
+                  data-e2e='exchangeCoinFiatSwapButton'
+                />
+              </ComplementaryRow>
+              <Error />
+              <MinMaxButtons />
+              <SubmitButton
+                blockLockbox={blockLockbox}
+                volume={volume}
+                handleSubmit={handleSubmit}
               />
-            </ComplementaryRow>
-            <Error />
-            <MinMaxButtons />
-            <SubmitButton
-              blockLockbox={blockLockbox}
-              volume={volume}
-              handleSubmit={handleSubmit}
-            />
-            <LimitInfo />
-          </Form>
-        </FormWrapper>
-        <VerificationInfo />
-      </ColumnLeft>
-      <ColumnRight>
-        <Summary
-          showDemoSummary={!volume && isDemo}
-          sourceCoin={sourceCoin}
-          targetCoin={targetCoin}
-          currency={currency}
-        />
-      </ColumnRight>
+              <LimitInfo />
+            </Form>
+          </FormWrapper>
+          <VerificationInfo />
+        </ColumnLeft>
+        <ColumnRight>
+          <Summary
+            showDemoSummary={!volume && isDemo}
+            sourceCoin={sourceCoin}
+            targetCoin={targetCoin}
+            currency={currency}
+          />
+        </ColumnRight>
+      </Container>
     </Wrapper>
   )
 }

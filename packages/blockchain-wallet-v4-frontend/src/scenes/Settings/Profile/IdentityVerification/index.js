@@ -25,7 +25,7 @@ const Container = styled.div`
 
   @media (min-width: 1024px) {
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
     width: 100%;
   }
 `
@@ -50,6 +50,7 @@ const Row = styled.div`
   flex-wrap: wrap;
 
   &:not(:last-child) {
+    max-width: 416px;
     margin-right: 40px;
   }
 
@@ -85,7 +86,7 @@ const TierWrapper = styled.div`
   }
 `
 const LearnMoreContainer = styled.div`
-  margin-top: 40px;
+  margin-top: 22px;
   ${media.mobile`
     margin-top: 10px;
   `};
@@ -97,26 +98,26 @@ const IdentityVerification = () => {
       <Container>
         <Row width='40%'>
           <Column>
-            <SwapText size='20px' color='textBlack'>
+            <SwapText size='17px' color='textBlack'>
               <FormattedMessage
                 id='scenes.profile.identityverification.pagetitle'
                 defaultMessage='Swap Limits'
               />
             </SwapText>
-            <SwapText weight={300}>
+            <SwapText size='14px' weight={300}>
               <FormattedMessage
                 id='scenes.profile.identityverification.swaplimit.sawp_limit'
                 defaultMessage='Your Swap Limit is how much crypto you can trade each day. Swap Limits are necessary for compliance and fraud prevention.'
               />
             </SwapText>
             <LearnMoreContainer>
-              <SwapText size='14px' color='textBlack'>
+              <SwapText size='12px' color='textBlack'>
                 <FormattedMessage
                   id='scenes.profile.identityverification.swaplimit.wanttolearnmore'
                   defaultMessage='Want to learn more?'
                 />
               </SwapText>
-              <SwapText size='14px' weight={300}>
+              <SwapText size='12px' weight={300}>
                 <FormattedHTMLMessage
                   id='scenes.profile.identityverification.swaplimit.learn_more'
                   defaultMessage="We’ve put together an article on Swap Limits. <a href='https://support.blockchain.com/hc/en-us/categories/360001135512-Identity-Verification' rel='noopener noreferrer' target='_blank'>Read now.</a>"
