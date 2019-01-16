@@ -6,7 +6,7 @@ import { withRouter, Route, Switch } from 'react-router-dom'
 import Joyride, { ACTIONS, EVENTS, STATUS } from 'react-joyride'
 
 import { actions, selectors } from 'data'
-import { TOUR_STEPS } from 'model'
+import { TOUR_STEPS } from './model'
 import LockboxDashboard from './Dashboard'
 import LockboxOnboard from './Onboard'
 

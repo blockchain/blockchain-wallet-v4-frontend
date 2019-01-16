@@ -21,10 +21,16 @@ const Wrapper = styled.div`
 const Header = styled(Menu)`
   width: 100%;
 `
-const ContentWrapper = styled.div`
+const TransactionsWrapper = styled.div`
   height: 100%;
   position: relative;
   top: 206px;
+`
+const SettingsWrapper = styled.div`
+  height: calc(100% - 300px);
+  position: relative;
+  top: 122px;
+  overflow: scroll;
 `
 class LockboxDashboardContainer extends React.PureComponent {
   componentDidUpdate (prevProps) {
@@ -42,13 +48,15 @@ class LockboxDashboardContainer extends React.PureComponent {
     return (
       <Wrapper>
         <Header />
-        <ContentWrapper>
-          {onDashboard ? (
+        {onDashboard ? (
+          <TransactionsWrapper>
             <Transactions deviceIndex={deviceIndex} />
-          ) : (
+          </TransactionsWrapper>
+        ) : (
+          <SettingsWrapper>
             <Settings deviceIndex={deviceIndex} />
-          )}
-        </ContentWrapper>
+          </SettingsWrapper>
+        )}
       </Wrapper>
     )
   }
