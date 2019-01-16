@@ -17,6 +17,8 @@ import checkHelper from './img/check-helper.svg'
 import coinifyLogo from './img/coinify-logo.svg'
 import emptySearch from './img/empty-search.svg'
 import emptyTx from './img/empty-tx.svg'
+import exchangeDemoBadge from './img/exchange-demo-badge.png'
+import exchangeDemoButtonBg from './img/exchange-demo-button-bg.png'
 import facebookWhite from './img/facebook-white.svg'
 import failedKyc from './img/failed-kyc.png'
 import failedKyc2 from './img/failed-kyc@2x.png'
@@ -110,6 +112,8 @@ export default {
   'coinify-logo': coinifyLogo,
   'empty-search': emptySearch,
   'empty-tx': emptyTx,
+  'exchange-demo-badge': exchangeDemoBadge,
+  'exchange-demo-button-bg': exchangeDemoButtonBg,
   'facebook-white': facebookWhite,
   'failed-kyc': failedKyc,
   'failed-kyc2': failedKyc2,

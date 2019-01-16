@@ -1,13 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { path } from 'ramda'
 
 import { actions, model } from 'data'
-import { BlockchainLoader } from 'blockchain-info-components'
+import { BlockchainLoader, Text } from 'blockchain-info-components'
 import { getData } from './selectors'
 import media from 'services/ResponsiveService'
-import GetStarted from './GetStarted'
 import Exchange from './ExchangeContainer'
 import DataError from 'components/DataError'
 import EmailRequired from 'components/EmailRequired'
@@ -20,6 +20,11 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   min-height: 600px;
+
+  ${({ isDemo }) =>
+    isDemo ? "background-image: url('/img/exchange-demo-badge.png');" : ''};
+  background-repeat: no-repeat;
+  background-size: 160px;
 `
 
 const Container = styled.section`
@@ -47,6 +52,17 @@ const Column = styled.div`
   align-items: flex-start;
   width: 100%;
 `
+const PreviewRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 24px;
+  > :first-child {
+    margin-right: 48px;
+  }
+`
 
 const { ENTERED } = model.analytics.EXCHANGE
 
@@ -61,19 +77,32 @@ export class ExchangeScene extends React.PureComponent {
 
     return userCreated.cata({
       Success: userCreated => (
-        <Wrapper>
-          {userCreated ? (
-            <Container>
-              <Column>
-                <Exchange
-                  from={path(['state', 'from'], location)}
-                  to={path(['state', 'to'], location)}
-                />
-              </Column>
-            </Container>
-          ) : (
-            <GetStarted />
-          )}
+        <Wrapper isDemo={!userCreated}>
+          <Container>
+            <Column>
+              {!userCreated && (
+                <PreviewRow>
+                  <Text color='white' size='17px'>
+                    <FormattedMessage
+                      id='exchange.preview'
+                      defaultMessage='Preview'
+                    />
+                  </Text>
+                  <Text color='brand-primary' size='14px' weight='300'>
+                    <FormattedMessage
+                      id='exchange.demo_description'
+                      defaultMessage='Looking to trade your Crypto straight from your Wallet? See how Swap works.'
+                    />
+                  </Text>
+                </PreviewRow>
+              )}
+              <Exchange
+                from={path(['state', 'from'], location)}
+                to={path(['state', 'to'], location)}
+                isDemo={!userCreated}
+              />
+            </Column>
+          </Container>
         </Wrapper>
       ),
       Loading: () => (

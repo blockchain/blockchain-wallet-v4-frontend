@@ -4,7 +4,7 @@ import { shallow } from 'enzyme'
 import toJson from 'enzyme-to-json'
 
 import { Remote } from 'blockchain-wallet-v4'
-import { Summary } from './Summary'
+import { Volume } from './Volume'
 
 const props = {
   sourceCoin: 'BTC',
@@ -24,7 +24,7 @@ const amountValues = {
   failure: Remote.Failure({})
 }
 
-describe('Exchange RatesBox', () => {
+describe('Exchange Summary Volume', () => {
   forEachObjIndexed(
     (sourceAmount, sourceAmountIndex) =>
       forEachObjIndexed(
@@ -33,7 +33,7 @@ describe('Exchange RatesBox', () => {
             (targetFiat, targetFiatIndex) =>
               it(`should render correct rates for sourceToTargetRate ${sourceAmountIndex}, sourceToFiatRate ${targetAmountIndex}, targetToFiatRate ${targetFiatIndex}`, () => {
                 const component = shallow(
-                  <Summary
+                  <Volume
                     {...props}
                     sourceAmount={sourceAmount}
                     targetAmount={targetAmount}

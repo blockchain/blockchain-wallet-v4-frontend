@@ -60,6 +60,7 @@ class ExchangeForm extends React.Component {
       formActions,
       logExchangeClick,
       data,
+      isDemo,
       showError,
       txError
     } = this.props
@@ -70,6 +71,7 @@ class ExchangeForm extends React.Component {
         ) : (
           <Success
             {...value}
+            isDemo={isDemo}
             showError={showError}
             txError={txError}
             handleMaximum={actions.firstStepMaximumClicked}

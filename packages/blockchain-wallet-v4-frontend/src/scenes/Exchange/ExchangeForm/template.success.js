@@ -11,7 +11,7 @@ import { formatTextAmount } from 'services/ValidationHelper'
 import { Banner, Icon, Text } from 'blockchain-info-components'
 import { Form, AutosizeTextBox } from 'components/Form'
 import { ResizeableFontInputHOC } from 'components/ResizeableFontInputHOC'
-import { Wrapper as BorderWrapper, Title, Note } from 'components/Exchange'
+import { Wrapper as BorderWrapper } from 'components/Exchange'
 import { Cell, Row } from './Layout'
 import CurrencySelect from './CurrencySelect'
 import ComplementaryAmount from './ComplementaryAmount'
@@ -21,7 +21,6 @@ import VerificationInfo from './VerificationInfo'
 import MinMaxButtons from './MinMaxButtons'
 import SubmitButton from './SubmitButton'
 import Summary from './Summary'
-import RatesBox from './RatesBox'
 
 const { fiatActive, formatPair } = model.rates
 
@@ -130,6 +129,7 @@ const ActiveCurrencyButton = styled.div`
 `
 const FormWrapper = styled(BorderWrapper)`
   padding: 0;
+  background-color: ${props => props.theme.white};
 `
 const CurrencyBox = styled(Text)`
   align-self: flex-start;
@@ -172,6 +172,7 @@ const Success = ({
   fiatActive,
   inputField,
   inputSymbol,
+  isDemo,
   sourceActive,
   sourceCoin,
   targetActive,
@@ -321,30 +322,12 @@ const Success = ({
         <VerificationInfo />
       </ColumnLeft>
       <ColumnRight>
-        <BorderWrapper>
-          <Title>
-            <FormattedMessage
-              id='scenes.exchange.exchangeform.summary.title'
-              defaultMessage='Summary'
-            />
-          </Title>
-          <Summary
-            sourceCoin={sourceCoin}
-            targetCoin={targetCoin}
-            currency={currency}
-          />
-          <Note>
-            <FormattedMessage
-              id='scenes.exchange.exchangeform.summary.note'
-              defaultMessage='All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.'
-            />
-          </Note>
-          <RatesBox
-            sourceCoin={sourceCoin}
-            targetCoin={targetCoin}
-            currency={currency}
-          />
-        </BorderWrapper>
+        <Summary
+          showDemoSummary={!volume && isDemo}
+          sourceCoin={sourceCoin}
+          targetCoin={targetCoin}
+          currency={currency}
+        />
       </ColumnRight>
     </Wrapper>
   )
