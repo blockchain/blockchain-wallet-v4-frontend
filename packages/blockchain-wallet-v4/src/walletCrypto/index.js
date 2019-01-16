@@ -169,7 +169,7 @@ export const encryptDataWithPassword = (data, password, iterations) => {
     [is(Number, iterations) && iterations > 0, 'iterations_required']
   ])
     .chain(() => stretchPassword(password, salt, iterations, U.KEY_BIT_LEN))
-    .chain(key => TaskTry(exports.encryptDataWithKey)(data, key, salt))
+    .chain(key => TaskTry(encryptDataWithKey)(data, key, salt))
 }
 
 // encryptSecPass :: String -> Integer -> String -> String -> Task, Error String
@@ -178,9 +178,8 @@ export const encryptSecPass = curry(
     encryptDataWithPassword(message, sharedKey + password, pbkdf2Iterations)
 )
 
-const checkFailure = curry(
-  (pass, fail, str) =>
-    str === '' ? fail(new Error('DECRYPT_FAILURE')) : pass(str)
+const checkFailure = curry((pass, fail, str) =>
+  str === '' ? fail(new Error('DECRYPT_FAILURE')) : pass(str)
 )
 
 // decryptSecPass :: String -> Integer -> String -> String -> Task, Error String

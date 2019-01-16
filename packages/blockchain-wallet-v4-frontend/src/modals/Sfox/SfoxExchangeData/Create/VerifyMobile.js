@@ -28,7 +28,7 @@ const MobileInput = styled.div`
   margin-top: 25px;
   flex-direction: column;
 `
-const MobileCodeContainer = MobileInput.extend`
+const MobileCodeContainer = styled(MobileInput)`
   margin-top: 25px;
 `
 const VerifyMobileForm = styled(Form)`

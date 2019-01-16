@@ -1200,7 +1200,7 @@ describe('authSagas', () => {
         title: 'archive_vulnerable_address_title',
         message: 'archive_vulnerable_address_msg',
         confirm: 'archive_vulnerable_address_confirm',
-        cancel: undefined,
+        cancel: 'archive_vulnerable_address_cancel',
         messageValues: { vulnerableAddress: VULNERABLE_ADDRESS }
       })
     })

@@ -1,10 +1,12 @@
 import React, { Fragment } from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import { Text, Banner } from 'blockchain-info-components'
 import { Info, PartnerSubHeader } from 'components/IdentityVerification'
 import { spacing } from 'services/StyleService'
 
-const IdInfo = Info.extend`
+const IdInfo = styled(Info)`
   margin-bottom: 3px;
 `
 
