@@ -31,6 +31,7 @@ class LockboxContainer extends React.PureComponent {
   }
 
   componentDidMount () {
+    /* eslint-disable react/no-did-mount-set-state */
     this.setState({
       run: true,
       steps: [
@@ -38,7 +39,7 @@ class LockboxContainer extends React.PureComponent {
           target: '.tour-step1',
           content: (
             <React.Fragment>
-              <Text size='18px' weight={400} style={{marginBottom: '16px'}}>
+              <Text size='18px' weight={400} style={{ marginBottom: '16px' }}>
                 <FormattedMessage
                   id='scenes.lockbox.tour.stepone.title'
                   defaultMessage='Welcome to your Lockbox!'
@@ -62,7 +63,7 @@ class LockboxContainer extends React.PureComponent {
           target: '.tour-step2',
           content: (
             <React.Fragment>
-              <Text size='18px' weight={400} style={{marginBottom: '16px'}}>
+              <Text size='18px' weight={400} style={{ marginBottom: '16px' }}>
                 <FormattedMessage
                   id='scenes.lockbox.tour.steptwo.title'
                   defaultMessage='Asset List'
@@ -71,7 +72,7 @@ class LockboxContainer extends React.PureComponent {
               <Text size='14px' weight={300}>
                 <FormattedMessage
                   id='scenes.lockbox.tour.steptwo.content'
-                  defaultMessage="These are the assets available to your Lockbox.  Your balances are shown by default.  Clicking on an asset with filter the transaction list to show just that asset."
+                  defaultMessage='These are the assets available to your Lockbox.  Your balances are shown by default.  Clicking on an asset with filter the transaction list to show just that asset.'
                 />
               </Text>
             </React.Fragment>
@@ -86,7 +87,7 @@ class LockboxContainer extends React.PureComponent {
           target: '.tour-step3',
           content: (
             <React.Fragment>
-              <Text size='18px' weight={400} style={{marginBottom: '16px'}}>
+              <Text size='18px' weight={400} style={{ marginBottom: '16px' }}>
                 <FormattedMessage
                   id='scenes.lockbox.tour.stepthree.title'
                   defaultMessage='Transaction Search'
@@ -95,7 +96,7 @@ class LockboxContainer extends React.PureComponent {
               <Text size='14px' weight={300}>
                 <FormattedMessage
                   id='scenes.lockbox.tour.stepthree.content'
-                  defaultMessage="Here you can search for any transaction made with your Lockbox by entering coin names, addresses or descriptions."
+                  defaultMessage='Here you can search for any transaction made with your Lockbox by entering coin names, addresses or descriptions.'
                 />
               </Text>
             </React.Fragment>
@@ -110,7 +111,7 @@ class LockboxContainer extends React.PureComponent {
           target: '.tour-step4',
           content: (
             <React.Fragment>
-              <Text size='18px' weight={400} style={{marginBottom: '16px'}}>
+              <Text size='18px' weight={400} style={{ marginBottom: '16px' }}>
                 <FormattedMessage
                   id='scenes.lockbox.tour.stepfour.title'
                   defaultMessage='App Manager'
@@ -119,7 +120,7 @@ class LockboxContainer extends React.PureComponent {
               <Text size='14px' weight={300}>
                 <FormattedMessage
                   id='scenes.lockbox.tour.stepfour.content'
-                  defaultMessage="Want to add, update or remove applications?  Click here to manage all applications on your device."
+                  defaultMessage='Want to add, update or remove applications?  Click here to manage all applications on your device.'
                 />
               </Text>
             </React.Fragment>
@@ -134,7 +135,7 @@ class LockboxContainer extends React.PureComponent {
           target: '.tour-step5',
           content: (
             <React.Fragment>
-              <Text size='18px' weight={400} style={{marginBottom: '16px'}}>
+              <Text size='18px' weight={400} style={{ marginBottom: '16px' }}>
                 <FormattedMessage
                   id='scenes.lockbox.tour.stepfive.title'
                   defaultMessage='Lockbox Settings'
@@ -143,7 +144,7 @@ class LockboxContainer extends React.PureComponent {
               <Text size='14px' weight={300}>
                 <FormattedMessage
                   id='scenes.lockbox.tour.stepfive.content'
-                  defaultMessage="Clicking here will bring you to the settings page where you can rename your device, install firmware updates, verify your devices authenticity and much more!"
+                  defaultMessage='Clicking here will bring you to the settings page where you can rename your device, install firmware updates, verify your devices authenticity and much more!'
                 />
               </Text>
             </React.Fragment>
@@ -156,6 +157,7 @@ class LockboxContainer extends React.PureComponent {
         }
       ]
     })
+    /* eslint-enable react/no-did-mount-set-state */
   }
 
   render () {
@@ -171,7 +173,7 @@ class LockboxContainer extends React.PureComponent {
           styles={{
             options: {
               primaryColor: '#004A7C',
-              zIndex: 1000,
+              zIndex: 1000
             }
           }}
         />

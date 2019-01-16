@@ -76,7 +76,9 @@ const SearchLabel = styled.div`
 `
 
 const multiValueContainer = props => {
-  return <SearchLabel background={props.data.value}>{props.children}</SearchLabel>
+  return (
+    <SearchLabel background={props.data.value}>{props.children}</SearchLabel>
+  )
 }
 
 const Menu = props => {
