@@ -4,6 +4,7 @@ import {
   find,
   lift,
   map,
+  identity,
   memoizeWith,
   path,
   prop,
@@ -70,6 +71,7 @@ export const getAccountBalance = compose(
 )
 
 const calculateBalance = memoizeWith(
+  identity,
   balance =>
     Exchange.convertCoinToCoin({
       value: balance,

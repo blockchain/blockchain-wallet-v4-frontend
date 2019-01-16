@@ -297,7 +297,7 @@ export default ({ coreSagas, networks }) => {
       coin: 'XLM',
       baseToStandard: false
     }).value
-    if (new BigNumber(baseReserve).mul(2).greaterThan(volumeStroops))
+    if (new BigNumber(baseReserve).multipliedBy(2).isGreaterThan(volumeStroops))
       throw CREATE_ACCOUNT_ERROR
   }
 
