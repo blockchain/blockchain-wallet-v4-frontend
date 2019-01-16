@@ -8,20 +8,20 @@ import { actions } from 'data'
 import Settings from './template.js'
 
 class SettingsContainer extends React.PureComponent {
-  componentWillMount () {
+  componentDidMount () {
     this.props.formActions.initialize('settingCurrency', {
       currency: this.props.currency
     })
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentDidUpdate (prevProps) {
     const { currency, newCurrency } = this.props
     if (
-      !isNil(nextProps.newCurrency) &&
-      !equals(currency, nextProps.newCurrency) &&
-      !equals(newCurrency, nextProps.newCurrency)
+      !isNil(newCurrency) &&
+      !equals(currency, newCurrency) &&
+      !equals(prevProps.newCurrency, newCurrency)
     ) {
-      this.props.settingsActions.updateCurrency(nextProps.newCurrency)
+      this.props.settingsActions.updateCurrency(newCurrency)
     }
   }
 

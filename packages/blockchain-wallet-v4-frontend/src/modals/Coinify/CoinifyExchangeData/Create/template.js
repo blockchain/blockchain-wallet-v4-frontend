@@ -6,10 +6,17 @@ import VerifyEmail from './VerifyEmail'
 import { Row } from 'components/IdentityVerification'
 
 const Create = props => {
-  const { handleSignup, oldEmail, signupError, ui, updateUI, country } = props
-
+  const {
+    create,
+    codeSent,
+    handleSignup,
+    oldEmail,
+    signupError,
+    updateState,
+    country
+  } = props
   const determineStep = () => {
-    if (ui.create === 'change_email' || ui.create === 'enter_email_code') {
+    if (create === 'change_email' || create === 'enter_email_code') {
       return 'email'
     }
     return 'terms'
@@ -18,13 +25,18 @@ const Create = props => {
   return (
     <Row>
       {determineStep() === 'email' && (
-        <VerifyEmail oldEmail={oldEmail} updateUI={updateUI} ui={ui} />
+        <VerifyEmail
+          oldEmail={oldEmail}
+          updateState={updateState}
+          create={create}
+          codeSent={codeSent}
+        />
       )}
       {determineStep() === 'terms' && (
         <AcceptTerms
           handleSignup={handleSignup}
           signupError={signupError}
-          updateUI={updateUI}
+          updateState={updateState}
           country={country}
         />
       )}

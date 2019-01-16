@@ -340,7 +340,6 @@ describe('authSagas', () => {
       checkDataErrors,
       loginRoutineSaga,
       logoutRoutine,
-      reportStats,
       setLogoutEventListener,
       transferEthSaga,
       upgradeWalletSaga,
@@ -395,6 +394,10 @@ describe('authSagas', () => {
 
     it('should fetch bitcoin cash metadata', () => {
       saga.next().call(coreSagas.kvStore.bch.fetchMetadataBch)
+    })
+
+    it('should fetch bsv metadata', () => {
+      saga.next().call(coreSagas.kvStore.bsv.fetchMetadataBsv)
     })
 
     it('should fetch lockbox metadata', () => {
@@ -479,10 +482,6 @@ describe('authSagas', () => {
       saga.next().fork(transferEthSaga)
     })
 
-    it('should launch reportStats saga', () => {
-      saga.next().fork(reportStats, mobileLogin)
-    })
-
     it('should add welcome goal', () => {
       saga.next().put(actions.goals.saveGoal('welcome', { firstLogin }))
     })
@@ -537,7 +536,6 @@ describe('authSagas', () => {
           [select(selectors.core.wallet.isHdWallet), true],
           [select(selectors.core.wallet.getGuid), 12],
           [fork.fn(transferEthSaga), jest.fn],
-          [fork.fn(reportStats), jest.fn],
           [call.fn(setLogoutEventListener), jest.fn],
           [fork.fn(logoutRoutine), jest.fn]
         ])

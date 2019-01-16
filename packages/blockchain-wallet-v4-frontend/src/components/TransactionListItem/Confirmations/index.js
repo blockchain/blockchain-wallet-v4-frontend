@@ -42,22 +42,27 @@ const IconWrapper = styled.div`
 `
 
 const explorers = {
-  BTC: 'https://blockchain.info/tx',
-  ETH: 'https://www.blockchain.com/eth/tx',
   BCH: 'https://blockchair.com/bitcoin-cash/transaction',
+  BTC: 'https://blockchain.info/tx',
+  BSV: 'https://blockchair.com/bitcoin-sv/transaction',
+  ETH: 'https://www.blockchain.com/eth/tx',
   XLM: 'https://stellarchain.io/tx'
 }
 
-const confirmations = {
-  BTC: 3,
-  BCH: 3,
-  ETH: 12,
-  XLM: 1
+const getMinConfirms = coin => {
+  switch (coin) {
+    case 'ETH':
+      return 12
+    case 'XLM':
+      return 1
+    default:
+      return 3
+  }
 }
 
 const Confirmations = props => {
   const { coin } = props
-  const minConfirmations = confirmations[coin]
+  const minConfirmations = getMinConfirms(coin)
 
   return (
     <Wrapper>
@@ -125,8 +130,7 @@ const Confirmations = props => {
 }
 Confirmations.propTypes = {
   confirmations: PropTypes.number.isRequired,
-  hash: PropTypes.string.isRequired,
-  minConfirmations: PropTypes.number.isRequired
+  hash: PropTypes.string.isRequired
 }
 
 export default Confirmations

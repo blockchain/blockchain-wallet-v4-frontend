@@ -366,6 +366,14 @@
         "id": "components.alerts.send_bch_success"
       },
       {
+        "defaultMessage": "Your Bitcoin SV transaction failed to send. Please try again.",
+        "id": "components.alerts.send_bsv_error"
+      },
+      {
+        "defaultMessage": "Your Bitcoin SV transaction is now pending",
+        "id": "components.alerts.send_bsv_success"
+      },
+      {
         "defaultMessage": "Your bitcoin transaction failed to send. Please try again.",
         "id": "components.alerts.send_btc_error"
       },
@@ -1480,6 +1488,10 @@
         "id": "modals.sendbtc.firststep.sharetooltip"
       },
       {
+        "defaultMessage": "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
+        "id": "modals.sendBsv.firststep.share_tooltip"
+      },
+      {
         "defaultMessage": "By signing a message, you can prove that you own this bitcoin address. You can verify signed messages by clicking on 'More Actions' > 'Verify Message'.",
         "id": "modals.signmessage.label"
       },
@@ -1639,6 +1651,15 @@
       }
     ],
     "path": "src/components/TransactionListItem/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Archive Address",
+        "id": "scenes.settings.addresses.btc.wallets.addresserror"
+      }
+    ],
+    "path": "src/components/VulnerableAddressError/index.json"
   },
   {
     "descriptors": [
@@ -1867,6 +1888,10 @@
       {
         "defaultMessage": "Bitcoin Cash Balance",
         "id": "scenes.wallet.menutop.balance.bchbalance"
+      },
+      {
+        "defaultMessage": "Bitcoin SV Balance",
+        "id": "scenes.wallet.menutop.balance.bsvbalance"
       },
       {
         "defaultMessage": "Stellar Balance",
@@ -2790,8 +2815,8 @@
         "id": "modals.sendBch.firststep.description"
       },
       {
-        "defaultMessage": "Transaction fee:",
-        "id": "modals.sendBch.firststep.fee"
+        "defaultMessage": "Transaction Fee:",
+        "id": "modals.sendBch.firststep.txfee"
       },
       {
         "defaultMessage": "Continue",
@@ -3230,8 +3255,8 @@
         "id": "modals.sendbtc.firststep.description"
       },
       {
-        "defaultMessage": "Transaction fee:",
-        "id": "modals.sendbtc.firststep.fee"
+        "defaultMessage": "Transaction Fee:",
+        "id": "modals.sendbtc.firststep.txfee"
       },
       {
         "defaultMessage": "Cancel",
@@ -3240,6 +3265,10 @@
       {
         "defaultMessage": "Customize fee",
         "id": "modals.sendbtc.firststep.edit"
+      },
+      {
+        "defaultMessage": "This feature is recommended for advanced users only. By choosing a custom fee, you risk overpaying or your transaction never being confirmed.",
+        "id": "modals.sendbtc.firststep.customfeeinfo"
       },
       {
         "defaultMessage": "Estimated confirmation time 1+ hour",
@@ -3980,8 +4009,8 @@
         "id": "modals.sendether.firststep.description"
       },
       {
-        "defaultMessage": "Transaction fee:",
-        "id": "modals.sendether.firststep.txfee"
+        "defaultMessage": "Transaction Fee:",
+        "id": "modals.sendether.firststep.fee"
       },
       {
         "defaultMessage": "Cancel",
@@ -3990,6 +4019,10 @@
       {
         "defaultMessage": "Customize fee",
         "id": "modals.sendether.firststep.edit"
+      },
+      {
+        "defaultMessage": "This feature is recommended for advanced users only. By choosing a custom fee, you risk overpaying or your transaction never being confirmed.",
+        "id": "modals.sendether.firststep.customfeeinfo"
       },
       {
         "defaultMessage": "Continue",
@@ -4314,10 +4347,6 @@
         "id": "identityverification.personal.header"
       },
       {
-        "defaultMessage": "To get started, we need to verify your identity. It should only take a few minutes.",
-        "id": "identityverification.personal.subheader"
-      },
-      {
         "defaultMessage": "Verify Your Email Address",
         "id": "identityverification.personal.verifyemail"
       },
@@ -4374,8 +4403,16 @@
         "id": "identityverification.personal.faq.dateofbirth.text"
       },
       {
+        "defaultMessage": "Address Line 1",
+        "id": "identityverification.personal.address_line1"
+      },
+      {
         "defaultMessage": "Street Line 1",
         "id": "identityverification.personal.streetline1"
+      },
+      {
+        "defaultMessage": "Address Line 2",
+        "id": "identityverification.personal.address_line2"
       },
       {
         "defaultMessage": "Street Line 2",
@@ -4772,6 +4809,72 @@
         "id": "modals.lockbox.appmanager.connectdevice"
       }
     ],
+    "path": "src/modals/Lockbox/AppManager/index.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Version {version}",
+        "id": "modals.lockbox.appmanager.successmsg"
+      },
+      {
+        "defaultMessage": "Install",
+        "id": "modals.lockbox.appmanager.install"
+      }
+    ],
+    "path": "src/modals/Lockbox/AppManager/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "{changeType} the {appName} application was successful!",
+        "id": "modals.lockbox.appmanager.success"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "modals.lockbox.appmanager.continue"
+      },
+      {
+        "defaultMessage": "{changeType} the {appName} application has failed!",
+        "id": "modals.lockbox.appmanager.failure"
+      },
+      {
+        "defaultMessage": "{changeType} the {appName} application {direction} your device.",
+        "id": "modals.lockbox.appmanager.installing"
+      },
+      {
+        "defaultMessage": "Note:",
+        "id": "modals.lockbox.appmanager.note"
+      },
+      {
+        "defaultMessage": "Allow the device manager onto the device if prompted.",
+        "id": "modals.lockbox.appmanager.notetext"
+      },
+      {
+        "defaultMessage": "Install, update and uninstall desired apps from your Lockbox device.",
+        "id": "modals.lockbox.appmanager.subtitle"
+      },
+      {
+        "defaultMessage": "Close App Manager",
+        "id": "modals.lockbox.appmanager.close"
+      },
+      {
+        "defaultMessage": "Failed to load application list. Please try again later.",
+        "id": "modals.lockbox.appmanager.appfailure"
+      },
+      {
+        "defaultMessage": "Loading application list",
+        "id": "modals.lockbox.appmanager.loadingapplist"
+      },
+      {
+        "defaultMessage": "App Manager",
+        "id": "modals.lockbox.appmanager.title"
+      },
+      {
+        "defaultMessage": "Connect, unlock and open the Dashboard on your Lockbox device now.",
+        "id": "modals.lockbox.appmanager.connectdevice"
+      }
+    ],
     "path": "src/modals/Lockbox/LockboxAppManager/index.json"
   },
   {
@@ -5157,8 +5260,8 @@
         "id": "modals.lockboxsetup.labelstep.body"
       },
       {
-        "defaultMessage": "Finish Set Up",
-        "id": "modals.lockboxsetup.labelstep.finish"
+        "defaultMessage": "Finish Setup",
+        "id": "modals.lockboxsetup.labelstep.finishsetup"
       }
     ],
     "path": "src/modals/Lockbox/LockboxSetup/NameDeviceStep/template.json"
@@ -8444,12 +8547,12 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "It's Your Crypto",
-        "id": "scenes.home.swapbanner.its_your_crypto"
-      },
-      {
         "defaultMessage": "Swap Your Crypto",
         "id": "scenes.home.swapbanner.swap_your_crypto"
+      },
+      {
+        "defaultMessage": "Trading your crypto doesn't mean trading away control.",
+        "id": "scenes.home.swapbanner.trading_your_crypto"
       },
       {
         "defaultMessage": "Get Started",
@@ -8516,7 +8619,24 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Adding new devices, installing applications and updating firmware can only be done while using the Chrome browser.",
+        "defaultMessage": "Show xPub",
+        "id": "scenes.lockbox.settings.exportxpub.title"
+      },
+      {
+        "defaultMessage": "Reveal the Extended Public Key of your lockbox. (Advanced)",
+        "id": "scenes.lockbox.settings.exportxpub.description"
+      },
+      {
+        "defaultMessage": "Show xPub",
+        "id": "scenes.lockbox.settings.exportxpub.show"
+      }
+    ],
+    "path": "src/scenes/Lockbox/Dashboard/Settings/ExportXPub/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Adding new devices or applications, verifying authenticity and updating firmware can only be done while using the Chrome browser.",
         "id": "scenes.lockbox.settings.browserwarn"
       }
     ],
@@ -9870,8 +9990,20 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Basic",
-        "id": "scenes.securitycenter.menu.basic"
+        "defaultMessage": "Imported Bitcoin Cash Addresses",
+        "id": "scenes.settings.addresses.bch.importedaddresses.title"
+      },
+      {
+        "defaultMessage": "Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.",
+        "id": "scenes.settings.addresses.bch.importedaddresses.description"
+      },
+      {
+        "defaultMessage": "Transfer All",
+        "id": "scenes.settings.addresses.bch.importedaddresses.success.transferall"
+      },
+      {
+        "defaultMessage": "Address",
+        "id": "scenes.settings.addresses.bch.importedaddresses.address"
       },
       {
         "defaultMessage": "Advanced",
@@ -9883,8 +10015,20 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Complete the steps below to help prevent unauthorized access to your wallet. Add additional verification to access your funds at any time.",
-        "id": "scenes.securitycenter.introtextnone"
+        "defaultMessage": "Default",
+        "id": "scenes.settings.addresses.bch.wallets.defaultlabel"
+      },
+      {
+        "defaultMessage": "Archived",
+        "id": "scenes.settings.addresses.bch.wallets.archivedlabel"
+      },
+      {
+        "defaultMessage": "Unarchive",
+        "id": "scenes.settings.addresses.bch.unarchive"
+      },
+      {
+        "defaultMessage": "Manage Wallet",
+        "id": "scenes.settings.addresses.bch.wallets.manage"
       },
       {
         "defaultMessage": "Congratulations, you have completed the initial steps in helping to prevent unauthorized access to your wallet and bringing you even closer to financial security. Remember to always use caution with where you store your wallet details, what information you share with others, and with phishing emails.",
@@ -9895,12 +10039,8 @@
         "id": "scenes.securitycenter.steps.step1mobile"
       },
       {
-        "defaultMessage": "Verify Your Personal Email",
-        "id": "scenes.securitycenter.steps.step1.verify"
-      },
-      {
-        "defaultMessage": "2 Factor Auth",
-        "id": "scenes.securitycenter.steps.step2mobile"
+        "defaultMessage": "Archive",
+        "id": "scenes.settings.addresses.bch.archive"
       },
       {
         "defaultMessage": "Turn on Two-Step Verification",
@@ -9929,7 +10069,15 @@
       },
       {
         "defaultMessage": "Balance",
-        "id": "scenes.settings.addresses.bch.importedaddresses.balance"
+        "id": "scenes.settings.addresses.bch.wallets.balance"
+      },
+      {
+        "defaultMessage": "Actions",
+        "id": "scenes.settings.addresses.bch.wallets.actions"
+      },
+      {
+        "defaultMessage": "No wallets matched your search",
+        "id": "scenes.settings.addresses.bch.wallets.nomatch"
       }
     ],
     "path": "src/scenes/Settings/Addresses/Bch/ImportedAddresses/template.success.json"
@@ -10167,6 +10315,10 @@
         "id": "scenes.settings.addresses.btc.importedaddresses.success.verifymessage"
       },
       {
+        "defaultMessage": "Transfer All",
+        "id": "scenes.settings.addresses.btc.importedaddresses.success.transferall"
+      },
+      {
         "defaultMessage": "Address",
         "id": "scenes.settings.addresses.btc.importedaddresses.success.address"
       },
@@ -10336,6 +10488,10 @@
         "id": "scenes.settings.addresses.btc.wallets.actions"
       },
       {
+        "defaultMessage": "No wallets matched your search",
+        "id": "scenes.settings.addresses.btc.wallets.nomatch"
+      },
+      {
         "defaultMessage": "New Wallet",
         "id": "scenes.settings.addresses.btc.wallets.newhdaccount"
       }
@@ -10351,6 +10507,10 @@
       {
         "defaultMessage": "Bitcoin Cash",
         "id": "scenes.settings.addresses.menutop.bch"
+      },
+      {
+        "defaultMessage": "Bitcoin SV",
+        "id": "scenes.settings.addresses.menutop.bsv"
       }
     ],
     "path": "src/scenes/Settings/Addresses/Menu/index.json"
@@ -10752,8 +10912,8 @@
         "id": "scenes.profile.identityverification.swaplimit.wanttolearnmore"
       },
       {
-        "defaultMessage": "We’ve put together an article on Swap Limits. <a href='https://support.blockchain.com/hc/en-us/categories/360001135512-Identity-Verification' rel='noopener noreferrer' target='_blank'>Learn more.</a>",
-        "id": "scenes.profile.identityverification.swaplimit.learn_more"
+        "defaultMessage": "We’ve put together an article on Swap Limits. <a href='https://blockchain.zendesk.com/hc/en-us/articles/360018353031-Exchange-Limit-Amounts' rel='noopener noreferrer' target='_blank'>Learn more.</a>",
+        "id": "scenes.profile.identityverification.swaplimit.learn_more_limits"
       }
     ],
     "path": "src/scenes/Settings/Profile/IdentityVerification/index.json"

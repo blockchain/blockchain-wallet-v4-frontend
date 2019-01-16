@@ -5,7 +5,7 @@ import { path, prop, propEq, or } from 'ramda'
 
 export const messages = {
   EMAIL: (
-    <Text size='14px'>
+    <Text size='12px'>
       <FormattedMessage
         id='components.identityverification.tiercard.email'
         defaultMessage='Verified Email'
@@ -13,7 +13,7 @@ export const messages = {
     </Text>
   ),
   NAME: (
-    <Text size='14px'>
+    <Text size='12px'>
       <FormattedMessage
         id='components.identityverification.tiercard.name'
         defaultMessage='Name'
@@ -21,7 +21,7 @@ export const messages = {
     </Text>
   ),
   DOB: (
-    <Text size='14px'>
+    <Text size='12px'>
       <FormattedMessage
         id='components.identityverification.tiercard.dob'
         defaultMessage='Date of Birth'
@@ -29,7 +29,7 @@ export const messages = {
     </Text>
   ),
   ADDRESS: (
-    <Text size='14px'>
+    <Text size='12px'>
       <FormattedMessage
         id='components.identityverification.tiercard.address'
         defaultMessage='Address'
@@ -37,7 +37,7 @@ export const messages = {
     </Text>
   ),
   TIER1: (
-    <Text size='14px' color='gray-3'>
+    <Text size='12px' color='gray-3'>
       <FormattedMessage
         id='components.identityverification.tiercard.tier1'
         defaultMessage='Tier 1+'
@@ -45,7 +45,7 @@ export const messages = {
     </Text>
   ),
   MOBILE: (
-    <Text size='14px'>
+    <Text size='12px'>
       <FormattedMessage
         id='components.identityverification.tiercard.phone'
         defaultMessage='Verified Phone'
@@ -53,7 +53,7 @@ export const messages = {
     </Text>
   ),
   GOVID: (
-    <Text size='14px'>
+    <Text size='12px'>
       <FormattedMessage
         id='components.identityverification.tiercard.id'
         defaultMessage="Gov't Issued ID"
@@ -61,7 +61,7 @@ export const messages = {
     </Text>
   ),
   SELFIE: (
-    <Text size='14px'>
+    <Text size='12px'>
       <FormattedMessage
         id='components.identityverification.tiercard.selfie'
         defaultMessage='Selfie'

@@ -7,10 +7,6 @@ import AuthenticityError from './authenticity.template'
 import DuplicateError from './duplicate.template'
 
 class ErrorStepContainer extends React.PureComponent {
-  componentDidMount () {
-    this.props.analytics.logLockboxSetup('setup_error')
-  }
-
   handleContinue = () => {
     this.props.modalActions.closeModal()
   }
