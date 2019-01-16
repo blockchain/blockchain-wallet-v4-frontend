@@ -11,7 +11,7 @@ import DataError from 'components/DataError'
 export const { ONFIDO_STARTED } = model.analytics.KYC
 
 const VeriffIframe = styled.iframe.attrs({
-  allow: 'camera'
+  allow: 'camera; microphone'
 })`
   width: 100%;
   height: 100%;
